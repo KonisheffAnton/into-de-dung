@@ -40,6 +40,9 @@ class_name DamageCalculator
 ## `attacker_cell`/`target_cell` передаются ЯВНО (не читаются из "текущей"
 ## позиции юнита) — необходимо для комбо-потока Move+Attack, где превью
 ## строится ДО фактического перемещения (см. DECISIONS.md).
+## `board` — авторитетное состояние доски (шаг 0.4). Через него резолвер
+## толкания видит ЮНИТОВ, а не только геометрию, и поэтому может сообщить о
+## столкновении и падении в пропасть (было невозможно из-за дефекта C-4).
 static func calculate(
 	attacker: UnitState,
 	target: UnitState,
@@ -47,7 +50,7 @@ static func calculate(
 	target_cell: Vector2i,
 	base_damage: float,
 	impact_power: float,
-	data_provider: GridDataProvider,
+	board: BattleBoard,
 	max_height_step: int = 1
 ) -> DamageInfo:
 	var info := DamageInfo.new()
@@ -77,18 +80,27 @@ static func calculate(
 
 	if info.would_break_balance:
 		info.push_direction = PushResolver.compute_push_direction(attacker_cell, target_cell)
-		var raw_push_target := PushResolver.compute_push_target(target_cell, info.push_direction)
-		var push_result := PushResolver.validate_push(
-			target_cell, raw_push_target, data_provider, max_height_step
+		# Полный резолв с учётом юнитов/террейна/высот: результат различает
+		# перемещение, упор в стену, СТОЛКНОВЕНИЕ с юнитом и падение в
+		# пропасть. Превью обязано показать всю цепочку (R-6).
+		info.push_result = PushResolver.resolve_push(
+			board, target, target_cell, info.push_direction, max_height_step
 		)
-		info.push_target_cell = push_result.final_cell
-		info.push_blocked = not push_result.success
-		info.push_blocked_reason = push_result.blocked_reason
+		info.push_target_cell = info.push_result.final_cell
+		info.push_blocked = not info.push_result.moved()
+		info.push_blocked_reason = info.push_result.blocked_reason
+
+		# Толчок сам может убить цель (пропасть) — превью показывает это до
+		# подтверждения. Раньше предсказать было нечем: не было ни occupancy,
+		# ни понятия смерти.
+		if info.push_result.is_lethal():
+			info.would_kill = true
 	else:
 		info.push_direction = Vector2i.ZERO
 		info.push_target_cell = target_cell
 		info.push_blocked = false
 		info.push_blocked_reason = &""
+		info.push_result = null
 
 	return info
 

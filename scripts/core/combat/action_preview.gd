@@ -23,10 +23,10 @@ static func build(
 	target_cell: Vector2i,
 	base_damage: float,
 	impact_power: float,
-	data_provider: GridDataProvider,
+	board: BattleBoard,
 	max_height_step: int = 1
 ) -> DamageInfo:
 	return DamageCalculator.calculate(
 		attacker, target, attacker_cell, target_cell,
-		base_damage, impact_power, data_provider, max_height_step
+		base_damage, impact_power, board, max_height_step
 	)

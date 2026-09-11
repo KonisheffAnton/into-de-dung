@@ -31,6 +31,11 @@ var entities_layer: Node2D
 ## Тестовые непроходимые клетки (стены).
 @export var wall_cells: Array[Vector2i] = []
 
+## Тестовые смертельные клетки (пропасть/лава). Проходимы, но попадание
+## убивает — главная цель толкания (см. `TerrainType`/`PushResolver`).
+## Визуализируются отдельным цветом, чтобы толчок в пропасть был виден.
+@export var hazard_cells: Array[Vector2i] = []
+
 ## Стартовая клетка тестового "юнита" для пути/зоны хода.
 @export var unit_start_cell: Vector2i = Vector2i(1, 1)
 @export var unit_move_range: float = 4.0
@@ -120,6 +125,11 @@ func _draw() -> void:
 func _color_for_cell(cell: Vector2i) -> Color:
 	if wall_cells.has(cell):
 		return Color(0.5, 0.15, 0.15, 1.0)
+	# Пропасть — тёмно-фиолетовая: проходима (можно рискнуть и пройти), но
+	# попадание туда смертельно. Отличать от стены (красная), в которую цель
+	# упирается: это два РАЗНЫХ исхода толкания (см. PushResult.Outcome).
+	if hazard_cells.has(cell):
+		return Color(0.22, 0.08, 0.3, 1.0)
 	if cell == unit_start_cell:
 		return Color(0.9, 0.9, 0.9, 1.0)
 	# Возвышенные клетки НЕ подсвечиваются здесь напрямую (hover/selected) —
