@@ -25,28 +25,39 @@ static func compute_push_target(target_cell: Vector2i, direction: Vector2i, dist
 
 
 ## Проверяет, может ли цель быть толкнута в push_target_cell.
-## Возвращает Dictionary: {success: bool, final_cell: Vector2i, blocked_reason: StringName}.
-## blocked_reason: &"wall" (стена/непроходимая клетка), &"height" (слишком
-## большой перепад высоты для толкания), &"" (успех).
 ##
-## ПРИМЕЧАНИЕ: столкновение с ДРУГИМ юнитом на клетке толкания — это
-## ответственность будущего Модуля 9 (Tile Effects & Status) / occupancy-слоя,
-## который пока не существует. Здесь проверяется только геометрия/стены/
-## высота через GridDataProvider.
+## ИЗМЕНЕНО (фикс D-6.1): возвращает типизированный `PushResult` вместо
+## нетипизированного `Dictionary` с магическими строковыми ключами
+## (`result["sucess"]` раньше давал тихий null вместо ошибки компиляции).
+##
+## ИЗВЕСТНОЕ ОГРАНИЧЕНИЕ (D-6.2/C-4, закрывается на шаге 0.4 вместе с
+## `BattleBoard`): столкновение с ДРУГИМ юнитом на клетке толкания не
+## проверяется — occupancy-слоя пока нет, поэтому толчок в занятую клетку
+## считается успешным. Это блокирует главную механику жанра (толкнул -> цель
+## врезалась в другого -> оба получили урон). Поле `PushResult.blocker` и
+## причина `REASON_OCCUPIED` уже введены под это.
+##
+## Также отложено (D-6.2): дистанция толчка от IMPACT_POWER, цепное
+## толкание, урон при столкновении и при падении с высоты.
 static func validate_push(
 	target_cell: Vector2i,
 	push_target_cell: Vector2i,
 	data_provider: GridDataProvider,
 	max_height_step: int = 1
-) -> Dictionary:
+) -> PushResult:
 	if push_target_cell == target_cell:
-		return {"success": true, "final_cell": target_cell, "blocked_reason": &""}
+		return PushResult.make_success(target_cell)
+
+	if data_provider == null:
+		return PushResult.make_success(push_target_cell)
 
 	if not data_provider.cell_is_walkable(push_target_cell):
-		return {"success": false, "final_cell": target_cell, "blocked_reason": &"wall"}
+		return PushResult.make_blocked(target_cell, PushResult.REASON_WALL)
 
-	var height_diff := absi(data_provider.cell_height(target_cell) - data_provider.cell_height(push_target_cell))
+	var height_diff := absi(
+		data_provider.cell_height(target_cell) - data_provider.cell_height(push_target_cell)
+	)
 	if height_diff > max_height_step:
-		return {"success": false, "final_cell": target_cell, "blocked_reason": &"height"}
+		return PushResult.make_blocked(target_cell, PushResult.REASON_HEIGHT)
 
-	return {"success": true, "final_cell": push_target_cell, "blocked_reason": &""}
+	return PushResult.make_success(push_target_cell)

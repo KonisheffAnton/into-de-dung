@@ -1,17 +1,48 @@
 extends RefCounted
 class_name DamageCalculator
 
-## Чистая логика расчёта результата атаки. calculate() НЕ мутирует статы
-## (безопасно для Preview UI — можно вызывать многократно без побочных
-## эффектов), apply() мутирует реальное состояние и эмитит события через
-## GameEventBus. Оба используют один и тот же DamageInfo — гарантия, что
-## превью и реальное исполнение совпадают.
-
-## attacker_cell/target_cell передаются ЯВНО (не читаются из "текущей"
-## позиции юнита) — см. DECISIONS.md про Move+Attack комбо-поток.
+## Расчёт и применение результата атаки.
+##
+## `calculate()` НЕ мутирует состояние (безопасно для Preview UI — можно
+## вызывать многократно), `apply()` мутирует и сообщает о событиях. Оба
+## используют один и тот же `DamageInfo` — гарантия, что превью и реальное
+## исполнение совпадают. (Сохранённое решение модуля 6.)
+##
+## ЧТО ИСПРАВЛЕНО:
+##
+## 1. ДЕФЕКТ C-2 (порча данных). Раньше `apply()` делал:
+##        hp_stat.set_base_value(hp_stat.get_value() - info.final_damage)
+##    `get_value()` = база + модификаторы, поэтому запись результата в базу
+##    ВПЕКАЛА модификаторы. HP base=10 + амулет +5 -> урон 3 -> HP становилось
+##    17 вместо 12. Теперь урон идёт через `Vitals.apply_damage()`, который
+##    работает с отдельным полем-состоянием, клампит по нулю и сообщает о
+##    смерти. Записать модификаторы в базу стало невозможно (R-2).
+##
+## 2. ДЕФЕКТ S-4 (скрытая зависимость от автозагрузки). Раньше статический
+##    `apply()` эмитил прямо в `GameEventBus`, из-за чего боевую логику нельзя
+##    было выполнить в тесте и нельзя было прогнать изолированную симуляцию
+##    (нужна для AI-lookahead и sandbox-превью, R-6). Теперь сток событий
+##    ИНЖЕКТИРУЕТСЯ (`EventSink`), по умолчанию нулевой (R-3).
+##
+## 3. Появилось предсказание смерти (`would_kill`) — раньше смерти не
+##    существовало как понятия, и превью не могло её показать.
+##
+## ИЗВЕСТНОЕ ОГРАНИЧЕНИЕ (S-1, отложено до работающего среза по R-7):
+## формула `final_damage = base_damage + STRENGTH - ARMOR` захардкожена. Для
+## роглайка с синергиями нужен конвейер `DamageModifier : Resource` (стадии
+## FLAT/PERCENT/MULT), иначе каждый предмет вида "+50% урона по цели со
+## сломанным балансом" требует правки этого файла. Отложено сознательно:
+## пока нет игрового цикла, конвейер невозможно проверить на практике.
+##
+## ЧИСТАЯ функция: ничего не мутирует, безопасна для превью и для оценки
+## кандидатов ИИ (вызывается десятки раз за ход).
+##
+## `attacker_cell`/`target_cell` передаются ЯВНО (не читаются из "текущей"
+## позиции юнита) — необходимо для комбо-потока Move+Attack, где превью
+## строится ДО фактического перемещения (см. DECISIONS.md).
 static func calculate(
-	attacker: StatsComponent,
-	target: StatsComponent,
+	attacker: UnitState,
+	target: UnitState,
 	attacker_cell: Vector2i,
 	target_cell: Vector2i,
 	base_damage: float,
@@ -27,21 +58,32 @@ static func calculate(
 	info.base_damage = base_damage
 	info.impact_power = impact_power
 
-	# STRENGTH атакующего прямо увеличивает урон (см. DECISIONS.md: STRENGTH
-	# и IMPACT_POWER - разные оси, STRENGTH только на final_damage).
-	var attacker_strength := attacker.get_value(StatTypes.StatType.STRENGTH)
-	info.final_damage = base_damage + attacker_strength
+	if attacker == null or target == null:
+		return info
 
+	# STRENGTH прямо увеличивает урон, ARMOR — плоско снижает.
+	# IMPACT_POWER на урон НЕ влияет: это отдельная ось геймдизайна (можно
+	# бить сильно, но не толкать, и наоборот) — см. DECISIONS.md.
+	var attacker_strength := attacker.get_stat(StatTypes.StatType.STRENGTH)
+	var target_armor := target.get_stat(StatTypes.StatType.ARMOR)
+	info.final_damage = maxf(0.0, base_damage + attacker_strength - target_armor)
 	info.balance_added = impact_power
-	info.would_break_balance = BalanceSystem.would_break(target, impact_power)
+
+	# Предсказание смерти и слома баланса — читаем текущее состояние,
+	# но НЕ меняем его.
+	if target.vitals != null:
+		info.would_kill = target.vitals.get_hp() - info.final_damage <= 0.0
+		info.would_break_balance = target.vitals.would_break(impact_power)
 
 	if info.would_break_balance:
 		info.push_direction = PushResolver.compute_push_direction(attacker_cell, target_cell)
 		var raw_push_target := PushResolver.compute_push_target(target_cell, info.push_direction)
-		var push_result := PushResolver.validate_push(target_cell, raw_push_target, data_provider, max_height_step)
-		info.push_target_cell = push_result["final_cell"]
-		info.push_blocked = not push_result["success"]
-		info.push_blocked_reason = push_result["blocked_reason"]
+		var push_result := PushResolver.validate_push(
+			target_cell, raw_push_target, data_provider, max_height_step
+		)
+		info.push_target_cell = push_result.final_cell
+		info.push_blocked = not push_result.success
+		info.push_blocked_reason = push_result.blocked_reason
 	else:
 		info.push_direction = Vector2i.ZERO
 		info.push_target_cell = target_cell
@@ -51,17 +93,43 @@ static func calculate(
 	return info
 
 
-## Применяет уже посчитанный DamageInfo: вычитает HP, добавляет Balance
-## (через мутирующий BalanceSystem.apply_impact), эмитит события. НЕ
-## перемещает юнита по сетке физически — возвращает push_target_cell в
-## info, а фактическое перемещение на сетке выполняет вызывающий код/
-## будущий Модуль 10 (Action & Visual Execution Queue), т.к. это требует
-## анимации/визуализации, а не мгновенной мутации данных.
-static func apply(info: DamageInfo) -> void:
-	var hp_stat := info.target.get_stat(StatTypes.StatType.HP)
-	hp_stat.set_base_value(hp_stat.get_value() - info.final_damage)
-	GameEventBus.unit_damaged.emit(info.target, info.final_damage, info.attacker)
+## Применяет уже посчитанный `DamageInfo`: снимает HP через `Vitals`,
+## накапливает Баланс, сообщает о событиях в переданный сток.
+##
+## НЕ перемещает юнита по сетке физически — `push_target_cell` возвращается в
+## `info`, а фактическое перемещение выполняет `PushCommand` (шаг 0.5), т.к.
+## это требует анимации и обновления occupancy на доске, а не мгновенной
+## мутации данных. (Сохранённое решение модуля 6.)
+##
+## `sink` по умолчанию нулевой — вызывающий код обязан передать
+## `GameEventBusSink` для реального боя (R-3).
+static func apply(info: DamageInfo, sink: EventSink = null) -> void:
+	if info == null or info.target == null or info.target.vitals == null:
+		return
 
-	var broke := BalanceSystem.apply_impact(info.target, info.balance_added)
-	if broke:
-		GameEventBus.unit_balance_broken.emit(info.target)
+	var event_sink := sink if sink != null else EventSink.new()
+	var vitals := info.target.vitals
+
+	# 1. Урон. Vitals клампит по нулю и возвращает ФАКТИЧЕСКИ снятое
+	#    количество — важно для эффектов вида "вампиризм по нанесённому
+	#    урону", чтобы они не лечили за оверкилл.
+	var dealt := vitals.apply_damage(info.final_damage)
+	if dealt > 0.0:
+		event_sink.unit_damaged(info.target, dealt, info.attacker)
+
+	# 2. Баланс — только для живых: мёртвого толкать бессмысленно.
+	#    ПРИМЕЧАНИЕ (D-6.3): порядок "смерть vs толкание" зафиксирован явно —
+	#    смерть приоритетнее. Полноценное разрешение (цепные толчки, урон при
+	#    столкновении) — работа PushCommand на шаге 0.5.
+	if vitals.is_alive():
+		var old_balance := vitals.get_balance()
+		var broke := vitals.add_impact(info.balance_added)
+		var new_balance := vitals.get_balance()
+		if not is_equal_approx(old_balance, new_balance):
+			event_sink.unit_balance_changed(info.target, old_balance, new_balance)
+		if broke:
+			event_sink.unit_balance_broken(info.target)
+
+	# 3. Смерть — последней, чтобы подписчики видели финальное состояние.
+	if not vitals.is_alive():
+		event_sink.unit_died(info.target, info.attacker)
