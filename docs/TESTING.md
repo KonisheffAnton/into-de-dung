@@ -4,9 +4,21 @@
 Используется для быстрой проверки ошибок компиляции/выполнения после
 правок, прямо из терминала (агентом или пользователем).
 
+Путь к бинарю Godot задаётся **переменной окружения `GODOT_BIN`**, а не
+хардкодится (P-5: абсолютный путь к конкретной машине ломается у любого
+другого человека и в CI). Один раз на машину:
+
 ```powershell
-$godot = "D:\Downloads\Godot_v4.7.2-stable_win64.exe\Godot_v4.7.2-stable_win64_console.exe"
-& $godot --path "c:\Users\Aston\Documents\into-de-dung" --headless --quit-after 3
+# Разово, для текущего пользователя:
+[Environment]::SetEnvironmentVariable("GODOT_BIN",
+  "D:\Downloads\Godot_v4.7.2-stable_win64.exe\Godot_v4.7.2-stable_win64_console.exe",
+  "User")
+# После этого перезапустить терминал.
+```
+
+Проверка (запускать из корня проекта — путь относительный):
+```powershell
+& $env:GODOT_BIN --path . --headless --quit-after 3
 ```
 Если вывод содержит только строку версии движка — всё ок, ошибок нет.
 
@@ -16,10 +28,19 @@ $godot = "D:\Downloads\Godot_v4.7.2-stable_win64.exe\Godot_v4.7.2-stable_win64_c
 кода, а непересобранный кэш глобальных классов Godot. Фикс: один раз
 прогнать редактор в headless-режиме, чтобы он пересканировал проект:
 ```powershell
-& $godot --path "c:\Users\Aston\Documents\into-de-dung" --headless --editor --quit-after 5
+& $env:GODOT_BIN --path . --headless --editor --quit-after 5
 ```
 После этого обычная headless-проверка отработает корректно. Делать это
 каждый раз, когда добавляется новый `class_name`.
+
+### ВАЖНО: headless НЕ достаточен для статуса Verified
+Headless-прогон проверяет только компиляцию и отсутствие рантайм-ошибок в
+первые секунды. Он **не выявил** ни C-2 (порча HP через `base_value`), ни
+C-3 (hard error при выдаче предмета второму юниту) — оба дефекта уехали в
+статус «Done». Поэтому:
+
+**`Implemented` = headless чист. `Verified` = ещё и unit-тесты и/или
+подтверждённая визуальная проверка.** См. `docs/AUDIT.md` → P-1.
 
 ## Визуальная проверка в редакторе
 Открыть `scenes/test/test_grid_scene.tscn` (это `run/main_scene`, F5/F6

@@ -20,35 +20,109 @@ Principal Game Architect / Lead Godot Developer. Работа СТРОГО по�
 решения. SOLID, Data/Logic отделены от View/Nodes, `Resource` для
 предметов/перков/формул/способностей.
 
-## Список модулей и статус
+## ⚠️ Текущая фаза: Phase 0 — рефакторинг после аудита
+
+**2026-09-11 проведён архитектурный аудит (см. `docs/AUDIT.md`).** Найдены
+4 критических дефекта. Решение: **рефакторить, не переписывать** — все дефекты
+имеют природу «не хватает слоя», а не «сделано неверно»; ~60% файлов остаются
+почти без изменений.
+
+Baseline-коммит до правок: `49bcbf2` (точка отката).
+
+### Легенда статусов (P-1: `Implemented` ≠ `Done`)
+- `Draft` — спроектировано, код не готов.
+- `Implemented` — код есть, headless-прогон чист.
+- `Verified` — есть unit-тесты и/или подтверждённая визуальная проверка.
+- `⚠️ Defect` — содержит известный дефект из `AUDIT.md`.
+
+### Статус модулей (пересмотрено аудитом)
+
+| № | Модуль | Было | Реально | Дефекты |
+|---|---|---|---|---|
+| 1 | Universal Input & Grid System | ✅ Done | **Verified** | D-1.1..1.3, M-1..M-7 |
+| 2 | Y-Sorting & Z-Ordering | ✅ Done | **Verified** | D-2.1..2.3 |
+| 3 | Pathfinding | ✅ Done | **Verified** | D-3.1..3.6 |
+| 4 | Modular Stats & Initiative | ✅ Done | **⚠️ Defect** | **C-2**, D-4.1..4.8 |
+| 5 | Inventory / Equipment / Synergy | ✅ Done | **⚠️ Defect** | **C-3 (hard error)**, D-5.1..5.7 |
+| 6 | Damage / Balance / Push Preview | ✅ Done | **⚠️ Defect** | **C-2, C-4**, S-1, S-2, D-6.1..6.5 |
+| 7 | Extensible Utility AI | ✅ Done | **Implemented** | S-3 (а-г) |
+
+Почему статусы понижены: модули 5/6/7 были помечены `Done` при «визуальная
+проверка — TODO», то есть верифицированы только на «компилируется». Модуль 5
+при этом функционально сломан при выдаче одного предмета двум юнитам (C-3),
+а модуль 6 портит данные при первом же уроне юниту с предметом (C-2).
+Headless-прогон такое не выявляет. Подробности — `AUDIT.md` → P-1.
+
+### Порядок модулей изменён (G-4)
+
+`Command & Action Queue` перенесён **перед** `Battle Flow State Machine`:
+Battle Flow и Tile Effects должны что-то исполнять, иначе они неизбежно начнут
+мутировать состояние напрямую и очередь превратится в их рефакторинг.
 
 | № | Модуль | Статус |
 |---|---|---|
-| 1 | Universal Input & Grid System | ✅ Done |
-| 2 | Y-Sorting & Z-Ordering | ✅ Done |
-| 3 | Pathfinding | ✅ Done |
-| 4 | Modular Stats & Initiative Engine | ✅ Done |
-| 5 | Inventory, Equipment & Synergy System (Event Bus) | ✅ Done (Forge deferred) |
-| 6 | Damage, Balance & Push Preview System | ✅ Done |
-| 7 | Extensible Utility AI | ✅ Done |
-| 8 | Battle Flow State Machine | ⏳ Next |
-| 9 | Tile Effects & Status Engine | Not started |
-| 10 | Action & Visual Execution Queue | Not started |
+| 8 | Command & Action Queue *(был 10)* | Draft |
+| 9 | Battle Flow State Machine *(был 8)* | Draft |
+| 10 | Tile Effects & Status Engine *(был 9)* | Not started |
 | 11 | Run State & Procedural Generation | Not started |
 | 12 | Profile System & Meta-Progression | Not started |
 
+## План Phase 0 — путь к «уродливому вертикальному срезу»
+
+Цель (R-7): рабочий цикл на квадратах-заглушках —
+**игрок ходит → атакует → толкает → враг умирает → все мертвы → экран победы
+→ выбор 1 предмета из 3 → новая карта, предмет работает.**
+
+Каждый шаг обоснован не «так правильно», а «без этого срез не работает».
+После каждого шага проект **запускается** и проверяем визуально.
+
+| Шаг | Задача | Зачем для среза | Статус |
+|---|---|---|---|
+| 0.0 | `git init` + baseline | без этого нет отката при рефакторинге | ✅ `49bcbf2` |
+| 0.1 | Аудит + правила в документации | фиксация решений | ✅ |
+| 0.2 | `UnitId` / `Faction` / `UnitState` | иначе нет понятия «кто игрок, кто враг» | ⏳ |
+| 0.3 | `StatsBag` + `Vitals`, убрать HP/BALANCE из статов | иначе враг не может умереть (C-2) | ⏳ |
+| 0.4 | `BattleBoard` (occupancy + hazards) | иначе push сквозь юнитов, нет толчка в пропасть (C-4) | ⏳ |
+| 0.5 | `Command` + `ActionQueue` (Move/Attack/Push) | иначе нечем исполнить ход | ⏳ |
+| 0.6 | Battle Flow SM (Player→Preview→Exec→Enemy→VictoryCheck) | это и есть цикл | ⏳ |
+| 0.7 | `InputRouter` + Selection/Targeting | иначе нельзя выбрать и подтвердить действие (M-1) | ⏳ |
+| 0.8 | `ItemDef`/`ItemInstance` (**один** предмет) | иначе выбор награды сломан (C-3) | ⏳ |
+| 0.9 | Минимальный `RunState` + экран награды | замыкает петлю | ⏳ |
+| 0.10 | `RngService` | детерминизм новой карты (G-1) | ⏳ |
+
+**Отложено ДО работающего среза** (не трогать, чтобы не раздувать
+неотлаженную систему — R-7): конвейер `DamageModifier` (хватит `base+STRENGTH`),
+`Ability : Resource`, Tile Effects / Status Engine, процедурная генерация
+(хватит 2-3 рукописных карт), Profile System, heap в pathfinder, пулинг,
+локализация, data-driven слоты экипировки, второй предмет, второй тип врага.
+
+Unit-тесты пишем **только на чистую детерминированную логику** (round-trip
+координат, согласованность `find_path`/`get_reachable_cells`, конвейер `Stat`,
+клампы `Vitals`, `PushResolver`) — там, где визуальная проверка бессильна.
+На UI/флоу визуальная проверка эффективнее.
+
 Подробности по каждому реализованному модулю — в `docs/modules/`.
-Ключевые архитектурные решения и правила — в `docs/DECISIONS.md`.
+Ключевые архитектурные решения и правила — в `docs/DECISIONS.md` (раздел `R-*`
+имеет высший приоритет). Реестр дефектов — `docs/AUDIT.md`.
 Как проверять проект (headless Godot) — в `docs/TESTING.md`.
 
 ## Быстрый старт для новой сессии
 1. Прочитать этот файл целиком.
-2. Прочитать `docs/DECISIONS.md` — там правила, которые нельзя нарушать.
-3. Прочитать карточку последнего Done-модуля в `docs/modules/`.
-4. Открыть `scenes/test/test_grid_scene.tscn` — это единая тестовая песочница
-   для всех модулей, в неё добавляются новые дебаг-элементы по мере
-   реализации модулей.
-5. Спросить пользователя: "Продолжаем с модуля N?" и следовать плану.
+2. Прочитать `docs/DECISIONS.md` — раздел `R-*` (фундаментальные правила) обязателен.
+3. Прочитать `docs/AUDIT.md` — что сломано и почему переделывается.
+4. Открыть `scenes/test/test_grid_scene.tscn` — единая тестовая песочница.
+5. Спросить пользователя: "Продолжаем с шага N Phase 0?" и следовать плану.
+
+## Git-политика (P-7)
+- Коммит при: **зелёный headless-прогон И (визуальная проверка ИЛИ зелёные тесты)**.
+- Формат сообщений — Conventional Commits:
+  `refactor(units): ...`, `fix(items): ...`, `feat(board): ...`, `test(pathfinding): ...`
+- Рискованные шаги (0.3, 0.4, 0.8 — трогают много файлов) — в отдельной ветке,
+  мердж после проверки. Откат = `git checkout main`.
+- Если правка сломала рабочий код — **не чинить в 5 итераций, а откатываться**
+  к последнему зелёному коммиту и заходить с другой стороны.
+- TODO пользователю: создать private remote и пушить (локальный git не спасает
+  от смерти диска).
 
 ## Хендофф между сессиями (правило)
 В конце КАЖДОГО ответа ассистент указывает приблизительный процент заполнения
@@ -58,32 +132,46 @@ Principal Game Architect / Lead Godot Developer. Работа СТРОГО по�
 файлы документации перед переходом в новую сессию.
 
 ## Структура репозитория
+Порядок папок отражает **направление зависимостей** (R-3). Обратные
+зависимости запрещены: `grid → board → units → combat → actions → ai → flow → view`.
+
 ```
 scripts/
-  core/                  <- чистая игровая логика, без привязки к конкретным сценам
-    input/               <- Модуль 1: InputManager (autoload)
-    grid/                <- Модуль 1: IsoGridConfig, IsoGridUtils
-    rendering/            <- Модуль 2: RenderLayers, YSortable
-    pathfinding/          <- Модуль 3: GridPathfinder, GridDataProvider
-    stats/                <- Модуль 4: StatTypes, Stat, StatModifier, StatsComponent
-    initiative/           <- Модуль 4: TurnOrderStrategy, SimpleInitiativeStrategy, InitiativeTimeline
-    events/               <- Модуль 5: GameEventBus (autoload)
-    items/                <- Модуль 5: Item, ItemEffect, StatModifierEffect, TriggeredEffect, HealOnDamageEffect
-    inventory/            <- Модуль 5: InventoryComponent, EquipmentComponent
-    combat/               <- Модуль 6: DamageInfo, DamageCalculator, BalanceSystem, PushResolver, ActionPreview
-    ai/                   <- Модуль 7: AIAction, AIDecisionContext, AIConsideration, AIBehaviorProfile,
-                              UtilityAIController, AIGridMath, considerations/*
+  core/                  <- чистая игровая логика, НЕ ссылается на автозагрузки (R-3)
+    grid/                 <- IsoGridConfig, IsoGridUtils                  [M1]
+    rendering/            <- RenderLayers, YSortable, ElevatedTileVisual  [M2]
+    pathfinding/          <- GridPathfinder, GridDataProvider             [M3]
+    board/                <- BattleBoard (SSOT: высоты/террейн/occupancy) [0.4] NEW
+    units/                <- UnitId, Faction, UnitState, Vitals           [0.2-0.3] NEW
+    stats/                <- StatTypes, Stat, StatModifier, StatsBag      [M4]
+    initiative/           <- TurnOrderStrategy, InitiativeTimeline        [M4]
+    items/                <- ItemDef/ItemInstance/EffectRuntime (R-1)     [0.8]
+    inventory/            <- InventoryState, EquipmentState               [0.8]
+    combat/               <- DamageInfo, DamageCalculator, BalanceSystem,
+                             PushResolver                                 [M6]
+    actions/              <- Command, ActionQueue                         [0.5] NEW
+    ai/                   <- AIAction, AIDecisionContext, AIConsideration,
+                             AIBehaviorProfile, UtilityAIController,
+                             AIGridMath, considerations/*                 [M7]
+    flow/                 <- BattleFlowStateMachine                       [0.6] NEW
+    input/                <- InputManager (autoload), InputRouter         [M1, 0.7]
+    events/               <- GameEventBus (autoload), EventSink           [M5, R-3]
+    rng/                  <- RngService                                   [0.10] NEW
   gameplay/
     camera/               <- IsoCameraController (inertia pan/zoom)
-  test/                   <- Дебаг-скрипты ТОЛЬКО для test_grid_scene.tscn, не финальная архитектура
+  test/                   <- Дебаг-скрипты ТОЛЬКО для test_grid_scene.tscn,
+                             не финальная архитектура, можно свободно ломать
 resources/
   grid/default_grid_config.tres
   initiative/default_initiative_strategy.tres
+  items/                  <- тестовые предметы
+  ai/                     <- aggressor_profile.tres, blocker_profile.tres
 scenes/
   test/test_grid_scene.tscn   <- единая тестовая песочница, растёт с каждым модулем
 docs/
-  ARCHITECTURE.md   <- этот файл
-  DECISIONS.md      <- зафиксированные правила и договорённости
+  ARCHITECTURE.md   <- этот файл: статус, план, структура
+  DECISIONS.md      <- правила; раздел R-* имеет высший приоритет
+  AUDIT.md          <- реестр дефектов и техдолга (аудит 2026-09-11)
   TESTING.md        <- как проверить headless / что смотреть в редакторе
   modules/          <- по одной карточке на модуль с деталями реализации
 ```
