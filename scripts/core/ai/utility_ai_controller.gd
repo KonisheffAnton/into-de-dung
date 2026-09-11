@@ -82,14 +82,12 @@ static func _generate_candidates(
 	for key in reachable_cells.keys():
 		var final_cell: Vector2i = key
 
-		# Клетка занята другим юнитом — встать туда нельзя.
-		# ПРИМЕЧАНИЕ (C-4): пока это проверяется по контексту ИИ, потому что
-		# occupancy-слоя нет. На шаге 0.4 фильтрация переедет в
-		# `GridDataProvider`, который построит `BattleBoard`, и тогда
-		# `get_reachable_cells` перестанет возвращать занятые клетки вовсе.
-		if final_cell != unit.cell:
-			if context.enemy_cells.has(final_cell) or context.ally_cells.has(final_cell):
-				continue
+		# ФИЛЬТРАЦИЯ ЗАНЯТЫХ КЛЕТОК БОЛЬШЕ НЕ НУЖНА (закрыт дефект C-4):
+		# `reachable_cells` приходит от pathfinder'а, который работает с
+		# `GridDataProvider` от `BattleBoard` — occupancy учтён в самом
+		# правиле проходимости (`can_enter`). Раньше здесь стоял костыль,
+		# фильтровавший клетки по спискам в контексте ИИ, и он неизбежно
+		# расходился с правилами pathfinding.
 
 		# Кандидат перемещения (или "остаться на месте", если это текущая
 		# клетка — она всегда входит в reachable со стоимостью 0).
@@ -117,7 +115,7 @@ static func _generate_candidates(
 				unit, enemy,
 				final_cell, enemy_cell,
 				base_damage, impact_power,
-				context.data_provider, context.max_height_step
+				context.board, context.max_height_step
 			)
 			candidates.append(
 				AIAction.make_move_and_attack(final_cell, enemy, enemy_cell, info)

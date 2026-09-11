@@ -61,11 +61,13 @@ func _apply_debug_damage() -> void:
 	dummy_stats.set_base_value(StatTypes.StatType.STRENGTH, 3.0)
 	var dummy := UnitState.create(Faction.Type.ENEMY, Vector2i(-1, -1), dummy_stats, "DebugSource")
 
+	# impact_power = 0, поэтому баланс не ломается и толкание не считается —
+	# доска здесь не нужна (null допустим).
 	var info := DamageCalculator.calculate(
 		dummy, _unit,
 		dummy.cell, _unit.cell,
 		1.0, 0.0,
-		GridDataProvider.new(), 1
+		null, 1
 	)
 	DamageCalculator.apply(info, _sink)
 

@@ -47,15 +47,26 @@ var push_target_cell: Vector2i = Vector2i.ZERO
 var push_blocked: bool = false
 var push_blocked_reason: StringName = &""
 
+## Полный результат толкания (шаг 0.4): различает перемещение, упор в стену,
+## СТОЛКНОВЕНИЕ с другим юнитом и падение в пропасть. null, если баланс не
+## ломается. Плоские поля `push_*` выше сохранены для совместимости, но новый
+## код должен читать это — только здесь есть `blocker` и `fall_height`,
+## нужные для урона при столкновении (главная механика жанра, D-6.2).
+var push_result: PushResult = null
+
+
+## Юнит, в которого врежется цель при толчке (null, если столкновения нет).
+func get_collision_victim() -> UnitState:
+	if push_result == null:
+		return null
+	return push_result.blocker
+
 
 ## Человекочитаемая сводка для дебаг-панелей.
 func to_debug_string() -> String:
 	var parts: Array[String] = []
 	parts.append("dmg %.1f%s" % [final_damage, " (KILL)" if would_kill else ""])
 	parts.append("balance +%.1f%s" % [balance_added, " (BREAK)" if would_break_balance else ""])
-	if would_break_balance:
-		if push_blocked:
-			parts.append("push BLOCKED (%s)" % push_blocked_reason)
-		else:
-			parts.append("push %s -> %s" % [str(push_direction), str(push_target_cell)])
+	if push_result != null:
+		parts.append(push_result.to_debug_string())
 	return " | ".join(parts)
