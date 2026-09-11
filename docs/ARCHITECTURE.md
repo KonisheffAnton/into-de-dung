@@ -42,10 +42,10 @@ Baseline-коммит до правок: `49bcbf2` (точка отката).
 | 1 | Universal Input & Grid System | ✅ Done | **Verified** | D-1.1..1.3, M-1..M-7 |
 | 2 | Y-Sorting & Z-Ordering | ✅ Done | **Verified** | D-2.1..2.3 |
 | 3 | Pathfinding | ✅ Done | **Verified** | D-3.1..3.6 |
-| 4 | Modular Stats & Initiative | ✅ Done | **⚠️ Defect** | **C-2**, D-4.1..4.8 |
-| 5 | Inventory / Equipment / Synergy | ✅ Done | **⚠️ Defect** | **C-3 (hard error)**, D-5.1..5.7 |
-| 6 | Damage / Balance / Push Preview | ✅ Done | **⚠️ Defect** | **C-2, C-4**, S-1, S-2, D-6.1..6.5 |
-| 7 | Extensible Utility AI | ✅ Done | **Implemented** | S-3 (а-г) |
+| 4 | Modular Stats & Initiative | ✅ Done | **Verified** ✅ | C-2/D-4.1/4.2/4.5/4.6/4.7 закрыты; остались D-4.3, D-4.4, D-4.8 |
+| 5 | Inventory / Equipment / Synergy | ✅ Done | **⚠️ Defect** | **C-3 (hard error)** — шаг 0.8; D-5.1..5.7 |
+| 6 | Damage / Balance / Push Preview | ✅ Done | **Implemented** | C-2/S-2/D-6.1 закрыты; **C-4** — шаг 0.4; S-1, D-6.2..6.5 |
+| 7 | Extensible Utility AI | ✅ Done | **Verified** ✅ | S-3б/в/г закрыты; остался S-3а (генераторы) |
 
 Почему статусы понижены: модули 5/6/7 были помечены `Done` при «визуальная
 проверка — TODO», то есть верифицированы только на «компилируется». Модуль 5
@@ -79,10 +79,10 @@ Battle Flow и Tile Effects должны что-то исполнять, ина�
 | Шаг | Задача | Зачем для среза | Статус |
 |---|---|---|---|
 | 0.0 | `git init` + baseline | без этого нет отката при рефакторинге | ✅ `49bcbf2` |
-| 0.1 | Аудит + правила в документации | фиксация решений | ✅ |
-| 0.2 | `UnitId` / `Faction` / `UnitState` | иначе нет понятия «кто игрок, кто враг» | ⏳ |
-| 0.3 | `StatsBag` + `Vitals`, убрать HP/BALANCE из статов | иначе враг не может умереть (C-2) | ⏳ |
-| 0.4 | `BattleBoard` (occupancy + hazards) | иначе push сквозь юнитов, нет толчка в пропасть (C-4) | ⏳ |
+| 0.1 | Аудит + правила в документации | фиксация решений | ✅ `997ae8d` |
+| 0.2 | `UnitId` / `Faction` / `UnitState` | иначе нет понятия «кто игрок, кто враг» | ✅ `d71b49a` |
+| 0.3 | `StatsBag` + `Vitals`, убрать HP/BALANCE из статов | иначе враг не может умереть (C-2) | ✅ `d71b49a` |
+| 0.4 | `BattleBoard` (occupancy + hazards) | иначе push сквозь юнитов, нет толчка в пропасть (C-4) | ⏳ **next** |
 | 0.5 | `Command` + `ActionQueue` (Move/Attack/Push) | иначе нечем исполнить ход | ⏳ |
 | 0.6 | Battle Flow SM (Player→Preview→Exec→Enemy→VictoryCheck) | это и есть цикл | ⏳ |
 | 0.7 | `InputRouter` + Selection/Targeting | иначе нельзя выбрать и подтвердить действие (M-1) | ⏳ |
