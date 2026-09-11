@@ -5,7 +5,7 @@
 
 [sub_resource type="Resource" id="SubResource_1"]
 script = ExtResource("2")
-stat_type = 5
+stat_type = 3
 operation = 0
 value = 2.0
 

@@ -1,34 +1,75 @@
 extends Node
 
-## Глобальная шина событий (Autoload "GameEventBus"). Типизированные
-## сигналы вместо строкового pub/sub — строгая типизация GDScript даёт
-## автокомплит и проверку сигнатур при подписке эффектов предметов/перков.
+## Глобальная шина событий (Autoload "GameEventBus"). Типизированные сигналы
+## вместо строкового pub/sub — строгая типизация GDScript даёт автокомплит и
+## проверку сигнатур при подписке эффектов предметов/перков.
 ##
-## Перки/предметы (ItemEffect) подписываются на нужные им сигналы здесь,
-## не зная друг о друге — это и есть механизм синергий (Модуль 5): новый
-## предмет реагирует на уже существующие события старых предметов без
-## прямой связи между ними.
+## Перки/предметы подписываются на нужные им сигналы, не зная друг о друге —
+## это и есть механизм синергий: новый предмет реагирует на уже существующие
+## события старых предметов без прямой связи между ними. (Сохранено.)
+##
+## ВАЖНО (R-3): игровое ядро (`scripts/core/**`) НЕ обращается к этой
+## автозагрузке напрямую. Оно работает через абстракцию `EventSink`, а
+## пробросом сюда занимается адаптер `GameEventBusSink`
+## (`scripts/gameplay/events/`). Причины — в `EventSink` и AUDIT.md → S-4.
+##
+## ВАЖНО (C-1): все сигналы теперь несут `UnitState`, а не `StatsComponent`.
+## Раньше "мешок характеристик" использовался как идентичность юнита, из-за
+## чего подписчик не мог узнать ни фракцию, ни позицию, ни факт смерти.
+##
+## ИЗВЕСТНОЕ ОГРАНИЧЕНИЕ (S-5, закрывается вместе с ActionQueue на шаге 0.5):
+## сигналы СИНХРОННЫ и реентрантны — обработчик может изменить состояние в
+## середине незавершённой транзакции. Пример: предмет "при получении урона
+## нанести 1 урон атакующему" у двух юнитов даёт потенциально бесконечную
+## цепочку. Правильное решение — реакции порождают новые Command в очередь,
+## а не мутируют состояние немедленно. Пока этого нет, НЕ добавлять эффекты,
+## которые в ответ на событие наносят урон/лечат ДРУГОГО юнита.
+##
+## ТАКЖЕ (S-5): при росте числа сигналов шину нужно разделить на домены
+## (CombatEvents / MetaEvents / UIEvents), а `source: Variant` — типизировать.
 
-## Юнит получил урон. source — источник урона (атакующий/эффект/Variant).
-signal unit_damaged(unit: StatsComponent, amount: float, source: Variant)
+# --- Урон, лечение, смерть -------------------------------------------------
 
-## Юнит восстановил HP.
-signal unit_healed(unit: StatsComponent, amount: float, source: Variant)
+## Юнит получил урон. `source` — источник урона (атакующий/эффект).
+signal unit_damaged(unit: UnitState, amount: float, source: Variant)
 
-## Изменилась шкала Баланса юнита (см. Модуль 6 Damage/Balance).
-signal unit_balance_changed(unit: StatsComponent, old_value: float, new_value: float)
+## Юнит восстановил HP. `amount` — ФАКТИЧЕСКИ восстановленное количество
+## (уже с учётом клампа по HP_MAX, см. `Vitals.heal`).
+signal unit_healed(unit: UnitState, amount: float, source: Variant)
+
+## Юнит погиб (HP достигло нуля). Эмитится ровно один раз.
+## НОВЫЙ сигнал: раньше смерть не обрабатывалась нигде (дефект C-2), поэтому
+## `InitiativeTimeline` не мог узнать о ней и удалить юнита из очереди.
+signal unit_died(unit: UnitState, source: Variant)
+
+# --- Баланс и толкание -----------------------------------------------------
+
+signal unit_balance_changed(unit: UnitState, old_value: float, new_value: float)
 
 ## Юнит потерял равновесие (Balance достиг BALANCE_MAX) — триггер толкания.
-signal unit_balance_broken(unit: StatsComponent)
+signal unit_balance_broken(unit: UnitState)
 
-## Начался ход конкретного юнита (см. Модуль 8 Battle Flow).
-signal turn_started(unit: StatsComponent)
+## Юнит был толкнут с клетки на клетку (визуализация, реакции на толчок).
+signal unit_pushed(unit: UnitState, from_cell: Vector2i, to_cell: Vector2i)
 
-## Ход юнита завершён.
-signal turn_ended(unit: StatsComponent)
+# --- Перемещение -----------------------------------------------------------
 
-## Предмет получен владельцем (добавлен в инвентарь/экипирован).
-signal item_acquired(item: Item, owner: Node)
+signal unit_moved(unit: UnitState, from_cell: Vector2i, to_cell: Vector2i)
 
-## Предмет потерян/снят владельцем.
-signal item_removed(item: Item, owner: Node)
+# --- Ходы и раунды ---------------------------------------------------------
+
+signal turn_started(unit: UnitState)
+signal turn_ended(unit: UnitState)
+
+## Границы раунда. НОВЫЕ сигналы (фикс D-4.7): без них tick-based Status
+## Engine нереализуем — статусам нужно знать, когда "тикать".
+signal round_started(round_number: int)
+signal round_ended(round_number: int)
+
+# --- Предметы --------------------------------------------------------------
+
+## `item` — рантайм-экземпляр (`ItemInstance`, R-1). Типизация будет уточнена
+## на шаге 0.8 при Def/Instance split (сейчас модуль 5 ещё на старой модели).
+signal item_acquired(item: Variant, owner_unit: UnitState)
+
+signal item_removed(item: Variant, owner_unit: UnitState)

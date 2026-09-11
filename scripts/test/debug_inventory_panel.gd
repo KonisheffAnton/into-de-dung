@@ -1,17 +1,24 @@
 extends Label
 
-## Демонстрация Модуля 5: создаёт тестового юнита с StatsComponent +
-## InventoryComponent, выдаёт 2 предмета (StatModifierEffect + TriggeredEffect)
-## и по клику эмитит unit_damaged через GameEventBus, показывая, что оба
-## эффекта реагируют независимо друг от друга (синергия без прямой связи).
-## Не является частью финальной архитектуры.
+## Демонстрация системы предметов и синергий: юнит получает 2 предмета
+## (StatModifierEffect + TriggeredEffect), по клику ему наносится РЕАЛЬНЫЙ
+## урон, и item_b реагирует лечением. Не финальная архитектура.
+##
+## ОБНОВЛЕНО ПОСЛЕ АУДИТА:
+##  - урон теперь НАСТОЯЩИЙ (через Vitals), а не просто эмит события: раньше
+##    панель эмитила `unit_damaged` вручную без вычитания HP, поэтому дефект
+##    C-2 (порча base_value при уроне) физически не мог проявиться в демо —
+##    именно так он и уехал в статус "Done";
+##  - виден результат синергии: урон 4 -> лечение +1 -> итог -3 HP за клик;
+##  - HP клампится по HP_MAX (раньше лечение уходило за максимум).
 
 @export var item_a: Item
 @export var item_b: Item
 
-var _stats: StatsComponent
-var _inventory: InventoryComponent
-var _damage_tick: int = 0
+var _unit: UnitState
+var _inventory: InventoryState
+var _sink: EventSink
+var _clicks: int = 0
 
 
 func _ready() -> void:
@@ -20,16 +27,15 @@ func _ready() -> void:
 	if item_b == null:
 		item_b = load("res://resources/items/item_b_heal_on_damage.tres")
 
-	_stats = StatsComponent.new()
-	add_child(_stats)
-	_stats.set_base_value(StatTypes.StatType.HP, 10.0)
-	_stats.set_base_value(StatTypes.StatType.STRENGTH, 3.0)
+	var stats := StatsBag.new()
+	stats.set_base_value(StatTypes.StatType.HP_MAX, 10.0)
+	stats.set_base_value(StatTypes.StatType.STRENGTH, 3.0)
+	stats.set_base_value(StatTypes.StatType.BALANCE_MAX, 100.0)
 
-	_inventory = InventoryComponent.new()
-	_inventory.owner_node = self
-	_inventory.stats = _stats
-	add_child(_inventory)
+	_unit = UnitState.create(Faction.Type.PLAYER, Vector2i.ZERO, stats, "ItemCarrier")
+	_sink = GameEventBusSink.new()
 
+	_inventory = InventoryState.new(_unit)
 	_inventory.add_item(item_a)
 	_inventory.add_item(item_b)
 
@@ -40,19 +46,41 @@ func _ready() -> void:
 
 func _on_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		_damage_tick += 1
-		GameEventBus.unit_damaged.emit(_stats, 2.0, "debug_click")
+		_clicks += 1
+		_apply_debug_damage()
 		_refresh_text()
 
 
+## Наносит урон "от лица" фиктивного атакующего, чтобы пройти весь настоящий
+## путь: DamageCalculator -> Vitals -> событие -> реакция item_b.
+func _apply_debug_damage() -> void:
+	if not _unit.is_alive():
+		return
+
+	var dummy_stats := StatsBag.new()
+	dummy_stats.set_base_value(StatTypes.StatType.STRENGTH, 3.0)
+	var dummy := UnitState.create(Faction.Type.ENEMY, Vector2i(-1, -1), dummy_stats, "DebugSource")
+
+	var info := DamageCalculator.calculate(
+		dummy, _unit,
+		dummy.cell, _unit.cell,
+		1.0, 0.0,
+		GridDataProvider.new(), 1
+	)
+	DamageCalculator.apply(info, _sink)
+
+
 func _refresh_text() -> void:
-	var hp := _stats.get_value(StatTypes.StatType.HP)
-	var strength := _stats.get_value(StatTypes.StatType.STRENGTH)
+	var hp := _unit.vitals.get_hp()
+	var hp_max := _unit.vitals.get_hp_max()
+	var strength := _unit.get_stat(StatTypes.StatType.STRENGTH)
+	var status := "ALIVE" if _unit.is_alive() else "DEAD"
+
 	text = (
-		"=== Inventory & Synergy Demo (click = emit unit_damaged event) ===\n" +
-		"HP: %.1f (base 10, +1 per click via item_b synergy)\n" % hp +
+		"=== Items & Synergy Demo (click = take real damage) ===\n" +
+		"HP: %.1f / %.1f   [%s]\n" % [hp, hp_max, status] +
 		"STRENGTH: %.1f (base 3 + 2 from item_a)\n" % strength +
-		"Damage events emitted: %d\n" % _damage_tick +
-		"(Note: actual damage subtraction is Module 6 - not built yet.\n" +
-		"This demo only proves item_b's TriggeredEffect reacts to the event.)"
+		"Clicks: %d\n" % _clicks +
+		"Each click: -4 dmg (1 base + 3 STR), then item_b heals +1 => net -3.\n" +
+		"item_a copies carried: %d" % _inventory.count_of(item_a.id)
 	)

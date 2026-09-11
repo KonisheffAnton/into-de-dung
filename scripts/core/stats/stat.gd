@@ -1,29 +1,53 @@
 extends RefCounted
 class_name Stat
 
-## Одна характеристика: неизменяемое base_value + список активных
-## StatModifier. Итоговое значение кэшируется и пересчитывается только
-## при изменении списка модификаторов или base_value — важно для
-## производительности на мобильных устройствах (не пересчитывать на
-## каждый доступ/кадр).
+## Одна ПРОИЗВОДНАЯ характеристика (Attribute, R-2): base_value плюс список
+## активных StatModifier. Итоговое значение кэшируется и пересчитывается
+## только при изменении модификаторов или базы — важно для мобилок.
+##
+## КОНВЕЙЕР СТАДИЙ (фикс D-4.1). Формула ЖЁСТКО фиксирована:
+##
+##     (base + Σ flat) * (1 + Σ percent) * Π multiply
+##
+## Раньше модификаторы применялись в цикле, отсортированном по `priority`,
+## причём ADD_PERCENT считался от `base_value`, а MULTIPLY — от накопленного
+## результата. Это семантически неопределённо: итог зависел от расстановки
+## приоритетов, а комментарий в StatModifier описывал соглашение ("flat,
+## потом percent, потом multiply"), которое код НЕ обеспечивал.
+##
+## Фиксированный конвейер даёт три выигрыша:
+##  1. Результат НЕ зависит от порядка добавления модификаторов — критично
+##     для сохранений (R-4): загрузка в другом порядке даёт то же значение.
+##  2. `priority` становится не нужен (удалён из StatModifier).
+##  3. Из горячего пути убраны `duplicate()` + `sort_custom()` с лямбдой,
+##     которые выполнялись при КАЖДОМ пересчёте (D-4.2). Теперь пересчёт —
+##     один линейный проход без аллокаций.
 
-var base_value: float
+var base_value: float:
+	set(value):
+		base_value = value
+		_cache_dirty = true
+
 var _modifiers: Array[StatModifier] = []
-var _cached_value: float
+var _cached_value: float = 0.0
 var _cache_dirty: bool = true
 
 
 func _init(p_base_value: float = 0.0) -> void:
 	base_value = p_base_value
-	_cached_value = p_base_value
 
 
+## ВНИМАНИЕ (R-2): использовать ТОЛЬКО для настройки характеристики
+## (инициализация юнита, рост от уровня). НИКОГДА не записывать сюда текущее
+## значение ресурса вида `get_value() - damage` — это дефект C-2.
+## Текущие HP/Balance живут в `Vitals`, а не здесь.
 func set_base_value(value: float) -> void:
 	base_value = value
-	_cache_dirty = true
 
 
 func add_modifier(modifier: StatModifier) -> void:
+	if modifier == null:
+		return
 	_modifiers.append(modifier)
 	_cache_dirty = true
 
@@ -32,16 +56,33 @@ func add_modifier(modifier: StatModifier) -> void:
 ## предмета/перка/окончании статуса). Возвращает true, если что-то удалено.
 func remove_modifiers_by_source(source_id: StringName) -> bool:
 	var before := _modifiers.size()
-	_modifiers = _modifiers.filter(func(m: StatModifier) -> bool: return m.source_id != source_id)
-	if _modifiers.size() != before:
-		_cache_dirty = true
-		return true
+	var kept: Array[StatModifier] = []
+	for m in _modifiers:
+		if m.source_id != source_id:
+			kept.append(m)
+	if kept.size() == before:
+		return false
+	_modifiers = kept
+	_cache_dirty = true
+	return true
+
+
+func has_modifiers_from_source(source_id: StringName) -> bool:
+	for m in _modifiers:
+		if m.source_id == source_id:
+			return true
 	return false
 
 
 func clear_modifiers() -> void:
+	if _modifiers.is_empty():
+		return
 	_modifiers.clear()
 	_cache_dirty = true
+
+
+func get_modifier_count() -> int:
+	return _modifiers.size()
 
 
 func get_value() -> float:
@@ -51,18 +92,19 @@ func get_value() -> float:
 
 
 func _recompute_value() -> void:
-	var sorted_modifiers := _modifiers.duplicate()
-	sorted_modifiers.sort_custom(func(a: StatModifier, b: StatModifier) -> bool: return a.priority < b.priority)
+	var flat_sum := 0.0
+	var percent_sum := 0.0
+	var multiplier := 1.0
 
-	var result := base_value
-	for modifier in sorted_modifiers:
+	# Один линейный проход, без сортировки и без копий массива.
+	for modifier in _modifiers:
 		match modifier.operation:
 			StatModifier.Operation.ADD_FLAT:
-				result += modifier.value
+				flat_sum += modifier.value
 			StatModifier.Operation.ADD_PERCENT:
-				result += base_value * modifier.value
+				percent_sum += modifier.value
 			StatModifier.Operation.MULTIPLY:
-				result *= modifier.value
+				multiplier *= modifier.value
 
-	_cached_value = result
+	_cached_value = (base_value + flat_sum) * (1.0 + percent_sum) * multiplier
 	_cache_dirty = false
