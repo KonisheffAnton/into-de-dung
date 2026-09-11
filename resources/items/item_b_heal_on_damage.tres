@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/items/item.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/core/items/heal_on_damage_effect.gd" id="2"]
+
+[sub_resource type="Resource" id="SubResource_1"]
+script = ExtResource("2")
+trigger_event = 0
+heal_amount = 1.0
+
+[resource]
+script = ExtResource("1")
+id = &"item_b_heal_on_damage"
+display_name = "Vengeful Locket"
+description = "On taking damage, heal 1 HP"
+effects = Array[Resource]([SubResource("SubResource_1")])

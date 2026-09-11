@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="AIBehaviorProfile" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/ai/ai_behavior_profile.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/core/ai/considerations/prefer_attack_consideration.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/core/ai/considerations/low_hp_target_consideration.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/core/ai/considerations/balance_exploit_consideration.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/core/ai/considerations/push_to_hazard_consideration.gd" id="5"]
+
+[sub_resource type="Resource" id="SubResource_1"]
+script = ExtResource("2")
+weight = 1.0
+
+[sub_resource type="Resource" id="SubResource_2"]
+script = ExtResource("3")
+weight = 1.5
+
+[sub_resource type="Resource" id="SubResource_3"]
+script = ExtResource("4")
+weight = 1.2
+
+[sub_resource type="Resource" id="SubResource_4"]
+script = ExtResource("5")
+weight = 2.0
+
+[resource]
+script = ExtResource("1")
+display_name = "Aggressor"
+considerations = Array[Resource]([SubResource("SubResource_1"), SubResource("SubResource_2"), SubResource("SubResource_3"), SubResource("SubResource_4")])

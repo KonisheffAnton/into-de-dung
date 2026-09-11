@@ -1,0 +1,35 @@
+# Normalize EOL for all files that Git considers text files.
+* text=auto eol=lf
+
+# ---------------------------------------------------------------------------
+# Godot: явно помечаем текстовые форматы, чтобы Git корректно показывал дифф
+# и мог мержить. .tres/.tscn — текстовые по умолчанию в Godot 4.
+# ---------------------------------------------------------------------------
+*.gd      text eol=lf diff=gdscript
+*.tres    text eol=lf
+*.tscn    text eol=lf
+*.godot   text eol=lf
+*.cfg     text eol=lf
+*.import  text eol=lf
+*.uid     text eol=lf
+*.md      text eol=lf
+
+# ---------------------------------------------------------------------------
+# Бинарные ассеты: не пытаться мержить/диффить.
+# ---------------------------------------------------------------------------
+*.png     binary
+*.jpg     binary
+*.jpeg    binary
+*.webp    binary
+*.tga     binary
+*.dds     binary
+*.ico     binary
+*.wav     binary
+*.ogg     binary
+*.mp3     binary
+*.ttf     binary
+*.otf     binary
+*.glb     binary
+*.fbx     binary
+*.blend   binary
+*.pck     binary

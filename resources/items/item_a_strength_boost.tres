@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/items/item.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/core/items/stat_modifier_effect.gd" id="2"]
+
+[sub_resource type="Resource" id="SubResource_1"]
+script = ExtResource("2")
+stat_type = 5
+operation = 0
+value = 2.0
+
+[resource]
+script = ExtResource("1")
+id = &"item_a_strength_boost"
+display_name = "Boots of Might"
+description = "+2 Strength"
+effects = Array[Resource]([SubResource("SubResource_1")])
