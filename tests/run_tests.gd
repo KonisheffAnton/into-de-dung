@@ -84,6 +84,23 @@ func _initialize() -> void:
 	_test_p03a_item_ownership()
 	_test_p03a_acceptance()
 
+	_suite("P03b Item snapshot and reactions")
+	_test_p03b_b01_roundtrip()
+	_test_p03b_b02_isolation()
+	_test_p03b_b03_ids_and_placements()
+	_test_p03b_b04_lifecycle()
+	_test_p03b_b05_modifier_links()
+	_test_p03b_b06_invalid_inputs()
+	_test_p03b_b07_exact_types()
+	_test_p03b_b08_catalogue()
+	_test_p03b_b09_reactions()
+	_test_p03b_b10_dto_ownership()
+	_test_p03b_extended()
+	_test_p03b_b11_codec()
+	_test_p03b_b12_ownership_limits()
+	_test_p03b_b13_purity()
+	_test_p03b_review_boundaries()
+
 	print("\n=== %d passed, %d failed ===" % [_passed, _failed])
 	quit(1 if _failed > 0 else 0)
 
@@ -134,6 +151,625 @@ func _make_stats(hp_max: float = 10.0, balance_max: float = 100.0) -> StatsBag:
 	bag.set_base_value(StatTypes.StatType.BALANCE_MAX, balance_max)
 	return bag
 
+
+class _P03BFixture:
+	var board: BattleBoard
+	var state: ItemSimulationState
+	var definition: ItemDef
+	var owners: Array[ItemOwnerState] = []
+	var inventories: Array[InventoryState] = []
+	var equipment: Array[EquipmentState] = []
+
+
+class _P03BItemDef extends ItemDef:
+	pass
+
+
+class _P03BHealRuntime extends HealOnDamageEffectRuntime:
+	pass
+
+
+func _p03b_fixture() -> _P03BFixture:
+	var fixture := _P03BFixture.new()
+	fixture.board = BattleBoard.new(3, 1)
+	var first_bag := _make_stats()
+	var second_bag := _make_stats()
+	first_bag.set_base_value(StatTypes.StatType.STRENGTH, 3.0)
+	second_bag.set_base_value(StatTypes.StatType.STRENGTH, 3.0)
+	var first := _p02_unit(101, Vector2i(0, 0), first_bag)
+	var second := _p02_unit(102, Vector2i(1, 0), second_bag)
+	fixture.board.add_unit(first)
+	fixture.board.add_unit(second)
+	fixture.definition = ItemDef.new()
+	fixture.definition.id = &"p03b_shared"
+	var stat := StatModifierEffect.new()
+	stat.stat_type = StatTypes.StatType.STRENGTH
+	stat.operation = StatModifier.Operation.ADD_FLAT
+	stat.value = 2.0
+	var heal := HealOnDamageEffect.new()
+	heal.trigger_event = TriggeredEffect.TriggerEvent.UNIT_DAMAGED
+	heal.heal_amount = 1.5
+	# Повтор occurrence намеренный: snapshot обязан сохранить оба runtime id.
+	fixture.definition.effects = [stat, heal, heal]
+	var first_owner := ItemOwnerState.new(first)
+	var second_owner := ItemOwnerState.new(second)
+	var first_inventory := InventoryState.new(first_owner)
+	var first_equipment := EquipmentState.new(first_owner)
+	var second_inventory := InventoryState.new(second_owner)
+	var second_equipment := EquipmentState.new(second_owner)
+	var first_a := first_owner.create_item(fixture.definition)
+	var first_b := first_owner.create_item(fixture.definition)
+	var first_equipped := first_owner.create_item(fixture.definition)
+	var second_equipped := second_owner.create_item(fixture.definition)
+	_check(first_inventory.add_item(first_a) and first_inventory.add_item(first_b), "B fixture duplicate inventory items")
+	_check(first_equipment.equip(EquipmentState.EquipSlot.ARMOR, first_equipped), "B fixture equipment placement")
+	_check(second_equipment.equip(EquipmentState.EquipSlot.TRINKET, second_equipped), "B fixture second equipment placement")
+	fixture.owners = [first_owner, second_owner]
+	fixture.inventories = [first_inventory, second_inventory]
+	fixture.equipment = [first_equipment, second_equipment]
+	fixture.state = ItemSimulationState.new(fixture.board, fixture.owners, fixture.inventories, fixture.equipment)
+	return fixture
+
+
+func _p03b_capture(fixture: _P03BFixture) -> ItemSnapshotResult:
+	return ItemSimulationSnapshot.capture(fixture.state, [])
+
+
+func _p03b_catalogue(definition: ItemDef) -> Dictionary:
+	return {definition.id: definition}
+
+
+func _p03b_restore(fixture: _P03BFixture) -> ItemSimulationState:
+	var captured := _p03b_capture(fixture)
+	_check(captured.code == ItemSnapshotResult.Code.OK and captured.snapshot != null, "B snapshot capture")
+	var restored := captured.snapshot.instantiate(_p03b_catalogue(fixture.definition))
+	_check(restored.code == ItemSnapshotResult.Code.OK and restored.state != null, "B snapshot instantiate", restored.reason)
+	return restored.state
+
+
+func _test_p03b_b01_roundtrip() -> void:
+	var fixture := _p03b_fixture()
+	var result := _p03b_capture(fixture)
+	_check(result.code == ItemSnapshotResult.Code.OK, "B01 capture succeeds", result.reason)
+	var restored_state := _p03b_restore(fixture)
+	var restored_fixture := _P03BFixture.new()
+	restored_fixture.state = restored_state
+	var second := ItemSimulationSnapshot.capture(restored_state, [])
+	_check(second.code == ItemSnapshotResult.Code.OK and second.snapshot.canonical_values() == result.snapshot.canonical_values(), "B01 canonical values roundtrip")
+	_check(second.snapshot.canonical_bytes() == result.snapshot.canonical_bytes(), "B01 canonical bytes roundtrip")
+	fixture.equipment[0].unequip(EquipmentState.EquipSlot.ARMOR)
+	_check(fixture.owners[0].get_owner().get_stat(StatTypes.StatType.STRENGTH) == 7.0, "B01 STR 3+2+2")
+
+
+func _test_p03b_b02_isolation() -> void:
+	var fixture := _p03b_fixture()
+	var result := _p03b_capture(fixture)
+	var a_result := result.snapshot.instantiate(_p03b_catalogue(fixture.definition))
+	var b_result := result.snapshot.instantiate(_p03b_catalogue(fixture.definition))
+	var a := a_result.state
+	var b := b_result.state
+	_check(a != b and a.get_board() != b.get_board(), "B02 states and boards are distinct")
+	var a_owner := a.get_owner(101)
+	var b_owner := b.get_owner(101)
+	_check(a_owner != b_owner and a_owner._items[1] != b_owner._items[1], "B02 owner and item identities are distinct")
+	var a_item := a.get_inventory(101).get_items()[0]
+	_check(a.get_inventory(101).remove_item(a_item), "B02 mutate A")
+	_check(b.get_inventory(101).size() == 2 and fixture.inventories[0].size() == 2, "B02 mutation does not leak")
+
+
+func _test_p03b_b03_ids_and_placements() -> void:
+	var fixture := _p03b_fixture()
+	var result := _p03b_capture(fixture)
+	var data := result.snapshot.to_dict()
+	var owners: Array = data["owners"]
+	_check(owners[0]["inventory_order"].size() == 2, "B03 inventory order retained")
+	var item_records: Array = owners[0]["items"]
+	_check(item_records.size() == 3 and item_records[0]["item_instance_id"] < item_records[1]["item_instance_id"], "B03 detached and duplicate registry retained")
+	_check(fixture.equipment[0].get_equipped(EquipmentState.EquipSlot.ARMOR) != null, "B03 equipment slot retained")
+
+
+func _test_p03b_b04_lifecycle() -> void:
+	var fixture := _p03b_fixture()
+	var result := _p03b_capture(fixture)
+	var restored := result.snapshot.instantiate(_p03b_catalogue(fixture.definition)).state
+	var inventory := restored.get_inventory(101)
+	_check(inventory != null and not inventory.is_closed(), "B04 registered inventory restored open")
+	inventory.close()
+	_check(inventory.is_closed() and restored.get_owner(101)._inventory_retired, "B04 close retires inventory")
+	_check(restored.get_equipment(101) != null and not restored.get_equipment(101).is_closed(), "B04 other facade remains open")
+
+
+func _test_p03b_b05_modifier_links() -> void:
+	var fixture := _p03b_fixture()
+	var result := _p03b_capture(fixture)
+	var data := result.snapshot.to_dict()
+	var owner_record: Dictionary = data["owners"][0]
+	var runtime: Dictionary = owner_record["items"][0]["effects"][0]
+	_check((runtime["modifier_link"] as Array).size() == 1, "B05 active modifier link captured")
+	var bad := result.snapshot.to_dict()
+	bad["owners"][0]["items"][0]["effects"][0]["modifier_link"][0]["stat_type"] = 0
+	var rejected := ItemSimulationSnapshot.from_dict(bad)
+	_check(rejected.code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B05 wrong stat link rejected")
+
+
+func _test_p03b_b06_invalid_inputs() -> void:
+	var fixture := _p03b_fixture()
+	var result := _p03b_capture(fixture)
+	var bad := result.snapshot.to_dict()
+	bad["owners"][0]["owner_unit_id"] = 0
+	var rejected := ItemSimulationSnapshot.from_dict(bad)
+	_check(rejected.code == ItemSnapshotResult.Code.SNAPSHOT_INVALID and rejected.snapshot == null, "B06 invalid owner rejected before restore")
+	var live_bad := fixture.state.get_owners()
+	live_bad.append(live_bad[0])
+	var invalid_live := ItemSimulationState.new(fixture.board, live_bad, fixture.inventories, fixture.equipment)
+	var live_result := ItemSimulationSnapshot.capture(invalid_live, [])
+	_check(live_result.code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B06 duplicate owner rejected")
+
+
+func _test_p03b_b07_exact_types() -> void:
+	var fixture := _p03b_fixture()
+	var unsupported_def := _P03BItemDef.new()
+	unsupported_def.id = &"p03b_subclass"
+	var stat := StatModifierEffect.new()
+	stat.value = 2.0
+	unsupported_def.effects = [stat]
+	var unit := _p02_unit(103, Vector2i(2, 0), _make_stats())
+	var owner := ItemOwnerState.new(unit)
+	var inventory := InventoryState.new(owner)
+	var item := owner.create_item(unsupported_def)
+	_check(item != null and inventory.add_item(item), "B07 subclass fixture created")
+	var board := BattleBoard.new(3, 1)
+	board.add_unit(unit)
+	var state := ItemSimulationState.new(board, [owner], [inventory], [])
+	var result := ItemSimulationSnapshot.capture(state, [])
+	_check(result.code == ItemSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, "B07 unsupported exact definition rejected")
+
+
+func _test_p03b_b08_catalogue() -> void:
+	var fixture := _p03b_fixture()
+	var result := _p03b_capture(fixture)
+	var missing := result.snapshot.instantiate({})
+	_check(missing.code == ItemSnapshotResult.Code.SNAPSHOT_UNSUPPORTED and missing.state == null, "B08 missing catalogue entry rejected")
+	var changed := ItemDef.new()
+	changed.id = fixture.definition.id
+	var changed_stat := StatModifierEffect.new()
+	changed_stat.value = 99.0
+	changed.effects = [changed_stat]
+	var conflict := result.snapshot.instantiate(_p03b_catalogue(changed))
+	_check(conflict.code == ItemSnapshotResult.Code.SNAPSHOT_INVALID or conflict.code == ItemSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, "B08 catalogue content conflict rejected")
+
+
+func _test_p03b_b09_reactions() -> void:
+	var fixture := _p03b_fixture()
+	var before := fixture.state.get_owner(101)._next_effect_id
+	var event := {"event_seq": 1, "target_unit_id": 101, "dealt": 1.0}
+	var result := ItemReactionCollector.collect_damage(fixture.state, event)
+	_check(result.code == ItemReactionResult.Code.OK and not result.descriptions.is_empty(), "B09 active heal descriptions collected")
+	var descriptions := result.descriptions
+	_check(descriptions[0]["target_unit_id"] == 101 and descriptions[0]["heal_amount"] == 1.5, "B09 description values")
+	_check(fixture.state.get_owner(101)._next_effect_id == before and fixture.owners[0].get_owner().vitals.get_hp() == 17.0, "B09 collector has no runtime mutation")
+	var zero := ItemReactionCollector.collect_damage(fixture.state, {"event_seq": 2, "target_unit_id": 101, "dealt": 0.0})
+	_check(zero.code == ItemReactionResult.Code.OK and zero.descriptions.is_empty(), "B09 zero damage is empty")
+	fixture.owners[0].get_owner().vitals.apply_damage(100.0)
+	var dead := ItemReactionCollector.collect_damage(fixture.state, {"event_seq": 3, "target_unit_id": 101, "dealt": 1.0})
+	_check(dead.code == ItemReactionResult.Code.OK and dead.descriptions.is_empty(), "B09 dead target is empty")
+
+
+func _test_p03b_b10_dto_ownership() -> void:
+	var fixture := _p03b_fixture()
+	var result := _p03b_capture(fixture)
+	var dto := result.snapshot.to_dict()
+	dto["owners"].clear()
+	_check(result.snapshot.to_dict()["owners"].size() == 2, "B10 snapshot DTO is copied")
+	var values := result.snapshot.canonical_values()
+	values.clear()
+	_check(not result.snapshot.canonical_values().is_empty(), "B10 canonical values are copied")
+	var descriptions := ItemReactionCollector.collect_damage(fixture.state, {"event_seq": 4, "target_unit_id": 101, "dealt": 1.0}).descriptions
+	if not descriptions.is_empty():
+		descriptions[0]["heal_amount"] = 999.0
+	var again := ItemReactionCollector.collect_damage(fixture.state, {"event_seq": 4, "target_unit_id": 101, "dealt": 1.0}).descriptions
+	_check(again.is_empty() or again[0]["heal_amount"] == 1.5, "B10 reaction DTO is copied")
+
+
+func _test_p03b_extended() -> void:
+	_test_p03b_ext_b02_identity_and_mutation()
+	_test_p03b_ext_b03_detached_and_counters()
+	_test_p03b_ext_b04_facade_shape()
+	_test_p03b_ext_b05_all_modifier_shapes()
+	_test_p03b_ext_b06_raw_negative_matrix()
+	_test_p03b_ext_b07_unsupported_and_busy()
+	_test_p03b_ext_b08_catalogue_keys()
+	_test_p03b_ext_b09_b10_reaction_matrix()
+	_test_p03b_ext_b03_slots_and_restore_allocator()
+	_test_p03b_ext_b04_lifecycle_matrix()
+	_test_p03b_ext_b05_link_rejections()
+	_test_p03b_ext_b06_graph_rejections()
+	_test_p03b_ext_b07_capability_priority()
+	_test_p03b_ext_b07_live_priority()
+	_test_p03b_ext_b08_cross_owner_catalogue()
+
+
+func _test_p03b_ext_b02_identity_and_mutation() -> void:
+	var fixture := _p03b_fixture()
+	var captured := _p03b_capture(fixture).snapshot
+	var a := captured.instantiate(_p03b_catalogue(fixture.definition)).state
+	var b := captured.instantiate(_p03b_catalogue(fixture.definition)).state
+	var lu := fixture.board.get_unit_by_id(101)
+	var au := a.get_board().get_unit_by_id(101)
+	var bu := b.get_board().get_unit_by_id(101)
+	_check(lu != au and lu != bu and au != bu and lu.stats != au.stats and au.stats != bu.stats, "B02 live/A/B unit and StatsBag identities")
+	var ls: Stat = lu.stats._stats[StatTypes.StatType.STRENGTH]
+	var ass: Stat = au.stats._stats[StatTypes.StatType.STRENGTH]
+	var bss: Stat = bu.stats._stats[StatTypes.StatType.STRENGTH]
+	_check(ls != ass and ass != bss and ls._modifiers[0] != ass._modifiers[0] and ass._modifiers[0] != bss._modifiers[0], "B02 Stat and modifier identities")
+	_check(lu.vitals != au.vitals and au.vitals != bu.vitals and fixture.owners[0] != a.get_owner(101) and a.get_owner(101) != b.get_owner(101), "B02 Vitals and owner identities")
+	var li := fixture.inventories[0].get_items()[0]
+	var ai := a.get_inventory(101).get_items()[0]
+	var bi := b.get_inventory(101).get_items()[0]
+	_check(li != ai and ai != bi and li.get_effects()[0] != ai.get_effects()[0] and ai.get_effects()[0] != bi.get_effects()[0], "B02 item and runtime identities")
+	_check(li.get_definition() == fixture.definition and ai.get_definition() == fixture.definition and bi.get_definition() == fixture.definition and a.get_board().make_data_provider() != b.get_board().make_data_provider(), "B01/B02 definitions shared while providers are isolated")
+	_check(fixture.inventories[0] != a.get_inventory(101) and a.get_inventory(101) != b.get_inventory(101) and fixture.equipment[0] != a.get_equipment(101), "B02 facade identities")
+	fixture.board.get_unit_by_id(101).vitals.apply_damage(1.0)
+	_check(a.get_board().get_unit_by_id(101).is_alive() and b.get_board().get_unit_by_id(101).is_alive(), "B02 live death does not affect A/B")
+	a.get_inventory(101).clear()
+	b.get_equipment(101).clear()
+	b.get_inventory(101).close()
+	_check(fixture.inventories[0].size() == 2 and a.get_inventory(101).size() == 0 and b.get_equipment(101).get_occupied_slots().is_empty(), "B02 live/A/B mutations stay isolated")
+
+
+func _test_p03b_ext_b03_detached_and_counters() -> void:
+	var board := BattleBoard.new(3, 1)
+	var unit := _p02_unit(301, Vector2i.ZERO, _make_stats())
+	board.add_unit(unit)
+	var owner := ItemOwnerState.new(unit)
+	var inventory := InventoryState.new(owner)
+	var equipment := EquipmentState.new(owner)
+	var empty := ItemDef.new(); empty.id = &"p03b_empty"
+	var first := owner.create_item(empty)
+	var second := owner.create_item(empty)
+	_check(first != null and second != null and inventory.add_item(second) and inventory.add_item(first), "B03 reverse inventory order fixture")
+	_check(inventory.get_items()[0] == second and inventory.get_items()[1] == first, "B03 inventory_order [2,1]")
+	var detached := owner.create_item(empty)
+	_check(detached != null and not detached.is_active() and detached._get_placement() == 0, "B03 detached item retained")
+	var state := ItemSimulationState.new(board, [owner], [inventory], [equipment])
+	var result := ItemSimulationSnapshot.capture(state, [])
+	_check(result.code == ItemSnapshotResult.Code.OK, "B03 detached snapshot")
+	var data := result.snapshot.to_dict()
+	_check(data["owners"][0]["items"].size() == 3 and data["owners"][0]["inventory_order"] == [2, 1], "B03 detached and semantic order encoded")
+	var restored := result.snapshot.instantiate({empty.id: empty})
+	_check(restored.code == ItemSnapshotResult.Code.OK and restored.state.get_inventory(301).get_items()[0].get_item_instance_id() == 2, "B03 detached restore preserves ids/order")
+
+
+func _test_p03b_ext_b04_facade_shape() -> void:
+	var fixture := _p03b_fixture()
+	var result := _p03b_capture(fixture)
+	var restored := result.snapshot.instantiate(_p03b_catalogue(fixture.definition)).state
+	_check(restored.get_inventory(101) != null and restored.get_equipment(101) != null, "B04 registered facades restored once")
+	var dup := ItemSimulationState.new(fixture.board, fixture.owners, [fixture.inventories[0], fixture.inventories[0], fixture.inventories[1]], fixture.equipment)
+	_check(ItemSimulationSnapshot.capture(dup, []).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B04 duplicate facade rejected")
+	var missing := ItemSimulationState.new(fixture.board, fixture.owners, [fixture.inventories[0]], fixture.equipment)
+	_check(ItemSimulationSnapshot.capture(missing, []).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B04 missing facade rejected")
+	var foreign_owner := ItemOwnerState.new(_p02_unit(999, Vector2i(2, 0), _make_stats()))
+	var foreign := InventoryState.new(foreign_owner)
+	var foreign_state := ItemSimulationState.new(fixture.board, fixture.owners, [foreign, fixture.inventories[1]], fixture.equipment)
+	_check(ItemSimulationSnapshot.capture(foreign_state, []).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B04 foreign facade rejected")
+
+
+func _test_p03b_ext_b05_all_modifier_shapes() -> void:
+	var board := BattleBoard.new(1, 1)
+	var unit := _p02_unit(401, Vector2i.ZERO, _make_stats())
+	board.add_unit(unit)
+	var owner := ItemOwnerState.new(unit)
+	var inventory := InventoryState.new(owner)
+	var definition := ItemDef.new(); definition.id = &"p03b_all_ops"
+	var effects: Array[ItemEffect] = []
+	for stat_type in 7:
+		for operation in 3:
+			var effect := StatModifierEffect.new()
+			effect.stat_type = stat_type as StatTypes.StatType
+			effect.operation = operation as StatModifier.Operation
+			effect.value = 1.0
+			effects.append(effect)
+	definition.effects = effects
+	var item := owner.create_item(definition)
+	_check(item != null and inventory.add_item(item), "B05 seven stats and three operations activate")
+	var state := ItemSimulationState.new(board, [owner], [inventory], [])
+	var result := ItemSimulationSnapshot.capture(state, [])
+	_check(result.code == ItemSnapshotResult.Code.OK and result.snapshot.to_dict()["owners"][0]["items"][0]["effects"].size() == 21, "B05 all modifier occurrences roundtrip")
+	var bad := result.snapshot.to_dict()
+	bad["owners"][0]["items"][0]["effects"][0]["modifier_link"].clear()
+	_check(ItemSimulationSnapshot.from_dict(bad).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B05 missing link rejected")
+	bad = result.snapshot.to_dict()
+	bad["owners"][0]["items"][0]["effects"][0]["modifier_link"][0]["local_slot"] = -1
+	_check(ItemSimulationSnapshot.from_dict(bad).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B05 invalid local slot rejected")
+
+
+func _test_p03b_ext_b06_raw_negative_matrix() -> void:
+	var fixture := _p03b_fixture()
+	var snapshot := _p03b_capture(fixture).snapshot
+	var cases: Array[Dictionary] = []
+	var duplicate := snapshot.to_dict(); duplicate["owners"].append(duplicate["owners"][0]); cases.append(duplicate)
+	var bad_type := snapshot.to_dict(); bad_type["schema_version"] = 1.0; cases.append(bad_type)
+	var bad_counter := snapshot.to_dict(); bad_counter["owners"][0]["next_item_id"] = ItemOwnerState.MAX_ID + 1; cases.append(bad_counter)
+	var bad_float := snapshot.to_dict(); bad_float["owners"][0]["items"][0]["effects"][0]["value"] = NAN; cases.append(bad_float)
+	var rejected := 0
+	for data in cases:
+		if ItemSimulationSnapshot.from_dict(data).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID: rejected += 1
+	_check(rejected == cases.size(), "B06 duplicate/type/counter/nonfinite matrix rejected")
+	var board_unit := _p02_unit(101, Vector2i(0, 0), _make_stats())
+	var forged := _p02_unit(101, Vector2i(0, 0), _make_stats())
+	var board := BattleBoard.new(3, 1); board.add_unit(board_unit)
+	var forged_owner := ItemOwnerState.new(forged)
+	var forged_inv := InventoryState.new(forged_owner)
+	_check(ItemSimulationSnapshot.capture(ItemSimulationState.new(board, [forged_owner], [forged_inv], []), []).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B06 forged same-id unit identity rejected")
+
+
+func _test_p03b_ext_b07_unsupported_and_busy() -> void:
+	var fixture := _p03b_fixture()
+	var unsupported := _p03b_capture(fixture).snapshot.to_dict()
+	unsupported["scope"] = "unknown"
+	_check(ItemSimulationSnapshot.from_dict(unsupported).code == ItemSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, "B07 unknown scope unsupported")
+	var external := ItemSimulationSnapshot.capture(fixture.state, [&"z", &"a", &"a"])
+	_check(external.code == ItemSnapshotResult.Code.SNAPSHOT_UNSUPPORTED and external.unsupported_ids == [&"a", &"z"], "B07 external unsupported ids sorted unique")
+	# Lambda захватывает скаляры по значению; mutable контейнер сохраняет результат callback.
+	var busy_codes: Array[int] = [ItemSnapshotResult.Code.OK, ItemReactionResult.Code.OK]
+	var callback := func(_item: ItemInstance) -> void:
+		busy_codes[0] = ItemSimulationSnapshot.capture(fixture.state, []).code
+		busy_codes[1] = ItemReactionCollector.collect_damage(fixture.state, {"event_seq": 30, "target_unit_id": 101, "dealt": 1.0}).code
+	fixture.inventories[0].item_added.connect(callback)
+	var item := fixture.owners[0].create_item(fixture.definition)
+	fixture.inventories[0].add_item(item)
+	fixture.inventories[0].item_added.disconnect(callback)
+	_check(busy_codes[0] == ItemSnapshotResult.Code.SNAPSHOT_BUSY and busy_codes[1] == ItemReactionResult.Code.BUSY, "B07 capture and collect during item_added are busy")
+
+
+func _test_p03b_ext_b08_catalogue_keys() -> void:
+	var fixture := _p03b_fixture()
+	var snapshot := _p03b_capture(fixture).snapshot
+	var string_key := {String(fixture.definition.id): fixture.definition}
+	var result := snapshot.instantiate(string_key)
+	_check(result.code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B08 String catalogue key rejected")
+	var extra := _p03b_catalogue(fixture.definition)
+	var unused := ItemDef.new(); unused.id = &"unused"
+	extra[unused.id] = unused
+	var with_extra := snapshot.instantiate(extra)
+	_check(with_extra.code == ItemSnapshotResult.Code.OK, "B08 unused catalogue entry ignored")
+
+
+func _test_p03b_ext_b09_b10_reaction_matrix() -> void:
+	var fixture := _p03b_fixture()
+	var event := {"event_seq": 22, "target_unit_id": 101, "dealt": 1.0}
+	fixture.board.get_unit_by_id(101).vitals.set_hp(fixture.board.get_unit_by_id(101).vitals.get_hp_max())
+	var before_hp := fixture.board.get_unit_by_id(101).vitals.get_hp()
+	var before_counter := fixture.owners[0]._next_effect_id
+	var result := ItemReactionCollector.collect_damage(fixture.state, event)
+	var descriptions := result.descriptions
+	_check(result.code == ItemReactionResult.Code.OK and descriptions.size() == 6, "B09 six target-owner repeated heal descriptions ordered")
+	var ordered := true
+	var seen: Dictionary = {}
+	for i in descriptions.size():
+		var current: Dictionary = descriptions[i]
+		var key := "%d/%d/%d" % [current["owner_unit_id"], current["item_instance_id"], current["effect_instance_id"]]
+		ordered = ordered and not seen.has(key)
+		seen[key] = true
+	_check(ordered and fixture.board.get_unit_by_id(101).vitals.get_hp() == before_hp and fixture.owners[0]._next_effect_id == before_counter, "B09 descriptions unique and collector pure")
+	_check(not descriptions.is_empty(), "B09 full HP still yields deferred descriptions")
+	var bad_target := ItemReactionCollector.collect_damage(fixture.state, {"event_seq": 23, "target_unit_id": 999, "dealt": 1.0})
+	_check(bad_target.code == ItemReactionResult.Code.INVALID, "B09 unknown target rejected")
+	var bad_event := ItemReactionCollector.collect_damage(fixture.state, {"event_seq": 0, "target_unit_id": 101, "dealt": 1.0})
+	_check(bad_event.code == ItemReactionResult.Code.INVALID, "B09 bad event rejected")
+	var removed := fixture.inventories[0].get_items()[0]
+	_check(fixture.inventories[0].remove_item(removed), "B10 remove before recollect")
+	var after_remove := ItemReactionCollector.collect_damage(fixture.state, event)
+	_check(after_remove.descriptions.size() == 4, "B10 removed item reactions disappear")
+	fixture.owners[0].close()
+	_check(ItemReactionCollector.collect_damage(fixture.state, event).descriptions.is_empty(), "B10 closed owner reactions disappear")
+	var board := BattleBoard.new(1, 1)
+	var unit := _p02_unit(901, Vector2i.ZERO, _make_stats())
+	board.add_unit(unit)
+	var owner := ItemOwnerState.new(unit)
+	var inventory := InventoryState.new(owner)
+	var definition := ItemDef.new(); definition.id = &"p03b_zero_heal"
+	var heal := HealOnDamageEffect.new(); heal.heal_amount = 0.0
+	definition.effects = [heal]
+	inventory.add_item(owner.create_item(definition))
+	var zero_state := ItemSimulationState.new(board, [owner], [inventory], [])
+	var zero_amount := ItemReactionCollector.collect_damage(zero_state, {"event_seq": 24, "target_unit_id": 901, "dealt": 1.0})
+	_check(zero_amount.code == ItemReactionResult.Code.OK and zero_amount.descriptions.size() == 1 and zero_amount.descriptions[0]["heal_amount"] == 0.0, "B09 zero heal amount remains a deferred description")
+
+
+func _test_p03b_ext_b03_slots_and_restore_allocator() -> void:
+	var board := BattleBoard.new(1, 1)
+	var unit := _p02_unit(302, Vector2i.ZERO, _make_stats())
+	board.add_unit(unit)
+	var owner := ItemOwnerState.new(unit)
+	var equipment := EquipmentState.new(owner)
+	var definition := ItemDef.new()
+	definition.id = &"p03b_slots"
+	var one := owner.create_item(definition)
+	var two := owner.create_item(definition)
+	var three := owner.create_item(definition)
+	_check(equipment.equip(EquipmentState.EquipSlot.TRINKET, one) and equipment.equip(EquipmentState.EquipSlot.WEAPON, three) and equipment.equip(EquipmentState.EquipSlot.ARMOR, two), "B03 all slots accept order unlike item ids")
+	var snapshot := ItemSimulationSnapshot.capture(ItemSimulationState.new(board, [owner], [], [equipment]), [])
+	var records: Array = snapshot.snapshot.to_dict()["owners"][0]["items"]
+	_check(records[0]["placement"] == 102 and records[1]["placement"] == 101 and records[2]["placement"] == 100, "B03 slot placements are bound to items, not creation order")
+	var restored := snapshot.snapshot.instantiate({definition.id: definition}).state
+	var original_next := owner.create_item(definition)
+	var restored_next := restored.get_owner(302).create_item(definition)
+	_check(original_next != null and restored_next != null and original_next.get_item_instance_id() == restored_next.get_item_instance_id() and original_next.get_effects().size() == restored_next.get_effects().size(), "B03 restore then create preserves allocators")
+	var data := snapshot.snapshot.to_dict()
+	data["owners"][0]["items"][0]["item_instance_id"] = ItemOwnerState.MAX_ID - 1
+	data["owners"][0]["items"][0]["placement"] = 0
+	data["owners"][0]["items"][0]["active"] = false
+	data["owners"][0]["next_item_id"] = ItemOwnerState.MAX_ID
+	data["owners"][0]["items"][1]["placement"] = 0
+	data["owners"][0]["items"][1]["active"] = false
+	data["owners"][0]["items"][2]["placement"] = 0
+	data["owners"][0]["items"][2]["active"] = false
+	data["owners"][0]["inventory_order"] = []
+	var high := ItemSimulationSnapshot.from_dict(data)
+	var high_state := high.snapshot.instantiate({definition.id: definition}).state if high.snapshot != null else null
+	_check(high.code == ItemSnapshotResult.Code.OK and high_state != null and high_state.get_owner(302).create_item(definition) == null, "B03 MAX-1 item id and exhausted counter restore exactly")
+
+
+func _test_p03b_ext_b04_lifecycle_matrix() -> void:
+	for inventory_mode in [0, 1, 2]:
+		for equipment_mode in [0, 1, 2]:
+			var matrix_board := BattleBoard.new(1, 1)
+			var matrix_unit := _p02_unit(410 + inventory_mode * 3 + equipment_mode, Vector2i.ZERO, _make_stats())
+			matrix_board.add_unit(matrix_unit)
+			var matrix_owner := ItemOwnerState.new(matrix_unit)
+			var matrix_inventories: Array[InventoryState] = []
+			var matrix_equipment: Array[EquipmentState] = []
+			if inventory_mode == 1:
+				matrix_inventories.append(InventoryState.new(matrix_owner))
+			elif inventory_mode == 2:
+				InventoryState.new(matrix_owner).close()
+			if equipment_mode == 1:
+				matrix_equipment.append(EquipmentState.new(matrix_owner))
+			elif equipment_mode == 2:
+				EquipmentState.new(matrix_owner).close()
+			var matrix_snapshot := ItemSimulationSnapshot.capture(ItemSimulationState.new(matrix_board, [matrix_owner], matrix_inventories, matrix_equipment), [])
+			var matrix_state := matrix_snapshot.snapshot.instantiate({}).state if matrix_snapshot.snapshot != null else null
+			var matrix_id := matrix_unit.id
+			var inventory_ok: bool = matrix_state != null and (matrix_state.get_inventory(matrix_id) != null) == (inventory_mode == 1)
+			var equipment_ok: bool = matrix_state != null and (matrix_state.get_equipment(matrix_id) != null) == (equipment_mode == 1)
+			if matrix_state != null and inventory_mode != 1:
+				inventory_ok = inventory_ok and (not InventoryState.new(matrix_state.get_owner(matrix_id)).is_closed()) == (inventory_mode == 0)
+			if matrix_state != null and equipment_mode != 1:
+				equipment_ok = equipment_ok and (not EquipmentState.new(matrix_state.get_owner(matrix_id)).is_closed()) == (equipment_mode == 0)
+			_check(matrix_snapshot.code == ItemSnapshotResult.Code.OK and inventory_ok and equipment_ok, "B04 lifecycle matrix inventory%d equipment%d" % [inventory_mode, equipment_mode])
+	var board := BattleBoard.new(1, 1)
+	var unit := _p02_unit(403, Vector2i.ZERO, _make_stats())
+	board.add_unit(unit)
+	var never := ItemOwnerState.new(unit)
+	var never_state := ItemSimulationState.new(board, [never], [], [])
+	var never_restored := ItemSimulationSnapshot.capture(never_state, []).snapshot.instantiate({}).state
+	_check(never_restored.get_inventory(403) == null and never_restored.get_equipment(403) == null and not InventoryState.new(never_restored.get_owner(403)).is_closed(), "B04 never-created remains creatable without facade")
+	var retired_board := BattleBoard.new(1, 1)
+	var retired_unit := _p02_unit(404, Vector2i.ZERO, _make_stats())
+	retired_board.add_unit(retired_unit)
+	var retired_owner := ItemOwnerState.new(retired_unit)
+	var retired_inventory := InventoryState.new(retired_owner)
+	retired_inventory.close()
+	var retired_state := ItemSimulationState.new(retired_board, [retired_owner], [], [])
+	var retired_restored := ItemSimulationSnapshot.capture(retired_state, []).snapshot.instantiate({}).state
+	_check(retired_restored.get_inventory(404) == null and InventoryState.new(retired_restored.get_owner(404)).is_closed(), "B04 retired inventory never reopens")
+	var closed_board := BattleBoard.new(1, 1)
+	var closed_unit := _p02_unit(405, Vector2i.ZERO, _make_stats())
+	closed_board.add_unit(closed_unit)
+	var closed_owner := ItemOwnerState.new(closed_unit)
+	var closed_inventory := InventoryState.new(closed_owner)
+	var closed_definition := ItemDef.new(); closed_definition.id = &"p03b_closed"
+	var held := closed_owner.create_item(closed_definition)
+	closed_inventory.add_item(held)
+	closed_owner.close()
+	var closed_state := ItemSimulationState.new(closed_board, [closed_owner], [], [])
+	var closed_result := ItemSimulationSnapshot.capture(closed_state, [])
+	var closed_restored := closed_result.snapshot.instantiate({closed_definition.id: closed_definition}).state if closed_result.snapshot != null else null
+	_check(closed_result.code == ItemSnapshotResult.Code.OK and closed_restored != null and closed_restored.get_inventory(405) == null and closed_restored.get_equipment(405) == null and not held.is_active(), "B04 closed owner restores without retired facades")
+
+
+func _test_p03b_ext_b05_link_rejections() -> void:
+	var fixture := _p03b_fixture()
+	var base := _p03b_capture(fixture).snapshot
+	var mutations: Array[Dictionary] = []
+	var duplicate := base.to_dict()
+	duplicate["owners"][0]["items"][0]["effects"][0]["modifier_link"].append(duplicate["owners"][0]["items"][0]["effects"][0]["modifier_link"][0].duplicate())
+	mutations.append(duplicate)
+	var op := base.to_dict(); op["owners"][0]["items"][0]["effects"][0]["operation"] = StatModifier.Operation.MULTIPLY; mutations.append(op)
+	var value := base.to_dict(); value["owners"][0]["items"][0]["effects"][0]["value"] = 91.0; mutations.append(value)
+	var source := base.to_dict(); source["owners"][0]["items"][0]["effects"][0]["source_key"] = "p03a/o102/i1/e1"; mutations.append(source)
+	var inactive := base.to_dict(); inactive["owners"][0]["items"][0]["effects"][0]["active"] = false; mutations.append(inactive)
+	var rejected := 0
+	for data in mutations:
+		if ItemSimulationSnapshot.from_dict(data).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID:
+			rejected += 1
+	_check(rejected == mutations.size(), "B05 duplicate/op/value/foreign-source/inactive links rejected")
+	var orphan := base.to_dict()
+	var stat_records: Array = orphan["board_snapshot"]["board"]["units"][0]["stats"]["stats"]
+	for entry: Dictionary in stat_records:
+		if entry["stat_type"] == StatTypes.StatType.STRENGTH:
+			var modifier: Dictionary = entry["stat"]["modifiers"][0].duplicate(true)
+			modifier["source_id"] = "p03a/o101/i999/e999"
+			entry["stat"]["modifiers"].append(modifier)
+	_check(ItemSimulationSnapshot.from_dict(orphan).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B05 orphan reserved source rejected")
+
+
+func _test_p03b_ext_b06_graph_rejections() -> void:
+	var snapshot := _p03b_capture(_p03b_fixture()).snapshot
+	var cases: Array[Dictionary] = []
+	var duplicate_item := snapshot.to_dict(); duplicate_item["owners"][0]["items"].append(duplicate_item["owners"][0]["items"][0].duplicate(true)); cases.append(duplicate_item)
+	var duplicate_effect := snapshot.to_dict(); duplicate_effect["owners"][0]["items"][0]["effects"][1]["effect_instance_id"] = duplicate_effect["owners"][0]["items"][0]["effects"][0]["effect_instance_id"]; cases.append(duplicate_effect)
+	var duplicate_index := snapshot.to_dict(); duplicate_index["owners"][0]["items"][0]["effects"][1]["effect_index"] = 0; cases.append(duplicate_index)
+	var duplicate_order := snapshot.to_dict(); duplicate_order["owners"][0]["inventory_order"].append(duplicate_order["owners"][0]["inventory_order"][0]); cases.append(duplicate_order)
+	var sentinel_item := snapshot.to_dict(); sentinel_item["owners"][0]["items"][0]["item_instance_id"] = ItemOwnerState.MAX_ID; cases.append(sentinel_item)
+	var bad_placement := snapshot.to_dict(); bad_placement["owners"][0]["items"][0]["placement"] = 99; cases.append(bad_placement)
+	var wrong_active := snapshot.to_dict(); wrong_active["owners"][0]["items"][0]["active"] = false; cases.append(wrong_active)
+	var rejected := 0
+	for data in cases:
+		if ItemSimulationSnapshot.from_dict(data).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID:
+			rejected += 1
+	_check(rejected == cases.size(), "B06 duplicate ids/indices/order, sentinel and placement matrix rejected")
+	var fixture := _p03b_fixture()
+	var missing := ItemSimulationState.new(fixture.board, [fixture.owners[0]], [fixture.inventories[0]], [fixture.equipment[0]])
+	_check(ItemSimulationSnapshot.capture(missing, []).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B06 missing owner for registered board unit rejected")
+	var corpse_board := BattleBoard.new(1, 1)
+	var corpse := _p02_unit(603, Vector2i.ZERO, _make_stats(), false)
+	corpse_board.add_unit(corpse)
+	_check(ItemSimulationSnapshot.capture(ItemSimulationState.new(corpse_board, [], [], []), []).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B06 missing owner for corpse rejected")
+
+
+func _test_p03b_ext_b07_capability_priority() -> void:
+	var snapshot := _p03b_capture(_p03b_fixture()).snapshot
+	var unknown_kind := snapshot.to_dict(); unknown_kind["owners"][0]["definitions"][0]["effects"][0]["kind"] = "other"
+	_check(ItemSimulationSnapshot.from_dict(unknown_kind).code == ItemSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, "B07 unknown effect kind is unsupported")
+	var unknown_trigger := snapshot.to_dict(); unknown_trigger["owners"][0]["definitions"][0]["effects"][1]["trigger_event"] = 7
+	_check(ItemSimulationSnapshot.from_dict(unknown_trigger).code == ItemSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, "B07 unknown trigger is unsupported")
+	var malformed_unknown := snapshot.to_dict(); malformed_unknown["schema_version"] = 1.0; malformed_unknown["scope"] = "other"
+	_check(ItemSimulationSnapshot.from_dict(malformed_unknown).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B07 raw shape precedes unsupported capability")
+	var fixture := _p03b_fixture()
+	var item := fixture.inventories[0].get_items()[0]
+	var runtime := _P03BHealRuntime.new(101, item.get_item_instance_id(), 2, 1, 1.5, TriggeredEffect.TriggerEvent.UNIT_DAMAGED)
+	runtime._active = true
+	item._effects[1] = runtime
+	_check(ItemSimulationSnapshot.capture(fixture.state, []).code == ItemSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, "B07 runtime subclass is unsupported")
+
+
+func _test_p03b_ext_b07_live_priority() -> void:
+	var board := BattleBoard.new(2, 1)
+	var first_unit := _p02_unit(701, Vector2i(0, 0), _make_stats())
+	var second_unit := _p02_unit(702, Vector2i(1, 0), _make_stats())
+	board.add_unit(first_unit)
+	board.add_unit(second_unit)
+	var early_owner := ItemOwnerState.new(first_unit)
+	var unsupported := _P03BItemDef.new(); unsupported.id = &"p03b_live_unsupported"
+	unsupported.effects = [HealOnDamageEffect.new()]
+	_check(early_owner.create_item(unsupported) != null, "B07 live priority unsupported fixture")
+	var late_owner := ItemOwnerState.new(second_unit)
+	var malformed := ItemDef.new(); malformed.id = &"p03b_live_nan"
+	var malformed_stat := StatModifierEffect.new(); malformed_stat.value = NAN
+	malformed.effects = [malformed_stat]
+	# Повреждение registry позднего owner должно предшествовать раннему capability gap.
+	late_owner._definitions[malformed.id] = malformed
+	var result := ItemSimulationSnapshot.capture(ItemSimulationState.new(board, [early_owner, late_owner], [], []), [])
+	_check(result.code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B07 live invalid data precedes earlier unsupported capability")
+
+
+func _test_p03b_ext_b08_cross_owner_catalogue() -> void:
+	var fixture := _p03b_fixture()
+	var data := _p03b_capture(fixture).snapshot.to_dict()
+	data["owners"][1]["definitions"][0]["effects"][0]["value"] = 33.0
+	_check(ItemSimulationSnapshot.from_dict(data).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B08 same id descriptors across owners must agree")
+	var snapshot := _p03b_capture(fixture).snapshot
+	var renamed := ItemDef.new()
+	renamed.id = &"other"
+	renamed.effects = fixture.definition.effects
+	_check(snapshot.instantiate({fixture.definition.id: renamed}).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B08 catalogue key and definition id must agree")
+	var a := snapshot.instantiate(_p03b_catalogue(fixture.definition)).state
+	var b := snapshot.instantiate(_p03b_catalogue(fixture.definition)).state
+	var event := {"event_seq": 77, "target_unit_id": 101, "dealt": 1.0}
+	_check(ItemReactionCollector.collect_damage(fixture.state, event).descriptions == ItemReactionCollector.collect_damage(a, event).descriptions and ItemReactionCollector.collect_damage(a, event).descriptions == ItemReactionCollector.collect_damage(b, event).descriptions, "B09/B10 live and restored descriptions match exactly")
 
 # --- Stat pipeline ---------------------------------------------------------
 
@@ -1481,3 +2117,291 @@ func _p3_equipment_clear_order() -> void:
 	_check(changed == [6.0, 3.0], "A09 equipment clear removes modifiers by item id")
 	_check(notices == [1, 2], "A09 equipment clear notices by item id once")
 	state.close()
+
+# P03b: независимые oracle/boundary проверки ведущего, интегрируются в runner.
+func _p03b_same_snapshot(a: ItemSimulationSnapshot, b: ItemSimulationSnapshot, label: String) -> void:
+	_check(a.to_dict() == b.to_dict(), label + " DTO")
+	_check(a.canonical_values() == b.canonical_values(), label + " values")
+	_check(a.canonical_bytes() == b.canonical_bytes() and a.fingerprint() == b.fingerprint(), label + " bytes/hash")
+
+func _p03b_minimal_dto() -> Dictionary:
+	var board := BattleBoard.new(1, 1)
+	var unit := _p02_unit(1, Vector2i.ZERO, _make_stats())
+	board.add_unit(unit)
+	return ItemSimulationSnapshot.capture(ItemSimulationState.new(board, [ItemOwnerState.new(unit)], [], []), []).snapshot.to_dict()
+
+func _test_p03b_b11_codec() -> void:
+	var f := _p03b_fixture()
+	var snap := _p03b_capture(f).snapshot
+	var data := snap.to_dict()
+	data["owners"].reverse()
+	for owner: Dictionary in data["owners"]:
+		owner["definitions"].reverse()
+		owner["items"].reverse()
+		for item: Dictionary in owner["items"]: item["effects"].reverse()
+	data["board_snapshot"]["board"]["units"].reverse()
+	_p03b_same_snapshot(snap, ItemSimulationSnapshot.from_dict(data).snapshot, "B11 record permutations")
+	data = snap.to_dict()
+	data["owners"][0]["inventory_order"].reverse()
+	var changed := ItemSimulationSnapshot.from_dict(data).snapshot
+	_check(changed != null and changed.canonical_values() != snap.canonical_values() and changed.canonical_bytes() != snap.canonical_bytes(), "B11 semantic inventory order")
+	data = snap.to_dict()
+	data["owners"][0]["definitions"][0]["effects"].reverse()
+	_check(ItemSimulationSnapshot.from_dict(data).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B11 ordered definitions cannot drift from runtime")
+	# Фикстура целого envelope вычислена отдельно по спецификации тегов, не через codec Godot.
+	var empty := ItemSimulationSnapshot.capture(ItemSimulationState.new(BattleBoard.new(), [], [], []), []).snapshot
+	var literal := "5030334201050400000000000000050200000000000000040e00000000000000626f6172645f736e617073686f74050300000000000000050200000000000000040500000000000000626f617264050800000000000000050200000000000000040d00000000000000626f6172645f76657273696f6e020100000000000000050200000000000000040600000000000000686569676874020000000000000000050200000000000000040700000000000000686569676874730500000000000000000502000000000000000409000000000000006f63637570616e6379050000000000000000050200000000000000040e00000000000000736368656d615f76657273696f6e0201000000000000000502000000000000000407000000000000007465727261696e050000000000000000050200000000000000040500000000000000756e6974730500000000000000000502000000000000000405000000000000007769647468020000000000000000050200000000000000040e00000000000000736368656d615f76657273696f6e02010000000000000005020000000000000004050000000000000073636f7065041600000000000000626f6172645f6f6e6c795f6e6f5f6974656d735f76310502000000000000000406000000000000006f776e657273050000000000000000050200000000000000040e00000000000000736368656d615f76657273696f6e02010000000000000005020000000000000004050000000000000073636f7065041a00000000000000626f6172645f6974656d735f74776f5f656666656374735f7631".hex_decode()
+	_check(empty.canonical_bytes() == literal, "B11 independent literal outer envelope")
+	data = _p03b_minimal_dto()
+	data["owners"][0]["next_item_id"] = 9223372036854775807
+	data["owners"][0]["next_effect_id"] = 9007199254740993
+	data["board_snapshot"]["board"]["units"][0]["debug_name"] = "Я😀А"
+	data["board_snapshot"]["board"]["units"][0]["move_points_left"] = -0.0
+	var high := ItemSimulationSnapshot.from_dict(data).snapshot
+	_check(high != null and high.to_dict()["owners"][0]["next_effect_id"] == 9007199254740993, "B11 high int64 stays exact")
+	data["board_snapshot"]["board"]["units"][0]["move_points_left"] = 0.0
+	_check(high.canonical_bytes() == ItemSimulationSnapshot.from_dict(data).snapshot.canonical_bytes(), "B11 negative zero canonical equality")
+	var leaf: Array = [9223372036854775807, 9007199254740993, "Я😀А", -0.0, 1.5]
+	var bytes := PackedByteArray()
+	SimulationSnapshot._encode(leaf, bytes)
+	var leaf_literal := "05050000000000000002ffffffffffffff7f020100000000002000040800000000000000d0aff09f9880d09003000000000000000003000000000000f83f".hex_decode()
+	_check(bytes == leaf_literal, "B11 independent high-int Unicode float bytes")
+	data = snap.to_dict()
+	var mods: Array = []
+	for entry: Dictionary in data["board_snapshot"]["board"]["units"][0]["stats"]["stats"]:
+		if entry["stat_type"] == 3: mods = entry["stat"]["modifiers"]
+	var order: int = mods[0]["evaluation_order"]
+	mods[0]["evaluation_order"] = mods[1]["evaluation_order"]
+	mods[1]["evaluation_order"] = order
+	changed = ItemSimulationSnapshot.from_dict(data).snapshot
+	_check(changed != null and changed.canonical_bytes() != snap.canonical_bytes(), "B11 P02 evaluation order remains semantic")
+
+func _test_p03b_b12_ownership_limits() -> void:
+	var f := _p03b_fixture()
+	var input := _p03b_capture(f).snapshot.to_dict()
+	var imported := ItemSimulationSnapshot.from_dict(input).snapshot
+	var original := imported.canonical_bytes()
+	input["owners"][0]["items"].clear()
+	var copy := imported.to_dict()
+	copy["owners"][0]["definitions"][0]["effects"].clear()
+	var canonical := imported.canonical_values()
+	canonical[0][1].clear()
+	var bytes := imported.canonical_bytes()
+	bytes[0] = 0
+	_check(imported.canonical_bytes() == original, "B12 nested input/output/bytes mutation isolated")
+	_p03b_same_snapshot(imported, ItemSimulationSnapshot.capture(imported.instantiate(_p03b_catalogue(f.definition)).state, []).snapshot, "B12 restore after DTO mutations")
+	var diagnostic := ItemSimulationSnapshot.capture(f.state, [&"Я", &"A", &"Я"])
+	var ids := diagnostic.unsupported_ids
+	ids.clear()
+	_check(diagnostic.unsupported_ids == [&"A", &"Я"], "B12 diagnostics copied sorted unique")
+	var data := _p03b_minimal_dto()
+	data["board_snapshot"]["board"]["units"][0]["debug_name"] = "А".repeat(2048)
+	_check(ItemSimulationSnapshot.from_dict(data).code == ItemSnapshotResult.Code.OK, "B12 UTF8 string exact 4096 bytes")
+	data["board_snapshot"]["board"]["units"][0]["debug_name"] += "a"
+	_check(ItemSimulationSnapshot.from_dict(data).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B12 string bytes +1")
+	for cap: String in ["items", "definitions", "effects", "definition_effects"]:
+		data = _p03b_minimal_dto()
+		var owner: Dictionary = data["owners"][0]
+		var heal := {"kind": "heal_on_damage", "trigger_event": 0, "heal_amount": 0.0}
+		var definition := {"id": "cap", "effects": []}
+		owner["definitions"] = [definition]
+		var item := {"item_instance_id": 1, "definition_id": "cap", "placement": 0, "active": false, "effects": []}
+		if cap == "items":
+			owner["next_item_id"] = 4098
+			for i in 4096:
+				var record: Dictionary = item.duplicate(true)
+				record["item_instance_id"] = i + 1
+				owner["items"].append(record)
+		elif cap == "definitions":
+			owner["definitions"] = []
+			for i in 4096: owner["definitions"].append({"id": "d%d" % i, "effects": []})
+		else:
+			for i in 16384: definition["effects"].append(heal)
+			if cap == "effects":
+				owner["next_item_id"] = 2
+				owner["next_effect_id"] = 16386
+				owner["items"] = [item]
+				for i in 16384: item["effects"].append({"effect_instance_id": i + 1, "effect_index": i, "active": false, "kind": "heal_on_damage", "trigger_event": 0, "heal_amount": 0.0})
+		var accepted := ItemSimulationSnapshot.from_dict(data)
+		_check(accepted.code == ItemSnapshotResult.Code.OK, "B12 exact cap " + cap, accepted.reason)
+		if cap == "items": owner["items"].append(item)
+		elif cap == "definitions": owner["definitions"].append({"id": "overflow", "effects": []})
+		elif cap == "effects": item["effects"].append(item["effects"][0])
+		else: definition["effects"].append(heal)
+		var rejected := ItemSimulationSnapshot.from_dict(data)
+		_check(rejected.code == ItemSnapshotResult.Code.SNAPSHOT_INVALID and rejected.reason.ends_with("/limit"), "B12 cap +1 " + cap, rejected.reason)
+	# Aliases разрешены: каждый occurrence считается, затем получает отдельную value-копию.
+	data = _p03b_minimal_dto()
+	data["owners"][0]["definitions"] = [{"id": "alias", "effects": [{"kind": "heal_on_damage", "trigger_event": 0, "heal_amount": 0.0}]}]
+	var effect: Dictionary = data["owners"][0]["definitions"][0]["effects"][0]
+	data["owners"][0]["definitions"][0]["effects"].append(effect)
+	var alias_snapshot := ItemSimulationSnapshot.from_dict(data).snapshot
+	copy = alias_snapshot.to_dict()
+	copy["owners"][0]["definitions"][0]["effects"][0]["heal_amount"] = 1.0
+	_check(copy["owners"][0]["definitions"][0]["effects"][1]["heal_amount"] == 0.0, "B12 aliased input expanded into independent values")
+	data = _p03b_minimal_dto()
+	data["cycle"] = data
+	_check(ItemSimulationSnapshot.from_dict(data).reason.ends_with("/cycle"), "B12 dictionary cycle rejected")
+	data.erase("cycle")
+	var cycle: Array = []
+	cycle.append(cycle)
+	data["cycle"] = cycle
+	_check(ItemSimulationSnapshot.from_dict(data).reason.ends_with("/cycle"), "B12 array cycle rejected")
+	cycle.clear()
+	data.erase("cycle")
+	var deep: Variant = 0
+	for i in 32: deep = [deep]
+	var nodes: Array[int] = [0]
+	_check(ItemSimulationSnapshot._walk(deep, 0, [], nodes, "raw").is_empty(), "B12 raw depth32 boundary")
+	deep = [deep]
+	nodes[0] = 0
+	_check(ItemSimulationSnapshot._walk(deep, 0, [], nodes, "raw").ends_with("/depth"), "B12 raw depth33")
+	data["deep"] = deep
+	_check(ItemSimulationSnapshot.from_dict(data).reason.ends_with("/depth"), "B12 public raw depth rejection")
+	var wide: Array = []
+	wide.resize(1999999)
+	wide.fill(0)
+	nodes[0] = 0
+	_check(ItemSimulationSnapshot._walk(wide, 0, [], nodes, "raw").is_empty() and nodes[0] == 2000000, "B12 exact 2M visited value nodes")
+	wide.append(0)
+	nodes[0] = 0
+	_check(ItemSimulationSnapshot._walk(wide, 0, [], nodes, "raw").ends_with("/nodes"), "B12 nodes +1")
+	_check(ItemSimulationSnapshot.from_dict({"wide": wide}).reason.ends_with("/nodes"), "B12 malformed huge array rejected in public preflight")
+	wide.clear()
+	data = _p03b_minimal_dto()
+	var owner: Dictionary = data["owners"][0]
+	data["owners"].resize(65536)
+	data["owners"].fill(owner)
+	_check(ItemSimulationSnapshot._structure(data).is_empty(), "B12 owner cap65536 passes structural limit; duplicates fail graph")
+	data["owners"].append(owner)
+	_check(ItemSimulationSnapshot._structure(data) == "owners/limit", "B12 owner cap +1")
+	for size: Vector2i in [Vector2i(1024, 64), Vector2i(256, 256)]:
+		var edge := ItemSimulationState.new(BattleBoard.new(size.x, size.y), [], [], [])
+		_check(ItemSimulationSnapshot.capture(edge, []).code == ItemSnapshotResult.Code.OK, "B12 P02 side/cells boundary %s" % size)
+	for size: Vector2i in [Vector2i(1025, 1), Vector2i(257, 256)]:
+		data = ItemSimulationSnapshot.capture(ItemSimulationState.new(BattleBoard.new(), [], [], []), []).snapshot.to_dict()
+		data["board_snapshot"]["board"]["width"] = size.x
+		data["board_snapshot"]["board"]["height"] = size.y
+		_check(ItemSimulationSnapshot.from_dict(data).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B12 P02 dimension/cell overflow %s" % size)
+
+func _test_p03b_b13_purity() -> void:
+	var f := _p03b_fixture()
+	var snap := _p03b_capture(f).snapshot
+	var counter := UnitId.get_counter()
+	var provider := f.board.make_data_provider()
+	var signals: Array[int] = [0]
+	f.inventories[0].item_added.connect(func(_item: ItemInstance) -> void: signals[0] += 1)
+	f.owners[0].get_owner().vitals.hp_changed.connect(func(_old: float, _new: float) -> void: signals[0] += 1)
+	var subscriptions := f.owners[0].get_owner().vitals.hp_changed.get_connections().size()
+	var cache: Dictionary = {}
+	for key: int in f.owners[0].get_owner().stats._stats:
+		var stat: Stat = f.owners[0].get_owner().stats._stats[key]
+		cache[key] = [stat._cache_dirty, stat._cached_value, stat._next_modifier_slot, stat._modifier_slots.duplicate()]
+	for i in 8:
+		var state := snap.instantiate(_p03b_catalogue(f.definition)).state
+		var again := ItemSimulationSnapshot.capture(state, []).snapshot
+		_p03b_same_snapshot(snap, again, "B13 repeated restore %d" % i)
+		_check(again.to_dict()["board_snapshot"] == snap.to_dict()["board_snapshot"], "B13 exact modifier slots/evaluation_order and resources %d" % i)
+		ItemReactionCollector.collect_damage(state, {"event_seq": 1, "target_unit_id": 101, "dealt": 1.0})
+		ItemReactionCollector.collect_damage(f.state, {"event_seq": 1, "target_unit_id": 101, "dealt": 1.0})
+	_check(UnitId.get_counter() == counter and signals[0] == 0 and not provider.cell_is_walkable(Vector2i.ZERO), "B13 no UnitId, signals or provider mutation")
+	_check(f.owners[0].get_owner().vitals.hp_changed.get_connections().size() == subscriptions, "B13 no subscriptions added")
+	for key: int in cache:
+		var stat: Stat = f.owners[0].get_owner().stats._stats[key]
+		_check(cache[key] == [stat._cache_dirty, stat._cached_value, stat._next_modifier_slot, stat._modifier_slots], "B13 live cache/slots untouched stat%d" % key)
+	_check(snap.instantiate({}).state == null and ItemSimulationSnapshot.from_dict({}).state == null, "B13 no partial state on failure")
+
+func _p03b_raw_stat(data: Dictionary, unit_id: int, stat_type: int) -> Dictionary:
+	for unit: Dictionary in data["board_snapshot"]["board"]["units"]:
+		if unit["id"] != unit_id: continue
+		for entry: Dictionary in unit["stats"]["stats"]:
+			if entry["stat_type"] == stat_type: return entry["stat"]
+	return {}
+
+func _p03b_link_failure(data: Dictionary, suffix: String, label: String) -> void:
+	# P02 обязан принять фикстуру: иначе тест не достигает item linkage validator.
+	_check(SimulationSnapshot.from_dict(data["board_snapshot"]).code == BoardSnapshotResult.Code.OK, label + " valid P02 projection")
+	var counter := UnitId.get_counter()
+	var result := ItemSimulationSnapshot.from_dict(data)
+	_check(result.code == ItemSnapshotResult.Code.SNAPSHOT_INVALID and result.snapshot == null and result.state == null and result.reason.contains(suffix), label + " exact P03b rejection", result.reason)
+	_check(UnitId.get_counter() == counter, label + " no allocation side effects")
+
+func _test_p03b_review_boundaries() -> void:
+	var fixture := _p03b_fixture()
+	var snapshot := _p03b_capture(fixture).snapshot
+	var data := snapshot.to_dict()
+	var strength := _p03b_raw_stat(data, 101, 3)
+	var orphan: Dictionary = strength["modifiers"][0].duplicate(true)
+	orphan["source_id"] = "p03a/o101/i999/e999"
+	orphan["local_slot"] = strength["next_modifier_slot"]
+	orphan["evaluation_order"] = strength["modifiers"].size()
+	strength["next_modifier_slot"] += 1
+	strength["modifiers"].append(orphan)
+	_p03b_link_failure(data, "/orphan_source/p03a/o101/i999/e999", "B05 reserved orphan with fresh slot/order")
+	for field: String in ["operation", "value"]:
+		data = snapshot.to_dict()
+		strength = _p03b_raw_stat(data, 101, 3)
+		# Меняется именно уже сохранённый modifier, runtime и definition согласованы.
+		if field == "operation": strength["modifiers"][0][field] = 1
+		else: strength["modifiers"][0][field] = 7.0
+		_p03b_link_failure(data, "/item/1/effect/1/modifier_link", "B05 board modifier " + field + " differs from runtime")
+	data = snapshot.to_dict()
+	var detached: Dictionary = data["owners"][0]["items"][0]
+	detached["placement"] = 0
+	detached["active"] = false
+	data["owners"][0]["inventory_order"].erase(1)
+	for effect: Dictionary in detached["effects"]:
+		effect["active"] = false
+		if effect["kind"] == "stat_modifier": effect["modifier_link"] = []
+	_p03b_link_failure(data, "/item/1/effect/1/inactive_source", "B05 consistent detached item retains forbidden board source")
+	data = snapshot.to_dict()
+	strength = _p03b_raw_stat(data, 101, 3)
+	var hp := _p03b_raw_stat(data, 101, 0)
+	var second: Dictionary = strength["modifiers"][0].duplicate(true)
+	second["local_slot"] = hp["next_modifier_slot"]
+	second["evaluation_order"] = hp["modifiers"].size()
+	hp["next_modifier_slot"] += 1
+	hp["modifiers"].append(second)
+	_p03b_link_failure(data, "/item/1/effect/1/modifier_link", "B05 duplicate source in another stat with valid P02 slots")
+	# Удаление одного из двух sources проверяется при корректных слотах чужого modifier.
+	data = snapshot.to_dict()
+	strength = _p03b_raw_stat(data, 101, 3)
+	var foreign: Dictionary = strength["modifiers"][0].duplicate(true)
+	foreign["source_id"] = "foreign"
+	foreign["local_slot"] = strength["next_modifier_slot"]
+	foreign["evaluation_order"] = strength["modifiers"].size()
+	strength["next_modifier_slot"] += 1
+	strength["modifiers"].append(foreign)
+	var foreign_snapshot := ItemSimulationSnapshot.from_dict(data).snapshot
+	var restored := foreign_snapshot.instantiate(_p03b_catalogue(fixture.definition)).state
+	var owner := restored.get_owner(101)
+	var inventory := restored.get_inventory(101)
+	_check(inventory.remove_item(owner._items[1]) and owner._owner.stats.has_modifiers_from_source(&"foreign") and owner._owner.stats.has_modifiers_from_source(&"p03a/o101/i2/e4"), "B05 remove copy preserves neighbour and foreign source")
+	# MAX_ID — только counter sentinel; MAX_ID-1 допустим у живого occurrence.
+	var definition := ItemDef.new()
+	definition.id = &"p03b_effect_boundary"
+	definition.effects = [HealOnDamageEffect.new()]
+	data = _p03b_minimal_dto()
+	var record: Dictionary = data["owners"][0]
+	record["next_item_id"] = 11
+	record["next_effect_id"] = ItemOwnerState.MAX_ID
+	record["definitions"] = [{"id": String(definition.id), "effects": [{"kind": "heal_on_damage", "trigger_event": 0, "heal_amount": 1.0}]}]
+	record["items"] = [{"item_instance_id": 7, "definition_id": String(definition.id), "placement": 0, "active": false, "effects": [{"effect_instance_id": ItemOwnerState.MAX_ID - 1, "effect_index": 0, "active": false, "kind": "heal_on_damage", "trigger_event": 0, "heal_amount": 1.0}]}]
+	var boundary := ItemSimulationSnapshot.from_dict(data)
+	_check(boundary.code == ItemSnapshotResult.Code.OK, "B03 MAX-1 effect accepted", boundary.reason)
+	var a := boundary.snapshot.instantiate({definition.id: definition}).state
+	var b := boundary.snapshot.instantiate({definition.id: definition}).state
+	_p03b_same_snapshot(boundary.snapshot, ItemSimulationSnapshot.capture(a, []).snapshot, "B03 MAX-1 effect roundtrip A")
+	_p03b_same_snapshot(boundary.snapshot, ItemSimulationSnapshot.capture(b, []).snapshot, "B03 MAX-1 effect roundtrip B")
+	owner = a.get_owner(1)
+	_check(owner._items[7].get_effects()[0].get_effect_instance_id() == ItemOwnerState.MAX_ID - 1, "B03 exact restored high effect id")
+	var before := ItemSimulationSnapshot.capture(a, []).snapshot
+	_check(owner.create_item(definition) == null and owner._next_item_id == 11 and owner._next_effect_id == ItemOwnerState.MAX_ID, "B03 exhausted effects reject without spending item/effect counters")
+	_p03b_same_snapshot(before, ItemSimulationSnapshot.capture(a, []).snapshot, "B03 exhausted failure is atomic")
+	var empty := ItemDef.new()
+	empty.id = &"p03b_empty_at_exhaustion"
+	var next := owner.create_item(empty)
+	var next_b := b.get_owner(1).create_item(empty)
+	_check(next != null and next_b != null and next.get_item_instance_id() == 11 and next_b.get_item_instance_id() == 11 and next.get_effects().is_empty() and owner._next_item_id == 12 and owner._next_effect_id == ItemOwnerState.MAX_ID, "B03 empty effects remain creatable with exhausted effect counter")
+	data["owners"][0]["items"][0]["effects"][0]["effect_instance_id"] = ItemOwnerState.MAX_ID
+	_check(ItemSimulationSnapshot.from_dict(data).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B06 effect sentinel cannot be an occurrence id")

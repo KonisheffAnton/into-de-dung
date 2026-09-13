@@ -276,3 +276,23 @@ Heal runtime — только данные; временное синхронн�
 на базовых stats; атомарный preflight не расходует ids при отказе записи. После P02
 snapshot этот load применять нельзя: будущий P03b восстанавливает ids/активность и
 modifier linkage без повторного equip. P02 codec и его board-only scope не менялись.
+
+## P03b — внешний snapshot envelope и чистый collector (2026-09-13)
+
+Редакция 1 P03b реализована отдельной оболочкой над P02: его schema, bytes и обещание
+board-only capability сохранены. ItemSimulationState временно принимает обязанность
+единого owner registry; ActionContext остаётся будущим P04. Все runtime объекты двух
+restore независимы, общими могут быть только определения из явного immutable каталога.
+Snapshot не загружает Resources по путям и не является legacy fresh-equip save.
+
+Restore напрямую связывает сохранённые stat sources с уже восстановленными P02
+occurrences, сохраняя local_slot/next_modifier_slot/evaluation_order. Повторный equip
+для восстановления запрещён. Lifecycle registered получает один тихий facade,
+never-created/retired не получает facade. Закрытые фасады исключает caller при новом
+оборачивании состояния; capture ошибочный composition root не исправляет.
+
+Collector проверяет весь state и только описывает последствия damage. Он допускает
+повтор collect одного event, выдаёт описание даже при full HP или amount=0; доставку
+ровно один раз и повторную active/alive проверку перед HealCommand выполнит P04.
+Пока отсутствуют очередь, реальное лечение этим швом, RNG и полный preview. Общий C-3,
+S-5 и T10/T11 execute-preview не считаются закрытыми.

@@ -223,3 +223,25 @@ Core heal runtime хранит параметры без владельца-сс
 до выдачи ids. Runtime snapshot без повторного equip — отдельный P03b, не начат.
 Полный C-3 capability gate, T10 execute/preview, очередь, экономика и весь шаг 0.8
 этим этапом не объявляются готовыми. Проверки и итог ревью — в TESTING/CODEX_HANDOFF.
+
+## P03b — снимок предметов и сбор описаний (2026-09-13)
+
+Реализован ограниченный срез [P03b, редакция 1](P03B_ITEM_SNAPSHOT_TASK.md).
+ItemSimulationState связывает board, полный owner registry и открытые фасады без
+автоматического создания объектов. Это временный composition root, не ActionContext.
+После создания или retirement фасада caller оборачивает те же runtime объекты заново
+с актуальным списком открытых фасадов; ошибочные/повторные записи не скрываются в map.
+
+ItemSimulationSnapshot хранит отдельный envelope `board_items_two_effects_v1` поверх
+неизменного P02. Он сохраняет detached/closed, lifecycle, локальные ids/counters,
+ordered definitions/inventory и связь stat runtime с существующим modifier occurrence.
+Raw preflight проверяет типы, finite floats, caps/циклы, capability и полный граф до
+создания доски. Restore получает явный immutable каталог ItemDef/Item, создаёт новый
+runtime и тихие фасады; equip/activation/legacy load и добавления modifiers отсутствуют.
+Канонические bytes имеют префикс `P03B` + version 1; encoding использует правила P02.
+
+ItemReactionCollector принимает уже зафиксированный damage event и возвращает
+value descriptions heal в порядке stable effect ids. Он не лечит, не подписывается,
+не меняет stat cache/ids и не ведёт журнал доставки. Owner guard возвращает BUSY.
+External runtime caller декларирует явно; пустой список не доказывает общий C-3.
+Реальные HealCommand, очередь, RNG, полный preview и save-game остаются вне P03b.

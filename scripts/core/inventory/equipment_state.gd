@@ -12,6 +12,16 @@ func _init(state: ItemOwnerState) -> void:
 	_state = state
 	if state == null or not state.register_equipment(): _closed = true
 
+static func _restore_registered(state: ItemOwnerState) -> EquipmentState:
+	var equipment := EquipmentState.new(null)
+	if state == null or state.is_closed() or not state._equipment_registered:
+		equipment._closed = true
+		return equipment
+	# Restore связывает уже собранный ledger без equip, активации, регистрации и сигналов.
+	equipment._state = state
+	equipment._closed = false
+	return equipment
+
 func is_closed() -> bool:
 	return _closed or _state == null or _state.is_closed()
 

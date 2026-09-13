@@ -11,6 +11,16 @@ func _init(state: ItemOwnerState) -> void:
 	_state = state
 	if state == null or not state.register_inventory(): _closed = true
 
+static func _restore_registered(state: ItemOwnerState) -> InventoryState:
+	var inventory := InventoryState.new(null)
+	if state == null or state.is_closed() or not state._inventory_registered:
+		inventory._closed = true
+		return inventory
+	# Restore уже проверил lifecycle и identity; регистрация здесь не должна активировать эффекты или сигналы.
+	inventory._state = state
+	inventory._closed = false
+	return inventory
+
 func is_closed() -> bool:
 	return _closed or _state == null or _state.is_closed()
 

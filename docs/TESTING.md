@@ -159,3 +159,30 @@ Headless-проверка реального узла панели отправ�
 Это проверка интеграции, не визуальной вёрстки: окно/ручной клик остаются UI unverified.
 Известные certificate-store и ожидаемый P01 occupied-cell error проверяются отдельно
 от новых parse/compile/runtime ошибок. P03b/P04 и полный preview здесь не проверяются.
+
+## P03b — item snapshot/collection, редакция 1 (2026-09-13)
+
+В runner добавлены B01–B14 из P03B_ITEM_SNAPSHOT_TASK: roundtrip live/A/B и mutable
+identity, detached/ids/exhaustion, lifecycle 3×3/closed, links всех 7 stats/3 operations
+и malformed graph, exact capability, catalogue, чистые повторные descriptions.
+Включены literal fixture целого P03B envelope, high int64/Unicode/-0, semantic order,
+владение вложенными DTO и raw caps (граница/+1), alias/cycle/depth/value-node budget.
+Лимит owners 65536 проверен на уровне структуры: полный валидный граф с таким числом
+юнитов раньше ограничивает общий бюджет 2 млн values; boundary test не обходит его.
+
+Проверки ведущего: Godot 4.7.2 import/startup/tests exit 0, **1008 passed, 0 failed**
+(722 прежних + 286 новых assertions). Все 2197 прежних строк runner сохранены в порядке.
+В class cache есть пять новых global classes; новых parse/compile/runtime ошибок нет.
+Логи: `test_reports/p03b-{import,startup,tests}.log`; baseline, fixed hashes/diffs для
+независимого ревью — `test_reports/p03b-implementation-baseline*`, `p03b-review-*`.
+Результат независимого ревью и commit фиксируются в CODEX_HANDOFF.
+
+Проверка purity сравнивает UnitId напрямую без next/reset, stat cache/slots и P02 DTO,
+живые signals/subscriptions/provider после повторных capture/instantiate/collect.
+BUSY проверяется внутри item_added callback; mixed invalid/unsupported проверяет
+глобальный raw/live preflight. Restore call graph не содержит equip/activation,
+legacy load, create_item/create_runtime или add/remove_modifier.
+
+Known certificate-store и ожидаемый P01 occupied-cell error остаются известными.
+UI/ручной клик старого демо по-прежнему unverified. P03b не исполняет лечение, не
+подключает очередь/P04, RNG или полный preview; прежний fresh-equip regression сохранён.
