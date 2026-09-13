@@ -245,3 +245,35 @@ value descriptions heal в порядке stable effect ids. Он не лечи�
 не меняет stat cache/ids и не ведёт журнал доставки. Owner guard возвращает BUSY.
 External runtime caller декларирует явно; пустой список не доказывает общий C-3.
 Реальные HealCommand, очередь, RNG, полный preview и save-game остаются вне P03b.
+
+## P04 — очередь Damage / Heal / Death (2026-09-14)
+
+Реализован ограниченный headless-срез редакции 1 P04_ACTION_QUEUE_TASK. ActionContext
+удерживает прежний ItemSimulationState, обязательные RNG/value-sink порты и явные
+unsupported runtime ids. Root admission проходит P03b capture без restore/equip;
+общие busy/fault guards не позволяют второй очереди писать в тот же контекст.
+
+ActionQueue синхронно опустошает LIFO work stack: mandatory, затем отсортированные
+item reactions и явные test reactions, затем continuation. Каждое поддерево завершается
+до следующего sibling. Root/command/event sequences принадлежат контексту; revision
+меняется один раз на изменивший состояние шаг. Это не полный fingerprint боя.
+
+DamageCommand, HealCommand и DeathCommand используют общий ActionHpExecutor и Vitals.
+Damage учитывает только flat armor либо bypass; Death не имитирует удар. Общий finalize
+сохраняет труп в board registry, идемпотентно освобождает occupancy и формирует damaged
+перед died. Over-max/full/zero heal не вызывает Vitals.heal и не уменьшает HP.
+
+ItemReactionAdapter связывает копию P03b description с конкретными unit/owner/item/effect
+и immutable definition. Перед Heal повторно проверяются identity, ledger, placement,
+active/closed/alive; stale реакция становится SKIPPED, нарушенный invariant — FAULTED.
+Private binding удерживает ссылки только на время pending; value journal их не содержит.
+
+Лимиты команд/глубины останавливают цепь до следующей мутации. Event overflow сохраняет
+весь атомарный шаг (до двух events), затем fault latch запрещает новые roots. Выполненный
+prefix публикуется отдельными копиями после drain/fault, с guards до конца публикации.
+Нет rollback/reset; штатные ошибки явные, произвольные script exceptions не перехватываются.
+
+ActionRngPort fail-closed; concrete cursor RNG существует только в runner для проверки
+clone/roundtrip и двух независимых P03b состояний. HP-команды RNG не потребляют. Move,
+Attack, Push, ActionResources, полный preview/token, Flow, BT, новые статусы, экономика
+и save-game в этот срез не входят. Общие C-3/S-5 и этапы 0.5/0.8 остаются открытыми.

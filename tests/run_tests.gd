@@ -101,6 +101,19 @@ func _initialize() -> void:
 	_test_p03b_b13_purity()
 	_test_p03b_review_boundaries()
 
+	_suite("P04 action queue HP / RNG")
+	_test_p04_c01_damage_sources_and_armor()
+	_test_p04_c02_death_and_alive_at_zero()
+	_test_p04_c03_heal_boundaries_and_rejections()
+	_test_p04_c04_item_reactions()
+	_test_p04_c05_bindings()
+	_test_p04_c06_scheduler()
+	_test_p04_c07_reentrancy()
+	_test_p04_c08_dispatch_and_values()
+	_test_p04_c09_limits()
+	_test_p04_c10_faults_and_counters()
+	_test_p04_c11_rng_port_isolation()
+
 	print("\n=== %d passed, %d failed ===" % [_passed, _failed])
 	quit(1 if _failed > 0 else 0)
 
@@ -167,6 +180,54 @@ class _P03BItemDef extends ItemDef:
 
 class _P03BHealRuntime extends HealOnDamageEffectRuntime:
 	pass
+
+
+class P04TestRng extends ActionRngPort:
+	var cursors: Dictionary = {&"combat": 0, &"loot": 0}
+
+	func next_int(stream: StringName, upper_exclusive: int) -> int:
+		if stream not in [&"combat", &"loot"] or not cursors.has(stream) or upper_exclusive <= 0: return -1
+		var cursor: int = cursors[stream]
+		if cursor < 0 or cursor >= ActionContext.MAX_ID or cursor == ActionContext.MAX_ID - 1: return -1
+		cursors[stream] = cursor + 1
+		return cursor % upper_exclusive
+
+	func clone() -> ActionRngPort:
+		var result := P04TestRng.new()
+		result.cursors = cursors.duplicate()
+		return result
+
+	func to_dict() -> Dictionary:
+		return {"schema_version": 1, "streams": [{"name": "combat", "cursor": cursors[&"combat"]}, {"name": "loot", "cursor": cursors[&"loot"]}]}
+
+	func from_dict(data: Dictionary) -> bool:
+		if not ItemSimulationSnapshot._shape(data, {"schema_version": TYPE_INT, "streams": TYPE_ARRAY}) or data["schema_version"] != 1: return false
+		var fresh: Dictionary = {}
+		for row in data["streams"]:
+			if not ItemSimulationSnapshot._shape(row, {"name": TYPE_STRING, "cursor": TYPE_INT}): return false
+			var name := StringName(row["name"])
+			var cursor: int = row["cursor"]
+			if name not in [&"combat", &"loot"] or fresh.has(name) or cursor < 0 or cursor >= ActionContext.MAX_ID: return false
+			fresh[name] = cursor
+		if fresh.size() != 2: return false
+		cursors = fresh
+		return true
+
+
+class P04RandomDamageCommand extends Command:
+	var target_id: int
+	func _init(p_target_id: int) -> void: target_id = p_target_id
+	func get_kind() -> StringName: return &"p04_random_damage"
+	func copy_for_queue() -> Command: return P04RandomDamageCommand.new(target_id)
+	func validate(context: ActionContext) -> StringName:
+		return &"" if context != null and context.get_rng() != null else &"rng"
+	func execute(context: ActionContext) -> CommandStepResult:
+		var draw := context.get_rng().next_int(&"combat", 3)
+		if draw < 0: return CommandStepResult.faulted(&"rng")
+		var source := DamageSource.new(&"test", 0, Vector2i.ZERO, 0, 0)
+		var child := DamageCommand.new(DamageRequest.new(target_id, float(draw), &"physical", &"bypass", source))
+		var result := CommandStepResult.applied([], [child], [], null, true)
+		return result
 
 
 func _p03b_fixture() -> _P03BFixture:
@@ -2405,3 +2466,631 @@ func _test_p03b_review_boundaries() -> void:
 	_check(next != null and next_b != null and next.get_item_instance_id() == 11 and next_b.get_item_instance_id() == 11 and next.get_effects().is_empty() and owner._next_item_id == 12 and owner._next_effect_id == ItemOwnerState.MAX_ID, "B03 empty effects remain creatable with exhausted effect counter")
 	data["owners"][0]["items"][0]["effects"][0]["effect_instance_id"] = ItemOwnerState.MAX_ID
 	_check(ItemSimulationSnapshot.from_dict(data).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B06 effect sentinel cannot be an occurrence id")
+
+
+func _test_p04_fixture() -> Dictionary:
+	var board := BattleBoard.new(2, 1)
+	var stats := _make_stats(10.0, 100.0)
+	stats.set_base_value(StatTypes.StatType.ARMOR, 2.0)
+	var unit := _p02_unit(201, Vector2i.ZERO, stats)
+	# P04-приёмка использует HP_MAX=10, тогда как старая P02-фабрика намеренно создаёт HP=17.
+	unit.vitals.set_hp(10.0)
+	board.add_unit(unit)
+	var owner := ItemOwnerState.new(unit)
+	var inventory := InventoryState.new(owner)
+	var equipment := EquipmentState.new(owner)
+	var state := ItemSimulationState.new(board, [owner], [inventory], [equipment])
+	var rng := P04TestRng.new()
+	var context := ActionContext.new(state, rng, ActionEventSink.new(), [])
+	return {"state": state, "context": context, "rng": rng, "unit": unit, "owner": owner, "inventory": inventory, "equipment": equipment, "board": board}
+
+
+func _p04_submit(fixture: Dictionary, command: Command) -> ActionReceipt:
+	return ActionQueue.new().submit(command, fixture["context"])
+
+
+func _test_p04_c01_damage_sources_and_armor() -> void:
+	var f: Dictionary = _test_p04_fixture()
+	var unit := f["unit"] as UnitState
+	var source := DamageSource.new(&"cell", 7, Vector2i(2, 3), 0, 0)
+	unit.stats.set_base_value(StatTypes.StatType.STRENGTH, 100.0)
+	var balance_before := unit.vitals.get_balance()
+	var move_before := unit.move_points_left
+	var attacked_before := unit.has_attacked
+	var flat := _p04_submit(f, DamageCommand.new(DamageRequest.new(201, 5.0, &"physical", &"flat", source)))
+	_check(flat.status == &"APPLIED" and unit.vitals.get_hp() == 7.0 and flat.get_events()[0]["amount"] == 3.0, "C01 flat damage uses armor only, never STRENGTH")
+	_check(flat.get_events().size() == 1 and flat.get_events()[0]["source"]["origin_cell"] == Vector2i(2, 3), "C01 source value preserved")
+	_check(flat.get_events()[0]["source"]["kind"] == &"cell" and flat.get_events()[0]["source"]["instigator_unit_id"] == 0, "C01 cell source allows NONE ids")
+	var bypass := _p04_submit(f, DamageCommand.new(DamageRequest.new(201, 2.0, &"physical", &"bypass", source)))
+	_check(bypass.status == &"APPLIED" and unit.vitals.get_hp() == 5.0, "C01 bypass ignores armor")
+	var overkill := _p04_submit(f, DamageCommand.new(DamageRequest.new(201, 99.0, &"physical", &"bypass", source)))
+	_check(overkill.status == &"APPLIED" and overkill.get_events()[0]["amount"] == 5.0, "C01 actual overkill amount")
+	_check(unit.vitals.get_balance() == balance_before and unit.move_points_left == move_before and unit.has_attacked == attacked_before, "C01 no balance or action resource mutation")
+	var before: float = unit.vitals.get_hp()
+	var bad := _p04_submit(f, DamageCommand.new(DamageRequest.new(201, NAN, &"physical", &"bypass", source)))
+	_check(bad.status == &"REJECTED" and unit.vitals.get_hp() == before, "C01 invalid amount rejects atomically")
+
+
+func _test_p04_c02_death_and_alive_at_zero() -> void:
+	var f: Dictionary = _test_p04_fixture()
+	var unit := f["unit"] as UnitState
+	var board := f["board"] as BattleBoard
+	var source := DamageSource.new(&"test")
+	var died_count: Dictionary = {"value": 0}
+	unit.vitals.died.connect(func() -> void: died_count["value"] = int(died_count["value"]) + 1)
+	var version_before := board.board_version
+	var damage := _p04_submit(f, DamageCommand.new(DamageRequest.new(201, 10.0, &"physical", &"bypass", source)))
+	var events := damage.get_events()
+	_check(damage.status == &"APPLIED" and events.size() == 2 and events[0]["kind"] == &"damaged" and events[1]["kind"] == &"died", "C02 damage then died order")
+	_check(not unit.is_alive() and not board.is_occupied(unit.cell) and board.get_unit_by_id(201) == unit and int(died_count["value"]) == 1, "C02 one Vitals death clears occupancy and keeps corpse")
+	var version_after := board.board_version
+	board.clear_occupancy(unit)
+	_check(board.board_version == version_after and version_after > version_before, "C02 cleanup is idempotent")
+	var repeat := _p04_submit(f, DeathCommand.new(201, source))
+	_check(repeat.status == &"REJECTED" and repeat.root_id == 0, "C02 corpse root rejected")
+	var child_f: Dictionary = _test_p04_fixture()
+	var child_root := P04Work.new(&"lethal_with_corpse_child", func(context: ActionContext) -> CommandStepResult:
+		var step := ActionHpExecutor.damage(DamageRequest.new(201, 10.0, &"physical", &"bypass", source), context)
+		step.mandatory.append(DeathCommand.new(201, source))
+		return step)
+	var child_result := _p04_submit(child_f, child_root)
+	_check(child_result.status == &"APPLIED" and child_result.get_steps().size() == 2 and child_result.get_steps()[1]["status"] == &"SKIPPED" and child_result.get_steps()[1]["reason"] == &"dead_target", "C02 corpse HP child is skipped after one death")
+	var zero_f: Dictionary = _test_p04_fixture()
+	var zero_unit := zero_f["unit"] as UnitState
+	zero_unit.vitals.set_hp(0.0)
+	var lethal := _p04_submit(zero_f, DeathCommand.new(201, source))
+	_check(lethal.status == &"APPLIED" and lethal.get_events().size() == 1 and lethal.get_events()[0]["kind"] == &"died", "C02 alive-at-zero death transition")
+
+
+func _test_p04_c03_heal_boundaries_and_rejections() -> void:
+	var f: Dictionary = _test_p04_fixture()
+	var unit := f["unit"] as UnitState
+	var context := f["context"] as ActionContext
+	var rng := f["rng"] as P04TestRng
+	var source := DamageSource.new(&"test")
+	_p04_submit(f, DamageCommand.new(DamageRequest.new(201, 6.0, &"physical", &"bypass", source)))
+	var partial := _p04_submit(f, HealCommand.new(201, 2.0, source))
+	_check(partial.status == &"APPLIED" and unit.vitals.get_hp() == 6.0 and partial.get_events()[0]["amount"] == 2.0, "C03 partial heal reports actual amount")
+	var heal := _p04_submit(f, HealCommand.new(201, 20.0, source))
+	_check(heal.status == &"APPLIED" and unit.vitals.get_hp() == 10.0 and heal.get_events()[0]["amount"] == 4.0, "C03 heal reports actual clamp")
+	var full := _p04_submit(f, HealCommand.new(201, 2.0, source))
+	_check(full.status == &"APPLIED" and full.get_events().is_empty() and context.get_revision() == 3, "C03 full heal is no-op")
+	var overmax_f: Dictionary = _test_p04_fixture()
+	var overmax_unit := overmax_f["unit"] as UnitState
+	overmax_unit.vitals = Vitals.from_dict({"hp": 15.0, "balance": 3.0, "is_alive": true}, overmax_unit.stats)
+	var overmax := _p04_submit(overmax_f, HealCommand.new(201, 2.0, source))
+	_check(overmax.status == &"APPLIED" and overmax_unit.vitals.get_hp() == 15.0 and overmax.get_events().is_empty(), "C03 over-max heal preserves HP as no-op")
+	var dead: Dictionary = _test_p04_fixture()
+	_p04_submit(dead, DeathCommand.new(201, source))
+	var dead_heal := _p04_submit(dead, HealCommand.new(201, 2.0, source))
+	_check(dead_heal.status == &"REJECTED" and (dead["unit"] as UnitState).vitals.get_hp() == 0.0, "C03 dead unit is not revived")
+	var zero_damage: Dictionary = _test_p04_fixture()
+	var zero := _p04_submit(zero_damage, DamageCommand.new(DamageRequest.new(201, 0.0, &"physical", &"bypass", source)))
+	var zero_heal := _p04_submit(zero_damage, HealCommand.new(201, 0.0, source))
+	_check(zero.status == &"APPLIED" and zero.get_events().is_empty() and zero_heal.get_events().is_empty(), "C03 zero damage and heal are no-op")
+	var invalids: Array[Command] = [
+		DamageCommand.new(DamageRequest.new(201, INF, &"physical", &"bypass", source)),
+		HealCommand.new(201, NAN, source),
+		DamageCommand.new(DamageRequest.new(201, 1.0, &"unknown", &"bypass", source)),
+		DamageCommand.new(DamageRequest.new(201, 1.0, &"physical", &"unknown", source)),
+		HealCommand.new(999, 1.0, source),
+		DamageCommand.new(DamageRequest.new(0, 1.0, &"physical", &"bypass", source)),
+		DamageCommand.new(DamageRequest.new(201, 1.0, &"physical", &"bypass", DamageSource.new(&"unknown")))
+	]
+	for candidate: Command in invalids:
+		var hp_before := unit.vitals.to_dict()
+		var stats_before := unit.stats.to_snapshot_dict()
+		var rng_before := rng.to_dict()
+		var counters_before := [context._next_root_id, context._next_command_seq, context._next_event_seq, context.get_revision()]
+		var rejected := _p04_submit(f, candidate)
+		_check(rejected.status == &"REJECTED" and unit.vitals.to_dict() == hp_before and unit.stats.to_snapshot_dict() == stats_before and rng.to_dict() == rng_before and [context._next_root_id, context._next_command_seq, context._next_event_seq, context.get_revision()] == counters_before, "C03 invalid payload preserves state, cache, counters and RNG")
+	var negative_armor: Dictionary = _test_p04_fixture()
+	(negative_armor["unit"] as UnitState).stats.set_base_value(StatTypes.StatType.ARMOR, -3.0)
+	var negative_result := _p04_submit(negative_armor, DamageCommand.new(DamageRequest.new(201, 2.0, &"physical", &"flat", source)))
+	_check(negative_result.status == &"APPLIED" and (negative_armor["unit"] as UnitState).vitals.get_hp() == 5.0, "C03 negative armor retains flat formula")
+	var overflow_armor: Dictionary = _test_p04_fixture()
+	(overflow_armor["unit"] as UnitState).stats.set_base_value(StatTypes.StatType.ARMOR, INF)
+	var overflow := _p04_submit(overflow_armor, DamageCommand.new(DamageRequest.new(201, 2.0, &"physical", &"flat", source)))
+	_check(overflow.status == &"REJECTED" and (overflow_armor["unit"] as UnitState).vitals.get_hp() == 10.0, "C03 non-finite armor rejects before mutator")
+
+
+func _test_p04_c04_item_reactions() -> void:
+	var f: Dictionary = _test_p04_reaction_fixture(1.5)
+	var state := f["state"] as ItemSimulationState
+	var first := f["first"] as UnitState
+	var second := f["second"] as UnitState
+	var first_owner := f["first_owner"] as ItemOwnerState
+	var first_a := f["first_a"] as ItemInstance
+	var first_b := f["first_b"] as ItemInstance
+	var context := ActionContext.new(state, P04TestRng.new(), ActionEventSink.new(), [])
+	var source := DamageSource.new(&"test")
+	var next_ids := [first_owner._next_item_id, first_owner._next_effect_id]
+	var strength_before := first.get_stat(StatTypes.StatType.STRENGTH)
+	var receipt := ActionQueue.new().submit(DamageCommand.new(DamageRequest.new(201, 3.0, &"physical", &"bypass", source)), context)
+	var events := receipt.get_events()
+	var steps := receipt.get_steps()
+	_check(receipt.status == &"APPLIED" and steps.size() == 3 and steps[1]["kind"] == &"heal" and steps[2]["kind"] == &"heal", "C04 exactly two queued heals for two item copies")
+	_check(events.size() == 3 and events[0]["kind"] == &"damaged" and events[1]["kind"] == &"healed" and events[2]["kind"] == &"healed" and events[1]["parent_event_seq"] == events[0]["event_seq"] and events[2]["parent_event_seq"] == events[0]["event_seq"], "C04 damage then ordered heal events preserve parent sequence")
+	_check(events[1]["source"]["source_instance_id"] == first_a.get_item_instance_id() and events[2]["source"]["source_instance_id"] == first_b.get_item_instance_id(), "C04 reaction order follows item/effect identity")
+	_check(first.vitals.get_hp() == 10.0 and second.vitals.get_hp() == 10.0 and first.get_stat(StatTypes.StatType.STRENGTH) == strength_before and [first_owner._next_item_id, first_owner._next_effect_id] == next_ids, "C04 only damaged owner heals and modifiers/ids remain unchanged")
+	var lethal_f: Dictionary = _test_p04_reaction_fixture(1.5)
+	var lethal_context := ActionContext.new(lethal_f["state"] as ItemSimulationState, P04TestRng.new(), ActionEventSink.new(), [])
+	var lethal := ActionQueue.new().submit(DamageCommand.new(DamageRequest.new(201, 99.0, &"physical", &"bypass", source)), lethal_context)
+	_check(lethal.status == &"APPLIED" and lethal.get_steps().size() == 1 and lethal.get_events().size() == 2 and lethal.get_events()[1]["kind"] == &"died", "C04 lethal damage queues no healing reaction")
+	var zero_f: Dictionary = _test_p04_reaction_fixture(0.0)
+	var zero_context := ActionContext.new(zero_f["state"] as ItemSimulationState, P04TestRng.new(), ActionEventSink.new(), [])
+	var zero := ActionQueue.new().submit(DamageCommand.new(DamageRequest.new(201, 1.0, &"physical", &"bypass", source)), zero_context)
+	_check(zero.status == &"APPLIED" and zero.get_steps().size() == 3 and zero.get_steps()[1]["status"] == &"APPLIED" and zero.get_steps()[2]["status"] == &"APPLIED" and zero.get_events().size() == 1, "C04 zero-heal effects retain explicit no-op steps")
+
+
+func _test_p04_reaction_fixture(heal_amount: float) -> Dictionary:
+	var board := BattleBoard.new(2, 1)
+	var first_stats := _make_stats(10.0, 100.0)
+	first_stats.set_base_value(StatTypes.StatType.STRENGTH, 3.0)
+	var second_stats := _make_stats(10.0, 100.0)
+	second_stats.set_base_value(StatTypes.StatType.STRENGTH, 3.0)
+	var first := _p02_unit(201, Vector2i.ZERO, first_stats)
+	var second := _p02_unit(202, Vector2i(1, 0), second_stats)
+	first.vitals.set_hp(10.0)
+	second.vitals.set_hp(10.0)
+	board.add_unit(first)
+	board.add_unit(second)
+	var definition := ItemDef.new()
+	definition.id = &"p04_shared_reaction"
+	var modifier := StatModifierEffect.new()
+	modifier.stat_type = StatTypes.StatType.STRENGTH
+	modifier.operation = StatModifier.Operation.ADD_FLAT
+	modifier.value = 2.0
+	var heal := HealOnDamageEffect.new()
+	heal.trigger_event = TriggeredEffect.TriggerEvent.UNIT_DAMAGED
+	heal.heal_amount = heal_amount
+	definition.effects = [modifier, heal]
+	var first_owner := ItemOwnerState.new(first)
+	var second_owner := ItemOwnerState.new(second)
+	var first_inventory := InventoryState.new(first_owner)
+	var second_inventory := InventoryState.new(second_owner)
+	var first_equipment := EquipmentState.new(first_owner)
+	var second_equipment := EquipmentState.new(second_owner)
+	var first_a := first_owner.create_item(definition)
+	var first_b := first_owner.create_item(definition)
+	var other := second_owner.create_item(definition)
+	_check(first_a != null and first_b != null and other != null and first_inventory.add_item(first_a) and first_inventory.add_item(first_b) and second_inventory.add_item(other), "C04 fixture creates active shared-definition items")
+	var state := ItemSimulationState.new(board, [first_owner, second_owner], [first_inventory, second_inventory], [first_equipment, second_equipment])
+	return {"state": state, "first": first, "second": second, "first_owner": first_owner, "first_a": first_a, "first_b": first_b}
+
+
+func _test_p04_c11_rng_port_isolation() -> void:
+	var base := ActionRngPort.new()
+	_check(base.next_int(&"combat", 2) == -1 and base.clone() == null and base.to_dict().is_empty() and not base.from_dict({}), "C11 base RNG fails closed")
+	var rng := P04TestRng.new()
+	var initial := rng.to_dict()
+	_check(typeof(initial["streams"][0]["name"]) == TYPE_STRING and initial["streams"][0]["name"] == "combat" and typeof(initial["streams"][0]["cursor"]) == TYPE_INT, "C11 RNG DTO uses exact String names and integer cursors")
+	_check(rng.next_int(&"combat", 4) == 0 and rng.next_int(&"loot", 4) == 0, "C11 deterministic streams")
+	var clone := rng.clone() as P04TestRng
+	var clone_before := clone.to_dict()
+	clone.next_int(&"combat", 4)
+	_check(clone != rng and clone_before == rng.to_dict() and clone.to_dict() != rng.to_dict(), "C11 clone owns independent mutable cursors")
+	var shuffled: Dictionary = {"streams": [{"cursor": 4, "name": "loot"}, {"cursor": 3, "name": "combat"}], "schema_version": 1}
+	_check(rng.from_dict(shuffled) and rng.to_dict()["streams"][0]["name"] == "combat" and rng.to_dict()["streams"][1]["name"] == "loot", "C11 valid shuffled import normalizes stream order")
+	shuffled["streams"][0]["cursor"] = 99
+	_check(rng.to_dict()["streams"][1]["cursor"] == 4, "C11 import never aliases caller DTO")
+	var invalid_inputs: Array[Dictionary] = [
+		{}, {"schema_version": 2, "streams": []}, {"schema_version": 1, "streams": [{"name": "combat", "cursor": 1}]},
+		{"schema_version": 1, "extra": true, "streams": [{"name": "combat", "cursor": 1}, {"name": "loot", "cursor": 2}]},
+		{"schema_version": 1, "streams": [{"name": "combat", "cursor": 1, "extra": true}, {"name": "loot", "cursor": 2}]},
+		{"schema_version": 1, "streams": [{"name": "combat", "cursor": 1}, {"name": "combat", "cursor": 2}]},
+		{"schema_version": 1, "streams": [{"name": "other", "cursor": 1}, {"name": "loot", "cursor": 2}]},
+		{"schema_version": 1, "streams": [{"name": &"combat", "cursor": 1}, {"name": "loot", "cursor": 2}]},
+		{"schema_version": 1, "streams": [{"name": "combat", "cursor": -1}, {"name": "loot", "cursor": 2}]},
+		{"schema_version": 1, "streams": [{"name": "combat", "cursor": "1"}, {"name": "loot", "cursor": 2}]},
+		{"schema_version": 1, "streams": [{"name": "combat", "cursor": ActionContext.MAX_ID}, {"name": "loot", "cursor": 2}]}
+	]
+	for malformed: Dictionary in invalid_inputs:
+		var preserved := rng.to_dict()
+		_check(not rng.from_dict(malformed) and rng.to_dict() == preserved, "C11 invalid import preserves state")
+	var overflow_data: Dictionary = {"schema_version": 1, "streams": [{"name": "combat", "cursor": ActionContext.MAX_ID - 1}, {"name": "loot", "cursor": 2}]}
+	_check(rng.from_dict(overflow_data) and rng.next_int(&"combat", 2) == -1 and rng.to_dict()["streams"][0]["cursor"] == ActionContext.MAX_ID - 1, "C11 overflow draw fails without mutation")
+	var invalid_draw_before := rng.to_dict()
+	_check(rng.next_int(&"missing", 2) == -1 and rng.next_int(&"loot", 0) == -1 and rng.to_dict() == invalid_draw_before, "C11 invalid draws do not mutate")
+	var f: Dictionary = _test_p04_fixture()
+	var f_context := f["context"] as ActionContext
+	var f_rng := f["rng"] as P04TestRng
+	f_rng.from_dict({"schema_version": 1, "streams": [{"name": "combat", "cursor": 1}, {"name": "loot", "cursor": 0}]})
+	var receipt := ActionQueue.new().submit(P04RandomDamageCommand.new(201), f_context)
+	_check(receipt.status == &"APPLIED" and receipt.get_steps().size() == 2 and f_rng.cursors[&"combat"] == 2 and f_rng.cursors[&"loot"] == 0 and (f["unit"] as UnitState).vitals.get_hp() == 9.0, "C11 random child consumes only combat and applies its draw")
+	var no_draw_before := f_rng.to_dict()
+	var normal := ActionQueue.new().submit(DamageCommand.new(DamageRequest.new(201, 0.0, &"physical", &"bypass", DamageSource.new(&"test"))), f_context)
+	var rejected := ActionQueue.new().submit(DamageCommand.new(DamageRequest.new(201, NAN, &"physical", &"bypass", DamageSource.new(&"test"))), f_context)
+	var skipped := ActionQueue.new().submit(P04Work.new(&"skip_rng", func(_context: ActionContext) -> CommandStepResult: return CommandStepResult.skipped(&"fixture_skip")), f_context)
+	_check(normal.status == &"APPLIED" and rejected.status == &"REJECTED" and skipped.status == &"APPLIED" and f_rng.to_dict() == no_draw_before, "C11 HP/no-op/rejected/skipped commands do not draw")
+	var p03 := _p03b_fixture()
+	var captured := ItemSimulationSnapshot.capture(p03.state, [])
+	var first := captured.snapshot.instantiate(_p03b_catalogue(p03.definition)).state
+	var second := captured.snapshot.instantiate(_p03b_catalogue(p03.definition)).state
+	var seed := P04TestRng.new()
+	seed.from_dict({"schema_version": 1, "streams": [{"name": "combat", "cursor": 1}, {"name": "loot", "cursor": 7}]})
+	var first_rng := seed.clone() as P04TestRng
+	var second_rng := seed.clone() as P04TestRng
+	var first_context := ActionContext.new(first, first_rng, ActionEventSink.new(), [])
+	var second_context := ActionContext.new(second, second_rng, ActionEventSink.new(), [])
+	var live_bytes := captured.snapshot.canonical_bytes()
+	var live_hp := p03.state.get_board().get_unit_by_id(101).vitals.get_hp()
+	var first_receipt := ActionQueue.new().submit(P04RandomDamageCommand.new(101), first_context)
+	_check(ItemSimulationSnapshot.capture(second, []).snapshot.canonical_bytes() == live_bytes and second_rng.to_dict() == seed.to_dict(), "C11 first execution leaves second state and RNG untouched")
+	var second_receipt := ActionQueue.new().submit(P04RandomDamageCommand.new(101), second_context)
+	_check(first_receipt.status == &"APPLIED" and first_receipt.get_steps().size() > 1 and first_receipt.get_events()[0]["kind"] == &"damaged" and first_receipt.get_events() == second_receipt.get_events() and first_context.get_revision() == second_context.get_revision() and first_rng.to_dict() == second_rng.to_dict() and first_rng.to_dict()["streams"][1]["cursor"] == 7, "C11 cloned RNG drives equal random-child P03b outcomes without loot draw")
+	_check(ItemSimulationSnapshot.capture(p03.state, []).snapshot.canonical_bytes() == live_bytes and p03.state.get_board().get_unit_by_id(101).vitals.get_hp() == live_hp, "C11 live P03b state remains unchanged")
+	_check(ItemSimulationSnapshot.capture(first, []).snapshot.canonical_bytes() == ItemSimulationSnapshot.capture(second, []).snapshot.canonical_bytes() and first_receipt.get_steps() == second_receipt.get_steps() and [first_context._next_root_id, first_context._next_command_seq, first_context._next_event_seq] == [second_context._next_root_id, second_context._next_command_seq, second_context._next_event_seq], "C11 full outcome, step trace and all counters match")
+	_test_p04_remaining_edges()
+
+
+# P04: доверенная scheduler fixture хранит callbacks только локально, вне value DTO.
+class P04Work extends Command:
+	var label: StringName
+	var action: Callable
+	var validation: Callable
+	var copying: Callable
+	func _init(name: StringName = &"probe", body: Callable = Callable()) -> void:
+		label = name
+		action = body
+	func get_kind() -> StringName: return label
+	func copy_for_queue() -> Command:
+		if copying.is_valid(): copying.call()
+		var copy := P04Work.new(label, action)
+		copy.validation = validation
+		copy.copying = copying
+		return copy
+	func validate(context: ActionContext) -> StringName:
+		return validation.call(context) if validation.is_valid() else &""
+	func execute(context: ActionContext) -> CommandStepResult:
+		return action.call(context) if action.is_valid() else CommandStepResult.applied()
+
+class P04HookSink extends ActionEventSink:
+	var events: Array[Dictionary] = []
+	var hook: Callable
+	func publish(event: Dictionary) -> void:
+		events.append(event.duplicate(true))
+		if hook.is_valid(): hook.call(event)
+
+func _test_p04_hp(target: int = 201, amount: float = 1.0) -> DamageCommand:
+	return DamageCommand.new(DamageRequest.new(target, amount, &"physical", &"bypass", DamageSource.new(&"cell")))
+
+func _test_p04_with_heal() -> Dictionary:
+	var f := _test_p04_fixture()
+	var definition := _p3_def(&"p04_binding", [HealOnDamageEffect.new()])
+	var owner: ItemOwnerState = f.owner
+	var item := owner.create_item(definition)
+	var inventory: InventoryState = f.inventory
+	inventory.add_item(item)
+	f["definition"] = definition
+	f["item"] = item
+	return f
+
+func _test_p04_mutation(f: Dictionary, mode: String) -> void:
+	var unit: UnitState = f.unit
+	var board: BattleBoard = f.board
+	var owner: ItemOwnerState = f.owner
+	var item: ItemInstance = f.item
+	var inventory: InventoryState = f.inventory
+	var effect := item.get_effects()[0]
+	match mode:
+		"detach": inventory.remove_item(item)
+		"reactivate":
+			inventory.remove_item(item)
+			inventory.add_item(item)
+		"close_facade": inventory.close()
+		"close_owner": owner.close()
+		"kill": unit.vitals.apply_damage(100.0)
+		"remove_unit": board.remove_unit(unit)
+		"replace_unit":
+			board.remove_unit(unit)
+			var replacement := _p02_unit(unit.id, unit.cell, _make_stats(10.0, 100.0))
+			board.add_unit(replacement)
+		"remove_item": owner._items.erase(item.get_item_instance_id())
+		"replace_item": owner._items[item.get_item_instance_id()] = ItemInstance.new(item.get_definition(), unit.id, item.get_item_instance_id(), item.get_effects())
+		"remove_effect": item._effects.clear()
+		"replace_effect": item._effects[0] = HealOnDamageEffectRuntime.new(unit.id, item.get_item_instance_id(), effect.get_effect_instance_id(), 0, 1.0, TriggeredEffect.TriggerEvent.UNIT_DAMAGED)
+		"replace_definition": item._definition = _p3_def(&"p04_binding", [HealOnDamageEffect.new()])
+		"mutate_definition": (f.definition.effects[0] as HealOnDamageEffect).heal_amount = 7.0
+		"guard": owner._guard = true
+		"ledger": owner._placements[item.get_item_instance_id()] = 999
+		"duplicate_effect": item._effects.append(effect)
+		"inactive": effect._set_active(false)
+
+func _test_p04_c05_bindings() -> void:
+	for mode: String in ["detach", "reactivate", "close_facade", "close_owner", "kill", "remove_unit", "replace_unit", "remove_item", "replace_item", "remove_effect", "replace_effect", "replace_definition", "mutate_definition", "guard", "ledger", "duplicate_effect", "inactive"]:
+		var f := _test_p04_with_heal()
+		var child := P04Work.new(&"mutation", func(_context: ActionContext) -> CommandStepResult:
+			_test_p04_mutation(f, mode)
+			return CommandStepResult.applied([], [], [], null, true))
+		var root := P04Work.new(&"damage_fixture", func(context: ActionContext) -> CommandStepResult:
+			var result := ActionHpExecutor.damage(_test_p04_hp().request, context)
+			result.mandatory.append(child)
+			return result)
+		var receipt := ActionQueue.new().submit(root, f.context)
+		var steps := receipt.get_steps()
+		var fault := mode in ["mutate_definition", "guard", "ledger", "duplicate_effect"]
+		_check(steps.size() == 3, "C05 pending binding reaches execute " + mode)
+		if steps.size() == 3:
+			_check(steps[2]["status"] == (&"FAULTED" if fault else (&"APPLIED" if mode == "reactivate" else &"SKIPPED")), "C05 stale versus invariant " + mode)
+			if not fault and mode != "reactivate": _check(steps[2]["reason"] == &"stale_reaction", "C05 exact stale reason " + mode)
+		_check(receipt.status == (&"FAULTED" if fault else &"APPLIED"), "C05 receipt " + mode)
+		_check(receipt.get_events().size() == (2 if mode == "reactivate" else 1), "C05 no stale HP events " + mode)
+		_check(f.rng.to_dict()["streams"][0]["cursor"] == 0, "C05 skipped/fault binding no draws " + mode)
+		f.owner._guard = false
+	# Прямой private seam: описание уже принято, caller не может заменить его amount.
+	var f := _test_p04_with_heal()
+	var descriptions := ItemReactionCollector.collect_damage(f.state, {"event_seq": 1, "target_unit_id": 201, "dealt": 1.0}).descriptions
+	var bound := ItemReactionAdapter.bind(descriptions[0], f.context)
+	descriptions[0]["heal_amount"] = 999.0
+	_check(bound != null and bound.amount == 1.0 and ItemReactionAdapter.revalidate(bound._reaction_binding, f.context) == &"", "C05 private binding owns description")
+
+func _test_p04_node(name: StringName, children: Array[Command] = [], reactions: Array[Command] = [], continuation: Command = null) -> P04Work:
+	return P04Work.new(name, func(_context: ActionContext) -> CommandStepResult:
+		return CommandStepResult.applied([], children, reactions, continuation))
+
+func _test_p04_c06_scheduler() -> void:
+	var a := _test_p04_node(&"A", [_test_p04_node(&"A1")])
+	var r1 := _test_p04_node(&"R1", [_test_p04_node(&"R1a")])
+	var root := _test_p04_node(&"root", [a, _test_p04_node(&"B")], [r1, _test_p04_node(&"R2")], _test_p04_node(&"K"))
+	var f := _test_p04_fixture()
+	var receipt := ActionQueue.new().submit(root, f.context)
+	var trace: Array = []
+	for step in receipt.get_steps(): trace.append(step["kind"])
+	_check(receipt.status == &"APPLIED" and trace == [&"root", &"A", &"A1", &"B", &"R1", &"R1a", &"R2", &"K"], "C06 complete depth-first order")
+	_check(receipt.revision_after == 0 and receipt.get_events().is_empty(), "C06 no-op tree does not change revision")
+	var original := _p03b_fixture()
+	var snapshot := _p03b_capture(original).snapshot
+	var states: Array[ItemSimulationState] = [snapshot.instantiate(_p03b_catalogue(original.definition)).state, snapshot.instantiate(_p03b_catalogue(original.definition)).state]
+	states[1]._owners.reverse()
+	for owner in states[1].get_owners():
+		var reversed: Dictionary = {}
+		var keys := owner._items.keys()
+		keys.reverse()
+		for key: int in keys: reversed[key] = owner._items[key]
+		owner._items = reversed
+	var receipts: Array[ActionReceipt] = []
+	for state in states:
+		receipts.append(ActionQueue.new().submit(_test_p04_hp(101, 3.0), ActionContext.new(state, P04TestRng.new(), ActionEventSink.new(), [])))
+	_check(receipts[0].get_steps() == receipts[1].get_steps() and receipts[0].get_events() == receipts[1].get_events(), "C06 shuffled owners/items have identical traces")
+
+func _test_p04_c07_reentrancy() -> void:
+	var f := _test_p04_fixture()
+	var independent := _test_p04_fixture()
+	var context: ActionContext = f.context
+	var queue := ActionQueue.new()
+	var other := ActionQueue.new()
+	var seen: Array[StringName] = []
+	var probe := func() -> void:
+		seen.append(queue.submit(_test_p04_hp(), context).reason)
+		seen.append(other.submit(_test_p04_hp(), context).reason)
+	var root := P04Work.new(&"root", func(c: ActionContext) -> CommandStepResult:
+		probe.call()
+		var outside := other.submit(HealCommand.new(201, 0.0, DamageSource.new(&"test")), independent.context)
+		_check(outside.status == &"APPLIED", "C07 independent context accepted while outer executes")
+		return ActionHpExecutor.damage(_test_p04_hp().request, c))
+	root.copying = probe
+	root.validation = func(_c: ActionContext) -> StringName:
+		probe.call()
+		return &""
+	var signal_hook := func(_before: float, _after: float) -> void: probe.call()
+	f.unit.vitals.hp_changed.connect(signal_hook)
+	var sink := P04HookSink.new()
+	sink.hook = func(_event: Dictionary) -> void: probe.call()
+	context._sink = sink
+	var receipt := queue.submit(root, context)
+	_check(seen.size() == 10, "C07 copy/validate/execute/Vitals/sink nested submits all tested")
+	for status in seen: _check(status == &"BUSY", "C07 nested submit is BUSY")
+	_check(receipt.status == &"APPLIED" and receipt.get_steps().size() == 1 and receipt.get_events().size() == 1 and context._next_root_id == 2 and context._next_command_seq == 2 and context._next_event_seq == 2, "C07 outer journal and counters intact")
+	f.unit.vitals.hp_changed.disconnect(signal_hook)
+	sink.hook = Callable()
+	root.action = Callable()
+	root.validation = Callable()
+	root.copying = Callable()
+
+func _test_p04_c08_dispatch_and_values() -> void:
+	var f := _test_p04_with_heal()
+	var queue := ActionQueue.new()
+	var replay := P04Work.new(&"replay", func(context: ActionContext) -> CommandStepResult:
+		_check(queue._dispatch_event({"event_seq": 1}, context).is_empty(), "C08 processed event replay is no-op")
+		return CommandStepResult.applied())
+	var root := P04Work.new(&"damage_fixture", func(context: ActionContext) -> CommandStepResult:
+		var result := ActionHpExecutor.damage(_test_p04_hp().request, context)
+		result.mandatory.append(replay)
+		return result)
+	var receipt := queue.submit(root, f.context)
+	_check(receipt.status == &"APPLIED" and receipt.get_steps().size() == 3 and receipt.get_events().size() == 2, "C08 replay never schedules another heal")
+	var next := queue.submit(_test_p04_hp(), f.context)
+	_check(next.get_steps().size() == 2 and next.get_events()[1]["parent_event_seq"] == 3, "C08 new root/event triggers same effect")
+	var one_root := _test_p04_with_heal()
+	var two_damage_root := _test_p04_node(&"two_damage_roots", [_test_p04_hp(), _test_p04_hp()])
+	var two_damage_receipt := ActionQueue.new().submit(two_damage_root, one_root.context)
+	var two_damage_events := two_damage_receipt.get_events()
+	_check(two_damage_receipt.status == &"APPLIED" and two_damage_receipt.get_steps().size() == 5 and two_damage_events.size() == 4 and two_damage_events[0]["kind"] == &"damaged" and two_damage_events[1]["kind"] == &"healed" and two_damage_events[2]["kind"] == &"damaged" and two_damage_events[3]["kind"] == &"healed" and two_damage_events[1]["parent_event_seq"] == two_damage_events[0]["event_seq"] and two_damage_events[3]["parent_event_seq"] == two_damage_events[2]["event_seq"], "C08 one effect fires once for each distinct damage event in one root")
+	var duplicate_f := _test_p04_with_heal()
+	var duplicate_queue := ActionQueue.new()
+	var duplicate := P04Work.new(&"duplicate", func(context: ActionContext) -> CommandStepResult:
+		var result := ActionHpExecutor.damage(_test_p04_hp().request, context)
+		var d := ItemReactionCollector.collect_damage(context.get_state(), {"event_seq": 1, "target_unit_id": 201, "dealt": 1.0}).descriptions
+		duplicate_queue._bind_batch([d[0], d[0]], 1, context)
+		return result)
+	var failed := duplicate_queue.submit(duplicate, duplicate_f.context)
+	_check(failed.status == &"FAULTED" and failed.reason == &"duplicate_reaction_key" and failed.get_events().size() == 1, "C08 duplicate key in new batch faults with damage prefix")
+	var values := _test_p04_fixture()
+	var source := DamageSource.new(&"cell", 8, Vector2i(1, 2))
+	var request := DamageRequest.new(201, 2.0, &"physical", &"bypass", source)
+	var damage := DamageCommand.new(request)
+	request.amount = 9.0
+	source.kind = &"invalid"
+	var mutate := P04Work.new(&"mutate_caller", func(_c: ActionContext) -> CommandStepResult:
+		damage.request.amount = 9.0
+		return CommandStepResult.applied())
+	var sink := P04HookSink.new()
+	sink.hook = func(event: Dictionary) -> void: event["source"]["kind"] = &"changed"
+	values.context._sink = sink
+	var value_receipt := ActionQueue.new().submit(_test_p04_node(&"root", [mutate, damage]), values.context)
+	_check(values.unit.vitals.get_hp() == 8.0 and value_receipt.get_events()[0]["source"]["kind"] == &"cell", "C08 queued payload/source and sink copy isolated")
+	var events := value_receipt.get_events()
+	events[0]["source"]["kind"] = &"receipt_mutation"
+	var steps := value_receipt.get_steps()
+	steps[0]["kind"] = &"receipt_mutation"
+	_check(value_receipt.get_events()[0]["source"]["kind"] == &"cell" and value_receipt.get_steps()[0]["kind"] == &"root" and sink.events[0]["source"]["kind"] == &"cell", "C08 receipt getters recursively copy events and steps")
+	sink.hook = Callable()
+
+func _test_p04_chain(length: int) -> Command:
+	return P04Work.new(&"chain", func(_context: ActionContext) -> CommandStepResult:
+		return CommandStepResult.applied([], [], [], _test_p04_chain(length - 1) if length != 1 else null))
+
+func _test_p04_c09_limits() -> void:
+	for length: int in [3, 4]:
+		var f := _test_p04_fixture()
+		var queue := ActionQueue.new(3, 8, 8)
+		var r := queue.submit(_test_p04_chain(length), f.context)
+		_check(r.status == (&"APPLIED" if length == 3 else &"FAULTED") and r.get_steps().size() == 3, "C09 command boundary/+1 %d" % length)
+		if length == 4:
+			_check(r.reason == &"command_limit" and queue._pending.is_empty() and not f.context.is_busy(), "C09 pending cleared and guards released")
+			_check(ActionQueue.new().submit(_test_p04_hp(), f.context).reason == &"CONTEXT_FAULTED", "C09 other queue cannot bypass context latch")
+			_check(queue.submit(_test_p04_hp(), _test_p04_fixture().context).reason == &"CONTEXT_FAULTED", "C09 queue latch survives context replacement")
+	for length: int in [3, 4]:
+		var r := ActionQueue.new(8, 8, 2).submit(_test_p04_chain(length), _test_p04_fixture().context)
+		_check(r.status == (&"APPLIED" if length == 3 else &"FAULTED") and r.get_steps().size() == 3, "C09 root depth0 boundary/+1 %d" % length)
+		if length == 4: _check(r.reason == &"depth_limit", "C09 depth fault reason")
+	var cycle_f := _test_p04_fixture()
+	var cycle := ActionQueue.new(4096, 8192, 3).submit(_test_p04_chain(0), cycle_f.context)
+	_check(cycle.status == &"FAULTED" and cycle.reason == &"depth_limit" and cycle.get_steps().size() == 4, "C09 unbounded continuation terminates without recursion")
+	for limit: int in [3, 4]:
+		var skipped_f := _test_p04_fixture()
+		var corpse_sequence := _test_p04_node(&"corpse_sequence", [DeathCommand.new(201, DamageSource.new(&"test")), DamageCommand.new(DamageRequest.new(201, 1.0, &"physical", &"bypass", DamageSource.new(&"test"))), HealCommand.new(201, 1.0, DamageSource.new(&"test"))])
+		var skipped_limit := ActionQueue.new(limit, 8, 8).submit(corpse_sequence, skipped_f.context)
+		_check(skipped_limit.status == (&"FAULTED" if limit == 3 else &"APPLIED") and skipped_limit.get_steps().size() == limit and skipped_limit.get_steps()[2]["status"] == &"SKIPPED", "C09 skipped corpse child consumes command budget %d" % limit)
+	for event_limit: int in [1, 2]:
+		var f := _test_p04_fixture()
+		var sink := P04HookSink.new()
+		f.context._sink = sink
+		var r := ActionQueue.new(4, event_limit, 4).submit(_test_p04_hp(201, 100.0), f.context)
+		_check(r.status == (&"FAULTED" if event_limit == 1 else &"APPLIED") and r.get_events().size() == 2 and r.get_steps().size() == 1 and r.revision_after == 1, "C09 atomic lethal event boundary/overshoot %d" % event_limit)
+		_check(not f.unit.is_alive() and sink.events == r.get_events(), "C09 fault publishes full atomic prefix without rollback")
+	var f := _test_p04_fixture()
+	var r := ActionQueue.new(8, 2, 8).submit(_test_p04_node(&"root", [_test_p04_hp(), _test_p04_hp(), _test_p04_hp()]), f.context)
+	_check(r.status == &"FAULTED" and r.reason == &"event_limit" and r.get_events().size() == 3 and f.unit.vitals.get_hp() == 7.0, "C09 event +1 retains preceding and offending atomic steps")
+	for limits: Vector3i in [Vector3i(0, 1, 1), Vector3i(4097, 1, 1), Vector3i(1, 0, 1), Vector3i(1, 8193, 1), Vector3i(1, 1, 0), Vector3i(1, 1, 65)]:
+		f = _test_p04_fixture()
+		r = ActionQueue.new(limits.x, limits.y, limits.z).submit(_test_p04_hp(), f.context)
+		_check(r.status == &"REJECTED" and r.reason == &"invalid_limits" and f.context._next_root_id == 1 and f.unit.vitals.get_hp() == 10.0, "C09 invalid limits reject before admission %s" % limits)
+
+func _test_p04_c10_faults_and_counters() -> void:
+	for mode: String in ["invalid", "unsupported", "busy"]:
+		var f := _test_p04_fixture()
+		if mode == "invalid": f.state._owners.clear()
+		if mode == "unsupported": f.context._unsupported_runtime_ids.append(&"external_test")
+		if mode == "busy": f.owner._guard = true
+		var board_before: Dictionary = f.board.to_snapshot_dict()
+		var r := ActionQueue.new().submit(_test_p04_hp(), f.context)
+		_check(r.status == &"REJECTED" and r.root_id == 0 and r.get_events().is_empty() and f.context._next_root_id == 1 and f.context._next_command_seq == 1 and f.context._next_event_seq == 1 and f.context.get_revision() == 0, "C10 preflight rejection preserves counters " + mode)
+		_check(board_before == f.board.to_snapshot_dict() and not f.context.is_busy(), "C10 preflight does not mutate board " + mode)
+		if mode == "busy": _check(r.reason == &"BUSY", "C10 owner BUSY maps to BUSY")
+		f.owner._guard = false
+	var f := _test_p04_fixture()
+	var unknown := ActionQueue.new().submit(Command.new(), f.context)
+	_check(unknown.status == &"REJECTED" and unknown.root_id == 0, "C10 base Command is explicitly rejected")
+	var root := P04Work.new(&"damage_fixture", func(c: ActionContext) -> CommandStepResult:
+		var step := ActionHpExecutor.damage(_test_p04_hp().request, c)
+		step.mandatory.append(Command.new())
+		return step)
+	var r := ActionQueue.new().submit(root, f.context)
+	_check(r.status == &"FAULTED" and r.reason == &"invalid_child" and r.get_events().size() == 1 and f.unit.vitals.get_hp() == 9.0, "C10 invalid internal child preserves damage prefix")
+	var child_flag: Dictionary = {"executed": false}
+	var rejected_child := P04Work.new(&"rejected_child", func(_context: ActionContext) -> CommandStepResult:
+		child_flag["executed"] = true
+		return CommandStepResult.applied())
+	rejected_child.validation = func(_context: ActionContext) -> StringName: return &"invalid_child_payload"
+	var validation_root := _test_p04_node(&"validation_root", [rejected_child])
+	r = ActionQueue.new().submit(validation_root, _test_p04_fixture().context)
+	_check(r.status == &"FAULTED" and r.reason == &"invalid_child_payload" and r.get_steps().size() == 2 and not bool(child_flag["executed"]), "C10 internal child revalidation faults before execute")
+	f = _test_p04_fixture()
+	var collector_failure := P04Work.new(&"collector_failure", func(c: ActionContext) -> CommandStepResult:
+		var step := ActionHpExecutor.damage(_test_p04_hp().request, c)
+		c.get_state().get_owner(201)._guard = true
+		return step)
+	r = ActionQueue.new().submit(collector_failure, f.context)
+	_check(r.status == &"FAULTED" and String(r.reason).begins_with("collector/") and r.get_events().size() == 1 and r.revision_after == 1, "C10 collector error after mutation faults with prefix")
+	f.owner._guard = false
+	var malformed := P04Work.new(&"malformed", func(_c: ActionContext) -> CommandStepResult:
+		var step := CommandStepResult.new()
+		step.status = &"UNKNOWN"
+		return step)
+	r = ActionQueue.new().submit(malformed, _test_p04_fixture().context)
+	_check(r.status == &"FAULTED" and r.reason == &"malformed_step", "C10 malformed step explicit fault")
+	for field: String in ["_next_root_id", "_next_command_seq", "_next_event_seq", "_revision"]:
+		f = _test_p04_fixture()
+		var context: ActionContext = f.context
+		context.set(field, ActionContext.MAX_ID - 1)
+		r = ActionQueue.new().submit(HealCommand.new(201, 0.0, DamageSource.new(&"test")), context)
+		var accepted := field in ["_next_root_id", "_next_command_seq"]
+		_check(r.status == (&"APPLIED" if accepted else &"REJECTED"), "C10 MAX-1 boundary " + field)
+		_check(context.get(field) == (ActionContext.MAX_ID if accepted else ActionContext.MAX_ID - 1), "C10 counter never wraps " + field)
+		if not accepted: _check(r.reason == &"sequence_exhausted" and r.root_id == 0, "C10 reserve two event ids and revision increment " + field)
+		f = _test_p04_fixture()
+		f.context.set(field, ActionContext.MAX_ID)
+		r = ActionQueue.new().submit(_test_p04_hp(), f.context)
+		_check(r.status == &"REJECTED" and r.reason == &"sequence_exhausted" and f.unit.vitals.get_hp() == 10.0, "C10 exhausted sentinel " + field)
+	f = _test_p04_fixture()
+	f.context._next_event_seq = ActionContext.MAX_ID - 2
+	r = ActionQueue.new().submit(_test_p04_hp(201, 100.0), f.context)
+	_check(r.status == &"APPLIED" and r.get_events()[0]["event_seq"] == ActionContext.MAX_ID - 2 and r.get_events()[1]["event_seq"] == ActionContext.MAX_ID - 1 and f.context._next_event_seq == ActionContext.MAX_ID, "C10 last two event ids retain int64 precision")
+	for field: String in ["_next_command_seq", "_next_event_seq", "_revision"]:
+		f = _test_p04_fixture()
+		f.context.set(field, ActionContext.MAX_ID - (2 if field != "_next_command_seq" else 1))
+		root = P04Work.new(&"last_step", func(c: ActionContext) -> CommandStepResult:
+			var step := ActionHpExecutor.damage(_test_p04_hp().request, c)
+			step.mandatory.append(_test_p04_hp())
+			return step)
+		r = ActionQueue.new().submit(root, f.context)
+		_check(r.status == &"FAULTED" and r.reason == &"sequence_exhausted" and r.get_steps().size() == 1 and r.get_events().size() == 1 and f.unit.vitals.get_hp() == 9.0, "C10 post-admission exhaustion before next mutation " + field)
+
+func _test_p04_remaining_edges() -> void:
+	var f := _test_p04_fixture()
+	var unit: UnitState = f.unit
+	var context: ActionContext = f.context
+	# Принудительно dirty, чтобы snapshot-сравнение не скрывало прогрев cache при отказе.
+	var armor: Stat = unit.stats._stats[StatTypes.StatType.ARMOR]
+	armor.set_base_value(3.0)
+	var cache := [armor._cache_dirty, armor._cached_value, armor._modifier_slots.duplicate(), armor._next_modifier_slot]
+	var state_before := ItemSimulationSnapshot.capture(f.state, []).snapshot.canonical_bytes()
+	var source := DamageSource.new(&"cell")
+	var commands: Array[Command] = []
+	for amount: float in [-1.0, NAN, INF, -INF]:
+		commands.append(DamageCommand.new(DamageRequest.new(201, amount, &"physical", &"flat", source)))
+		commands.append(HealCommand.new(201, amount, source))
+	for id: int in [-1, 0, ActionContext.MAX_ID, 999]: commands.append(DeathCommand.new(id, source))
+	commands.append(_test_p04_node(&"reject_validate"))
+	(commands.back() as P04Work).validation = func(_c: ActionContext) -> StringName: return &"invalid_fixture"
+	for bad_source: DamageSource in [DamageSource.new(&"cell", -1), DamageSource.new(&"cell", 0, Vector2i.ZERO, -1), DamageSource.new(&"cell", 0, Vector2i.ZERO, 999), DamageSource.new(&"cell", 0, Vector2i.ZERO, 0, 999)]:
+		commands.append(DamageCommand.new(DamageRequest.new(201, 1.0, &"physical", &"flat", bad_source)))
+	for command in commands:
+		var r := ActionQueue.new().submit(command, context)
+		_check(r.status == &"REJECTED" and r.root_id == 0 and r.get_steps().is_empty() and r.get_events().is_empty() and [context._next_root_id, context._next_command_seq, context._next_event_seq, context._revision] == [1, 1, 1, 0], "C03 invalid numeric/source/id has no admission or counters")
+	_check(cache == [armor._cache_dirty, armor._cached_value, armor._modifier_slots, armor._next_modifier_slot] and ItemSimulationSnapshot.capture(f.state, []).snapshot.canonical_bytes() == state_before and f.rng.to_dict()["streams"][0]["cursor"] == 0, "C03 rejected matrix preserves dirty cache/slots/state/RNG")
+	var overflow := _test_p04_fixture()
+	var overflow_unit: UnitState = overflow.unit
+	overflow_unit.stats.set_base_value(StatTypes.StatType.ARMOR, -1.7e308)
+	_check(ItemSimulationSnapshot.capture(overflow.state, []).code == ItemSnapshotResult.Code.OK, "C03 finite extreme armor passes composition gate")
+	var overflow_result := ActionQueue.new().submit(DamageCommand.new(DamageRequest.new(201, 1.7e308, &"physical", &"flat", source)), overflow.context)
+	_check(overflow_result.status == &"REJECTED" and overflow_result.reason == &"invalid_armor" and overflow_unit.vitals.get_hp() == 10.0, "C03 finite operands overflow rejected before HP mutator")
+	var zero := _test_p04_fixture()
+	zero.unit.vitals.set_hp(0.0)
+	var zero_result := ActionQueue.new().submit(_test_p04_hp(), zero.context)
+	_check(zero_result.status == &"APPLIED" and zero_result.get_events().size() == 1 and zero_result.get_events()[0]["kind"] == &"died", "C02 positive damage at alive-zero emits only died")
+	var rng := P04TestRng.new()
+	var valid := rng.to_dict()
+	for malformed: Dictionary in [{"schema_version": 1.0, "streams": valid["streams"]}, {&"schema_version": 1, "streams": valid["streams"]}, {"schema_version": 1, "streams": [{&"name": "combat", "cursor": 0}, {"name": "loot", "cursor": 0}]}]:
+		_check(not rng.from_dict(malformed) and rng.to_dict() == valid, "C11 exact version and key types reject atomically")
+	valid["streams"][0]["cursor"] = 77
+	_check(rng.next_int(&"combat", ActionContext.MAX_ID) == 0 and rng.to_dict()["streams"][0]["cursor"] == 1, "C11 output DTO isolated; positive int64 upper supported")
+	var malformed_events := P04Work.new(&"malformed_events", func(c: ActionContext) -> CommandStepResult:
+		var step := ActionHpExecutor.damage(_test_p04_hp().request, c)
+		step.events.append(step.events[0].duplicate(true))
+		step.events.append(step.events[0].duplicate(true))
+		return step)
+	var fault := ActionQueue.new().submit(malformed_events, _test_p04_fixture().context)
+	_check(fault.status == &"FAULTED" and fault.reason == &"malformed_step" and fault.revision_after == 1, "C09 more than two drafts is explicit invariant fault")

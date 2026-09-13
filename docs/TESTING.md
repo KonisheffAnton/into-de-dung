@@ -186,3 +186,41 @@ legacy load, create_item/create_runtime или add/remove_modifier.
 Known certificate-store и ожидаемый P01 occupied-cell error остаются известными.
 UI/ручной клик старого демо по-прежнему unverified. P03b не исполняет лечение, не
 подключает очередь/P04, RNG или полный preview; прежний fresh-equip regression сохранён.
+
+## P04 — headless очередь Damage / Heal / Death (2026-09-14)
+
+Выполнены C01–C12 редакции 1 P04_ACTION_QUEUE_TASK. Полный runner:
+**1275 passed, 0 failed** (1008 прежних + 267 новых assertions, включая reused fixtures).
+Godot 4.7.2 import/startup — exit 0; scan DONE, 14/14 новых global classes в cache.
+Новых SCRIPT/Parse/Compile/runtime ошибок нет. Единственный ERROR регресса — прежний
+ожидаемый P01 отказ занятой клетки. UI/ручной клик демо остаётся unverified.
+
+C01–C04 проверяют cell/NONE source, flat/bypass без STRENGTH/impact/resource costs,
+actual damage/heal, damaged→died, один Vitals.died, occupancy/corpse/idempotence,
+root rejection/child skip, alive-at-zero, full/zero/over-max и отказ invalid payload
+без изменения counters/RNG/dirty cache. Item cases проверяют две копии общей def,
+порядок и parent_event_seq, сохранение modifiers/ids, отсутствие чужого и lethal heal.
+
+C05–C08 проверяют binding после mandatory mutations: detach/reactivate, закрытие,
+смерть, remove/replace unit/item/effect/definition, inactive, guard/ledger faults;
+depth-first trace и shuffled registry order; BUSY из copy/validate/execute/Vitals/sink,
+независимый context; replay/duplicate/new-event keys и изоляцию payload/description/receipt.
+
+C09–C10 проверяют command/event/depth boundary и +1, SKIPPED в лимите, цикл,
+атомарный event overshoot и честный prefix, оба fault latch, preflight/collector/child
+errors, malformed step и int64 reservation до мутаций. C11 проверяет fail-closed порт,
+точные String/type/keys RNG DTO, atomic import/alias/clone/overflow, реальные random
+children на двух P03b instantiate: совпадают outcomes, events, steps, counters и RNG;
+live, соседняя копия и loot не меняются от исполнения первого контекста.
+
+Сохранены 3123 исходные строки runner в прежнем порядке; 186 закрытых baseline файлов,
+включая P01/P02, прежние .uid/.tres и процессные настройки, совпадают по SHA-256.
+Прежние тексты смешанных docs сохранены полностью; новые разделы добавлены отдельно.
+Логи: `test_reports/p04-{import,startup,tests}.log`; baseline/audit/frozen manifest
+и P04-only patches: `test_reports/p04-implementation-baseline*`, `p04-audit.ps1`,
+`p04-review-*`. Результат независимого ревью и локальный commit — CODEX_HANDOFF.
+
+GODOT_BIN отсутствовал в process/user environment; найден указанный выше Godot и задан
+только для проверочных процессов. APPDATA временно направлялся в test_reports/godot-profile
+и восстанавливался. Пользовательские настройки окружения не изменялись. Эти проверки
+не подтверждают Move/Attack/Push, экономику, Flow/BT, общий C-3/S-5 или полный preview.

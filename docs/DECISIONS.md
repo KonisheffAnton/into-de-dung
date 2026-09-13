@@ -296,3 +296,27 @@ Collector проверяет весь state и только описывает �
 ровно один раз и повторную active/alive проверку перед HealCommand выполнит P04.
 Пока отсутствуют очередь, реальное лечение этим швом, RNG и полный preview. Общий C-3,
 S-5 и T10/T11 execute-preview не считаются закрытыми.
+
+## P04 — атомарный шаг и честный prefix (2026-09-14)
+
+Реализована принятая редакция 1 P04_ACTION_QUEUE_TASK. Очередь принадлежит headless
+harness; root Damage/Heal/Death не являются игровым вводом атаки и не выбирают её цену.
+ActionContext использует тот же board/items runtime, без клонирования и hot-swap.
+После смены открытых facades caller создаёт новый idle composition/context.
+
+Принят depth-first work stack с порядком mandatory → reactions → continuation.
+ItemReactionCollector получает только event_seq/target_unit_id/dealt после HP/death
+finalize. Queue выдаёт sequences и dedup keys; adapter хранит локальную identity binding
+и повторно проверяет её перед лечением. Новый damage event вправе вызвать тот же effect;
+повтор dispatch старого event — no-op, duplicate key нового batch — fault.
+
+События value-only, sink получает независимые копии после полного drain либо fault.
+BUSY действует также во время copy/validate и final publish, FAULTED защёлкнут и в
+context, и в queue. Лимиты/исчерпание int64 не откатывают уже исполненный prefix;
+event overflow сохраняет оба события летального шага. Reset/retry API не вводился.
+
+RNG инжектируется через минимальный ActionRngPort; production генератор не выбран.
+Fixture cursor streams combat/loot проверяют независимость, атомарный import и порядок
+draws на двух P03b copies. Это проверка шва исполнения, не реализация полного preview.
+Стоимость атаки, повторные переключения персонажей, Push и правила Battle Flow остаются
+нерешёнными до зависимых пакетов. Общие C-3/S-5/T10/T11 этим этапом не закрываются.
