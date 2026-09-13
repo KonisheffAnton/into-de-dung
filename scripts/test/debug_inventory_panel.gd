@@ -17,6 +17,7 @@ extends Label
 
 var _unit: UnitState
 var _inventory: InventoryState
+var _item_state: ItemOwnerState
 var _sink: EventSink
 var _clicks: int = 0
 
@@ -33,11 +34,13 @@ func _ready() -> void:
 	stats.set_base_value(StatTypes.StatType.BALANCE_MAX, 100.0)
 
 	_unit = UnitState.create(Faction.Type.PLAYER, Vector2i.ZERO, stats, "ItemCarrier")
-	_sink = GameEventBusSink.new()
-
-	_inventory = InventoryState.new(_unit)
-	_inventory.add_item(item_a)
-	_inventory.add_item(item_b)
+	_item_state = ItemOwnerState.new(_unit)
+	_sink = LegacyItemDemoSink.new(_item_state, GameEventBusSink.new())
+	_inventory = InventoryState.new(_item_state)
+	var a := _item_state.create_item(item_a)
+	var b := _item_state.create_item(item_b)
+	if a != null: _inventory.add_item(a)
+	if b != null: _inventory.add_item(b)
 
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	gui_input.connect(_on_gui_input)
@@ -86,3 +89,6 @@ func _refresh_text() -> void:
 		"Each click: -4 dmg (1 base + 3 STR), then item_b heals +1 => net -3.\n" +
 		"item_a copies carried: %d" % _inventory.count_of(item_a.id)
 	)
+
+func _exit_tree() -> void:
+	if _item_state != null: _item_state.close()

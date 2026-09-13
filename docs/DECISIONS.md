@@ -254,3 +254,25 @@ math/grid  →  board  →  units/stats  →  combat  →  actions  →  ai  →
   помечены как "не финальная архитектура".
 - `scripts/test/debug_*.gd` можно свободно переписывать/удалять — это не
   часть продакшен-кода.
+
+## P03a — специализация R-1/R-3/R-4 для предметов (2026-09-13)
+
+Реализована [редакция 2 P03a](P03A_ITEM_OWNERSHIP_TASK.md): immutable по контракту
+ItemDef/ItemEffect и отдельные RefCounted ItemInstance/ItemEffectRuntime. Параметры
+эффектов копируются; массивы runtime наружу выдаются копиями. Composition root создаёт
+ровно один ItemOwnerState на юнита и передаёт его inventory/equipment. Реестр проверяет
+object identity, поэтому совпадающие локальные ids разных симуляций не смешиваются.
+Идентичность occurrence — owner_unit_id/effect_instance_id; source stat modifier —
+`p03a/o<owner>/i<item>/e<effect>`. Def-id не может обозначать два разных Resource в state.
+
+Ledger и guard общие; clear/close не сбрасывают ids. Определения и runtime не держат
+обратных ссылок на owner state; явный close снимает собственные modifiers и размещения.
+Это защита item API, не общий S-5 для произвольных callback-мутаций StatsBag/Vitals.
+Heal runtime — только данные; временное синхронное лечение вынесено в test-only sink.
+Реакции через команды/очередь остаются P04, снимок предметов — P03b.
+
+Исключение к общему требованию runtime-сериализации R-4 в этом промежуточном пакете:
+новый save/snapshot API ItemInstance не вводится. Legacy пути создают свежие экземпляры
+на базовых stats; атомарный preflight не расходует ids при отказе записи. После P02
+snapshot этот load применять нельзя: будущий P03b восстанавливает ids/активность и
+modifier linkage без повторного equip. P02 codec и его board-only scope не менялись.

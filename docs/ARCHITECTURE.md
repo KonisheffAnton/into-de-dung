@@ -43,14 +43,14 @@ Baseline-коммит до правок: `49bcbf2` (точка отката).
 | 2 | Y-Sorting & Z-Ordering | ✅ Done | **Verified** | D-2.1..2.3 |
 | 3 | Pathfinding | ✅ Done | **Verified** | D-3.1..3.6 |
 | 4 | Modular Stats & Initiative | ✅ Done | **Verified** ✅ | C-2/D-4.1/4.2/4.5/4.6/4.7 закрыты; остались D-4.3, D-4.4, D-4.8 |
-| 5 | Inventory / Equipment / Synergy | ✅ Done | **⚠️ Defect** | **C-3 (hard error)** — шаг 0.8; D-5.1..5.7 |
+| 5 | Inventory / Equipment / Synergy | ✅ Done | **P03a: ownership реализован** | Две существующие def разделяются безопасно; P03b runtime snapshot/реакции и общий шаг 0.8 впереди; D-5.1..5.7 |
 | 6 | Damage / Balance / Push Preview | ✅ Done | **Verified** ✅ | C-2/C-4/S-2/D-6.1/D-6.4 закрыты; D-6.2/6.3 частично (урон при коллизии — шаг 0.5); S-1, D-6.5 |
 | 7 | Extensible Utility AI | ✅ Done | **Verified** ✅ | S-3б/в/г закрыты; остался S-3а (генераторы) |
 
 Почему статусы понижены: модули 5/6/7 были помечены `Done` при «визуальная
 проверка — TODO», то есть верифицированы только на «компилируется». Модуль 5
-при этом функционально сломан при выдаче одного предмета двум юнитам (C-3),
-а модуль 6 портит данные при первом же уроне юниту с предметом (C-2).
+на момент аудита был сломан при выдаче одного предмета двум юнитам (C-3),
+а модуль 6 портил данные при первом же уроне юниту с предметом (C-2).
 Headless-прогон такое не выявляет. Подробности — `AUDIT.md` → P-1.
 
 ### Порядок модулей изменён (G-4)
@@ -207,3 +207,19 @@ docs/
 `docs/DECISIONS.md`, `docs/modules/*.md`, `docs/TESTING.md` и, при
 необходимости деталей реализации, конкретные файлы из `scripts/core/**`
 упомянутые в карточке нужного модуля.
+
+## P03a — владение двумя существующими эффектами (2026-09-13)
+
+По [ТЗ редакции 2](P03A_ITEM_OWNERSHIP_TASK.md) разделяемые ItemDef/ItemEffect
+содержат только определения; каждая копия получает ItemInstance и отдельный runtime
+каждого occurrence. Item остаётся совместимым наследником ItemDef для прежних .tres.
+ItemOwnerState владеет локальными монотонными ids, registry, размещением и порядком
+inventory. InventoryState/EquipmentState — фасады одного state; guard охватывает
+мутации и item signals, teardown тихий. Stat source уникален для occurrence.
+
+Core heal runtime хранит параметры без владельца-ссылки, подписок или лечения.
+Только scripts/test/LegacyItemDemoSink сохраняет прежний клик 10 HP -> 7 HP;
+он не допускается в preview. Старые формы save сохранены как fresh-equip, с preflight
+до выдачи ids. Runtime snapshot без повторного equip — отдельный P03b, не начат.
+Полный C-3 capability gate, T10 execute/preview, очередь, экономика и весь шаг 0.8
+этим этапом не объявляются готовыми. Проверки и итог ревью — в TESTING/CODEX_HANDOFF.

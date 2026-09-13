@@ -138,3 +138,24 @@ C-3 (hard error при выдаче предмета второму юниту) 
 После КАЖДОГО нового модуля: headless-проверка на ошибки → визуальная
 проверка в редакторе пользователем → фиксация результата в
 `docs/modules/NN-название.md` и обновление статуса в `docs/ARCHITECTURE.md`.
+
+## P03a — Item ownership, редакция 2 (2026-09-13)
+
+В tests/run_tests.gd добавлен suite `P03a Item ownership`: реальные кэшированные .tres,
+две копии/два владельца, повторённый subresource, все stat operations и float order,
+identity/registry, no-op, replacement/clear/close, общий guard, невалидные определения,
+переполнение ids, source collision и атомарный legacy load, EventSink и P02 UNSUPPORTED.
+Прежние 484 assertions сохранены. Итог ведущего: **722 passed, 0 failed** (238 новых),
+import/startup exit 0, независимое ревью фиксированного кода **APPROVE**. Дополнительный
+owner harness — 37/0, panel harness — 20/0. Полная передача — CODEX_HANDOFF.
+
+Ведущий выполняет import, startup и tests командами из ТЗ; логи —
+`test_reports/p03a-{import,startup,tests}.log`. Вспомогательные owner/panel harness,
+baseline и фиксированный manifest/diff для ревью лежат в игнорируемом test_reports.
+Проверяются также allowed_paths и сохранность всех прежних строк tests/run_tests.gd.
+
+Headless-проверка реального узла панели отправляет gui_input, проверяет HP 10 -> 7,
+текст, силу 5/base 3, два открытия и teardown с удержанными runtime-ссылками.
+Это проверка интеграции, не визуальной вёрстки: окно/ручной клик остаются UI unverified.
+Известные certificate-store и ожидаемый P01 occupied-cell error проверяются отдельно
+от новых parse/compile/runtime ошибок. P03b/P04 и полный preview здесь не проверяются.
