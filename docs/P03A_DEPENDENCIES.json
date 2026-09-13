@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "task_id": "P03A-ITEM-OWNERSHIP",
+  "base_commit": "b102678b28957e6d17282878dea19d3946d9f570",
+  "branch": "main",
+  "files": [
+    {
+      "path": "scripts/core/stats/stat.gd",
+      "sha256": "F894780062D9810387FF89392E86CF1C8990366464BDF42BCBF51DCAA37DF082"
+    },
+    {
+      "path": "scripts/core/stats/stats_bag.gd",
+      "sha256": "87A13C0C8572D4695A7D3F506F6F88B7D54975612F6261652D66CE5B5049EA92"
+    },
+    {
+      "path": "scripts/core/units/unit_state.gd",
+      "sha256": "4687D6BF8015E55B43DAC2FEF1C6190A797DF891B71A0A2BCC392BB84ED29F3E"
+    },
+    {
+      "path": "scripts/core/board/battle_board.gd",
+      "sha256": "3C1A93DE00A39F23B622197A776AA602B7C2A08F43F90E98D6C3AF9761384C2D"
+    },
+    {
+      "path": "scripts/core/actions/simulation_snapshot.gd",
+      "sha256": "43AB85BC637E3EC3A616666C1EE79DF3F0037DCE9192B7C9BD5436B181A2A252"
+    },
+    {
+      "path": "scripts/core/actions/simulation_snapshot.gd.uid",
+      "sha256": "FF7EB65EC482D3C235C869B64BBFD7812C7A4F8D1BB27455A630E8E332CF6AEC"
+    },
+    {
+      "path": "scripts/core/actions/board_snapshot_result.gd",
+      "sha256": "A75CDD3AB5498BE3B53C0DCD5DB5A7D0F708F68306A61670B92A5E2A901E2AFF"
+    },
+    {
+      "path": "scripts/core/actions/board_snapshot_result.gd.uid",
+      "sha256": "41F6752EFF037F2B80ED15C14159468BB0492AC5B84377E981F1F1E1969C4F5C"
+    },
+    {
+      "path": "tests/run_tests.gd",
+      "sha256": "43992523D176D1F607EE919F199D6BC78B4B9BEF496BF60BF4B76C960BD20385"
+    },
+    {
+      "path": "scripts/core/combat/damage_calculator.gd",
+      "sha256": "FF1C6AB654414EAC7652AD17CA7D7D0D78EC8A0C14B794EB4EB7B530F22C9BBB"
+    },
+    {
+      "path": "docs/P02_SNAPSHOT_TASK.md",
+      "sha256": "57A58256C7F40DC0AB09E637B4C15CD3908C29692910CACA5BC10BBDA41EF11A"
+    },
+    {
+      "path": "docs/COMMAND_ACTION_QUEUE_CONTRACT.md",
+      "sha256": "9500F15381A79FEDCCBE573612651A8370328D90B27FCA3AFA666643E406B44E"
+    },
+    {
+      "path": "docs/DECISIONS.md",
+      "sha256": "66B5C9E0BBC366A4E242AF482047FC1714AF772552F73406F38E7FDE213A8212"
+    },
+    {
+      "path": "docs/TESTING.md",
+      "sha256": "B641C5194053B96A052BB53F21E07511B8C454E432F45961E90F5F3B8ADD0E85"
+    },
+    {
+      "path": "scripts/core/items/item.gd",
+      "sha256": "12CB799F5FBB2B82BFEE5CC93C81E83A8EC8811C53B004F61E08E51BFD876A55"
+    },
+    {
+      "path": "scripts/core/items/item_effect.gd",
+      "sha256": "F01781B6700C0ED0F7DD83EF6C48C93F0F1D3AA19F4C13B7FCA4F3E0F9338FE8"
+    },
+    {
+      "path": "scripts/core/items/stat_modifier_effect.gd",
+      "sha256": "6458F2697CE5F6988FEA0C0CDB061BD1FF36BEEEFC6FA04BD9CB64325B8CB34F"
+    },
+    {
+      "path": "scripts/core/items/triggered_effect.gd",
+      "sha256": "CEAC6854D6DD96EBBA029E0D7924DAE5D61ADBC8210D4FC33B2C124803F9FA7E"
+    },
+    {
+      "path": "scripts/core/items/heal_on_damage_effect.gd",
+      "sha256": "4BD7F6FC820D4709E5C6E56B25DC76ADD852F5E41C79FC4D4C1B62FBECBBEAE9"
+    },
+    {
+      "path": "scripts/core/inventory/inventory_state.gd",
+      "sha256": "DC292C85CD7075C7850C7A70134B3CF4709C1456638A88F690B0E2E9B729A5D3"
+    },
+    {
+      "path": "scripts/core/inventory/equipment_state.gd",
+      "sha256": "817A145FCD2E1689241F9CBBC88AAC8C7E68580F666A0329837220FE4E8CCE65"
+    },
+    {
+      "path": "scripts/test/debug_inventory_panel.gd",
+      "sha256": "AA12376091E06149F389FB0A42263282BEA144DAA378E1A476FC0B3461CC88E7"
+    },
+    {
+      "path": "resources/items/item_a_strength_boost.tres",
+      "sha256": "B837158915BA3234E77104F8BE6EA5FB51F30C25CCBE13DD1402420FF6AB10C6"
+    },
+    {
+      "path": "resources/items/item_b_heal_on_damage.tres",
+      "sha256": "74F3036E8187F167E786B041B8ED24663AC350740EF690E18B34DD6942891AA4"
+    },
+    {
+      "path": "scripts/core/stats/stat_modifier.gd",
+      "sha256": "99D8AADF9355825493334A46092CF08E3DEE86582D579D519C8697407DB74560"
+    },
+    {
+      "path": "scripts/core/stats/stat_types.gd",
+      "sha256": "6ABD806AEC90C716358C0F50298C27B8C3B99ADF11E9B24C4088EC171B0F64AF"
+    },
+    {
+      "path": "scripts/core/units/vitals.gd",
+      "sha256": "4049D885DF3EBA924B74AEF1AC00F807D469CCBEDF5008483AA071ED46ECDF36"
+    },
+    {
+      "path": "scripts/core/units/unit_id.gd",
+      "sha256": "2D5239B9C1DE6CF2DD4C8635F959021C51E0FC2DAC5940C0DCBBF1AC3A4F92A8"
+    },
+    {
+      "path": "scripts/core/events/event_sink.gd",
+      "sha256": "6549091B0D840C7A28E68341D5A990250304C53890C16388374394FE4E132CD2"
+    },
+    {
+      "path": "scripts/core/events/recording_event_sink.gd",
+      "sha256": "C14DF4750685F4216E6B374F22A03C4384A01B2A26BBAE9AE003A89FFA920596"
+    }
+  ]
+}
