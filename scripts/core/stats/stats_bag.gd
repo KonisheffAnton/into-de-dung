@@ -153,3 +153,55 @@ static func from_dict(data: Dictionary) -> StatsBag:
 		var value: float = bases[key]
 		bag.set_base_value(type_int as StatTypes.StatType, value)
 	return bag
+
+
+func to_snapshot_dict() -> Dictionary:
+	if get_script() != StatsBag: return {}
+	var entries: Array[Dictionary] = []
+	for key in _stats.keys():
+		if typeof(key) != TYPE_INT or key < 0 or key > 10 or not (_stats[key] is Stat):
+			return {}
+		var type: int = key
+		var stat: Stat = _stats[key]
+		if stat == null or stat.get_script() != Stat:
+			return {}
+		var record := stat.to_snapshot_dict()
+		if record.is_empty():
+			return {}
+		entries.append({"stat_type": type, "stat": record})
+	entries.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["stat_type"] < b["stat_type"])
+	return {"schema_version": 1, "stats": entries}
+
+
+static func from_snapshot_dict(data: Dictionary) -> StatsBag:
+	if not validate_snapshot_dict(data): return null
+	var bag := StatsBag.new()
+	var entries: Array = data["stats"]
+	for entry_variant in entries:
+		var entry: Dictionary = entry_variant
+		bag._stats[entry["stat_type"]] = Stat.from_snapshot_dict(entry["stat"])
+	return bag
+
+
+static func validate_snapshot_dict(data: Variant) -> bool:
+	if typeof(data) != TYPE_DICTIONARY:
+		return false
+	var d: Dictionary = data
+	if not _has_exact_string_keys(d, ["schema_version", "stats"]): return false
+	if typeof(d["schema_version"]) != TYPE_INT or d["schema_version"] != 1 or typeof(d["stats"]) != TYPE_ARRAY: return false
+	var entries: Array = d["stats"]
+	var seen: Dictionary = {}
+	for raw in entries:
+		if typeof(raw) != TYPE_DICTIONARY: return false
+		var entry: Dictionary = raw
+		if not _has_exact_string_keys(entry, ["stat_type", "stat"]): return false
+		if typeof(entry["stat_type"]) != TYPE_INT or entry["stat_type"] < 0 or entry["stat_type"] > 10 or seen.has(entry["stat_type"]) or not Stat.validate_snapshot_dict(entry["stat"]): return false
+		seen[entry["stat_type"]] = true
+	return true
+
+
+static func _has_exact_string_keys(value: Dictionary, required: Array) -> bool:
+	if value.keys().size() != required.size(): return false
+	for key in value.keys():
+		if typeof(key) != TYPE_STRING or not required.has(key): return false
+	return true

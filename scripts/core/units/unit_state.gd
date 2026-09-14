@@ -263,3 +263,71 @@ static func from_dict(data: Dictionary) -> UnitState:
 		UnitId.set_counter(id_int + 1)
 
 	return unit
+
+
+func to_snapshot_dict() -> Dictionary:
+	if get_script() != UnitState or stats == null or vitals == null or stats.get_script() != StatsBag or vitals.get_script() != Vitals or ai_profile != null:
+		return {}
+	if vitals._stats != stats or id < UnitId.FIRST or int(faction) < 0 or int(faction) > 2 or not is_finite(move_points_left) or move_points_left < 0.0:
+		return {}
+	var bag := stats.to_snapshot_dict()
+	if bag.is_empty():
+		return {}
+	var vital_data := vitals.to_dict()
+	if typeof(vital_data["hp"]) != TYPE_FLOAT or typeof(vital_data["balance"]) != TYPE_FLOAT or typeof(vital_data["is_alive"]) != TYPE_BOOL or not is_finite(vital_data["hp"]) or not is_finite(vital_data["balance"]) or vital_data["hp"] < 0.0 or vital_data["balance"] < 0.0:
+		return {}
+	var schema := 1
+	var result := {"schema_version": schema, "id": id, "faction": int(faction),
+		"cell_x": cell.x, "cell_y": cell.y, "height": height,
+		"debug_name": debug_name, "ai_profile_path": "",
+		"move_points_left": move_points_left, "has_attacked": has_attacked,
+		"stats": bag, "vitals": vital_data}
+	if action_resources != null:
+		if action_resources.get_script() != ActionResources or action_resources.validate(id) != &"": return {}
+		result["schema_version"] = 2
+		result["action_resources"] = action_resources.to_snapshot_dict()
+	return result
+
+
+static func from_snapshot_dict(data: Dictionary) -> UnitState:
+	if not validate_snapshot_dict(data): return null
+	var unit := UnitState.new()
+	unit.id = data["id"]
+	unit.faction = data["faction"] as Faction.Type
+	unit.cell = Vector2i(data["cell_x"], data["cell_y"])
+	unit.height = data["height"]
+	unit.debug_name = data["debug_name"]
+	unit.move_points_left = data["move_points_left"]
+	unit.has_attacked = data["has_attacked"]
+	unit.stats = StatsBag.from_snapshot_dict(data["stats"])
+	unit.vitals = Vitals.from_dict(data["vitals"], unit.stats)
+	if data["schema_version"] == 2:
+		unit.action_resources = ActionResources.from_snapshot_dict(data["action_resources"], unit.id)
+		if unit.action_resources == null: return null
+	return unit
+
+
+static func validate_snapshot_dict(data: Variant) -> bool:
+	if typeof(data) != TYPE_DICTIONARY: return false
+	var d: Dictionary = data
+	var base_required := ["schema_version", "id", "faction", "cell_x", "cell_y", "height", "debug_name", "ai_profile_path", "move_points_left", "has_attacked", "stats", "vitals"]
+	if typeof(data.get("schema_version")) != TYPE_INT or (data["schema_version"] != 1 and data["schema_version"] != 2): return false
+	var required := base_required if data["schema_version"] == 1 else base_required + ["action_resources"]
+	if not _has_exact_string_keys(d, required): return false
+	for key in ["schema_version", "id", "faction", "cell_x", "cell_y", "height"]:
+		if typeof(d[key]) != TYPE_INT: return false
+	if d["id"] < UnitId.FIRST or d["faction"] < 0 or d["faction"] > 2 or d["cell_x"] < -2147483648 or d["cell_x"] > 2147483647 or d["cell_y"] < -2147483648 or d["cell_y"] > 2147483647: return false
+	if typeof(d["debug_name"]) != TYPE_STRING or typeof(d["ai_profile_path"]) != TYPE_STRING or not d["ai_profile_path"].is_empty() or typeof(d["move_points_left"]) != TYPE_FLOAT or not is_finite(d["move_points_left"]) or d["move_points_left"] < 0.0 or typeof(d["has_attacked"]) != TYPE_BOOL: return false
+	if not StatsBag.validate_snapshot_dict(d["stats"]): return false
+	if d["schema_version"] == 2 and not ActionResources.validate_snapshot_dict(d["action_resources"], d["id"]): return false
+	if typeof(d["vitals"]) != TYPE_DICTIONARY: return false
+	var v: Dictionary = d["vitals"]
+	if not _has_exact_string_keys(v, ["hp", "balance", "is_alive"]): return false
+	return typeof(v["hp"]) == TYPE_FLOAT and is_finite(v["hp"]) and v["hp"] >= 0.0 and typeof(v["balance"]) == TYPE_FLOAT and is_finite(v["balance"]) and v["balance"] >= 0.0 and typeof(v["is_alive"]) == TYPE_BOOL
+
+
+static func _has_exact_string_keys(value: Dictionary, required: Array) -> bool:
+	if value.keys().size() != required.size(): return false
+	for key in value.keys():
+		if typeof(key) != TYPE_STRING or not required.has(key): return false
+	return true

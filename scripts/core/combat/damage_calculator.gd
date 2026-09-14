@@ -125,7 +125,10 @@ static func apply(info: DamageInfo, sink: EventSink = null) -> void:
 	# 1. Урон. Vitals клампит по нулю и возвращает ФАКТИЧЕСКИ снятое
 	#    количество — важно для эффектов вида "вампиризм по нанесённому
 	#    урону", чтобы они не лечили за оверкилл.
+	var was_alive := vitals.is_alive()
 	var dealt := vitals.apply_damage(info.final_damage)
+	# Фиксируем переход сразу: сток может синхронно запустить вложенный apply().
+	var died_in_this_apply := was_alive and not vitals.is_alive()
 	if dealt > 0.0:
 		event_sink.unit_damaged(info.target, dealt, info.attacker)
 
@@ -143,5 +146,5 @@ static func apply(info: DamageInfo, sink: EventSink = null) -> void:
 			event_sink.unit_balance_broken(info.target)
 
 	# 3. Смерть — последней, чтобы подписчики видели финальное состояние.
-	if not vitals.is_alive():
+	if died_in_this_apply:
 		event_sink.unit_died(info.target, info.attacker)

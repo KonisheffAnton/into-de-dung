@@ -42,6 +42,8 @@ func _initialize() -> void:
 	_test_damage_calculator_is_pure()
 	_test_damage_calculator_reports_events()
 	_test_would_kill_prediction()
+	_test_nested_damage_death_belongs_to_inner_apply()
+	_test_death_apply_is_idempotent_for_domain_events()
 
 	_suite("PushResolver (D-6.1)")
 	_test_push_direction_axis_only()
@@ -53,6 +55,9 @@ func _initialize() -> void:
 	_test_board_version_increments()
 	_test_pathfinding_respects_occupancy()
 	_test_dead_unit_does_not_block()
+	_test_death_clears_before_sink_and_preserves_corpse()
+	_test_loaded_death_and_dead_add_do_not_occupy()
+	_test_board_removes_death_subscriptions()
 
 	_suite("Push outcomes (D-6.2 / C-4)")
 	_test_push_collision_with_unit()
@@ -79,6 +84,20 @@ func _initialize() -> void:
 
 	_suite("Serialization (R-4, G-2)")
 	_test_board_roundtrip_serialization()
+
+	_suite("P02 Board Snapshot")
+	_test_p02_a01_roundtrip()
+	_test_p02_a02_modifiers()
+	_test_p02_a03_canonical_order()
+	_test_p02_a04_isolation()
+	_test_p02_a05_vitals_owner()
+	_test_p02_a06_unit_id()
+	_test_p02_a07_subscriptions()
+	_test_p02_a08_value_ownership()
+	_test_p02_a09_codec()
+	_test_p02_a10_rejections()
+	_test_p02_a11_board_edges()
+	_test_p02_a12_old_save_unchanged()
 
 	_suite("P03a Item ownership")
 	_test_p03a_item_ownership()
@@ -428,7 +447,6 @@ func _test_p08_spatial_geometry() -> void:
 func _suite(name: String) -> void:
 	_current_suite = name
 	print("[%s]" % name)
-
 
 func _test_p03a_item_ownership() -> void:
 	var stats:=StatsBag.new(); stats.set_base_value(StatTypes.StatType.STRENGTH,3.0)
@@ -2324,6 +2342,559 @@ func _test_p03b_ext_b08_cross_owner_catalogue() -> void:
 	var event := {"event_seq": 77, "target_unit_id": 101, "dealt": 1.0}
 	_check(ItemReactionCollector.collect_damage(fixture.state, event).descriptions == ItemReactionCollector.collect_damage(a, event).descriptions and ItemReactionCollector.collect_damage(a, event).descriptions == ItemReactionCollector.collect_damage(b, event).descriptions, "B09/B10 live and restored descriptions match exactly")
 
+# --- P02: независимые value-снимки, A01–A12 -------------------------------
+
+func _p02_unit(id_value: int, cell_value: Vector2i, bag: StatsBag, alive: bool = true) -> UnitState:
+	# Фикстура не вызывает create: проверка снимка не должна зависеть от allocator.
+	var unit := UnitState.new()
+	unit.id = id_value
+	unit.cell = cell_value
+	unit.faction = Faction.Type.PLAYER if alive else Faction.Type.ENEMY
+	unit.stats = bag
+	unit.vitals = Vitals.from_dict({"hp": 17.0 if alive else 0.0, "balance": 3.0, "is_alive": alive}, bag)
+	unit.debug_name = "Юнит %d" % id_value
+	unit.move_points_left = 2.5
+	unit.has_attacked = true
+	return unit
+
+
+func _p02_board() -> BattleBoard:
+	var board := BattleBoard.new(3, 2)
+	var heights: Array[int] = [0, 1, -2, 3, 4, 5]
+	var terrain: Array[int] = [0, 1, 2, 3, 0, 0]
+	for i in 6:
+		board.set_height(Vector2i(i % 3, i / 3), heights[i])
+		board.set_terrain(Vector2i(i % 3, i / 3), terrain[i] as TerrainType.Type)
+	var bag := StatsBag.new()
+	var bases: Array[float] = [20.0, 0.0, 10.0, 10.0, 2.0, 5.0, 0.0]
+	for i in bases.size():
+		bag.set_base_value(i as StatTypes.StatType, bases[i])
+	var shared := StatModifier.new(&"same", StatModifier.Operation.ADD_FLAT, 2.0)
+	bag.add_modifier(StatTypes.StatType.STRENGTH, shared)
+	bag.add_modifier(StatTypes.StatType.STRENGTH, shared)
+	bag.add_modifier(StatTypes.StatType.STRENGTH, StatModifier.new(&"removed", StatModifier.Operation.ADD_FLAT, 9.0))
+	bag.remove_modifiers_by_source(&"removed")
+	bag.add_modifier(StatTypes.StatType.STRENGTH, StatModifier.new(&"", StatModifier.Operation.ADD_PERCENT, 0.5))
+	bag.add_modifier(StatTypes.StatType.STRENGTH, StatModifier.new(&"", StatModifier.Operation.MULTIPLY, 2.0))
+	bag.add_modifier(StatTypes.StatType.STRENGTH, StatModifier.new(&"Я", StatModifier.Operation.ADD_FLAT, 1.0))
+	bag.add_modifier(StatTypes.StatType.STRENGTH, StatModifier.new(&"А", StatModifier.Operation.ADD_FLAT, 3.0))
+	var cleared: Stat = bag._stats[StatTypes.StatType.INITIATIVE]
+	cleared.add_modifier(StatModifier.new(&"old", StatModifier.Operation.ADD_FLAT, 1.0))
+	cleared.clear_modifiers()
+	var corpse := _p02_unit(10, Vector2i.ZERO, StatsBag.new(), false)
+	board.add_unit(corpse)
+	board.add_unit(_p02_unit(2, Vector2i.ZERO, bag))
+	board.add_unit(_p02_unit(20, Vector2i(1, 1), _make_stats()))
+	board.set_height(Vector2i.ZERO, 7)
+	board.board_version = 40
+	return board
+
+
+func _p02_capture(board: BattleBoard) -> SimulationSnapshot:
+	var result := SimulationSnapshot.capture_board(board, [])
+	_check(result.code == BoardSnapshotResult.Code.OK and result.snapshot != null, "P02 capture fixture", result.reason)
+	return result.snapshot
+
+
+func _p02_same(a: SimulationSnapshot, b: SimulationSnapshot, label: String) -> void:
+	_check(a.to_dict() == b.to_dict(), label + " values")
+	_check(a.canonical_values() == b.canonical_values(), label + " canonical values")
+	_check(a.canonical_bytes() == b.canonical_bytes() and a.fingerprint() == b.fingerprint(), label + " bytes/hash")
+
+
+func _p02_strength(data: Dictionary) -> Dictionary:
+	return data["board"]["units"][0]["stats"]["stats"][3]["stat"]
+
+
+func _p02_expect(data: Dictionary, code: BoardSnapshotResult.Code, label: String) -> void:
+	var before := UnitId.get_counter()
+	var result := SimulationSnapshot.from_dict(data)
+	_check(result.code == code and result.snapshot == null and not result.reason.is_empty(), label, result.reason)
+	_check(UnitId.get_counter() == before, label + " preserves UnitId")
+	if code == BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED:
+		_check(not result.unsupported_ids.is_empty(), label + " diagnostic ids")
+
+
+func _p02_set(data: Dictionary, path: Array, value: Variant) -> void:
+	var current: Variant = data
+	for i in path.size() - 1:
+		current = current[path[i]]
+	current[path.back()] = value
+
+
+func _p02_reverse_maps(value: Variant) -> Variant:
+	if value is Dictionary:
+		var result: Dictionary = {}
+		var keys: Array = value.keys()
+		keys.reverse()
+		for key in keys:
+			result[key] = _p02_reverse_maps(value[key])
+		return result
+	if value is Array:
+		var result: Array = []
+		for child in value:
+			result.append(_p02_reverse_maps(child))
+		return result
+	return value
+
+
+func _test_p02_a01_roundtrip() -> void:
+	var live := _p02_board()
+	var snapshot := _p02_capture(live)
+	var imported := SimulationSnapshot.from_dict(snapshot.to_dict())
+	_check(imported.code == BoardSnapshotResult.Code.OK, "A01 envelope import")
+	var a := imported.snapshot.instantiate_board()
+	var b := imported.snapshot.instantiate_board()
+	_p02_same(snapshot, _p02_capture(a), "A01 clone A roundtrip")
+	_p02_same(snapshot, _p02_capture(b), "A01 clone B roundtrip")
+	var u := a.get_unit_by_id(2)
+	_check(a.width == 3 and a.height == 2 and a.board_version == 40, "A01 dimensions/version literals")
+	_check(Array(a._heights) == [7, 1, -2, 3, 4, 5] and Array(a._terrain) == [0, 1, 2, 3, 0, 0], "A01 row-major heights and all terrain")
+	_check(u.id == 2 and u.faction == Faction.Type.PLAYER and u.cell == Vector2i.ZERO and u.height == 0 and u.debug_name == "Юнит 2", "A01 unit fields literals")
+	_check(u.vitals.get_hp() == 17.0 and u.vitals.get_balance() == 3.0 and u.move_points_left == 2.5 and u.has_attacked and u.is_alive(), "A01 resources preserved literally")
+	_check(u.stats.get_declared_types().size() == 7 and u.stats.has_stat(StatTypes.StatType.ARMOR) and u.get_stat(StatTypes.StatType.ARMOR) == 0.0, "A01 all declared stats and declared zero")
+	_check(not a.get_unit_by_id(10).stats.has_stat(StatTypes.StatType.ARMOR), "A01 absent stat differs from declared zero")
+	_check(not a.get_unit_by_id(10).is_alive() and a.get_unit_by_id(10).cell == u.cell and a.occupant_at(u.cell) == u, "A01 corpse and living share cell")
+
+
+func _test_p02_a02_modifiers() -> void:
+	var live := _p02_board()
+	var snapshot := _p02_capture(live)
+	var data := _p02_strength(snapshot.to_dict())
+	var clone := snapshot.instantiate_board()
+	var stat: Stat = clone.get_unit_by_id(2).stats._stats[StatTypes.StatType.STRENGTH]
+	_check(data["base_value"] == 10.0 and data["next_modifier_slot"] == 7 and data["modifiers"].size() == 6 and stat.get_value() == 54.0, "A02 base multiplicity slots and all operations")
+	_check(stat._modifier_slots == [0, 1, 3, 4, 5, 6], "A02 deleted slot stays absent, evaluation order restored")
+	_check(stat._modifiers[0] != stat._modifiers[1] and stat._modifiers[0].source_id == &"same" and stat._modifiers[1].source_id == &"same", "A02 repeated Resource restored per occurrence")
+	_check(data["modifiers"][0]["source_id"] == "" and data["modifiers"][1]["source_id"] == "", "A02 duplicate empty sources retained")
+	stat.add_modifier(StatModifier.new(&"next", StatModifier.Operation.ADD_FLAT, 1.0))
+	_check(stat._modifier_slots.back() == 7 and stat._next_modifier_slot == 8, "A02 add continues saved local allocator")
+	_check(stat.remove_modifiers_by_source(&"same") and stat._modifier_slots == [3, 4, 5, 6, 7] and stat.get_value() == 45.0, "A02 remove-by-source removes both occurrences")
+	var cleared: Stat = clone.get_unit_by_id(2).stats._stats[StatTypes.StatType.INITIATIVE]
+	_check(cleared.get_modifier_count() == 0 and cleared._next_modifier_slot == 1, "A02 empty cleared Stat retains counter")
+	cleared.add_modifier(StatModifier.new(&"after-clear", StatModifier.Operation.ADD_FLAT, 2.0))
+	_check(cleared._modifier_slots == [1], "A02 next add after restored clear")
+
+
+func _test_p02_a03_canonical_order() -> void:
+	var live := _p02_board()
+	var stat: Stat = live.get_unit_by_id(2).stats._stats[StatTypes.StatType.STRENGTH]
+	stat.clear_modifiers()
+	stat.base_value = 0.0
+	stat.add_modifier(StatModifier.new(&"z", StatModifier.Operation.ADD_FLAT, 1e16))
+	stat.add_modifier(StatModifier.new(&"a", StatModifier.Operation.ADD_FLAT, -1e16))
+	stat.add_modifier(StatModifier.new(&"m", StatModifier.Operation.ADD_FLAT, 1.0))
+	_check(stat.get_value() == 1.0, "A03 live float order exact 1")
+	var snapshot := _p02_capture(live)
+	var data := snapshot.to_dict()
+	_p02_strength(data)["modifiers"].reverse()
+	var reordered := SimulationSnapshot.from_dict(data).snapshot
+	_p02_same(snapshot, reordered, "A03 record permutation preserves state")
+	_check(reordered.instantiate_board().get_unit_by_id(2).get_stat(StatTypes.StatType.STRENGTH) == 1.0, "A03 restore keeps arithmetic order")
+	data = snapshot.to_dict()
+	var records: Array = _p02_strength(data)["modifiers"]
+	for i in records.size():
+		records[i]["evaluation_order"] = i
+	var changed := SimulationSnapshot.from_dict(data).snapshot
+	_check(changed.instantiate_board().get_unit_by_id(2).get_stat(StatTypes.StatType.STRENGTH) == 0.0, "A03 evaluation permutation changes exact result")
+	_check(changed.canonical_values() != snapshot.canonical_values() and changed.fingerprint() != snapshot.fingerprint(), "A03 evaluation order is semantic state")
+
+
+func _p02_mutate(board: BattleBoard) -> void:
+	var u := board.get_unit_by_id(2)
+	var stat: Stat = u.stats._stats[StatTypes.StatType.STRENGTH]
+	stat._modifiers[0].value += 5.0
+	u.stats.set_base_value(StatTypes.StatType.STRENGTH, 30.0)
+	u.stats.remove_modifiers_by_source(&"А")
+	u.stats.add_modifier(StatTypes.StatType.STRENGTH, StatModifier.new(&"new", StatModifier.Operation.MULTIPLY, 0.5))
+	u.vitals.apply_damage(2.0)
+	u.vitals.set_balance(9.0)
+	u.move_points_left = 0.25
+	u.has_attacked = false
+	board.set_terrain(Vector2i(2, 1), TerrainType.Type.HAZARD)
+	board.set_height(Vector2i(2, 1), 12)
+	board.clear_occupancy(u)
+	board.move_unit(u, Vector2i(2, 1))
+
+
+func _test_p02_a04_isolation() -> void:
+	var live := _p02_board()
+	var snapshot := _p02_capture(live)
+	var a := snapshot.instantiate_board()
+	var b := snapshot.instantiate_board()
+	var lu := live.get_unit_by_id(2)
+	var au := a.get_unit_by_id(2)
+	var bu := b.get_unit_by_id(2)
+	_check(lu != au and lu != bu and au != bu and lu.stats != au.stats and lu.stats != bu.stats and au.stats != bu.stats and lu.vitals != au.vitals and au.vitals != bu.vitals, "A04 Unit Bag Vitals identities across all three")
+	var ls: Stat = lu.stats._stats[StatTypes.StatType.STRENGTH]
+	var sa: Stat = au.stats._stats[StatTypes.StatType.STRENGTH]
+	var sb: Stat = bu.stats._stats[StatTypes.StatType.STRENGTH]
+	_check(ls != sa and ls != sb and sa != sb, "A04 Stat identities across all three")
+	for i in ls._modifiers.size():
+		_check(ls._modifiers[i] != sa._modifiers[i] and ls._modifiers[i] != sb._modifiers[i] and sa._modifiers[i] != sb._modifiers[i], "A04 modifier occurrence %d independent" % i)
+	_p02_mutate(live)
+	_p02_same(snapshot, _p02_capture(a), "A04 live mutation leaves A")
+	_p02_same(snapshot, _p02_capture(b), "A04 live mutation leaves B")
+	var live_after := _p02_capture(live)
+	_p02_mutate(a)
+	_p02_same(live_after, _p02_capture(live), "A04 clone A mutation leaves live")
+	_p02_same(snapshot, _p02_capture(b), "A04 clone A mutation leaves B and snapshot")
+	_check(a.get_unit_by_id(2).cell == Vector2i(2, 1) and a.occupant_at(Vector2i(2, 1)) == au, "A04 clone mutation uses real board move")
+
+
+func _test_p02_a05_vitals_owner() -> void:
+	var live := _p02_board()
+	var snapshot := _p02_capture(live)
+	var a := snapshot.instantiate_board()
+	var b := snapshot.instantiate_board()
+	var au := a.get_unit_by_id(2)
+	au.stats.set_base_value(StatTypes.StatType.HP_MAX, 30.0)
+	au.vitals.heal(100.0)
+	_check(au.vitals.get_hp() == 30.0 and au.vitals._stats == au.stats, "A05 heal uses A bag")
+	_check(live.get_unit_by_id(2).vitals.get_hp() == 17.0 and b.get_unit_by_id(2).vitals.get_hp() == 17.0 and b.get_unit_by_id(2).vitals.get_hp_max() == 20.0, "A05 live and B vitals unchanged")
+	var u := live.get_unit_by_id(2)
+	u.stats.set_base_value(StatTypes.StatType.HP_MAX, 5.0)
+	u.vitals.set_balance(500.0)
+	var clone := _p02_capture(live).instantiate_board().get_unit_by_id(2)
+	_check(clone.vitals.get_hp() == 17.0 and clone.vitals.get_hp_max() == 5.0 and clone.vitals.get_balance() == 500.0, "A05 over-max resources not clamped")
+	u.vitals.set_hp(0.0)
+	clone = _p02_capture(live).instantiate_board().get_unit_by_id(2)
+	_check(clone.is_alive() and clone.vitals.get_hp() == 0.0, "A05 alive is independent of HP")
+
+
+func _test_p02_a06_unit_id() -> void:
+	var before := UnitId.get_counter()
+	var board := BattleBoard.new(1, 1)
+	board.add_unit(_p02_unit(before + 100000, Vector2i.ZERO, _make_stats()))
+	for i in 3:
+		var snap := _p02_capture(board)
+		var imported := SimulationSnapshot.from_dict(snap.to_dict())
+		_check(imported.snapshot.instantiate_board().get_all_units()[0].id == before + 100000, "A06 high id retained")
+		var bad := snap.to_dict()
+		bad["board"]["units"][0]["id"] = 0
+		_p02_expect(bad, BoardSnapshotResult.Code.SNAPSHOT_INVALID, "A06 invalid import")
+	_check(UnitId.get_counter() == before, "A06 capture/import/instantiate never advance counter")
+	_check(UnitId.next() == before and UnitId.get_counter() == before + 1, "A06 next explicit allocation advances exactly once")
+
+
+func _test_p02_a07_subscriptions() -> void:
+	var live := _p02_board()
+	var counts: Dictionary = {"board": 0, "move": 0, "stat": 0, "hp": 0, "balance": 0, "died": 0}
+	live.board_changed.connect(func() -> void: counts["board"] += 1)
+	live.unit_position_changed.connect(func(_u: UnitState, _a: Vector2i, _b: Vector2i) -> void: counts["move"] += 1)
+	var u := live.get_unit_by_id(2)
+	u.stats.stat_changed.connect(func(_s: StatTypes.StatType, _a: float, _b: float) -> void: counts["stat"] += 1)
+	u.vitals.hp_changed.connect(func(_a: float, _b: float) -> void: counts["hp"] += 1)
+	u.vitals.balance_changed.connect(func(_a: float, _b: float) -> void: counts["balance"] += 1)
+	u.vitals.died.connect(func() -> void: counts["died"] += 1)
+	var snap := _p02_capture(live)
+	var imported := SimulationSnapshot.from_dict(snap.to_dict()).snapshot
+	var a := imported.instantiate_board()
+	var b := imported.instantiate_board()
+	var au := a.get_unit_by_id(2)
+	_check(au.vitals.died.get_connections().size() == 1 and au.vitals.hp_changed.get_connections().is_empty() and au.stats.stat_changed.get_connections().is_empty(), "A07 only fresh board death listener restored")
+	var provider := a.make_data_provider(a.get_unit_by_id(20))
+	_check(not provider.cell_is_walkable(Vector2i.ZERO), "A07 clone provider sees occupied cell")
+	au.vitals.apply_damage(100.0)
+	_check(a.get_unit_by_id(2) == au and not a.is_occupied(Vector2i.ZERO) and a.board_version == 41, "A07 death clears once and keeps corpse")
+	_check(provider.cell_is_walkable(Vector2i.ZERO) and a.move_unit(a.get_unit_by_id(20), Vector2i.ZERO), "A07 real move into clone death cell")
+	a.set_height(Vector2i(2, 1), 99)
+	_check(provider.cell_height(Vector2i(2, 1)) == 99 and live.get_height(Vector2i(2, 1)) == 5, "A07 provider binds clone board")
+	_check(live.board_version == 40 and b.board_version == 40 and counts.values() == [0, 0, 0, 0, 0, 0], "A07 capture/load/death never emit live signals")
+	var removed := a.get_unit_by_id(20)
+	a.remove_unit(removed)
+	var version := a.board_version
+	removed.vitals.apply_damage(100.0)
+	_check(a.board_version == version and removed.vitals.died.get_connections().is_empty(), "A07 remove disconnects own listener")
+	var old := b.get_unit_by_id(20)
+	b.resize(0, 0)
+	version = b.board_version
+	old.vitals.apply_damage(100.0)
+	_check(b.board_version == version and old.vitals.died.get_connections().is_empty(), "A07 resize disconnects own listener")
+
+
+func _test_p02_a08_value_ownership() -> void:
+	var snap := _p02_capture(_p02_board())
+	var input := snap.to_dict()
+	var imported := SimulationSnapshot.from_dict(input).snapshot
+	_p02_strength(input)["modifiers"][0]["value"] = 888.0
+	input["board"]["occupancy"].clear()
+	_p02_same(snap, imported, "A08 nested input ownership")
+	var returned := imported.to_dict()
+	_p02_strength(returned)["modifiers"].clear()
+	returned["board"]["occupancy"][0]["x"] = 2
+	var values := imported.canonical_values()
+	values[0][1].clear()
+	var bytes := imported.canonical_bytes()
+	bytes[0] = 0
+	_p02_same(snap, imported, "A08 every returned graph owned")
+	var ids: Array[StringName] = [&"Я", &"a", &"Я", &"А"]
+	var result := SimulationSnapshot.capture_board(_p02_board(), ids)
+	ids.clear()
+	_check(result.unsupported_ids == [&"a", &"А", &"Я"] and result.snapshot == null, "A08 runtime ids copied unique sorted")
+	var returned_ids := result.unsupported_ids
+	returned_ids.clear()
+	_check(result.unsupported_ids == [&"a", &"А", &"Я"], "A08 returned unsupported ids cannot mutate result")
+
+
+func _test_p02_a09_codec() -> void:
+	var snap := _p02_capture(_p02_board())
+	var data := snap.to_dict()
+	for unit in data["board"]["units"]:
+		for entry in unit["stats"]["stats"]:
+			entry["stat"]["modifiers"].reverse()
+		unit["stats"]["stats"].reverse()
+	data["board"]["units"].reverse()
+	data["board"]["occupancy"].reverse()
+	data = _p02_reverse_maps(data)
+	_p02_same(snap, SimulationSnapshot.from_dict(data).snapshot, "A09 all nonsemantic orders normalized")
+	_check(snap.to_dict()["board"]["units"][0]["id"] == 2 and snap.to_dict()["board"]["units"][1]["id"] == 10, "A09 numeric unit id order 2 before 10")
+	var mods: Array = _p02_strength(snap.to_dict())["modifiers"]
+	_check(mods[4]["source_id"] == "А" and mods[5]["source_id"] == "Я", "A09 Cyrillic codepoint order")
+	var stat := Stat.new()
+	for i in 11:
+		stat.add_modifier(StatModifier.new(&"same", StatModifier.Operation.ADD_FLAT, 1.0))
+	_check(stat.to_snapshot_dict()["modifiers"][2]["local_slot"] == 2 and stat.to_snapshot_dict()["modifiers"][10]["local_slot"] == 10, "A09 numeric slot order 2 before 10")
+	for field in ["hp", "modifier", "board_version"]:
+		data = snap.to_dict()
+		if field == "hp": data["board"]["units"][0]["vitals"]["hp"] += 1.0
+		elif field == "modifier": _p02_strength(data)["modifiers"][0]["value"] += 0.1
+		else: data["board"]["board_version"] += 1
+		var changed := SimulationSnapshot.from_dict(data).snapshot
+		_check(changed.canonical_values() != snap.canonical_values() and changed.canonical_bytes() != snap.canonical_bytes() and changed.fingerprint() != snap.fingerprint(), "A09 semantic mutation changes values/bytes/hash: " + field)
+	var cases: Array = [
+		[true, [1, 1]], [false, [1, 0]],
+		[-2, [2, 254, 255, 255, 255, 255, 255, 255, 255]],
+		[258, [2, 2, 1, 0, 0, 0, 0, 0, 0]],
+		[1.0, [3, 0, 0, 0, 0, 0, 0, 240, 63]],
+		[-0.0, [3, 0, 0, 0, 0, 0, 0, 0, 0]],
+		["Я", [4, 2, 0, 0, 0, 0, 0, 0, 0, 208, 175]],
+		[[], [5, 0, 0, 0, 0, 0, 0, 0, 0]],
+	]
+	for i in cases.size():
+		var bytes := PackedByteArray()
+		SimulationSnapshot._encode(cases[i][0], bytes)
+		_check(bytes == PackedByteArray(cases[i][1]), "A09 literal codec leaf %d" % i)
+	_check(snap.canonical_bytes().slice(0, 5) == PackedByteArray([80, 48, 50, 83, 1]), "A09 literal P02S prefix")
+	var empty := SimulationSnapshot.capture_board(BattleBoard.new(), []).snapshot
+	_check(empty.canonical_bytes().size() == 423 and empty.fingerprint() == "2131efbbb21524e70a9558c18f6010ac8c745d903ca6fd652a2bb44893dd7100", "A09 independent whole codec oracle")
+	data = snap.to_dict()
+	data["board"]["units"][0]["move_points_left"] = -0.0
+	var negative := SimulationSnapshot.from_dict(data).snapshot
+	data["board"]["units"][0]["move_points_left"] = 0.0
+	_p02_same(negative, SimulationSnapshot.from_dict(data).snapshot, "A09 negative zero normalization")
+
+
+func _test_p02_a10_rejections() -> void:
+	var snap := _p02_capture(_p02_board())
+	var bad_cases: Array = [
+		[["schema_version"], "1"], [["scope"], 1], [["board", "schema_version"], true],
+		[["board", "width"], 9223372036854775807], [["board", "height"], 9223372036854775807],
+		[["board", "width"], 1025], [["board", "height"], -1], [["board", "board_version"], -1],
+		[["board", "heights"], PackedInt32Array()], [["board", "terrain"], "bad"],
+		[["board", "units"], {}], [["board", "occupancy"], null], [["board", "terrain"], [0]],
+		[["board", "terrain", 0], 4], [["board", "heights", 0], 2147483648],
+		[["board", "units", 0, "id"], 0], [["board", "units", 0, "faction"], 3],
+		[["board", "units", 0, "cell_x"], 4294967296], [["board", "units", 0, "debug_name"], 1],
+		[["board", "units", 0, "move_points_left"], 1], [["board", "units", 0, "has_attacked"], 1],
+		[["board", "units", 0, "move_points_left"], -1.0], [["board", "units", 0, "vitals", "hp"], NAN],
+		[["board", "units", 0, "vitals", "balance"], INF], [["board", "units", 0, "vitals", "is_alive"], 1],
+		[["board", "units", 0, "stats"], null], [["board", "units", 0, "vitals"], {}],
+		[["board", "units", 0, "stats", "stats"], {}], [["board", "units", 0, "stats", "stats", 0, "stat_type"], 11],
+		[["board", "units", 0, "stats", "stats", 3, "stat", "base_value"], 1],
+		[["board", "units", 0, "stats", "stats", 3, "stat", "base_value"], INF],
+		[["board", "units", 0, "stats", "stats", 3, "stat", "modifiers"], {}],
+		[["board", "units", 0, "stats", "stats", 3, "stat", "next_modifier_slot"], 6],
+		[["board", "units", 0, "stats", "stats", 3, "stat", "modifiers", 0, "operation"], 3],
+		[["board", "units", 0, "stats", "stats", 3, "stat", "modifiers", 0, "value"], NAN],
+		[["board", "units", 0, "stats", "stats", 3, "stat", "modifiers", 0, "evaluation_order"], 90],
+		[["board", "occupancy", 0, "unit_id"], 10], [["board", "occupancy", 0, "unit_id"], 999],
+		[["board", "occupancy", 0, "x"], 1],
+	]
+	for i in bad_cases.size():
+		var bad := snap.to_dict()
+		_p02_set(bad, bad_cases[i][0], bad_cases[i][1])
+		_p02_expect(bad, BoardSnapshotResult.Code.SNAPSHOT_INVALID, "A10 invalid schema case %d" % i)
+		_check(BattleBoard.from_snapshot_dict(bad["board"]) == null or bad_cases[i][0].size() == 1, "A10 low Board validates case %d" % i)
+	for kind in ["unit", "stat", "slot", "order", "occupancy", "extra", "missing", "StringName"]:
+		var bad := snap.to_dict()
+		if kind == "unit": bad["board"]["units"].append(bad["board"]["units"][0].duplicate(true))
+		elif kind == "stat": bad["board"]["units"][0]["stats"]["stats"].append(bad["board"]["units"][0]["stats"]["stats"][0].duplicate(true))
+		elif kind == "slot": _p02_strength(bad)["modifiers"][0]["local_slot"] = _p02_strength(bad)["modifiers"][1]["local_slot"]
+		elif kind == "order": _p02_strength(bad)["modifiers"][0]["evaluation_order"] = _p02_strength(bad)["modifiers"][1]["evaluation_order"]
+		elif kind == "occupancy": bad["board"]["occupancy"].append(bad["board"]["occupancy"][0].duplicate(true))
+		elif kind == "extra": _p02_strength(bad)["extra"] = 1
+		elif kind == "missing": _p02_strength(bad).erase("base_value")
+		else:
+			var s := _p02_strength(bad)
+			s.erase("base_value")
+			s[&"base_value"] = 10.0
+		_p02_expect(bad, BoardSnapshotResult.Code.SNAPSHOT_INVALID, "A10 duplicate/key " + kind)
+	var unsupported_cases: Array = [
+		[["schema_version"], 2], [["scope"], "future"], [["board", "schema_version"], 3],
+		[["board", "units", 0, "schema_version"], 3], [["board", "units", 0, "ai_profile_path"], "res://future.tres"],
+		[["board", "units", 0, "stats", "schema_version"], 2],
+		[["board", "units", 0, "stats", "stats", 3, "stat", "schema_version"], 2],
+		[["board", "units", 0, "stats", "stats", 3, "stat", "modifiers", 0, "instance_id"], 1],
+	]
+	for i in unsupported_cases.size():
+		var bad := snap.to_dict()
+		_p02_set(bad, unsupported_cases[i][0], unsupported_cases[i][1])
+		_p02_expect(bad, BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, "A10 unsupported case %d" % i)
+	var overflow := snap.to_dict()
+	_p02_strength(overflow)["base_value"] = 1e308
+	_p02_strength(overflow)["modifiers"][1]["value"] = 1e308
+	_p02_expect(overflow, BoardSnapshotResult.Code.SNAPSHOT_INVALID, "A10 finite fields computed overflow")
+	var low_stat := Stat.new(1.0)
+	low_stat.add_modifier(StatModifier.new(&"low", StatModifier.Operation.ADD_FLAT, 2.0))
+	var malformed_stat := low_stat.to_snapshot_dict()
+	malformed_stat["modifiers"][0]["operation"] = 99
+	_check(Stat.from_snapshot_dict(malformed_stat) == null, "A10 low Stat rejects malformed modifier enum")
+	var low_bag := StatsBag.new()
+	low_bag.set_base_value(StatTypes.StatType.STRENGTH, 1.0)
+	var malformed_bag := low_bag.to_snapshot_dict()
+	malformed_bag["stats"][0]["stat_type"] = 99
+	_check(StatsBag.from_snapshot_dict(malformed_bag) == null, "A10 low Bag rejects stat enum")
+	# Меняем поля пустой доски напрямую: проверяем пределы snapshot без большой аллокации.
+	for dimensions in [[1025, 0], [257, 256], [9223372036854775807, 0], [0, 9223372036854775807]]:
+		var oversized := BattleBoard.new()
+		oversized.width = dimensions[0]
+		oversized.height = dimensions[1]
+		_check(SimulationSnapshot.capture_board(oversized, []).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "A10 capture rejects unallocated oversized %s" % str(dimensions))
+	var live_overflow := _p02_board()
+	var live_stat: Stat = live_overflow.get_unit_by_id(2).stats._stats[StatTypes.StatType.STRENGTH]
+	live_stat.base_value = 1e308
+	live_stat.add_modifier(StatModifier.new(&"overflow", StatModifier.Operation.ADD_FLAT, 1e308))
+	_check(SimulationSnapshot.capture_board(live_overflow, []).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "A10 capture rejects computed Stat overflow")
+	for size in [Vector2i(257, 256), Vector2i(1024, 1024)]:
+		var bad := snap.to_dict()
+		bad["board"]["width"] = size.x
+		bad["board"]["height"] = size.y
+		_p02_expect(bad, BoardSnapshotResult.Code.SNAPSHOT_INVALID, "A10 product exceeds MAX_CELLS")
+	for size in [Vector2i(0, 0), Vector2i(1024, 0), Vector2i(0, 1024), Vector2i(256, 256)]:
+		var edge := BattleBoard.new(size.x, size.y)
+		var result := SimulationSnapshot.capture_board(edge, [])
+		_check(result.code == BoardSnapshotResult.Code.OK and result.snapshot.instantiate_board().get_bounds() == edge.get_bounds(), "A10 valid boundary %s" % size)
+	var live := _p02_board()
+	var u := live.get_unit_by_id(2)
+	var stats := u.stats
+	u.stats = null
+	_check(SimulationSnapshot.capture_board(live, []).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "A10 missing live stats")
+	u.stats = stats
+	var vitals := u.vitals
+	u.vitals = null
+	_check(SimulationSnapshot.capture_board(live, []).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "A10 missing live vitals")
+	u.vitals = Vitals.new(StatsBag.new(), false)
+	_check(SimulationSnapshot.capture_board(live, []).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "A10 foreign Vitals bag")
+	u.vitals = vitals
+	u.ai_profile = AIBehaviorProfile.new()
+	var unsupported := SimulationSnapshot.capture_board(live, [])
+	_check(unsupported.code == BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED and unsupported.unsupported_ids.has(&"unit/2/ai_profile"), "A10 live profile diagnostic")
+	u.ai_profile = null
+	_check(SimulationSnapshot.capture_board(null, []).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "A10 null board")
+	live._units[99] = RefCounted.new()
+	_check(SimulationSnapshot.capture_board(live, []).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID and live.to_snapshot_dict().is_empty(), "A10 foreign registry object safely rejected")
+	live._units.erase(99)
+	u.stats._stats[99] = RefCounted.new()
+	_check(SimulationSnapshot.capture_board(live, []).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID and u.stats.to_snapshot_dict().is_empty(), "A10 foreign stat object safely rejected")
+	u.stats._stats.erase(99)
+	_test_p02_subtypes()
+	_test_p02_cache()
+
+
+func _test_p02_cache() -> void:
+	var board := _p02_board()
+	var unit := board.get_unit_by_id(2)
+	var stat: Stat = unit.stats._stats[StatTypes.StatType.STRENGTH]
+	var old := stat.get_value()
+	var counts: Array[int] = [0]
+	unit.stats.stat_changed.connect(func(_s: StatTypes.StatType, _a: float, _b: float) -> void: counts[0] += 1)
+	board.board_changed.connect(func() -> void: counts[0] += 1)
+	var counter := UnitId.get_counter()
+	stat._modifiers[0].value = 100.0
+	var result := SimulationSnapshot.capture_board(board, [])
+	_check(result.code == BoardSnapshotResult.Code.SNAPSHOT_INVALID and result.snapshot == null and result.reason.contains("stat") and result.reason.contains("cache"), "A10 stale clean cache diagnostic path", result.reason)
+	_check(stat._cached_value == old and not stat._cache_dirty and stat._modifiers[0].value == 100.0 and counts[0] == 0 and UnitId.get_counter() == counter, "A10 stale capture never repairs or emits")
+	stat.base_value = 10.0
+	stat._cached_value = NAN
+	result = SimulationSnapshot.capture_board(board, [])
+	_check(result.code == BoardSnapshotResult.Code.OK and stat._cache_dirty and is_nan(stat._cached_value), "A10 dirty cache ignored even if nonfinite")
+	_check(result.snapshot.instantiate_board().get_unit_by_id(2).get_stat(StatTypes.StatType.STRENGTH) == 642.0, "A10 dirty clone calculates current finite modifiers")
+
+
+func _test_p02_subtypes() -> void:
+	var derived_board := _P02Board.new()
+	_check(SimulationSnapshot.capture_board(derived_board, []).code == BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED and derived_board.to_snapshot_dict().is_empty(), "A10 Board subclass")
+	for kind in ["unit", "bag", "vitals", "stat", "modifier"]:
+		var board := _p02_board()
+		var u := board.get_unit_by_id(2)
+		if kind == "unit":
+			var other := _P02Unit.new()
+			other.id = 2
+			other.stats = u.stats
+			other.vitals = u.vitals
+			board._units[2] = other
+		elif kind == "bag": u.stats = _P02Bag.new()
+		elif kind == "vitals": u.vitals = _P02Vitals.new(u.stats, false)
+		elif kind == "stat": u.stats._stats[StatTypes.StatType.STRENGTH] = _P02Stat.new()
+		else:
+			var s: Stat = u.stats._stats[StatTypes.StatType.STRENGTH]
+			s.add_modifier(_P02Modifier.new())
+		var result := SimulationSnapshot.capture_board(board, [])
+		_check(result.code == BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED and result.snapshot == null and String(result.unsupported_ids[0]).ends_with("/subclass"), "A10 subtype refused: " + kind)
+
+
+func _test_p02_a11_board_edges() -> void:
+	var board := _p02_board()
+	var u := board.get_unit_by_id(2)
+	board.clear_occupancy(u)
+	var clone := _p02_capture(board).instantiate_board()
+	_check(clone.get_unit_by_id(2).is_alive() and not clone.is_occupied(Vector2i.ZERO), "A11 living registry unit without occupancy retained")
+	_check(clone.get_unit_by_id(2).height == 0 and clone.get_height(Vector2i.ZERO) == 7, "A11 unit height differs from tile")
+	u.cell = Vector2i(3, 0)
+	_check(SimulationSnapshot.capture_board(board, []).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "A11 out-of-bounds unit explicitly refused")
+	var low := _p02_unit(2, Vector2i.ZERO, _make_stats()).to_snapshot_dict()
+	low["cell_x"] = 4294967296
+	_check(UnitState.from_snapshot_dict(low) == null, "A11 low Unit import prevents Vector2i overflow")
+	low = _p02_unit(2, Vector2i.ZERO, _make_stats()).to_snapshot_dict()
+	low["height"] = 4294967296
+	_check(UnitState.from_snapshot_dict(low).height == 4294967296, "A11 unit height remains int64 outside Vector2i")
+	_check(Stat.from_snapshot_dict({}) == null and StatsBag.from_snapshot_dict({}) == null and UnitState.from_snapshot_dict({}) == null and BattleBoard.from_snapshot_dict({}) == null, "A11 low public APIs reject missing schema")
+
+
+func _test_p02_a12_old_save_unchanged() -> void:
+	var board := _p02_board()
+	var bag := board.get_unit_by_id(2).stats
+	var old := bag.to_dict()
+	_check(old.keys() == ["bases"] and old["bases"]["3"] == 10.0, "A12 legacy bag saves only bases")
+	_check(StatsBag.from_dict(old).get_value(StatTypes.StatType.STRENGTH) == 10.0, "A12 legacy bag load does not restore modifiers")
+	var unit := board.get_unit_by_id(2)
+	var old_unit := unit.to_dict()
+	_check(not old_unit.has("schema_version") and old_unit["stats"] == old, "A12 legacy unit schema unchanged")
+	var old_board := board.to_dict()
+	_check(old_board.has("unit_id_counter") and not old_board.has("occupancy") and not old_board.has("board_version"), "A12 legacy board schema unchanged")
+	var before := old_board.duplicate(true)
+	_p02_capture(board).instantiate_board()
+	_check(board.to_dict() == before, "A12 snapshot does not mutate legacy save state")
+
+
+class _P02Board extends BattleBoard:
+	pass
+
+class _P02Unit extends UnitState:
+	pass
+
+class _P02Bag extends StatsBag:
+	pass
+
+class _P02Vitals extends Vitals:
+	pass
+
+class _P02Stat extends Stat:
+	pass
+
+class _P02Modifier extends StatModifier:
+	pass
 # --- Stat pipeline ---------------------------------------------------------
 
 ## Главное свойство фиксированного конвейера: результат НЕ зависит от порядка
@@ -2501,6 +3072,126 @@ func _test_would_kill_prediction() -> void:
 	DamageCalculator.apply(info, sink)
 	_check(sink.has_event(&"unit_died"), "unit_died reported")
 	_check(not target.is_alive(), "target is dead")
+
+
+## Синхронная реакция на damaged может вложенно добить цель; внешний apply не
+## должен повторно публиковать смерть, потому что переход произошёл внутри.
+func _test_nested_damage_death_belongs_to_inner_apply() -> void:
+	var board := _make_board()
+	var attacker := _make_unit(Faction.Type.ENEMY, Vector2i(0, 0))
+	var target := _make_unit(Faction.Type.PLAYER, Vector2i(1, 0))
+	board.add_unit(attacker)
+	board.add_unit(target)
+	var sink := _NestedDamageSink.new()
+	sink.nested_info = DamageCalculator.calculate(
+		attacker, target, attacker.cell, target.cell, 999.0, 0.0, board, 1
+	)
+	var outer_info := DamageCalculator.calculate(
+		attacker, target, attacker.cell, target.cell, 1.0, 0.0, board, 1
+	)
+	DamageCalculator.apply(outer_info, sink)
+	_check(sink.count_of(&"unit_damaged") == 2, "nested death reports damage for both applies")
+	_check(sink.count_of(&"unit_died") == 1, "nested death publishes one unit_died")
+	_check(not target.is_alive(), "nested damage kills target")
+
+
+func _test_death_apply_is_idempotent_for_domain_events() -> void:
+	var board := _make_board()
+	var attacker := _make_unit(Faction.Type.ENEMY, Vector2i(0, 0))
+	var target := _make_unit(Faction.Type.PLAYER, Vector2i(1, 0))
+	board.add_unit(attacker)
+	board.add_unit(target)
+	target.vitals.set_hp(1.0)
+	var death_count: Array[int] = [0]
+	target.vitals.died.connect(func() -> void: death_count[0] += 1)
+	var sink := RecordingEventSink.new()
+	var info := DamageCalculator.calculate(
+		attacker, target, attacker.cell, target.cell, 1.0, 200.0, board, 1
+	)
+	DamageCalculator.apply(info, sink)
+	DamageCalculator.apply(info, sink)
+	_check(death_count[0] == 1, "two lethal applies emit one Vitals.died")
+	_check(sink.count_of(&"unit_damaged") == 1, "two lethal applies report one damaged")
+	_check(sink.count_of(&"unit_died") == 1, "two lethal applies report one unit_died")
+	_check(sink.count_of(&"unit_balance_changed") == 0, "death has no balance change")
+	_check(sink.count_of(&"unit_balance_broken") == 0, "death has no balance break")
+
+
+func _test_death_clears_before_sink_and_preserves_corpse() -> void:
+	var board := _make_board(3, 1)
+	var attacker := _make_unit(Faction.Type.ENEMY, Vector2i(0, 0))
+	var corpse := _make_unit(Faction.Type.PLAYER, Vector2i(1, 0))
+	var mover := _make_unit(Faction.Type.PLAYER, Vector2i(2, 0))
+	board.add_unit(attacker)
+	board.add_unit(corpse)
+	board.add_unit(mover)
+	var sink := _BoardDeathSink.new()
+	sink.board = board
+	sink.corpse = corpse
+	sink.mover = mover
+	var info := DamageCalculator.calculate(
+		attacker, corpse, attacker.cell, corpse.cell, 999.0, 0.0, board, 1
+	)
+	DamageCalculator.apply(info, sink)
+	_check(sink.saw_free_cell, "unit_died sees cell already free")
+	_check(sink.moved_other, "other unit moves into freed cell during sink")
+	_check(board.get_unit_by_id(corpse.id) == corpse, "corpse remains in registry")
+	_check(board.occupant_at(corpse.cell) == mover, "new occupant is preserved")
+	var version := board.board_version
+	board.clear_occupancy(corpse)
+	_check(board.board_version == version, "repeated corpse cleanup is idempotent")
+	_check(board.occupant_at(corpse.cell) == mover, "repeated cleanup keeps new occupant")
+
+
+func _test_loaded_death_and_dead_add_do_not_occupy() -> void:
+	var source := _make_board(4, 1)
+	var live := _make_unit(Faction.Type.PLAYER, Vector2i(1, 0))
+	var dead := _make_unit(Faction.Type.ENEMY, Vector2i(0, 0))
+	dead.vitals.apply_damage(999.0)
+	source.add_unit(live)
+	_check(source.add_unit(dead), "already dead unit can be registered")
+	var source_mover := _make_unit(Faction.Type.PLAYER, Vector2i(2, 0))
+	source.add_unit(source_mover)
+	# can_enter скрывает мёртвого даже при ошибочной записи occupancy; проверяем реальный вход.
+	_check(source.move_unit(source_mover, dead.cell), "adding dead unit leaves occupancy free")
+	source.remove_unit(source_mover)
+	var restored := BattleBoard.from_dict(source.to_dict())
+	var restored_live := restored.get_unit_by_id(live.id)
+	var restored_dead := restored.get_unit_by_id(dead.id)
+	_check(restored_dead != null and not restored.is_occupied(restored_dead.cell), "loaded corpse does not occupy")
+	_check(restored.can_enter(restored_dead.cell), "loaded corpse cell is enterable")
+	var mover := _make_unit(Faction.Type.PLAYER, Vector2i(2, 0))
+	_check(restored.add_unit(mover), "mover added beside loaded units")
+	_check(restored.move_unit(mover, restored_dead.cell), "mover enters loaded corpse cell")
+	var sink := RecordingEventSink.new()
+	var attacker := _make_unit(Faction.Type.ENEMY, Vector2i(3, 0))
+	_check(restored.add_unit(attacker), "attacker added for loaded death")
+	var info := DamageCalculator.calculate(
+		attacker, restored_live, attacker.cell, restored_live.cell, 999.0, 0.0, restored, 1
+	)
+	DamageCalculator.apply(info, sink)
+	_check(not restored.is_occupied(restored_live.cell), "loaded live unit clears on death")
+	_check(restored.move_unit(mover, restored_live.cell), "mover enters newly dead loaded unit cell")
+
+
+func _test_board_removes_death_subscriptions() -> void:
+	var board := _make_board(3, 1)
+	var unit := _make_unit(Faction.Type.PLAYER, Vector2i(0, 0))
+	_check(board.add_unit(unit), "unit added for subscription removal")
+	_check(unit.vitals.died.get_connections().size() == 1, "one death subscription after add")
+	board.remove_unit(unit)
+	var version_after_remove := board.board_version
+	_check(unit.vitals.died.get_connections().is_empty(), "remove disconnects death subscription")
+	unit.vitals.apply_damage(999.0)
+	_check(board.board_version == version_after_remove, "late death after remove leaves board unchanged")
+	_check(board.add_unit(unit), "dead unit can be re-added")
+	_check(unit.vitals.died.get_connections().size() == 1, "re-add creates one subscription")
+	board.resize(3, 1)
+	var version_after_resize := board.board_version
+	_check(unit.vitals.died.get_connections().is_empty(), "resize disconnects death subscription")
+	unit.vitals.revive()
+	unit.vitals.apply_damage(999.0)
+	_check(board.board_version == version_after_resize, "late death after resize leaves board unchanged")
 
 
 # --- PushResolver ----------------------------------------------------------
@@ -3004,6 +3695,30 @@ class _StubConsideration extends AIConsideration:
 
 	func score(_action: AIAction, _context: AIDecisionContext) -> float:
 		return fixed_score
+
+
+class _NestedDamageSink extends RecordingEventSink:
+	var nested_info: DamageInfo
+	var _nested_applied: bool = false
+
+	func unit_damaged(unit: UnitState, amount: float, source: Variant) -> void:
+		super.unit_damaged(unit, amount, source)
+		if not _nested_applied and nested_info != null:
+			_nested_applied = true
+			DamageCalculator.apply(nested_info, self)
+
+
+class _BoardDeathSink extends RecordingEventSink:
+	var board: BattleBoard
+	var corpse: UnitState
+	var mover: UnitState
+	var saw_free_cell: bool = false
+	var moved_other: bool = false
+
+	func unit_died(unit: UnitState, source: Variant) -> void:
+		super.unit_died(unit, source)
+		saw_free_cell = board.can_enter(unit.cell)
+		moved_other = board.move_unit(mover, unit.cell)
 
 # Фрагмент P03a acceptance.
 func _test_p03a_acceptance() -> void:

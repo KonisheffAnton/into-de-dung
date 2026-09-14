@@ -56,6 +56,9 @@ var _occupancy: Dictionary = {}
 ## союзника" и экраны результатов должны видеть павших).
 var _units: Dictionary = {}
 
+## Подписки хранятся отдельно, чтобы их можно было снять при удалении доски.
+var _death_callbacks: Dictionary = {}
+
 
 func _init(p_width: int = 0, p_height: int = 0) -> void:
 	resize(p_width, p_height)
@@ -63,6 +66,7 @@ func _init(p_width: int = 0, p_height: int = 0) -> void:
 
 ## Пересоздаёт доску заданного размера, заполняя полом на высоте 0.
 func resize(p_width: int, p_height: int) -> void:
+	_disconnect_all_death_callbacks()
 	width = maxi(0, p_width)
 	height = maxi(0, p_height)
 	var cell_count := width * height
@@ -79,6 +83,7 @@ func resize(p_width: int, p_height: int) -> void:
 
 	_occupancy.clear()
 	_units.clear()
+	_death_callbacks.clear()
 	_touch()
 
 
@@ -197,7 +202,9 @@ func add_unit(unit: UnitState) -> bool:
 		return false
 
 	_units[unit.id] = unit
-	_occupancy[unit.cell] = unit.id
+	_register_death_callback(unit)
+	if unit.is_alive():
+		_occupancy[unit.cell] = unit.id
 	unit.height = get_height(unit.cell)
 	_touch()
 	return true
@@ -207,6 +214,7 @@ func add_unit(unit: UnitState) -> bool:
 func remove_unit(unit: UnitState) -> void:
 	if unit == null or not _units.has(unit.id):
 		return
+	_disconnect_death_callback(unit.id)
 	_units.erase(unit.id)
 	if _occupancy.get(unit.cell, UnitId.NONE) == unit.id:
 		_occupancy.erase(unit.cell)
@@ -377,6 +385,43 @@ func _touch() -> void:
 	board_changed.emit()
 
 
+func _register_death_callback(unit: UnitState) -> void:
+	if unit == null or unit.vitals == null or _death_callbacks.has(unit.id):
+		return
+	# ID не удерживает UnitState в замыкании, поэтому callback не продлевает жизнь юнита.
+	var callback := Callable(self, &"_on_registered_unit_died").bind(unit.id, weakref(unit), weakref(unit.vitals))
+	unit.vitals.died.connect(callback)
+	_death_callbacks[unit.id] = callback
+
+
+func _disconnect_death_callback(unit_id: int) -> void:
+	var callback: Callable = _death_callbacks.get(unit_id, Callable())
+	if callback.is_valid():
+		var arguments := callback.get_bound_arguments()
+		var pinned: Vitals = (arguments[2] as WeakRef).get_ref() as Vitals if arguments.size() == 3 else null
+		if pinned != null and pinned.died.is_connected(callback): pinned.died.disconnect(callback)
+	_death_callbacks.erase(unit_id)
+
+
+func _disconnect_all_death_callbacks() -> void:
+	for unit_id_variant in _death_callbacks.keys():
+		_disconnect_death_callback(int(unit_id_variant))
+
+
+func _on_registered_unit_died(unit_id: int, pinned_unit: WeakRef, pinned_vitals: WeakRef) -> void:
+	var unit: UnitState = _units.get(unit_id)
+	var old_unit: UnitState = pinned_unit.get_ref() as UnitState
+	var old_vitals: Vitals = pinned_vitals.get_ref() as Vitals
+	if unit == null or old_unit == null or old_vitals == null or unit != old_unit or unit.id != unit_id or unit.vitals != old_vitals or unit.is_alive():
+		return
+	# Те же WeakRef-объекты обозначают именно эту регистрацию, даже при повторном add.
+	var current: Callable = _death_callbacks.get(unit_id, Callable())
+	if not current.is_valid(): return
+	var arguments := current.get_bound_arguments()
+	if arguments.size() != 3 or arguments[1] != pinned_unit or arguments[2] != pinned_vitals: return
+	clear_occupancy(unit)
+
+
 # --- Сериализация (R-4) ---------------------------------------------------
 ## Юниты сохраняются как список — occupancy восстанавливается из их клеток,
 ## чтобы не хранить один и тот же факт дважды (источник рассинхрона).
@@ -426,8 +471,130 @@ static func from_dict(data: Dictionary) -> BattleBoard:
 		var unit_data: Dictionary = unit_data_variant
 		var unit := UnitState.from_dict(unit_data)
 		board._units[unit.id] = unit
+		board._register_death_callback(unit)
 		if unit.is_alive():
 			board._occupancy[unit.cell] = unit.id
 
 	board._touch()
 	return board
+
+
+func to_snapshot_dict() -> Dictionary:
+	if get_script() != BattleBoard or width < 0 or height < 0 or board_version < 0 or width > 1024 or height > 1024 or (width > 0 and height > 65536 / width) or _heights.size() != width * height or _terrain.size() != width * height or _height_half_steps.size() != width * height:
+		return {}
+	for value in _heights:
+		if value < -2147483648 or value > 2147483647: return {}
+	for value in _terrain:
+		if value < 0 or value > 3: return {}
+	var units: Array[Dictionary] = []
+	var live_units: Dictionary = {}
+	for key in _units.keys():
+		if typeof(key) != TYPE_INT or not (_units[key] is UnitState): return {}
+		var unit: UnitState = _units[key]
+		if unit == null or unit.id != key or not is_in_bounds(unit.cell): return {}
+		var value := unit.to_snapshot_dict()
+		if value.is_empty(): return {}
+		units.append(value)
+		live_units[unit.id] = unit
+	units.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["id"] < b["id"])
+	var occupancy: Array[Dictionary] = []
+	for cell_variant in _occupancy.keys():
+		if typeof(cell_variant) != TYPE_VECTOR2I or typeof(_occupancy[cell_variant]) != TYPE_INT: return {}
+		var cell: Vector2i = cell_variant
+		var owner_id: int = _occupancy[cell]
+		if not is_in_bounds(cell) or not live_units.has(owner_id): return {}
+		var owner: UnitState = live_units[owner_id]
+		if not owner.is_alive() or owner.cell != cell: return {}
+		occupancy.append({"x": cell.x, "y": cell.y, "unit_id": owner_id})
+	occupancy.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["y"] < b["y"] or (a["y"] == b["y"] and a["x"] < b["x"]))
+	var schema := 2 if has_half_heights() else 1
+	var result := {"schema_version": schema, "width": width, "height": height,
+		"board_version": board_version, "heights": Array(_heights),
+		"terrain": Array(_terrain), "units": units, "occupancy": occupancy}
+	if schema == 2:
+		result["height_half_steps"] = Array(_height_half_steps)
+	return result if validate_snapshot_dict(result) else {}
+
+
+static func from_snapshot_dict(data: Dictionary) -> BattleBoard:
+	if not validate_snapshot_dict(data): return null
+	return _from_snapshot_validated(data)
+
+
+static func _from_snapshot_validated(data: Dictionary) -> BattleBoard:
+	var board := BattleBoard.new(data["width"], data["height"])
+	board._heights = PackedInt32Array(data["heights"])
+	board._height_half_steps = PackedByteArray(data.get("height_half_steps", []))
+	if board._height_half_steps.is_empty():
+		board._height_half_steps.resize(data["width"] * data["height"])
+	board._terrain = PackedByteArray(data["terrain"])
+	board._units.clear()
+	board._occupancy.clear()
+	board._death_callbacks.clear()
+	for raw_unit in data["units"]:
+		var unit := UnitState.from_snapshot_dict(raw_unit)
+		board._units[unit.id] = unit
+	for raw_occupant in data["occupancy"]:
+		var occupant: Dictionary = raw_occupant
+		board._occupancy[Vector2i(occupant["x"], occupant["y"])] = int(occupant["unit_id"])
+	board.board_version = data["board_version"]
+	for unit_variant in board._units.values():
+		board._register_death_callback(unit_variant as UnitState)
+	return board
+
+
+static func validate_snapshot_dict(data: Variant) -> bool:
+	if typeof(data) != TYPE_DICTIONARY: return false
+	var b: Dictionary = data
+	var schema_value: Variant = data.get("schema_version")
+	if typeof(schema_value) != TYPE_INT: return false
+	var required := ["schema_version", "width", "height", "board_version", "heights", "terrain", "units", "occupancy"]
+	if schema_value == 2: required.append("height_half_steps")
+	if not _has_exact_string_keys(b, required): return false
+	for key in ["schema_version", "width", "height", "board_version"]:
+		if typeof(b[key]) != TYPE_INT: return false
+	if b["schema_version"] not in [1, 2] or b["width"] < 0 or b["height"] < 0 or b["board_version"] < 0 or b["width"] > 1024 or b["height"] > 1024 or (b["width"] > 0 and b["height"] > 65536 / b["width"]): return false
+	if typeof(b["heights"]) != TYPE_ARRAY or typeof(b["terrain"]) != TYPE_ARRAY or typeof(b["units"]) != TYPE_ARRAY or typeof(b["occupancy"]) != TYPE_ARRAY: return false
+	var cells: int = b["width"] * b["height"]
+	var heights: Array = b["heights"]
+	var terrain: Array = b["terrain"]
+	if heights.size() != cells or terrain.size() != cells: return false
+	if b["schema_version"] == 2:
+		if typeof(b["height_half_steps"]) != TYPE_ARRAY or b["height_half_steps"].size() != cells: return false
+		var any_half := false
+		for bit in b["height_half_steps"]:
+			if typeof(bit) != TYPE_INT or bit < 0 or bit > 1: return false
+			any_half = any_half or bit == 1
+		if not any_half: return false
+	for value in heights:
+		if typeof(value) != TYPE_INT or value < -2147483648 or value > 2147483647: return false
+	for value in terrain:
+		if typeof(value) != TYPE_INT or value < 0 or value > 3: return false
+	var units: Array = b["units"]
+	var ids: Dictionary = {}
+	for raw_unit in units:
+		if not UnitState.validate_snapshot_dict(raw_unit): return false
+		var unit: Dictionary = raw_unit
+		if unit["cell_x"] < 0 or unit["cell_y"] < 0 or unit["cell_x"] >= b["width"] or unit["cell_y"] >= b["height"] or ids.has(unit["id"]): return false
+		ids[unit["id"]] = unit
+	var cells_seen: Dictionary = {}
+	var occupied_ids: Dictionary = {}
+	for raw_occupant in b["occupancy"]:
+		if typeof(raw_occupant) != TYPE_DICTIONARY: return false
+		var occupant: Dictionary = raw_occupant
+		if not _has_exact_string_keys(occupant, ["x", "y", "unit_id"]) or typeof(occupant["x"]) != TYPE_INT or typeof(occupant["y"]) != TYPE_INT or typeof(occupant["unit_id"]) != TYPE_INT: return false
+		if occupant["x"] < 0 or occupant["y"] < 0 or occupant["x"] >= b["width"] or occupant["y"] >= b["height"]: return false
+		var cell_key := "%d,%d" % [occupant["x"], occupant["y"]]
+		if cells_seen.has(cell_key) or occupied_ids.has(occupant["unit_id"]) or not ids.has(occupant["unit_id"]): return false
+		var owner: Dictionary = ids[occupant["unit_id"]]
+		if not owner["vitals"]["is_alive"] or owner["cell_x"] != occupant["x"] or owner["cell_y"] != occupant["y"]: return false
+		cells_seen[cell_key] = true
+		occupied_ids[occupant["unit_id"]] = true
+	return true
+
+
+static func _has_exact_string_keys(value: Dictionary, required: Array) -> bool:
+	if value.keys().size() != required.size(): return false
+	for key in value.keys():
+		if typeof(key) != TYPE_STRING or not required.has(key): return false
+	return true
