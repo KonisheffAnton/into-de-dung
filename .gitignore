@@ -77,4 +77,5 @@ $RECYCLE.BIN/
 # Отчёты тестов (gdUnit4 / GUT)
 # ---------------------------------------------------------------------------
 /reports/
-/test_reports/
+/test_reports/*
+!/test_reports/.gdignore
