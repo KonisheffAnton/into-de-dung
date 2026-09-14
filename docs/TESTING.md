@@ -339,3 +339,20 @@ p07-independent-implementation-review.md; карта A01–A17 — p07-acceptanc
 Frozen P07 TASK/DEPENDENCIES/REVIEW не переписаны. Для следующего этапа исходные
 hashes заменяются только принятым implementation manifest; dirty P01/P02/P06
 по-прежнему являются необходимыми зависимостями checkout.
+
+## P08 r2 — диагностика CONTRACT_GAP, не приёмка реализации (2026-09-14)
+
+В exact копии принятого входного P07 ведущий выполнил Godot 4.7.2 import/startup
+(exit0, scan/classes DONE) и весь runner: 1996 passed/0 failed, exit0. Сохранены
+прежние 45 ObjectDB/18 resources diagnostics; tests.log совпал по SHA256 с P07.
+Отдельный probe hp_changed->board.set_height показал APPLIED/version_delta1 при
+impact0, immunity и terminal wall PushDamage. Это проверка существующего call
+flow, не spatial profile. Исправленный probe exit0; первый cleanup-error log
+сохранён отдельно и не считается успешным прогоном. Env менялось только процессно.
+
+game_reviewer/Terra/high независимо прочитал fixed code/logs, сверил 12 hashes и
+подтвердил CONTRACT_GAP S14 vs read-only AttackHit/Balance/PushDamage. Reviewer
+ничего не запускал. S01–S17, UID новых классов и runtime APPROVE не получены:
+реализация остановлена до новой редакции; базовый 1996/0 их не заменяет.
+Все 1104 старых reports сохранены; новые логи/manifest/review/baseline/paused code:
+`test_reports/p08-implementation-362ad64ba4fb41ebb427b16c4355cfb6/`.

@@ -394,3 +394,24 @@ Board heights остаются целыми уровнями. Игровой п�
 означает запрет любого положительного целого delta; полууровни и expanded reach
 относятся к следующему spatial пакету. Шипы и отдельные препятствия с HP —
 будущие требования окружения, не реализованные системы P07.
+
+## P08-SPATIAL r2 — CONTRACT_GAP при реализации (2026-09-14)
+
+Вход HEAD 8a69b37f и frozen пакет прошли проверку 256 files/22 local_artifacts.
+Независимый game_reviewer/Terra/high подтвердил REQUEST_CHANGES / CONTRACT_GAP:
+S14 требует fault при callback-мутации HP/refs/budget/version, но §4.3/§5 запрещают
+изменение AttackHitCommand, BalanceCommand и PushDamageCommand. У этих команд
+нет post-action guard; при impact0/immunity hit не создаёт Balance child,
+а balance без break и PushDamage могут завершать pipeline без следующей проверки.
+Одних новых sealed полей Binding недостаточно; перенос проверки в event validator
+не является согласованным контрактом. Исключённый общий S-5 не отменяет S14.
+
+Реализация r2 остановлена по предусмотренному TASK пути CONTRACT_GAP. Frozen
+TASK/DEPENDENCIES/REVIEW не переписаны. Незавершённый substrate архивирован,
+только собственные четыре delta убраны, принятый runtime восстановлен побайтно.
+Runtime P08 и S01–S17 не приняты. Нужна новая редакция с разрешёнными тремя
+command paths и явным post-action контрактом pinned refs/HP/budget/version,
+death-cleanup touches и сохранения завершённого event prefix, затем новое ревью.
+
+Диагностика и независимый отчёт:
+`test_reports/p08-implementation-362ad64ba4fb41ebb427b16c4355cfb6/`.
