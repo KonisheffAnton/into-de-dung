@@ -128,6 +128,25 @@ func _initialize() -> void:
 	_test_p05_m11_depth_and_limits()
 	_test_p05_m12_isolation()
 
+	_suite("P06 resources and snapshots")
+	_test_p06_a06_refill()
+	_test_p06_a09_snapshot_versions()
+	_test_p06_a10_rejections()
+
+	_suite("P06 Attack")
+	_test_p06_attack_happy_path()
+	_test_p06_attack_rules_and_reach()
+	_test_p06_attack_admission()
+	_test_p06_attack_formula_and_items()
+	_test_p06_attack_hit_seal()
+	_test_p06_attack_move_and_limits()
+	_test_p06_attack_event_schema()
+	_test_p06_attack_rejection_matrix()
+	_test_p06_attack_binding_matrix()
+	_test_p06_attack_queue_guards()
+	_test_p06_attack_reentrancy()
+	_test_p06_attack_restored_isolation()
+
 	print("\n=== %d passed, %d failed ===" % [_passed, _failed])
 	quit(1 if _failed > 0 else 0)
 
@@ -170,6 +189,692 @@ func _check_eq(actual: float, expected: float, label: String) -> void:
 		label,
 		"(expected %.4f, got %.4f)" % [expected, actual]
 	)
+
+func _p06_unit() -> UnitState:
+	var bag := StatsBag.new()
+	bag.set_base_value(StatTypes.StatType.HP_MAX, 10.0)
+	bag.set_base_value(StatTypes.StatType.MOVE_RANGE, 3.0)
+	bag.set_base_value(StatTypes.StatType.MAIN_ACTIONS_MAX, 2.0)
+	bag.set_base_value(StatTypes.StatType.BONUS_ACTIONS_MAX, 1.0)
+	bag.set_base_value(StatTypes.StatType.WEAPON_DAMAGE, 1.0)
+	bag.set_base_value(StatTypes.StatType.ATTACK_RANGE, 1.0)
+	return UnitState.create(Faction.Type.PLAYER, Vector2i.ZERO, bag, "P06")
+
+func _p06_attack_fixture(main_max: float = 2.0) -> Dictionary:
+	var board := BattleBoard.new(3, 1)
+	var actor := _p06_unit()
+	actor.stats.set_base_value(StatTypes.StatType.MAIN_ACTIONS_MAX, main_max)
+	actor.stats.set_base_value(StatTypes.StatType.STRENGTH, 3.0)
+	actor.stats.set_base_value(StatTypes.StatType.WEAPON_DAMAGE, 2.0)
+	var target := _p06_unit()
+	target.cell = Vector2i(1, 0)
+	target.stats.set_base_value(StatTypes.StatType.ARMOR, 1.0)
+	board.add_unit(actor)
+	board.add_unit(target)
+	var actor_owner := ItemOwnerState.new(actor)
+	var target_owner := ItemOwnerState.new(target)
+	var actor_inventory := InventoryState.new(actor_owner)
+	var target_inventory := InventoryState.new(target_owner)
+	var actor_equipment := EquipmentState.new(actor_owner)
+	var target_equipment := EquipmentState.new(target_owner)
+	var state := ItemSimulationState.new(board, [actor_owner, target_owner], [actor_inventory, target_inventory], [actor_equipment, target_equipment])
+	actor.enable_action_resources()
+	actor.try_refill_turn_resources()
+	var definition := AttackDefinition.new()
+	definition.id = &"p06_flat"
+	definition.profile = &"flat_melee_v1"
+	var rules := AttackRules.new([actor.id], [{"actor_unit_id": actor.id, "target_unit_id": target.id}], [definition])
+	var context := ActionContext.new(state, P04TestRng.new(), ActionEventSink.new(), [], null, rules)
+	return {"board": board, "actor": actor, "target": target, "state": state, "actor_owner": actor_owner, "actor_inventory": actor_inventory, "actor_equipment": actor_equipment, "owner": target_owner, "inventory": target_inventory, "target_equipment": target_equipment, "definition": definition, "rules": rules, "context": context}
+
+func _p06_attack(fixture: Dictionary) -> AttackCommand:
+	var actor: UnitState = fixture["actor"]
+	var target: UnitState = fixture["target"]
+	return AttackCommand.new(actor.id, target.id, actor.cell, target.cell, fixture["definition"].id, fixture["context"].get_revision())
+
+func _test_p06_attack_happy_path() -> void:
+	var fixture := _p06_attack_fixture()
+	var actor: UnitState = fixture["actor"]
+	var target: UnitState = fixture["target"]
+	var board_version_before: int = (fixture["board"] as BattleBoard).board_version
+	var receipt: ActionReceipt = ActionQueue.new().submit(_p06_attack(fixture), fixture["context"] as ActionContext)
+	var events: Array[Dictionary] = receipt.get_events()
+	_check(receipt.status == &"APPLIED" and events.size() == 2 and events[0]["kind"] == &"attacked" and events[1]["kind"] == &"damaged" and target.vitals.get_hp() == 6.0, "P06 A04/A07 attack applies STR + weapon - armor once")
+	_check(actor.action_resources.get_main_left() == 1 and actor.has_attacked and actor.move_points_left == 3.0 and actor.action_resources.get_bonus_left() == 1 and fixture["board"].board_version == board_version_before, "P06 A05 root spends exactly one main only")
+	_check(events[0].keys().size() == 13 and events[0]["main_before"] == 2 and events[0]["main_after"] == 1 and events[1]["source"]["kind"] == &"attack" and events[1]["source"]["instigator_unit_id"] == actor.id, "P06 A09 attacked schema and attack source")
+	var second: ActionReceipt = ActionQueue.new().submit(_p06_attack(fixture), fixture["context"] as ActionContext)
+	_check(second.status == &"APPLIED" and actor.action_resources.get_main_left() == 0 and target.vitals.get_hp() == 2.0, "P06 A05 second main ignores legacy has_attacked")
+	var replacement_context: ActionContext = ActionContext.new(fixture["state"] as ItemSimulationState, P04TestRng.new(), ActionEventSink.new(), [], null, fixture["rules"] as AttackRules)
+	_check(actor.action_resources.get_main_left() == 0 and not actor.can_attack() and replacement_context.get_attack_rules().allows(actor.id, target.id), "P06 A05 new context never refills an existing ledger")
+	var legacy := _p06_unit()
+	legacy.has_attacked = true
+	_check(legacy.action_resources == null and not legacy.can_attack(), "P06 A05 null ledger keeps legacy has_attacked behavior")
+
+func _test_p06_attack_rules_and_reach() -> void:
+	var fixture := _p06_attack_fixture()
+	var context: ActionContext = fixture["context"]
+	var copied: AttackRules = context.get_attack_rules()
+	fixture["rules"]._actors.clear()
+	_check(copied != null and copied.allows(fixture["actor"].id, fixture["target"].id) and context.get_attack_rules().allows(fixture["actor"].id, fixture["target"].id), "P06 A01 context owns independent copied attack rules")
+	var exposed: AttackDefinition = copied.get_definition((fixture["definition"] as AttackDefinition).id)
+	exposed.id = &"caller_mutation"
+	_check(copied.get_definition(fixture["definition"].id) != null and context.get_attack_rules().get_definition(fixture["definition"].id) != null, "P06 A01 definition getters return independent Resource copies")
+	var duplicate_pair: AttackRules = AttackRules.new([(fixture["actor"] as UnitState).id], [{"actor_unit_id": (fixture["actor"] as UnitState).id, "target_unit_id": (fixture["target"] as UnitState).id}, {"actor_unit_id": (fixture["actor"] as UnitState).id, "target_unit_id": (fixture["target"] as UnitState).id}], [fixture["definition"] as AttackDefinition])
+	var duplicate_actor: AttackRules = AttackRules.new([(fixture["actor"] as UnitState).id, (fixture["actor"] as UnitState).id], [], [fixture["definition"] as AttackDefinition])
+	_check(duplicate_pair.validate() == &"attack/invalid_rules" and duplicate_actor.validate() == &"attack/invalid_rules" and AttackRules.new([], [], []).validate() == &"", "P06 A01 duplicate rules reject and empty rules remain valid")
+	var board: BattleBoard = fixture["board"]
+	var actor: UnitState = fixture["actor"]
+	var target: UnitState = fixture["target"]
+	var compass := BattleBoard.new(3, 3)
+	var compass_actor := _p06_unit()
+	compass_actor.cell = Vector2i(1, 1)
+	compass_actor.height = 99
+	var all_adjacent := true
+	for cell: Vector2i in [Vector2i(1, 0), Vector2i(2, 1), Vector2i(1, 2), Vector2i(0, 1)]:
+		var compass_target := _p06_unit()
+		compass_target.cell = cell
+		compass_target.height = -99
+		all_adjacent = all_adjacent and AttackReachCheck.inspect(compass, compass_actor, compass_target, 1.0) == &""
+	_check(all_adjacent, "P06 A03 all four orthogonal directions use board cells, not Unit height")
+	for range_value: float in [0.0, NAN, INF, 1.5]:
+		_check(AttackReachCheck.inspect(board, actor, target, range_value) == &"attack/invalid_range", "P06 A03 invalid range %s" % range_value)
+	_check(AttackReachCheck.inspect(board, actor, target, 2.0) == &"attack/reach_unsupported", "P06 A03 range two unsupported")
+	target.cell = Vector2i(2, 0)
+	_check(AttackReachCheck.inspect(board, actor, target, 1.0) == &"attack/not_adjacent", "P06 A03 nonadjacent refused")
+	target.cell = Vector2i(1, 0)
+	board.set_height(target.cell, 1)
+	_check(AttackReachCheck.inspect(board, actor, target, 1.0) == &"attack/height_unsupported", "P06 A03 board height, not Unit height")
+	board.set_height(actor.cell, 2)
+	_check(AttackReachCheck.inspect(board, actor, target, 1.0) == &"attack/height_unsupported", "P06 A03 height mismatch rejects in reverse direction")
+	target.cell = Vector2i(1, 1)
+	_check(AttackReachCheck.inspect(compass, actor, target, 1.0) == &"attack/not_adjacent", "P06 A03 diagonal rejects")
+	actor.cell = Vector2i(-1, 0)
+	_check(AttackReachCheck.inspect(board, actor, target, 1.0) == &"attack/out_of_bounds", "P06 A03 out-of-bounds is explicit reach reason")
+
+func _test_p06_attack_admission() -> void:
+	var fixture := _p06_attack_fixture(1.0)
+	var command := _p06_attack(fixture)
+	var actor: UnitState = fixture["actor"]
+	var target: UnitState = fixture["target"]
+	var before := [actor.action_resources.get_main_left(), target.vitals.get_hp(), fixture["context"].get_revision()]
+	for mutation: String in ["self", "definition", "revision", "rules", "ledger", "range"]:
+		var local := _p06_attack_fixture(1.0)
+		var attack := _p06_attack(local)
+		if mutation == "self": attack = AttackCommand.new(local["actor"].id, local["actor"].id, local["actor"].cell, local["actor"].cell, local["definition"].id, 0)
+		elif mutation == "definition": attack = AttackCommand.new(local["actor"].id, local["target"].id, local["actor"].cell, local["target"].cell, &"missing", 0)
+		elif mutation == "revision": attack = AttackCommand.new(local["actor"].id, local["target"].id, local["actor"].cell, local["target"].cell, local["definition"].id, 1)
+		elif mutation == "rules": local["context"]._attack_rules = null
+		elif mutation == "ledger": local["actor"].action_resources = null
+		else: local["actor"].stats.set_base_value(StatTypes.StatType.ATTACK_RANGE, 2.0)
+		var rejected := ActionQueue.new().submit(attack, local["context"])
+		_check(rejected.status == &"REJECTED" and rejected.root_id == 0 and rejected.get_events().is_empty(), "P06 A02 admission refuses " + mutation)
+	_check(ActionQueue.new().submit(AttackHitCommand.new(), fixture["context"]).reason == &"attack/internal_hit" and before == [actor.action_resources.get_main_left(), target.vitals.get_hp(), fixture["context"].get_revision()], "P06 A11 external Hit is rejected before mutation")
+
+func _test_p06_attack_formula_and_items() -> void:
+	for values: Array in [[3.0, 2.0, 99.0, 1.0], [-3.0, 0.0, 0.0, 1.0], [3.5, 2.0, 1.0, 4.5], [3.0, 2.0, -2.0, 7.0]]:
+		var fixture := _p06_attack_fixture(1.0)
+		fixture["actor"].stats.set_base_value(StatTypes.StatType.STRENGTH, values[0])
+		fixture["actor"].stats.set_base_value(StatTypes.StatType.WEAPON_DAMAGE, values[1])
+		fixture["target"].stats.set_base_value(StatTypes.StatType.ARMOR, values[2])
+		var receipt: ActionReceipt = ActionQueue.new().submit(_p06_attack(fixture), fixture["context"] as ActionContext)
+		var events: Array[Dictionary] = receipt.get_events()
+		_check(receipt.status == &"APPLIED" and events[1]["amount"] == values[3] and fixture["target"].vitals.get_balance() == 0.0, "P06 A04 exact signed formula %s" % str(values))
+	var overflow := _p06_attack_fixture(1.0)
+	overflow["actor"].stats.set_base_value(StatTypes.StatType.STRENGTH, 1e308)
+	overflow["actor"].stats.set_base_value(StatTypes.StatType.WEAPON_DAMAGE, 1e308)
+	_p06_assert_attack_rejected(overflow, _p06_attack(overflow), &"attack/nonfinite_damage", "finite sum overflow")
+	var healing := _p06_attack_fixture(1.0)
+	healing["target"].stats.set_base_value(StatTypes.StatType.ARMOR, 99.0)
+	var heal_definition := ItemDef.new()
+	heal_definition.id = &"p06_attack_heal"
+	var heal_effect := HealOnDamageEffect.new()
+	heal_effect.heal_amount = 1.0
+	heal_definition.effects = [heal_effect]
+	var heal_item: ItemInstance = healing["owner"].create_item(heal_definition)
+	healing["inventory"].add_item(heal_item)
+	var healed: ActionReceipt = ActionQueue.new().submit(_p06_attack(healing), healing["context"] as ActionContext)
+	var kinds: Array[StringName] = []
+	for event in healed.get_events(): kinds.append(event["kind"])
+	_check(healed.status == &"APPLIED" and kinds == [&"attacked", &"damaged", &"healed"] and healing["target"].vitals.get_hp() == 10.0, "P06 A07 real HealOnDamage follows minimum hit")
+	var lethal := _p06_attack_fixture(1.0)
+	lethal["target"].vitals.set_hp(4.0)
+	var lethal_item: ItemInstance = lethal["owner"].create_item(heal_definition)
+	lethal["inventory"].add_item(lethal_item)
+	var killed: ActionReceipt = ActionQueue.new().submit(_p06_attack(lethal), lethal["context"] as ActionContext)
+	var lethal_kinds: Array[StringName] = []
+	for event in killed.get_events(): lethal_kinds.append(event["kind"])
+	_check(killed.status == &"APPLIED" and lethal_kinds == [&"attacked", &"damaged", &"died"] and not lethal["target"].is_alive() and lethal["board"].occupant_at(lethal["target"].cell) == null, "P06 A07 lethal attack does not heal and clears occupancy")
+	var overkill := _p06_attack_fixture(1.0)
+	overkill["target"].vitals.set_hp(2.0)
+	var overkill_receipt: ActionReceipt = ActionQueue.new().submit(_p06_attack(overkill), overkill["context"] as ActionContext)
+	_check(overkill_receipt.status == &"APPLIED" and overkill_receipt.get_events()[1]["amount"] == 2.0 and overkill_receipt.get_events()[1]["hp_before"] == 2.0, "P06 A07 damaged event reports actual HP loss, not requested overkill")
+
+class P06AttackHitHook extends Command:
+	var inner: AttackCommand
+	var mutation: StringName
+	func _init(value: AttackCommand, p_mutation: StringName = &"amount") -> void:
+		inner = value
+		mutation = p_mutation
+	func get_kind() -> StringName: return &"attack"
+	func copy_for_queue() -> Command: return P06AttackHitHook.new(inner.copy_for_queue() as AttackCommand, mutation)
+	func validate(context: ActionContext) -> StringName: return inner.validate(context)
+	func execute(context: ActionContext) -> CommandStepResult:
+		var result: CommandStepResult = inner.execute(context)
+		if result.status == &"APPLIED" and not result.mandatory.is_empty():
+			var hit: AttackHitCommand = result.mandatory[0] as AttackHitCommand
+			if mutation == &"amount": hit.request.amount += 1.0
+			elif mutation == &"target": hit.request.target_unit_id = hit.request.source.instigator_unit_id
+			elif mutation == &"damage_type": hit.request.damage_type = &"test"
+			elif mutation == &"armor_mode": hit.request.armor_mode = &"flat"
+			elif mutation == &"kind": hit.request.source.kind = &"test"
+			elif mutation == &"source_id": hit.request.source.source_instance_id = 1
+			elif mutation == &"origin": hit.request.source.origin_cell += Vector2i.RIGHT
+			elif mutation == &"instigator": hit.request.source.instigator_unit_id = 0
+			elif mutation == &"credit": hit.request.source.credit_unit_id = 0
+			elif mutation == &"request_null": hit.request = null
+			elif mutation == &"source_null": hit.request.source = null
+		return result
+
+func _test_p06_attack_hit_seal() -> void:
+	for mutation: StringName in [&"amount", &"target", &"damage_type", &"armor_mode", &"kind", &"source_id", &"origin", &"instigator", &"credit", &"request_null", &"source_null"]:
+		var fixture := _p06_attack_fixture(1.0)
+		var before_hp: float = fixture["target"].vitals.get_hp()
+		var result: ActionReceipt = ActionQueue.new().submit(P06AttackHitHook.new(_p06_attack(fixture), mutation), fixture["context"] as ActionContext)
+		_check(result.status == &"FAULTED" and result.reason == &"attack/invalid_hit" and fixture["actor"].action_resources.get_main_left() == 0 and fixture["target"].vitals.get_hp() == before_hp and result.get_events().size() == 1 and result.get_events()[0]["kind"] == &"attacked", "P06 A11 seal survives copied Hit corruption " + mutation)
+
+func _test_p06_attack_move_and_limits() -> void:
+	var fixture := _p06_attack_fixture(1.0)
+	var actor: UnitState = fixture["actor"]
+	var target: UnitState = fixture["target"]
+	fixture["board"].move_unit(target, Vector2i(2, 0))
+	fixture["context"] = ActionContext.new(fixture["state"], P04TestRng.new(), ActionEventSink.new(), [], MoveRules.new([actor.id], 0), fixture["rules"])
+	var move_one := MoveCommand.new(actor.id, [Vector2i.ZERO, Vector2i(1, 0)], fixture["context"].get_revision())
+	var moved: ActionReceipt = ActionQueue.new().submit(move_one, fixture["context"] as ActionContext)
+	var attacked: ActionReceipt = ActionQueue.new().submit(_p06_attack(fixture), fixture["context"] as ActionContext)
+	var move_two := MoveCommand.new(actor.id, [Vector2i(1, 0), Vector2i.ZERO], fixture["context"].get_revision())
+	var moved_back: ActionReceipt = ActionQueue.new().submit(move_two, fixture["context"] as ActionContext)
+	_check(moved.status == &"APPLIED" and attacked.status == &"APPLIED" and moved_back.status == &"APPLIED" and actor.cell == Vector2i.ZERO and actor.move_points_left == 1.0 and target.vitals.get_hp() == 6.0, "P06 A08 Move-Attack-Move keeps independent move budget and rules")
+	var command_limit := _p06_attack_fixture(1.0)
+	var target_hp: float = command_limit["target"].vitals.get_hp()
+	var limited: ActionReceipt = ActionQueue.new(1).submit(_p06_attack(command_limit), command_limit["context"] as ActionContext)
+	_check(limited.status == &"FAULTED" and limited.reason == &"command_limit" and limited.get_events().size() == 1 and limited.get_events()[0]["kind"] == &"attacked" and command_limit["actor"].action_resources.get_main_left() == 0 and command_limit["target"].vitals.get_hp() == target_hp, "P06 A13 command limit preserves paid attacked prefix before Hit")
+	var alive_zero := _p06_attack_fixture(1.0)
+	alive_zero["target"].vitals.set_hp(0.0)
+	var zero_receipt: ActionReceipt = ActionQueue.new().submit(_p06_attack(alive_zero), alive_zero["context"] as ActionContext)
+	_check(zero_receipt.status == &"APPLIED" and not alive_zero["target"].is_alive() and zero_receipt.get_events().size() == 2 and zero_receipt.get_events()[1]["kind"] == &"died" and zero_receipt.get_events()[1]["amount"] == 0.0, "P06 A07 alive-at-zero attack emits only attacked and died")
+
+func _test_p06_attack_event_schema() -> void:
+	var valid := {"kind": &"attacked", "actor_unit_id": 1, "target_unit_id": 2, "attack_definition_id": &"flat", "actor_cell": Vector2i.ZERO, "target_cell": Vector2i(1, 0), "main_cost": 1, "main_before": 1, "main_after": 0}
+	_check(ActionQueue._valid_draft(valid), "P06 A12 accepts exact attacked value schema")
+	for key: String in valid.keys():
+		var missing: Dictionary = valid.duplicate(true)
+		missing.erase(key)
+		var wrong_type: Dictionary = valid.duplicate(true)
+		wrong_type[key] = "wrong"
+		_check(not ActionQueue._valid_draft(missing) and not ActionQueue._valid_draft(wrong_type), "P06 A12 attacked key/type rejects " + key)
+	for mutation: String in ["extra", "damage", "diagonal", "before", "type"]:
+		var malformed := valid.duplicate(true)
+		if mutation == "extra": malformed["hit"] = true
+		elif mutation == "damage": malformed["main_cost"] = 2
+		elif mutation == "diagonal": malformed["target_cell"] = Vector2i(1, 1)
+		elif mutation == "before": malformed["main_before"] = 0
+		else: malformed["attack_definition_id"] = "flat"
+		_check(not ActionQueue._valid_draft(malformed), "P06 A12 attacked schema rejects " + mutation)
+	for range_case: Dictionary in [{"main_before": 4097, "main_after": 4096}, {"main_before": 1, "main_after": 1}, {"actor_unit_id": 0}, {"target_unit_id": 1}]:
+		var malformed_range: Dictionary = valid.duplicate(true)
+		for key: String in range_case: malformed_range[key] = range_case[key]
+		_check(not ActionQueue._valid_draft(malformed_range), "P06 A12 attacked arithmetic/range rejects")
+	var fixture := _p06_attack_fixture(1.0)
+	var sink := P04HookSink.new()
+	fixture["context"] = ActionContext.new(fixture["state"] as ItemSimulationState, P04TestRng.new(), sink, [], null, fixture["rules"] as AttackRules)
+	var stat_signals: Array[int] = [0]
+	(fixture["actor"] as UnitState).stats.stat_changed.connect(func(_type: StatTypes.StatType, _before: float, _after: float) -> void: stat_signals[0] += 1)
+	var receipt: ActionReceipt = ActionQueue.new().submit(_p06_attack(fixture), fixture["context"] as ActionContext)
+	var receipt_copy: Array[Dictionary] = receipt.get_events()
+	receipt_copy[0]["main_after"] = 99
+	sink.events[0]["main_after"] = 98
+	_check(receipt.get_events()[0]["main_after"] == 0 and stat_signals[0] == 0 and sink.events[0]["main_after"] == 98, "P06 A12 attacked receipt/sink DTO copies and no stat signal")
+
+func _p06_assert_attack_rejected(fixture: Dictionary, command: AttackCommand, reason: StringName, label: String) -> void:
+	var context: ActionContext = fixture["context"]
+	var state: ItemSimulationState = fixture["state"]
+	var actor: UnitState = fixture["actor"]
+	var board: BattleBoard = fixture["board"]
+	var snapshot: ItemSnapshotResult = ItemSimulationSnapshot.capture(state, [])
+	var before_bytes: PackedByteArray = snapshot.snapshot.canonical_bytes() if snapshot.code == ItemSnapshotResult.Code.OK else PackedByteArray()
+	var stat: Stat = actor.stats._stats[StatTypes.StatType.MAIN_ACTIONS_MAX]
+	var cache_before: Array = [stat._cache_dirty, stat._cached_value, stat._next_modifier_slot, stat._modifier_slots.duplicate()]
+	var rng_before: Dictionary = context.get_rng().to_dict()
+	var counters: Array = [context._next_root_id, context._next_command_seq, context._next_event_seq, context.get_revision(), board.board_version]
+	var direct: StringName = command.validate(context)
+	var receipt: ActionReceipt = ActionQueue.new().submit(command, context)
+	var after: ItemSnapshotResult = ItemSimulationSnapshot.capture(state, [])
+	_check(direct == reason and receipt.status == &"REJECTED" and receipt.reason == reason and receipt.root_id == 0 and receipt.get_steps().is_empty() and receipt.get_events().is_empty() and after.code == ItemSnapshotResult.Code.OK and after.snapshot.canonical_bytes() == before_bytes and [stat._cache_dirty, stat._cached_value, stat._next_modifier_slot, stat._modifier_slots] == cache_before and context.get_rng().to_dict() == rng_before and [context._next_root_id, context._next_command_seq, context._next_event_seq, context.get_revision(), board.board_version] == counters, "P06 A02 rejection is pure " + label)
+
+func _p06_assert_attack_validate_only(command: AttackCommand, context: ActionContext, reason: StringName, label: String) -> void:
+	var before: Array = [context._next_root_id, context._next_command_seq, context._next_event_seq, context.get_revision()]
+	_check(command.validate(context) == reason and before == [context._next_root_id, context._next_command_seq, context._next_event_seq, context.get_revision()], "P06 A02 direct malformed runtime stays pure " + label)
+
+func _test_p06_attack_rejection_matrix() -> void:
+	var bad_actor := _p06_attack_fixture()
+	_p06_assert_attack_rejected(bad_actor, AttackCommand.new(0, bad_actor["target"].id, Vector2i.ZERO, bad_actor["target"].cell, bad_actor["definition"].id, 0), &"attack/invalid_actor_id", "actor id")
+	var bad_target := _p06_attack_fixture()
+	_p06_assert_attack_rejected(bad_target, AttackCommand.new(bad_target["actor"].id, 0, bad_target["actor"].cell, Vector2i.ZERO, bad_target["definition"].id, 0), &"attack/invalid_target_id", "target id")
+	var self_target := _p06_attack_fixture()
+	_p06_assert_attack_rejected(self_target, AttackCommand.new(self_target["actor"].id, self_target["actor"].id, self_target["actor"].cell, self_target["actor"].cell, self_target["definition"].id, 0), &"attack/self_target", "self target")
+	var invalid_definition := _p06_attack_fixture()
+	_p06_assert_attack_rejected(invalid_definition, AttackCommand.new(invalid_definition["actor"].id, invalid_definition["target"].id, invalid_definition["actor"].cell, invalid_definition["target"].cell, &"", 0), &"attack/invalid_definition_id", "definition id")
+	var invalid_revision := _p06_attack_fixture()
+	_p06_assert_attack_rejected(invalid_revision, AttackCommand.new(invalid_revision["actor"].id, invalid_revision["target"].id, invalid_revision["actor"].cell, invalid_revision["target"].cell, invalid_revision["definition"].id, -1), &"attack/invalid_revision", "revision payload")
+	var stale_revision := _p06_attack_fixture()
+	_p06_assert_attack_rejected(stale_revision, AttackCommand.new(stale_revision["actor"].id, stale_revision["target"].id, stale_revision["actor"].cell, stale_revision["target"].cell, stale_revision["definition"].id, 1), &"attack/stale_revision", "revision state")
+	var no_rules := _p06_attack_fixture(); no_rules["context"]._attack_rules = null
+	_p06_assert_attack_rejected(no_rules, _p06_attack(no_rules), &"attack/rules_missing", "rules missing")
+	var unknown_definition := _p06_attack_fixture()
+	_p06_assert_attack_rejected(unknown_definition, AttackCommand.new(unknown_definition["actor"].id, unknown_definition["target"].id, unknown_definition["actor"].cell, unknown_definition["target"].cell, &"unknown", 0), &"attack/unknown_definition", "definition registry")
+	var missing := _p06_attack_fixture(); missing["board"].remove_unit(missing["actor"]); missing["state"] = ItemSimulationState.new(missing["board"], [missing["owner"]], [missing["inventory"]], [missing["target_equipment"]]); missing["context"] = ActionContext.new(missing["state"], P04TestRng.new(), ActionEventSink.new(), [], null, missing["rules"])
+	_p06_assert_attack_rejected(missing, _p06_attack(missing), &"attack/missing_actor", "missing actor")
+	var missing_target := _p06_attack_fixture(); missing_target["board"].remove_unit(missing_target["target"]); missing_target["state"] = ItemSimulationState.new(missing_target["board"], [missing_target["actor_owner"]], [missing_target["actor_inventory"]], [missing_target["actor_equipment"]]); missing_target["context"] = ActionContext.new(missing_target["state"], P04TestRng.new(), ActionEventSink.new(), [], null, missing_target["rules"])
+	_p06_assert_attack_rejected(missing_target, _p06_attack(missing_target), &"attack/missing_target", "missing target")
+	var dead_actor := _p06_attack_fixture(); dead_actor["actor"].vitals.apply_damage(99.0)
+	_p06_assert_attack_rejected(dead_actor, _p06_attack(dead_actor), &"attack/dead_actor", "dead actor")
+	var dead := _p06_attack_fixture(); dead["target"].vitals.apply_damage(99.0)
+	_p06_assert_attack_rejected(dead, _p06_attack(dead), &"attack/dead_target", "dead target")
+	var actor_cell := _p06_attack_fixture()
+	_p06_assert_attack_rejected(actor_cell, AttackCommand.new(actor_cell["actor"].id, actor_cell["target"].id, Vector2i(2, 0), actor_cell["target"].cell, actor_cell["definition"].id, 0), &"attack/actor_cell_mismatch", "actor cell")
+	var target_cell := _p06_attack_fixture()
+	_p06_assert_attack_rejected(target_cell, AttackCommand.new(target_cell["actor"].id, target_cell["target"].id, target_cell["actor"].cell, Vector2i(2, 0), target_cell["definition"].id, 0), &"attack/target_cell_mismatch", "target cell")
+	var unplaced := _p06_attack_fixture(); unplaced["board"].clear_occupancy(unplaced["target"])
+	_p06_assert_attack_rejected(unplaced, _p06_attack(unplaced), &"attack/target_not_placed", "target occupancy")
+	var actor_unplaced := _p06_attack_fixture(); actor_unplaced["board"].clear_occupancy(actor_unplaced["actor"])
+	_p06_assert_attack_rejected(actor_unplaced, _p06_attack(actor_unplaced), &"attack/actor_not_placed", "actor occupancy")
+	var denied := _p06_attack_fixture(); denied["context"]._attack_rules = AttackRules.new([], [], [denied["definition"]])
+	_p06_assert_attack_rejected(denied, _p06_attack(denied), &"attack/not_admitted", "pair")
+	var exhausted := _p06_attack_fixture(1.0); exhausted["actor"].action_resources.try_spend_main(1)
+	_p06_assert_attack_rejected(exhausted, _p06_attack(exhausted), &"attack/insufficient_main", "main")
+	var resources_missing := _p06_attack_fixture(); resources_missing["actor"].action_resources = null
+	_p06_assert_attack_rejected(resources_missing, _p06_attack(resources_missing), &"attack/resources_missing", "ledger missing")
+	var missing_stat := _p06_attack_fixture(); missing_stat["actor"].stats._stats.erase(StatTypes.StatType.ATTACK_RANGE)
+	_p06_assert_attack_rejected(missing_stat, _p06_attack(missing_stat), &"attack/missing_stat", "attack range declaration")
+	var invalid_stat := _p06_attack_fixture(); invalid_stat["actor"].stats.set_base_value(StatTypes.StatType.MAIN_ACTIONS_MAX, 1.5)
+	_p06_assert_attack_rejected(invalid_stat, _p06_attack(invalid_stat), &"attack/invalid_stat", "fractional maximum")
+	for nonfinite: float in [NAN, INF]:
+		var nonfinite_fixture := _p06_attack_fixture()
+		var nonfinite_actor: UnitState = nonfinite_fixture["actor"]
+		nonfinite_actor.stats.set_base_value(StatTypes.StatType.STRENGTH, nonfinite)
+		var counters: Array = [(nonfinite_fixture["context"] as ActionContext)._next_root_id, (nonfinite_fixture["context"] as ActionContext)._next_command_seq, (nonfinite_fixture["context"] as ActionContext)._next_event_seq]
+		var nonfinite_receipt: ActionReceipt = ActionQueue.new().submit(_p06_attack(nonfinite_fixture), nonfinite_fixture["context"] as ActionContext)
+		_check(_p06_attack(nonfinite_fixture).validate(nonfinite_fixture["context"] as ActionContext) != &"" and nonfinite_receipt.status == &"REJECTED" and nonfinite_receipt.root_id == 0 and counters == [(nonfinite_fixture["context"] as ActionContext)._next_root_id, (nonfinite_fixture["context"] as ActionContext)._next_command_seq, (nonfinite_fixture["context"] as ActionContext)._next_event_seq] and nonfinite_actor.action_resources.get_main_left() == 2, "P06 A04 nonfinite preflight rejects without payment %s" % nonfinite)
+	var invalid_rules := _p06_attack_fixture(); invalid_rules["context"]._attack_rules = AttackRules.new([invalid_rules["actor"].id, invalid_rules["actor"].id], [], [invalid_rules["definition"]])
+	_p06_assert_attack_rejected(invalid_rules, _p06_attack(invalid_rules), &"attack/invalid_rules", "invalid rules")
+	var corrupt_registry := _p06_attack_fixture()
+	var registry_key: int = (corrupt_registry["actor"] as UnitState).id
+	var target_id: int = (corrupt_registry["target"] as UnitState).id
+	(corrupt_registry["board"] as BattleBoard)._units[registry_key].id = registry_key + 100
+	var corrupt_command: AttackCommand = AttackCommand.new(registry_key, target_id, (corrupt_registry["actor"] as UnitState).cell, (corrupt_registry["target"] as UnitState).cell, (corrupt_registry["definition"] as AttackDefinition).id, 0)
+	_p06_assert_attack_validate_only(corrupt_command, corrupt_registry["context"] as ActionContext, &"attack/invalid_runtime", "registry key and actor id")
+	var foreign_resources := _p06_attack_fixture()
+	foreign_resources["actor"].action_resources = ActionResources.new(foreign_resources["actor"].id + 1, 1, 0)
+	_p06_assert_attack_validate_only(_p06_attack(foreign_resources), foreign_resources["context"] as ActionContext, &"attack/invalid_resources", "foreign ledger")
+	var oversized: Array[int] = []
+	for id in AttackRules.MAX_ACTORS + 1: oversized.append(id + 1)
+	var malformed_pair := {"actor_unit_id": 1, "target_unit_id": 2, "nested": {"large": PackedByteArray([1, 2, 3])}}
+	var bad_rules := AttackRules.new(oversized, [], [])
+	var pair_rules := AttackRules.new([1], [malformed_pair], [])
+	var invalid_definition_resource := AttackDefinition.new(); invalid_definition_resource.id = StringName("x".repeat(129)); invalid_definition_resource.profile = &"flat_melee_v1"
+	var definition_rules := AttackRules.new([1], [], [invalid_definition_resource])
+	var unicode_definition := AttackDefinition.new(); unicode_definition.id = StringName("я".repeat(65)); unicode_definition.profile = &"flat_melee_v1"
+	var unicode_rules := AttackRules.new([1], [], [unicode_definition])
+	var derived_definition := P06AttackDefinitionSubclass.new(); derived_definition.id = &"derived"; derived_definition.profile = &"flat_melee_v1"
+	var derived_rules := AttackRules.new([1], [], [derived_definition])
+	var too_many_pairs: Array[Dictionary] = []
+	for pair_index in AttackRules.MAX_PAIRS + 1: too_many_pairs.append({"actor_unit_id": 1, "target_unit_id": pair_index + 2})
+	var too_many_definitions: Array[AttackDefinition] = []
+	for definition_index in AttackRules.MAX_DEFINITIONS + 1:
+		var definition_value: AttackDefinition = AttackDefinition.new(); definition_value.id = StringName("p06_%d" % definition_index); definition_value.profile = &"flat_melee_v1"; too_many_definitions.append(definition_value)
+	var pair_limit_rules: AttackRules = AttackRules.new([1], too_many_pairs, [])
+	var definition_limit_rules: AttackRules = AttackRules.new([1], [], too_many_definitions)
+	var mutable_pair := {"actor_unit_id": 1, "target_unit_id": 2}
+	var copied_pair_rules: AttackRules = AttackRules.new([1], [mutable_pair], [])
+	mutable_pair["target_unit_id"] = 3
+	_check(bad_rules.validate() == &"attack/invalid_rules" and pair_rules.validate() == &"attack/invalid_rules" and definition_rules.validate() == &"attack/invalid_rules" and unicode_rules.validate() == &"attack/invalid_rules" and derived_rules.validate() == &"attack/invalid_rules" and pair_limit_rules.validate() == &"attack/invalid_rules" and definition_limit_rules.validate() == &"attack/invalid_rules" and copied_pair_rules.allows(1, 2) and not copied_pair_rules.allows(1, 3) and bad_rules._actors.is_empty() and pair_rules._pairs.is_empty() and definition_rules._definitions.is_empty(), "P06 A01 bounded invalid lists and caller pair copy")
+
+class P06AttackDefinitionSubclass extends AttackDefinition:
+	pass
+
+class P06AttackBindingHook extends Command:
+	var inner: AttackCommand
+	var mode: StringName
+	func _init(value: AttackCommand, p_mode: StringName) -> void:
+		inner = value
+		mode = p_mode
+	func get_kind() -> StringName: return inner.get_kind()
+	func copy_for_queue() -> Command: return P06AttackBindingHook.new(inner.copy_for_queue() as AttackCommand, mode)
+	func validate(context: ActionContext) -> StringName: return inner.validate(context)
+	func execute(context: ActionContext) -> CommandStepResult:
+		var result: CommandStepResult = inner.execute(context)
+		if result.status != &"APPLIED": return result
+		var board: BattleBoard = context.get_state().get_board()
+		var actor: UnitState = board.get_unit_by_id(inner.get_actor_unit_id())
+		var target: UnitState = board.get_unit_by_id(inner.get_target_unit_id())
+		if mode == &"target_dead": target.vitals.apply_damage(99.0)
+		elif mode == &"actor_dead": actor.vitals.apply_damage(99.0)
+		elif mode == &"target_displaced": board.move_unit(target, Vector2i(2, 0))
+		elif mode == &"actor_displaced": board.move_unit(actor, Vector2i(2, 0))
+		elif mode == &"target_removed": board.remove_unit(target)
+		elif mode == &"actor_removed": board.remove_unit(actor)
+		elif mode == &"target_replaced":
+			var replacement_target := UnitState.from_snapshot_dict(target.to_snapshot_dict())
+			board.remove_unit(target)
+			board.add_unit(replacement_target)
+		elif mode == &"actor_replaced":
+			var replacement_actor := UnitState.from_snapshot_dict(actor.to_snapshot_dict())
+			board.remove_unit(actor)
+			board.add_unit(replacement_actor)
+		elif mode == &"ledger_replaced": actor.action_resources = ActionResources.new(actor.id, 0, 0)
+		elif mode == &"main_changed": actor.action_resources.try_spend_main(1)
+		elif mode == &"sequence": context._next_command_seq = ActionContext.MAX_ID
+		elif mode == &"event_sequence": context._next_event_seq = ActionContext.MAX_ID - 1
+		elif mode == &"revision_sequence": context._revision = ActionContext.MAX_ID - 1
+		return result
+
+func _test_p06_attack_binding_matrix() -> void:
+	for mode: StringName in [&"target_dead", &"actor_dead", &"target_displaced", &"actor_displaced", &"target_removed", &"actor_removed", &"target_replaced", &"actor_replaced", &"ledger_replaced"]:
+		var fixture := _p06_attack_fixture(1.0)
+		var before_hp: float = 0.0 if mode == &"target_dead" else fixture["target"].vitals.get_hp()
+		var receipt: ActionReceipt = ActionQueue.new().submit(P06AttackBindingHook.new(_p06_attack(fixture), mode), fixture["context"] as ActionContext)
+		_check(receipt.status == &"FAULTED" and receipt.reason == &"attack/invalid_hit" and fixture["target"].vitals.get_hp() == before_hp and fixture["actor"].action_resources.get_main_left() == 0 and receipt.get_events().size() == 1, "P06 A11 binding mutation faults before HP " + mode)
+	var changed_main := _p06_attack_fixture(2.0)
+	var main_receipt: ActionReceipt = ActionQueue.new().submit(P06AttackBindingHook.new(_p06_attack(changed_main), &"main_changed"), changed_main["context"] as ActionContext)
+	_check(main_receipt.status == &"FAULTED" and main_receipt.reason == &"attack/invalid_hit" and changed_main["target"].vitals.get_hp() == 10.0, "P06 A11 changed ledger counter faults Hit")
+
+func _test_p06_attack_queue_guards() -> void:
+	var with_heal := _p06_attack_fixture(1.0)
+	with_heal["target"].stats.set_base_value(StatTypes.StatType.ARMOR, 99.0)
+	var definition := ItemDef.new(); definition.id = &"p06_guard_heal"; var effect := HealOnDamageEffect.new(); effect.heal_amount = 1.0; definition.effects = [effect]
+	var heal_item: ItemInstance = with_heal["owner"].create_item(definition)
+	with_heal["inventory"].add_item(heal_item)
+	var command_two: ActionReceipt = ActionQueue.new(2).submit(_p06_attack(with_heal), with_heal["context"] as ActionContext)
+	_check(command_two.status == &"FAULTED" and command_two.reason == &"command_limit" and command_two.get_events().size() == 2 and with_heal["target"].vitals.get_hp() == 9.0, "P06 A13 max_commands two faults before Heal")
+	var depth := _p06_attack_fixture(1.0)
+	depth["target"].stats.set_base_value(StatTypes.StatType.ARMOR, 99.0)
+	var depth_item: ItemInstance = depth["owner"].create_item(definition); depth["inventory"].add_item(depth_item)
+	var depth_receipt: ActionReceipt = ActionQueue.new(32, 512, 1).submit(_p06_attack(depth), depth["context"] as ActionContext)
+	_check(depth_receipt.status == &"FAULTED" and depth_receipt.reason == &"depth_limit" and depth_receipt.get_events().size() == 2, "P06 A13 depth blocks item Heal after Hit")
+	var event_limit := _p06_attack_fixture(1.0); event_limit["target"].vitals.set_hp(4.0)
+	var event_receipt: ActionReceipt = ActionQueue.new(32, 2).submit(_p06_attack(event_limit), event_limit["context"] as ActionContext)
+	_check(event_receipt.status == &"FAULTED" and event_receipt.reason == &"event_limit" and event_receipt.get_events().size() == 3 and not event_limit["target"].is_alive(), "P06 A13 lethal event limit keeps complete HP prefix")
+	var root_sequence := _p06_attack_fixture(); root_sequence["context"]._next_root_id = ActionContext.MAX_ID
+	_check(ActionQueue.new().submit(_p06_attack(root_sequence), root_sequence["context"]).reason == &"sequence_exhausted" and root_sequence["actor"].action_resources.get_main_left() == 2, "P06 A13 root sequence rejects before debit")
+	for field: String in ["_next_command_seq", "_next_event_seq", "_revision"]:
+		var exhausted_sequence := _p06_attack_fixture()
+		exhausted_sequence["context"].set(field, ActionContext.MAX_ID if field != "_next_event_seq" else ActionContext.MAX_ID - 1)
+		# Payload revision ограничен MAX-2 и проверяется раньше резервирования очереди.
+		var expected_reason: StringName = &"attack/invalid_revision" if field == "_revision" else &"sequence_exhausted"
+		_check(ActionQueue.new().submit(_p06_attack(exhausted_sequence), exhausted_sequence["context"]).reason == expected_reason and exhausted_sequence["actor"].action_resources.get_main_left() == 2, "P06 A13 root %s exhaustion before debit" % field)
+	var child_sequence := _p06_attack_fixture(1.0)
+	var child_receipt: ActionReceipt = ActionQueue.new().submit(P06AttackBindingHook.new(_p06_attack(child_sequence), &"sequence"), child_sequence["context"] as ActionContext)
+	_check(child_receipt.status == &"FAULTED" and child_receipt.reason == &"sequence_exhausted" and child_receipt.get_events().size() == 1 and child_sequence["target"].vitals.get_hp() == 10.0, "P06 A13 sequence exhaustion after root keeps paid attack")
+	for mode: StringName in [&"event_sequence", &"revision_sequence"]:
+		var between := _p06_attack_fixture(1.0)
+		var between_receipt: ActionReceipt = ActionQueue.new().submit(P06AttackBindingHook.new(_p06_attack(between), mode), between["context"] as ActionContext)
+		_check(between_receipt.status == &"FAULTED" and between_receipt.reason == &"sequence_exhausted" and between_receipt.get_events().size() == 1 and between["target"].vitals.get_hp() == 10.0, "P06 A13 %s exhaustion between attack and Hit" % mode)
+	var lethal_max := _p06_attack_fixture(1.0); lethal_max["target"].vitals.set_hp(4.0); lethal_max["board"].board_version = ActionContext.MAX_ID
+	_check(ActionQueue.new().submit(_p06_attack(lethal_max), lethal_max["context"]).reason == &"attack/board_version_exhausted" and lethal_max["actor"].action_resources.get_main_left() == 1, "P06 A13 lethal MAX version rejects before debit")
+	var lethal_edge := _p06_attack_fixture(1.0); lethal_edge["target"].vitals.set_hp(4.0); lethal_edge["board"].board_version = ActionContext.MAX_ID - 1
+	var edge_receipt: ActionReceipt = ActionQueue.new().submit(_p06_attack(lethal_edge), lethal_edge["context"] as ActionContext)
+	_check(edge_receipt.status == &"APPLIED" and lethal_edge["board"].board_version == ActionContext.MAX_ID, "P06 A13 lethal MAX-1 consumes one board version")
+	var nonlethal_max := _p06_attack_fixture(1.0); nonlethal_max["board"].board_version = ActionContext.MAX_ID
+	var nonlethal_receipt: ActionReceipt = ActionQueue.new().submit(_p06_attack(nonlethal_max), nonlethal_max["context"] as ActionContext)
+	_check(nonlethal_receipt.status == &"APPLIED" and nonlethal_max["board"].board_version == ActionContext.MAX_ID and nonlethal_max["target"].vitals.get_hp() == 6.0, "P06 A13 nonlethal attack never reserves a board version")
+
+func _test_p06_attack_reentrancy() -> void:
+	var fixture := _p06_attack_fixture(1.0)
+	fixture["target"].vitals.set_hp(4.0)
+	var queue := ActionQueue.new()
+	var other := ActionQueue.new()
+	var nested: Array[ActionReceipt] = []
+	var context: ActionContext = fixture["context"]
+	var probe := func() -> void:
+		nested.append(queue.submit(P04Work.new(&"p06_busy"), context))
+		nested.append(other.submit(P04Work.new(&"p06_busy"), context))
+	var hp_hook := func(_before: float, _after: float) -> void: probe.call()
+	fixture["target"].vitals.hp_changed.connect(hp_hook)
+	fixture["target"].vitals.died.connect(probe)
+	fixture["board"].board_changed.connect(probe)
+	var sink := P04HookSink.new()
+	sink.hook = func(_event: Dictionary) -> void: probe.call()
+	context._sink = sink
+	var receipt: ActionReceipt = queue.submit(_p06_attack(fixture), context)
+	# Callback держит context, поэтому тест снимает свои подписки и разрывает цикл владения.
+	fixture["target"].vitals.hp_changed.disconnect(hp_hook)
+	fixture["target"].vitals.died.disconnect(probe)
+	fixture["board"].board_changed.disconnect(probe)
+	sink.hook = Callable()
+	var all_busy: bool = not nested.is_empty()
+	for nested_receipt in nested: all_busy = all_busy and nested_receipt.reason == &"BUSY"
+	_check(receipt.status == &"APPLIED" and nested.size() >= 8 and all_busy and fixture["actor"].action_resources.get_main_left() == 0, "P06 A12 HP, death, board and sink submissions are BUSY on both queues")
+
+func _test_p06_attack_restored_isolation() -> void:
+	var source := _p03b_fixture()
+	var first_unit: UnitState = source.board.get_unit_by_id(101)
+	first_unit.stats.set_base_value(StatTypes.StatType.MAIN_ACTIONS_MAX, 1.0)
+	first_unit.stats.set_base_value(StatTypes.StatType.BONUS_ACTIONS_MAX, 0.0)
+	first_unit.stats.set_base_value(StatTypes.StatType.WEAPON_DAMAGE, 2.0)
+	first_unit.stats.set_base_value(StatTypes.StatType.ATTACK_RANGE, 1.0)
+	first_unit.stats.set_base_value(StatTypes.StatType.MOVE_RANGE, 3.0)
+	first_unit.enable_action_resources(); first_unit.try_refill_turn_resources()
+	var snapshot: ItemSnapshotResult = ItemSimulationSnapshot.capture(source.state, [])
+	var first_result: ItemSnapshotResult = snapshot.snapshot.instantiate(_p03b_catalogue(source.definition))
+	var second_result: ItemSnapshotResult = snapshot.snapshot.instantiate(_p03b_catalogue(source.definition))
+	var states: Array[ItemSimulationState] = [first_result.state, second_result.state]
+	var receipts: Array[ActionReceipt] = []
+	var contexts: Array[ActionContext] = []
+	var rngs: Array[P04TestRng] = []
+	for state in states:
+		var actor: UnitState = state.get_board().get_unit_by_id(101)
+		var target: UnitState = state.get_board().get_unit_by_id(102)
+		var attack_definition: AttackDefinition = AttackDefinition.new(); attack_definition.id = &"p06_restore"; attack_definition.profile = &"flat_melee_v1"
+		var rules: AttackRules = AttackRules.new([actor.id], [{"actor_unit_id": actor.id, "target_unit_id": target.id}], [attack_definition])
+		var rng: P04TestRng = P04TestRng.new()
+		var context: ActionContext = ActionContext.new(state, rng, ActionEventSink.new(), [], null, rules)
+		contexts.append(context)
+		rngs.append(rng)
+		receipts.append(ActionQueue.new().submit(AttackCommand.new(actor.id, target.id, actor.cell, target.cell, attack_definition.id, 0), context))
+	var source_bytes: PackedByteArray = ItemSimulationSnapshot.capture(source.state, []).snapshot.canonical_bytes()
+	_check(first_result.code == ItemSnapshotResult.Code.OK and second_result.code == ItemSnapshotResult.Code.OK and receipts.size() == 2 and receipts[0].status == &"APPLIED" and receipts[1].status == &"APPLIED" and not receipts[0].get_events().is_empty() and receipts[0].get_steps() == receipts[1].get_steps() and receipts[0].get_events() == receipts[1].get_events() and [contexts[0]._next_root_id, contexts[0]._next_command_seq, contexts[0]._next_event_seq, contexts[0].get_revision()] == [contexts[1]._next_root_id, contexts[1]._next_command_seq, contexts[1]._next_event_seq, contexts[1].get_revision()] and rngs[0].to_dict() == rngs[1].to_dict() and rngs[0].to_dict()["streams"][0]["cursor"] == 0 and ItemSimulationSnapshot.capture(states[0], []).snapshot.canonical_bytes() == ItemSimulationSnapshot.capture(states[1], []).snapshot.canonical_bytes() and source_bytes == snapshot.snapshot.canonical_bytes(), "P06 A14 two restored states attack identically without mutating source")
+
+func _test_p06_a06_refill() -> void:
+	var unit := _p06_unit()
+	var main_stat: Stat = unit.stats._stats[StatTypes.StatType.MAIN_ACTIONS_MAX]
+	main_stat.get_value()
+	var cache_before := [main_stat._cache_dirty, main_stat._cached_value, main_stat._next_modifier_slot, main_stat._modifier_slots.duplicate()]
+	_check(unit.enable_action_resources() == &"", "P06 A06 enable does not refill")
+	_check(unit.action_resources.get_main_left() == 0 and unit.action_resources.get_bonus_left() == 0, "P06 A06 empty ledger after enable")
+	_check(cache_before == [main_stat._cache_dirty, main_stat._cached_value, main_stat._next_modifier_slot, main_stat._modifier_slots], "P06 A06 enable reads copied stats")
+	_check(unit.enable_action_resources() == &"resources/already_enabled", "P06 A06 repeat enable rejected")
+	_check(unit.try_refill_turn_resources() == &"", "P06 A06 refill succeeds")
+	_check(unit.action_resources.get_main_left() == 2 and unit.action_resources.get_bonus_left() == 1 and unit.move_points_left == 3.0, "P06 A06 refill replaces resources")
+	unit.action_resources.try_spend_main(1)
+	unit.stats.set_base_value(StatTypes.StatType.MAIN_ACTIONS_MAX, 1.00000001)
+	var before := unit.action_resources.to_snapshot_dict()
+	var move_before := unit.move_points_left
+	_check(unit.try_refill_turn_resources() == &"resources/invalid_maximum", "P06 A06 fractional maximum rejected")
+	_check(unit.action_resources.to_snapshot_dict() == before and unit.move_points_left == move_before, "P06 A06 rejected refill is atomic")
+	for maximum: float in [-1.0, 4097.0]:
+		unit.stats.set_base_value(StatTypes.StatType.MAIN_ACTIONS_MAX, maximum)
+		_check(unit.try_refill_turn_resources() == &"resources/invalid_maximum" and unit.action_resources.to_snapshot_dict() == before and unit.move_points_left == move_before, "P06 A06 maximum rejects atomically %s" % maximum)
+	unit.stats.set_base_value(StatTypes.StatType.MAIN_ACTIONS_MAX, 2.0)
+	unit.stats.set_base_value(StatTypes.StatType.BONUS_ACTIONS_MAX, 1.5)
+	_check(unit.try_refill_turn_resources() == &"resources/invalid_maximum" and unit.action_resources.to_snapshot_dict() == before and unit.move_points_left == move_before, "P06 A06 bonus maximum rejects atomically")
+	unit.stats.set_base_value(StatTypes.StatType.BONUS_ACTIONS_MAX, 1.0)
+	unit.vitals.apply_damage(999.0)
+	_check(unit.try_refill_turn_resources() == &"resources/dead_unit" and unit.action_resources.to_snapshot_dict() == before and unit.move_points_left == move_before, "P06 A06 dead does not refill")
+	var missing := _p06_unit()
+	missing.stats._stats.erase(StatTypes.StatType.BONUS_ACTIONS_MAX)
+	_check(missing.enable_action_resources() == &"resources/missing_stat" and missing.action_resources == null, "P06 A06 missing declaration rejects enable")
+	var foreign := _p06_unit()
+	_check(foreign.enable_action_resources() == &"" and foreign.try_refill_turn_resources() == &"", "P06 A06 foreign ledger fixture")
+	foreign.action_resources = ActionResources.new(foreign.id + 1, 2, 1)
+	var foreign_before := [foreign.move_points_left, foreign.has_attacked]
+	_check(foreign.try_refill_turn_resources() == &"resources/owner_id" and not foreign.can_attack() and foreign_before == [foreign.move_points_left, foreign.has_attacked], "P06 A06 foreign ledger refuses atomically")
+	foreign.action_resources = _P06ActionResources.new(foreign.id, 2, 1)
+	_check(foreign.try_refill_turn_resources() == &"resources/invalid_runtime" and not foreign.can_attack() and foreign_before == [foreign.move_points_left, foreign.has_attacked], "P06 A06 ledger subclass is invalid runtime")
+	var resources := ActionResources.new(1, 1, 0)
+	_check(resources.try_spend_main(1) and not resources.try_spend_main(1) and not resources.try_spend_main(0) and resources.get_main_left() == 0, "P06 A06 ledger spends exactly once")
+
+func _test_p06_a09_snapshot_versions() -> void:
+	var legacy := _p06_unit()
+	var v1 := legacy.to_snapshot_dict()
+	_check(v1["schema_version"] == 1 and not v1.has("action_resources") and UnitState.validate_snapshot_dict(v1), "P06 A09 exact v1")
+	var restored_v1 := UnitState.from_snapshot_dict(v1)
+	_check(restored_v1 != null and restored_v1.action_resources == null, "P06 A09 v1 restores legacy")
+	_check(legacy.enable_action_resources() == &"" and legacy.try_refill_turn_resources() == &"", "P06 A09 prepare v2")
+	legacy.action_resources.try_spend_main(2)
+	var v2 := legacy.to_snapshot_dict()
+	var restored_v2 := UnitState.from_snapshot_dict(v2)
+	_check(v2["schema_version"] == 2 and restored_v2 != null and restored_v2.action_resources.get_main_left() == 0, "P06 A09 v2 preserves ledger")
+	v2["action_resources"]["bonus_left"] = 0
+	_check(restored_v2.action_resources.get_bonus_left() == 1, "P06 A09 DTO is isolated")
+	var board := BattleBoard.new(2, 1)
+	var v1_unit := _p06_unit()
+	var v2_unit := _p06_unit()
+	v2_unit.cell = Vector2i(1, 0)
+	_check(v2_unit.enable_action_resources() == &"" and v2_unit.try_refill_turn_resources() == &"", "P06 A09 mixed board fixture")
+	board.add_unit(v1_unit)
+	board.add_unit(v2_unit)
+	var counter := UnitId.get_counter()
+	var mixed := SimulationSnapshot.capture_board(board, [])
+	var mixed_data := mixed.snapshot.to_dict() if mixed.snapshot != null else {}
+	_check(mixed.code == BoardSnapshotResult.Code.OK and mixed_data["board"]["units"][0]["schema_version"] == 1 and mixed_data["board"]["units"][1]["schema_version"] == 2, "P06 A09 mixed v1/v2 P02 board")
+	var first := mixed.snapshot.instantiate_board()
+	var second := mixed.snapshot.instantiate_board()
+	_check(UnitId.get_counter() == counter and first.get_unit_by_id(v2_unit.id).action_resources != second.get_unit_by_id(v2_unit.id).action_resources, "P06 A09 P02 import does not allocate and copies ledgers")
+	var p03 := _p06_p03b_resources()
+	var captured := ItemSimulationSnapshot.capture(p03.state, [])
+	var fingerprint := captured.snapshot.fingerprint() if captured.snapshot != null else ""
+	var catalogue := {p03.base_definition.id: p03.base_definition, p03.resource_definition.id: p03.resource_definition}
+	var first_restore := captured.snapshot.instantiate(catalogue) if captured.snapshot != null else ItemSnapshotResult.new()
+	var second_restore := captured.snapshot.instantiate(catalogue) if captured.snapshot != null else ItemSnapshotResult.new()
+	var a := first_restore.state
+	var b := second_restore.state
+	var a_unit: UnitState = a.get_board().get_unit_by_id(101) if a != null else null
+	var b_unit: UnitState = b.get_board().get_unit_by_id(101) if b != null else null
+	_check(captured.code == ItemSnapshotResult.Code.OK and a_unit.action_resources != null and a_unit.get_stat(StatTypes.StatType.MAIN_ACTIONS_MAX) == 2.0 and a_unit.get_stat(StatTypes.StatType.ATTACK_RANGE) == 2.0, "P06 A09 item modifiers stat7..10 roundtrip")
+	_check(a_unit != null and b_unit != null and a_unit.action_resources.try_spend_main(1) and ItemSimulationSnapshot.capture(a, []).snapshot.fingerprint() != fingerprint and ItemSimulationSnapshot.capture(b, []).snapshot.fingerprint() == fingerprint and b_unit.action_resources.get_main_left() == 2, "P06 A09 two independent P03b restores retain ledger")
+	_check(legacy.to_dict().is_empty() and board.to_dict().is_empty(), "P06 A09 legacy exports refuse enabled resources")
+
+func _test_p06_a10_rejections() -> void:
+	var unit := _p06_unit()
+	var v1 := unit.to_snapshot_dict()
+	var extra := v1.duplicate(true)
+	extra["extra"] = true
+	_check(not UnitState.validate_snapshot_dict(extra), "P06 A10 extra unit key invalid")
+	var v3 := v1.duplicate(true)
+	v3["schema_version"] = 3
+	_check(not UnitState.validate_snapshot_dict(v3), "P06 A10 unknown unit version rejected")
+	_check(ActionResources.from_snapshot_dict({"schema_version": 2, "owner_unit_id": unit.id, "main_left": 0, "bonus_left": 0}, unit.id) == null, "P06 A10 unknown resource version rejected")
+	_check(ActionResources.from_snapshot_dict({"schema_version": 1, "owner_unit_id": unit.id, "main_left": 4097, "bonus_left": 0}, unit.id) == null, "P06 A10 resource range rejected")
+	_check(not StatsBag.validate_snapshot_dict({"schema_version": 1, "stats": [{"stat_type": 11, "stat": {}}]}), "P06 A10 stat 11 remains unsupported")
+	var board := BattleBoard.new(2, 1)
+	var first := _p06_unit()
+	var second := _p06_unit()
+	second.cell = Vector2i(1, 0)
+	_check(first.enable_action_resources() == &"" and first.try_refill_turn_resources() == &"" and second.enable_action_resources() == &"" and second.try_refill_turn_resources() == &"", "P06 A10 v2 rejection fixture")
+	board.add_unit(first)
+	board.add_unit(second)
+	var snapshot := SimulationSnapshot.capture_board(board, []).snapshot
+	for unit_key: String in ["schema_version", "id", "faction", "cell_x", "cell_y", "height", "debug_name", "ai_profile_path", "move_points_left", "has_attacked", "stats", "vitals", "action_resources"]:
+		var missing_unit_key := snapshot.to_dict()
+		missing_unit_key["board"]["units"][0].erase(unit_key)
+		_check(SimulationSnapshot.from_dict(missing_unit_key).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 missing v2 Unit key " + unit_key)
+		var wrong_unit_type := snapshot.to_dict()
+		wrong_unit_type["board"]["units"][0][unit_key] = 1 if unit_key == "has_attacked" else true
+		_check(SimulationSnapshot.from_dict(wrong_unit_type).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 wrong v2 Unit type " + unit_key)
+	var extra_unit_key := snapshot.to_dict()
+	extra_unit_key["board"]["units"][0]["extra"] = 1
+	_check(SimulationSnapshot.from_dict(extra_unit_key).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 extra v2 Unit key invalid")
+	for ledger_key: String in ["owner_unit_id", "main_left", "bonus_left"]:
+		var malformed := snapshot.to_dict()
+		malformed["board"]["units"][0]["action_resources"].erase(ledger_key)
+		_check(SimulationSnapshot.from_dict(malformed).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 missing ledger " + ledger_key)
+		malformed = snapshot.to_dict()
+		malformed["board"]["units"][0]["action_resources"][ledger_key] = true
+		_check(SimulationSnapshot.from_dict(malformed).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 ledger type " + ledger_key)
+	var missing_resource_version := snapshot.to_dict()
+	missing_resource_version["board"]["units"][0]["action_resources"].erase("schema_version")
+	_check(SimulationSnapshot.from_dict(missing_resource_version).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 missing resource version invalid")
+	var unknown_unit := snapshot.to_dict()
+	unknown_unit["board"]["units"][0]["schema_version"] = 3
+	_check(SimulationSnapshot.from_dict(unknown_unit).code == BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, "P06 A10 Unit3 in v2 shape unsupported")
+	var malformed_unknown_unit := snapshot.to_dict()
+	malformed_unknown_unit["board"]["units"][0]["schema_version"] = 3
+	malformed_unknown_unit["board"]["units"][0]["extra"] = 1
+	_check(SimulationSnapshot.from_dict(malformed_unknown_unit).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 malformed Unit3 remains invalid")
+	var malformed_unknown_unit_ledger := snapshot.to_dict()
+	malformed_unknown_unit_ledger["board"]["units"][0]["schema_version"] = 3
+	malformed_unknown_unit_ledger["board"]["units"][0]["action_resources"]["extra"] = 1
+	_check(SimulationSnapshot.from_dict(malformed_unknown_unit_ledger).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 Unit3 malformed ledger remains invalid")
+	var unknown_resource := snapshot.to_dict()
+	unknown_resource["board"]["units"][0]["action_resources"]["schema_version"] = 2
+	_check(SimulationSnapshot.from_dict(unknown_resource).code == BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, "P06 A10 ActionResources2 unsupported")
+	var malformed_unknown_resource := snapshot.to_dict()
+	malformed_unknown_resource["board"]["units"][0]["action_resources"]["schema_version"] = 2
+	malformed_unknown_resource["board"]["units"][0]["action_resources"]["extra"] = 1
+	_check(SimulationSnapshot.from_dict(malformed_unknown_resource).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 malformed ActionResources2 remains invalid")
+	var swapped := snapshot.to_dict()
+	swapped["board"]["units"][0]["action_resources"] = swapped["board"]["units"][1]["action_resources"].duplicate(true)
+	_check(SimulationSnapshot.from_dict(swapped).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 swapped ledger invalid")
+	var extra_ledger := snapshot.to_dict()
+	extra_ledger["board"]["units"][0]["action_resources"]["extra"] = 1
+	_check(SimulationSnapshot.from_dict(extra_ledger).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 extra ledger key invalid")
+	for invalid_counter: int in [-1, 4097]:
+		var invalid_value := snapshot.to_dict()
+		invalid_value["board"]["units"][0]["action_resources"]["main_left"] = invalid_counter
+		_check(SimulationSnapshot.from_dict(invalid_value).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 ledger counter invalid %d" % invalid_counter)
+	var counter := UnitId.get_counter()
+	_check(UnitState.from_snapshot_dict(snapshot.to_dict()["board"]["units"][0]) != null and UnitId.get_counter() == counter, "P06 A10 Unit import leaves allocator untouched")
+	var subclass_board := BattleBoard.new(1, 1)
+	var subclass_unit := _p06_unit()
+	_check(subclass_unit.enable_action_resources() == &"", "P06 A10 subclass ledger fixture")
+	subclass_unit.action_resources = _P06ActionResources.new(subclass_unit.id)
+	subclass_board.add_unit(subclass_unit)
+	_check(SimulationSnapshot.capture_board(subclass_board, []).code == BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, "P06 A10 P02 ledger subclass unsupported")
+	var item_fixture := _p06_p03b_resources()
+	var item_snapshot := ItemSimulationSnapshot.capture(item_fixture.state, []).snapshot
+	var item_unknown := item_snapshot.to_dict()
+	item_unknown["board_snapshot"]["board"]["units"][0]["schema_version"] = 3
+	_check(ItemSimulationSnapshot.from_dict(item_unknown).code == ItemSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, "P06 A10 P03b Unit3 unsupported")
+	var item_malformed := item_snapshot.to_dict()
+	item_malformed["board_snapshot"]["board"]["units"][0]["action_resources"].erase("main_left")
+	_check(ItemSimulationSnapshot.from_dict(item_malformed).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 P03b malformed ledger invalid")
+
+class _P06ActionResources extends ActionResources:
+	pass
+
+func _p06_p03b_resources() -> Dictionary:
+	var fixture := _p03b_fixture()
+	for owner: ItemOwnerState in fixture.owners:
+		var unit := owner.get_owner()
+		unit.stats.set_base_value(StatTypes.StatType.MAIN_ACTIONS_MAX, 1.0)
+		unit.stats.set_base_value(StatTypes.StatType.BONUS_ACTIONS_MAX, 1.0)
+		unit.stats.set_base_value(StatTypes.StatType.WEAPON_DAMAGE, 0.0)
+		unit.stats.set_base_value(StatTypes.StatType.ATTACK_RANGE, 1.0)
+		unit.stats.set_base_value(StatTypes.StatType.MOVE_RANGE, 3.0)
+		unit.enable_action_resources()
+		unit.try_refill_turn_resources()
+	var definition := ItemDef.new()
+	definition.id = &"p06_all_resource_modifiers"
+	for type: StatTypes.StatType in [StatTypes.StatType.MAIN_ACTIONS_MAX, StatTypes.StatType.BONUS_ACTIONS_MAX, StatTypes.StatType.WEAPON_DAMAGE, StatTypes.StatType.ATTACK_RANGE]:
+		var effect := StatModifierEffect.new()
+		effect.stat_type = type
+		effect.operation = StatModifier.Operation.ADD_FLAT
+		effect.value = 1.0
+		definition.effects.append(effect)
+	var item := fixture.owners[0].create_item(definition)
+	fixture.inventories[0].add_item(item)
+	fixture.owners[0].get_owner().try_refill_turn_resources()
+	return {"state": fixture.state, "base_definition": fixture.definition, "resource_definition": definition}
 
 func _p05_fixture() -> Dictionary:
 	var board := BattleBoard.new(40, 3)

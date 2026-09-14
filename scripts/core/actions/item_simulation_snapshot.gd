@@ -170,7 +170,11 @@ static func _board_structure(envelope: Dictionary) -> String:
 	for cell: Variant in board["occupancy"]:
 		if not _shape(cell, {"x": TYPE_INT, "y": TYPE_INT, "unit_id": TYPE_INT}): return "board/occupancy/schema"
 	for unit: Variant in board["units"]:
-		if not _shape(unit, {"schema_version": TYPE_INT, "id": TYPE_INT, "faction": TYPE_INT, "cell_x": TYPE_INT, "cell_y": TYPE_INT, "height": TYPE_INT, "debug_name": TYPE_STRING, "ai_profile_path": TYPE_STRING, "move_points_left": TYPE_FLOAT, "has_attacked": TYPE_BOOL, "stats": TYPE_DICTIONARY, "vitals": TYPE_DICTIONARY}): return "board/unit/schema"
+		var unit_fields := {"schema_version": TYPE_INT, "id": TYPE_INT, "faction": TYPE_INT, "cell_x": TYPE_INT, "cell_y": TYPE_INT, "height": TYPE_INT, "debug_name": TYPE_STRING, "ai_profile_path": TYPE_STRING, "move_points_left": TYPE_FLOAT, "has_attacked": TYPE_BOOL, "stats": TYPE_DICTIONARY, "vitals": TYPE_DICTIONARY}
+		# Сохраняем форму v2 у новой версии Unit, чтобы P02 отличил неподдержанную
+		# схему от повреждённого DTO до восстановления runtime.
+		if typeof(unit) == TYPE_DICTIONARY and typeof(unit.get("schema_version")) == TYPE_INT and (unit.get("schema_version") == 2 or (unit.get("schema_version") != 1 and unit.has("action_resources"))): unit_fields["action_resources"] = TYPE_DICTIONARY
+		if not _shape(unit, unit_fields): return "board/unit/schema"
 		if not _shape(unit["stats"], {"schema_version": TYPE_INT, "stats": TYPE_ARRAY}): return "board/unit/stats/schema"
 		if not _shape(unit["vitals"], {"hp": TYPE_FLOAT, "balance": TYPE_FLOAT, "is_alive": TYPE_BOOL}): return "board/unit/vitals/schema"
 		for entry: Variant in unit["stats"]["stats"]:
@@ -201,7 +205,7 @@ static func _definition_error(definition: ItemDef, path: String) -> String:
 		if effect.get_script() == StatModifierEffect:
 			var stat := effect as StatModifierEffect
 			if not is_finite(stat.value): return path + "/effect/value"
-			if int(stat.stat_type) not in [0, 1, 2, 3, 4, 5, 6] or int(stat.operation) not in [0, 1, 2]: return "UNSUPPORTED:" + path + "/effect/enum"
+			if int(stat.stat_type) < 0 or int(stat.stat_type) > 10 or int(stat.operation) not in [0, 1, 2]: return "UNSUPPORTED:" + path + "/effect/enum"
 		elif effect.get_script() == HealOnDamageEffect:
 			var heal := effect as HealOnDamageEffect
 			if not is_finite(heal.heal_amount) or heal.heal_amount < 0.0: return path + "/effect/heal_amount"
@@ -318,16 +322,22 @@ static func _live_board_shape_error(board: BattleBoard) -> String:
 	for key: Variant in board._units:
 		if typeof(key) != TYPE_INT or not (board._units[key] is UnitState): return "board/units/type"
 		var unit: UnitState = board._units[key]
+		if unit.get_script() != UnitState: return "UNSUPPORTED:board/unit/subclass"
 		if unit.stats == null or unit.vitals == null: return "board/unit/state"
+		if unit.stats.get_script() != StatsBag: return "UNSUPPORTED:board/unit/stats/subclass"
+		if unit.vitals.get_script() != Vitals: return "UNSUPPORTED:board/unit/vitals/subclass"
+		if unit.action_resources != null and unit.action_resources.get_script() != ActionResources: return "UNSUPPORTED:board/unit/action_resources/subclass"
 		if unit.debug_name.to_utf8_buffer().size() > MAX_STRING_BYTES: return "board/unit/name/string_bytes"
 		if not is_finite(unit.move_points_left) or not is_finite(unit.vitals._hp) or not is_finite(unit.vitals._balance): return "board/unit/finite"
 		for stat_key: Variant in unit.stats._stats:
 			if typeof(stat_key) != TYPE_INT or not (unit.stats._stats[stat_key] is Stat): return "board/unit/stats/type"
 			var stat: Stat = unit.stats._stats[stat_key]
+			if stat.get_script() != Stat: return "UNSUPPORTED:board/unit/stat/subclass"
 			if not is_finite(stat.base_value): return "board/unit/stat/base/finite"
 			if stat._modifiers.size() != stat._modifier_slots.size(): return "board/unit/stat/slots"
 			for modifier: StatModifier in stat._modifiers:
 				if modifier == null: return "board/unit/modifier"
+				if modifier.get_script() != StatModifier: return "UNSUPPORTED:board/unit/modifier/subclass"
 				if not is_finite(modifier.value): return "board/unit/modifier/finite"
 				if String(modifier.source_id).to_utf8_buffer().size() > MAX_STRING_BYTES: return "board/unit/modifier/source/string_bytes"
 	for key: Variant in board._occupancy:
@@ -474,7 +484,7 @@ func instantiate(definitions: Dictionary) -> ItemSnapshotResult:
 
 static func _effect_capability(effect: Dictionary) -> bool:
 	match effect["kind"]:
-		"stat_modifier": return effect["stat_type"] >= 0 and effect["stat_type"] <= 6 and effect["operation"] >= 0 and effect["operation"] <= 2
+		"stat_modifier": return effect["stat_type"] >= 0 and effect["stat_type"] <= 10 and effect["operation"] >= 0 and effect["operation"] <= 2
 		"heal_on_damage": return effect["trigger_event"] == 0
 	return false
 

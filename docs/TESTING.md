@@ -258,3 +258,52 @@ copies, reentrancy из board signals/final sink, sibling drain/fault precedence
 Move не подключён к UI/AI. Проверка парных fixtures не означает полный preview/token,
 snapshot ActionContext или save-game. Цена атаки, повторное переключение персонажей,
 движение после атаки и refill остаются открытыми. C-3/S-5/T10/T11 и 0.5/0.8 не закрыты.
+
+## P06 — AttackCommand / ActionResources (2026-09-14)
+
+Ведущий выполнил A01–A14 и весь P01–P05 регресс: **1633 passed, 0 failed**,
+exit0. Команда `& test_reports/p06-check.ps1`: Godot 4.7.2 headless import (scan
+DONE, шесть новых классов зарегистрированы), startup --quit-after 3, полный
+tests/run_tests.gd. Логи p06-import.log, p06-startup.log, p06-tests.log и полный
+stdout/stderr p06-final-run.log; исходный общий вывод p06-accepted-extension-run.log.
+APPDATA перенаправлялась только на время процесса и восстанавливалась.
+
+Новых parse/compile/runtime errors нет. Ожидаемый P01 occupied-cell ERROR сохранён.
+45 ObjectDB / 18 resources при выходе воспроизводятся в историческом
+p05-lead-final-check.log; новая callback-утечка теста P06 устранена. Эти сообщения
+не скрываются за exit0. UI не проверялся: P06 ограничен headless harness.
+
+A01–A06: copied rules/payload/definitions и bounded invalid markers; чистые отказы
+с exact reasons, cache/counters/RNG; flat geometry; signed/fractional/minimum damage
+и overflow; один main ledger, независимые move/bonus, explicit atomic refill.
+A07–A10: настоящий Attack→Hit→Heal, lethal/alive-at-zero/overkill, Move→Attack→Move,
+смешанные Unit v1/v2 и P02/P03b roundtrip, modifiers7..10, malformed DTO/version
+classification, ledger ownership/subclass, legacy export refusal и старый oracle.
+A11–A14: original request seal после corruption+copy, registry/cell/ledger bindings,
+строгий attacked и независимые DTO, BUSY из HP/death/board/sink на обеих queues,
+limits/sequence/version и оплаченный prefix, два независимых restored исполнения
+с одинаковыми snapshots/journals/counters и нулевыми RNG draws.
+Защитный invalid_damage_request недостижим после валидного admission и создания
+request из конечных значений/literals; искусственный обход ради coverage не добавлен.
+
+Вход: HEAD a73bd9fe4f709de1f89441882e3360baea4ce881, 118/118 dependencies и два
+frozen hashes совпали. Baseline всех 232 файлов и старого diff сохранён в
+test_reports/p06-implementation-baseline/ и соседних .json/.patch. Исторические
+manifest не переписывались. При сверке 217 закрытых файлов сохранили hashes;
+единственное расширение — разрешённая пользователем строка item_owner_state.gd
+stat_type >6 -> >10. Два прежних FAIL A09 устранены реальным item pipeline.
+В старом runner изменены только negative stat7 ->11 и unknown Unit2 ->3;
+остальные исходные строки сохранены, новые тесты добавлены отдельно.
+
+Независимый game_reviewer Terra/high: итог **APPROVE**, все 31 SHA256 совпали с
+test_reports/p06-implementation-review-manifest.json revision1. Отчёт
+test_reports/p06-independent-implementation-review.md сохраняет исходное
+REQUEST_CHANGES и итоговое addendum. Reviewer не запускал Godot и не писал файлы.
+
+Граница Git: прежний dirty P02 не включён в коммит. Полное проверенное рабочее
+дерево включает P06 snapshot-правки, которые остаются вне индекса: UnitState
+snapshot v2 methods, StatsBag stat-domain guards, SimulationSnapshot и две
+негативные P02 fixture-строки runner. Ранее untracked COMMAND_ACTION_QUEUE_CONTRACT
+и CODEX_HANDOFF также обновлены локально. Полный accepted manifest и сохранённый
+P06 residual patch перечислены в передаче. Чистого checkout коммита недостаточно
+без этих прежних P02 зависимостей и указанного P06 остатка.

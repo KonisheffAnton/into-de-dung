@@ -44,6 +44,8 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 			var capture := ItemSimulationSnapshot.capture(context.get_state(), context.get_unsupported_runtime_ids())
 			if capture.code != ItemSnapshotResult.Code.OK:
 				reason = &"BUSY" if capture.code == ItemSnapshotResult.Code.SNAPSHOT_BUSY else StringName(capture.reason)
+			elif accepted is AttackHitCommand:
+				reason = &"attack/internal_hit"
 			elif accepted is MoveCommand and (accepted as MoveCommand)._is_continuation():
 				reason = &"move/internal_continuation"
 			else: reason = accepted.validate(context)
@@ -185,6 +187,12 @@ func _bind_batch(descriptions: Array[Dictionary], event_seq: int, context: Actio
 	return result
 
 static func _valid_draft(draft: Dictionary) -> bool:
+	if ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "attack_definition_id": TYPE_STRING_NAME, "actor_cell": TYPE_VECTOR2I, "target_cell": TYPE_VECTOR2I, "main_cost": TYPE_INT, "main_before": TYPE_INT, "main_after": TYPE_INT}):
+		if draft["kind"] != &"attacked" or draft["actor_unit_id"] <= 0 or draft["actor_unit_id"] >= MAX_ID or draft["target_unit_id"] <= 0 or draft["target_unit_id"] >= MAX_ID or draft["target_unit_id"] == draft["actor_unit_id"]: return false
+		if draft["attack_definition_id"] == &"" or String(draft["attack_definition_id"]).to_utf8_buffer().size() > AttackRules.MAX_DEFINITION_ID_BYTES: return false
+		var attack_dx: int = int(draft["target_cell"].x) - int(draft["actor_cell"].x)
+		var attack_dy: int = int(draft["target_cell"].y) - int(draft["actor_cell"].y)
+		return absi(attack_dx) + absi(attack_dy) == 1 and draft["main_cost"] == 1 and draft["main_before"] >= 1 and draft["main_before"] <= 4096 and draft["main_after"] == draft["main_before"] - 1
 	if ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "from_cell": TYPE_VECTOR2I, "to_cell": TYPE_VECTOR2I, "movement_kind": TYPE_STRING_NAME, "move_cost": TYPE_FLOAT, "move_before": TYPE_FLOAT, "move_after": TYPE_FLOAT}):
 		if draft["kind"] != &"moved" or draft["movement_kind"] != &"voluntary": return false
 		if draft["actor_unit_id"] <= 0 or draft["actor_unit_id"] >= MAX_ID or draft["target_unit_id"] != draft["actor_unit_id"]: return false

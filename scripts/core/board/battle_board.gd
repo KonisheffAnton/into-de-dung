@@ -348,6 +348,9 @@ func to_dict() -> Dictionary:
 	var unit_dicts: Array[Dictionary] = []
 	for key in _units.keys():
 		var unit: UnitState = _units[key]
+		if unit.action_resources != null:
+			# Legacy export не умеет сохранять ledger без тихой потери действий.
+			return {}
 		unit_dicts.append(unit.to_dict())
 
 	return {

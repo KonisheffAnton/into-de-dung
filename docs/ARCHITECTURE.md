@@ -304,3 +304,37 @@ HAZARD допускает оплаченный вход и создаёт обя
 Не добавлены ActionResources/refill, цена атаки, повторный выбор персонажа, движение
 после атаки, UI/AI adapters, Battle Flow/BT, полный preview/token или save-game.
 Ограничения single-writer callbacks, fault latch/prefix, общий C-3/S-5 сохраняются.
+
+## P06 — оплачиваемая плоская ближняя атака (2026-09-14)
+
+Реализована и принята редакция 1 P06_ATTACK_TASK с одним явно разрешённым
+расширением allowed_paths: item_owner_state.gd допускает stat domain 0..10.
+Frozen документы пакета не переписывались. Этот раздел уточняет исторические
+утверждения выше об отсутствии Attack/ActionResources и неутверждённой экономике.
+
+ActionResources хранит только main/bonus одного UnitState; движение остаётся
+в move_points_left. Новые append-only stats7..10 задают максимумы действий, вклад
+оружия и дальность. Enable создаёт нулевой ledger; явный refill до контекста
+атомарно заменяет остатки производными максимумами без лечения/RNG. Контекст,
+импорт и выбор персонажа не пополняют ресурсы. Unit snapshot v2 включает ledger;
+P02/P03b сохраняют поддержку v1 и прежние bytes для null ledger. Legacy Unit/Board
+export enabled runtime возвращает {} целиком, чтобы не потерять остатки действий.
+
+AttackRules — копируемый допуск actor/target пар и definitions в шестом optional
+аргументе ActionContext. AttackCommand проверяет placement/revision/resources,
+ортогональное соседство и равенство board heights при ATTACK_RANGE=1; расширенный
+reach и разные heights дают явный отказ. Root готовит событие и sealed Hit до
+одной оплаты main. Hit связан с конкретными actor/target/ledger, использует прежний
+DamageCommand с physical/bypass и уроном max(1,(STR+WEAPON_DAMAGE)-ARMOR).
+Урон и смерть проходят прежний HP executor, затем реальные item reactions.
+
+Attacked имеет отдельную строгую value schema; collector остаётся damage-only.
+Ограничения очереди сохраняют оплаченный/выполненный prefix без refund. Main не
+дублируется в контексте; has_attacked больше не запрещает второй доступный main.
+Move после Attack сохраняет прежний бюджет и P05 rules.
+
+Границы: headless harness без UI/AI, Balance/Push, полууровней/расширенного reach,
+dodge/status runtime, item activations, Flow/BT, полного preview/token и save-game.
+Приёмка: 1633 passed / 0 failed, независимое APPROVE. Проверенное рабочее дерево
+содержит прежний dirty P02; коммит P06 фиксирует лишь отделимые изменения.
+Snapshot-остаток и точные hashes перечислены в TESTING и CODEX_HANDOFF.

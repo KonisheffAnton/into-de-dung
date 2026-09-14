@@ -71,6 +71,8 @@ var move_points_left: float = 0.0
 ## по очкам). Сбрасывается в begin_turn().
 var has_attacked: bool = false
 
+var action_resources: ActionResources = null
+
 
 ## Фабрика: выдаёт новый id, создаёт Vitals на полном HP и заполняет очки хода.
 ## Это ЕДИНСТВЕННЫЙ штатный способ создать юнита в бою — гарантирует, что id
@@ -120,8 +122,73 @@ func get_stat(type: StatTypes.StatType) -> float:
 
 ## Начало хода: восстановить очки движения и сбросить флаги действий.
 func begin_turn() -> void:
-	refill_move_points()
+	if action_resources == null:
+		refill_move_points()
+		has_attacked = false
+	else:
+		try_refill_turn_resources()
+
+func enable_action_resources() -> StringName:
+	if action_resources != null:
+		return &"resources/already_enabled"
+	if id < UnitId.FIRST or id >= ActionResources.MAX_ID or stats == null or vitals == null or stats.get_script() != StatsBag or vitals.get_script() != Vitals or vitals._stats != stats:
+		return &"resources/invalid_runtime"
+	if not is_alive():
+		return &"resources/dead_unit"
+	for stat_type in [StatTypes.StatType.MAIN_ACTIONS_MAX, StatTypes.StatType.BONUS_ACTIONS_MAX, StatTypes.StatType.WEAPON_DAMAGE, StatTypes.StatType.ATTACK_RANGE]:
+		if not stats.has_stat(stat_type):
+			return &"resources/missing_stat"
+	# Проверяем производные на отдельном bag: enable не имеет права прогреть
+	# cache живого состояния, в том числе при последующем отказе.
+	var evaluated := StatsBag.from_snapshot_dict(stats.to_snapshot_dict())
+	if evaluated == null:
+		return &"resources/invalid_stat"
+	for stat_type in [StatTypes.StatType.MAIN_ACTIONS_MAX, StatTypes.StatType.BONUS_ACTIONS_MAX, StatTypes.StatType.WEAPON_DAMAGE, StatTypes.StatType.ATTACK_RANGE]:
+		var value := evaluated.get_value(stat_type)
+		if not is_finite(value):
+			return &"resources/invalid_stat"
+		if stat_type == StatTypes.StatType.ATTACK_RANGE and (value != floorf(value) or value < 1.0 or value > 4096.0):
+			return &"resources/invalid_stat"
+		if (stat_type == StatTypes.StatType.MAIN_ACTIONS_MAX or stat_type == StatTypes.StatType.BONUS_ACTIONS_MAX) and (value != floorf(value) or value < 0.0 or value > 4096.0):
+			return &"resources/invalid_stat"
+	action_resources = ActionResources.new(id)
+	return &""
+
+func try_refill_turn_resources() -> StringName:
+	if action_resources == null:
+		return &"resources/not_enabled"
+	if id < UnitId.FIRST or id >= ActionResources.MAX_ID or stats == null or vitals == null or stats.get_script() != StatsBag or vitals.get_script() != Vitals or vitals._stats != stats:
+		return &"resources/invalid_runtime"
+	if action_resources.get_script() != ActionResources:
+		return &"resources/invalid_runtime"
+	if action_resources.validate(id) != &"":
+		return &"resources/owner_id" if action_resources.get_owner_unit_id() != id else &"resources/value"
+	if not is_alive():
+		return &"resources/dead_unit"
+	for stat_type in [StatTypes.StatType.MAIN_ACTIONS_MAX, StatTypes.StatType.BONUS_ACTIONS_MAX]:
+		if not stats.has_stat(stat_type):
+			return &"resources/missing_stat"
+	if not stats.has_stat(StatTypes.StatType.MOVE_RANGE):
+		return &"resources/missing_stat"
+	# Чистая копия исключает прогрев cache live-состояния при отказе refill.
+	var evaluated := StatsBag.from_snapshot_dict(stats.to_snapshot_dict())
+	if evaluated == null:
+		return &"resources/invalid_runtime"
+	var main_value := evaluated.get_value(StatTypes.StatType.MAIN_ACTIONS_MAX)
+	var bonus_value := evaluated.get_value(StatTypes.StatType.BONUS_ACTIONS_MAX)
+	if not is_finite(main_value) or main_value != floorf(main_value) or main_value < 0.0 or main_value > 4096.0:
+		return &"resources/invalid_maximum"
+	if not is_finite(bonus_value) or bonus_value != floorf(bonus_value) or bonus_value < 0.0 or bonus_value > 4096.0:
+		return &"resources/invalid_maximum"
+	var move := evaluated.get_value(StatTypes.StatType.MOVE_RANGE)
+	if not is_finite(move) or move < 0.0:
+		return &"resources/invalid_maximum"
+	var main_max := int(main_value)
+	var bonus_max := int(bonus_value)
+	action_resources._set_for_refill(main_max, bonus_max)
+	move_points_left = move
 	has_attacked = false
+	return &""
 
 
 func refill_move_points() -> void:
@@ -137,12 +204,16 @@ func can_move() -> bool:
 
 
 func can_attack() -> bool:
-	return is_alive() and not has_attacked
+	if action_resources == null:
+		return is_alive() and not has_attacked
+	return is_alive() and action_resources.get_script() == ActionResources and action_resources.validate(id) == &"" and action_resources.get_main_left() >= 1
 
 
 # --- Сериализация (R-4) ----------------------------------------------------
 
 func to_dict() -> Dictionary:
+	if action_resources != null:
+		return {}
 	return {
 		"id": id,
 		"faction": int(faction),

@@ -28,6 +28,10 @@ enum StatType {
 	IMPACT_POWER,   ## Сила импакта — влияет на накопление Баланса цели и толкание.
 	MOVE_RANGE,     ## Дальность хода в очках движения (для Pathfinding).
 	ARMOR,          ## Плоское снижение получаемого урона (задел под резисты).
+	MAIN_ACTIONS_MAX,
+	BONUS_ACTIONS_MAX,
+	WEAPON_DAMAGE,
+	ATTACK_RANGE,
 }
 
 
@@ -42,4 +46,8 @@ static func to_display_name(type: StatType) -> String:
 		StatType.IMPACT_POWER: return "Impact Power"
 		StatType.MOVE_RANGE: return "Move Range"
 		StatType.ARMOR: return "Armor"
+		StatType.MAIN_ACTIONS_MAX: return "Main Actions Max"
+		StatType.BONUS_ACTIONS_MAX: return "Bonus Actions Max"
+		StatType.WEAPON_DAMAGE: return "Weapon Damage"
+		StatType.ATTACK_RANGE: return "Attack Range"
 	return "Unknown"
