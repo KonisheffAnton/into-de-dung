@@ -1,0 +1,1425 @@
+{
+  "schema_version": 1,
+  "task_id": "P08-SPATIAL",
+  "revision": 3,
+  "base_commit": "1e3099e35c342f13298093523dc25f164e66f424",
+  "branch": "main",
+  "requires_dirty_p01_p02_p06_dependencies": true,
+  "head_policy": "Base or documentation-only descendant preserving all effective input file hashes; clean checkout is insufficient.",
+  "precedence": "P08 r2 final audit overrides historical DECISIONS/TESTING/HANDOFF. Accepted P07 implementation manifest and final addenda override historical P07 inputs. Frozen P01-P08 r2 unchanged.",
+  "exclude_mutable_handoff": "docs/CODEX_HANDOFF.md is mutable; preserve exact input suffix pinned by handoff_input and preparation handoff-before.md; it is not a fixed current dependency after this preparation.",
+  "accepted_p07": {
+    "commit": "c12cbcacf70f1b04018659d7cbf6f90c4ba39ba4",
+    "implementation_manifest_sha256": "9BE3656802827C93E87EA6EBBD66FB2D3B8DD6838006655FF27E7103BDE9F6FE",
+    "review": "APPROVE",
+    "reviewed_hashes_verified": 26,
+    "final_audit_hashes_verified": 10,
+    "effective_overlay_hashes_verified": 167,
+    "historical_local_artifacts_verified": 6,
+    "runner": "1996 passed / 0 failed (historical P07)",
+    "import": "PASS (historical P07)",
+    "startup": "PASS (historical P07)",
+    "provenance": {
+      "historical_unchanged": 131,
+      "superseded": [
+        {
+          "path": "docs/ARCHITECTURE.md",
+          "historical_sha256": "8B003A7BEAD9AD82A43EA293913A7F116C8D7304EE8B1DF09ED1984654AEA52D",
+          "effective_sha256": "23BB6C3A6FDE70C19971E83EE1B80ABEB429F4D39D3EBA81BBCE209A793C8316",
+          "reason": "Accepted P07 final documentation addendum, verified by final audit"
+        },
+        {
+          "path": "docs/COMMAND_ACTION_QUEUE_CONTRACT.md",
+          "historical_sha256": "B4DEEEB0B4644F31A7122F5494D0371B75DB3564A76570FEB03354AB86057C35",
+          "effective_sha256": "9F1D6757C99C871B9FFB937705E8429A15BFE47E73ED84DCD32352E7581D6817",
+          "reason": "Accepted P07 final documentation addendum, verified by final audit"
+        },
+        {
+          "path": "docs/DECISIONS.md",
+          "historical_sha256": "F273108AE9C5AB71332499F58F5A6F4C46E7FF00B1953B27C1CF341AC8444A06",
+          "effective_sha256": "34F085993E5569C008FACA58483D00A6C95D1768685D60C64E60331ACFCB92D2",
+          "reason": "Accepted P07 final documentation addendum, verified by final audit"
+        },
+        {
+          "path": "docs/TESTING.md",
+          "historical_sha256": "95F0A27A40AAA08EB1D04A06A763F04805068AF02173A3E76CA550478BC2C1F6",
+          "effective_sha256": "A5C5115658A883AD96A28D8B76112189BF0F2B803E3EBDF9B2A8B456C6196E08",
+          "reason": "Accepted P07 final documentation addendum, verified by final audit"
+        },
+        {
+          "path": "scripts/core/actions/action_queue.gd",
+          "historical_sha256": "84E51E47C5118BA848C4A65D805ED9A402743E02393B4E87E9DDD7009D9D6E05",
+          "effective_sha256": "0462F5B7F5A4560018A2931625BC52E43A6BC9C8C5F7A35A913B39BCACC7EDB3",
+          "reason": "Accepted P07 implementation revision1"
+        },
+        {
+          "path": "scripts/core/actions/attack_command.gd",
+          "historical_sha256": "BCDCB991150B60098468A45A403FD26F24BB3A23FBD59BA91535D40F910B6A3F",
+          "effective_sha256": "B3DC35269C3E11C4BE83A8CE782C87048E22E0C4A3199B0F6A2FCD7A7D92C09A",
+          "reason": "Accepted P07 implementation revision1"
+        },
+        {
+          "path": "scripts/core/actions/attack_hit_command.gd",
+          "historical_sha256": "0E6D434166D042374DCEC91D76C76588F3CC82F7FBD3E9B0AF72F91B95554D28",
+          "effective_sha256": "953B60A98E293380D9359730E04F816A7AC187EAD236B2E3455C9F94F6BCD2FD",
+          "reason": "Accepted P07 implementation revision1"
+        },
+        {
+          "path": "scripts/core/actions/attack_rules.gd",
+          "historical_sha256": "0E9F667ADAA5E51F3C16A066BBF91E3D022AB289210C8454A046FF0D2FB40B47",
+          "effective_sha256": "D921E98BA9E8331BAE0F83E714DBEA6A48A63A6F11B36BA683C0E6F025B738C4",
+          "reason": "Accepted P07 implementation revision1"
+        },
+        {
+          "path": "tests/run_tests.gd",
+          "historical_sha256": "A7D1A11BB420D202C1319FE4DD8F33E1B79FADC00A3C0B1B4309632F5C152EF0",
+          "effective_sha256": "1C7D9FFD8F176B8281FFF49BDB851AAE5D2CC66ACE308475C9BCB11483FD09B9",
+          "reason": "Accepted P07 implementation revision1"
+        }
+      ]
+    }
+  },
+  "preservation_baseline": {
+    "path": "test_reports/p08-spatial-preparation-20260914/baseline.json",
+    "sha256": "2FE6BBF9505C197F18FC028417FEE6C79B907A8945A3EB5A54B33A4481B28FF4",
+    "original_repo_files": 257,
+    "old_test_reports": 1091,
+    "input_status": [
+      " M docs/ARCHITECTURE.md",
+      " M docs/DECISIONS.md",
+      " M docs/TESTING.md",
+      " M scripts/core/board/battle_board.gd",
+      " M scripts/core/combat/damage_calculator.gd",
+      " M scripts/core/stats/stat.gd",
+      " M scripts/core/stats/stats_bag.gd",
+      " M scripts/core/units/unit_state.gd",
+      " M tests/run_tests.gd",
+      "?? .codex/",
+      "?? AGENTS.md",
+      "?? docs/CODEX_HANDOFF.md",
+      "?? docs/CODEX_WORKFLOW.md",
+      "?? docs/COMMAND_ACTION_QUEUE_CONTRACT.md",
+      "?? docs/MECHANICS_REQUIREMENTS.md",
+      "?? docs/P02_SNAPSHOT_TASK.md",
+      "?? scripts/core/actions/board_snapshot_result.gd",
+      "?? scripts/core/actions/board_snapshot_result.gd.uid",
+      "?? scripts/core/actions/simulation_snapshot.gd",
+      "?? scripts/core/actions/simulation_snapshot.gd.uid"
+    ],
+    "index_empty": true
+  },
+  "allowed_paths": [
+    "scripts/core/board/battle_board.gd",
+    "scripts/core/actions/simulation_snapshot.gd",
+    "scripts/core/actions/item_simulation_snapshot.gd",
+    "scripts/core/pathfinding/grid_data_provider.gd",
+    "scripts/core/pathfinding/grid_pathfinder.gd",
+    "scripts/core/actions/move_rules.gd",
+    "scripts/core/actions/move_path_check.gd",
+    "scripts/core/actions/move_command.gd",
+    "scripts/core/actions/attack_rules.gd",
+    "scripts/core/actions/attack_command.gd",
+    "scripts/core/actions/attack_reach_check.gd",
+    "scripts/core/actions/balance_push_rules.gd",
+    "scripts/core/actions/push_command.gd",
+    "scripts/core/actions/collision_damage_command.gd",
+    "scripts/core/combat/push_resolver.gd",
+    "scripts/core/combat/push_result.gd",
+    "scripts/core/actions/action_queue.gd",
+    "scripts/core/actions/spatial_rules.gd",
+    "scripts/core/actions/spatial_rules.gd.uid",
+    "scripts/core/actions/move_fall_command.gd",
+    "scripts/core/actions/move_fall_command.gd.uid",
+    "tests/run_tests.gd",
+    "scripts/core/actions/attack_hit_command.gd",
+    "scripts/core/actions/balance_command.gd",
+    "scripts/core/actions/push_damage_command.gd",
+    "scripts/core/actions/action_hp_executor.gd",
+    "scripts/core/units/vitals.gd",
+    "scripts/core/actions/death_command.gd"
+  ],
+  "new_paths_expected_absent": [
+    "scripts/core/actions/spatial_rules.gd",
+    "scripts/core/actions/spatial_rules.gd.uid",
+    "scripts/core/actions/move_fall_command.gd",
+    "scripts/core/actions/move_fall_command.gd.uid"
+  ],
+  "files": [
+    {
+      "path": ".claudeignore",
+      "sha256": "2C502CF6D9DBBE2D19DF2EB8C904472B243F271EC2F09640B84FF13C836B822D"
+    },
+    {
+      "path": ".codex/agents/game_coder.toml",
+      "sha256": "1AD3D38A00ED108CA69211A641DBFA7B062B2B285AF444B3458E32FA7FBB7CF6"
+    },
+    {
+      "path": ".codex/agents/game_reviewer.toml",
+      "sha256": "2C39730F5E11C5EDBDF48FA63DB6C495B62AA116BB5F9A3D6F608DBB28D5EE45"
+    },
+    {
+      "path": ".codex/agents/game_scout.toml",
+      "sha256": "47AC91E9BC19D9216F6ABC4CD8D6DF6909197ADA86E2A6AF77F1972DBC92A1C5"
+    },
+    {
+      "path": ".codex/config.toml",
+      "sha256": "F1C1FA1A03B7242E49FA20F2152EB53C7318183595C8EB1C1BAEBF647EB9B15F"
+    },
+    {
+      "path": ".editorconfig",
+      "sha256": "3B2C749C8A940905A08F727D8BE9017C9568A12421C0AEE7E37E9543B3751B1B"
+    },
+    {
+      "path": ".gitattributes",
+      "sha256": "86CCB46922EA69BF33682ECEAC3462CCEAD6C9B0E3D9BE26A063C112FBD7B73B"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "D65232B1E0D0966C9E900C1FDA6A069E5B39A5953D63AEDD66A525718A91F3AE"
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "9277A6E57497AAA88299C400F249EE32C31E89578CBD6C6D8D08C952EB2A21E4"
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "sha256": "23BB6C3A6FDE70C19971E83EE1B80ABEB429F4D39D3EBA81BBCE209A793C8316"
+    },
+    {
+      "path": "docs/AUDIT.md",
+      "sha256": "826A60729E340533F33718D0FFADBBB06B1D364FCBF9699298758801B67D952E"
+    },
+    {
+      "path": "docs/CODEX_WORKFLOW.md",
+      "sha256": "EEA7D520587CED278F64FCB2F4CA83E0DC77BF109F22F194E127AB74F346EB68"
+    },
+    {
+      "path": "docs/COMMAND_ACTION_QUEUE_CONTRACT.md",
+      "sha256": "9F1D6757C99C871B9FFB937705E8429A15BFE47E73ED84DCD32352E7581D6817"
+    },
+    {
+      "path": "docs/DECISIONS.md",
+      "sha256": "79345463D50C15D5DE60918FE64DD9330B0DAFD4F830B31266B681193C56F281"
+    },
+    {
+      "path": "docs/MECHANICS_REQUIREMENTS.md",
+      "sha256": "038D227D530DB2693CC0062B3C376236F63DB7C1DC747EDB6D1E81FD83432B5D"
+    },
+    {
+      "path": "docs/modules/01-input-and-grid.md",
+      "sha256": "0DD955CC92D647832C247939EDC3F9002DCCEFBA58B49411EA4CC932912CC3F3"
+    },
+    {
+      "path": "docs/modules/02-y-sorting.md",
+      "sha256": "596EA703EEF1ED545A12F820703C2CE756525AF4AD5371FA0875B3653241C2A4"
+    },
+    {
+      "path": "docs/modules/03-pathfinding.md",
+      "sha256": "20BD19FABF773462FB668651357C65C92191D689E3F786D6D0D711344818601F"
+    },
+    {
+      "path": "docs/modules/04-stats-and-initiative.md",
+      "sha256": "6640D8EA2018684D2793134366AC7DE6A39BC87424AB29C00E01A8759C94EC4D"
+    },
+    {
+      "path": "docs/modules/05-inventory-equipment-synergy.md",
+      "sha256": "BB55B5BD853138B95B40A083CD40417347DAF820EACABCBEE9F2FF53BCF6E931"
+    },
+    {
+      "path": "docs/modules/06-damage-balance-push-preview.md",
+      "sha256": "53D317FA55F1F90E90D329DCC210580B86F303D97BFDDB398A557CE947A81AFA"
+    },
+    {
+      "path": "docs/modules/07-extensible-utility-ai.md",
+      "sha256": "32BE5053E35CC8A28117FE6BA9D4C0AADE7D30745EB0FE08180A891ADDDCE8D1"
+    },
+    {
+      "path": "docs/P02_SNAPSHOT_TASK.md",
+      "sha256": "57A58256C7F40DC0AB09E637B4C15CD3908C29692910CACA5BC10BBDA41EF11A"
+    },
+    {
+      "path": "docs/P03A_DEPENDENCIES.json",
+      "sha256": "94EC5BFAD124FBD2118B2B07DA5CD223EA23FFFB0ABE7DFA37E0015BB34043C3"
+    },
+    {
+      "path": "docs/P03A_ITEM_OWNERSHIP_TASK.md",
+      "sha256": "0177EBE215B514EB892C514BB0D34C18CC78A325B90078F022EAAF4EFB8095C4"
+    },
+    {
+      "path": "docs/P03A_REVIEW.md",
+      "sha256": "FBAC9ACC54E027EBF86639B2F8EF109A4BC5193A97ED3E3933BE491B6FA04555"
+    },
+    {
+      "path": "docs/P03B_DEPENDENCIES.json",
+      "sha256": "8D1C490EBF9C5659A8B9A054E99A554A314E91BE5115C228D98B1748900EE6EC"
+    },
+    {
+      "path": "docs/P03B_ITEM_SNAPSHOT_TASK.md",
+      "sha256": "4D3EB9A4DC6ECAE6F88ADB4BB6FE822C61011F846613165FF5D0C1222FBE65C2"
+    },
+    {
+      "path": "docs/P03B_REVIEW.md",
+      "sha256": "942757B845EA72762DFFC0897FCD84BB92EC263BB4E309E3ED1D1E3B963E4C35"
+    },
+    {
+      "path": "docs/P04_ACTION_QUEUE_TASK.md",
+      "sha256": "E63D57E3567AA5E64137E62BEB8652DB02B3425B96BA51D27E942A9A531BC9C8"
+    },
+    {
+      "path": "docs/P04_DEPENDENCIES.json",
+      "sha256": "A2D8420AE7CA781E3EAFBCBB6F2EF4B0FE8F4A817F81D7BE69C067EDE0338BCA"
+    },
+    {
+      "path": "docs/P04_REVIEW.md",
+      "sha256": "E2EA38CA7B68C5F8D2DE7589D89F46D8C3B659356F93F9FF5AF1A5A757D231FA"
+    },
+    {
+      "path": "docs/P05_DEPENDENCIES.json",
+      "sha256": "5C7E62F36A386FEB372BB051DAFD536DDFB5BF50F152D61FF4B6610D61DB7849"
+    },
+    {
+      "path": "docs/P05_MOVE_TASK.md",
+      "sha256": "B388A453064FDFC85BA0D8CA50958E11EA8B712BCBA6A760998C68B885870D60"
+    },
+    {
+      "path": "docs/P05_REVIEW.md",
+      "sha256": "5ED3F570384483BA76EE2476849352D2EF117D501A06D29E484268E18475F9A1"
+    },
+    {
+      "path": "docs/P06_ATTACK_TASK.md",
+      "sha256": "F23427DB3468213E0179D2FF992507984EAFC0918959170329C9EEC1A4E373AA"
+    },
+    {
+      "path": "docs/P06_DEPENDENCIES.json",
+      "sha256": "23A046B929B26CE8D4CADDC1BC9072531B56B8E9E192876A34A4B210A732A83E"
+    },
+    {
+      "path": "docs/P06_REVIEW.md",
+      "sha256": "73417293E8CF95981C1C2A950E31E2A8A7694CAE0B4F65F086C239AD6FA76379"
+    },
+    {
+      "path": "docs/P07_BALANCE_PUSH_TASK.md",
+      "sha256": "980C722BC9F5EFB93811B0AABB41803ABD247AAF8E232C6E1BCA51355FDA3C3C"
+    },
+    {
+      "path": "docs/P07_DEPENDENCIES.json",
+      "sha256": "C8652B93EAF53FE9A2FF408A5E355ADC6C5CA48C9BF4C0C19BECF7AD6C94ED3D"
+    },
+    {
+      "path": "docs/P07_REVIEW.md",
+      "sha256": "5A293722743BB812680CB52312F16A24FB5DC224A4B9CB96B4E0CA501ED442DE"
+    },
+    {
+      "path": "docs/TESTING.md",
+      "sha256": "58F36278757A9AD1C15B3800EE01B6663B854EB15FD4E23629BC969BB3525042"
+    },
+    {
+      "path": "icon.svg",
+      "sha256": "6C80384360A5B269D1054BFB27241258154E2CC8167C522016FDC1820E84E0F8"
+    },
+    {
+      "path": "icon.svg.import",
+      "sha256": "B2615FE215D306694A9F9FA7C268EAF915A630262ED11FB04882E835839C5A4D"
+    },
+    {
+      "path": "project.godot",
+      "sha256": "36B26F5A144B118F07A2B1F51345C412B7C915EDDE8FD252C10809EF1F194926"
+    },
+    {
+      "path": "resources/ai/aggressor_profile.tres",
+      "sha256": "3DBA103C01202FD8CA694EA4298BBF4285C90AAEFBE23B2DA9927CD60E235DE1"
+    },
+    {
+      "path": "resources/ai/blocker_profile.tres",
+      "sha256": "4FB370AD1E244E4FA85E3B25A56D25E7446CB3719F24AB035EE01996849447BD"
+    },
+    {
+      "path": "resources/grid/default_grid_config.tres",
+      "sha256": "D3199E40DBC3CC09A1C38A11FCE9A218479387A06F1B8B7D9183771E428934B6"
+    },
+    {
+      "path": "resources/initiative/default_initiative_strategy.tres",
+      "sha256": "B1A21B6E55F748F0DE919E1B3764F73F4806123E1F653D7030D396C6EF935AF5"
+    },
+    {
+      "path": "resources/items/item_a_strength_boost.tres",
+      "sha256": "B837158915BA3234E77104F8BE6EA5FB51F30C25CCBE13DD1402420FF6AB10C6"
+    },
+    {
+      "path": "resources/items/item_b_heal_on_damage.tres",
+      "sha256": "74F3036E8187F167E786B041B8ED24663AC350740EF690E18B34DD6942891AA4"
+    },
+    {
+      "path": "scenes/test/test_grid_scene.tscn",
+      "sha256": "3BDAFC526B1A3CDAE4259E88B38F769C15B3E05C5FD3DEE599A9BF6CDD0851B5"
+    },
+    {
+      "path": "scripts/core/actions/action_context.gd",
+      "sha256": "0ACF4FC5B4B5450EAB4C0862F278C3DA1B53C715EA265814E53F31F07F43E04D"
+    },
+    {
+      "path": "scripts/core/actions/action_context.gd.uid",
+      "sha256": "9B0DC4E3D9A60188B953DC2F68B1AEC2F66A3472D5F3138E36C2AFBD5D47B520"
+    },
+    {
+      "path": "scripts/core/actions/action_event_sink.gd",
+      "sha256": "62DECB1358C8954CFF60FD9322A3F4B7B2A10058C69AC86A35FBF6AF729C2535"
+    },
+    {
+      "path": "scripts/core/actions/action_event_sink.gd.uid",
+      "sha256": "A11EAC4AE2013EF87B38FC5A840CFCC63C121565BFD36161217F9F406CA42C1A"
+    },
+    {
+      "path": "scripts/core/actions/action_hp_executor.gd",
+      "sha256": "4DCBD9C6119B8F85DACB5F39374F1EE2B2CF0581957798F39F85590BAF222F63"
+    },
+    {
+      "path": "scripts/core/actions/action_hp_executor.gd.uid",
+      "sha256": "EE5308DF0EAC1AA55BA5B68DB8186AD0036E4BD24451D720D2705A141D1129A5"
+    },
+    {
+      "path": "scripts/core/actions/action_queue.gd",
+      "sha256": "0462F5B7F5A4560018A2931625BC52E43A6BC9C8C5F7A35A913B39BCACC7EDB3"
+    },
+    {
+      "path": "scripts/core/actions/action_queue.gd.uid",
+      "sha256": "0C61BF6D8E58910B7739A2C7E1509321EA6D69B3A9EDA8C03711BAA7E81A1C6F"
+    },
+    {
+      "path": "scripts/core/actions/action_receipt.gd",
+      "sha256": "67613581EE89203A8EF24F915F1C2EB0FCC2D3EF2F19A1C656F796A4E8ADB477"
+    },
+    {
+      "path": "scripts/core/actions/action_receipt.gd.uid",
+      "sha256": "340DD485DBFBA9AD5625C7A341B4D7D9F4175E5137C7165F7D3CB363E2FD4E44"
+    },
+    {
+      "path": "scripts/core/actions/action_resources.gd",
+      "sha256": "42D6E70ED14B5FD8ADE887A82A3808CEC336BF2D14388ECC215E3582FF5A2E55"
+    },
+    {
+      "path": "scripts/core/actions/action_resources.gd.uid",
+      "sha256": "0C0D0E589B6F72DDB82D46CD4B92D388D550379CDC3B8A1F048E8B5471AA0F67"
+    },
+    {
+      "path": "scripts/core/actions/action_rng_port.gd",
+      "sha256": "B969030847B335F5D8481C8DA1D2FC39A635D3A10BF181516190407AD7443C5D"
+    },
+    {
+      "path": "scripts/core/actions/action_rng_port.gd.uid",
+      "sha256": "E109571F545F68BD1A14B06BA29593E954BDC160FBCD3B1ADC11326A83B4EF53"
+    },
+    {
+      "path": "scripts/core/actions/attack_command.gd",
+      "sha256": "B3DC35269C3E11C4BE83A8CE782C87048E22E0C4A3199B0F6A2FCD7A7D92C09A"
+    },
+    {
+      "path": "scripts/core/actions/attack_command.gd.uid",
+      "sha256": "D386F23AFA58B7461CB05C7159BEB036137FEF0B3E60290C5F27586121F1C75C"
+    },
+    {
+      "path": "scripts/core/actions/attack_definition.gd",
+      "sha256": "E6BAB2D409D0AA8BFAEB69B3E2D465F357C364EBA3931160245FF813B490CFDE"
+    },
+    {
+      "path": "scripts/core/actions/attack_definition.gd.uid",
+      "sha256": "59F6A7D9B37479F50DAEA6B7653407FD45EABD5EC8B12E3CE342181873722020"
+    },
+    {
+      "path": "scripts/core/actions/attack_hit_command.gd",
+      "sha256": "953B60A98E293380D9359730E04F816A7AC187EAD236B2E3455C9F94F6BCD2FD"
+    },
+    {
+      "path": "scripts/core/actions/attack_hit_command.gd.uid",
+      "sha256": "E138282E4CCBAE237E1433D8474080CBDE2FB9967FD87D519BECFD05CBBC4AAF"
+    },
+    {
+      "path": "scripts/core/actions/attack_reach_check.gd",
+      "sha256": "82DC41E965F272D9249350023825504BDD772B39B94E6F5F5E05196AD433CD31"
+    },
+    {
+      "path": "scripts/core/actions/attack_reach_check.gd.uid",
+      "sha256": "4D7ED224BBA464E7A1B081E36F944C2884C727B2AD5FEC0D2ED31EAF169849DC"
+    },
+    {
+      "path": "scripts/core/actions/attack_rules.gd",
+      "sha256": "D921E98BA9E8331BAE0F83E714DBEA6A48A63A6F11B36BA683C0E6F025B738C4"
+    },
+    {
+      "path": "scripts/core/actions/attack_rules.gd.uid",
+      "sha256": "A58B12FC81A0E99903A38025DD0697D2BCBBC9A2F75E326B4F6833A512159CD9"
+    },
+    {
+      "path": "scripts/core/actions/balance_command.gd",
+      "sha256": "2A50C6C2A72D14B59F2F9AE2F0F2151F184D2472EBBA05E341C32DC60B108ABA"
+    },
+    {
+      "path": "scripts/core/actions/balance_command.gd.uid",
+      "sha256": "42CE61B79F512EAB7CE2AE0DC61E65805C417B7BCBF3141A6AC5E3FE27E06847"
+    },
+    {
+      "path": "scripts/core/actions/balance_push_rules.gd",
+      "sha256": "13F5965CADFB469CE833D399956490A67FD947FEA4D7CB98F3B5F27B47522926"
+    },
+    {
+      "path": "scripts/core/actions/balance_push_rules.gd.uid",
+      "sha256": "7B20D9D61C5F1DCD497A354FA381D4B409FBD7F145A868FA2C8BCE15015D14B9"
+    },
+    {
+      "path": "scripts/core/actions/board_snapshot_result.gd",
+      "sha256": "A75CDD3AB5498BE3B53C0DCD5DB5A7D0F708F68306A61670B92A5E2A901E2AFF"
+    },
+    {
+      "path": "scripts/core/actions/board_snapshot_result.gd.uid",
+      "sha256": "41F6752EFF037F2B80ED15C14159468BB0492AC5B84377E981F1F1E1969C4F5C"
+    },
+    {
+      "path": "scripts/core/actions/collision_damage_command.gd",
+      "sha256": "F0B4296461C009FCE8503FA56AA4CE604CC579B43DE3D0C8DBFA2F5B3328F4F6"
+    },
+    {
+      "path": "scripts/core/actions/collision_damage_command.gd.uid",
+      "sha256": "A18C4D9895707D1606D31E361D44564C5F094BBC77B6DACC6C383DF689F7F124"
+    },
+    {
+      "path": "scripts/core/actions/command_step_result.gd",
+      "sha256": "B230EED5FB9CC6F1A46309565F6CF8324E3DFF600607C90F47B3B5CE52E909D9"
+    },
+    {
+      "path": "scripts/core/actions/command_step_result.gd.uid",
+      "sha256": "DE4AD54B305988DBC5BFCEE631C13B24A95D15FA433804E80CC0CB25B2DAD3D4"
+    },
+    {
+      "path": "scripts/core/actions/command.gd",
+      "sha256": "637A27A9287CAD1BFCBEEC957AAB3A4ACA6515BBEC09B3BBC6D4130811BF9EFB"
+    },
+    {
+      "path": "scripts/core/actions/command.gd.uid",
+      "sha256": "06B973E7CBF35E475ED42F875E49E371810A9869CBF5EBD54C78962B317CEB16"
+    },
+    {
+      "path": "scripts/core/actions/damage_command.gd",
+      "sha256": "FD365C0DFD61C97AC7A6D8C493CF7D856CAE1259A8C379A43CD11712D557F07E"
+    },
+    {
+      "path": "scripts/core/actions/damage_command.gd.uid",
+      "sha256": "C5FE983A411889EA4604C42BBD2938B005668357232CEE9D0700955CBABF08F7"
+    },
+    {
+      "path": "scripts/core/actions/damage_request.gd",
+      "sha256": "7588E8E664E5318733C86D2B99B770AF0B38A2EDE9C1845CDDC670471B8C37DE"
+    },
+    {
+      "path": "scripts/core/actions/damage_request.gd.uid",
+      "sha256": "5B6390FA1317D40ECD86F6C6C91178F5485527FD4F22200DEF9969A41408D6BF"
+    },
+    {
+      "path": "scripts/core/actions/damage_source.gd",
+      "sha256": "3503CE5116389C195703FC933B5E2E184FF52B361D124B2066D60E3ACD89B37E"
+    },
+    {
+      "path": "scripts/core/actions/damage_source.gd.uid",
+      "sha256": "EF11ED67255C7EC49648C282875099259CCD4655A721B1674050F0D5ABB25B30"
+    },
+    {
+      "path": "scripts/core/actions/death_command.gd",
+      "sha256": "9478E9F01B233C732A25E6DEC1915887C86FD461612D65E7C8C5124574289144"
+    },
+    {
+      "path": "scripts/core/actions/death_command.gd.uid",
+      "sha256": "DF6FA4DB8EB18539227195023945ACB6C777099C00CBF02199B0259179ADA5F9"
+    },
+    {
+      "path": "scripts/core/actions/heal_command.gd",
+      "sha256": "3E7F717C3024C7F11DE55CC8EDC981A55EDD77E6C7924351C59939CC17CDE3A2"
+    },
+    {
+      "path": "scripts/core/actions/heal_command.gd.uid",
+      "sha256": "F31712E4B571755146A0CC03A3EEC8D9CE4EDE43F6EF9CECE7F866A190873098"
+    },
+    {
+      "path": "scripts/core/actions/item_reaction_adapter.gd",
+      "sha256": "E31F89901771A161D4C4015BA33B8A2DF265B58B44870EC03FAE214F9760BA78"
+    },
+    {
+      "path": "scripts/core/actions/item_reaction_adapter.gd.uid",
+      "sha256": "198576179C74A8E20ACA56130B2DBF8599FB4652EB7152B58B5E5007FE3616F7"
+    },
+    {
+      "path": "scripts/core/actions/item_reaction_collector.gd",
+      "sha256": "90C82299A70D28738FF40609A33010645CF62C829532A7C8DABE1253DF7C43EE"
+    },
+    {
+      "path": "scripts/core/actions/item_reaction_collector.gd.uid",
+      "sha256": "C230FF392171F65950D23CB90EDEC7246DD0605C6E9B8CB2480E1D9CC34616C8"
+    },
+    {
+      "path": "scripts/core/actions/item_reaction_result.gd",
+      "sha256": "92EF6C2F45864285237F6491EA4C65A6475AD951B6E167F4A8D5A23C56AF7173"
+    },
+    {
+      "path": "scripts/core/actions/item_reaction_result.gd.uid",
+      "sha256": "B11B44BE7D7C780B1BA694D73D79F54CB58B6BDB1EF4286622BAA30D8F2D454A"
+    },
+    {
+      "path": "scripts/core/actions/item_simulation_snapshot.gd",
+      "sha256": "8614E9393A4E211646F9ACE6EEA1ED17A0839BDC55AB8133E699C4D0C9780F18"
+    },
+    {
+      "path": "scripts/core/actions/item_simulation_snapshot.gd.uid",
+      "sha256": "21D460F5D77C2D5218B47DBE0D68EA8B5B1AC9AA21EB6B619E71FCBB4218DA80"
+    },
+    {
+      "path": "scripts/core/actions/item_simulation_state.gd",
+      "sha256": "8AFB39DDFAA32F9D97466A09D20E9ED4A1AFC619756069DCBC876E20F5C8D52A"
+    },
+    {
+      "path": "scripts/core/actions/item_simulation_state.gd.uid",
+      "sha256": "2863E0B52CE8BE2062DF3F82B07868956B92B4086953D0AB8C7DA0F79AC55FFB"
+    },
+    {
+      "path": "scripts/core/actions/item_snapshot_result.gd",
+      "sha256": "2E5AF57A6FA85C8F364A9E527E4B07B58B897520782A832CF8CEE3CED2A9B77D"
+    },
+    {
+      "path": "scripts/core/actions/item_snapshot_result.gd.uid",
+      "sha256": "C6AE6D0BD36EF2A98C7DC767D63037F6D4D72B59FF55D92F5E655EB15514B5CE"
+    },
+    {
+      "path": "scripts/core/actions/move_command.gd",
+      "sha256": "C78097F6C4E609E1383D97F20F59AB1708988B373C3F68550AEDDF12CF767DF8"
+    },
+    {
+      "path": "scripts/core/actions/move_command.gd.uid",
+      "sha256": "7699A220268DF8279E24AECEA9DD42629805C7902B94521C231F34D4A8C9334D"
+    },
+    {
+      "path": "scripts/core/actions/move_path_check.gd",
+      "sha256": "2CA919E526988AD87FBCFE4E0011636E70D898DD55D34E789FDB2FBF95C5A9AC"
+    },
+    {
+      "path": "scripts/core/actions/move_path_check.gd.uid",
+      "sha256": "CF5C5A8060E1BEC97C721C159820DDF9B62BD51C9DFA8E376354F585E1BA090D"
+    },
+    {
+      "path": "scripts/core/actions/move_rules.gd",
+      "sha256": "E700BF73BE9069B1AE8CE10774C35776DB3C910A2319C1BD19F2173F26AFD889"
+    },
+    {
+      "path": "scripts/core/actions/move_rules.gd.uid",
+      "sha256": "A3769E7FFC9AC95D33C5B9F467C5873E84E0ED9E933D8AA5439703772EEDF8D6"
+    },
+    {
+      "path": "scripts/core/actions/push_command.gd",
+      "sha256": "C47CBF042C990A34E904568C4F435C0E1E3A9977B8F6C29F4CB9A33498A1B31D"
+    },
+    {
+      "path": "scripts/core/actions/push_command.gd.uid",
+      "sha256": "F8F66C944A506FA899069B66D8EC5925619A6831571B8ABD2FE528FD40207F0A"
+    },
+    {
+      "path": "scripts/core/actions/push_damage_command.gd",
+      "sha256": "1C4EF3A0CFC87DE8F2B5D97DC0730134C9FB6412BCDE78B0B30C3E3E24FE9192"
+    },
+    {
+      "path": "scripts/core/actions/push_damage_command.gd.uid",
+      "sha256": "7A762AB40621649ED5D073424ED2A66E5845798AEC8D4458A2E98BC0D43A5B37"
+    },
+    {
+      "path": "scripts/core/actions/simulation_snapshot.gd",
+      "sha256": "CDE926395C98455B3B526880C72C2D8569F903F4B2D3A634DF1B55920B6E8998"
+    },
+    {
+      "path": "scripts/core/actions/simulation_snapshot.gd.uid",
+      "sha256": "FF7EB65EC482D3C235C869B64BBFD7812C7A4F8D1BB27455A630E8E332CF6AEC"
+    },
+    {
+      "path": "scripts/core/ai/ai_action.gd",
+      "sha256": "0407AC72F801717FC25EA6058CC74849611648E55EC18B2A65D9949EBFBAF24A"
+    },
+    {
+      "path": "scripts/core/ai/ai_action.gd.uid",
+      "sha256": "B8BD66FE527163BE5D31CFA8C4CBB977DC1884634F6726E9F6D8251B593408DD"
+    },
+    {
+      "path": "scripts/core/ai/ai_behavior_profile.gd",
+      "sha256": "698DDBBA295D4D2547329B474DCC9157D4AC250D9DA383C1CCAE2ABBED625A29"
+    },
+    {
+      "path": "scripts/core/ai/ai_behavior_profile.gd.uid",
+      "sha256": "0F1097013540B148BA9BB69B5F417814F574B682C8825380061F36B760981649"
+    },
+    {
+      "path": "scripts/core/ai/ai_consideration.gd",
+      "sha256": "DA924713BE0F80E437D15779F8E6C9BEB7C50BBB673EF87CC865DC0186A0AA4E"
+    },
+    {
+      "path": "scripts/core/ai/ai_consideration.gd.uid",
+      "sha256": "0241D33C845E11FE9B72C8504285BAD5F6746A8547F5181945BD154889D3CC73"
+    },
+    {
+      "path": "scripts/core/ai/ai_decision_context.gd",
+      "sha256": "924FC22F3F48366256CBB8282A4992AD5C9515B73F39A46761DDC1A2FDDBDD1B"
+    },
+    {
+      "path": "scripts/core/ai/ai_decision_context.gd.uid",
+      "sha256": "9E51D09DA21720E3565E5E65AF00C54D531A5A81F89EE7A7CD69A55D6612765B"
+    },
+    {
+      "path": "scripts/core/ai/ai_grid_math.gd",
+      "sha256": "7E6E58CCA78B800BD2CCE11F9DD9A5FFC0A988F05CB55E4F97ABAE2EE747164E"
+    },
+    {
+      "path": "scripts/core/ai/ai_grid_math.gd.uid",
+      "sha256": "E963A4F57FB269D40EE4BA823D1B784C2D0224AC0B1C15D6E19120D34DA865CD"
+    },
+    {
+      "path": "scripts/core/ai/considerations/balance_exploit_consideration.gd",
+      "sha256": "B7C17FF5C2E2B5B10E49606F6059423E8F8C84CF775AA930309D6380C7E936B9"
+    },
+    {
+      "path": "scripts/core/ai/considerations/balance_exploit_consideration.gd.uid",
+      "sha256": "9A3C55B9B4D03885B5501B0EE76DC22FEB55D8FAE77120EB432105630D8F878E"
+    },
+    {
+      "path": "scripts/core/ai/considerations/hold_position_consideration.gd",
+      "sha256": "558063933FF28EC3F823EC001FA471AB52842F0CA6BB974D17B301C245D33EB2"
+    },
+    {
+      "path": "scripts/core/ai/considerations/hold_position_consideration.gd.uid",
+      "sha256": "EFF4D48F7F7BE7078513F84F8733B4A1458CD0BE3CEC4764F32AEBDBFE118C72"
+    },
+    {
+      "path": "scripts/core/ai/considerations/low_hp_target_consideration.gd",
+      "sha256": "2024745D9158A771FF1841F50EB68053945355DDDBBA94AC5E40359787ACFA74"
+    },
+    {
+      "path": "scripts/core/ai/considerations/low_hp_target_consideration.gd.uid",
+      "sha256": "6F491ED08479014FD1048EFAC42C0DD424F4304BC691431398175F72EA806FFD"
+    },
+    {
+      "path": "scripts/core/ai/considerations/prefer_attack_consideration.gd",
+      "sha256": "253B1C42BFCA6ED96C57705A2CFF17DFC05D123D9B375F300E37D45215E2E7E0"
+    },
+    {
+      "path": "scripts/core/ai/considerations/prefer_attack_consideration.gd.uid",
+      "sha256": "CBB43062FEFD60668054023740B1A86150539D648AEC9DC21106B54505E19192"
+    },
+    {
+      "path": "scripts/core/ai/considerations/push_collision_consideration.gd",
+      "sha256": "0A7ADA5AC89D0957C05DF8AC9139142CAB2CE17A5B7EACF918EE9384E4152A4B"
+    },
+    {
+      "path": "scripts/core/ai/considerations/push_collision_consideration.gd.uid",
+      "sha256": "5BBA7644B295F6133BFC585863017CD9590BCDC33F347EF0DD1C1B2691574D5A"
+    },
+    {
+      "path": "scripts/core/ai/considerations/push_to_hazard_consideration.gd",
+      "sha256": "C07EE20BD130B0290689F10D3F24B94AD4FFDA7E88AE9829E466825F2ACCBA6C"
+    },
+    {
+      "path": "scripts/core/ai/considerations/push_to_hazard_consideration.gd.uid",
+      "sha256": "EC5F356C724CD49401F749CDAE92C348BC03DDCFFD09F7661FEB951C1DED204A"
+    },
+    {
+      "path": "scripts/core/ai/considerations/self_safety_consideration.gd",
+      "sha256": "C128116F5E9EEB200AD0EBCA0F589CAAFCAAE65DAE7A6CC193D6E90ADEF5A188"
+    },
+    {
+      "path": "scripts/core/ai/considerations/self_safety_consideration.gd.uid",
+      "sha256": "757E2F01FFC1EC9DF6DC8757944DEC9F500B93A20DA349AAEFB1BF6DFBC7615F"
+    },
+    {
+      "path": "scripts/core/ai/utility_ai_controller.gd",
+      "sha256": "DFD124B9F0CD23529E2F4F9485799402E30C13AE4F400BD0638D7A5E3562B8EA"
+    },
+    {
+      "path": "scripts/core/ai/utility_ai_controller.gd.uid",
+      "sha256": "3127CCD3E935D5A06636BC36A9D2E9085615D72998FE9BFA0CB55ACD3F01FCA7"
+    },
+    {
+      "path": "scripts/core/board/battle_board.gd",
+      "sha256": "8078261F521AFF48403D77FE7C5746435FE4D30C247AEFB5111D6CE0D2F9DC33"
+    },
+    {
+      "path": "scripts/core/board/battle_board.gd.uid",
+      "sha256": "500A0A0DED3D6E731A105389AB8076AE354A039512C199B34B7DD120D56C89CD"
+    },
+    {
+      "path": "scripts/core/board/terrain_type.gd",
+      "sha256": "01557E57CC1282EB5B51B82A9E9B9E0399029F941C91E8A97BA8A2285DFC5CF9"
+    },
+    {
+      "path": "scripts/core/board/terrain_type.gd.uid",
+      "sha256": "927D53D320B48B19A102E77E9CCFBDD991D2A13B25A8943CCC55586AC5882F83"
+    },
+    {
+      "path": "scripts/core/combat/action_preview.gd",
+      "sha256": "B26F15040022CE0CBE06B849DE921A83BC3E276EF909E916A5D15CA3AD083481"
+    },
+    {
+      "path": "scripts/core/combat/action_preview.gd.uid",
+      "sha256": "EEA4088DD985B520AFF630BBE0FD2C2485E0DBFB84CC021D5758C8EC344876F5"
+    },
+    {
+      "path": "scripts/core/combat/damage_calculator.gd",
+      "sha256": "FF1C6AB654414EAC7652AD17CA7D7D0D78EC8A0C14B794EB4EB7B530F22C9BBB"
+    },
+    {
+      "path": "scripts/core/combat/damage_calculator.gd.uid",
+      "sha256": "7B7190933326E4FC9E3E2C6090F4C19F365EACBEF211C57F3A013FA89AB46422"
+    },
+    {
+      "path": "scripts/core/combat/damage_info.gd",
+      "sha256": "B937040324A4C584E241D2CEEEA7D4CF89BDF92E6F66258B3FCA6D5531D916F9"
+    },
+    {
+      "path": "scripts/core/combat/damage_info.gd.uid",
+      "sha256": "864C844B6FA02FD35C925816973C8177BE4D8AF4CF1F78B65E509A1C3AF260DB"
+    },
+    {
+      "path": "scripts/core/combat/push_resolver.gd",
+      "sha256": "196C8AE9C8956A370DE422B9A4C8AEDBB4B58EF1D37610F9FE2FF7E727A34158"
+    },
+    {
+      "path": "scripts/core/combat/push_resolver.gd.uid",
+      "sha256": "157032D7549454C5467DA41743763733726055D7A277B21FA6FBB045231EBEF3"
+    },
+    {
+      "path": "scripts/core/combat/push_result.gd",
+      "sha256": "827CEB641D759B6CEC6871F89879607E96CA2D1FEF4F8E6DF7D9D0502A385DFD"
+    },
+    {
+      "path": "scripts/core/combat/push_result.gd.uid",
+      "sha256": "8F5C3B9B3AF23F432E798B4D01A5B76E80DF92A55F7982F8744D2F99E69611BC"
+    },
+    {
+      "path": "scripts/core/events/event_sink.gd",
+      "sha256": "6549091B0D840C7A28E68341D5A990250304C53890C16388374394FE4E132CD2"
+    },
+    {
+      "path": "scripts/core/events/event_sink.gd.uid",
+      "sha256": "A9710F31666CDCF15105ECFA5B18453BCB3CB5AC0622192F4AC68B53225DC62A"
+    },
+    {
+      "path": "scripts/core/events/game_event_bus.gd",
+      "sha256": "8DD9D83FE0D6A4AC1D4C14C69D5209C46248B34A70B6C25C25DA5505A7BB0F64"
+    },
+    {
+      "path": "scripts/core/events/game_event_bus.gd.uid",
+      "sha256": "F86A437CE4858BB6C766D1BD1E8B5A2655BB67E57820BD190113EEF6BE000FA2"
+    },
+    {
+      "path": "scripts/core/events/recording_event_sink.gd",
+      "sha256": "C14DF4750685F4216E6B374F22A03C4384A01B2A26BBAE9AE003A89FFA920596"
+    },
+    {
+      "path": "scripts/core/events/recording_event_sink.gd.uid",
+      "sha256": "FDCC0B0F59CC4CCA1CCCA7323D0FBA3763E3521DC8AA30E16804F1B88F222104"
+    },
+    {
+      "path": "scripts/core/grid/iso_grid_config.gd",
+      "sha256": "C08A30F9043FD12061DDE217C7A7ED81A1A2FE255687D9BAC3051275665A9732"
+    },
+    {
+      "path": "scripts/core/grid/iso_grid_config.gd.uid",
+      "sha256": "F9FE3F4F32C5D4B16423B12E49762A24EEB4BFC90DF4226FAF083D8C3F16E460"
+    },
+    {
+      "path": "scripts/core/grid/iso_grid_utils.gd",
+      "sha256": "0291EC8C7A223BF923590EE5A19E9916495AD0370E9E16257D7756A17F15CD76"
+    },
+    {
+      "path": "scripts/core/grid/iso_grid_utils.gd.uid",
+      "sha256": "5BCE97495E132FFB3B3E7B544282BFDDFC7FB8CFCF311CD8116CF6ECED0464EC"
+    },
+    {
+      "path": "scripts/core/initiative/initiative_timeline.gd",
+      "sha256": "98DC461000E00A981F89C3660B95AAAD8AF5A2D984DBFB17920F1FDA4CCFC578"
+    },
+    {
+      "path": "scripts/core/initiative/initiative_timeline.gd.uid",
+      "sha256": "8CB12619B8C1CCF34D4392D3F0FC63D3A74912B74CCADF323563BE1F787739C0"
+    },
+    {
+      "path": "scripts/core/initiative/simple_initiative_strategy.gd",
+      "sha256": "91726EE14DB2FE356173BA229164ABABA78EDBBF09BDDF18109EE447119F3601"
+    },
+    {
+      "path": "scripts/core/initiative/simple_initiative_strategy.gd.uid",
+      "sha256": "EE6ADFDAA24DDEF58996C5B38499BB46F51979B0AA57EB3A833E7E4DBAA4AF18"
+    },
+    {
+      "path": "scripts/core/initiative/turn_order_strategy.gd",
+      "sha256": "E582158377C817D5488D360DE563F961BEC1C1E63A056717F7F03E2E98A1E400"
+    },
+    {
+      "path": "scripts/core/initiative/turn_order_strategy.gd.uid",
+      "sha256": "E603E2D90AC13071C28EB27F5C2ED79FE99AAE233DF06BDDDEA56B06C0E01C2E"
+    },
+    {
+      "path": "scripts/core/input/input_manager.gd",
+      "sha256": "40E4BA571B69AD75CBDADF5AC4A98C4B303110A9014DBE7B5D15D3867FC53513"
+    },
+    {
+      "path": "scripts/core/input/input_manager.gd.uid",
+      "sha256": "04A17A6063D3942657B413D50D26B47F27C045697968AE7C598534DC1ABA7376"
+    },
+    {
+      "path": "scripts/core/inventory/equipment_state.gd",
+      "sha256": "36E23A15770E923E1FA9FEA1BDCABE2D7291783A2D271E87A4C3177059E546FC"
+    },
+    {
+      "path": "scripts/core/inventory/equipment_state.gd.uid",
+      "sha256": "7E4F04E067DC38CD2A67266A4661C067BD57E787E959FBCF1EE70EDD9EA114FF"
+    },
+    {
+      "path": "scripts/core/inventory/inventory_state.gd",
+      "sha256": "79BA997509D5E7EC1AD2767BD214836EA7332141B614AC5146D4BE5C46C9F9AF"
+    },
+    {
+      "path": "scripts/core/inventory/inventory_state.gd.uid",
+      "sha256": "CC8016FB37C31CE9A319DE0CBC7C94B4553065A6F27AD307DF9C2AD314398310"
+    },
+    {
+      "path": "scripts/core/items/heal_on_damage_effect_runtime.gd",
+      "sha256": "EE2562F6AA674ECFF15FD90D2F2AC380B9580F5EEB594162CDB7B2EFF9171529"
+    },
+    {
+      "path": "scripts/core/items/heal_on_damage_effect_runtime.gd.uid",
+      "sha256": "77093902A0FBFA5593F739332F0F8B2EE1AF7A3C2202BB1C0154F2A102631E32"
+    },
+    {
+      "path": "scripts/core/items/heal_on_damage_effect.gd",
+      "sha256": "90A44DED16B9F831C86B4767422469666EB8EF72EAC5530415E8D5018CDA3047"
+    },
+    {
+      "path": "scripts/core/items/heal_on_damage_effect.gd.uid",
+      "sha256": "1445A9DABBD4AA3438F0D249D5C51EC3FB397A956773813D4DC52D300E675C40"
+    },
+    {
+      "path": "scripts/core/items/item_def.gd",
+      "sha256": "39599BC140BAD69D1BB82B9891AF70100131A5F1EA745298132A792BF49F6611"
+    },
+    {
+      "path": "scripts/core/items/item_def.gd.uid",
+      "sha256": "ED2A4180E1192DF2E03BAAFD8DC5E2E0B7294252B322BD9B6665B7403E957492"
+    },
+    {
+      "path": "scripts/core/items/item_effect_runtime.gd",
+      "sha256": "AE28963FF85185A6AA44A2C95DE5B11F8D6D60ECBA39DF4AB6834ECEAC64C696"
+    },
+    {
+      "path": "scripts/core/items/item_effect_runtime.gd.uid",
+      "sha256": "3CFF5AC79554297FF305529A3C0CDB24D49955A7F1A3C102625EAA9B5FE1B3EA"
+    },
+    {
+      "path": "scripts/core/items/item_effect.gd",
+      "sha256": "81AE816ACE57BFABC39A6FC4089DFCF663BEEF3215CB2ABE2B12D5C81D4F5415"
+    },
+    {
+      "path": "scripts/core/items/item_effect.gd.uid",
+      "sha256": "EBCF125313426509B211478BA97A863AF24BF532AB8629AE155161A89E900963"
+    },
+    {
+      "path": "scripts/core/items/item_instance.gd",
+      "sha256": "D5D406A26FAC1DDF07AF9021CB0EB26283F333DB84931D55E8296D700520228E"
+    },
+    {
+      "path": "scripts/core/items/item_instance.gd.uid",
+      "sha256": "D35E7FA414E2206C19F4193430C13D6B5A79D652A7A8F4973B8A20268D599EC5"
+    },
+    {
+      "path": "scripts/core/items/item_owner_state.gd",
+      "sha256": "FE069E3DFF5900356E8FC48B529F27C09D9DD4B6F76A263322213BD67A677EC1"
+    },
+    {
+      "path": "scripts/core/items/item_owner_state.gd.uid",
+      "sha256": "4492640B5DACD209900720C29BE1006D3B2BAF86350C18C5A17AAC8E4099880E"
+    },
+    {
+      "path": "scripts/core/items/item.gd",
+      "sha256": "DE4BC93566DEB2ADA59818C3825950E12F1376A7A950ADF20B927213CB9753A5"
+    },
+    {
+      "path": "scripts/core/items/item.gd.uid",
+      "sha256": "597FA2E68213A71D9E01A893BAE22FF8F68F0D6C393EB7C7B64DF9D09D359A43"
+    },
+    {
+      "path": "scripts/core/items/stat_modifier_effect_runtime.gd",
+      "sha256": "829B31CF927797150F11E5826DDCA63B1552441A80B40C3E639DC6831D6B089D"
+    },
+    {
+      "path": "scripts/core/items/stat_modifier_effect_runtime.gd.uid",
+      "sha256": "B7523D8730A6BF9AC27AB45FB5469BA6FDF427D506837F2EEA36068B6386E35A"
+    },
+    {
+      "path": "scripts/core/items/stat_modifier_effect.gd",
+      "sha256": "28D1556AB603D719E2006B46CBB9CC4863F7AE7FBAEDF4416E889AA37E44A9C7"
+    },
+    {
+      "path": "scripts/core/items/stat_modifier_effect.gd.uid",
+      "sha256": "EDD82179266F516A4FA19F817A3CCAA4ECB91D881D432A0A312F0F04720E9A5B"
+    },
+    {
+      "path": "scripts/core/items/triggered_effect.gd",
+      "sha256": "21582EE2CD3604E7C7FFF91342C8AEBBAE7E1D8183B42A95857E920446E2836F"
+    },
+    {
+      "path": "scripts/core/items/triggered_effect.gd.uid",
+      "sha256": "3B5BE3C04B18098ADFAF5B5AF349D54D3DFC174D92EC3D50EEFFA9E2CECEB9CE"
+    },
+    {
+      "path": "scripts/core/pathfinding/grid_data_provider.gd",
+      "sha256": "E297ECBD64336BA514E57C9313577B3F4B4D6FBDE6BDD4311CE552E8F903F8F2"
+    },
+    {
+      "path": "scripts/core/pathfinding/grid_data_provider.gd.uid",
+      "sha256": "E720502CEACB92C446ED235A9E4B4BB57E9C96E6B6ECF2E2E36F82F70BB2B032"
+    },
+    {
+      "path": "scripts/core/pathfinding/grid_pathfinder.gd",
+      "sha256": "C5203F45D25E3434015F1BFF35708872B5E0722357A8D38935FEB73C803F8002"
+    },
+    {
+      "path": "scripts/core/pathfinding/grid_pathfinder.gd.uid",
+      "sha256": "5CE2A24A6A258F0F8A3BAEC70FBAEFAD3168ED0DF71B614622237B79BF8F73C0"
+    },
+    {
+      "path": "scripts/core/rendering/elevated_tile_visual.gd",
+      "sha256": "C937D9C40CA055D7327D66CD1E06D189D7EB208927094FD8F4329D936D0EBCA0"
+    },
+    {
+      "path": "scripts/core/rendering/elevated_tile_visual.gd.uid",
+      "sha256": "F816F481070004B43CA1F1B9D21B4D9EDEE0B991299341D1E9F2CE5DD69B3C1B"
+    },
+    {
+      "path": "scripts/core/rendering/render_layers.gd",
+      "sha256": "EFC6EE5DF8C93530821C0F9E8120877E2A50093E989442BFD0AB2BAE96AB89BB"
+    },
+    {
+      "path": "scripts/core/rendering/render_layers.gd.uid",
+      "sha256": "6189CA892AC957583F09B6D0165CAD687FA50AB81AF6C089A99228F9612DCB62"
+    },
+    {
+      "path": "scripts/core/rendering/y_sortable.gd",
+      "sha256": "BA8198AB0942847A04A014F26E9454C5A9A935927D418398677B9E46B89D2DE9"
+    },
+    {
+      "path": "scripts/core/rendering/y_sortable.gd.uid",
+      "sha256": "041754390DC09C8437F59669B10E4F29D96187BEED002C442E1384297B0F5FF7"
+    },
+    {
+      "path": "scripts/core/stats/stat_modifier.gd",
+      "sha256": "99D8AADF9355825493334A46092CF08E3DEE86582D579D519C8697407DB74560"
+    },
+    {
+      "path": "scripts/core/stats/stat_modifier.gd.uid",
+      "sha256": "C99F6E546A976D9A568929BE5E9EC824C6CD25BBB966CE0D68BBC0E2B4C91B20"
+    },
+    {
+      "path": "scripts/core/stats/stat_types.gd",
+      "sha256": "0ADD2B1E0D53CD997A3401929C5D2554F593302B4B862A77D9CB4ABD4BE55048"
+    },
+    {
+      "path": "scripts/core/stats/stat_types.gd.uid",
+      "sha256": "69560FA4B59F0E4B7CCA0CD20AE79C0B07A6AEFAA1A9478AC05539E7D06CE7EA"
+    },
+    {
+      "path": "scripts/core/stats/stat.gd",
+      "sha256": "F894780062D9810387FF89392E86CF1C8990366464BDF42BCBF51DCAA37DF082"
+    },
+    {
+      "path": "scripts/core/stats/stat.gd.uid",
+      "sha256": "3E3D47F49071EB69839881BFA0B126CABAD2E5D43DED76D3AD58BBECA6AB6EAF"
+    },
+    {
+      "path": "scripts/core/stats/stats_bag.gd",
+      "sha256": "CEE0E00CB6941A4D6F489E815F347808519C5FE75F84D05A78199352EB5A2FDB"
+    },
+    {
+      "path": "scripts/core/stats/stats_bag.gd.uid",
+      "sha256": "64E016ABE7FC5FD187C4BE6D6A2FE415848ADC8B5CC118D415664C92E61A1ABB"
+    },
+    {
+      "path": "scripts/core/units/faction.gd",
+      "sha256": "0D30AFF1EA2176371E37132655A7849B888F160739CD554F99C56E4E90F4FDD2"
+    },
+    {
+      "path": "scripts/core/units/faction.gd.uid",
+      "sha256": "9CB67D2D8C9CBFF63B830A4A7A0DBEF1671CCBC109BE796978A644A66D3DF5F5"
+    },
+    {
+      "path": "scripts/core/units/unit_id.gd",
+      "sha256": "2D5239B9C1DE6CF2DD4C8635F959021C51E0FC2DAC5940C0DCBBF1AC3A4F92A8"
+    },
+    {
+      "path": "scripts/core/units/unit_id.gd.uid",
+      "sha256": "E0C271A668F8C4CEB08CF0EC3DE3510AE9D39666E321DC931FD97BA62D3A8970"
+    },
+    {
+      "path": "scripts/core/units/unit_state.gd",
+      "sha256": "8F36E798228EC82A58D9CCAB9615B959CE657A5F3AAF077A4F640DC01ED0D952"
+    },
+    {
+      "path": "scripts/core/units/unit_state.gd.uid",
+      "sha256": "57970B04BC7988A8D0EB96903AE686A03C142806F61B1478906FAB9398A29D3E"
+    },
+    {
+      "path": "scripts/core/units/vitals.gd",
+      "sha256": "4049D885DF3EBA924B74AEF1AC00F807D469CCBEDF5008483AA071ED46ECDF36"
+    },
+    {
+      "path": "scripts/core/units/vitals.gd.uid",
+      "sha256": "74E2512C127D4A05F1217FAFCF09DFA00D85D33B528668D89D8CC9F637A60072"
+    },
+    {
+      "path": "scripts/gameplay/camera/iso_camera_controller.gd",
+      "sha256": "0EB399F7AB2501E7CFC61CFCF44BD5DCF4A0248159A8C7DEB56584280ADE868F"
+    },
+    {
+      "path": "scripts/gameplay/camera/iso_camera_controller.gd.uid",
+      "sha256": "F1E64C05EEF1EE65546695C1F83F163F29186A862A24E860A85CFE09E57C107E"
+    },
+    {
+      "path": "scripts/gameplay/events/game_event_bus_sink.gd",
+      "sha256": "E04C584D98ABED9243E87820F7A423F8CD0FB242BB4F5CBAE7EE3E316205092E"
+    },
+    {
+      "path": "scripts/gameplay/events/game_event_bus_sink.gd.uid",
+      "sha256": "24F73ACBC2B9AC344299E68672AB89C0ABAC1C855F3D8C0319FCF5BF6EBDCF8A"
+    },
+    {
+      "path": "scripts/test/debug_ai_panel.gd",
+      "sha256": "DCFC2301E6FCF18550C3273F38B8232D5C3665B746E6B344BDEE30A19AD92624"
+    },
+    {
+      "path": "scripts/test/debug_ai_panel.gd.uid",
+      "sha256": "3C9FC348086E970D1A97C68610AFC863FC0F6CB1D6862BF55A924AB6C1CAB56E"
+    },
+    {
+      "path": "scripts/test/debug_combat_panel.gd",
+      "sha256": "195FF9E820E68D40AFDA844909D04EBA8A72AF2FB197BFFF195FD2835247C465"
+    },
+    {
+      "path": "scripts/test/debug_combat_panel.gd.uid",
+      "sha256": "7AF8A46593E1B1274CB4BF677F858612BE7B703B03497D6F9AD22CB1E885CF8B"
+    },
+    {
+      "path": "scripts/test/debug_grid_visualizer.gd",
+      "sha256": "90550B3B93B7502D594CD970C4B4F7A46FBF993D90ED1D74C88EC704D855EDD2"
+    },
+    {
+      "path": "scripts/test/debug_grid_visualizer.gd.uid",
+      "sha256": "CD4A765FB3322764B4AFAC4EE6671EBF10356E60A7E485AD1E6B64E4E4248107"
+    },
+    {
+      "path": "scripts/test/debug_initiative_panel.gd",
+      "sha256": "D5D84F6F447E1C5C7C7D618B600EE298586D5A5AEAE20A3CEC6D6F43301E7AA1"
+    },
+    {
+      "path": "scripts/test/debug_initiative_panel.gd.uid",
+      "sha256": "65B65E679B7C8F67D28A7E8C94FFD044DA5FD4D473379AF41FFC0189BE1DC4D2"
+    },
+    {
+      "path": "scripts/test/debug_inventory_panel.gd",
+      "sha256": "180A4FD19A8BB1A6A0C2F82D0A84310D556AE6F68C2CA47053EAD87E3E1F0936"
+    },
+    {
+      "path": "scripts/test/debug_inventory_panel.gd.uid",
+      "sha256": "F9B573A3D4B40C6C5EFBEBB30CA890C89D2871ECFE5D012C89BA11E765B45F8A"
+    },
+    {
+      "path": "scripts/test/debug_path_overlay.gd",
+      "sha256": "E75CBCED954C18DFB2C7F5F72170F8A88A21C6589B40B2BCC925A55E65C2AE3E"
+    },
+    {
+      "path": "scripts/test/debug_path_overlay.gd.uid",
+      "sha256": "20196B8C04E60861B211272158ECE6DE1572BCF5330EDBE29CCEFADAA9DF9F9D"
+    },
+    {
+      "path": "scripts/test/debug_projectile_placeholder.gd",
+      "sha256": "A1885FB163A5CCE51515C507E061C9B9E0F6A159EF544199551222C9F4932C3B"
+    },
+    {
+      "path": "scripts/test/debug_projectile_placeholder.gd.uid",
+      "sha256": "19FC3E2A3FF57A49D0196E181C7391D7E12011AC9C9532561CA57F17012DCC57"
+    },
+    {
+      "path": "scripts/test/debug_unit_placeholder.gd",
+      "sha256": "5B23D66F325D9D552FA98004C41C264769EDBF8CF49E165AA42BF24563008830"
+    },
+    {
+      "path": "scripts/test/debug_unit_placeholder.gd.uid",
+      "sha256": "2ECC19FDCF8F8CE79E0F95E99AD470CBE641CDBFF2F1AF26D4958473A15F335F"
+    },
+    {
+      "path": "scripts/test/legacy_item_demo_sink.gd",
+      "sha256": "65ACA3C9ABCC16E7639CD6F30A334A02E330E9967E46B878861813C799C5098B"
+    },
+    {
+      "path": "scripts/test/legacy_item_demo_sink.gd.uid",
+      "sha256": "8C241EC3EF5117124B9905615D5C691DCA3135361B3CBAC07C51628653FFA0CB"
+    },
+    {
+      "path": "tests/run_tests.gd",
+      "sha256": "1C7D9FFD8F176B8281FFF49BDB851AAE5D2CC66ACE308475C9BCB11483FD09B9"
+    },
+    {
+      "path": "tests/run_tests.gd.uid",
+      "sha256": "436E6E369AC52FC689EE23C4B528EEA36658C7F5582D9C07C61686A25F5B5885"
+    },
+    {
+      "path": "docs/P08_SPATIAL_TASK.md",
+      "sha256": "FB67C9EAAA46159174E13F382ADA40AF2CCDD4134BFC55F1045371FA3DC387A4"
+    },
+    {
+      "path": "docs/P08_DEPENDENCIES.json",
+      "sha256": "F08ED3F8D6A76038A753360DF8455C7410B9257F6A0D7B36F972729BF0683B98"
+    },
+    {
+      "path": "docs/P08_REVIEW.md",
+      "sha256": "F17CBE69B2EC32ACC339087A38993C1CCC89799E914BC94D41783E4FC1EB041B"
+    }
+  ],
+  "local_artifacts": [
+    {
+      "path": "test_reports/p06-final-audit.json",
+      "sha256": "43EC94EA7CAA4F3508EF0348B4466B96C1AD234DA9C2CF9E0F03BAB787B654DF"
+    },
+    {
+      "path": "test_reports/p06-full-delta.patch",
+      "sha256": "E35DFD3739FF6E36FFEF1CBDB640309D3E18D9F481EC97C3F34F9E02FBFAA457"
+    },
+    {
+      "path": "test_reports/p06-implementation-review-manifest.json",
+      "sha256": "4C70006943FD34A61FDC1D2BE904EFE4800D5D8C0749D4DFD88CC6F386BC364D"
+    },
+    {
+      "path": "test_reports/p06-independent-implementation-review.md",
+      "sha256": "269EFC5710F602B4378FD214339BCAE8A91DA9EBE0541327A82D60709831C389"
+    },
+    {
+      "path": "test_reports/p06-residual.patch",
+      "sha256": "3DDBFF481DE1C9F738434ED676178174313C2F6BD187EF4ABDC7A3D18C85426B"
+    },
+    {
+      "path": "test_reports/p06-staged.patch",
+      "sha256": "458F6BEA071CA7A3DDABEA769CAF96BFE4A9143EFB664C40A5B87890B534BF3D"
+    },
+    {
+      "path": "test_reports/p07-acceptance-map.md",
+      "sha256": "A9F528B09E31D8DB822F12053B96F4BFA2A51281FEEB5FFA41DE11D6D1C1D828"
+    },
+    {
+      "path": "test_reports/p07-check-output.txt",
+      "sha256": "3EA273F1D423641FC9FBE9590928FA45526F9B1A446469D00BF3A4A4064C27E7"
+    },
+    {
+      "path": "test_reports/p07-final-audit.json",
+      "sha256": "92165430C57B25F1E32CE77863BB2961ECB1F2F0A8736E3F1799D04391EC44C6"
+    },
+    {
+      "path": "test_reports/p07-final-residual.patch",
+      "sha256": "110B8356EB04DC7547B668F39F9C130E6FE9B191ECA0F63EBCDD5F36EAA06024"
+    },
+    {
+      "path": "test_reports/p07-implementation-baseline.json",
+      "sha256": "D674841673796E684756C980AE4D8953A6BC1848A066871A29E74D9501DABB31"
+    },
+    {
+      "path": "test_reports/p07-implementation-baseline.patch",
+      "sha256": "18FB3AB510224A002438BF38300BD3A180A3C095620B3A9D455EE3192F712960"
+    },
+    {
+      "path": "test_reports/p07-implementation-delta-r1.patch",
+      "sha256": "089C0D74B9820F9430F3FD523CE6EA7826B21A35F781489E8004E4D1C31617BC"
+    },
+    {
+      "path": "test_reports/p07-implementation-review-manifest.json",
+      "sha256": "9BE3656802827C93E87EA6EBBD66FB2D3B8DD6838006655FF27E7103BDE9F6FE"
+    },
+    {
+      "path": "test_reports/p07-import.log",
+      "sha256": "F1C7E7F3D5D75AAF3FEBC2FDB101742154A0C5EBF3D4DA70C654573C936200EF"
+    },
+    {
+      "path": "test_reports/p07-independent-implementation-review.md",
+      "sha256": "AB117887F11487111A9CADE2569D1E7DC732D7C2687F0B10A33EF63F0D41B880"
+    },
+    {
+      "path": "test_reports/p07-residual.patch",
+      "sha256": "110B8356EB04DC7547B668F39F9C130E6FE9B191ECA0F63EBCDD5F36EAA06024"
+    },
+    {
+      "path": "test_reports/p07-staged.patch",
+      "sha256": "FA78BA8B44D96D5E9F6289D14B23DB7E104C877C93A36DB59CEEBBE7E0AB07D6"
+    },
+    {
+      "path": "test_reports/p07-startup.log",
+      "sha256": "6D1C065383A27C36804949B6FFA4B09714470B112E5DACC0BD5AEB7B9C147C4E"
+    },
+    {
+      "path": "test_reports/p07-tests.log",
+      "sha256": "FBD535BC225CE14FF8F5199C717E5FF7F196CB40C999746A3889FBDD69ECC390"
+    },
+    {
+      "path": "test_reports/p08-spatial-preparation-20260914/baseline.json",
+      "sha256": "2FE6BBF9505C197F18FC028417FEE6C79B907A8945A3EB5A54B33A4481B28FF4"
+    },
+    {
+      "path": "test_reports/p08-spatial-preparation-20260914/handoff-before.md",
+      "sha256": "147F2EA5DB859A1E8282C21CAFF12581E14B075F65CD030C707BE5B9DE63F0F7"
+    },
+    {
+      "path": "test_reports/p08-implementation-362ad64ba4fb41ebb427b16c4355cfb6/final-audit.json",
+      "sha256": "57417B2C661DB1C7FF2273203827A9681F84A87026286517C6553E3267A54968"
+    },
+    {
+      "path": "test_reports/p08-implementation-362ad64ba4fb41ebb427b16c4355cfb6/gap-review-manifest.json",
+      "sha256": "812D03FC8F1AD674B1838C9A08964B32F50B8D1037B37421C384DB363008EE6D"
+    },
+    {
+      "path": "test_reports/p08-implementation-362ad64ba4fb41ebb427b16c4355cfb6/independent-gap-review.md",
+      "sha256": "6783D795DB462E72C20ECAD0B0F0B1082789AC00E3D76C2BA6787CE6809CD049"
+    },
+    {
+      "path": "test_reports/p08-implementation-362ad64ba4fb41ebb427b16c4355cfb6/contract-gap-report.md",
+      "sha256": "0CAD9320203568C2E128281C577DF95953C39EDEB37C4E2A99BE08D0EE589272"
+    },
+    {
+      "path": "test_reports/p08-r3-preparation-dbf3db2fd468467cbbb9d39745bada7f/input-checks.json",
+      "sha256": "1D5AB20B0A4ED547CD5164E1E1AB8FB6A267E7B77F5CDA97A92CB6D3116BB294"
+    },
+    {
+      "path": "test_reports/p08-r3-preparation-dbf3db2fd468467cbbb9d39745bada7f/baseline.json",
+      "sha256": "E47CB8B0BAB42645457CFD1897641B59550A2CC937E4D3DA138334E1E688C9D7"
+    },
+    {
+      "path": "test_reports/p08-r3-preparation-dbf3db2fd468467cbbb9d39745bada7f/handoff-before.md",
+      "sha256": "5FF2E3DC22107EFA1806C8240361FA64DF123429F10CEE8BE6E29B340409AED4"
+    }
+  ],
+  "task": "P08-SPATIAL",
+  "preparation_dir": "test_reports/p08-r3-preparation-dbf3db2fd468467cbbb9d39745bada7f",
+  "input_status": [
+    " M docs/ARCHITECTURE.md",
+    " M docs/DECISIONS.md",
+    " M docs/TESTING.md",
+    " M scripts/core/board/battle_board.gd",
+    " M scripts/core/combat/damage_calculator.gd",
+    " M scripts/core/stats/stat.gd",
+    " M scripts/core/stats/stats_bag.gd",
+    " M scripts/core/units/unit_state.gd",
+    " M tests/run_tests.gd",
+    "?? .codex/",
+    "?? AGENTS.md",
+    "?? docs/CODEX_HANDOFF.md",
+    "?? docs/CODEX_WORKFLOW.md",
+    "?? docs/COMMAND_ACTION_QUEUE_CONTRACT.md",
+    "?? docs/MECHANICS_REQUIREMENTS.md",
+    "?? docs/P02_SNAPSHOT_TASK.md",
+    "?? scripts/core/actions/board_snapshot_result.gd",
+    "?? scripts/core/actions/board_snapshot_result.gd.uid",
+    "?? scripts/core/actions/simulation_snapshot.gd",
+    "?? scripts/core/actions/simulation_snapshot.gd.uid"
+  ],
+  "handoff_input": {
+    "path": "docs/CODEX_HANDOFF.md",
+    "sha256": "5FF2E3DC22107EFA1806C8240361FA64DF123429F10CEE8BE6E29B340409AED4",
+    "immutable_copy": "test_reports/p08-r3-preparation-dbf3db2fd468467cbbb9d39745bada7f/handoff-before.md"
+  },
+  "accepted_p08_r2_gap": {
+    "final_audit": {
+      "path": "test_reports/p08-implementation-362ad64ba4fb41ebb427b16c4355cfb6/final-audit.json",
+      "sha256": "57417B2C661DB1C7FF2273203827A9681F84A87026286517C6553E3267A54968"
+    },
+    "outcome": "CONTRACT_GAP; runtime restored exact; NOT P08 implementation acceptance",
+    "artifacts": [
+      {
+        "path": "docs/CODEX_HANDOFF.md",
+        "sha256": "5FF2E3DC22107EFA1806C8240361FA64DF123429F10CEE8BE6E29B340409AED4"
+      },
+      {
+        "path": "docs/DECISIONS.md",
+        "sha256": "79345463D50C15D5DE60918FE64DD9330B0DAFD4F830B31266B681193C56F281"
+      },
+      {
+        "path": "docs/TESTING.md",
+        "sha256": "58F36278757A9AD1C15B3800EE01B6663B854EB15FD4E23629BC969BB3525042"
+      },
+      {
+        "path": "docs/P08_SPATIAL_TASK.md",
+        "sha256": "FB67C9EAAA46159174E13F382ADA40AF2CCDD4134BFC55F1045371FA3DC387A4"
+      },
+      {
+        "path": "docs/P08_DEPENDENCIES.json",
+        "sha256": "F08ED3F8D6A76038A753360DF8455C7410B9257F6A0D7B36F972729BF0683B98"
+      },
+      {
+        "path": "docs/P08_REVIEW.md",
+        "sha256": "F17CBE69B2EC32ACC339087A38993C1CCC89799E914BC94D41783E4FC1EB041B"
+      },
+      {
+        "path": "test_reports/p08-implementation-362ad64ba4fb41ebb427b16c4355cfb6/gap-review-manifest.json",
+        "sha256": "812D03FC8F1AD674B1838C9A08964B32F50B8D1037B37421C384DB363008EE6D"
+      },
+      {
+        "path": "test_reports/p08-implementation-362ad64ba4fb41ebb427b16c4355cfb6/independent-gap-review.md",
+        "sha256": "6783D795DB462E72C20ECAD0B0F0B1082789AC00E3D76C2BA6787CE6809CD049"
+      },
+      {
+        "path": "test_reports/p08-implementation-362ad64ba4fb41ebb427b16c4355cfb6/contract-gap-report.md",
+        "sha256": "0CAD9320203568C2E128281C577DF95953C39EDEB37C4E2A99BE08D0EE589272"
+      },
+      {
+        "path": "test_reports/p08-implementation-362ad64ba4fb41ebb427b16c4355cfb6/paused-substrate-manifest.json",
+        "sha256": "BEB223473193B4E9E5A0E6947735576F62E0294D596AC2D8E0B8DF5CA53AB385"
+      },
+      {
+        "path": "test_reports/p08-implementation-362ad64ba4fb41ebb427b16c4355cfb6/probe-run-3e36d14cf37742958301b3911acb03a4/probe.log",
+        "sha256": "13DF15FEE3B53173912F033E7F4AFF35934D21F4FAD3B36C7EB7A21772B8507A"
+      },
+      {
+        "path": "test_reports/p08-implementation-362ad64ba4fb41ebb427b16c4355cfb6/baseline-run-2652f8beb4b24edb949dae4d34aa27a1/tests.log",
+        "sha256": "FBD535BC225CE14FF8F5199C717E5FF7F196CB40C999746A3889FBDD69ECC390"
+      }
+    ],
+    "handoff_artifact_policy": "historical input hash, use handoff_input immutable copy after preparation",
+    "baseline_regression": "1996 passed / 0 failed; NOT S01-S17 acceptance"
+  },
+  "effective_overrides": [
+    {
+      "path": "docs/DECISIONS.md",
+      "historical": "34F085993E5569C008FACA58483D00A6C95D1768685D60C64E60331ACFCB92D2",
+      "effective": "79345463D50C15D5DE60918FE64DD9330B0DAFD4F830B31266B681193C56F281",
+      "source": "p08_r2_files"
+    },
+    {
+      "path": "docs/TESTING.md",
+      "historical": "A5C5115658A883AD96A28D8B76112189BF0F2B803E3EBDF9B2A8B456C6196E08",
+      "effective": "58F36278757A9AD1C15B3800EE01B6663B854EB15FD4E23629BC969BB3525042",
+      "source": "p08_r2_files"
+    },
+    {
+      "path": "docs/DECISIONS.md",
+      "historical": "34F085993E5569C008FACA58483D00A6C95D1768685D60C64E60331ACFCB92D2",
+      "effective": "79345463D50C15D5DE60918FE64DD9330B0DAFD4F830B31266B681193C56F281",
+      "source": "p07_final_effective"
+    },
+    {
+      "path": "docs/TESTING.md",
+      "historical": "A5C5115658A883AD96A28D8B76112189BF0F2B803E3EBDF9B2A8B456C6196E08",
+      "effective": "58F36278757A9AD1C15B3800EE01B6663B854EB15FD4E23629BC969BB3525042",
+      "source": "p07_final_effective"
+    }
+  ],
+  "additional_allowed_rationale": {
+    "scripts/core/actions/attack_hit_command.gd": "post-hit even impact0/immunity/death",
+    "scripts/core/actions/balance_command.gd": "post-balance even no-break; receipt prefix",
+    "scripts/core/actions/push_damage_command.gd": "terminal wall/fall HP checkpoint",
+    "scripts/core/actions/action_hp_executor.gd": "pinned HP/death adapter; never _finalize via replacement",
+    "scripts/core/units/vitals.gd": "narrow spatial mutation receipt/checkpoints between synchronous signals; legacy APIs unchanged",
+    "scripts/core/actions/death_command.gd": "internal bound spatial Move HAZARD with checkpoint; public legacy default unchanged"
+  }
+}
