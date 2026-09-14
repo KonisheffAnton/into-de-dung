@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="intoDeDung"
-run/main_scene="res://scenes/test/test_grid_scene.tscn"
+run/main_scene="res://scenes/demo/battle_demo.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -22,6 +22,10 @@ GameEventBus="*res://scripts/core/events/game_event_bus.gd"
 
 [display]
 
+window/size/viewport_width=1280
+window/size/viewport_height=850
+window/size/window_width_override=1280
+window/size/window_height_override=850
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
