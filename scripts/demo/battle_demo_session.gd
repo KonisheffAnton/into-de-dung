@@ -20,13 +20,15 @@ func reset() -> void:
 	board = BattleBoard.new(8, 8)
 	_configure_map()
 	var stats_list: Array[StatsBag] = []
-	for _i in 4:
+	for _i in 6:
 		stats_list.append(_demo_stats())
 	units = [
 		UnitState.create(Faction.Type.PLAYER, Vector2i(0, 2), stats_list[0], "Астра"),
 		UnitState.create(Faction.Type.ENEMY, Vector2i(4, 2), stats_list[1], "Страж"),
 		UnitState.create(Faction.Type.PLAYER, Vector2i(2, 5), stats_list[2], "Бор"),
 		UnitState.create(Faction.Type.PLAYER, Vector2i(3, 5), stats_list[3], "Щит"),
+		UnitState.create(Faction.Type.PLAYER, Vector2i(5, 6), stats_list[4], "Рей"),
+		UnitState.create(Faction.Type.ENEMY, Vector2i(6, 6), stats_list[5], "Мишень"),
 	]
 	# В демо ресурсы включаются только после полной сборки определения юнита.
 	for unit in units:
@@ -188,3 +190,6 @@ func _configure_map() -> void:
 	board.set_terrain(Vector2i(7, 2), TerrainType.Type.VOID)
 	board.set_terrain(Vector2i(6, 3), TerrainType.Type.VOID)
 	board.set_terrain(Vector2i(7, 3), TerrainType.Type.VOID)
+	# Пара у края позволяет увидеть летальный толчок без предварительной расстановки.
+	for y in range(4, 8):
+		board.set_terrain(Vector2i(7, y), TerrainType.Type.VOID)

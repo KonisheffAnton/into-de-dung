@@ -5,38 +5,67 @@ signal cell_clicked(cell: Vector2i)
 signal cell_hovered(cell: Vector2i)
 signal cancel_requested()
 
-const INK := Color("e6ecf4")
-const MUTED := Color("a5b3c5")
 const CYAN := Color("65dfcc")
 const GOLD := Color("f7c97d")
+const MUTED := Color("a5b3c5")
 var session: BattleDemoSession
 var attack_mode: bool = false
 var hover_cell := Vector2i(-1, -1)
+var grid_config := IsoGridConfig.new()
 var _reachable: Dictionary = {}
 var _path: Array[Vector2i] = []
+var _tiles: Node2D
+var _entities: Node2D
+var _overlay: Node2D
+var _ghosts: Node2D
+var _falling: Dictionary = {}
+var _fallen_ids: Dictionary = {}
+var _shown_board: BattleBoard
+var _tile_visuals: Array[BattleDemoIsoVisual] = []
+var _entity_visuals: Array[BattleDemoIsoVisual] = []
 
 func _ready() -> void:
 	custom_minimum_size = Vector2(520, 520)
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	clip_contents = true
+	_tiles = _layer("TilesLayer", RenderLayers.Layer.TILES)
+	_entities = _layer("EntitiesLayer", RenderLayers.Layer.ENTITIES)
+	_entities.y_sort_enabled = true
+	_ghosts = _layer("FallingFigures", RenderLayers.Layer.VFX_OVERLAY)
+	_overlay = _layer("PathOverlay", RenderLayers.Layer.UI_PREVIEW)
+	_overlay.draw.connect(_draw_overlay)
 	mouse_exited.connect(_clear_hover)
+	_rescale_layout()
+
+func _layer(label: String, layer: RenderLayers.Layer) -> Node2D:
+	var result := Node2D.new()
+	result.name = label
+	result.z_index = RenderLayers.z_index_for(layer)
+	add_child(result)
+	return result
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_RESIZED: _rescale_layout()
 
 func refresh() -> void:
 	_reachable = session.reachable_cells() if session != null else {}
 	_refresh_path()
+	_rebuild_visuals()
 	queue_redraw()
-
-func grid_rect() -> Rect2:
-	var side := minf(size.x - 44.0, size.y - 44.0)
-	return Rect2((size - Vector2.ONE * side) * 0.5 + Vector2(10, 10), Vector2.ONE * side)
+	if _overlay != null: _overlay.queue_redraw()
 
 func cell_center(cell: Vector2i) -> Vector2:
-	var area := grid_rect()
-	return area.position + (Vector2(cell) + Vector2.ONE * 0.5) * area.size.x / 8.0
+	var steps := session.board.get_height_steps(cell) if session != null and session.board != null else 0
+	return IsoGridUtils.grid_to_screen(cell, grid_config, 0) - Vector2(0, float(steps) * 0.5 * grid_config.height_step)
 
 func cell_at(point: Vector2) -> Vector2i:
-	var area := grid_rect()
-	if not area.has_point(point): return Vector2i(-1, -1)
-	return Vector2i((point - area.position) / (area.size.x / 8.0))
+	if session == null or session.board == null: return Vector2i(-1, -1)
+	# Те же поверхности, но в обратном порядке их фактической отрисовки.
+	for i in range(_entity_visuals.size() - 1, -1, -1):
+		if _entity_visuals[i].contains_point(point): return _entity_visuals[i].grid_anchor
+	for i in range(_tile_visuals.size() - 1, -1, -1):
+		if _tile_visuals[i].contains_point(point): return _tile_visuals[i].grid_anchor
+	return Vector2i(-1, -1)
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -45,7 +74,7 @@ func _gui_input(event: InputEvent) -> void:
 			hover_cell = cell
 			_refresh_path()
 			cell_hovered.emit(cell)
-			queue_redraw()
+			_overlay.queue_redraw()
 	elif event is InputEventMouseButton:
 		var button := event as InputEventMouseButton
 		if button.pressed and button.button_index == MOUSE_BUTTON_LEFT:
@@ -60,74 +89,135 @@ func _clear_hover() -> void:
 	hover_cell = Vector2i(-1, -1)
 	_path.clear()
 	cell_hovered.emit(hover_cell)
-	queue_redraw()
+	if _overlay != null: _overlay.queue_redraw()
 
 func _refresh_path() -> void:
 	_path.clear()
-	if session != null and not attack_mode and _reachable.has(hover_cell):
-		_path = session.path_to(hover_cell)
+	if session != null and not attack_mode and _reachable.has(hover_cell): _path = session.path_to(hover_cell)
+
+func _rescale_layout() -> void:
+	var factor := maxf(0.1, minf((size.x - 64) / 1024.0, (size.y - 108) / 544.0))
+	grid_config.tile_size = Vector2(128, 64) * factor
+	grid_config.height_step = 32 * factor
+	grid_config.origin_offset = Vector2(size.x * 0.5, size.y * 0.5 - grid_config.tile_size.y * 3.5)
+	if is_inside_tree():
+		_clear_falls()
+		_rebuild_visuals()
+		queue_redraw()
+		if _overlay != null: _overlay.queue_redraw()
+
+func _clear_layer(layer: Node2D) -> void:
+	if layer == null: return
+	for child in layer.get_children():
+		layer.remove_child(child)
+		child.queue_free()
+
+func _rebuild_visuals() -> void:
+	if _entities == null: return
+	var board: BattleBoard = session.board if session != null else null
+	if board != _shown_board:
+		_clear_falls()
+		_fallen_ids.clear()
+		_shown_board = board
+	_tile_visuals.clear()
+	_entity_visuals.clear()
+	_clear_layer(_tiles)
+	_clear_layer(_entities)
+	if board == null: return
+	var cells: Array[Vector2i] = []
+	for y in board.height:
+		for x in board.width: cells.append(Vector2i(x, y))
+	cells.sort_custom(func(a: Vector2i, b: Vector2i) -> bool: return a.x + a.y < b.x + b.y or (a.x + a.y == b.x + b.y and a.y < b.y))
+	for cell in cells:
+		var steps := board.get_height_steps(cell)
+		var terrain := board.get_terrain(cell)
+		var floor_visual := _make_visual(cell, steps, BattleDemoIsoVisual.Role.PLATFORM if steps > 0 else BattleDemoIsoVisual.Role.FLOOR)
+		floor_visual.is_void = terrain == TerrainType.Type.VOID
+		floor_visual.reachable = not attack_mode and _reachable.has(cell)
+		# Видимые поверхности всех высот сортируются вместе: ближний пол закрывает
+		# дальнюю грань уступа. Разделение по высоте на два слоя ломает это перекрытие.
+		_entities.add_child(floor_visual)
+		_entity_visuals.append(floor_visual)
+		if terrain == TerrainType.Type.WALL:
+			var wall := _make_visual(cell, steps, BattleDemoIsoVisual.Role.WALL)
+			_entities.add_child(wall)
+			_entity_visuals.append(wall)
+	for unit in session.units:
+		if not unit.is_alive() and (_fallen_ids.has(unit.id) or board.get_terrain(unit.cell) in [TerrainType.Type.VOID, TerrainType.Type.HAZARD]): continue
+		var visual := _make_visual(unit.cell, board.get_height_steps(unit.cell), BattleDemoIsoVisual.Role.UNIT)
+		visual.unit = unit
+		visual.selected = unit.id == session.selected_id and unit.is_alive()
+		_entities.add_child(visual)
+		_entity_visuals.append(visual)
+	_entity_visuals.sort_custom(func(a: BattleDemoIsoVisual, b: BattleDemoIsoVisual) -> bool: return a.position.y < b.position.y or (a.position.y == b.position.y and a.get_index() < b.get_index()))
+
+func _make_visual(cell: Vector2i, steps: int, role: BattleDemoIsoVisual.Role) -> BattleDemoIsoVisual:
+	var visual := BattleDemoIsoVisual.new()
+	visual.grid_config = grid_config
+	visual.role = role
+	visual.half_steps = steps
+	visual.set_grid_anchor(cell)
+	return visual
 
 func _draw() -> void:
 	if session == null or session.board == null: return
-	var area := grid_rect()
-	var edge := area.size.x / 8.0
-	var font := ThemeDB.fallback_font
+	var hh := grid_config.tile_size.y * 0.5
+	var hw := grid_config.tile_size.x * 0.5
 	for n in 8:
-		draw_string(font, area.position + Vector2((n + 0.5) * edge - 5, -10), String.chr(65 + n), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, MUTED)
-		draw_string(font, area.position + Vector2(-22, (n + 0.5) * edge + 5), str(n + 1), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, MUTED)
-	for y in 8:
-		for x in 8:
-			var cell := Vector2i(x, y)
-			var rect := Rect2(area.position + Vector2(cell) * edge, Vector2.ONE * edge).grow(-2)
-			var steps := session.board.get_height_steps(cell)
-			var terrain := session.board.get_terrain(cell)
-			var color := Color("273749") if (x + y) % 2 == 0 else Color("2c3c4e")
-			if steps > 0: color = Color("426967").lightened(float(steps) * 0.045)
-			if steps < 0: color = Color("273042")
-			if terrain == TerrainType.Type.VOID: color = Color("0b101a")
-			if terrain == TerrainType.Type.WALL: color = Color("626979")
-			draw_style_box(_tile_style(color), rect)
-			if terrain == TerrainType.Type.WALL:
-				for i in 3:
-					draw_line(rect.position + Vector2(6, 15 + i * 15), rect.position + Vector2(rect.size.x - 6, 15 + i * 15), Color("8992a1"), 1)
-			elif terrain == TerrainType.Type.VOID:
-				draw_string(font, rect.position + Vector2(7, 18), "ОБРЫВ", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color("8590a6"))
-			else:
-				draw_string(font, rect.position + Vector2(6, 15), "%+.1f" % (float(steps) / 2.0), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, MUTED)
-				if not attack_mode and _reachable.has(cell):
-					draw_circle(rect.position + Vector2(rect.size.x - 9, 9), 2, CYAN)
-			if cell == hover_cell:
-				draw_rect(rect.grow(1), GOLD if attack_mode else CYAN, false, 2)
+		draw_string(ThemeDB.fallback_font, IsoGridUtils.grid_to_screen(Vector2i(n, 0), grid_config, 0) + Vector2(5, -hh - 7), String.chr(65 + n), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, MUTED)
+		draw_string(ThemeDB.fallback_font, IsoGridUtils.grid_to_screen(Vector2i(0, n), grid_config, 0) + Vector2(-hw - 17, 4), str(n + 1), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, MUTED)
+
+func _draw_overlay() -> void:
+	if session == null or session.board == null: return
 	if _path.size() > 1:
 		var points := PackedVector2Array()
 		for cell in _path: points.append(cell_center(cell))
-		draw_polyline(points, CYAN, 3, true)
-	for index in session.units.size():
-		var unit := session.units[index]
-		var center := cell_center(unit.cell)
-		if not unit.is_alive():
-			# Труп не занимает клетку; маркер смещён от центра живого персонажа.
-			var marker := center + Vector2(edge * 0.3, edge * 0.3)
-			draw_line(marker - Vector2(4, 4), marker + Vector2(4, 4), MUTED, 2)
-			draw_line(marker - Vector2(4, -4), marker + Vector2(4, -4), MUTED, 2)
-			continue
-		var tint := CYAN if index % 2 == 0 else GOLD
-		if unit.id == session.selected_id: draw_arc(center, edge * 0.31, 0, TAU, 48, tint, 2, true)
-		draw_circle(center + Vector2(0, 3), edge * 0.235, Color("111c29"))
-		draw_circle(center, edge * 0.235, tint)
-		draw_string(font, center + Vector2(-edge * 0.25, 7), unit.debug_name.left(1), HORIZONTAL_ALIGNMENT_CENTER, edge * 0.5, 21, Color("172230"))
-		var bar := Rect2(center + Vector2(-edge * 0.30, edge * 0.33), Vector2(edge * 0.60, 4))
-		draw_rect(bar, Color("111c29"))
-		draw_rect(Rect2(bar.position, Vector2(bar.size.x * clampf(unit.vitals.get_hp() / unit.get_stat(StatTypes.StatType.HP_MAX), 0, 1), 4)), CYAN)
-		bar.position.y += 6
-		draw_rect(bar, Color("111c29"))
-		draw_rect(Rect2(bar.position, Vector2(bar.size.x * clampf(unit.vitals.get_balance() / unit.get_stat(StatTypes.StatType.BALANCE_MAX), 0, 1), 3)), GOLD)
+		_overlay.draw_polyline(points, CYAN, 2, true)
+	if session.board.is_in_bounds(hover_cell):
+		var center := cell_center(hover_cell)
+		if session.board.get_terrain(hover_cell) == TerrainType.Type.WALL: center.y -= grid_config.height_step
+		var hw := grid_config.tile_size.x * 0.48
+		var hh := grid_config.tile_size.y * 0.48
+		_overlay.draw_polyline(PackedVector2Array([center + Vector2(0, -hh), center + Vector2(hw, 0), center + Vector2(0, hh), center + Vector2(-hw, 0), center + Vector2(0, -hh)]), GOLD if attack_mode else CYAN, 2, true)
 
-func _tile_style(color: Color) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = color
-	style.corner_radius_top_left = 4
-	style.corner_radius_top_right = 4
-	style.corner_radius_bottom_left = 4
-	style.corner_radius_bottom_right = 4
-	return style
+func animate_fall(unit: UnitState, origin: Vector2i, destination: Vector2i) -> void:
+	if unit == null or _ghosts == null or _falling.has(unit.id): return
+	# При вылете за границу ядро сохраняет последнюю клетку, но фигура уже упала.
+	_fallen_ids[unit.id] = true
+	_rebuild_visuals()
+	var center := cell_center(destination)
+	var hw := grid_config.tile_size.x * 0.5
+	var hh := grid_config.tile_size.y * 0.5
+	var mask := Polygon2D.new()
+	mask.position = center
+	mask.polygon = PackedVector2Array([Vector2(-hw, -160), Vector2(hw, -160), Vector2(hw, 0), Vector2(0, hh), Vector2(-hw, 0)])
+	mask.color = Color.TRANSPARENT
+	_ghosts.add_child(mask)
+	var ghost := BattleDemoIsoVisual.new()
+	ghost.grid_config = grid_config
+	ghost.role = BattleDemoIsoVisual.Role.UNIT
+	ghost.transient_label = unit.debug_name
+	ghost.transient_tint = CYAN if unit.faction == Faction.Type.PLAYER else GOLD
+	mask.add_child(ghost)
+	ghost.position = cell_center(origin) - center
+	_falling[unit.id] = mask
+	var tween := mask.create_tween()
+	tween.tween_property(ghost, "position", Vector2.ZERO, 0.18)
+	# После входа в провал передняя кромка скрывает нижнюю часть фигуры.
+	tween.tween_callback(func() -> void:
+		mask.clip_children = CanvasItem.CLIP_CHILDREN_ONLY
+		mask.color = Color.WHITE)
+	tween.tween_property(ghost, "fall_drop", grid_config.tile_size.y * 1.4, 0.45).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tween.parallel().tween_property(ghost, "modulate:a", 0.0, 0.45).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tween.tween_callback(_finish_fall.bind(unit.id, mask))
+
+func is_fall_animating(unit_id: int) -> bool:
+	return _falling.has(unit_id)
+
+func _finish_fall(unit_id: int, mask: Polygon2D) -> void:
+	_falling.erase(unit_id)
+	if is_instance_valid(mask): mask.queue_free()
+
+func _clear_falls() -> void:
+	_falling.clear()
+	_clear_layer(_ghosts)

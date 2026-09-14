@@ -16,7 +16,7 @@ var _journal: Array[String] = []
 func _ready() -> void:
 	session = BattleDemoSession.new()
 	_build_ui()
-	_note("Бой готов. Выбрана Астра. Все четыре персонажа управляются вручную.")
+	_note("Бой готов. Все шесть персонажей управляются вручную. Рей и Мишень стоят у пропасти.")
 	_refresh()
 
 func _exit_tree() -> void:
@@ -95,7 +95,7 @@ func _build_ui() -> void:
 	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_status.custom_minimum_size.y = 46
 	root.add_child(_status)
-	root.add_child(_label("Подсказка: Астра → D3 → «Атака» → Страж на E3. Бор → «Атака» → Щит: удар о стену.", 14, Color("a5b3c5")))
+	root.add_child(_label("Ступени: Астра → D3 → A → Страж. Стена: Бор → A → Щит. Пропасть: Рей → A → Мишень на G7.", 14, Color("a5b3c5")))
 
 func _label(value: String, font_size: int, color: Color) -> Label:
 	var label := Label.new()
@@ -184,6 +184,20 @@ func _hover(cell: Vector2i) -> void:
 func _show_receipt(receipt: ActionReceipt) -> void:
 	for event in receipt.get_events(): _note(_event_text(event))
 	_refresh()
+	# Смерть уже исполнена ядром; временная фигура лишь показывает падение в провал.
+	for event in receipt.get_events():
+		if event.get("kind", &"") != &"died": continue
+		var source: Dictionary = event.get("source", {})
+		if source.get("kind", &"") != &"fall": continue
+		var unit := session.board.get_unit_by_id(int(event.get("target_unit_id", 0)))
+		if unit == null: continue
+		var destination: Vector2i = source.get("origin_cell", unit.cell)
+		if session.board.is_in_bounds(destination) and session.board.get_terrain(destination) != TerrainType.Type.VOID: continue
+		var origin := unit.cell
+		for movement in receipt.get_events():
+			if movement.get("kind", &"") == &"moved" and int(movement.get("target_unit_id", 0)) == unit.id:
+				origin = movement["from_cell"]
+		board_view.animate_fall(unit, origin, destination)
 	if receipt.status != ActionReceipt.APPLIED:
 		var message := "Действие отклонено" if receipt.status == ActionReceipt.REJECTED else "Исполнение остановлено"
 		message += ": " + _reason_text(receipt.reason)
