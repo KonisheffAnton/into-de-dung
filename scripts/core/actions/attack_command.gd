@@ -44,7 +44,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var target: UnitState = prepared["target"]
 	# Готовим весь child до единственной мутации: между оплатой и Hit новых данных уже нет.
 	var event := {"kind": &"attacked", "actor_unit_id": actor.id, "target_unit_id": target.id, "attack_definition_id": _attack_definition_id, "actor_cell": actor.cell, "target_cell": target.cell, "main_cost": 1, "main_before": main_before, "main_after": main_after}
-	var hit := AttackHitCommand.new(prepared["request"] as DamageRequest, actor, target, resources, actor.cell, target.cell, main_after)
+	var hit := AttackHitCommand.new(prepared["request"] as DamageRequest, actor, target, resources, actor.cell, target.cell, main_after, prepared.get("p07_binding") as BalancePushRules.Binding)
 	if not resources.try_spend_main(1):
 		return CommandStepResult.faulted(&"attack/invalid_runtime")
 	actor.has_attacked = true
@@ -69,7 +69,8 @@ func _prepare(context: ActionContext) -> Dictionary:
 		result["reason"] = &"attack/rules_missing"; return result
 	if rules.validate() != &"":
 		result["reason"] = &"attack/invalid_rules"; return result
-	if rules.get_definition(_attack_definition_id) == null:
+	var definition := rules.get_definition(_attack_definition_id)
+	if definition == null:
 		result["reason"] = &"attack/unknown_definition"; return result
 	var state := context.get_state()
 	var board := state.get_board()
@@ -141,7 +142,20 @@ func _prepare(context: ActionContext) -> Dictionary:
 		result["reason"] = &"attack/invalid_damage_request"; return result
 	if board.board_version < 0 or (target.is_alive() and amount >= target.vitals.get_hp() and board.board_version > MAX_ID - 1):
 		result["reason"] = &"attack/board_version_exhausted"; return result
-	result.merge({"actor": actor, "target": target, "resources": resources, "request": request})
+	var p07_binding: BalancePushRules.Binding = null
+	if definition.profile == AttackRules.BALANCE_PROFILE:
+		var impact := actor_copy.get_value(StatTypes.StatType.IMPACT_POWER)
+		var max_balance := target_copy.get_value(StatTypes.StatType.BALANCE_MAX)
+		if not actor_copy.has_stat(StatTypes.StatType.IMPACT_POWER) or not target_copy.has_stat(StatTypes.StatType.BALANCE_MAX):
+			result["reason"] = &"balance/missing_stat"; return result
+		var p07 := BalancePushRules.prepare_attack(context, actor, target, sum, amount, resources.get_main_left() - 1)
+		if p07.get("reason", &"") != &"": return p07
+		var binding_for_touches := p07.get("binding") as BalancePushRules.Binding
+		var touches: int = int(binding_for_touches.values.get("admission_board_touches", 0)) if binding_for_touches != null else 0
+		if touches > 0 and (board.board_version < 0 or board.board_version > MAX_ID - touches):
+			result["reason"] = &"push/board_version_exhausted"; return result
+		p07_binding = p07.get("binding") as BalancePushRules.Binding
+	result.merge({"actor": actor, "target": target, "resources": resources, "request": request, "p07_binding": p07_binding})
 	return result
 
 static func _valid_maximum(value: float) -> bool:

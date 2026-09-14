@@ -8,8 +8,10 @@ var _resources: ActionResources
 var _actor_cell: Vector2i
 var _target_cell: Vector2i
 var _main_after: int
+var _p07_binding: BalancePushRules.Binding
+var _has_p07_binding: bool
 
-func _init(prepared_request: DamageRequest = null, actor: UnitState = null, target: UnitState = null, resources: ActionResources = null, actor_cell: Vector2i = Vector2i.ZERO, target_cell: Vector2i = Vector2i.ZERO, main_after: int = 0) -> void:
+func _init(prepared_request: DamageRequest = null, actor: UnitState = null, target: UnitState = null, resources: ActionResources = null, actor_cell: Vector2i = Vector2i.ZERO, target_cell: Vector2i = Vector2i.ZERO, main_after: int = 0, p07_binding: BalancePushRules.Binding = null) -> void:
 	super(prepared_request.copy() if prepared_request != null else null)
 	_seal = prepared_request.copy() if prepared_request != null else null
 	_actor = actor
@@ -18,12 +20,15 @@ func _init(prepared_request: DamageRequest = null, actor: UnitState = null, targ
 	_actor_cell = actor_cell
 	_target_cell = target_cell
 	_main_after = main_after
+	_p07_binding = p07_binding.copy() if p07_binding != null else null
+	_has_p07_binding = p07_binding != null
 
 func get_kind() -> StringName: return &"attack_hit"
 
 func copy_for_queue() -> Command:
-	var copy := AttackHitCommand.new(request.copy() if request != null else null, _actor, _target, _resources, _actor_cell, _target_cell, _main_after)
+	var copy := AttackHitCommand.new(request.copy() if request != null else null, _actor, _target, _resources, _actor_cell, _target_cell, _main_after, _p07_binding)
 	copy._seal = _seal.copy() if _seal != null else null
+	copy._has_p07_binding = _has_p07_binding
 	return copy
 
 func validate(context: ActionContext) -> StringName:
@@ -34,12 +39,21 @@ func validate(context: ActionContext) -> StringName:
 func execute(context: ActionContext) -> CommandStepResult:
 	var reason := _binding_reason(context)
 	if reason != &"": return CommandStepResult.faulted(reason)
-	return super.execute(context)
+	var result := super.execute(context)
+	if result.status == &"APPLIED" and _p07_binding != null and _target.is_alive() and float(_p07_binding.values.get("impact", 0.0)) > 0.0 and float(_p07_binding.values.get("balance_max", 0.0)) > 0.0:
+		result.mandatory.append(BalanceCommand.new(_p07_binding))
+	return result
 
 func _binding_reason(context: ActionContext) -> StringName:
 	if context == null or context.get_state() == null or context.get_state().get_board() == null or request == null or _seal == null or _actor == null or _target == null or _resources == null:
 		return &"attack/invalid_hit"
 	if not _same_request(request, _seal): return &"attack/invalid_hit"
+	if _has_p07_binding:
+		if _p07_binding == null: return &"attack/invalid_hit"
+		var p07_reason := BalancePushRules.binding_reason(_p07_binding, context, &"balance", true)
+		if p07_reason != &"": return &"attack/invalid_hit"
+	elif _p07_binding != null:
+		return &"attack/invalid_hit"
 	if request.target_unit_id != _target.id or request.damage_type != &"physical" or request.armor_mode != &"bypass" or not is_finite(request.amount) or request.amount < 1.0 or request.source == null:
 		return &"attack/invalid_hit"
 	var source := request.source

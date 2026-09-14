@@ -307,3 +307,35 @@ snapshot v2 methods, StatsBag stat-domain guards, SimulationSnapshot и две
 и CODEX_HANDOFF также обновлены локально. Полный accepted manifest и сохранённый
 P06 residual patch перечислены в передаче. Чистого checkout коммита недостаточно
 без этих прежних P02 зависимостей и указанного P06 остатка.
+
+## P07 — Balance/Push, принятая реализация (2026-09-14)
+
+Frozen TASK редакции 1: [P07_BALANCE_PUSH_TASK.md](P07_BALANCE_PUSH_TASK.md).
+Новые _test_p07_* проверяют A01–A17; прежние 1633 assertions/fixtures сохранены.
+Финальный прогон ведущего: **1996 passed / 0 failed**, exit0. Godot 4.7.2
+headless import (scan DONE, все пять новых class/UID) и startup успешны.
+SCRIPT/parse/runtime ошибок нет. Итоговые 45 ObjectDB /18 resources совпадают
+с прежним P06 baseline; новых утечек по диагностике выхода нет. UI не подключён.
+
+Новый test_reports/p07-check.ps1 запускает import → startup → весь runner →
+diff --check. APPDATA и GODOT_BIN задаются только процессу и восстанавливаются.
+Логи: p07-import.log, p07-startup.log, p07-tests.log, p07-check-output.txt.
+Первичные неуспешные прогоны сохранены отдельно; старые check scripts/logs не
+перезапускались. Все 774 прежних test_reports артефакта сохранены побайтно.
+
+Приёмка включает реальные item reactions, четыре направления, wall/height,
+collision обоих HP одним step, вход после гибели blocker и fall/lethal до лечения,
+точные формулы и min1, иммунитет/over-max, строгие schemas, BUSY, лимиты и faults.
+Матрицы подмены refs/HP/cells/ledger/source/request/seals проверяют оплаченный
+prefix и неповреждение replacement. Проверены полные board-version chains до3,
+capacity4 только exact CollisionDamageCommand, event_seq край и реальный dirty
+stat cache при root rejection. P02/Unit v1/v2 и два P03b restore сохраняют
+balance/items/modifiers/ledger, дают равные receipts/fingerprints и изоляцию.
+
+Независимый game_reviewer / Terra high дал **APPROVE** фиксированному revision1:
+26/26 hashes совпали, блокирующих замечаний нет. Manifest —
+test_reports/p07-implementation-review-manifest.json; ответ —
+p07-independent-implementation-review.md; карта A01–A17 — p07-acceptance-map.md.
+Frozen P07 TASK/DEPENDENCIES/REVIEW не переписаны. Для следующего этапа исходные
+hashes заменяются только принятым implementation manifest; dirty P01/P02/P06
+по-прежнему являются необходимыми зависимостями checkout.

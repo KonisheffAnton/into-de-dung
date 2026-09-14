@@ -147,6 +147,29 @@ func _initialize() -> void:
 	_test_p06_attack_reentrancy()
 	_test_p06_attack_restored_isolation()
 
+	_suite("P07 Balance / Push")
+	_test_p07_a01_profiles()
+	_test_p07_a02_balance()
+	_test_p07_a03_lethal_hit()
+	_test_p07_a04_directions()
+	_test_p07_a05_blocked()
+	_test_p07_a06_collision()
+	_test_p07_a07_healing()
+	_test_p07_a08_arithmetic()
+	_test_p07_a09_drop()
+	_test_p07_a10_lethal_push()
+	_test_p07_a11_admission()
+	_test_p07_a12_bindings()
+	_test_p07_a13_limits()
+	_test_p07_a14_events_busy()
+	_test_p07_a15_snapshots()
+	_test_p07_a16_entry()
+	_test_p07_a17_prefix()
+	_test_p07_extended_boundaries()
+	_test_p07_collateral_guards()
+	_test_p07_version_preflight()
+	_test_p07_api_preflight()
+
 	print("\n=== %d passed, %d failed ===" % [_passed, _failed])
 	quit(1 if _failed > 0 else 0)
 
@@ -4309,3 +4332,702 @@ func _test_p04_remaining_edges() -> void:
 		return step)
 	var fault := ActionQueue.new().submit(malformed_events, _test_p04_fixture().context)
 	_check(fault.status == &"FAULTED" and fault.reason == &"malformed_step" and fault.revision_after == 1, "C09 more than two drafts is explicit invariant fault")
+
+# P07 проверяет наблюдаемую арифметику и очередь независимо от внутреннего Binding.
+func _p07_fixture(blocker_hp: float = -1.0, direction: Vector2i = Vector2i.RIGHT) -> Dictionary:
+	var board := BattleBoard.new(5, 5)
+	var actor := _p06_unit()
+	var target := _p06_unit()
+	actor.cell = Vector2i(2, 2) - direction
+	target.cell = Vector2i(2, 2)
+	actor.stats.set_base_value(StatTypes.StatType.STRENGTH, 6.0)
+	actor.stats.set_base_value(StatTypes.StatType.WEAPON_DAMAGE, 4.0)
+	actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, 5.0)
+	actor.stats.set_base_value(StatTypes.StatType.MAIN_ACTIONS_MAX, 4.0)
+	target.stats.set_base_value(StatTypes.StatType.HP_MAX, 100.0)
+	target.stats.set_base_value(StatTypes.StatType.ARMOR, 3.0)
+	target.stats.set_base_value(StatTypes.StatType.BALANCE_MAX, 5.0)
+	target.vitals.set_hp(100.0)
+	var units: Array[UnitState] = [actor, target]
+	var blocker: UnitState = null
+	if blocker_hp >= 0.0:
+		blocker = _p06_unit()
+		blocker.cell = target.cell + direction
+		blocker.stats.set_base_value(StatTypes.StatType.HP_MAX, 100.0)
+		blocker.stats.set_base_value(StatTypes.StatType.ARMOR, 2.0)
+		blocker.vitals.set_hp(blocker_hp)
+		units.append(blocker)
+	var owners: Array[ItemOwnerState] = []
+	var inventories: Array[InventoryState] = []
+	var equipment: Array[EquipmentState] = []
+	for unit in units:
+		board.add_unit(unit)
+		var owner := ItemOwnerState.new(unit)
+		owners.append(owner)
+		inventories.append(InventoryState.new(owner))
+		equipment.append(EquipmentState.new(owner))
+	actor.enable_action_resources()
+	actor.try_refill_turn_resources()
+	target.enable_action_resources()
+	target.try_refill_turn_resources()
+	var state := ItemSimulationState.new(board, owners, inventories, equipment)
+	var definition := AttackDefinition.new()
+	definition.id = &"p07_balance"
+	definition.profile = &"flat_melee_balance_v1"
+	var rules := AttackRules.new([actor.id], [{"actor_unit_id": actor.id, "target_unit_id": target.id}], [definition])
+	var context := ActionContext.new(state, P04TestRng.new(), ActionEventSink.new(), [], null, rules)
+	return {"board": board, "actor": actor, "target": target, "blocker": blocker, "state": state, "definition": definition, "rules": rules, "context": context, "destination": target.cell + direction}
+
+func _p07_submit(f: Dictionary, queue: ActionQueue = null) -> ActionReceipt:
+	return (queue if queue != null else ActionQueue.new()).submit(_p06_attack(f), f.context)
+
+func _p07_kinds(receipt: ActionReceipt) -> Array[StringName]:
+	var kinds: Array[StringName] = []
+	for event in receipt.get_events(): kinds.append(event.kind)
+	return kinds
+
+func _p07_events(receipt: ActionReceipt, kind: StringName) -> Array[Dictionary]:
+	var found: Array[Dictionary] = []
+	for event in receipt.get_events():
+		if event.kind == kind: found.append(event)
+	return found
+
+func _p07_heal(f: Dictionary, unit: UnitState) -> ItemDef:
+	var definition := ItemDef.new()
+	definition.id = &"p07_heal"
+	var effect := HealOnDamageEffect.new()
+	effect.heal_amount = 2.0
+	definition.effects = [effect]
+	var state: ItemSimulationState = f.state
+	var item := state.get_owner(unit.id).create_item(definition)
+	state.get_inventory(unit.id).add_item(item)
+	return definition
+
+func _test_p07_a01_profiles() -> void:
+	var f := _p07_fixture()
+	var exposed: AttackDefinition = f.context.get_attack_rules().get_definition(f.definition.id)
+	exposed.profile = &"unknown"
+	f.definition.profile = &"unknown"
+	f.rules._definitions.clear()
+	var receipt := _p07_submit(f)
+	_check(receipt.status == &"APPLIED" and f.target.cell == f.destination, "P07 A01 copied profile survives input/getter mutation", receipt.reason)
+	_check(f.actor.action_resources.get_main_left() == 3 and f.actor.action_resources.get_bonus_left() == 1 and f.actor.move_points_left == 3.0, "P07 A01 one main only; no refill")
+	var bad := AttackDefinition.new(); bad.id = &"unknown"; bad.profile = &"unknown"
+	_check(AttackRules.new([], [], [bad]).validate() == &"attack/invalid_rules", "P07 A01 unknown profile rejected")
+	var legacy := _p07_fixture()
+	legacy.definition.profile = &"flat_melee_v1"
+	legacy.context._attack_rules = AttackRules.new([legacy.actor.id], [{"actor_unit_id": legacy.actor.id, "target_unit_id": legacy.target.id}], [legacy.definition])
+	_check(_p07_kinds(_p07_submit(legacy)) == [&"attacked", &"damaged"] and legacy.target.vitals.get_balance() == 0.0, "P07 A01 old profile remains HP-only")
+
+func _test_p07_a02_balance() -> void:
+	var f := _p07_fixture()
+	for values: Array in [[2.0, 2.0], [2.0, 4.0], [1.0, 0.0]]:
+		f.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, values[0])
+		var r := _p07_submit(f)
+		_check(r.status == &"APPLIED" and f.target.vitals.get_balance() == values[1] and _p07_events(r, &"moved").size() == (1 if values[1] == 0.0 else 0), "P07 A02 accumulated 2+2+1: %s" % str(values), r.reason)
+	for values: Array in [[12.0, 5.0, 0.0, 0.0, 1], [5.0, 5.0, 0.0, 0.0, 1], [0.0, 5.0, 9.0, 9.0, 0], [5.0, 0.0, 9.0, 9.0, 0], [5.0, -1.0, 9.0, 9.0, 0], [0.25, 5.0, 0.125, 0.375, 0], [0.5, 5.0, 9.0, 0.0, 1]]:
+		var local := _p07_fixture()
+		local.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, values[0])
+		local.target.stats.set_base_value(StatTypes.StatType.BALANCE_MAX, values[1])
+		local.target.vitals.set_balance(values[2])
+		var r := _p07_submit(local)
+		_check(r.status == &"APPLIED" and local.target.vitals.get_balance() == values[3] and _p07_events(r, &"balance_broken").size() == values[4] and _p07_events(r, &"moved").size() == values[4], "P07 A02 break/immune/fraction/over-max %s" % str(values), r.reason)
+		if values[2] == 0.0 and values[4] == 1:
+			_check(_p07_events(r, &"balance_changed").is_empty() and r.revision_after == 4, "P07 A02 0-to-0 break has revision without changed")
+
+func _test_p07_a03_lethal_hit() -> void:
+	for hp: float in [7.0, 0.0]:
+		var f := _p07_fixture()
+		f.target.vitals.set_hp(hp)
+		var bases: Dictionary = f.target.stats.to_dict()
+		var r := _p07_submit(f)
+		var expected: Array[StringName] = [&"attacked"]
+		if hp > 0.0: expected.append(&"damaged")
+		expected.append(&"died")
+		_check(r.status == &"APPLIED" and _p07_kinds(r) == expected and not f.target.is_alive() and f.board.occupant_at(f.target.cell) == null and f.board.get_unit_by_id(f.target.id) == f.target and f.target.stats.to_dict() == bases, "P07 A03 hit death/alive-at-zero skips Balance and preserves bases", r.reason)
+
+func _test_p07_a04_directions() -> void:
+	for direction: Vector2i in [Vector2i.RIGHT, Vector2i.LEFT, Vector2i.UP, Vector2i.DOWN]:
+		var f := _p07_fixture(-1.0, direction)
+		f.target.height = 97
+		var signals: Array = []
+		var hook := func(unit: UnitState, from: Vector2i, to: Vector2i) -> void: signals.append([unit.id, from, to])
+		f.board.unit_position_changed.connect(hook)
+		var version: int = f.board.board_version
+		var r := _p07_submit(f)
+		f.board.unit_position_changed.disconnect(hook)
+		var moved := _p07_events(r, &"moved")
+		_check(r.status == &"APPLIED" and signals.size() == 1 and moved.size() == 1 and f.target.cell == f.destination and f.target.height == 0 and f.board.board_version == version + 1, "P07 A04 exactly one authoritative move " + str(direction), r.reason)
+		_check(moved.size() == 1 and moved[0].movement_kind == &"push" and moved[0].move_cost == 0.0 and moved[0].move_before == 3.0 and moved[0].move_after == 3.0 and f.target.action_resources.get_main_left() == 2 and f.target.action_resources.get_bonus_left() == 1, "P07 A04 forced move preserves target resources")
+	for mode: String in ["diagonal", "height", "range"]:
+		var f := _p07_fixture()
+		if mode == "diagonal": f.board.move_unit(f.actor, Vector2i(1, 1))
+		elif mode == "height": f.board.set_height(f.actor.cell, 1)
+		else: f.actor.stats.set_base_value(StatTypes.StatType.ATTACK_RANGE, 2.0)
+		_check(_p07_submit(f).status == &"REJECTED" and f.actor.action_resources.get_main_left() == 4, "P07 A04 unchanged P06 reach " + mode)
+
+func _test_p07_a05_blocked() -> void:
+	for reason: StringName in [&"wall", &"height"]:
+		var f := _p07_fixture(100.0)
+		if reason == &"wall": f.board.set_terrain(f.destination, TerrainType.Type.WALL)
+		else: f.board.set_height(f.destination, 1)
+		var version: int = f.board.board_version
+		var r := _p07_submit(f)
+		_check(r.status == &"APPLIED" and _p07_kinds(r) == [&"attacked", &"damaged", &"balance_broken", &"push_blocked", &"damaged"] and f.target.vitals.get_hp() == 86.0 and f.blocker.vitals.get_hp() == 100.0 and f.target.cell == Vector2i(2, 2) and f.board.board_version == version, "P07 A05 blocked " + reason, r.reason)
+		_check(_p07_events(r, &"push_blocked").size() == 1 and _p07_events(r, &"push_blocked")[0].reason == reason, "P07 A05 exact blocked marker")
+	var lethal := _p07_fixture()
+	lethal.target.vitals.set_hp(10.0)
+	lethal.board.set_terrain(lethal.destination, TerrainType.Type.WALL)
+	var death := _p07_submit(lethal)
+	_check(death.status == &"APPLIED" and not lethal.target.is_alive() and lethal.board.occupant_at(lethal.target.cell) == null and _p07_events(death, &"moved").is_empty(), "P07 A05 wall death cleans occupancy without move")
+
+func _test_p07_a06_collision() -> void:
+	for target_hp: float in [100.0, 9.0]:
+		var f := _p07_fixture(100.0)
+		f.target.vitals.set_hp(target_hp)
+		var r := _p07_submit(f)
+		var damage := _p07_events(r, &"damaged")
+		_check(r.status == &"APPLIED" and f.target.vitals.get_hp() == maxf(0.0, target_hp - 14.0) and f.blocker.vitals.get_hp() == 92.0 and _p07_events(r, &"moved").is_empty() and f.target.cell == Vector2i(2, 2) and f.blocker.cell == f.destination, "P07 A06 collision independent HP and no chain", r.reason)
+		_check(damage.size() == 3 and damage[1].amount == minf(7.0, target_hp - 7.0) and damage[2].amount == 8.0 and damage[1].command_seq == damage[2].command_seq and damage[1].source.kind == &"collision" and damage[2].source.origin_cell == f.destination and damage[2].source.credit_unit_id == f.actor.id and _p07_events(r, &"balance_broken").size() == 1, "P07 A06 one collision step; source and no collateral impact")
+
+func _test_p07_a07_healing() -> void:
+	var f := _p07_fixture(100.0)
+	_p07_heal(f, f.target); _p07_heal(f, f.blocker)
+	var r := _p07_submit(f)
+	var heals := _p07_events(r, &"healed")
+	_check(r.status == &"APPLIED" and _p07_kinds(r) == [&"attacked", &"damaged", &"balance_broken", &"collision", &"damaged", &"damaged", &"healed", &"healed", &"healed"] and f.target.vitals.get_hp() == 90.0 and f.blocker.vitals.get_hp() == 94.0, "P07 A07 both collision HP before real item healing", r.reason)
+	_check(heals.size() == 3 and heals[0].hp_before == 86.0 and heals[1].hp_before == 92.0 and heals[2].hp_before == 88.0 and heals[0].parent_event_seq == r.get_events()[4].event_seq and heals[2].parent_event_seq == r.get_events()[1].event_seq, "P07 A07 healing order and parent event binding")
+	for blocker_hp: float in [8.0, 100.0]:
+		var dead := _p07_fixture(blocker_hp)
+		dead.target.vitals.set_hp(9.0)
+		_p07_heal(dead, dead.target); _p07_heal(dead, dead.blocker)
+		var result := _p07_submit(dead)
+		_check(result.status == &"APPLIED" and not dead.target.is_alive() and dead.target.vitals.get_hp() == 0.0 and _p07_events(result, &"healed").size() == (0 if blocker_hp == 8.0 else 1) and _p07_events(result, &"died").size() == (2 if blocker_hp == 8.0 else 1) and _p07_events(result, &"moved").is_empty(), "P07 A07 collision death never revived by pending heal", result.reason)
+
+func _test_p07_a08_arithmetic() -> void:
+	for values: Array in [[10.0, 1000.0, 1000.0, 1.0, 1.0], [0.0, 0.0, 0.0, 1.0, 1.0], [-5.0, 0.0, -9.0, 1.0, 4.0]]:
+		var f := _p07_fixture(100.0)
+		f.actor.stats.set_base_value(StatTypes.StatType.STRENGTH, values[0])
+		f.actor.stats.set_base_value(StatTypes.StatType.WEAPON_DAMAGE, 0.0)
+		f.target.stats.set_base_value(StatTypes.StatType.ARMOR, values[1])
+		f.blocker.stats.set_base_value(StatTypes.StatType.ARMOR, values[2])
+		var r := _p07_submit(f)
+		_check(r.status == &"APPLIED" and f.target.vitals.get_hp() == 100.0 - 2.0 * values[3] and f.blocker.vitals.get_hp() == 100.0 - values[4], "P07 A08 min1 and signed raw B %s" % str(values), r.reason)
+	for mode: String in ["impact_negative", "impact_nan", "impact_inf", "balance_sum", "collision_overflow", "fall_overflow"]:
+		var f := _p07_fixture(100.0 if mode == "collision_overflow" else -1.0)
+		if mode == "impact_negative": f.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, -1.0)
+		elif mode == "impact_nan": f.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, NAN)
+		elif mode == "impact_inf": f.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, INF)
+		elif mode == "balance_sum":
+			f.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, 1e308); f.target.vitals.set_balance(1e308)
+		elif mode == "collision_overflow":
+			f.actor.stats.set_base_value(StatTypes.StatType.STRENGTH, 1e308); f.target.stats.set_base_value(StatTypes.StatType.ARMOR, 1e308); f.blocker.stats.set_base_value(StatTypes.StatType.ARMOR, -1e308)
+		else:
+			f.target.stats.set_base_value(StatTypes.StatType.HP_MAX, 1e308); f.board.set_height(f.destination, -10)
+		var hp: float = f.target.vitals.get_hp()
+		var r := _p07_submit(f)
+		_check(r.status == &"REJECTED" and r.root_id == 0 and r.get_events().is_empty() and f.actor.action_resources.get_main_left() == 4 and f.target.vitals.get_hp() == hp, "P07 A08 nonfinite arithmetic rejects before payment " + mode, r.reason)
+
+func _test_p07_a09_drop() -> void:
+	for values: Array in [[0, 100.0, 3.0, 93.0], [1, 100.0, 3.0, 71.0], [2, 100.0, 3.0, 46.0], [3, 100.0, 3.0, 21.0], [1, 100.0, 1000.0, 98.0]]:
+		var f := _p07_fixture()
+		f.board.set_height(f.destination, -int(values[0]))
+		f.target.stats.set_base_value(StatTypes.StatType.ARMOR, values[2])
+		var r := _p07_submit(f)
+		_check(r.status == &"APPLIED" and f.target.vitals.get_hp() == values[3] and f.target.cell == f.destination and _p07_events(r, &"damaged").size() == (1 if values[0] == 0 else 2), "P07 A09 exact fall oracle %s" % str(values), r.reason)
+		if values[0] > 0:
+			var events := _p07_events(r, &"damaged")
+			_check(events.size() == 2 and events[1].source.kind == &"fall" and events[1].source.origin_cell == f.destination, "P07 A09 fall source")
+	var fraction := _p07_fixture()
+	fraction.actor.stats.set_base_value(StatTypes.StatType.STRENGTH, 0.0); fraction.actor.stats.set_base_value(StatTypes.StatType.WEAPON_DAMAGE, 0.0)
+	fraction.target.stats.set_base_value(StatTypes.StatType.HP_MAX, 10.0); fraction.target.stats.set_base_value(StatTypes.StatType.ARMOR, 0.0); fraction.target.vitals.set_hp(10.0)
+	fraction.board.set_height(fraction.destination, -1)
+	var r := _p07_submit(fraction)
+	_check(r.status == &"APPLIED" and fraction.target.vitals.get_hp() == 6.5 and _p07_events(r, &"damaged")[1].amount == 2.5, "P07 A09 fractional damage does not round", r.reason)
+	var modified := _p07_fixture()
+	modified.target.stats.add_modifier(StatTypes.StatType.HP_MAX, StatModifier.new(&"p07_max", StatModifier.Operation.ADD_FLAT, 100.0))
+	modified.board.set_height(modified.destination, -1)
+	_check(_p07_submit(modified).status == &"APPLIED" and modified.target.vitals.get_hp() == 46.0, "P07 A09 fall reads modified maximum, not current HP")
+
+func _test_p07_a10_lethal_push() -> void:
+	for terrain: TerrainType.Type in [TerrainType.Type.HAZARD, TerrainType.Type.VOID]:
+		var f := _p07_fixture()
+		f.board.set_terrain(f.destination, terrain)
+		f.target.stats.set_base_value(StatTypes.StatType.ARMOR, 1000.0)
+		_p07_heal(f, f.target)
+		var r := _p07_submit(f)
+		var moved := _p07_events(r, &"moved"); var died := _p07_events(r, &"died")
+		_check(r.status == &"APPLIED" and not f.target.is_alive() and f.target.cell == f.destination and moved.size() == 1 and died.size() == 1 and moved[0].command_seq == died[0].command_seq and f.board.occupant_at(f.destination) == null and _p07_events(r, &"healed").is_empty(), "P07 A10 lethal terrain move/death atomic before healing", r.reason)
+	var edge := _p07_fixture()
+	edge.board.move_unit(edge.target, Vector2i(4, 2)); edge.board.move_unit(edge.actor, Vector2i(3, 2))
+	edge.target.height = 12345
+	var r := _p07_submit(edge)
+	var fell := _p07_events(r, &"fell"); var died := _p07_events(r, &"died")
+	_check(r.status == &"APPLIED" and _p07_events(r, &"moved").is_empty() and fell.size() == 1 and died.size() == 1 and fell[0].command_seq == died[0].command_seq and fell[0].attempted_cell == Vector2i(5, 2) and edge.target.cell == Vector2i(4, 2) and edge.target.height == 12345 and edge.board.occupant_at(edge.target.cell) == null, "P07 A10 bounds keeps in-bounds corpse cell and independent height", r.reason)
+	var snapshot := SimulationSnapshot.capture_board(edge.board, [])
+	_check(snapshot.code == BoardSnapshotResult.Code.OK and snapshot.snapshot.instantiate_board().get_unit_by_id(edge.target.id).height == 12345, "P07 A10/A15 bounds corpse snapshot")
+
+func _p07_assert_rejected(f: Dictionary, expected: StringName, label: String) -> void:
+	var context: ActionContext = f.context
+	var before: Array = [f.actor.action_resources.get_main_left(), f.target.vitals.to_dict(), f.board.board_version, context._next_root_id, context._next_command_seq, context._next_event_seq, context.get_revision(), context.get_rng().to_dict(), UnitId.get_counter()]
+	var actor_stats: Dictionary = f.actor.stats.to_snapshot_dict()
+	var target_stats: Dictionary = f.target.stats.to_snapshot_dict()
+	var r := _p07_submit(f)
+	_check(r.status == &"REJECTED" and (expected == &"" or r.reason == expected) and r.root_id == 0 and r.get_events().is_empty() and before == [f.actor.action_resources.get_main_left(), f.target.vitals.to_dict(), f.board.board_version, context._next_root_id, context._next_command_seq, context._next_event_seq, context.get_revision(), context.get_rng().to_dict(), UnitId.get_counter()] and actor_stats == f.actor.stats.to_snapshot_dict() and target_stats == f.target.stats.to_snapshot_dict(), "P07 A11 pure rejection " + label, r.reason)
+
+func _test_p07_a11_admission() -> void:
+	for mode: String in ["missing_impact", "missing_balance", "stale_cache", "negative_impact", "stale_revision"]:
+		var f := _p07_fixture()
+		var expected: StringName = &""
+		if mode == "missing_impact": f.actor.stats._stats.erase(StatTypes.StatType.IMPACT_POWER); expected = &"balance/missing_stat"
+		elif mode == "missing_balance": f.target.stats._stats.erase(StatTypes.StatType.BALANCE_MAX); expected = &"balance/missing_stat"
+		elif mode == "negative_impact": f.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, -1.0); expected = &"balance/invalid_stat"
+		elif mode == "stale_cache":
+			var stat: Stat = f.target.stats._stats[StatTypes.StatType.BALANCE_MAX]
+			stat.get_value(); stat._cached_value = 99.0
+		else:
+			var old := _p06_attack(f)
+			f.context._revision = 1
+			_check(ActionQueue.new().submit(old, f.context).reason == &"attack/stale_revision" and f.actor.action_resources.get_main_left() == 4, "P07 A11 stale revision before payment")
+			continue
+		_p07_assert_rejected(f, expected, mode)
+	var f := _p07_fixture()
+	for pair: Array in [[BalanceCommand.new(), &"balance/internal_command"], [PushCommand.new(), &"push/internal_command"], [PushCommand.after_collision(null), &"push/internal_command"], [PushDamageCommand.new(), &"push/internal_damage"], [CollisionDamageCommand.new(), &"push/internal_collision"], [P07CollisionSubclass.new(), &"push/internal_collision"]]:
+		var r := ActionQueue.new().submit(pair[0], f.context)
+		_check(r.reason == pair[1] and r.root_id == 0 and r.get_events().is_empty() and f.actor.action_resources.get_main_left() == 4, "P07 A11 internal roots denied " + String(pair[1]), r.reason)
+	for mode: String in ["kill", "immune", "no_break", "blocker_survives"]:
+		var local := _p07_fixture(100.0)
+		local.board.set_height(local.destination, -1)
+		local.target.stats._stats.erase(StatTypes.StatType.HP_MAX)
+		if mode == "kill": local.target.vitals._hp = 1.0
+		elif mode == "immune": local.target.stats.set_base_value(StatTypes.StatType.BALANCE_MAX, 0.0)
+		elif mode == "no_break": local.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, 1.0)
+		var r := _p07_submit(local)
+		_check(r.status == &"APPLIED", "P07 A11 unused fall maximum does not reject " + mode, r.reason)
+
+class P07CollisionSubclass extends CollisionDamageCommand:
+	func copy_for_queue() -> Command: return P07CollisionSubclass.new()
+
+# Обёртка сохраняет реальные HP children: exact collision capacity нельзя имитировать.
+class P07TreeHook extends Command:
+	var inner: Command
+	var after_kind: StringName
+	var hook: Callable
+	func _init(command: Command, kind: StringName, callback: Callable) -> void:
+		inner = command; after_kind = kind; hook = callback
+	func get_kind() -> StringName: return inner.get_kind()
+	func copy_for_queue() -> Command: return P07TreeHook.new(inner.copy_for_queue(), after_kind, hook)
+	func validate(context: ActionContext) -> StringName: return inner.validate(context)
+	func execute(context: ActionContext) -> CommandStepResult:
+		var result := inner.execute(context)
+		if result.status != &"APPLIED": return result
+		if inner.get_kind() == after_kind: hook.call(context, result)
+		for i in result.mandatory.size():
+			if not result.mandatory[i] is CollisionDamageCommand:
+				result.mandatory[i] = P07TreeHook.new(result.mandatory[i], after_kind, hook)
+		return result
+
+func _test_p07_a13_limits() -> void:
+	for limit in range(1, 7):
+		var f := _p07_fixture(8.0)
+		f.board.set_height(f.destination, -1)
+		var r := _p07_submit(f, ActionQueue.new(limit))
+		var expected_hp: float = 100.0 if limit == 1 else (93.0 if limit < 5 else 86.0)
+		_check(r.status == &"FAULTED" and r.reason == &"command_limit" and r.get_steps().size() == limit and f.actor.action_resources.get_main_left() == 3 and f.target.vitals.get_hp() == expected_hp and f.target.cell == (f.destination if limit == 6 else Vector2i(2, 2)) and f.blocker.is_alive() == (limit < 5), "P07 A13/A17 command boundary %d preserves exact prefix" % limit, r.reason)
+	for depth in range(1, 6):
+		var f := _p07_fixture(8.0)
+		f.board.set_height(f.destination, -1)
+		var r := _p07_submit(f, ActionQueue.new(64, 512, depth))
+		_check(r.status == &"FAULTED" and r.reason == &"depth_limit" and r.get_steps().size() == depth + 1 and f.target.cell == (f.destination if depth == 5 else Vector2i(2, 2)), "P07 A13 depth boundary %d" % depth, r.reason)
+	var both := _p07_fixture(8.0); both.target.vitals.set_hp(9.0)
+	var r := _p07_submit(both, ActionQueue.new(64, 5))
+	var damage := _p07_events(r, &"damaged"); var died := _p07_events(r, &"died")
+	_check(r.status == &"FAULTED" and r.reason == &"event_limit" and r.get_events().size() == 8 and died.size() == 2 and damage.size() == 3 and died[0].command_seq == died[1].command_seq and not both.target.is_alive() and not both.blocker.is_alive(), "P07 A13 cap4 keeps complete double death beyond event budget", r.reason)
+	for offset: int in [4, 3]:
+		var f := _p07_fixture(8.0); f.target.vitals.set_hp(9.0)
+		var hook := func(c: ActionContext, _result: CommandStepResult) -> void: c._next_event_seq = ActionContext.MAX_ID - offset - 1
+		var receipt := ActionQueue.new().submit(P07TreeHook.new(_p06_attack(f), &"push", hook), f.context)
+		_check(receipt.status == (&"APPLIED" if offset == 4 else &"FAULTED") and (not f.target.is_alive() if offset == 4 else f.target.vitals.get_hp() == 2.0) and f.blocker.vitals.get_hp() == (0.0 if offset == 4 else 8.0) and receipt.get_steps().size() == (5 if offset == 4 else 4), "P07 A13 exact collision event reserve MAX-%d" % offset, receipt.reason)
+	var queue := ActionQueue.new()
+	_check(queue._event_capacity(CollisionDamageCommand.new()) == 4 and queue._event_capacity(P07CollisionSubclass.new()) == 2 and queue._event_capacity(P04Work.new()) == 2, "P07 A13 capacity4 restricted to exact class")
+	for touches: int in [0, 1, 3]:
+		for spare: int in [0, 1]:
+			var f := _p07_fixture(8.0 if touches == 3 else -1.0)
+			if touches == 0: f.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, 0.0)
+			if touches == 3: f.board.set_terrain(f.destination, TerrainType.Type.HAZARD)
+			f.board.board_version = ActionContext.MAX_ID - touches + spare if touches > 0 else ActionContext.MAX_ID
+			var receipt := _p07_submit(f)
+			_check(receipt.status == (&"REJECTED" if touches > 0 and spare == 1 else &"APPLIED") and f.board.board_version == (ActionContext.MAX_ID - touches + spare if touches > 0 and spare == 1 else ActionContext.MAX_ID), "P07 A13 board reserve touches%d spare%d" % [touches, spare], receipt.reason)
+	for budget in [3, 4]:
+		var f := _p07_fixture(); f.board.set_terrain(f.destination, TerrainType.Type.HAZARD)
+		var receipt := _p07_submit(f, ActionQueue.new(64, budget))
+		_check(receipt.status == &"FAULTED" and not f.target.is_alive() and _p07_events(receipt, &"moved").size() == 1 and _p07_events(receipt, &"died").size() == 1, "P07 A13 lethal entry remains atomic across event limit")
+
+func _test_p07_a14_events_busy() -> void:
+	var f := _p07_fixture(); f.target.vitals.set_balance(1.0); f.board.set_terrain(f.destination, TerrainType.Type.HAZARD)
+	var queue := ActionQueue.new(); var other := ActionQueue.new()
+	var results: Array[ActionReceipt] = []
+	var probe := func() -> void:
+		results.append(queue.submit(P04Work.new(&"p07_busy"), f.context))
+		results.append(other.submit(P04Work.new(&"p07_busy"), f.context))
+	var numbers := func(_before: float, _after: float) -> void: probe.call()
+	f.target.vitals.balance_changed.connect(numbers)
+	f.target.vitals.balance_broken.connect(probe)
+	f.target.vitals.hp_changed.connect(numbers)
+	f.target.vitals.died.connect(probe)
+	f.board.board_changed.connect(probe)
+	var sink := P04HookSink.new(); sink.hook = func(_event: Dictionary) -> void: probe.call()
+	f.context._sink = sink
+	var r := _p07_submit(f, queue)
+	f.target.vitals.balance_changed.disconnect(numbers)
+	f.target.vitals.balance_broken.disconnect(probe)
+	f.target.vitals.hp_changed.disconnect(numbers)
+	f.target.vitals.died.disconnect(probe)
+	f.board.board_changed.disconnect(probe)
+	sink.hook = Callable()
+	var all_busy := results.size() >= 12
+	for result in results: all_busy = all_busy and result.reason == &"BUSY" and result.get_events().is_empty()
+	_check(r.status == &"APPLIED" and all_busy, "P07 A14 balance/HP/death/board/sink guards on both queues", r.reason)
+	var drafts: Array[Dictionary] = [
+		{"kind": &"balance_changed", "actor_unit_id": 1, "target_unit_id": 2, "balance_before": 1.0, "balance_after": 3.0, "balance_max": 5.0, "impact": 2.0, "broke": false},
+		{"kind": &"balance_broken", "actor_unit_id": 1, "target_unit_id": 2, "balance_before": 0.0, "balance_after": 0.0, "balance_max": 5.0, "impact": 5.0, "broke": true},
+		{"kind": &"moved", "actor_unit_id": 1, "target_unit_id": 2, "from_cell": Vector2i.ZERO, "to_cell": Vector2i.RIGHT, "movement_kind": &"push", "move_cost": 0.0, "move_before": 3.0, "move_after": 3.0},
+		{"kind": &"push_blocked", "actor_unit_id": 1, "target_unit_id": 2, "from_cell": Vector2i.ZERO, "attempted_cell": Vector2i.RIGHT, "reason": &"wall"},
+		{"kind": &"collision", "actor_unit_id": 1, "target_unit_id": 2, "from_cell": Vector2i.ZERO, "attempted_cell": Vector2i.RIGHT, "blocker_unit_id": 3},
+		{"kind": &"fell", "actor_unit_id": 1, "target_unit_id": 2, "from_cell": Vector2i.ZERO, "attempted_cell": Vector2i.LEFT, "reason": &"bounds"}]
+	for draft in drafts:
+		_check(ActionQueue._valid_draft(draft), "P07 A14 valid strict schema " + String(draft.kind))
+		for key in draft.keys():
+			var malformed := draft.duplicate(true); malformed[key] = null
+			_check(not ActionQueue._valid_draft(malformed), "P07 A14 exact type " + String(draft.kind) + "/" + key)
+		var extra := draft.duplicate(true); extra["extra"] = 0
+		var string_kind := draft.duplicate(true); string_kind.kind = String(draft.kind)
+		_check(not ActionQueue._valid_draft(extra) and not ActionQueue._valid_draft(string_kind), "P07 A14 extra keys/String refused")
+		var malformed := draft.duplicate(true); malformed.target_unit_id = malformed.actor_unit_id
+		var invalid_root := P04Work.new(&"p07_schema", func(_c: ActionContext) -> CommandStepResult: return CommandStepResult.applied([malformed]))
+		var local := _p07_fixture(); var q := ActionQueue.new()
+		var result := q.submit(invalid_root, local.context)
+		_check(result.status == &"FAULTED" and result.reason == &"malformed_event" and ActionQueue.new().submit(_p06_attack(local), local.context).reason == &"CONTEXT_FAULTED", "P07 A14 malformed schema faults and latches context")
+	for hp: float in [0.0, 8.0]:
+		var local := _p07_fixture(hp)
+		var result := _p07_submit(local)
+		_check(result.status == &"APPLIED" and not local.blocker.is_alive() and local.target.cell == local.destination and _p07_events(result, &"died").size() == 1, "P07 A14 collision cap is maximum; alive-at-zero works", result.reason)
+
+func _test_p07_a15_snapshots() -> void:
+	var f := _p07_fixture(8.0)
+	f.target.vitals.set_balance(1.0)
+	var definition := _p07_heal(f, f.target)
+	f.target.stats.add_modifier(StatTypes.StatType.BALANCE_MAX, StatModifier.new(&"p07_balance_mod", StatModifier.Operation.ADD_FLAT, 1.0))
+	var captured := ItemSimulationSnapshot.capture(f.state, [])
+	_check(captured.code == ItemSnapshotResult.Code.OK, "P07 A15 source capture", captured.reason)
+	if captured.snapshot == null: return
+	var allocator := UnitId.get_counter()
+	var states: Array[ItemSimulationState] = []
+	var receipts: Array[ActionReceipt] = []
+	var contexts: Array[ActionContext] = []
+	for i in 2:
+		var restored := captured.snapshot.instantiate({definition.id: definition})
+		_check(restored.code == ItemSnapshotResult.Code.OK, "P07 A15 independent restore %d" % i, restored.reason)
+		if restored.state == null: return
+		states.append(restored.state)
+		var actor := restored.state.get_board().get_unit_by_id(f.actor.id)
+		var target := restored.state.get_board().get_unit_by_id(f.target.id)
+		var context := ActionContext.new(restored.state, P04TestRng.new(), ActionEventSink.new(), [], null, f.rules)
+		contexts.append(context)
+		receipts.append(ActionQueue.new().submit(AttackCommand.new(actor.id, target.id, actor.cell, target.cell, f.definition.id, 0), context))
+	_check(receipts[0].status == &"APPLIED" and receipts[1].status == &"APPLIED" and receipts[0].get_events() == receipts[1].get_events() and receipts[0].get_steps() == receipts[1].get_steps() and receipts[0].revision_after == receipts[1].revision_after and contexts[0]._next_event_seq == contexts[1]._next_event_seq and contexts[0].get_rng().to_dict() == contexts[1].get_rng().to_dict() and UnitId.get_counter() == allocator, "P07 A15 identical real commands, receipts, counters and RNG without allocator")
+	var first := ItemSimulationSnapshot.capture(states[0], []); var second := ItemSimulationSnapshot.capture(states[1], [])
+	_check(first.code == ItemSnapshotResult.Code.OK and second.code == ItemSnapshotResult.Code.OK and first.snapshot.fingerprint() == second.snapshot.fingerprint() and ItemSimulationSnapshot.capture(f.state, []).snapshot.canonical_bytes() == captured.snapshot.canonical_bytes(), "P07 A15 equal post-push fingerprints and unchanged original")
+	var twin: UnitState = states[0].get_board().get_unit_by_id(f.target.id)
+	twin.vitals.set_balance(19.0)
+	states[1].get_board().get_unit_by_id(f.actor.id).action_resources.try_spend_main(1)
+	_check(states[1].get_board().get_unit_by_id(f.target.id).vitals.get_balance() == 0.0 and f.target.vitals.get_balance() == 1.0 and states[0].get_board().get_unit_by_id(f.actor.id).action_resources.get_main_left() == 3 and f.actor.action_resources.get_main_left() == 4, "P07 A15 bidirectional isolation")
+	for unit: UnitState in [f.actor, _p06_unit()]:
+		unit.vitals.set_balance(9.25)
+		var dto := unit.to_snapshot_dict()
+		var restored := UnitState.from_snapshot_dict(dto)
+		_check(restored != null and restored.vitals.get_balance() == 9.25 and (restored.action_resources == null) == (unit.action_resources == null), "P07 A15 Unit v1/v2 over-max balance and ledger round-trip")
+	var corpse := _p07_fixture(8.0)
+	_p07_submit(corpse)
+	var board_snapshot := SimulationSnapshot.capture_board(corpse.board, [])
+	var restored_board := board_snapshot.snapshot.instantiate_board() if board_snapshot.snapshot != null else null
+	_check(restored_board != null and restored_board.get_unit_by_id(corpse.blocker.id).cell == corpse.destination and restored_board.occupant_at(corpse.destination) != null and restored_board.occupant_at(corpse.destination).id == corpse.target.id, "P07 A15 P02 corpse/live same cell round-trip")
+
+func _test_p07_a16_entry() -> void:
+	for mode: String in ["flat", "drop", "hazard", "void"]:
+		var f := _p07_fixture(8.0)
+		if mode == "drop": f.board.set_height(f.destination, -1)
+		elif mode == "hazard": f.board.set_terrain(f.destination, TerrainType.Type.HAZARD)
+		elif mode == "void": f.board.set_terrain(f.destination, TerrainType.Type.VOID)
+		if mode in ["hazard", "void"]: _p07_heal(f, f.target)
+		var version: int = f.board.board_version
+		var r := _p07_submit(f)
+		var hp: float = 86.0 if mode == "flat" else (64.0 if mode == "drop" else 0.0)
+		_check(r.status == &"APPLIED" and f.target.vitals.get_hp() == hp and not f.blocker.is_alive() and f.board.get_unit_by_id(f.blocker.id) == f.blocker and f.target.cell == f.destination and f.blocker.cell == f.destination and _p07_events(r, &"moved").size() == 1 and _p07_events(r, &"collision").size() == 1 and f.board.board_version == version + (3 if hp == 0.0 else 2), "P07 A16 blocker death then one entry " + mode, r.reason)
+		_check(f.board.occupant_at(f.destination) == (null if hp == 0.0 else f.target) and _p07_events(r, &"healed").is_empty(), "P07 A16 entry consequences before pending heal " + mode)
+	var blocked := _p07_fixture(100.0); blocked.board.set_height(blocked.destination, -1)
+	var r := _p07_submit(blocked)
+	_check(r.status == &"APPLIED" and blocked.target.vitals.get_hp() == 86.0 and _p07_events(r, &"moved").is_empty() and _p07_events(r, &"damaged").size() == 3, "P07 A16 surviving blocker prevents entry and fall")
+
+func _test_p07_a17_prefix() -> void:
+	for mode: String in ["wall", "replacement"]:
+		var f := _p07_fixture(8.0)
+		var replacement := _p06_unit(); replacement.cell = f.destination
+		var replacement_owner := ItemOwnerState.new(replacement)
+		var replacement_inventory := InventoryState.new(replacement_owner)
+		var replacement_equipment := EquipmentState.new(replacement_owner)
+		var hook := func() -> void:
+			if mode == "wall": f.board.set_terrain(f.destination, TerrainType.Type.WALL)
+			else:
+				f.board.add_unit(replacement)
+				f.state._owners.append(replacement_owner)
+				f.state._inventories.append(replacement_inventory)
+				f.state._equipment.append(replacement_equipment)
+		f.blocker.vitals.died.connect(hook)
+		var r := _p07_submit(f)
+		f.blocker.vitals.died.disconnect(hook)
+		_check(r.status == &"FAULTED" and r.reason == &"push/entry_obstructed" and f.target.vitals.get_hp() == 86.0 and not f.blocker.is_alive() and f.target.cell == Vector2i(2, 2) and _p07_events(r, &"moved").is_empty() and _p07_events(r, &"damaged").size() == 3 and replacement.vitals.get_hp() == 10.0, "P07 A17 obstructed entry retains pair HP " + mode, r.reason)
+	var f := _p07_fixture(100.0)
+	var replacement := _p06_unit(); replacement.cell = f.destination; replacement.id = f.blocker.id
+	var hook := func(_before: float, after: float) -> void:
+		if after != 86.0: return
+		f.board.remove_unit(f.blocker)
+		f.board.add_unit(replacement)
+	f.target.vitals.hp_changed.connect(hook)
+	var r := _p07_submit(f)
+	f.target.vitals.hp_changed.disconnect(hook)
+	_check(r.status == &"FAULTED" and f.target.vitals.get_hp() == 86.0 and f.blocker.vitals.get_hp() == 100.0 and replacement.vitals.get_hp() == 10.0 and _p07_events(r, &"damaged").size() == 2 and r.revision_after == 4, "P07 A17 first collision HP prefix survives blocker replacement callback", r.reason)
+
+func _test_p07_a12_bindings() -> void:
+	for stage: StringName in [&"attack", &"attack_hit", &"balance"]:
+		for mode: StringName in [&"actor_missing", &"actor_dead", &"actor_moved", &"actor_replaced", &"target_missing", &"target_dead", &"target_moved", &"target_replaced", &"actor_stats", &"target_stats", &"actor_vitals", &"target_vitals", &"actor_owner", &"target_owner", &"ledger", &"paid", &"target_hp", &"balance", &"balance_max"]:
+			var f := _p07_fixture()
+			var replacement := _p06_unit()
+			var hook := func(c: ActionContext, _result: CommandStepResult) -> void:
+				var board := c.get_state().get_board()
+				var actor: UnitState = f.actor; var target: UnitState = f.target
+				match mode:
+					&"actor_missing": board.remove_unit(actor)
+					&"actor_dead": actor.vitals.apply_damage(1000.0)
+					&"actor_moved": board.move_unit(actor, Vector2i(1, 1))
+					&"actor_replaced":
+						board.remove_unit(actor); replacement.id = actor.id; replacement.cell = actor.cell; board.add_unit(replacement)
+					&"target_missing": board.remove_unit(target)
+					&"target_dead": target.vitals.apply_damage(1000.0)
+					&"target_moved": board.move_unit(target, Vector2i(2, 1))
+					&"target_replaced":
+						board.remove_unit(target); replacement.id = target.id; replacement.cell = target.cell; board.add_unit(replacement)
+					&"actor_stats": actor.stats = StatsBag.from_snapshot_dict(actor.stats.to_snapshot_dict()); actor.vitals._stats = actor.stats
+					&"target_stats": target.stats = StatsBag.from_snapshot_dict(target.stats.to_snapshot_dict()); target.vitals._stats = target.stats
+					&"actor_vitals": actor.vitals = Vitals.from_dict(actor.vitals.to_dict(), actor.stats)
+					&"target_vitals": target.vitals = Vitals.from_dict(target.vitals.to_dict(), target.stats)
+					&"actor_owner": c.get_state()._owners[0] = ItemOwnerState.new(actor)
+					&"target_owner": c.get_state()._owners[1] = ItemOwnerState.new(target)
+					&"ledger": actor.action_resources = ActionResources.from_snapshot_dict(actor.action_resources.to_snapshot_dict(), actor.id)
+					&"paid": actor.action_resources.try_spend_main(1)
+					&"target_hp": target.vitals.set_hp(80.0)
+					&"balance": target.vitals.set_balance(1.0)
+					&"balance_max": target.stats.set_base_value(StatTypes.StatType.BALANCE_MAX, 99.0)
+			var r := ActionQueue.new().submit(P07TreeHook.new(_p06_attack(f), stage, hook), f.context)
+			_check(r.status == &"FAULTED" and r.get_events().size() == (1 if stage == &"attack" else (2 if stage == &"attack_hit" else 3)) and _p07_events(r, &"moved").is_empty() and replacement.vitals.get_hp() == 10.0 and f.actor.action_resources.get_main_left() <= 3, "P07 A12 stale %s after %s preserves prefix" % [mode, stage], r.reason)
+	for field: String in ["raw_attack", "impact", "main_after", "target_id", "actor_cell", "phase", "expected_hp", "binding_null"]:
+		var f := _p07_fixture()
+		var hook := func(_c: ActionContext, result: CommandStepResult) -> void:
+			var hit: AttackHitCommand = result.mandatory[0]
+			if field == "binding_null":
+				hit._p07_binding = null
+				return
+			var values: Dictionary = hit._p07_binding.values
+			if field == "actor_cell": values[field] = Vector2i.ZERO
+			elif field == "phase": values[field] = &"forged"
+			else: values[field] = values.get(field, 0) + 1
+		var r := ActionQueue.new().submit(P07TreeHook.new(_p06_attack(f), &"attack", hook), f.context)
+		_check(r.status == &"FAULTED" and f.target.vitals.get_hp() == 100.0 and r.get_events().size() == 1, "P07 A12 binding value seal survives copies: " + field, r.reason)
+	for mutation: StringName in [&"amount", &"target", &"armor_mode", &"origin", &"credit", &"source_null"]:
+		var f := _p07_fixture()
+		var r := ActionQueue.new().submit(P06AttackHitHook.new(_p06_attack(f), mutation), f.context)
+		_check(r.status == &"FAULTED" and f.target.vitals.get_hp() == 100.0 and r.get_events().size() == 1, "P07 A12 existing request/source seal: " + mutation)
+	for mode: String in ["wall", "blocker"]:
+		var f := _p07_fixture(100.0 if mode == "blocker" else -1.0)
+		if mode == "blocker": f.board.move_unit(f.blocker, Vector2i(4, 4))
+		var hook := func(c: ActionContext, _result: CommandStepResult) -> void:
+			if mode == "wall": c.get_state().get_board().set_terrain(f.destination, TerrainType.Type.WALL)
+			else: c.get_state().get_board().move_unit(f.blocker, f.destination)
+		var r := ActionQueue.new().submit(P07TreeHook.new(_p06_attack(f), &"balance", hook), f.context)
+		_check(r.status == &"APPLIED" and f.target.vitals.get_hp() == 86.0 and f.target.cell == Vector2i(2, 2) and (mode == "wall" or f.blocker.vitals.get_hp() == 92.0), "P07 A12 current destination topology resolved after Balance " + mode, r.reason)
+	var frozen := _p07_fixture(100.0)
+	var freeze_hook := func(_c: ActionContext, _result: CommandStepResult) -> void:
+		frozen.actor.stats.set_base_value(StatTypes.StatType.STRENGTH, 1000.0)
+		frozen.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, 0.0)
+	var frozen_result := ActionQueue.new().submit(P07TreeHook.new(_p06_attack(frozen), &"attack", freeze_hook), frozen.context)
+	_check(frozen_result.status == &"APPLIED" and frozen.target.vitals.get_hp() == 86.0 and frozen.blocker.vitals.get_hp() == 92.0 and _p07_events(frozen_result, &"balance_broken").size() == 1, "P07 A12 B and impact freeze at payment", frozen_result.reason)
+
+func _test_p07_extended_boundaries() -> void:
+	var balance := {"kind": &"balance_changed", "actor_unit_id": 1, "target_unit_id": 2, "balance_before": 1.0, "balance_after": 3.0, "balance_max": 5.0, "impact": 2.0, "broke": false}
+	for pair: Array in [["actor_unit_id", ActionContext.MAX_ID], ["target_unit_id", ActionContext.MAX_ID], ["balance_after", 4.0], ["balance_before", -1.0], ["balance_max", 0.0], ["impact", 0.0], ["impact", INF], ["broke", true], ["kind", &"balance_broken"]]:
+		var draft := balance.duplicate(true); draft[pair[0]] = pair[1]
+		_check(not ActionQueue._valid_draft(draft), "P07 A14 balance schema semantic rejection " + str(pair))
+	var overflow := balance.duplicate(true); overflow.balance_before = 1e308; overflow.impact = 1e308; overflow.balance_after = 0.0; overflow.broke = true
+	_check(not ActionQueue._valid_draft(overflow), "P07 A14 event balance sum overflow")
+	var unchanged := balance.duplicate(true); unchanged.balance_before = 0.0; unchanged.balance_after = 0.0; unchanged.impact = 5.0; unchanged.broke = true
+	_check(not ActionQueue._valid_draft(unchanged), "P07 A14 changed requires actual numeric delta")
+	for kind: StringName in [&"push_blocked", &"fell", &"collision", &"moved"]:
+		var valid := {"kind": kind, "actor_unit_id": 1, "target_unit_id": 2, "from_cell": Vector2i.ZERO}
+		var destination_key: String = "to_cell" if kind == &"moved" else "attempted_cell"
+		valid[destination_key] = Vector2i.RIGHT
+		if kind == &"moved": valid.merge({"movement_kind": &"push", "move_cost": 0.0, "move_before": 3.0, "move_after": 3.0})
+		elif kind == &"collision": valid.blocker_unit_id = 3
+		else: valid.reason = &"wall" if kind == &"push_blocked" else &"bounds"
+		for cell: Vector2i in [Vector2i.ZERO, Vector2i(1, 1), Vector2i(2, 0)]:
+			var draft := valid.duplicate(true); draft[destination_key] = cell
+			_check(not ActionQueue._valid_draft(draft), "P07 A14 one edge " + kind + str(cell))
+		for bad_id: int in [0, -1, ActionContext.MAX_ID]:
+			var draft := valid.duplicate(true); draft.actor_unit_id = bad_id
+			_check(not ActionQueue._valid_draft(draft), "P07 A14 bounded actor id " + kind)
+		if kind == &"collision":
+			for bad_id: int in [0, 1, 2, ActionContext.MAX_ID]:
+				var draft := valid.duplicate(true); draft.blocker_unit_id = bad_id
+				_check(not ActionQueue._valid_draft(draft), "P07 A14 blocker distinct bounded ID")
+		elif kind == &"moved":
+			for pair: Array in [["move_cost", 1.0], ["move_after", 2.0], ["move_before", -1.0], ["movement_kind", &"other"]]:
+				var draft := valid.duplicate(true); draft[pair[0]] = pair[1]
+				_check(not ActionQueue._valid_draft(draft), "P07 A14 forced movement semantics")
+		else:
+			var draft := valid.duplicate(true); draft.reason = &"occupied"
+			_check(not ActionQueue._valid_draft(draft), "P07 A14 exact terrain reason " + kind)
+	for mode: String in ["missing_hpmax", "negative_hpmax", "overflow_entry"]:
+		var f := _p07_fixture(8.0)
+		f.board.set_height(f.destination, -10 if mode == "overflow_entry" else -1)
+		if mode == "missing_hpmax": f.target.stats._stats.erase(StatTypes.StatType.HP_MAX)
+		elif mode == "negative_hpmax": f.target.stats.set_base_value(StatTypes.StatType.HP_MAX, -1.0)
+		else: f.target.stats.set_base_value(StatTypes.StatType.HP_MAX, 1e308)
+		_p07_assert_rejected(f, &"", "P07 A11/A16 future entry fall " + mode)
+	for mode: String in ["immune", "zero"]:
+		var f := _p07_fixture()
+		f.target.vitals.set_balance(1e308)
+		f.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, 1e308 if mode == "immune" else 0.0)
+		if mode == "immune": f.target.stats.set_base_value(StatTypes.StatType.BALANCE_MAX, 0.0)
+		_check(_p07_submit(f).status == &"APPLIED" and f.target.vitals.get_balance() == 1e308, "P07 A02 unused immune sum not evaluated " + mode)
+	for blocked: bool in [false, true]:
+		var f := _p07_fixture()
+		var from_height: int = -2147483648 if blocked else 2147483647
+		var to_height: int = 2147483647 if blocked else -2147483648
+		f.board.set_height(f.actor.cell, from_height); f.board.set_height(f.target.cell, from_height); f.board.set_height(f.destination, to_height)
+		var r := _p07_submit(f)
+		_check(r.status == &"APPLIED" and (_p07_events(r, &"push_blocked").size() == 1 if blocked else not f.target.is_alive()) and f.target.cell == (Vector2i(2, 2) if blocked else f.destination), "P07 A09 int32 extremes use int64 height delta", r.reason)
+	# После move внешний callback может испортить участника: prefix обязан содержать moved.
+	var moved := _p07_fixture(); moved.board.set_terrain(moved.destination, TerrainType.Type.HAZARD)
+	var original: Vitals = moved.target.vitals
+	var move_hook := func(unit: UnitState, _from: Vector2i, _to: Vector2i) -> void:
+		if unit == moved.target: unit.vitals = Vitals.from_dict(unit.vitals.to_dict(), unit.stats)
+	moved.board.unit_position_changed.connect(move_hook)
+	var moved_result := _p07_submit(moved)
+	moved.board.unit_position_changed.disconnect(move_hook)
+	_check(moved_result.status == &"FAULTED" and _p07_events(moved_result, &"moved").size() == 1 and moved.target.cell == moved.destination and moved.target.is_alive() and original.get_hp() == 93.0, "P07 A17 fault after move retains moved; replacement vitals untouched", moved_result.reason)
+
+func _test_p07_collateral_guards() -> void:
+	for mode: StringName in [&"first_amount", &"second_amount", &"second_source", &"blocker_missing", &"blocker_dead", &"blocker_moved", &"blocker_replaced", &"blocker_hp", &"blocker_stats", &"blocker_vitals", &"blocker_owner"]:
+		var f := _p07_fixture(100.0)
+		var replacement := _p06_unit(); replacement.cell = f.destination
+		var hook := func(c: ActionContext, result: CommandStepResult) -> void:
+			var collision: CollisionDamageCommand = result.mandatory[0]
+			var blocker: UnitState = f.blocker
+			match mode:
+				&"first_amount": collision._first.amount += 1.0
+				&"second_amount": collision._second.amount += 1.0
+				&"second_source": collision._second.source.credit_unit_id = 0
+				&"blocker_missing": f.board.remove_unit(blocker)
+				&"blocker_dead": blocker.vitals.apply_damage(1000.0)
+				&"blocker_moved": f.board.move_unit(blocker, Vector2i(4, 4))
+				&"blocker_replaced": f.board.remove_unit(blocker); replacement.id = blocker.id; f.board.add_unit(replacement)
+				&"blocker_hp": blocker.vitals.set_hp(99.0)
+				&"blocker_stats": blocker.stats = StatsBag.from_snapshot_dict(blocker.stats.to_snapshot_dict()); blocker.vitals._stats = blocker.stats
+				&"blocker_vitals": blocker.vitals = Vitals.from_dict(blocker.vitals.to_dict(), blocker.stats)
+				&"blocker_owner": c.get_state()._owners[2] = ItemOwnerState.new(blocker)
+		var r := ActionQueue.new().submit(P07TreeHook.new(_p06_attack(f), &"push", hook), f.context)
+		_check(r.status == &"FAULTED" and f.target.vitals.get_hp() == 93.0 and r.get_events().size() == 4 and replacement.vitals.get_hp() == 10.0, "P07 A12 both collateral bindings validated before first HP " + mode, r.reason)
+	for wall: bool in [false, true]:
+		for mode: StringName in [&"amount", &"source"]:
+			var f := _p07_fixture()
+			if wall: f.board.set_terrain(f.destination, TerrainType.Type.WALL)
+			else: f.board.set_height(f.destination, -1)
+			var hook := func(_c: ActionContext, result: CommandStepResult) -> void:
+				var damage: PushDamageCommand = result.mandatory[0]
+				if mode == &"amount": damage.request.amount += 1.0
+				else: damage.request.source.origin_cell = Vector2i.ZERO
+			var r := ActionQueue.new().submit(P07TreeHook.new(_p06_attack(f), &"push", hook), f.context)
+			_check(r.status == &"FAULTED" and f.target.vitals.get_hp() == 93.0 and f.target.cell == (Vector2i(2, 2) if wall else f.destination), "P07 A12 wall/fall request seal and prefix", r.reason)
+	for mode: StringName in [&"hp", &"stats", &"vitals", &"owner"]:
+		var f := _p07_fixture(100.0)
+		var hook := func(_before: float, after: float) -> void:
+			if after != 86.0: return
+			var blocker: UnitState = f.blocker
+			if mode == &"hp": blocker.vitals.set_hp(99.0)
+			elif mode == &"stats": blocker.stats = StatsBag.from_snapshot_dict(blocker.stats.to_snapshot_dict()); blocker.vitals._stats = blocker.stats
+			elif mode == &"vitals": blocker.vitals = Vitals.from_dict(blocker.vitals.to_dict(), blocker.stats)
+			else: f.state._owners[2] = ItemOwnerState.new(blocker)
+		f.target.vitals.hp_changed.connect(hook)
+		var r := _p07_submit(f)
+		f.target.vitals.hp_changed.disconnect(hook)
+		_check(r.status == &"FAULTED" and f.target.vitals.get_hp() == 86.0 and f.blocker.vitals.get_hp() == (99.0 if mode == &"hp" else 100.0) and _p07_events(r, &"damaged").size() == 2 and r.revision_after == 4, "P07 A17 revalidate blocker after first HP " + mode, r.reason)
+
+func _test_p07_version_preflight() -> void:
+	for mode: String in ["wall_death", "both_deaths", "fall_death", "entry_fall_death", "wall_survives", "pair_survives"]:
+		var required: int = 1 if mode == "wall_death" else (2 if mode in ["both_deaths", "fall_death"] else (3 if mode == "entry_fall_death" else 0))
+		for insufficient: bool in [false, true]:
+			var f := _p07_fixture(8.0 if mode in ["both_deaths", "entry_fall_death"] else (100.0 if mode == "pair_survives" else -1.0))
+			if mode in ["wall_death", "both_deaths"]: f.target.vitals.set_hp(9.0)
+			if mode in ["wall_death", "wall_survives"]: f.board.set_terrain(f.destination, TerrainType.Type.WALL)
+			if mode in ["fall_death", "entry_fall_death"]: f.board.set_height(f.destination, -4)
+			f.board.board_version = ActionContext.MAX_ID - required + (1 if insufficient and required > 0 else 0)
+			var before_hp: float = f.target.vitals.get_hp()
+			var r := _p07_submit(f)
+			var rejected: bool = insufficient and required > 0
+			_check(r.status == (&"REJECTED" if rejected else &"APPLIED") and (f.target.vitals.get_hp() == before_hp and f.actor.action_resources.get_main_left() == 4 if rejected else f.board.board_version == ActionContext.MAX_ID), "P07 A13 complete chain reserve " + mode + str(insufficient), r.reason)
+	for mode: String in ["move", "wall_death", "both_deaths", "fall_death"]:
+		var f := _p07_fixture(8.0 if mode == "both_deaths" else -1.0)
+		if mode in ["wall_death", "both_deaths"]: f.target.vitals.set_hp(9.0)
+		if mode == "wall_death": f.board.set_terrain(f.destination, TerrainType.Type.WALL)
+		if mode == "fall_death": f.board.set_height(f.destination, -4)
+		var hook := func(_c: ActionContext, _result: CommandStepResult) -> void: f.board.board_version = ActionContext.MAX_ID
+		var stage: StringName = &"balance" if mode == "move" else &"push"
+		var r := ActionQueue.new().submit(P07TreeHook.new(_p06_attack(f), stage, hook), f.context)
+		_check(r.status == &"FAULTED" and r.reason == &"push/board_version_exhausted" and f.target.is_alive() and f.target.vitals.get_hp() == (2.0 if mode in ["wall_death", "both_deaths"] else 93.0) and f.target.cell == (f.destination if mode == "fall_death" else Vector2i(2, 2)), "P07 A13 recheck board reserve at child boundary " + mode, r.reason)
+
+func _test_p07_api_preflight() -> void:
+	var f := _p07_fixture(100.0)
+	var prepared := BalancePushRules.prepare_attack(f.context, f.actor, f.target, 10.0, 7.0, 3)
+	_check(prepared.size() == 2 and prepared.has("reason") and prepared.has("binding") and prepared.reason == &"" and prepared.binding != null, "P07 A11 prepare_attack exact result shape")
+	if prepared.binding == null: return
+	var binding: BalancePushRules.Binding = prepared.binding
+	var values := binding.values.duplicate(true)
+	var pushed := BalancePushRules.prepare_push(binding, f.context, true)
+	_check(pushed.size() == 10 and pushed.reason == &"" and pushed.binding != binding and binding.values == values and binding.blocker == null and binding.first == null and binding.second == null, "P07 A11 admission resolve is pure and copies stage binding")
+	var unpaid := BalancePushRules.prepare_push(binding, f.context, false)
+	_check(unpaid.reason != &"" and unpaid.binding == null and unpaid.first == null and unpaid.second == null and unpaid.from_cell == Vector2i.ZERO and unpaid.attempted_cell == Vector2i.ZERO and unpaid.board_touches == 0, "P07 A11 post-payment resolve rejects unpaid stage with neutral result")
+	for mode: String in ["ledger", "state", "target_hp", "target_cell", "target_owner"]:
+		var local := _p07_fixture()
+		var root := BalancePushRules.prepare_attack(local.context, local.actor, local.target, 10.0, 7.0, 3)
+		if root.binding == null:
+			_check(false, "P07 API fixture binding", root.reason); continue
+		if mode == "ledger": local.actor.action_resources.try_spend_main(1)
+		elif mode == "state": local.context._state = ItemSimulationState.new(local.board, local.state.get_owners(), local.state.get_inventories(), local.state.get_equipment_facades())
+		elif mode == "target_hp": local.target.vitals.set_hp(99.0)
+		elif mode == "target_cell": local.board.move_unit(local.target, Vector2i(2, 1))
+		else: local.state._owners[1] = ItemOwnerState.new(local.target)
+		var result := BalancePushRules.prepare_push(root.binding, local.context, true)
+		_check(result.reason != &"" and result.binding == null and result.first == null and result.second == null and result.from_cell == Vector2i.ZERO and result.attempted_cell == Vector2i.ZERO and result.board_touches == 0, "P07 A11 direct admission binding guard " + mode)
+	var invalid := BalancePushRules.prepare_attack(null, f.actor, f.target, 10.0, 7.0, 3)
+	_check(invalid.size() == 2 and invalid.reason != &"" and invalid.binding == null, "P07 A11 null prepare_attack returns exact failure")
+	for mode: String in ["flat", "lethal"]:
+		var local := _p07_fixture()
+		var hook := func(_c: ActionContext, _result: CommandStepResult) -> void: local.target.stats._stats.erase(StatTypes.StatType.ARMOR)
+		if mode == "lethal": local.board.set_terrain(local.destination, TerrainType.Type.HAZARD)
+		var result := ActionQueue.new().submit(P07TreeHook.new(_p06_attack(local), &"balance", hook), local.context)
+		_check(result.status == &"APPLIED" and local.target.cell == local.destination and local.target.is_alive() == (mode == "flat"), "P07 A11 unused armor after topology preflight " + mode, result.reason)
+	var cache := _p07_fixture()
+	var live_stat: Stat = cache.target.stats._stats[StatTypes.StatType.BALANCE_MAX]
+	live_stat._cache_dirty = true; live_stat._cached_value = -123.0
+	cache.board.board_version = ActionContext.MAX_ID
+	var rejected := _p07_submit(cache)
+	_check(rejected.status == &"REJECTED" and rejected.reason == &"push/board_version_exhausted" and live_stat._cache_dirty and live_stat._cached_value == -123.0, "P07 A11 root rejection preserves actual dirty cache and cached value", rejected.reason)

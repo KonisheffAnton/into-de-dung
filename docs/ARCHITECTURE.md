@@ -338,3 +338,38 @@ dodge/status runtime, item activations, Flow/BT, полного preview/token и
 Приёмка: 1633 passed / 0 failed, независимое APPROVE. Проверенное рабочее дерево
 содержит прежний dirty P02; коммит P06 фиксирует лишь отделимые изменения.
 Snapshot-остаток и точные hashes перечислены в TESTING и CODEX_HANDOFF.
+
+## P07 — Balance и одноклеточный Push (2026-09-14)
+
+Принятая редакция 1 P07_BALANCE_PUSH_TASK реализована в явном профиле
+flat_melee_balance_v1. Прежний flat_melee_v1 сохраняет HP-only P06. Этот раздел
+уточняет исторические ограничения выше; UI/AI и Battle Flow не подключены.
+
+Attack по-прежнему стоит 1 main. Impact берётся из IMPACT_POWER независимо от
+HP/armor; выжившая цель накапливает balance до BALANCE_MAX. Max<=0 даёт иммунитет.
+Один break сбрасывает balance в0 без избытка и создаёт один бесплатный Push на
+соседнюю клетку. Wall/collision используют B=STRENGTH+WEAPON_DAMAGE до брони,
+max(1,B-ARMOR) отдельно каждому. Спуск на h>=1: max(1,(HP_MAX*0.25)*h-ARMOR).
+Целые высоты не перекодированы: любой положительный целый подъём блокирует Push.
+
+Новые RefCounted/Command типы: BalancePushRules с копируемым stage Binding,
+BalanceCommand, PushCommand, PushDamageCommand и CollisionDamageCommand. Binding
+сохраняет исходный seal, identity и ожидаемые HP/balance/ledger значения; refs
+не выходят в receipt/snapshot. Preflight проверяет collateral и запас board_version
+до оплаты; дочерние команды повторно проверяют актуальный runtime.
+
+Очередь исполняет HP hit → Balance → Push/последствия → item reactions hit.
+Collision HP обоих участников выполняются одним step до любого лечения. Если
+blocker погиб, выжившая цель входит на его клетку; entry/fall/lethal последствия
+завершаются до item reactions collision. Сохранившийся blocker исключает движение.
+Летальный вход и край завершают death внутри Push step. Позицию меняет только
+BattleBoard, HP/death — ActionHpExecutor; corpse сохраняется в bounds.
+
+Ёмкость4 и соответствующий event_seq reserve разрешены только точному
+CollisionDamageCommand; у других команд осталось2. Fault сохраняет выполненный
+prefix без rollback/refund. Новые строгие события не меняют legacy HP/voluntary
+moved/attacked schemas. Snapshot/enum версии прежние, P02/P03b отражают balance,
+ресурсы и corpse/live в одной клетке без сохранения очереди/bindings.
+
+Границы: полууровни, расширенный reach, terrain HP/шипы, status/dodge, активации
+предметов, Flow/BT, полный preview/token и save-game не реализованы этим пакетом.
