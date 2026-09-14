@@ -49,6 +49,7 @@ var blocker: UnitState = null
 ## На сколько уровней высоты цель упала при перемещении (0 = ровно).
 ## Урон за падение считает `PushCommand`.
 var fall_height: int = 0
+var fall_steps: int = 0
 
 
 ## Сдвинулась ли цель физически. Используется вместо старого `success`:

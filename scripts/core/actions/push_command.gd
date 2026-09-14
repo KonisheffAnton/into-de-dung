@@ -20,6 +20,7 @@ func validate(context: ActionContext) -> StringName:
 func execute(context: ActionContext) -> CommandStepResult:
 	var reason := validate(context)
 	if reason != &"": return CommandStepResult.faulted(reason)
+	if _binding.values.get("spatial", false): return _execute_spatial(context)
 	var prep := BalancePushRules.prepare_push(_binding, context, false)
 	if prep.get("reason", &"") != &"": return CommandStepResult.faulted(prep["reason"])
 	var required_touches: int = int(prep.get("board_touches", 0))
@@ -72,3 +73,49 @@ func execute(context: ActionContext) -> CommandStepResult:
 		damage_binding.seal()
 		mandatory.append(PushDamageCommand.new(prep["first"], damage_binding))
 	return CommandStepResult.applied(events, mandatory, [], null, true)
+
+func _execute_spatial(context: ActionContext) -> CommandStepResult:
+	var prep := BalancePushRules.prepare_push(_binding, context)
+	if prep["reason"] != &"": return CommandStepResult.faulted(prep["reason"])
+	var required: int = prep["board_touches"]
+	if int(_binding.spatial_guard.values["expected_board_version"]) > ActionContext.MAX_ID - required:
+		return CommandStepResult.faulted(&"push/board_version_exhausted")
+	var binding: BalancePushRules.Binding = prep["binding"]
+	var outcome: int = prep["outcome"]
+	var actor_id: int = binding.values["actor_id"]
+	var target_id: int = binding.values["target_id"]
+	var from: Vector2i = prep["from_cell"]
+	var to: Vector2i = prep["attempted_cell"]
+	if _after_collision and outcome not in [PushResult.Outcome.MOVED, PushResult.Outcome.FELL]: return CommandStepResult.faulted(&"push/entry_obstructed")
+	if outcome == PushResult.Outcome.BLOCKED:
+		var event := {"kind": &"push_blocked", "actor_unit_id": actor_id, "target_unit_id": target_id, "from_cell": from, "attempted_cell": to, "reason": prep["blocked_reason"]}
+		return CommandStepResult.applied([event], [PushDamageCommand.new(prep["first"], binding)], [], null, false)
+	if outcome == PushResult.Outcome.COLLISION:
+		var event := {"kind": &"collision", "actor_unit_id": actor_id, "target_unit_id": target_id, "from_cell": from, "attempted_cell": to, "blocker_unit_id": binding.values["blocker_id"]}
+		return CommandStepResult.applied([event], [CollisionDamageCommand.new(prep["first"], prep["second"], binding)], [], null, false)
+	var events: Array[Dictionary] = []
+	var changed := false
+	if outcome == PushResult.Outcome.FELL and not binding.board.is_in_bounds(to):
+		events.append({"kind": &"fell", "actor_unit_id": actor_id, "target_unit_id": target_id, "from_cell": from, "attempted_cell": to, "reason": &"bounds"})
+	else:
+		var before: float = binding.spatial_guard.values["participants"][target_id]["move"]
+		var moved := binding.spatial_guard.moved(target_id, to)
+		if not binding.board.move_unit(binding.target, to): return CommandStepResult.faulted(&"push/board_move_failed")
+		events.append({"kind": &"moved", "actor_unit_id": actor_id, "target_unit_id": target_id, "from_cell": from, "to_cell": to, "movement_kind": &"push", "move_cost": 0.0, "move_before": before, "move_after": before})
+		if not binding.sealed() or not moved.check(context):
+			var fault := CommandStepResult.faulted(&"push/invalid_binding")
+			fault.events = events; fault.state_changed = true
+			return fault
+		changed = true
+		binding = BalancePushRules.spatial_phase(binding, moved, &"push_damage")
+	if outcome == PushResult.Outcome.FELL:
+		var source := DamageSource.new(&"fall", 0, to, actor_id, actor_id)
+		var request := DamageRequest.new(target_id, 1.0, &"physical", &"bypass", source)
+		var death := BalancePushRules.spatial_hp(binding, request, context, &"push/invalid_binding", true)
+		var result: CommandStepResult = death["result"]
+		events.append_array(result.events)
+		result.events = events; result.state_changed = changed or result.state_changed
+		return result
+	var children: Array[Command] = []
+	if prep["first"] != null: children.append(PushDamageCommand.new(prep["first"], binding))
+	return CommandStepResult.applied(events, children, [], null, changed)

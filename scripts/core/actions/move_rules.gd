@@ -7,8 +7,14 @@ const MAX_ALLOWLIST_SIZE: int = 65536
 var _admitted_unit_ids: Array[int] = []
 var _max_height_step: int = 0
 var _invalid: bool = false
+var _profile: StringName = &"legacy_move_v1"
 
-func _init(admitted_unit_ids: Array[int] = [], max_height_step: int = 0) -> void:
+func _init(admitted_unit_ids: Array[int] = [], max_height_step: int = 0, profile: StringName = &"legacy_move_v1") -> void:
+	_profile = profile
+	if profile != &"legacy_move_v1" and profile != &"spatial_move_v1":
+		_invalid = true
+	if profile == &"spatial_move_v1" and max_height_step != 1:
+		_invalid = true
 	# Слишком большой список не копируем: это сохраняет bounded admission при повреждённом payload.
 	if admitted_unit_ids.size() > MAX_ALLOWLIST_SIZE:
 		_invalid = true
@@ -30,7 +36,7 @@ func _init(admitted_unit_ids: Array[int] = [], max_height_step: int = 0) -> void
 		_invalid = true
 
 func copy() -> MoveRules:
-	var result := MoveRules.new(_admitted_unit_ids, _max_height_step)
+	var result := MoveRules.new(_admitted_unit_ids, _max_height_step, _profile)
 	result._invalid = _invalid
 	return result
 
@@ -46,3 +52,6 @@ func allows(unit_id: int) -> bool:
 
 func get_max_height_step() -> int:
 	return _max_height_step
+
+func get_profile() -> StringName:
+	return _profile

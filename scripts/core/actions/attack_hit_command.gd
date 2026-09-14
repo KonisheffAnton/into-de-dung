@@ -39,6 +39,13 @@ func validate(context: ActionContext) -> StringName:
 func execute(context: ActionContext) -> CommandStepResult:
 	var reason := _binding_reason(context)
 	if reason != &"": return CommandStepResult.faulted(reason)
+	if _p07_binding != null and _p07_binding.values.get("spatial", false):
+		var hp := BalancePushRules.spatial_hp(_p07_binding, request, context, &"attack/invalid_hit")
+		var spatial_result: CommandStepResult = hp["result"]
+		var next: BalancePushRules.Binding = hp["binding"]
+		if spatial_result.status == &"APPLIED" and next.values["expected_alive"] and float(next.values["impact"]) > 0.0 and float(next.values["balance_max"]) > 0.0:
+			spatial_result.mandatory.append(BalanceCommand.new(next))
+		return spatial_result
 	var result := super.execute(context)
 	if result.status == &"APPLIED" and _p07_binding != null and _target.is_alive() and float(_p07_binding.values.get("impact", 0.0)) > 0.0 and float(_p07_binding.values.get("balance_max", 0.0)) > 0.0:
 		result.mandatory.append(BalanceCommand.new(_p07_binding))

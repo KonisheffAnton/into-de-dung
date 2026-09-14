@@ -356,3 +356,14 @@ game_reviewer/Terra/high независимо прочитал fixed code/logs, 
 реализация остановлена до новой редакции; базовый 1996/0 их не заменяет.
 Все 1104 старых reports сохранены; новые логи/manifest/review/baseline/paused code:
 `test_reports/p08-implementation-362ad64ba4fb41ebb427b16c4355cfb6/`.
+
+
+## P08-SPATIAL r3 — проверка реализации (2026-09-14)
+
+Артефакты текущей реализации: `test_reports/p08-r3-implementation-db622e81007948a3bf8086ee2dc88b64/`. baseline.json/baseline-files/handoff-before.md фиксируют точный вход HEAD320f782 и старые отчёты. isolate.py создаёт новый уникальный isolated-UUID/project с актуальными файлами, отдельным APPDATA и без исторических test_reports, затем запускает fresh Godot import/startup/full runner. Class cache проверяется на отсутствие ссылок в test_reports; SCRIPT ERROR проверяется отдельно от exit code. Старые check scripts не используются.
+
+Новые S01–S17 включены в tests/run_tests.gd: board v2/canonical/legacy gates, half movement/reach/numbers, fall/collision/reactions, terminal callbacks, refs/lifecycle/budgets/geometry/version, receipts/seal forms, limits и replay. Расширенная signal matrix сравнивает полный event prefix с независимо исполненным тестовым oracle на восстановленной копии; никакого replay в production Queue validator нет. Отдельные кейсы проверяют external heal/nested damage/revive receipts и same-id replacement cleanup до/после board listener. Lifecycle0/1/2 восстанавливаются во всех сочетаниях; предметное лечение должно идти после mandatory cascade и отсутствовать после fault.
+
+Итоговые counts, fixed review manifest, reviewer verdict и preservation audit фиксируются в CODEX_HANDOFF после завершения проверок. Чистый baseline1996/0 не считается приёмкой P08. UI не тестируется.
+
+P08 final fixed-v2: fresh isolated-3fa61e1678294e3aba7a0a7990b2efdc — import/startup PASS, 9440 passed / 0 failed, no SCRIPT ERROR. Targeted closure285/0. Verbose baseline1996/0 удерживает45 ObjectDB/18 ресурсов; full P08 —47/18, разница только2 WeakRef при том же количестве RefCounted/GDScript. Targeted closure без exit leaks. Это известное ограничение полного legacy runner, не новый цикл spatial subscriptions.

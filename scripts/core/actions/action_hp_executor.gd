@@ -104,3 +104,50 @@ static func _finalize(unit: UnitState, before: float, alive_before: bool, source
 
 static func _draft(kind: StringName, target_id: int, source: DamageSource, before: float, after: float, amount: float, alive_before: bool, alive_after: bool) -> Dictionary:
 	return {"kind": kind, "actor_unit_id": source.instigator_unit_id, "target_unit_id": target_id, "source": source.to_dict(), "hp_before": before, "hp_after": after, "amount": amount, "alive_before": alive_before, "alive_after": alive_after}
+
+
+## Caller проверил sealed binding; после первого сигнала live lookup больше недопустим.
+static func damage_spatial(request: DamageRequest, context: ActionContext, checkpoint: Callable) -> CommandStepResult:
+	if context == null or context.get_state() == null or context.get_state().get_board() == null or not checkpoint.is_valid():
+		return CommandStepResult.faulted(&"spatial/invalid_mutation")
+	if request == null or request.armor_mode != &"bypass":
+		return CommandStepResult.faulted(&"spatial/invalid_mutation")
+	var reason := validate_damage(request, context)
+	if reason != &"": return CommandStepResult.faulted(reason)
+	var board := context.get_state().get_board()
+	var unit := board.get_unit_by_id(request.target_unit_id)
+	var vitals := unit.vitals
+	var target_id := request.target_unit_id
+	var source := request.source.copy()
+	var amount := request.amount
+	var receipt := vitals.apply_spatial_damage(amount, checkpoint)
+	return _spatial_result(receipt, target_id, source, false)
+
+
+static func death_spatial(target_id: int, source: DamageSource, context: ActionContext, checkpoint: Callable) -> CommandStepResult:
+	if context == null or context.get_state() == null or context.get_state().get_board() == null or not checkpoint.is_valid():
+		return CommandStepResult.faulted(&"spatial/invalid_mutation")
+	var reason := validate_death(target_id, source, context)
+	if reason != &"": return CommandStepResult.faulted(reason)
+	var board := context.get_state().get_board()
+	var unit := board.get_unit_by_id(target_id)
+	var vitals := unit.vitals
+	var pinned_id := target_id
+	var pinned_source := source.copy()
+	var amount := maxf(vitals.get_hp(), 1.0)
+	var receipt := vitals.apply_spatial_damage(amount, checkpoint)
+	return _spatial_result(receipt, pinned_id, pinned_source, true)
+
+
+static func _spatial_result(receipt: Vitals.SpatialMutation, target_id: int, source: DamageSource, explicit_death: bool) -> CommandStepResult:
+	var step := CommandStepResult.new()
+	step.status = &"APPLIED" if receipt.reason == &"" else &"FAULTED"
+	step.reason = receipt.reason
+	step.state_changed = (receipt.hp_written and receipt.hp_before != receipt.hp_after) or receipt.death_written
+	var amount := receipt.hp_before - receipt.hp_after
+	# При fault до death_written lethal оставляет damaged(HP0, alive=true).
+	if receipt.hp_written and amount > 0.0 and (not explicit_death or not receipt.death_written):
+		step.events.append(_draft(&"damaged", target_id, source, receipt.hp_before, receipt.hp_after, amount, receipt.alive_before, receipt.alive_after))
+	if receipt.death_written:
+		step.events.append(_draft(&"died", target_id, source, receipt.hp_before, receipt.hp_after, 0.0, receipt.alive_before, receipt.alive_after))
+	return step

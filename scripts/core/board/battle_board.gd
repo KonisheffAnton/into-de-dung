@@ -45,6 +45,7 @@ var height: int = 0
 var board_version: int = 0
 
 var _heights: PackedInt32Array = PackedInt32Array()
+var _height_half_steps: PackedByteArray = PackedByteArray()
 var _terrain: PackedByteArray = PackedByteArray()
 
 ## Vector2i -> int (UnitId). Обратный индекс к `UnitState.cell`.
@@ -70,9 +71,11 @@ func resize(p_width: int, p_height: int) -> void:
 	_heights.resize(cell_count)
 	_terrain = PackedByteArray()
 	_terrain.resize(cell_count)
+	_height_half_steps.resize(cell_count)
 	for i in cell_count:
 		_heights[i] = 0
 		_terrain[i] = TerrainType.Type.FLOOR
+		_height_half_steps[i] = 0
 
 	_occupancy.clear()
 	_units.clear()
@@ -108,7 +111,29 @@ func set_height(cell: Vector2i, value: int) -> void:
 	if not is_in_bounds(cell):
 		return
 	_heights[_index(cell)] = value
+	_height_half_steps[_index(cell)] = 0
 	_touch()
+
+func get_height_steps(cell: Vector2i) -> int:
+	if not is_in_bounds(cell):
+		return 0
+	return int(_heights[_index(cell)]) * 2 + int(_height_half_steps[_index(cell)])
+
+func set_height_steps(cell: Vector2i, steps: int) -> bool:
+	if not is_in_bounds(cell) or steps < -4294967296 or steps > 4294967295 or board_version >= 9223372036854775807:
+		return false
+	var whole: int = floori(float(steps) / 2.0)
+	var half := steps - whole * 2
+	_heights[_index(cell)] = whole
+	_height_half_steps[_index(cell)] = half
+	_touch()
+	return true
+
+func has_half_heights() -> bool:
+	for bit in _height_half_steps:
+		if bit != 0:
+			return true
+	return false
 
 
 func get_terrain(cell: Vector2i) -> TerrainType.Type:
@@ -192,7 +217,7 @@ func remove_unit(unit: UnitState) -> void:
 ## его ещё видно в списке участников". Нужно, чтобы мёртвый не блокировал
 ## клетку для движения и толкания.
 func clear_occupancy(unit: UnitState) -> void:
-	if unit == null:
+	if unit == null or _units.get(unit.id) != unit:
 		return
 	if _occupancy.get(unit.cell, UnitId.NONE) == unit.id:
 		_occupancy.erase(unit.cell)
@@ -315,6 +340,8 @@ func get_move_cost(cell: Vector2i) -> float:
 ## наполняет один авторитетный источник, а не каждый вызывающий по-своему.
 ## Благодаря этому `grid_pathfinder.gd` не потребовал НИ ОДНОЙ правки.
 func make_data_provider(for_unit: UnitState = null) -> GridDataProvider:
+	if has_half_heights():
+		return GridDataProvider.new(func(_cell: Vector2i) -> bool: return false)
 	return GridDataProvider.new(
 		func(cell: Vector2i) -> bool: return can_enter(cell, for_unit),
 		func(cell: Vector2i) -> int: return get_height(cell),
@@ -326,10 +353,20 @@ func make_data_provider(for_unit: UnitState = null) -> GridDataProvider:
 ## Нужен для запросов вида "куда вообще ведёт эта клетка", где occupancy
 ## неуместен.
 func make_terrain_only_provider() -> GridDataProvider:
+	if has_half_heights():
+		return GridDataProvider.new(func(_cell: Vector2i) -> bool: return false)
 	return GridDataProvider.new(
 		func(cell: Vector2i) -> bool: return is_terrain_walkable(cell),
 		func(cell: Vector2i) -> int: return get_height(cell),
 		func(cell: Vector2i) -> float: return get_move_cost(cell)
+	)
+
+func make_spatial_data_provider(moving_unit: UnitState = null) -> GridDataProvider:
+	return GridDataProvider.new(
+		func(cell: Vector2i) -> bool: return can_enter(cell, moving_unit),
+		func(cell: Vector2i) -> int: return get_height(cell),
+		func(cell: Vector2i) -> float: return get_move_cost(cell),
+		func(cell: Vector2i) -> int: return get_height_steps(cell)
 	)
 
 
@@ -345,6 +382,9 @@ func _touch() -> void:
 ## чтобы не хранить один и тот же факт дважды (источник рассинхрона).
 
 func to_dict() -> Dictionary:
+	if has_half_heights():
+		# Старый DTO не имеет поля полу-шага и не должен молча терять геометрию.
+		return {}
 	var unit_dicts: Array[Dictionary] = []
 	for key in _units.keys():
 		var unit: UnitState = _units[key]
@@ -364,6 +404,8 @@ func to_dict() -> Dictionary:
 
 
 static func from_dict(data: Dictionary) -> BattleBoard:
+	if data.has("height_half_steps") or data.has("schema_version"):
+		return null
 	var w: int = data.get("width", 0)
 	var h: int = data.get("height", 0)
 	var board := BattleBoard.new(w, h)

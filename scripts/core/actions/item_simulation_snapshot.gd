@@ -161,12 +161,22 @@ static func _board_structure(envelope: Dictionary) -> String:
 	# Raw-лимиты и типы проверяем раньше version capability и внутренних P02 resize.
 	if not _shape(envelope, {"schema_version": TYPE_INT, "scope": TYPE_STRING, "board": TYPE_DICTIONARY}): return "board_snapshot/schema"
 	var board: Dictionary = envelope["board"]
-	if not _shape(board, {"schema_version": TYPE_INT, "width": TYPE_INT, "height": TYPE_INT, "board_version": TYPE_INT, "heights": TYPE_ARRAY, "terrain": TYPE_ARRAY, "units": TYPE_ARRAY, "occupancy": TYPE_ARRAY}): return "board/schema"
+	var board_fields := {"schema_version": TYPE_INT, "width": TYPE_INT, "height": TYPE_INT, "board_version": TYPE_INT, "heights": TYPE_ARRAY, "terrain": TYPE_ARRAY, "units": TYPE_ARRAY, "occupancy": TYPE_ARRAY}
+	var board_schema: Variant = board.get("schema_version")
+	if typeof(board_schema) == TYPE_INT and (board_schema == 2 or board.has("height_half_steps")): board_fields["height_half_steps"] = TYPE_ARRAY
+	if not _shape(board, board_fields): return "board/schema"
 	if board["width"] < 0 or board["height"] < 0 or board["width"] > 1024 or board["height"] > 1024 or board["width"] * board["height"] > 65536: return "board/limit"
 	if board["units"].size() > MAX_OWNERS or board["occupancy"].size() > 65536 or board["heights"].size() > 65536 or board["terrain"].size() > 65536: return "board/limit"
 	for key: String in ["heights", "terrain"]:
 		for cell: Variant in board[key]:
 			if typeof(cell) != TYPE_INT: return "board/" + key + "/type"
+	if board["schema_version"] == 2:
+		if board["height_half_steps"].size() != board["width"] * board["height"]: return "board/height_half_steps/size"
+		var any_half := false
+		for bit: Variant in board["height_half_steps"]:
+			if typeof(bit) != TYPE_INT or bit < 0 or bit > 1: return "board/height_half_steps/type"
+			any_half = any_half or bit == 1
+		if not any_half: return "board/height_half_steps/canonical"
 	for cell: Variant in board["occupancy"]:
 		if not _shape(cell, {"x": TYPE_INT, "y": TYPE_INT, "unit_id": TYPE_INT}): return "board/occupancy/schema"
 	for unit: Variant in board["units"]:

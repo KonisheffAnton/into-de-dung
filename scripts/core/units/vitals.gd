@@ -53,6 +53,101 @@ var _balance: float = 0.0
 var _is_alive: bool = true
 
 
+## Receipt хранит собственные записи до сигналов, а не оставленное подписчиком состояние.
+class SpatialMutation extends RefCounted:
+	var reason: StringName = &""
+	var hp_before: float = 0.0
+	var hp_after: float = 0.0
+	var alive_before: bool = false
+	var alive_after: bool = false
+	var balance_before: float = 0.0
+	var balance_after: float = 0.0
+	var balance_max: float = 0.0
+	var impact: float = 0.0
+	var broke: bool = false
+	var hp_written: bool = false
+	var balance_written: bool = false
+	var death_written: bool = false
+	var broken_emitted: bool = false
+
+
+func _spatial_receipt() -> SpatialMutation:
+	var receipt := SpatialMutation.new()
+	receipt.hp_before = _hp
+	receipt.hp_after = _hp
+	receipt.alive_before = _is_alive
+	receipt.alive_after = _is_alive
+	receipt.balance_before = _balance
+	receipt.balance_after = _balance
+	return receipt
+
+
+func apply_spatial_damage(amount: float, checkpoint: Callable) -> SpatialMutation:
+	var receipt := _spatial_receipt()
+	if not checkpoint.is_valid() or not is_finite(amount) or amount < 0.0 or not _is_alive or not is_finite(_hp) or _hp < 0.0 or not is_finite(_balance) or _balance < 0.0:
+		receipt.reason = &"spatial/invalid_mutation"
+		return receipt
+	if amount == 0.0:
+		receipt.reason = checkpoint.call(&"hp_done")
+		return receipt
+	receipt.hp_after = maxf(0.0, receipt.hp_before - amount)
+	_hp = receipt.hp_after
+	receipt.hp_written = true
+	if not is_equal_approx(receipt.hp_before, receipt.hp_after):
+		hp_changed.emit(receipt.hp_before, receipt.hp_after)
+	receipt.reason = checkpoint.call(&"hp_written")
+	if receipt.reason != &"":
+		return receipt
+	# Нельзя завершать смерть по HP, которое callback изменил после нашей записи.
+	if receipt.hp_after <= 0.0:
+		_is_alive = false
+		receipt.alive_after = false
+		receipt.death_written = true
+		died.emit()
+		receipt.reason = checkpoint.call(&"death_written")
+		if receipt.reason != &"":
+			return receipt
+	receipt.reason = checkpoint.call(&"hp_done")
+	return receipt
+
+
+func add_spatial_impact(amount: float, checkpoint: Callable) -> SpatialMutation:
+	var receipt := _spatial_receipt()
+	if not checkpoint.is_valid() or not is_finite(amount) or amount < 0.0 or not is_finite(_hp) or _hp < 0.0 or not is_finite(_balance) or _balance < 0.0 or _stats == null or _stats.get_script() != StatsBag:
+		receipt.reason = &"spatial/invalid_mutation"
+		return receipt
+	var stats_copy := StatsBag.from_snapshot_dict(_stats.to_snapshot_dict())
+	if stats_copy == null or not stats_copy.has_stat(StatTypes.StatType.BALANCE_MAX):
+		receipt.reason = &"spatial/invalid_mutation"
+		return receipt
+	receipt.balance_max = stats_copy.get_value(StatTypes.StatType.BALANCE_MAX)
+	receipt.impact = amount
+	if not is_finite(receipt.balance_max):
+		receipt.reason = &"spatial/invalid_mutation"
+		return receipt
+	if amount == 0.0 or receipt.balance_max <= 0.0 or not receipt.alive_before:
+		receipt.reason = checkpoint.call(&"balance_done")
+		return receipt
+	var total := receipt.balance_before + amount
+	if not is_finite(total):
+		receipt.reason = &"spatial/invalid_mutation"
+		return receipt
+	receipt.broke = total >= receipt.balance_max
+	receipt.balance_after = 0.0 if receipt.broke else total
+	_balance = receipt.balance_after
+	receipt.balance_written = true
+	if not is_equal_approx(receipt.balance_before, receipt.balance_after):
+		balance_changed.emit(receipt.balance_before, receipt.balance_after)
+	receipt.reason = checkpoint.call(&"balance_written")
+	if receipt.reason != &"":
+		return receipt
+	if receipt.broke:
+		receipt.broken_emitted = true
+		balance_broken.emit()
+	receipt.reason = checkpoint.call(&"balance_done")
+	return receipt
+
+
 ## `p_stats` обязателен: из него читаются HP_MAX/BALANCE_MAX. Если
 ## `p_start_full` = true, HP инициализируется максимумом.
 func _init(p_stats: StatsBag, p_start_full: bool = true) -> void:

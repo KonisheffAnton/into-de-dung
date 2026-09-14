@@ -373,3 +373,10 @@ moved/attacked schemas. Snapshot/enum версии прежние, P02/P03b от
 
 Границы: полууровни, расширенный reach, terrain HP/шипы, status/dodge, активации
 предметов, Flow/BT, полный preview/token и save-game не реализованы этим пакетом.
+
+
+## P08-SPATIAL r3 — реализация 2026-09-14
+
+Headless opt-in `spatial_move_v1` и `spatial_melee_balance_v1` добавляют half-step геометрию без смены целочисленного legacy масштаба. BattleBoard хранит parallel bits, выдаёт отдельный spatial provider и canonical board snapshot v2 только при наличии bit1. Legacy providers и команды на fractional board закрыты.
+
+SpatialRules объединяет стоимость ребра, fall arithmetic и bounded Guard. Guard фиксирует identities/lifecycle, HP/alive/balance, move/main/bonus, relevant stats из копий, geometry и две версии; последующие фазы вычисляются только известными delta. Vitals spatial receipts/checkpoints и pinned ActionHpExecutor сохраняют собственный prefix при callback mismatch. Board death subscription проверяет weak Unit/Vitals и identity регистрации. MoveFall и bound Death имеют раздельные точные формы binding. Общий S-5, UI/AI/Flow, LOS, полный preview и save-game не реализованы.

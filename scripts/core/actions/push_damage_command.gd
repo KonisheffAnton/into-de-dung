@@ -23,4 +23,6 @@ static func _same_request(a: DamageRequest, b: DamageRequest) -> bool:
 	return a.target_unit_id == b.target_unit_id and a.amount == b.amount and a.damage_type == b.damage_type and a.armor_mode == b.armor_mode and a.source != null and b.source != null and a.source.to_dict() == b.source.to_dict()
 func execute(context: ActionContext) -> CommandStepResult:
 	var reason := validate(context)
+	if reason == &"" and _binding.values.get("spatial", false):
+		return BalancePushRules.spatial_hp(_binding, request, context, &"push/invalid_binding")["result"]
 	return CommandStepResult.faulted(reason) if reason != &"" else ActionHpExecutor.damage(request, context)

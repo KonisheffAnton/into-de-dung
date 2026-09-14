@@ -8,12 +8,14 @@ func copy_for_queue() -> Command: return BalanceCommand.new(_binding)
 func validate(context: ActionContext) -> StringName:
 	var reason := BalancePushRules.binding_reason(_binding, context, &"balance")
 	if reason != &"": return &"balance/invalid_binding"
+	if _binding.values.get("spatial", false): return &""
 	if _binding.target.vitals.get_balance() != float(_binding.values.get("balance_before", NAN)) or _binding.target.vitals.get_balance_max() != float(_binding.values.get("balance_max", NAN)):
 		return &"balance/invalid_binding"
 	return &""
 func execute(context: ActionContext) -> CommandStepResult:
 	var reason := validate(context)
 	if reason != &"": return CommandStepResult.faulted(reason)
+	if _binding.values.get("spatial", false): return _execute_spatial(context)
 	var target := _binding.target
 	var before := target.vitals.get_balance()
 	var impact := float(_binding.values.get("impact", -1.0))
@@ -35,3 +37,23 @@ func execute(context: ActionContext) -> CommandStepResult:
 		push_binding.seal()
 		children.append(PushCommand.new(push_binding))
 	return CommandStepResult.applied(events, children, [], null, before != after or broke)
+
+func _execute_spatial(context: ActionContext) -> CommandStepResult:
+	var target_id: int = _binding.values["target_id"]
+	var actor_id: int = _binding.values["actor_id"]
+	var done := _binding.spatial_guard.balance_phase(target_id, _binding.values["balance_after"])
+	var checkpoint := func(_stage: StringName) -> StringName:
+		return &"" if _binding.sealed() and done.check(context) else &"balance/invalid_binding"
+	var receipt := _binding.target_vitals.add_spatial_impact(_binding.values["impact"], checkpoint)
+	var result := CommandStepResult.new()
+	result.status = &"APPLIED" if receipt.reason == &"" and _binding.sealed() and done.check(context) else &"FAULTED"
+	result.reason = &"" if result.status == &"APPLIED" else &"balance/invalid_binding"
+	result.state_changed = (receipt.balance_written and receipt.balance_before != receipt.balance_after) or receipt.broken_emitted
+	var draft := {"kind": &"balance_changed", "actor_unit_id": actor_id, "target_unit_id": target_id, "balance_before": receipt.balance_before, "balance_after": receipt.balance_after, "balance_max": receipt.balance_max, "impact": receipt.impact, "broke": receipt.broke}
+	if receipt.balance_written and receipt.balance_before != receipt.balance_after: result.events.append(draft.duplicate(true))
+	if receipt.broken_emitted:
+		draft["kind"] = &"balance_broken"
+		result.events.append(draft.duplicate(true))
+	if result.status == &"APPLIED" and receipt.broken_emitted:
+		result.mandatory.append(PushCommand.new(BalancePushRules.spatial_phase(_binding, done, &"push")))
+	return result

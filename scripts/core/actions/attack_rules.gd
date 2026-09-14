@@ -8,6 +8,7 @@ const MAX_DEFINITIONS: int = 256
 const MAX_DEFINITION_ID_BYTES: int = 128
 const PROFILE: StringName = &"flat_melee_v1"
 const BALANCE_PROFILE: StringName = &"flat_melee_balance_v1"
+const SPATIAL_PROFILE: StringName = &"spatial_melee_balance_v1"
 
 var _actors: Array[int] = []
 var _pairs: Array[Dictionary] = []
@@ -41,7 +42,7 @@ func _init(admitted_actor_ids: Array[int] = [], allowed_pairs: Array[Dictionary]
 		_pairs.append({"actor_unit_id": actor_id, "target_unit_id": target_id})
 	var definition_ids: Dictionary = {}
 	for definition in definitions:
-		if definition == null or definition.get_script() != AttackDefinition or definition.id == &"" or String(definition.id).to_utf8_buffer().size() > MAX_DEFINITION_ID_BYTES or (definition.profile != PROFILE and definition.profile != BALANCE_PROFILE) or definition_ids.has(definition.id):
+		if definition == null or definition.get_script() != AttackDefinition or definition.id == &"" or String(definition.id).to_utf8_buffer().size() > MAX_DEFINITION_ID_BYTES or (definition.profile != PROFILE and definition.profile != BALANCE_PROFILE and definition.profile != SPATIAL_PROFILE) or definition_ids.has(definition.id):
 			_mark_invalid()
 			return
 		definition_ids[definition.id] = true
@@ -97,7 +98,7 @@ func _validate_structure() -> void:
 		pairs[pair_key] = true
 	var ids: Dictionary = {}
 	for definition in _definitions:
-		if definition == null or definition.get_script() != AttackDefinition or definition.id == &"" or String(definition.id).to_utf8_buffer().size() > MAX_DEFINITION_ID_BYTES or (definition.profile != PROFILE and definition.profile != BALANCE_PROFILE) or ids.has(definition.id):
+		if definition == null or definition.get_script() != AttackDefinition or definition.id == &"" or String(definition.id).to_utf8_buffer().size() > MAX_DEFINITION_ID_BYTES or (definition.profile != PROFILE and definition.profile != BALANCE_PROFILE and definition.profile != SPATIAL_PROFILE) or ids.has(definition.id):
 			_invalid = true
 			return
 		ids[definition.id] = true

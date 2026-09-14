@@ -104,6 +104,26 @@ static func resolve_push(
 	var result := PushResult.make_success(destination)
 	if height_delta < 0:
 		result.fall_height = absi(height_delta)
+		result.fall_steps = result.fall_height * 2
+	return result
+
+static func resolve_push_steps(board: BattleBoard, pushed_unit: UnitState, target_cell: Vector2i, direction: Vector2i, max_rise_steps: int = 1) -> PushResult:
+	if board == null or direction == Vector2i.ZERO: return PushResult.make_success(target_cell)
+	if not board.is_in_bounds(target_cell) or max_rise_steps < 0: return PushResult.make_blocked(target_cell, PushResult.REASON_BOUNDS)
+	direction = compute_push_direction(Vector2i.ZERO, direction)
+	var destination := target_cell + direction
+	if not board.is_in_bounds(destination): return PushResult.make_fall(destination, PushResult.REASON_BOUNDS)
+	var terrain := board.get_terrain(destination)
+	if TerrainType.blocks_push(terrain): return PushResult.make_blocked(target_cell, PushResult.REASON_WALL)
+	var delta := board.get_height_steps(destination) - board.get_height_steps(target_cell)
+	if delta > max_rise_steps: return PushResult.make_blocked(target_cell, PushResult.REASON_HEIGHT)
+	var occupant := board.occupant_at(destination)
+	if occupant != null and (pushed_unit == null or occupant.id != pushed_unit.id): return PushResult.make_collision(target_cell, destination, occupant)
+	if TerrainType.is_lethal(terrain): return PushResult.make_fall(destination, PushResult.REASON_HAZARD)
+	var result := PushResult.make_success(destination)
+	if delta < 0:
+		result.fall_steps = absi(delta)
+		result.fall_height = result.fall_steps / 2
 	return result
 
 

@@ -19,16 +19,20 @@ var get_height: Callable
 ## юнит физически может пройти, но это должно учитываться в
 ## расчёте зоны хода/пути.
 var get_move_cost: Callable
+## (cell: Vector2i) -> int. Полная высота в полу-шагах spatial-профиля.
+var get_height_steps: Callable
 
 
 func _init(
 	p_is_walkable: Callable = Callable(),
 	p_get_height: Callable = Callable(),
-	p_get_move_cost: Callable = Callable()
+	p_get_move_cost: Callable = Callable(),
+	p_get_height_steps: Callable = Callable()
 ) -> void:
 	is_walkable = p_is_walkable
 	get_height = p_get_height
 	get_move_cost = p_get_move_cost
+	get_height_steps = p_get_height_steps
 
 
 func cell_is_walkable(cell: Vector2i) -> bool:
@@ -47,3 +51,14 @@ func cell_move_cost(cell: Vector2i) -> float:
 	if not get_move_cost.is_valid():
 		return 1.0
 	return float(get_move_cost.call(cell))
+
+func has_spatial_heights() -> bool:
+	return get_height_steps.is_valid()
+
+func cell_height_steps(cell: Vector2i) -> int:
+	if not get_height_steps.is_valid():
+		return 8589934592
+	var value: Variant = get_height_steps.call(cell)
+	if typeof(value) != TYPE_INT or value < -4294967296 or value > 4294967295:
+		return 8589934592
+	return value

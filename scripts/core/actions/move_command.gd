@@ -90,10 +90,20 @@ func validate(context: ActionContext) -> StringName:
 		return &"move/start_mismatch"
 	if board.occupant_at(actor.cell) != actor:
 		return &"move/actor_not_placed"
-	var check := MovePathCheck.inspect(board, actor, _path, rules.get_max_height_step(), actor.move_points_left)
+	var check := MovePathCheck.inspect(board, actor, _path, rules.get_max_height_step(), actor.move_points_left, rules.get_profile())
 	if check.get_reason() != &"":
 		return check.get_reason()
 	var required: int = _path.size() - 1
+	if rules.get_profile() == &"spatial_move_v1":
+		if actor.action_resources == null or SpatialRules.capture_guard(context, [actor], _path, {}) == null: return &"move/invalid_runtime"
+		for index in range(1, _path.size()):
+			var drop := maxi(0, board.get_height_steps(_path[index - 1]) - board.get_height_steps(_path[index]))
+			if board.is_lethal(_path[index]):
+				required = _path.size()
+			elif drop > 2:
+				var fall := _fall_for(actor, drop)
+				if not is_finite(fall): return &"move/invalid_runtime"
+				required = _path.size()
 	for index in range(1, _path.size()):
 		var cell: Vector2i = _path[index]
 		if board.is_lethal(cell):
@@ -143,6 +153,7 @@ func _execute_edge(context: ActionContext, board: BattleBoard, actor: UnitState)
 	var rules := context.get_move_rules()
 	if rules == null or rules.validate() != &"":
 		return CommandStepResult.faulted(&"move/invalid_runtime")
+	if rules.get_profile() == &"spatial_move_v1": return _execute_spatial_edge(context, board, actor, rules)
 	var edge_path: Array[Vector2i] = [_path[_continuation_index - 1], _path[_continuation_index]]
 	var check := MovePathCheck.inspect(board, actor, edge_path, rules.get_max_height_step(), actor.move_points_left)
 	if check.get_reason() != &"":
@@ -170,3 +181,52 @@ func _execute_edge(context: ActionContext, board: BattleBoard, actor: UnitState)
 		mandatory.append(DeathCommand.new(actor.id, DamageSource.new(&"cell", 0, to_cell, 0, 0)))
 	var continuation := MoveCommand._make_continuation(self, _continuation_index, actor)
 	return CommandStepResult.applied([event], mandatory, [], continuation, true)
+
+static func _fall_for(actor: UnitState, drop: int) -> float:
+	if drop <= 2: return 0.0
+	var stats_copy := StatsBag.from_snapshot_dict(actor.stats.to_snapshot_dict())
+	if stats_copy == null or not stats_copy.has_stat(StatTypes.StatType.HP_MAX) or not stats_copy.has_stat(StatTypes.StatType.ARMOR): return NAN
+	return SpatialRules.fall_amount(stats_copy.get_value(StatTypes.StatType.HP_MAX), stats_copy.get_value(StatTypes.StatType.ARMOR), drop, true)
+
+func _execute_spatial_edge(context: ActionContext, board: BattleBoard, actor: UnitState, rules: MoveRules) -> CommandStepResult:
+	var edge: Array[Vector2i] = [_path[_continuation_index - 1], _path[_continuation_index]]
+	var check := MovePathCheck.inspect(board, actor, edge, rules.get_max_height_step(), actor.move_points_left, rules.get_profile())
+	if check.get_reason() != &"":
+		var reason := check.get_reason()
+		if reason in [&"move/out_of_bounds", &"move/blocked"]: return CommandStepResult.interrupted(&"move/path_blocked")
+		if reason == &"move/height_step": return CommandStepResult.interrupted(&"move/path_height")
+		if reason == &"move/insufficient_move": return CommandStepResult.interrupted(&"move/budget_exhausted")
+		return CommandStepResult.faulted(&"move/invalid_runtime")
+	var from := edge[0]
+	var to := edge[1]
+	var drop := maxi(0, board.get_height_steps(from) - board.get_height_steps(to))
+	var lethal := board.is_lethal(to)
+	var fall := 0.0 if lethal else _fall_for(actor, drop)
+	if not is_finite(fall): return CommandStepResult.faulted(&"move/invalid_runtime")
+	var types: Dictionary = {}
+	if fall > 0.0: types[actor.id] = [StatTypes.StatType.HP_MAX, StatTypes.StatType.ARMOR]
+	var guard := SpatialRules.capture_guard(context, [actor], edge, types)
+	if guard == null or actor.action_resources == null: return CommandStepResult.faulted(&"move/invalid_runtime")
+	var required := 1 + (1 if lethal or (fall > 0.0 and fall >= actor.vitals.get_hp()) else 0)
+	if board.board_version > MAX_ID - required: return CommandStepResult.faulted(&"move/board_version_exhausted")
+	var before := actor.move_points_left
+	var cost := check.get_costs()[0]
+	var after := before - cost
+	var id := actor.id
+	var moved := guard.debit(id, 0, cost).moved(id, to)
+	# Callback положения должен уже видеть оплату; между этими операциями нет внешнего кода.
+	actor.spend_move_points(cost)
+	if not board.move_unit(actor, to):
+		actor.move_points_left = before
+		return CommandStepResult.faulted(&"move/board_move_failed")
+	var event := {"kind": &"moved", "actor_unit_id": id, "target_unit_id": id, "from_cell": from, "to_cell": to, "movement_kind": &"voluntary", "move_cost": cost, "move_before": before, "move_after": after}
+	if not moved.check(context):
+		var fault := CommandStepResult.faulted(&"move/invalid_runtime")
+		fault.events = [event]; fault.state_changed = true
+		return fault
+	var mandatory: Array[Command] = []
+	if lethal or fall > 0.0:
+		var binding := MoveFallCommand.make_binding(moved, id, from, to, drop, fall, lethal)
+		if lethal: mandatory.append(DeathCommand.new(id, binding.source, binding))
+		else: mandatory.append(MoveFallCommand.new(binding))
+	return CommandStepResult.applied([event], mandatory, [], MoveCommand._make_continuation(self, _continuation_index + 1, actor), true)

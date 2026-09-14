@@ -46,6 +46,10 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 				reason = &"BUSY" if capture.code == ItemSnapshotResult.Code.SNAPSHOT_BUSY else StringName(capture.reason)
 			elif accepted is AttackHitCommand:
 				reason = &"attack/internal_hit"
+			elif accepted is MoveFallCommand:
+				reason = &"move/internal_fall"
+			elif accepted is DeathCommand and ((accepted as DeathCommand)._has_spatial_binding or (accepted as DeathCommand)._spatial_binding != null):
+				reason = &"move/internal_death"
 			elif accepted is MoveCommand and (accepted as MoveCommand)._is_continuation():
 				reason = &"move/internal_continuation"
 			elif accepted is BalanceCommand:
@@ -116,7 +120,7 @@ func _execute_entry(entry: Dictionary, receipt: ActionReceipt, context: ActionCo
 		return
 	var events: Array[Dictionary] = []
 	for draft in result.events:
-		if not _valid_draft(draft):
+		if not _valid_draft(draft, context):
 			step["status"] = &"FAULTED"
 			step["reason"] = &"malformed_event"
 			_fault(receipt, context, &"malformed_event")
@@ -194,7 +198,7 @@ func _bind_batch(descriptions: Array[Dictionary], event_seq: int, context: Actio
 		result.append(record["command"] as Command)
 	return result
 
-static func _valid_draft(draft: Dictionary) -> bool:
+static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bool:
 	if ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "balance_before": TYPE_FLOAT, "balance_after": TYPE_FLOAT, "balance_max": TYPE_FLOAT, "impact": TYPE_FLOAT, "broke": TYPE_BOOL}):
 		var before: float = draft["balance_before"]; var after: float = draft["balance_after"]; var maximum: float = draft["balance_max"]; var impact: float = draft["impact"]
 		if draft["actor_unit_id"] <= 0 or draft["actor_unit_id"] >= MAX_ID or draft["target_unit_id"] <= 0 or draft["target_unit_id"] >= MAX_ID or draft["actor_unit_id"] == draft["target_unit_id"] or before < 0.0 or after < 0.0 or maximum <= 0.0 or impact <= 0.0 or not is_finite(before) or not is_finite(after) or not is_finite(maximum) or not is_finite(impact): return false
@@ -217,7 +221,12 @@ static func _valid_draft(draft: Dictionary) -> bool:
 		if draft["attack_definition_id"] == &"" or String(draft["attack_definition_id"]).to_utf8_buffer().size() > AttackRules.MAX_DEFINITION_ID_BYTES: return false
 		var attack_dx: int = int(draft["target_cell"].x) - int(draft["actor_cell"].x)
 		var attack_dy: int = int(draft["target_cell"].y) - int(draft["actor_cell"].y)
-		return absi(attack_dx) + absi(attack_dy) == 1 and draft["main_cost"] == 1 and draft["main_before"] >= 1 and draft["main_before"] <= 4096 and draft["main_after"] == draft["main_before"] - 1
+		if context == null or context.get_attack_rules() == null: return false
+		var definition := context.get_attack_rules().get_definition(draft["attack_definition_id"])
+		if definition == null: return false
+		var spatial := definition.profile == AttackRules.SPATIAL_PROFILE
+		var geometry := (attack_dx == 0 or attack_dy == 0) and absi(attack_dx) + absi(attack_dy) >= 1 if spatial else absi(attack_dx) + absi(attack_dy) == 1
+		return geometry and draft["main_cost"] == 1 and draft["main_before"] >= 1 and draft["main_before"] <= 4096 and draft["main_after"] == draft["main_before"] - 1
 	if ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "from_cell": TYPE_VECTOR2I, "to_cell": TYPE_VECTOR2I, "movement_kind": TYPE_STRING_NAME, "move_cost": TYPE_FLOAT, "move_before": TYPE_FLOAT, "move_after": TYPE_FLOAT}):
 		if draft["kind"] != &"moved" or draft["movement_kind"] != &"voluntary": return false
 		if draft["actor_unit_id"] <= 0 or draft["actor_unit_id"] >= MAX_ID or draft["target_unit_id"] != draft["actor_unit_id"]: return false

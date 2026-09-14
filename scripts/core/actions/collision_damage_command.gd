@@ -15,6 +15,8 @@ func validate(context: ActionContext) -> StringName:
 	if _binding == null or _binding.context != context or _first == null or _second == null or _first_seal == null or _second_seal == null or not PushDamageCommand._same_request(_first, _first_seal) or not PushDamageCommand._same_request(_second, _second_seal): return &"push/invalid_binding"
 	if not BalancePushRules.requests_sealed(_binding) or not BalancePushRules._same_request(_first, _binding.first) or not BalancePushRules._same_request(_second, _binding.second): return &"push/invalid_binding"
 	if BalancePushRules.binding_reason(_binding, context, &"push") != &"": return &"push/invalid_binding"
+	if _binding.values.get("spatial", false):
+		return &"" if _binding.blocker != null and _first.target_unit_id == _binding.target.id and _second.target_unit_id == _binding.blocker.id else &"push/invalid_binding"
 	if not _valid_blocker(context, true): return &"push/invalid_binding"
 	var required_touches := 0
 	if _first.amount >= _binding.target.vitals.get_hp(): required_touches += 1
@@ -26,6 +28,7 @@ func validate(context: ActionContext) -> StringName:
 func execute(context: ActionContext) -> CommandStepResult:
 	var reason := validate(context)
 	if reason != &"": return CommandStepResult.faulted(reason)
+	if _binding.values.get("spatial", false): return _execute_spatial(context)
 	var first_result := ActionHpExecutor.damage(_first, context)
 	if first_result.status != &"APPLIED": return first_result
 	if not _valid_blocker(context, true):
@@ -55,3 +58,17 @@ func _valid_blocker(context: ActionContext, require_alive: bool) -> bool:
 	if require_alive and not blocker.is_alive(): return false
 	if blocker.stats != _binding.blocker_stats or blocker.vitals != _binding.blocker_vitals or blocker.stats == null or blocker.vitals == null or blocker.vitals._stats != blocker.stats or blocker.vitals.get_hp() != float(_binding.values.get("blocker_hp", NAN)) or context.get_state().get_owner(blocker.id) != _binding.blocker_owner or _binding.blocker_owner == null or _binding.blocker_owner.get_owner() != blocker: return false
 	return true
+
+func _execute_spatial(context: ActionContext) -> CommandStepResult:
+	var first := BalancePushRules.spatial_hp(_binding, _first, context, &"push/invalid_binding")
+	var result: CommandStepResult = first["result"]
+	if result.status != &"APPLIED": return result
+	var second := BalancePushRules.spatial_hp(first["binding"], _second, context, &"push/invalid_binding")
+	var second_result: CommandStepResult = second["result"]
+	result.events.append_array(second_result.events)
+	result.state_changed = result.state_changed or second_result.state_changed
+	result.status = second_result.status; result.reason = second_result.reason
+	var next: BalancePushRules.Binding = second["binding"]
+	if result.status == &"APPLIED" and next.values["expected_alive"] and not next.spatial_guard.values["participants"][next.values["blocker_id"]]["alive"]:
+		result.mandatory.append(PushCommand.after_collision(BalancePushRules.spatial_phase(next, next.spatial_guard, &"after_collision")))
+	return result

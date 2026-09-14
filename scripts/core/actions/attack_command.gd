@@ -74,6 +74,9 @@ func _prepare(context: ActionContext) -> Dictionary:
 		result["reason"] = &"attack/unknown_definition"; return result
 	var state := context.get_state()
 	var board := state.get_board()
+	var spatial := definition.profile == AttackRules.SPATIAL_PROFILE
+	if not spatial and board.has_half_heights():
+		result["reason"] = &"attack/height_units_unsupported"; return result
 	var actor := board.get_unit_by_id(_actor_unit_id)
 	if actor == null:
 		result["reason"] = &"attack/missing_actor"; return result
@@ -120,7 +123,7 @@ func _prepare(context: ActionContext) -> Dictionary:
 	if not _valid_maximum(main_max) or not _valid_maximum(bonus_max) or not is_finite(weapon):
 		result["reason"] = &"attack/invalid_stat"; return result
 	var reach := actor_copy.get_value(StatTypes.StatType.ATTACK_RANGE)
-	var reach_reason := AttackReachCheck.inspect(board, actor, target, reach)
+	var reach_reason := AttackReachCheck.inspect_spatial(board, actor, target, reach) if spatial else AttackReachCheck.inspect(board, actor, target, reach)
 	if reach_reason != &"":
 		result["reason"] = reach_reason; return result
 	if resources.get_main_left() < 1:
@@ -132,7 +135,10 @@ func _prepare(context: ActionContext) -> Dictionary:
 	var sum := strength + weapon
 	if not is_finite(sum):
 		result["reason"] = &"attack/nonfinite_damage"; return result
-	var raw := sum - armor
+	var scaled := sum * SpatialRules.height_multiplier(board.get_height_steps(actor.cell) - board.get_height_steps(target.cell)) if spatial else sum
+	if not is_finite(scaled):
+		result["reason"] = &"attack/nonfinite_damage"; return result
+	var raw := scaled - armor
 	if not is_finite(raw):
 		result["reason"] = &"attack/nonfinite_damage"; return result
 	var amount := maxf(1.0, raw)
@@ -143,12 +149,12 @@ func _prepare(context: ActionContext) -> Dictionary:
 	if board.board_version < 0 or (target.is_alive() and amount >= target.vitals.get_hp() and board.board_version > MAX_ID - 1):
 		result["reason"] = &"attack/board_version_exhausted"; return result
 	var p07_binding: BalancePushRules.Binding = null
-	if definition.profile == AttackRules.BALANCE_PROFILE:
+	if definition.profile == AttackRules.BALANCE_PROFILE or spatial:
 		var impact := actor_copy.get_value(StatTypes.StatType.IMPACT_POWER)
 		var max_balance := target_copy.get_value(StatTypes.StatType.BALANCE_MAX)
 		if not actor_copy.has_stat(StatTypes.StatType.IMPACT_POWER) or not target_copy.has_stat(StatTypes.StatType.BALANCE_MAX):
 			result["reason"] = &"balance/missing_stat"; return result
-		var p07 := BalancePushRules.prepare_attack(context, actor, target, sum, amount, resources.get_main_left() - 1)
+		var p07 := BalancePushRules.prepare_attack(context, actor, target, sum, amount, resources.get_main_left() - 1, spatial)
 		if p07.get("reason", &"") != &"": return p07
 		var binding_for_touches := p07.get("binding") as BalancePushRules.Binding
 		var touches: int = int(binding_for_touches.values.get("admission_board_touches", 0)) if binding_for_touches != null else 0

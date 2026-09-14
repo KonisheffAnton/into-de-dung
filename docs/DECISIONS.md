@@ -415,3 +415,12 @@ death-cleanup touches и сохранения завершённого event pre
 
 Диагностика и независимый отчёт:
 `test_reports/p08-implementation-362ad64ba4fb41ebb427b16c4355cfb6/`.
+
+
+## 2026-09-14 — P08 r3 runtime
+
+Принятая frozen спецификация P08_SPATIAL_TASK_R3.md реализуется только в её 28 allowed paths. Инициатива и нерешённые правила переключения/оплаты атаки не переопределены: профили остаются явно внедряемыми headless правилами. Spatial attack получает height-scaled hit/impact, прямую досягаемость и mandatory balance/push/collision/fall до предметных реакций. Legacy B для collision сохраняется.
+
+На checkpoint mismatch сохраняются уже выполненные оплата, HP/position/balance и ordered собственные события, контекст FAULTED. Нет rollback/revival, нового live baseline после callback или повторной симуляции в Queue validator. Отсутствующий facade lifecycle0/2 является exact pinned null. Invalid bindings не воздействуют на replacement refs.
+
+Приёмочные запуски используют новые изолированные копии текущего дерева без test_reports: корневой Godot import обнаруживал исторические дубликаты class_name в старых отчётах. Это исправление среды проверки; старые отчёты сохраняются.

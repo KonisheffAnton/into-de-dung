@@ -8,12 +8,18 @@ var _reason: StringName = &""
 var _costs: Array[float] = []
 var _total_cost: float = 0.0
 
-static func inspect(board: BattleBoard, actor: UnitState, path: Array[Vector2i], max_height_step: int, budget: float) -> MovePathCheck:
+static func inspect(board: BattleBoard, actor: UnitState, path: Array[Vector2i], max_height_step: int, budget: float, profile: StringName = &"legacy_move_v1") -> MovePathCheck:
 	var result := MovePathCheck.new()
 	if board == null or actor == null:
 		result._reason = &"move/invalid_runtime"
 		return result
 	if max_height_step < 0 or max_height_step > 2147483647:
+		result._reason = &"move/invalid_rules"
+		return result
+	if profile != &"legacy_move_v1" and profile != &"spatial_move_v1":
+		result._reason = &"move/invalid_rules"
+		return result
+	if profile == &"spatial_move_v1" and max_height_step != 1:
 		result._reason = &"move/invalid_rules"
 		return result
 	if not is_finite(budget) or budget < 0.0:
@@ -22,13 +28,19 @@ static func inspect(board: BattleBoard, actor: UnitState, path: Array[Vector2i],
 	if path.size() < 2 or path.size() > MAX_PATH_CELLS:
 		result._reason = &"move/path_length"
 		return result
+	if profile == &"legacy_move_v1" and board.has_half_heights():
+		result._reason = &"move/height_units_unsupported"
+		return result
 
 	# Проверяем bounds всего payload до разностей координат и вызовов provider.
 	for cell in path:
 		if not board.is_in_bounds(cell):
 			result._reason = &"move/out_of_bounds"
 			return result
-	var provider := board.make_data_provider(actor)
+	var provider := board.make_spatial_data_provider(actor) if profile == &"spatial_move_v1" else board.make_data_provider(actor)
+	if profile == &"spatial_move_v1" and not provider.has_spatial_heights():
+		result._reason = &"move/height_units_unsupported"
+		return result
 	if not provider.cell_is_walkable(path[0]):
 		result._reason = &"move/blocked"
 		return result
@@ -44,6 +56,13 @@ static func inspect(board: BattleBoard, actor: UnitState, path: Array[Vector2i],
 		if not provider.cell_is_walkable(current):
 			result._reason = &"move/blocked"
 			return result
+		if profile == &"spatial_move_v1":
+			var edge := SpatialRules.inspect_edge(provider, previous, current)
+			if edge.reason != &"":
+				result._reason = edge.reason
+				return result
+			costs.append(edge.cost)
+			continue
 		var height_delta: int = int(provider.cell_height(current)) - int(provider.cell_height(previous))
 		if absi(height_delta) > max_height_step:
 			result._reason = &"move/height_step"

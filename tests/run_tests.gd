@@ -169,9 +169,258 @@ func _initialize() -> void:
 	_test_p07_collateral_guards()
 	_test_p07_version_preflight()
 	_test_p07_api_preflight()
+	_test_p08_numbers()
+	_test_p08_reactions_limits()
+	_test_p08_lifecycle_callbacks_and_items()
+
+	_suite("P08 spatial geometry")
+	_test_p08_spatial_geometry()
+	_test_p08_commands()
+	_test_p08_refs()
+	_test_p08_lifecycle_replay()
+	_test_p08_receipts_and_seals()
+	_test_p08_terminal_matrix()
+	_test_p08_boundaries()
+	_test_p08_move_binding_limits()
+	_test_p08_command_reserves()
+	_test_p08_lifecycle_mutations()
+	_test_p08_paths()
+	_test_p08_final_closure()
+	_test_p08_unknown_malformed_priority()
 
 	print("\n=== %d passed, %d failed ===" % [_passed, _failed])
 	quit(1 if _failed > 0 else 0)
+
+func _p08rl_fixture(blocker_hp: float = -1.0) -> Dictionary:
+	var fixture := _p07_fixture(blocker_hp)
+	fixture.definition.profile = AttackRules.SPATIAL_PROFILE
+	fixture.rules = AttackRules.new([fixture.actor.id], [{"actor_unit_id": fixture.actor.id, "target_unit_id": fixture.target.id}], [fixture.definition])
+	fixture.context = ActionContext.new(fixture.state, P04TestRng.new(), ActionEventSink.new(), [], null, fixture.rules)
+	return fixture
+
+func _test_p08_reactions_limits() -> void:
+	var move := _p05_fixture()
+	var move_unit: UnitState = move["unit"]
+	move_unit.action_resources = ActionResources.new(move_unit.id,1,1)
+	var move_board: BattleBoard = move["board"]
+	move_unit.stats.set_base_value(StatTypes.StatType.HP_MAX, 100.0)
+	move_unit.stats.set_base_value(StatTypes.StatType.ARMOR, 3.0)
+	move_unit.vitals.set_hp(100.0)
+	move_board.set_height_steps(Vector2i(1, 1), -3)
+	move_board.set_height_steps(Vector2i(2, 1), -3)
+	move["context"] = ActionContext.new(move["state"], P04TestRng.new(), ActionEventSink.new(), [], MoveRules.new([201], 1, &"spatial_move_v1"))
+	var heal_def := ItemDef.new(); heal_def.id = &"p08_move_heal"
+	var heal_effect := HealOnDamageEffect.new(); heal_effect.heal_amount = 5.0; heal_def.effects = [heal_effect]
+	var heal_item := (move["state"] as ItemSimulationState).get_owner(201).create_item(heal_def)
+	(move["state"] as ItemSimulationState).get_inventory(201).add_item(heal_item)
+	var move_receipt := ActionQueue.new().submit(MoveCommand.new(201, _p05_path(3), 0), move["context"])
+	_check(move_receipt.status == &"APPLIED" and move_unit.cell == Vector2i(2, 1) and move_unit.vitals.get_hp() == 83.0 and _p07_kinds(move_receipt).slice(0, 3) == [&"moved", &"damaged", &"healed"], "P08 spatial move fall and item reaction", move_receipt.reason)
+	var lethal_move := _p05_fixture()
+	var lethal_unit: UnitState = lethal_move["unit"]
+	lethal_unit.action_resources = ActionResources.new(lethal_unit.id,1,1)
+	lethal_unit.stats.set_base_value(StatTypes.StatType.HP_MAX, 10.0)
+	lethal_unit.stats.set_base_value(StatTypes.StatType.ARMOR, 3.0)
+	lethal_unit.vitals.set_hp(10.0)
+	(lethal_move["board"] as BattleBoard).set_terrain(Vector2i(1, 1), TerrainType.Type.HAZARD)
+	lethal_move["context"] = ActionContext.new(lethal_move["state"], P04TestRng.new(), ActionEventSink.new(), [], MoveRules.new([201], 1, &"spatial_move_v1"))
+	var lethal_receipt := ActionQueue.new().submit(MoveCommand.new(201, _p05_path(3), 0), lethal_move["context"])
+	_check(lethal_receipt.status == &"INTERRUPTED" and lethal_receipt.reason == &"move/actor_dead" and _p07_kinds(lethal_receipt) == [&"moved",&"died"] and lethal_unit.move_points_left == 97.0, "P08 lethal move interrupts continuation without second debit", lethal_receipt.reason)
+	var collision := _p08rl_fixture(8.0)
+	collision.board.set_height_steps(collision.destination, -3)
+	_p07_heal(collision, collision.target)
+	_p07_heal(collision, collision.blocker)
+	var collision_receipt := _p07_submit(collision)
+	var collision_kinds := _p07_kinds(collision_receipt)
+	_check(collision_receipt.status == &"APPLIED" and collision_kinds.slice(0, 9) == [&"attacked", &"damaged", &"balance_broken", &"collision", &"damaged", &"damaged", &"died", &"moved", &"damaged"], "P08 spatial collision mandatory prefix", collision_receipt.reason)
+	_check(collision_kinds.has(&"moved") and collision_kinds.has(&"died") and _p07_events(collision_receipt, &"damaged").size() >= 4, "P08 spatial collision entry and fall events", collision_receipt.reason)
+	var hazard := _p08rl_fixture()
+	hazard.board.set_terrain(hazard.destination, TerrainType.Type.HAZARD)
+	var hazard_receipt := _p07_submit(hazard)
+	_check(hazard_receipt.status == &"APPLIED" and _p07_kinds(hazard_receipt) == [&"attacked", &"damaged", &"balance_broken", &"moved", &"died"], "P08 hazard has moved/death without numeric fall", hazard_receipt.reason)
+	var limits := _p08rl_fixture(8.0)
+	limits.target.vitals.set_hp(9.0)
+	limits.board.set_height_steps(limits.destination, -3)
+	limits.context._next_event_seq = ActionContext.MAX_ID - 4
+	var limited := _p07_submit(limits)
+	_check(limited.status == &"FAULTED" and limited.reason == &"sequence_exhausted" and limits.actor.action_resources.get_main_left() == 3 and _p07_kinds(limited) == [&"attacked",&"damaged",&"balance_broken"], "P08 spatial event boundary preserves prefix", limited.reason)
+	move = {}; lethal_move = {}; collision = {}; hazard = {}; limits = {}
+
+func _test_p08_lifecycle_callbacks_and_items() -> void:
+	var source := _p08rl_fixture()
+	var heal_definition := _p07_heal(source, source.target)
+	var captured := ItemSimulationSnapshot.capture(source.state, [])
+	_check(captured.code == ItemSnapshotResult.Code.OK, "P08 closure capture with influencing heal item")
+	if captured.code != ItemSnapshotResult.Code.OK or captured.snapshot == null:
+		source = {}
+		return
+	var catalogue: Dictionary = {heal_definition.id: heal_definition}
+	var first := captured.snapshot.instantiate(catalogue)
+	var second := captured.snapshot.instantiate(catalogue)
+	_check(first.code == ItemSnapshotResult.Code.OK and second.code == ItemSnapshotResult.Code.OK, "P08 closure restores two item states")
+	if first.state != null and second.state != null:
+		var first_bytes := ItemSimulationSnapshot.capture(first.state, []).snapshot.canonical_bytes()
+		var second_bytes := ItemSimulationSnapshot.capture(second.state, []).snapshot.canonical_bytes()
+		_check(first_bytes == second_bytes and first_bytes == captured.snapshot.canonical_bytes(), "P08 restored item snapshots are canonical and independent")
+		var first_unit := first.state.get_board().get_unit_by_id(source.target.id)
+		var second_unit := second.state.get_board().get_unit_by_id(source.target.id)
+		first_unit.vitals.set_hp(77.0)
+		_check(second_unit.vitals.get_hp() != 77.0 and source.target.vitals.get_hp() == 100.0, "P08 restored item state does not mutate source")
+	# Lifecycle 0/2 with a null facade is valid; invalid registration flags reject capture.
+	source.board.remove_unit(source.target)
+	var retired_owner := ItemOwnerState.new(source.actor)
+	retired_owner._inventory_retired = true
+	var retired_state := ItemSimulationState.new(source.board, [retired_owner], [], [])
+	var retired_capture := ItemSimulationSnapshot.capture(retired_state, [])
+	_check(retired_capture.code == ItemSnapshotResult.Code.OK, "P08 retired lifecycle without facade is valid")
+	retired_owner._inventory_registered = true
+	var invalid_capture := ItemSimulationSnapshot.capture(retired_state, [])
+	_check(invalid_capture.code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "P08 registered and retired lifecycle rejects")
+	source = {}
+	retired_state = null
+	retired_owner = null
+
+func _test_p08_numbers() -> void:
+	var expected: Dictionary = {1: [8.0, 11.0], 2: [9.0, 12.0], -2: [5.0, 8.0], -4: [3.0, 6.0], -10: [1.0, 1.0]}
+	for signed_steps: int in expected:
+		var fixture := _p07_fixture()
+		fixture.definition.profile = AttackRules.SPATIAL_PROFILE
+		fixture.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, 10.0)
+		fixture.target.stats.set_base_value(StatTypes.StatType.BALANCE_MAX, 100.0)
+		fixture.board.set_height_steps(fixture.actor.cell, signed_steps)
+		fixture.rules = AttackRules.new([fixture.actor.id], [{"actor_unit_id": fixture.actor.id, "target_unit_id": fixture.target.id}], [fixture.definition])
+		fixture.context = ActionContext.new(fixture.state, P04TestRng.new(), ActionEventSink.new(), [], null, fixture.rules)
+		var range: int = 1 + floori(float(absi(signed_steps)) / 2.0)
+		fixture.actor.stats.set_base_value(StatTypes.StatType.ATTACK_RANGE, float(range))
+		var command := AttackCommand.new(fixture.actor.id, fixture.target.id, fixture.actor.cell, fixture.target.cell, fixture.definition.id, fixture.context.get_revision())
+		var receipt := ActionQueue.new().submit(command, fixture.context)
+		var pair: Array = expected[signed_steps]
+		_check(receipt.status == &"APPLIED" and is_equal_approx(fixture.target.vitals.get_hp(), 100.0 - pair[0]) and is_equal_approx(fixture.target.vitals.get_balance(), pair[1]), "P08 spatial hit/impact signed %d" % signed_steps, receipt.reason)
+	# I=0 remains zero, while a positive sub-unit impact receives spatial minimum one.
+	var zero := _p07_fixture(); zero.definition.profile = AttackRules.SPATIAL_PROFILE; zero.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, 0.0); zero.target.stats.set_base_value(StatTypes.StatType.BALANCE_MAX, 100.0); zero.rules = AttackRules.new([zero.actor.id], [{"actor_unit_id": zero.actor.id, "target_unit_id": zero.target.id}], [zero.definition]); zero.context = ActionContext.new(zero.state, P04TestRng.new(), ActionEventSink.new(), [], null, zero.rules)
+	var zero_receipt := _p07_submit(zero)
+	_check(zero_receipt.status == &"APPLIED" and zero.target.vitals.get_balance() == 0.0, "P08 spatial impact zero remains zero")
+	var fractional := _p07_fixture(); fractional.definition.profile = AttackRules.SPATIAL_PROFILE; fractional.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, 0.5); fractional.target.stats.set_base_value(StatTypes.StatType.BALANCE_MAX, 100.0); fractional.rules = AttackRules.new([fractional.actor.id], [{"actor_unit_id": fractional.actor.id, "target_unit_id": fractional.target.id}], [fractional.definition]); fractional.context = ActionContext.new(fractional.state, P04TestRng.new(), ActionEventSink.new(), [], null, fractional.rules)
+	_check(_p07_submit(fractional).status == &"APPLIED" and fractional.target.vitals.get_balance() == 1.0, "P08 spatial positive impact minimum one")
+	var fractional_board := _p07_fixture(); fractional_board.definition.profile = AttackRules.SPATIAL_PROFILE; fractional_board.board.set_height_steps(fractional_board.actor.cell, 1); fractional_board.rules = AttackRules.new([fractional_board.actor.id], [{"actor_unit_id": fractional_board.actor.id, "target_unit_id": fractional_board.target.id}], [fractional_board.definition]); fractional_board.context = ActionContext.new(fractional_board.state, P04TestRng.new(), ActionEventSink.new(), [], null, fractional_board.rules)
+	_check(_p07_submit(fractional_board).status == &"APPLIED", "P08 spatial flat/half profile executes")
+	var legacy := _p07_fixture(); legacy.board.set_height_steps(legacy.actor.cell, 1); legacy.definition.profile = AttackRules.PROFILE; legacy.rules = AttackRules.new([legacy.actor.id], [{"actor_unit_id": legacy.actor.id, "target_unit_id": legacy.target.id}], [legacy.definition]); legacy.context = ActionContext.new(legacy.state, P04TestRng.new(), ActionEventSink.new(), [], null, legacy.rules)
+	var legacy_receipt := _p07_submit(legacy)
+	_check(legacy_receipt.status == &"REJECTED" and legacy.actor.action_resources.get_main_left() == 4, "P08 legacy attack rejects fractional board before payment")
+
+func _test_p08_spatial_geometry() -> void:
+	var board := BattleBoard.new(5, 1)
+	_check(board.set_height_steps(Vector2i(1, 0), 1) and board.get_height_steps(Vector2i(1, 0)) == 1, "P08 half setter stores positive half")
+	_check(board.set_height_steps(Vector2i(2, 0), -1) and board.get_height_steps(Vector2i(2, 0)) == -1 and board.get_height(Vector2i(2, 0)) == -1, "P08 negative half uses mathematical floor")
+	_check(board.set_height_steps(Vector2i(3, 0), -4294967296) and board.get_height_steps(Vector2i(3, 0)) == -4294967296, "P08 minimum steps")
+	_check(board.set_height_steps(Vector2i(4, 0), 4294967295) and board.get_height_steps(Vector2i(4, 0)) == 4294967295, "P08 maximum steps")
+	var board_v2 := board.to_snapshot_dict()
+	_check(board_v2.get("schema_version") == 2 and board_v2.get("height_half_steps").size() == 5, "P08 schema2 canonical half array")
+	var restored := BattleBoard.from_snapshot_dict(board_v2)
+	_check(restored != null and restored.get_height_steps(Vector2i(2, 0)) == -1 and restored.get_height_steps(Vector2i(4, 0)) == 4294967295, "P08 schema2 independent restore")
+	var all_zero: Dictionary = board_v2.duplicate(true)
+	all_zero["height_half_steps"] = [0, 0, 0, 0, 0]
+	_check(not BattleBoard.validate_snapshot_dict(all_zero), "P08 schema2 all zero is noncanonical")
+	var missing_bits: Dictionary = board_v2.duplicate(true)
+	missing_bits.erase("height_half_steps")
+	_check(not BattleBoard.validate_snapshot_dict(missing_bits), "P08 schema2 missing bits is invalid")
+	var unknown_shape: Dictionary = board_v2.duplicate(true)
+	unknown_shape["schema_version"] = 3
+	_check(not BattleBoard.validate_snapshot_dict(unknown_shape), "P08 unknown board schema rejected")
+	for malformed_bit: Variant in [true, 0.5, -1, 2]:
+		var malformed: Dictionary = board_v2.duplicate(true)
+		malformed["height_half_steps"] = [malformed_bit, 0, 0, 0, 1]
+		_check(not BattleBoard.validate_snapshot_dict(malformed), "P08 malformed half type/value rejected " + str(malformed_bit))
+	var wrong_length: Dictionary = board_v2.duplicate(true)
+	wrong_length["height_half_steps"] = [1]
+	_check(not BattleBoard.validate_snapshot_dict(wrong_length), "P08 half array length rejected")
+	_check(board.to_dict().is_empty(), "P08 legacy DTO gate on fractional board")
+	_check(not board.set_height_steps(Vector2i(-1, 0), 0) and not board.set_height_steps(Vector2i(0, 0), 4294967296), "P08 setter rejects bounds and range")
+	var spatial := board.make_spatial_data_provider()
+	_check(spatial.has_spatial_heights() and spatial.cell_height_steps(Vector2i(1, 0)) == 1, "P08 spatial provider capability")
+	_check(not board.make_data_provider().cell_is_walkable(Vector2i(0, 0)) and not board.make_terrain_only_provider().cell_is_walkable(Vector2i(0, 0)), "P08 legacy providers fail closed on halves")
+	var flat := BattleBoard.new(3, 1)
+	var provider := flat.make_spatial_data_provider()
+	var edge := SpatialRules.inspect_edge(provider, Vector2i(0, 0), Vector2i(1, 0))
+	_check(edge.reason == &"" and edge.cost == 1.0 and edge.drop_steps == 0, "P08 flat edge cost")
+	flat.set_height_steps(Vector2i(1, 0), 1)
+	edge = SpatialRules.inspect_edge(flat.make_spatial_data_provider(), Vector2i(0, 0), Vector2i(1, 0))
+	_check(edge.reason == &"" and edge.cost == 1.0, "P08 half rise costs one")
+	flat.set_height_steps(Vector2i(1, 0), 2)
+	edge = SpatialRules.inspect_edge(flat.make_spatial_data_provider(), Vector2i(0, 0), Vector2i(1, 0))
+	_check(edge.reason == &"" and edge.cost == 2.0, "P08 full rise costs two")
+	var path := MovePathCheck.inspect(flat, null, [Vector2i(0, 0), Vector2i(1, 0)], 1, 3.0, &"spatial_move_v1")
+	_check(path.get_reason() == &"move/invalid_runtime", "P08 path rejects missing actor")
+	_check(is_equal_approx(SpatialRules.height_multiplier(0), 1.0) and is_equal_approx(SpatialRules.height_multiplier(1), 1.1) and is_equal_approx(SpatialRules.height_multiplier(-10), 0.0), "P08 linear height multiplier")
+	_check(SpatialRules.fall_amount(100.0, 0.0, 2, false) == 25.0 and SpatialRules.fall_amount(100.0, 0.0, 2, true) == 0.0, "P08 fall threshold and amount")
+	var actor_stats := StatsBag.new()
+	var target_stats := StatsBag.new()
+	var actor := UnitState.create(Faction.Type.PLAYER, Vector2i(0, 0), actor_stats, "p08_actor")
+	var target := UnitState.create(Faction.Type.ENEMY, Vector2i(2, 0), target_stats, "p08_target")
+	flat.set_height_steps(Vector2i(2, 0), 2)
+	var reach := AttackReachCheck.inspect_spatial(flat, actor, target, 2.0)
+	_check(reach == &"attack/out_of_reach", "P08 spatial reach includes full-level distance")
+	_check(PushResolver.compute_push_direction(Vector2i(0, 0), Vector2i(4, 2)) == Vector2i(1, 0), "P08 push direction remains deterministic axis")
+	flat.set_height_steps(Vector2i(1, 0), 1)
+	var push := PushResolver.resolve_push_steps(flat, null, Vector2i(0, 0), Vector2i(1, 0), 1)
+	_check(push.outcome == PushResult.Outcome.MOVED and push.fall_steps == 0, "P08 spatial push result")
+	var move_board := BattleBoard.new(3, 2)
+	var mover := UnitState.create(Faction.Type.PLAYER, Vector2i(0, 0), StatsBag.new(), "p08_mover")
+	_check(move_board.add_unit(mover), "P08 path fixture placement")
+	move_board.set_height_steps(Vector2i(1, 0), 1)
+	move_board.set_height_steps(Vector2i(1, 1), 1)
+	var finder := GridPathfinder.new()
+	finder.configure(move_board.get_bounds(), move_board.make_spatial_data_provider(mover), 1, &"spatial_move_v1")
+	var found_path := finder.find_path(Vector2i(0, 0), Vector2i(2, 0))
+	var reachable := finder.get_reachable_cells(Vector2i(0, 0), 3.0)
+	_check(found_path == [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0)] and reachable.has(Vector2i(2, 0)), "P08 spatial path and reachable share edge costs")
+	var attack_board := BattleBoard.new(5, 1)
+	var attack_stats := StatsBag.new()
+	var enemy_stats := StatsBag.new()
+	var attack_actor := UnitState.create(Faction.Type.PLAYER, Vector2i(0, 0), attack_stats, "p08_attack_actor")
+	var friendly := UnitState.create(Faction.Type.PLAYER, Vector2i(1, 0), StatsBag.new(), "p08_friendly")
+	var attack_target := UnitState.create(Faction.Type.ENEMY, Vector2i(3, 0), enemy_stats, "p08_attack_target")
+	attack_board.add_unit(attack_actor); attack_board.add_unit(friendly); attack_board.add_unit(attack_target)
+	_check(AttackReachCheck.inspect_spatial(attack_board, attack_actor, attack_target, 3.0) == &"", "P08 friendly occupant does not block line")
+	attack_board.clear_occupancy(friendly)
+	_check(AttackReachCheck.inspect_spatial(attack_board, attack_actor, attack_target, 3.0) == &"", "P08 clear line reaches target")
+	var enemy_blocker := UnitState.create(Faction.Type.ENEMY, Vector2i(1, 0), StatsBag.new(), "p08_enemy_blocker")
+	attack_board.add_unit(enemy_blocker)
+	_check(AttackReachCheck.inspect_spatial(attack_board, attack_actor, attack_target, 3.0) == &"attack/line_blocked", "P08 enemy occupant blocks line")
+	attack_board.remove_unit(enemy_blocker)
+	var neutral := UnitState.create(Faction.Type.NEUTRAL, Vector2i(1, 0), StatsBag.new(), "p08_neutral")
+	attack_board.add_unit(neutral)
+	_check(AttackReachCheck.inspect_spatial(attack_board, attack_actor, attack_target, 3.0) == &"attack/line_blocked", "P08 player and neutral are not friendly")
+	neutral.vitals._is_alive = false
+	attack_board.clear_occupancy(neutral)
+	_check(AttackReachCheck.inspect_spatial(attack_board, attack_actor, attack_target, 3.0) == &"", "P08 corpse does not block line")
+	attack_board.set_terrain(Vector2i(2, 0), TerrainType.Type.WALL)
+	_check(AttackReachCheck.inspect_spatial(attack_board, attack_actor, attack_target, 3.0) == &"attack/line_blocked", "P08 wall precedes terrain unsupported")
+	attack_board.set_terrain(Vector2i(2, 0), TerrainType.Type.VOID)
+	_check(AttackReachCheck.inspect_spatial(attack_board, attack_actor, attack_target, 3.0) == &"attack/terrain_shape_unsupported", "P08 void line is unsupported")
+	var item_fixture := _p07_fixture()
+	item_fixture.board.set_height_steps(Vector2i.ZERO, 1)
+	var item_capture := ItemSimulationSnapshot.capture(item_fixture.state, [])
+	_check(item_capture.code == ItemSnapshotResult.Code.OK, "P08 item snapshot v2 capture")
+	if item_capture.snapshot != null:
+		var item_dto := item_capture.snapshot.to_dict()
+		var item_result := ItemSimulationSnapshot.from_dict(item_dto)
+		_check(item_result.code == ItemSnapshotResult.Code.OK and item_result.snapshot.canonical_bytes() == item_capture.snapshot.canonical_bytes(), "P08 item snapshot canonical roundtrip")
+	# Освобождаем локальные Callable/board graph до ObjectDB leak check раннера.
+	provider = null
+	spatial = null
+	finder = null
+	move_board = null
+	attack_board = null
+	flat = null
+	board = null
+	item_fixture = {}
+	actor = null
+	target = null
+	attack_actor = null
+	attack_target = null
+	friendly = null
+	neutral = null
+	enemy_blocker = null
 
 
 # --- Инфраструктура --------------------------------------------------------
@@ -427,14 +676,19 @@ func _test_p06_attack_move_and_limits() -> void:
 	_check(zero_receipt.status == &"APPLIED" and not alive_zero["target"].is_alive() and zero_receipt.get_events().size() == 2 and zero_receipt.get_events()[1]["kind"] == &"died" and zero_receipt.get_events()[1]["amount"] == 0.0, "P06 A07 alive-at-zero attack emits only attacked and died")
 
 func _test_p06_attack_event_schema() -> void:
+	# Validator теперь получает definition context; прежние schema assertions остаются теми же.
+	var schema_definition := AttackDefinition.new()
+	schema_definition.id = &"flat"
+	schema_definition.profile = AttackRules.PROFILE
+	var schema_context := ActionContext.new(null, null, null, [], null, AttackRules.new([], [], [schema_definition]))
 	var valid := {"kind": &"attacked", "actor_unit_id": 1, "target_unit_id": 2, "attack_definition_id": &"flat", "actor_cell": Vector2i.ZERO, "target_cell": Vector2i(1, 0), "main_cost": 1, "main_before": 1, "main_after": 0}
-	_check(ActionQueue._valid_draft(valid), "P06 A12 accepts exact attacked value schema")
+	_check(ActionQueue._valid_draft(valid, schema_context), "P06 A12 accepts exact attacked value schema")
 	for key: String in valid.keys():
 		var missing: Dictionary = valid.duplicate(true)
 		missing.erase(key)
 		var wrong_type: Dictionary = valid.duplicate(true)
 		wrong_type[key] = "wrong"
-		_check(not ActionQueue._valid_draft(missing) and not ActionQueue._valid_draft(wrong_type), "P06 A12 attacked key/type rejects " + key)
+		_check(not ActionQueue._valid_draft(missing, schema_context) and not ActionQueue._valid_draft(wrong_type, schema_context), "P06 A12 attacked key/type rejects " + key)
 	for mutation: String in ["extra", "damage", "diagonal", "before", "type"]:
 		var malformed := valid.duplicate(true)
 		if mutation == "extra": malformed["hit"] = true
@@ -442,11 +696,11 @@ func _test_p06_attack_event_schema() -> void:
 		elif mutation == "diagonal": malformed["target_cell"] = Vector2i(1, 1)
 		elif mutation == "before": malformed["main_before"] = 0
 		else: malformed["attack_definition_id"] = "flat"
-		_check(not ActionQueue._valid_draft(malformed), "P06 A12 attacked schema rejects " + mutation)
+		_check(not ActionQueue._valid_draft(malformed, schema_context), "P06 A12 attacked schema rejects " + mutation)
 	for range_case: Dictionary in [{"main_before": 4097, "main_after": 4096}, {"main_before": 1, "main_after": 1}, {"actor_unit_id": 0}, {"target_unit_id": 1}]:
 		var malformed_range: Dictionary = valid.duplicate(true)
 		for key: String in range_case: malformed_range[key] = range_case[key]
-		_check(not ActionQueue._valid_draft(malformed_range), "P06 A12 attacked arithmetic/range rejects")
+		_check(not ActionQueue._valid_draft(malformed_range, schema_context), "P06 A12 attacked arithmetic/range rejects")
 	var fixture := _p06_attack_fixture(1.0)
 	var sink := P04HookSink.new()
 	fixture["context"] = ActionContext.new(fixture["state"] as ItemSimulationState, P04TestRng.new(), sink, [], null, fixture["rules"] as AttackRules)
@@ -5031,3 +5285,708 @@ func _test_p07_api_preflight() -> void:
 	cache.board.board_version = ActionContext.MAX_ID
 	var rejected := _p07_submit(cache)
 	_check(rejected.status == &"REJECTED" and rejected.reason == &"push/board_version_exhausted" and live_stat._cache_dirty and live_stat._cached_value == -123.0, "P07 A11 root rejection preserves actual dirty cache and cached value", rejected.reason)
+
+func _p08_fixture(blocker_hp: float = -1.0) -> Dictionary:
+	var f := _p07_fixture(blocker_hp)
+	f.definition.profile = AttackRules.SPATIAL_PROFILE
+	f.rules = AttackRules.new([f.actor.id], [{"actor_unit_id": f.actor.id, "target_unit_id": f.target.id}], [f.definition])
+	f.context = ActionContext.new(f.state, P04TestRng.new(), ActionEventSink.new(), [], MoveRules.new([f.actor.id, f.target.id], 1, &"spatial_move_v1"), f.rules)
+	return f
+
+func _p08_cleanup(f: Dictionary) -> void:
+	f.board.resize(0, 0)
+
+func _test_p08_commands() -> void:
+	for shape: String in ["flat", "half", "wall", "fall", "hazard", "bounds", "collision_alive", "collision_dead", "collision_both", "collision_fall"]:
+		var f := _p08_fixture(100.0 if shape == "collision_alive" else (8.0 if shape.begins_with("collision") else -1.0))
+		if shape == "half": f.board.set_height_steps(f.destination, 1)
+		if shape == "wall": f.board.set_terrain(f.destination, TerrainType.Type.WALL)
+		if shape in ["fall", "collision_fall"]: f.board.set_height_steps(f.destination, -3)
+		if shape == "hazard": f.board.set_terrain(f.destination, TerrainType.Type.HAZARD)
+		if shape == "bounds":
+			f.board.move_unit(f.target, Vector2i(4,2)); f.board.move_unit(f.actor, Vector2i(3,2))
+		if shape == "collision_both": f.target.vitals.set_hp(9.0)
+		var origin_version: int = f.board.board_version
+		var r := _p07_submit(f)
+		_check(r.status == &"APPLIED", "P08 S12/S13 normal " + shape, r.reason)
+		_check(f.actor.action_resources.get_main_left() == 3, "P08 paid exactly one main " + shape)
+		var expected_hp := 93.0
+		if shape == "wall": expected_hp = 86.0
+		if shape == "fall": expected_hp = 71.0
+		if shape.begins_with("collision"): expected_hp = 64.0 if shape == "collision_fall" else (0.0 if shape == "collision_both" else 86.0)
+		if shape in ["hazard", "bounds"]: expected_hp = 0.0
+		_check(f.target.vitals.get_hp() == expected_hp, "P08 exact HP " + shape, str(f.target.vitals.get_hp()))
+		var touches := 1 if shape in ["flat", "half", "fall", "bounds"] else (2 if shape in ["hazard", "collision_dead", "collision_both", "collision_fall"] else 0)
+		_check(f.board.board_version == origin_version + touches, "P08 known touches " + shape)
+		_p08_cleanup(f)
+
+func _p08_mutate(f: Dictionary, role: String, mode: String) -> void:
+	var u: UnitState = f[role]
+	match mode:
+		"hp": u.vitals._hp += 0.125
+		"alive": u.vitals._is_alive = not u.vitals._is_alive
+		"balance": u.vitals._balance += 0.125
+		"move": u.move_points_left += 0.125
+		"main": u.action_resources._main_left += 1
+		"bonus": u.action_resources._bonus_left += 1
+		"cell": u.cell += Vector2i.UP
+		"cache_height": u.height += 1
+		"height": f.board.set_height_steps(u.cell, f.board.get_height_steps(u.cell) + 1)
+		"same_height": f.board.set_height(u.cell, f.board.get_height(u.cell))
+		"stats": u.stats = StatsBag.from_snapshot_dict(u.stats.to_snapshot_dict())
+		"vitals_stats": u.vitals._stats = StatsBag.from_snapshot_dict(u.stats.to_snapshot_dict())
+		"vitals":
+			u.vitals = Vitals.from_dict({"hp": 77.0, "balance": 2.0, "is_alive": true}, u.stats)
+			f["watch"] = u.vitals
+		"resources":
+			u.action_resources = ActionResources.new(u.id, 2, 3)
+			f["watch_resources"] = u.action_resources
+		"registry":
+			var replacement := UnitState.from_snapshot_dict(u.to_snapshot_dict())
+			replacement.vitals._hp = 77.0; replacement.vitals._is_alive = true; replacement.vitals._balance = 2.0
+			f.board._units[u.id] = replacement
+			f["watch"] = replacement.vitals
+		"context": f.context._state = ItemSimulationState.new(f.board, f.state._owners, f.state._inventories, f.state._equipment)
+		"board": f.state._board = BattleBoard.new(5,5)
+		"owner":
+			var owner: ItemOwnerState = f.state.get_owner(u.id)
+			f.state._owners[f.state._owners.find(owner)] = ItemOwnerState.new(u)
+		"owner_unit": f.state.get_owner(u.id)._owner = UnitState.from_snapshot_dict(u.to_snapshot_dict())
+		"owner_closed": f.state.get_owner(u.id)._closed = true
+		"inventory_closed": f.state.get_inventory(u.id)._closed = true
+		"inventory_removed": f.state._inventories.erase(f.state.get_inventory(u.id))
+		"inventory_attachment": f.state.get_inventory(u.id)._state = ItemOwnerState.new(u)
+		"equipment_closed": f.state.get_equipment(u.id)._closed = true
+		"equipment_attachment": f.state.get_equipment(u.id)._state = ItemOwnerState.new(u)
+		"inventory_flag": f.state.get_owner(u.id)._inventory_retired = true
+		"equipment_flag": f.state.get_owner(u.id)._equipment_registered = false
+
+func _test_p08_refs() -> void:
+	for scenario: String in ["hit", "balance_changed", "balance_broken", "wall", "fall", "collision_first", "collision_second", "push_move", "move", "movefall", "death"]:
+		for role: String in (["actor", "target", "blocker"] if scenario.begins_with("collision") else (["target"] if scenario in ["move", "movefall"] else ["actor", "target"])):
+			for mode: String in ["hp", "alive", "balance", "move", "main", "bonus", "cell", "cache_height", "height", "same_height", "stats", "vitals_stats", "vitals", "resources", "registry", "context", "board", "owner", "owner_unit", "owner_closed", "inventory_closed", "inventory_removed", "inventory_attachment", "equipment_closed", "equipment_attachment", "inventory_flag", "equipment_flag"]:
+				var f := _p08_fixture(100.0 if scenario.begins_with("collision") else -1.0)
+				if role == "blocker": f.blocker.enable_action_resources(); f.blocker.try_refill_turn_resources()
+				if scenario in ["hit", "death"]: f.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, 0.0)
+				if scenario == "death": f.target.vitals.set_hp(2.0)
+				if scenario == "balance_changed": f.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, 1.0)
+				if scenario == "wall": f.board.set_terrain(f.destination, TerrainType.Type.WALL)
+				if scenario in ["fall", "movefall"]: f.board.set_height_steps(f.destination, -3)
+				var called := [false]
+				var count := [0]
+				var hp := func(_a: float, _b: float) -> void:
+					count[0] += 1
+					if count[0] == (2 if scenario in ["wall", "fall", "collision_first"] else 1):
+						called[0] = true; _p08_mutate(f, role, mode)
+				var simple := func() -> void: called[0] = true; _p08_mutate(f, role, mode)
+				var move := func(_u: UnitState, _a: Vector2i, _b: Vector2i) -> void: called[0] = true; _p08_mutate(f, role, mode)
+				var vitals: Vitals = f.blocker.vitals if scenario == "collision_second" else f.target.vitals
+				if scenario == "balance_changed": vitals.balance_changed.connect(hp)
+				elif scenario == "balance_broken": vitals.balance_broken.connect(simple)
+				elif scenario == "death": vitals.died.connect(simple)
+				elif scenario in ["push_move", "move"]: f.board.unit_position_changed.connect(move)
+				else: vitals.hp_changed.connect(hp)
+				var r := ActionQueue.new().submit(MoveCommand.new(f.target.id, [f.target.cell, f.destination], 0), f.context) if scenario in ["move", "movefall"] else _p07_submit(f)
+				if vitals.hp_changed.is_connected(hp): vitals.hp_changed.disconnect(hp)
+				if vitals.balance_changed.is_connected(hp): vitals.balance_changed.disconnect(hp)
+				if vitals.balance_broken.is_connected(simple): vitals.balance_broken.disconnect(simple)
+				if vitals.died.is_connected(simple): vitals.died.disconnect(simple)
+				if f.board.unit_position_changed.is_connected(move): f.board.unit_position_changed.disconnect(move)
+				var label := scenario + "/" + role + "/" + mode
+				_check(called[0] and r.status == &"FAULTED", "P08 S14f/g pinned " + label, r.reason)
+				if f.has("watch"):
+					_check(f.watch.get_hp() == 77.0 and f.watch.is_alive() and f.watch.get_balance() == 2.0, "P08 replacement untouched " + label)
+				if f.has("watch_resources"):
+					_check(f.watch_resources.get_main_left() == 2 and f.watch_resources.get_bonus_left() == 3, "P08 replacement resources untouched " + label)
+				var events := r.get_events()
+				var seq := 1
+				var ordered := true
+				for event: Dictionary in events:
+					ordered = ordered and event.event_seq == seq and event.root_id == 1 and event.parent_event_seq == 0
+					seq += 1
+				_check(ordered and not events.is_empty(), "P08 S15 ordered ids " + label)
+				_p08_cleanup(f)
+
+func _p08_set_lifecycle(f: Dictionary, inventory_mode: int, equipment_mode: int) -> void:
+	for owner: ItemOwnerState in f.state._owners:
+		var inventory: InventoryState = f.state.get_inventory(owner._owner.id)
+		var equipment: EquipmentState = f.state.get_equipment(owner._owner.id)
+		if inventory_mode != 1:
+			f.state._inventories.erase(inventory)
+			owner._inventory_registered = false; owner._inventory_retired = inventory_mode == 2
+		if equipment_mode != 1:
+			f.state._equipment.erase(equipment)
+			owner._equipment_registered = false; owner._equipment_retired = equipment_mode == 2
+
+func _test_p08_lifecycle_replay() -> void:
+	for inventory_mode: int in [0,1,2]:
+		for equipment_mode: int in [0,1,2]:
+			for faulted: bool in [false,true]:
+				var f := _p08_fixture()
+				_p08_set_lifecycle(f, inventory_mode, equipment_mode)
+				var catalogue: Dictionary = {}
+				if inventory_mode == 1:
+					var definition := _p07_heal(f, f.target)
+					catalogue[definition.id] = definition
+				f.board.set_height_steps(f.destination, -3)
+				var source_capture := ItemSimulationSnapshot.capture(f.state, [])
+				_check(source_capture.code == ItemSnapshotResult.Code.OK, "P08 S16 lifecycle snapshot")
+				if source_capture.snapshot == null: continue
+				var original := source_capture.snapshot.canonical_bytes()
+				var source_ids := UnitId.get_counter()
+				var outcomes: Array = []
+				for repeat: int in range(3):
+					var restored: ItemSimulationState = source_capture.snapshot.instantiate(catalogue).state
+					var actor := restored._board.get_unit_by_id(f.actor.id)
+					var target := restored._board.get_unit_by_id(f.target.id)
+					var context := ActionContext.new(restored, P04TestRng.new(), ActionEventSink.new(), [], MoveRules.new([actor.id],1,&"spatial_move_v1"), f.rules)
+					var queue := ActionQueue.new()
+					var all_events: Array = []
+					var all_steps: Array = []
+					for raw_path: Array in [[actor.cell,actor.cell + Vector2i.UP],[actor.cell + Vector2i.UP,actor.cell]]:
+						var path: Array[Vector2i] = []
+						path.assign(raw_path)
+						var move := queue.submit(MoveCommand.new(actor.id,path,context.get_revision()),context)
+						_check(move.status == &"APPLIED", "P08 S16 restored Move lifecycle")
+						all_events.append_array(move.get_events()); all_steps.append_array(move.get_steps())
+					var hook := func(_a: float, _b: float) -> void: restored._board.set_height(Vector2i.ZERO,0)
+					if faulted: target.vitals.hp_changed.connect(hook,CONNECT_ONE_SHOT)
+					var attack := queue.submit(AttackCommand.new(actor.id,target.id,actor.cell,target.cell,f.definition.id,context.get_revision()),context)
+					_check(attack.status == (&"FAULTED" if faulted else &"APPLIED"), "P08 S16 restored Attack lifecycle", attack.reason)
+					if inventory_mode == 1:
+						_check(_p07_events(attack,&"healed").size() == (0 if faulted else 2) and target.vitals.get_hp() == (93.0 if faulted else 75.0), "P08 S16 influencing item executes after mandatory cascade only")
+					all_events.append_array(attack.get_events()); all_steps.append_array(attack.get_steps())
+					var final_capture := ItemSimulationSnapshot.capture(restored,[])
+					_check(final_capture.code == ItemSnapshotResult.Code.OK, "P08 S16 resulting state snapshot")
+					outcomes.append([final_capture.snapshot.canonical_bytes(),all_events,all_steps,context._next_command_seq,context._next_event_seq,context._next_root_id,context.get_revision(),context.get_rng().to_dict()])
+					restored._board.resize(0,0)
+				_check(outcomes[0] == outcomes[1] and outcomes[1] == outcomes[2], "P08 S16 exact replay lifecycle %d/%d fault%s" % [inventory_mode,equipment_mode,str(faulted)])
+				_check(ItemSimulationSnapshot.capture(f.state,[]).snapshot.canonical_bytes() == original and UnitId.get_counter() == source_ids and f.context.get_revision() == 0 and not f.context.is_faulted(), "P08 S16 source untouched")
+				_p08_cleanup(f)
+	for drop: int in [1,2,3,4,5]:
+		var f := _p08_fixture()
+		var mover: UnitState = f.target
+		f.board.set_height_steps(Vector2i(3,2), -drop)
+		var before: float = mover.move_points_left
+		var r := ActionQueue.new().submit(MoveCommand.new(mover.id, [Vector2i(2,2),Vector2i(3,2)], 0), f.context)
+		_check(r.status == &"APPLIED" and mover.vitals.get_hp() == (100.0 if drop <= 2 else (78.0 if drop == 3 else 53.0)), "P08 S07 Move fall " + str(drop), r.reason)
+		_check(mover.move_points_left == before - 1.0, "P08 Move prepaid " + str(drop))
+		_p08_cleanup(f)
+	_test_p08_callbacks()
+
+func _test_p08_callbacks() -> void:
+	for scenario: String in ["hit0", "immunity", "lethal_hit", "balance", "break_changed", "break_broken", "wall", "pushfall", "collision_first", "collision_second", "collision_first_dead", "collision_second_dead", "pushmove", "pushhazard", "pushbounds", "move", "movefall", "movehazard"]:
+		var f := _p08_fixture(8.0 if scenario == "collision_second_dead" else (100.0 if scenario.begins_with("collision") else -1.0))
+		if scenario == "hit0": f.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, 0.0)
+		if scenario == "immunity": f.target.stats.set_base_value(StatTypes.StatType.BALANCE_MAX, 0.0)
+		if scenario == "lethal_hit": f.target.vitals.set_hp(2.0)
+		if scenario == "balance": f.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, 1.0)
+		if scenario == "break_changed": f.target.vitals.set_balance(1.0)
+		if scenario == "wall": f.board.set_terrain(f.destination, TerrainType.Type.WALL)
+		if scenario == "pushfall": f.board.set_height_steps(f.destination, -3)
+		if scenario == "pushhazard": f.board.set_terrain(f.destination, TerrainType.Type.HAZARD)
+		if scenario == "pushbounds":
+			f.board.move_unit(f.target, Vector2i(4,2)); f.board.move_unit(f.actor, Vector2i(3,2))
+		if scenario == "collision_first_dead": f.target.vitals.set_hp(9.0)
+		var moving: bool = scenario.begins_with("move")
+		var mover: UnitState = f.target if moving else f.actor
+		if scenario == "movefall": f.board.set_height_steps(f.destination, -3)
+		if scenario == "movehazard": f.board.set_terrain(f.destination, TerrainType.Type.HAZARD)
+		var fired := [false]
+		var hp_count := [0]
+		var callback := func(_old: float, _new: float) -> void:
+			hp_count[0] += 1
+			var threshold := 2 if scenario in ["wall", "pushfall", "collision_first", "collision_first_dead", "pushhazard", "pushbounds"] else 1
+			if hp_count[0] == threshold and not fired[0]:
+				fired[0] = true; f.board.set_height(Vector2i.ZERO, f.board.get_height(Vector2i.ZERO))
+		var broken_callback := func() -> void:
+			fired[0] = true; f.board.set_height(Vector2i.ZERO, f.board.get_height(Vector2i.ZERO))
+		var moved_callback := func(_u: UnitState, _from: Vector2i, _to: Vector2i) -> void:
+			fired[0] = true; f.board.set_height(Vector2i.ZERO, f.board.get_height(Vector2i.ZERO))
+		var vitals: Vitals = f.blocker.vitals if scenario in ["collision_second", "collision_second_dead"] else f.target.vitals
+		if scenario in ["balance", "break_changed"]: vitals.balance_changed.connect(callback)
+		elif scenario == "break_broken": vitals.balance_broken.connect(broken_callback)
+		elif scenario in ["pushmove", "move"]: f.board.unit_position_changed.connect(moved_callback)
+		else: vitals.hp_changed.connect(callback)
+		var r := ActionQueue.new().submit(MoveCommand.new(mover.id, [mover.cell, f.destination], 0), f.context) if moving else _p07_submit(f)
+		if vitals.hp_changed.is_connected(callback): vitals.hp_changed.disconnect(callback)
+		if vitals.balance_changed.is_connected(callback): vitals.balance_changed.disconnect(callback)
+		if vitals.balance_broken.is_connected(broken_callback): vitals.balance_broken.disconnect(broken_callback)
+		if f.board.unit_position_changed.is_connected(moved_callback): f.board.unit_position_changed.disconnect(moved_callback)
+		_check(fired[0] and r.status == &"FAULTED", "P08 S14 terminal callback " + scenario, r.reason)
+		var expected_reason: StringName = &"push/invalid_binding"
+		if scenario in ["hit0", "immunity", "lethal_hit"]: expected_reason = &"attack/invalid_hit"
+		if scenario in ["balance", "break_changed", "break_broken"]: expected_reason = &"balance/invalid_binding"
+		if scenario == "move": expected_reason = &"move/invalid_runtime"
+		if scenario in ["movefall", "movehazard"]: expected_reason = &"move/fall_binding"
+		_check(r.reason == expected_reason, "P08 S14 exact reason " + scenario, r.reason)
+		var kinds: Array = [&"attacked", &"damaged"]
+		if scenario in ["balance", "break_changed"]: kinds.append(&"balance_changed")
+		elif scenario == "break_broken": kinds.append(&"balance_broken")
+		elif scenario == "wall": kinds.append_array([&"balance_broken", &"push_blocked", &"damaged"])
+		elif scenario in ["pushfall", "pushhazard"]: kinds.append_array([&"balance_broken", &"moved", &"damaged"])
+		elif scenario == "pushbounds": kinds.append_array([&"balance_broken", &"fell", &"damaged"])
+		elif scenario.begins_with("collision"):
+			kinds.append_array([&"balance_broken", &"collision", &"damaged"])
+			if scenario in ["collision_second", "collision_second_dead"]: kinds.append(&"damaged")
+		elif scenario == "pushmove": kinds.append_array([&"balance_broken", &"moved"])
+		elif moving: kinds = [&"moved"] if scenario == "move" else [&"moved", &"damaged"]
+		_check(_p07_kinds(r) == kinds, "P08 S14 ordered prefix " + scenario, str(_p07_kinds(r)))
+		_check(f.actor.action_resources.get_main_left() == (4 if moving else 3), "P08 S14 paid main retained " + scenario)
+		if scenario in ["lethal_hit", "collision_first_dead", "collision_second_dead", "movehazard", "pushhazard", "pushbounds"]:
+			_check(vitals.get_hp() == 0.0 and vitals.is_alive() and not _p07_kinds(r).has(&"died"), "P08 S14 HP written before death checkpoint " + scenario)
+		_p08_cleanup(f)
+
+func _test_p08_receipts_and_seals() -> void:
+	for mode: String in ["heal", "set_hp", "nested", "revive"]:
+		var f := _p08_fixture()
+		f.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER,0.0)
+		if mode != "nested": f.target.vitals.set_hp(2.0)
+		var target: UnitState = f.target
+		var before := target.vitals.get_hp()
+		var callback := func(_a: float, _b: float) -> void:
+			if mode == "heal": target.vitals.heal(5.0)
+			elif mode == "set_hp": target.vitals.set_hp(5.0)
+			else: target.vitals.apply_damage(1.0)
+		var revive := func() -> void: target.vitals.revive()
+		if mode == "revive": target.vitals.died.connect(revive,CONNECT_ONE_SHOT)
+		else: target.vitals.hp_changed.connect(callback,CONNECT_ONE_SHOT)
+		var r := _p07_submit(f)
+		var events := r.get_events()
+		var expected: Array[Dictionary] = [{"kind": &"attacked", "actor_unit_id": f.actor.id,"target_unit_id":target.id,"attack_definition_id":f.definition.id,"actor_cell":f.actor.cell,"target_cell":target.cell,"main_cost":1,"main_before":4,"main_after":3,"event_seq":1,"root_id":1,"command_seq":1,"parent_event_seq":0}]
+		var hp_after := maxf(0.0,before - 7.0)
+		var source := {"kind":&"attack","source_instance_id":0,"origin_cell":f.actor.cell,"instigator_unit_id":f.actor.id,"credit_unit_id":f.actor.id}
+		expected.append({"kind":&"damaged","actor_unit_id":f.actor.id,"target_unit_id":target.id,"source":source,"hp_before":before,"hp_after":hp_after,"amount":before-hp_after,"alive_before":true,"alive_after":mode != "revive","event_seq":2,"root_id":1,"command_seq":2,"parent_event_seq":0})
+		if mode == "revive":
+			var died := expected[1].duplicate(true); died.kind = &"died"; died.amount = 0.0; died.event_seq = 3
+			expected.append(died)
+		_check(r.status == &"FAULTED" and r.reason == &"attack/invalid_hit" and events == expected, "P08 S14i full receipt " + mode, str(events))
+		_check(target.vitals.get_hp() == (100.0 if mode == "revive" else (92.0 if mode == "nested" else 5.0)) and target.is_alive(), "P08 S14i external write retained " + mode)
+		_p08_cleanup(f)
+	for before_listener: bool in [false,true]:
+		for different_cell: bool in [false,true]:
+			for replacement_alive: bool in [false,true]:
+				var f := _p08_fixture()
+				f.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER,0.0); f.target.vitals.set_hp(2.0)
+				var target: UnitState = f.target
+				var replacement := UnitState.from_snapshot_dict(target.to_snapshot_dict())
+				replacement.vitals._hp = 77.0; replacement.vitals._is_alive = replacement_alive
+				if different_cell: replacement.cell = Vector2i(4,4)
+				var old_vitals := target.vitals
+				var hook := func() -> void:
+					f.board.remove_unit(target); f.board.add_unit(replacement)
+				if before_listener: f.board._disconnect_death_callback(target.id)
+				old_vitals.died.connect(hook,CONNECT_ONE_SHOT)
+				if before_listener: f.board._register_death_callback(target)
+				var version: int = f.board.board_version
+				var r := _p07_submit(f)
+				_check(r.status == &"FAULTED" and _p07_kinds(r) == [&"attacked",&"damaged",&"died"], "P08 S14h own death prefix")
+				_check(f.board.get_unit_by_id(target.id) == replacement and replacement.vitals.get_hp() == 77.0 and replacement.is_alive() == replacement_alive and f.board._occupancy.get(replacement.cell,0) == (replacement.id if replacement_alive else 0), "P08 S14h replacement identity occupancy")
+				_check(f.board.board_version == version + (2 if before_listener else 3), "P08 S14h no cleanup credit for replacement")
+				_p08_cleanup(f)
+	for stage: StringName in [&"attack",&"attack_hit",&"balance",&"push"]:
+		for field: String in ["board_origin_version","expected_board_version","actor_height_steps","target_height_steps","spatial","multiplier","impact","direction","ref","guard_hp","guard_main","guard_bonus","guard_move"]:
+			var f := _p08_fixture()
+			f.board.set_terrain(f.destination,TerrainType.Type.WALL)
+			var hook := func(_c: ActionContext, result: CommandStepResult) -> void:
+				if result.mandatory.is_empty(): return
+				var child: Command = result.mandatory[0]
+				var binding: BalancePushRules.Binding = child.get("_p07_binding") if child is AttackHitCommand else child.get("_binding")
+				if field == "ref": binding.actor_vitals = Vitals.from_dict(binding.actor_vitals.to_dict(),binding.actor_stats)
+				elif field.begins_with("guard_"):
+					binding.spatial_guard.values["participants"][binding.values["actor_id"]][field.trim_prefix("guard_")] += 1
+				elif field == "spatial": binding.values[field] = false
+				elif field == "direction": binding.values[field] = Vector2i.LEFT
+				else: binding.values[field] += 1
+			var r := ActionQueue.new().submit(P07TreeHook.new(_p06_attack(f),stage,hook),f.context)
+			_check(r.status == &"FAULTED" and f.actor.action_resources.get_main_left() == 3 and f.target.vitals.get_hp() == (100.0 if stage == &"attack" else 93.0), "P08 S14j sealed phase " + str(stage) + "/" + field,r.reason)
+			_p08_cleanup(f)
+
+func _test_p08_terminal_matrix() -> void:
+	var cases: Array[String] = ["immunity:hp", "hit_lethal:hp", "hit_lethal:died", "hit_lethal:board", "wall_lethal:hp", "wall_lethal:died", "wall_lethal:board", "height:hp", "height_lethal:hp", "height_lethal:died", "fall_lethal:hp", "fall_lethal:died", "fall_lethal:board_death", "pair_first:hp", "pair_first:died", "pair_first:board", "pair_second:hp", "pair_second:died", "pair_second:board", "pair_both:hp", "pair_both:died", "pair_both:board", "flat:board", "fall:position", "fall:board", "hazard:position", "hazard:board", "hazard:hp", "hazard:died", "hazard:board_death", "void:hp", "void:died", "bounds:hp", "bounds:died", "bounds:board", "move:board", "movefall_lethal:hp", "movefall_lethal:died", "movefall_lethal:board_death", "movehazard:position", "movehazard:board", "movehazard:hp", "movehazard:died", "movehazard:board_death"]
+	for entry: String in cases:
+		var pieces := entry.split(":")
+		var shape := pieces[0]; var point := pieces[1]
+		var moving := shape.begins_with("move")
+		var pair := shape.begins_with("pair")
+		var roles: Array = ["target"] if moving else (["actor","target","blocker"] if pair else ["actor","target"])
+		for role: String in roles:
+			for mode: String in ["hp","alive","balance","move","main","bonus","cell","cache_height","height","same_height","stats","vitals_stats","vitals","resources","registry","context","board","owner","owner_unit","owner_closed","inventory_closed","inventory_removed","inventory_attachment","equipment_closed","equipment_attachment","inventory_flag","equipment_flag"]:
+				var f := _p08_fixture(8.0 if shape in ["pair_second","pair_both"] else (100.0 if pair else -1.0))
+				if pair: f.blocker.enable_action_resources(); f.blocker.try_refill_turn_resources()
+				if shape == "immunity": f.target.stats.set_base_value(StatTypes.StatType.BALANCE_MAX,0.0)
+				if shape == "hit_lethal": f.target.vitals.set_hp(2.0)
+				if shape in ["wall_lethal","height_lethal","pair_first","pair_both"]: f.target.vitals.set_hp(9.0)
+				if shape == "fall_lethal": f.target.vitals.set_hp(14.0)
+				if shape == "movefall_lethal": f.target.vitals.set_hp(10.0)
+				if shape.begins_with("wall"): f.board.set_terrain(f.destination,TerrainType.Type.WALL)
+				if shape.begins_with("height"): f.board.set_height_steps(f.destination,2)
+				if shape in ["fall","fall_lethal","movefall_lethal"]: f.board.set_height_steps(f.destination,-3)
+				if shape in ["hazard","movehazard"]: f.board.set_terrain(f.destination,TerrainType.Type.HAZARD)
+				if shape == "void": f.board.set_terrain(f.destination,TerrainType.Type.VOID)
+				if shape == "bounds": f.board.move_unit(f.target,Vector2i(4,2)); f.board.move_unit(f.actor,Vector2i(3,2))
+				var snapshot := ItemSimulationSnapshot.capture(f.state,[]).snapshot
+				var restored := snapshot.instantiate({}).state
+				var normal_context := ActionContext.new(restored,P04TestRng.new(),ActionEventSink.new(),[],f.context.get_move_rules(),f.rules)
+				var normal_actor := restored._board.get_unit_by_id(f.actor.id)
+				var normal_target := restored._board.get_unit_by_id(f.target.id)
+				var normal := ActionQueue.new().submit(MoveCommand.new(normal_target.id,[normal_target.cell,f.destination],0),normal_context) if moving else ActionQueue.new().submit(AttackCommand.new(normal_actor.id,normal_target.id,normal_actor.cell,normal_target.cell,f.definition.id,0),normal_context)
+				var called := [false]; var count := [0]
+				var threshold := 1
+				var second_victim := shape in ["pair_second","pair_both"]
+				if point == "hp" and not moving and shape not in ["immunity","hit_lethal"] and not second_victim: threshold = 2
+				if point == "board_death" or (shape == "pair_both" and point == "board"): threshold = 2
+				var fire := func() -> void:
+					count[0] += 1
+					if not called[0] and count[0] == threshold:
+						called[0] = true; _p08_mutate(f,role,mode)
+				var hp := func(_a: float,_b: float) -> void: fire.call()
+				var position := func(_u: UnitState,_a: Vector2i,_b: Vector2i) -> void: fire.call()
+				var vitals: Vitals = f.blocker.vitals if second_victim else f.target.vitals
+				if point == "hp": vitals.hp_changed.connect(hp)
+				elif point == "died": vitals.died.connect(fire)
+				elif point == "position": f.board.unit_position_changed.connect(position)
+				else: f.board.board_changed.connect(fire)
+				var r := ActionQueue.new().submit(MoveCommand.new(f.target.id,[f.target.cell,f.destination],0),f.context) if moving else _p07_submit(f)
+				if vitals.hp_changed.is_connected(hp): vitals.hp_changed.disconnect(hp)
+				if vitals.died.is_connected(fire): vitals.died.disconnect(fire)
+				if f.board.unit_position_changed.is_connected(position): f.board.unit_position_changed.disconnect(position)
+				if f.board.board_changed.is_connected(fire): f.board.board_changed.disconnect(fire)
+				var label := entry + "/" + role + "/" + mode
+				_check(called[0] and r.status == &"FAULTED" and normal.status in [&"APPLIED",&"INTERRUPTED"],"P08 S14 expanded checkpoint " + label,r.reason)
+				var expected: Array[Dictionary] = []
+				var victim: int = f.blocker.id if second_victim else f.target.id
+				var death_point := point in ["died","board_death"] or (point == "board" and shape in ["hit_lethal","wall_lethal","pair_first","pair_second","pair_both","bounds"])
+				var stop_kind: StringName = &"damaged" if point == "hp" else (&"died" if death_point else &"moved")
+				var explicit_death := shape in ["hazard","void","bounds","movehazard"]
+				var occurrence := 2 if point == "hp" and threshold == 2 and not explicit_death else 1
+				for event: Dictionary in normal.get_events():
+					var draft := event.duplicate(true)
+					if point == "hp" and explicit_death and draft.kind == &"died" and draft.target_unit_id == victim:
+						draft.kind = &"damaged"; draft.amount = draft.hp_before - draft.hp_after
+					elif point == "hp" and explicit_death and draft.kind == &"damaged":
+						expected.append(draft); continue
+					var stop: bool = draft.kind == stop_kind and draft.target_unit_id == victim
+					if stop: occurrence -= 1
+					if stop and occurrence == 0 and point == "hp": draft.alive_after = true
+					expected.append(draft)
+					if stop and occurrence == 0: break
+				_check(r.get_events() == expected,"P08 S14 exact complete prefix " + label,str(_p07_kinds(r)))
+				if f.has("watch"): _check(f.watch.get_hp() == 77.0 and f.watch.is_alive() and f.watch.get_balance() == 2.0,"P08 S14 replacement untouched " + label)
+				if f.has("watch_resources"): _check(f.watch_resources.get_main_left() == 2 and f.watch_resources.get_bonus_left() == 3,"P08 S14 resource replacement untouched " + label)
+				restored._board.resize(0,0)
+				_p08_cleanup(f)
+func _test_p08_move_binding_limits() -> void:
+	for lethal: bool in [false,true]:
+		for field: String in ["valid","mode","source","request","request_seal","board_origin_version","expected_board_version"]:
+			var f := _p08_fixture()
+			if lethal: f.board.set_terrain(f.destination,TerrainType.Type.HAZARD)
+			else: f.board.set_height_steps(f.destination,-3)
+			var mover: UnitState = f.target
+			var root := MoveCommand.new(mover.id,[mover.cell,f.destination],0)
+			var moved := root.execute(f.context)
+			_check(moved.status == &"APPLIED" and moved.mandatory.size() == 1, "P08 S15c bound fixture")
+			if moved.mandatory.is_empty(): continue
+			var child: Command = moved.mandatory[0]
+			var binding: MoveFallCommand.Binding = child.get("_spatial_binding") if lethal else child.get("_binding")
+			var public_result := ActionQueue.new().submit(child,f.context)
+			_check(public_result.status == &"REJECTED" and public_result.reason == (&"move/internal_death" if lethal else &"move/internal_fall") and public_result.root_id == 0, "P08 S15c public root rejected")
+			if field == "mode": binding.values.mode = &"fall" if lethal else &"cell_death"
+			elif field == "source":
+				if lethal: (child as DeathCommand).source.origin_cell = Vector2i.ZERO
+				else: binding.source.kind = &"cell"
+			elif field == "request": binding.request = DamageRequest.new(mover.id,1.0,&"physical",&"bypass",binding.source) if lethal else null
+			elif field == "request_seal": binding.request_seal = DamageRequest.new(mover.id,1.0,&"physical",&"bypass",binding.source) if lethal else null
+			elif field != "valid": binding.values[field] += 1
+			var copied := child.copy_for_queue()
+			var hp := mover.vitals.get_hp()
+			var result := copied.execute(f.context)
+			_check(result.status == (&"APPLIED" if field == "valid" else &"FAULTED") and (mover.vitals.get_hp() < hp if field == "valid" else mover.vitals.get_hp() == hp), "P08 S15c copy exact forms " + str(lethal) + "/" + field,result.reason)
+			_p08_cleanup(f)
+
+func _test_p08_boundaries() -> void:
+	var board := BattleBoard.new(2,1)
+	var version := board.board_version
+	_check(board.set_height_steps(Vector2i.ZERO,-1) and board.board_version == version + 1,"P08 S01 one setter touch")
+	_check(board.set_height_steps(Vector2i.ZERO,-1) and board.board_version == version + 2,"P08 S01 same value touch")
+	board.set_height(Vector2i.ZERO,-1)
+	_check(board.get_height_steps(Vector2i.ZERO) == -2 and not board.has_half_heights() and board.to_snapshot_dict().schema_version == 1,"P08 S01 last bit resets schema1")
+	board.board_version = ActionContext.MAX_ID
+	var before := board.to_snapshot_dict()
+	_check(not board.set_height_steps(Vector2i.ZERO,1) and board.to_snapshot_dict() == before,"P08 S01 MAX version no mutation")
+	board.board_version = 0; board.set_height_steps(Vector2i.ZERO,1); board.resize(2,1)
+	_check(not board.has_half_heights() and board.get_height_steps(Vector2i.ZERO) == 0,"P08 S01 resize bits zero")
+	var f := _p08_fixture()
+	f.board.set_height_steps(Vector2i.ZERO,1)
+	f.actor.height = -9223372036854775807 - 1
+	f.target.height = 9223372036854775807
+	var captured := ItemSimulationSnapshot.capture(f.state,[]).snapshot
+	var dto := captured.to_dict()
+	var a := captured.instantiate({}).state; var b := captured.instantiate({}).state
+	var original := captured.canonical_bytes()
+	a._board.set_height_steps(Vector2i.ZERO,3)
+	_check(b._board.get_height_steps(Vector2i.ZERO) == 1 and f.board.get_height_steps(Vector2i.ZERO) == 1 and captured.canonical_bytes() == original,"P08 S02 isolated halves arrays")
+	_check(b._board.get_unit_by_id(f.actor.id).height == f.actor.height and b._board.get_unit_by_id(f.target.id).height == f.target.height,"P08 S02 independent int64 unit cache")
+	for mutation: String in ["float","bool","negative","two","short","long","zero","missing","extra","version_bool","unknown3"]:
+		var bad := dto.duplicate(true)
+		var raw: Dictionary = bad.board_snapshot.board
+		if mutation == "float": raw.height_half_steps[0] = 1.0
+		elif mutation == "bool": raw.height_half_steps[0] = true
+		elif mutation == "negative": raw.height_half_steps[0] = -1
+		elif mutation == "two": raw.height_half_steps[0] = 2
+		elif mutation == "short": raw.height_half_steps.pop_back()
+		elif mutation == "long": raw.height_half_steps.append(0)
+		elif mutation == "zero": raw.height_half_steps.fill(0)
+		elif mutation == "missing": raw.erase("height_half_steps")
+		elif mutation == "extra": raw["extra"] = 1
+		elif mutation == "version_bool": raw.schema_version = true
+		else: raw.schema_version = 3
+		var item_result := ItemSimulationSnapshot.from_dict(bad)
+		var board_result := SimulationSnapshot.from_dict(bad.board_snapshot)
+		_check(item_result.code == (ItemSnapshotResult.Code.SNAPSHOT_UNSUPPORTED if mutation == "unknown3" else ItemSnapshotResult.Code.SNAPSHOT_INVALID) and board_result.code == (BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED if mutation == "unknown3" else BoardSnapshotResult.Code.SNAPSHOT_INVALID),"P08 S03 exact shape classification " + mutation,item_result.reason + "/" + board_result.reason)
+	a._board.resize(0,0); b._board.resize(0,0); _p08_cleanup(f)
+	for direction: Vector2i in [Vector2i.RIGHT,Vector2i.LEFT,Vector2i.UP,Vector2i.DOWN]:
+		for distance: int in [2,3]:
+			var ranged := _p08_fixture()
+			ranged.board.remove_unit(ranged.actor); ranged.board.remove_unit(ranged.target)
+			ranged.actor.cell = Vector2i(0 if direction.x > 0 else (4 if direction.x < 0 else 2),0 if direction.y > 0 else (4 if direction.y < 0 else 2))
+			ranged.target.cell = ranged.actor.cell + direction * distance
+			ranged.board.add_unit(ranged.actor); ranged.board.add_unit(ranged.target)
+			ranged.actor.stats.set_base_value(StatTypes.StatType.ATTACK_RANGE,float(distance))
+			var target_cell: Vector2i = ranged.target.cell
+			var result := _p07_submit(ranged)
+			_check(result.status == &"APPLIED" and ranged.target.cell == target_cell + direction and ranged.target.vitals.get_hp() == 93.0,"P08 S09/S12 ranged axis push one",result.reason)
+			_p08_cleanup(ranged)
+	for invalid: float in [0.0,1.5,NAN,INF,4097.0]:
+		var invalid_f := _p08_fixture()
+		var ids := UnitId.get_counter()
+		invalid_f.actor.stats.set_base_value(StatTypes.StatType.ATTACK_RANGE,invalid)
+		var r := _p07_submit(invalid_f)
+		_check(r.status == &"REJECTED" and r.root_id == 0 and r.get_events().is_empty() and invalid_f.actor.action_resources.get_main_left() == 4 and UnitId.get_counter() == ids,"P08 S09 invalid range clean reject")
+		_p08_cleanup(invalid_f)
+	var route := _p08_fixture()
+	var actor: UnitState = route.actor
+	var start := actor.cell
+	var half := start + Vector2i.UP
+	var full := half + Vector2i.UP
+	route.board.set_height_steps(half,1); route.board.set_height_steps(full,2)
+	var move := ActionQueue.new().submit(MoveCommand.new(actor.id,[start,half,full],0),route.context)
+	_check(move.status == &"APPLIED" and actor.move_points_left == 1.0 and actor.cell == full,"P08 S05/S06 two half rises cost two",move.reason)
+	_p08_cleanup(route)
+	for depth: int in range(1,7):
+		var q := _p08_fixture(8.0); q.board.set_height_steps(q.destination,-3)
+		var r := _p07_submit(q,ActionQueue.new(64,512,depth))
+		_check(r.status == (&"APPLIED" if depth == 6 else &"FAULTED") and r.get_steps().size() == depth + 1 and (r.reason == &"depth_limit" if depth < 6 else r.reason == &""),"P08 S15b depth exact " + str(depth),r.reason)
+		_p08_cleanup(q)
+	for offset: int in [4,3]:
+		var q := _p08_fixture(8.0); q.target.vitals.set_hp(9.0)
+		var hook := func(c: ActionContext,_result: CommandStepResult) -> void: c._next_event_seq = ActionContext.MAX_ID-offset-1
+		var r := ActionQueue.new().submit(P07TreeHook.new(_p06_attack(q),&"push",hook),q.context)
+		_check(r.status == (&"APPLIED" if offset == 4 else &"FAULTED") and q.target.vitals.get_hp() == (0.0 if offset == 4 else 2.0) and q.blocker.vitals.get_hp() == (0.0 if offset == 4 else 8.0),"P08 S15b collision cap4 seqreserve",r.reason)
+		_p08_cleanup(q)
+	var both := _p08_fixture(8.0); both.target.vitals.set_hp(9.0)
+	var limited := _p07_submit(both,ActionQueue.new(64,5))
+	_check(limited.status == &"FAULTED" and limited.reason == &"event_limit" and limited.get_events().size() == 8 and _p07_events(limited,&"died").size() == 2 and not both.target.is_alive() and not both.blocker.is_alive(),"P08 S15b cap4 atomic prefix beyond limit",limited.reason)
+	_p08_cleanup(both)
+func _test_p08_lifecycle_mutations() -> void:
+	for inventory_mode: int in [0,1,2]:
+		for equipment_mode: int in [0,1,2]:
+			for mode: String in ["inventory_add","inventory_remove","inventory_close","inventory_replace","inventory_flags","equipment_add","equipment_remove","equipment_close","equipment_replace","equipment_flags","owner_replace","owner_close"]:
+				var selected_mode := inventory_mode if mode.begins_with("inventory") else equipment_mode
+				if selected_mode != 1 and (mode.ends_with("remove") or mode.ends_with("close") or mode.ends_with("replace")) and not mode.begins_with("owner"): continue
+				var source := _p08_fixture()
+				_p08_set_lifecycle(source,inventory_mode,equipment_mode)
+				var snapshot := ItemSimulationSnapshot.capture(source.state,[]).snapshot
+				var outcomes: Array = []
+				for repeat: int in [0,1]:
+					var state := snapshot.instantiate({}).state
+					var board := state._board
+					var actor := board.get_unit_by_id(source.actor.id)
+					var target := board.get_unit_by_id(source.target.id)
+					var owner := state.get_owner(target.id)
+					var context := ActionContext.new(state,P04TestRng.new(),ActionEventSink.new(),[],null,source.rules)
+					var hook := func(_a: float,_b: float) -> void:
+						if mode == "owner_replace":
+							state._owners[state._owners.find(owner)] = ItemOwnerState.new(target)
+						elif mode == "owner_close": owner._closed = true
+						else:
+							var inventory := mode.begins_with("inventory")
+							var facades: Array = state._inventories if inventory else state._equipment
+							var facade: RefCounted = state.get_inventory(target.id) if inventory else state.get_equipment(target.id)
+							if mode.ends_with("remove"): facades.erase(facade)
+							elif mode.ends_with("close"): facade.set("_closed",true)
+							elif mode.ends_with("flags"):
+								if inventory: owner._inventory_retired = not owner._inventory_retired
+								else: owner._equipment_retired = not owner._equipment_retired
+							else:
+								if mode.ends_with("replace"): facades.erase(facade)
+								var replacement_owner := ItemOwnerState.new(target)
+								var replacement: RefCounted = InventoryState.new(replacement_owner) if inventory else EquipmentState.new(replacement_owner)
+								facades.append(replacement)
+					target.vitals.hp_changed.connect(hook,CONNECT_ONE_SHOT)
+					var receipt := ActionQueue.new().submit(AttackCommand.new(actor.id,target.id,actor.cell,target.cell,source.definition.id,0),context)
+					_check(receipt.status == &"FAULTED" and receipt.reason == &"attack/invalid_hit" and _p07_kinds(receipt) == [&"attacked",&"damaged"] and target.vitals.get_hp() == 93.0 and actor.action_resources.get_main_left() == 3 and target.cell == source.target.cell, "P08 S14f restored facade mutation %d/%d/%s" % [inventory_mode,equipment_mode,mode],receipt.reason)
+					outcomes.append([receipt.get_events(),receipt.get_steps(),context._next_command_seq,context._next_event_seq,context.get_revision(),context.get_rng().to_dict(),board.board_version])
+					board.resize(0,0)
+				_check(outcomes[0] == outcomes[1] and ItemSimulationSnapshot.capture(source.state,[]).snapshot.canonical_bytes() == snapshot.canonical_bytes(), "P08 S16 lifecycle fault replay and source isolation")
+				_p08_cleanup(source)
+
+func _test_p08_paths() -> void:
+	var board := BattleBoard.new(4,4)
+	var finder := GridPathfinder.new()
+	finder.configure(board.get_bounds(),board.make_spatial_data_provider(),1,&"spatial_move_v1")
+	for invalid: float in [-1.0,NAN,INF]:
+		_check(finder.get_reachable_cells(Vector2i.ZERO,invalid).is_empty(), "P08 S05 invalid spatial reachable budget")
+	var expected: Array[Vector2i] = [Vector2i.ZERO,Vector2i(1,0),Vector2i(1,1)]
+	for repeat: int in range(4): _check(finder.find_path(Vector2i.ZERO,Vector2i(1,1)) == expected, "P08 S06 deterministic equal paths")
+	for length: int in [2,3,33,34]:
+		var f := _p08_fixture()
+		var actor: UnitState = f.actor
+		actor.move_points_left = 100.0
+		var path: Array[Vector2i] = []
+		for i: int in range(length): path.append(actor.cell if i%2 == 0 else actor.cell+Vector2i.UP)
+		var before := ItemSimulationSnapshot.capture(f.state,[]).snapshot.canonical_bytes()
+		var command := MoveCommand.new(actor.id,path,0)
+		command.validate(f.context)
+		_check(ItemSimulationSnapshot.capture(f.state,[]).snapshot.canonical_bytes() == before, "P08 S06 root inspect pure")
+		var receipt := ActionQueue.new().submit(command,f.context)
+		_check(receipt.status == (&"REJECTED" if length == 34 else &"APPLIED") and actor.move_points_left == (100.0 if length == 34 else 101.0-length), "P08 S06 path size/revisit exact debit")
+		_p08_cleanup(f)
+	# Отдельная admission continuation обязана видеть законное изменение после ребра.
+	var f := _p08_fixture()
+	var actor: UnitState = f.actor
+	var path: Array[Vector2i] = [actor.cell,actor.cell+Vector2i.UP,actor.cell+Vector2i.UP*2]
+	var root := MoveCommand.new(actor.id,path,0)
+	var first := root.execute(f.context)
+	var paid: float = actor.move_points_left
+	f.board.set_height_steps(path[2],3)
+	var second := first.continuation.execute(f.context)
+	_check(second.status == &"INTERRUPTED" and second.reason == &"move/path_height" and actor.move_points_left == paid and actor.cell == path[1], "P08 S06 continuation current geometry without second debit")
+	_p08_cleanup(f)
+
+func _test_p08_command_reserves() -> void:
+	for limit: int in range(1,8):
+		var f := _p08_fixture(8.0); f.board.set_height_steps(f.destination,-3)
+		var r := _p07_submit(f,ActionQueue.new(limit))
+		_check(r.status == (&"APPLIED" if limit == 7 else &"FAULTED") and r.get_steps().size() == limit and f.actor.action_resources.get_main_left() == 3, "P08 S15b command boundary " + str(limit),r.reason)
+		_p08_cleanup(f)
+	for touches: int in [0,1,2,3]:
+		for missing: bool in [false,true]:
+			var f := _p08_fixture(8.0 if touches == 3 else -1.0)
+			if touches == 0: f.board.set_terrain(f.destination,TerrainType.Type.WALL)
+			if touches == 2: f.board.set_height_steps(f.destination,-8)
+			if touches == 3: f.board.set_terrain(f.destination,TerrainType.Type.HAZARD)
+			f.board.board_version = ActionContext.MAX_ID - touches + (1 if missing and touches > 0 else 0)
+			var r := _p07_submit(f)
+			_check(r.status == (&"REJECTED" if missing and touches > 0 else &"APPLIED"), "P08 S15a exact reserve %d/%s" % [touches,str(missing)],r.reason)
+			_p08_cleanup(f)
+
+func _test_p08_final_closure() -> void:
+	for scenario: String in ["both_dead","blocker_dead_fall","fall_dead","hazard","fall_dead_fault","hazard_fault","wall_fault","fall_fault","flat_fault"]:
+		var faulted := scenario.ends_with("_fault")
+		var shape := scenario.trim_suffix("_fault")
+		var source := _p08_fixture(8.0 if shape in ["both_dead","blocker_dead_fall"] else -1.0)
+		if shape == "both_dead": source.target.vitals.set_hp(9.0)
+		if shape == "fall_dead": source.target.vitals.set_hp(20.0)
+		if shape in ["blocker_dead_fall","fall_dead","fall"]: source.board.set_height_steps(source.destination,-3)
+		if shape == "hazard": source.board.set_terrain(source.destination,TerrainType.Type.HAZARD)
+		if shape == "wall": source.board.set_terrain(source.destination,TerrainType.Type.WALL)
+		var heal := _p07_heal(source,source.target)
+		var snapshot := ItemSimulationSnapshot.capture(source.state,[]).snapshot
+		var source_bytes := snapshot.canonical_bytes()
+		var ids := UnitId.get_counter()
+		var outcomes: Array = []
+		for repeat: int in [0,1]:
+			var state := snapshot.instantiate({heal.id:heal}).state
+			var actor := state._board.get_unit_by_id(source.actor.id)
+			var target := state._board.get_unit_by_id(source.target.id)
+			var context := ActionContext.new(state,P04TestRng.new(),ActionEventSink.new(),[],MoveRules.new([actor.id],1,&"spatial_move_v1"),source.rules)
+			var queue := ActionQueue.new()
+			var events: Array = []; var steps: Array = []
+			for delta: Vector2i in [Vector2i.UP,Vector2i.DOWN]:
+				var receipt := queue.submit(MoveCommand.new(actor.id,[actor.cell,actor.cell+delta],context.get_revision()),context)
+				_check(receipt.status == &"APPLIED","P08 S16 cleanup replay Move")
+				events.append_array(receipt.get_events()); steps.append_array(receipt.get_steps())
+			var calls: Array[int] = [0]
+			var hp_hook := Callable()
+			if faulted:
+				if shape in ["fall_dead","hazard"]:
+					target.vitals.died.connect(func() -> void: state._board.set_height(Vector2i(4,4),0),CONNECT_ONE_SHOT)
+				elif shape == "flat":
+					state._board.unit_position_changed.connect(func(_u: UnitState,_from: Vector2i,_to: Vector2i) -> void: state._board.set_height(Vector2i(4,4),0),CONNECT_ONE_SHOT)
+				else:
+					hp_hook = func(_a: float,_b: float) -> void:
+						calls[0] += 1
+						if calls[0] == 2: state._board.set_height(Vector2i(4,4),0)
+					target.vitals.hp_changed.connect(hp_hook)
+			var attack := queue.submit(AttackCommand.new(actor.id,target.id,actor.cell,target.cell,source.definition.id,context.get_revision()),context)
+			if hp_hook.is_valid(): target.vitals.hp_changed.disconnect(hp_hook)
+			var expected_deaths := 0 if shape in ["wall","fall","flat"] else (2 if shape == "both_dead" else 1)
+			_check(attack.status == (&"FAULTED" if faulted else &"APPLIED") and _p07_events(attack,&"died").size() == expected_deaths,"P08 S16 cleanup/terminal replay "+scenario,attack.reason)
+			if faulted: _check(_p07_events(attack,&"healed").is_empty() and actor.action_resources.get_main_left() == 3,"P08 S16 terminal fault preserves payment without reactions")
+			events.append_array(attack.get_events()); steps.append_array(attack.get_steps())
+			var result := ItemSimulationSnapshot.capture(state,[])
+			_check(result.code == ItemSnapshotResult.Code.OK,"P08 S16 canonical corpses")
+			outcomes.append([result.snapshot.canonical_bytes(),events,steps,context._next_root_id,context._next_command_seq,context._next_event_seq,context.get_revision(),context.get_rng().to_dict()])
+			state._board.resize(0,0)
+		_check(outcomes[0] == outcomes[1] and ItemSimulationSnapshot.capture(source.state,[]).snapshot.canonical_bytes() == source_bytes and UnitId.get_counter() == ids and source.context.get_revision() == 0,"P08 S16 exact cleanup replay/source items isolation "+scenario)
+		_p08_cleanup(source)
+	for direction: Vector2i in [Vector2i.RIGHT,Vector2i.LEFT,Vector2i.UP,Vector2i.DOWN]:
+		for rise: int in [-5,-4,-3,-2,0,1,2,3]:
+			for hazard: bool in [false,true]:
+				var f := _p08_fixture()
+				f.board.move_unit(f.actor,Vector2i(0,0))
+				var mover: UnitState = f.target
+				var from := mover.cell; var to := from+direction
+				f.board.set_height_steps(to,rise)
+				if hazard: f.board.set_terrain(to,TerrainType.Type.HAZARD)
+				var cost := (3.0 if hazard else 1.0)+(1.0 if rise == 2 else 0.0)
+				mover.move_points_left = cost
+				var path: Array[Vector2i] = [from,to]
+				var inspected := MovePathCheck.inspect(f.board,mover,path,1,cost,&"spatial_move_v1")
+				var finder := GridPathfinder.new()
+				finder.configure(f.board.get_bounds(),f.board.make_spatial_data_provider(mover),1,&"spatial_move_v1")
+				var reachable := finder.get_reachable_cells(from,cost)
+				_check((inspected.get_reason() == &"move/height_step" and not reachable.has(to) and finder.find_path(from,to).is_empty()) if rise == 3 else (inspected.get_reason() == &"" and inspected.get_costs() == [cost] and reachable.get(to) == cost and finder.find_path(from,to) == path),"P08 S05 axes path/reachable/edge exact cost")
+				var receipt := ActionQueue.new().submit(MoveCommand.new(mover.id,path,0),f.context)
+				_check((receipt.status == &"REJECTED" and mover.move_points_left == cost and mover.cell == from) if rise == 3 else (receipt.status == (&"INTERRUPTED" if hazard else &"APPLIED") and mover.move_points_left == 0.0 and mover.cell == to),"P08 S05 axes Move exact budget "+str(rise),receipt.reason)
+				_p08_cleanup(f)
+	var board := BattleBoard.new(3,1)
+	board.set_height_steps(Vector2i(2,0),1)
+	for provider: GridDataProvider in [board.make_data_provider(),board.make_terrain_only_provider()]:
+		var finder := GridPathfinder.new(); finder.configure(board.get_bounds(),provider)
+		_check(finder.find_path(Vector2i.ZERO,Vector2i(1,0)).is_empty() and finder.get_reachable_cells(Vector2i.ZERO,100.0).is_empty(),"P08 S04 direct legacy providers both paths fail closed")
+
+func _test_p08_unknown_malformed_priority() -> void:
+	for half: bool in [false,true]:
+		var f := _p08_fixture()
+		if half: f.board.set_height_steps(Vector2i.ZERO,1)
+		var original := ItemSimulationSnapshot.capture(f.state,[]).snapshot.to_dict()
+		var ids := UnitId.get_counter()
+		for mutation: String in ["valid","height_short","height_long","height_float","height_bool","terrain_short","terrain_long","terrain_float","terrain_bool","terrain_type","board_version","units_type","unit_type","occupancy_type","occupant_type","unit_version"]:
+			var raw := original.duplicate(true)
+			var board: Dictionary = raw.board_snapshot.board
+			board.schema_version = 3
+			match mutation:
+				"height_short": board.heights = []
+				"height_long": board.heights.append(0)
+				"height_float": board.heights[0] = 0.0
+				"height_bool": board.heights[0] = false
+				"terrain_short": board.terrain = []
+				"terrain_long": board.terrain.append(0)
+				"terrain_float": board.terrain[0] = 0.0
+				"terrain_bool": board.terrain[0] = false
+				"terrain_type": board.terrain = "bad"
+				"board_version": board.board_version = 0.0
+				"units_type": board.units = "bad"
+				"unit_type": board.units[0] = "bad"
+				"occupancy_type": board.occupancy = "bad"
+				"occupant_type": board.occupancy[0] = "bad"
+				"unit_version": board.units[0].schema_version = 3
+			var copy := raw.duplicate(true)
+			var board_result := SimulationSnapshot.from_dict(raw.board_snapshot)
+			var item_result := ItemSimulationSnapshot.from_dict(raw)
+			var unsupported := mutation in ["valid","unit_version"]
+			_check(board_result.code == (BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED if unsupported else BoardSnapshotResult.Code.SNAPSHOT_INVALID) and item_result.code == (ItemSnapshotResult.Code.SNAPSHOT_UNSUPPORTED if unsupported else ItemSnapshotResult.Code.SNAPSHOT_INVALID),"P08 S03 malformed outranks unknown board %s/%s" % [str(half),mutation],board_result.reason+"/"+item_result.reason)
+			_check(raw == copy and UnitId.get_counter() == ids,"P08 S03 classification no input mutation/allocator")
+		_p08_cleanup(f)
