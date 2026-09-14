@@ -224,3 +224,37 @@ GODOT_BIN отсутствовал в process/user environment; найден у�
 только для проверочных процессов. APPDATA временно направлялся в test_reports/godot-profile
 и восстанавливался. Пользовательские настройки окружения не изменялись. Эти проверки
 не подтверждают Move/Attack/Push, экономику, Flow/BT, общий C-3/S-5 или полный preview.
+
+## P05 — MoveCommand и явный путь (2026-09-14)
+
+Выполнена приёмка M01–M12 принятой редакции 1 P05_MOVE_TASK и весь прежний регресс.
+Итог ведущего: **1421 passed, 0 failed**; предыдущие 1275 assertions сохранены.
+M01–M12 вызываются общим runner. Дополнительно до завершения P05 tests сохранённый
+baseline runner отдельно прошёл на новом runtime: 1275 passed, 0 failed.
+
+Команда ведущего из корня: `& test_reports/p05-check.ps1`. Godot 4.7.2:
+headless import (scan DONE, MoveCommand/MoveRules/MovePathCheck зарегистрированы),
+startup `--quit-after 3`, затем `--script tests/run_tests.gd` — exit 0.
+Логи: test_reports/p05-import.log, p05-startup.log, p05-tests.log.
+Новых parse/compile/runtime errors нет. В тестовом логе остаётся только ожидаемый
+старый occupied-cell ERROR P01.
+APPDATA направлялась только на время процесса в test_reports/godot-profile и восстановлена.
+UI не прогонялся: пакет проверяет headless ядро.
+
+M01–M04: владение payload/rules, точные admission/rejection reasons, bounds/occupancy/
+height/full-tail checks, отсутствие мутаций/caches/counters/RNG, finite и точное списание
+float. M05–M08: реальные рёбра Move и trusted children, terminal interruption, смерть/
+смещение/замена/изменение пути и бюджета, добровольный HAZARD → mandatory Death,
+damage/item healing и прежний depth-first порядок. M09–M12: строгие value schemas и
+copies, reentrancy из board signals/final sink, sibling drain/fault precedence,
+лимиты/overflow и сохранение оплаченного prefix, два независимых P03b fixtures.
+
+Проверка сохранности `& test_reports/p05-audit.ps1`: закрытые paths совпали с baseline,
+все прежние 3812 строк runner сохранены по порядку, прежние документы сохранены целиком,
+новые файлы ограничены allowed_paths. `git diff --check` прошёл. Frozen P05 task/manifest
+не переписаны. Новые hashes результата и логи переданы независимому game_reviewer;
+окончательный код получил **APPROVE**. Manifest: test_reports/p05-result-review-manifest.json.
+
+Move не подключён к UI/AI. Проверка парных fixtures не означает полный preview/token,
+snapshot ActionContext или save-game. Цена атаки, повторное переключение персонажей,
+движение после атаки и refill остаются открытыми. C-3/S-5/T10/T11 и 0.5/0.8 не закрыты.

@@ -4,6 +4,7 @@ class_name CommandStepResult
 const APPLIED: StringName = &"APPLIED"
 const SKIPPED: StringName = &"SKIPPED"
 const FAULTED: StringName = &"FAULTED"
+const INTERRUPTED: StringName = &"INTERRUPTED"
 var status: StringName = FAULTED
 var reason: StringName = &""
 var events: Array[Dictionary] = []
@@ -18,6 +19,8 @@ static func skipped(p_reason: StringName = &"", p_mandatory: Array[Command] = []
 	return _make(SKIPPED, p_reason, [], p_mandatory, p_reactions, p_continuation, false)
 static func faulted(p_reason: StringName) -> CommandStepResult:
 	return _make(FAULTED, p_reason, [], [], [], null, false)
+static func interrupted(p_reason: StringName) -> CommandStepResult:
+	return _make(INTERRUPTED, p_reason, [], [], [], null, false)
 
 static func _make(p_status: StringName, p_reason: StringName, p_events: Array[Dictionary], p_mandatory: Array[Command], p_reactions: Array[Command], p_continuation: Command, p_changed: bool) -> CommandStepResult:
 	var result := CommandStepResult.new()

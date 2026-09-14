@@ -44,6 +44,8 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 			var capture := ItemSimulationSnapshot.capture(context.get_state(), context.get_unsupported_runtime_ids())
 			if capture.code != ItemSnapshotResult.Code.OK:
 				reason = &"BUSY" if capture.code == ItemSnapshotResult.Code.SNAPSHOT_BUSY else StringName(capture.reason)
+			elif accepted is MoveCommand and (accepted as MoveCommand)._is_continuation():
+				reason = &"move/internal_continuation"
 			else: reason = accepted.validate(context)
 	if reason == &"" and (context._next_root_id < 1 or context._next_root_id >= MAX_ID or not _can_step(context)):
 		reason = &"sequence_exhausted"
@@ -92,11 +94,16 @@ func _execute_entry(entry: Dictionary, receipt: ActionReceipt, context: ActionCo
 		_fault(receipt, context, &"malformed_step")
 		return
 	if result.state_changed: context._bump_revision()
-	if result.status not in [&"APPLIED", &"SKIPPED", &"FAULTED"] or result.events.size() > 2 or (result.status == &"SKIPPED" and (result.state_changed or not result.events.is_empty())):
+	if result.status not in [&"APPLIED", &"SKIPPED", &"FAULTED", &"INTERRUPTED"] or result.events.size() > 2 or (result.status == &"SKIPPED" and (result.state_changed or not result.events.is_empty())) or (result.status == &"INTERRUPTED" and (result.state_changed or not result.events.is_empty() or not result.mandatory.is_empty() or not result.reactions.is_empty() or result.continuation != null)):
 		_fault(receipt, context, &"malformed_step")
 		return
 	step["status"] = result.status
 	step["reason"] = result.reason
+	if result.status == &"INTERRUPTED":
+		if receipt.status == &"APPLIED":
+			receipt.status = &"INTERRUPTED"
+			if receipt.reason == &"": receipt.reason = result.reason
+		return
 	var events: Array[Dictionary] = []
 	for draft in result.events:
 		if not _valid_draft(draft):
@@ -178,6 +185,16 @@ func _bind_batch(descriptions: Array[Dictionary], event_seq: int, context: Actio
 	return result
 
 static func _valid_draft(draft: Dictionary) -> bool:
+	if ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "from_cell": TYPE_VECTOR2I, "to_cell": TYPE_VECTOR2I, "movement_kind": TYPE_STRING_NAME, "move_cost": TYPE_FLOAT, "move_before": TYPE_FLOAT, "move_after": TYPE_FLOAT}):
+		if draft["kind"] != &"moved" or draft["movement_kind"] != &"voluntary": return false
+		if draft["actor_unit_id"] <= 0 or draft["actor_unit_id"] >= MAX_ID or draft["target_unit_id"] != draft["actor_unit_id"]: return false
+		var dx: int = int(draft["to_cell"].x) - int(draft["from_cell"].x)
+		var dy: int = int(draft["to_cell"].y) - int(draft["from_cell"].y)
+		if absi(dx) + absi(dy) != 1: return false
+		var cost: float = draft["move_cost"]
+		var before: float = draft["move_before"]
+		var after: float = draft["move_after"]
+		return is_finite(cost) and cost >= 1.0 and is_finite(before) and before >= cost and is_finite(after) and after >= 0.0 and after < before and after == before - cost and before - after == cost
 	if not ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "source": TYPE_DICTIONARY, "hp_before": TYPE_FLOAT, "hp_after": TYPE_FLOAT, "amount": TYPE_FLOAT, "alive_before": TYPE_BOOL, "alive_after": TYPE_BOOL}): return false
 	if draft["kind"] not in [&"damaged", &"healed", &"died"]: return false
 	for key: String in ["hp_before", "hp_after", "amount"]:

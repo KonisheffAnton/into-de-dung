@@ -4,6 +4,7 @@ class_name ActionReceipt
 const APPLIED: StringName = &"APPLIED"
 const REJECTED: StringName = &"REJECTED"
 const FAULTED: StringName = &"FAULTED"
+const INTERRUPTED: StringName = &"INTERRUPTED"
 var status: StringName = &"REJECTED"
 var reason: StringName = &""
 var root_id: int = 0

@@ -277,3 +277,30 @@ ActionRngPort fail-closed; concrete cursor RNG существует только
 clone/roundtrip и двух независимых P03b состояний. HP-команды RNG не потребляют. Move,
 Attack, Push, ActionResources, полный preview/token, Flow, BT, новые статусы, экономика
 и save-game в этот срез не входят. Общие C-3/S-5 и этапы 0.5/0.8 остаются открытыми.
+
+## P05 — явное пошаговое движение (2026-09-14)
+
+Реализован headless-срез принятой редакции 1 P05_MOVE_TASK. Этот раздел уточняет
+исторические статусы P04 выше: MoveCommand теперь существует; Attack/Push и полный
+preview по-прежнему впереди. Старый GridPathfinder не изменён и не исполняется очередью.
+
+MoveRules — копируемый immutable допуск harness с явным пределом высоты, добавленный
+необязательным пятым аргументом ActionContext. Он не задаёт Battle Flow. MovePathCheck
+проверяет весь явный путь со стартом через provider своей BattleBoard, включая бюджет,
+точную float-оплату и непроходимый VOID. Root также проверяет запас board_version.
+
+MoveCommand исполняет одно ребро через BattleBoard.move_unit и оплачивает только
+состоявшийся вход из прежнего move_points_left. После каждого ребра очередь исполняет
+последствия и continuation с прежним depth+1. Последняя continuation проверяет итоговое
+состояние без нового входа. Смерть, замена, удаление, смещение персонажа или изменившееся
+следующее ребро могут прервать оплаченный префикс; хвост не оплачивается и не перестраивается.
+
+HAZARD допускает оплаченный вход и создаёт обязательную DeathCommand с cell source.
+Смерть проходит прежний P04 finalize до реакций; corpse остаётся в registry, occupancy
+освобождается один раз. Журнал moved → died. INTERRUPTED — результат исполнения,
+не игровой эффект: pending siblings продолжаются, следующий fault имеет приоритет.
+Строгая moved schema отделена от HP событий; production collector остаётся damage-only.
+
+Не добавлены ActionResources/refill, цена атаки, повторный выбор персонажа, движение
+после атаки, UI/AI adapters, Battle Flow/BT, полный preview/token или save-game.
+Ограничения single-writer callbacks, fault latch/prefix, общий C-3/S-5 сохраняются.

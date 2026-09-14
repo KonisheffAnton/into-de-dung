@@ -114,6 +114,20 @@ func _initialize() -> void:
 	_test_p04_c10_faults_and_counters()
 	_test_p04_c11_rng_port_isolation()
 
+	_suite("P05 Move")
+	_test_p05_m01_contracts()
+	_test_p05_m02_geometry_and_budget()
+	_test_p05_m03_root_rejections()
+	_test_p05_m04_arithmetic()
+	_test_p05_m05_hazard_death()
+	_test_p05_m06_continuation_guards()
+	_test_p05_m07_hazard_boundaries()
+	_test_p05_m08_no_moved_reactions()
+	_test_p05_m09_moved_schema()
+	_test_p05_m10_interrupted_receipt()
+	_test_p05_m11_depth_and_limits()
+	_test_p05_m12_isolation()
+
 	print("\n=== %d passed, %d failed ===" % [_passed, _failed])
 	quit(1 if _failed > 0 else 0)
 
@@ -156,6 +170,460 @@ func _check_eq(actual: float, expected: float, label: String) -> void:
 		label,
 		"(expected %.4f, got %.4f)" % [expected, actual]
 	)
+
+func _p05_fixture() -> Dictionary:
+	var board := BattleBoard.new(40, 3)
+	var stats := _make_stats(10.0, 100.0)
+	var unit := _p02_unit(201, Vector2i(0, 1), stats)
+	unit.vitals.set_hp(10.0)
+	unit.move_points_left = 100.0
+	unit.has_attacked = true
+	board.add_unit(unit)
+	var owner := ItemOwnerState.new(unit)
+	var inventory := InventoryState.new(owner)
+	var equipment := EquipmentState.new(owner)
+	var state := ItemSimulationState.new(board, [owner], [inventory], [equipment])
+	var rules := MoveRules.new([201], 1)
+	var context := ActionContext.new(state, P04TestRng.new(), ActionEventSink.new(), [], rules)
+	return {"board": board, "unit": unit, "state": state, "owner": owner, "inventory": inventory, "equipment": equipment, "context": context, "rules": rules}
+
+func _p05_path(length: int, y: int = 1) -> Array[Vector2i]:
+	var result: Array[Vector2i] = []
+	for x in length: result.append(Vector2i(x, y))
+	return result
+
+func _test_p05_m01_contracts() -> void:
+	var f := _p05_fixture()
+	var rules := f["rules"] as MoveRules
+	var ids: Array[int] = [201]
+	var copy := MoveRules.new(ids, 1)
+	ids[0] = 202
+	_check(copy.allows(201) and not copy.allows(202), "M01 rules copy isolates caller array")
+	var context_rules := (f["context"] as ActionContext).get_move_rules()
+	context_rules._admitted_unit_ids[0] = 202
+	rules._admitted_unit_ids[0] = 203
+	_check(context_rules != null and context_rules != rules and (f["context"] as ActionContext).get_move_rules().allows(201), "M01 context and getter rules isolate mutable arrays")
+	for bad_ids in [[1, 1], [0], [-1], [MoveRules.MAX_ID]]:
+		var typed_ids: Array[int] = Array(bad_ids, TYPE_INT, "", null)
+		_check(MoveRules.new(typed_ids, 1).validate() == &"move/invalid_rules", "M01 invalid ids and duplicates reject %s" % str(bad_ids))
+	for height: int in [-1, 2147483648]:
+		_check(MoveRules.new([201], height).validate() == &"move/invalid_rules", "M01 invalid height %d" % height)
+	_check(MoveRules.new([201], 0).validate() == &"" and MoveRules.new([201], 2147483647).validate() == &"", "M01 height boundaries accepted")
+	_check(MoveRules.new([], 1).validate() == &"" and not MoveRules.new([], 1).allows(201) and MoveRules.new([999999], 1).allows(999999), "M01 empty and unknown allowlist semantics")
+	var oversized: Array[int] = []
+	for i in 65537: oversized.append(i + 1)
+	_check(MoveRules.new(oversized, 1).validate() == &"move/invalid_rules", "M01 oversized rules retain invalid marker")
+	var source: Array[Vector2i] = _p05_path(2)
+	var command := MoveCommand.new(201, source, 0)
+	source[1] = Vector2i(3, 1)
+	var command_copy := command.copy_for_queue() as MoveCommand
+	var returned := command.get_path()
+	returned[0] = Vector2i(9, 1)
+	_check(command_copy != null and command_copy.get_path() == [Vector2i(0, 1), Vector2i(1, 1)] and command.get_path()[0] == Vector2i(0, 1), "M01 move constructor copy getter and queued copy isolate path")
+	for length: int in [0, 1, 34]:
+		var invalid := MoveCommand.new(201, _p05_path(length), 0)
+		_check(invalid.validate(f["context"]) == &"move/path_length" and (invalid.copy_for_queue() as MoveCommand).validate(f["context"]) == &"move/path_length", "M01 path length %d is retained across copy" % length)
+	_check(MoveCommand.new(201, _p05_path(33), 0).validate(f["context"]) == &"", "M01 maximum 33-cell path accepted")
+	for actor_id: int in [-1, 0, MoveCommand.MAX_ID]:
+		_check(MoveCommand.new(actor_id, _p05_path(2), 0).validate(f["context"]) == &"move/invalid_actor_id", "M01 actor id boundary %d" % actor_id)
+	for revision: int in [-1, MoveCommand.MAX_ID - 1, MoveCommand.MAX_ID]:
+		_check(MoveCommand.new(201, _p05_path(2), revision).validate(f["context"]) == &"move/invalid_revision", "M01 revision boundary %d" % revision)
+	var empty_admission := _p05_fixture()
+	empty_admission["context"] = ActionContext.new(empty_admission["state"], P04TestRng.new(), ActionEventSink.new(), [], MoveRules.new([], 1))
+	_check(MoveCommand.new(201, _p05_path(2), 0).validate(empty_admission["context"]) == &"move/not_admitted", "M01 empty admission rejects move")
+	var unknown_admission := _p05_fixture()
+	unknown_admission["context"] = ActionContext.new(unknown_admission["state"], P04TestRng.new(), ActionEventSink.new(), [], MoveRules.new([202], 1))
+	_check(MoveCommand.new(202, _p05_path(2), 0).validate(unknown_admission["context"]) == &"move/missing_actor", "M01 unknown allowed id remains missing actor")
+	var continuation := MoveCommand._make_continuation(command, 2, f["unit"] as UnitState)
+	var before_counters := [(f["context"] as ActionContext)._next_root_id, (f["context"] as ActionContext)._next_command_seq, (f["context"] as ActionContext)._next_event_seq, (f["context"] as ActionContext).get_revision()]
+	var rejected := ActionQueue.new().submit(continuation, f["context"])
+	_check(rejected.status == &"REJECTED" and rejected.reason == &"move/internal_continuation" and rejected.root_id == 0 and rejected.get_steps().is_empty() and before_counters == [(f["context"] as ActionContext)._next_root_id, (f["context"] as ActionContext)._next_command_seq, (f["context"] as ActionContext)._next_event_seq, (f["context"] as ActionContext).get_revision()], "M01 external continuation rejected without counters")
+	var preflight := _p05_fixture(); var preflight_continuation := MoveCommand._make_continuation(MoveCommand.new(201, _p05_path(2), 0), 2, preflight["unit"] as UnitState)
+	(preflight["unit"] as UnitState).stats._stats[99] = RefCounted.new()
+	var preflight_reject := ActionQueue.new().submit(preflight_continuation, preflight["context"])
+	_check(preflight_reject.status == &"REJECTED" and preflight_reject.reason != &"move/internal_continuation" and preflight_reject.root_id == 0, "M01 invalid preflight wins over external continuation gate")
+	var old := _test_p04_fixture()
+	var old_move := MoveCommand.new(201, [Vector2i.ZERO, Vector2i(1, 0)], 0)
+	var invalid_rules_context := ActionContext.new(old["state"], P04TestRng.new(), ActionEventSink.new(), [], MoveRules.new([0], 1))
+	_check(old_move.validate(old["context"]) == &"move/rules_missing" and ActionQueue.new().submit(old_move, old["context"]).reason == &"move/rules_missing" and ActionQueue.new().submit(DamageCommand.new(DamageRequest.new(201, 1.0, &"physical", &"bypass", DamageSource.new(&"test"))), invalid_rules_context).status == &"APPLIED", "M01 old and invalid-rules contexts preserve HP compatibility")
+
+func _test_p05_m02_geometry_and_budget() -> void:
+	var f := _p05_fixture()
+	var board := f["board"] as BattleBoard
+	var unit := f["unit"] as UnitState
+	var context := f["context"] as ActionContext
+	var version := board.board_version
+	unit.height = 999
+	var board_changed: Array[Variant] = []
+	var positions: Array[Array] = []
+	board.board_changed.connect(func() -> void: board_changed.append(true))
+	board.unit_position_changed.connect(func(moved: UnitState, from: Vector2i, to: Vector2i) -> void: positions.append([moved.id, from, to]))
+	var receipt := ActionQueue.new().submit(MoveCommand.new(201, _p05_path(3), 0), context)
+	_check(receipt.status == &"APPLIED" and receipt.get_events().size() == 2 and receipt.get_steps().size() == 3, "M02 two edges include terminal step")
+	_check(unit.cell == Vector2i(2, 1) and unit.height == board.get_height(unit.cell) and unit.move_points_left == 98.0 and unit.has_attacked and board.occupant_at(Vector2i(2, 1)) == unit and board.occupant_at(Vector2i(0, 1)) == null, "M02 board occupancy height and exact budget")
+	_check(board.board_version == version + 2 and context.get_revision() == 2, "M02 board and context revisions increment per edge")
+	_check(board_changed.size() == 2 and positions == [[201, Vector2i(0, 1), Vector2i(1, 1)], [201, Vector2i(1, 1), Vector2i(2, 1)]], "M02 board signals match both real edges")
+	var loop := _p05_fixture()
+	var loop_receipt := ActionQueue.new().submit(MoveCommand.new(201, [Vector2i(0, 1), Vector2i(1, 1), Vector2i(0, 1)], 0), loop["context"])
+	_check(loop_receipt.status == &"APPLIED" and (loop["unit"] as UnitState).move_points_left == 98.0, "M02 return edge is charged again")
+	var diagonal := _p05_fixture()
+	var unattacked := _p05_fixture(); (unattacked["unit"] as UnitState).has_attacked = false
+	_check(MoveCommand.new(201, [Vector2i(0, 1), Vector2i(1, 2)], 0).validate(diagonal["context"]) == &"move/not_adjacent" and MoveCommand.new(201, [Vector2i(0, 1), Vector2i(0, 1)], 0).validate(diagonal["context"]) == &"move/not_adjacent" and ActionQueue.new().submit(MoveCommand.new(201, _p05_path(2), 0), unattacked["context"]).status == &"APPLIED" and not (unattacked["unit"] as UnitState).has_attacked, "M02 same and diagonal reject; attack flag is unrelated")
+
+func _test_p05_m03_root_rejections() -> void:
+	var cases: Array[Dictionary] = []
+	var wall := _p05_fixture(); (wall["board"] as BattleBoard).set_terrain(Vector2i(1, 1), TerrainType.Type.WALL); cases.append({"command": MoveCommand.new(201, _p05_path(2), 0), "fixture": wall, "reason": &"move/blocked"})
+	var void_case := _p05_fixture(); (void_case["board"] as BattleBoard).set_terrain(Vector2i(1, 1), TerrainType.Type.VOID); cases.append({"command": MoveCommand.new(201, _p05_path(2), 0), "fixture": void_case, "reason": &"move/blocked"})
+	var bounds := _p05_fixture(); cases.append({"command": MoveCommand.new(201, [Vector2i(0, 1), Vector2i(2147483647, 1)], 0), "fixture": bounds, "reason": &"move/out_of_bounds"})
+	var negative_bounds := _p05_fixture(); cases.append({"command": MoveCommand.new(201, [Vector2i(0, 1), Vector2i(-2147483648, 1)], 0), "fixture": negative_bounds, "reason": &"move/out_of_bounds"})
+	var stale := _p05_fixture(); cases.append({"command": MoveCommand.new(201, _p05_path(2), 1), "fixture": stale, "reason": &"move/stale_revision"})
+	var tail := _p05_fixture(); (tail["board"] as BattleBoard).set_terrain(Vector2i(2, 1), TerrainType.Type.WALL); cases.append({"command": MoveCommand.new(201, _p05_path(3), 0), "fixture": tail, "reason": &"move/blocked"})
+	var occupied := _p05_fixture(); var other := _p02_unit(202, Vector2i(1, 1), _make_stats()); (occupied["board"] as BattleBoard).add_unit(other)
+	var other_owner := ItemOwnerState.new(other); var other_inventory := InventoryState.new(other_owner); var other_equipment := EquipmentState.new(other_owner)
+	occupied["state"] = ItemSimulationState.new(occupied["board"], [occupied["owner"], other_owner], [occupied["inventory"], other_inventory], [occupied["equipment"], other_equipment])
+	occupied["context"] = ActionContext.new(occupied["state"], P04TestRng.new(), ActionEventSink.new(), [], MoveRules.new([201], 1))
+	var occupied_before := (occupied["board"] as BattleBoard).to_snapshot_dict()
+	var occupied_result := ActionQueue.new().submit(MoveCommand.new(201, _p05_path(2), 0), occupied["context"])
+	_check(occupied_result.status == &"REJECTED" and occupied_result.reason == &"move/blocked" and occupied_result.get_steps().is_empty() and (occupied["board"] as BattleBoard).to_snapshot_dict() == occupied_before, "M03 occupied next cell rejects before mutation")
+	var tall := _p05_fixture(); (tall["board"] as BattleBoard).set_height(Vector2i(1, 1), 2); cases.append({"command": MoveCommand.new(201, _p05_path(2), 0), "fixture": tall, "reason": &"move/height_step"})
+	var downhill := _p05_fixture(); (downhill["board"] as BattleBoard).set_height(Vector2i(0, 1), 2); cases.append({"command": MoveCommand.new(201, _p05_path(2), 0), "fixture": downhill, "reason": &"move/height_step"})
+	var start := _p05_fixture(); cases.append({"command": MoveCommand.new(201, [Vector2i(1, 1), Vector2i(2, 1)], 0), "fixture": start, "reason": &"move/start_mismatch"})
+	for item in cases:
+		var fixture: Dictionary = item["fixture"]
+		_p05_assert_rejected(fixture, item["command"] as MoveCommand, item["reason"] as StringName, "M03 root rejection", bool(item.get("uncaptured", false)))
+	var dead := _p05_fixture(); (dead["unit"] as UnitState).vitals.apply_damage(10.0); _p05_assert_rejected(dead, MoveCommand.new(201, _p05_path(2), 0), &"move/dead_actor", "M03 dead")
+	var not_placed := _p05_fixture(); (not_placed["board"] as BattleBoard).clear_occupancy(not_placed["unit"]); _p05_assert_rejected(not_placed, MoveCommand.new(201, _p05_path(2), 0), &"move/actor_not_placed", "M03 unplaced")
+	for budget: float in [0.0, 0.5]:
+		var low := _p05_fixture(); (low["unit"] as UnitState).move_points_left = budget; _p05_assert_rejected(low, MoveCommand.new(201, _p05_path(2), 0), &"move/insufficient_move", "M03 budget %.1f" % budget)
+	var missing := _p05_fixture(); _p05_assert_rejected(missing, MoveCommand.new(999, _p05_path(2), 0), &"move/missing_actor", "M03 missing actor")
+	var nonfinite := _p05_fixture(); var nonfinite_context := nonfinite["context"] as ActionContext; var nonfinite_unit := nonfinite["unit"] as UnitState; nonfinite_unit.move_points_left = NAN
+	var nonfinite_counters := [nonfinite_context._next_root_id, nonfinite_context._next_command_seq, nonfinite_context._next_event_seq, nonfinite_context.get_revision()]
+	var nonfinite_result := ActionQueue.new().submit(MoveCommand.new(201, _p05_path(2), 0), nonfinite_context)
+	_check(nonfinite_result.status == &"REJECTED" and is_nan(nonfinite_unit.move_points_left) and nonfinite_counters == [nonfinite_context._next_root_id, nonfinite_context._next_command_seq, nonfinite_context._next_event_seq, nonfinite_context.get_revision()], "M03 nonfinite live budget is rejected by preflight without repair")
+
+func _test_p05_m04_arithmetic() -> void:
+	for cost: float in [-1.0, 0.0, 0.5, NAN, INF, -INF]:
+		_check(MovePathCheck._check_costs([cost], 10.0)["reason"] == &"move/invalid_cost", "M04 invalid cost %s" % str(cost))
+	for budget: float in [-1.0, NAN, INF, -INF]:
+		_check(MovePathCheck._check_costs([1.0], budget)["reason"] == &"move/invalid_budget", "M04 invalid budget %s" % str(budget))
+	var valid := MovePathCheck._check_costs([1.0, 3.0, 1.0], 5.0)
+	_check(valid["reason"] == &"" and valid["total"] == 5.0, "M04 exact FLOOR HAZARD FLOOR arithmetic")
+	_check(MovePathCheck._check_costs([1e308, 1e308], 1.7e308)["reason"] == &"move/cost_overflow", "M04 positive cost overflow rejects")
+	_check(MovePathCheck._check_costs([1e16, 1.0], 1e16)["reason"] == &"move/insufficient_move", "M04 sequential residual catches rounded sum")
+	_check(MovePathCheck._check_costs([1.0], 1e20)["reason"] == &"move/unrepresentable_debit", "M04 unrepresentable debit rejects")
+	var f := _p05_fixture(); (f["unit"] as UnitState).move_points_left = 1e20
+	_p05_assert_rejected(f, MoveCommand.new(201, _p05_path(2), 0), &"move/unrepresentable_debit", "M04 board rejects free ULP step")
+	var inspection := MovePathCheck.inspect(f["board"], f["unit"], _p05_path(2), 1, 100.0)
+	var costs := inspection.get_costs(); costs[0] = 99.0
+	_check(inspection.get_reason() == &"" and inspection.get_costs()[0] == 1.0, "M04 inspected costs are copied")
+	_check(MovePathCheck.inspect(null, f["unit"], _p05_path(2), 1, 1.0).get_reason() == &"move/invalid_runtime" and MovePathCheck.inspect(f["board"], null, _p05_path(2), 1, 1.0).get_reason() == &"move/invalid_runtime" and MovePathCheck.inspect(f["board"], f["unit"], _p05_path(2), -1, 1.0).get_reason() == &"move/invalid_rules", "M04 inspect runtime and height guards")
+
+func _p05_assert_rejected(fixture: Dictionary, command: MoveCommand, reason: StringName, label: String, use_board_snapshot: bool = false) -> void:
+	var old_context := fixture["context"] as ActionContext
+	var board := fixture["board"] as BattleBoard
+	var state := fixture["state"] as ItemSimulationState
+	var rng := old_context.get_rng()
+	var sink := P04HookSink.new()
+	var context := ActionContext.new(state, rng, sink, [], old_context.get_move_rules())
+	fixture["context"] = context
+	var capture := ItemSimulationSnapshot.capture(state, [])
+	var canonical := capture.snapshot.canonical_bytes() if capture.code == ItemSnapshotResult.Code.OK else PackedByteArray()
+	var board_snapshot := board.to_snapshot_dict()
+	var raw_stats := (fixture["unit"] as UnitState).stats.to_snapshot_dict()
+	var raw_stat: Stat = (fixture["unit"] as UnitState).stats._stats[StatTypes.StatType.HP_MAX]
+	raw_stat.base_value = raw_stat.base_value
+	var cache_before := [raw_stat._cache_dirty, raw_stat._cached_value, raw_stat._modifier_slots.duplicate(), raw_stat._next_modifier_slot]
+	var rng_before := rng.to_dict()
+	var counters := [context._next_root_id, context._next_command_seq, context._next_event_seq, context.get_revision(), board.board_version]
+	var signal_count: Array[int] = [0]
+	var position_count: Array[int] = [0]
+	board.board_changed.connect(func() -> void: signal_count[0] += 1)
+	board.unit_position_changed.connect(func(_unit: UnitState, _from: Vector2i, _to: Vector2i) -> void: position_count[0] += 1)
+	var direct := command.validate(context)
+	var receipt := ActionQueue.new().submit(command, context)
+	var after := ItemSimulationSnapshot.capture(state, [])
+	var stable := board.to_snapshot_dict() == board_snapshot if use_board_snapshot else after.code == ItemSnapshotResult.Code.OK and after.snapshot.canonical_bytes() == canonical
+	_check(direct == reason and receipt.status == &"REJECTED" and receipt.reason == reason and receipt.root_id == 0 and receipt.get_steps().is_empty() and receipt.get_events().is_empty() and stable and (fixture["unit"] as UnitState).stats.to_snapshot_dict() == raw_stats and [raw_stat._cache_dirty, raw_stat._cached_value, raw_stat._modifier_slots, raw_stat._next_modifier_slot] == cache_before and rng.to_dict() == rng_before and counters == [context._next_root_id, context._next_command_seq, context._next_event_seq, context.get_revision(), board.board_version] and signal_count[0] == 0 and position_count[0] == 0 and sink.events.is_empty(), "%s %s preserves canonical/raw/counters" % [label, reason])
+
+func _test_p05_m05_hazard_death() -> void:
+	for edge: int in [1, 3]:
+		var f := _p05_fixture()
+		var path: Array[Vector2i] = _p05_path(4)
+		var board := f["board"] as BattleBoard
+		var before_version := board.board_version
+		var hook := P05MoveHook.new(MoveCommand.new(201, path, 0), edge, [DamageCommand.new(DamageRequest.new(201, 99.0, &"physical", &"bypass", DamageSource.new(&"test")))])
+		var receipt := ActionQueue.new().submit(hook, f["context"])
+		var events := receipt.get_events()
+		var unit := f["unit"] as UnitState
+		_check(receipt.status == &"INTERRUPTED" and receipt.reason == &"move/actor_dead" and events.size() == edge + 2 and events[edge - 1]["kind"] == &"moved" and events[edge]["kind"] == &"damaged" and events[edge + 1]["kind"] == &"died", "M05 lethal child interrupts at edge%d" % edge)
+		_check(unit.move_points_left == 100.0 - float(edge) and unit.cell == Vector2i(edge, 1) and board.board_version == before_version + edge + 1 and (f["context"] as ActionContext).get_revision() == edge + 1 and not unit.is_alive() and board.occupant_at(unit.cell) == null and board.get_unit_by_id(201) == unit, "M05 paid prefix, one death cleanup and corpse edge%d" % edge)
+
+func _test_p05_m06_continuation_guards() -> void:
+	var modes: Array[String] = ["displaced", "removed", "replaced", "wall", "height", "budget", "distant", "unrelated"]
+	var last_fixture: Dictionary = {}
+	for mode in modes:
+		var f := _p05_fixture(); var board := f["board"] as BattleBoard; var unit := f["unit"] as UnitState
+		var replacement: UnitState = null
+		last_fixture = f
+		var mutation := P04Work.new(&"m06_" + mode, func(_context: ActionContext) -> CommandStepResult:
+			match mode:
+				"displaced": board.move_unit(unit, Vector2i(5, 1))
+				"removed":
+					(f["inventory"] as InventoryState).close(); (f["equipment"] as EquipmentState).close(); (f["owner"] as ItemOwnerState).close()
+					(f["state"] as ItemSimulationState)._owners.clear(); (f["state"] as ItemSimulationState)._inventories.clear(); (f["state"] as ItemSimulationState)._equipment.clear(); board.remove_unit(unit)
+				"replaced":
+					(f["inventory"] as InventoryState).close(); (f["equipment"] as EquipmentState).close(); (f["owner"] as ItemOwnerState).close(); board.remove_unit(unit)
+					replacement = _p02_unit(201, Vector2i(1, 1), _make_stats())
+					board.add_unit(replacement)
+					var new_owner := ItemOwnerState.new(replacement); var new_inventory := InventoryState.new(new_owner); var new_equipment := EquipmentState.new(new_owner)
+					(f["state"] as ItemSimulationState)._owners = [new_owner]; (f["state"] as ItemSimulationState)._inventories = [new_inventory]; (f["state"] as ItemSimulationState)._equipment = [new_equipment]
+				"wall": board.set_terrain(Vector2i(2, 1), TerrainType.Type.WALL)
+				"height": board.set_height(Vector2i(2, 1), 3)
+				"budget": unit.move_points_left = 1.0
+				"distant": board.set_terrain(Vector2i(3, 1), TerrainType.Type.WALL)
+				"unrelated": board.set_terrain(Vector2i(5, 1), TerrainType.Type.WALL)
+			return CommandStepResult.applied([], [], [], null, true))
+		var hook := P05MoveHook.new(MoveCommand.new(201, _p05_path(4), 0), 1, [mutation])
+		var receipt := ActionQueue.new().submit(hook, f["context"])
+		var expected: StringName = &"move/actor_displaced"
+		if mode == "removed": expected = &"move/actor_missing"
+		elif mode == "replaced": expected = &"move/actor_replaced"
+		elif mode == "wall" or mode == "distant": expected = &"move/path_blocked"
+		elif mode == "height": expected = &"move/path_height"
+		elif mode == "budget": expected = &"move/budget_exhausted"
+		elif mode == "unrelated": expected = &""
+		var expected_cell := Vector2i(1, 1); var expected_budget := 99.0
+		if mode == "displaced": expected_cell = Vector2i(5, 1)
+		elif mode == "budget" or mode == "distant": expected_cell = Vector2i(2, 1); expected_budget = 0.0 if mode == "budget" else 98.0
+		elif mode == "unrelated": expected_cell = Vector2i(3, 1); expected_budget = 97.0
+		var moved := board.get_unit_by_id(201) if mode == "replaced" else unit
+		var capture := ItemSimulationSnapshot.capture(f["state"] as ItemSimulationState, [])
+		var composition_ok := capture.code == ItemSnapshotResult.Code.OK if mode in ["removed", "replaced"] else true
+		_check(((receipt.status == &"APPLIED" and expected == &"") or (receipt.status == &"INTERRUPTED" and receipt.reason == expected)) and (mode == "removed" or (moved as UnitState).cell == expected_cell) and (mode == "replaced" or unit.move_points_left == expected_budget) and composition_ok, "M06 dynamic %s exact prefix and composition" % mode)
+	var terminal := _p05_fixture()
+	var terminal_board := terminal["board"] as BattleBoard
+	var terminal_child := P04Work.new(&"m06_terminal", func(_context: ActionContext) -> CommandStepResult:
+		(terminal["unit"] as UnitState).move_points_left = 0.0
+		terminal_board.set_terrain(Vector2i(1, 1), TerrainType.Type.WALL)
+		return CommandStepResult.applied([], [], [], null, true))
+	var terminal_result := ActionQueue.new().submit(P05MoveHook.new(MoveCommand.new(201, _p05_path(2), 0), 1, [terminal_child]), terminal["context"])
+	_check(terminal_result.status == &"APPLIED" and terminal_result.get_steps().size() == 3, "M06 terminal ignores depleted budget and changed old terrain")
+	_check((last_fixture["context"] as ActionContext).get_revision() >= 1, "M06 paid prefix survives dynamic interruption")
+
+func _test_p05_m07_hazard_boundaries() -> void:
+	for hazard_index: int in [1, 2, 3]:
+		var f := _p05_fixture(); var board := f["board"] as BattleBoard
+		board.set_terrain(Vector2i(hazard_index, 1), TerrainType.Type.HAZARD)
+		var version_before := board.board_version
+		var receipt := ActionQueue.new().submit(MoveCommand.new(201, _p05_path(4), 0), f["context"])
+		var unit := f["unit"] as UnitState
+		var events := receipt.get_events()
+		var died_source: Dictionary = events[hazard_index]["source"]
+		_check(receipt.status == &"INTERRUPTED" and receipt.reason == &"move/actor_dead" and not unit.is_alive() and unit.cell == Vector2i(hazard_index, 1) and unit.move_points_left == 100.0 - float(hazard_index + 2) and events.size() == hazard_index + 1 and receipt.get_steps().size() == hazard_index + 2 and (f["context"] as ActionContext).get_revision() == hazard_index + 1 and board.board_version == version_before + hazard_index + 1 and events[hazard_index - 1]["kind"] == &"moved" and events[hazard_index - 1]["move_cost"] == 3.0 and events[hazard_index]["kind"] == &"died" and died_source["kind"] == &"cell" and died_source["origin_cell"] == Vector2i(hazard_index, 1) and died_source["source_instance_id"] == 0 and died_source["instigator_unit_id"] == 0 and died_source["credit_unit_id"] == 0 and events[hazard_index]["actor_unit_id"] == 0 and events[hazard_index]["target_unit_id"] == 201, "M07 hazard index %d charges source and counters" % hazard_index)
+	var zero := _p05_fixture(); (zero["unit"] as UnitState).vitals.set_hp(0.0); (zero["board"] as BattleBoard).set_terrain(Vector2i(1, 1), TerrainType.Type.HAZARD)
+	var zero_result := ActionQueue.new().submit(MoveCommand.new(201, _p05_path(2), 0), zero["context"])
+	_check(zero_result.status == &"INTERRUPTED" and not (zero["unit"] as UnitState).is_alive() and zero_result.get_events().size() == 2 and zero_result.get_events()[1]["kind"] == &"died", "M07 alive-at-zero enters hazard and dies")
+	var escape := _p05_fixture(); var escape_board := escape["board"] as BattleBoard; escape_board.set_terrain(Vector2i(0, 1), TerrainType.Type.HAZARD); escape_board.board_version = ActionContext.MAX_ID - 1
+	var boundary := ActionQueue.new().submit(MoveCommand.new(201, _p05_path(2), 0), escape["context"])
+	_check(boundary.status == &"APPLIED" and escape_board.board_version == ActionContext.MAX_ID, "M07 start hazard escape boundary")
+	var invalid_tail := _p05_fixture(); (invalid_tail["board"] as BattleBoard).set_terrain(Vector2i(1, 1), TerrainType.Type.HAZARD); (invalid_tail["board"] as BattleBoard).set_terrain(Vector2i(2, 1), TerrainType.Type.WALL)
+	_check(ActionQueue.new().submit(MoveCommand.new(201, _p05_path(3), 0), invalid_tail["context"]).status == &"REJECTED", "M07 invalid tail rejects whole root")
+	var expensive_tail := _p05_fixture(); (expensive_tail["unit"] as UnitState).move_points_left = 3.0; (expensive_tail["board"] as BattleBoard).set_terrain(Vector2i(1, 1), TerrainType.Type.HAZARD)
+	var void_tail := _p05_fixture(); (void_tail["board"] as BattleBoard).set_terrain(Vector2i(1, 1), TerrainType.Type.VOID)
+	_check(ActionQueue.new().submit(MoveCommand.new(201, _p05_path(3), 0), expensive_tail["context"]).reason == &"move/insufficient_move" and ActionQueue.new().submit(MoveCommand.new(201, _p05_path(2), 0), void_tail["context"]).reason == &"move/blocked", "M07 expensive hazard and VOID tails reject root")
+	var dynamic := _p05_fixture(); var dynamic_board := dynamic["board"] as BattleBoard
+	var make_hazard := P04Work.new(&"hazard", func(_c: ActionContext) -> CommandStepResult:
+		dynamic_board.set_terrain(Vector2i(2, 1), TerrainType.Type.HAZARD)
+		return CommandStepResult.applied([], [], [], null, true))
+	var dynamic_result := ActionQueue.new().submit(P05MoveHook.new(MoveCommand.new(201, _p05_path(3), 0), 1, [make_hazard]), dynamic["context"])
+	_check(dynamic_result.status == &"INTERRUPTED" and dynamic_result.get_events().size() == 3 and (dynamic["unit"] as UnitState).move_points_left == 96.0, "M07 dynamic floor to hazard uses current price and death")
+	var poor := _p05_fixture(); (poor["unit"] as UnitState).move_points_left = 2.0; var poor_board := poor["board"] as BattleBoard
+	var poor_hazard := P04Work.new(&"poor_hazard", func(_c: ActionContext) -> CommandStepResult:
+		poor_board.set_terrain(Vector2i(2, 1), TerrainType.Type.HAZARD)
+		return CommandStepResult.applied([], [], [], null, true))
+	var poor_result := ActionQueue.new().submit(P05MoveHook.new(MoveCommand.new(201, _p05_path(3), 0), 1, [poor_hazard]), poor["context"])
+	_check(poor_result.status == &"INTERRUPTED" and poor_result.reason == &"move/budget_exhausted" and (poor["unit"] as UnitState).is_alive() and (poor["unit"] as UnitState).cell == Vector2i(1, 1) and (poor["unit"] as UnitState).move_points_left == 1.0 and poor_result.get_events().size() == 1, "M07 dynamic hazard insufficient budget avoids death")
+
+func _test_p05_m08_no_moved_reactions() -> void:
+	var f := _p05_reaction_fixture(1.5)
+	var context := f["context"] as ActionContext
+	var marker: Array[StringName] = []
+	var explicit := P04Work.new(&"m08_explicit", func(_context: ActionContext) -> CommandStepResult:
+		marker.append(&"explicit")
+		return CommandStepResult.applied())
+	var hook := P05MoveHook.new(MoveCommand.new(201, [Vector2i.ZERO, Vector2i(1, 0), Vector2i(2, 0)], 0), 1, [explicit], [DamageCommand.new(DamageRequest.new(201, 3.0, &"physical", &"bypass", DamageSource.new(&"test")))])
+	var receipt := ActionQueue.new().submit(hook, context)
+	var kinds: Array[String] = []
+	for event in receipt.get_events(): kinds.append(String(event["kind"]))
+	var step_kinds: Array[StringName] = []
+	for step in receipt.get_steps(): step_kinds.append(step["kind"])
+	_check(receipt.status == &"APPLIED" and kinds == ["moved", "damaged", "healed", "moved"] and marker == [&"explicit"] and step_kinds == [&"move", &"damage", &"heal", &"m08_explicit", &"move", &"move"], "M08 mandatory damage, item heal, explicit sibling, continuation drain", "%s %s" % [receipt.status, kinds])
+	var plain := _p05_reaction_fixture(1.5); var plain_result := ActionQueue.new().submit(MoveCommand.new(201, [Vector2i.ZERO, Vector2i(1, 0)], 0), plain["context"])
+	_check(plain_result.get_events().size() == 1 and plain_result.get_events()[0]["kind"] == &"moved", "M08 moved alone does not trigger heal item")
+
+func _p05_reaction_fixture(heal_amount: float) -> Dictionary:
+	var board := BattleBoard.new(3, 1)
+	var unit := _p02_unit(201, Vector2i.ZERO, _make_stats())
+	unit.vitals.set_hp(10.0)
+	unit.move_points_left = 100.0
+	board.add_unit(unit)
+	var owner := ItemOwnerState.new(unit)
+	var inventory := InventoryState.new(owner)
+	var equipment := EquipmentState.new(owner)
+	var definition := ItemDef.new()
+	definition.id = &"p05_heal_on_damage"
+	var heal := HealOnDamageEffect.new()
+	heal.trigger_event = TriggeredEffect.TriggerEvent.UNIT_DAMAGED
+	heal.heal_amount = heal_amount
+	definition.effects = [heal]
+	var item := owner.create_item(definition)
+	_check(item != null and inventory.add_item(item), "M08 fixture activates real HealOnDamage item")
+	var state := ItemSimulationState.new(board, [owner], [inventory], [equipment])
+	return {"state": state, "board": board, "unit": unit, "definition": definition, "context": ActionContext.new(state, P04TestRng.new(), ActionEventSink.new(), [], MoveRules.new([201], 1))}
+
+func _test_p05_m09_moved_schema() -> void:
+	var f := _p05_fixture(); var sink := P04HookSink.new(); f["context"] = ActionContext.new(f["state"], P04TestRng.new(), sink, [], MoveRules.new([201], 1)); var receipt := ActionQueue.new().submit(MoveCommand.new(201, _p05_path(3), 0), f["context"]); var event := receipt.get_events()[0]
+	_check(event.keys().size() == 13 and event["kind"] == &"moved" and event["target_unit_id"] == 201 and event["parent_event_seq"] == 0, "M09 moved schema and parent sequence")
+	var raw_event := event.duplicate(true)
+	for metadata: String in ["event_seq", "root_id", "command_seq", "parent_event_seq"]: raw_event.erase(metadata)
+	_check(ActionQueue._valid_draft(raw_event), "M09 moved draft validates")
+	var malformed := event.duplicate(true); malformed["move_before"] = 1.0; malformed["move_cost"] = 1.0; malformed["move_after"] = 1e-20
+	for metadata: String in ["event_seq", "root_id", "command_seq", "parent_event_seq"]: malformed.erase(metadata)
+	_check(not ActionQueue._valid_draft(malformed), "M09 asymmetric arithmetic is rejected")
+	for mutation in [{"move_cost": 0.0}, {"move_cost": NAN}, {"move_cost": 1}, {"move_before": NAN}, {"move_after": -1.0}, {"target_unit_id": 0}, {"target_unit_id": 202}, {"movement_kind": &"forced"}, {"to_cell": Vector2i(1, 2)}, {"to_cell": Vector2i(2147483647, 1)}, {"source": DamageSource.new(&"test")}, {"callback": Callable()}, {"extra": true}]:
+		var bad := raw_event.duplicate(true)
+		for key in mutation.keys(): bad[key] = mutation[key]
+		_check(not ActionQueue._valid_draft(bad), "M09 malformed moved field %s rejects" % str(mutation.keys()))
+	var missing := raw_event.duplicate(true); missing.erase("move_cost")
+	var string_name_key := raw_event.duplicate(true); string_name_key.erase("move_cost"); string_name_key[&"move_cost"] = 1.0
+	_check(not ActionQueue._valid_draft(missing) and not ActionQueue._valid_draft(string_name_key), "M09 missing and StringName draft keys reject")
+	var copied := receipt.get_events(); copied[0]["move_cost"] = 99.0; var copied_steps := receipt.get_steps(); copied_steps[0]["kind"] = &"bad"; sink.events[0]["move_cost"] = 88.0
+	_check(receipt.get_events()[0]["move_cost"] == 1.0 and receipt.get_steps()[0]["kind"] == &"move" and sink.events[0]["move_cost"] == 88.0 and receipt.get_events()[0]["event_seq"] == 1 and receipt.get_events()[1]["event_seq"] == 2 and receipt.get_steps()[2]["command_seq"] == 3, "M09 receipt steps and sink copies plus exact child sequences")
+	var fault_fixture := _p05_fixture()
+	var queue_bad_draft := raw_event.duplicate(true)
+	queue_bad_draft["move_after"] = 1e-20
+	var malformed_root := P04Work.new(&"m09_bad_event", func(_context: ActionContext) -> CommandStepResult:
+		return CommandStepResult.applied([queue_bad_draft]))
+	var malformed_result := ActionQueue.new().submit(malformed_root, fault_fixture["context"])
+	_check(malformed_result.status == &"FAULTED" and malformed_result.reason == &"malformed_event" and ActionQueue.new().submit(MoveCommand.new(201, _p05_path(2), 0), fault_fixture["context"]).reason == &"CONTEXT_FAULTED", "M09 malformed event faults queue and context latch")
+
+func _test_p05_m10_interrupted_receipt() -> void:
+	var f := _p05_fixture(); (f["board"] as BattleBoard).set_terrain(Vector2i(1, 1), TerrainType.Type.HAZARD); var receipt := ActionQueue.new().submit(MoveCommand.new(201, _p05_path(2), 0), f["context"])
+	_check(receipt.status == &"INTERRUPTED" and receipt.reason == &"move/actor_dead", "M10 first interruption reason preserved")
+	_check(CommandStepResult.interrupted(&"x").continuation == null and not CommandStepResult.interrupted(&"x").state_changed, "M10 interrupted result has no children or state change")
+	var reentrant := _p05_fixture()
+	var queue := ActionQueue.new()
+	var second_queue := ActionQueue.new()
+	var copies: Array[int] = [0]
+	var probe := P04Work.new(&"m10_probe")
+	probe.copying = func() -> void: copies[0] += 1
+	var nested: Array[ActionReceipt] = []
+	var board := reentrant["board"] as BattleBoard
+	board.board_changed.connect(func() -> void: nested.append(queue.submit(probe, reentrant["context"])))
+	board.unit_position_changed.connect(func(_u: UnitState, _from: Vector2i, _to: Vector2i) -> void: nested.append(second_queue.submit(probe, reentrant["context"])))
+	var hook_sink := P04HookSink.new()
+	hook_sink.hook = func(_event: Dictionary) -> void: nested.append(queue.submit(probe, reentrant["context"]))
+	reentrant["context"] = ActionContext.new(reentrant["state"], P04TestRng.new(), hook_sink, [], MoveRules.new([201], 1))
+	var reentrant_result := queue.submit(MoveCommand.new(201, _p05_path(2), 0), reentrant["context"])
+	var all_busy := true
+	for nested_receipt in nested: all_busy = all_busy and (nested_receipt as ActionReceipt).reason == &"BUSY"
+	_check(reentrant_result.status == &"APPLIED" and nested.size() == 3 and all_busy and copies[0] == 0 and (reentrant["context"] as ActionContext).get_rng().to_dict()["streams"][0]["cursor"] == 0, "M10 board signals and final sink reject same/different queue before copy/validate/RNG")
+	var resume := _p05_fixture(); var resume_board := resume["board"] as BattleBoard; var resume_unit := resume["unit"] as UnitState
+	var displacement := P04Work.new(&"m10_displace", func(_context: ActionContext) -> CommandStepResult:
+		resume_board.move_unit(resume_unit, Vector2i(4, 1)); return CommandStepResult.applied([], [], [], null, true))
+	var interrupted := queue.submit(P05MoveHook.new(MoveCommand.new(201, _p05_path(3), 0), 1, [displacement]), resume["context"])
+	var resumed := queue.submit(MoveCommand.new(201, [Vector2i(4, 1), Vector2i(5, 1)], (resume["context"] as ActionContext).get_revision()), resume["context"])
+	_check(interrupted.status == &"INTERRUPTED" and interrupted.reason == &"move/actor_displaced" and resumed.status == &"APPLIED", "M10 fresh root runs after ordinary interruption")
+	var siblings := _p05_fixture(); var markers: Array[StringName] = []
+	var first := P04Work.new(&"m10_first", func(_context: ActionContext) -> CommandStepResult: return CommandStepResult.interrupted(&"first"))
+	var marker := P04Work.new(&"m10_marker", func(_context: ActionContext) -> CommandStepResult: markers.append(&"ran"); return CommandStepResult.applied())
+	var second := P04Work.new(&"m10_second", func(_context: ActionContext) -> CommandStepResult: return CommandStepResult.interrupted(&"second"))
+	var later_fault := P04Work.new(&"m10_fault", func(_context: ActionContext) -> CommandStepResult: return CommandStepResult.faulted(&"later"))
+	var interrupt_only := P04Work.new(&"m10_interrupt_only", func(_context: ActionContext) -> CommandStepResult: return CommandStepResult.applied([], [], [first, marker, second]))
+	var interrupt_only_result := ActionQueue.new().submit(interrupt_only, siblings["context"])
+	_check(interrupt_only_result.status == &"INTERRUPTED" and interrupt_only_result.reason == &"first" and markers == [&"ran"], "M10 siblings preserve first interruption reason without fault")
+	markers.clear()
+	var siblings_root := P04Work.new(&"m10_root", func(_context: ActionContext) -> CommandStepResult: return CommandStepResult.applied([], [], [first, marker, second, later_fault]))
+	var sibling_result := ActionQueue.new().submit(siblings_root, siblings["context"])
+	_check(sibling_result.status == &"FAULTED" and sibling_result.reason == &"later" and markers == [&"ran"], "M10 siblings drain after interruption and later fault wins")
+	var corrupted := _p05_fixture()
+	var corrupt_result := ActionQueue.new().submit(P05CorruptContinuationHook.new(MoveCommand.new(201, _p05_path(3), 0)), corrupted["context"])
+	_check(corrupt_result.status == &"FAULTED" and corrupt_result.reason == &"move/invalid_runtime" and (corrupted["unit"] as UnitState).cell == Vector2i(1, 1) and corrupt_result.get_events().size() == 1, "M10 captured corrupt continuation faults runtime after paid prefix")
+	var terminal_displaced := _p05_fixture(); var terminal_board := terminal_displaced["board"] as BattleBoard; var terminal_unit := terminal_displaced["unit"] as UnitState
+	var terminal_shift := P04Work.new(&"m10_terminal_shift", func(_context: ActionContext) -> CommandStepResult: terminal_board.move_unit(terminal_unit, Vector2i(4, 1)); return CommandStepResult.applied([], [], [], null, true))
+	var terminal_result := ActionQueue.new().submit(P05MoveHook.new(MoveCommand.new(201, _p05_path(3), 0), 2, [terminal_shift]), terminal_displaced["context"])
+	var impossible := _p05_fixture(); var impossible_board := impossible["board"] as BattleBoard; var impossible_unit := impossible["unit"] as UnitState
+	var clear := P04Work.new(&"m10_clear", func(_context: ActionContext) -> CommandStepResult: impossible_board.clear_occupancy(impossible_unit); return CommandStepResult.applied([], [], [], null, true))
+	var impossible_result := ActionQueue.new().submit(P05MoveHook.new(MoveCommand.new(201, _p05_path(3), 0), 1, [clear]), impossible["context"])
+	_check(terminal_result.status == &"INTERRUPTED" and terminal_result.reason == &"move/actor_displaced" and impossible_result.status == &"FAULTED" and impossible_result.reason == &"move/invalid_runtime", "M10 terminal displacement interrupts and impossible occupancy faults")
+	for malformed_kind: String in ["changed", "event", "mandatory", "reaction", "continuation"]:
+		var malformed_fixture := _p05_fixture()
+		var malformed_step := P04Work.new(&"m10_bad_" + malformed_kind, func(_context: ActionContext) -> CommandStepResult:
+			var result := CommandStepResult.interrupted(&"bad")
+			if malformed_kind == "changed": result.state_changed = true
+			elif malformed_kind == "event": result.events.append({})
+			elif malformed_kind == "mandatory": result.mandatory.append(P04Work.new())
+			elif malformed_kind == "reaction": result.reactions.append(P04Work.new())
+			else: result.continuation = P04Work.new()
+			return result)
+		var malformed_receipt := ActionQueue.new().submit(malformed_step, malformed_fixture["context"])
+		_check(malformed_receipt.status == &"FAULTED" and malformed_receipt.reason == &"malformed_step", "M10 malformed interruption %s faults" % malformed_kind)
+
+func _test_p05_m11_depth_and_limits() -> void:
+	var f := _p05_fixture(); var full := ActionQueue.new().submit(MoveCommand.new(201, _p05_path(33), 0), f["context"]); _check(full.status == &"APPLIED" and full.get_events().size() == 32 and full.get_steps().size() == 33, "M11 32 edges plus terminal fit default depth")
+	var too_long := _p05_fixture(); var rejected := ActionQueue.new().submit(MoveCommand.new(201, _p05_path(34), 0), too_long["context"]); _check(rejected.status == &"REJECTED" and rejected.reason == &"move/path_length", "M11 33 edges rejected by payload cap")
+	var limited := _p05_fixture(); var limited_queue := ActionQueue.new(1, 512, 32); var fault := limited_queue.submit(MoveCommand.new(201, _p05_path(3), 0), limited["context"]); _check(fault.status == &"FAULTED" and fault.reason == &"command_limit" and (limited["unit"] as UnitState).cell == Vector2i(1, 1), "M11 command limit retains paid prefix")
+	_check(ActionQueue.new().submit(MoveCommand.new(201, [Vector2i(1, 1), Vector2i(2, 1)], (limited["context"] as ActionContext).get_revision()), limited["context"]).reason == &"CONTEXT_FAULTED", "M11 command limit latches context")
+	var fresh_after_fault := _p05_fixture()
+	_check(limited_queue.submit(MoveCommand.new(201, _p05_path(2), 0), fresh_after_fault["context"]).reason == &"CONTEXT_FAULTED", "M11 faulted queue blocks a fresh context")
+	var event_limited := _p05_fixture(); var event_fault := ActionQueue.new(32, 1, 32).submit(MoveCommand.new(201, _p05_path(3), 0), event_limited["context"])
+	_check(event_fault.status == &"FAULTED" and event_fault.reason == &"event_limit" and (event_limited["unit"] as UnitState).cell == Vector2i(2, 1) and (event_limited["unit"] as UnitState).move_points_left == 98.0 and event_fault.get_events().size() == 2, "M11 event limit retains complete second edge prefix")
+	var depth_limited := _p05_fixture(); var depth_fault := ActionQueue.new(32, 512, 1).submit(MoveCommand.new(201, _p05_path(3), 0), depth_limited["context"])
+	_check(depth_fault.status == &"FAULTED" and depth_fault.reason == &"depth_limit" and (depth_limited["unit"] as UnitState).cell == Vector2i(2, 1), "M11 depth limit faults before terminal continuation")
+	for command_limit: int in [1, 2]:
+		var hazard := _p05_fixture(); (hazard["board"] as BattleBoard).set_terrain(Vector2i(1, 1), TerrainType.Type.HAZARD)
+		var hazard_fault := ActionQueue.new(command_limit, 512, 32).submit(MoveCommand.new(201, _p05_path(2), 0), hazard["context"])
+		var hazard_unit := hazard["unit"] as UnitState
+		_check(hazard_fault.status == &"FAULTED" and hazard_fault.reason == &"command_limit" and hazard_unit.move_points_left == 97.0 and ((command_limit == 1 and hazard_unit.is_alive() and hazard_fault.get_events().size() == 1) or (command_limit == 2 and not hazard_unit.is_alive() and hazard_fault.get_events().size() == 2)), "M11 hazard command limit %d preserves correct mandatory prefix" % command_limit)
+	for counter_name: String in ["_next_root_id", "_next_command_seq", "_next_event_seq"]:
+		var exhausted := _p05_fixture()
+		(exhausted["context"] as ActionContext).set(counter_name, ActionContext.MAX_ID if counter_name != "_next_event_seq" else ActionContext.MAX_ID - 1)
+		var sequence_reject := ActionQueue.new().submit(MoveCommand.new(201, _p05_path(2), 0), exhausted["context"])
+		_check(sequence_reject.status == &"REJECTED" and sequence_reject.reason == &"sequence_exhausted" and sequence_reject.get_events().is_empty(), "M11 root %s exhaustion rejects before mutation" % counter_name)
+	var board_exhausted := _p05_fixture(); (board_exhausted["board"] as BattleBoard).board_version = ActionContext.MAX_ID
+	_check(ActionQueue.new().submit(MoveCommand.new(201, _p05_path(2), 0), board_exhausted["context"]).reason == &"move/board_version_exhausted", "M11 board version exhaustion rejects root")
+	var post_start := _p05_fixture(); var post_context := post_start["context"] as ActionContext
+	post_context._next_command_seq = ActionContext.MAX_ID - 1; post_context._next_event_seq = ActionContext.MAX_ID - 2; post_context._revision = ActionContext.MAX_ID - 2
+	var post_result := ActionQueue.new().submit(MoveCommand.new(201, _p05_path(2), ActionContext.MAX_ID - 2), post_context)
+	_check(post_result.status == &"FAULTED" and post_result.reason == &"sequence_exhausted" and (post_start["unit"] as UnitState).cell == Vector2i(1, 1) and (post_start["unit"] as UnitState).move_points_left == 99.0 and post_result.get_events().size() == 1, "M11 post-start sequence exhaustion retains first moved prefix")
+	for initial_version: int in [ActionContext.MAX_ID - 2, ActionContext.MAX_ID - 1]:
+		var hazard_boundary := _p05_fixture(); var hazard_board := hazard_boundary["board"] as BattleBoard; hazard_board.set_terrain(Vector2i(1, 1), TerrainType.Type.HAZARD); hazard_board.board_version = initial_version
+		var hazard_boundary_result := ActionQueue.new().submit(MoveCommand.new(201, _p05_path(2), 0), hazard_boundary["context"])
+		_check((initial_version == ActionContext.MAX_ID - 2 and hazard_boundary_result.status == &"INTERRUPTED" and not (hazard_boundary["unit"] as UnitState).is_alive() and hazard_board.board_version == ActionContext.MAX_ID) or (initial_version == ActionContext.MAX_ID - 1 and hazard_boundary_result.reason == &"move/board_version_exhausted"), "M11 hazard board boundary %d" % initial_version)
+	var consumed := _p05_fixture(); var consumed_board := consumed["board"] as BattleBoard; consumed_board.board_version = ActionContext.MAX_ID - 2
+	var consume_version := P04Work.new(&"m11_consume", func(_context: ActionContext) -> CommandStepResult: consumed_board.set_height(Vector2i(5, 1), 1); return CommandStepResult.applied([], [], [], null, true))
+	var consumed_result := ActionQueue.new().submit(P05MoveHook.new(MoveCommand.new(201, _p05_path(3), 0), 1, [consume_version]), consumed["context"])
+	_check(consumed_result.status == &"FAULTED" and consumed_result.reason == &"move/board_version_exhausted" and (consumed["unit"] as UnitState).cell == Vector2i(1, 1), "M11 child board mutation exhausts next edge capacity")
+	var dynamic_capacity := _p05_fixture(); var dynamic_board := dynamic_capacity["board"] as BattleBoard; dynamic_board.board_version = ActionContext.MAX_ID - 3
+	var make_hazard := P04Work.new(&"m11_hazard", func(_context: ActionContext) -> CommandStepResult: dynamic_board.set_terrain(Vector2i(2, 1), TerrainType.Type.HAZARD); return CommandStepResult.applied([], [], [], null, true))
+	var dynamic_capacity_result := ActionQueue.new().submit(P05MoveHook.new(MoveCommand.new(201, _p05_path(3), 0), 1, [make_hazard]), dynamic_capacity["context"])
+	_check(dynamic_capacity_result.status == &"FAULTED" and dynamic_capacity_result.reason == &"move/board_version_exhausted" and (dynamic_capacity["unit"] as UnitState).cell == Vector2i(1, 1), "M11 dynamic hazard requires two remaining board versions")
+
+func _test_p05_m12_isolation() -> void:
+	var source := _p05_reaction_fixture(1.5)
+	var captured := ItemSimulationSnapshot.capture(source["state"], []); var live_bytes := captured.snapshot.canonical_bytes(); var catalogue: Dictionary = {((source["definition"] as ItemDef).id): source["definition"]}; var first_state := captured.snapshot.instantiate(catalogue).state; var second_state := captured.snapshot.instantiate(catalogue).state
+	var first := {"state": first_state, "board": first_state.get_board()}; var second := {"state": second_state, "board": second_state.get_board()}
+	var first_rng := P04TestRng.new(); first_rng.cursors[&"combat"] = 1
+	var second_rng := P04TestRng.new(); second_rng.cursors[&"combat"] = 1
+	var second_rng_before := second_rng.to_dict()
+	var first_context := ActionContext.new(first_state, first_rng, ActionEventSink.new(), [], MoveRules.new([201], 1)); var second_context := ActionContext.new(second_state, second_rng, ActionEventSink.new(), [], MoveRules.new([201], 1))
+	var first_before := (first["board"] as BattleBoard).to_snapshot_dict(); var second_before := (second["board"] as BattleBoard).to_snapshot_dict()
+	var first_result := ActionQueue.new().submit(P05MoveHook.new(MoveCommand.new(201, [Vector2i.ZERO, Vector2i(1, 0)], 0), 1, [P04RandomDamageCommand.new(201)]), first_context)
+	_check((first["board"] as BattleBoard).to_snapshot_dict() != first_before and (second["board"] as BattleBoard).to_snapshot_dict() == second_before and ItemSimulationSnapshot.capture(second_state, []).snapshot.canonical_bytes() == live_bytes and second_rng.to_dict() == second_rng_before and ItemSimulationSnapshot.capture(source.state, []).snapshot.canonical_bytes() == live_bytes, "M12 live and second clone isolated after first")
+	var second_result := ActionQueue.new().submit(P05MoveHook.new(MoveCommand.new(201, [Vector2i.ZERO, Vector2i(1, 0)], 0), 1, [P04RandomDamageCommand.new(201)]), second_context)
+	var kinds: Array[StringName] = []
+	for event in first_result.get_events(): kinds.append(event["kind"])
+	_check(first_result.status == &"APPLIED" and second_result.status == &"APPLIED" and kinds.has(&"moved") and kinds.has(&"damaged") and kinds.has(&"healed") and first_result.get_events() == second_result.get_events() and first_result.get_steps() == second_result.get_steps() and ItemSimulationSnapshot.capture(first_state, []).snapshot.canonical_bytes() == ItemSimulationSnapshot.capture(second_state, []).snapshot.canonical_bytes() and [first_context._next_root_id, first_context._next_command_seq, first_context._next_event_seq, first_context.get_revision()] == [second_context._next_root_id, second_context._next_command_seq, second_context._next_event_seq, second_context.get_revision()] and first_context.get_rng().to_dict() == second_context.get_rng().to_dict() and first_rng.cursors[&"combat"] == 2, "M12 canonical state receipts all counters and nonzero RNG match", "%s %s %s" % [kinds, first_result.status, first_result.get_steps()])
 
 
 func _make_stats(hp_max: float = 10.0, balance_max: float = 100.0) -> StatsBag:
@@ -227,6 +695,48 @@ class P04RandomDamageCommand extends Command:
 		var source := DamageSource.new(&"test", 0, Vector2i.ZERO, 0, 0)
 		var child := DamageCommand.new(DamageRequest.new(target_id, float(draw), &"physical", &"bypass", source))
 		var result := CommandStepResult.applied([], [child], [], null, true)
+		return result
+
+
+class P05MoveHook extends Command:
+	var inner: MoveCommand
+	var inject_edge: int
+	var injections: Array[Command] = []
+	var mandatory_injections: Array[Command] = []
+	var edge_number: int
+
+	func _init(p_inner: MoveCommand, p_inject_edge: int = -1, p_injections: Array[Command] = [], p_mandatory_injections: Array[Command] = [], p_edge_number: int = 1) -> void:
+		inner = p_inner
+		inject_edge = p_inject_edge
+		injections = p_injections.duplicate()
+		mandatory_injections = p_mandatory_injections.duplicate()
+		edge_number = p_edge_number
+
+	func get_kind() -> StringName: return inner.get_kind()
+	func copy_for_queue() -> Command:
+		return P05MoveHook.new(inner.copy_for_queue() as MoveCommand, inject_edge, injections, mandatory_injections, edge_number)
+	func validate(context: ActionContext) -> StringName: return inner.validate(context)
+	func execute(context: ActionContext) -> CommandStepResult:
+		var result := inner.execute(context)
+		if result.status == &"APPLIED" and not result.events.is_empty() and result.events[0].get("kind", &"") == &"moved":
+			if edge_number == inject_edge:
+				for command in mandatory_injections: result.mandatory.append(command)
+				for command in injections: result.reactions.append(command)
+			if result.continuation != null and result.continuation is MoveCommand:
+				result.continuation = P05MoveHook.new(result.continuation as MoveCommand, inject_edge, injections, mandatory_injections, edge_number + 1)
+		return result
+
+
+class P05CorruptContinuationHook extends Command:
+	var inner: MoveCommand
+	func _init(p_inner: MoveCommand) -> void: inner = p_inner
+	func get_kind() -> StringName: return inner.get_kind()
+	func copy_for_queue() -> Command: return P05CorruptContinuationHook.new(inner.copy_for_queue() as MoveCommand)
+	func validate(context: ActionContext) -> StringName: return inner.validate(context)
+	func execute(context: ActionContext) -> CommandStepResult:
+		var result := inner.execute(context)
+		if result.status == &"APPLIED" and result.continuation is MoveCommand:
+			(result.continuation as MoveCommand)._actor_unit_id = 0
 		return result
 
 
