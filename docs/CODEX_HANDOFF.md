@@ -1,0 +1,2076 @@
+# Передача — 2026-09-15, Git воспроизводим; осмотр движения врага: APPROVE
+
+Ветка main. Последний commit игрового кода и проверенного чистого клона:
+091ee40081862de4f8673e00ad6f195ddee43efe — feat(ui): inspect enemy movement without changing selection.
+Перед ним c8dfb0b95e851263151e5f0ce39a9a636434637a —
+fix(core): track accepted battle snapshot dependencies.
+Этот заголовок входит в отдельный заключительный commit проектных инструкций;
+его полный финальный HEAD записан в completion.json и next-chat-prompt.md ниже.
+Исходный HEAD этапа: 0dfb41d3e6adb091a4e3f881bc156ac068b66d58.
+
+Пользователь поручил Git на усмотрение ведущего и разрешил подсветку движения
+врага при клике; ergonomics можно частично ориентировать на Into the Breach.
+Также попросил пару советов. Рекомендованы: подсветка допустимых целей атаки с
+понятными причинами отказа; короткие анимации движения/удара. Они НЕ реализованы
+и не являются автоматическим поручением следующему этапу.
+
+Осмотр доступен в ход игрока, в режиме M: клик по живому врагу на поле или в
+списке показывает золотым клетки его движения НА СЛЕДУЮЩИЙ ХОД с полным MOVE_RANGE,
+поскольку вражеский входящий ход пополнит ресурс. Учитываются нынешние occupancy,
+terrain/cost/heights через GridPathfinder и BattleBoard spatial provider. Это
+зона перемещения, не атаки/намерения/полный preview; последствия падений не вычисляются.
+selected_id союзника сохранён; команд, расхода/пополнения, revision/RNG мутаций нет.
+Золотая заливка/контур находятся в прежнем tile visual общего ENTITIES Y-sort.
+Ближний низкий пол по-прежнему закрывает дальнюю грань уступа. Core/iso math неизменны.
+
+A-клик по врагу атакует как прежде. Roster врага открывает осмотр с возвратом в M.
+Повторный клик, союзник, A/M/Esc/ПКМ, reset/mode/end-turn/death/fault снимают осмотр.
+Первый клик по пустой клетке только закрывает осмотр; второй выполняет движение.
+На ходе ИИ/после исхода осмотр закрыт. В полигоне сохраняется ручной выбор обеих сторон.
+Контракт/управление: docs/TACTICAL_BATTLE.md. Обычный запуск project.godot/F5,
+сцена/F6 или python tools/demo/isolate.py. Старое окно нужно перезапустить для новых
+исходников; в этом этапе нового интерактивного окна пользователю не открывали.
+
+GIT: прежние принятые dirty P01/P02/P06/P08 и untracked snapshot DTO включены
+точно в проверенном виде. 16 runtime/test/contract файлов совпали с источниками
+предыдущей приёмки demo-a394.../manifest.json. До коммита кандидат Git tree
+09f3808b7b806b98b90dcfe204ac38f3ddea9a1f экспортирован git archive в пустую папку,
+без добавления локальных файлов. Прошли import/startup, core9440/0,
+sandbox138/0,battle90/0. Независимый Terra/high APPROVE точному tree/16files.
+Git нормализует окончания строк; исходные local bytes/frozen docs сохранены.
+
+После UI commit выполнен git clone --no-local из локального репозитория в
+отдельный clean-clone: import/startup PASS, sandbox138/0,battle152/0, no errors/leaks;
+git status до/после чист. Полные победа и поражение по-прежнему за3раунда.
+Финальный графический прогон sandbox143/0,battle158/0, screenshots визуально
+проверены ведущим, включая золотую зону/перекрытие/легенду. Новый UI получил
+отдельное независимое APPROVE Terra/high:5rawSHA256 совпали. Reviewer читал
+источники/логи, не запускал Godot и не смотрел PNG. Критические границы ядра,
+сохранность, read-only запрос зоны и presentation интеграция проверены ведущим.
+Старые47ObjectDB/18resources остаются только у legacy core runner.
+
+В Git добавлены проектные .codex роли/config, AGENTS, CODEX_WORKFLOW,
+REPOSITORY_STATE и эта передача. AGENTS актуализирован по прямому решению
+2026-09-14: атака1main, произвольное переключение своих с сохранением ресурсов.
+Остальные agent permissions/config неизменны. Ниже сохранён точный исходный suffix.
+После финального commit рабочее дерево/индекс должны быть чистыми. Историческое
+требование «чистого HEAD недостаточно» ниже относится только к старым этапам:
+ТЕПЕРЬ исходники и инструкции воспроизводятся из Git. Политика описана в
+REPOSITORY_STATE.md. Старые отчёты/PNG остаются локальными ignored артефактами,
+для запуска не нужны; их не удаляли/переписывали. Frozen P08 документы и §4.5 целы.
+Без push, переписывания истории, sidebar tasks и расписаний.
+
+Артефакты: test_reports/enemy-inspection-git-676997a6ab1a4312b55407c3878f0899/
+baseline.json,handoff-before.md,legacy-before.patch;
+git-review/manifest.json+files+own.patch+independent-review.md;
+ui-review-v1/manifest.json+files+own.patch+independent-review.md;
+candidate-project,candidate.index/candidate.tar,git-import/startup/core/sandbox/battle.log;
+clean-clone,clone.log,clone-import/startup/sandbox/battle.log,clone-tested-sources.json;
+completion.json,next-chat-prompt.md. Final render:
+test_reports/demo-ab1aff41b46b408caa68a4d651768374/ (screenshots/battle-06-enemy-range.png).
+Ранние прогоны7a875/a42d имели устаревшую test-ссылку на закрытую session после
+смены режима и timeout; это исправлено в тесте. Промежуточные отчёты не приёмка.
+
+Остаток: плейтест осмотра пользователем, выбор следующего улучшения. Новых задач
+не задано. Сохранены границы: один короткий бой, нет расхода bonus, полного
+preview/save, общего LOS, статусов/огня/кампании. Старое правило инициативы не
+возвращать; команды ходят поочерёдно. Не расширять scope без поручения.
+В конце этапа/при блокере обновлять HANDOFF с точным исходным suffix и давать
+самодостаточный next-chat prompt: HEAD/result/docs/artifacts/remaining/constraints/checks.
+Переносить это правило дальше. Готовый prompt с финальным HEAD — в артефактах.
+
+---
+# Передача — 2026-09-14, законченный бой против компьютера: APPROVE
+
+main / HEAD 0dfb41d3e6adb091a4e3f881bc156ac068b66d58.
+Два локальных коммита: db92747415473f5083d22c497290d83eca281dec
+fix(editor): exclude archived reports from Godot import;
+0dfb41d3e6adb091a4e3f881bc156ac068b66d58
+feat(battle): add complete tactical fight against computer (16 собственных файлов).
+Исходный HEAD этапа 4d303a1f2b78c040754009d54f4c759f21d8dd56.
+
+ПРЯМОЕ РЕШЕНИЕ ПОЛЬЗОВАТЕЛЯ: хочет законченный тактический бой против компьютера;
+атака по существующему правилу стоит1main, между своими живыми персонажами
+можно переключаться произвольно с сохранением ресурсов. Старые предупреждения
+AGENTS и нижних передач о нерешённых цене/переключении этим заменены.
+Точный новый контракт и управление: docs/TACTICAL_BATTLE.md.
+
+Стартовая сцена scenes/demo/tactical_battle.tscn — «Бой у обрыва»,3v3:
+Астра/Бор/Рей против Стража/Щита/Дозорного,32HP/5move/1main/1bonus для короткого
+сценария. Прежние80HP/8move и6fixtures доступны кнопкой «Полигон» и через F6
+scenes/demo/battle_demo.tscn. Обычное движение/удар без новых анимаций;
+исчезновение в пропасти сохранено. Все видимые поверхности и фигуры остаются
+в общем ENTITIES Y-sort. Ближний низкий пол закрывает дальнюю грань уступа.
+Не возвращать старое разделение видимого плоского пола и платформ по слоям.
+
+BattleTacticalSession — runtime RefCounted с фазами/раундом. Игрок начинает,
+Enter завершает ход. BattleTurnRefill в общей очереди preflight-проверяет всю
+входящую живую команду на копиях, затем пополняет её; revision растёт, старые
+команды stale. Исход после полного drain с реакциями предметов; ввод блокируется
+при ИИ/terminal/fault. Reset R и смена режима отменяют старое исполнение.
+BT selector выбирает legal attack → safe approach → wait, детерминированно;
+максимум два атомарных действия на врага. Исполнитель использует реальные
+Move/Attack. Цены пути берутся из SpatialRules. Utility сохранён с адаптером
+следующего намерения, его старый preview не переносится в исполнение.
+UI вызывает шаги с интервалом0.7s через _process, без отложенных корутин.
+
+Ответ на вопрос об редакторе: программное создание интерфейса допустимо,
+но Python больше не нужен для обычного запуска. test_reports/.gdignore скрывает
+архивные копии .gd от Godot; сами отчёты сохранены. Корневые import/startup,
+прямой запуск tactical scene PASS, class cache не содержит test_reports.
+Godot открыт прямо из workspace, GUI PID15152 при сдаче, play.log без ошибок.
+Жизнь окна не гарантируется; пользователь может его закрыть. F5 запускает бой,
+F6 открытую сцену; python tools/demo/isolate.py остаётся альтернативой и QA.
+
+Свежая приёмка Godot4.7.2: core9440/0, headless sandbox138/0,battle90/0;
+render sandbox143/0,battle95/0; import/startup PASS. У legacy core прежние
+47ObjectDB/18resources; demo/battle без runtime errors/leaks. Проверены
+switch/no refill, incoming refill/stale, busy/fault, отказ союзной атаки,
+конечные ходы ИИ, purity/determinism/дальний подход/Utility adapter,
+исход после drain, настоящий viewport input, reset/смена режима/выход во время ИИ.
+Полные партии без подмены состояния: победа за3раунда, при бездействии поражение
+за3раунда. Финальные PNG старт/ответ/победа/поражение визуально проверены ведущим.
+Независимый game_reviewer Terra/high APPROVE:16hashes совпали, блокеров нет.
+Reviewer проверил источники/логи, не запускал Godot и не просматривал PNG.
+
+Артефакты: test_reports/tactical-battle-2bafce6da47045b0b0e8102f43dfdd76/
+(baseline.json,handoff-before.md,tracked-before.patch,task.md,
+review-v1/manifest.json+files+own.patch,independent-review.md,verification.json,
+completion.json,next-chat-prompt.md,final-root-import/startup/scene.log,
+launch.json,play.log). Headless/core: test_reports/demo-a39475347dbe49ac813609fc719d360a/.
+Final render: test_reports/demo-3f373556a0e64d15bd9bb5184fff8672/ (screenshots).
+Ранние parse/type ошибки оставлены историей; финальные логи их заменяют.
+
+Core/iso-математика и все прежние dirty/untracked зависимости побайтно сохранены.
+Frozen документы, старые отчёты и §4.5 не переписаны. Индекс пуст; остаточный
+tracked diff/status совпадает со входом. HANDOFF исходно untracked, не staged
+целиком; этот заголовок добавлен перед точными исходными bytes. Чистого HEAD
+недостаточно без принятых локальных зависимостей. Без push/sidebar/расписаний.
+
+Остаток: пользовательский плейтест и оценка баланса; следующий этап не задан.
+Нет расхода bonus, общего LOS, full preview/save, статусов/огня/кампании.
+Этот Flow/BT — первый локальный бой, не общий сериализуемый pipeline всех систем.
+Обоюдная гибель отображается без победителя/наград; будущая политика остаётся открытой.
+Следующий шаг — спросить впечатления от боя и получить конкретное поручение.
+В конце этапа/при блокере обновлять HANDOFF с точным исходным suffix и давать
+самодостаточный next-chat prompt с HEAD/result/docs/artifacts/remaining/constraints/checks.
+Переносить правило дальше; готовый prompt находится в артефактах выше.
+
+---
+# Передача — 2026-09-14, изометрия и исчезновение в пропасти: APPROVE v2
+
+Пользователь исправил предыдущее решение: вместо вида сверху нужна запланированная
+изометрия в духе Into the Breach. Затем попросил готовую цель возле пропасти и
+видимое исчезновение при смерти. В процессе пользователь заметил перекрытие
+ближних низких тайлов дальними высокими гранями; это замечание исправлено в v2.
+
+main / HEAD 4d303a1f2b78c040754009d54f4c759f21d8dd56, локальный commit
+feat(demo): render isometric tiles and animate chasm deaths. Только7 собственных
+файлов демо/тестов/инструкции. Прежние dirty/untracked P01/P02/P06/P08 сохранены.
+Все scripts/core, включая IsoGridUtils/IsoGridConfig/YSortable/RenderLayers,
+остались побайтно прежними. Расчёты путей/высот/атаки/balance/push/fall не потеряны.
+Чистого HEAD по-прежнему недостаточно без ранее принятых локальных зависимостей.
+
+BattleDemoBoard использует исходную проекцию2:1 при height0 и отдельный визуальный
+сдвиг half steps. BattleDemoIsoVisual:YSortable рисует площадки, две боковые грани,
+стены, стоящие фигуры и индикаторы. Порядок ввода повторяет обратный порядок
+видимых поверхностей и фигур. Полувысоты, отрицательные уровни, resize и края
+поля проверены. Стена может закрывать точку опоры: кликать по видимому телу.
+
+ВАЖНОЕ УТОЧНЕНИЕ КОНТРАКТА ПО ПРЯМОМУ ЗАМЕЧАНИЮ ПОЛЬЗОВАТЕЛЯ:
+ВСЕ видимые поверхности тайлов, включая плоский низкий пол, вместе со стенами
+и юнитами находятся в ENTITIES с native Y-sort по наземной опоре. Ближний низкий
+тайл закрывает дальнюю боковую грань уступа. Старое правило DECISIONS о плоском
+поле в TILES здесь заменено явным новым контрактом docs/DEMO_SANDBOX.md.
+TILES зарезервирован для основания. Не возвращать разделение видимых тайлов по
+высоте на два глобальных слоя: оно было подтверждённой ошибкой первого варианта.
+
+Шесть вручную управляемых персонажей. Прежние4 и их stats/fixtures сохранены;
+добавлены РейF7 и МишеньG7, за ней VOIDH7 (VOID x7/y4..7). Для проверки:
+выбрать Рея→A→фигура Мишени на G7. Реальный hit/break/push/death исполняется
+одним ActionQueue drain; HP0 и occupancy освобождаются сразу. Только затем
+отдельная фигура сдвигается в пропасть0.18s и падает/затухает0.45s, маска скрывает
+её нижнюю часть за передней кромкой. Core не меняется анимацией. Reset/new board
+очищает эффект, смена режима сохраняет его. При вылете за границу фигура скрыта,
+хотя ядро сохраняет последнюю логическую клетку. Труп на обычном полу — крестик.
+Анимации обычного движения/удара не добавлены. Ручной Flow/AI/save/preview прежние.
+
+Финальные проверки: Godot4.7.2 import/startup PASS; графический demo143/0,
+headless demo138/0, без runtime errors и exit leaks. Прежние точные hit9/fall18/
+heal2/heal2→HP57 и wall8+8→HP64 проходят через mouse/key dispatch. Дополнительно
+64 center picks, half/negative height, wall picking, Y-sort depth, foreground
+occlusion, resize, death animation/cleanup/reset/refresh/bounds. PNG визуально
+проверены. Core9440/0 — предыдущий этап; полный core runner здесь не запускался,
+его sources/изометрическая математика подтверждены побайтно неизменёнными.
+Known legacy47 ObjectDB/18resources не относятся к demo checks (они без leaks).
+
+Артефакты этапа: test_reports/demo-isometric-bf2db12d342748578d8b05f334e80e8f/
+(baseline.json/baseline-files/handoff-before.md, review-v2/manifest.json/files/
+own.patch/independent-review.md, completion.json, next-chat-prompt.md).
+Ранний review-manifest/review-files остаётся историей до пользовательской правки;
+приоритет — review-v2. Final render: test_reports/demo-e9d3bdcb26854f048e1da8432032472d/
+(manifest/import/startup/demo.log/screenshots01..05). Final headless:
+test_reports/demo-cafc7ddaf2c143a888de273fe4f17a82/. Промежуточный .38s fall-middle.png
+подтверждает drop/clip до правки сортировки; окончательные кадры — final render.
+Изначальные parse и mouse-foot ошибки сохранены в ранних отчётах, не приёмка.
+
+Независимый game_reviewer Terra/high APPROVE v2,7 hashes совпали. Reviewer прочёл
+источники/логи без запуска Godot; подтвердил исправление известного blocker и
+не нашёл других дефектов. Ведущий интегрировал геометрию/picking/ghost и проверил
+сохранность core/контрактов. Окно нового демо запущено через python tools/demo/isolate.py
+из test_reports/demo-579ecdf92569419180f022902db65104 (GUI PID31992, console29640;
+при проверке title intoDeDung(DEBUG), play.log чист). Пользователь может закрыть
+окно; для новых исходников нужен новый запуск. Старые отчёты не переписаны.
+
+Незакоммичены прежние изменения и только обновлённая исходно untracked передача.
+Она сохраняет весь вход точным suffix и не staged целиком; индекс пуст. Прежние
+tracked diff/status сохранены. Без push/sidebar tasks/расписаний. §4.5 остаётся.
+Общий Flow/BT/AI, LOS, full preview/save — отдельный scope. Следующий шаг —
+визуальная оценка пользователем и его конкретное поручение; блокеров по демо нет.
+
+Правило следующих этапов/блокеров: обновлять HANDOFF с точным исходным suffix,
+давать самодостаточный next-chat prompt с HEAD/result/docs/artifacts/remaining/
+constraints/checks и переносить это правило дальше.
+
+---
+# Передача — 2026-09-14, интерактивное демо готово: APPROVE
+
+Пользователь явно поручил собрать предложенную ручную демо-песочницу.
+main / HEAD 0cc4fe7d85bb9d9ef7486cb37d69bb2ee2ccdc40. Локальный commit
+feat(demo): add interactive spatial combat sandbox содержит только12 собственных
+файлов: сцена,3 demo scripts+UID, project.godot, тест+UID, launcher и инструкция.
+Прежние dirty P01/P02/P06/P08 и исходно untracked зависимости сохранены;
+core не менялся. HEAD отдельно по-прежнему не является полным принятым деревом.
+
+Стартовая сцена scenes/demo/battle_demo.tscn: общая BattleBoard/ItemSimulationState/
+ActionContext/ActionQueue,8×8,4 вручную выбираемых персонажа, mouse Move/Attack,
+полууровни, HP/balance/resources, реальный амулет heal2, журнал80 строк и reset.
+ЛКМ выбирает/двигает; A включает атаку; M/ПКМ на поле/Esc — движение; R — сброс.
+Выбор не выдаёт действий. Технический профиль атаки стоит1 main; это не новый Flow.
+Готовый пример: Астра A3→D3, атака Стража E3→F3: hit9/fall18/heal2/heal2, HP57.
+Бор→Щит на D6: hit8+wall8, HP64, без перемещения. Погибшие освобождают клетки.
+Точное описание API/границ/запуска: docs/DEMO_SANDBOX.md.
+
+Запуск: python tools/demo/isolate.py. Новый уникальный project без test_reports,
+изолированный APPDATA, import, видимое окно. Проверки --check / --render-check /
+--check --full. Старая test_grid_scene сохранена. Исходный Godot cache не трогали.
+Окно intoDeDung(DEBUG) открыто из test_reports/demo-55e564d3ac334072aaa2ff08ba1330df;
+при сдаче GUI PID12356, launcher console PID22248, play.log чист. Это копия;
+внесённые позже изменения исходников требуют нового запуска. Жизнь окна не гарантируется
+для следующего чата — пользователь может закрыть его.
+
+Свежий core регресс9440/0 на побайтно неизменённом ядре, Godot4.7.2.
+Финальный графический demo50/0, import/startup PASS; viewport mouse/key dispatch,
+ошибочные действия, stair/high hit/fall/item ordering, wall/collateral, death/
+occupancy, переключение без refill, reset/exit. PNG01/02/03 визуально проверены.
+Demo без runtime errors/leaks. У полного legacy runner известные47 ObjectDB/18
+resources сохранены; прежние9440 не подменяют этот свежий прогон. Первые UI-прогоны
+с ошибкой форматирования и неверным ожиданием события сохранены как история;
+финальный графический прогон их заменяет. После него core/game sources не менялись.
+
+Артефакты этапа: test_reports/demo-sandbox-f0e5b49d1ed7491a891d2936efeab90f/:
+baseline.json/baseline-files/handoff-before.md, review-manifest.json/review-files,
+independent-review.md, completion.json и next-chat-prompt.md. Core log находится
+в isolated-2d03eaba7ccc465c9569e4f6ecf691a3/tests-output.txt этого каталога.
+Финальный render: test_reports/demo-4bb302aeee3649b0a7b1f5dbb6588314/
+(manifest/import/startup/demo.log, screenshots). Headless predecessor46/0:
+test_reports/demo-bc8d4f34a980409e91a6a44bda53866d/. Итоговое независимое
+game_reviewer Terra/high APPROVE12 fixed files; reviewer не запускал Godot.
+Ведущий проверил композицию/очередь/ресурсы/сохранность. Финальный render manifest
+предшествует новому doc/UID, но совпадает с исполняемыми файлами; review manifest
+содержит полный12-file scope. Старые P08 frozen документы/отчёты не переписаны.
+
+Незакоммичены только прежние изменения и обновлённый исходно untracked HANDOFF:
+он сохраняет весь вход точным suffix и целиком не staged. Индекс пуст;
+прежний tracked diff и status совпадают со входными. Без push/новых sidebar tasks/
+расписаний. §4.5 сохраняется. Flow/BT/AI, общий LOS, полный preview/save-game,
+анимации и длинные произвольные игровые прогоны не реализованы/не приняты этим этапом.
+Открытых блокирующих замечаний по демо нет. Следующий шаг: пользователь играет
+и задаёт следующий этап; не начинать автоматическое расширение scope.
+
+Обязательное правило следующего этапа/блокера: обновить HANDOFF с сохранением
+точного исходного suffix и включить в финальный ответ самодостаточный next-chat
+prompt с HEAD/result/docs/artifacts/remaining/constraints/checks. Переносить правило дальше.
+
+---
+# Передача — 2026-09-14, объяснение готовности демо (только оценка)
+
+Пользователь спросил, что реализовано простыми словами и можно ли собрать демо.
+main / HEAD 6744a9ed38bddaf6db0a628cdb481fdad1c631ce подтверждены; прежние dirty и
+untracked зависимости сохранены. Прочитаны начало HANDOFF, AGENTS/WORKFLOW,
+актуальные addenda ARCHITECTURE/DECISIONS/TESTING, P08 TASK_R3, fixed-v2 review и
+адресно core spatial/attack/resources/queue/reactions. game_scout (Luna/low)
+только чтением проверил main scene, UI, ввод, Utility AI и отсутствие общего Flow.
+
+Вывод: реализовано headless-ядро P01–P08: HP/death/occupancy, предметы двух
+поддержанных типов и их реакции, изолированные snapshots, очередь команд,
+движение/ресурсы/атака, balance/push/collision/fall и полууровни/прямая досягаемость.
+Существующая scenes/test/test_grid_scene.tscn — раздельные debug-демонстрации.
+Grid рисует путь без исполнения Move; Combat/Inventory меняют своё состояние
+через legacy API; AI только показывает решение; Initiative — старый отдельный
+пример. Новые ActionQueue/spatial не подключены к единому визуальному бою.
+
+Предложение следующего этапа (НЕ поручение на реализацию): отдельная небольшая
+интерактивная демо-песочница на общей BattleBoard/ActionContext, выбор персонажа,
+клики Move/Attack через очередь, отображение полууровней/HP/balance/ресурсов,
+сценарии удара сверху/столкновения/падения, журнал и сброс. Ручное управление;
+полный командный Flow/BT, общий LOS, полный preview/save-game — отдельный scope.
+Рекомендация не утверждает новые игровые правила. В P06 код/DECISIONS уже описывают
+1 main и движение после атаки; старые предупреждения AGENTS/HANDOFF сохраняются,
+зависимая политика будущего Flow требует отдельного согласования.
+
+Godot и UI не запускались, hashes artifacts повторно не сверялись. 9440/0,
+closure285/0 и fixed-v2 APPROVE — результаты прежней приёмки, не новые проверки.
+Код/индекс/старые отчёты не менялись, новых коммитов нет. Изменён только исходно
+untracked HANDOFF: новый заголовок перед точными исходными bytes. Проверены
+сохранность suffix, неизменность tracked diff/status/index и git diff --check.
+Артефакты приёмки прежние: test_reports/p08-r3-implementation-db622e81007948a3bf8086ee2dc88b64/;
+предыдущей сверки: test_reports/p08-handoff-verification-0a0d2f70c38643899db47bc2f2d86aaf/.
+Следующее действие — конкретное поручение пользователя; демо ещё не создано.
+Обязательное правило следующих этапов/блокеров: обновлять HANDOFF с сохранением
+точного исходного suffix и включать в финальный ответ готовый самодостаточный
+промпт следующего чата с HEAD, результатом, документами/артефактами, остатком,
+ограничениями и проверками. Переносить это правило в каждый следующий промпт.
+
+---
+# Передача — 2026-09-14, контекст принят; ожидание цели следующего этапа
+
+Ветка main, HEAD 6744a9ed38bddaf6db0a628cdb481fdad1c631ce подтверждены.
+Прочитаны AGENTS, начало HANDOFF, CODEX_WORKFLOW, frozen P08 TASK_R3,
+REVIEW_R3, структура/зависимости DEPENDENCIES_R3 и актуальные P08 addenda
+ARCHITECTURE, DECISIONS, TESTING, COMMAND_ACTION_QUEUE_CONTRACT.
+Свежая адресная сверка SHA-256: 266 effective files, 28 fixed-v2 files,
+19 final artifacts и 29 dependency artifacts — PASS. Status совпал с
+implementation final-audit, индекс пуст; git diff --check PASS. Входной
+HANDOFF совпал с hash completion.json предыдущей сверки. Полная повторная
+сверка 26 P07/1955 старых report files не выполнялась: её PASS остаётся
+историческим результатом предыдущей передачи, а не новым прогоном.
+
+Код и прежние артефакты не менялись, Godot/старые check scripts не запускались.
+Принятые проверки: fixed-v2 independent APPROVE; isolated-3fa61e1678294e3aba7a0a7990b2efdc
+import/startup PASS, 9440/0, targeted closure285/0. Full runner18 resources/47
+ObjectDB против baseline18/45 (+2 WeakRef); closure без leaks. HEAD отдельно
+не является полным проверенным деревом; dirty P01/P02/P06/P08 сохраняются.
+
+Следующий этап не задан. Остановка до конкретной цели пользователя; зависимая
+реализация и самостоятельная консолидация dirty hunks не разрешены. §4.5,
+запрет нового baseline после callback/rollback/revival/Queue simulation,
+защита replacement и ограничения UI/AI/Flow/LOS/full preview/save-game/general S-5
+остаются. Нерешённые игровые правила требуют решения до зависимой реализации.
+
+Изменена только эта исходно untracked передача добавлением заголовка перед
+точными исходными bytes; весь вход сохранён suffix. Новых коммитов нет:
+собственных отделимых tracked изменений не создано, весь HANDOFF не staged.
+Артефакты прежние: test_reports/p08-r3-implementation-db622e81007948a3bf8086ee2dc88b64/
+и test_reports/p08-handoff-verification-0a0d2f70c38643899db47bc2f2d86aaf/.
+Старый completion.handoff_sha256 теперь относится к сохранённому входному suffix.
+
+Обязательное правило каждого следующего этапа/блокера: обновлять HANDOFF,
+сохраняя точный исходный suffix, и включать в финальный ответ готовый
+самодостаточный промпт следующего чата с HEAD, результатом, документами,
+артефактами, остатком работы, ограничениями и проверками. Переносить это правило
+в каждый следующий промпт. Промпт текущей остановки включён в финальный ответ.
+
+---
+
+# Передача — 2026-09-14, сверка принятого P08 r3: PASS
+
+Ветка main, HEAD 6744a9ed38bddaf6db0a628cdb481fdad1c631ce, без изменений.
+Состав git status совпал с P08 final-audit; индекс пуст. Подтверждены SHA-256
+266 effective files, 28 fixed-v2 files, 19 final artifacts, 29 dependency artifacts,
+26 P07 implementation files с final effective overlay и 1955 прежних report files.
+Frozen P01–P08 r2/r3 и принятые зависимости сохранены. git diff --check PASS.
+
+Это сверка передачи, не новая реализация или повторная приёмка Godot. Действуют
+сохранённые fixed-v2 APPROVE и fresh isolated-3fa61e1678294e3aba7a0a7990b2efdc:
+import/startup PASS, 9440/0, targeted closure285/0. Известное ограничение runner:
+18 ресурсов/47 ObjectDB против baseline18/45, только +2 WeakRef; closure без leaks.
+Код, tracked diff, индекс, прежние untracked файлы и старые отчёты не менялись.
+Обновлена только эта исходно untracked передача; она целиком не staged, новых
+коммитов нет, собственных отделимых tracked изменений для commit не создано.
+HEAD отдельно по-прежнему не является полным проверенным деревом.
+
+Артефакты сверки: test_reports/p08-handoff-verification-0a0d2f70c38643899db47bc2f2d86aaf/:
+verification.json, completion.json, input-files.json, input-working-tree.patch,
+handoff-before.md, next-chat-prompt.md. Каталог P08 implementation и приоритет
+final-audit effective_files + fixed-v2 manifest остаются прежними (см. ниже).
+Весь входной HANDOFF этой сверки сохранён точным suffix, включая исходный suffix
+из P08 implementation/handoff-before.md. Старые test_reports не переписаны.
+
+По P08 нет открытых замечаний/CONTRACT_GAP. Следующий этап пользователем не задан;
+нужно отдельное конкретное поручение, а не самостоятельное расширение scope или
+консолидация dirty P01/P02/P06/P08. UI/AI/Flow/LOS/full preview/save-game/general S-5
+не начинать. §4.5 и нерешённые игровые правила сохраняются. Работа по расписанию,
+push и задачи боковой панели не создавались. Субагенты для сверки/текста не требовались.
+
+Готовый самодостаточный промпт следующего чата находится в next-chat-prompt.md
+каталога сверки и включён в финальный ответ. Обязательное правило на каждый следующий
+этап/блокер: обновлять HANDOFF с сохранением точного исходного suffix и включать
+в финальный ответ готовый промпт с HEAD/result/docs/artifacts/remaining/constraints/checks;
+переносить это же правило в каждый следующий промпт.
+
+---
+
+# Передача — 2026-09-14, P08-SPATIAL r3 runtime APPROVE
+
+Рабочая ветка main, HEAD 6744a9ed38bddaf6db0a628cdb481fdad1c631ce. Создан локальный commit `feat(spatial): implement P08 r3 guarded movement and combat` (6744a9e), только собственные отделимые изменения. Push/sidebar tasks/расписания не создавались.
+
+Реализованы headless opt-in half-step board/providers/snapshots, spatial movement/pathfinding, direct reach, height-scaled attack и balance/push/collision/fall. Точный §4.5: sealed pinned refs/lifecycle0/1/2, HP/alive/balance/move/main/bonus/geometry/version; Vitals spatial receipts/checkpoints и pinned executor; identity-safe death subscription/cleanup; known delta без нового callback baseline; fault сохраняет оплату/HP/ordered completed prefix и прекращает воздействие на replacement. MoveFall/bound Death сохраняют точные fall/cell_death формы. Legacy профили и игровой scope сохранены. UI/AI/Flow/LOS/full preview/save-game/general S-5/revival не реализованы.
+
+Независимый game_reviewer (Terra/high) APPROVE fixed-v2. Исправлены REQUEST_CHANGES: P1 malformed schema3 snapshot priority и P2 S16 successful cleanup/terminal fault replay на двух restored copies. Ведущий проверил критические Queue/Vitals/Board/guards/replay контракты. Runtime delta ограничена ровно28 allowed paths. Frozen r3 и P01–P08 r2 не изменены; paused-substrate остаётся архивом.
+
+Fresh final isolated-3fa61e1678294e3aba7a0a7990b2efdc: import/startup PASS, 9440 passed / 0 failed, no SCRIPT ERROR. Весь исходный regression1996 сохранён; новые S01–S17/S14a–j/S15a–c/S16 интегрированы в tests/run_tests.gd. Targeted closure285/0. Все1955 старых report files сохранены побайтно. Полный runner по-прежнему сообщает18 удержанных ресурсов; ObjectDB47 против baseline45, разница только2 WeakRef при том же количестве RefCounted/GDScript. Targeted closure без leaks. Root Godot cache захватывал historical class_name из reports, поэтому все приёмочные прогоны выполнены в новых точных изолированных копиях без reports. Старые check scripts не запускались.
+
+Артефакты: test_reports/p08-r3-implementation-db622e81007948a3bf8086ee2dc88b64/. Приоритет актуального дерева: final-audit.json effective_files + fixed-v2/manifest.json, затем frozen r3 input manifest. independent-review-v2.json/.md — APPROVE, fixed-v1 и review-v1 — история замечаний. baseline.json/baseline-files/handoff-before.md — точный вход; fixed-v2-staging.json/.patch — отделимые staged hunks; own-uncommitted.patch — P08 residual; remaining-working-tree.patch включает также чужой baseline, не применять/коммитить слепо. acceptance-map.md и финальные logs связывают тесты и критерии. Принятый P07 сверялся по implementation manifest и финальным effective дополнениям. Эта передача сохраняет ВСЮ входную handoff-before.md точным suffix.
+
+Dirty/untracked сохранены. Коммит не включает исходные P01/P02/P06 hunks. В board snapshot/death-registration, исходно untracked SimulationSnapshot и P02 unknown-board fixture остались неотделимые изменения P08; doc HANDOFF/COMMAND_ACTION_QUEUE_CONTRACT тоже исходно untracked. Проверенная реализация — текущее дерево вместе с этими файлами, не HEAD отдельно. ARCHITECTURE/DECISIONS/TESTING получили только append-only addenda; в commit вошли только новые addenda, прежние dirty части остались. По P08 нет открытых замечаний/CONTRACT_GAP; следующий этап — по отдельному поручению, без самостоятельного расширения scope или консолидации чужих hunks.
+
+Готовый самодостаточный промпт следующего чата: `test_reports/p08-r3-implementation-db622e81007948a3bf8086ee2dc88b64/next-chat-prompt.md` (также включён в финальный ответ). Обязательное правило для каждого следующего этапа/блокера: обновлять HANDOFF с сохранением suffix и давать готовый next-chat prompt с HEAD/result/docs/artifacts/remaining/constraints/checks; переносить это же правило в следующий prompt.
+
+---
+
+# Передача — 2026-09-14, P08-SPATIAL r3: спецификация APPROVE
+
+## Результат текущего этапа
+
+Подготовлены отдельные docs/P08_SPATIAL_TASK_R3.md, P08_DEPENDENCIES_R3.json,
+P08_REVIEW_R3.md. Подтверждённый CONTRACT_GAP S14 редакции2 закрыт на уровне
+спецификации. Независимый game_reviewer / gpt-5.6-terra / high дал APPROVE
+фиксированному draft2 после исправления трёх замечаний. Runtime НЕ менялся.
+
+28 allowed paths (24 существующих/4 новых): к r2 добавлены AttackHit, Balance,
+PushDamage, ActionHpExecutor, Vitals и DeathCommand. Три terminal guards сами по
+себе недостаточны: HP helper читает live refs после callback, а Vitals сигналит
+HP до alive->dead. R3 задаёт pinned spatial receipts/checkpoints между фазами,
+identity-safe board death cleanup, known version touches, все три бюджета,
+HP/alive/balance/geometry и сохранение выполненного event prefix при FAULTED.
+Новый baseline после callback, rollback/revival и replay в Queue validator запрещены.
+Общий S-5 остаётся исключён. Legacy APIs и headless opt-in scope сохранены.
+
+Lifecycle facade0/1/2 и null states заданы явно; Binding fall non-null request/seal
+и cell_death null/null взаимоисключаются; version fields унифицированы. S01–S17
+сохранены, S14a–j/S15a–c и S16 расширены. Игровые разделы полууровней/Move/reach/
+HP/balance/Push/fall прежние. UI/AI/Flow/общий LOS/full preview/save-game вне задачи.
+
+## Проверки и сохранность
+
+Вход HEAD1e3099e35c342f13298093523dc25f164e66f424/status совпали с r2 final audit.
+256 r2 files/22 local_artifacts,12 final audit artifacts/12 gap review files,
+26 P07 implementation files/9 final P07 artifacts вне mutable HANDOFF сверены.
+DECISIONS/TESTING/входной HANDOFF используют последние final-audit hashes выше
+исторических dependency hashes. Frozen P01–P08 r2 не переписаны.
+
+Новый manifest:259 files/29 local_artifacts,28 allowed,4 expected absent.
+Проверки docs/hashes/allowed/S01–S17/сохранности/diff/LF и числовые примеры прошли.
+Godot не запускался:1996 passed/0 failed — базовый регресс предыдущего gap audit,
+не приёмка P08. Все260 прежних repo files сохранены, эта передача сохраняет
+исходный HANDOFF точным suffix;1663 прежних test_reports files совпадают побайтно.
+Paused-substrate остаётся архивом незавершённой работы, не готовой реализацией.
+
+## Git и артефакты
+
+Ветка main. Локальный docs commit: 320f78206fc8f4904fd8e8b7b35cf989bbda1f51.
+Только три новых R3 документа входят в commit. Прежние dirty P01/P02/P06,
+ARCHITECTURE/DECISIONS/TESTING, untracked документы/скрипты и этот HANDOFF остаются
+вне staging; сохранены. Никаких runtime commits/push/sidebar tasks/расписаний.
+
+Артефакты: test_reports/p08-r3-preparation-dbf3db2fd468467cbbb9d39745bada7f/.
+Fixed TASK SHA256965606897F9AC8ACAB72F3D90AB655EEDE32E4712B6FF62880051980FAC72953;
+DEPENDENCIES SHA25630001BE8BB354FE87A3D729FFCE6DFE49462034D22E68AD5DC2FE00948973662.
+Baseline/две fixed редакции/manifests/checks/reviews/final-audit сохранены там.
+
+Следующий шаг удобно вести в новом чате с этой передачей: отдельное поручение
+на реализацию P08-SPATIAL r3, свежая сверка HEAD/status/effective hashes, затем
+import/startup/регресс/S01–S17 и независимое runtime review. Автоматически работа
+не запускается. Неподтверждённые игровые правила не угадывать.
+
+## Архив предыдущей передачи (точные исходные bytes сохранены)
+
+# Передача — 2026-09-14, P08-SPATIAL r2: CONTRACT_GAP
+
+## Результат
+
+Реализация P08 r2 остановлена по явному CONTRACT_GAP пути frozen TASK §4.3.
+Независимый game_reviewer / gpt-5.6-terra / high подтвердил REQUEST_CHANGES /
+CONTRACT_GAP; это не APPROVE реализации. Runtime P08 не оставлен в рабочем дереве.
+
+S14 требует fault после callback-мутации HP/refs/budget/version. AttackHitCommand
+при impact0/immunity не создаёт Balance child, terminal BalanceCommand и
+PushDamageCommand также не выполняют post-action guard. Эти три файла r2
+оставляет read-only. Новые sealed поля Binding не дают отсутствующую точку
+проверки; event validator Queue не является согласованной заменой.
+Исключённый общий S-5 не отменяет явно требуемый S14.
+
+Нужна новая редакция: разрешить delta attack_hit_command.gd, balance_command.gd,
+push_damage_command.gd; точно описать post-action pinned refs/HP/budget/version,
+учёт только известных death-cleanup touches и сохранение events/prefix при fault.
+Далее независимое ревью новой редакции, затем реализация и S01–S17.
+Frozen P08/P01–P07 пакеты в этом этапе НЕ переписывались.
+
+## Проверки и сохранность
+
+Вход HEAD 8a69b37f5db550554be8c02076d90337190fe5cb, status точный.
+256 files /22 local_artifacts /7 final audit artifacts совпали. P07 implementation
+26 hashes и9 final artifacts вне mutable HANDOFF,9 superseded effective hashes
+проверены; historical dependencies не перекрывали принятую implementation.
+
+Ведущий в изолированной exact копии входа запустил import/startup и весь регресс:
+1996 passed /0 failed, exit0; scan/classes DONE. 45 ObjectDB /18 resources прежние,
+tests.log совпал по SHA256 с принятым P07. Это свежий baseline, НЕ приёмка P08.
+Probe hp_changed->board.set_height: impact0, immunity и terminal wall PushDamage
+дают APPLIED/version_delta1 вместо S14 fault. Исправленный probe exit0; первый
+cleanup-error запуск сохранён отдельно и успешным не считается. Reviewer только
+читал fixed code/logs и сверил12 manifest hashes, сам ничего не запускал.
+S01–S17, новые UID и runtime APPROVE не получены из-за CONTRACT_GAP.
+
+Один game_coder/Luna/medium с минимальным контекстом начал независимый substrate
+в4 allowed files. Запись остановлена; незавершённые файлы архивированы с hashes.
+Ведущий сравнил archive/current/baseline и восстановил ТОЛЬКО собственные delta.
+Все прежние runtime bytes, dirty P01/P02/P06 и untracked документы сохранены;
+1104 старых test_reports сохранены побайтно. Эта передача добавлена перед полным
+прежним текстом без его изменения. Документационные addenda только append.
+
+## Артефакты и Git
+
+Каталог: test_reports/p08-implementation-362ad64ba4fb41ebb427b16c4355cfb6/.
+В нём baseline.json/baseline.patch/baseline-files, paused-substrate + manifest,
+gap-probe-project, probe-run-* и baseline-run-*, gap-review-manifest.json,
+contract-gap-report.md, independent-gap-review.md и final-audit.json.
+Архив substrate НЕ проверен Godot и не должен приниматься как готовая реализация.
+
+Ветка main. Локальный commit 1e3099e35c342f13298093523dc25f164e66f424:
+`docs: record P08 spatial callback contract gap` — только собственные addenda
+в DECISIONS/TESTING. Старые dirty hunks не включены; HANDOFF остаётся untracked.
+Runtime commits/push/sidebar tasks/расписания не выполнялись.
+
+Следующий этап удобно вести в новом чате с этой передачей: подготовить отдельную
+новую редакцию P08 для закрытия указанного CONTRACT_GAP, сохранив r2 как frozen
+историю. Сначала учесть новый docs commit и append-only addenda; manifest r2
+больше не описывает обновлённые DECISIONS/TESTING как точные текущие bytes.
+Задачи автоматически не создавались.
+
+## Архив предыдущей передачи (исходные bytes сохранены)
+
+# Передача сессии — 2026-09-14, P08 spatial-пакет принят
+
+## Результат
+
+P08-SPATIAL редакции2 подготовлен и получил независимое APPROVE
+(game_reviewer / gpt-5.6-terra / high). Runtime P08 НЕ реализован;
+текущий этап менял только новые отделимые документы и эту передачу.
+Документы: docs/P08_SPATIAL_TASK.md, docs/P08_DEPENDENCIES.json, docs/P08_REVIEW.md.
+22 allowed paths (18 существующих/4 новых),17 групп приёмки S01–S17,
+самодостаточные API/ошибки/snapshot/queue contracts и команды будущих проверок.
+
+## Согласованные правила
+
+- Полууровни0.5. Добровольный подъём до1, спуск любой. Цена ребра = terrain cost
+  плюс полные уровни подъёма. Пользователь явно подтвердил ПОЛНУЮ обычную цену:
+  на+1 всего2 очка, на+0.5 всего1. Полуровень не означает бесплатный вход.
+- Move fall только при drop>1; Push fall уже на1. Урон считает все полные уровни
+  текущего перепада: 1.5 ->1,2.5 ->2. Половины разных рёбер не накапливаются.
+  Формула max(1,(HP_MAX*0.25)*n-armor); no-fall не даёт фиктивный min1.
+- R1 достигает первого соседа, R2 первого/второго по прямой. Цена досягаемости
+  d+floor(abs height delta), без диагоналей, одинаково вверх/вниз. Через живого
+  промежуточного персонажа можно атаковать только при friendly к actor.
+  Target admission остаётся pair allowlist. Особое правило края отменено.
+- HP и impact: линейно +/-20% за уровень, +/-10% за полуровень. Множитель>=0;
+  HP multiplier ДО брони, итог HP/положительный impact минимум1. IMPACT_POWER0
+  остаётся0 и BALANCE_MAX<=0 immunity сохранена. Прежние x1.5,/1.5 отменены.
+- Collision B остаётся STR+WEAPON_DAMAGE без высотного множителя. Fall отдельно.
+  Push один бесплатный шаг по осевому знаку даже для дальнего удара; подъёмдо0.5.
+  P07 pair HP -> вход после смерти blocker ->fall/lethal ->item reactions сохранён.
+
+## Техническая граница и совместимость
+
+Headless opt-in profiles spatial_move_v1 / spatial_melee_balance_v1.
+Целые _heights сохраняют масштаб; отдельный bit добавляет половину уровня.
+Новый Board snapshot schema2, старые whole-board bytes/schema1 прежние.
+UnitState.height остаётся независимым int64 cache целой части; геометрия только board.
+Legacy providers/команды отвергают fractional board; UI/клики/отрисовка и AI не подключены.
+Ограниченный профиль атаки поддерживает монотонный рельеф прямой линии;
+внутренний VOID/немонотонный рельеф ->явное unsupported, не новый игровой запрет.
+Общий LOS через ямы/гребни отложен. Полный preview/token/confirm/save-game,
+Flow/BT/status/item activations/terrain HP/шипы и C-3/S-5/T10/T11 вне scope.
+
+## Проверки и ревью
+
+Вход HEAD c12cbcacf70f1b04018659d7cbf6f90c4ba39ba4/status совпал с P07 audit.
+26/26 implementation hashes,10/10 final audit hashes,167/167 effective overlay
+и6/6 historical local artifacts совпали. P07 implementation/final addenda имеют
+приоритет над историческими P07_DEPENDENCIES; frozen P01–P07 не переписывались.
+
+Адресный game_scout/Luna/low исследовал геометрию, faction, Move и snapshot/provider
+seams, только чтение, минимальный контекст. Независимый game_reviewer/Terra/high
+нашёл в r1 неверное имя terrain-only provider. В r2 исправлен реальный
+make_terrain_only_provider и добавлен отдельный S04 сценарий обходного пути.
+Повторное fixed review: APPROVE. Дополнительное byte-provenance review: APPROVE.
+Никто из помощников не писал runtime, не делегировал и не коммитил.
+
+Ведущий: check-package.ps1 exit0;256 dependency files/22 local artifacts совпали;
+22 allowed paths и17 acceptance групп,6 decimal damage/8 reach/5 fall examples,
+whitespace/fences/diff, residual reverse check прошли. Все256 прежних файлов
+вне HANDOFF и1091 старый test_reports файл сохранены побайтно; исходный P07 HANDOFF
+suffix124129 bytes и его отдельный handoff-before.md сохранены.
+Godot в подготовке не запускался;1996 passed/0 failed и import/startup PASS
+относятся к принятому P07, а не к ещё отсутствующей реализации P08.
+
+Артефакты: test_reports/p08-spatial-preparation-20260914/ содержит baseline,
+сохранённые r1 inputs, checks/review-manifests r1/r2 и независимые отчёты,
+check-package.ps1 и final-audit.json. Старые файлы не перезаписывались.
+
+## Frozen hashes и Git
+
+TASK SHA256 FB67C9EAAA46159174E13F382ADA40AF2CCDD4134BFC55F1045371FA3DC387A4.
+DEPENDENCIES working SHA256 F08ED3F8D6A76038A753360DF8455C7410B9257F6A0D7B36F972729BF0683B98.
+DEPENDENCIES Git LF SHA256 7B5889642F36DD91E6418DBAE185361E0AADBBAC85ED81D84A819EE0AA16BAB1.
+Допустимы ровно два записанных представления JSON: .gitattributes нормализует CRLF
+при staging. Reviewer независимо проверил обе версии, без изменения содержимого.
+Все input hashes внутри manifest остаются exact; общей нормализации inputs нет.
+Принятые рабочие TASK/DEPENDENCIES после APPROVE не редактировались.
+
+Ветка main. Локальный docs commit: 8a69b37f5db550554be8c02076d90337190fe5cb
+(docs: specify and review P08 spatial package). В нём ТОЛЬКО три новых P08 документа.
+Прежние dirty P01/P02/P06, untracked документы/процессные файлы/snapshot scripts
+сохранены и не включены. HANDOFF обновлён отдельно и остаётся untracked вне staging.
+Чистого checkout недостаточно. Push/sidebar tasks/расписания не выполнялись.
+
+## Следующий шаг
+
+Новый этап удобно начать в новом чате с этой передачей и сохранённым рабочим деревом.
+Самостоятельно задача не создавалась. Поручение для отдельной реализации:
+
+> Реализуй P08-SPATIAL редакции2 по docs/P08_SPATIAL_TASK.md. Сначала прочитай
+> AGENTS.md и актуальную передачу, проверь HEAD 8a69b37f5db550554be8c02076d90337190fe5cb,
+> status, frozen hashes из P08_REVIEW и все files/local_artifacts P08_DEPENDENCIES.
+> Сохрани dirty P01/P02/P06, untracked документы и старые отчёты; не переписывай frozen.
+> Используй game_coder и независимого game_reviewer с минимальным контекстом,
+> соблюдай22 allowed paths. Проверь S01–S17, import/startup/весь regression,
+> получи APPROVE, обнови контракты/передачу и коммить только отделимые изменения.
+> Не выполняй push, не создавай sidebar задачи/расписания. UI/AI и общий LOS вне scope.
+
+## Архив согласования P08 и принятого P07 (прежние байты сохранены)
+
+# Передача сессии — 2026-09-14, spatial: корректировка дальности и множителей
+
+Последнее явное уточнение пользователя имеет приоритет над разделами ниже:
+- Дальность1 достигает соседней клетки; дальность2 — первой и второй по прямой.
+  Пользователь подтвердил остальное предложение о дальности: без диагоналей,
+  horizontal_distance + floor(abs(height_delta)) <= ATTACK_RANGE; особое правило
+  края уступа заменяется доступностью и дальностью. Формула не отменяет препятствия.
+- Коэффициенты balance x1.5 и /1.5 ОТМЕНЕНЫ. Высотный множитель balance теперь
+  рассчитывается как HP:20% за уровень высоты.
+- Для HP добавлен штраф снизу: минус20% за каждый уровень, урон не может быть
+  отрицательным или нулевым. Прежний порядок множителя ДО брони сохраняется.
+- Уточнение о том, относится ли минимум1 также к положительному balance damage
+  и как сохранить нулевой IMPACT_POWER, ещё требуется. Immunity BALANCE_MAX<=0
+  из P07 не отменена. Линейный signed множитель и ±10% за полууровень — предлагаемая
+  точная трактовка, дробные части пользователь явно отбрасывал только для падения.
+
+Стоимость добровольного перехода на соседнюю клетку на+1 остаётся без ответа.
+Прежние предложения про разные пороги Move/Push и границу высотного бонуса
+относительно collision не считать новыми явно подтверждёнными решениями.
+Пакет, independent APPROVE и commit пока ожидают окончания согласования.
+Runtime/frozen не изменены; HEAD/main c12cbcacf70f1b04018659d7cbf6f90c4ba39ba4.
+Повторная проверка baseline: нет расхождений во всех прежних рабочих файлах
+кроме HANDOFF и1091 старом отчёте. Godot не запускался. Push/sidebar/schedules нет.
+
+## Архив предшествующего согласования (новые коэффициенты выше имеют приоритет)
+
+# Передача сессии — 2026-09-14, spatial: ответы пользователя и оставшееся согласование
+
+Подготовка P08 продолжается, runtime менять запрещено. HEAD/main прежний:
+c12cbcacf70f1b04018659d7cbf6f90c4ba39ba4. Повторная проверка исходного baseline:
+все прежние рабочие файлы, кроме дополняемой HANDOFF, и все1091 старых отчётов
+сохранены побайтно. Пакет/APPROVE/коммит ещё не завершены.
+
+## Новые явные ответы пользователя
+
+1. Для движения допустим1 уровень; спуск наносит урон, если перепад больше1.
+2. Для урона падения считаются только целые уровни; дробный урон от части уровня
+   не нужен. Точное взаимодействие безопасного порога Move с прежним Push нужно
+   показать явно: P07 Push на1 уже ранит, в ответе про Move безопасен1.
+3. Диагональные атаки недоступны. Через промежуточного персонажа можно атаковать,
+   только если он дружественный.
+4. Пользователь просит совет: упростить reach до проверки доступности/дальности,
+   учитывать уровень высоты как очко дальности. Это пока предложение, точная
+   формула и замена прежнего правила края ожидают согласования.
+5. Impact атаки сверху x1.5, снизу /1.5. HP атаки сверху: +20% за уровень высоты
+   ко всему прямому урону, кроме статусов; множитель ДО брони. Штраф HP снизу
+   не задан. Дробный уровень для HP-бонуса и граница collision требуют явности.
+
+## Новое адресное исследование
+
+Тот же game_scout/Luna/low, только чтение, без делегирования:
+Faction.is_friendly(a,b) = a==b; UnitState.is_friendly_to доступен. Target admission
+остаётся отдельным pair allowlist AttackRules. Move оплачивает terrain cost1
+(HAZARD3); наценки высоты сейчас нет. Voluntary fall damage ещё не реализован.
+Ведущий прочитал текущие AttackRules/AttackCommand/MoveRules/MovePathCheck и
+PushResolver: P07 collision берёт raw_attack, падение отдельно использует HP_MAX.
+Нельзя автоматически распространить высотный HP множитель на collision/fall.
+
+## Предложение ведущего — ещё не принятое правило
+
+Reach по одной строке/колонке: horizontal_distance + floor(abs(height_delta))
+<= ATTACK_RANGE, симметрично вверх/вниз. Примеры: сосед ±0.5 требует1; сосед
+±1/±1.5 требует2; через одну клетку при перепаде1 требуется3. Проверка доступности
+остаётся отдельной: препятствия/недружественный occupant не обходятся формулой.
+Это может заменить особое правило края; требуется ответ пользователя.
+Предлагаемый HP бонус линейный по фактической высоте: +0.5 ->+10%, +1.5 ->+30%;
+снизу HP x1, impact /1.5. Коэффициент impact не возводится в степень высоты.
+
+До зависимого ТЗ уточнить стоимость Move на+1, допустимость добровольного
+спуска>1, сохранение разных порогов Move/Push, округление HP-бонуса и применение
+HP-бонуса только к удару либо также к collision. После согласования продолжить
+самодостаточный ограниченный пакет, проверки, независимое ревью и docs commit.
+Godot не запускался; frozen/runtime не менялись; push/sidebar/schedules нет.
+
+## Архив исследования spatial (прежние байты сохранены)
+
+# Передача сессии — 2026-09-14, исследование spatial после P07
+
+## Текущий результат и граница
+
+Задача пользователя: после согласования подготовить ограниченный spatial-пакет
+полууровней/досягаемости, самодостаточное ТЗ, allowed_paths/dependencies/acceptance;
+получить независимое APPROVE и коммитить только новые отделимые документы.
+Runtime не менять. Подготовка продолжается; ТЗ ещё не спроектировано и не принято.
+
+Ветка main, HEAD c12cbcacf70f1b04018659d7cbf6f90c4ba39ba4 совпал с ожидаемым.
+Status точно совпал с test_reports/p07-final-audit.json. Сверены 26/26 записей
+implementation manifest, 10/10 final audit artifacts, 167/167 эффективных файлов
+после наложения принятой реализации/финальных addenda на P07_DEPENDENCIES,
+6/6 исторических local artifacts. Расхождений нет. Reverse-check p07-residual.patch
+и git diff --check прошли. Frozen пакеты не переписывались.
+1996 passed / 0 failed и успешные Godot import/startup относятся к принятому P07;
+в этой документационной подготовке Godot не запускался.
+
+Baseline: test_reports/p08-spatial-preparation-20260914/baseline.json — SHA-256
+257 прежних рабочих файлов и 1091 старого test_reports файла; исходный текст
+передачи сохранён в handoff-before.md и целиком после этого нового раздела.
+Прежние dirty P01/P02/P06 и untracked файлы обязательны; clean checkout недостаточен.
+
+## Исследование и принятые antecedents
+
+game_scout / gpt-5.6-luna / low выполнен с fork_turns=none, только чтение,
+без дальнейшего делегирования. Ведущий независимо сверил accepted provenance,
+исторические решения и текущие AttackReachCheck/BalancePushRules.
+
+- Board heights сейчас PackedInt32Array; provider, MoveRules/MovePathCheck,
+  PushResult и визуальные входы используют int. UnitState.height — отдельное
+  сериализуемое int64 значение, не источник геометрии; прежние snapshot тесты
+  требуют сохранить его независимость. Нужна явная стратегия масштаба/совместимости.
+- Move использует симметричный предел перепада; Push ограничивает только подъём.
+  Порог Push +0.5 принят, P07 временно передаёт max_height_step=0 на целых уровнях.
+  Дробное падение затрагивает также admission будущего входа после смерти blocker.
+- Ранее принято для будущей высотной атаки: range1 допускает перепад0.5 и блокирует1;
+  нужны отдельные HP/impact множители. Числовые примеры не являются коэффициентами.
+- Reach2/перепад1.5 обсуждались как пример; при перепаде>1 цель должна быть на краю
+  со стороны actor. Метрика дальности/LOS/диагональ/точная геометрия края не определены.
+- Реализованные P06/P07 профили по-прежнему требуют range1, ортогональное соседство
+  и равные board heights. Новые правила нельзя объявлять уже работающими.
+
+## Вопросы перед зависимым проектированием
+
+Нужны решения пользователя: пределы добровольного подъёма/спуска и последствия
+спуска; урон Push-падения на0.5/1.5; геометрия reach2 (метрика, диагональ,
+промежуточные стены/персонажи); точное правило края и направления высотной атаки;
+числа/порядок применения отдельных HP/impact множителей высоты либо явное
+отложение этой части. Техническую стратегию представления/версий ведущий выберет
+после определения необходимого игрового поведения, без молчаливой смены масштаба.
+
+## Git, проверки и следующий шаг
+
+Новых runtime изменений нет. Пока добавлен только этот раздел ранее untracked
+HANDOFF и новая игнорируемая baseline-директория. Коммита нет: согласование,
+пакет и независимое ревью ещё впереди. Не запускать review формального пустого ТЗ.
+После ответов: ограничить scope, подготовить фиксируемые документы P08,
+проверить dependencies/preservation/diff, получить game_reviewer APPROVE,
+обновить передачу и создать локальный docs commit только своих отделимых файлов.
+Прежний HANDOFF не включать целиком в staging. Push, sidebar tasks и расписания нет.
+
+## Архив: передача принятой реализации P07 (прежние байты сохранены)
+
+# Передача сессии — 2026-09-14, P07 реализован и принят
+
+## Результат
+
+P07 Balance/Push редакции 1 реализован в рамках всех 15 allowed paths.
+Независимый game_reviewer / gpt-5.6-terra / high дал **APPROVE** фиксированному
+revision1: все 26 SHA-256 manifest совпали, блокирующих замечаний нет.
+Frozen P07_BALANCE_PUSH_TASK / P07_DEPENDENCIES / P07_REVIEW не переписывались.
+
+Профиль flat_melee_balance_v1 включает IMPACT_POWER, один balance break/reset0
+и бесплатный одноклеточный Push после attack=1 main. Flat_melee_v1 сохраняет P06.
+Wall/collision получают B=STR+WEAPON_DAMAGE до брони; armor вычитается отдельно
+каждому, min1. Падение на целый h: max(1,(HP_MAX*0.25)*h-armor). HAZARD/VOID/край
+летальны. Высоты не перекодированы, любой положительный целый подъём блокирует.
+
+Оба HP collision выполняются одним step. При гибели blocker выжившая цель входит
+на его клетку; entry/fall/lethal завершаются до предметного лечения collision,
+затем исходного hit. При выжившем blocker нет moved/entry. Летальный вход/край
+атомарны внутри Push step; трупы остаются в bounds и registry, occupancy очищается.
+Source/Binding/request seals и stage refs/HP/balance/ledger guards сохраняются
+при copy; root preflight читает validated stats copies без прогрева live cache.
+Только exact CollisionDamageCommand имеет capacity4. Лимиты/fault сохраняют
+оплату и завершённые effects/events; snapshot/enum схемы прежние.
+
+## Проверки и делегирование
+
+Вход: HEAD/main 7ea715555111fbd88e752eaefb6575bed535c3b4 совпал; оба frozen hashes,
+140/140 effective dependencies и6/6 local artifacts проверены. Прежние файлы
+скопированы в p07-implementation-baseline, исходные status/diff/hashes сохранены.
+Старый p06 residual reverse-check проходит с исключением HANDOFF, закономерно
+дополненного при подготовке P07; остальные hunks и p06 staged patch проходят.
+
+Luna/game_coder реализовал первый вариант; ведущий вернул конкретные gaps §§5–9.
+После неполного исправления сложная реализация передана отдельному Terra/high
+с ограничениями game_coder по AGENTS. Одновременно runtime писал один исполнитель;
+ведущий подготовил QA, проверил контракты и выполнил критическую интеграцию.
+Ревью — отдельный game_reviewer с минимальным контекстом, без записи/делегирования.
+
+Ведущий выполнил test_reports/p07-check.ps1: Godot4.7.2 headless import/scan DONE,
+startup и весь runner — **1996 passed / 0 failed**, exit0. Все A01–A17 и прежние
+1633 assertions сохранены. SCRIPT/parse/runtime ошибок нет; пять новых class/UID
+зарегистрированы. Диагностика выхода45 ObjectDB/18 resources совпала с P06,
+новых утечек нет. UI не подключён/не проверялся. Env только процессный, восстановлен.
+
+Артефакты: p07-implementation-review-manifest.json (SHA256
+9BE3656802827C93E87EA6EBBD66FB2D3B8DD6838006655FF27E7103BDE9F6FE),
+p07-independent-implementation-review.md, p07-implementation-delta-r1.patch,
+p07-acceptance-map.md, p07-import/startup/tests.log и p07-check-output.txt.
+Все774 прежних test_reports артефакта сохранены побайтно. Первичные неуспешные
+прогоны и исправления сохранены в новых p07-* артефактах, старые check не запускались.
+
+## Git и сохранность
+
+Ветка main. Локальный логический commit реализации: c12cbcacf70f1b04018659d7cbf6f90c4ba39ba4.
+В commit только отделимые P07 runtime/UID/test hunks и три tracked doc addenda
+ARCHITECTURE/DECISIONS/TESTING —18 paths. Прежние dirty P01/P02/P06 не включены.
+Ранее untracked COMMAND_ACTION_QUEUE_CONTRACT и эта HANDOFF обновлены отдельно
+и остаются вне staging; их прежние тексты сохранены. Финальные status/residual/
+staged hashes и границы — test_reports/p07-final-audit.json, p07-staged.patch,
+p07-residual.patch. Push не выполнялся; задачи в боковой панели/расписания не создавались.
+
+Чистого checkout по-прежнему недостаточно: нужны прежние dirty P01/P02/P06
+(Stat/StatsBag/Unit snapshot v2, Board/HP baseline, SimulationSnapshot и fixtures).
+Frozen dependencies следующего этапа должны брать принятые hashes реализации P07
+вместо исторических входных runtime hashes; старые manifests не переписывать.
+
+## Открытое и следующий шаг
+
+Для P07 блокеров нет. Вне scope остаются полууровни/expanded reach, terrain HP/
+шипы, status/dodge, item activations, Battle Flow/BT, полный preview/token/confirm,
+snapshot очереди/ActionContext и save-game, общие C-3/S-5/T10/T11.
+Следующий этап — отдельное согласование и пакет spatial heights/reach либо другого
+выбранного пользователем направления. Для него рекомендуется новый чат с этой
+передачей и сохранённым рабочим деревом; автоматически задача не создавалась.
+
+## Архив: передача принятого пакета P07 (прежние байты сохранены)
+
+# Передача сессии — 2026-09-14, пакет P07 принят
+
+## Актуальный результат
+
+P07 Balance/Push редакции 1 спроектирован и получил независимое **APPROVE**
+(game_reviewer / gpt-5.6-terra / high), без блокирующих замечаний. Реализация P07
+не начата; требуется отдельное поручение. Принятый P06 runtime сохранён побайтно.
+
+Документы: docs/P07_BALANCE_PUSH_TASK.md, docs/P07_DEPENDENCIES.json,
+docs/P07_REVIEW.md. Frozen hashes реализации брать из P07_REVIEW, не из старых
+manifests предыдущих этапов. TASK и DEPENDENCIES после ревью не изменялись.
+
+## Принятые правила
+
+- Impact=IMPACT_POWER независимо от HP/armor; порог BALANCE_MAX, один break/reset0
+  без избытка; max<=0 immunity. Только выжившему после hit.
+- Один бесплатный Push на одну клетку после attack=1 main; отдельного Push root нет.
+- B=STRENGTH+WEAPON_DAMAGE до брони. Wall/collision damage=max(1,B-armor получателя),
+  броня каждого учитывается отдельно, не зависит от реально снятого HP другой цели.
+- Падение вниз на целый h>=1: max(1,(HP_MAX*0.25)*h-armor); при h0 damage нет.
+  Collision/fall не накапливают balance и не запускают новые Push.
+- Сохранившийся blocker: цель стоит, никаких фиктивных moved/entry. Последнее явное
+  решение пользователя заменило раннее правило: если blocker-персонаж погиб от
+  collision, выжившая цель входит на его клетку; оба погибших не перемещаются.
+- Оба HP collision до предметного лечения; вход/fall/lethal последствия до реакций
+  collision, затем reactions исходного hit. Обязательные effects идут через очередь.
+- Игровой подъём до+0.5, но P07 сохраняет запрет полууровней: current integer heights
+  не перекодируются, любой положительный целый delta блокируется. HAZARD/VOID/край
+  смертельны. P06 reach прежний (ортогональная соседняя клетка, равные board heights).
+- Шипы и отдельные препятствия с HP описаны как будущие требования окружения,
+  не включены в runtime P07. Полууровни/дробное падение — следующий spatial пакет.
+
+## Технический пакет и проверки подготовки
+
+Пять новых RefCounted/Command классов, 15 allowed paths (5 existing и 10 new/UID).
+Новый opt-in profile flat_melee_balance_v1; прежний flat_melee_v1 сохраняет P06.
+Пара collision HP одним step с capacity4 только exact CollisionDamageCommand;
+после гибели blocker — mandatory after_collision phase того же одноклеточного Push.
+Летальный вход/край завершается death в одном Push step. Snapshot schema неизменна,
+finish_fall не нужен: HP executor и board уже сохраняют corpse/очищают occupancy.
+Guard/validation/event/source/fault prefix и A01–A17 заданы в TASK.
+
+Входной HEAD/main совпал с 3819cb50c360247d1994ee7fde49a1936f37e3e2.
+Проверены 31/31 P06 implementation hashes, 5/5 audit artifacts, точное совпадение
+исходного status с p06-final-audit и reverse-check residual/staged без применения.
+104 старые dependencies неизменны, 14 объяснены принятым P06 (10 runtime и4 doc
+addenda с сохранёнными историческими prefixes). В P07 140 effective dependencies
+и6 local artifacts; все подтверждены ведущим и reviewer. История не переписана.
+
+Godot/import/startup/runner в проектировании не запускались. 1633 passed / 0 failed
+относятся к принятому P06. Выполнены hashes/provenance/preservation, numerical
+oracles, allowed paths, whitespace/fences/diff checks. Новые логи/QA только p07-*;
+старые test_reports, процессные файлы и runtime не изменены.
+
+## Git и сохранность
+
+Ветка main. Локальный документационный commit P07: 7ea715555111fbd88e752eaefb6575bed535c3b4.
+В commit только три новых документа P07. Прежние tracked dirty hunks не включены;
+эта уже ранее untracked передача обновлена отдельно и остаётся вне staging.
+Полный прежний текст передачи ниже сохранён побайтно; его hash сохранён в
+p07-preparation-baseline.json / p07-handoff-before.md. Push не выполнялся.
+
+Чистого checkout недостаточно: сохранить прежний P01/P02 baseline и P06 residual
+(Unit snapshot v2, stat domain, SimulationSnapshot, две fixtures runner, untracked
+COMMAND_ACTION_QUEUE_CONTRACT/HANDOFF). Точные границы P06 — p06-final-audit.json,
+p06-residual.patch, p06-staged.patch. Новая подготовка их не меняет.
+
+## Открытое и следующий шаг
+
+Для P07 игровых блокеров нет. За scope остаются полууровни/expanded reach,
+terrain HP/spikes/status runtime, item activations, Flow/BT, полный preview/token,
+save-game и общие C-3/S-5/T10/T11. Перед коммитом реализации нужны новые import/
+startup/full runner/A01–A17 и независимое ревью fixed runtime/tests manifest.
+
+Рекомендуется новый чат с сохранённым рабочим деревом и следующим запросом:
+
+> Реализуй принятый P07 Balance/Push редакции 1 по docs/P07_BALANCE_PUSH_TASK.md.
+> Сначала прочитай AGENTS.md и актуальную передачу, проверь HEAD 7ea715555111fbd88e752eaefb6575bed535c3b4,
+> status, два frozen hashes из P07_REVIEW.md и все files/local_artifacts
+> P07_DEPENDENCIES.json. Сохрани dirty P01/P02/P06 и старые test_reports.
+> Соблюдай allowed_paths; используй game_coder и независимого game_reviewer
+> по CODEX_WORKFLOW с минимальным контекстом. Не расширяй scope и не переписывай
+> frozen пакет. Проверь A01–A17, import/startup и весь регресс, добейся APPROVE,
+> обнови передачу/контракты и создай локальный логический commit только своих
+> отделимых изменений. Push, задачи в боковой панели и расписания не создавай.
+
+## Архив: передача принятого P06 (прежние байты сохранены)
+
+# Передача сессии — 2026-09-14, P06 принят
+
+## Актуальный результат
+
+P06 редакции 1 реализован в рабочем дереве. После явного разрешения пользователя
+«Даю разрешение» исправлен единственный CONTRACT_GAP: item_owner_state.gd:158
+принимает StatModifierEffect.stat_type 0..10 вместо 0..6. Других расширений scope
+нет; frozen P06_ATTACK_TASK / P06_DEPENDENCIES / P06_REVIEW не переписаны.
+
+Ведущий повторно выполнил Godot 4.7.2 headless import/scan DONE, startup и весь
+runner: **1633 passed, 0 failed**, exit0. Все A01–A14 и прежний регресс пройдены.
+Независимый game_reviewer / Terra high дал **APPROVE** по revision1 manifest:
+совпали все 31 SHA256 кода/tests/UID и логов; блокирующих замечаний нет.
+Предыдущее REQUEST_CHANGES и его устранение сохранены в отчёте.
+
+ActionResources — единый owner-bound main/bonus ledger, движение отдельно.
+Enable создаёт нулевые остатки; refill явный и атомарный. Контекст, импорт и выбор
+персонажа ресурсов не восстанавливают. Unit v1/v2 и P02/P03b сохраняют ledger.
+Attack/связанный sealed Hit стоят ровно 1 main и наносят
+max(1, (STRENGTH + WEAPON_DAMAGE) - ARMOR) через прежний HP executor и реальные
+предметные реакции. Строгий attacked, identity/occupancy/ledger guards и оплаченный
+prefix при fault проверены. Доступна только соседняя ортогональная клетка на той же
+board height при range1. UI не подключён и не проверялся.
+
+## Git: проверенное рабочее дерево и граница локального коммита
+
+Ветка main. Входной HEAD: a73bd9fe4f709de1f89441882e3360baea4ce881.
+Локальный P06 commit: 3819cb50c360247d1994ee7fde49a1936f37e3e2.
+Push не выполняется. Пользователь просил сохранить прежний dirty P01/P02 и процессные
+файлы; разрешение на одну строку не трактуется как выбор отдельного baseline-коммита.
+Коммит включает только отделимые P06 изменения, тесты и addenda трёх tracked docs.
+
+**Snapshot-часть принятого P06 остаётся dirty**, поскольку её базовые P02 методы
+и файлы отсутствуют в HEAD; включить их целиком означало бы закоммитить прежнюю
+чужую работу. Остаток P06:
+- scripts/core/units/unit_state.gd — snapshot v2 и восстановление ledger;
+- scripts/core/stats/stats_bag.gd — snapshot domain 0..10;
+- scripts/core/actions/simulation_snapshot.gd — Unit v1/v2/resource gates;
+- tests/run_tests.gd — две прежние P02 negative fixtures: stat7 ->11, Unit2 ->3;
+- docs/COMMAND_ACTION_QUEUE_CONTRACT.md и этот HANDOFF — обновлены, но до P06
+  были untracked, поэтому прежнее содержимое автоматически не коммитится.
+
+Чистого checkout коммита недостаточно: сохранять весь прежний P01/P02 baseline
+и перечисленный P06 остаток. Полный P06 delta и остаток зафиксированы в
+test_reports/p06-full-delta.patch и p06-residual.patch; точный индекс перед
+коммитом — p06-staged.patch. Эти локальные артефакты игнорируются Git.
+
+## Проверки, сохранность и контракты
+
+Вход: совпали 118/118 эффективных dependencies и оба frozen SHA256. До правок
+сохранены все 232 файла в test_reports/p06-implementation-baseline/ и соседние
+.json/.patch; gate — p06-entry-gate.json. 217 закрытых baseline hashes сохранены
+после явно разрешённого item gate. В старом runner заменены только две fixture
+строки выше; остальные исходные строки сохранены. Процессные файлы и старые
+изменения P01/P02 не сбрасывались. Исторические manifests не переписывались.
+
+Проверки ведущего: test_reports/p06-check.ps1; логи p06-import.log,
+p06-startup.log, p06-tests.log, p06-final-run.log и p06-accepted-extension-run.log.
+APPDATA менялась только для процесса и восстанавливалась. Шесть классов и UID
+зарегистрированы. git diff --check и проверка staged diff пройдены до коммита.
+Ожидаемый occupied-cell ERROR P01 и исторические 45 ObjectDB / 18 resources на
+выходе воспроизводятся в p05-lead-final-check.log; новых SCRIPT/parse/runtime
+errors нет. Никаких новых тестовых утечек P06 не оставлено.
+
+Фиксированный результат: test_reports/p06-implementation-review-manifest.json
+(revision1, 31 SHA256, явное расширение item_owner_state). Независимое ревью:
+p06-independent-implementation-review.md; проверки ведущего p06-lead-qa.md;
+сохранность p06-preservation-audit.json и итоговый p06-final-audit.json.
+ARCHITECTURE, DECISIONS, TESTING и COMMAND_ACTION_QUEUE_CONTRACT обновлены addenda
+после APPROVE с сохранением прежнего текста. Нижележащая передача — история,
+её прежние пометки «ожидает разрешения»/«только проектирование» более не актуальны.
+
+## Ограничения и следующий шаг
+
+Balance/Push, расширенный reach/полууровни, dodge/status runtime, item activations,
+Flow/BT, полный preview/token и save-game не начаты. C-3/S-5/T10/T11 остаются
+открытыми. Следующий отдельный пакет — баланс и толчок, затем высоты/досягаемость;
+заблокированный Push не порождает фиктивного moved/entry. Для нового этапа открыть
+новый чат с этой передачей и сохранённым рабочим деревом. Задачи в боковой панели
+и расписания автоматически не создавались.
+
+## Архив передачи до разрешения item gate (побайтно сохранён)
+
+# Передача сессии — 2026-09-14, реализация P06 ожидает решения по scope
+
+## Текущий результат: P06 реализован в рабочем дереве, приёмка НЕ завершена
+
+Пользователь явно разрешил реализацию принятой редакции 1. Входной HEAD/main
+`a73bd9fe4f709de1f89441882e3360baea4ce881` совпал; 118/118 эффективных dependencies
+и оба frozen hashes совпали. Пакет TASK/DEPENDENCIES/REVIEW не изменялся.
+До правок сохранён baseline всех 232 файлов и исходного dirty diff:
+`test_reports/p06-implementation-baseline/`, `.json`, `.patch`.
+Машинная запись gate: `test_reports/p06-entry-gate.json`.
+
+Добавлены ActionResources (единый main/bonus ledger), stat7..10, Unit snapshot v2
+при сохранении v1, P02/P03b gates и legacy export guards. Enable создаёт нулевой
+ledger; явный refill проверяет копию stats и атомарно заменяет остатки. Контекст,
+snapshot import и выбор персонажа не получили скрытого enable/refill.
+AttackDefinition/Rules/ReachCheck и AttackCommand/внутренний sealed AttackHit
+реализуют flat orthogonal same-height attack за один main через прежний HP pipeline:
+max(1, (STR+WEAPON_DAMAGE)-ARMOR), physical/bypass без второго STR/armor. Строгий
+attacked, binding/guards, item healing и оплаченный fault prefix покрыты runner.
+Balance/Push, расширенный reach/полууровни, dodge/status, activations, Flow/BT,
+preview/token и save-game не начинались. Это headless harness, UI не подключён.
+
+## Единственный блокер приёмки — подтверждённый CONTRACT_GAP пакета
+
+`scripts/core/items/item_owner_state.gd:158` имеет старую проверку `stat_type > 6`.
+Она не позволяет создать требуемые P06 предметы со stat7..10. Этот файл не включён
+в allowed_paths frozen пакета, пользователь потребовал строгие границы. Нужная
+правка ровно одна: `> 6` заменить на `> 10`; прочие item admission gates прежние.
+Ведущий задал пользователю async вопрос о разрешении этой строки. **Ответа ещё нет,
+файл не менялся; elapsed time не является разрешением.** Подробности и patch:
+`test_reports/p06-contract-gap.md`. Не переписывать frozen документы после согласия;
+явное расширение записать в implementation manifest и итоговые contract addenda.
+
+## Проверки и независимое ревью
+
+Ведущий запускал `test_reports/p06-check.ps1`: Godot 4.7.2 import/scan DONE и startup
+exit0; все шесть новых классов зарегистрированы и UID созданы. Последний runner:
+**1631 passed, 2 failed**. Оба FAIL — A09 real item stat7..10 roundtrip и независимые
+P03b restores, следствия закрытого ItemOwnerState gate. Все остальные assertions
+проходят. Новые SCRIPT/parse/compile/runtime ошибки устранены. Полный stdout/stderr:
+`test_reports/p06-final-run.log`; отдельные p06-import/startup/tests.log.
+Ожидаемый P01 occupied-cell ERROR сохранён. 45 ObjectDB / 18 resources на выходе
+есть и в историческом `p05-lead-final-check.log`; новая P06 callback-утечка устранена.
+APPDATA менялась только в процессе и восстанавливалась. UI не проверялся.
+
+Код/тесты/UID/логи зафиксированы 30 hashes:
+`test_reports/p06-implementation-review-manifest.json` (скрипт p06-freeze.ps1).
+Независимый game_reviewer Terra/high проверил этот фиксированный результат:
+**REQUEST_CHANGES**, единственный блокер — ItemOwnerState gate выше. Других
+блокирующих дефектов не найдено; это НЕ APPROVE. Отчёт:
+`test_reports/p06-independent-implementation-review.md`. После разрешённой правки
+обязательны повторные import/startup/runner, новые hashes и новое APPROVE.
+
+Luna/game_coder начала ресурсы; после неполных возвратов ведущий передал завершение
+пишущему Terra/high с инструкциями game_coder. Далее он реализовал Attack и QA;
+ведущий интегрировал type/fixture/identity/order fixes, проверял контракты и запускал
+Godot. Писал один coder за раз; сейчас помощники закончили запись. Самостоятельные
+задачи в боковой панели и расписания не создавались, helpers не делегировали.
+
+## Git и сохранность
+
+HEAD/main по-прежнему `a73bd9fe4f709de1f89441882e3360baea4ce881`. Индекс пуст;
+коммитов и push нет: необходимые проверки и APPROVE ещё не получены. 218 закрытых
+файлов совпали с исходным baseline. В прежнем runner изменены ровно две строки:
+negative stat7 ->11, unknown Unit2 ->3; остальные строки сохранены. Аудит:
+`test_reports/p06-preservation-audit.json`. Прежние process/P01/P02 dirty сохранены.
+
+Вторая необходимая развилка — граница коммита. SimulationSnapshot до P06 untracked;
+Unit/StatsBag snapshot методы отсутствуют в HEAD и принадлежат dirty P02. Чистый P06
+delta не применяется к индексу без этих старых методов (проверено read-only
+`git apply --cached --check`; индекс не менялся). Ведущий задал async вопрос:
+сохранить P02 dirty и фиксировать лишь отделимую часть P06 с явным остатком либо
+разрешить отдельный baseline-коммит P01/P02, затем полный P06. Ответа пока нет;
+молча включать прежние hunks запрещено. Процессные файлы не включать автоматически.
+
+Итоговые ARCHITECTURE/DECISIONS/TESTING/COMMAND_ACTION_QUEUE_CONTRACT addenda ещё
+не применены: пользователь потребовал их после приёмки. Черновик контракта лежит
+в `test_reports/p06-contract-addendum-draft.md`. Эта передача обновляет фактический
+статус незавершённой работы; весь прежний текст ниже сохранён побайтно.
+
+Следующий шаг: получить два решения пользователя, устранить согласованный gate,
+перепроверить домен item/P03b/P02 и весь runner, перефиксировать код/логи, повторно
+получить независимое APPROVE. Затем обновить контракты/передачу и создать только
+разрешённые логические локальные коммиты. Исторические manifests не переписывать.
+
+## Архив исходной передачи перед реализацией P06
+
+# Передача сессии — 2026-09-14, готовый пакет P06
+
+## Текущий этап: P06 подготовлен, независимое ревью APPROVE
+
+**Только проектирование и документация. AttackCommand ещё не реализован.**
+Пакет редакции 1: docs/P06_ATTACK_TASK.md, docs/P06_DEPENDENCIES.json,
+docs/P06_REVIEW.md. Реализация требует отдельного поручения пользователя.
+
+Вход main/HEAD `2debe807ab48991c7bfab83d293e994aa0eddd7d` совпал с ожидаемым.
+11/11 окончательных hashes кода/tests P05 и оба frozen hashes его пакета совпали.
+В историческом manifest 100 неизменённых входов совпадают; девять замещены
+принятым P05. Четыре финальных документа сохраняют исходные review prefixes и
+принятые addenda. Исторические manifest не изменены. Новый manifest содержит
+118/118 проверенных эффективных зависимостей, включая прежние dirty P01/P02.
+Чистого checkout HEAD по-прежнему недостаточно для будущей реализации.
+
+После явных вопросов пользователь утвердил три ресурса и attack=1 main;
+возврат к частично походившему персонажу пока разрешён, будущий запрет — отдельная
+политика; движение после атаки разрешено. Max MOVE_RANGE, main/bonus base1 и
+предметные modifiers; refill до максимумов всем живым своей команды в начале её
+хода без накопления остатка. Инвентарь управляется до боя; bonus предназначен для
+будущих зелий/активаций. Урон max(1, STR+WEAPON_DAMAGE-ARMOR), без двойной силы;
+минимум HP-попадания не отменяет последующее предметное лечение.
+
+Уклонение принято как предсказуемое, без случайности; удар в него не наносит
+урона, но конкретного эффекта/снятия в P06 нет. Критов нет. Пользователь явно
+принял временный P06 на одной высоте и порядок: затем баланс+толчок, затем высоты
+и расширенная досягаемость. Текущий harness — ортогональный сосед при range1;
+range>1/разные heights явно unsupported, без молчаливого игнорирования статов.
+Pair allowlist — технический допуск fixtures, не утверждение правил Faction.
+
+Последнее уточнение Push принято: препятствие (стена, персонаж, запрещающий уступ)
+оставляет толкаемого в исходной клетке. Никакого временного входа/отката или moved
+в запрещённую клетку; столкновение может иметь отдельное последствие, например
+шипы стены. Значения урона, armor и детали порога высоты — следующий пакет.
+
+ТЗ перечисляет расширения: append-only stats7..10; nullable ActionResources у
+UnitState с единым main/bonus ledger; вложенный Unit snapshot v2 с сохранением
+прежнего v1; optional copied AttackRules шестым аргументом контекста; attacked
+schema и запрет внешнего submit внутреннего Hit. Root платит, sealed/bound Hit
+использует существующий DamageCommand/HP executor с bypass после единого расчёта.
+Limits/fault prefix, HP/moved schemas, damage-only collector и Move P05 сохраняются.
+Есть allowed_paths, чистые admission reasons, atomic refill вне контекстов,
+A01–A14 и точные команды проверки. Inventory lock/Flow/BT не объявляются готовыми.
+
+game_scout Luna/low выполнил адресные поиски без записи/делегирования. Независимый
+game_reviewer Terra/high получил fixed hashes трёх файлов и 118 зависимостей;
+итог **APPROVE**, блокеров нет. Запрет записи задан инструкцией, отдельное техническое
+read-only принуждение не заявляется. Task/manifest после ревью не менялись;
+отчёт дополнен фактическим результатом отдельно, без self-hash.
+
+Frozen SHA-256:
+- P06_ATTACK_TASK.md: `F23427DB3468213E0179D2FF992507984EAFC0918959170329C9EEC1A4E373AA`.
+- P06_DEPENDENCIES.json: `23A046B929B26CE8D4CADDC1BC9072531B56B8E9E192876A34A4B210A732A83E`.
+
+Проверки подготовки: JSON/hashes, 228 закрытых прежних файлов совпали с baseline,
+исходный P05 текст этой передачи сохранил точный hash. Новых файлов ровно три P06.
+git diff --check проходит. Godot/import/runner/UI не запускались для документов;
+1421/0 ниже — исторический P05. Артефакты test_reports/p06-preparation-baseline.json,
+p06-preparation-audit.json, p06-package-review-r1.json, p06-independent-review.md.
+
+Git: main, HEAD **a73bd9fe4f709de1f89441882e3360baea4ce881** —
+`docs: specify and review P06 attack package`. Локальный логический коммит содержит
+только три документа P06. Прежние dirty P01/P02/процессные файлы не включены.
+Эта ранее untracked передача обновлена отдельно и остаётся вне staging;
+push не выполнялся. После коммита frozen hashes и dependencies повторно совпали.
+Следующий шаг: отдельное поручение на реализацию редакции 1, свежая сверка
+HEAD/status/frozen hashes/dependencies, затем coder -> проверки -> fixed review.
+Для реализации удобно начать новый чат с этой передачей; автоматически задачи
+в боковой панели или расписания не создавались. Общие C-3/S-5/T10/T11 остаются открытыми.
+
+## Архив согласования P06 (исходное содержание сохранено)
+
+# Передача сессии — 2026-09-14, согласование P06
+
+## Текущий этап: исследование P06 выполнено, правила уточняются
+
+Последнее уточнение пользователя (после геймдизайн-оценки):
+- Дополнительные действия предназначены преимущественно для зелий восстановления/
+  маны и других активируемых предметов/артефактов. Это направление контента, не
+  поручение реализовать предметные активации в P06.
+- Управление инвентарём персонажа выполняется до боя; менять инвентарь посреди
+  битвы нельзя. Использование предметов задумано разрешённым действием; расход
+  предмета/заряда не следует путать с разрешением смены экипировки.
+- Детали политики переключения оставлены на усмотрение ведущего; ранее принятые
+  свободный возврат сейчас и возможность включить запрет в будущем сохраняются.
+- Минимум урона 1 подтверждён. Удар в уклонение не наносит урона. Уклонение
+  предсказуемое: заранее известно, что следующая атака не пройдёт, пока эффект
+  не снят. Случайность пока не нужна. Автоматический расход эффекта от самой
+  атаки и способ снятия ещё не утверждены; новый status runtime не начат.
+- Высота должна давать отдельные множители урона HP и воздействия на баланс.
+  Фраза «допустим ... на 0 процентов ... баланс в два раза» является примером,
+  не утверждёнными числовыми коэффициентами.
+- Увеличенная дальность может позволять атаку между уровнями: пример пользователя
+  reach 2 и перепад 1.5. При перепаде больше 1 цель должна стоять на краю
+  уступа со стороны атакующего. Метрика/геометрия края ещё не определены.
+- Пользователь просит рекомендацию: включать сложную высоту сейчас или отложить
+  за явным расширяемым контрактом; также просит выбрать ближайший срез balance/push.
+  Ответ по границе этапов пока является предложением ведущего, не итоговым APPROVE.
+
+Рабочая ветка main, HEAD `2debe807ab48991c7bfab83d293e994aa0eddd7d` совпадает
+с ожидаемым. Проверены 11/11 окончательных hashes runtime/tests P05 из передачи
+ниже и оба frozen hashes P05 task/manifest. В историческом P05_DEPENDENCIES
+совпали 100 неизменённых входов; девять замещены принятым P05 (четыре actions
+scripts, runner и четыре документа). В review manifest совпали 26/30 записей;
+четыре документа сохраняют целиком исходные review prefixes и финальные дополнения
+P05. Их сохранённые baseline hashes совпадают с review manifest. Исторические
+manifest не переписаны. Baseline подготовки: test_reports/p06-preparation-baseline.json.
+
+Пользователь явно утвердил в текущем согласовании:
+- Три отдельных ресурса: движение, основное и дополнительное действие. Обычная
+  атака стоит 1 основное, без расхода движения/дополнительного.
+- Возврат к частично походившему персонажу пока разрешён; запрет должен легко
+  включаться отдельной политикой. Движение после атаки разрешено при остатке движения.
+- Максимум движения из MOVE_RANGE; базовые максимумы основного/дополнительного
+  пока по 1, но должны изменяться предметами и артефактами. В начале хода своей
+  команды ресурсы всех её живых персонажей восстанавливаются до максимумов;
+  остатки не накапливаются. Изменение максимумов внутри хода ещё требует уточнения.
+- Атака достигает цели, если у неё нет способности увернуться; критов пока нет.
+  Конкретный механизм уклонения не определён и не реализован.
+- Нужны место под баланс/толчок и их реализация либо ближайшая итерация.
+  В этом задании игровой код по-прежнему не менять; Flow/BT/preview/save не начинать.
+- Базовая ближняя дальность — один тайл; предметы могут увеличивать дальность.
+  Перепад ровно в один уровень блокирует ближнюю атаку; половина уровня допускает
+  атаку со штрафом/преимуществом в зависимости от позиции атакующего. Величина,
+  ось изменения, правила большей дальности/препятствий ещё не согласованы.
+- Минимальный урон успешного попадания — 1; формула пользователя: сила + урон
+  оружия - броня. Дополнительного независимого base_damage сверх силы/оружия нет.
+
+Пользователь попросил оценить решения с точки зрения геймдизайна и найти скрытые
+проблемы до финализации пакета. Изучены реальные queue/context/Move/HP/item API;
+game_scout Luna/low выполнил два адресных read-only поиска, без делегирования/записи.
+Критические вопросы: изменение максимумов посреди хода и целочисленность ресурсов;
+height scale (в коде целые высоты); штраф/бонус высоты; reach/препятствия и допустимые
+цели; scope уклонения и порядок будущих balance/push относительно предметных реакций.
+Минимум 1 гарантирует damage reaction у живой цели: существующий heal_on_damage
+может компенсировать слабый удар. Это не обещание минимальной итоговой потери HP.
+
+Три итоговых документа P06 пока не созданы: согласование параметров не завершено.
+Независимое ревью фиксированного пакета и логический коммит P06 ещё не выполнялись.
+Только документационная подготовка; Godot не запускался, исторические 1421/0 относятся
+к P05. Прежние dirty P01/P02/процессные файлы сохранены; эта untracked передача
+обновлена добавлением раздела, старое содержание ниже оставлено целиком. Push нет.
+Следующий шаг: завершить согласование по оценке, подготовить P06_ATTACK_TASK,
+P06_DEPENDENCIES, P06_REVIEW, получить game_reviewer APPROVE на frozen hashes,
+обновить передачу и коммитить только три документа P06. Текущая задача продолжается.
+
+## Архив принятого результата P05 (исходное содержание сохранено)
+
+# Передача сессии — 2026-09-14, реализация P05
+
+## Текущий этап: P05 реализован, независимое ревью APPROVE
+
+Выполнена редакция 1 P05_MOVE_TASK по отдельному поручению пользователя. Вход
+main/HEAD `8de06cffc965b22202f97e2a01e5f0e1da44899b` совпал с ожиданием. Frozen hashes
+P05 task/manifest и 109/109 зависимостей совпали; base..HEAD содержал только три
+документа пакета. Исторические документы и manifest не переписаны.
+
+MoveRules и MovePathCheck реализуют явный immutable допуск harness и чистую полную
+проверку пути через provider доски. MoveCommand копирует payload и исполняет по одному
+ребру: только успешный BattleBoard.move_unit оплачивается из move_points_left и создаёт
+moved. После каждого ребра, включая последнее, выполняется continuation с identity
+binding и revalidation. Хвост после прерывания не оплачивается. HAZARD оплачивается
+по актуальной цене и порождает mandatory DeathCommand; VOID непроходим.
+
+Четыре явных расширения P04: optional copied MoveRules контекста, INTERRUPTED step/
+receipt с продолжением siblings и приоритетом fault, строгая moved schema, запрет
+внешнего submit внутренних Move continuation. Damage-only collector, HP/source DTO,
+RNG, guards, depth+1, sequence reservation, лимиты и fault prefix/latch сохранены.
+
+Проверки ведущего: Godot 4.7.2 import (scan DONE, три новых global classes), startup
+и общий runner M01–M12 + весь регресс: **1421 passed, 0 failed**, exit 0.
+Прежний сохранённый runner отдельно прошёл на новом runtime: 1275/0. Новых parse/
+compile/runtime ошибок нет; в логе только ожидаемый occupied-cell ERROR P01.
+UI не проверялся. APPDATA менялась только у процесса и восстановлена.
+Артефакты: test_reports/p05-check.ps1, p05-import.log, p05-startup.log, p05-tests.log.
+
+Роли: Luna/game_coder реализовал bounded primitives/Move/queue; ведущий проверил
+интеграцию и добился исправлений arithmetic, HAZARD reserve/latching, schema и binding.
+Два возврата тестов не покрывали полный пакет; ведущий проверил полноту ТЗ и передал
+завершение тестов отдельному Terra/high с инструкциями game_coder. Одновременно писал
+один кодер; помощники не делегировали и не коммитили. Независимый game_reviewer/Terra/high
+получил фиксированные hashes и финальные логи после прекращения записи; результат
+**APPROVE** окончательной реализации. Запрет записи ревьюеру задан инструкцией,
+отдельное техническое read-only принуждение не заявляется.
+
+Baseline 223 файлов сохранён в test_reports/p05-implementation-baseline*. Проверка
+p05-audit.ps1 подтвердила сохранность 213 закрытых hashes, всех прежних 3812 строк
+runner по порядку и полного содержания старых документов. Изменения ограничены
+allowed_paths. Прежние dirty P01/P02/процессные файлы не включены в staging; смешанные
+tracked docs/tests добавлены отдельными P05 patches от рабочего baseline.
+
+Git: main, HEAD **2debe807ab48991c7bfab83d293e994aa0eddd7d** — `feat: implement P05 explicit move commands`.
+Локальный логический коммит только P05 runtime/tests и добавленных разделов tracked
+ARCHITECTURE/DECISIONS/TESTING. Эта прежде untracked передача и общий untracked
+COMMAND_ACTION_QUEUE_CONTRACT обновлены отдельно и остаются вне коммита: включение
+их целиком захватило бы прежние процессные/P01/P02 изменения. Push не выполнялся.
+Чистого checkout HEAD по-прежнему недостаточно без прежних dirty зависимостей.
+
+Фиксированные SHA-256 окончательного кода/тестов:
+
+| Файл | SHA-256 |
+|---|---|
+| scripts/core/actions/move_command.gd | C78097F6C4E609E1383D97F20F59AB1708988B373C3F68550AEDDF12CF767DF8 |
+| scripts/core/actions/move_command.gd.uid | 7699A220268DF8279E24AECEA9DD42629805C7902B94521C231F34D4A8C9334D |
+| scripts/core/actions/move_rules.gd | E700BF73BE9069B1AE8CE10774C35776DB3C910A2319C1BD19F2173F26AFD889 |
+| scripts/core/actions/move_rules.gd.uid | A3769E7FFC9AC95D33C5B9F467C5873E84E0ED9E933D8AA5439703772EEDF8D6 |
+| scripts/core/actions/move_path_check.gd | 2CA919E526988AD87FBCFE4E0011636E70D898DD55D34E789FDB2FBF95C5A9AC |
+| scripts/core/actions/move_path_check.gd.uid | CF5C5A8060E1BEC97C721C159820DDF9B62BD51C9DFA8E376354F585E1BA090D |
+| scripts/core/actions/action_context.gd | 2250492920FF398C9C4CE57FF584B908DA2EBF6F8363C431DDD1E0BBC3F3B02C |
+| scripts/core/actions/action_queue.gd | 68540B11F218C0CD83632E35401A16E4FEDA11321B49979FEA89ED1280EE13B4 |
+| scripts/core/actions/command_step_result.gd | B230EED5FB9CC6F1A46309565F6CF8324E3DFF600607C90F47B3B5CE52E909D9 |
+| scripts/core/actions/action_receipt.gd | 67613581EE89203A8EF24F915F1C2EB0FCC2D3EF2F19A1C656F796A4E8ADB477 |
+| tests/run_tests.gd | D10B98EFB590A2D593CD9C2BFF9152077D900B94368E5EA470AD5A8C510FE4E9 |
+
+
+Полный review manifest и логи: test_reports/p05-result-review-manifest.json;
+сводка ревью: test_reports/p05-independent-review.md. Frozen task/manifest редакции1:
+B388A453064FDFC85BA0D8CA50958E11EA8B712BCBA6A760998C68B885870D60 /
+5C7E62F36A386FEB372BB051DAFD536DDFB5BF50F152D61FF4B6610D61DB7849.
+
+Не начаты Attack/Push, полный preview/token, Battle Flow/BT, новые игровые статусы
+и save-game. Цена атаки, повторное переключение между частично походившими персонажами,
+движение после атаки и максимумы/refill остаются открытыми до зависимой реализации.
+Общие C-3/S-5/T10/T11 и этапы0.5/0.8 не закрыты. Следующий этап требует отдельного
+поручения и согласования зависимых правил; удобно начать новый чат с этой передачей.
+Новые задачи в боковой панели и расписания не создавались.
+
+## Архив передачи подготовки P05 (исходное содержание сохранено)
+
+# Передача сессии — 2026-09-14, пакет P05
+
+## Текущий этап: ТЗ P05 готово, независимое ревью APPROVE
+
+**P05 — только проектирование/документация, редакция 1. Игровой код не менялся.**
+Пакет: [P05_MOVE_TASK.md](P05_MOVE_TASK.md), [P05_DEPENDENCIES.json](P05_DEPENDENCIES.json),
+[P05_REVIEW.md](P05_REVIEW.md). Реализация требует отдельного поручения пользователя.
+
+Вход main/HEAD `21e9b8e1ae753d0901d9276dae5a7e2336778ca1` совпал с ожиданием.
+33/33 SHA-256 принятого P04 из таблицы ниже, 62/62 неизменённых исторических входов
+P04_DEPENDENCIES и оба frozen hashes пакета P04 совпали. Исторический manifest не
+переписывался: принятый результат замещает пять старых входов. Новый P05 manifest
+фиксирует 109 эффективных зависимостей, проверено 109/109. Чистого checkout HEAD
+по-прежнему недостаточно без прежних dirty P01/P02 и процессных входов.
+
+Пользователь после пояснения подтвердил два правила: «1 . Да», «2. Да пусть входит».
+Первое — оплачиваются только клетки, в которые персонаж действительно вошёл;
+прерванный хвост не оплачивается. Второе — добровольный вход в HAZARD разрешён,
+оплачивается и смертелен, продолжение пути прекращается. VOID остаётся непроходим.
+Это утверждение правил ТЗ, не запуск реализации. Стоимость атаки, повторный выбор
+частично походившего персонажа, движение после атаки и максимумы/refill не утверждены.
+
+P05 использует единственный прежний move_points_left и явный immutable harness-допуск
+MoveRules, без Battle Flow/ActionResources. Заданы точные API MoveCommand/MovePathCheck,
+путь со стартом, validation всего маршрута до мутаций, каждое ребро через BattleBoard,
+однократная оплата, terminal continuation после последнего ребра и revalidation.
+HAZARD создаёт mandatory DeathCommand принятого P04; moved → died, освобождение
+occupancy через прежний finalize, corpse остаётся в registry. Смерть, displacement
+и изменившаяся проходимость прерывают остаток с INTERRUPTED; invariants дают FAULTED.
+
+Совместимость с P04 проверена по коду. Явно перечислены расширения: optional context
+MoveRules, строгая moved schema, INTERRUPTED с сохранением drain/fault precedence,
+запрет внешнего submit внутренней continuation. Depth остаётся +1 у всех children;
+hard cap 32 ребра позволяет terminal в default depth=32. HP/source DTO, damage-only
+collector, порядок consequences/reactions, guards, RNG, event overshoot и latch
+сохранены. Точность оплаты float и board/revision/sequence overflow включены в ТЗ.
+Allowed_paths, M01–M12 и точные команды будущих проверок приведены в пакете.
+
+game_scout/Luna/low выполнил адресный поиск board/provider/pathfinding API.
+Независимый game_reviewer/Terra/high проверил фиксированные hashes и фактические
+контракты, результат — **APPROVE**, блокирующих замечаний нет. Исправления по ревью
+не требовались. Помощники получили минимальный контекст, работали только на чтение,
+не делегировали и не коммитили; техническое read-only принуждение не заявляется.
+
+Frozen SHA-256 принятой редакции 1:
+
+| Файл | SHA-256 |
+|---|---|
+| docs/P05_MOVE_TASK.md | B388A453064FDFC85BA0D8CA50958E11EA8B712BCBA6A760998C68B885870D60 |
+| docs/P05_DEPENDENCIES.json | 5C7E62F36A386FEB372BB051DAFD536DDFB5BF50F152D61FF4B6610D61DB7849 |
+
+Проверки подготовки: hashes/JSON, diff/whitespace, сохранность baseline 220/220 до
+обновления передачи; после добавления этого префикса 219/219 остальных прежних файлов
+сохранены побайтно, исходная передача — полный неизменённый суффикс ниже. Артефакты:
+игнорируемые test_reports/p05-preparation-* и p05-handoff-before.md. Godot/import/
+startup/tests/UI не запускались: 1275/0 ниже — историческая принятая реализация P04,
+не тестирование P05. После реализации обязательны новые проверки и независимое ревью.
+
+Git: main, HEAD **8de06cffc965b22202f97e2a01e5f0e1da44899b** —
+`docs: specify and review P05 move package`. Только три новых документа P05.
+Эта прежняя untracked передача обновлена отдельно и остаётся вне коммита. Старые
+dirty P01/P02, смешанные docs/tests, AGENTS/.codex/CODEX_WORKFLOW/общий контракт
+сохранены и в staging автоматически не включены. Push не выполнялся.
+Индекс после коммита пуст; staged blobs совпали с проверенными рабочими байтами
+всех трёх документов, frozen task/manifest hashes после коммита повторно совпали.
+
+Реализация Move, Attack/Push, полный preview/token/confirm, Flow/BT, новые игровые
+статусы, save-game не начинались. Общие C-3/S-5/T10/T11 и 0.5/0.8 остаются открытыми.
+Для следующего этапа удобно начать новый чат с этой передачей; автоматически новая
+задача или расписание не создавались. Предлагаемый следующий запрос:
+
+> Реализуй P05 по принятой редакции 1 P05_MOVE_TASK.md. Прочитай AGENTS и передачу,
+> сверь HEAD/status, frozen hashes пакета и 109 зависимостей P05_DEPENDENCIES.
+> Сохрани прежние dirty P01/P02/процессные файлы. Используй роли по CODEX_WORKFLOW,
+> выполни M01–M12/весь регресс, получи независимое ревью фиксированного результата.
+> Работай только в allowed_paths; Attack/Push/preview/Flow/BT/новые игровые статусы
+> не начинай. Коммит только P05 hunks/новые файлы после проверок и APPROVE, без push.
+
+## Архив передачи после реализации P04 (исходные байты сохранены)
+# Передача сессии — 2026-09-14, реализация P04
+
+## Текущий этап: P04 реализован и принят, независимое ревью APPROVE
+
+Выполнена редакция 1 P04_ACTION_QUEUE_TASK по отдельному поручению пользователя.
+Вход main/HEAD `8b2e40dc10c65299ebafe16b3bb70d1f29dd14c5` совпал с ожиданием.
+Оба frozen hashes пакета и 67/67 зависимостей P04_DEPENDENCIES совпали. От base
+`006fe1eaeca9fe19e97eed1b9030c0d565286b3a` до входного HEAD изменялись только три
+документа P04. ТЗ/manifest/review пакета остались неизменными историческими входами.
+
+Добавлены 14 RefCounted классов actions и их Godot-generated .uid: context, queue,
+command/step/receipt, value sink, RNG port, source/request, Damage/Heal/Death,
+общий HP executor и item reaction adapter. Исполнение headless, без UI-интеграции.
+Контекст удерживает прежний P03b state, а queue исполняет depth-first work stack.
+Общие guards до copy/validate/preflight и до final sink защищают также от второй queue.
+Fault latch обеих сторон сохраняет prefix, очищает pending и запрещает новые roots.
+
+Damage/Heal/Death используют Vitals и общий death finalize. Damage — только flat armor
+или bypass, без STRENGTH/impact/ActionResources. Occupancy освобождается один раз,
+труп остаётся в registry, damaged предшествует died. Full/zero/over-max heal не вызывает
+mutator. Collector получает узкий value DTO после cleanup; adapter сохраняет private
+identity binding и перепроверяет ledger/definition/placement/active/closed/alive.
+Stale реакции дают SKIPPED, нарушенный invariant — FAULTED. Value events и receipt/sink
+копируются; sequence/revision/лимиты не используют адреса runtime.
+
+Проверки: Godot 4.7.2 import/startup exit 0, scan DONE, 14/14 global classes.
+Полный C01–C12/прежний регресс: **1275 passed, 0 failed**. Новых SCRIPT/Parse/Compile
+и runtime ошибок нет; ожидаемый P01 occupied-cell ERROR сохранён. UI не проверялся.
+RNG base fail-closed; fixture проверяет combat/loot, exact DTO, clone/atomic import,
+overflow и реальные random children двух P03b copies с равными snapshots/events/steps/
+counters/RNG, неизменными live/соседней копией/loot. Это не полный preview.
+
+Сохранность: baseline 192 файлов, 186 закрытых путей совпали SHA-256, 3123 исходные
+строки runner остались в порядке. Все прежние тексты смешанных docs сохранены; новые
+разделы добавлены отдельно. Manifest независимого ревью фиксирует 36 файлов (code/uid,
+tests, затронутые docs и пакет). Проверены P04-only patches для частичного staging.
+Логи и аудит: `test_reports/p04-{import,startup,tests}.log`, `p04-audit.ps1`,
+`p04-implementation-baseline*`, `p04-review-manifest.json`, `p04-review-*.patch`.
+
+Роли: game_coder/Luna сделал DTO/ports/wrappers и первые тесты; два тестовых возврата
+были неполны, ведущий уточнил пакет и передал завершение отдельному Terra/high с
+инструкциями game_coder. Ведущий реализовал queue/HP/adapter и критические QA fixtures.
+Затем независимый game_reviewer/Terra/high получил замороженные hashes и логи.
+Помощники не делегировали и не коммитили. Результат независимого ревью: APPROVE,
+36/36 hashes подтверждены, блокирующих замечаний нет, C01–C12 признаны достаточными.
+Ревьюер изучил зафиксированные логи без пишущих проверок; ограничение read-only
+задано инструкцией. Отчёт: test_reports/p04-implementation-review.md.
+
+Git: main, HEAD **21e9b8e1ae753d0901d9276dae5a7e2336778ca1** — локальный коммит
+`feat(actions): execute damage heal and death through bounded queue`.
+32 файла, только 14 новых actions/.uid и P04 hunks tests/трёх tracked docs.
+CODEX_HANDOFF и COMMAND_ACTION_QUEUE_CONTRACT — прежние untracked процессные
+документы; обновлены в рабочем дереве и не включены в коммит. Остальные dirty
+P01/P02 и AGENTS/.codex/CODEX_WORKFLOW сохранены. Staged patches и новые blobs
+сверены с независимым APPROVE, index после коммита пуст. Чистого checkout HEAD
+по-прежнему недостаточно без прежних входов. Push не выполнялся.
+
+GODOT_BIN отсутствовал в окружении; использован найденный путь из TESTING только в
+проверочных процессах. APPDATA временно изолирован в test_reports/godot-profile и
+восстановлен; настройки пользователя не менялись.
+
+Move/Attack/Push, полный preview/token, Battle Flow, BT, новые статусы, экономика и
+save-game не начинались. Цена атаки, переключение частично походивших персонажей и
+Push остаются открытыми до зависимой реализации; общий C-3/S-5/T10/T11 и 0.5/0.8
+не закрыты. Следующий этап — отдельный пакет по новому поручению в новом чате с этой
+передачей. Самостоятельные задачи/расписания не создавались.
+
+## SHA-256 результата P04 для следующего входного gate
+
+Сверять таблицу с HEAD/status и неизменёнными зависимостями P04_DEPENDENCIES.
+Входной manifest исторический; эта таблица замещает изменённые входы и новые actions.
+
+| Файл | SHA-256 |
+|---|---|
+
+| scripts/core/actions/action_context.gd | 046C45F9DF8A31BF336B47B4C8FCA05B4C330863104C08CAD9A170F3B11760BD |
+| scripts/core/actions/action_context.gd.uid | 9B0DC4E3D9A60188B953DC2F68B1AEC2F66A3472D5F3138E36C2AFBD5D47B520 |
+| scripts/core/actions/action_queue.gd | 67B84613A5FE2BCD566F935F36A5B8F38A82503A0918553A44117836FBD4227C |
+| scripts/core/actions/action_queue.gd.uid | 0C61BF6D8E58910B7739A2C7E1509321EA6D69B3A9EDA8C03711BAA7E81A1C6F |
+| scripts/core/actions/command.gd | 637A27A9287CAD1BFCBEEC957AAB3A4ACA6515BBEC09B3BBC6D4130811BF9EFB |
+| scripts/core/actions/command.gd.uid | 06B973E7CBF35E475ED42F875E49E371810A9869CBF5EBD54C78962B317CEB16 |
+| scripts/core/actions/command_step_result.gd | 25B2BA52718EB5ED42D4242A97A741AC7209369F6230278B97863DBCD21C3B64 |
+| scripts/core/actions/command_step_result.gd.uid | DE4AD54B305988DBC5BFCEE631C13B24A95D15FA433804E80CC0CB25B2DAD3D4 |
+| scripts/core/actions/action_receipt.gd | F7F104C6A208605FB18B932BD270AD14E213BC6DE6DC9E078115B1CE0F234551 |
+| scripts/core/actions/action_receipt.gd.uid | 340DD485DBFBA9AD5625C7A341B4D7D9F4175E5137C7165F7D3CB363E2FD4E44 |
+| scripts/core/actions/action_event_sink.gd | 62DECB1358C8954CFF60FD9322A3F4B7B2A10058C69AC86A35FBF6AF729C2535 |
+| scripts/core/actions/action_event_sink.gd.uid | A11EAC4AE2013EF87B38FC5A840CFCC63C121565BFD36161217F9F406CA42C1A |
+| scripts/core/actions/action_rng_port.gd | B969030847B335F5D8481C8DA1D2FC39A635D3A10BF181516190407AD7443C5D |
+| scripts/core/actions/action_rng_port.gd.uid | E109571F545F68BD1A14B06BA29593E954BDC160FBCD3B1ADC11326A83B4EF53 |
+| scripts/core/actions/damage_source.gd | 3503CE5116389C195703FC933B5E2E184FF52B361D124B2066D60E3ACD89B37E |
+| scripts/core/actions/damage_source.gd.uid | EF11ED67255C7EC49648C282875099259CCD4655A721B1674050F0D5ABB25B30 |
+| scripts/core/actions/damage_request.gd | 7588E8E664E5318733C86D2B99B770AF0B38A2EDE9C1845CDDC670471B8C37DE |
+| scripts/core/actions/damage_request.gd.uid | 5B6390FA1317D40ECD86F6C6C91178F5485527FD4F22200DEF9969A41408D6BF |
+| scripts/core/actions/damage_command.gd | FD365C0DFD61C97AC7A6D8C493CF7D856CAE1259A8C379A43CD11712D557F07E |
+| scripts/core/actions/damage_command.gd.uid | C5FE983A411889EA4604C42BBD2938B005668357232CEE9D0700955CBABF08F7 |
+| scripts/core/actions/heal_command.gd | 3E7F717C3024C7F11DE55CC8EDC981A55EDD77E6C7924351C59939CC17CDE3A2 |
+| scripts/core/actions/heal_command.gd.uid | F31712E4B571755146A0CC03A3EEC8D9CE4EDE43F6EF9CECE7F866A190873098 |
+| scripts/core/actions/death_command.gd | 9478E9F01B233C732A25E6DEC1915887C86FD461612D65E7C8C5124574289144 |
+| scripts/core/actions/death_command.gd.uid | DF6FA4DB8EB18539227195023945ACB6C777099C00CBF02199B0259179ADA5F9 |
+| scripts/core/actions/action_hp_executor.gd | 4DCBD9C6119B8F85DACB5F39374F1EE2B2CF0581957798F39F85590BAF222F63 |
+| scripts/core/actions/action_hp_executor.gd.uid | EE5308DF0EAC1AA55BA5B68DB8186AD0036E4BD24451D720D2705A141D1129A5 |
+| scripts/core/actions/item_reaction_adapter.gd | E31F89901771A161D4C4015BA33B8A2DF265B58B44870EC03FAE214F9760BA78 |
+| scripts/core/actions/item_reaction_adapter.gd.uid | 198576179C74A8E20ACA56130B2DBF8599FB4652EB7152B58B5E5007FE3616F7 |
+| tests/run_tests.gd | C097488095C363C9BC7ADEF9AF9AE69C61FFE34D99159991C47EAAC4C1239A60 |
+| docs/ARCHITECTURE.md | 7AA6CA53BC2A7D3D000D14307A98B5AFD0752FC1E0B2F80182362EEF39F2322B |
+| docs/DECISIONS.md | 0DCB424BDA70790D83063307659B9F2D536D6B003A4AAF32E5DCD7FCB897B5BD |
+| docs/TESTING.md | 36BF77D420DE0336FD14233A015FED44DEF42688E56FF95CDF7B39FF12645B08 |
+| docs/COMMAND_ACTION_QUEUE_CONTRACT.md | EC973ED7BF19AC23C6008358BA3FEB8CCE4DF57BDCF86BA98E63900E727853ED |
+
+## Архив передачи перед реализацией P04 (исходное содержимое сохранено)
+
+# Передача сессии — 2026-09-14, пакет P04
+
+## Текущий этап: ТЗ P04 подготовлено, независимое ревью APPROVE
+
+**P04 — только проектирование/документация, редакция 1. Игровой код не реализован.**
+Пакет: [P04_ACTION_QUEUE_TASK.md](P04_ACTION_QUEUE_TASK.md),
+[P04_DEPENDENCIES.json](P04_DEPENDENCIES.json), [P04_REVIEW.md](P04_REVIEW.md).
+Точные frozen hashes находятся в P04_REVIEW; оба подтверждены независимым ревьюером.
+
+Вход main/HEAD `006fe1eaeca9fe19e97eed1b9030c0d565286b3a` совпал с ожиданием.
+17/17 hashes таблицы принятого P03b и 43/43 неизменённых исторических входов совпали.
+P03B_DEPENDENCIES — исторический manifest, принятый результат имеет приоритет.
+Новый P04 manifest фиксирует 67 актуальных зависимостей, проверено 67/67.
+Чистого checkout HEAD по-прежнему недостаточно без dirty P01/P02/процессных входов.
+
+ТЗ задаёт минимальный ActionContext/Command/Queue, depth-first work stack,
+Damage/Heal/Death и общий HP/death finalize, value events/counters, BUSY/fault latch,
+лимиты и честный prefix без rollback. P03b collector подключается через identity
+binding и повторную active/closed/alive проверку; over-max HP при heal сохраняется.
+RNG — инжектируемый порт состояния потоков, clone/to_dict/from_dict и тестовая fixture.
+Определены allowed_paths, C01–C12 и точные PowerShell команды будущих проверок.
+Move/Attack/Push/impact, preview/token, Flow/BT/status, новая экономика и save-game
+не начинаются. Старая фраза draft-2 о цене атаки не считается актуальным решением.
+
+Адресный поиск: game_scout/Luna/low. Независимый game_reviewer/Terra/high:
+**APPROVE** фиксированных hashes, блокирующих замечаний нет. Исправления не требовались.
+Ведущий проверил критические ownership/death/order/RNG границы и сохранность.
+Помощники работали с минимальным контекстом, не писали/не делегировали/не коммитили.
+
+Проверки подготовки: JSON/hash gates, diff/whitespace и 189/189 прежних файлов до
+намеренного дополнения этой передачи. После дополнения все остальные 188 сохранены
+побайтно; исходная передача сохранена полным неизменённым суффиксом ниже и копией
+`test_reports/p04-handoff-before.md`. Baseline/status/diff/checks — игнорируемые
+`test_reports/p04-preparation-*`. Godot/import/startup/tests/UI не запускались:
+1008/0 ниже — исторический принятый P03b, не проверка реализации P04.
+
+Git: main, HEAD **8b2e40dc10c65299ebafe16b3bb70d1f29dd14c5** —
+`docs: specify and review P04 action queue package`. Коммит локальный.
+Коммит содержит только три новых файла P04. Эта ранее untracked передача обновлена отдельно
+и остаётся вне коммита вместе с прежним архивом. Старые изменения P01/P02, смешанные
+ARCHITECTURE/DECISIONS/TESTING/tests, AGENTS/.codex/CODEX_WORKFLOW/общий контракт
+сохранены и автоматически не включены. Push не выполнялся.
+
+Блокирующих вопросов для P04 нет. До зависимых этапов остаются стоимость атаки,
+переключения частично походивших персонажей и правила Push. Общий C-3, S-5, полный
+preview/T10/T11 и 0.5/0.8 не закрыты. Следующий шаг — отдельный запуск реализации P04
+в новом чате с этой передачей; самостоятельно задачу в боковой панели не создавать.
+
+Промпт следующего запуска:
+
+> Реализуй P04 по docs/P04_ACTION_QUEUE_TASK.md, редакция 1, принятой в docs/P04_REVIEW.md.
+> Сначала прочитай AGENTS.md и docs/CODEX_HANDOFF.md, проверь текущие HEAD/status,
+> frozen hashes пакета и 67 зависимостей docs/P04_DEPENDENCIES.json. Сохрани dirty
+> P01/P02 и процессные файлы. Используй game_coder по ограниченным заданиям и независимое
+> ревью фиксированного результата; соблюдай allowed_paths. Реализуй только очередь,
+> Damage/Heal/Death, P03b item reactions и минимальный RNG-порт. Выполни C01–C12,
+> import/startup/полный регресс, обнови передачу/затронутые контракты и создай локальный
+> коммит только изменений реализации P04. Move/Attack/Push, preview, Flow/BT/новые
+> статусы и решения экономики не начинать. Push в remote не выполнять.
+
+## Архив передачи принятого P03b (исходные байты сохранены ниже)
+
+# Передача сессии — 2026-09-14
+
+## Текущий этап: P03b реализован и принят, P04 не начат
+
+Выполнен запрос на реализацию [P03b, редакция 1](P03B_ITEM_SNAPSHOT_TASK.md).
+Исторический documentation-only статус ТЗ относится к подготовке пакета; принятые
+ТЗ/manifest/review спецификации не менялись. Вход: main, HEAD
+`0154b061cef439e92bf3f385350aa96f697160a0`, совпал с передачей. От base `2dae04d`
+изменены только три документа P03b; hashes ТЗ/manifest из P03B_REVIEW и 49/49 входных
+зависимостей совпали. Baseline 179 прежних файлов/status/diff сохранён в игнорируемых
+`test_reports/p03b-implementation-baseline*`; смешанные tests/docs скопированы отдельно.
+
+Результат: пять новых RefCounted actions классов ItemSimulationState,
+ItemSimulationSnapshot, ItemSnapshotResult, ItemReactionCollector, ItemReactionResult;
+в InventoryState/EquipmentState добавлены только тихие `_restore_registered` factories.
+Исходные item runtime/definitions, P02 codec, stats/units/board/damage, demo, старые
+ресурсы/.uid и настройки не менялись. Изоляция A/B/live распространяется на весь mutable
+runtime; общими остаются только immutable definitions явного каталога StringName→ItemDef.
+
+Внешний envelope `board_items_two_effects_v1` сохраняет полный owner registry, detached,
+closed/lifecycle, ids/counters, ordered inventory/definitions/effects и modifier links.
+Raw preflight проверяет типы/finite/caps/cycles до копирования и allocation нового state;
+live preflight отделяет shape/limits/finite от capability. Source `p03a/` обязан
+соответствовать ровно одному active stat runtime в данном owner. Restore напрямую
+восстанавливает ledger/runtime и связывает сохранённые P02 occurrences, без equip,
+activation, legacy load, create_item/create_runtime, add/remove_modifier или выдачи UnitId.
+local_slot/next_modifier_slot/evaluation_order и старые action resources сохраняются.
+Bytes имеют header `P03B` + 1, кодируются правилами P02 с отдельным literal oracle.
+
+Composition state принимает ровно одного owner на каждый unit (включая трупы) и ровно
+один открытый facade на registered lifecycle; malformed/foreign/duplicate не исправляет.
+После создания или retirement фасада caller заново оборачивает те же runtime объекты
+с актуальными открытыми фасадами. Переданный closed facade INVALID; getters retired
+facades возвращают null. Never-created после restore допускает обычную регистрацию.
+
+Collector читает один caller-owned value damage event после damage/death cleanup и
+выдаёт упорядоченные heal descriptions. Он не лечит, не мутирует HP/stat cache/ids/RNG,
+не подписывается и не хранит pending/dedup state. Повторный collect повторяет результат;
+full HP и heal_amount=0 сохраняют описание. BUSY — owner guard. External runtime caller
+декларирует явно; пустой список не является общим C-3 detector. Реальные команды лечения,
+очередь, P04, RNG, полный preview, save-game и новая экономика ходов не реализованы.
+
+Проверки ведущего:
+- Godot 4.7.2 import/startup — exit 0; scan DONE и 5 новых global classes в cache.
+- B01–B14 и полный прежний P01/P02/P03a regression: **1008 passed, 0 failed**, exit 0
+  (722 прежних + 286 новых assertions), `test_reports/p03b-tests.log`.
+- Все 2197 прежних строк runner сохранены в исходном порядке; закрытые файлы и старые
+  .tres/.uid совпадают побайтно с baseline; tracked/untracked прежние изменения сохранены.
+- Cap boundary/+1, alias/cycle/depth, 2M value nodes, canonical values/bytes, high int64,
+  lifecycle 3×3, exhausted item/effect counters, no allocation side effects проверены.
+- B05 исправленные focused fixtures сначала принимаются P02, затем дают точные P03b
+  orphan_source/modifier_link/inactive_source failures. Lead проверил restore call graph,
+  ownership, linkage и границу collector → будущая очередь.
+- `git diff --check` и `git diff --cached --check` — PASS. Новых parse/compile/runtime
+  ошибок нет; только известные certificate-store и ожидаемый P01 occupied-cell error.
+- UI/ручной клик старого демо по-прежнему unverified. Headless legacy regression сохранён.
+
+Независимый game_reviewer/Terra/high: **APPROVE** на фиксированных hashes. Первый review
+вернул три gaps в тестах: orphan/linkage fixtures отклонялись раньше нужной проверки,
+не хватало restore MAX-1 effect/exhausted counter. Ведущий добавил изолированные fixtures;
+повторное ревью подтвердило закрытие всех трёх. Финальная нормализация двух пустых EOF
+строк result DTO также сверена со staging, функциональных изменений после 1008/0 нет.
+Артефакты: `test_reports/p03b-review-manifest.json`, `p03b-review-existing.patch`,
+`p03b-review-tests.patch`, `p03b-{import,startup,tests}.log`; предыдущие manifests r1/r2
+сохранены. Самостоятельное review ведущего не подменяет независимый APPROVE.
+
+Luna/game_coder сделал composition/results/factories и первые тесты. После двух неполных
+QA возвратов ведущий проверил полноту пакета и передал завершение тестов отдельному
+Terra/high с инструкциями game_coder. Ведущий реализовал критический snapshot/collector
+и B11–B13/focused QA. Пишущие помощники работали последовательно, reviewer — после freeze;
+никто из помощников не делегировал и не коммитил.
+
+Git: main, HEAD **006fe1eaeca9fe19e97eed1b9030c0d565286b3a** —
+`feat(items): snapshot runtime and collect reaction descriptions`. Локальный коммит
+содержит 5 новых actions/.uid, 2 factories, только P03b функции/вызовы тестов и новые
+разделы трёх tracked docs. Частичный staging сохранил прежние P01/P02/процессные hunks
+вне коммита. Ранее untracked CODEX_HANDOFF и COMMAND_ACTION_QUEUE_CONTRACT обновлены
+в рабочем дереве; их архив/прежнее содержимое не включались автоматически. Push не было.
+Чистый checkout HEAD всё ещё недостаточен без сохранённых dirty P01/P02 зависимостей.
+
+Следующий шаг — новый чат с этой передачей и отдельным заданием на пакет P04.
+Автоматически P04/очередь/preview не запускать. Открытые правила переключения между
+частично походившими персонажами, стоимости атаки и Push не выбирались. Общий C-3,
+реальный T10/T11 execute-preview, 0.5/0.8, S-5 и RNG остаются открытыми.
+
+## SHA-256 принятого P03b для следующего входного gate
+
+Сверить HEAD/status, таблицу ниже и остальные неизменённые файлы P03B_DEPENDENCIES.
+Входной manifest исторический: семь изменённых им путей и десять новых actions/.uid
+перекрываются этой таблицей. Передача и прежние untracked зависимости нужны в checkout.
+
+| Файл | SHA-256 |
+|---|---|
+| scripts/core/actions/item_simulation_state.gd | 8AFB39DDFAA32F9D97466A09D20E9ED4A1AFC619756069DCBC876E20F5C8D52A |
+| scripts/core/actions/item_simulation_snapshot.gd | 63CF61C14D32D116BFA9C6C024A524ECC2A26FD892BABBA116BBD41748FF5310 |
+| scripts/core/actions/item_snapshot_result.gd | 2E5AF57A6FA85C8F364A9E527E4B07B58B897520782A832CF8CEE3CED2A9B77D |
+| scripts/core/actions/item_reaction_collector.gd | 90C82299A70D28738FF40609A33010645CF62C829532A7C8DABE1253DF7C43EE |
+| scripts/core/actions/item_reaction_result.gd | 92EF6C2F45864285237F6491EA4C65A6475AD951B6E167F4A8D5A23C56AF7173 |
+| scripts/core/inventory/inventory_state.gd | 79BA997509D5E7EC1AD2767BD214836EA7332141B614AC5146D4BE5C46C9F9AF |
+| scripts/core/inventory/equipment_state.gd | 36E23A15770E923E1FA9FEA1BDCABE2D7291783A2D271E87A4C3177059E546FC |
+| tests/run_tests.gd | 452AF9842C43260DC75CBBDF60C00A0EE77D241F07577311E9FB4B2D20C63640 |
+| scripts/core/actions/item_reaction_collector.gd.uid | C230FF392171F65950D23CB90EDEC7246DD0605C6E9B8CB2480E1D9CC34616C8 |
+| scripts/core/actions/item_reaction_result.gd.uid | B11B44BE7D7C780B1BA694D73D79F54CB58B6BDB1EF4286622BAA30D8F2D454A |
+| scripts/core/actions/item_simulation_snapshot.gd.uid | 21D460F5D77C2D5218B47DBE0D68EA8B5B1AC9AA21EB6B619E71FCBB4218DA80 |
+| scripts/core/actions/item_simulation_state.gd.uid | 2863E0B52CE8BE2062DF3F82B07868956B92B4086953D0AB8C7DA0F79AC55FFB |
+| scripts/core/actions/item_snapshot_result.gd.uid | C6AE6D0BD36EF2A98C7DC767D63037F6D4D72B59FF55D92F5E655EB15514B5CE |
+| docs/ARCHITECTURE.md | 56FDB110B1F2EA1403E2BBD9E0466494657C3ACA67FC7B19FD64023509D3EDF9 |
+| docs/DECISIONS.md | DE71C8A99772673E060F704FA18699E2B31B5C10EFCE496D2461B6D95ADA32FC |
+| docs/TESTING.md | 816B640516543CE887B070D0DA23943AC915BD70A05F9DDA9E824870C77D863E |
+| docs/COMMAND_ACTION_QUEUE_CONTRACT.md | 8CD57647E35E43D063ED9473BD6F5309D8F006585F4FBE5EC5DD33E5EF32B603 |
+
+## Архив передачи перед реализацией P03b (сохранён полностью)
+
+# Передача сессии — 2026-09-13
+
+## Текущий этап: ТЗ P03b подготовлено и прошло независимое ревью
+
+**P03b — только документация, редакция 1, независимое ревью APPROVE. Код не реализован.**
+Пакет: [P03B_ITEM_SNAPSHOT_TASK.md](P03B_ITEM_SNAPSHOT_TASK.md),
+49 входных hashes: [P03B_DEPENDENCIES.json](P03B_DEPENDENCIES.json),
+фиксированные hashes и итог: [P03B_REVIEW.md](P03B_REVIEW.md).
+
+Вход: main, HEAD `2dae04de093ca23e579559767dbda98ffe9b160f`, совпал с передачей.
+Все 25/25 hashes принятого P03a совпали. Проверены 10/10 неизменённых зависимостей P02;
+старый P02 hash tests исторический, текущий tests совпал с принятым P03a.
+Начальные status/diff и hashes 176 прежних файлов сохранены в игнорируемых
+test_reports/p03b-preparation-*; проверка 49/49 нового manifest прошла.
+
+ТЗ задаёт ItemSimulationState как временный composition root board/items и отдельный
+ItemSimulationSnapshot поверх неизменного P02 codec. Это уточняет прежнее упоминание
+ActionContext в P03a: его реализация остаётся P04, P03b принимает только owner registry.
+Сохраняются весь registry, detached items, ids/counters, lifecycle/порядок контейнеров,
+runtime и ссылки на уже сохранённые stat modifiers. Restore не вызывает equip/legacy
+load/activation и не добавляет modifiers повторно. Определены raw validation, лимиты,
+каталог immutable definitions, canonical bytes и явный capability gate ограниченного scope.
+Collector выдаёт value descriptions реакций без лечения, сигналов, RNG и мутаций.
+Allowed_paths и B01–B14 — в ТЗ. Кодер не меняет definitions/P02/board/stats/units/demo.
+
+game_scout (Luna/low) выполнил адресный поиск текущего runtime.
+game_reviewer (Terra/high) на фиксированном пакете подтвердил hashes, 49 зависимостей,
+согласованность с текущими API, ownership/linkage/lifecycle и критерии: **APPROVE**.
+Перед коммитом manifest нормализован в LF по .gitattributes, содержание прежнее;
+короткое повторное ревью финальных hashes сохранило APPROVE. Реализация потребует нового
+независимого ревью после Godot и B01–B14. Ведущий также проверил критические контракты.
+
+Godot import/startup/tests и UI в этой задаче не запускались; 722/0 ниже — исторический
+результат принятого P03a. Выполнены manifest/hash/preservation и diff/whitespace проверки.
+Все прежние файлы, кроме намеренно обновлённой передачи, сохранены побайтно; исходное
+содержимое этой передачи целиком оставлено ниже как архив. Игровой код не менялся.
+
+Git: main, HEAD **0154b061cef439e92bf3f385350aa96f697160a0** —
+`docs: specify and review P03b item runtime snapshot`. Локальный коммит содержит только
+три новых документа P03b. Ранее untracked CODEX_HANDOFF обновлён отдельно и остаётся
+вне staging вместе со всеми прежними P01/P02/процессными изменениями. Push не выполнялся.
+Чистый checkout HEAD по-прежнему не заменяет данный checkout с незакоммиченными P01/P02
+зависимостями; сверять весь manifest перед реализацией. Предыдущие принятые ТЗ не изменялись.
+
+Следующий шаг — новый чат с этой передачей и отдельным поручением на реализацию P03b.
+Не запускать автоматически P03b/P04 или preview. Предлагаемый запрос:
+
+> Реализуй P03b по docs/P03B_ITEM_SNAPSHOT_TASK.md, редакция 1. Сначала проверь
+> HEAD/status, hashes пакета и все зависимости manifest, сохрани прежние изменения.
+> Соблюдай allowed_paths, выполни B01–B14 и регресс, проведи независимое ревью кода.
+> Не начинай P04, очередь, реальное лечение реакциями или полный preview.
+
+Экономика ходов, Push и остальные открытые игровые решения остаются прежними.
+Этот пакет не закрывает полный C-3/T10/T11, 0.5/0.8, S-5, RNG или save-game.
+
+## Архив передачи после реализации P03a (сохранён полностью)
+
+
+# Передача сессии — 2026-09-13
+
+## Текущий этап: P03a реализован, P03b не начат
+
+Выполнен явный запрос пользователя на реализацию
+[P03A_ITEM_OWNERSHIP_TASK.md](P03A_ITEM_OWNERSHIP_TASK.md), редакция 2.
+Исторический documentation-only заголовок ТЗ относится к подготовке пакета;
+принятые ТЗ/manifest/review спецификации не редактировались.
+
+Вход: main, HEAD `34135aafdf0ec9baa0b8b56c615c8175a5d9e392`. От manifest base `b102678`
+до HEAD проверен только documentation-only diff трёх файлов P03a; все 30/30 входных
+SHA-256 совпали. Начальные status/diff/hashes и копии смешанных файлов сохранены в
+игнорируемом `test_reports/p03a-implementation-baseline*`.
+
+Результат: Item остаётся совместимым наследником ItemDef; два прежних .tres/.uid/сцены
+не менялись. Определения не содержат per-owner состояния. ItemInstance и отдельный runtime
+каждого occurrence имеют локальные монотонные ids; runtime копирует скаляры определения.
+ItemOwnerState — общий registry/ledger/order inventory/equipment с проверкой object identity.
+Stat source `p03a/o<owner>/i<item>/e<effect>` уникален для occurrence. Общий guard держится
+через все item signals; clear снимает по item-id, close тихо очищает фасады и runtime.
+Чужие modifiers не затрагиваются; отказ legacy-записи не расходует item/effect ids.
+
+Core heal — только данные, без UnitState/Signal/Callable/EventSink или globals.
+Старое демо сохранено через инжектированный `scripts/test/legacy_item_demo_sink.gd`:
+HP 10 -> 7 после damage 4/heal 1, STR 5/base 3. Цель проверяется по object identity,
+active/closed/alive перепроверяются перед каждым лечением. Адаптер не входит в preview.
+Legacy save остаётся fresh-equip на базовых stats; после P02 snapshot его применять нельзя.
+P03b обязан восстановить runtime/ids/modifier linkage без повторного equip, но не начат.
+P02 codec, board, stats, UnitId allocator и ресурсы действий не менялись этим этапом.
+
+Проверки ведущего после исправления:
+- Godot 4.7.2 import/startup — exit 0; scan DONE и все 7 новых global classes в cache.
+- `tests/run_tests.gd`: **722 passed, 0 failed**, exit 0; 484 прежних + 238 новых assertions.
+- Дополнительный ownership harness: 37/0; реальный узел панели: 20/0, включая gui_input,
+  текст, два открытия и teardown с удержанными runtime references.
+- `git diff --check`, forbidden-core-items rg и сохранность — PASS: все прежние строки
+  tests/run_tests.gd в исходном порядке, прежние файлы вне scope побайтно неизменны.
+- Только известные certificate-store и ожидаемый P01 occupied-cell error; новых GDScript
+  parse/compile/runtime ошибок нет. APPDATA/GODOT_BIN менялись только для процесса.
+- Визуальное окно/ручной клик **UI unverified**; headless node integration не заменяет это.
+
+Итог независимого ревью: **APPROVE**. game_reviewer/Terra/high проверил 25/25 hashes,
+diff, новые скрипты, A01–A12 и логи. Первый возврат нашёл P1 в EquipmentState.clear:
+снятие по слотам вместо item-id. Исправлено, добавлен тест STR 8 -> 6 -> 3 и повторного clear.
+Повторное независимое ревью подтвердило закрытие P1; других блокирующих замечаний нет.
+Фиксированные hashes/diff/logs: `test_reports/p03a-review-manifest.json`,
+`p03a-review-existing.patch`, `p03a-review-tests.patch`, `p03a-{import,startup,tests}.log`.
+Предыдущий manifest r1 сохранён отдельно. Критические границы ownership/P02/legacy sink
+дополнительно проверены ведущим. P03a не закрывает весь C-3/T10/0.8, S-5 или полный preview.
+
+Luna/game_coder дал два неполных возврата (491/0 smoke); ведущий сверил полноту ТЗ и
+передал завершение Terra/high с инструкциями game_coder согласно AGENTS. Ведущий написал
+расширенные QA fixtures, единственный кодер интегрировал их и завершил реализацию.
+Параллельных пишущих кодеров не было. Ревью выполнялось после прекращения записи.
+
+Git: main, HEAD **2dae04de093ca23e579559767dbda98ffe9b160f** — `feat(items): isolate item ownership and effect runtime`, локальный коммит P03a. В коммит включены только P03a scripts/новые uid,
+новые тестовые функции/вызовы и новые статусы трёх tracked docs. Прежние P01/P02 и
+процессные правки не включаются автоматически. CODEX_HANDOFF и COMMAND_ACTION_QUEUE_CONTRACT
+были untracked до задачи и остаются вне staging вместе с архивом/прежним контрактом;
+их актуальные P03a разделы сохранены в рабочем дереве. Локальные QA artifacts игнорируются.
+Коммит P03a опирается на сохранённые в этом checkout незакоммиченные зависимости P01/P02;
+он не утверждает самодостаточность чистого HEAD без этих прежних изменений. Push не выполнялся.
+
+Следующий шаг — новый чат с этой передачей для отдельного задания на подготовку P03b.
+Без такого поручения P03b/P04/preview не начинать. Экономика ходов, Push и остальные
+открытые геймдизайн-вопросы из архива не решались и не мешали P03a.
+
+## SHA-256 принятого P03a для следующего входного gate
+
+Сверять вместе с HEAD/status; manifest подготовки P03A_DEPENDENCIES хранит исторические входы.
+
+| Файл | SHA-256 |
+|---|---|
+| scripts/core/items/item.gd | DE4BC93566DEB2ADA59818C3825950E12F1376A7A950ADF20B927213CB9753A5 |
+| scripts/core/items/item_effect.gd | 81AE816ACE57BFABC39A6FC4089DFCF663BEEF3215CB2ABE2B12D5C81D4F5415 |
+| scripts/core/items/stat_modifier_effect.gd | 28D1556AB603D719E2006B46CBB9CC4863F7AE7FBAEDF4416E889AA37E44A9C7 |
+| scripts/core/items/triggered_effect.gd | 21582EE2CD3604E7C7FFF91342C8AEBBAE7E1D8183B42A95857E920446E2836F |
+| scripts/core/items/heal_on_damage_effect.gd | 90A44DED16B9F831C86B4767422469666EB8EF72EAC5530415E8D5018CDA3047 |
+| scripts/core/inventory/inventory_state.gd | 1D345F5B1014E4500DFA29B0B638BACD06E245403DDDBEF66E69BE30BF1258B7 |
+| scripts/core/inventory/equipment_state.gd | 22385CA36B429ECFFB48DF06BB1C36C7F276D6BAB43B799D47818459C84EF4E7 |
+| scripts/test/debug_inventory_panel.gd | 180A4FD19A8BB1A6A0C2F82D0A84310D556AE6F68C2CA47053EAD87E3E1F0936 |
+| tests/run_tests.gd | 97281F28C6FE7FE38F8C9D1B3311816A53E9578FA2EF203A257762AFE790BA57 |
+| scripts/core/items/item_def.gd | 39599BC140BAD69D1BB82B9891AF70100131A5F1EA745298132A792BF49F6611 |
+| scripts/core/items/item_instance.gd | D5D406A26FAC1DDF07AF9021CB0EB26283F333DB84931D55E8296D700520228E |
+| scripts/core/items/item_owner_state.gd | 0F6C2CF7CE520ADB48D61F1D48285F3B4C0D61C720B3BCC68D22A71711FABA5C |
+| scripts/core/items/item_effect_runtime.gd | AE28963FF85185A6AA44A2C95DE5B11F8D6D60ECBA39DF4AB6834ECEAC64C696 |
+| scripts/core/items/stat_modifier_effect_runtime.gd | 829B31CF927797150F11E5826DDCA63B1552441A80B40C3E639DC6831D6B089D |
+| scripts/core/items/heal_on_damage_effect_runtime.gd | EE2562F6AA674ECFF15FD90D2F2AC380B9580F5EEB594162CDB7B2EFF9171529 |
+| scripts/test/legacy_item_demo_sink.gd | 65ACA3C9ABCC16E7639CD6F30A334A02E330E9967E46B878861813C799C5098B |
+| scripts/core/items/item_def.gd.uid | ED2A4180E1192DF2E03BAAFD8DC5E2E0B7294252B322BD9B6665B7403E957492 |
+| scripts/core/items/item_instance.gd.uid | D35E7FA414E2206C19F4193430C13D6B5A79D652A7A8F4973B8A20268D599EC5 |
+| scripts/core/items/item_owner_state.gd.uid | 4492640B5DACD209900720C29BE1006D3B2BAF86350C18C5A17AAC8E4099880E |
+| scripts/core/items/item_effect_runtime.gd.uid | 3CFF5AC79554297FF305529A3C0CDB24D49955A7F1A3C102625EAA9B5FE1B3EA |
+| scripts/core/items/stat_modifier_effect_runtime.gd.uid | B7523D8730A6BF9AC27AB45FB5469BA6FDF427D506837F2EEA36068B6386E35A |
+| scripts/core/items/heal_on_damage_effect_runtime.gd.uid | 77093902A0FBFA5593F739332F0F8B2EE1AF7A3C2202BB1C0154F2A102631E32 |
+| scripts/test/legacy_item_demo_sink.gd.uid | 8C241EC3EF5117124B9905615D5C691DCA3135361B3CBAC07C51628653FFA0CB |
+| docs/P03A_ITEM_OWNERSHIP_TASK.md | 0177EBE215B514EB892C514BB0D34C18CC78A325B90078F022EAAF4EFB8095C4 |
+| docs/P03A_DEPENDENCIES.json | 94EC5BFAD124FBD2118B2B07DA5CD223EA23FFFB0ABE7DFA37E0015BB34043C3 |
+
+## Архив передачи перед реализацией P03a
+
+
+# Передача сессии — 2026-09-13
+
+## Текущий этап: подготовлен пакет P03a
+
+**P03a — только ТЗ, редакция 2, независимое ревью APPROVE. Код P03a не менялся.**
+Самодостаточный пакет: [P03A_ITEM_OWNERSHIP_TASK.md](P03A_ITEM_OWNERSHIP_TASK.md),
+30 входных hashes: [P03A_DEPENDENCIES.json](P03A_DEPENDENCIES.json),
+фиксированные hashes и итог ревью: [P03A_REVIEW.md](P03A_REVIEW.md).
+
+Вход: main, HEAD b102678b28957e6d17282878dea19d3946d9f570; 11/11 hashes принятого P02
+совпали. P01 damage совпал; исторические hashes board/tests уже заменены P02, сохранность
+их P01 hunks подтверждена reverse-check без применения. Начальные status/diff и hashes
+159 прежних файлов сохранены в игнорируемом test_reports/p03a-baseline*.
+
+ТЗ определяет ItemDef/ItemInstance, неизменяемые определения двух существующих эффектов,
+локальные стабильные item/effect ids и один ItemOwnerState для inventory/equipment.
+Каждое occurrence стат-эффекта имеет свой source key; снятие копии не затрагивает соседние.
+Core heal runtime содержит данные, без глобальных подписок/непосредственного лечения.
+Старое демо сохраняется явным test-only EventSink адаптером, который не входит в preview.
+Legacy save остаётся fresh-equip; P03b обязан восстановить runtime без повторного equip.
+Allowed_paths и A01–A12 приведены в пакете; чужие файлы закрыты для кодера.
+
+game_scout (Luna/low) выполнил адресный поиск. Независимый game_reviewer (Terra/high)
+нашёл два пробела первой редакции: расход ids при отказе legacy-load и stale containers
+после owner.close. Они закрыты атомарным preflight/единым ledger и тестами; повторное
+ревью фиксированной редакции 2 — APPROVE. Ревью кода потребуется после реализации.
+В этой задаче выполнены проверки hashes/сохранности/diff, Godot не запускался:
+исторические 484/0 ниже относятся к P02, не к текущей подготовке документации.
+
+Git: main, текущий HEAD **34135aafdf0ec9baa0b8b56c615c8175a5d9e392** —
+`docs: specify and review P03a item ownership package`. В коммите только три новых
+документа P03a; прежние изменения не включены. Коммит локальный, push не выполнялся.
+Эта ранее untracked передача обновлена отдельно и остаётся вне staging.
+Все прочие прежние файлы сохранены побайтно; архив ниже оставлен без изменения содержания.
+
+Следующий шаг — отдельное разрешение на реализацию P03a по редакции 2, после свежей
+сверки HEAD/status/manifest. Удобно начать новый чат с этой передачей; автоматически
+задача не создавалась. P03b/P04/preview не начинать. Открытые вопросы экономики и Push
+остаются прежними и не блокируют этот ownership-пакет.
+
+## Архив передачи после P02 и уточнения процесса
+
+## Текущий результат
+**P01 сохранён. P02-BOARD-SNAPSHOT реализован и принят; прогон ведущего — 484 passed, 0 failed.**
+Независимое ревью фиксированного кода: **APPROVE**, блокирующих замечаний нет.
+Пользователь явно разрешил реализацию по P02_SNAPSHOT_TASK.md, попросил сохранить прежние
+изменения, соблюдать владельцев, проверить A01–A12/весь регресс и не коммитить.
+Историческая фраза в заголовке ТЗ «реализация не разрешена этой задачей» относится
+к подготовке пакета; текущий запрос её заменил. Само принятое ТЗ не редактировалось.
+
+Ветка **main**, HEAD **b102678b28957e6d17282878dea19d3946d9f570**. Коммитов нет.
+Самостоятельные задачи в боковой панели, расписания и изменения доверия/разрешений не создавались.
+
+## Уточнение процесса после P02
+Пользователь попросил закрепить правило коммитов. В AGENTS.md и git-политике ARCHITECTURE
+добавлено: ведущий по умолчанию фиксирует завершённые этапы логическими коммитами после
+необходимых проверок/ревью, без отдельного напоминания. Явный запрет пользователя сохраняет
+приоритет; прежние/чужие изменения не включаются автоматически, push требует поручения.
+Это изменение правила не отменяет запрет коммитов в задании P02: существующее дерево
+в этом уточнении не коммитилось. Изменены только правила/эта передача, проверен diff.
+
+## Реализация P02 и границы
+- Stat/StatsBag/UnitState/BattleBoard получили отдельные `to_snapshot_dict/from_snapshot_dict`.
+  Старые `to_dict/from_dict` сохранены; bag в старом save по-прежнему хранит только bases.
+- Добавлены RefCounted `SimulationSnapshot` и `BoardSnapshotResult`: board-only capture/import,
+  независимое восстановление, canonical values/bytes/SHA-256, INVALID/UNSUPPORTED с диагностикой.
+  Вход/выход DTO и диагностические ids копируются; snapshot не хранит live refs.
+- Каждое occurrence StatModifier восстанавливается отдельным Resource. Локальные slots/counter
+  и evaluation_order сохраняют multiplicity и точную арифметику. Cache не копируется;
+  stale clean cache отклоняется без исправления исходника, dirty cache игнорируется.
+- Board восстанавливает registry/occupancy/version и ровно свои подписки P01, без live listeners.
+  Сохраняются живой вне occupancy, труп/живой в одной клетке, отдельная unit.height (int64).
+  Raw graph валидируется до создания доски/копирования крупных board arrays.
+- Проверен новый call graph: нет UnitId.next/set/reset, create/старого from_dict Unit/Board,
+  begin_turn/refill/equip. Vitals.from_dict привязывается к новому bag без clamp/событий.
+- Scope: только harness без предметов, внешних gameplay callbacks/runtime и AI-профилей;
+  обязательный `unsupported_runtime_ids` — декларация владельца, не автоматический C-3 detector.
+  Snapshot не подключён к сцене/UI. C-3, queue, RNG, ActionContext, полное preview/confirm и S-5
+  не реализованы. Экономика действий не менялась. Fingerprint относится только к P02.
+
+## Проверки ведущего
+После прекращения записи кодерами выполнен `test_reports/p02-check.ps1` из корня:
+1. `--path . --headless --import --log-file test_reports/p02-import.log` — exit 0, scan DONE;
+   глобальный class cache содержит SimulationSnapshot и BoardSnapshotResult.
+2. `--path . --headless --quit-after 3 --log-file test_reports/p02-startup.log` — exit 0.
+3. `--path . --headless --script tests/run_tests.gd --log-file test_reports/p02-tests.log`
+   — **484 passed, 0 failed**, exit 0: 156 прежних + 328 P02 assertions.
+4. `git diff --check` — exit 0.
+
+GODOT_BIN назначался только процессу по пути из TESTING.md; Godot 4.7.2.stable.official.ed1daf0bf.
+APPDATA для процесса направлялась в игнорируемый `test_reports/godot-profile` и восстанавливалась.
+Постоянные настройки не менялись. GDScript parse/compile/runtime ошибок нет. Остались известные
+`Failed to read the root certificate store` и ожидаемый P01 push_error занятой клетки.
+Визуальный прогон не выполнялся: P02 проверяет ядро и не требует визуальной проверки.
+
+Suite A01–A12 проверяет оба round-trip, все операции/occurrences/slots/float order,
+двусторонние мутации live/A/B и identities, Vitals ownership/over-max/alive-at-zero,
+высокие id без allocator, сигналы/provider/смерть/remove/resize, владение всех DTO,
+canonical permutations/numeric/Unicode order, literal codec bytes и негативные входы,
+граничные размеры до allocation, stale/dirty cache, board edges и старый save API.
+Полный codec пустой доски дополнительно сверён независимым .NET BinaryWriter oracle:
+423 bytes, SHA-256 `2131efbbb21524e70a9558c18f6010ac8c745d903ca6fd652a2bb44893dd7100`.
+Артефакты oracle, исходный QA-пакет и логи находятся только в игнорируемом test_reports/.
+
+## Сохранность прежних изменений и фиксированное ревью
+Перед началом совпали HEAD/main и все три hashes P01 из ТЗ:
+- board: `498ED3B712813972F77921C67BED56118FEB119C6B5F0F9FDEB87D7E48E763F9`;
+- damage: `FF1C6AB654414EAC7652AD17CA7D7D0D78EC8A0C14B794EB4EB7B530F22C9BBB`;
+- tests: `262A95E0761DAE1648385975B6366057BE9F4643526CC0769801A3D81F952E81`.
+Остальные входные исходники были без diff. Начальные hashes/diff сохранены в
+`test_reports/p02-baseline.json` и `p02-baseline.patch`. Проверка сохранности исходных
+P01 hunks (`git apply --reverse --check` только для board/damage/tests) прошла, без применения.
+Прежние файлы вне намеренных P02 edits проверяются по исходному SHA-256.
+
+Код передан game_reviewer на фиксированном manifest `test_reports/p02-review-manifest.json`;
+внешние документационные статусы обновляются ведущим отдельно от зафиксированных исходников.
+Итог независимого ревью: **APPROVE**. Ревьюер сверил все 11 SHA-256 manifest и diff,
+проверил validation/allocation, subtype/runtime gate, allocator call graph, Resources/slots/
+evaluation_order/cache, Vitals ownership, подписки P01, canonical codec и старый save.
+Он изучал фиксированный код и выполненные логи; собственные пишущие import/tests не запускал.
+После ревью хеши исходников повторно сверены, изменялись только документационные статусы.
+
+SHA-256 фиксированных исходников/ТЗ для следующего этапа (сверять вместе с HEAD/status):
+
+| Файл | SHA-256 |
+|---|---|
+| `scripts/core/stats/stat.gd` | `F894780062D9810387FF89392E86CF1C8990366464BDF42BCBF51DCAA37DF082` |
+| `scripts/core/stats/stats_bag.gd` | `87A13C0C8572D4695A7D3F506F6F88B7D54975612F6261652D66CE5B5049EA92` |
+| `scripts/core/units/unit_state.gd` | `4687D6BF8015E55B43DAC2FEF1C6190A797DF891B71A0A2BCC392BB84ED29F3E` |
+| `scripts/core/board/battle_board.gd` | `3C1A93DE00A39F23B622197A776AA602B7C2A08F43F90E98D6C3AF9761384C2D` |
+| `scripts/core/actions/simulation_snapshot.gd` | `43AB85BC637E3EC3A616666C1EE79DF3F0037DCE9192B7C9BD5436B181A2A252` |
+| `scripts/core/actions/simulation_snapshot.gd.uid` | `FF7EB65EC482D3C235C869B64BBFD7812C7A4F8D1BB27455A630E8E332CF6AEC` |
+| `scripts/core/actions/board_snapshot_result.gd` | `A75CDD3AB5498BE3B53C0DCD5DB5A7D0F708F68306A61670B92A5E2A901E2AFF` |
+| `scripts/core/actions/board_snapshot_result.gd.uid` | `41F6752EFF037F2B80ED15C14159468BB0492AC5B84377E981F1F1E1969C4F5C` |
+| `tests/run_tests.gd` | `43992523D176D1F607EE919F199D6BC78B4B9BEF496BF60BF4B76C960BD20385` |
+| `scripts/core/combat/damage_calculator.gd` | `FF1C6AB654414EAC7652AD17CA7D7D0D78EC8A0C14B794EB4EB7B530F22C9BBB` |
+| `docs/P02_SNAPSHOT_TASK.md` | `57A58256C7F40DC0AB09E637B4C15CD3908C29692910CACA5BC10BBDA41EF11A` |
+
+## Роли и завершение реализации
+Luna/game_coder получила исходный самодостаточный пакет и работала в allowed_paths.
+Два возврата оказались неполными; ведущий проверил полноту ТЗ и эскалировал реализацию
+отдельному Terra/high с инструкциями game_coder согласно AGENTS. Исполнитель останавливался
+из-за usage limit; после «Продолжай где остановился» работа продолжилась с сохранённого дерева.
+Ведущий подготовил расширенный QA-пакет/codec oracle и выполнял архитектурную интеграцию,
+кодер интегрировал тесты и исправления. Одновременно исходники писал только один кодер.
+Ревью — отдельная именованная роль game_reviewer/Terra/high с минимальным контекстом;
+запрет записи задан инструкцией, отдельное техническое read-only принуждение не утверждается.
+
+## Прежний P01
+P01 немедленно освобождает occupancy через Vitals.died, сохраняет трупы и корректно снимает
+подписки при remove/resize. DamageCalculator.apply публикует смерть только для своего
+перехода жизни, без дубля от повторного/вложенного урона. Исторический прогон P01: 156/0,
+независимое ревью APPROVE. Эти проверки сохранены в полном регрессе P02.
+Ревью ТЗ P02 редакции 2 ранее получило APPROVE после уточнения stale cache/ограничения размеров;
+это отдельная проверка документа, она не заменяет ревью текущей реализации.
+
+## Правила и открытые решения
+- Команды чередуются, порядок своих персонажей свободный; инициатива не управляет ходами.
+  BT выбран для нового ИИ, нынешний Utility AI сохраняется через адаптер.
+- Повторный выбор частично походивших персонажей и стоимость атаки требуют решения пользователя
+  перед зависимой реализацией. Draft-2 описывает move/main/bonus и цену атаки 1 main, но это
+  расхождение с актуальным AGENTS нужно снять до P05/P06. P02 его не решал.
+- Ранее предлагались свободный возврат, движение после атаки, refill в начале хода команды
+  и максимумы из stats (в первом срезе main=1/bonus=1); «Давай тут пока» разрешало P01,
+  не подтверждало зависимую экономику. Перед реализацией нужно явное согласование.
+- До Push согласовать величины/броню коллизий и падений и одноклеточный scope без цепного
+  проталкивания blocker. До 0.6 — стартующая команда, конец активации врага и взаимная гибель.
+- C-3 открыт: runtime-владелец/id в Resource и глобальные callbacks. Следующий пакет P03a
+  должен задать Def/Instance, stable ids и владение двумя существующими эффектами. P03b —
+  локальный runtime/снимок без повторного on_equip; выполнение реакций через команды — P04.
+- Старый ActionPreview остаётся calculate-only. Полное preview требует очереди/контекста/RNG,
+  C-3 capability gate, полного снимка и PreviewToken/confirm; P02 — только низкий board шов.
+- P01/P02 не закрывают общую реентрантность S-5 (произвольные низкоуровневые callbacks/revival).
+
+## Изменения без коммита
+Сохранены прежние AGENTS.md, .codex/config.toml/.codex/agents/*.toml, CODEX_WORKFLOW,
+MECHANICS_REQUIREMENTS и все изменения P01. В этом этапе изменены только allowed P02
+исходники/tests, добавлены два actions-скрипта с .uid; damage_calculator.gd остался прежним P01.
+Ведущий обновил документацию ARCHITECTURE, DECISIONS, TESTING, COMMAND_ACTION_QUEUE_CONTRACT
+и эту передачу поверх прежних правок. P02_SNAPSHOT_TASK.md не менялся.
+После P02 по просьбе пользователя обновлены AGENTS.md и git-политика ARCHITECTURE (правило коммитов).
+Все логи, manifest/diff/QA/oracle/profile — в игнорируемом test_reports/; .godot — кэш импорта.
+
+## Следующий шаг
+Следующий этап — подготовка точного P03a по отдельному запросу пользователя.
+Не начинать C-3, очередь или полный preview автоматически. Для нового этапа рекомендуется
+новый чат с этой передачей; самостоятельно создавать задачу в боковой панели не нужно.
+Готовый следующий запрос:
+
+> Подготовь самодостаточный пакет P03a по контракту 0.5 и текущему коду. Прочитай передачу,
+> проверь HEAD/status и hashes зависимостей P01/P02. Определи Def/Instance и владение двух
+> существующих эффектов, allowed_paths и тесты; проведи независимое ревью ТЗ. Код пока
+> не менять, прежние изменения сохранить, не коммитить.
