@@ -62,8 +62,9 @@ def main():
         invalid = result.returncode != 0 or "SCRIPT ERROR" in output or "Parse Error" in output
         if not legacy:
             invalid = invalid or "ERROR:" in output or "WARNING: ObjectDB" in output
-        if label == "demo":
-            invalid = invalid or "DEMO RESULTS:" not in output or ", 0 failed" not in output
+        if label in ("demo", "battle"):
+            marker = "DEMO RESULTS:" if label == "demo" else "BATTLE RESULTS:"
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if legacy:
             invalid = invalid or "0 failed" not in output
         print(label, "FAIL" if invalid else "PASS", flush=True)
@@ -85,6 +86,10 @@ def main():
             captures.mkdir()
             demo_args += ["--", "--captures=" + str(captures)]
         run("demo", demo_args, headless=not args.render_check)
+        battle_args = ["--script", "tests/test_tactical_battle.gd"]
+        if args.render_check:
+            battle_args += ["--", "--captures=" + str(captures)]
+        run("battle", battle_args, headless=not args.render_check)
     else:
         # This is the user-requested interactive window, so it is intentionally visible.
         with (out / "play.log").open("wb") as log:
