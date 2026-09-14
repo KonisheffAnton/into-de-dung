@@ -10,9 +10,11 @@ const GOLD := Color("f7c97d")
 const MUTED := Color("a5b3c5")
 var session: BattleDemoSession
 var attack_mode: bool = false
+var inspected_id: int = UnitId.NONE
 var hover_cell := Vector2i(-1, -1)
 var grid_config := IsoGridConfig.new()
 var _reachable: Dictionary = {}
+var inspection_cells: Dictionary = {}
 var _path: Array[Vector2i] = []
 var _tiles: Node2D
 var _entities: Node2D
@@ -48,7 +50,18 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_RESIZED: _rescale_layout()
 
 func refresh() -> void:
-	_reachable = session.reachable_cells() if session != null else {}
+	inspection_cells.clear()
+	var inspected := session.board.get_unit_by_id(inspected_id) if session != null and session.board != null else null
+	var inspecting_enemy := inspected != null and inspected.is_alive() and inspected.faction == Faction.Type.ENEMY and session is BattleTacticalSession and (session as BattleTacticalSession).can_player_act()
+	if inspecting_enemy:
+		# Следующий ход ещё не пополнял врага: показываем полную будущую дальность.
+		var finder := GridPathfinder.new()
+		finder.configure(session.board.get_bounds(), session.board.make_spatial_data_provider(inspected), 1, &"spatial_move_v1")
+		inspection_cells = finder.get_reachable_cells(inspected.cell, inspected.get_stat(StatTypes.StatType.MOVE_RANGE))
+		_reachable = {}
+	else:
+		inspected_id = UnitId.NONE
+		_reachable = session.reachable_cells() if session != null else {}
 	_refresh_path()
 	_rebuild_visuals()
 	queue_redraw()
@@ -93,7 +106,7 @@ func _clear_hover() -> void:
 
 func _refresh_path() -> void:
 	_path.clear()
-	if session != null and not attack_mode and _reachable.has(hover_cell): _path = session.path_to(hover_cell)
+	if session != null and not attack_mode and inspected_id == UnitId.NONE and _reachable.has(hover_cell): _path = session.path_to(hover_cell)
 
 func _rescale_layout() -> void:
 	var factor := maxf(0.1, minf((size.x - 64) / 1024.0, (size.y - 108) / 544.0))
@@ -134,6 +147,7 @@ func _rebuild_visuals() -> void:
 		var floor_visual := _make_visual(cell, steps, BattleDemoIsoVisual.Role.PLATFORM if steps > 0 else BattleDemoIsoVisual.Role.FLOOR)
 		floor_visual.is_void = terrain == TerrainType.Type.VOID
 		floor_visual.reachable = not attack_mode and _reachable.has(cell)
+		floor_visual.enemy_range = inspected_id != UnitId.NONE and inspection_cells.has(cell)
 		# Видимые поверхности всех высот сортируются вместе: ближний пол закрывает
 		# дальнюю грань уступа. Разделение по высоте на два слоя ломает это перекрытие.
 		_entities.add_child(floor_visual)
@@ -147,6 +161,7 @@ func _rebuild_visuals() -> void:
 		var visual := _make_visual(unit.cell, board.get_height_steps(unit.cell), BattleDemoIsoVisual.Role.UNIT)
 		visual.unit = unit
 		visual.selected = unit.id == session.selected_id and unit.is_alive()
+		visual.inspected = unit.id == inspected_id and unit.is_alive()
 		_entities.add_child(visual)
 		_entity_visuals.append(visual)
 	_entity_visuals.sort_custom(func(a: BattleDemoIsoVisual, b: BattleDemoIsoVisual) -> bool: return a.position.y < b.position.y or (a.position.y == b.position.y and a.get_index() < b.get_index()))
@@ -178,7 +193,7 @@ func _draw_overlay() -> void:
 		if session.board.get_terrain(hover_cell) == TerrainType.Type.WALL: center.y -= grid_config.height_step
 		var hw := grid_config.tile_size.x * 0.48
 		var hh := grid_config.tile_size.y * 0.48
-		_overlay.draw_polyline(PackedVector2Array([center + Vector2(0, -hh), center + Vector2(hw, 0), center + Vector2(0, hh), center + Vector2(-hw, 0), center + Vector2(0, -hh)]), GOLD if attack_mode else CYAN, 2, true)
+		_overlay.draw_polyline(PackedVector2Array([center + Vector2(0, -hh), center + Vector2(hw, 0), center + Vector2(0, hh), center + Vector2(-hw, 0), center + Vector2(0, -hh)]), GOLD if attack_mode or inspected_id != UnitId.NONE else CYAN, 2, true)
 
 func animate_fall(unit: UnitState, origin: Vector2i, destination: Vector2i) -> void:
 	if unit == null or _ghosts == null or _falling.has(unit.id): return

@@ -5,6 +5,7 @@ class_name BattleDemo
 var session: BattleDemoSession
 var board_view: BattleDemoBoard
 var attack_mode: bool = false
+var inspected_id: int = UnitId.NONE
 var _roster: VBoxContainer
 var _stats: Label
 var _hint: Label
@@ -157,11 +158,22 @@ func _button(value: String) -> Button:
 func set_attack_mode(enabled: bool) -> void:
 	if _battle != null and not _battle.can_player_act(): return
 	attack_mode = enabled
+	# Режим действия закрывает осмотр, чтобы подсветка не смешивалась с целью атаки.
+	inspected_id = UnitId.NONE
 	_refresh()
 
 func select_character(id: int) -> void:
 	if session.select_unit(id):
+		inspected_id = UnitId.NONE
 		set_attack_mode(false)
+
+func inspect_enemy(id: int) -> void:
+	if _battle == null or _battle.phase != BattleTacticalSession.Phase.PLAYER_TURN or not _battle.can_player_act(): return
+	var unit := session.board.get_unit_by_id(id)
+	if unit == null or not unit.is_alive() or unit.faction != Faction.Type.ENEMY: return
+	attack_mode = false
+	inspected_id = UnitId.NONE if inspected_id == id else id
+	_refresh()
 
 func handle_cell(cell: Vector2i) -> void:
 	if _battle != null and not _battle.can_player_act(): return
@@ -172,13 +184,21 @@ func handle_cell(cell: Vector2i) -> void:
 			return
 		_show_receipt(session.attack_unit(occupant.id))
 	elif occupant != null:
-		select_character(occupant.id)
+		if _battle != null and occupant.faction == Faction.Type.ENEMY:
+			inspect_enemy(occupant.id)
+		else:
+			select_character(occupant.id)
+	elif inspected_id != UnitId.NONE:
+		# Первый клик по пустой клетке завершает осмотр; движение требует второго клика.
+		inspected_id = UnitId.NONE
+		_refresh()
 	else:
 		_show_receipt(session.move_to(cell))
 
 func reset_demo() -> void:
 	session.reset()
 	attack_mode = false
+	inspected_id = UnitId.NONE
 	_journal.clear()
 	_flow_cursor = 0
 	_ai_delay = 0.0
@@ -191,6 +211,7 @@ func toggle_scenario() -> void:
 	_create_session()
 	board_view.session = session
 	attack_mode = false
+	inspected_id = UnitId.NONE
 	_journal.clear()
 	_note("Начат бой против компьютера." if tactical_mode else "Полигон: все персонажи управляются вручную.")
 	_refresh()
@@ -198,16 +219,21 @@ func toggle_scenario() -> void:
 func end_turn() -> void:
 	if _battle == null or not _battle.end_player_turn(): return
 	attack_mode = false
+	inspected_id = UnitId.NONE
 	_ai_delay = 0.5
 	_refresh()
 
 func _refresh() -> void:
+	if inspected_id != UnitId.NONE:
+		var inspected := session.board.get_unit_by_id(inspected_id) if session != null and session.board != null else null
+		if _battle == null or not _battle.can_player_act() or inspected == null or not inspected.is_alive() or inspected.faction != Faction.Type.ENEMY:
+			inspected_id = UnitId.NONE
 	_heading.text = "intoDeDung   /   Бой у обрыва" if tactical_mode else "intoDeDung   /   Полигон"
 	_subtitle.text = "Трое против троих. Победите всех врагов; потеря команды означает поражение." if tactical_mode else "Поднимитесь по ступеням. Ударьте сверху. Столкните стража с уступа."
 	_mode_button.text = "Полигон" if tactical_mode else "Бой против ИИ"
 	_phase_label.visible = tactical_mode
 	_end_turn_button.visible = tactical_mode
-	_instructions.text = "Бирюзовые — ваша команда; золотые — противник. Атака: A · Движение: M · Конец хода: Enter · Заново: R" if tactical_mode else "Ступени: Астра → D3 → A → Страж. Стена: Бор → A → Щит. Пропасть: Рей → A → Мишень на G7."
+	_instructions.text = "Свои — бирюзовые; враги — золотые. Осмотр: клик по врагу · A: атака · M: движение · Enter: конец хода · R: заново" if tactical_mode else "Ступени: Астра → D3 → A → Страж. Стена: Бор → A → Щит. Пропасть: Рей → A → Мишень на G7."
 	var locked := _battle != null and not _battle.can_player_act()
 	_move_button.disabled = locked
 	_attack_button.disabled = locked
@@ -220,6 +246,7 @@ func _refresh() -> void:
 	_move_button.set_pressed_no_signal(not attack_mode)
 	_attack_button.set_pressed_no_signal(attack_mode)
 	board_view.attack_mode = attack_mode
+	board_view.inspected_id = inspected_id
 	board_view.refresh()
 	for child in _roster.get_children():
 		_roster.remove_child(child)
@@ -230,8 +257,13 @@ func _refresh() -> void:
 		var button := _button(text)
 		button.toggle_mode = true
 		button.set_pressed_no_signal(unit.id == session.selected_id and alive)
-		button.disabled = not alive or locked or (_battle != null and unit.faction != Faction.Type.PLAYER)
-		button.pressed.connect(select_character.bind(unit.id))
+		if _battle != null and unit.faction == Faction.Type.ENEMY:
+			button.set_pressed_no_signal(unit.id == inspected_id and alive)
+			button.disabled = not alive or locked or _battle == null or _battle.phase != BattleTacticalSession.Phase.PLAYER_TURN
+			button.pressed.connect(inspect_enemy.bind(unit.id))
+		else:
+			button.disabled = not alive or locked
+			button.pressed.connect(select_character.bind(unit.id))
 		_roster.add_child(button)
 	var selected := session.selected_unit()
 	if selected == null:
@@ -242,6 +274,9 @@ func _refresh() -> void:
 		_stats.text = "%s  ·  %s  ·  высота %+.1f\nРавновесие: %.1f / %.1f до толчка\nДвижение: %.1f / %.1f   ·   Атаки: %d   ·   Бонус: %d\nБроня: %.1f   ·   Удар: %.1f   ·   Импакт: %.1f" % [selected.debug_name, _cell_name(selected.cell), float(session.board.get_height_steps(selected.cell)) / 2.0, selected.vitals.get_balance(), selected.get_stat(StatTypes.StatType.BALANCE_MAX), selected.move_points_left, selected.get_stat(StatTypes.StatType.MOVE_RANGE), selected.action_resources.get_main_left(), selected.action_resources.get_bonus_left(), selected.get_stat(StatTypes.StatType.ARMOR), selected.get_stat(StatTypes.StatType.STRENGTH) + selected.get_stat(StatTypes.StatType.WEAPON_DAMAGE), selected.get_stat(StatTypes.StatType.IMPACT_POWER)]
 		if selected == session.units[1]: _stats.text += "\nАмулет: +2 HP после каждого полученного урона."
 	_status.text = "Атака: щёлкните по цели. Расход — 1 основное действие." if attack_mode else "Движение: щёлкните по свободной клетке. Персонаж на поле или в списке — выбор."
+	if inspected_id != UnitId.NONE:
+		var enemy := session.board.get_unit_by_id(inspected_id)
+		_status.text = "Осмотр: %s · движение на следующий ход: %.1f ОД\nТекущая расстановка; зона движения. Esc или клик по пустой клетке — закрыть." % [enemy.debug_name, enemy.get_stat(StatTypes.StatType.MOVE_RANGE)]
 	if session.context.is_faulted(): _status.text = "Исполнение остановлено из-за ошибки. Выполненные последствия сохранены; сбросьте бой."
 	if locked: _status.text = _battle.phase_text() + (" · Можно начать заново: R." if _battle.phase != BattleTacticalSession.Phase.ENEMY_TURN else " · Противник выполняет действия.")
 	_hover(board_view.hover_cell)
@@ -249,11 +284,11 @@ func _refresh() -> void:
 
 func _hover(cell: Vector2i) -> void:
 	if not session.board.is_in_bounds(cell):
-		_hint.text = "Числа на клетках — высота. Бирюзовые точки — доступное движение.\nПолоски: здоровье / накопленная потеря равновесия. ПКМ или Esc — движение."
+		_hint.text = "Золотые клетки — движение врага на следующий ход; зона атаки не показана.\nВыбранный союзник сохранён. Осмотр не расходует действия." if inspected_id != UnitId.NONE else "Числа на клетках — высота. Бирюзовые точки — доступное движение.\nПолоски: здоровье / накопленная потеря равновесия. ПКМ или Esc — движение."
 		return
-	var reachable := session.reachable_cells()
+	var reachable: Dictionary = board_view.inspection_cells if inspected_id != UnitId.NONE else session.reachable_cells()
 	var cost := " · путь: %.1f ОД" % float(reachable[cell]) if reachable.has(cell) else ""
-	_hint.text = "%s · высота %+.1f%s\nЛиния показывает маршрут; последствия падений не предсказываются." % [_cell_name(cell), float(session.board.get_height_steps(cell)) / 2.0, cost]
+	_hint.text = "%s · высота %+.1f%s\n%s" % [_cell_name(cell), float(session.board.get_height_steps(cell)) / 2.0, cost, "Осмотр: зона движения на следующий ход, не атаки." if inspected_id != UnitId.NONE else "Линия показывает маршрут; последствия падений не предсказываются."]
 
 func _show_receipt(receipt: ActionReceipt) -> void:
 	for event in receipt.get_events(): _note(_event_text(event))

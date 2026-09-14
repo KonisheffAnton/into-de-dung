@@ -8,6 +8,8 @@ var unit: UnitState
 var is_void: bool = false
 var selected: bool = false
 var reachable: bool = false
+var enemy_range: bool = false
+var inspected: bool = false
 var transient_label: String = ""
 var transient_tint := Color("f7c97d")
 var fall_drop: float = 0.0:
@@ -73,6 +75,10 @@ func _draw() -> void:
 	var top := top_polygon()
 	draw_colored_polygon(top, color)
 	draw_polyline(top + PackedVector2Array([top[0]]), Color("14232e"), 1.2, true)
+	if enemy_range:
+		# Зона осмотра лежит на самой поверхности, чтобы не закрывать native Y-sort сущностей.
+		draw_colored_polygon(top, Color(0.96, 0.68, 0.20, 0.22))
+		draw_polyline(top + PackedVector2Array([top[0]]), Color(0.98, 0.76, 0.28, 0.78), 1.5, true)
 	var center := _top_offset()
 	var hw := grid_config.tile_size.x * 0.5
 	var hh := grid_config.tile_size.y * 0.5
@@ -97,6 +103,10 @@ func _draw_unit() -> void:
 		var hw := grid_config.tile_size.x * 0.38
 		var hh := grid_config.tile_size.y * 0.38
 		draw_polyline(PackedVector2Array([foot + Vector2(0, -hh), foot + Vector2(hw, 0), foot + Vector2(0, hh), foot + Vector2(-hw, 0), foot + Vector2(0, -hh)]), tint, 2, true)
+	if inspected:
+		var ring_hw := grid_config.tile_size.x * 0.42
+		var ring_hh := grid_config.tile_size.y * 0.42
+		draw_polyline(PackedVector2Array([foot + Vector2(0, -ring_hh), foot + Vector2(ring_hw, 0), foot + Vector2(0, ring_hh), foot + Vector2(-ring_hw, 0), foot + Vector2(0, -ring_hh)]), Color("f7c97d"), 3, true)
 	# Высота силуэта отделена от его наземной опоры для общей Y-сортировки.
 	draw_set_transform(foot, 0, Vector2.ONE * factor)
 	draw_colored_polygon(PackedVector2Array([Vector2(-18, 0), Vector2(0, -7), Vector2(18, 0), Vector2(0, 7)]), Color(0.03, 0.07, 0.10, 0.65))

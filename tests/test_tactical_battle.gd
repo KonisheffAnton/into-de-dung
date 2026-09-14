@@ -37,7 +37,9 @@ func _run() -> void:
 	var battle := _demo.session as BattleTacticalSession
 	_check(battle != null and _demo.tactical_mode, "default tactical scene")
 	_check(_demo._phase_label.text.contains("Ваш ход") and not _demo._end_turn_button.disabled, "turn visible and enabled")
-	_check((_demo._roster.get_child(1) as Button).disabled and not (_demo._roster.get_child(2) as Button).disabled, "enemy roster locked; allies selectable")
+	_check(not (_demo._roster.get_child(1) as Button).disabled and not (_demo._roster.get_child(2) as Button).disabled, "enemy roster inspectable; allies selectable")
+	await _test_enemy_inspection()
+	battle = _demo.session as BattleTacticalSession
 	await _capture("battle-01-start")
 	_demo.select_character(battle.units[4].id)
 	await _key(KEY_A)
@@ -214,18 +216,106 @@ func _play(battle: BattleTacticalSession, active_player: bool) -> BattleTactical
 	battle.context._sink = ActionEventSink.new()
 	return battle.phase
 
-func _click_cell(cell: Vector2i) -> void:
+func _click_cell(cell: Vector2i, button: MouseButton = MOUSE_BUTTON_LEFT) -> void:
 	var view := _demo.board_view
 	var position := view.global_position + view.cell_center(cell)
-	position.y -= 25.0 * view.grid_config.tile_size.x / 128.0
+	if _demo.session.board.occupant_at(cell) != null:
+		position.y -= 25.0 * view.grid_config.tile_size.x / 128.0
 	for pressed: bool in [true, false]:
 		var event := InputEventMouseButton.new()
-		event.button_index = MOUSE_BUTTON_LEFT
+		event.button_index = button
 		event.pressed = pressed
 		event.position = position
 		event.global_position = position
 		root.push_input(event, true)
 	await process_frame
+
+func _test_enemy_inspection() -> void:
+	var battle := _demo.session as BattleTacticalSession
+	var enemy := battle.units[1]
+	var selected := battle.selected_id
+	# Исчерпанный остаток прошлого хода не должен скрывать движение после будущего refill.
+	enemy.move_points_left = 0.0
+	var before := battle.board.to_snapshot_dict()
+	var revision := battle.context.get_revision()
+	await _click_cell(enemy.cell)
+	_check(_demo.inspected_id == enemy.id and _demo.board_view.inspected_id == enemy.id, "enemy mouse click inspects")
+	_check(battle.selected_id == selected and battle.board.to_snapshot_dict() == before and battle.context.get_revision() == revision, "inspection never selects enemy or mutates battle")
+	_check(enemy.move_points_left == 0.0 and enemy.action_resources.get_main_left() == 1, "inspection does not refill enemy")
+	var finder := GridPathfinder.new()
+	finder.configure(battle.board.get_bounds(), battle.board.make_spatial_data_provider(enemy), 1, &"spatial_move_v1")
+	var expected := finder.get_reachable_cells(enemy.cell, 5.0)
+	_check(_demo.board_view.inspection_cells == expected and expected.size() > 1, "inspection uses full next-turn budget with real provider")
+	_check(not expected.has(Vector2i(4, 5)) and not expected.has(Vector2i(6, 2)) and not expected.has(battle.units[0].cell), "enemy range excludes wall void and occupied opponent")
+	_check(_demo._status.text.contains("Осмотр") or _demo._stats.text.contains("Осмотр"), "inspection visibly distinguished from player selection")
+	_check(_demo._status.text.contains("5.0 ОД"), "inspection labels budget rather than cell count")
+	_demo.board_view.hover_cell = Vector2i(3, 2)
+	_demo.board_view.refresh()
+	_check(_demo.board_view._path.is_empty(), "inspection suppresses player path")
+	var highlighted: Dictionary = {}
+	for visual in _demo.board_view._entity_visuals:
+		if visual.role != BattleDemoIsoVisual.Role.UNIT and visual.enemy_range:
+			highlighted[visual.grid_anchor] = true
+			_check(visual.get_parent() == _demo.board_view._entities and not visual.reachable, "enemy marker stays on Y-sorted tile with no allied dots")
+	_check(highlighted.size() == expected.size(), "every reachable tile visibly highlighted")
+	await _capture("battle-06-enemy-range")
+	await _click_cell(enemy.cell)
+	_check(_demo.inspected_id == UnitId.NONE, "same enemy click toggles inspection off")
+	(_demo._roster.get_child(1) as Button).pressed.emit()
+	_check(_demo.inspected_id == enemy.id and battle.selected_id == selected, "enemy roster inspects without selection")
+	await _key(KEY_ESCAPE)
+	_check(_demo.inspected_id == UnitId.NONE and _demo.board_view.inspection_cells.is_empty(), "Escape clears inspection")
+	_demo.inspect_enemy(enemy.id)
+	await _key(KEY_M)
+	_check(_demo.inspected_id == UnitId.NONE, "M clears inspection")
+	_demo.inspect_enemy(enemy.id)
+	await _click_cell(enemy.cell, MOUSE_BUTTON_RIGHT)
+	_check(_demo.inspected_id == UnitId.NONE, "right click clears inspection")
+	_demo.inspect_enemy(enemy.id)
+	await _click_cell(Vector2i(1, 2))
+	_check(_demo.inspected_id == UnitId.NONE and battle.units[0].cell == Vector2i(0, 2) and battle.context.get_revision() == revision, "empty click only dismisses inspection")
+	await _click_cell(Vector2i(1, 2))
+	_check(battle.units[0].cell == Vector2i(1, 2), "next empty click executes normal player move")
+	_demo.inspect_enemy(enemy.id)
+	_demo.select_character(battle.units[2].id)
+	_check(_demo.inspected_id == UnitId.NONE and battle.selected_id == battle.units[2].id, "ally selection clears enemy inspection")
+	_demo.inspect_enemy(enemy.id)
+	await _key(KEY_A)
+	_check(_demo.inspected_id == UnitId.NONE and _demo.attack_mode, "attack mode clears inspection")
+	(_demo._roster.get_child(1) as Button).pressed.emit()
+	_check(_demo.inspected_id == enemy.id and not _demo.attack_mode, "roster inspection leaves attack mode")
+	_demo.set_attack_mode(false)
+	_demo.inspect_enemy(enemy.id)
+	_demo.end_turn()
+	_check(_demo.inspected_id == UnitId.NONE and _demo.board_view.inspection_cells.is_empty(), "end turn clears inspection")
+	_demo.inspect_enemy(enemy.id)
+	_check(_demo.inspected_id == UnitId.NONE, "inspection cannot restore stale player-turn range during AI")
+	_demo.reset_demo()
+	_demo.inspect_enemy(battle.units[1].id)
+	_demo.toggle_scenario()
+	_check(_demo.inspected_id == UnitId.NONE and _demo.board_view.inspection_cells.is_empty(), "mode switch clears inspection")
+	await _click_cell(_demo.session.units[1].cell)
+	_check(_demo.session.selected_id == _demo.session.units[1].id, "sandbox still selects enemy for manual play")
+	_check(not (_demo._roster.get_child(1) as Button).disabled, "sandbox enemy roster still enabled")
+	_demo.toggle_scenario()
+	_demo.inspect_enemy(_demo.session.units[1].id)
+	_demo.reset_demo()
+	_check(_demo.inspected_id == UnitId.NONE and _demo.board_view.inspection_cells.is_empty(), "reset clears inspection")
+	_demo.inspect_enemy(-1)
+	_demo.inspect_enemy(_demo.session.units[0].id)
+	_check(_demo.inspected_id == UnitId.NONE, "invalid or friendly inspection refused")
+	# Последующий receipt обязан снять осмотр погибшего, даже если смерть пришла извне UI.
+	battle = _demo.session as BattleTacticalSession
+	_demo.inspect_enemy(battle.units[5].id)
+	battle.select_unit(battle.units[4].id)
+	_demo._show_receipt(battle.attack_unit(battle.units[5].id))
+	_check(_demo.inspected_id == UnitId.NONE and _demo.board_view.inspection_cells.is_empty(), "death receipt clears inspected enemy")
+	_demo.reset_demo()
+	_demo.inspect_enemy(battle.units[1].id)
+	battle.context._faulted = true
+	_demo._refresh()
+	_check(_demo.inspected_id == UnitId.NONE and _demo.board_view.inspection_cells.is_empty(), "fault clears inspection")
+	_demo.reset_demo()
 
 func _key(code: Key) -> void:
 	var event := InputEventKey.new()
