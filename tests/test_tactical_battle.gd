@@ -48,6 +48,7 @@ func _run() -> void:
 	_check(not (_demo._roster.get_child(1) as Button).disabled and not (_demo._roster.get_child(2) as Button).disabled, "enemy roster inspectable; allies selectable")
 	await _test_action_bar()
 	await _test_healing_item_viewport()
+	await _test_summoning_item_viewport()
 	await _test_attack_forecast_viewport()
 	await _test_enemy_inspection()
 	battle = _demo.session as BattleTacticalSession
@@ -337,6 +338,7 @@ func _play(battle: BattleTacticalSession, active_player: bool) -> BattleTactical
 					if intent.kind == BattleAIIntent.Kind.WAIT: break
 					var receipt: ActionReceipt
 					if intent.kind == BattleAIIntent.Kind.ATTACK: receipt = battle.attack_unit(intent.target_id)
+					elif intent.kind == BattleAIIntent.Kind.SUMMON: receipt = battle.use_summoning_item(intent.cell)
 					else: receipt = battle.move_to(intent.path.back())
 					_check(receipt.status == ActionReceipt.APPLIED, "player command applies in full battle")
 					if battle.phase != BattleTacticalSession.Phase.PLAYER_TURN: break
@@ -575,3 +577,74 @@ func _capture(label: String) -> void:
 	await RenderingServer.frame_post_draw
 	var picture := _viewport.get_texture().get_image()
 	_check(picture != null and picture.save_png(_captures.path_join(label + ".png")) == OK, "capture " + label)
+
+func _test_summoning_item_viewport() -> void:
+	_demo.reset_demo()
+	_demo.set_process(false)
+	var battle := _demo.session as BattleTacticalSession
+	var actor := battle.selected_unit()
+	var bar := _demo._action_bar
+	_check(bar._buttons[3].get_meta("action_id") == &"summoning_item" and not bar._buttons[3].disabled and bar._buttons[3].text.contains("2/2"), "slot4 separate seal with charges")
+	await _key(KEY_4)
+	_check(_demo.summoning_mode and not _demo.attack_mode and _demo.board_view._reachable.has(Vector2i(0, 1)) and not _demo.board_view._reachable.has(Vector2i(1, 2)), "key4 enters valid summon cells")
+	await _click_cell(Vector2i(1, 2))
+	_check(_demo.summoning_mode and battle.units.size() == 6 and battle.summoning_item().get_charges_left() == 2 and _demo._status.text.contains("клетка"), "invalid clicked cell preserves mode and charge")
+	await _capture("battle-18-summon-targeting")
+	await _key(KEY_ESCAPE)
+	_check(not _demo.summoning_mode, "escape cancels summon targeting")
+	await _click_control(bar._buttons[3])
+	_check(_demo.summoning_mode, "GUI seal enters targeting")
+	await _click_cell(Vector2i(0, 1))
+	var helper := battle.state.active_summon(actor.id)
+	_check(helper != null and battle.units.size() == 7 and battle.summoning_item().get_charges_left() == 1 and not _demo.summoning_mode and _demo._forecast == null, "clicked cell summons full participant and clears preview")
+	if helper == null:
+		_demo.reset_demo()
+		_demo.set_process(true)
+		return
+	_check(_demo._log.text.contains("использует печать") and _demo._log.text.contains("призывает"), "summon journal uses correct item")
+	var seen := false
+	for visual in _demo.board_view._entity_visuals:
+		if visual.role == BattleDemoIsoVisual.Role.UNIT and visual.grid_anchor == helper.cell:
+			seen = visual.get_parent() == _demo.board_view._entities
+	_check(seen, "helper figure belongs to common ENTITIES Y-sort")
+	await _capture("battle-19-summon-pending")
+	await _click_cell(helper.cell)
+	_check(battle.selected_id == helper.id and helper.action_resources.get_main_left() == 0 and _demo._stats.text.contains("следующего хода"), "field selects pending helper without refill")
+	_check(bar._buttons[2].disabled and bar._buttons[3].disabled and bar._buttons[1].disabled, "helper has no flask/seal and cannot guard pending")
+	# Настоящая прокрутка открывает нового участника в растущем списке.
+	var scroll := _demo._roster.get_parent() as ScrollContainer
+	var pos := scroll.global_position + scroll.size * 0.5
+	for _i in 8:
+		for pressed: bool in [true, false]:
+			var event := InputEventMouseButton.new()
+			event.button_index = MOUSE_BUTTON_WHEEL_DOWN
+			event.pressed = pressed
+			event.position = pos
+			event.global_position = pos
+			_viewport.push_input(event, true)
+		await process_frame
+	_check(scroll.scroll_vertical > 0, "real roster scrolling reaches dynamic participants")
+	var helper_button := _demo._roster.get_child(6) as Button
+	_check(helper_button.text.contains("ЖДЁТ ХОДА"), "roster shows pending deadline")
+	await _click_control(helper_button)
+	_check(battle.selected_id == helper.id and helper.action_resources.get_main_left() == 0, "scrolled roster click selects helper without refill")
+	_demo.select_character(actor.id)
+	actor.try_refill_turn_resources()
+	_demo._refresh()
+	await _key(KEY_4)
+	_check(not _demo.summoning_mode and _demo._status.text.contains("живой помощник") and battle.summoning_item().get_charges_left() == 1, "key4 explains active-helper refusal")
+	await _key(KEY_ENTER)
+	_check(not _demo.summoning_mode and bar._buttons[3].disabled, "enemy phase locks summon UI")
+	for _step in 40:
+		if battle.phase != BattleTacticalSession.Phase.ENEMY_TURN: break
+		var receipt := battle.step_enemy()
+		if receipt != null: _demo._show_receipt(receipt)
+	_demo._refresh()
+	_demo.select_character(helper.id)
+	_check(not battle.state.is_summon_pending(helper.id) and helper.action_resources.get_main_left() == 1 and not bar._buttons[1].disabled, "next own turn helper ready in UI")
+	await _capture("battle-20-summon-ready")
+	await _click_cell(Vector2i(0, 0))
+	_check(helper.cell == Vector2i(0, 0) and helper.move_points_left == 3.0, "ready helper moves by real input")
+	await _key(KEY_R)
+	_check(battle.units.size() == 6 and battle.state.get_summons().is_empty() and bar._buttons[3].text.contains("2/2"), "UI reset removes helper and restores seal")
+	_demo.set_process(true)

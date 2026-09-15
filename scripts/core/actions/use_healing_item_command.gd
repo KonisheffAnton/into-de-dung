@@ -32,7 +32,7 @@ func validate(context: ActionContext) -> StringName:
 	var item: ItemInstance = owner._items.get(_item_id)
 	if item == null or item.get_owner_unit_id() != actor.id: return &"item/not_owned"
 	if not item.is_active() or item._get_placement() == 0: return &"item/inactive"
-	if item.get_definition().max_charges == 0: return &"item/not_usable"
+	if item.get_definition().use_summon or item.get_definition().use_heal_amount <= 0.0: return &"item/not_usable"
 	if item.get_charges_left() == 0: return &"item/no_charges"
 	if actor.action_resources.get_main_left() < 1: return &"item/insufficient_main"
 	var maximum := ActionHpExecutor._stat_value(actor, StatTypes.StatType.HP_MAX)

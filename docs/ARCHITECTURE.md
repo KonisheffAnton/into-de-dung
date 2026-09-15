@@ -446,3 +446,16 @@ UseHealingItemCommand проходит очередь одним шагом (mai
 BattleTacticalSession выдаёт флакон каждому союзнику; слот3 связывается с
 экземпляром выбранного владельца. AttackForecast сохраняет полную изоляцию v2.
 Legacy resource-path DTO не сохраняют runtime charges; save-game ещё не реализован.
+
+
+## 2026-09-15 — отдельный предмет призыва
+
+Контракт — SUMMON_ITEM.md. UseSummoningItemCommand одним шагом оплачивает main/charge
+и добавляет полный helper runtime. ItemSimulationState хранит value-only summons;
+ItemSimulationSnapshot v3 переносит эти данные и use_summon, сохраняя прежние
+v1/v2 bytes. UnitState schema 3 не меняется. SummonAdmission расширяет существующие
+допуски владельца; pending получает только incoming targets, исходящие действия
+добавляет BattleTurnRefill. ActionContext/revision/counters остаются прежними.
+BattleTacticalSession синхронизирует roster из board после drain и считает всех
+живых helpers для исхода. BattleDemoBT возвращает SUMMON intent, executor выполняет
+команду. Полный cleanup использует существующие owner/facade/board lifecycle.

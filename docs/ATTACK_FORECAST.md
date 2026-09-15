@@ -68,3 +68,13 @@ counters с реальным исполнением; repeated no-mutation, stale
 collateral союзник, толчок в стену/void/с уступа, queue limits/busy/fault,
 неклонируемый RNG, изоляция определений/DTO и cleanup. Затем весь core и demo/battle
 runner; viewport hover/exit/selection/phase/reset и PNG, независимое review.
+
+
+## Призванные участники (2026-09-15)
+
+[SUMMON_ITEM.md](SUMMON_ITEM.md) добавляет item snapshot v3 с use_summon,
+зарядами и metadata владельца/ожидания первого хода. AttackForecast сохраняет
+полную доску с helpers, их предметных владельцев и admission rules копии контекста.
+Заряд печати не расходуется атакой. Совпадение полного snapshot, receipts,
+counters/RNG проверяется для атак с pending/готовым helper, включая атаку на
+него. Прогноза призыва нет. Unit snapshot v3 стойки не меняется.

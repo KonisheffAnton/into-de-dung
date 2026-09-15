@@ -10,7 +10,7 @@ var _actor: UnitState
 
 
 func _init() -> void:
-	_nodes = [_attack, _advance, _wait]
+	_nodes = [_attack, _summon, _advance, _wait]
 
 
 func decide(session: BattleDemoSession, actor: UnitState) -> BattleAIIntent:
@@ -174,3 +174,19 @@ func _wait() -> BattleAIIntent:
 	var result := BattleAIIntent.new()
 	result.actor_id = _actor.id if _actor != null else UnitId.NONE
 	return result
+
+func _summon() -> BattleAIIntent:
+	var battle := _session as BattleTacticalSession
+	if battle == null or _actor == null or battle.context == null: return null
+	var item := battle.summoning_item(_actor.id)
+	if item == null: return null
+	for cell in battle.summoning_cells(_actor.id):
+		var command := UseSummoningItemCommand.new(_actor.id, item.get_item_instance_id(), cell, battle.context.get_revision())
+		if command.validate(battle.context) != &"": continue
+		var intent := BattleAIIntent.new()
+		intent.kind = BattleAIIntent.Kind.SUMMON
+		intent.actor_id = _actor.id
+		intent.item_id = item.get_item_instance_id()
+		intent.cell = cell
+		return intent
+	return null

@@ -10,6 +10,7 @@ const GOLD := Color("f7c97d")
 const MUTED := Color("a5b3c5")
 var session: BattleDemoSession
 var attack_mode: bool = false
+var summoning_mode: bool = false
 var inspected_id: int = UnitId.NONE
 var hover_cell := Vector2i(-1, -1)
 var grid_config := IsoGridConfig.new()
@@ -63,6 +64,9 @@ func refresh() -> void:
 	else:
 		inspected_id = UnitId.NONE
 		_reachable = session.reachable_cells() if session != null else {}
+	if summoning_mode and session is BattleTacticalSession:
+		_reachable = {}
+		for cell in (session as BattleTacticalSession).summoning_cells(): _reachable[cell] = 0.0
 	_refresh_path()
 	_rebuild_visuals()
 	queue_redraw()
@@ -107,7 +111,7 @@ func _clear_hover() -> void:
 
 func _refresh_path() -> void:
 	_path.clear()
-	if session != null and not attack_mode and inspected_id == UnitId.NONE and _reachable.has(hover_cell): _path = session.path_to(hover_cell)
+	if session != null and not attack_mode and not summoning_mode and inspected_id == UnitId.NONE and _reachable.has(hover_cell): _path = session.path_to(hover_cell)
 
 func _rescale_layout() -> void:
 	var factor := maxf(0.1, minf((size.x - 64) / 1024.0, (size.y - 108) / 544.0))

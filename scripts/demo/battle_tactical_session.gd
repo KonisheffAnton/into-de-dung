@@ -27,6 +27,14 @@ func reset() -> void:
 		var item := owner.create_item(definition)
 		for inventory in state.get_inventories():
 			if inventory._state == owner: inventory.add_item(item)
+	for unit in units:
+		var definition := ItemDef.new()
+		definition.id = &"tactical_summoning_seal"
+		definition.display_name = "Печать"
+		definition.use_summon = true
+		definition.max_charges = 2
+		var owner := state.get_owner(unit.id)
+		state.get_inventory(unit.id).add_item(owner.create_item(definition))
 	phase = Phase.PLAYER_TURN
 	round_number = 1
 	_enemy_ids.clear()
@@ -106,6 +114,7 @@ func use_healing_item() -> ActionReceipt:
 
 func _submit(command: Command) -> ActionReceipt:
 	var receipt := super._submit(command)
+	if board != null: units = board.get_all_units()
 	# События смерти ещё могут породить реакции; только вернувшийся receipt завершает действие.
 	if context != null and not context.is_busy(): _check_outcome()
 	return receipt
@@ -133,7 +142,8 @@ func _set_terminal(value: Phase, message: String) -> void:
 
 func living_ids(faction: Faction.Type) -> Array[int]:
 	var ids: Array[int] = []
-	for unit in units:
+	if board == null: return ids
+	for unit in board.get_all_units():
 		if unit.is_alive() and unit.faction == faction: ids.append(unit.id)
 	return ids
 
@@ -180,7 +190,9 @@ func step_enemy() -> ActionReceipt:
 		return null
 	_enemy_actions += 1
 	var command: Command
-	if intent.kind == BattleAIIntent.Kind.MOVE:
+	if intent.kind == BattleAIIntent.Kind.SUMMON:
+		command = UseSummoningItemCommand.new(actor.id, intent.item_id, intent.cell, context.get_revision())
+	elif intent.kind == BattleAIIntent.Kind.MOVE:
 		command = MoveCommand.new(actor.id, intent.path, context.get_revision())
 	else:
 		var target := board.get_unit_by_id(intent.target_id)
@@ -189,7 +201,7 @@ func step_enemy() -> ActionReceipt:
 			return null
 		command = AttackCommand.new(actor.id, target.id, actor.cell, target.cell, &"demo_strike", context.get_revision())
 	var receipt := _submit(command)
-	if receipt.status != ActionReceipt.APPLIED or intent.kind == BattleAIIntent.Kind.ATTACK: _next_enemy()
+	if receipt.status != ActionReceipt.APPLIED or intent.kind in [BattleAIIntent.Kind.ATTACK, BattleAIIntent.Kind.SUMMON]: _next_enemy()
 	return receipt
 
 func _next_enemy() -> void:
@@ -204,3 +216,35 @@ func phase_text() -> String:
 		Phase.DEFEAT: return "ПОРАЖЕНИЕ · Ваша команда погибла"
 		Phase.MUTUAL_DESTRUCTION: return "БОЙ ОКОНЧЕН · Обе команды погибли"
 	return "БОЙ ОСТАНОВЛЕН · Начните заново"
+
+func summoning_item(actor_id: int = 0) -> ItemInstance:
+	if state == null: return null
+	var id := selected_id if actor_id == 0 else actor_id
+	var owner := state.get_owner(id)
+	if owner == null or owner.is_closed(): return null
+	for item: ItemInstance in owner.get_items_for(ItemOwnerState.INVENTORY_PLACEMENT):
+		if item.get_definition_id() == &"tactical_summoning_seal": return item
+	return null
+
+func summoning_cells(actor_id: int = 0) -> Array[Vector2i]:
+	var cells: Array[Vector2i] = []
+	var actor := board.get_unit_by_id(selected_id if actor_id == 0 else actor_id) if board != null else null
+	if actor == null: return cells
+	for offset: Vector2i in [Vector2i.UP, Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]:
+		var cell := actor.cell + offset
+		if UseSummoningItemCommand.valid_cell(board, actor.cell, cell): cells.append(cell)
+	return cells
+
+func summoning_reason() -> StringName:
+	if not can_player_act(): return &"battle/input_locked"
+	var item := summoning_item()
+	if item == null: return &"item/not_owned"
+	var cells := summoning_cells()
+	var cell := cells[0] if not cells.is_empty() else Vector2i(-1, -1)
+	return UseSummoningItemCommand.new(selected_id, item.get_item_instance_id(), cell, context.get_revision()).validate(context)
+
+func use_summoning_item(cell: Vector2i) -> ActionReceipt:
+	if not can_player_act(): return _reject(&"battle/input_locked")
+	var item := summoning_item()
+	if item == null: return _reject(&"item/not_owned")
+	return _submit(UseSummoningItemCommand.new(selected_id, item.get_item_instance_id(), cell, context.get_revision()))

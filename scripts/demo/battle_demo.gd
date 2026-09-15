@@ -5,6 +5,7 @@ class_name BattleDemo
 var session: BattleDemoSession
 var board_view: BattleDemoBoard
 var attack_mode: bool = false
+var summoning_mode: bool = false
 var inspected_id: int = UnitId.NONE
 var _roster: VBoxContainer
 var _stats: Label
@@ -141,8 +142,13 @@ func _build_ui() -> void:
 	side.add_theme_constant_override("separation", 10)
 	content.add_child(side)
 	side.add_child(_label("ПЕРСОНАЖИ", 13, Color("65dfcc")))
+	var roster_scroll := ScrollContainer.new()
+	roster_scroll.custom_minimum_size.y = 192
+	roster_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	side.add_child(roster_scroll)
 	_roster = VBoxContainer.new()
-	side.add_child(_roster)
+	_roster.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	roster_scroll.add_child(_roster)
 	_stats = _label("", 15, Color("e6ecf4"))
 	_stats.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_stats.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -202,6 +208,7 @@ func _button(value: String) -> Button:
 
 func set_attack_mode(enabled: bool) -> void:
 	if _battle != null and not _battle.can_player_act(): return
+	summoning_mode = false
 	attack_mode = enabled
 	_clear_forecast()
 	# Режим действия закрывает осмотр, чтобы подсветка не смешивалась с целью атаки.
@@ -214,10 +221,12 @@ func _action_bar_requested(action_id: StringName) -> void:
 		&"attack": set_attack_mode(true)
 		&"guard": _use_guard()
 		&"healing_item": _use_healing_item()
+		&"summoning_item": _choose_summoning()
 
 func _use_healing_item() -> void:
 	if _battle == null: return
 	_clear_forecast()
+	summoning_mode = false
 	attack_mode = false
 	inspected_id = UnitId.NONE
 	_show_receipt(_battle.use_healing_item())
@@ -225,6 +234,7 @@ func _use_healing_item() -> void:
 func _use_guard() -> void:
 	if _battle == null: return
 	_clear_forecast()
+	summoning_mode = false
 	attack_mode = false
 	inspected_id = UnitId.NONE
 	_show_receipt(_battle.guard_selected())
@@ -238,6 +248,7 @@ func inspect_enemy(id: int) -> void:
 	if _battle == null or _battle.phase != BattleTacticalSession.Phase.PLAYER_TURN or not _battle.can_player_act(): return
 	var unit := session.board.get_unit_by_id(id)
 	if unit == null or not unit.is_alive() or unit.faction != Faction.Type.ENEMY: return
+	summoning_mode = false
 	attack_mode = false
 	_clear_forecast()
 	inspected_id = UnitId.NONE if inspected_id == id else id
@@ -246,7 +257,11 @@ func inspect_enemy(id: int) -> void:
 func handle_cell(cell: Vector2i) -> void:
 	if _battle != null and not _battle.can_player_act(): return
 	var occupant := session.board.occupant_at(cell)
-	if attack_mode:
+	if summoning_mode:
+		var receipt := _battle.use_summoning_item(cell)
+		if receipt.status != ActionReceipt.REJECTED: summoning_mode = false
+		_show_receipt(receipt)
+	elif attack_mode:
 		if occupant == null:
 			_status.text = "Для атаки выберите персонажа на поле."
 			return
@@ -266,6 +281,7 @@ func handle_cell(cell: Vector2i) -> void:
 func reset_demo() -> void:
 	_clear_forecast()
 	session.reset()
+	summoning_mode = false
 	attack_mode = false
 	inspected_id = UnitId.NONE
 	_journal.clear()
@@ -280,6 +296,7 @@ func toggle_scenario() -> void:
 	tactical_mode = not tactical_mode
 	_create_session()
 	board_view.session = session
+	summoning_mode = false
 	attack_mode = false
 	inspected_id = UnitId.NONE
 	_journal.clear()
@@ -288,6 +305,7 @@ func toggle_scenario() -> void:
 
 func end_turn() -> void:
 	if _battle == null or not _battle.end_player_turn(): return
+	summoning_mode = false
 	attack_mode = false
 	_clear_forecast()
 	inspected_id = UnitId.NONE
@@ -311,7 +329,7 @@ func _refresh() -> void:
 	# В тактическом режиме атака должна иметь единственную точку входа в action bar;
 	# старая кнопка остаётся частью sandbox-полигона для совместимости.
 	_attack_button.visible = not tactical_mode
-	_instructions.text = "1 / A: атака · 2: защита · 3: лечение · M: движение · Клик по врагу: осмотр · Enter: конец хода · R: заново" if tactical_mode else "Ступени: Астра → D3 → A → Страж. Стена: Бор → A → Щит. Пропасть: Рей → A → Мишень на G7."
+	_instructions.text = "1 / A: атака · 2: защита · 3: лечение · 4: призыв · M: движение · Клик по врагу: осмотр · Enter: конец хода · R: заново" if tactical_mode else "Ступени: Астра → D3 → A → Страж. Стена: Бор → A → Щит. Пропасть: Рей → A → Мишень на G7."
 	var locked := _battle != null and not _battle.can_player_act()
 	_move_button.disabled = locked
 	_attack_button.disabled = locked
@@ -323,6 +341,12 @@ func _refresh() -> void:
 		var descriptors: Array[Dictionary] = []
 		if item != null:
 			descriptors.append({"action_id": &"healing_item", "label": "%s %d/%d" % [item.get_definition().display_name, item.get_charges_left(), item.get_definition().max_charges], "cost": "1 основное", "disabled": healing_reason != &"", "tooltip": "Лечение себя до +12 HP; 1 основное и 1 заряд.\n" + (_reason_text(healing_reason) if healing_reason != &"" else "Стойка сохраняется.")})
+		else:
+			descriptors.append({"label": "—", "disabled": true})
+		var seal := _battle.summoning_item() if _battle != null else null
+		if seal != null:
+			var reason := _battle.summoning_reason()
+			descriptors.append({"action_id": &"summoning_item", "label": "Печать %d/%d" % [seal.get_charges_left(), seal.get_definition().max_charges], "cost": "1 основное", "disabled": reason != &"", "tooltip": "Помощник: 16 HP, действует со следующего хода команды. Один на владельца, до гибели или конца боя. 1 основное и 1 заряд.\n" + (_reason_text(reason) if reason != &"" else "Выберите соседнюю свободную безопасную клетку той же высоты.")})
 		_action_bar.set_dynamic_descriptors(descriptors)
 		_action_bar.set_slot_enabled(&"attack", not locked, "Сейчас нельзя действовать." if locked else "1 основное действие")
 		var guard_reason := _battle.guard_reason() if _battle != null else &"battle/input_locked"
@@ -339,6 +363,8 @@ func _refresh() -> void:
 	_log_heading.visible = not attack_mode
 	_forecast_panel.visible = attack_mode
 	_forecast_heading.visible = attack_mode
+	if locked: summoning_mode = false
+	board_view.summoning_mode = summoning_mode
 	board_view.attack_mode = attack_mode
 	board_view.inspected_id = inspected_id
 	board_view.refresh()
@@ -347,8 +373,9 @@ func _refresh() -> void:
 		child.queue_free()
 	for unit in session.units:
 		var alive := unit.is_alive()
+		var waiting := " · ЖДЁТ ХОДА" if session.state.is_summon_pending(unit.id) and alive else ""
 		var stance := " · ОХРАНА" if unit.guard_stance and alive else ""
-		var text := "%s%s  ·  %s" % [unit.debug_name, stance, "HP %.1f / %.1f" % [unit.vitals.get_hp(), unit.get_stat(StatTypes.StatType.HP_MAX)] if alive else "погиб"]
+		var text := "%s%s  ·  %s" % [unit.debug_name, stance + waiting, "HP %.1f / %.1f" % [unit.vitals.get_hp(), unit.get_stat(StatTypes.StatType.HP_MAX)] if alive else "погиб"]
 		var button := _button(text)
 		button.custom_minimum_size.y = 30
 		button.toggle_mode = true
@@ -376,6 +403,7 @@ func _refresh() -> void:
 	if inspected_id != UnitId.NONE:
 		var enemy := session.board.get_unit_by_id(inspected_id)
 		_status.text = "Осмотр: %s · движение на следующий ход: %.1f ОД\nТекущая расстановка; зона движения. Esc или клик по пустой клетке — закрыть." % [enemy.debug_name, enemy.get_stat(StatTypes.StatType.MOVE_RANGE)]
+	if summoning_mode: _status.text = "Призыв: выберите подсвеченную соседнюю клетку. 1 основное + 1 заряд. Esc — отмена."
 	if session.context.is_faulted(): _status.text = "Исполнение остановлено из-за ошибки. Выполненные последствия сохранены; сбросьте бой."
 	if locked: _status.text = _battle.phase_text() + (" · Можно начать заново: R." if _battle.phase != BattleTacticalSession.Phase.ENEMY_TURN else " · Противник выполняет действия.")
 	_hover(board_view.hover_cell)
@@ -384,13 +412,18 @@ func _refresh() -> void:
 
 func _inspection_text(unit: UnitState) -> String:
 	var text := "%s · %s · высота %+.1f\nHP: %.1f / %.1f\nПотеря равновесия: %.1f / %.1f\nДвижение: %.1f / %.1f · Основное: %d · Бонус: %d\nБроня: %.1f · Оружие: %.1f урона\nСила: %.1f · Воздействие: %.1f\nАтака: 1 основное · Дальность: %.1f" % [unit.debug_name, _cell_name(unit.cell), float(session.board.get_height_steps(unit.cell)) / 2.0, unit.vitals.get_hp(), unit.get_stat(StatTypes.StatType.HP_MAX), unit.vitals.get_balance(), unit.get_stat(StatTypes.StatType.BALANCE_MAX), unit.move_points_left, unit.get_stat(StatTypes.StatType.MOVE_RANGE), unit.action_resources.get_main_left(), unit.action_resources.get_bonus_left(), unit.get_stat(StatTypes.StatType.ARMOR), unit.get_stat(StatTypes.StatType.WEAPON_DAMAGE), unit.get_stat(StatTypes.StatType.STRENGTH), unit.get_stat(StatTypes.StatType.IMPACT_POWER), unit.get_stat(StatTypes.StatType.ATTACK_RANGE)]
+	if session.state.summon_owner_id(unit.id) != 0:
+		text += "\nПомощник: до гибели / конца боя; владелец " + _name_for(session.state.summon_owner_id(unit.id))
+		text += "\nДействия со следующего хода своей команды." if session.state.is_summon_pending(unit.id) else "\nГотов действовать."
 	var descriptions: Array[String] = []
 	if session.state != null:
 		var owner := session.state.get_owner(unit.id)
 		if owner != null:
 			for item: ItemInstance in owner._items.values():
 				if not item.is_active(): continue
-				if item.get_definition().max_charges > 0:
+				if item.get_definition().use_summon:
+					descriptions.append("Печать: помощник с 16 HP за 1 основное и заряд; осталось %d/%d. Один на владельца, действует со следующего хода команды, до гибели / конца боя." % [item.get_charges_left(), item.get_definition().max_charges])
+				elif item.get_definition().max_charges > 0:
 					descriptions.append("%s: лечение себя до +%.1f HP за 1 основное и заряд; осталось %d/%d. Стойка сохраняется." % [item.get_definition().display_name, item.get_definition().use_heal_amount, item.get_charges_left(), item.get_definition().max_charges])
 				for effect in item.get_effects():
 					if not effect.is_active(): continue
@@ -445,6 +478,9 @@ func _hover(cell: Vector2i) -> void:
 				board_view.refresh()
 	_refresh_inspection()
 
+	if summoning_mode:
+		_hint.text = "Бирюзовые точки — клетки призыва. Клик — 1 основное и 1 заряд.\nПомощник с 16 HP действует со следующего хода своей команды. Esc — отмена."
+		return
 	if not session.board.is_in_bounds(cell):
 		_hint.text = "Золотые клетки — движение врага на следующий ход; зона атаки не показана.\nВыбранный союзник сохранён. Осмотр не расходует действия." if inspected_id != UnitId.NONE else "Числа на клетках — высота. Бирюзовые точки — доступное движение.\nПолоски: здоровье / накопленная потеря равновесия. ПКМ или Esc — движение."
 		return
@@ -550,7 +586,12 @@ func _event_text(event: Dictionary) -> String:
 	match StringName(event.get("kind", &"")):
 		&"attacked": return "%s атакует %s." % [actor, target]
 		&"guarded": return "%s занимает охранную стойку (1 основное действие)." % actor
-		&"item_used": return "%s использует флакон (1 основное; зарядов осталось: %d)." % [actor, int(event["charges_after"])]
+		&"item_used":
+			var owner := session.state.get_owner(int(event["actor_unit_id"]))
+			var item: ItemInstance = owner._items.get(int(event["item_instance_id"])) if owner != null else null
+			var name := "печать" if item != null and item.get_definition().use_summon else "флакон"
+			return "%s использует %s (1 основное; зарядов осталось: %d)." % [actor, name, int(event["charges_after"])]
+		&"summoned": return "%s призывает: %s. Действия со следующего хода команды." % [actor, target]
 		&"damaged":
 			var source: Dictionary = event.get("source", {})
 			var cause := " от падения" if source.get("kind", &"") == &"fall" else ""
@@ -591,10 +632,12 @@ func _reason_text(reason: StringName) -> String:
 		&"BUSY": return "дождитесь завершения действия."
 		&"CONTEXT_FAULTED": return "бой остановлен; выполните сброс."
 		&"guard/already_active": return "охранная стойка уже активна."
+		&"summon/active_helper": return "у этого владельца уже есть живой помощник."
+		&"summon/invalid_cell": return "нужна соседняя свободная безопасная клетка той же высоты."
 		&"item/full_hp": return "здоровье уже полное."
-		&"item/no_charges": return "заряды флакона закончились."
+		&"item/no_charges": return "заряды предмета закончились."
 		&"item/insufficient_main": return "недостаточно основных действий."
-		&"item/not_owned": return "нет доступного лечебного предмета."
+		&"item/not_owned": return "нет доступного предмета."
 		&"item/inactive": return "предмет не активен."
 		&"item/not_usable": return "этот предмет нельзя использовать."
 		&"item/no_selected_unit": return "выберите живого персонажа."
@@ -618,6 +661,7 @@ func _unhandled_input(event: InputEvent) -> void:
 					var slot := int(event.keycode - KEY_0)
 					if slot == 1: set_attack_mode(true)
 					elif slot == 2: _use_guard()
+					elif _action_bar._buttons[slot - 1].get_meta("action_id", &"") == &"summoning_item": _choose_summoning()
 					elif _action_bar._buttons[slot - 1].get_meta("action_id", &"") == &"healing_item": _use_healing_item()
 					else: _action_bar.activate_slot(slot)
 			KEY_A: set_attack_mode(true)
@@ -626,3 +670,15 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_ENTER, KEY_KP_ENTER: end_turn()
 	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
 		set_attack_mode(false)
+
+func _choose_summoning() -> void:
+	if _battle == null: return
+	var reason := _battle.summoning_reason()
+	if reason != &"":
+		_status.text = _reason_text(reason)
+		return
+	attack_mode = false
+	summoning_mode = true
+	inspected_id = UnitId.NONE
+	_clear_forecast()
+	_refresh()

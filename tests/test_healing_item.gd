@@ -135,7 +135,7 @@ func _test_snapshots() -> void:
 	s.healing_item()._charges_left = 0
 	var data := snapshot(s)
 	var saved := ItemSimulationSnapshot.from_dict(data).snapshot
-	check(data["schema_version"] == 2 and data["scope"] == ItemSimulationSnapshot.SCOPE_V2 and saved.canonical_bytes()[4] == 2, "v2 envelope")
+	check(data["schema_version"] == 3 and data["scope"] == ItemSimulationSnapshot.SCOPE_V3 and saved.canonical_bytes()[4] == 3, "v3 envelope includes separate seal")
 	var restored := saved.instantiate(catalogue(s))
 	check(restored.code == ItemSnapshotResult.Code.OK, "restore")
 	check(ItemSimulationSnapshot.capture(restored.state, []).snapshot.fingerprint() == saved.fingerprint(), "canonical roundtrip")

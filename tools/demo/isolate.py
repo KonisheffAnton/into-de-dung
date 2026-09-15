@@ -62,8 +62,8 @@ def main():
         invalid = result.returncode != 0 or "SCRIPT ERROR" in output or "Parse Error" in output
         if not legacy:
             invalid = invalid or "ERROR:" in output or "WARNING: ObjectDB" in output
-        if label in ("demo", "battle", "forecast", "guard", "healing"):
-            marker = {"demo": "DEMO RESULTS:", "battle": "BATTLE RESULTS:", "forecast": "FORECAST RESULTS:", "guard": "GUARD RESULTS:", "healing": "HEALING RESULTS:"}[label]
+        if label in ("demo", "battle", "forecast", "guard", "healing", "summon", "summon_snapshot"):
+            marker = {"demo": "DEMO RESULTS:", "battle": "BATTLE RESULTS:", "forecast": "FORECAST RESULTS:", "guard": "GUARD RESULTS:", "healing": "HEALING RESULTS:", "summon": "SUMMON RESULTS:", "summon_snapshot": "SUMMON SNAPSHOT RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if legacy:
             invalid = invalid or "0 failed" not in output
@@ -80,6 +80,8 @@ def main():
         run("startup", ["--quit-after", "3"])
         run("forecast", ["--script", "tests/test_attack_forecast.gd"])
         run("guard", ["--script", "tests/test_guard_stance.gd"])
+        run("summon_snapshot", ["--script", "tests/test_summon_snapshot.gd"])
+        run("summon", ["--script", "tests/test_summoning_item.gd"])
         run("healing", ["--script", "tests/test_healing_item.gd"])
         if args.full:
             run("core", ["--script", "tests/run_tests.gd"], legacy=True)

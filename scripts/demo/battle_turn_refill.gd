@@ -21,10 +21,17 @@ func validate(context: ActionContext) -> StringName:
 	if context.get_revision() != _revision: return &"turn/stale_revision"
 	if _ids.is_empty(): return &"turn/empty_team"
 	var seen: Dictionary = {}
+	var move := context.get_move_rules()
+	var attack := context.get_attack_rules()
 	for id in _ids:
 		var unit := context.get_state().get_board().get_unit_by_id(id)
 		if unit == null or not unit.is_alive() or unit.faction != _faction or seen.has(id): return &"turn/invalid_unit"
 		seen[id] = true
+		if context.get_state().is_summon_pending(id):
+			var admission := SummonAdmission.extend(move, attack, id, context.get_state().summon_owner_id(id), true)
+			if admission.is_empty(): return &"summon/invalid_admission"
+			move = admission["move"]
+			attack = admission["attack"]
 		# Проверяем всю команду до первой записи; плохой максимум не даёт частичный refill.
 		var copy := UnitState.from_snapshot_dict(unit.to_snapshot_dict())
 		if copy == null: return &"turn/invalid_unit"
@@ -45,4 +52,10 @@ func execute(context: ActionContext) -> CommandStepResult:
 			return failure
 		changed = true
 		unit.guard_stance = false
+		if context.get_state().is_summon_pending(id):
+			var admission := SummonAdmission.extend(context.get_move_rules(), context.get_attack_rules(), id, context.get_state().summon_owner_id(id), true)
+			context._move_rules = admission["move"]
+			context._attack_rules = admission["attack"]
+			for record: Dictionary in context.get_state()._summons:
+				if record["unit_id"] == id: record["pending"] = false
 	return CommandStepResult.applied([], [], [], null, true)

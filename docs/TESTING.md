@@ -448,3 +448,15 @@ v1/v2 snapshots и catalogue, malformed поля, forecast parity и callback/л
 Viewport runner проверяет реальный клик/клавишу3, availability, переключение,
 осмотр, сброс forecast, reset и блокировку; PNG15–17 показывают флакон до/после
 и исчерпание. Конкретные результаты и fixed review — в текущем CODEX_HANDOFF.
+
+
+## 2026-09-15 — отдельный предмет призыва
+
+Новые runner tests/test_summoning_item.gd и tests/test_summon_snapshot.gd включены
+в tools/demo/isolate.py. Проверяются atomic spawn/payment, occupancy/admission,
+pending/реальный следующий командный ход, enemy BT summon и исполнение helper,
+отказы/лимиты/callback prefix, исход с последним helper и cleanup; v3 roundtrip,
+malformed и точные legacy v1/v2 fingerprints из git archive базового HEAD.
+Viewport runner проверяет реальные кнопку/цифру4/клетки/прокрутку roster,
+ожидание/готовность/управление/reset, общий ENTITIES Y-sort и PNG18–20.
+Полные headless и render команды из TACTICAL_BATTLE.md; результаты и логи HANDOFF.

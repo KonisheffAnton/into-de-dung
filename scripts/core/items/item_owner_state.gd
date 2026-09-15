@@ -151,10 +151,11 @@ func _validate_definition(definition: ItemDef) -> bool:
 	# Параметры лечения валидируются вместе: нули сохраняют старые предметы,
 	# а частично заданная пара не должна превращаться в usable предмет.
 	if not is_finite(definition.use_heal_amount): return false
-	if definition.use_heal_amount == 0.0 or definition.max_charges == 0:
-		if definition.use_heal_amount != 0.0 or definition.max_charges != 0: return false
+	if definition.use_heal_amount == 0.0 and not definition.use_summon:
+		if definition.max_charges != 0: return false
 	else:
-		if definition.use_heal_amount <= 0.0 or definition.max_charges < 1 or definition.max_charges > 4096: return false
+		if definition.use_heal_amount < 0.0 or definition.max_charges < 1 or definition.max_charges > 4096: return false
+	if definition.use_heal_amount > 0.0 and definition.use_summon: return false
 	if _definitions.has(definition.id) and _definitions[definition.id] != definition: return false
 	var count := definition.effects.size()
 	if count > 0 and _next_effect_id > MAX_ID - count: return false

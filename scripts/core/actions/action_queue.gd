@@ -219,6 +219,8 @@ func _bind_batch(descriptions: Array[Dictionary], event_seq: int, context: Actio
 	return result
 
 static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bool:
+	if ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "item_instance_id": TYPE_INT, "cell": TYPE_VECTOR2I}):
+		return draft["kind"] == &"summoned" and draft["actor_unit_id"] > 0 and draft["actor_unit_id"] < MAX_ID and draft["target_unit_id"] > 0 and draft["target_unit_id"] < MAX_ID and draft["target_unit_id"] != draft["actor_unit_id"] and draft["item_instance_id"] > 0 and draft["item_instance_id"] < MAX_ID
 	if ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "item_instance_id": TYPE_INT, "main_cost": TYPE_INT, "main_before": TYPE_INT, "main_after": TYPE_INT, "charges_before": TYPE_INT, "charges_after": TYPE_INT}):
 		return draft["kind"] == &"item_used" and draft["actor_unit_id"] > 0 and draft["actor_unit_id"] < MAX_ID and draft["target_unit_id"] == draft["actor_unit_id"] and draft["item_instance_id"] > 0 and draft["item_instance_id"] < MAX_ID and draft["main_cost"] == 1 and draft["main_before"] >= 1 and draft["main_before"] <= 4096 and draft["main_after"] == draft["main_before"] - 1 and draft["charges_before"] >= 1 and draft["charges_before"] <= 4096 and draft["charges_after"] == draft["charges_before"] - 1
 	if ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "main_cost": TYPE_INT, "main_before": TYPE_INT, "main_after": TYPE_INT}):

@@ -8,11 +8,14 @@ enum Kind {
 	WAIT,
 	MOVE,
 	ATTACK,
+	SUMMON,
 }
 
 var kind: Kind = Kind.WAIT
 var actor_id: int = UnitId.NONE
 var target_id: int = UnitId.NONE
+var item_id: int = 0
+var cell: Vector2i = Vector2i.ZERO
 var path: Array[Vector2i] = []
 
 
