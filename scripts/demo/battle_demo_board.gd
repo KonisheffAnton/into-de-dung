@@ -15,6 +15,7 @@ var hover_cell := Vector2i(-1, -1)
 var grid_config := IsoGridConfig.new()
 var _reachable: Dictionary = {}
 var inspection_cells: Dictionary = {}
+var forecast: AttackForecast
 var _path: Array[Vector2i] = []
 var _tiles: Node2D
 var _entities: Node2D
@@ -162,6 +163,7 @@ func _rebuild_visuals() -> void:
 		visual.unit = unit
 		visual.selected = unit.id == session.selected_id and unit.is_alive()
 		visual.inspected = unit.id == inspected_id and unit.is_alive()
+		visual.forecast_entry = _forecast_entry(unit.id)
 		_entities.add_child(visual)
 		_entity_visuals.append(visual)
 	_entity_visuals.sort_custom(func(a: BattleDemoIsoVisual, b: BattleDemoIsoVisual) -> bool: return a.position.y < b.position.y or (a.position.y == b.position.y and a.get_index() < b.get_index()))
@@ -194,6 +196,33 @@ func _draw_overlay() -> void:
 		var hw := grid_config.tile_size.x * 0.48
 		var hh := grid_config.tile_size.y * 0.48
 		_overlay.draw_polyline(PackedVector2Array([center + Vector2(0, -hh), center + Vector2(hw, 0), center + Vector2(0, hh), center + Vector2(-hw, 0), center + Vector2(0, -hh)]), GOLD if attack_mode or inspected_id != UnitId.NONE else CYAN, 2, true)
+	if forecast != null and forecast.status == &"APPLIED":
+		for event_variant in forecast.events:
+			var event := event_variant as Dictionary
+			var kind := StringName(event.get("kind", &""))
+			if kind not in [&"moved", &"push_blocked", &"collision", &"fell"]: continue
+			var from_cell := Vector2i(-1, -1)
+			if event.has("from_cell"): from_cell = event["from_cell"] as Vector2i
+			var to_cell := from_cell
+			if event.has("to_cell"): to_cell = event["to_cell"] as Vector2i
+			elif event.has("attempted_cell"): to_cell = event["attempted_cell"] as Vector2i
+			if not session.board.is_in_bounds(from_cell): continue
+			var start := cell_center(from_cell)
+			var finish := cell_center(to_cell) if session.board.is_in_bounds(to_cell) else start + IsoGridUtils.grid_to_screen(to_cell, grid_config, 0) - IsoGridUtils.grid_to_screen(from_cell, grid_config, 0)
+			_overlay.draw_line(start, finish, Color("f29b9b"), 3.0, true)
+			var direction := (finish - start).normalized()
+			_overlay.draw_line(finish, finish - direction.rotated(0.5) * 10.0, Color("f29b9b"), 3.0, true)
+			_overlay.draw_line(finish, finish - direction.rotated(-0.5) * 10.0, Color("f29b9b"), 3.0, true)
+			_overlay.draw_arc(finish, 6.0, 0, TAU, 16, Color("f29b9b"), 1.5, true)
+			if kind in [&"push_blocked", &"collision"]:
+				_overlay.draw_line(finish - Vector2(4, 4), finish + Vector2(4, 4), Color.WHITE, 2, true)
+				_overlay.draw_line(finish - Vector2(4, -4), finish + Vector2(4, -4), Color.WHITE, 2, true)
+
+func _forecast_entry(unit_id: int) -> Dictionary:
+	if forecast == null or forecast.status != ActionReceipt.APPLIED: return {}
+	var units: Dictionary = forecast.units
+	var entry: Variant = units.get(unit_id, {})
+	return entry as Dictionary if entry is Dictionary else {}
 
 func animate_fall(unit: UnitState, origin: Vector2i, destination: Vector2i) -> void:
 	if unit == null or _ghosts == null or _falling.has(unit.id): return

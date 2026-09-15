@@ -411,3 +411,15 @@ moved/attacked schemas. Snapshot/enum версии прежние, P02/P03b от
 Headless opt-in `spatial_move_v1` и `spatial_melee_balance_v1` добавляют half-step геометрию без смены целочисленного legacy масштаба. BattleBoard хранит parallel bits, выдаёт отдельный spatial provider и canonical board snapshot v2 только при наличии bit1. Legacy providers и команды на fractional board закрыты.
 
 SpatialRules объединяет стоимость ребра, fall arithmetic и bounded Guard. Guard фиксирует identities/lifecycle, HP/alive/balance, move/main/bonus, relevant stats из копий, geometry и две версии; последующие фазы вычисляются только известными delta. Vitals spatial receipts/checkpoints и pinned ActionHpExecutor сохраняют собственный prefix при callback mismatch. Board death subscription проверяет weak Unit/Vitals и identity регистрации. MoveFall и bound Death имеют раздельные точные формы binding. Общий S-5, UI/AI/Flow, LOS, полный preview и save-game не реализованы.
+
+
+## 2026-09-15 — прогноз одной атаки в тактическом бою
+
+Действующий BT/командный бой описан в TACTICAL_BATTLE.md; исторические ограничения
+предыдущих пакетов выше не означают отсутствие нынешнего UI. AttackForecast
+восстанавливает ItemSimulationSnapshot с отдельными definitions/RNG/sink, переносит
+счётчики ActionContext и лимиты ActionQueue и исполняет настоящую AttackCommand.
+HP/позиции/ресурсы возвращаются значениями после полного каскада. Неподдерживаемый
+или незавершённый результат не даёт обещания HP. Контракт — ATTACK_FORECAST.md.
+Legacy ActionPreview остаётся для Utility adapter; новый бой им не пользуется.
+Это не save-game, планирование нескольких действий или реализация backlog дизайна.

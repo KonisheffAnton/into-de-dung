@@ -1,3 +1,86 @@
+# Передача — 2026-09-15, настоящий прогноз атаки и осмотр: APPROVE
+
+Ветка main. Исходный HEAD: 042737bf07c0d9dc7cb437af4c4e9fb2a635a7e7.
+Этот заголовок входит в логический commit реализации; точный финальный HEAD
+записывается после commit в completion.json/next-chat-prompt.md и в итоговом сообщении.
+Входное дерево/индекс были чистыми; при сдаче дерево и индекс должны быть чистыми.
+Старый dirty overlay не восстанавливать: Git самодостаточен.
+
+Реализован ограниченный срез пунктов5/11 TACTICAL_DESIGN_NEXT: прогноз одной
+атаки и закреплённая панель осмотра. Остальной backlog не реализован этим этапом.
+Контракт: docs/ATTACK_FORECAST.md; управление/границы: docs/TACTICAL_BATTLE.md.
+Обновлены статус дизайна и актуальные добавления ARCHITECTURE/TESTING; исходные
+исторические разделы сохранены. Frozen документы/§4.5 и старые отчёты не менялись.
+
+AttackForecast исполняет настоящую AttackCommand в отдельной ActionQueue на
+восстановленном ItemSimulationSnapshot: board/occupancy, предметы/runtime эффектов,
+ресурсы, копия definitions/RNG, правила, revision, счётчики и лимиты очереди.
+Собирает конечный HP/balance/cell/alive/main/bonus/move всех участников и receipt
+всего каскада; копия закрывается, наружу выходят только значения. Live state,
+RNG/counters/UnitId/sink/selection/last_receipt не меняются. Только APPLIED даёт
+HP-прогноз, неизвестные возможности и незавершённые каскады дают отказ. Точный
+базовый RNG — порт без случайных значений; неизвестный неклонируемый RNG закрыт.
+В сценарии нет случайных атак/эффектов. Будущая вероятностная UI-модель не создана.
+Произвольные внешние мутирующие callbacks не входят в capability: игровые реакции
+должны быть представлены item runtime/командами. Это не save-game/full Battle Flow snapshot.
+
+A + наведение: конечный HP, красный сегмент потери/зелёный лечения и белая метка,
+явная гибель, стрелка толчка/конечная клетка, крест столкновения/препятствия и
+объяснение отказа. Учтены нынешние удар/balance/push/collision/fall/death/heal.
+Изменения союзника при collateral видны на его полосе и в итогах. Клик исполняет
+свежую команду. На панель прогноза можно перевести курсор через зазор и прокрутить
+детали; уход очищает прогноз. Refresh/receipt/selection/mode/reset/lock не оставляют
+старого результата. Журнал выполненного доступен в M; preview не пишет в него.
+Панель осмотра прокручивается отдельно: HP, потеря равновесия, ресурсы, броня,
+оружие/сила/воздействие, текущая атака, активные эффекты и срок активности.
+Источник эффекта скрыт в UI, сохранён в runtime. Осмотр врага сохраняет союзника;
+A-hover показывает цель, выход возвращает выбранного/осматриваемого.
+Реальные тайлы/стены/фигуры сохраняют общий ENTITIES Y-sort. Камера не менялась.
+
+game_scout Luna/low дал адресную карту UI. game_coder Luna/medium реализовал
+UI/первые viewport tests; ведущий интегрировал/исправил типизацию, lifecycle,
+компоновку, прокрутку, критические core/session контракты и parity tests.
+Независимый game_reviewer Terra/high: APPROVE fixed review-v1, 18/18 SHA256.
+Reviewer читал code/contracts/logs, Godot не запускал. Ведущий проверил PNG.
+
+Новые проверки: forecast166/0; final headless import/startup PASS, demo138/0,
+battle173/0; final render import/startup PASS, demo143/0,battle184/0 и forecast166/0.
+Полные победа/поражение сохраняются за3раунда. Whole core9440/0; известные47ObjectDB
+/18resources остаются только legacy core runner. Новый forecast/UI без exit leaks.
+RawSHA256 шести core/forecast source файлов совпадают с core9440-прогоном.
+Battle UI runner использует отдельный SubViewport и настоящие push_input/GUI
+picking/scrolling: native mouse-exit обычного окна раньше перебивал synthetic hover.
+Промежуточные failed прогоны сохранены, не являются приёмкой.
+
+Артефакты этапа: test_reports/attack-forecast-20260915/
+baseline.json,handoff-before.md,checks.json,core-source-parity.json,
+preservation*.json,review-v1/manifest.json+files+own.patch+independent-review.md,
+completion.json,next-chat-prompt.md. После commit сюда добавляется clean-clone;
+его точная проверка/чистота записывается в completion.json и итоговом сообщении.
+Core: test_reports/demo-be26c00b9b304c21b75155e1e649670f/core.log (core PASS;
+его последующий старый UI run не является итоговой приёмкой).
+Final headless: test_reports/demo-a8593703403f469792787f80583dc989/
+Final render: test_reports/demo-b09d413820e84dab950f025a9e2e8044/
+PNG: battle-07-forecast,08-inspection,09-collateral,10-forecast-details,11-inspection-effects.
+
+Остаток: пользовательский плейтест прогноза/осмотра. Следующий поддержанный этап —
+ограниченный срез общей панели действий, лечения/защиты по TACTICAL_DESIGN_NEXT;
+сначала составить точное ТЗ, не вводить весь backlog одновременно. Сохраняются
+командные ходы без инициативы, свободное переключение без refill, атака1main.
+Будущие8слотов/фиксированные атака-защита/страницы, условный bonus, крит x2 до брони
+и x2impact без базовых критов, Оппортунист только носителю в стойке за1bonus,
+новые правила падения/цепей/призыва/окружения остаются дизайном следующих срезов.
+Zoom/pan/видимость фигур ещё не сделаны; поворот отложен пользователем.
+
+Для нового этапа предложить новый чат с этой передачей. В конце этапа/при блокере
+обновлять HANDOFF с точным исходным suffix и печатать ПОЛНЫЙ самодостаточный промпт
+следующего чата прямо в финальном сообщении отдельным блоком кода для копирования:
+HEAD/result/docs/artifacts/remaining/constraints/checks. Ссылка не заменяет текст.
+Переносить это правило в следующую передачу и следующий prompt. Без push/sidebar
+tasks/расписаний; коммиты ведущего после проверок/review; при сдаче Git чистый.
+
+---
+
 # Передача — 2026-09-15, промпт следующего чата показывается прямо в сообщении
 
 main. Исходный HEAD этой правки процесса: 4b71dfab44cb48459df87bc0d4de5abdd9820a84.

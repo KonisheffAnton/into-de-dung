@@ -10,6 +10,7 @@ var selected: bool = false
 var reachable: bool = false
 var enemy_range: bool = false
 var inspected: bool = false
+var forecast_entry: Dictionary = {}
 var transient_label: String = ""
 var transient_tint := Color("f7c97d")
 var fall_drop: float = 0.0:
@@ -122,9 +123,21 @@ func _draw_unit() -> void:
 		var hp_max := unit.get_stat(StatTypes.StatType.HP_MAX)
 		var balance_max := unit.get_stat(StatTypes.StatType.BALANCE_MAX)
 		var hp := clampf(unit.vitals.get_hp() / hp_max if hp_max > 0 else 0, 0, 1)
+		var forecast_after: Dictionary = forecast_entry.get("after", {}) as Dictionary
+		var expected_hp := float(forecast_after.get("hp", unit.vitals.get_hp()))
+		var expected_alive := bool(forecast_after.get("alive", unit.is_alive()))
 		var balance := clampf(unit.vitals.get_balance() / balance_max if balance_max > 0 else 0, 0, 1)
 		draw_rect(Rect2(-19, 7, 38, 4), Color("0f1d28"))
 		draw_rect(Rect2(-19, 7, 38 * hp, 4), Color("65dfcc"))
+		if not is_equal_approx(expected_hp, unit.vitals.get_hp()):
+			var expected_ratio := clampf(expected_hp / hp_max if hp_max > 0 else 0.0, 0.0, 1.0)
+			var current_ratio := hp
+			var segment_start := minf(current_ratio, expected_ratio)
+			var segment_width := absf(expected_ratio - current_ratio)
+			draw_rect(Rect2(-19 + 38 * segment_start, 7, 38 * segment_width, 4), Color("f29b9b") if expected_hp < unit.vitals.get_hp() else Color("65dfcc"))
+			draw_string(ThemeDB.fallback_font, Vector2(-28, 28), "%.1f→%.1f" % [unit.vitals.get_hp(), expected_hp], HORIZONTAL_ALIGNMENT_CENTER, 56, 9, Color("f29b9b") if expected_hp < unit.vitals.get_hp() else Color("65dfcc"))
+			draw_line(Vector2(-19 + 38 * expected_ratio, 6), Vector2(-19 + 38 * expected_ratio, 12), Color.WHITE, 1)
+		if not expected_alive: draw_string(ThemeDB.fallback_font, Vector2(-18, 38), "ПОГИБ", HORIZONTAL_ALIGNMENT_CENTER, 36, 8, Color("f29b9b"))
 		draw_rect(Rect2(-19, 13, 38, 3), Color("0f1d28"))
 		draw_rect(Rect2(-19, 13, 38 * balance, 3), Color("f7c97d"))
 	draw_set_transform(Vector2.ZERO)

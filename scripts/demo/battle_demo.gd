@@ -23,6 +23,15 @@ var _subtitle: Label
 var _instructions: Label
 var _ai_delay: float = 0.0
 var _flow_cursor: int = 0
+var _forecast_panel: RichTextLabel
+var _forecast: AttackForecast
+var _forecast_cell := Vector2i(-1, -1)
+var _forecast_target_id: int = UnitId.NONE
+var _forecast_revision: int = -1
+var _log_heading: Label
+var _forecast_heading: Label
+var _pointer_position := Vector2(-1, -1)
+var _shown_inspection_id: int = UnitId.NONE
 
 func _ready() -> void:
 	_create_session()
@@ -46,8 +55,19 @@ func _process(delta: float) -> void:
 	if receipt != null: _show_receipt(receipt)
 	else: _refresh()
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		# Координата самого viewport-события одинакова для мыши и replay/test input.
+		_pointer_position = (event as InputEventMouseMotion).position
+		if _forecast != null and board_view.hover_cell.x < 0 and not _forecast_reading_region().has_point(_pointer_position) and not board_view.get_global_rect().has_point(_pointer_position):
+			_clear_forecast()
+			_refresh_inspection()
+
 func _exit_tree() -> void:
-	if board_view != null: board_view.session = null
+	_forecast = null
+	if board_view != null:
+		board_view.forecast = null
+		board_view.session = null
 	if session != null: session.close()
 	session = null
 
@@ -62,7 +82,7 @@ func _build_ui() -> void:
 	for side in ["left", "right", "top", "bottom"]: margin.add_theme_constant_override("margin_" + side, 24)
 	add_child(margin)
 	var root := VBoxContainer.new()
-	root.add_theme_constant_override("separation", 12)
+	root.add_theme_constant_override("separation", 8)
 	margin.add_child(root)
 	var title := HBoxContainer.new()
 	root.add_child(title)
@@ -117,9 +137,15 @@ func _build_ui() -> void:
 	_roster = VBoxContainer.new()
 	side.add_child(_roster)
 	_stats = _label("", 15, Color("e6ecf4"))
-	_stats.custom_minimum_size.y = 108
-	side.add_child(_stats)
-	side.add_child(_label("ЖУРНАЛ ПОСЛЕДСТВИЙ", 13, Color("65dfcc")))
+	_stats.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_stats.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var inspection_scroll := ScrollContainer.new()
+	inspection_scroll.custom_minimum_size = Vector2(340, 144)
+	inspection_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	inspection_scroll.add_child(_stats)
+	side.add_child(inspection_scroll)
+	_log_heading = _label("ЖУРНАЛ ПОСЛЕДСТВИЙ", 13, Color("65dfcc"))
+	side.add_child(_log_heading)
 	_log = RichTextLabel.new()
 	_log.custom_minimum_size = Vector2(340, 130)
 	_log.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -127,6 +153,18 @@ func _build_ui() -> void:
 	_log.add_theme_font_size_override("normal_font_size", 14)
 	_log.add_theme_color_override("default_color", Color("c8d3e1"))
 	side.add_child(_log)
+	_forecast_heading = _label("ПРОГНОЗ АТАКИ", 13, Color("65dfcc"))
+	side.add_child(_forecast_heading)
+	_forecast_panel = RichTextLabel.new()
+	_forecast_panel.custom_minimum_size = Vector2(340, 130)
+	_forecast_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_forecast_panel.bbcode_enabled = true
+	_forecast_panel.fit_content = false
+	_forecast_panel.scroll_active = true
+	_forecast_panel.add_theme_font_size_override("normal_font_size", 14)
+	_forecast_panel.add_theme_color_override("default_color", Color("e6ecf4"))
+	_forecast_panel.mouse_exited.connect(_leave_forecast_panel)
+	side.add_child(_forecast_panel)
 	_status = _label("", 14, Color("f7c97d"))
 	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_status.custom_minimum_size.y = 46
@@ -158,6 +196,7 @@ func _button(value: String) -> Button:
 func set_attack_mode(enabled: bool) -> void:
 	if _battle != null and not _battle.can_player_act(): return
 	attack_mode = enabled
+	_clear_forecast()
 	# Режим действия закрывает осмотр, чтобы подсветка не смешивалась с целью атаки.
 	inspected_id = UnitId.NONE
 	_refresh()
@@ -172,6 +211,7 @@ func inspect_enemy(id: int) -> void:
 	var unit := session.board.get_unit_by_id(id)
 	if unit == null or not unit.is_alive() or unit.faction != Faction.Type.ENEMY: return
 	attack_mode = false
+	_clear_forecast()
 	inspected_id = UnitId.NONE if inspected_id == id else id
 	_refresh()
 
@@ -196,6 +236,7 @@ func handle_cell(cell: Vector2i) -> void:
 		_show_receipt(session.move_to(cell))
 
 func reset_demo() -> void:
+	_clear_forecast()
 	session.reset()
 	attack_mode = false
 	inspected_id = UnitId.NONE
@@ -206,6 +247,7 @@ func reset_demo() -> void:
 	_refresh()
 
 func toggle_scenario() -> void:
+	_clear_forecast()
 	session.close()
 	tactical_mode = not tactical_mode
 	_create_session()
@@ -219,11 +261,14 @@ func toggle_scenario() -> void:
 func end_turn() -> void:
 	if _battle == null or not _battle.end_player_turn(): return
 	attack_mode = false
+	_clear_forecast()
 	inspected_id = UnitId.NONE
 	_ai_delay = 0.5
 	_refresh()
 
 func _refresh() -> void:
+	# Любой refresh перечитывает состояние, включая изменения вне command revision.
+	_clear_forecast()
 	if inspected_id != UnitId.NONE:
 		var inspected := session.board.get_unit_by_id(inspected_id) if session != null and session.board != null else null
 		if _battle == null or not _battle.can_player_act() or inspected == null or not inspected.is_alive() or inspected.faction != Faction.Type.ENEMY:
@@ -245,6 +290,10 @@ func _refresh() -> void:
 			_flow_cursor += 1
 	_move_button.set_pressed_no_signal(not attack_mode)
 	_attack_button.set_pressed_no_signal(attack_mode)
+	_log.visible = not attack_mode
+	_log_heading.visible = not attack_mode
+	_forecast_panel.visible = attack_mode
+	_forecast_heading.visible = attack_mode
 	board_view.attack_mode = attack_mode
 	board_view.inspected_id = inspected_id
 	board_view.refresh()
@@ -255,6 +304,7 @@ func _refresh() -> void:
 		var alive := unit.is_alive()
 		var text := "%s  ·  %s" % [unit.debug_name, "HP %.1f / %.1f" % [unit.vitals.get_hp(), unit.get_stat(StatTypes.StatType.HP_MAX)] if alive else "погиб"]
 		var button := _button(text)
+		button.custom_minimum_size.y = 30
 		button.toggle_mode = true
 		button.set_pressed_no_signal(unit.id == session.selected_id and alive)
 		if _battle != null and unit.faction == Faction.Type.ENEMY:
@@ -271,8 +321,11 @@ func _refresh() -> void:
 		if locked:
 			_stats.text = "Дождитесь завершения хода противника." if _battle.phase == BattleTacticalSession.Phase.ENEMY_TURN else "Бой окончен. Нажмите R, чтобы сыграть снова."
 	else:
-		_stats.text = "%s  ·  %s  ·  высота %+.1f\nРавновесие: %.1f / %.1f до толчка\nДвижение: %.1f / %.1f   ·   Атаки: %d   ·   Бонус: %d\nБроня: %.1f   ·   Удар: %.1f   ·   Импакт: %.1f" % [selected.debug_name, _cell_name(selected.cell), float(session.board.get_height_steps(selected.cell)) / 2.0, selected.vitals.get_balance(), selected.get_stat(StatTypes.StatType.BALANCE_MAX), selected.move_points_left, selected.get_stat(StatTypes.StatType.MOVE_RANGE), selected.action_resources.get_main_left(), selected.action_resources.get_bonus_left(), selected.get_stat(StatTypes.StatType.ARMOR), selected.get_stat(StatTypes.StatType.STRENGTH) + selected.get_stat(StatTypes.StatType.WEAPON_DAMAGE), selected.get_stat(StatTypes.StatType.IMPACT_POWER)]
-		if selected == session.units[1]: _stats.text += "\nАмулет: +2 HP после каждого полученного урона."
+		_stats.text = _inspection_text(selected)
+	if inspected_id != UnitId.NONE:
+		var enemy := session.board.get_unit_by_id(inspected_id)
+		if enemy != null:
+			_stats.text = _inspection_text(enemy)
 	_status.text = "Атака: щёлкните по цели. Расход — 1 основное действие." if attack_mode else "Движение: щёлкните по свободной клетке. Персонаж на поле или в списке — выбор."
 	if inspected_id != UnitId.NONE:
 		var enemy := session.board.get_unit_by_id(inspected_id)
@@ -281,16 +334,139 @@ func _refresh() -> void:
 	if locked: _status.text = _battle.phase_text() + (" · Можно начать заново: R." if _battle.phase != BattleTacticalSession.Phase.ENEMY_TURN else " · Противник выполняет действия.")
 	_hover(board_view.hover_cell)
 	_log.text = "\n".join(_journal)
+	_render_forecast_panel()
+
+func _inspection_text(unit: UnitState) -> String:
+	var text := "%s · %s · высота %+.1f\nHP: %.1f / %.1f\nПотеря равновесия: %.1f / %.1f\nДвижение: %.1f / %.1f · Основное: %d · Бонус: %d\nБроня: %.1f · Оружие: %.1f урона\nСила: %.1f · Воздействие: %.1f\nАтака: 1 основное · Дальность: %.1f" % [unit.debug_name, _cell_name(unit.cell), float(session.board.get_height_steps(unit.cell)) / 2.0, unit.vitals.get_hp(), unit.get_stat(StatTypes.StatType.HP_MAX), unit.vitals.get_balance(), unit.get_stat(StatTypes.StatType.BALANCE_MAX), unit.move_points_left, unit.get_stat(StatTypes.StatType.MOVE_RANGE), unit.action_resources.get_main_left(), unit.action_resources.get_bonus_left(), unit.get_stat(StatTypes.StatType.ARMOR), unit.get_stat(StatTypes.StatType.WEAPON_DAMAGE), unit.get_stat(StatTypes.StatType.STRENGTH), unit.get_stat(StatTypes.StatType.IMPACT_POWER), unit.get_stat(StatTypes.StatType.ATTACK_RANGE)]
+	var descriptions: Array[String] = []
+	if session.state != null:
+		var owner := session.state.get_owner(unit.id)
+		if owner != null:
+			for item: ItemInstance in owner._items.values():
+				if not item.is_active(): continue
+				for effect in item.get_effects():
+					if not effect.is_active(): continue
+					if effect is HealOnDamageEffectRuntime:
+						descriptions.append("Лечение +%.1f HP после урона; пока предмет активен." % (effect as HealOnDamageEffectRuntime).get_heal_amount())
+					elif effect is StatModifierEffectRuntime:
+						var modifier := effect as StatModifierEffectRuntime
+						var amount := "%+.1f" % modifier.get_value()
+						if modifier.get_operation() == StatModifier.Operation.ADD_PERCENT: amount = "%+.1f%%" % (modifier.get_value() * 100.0)
+						elif modifier.get_operation() == StatModifier.Operation.MULTIPLY: amount = "×%.2f" % modifier.get_value()
+						descriptions.append("%s %s; пока предмет активен." % [_stat_name(modifier.get_stat_type()), amount])
+					else: descriptions.append("Неизвестный активный эффект; описание недоступно.")
+	text += "\nЭффекты: " + ("нет активных." if descriptions.is_empty() else "\n" + "\n".join(descriptions))
+	return text
+
+func _stat_name(type: StatTypes.StatType) -> String:
+	var names := ["Макс. HP", "Инициатива", "Порог равновесия", "Сила", "Воздействие", "Движение", "Броня", "Основные действия", "Бонусные действия", "Урон оружия", "Дальность атаки"]
+	return names[int(type)] if int(type) >= 0 and int(type) < names.size() else "Характеристика"
+
+func _refresh_inspection() -> void:
+	var id := _forecast_target_id if _forecast != null else inspected_id
+	var unit := session.board.get_unit_by_id(id) if id != UnitId.NONE else session.selected_unit()
+	if unit != null:
+		if _shown_inspection_id != unit.id:
+			(_stats.get_parent() as ScrollContainer).scroll_vertical = 0
+		_shown_inspection_id = unit.id
+		_stats.text = _inspection_text(unit)
 
 func _hover(cell: Vector2i) -> void:
+	if session == null or session.board == null: return
+	# Позволяем перейти к прокрутке длинной цепи, сохранив текущий прогноз.
+	if _forecast != null and cell.x < 0:
+		# mouse_exited может прийти раньше _input того же движения мыши.
+		_resolve_hover_exit.call_deferred()
+		return
+	if not attack_mode or (_battle != null and not _battle.can_player_act()) or not session.board.is_in_bounds(cell):
+		_clear_forecast()
+	else:
+		var target := session.board.occupant_at(cell)
+		if target == null:
+			_clear_forecast()
+		else:
+			var revision := session.context.get_revision()
+			if _forecast_cell != cell or _forecast_target_id != target.id or _forecast_revision != revision:
+				_forecast = session.preview_attack(target.id)
+				_forecast_cell = cell
+				_forecast_target_id = target.id
+				_forecast_revision = revision
+				board_view.forecast = _forecast
+				board_view.refresh()
+	_refresh_inspection()
+
 	if not session.board.is_in_bounds(cell):
 		_hint.text = "Золотые клетки — движение врага на следующий ход; зона атаки не показана.\nВыбранный союзник сохранён. Осмотр не расходует действия." if inspected_id != UnitId.NONE else "Числа на клетках — высота. Бирюзовые точки — доступное движение.\nПолоски: здоровье / накопленная потеря равновесия. ПКМ или Esc — движение."
 		return
 	var reachable: Dictionary = board_view.inspection_cells if inspected_id != UnitId.NONE else session.reachable_cells()
 	var cost := " · путь: %.1f ОД" % float(reachable[cell]) if reachable.has(cell) else ""
 	_hint.text = "%s · высота %+.1f%s\n%s" % [_cell_name(cell), float(session.board.get_height_steps(cell)) / 2.0, cost, "Осмотр: зона движения на следующий ход, не атаки." if inspected_id != UnitId.NONE else "Линия показывает маршрут; последствия падений не предсказываются."]
+	if attack_mode: _hint.text = "Наведите на цель: прогноз одной атаки. Клик — выполнить.\nКрасный сегмент HP — потеря, зелёный — лечение; белая метка — итог."
+	_render_forecast_panel()
+
+func _leave_forecast_panel() -> void:
+	_resolve_hover_exit.call_deferred()
+
+func _resolve_hover_exit() -> void:
+	if session == null or board_view.hover_cell.x >= 0 or _forecast == null: return
+	if _forecast_reading_region().has_point(_pointer_position): return
+	_clear_forecast()
+	_refresh_inspection()
+
+func _forecast_reading_region() -> Rect2:
+	var panel := _forecast_panel.get_global_rect()
+	# Узкий зазор между полем и панелью не должен прерывать переход курсора.
+	var left := minf(board_view.get_global_rect().end.x, panel.position.x)
+	return Rect2(Vector2(left, panel.position.y), Vector2(panel.end.x - left, panel.size.y))
+
+func _clear_forecast() -> void:
+	var had_forecast := _forecast != null
+	_forecast = null
+	_forecast_cell = Vector2i(-1, -1)
+	_forecast_target_id = UnitId.NONE
+	_forecast_revision = -1
+	if board_view != null:
+		board_view.forecast = null
+		if had_forecast and board_view.session != null: board_view.refresh()
+	if _forecast_panel != null: _forecast_panel.text = "Наведите курсор на врага в режиме A."
+
+func _render_forecast_panel() -> void:
+	if _forecast_panel == null: return
+	if _forecast == null:
+		_forecast_panel.text = "Наведите курсор на врага в режиме A."
+		return
+	var status: StringName = _forecast.status
+	var reason: StringName = _forecast.reason
+	var text := "[font_size=16][color=#f7c97d]Цель: %s[/color][/font_size]\n" % _name_for(_forecast_target_id)
+	if status != &"APPLIED":
+		_forecast_panel.text = text + "[color=#f29b9b]Прогноз недоступен[/color]\n" + _reason_text(reason)
+		return
+	var units: Dictionary = _forecast.units
+	for id_variant in units:
+		var id := int(id_variant)
+		var entry: Dictionary = units[id]
+		var before: Dictionary = entry.get("before", {})
+		var after: Dictionary = entry.get("after", {})
+		if before == after: continue
+		var hp_before := float(before.get("hp", 0.0))
+		var hp_after := float(after.get("hp", 0.0))
+		var hp_color := "#f29b9b" if hp_after < hp_before else "#65dfcc"
+		if hp_before != hp_after or id == _forecast_target_id:
+			text += "%s: HP [color=%s]%.1f → %.1f%s[/color]\n" % [_name_for(id), hp_color, hp_before, hp_after, " · ГИБЕЛЬ" if not after["alive"] else ""]
+		if before["balance"] != after["balance"]:
+			text += "%s: потеря равновесия %.1f → %.1f\n" % [_name_for(id), before["balance"], after["balance"]]
+		if before["main"] != after["main"]:
+			text += "%s: основные действия %d → %d\n" % [_name_for(id), before["main"], after["main"]]
+	var events: Array[Dictionary] = _forecast.events
+	if events.is_empty(): text += "Событий последствий нет.\n"
+	else:
+		text += "\n[color=#a5b3c5]Последствия:[/color]\n"
+		for event_variant in events:
+			text += "• " + _event_text(event_variant as Dictionary) + "\n"
+	_forecast_panel.text = text
 
 func _show_receipt(receipt: ActionReceipt) -> void:
+	_clear_forecast()
 	for event in receipt.get_events(): _note(_event_text(event))
 	_refresh()
 	# Смерть уже исполнена ядром; временная фигура лишь показывает падение в провал.
@@ -356,7 +532,15 @@ func _reason_text(reason: StringName) -> String:
 		&"move/unreachable": return "нет проходимого маршрута к этой клетке."
 		&"move/no_selected_unit", &"attack/no_selected_unit": return "выберите живого персонажа."
 		&"attack/self_target": return "нельзя атаковать самого себя."
-	return String(reason)
+		&"attack/line_blocked": return "линию атаки перекрывает стена или противник."
+		&"attack/terrain_shape_unsupported": return "рельеф не допускает прямой удар."
+		&"attack/stale_revision": return "состояние боя изменилось; наведите курсор заново."
+		&"attack/missing_target", &"attack/invalid_target", &"attack/dead_target": return "живой цели больше нет на поле."
+		&"BUSY": return "дождитесь завершения действия."
+		&"CONTEXT_FAULTED": return "бой остановлен; выполните сброс."
+		&"preview/rng_not_cloneable", &"preview/rng_state_mismatch": return "случайный эффект пока не поддерживает точный прогноз."
+		&"command_limit", &"event_limit", &"depth_limit", &"sequence_exhausted": return "цепь последствий не завершилась; точный итог недоступен."
+	return "Эта комбинация пока не поддерживается: " + String(reason)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:

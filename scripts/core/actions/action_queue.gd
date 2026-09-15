@@ -17,6 +17,11 @@ func _init(max_commands: int = 256, max_events: int = 512, max_depth: int = 32) 
 	_max_events = max_events
 	_max_depth = max_depth
 
+func copy_for_simulation() -> ActionQueue:
+	if _busy or _faulted or get_script() != ActionQueue: return null
+	# Только завершённая очередь: pending/reaction keys живут внутри одного submit.
+	return ActionQueue.new(_max_commands, _max_events, _max_depth)
+
 func submit(command: Command, context: ActionContext) -> ActionReceipt:
 	var receipt := ActionReceipt.new()
 	if context != null:

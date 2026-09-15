@@ -56,6 +56,12 @@ func attack_unit(id: int) -> ActionReceipt:
 	if target != null and target.faction == Faction.Type.PLAYER: return _reject(&"battle/friendly_target")
 	return super.attack_unit(id)
 
+func preview_attack(id: int) -> AttackForecast:
+	if not can_player_act(): return AttackForecast.rejected(&"battle/input_locked")
+	var target := board.get_unit_by_id(id)
+	if target != null and target.faction == Faction.Type.PLAYER: return AttackForecast.rejected(&"battle/friendly_target")
+	return super.preview_attack(id)
+
 func _submit(command: Command) -> ActionReceipt:
 	var receipt := super._submit(command)
 	# События смерти ещё могут породить реакции; только вернувшийся receipt завершает действие.

@@ -33,6 +33,19 @@ func get_revision() -> int: return _revision
 func is_busy() -> bool: return _busy
 func is_faulted() -> bool: return _faulted
 
+func simulation_counters() -> Dictionary:
+	return {"revision": _revision, "next_root_id": _next_root_id, "next_command_seq": _next_command_seq, "next_event_seq": _next_event_seq}
+
+func copy_for_simulation(state: ItemSimulationState, rng: ActionRngPort) -> ActionContext:
+	if _busy or _faulted or get_script() != ActionContext or state == null or rng == null: return null
+	# Счётчики влияют на admission и ограничение каскада, а не только на журнал.
+	var copy := ActionContext.new(state, rng, ActionEventSink.new(), _unsupported_runtime_ids, _move_rules, _attack_rules)
+	copy._revision = _revision
+	copy._next_root_id = _next_root_id
+	copy._next_command_seq = _next_command_seq
+	copy._next_event_seq = _next_event_seq
+	return copy
+
 func _take_root_id() -> int:
 	if _next_root_id >= MAX_ID: return 0
 	var value := _next_root_id

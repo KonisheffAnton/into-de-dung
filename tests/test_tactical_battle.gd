@@ -4,6 +4,7 @@ var _passed: int = 0
 var _failed: int = 0
 var _demo: BattleDemo
 var _captures: String = ""
+var _viewport: SubViewport
 
 class DrainProbe extends ActionEventSink:
 	var battle: BattleTacticalSession
@@ -31,13 +32,20 @@ func _run() -> void:
 	_test_ai()
 	var packed := load("res://scenes/demo/tactical_battle.tscn") as PackedScene
 	_demo = packed.instantiate() as BattleDemo
-	root.add_child(_demo)
+	# Самостоятельный viewport исполняет настоящий GUI picking без native mouse-exit окна.
+	_viewport = SubViewport.new()
+	_viewport.size = Vector2i(1280, 850)
+	_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	root.add_child(_viewport)
+	_viewport.add_child(_demo)
+	_viewport.notify_mouse_entered()
 	await process_frame
 	await process_frame
 	var battle := _demo.session as BattleTacticalSession
 	_check(battle != null and _demo.tactical_mode, "default tactical scene")
 	_check(_demo._phase_label.text.contains("Ваш ход") and not _demo._end_turn_button.disabled, "turn visible and enabled")
 	_check(not (_demo._roster.get_child(1) as Button).disabled and not (_demo._roster.get_child(2) as Button).disabled, "enemy roster inspectable; allies selectable")
+	await _test_attack_forecast_viewport()
 	await _test_enemy_inspection()
 	battle = _demo.session as BattleTacticalSession
 	await _capture("battle-01-start")
@@ -227,7 +235,7 @@ func _click_cell(cell: Vector2i, button: MouseButton = MOUSE_BUTTON_LEFT) -> voi
 		event.pressed = pressed
 		event.position = position
 		event.global_position = position
-		root.push_input(event, true)
+		_viewport.push_input(event, true)
 	await process_frame
 
 func _test_enemy_inspection() -> void:
@@ -291,6 +299,52 @@ func _test_enemy_inspection() -> void:
 	_demo.inspect_enemy(enemy.id)
 	_check(_demo.inspected_id == UnitId.NONE, "inspection cannot restore stale player-turn range during AI")
 	_demo.reset_demo()
+
+func _test_attack_forecast_viewport() -> void:
+	var battle := _demo.session as BattleTacticalSession
+	var actor := battle.units[4]
+	var target := battle.units[5]
+	var before := battle.board.to_snapshot_dict()
+	var revision := battle.context.get_revision()
+	_demo.select_character(actor.id)
+	await _key(KEY_A)
+	await process_frame
+	await process_frame
+	await _mouse_motion(_demo.board_view.cell_center(target.cell) - Vector2(0, 25.0 * _demo.board_view.grid_config.tile_size.x / 128.0))
+	_check(_demo.attack_mode and _demo.board_view.hover_cell == target.cell, "viewport hover enters attack target")
+	_check(_demo._forecast != null and _demo._forecast.status == &"APPLIED", "hover builds applied forecast")
+	_check(_demo._forecast_panel.text.contains("HP") and _demo._forecast_panel.text.contains("Последствия"), "forecast panel shows HP and receipt events")
+	_check(_demo._forecast_panel.text.contains(target.debug_name) and _demo._forecast_panel.text.contains("погиб"), "forecast shows lethal void outcome")
+	_check(_demo._stats.text.begins_with(target.debug_name) and battle.selected_id == actor.id, "hover inspects target while keeping actor")
+	var target_visual: BattleDemoIsoVisual
+	for visual in _demo.board_view._entity_visuals:
+		if visual.unit == target: target_visual = visual
+	_check(target_visual != null and target_visual.forecast_entry.get("after", {}).get("hp", -1.0) == 0.0, "target HP bar receives lethal final HP")
+	_check(battle.board.to_snapshot_dict() == before and battle.context.get_revision() == revision and actor.action_resources.get_main_left() == 1, "forecast hover does not mutate live state")
+	await _capture("battle-07-forecast")
+	var kept := _demo._forecast
+	await _mouse_motion(Vector2(_demo.board_view.size.x + 5, _demo._forecast_panel.global_position.y + 40 - _demo.board_view.global_position.y))
+	_check(_demo._forecast == kept, "crossing panel gap retains forecast")
+	await _mouse_motion(_demo._forecast_panel.global_position + Vector2(60, 40) - _demo.board_view.global_position)
+	_check(_demo._forecast == kept, "moving to details retains forecast for scrolling")
+	await _wheel_down(_demo._forecast_panel.global_position + Vector2(60, 40))
+	_check(_demo._forecast == kept and _demo._forecast_panel.get_v_scroll_bar().value > 0, "mouse wheel reads remaining forecast events")
+	await _capture("battle-10-forecast-details")
+	await _mouse_motion(Vector2(-12, -12))
+	_check(_demo._forecast == null and _demo._forecast_panel.text.contains("Наведите"), "viewport exit clears forecast")
+	_check(_demo._stats.text.begins_with(actor.debug_name), "mouse exit restores selected inspection")
+	await _mouse_motion(_demo.board_view.cell_center(target.cell))
+	_check(_demo._forecast != null, "hover returns after exit")
+	_demo.select_character(battle.units[0].id)
+	_check(_demo._forecast == null and not _demo.attack_mode, "selection clears forecast")
+	_demo.end_turn()
+	_check(_demo._forecast == null, "phase change clears forecast")
+	_demo.reset_demo()
+	_check(_demo._forecast == null and _demo.board_view.forecast == null, "reset clears forecast overlay")
+	await process_frame
+	await process_frame
+	# Боковая панель остаётся в окне; длинный осмотр и цепь прокручиваются внутри неё.
+	_check(_demo._instructions.get_global_rect().end.y <= _viewport.size.y and _demo.board_view.size.y >= 520, "panels fit viewport with usable board")
 	_demo.inspect_enemy(battle.units[1].id)
 	_demo.toggle_scenario()
 	_check(_demo.inspected_id == UnitId.NONE and _demo.board_view.inspection_cells.is_empty(), "mode switch clears inspection")
@@ -316,19 +370,68 @@ func _test_enemy_inspection() -> void:
 	_demo._refresh()
 	_check(_demo.inspected_id == UnitId.NONE and _demo.board_view.inspection_cells.is_empty(), "fault clears inspection")
 	_demo.reset_demo()
+	_demo.inspect_enemy((_demo.session as BattleTacticalSession).units[1].id)
+	_check(_demo._stats.text.contains("Лечение +2.0") and _demo._stats.text.contains("пока предмет активен") and not _demo._stats.text.contains("Амулет"), "inspection reads effect amount duration with hidden source")
+	await _capture("battle-08-inspection")
+	var inspection_scroll := _demo._stats.get_parent() as ScrollContainer
+	await _mouse_motion(inspection_scroll.global_position + Vector2(50, 60) - _demo.board_view.global_position)
+	await _wheel_down(inspection_scroll.global_position + Vector2(50, 60))
+	_check(inspection_scroll.scroll_vertical > 0, "inspection details scroll through viewport input")
+	await _capture("battle-11-inspection-effects")
+	_demo.reset_demo()
+	battle = _demo.session as BattleTacticalSession
+	# Та же атака меняет HP союзника за целью: bar обязан получить его отдельный итог.
+	battle.board.set_terrain(Vector2i(4, 5), TerrainType.Type.FLOOR)
+	battle.board.move_unit(battle.units[0], Vector2i(4, 5))
+	_demo.select_character(battle.units[2].id)
+	await _key(KEY_A)
+	await process_frame
+	await _mouse_motion(_demo.board_view.cell_center(battle.units[3].cell))
+	var collateral := false
+	for visual in _demo.board_view._entity_visuals:
+		if visual.unit == battle.units[0] and not visual.forecast_entry.is_empty():
+			collateral = visual.forecast_entry["after"]["hp"] < visual.forecast_entry["before"]["hp"]
+	_check(collateral and _demo._forecast_panel.text.contains("сталкивается"), "collateral ally HP bar and collision detail")
+	await _capture("battle-09-collateral")
+	await _mouse_motion(_demo.board_view.cell_center(battle.units[2].cell))
+	_check(_demo._forecast != null and _demo._forecast.status == ActionReceipt.REJECTED and _demo._forecast.units.is_empty(), "friendly/self hover explains refusal without HP overlay")
+	_demo.reset_demo()
 
 func _key(code: Key) -> void:
 	var event := InputEventKey.new()
 	event.keycode = code
 	event.pressed = true
-	root.push_input(event, true)
+	_viewport.push_input(event, true)
 	event.pressed = false
-	root.push_input(event, true)
+	_viewport.push_input(event, true)
+	await process_frame
+
+func _mouse_motion(position: Vector2) -> void:
+	var event := InputEventMouseMotion.new()
+	event.position = _demo.board_view.global_position + position
+	event.global_position = event.position
+	# Координаты в пространстве viewport: headless display не задаёт масштаб окна.
+	_viewport.push_input(event, true)
+	await process_frame
+	await process_frame
+
+func _wheel_down(position: Vector2) -> void:
+	for _step in 6:
+		var event := InputEventMouseButton.new()
+		event.position = position
+		event.global_position = position
+		event.button_index = MOUSE_BUTTON_WHEEL_DOWN
+		event.pressed = true
+		_viewport.push_input(event, true)
+		var release := event.duplicate() as InputEventMouseButton
+		release.pressed = false
+		_viewport.push_input(release, true)
+	await process_frame
 	await process_frame
 
 func _capture(label: String) -> void:
 	if _captures.is_empty(): return
 	await process_frame
 	await RenderingServer.frame_post_draw
-	var picture := root.get_texture().get_image()
+	var picture := _viewport.get_texture().get_image()
 	_check(picture != null and picture.save_png(_captures.path_join(label + ".png")) == OK, "capture " + label)

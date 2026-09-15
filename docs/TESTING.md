@@ -405,3 +405,23 @@ game_reviewer/Terra/high независимо прочитал fixed code/logs, 
 Итоговые counts, fixed review manifest, reviewer verdict и preservation audit фиксируются в CODEX_HANDOFF после завершения проверок. Чистый baseline1996/0 не считается приёмкой P08. UI не тестируется.
 
 P08 final fixed-v2: fresh isolated-3fa61e1678294e3aba7a0a7990b2efdc — import/startup PASS, 9440 passed / 0 failed, no SCRIPT ERROR. Targeted closure285/0. Verbose baseline1996/0 удерживает45 ObjectDB/18 ресурсов; full P08 —47/18, разница только2 WeakRef при том же количестве RefCounted/GDScript. Targeted closure без exit leaks. Это известное ограничение полного legacy runner, не новый цикл spatial subscriptions.
+
+
+## 2026-09-15 — прогноз атаки и осмотр
+
+`python tools/demo/isolate.py --check --full`: fresh import/startup, отдельный
+`tests/test_attack_forecast.gd`, весь прежний core, sandbox и tactical battle.
+`python tools/demo/isolate.py --render-check`: тот же forecast runner плюс
+оба графических runner и PNG. Launcher учитывает FORECAST RESULTS и ошибки отдельно
+от exit code. Full core сохраняет известные 47 ObjectDB / 18 resources; новый
+forecast runner и UI не должны давать выходных leaks.
+
+Forecast проверяет полные item/board snapshots, события, шаги, RNG и counters
+против настоящего live submit, повторяемость/отсутствие мутаций, расход main,
+предметный модификатор равновесия, лечение (включая итоговый прирост HP), стену,
+союзный collateral, падение/void/прямую смерть, busy/fault, неподдерживаемые RNG
+и runtime, stale/geometry/friendly/phase gates и сохранение лимитов очереди.
+Viewport добавляет hover через SubViewport.push_input (без native input рабочего стола), цель/HP bar/детали, выход мыши,
+переход к прокрутке панели, возврат осмотра союзника, reset/phase/selection и
+вместимость окна; старые сценарии осмотра и общая ENTITIES сортировка сохранены.
+Конкретные итоговые counts, PNG и fixed review manifest — в CODEX_HANDOFF.

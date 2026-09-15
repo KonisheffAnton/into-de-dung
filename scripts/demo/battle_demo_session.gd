@@ -143,6 +143,14 @@ func attack_unit(id: int) -> ActionReceipt:
 	var command := AttackCommand.new(actor.id, target.id, actor.cell, target.cell, &"demo_strike", context.get_revision())
 	return _submit(command)
 
+func preview_attack(id: int) -> AttackForecast:
+	var actor := selected_unit()
+	var target := board.get_unit_by_id(id) if board != null else null
+	if actor == null: return AttackForecast.rejected(&"attack/no_selected_unit")
+	if target == null or not target.is_alive(): return AttackForecast.rejected(&"attack/invalid_target")
+	if actor.id == target.id: return AttackForecast.rejected(&"attack/self_target")
+	return AttackForecast.build(context, _queue, AttackCommand.new(actor.id, target.id, actor.cell, target.cell, &"demo_strike", context.get_revision()))
+
 func _submit(command: Command) -> ActionReceipt:
 	if _queue == null or context == null:
 		return _reject(&"session/closed")
