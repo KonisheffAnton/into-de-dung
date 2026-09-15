@@ -12,6 +12,7 @@ var _hint: Label
 var _log: RichTextLabel
 var _move_button: Button
 var _attack_button: Button
+var _action_bar: BattleActionBar
 var _status: Label
 var _journal: Array[String] = []
 var _battle: BattleTacticalSession
@@ -82,7 +83,7 @@ func _build_ui() -> void:
 	for side in ["left", "right", "top", "bottom"]: margin.add_theme_constant_override("margin_" + side, 24)
 	add_child(margin)
 	var root := VBoxContainer.new()
-	root.add_theme_constant_override("separation", 8)
+	root.add_theme_constant_override("separation", 6)
 	margin.add_child(root)
 	var title := HBoxContainer.new()
 	root.add_child(title)
@@ -126,6 +127,12 @@ func _build_ui() -> void:
 	board_view.cell_hovered.connect(_hover)
 	board_view.cancel_requested.connect(set_attack_mode.bind(false))
 	left.add_child(board_view)
+	_action_bar = BattleActionBar.new()
+	_action_bar.name = "BattleActionBar"
+	_action_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_action_bar.action_requested.connect(_action_bar_requested)
+	_action_bar.visible = tactical_mode
+	root.add_child(_action_bar)
 	_hint = _label("", 14, Color("a5b3c5"))
 	_hint.custom_minimum_size.y = 40
 	left.add_child(_hint)
@@ -201,6 +208,19 @@ func set_attack_mode(enabled: bool) -> void:
 	inspected_id = UnitId.NONE
 	_refresh()
 
+func _action_bar_requested(action_id: StringName) -> void:
+	if not tactical_mode: return
+	match action_id:
+		&"attack": set_attack_mode(true)
+		&"guard": _use_guard()
+
+func _use_guard() -> void:
+	if _battle == null: return
+	_clear_forecast()
+	attack_mode = false
+	inspected_id = UnitId.NONE
+	_show_receipt(_battle.guard_selected())
+
 func select_character(id: int) -> void:
 	if session.select_unit(id):
 		inspected_id = UnitId.NONE
@@ -275,14 +295,25 @@ func _refresh() -> void:
 			inspected_id = UnitId.NONE
 	_heading.text = "intoDeDung   /   Бой у обрыва" if tactical_mode else "intoDeDung   /   Полигон"
 	_subtitle.text = "Трое против троих. Победите всех врагов; потеря команды означает поражение." if tactical_mode else "Поднимитесь по ступеням. Ударьте сверху. Столкните стража с уступа."
+	_subtitle.visible = not tactical_mode
+	_status.custom_minimum_size.y = 26 if tactical_mode else 46
 	_mode_button.text = "Полигон" if tactical_mode else "Бой против ИИ"
 	_phase_label.visible = tactical_mode
 	_end_turn_button.visible = tactical_mode
-	_instructions.text = "Свои — бирюзовые; враги — золотые. Осмотр: клик по врагу · A: атака · M: движение · Enter: конец хода · R: заново" if tactical_mode else "Ступени: Астра → D3 → A → Страж. Стена: Бор → A → Щит. Пропасть: Рей → A → Мишень на G7."
+	# В тактическом режиме атака должна иметь единственную точку входа в action bar;
+	# старая кнопка остаётся частью sandbox-полигона для совместимости.
+	_attack_button.visible = not tactical_mode
+	_instructions.text = "1 / A: атака · 2: защита · M: движение · Клик по врагу: осмотр · Enter: конец хода · R: заново" if tactical_mode else "Ступени: Астра → D3 → A → Страж. Стена: Бор → A → Щит. Пропасть: Рей → A → Мишень на G7."
 	var locked := _battle != null and not _battle.can_player_act()
 	_move_button.disabled = locked
 	_attack_button.disabled = locked
 	_end_turn_button.disabled = locked
+	_action_bar.visible = tactical_mode
+	if tactical_mode and _action_bar != null:
+		_action_bar.set_slot_enabled(&"attack", not locked, "Сейчас нельзя действовать." if locked else "1 основное действие")
+		var guard_reason := _battle.guard_reason() if _battle != null else &"battle/input_locked"
+		var guard_enabled := not locked and guard_reason == &""
+		_action_bar.set_slot_enabled(&"guard", guard_enabled, "1 основное действие" if guard_enabled else _reason_text(guard_reason))
 	if _battle != null:
 		_phase_label.text = _battle.phase_text()
 		while _flow_cursor < _battle.flow_log.size():
@@ -302,7 +333,8 @@ func _refresh() -> void:
 		child.queue_free()
 	for unit in session.units:
 		var alive := unit.is_alive()
-		var text := "%s  ·  %s" % [unit.debug_name, "HP %.1f / %.1f" % [unit.vitals.get_hp(), unit.get_stat(StatTypes.StatType.HP_MAX)] if alive else "погиб"]
+		var stance := " · ОХРАНА" if unit.guard_stance and alive else ""
+		var text := "%s%s  ·  %s" % [unit.debug_name, stance, "HP %.1f / %.1f" % [unit.vitals.get_hp(), unit.get_stat(StatTypes.StatType.HP_MAX)] if alive else "погиб"]
 		var button := _button(text)
 		button.custom_minimum_size.y = 30
 		button.toggle_mode = true
@@ -355,6 +387,8 @@ func _inspection_text(unit: UnitState) -> String:
 						elif modifier.get_operation() == StatModifier.Operation.MULTIPLY: amount = "×%.2f" % modifier.get_value()
 						descriptions.append("%s %s; пока предмет активен." % [_stat_name(modifier.get_stat_type()), amount])
 					else: descriptions.append("Неизвестный активный эффект; описание недоступно.")
+	if unit.guard_stance:
+		text += "\nОхранная стойка: прямой урон −30%, воздействие −50% до следующего хода команды; движение и атака снимают стойку."
 	text += "\nЭффекты: " + ("нет активных." if descriptions.is_empty() else "\n" + "\n".join(descriptions))
 	return text
 
@@ -499,6 +533,7 @@ func _event_text(event: Dictionary) -> String:
 	var target := _name_for(int(event.get("target_unit_id", 0)))
 	match StringName(event.get("kind", &"")):
 		&"attacked": return "%s атакует %s." % [actor, target]
+		&"guarded": return "%s занимает охранную стойку (1 основное действие)." % actor
 		&"damaged":
 			var source: Dictionary = event.get("source", {})
 			var cause := " от падения" if source.get("kind", &"") == &"fall" else ""
@@ -538,6 +573,12 @@ func _reason_text(reason: StringName) -> String:
 		&"attack/missing_target", &"attack/invalid_target", &"attack/dead_target": return "живой цели больше нет на поле."
 		&"BUSY": return "дождитесь завершения действия."
 		&"CONTEXT_FAULTED": return "бой остановлен; выполните сброс."
+		&"guard/already_active": return "охранная стойка уже активна."
+		&"guard/insufficient_main": return "недостаточно основных действий."
+		&"guard/no_selected_unit": return "выберите живого персонажа."
+		&"guard/not_admitted": return "персонаж не может занять стойку."
+		&"guard/stale_revision": return "состояние боя изменилось; повторите попытку."
+		&"guard/invalid_runtime": return "состояние персонажа повреждено; сбросьте бой."
 		&"preview/rng_not_cloneable", &"preview/rng_state_mismatch": return "случайный эффект пока не поддерживает точный прогноз."
 		&"command_limit", &"event_limit", &"depth_limit", &"sequence_exhausted": return "цепь последствий не завершилась; точный итог недоступен."
 	return "Эта комбинация пока не поддерживается: " + String(reason)
@@ -545,6 +586,12 @@ func _reason_text(reason: StringName) -> String:
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		match event.keycode:
+			KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8:
+				if tactical_mode and _action_bar != null:
+					var slot := int(event.keycode - KEY_0)
+					if slot == 1: set_attack_mode(true)
+					elif slot == 2: _use_guard()
+					else: _action_bar.activate_slot(slot)
 			KEY_A: set_attack_mode(true)
 			KEY_M, KEY_ESCAPE: set_attack_mode(false)
 			KEY_R: reset_demo()

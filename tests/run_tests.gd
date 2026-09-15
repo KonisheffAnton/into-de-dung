@@ -1066,7 +1066,7 @@ func _test_p06_a10_rejections() -> void:
 	extra["extra"] = true
 	_check(not UnitState.validate_snapshot_dict(extra), "P06 A10 extra unit key invalid")
 	var v3 := v1.duplicate(true)
-	v3["schema_version"] = 3
+	v3["schema_version"] = 99
 	_check(not UnitState.validate_snapshot_dict(v3), "P06 A10 unknown unit version rejected")
 	_check(ActionResources.from_snapshot_dict({"schema_version": 2, "owner_unit_id": unit.id, "main_left": 0, "bonus_left": 0}, unit.id) == null, "P06 A10 unknown resource version rejected")
 	_check(ActionResources.from_snapshot_dict({"schema_version": 1, "owner_unit_id": unit.id, "main_left": 4097, "bonus_left": 0}, unit.id) == null, "P06 A10 resource range rejected")
@@ -1100,16 +1100,16 @@ func _test_p06_a10_rejections() -> void:
 	missing_resource_version["board"]["units"][0]["action_resources"].erase("schema_version")
 	_check(SimulationSnapshot.from_dict(missing_resource_version).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 missing resource version invalid")
 	var unknown_unit := snapshot.to_dict()
-	unknown_unit["board"]["units"][0]["schema_version"] = 3
-	_check(SimulationSnapshot.from_dict(unknown_unit).code == BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, "P06 A10 Unit3 in v2 shape unsupported")
+	unknown_unit["board"]["units"][0]["schema_version"] = 99
+	_check(SimulationSnapshot.from_dict(unknown_unit).code == BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, "P06 A10 Unit99 in v2 shape unsupported")
 	var malformed_unknown_unit := snapshot.to_dict()
-	malformed_unknown_unit["board"]["units"][0]["schema_version"] = 3
+	malformed_unknown_unit["board"]["units"][0]["schema_version"] = 99
 	malformed_unknown_unit["board"]["units"][0]["extra"] = 1
-	_check(SimulationSnapshot.from_dict(malformed_unknown_unit).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 malformed Unit3 remains invalid")
+	_check(SimulationSnapshot.from_dict(malformed_unknown_unit).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 malformed Unit99 remains invalid")
 	var malformed_unknown_unit_ledger := snapshot.to_dict()
-	malformed_unknown_unit_ledger["board"]["units"][0]["schema_version"] = 3
+	malformed_unknown_unit_ledger["board"]["units"][0]["schema_version"] = 99
 	malformed_unknown_unit_ledger["board"]["units"][0]["action_resources"]["extra"] = 1
-	_check(SimulationSnapshot.from_dict(malformed_unknown_unit_ledger).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 Unit3 malformed ledger remains invalid")
+	_check(SimulationSnapshot.from_dict(malformed_unknown_unit_ledger).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 Unit99 malformed ledger remains invalid")
 	var unknown_resource := snapshot.to_dict()
 	unknown_resource["board"]["units"][0]["action_resources"]["schema_version"] = 2
 	_check(SimulationSnapshot.from_dict(unknown_resource).code == BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, "P06 A10 ActionResources2 unsupported")
@@ -1138,8 +1138,8 @@ func _test_p06_a10_rejections() -> void:
 	var item_fixture := _p06_p03b_resources()
 	var item_snapshot := ItemSimulationSnapshot.capture(item_fixture.state, []).snapshot
 	var item_unknown := item_snapshot.to_dict()
-	item_unknown["board_snapshot"]["board"]["units"][0]["schema_version"] = 3
-	_check(ItemSimulationSnapshot.from_dict(item_unknown).code == ItemSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, "P06 A10 P03b Unit3 unsupported")
+	item_unknown["board_snapshot"]["board"]["units"][0]["schema_version"] = 99
+	_check(ItemSimulationSnapshot.from_dict(item_unknown).code == ItemSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, "P06 A10 P03b Unit99 unsupported")
 	var item_malformed := item_snapshot.to_dict()
 	item_malformed["board_snapshot"]["board"]["units"][0]["action_resources"].erase("main_left")
 	_check(ItemSimulationSnapshot.from_dict(item_malformed).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 P03b malformed ledger invalid")
@@ -2732,7 +2732,7 @@ func _test_p02_a10_rejections() -> void:
 		_p02_expect(bad, BoardSnapshotResult.Code.SNAPSHOT_INVALID, "A10 duplicate/key " + kind)
 	var unsupported_cases: Array = [
 		[["schema_version"], 2], [["scope"], "future"], [["board", "schema_version"], 3],
-		[["board", "units", 0, "schema_version"], 3], [["board", "units", 0, "ai_profile_path"], "res://future.tres"],
+		[["board", "units", 0, "schema_version"], 99], [["board", "units", 0, "ai_profile_path"], "res://future.tres"],
 		[["board", "units", 0, "stats", "schema_version"], 2],
 		[["board", "units", 0, "stats", "stats", 3, "stat", "schema_version"], 2],
 		[["board", "units", 0, "stats", "stats", 3, "stat", "modifiers", 0, "instance_id"], 1],
@@ -6697,7 +6697,7 @@ func _test_p08_unknown_malformed_priority() -> void:
 				"unit_type": board.units[0] = "bad"
 				"occupancy_type": board.occupancy = "bad"
 				"occupant_type": board.occupancy[0] = "bad"
-				"unit_version": board.units[0].schema_version = 3
+				"unit_version": board.units[0].schema_version = 99
 			var copy := raw.duplicate(true)
 			var board_result := SimulationSnapshot.from_dict(raw.board_snapshot)
 			var item_result := ItemSimulationSnapshot.from_dict(raw)

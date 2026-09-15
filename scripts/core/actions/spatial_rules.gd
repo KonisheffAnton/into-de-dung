@@ -105,6 +105,7 @@ class Guard extends RefCounted:
 			if state.get_inventory(id) != r["inventory"] or state.get_equipment(id) != r["equipment"]: return false
 			if unit.cell != v["cell"] or unit.height != v["height"] or board.get_height_steps(unit.cell) != v["height_steps"]: return false
 			if vitals._hp != v["hp"] or vitals._is_alive != v["alive"] or vitals._balance != v["balance"] or unit.move_points_left != v["move"]: return false
+			if unit.guard_stance != v["guard_stance"]: return false
 			if resources != null and (resources.get_owner_unit_id() != id or resources.get_main_left() != v["main"] or resources.get_bonus_left() != v["bonus"]): return false
 			var occupied: Array[Vector2i] = []
 			for cell: Vector2i in board._occupancy:
@@ -120,6 +121,12 @@ class Guard extends RefCounted:
 		var result := copy()
 		result.values["participants"][id]["main"] -= main_cost
 		result.values["participants"][id]["move"] -= move_cost
+		result.seal()
+		return result
+
+	func stance(id: int, active: bool) -> Guard:
+		var result := copy()
+		result.values["participants"][id]["guard_stance"] = active
 		result.seal()
 		return result
 
@@ -210,5 +217,6 @@ static func capture_guard(context: ActionContext, units: Array[UnitState], cells
 		guard.refs["participants"][unit.id] = {"unit": unit, "stats": stats, "vitals": vitals, "owner": owner, "resources": resources, "inventory": inventory, "equipment": equipment}
 		guard.values["participants"][unit.id] = {"cell": unit.cell, "height": unit.height, "height_steps": board.get_height_steps(unit.cell), "hp": vitals._hp, "alive": vitals._is_alive, "balance": vitals._balance, "move": unit.move_points_left, "main": resources.get_main_left() if resources != null else 0, "bonus": resources.get_bonus_left() if resources != null else 0, "occupancy": [unit.cell], "lifecycle": lifecycle, "stats": stats_values}
 		guard.values["geometry"][unit.cell] = [board.get_height_steps(unit.cell), board.get_terrain(unit.cell), unit.id]
+		guard.values["participants"][unit.id]["guard_stance"] = unit.guard_stance
 	guard.seal()
 	return guard if guard.check(context) else null

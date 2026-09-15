@@ -48,6 +48,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	if not resources.try_spend_main(1):
 		return CommandStepResult.faulted(&"attack/invalid_runtime")
 	actor.has_attacked = true
+	actor.guard_stance = false
 	return CommandStepResult.applied([event], [hit], [], null, true)
 
 func _prepare(context: ActionContext) -> Dictionary:
@@ -142,6 +143,7 @@ func _prepare(context: ActionContext) -> Dictionary:
 	if not is_finite(raw):
 		result["reason"] = &"attack/nonfinite_damage"; return result
 	var amount := maxf(1.0, raw)
+	if target.guard_stance: amount = maxf(1.0, amount * 0.7)
 	var source := DamageSource.new(&"attack", 0, actor.cell, actor.id, actor.id)
 	var request := DamageRequest.new(target.id, amount, &"physical", &"bypass", source)
 	if ActionHpExecutor.validate_damage(request, context) != &"":

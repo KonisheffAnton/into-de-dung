@@ -170,11 +170,20 @@ func _execute_edge(context: ActionContext, board: BattleBoard, actor: UnitState)
 	if board.board_version < 0 or board.board_version > MAX_ID - required:
 		return CommandStepResult.faulted(&"move/board_version_exhausted")
 	var before := actor.move_points_left
+	var stance_before := actor.guard_stance
+	actor.guard_stance = false
 	if not board.move_unit(actor, to_cell):
+		actor.guard_stance = stance_before
 		return CommandStepResult.faulted(&"move/board_move_failed")
 	actor.spend_move_points(cost)
 	var after := actor.move_points_left
 	var event: Dictionary = {"kind": &"moved", "actor_unit_id": actor.id, "target_unit_id": actor.id, "from_cell": from_cell, "to_cell": to_cell, "movement_kind": &"voluntary", "move_cost": cost, "move_before": before, "move_after": after}
+	# Legacy callback не вправе вернуть добровольно снятую стойку; вход уже оплачен.
+	if actor.guard_stance:
+		var failure := CommandStepResult.faulted(&"move/invalid_runtime")
+		failure.events = [event]
+		failure.state_changed = true
+		return failure
 	_continuation_index += 1
 	var mandatory: Array[Command] = []
 	if is_hazard:
@@ -213,11 +222,14 @@ func _execute_spatial_edge(context: ActionContext, board: BattleBoard, actor: Un
 	var cost := check.get_costs()[0]
 	var after := before - cost
 	var id := actor.id
-	var moved := guard.debit(id, 0, cost).moved(id, to)
+	var moved := guard.debit(id, 0, cost).stance(id, false).moved(id, to)
 	# Callback положения должен уже видеть оплату; между этими операциями нет внешнего кода.
 	actor.spend_move_points(cost)
+	var stance_before := actor.guard_stance
+	actor.guard_stance = false
 	if not board.move_unit(actor, to):
 		actor.move_points_left = before
+		actor.guard_stance = stance_before
 		return CommandStepResult.faulted(&"move/board_move_failed")
 	var event := {"kind": &"moved", "actor_unit_id": id, "target_unit_id": id, "from_cell": from, "to_cell": to, "movement_kind": &"voluntary", "move_cost": cost, "move_before": before, "move_after": after}
 	if not moved.check(context):

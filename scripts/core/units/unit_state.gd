@@ -72,6 +72,8 @@ var move_points_left: float = 0.0
 var has_attacked: bool = false
 
 var action_resources: ActionResources = null
+## Стойка принадлежит runtime; срок командного хода задаёт BattleTurnRefill.
+var guard_stance: bool = false
 
 
 ## Фабрика: выдаёт новый id, создаёт Vitals на полном HP и заполняет очки хода.
@@ -212,7 +214,7 @@ func can_attack() -> bool:
 # --- Сериализация (R-4) ----------------------------------------------------
 
 func to_dict() -> Dictionary:
-	if action_resources != null:
+	if action_resources != null or guard_stance:
 		return {}
 	return {
 		"id": id,
@@ -286,6 +288,10 @@ func to_snapshot_dict() -> Dictionary:
 		if action_resources.get_script() != ActionResources or action_resources.validate(id) != &"": return {}
 		result["schema_version"] = 2
 		result["action_resources"] = action_resources.to_snapshot_dict()
+	if guard_stance:
+		if action_resources == null: return {}
+		result["schema_version"] = 3
+		result["guard_stance"] = guard_stance
 	return result
 
 
@@ -301,9 +307,10 @@ static func from_snapshot_dict(data: Dictionary) -> UnitState:
 	unit.has_attacked = data["has_attacked"]
 	unit.stats = StatsBag.from_snapshot_dict(data["stats"])
 	unit.vitals = Vitals.from_dict(data["vitals"], unit.stats)
-	if data["schema_version"] == 2:
+	if data["schema_version"] in [2, 3]:
 		unit.action_resources = ActionResources.from_snapshot_dict(data["action_resources"], unit.id)
 		if unit.action_resources == null: return null
+	unit.guard_stance = data.get("guard_stance", false)
 	return unit
 
 
@@ -311,15 +318,18 @@ static func validate_snapshot_dict(data: Variant) -> bool:
 	if typeof(data) != TYPE_DICTIONARY: return false
 	var d: Dictionary = data
 	var base_required := ["schema_version", "id", "faction", "cell_x", "cell_y", "height", "debug_name", "ai_profile_path", "move_points_left", "has_attacked", "stats", "vitals"]
-	if typeof(data.get("schema_version")) != TYPE_INT or (data["schema_version"] != 1 and data["schema_version"] != 2): return false
+	if typeof(data.get("schema_version")) != TYPE_INT or data["schema_version"] not in [1, 2, 3]: return false
 	var required := base_required if data["schema_version"] == 1 else base_required + ["action_resources"]
+	if data["schema_version"] == 3:
+		required.append("guard_stance")
+		if typeof(data.get("guard_stance")) != TYPE_BOOL: return false
 	if not _has_exact_string_keys(d, required): return false
 	for key in ["schema_version", "id", "faction", "cell_x", "cell_y", "height"]:
 		if typeof(d[key]) != TYPE_INT: return false
 	if d["id"] < UnitId.FIRST or d["faction"] < 0 or d["faction"] > 2 or d["cell_x"] < -2147483648 or d["cell_x"] > 2147483647 or d["cell_y"] < -2147483648 or d["cell_y"] > 2147483647: return false
 	if typeof(d["debug_name"]) != TYPE_STRING or typeof(d["ai_profile_path"]) != TYPE_STRING or not d["ai_profile_path"].is_empty() or typeof(d["move_points_left"]) != TYPE_FLOAT or not is_finite(d["move_points_left"]) or d["move_points_left"] < 0.0 or typeof(d["has_attacked"]) != TYPE_BOOL: return false
 	if not StatsBag.validate_snapshot_dict(d["stats"]): return false
-	if d["schema_version"] == 2 and not ActionResources.validate_snapshot_dict(d["action_resources"], d["id"]): return false
+	if d["schema_version"] in [2, 3] and not ActionResources.validate_snapshot_dict(d["action_resources"], d["id"]): return false
 	if typeof(d["vitals"]) != TYPE_DICTIONARY: return false
 	var v: Dictionary = d["vitals"]
 	if not _has_exact_string_keys(v, ["hp", "balance", "is_alive"]): return false

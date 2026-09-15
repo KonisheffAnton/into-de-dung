@@ -10,6 +10,7 @@ var _target_cell: Vector2i
 var _main_after: int
 var _p07_binding: BalancePushRules.Binding
 var _has_p07_binding: bool
+var _target_guard_stance: bool
 
 func _init(prepared_request: DamageRequest = null, actor: UnitState = null, target: UnitState = null, resources: ActionResources = null, actor_cell: Vector2i = Vector2i.ZERO, target_cell: Vector2i = Vector2i.ZERO, main_after: int = 0, p07_binding: BalancePushRules.Binding = null) -> void:
 	super(prepared_request.copy() if prepared_request != null else null)
@@ -22,6 +23,7 @@ func _init(prepared_request: DamageRequest = null, actor: UnitState = null, targ
 	_main_after = main_after
 	_p07_binding = p07_binding.copy() if p07_binding != null else null
 	_has_p07_binding = p07_binding != null
+	_target_guard_stance = target.guard_stance if target != null else false
 
 func get_kind() -> StringName: return &"attack_hit"
 
@@ -29,6 +31,7 @@ func copy_for_queue() -> Command:
 	var copy := AttackHitCommand.new(request.copy() if request != null else null, _actor, _target, _resources, _actor_cell, _target_cell, _main_after, _p07_binding)
 	copy._seal = _seal.copy() if _seal != null else null
 	copy._has_p07_binding = _has_p07_binding
+	copy._target_guard_stance = _target_guard_stance
 	return copy
 
 func validate(context: ActionContext) -> StringName:
@@ -47,6 +50,10 @@ func execute(context: ActionContext) -> CommandStepResult:
 			spatial_result.mandatory.append(BalanceCommand.new(next))
 		return spatial_result
 	var result := super.execute(context)
+	# Для legacy HP pipeline также сохраняем отказ с реальным префиксом урона.
+	if result.status == &"APPLIED" and (_actor.guard_stance or _target.guard_stance != _target_guard_stance):
+		result.status = &"FAULTED"
+		result.reason = &"attack/invalid_hit"
 	if result.status == &"APPLIED" and _p07_binding != null and _target.is_alive() and float(_p07_binding.values.get("impact", 0.0)) > 0.0 and float(_p07_binding.values.get("balance_max", 0.0)) > 0.0:
 		result.mandatory.append(BalanceCommand.new(_p07_binding))
 	return result
@@ -55,6 +62,7 @@ func _binding_reason(context: ActionContext) -> StringName:
 	if context == null or context.get_state() == null or context.get_state().get_board() == null or request == null or _seal == null or _actor == null or _target == null or _resources == null:
 		return &"attack/invalid_hit"
 	if not _same_request(request, _seal): return &"attack/invalid_hit"
+	if _actor.guard_stance or _target.guard_stance != _target_guard_stance: return &"attack/invalid_hit"
 	if _has_p07_binding:
 		if _p07_binding == null: return &"attack/invalid_hit"
 		var p07_reason := BalancePushRules.binding_reason(_p07_binding, context, &"balance", true)

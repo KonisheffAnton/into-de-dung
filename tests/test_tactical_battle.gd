@@ -43,8 +43,10 @@ func _run() -> void:
 	await process_frame
 	var battle := _demo.session as BattleTacticalSession
 	_check(battle != null and _demo.tactical_mode, "default tactical scene")
+	_check(not _demo._attack_button.visible, "sandbox attack toolbar hidden in tactical mode")
 	_check(_demo._phase_label.text.contains("Ваш ход") and not _demo._end_turn_button.disabled, "turn visible and enabled")
 	_check(not (_demo._roster.get_child(1) as Button).disabled and not (_demo._roster.get_child(2) as Button).disabled, "enemy roster inspectable; allies selectable")
+	await _test_action_bar()
 	await _test_attack_forecast_viewport()
 	await _test_enemy_inspection()
 	battle = _demo.session as BattleTacticalSession
@@ -109,6 +111,76 @@ func _run() -> void:
 	_check(closed.board == null and closed.context == null, "exit during AI closes runtime")
 	print("BATTLE RESULTS: %d passed, %d failed" % [_passed, _failed])
 	quit(0 if _failed == 0 else 1)
+
+func _test_action_bar() -> void:
+	var bar := _demo._action_bar
+	_check(bar != null and bar.visible and bar._buttons.size() == 8, "tactical action bar has fixed eight visible slots")
+	_check(bar._up_button.disabled and bar._down_button.disabled, "empty dynamic action page has disabled arrows")
+	var requested: Array[StringName] = []
+	var capture_request := func(action_id: StringName) -> void: requested.append(action_id)
+	bar.action_requested.connect(capture_request)
+	var before_pages := _demo.session.board.to_snapshot_dict()
+	var descriptors: Array[Dictionary] = []
+	for index in 13:
+		descriptors.append({"action_id": StringName("synthetic_%d" % index), "label": "Слот %d" % index, "tooltip": "synthetic"})
+	bar.set_dynamic_descriptors(descriptors)
+	_check(bar._buttons[0].text.begins_with("1  Атака") and bar._buttons[0].text.contains("1 основное") and bar._buttons[1].text.contains("1 основное"), "fixed actions stay stable on dynamic pages")
+	_check(not bar._down_button.disabled and bar._up_button.disabled, "dynamic descriptors enable forward page")
+	await _click_control(bar._down_button)
+	_check(bar._up_button.disabled == false and bar._buttons[2].text.contains("Слот 6"), "dynamic page advances with six slots")
+	await _click_control(bar._down_button)
+	_check(bar._down_button.disabled and bar._buttons[2].get_meta("action_id") == &"synthetic_12" and bar._buttons[3].disabled, "last page bounded with empty remaining slots")
+	await _key(KEY_3)
+	_check(requested == [&"synthetic_12"] and _demo.session.board.to_snapshot_dict() == before_pages, "numeric dynamic slot uses displayed descriptor without game mutation")
+	_check(bar._buttons[0].get_meta("action_id") == &"attack" and bar._buttons[1].get_meta("action_id") == &"guard", "fixed actions persist on last page")
+	await _click_control(bar._up_button)
+	await _click_control(bar._up_button)
+	_check(bar._up_button.disabled and bar._buttons[2].get_meta("action_id") == &"synthetic_0", "first page restores first dynamic action")
+	bar.set_dynamic_descriptors([])
+	var battle := _demo.session as BattleTacticalSession
+	_demo.select_character(battle.units[0].id)
+	_check(bar._buttons[0].text.contains("1 основное") and bar._buttons[1].text.contains("1 основное"), "fixed action costs remain visible")
+	await _capture("battle-12-actions")
+	await _click_control(bar._buttons[1])
+	_check(battle.units[0].guard_stance and battle.units[0].action_resources.get_main_left() == 0, "GUI guard spends one main")
+	await _key(KEY_2)
+	_check(battle.units[0].action_resources.get_main_left() == 0 and _demo._status.text.contains("отклонено"), "repeated guard is refused with visible status")
+	_demo.reset_demo()
+	_demo.select_character(battle.units[0].id)
+	await _key(KEY_1)
+	_check(_demo.attack_mode, "numeric one matches A attack mode")
+	await _mouse_motion(_demo.board_view.cell_center(battle.units[1].cell))
+	_check(_demo._forecast != null, "guard starts with existing hover forecast")
+	await _key(KEY_2)
+	_check(battle.units[0].guard_stance, "numeric two activates guard")
+	_check(not _demo.attack_mode and _demo.inspected_id == UnitId.NONE and _demo._forecast == null, "guard clears forecast and inspection")
+	await _capture("battle-13-guard")
+	_demo.reset_demo()
+	_demo.select_character(battle.units[2].id)
+	await _click_cell(battle.units[1].cell)
+	_check(battle.selected_id == battle.units[2].id and _demo.inspected_id == battle.units[1].id, "enemy inspection preserves selected ally")
+	await _key(KEY_2)
+	_check(battle.units[2].guard_stance and not battle.units[1].guard_stance and _demo.inspected_id == UnitId.NONE, "guard targets selected ally during enemy inspection")
+	_demo.select_character(battle.units[0].id)
+	_check(not bar._buttons[1].disabled and battle.units[2].guard_stance, "switch preserves other guard and refreshes availability")
+	_demo.select_character(battle.units[2].id)
+	bar.set_dynamic_descriptors(descriptors)
+	await _click_control(bar._down_button)
+	_check(bar._buttons[1].disabled and bar._buttons[1].tooltip_text.contains("уже активна"), "page retains fixed disabled reason")
+	bar.set_dynamic_descriptors([])
+	_demo.reset_demo()
+	await _key(KEY_ENTER)
+	_check(bar._buttons[1].disabled, "guard disabled while enemy turn is locked")
+	_demo.reset_demo()
+	# Защита цели должна менять настоящий hover-результат, а не только подпись UI.
+	battle._submit(GuardCommand.new(battle.units[3].id, battle.context.get_revision()))
+	_demo.select_character(battle.units[2].id)
+	await _key(KEY_1)
+	await _mouse_motion(_demo.board_view.cell_center(battle.units[3].cell) - Vector2(0, 25.0 * _demo.board_view.grid_config.tile_size.x / 128.0))
+	_check(_demo._forecast != null and _demo._forecast.status == ActionReceipt.APPLIED and is_equal_approx(_demo._forecast.units[battle.units[3].id]["after"]["hp"], 26.4), "UI forecast includes target stance")
+	await _capture("battle-14-guard-forecast")
+	_demo.reset_demo()
+	bar.action_requested.disconnect(capture_request)
 
 func _test_flow() -> void:
 	var battle := BattleTacticalSession.new()
@@ -232,6 +304,17 @@ func _click_cell(cell: Vector2i, button: MouseButton = MOUSE_BUTTON_LEFT) -> voi
 	for pressed: bool in [true, false]:
 		var event := InputEventMouseButton.new()
 		event.button_index = button
+		event.pressed = pressed
+		event.position = position
+		event.global_position = position
+		_viewport.push_input(event, true)
+	await process_frame
+
+func _click_control(control: Control) -> void:
+	var position := control.global_position + control.size * 0.5
+	for pressed: bool in [true, false]:
+		var event := InputEventMouseButton.new()
+		event.button_index = MOUSE_BUTTON_LEFT
 		event.pressed = pressed
 		event.position = position
 		event.global_position = position

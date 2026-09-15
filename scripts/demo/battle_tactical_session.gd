@@ -62,6 +62,17 @@ func preview_attack(id: int) -> AttackForecast:
 	if target != null and target.faction == Faction.Type.PLAYER: return AttackForecast.rejected(&"battle/friendly_target")
 	return super.preview_attack(id)
 
+func guard_reason() -> StringName:
+	if not can_player_act(): return &"battle/input_locked"
+	var actor := selected_unit()
+	if actor == null or actor.faction != Faction.Type.PLAYER: return &"guard/no_selected_unit"
+	return GuardCommand.new(actor.id, context.get_revision()).validate(context)
+
+func guard_selected() -> ActionReceipt:
+	var reason := guard_reason()
+	if reason != &"": return _reject(reason)
+	return _submit(GuardCommand.new(selected_id, context.get_revision()))
+
 func _submit(command: Command) -> ActionReceipt:
 	var receipt := super._submit(command)
 	# События смерти ещё могут породить реакции; только вернувшийся receipt завершает действие.

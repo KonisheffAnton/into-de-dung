@@ -79,6 +79,7 @@ static func prepare_attack(context: ActionContext, actor: UnitState, target: Uni
 	# Иммунитет и нулевой impact не вычисляют сумму: импортированный over-max
 	# balance остаётся наблюдаемым и не отклоняет постороннюю атаку.
 	var sum := before
+	if target.guard_stance: impact *= 0.5
 	if impact > 0.0 and maximum > 0.0:
 		sum = before + impact
 		if not is_finite(sum): out["reason"] = &"balance/nonfinite_sum"; return out
@@ -292,7 +293,7 @@ static func spatial_valid(binding: Binding, context: ActionContext, phase: Strin
 		if not guard.refs["participants"].has(id): return false
 		var pinned: Dictionary = guard.refs["participants"][id]
 		if pinned["unit"] != unit or pinned["stats"] != binding.get(role + "_stats") or pinned["vitals"] != binding.get(role + "_vitals") or pinned["owner"] != binding.get(role + "_owner"): return false
-	return guard.debit(binding.actor.id, -1, 0.0).check(context) if admission else guard.check(context)
+	return guard.debit(binding.actor.id, -1, 0.0).stance(binding.actor.id, binding.values["actor_guard_before"]).check(context) if admission else guard.check(context)
 
 static func spatial_phase(binding: Binding, guard: SpatialRules.Guard, phase: StringName) -> Binding:
 	var next := binding.copy()
@@ -358,6 +359,7 @@ static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, ta
 		impact *= multiplier
 		if not is_finite(impact): out["reason"] = &"balance/invalid_stat"; return out
 		impact = maxf(1.0, impact)
+	if target.guard_stance: impact *= 0.5
 	var total := before + impact if impact > 0.0 and maximum > 0.0 else before
 	if not is_finite(total): out["reason"] = &"balance/nonfinite_sum"; return out
 	var broke := impact > 0.0 and maximum > 0.0 and total >= maximum
@@ -389,8 +391,9 @@ static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, ta
 	if blocker != null:
 		binding.blocker_stats = blocker.stats; binding.blocker_vitals = blocker.vitals; binding.blocker_owner = state.get_owner(blocker.id)
 	binding.attack_source = DamageSource.new(&"attack", 0, actor.cell, actor.id, actor.id)
-	binding.spatial_guard = guard.debit(actor.id, 1, 0.0)
+	binding.spatial_guard = guard.debit(actor.id, 1, 0.0).stance(actor.id, false)
 	binding.values = {"spatial": true, "phase": &"balance", "actor_id": actor.id, "target_id": target.id, "blocker_id": blocker.id if blocker != null else 0, "raw_attack": raw_attack, "hit_amount": hit_amount, "impact": impact, "multiplier": multiplier, "balance_before": before, "balance_after": 0.0 if broke else total, "balance_max": maximum, "broke": broke, "main_after": main_after, "direction": direction, "attack_source": binding.attack_source.to_dict(), "expected_hp_before": target.vitals.get_hp()}
+	binding.values["actor_guard_before"] = actor.guard_stance
 	binding = spatial_phase(binding, binding.spatial_guard, &"balance")
 	if not spatial_valid(binding, context, &"balance", true): out["reason"] = &"balance/invalid_binding"; return out
 	if broke and target.vitals.get_hp() > hit_amount:

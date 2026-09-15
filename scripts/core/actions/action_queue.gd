@@ -11,6 +11,7 @@ var _pending: Array[Dictionary] = []
 var _processed_event_seq: Dictionary = {}
 var _reaction_keys: Dictionary = {}
 var _dispatch_reason: StringName = &""
+var _attack_stances: Array[Dictionary] = []
 
 func _init(max_commands: int = 256, max_events: int = 512, max_depth: int = 32) -> void:
 	_max_commands = max_commands
@@ -73,6 +74,11 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 		return _reject(receipt, reason)
 	receipt.status = &"APPLIED"
 	receipt.root_id = context._take_root_id()
+	if accepted is AttackCommand:
+		var attacker := (accepted as AttackCommand).get_actor_unit_id()
+		# Срок отмены — весь каскад атаки, включая legacy balance/push и item-heal.
+		for unit in context.get_state().get_board().get_all_units():
+			_attack_stances.append({"unit": unit, "expected": false if unit.id == attacker else unit.guard_stance})
 	_pending.append({"command": accepted, "parent_event_seq": 0, "depth": 0})
 	while not _pending.is_empty() and receipt.status != &"FAULTED":
 		var entry: Dictionary = _pending.pop_back()
@@ -140,6 +146,15 @@ func _execute_entry(entry: Dictionary, receipt: ActionReceipt, context: ActionCo
 	if result.status == &"FAULTED":
 		_fault(receipt, context, result.reason)
 		return
+	for stance in _attack_stances:
+		var unit: UnitState = stance["unit"]
+		if unit.guard_stance != stance["expected"]:
+			# Шаг и его события уже записаны; непроверенный хвост больше не исполняется.
+			if not result.state_changed: context._bump_revision()
+			step["status"] = &"FAULTED"
+			step["reason"] = &"attack/invalid_stance"
+			_fault(receipt, context, &"attack/invalid_stance")
+			return
 	# Атомарный шаг целиком остаётся в prefix, даже когда он пересёк event limit.
 	if receipt._events.size() > _max_events:
 		_fault(receipt, context, &"event_limit")
@@ -204,6 +219,8 @@ func _bind_batch(descriptions: Array[Dictionary], event_seq: int, context: Actio
 	return result
 
 static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bool:
+	if ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "main_cost": TYPE_INT, "main_before": TYPE_INT, "main_after": TYPE_INT}):
+		return draft["kind"] == &"guarded" and draft["actor_unit_id"] > 0 and draft["actor_unit_id"] < MAX_ID and draft["target_unit_id"] == draft["actor_unit_id"] and draft["main_cost"] == 1 and draft["main_before"] >= 1 and draft["main_before"] <= 4096 and draft["main_after"] == draft["main_before"] - 1
 	if ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "balance_before": TYPE_FLOAT, "balance_after": TYPE_FLOAT, "balance_max": TYPE_FLOAT, "impact": TYPE_FLOAT, "broke": TYPE_BOOL}):
 		var before: float = draft["balance_before"]; var after: float = draft["balance_after"]; var maximum: float = draft["balance_max"]; var impact: float = draft["impact"]
 		if draft["actor_unit_id"] <= 0 or draft["actor_unit_id"] >= MAX_ID or draft["target_unit_id"] <= 0 or draft["target_unit_id"] >= MAX_ID or draft["actor_unit_id"] == draft["target_unit_id"] or before < 0.0 or after < 0.0 or maximum <= 0.0 or impact <= 0.0 or not is_finite(before) or not is_finite(after) or not is_finite(maximum) or not is_finite(impact): return false
@@ -268,6 +285,7 @@ func _fault(receipt: ActionReceipt, context: ActionContext, reason: StringName) 
 	_pending.clear()
 
 func _release(context: ActionContext) -> void:
+	_attack_stances.clear()
 	_busy = false
 	context._busy = false
 

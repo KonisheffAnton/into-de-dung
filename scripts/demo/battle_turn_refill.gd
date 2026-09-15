@@ -44,4 +44,5 @@ func execute(context: ActionContext) -> CommandStepResult:
 			failure.state_changed = changed
 			return failure
 		changed = true
+		unit.guard_stance = false
 	return CommandStepResult.applied([], [], [], null, true)
