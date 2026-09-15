@@ -47,6 +47,7 @@ func _run() -> void:
 	_check(_demo._phase_label.text.contains("Ваш ход") and not _demo._end_turn_button.disabled, "turn visible and enabled")
 	_check(not (_demo._roster.get_child(1) as Button).disabled and not (_demo._roster.get_child(2) as Button).disabled, "enemy roster inspectable; allies selectable")
 	await _test_action_bar()
+	await _test_healing_item_viewport()
 	await _test_attack_forecast_viewport()
 	await _test_enemy_inspection()
 	battle = _demo.session as BattleTacticalSession
@@ -115,7 +116,7 @@ func _run() -> void:
 func _test_action_bar() -> void:
 	var bar := _demo._action_bar
 	_check(bar != null and bar.visible and bar._buttons.size() == 8, "tactical action bar has fixed eight visible slots")
-	_check(bar._up_button.disabled and bar._down_button.disabled, "empty dynamic action page has disabled arrows")
+	_check(bar._up_button.disabled and bar._down_button.disabled, "single dynamic action page has disabled arrows")
 	var requested: Array[StringName] = []
 	var capture_request := func(action_id: StringName) -> void: requested.append(action_id)
 	bar.action_requested.connect(capture_request)
@@ -181,6 +182,62 @@ func _test_action_bar() -> void:
 	await _capture("battle-14-guard-forecast")
 	_demo.reset_demo()
 	bar.action_requested.disconnect(capture_request)
+
+func _test_healing_item_viewport() -> void:
+	var battle := _demo.session as BattleTacticalSession
+	var bar := _demo._action_bar
+	var actor := battle.units[0]
+	var ally := battle.units[2]
+	var enemy := battle.units[1]
+	_demo.select_character(actor.id)
+	var item := battle.healing_item()
+	_check(item != null and item.get_charges_left() == 2 and bar._buttons[2].text.contains("2/2") and bar._buttons[2].disabled, "full HP disables healing slot with charges")
+	await _key(KEY_3)
+	_check(item.get_charges_left() == 2 and actor.action_resources.get_main_left() == 1 and _demo._status.text.contains("полное"), "key3 explains full HP refusal without spending")
+	actor.vitals.apply_damage(20.0)
+	_demo._refresh()
+	_check(is_equal_approx(actor.vitals.get_hp(), 12.0) and not bar._buttons[2].disabled and bar._buttons[2].text.contains("2/2") and bar._buttons[2].text.contains("1 основное"), "damaged actor enables healing slot with cost")
+	await _capture("battle-15-healing-ready")
+	# Перед оплатой читаем прогноз через тот же hover-путь; исполнение предмета обязано его очистить.
+	await _key(KEY_A)
+	await _mouse_motion(_demo.board_view.cell_center(enemy.cell))
+	_check(_demo._forecast != null, "healing starts with an existing attack forecast")
+	await _click_control(bar._buttons[2])
+	_check(is_equal_approx(actor.vitals.get_hp(), 24.0) and item.get_charges_left() == 1 and actor.action_resources.get_main_left() == 0, "slot3 heals twelve and spends one main and charge")
+	_check(_demo._log.text.contains("использует флакон") and _demo._log.text.contains("+12.0 HP от предмета") and _demo._forecast == null, "healing journal is strict and forecast clears")
+	await _capture("battle-16-healing-used")
+	_demo.select_character(ally.id)
+	var ally_item := battle.healing_item()
+	_check(ally_item != null and ally_item.get_charges_left() == 2 and bar._buttons[2].text.contains("2/2"), "switching ally keeps independent charges")
+	_demo.select_character(actor.id)
+	_check(battle.healing_item().get_charges_left() == 1 and bar._buttons[2].text.contains("1/2"), "returning actor preserves spent charge")
+	await _click_cell(enemy.cell)
+	_check(battle.selected_id == actor.id and _demo.inspected_id == enemy.id and battle.healing_item().get_charges_left() == 1, "enemy inspection preserves selected flask")
+	await _key(KEY_ESCAPE)
+	_check(actor.try_refill_turn_resources() == &"" and actor.action_resources.get_main_left() == 1, "manual refill restores main for second item use")
+	_demo._refresh()
+	await _key(KEY_3)
+	_check(is_equal_approx(actor.vitals.get_hp(), 32.0) and battle.healing_item().get_charges_left() == 0 and actor.action_resources.get_main_left() == 0, "second use heals remaining eight and empties flask")
+	_demo._refresh()
+	await _capture("battle-17-healing-empty")
+	actor.vitals.apply_damage(20.0)
+	_check(actor.try_refill_turn_resources() == &"", "refill remains available after empty flask")
+	_demo._refresh()
+	_check(bar._buttons[2].disabled and bar._buttons[2].tooltip_text.contains("заряды"), "empty flask stays disabled with reason")
+	await _key(KEY_3)
+	_check(battle.healing_item().get_charges_left() == 0 and _demo._status.text.contains("заряды"), "key3 explains empty flask without spending")
+	_demo.reset_demo()
+	actor = battle.units[0]
+	item = battle.healing_item()
+	_demo.select_character(actor.id)
+	_demo._refresh()
+	_check(item != null and is_equal_approx(actor.vitals.get_hp(), 32.0) and item.get_charges_left() == 2 and bar._buttons[2].text.contains("2/2"), "reset creates fresh full flask")
+	_check(battle.end_player_turn(), "enemy phase starts for healing lock")
+	_demo._refresh()
+	var charges_before := item.get_charges_left()
+	await _key(KEY_3)
+	_check(bar._buttons[2].disabled and item.get_charges_left() == charges_before, "enemy phase disables healing without spending")
+	_demo.reset_demo()
 
 func _test_flow() -> void:
 	var battle := BattleTacticalSession.new()

@@ -213,6 +213,14 @@ func _action_bar_requested(action_id: StringName) -> void:
 	match action_id:
 		&"attack": set_attack_mode(true)
 		&"guard": _use_guard()
+		&"healing_item": _use_healing_item()
+
+func _use_healing_item() -> void:
+	if _battle == null: return
+	_clear_forecast()
+	attack_mode = false
+	inspected_id = UnitId.NONE
+	_show_receipt(_battle.use_healing_item())
 
 func _use_guard() -> void:
 	if _battle == null: return
@@ -303,13 +311,19 @@ func _refresh() -> void:
 	# В тактическом режиме атака должна иметь единственную точку входа в action bar;
 	# старая кнопка остаётся частью sandbox-полигона для совместимости.
 	_attack_button.visible = not tactical_mode
-	_instructions.text = "1 / A: атака · 2: защита · M: движение · Клик по врагу: осмотр · Enter: конец хода · R: заново" if tactical_mode else "Ступени: Астра → D3 → A → Страж. Стена: Бор → A → Щит. Пропасть: Рей → A → Мишень на G7."
+	_instructions.text = "1 / A: атака · 2: защита · 3: лечение · M: движение · Клик по врагу: осмотр · Enter: конец хода · R: заново" if tactical_mode else "Ступени: Астра → D3 → A → Страж. Стена: Бор → A → Щит. Пропасть: Рей → A → Мишень на G7."
 	var locked := _battle != null and not _battle.can_player_act()
 	_move_button.disabled = locked
 	_attack_button.disabled = locked
 	_end_turn_button.disabled = locked
 	_action_bar.visible = tactical_mode
 	if tactical_mode and _action_bar != null:
+		var item := _battle.healing_item() if _battle != null else null
+		var healing_reason := _battle.healing_reason() if _battle != null else &"battle/input_locked"
+		var descriptors: Array[Dictionary] = []
+		if item != null:
+			descriptors.append({"action_id": &"healing_item", "label": "%s %d/%d" % [item.get_definition().display_name, item.get_charges_left(), item.get_definition().max_charges], "cost": "1 основное", "disabled": healing_reason != &"", "tooltip": "Лечение себя до +12 HP; 1 основное и 1 заряд.\n" + (_reason_text(healing_reason) if healing_reason != &"" else "Стойка сохраняется.")})
+		_action_bar.set_dynamic_descriptors(descriptors)
 		_action_bar.set_slot_enabled(&"attack", not locked, "Сейчас нельзя действовать." if locked else "1 основное действие")
 		var guard_reason := _battle.guard_reason() if _battle != null else &"battle/input_locked"
 		var guard_enabled := not locked and guard_reason == &""
@@ -376,6 +390,8 @@ func _inspection_text(unit: UnitState) -> String:
 		if owner != null:
 			for item: ItemInstance in owner._items.values():
 				if not item.is_active(): continue
+				if item.get_definition().max_charges > 0:
+					descriptions.append("%s: лечение себя до +%.1f HP за 1 основное и заряд; осталось %d/%d. Стойка сохраняется." % [item.get_definition().display_name, item.get_definition().use_heal_amount, item.get_charges_left(), item.get_definition().max_charges])
 				for effect in item.get_effects():
 					if not effect.is_active(): continue
 					if effect is HealOnDamageEffectRuntime:
@@ -534,6 +550,7 @@ func _event_text(event: Dictionary) -> String:
 	match StringName(event.get("kind", &"")):
 		&"attacked": return "%s атакует %s." % [actor, target]
 		&"guarded": return "%s занимает охранную стойку (1 основное действие)." % actor
+		&"item_used": return "%s использует флакон (1 основное; зарядов осталось: %d)." % [actor, int(event["charges_after"])]
 		&"damaged":
 			var source: Dictionary = event.get("source", {})
 			var cause := " от падения" if source.get("kind", &"") == &"fall" else ""
@@ -574,6 +591,16 @@ func _reason_text(reason: StringName) -> String:
 		&"BUSY": return "дождитесь завершения действия."
 		&"CONTEXT_FAULTED": return "бой остановлен; выполните сброс."
 		&"guard/already_active": return "охранная стойка уже активна."
+		&"item/full_hp": return "здоровье уже полное."
+		&"item/no_charges": return "заряды флакона закончились."
+		&"item/insufficient_main": return "недостаточно основных действий."
+		&"item/not_owned": return "нет доступного лечебного предмета."
+		&"item/inactive": return "предмет не активен."
+		&"item/not_usable": return "этот предмет нельзя использовать."
+		&"item/no_selected_unit": return "выберите живого персонажа."
+		&"item/not_admitted": return "персонаж не может использовать предмет."
+		&"item/stale_revision": return "состояние боя изменилось; повторите попытку."
+		&"item/invalid_runtime", &"item/invalid_mutation": return "состояние боя повреждено; начните заново."
 		&"guard/insufficient_main": return "недостаточно основных действий."
 		&"guard/no_selected_unit": return "выберите живого персонажа."
 		&"guard/not_admitted": return "персонаж не может занять стойку."
@@ -591,6 +618,7 @@ func _unhandled_input(event: InputEvent) -> void:
 					var slot := int(event.keycode - KEY_0)
 					if slot == 1: set_attack_mode(true)
 					elif slot == 2: _use_guard()
+					elif _action_bar._buttons[slot - 1].get_meta("action_id", &"") == &"healing_item": _use_healing_item()
 					else: _action_bar.activate_slot(slot)
 			KEY_A: set_attack_mode(true)
 			KEY_M, KEY_ESCAPE: set_attack_mode(false)

@@ -16,6 +16,17 @@ func reset() -> void:
 	# Отдельный сценарий сохраняет прежние sandbox fixtures и формулы ядра.
 	units[3].faction = Faction.Type.ENEMY
 	units[5].debug_name = "Дозорный"
+	for unit in units:
+		if unit.faction != Faction.Type.PLAYER: continue
+		var definition := ItemDef.new()
+		definition.id = &"tactical_healing_flask"
+		definition.display_name = "Флакон"
+		definition.use_heal_amount = 12.0
+		definition.max_charges = 2
+		var owner := state.get_owner(unit.id)
+		var item := owner.create_item(definition)
+		for inventory in state.get_inventories():
+			if inventory._state == owner: inventory.add_item(item)
 	phase = Phase.PLAYER_TURN
 	round_number = 1
 	_enemy_ids.clear()
@@ -72,6 +83,26 @@ func guard_selected() -> ActionReceipt:
 	var reason := guard_reason()
 	if reason != &"": return _reject(reason)
 	return _submit(GuardCommand.new(selected_id, context.get_revision()))
+
+func healing_item() -> ItemInstance:
+	var actor := selected_unit()
+	if actor == null or actor.faction != Faction.Type.PLAYER or state == null: return null
+	var owner := state.get_owner(actor.id)
+	if owner == null or owner.is_closed(): return null
+	for item: ItemInstance in owner.get_items_for(ItemOwnerState.INVENTORY_PLACEMENT):
+		if item.get_definition_id() == &"tactical_healing_flask": return item
+	return null
+
+func healing_reason() -> StringName:
+	if not can_player_act(): return &"battle/input_locked"
+	var item := healing_item()
+	if item == null: return &"item/not_owned"
+	return UseHealingItemCommand.new(selected_id, item.get_item_instance_id(), context.get_revision()).validate(context)
+
+func use_healing_item() -> ActionReceipt:
+	var reason := healing_reason()
+	if reason != &"": return _reject(reason)
+	return _submit(UseHealingItemCommand.new(selected_id, healing_item().get_item_instance_id(), context.get_revision()))
 
 func _submit(command: Command) -> ActionReceipt:
 	var receipt := super._submit(command)

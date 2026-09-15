@@ -438,3 +438,13 @@ Viewport остаётся отдельным SubViewport с настоящими
 В прежнем core runner неизвестная Unit schema в fixtures заменена 3 → 99,
 поскольку v3 теперь поддержана. Проверки INVALID/UNSUPPORTED не ослаблены;
 неизвестные версии самой доски и её старые проверки остаются прежними.
+
+## 2026-09-15 — лечебный флакон
+
+Обе команды tools/demo/isolate.py запускают tests/test_healing_item.gd с маркером
+HEALING RESULTS, строгой проверкой ошибок и отсутствия exit leaks. Проверяются
+расход main/charge, HP clamp, отказы, стойка, независимые владельцы, срок зарядов,
+v1/v2 snapshots и catalogue, malformed поля, forecast parity и callback/лимиты.
+Viewport runner проверяет реальный клик/клавишу3, availability, переключение,
+осмотр, сброс forecast, reset и блокировку; PNG15–17 показывают флакон до/после
+и исчерпание. Конкретные результаты и fixed review — в текущем CODEX_HANDOFF.

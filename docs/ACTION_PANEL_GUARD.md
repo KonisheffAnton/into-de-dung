@@ -1,5 +1,9 @@
 # Панель действий и охранная стойка — ограниченный срез
 
+Дополнение следующего этапа: слот 3 заполнен лечебным флаконом по
+[HEALING_ITEM.md](HEALING_ITEM.md). Исторический scope этой спецификации ниже
+сохранён; текущие назначения и управление описаны в TACTICAL_BATTLE.md.
+
 Исходный HEAD: `937fe26c10245a76c30906ec507c1e001e6a08b8`, main.
 ТЗ составлено после адресного изучения UnitState, ActionQueue, AttackCommand,
 BalancePushRules, MoveCommand, snapshots, BattleTacticalSession и UI.

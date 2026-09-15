@@ -148,6 +148,13 @@ func _create_item_unplaced(definition: ItemDef) -> ItemInstance:
 func _validate_definition(definition: ItemDef) -> bool:
 	if _owner == null or _owner.id <= 0 or _owner.stats == null or _owner.vitals == null: return false
 	if definition == null or definition.id == &"" or _next_item_id >= MAX_ID: return false
+	# Параметры лечения валидируются вместе: нули сохраняют старые предметы,
+	# а частично заданная пара не должна превращаться в usable предмет.
+	if not is_finite(definition.use_heal_amount): return false
+	if definition.use_heal_amount == 0.0 or definition.max_charges == 0:
+		if definition.use_heal_amount != 0.0 or definition.max_charges != 0: return false
+	else:
+		if definition.use_heal_amount <= 0.0 or definition.max_charges < 1 or definition.max_charges > 4096: return false
 	if _definitions.has(definition.id) and _definitions[definition.id] != definition: return false
 	var count := definition.effects.size()
 	if count > 0 and _next_effect_id > MAX_ID - count: return false

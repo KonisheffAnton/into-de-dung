@@ -435,3 +435,14 @@ SpatialRules.Guard фиксирует стойку вместе с прочим�
 BattleTurnRefill снимает состояние входящей команды после общего preflight.
 UI BattleActionBar содержит два постоянных и шесть назначаемых мест. В этом срезе
 назначения пустые; предметное использование/заряды/новая ветка BT не реализованы.
+
+## 2026-09-15 — активируемое лечение
+
+Контракт — docs/HEALING_ITEM.md. ItemDef задаёт use_heal_amount/max_charges,
+ItemInstance владеет остатком. ItemSimulationSnapshot v2 переносит параметры
+и заряды с точной валидацией; v1 и canonical bytes прежних данных сохранены.
+UseHealingItemCommand проходит очередь одним шагом (main + charge + HP),
+публикует item_used/healed, проверяет ожидаемый снимок после hp_changed.
+BattleTacticalSession выдаёт флакон каждому союзнику; слот3 связывается с
+экземпляром выбранного владельца. AttackForecast сохраняет полную изоляцию v2.
+Legacy resource-path DTO не сохраняют runtime charges; save-game ещё не реализован.

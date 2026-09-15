@@ -82,6 +82,20 @@ func _spatial_receipt() -> SpatialMutation:
 	return receipt
 
 
+## Caller ограничил прибавку максимумом и подготовил ожидаемый снимок до сигнала.
+func heal_checked(amount: float, checkpoint: Callable) -> SpatialMutation:
+	var receipt := _spatial_receipt()
+	if not checkpoint.is_valid() or not is_finite(amount) or amount <= 0.0 or not _is_alive or not is_finite(_hp + amount):
+		receipt.reason = &"item/invalid_mutation"
+		return receipt
+	receipt.hp_after = _hp + amount
+	_hp = receipt.hp_after
+	receipt.hp_written = true
+	hp_changed.emit(receipt.hp_before, receipt.hp_after)
+	receipt.reason = checkpoint.call()
+	return receipt
+
+
 func apply_spatial_damage(amount: float, checkpoint: Callable) -> SpatialMutation:
 	var receipt := _spatial_receipt()
 	if not checkpoint.is_valid() or not is_finite(amount) or amount < 0.0 or not _is_alive or not is_finite(_hp) or _hp < 0.0 or not is_finite(_balance) or _balance < 0.0:

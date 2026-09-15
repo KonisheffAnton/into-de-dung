@@ -1,3 +1,94 @@
+# Передача — 2026-09-15, лечебный флакон: APPROVE
+
+Ветка main. Исходный HEAD: d20d8759a8c763f3045ea50695ebc0b208fe8ba3.
+Этот заголовок входит в логический commit среза; точный финальный HEAD после
+фиксации записывается в test_reports/healing-item-20260915/completion.json,
+next-chat-prompt.md и итоговом сообщении. При сдаче дерево и индекс чистые.
+Git самодостаточен; старый dirty overlay не восстанавливать.
+
+Закончен один срез пункта6 TACTICAL_DESIGN_NEXT: отдельный активируемый лечебный
+флакон в третьем месте панели. Точный контракт — docs/HEALING_ITEM.md;
+управление — TACTICAL_BATTLE.md. Каждый союзник получает отдельный экземпляр
+с2зарядами, применение на себя лечит до12HP за1main и1заряд. Начальное HP32
+сохранено. При full/over-max, отсутствии main/зарядов, неверном владельце,
+неактивном предмете или заблокированном вводе — отказ без расхода. Bonus не заменяет
+main. Стойка/move/bonus/has_attacked сохраняются. Выбор, перенос предмета и
+начало хода не пополняют заряды; reset создаёт новый бой. Пустой флакон остаётся
+в слоте0/2. Полигон и ИИ не используют новый предмет; призыв не реализован.
+
+ItemDef: use_heal_amount/max_charges; ItemInstance владеет _charges_left.
+ItemSimulationSnapshot v2 (board_items_usable_v2) переносит parameters/charges
+строгими значениями у всех definitions/items, включая нули у старых предметов.
+Owner schema остаётся1. При отсутствии usable definitions writer сохраняет v1
+и прежние canonical bytes. Restore не вызывает equip/refill; catalogue проверяется
+до allocation, v1 запрещает подставлять usable definition. Unit schema3 стойки
+не менялась. AttackForecast переносит полный v2 snapshot и копии определений,
+атака не расходует заряды. Прогноз использования предмета не реализован.
+Legacy Inventory/Equipment resource-path DTO не сохраняют runtime charges;
+save-game всё ещё не реализован.
+
+UseHealingItemCommand идёт через ActionQueue одним атомарным шагом: main/charge
+списаны до hp_changed, затем HP и события item_used/healed с item instance source.
+Revision+1, без RNG. После сигнала сравнивается ожидаемый полный snapshot;
+неожиданная мутация даёт FAULTED с собственным исполненным prefix. Лимит событий
+также сохраняет весь исполненный шаг, без возврата оплаты. Sink публикует после
+drain и не должен мутировать игру. Игровые реакции должны быть runtime/командами;
+произвольные внешние мутирующие callbacks не входят в capability прогноза.
+
+UI: 1/A атака,2защита,3флакон; 8мест,4–8пусты, одна страница/выключенные стрелки.
+Компонент страниц сохранён. Слот показывает остаток/цену, tooltip величину/отказ,
+клавиша3 объясняет отказ выключенной кнопки. Осмотр врага не подменяет владельца.
+Применение сбрасывает прогноз/осмотр и обновляет HP/main/журнал/заряды.
+Редактора назначений нет. Камера и общий ENTITIES Y-sort не менялись.
+
+game_scout Luna/low дал карту данных. game_coder Luna/medium реализовал ограниченный
+item/snapshot пакет и viewport tests. Ведущий создал ТЗ, команду/queue/Vitals,
+session/UI/headless tests, интегрировал и проверил контракты/прогноз.
+Независимый game_reviewer Terra/high: APPROVE v1,22/22SHA256. Ревьюер читал
+код/контракты/логи/хеши; Godot не запускал. PNG15–17 проверены ведущим.
+
+Приёмка: core9440/0; healing106/0; guard219/0; forecast166/0.
+Final headless import/startup PASS,demo138/0,battle213/0.
+Final render import/startup PASS,demo143/0,battle230/0.
+Победа/поражение по-прежнему за3раунда. Только legacy core сохраняет известные
+47ObjectDB/18resources; новые runner без ошибок/exit leaks. Core source parity
+подтверждает актуальные core.gd/tests/run_tests с полным core-прогоном; final
+parity подтверждает актуальные scripts/tests/scenes/tools с обоими UI-прогонами.
+UI проверяет настоящий input в отдельном SubViewport, без рабочего курсора.
+Промежуточные failed UI прогоны сохранены, приёмкой не являются.
+
+Артефакты test_reports/healing-item-20260915/: baseline.json,handoff-before.md,
+HEALING_ITEM контракт в docs,checks.json,preservation.json,review-v1/manifest+
+files+own.patch+independent-review.md,completion.json,next-chat-prompt.md.
+Полный core: test_reports/demo-7e79a229666144278296b7c9f8f06e41/core.log.
+Final headless: test_reports/demo-f7c6a665aff948f491fe2e0cf7d50e7c/.
+Final render: test_reports/demo-9638bc428a6d42a9a2e3454ea8785135/.
+PNG15–17 — флакон до/после/0зарядов; прежние PNG01–14 и полигон сохранены.
+После commit выполняется clean-clone; точные HEAD/результаты/чистота записываются
+в completion.json,clean-clone.json и итоговом сообщении. Reports ignored.
+Frozen документы, исторические добавляемые docs и точный исходный suffix HANDOFF
+сохранены. В срез не включены чужие изменения; исходное дерево было чистым.
+
+Остаток — пользовательский плейтест осмотра/прогноза/панели/стойки/флакона.
+Следующий согласованный кандидат — отдельный предмет призыва, сначала ограниченное
+ТЗ по пункту6: владелец, лимит1, клетка, charges/main, roster/board/admission,
+следующий командный ход, ИИ, snapshot/preview, исход и cleanup. Не начинать весь
+backlog. Окружение/расстановка/спина/крит/Оппортунист/новые цепи/падения — дизайн.
+Командные ходы без инициативы, свободный выбор без refill, атака1main; bonus только
+по явному условию. Крит x2до брони/x2impact, базовых критов нет. Оппортунист только
+носителю в стойке за1bonus. Камера без поворота; zoom/pan/видимость ещё не готовы.
+
+Для нового этапа предложи новый чат с этой передачей. Без push, sidebar tasks
+и расписаний. Следуй AGENTS и логическим коммитам после проверок/ревью.
+В конце этапа или при блокере обнови HANDOFF с точным исходным suffix и приведи
+ПОЛНЫЙ самодостаточный промпт следующего чата прямо в финальном сообщении отдельным
+блоком кода для копирования. Ссылка не заменяет текст. Включай фактический HEAD,
+результат, docs/artifacts, остаток, ограничения и проверки; перенеси это правило
+в следующую передачу и следующий промпт.
+
+---
+
+
 # Передача — 2026-09-15, панель действий и охранная стойка
 
 Ветка main. Исходный HEAD: 937fe26c10245a76c30906ec507c1e001e6a08b8.
