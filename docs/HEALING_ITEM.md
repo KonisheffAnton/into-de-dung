@@ -1,12 +1,9 @@
 # Лечебный предмет — ограниченный срез
 
-Дополнение следующего среза: [SUMMON_ITEM.md](SUMMON_ITEM.md) добавляет отдельную
-печать в слоте 4 и item snapshot v3. Лечение не принимает печать; его правила
-и заряды сохранены. Исторический контракт v2 ниже остаётся действующим для
-состояний без summon definitions/metadata.
-
-Base: `d20d8759a8c763f3045ea50695ebc0b208fe8ba3`, main. ТЗ после адресного
-изучения ItemDef/Instance/OwnerState, snapshots, очереди, Vitals и панели.
+Действующий контракт флакона; [SUMMON_ITEM](SUMMON_ITEM.md) описывает отдельную
+печать в слоте 4 и item snapshot v3. Лечение не принимает печать. Контракт v2
+ниже остаётся действующим для состояний без summon definitions/metadata.
+Исходное ТЗ сохранено в [архиве](HEALING_ITEM.history-20260920.md).
 
 ## Правила
 
@@ -63,7 +60,7 @@ FAULTED с собственным исполненным prefix. Sink публи
 Слот 3 показывает название, остаток/максимум, цену; tooltip — величину и отказ.
 Осмотр врага не подменяет флакон выбранного союзника. Нажатие 3 объясняет отказ
 даже у выключенной кнопки. После использования сбрасываются forecast/осмотр,
-обновляются HP/ресурсы/слот/журнал. Слоты 4–8 пустые, страницы прежние.
+обновляются HP/ресурсы/слот/журнал. Слот 4 занят печатью, места 5–8 пусты; страница одна.
 
 Headless: точный расход/overheal/полное HP/0 charge/0 main при bonus, stale,
 dead/closed/busy/faulted/чужой/неактивный item, повтор/два владельца, отказ без
@@ -72,7 +69,5 @@ malformed/unknown/catalogue mismatch, изоляция charges и forecast parit
 UI: настоящий input в SubViewport (кнопка и 3), отказ/смена/осмотр/locked/reset,
 неизменность прогноза при чтении, PNG. Полный core, guard, forecast и оба UI runner.
 
-Команды: `python tools/demo/isolate.py --check --full` и
-`python tools/demo/isolate.py --render-check`. После проверок — независимое
-game_reviewer на фиксированных hashes; commit без push, чистые дерево/индекс.
-Frozen документы, §4.5, старые отчёты и точный suffix HANDOFF сохраняются.
+Общие команды проверки — [TESTING](TESTING.md), сдача и передача —
+[CODEX_WORKFLOW](CODEX_WORKFLOW.md). Frozen документы, §4.5 и старые отчёты сохраняются.

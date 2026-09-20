@@ -1,11 +1,10 @@
 # Предмет призыва — ограниченный срез
 
-Base main: `458365a020753d9bf36699496429e40757c0ead1`.
-ТЗ составлено после изучения ownership, board/roster, admission, refill, BT,
-очереди, snapshots/forecast и исхода. Ниже целевой контракт; приёмка и фактический
-статус записываются в HANDOFF по завершении реализации.
+Действующий контракт печати призыва. Исходное ТЗ от
+`458365a020753d9bf36699496429e40757c0ead1` сохранено в
+[архиве](SUMMON_ITEM.history-20260920.md); историческая приёмка — [HISTORY](HISTORY.md).
 
-## Правила первого среза
+## Правила
 
 - Отдельная печать `tactical_summoning_seal` у каждого исходного бойца обеих команд:
   2 заряда, 1 main + 1 заряд за успешный призыв. У игрока слот 4 / клавиша 4
@@ -74,7 +73,5 @@ live isolation и полное forecast parity с помощниками, reset/
 UI: настоящий input/scrolling в отдельном SubViewport, слот4 и цифра4, клетка,
 отказ, ресурсы, выбор/ожидание/готовность, enemy turn, сброс/осмотр/forecast/PNG.
 Полный core и прежние healing/guard/forecast/demo/battle regressions сохраняются.
-Команды: `python tools/demo/isolate.py --check --full` и
-`python tools/demo/isolate.py --render-check`. После тестов независимое ревью
-Terra/high на фиксированных hashes, логический commit, чистый Git, без push.
-Frozen документы, §4.5, старые отчёты и точный исходный suffix HANDOFF сохраняются.
+Общие команды проверки — [TESTING](TESTING.md), сдача и передача —
+[CODEX_WORKFLOW](CODEX_WORKFLOW.md). Frozen документы, §4.5 и старые отчёты сохраняются.
