@@ -15,6 +15,7 @@
 | Что реализовано, где владельцы поведения | [ARCHITECTURE](ARCHITECTURE.md) |
 | Архитектурные инварианты и причины | [DECISIONS](DECISIONS.md) |
 | Игра, концепция, предложения и открытые вопросы | [DESIGN_DIRECTION](DESIGN_DIRECTION.md) |
+| Проект новой брони/урона, числа и все пути миграции | [ARMOR_DAMAGE_D0](ARMOR_DAMAGE_D0.md); проект, не реализованная механика |
 | Предлагаемое следующее направление | Только §7 [DESIGN_DIRECTION](DESIGN_DIRECTION.md); выполнение плана требует поручения |
 | Спецификации кандидатов M1–M4 | [MODULARITY_PLAN](MODULARITY_PLAN.md); не отдельная очередь работ |
 | Нынешний бой и управление | [TACTICAL_BATTLE](TACTICAL_BATTLE.md) |
