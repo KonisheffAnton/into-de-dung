@@ -73,6 +73,10 @@ bypass_hp_gate за тот же 1 main. Это способность специ
 spatial death/collision source/order до item reactions, callback/fault-prefix,
 limits, malformed admission, snapshot round-trip/invalid/isolation,
 forecast/live state/events/steps/RNG/counters parity, обе команды и переключение.
+Дополнительное покрытие 2026-09-22: refresh другим живым источником после первого
+тика (новые actor/credit/origin/hit_id), сохранение всего старого состояния с одним
+тиком после отказа обычного HP-gate и смерть последнего игрока на его границе
+хода до refill (DEFEAT, один died, свободная клетка, сохранённый остаток статуса).
 Import/startup → адресные runner → full/render → PNG/input → независимое ревью
 фиксированного результата → логический commit. Отчёт: test_reports/bleeding-d3-20260921/.
 Frozen P02–P08/§4.5, Q1–Q6, legacy, числа/карта D2 не меняются.

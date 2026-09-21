@@ -17,6 +17,7 @@ func _run() -> void:
 	_test_spatial()
 	_test_faults()
 	_test_turns()
+	_test_edge_refresh_and_boundary()
 	print("BLEEDING RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
 
@@ -43,6 +44,12 @@ func no_heal(s: BattleBleedingSession) -> void:
 func kinds(events: Array[Dictionary]) -> Array:
 	var out: Array = []
 	for event: Dictionary in events: out.append(event["kind"])
+	return out
+
+func events_of_kind(events: Array[Dictionary], kind: StringName) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for event: Dictionary in events:
+		if event["kind"] == kind: out.append(event)
 	return out
 
 func parity(s: BattleBleedingSession, label: String) -> AttackForecast:
@@ -255,4 +262,72 @@ func _test_turns() -> void:
 		if enemy.faction == Faction.Type.ENEMY and enemy != target: s._queue.submit(DeathCommand.new(enemy.id,DamageSource.new(&"test",0,enemy.cell)),s.context)
 	check(not s.end_player_turn() and s.phase == BattleTacticalSession.Phase.VICTORY,"last enemy tick ends battle before phase switch")
 	check(not actor.armor.in_battle and target.bleeding.ticks_left == 1,"battle expiry does not clear status")
+	s.close()
+
+func _test_edge_refresh_and_boundary() -> void:
+	var s := fixture()
+	var second_actor := s.units[2]
+	var target := s.units[1]
+	no_heal(s)
+	target.stats.set_base_value(StatTypes.StatType.HP_MAX,128.0)
+	target.vitals.set_hp(128.0)
+	var first := parity(s,"edge initial application")
+	var first_hit: Dictionary = first.events.filter(func(e: Dictionary) -> bool: return e["kind"] == &"hit_resolved")[0]
+	var tick := turn_parity(s,Faction.Type.ENEMY)
+	check(tick.status == &"APPLIED" and target.bleeding.ticks_left == 1,"edge refresh starts after first tick")
+	s.board.move_unit(second_actor,target.cell + Vector2i.DOWN)
+	check(s.select_unit(second_actor.id) and s.selected_unit() == second_actor,"edge switches to living ally")
+	var refreshed := parity(s,"edge ally refresh")
+	var hits := events_of_kind(refreshed.events,&"hit_resolved")
+	var bleeding_events := events_of_kind(refreshed.events,&"bleeding_changed")
+	check(hits.size() == 1 and bleeding_events.size() == 1,"edge refresh has one real hit and one status event")
+	if hits.size() == 1 and bleeding_events.size() == 1:
+		var hit: Dictionary = hits[0]
+		var changed: Dictionary = bleeding_events[0]
+		var source: Dictionary = target.bleeding.source
+		check(source["instigator_unit_id"] == second_actor.id and source["credit_unit_id"] == second_actor.id and source["origin_cell"] == second_actor.cell,"edge refresh source is latest actor and origin")
+		check(target.bleeding.hit_id == hit["hit_id"] and changed["after"]["hit_id"] == hit["hit_id"] and hit["hit_id"] != first_hit["hit_id"],"edge refresh links latest real hit id")
+		check(changed["reason"] == &"refreshed" and changed["before"]["ticks_left"] == 1 and changed["after"]["ticks_left"] == 2,"edge refresh updates one stack duration")
+	s.close()
+
+	s = fixture()
+	target = s.units[1]
+	no_heal(s)
+	seed_status(s.units[0],target)
+	tick = turn_parity(s,Faction.Type.ENEMY)
+	check(tick.status == &"APPLIED" and target.bleeding.ticks_left == 1,"edge armor-only starts after first tick")
+	fill(s,target,true)
+	var preserved := target.bleeding.to_dict()
+	var armor_only := parity(s,"edge armor-only preserves active status")
+	var armor_hits := events_of_kind(armor_only.events,&"hit_resolved")
+	check(armor_only.status == &"APPLIED" and target.bleeding.to_dict() == preserved,"armor-only keeps all status fields")
+	check(kinds(armor_only.events).count(&"bleeding_changed") == 0,"armor-only emits no bleeding change")
+	if armor_hits.size() == 1:
+		var bleeding_gate: Dictionary = armor_hits[0]["hit"]["bleeding"]
+		check(bleeding_gate["eligible"] == false and bleeding_gate["physical_hp_damage"] == 0 and bleeding_gate["policy"] == &"physical_hp","armor-only records rejected physical HP gate")
+	else:
+		check(false,"armor-only has a real hit explanation")
+	s.close()
+
+	s = fixture()
+	var last_player := s.units[0]
+	no_heal(s)
+	seed_status(s.units[1],last_player)
+	last_player.vitals.set_hp(1.0)
+	last_player.action_resources._set_for_refill(0,0)
+	last_player.move_points_left = 0.0
+	for player: UnitState in s.units:
+		if player.faction == Faction.Type.PLAYER and player != last_player:
+			s._queue.submit(DeathCommand.new(player.id,DamageSource.new(&"test",0,player.cell)),s.context)
+	check(s.end_player_turn(),"edge boundary enters enemy turn")
+	s._enemy_index = s._enemy_ids.size()
+	var boundary_before := s.turn_events.size()
+	s.step_enemy()
+	var boundary_receipt := s.last_receipt
+	var boundary_events: Array[Dictionary] = s.turn_events.slice(boundary_before)
+	check(s.phase == BattleTacticalSession.Phase.DEFEAT,"bleeding defeat occurs before player refill")
+	check(not last_player.is_alive() and s.board.occupant_at(last_player.cell) == null,"bleeding death frees last player cell")
+	check(boundary_receipt != null and kinds(boundary_events).count(&"died") == 1 and kinds(boundary_receipt.get_events()).count(&"died") == 1,"bleeding boundary emits one death")
+	check(last_player.bleeding.ticks_left == 1,"bleeding boundary preserves consumed tick state")
+	check(last_player.action_resources.get_main_left() == 0 and last_player.action_resources.get_bonus_left() == 0 and last_player.move_points_left == 0.0,"defeat happens before resource refill")
 	s.close()
