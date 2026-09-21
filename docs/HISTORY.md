@@ -435,6 +435,23 @@ D0 завершён как дизайн: решения A/§9 закрывают
 Независимое ревью APPROVE после уточнения нулевого расхода RNG при покрытии временной бронёй.
 Прежние числовые проверки не повторялись. Godot не запускался.
 
+## Выделение прежней формулы D1 — 2026-09-21
+
+Base `f17b7d9bda9ccc5633bbca8650a57b564413fcb0`, main; отдельное поручение «продолжай».
+Прежняя передача — точный [снимок](CODEX_HANDOFF.history-20260921-15.md).
+[D1/M2a](ATTACK_DAMAGE_D1.md) выделяет AttackDamageCalculation и стадии прямого удара;
+AttackCommand сохраняет исполнение, BalancePushRules получает прежнюю raw-базу.
+Новая броня D0 не реализована, D2 и прочие направления не начаты.
+Отчёт `test_reports/armor-damage-d1-20260921/`: 5880 арифметических сочетаний,
+23555 проверок helper и 57 полных сценариев против base (502 проверки) PASS.
+Full `test_reports/demo-d4851352a76847d4b9f83e0c8110630c/`: import/startup,
+адресные runner, core 9440/0, demo/battle PASS. Render
+`test_reports/demo-032ec8be9276476db2170312c3dc288f/`: все runner PASS,
+demo 143/0, battle 267/0, input/scrolling SubViewport и осмотр PNG.
+Core diagnostics совпали с base, включая 47 ObjectDB/18 resources при выходе.
+Независимое ревью фиксированного diff — APPROVE; verification.json/review.md/completion.json
+в отчёте. Пользовательский плейтест открыт.
+
 ## Как добавлять историю
 
 Не менять старый снимок. При завершении следующего этапа сохранить прежний

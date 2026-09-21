@@ -62,8 +62,8 @@ def main():
         invalid = result.returncode != 0 or "SCRIPT ERROR" in output or "Parse Error" in output
         if not legacy:
             invalid = invalid or "ERROR:" in output or "WARNING: ObjectDB" in output
-        if label in ("demo", "battle", "forecast", "guard", "healing", "summon", "summon_snapshot"):
-            marker = {"demo": "DEMO RESULTS:", "battle": "BATTLE RESULTS:", "forecast": "FORECAST RESULTS:", "guard": "GUARD RESULTS:", "healing": "HEALING RESULTS:", "summon": "SUMMON RESULTS:", "summon_snapshot": "SUMMON SNAPSHOT RESULTS:"}[label]
+        if label in ("demo", "battle", "forecast", "guard", "healing", "summon", "summon_snapshot", "attack_calculation", "attack_d1"):
+            marker = {"demo": "DEMO RESULTS:", "battle": "BATTLE RESULTS:", "forecast": "FORECAST RESULTS:", "guard": "GUARD RESULTS:", "healing": "HEALING RESULTS:", "summon": "SUMMON RESULTS:", "summon_snapshot": "SUMMON SNAPSHOT RESULTS:", "attack_calculation": "D1 CALCULATION RESULTS:", "attack_d1": "D1 INTEGRATION RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if legacy:
             invalid = invalid or "0 failed" not in output
@@ -78,6 +78,8 @@ def main():
         raise RuntimeError("Archived scripts leaked into the class cache")
     if args.check or args.render_check:
         run("startup", ["--quit-after", "3"])
+        run("attack_calculation", ["--script", "tests/test_attack_damage_calculation.gd"])
+        run("attack_d1", ["--script", "tests/test_attack_damage_d1.gd"])
         run("forecast", ["--script", "tests/test_attack_forecast.gd"])
         run("guard", ["--script", "tests/test_guard_stance.gd"])
         run("summon_snapshot", ["--script", "tests/test_summon_snapshot.gd"])

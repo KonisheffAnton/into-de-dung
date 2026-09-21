@@ -1,6 +1,6 @@
 # Проверка проекта
 
-Актуальный порядок 2026-09-20, сверенный с `tools/demo/isolate.py`.
+Актуальный порядок 2026-09-21, сверенный с `tools/demo/isolate.py`.
 Это инструкции проверки; прежние прогоны не считаются результатом нового изменения.
 
 ## Среда
@@ -20,7 +20,7 @@ python tools/demo/isolate.py --check --full
 python tools/demo/isolate.py --render-check
 ```
 
-Первая команда включает import/startup, forecast, guard, summon_snapshot,
+Первая команда включает import/startup, attack_calculation/attack_d1, forecast, guard, summon_snapshot,
 summon, healing, core и headless demo/battle. Вторая повторяет import/startup
 и отдельные механические runner, затем запускает demo/battle с рендерингом и PNG;
 core без `--full` в неё не входит. Повторять более широкие прогоны после успешных
@@ -29,6 +29,7 @@ core без `--full` в неё не входит. Повторять более 
 | Область | Адресный runner в `tests/` |
 |---|---|
 | Ядро | `run_tests.gd` |
+| Выделенный расчёт / эквивалентность до D1 | `test_attack_damage_calculation.gd`, `test_attack_damage_d1.gd` |
 | Прогноз | `test_attack_forecast.gd` |
 | Стойка | `test_guard_stance.gd` |
 | Флакон | `test_healing_item.gd` |

@@ -133,17 +133,11 @@ func _prepare(context: ActionContext) -> Dictionary:
 	var armor := target_copy.get_value(StatTypes.StatType.ARMOR)
 	if not is_finite(strength) or not is_finite(armor):
 		result["reason"] = &"attack/nonfinite_damage"; return result
-	var sum := strength + weapon
-	if not is_finite(sum):
-		result["reason"] = &"attack/nonfinite_damage"; return result
-	var scaled := sum * SpatialRules.height_multiplier(board.get_height_steps(actor.cell) - board.get_height_steps(target.cell)) if spatial else sum
-	if not is_finite(scaled):
-		result["reason"] = &"attack/nonfinite_damage"; return result
-	var raw := scaled - armor
-	if not is_finite(raw):
-		result["reason"] = &"attack/nonfinite_damage"; return result
-	var amount := maxf(1.0, raw)
-	if target.guard_stance: amount = maxf(1.0, amount * 0.7)
+	var signed_height_steps := board.get_height_steps(actor.cell) - board.get_height_steps(target.cell) if spatial else 0
+	var calculation := AttackDamageCalculation.calculate(strength, weapon, armor, spatial, signed_height_steps, target.guard_stance)
+	if calculation.reason != &"":
+		result["reason"] = calculation.reason; return result
+	var amount := calculation.hit_amount
 	var source := DamageSource.new(&"attack", 0, actor.cell, actor.id, actor.id)
 	var request := DamageRequest.new(target.id, amount, &"physical", &"bypass", source)
 	if ActionHpExecutor.validate_damage(request, context) != &"":
@@ -156,7 +150,7 @@ func _prepare(context: ActionContext) -> Dictionary:
 		var max_balance := target_copy.get_value(StatTypes.StatType.BALANCE_MAX)
 		if not actor_copy.has_stat(StatTypes.StatType.IMPACT_POWER) or not target_copy.has_stat(StatTypes.StatType.BALANCE_MAX):
 			result["reason"] = &"balance/missing_stat"; return result
-		var p07 := BalancePushRules.prepare_attack(context, actor, target, sum, amount, resources.get_main_left() - 1, spatial)
+		var p07 := BalancePushRules.prepare_attack(context, actor, target, calculation.raw_attack, amount, resources.get_main_left() - 1, spatial)
 		if p07.get("reason", &"") != &"": return p07
 		var binding_for_touches := p07.get("binding") as BalancePushRules.Binding
 		var touches: int = int(binding_for_touches.values.get("admission_board_touches", 0)) if binding_for_touches != null else 0

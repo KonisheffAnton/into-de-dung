@@ -46,5 +46,6 @@ Frozen TASK/DEPENDENCIES/REVIEW остаются на прежних путях 
 Позднейшие уточнения действующего боя: [TACTICAL_BATTLE](TACTICAL_BATTLE.md),
 [ACTION_PANEL_GUARD](ACTION_PANEL_GUARD.md), [HEALING_ITEM](HEALING_ITEM.md),
 [SUMMON_ITEM](SUMMON_ITEM.md). Они описывают добавления после P08, а не изменения
-его архивного текста. Новая броня и типизированный урон пока обсуждаются в
-[DESIGN_DIRECTION](DESIGN_DIRECTION.md); исполняемые формулы остаются прежними.
+его архивного текста. [D1](ATTACK_DAMAGE_D1.md) выделяет чистый расчёт прямого удара,
+сохраняя исполнение и receipts. Новая броня и типизированный урон приняты как
+будущий дизайн [D0](ARMOR_DAMAGE_D0.md); исполняемые формулы остаются прежними.

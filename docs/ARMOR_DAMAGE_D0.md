@@ -2,7 +2,8 @@
 
 Дата: 2026-09-20. Сверка кода: main, `82a984e45500334ea344365edcad980d5835a2b7`.
 **Статус: D0 завершён как контракт будущего дизайна; новая броня не реализована.**
-D1–D5/M1–M4 не запущены. U — ответ пользователя; A — решение ведущего по поручению
+D1/M2a выполнен отдельным поручением: [контракт нынешнего расчёта](ATTACK_DAMAGE_D1.md).
+D2–D5/M1/M2b/M3–M4 не запущены. U — ответ пользователя; A — решение ведущего по поручению
 пользователя от 2026-09-21 самостоятельно закрыть остаток и обращаться только при
 противоречиях; P — предложение за пределами принятого объёма; Q — вопрос.
 Решения A и границы дальнейшей работы собраны в §9. Это не разрешение на код.
@@ -685,7 +686,7 @@ A: состояние на погибшую цель не накладывает
 
 | Источник / точка входа | Нынешний владелец расчёта и маршрут | HP, смерть, очередь | D2 (A, будущая миграция) |
 |---|---|---|---|
-| [AttackCommand](../scripts/core/actions/attack_command.gd), три профиля → AttackHitCommand | B=strength+weapon; spatial: B×height_multiplier, прочие B; max(1,scaled-ARMOR), затем guard max(1,amount×0.7); physical/bypass | Оплата 1 main → HP executor → damaged/died; живой цели mandatory balance/push, затем реакции | Единый расчёт нового попадания; ΔA/ΔHP; U2 по прямому hit; обновить bindings, нельзя оставить предвычет и повторно применить защиту |
+| [AttackCommand](../scripts/core/actions/attack_command.gd), три профиля → AttackHitCommand | [AttackDamageCalculation (D1)](ATTACK_DAMAGE_D1.md): B=strength+weapon; spatial: B×height_multiplier, прочие B; max(1,scaled-ARMOR), затем guard max(1,amount×0.7); physical/bypass | Оплата 1 main → HP executor → damaged/died; живой цели mandatory balance/push, затем реакции | Единый расчёт нового попадания; ΔA/ΔHP; U2 по прямому hit; обновить bindings, нельзя оставить предвычет и повторно применить защиту |
 | [DamageCommand](../scripts/core/actions/damage_command.gd) / прямой DamageRequest | [ActionHpExecutor](../scripts/core/actions/action_hp_executor.gd): только physical; flat=max(0,amount-ARMOR), bypass=amount; стойки нет | Vitals → actual damaged, при смерти died и очистка occupancy; ActionQueue dispatch | Явные raw / resolved / bypass-защиты политики вместо двусмысленного bypass; старые requests не получают новую семантику молча |
 | [DamageCalculator.calculate/apply](../scripts/core/combat/damage_calculator.gd), ActionPreview, debug combat/inventory | max(0,base_damage+strength-ARMOR); нет стойки/height multiplier; apply напрямую в Vitals, потом impact живой цели | Фактический dealt в EventSink, отдельное сообщение смерти; нет ActionQueue/receipt/полного каскада | Оставить явно legacy, отклонять новую armor capability при calculate **и** apply; новый бой не вызывает этот путь. Миграция debug к командам — отдельное поручение |
 | Legacy balance: blocked/collision | [BalancePushRules.prepare_push](../scripts/core/actions/balance_push_rules.gd): max(1,impact-ARMOR) отдельно для target/blocker; bypass | PushDamageCommand или CollisionDamageCommand → damage executor; обе цели в одном collision-шаге, затем возможный вход на клетку погибшего blocker | Старый профиль изолирован; новый spatial-профиль пользуется единым расчётом. При новой capability старый профиль явно отклоняется |
@@ -723,12 +724,13 @@ origin_cell, instigator_unit_id, credit_unit_id)`, `ActionHpExecutor.damage`/
 `ActionQueue.submit(command, context)` и `AttackForecast.build(context, queue,
 command)` остаются владельцами исполнения и изолированного прогноза.
 
-A/D1, только после поручения на код:
+A/D1: выполнено отдельным поручением 2026-09-21; точный API/приёмка —
+[ATTACK_DAMAGE_D1](ATTACK_DAMAGE_D1.md). Ниже граница принятого среза:
 
 1. Извлечь нынешнюю формулу прямого удара из AttackCommand._prepare в чистый
    расчёт проверенных чисел. Предлагаемые входы: strength, weapon, armor,
    height multiplier/profile, guard; выходы: raw_attack, scaled, hit_amount,
-   структурированное объяснение стадий. **Это описание будущего API, не класс в коде.**
+   структурированное объяснение стадий. Реализован AttackDamageCalculation; сигнатура — в D1.
 2. AttackCommand сохраняет validate/preflight, оплату, источники, sealed request
    и передачу прежних raw_attack/hit_amount в BalancePushRules. Не переносить
    collision-базу в модифицированный прямой урон. В этой минимальной версии не
@@ -736,8 +738,9 @@ A/D1, только после поручения на код:
 3. Legacy DamageCalculator и прямой flat/bypass, balance/spatial/fall/death
    остаются побайтово прежними по результатам; новый helper не унифицирует их
    разные минимумы. Receipt/revision/RNG/counters/FAULTED prefix не меняются.
-4. Новое объяснение не меняет frozen receipts; способ передачи в UI уточнить
-   в пакете D1, не добавлять формулу в UI. Нынешний forecast исполняет тот же код.
+4. Новое объяснение не меняет frozen receipts. В D1 стадии доступны из результата
+   чистого расчёта; UI сохраняет прежний итог forecast, формула в него не добавлена.
+   Вывод нового объяснения брони/HP относится к D2. Нынешний forecast исполняет тот же код.
 
 A/D2, отдельная более широкая граница: runtime a_i/E и capability;
 Acurr/Amax производятся из этих запасов и вкладов экипировки; две карты сопротивлений и допустимые пределы от перков;
@@ -792,7 +795,8 @@ U, 2026-09-21: пользователь поручил ведущему прин
 Подбор контента и точные технические пакеты следующих этапов не требуют нового
 опроса по этим правилам. При обнаружении противоречия с U ведущий обращается к
 пользователю; обычные реализации/коэффициенты решает самостоятельно в рамках поручения.
-D1–D5/M1–M4 требуют отдельного поручения на соответствующий этап; D0 его не заменяет.
+D1/M2a завершён отдельным поручением; D2–D5/M1/M2b/M3–M4 требуют своего поручения,
+D0 его не заменяет.
 Никаких runtime-доказательств новая документация не даёт. Плейтест открыт, графика отложена.
 
 ## 9. Решения ведущего, закрывающие D0 — 2026-09-21
@@ -940,7 +944,8 @@ DESIGN_DIRECTION (классы, характеристики, среда, тру
 
 ### 9.6. Что остаётся следующим этапам
 
-D0 не требует дальнейшего опроса. D1 извлекает нынешнюю формулу без изменения поведения;
+D0 не требует дальнейшего опроса. D1 извлёк нынешнюю формулу без изменения поведения
+по отдельному поручению ([контракт](ATTACK_DAMAGE_D1.md));
 D2 получает точный пакет API/schema/checkpoints и реализует согласованный вертикальный срез;
 D3 выбирает конкретное состояние/баланс, D4 — контент/экономику ремонта и переходы,
 D5 — среду. Сигнатуры, номера schema и реализация адаптеров выбираются ведущим по коду,
