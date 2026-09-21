@@ -452,6 +452,26 @@ Core diagnostics совпали с base, включая 47 ObjectDB/18 resources
 Независимое ревью фиксированного diff — APPROVE; verification.json/review.md/completion.json
 в отчёте. Пользовательский плейтест открыт.
 
+## Первый срез новой брони D2 — 2026-09-21
+
+Base `5f688c4f7354a79072311d3690440d3b48ace3ba`, main; отдельное «продолжай».
+Прежняя передача — точный [снимок](CODEX_HANDOFF.history-20260921-16.md).
+[D2](ARMOR_DAMAGE_D2.md): отдельный бой physical/fire с расходом E/a_i,
+двумя ветвями сопротивлений, единым итогом HP и объяснением настоящего forecast.
+Снимки Unit/ItemSimulation v4, восстановление и queued истечение E; legacy D1 сохранён.
+Полный прогон `test_reports/demo-1e07a554c46a4f51b71417ce07ec7815/` и render
+`test_reports/demo-ff573d7aa2824de99220682c9209f36c/` PASS: import/startup,
+расчёт68, snapshot35, integration263, recovery26, armor UI16, core9440,
+demo143/battle267 — без failures. D1 helper23555 и57traces/502 assertions PASS.
+Input/scroll в SubViewport и PNG проверены. Core diagnostics совпали с D1:
+intentional occupied-cell error, 47 ObjectDB/18 resources при выходе.
+Ревью revised diff — APPROVE после исправления гибридных snapshot-версий,
+допуска восстановления и последовательной admission цепи падений/item-heal.
+Manifest подтверждает совпадение кода с обоими финальными прогонами.
+Свидетельства, manifests, review/verification/completion/next-chat-prompt:
+`test_reports/armor-damage-d2-20260921/` (ignored).
+Плейтест открыт; D3–D5/M1/M2b/M3–M4 и графика не запущены.
+
 ## Как добавлять историю
 
 Не менять старый снимок. При завершении следующего этапа сохранить прежний

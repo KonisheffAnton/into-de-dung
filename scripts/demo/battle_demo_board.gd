@@ -168,6 +168,7 @@ func _rebuild_visuals() -> void:
 		visual.selected = unit.id == session.selected_id and unit.is_alive()
 		visual.inspected = unit.id == inspected_id and unit.is_alive()
 		visual.forecast_entry = _forecast_entry(unit.id)
+		if unit.armor != null: visual.armor_values = ArmorRuntime.totals(ArmorRuntime.capture(session.state.get_owner(unit.id)))
 		_entities.add_child(visual)
 		_entity_visuals.append(visual)
 	_entity_visuals.sort_custom(func(a: BattleDemoIsoVisual, b: BattleDemoIsoVisual) -> bool: return a.position.y < b.position.y or (a.position.y == b.position.y and a.get_index() < b.get_index()))

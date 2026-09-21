@@ -63,6 +63,9 @@ static func calculate(
 
 	if attacker == null or target == null:
 		return info
+	if attacker.armor != null or target.armor != null:
+		info.reason = &"armor/legacy_unsupported"
+		return info
 
 	# STRENGTH прямо увеличивает урон, ARMOR — плоско снижает.
 	# IMPACT_POWER на урон НЕ влияет: это отдельная ось геймдизайна (можно
@@ -117,6 +120,9 @@ static func calculate(
 ## `GameEventBusSink` для реального боя (R-3).
 static func apply(info: DamageInfo, sink: EventSink = null) -> void:
 	if info == null or info.target == null or info.target.vitals == null:
+		return
+	if info.target.armor != null or (info.attacker != null and info.attacker.armor != null):
+		info.reason = &"armor/legacy_unsupported"
 		return
 
 	var event_sink := sink if sink != null else EventSink.new()

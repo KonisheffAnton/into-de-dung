@@ -20,6 +20,7 @@ python tools/demo/isolate.py --check --full
 python tools/demo/isolate.py --render-check
 ```
 
+Оба режима включают новые D2 runner (расчёт, snapshot, integration, recovery, UI).
 Первая команда включает import/startup, attack_calculation/attack_d1, forecast, guard, summon_snapshot,
 summon, healing, core и headless demo/battle. Вторая повторяет import/startup
 и отдельные механические runner, затем запускает demo/battle с рендерингом и PNG;
@@ -30,6 +31,7 @@ core без `--full` в неё не входит. Повторять более 
 |---|---|
 | Ядро | `run_tests.gd` |
 | Выделенный расчёт / эквивалентность до D1 | `test_attack_damage_calculation.gd`, `test_attack_damage_d1.gd` |
+| Броня D2 | `test_armor_hit_calculation.gd`, `test_armor_snapshot.gd`, `test_armor_integration.gd`, `test_armor_recovery.gd`, `test_armor_battle.gd` |
 | Прогноз | `test_attack_forecast.gd` |
 | Стойка | `test_guard_stance.gd` |
 | Флакон | `test_healing_item.gd` |

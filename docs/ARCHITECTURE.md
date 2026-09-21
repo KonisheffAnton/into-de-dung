@@ -1,7 +1,7 @@
 # Текущая архитектура intoDeDung
 
 Базовая сверка: `dcac6da4afb0d3583db79409c8f2fe1f06593968`, 2026-09-20;
-расчёт прямого удара обновлён этапом [D1](ATTACK_DAMAGE_D1.md), 2026-09-21. Этот файл описывает реализацию;
+расчёт прямого удара обновлён этапом [D1](ATTACK_DAMAGE_D1.md), новый отдельный профиль брони — [D2](ARMOR_DAMAGE_D2.md), 2026-09-21. Этот файл описывает реализацию;
 направление разработки находится в [DESIGN_DIRECTION](DESIGN_DIRECTION.md).
 
 ## Рабочий срез
@@ -40,9 +40,8 @@
 - AttackCommand получает `STRENGTH + WEAPON_DAMAGE`, высоту, вычет ARMOR и стойку
   из чистого AttackDamageCalculation ([D1](ATTACK_DAMAGE_D1.md)). Legacy `combat/damage_calculator.gd` содержит отдельный расчёт.
   Далее передаётся DamageRequest с bypass, поскольку броня уже применена.
-- AttackDefinition/AttackRules знают id/profile и три нынешних профиля;
-  это не готовый конвейер произвольных типизированных компонентов урона.
-- Vitals хранит HP и balance, но не текущую прочность брони. ARMOR сейчас — stat.
+- AttackDefinition/AttackRules сохраняют три legacy-профиля и добавляют armor_spatial_v1 с проверенными рациональными компонентами physical/fire. Новые операции требуют явной поддержки.
+- Vitals хранит HP/balance. Новая ArmorState хранит естественные защиты, перки и E; a_i и ключ создания принадлежат ItemInstance, A_i/сопротивления — ItemDef. Legacy ARMOR остаётся stat.
 - ItemDef имеет специальные use_heal_amount/use_summon; параметры помощника
   задаются в UseSummoningItemCommand. Общий контракт применения ещё не выделен.
 - Снимки проверяют точные схемы и поддерживаемые виды данных. Диапазон stat IDs
@@ -54,3 +53,16 @@
 [COMMAND_ACTION_QUEUE_CONTRACT](COMMAND_ACTION_QUEUE_CONTRACT.md).
 Запуск и текущая главная сцена — [REPOSITORY_STATE](REPOSITORY_STATE.md).
 Прежняя архитектурная хронология сохранена в [архиве](ARCHITECTURE.history-20260920.md).
+
+## Первый срез новой брони — D2
+
+Отдельный BattleArmorSession открывается кнопкой «Броня»/armor_battle.tscn.
+ArmorFraction/ArmorHitCalculation считают точные числа; ArmorRuntime собирает вещи
+и план расхода с клоном CombatRng. ArmorHitExecutor применяет E → условный RNG
+commit → a_i → один HP через расширенный SpatialRules.Guard. Collision/fall
+получают отдельные hit с будущими запасами; явная смерть не проходит через броню.
+RestoreArmorCommand и ArmorRecovery восстанавливают по недостаче; избыток в бою — E.
+ArmorEndBattleCommand удаляет временный E в общей очереди, поэтому terminal forecast
+совпадает с live. Unit v4/ItemSimulation v4 сохраняют новую capability; legacy bytes
+прежние. Призыв в новом сценарии отключён явно; состояния/хаб остаются будущими.
+Точные DTO, checkpoints, совместимость и границы — [ARMOR_DAMAGE_D2](ARMOR_DAMAGE_D2.md).

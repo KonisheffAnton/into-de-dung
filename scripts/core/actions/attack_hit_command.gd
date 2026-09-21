@@ -37,6 +37,7 @@ func copy_for_queue() -> Command:
 func validate(context: ActionContext) -> StringName:
 	var reason := _binding_reason(context)
 	if reason != &"": return reason
+	if request.armor_mode == &"armor": return &""
 	return &"" if ActionHpExecutor.validate_damage(request, context) == &"" else &"attack/invalid_hit"
 
 func execute(context: ActionContext) -> CommandStepResult:
@@ -69,7 +70,9 @@ func _binding_reason(context: ActionContext) -> StringName:
 		if p07_reason != &"": return &"attack/invalid_hit"
 	elif _p07_binding != null:
 		return &"attack/invalid_hit"
-	if request.target_unit_id != _target.id or request.damage_type != &"physical" or request.armor_mode != &"bypass" or not is_finite(request.amount) or request.amount < 1.0 or request.source == null:
+	var armor_hit: bool = _p07_binding != null and _p07_binding.values.get("armor", false)
+	if armor_hit and (request.armor_mode != &"armor" or request.armor_components != _p07_binding.values["armor_plan"]["raw"]): return &"attack/invalid_hit"
+	if request.target_unit_id != _target.id or request.damage_type != &"physical" or (not armor_hit and (request.armor_mode != &"bypass" or request.amount < 1.0)) or not is_finite(request.amount) or request.source == null:
 		return &"attack/invalid_hit"
 	var source := request.source
 	if source.kind != &"attack" or source.source_instance_id != 0 or source.origin_cell != _actor_cell or source.instigator_unit_id != _actor.id or source.credit_unit_id != _actor.id:
@@ -84,5 +87,5 @@ func _binding_reason(context: ActionContext) -> StringName:
 	return &""
 
 static func _same_request(left: DamageRequest, right: DamageRequest) -> bool:
-	if left.target_unit_id != right.target_unit_id or left.amount != right.amount or left.damage_type != right.damage_type or left.armor_mode != right.armor_mode or left.source == null or right.source == null: return false
+	if left.target_unit_id != right.target_unit_id or left.amount != right.amount or left.damage_type != right.damage_type or left.armor_mode != right.armor_mode or left.armor_components != right.armor_components or left.source == null or right.source == null: return false
 	return left.source.kind == right.source.kind and left.source.source_instance_id == right.source.source_instance_id and left.source.origin_cell == right.source.origin_cell and left.source.instigator_unit_id == right.source.instigator_unit_id and left.source.credit_unit_id == right.source.credit_unit_id

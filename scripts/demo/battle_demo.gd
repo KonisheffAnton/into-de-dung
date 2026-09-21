@@ -2,6 +2,7 @@ extends Control
 class_name BattleDemo
 
 @export var tactical_mode: bool = false
+@export var armor_mode: bool = false
 var session: BattleDemoSession
 var board_view: BattleDemoBoard
 var attack_mode: bool = false
@@ -42,7 +43,7 @@ func _ready() -> void:
 	_refresh()
 
 func _create_session() -> void:
-	session = BattleTacticalSession.new() if tactical_mode else BattleDemoSession.new()
+	session = BattleArmorSession.new() if armor_mode else (BattleTacticalSession.new() if tactical_mode else BattleDemoSession.new())
 	_battle = session as BattleTacticalSession
 	_ai_delay = 0.0
 	_flow_cursor = 0
@@ -94,6 +95,9 @@ func _build_ui() -> void:
 	_mode_button = _button("")
 	_mode_button.pressed.connect(toggle_scenario)
 	title.add_child(_mode_button)
+	var armor_button := _button("Броня")
+	armor_button.pressed.connect(_open_armor_scenario)
+	title.add_child(armor_button)
 	var reset_button := _button("Сбросить бой  ·  R")
 	reset_button.pressed.connect(reset_demo)
 	title.add_child(reset_button)
@@ -222,6 +226,10 @@ func _action_bar_requested(action_id: StringName) -> void:
 		&"guard": _use_guard()
 		&"healing_item": _use_healing_item()
 		&"summoning_item": _choose_summoning()
+		&"restore_armor":
+			if session is BattleArmorSession:
+				attack_mode = false; summoning_mode = false; inspected_id = UnitId.NONE
+				_show_receipt((session as BattleArmorSession).restore_selected_armor())
 
 func _use_healing_item() -> void:
 	if _battle == null: return
@@ -293,6 +301,7 @@ func reset_demo() -> void:
 func toggle_scenario() -> void:
 	_clear_forecast()
 	session.close()
+	armor_mode = false
 	tactical_mode = not tactical_mode
 	_create_session()
 	board_view.session = session
@@ -301,6 +310,20 @@ func toggle_scenario() -> void:
 	inspected_id = UnitId.NONE
 	_journal.clear()
 	_note("Начат бой против компьютера." if tactical_mode else "Полигон: все персонажи управляются вручную.")
+	_refresh()
+
+func _open_armor_scenario() -> void:
+	_clear_forecast()
+	session.close()
+	armor_mode = true
+	tactical_mode = true
+	_create_session()
+	board_view.session = session
+	summoning_mode = false
+	attack_mode = false
+	inspected_id = UnitId.NONE
+	_journal.clear()
+	_note("Бой с бронёй: физический удар и огненная руна. Прогноз показывает каждый тип и последствие.")
 	_refresh()
 
 func end_turn() -> void:
@@ -320,6 +343,7 @@ func _refresh() -> void:
 		if _battle == null or not _battle.can_player_act() or inspected == null or not inspected.is_alive() or inspected.faction != Faction.Type.ENEMY:
 			inspected_id = UnitId.NONE
 	_heading.text = "intoDeDung   /   Бой у обрыва" if tactical_mode else "intoDeDung   /   Полигон"
+	if armor_mode: _heading.text = "intoDeDung   /   Броня и огонь"
 	_subtitle.text = "Трое против троих. Победите всех врагов; потеря команды означает поражение." if tactical_mode else "Поднимитесь по ступеням. Ударьте сверху. Столкните стража с уступа."
 	_subtitle.visible = not tactical_mode
 	_status.custom_minimum_size.y = 26 if tactical_mode else 46
@@ -330,6 +354,7 @@ func _refresh() -> void:
 	# старая кнопка остаётся частью sandbox-полигона для совместимости.
 	_attack_button.visible = not tactical_mode
 	_instructions.text = "1 / A: атака · 2: защита · 3: лечение · 4: призыв · M: движение · Клик по врагу: осмотр · Enter: конец хода · R: заново" if tactical_mode else "Ступени: Астра → D3 → A → Страж. Стена: Бор → A → Щит. Пропасть: Рей → A → Мишень на G7."
+	if armor_mode: _instructions.text = _instructions.text.replace("4: призыв", "4: броня +20")
 	var locked := _battle != null and not _battle.can_player_act()
 	_move_button.disabled = locked
 	_attack_button.disabled = locked
@@ -344,7 +369,10 @@ func _refresh() -> void:
 		else:
 			descriptors.append({"label": "—", "disabled": true})
 		var seal := _battle.summoning_item() if _battle != null else null
-		if seal != null:
+		if session is BattleArmorSession:
+			var reason := (session as BattleArmorSession).restore_armor_reason()
+			descriptors.append({"action_id": &"restore_armor", "label": "Броня +20", "cost": "1 основное", "disabled": reason != &"", "tooltip": "Восстановить 20 брони по недостаче вещей. Избыток становится временной бронёй до конца боя.\n" + (_reason_text(reason) if reason != &"" else "Стойка сохраняется.")})
+		elif seal != null:
 			var reason := _battle.summoning_reason()
 			descriptors.append({"action_id": &"summoning_item", "label": "Печать %d/%d" % [seal.get_charges_left(), seal.get_definition().max_charges], "cost": "1 основное", "disabled": reason != &"", "tooltip": "Помощник: 16 HP, действует со следующего хода команды. Один на владельца, до гибели или конца боя. 1 основное и 1 заряд.\n" + (_reason_text(reason) if reason != &"" else "Выберите соседнюю свободную безопасную клетку той же высоты.")})
 		_action_bar.set_dynamic_descriptors(descriptors)
@@ -416,6 +444,10 @@ func _inspection_text(unit: UnitState) -> String:
 		text += "\nПомощник: до гибели / конца боя; владелец " + _name_for(session.state.summon_owner_id(unit.id))
 		text += "\nДействия со следующего хода своей команды." if session.state.is_summon_pending(unit.id) else "\nГотов действовать."
 	var descriptions: Array[String] = []
+	if unit.armor != null:
+		var armor := ArmorRuntime.totals(ArmorRuntime.capture(session.state.get_owner(unit.id)))
+		if not armor.is_empty():
+			text = text.replace("Броня: %.1f" % unit.get_stat(StatTypes.StatType.ARMOR), "Броня: %d / %d (временная: %d)" % [armor["current"], armor["maximum"], armor["extra"]])
 	if session.state != null:
 		var owner := session.state.get_owner(unit.id)
 		if owner != null:
@@ -541,9 +573,18 @@ func _render_forecast_panel() -> void:
 			text += "%s: HP [color=%s]%.1f → %.1f%s[/color]\n" % [_name_for(id), hp_color, hp_before, hp_after, " · ГИБЕЛЬ" if not after["alive"] else ""]
 		if before["balance"] != after["balance"]:
 			text += "%s: потеря равновесия %.1f → %.1f\n" % [_name_for(id), before["balance"], after["balance"]]
+		if before.has("armor_current"):
+			text += "%s: броня %d → %d / %d\n" % [_name_for(id), before["armor_current"], after["armor_current"], after["armor_max"]]
 		if before["main"] != after["main"]:
 			text += "%s: основные действия %d → %d\n" % [_name_for(id), before["main"], after["main"]]
 	var events: Array[Dictionary] = _forecast.events
+	for event: Dictionary in events:
+		if event.get("kind") != &"hit_resolved": continue
+		var hit: Dictionary = event["hit"]
+		text += "\n[color=#f7c97d]%s · броня −%d[/color]\n" % [_name_for(event["target_unit_id"]), hit["armor_spent"]]
+		text += "В HP до защиты: %d/%d · урон %d · лечение %d\n" % [hit["p_num"], hit["p_den"], hit["total_damage"], hit["total_healing"]]
+		for row: Dictionary in hit["rows"]:
+			text += "%s: вход %d → броня %d / HP %d / лечение %d\n" % ["Физический" if row["type"] == &"physical" else "Огонь", row["D"], row["armor_spent"], row["hp_damage"], row["healing"]]
 	if events.is_empty(): text += "Событий последствий нет.\n"
 	else:
 		text += "\n[color=#a5b3c5]Последствия:[/color]\n"
@@ -596,7 +637,9 @@ func _event_text(event: Dictionary) -> String:
 			var source: Dictionary = event.get("source", {})
 			var cause := " от падения" if source.get("kind", &"") == &"fall" else ""
 			return "%s: −%.1f HP%s." % [target, float(event.get("amount", 0)), cause]
-		&"healed": return "%s: +%.1f HP от предмета." % [target, float(event.get("amount", 0))]
+		&"healed": return "%s: +%.1f HP%s." % [target, float(event.get("amount", 0)), " от сопротивления" if event.get("source", {}).get("kind") in [&"attack", &"collision", &"fall"] else " от предмета"]
+		&"armor_changed": return "%s: запас брони изменился." % target
+		&"hit_resolved": return "%s: попадание завершено, HP %d → %d." % [target, event["hit"]["hp_before"], event["hit"]["hp_after"]]
 		&"balance_changed": return "%s: равновесие %.1f / %.1f." % [target, float(event.get("balance_after", 0)), float(event.get("balance_max", 0))]
 		&"balance_broken": return "%s теряет равновесие → толчок." % target
 		&"moved":
@@ -617,6 +660,9 @@ func _cell_name(cell: Vector2i) -> String:
 
 func _reason_text(reason: StringName) -> String:
 	match reason:
+		&"armor/summon_unsupported": return "призыв недоступен в сценарии брони."
+		&"armor/zero_restore": return "нечего восстанавливать."
+		&"armor/full": return "обычная броня уже восстановлена."
 		&"attack/insufficient_main": return "основные действия закончились; выберите другого персонажа или завершите ход." if tactical_mode else "основные действия закончились; выберите другого персонажа или сбросьте бой."
 		&"battle/input_locked": return "сейчас нельзя действовать."
 		&"battle/friendly_target": return "выберите противника."

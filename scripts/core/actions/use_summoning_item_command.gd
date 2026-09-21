@@ -24,6 +24,7 @@ func validate(context: ActionContext) -> StringName:
 	var board := state.get_board()
 	var actor := board.get_unit_by_id(_actor_id)
 	if actor == null or not actor.is_alive(): return &"item/no_selected_unit"
+	if actor.armor != null: return &"armor/summon_unsupported"
 	if ItemSimulationSnapshot.capture(state, context.get_unsupported_runtime_ids()).code != ItemSnapshotResult.Code.OK: return &"item/invalid_runtime"
 	var owner := state.get_owner(_actor_id)
 	if owner == null or owner.is_closed() or owner.get_owner() != actor or board.occupant_at(actor.cell) != actor: return &"item/invalid_runtime"

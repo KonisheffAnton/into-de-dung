@@ -31,6 +31,7 @@ var target_cell: Vector2i
 var base_damage: float = 0.0
 var impact_power: float = 0.0
 var damage_type: StringName = &"physical"
+var reason: StringName = &""
 
 ## --- Поля, заполняемые DamageCalculator.calculate() ---
 var final_damage: float = 0.0

@@ -11,6 +11,9 @@ var _effects: Array[ItemEffectRuntime] = []
 var _active := false
 var _placement := 0
 var _charges_left: int
+var armor_remaining: int = 0
+var armor_origin_owner: int = 0
+var armor_origin_item: int = 0
 
 func _init(definition: ItemDef, owner_id: int, item_id: int, effects: Array[ItemEffectRuntime], charges_left: int = -1) -> void:
 	_definition = definition
@@ -19,6 +22,9 @@ func _init(definition: ItemDef, owner_id: int, item_id: int, effects: Array[Item
 	_item_id = item_id
 	_effects = effects.duplicate()
 	_charges_left = definition.max_charges if charges_left < 0 else charges_left
+	armor_remaining = definition.armor_max
+	armor_origin_owner = owner_id
+	armor_origin_item = item_id
 
 func get_definition() -> ItemDef: return _definition
 func get_definition_id() -> StringName: return _definition_id

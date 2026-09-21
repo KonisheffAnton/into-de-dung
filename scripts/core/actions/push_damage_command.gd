@@ -17,10 +17,10 @@ func validate(context: ActionContext) -> StringName:
 	var target := context.get_state().get_board().get_unit_by_id(request.target_unit_id)
 	if target == null or (request.amount >= target.vitals.get_hp() and (context.get_state().get_board().board_version < 0 or context.get_state().get_board().board_version > ActionContext.MAX_ID - 1)):
 		return &"push/board_version_exhausted"
-	return ActionHpExecutor.validate_damage(request, context)
+	return &"" if request.armor_mode == &"armor" and _binding.values.get("armor", false) else ActionHpExecutor.validate_damage(request, context)
 
 static func _same_request(a: DamageRequest, b: DamageRequest) -> bool:
-	return a.target_unit_id == b.target_unit_id and a.amount == b.amount and a.damage_type == b.damage_type and a.armor_mode == b.armor_mode and a.source != null and b.source != null and a.source.to_dict() == b.source.to_dict()
+	return BalancePushRules._same_request(a, b)
 func execute(context: ActionContext) -> CommandStepResult:
 	var reason := validate(context)
 	if reason == &"" and _binding.values.get("spatial", false):

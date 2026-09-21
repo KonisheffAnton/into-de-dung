@@ -80,6 +80,7 @@ class Guard extends RefCounted:
 		var state: ItemSimulationState = refs["state"]
 		var board: BattleBoard = refs["board"]
 		if context._state != state or state == null or state._board != board or board == null: return false
+		if refs.has("armor_rng") and (context.get_rng() != refs["armor_rng"] or context.get_rng().to_dict() != values["armor_rng"]): return false
 		if state._owners != refs["owners"] or state._inventories != refs["inventories"] or state._equipment != refs["equipment"]: return false
 		# Проверяем raw attachment до getters, которые обходят массив и вызывают методы.
 		for record: Dictionary in refs["attachments"]:
@@ -101,6 +102,9 @@ class Guard extends RefCounted:
 			var resources: ActionResources = r["resources"]
 			if board._units.get(id) != unit or unit.id != id or unit.stats != stats or unit.vitals != vitals or unit.action_resources != resources or vitals._stats != stats: return false
 			if owner._owner != unit or owner._closed or state.get_owner(id) != owner: return false
+			if r.has("armor_refs"):
+				if not ArmorRuntime.same_references(owner, r["armor_refs"]) or ArmorRuntime.capture(owner) != v["armor"]: return false
+			elif unit.armor != null: return false
 			if [owner._inventory_registered, owner._inventory_retired, owner._equipment_registered, owner._equipment_retired] != v["lifecycle"]: return false
 			if state.get_inventory(id) != r["inventory"] or state.get_equipment(id) != r["equipment"]: return false
 			if unit.cell != v["cell"] or unit.height != v["height"] or board.get_height_steps(unit.cell) != v["height_steps"]: return false
@@ -163,6 +167,24 @@ class Guard extends RefCounted:
 		result.seal()
 		return result
 
+	func armor_phase(id: int, view: Dictionary) -> Guard:
+		var result := copy()
+		result.values["participants"][id]["armor"] = view.duplicate(true)
+		result.seal()
+		return result
+
+	func rng_phase(after: Dictionary) -> Guard:
+		var result := copy()
+		result.values["armor_rng"] = after.duplicate(true)
+		result.seal()
+		return result
+
+	func hit_hp_phase(id: int, after: float, death_written: bool) -> Guard:
+		var result := hp_phase(id, 0.0, death_written)
+		result.values["participants"][id]["hp"] = after
+		result.seal()
+		return result
+
 static func capture_guard(context: ActionContext, units: Array[UnitState], cells: Array[Vector2i], stat_types: Dictionary) -> Guard:
 	if context == null or context.get_script() != ActionContext or context._state == null or context._state.get_script() != ItemSimulationState: return null
 	var state := context._state
@@ -218,5 +240,12 @@ static func capture_guard(context: ActionContext, units: Array[UnitState], cells
 		guard.values["participants"][unit.id] = {"cell": unit.cell, "height": unit.height, "height_steps": board.get_height_steps(unit.cell), "hp": vitals._hp, "alive": vitals._is_alive, "balance": vitals._balance, "move": unit.move_points_left, "main": resources.get_main_left() if resources != null else 0, "bonus": resources.get_bonus_left() if resources != null else 0, "occupancy": [unit.cell], "lifecycle": lifecycle, "stats": stats_values}
 		guard.values["geometry"][unit.cell] = [board.get_height_steps(unit.cell), board.get_terrain(unit.cell), unit.id]
 		guard.values["participants"][unit.id]["guard_stance"] = unit.guard_stance
+		if unit.armor != null:
+			var armor_view := ArmorRuntime.capture(owner)
+			if armor_view.is_empty() or ArmorRuntime.totals(armor_view).is_empty() or context.get_rng() == null: return null
+			guard.refs["participants"][unit.id]["armor_refs"] = ArmorRuntime.references(owner)
+			guard.values["participants"][unit.id]["armor"] = armor_view
+			guard.refs["armor_rng"] = context.get_rng()
+			guard.values["armor_rng"] = context.get_rng().to_dict().duplicate(true)
 	guard.seal()
 	return guard if guard.check(context) else null

@@ -214,6 +214,10 @@ static func _find_unsupported(board_value: Dictionary) -> String:
 		if has_stance_shape:
 			unit_keys.append("guard_stance")
 			if typeof(unit.get("guard_stance")) != TYPE_BOOL: continue
+		var has_armor_shape: bool = typeof(unit_version) == TYPE_INT and (unit_version == 4 or (unit_version not in [1, 2, 3] and unit.has("armor")))
+		if has_armor_shape:
+			unit_keys.append("armor")
+			if typeof(unit.get("armor")) != TYPE_DICTIONARY or not ArmorState.valid(unit["armor"]): continue
 		if not _has_exact_string_keys(unit, unit_keys): continue
 		var unit_types_valid := true
 		for key in ["schema_version", "id", "faction", "cell_x", "cell_y", "height"]:
@@ -231,11 +235,11 @@ static func _find_unsupported(board_value: Dictionary) -> String:
 					resources = {}
 					break
 			if resources.is_empty(): continue
-		if typeof(unit_version) == TYPE_INT and unit_version not in [1, 2, 3]:
+		if typeof(unit_version) == TYPE_INT and unit_version not in [1, 2, 3, 4]:
 			return ("unit/%d" % unit["id"] if typeof(unit.get("id")) == TYPE_INT else "unit") + "/version"
 		var unit_path := "unit/%d" % unit["id"] if typeof(unit.get("id")) == TYPE_INT else "unit"
 		if typeof(unit.get("ai_profile_path")) == TYPE_STRING and not unit["ai_profile_path"].is_empty(): return unit_path + "/ai_profile"
-		if unit["schema_version"] in [2, 3]:
+		if unit["schema_version"] in [2, 3, 4]:
 			if typeof(resources.get("schema_version")) == TYPE_INT and resources["schema_version"] != 1: return unit_path + "/action_resources/version"
 		if typeof(unit.get("stats")) != TYPE_DICTIONARY: continue
 		var bag: Dictionary = unit["stats"]

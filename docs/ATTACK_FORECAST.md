@@ -76,3 +76,14 @@ runner; viewport hover/exit/selection/phase/reset и PNG, независимое
 Заряд печати не расходуется атакой. Совпадение полного snapshot, receipts,
 counters/RNG проверяется для атак с pending/готовым helper, включая атаку на
 него. Прогноза призыва нет. Unit snapshot v3 стойки не меняется.
+
+## Новая броня D2
+
+Профиль armor_spatial_v1 исполняется тем же forecast. Unit/ItemSimulation v4
+переносят E, перки/сопротивления, a_i/ключи экземпляров; CombatRng клонируется.
+В units добавлены armor_state, armor_current, armor_max только для новой capability.
+События armor_changed/hit_resolved дают фактический расход и по типам D/защиты/
+HP-damage/healing; старые damaged/healed отражают net HP. Панель и синяя полоса
+читают эти значения без своей формулы. Завершение боя и истечение E также
+исполняются очередью на копии; внешние callbacks по-прежнему не копируются.
+Полный контракт и ограничения — [ARMOR_DAMAGE_D2](ARMOR_DAMAGE_D2.md).

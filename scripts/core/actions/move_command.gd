@@ -80,6 +80,7 @@ func validate(context: ActionContext) -> StringName:
 		return &"move/missing_actor"
 	if not actor.is_alive():
 		return &"move/dead_actor"
+	if actor.armor != null and rules.get_profile() != &"spatial_move_v1": return &"armor/legacy_unsupported"
 	if actor.stats == null or actor.vitals == null:
 		return &"move/invalid_runtime"
 	if _expected_revision != context.get_revision():
@@ -96,6 +97,9 @@ func validate(context: ActionContext) -> StringName:
 	var required: int = _path.size() - 1
 	if rules.get_profile() == &"spatial_move_v1":
 		if actor.action_resources == null or SpatialRules.capture_guard(context, [actor], _path, {}) == null: return &"move/invalid_runtime"
+		if actor.armor != null:
+			var armor_reason := _armor_path_reason(context, actor)
+			if armor_reason != &"": return armor_reason
 		for index in range(1, _path.size()):
 			var drop := maxi(0, board.get_height_steps(_path[index - 1]) - board.get_height_steps(_path[index]))
 			if board.is_lethal(_path[index]):
@@ -195,7 +199,40 @@ static func _fall_for(actor: UnitState, drop: int) -> float:
 	if drop <= 2: return 0.0
 	var stats_copy := StatsBag.from_snapshot_dict(actor.stats.to_snapshot_dict())
 	if stats_copy == null or not stats_copy.has_stat(StatTypes.StatType.HP_MAX) or not stats_copy.has_stat(StatTypes.StatType.ARMOR): return NAN
+	if actor.armor != null:
+		var raw := ArmorAttack.fall(stats_copy.get_value(StatTypes.StatType.HP_MAX), drop, true)
+		return float(raw.numerator) / float(raw.denominator) if raw.valid else NAN
 	return SpatialRules.fall_amount(stats_copy.get_value(StatTypes.StatType.HP_MAX), stats_copy.get_value(StatTypes.StatType.ARMOR), drop, true)
+
+static func _armor_fall_plan(context: ActionContext, actor: UnitState, drop: int) -> Dictionary:
+	var maximum := ActionHpExecutor._stat_value(actor, StatTypes.StatType.HP_MAX)
+	var raw := ArmorRuntime.physical(ArmorAttack.fall(maximum, drop, true), "fall")
+	return ArmorRuntime.plan(ArmorRuntime.capture(context.get_state().get_owner(actor.id)), raw, actor.vitals.get_hp(), maximum, context.get_rng())
+
+func _armor_path_reason(context: ActionContext, actor: UnitState) -> StringName:
+	# До первого шага переносим расход E/a_i и RNG вдоль всей известной цепи падений.
+	var board := context.get_state().get_board()
+	var maximum := ActionHpExecutor._stat_value(actor, StatTypes.StatType.HP_MAX)
+	var simulation := {"views": {actor.id: ArmorRuntime.capture(context.get_state().get_owner(actor.id))}, "hp": {actor.id: actor.vitals.get_hp()}, "rng": context.get_rng()}
+	# Между гранями очередь исполняет нынешние item-heal реакции. Читаем их настоящим
+	# collector, чтобы не оборвать admission по смерти, предотвращённой прошлым лечением.
+	var reactions := ItemReactionCollector.collect_damage(context.get_state(), {"event_seq": 1, "target_unit_id": actor.id, "dealt": 1.0})
+	if reactions.code != ItemReactionResult.Code.OK: return &"armor/invalid_move_reactions"
+	for index in range(1, _path.size()):
+		if board.is_lethal(_path[index]): break
+		var drop := maxi(0, board.get_height_steps(_path[index - 1]) - board.get_height_steps(_path[index]))
+		if drop <= 2: continue
+		var raw := ArmorRuntime.physical(ArmorAttack.fall(maximum, drop, true), "fall")
+		var plan := ArmorRuntime.plan(simulation["views"][actor.id], raw, simulation["hp"][actor.id], maximum, simulation["rng"])
+		if plan.get("reason", &"") != &"": return plan["reason"]
+		if not ArmorSpatial._advance_rng(simulation, plan): return &"armor/rng_not_cloneable"
+		simulation["views"][actor.id] = plan["after"]
+		simulation["hp"][actor.id] = float(plan["hp_after"])
+		if plan["hp_after"] == 0: break
+		if plan["hp_loss"] > 0:
+			for reaction: Dictionary in reactions.descriptions:
+				simulation["hp"][actor.id] = minf(maximum, simulation["hp"][actor.id] + float(reaction["heal_amount"]))
+	return &""
 
 func _execute_spatial_edge(context: ActionContext, board: BattleBoard, actor: UnitState, rules: MoveRules) -> CommandStepResult:
 	var edge: Array[Vector2i] = [_path[_continuation_index - 1], _path[_continuation_index]]
@@ -217,6 +254,10 @@ func _execute_spatial_edge(context: ActionContext, board: BattleBoard, actor: Un
 	var guard := SpatialRules.capture_guard(context, [actor], edge, types)
 	if guard == null or actor.action_resources == null: return CommandStepResult.faulted(&"move/invalid_runtime")
 	var required := 1 + (1 if lethal or (fall > 0.0 and fall >= actor.vitals.get_hp()) else 0)
+	if actor.armor != null and fall > 0.0:
+		var plan := _armor_fall_plan(context, actor, drop)
+		if plan.get("reason", &"") != &"": return CommandStepResult.faulted(plan["reason"])
+		required = 1 + (1 if plan["hp_after"] == 0 else 0)
 	if board.board_version > MAX_ID - required: return CommandStepResult.faulted(&"move/board_version_exhausted")
 	var before := actor.move_points_left
 	var cost := check.get_costs()[0]

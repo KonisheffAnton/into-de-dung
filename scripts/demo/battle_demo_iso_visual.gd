@@ -11,6 +11,7 @@ var reachable: bool = false
 var enemy_range: bool = false
 var inspected: bool = false
 var forecast_entry: Dictionary = {}
+var armor_values: Dictionary = {}
 var transient_label: String = ""
 var transient_tint := Color("f7c97d")
 var fall_drop: float = 0.0:
@@ -140,4 +141,13 @@ func _draw_unit() -> void:
 		if not expected_alive: draw_string(ThemeDB.fallback_font, Vector2(-18, 38), "ПОГИБ", HORIZONTAL_ALIGNMENT_CENTER, 36, 8, Color("f29b9b"))
 		draw_rect(Rect2(-19, 13, 38, 3), Color("0f1d28"))
 		draw_rect(Rect2(-19, 13, 38 * balance, 3), Color("f7c97d"))
+		if not armor_values.is_empty():
+			var maximum := maxf(1.0, float(armor_values["maximum"]))
+			var current: float = armor_values["current"]
+			var expected := float(forecast_after.get("armor_current", current))
+			draw_rect(Rect2(-19, 1, 38, 4), Color("0f1d28"))
+			draw_rect(Rect2(-19, 1, 38 * clampf(current / maximum, 0.0, 1.0), 4), Color("91b9f4"))
+			if expected != current:
+				var mark := -19 + 38 * clampf(expected / maximum, 0.0, 1.0)
+				draw_line(Vector2(mark, 0), Vector2(mark, 6), Color.WHITE, 1)
 	draw_set_transform(Vector2.ZERO)

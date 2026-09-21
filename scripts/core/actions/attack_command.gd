@@ -75,7 +75,8 @@ func _prepare(context: ActionContext) -> Dictionary:
 		result["reason"] = &"attack/unknown_definition"; return result
 	var state := context.get_state()
 	var board := state.get_board()
-	var spatial := definition.profile == AttackRules.SPATIAL_PROFILE
+	var armor_profile := definition.profile == AttackRules.ARMOR_PROFILE
+	var spatial := definition.profile in [AttackRules.SPATIAL_PROFILE, AttackRules.ARMOR_PROFILE]
 	if not spatial and board.has_half_heights():
 		result["reason"] = &"attack/height_units_unsupported"; return result
 	var actor := board.get_unit_by_id(_actor_unit_id)
@@ -92,6 +93,10 @@ func _prepare(context: ActionContext) -> Dictionary:
 		result["reason"] = &"attack/invalid_runtime"; return result
 	if not target.is_alive():
 		result["reason"] = &"attack/dead_target"; return result
+	if armor_profile and (actor.armor == null or target.armor == null):
+		result["reason"] = &"armor/capability_required"; return result
+	if not armor_profile and (actor.armor != null or target.armor != null):
+		result["reason"] = &"armor/legacy_unsupported"; return result
 	if actor.get_script() != UnitState or target.get_script() != UnitState or actor.stats == null or target.stats == null or actor.vitals == null or target.vitals == null or actor.stats.get_script() != StatsBag or target.stats.get_script() != StatsBag or actor.vitals.get_script() != Vitals or target.vitals.get_script() != Vitals or actor.vitals._stats != actor.stats or target.vitals._stats != target.stats or state.get_owner(actor.id) == null or state.get_owner(target.id) == null or state.get_owner(actor.id).get_owner() != actor or state.get_owner(target.id).get_owner() != target:
 		result["reason"] = &"attack/invalid_runtime"; return result
 	if _expected_revision != context.get_revision():
@@ -134,6 +139,20 @@ func _prepare(context: ActionContext) -> Dictionary:
 	if not is_finite(strength) or not is_finite(armor):
 		result["reason"] = &"attack/nonfinite_damage"; return result
 	var signed_height_steps := board.get_height_steps(actor.cell) - board.get_height_steps(target.cell) if spatial else 0
+	if armor_profile:
+		var raw := ArmorAttack.components(strength, weapon, signed_height_steps, target.guard_stance, definition.damage_components)
+		var request := ArmorAttack.request(target.id, raw, DamageSource.new(&"attack", 0, actor.cell, actor.id, actor.id))
+		var plan := ArmorHitExecutor.prepare(request, ArmorRuntime.capture(state.get_owner(target.id)), target.vitals.get_hp(), target_copy.get_value(StatTypes.StatType.HP_MAX), context.get_rng())
+		if plan.get("reason", &"") != &"": result["reason"] = plan["reason"]; return result
+		request.amount = float(plan["hp_before"] - plan["hp_after"])
+		var binding_result := BalancePushRules.prepare_attack(context, actor, target, strength + weapon, request.amount, resources.get_main_left() - 1, true, request)
+		if binding_result.get("reason", &"") != &"": return binding_result
+		var binding: BalancePushRules.Binding = binding_result["binding"]
+		var touches: int = int(binding.values.get("admission_board_touches", 0)) + (1 if plan["hp_after"] == 0 else 0)
+		if board.board_version < 0 or board.board_version > MAX_ID - touches:
+			result["reason"] = &"push/board_version_exhausted"; return result
+		result.merge({"actor": actor, "target": target, "resources": resources, "request": request, "p07_binding": binding})
+		return result
 	var calculation := AttackDamageCalculation.calculate(strength, weapon, armor, spatial, signed_height_steps, target.guard_stance)
 	if calculation.reason != &"":
 		result["reason"] = calculation.reason; return result

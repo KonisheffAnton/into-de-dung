@@ -31,6 +31,8 @@ class Binding extends RefCounted:
 		if mode == &"cell_death":
 			return request == null and request_seal == null and source.kind == &"cell" and values.get("lethal", false) and TerrainType.is_lethal(guard.values["geometry"][values["to_cell"]][1])
 		if mode != &"fall" or source.kind != &"fall" or request == null or request_seal == null: return false
+		if request.armor_mode == &"armor":
+			return guard.values["participants"][id].has("armor") and BalancePushRules._same_request(request, request_seal) and request.target_unit_id == id and request.source.to_dict() == source.to_dict()
 		return BalancePushRules._same_request(request, request_seal) and request.target_unit_id == id and request.damage_type == &"physical" and request.armor_mode == &"bypass" and is_finite(request.amount) and request.amount > 0.0 and request.source.to_dict() == source.to_dict() and request.amount == values.get("amount")
 
 	func check(context: ActionContext, mode: StringName) -> bool:
@@ -57,6 +59,9 @@ static func make_binding(guard: SpatialRules.Guard, id: int, from: Vector2i, to:
 	binding.source_seal = binding.source.copy()
 	if not lethal:
 		binding.request = DamageRequest.new(id, amount, &"physical", &"bypass", binding.source)
+		if guard.values["participants"][id].has("armor"):
+			var maximum: float = guard.values["participants"][id]["stats"][StatTypes.StatType.HP_MAX]
+			binding.request = ArmorAttack.request(id, ArmorRuntime.physical(ArmorAttack.fall(maximum, drop, true), "fall"), binding.source)
 		binding.request_seal = binding.request.copy()
 	binding.values = {"mode": mode, "target_id": id, "from_cell": from, "to_cell": to, "drop_steps": drop, "amount": amount, "lethal": lethal, "source": binding.source.to_dict(), "board_origin_version": guard.values["board_origin_version"], "expected_board_version": guard.values["expected_board_version"]}
 	binding._seal = binding.values.duplicate(true); binding._refs = binding.guard.refs.duplicate(true)
@@ -64,6 +69,9 @@ static func make_binding(guard: SpatialRules.Guard, id: int, from: Vector2i, to:
 
 static func execute_binding(binding: Binding, context: ActionContext, mode: StringName) -> CommandStepResult:
 	if binding == null or not binding.check(context, mode): return CommandStepResult.faulted(&"move/fall_binding")
+	if mode == &"fall" and binding.request.armor_mode == &"armor":
+		var seal_check := func() -> bool: return binding.sealed(mode)
+		return ArmorHitExecutor.execute(binding.request, binding.guard, context, seal_check)["result"]
 	var id: int = binding.values["target_id"]
 	var hp: float = binding.guard.values["participants"][id]["hp"]
 	var amount := maxf(hp, 1.0) if mode == &"cell_death" else binding.request.amount

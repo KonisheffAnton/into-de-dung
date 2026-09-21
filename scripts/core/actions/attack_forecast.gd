@@ -44,7 +44,7 @@ static func build(context: ActionContext, queue: ActionQueue, command: AttackCom
 	if context_copy == null or queue_copy == null:
 		_close(state_copy)
 		return rejected(&"preview/context_copy_failed")
-	var before := _unit_values(state_copy.get_board())
+	var before := _unit_values(state_copy.get_board(), state_copy)
 	var receipt := queue_copy.submit(command, context_copy)
 	var result := AttackForecast.new()
 	result.status = receipt.status
@@ -61,16 +61,23 @@ static func build(context: ActionContext, queue: ActionQueue, command: AttackCom
 		result.status = ActionReceipt.FAULTED
 		result.reason = &"preview/result_snapshot_failed"
 	if result.status == ActionReceipt.APPLIED:
-		var after := _unit_values(state_copy.get_board())
+		var after := _unit_values(state_copy.get_board(), state_copy)
 		for id: int in before:
 			result.units[id] = {"before": before[id], "after": after[id]}
 	_close(state_copy)
 	return result
 
-static func _unit_values(board: BattleBoard) -> Dictionary:
+static func _unit_values(board: BattleBoard, state: ItemSimulationState = null) -> Dictionary:
 	var result: Dictionary = {}
 	for unit in board.get_all_units():
 		result[unit.id] = {"hp": unit.vitals.get_hp(), "hp_max": unit.get_stat(StatTypes.StatType.HP_MAX), "balance": unit.vitals.get_balance(), "balance_max": unit.get_stat(StatTypes.StatType.BALANCE_MAX), "cell": unit.cell, "alive": unit.is_alive(), "main": unit.action_resources.get_main_left() if unit.action_resources != null else 0, "bonus": unit.action_resources.get_bonus_left() if unit.action_resources != null else 0, "move": unit.move_points_left, "guard_stance": unit.guard_stance}
+		if unit.armor != null:
+			# A берётся из snapshot/result в UI; здесь сохраняется capability и E.
+			result[unit.id]["armor_state"] = unit.armor.to_dict()
+			var armor := ArmorRuntime.totals(ArmorRuntime.capture(state.get_owner(unit.id))) if state != null else {}
+			if not armor.is_empty():
+				result[unit.id]["armor_current"] = armor["current"]
+				result[unit.id]["armor_max"] = armor["maximum"]
 	return result
 
 static func _close(state: ItemSimulationState) -> void:

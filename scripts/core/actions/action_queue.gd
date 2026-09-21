@@ -54,6 +54,8 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 				reason = &"attack/internal_hit"
 			elif accepted is MoveFallCommand:
 				reason = &"move/internal_fall"
+			elif accepted is ArmorEndBattleCommand:
+				reason = &"armor/internal_expiry"
 			elif accepted is DeathCommand and ((accepted as DeathCommand)._has_spatial_binding or (accepted as DeathCommand)._spatial_binding != null):
 				reason = &"move/internal_death"
 			elif accepted is MoveCommand and (accepted as MoveCommand)._is_continuation():
@@ -80,6 +82,7 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 		for unit in context.get_state().get_board().get_all_units():
 			_attack_stances.append({"unit": unit, "expected": false if unit.id == attacker else unit.guard_stance})
 	_pending.append({"command": accepted, "parent_event_seq": 0, "depth": 0})
+	var armor_finish_scheduled := false
 	while not _pending.is_empty() and receipt.status != &"FAULTED":
 		var entry: Dictionary = _pending.pop_back()
 		if receipt._steps.size() >= _max_commands:
@@ -92,6 +95,14 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 			_fault(receipt, context, &"sequence_exhausted")
 			break
 		_execute_entry(entry, receipt, context)
+		if _pending.is_empty() and receipt.status == &"APPLIED" and not armor_finish_scheduled and ArmorEndBattleCommand.battle_over(context):
+			armor_finish_scheduled = true
+			var units := context.get_state().get_board().get_all_units()
+			units.sort_custom(func(a: UnitState, b: UnitState) -> bool: return a.id < b.id)
+			units.reverse()
+			for unit: UnitState in units:
+				if unit.armor != null and unit.armor.in_battle:
+					_pending.append({"command": ArmorEndBattleCommand.new(unit.id), "parent_event_seq": 0, "depth": 0})
 	receipt.revision_after = context.get_revision()
 	_pending.clear()
 	# Публикация только завершённого prefix; sink не участвует в вычислении реакций.
@@ -219,6 +230,8 @@ func _bind_batch(descriptions: Array[Dictionary], event_seq: int, context: Actio
 	return result
 
 static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bool:
+	if draft.get("kind") in [&"armor_changed", &"hit_resolved"]:
+		return _valid_armor_draft(draft)
 	if ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "item_instance_id": TYPE_INT, "cell": TYPE_VECTOR2I}):
 		return draft["kind"] == &"summoned" and draft["actor_unit_id"] > 0 and draft["actor_unit_id"] < MAX_ID and draft["target_unit_id"] > 0 and draft["target_unit_id"] < MAX_ID and draft["target_unit_id"] != draft["actor_unit_id"] and draft["item_instance_id"] > 0 and draft["item_instance_id"] < MAX_ID
 	if ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "item_instance_id": TYPE_INT, "main_cost": TYPE_INT, "main_before": TYPE_INT, "main_after": TYPE_INT, "charges_before": TYPE_INT, "charges_after": TYPE_INT}):
@@ -250,7 +263,7 @@ static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bo
 		if context == null or context.get_attack_rules() == null: return false
 		var definition := context.get_attack_rules().get_definition(draft["attack_definition_id"])
 		if definition == null: return false
-		var spatial := definition.profile == AttackRules.SPATIAL_PROFILE
+		var spatial := definition.profile in [AttackRules.SPATIAL_PROFILE, AttackRules.ARMOR_PROFILE]
 		var geometry := (attack_dx == 0 or attack_dy == 0) and absi(attack_dx) + absi(attack_dy) >= 1 if spatial else absi(attack_dx) + absi(attack_dy) == 1
 		return geometry and draft["main_cost"] == 1 and draft["main_before"] >= 1 and draft["main_before"] <= 4096 and draft["main_after"] == draft["main_before"] - 1
 	if ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "from_cell": TYPE_VECTOR2I, "to_cell": TYPE_VECTOR2I, "movement_kind": TYPE_STRING_NAME, "move_cost": TYPE_FLOAT, "move_before": TYPE_FLOAT, "move_after": TYPE_FLOAT}):
@@ -276,7 +289,28 @@ static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bo
 	return draft["target_unit_id"] > 0 and draft["target_unit_id"] < MAX_ID
 
 static func _event_capacity(command: Command) -> int:
+	if command is CollisionDamageCommand and (command as CollisionDamageCommand)._binding != null and (command as CollisionDamageCommand)._binding.values.get("armor", false): return 8
+	if command is DamageCommand and (command as DamageCommand).request != null and (command as DamageCommand).request.armor_mode == &"armor": return 4
+	if command is MoveFallCommand and (command as MoveFallCommand)._binding != null and (command as MoveFallCommand)._binding.request != null and (command as MoveFallCommand)._binding.request.armor_mode == &"armor": return 4
 	return 4 if command != null and command.get_script() == CollisionDamageCommand else 2
+
+static func _valid_armor_draft(draft: Dictionary) -> bool:
+	var fields := {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "source": TYPE_DICTIONARY}
+	if draft.get("kind") == &"armor_changed": fields.merge({"grants": TYPE_ARRAY, "items": TYPE_ARRAY})
+	else: fields.merge({"hit_id": TYPE_STRING, "hit": TYPE_DICTIONARY})
+	if not ItemSimulationSnapshot._shape(draft, fields) or draft["target_unit_id"] < 1 or draft["target_unit_id"] >= MAX_ID: return false
+	var source: Dictionary = draft["source"]
+	if not ItemSimulationSnapshot._shape(source, {"kind": TYPE_STRING_NAME, "source_instance_id": TYPE_INT, "origin_cell": TYPE_VECTOR2I, "instigator_unit_id": TYPE_INT, "credit_unit_id": TYPE_INT}) or source["kind"] not in DamageSource.KINDS or source["instigator_unit_id"] != draft["actor_unit_id"]: return false
+	for key: String in ["source_instance_id", "instigator_unit_id", "credit_unit_id"]:
+		if source[key] < 0 or source[key] >= MAX_ID: return false
+	if draft["kind"] == &"armor_changed":
+		if draft["grants"].is_empty() and draft["items"].is_empty(): return false
+		for changes: Array in [draft["grants"], draft["items"]]:
+			for delta: Variant in changes:
+				if not ItemSimulationSnapshot._shape(delta, {"id": TYPE_INT, "before": TYPE_INT, "after": TYPE_INT}) or delta["id"] < 1 or delta["before"] < 0 or delta["after"] < 0 or delta["before"] == delta["after"]: return false
+		return true
+	var hit: Dictionary = draft["hit"]
+	return not draft["hit_id"].is_empty() and typeof(hit.get("rows")) == TYPE_ARRAY and typeof(hit.get("hp_before")) == TYPE_INT and typeof(hit.get("hp_after")) == TYPE_INT and typeof(hit.get("total_damage")) == TYPE_INT and typeof(hit.get("total_healing")) == TYPE_INT
 
 static func _can_step(context: ActionContext, event_capacity: int = 2) -> bool:
 	return context._next_command_seq >= 1 and context._next_command_seq < MAX_ID and context._next_event_seq >= 1 and context._next_event_seq <= MAX_ID - event_capacity and context._revision >= 0 and context._revision < MAX_ID - 1

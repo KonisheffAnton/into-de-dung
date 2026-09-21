@@ -125,6 +125,30 @@ func apply_spatial_damage(amount: float, checkpoint: Callable) -> SpatialMutatio
 	return receipt
 
 
+## Смешанное попадание записывает net HP один раз: лечение не воскрешает между ветвями.
+func apply_hit_hp(after: float, checkpoint: Callable) -> SpatialMutation:
+	var receipt := _spatial_receipt()
+	if not checkpoint.is_valid() or not _is_alive or not is_finite(after) or after < 0.0:
+		receipt.reason = &"armor/invalid_hit"
+		return receipt
+	if after != _hp:
+		_hp = after
+		receipt.hp_after = after
+		receipt.hp_written = true
+		hp_changed.emit(receipt.hp_before, after)
+		receipt.reason = checkpoint.call(&"hp_written")
+		if receipt.reason != &"": return receipt
+	if after == 0.0:
+		_is_alive = false
+		receipt.alive_after = false
+		receipt.death_written = true
+		died.emit()
+		receipt.reason = checkpoint.call(&"death_written")
+		if receipt.reason != &"": return receipt
+	receipt.reason = checkpoint.call(&"hp_done")
+	return receipt
+
+
 func add_spatial_impact(amount: float, checkpoint: Callable) -> SpatialMutation:
 	var receipt := _spatial_receipt()
 	if not checkpoint.is_valid() or not is_finite(amount) or amount < 0.0 or not is_finite(_hp) or _hp < 0.0 or not is_finite(_balance) or _balance < 0.0 or _stats == null or _stats.get_script() != StatsBag:

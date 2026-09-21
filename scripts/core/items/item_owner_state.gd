@@ -148,6 +148,8 @@ func _create_item_unplaced(definition: ItemDef) -> ItemInstance:
 func _validate_definition(definition: ItemDef) -> bool:
 	if _owner == null or _owner.id <= 0 or _owner.stats == null or _owner.vitals == null: return false
 	if definition == null or definition.id == &"" or _next_item_id >= MAX_ID: return false
+	if definition.armor_max < 0 or not ArmorState.valid_resistances(definition.armor_resistances): return false
+	if (definition.armor_max != 0 or definition.armor_resistances != {"physical": 0, "fire": 0}) and _owner.armor == null: return false
 	# Параметры лечения валидируются вместе: нули сохраняют старые предметы,
 	# а частично заданная пара не должна превращаться в usable предмет.
 	if not is_finite(definition.use_heal_amount): return false

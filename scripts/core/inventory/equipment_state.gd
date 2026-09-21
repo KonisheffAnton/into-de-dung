@@ -34,6 +34,7 @@ func _item(slot: EquipSlot) -> ItemInstance:
 	return _state.get_item_at(_placement(slot))
 
 func equip(slot: EquipSlot, item: ItemInstance) -> bool:
+	if _state != null and _state._owner != null and _state._owner.armor != null and _state._owner.armor.in_battle: return false
 	if is_closed() or not _valid_slot(slot) or not _state._begin_guard(): return false
 	var old := _item(slot)
 	if old == item:
@@ -56,6 +57,7 @@ func equip(slot: EquipSlot, item: ItemInstance) -> bool:
 	return true
 
 func unequip(slot: EquipSlot) -> ItemInstance:
+	if _state != null and _state._owner != null and _state._owner.armor != null and _state._owner.armor.in_battle: return null
 	if is_closed() or not _valid_slot(slot) or not _state._begin_guard(): return null
 	var item := _item(slot)
 	if item == null:

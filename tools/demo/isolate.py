@@ -62,8 +62,8 @@ def main():
         invalid = result.returncode != 0 or "SCRIPT ERROR" in output or "Parse Error" in output
         if not legacy:
             invalid = invalid or "ERROR:" in output or "WARNING: ObjectDB" in output
-        if label in ("demo", "battle", "forecast", "guard", "healing", "summon", "summon_snapshot", "attack_calculation", "attack_d1"):
-            marker = {"demo": "DEMO RESULTS:", "battle": "BATTLE RESULTS:", "forecast": "FORECAST RESULTS:", "guard": "GUARD RESULTS:", "healing": "HEALING RESULTS:", "summon": "SUMMON RESULTS:", "summon_snapshot": "SUMMON SNAPSHOT RESULTS:", "attack_calculation": "D1 CALCULATION RESULTS:", "attack_d1": "D1 INTEGRATION RESULTS:"}[label]
+        if label in ("demo", "battle", "forecast", "guard", "healing", "summon", "summon_snapshot", "attack_calculation", "attack_d1", "armor_calculation", "armor_snapshot", "armor_integration", "armor_recovery", "armor_ui"):
+            marker = {"demo": "DEMO RESULTS:", "battle": "BATTLE RESULTS:", "forecast": "FORECAST RESULTS:", "guard": "GUARD RESULTS:", "healing": "HEALING RESULTS:", "summon": "SUMMON RESULTS:", "summon_snapshot": "SUMMON SNAPSHOT RESULTS:", "attack_calculation": "D1 CALCULATION RESULTS:", "attack_d1": "D1 INTEGRATION RESULTS:", "armor_calculation": "ARMOR RESULTS:", "armor_snapshot": "ARMOR SNAPSHOT RESULTS:", "armor_integration": "ARMOR INTEGRATION RESULTS:", "armor_recovery": "ARMOR RECOVERY RESULTS:", "armor_ui": "ARMOR UI RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if legacy:
             invalid = invalid or "0 failed" not in output
@@ -80,6 +80,10 @@ def main():
         run("startup", ["--quit-after", "3"])
         run("attack_calculation", ["--script", "tests/test_attack_damage_calculation.gd"])
         run("attack_d1", ["--script", "tests/test_attack_damage_d1.gd"])
+        run("armor_calculation", ["--script", "tests/test_armor_hit_calculation.gd"])
+        run("armor_snapshot", ["--script", "tests/test_armor_snapshot.gd"])
+        run("armor_integration", ["--script", "tests/test_armor_integration.gd"])
+        run("armor_recovery", ["--script", "tests/test_armor_recovery.gd"])
         run("forecast", ["--script", "tests/test_attack_forecast.gd"])
         run("guard", ["--script", "tests/test_guard_stance.gd"])
         run("summon_snapshot", ["--script", "tests/test_summon_snapshot.gd"])
@@ -97,6 +101,10 @@ def main():
         if args.render_check:
             battle_args += ["--", "--captures=" + str(captures)]
         run("battle", battle_args, headless=not args.render_check)
+        armor_args = ["--script", "tests/test_armor_battle.gd"]
+        if args.render_check:
+            armor_args += ["--", "--captures=" + str(captures)]
+        run("armor_ui", armor_args, headless=not args.render_check)
     else:
         # This is the user-requested interactive window, so it is intentionally visible.
         with (out / "play.log").open("wb") as log:
