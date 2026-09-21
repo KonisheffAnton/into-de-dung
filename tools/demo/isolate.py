@@ -69,6 +69,9 @@ def main():
             invalid = invalid or "0 failed" not in output
         if label == "ally_transit":
             invalid = invalid or "ALLY TRANSIT RESULTS:" not in output or ", 0 failed" not in output
+        if label.startswith("bleeding"):
+            marker = {"bleeding": "BLEEDING RESULTS:", "bleeding_snapshot": "BLEEDING SNAPSHOT RESULTS:", "bleeding_ui": "BLEEDING UI RESULTS:"}[label]
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         print(label, "FAIL" if invalid else "PASS", flush=True)
         if invalid:
             print(output[-4000:])
@@ -86,6 +89,8 @@ def main():
         run("armor_snapshot", ["--script", "tests/test_armor_snapshot.gd"])
         run("armor_integration", ["--script", "tests/test_armor_integration.gd"])
         run("armor_recovery", ["--script", "tests/test_armor_recovery.gd"])
+        run("bleeding_snapshot", ["--script", "tests/test_bleeding_snapshot.gd"])
+        run("bleeding", ["--script", "tests/test_bleeding.gd"])
         run("forecast", ["--script", "tests/test_attack_forecast.gd"])
         run("guard", ["--script", "tests/test_guard_stance.gd"])
         run("summon_snapshot", ["--script", "tests/test_summon_snapshot.gd"])
@@ -111,6 +116,10 @@ def main():
         if args.render_check:
             transit_args += ["--", "--captures=" + str(captures)]
         run("ally_transit", transit_args, headless=not args.render_check)
+        bleeding_args = ["--script", "tests/test_bleeding_battle.gd"]
+        if args.render_check:
+            bleeding_args += ["--", "--captures=" + str(captures)]
+        run("bleeding_ui", bleeding_args, headless=not args.render_check)
     else:
         # This is the user-requested interactive window, so it is intentionally visible.
         with (out / "play.log").open("wb") as log:

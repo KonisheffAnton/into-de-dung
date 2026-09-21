@@ -45,6 +45,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	# Готовим весь child до единственной мутации: между оплатой и Hit новых данных уже нет.
 	var event := {"kind": &"attacked", "actor_unit_id": actor.id, "target_unit_id": target.id, "attack_definition_id": _attack_definition_id, "actor_cell": actor.cell, "target_cell": target.cell, "main_cost": 1, "main_before": main_before, "main_after": main_after}
 	var hit := AttackHitCommand.new(prepared["request"] as DamageRequest, actor, target, resources, actor.cell, target.cell, main_after, prepared.get("p07_binding") as BalancePushRules.Binding)
+	hit.bind_bleeding(prepared.get("bleeding_policy", &""), _attack_definition_id)
 	if not resources.try_spend_main(1):
 		return CommandStepResult.faulted(&"attack/invalid_runtime")
 	actor.has_attacked = true
@@ -95,6 +96,8 @@ func _prepare(context: ActionContext) -> Dictionary:
 		result["reason"] = &"attack/dead_target"; return result
 	if armor_profile and (actor.armor == null or target.armor == null):
 		result["reason"] = &"armor/capability_required"; return result
+	if definition.bleeding_policy != &"" and (target.bleeding == null or not BleedingState.valid(target.bleeding.to_dict())):
+		result["reason"] = &"bleeding/capability_required"; return result
 	if not armor_profile and (actor.armor != null or target.armor != null):
 		result["reason"] = &"armor/legacy_unsupported"; return result
 	if actor.get_script() != UnitState or target.get_script() != UnitState or actor.stats == null or target.stats == null or actor.vitals == null or target.vitals == null or actor.stats.get_script() != StatsBag or target.stats.get_script() != StatsBag or actor.vitals.get_script() != Vitals or target.vitals.get_script() != Vitals or actor.vitals._stats != actor.stats or target.vitals._stats != target.stats or state.get_owner(actor.id) == null or state.get_owner(target.id) == null or state.get_owner(actor.id).get_owner() != actor or state.get_owner(target.id).get_owner() != target:
@@ -151,7 +154,7 @@ func _prepare(context: ActionContext) -> Dictionary:
 		var touches: int = int(binding.values.get("admission_board_touches", 0)) + (1 if plan["hp_after"] == 0 else 0)
 		if board.board_version < 0 or board.board_version > MAX_ID - touches:
 			result["reason"] = &"push/board_version_exhausted"; return result
-		result.merge({"actor": actor, "target": target, "resources": resources, "request": request, "p07_binding": binding})
+		result.merge({"actor": actor, "target": target, "resources": resources, "request": request, "p07_binding": binding, "bleeding_policy": definition.bleeding_policy})
 		return result
 	var calculation := AttackDamageCalculation.calculate(strength, weapon, armor, spatial, signed_height_steps, target.guard_stance)
 	if calculation.reason != &"":

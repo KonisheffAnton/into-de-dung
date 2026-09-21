@@ -1,5 +1,20 @@
 # История и свидетельства проверок
 
+## D3 — кровотечение, 2026-09-21
+
+Base `40390758de168c498d9d3e4c70b1130668611ac0`; итоговый SHA — completion отчёта.
+Точная предыдущая передача: [CODEX_HANDOFF.history-20260921-19](CODEX_HANDOFF.history-20260921-19.md).
+Пакет и реализация: [BLEEDING_D3](BLEEDING_D3.md). Gross physical HP-gate,
+явный bypass с иммунитетом, два тика, refresh, Unit5/ItemSimulation4,
+mandatory spatial → состояние → optional item reactions, реальный forecast/UI.
+Import/startup, snapshot36/0, mechanics195/0, UI17/0 и render22/0; пять PNG осмотрены.
+Full `test_reports/demo-54cb90c263724c49875e19f841240694/`, render
+`test_reports/demo-c6ab65992baa45d58666e71b4840c09c/` PASS. Core9440/0,
+прежние occupied-cell/47 ObjectDB/18 resources. После final UI placement —
+адресный render22/0 и armorUI56/0. Три полные партии D3 без отказов команд.
+Отчёт/ревью/манифест/финальные PNG: `test_reports/bleeding-d3-20260921/`.
+Пользовательский плейтест D3 ещё не выполнен; D4/D5/графика не начинались.
+
 Архив не входит в обязательное чтение. Он хранит причины старых решений,
 исходные спецификации и результаты на конкретных версиях. Статусы внутри
 снимков не применяются к текущему HEAD; не восстанавливать старый dirty overlay.

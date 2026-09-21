@@ -12,6 +12,8 @@ var _processed_event_seq: Dictionary = {}
 var _reaction_keys: Dictionary = {}
 var _dispatch_reason: StringName = &""
 var _attack_stances: Array[Dictionary] = []
+var _defer_item_reactions: bool = false
+var _deferred_item_reactions: Array[Dictionary] = []
 
 func _init(max_commands: int = 256, max_events: int = 512, max_depth: int = 32) -> void:
 	_max_commands = max_commands
@@ -56,6 +58,8 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 				reason = &"move/internal_fall"
 			elif accepted is ArmorEndBattleCommand:
 				reason = &"armor/internal_expiry"
+			elif accepted is BleedingApplyCommand or accepted is BleedingTickCommand:
+				reason = &"bleeding/internal_command"
 			elif accepted is DeathCommand and ((accepted as DeathCommand)._has_spatial_binding or (accepted as DeathCommand)._spatial_binding != null):
 				reason = &"move/internal_death"
 			elif accepted is MoveCommand and (accepted as MoveCommand)._is_continuation():
@@ -78,6 +82,8 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 	receipt.root_id = context._take_root_id()
 	if accepted is AttackCommand:
 		var attacker := (accepted as AttackCommand).get_actor_unit_id()
+		var definition := context.get_attack_rules().get_definition((accepted as AttackCommand).get_attack_definition_id())
+		_defer_item_reactions = definition != null and definition.bleeding_policy != &""
 		# Срок отмены — весь каскад атаки, включая legacy balance/push и item-heal.
 		for unit in context.get_state().get_board().get_all_units():
 			_attack_stances.append({"unit": unit, "expected": false if unit.id == attacker else unit.guard_stance})
@@ -95,6 +101,11 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 			_fault(receipt, context, &"sequence_exhausted")
 			break
 		_execute_entry(entry, receipt, context)
+		if _pending.is_empty() and receipt.status == &"APPLIED" and _defer_item_reactions:
+			# D3: сначала всё spatial и наложение исходного hit, затем optional реакции.
+			_defer_item_reactions = false
+			for i in range(_deferred_item_reactions.size() - 1, -1, -1): _pending.append(_deferred_item_reactions[i])
+			_deferred_item_reactions.clear()
 		if _pending.is_empty() and receipt.status == &"APPLIED" and not armor_finish_scheduled and ArmorEndBattleCommand.battle_over(context):
 			armor_finish_scheduled = true
 			var units := context.get_state().get_board().get_all_units()
@@ -179,8 +190,16 @@ func _execute_entry(entry: Dictionary, receipt: ActionReceipt, context: ActionCo
 			_fault(receipt, context, _dispatch_reason)
 			return
 	for child in result.mandatory: children.append({"command": child, "parent_event_seq": 0, "depth": int(entry["depth"]) + 1})
-	children.append_array(item_reactions)
-	for child in result.reactions: children.append({"command": child, "parent_event_seq": 0, "depth": int(entry["depth"]) + 1})
+	for child in result.reactions: item_reactions.append({"command": child, "parent_event_seq": 0, "depth": int(entry["depth"]) + 1})
+	if _defer_item_reactions:
+		for child: Dictionary in item_reactions:
+			var original: Command = child["command"]
+			var copy: Command = original.copy_for_queue() if original != null else null
+			if copy == null:
+				_fault(receipt, context, &"invalid_child")
+				return
+			_deferred_item_reactions.append({"command": copy, "parent_event_seq": child["parent_event_seq"], "depth": child["depth"]})
+	else: children.append_array(item_reactions)
 	if result.continuation != null: children.append({"command": result.continuation, "parent_event_seq": 0, "depth": int(entry["depth"]) + 1})
 	var copies: Array[Dictionary] = []
 	for child in children:
@@ -230,6 +249,7 @@ func _bind_batch(descriptions: Array[Dictionary], event_seq: int, context: Actio
 	return result
 
 static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bool:
+	if draft.get("kind") == &"bleeding_changed": return _valid_bleeding_draft(draft)
 	if draft.has("transit_path"):
 		return _valid_transit_draft(draft, context)
 	if draft.get("kind") in [&"armor_changed", &"hit_resolved"]:
@@ -311,10 +331,21 @@ static func _valid_transit_draft(draft: Dictionary, context: ActionContext) -> b
 	return _valid_draft(adjacent, context) and float(draft["move_cost"]) >= float(path_value.size() - 1)
 
 static func _event_capacity(command: Command) -> int:
+	if command is BleedingTickCommand: return 5
 	if command is CollisionDamageCommand and (command as CollisionDamageCommand)._binding != null and (command as CollisionDamageCommand)._binding.values.get("armor", false): return 8
 	if command is DamageCommand and (command as DamageCommand).request != null and (command as DamageCommand).request.armor_mode == &"armor": return 4
 	if command is MoveFallCommand and (command as MoveFallCommand)._binding != null and (command as MoveFallCommand)._binding.request != null and (command as MoveFallCommand)._binding.request.armor_mode == &"armor": return 4
 	return 4 if command != null and command.get_script() == CollisionDamageCommand else 2
+
+static func _valid_bleeding_draft(draft: Dictionary) -> bool:
+	if not ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "reason": TYPE_STRING_NAME, "before": TYPE_DICTIONARY, "after": TYPE_DICTIONARY}): return false
+	if draft["actor_unit_id"] < 1 or draft["actor_unit_id"] >= MAX_ID or draft["target_unit_id"] < 1 or draft["target_unit_id"] >= MAX_ID: return false
+	var before: Dictionary = draft["before"]; var after: Dictionary = draft["after"]
+	if not BleedingState.valid(before) or not BleedingState.valid(after) or before["immune"] != after["immune"]: return false
+	if draft["reason"] == &"tick":
+		if before["ticks_left"] < 1 or after["ticks_left"] != before["ticks_left"] - 1 or before["source"]["instigator_unit_id"] != draft["actor_unit_id"]: return false
+		return after["ticks_left"] == 0 or (after["source"] == before["source"] and after["hit_id"] == before["hit_id"])
+	return not after["immune"] and after["ticks_left"] == BleedingState.DURATION and after["source"]["instigator_unit_id"] == draft["actor_unit_id"] and ((draft["reason"] == &"applied" and before["ticks_left"] == 0) or (draft["reason"] == &"refreshed" and before["ticks_left"] > 0))
 
 static func _valid_armor_draft(draft: Dictionary) -> bool:
 	var fields := {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "source": TYPE_DICTIONARY}
@@ -346,6 +377,8 @@ func _fault(receipt: ActionReceipt, context: ActionContext, reason: StringName) 
 
 func _release(context: ActionContext) -> void:
 	_attack_stances.clear()
+	_deferred_item_reactions.clear()
+	_defer_item_reactions = false
 	_busy = false
 	context._busy = false
 

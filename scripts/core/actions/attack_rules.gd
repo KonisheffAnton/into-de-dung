@@ -111,12 +111,15 @@ func _validate_structure() -> void:
 			return
 
 static func _valid_components(definition: AttackDefinition) -> bool:
+	if definition.bleeding_policy not in [&"", &"physical_hp", &"bypass_hp_gate"]: return false
+	if definition.bleeding_policy != &"" and definition.profile != ARMOR_PROFILE: return false
 	return ArmorAttack.valid_extras(definition.damage_components) if definition.profile == ARMOR_PROFILE else definition.damage_components.is_empty()
 
 static func _copy_definition(source: AttackDefinition) -> AttackDefinition:
 	var copy := AttackDefinition.new()
 	copy.id = source.id
 	copy.profile = source.profile
+	copy.bleeding_policy = source.bleeding_policy
 	copy.damage_components.assign(source.damage_components.duplicate(true))
 	return copy
 

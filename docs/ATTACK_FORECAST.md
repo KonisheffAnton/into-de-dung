@@ -87,3 +87,13 @@ HP-damage/healing; старые damaged/healed отражают net HP. Пане
 читают эти значения без своей формулы. Завершение боя и истечение E также
 исполняются очередью на копии; внешние callbacks по-прежнему не копируются.
 Полный контракт и ограничения — [ARMOR_DAMAGE_D2](ARMOR_DAMAGE_D2.md).
+
+## Кровотечение D3
+
+Unit v5 переносит BleedingState внутри ItemSimulation v4. Поле units.before/after
+`bleeding` содержит значения состояния. Допуск прямого hit (physical HP-damage
+до лечения или явный bypass) виден в hit_resolved; результат наложения — в
+bleeding_changed и шаге bleeding_apply, включая SKIPPED по иммунитету/смерти/gate.
+Прогноз включает spatial → статус → item reactions; будущие ходы и их тики
+не моделируются этим API. Изоляция и parity тиков проверяются отдельно через
+настоящую BleedingTurnCommand на восстановленной копии. [Пакет D3](BLEEDING_D3.md).

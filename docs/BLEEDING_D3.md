@@ -1,0 +1,74 @@
+# D3 — кровотечение, точный пакет
+
+Поручение 2026-09-21; base main `40390758de168c498d9d3e4c70b1130668611ac0`.
+Игровая основа — D0 §9.5. Пакет определён ведущим до реализации.
+
+## Контент и допуск
+
+Один статус bleeding, явная capability `UnitState.bleeding: BleedingState`.
+`AttackDefinition.bleeding_policy`: пусто (нет источника), `physical_hp`
+или `bypass_hp_gate` (перк источника «Кровавая руна»). Только armor_spatial_v1.
+Обычное наложение требует суммы physical hp_damage прямого hit > 0 до лечения.
+Collision/fall/огонь не дают допуск за исходный удар. Обход отменяет только
+HP-gate; живая цель, корректный источник и отсутствие иммунитета обязательны.
+Иммунитет — runtime bool immune; он проверяется заново командой наложения.
+Неуспешное наложение не снимает и не обновляет старое кровотечение.
+
+Длительность — два тика в начале следующего хода команды цели, до refill.
+Один stack, повторное успешное наложение обновляет срок до двух и источник
+последним ударом. Tick: отдельный physical hit, raw 4, hp_only_natural;
+броня/стойка/высота не влияют, естественная защита и уязвимость влияют.
+Tick не копирует наложение и не расходует RNG. Иммунитет препятствует новому
+наложению, не лечит старое состояние. После двух тиков срок и source очищаются.
+Смерть/конец боя сами состояние не очищают; мёртвые больше не тикают.
+Переключение персонажей не тикает и не пополняет ресурсы. Атака стоит 1 main.
+
+## Исполнение и владение
+
+Проверка policy и capability выполняется до оплаты. AttackHitCommand сохраняет
+допуск именно своего завершённого hit в explanation и создаёт отдельную sealed
+BleedingApplyCommand после mandatory spatial-поддерева. Для атаки с источником
+bleeding очередь откладывает optional item reactions всего spatial-поддерева
+до команды наложения; их порядок остаётся порядком сбора. Legacy очередь неизменна.
+Fault/лимит сохраняет реально исполненный prefix, не создаёт наложение заранее.
+Команда повторно проверяет pinned actor/target, источник и текущий иммунитет;
+смерть цели в spatial — SKIPPED. Изменения capability защищены checkpoints.
+
+BleedingTurnCommand(faction, expected_revision) — корневая команда границы хода;
+живые активные статусы обрабатываются по unit ID внутренними BleedingTickCommand.
+Tick сначала guarded уменьшает срок, затем выполняет настоящий ArmorHitExecutor.
+Событие срока сохраняется при последующем fault; расходованный тик не возвращается.
+HP-смерть/occupancy/item-heal/завершение брони идут через существующую очередь.
+Сессия запускает эту команду один раз перед refill команды, проверяет исход боя
+до refill/передачи управления. Вне этой границы автоматических тиков нет.
+
+## Снимок, прогноз и UI
+
+BleedingState v1: schema_version:int=1, immune:bool, ticks_left:int 0..2,
+source:Dictionary (DamageSource attack либо пусто при ticks_left=0), hit_id:String.
+Активный source хранит исходные actor/credit/origin, hit_id связывает прямой hit.
+Unit v5 требует resources/guard/armor/bleeding. Старые Unit v1–4 производятся
+как раньше при отсутствии capability. ItemSimulation v4 сохраняет Unit v5:
+структура предметов не меняется; старые оболочки не скрывают capability.
+Неполная схема/неизвестная версия/невалидный источник отвергаются; restore
+не тикает, не обновляет срок и не разделяет runtime с исходником.
+Forecast исполняет реальную очередь на копиях state/definitions/RNG/counters,
+возвращает статус до/после и события наложения. Будущие ходы не предсказываются.
+
+Отдельный сценарий «Кровотечение» использует прежнюю карту/рендер/UI.
+Обычный удар — physical_hp; дополнительный явный удар «Кровавая руна» —
+bypass_hp_gate за тот же 1 main. Один противник имеет видимый иммунитет.
+Осмотр показывает иммунитет/срок/тик, прогноз — ожидаемый статус и причину
+допуска/отказа, журнал — наложение/обновление/тик/истечение.
+
+## Приёмка и границы
+
+Адресные тесты: armor-only, physical overflow, fire-only HP, net-zero/net-heal,
+обход и иммунитет, repeat/no-stack/expiry, natural resistance, tick death,
+spatial death/collision source/order до item reactions, callback/fault-prefix,
+limits, malformed admission, snapshot round-trip/invalid/isolation,
+forecast/live state/events/steps/RNG/counters parity, обе команды и переключение.
+Import/startup → адресные runner → full/render → PNG/input → независимое ревью
+фиксированного результата → логический commit. Отчёт: test_reports/bleeding-d3-20260921/.
+Frozen P02–P08/§4.5, Q1–Q6, legacy, числа/карта D2 не меняются.
+D4–D5/M1/M2b/M3–M4 и графика не запускаются. Без push/расписаний/sidebar tasks.

@@ -79,7 +79,7 @@ static func _walk(value: Variant, depth: int, ancestors: Array, count: Array[int
 	if count[0] > MAX_VALUE_NODES: return path + "/nodes"
 	if depth > MAX_DEPTH: return path + "/depth"
 	match typeof(value):
-		TYPE_BOOL, TYPE_INT: return ""
+		TYPE_BOOL, TYPE_INT, TYPE_STRING_NAME, TYPE_VECTOR2I: return ""
 		TYPE_FLOAT: return "" if is_finite(value) else path + "/finite"
 		TYPE_STRING: return "" if value.to_utf8_buffer().size() <= MAX_STRING_BYTES else path + "/string_bytes"
 		TYPE_ARRAY, TYPE_DICTIONARY:
@@ -209,7 +209,11 @@ static func _board_structure(envelope: Dictionary) -> String:
 		if typeof(unit) == TYPE_DICTIONARY and typeof(unit.get("schema_version")) == TYPE_INT and (unit.get("schema_version") == 2 or (unit.get("schema_version") != 1 and unit.has("action_resources"))): unit_fields["action_resources"] = TYPE_DICTIONARY
 		if typeof(unit) == TYPE_DICTIONARY and (unit.get("schema_version") == 3 or unit.has("guard_stance")): unit_fields["guard_stance"] = TYPE_BOOL
 		if typeof(unit) == TYPE_DICTIONARY and (unit.get("schema_version") == 4 or unit.has("armor")): unit_fields["armor"] = TYPE_DICTIONARY
+		if typeof(unit) == TYPE_DICTIONARY and (unit.get("schema_version") == 5 or unit.has("bleeding")): unit_fields["bleeding"] = TYPE_DICTIONARY
 		if not _shape(unit, unit_fields): return "board/unit/schema"
+		if unit.get("schema_version") == 5:
+			if not unit.has("action_resources") or not unit.has("guard_stance") or not unit.has("armor") or not unit.has("bleeding"): return "board/unit/capability"
+			if not BleedingState.valid(unit["bleeding"]): return "board/unit/bleeding"
 		if not _shape(unit["stats"], {"schema_version": TYPE_INT, "stats": TYPE_ARRAY}): return "board/unit/stats/schema"
 		if not _shape(unit["vitals"], {"hp": TYPE_FLOAT, "balance": TYPE_FLOAT, "is_alive": TYPE_BOOL}): return "board/unit/vitals/schema"
 		for entry: Variant in unit["stats"]["stats"]:
@@ -634,6 +638,13 @@ static func _validate(data: Dictionary) -> String:
 	for unit: Dictionary in units:
 		if data["schema_version"] < 4 and unit.has("armor"): return "armor/envelope_version"
 		unit_map[unit["id"]] = unit
+	for unit: Dictionary in units:
+		if unit.get("schema_version", 1) != 5 or unit.get("bleeding", {}).get("ticks_left", 0) <= 0:
+			continue
+		var bleeding: Dictionary = unit["bleeding"]
+		var source: Dictionary = bleeding["source"]
+		if not unit_map.has(source["instigator_unit_id"]) or not unit_map.has(source["credit_unit_id"]):
+			return "board/unit/bleeding/source"
 	var seen: Dictionary = {}
 	var armor_identities: Dictionary = {}
 	var catalogue: Dictionary = {}

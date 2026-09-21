@@ -66,5 +66,18 @@ commit → a_i → один HP через расширенный SpatialRules.Gu
 RestoreArmorCommand и ArmorRecovery восстанавливают по недостаче; избыток в бою — E.
 ArmorEndBattleCommand удаляет временный E в общей очереди, поэтому terminal forecast
 совпадает с live. Unit v4/ItemSimulation v4 сохраняют новую capability; legacy bytes
-прежние. Призыв в новом сценарии отключён явно; состояния/хаб остаются будущими.
+прежние. Призыв в новом сценарии отключён явно; хаб остаётся будущим.
 Точные DTO, checkpoints, совместимость и границы — [ARMOR_DAMAGE_D2](ARMOR_DAMAGE_D2.md).
+
+## Одно состояние — D3
+
+BattleBleedingSession/bleeding_battle.tscn открывается кнопкой «Кровотечение».
+BleedingState принадлежит UnitState; Unit v5 сохраняет его вместе с бронёй,
+ItemSimulation остаётся v4. AttackDefinition явно выбирает physical_hp или
+bypass_hp_gate. AttackHit сохраняет допуск своего прямого hit до лечения;
+BleedingApplyCommand исполняется после spatial, перед отложенными item reactions.
+BleedingTurnCommand создаёт тики по ID в начале хода команды перед refill;
+BleedingTickCommand уменьшает срок и исполняет ArmorHitExecutor (physical,
+hp_only_natural). Guard проверяет значения и identity состояния; tick не рекурсивен.
+Forecast и UI показывают срок/иммунитет/допуск. Это один статус, не общий движок
+всех состояний. Точное поведение и границы — [BLEEDING_D3](BLEEDING_D3.md).

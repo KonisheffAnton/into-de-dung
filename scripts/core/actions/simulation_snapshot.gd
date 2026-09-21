@@ -151,6 +151,11 @@ static func _encode(value: Variant, out: PackedByteArray) -> void:
 	elif value is String:
 		var bytes: PackedByteArray = value.to_utf8_buffer()
 		out.append(4); _append_u64_le(out, bytes.size()); out.append_array(bytes)
+	elif value is StringName:
+		var bytes: PackedByteArray = String(value).to_utf8_buffer()
+		out.append(6); _append_u64_le(out, bytes.size()); out.append_array(bytes)
+	elif value is Vector2i:
+		out.append(7); _append_u64_le(out, value.x); _append_u64_le(out, value.y)
 	elif value is Array:
 		out.append(5); _append_u64_le(out, value.size())
 		for item in value: _encode(item, out)
@@ -218,6 +223,10 @@ static func _find_unsupported(board_value: Dictionary) -> String:
 		if has_armor_shape:
 			unit_keys.append("armor")
 			if typeof(unit.get("armor")) != TYPE_DICTIONARY or not ArmorState.valid(unit["armor"]): continue
+		var has_bleeding_shape: bool = typeof(unit_version) == TYPE_INT and (unit_version == 5 or (unit_version not in [1, 2, 3, 4] and unit.has("bleeding")))
+		if has_bleeding_shape:
+			unit_keys.append("bleeding")
+			if typeof(unit.get("bleeding")) != TYPE_DICTIONARY or not BleedingState.valid(unit["bleeding"]): continue
 		if not _has_exact_string_keys(unit, unit_keys): continue
 		var unit_types_valid := true
 		for key in ["schema_version", "id", "faction", "cell_x", "cell_y", "height"]:
@@ -235,11 +244,12 @@ static func _find_unsupported(board_value: Dictionary) -> String:
 					resources = {}
 					break
 			if resources.is_empty(): continue
-		if typeof(unit_version) == TYPE_INT and unit_version not in [1, 2, 3, 4]:
+		if typeof(unit_version) == TYPE_INT and unit_version not in [1, 2, 3, 4, 5]:
 			return ("unit/%d" % unit["id"] if typeof(unit.get("id")) == TYPE_INT else "unit") + "/version"
 		var unit_path := "unit/%d" % unit["id"] if typeof(unit.get("id")) == TYPE_INT else "unit"
 		if typeof(unit.get("ai_profile_path")) == TYPE_STRING and not unit["ai_profile_path"].is_empty(): return unit_path + "/ai_profile"
-		if unit["schema_version"] in [2, 3, 4]:
+		if unit["schema_version"] == 5 and (not unit.has("action_resources") or not unit.has("guard_stance") or not unit.has("armor") or not unit.has("bleeding")): return unit_path + "/capability"
+		if unit["schema_version"] in [2, 3, 4, 5]:
 			if typeof(resources.get("schema_version")) == TYPE_INT and resources["schema_version"] != 1: return unit_path + "/action_resources/version"
 		if typeof(unit.get("stats")) != TYPE_DICTIONARY: continue
 		var bag: Dictionary = unit["stats"]

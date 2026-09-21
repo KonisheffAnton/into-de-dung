@@ -11,7 +11,10 @@ Session проверяет фазу/выбор и передаёт команд�
 Контекст хранит ItemSimulationState, внедрённые RNG/sink/rules, revision и counters.
 Команда проверяет допуск и ресурсы при исполнении; UI/BT не оплачивают действие.
 Очередь завершает mandatory consequences, реакции и продолжения в определённом
-порядке; одно поддерево завершается до следующего. Вложенный внешний submit
+порядке; обычно одно поддерево завершается до следующего. Для атаки с источником
+кровотечения D3 optional item reactions всех spatial-потомков откладываются:
+mandatory spatial → наложение исходного hit → реакции в порядке сбора.
+Вложенный внешний submit
 отклоняется как BUSY. Ограничения и faults сохраняют уже исполненный prefix;
 отката частично выполненной цепи нет. Публикация value events идёт после drain/fault.
 Session проверяет исход после полного submit. Точные guards/receipt схемы — в пакетах ниже.
@@ -51,3 +54,8 @@ Frozen TASK/DEPENDENCIES/REVIEW остаются на прежних путях 
 [D0](ARMOR_DAMAGE_D0.md) и реализованы отдельным профилем [D2](ARMOR_DAMAGE_D2.md).
 [Проход союзников](ALLY_TRANSIT.md) добавляет атомарный пространственный сегмент
 и поле transit_path его события moved, сохраняя прежний формат соседнего шага.
+[D3](BLEEDING_D3.md) добавляет внутренние BleedingApply/Tick и корневую
+BleedingTurnCommand. Внешняя подача Apply/Tick отвергается. Событие
+bleeding_changed несёт before/after состояния и applied/refreshed/tick;
+hit_resolved прямого источника дополнительно сохраняет policy/physical_hp_damage/eligible.
+Лимиты, counters и реальные события префикса учитывают эти команды.

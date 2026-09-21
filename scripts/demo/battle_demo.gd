@@ -3,6 +3,7 @@ class_name BattleDemo
 
 @export var tactical_mode: bool = false
 @export var armor_mode: bool = false
+@export var bleeding_mode: bool = false
 var session: BattleDemoSession
 var board_view: BattleDemoBoard
 var attack_mode: bool = false
@@ -43,7 +44,7 @@ func _ready() -> void:
 	_refresh()
 
 func _create_session() -> void:
-	session = BattleArmorSession.new() if armor_mode else (BattleTacticalSession.new() if tactical_mode else BattleDemoSession.new())
+	session = BattleBleedingSession.new() if bleeding_mode else (BattleArmorSession.new() if armor_mode else (BattleTacticalSession.new() if tactical_mode else BattleDemoSession.new()))
 	_battle = session as BattleTacticalSession
 	_ai_delay = 0.0
 	_flow_cursor = 0
@@ -98,6 +99,9 @@ func _build_ui() -> void:
 	var armor_button := _button("Броня")
 	armor_button.pressed.connect(_open_armor_scenario)
 	title.add_child(armor_button)
+	var bleeding_button := _button("Кровотечение")
+	bleeding_button.pressed.connect(_open_bleeding_scenario)
+	title.add_child(bleeding_button)
 	var reset_button := _button("Сбросить бой  ·  R")
 	reset_button.pressed.connect(reset_demo)
 	title.add_child(reset_button)
@@ -212,6 +216,7 @@ func _button(value: String) -> Button:
 
 func set_attack_mode(enabled: bool) -> void:
 	if _battle != null and not _battle.can_player_act(): return
+	if session is BattleBleedingSession: (session as BattleBleedingSession).rune_selected = false
 	summoning_mode = false
 	attack_mode = enabled
 	_clear_forecast()
@@ -222,6 +227,11 @@ func set_attack_mode(enabled: bool) -> void:
 func _action_bar_requested(action_id: StringName) -> void:
 	if not tactical_mode: return
 	match action_id:
+		&"blood_rune":
+			set_attack_mode(true)
+			if session is BattleBleedingSession:
+				(session as BattleBleedingSession).rune_selected = true
+				_refresh()
 		&"attack": set_attack_mode(true)
 		&"guard": _use_guard()
 		&"healing_item": _use_healing_item()
@@ -302,6 +312,7 @@ func toggle_scenario() -> void:
 	_clear_forecast()
 	session.close()
 	armor_mode = false
+	bleeding_mode = false
 	tactical_mode = not tactical_mode
 	_create_session()
 	board_view.session = session
@@ -312,10 +323,14 @@ func toggle_scenario() -> void:
 	_note("Начат бой против компьютера." if tactical_mode else "Полигон: все персонажи управляются вручную.")
 	_refresh()
 
-func _open_armor_scenario() -> void:
+func _open_bleeding_scenario() -> void:
+	_open_armor_scenario(true)
+
+func _open_armor_scenario(with_bleeding: bool = false) -> void:
 	_clear_forecast()
 	session.close()
 	armor_mode = true
+	bleeding_mode = with_bleeding
 	tactical_mode = true
 	_create_session()
 	board_view.session = session
@@ -327,7 +342,10 @@ func _open_armor_scenario() -> void:
 	_refresh()
 
 func end_turn() -> void:
-	if _battle == null or not _battle.end_player_turn(): return
+	if _battle == null: return
+	if not _battle.end_player_turn():
+		_refresh()
+		return
 	summoning_mode = false
 	attack_mode = false
 	_clear_forecast()
@@ -344,6 +362,7 @@ func _refresh() -> void:
 			inspected_id = UnitId.NONE
 	_heading.text = "intoDeDung   /   Бой у обрыва" if tactical_mode else "intoDeDung   /   Полигон"
 	if armor_mode: _heading.text = "intoDeDung   /   Броня и огонь"
+	if bleeding_mode: _heading.text = "intoDeDung   /   Кровотечение"
 	_subtitle.text = "Трое против троих. Победите всех врагов; потеря команды означает поражение." if tactical_mode else "Поднимитесь по ступеням. Ударьте сверху. Столкните стража с уступа."
 	_subtitle.visible = not tactical_mode
 	_status.custom_minimum_size.y = 26 if tactical_mode else 46
@@ -355,6 +374,8 @@ func _refresh() -> void:
 	_attack_button.visible = not tactical_mode
 	_instructions.text = "1 / A: атака · 2: защита · 3: лечение · 4: призыв · M: движение · Клик по врагу: осмотр · Enter: конец хода · R: заново" if tactical_mode else "Ступени: Астра → D3 → A → Страж. Стена: Бор → A → Щит. Пропасть: Рей → A → Мишень на G7."
 	if armor_mode: _instructions.text = _instructions.text.replace("4: призыв", "4: броня +20")
+	if session is BattleBleedingSession and (session as BattleBleedingSession).rune_selected:
+		_instructions.text = "Кровавая руна: выберите цель · 1 основное · Обходит требование HP-урона; иммунитет сохраняется · A: обычная атака"
 	var locked := _battle != null and not _battle.can_player_act()
 	_move_button.disabled = locked
 	_attack_button.disabled = locked
@@ -375,6 +396,8 @@ func _refresh() -> void:
 		elif seal != null:
 			var reason := _battle.summoning_reason()
 			descriptors.append({"action_id": &"summoning_item", "label": "Печать %d/%d" % [seal.get_charges_left(), seal.get_definition().max_charges], "cost": "1 основное", "disabled": reason != &"", "tooltip": "Помощник: 16 HP, действует со следующего хода команды. Один на владельца, до гибели или конца боя. 1 основное и 1 заряд.\n" + (_reason_text(reason) if reason != &"" else "Выберите соседнюю свободную безопасную клетку той же высоты.")})
+		if session is BattleBleedingSession:
+			descriptors.append({"action_id": &"blood_rune", "label": "Кровавая руна", "cost": "1 основное", "disabled": locked or session.selected_unit() == null or not session.selected_unit().can_attack(), "tooltip": "Удар с кровотечением даже без HP-урона. Иммунитет сохраняется. 2 тика по 4 с учётом естественной защиты; повторное наложение обновляет срок."})
 		_action_bar.set_dynamic_descriptors(descriptors)
 		_action_bar.set_slot_enabled(&"attack", not locked, "Сейчас нельзя действовать." if locked else "1 основное действие")
 		var guard_reason := _battle.guard_reason() if _battle != null else &"battle/input_locked"
@@ -382,6 +405,9 @@ func _refresh() -> void:
 		_action_bar.set_slot_enabled(&"guard", guard_enabled, "1 основное действие" if guard_enabled else _reason_text(guard_reason))
 	if _battle != null:
 		_phase_label.text = _battle.phase_text()
+		if session is BattleBleedingSession:
+			for event: Dictionary in (session as BattleBleedingSession).turn_events: _note(_event_text(event))
+			(session as BattleBleedingSession).turn_events.clear()
 		while _flow_cursor < _battle.flow_log.size():
 			_note(_battle.flow_log[_flow_cursor])
 			_flow_cursor += 1
@@ -444,6 +470,11 @@ func _inspection_text(unit: UnitState) -> String:
 		text += "\nПомощник: до гибели / конца боя; владелец " + _name_for(session.state.summon_owner_id(unit.id))
 		text += "\nДействия со следующего хода своей команды." if session.state.is_summon_pending(unit.id) else "\nГотов действовать."
 	var descriptions: Array[String] = []
+	if unit.bleeding != null:
+		var condition := "Кровотечение: %d тика · 4 до защиты" % unit.bleeding.ticks_left
+		if unit.bleeding.immune: condition += "\nИммунитет к кровотечению и руне"
+		var first_line := text.find("\n")
+		text = text.insert(first_line + 1, condition + "\n")
 	if unit.armor != null:
 		var armor := ArmorRuntime.totals(ArmorRuntime.capture(session.state.get_owner(unit.id)))
 		if not armor.is_empty():
@@ -563,6 +594,12 @@ func _render_forecast_panel() -> void:
 		_forecast_panel.text = text + "[color=#f29b9b]Прогноз недоступен[/color]\n" + _reason_text(reason)
 		return
 	var units: Dictionary = _forecast.units
+	var target_after: Dictionary = units.get(_forecast_target_id, {}).get("after", {})
+	if target_after.has("bleeding"):
+		text += "Кровотечение: %d тика после атаки\n" % target_after["bleeding"]["ticks_left"]
+		for step: Dictionary in _forecast.steps:
+			if step["kind"] == &"bleeding_apply" and step["status"] == &"SKIPPED":
+				text += "Не наложено: " + ("иммунитет" if step["reason"] == &"bleeding/immune" else ("цель погибла" if step["reason"] == &"bleeding/dead_target" else "нет физического HP-урона")) + ".\n"
 	for id_variant in units:
 		var id := int(id_variant)
 		var entry: Dictionary = units[id]
@@ -578,6 +615,8 @@ func _render_forecast_panel() -> void:
 			text += "%s: потеря равновесия %.1f → %.1f\n" % [_name_for(id), before["balance"], after["balance"]]
 		if before.has("armor_current"):
 			text += "%s: броня %d → %d / %d\n" % [_name_for(id), before["armor_current"], after["armor_current"], after["armor_max"]]
+		if before.has("bleeding") and (id == _forecast_target_id or before["bleeding"] != after["bleeding"]):
+			text += "%s: кровотечение %d → %d тика\n" % [_name_for(id), before["bleeding"]["ticks_left"], after["bleeding"]["ticks_left"]]
 		if before["main"] != after["main"]:
 			text += "%s: основные действия %d → %d\n" % [_name_for(id), before["main"], after["main"]]
 	var events: Array[Dictionary] = _forecast.events
@@ -588,6 +627,12 @@ func _render_forecast_panel() -> void:
 		text += "В HP до защиты: %d/%d · урон %d · лечение %d\n" % [hit["p_num"], hit["p_den"], hit["total_damage"], hit["total_healing"]]
 		for row: Dictionary in hit["rows"]:
 			text += "%s: вход %d → броня %d / HP %d / лечение %d\n" % ["Физический" if row["type"] == &"physical" else "Огонь", row["D"], row["armor_spent"], row["hp_damage"], row["healing"]]
+		if hit.has("bleeding"):
+			var gate: Dictionary = hit["bleeding"]
+			text += "Кровотечение: " + ("руна обходит требование HP-урона" if gate["policy"] == &"bypass_hp_gate" else ("есть физический HP-урон до лечения" if gate["eligible"] else "нет физического HP-урона")) + ".\n"
+	for step: Dictionary in _forecast.steps:
+		if step["kind"] != &"bleeding_apply" or step["status"] != &"SKIPPED": continue
+		text += "Кровотечение не наложено: " + ("иммунитет" if step["reason"] == &"bleeding/immune" else ("цель погибла" if step["reason"] == &"bleeding/dead_target" else "нет физического HP-урона")) + ".\n"
 	if events.is_empty(): text += "Событий последствий нет.\n"
 	else:
 		text += "\n[color=#a5b3c5]Последствия:[/color]\n"
@@ -628,6 +673,10 @@ func _event_text(event: Dictionary) -> String:
 	var actor := _name_for(int(event.get("actor_unit_id", 0)))
 	var target := _name_for(int(event.get("target_unit_id", 0)))
 	match StringName(event.get("kind", &"")):
+		&"bleeding_changed":
+			var ticks: int = event["after"]["ticks_left"]
+			if event["reason"] == &"tick": return "%s: тик кровотечения; %s." % [target, "срок истёк" if ticks == 0 else "остался %d тик" % ticks]
+			return "%s: кровотечение %s — 2 тика." % [target, "наложено" if event["reason"] == &"applied" else "обновлено"]
 		&"attacked": return "%s атакует %s." % [actor, target]
 		&"guarded": return "%s занимает охранную стойку (1 основное действие)." % actor
 		&"item_used":
@@ -638,9 +687,9 @@ func _event_text(event: Dictionary) -> String:
 		&"summoned": return "%s призывает: %s. Действия со следующего хода команды." % [actor, target]
 		&"damaged":
 			var source: Dictionary = event.get("source", {})
-			var cause := " от падения" if source.get("kind", &"") == &"fall" else ""
+			var cause := " от падения" if source.get("kind", &"") == &"fall" else (" от кровотечения" if bleeding_mode and source.get("kind", &"") == &"status" else "")
 			return "%s: −%.1f HP%s." % [target, float(event.get("amount", 0)), cause]
-		&"healed": return "%s: +%.1f HP%s." % [target, float(event.get("amount", 0)), " от сопротивления" if event.get("source", {}).get("kind") in [&"attack", &"collision", &"fall"] else " от предмета"]
+		&"healed": return "%s: +%.1f HP%s." % [target, float(event.get("amount", 0)), " от сопротивления" if event.get("source", {}).get("kind") in [&"attack", &"collision", &"fall"] or (bleeding_mode and event.get("source", {}).get("kind") == &"status") else " от предмета"]
 		&"armor_changed": return "%s: запас брони изменился." % target
 		&"hit_resolved": return "%s: попадание завершено, HP %d → %d." % [target, event["hit"]["hp_before"], event["hit"]["hp_after"]]
 		&"balance_changed": return "%s: равновесие %.1f / %.1f." % [target, float(event.get("balance_after", 0)), float(event.get("balance_max", 0))]

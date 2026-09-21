@@ -78,6 +78,8 @@ static func _unit_values(board: BattleBoard, state: ItemSimulationState = null) 
 			if not armor.is_empty():
 				result[unit.id]["armor_current"] = armor["current"]
 				result[unit.id]["armor_max"] = armor["maximum"]
+		if unit.bleeding != null:
+			result[unit.id]["bleeding"] = unit.bleeding.to_dict()
 	return result
 
 static func _close(state: ItemSimulationState) -> void:
