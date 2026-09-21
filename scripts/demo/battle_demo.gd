@@ -454,7 +454,10 @@ func _inspection_text(unit: UnitState) -> String:
 			for item: ItemInstance in owner._items.values():
 				if not item.is_active(): continue
 				if item.get_definition().use_summon:
-					descriptions.append("Печать: помощник с 16 HP за 1 основное и заряд; осталось %d/%d. Один на владельца, действует со следующего хода команды, до гибели / конца боя." % [item.get_charges_left(), item.get_definition().max_charges])
+					if armor_mode:
+						descriptions.append("Печать: призыв недоступен в сценарии брони.")
+					else:
+						descriptions.append("Печать: помощник с 16 HP за 1 основное и заряд; осталось %d/%d. Один на владельца, действует со следующего хода команды, до гибели / конца боя." % [item.get_charges_left(), item.get_definition().max_charges])
 				elif item.get_definition().max_charges > 0:
 					descriptions.append("%s: лечение себя до +%.1f HP за 1 основное и заряд; осталось %d/%d. Стойка сохраняется." % [item.get_definition().display_name, item.get_definition().use_heal_amount, item.get_charges_left(), item.get_definition().max_charges])
 				for effect in item.get_effects():

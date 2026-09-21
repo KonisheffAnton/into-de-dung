@@ -1,48 +1,44 @@
-# Передача — 2026-09-21: D2, первый бой с новой бронёй
+# Передача — 2026-09-21: технический плейтест D2
 
-Main; base `5f688c4f7354a79072311d3690440d3b48ace3ba`, вход чистый.
-По отдельному «продолжай» реализован [D2](ARMOR_DAMAGE_D2.md).
+Main; base `02f077446c8dfe2bb8008edc58860c45e8437888`, вход чистый.
+По «продолжай» проверен игровой сценарий брони; D3 не начинался.
 Итоговый HEAD/status — в completion.json отчёта ниже; сверить перед работой.
-Все изменения этапа входят в итоговый commit; незакоммиченного остатка D2 нет.
-Прежняя передача сохранена точным [снимком](CODEX_HANDOFF.history-20260921-16.md), ссылка в HISTORY.
+Изменения этапа входят в итоговый commit, незакоммиченного остатка этапа нет.
+Прежняя передача сохранена точным [снимком](CODEX_HANDOFF.history-20260921-17.md), ссылка в HISTORY.
 
-Новый armor_spatial_v1 и явная UnitState.armor: physical/fire, точные дроби,
-две ветви защит, p до hit, один net HP, расход E → условный RNG commit → a_i → HP.
-Сохранены checkpoints/fault-prefix; collision/fall — отдельные hit.
-Unit/ItemSimulation v4 сохраняют остатки/identity/E/защиты; старые оболочки не принимают Unit v4.
-Forecast исполняет реальную очередь, включая истечение E при конце боя.
-Кнопка «Броня»/armor_battle.tscn открывает отдельный бой; 4 восстанавливает20 за1 main
-с MoveRules admission. Восстановление по недостаче, избыток в бою — E;
-repair пока только чистый план с оплатой W, без склада/хаба/экрана.
-Призыв новой capability явно недоступен. Legacy-профили/flat+bypass/calculator
-отказывают для неё; прежние сценарии и D1 traces сохранены.
+Исправлен текст унаследованной печати в осмотре брони: призыв явно недоступен.
+Расширен armor UI runner: исходная карта, прогноз/удар Рея у пропасти с полным
+snapshot/RNG/events/steps/counters parity; восстановление, переключение,
+блокировка ввода при ответе ИИ, возврат хода и reset во время ИИ, scrolling.
+Полные партии через session API: активный игрок побеждает на раунде 3,
+после восстановления и пропуска ходов проигрывает на раунде 4. Исход виден в UI;
+команды заблокированы, временные grants удалены, in_battle=false.
+Игровые числа/карта/механика D2 не менялись; контракт — [D2](ARMOR_DAMAGE_D2.md).
 
-## Проверки
+## Проверки и ограничения
 
-Import/startup, адресные runner, --check --full и --render-check PASS.
-Расчёт брони68/0, snapshot35/0, integration263/0, recovery26/0, armor UI16/0.
-D1 helper23555/0, 57 baseline-сценариев/502 assertions; core9440/0,
-demo143/0, battle267/0. Настоящие input/scroll в SubViewport; PNG осмотрены.
-Core diagnostics точно совпали с D1: intentional occupied-cell error, 47 ObjectDB/18 resources.
-Независимое ревью revised результата — APPROVE. Три замечания закрыты регрессиями:
-смешение версий snapshot, допуск восстановления, последовательные падения и item-heal.
-Отчёт ignored: `test_reports/armor-damage-d2-20260921/`: verification.json,
-review-initial.md/review.md, lead-review.md, manifests, completion.json, next-chat-prompt.txt.
-Full: `test_reports/demo-1e07a554c46a4f51b71417ce07ec7815/`;
-render: `test_reports/demo-ff573d7aa2824de99220682c9209f36c/`.
+Адресный armor UI 56/0, render 66/0; все 10 armor PNG осмотрены.
+Финальные full/render PASS; core 9440/0 с прежними diagnostics D2 (47 ObjectDB/18 resources).
+Сверка исходников и независимое ревью — verification.json/review.md.
+Full: `test_reports/demo-02bd85b5d64147f883fc70922c655a9e/`.
+Render: `test_reports/demo-d1eb790d01054f558dcee5d0fe829fde/`.
+Отчёт ignored: `test_reports/armor-playtest-20260921/`: playtest.md,
+baseline.json, lead-review.md, verification.json, review-scope.json,
+review.md, completion.json, next-chat-prompt.txt и адресные логи.
 
-## Остаток и ограничения
-
+Desktop capture дважды отказал: SetIsBorderRequired / 0x80004002.
+Проверка ввода выполнена в отдельном SubViewport; это не ручной desktop-плейтест.
+В обеих полных партиях выжившая команда сохранила полное HP: исходная карта
+сильно выделяет толчки/пропасти. Пользовательская оценка удобства/баланса открыта.
+Следующий шаг — пользовательский плейтест; затем отдельное поручение D3 на одно состояние.
 D0 U/A/§9 приняты, Q1–Q6 не переоткрывать. D1/M2a и первый D2 завершены.
-Следующий шаг — плейтест брони, затем отдельное поручение D3 на одно состояние.
-D3–D5/M1/M2b/M3–M4 не запущены; прочие P вне брони не приняты. Графика отложена.
+D3–D5/M1/M2b/M3–M4 не запущены; прочие P вне брони не приняты, графика отложена.
 Технические детали решать самостоятельно; вопросы только при противоречиях с U, пакетом.
-Точные API/числовые границы и неохваченные системы — D2; маршруты — PROJECT_CONTEXT.
 Без push, sidebar tasks и расписаний. Frozen P02–P08/§4.5 не менять.
-AGENTS/CODEX_WORKFLOW: ограниченное делегирование, контроль ведущим queue/snapshot/preview/RNG,
+AGENTS/CODEX_WORKFLOW: делегирование, контроль ведущим queue/snapshot/preview/RNG;
 import/startup/адресные тесты → full/render → независимое ревью → логический commit.
 Архивы *.history-*.md и docs/modules/ автоматически не читать.
-В конце этапа/при блокере обновить короткий HANDOFF, сохранив прежний отдельным архивом
-со ссылкой из HISTORY. Полный самодостаточный промпт следующего чата вывести прямо
-в финальном сообщении блоком кода: HEAD, результат, docs/artifacts, остаток,
-ограничения, проверки и это же правило. Ссылка не заменяет текст.
+В конце этапа/при блокере обновить короткий HANDOFF с отдельным точным архивом
+и ссылкой из HISTORY. Полный самодостаточный промпт следующего чата вывести
+прямо в финале блоком кода: HEAD, результат, docs/artifacts, остаток,
+ограничения, проверки и это же правило. Ссылка не заменяет текст промпта.
