@@ -43,7 +43,7 @@ func find_path(from: Vector2i, to: Vector2i) -> Array[Vector2i]:
 	if _profile == &"spatial_move_v1" and (not _data.has_spatial_heights() or _max_height_step != 1): return []
 	if not _bounds.has_point(from) or not _bounds.has_point(to):
 		return []
-	if not _data.cell_is_walkable(from) or not _data.cell_is_walkable(to):
+	if not _data.cell_is_walkable(from) or not _data.cell_can_stop(to):
 		return []
 
 	var came_from: Dictionary = {}
@@ -103,7 +103,7 @@ func get_reachable_cells(from: Vector2i, max_cost: float) -> Dictionary:
 	if not _data.cell_is_walkable(from):
 		return result
 
-	result[from] = 0.0
+	var cost_so_far: Dictionary = {from: 0.0}
 
 	# Простая приоритетная очередь: массив пар (cost, cell), сортируемый
 	# при вставке. Для сеток тактического боя (десятки-сотни клеток)
@@ -116,7 +116,7 @@ func get_reachable_cells(from: Vector2i, max_cost: float) -> Dictionary:
 		var current_cost: float = current_entry[0]
 		var current_cell: Vector2i = current_entry[1]
 
-		if current_cost > result.get(current_cell, INF):
+		if current_cost > cost_so_far.get(current_cell, INF):
 			continue
 
 		for offset in _NEIGHBOR_OFFSETS:
@@ -132,9 +132,15 @@ func get_reachable_cells(from: Vector2i, max_cost: float) -> Dictionary:
 			if new_cost > max_cost:
 				continue
 
-			if not result.has(neighbor) or new_cost < result[neighbor]:
-				result[neighbor] = new_cost
+			if not cost_so_far.has(neighbor) or new_cost < cost_so_far[neighbor]:
+				cost_so_far[neighbor] = new_cost
 				frontier.append([new_cost, neighbor])
+
+	# Транзитные клетки нужны для расширения flood-fill, но не являются целями.
+	for cell_variant in cost_so_far.keys():
+		var cell: Vector2i = cell_variant
+		if _data.cell_can_stop(cell):
+			result[cell] = cost_so_far[cell]
 
 	return result
 

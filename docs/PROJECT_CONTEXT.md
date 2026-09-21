@@ -21,6 +21,7 @@
 | Предлагаемое следующее направление | Только §7 [DESIGN_DIRECTION](DESIGN_DIRECTION.md); выполнение плана требует поручения |
 | Спецификации кандидатов M1–M4 | [MODULARITY_PLAN](MODULARITY_PLAN.md); не отдельная очередь работ |
 | Нынешний бой и управление | [TACTICAL_BATTLE](TACTICAL_BATTLE.md) |
+| Проход через союзников / свободная остановка | [ALLY_TRANSIT](ALLY_TRANSIT.md) |
 | Прогноз / стойка / флакон / призыв | [ATTACK_FORECAST](ATTACK_FORECAST.md), [ACTION_PANEL_GUARD](ACTION_PANEL_GUARD.md), [HEALING_ITEM](HEALING_ITEM.md), [SUMMON_ITEM](SUMMON_ITEM.md) |
 | Ранее согласованный будущий дизайн | [TACTICAL_DESIGN_NEXT](TACTICAL_DESIGN_NEXT.md); не статус реализации |
 | Исполнение и точные Pxx-спецификации | [COMMAND_ACTION_QUEUE_CONTRACT](COMMAND_ACTION_QUEUE_CONTRACT.md) |

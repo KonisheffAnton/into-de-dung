@@ -22,23 +22,36 @@ var get_move_cost: Callable
 ## (cell: Vector2i) -> int. Полная высота в полу-шагах spatial-профиля.
 var get_height_steps: Callable
 
+## (cell: Vector2i) -> bool. Может ли юнит завершить путь в клетке.
+## По умолчанию совпадает с проходимостью для обратной совместимости.
+var can_stop: Callable
+
 
 func _init(
 	p_is_walkable: Callable = Callable(),
 	p_get_height: Callable = Callable(),
 	p_get_move_cost: Callable = Callable(),
-	p_get_height_steps: Callable = Callable()
+	p_get_height_steps: Callable = Callable(),
+	p_can_stop: Callable = Callable()
 ) -> void:
 	is_walkable = p_is_walkable
 	get_height = p_get_height
 	get_move_cost = p_get_move_cost
 	get_height_steps = p_get_height_steps
+	can_stop = p_can_stop
 
 
 func cell_is_walkable(cell: Vector2i) -> bool:
 	if not is_walkable.is_valid():
 		return true
 	return bool(is_walkable.call(cell))
+
+
+func cell_can_stop(cell: Vector2i) -> bool:
+	if not can_stop.is_valid():
+		return cell_is_walkable(cell)
+	# Остановка не может сделать непроходимую клетку допустимой.
+	return cell_is_walkable(cell) and bool(can_stop.call(cell))
 
 
 func cell_height(cell: Vector2i) -> int:

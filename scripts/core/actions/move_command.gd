@@ -235,7 +235,13 @@ func _armor_path_reason(context: ActionContext, actor: UnitState) -> StringName:
 	return &""
 
 func _execute_spatial_edge(context: ActionContext, board: BattleBoard, actor: UnitState, rules: MoveRules) -> CommandStepResult:
-	var edge: Array[Vector2i] = [_path[_continuation_index - 1], _path[_continuation_index]]
+	var end_index := _continuation_index
+	var provider := board.make_spatial_data_provider(actor)
+	# Проход через союзников не создаёт совместной occupancy даже между сигналами.
+	# Один сегмент заканчивается на первой свободной клетке, каждая грань оплачивается.
+	while end_index < _path.size() - 1 and not provider.cell_can_stop(_path[end_index]):
+		end_index += 1
+	var edge: Array[Vector2i] = _path.slice(_continuation_index - 1, end_index + 1)
 	var check := MovePathCheck.inspect(board, actor, edge, rules.get_max_height_step(), actor.move_points_left, rules.get_profile())
 	if check.get_reason() != &"":
 		var reason := check.get_reason()
@@ -244,14 +250,22 @@ func _execute_spatial_edge(context: ActionContext, board: BattleBoard, actor: Un
 		if reason == &"move/insufficient_move": return CommandStepResult.interrupted(&"move/budget_exhausted")
 		return CommandStepResult.faulted(&"move/invalid_runtime")
 	var from := edge[0]
-	var to := edge[1]
-	var drop := maxi(0, board.get_height_steps(from) - board.get_height_steps(to))
+	var to := edge[-1]
+	if from == to: return CommandStepResult.interrupted(&"move/path_blocked")
+	var drop_from := edge[-2]
+	var drop := maxi(0, board.get_height_steps(drop_from) - board.get_height_steps(to))
 	var lethal := board.is_lethal(to)
 	var fall := 0.0 if lethal else _fall_for(actor, drop)
 	if not is_finite(fall): return CommandStepResult.faulted(&"move/invalid_runtime")
 	var types: Dictionary = {}
 	if fall > 0.0: types[actor.id] = [StatTypes.StatType.HP_MAX, StatTypes.StatType.ARMOR]
-	var guard := SpatialRules.capture_guard(context, [actor], edge, types)
+	var participants: Array[UnitState] = [actor]
+	for index in range(1, edge.size() - 1):
+		var ally := board.occupant_at(edge[index])
+		if ally == null or ally == actor or not actor.is_friendly_to(ally): return CommandStepResult.interrupted(&"move/path_blocked")
+		if not participants.has(ally): participants.append(ally)
+	var actor_faction := actor.faction
+	var guard := SpatialRules.capture_guard(context, participants, edge, types)
 	if guard == null or actor.action_resources == null: return CommandStepResult.faulted(&"move/invalid_runtime")
 	var required := 1 + (1 if lethal or (fall > 0.0 and fall >= actor.vitals.get_hp()) else 0)
 	if actor.armor != null and fall > 0.0:
@@ -260,7 +274,7 @@ func _execute_spatial_edge(context: ActionContext, board: BattleBoard, actor: Un
 		required = 1 + (1 if plan["hp_after"] == 0 else 0)
 	if board.board_version > MAX_ID - required: return CommandStepResult.faulted(&"move/board_version_exhausted")
 	var before := actor.move_points_left
-	var cost := check.get_costs()[0]
+	var cost := check.get_total_cost()
 	var after := before - cost
 	var id := actor.id
 	var moved := guard.debit(id, 0, cost).stance(id, false).moved(id, to)
@@ -273,13 +287,17 @@ func _execute_spatial_edge(context: ActionContext, board: BattleBoard, actor: Un
 		actor.guard_stance = stance_before
 		return CommandStepResult.faulted(&"move/board_move_failed")
 	var event := {"kind": &"moved", "actor_unit_id": id, "target_unit_id": id, "from_cell": from, "to_cell": to, "movement_kind": &"voluntary", "move_cost": cost, "move_before": before, "move_after": after}
-	if not moved.check(context):
+	if edge.size() > 2: event["transit_path"] = edge.duplicate()
+	var allies_unchanged := actor.faction == actor_faction
+	for participant in participants:
+		if participant != actor and not actor.is_friendly_to(participant): allies_unchanged = false
+	if not moved.check(context) or not allies_unchanged:
 		var fault := CommandStepResult.faulted(&"move/invalid_runtime")
 		fault.events = [event]; fault.state_changed = true
 		return fault
 	var mandatory: Array[Command] = []
 	if lethal or fall > 0.0:
-		var binding := MoveFallCommand.make_binding(moved, id, from, to, drop, fall, lethal)
+		var binding := MoveFallCommand.make_binding(moved, id, drop_from, to, drop, fall, lethal)
 		if lethal: mandatory.append(DeathCommand.new(id, binding.source, binding))
 		else: mandatory.append(MoveFallCommand.new(binding))
-	return CommandStepResult.applied([event], mandatory, [], MoveCommand._make_continuation(self, _continuation_index + 1, actor), true)
+	return CommandStepResult.applied([event], mandatory, [], MoveCommand._make_continuation(self, end_index + 1, actor), true)

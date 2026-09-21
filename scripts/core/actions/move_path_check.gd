@@ -44,6 +44,9 @@ static func inspect(board: BattleBoard, actor: UnitState, path: Array[Vector2i],
 	if not provider.cell_is_walkable(path[0]):
 		result._reason = &"move/blocked"
 		return result
+	if not provider.cell_can_stop(path[-1]):
+		result._reason = &"move/blocked"
+		return result
 	var costs: Array[float] = []
 	for index in range(1, path.size()):
 		var previous: Vector2i = path[index - 1]

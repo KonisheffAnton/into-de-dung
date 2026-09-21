@@ -67,6 +67,8 @@ def main():
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if legacy:
             invalid = invalid or "0 failed" not in output
+        if label == "ally_transit":
+            invalid = invalid or "ALLY TRANSIT RESULTS:" not in output or ", 0 failed" not in output
         print(label, "FAIL" if invalid else "PASS", flush=True)
         if invalid:
             print(output[-4000:])
@@ -105,6 +107,10 @@ def main():
         if args.render_check:
             armor_args += ["--", "--captures=" + str(captures)]
         run("armor_ui", armor_args, headless=not args.render_check)
+        transit_args = ["--script", "tests/test_ally_transit.gd"]
+        if args.render_check:
+            transit_args += ["--", "--captures=" + str(captures)]
+        run("ally_transit", transit_args, headless=not args.render_check)
     else:
         # This is the user-requested interactive window, so it is intentionally visible.
         with (out / "play.log").open("wb") as log:

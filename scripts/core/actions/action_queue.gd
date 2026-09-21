@@ -230,6 +230,8 @@ func _bind_batch(descriptions: Array[Dictionary], event_seq: int, context: Actio
 	return result
 
 static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bool:
+	if draft.has("transit_path"):
+		return _valid_transit_draft(draft, context)
 	if draft.get("kind") in [&"armor_changed", &"hit_resolved"]:
 		return _valid_armor_draft(draft)
 	if ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "item_instance_id": TYPE_INT, "cell": TYPE_VECTOR2I}):
@@ -287,6 +289,26 @@ static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bo
 	for key: String in ["source_instance_id", "instigator_unit_id", "credit_unit_id"]:
 		if source[key] < 0 or source[key] >= MAX_ID: return false
 	return draft["target_unit_id"] > 0 and draft["target_unit_id"] < MAX_ID
+
+static func _valid_transit_draft(draft: Dictionary, context: ActionContext) -> bool:
+	if context == null or context.get_move_rules() == null or context.get_move_rules().get_profile() != &"spatial_move_v1": return false
+	if draft.get("kind") != &"moved" or draft.get("movement_kind") != &"voluntary": return false
+	var path_value: Variant = draft["transit_path"]
+	if not path_value is Array or path_value.size() < 3 or path_value.size() > MoveCommand.MAX_PATH_CELLS: return false
+	for index in range(path_value.size()):
+		if typeof(path_value[index]) != TYPE_VECTOR2I: return false
+		if index > 0:
+			var dx: int = int(path_value[index].x) - int(path_value[index - 1].x)
+			var dy: int = int(path_value[index].y) - int(path_value[index - 1].y)
+			if absi(dx) + absi(dy) != 1: return false
+	if path_value[0] != draft.get("from_cell") or path_value[-1] != draft.get("to_cell") or path_value[0] == path_value[-1]: return false
+	# Старый строгий формат и арифметику сохраняем; только новый сегмент несёт весь путь.
+	var adjacent := draft.duplicate(true)
+	adjacent.erase("transit_path")
+	adjacent["from_cell"] = path_value[-2]
+	# Каждое ребро стоит хотя бы 1. Геометрию заново не читаем: callback мог
+	# изменить её, а fault обязан сохранить событие уже оплаченного сегмента.
+	return _valid_draft(adjacent, context) and float(draft["move_cost"]) >= float(path_value.size() - 1)
 
 static func _event_capacity(command: Command) -> int:
 	if command is CollisionDamageCommand and (command as CollisionDamageCommand)._binding != null and (command as CollisionDamageCommand)._binding.values.get("armor", false): return 8

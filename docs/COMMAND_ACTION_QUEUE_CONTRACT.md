@@ -33,7 +33,7 @@ context/queue и исполняет `submit` на копии. Неподдерж
 | Ownership предметов P03a | [TASK](P03A_ITEM_OWNERSHIP_TASK.md), [REVIEW](P03A_REVIEW.md) |
 | Item snapshot/collector P03b | [TASK](P03B_ITEM_SNAPSHOT_TASK.md), [REVIEW](P03B_REVIEW.md) |
 | Очередь Damage/Heal/Death P04 | [TASK](P04_ACTION_QUEUE_TASK.md), [REVIEW](P04_REVIEW.md) |
-| Движение P05 | [TASK](P05_MOVE_TASK.md), [REVIEW](P05_REVIEW.md) |
+| Движение P05 | [TASK](P05_MOVE_TASK.md), [REVIEW](P05_REVIEW.md); позднейший пространственный [проход союзников](ALLY_TRANSIT.md) |
 | Оплата и исполнение атаки P06 | [TASK](P06_ATTACK_TASK.md), [REVIEW](P06_REVIEW.md) |
 | Balance/push/collision P07 | [TASK](P07_BALANCE_PUSH_TASK.md), [REVIEW](P07_REVIEW.md) |
 | Spatial и guards P08 r3 | [TASK](P08_SPATIAL_TASK_R3.md), особенно §4.5; [REVIEW](P08_REVIEW_R3.md) |
@@ -47,5 +47,7 @@ Frozen TASK/DEPENDENCIES/REVIEW остаются на прежних путях 
 [ACTION_PANEL_GUARD](ACTION_PANEL_GUARD.md), [HEALING_ITEM](HEALING_ITEM.md),
 [SUMMON_ITEM](SUMMON_ITEM.md). Они описывают добавления после P08, а не изменения
 его архивного текста. [D1](ATTACK_DAMAGE_D1.md) выделяет чистый расчёт прямого удара,
-сохраняя исполнение и receipts. Новая броня и типизированный урон приняты как
-будущий дизайн [D0](ARMOR_DAMAGE_D0.md); исполняемые формулы остаются прежними.
+сохраняя исполнение и receipts. Новая броня и типизированный урон приняты в
+[D0](ARMOR_DAMAGE_D0.md) и реализованы отдельным профилем [D2](ARMOR_DAMAGE_D2.md).
+[Проход союзников](ALLY_TRANSIT.md) добавляет атомарный пространственный сегмент
+и поле transit_path его события moved, сохраняя прежний формат соседнего шага.

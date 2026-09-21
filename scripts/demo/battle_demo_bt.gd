@@ -157,6 +157,10 @@ func _affordable_prefix(board: BattleBoard, full_path: Array[Vector2i], budget: 
 			break
 		spent += cost
 		result.append(full_path[index])
+	# Недостаток ресурса может оставить хвост на союзнике-транзите; такой
+	# endpoint нельзя передать команде как остановку.
+	while result.size() > 1 and not provider.cell_can_stop(result[result.size() - 1]):
+		result.pop_back()
 	return result
 
 

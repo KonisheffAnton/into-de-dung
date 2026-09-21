@@ -23,6 +23,10 @@ static func inspect_edge(provider: GridDataProvider, from: Vector2i, to: Vector2
 		result.reason = &"move/blocked"
 		return result
 	var rise := to_steps - from_steps
+	# Падение требует места для приземления и последствий; союзник допускает лишь проход.
+	if rise < -2 and not provider.cell_can_stop(to):
+		result.reason = &"move/blocked"
+		return result
 	if rise > 2:
 		result.reason = &"move/height_step"
 		return result

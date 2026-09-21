@@ -331,6 +331,20 @@ func can_enter(cell: Vector2i, for_unit: UnitState = null) -> bool:
 	return false
 
 
+## Может ли клетка быть использована как промежуточная при движении юнита.
+## Союзник допускается только транзитом по безопасной клетке: остановка и
+## фактическая занятость по-прежнему регулируются can_enter/move_unit.
+func can_traverse(cell: Vector2i, moving_unit: UnitState = null) -> bool:
+	if not is_terrain_walkable(cell):
+		return false
+	var occupant := occupant_at(cell)
+	if occupant == null:
+		return true
+	if moving_unit != null and occupant.id == moving_unit.id:
+		return true
+	return moving_unit != null and moving_unit.is_friendly_to(occupant) and not is_lethal(cell)
+
+
 ## Стоимость входа в клетку для расчёта зоны хода.
 ## HAZARD дороже пола: ИИ и автопуть будут его огибать при прочих равных,
 ## но пройти через него всё ещё можно (запрет — дело VETO у considerations).
@@ -371,10 +385,11 @@ func make_terrain_only_provider() -> GridDataProvider:
 
 func make_spatial_data_provider(moving_unit: UnitState = null) -> GridDataProvider:
 	return GridDataProvider.new(
-		func(cell: Vector2i) -> bool: return can_enter(cell, moving_unit),
+		func(cell: Vector2i) -> bool: return can_traverse(cell, moving_unit),
 		func(cell: Vector2i) -> int: return get_height(cell),
 		func(cell: Vector2i) -> float: return get_move_cost(cell),
-		func(cell: Vector2i) -> int: return get_height_steps(cell)
+		func(cell: Vector2i) -> int: return get_height_steps(cell),
+		func(cell: Vector2i) -> bool: return can_enter(cell, moving_unit)
 	)
 
 
