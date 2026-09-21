@@ -67,7 +67,7 @@ func _run() -> void:
 	await key(KEY_5)
 	await motion(at(s.units[1]))
 	check(s.rune_selected and demo._forecast != null and demo._forecast.status == &"APPLIED","input rune forecast")
-	check(demo._forecast_panel.text.contains("руна обходит") and demo._forecast_panel.text.contains("кровотечение 0 → 2"),"bypass explained on armor-only")
+	check(demo._forecast_panel.text.contains("Перк «Кровавая руна» обходит") and demo._forecast_panel.text.contains("кровотечение 0 → 2"),"bypass explained on armor-only")
 	await capture("bleeding-03-rune")
 	await click(at(s.units[1]))
 	check(s.units[1].bleeding.ticks_left == 2 and s.units[1].vitals.get_hp() == 32.0,"rune applies without HP loss")

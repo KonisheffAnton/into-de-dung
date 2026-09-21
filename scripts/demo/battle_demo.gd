@@ -375,7 +375,7 @@ func _refresh() -> void:
 	_instructions.text = "1 / A: атака · 2: защита · 3: лечение · 4: призыв · M: движение · Клик по врагу: осмотр · Enter: конец хода · R: заново" if tactical_mode else "Ступени: Астра → D3 → A → Страж. Стена: Бор → A → Щит. Пропасть: Рей → A → Мишень на G7."
 	if armor_mode: _instructions.text = _instructions.text.replace("4: призыв", "4: броня +20")
 	if session is BattleBleedingSession and (session as BattleBleedingSession).rune_selected:
-		_instructions.text = "Кровавая руна: выберите цель · 1 основное · Обходит требование HP-урона; иммунитет сохраняется · A: обычная атака"
+		_instructions.text = "Кровавая руна (перк): выберите цель · 1 основное · Обходит требование HP-урона; иммунитет сохраняется · A: обычная атака"
 	var locked := _battle != null and not _battle.can_player_act()
 	_move_button.disabled = locked
 	_attack_button.disabled = locked
@@ -397,7 +397,7 @@ func _refresh() -> void:
 			var reason := _battle.summoning_reason()
 			descriptors.append({"action_id": &"summoning_item", "label": "Печать %d/%d" % [seal.get_charges_left(), seal.get_definition().max_charges], "cost": "1 основное", "disabled": reason != &"", "tooltip": "Помощник: 16 HP, действует со следующего хода команды. Один на владельца, до гибели или конца боя. 1 основное и 1 заряд.\n" + (_reason_text(reason) if reason != &"" else "Выберите соседнюю свободную безопасную клетку той же высоты.")})
 		if session is BattleBleedingSession:
-			descriptors.append({"action_id": &"blood_rune", "label": "Кровавая руна", "cost": "1 основное", "disabled": locked or session.selected_unit() == null or not session.selected_unit().can_attack(), "tooltip": "Удар с кровотечением даже без HP-урона. Иммунитет сохраняется. 2 тика по 4 с учётом естественной защиты; повторное наложение обновляет срок."})
+			descriptors.append({"action_id": &"blood_rune", "label": "Кровавая руна", "cost": "Перк · 1 основное", "disabled": locked or session.selected_unit() == null or not session.selected_unit().can_attack(), "tooltip": "Перк персонажа «Кровавая руна»: эта атака накладывает кровотечение даже без физического урона HP. Иммунитет сохраняется. 2 тика по 4 с учётом естественной защиты; повторное наложение обновляет срок."})
 		_action_bar.set_dynamic_descriptors(descriptors)
 		_action_bar.set_slot_enabled(&"attack", not locked, "Сейчас нельзя действовать." if locked else "1 основное действие")
 		var guard_reason := _battle.guard_reason() if _battle != null else &"battle/input_locked"
@@ -472,6 +472,8 @@ func _inspection_text(unit: UnitState) -> String:
 	var descriptions: Array[String] = []
 	if unit.bleeding != null:
 		var condition := "Кровотечение: %d тика · 4 до защиты" % unit.bleeding.ticks_left
+		if session is BattleBleedingSession and unit.faction == Faction.Type.PLAYER:
+			condition += "\nПерк: Кровавая руна · атака клавишей 5"
 		if unit.bleeding.immune: condition += "\nИммунитет к кровотечению и руне"
 		var first_line := text.find("\n")
 		text = text.insert(first_line + 1, condition + "\n")
@@ -629,7 +631,7 @@ func _render_forecast_panel() -> void:
 			text += "%s: вход %d → броня %d / HP %d / лечение %d\n" % ["Физический" if row["type"] == &"physical" else "Огонь", row["D"], row["armor_spent"], row["hp_damage"], row["healing"]]
 		if hit.has("bleeding"):
 			var gate: Dictionary = hit["bleeding"]
-			text += "Кровотечение: " + ("руна обходит требование HP-урона" if gate["policy"] == &"bypass_hp_gate" else ("есть физический HP-урон до лечения" if gate["eligible"] else "нет физического HP-урона")) + ".\n"
+			text += "Кровотечение: " + ("Перк «Кровавая руна» обходит требование физического HP-урона" if gate["policy"] == &"bypass_hp_gate" else ("есть физический HP-урон до лечения" if gate["eligible"] else "нет физического HP-урона")) + ".\n"
 	for step: Dictionary in _forecast.steps:
 		if step["kind"] != &"bleeding_apply" or step["status"] != &"SKIPPED": continue
 		text += "Кровотечение не наложено: " + ("иммунитет" if step["reason"] == &"bleeding/immune" else ("цель погибла" if step["reason"] == &"bleeding/dead_target" else "нет физического HP-урона")) + ".\n"
