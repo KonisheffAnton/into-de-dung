@@ -86,6 +86,8 @@ class Guard extends RefCounted:
 		if context._state != state or state == null or state._board != board or board == null: return false
 		if refs.has("armor_rng") and (context.get_rng() != refs["armor_rng"] or context.get_rng().to_dict() != values["armor_rng"]): return false
 		if state._owners != refs["owners"] or state._inventories != refs["inventories"] or state._equipment != refs["equipment"]: return false
+		if state.environment != refs.get("environment"): return false
+		if state.environment != null and state.environment.to_dict() != values["environment"]: return false
 		# Проверяем raw attachment до getters, которые обходят массив и вызывают методы.
 		for record: Dictionary in refs["attachments"]:
 			var attachment: RefCounted = record["object"]
@@ -205,6 +207,8 @@ static func capture_guard(context: ActionContext, units: Array[UnitState], cells
 	var guard := Guard.new()
 	guard.refs = {"context": context, "state": state, "board": board, "owners": state._owners.duplicate(), "inventories": state._inventories.duplicate(), "equipment": state._equipment.duplicate(), "attachments": [], "participants": {}}
 	guard.values = {"board_origin_version": board.board_version, "expected_board_version": board.board_version, "width": board.width, "height": board.height, "geometry": {}, "participants": {}}
+	guard.refs["environment"] = state.environment
+	if state.environment != null: guard.values["environment"] = state.environment.to_dict()
 	for owner: ItemOwnerState in state._owners:
 		if owner == null or owner.get_script() != ItemOwnerState or owner._owner == null or owner._closed: return null
 		guard.refs["attachments"].append({"object": owner, "field": "_owner", "attached": owner._owner, "closed": false})

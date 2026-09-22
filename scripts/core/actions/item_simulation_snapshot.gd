@@ -7,6 +7,7 @@ const SCOPE := "board_items_two_effects_v1"
 const SCOPE_V2 := "board_items_usable_v2"
 const SCOPE_V3 := "board_items_summons_v3"
 const SCOPE_V4 := "board_items_armor_v4"
+const SCOPE_V5 := "board_items_environment_v5"
 const MAX_ID := 9223372036854775807
 const MAX_DEPTH := 32
 const MAX_STRING_BYTES := 4096
@@ -63,6 +64,7 @@ func fingerprint() -> String:
 	return context.finish().hex_encode()
 
 static func _normalize(data: Dictionary) -> Dictionary:
+	if data.get("schema_version") == 5: data["environment"] = CombatEnvironmentState.from_dict(data["environment"]).to_dict()
 	data["board_snapshot"] = SimulationSnapshot._normalize(data["board_snapshot"])
 	data["owners"].sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["owner_unit_id"] < b["owner_unit_id"])
 	for owner: Dictionary in data["owners"]:
@@ -70,7 +72,7 @@ static func _normalize(data: Dictionary) -> Dictionary:
 		owner["items"].sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["item_instance_id"] < b["item_instance_id"])
 		for item: Dictionary in owner["items"]:
 			item["effects"].sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["effect_instance_id"] < b["effect_instance_id"])
-	if data.get("schema_version", 0) in [3, 4]:
+	if data.get("schema_version", 0) in [3, 4, 5]:
 		data["summons"].sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["unit_id"] < b["unit_id"])
 	return data
 
@@ -133,7 +135,8 @@ static func _effect_shape(effect: Variant, runtime: bool) -> bool:
 
 static func _structure(data: Dictionary) -> String:
 	var envelope_fields := {"schema_version": TYPE_INT, "scope": TYPE_STRING, "board_snapshot": TYPE_DICTIONARY, "owners": TYPE_ARRAY}
-	if data.get("schema_version") in [3, 4] or (data.get("schema_version") not in [1, 2] and data.has("summons")): envelope_fields["summons"] = TYPE_ARRAY
+	if data.get("schema_version") in [3, 4, 5] or (data.get("schema_version") not in [1, 2] and data.has("summons")): envelope_fields["summons"] = TYPE_ARRAY
+	if data.get("schema_version") == 5: envelope_fields["environment"] = TYPE_DICTIONARY
 	if not _shape(data, envelope_fields): return "envelope/schema"
 	var board_error := _board_structure(data["board_snapshot"])
 	if not board_error.is_empty(): return board_error
@@ -152,9 +155,9 @@ static func _structure(data: Dictionary) -> String:
 			if typeof(id) != TYPE_INT: return "owners/inventory_order/type"
 		for definition: Variant in owner["definitions"]:
 			var definition_fields := {"id": TYPE_STRING, "effects": TYPE_ARRAY}
-			if data["schema_version"] in [2, 3, 4] or (data["schema_version"] != 1 and typeof(definition) == TYPE_DICTIONARY and definition.has("max_charges")): definition_fields.merge({"use_heal_amount": TYPE_FLOAT, "max_charges": TYPE_INT})
-			if data["schema_version"] in [3, 4] or (data["schema_version"] not in [1, 2] and typeof(definition) == TYPE_DICTIONARY and definition.has("use_summon")): definition_fields["use_summon"] = TYPE_BOOL
-			if data["schema_version"] == 4:
+			if data["schema_version"] in [2, 3, 4, 5] or (data["schema_version"] != 1 and typeof(definition) == TYPE_DICTIONARY and definition.has("max_charges")): definition_fields.merge({"use_heal_amount": TYPE_FLOAT, "max_charges": TYPE_INT})
+			if data["schema_version"] in [3, 4, 5] or (data["schema_version"] not in [1, 2] and typeof(definition) == TYPE_DICTIONARY and definition.has("use_summon")): definition_fields["use_summon"] = TYPE_BOOL
+			if data["schema_version"] in [4, 5]:
 				definition_fields["armor_max"] = TYPE_INT
 				definition_fields["armor_resistances"] = TYPE_DICTIONARY
 			if not _shape(definition, definition_fields): return "owners/definitions/schema"
@@ -164,8 +167,8 @@ static func _structure(data: Dictionary) -> String:
 				if not _effect_shape(effect, false): return "owners/definitions/effects/schema"
 		for item: Variant in owner["items"]:
 			var item_fields := {"item_instance_id": TYPE_INT, "definition_id": TYPE_STRING, "placement": TYPE_INT, "active": TYPE_BOOL, "effects": TYPE_ARRAY}
-			if data["schema_version"] in [2, 3, 4] or (data["schema_version"] != 1 and typeof(item) == TYPE_DICTIONARY and item.has("charges_left")): item_fields["charges_left"] = TYPE_INT
-			if data["schema_version"] == 4:
+			if data["schema_version"] in [2, 3, 4, 5] or (data["schema_version"] != 1 and typeof(item) == TYPE_DICTIONARY and item.has("charges_left")): item_fields["charges_left"] = TYPE_INT
+			if data["schema_version"] in [4, 5]:
 				item_fields["armor_remaining"] = TYPE_INT
 				item_fields["armor_origin_owner"] = TYPE_INT
 				item_fields["armor_origin_item"] = TYPE_INT
@@ -174,7 +177,7 @@ static func _structure(data: Dictionary) -> String:
 			if effects > MAX_EFFECTS_TOTAL: return "owners/items/effects/limit"
 			for effect: Variant in item["effects"]:
 				if not _effect_shape(effect, true): return "owners/items/effects/schema"
-	if data["schema_version"] in [3, 4]:
+	if data["schema_version"] in [3, 4, 5]:
 		if data["summons"].size() > MAX_OWNERS: return "summons/limit"
 		for summon: Variant in data["summons"]:
 			if not _shape(summon, {"unit_id": TYPE_INT, "owner_unit_id": TYPE_INT, "pending": TYPE_BOOL}): return "summons/schema"
@@ -298,7 +301,7 @@ static func capture(state: ItemSimulationState, unsupported_runtime_ids: Array[S
 	owners.sort_custom(func(a: ItemOwnerState, b: ItemOwnerState) -> bool: return a._owner.id < b._owner.id)
 	var use_v2 := false
 	var use_v3 := not state._summons.is_empty()
-	var use_v4 := false
+	var use_v4 := state.environment != null
 	for unit: Dictionary in board_data["board"]["units"]:
 		if unit.get("schema_version", 1) >= 4 or unit.has("armor"): use_v4 = true
 	for owner: ItemOwnerState in owners:
@@ -340,15 +343,17 @@ static func capture(state: ItemSimulationState, unsupported_runtime_ids: Array[S
 				item_record["armor_origin_item"] = item.armor_origin_item
 			items.append(item_record)
 		records.append({"schema_version": 1, "owner_unit_id": id, "next_item_id": owner._next_item_id, "next_effect_id": owner._next_effect_id, "closed": owner._closed, "inventory_lifecycle": _lifecycle(owner._inventory_registered, owner._inventory_retired), "equipment_lifecycle": _lifecycle(owner._equipment_registered, owner._equipment_retired), "inventory_order": Array(owner._inventory_order), "definitions": definitions, "items": items})
-	var version := 4 if use_v4 else (3 if use_v3 else (2 if use_v2 else 1))
-	var payload := {"schema_version": version, "scope": SCOPE_V4 if use_v4 else (SCOPE_V3 if use_v3 else (SCOPE_V2 if use_v2 else SCOPE)), "board_snapshot": board_data, "owners": records}
-	if version in [3, 4]: payload["summons"] = state.get_summons()
+	var version := 5 if state.environment != null else (4 if use_v4 else (3 if use_v3 else (2 if use_v2 else 1)))
+	var payload := {"schema_version": version, "scope": SCOPE_V5 if version == 5 else (SCOPE_V4 if use_v4 else (SCOPE_V3 if use_v3 else (SCOPE_V2 if use_v2 else SCOPE))), "board_snapshot": board_data, "owners": records}
+	if version in [3, 4, 5]: payload["summons"] = state.get_summons()
+	if version == 5: payload["environment"] = state.environment.to_dict()
 	return from_dict(payload)
 
 static func _lifecycle(registered: bool, retired: bool) -> int:
 	return 1 if registered else (2 if retired else 0)
 
 static func _live_shape_error(state: ItemSimulationState) -> String:
+	if state.environment != null and (state.environment.get_script() != CombatEnvironmentState or not CombatEnvironmentState.valid(state.environment.to_dict())): return "environment/invalid_state"
 	if state._summons.size() > MAX_OWNERS: return "summons/limit"
 	var nodes: Array[int] = [0]
 	var metadata_error := _walk(state._summons, 0, [], nodes, "summons")
@@ -531,7 +536,7 @@ func instantiate(definitions: Dictionary) -> ItemSnapshotResult:
 			if not error.is_empty(): return _failure(error)
 			if _data["schema_version"] < 4 and (definition.armor_max != 0 or definition.armor_resistances != {"physical": 0, "fire": 0}): return _failure("definitions/" + String(id) + "/armor_content")
 			if _data["schema_version"] == 1 and (definition.max_charges != 0 or definition.use_summon or definition.armor_max != 0): return _failure("definitions/" + String(id) + "/content")
-			if definition.id != id or _definition_value(definition, _data["schema_version"] in [2, 3, 4], _data["schema_version"] in [3, 4], _data["schema_version"] == 4) != descriptor: return _failure("definitions/" + String(id) + "/content")
+			if definition.id != id or _definition_value(definition, _data["schema_version"] in [2, 3, 4, 5], _data["schema_version"] in [3, 4, 5], _data["schema_version"] in [4, 5]) != descriptor: return _failure("definitions/" + String(id) + "/content")
 			checked[id] = definition
 	var board_result := SimulationSnapshot.from_dict(_data["board_snapshot"])
 	var board := board_result.snapshot.instantiate_board()
@@ -563,11 +568,11 @@ func instantiate(definitions: Dictionary) -> ItemSnapshotResult:
 					runtime = HealOnDamageEffectRuntime.new(record["owner_unit_id"], item_record["item_instance_id"], effect["effect_instance_id"], effect["effect_index"], effect["heal_amount"], effect["trigger_event"] as TriggeredEffect.TriggerEvent)
 				runtime._active = effect["active"]
 				effects[effect["effect_index"]] = runtime
-			var charges: int = item_record["charges_left"] if _data["schema_version"] in [2, 3, 4] else 0
+			var charges: int = item_record["charges_left"] if _data["schema_version"] in [2, 3, 4, 5] else 0
 			var item := ItemInstance.new(checked[StringName(item_record["definition_id"])], record["owner_unit_id"], item_record["item_instance_id"], effects, charges)
 			item._placement = item_record["placement"]
 			item._active = item_record["active"]
-			if _data["schema_version"] == 4:
+			if _data["schema_version"] in [4, 5]:
 				item.armor_remaining = item_record["armor_remaining"]
 				item.armor_origin_owner = item_record["armor_origin_owner"]
 				item.armor_origin_item = item_record["armor_origin_item"]
@@ -579,9 +584,10 @@ func instantiate(definitions: Dictionary) -> ItemSnapshotResult:
 	var result := ItemSnapshotResult.new()
 	result.code = ItemSnapshotResult.Code.OK
 	result.state = ItemSimulationState.new(board, owners, inventories, equipment)
-	if _data["schema_version"] in [3, 4]:
+	if _data["schema_version"] in [3, 4, 5]:
 		for record: Dictionary in _data["summons"]:
 			(result.state as ItemSimulationState)._summons.append({"unit_id": record["unit_id"], "owner_unit_id": record["owner_unit_id"], "pending": record["pending"]})
+	if _data["schema_version"] == 5: result.state.environment = CombatEnvironmentState.from_dict(_data["environment"])
 	return result
 
 static func _effect_capability(effect: Dictionary) -> bool:
@@ -596,8 +602,8 @@ static func _validate(data: Dictionary) -> String:
 	if not error.is_empty(): return error
 	error = _structure(data)
 	if not error.is_empty(): return error
-	if data["schema_version"] not in [1, 2, 3, 4]: return "UNSUPPORTED:envelope/version"
-	if (data["schema_version"] == 1 and data["scope"] != SCOPE) or (data["schema_version"] == 2 and data["scope"] != SCOPE_V2) or (data["schema_version"] == 3 and data["scope"] != SCOPE_V3) or (data["schema_version"] == 4 and data["scope"] != SCOPE_V4): return "UNSUPPORTED:envelope/scope"
+	if data["schema_version"] not in [1, 2, 3, 4, 5]: return "UNSUPPORTED:envelope/version"
+	if (data["schema_version"] == 1 and data["scope"] != SCOPE) or (data["schema_version"] == 2 and data["scope"] != SCOPE_V2) or (data["schema_version"] == 3 and data["scope"] != SCOPE_V3) or (data["schema_version"] == 4 and data["scope"] != SCOPE_V4) or (data["schema_version"] == 5 and data["scope"] != SCOPE_V5): return "UNSUPPORTED:envelope/scope"
 	# Числовой порядок делает диагностику независимой от перестановки records.
 	var owners: Array = data["owners"].duplicate()
 	owners.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["owner_unit_id"] < b["owner_unit_id"])
@@ -607,21 +613,21 @@ static func _validate(data: Dictionary) -> String:
 		var definitions: Array = owner["definitions"].duplicate()
 		definitions.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["id"] < b["id"])
 		for definition: Dictionary in definitions:
-			if data["schema_version"] == 4:
+			if data["schema_version"] in [4, 5]:
 				if definition["armor_max"] < 0 or not _armor_resistances_valid(definition["armor_resistances"]): return path + "/definition/armor"
 			var summon_flag: bool = definition.get("use_summon", false)
-			if data["schema_version"] in [2, 3, 4] and ((definition["use_heal_amount"] == 0.0 and not summon_flag) != (definition["max_charges"] == 0) or definition["use_heal_amount"] < 0.0 or definition["max_charges"] < 0 or definition["max_charges"] > 4096 or (summon_flag and definition["use_heal_amount"] != 0.0)): return path + "/definition/usable_pair"
+			if data["schema_version"] in [2, 3, 4, 5] and ((definition["use_heal_amount"] == 0.0 and not summon_flag) != (definition["max_charges"] == 0) or definition["use_heal_amount"] < 0.0 or definition["max_charges"] < 0 or definition["max_charges"] > 4096 or (summon_flag and definition["use_heal_amount"] != 0.0)): return path + "/definition/usable_pair"
 			for effect: Dictionary in definition["effects"]:
 				if not _effect_capability(effect): return "UNSUPPORTED:" + path + "/definition/" + definition["id"] + "/effect"
 		var items: Array = owner["items"].duplicate()
 		items.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["item_instance_id"] < b["item_instance_id"])
 		for item: Dictionary in items:
-			if data["schema_version"] == 4:
+			if data["schema_version"] in [4, 5]:
 				var definition_map_v4: Dictionary = {}
 				for definition: Dictionary in owner["definitions"]: definition_map_v4[definition["id"]] = definition
 				var max_armor: int = int(definition_map_v4.get(item["definition_id"], {}).get("armor_max", -1))
 				if item["armor_remaining"] < 0 or item["armor_remaining"] > max_armor or item["armor_origin_owner"] <= 0 or item["armor_origin_owner"] >= MAX_ID or item["armor_origin_item"] <= 0 or item["armor_origin_item"] >= MAX_ID: return path + "/item/armor"
-			if data["schema_version"] in [2, 3, 4]:
+			if data["schema_version"] in [2, 3, 4, 5]:
 				var definition_map: Dictionary = {}
 				for definition: Dictionary in owner["definitions"]: definition_map[definition["id"]] = definition
 				var item_definition: Dictionary = definition_map.get(item["definition_id"], {})
@@ -632,6 +638,9 @@ static func _validate(data: Dictionary) -> String:
 				if not _effect_capability(effect): return "UNSUPPORTED:" + path + "/effect/%d" % effect["effect_instance_id"]
 	error = SimulationSnapshot._validate_envelope(data["board_snapshot"])
 	if not error.is_empty(): return error
+	if data["schema_version"] == 5:
+		error = EnvironmentRules.snapshot_reason(data["environment"], data["board_snapshot"]["board"], data["summons"])
+		if not error.is_empty(): return error
 	var units: Array = data["board_snapshot"]["board"]["units"]
 	if units.size() != owners.size(): return "owners/count"
 	var unit_map: Dictionary = {}
@@ -654,14 +663,14 @@ static func _validate(data: Dictionary) -> String:
 		seen[id] = true
 		error = _owner_graph(owner, unit_map[id], catalogue)
 		if not error.is_empty(): return "owner/%d/" % id + error
-		if data["schema_version"] == 4:
+		if data["schema_version"] in [4, 5]:
 			for definition: Dictionary in owner["definitions"]:
 				if (definition["armor_max"] != 0 or definition["armor_resistances"] != {"physical": 0, "fire": 0}) and not unit_map[id].has("armor"): return "armor/capability_required"
 			for item: Dictionary in owner["items"]:
 				var armor_key := "%d:%d" % [item["armor_origin_owner"], item["armor_origin_item"]]
 				if armor_identities.has(armor_key): return "armor/identity"
 				armor_identities[armor_key] = true
-	if data["schema_version"] in [3, 4]:
+	if data["schema_version"] in [3, 4, 5]:
 		var summon_ids: Dictionary = {}
 		var live_by_owner: Dictionary = {}
 		var owner_ids: Dictionary = {}

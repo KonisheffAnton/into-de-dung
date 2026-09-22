@@ -60,6 +60,8 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 				reason = &"armor/internal_expiry"
 			elif accepted is BleedingApplyCommand or accepted is BleedingTickCommand:
 				reason = &"bleeding/internal_command"
+			elif accepted is EnvironmentCommand:
+				reason = &"environment/internal_command"
 			elif accepted is DeathCommand and ((accepted as DeathCommand)._has_spatial_binding or (accepted as DeathCommand)._spatial_binding != null):
 				reason = &"move/internal_death"
 			elif accepted is MoveCommand and (accepted as MoveCommand)._is_continuation():
@@ -106,7 +108,9 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 			_defer_item_reactions = false
 			for i in range(_deferred_item_reactions.size() - 1, -1, -1): _pending.append(_deferred_item_reactions[i])
 			_deferred_item_reactions.clear()
-		if _pending.is_empty() and receipt.status == &"APPLIED" and not armor_finish_scheduled and ArmorEndBattleCommand.battle_over(context):
+		# Смерть на клетке прерывает продолжение пути, но уже завершает бой;
+		# временная броня должна истечь и у такого корректного prefix.
+		if _pending.is_empty() and receipt.status in [&"APPLIED", &"INTERRUPTED"] and not armor_finish_scheduled and ArmorEndBattleCommand.battle_over(context):
 			armor_finish_scheduled = true
 			var units := context.get_state().get_board().get_all_units()
 			units.sort_custom(func(a: UnitState, b: UnitState) -> bool: return a.id < b.id)
@@ -190,6 +194,11 @@ func _execute_entry(entry: Dictionary, receipt: ActionReceipt, context: ActionCo
 			_fault(receipt, context, _dispatch_reason)
 			return
 	for child in result.mandatory: children.append({"command": child, "parent_event_seq": 0, "depth": int(entry["depth"]) + 1})
+	# Среда следует после обязательного падения/столкновения, до реакций предметов
+	# и до следующего сегмента добровольного пути. Preview использует тот же путь.
+	for event in events:
+		for child in EnvironmentRules.consequences(event, context):
+			children.append({"command": child, "parent_event_seq": int(event["event_seq"]), "depth": int(entry["depth"]) + 1})
 	for child in result.reactions: item_reactions.append({"command": child, "parent_event_seq": 0, "depth": int(entry["depth"]) + 1})
 	if _defer_item_reactions:
 		for child: Dictionary in item_reactions:
@@ -249,6 +258,8 @@ func _bind_batch(descriptions: Array[Dictionary], event_seq: int, context: Actio
 	return result
 
 static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bool:
+	if draft.get("kind") == &"corpse_created": return EnvironmentRules.valid_draft(draft)
+	if draft.get("kind") == &"corpse_raised": return RaiseCorpseCommand.valid_draft(draft)
 	if draft.get("kind") == &"bleeding_changed": return _valid_bleeding_draft(draft)
 	if draft.has("transit_path"):
 		return _valid_transit_draft(draft, context)
@@ -331,6 +342,7 @@ static func _valid_transit_draft(draft: Dictionary, context: ActionContext) -> b
 	return _valid_draft(adjacent, context) and float(draft["move_cost"]) >= float(path_value.size() - 1)
 
 static func _event_capacity(command: Command) -> int:
+	if command is EnvironmentCommand: return 4
 	if command is BleedingTickCommand: return 5
 	if command is CollisionDamageCommand and (command as CollisionDamageCommand)._binding != null and (command as CollisionDamageCommand)._binding.values.get("armor", false): return 8
 	if command is DamageCommand and (command as DamageCommand).request != null and (command as DamageCommand).request.armor_mode == &"armor": return 4

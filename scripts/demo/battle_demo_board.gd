@@ -11,6 +11,8 @@ const MUTED := Color("a5b3c5")
 var session: BattleDemoSession
 var attack_mode: bool = false
 var summoning_mode: bool = false
+var raising_mode: bool = false
+var environment_mode: bool = false
 var inspected_id: int = UnitId.NONE
 var hover_cell := Vector2i(-1, -1)
 var grid_config := IsoGridConfig.new()
@@ -67,6 +69,9 @@ func refresh() -> void:
 	if summoning_mode and session is BattleTacticalSession:
 		_reachable = {}
 		for cell in (session as BattleTacticalSession).summoning_cells(): _reachable[cell] = 0.0
+	if raising_mode and session is BattleEnvironmentSession:
+		_reachable = {}
+		for cell in (session as BattleEnvironmentSession).raise_cells(): _reachable[cell] = 0.0
 	_refresh_path()
 	_rebuild_visuals()
 	queue_redraw()
@@ -111,7 +116,7 @@ func _clear_hover() -> void:
 
 func _refresh_path() -> void:
 	_path.clear()
-	if session != null and not attack_mode and not summoning_mode and inspected_id == UnitId.NONE and _reachable.has(hover_cell): _path = session.path_to(hover_cell)
+	if session != null and not attack_mode and not summoning_mode and not raising_mode and inspected_id == UnitId.NONE and _reachable.has(hover_cell): _path = session.path_to(hover_cell)
 
 func _rescale_layout() -> void:
 	var factor := maxf(0.1, minf((size.x - 64) / 1024.0, (size.y - 108) / 544.0))
@@ -162,6 +167,7 @@ func _rebuild_visuals() -> void:
 			_entities.add_child(wall)
 			_entity_visuals.append(wall)
 	for unit in session.units:
+		if environment_mode and not unit.is_alive(): continue
 		if not unit.is_alive() and (_fallen_ids.has(unit.id) or board.get_terrain(unit.cell) in [TerrainType.Type.VOID, TerrainType.Type.HAZARD]): continue
 		var visual := _make_visual(unit.cell, board.get_height_steps(unit.cell), BattleDemoIsoVisual.Role.UNIT)
 		visual.unit = unit
@@ -191,6 +197,7 @@ func _draw() -> void:
 
 func _draw_overlay() -> void:
 	if session == null or session.board == null: return
+	var hw := grid_config.tile_size.x * 0.5
 	if _path.size() > 1:
 		var points := PackedVector2Array()
 		for cell in _path: points.append(cell_center(cell))
@@ -198,9 +205,27 @@ func _draw_overlay() -> void:
 	if session.board.is_in_bounds(hover_cell):
 		var center := cell_center(hover_cell)
 		if session.board.get_terrain(hover_cell) == TerrainType.Type.WALL: center.y -= grid_config.height_step
-		var hw := grid_config.tile_size.x * 0.48
+		var cell_hw := grid_config.tile_size.x * 0.48
 		var hh := grid_config.tile_size.y * 0.48
-		_overlay.draw_polyline(PackedVector2Array([center + Vector2(0, -hh), center + Vector2(hw, 0), center + Vector2(0, hh), center + Vector2(-hw, 0), center + Vector2(0, -hh)]), GOLD if attack_mode or inspected_id != UnitId.NONE else CYAN, 2, true)
+		_overlay.draw_polyline(PackedVector2Array([center + Vector2(0, -hh), center + Vector2(cell_hw, 0), center + Vector2(0, hh), center + Vector2(-cell_hw, 0), center + Vector2(0, -hh)]), GOLD if attack_mode or inspected_id != UnitId.NONE else (Color("f29b9b") if raising_mode else CYAN), 2, true)
+	if environment_mode and session is BattleEnvironmentSession:
+		var environment := (session as BattleEnvironmentSession).state.environment
+		for fire: Dictionary in environment.fires:
+			var fire_center := cell_center(fire["cell"])
+			_overlay.draw_circle(fire_center, hw * 0.28, Color(0.95, 0.28, 0.12, 0.55))
+			_overlay.draw_string(ThemeDB.fallback_font, fire_center + Vector2(-32, 4), "ОГОНЬ 8", HORIZONTAL_ALIGNMENT_CENTER, 64, 10, Color("ffd08a"))
+		var corpses_by_cell: Dictionary = {}
+		for corpse: Dictionary in environment.corpses:
+			var corpse_cell: Vector2i = corpse["cell"]
+			var records: Array = corpses_by_cell.get(corpse_cell, [])
+			records.append(corpse)
+			corpses_by_cell[corpse_cell] = records
+		for cell_variant: Variant in corpses_by_cell:
+			var corpse_cell: Vector2i = cell_variant
+			var corpse_center := cell_center(corpse_cell)
+			var records: Array = corpses_by_cell[corpse_cell]
+			_overlay.draw_circle(corpse_center + Vector2(0, 8), hw * 0.20, Color("a5b3c5"))
+			_overlay.draw_string(ThemeDB.fallback_font, corpse_center + Vector2(-35, 25), "ТЕЛА ×%d" % records.size(), HORIZONTAL_ALIGNMENT_CENTER, 70, 10, Color("e6ecf4"))
 	if forecast != null and forecast.status == &"APPLIED":
 		for event_variant in forecast.events:
 			var event := event_variant as Dictionary

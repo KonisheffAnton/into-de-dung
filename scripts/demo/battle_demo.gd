@@ -4,10 +4,12 @@ class_name BattleDemo
 @export var tactical_mode: bool = false
 @export var armor_mode: bool = false
 @export var bleeding_mode: bool = false
+@export var environment_mode: bool = false
 var session: BattleDemoSession
 var board_view: BattleDemoBoard
 var attack_mode: bool = false
 var summoning_mode: bool = false
+var raising_mode: bool = false
 var inspected_id: int = UnitId.NONE
 var _roster: VBoxContainer
 var _stats: Label
@@ -44,7 +46,7 @@ func _ready() -> void:
 	_refresh()
 
 func _create_session() -> void:
-	session = BattleBleedingSession.new() if bleeding_mode else (BattleArmorSession.new() if armor_mode else (BattleTacticalSession.new() if tactical_mode else BattleDemoSession.new()))
+	session = BattleEnvironmentSession.new() if environment_mode else (BattleBleedingSession.new() if bleeding_mode else (BattleArmorSession.new() if armor_mode else (BattleTacticalSession.new() if tactical_mode else BattleDemoSession.new())))
 	_battle = session as BattleTacticalSession
 	_ai_delay = 0.0
 	_flow_cursor = 0
@@ -102,6 +104,9 @@ func _build_ui() -> void:
 	var bleeding_button := _button("Кровотечение")
 	bleeding_button.pressed.connect(_open_bleeding_scenario)
 	title.add_child(bleeding_button)
+	var environment_button := _button("Среда / трупы")
+	environment_button.pressed.connect(_open_environment_scenario)
+	title.add_child(environment_button)
 	var expedition_button := _button("Забег")
 	expedition_button.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://scenes/demo/expedition_d4.tscn"))
 	title.add_child(expedition_button)
@@ -221,6 +226,7 @@ func set_attack_mode(enabled: bool) -> void:
 	if _battle != null and not _battle.can_player_act(): return
 	if session is BattleBleedingSession: (session as BattleBleedingSession).rune_selected = false
 	summoning_mode = false
+	raising_mode = false
 	attack_mode = enabled
 	_clear_forecast()
 	# Режим действия закрывает осмотр, чтобы подсветка не смешивалась с целью атаки.
@@ -239,9 +245,10 @@ func _action_bar_requested(action_id: StringName) -> void:
 		&"guard": _use_guard()
 		&"healing_item": _use_healing_item()
 		&"summoning_item": _choose_summoning()
+		&"raise_corpse": _choose_raise()
 		&"restore_armor":
 			if session is BattleArmorSession:
-				attack_mode = false; summoning_mode = false; inspected_id = UnitId.NONE
+				attack_mode = false; summoning_mode = false; raising_mode = false; inspected_id = UnitId.NONE
 				_show_receipt((session as BattleArmorSession).restore_selected_armor())
 
 func _use_healing_item() -> void:
@@ -250,6 +257,7 @@ func _use_healing_item() -> void:
 	summoning_mode = false
 	attack_mode = false
 	inspected_id = UnitId.NONE
+	raising_mode = false
 	_show_receipt(_battle.use_healing_item())
 
 func _use_guard() -> void:
@@ -258,6 +266,7 @@ func _use_guard() -> void:
 	summoning_mode = false
 	attack_mode = false
 	inspected_id = UnitId.NONE
+	raising_mode = false
 	_show_receipt(_battle.guard_selected())
 
 func select_character(id: int) -> void:
@@ -270,6 +279,7 @@ func inspect_enemy(id: int) -> void:
 	var unit := session.board.get_unit_by_id(id)
 	if unit == null or not unit.is_alive() or unit.faction != Faction.Type.ENEMY: return
 	summoning_mode = false
+	raising_mode = false
 	attack_mode = false
 	_clear_forecast()
 	inspected_id = UnitId.NONE if inspected_id == id else id
@@ -282,6 +292,10 @@ func handle_cell(cell: Vector2i) -> void:
 		var receipt := _battle.use_summoning_item(cell)
 		if receipt.status != ActionReceipt.REJECTED: summoning_mode = false
 		_show_receipt(receipt)
+	elif raising_mode and session is BattleEnvironmentSession:
+		var raise_receipt := (session as BattleEnvironmentSession).raise_corpse(cell)
+		if raise_receipt.status != ActionReceipt.REJECTED: raising_mode = false
+		_show_receipt(raise_receipt)
 	elif attack_mode:
 		if occupant == null:
 			_status.text = "Для атаки выберите персонажа на поле."
@@ -303,6 +317,7 @@ func reset_demo() -> void:
 	_clear_forecast()
 	session.reset()
 	summoning_mode = false
+	raising_mode = false
 	attack_mode = false
 	inspected_id = UnitId.NONE
 	_journal.clear()
@@ -316,10 +331,12 @@ func toggle_scenario() -> void:
 	session.close()
 	armor_mode = false
 	bleeding_mode = false
+	environment_mode = false
 	tactical_mode = not tactical_mode
 	_create_session()
 	board_view.session = session
 	summoning_mode = false
+	raising_mode = false
 	attack_mode = false
 	inspected_id = UnitId.NONE
 	_journal.clear()
@@ -334,14 +351,34 @@ func _open_armor_scenario(with_bleeding: bool = false) -> void:
 	session.close()
 	armor_mode = true
 	bleeding_mode = with_bleeding
+	environment_mode = false
 	tactical_mode = true
 	_create_session()
 	board_view.session = session
 	summoning_mode = false
+	raising_mode = false
 	attack_mode = false
 	inspected_id = UnitId.NONE
 	_journal.clear()
 	_note("Бой с бронёй: физический удар и огненная руна. Прогноз показывает каждый тип и последствие.")
+	_refresh()
+
+func _open_environment_scenario() -> void:
+	_clear_forecast()
+	if session != null: session.close()
+	armor_mode = true
+	bleeding_mode = true
+	environment_mode = true
+	tactical_mode = true
+	_create_session()
+	board_view.session = session
+	board_view.environment_mode = true
+	summoning_mode = false
+	raising_mode = false
+	attack_mode = false
+	inspected_id = UnitId.NONE
+	_journal.clear()
+	_note("Среда: огонь показывает урон 8, трупы можно поднять соседней клеткой.")
 	_refresh()
 
 func end_turn() -> void:
@@ -350,6 +387,7 @@ func end_turn() -> void:
 		_refresh()
 		return
 	summoning_mode = false
+	raising_mode = false
 	attack_mode = false
 	_clear_forecast()
 	inspected_id = UnitId.NONE
@@ -366,6 +404,7 @@ func _refresh() -> void:
 	_heading.text = "intoDeDung   /   Бой у обрыва" if tactical_mode else "intoDeDung   /   Полигон"
 	if armor_mode: _heading.text = "intoDeDung   /   Броня и огонь"
 	if bleeding_mode: _heading.text = "intoDeDung   /   Кровотечение"
+	if environment_mode: _heading.text = "intoDeDung   /   Среда и трупы"
 	_subtitle.text = "Трое против троих. Победите всех врагов; потеря команды означает поражение." if tactical_mode else "Поднимитесь по ступеням. Ударьте сверху. Столкните стража с уступа."
 	_subtitle.visible = not tactical_mode
 	_status.custom_minimum_size.y = 26 if tactical_mode else 46
@@ -377,6 +416,7 @@ func _refresh() -> void:
 	_attack_button.visible = not tactical_mode
 	_instructions.text = "1 / A: атака · 2: защита · 3: лечение · 4: призыв · M: движение · Клик по врагу: осмотр · Enter: конец хода · R: заново" if tactical_mode else "Ступени: Астра → D3 → A → Страж. Стена: Бор → A → Щит. Пропасть: Рей → A → Мишень на G7."
 	if armor_mode: _instructions.text = _instructions.text.replace("4: призыв", "4: броня +20")
+	if environment_mode: _instructions.text = "1 / A: атака · 2: защита · 3: лечение · 6: поднять тело · M: движение · Enter: конец хода · R: заново"
 	if session is BattleBleedingSession and (session as BattleBleedingSession).rune_selected:
 		_instructions.text = "Кровавая руна (перк): выберите цель · 1 основное · Обходит требование HP-урона; иммунитет сохраняется · A: обычная атака"
 	var locked := _battle != null and not _battle.can_player_act()
@@ -401,6 +441,9 @@ func _refresh() -> void:
 			descriptors.append({"action_id": &"summoning_item", "label": "Печать %d/%d" % [seal.get_charges_left(), seal.get_definition().max_charges], "cost": "1 основное", "disabled": reason != &"", "tooltip": "Помощник: 16 HP, действует со следующего хода команды. Один на владельца, до гибели или конца боя. 1 основное и 1 заряд.\n" + (_reason_text(reason) if reason != &"" else "Выберите соседнюю свободную безопасную клетку той же высоты.")})
 		if session is BattleBleedingSession:
 			descriptors.append({"action_id": &"blood_rune", "label": "Кровавая руна", "cost": "Перк · 1 основное", "disabled": locked or session.selected_unit() == null or not session.selected_unit().can_attack(), "tooltip": "Перк персонажа «Кровавая руна»: эта атака накладывает кровотечение даже без физического урона HP. Иммунитет сохраняется. 2 тика по 4 с учётом естественной защиты; повторное наложение обновляет срок."})
+		if environment_mode and session is BattleEnvironmentSession:
+			var raise_reason := (session as BattleEnvironmentSession).raise_reason()
+			descriptors.append({"action_id": &"raise_corpse", "label": "Поднять тело", "cost": "1 основное", "disabled": locked or raise_reason != &"", "tooltip": "Выберите соседнюю свободную негорящую клетку той же высоты. Помощник: 16 HP, действует со следующего хода команды.\n" + (_reason_text(raise_reason) if raise_reason != &"" else "Тело расходуется после успешного поднятия.")})
 		_action_bar.set_dynamic_descriptors(descriptors)
 		_action_bar.set_slot_enabled(&"attack", not locked, "Сейчас нельзя действовать." if locked else "1 основное действие")
 		var guard_reason := _battle.guard_reason() if _battle != null else &"battle/input_locked"
@@ -420,8 +463,12 @@ func _refresh() -> void:
 	_log_heading.visible = not attack_mode
 	_forecast_panel.visible = attack_mode
 	_forecast_heading.visible = attack_mode
-	if locked: summoning_mode = false
+	if locked:
+		summoning_mode = false
+		raising_mode = false
 	board_view.summoning_mode = summoning_mode
+	board_view.raising_mode = raising_mode
+	board_view.environment_mode = environment_mode
 	board_view.attack_mode = attack_mode
 	board_view.inspected_id = inspected_id
 	board_view.refresh()
@@ -461,6 +508,7 @@ func _refresh() -> void:
 		var enemy := session.board.get_unit_by_id(inspected_id)
 		_status.text = "Осмотр: %s · движение на следующий ход: %.1f ОД\nТекущая расстановка; зона движения. Esc или клик по пустой клетке — закрыть." % [enemy.debug_name, enemy.get_stat(StatTypes.StatType.MOVE_RANGE)]
 	if summoning_mode: _status.text = "Призыв: выберите подсвеченную соседнюю клетку. 1 основное + 1 заряд. Esc — отмена."
+	if raising_mode: _status.text = "Поднять тело: выберите подсвеченную соседнюю свободную негорящую клетку. 1 основное. Esc — отмена."
 	if session.context.is_faulted(): _status.text = "Исполнение остановлено из-за ошибки. Выполненные последствия сохранены; сбросьте бой."
 	if locked: _status.text = _battle.phase_text() + (" · Можно начать заново: R." if _battle.phase != BattleTacticalSession.Phase.ENEMY_TURN else " · Противник выполняет действия.")
 	_hover(board_view.hover_cell)
@@ -549,6 +597,19 @@ func _hover(cell: Vector2i) -> void:
 				board_view.refresh()
 	_refresh_inspection()
 
+	if environment_mode and session is BattleEnvironmentSession and session.board.is_in_bounds(cell):
+		var environment := (session as BattleEnvironmentSession).state.environment
+		var details: Array[String] = []
+		for corpse: Dictionary in environment.corpses_at(cell):
+			var faction: String = {Faction.Type.PLAYER: "союзник", Faction.Type.ENEMY: "противник", Faction.Type.NEUTRAL: "нейтральный"}[corpse["faction"]]
+			var kind := "гуманоид" if corpse["creature_kind"] == "humanoid" else String(corpse["creature_kind"])
+			details.append("%s · %s" % [faction, kind])
+		var fire := "Огонь: 8 урона при входе." if not environment.fire_at(cell).is_empty() else "Огоня нет."
+		_hint.text = fire + ("\nТела ×%d: %s" % [details.size(), ", ".join(details)] if not details.is_empty() else "\nТрупов нет.")
+		if raising_mode: _hint.text += "\nПоднятие: выберите соседнюю клетку той же высоты."
+		_render_forecast_panel()
+		return
+
 	if summoning_mode:
 		_hint.text = "Бирюзовые точки — клетки призыва. Клик — 1 основное и 1 заряд.\nПомощник с 16 HP действует со следующего хода своей команды. Esc — отмена."
 		return
@@ -628,6 +689,9 @@ func _render_forecast_panel() -> void:
 	for event: Dictionary in events:
 		if event.get("kind") != &"hit_resolved": continue
 		var hit: Dictionary = event["hit"]
+		var hit_source: Dictionary = event.get("source", {})
+		if hit_source.get("kind", &"") == &"cell":
+			text += "[color=#f29b9b]Огонь из %s: 8 урона в каскаде[/color]\n" % _cell_name(hit_source.get("origin_cell", Vector2i.ZERO))
 		text += "\n[color=#f7c97d]%s · броня −%d[/color]\n" % [_name_for(event["target_unit_id"]), hit["armor_spent"]]
 		text += "В HP до защиты: %d/%d · урон %d · лечение %d\n" % [hit["p_num"], hit["p_den"], hit["total_damage"], hit["total_healing"]]
 		for row: Dictionary in hit["rows"]:
@@ -690,11 +754,16 @@ func _event_text(event: Dictionary) -> String:
 			var name := "печать" if item != null and item.get_definition().use_summon else "флакон"
 			return "%s использует %s (1 основное; зарядов осталось: %d)." % [actor, name, int(event["charges_after"])]
 		&"summoned": return "%s призывает: %s. Действия со следующего хода команды." % [actor, target]
+		&"corpse_created": return "Тело: %s, гуманоид." % _cell_name(event["corpse"]["cell"])
+		&"corpse_raised": return "%s поднял тело: %s (16 HP), ожидает следующего хода." % [actor, target]
 		&"damaged":
 			var source: Dictionary = event.get("source", {})
-			var cause := " от падения" if source.get("kind", &"") == &"fall" else (" от кровотечения" if bleeding_mode and source.get("kind", &"") == &"status" else "")
+			var cause := " от падения" if source.get("kind", &"") == &"fall" else (" от кровотечения" if bleeding_mode and source.get("kind", &"") == &"status" else (" от огня (8)" if source.get("kind", &"") == &"cell" else ""))
 			return "%s: −%.1f HP%s." % [target, float(event.get("amount", 0)), cause]
-		&"healed": return "%s: +%.1f HP%s." % [target, float(event.get("amount", 0)), " от сопротивления" if event.get("source", {}).get("kind") in [&"attack", &"collision", &"fall"] or (bleeding_mode and event.get("source", {}).get("kind") == &"status") else " от предмета"]
+		&"healed":
+			var heal_source: StringName = event.get("source", {}).get("kind", &"")
+			var heal_cause := " от сопротивления огню" if heal_source == &"cell" else (" от сопротивления" if heal_source in [&"attack", &"collision", &"fall"] or (bleeding_mode and heal_source == &"status") else " от предмета")
+			return "%s: +%.1f HP%s." % [target, float(event.get("amount", 0)), heal_cause]
 		&"armor_changed": return "%s: запас брони изменился." % target
 		&"hit_resolved": return "%s: попадание завершено, HP %d → %d." % [target, event["hit"]["hp_before"], event["hit"]["hp_after"]]
 		&"balance_changed": return "%s: равновесие %.1f / %.1f." % [target, float(event.get("balance_after", 0)), float(event.get("balance_max", 0))]
@@ -737,6 +806,9 @@ func _reason_text(reason: StringName) -> String:
 		&"guard/already_active": return "охранная стойка уже активна."
 		&"summon/active_helper": return "у этого владельца уже есть живой помощник."
 		&"summon/invalid_cell": return "нужна соседняя свободная безопасная клетка той же высоты."
+		&"environment/no_corpse": return "нет доступного гуманоида на соседней свободной клетке."
+		&"environment/invalid_raise_cell": return "тело нельзя поднять на горящей, занятой или клетке другой высоты."
+		&"summon/helper_cannot_summon": return "помощник не может поднимать другие тела."
 		&"item/full_hp": return "здоровье уже полное."
 		&"item/no_charges": return "заряды предмета закончились."
 		&"item/insufficient_main": return "недостаточно основных действий."
@@ -766,6 +838,7 @@ func _unhandled_input(event: InputEvent) -> void:
 					elif slot == 2: _use_guard()
 					elif _action_bar._buttons[slot - 1].get_meta("action_id", &"") == &"summoning_item": _choose_summoning()
 					elif _action_bar._buttons[slot - 1].get_meta("action_id", &"") == &"healing_item": _use_healing_item()
+					elif _action_bar._buttons[slot - 1].get_meta("action_id", &"") == &"raise_corpse": _choose_raise()
 					else: _action_bar.activate_slot(slot)
 			KEY_A: set_attack_mode(true)
 			KEY_M, KEY_ESCAPE: set_attack_mode(false)
@@ -781,7 +854,22 @@ func _choose_summoning() -> void:
 		_status.text = _reason_text(reason)
 		return
 	attack_mode = false
+	raising_mode = false
 	summoning_mode = true
+	inspected_id = UnitId.NONE
+	_clear_forecast()
+	_refresh()
+
+func _choose_raise() -> void:
+	if not environment_mode or not session is BattleEnvironmentSession: return
+	var environment := session as BattleEnvironmentSession
+	var reason := environment.raise_reason()
+	if reason != &"":
+		_status.text = _reason_text(reason)
+		return
+	attack_mode = false
+	summoning_mode = false
+	raising_mode = true
 	inspected_id = UnitId.NONE
 	_clear_forecast()
 	_refresh()

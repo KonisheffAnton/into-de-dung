@@ -97,3 +97,11 @@ bleeding_changed и шаге bleeding_apply, включая SKIPPED по имм�
 Прогноз включает spatial → статус → item reactions; будущие ходы и их тики
 не моделируются этим API. Изоляция и parity тиков проверяются отдельно через
 настоящую BleedingTurnCommand на восстановленной копии. [Пакет D3](BLEEDING_D3.md).
+
+## Среда D5
+
+ItemSimulation v5 переносит огненные клетки, тела, их ID и обработанные смерти.
+Толчок в огонь исполняет тот же EnvironmentCommand/ArmorHitExecutor на копии;
+события fire hit и corpse_created видны в прогнозе. Состав среды включён в
+snapshot_before/after и проверку live isolation. Прогноза движения и поднятия
+тела этот API не добавляет. Правила транзита и потребления — [D5](ENVIRONMENT_D5.md).

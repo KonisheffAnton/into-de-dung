@@ -1,6 +1,6 @@
 # Проверка проекта
 
-Актуальный порядок 2026-09-21, сверенный с `tools/demo/isolate.py`.
+Актуальный порядок 2026-09-22, сверенный с `tools/demo/isolate.py`.
 Это инструкции проверки; прежние прогоны не считаются результатом нового изменения.
 
 ## Среда
@@ -34,6 +34,7 @@ core без `--full` в неё не входит. Повторять более 
 | Броня D2 | `test_armor_hit_calculation.gd`, `test_armor_snapshot.gd`, `test_armor_integration.gd`, `test_armor_recovery.gd`, `test_armor_battle.gd` |
 | Кровотечение D3 | `test_bleeding_snapshot.gd`, `test_bleeding.gd`, `test_bleeding_battle.gd` (full/render, пять PNG) |
 | Забег D4 | `test_d4_run.gd`, `test_d4_integration.gd`, `test_d4_ui.gd` (full/render, восемь PNG) |
+| Среда и трупы D5 | `test_d5_state.gd`, `test_d5_integration.gd`, `test_d5_ui.gd` (full/render; ввод, прогноз, поднятие, PNG) |
 | Проход союзников | `test_ally_transit.gd` (full/render; два PNG в render) |
 | Прогноз | `test_attack_forecast.gd` |
 | Стойка | `test_guard_stance.gd` |
