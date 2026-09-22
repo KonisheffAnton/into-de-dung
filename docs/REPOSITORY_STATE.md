@@ -5,6 +5,9 @@
 Откройте `project.godot` в Godot 4.7 и нажмите F5. Проверенная в проекте версия —
 4.7.2; главная сцена `scenes/demo/tactical_battle.tscn`. Из боя доступен ручной
 полигон; управление — [TACTICAL_BATTLE](TACTICAL_BATTLE.md) и [DEMO_SANDBOX](DEMO_SANDBOX.md).
+Кнопка «Забег» открывает [D4](EXPEDITION_D4.md): подготовку, два боя, отправку
+и возврат. Прямой вход — `scenes/demo/expedition_d4.tscn`; профиль `user://d4-run.save`.
+Загрузка посреди боя начинает его заново с сохранённой контрольной точки.
 
 Альтернативный изолированный запуск при установленном Python 3:
 

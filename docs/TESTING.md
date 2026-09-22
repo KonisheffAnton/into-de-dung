@@ -33,6 +33,7 @@ core без `--full` в неё не входит. Повторять более 
 | Выделенный расчёт / эквивалентность до D1 | `test_attack_damage_calculation.gd`, `test_attack_damage_d1.gd` |
 | Броня D2 | `test_armor_hit_calculation.gd`, `test_armor_snapshot.gd`, `test_armor_integration.gd`, `test_armor_recovery.gd`, `test_armor_battle.gd` |
 | Кровотечение D3 | `test_bleeding_snapshot.gd`, `test_bleeding.gd`, `test_bleeding_battle.gd` (full/render, пять PNG) |
+| Забег D4 | `test_d4_run.gd`, `test_d4_integration.gd`, `test_d4_ui.gd` (full/render, восемь PNG) |
 | Проход союзников | `test_ally_transit.gd` (full/render; два PNG в render) |
 | Прогноз | `test_attack_forecast.gd` |
 | Стойка | `test_guard_stance.gd` |

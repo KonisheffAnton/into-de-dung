@@ -72,6 +72,9 @@ def main():
         if label.startswith("bleeding"):
             marker = {"bleeding": "BLEEDING RESULTS:", "bleeding_snapshot": "BLEEDING SNAPSHOT RESULTS:", "bleeding_ui": "BLEEDING UI RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label.startswith("d4_"):
+            marker = {"d4_run": "D4 RUN RESULTS:", "d4_integration": "D4 INTEGRATION RESULTS:", "d4_ui": "D4 UI RESULTS:"}[label]
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         print(label, "FAIL" if invalid else "PASS", flush=True)
         if invalid:
             print(output[-4000:])
@@ -91,6 +94,8 @@ def main():
         run("armor_recovery", ["--script", "tests/test_armor_recovery.gd"])
         run("bleeding_snapshot", ["--script", "tests/test_bleeding_snapshot.gd"])
         run("bleeding", ["--script", "tests/test_bleeding.gd"])
+        run("d4_run", ["--script", "tests/test_d4_run.gd"])
+        run("d4_integration", ["--script", "tests/test_d4_integration.gd"])
         run("forecast", ["--script", "tests/test_attack_forecast.gd"])
         run("guard", ["--script", "tests/test_guard_stance.gd"])
         run("summon_snapshot", ["--script", "tests/test_summon_snapshot.gd"])
@@ -120,6 +125,10 @@ def main():
         if args.render_check:
             bleeding_args += ["--", "--captures=" + str(captures)]
         run("bleeding_ui", bleeding_args, headless=not args.render_check)
+        d4_args = ["--script", "tests/test_d4_ui.gd"]
+        if args.render_check:
+            d4_args += ["--", "--captures=" + str(captures)]
+        run("d4_ui", d4_args, headless=not args.render_check)
     else:
         # This is the user-requested interactive window, so it is intentionally visible.
         with (out / "play.log").open("wb") as log:
