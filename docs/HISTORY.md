@@ -1,5 +1,30 @@
 # История и свидетельства проверок
 
+## M1 — определение помощника — 2026-09-22
+
+Base main `12e996f74c73a127ebd54d8ae1a0772a85923639`. Реализован
+[контракт M1](SUMMON_DEFINITION_M1.md): типизированный Resource, изоляция
+печати/restore/getters, неизменный default и полный нестандартный DTO v6.
+Вариант проверен без нового игрового предмета; UI читает HP определения.
+Legacy v1–v5 canonical bytes, pending/refill, forecast/live и D5 сохранены.
+Поднятый помощник не оставляет тела; профиль D4 и armor capability печати не менялись.
+
+Final import/startup/full/render PASS: M1 214/0 и render215/0, summon137/0,
+summon_snapshot55/0, core9440/0; D5 state23/0, integration168/0, UI23/0/render29/0.
+Прежние core diagnostics: occupied-cell, 47 ObjectDB, 18 resources; новых нет.
+57 PNG; осмотрены ключевые кадры призыва, варианта и D5, input/scroll PASS.
+Ревью V3 APPROVE после исправления проверки точного класса и сохранения
+raw-invalid > unsupported; обе границы защищены регрессиями с подклассами.
+Код совпадает с final manifests; Git blobs учитывают LF-фильтр .gitattributes.
+
+Full: `test_reports/demo-8a4a5df593ec49458173f47d800622a9/`;
+render: `test_reports/demo-56978dc24e6344adbc68cbfaf47747c3/`.
+Review, manifests, verification, PNG comparison, completion и next-chat-prompt:
+`test_reports/m1-20260922/`. Прежний HANDOFF — точный
+[архив](CODEX_HANDOFF.history-20260922-6.md), равный исходному Git blob.
+Ручная приёмка D5 остаётся отложенной; следующий этап не выбран.
+
+
 ## Перепроверка D5 и выбор M1 — 2026-09-22
 
 Base main `2fb3bcef92286807128f3427badc2bae92e39e2a`. Пользователь отложил ручную

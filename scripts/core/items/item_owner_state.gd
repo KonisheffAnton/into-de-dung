@@ -129,18 +129,25 @@ func _deactivate_while_guard(item: ItemInstance) -> void:
 
 func _create_item_unplaced(definition: ItemDef) -> ItemInstance:
 	if not _guard or not _validate_definition(definition): return null
+	var effective_definition := definition
+	if definition.use_summon:
+		if _definitions.has(definition.id):
+			effective_definition = _definitions[definition.id] as ItemDef
+		else:
+			effective_definition = definition.duplicate(true) as ItemDef
+			effective_definition.summon_definition = definition.get_summon_definition()
 	var item_id := _next_item_id
 	var effect_id := _next_effect_id
 	var runtimes: Array[ItemEffectRuntime] = []
-	for effect_index in definition.effects.size():
-		var runtime := definition.effects[effect_index].create_runtime(_owner.id, item_id, effect_id, effect_index)
+	for effect_index in effective_definition.effects.size():
+		var runtime := effective_definition.effects[effect_index].create_runtime(_owner.id, item_id, effect_id, effect_index)
 		if runtime == null: return null
 		runtimes.append(runtime)
 		effect_id += 1
 	_next_item_id += 1
 	_next_effect_id = effect_id
-	_definitions[definition.id] = definition
-	var item := ItemInstance.new(definition, _owner.id, item_id, runtimes)
+	_definitions[effective_definition.id] = effective_definition
+	var item := ItemInstance.new(effective_definition, _owner.id, item_id, runtimes)
 	_items[item_id] = item
 	_placements[item_id] = 0
 	return item
@@ -148,6 +155,8 @@ func _create_item_unplaced(definition: ItemDef) -> ItemInstance:
 func _validate_definition(definition: ItemDef) -> bool:
 	if _owner == null or _owner.id <= 0 or _owner.stats == null or _owner.vitals == null: return false
 	if definition == null or definition.id == &"" or _next_item_id >= MAX_ID: return false
+	if definition.use_summon and definition.get_script() != ItemDef and definition.get_script() != Item: return false
+	if not definition.summon_definition_valid(): return false
 	if definition.armor_max < 0 or not ArmorState.valid_resistances(definition.armor_resistances): return false
 	if (definition.armor_max != 0 or definition.armor_resistances != {"physical": 0, "fire": 0}) and _owner.armor == null: return false
 	# Параметры лечения валидируются вместе: нули сохраняют старые предметы,
@@ -158,7 +167,12 @@ func _validate_definition(definition: ItemDef) -> bool:
 	else:
 		if definition.use_heal_amount < 0.0 or definition.max_charges < 1 or definition.max_charges > 4096: return false
 	if definition.use_heal_amount > 0.0 and definition.use_summon: return false
-	if _definitions.has(definition.id) and _definitions[definition.id] != definition: return false
+	if _definitions.has(definition.id):
+		var stored := _definitions[definition.id] as ItemDef
+		if definition.use_summon:
+			if stored == null or not stored.use_summon or not _same_summon_input(definition, stored): return false
+		elif stored != definition:
+			return false
 	var count := definition.effects.size()
 	if count > 0 and _next_effect_id > MAX_ID - count: return false
 	for effect in definition.effects:
@@ -171,6 +185,25 @@ func _validate_definition(definition: ItemDef) -> bool:
 			var heal_effect := effect as HealOnDamageEffect
 			if int(heal_effect.trigger_event) != int(TriggeredEffect.TriggerEvent.UNIT_DAMAGED): return false
 			if heal_effect.heal_amount < 0.0 or not is_finite(heal_effect.heal_amount): return false
+		else:
+			return false
+	return true
+
+func _same_summon_input(incoming: ItemDef, stored: ItemDef) -> bool:
+	if incoming.id != stored.id or incoming.display_name != stored.display_name or incoming.description != stored.description or incoming.use_heal_amount != stored.use_heal_amount or incoming.use_summon != stored.use_summon or incoming.max_charges != stored.max_charges or incoming.armor_max != stored.armor_max or incoming.armor_resistances != stored.armor_resistances or incoming.get_summon_definition().to_dict() != stored.get_summon_definition().to_dict() or incoming.effects.size() != stored.effects.size():
+		return false
+	for index in incoming.effects.size():
+		var left := incoming.effects[index]
+		var right := stored.effects[index]
+		if left == null or right == null or left.get_script() != right.get_script(): return false
+		if left is StatModifierEffect:
+			var left_stat := left as StatModifierEffect
+			var right_stat := right as StatModifierEffect
+			if left_stat.stat_type != right_stat.stat_type or left_stat.operation != right_stat.operation or left_stat.value != right_stat.value: return false
+		elif left is HealOnDamageEffect:
+			var left_heal := left as HealOnDamageEffect
+			var right_heal := right as HealOnDamageEffect
+			if left_heal.trigger_event != right_heal.trigger_event or left_heal.heal_amount != right_heal.heal_amount: return false
 		else:
 			return false
 	return true

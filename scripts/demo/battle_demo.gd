@@ -438,7 +438,7 @@ func _refresh() -> void:
 			descriptors.append({"action_id": &"restore_armor", "label": "Броня +20", "cost": "1 основное", "disabled": reason != &"", "tooltip": "Восстановить 20 брони по недостаче вещей. Избыток становится временной бронёй до конца боя.\n" + (_reason_text(reason) if reason != &"" else "Стойка сохраняется.")})
 		elif seal != null:
 			var reason := _battle.summoning_reason()
-			descriptors.append({"action_id": &"summoning_item", "label": "Печать %d/%d" % [seal.get_charges_left(), seal.get_definition().max_charges], "cost": "1 основное", "disabled": reason != &"", "tooltip": "Помощник: 16 HP, действует со следующего хода команды. Один на владельца, до гибели или конца боя. 1 основное и 1 заряд.\n" + (_reason_text(reason) if reason != &"" else "Выберите соседнюю свободную безопасную клетку той же высоты.")})
+			descriptors.append({"action_id": &"summoning_item", "label": "Печать %d/%d" % [seal.get_charges_left(), seal.get_definition().max_charges], "cost": "1 основное", "disabled": reason != &"", "tooltip": ("Помощник: %s HP, действует со следующего хода команды. Один на владельца, до гибели или конца боя. 1 основное и 1 заряд.\n" % _summon_hp_text(seal)) + (_reason_text(reason) if reason != &"" else "Выберите соседнюю свободную безопасную клетку той же высоты.")})
 		if session is BattleBleedingSession:
 			descriptors.append({"action_id": &"blood_rune", "label": "Кровавая руна", "cost": "Перк · 1 основное", "disabled": locked or session.selected_unit() == null or not session.selected_unit().can_attack(), "tooltip": "Перк персонажа «Кровавая руна»: эта атака накладывает кровотечение даже без физического урона HP. Иммунитет сохраняется. 2 тика по 4 с учётом естественной защиты; повторное наложение обновляет срок."})
 		if environment_mode and session is BattleEnvironmentSession:
@@ -541,7 +541,7 @@ func _inspection_text(unit: UnitState) -> String:
 					if armor_mode:
 						descriptions.append("Печать: призыв недоступен в сценарии брони.")
 					else:
-						descriptions.append("Печать: помощник с 16 HP за 1 основное и заряд; осталось %d/%d. Один на владельца, действует со следующего хода команды, до гибели / конца боя." % [item.get_charges_left(), item.get_definition().max_charges])
+						descriptions.append("Печать: помощник с %s HP за 1 основное и заряд; осталось %d/%d. Один на владельца, действует со следующего хода команды, до гибели / конца боя." % [_summon_hp_text(item), item.get_charges_left(), item.get_definition().max_charges])
 				elif item.get_definition().max_charges > 0:
 					descriptions.append("%s: лечение себя до +%.1f HP за 1 основное и заряд; осталось %d/%d. Стойка сохраняется." % [item.get_definition().display_name, item.get_definition().use_heal_amount, item.get_charges_left(), item.get_definition().max_charges])
 				for effect in item.get_effects():
@@ -611,7 +611,7 @@ func _hover(cell: Vector2i) -> void:
 		return
 
 	if summoning_mode:
-		_hint.text = "Бирюзовые точки — клетки призыва. Клик — 1 основное и 1 заряд.\nПомощник с 16 HP действует со следующего хода своей команды. Esc — отмена."
+		_hint.text = "Бирюзовые точки — клетки призыва. Клик — 1 основное и 1 заряд.\nПомощник с %s HP действует со следующего хода своей команды. Esc — отмена." % _summon_hp_text(_battle.summoning_item())
 		return
 	if not session.board.is_in_bounds(cell):
 		_hint.text = "Золотые клетки — движение врага на следующий ход; зона атаки не показана.\nВыбранный союзник сохранён. Осмотр не расходует действия." if inspected_id != UnitId.NONE else "Числа на клетках — высота. Бирюзовые точки — доступное движение.\nПолоски: здоровье / накопленная потеря равновесия. ПКМ или Esc — движение."
@@ -846,6 +846,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_ENTER, KEY_KP_ENTER: end_turn()
 	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
 		set_attack_mode(false)
+
+func _summon_hp_text(item: ItemInstance) -> String:
+	# Подсказка читает тот же зафиксированный шаблон, что и команда призыва.
+	var hp := item.get_definition().get_summon_definition().hp_max if item != null else SummonDefinition.DEFAULT_HP_MAX
+	return String.num(hp).trim_suffix(".0")
 
 func _choose_summoning() -> void:
 	if _battle == null: return

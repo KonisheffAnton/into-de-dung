@@ -36,6 +36,8 @@ func validate(context: ActionContext) -> StringName:
 	if item == null or item.get_owner_unit_id() != actor.id: return &"item/not_owned"
 	if not item.is_active() or item._get_placement() == 0: return &"item/inactive"
 	if not item.get_definition().use_summon: return &"item/not_usable"
+	var summon_definition := item._definition.get_summon_definition()
+	if not SummonDefinition.valid_definition(summon_definition) or not summon_definition.name_valid(actor.debug_name): return &"item/invalid_definition"
 	if item.get_charges_left() == 0: return &"item/no_charges"
 	if actor.action_resources.get_main_left() < 1: return &"item/insufficient_main"
 	if state.active_summon(actor.id) != null: return &"summon/active_helper"
@@ -53,14 +55,16 @@ static func next_id(board: BattleBoard) -> int:
 	for unit in board.get_all_units(): highest = maxi(highest, unit.id)
 	return highest + 1 if highest < ActionQueue.MAX_ID - 2 else 0
 
-static func make_helper(id: int, faction: Faction.Type, cell: Vector2i, owner_name: String) -> UnitState:
+static func make_helper(id: int, faction: Faction.Type, cell: Vector2i, owner_name: String, definition: SummonDefinition = null) -> UnitState:
 	# Локальный id не трогает глобальный allocator ни в preflight, ни в preview.
+	var effective_definition := SummonDefinition.new() if definition == null else definition
+	if not SummonDefinition.valid_definition(effective_definition) or not effective_definition.name_valid(owner_name): return null
 	var unit := UnitState.new()
 	unit.id = id
 	unit.faction = faction
 	unit.cell = cell
-	unit.debug_name = "Помощник · " + owner_name
-	unit.stats = StatsBag.from_base_values({StatTypes.StatType.HP_MAX: 16.0, StatTypes.StatType.ARMOR: 0.0, StatTypes.StatType.STRENGTH: 4.0, StatTypes.StatType.WEAPON_DAMAGE: 2.0, StatTypes.StatType.IMPACT_POWER: 3.0, StatTypes.StatType.BALANCE_MAX: 5.0, StatTypes.StatType.MOVE_RANGE: 4.0, StatTypes.StatType.MAIN_ACTIONS_MAX: 1.0, StatTypes.StatType.BONUS_ACTIONS_MAX: 1.0, StatTypes.StatType.ATTACK_RANGE: 1.0})
+	unit.debug_name = effective_definition.make_name(owner_name)
+	unit.stats = StatsBag.from_base_values(effective_definition.base_values())
 	unit.vitals = Vitals.new(unit.stats, true)
 	unit.enable_action_resources()
 	return unit
@@ -69,7 +73,7 @@ func _apply(context: ActionContext, id: int, admission: Dictionary) -> UnitState
 	var state := context.get_state()
 	var actor := state.get_board().get_unit_by_id(_actor_id)
 	var item: ItemInstance = state.get_owner(_actor_id)._items[_item_id]
-	var unit := make_helper(id, actor.faction, _cell, actor.debug_name)
+	var unit := make_helper(id, actor.faction, _cell, actor.debug_name, item._definition.get_summon_definition())
 	actor.action_resources.try_spend_main(1)
 	item._charges_left -= 1
 	state.register_summon_owner(unit, actor.id)

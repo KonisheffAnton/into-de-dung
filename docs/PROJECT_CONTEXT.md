@@ -23,6 +23,7 @@
 | Опасная клетка, записи тел и поднятие помощника | [ENVIRONMENT_D5](ENVIRONMENT_D5.md); первый ограниченный сценарий |
 | Предлагаемое следующее направление | Только §7 [DESIGN_DIRECTION](DESIGN_DIRECTION.md); выполнение плана требует поручения |
 | Спецификации кандидатов M1–M4 | [MODULARITY_PLAN](MODULARITY_PLAN.md); не отдельная очередь работ |
+| Определение помощника, изоляция и совместимость снимков | [SUMMON_DEFINITION_M1](SUMMON_DEFINITION_M1.md); реализованный M1 |
 | Нынешний бой и управление | [TACTICAL_BATTLE](TACTICAL_BATTLE.md) |
 | Проход через союзников / свободная остановка | [ALLY_TRANSIT](ALLY_TRANSIT.md) |
 | Прогноз / стойка / флакон / призыв | [ATTACK_FORECAST](ATTACK_FORECAST.md), [ACTION_PANEL_GUARD](ACTION_PANEL_GUARD.md), [HEALING_ITEM](HEALING_ITEM.md), [SUMMON_ITEM](SUMMON_ITEM.md) |

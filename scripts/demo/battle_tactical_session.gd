@@ -11,6 +11,15 @@ var _enemy_index: int = 0
 var _enemy_actions: int = 0
 var _transitioning: bool = false
 
+func _summoning_definition() -> ItemDef:
+	var definition := ItemDef.new()
+	definition.id = &"tactical_summoning_seal"
+	definition.display_name = "Печать"
+	definition.use_summon = true
+	definition.max_charges = 2
+	definition.summon_definition = SummonDefinition.new()
+	return definition
+
 func reset() -> void:
 	super.reset()
 	# Отдельный сценарий сохраняет прежние sandbox fixtures и формулы ядра.
@@ -28,11 +37,7 @@ func reset() -> void:
 		for inventory in state.get_inventories():
 			if inventory._state == owner: inventory.add_item(item)
 	for unit in units:
-		var definition := ItemDef.new()
-		definition.id = &"tactical_summoning_seal"
-		definition.display_name = "Печать"
-		definition.use_summon = true
-		definition.max_charges = 2
+		var definition := _summoning_definition()
 		var owner := state.get_owner(unit.id)
 		state.get_inventory(unit.id).add_item(owner.create_item(definition))
 	phase = Phase.PLAYER_TURN

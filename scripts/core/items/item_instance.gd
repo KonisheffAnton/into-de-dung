@@ -26,7 +26,9 @@ func _init(definition: ItemDef, owner_id: int, item_id: int, effects: Array[Item
 	armor_origin_owner = owner_id
 	armor_origin_item = item_id
 
-func get_definition() -> ItemDef: return _definition
+func get_definition() -> ItemDef:
+	# Печать возвращает копию, чтобы внешний код не мог изменить зафиксированный runtime.
+	return _definition.duplicate(true) as ItemDef if _definition.use_summon else _definition
 func get_definition_id() -> StringName: return _definition_id
 func get_item_instance_id() -> int: return _item_id
 func get_owner_unit_id() -> int: return _owner_id

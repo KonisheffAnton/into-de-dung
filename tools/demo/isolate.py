@@ -69,6 +69,8 @@ def main():
             invalid = invalid or "0 failed" not in output
         if label == "ally_transit":
             invalid = invalid or "ALLY TRANSIT RESULTS:" not in output or ", 0 failed" not in output
+        if label in ("summon_definition", "summon_definition_ui"):
+            invalid = invalid or "M1 RESULTS:" not in output or ", 0 failed" not in output
         if label.startswith("bleeding"):
             marker = {"bleeding": "BLEEDING RESULTS:", "bleeding_snapshot": "BLEEDING SNAPSHOT RESULTS:", "bleeding_ui": "BLEEDING UI RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -89,6 +91,7 @@ def main():
         raise RuntimeError("Archived scripts leaked into the class cache")
     if args.check or args.render_check:
         run("startup", ["--quit-after", "3"])
+        run("summon_definition", ["--script", "tests/test_summon_definition.gd"])
         run("attack_calculation", ["--script", "tests/test_attack_damage_calculation.gd"])
         run("attack_d1", ["--script", "tests/test_attack_damage_d1.gd"])
         run("armor_calculation", ["--script", "tests/test_armor_hit_calculation.gd"])
@@ -112,6 +115,7 @@ def main():
         if args.render_check:
             captures = out / "screenshots"
             captures.mkdir()
+            run("summon_definition_ui", ["--script", "tests/test_summon_definition.gd", "--", "--captures=" + str(captures)], headless=False)
             demo_args += ["--", "--captures=" + str(captures)]
         run("demo", demo_args, headless=not args.render_check)
         battle_args = ["--script", "tests/test_tactical_battle.gd"]

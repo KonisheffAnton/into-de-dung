@@ -45,8 +45,10 @@
   Далее передаётся DamageRequest с bypass, поскольку броня уже применена.
 - AttackDefinition/AttackRules сохраняют три legacy-профиля и добавляют armor_spatial_v1 с проверенными рациональными компонентами physical/fire. Новые операции требуют явной поддержки.
 - Vitals хранит HP/balance. Новая ArmorState хранит естественные защиты, перки и E; a_i и ключ создания принадлежат ItemInstance, A_i/сопротивления — ItemDef. Legacy ARMOR остаётся stat.
-- ItemDef имеет специальные use_heal_amount/use_summon; параметры помощника
-  задаются в UseSummoningItemCommand. Общий контракт применения ещё не выделен.
+- ItemDef имеет специальные use_heal_amount/use_summon и SummonDefinition:
+  [M1](SUMMON_DEFINITION_M1.md) задаёт базовые stats/имя, фиксирует копию печати
+  в ItemOwnerState и переносит нестандартный шаблон в ItemSimulation v6.
+  Общий контракт применения ещё не выделен.
 - Снимки проверяют точные схемы и поддерживаемые виды данных. Диапазон stat IDs
   0..10 проверяется в StatsBag, ItemOwnerState и SimulationSnapshot; одного нового
   значения enum недостаточно для расширения. Боевой snapshot не равен save-game.
@@ -105,7 +107,8 @@ ActionQueue преобразует moved/died в внутренние Environmen
 имеющихся обязательных потомков и до продолжения движения. Огонь вызывает
 ArmorHitExecutor; тело создаётся один раз, не занимает клетку. SpatialRules.Guard
 проверяет также identity и значения среды. ItemSimulation v5 переносит среду;
-v1–v4 сохраняют прежнюю форму. AttackForecast включает реальные последствия огня.
+v1–v4 сохраняют прежнюю форму. M1 использует v6 при нестандартном определении
+печати, сохраняя все поля среды. AttackForecast включает реальные последствия огня.
 RaiseCorpseCommand расходует тело и main, создаёт нового D2/D3-совместимого помощника
 через прежние make_helper/SummonAdmission/register_summon_owner и командный refill.
 Предметный призыв старого сценария не изменён. D4 не читает D5 и сохраняет свой формат.

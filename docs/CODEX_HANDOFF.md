@@ -1,48 +1,44 @@
-# Передача — 2026-09-22: D5 перепроверен, следующим выбран M1
+# Передача — 2026-09-22: M1 завершён
 
-Main; base `2fb3bcef92286807128f3427badc2bae92e39e2a`, вход чистый.
-Итоговый SHA/status — `test_reports/d5-recheck-20260922/completion.json`; сверить Git.
-Прежняя передача — точный [снимок](CODEX_HANDOFF.history-20260922-5.md), ссылка в HISTORY;
-равенство рабочих байтов и Git blob проверено. После фиксации остатка нет.
+Main; base `12e996f74c73a127ebd54d8ae1a0772a85923639`, вход чистый.
+Итоговый SHA/status — `test_reports/m1-20260922/completion.json`; сверить Git.
+После фиксации изменений в рамках M1 незакоммиченного остатка нет.
+Прежняя передача сохранена точным [снимком](CODEX_HANDOFF.history-20260922-6.md),
+ссылка в HISTORY; рабочие байты архива равны исходному Git blob.
 
-Пользователь отложил ручную приёмку D5, поручил самостоятельную перепроверку
-и выбрал следующим M1 — определение помощника. M1 ещё не реализован.
-Уточнение: поднятый из тела помощник при смерти тела не оставляет.
-Игровой код уже соблюдал это правило; добавлены регрессии смерти помощника от
-входа в огонь после refill и от кровотечения. Проверены один died, отсутствие
-corpse_created/тела, processed_deaths, свободная occupancy, повтор без мутаций
-и decode/instantiate/recapture после смерти. Убийство атакой было покрыто ранее.
+Реализован [M1](SUMMON_DEFINITION_M1.md): SummonDefinition Resource хранит
+базовые stats и имя; ItemDef связывает его с печатью. ItemOwnerState фиксирует
+глубокую копию, getters/restore изолированы. Статическая проверка точного класса
+выполняется до виртуальных вызовов; raw malformed предшествует unsupported.
+Default прежний: HP16/armor0/strength4/weapon2/impact3/balance5/move4/main1/bonus1/range1.
+Другой набор проверен тестовым определением; нового игрового предмета нет.
+Подсказки печати читают HP из того же определения.
 
-Import/startup/full/render PASS. D5 state23/0, integration168/0, UI23/0 и render29/0;
-core9440/0, только прежние occupied-cell/47 ObjectDB/18 resources diagnostics.
-Full: `test_reports/demo-55c5315d835448c4a5ce3089210ff63f/`.
-Render: `test_reports/demo-0fcb4fb1d5774e6e8307300130dbbce7/`.
-Шесть PNG/input/scroll проверены; финальные PNG равны уже осмотренным побайтно.
-Код/тесты совпадают с manifest обоих прогонов; игровой код не менялся. Ревью APPROVE.
-Дополнительные session партии — 89/0: победа за 5 раундов и поражение за 4;
-в обеих поднятый помощник погиб без тела, terminal/reset/armor cleanup корректны.
-Отчёты, review, probe, manifest, next-stage-scope и next-chat-prompt:
-`test_reports/d5-recheck-20260922/`. Ручная приёмка D5 открыта, сейчас отложена.
+Стандартный writer сохраняет v1–v5 и canonical bytes; v3–v5 сравнены с git archive
+base, v1/v2 — прежними fingerprints. Нестандартная, даже неиспользованная, печать
+пишет полный DTO в envelope v6; при D5 переносится также environment.
+Unit/Board codecs не изменены; catalogue конфликт/подмена legacy default отклоняются.
+Restore без equip/refill; pending/admission, preview/live, RNG/ID и FAULTED prefix сохранены.
+D5 использует фиксированный default: поднятый помощник не оставляет тела;
+исходный погибший не оживает. Armor capability старой печати и профиль D4 не расширены.
 
-Следующий шаг в новом чате: реализовать выбранный M1 по §M1 [MODULARITY_PLAN](MODULARITY_PLAN.md),
-адаптировав пакет к нынешнему коду и снимкам v1–v5; выбор — §7 [DESIGN_DIRECTION](DESIGN_DIRECTION.md).
-Вынести базовые stats/имя в типизированное Resource-определение, сохранить default
-HP16/armor0/strength4/weapon2/impact3/balance5/move4/main1/bonus1/range1.
-UseSummoningItemCommand.make_helper вызывают также RaiseCorpseCommand и D5 fixture;
-сохранить различие обычного тела и зарегистрированного summon. Новый помощник
-не оставляет тела. Определение изолируется при сборке боя, snapshot переносит
-все влияющие значения; legacy canonical bytes, preview/live и callback guards сохранить.
-До кодера зафиксировать validation/copy/writer/version/catalogue; runtime не хранить в Resource.
-Не расширять capability старой печати на armor и не менять профиль D4 в рамках M1.
+Import/startup/full/render PASS: M1 headless214/0, render215/0; summon137/0,
+summon_snapshot55/0, core9440/0; D5 state23/0, integration168/0, UI23/0 и render29/0.
+Только прежние occupied-cell/47 ObjectDB/18 resources diagnostics в core.
+57 PNG; ключевые кадры/input/scroll осмотрены, стабильные кадры совпали побайтно.
+Независимое ревью V3 APPROVE; исходники сверены с обоими final manifests.
+Full: `test_reports/demo-8a4a5df593ec49458173f47d800622a9/`.
+Render: `test_reports/demo-56978dc24e6344adbc68cbfaf47747c3/`.
+Review/manifest/verification/archive/PNG/next-chat-prompt: `test_reports/m1-20260922/`.
 
-D5 — отдельный сценарий F5 → «Среда / трупы»; [контракт](ENVIRONMENT_D5.md) без изменений механики.
-D2 принят; D3 частично; D4 подтверждён перенос экипировки, полная приёмка открыта.
-Командные ходы/1 main за атаку сохранить; Q1–Q6/frozen P02–P08/§4.5 не менять.
-Расширения D5, M2b/M3–M4, графику/метакомнату/экономику без поручения не запускать.
-Без push/sidebar tasks/расписаний. AGENTS/CODEX_WORKFLOW: один пишущий кодер,
-критические контракты у ведущего; import/startup, адресные/full/render, PNG/input,
-независимое ревью фиксированного результата, логический commit и чистое дерево.
-В конце этапа/при блокере обновить короткий HANDOFF, прежний сохранить точным
-отдельным архивом со ссылкой из HISTORY. Для нового этапа предложить новый чат;
-вывести полный самодостаточный промпт прямо в финале блоком кода: HEAD, результат,
-docs/artifacts, остаток, ограничения, проверки и это же правило. Ссылка не заменяет текст.
+Остатка M1 нет. Следующий этап не выбран; предложить новый чат для выбора
+ограниченного среза или возврата к приёмке. D5 ручная приёмка открыта и отложена
+пользователем; D2 принят, D3 частично, D4 подтверждён перенос экипировки.
+Без отдельного поручения не запускать расширения D5, M2b/M3–M4, графику,
+метакомнату/экономику; без push, sidebar tasks и расписаний.
+Сохранить командные ходы, атаку за 1 main, переключение с остатками ресурсов;
+Q1–Q6/frozen P02–P08/§4.5 не менять. Делегирование/проверки/коммиты — AGENTS/CODEX_WORKFLOW.
+В конце этапа/при блокере обновить короткую передачу с точным отдельным архивом
+и ссылкой из HISTORY. Для нового этапа предложить новый чат и вывести прямо
+в финале полный промпт блоком кода: HEAD, результат, docs/artifacts, остаток,
+ограничения, проверки и это же правило. Ссылка на файл не заменяет текст.
