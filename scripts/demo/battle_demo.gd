@@ -378,7 +378,7 @@ func _open_environment_scenario() -> void:
 	attack_mode = false
 	inspected_id = UnitId.NONE
 	_journal.clear()
-	_note("Среда: огонь показывает урон 8, трупы можно поднять соседней клеткой.")
+	_note("Среда: шипы наносят 8 урона при входе, тела можно поднять с соседней клетки.")
 	_refresh()
 
 func end_turn() -> void:
@@ -443,7 +443,7 @@ func _refresh() -> void:
 			descriptors.append({"action_id": &"blood_rune", "label": "Кровавая руна", "cost": "Перк · 1 основное", "disabled": locked or session.selected_unit() == null or not session.selected_unit().can_attack(), "tooltip": "Перк персонажа «Кровавая руна»: эта атака накладывает кровотечение даже без физического урона HP. Иммунитет сохраняется. 2 тика по 4 с учётом естественной защиты; повторное наложение обновляет срок."})
 		if environment_mode and session is BattleEnvironmentSession:
 			var raise_reason := (session as BattleEnvironmentSession).raise_reason()
-			descriptors.append({"action_id": &"raise_corpse", "label": "Поднять тело", "cost": "1 основное", "disabled": locked or raise_reason != &"", "tooltip": "Выберите соседнюю свободную негорящую клетку той же высоты. Помощник: 16 HP, действует со следующего хода команды.\n" + (_reason_text(raise_reason) if raise_reason != &"" else "Тело расходуется после успешного поднятия.")})
+			descriptors.append({"action_id": &"raise_corpse", "label": "Поднять тело", "cost": "1 основное", "disabled": locked or raise_reason != &"", "tooltip": "Выберите соседнюю свободную клетку без шипов той же высоты. Помощник: 16 HP, действует со следующего хода команды.\n" + (_reason_text(raise_reason) if raise_reason != &"" else "Тело расходуется после успешного поднятия.")})
 		_action_bar.set_dynamic_descriptors(descriptors)
 		_action_bar.set_slot_enabled(&"attack", not locked, "Сейчас нельзя действовать." if locked else "1 основное действие")
 		var guard_reason := _battle.guard_reason() if _battle != null else &"battle/input_locked"
@@ -508,7 +508,7 @@ func _refresh() -> void:
 		var enemy := session.board.get_unit_by_id(inspected_id)
 		_status.text = "Осмотр: %s · движение на следующий ход: %.1f ОД\nТекущая расстановка; зона движения. Esc или клик по пустой клетке — закрыть." % [enemy.debug_name, enemy.get_stat(StatTypes.StatType.MOVE_RANGE)]
 	if summoning_mode: _status.text = "Призыв: выберите подсвеченную соседнюю клетку. 1 основное + 1 заряд. Esc — отмена."
-	if raising_mode: _status.text = "Поднять тело: выберите подсвеченную соседнюю свободную негорящую клетку. 1 основное. Esc — отмена."
+	if raising_mode: _status.text = "Поднять тело: выберите подсвеченную соседнюю свободную клетку без шипов. 1 основное. Esc — отмена."
 	if session.context.is_faulted(): _status.text = "Исполнение остановлено из-за ошибки. Выполненные последствия сохранены; сбросьте бой."
 	if locked: _status.text = _battle.phase_text() + (" · Можно начать заново: R." if _battle.phase != BattleTacticalSession.Phase.ENEMY_TURN else " · Противник выполняет действия.")
 	_hover(board_view.hover_cell)
@@ -604,7 +604,7 @@ func _hover(cell: Vector2i) -> void:
 			var faction: String = {Faction.Type.PLAYER: "союзник", Faction.Type.ENEMY: "противник", Faction.Type.NEUTRAL: "нейтральный"}[corpse["faction"]]
 			var kind := "гуманоид" if corpse["creature_kind"] == "humanoid" else String(corpse["creature_kind"])
 			details.append("%s · %s" % [faction, kind])
-		var fire := "Огонь: 8 урона при входе." if not environment.fire_at(cell).is_empty() else "Огоня нет."
+		var fire := "Шипы: 8 урона при входе." if not environment.fire_at(cell).is_empty() else "Шипов нет."
 		_hint.text = fire + ("\nТела ×%d: %s" % [details.size(), ", ".join(details)] if not details.is_empty() else "\nТрупов нет.")
 		if raising_mode: _hint.text += "\nПоднятие: выберите соседнюю клетку той же высоты."
 		_render_forecast_panel()
@@ -691,7 +691,7 @@ func _render_forecast_panel() -> void:
 		var hit: Dictionary = event["hit"]
 		var hit_source: Dictionary = event.get("source", {})
 		if hit_source.get("kind", &"") == &"cell":
-			text += "[color=#f29b9b]Огонь из %s: 8 урона в каскаде[/color]\n" % _cell_name(hit_source.get("origin_cell", Vector2i.ZERO))
+			text += "[color=#f29b9b]Шипы на %s: 8 урона при входе[/color]\n" % _cell_name(hit_source.get("origin_cell", Vector2i.ZERO))
 		text += "\n[color=#f7c97d]%s · броня −%d[/color]\n" % [_name_for(event["target_unit_id"]), hit["armor_spent"]]
 		text += "В HP до защиты: %d/%d · урон %d · лечение %d\n" % [hit["p_num"], hit["p_den"], hit["total_damage"], hit["total_healing"]]
 		for row: Dictionary in hit["rows"]:
@@ -758,11 +758,11 @@ func _event_text(event: Dictionary) -> String:
 		&"corpse_raised": return "%s поднял тело: %s (16 HP), ожидает следующего хода." % [actor, target]
 		&"damaged":
 			var source: Dictionary = event.get("source", {})
-			var cause := " от падения" if source.get("kind", &"") == &"fall" else (" от кровотечения" if bleeding_mode and source.get("kind", &"") == &"status" else (" от огня (8)" if source.get("kind", &"") == &"cell" else ""))
+			var cause := " от падения" if source.get("kind", &"") == &"fall" else (" от кровотечения" if bleeding_mode and source.get("kind", &"") == &"status" else (" от шипов (8)" if source.get("kind", &"") == &"cell" else ""))
 			return "%s: −%.1f HP%s." % [target, float(event.get("amount", 0)), cause]
 		&"healed":
 			var heal_source: StringName = event.get("source", {}).get("kind", &"")
-			var heal_cause := " от сопротивления огню" if heal_source == &"cell" else (" от сопротивления" if heal_source in [&"attack", &"collision", &"fall"] or (bleeding_mode and heal_source == &"status") else " от предмета")
+			var heal_cause := " от сопротивления урону шипов" if heal_source == &"cell" else (" от сопротивления" if heal_source in [&"attack", &"collision", &"fall"] or (bleeding_mode and heal_source == &"status") else " от предмета")
 			return "%s: +%.1f HP%s." % [target, float(event.get("amount", 0)), heal_cause]
 		&"armor_changed": return "%s: запас брони изменился." % target
 		&"hit_resolved": return "%s: попадание завершено, HP %d → %d." % [target, event["hit"]["hp_before"], event["hit"]["hp_after"]]
@@ -807,7 +807,7 @@ func _reason_text(reason: StringName) -> String:
 		&"summon/active_helper": return "у этого владельца уже есть живой помощник."
 		&"summon/invalid_cell": return "нужна соседняя свободная безопасная клетка той же высоты."
 		&"environment/no_corpse": return "нет доступного гуманоида на соседней свободной клетке."
-		&"environment/invalid_raise_cell": return "тело нельзя поднять на горящей, занятой или клетке другой высоты."
+		&"environment/invalid_raise_cell": return "тело нельзя поднять на клетке с шипами, занятой или другой высоты."
 		&"summon/helper_cannot_summon": return "помощник не может поднимать другие тела."
 		&"item/full_hp": return "здоровье уже полное."
 		&"item/no_charges": return "заряды предмета закончились."

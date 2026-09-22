@@ -100,7 +100,7 @@ func _run() -> void:
 	demo._refresh()
 	await click(at(session.units[0])); await key(KEY_A); await motion(at(session.units[1]))
 	var forecast := demo._forecast
-	_check(forecast != null and forecast.status == ActionReceipt.APPLIED and demo._forecast_panel.text.contains("Огонь из D4"), "input forecast push into fire")
+	_check(forecast != null and forecast.status == ActionReceipt.APPLIED and demo._forecast_panel.text.contains("Шипы на D4"), "input forecast push into fire")
 	var unchanged := ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict()
 	await capture("d5-forecast")
 	var panel := demo._forecast_panel

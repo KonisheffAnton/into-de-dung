@@ -213,7 +213,7 @@ func _draw_overlay() -> void:
 		for fire: Dictionary in environment.fires:
 			var fire_center := cell_center(fire["cell"])
 			_overlay.draw_circle(fire_center, hw * 0.28, Color(0.95, 0.28, 0.12, 0.55))
-			_overlay.draw_string(ThemeDB.fallback_font, fire_center + Vector2(-32, 4), "ОГОНЬ 8", HORIZONTAL_ALIGNMENT_CENTER, 64, 10, Color("ffd08a"))
+			_overlay.draw_string(ThemeDB.fallback_font, fire_center + Vector2(-32, 4), "ШИПЫ 8", HORIZONTAL_ALIGNMENT_CENTER, 64, 10, Color("ffd08a"))
 		var corpses_by_cell: Dictionary = {}
 		for corpse: Dictionary in environment.corpses:
 			var corpse_cell: Vector2i = corpse["cell"]

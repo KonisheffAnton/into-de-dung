@@ -100,12 +100,12 @@ bleeding_changed и шаге bleeding_apply, включая SKIPPED по имм�
 
 ## Среда D5
 
-ItemSimulation v5 переносит огненные клетки, тела, их ID и обработанные смерти.
+ItemSimulation v5 переносит клетки с шипами, тела, их ID и обработанные смерти.
 При нестандартном определении печати [M1](SUMMON_DEFINITION_M1.md) использует
 ItemSimulation v6: все stats/параметры имени, включая неиспользованную печать,
 копируются и проверяются тем же codec. Forecast исполняет прежнюю команду атаки;
 нестандартный шаблон не включает armor capability у старого призыва.
-Толчок в огонь исполняет тот же EnvironmentCommand/ArmorHitExecutor на копии;
+Толчок на шипы исполняет тот же EnvironmentCommand/ArmorHitExecutor на копии;
 события fire hit и corpse_created видны в прогнозе. Состав среды включён в
 snapshot_before/after и проверку live isolation. Прогноза движения и поднятия
 тела этот API не добавляет. Правила транзита и потребления — [D5](ENVIRONMENT_D5.md).
