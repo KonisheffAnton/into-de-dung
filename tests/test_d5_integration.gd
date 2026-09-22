@@ -50,6 +50,21 @@ func count_kind(receipt: ActionReceipt, kind: StringName) -> int:
 		if event["kind"] == kind: count += 1
 	return count
 
+func check_helper_death_snapshot(s: BattleEnvironmentSession, captured: Dictionary, helper_id: int, label: String) -> void:
+	var decoded := ItemSimulationSnapshot.from_dict(captured)
+	check(decoded.code == ItemSnapshotResult.Code.OK and decoded.snapshot != null, label + " decode")
+	check(s.state.environment.processed_deaths.has(helper_id) and s.state.environment.corpses.filter(func(record: Dictionary) -> bool: return record["source_unit_id"] == helper_id).is_empty(), label + " environment records")
+	if decoded.code != ItemSnapshotResult.Code.OK or decoded.snapshot == null: return
+	var definitions: Dictionary = {}
+	for owner: ItemOwnerState in s.state.get_owners():
+		for id: StringName in owner._definitions: definitions[id] = (owner._definitions[id] as ItemDef).duplicate(true)
+	var restored := decoded.snapshot.instantiate(definitions)
+	check(restored.code == ItemSnapshotResult.Code.OK and restored.state != null, label + " instantiate")
+	if restored.code == ItemSnapshotResult.Code.OK and restored.state != null:
+		var recaptured := ItemSimulationSnapshot.capture(restored.state, [])
+		check(recaptured.code == ItemSnapshotResult.Code.OK and recaptured.snapshot != null and recaptured.snapshot.to_dict() == captured, label + " roundtrip")
+		AttackForecast._close(restored.state)
+
 func run() -> void:
 	var s := BattleEnvironmentSession.new()
 	check(not s.context.is_faulted() and s.state.environment.corpses.size() == 1, "initial corpse through queue")
@@ -156,6 +171,50 @@ func run() -> void:
 	receipt = s._queue.submit(attack, s.context)
 	check(forecast.status == ActionReceipt.APPLIED and receipt.get_events() == forecast.events and snapshot(s) == forecast.snapshot_after, "pending helper forecast parity")
 	check(not helper.is_alive() and s.state.environment.corpses.is_empty() and before_helper_attack != forecast.snapshot_after, "killed helper leaves no corpse")
+	s.close()
+	# Реальный вход поднятого помощника в огонь обязан сохранить правило summon без тела.
+	s = arena()
+	var raised_by_fire := s.raise_corpse(Vector2i(0, 3))
+	var fire_helper := s.state.active_summon(s.units[0].id)
+	check(raised_by_fire.status == ActionReceipt.APPLIED and fire_helper != null, "raise helper for move death")
+	if fire_helper != null:
+		var fire_helper_id := fire_helper.id
+		s.board.move_unit(s.units[0], Vector2i(0, 0))
+		s.board.move_unit(s.units[1], Vector2i(7, 3))
+		var fire_refill := s._queue.submit(BattleTurnRefill.new(s.living_ids(Faction.Type.PLAYER), s.context.get_revision(), Faction.Type.PLAYER), s.context)
+		check(fire_refill.status == ActionReceipt.APPLIED and not s.state.is_summon_pending(fire_helper_id), "move death helper refill")
+		naked(s, fire_helper)
+		fire_helper.vitals.set_hp(1)
+		var fire_death := s._queue.submit(MoveCommand.new(fire_helper_id, [Vector2i(0, 3), Vector2i(1, 3), Vector2i(2, 3), Vector2i(3, 3)], s.context.get_revision()), s.context)
+		check(fire_death.status in [ActionReceipt.APPLIED, ActionReceipt.INTERRUPTED], "helper fire move status " + String(fire_death.reason))
+		check(not fire_helper.is_alive() and count_kind(fire_death, &"died") == 1 and count_kind(fire_death, &"corpse_created") == 0, "helper fire death has no body")
+		check(not s.board.is_occupied(Vector2i(3, 3)), "helper fire death frees occupancy")
+		var fire_after := snapshot(s)
+		check_helper_death_snapshot(s, fire_after, fire_helper_id, "helper fire death snapshot")
+		var repeated_fire_death := s._queue.submit(DeathCommand.new(fire_helper_id, DamageSource.new(&"test", 0, fire_helper.cell)), s.context)
+		check(repeated_fire_death.status == ActionReceipt.REJECTED and snapshot(s) == fire_after, "repeat helper fire death is stable")
+	s.close()
+	# Кровотечение проходит через ту же регистрацию смерти; помощник также не становится телом.
+	s = BattleEnvironmentSession.new()
+	var raised_by_bleeding := s.raise_corpse(Vector2i(0, 3))
+	var bleeding_helper := s.state.active_summon(s.units[0].id)
+	check(raised_by_bleeding.status == ActionReceipt.APPLIED and bleeding_helper != null, "raise helper for bleeding death")
+	if bleeding_helper != null:
+		var bleeding_helper_id := bleeding_helper.id
+		var bleeding_refill := s._queue.submit(BattleTurnRefill.new(s.living_ids(Faction.Type.PLAYER), s.context.get_revision(), Faction.Type.PLAYER), s.context)
+		check(bleeding_refill.status == ActionReceipt.APPLIED and not s.state.is_summon_pending(bleeding_helper_id), "bleeding death helper refill")
+		bleeding_helper.vitals.set_hp(1)
+		bleeding_helper.bleeding.ticks_left = 1
+		bleeding_helper.bleeding.source = DamageSource.new(&"attack", 0, s.units[0].cell, s.units[0].id, s.units[0].id).to_dict()
+		bleeding_helper.bleeding.hit_id = "d5-helper-death"
+		var bleeding_death := s._queue.submit(BleedingTurnCommand.new(Faction.Type.PLAYER, s.context.get_revision()), s.context)
+		check(bleeding_death.status == ActionReceipt.APPLIED, "helper bleeding death applied " + String(bleeding_death.reason))
+		check(not bleeding_helper.is_alive() and count_kind(bleeding_death, &"died") == 1 and count_kind(bleeding_death, &"corpse_created") == 0, "helper bleeding death has no body")
+		check(not s.board.is_occupied(bleeding_helper.cell), "helper bleeding death frees occupancy")
+		var bleeding_after := snapshot(s)
+		check_helper_death_snapshot(s, bleeding_after, bleeding_helper_id, "helper bleeding death snapshot")
+		var repeated_bleeding_death := s._queue.submit(DeathCommand.new(bleeding_helper_id, DamageSource.new(&"test", 0, bleeding_helper.cell)), s.context)
+		check(repeated_bleeding_death.status == ActionReceipt.REJECTED and snapshot(s) == bleeding_after, "repeat helper bleeding death is stable")
 	s.close()
 	# Синхронный callback после появления не может незаметно подменить среду.
 	s = BattleEnvironmentSession.new()
