@@ -20,7 +20,7 @@ func check(value: bool, label: String) -> void:
 		printerr("FAIL ARMOR UI: " + label)
 
 func _run() -> void:
-	demo = (load("res://scenes/demo/armor_battle.tscn") as PackedScene).instantiate()
+	demo = (load("res://tests/fixtures/demo/armor_battle.tscn") as PackedScene).instantiate()
 	viewport = SubViewport.new()
 	viewport.size = Vector2i(1280, 850)
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS

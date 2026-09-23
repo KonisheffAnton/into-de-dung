@@ -103,9 +103,9 @@ func _run() -> void:
 	var back := find_button(demo, "К основному бою")
 	await click(back.global_position + back.size * 0.5)
 	await process_frame; await process_frame
-	check(current_scene is BattleDemo and not current_scene is BattleInitiativeDemo, "real exit returns to original battle")
+	check(current_scene is BattleDemo and not current_scene is BattleInitiativeDemo, "real exit returns to main battle")
 	if current_scene is BattleDemo:
-		check((current_scene as BattleDemo).session.get_script() == BattleTacticalSession, "default battle retains original session")
+		check((current_scene as BattleDemo).core_combination_mode and (current_scene as BattleDemo).session is BattleCoreCombinationSession, "main battle opens combined team session")
 	if current_scene != null:
 		var opened := current_scene
 		current_scene = null

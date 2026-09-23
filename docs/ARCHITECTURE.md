@@ -13,12 +13,16 @@
 и специализированные контракты из [индекса](PROJECT_CONTEXT.md).
 
 Это один тактический бой. Новая расходуемая броня с двумя ветвями сопротивлений
-доступна отдельным сценарием D2; 2026-09-21 пользователь сообщил, что тест брони ок.
+доступна в K2 и D4; 2026-09-21 пользователь сообщил, что тест брони ок.
 Первый ограниченный цикл подготовки и забега описан в [D4](EXPEDITION_D4.md).
 Первый сценарий среды и нескольких тел на клетке описан в [D5](ENVIRONMENT_D5.md).
-Отдельный сценарий крита/спины и контроля описан в [C1](CRITICAL_BACKSTAB_C1.md).
+Поведение крита/спины и контроля описано в [C1](CRITICAL_BACKSTAB_C1.md).
 Общий игровой сценарий [K2](CORE_READINESS.md#k2--общий-игровой-сценарий-c1d3d5)
 соединяет C1 с D3/D5 через `BattleCoreCombinationSession`; ядро команд не меняется.
+K2 — основной вход F5. Отдельные сцены D2/D3/D5/C1 перенесены в
+`tests/fixtures/demo/`; их сессии сохранены как зависимости K2/D4 и регрессии.
+Старая сцена сетки и восемь debug-визуализаторов удалены; LegacyItemDemoSink
+остаётся зависимостью frozen-тестов. Уникальные игровые входы — [запуск](REPOSITORY_STATE.md).
 Отдельное [сравнение порядка ходов](INITIATIVE_COMPARISON.md) добавляет инициативу
 только в экспериментальную session; основной бой остаётся командным.
 Профиля мага с метахарактеристиками и общего движка статусов/клеток пока нет.
@@ -82,7 +86,7 @@ BattleDemo перенаправляет колесо над текущей це�
 
 ## Первый срез новой брони — D2
 
-Отдельный BattleArmorSession открывается кнопкой «Броня»/armor_battle.tscn.
+BattleArmorSession — основа последующих сессий и отдельного тестового fixture D2.
 ArmorFraction/ArmorHitCalculation считают точные числа; ArmorRuntime собирает вещи
 и план расхода с клоном CombatRng. ArmorHitExecutor применяет E → условный RNG
 commit → a_i → один HP через расширенный SpatialRules.Guard. Collision/fall
@@ -95,7 +99,7 @@ ArmorEndBattleCommand удаляет временный E в общей очер
 
 ## Одно состояние — D3
 
-BattleBleedingSession/bleeding_battle.tscn открывается кнопкой «Кровотечение».
+BattleBleedingSession — основа D4/D5 и отдельного тестового fixture D3.
 BleedingState принадлежит UnitState; Unit v5 сохраняет его вместе с бронёй,
 ItemSimulation остаётся v4. AttackDefinition явно выбирает physical_hp или
 bypass_hp_gate. AttackHit сохраняет допуск своего прямого hit до лечения;
@@ -124,7 +128,7 @@ ID забега. После полного исхода возвращает HP/
 
 ## Опасная клетка и поднятие тела — D5
 
-BattleEnvironmentSession/environment_battle.tscn расширяет отдельный D3 бой.
+BattleEnvironmentSession расширяет D3 и служит основой K2; отдельная сцена — fixture D5.
 CombatEnvironmentState принадлежит ItemSimulationState: записи fire и corpses,
 монотонные ID и обработанные смерти. Geometry/occupancy и Unit codecs прежние.
 ActionQueue преобразует moved/died в внутренние EnvironmentCommand после

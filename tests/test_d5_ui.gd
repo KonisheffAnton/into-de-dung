@@ -17,19 +17,9 @@ func _run() -> void:
 	viewport.size = Vector2i(1280, 850)
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport)
-	demo = (load("res://scenes/demo/tactical_battle.tscn") as PackedScene).instantiate()
+	demo = (load("res://tests/fixtures/demo/environment_battle.tscn") as PackedScene).instantiate()
 	viewport.add_child(demo)
 	viewport.notify_mouse_entered()
-	await process_frame; await process_frame
-	var environment_button := _find_button(demo, "Среда / трупы")
-	_check(environment_button != null, "F5 tactical launcher has D5 button")
-	if environment_button != null:
-		await click(environment_button.global_position + environment_button.size * 0.5)
-	_check(demo.environment_mode and demo.armor_mode and demo.bleeding_mode and demo.session is BattleEnvironmentSession, "launcher opens D5 flags")
-	demo.queue_free()
-	await process_frame
-	demo = (load("res://scenes/demo/environment_battle.tscn") as PackedScene).instantiate()
-	viewport.add_child(demo)
 	await process_frame; await process_frame
 	board = demo.get("board_view") as BattleDemoBoard
 	_check(demo.environment_mode and demo.session is BattleEnvironmentSession, "D5 scene and session")
@@ -78,11 +68,14 @@ func _run() -> void:
 	var mode_button := demo.get("_mode_button") as Button
 	await click(mode_button.global_position + mode_button.size * 0.5)
 	_check(not demo.environment_mode and not demo.raising_mode, "scenario switch clears raise mode")
-	var return_button := _find_button(demo, "Среда / трупы")
-	if return_button != null: await click(return_button.global_position + return_button.size * 0.5)
-	_check(demo.environment_mode and demo.armor_mode and demo.bleeding_mode, "scenario switch returns D5")
+	demo.queue_free()
+	await process_frame
+	demo = (load("res://tests/fixtures/demo/environment_battle.tscn") as PackedScene).instantiate()
+	viewport.add_child(demo)
+	await process_frame; await process_frame
 	session = demo.session as BattleEnvironmentSession
 	board = demo.get("board_view") as BattleDemoBoard
+	_check(demo.environment_mode and demo.armor_mode and demo.bleeding_mode and session != null, "fixture reinstantiates D5 session after polygon switch")
 	await key(KEY_R)
 	session.select_unit(session.units[0].id)
 	demo._refresh()
@@ -136,13 +129,6 @@ func _check(value: bool, label: String) -> void:
 	else:
 		failed += 1
 		printerr("FAIL D5 UI: " + label)
-
-func _find_button(node: Node, label: String) -> Button:
-	for child: Node in node.get_children():
-		if child is Button and (child as Button).text.begins_with(label): return child as Button
-		var nested := _find_button(child, label)
-		if nested != null: return nested
-	return null
 
 func at(unit: UnitState) -> Vector2:
 	return board.global_position + board.cell_center(unit.cell)

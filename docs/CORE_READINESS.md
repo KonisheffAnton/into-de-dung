@@ -106,6 +106,9 @@ K1 не заменяет ручную приёмку C1/D3/D4/D5 и не зав�
 `b25fbfd174f03ea6f924c6eab3a1e7522b764023`. Реализована отдельная
 `BattleCoreCombinationSession` на базе EnvironmentSession и сцена
 `scenes/demo/core_combination_battle.tscn`; вход «Сочетания ядра» в BattleDemo.
+После чистки демонстраций K2 открывается сразу по F5; отдельные D2/D3/D5/C1
+сцены сохранены только как UI-fixtures в `tests/fixtures/demo/`. Это не расширяет
+capabilities K2; остальные уникальные входы — [REPOSITORY_STATE](REPOSITORY_STATE.md).
 Результат проверок и ревью — [HISTORY](HISTORY.md), `test_reports/k2-20260924/`.
 
 Игрок и ИИ исполняют прежние команды. Опции C1 включены в demo_strike и

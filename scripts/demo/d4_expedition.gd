@@ -220,4 +220,4 @@ func _button(value: String, key: String, action: Callable) -> void:
 	_body.add_child(button)
 
 func _menu() -> void:
-	get_tree().change_scene_to_file("res://scenes/demo/tactical_battle.tscn")
+	get_tree().change_scene_to_file("res://scenes/demo/core_combination_battle.tscn")

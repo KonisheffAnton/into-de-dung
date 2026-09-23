@@ -37,7 +37,7 @@ func _build_ui() -> void:
 	title.add_child(_individual_button)
 	var back := _button("К основному бою")
 	back.focus_mode = Control.FOCUS_NONE
-	back.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://scenes/demo/tactical_battle.tscn"))
+	back.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://scenes/demo/core_combination_battle.tscn"))
 	title.add_child(back)
 	var entry := find_child("CompareTurnsButton", true, false) as Button
 	if entry != null: entry.hide()

@@ -17,14 +17,11 @@ func _run() -> void:
 	viewport.size = Vector2i(1280, 850)
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport)
-	demo = (load("res://scenes/demo/tactical_battle.tscn") as PackedScene).instantiate()
+	demo = (load("res://tests/fixtures/demo/control_battle.tscn") as PackedScene).instantiate()
 	viewport.add_child(demo)
 	viewport.notify_mouse_entered()
 	await process_frame; await process_frame
-	var entry := find_button(demo, "Крит / спина")
-	check(entry != null, "F5 launcher exposes critical/backstab")
-	if entry != null: await click(entry.global_position + entry.size * 0.5)
-	check(demo.control_mode and demo.session is BattleControlSession, "real click opens C1")
+	check(demo.control_mode and demo.session is BattleControlSession, "fixture opens C1 session")
 	if not demo.session is BattleControlSession:
 		await finish()
 		return
@@ -109,13 +106,6 @@ func check(value: bool, label: String) -> void:
 	else:
 		failed += 1
 		printerr("FAIL CONTROL UI: " + label)
-
-func find_button(node: Node, label: String) -> Button:
-	for child: Node in node.get_children():
-		if child is Button and (child as Button).text.begins_with(label): return child as Button
-		var nested := find_button(child, label)
-		if nested != null: return nested
-	return null
 
 func at(unit: UnitState) -> Vector2:
 	# Соседняя стена может перекрывать стопы; кликаем по видимой верхней части фигуры.

@@ -39,7 +39,9 @@ impact, collision/fall. Крит срабатывает по цели, кото�
 Старые три профиля, frozen receipts и эталоны D1 сохраняют прежнее поведение.
 Capability контроля поддержана атаками spatial/armor; non-spatial атака с ней
 явно отклоняется `control/spatial_required`, без молчаливого обхода состояний.
-Новый игровой вход — отдельный сценарий на базе брони; D4 и его профиль не меняются.
+Игровой вход — «Сочетания ядра»; [маршруты запуска](REPOSITORY_STATE.md).
+Исходная расстановка на базе брони — `tests/fixtures/demo/control_battle.tscn`;
+D4 и его профиль не меняются.
 Общий AttackCommand исполняет атаки обеих команд; ИИ использует ту же механику,
 специальный поиск пути к спине не входит в C1.
 
@@ -103,8 +105,9 @@ target_unit_id, before/after DTO и reason push/turn_end. Новая атака 
 attacked полем `modifiers={backstab_percent:int,critical:bool}`; очередь проверяет
 точную форму. Старое определение не добавляет поле.
 
-`BattleControlSession`/`control_battle.tscn` — отдельный вход; AI вызывает тот же
-AttackCommand. UI показывает реальный forecast/events, а направление стрелки
+`BattleControlSession` используется отдельным fixture
+`tests/fixtures/demo/control_battle.tscn`; AI вызывает тот же AttackCommand.
+UI показывает реальный forecast/events, а направление стрелки
 рисует по разности проекций клеток (смещение карты не меняет вектор).
 
 В [K2](CORE_READINESS.md#k2--общий-игровой-сценарий-c1d3d5) те же опции

@@ -102,10 +102,14 @@ func _run() -> void:
 	check(demo.core_combination_mode and demo.session is BattleCoreCombinationSession and demo._forecast == null and not demo.raising_mode and not demo.attack_mode, "return opens a clean combined scenario")
 	demo.queue_free()
 	await process_frame
-	demo = (load("res://scenes/demo/core_combination_battle.tscn") as PackedScene).instantiate()
+	var main_scene: String = ProjectSettings.get_setting("application/run/main_scene")
+	check(main_scene == "res://scenes/demo/core_combination_battle.tscn", "F5 starts the combined scenario")
+	demo = (load(main_scene) as PackedScene).instantiate()
 	viewport.add_child(demo)
 	await process_frame; await process_frame
 	check(demo.core_combination_mode and demo.session is BattleCoreCombinationSession, "direct scene entry creates combined session")
+	for obsolete: String in ["Броня", "Кровотечение", "Среда / трупы", "Крит / спина"]:
+		check(find_button(demo, obsolete) == null, "obsolete scenario removed from navigation: " + obsolete)
 	await finish()
 
 func finish() -> void:

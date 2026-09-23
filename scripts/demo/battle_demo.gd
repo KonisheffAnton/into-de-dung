@@ -106,20 +106,6 @@ func _build_ui() -> void:
 	_mode_button = _button("")
 	_mode_button.pressed.connect(toggle_scenario)
 	title.add_child(_mode_button)
-	var armor_button := _button("Броня")
-	armor_button.pressed.connect(_open_armor_scenario)
-	title.add_child(armor_button)
-	var bleeding_button := _button("Кровотечение")
-	bleeding_button.pressed.connect(_open_bleeding_scenario)
-	title.add_child(bleeding_button)
-	var environment_button := _button("Среда / трупы")
-	environment_button.pressed.connect(_open_environment_scenario)
-	title.add_child(environment_button)
-	var control_button := _button("Крит / спина")
-	# Enter остаётся концом хода после выбора сценария мышью.
-	control_button.focus_mode = Control.FOCUS_NONE
-	control_button.pressed.connect(_open_control_scenario)
-	title.add_child(control_button)
 	var expedition_button := _button("Забег")
 	expedition_button.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://scenes/demo/expedition_d4.tscn"))
 	title.add_child(expedition_button)
@@ -366,67 +352,6 @@ func toggle_scenario() -> void:
 	inspected_id = UnitId.NONE
 	_journal.clear()
 	_note("Начат бой против компьютера." if tactical_mode else "Полигон: все персонажи управляются вручную.")
-	_refresh()
-
-func _open_bleeding_scenario() -> void:
-	_open_armor_scenario(true)
-
-func _open_armor_scenario(with_bleeding: bool = false) -> void:
-	control_mode = false
-	core_combination_mode = false
-	_clear_forecast()
-	session.close()
-	armor_mode = true
-	bleeding_mode = with_bleeding
-	environment_mode = false
-	tactical_mode = true
-	_create_session()
-	board_view.session = session
-	summoning_mode = false
-	raising_mode = false
-	attack_mode = false
-	inspected_id = UnitId.NONE
-	_journal.clear()
-	_note("Бой с бронёй: физический удар и огненная руна. Прогноз показывает каждый тип и последствие.")
-	_refresh()
-
-func _open_environment_scenario() -> void:
-	control_mode = false
-	core_combination_mode = false
-	_clear_forecast()
-	if session != null: session.close()
-	armor_mode = true
-	bleeding_mode = true
-	environment_mode = true
-	tactical_mode = true
-	_create_session()
-	board_view.session = session
-	board_view.environment_mode = true
-	summoning_mode = false
-	raising_mode = false
-	attack_mode = false
-	inspected_id = UnitId.NONE
-	_journal.clear()
-	_note("Среда: шипы наносят 8 урона при входе, тела можно поднять с соседней клетки.")
-	_refresh()
-
-func _open_control_scenario() -> void:
-	_clear_forecast()
-	if session != null: session.close()
-	core_combination_mode = false
-	control_mode = true
-	armor_mode = true
-	bleeding_mode = false
-	environment_mode = false
-	tactical_mode = true
-	_create_session()
-	board_view.session = session
-	summoning_mode = false
-	raising_mode = false
-	attack_mode = false
-	inspected_id = UnitId.NONE
-	_journal.clear()
-	_note("Крит по оглушённой или опутанной цели: ×2 урон и воздействие. Удар с тыла: +50% базы.")
 	_refresh()
 
 func _open_core_combination_scenario() -> void:

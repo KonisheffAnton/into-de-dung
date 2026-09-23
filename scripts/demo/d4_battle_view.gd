@@ -29,6 +29,3 @@ func reset_demo() -> void:
 
 func toggle_scenario() -> void:
 	pass
-
-func _open_armor_scenario(_with_bleeding: bool = false) -> void:
-	pass

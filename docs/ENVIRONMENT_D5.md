@@ -48,8 +48,9 @@ capability с нулевой бронёй и без иммунитета. Admiss
 
 ## Тела и порядок последствий
 
-CombatEnvironmentState принадлежит ItemSimulationState; игровые входы — D5
-и совместный [K2](CORE_READINESS.md#k2--общий-игровой-сценарий-c1d3d5).
+CombatEnvironmentState принадлежит ItemSimulationState; игровой вход —
+[K2](CORE_READINESS.md#k2--общий-игровой-сценарий-c1d3d5).
+Исходная расстановка D5 сохранена в `tests/fixtures/demo/environment_battle.tscn`.
 Тело: стабильный id, cell, source_unit_id, faction на момент смерти,
 creature_kind. Первый отряд имеет вид humanoid. Count вычисляется из записей;
 несколько тел на одной клетке допустимы, живую occupancy они не занимают.
