@@ -79,6 +79,9 @@ def main():
             invalid = invalid or "M1 RESULTS:" not in output or ", 0 failed" not in output
         if label == "item_use":
             invalid = invalid or "ITEM USE RESULTS:" not in output or ", 0 failed" not in output
+        if label in ("core_combinations", "core_combination_turns"):
+            marker = "CORE COMBINATIONS RESULTS:" if label == "core_combinations" else "CORE COMBINATION TURNS RESULTS:"
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("piercing_calculation", "piercing"):
             marker = "ARMOR PIERCING CALCULATION RESULTS:" if label == "piercing_calculation" else "ARMOR PIERCING RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -120,6 +123,8 @@ def main():
         run("d4_integration", ["--script", "tests/test_d4_integration.gd"])
         run("d5_state", ["--script", "tests/test_d5_state.gd"])
         run("d5_integration", ["--script", "tests/test_d5_integration.gd"])
+        run("core_combinations", ["--script", "tests/test_core_combinations.gd"])
+        run("core_combination_turns", ["--script", "tests/test_core_combination_turns.gd"])
         run("forecast", ["--script", "tests/test_attack_forecast.gd"])
         run("guard", ["--script", "tests/test_guard_stance.gd"])
         run("summon_snapshot", ["--script", "tests/test_summon_snapshot.gd"])

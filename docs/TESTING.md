@@ -30,6 +30,7 @@ core без `--full` в неё не входит. Повторять более 
 | Область | Адресный runner в `tests/` |
 |---|---|
 | Ядро | `run_tests.gd` |
+| Совместная атака C1/M4/D3/D5 (K1) | `test_core_combinations.gd`, `test_core_combination_turns.gd` (full/render); тестовая композиция — `tests/fixtures/core_combination_session.gd` |
 | Выделенный расчёт / эквивалентность до D1 | `test_attack_damage_calculation.gd`, `test_attack_damage_d1.gd` |
 | Спина, крит и состояния контроля C1 | `test_attack_modifiers.gd`, `test_critical_control.gd`, `test_control_battle.gd` (full/render, ввод/scroll/PNG) |
 | Броня D2 | `test_armor_hit_calculation.gd`, `test_armor_snapshot.gd`, `test_armor_integration.gd`, `test_armor_recovery.gd`, `test_armor_battle.gd` |
