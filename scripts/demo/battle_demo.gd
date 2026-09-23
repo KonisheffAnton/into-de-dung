@@ -156,6 +156,7 @@ func _build_ui() -> void:
 	board_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	board_view.cell_clicked.connect(handle_cell)
 	board_view.cell_hovered.connect(_hover)
+	board_view.gui_input.connect(_board_forecast_wheel_input)
 	board_view.cancel_requested.connect(set_attack_mode.bind(false))
 	left.add_child(board_view)
 	_action_bar = BattleActionBar.new()
@@ -196,7 +197,7 @@ func _build_ui() -> void:
 	_log.add_theme_font_size_override("normal_font_size", 14)
 	_log.add_theme_color_override("default_color", Color("c8d3e1"))
 	side.add_child(_log)
-	_forecast_heading = _label("ПРОГНОЗ АТАКИ", 13, Color("65dfcc"))
+	_forecast_heading = _label("ПРОГНОЗ · КОЛЕСО НА ЦЕЛИ", 13, Color("65dfcc"))
 	side.add_child(_forecast_heading)
 	_forecast_panel = RichTextLabel.new()
 	_forecast_panel.custom_minimum_size = Vector2(340, 130)
@@ -643,6 +644,8 @@ func _hover(cell: Vector2i) -> void:
 			var revision := session.context.get_revision()
 			if _forecast_cell != cell or _forecast_target_id != target.id or _forecast_revision != revision:
 				_forecast = session.preview_attack(target.id)
+				# Новый прогноз всегда читается с начала, даже после прокрутки предыдущей цели.
+				_forecast_panel.get_v_scroll_bar().value = 0.0
 				_forecast_cell = cell
 				_forecast_target_id = target.id
 				_forecast_revision = revision
@@ -676,6 +679,19 @@ func _hover(cell: Vector2i) -> void:
 	_hint.text = "%s · высота %+.1f%s\n%s" % [_cell_name(cell), float(session.board.get_height_steps(cell)) / 2.0, cost, "Осмотр: зона движения на следующий ход, не атаки." if inspected_id != UnitId.NONE else "Линия показывает маршрут; последствия падений не предсказываются."]
 	if attack_mode: _hint.text = "Наведите на цель: прогноз одной атаки. Клик — выполнить.\nКрасный сегмент HP — потеря, зелёный — лечение; белая метка — итог."
 	_render_forecast_panel()
+
+func _board_forecast_wheel_input(event: InputEvent) -> void:
+	if not event is InputEventMouseButton: return
+	var wheel := event as InputEventMouseButton
+	if not wheel.pressed or (wheel.button_index != MOUSE_BUTTON_WHEEL_UP and wheel.button_index != MOUSE_BUTTON_WHEEL_DOWN): return
+	if _forecast == null or not attack_mode or not _forecast_panel.is_visible_in_tree() or (_battle != null and not _battle.can_player_act()): return
+	if board_view.cell_at(wheel.position) != _forecast_cell: return
+	var amount := 48.0 * (wheel.factor if wheel.factor > 0.0 else 1.0)
+	if wheel.button_index == MOUSE_BUTTON_WHEEL_UP: amount = -amount
+	var scroll_bar := _forecast_panel.get_v_scroll_bar()
+	var last_value := maxf(scroll_bar.min_value, scroll_bar.max_value - scroll_bar.page)
+	scroll_bar.value = clampf(scroll_bar.value + amount, scroll_bar.min_value, last_value)
+	accept_event()
 
 func _leave_forecast_panel() -> void:
 	_resolve_hover_exit.call_deferred()

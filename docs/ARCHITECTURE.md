@@ -41,6 +41,10 @@
 | Нынешний ИИ | `scripts/demo/battle_demo_bt.gd` | BT выбирает BattleAIIntent; исполнение через команды. Старый Utility AI остаётся в `scripts/core/ai/` |
 | Представление | `scripts/demo/battle_demo.gd`, `battle_demo_iso_visual.gd`, `battle_action_bar.gd` | Ввод/UI; общий ENTITIES Y-sort реальных тайлов, стен и фигур |
 
+BattleDemo перенаправляет колесо над текущей целью в прокрутку диагностической
+панели прогноза; это только UI, без нового вызова preview/команды. Контракт ввода
+и очистки — [ATTACK_FORECAST](ATTACK_FORECAST.md#ui-и-приёмка).
+
 Отдельного готового `scripts/core/flow/BattleFlowStateMachine` нет: фактический
 владелец текущего flow — demo session. Из `core/initiative/` отдельный эксперимент
 использует SimpleInitiativeStrategy; InitiativeTimeline не управляет этим flow.

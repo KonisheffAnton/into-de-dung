@@ -77,23 +77,46 @@ func _run() -> void:
 	check(demo.battle_view._forecast_panel.text.contains("Физический · в обход брони"), "forecast explains separate piercing row")
 	await capture("d4-03-battle")
 	var live_before := ItemSimulationSnapshot.capture(s.state, []).snapshot.to_dict()
+	var rng_before: Dictionary = s.context.get_rng().to_dict()
+	var counters_before: Dictionary = s.context.simulation_counters()
+	var revision_before: int = s.context.get_revision()
+	var receipt_before: ActionReceipt = s.last_receipt
 	var panel := demo.battle_view._forecast_panel
+	var forecast := demo.battle_view._forecast
+	var target_id := demo.battle_view._forecast_target_id
+	var scroll_bar := panel.get_v_scroll_bar()
+	var target_point := point
+	await wheel_at(target_point, MOUSE_BUTTON_WHEEL_DOWN, 0.0)
+	var scrolled_value := scroll_bar.value
+	check(scrolled_value > 0.0 and demo.battle_view._forecast == forecast and demo.battle_view._forecast_target_id == target_id, "wheel over target scrolls details and retains forecast identity")
+	await wheel_at(target_point, MOUSE_BUTTON_WHEEL_UP, 0.0)
+	check(scroll_bar.value < scrolled_value and demo.battle_view._forecast == forecast and demo.battle_view._forecast_target_id == target_id, "wheel up over target restores details without hover motion")
+	await wheel_at(target_point, MOUSE_BUTTON_WHEEL_DOWN, 2.0)
+	var scroll_end := maxf(scroll_bar.min_value, scroll_bar.max_value - scroll_bar.page)
+	check(is_equal_approx(scroll_bar.value, minf(scrolled_value * 2.0, scroll_end)), "double wheel factor advances by two steps")
+	await wheel_at(target_point, MOUSE_BUTTON_WHEEL_DOWN, 1000.0)
+	check(is_equal_approx(scroll_bar.value, scroll_end), "target wheel clamps at bottom")
+	await capture("d4-03-target-wheel")
+	await wheel_at(target_point, MOUSE_BUTTON_WHEEL_UP, 1000.0)
+	check(scroll_bar.value == scroll_bar.min_value, "positive wheel factor clamps at top")
+	check(ItemSimulationSnapshot.capture(s.state, []).snapshot.to_dict() == live_before and s.context.get_rng().to_dict() == rng_before and s.context.simulation_counters() == counters_before and s.context.get_revision() == revision_before and s.last_receipt == receipt_before, "target wheel preserves snapshot/resources, RNG, counters, revision and receipt")
 	await motion(panel.global_position + Vector2(35, 40))
-	for _index: int in 5:
-		var wheel := InputEventMouseButton.new()
-		wheel.button_index = MOUSE_BUTTON_WHEEL_DOWN
-		wheel.position = panel.global_position + Vector2(35, 40)
-		wheel.global_position = wheel.position
-		wheel.pressed = true
-		viewport.push_input(wheel, true)
-		wheel.pressed = false
-		viewport.push_input(wheel, true)
-		await process_frame
-	check(panel.get_v_scroll_bar().value > 0 and demo.battle_view._forecast != null, "real scroll retains piercing forecast")
+	for _index: int in 5: await wheel_at(panel.global_position + Vector2(35, 40), MOUSE_BUTTON_WHEEL_DOWN, 1.0)
+	check(panel.get_v_scroll_bar().value > 0 and demo.battle_view._forecast == forecast, "wheel over forecast panel still scrolls normally")
 	check(ItemSimulationSnapshot.capture(s.state, []).snapshot.to_dict() == live_before, "forecast scroll preserves live")
 	await capture("d4-03-piercing-details")
+	var other_point := demo.battle_view.board_view.global_position + demo.battle_view.board_view.cell_center(actor.cell)
+	await motion(other_point)
+	check(demo.battle_view._forecast != forecast and scroll_bar.value == 0.0, "hovering another real cell rebuilds forecast from top")
+	await motion(target_point)
+	check(demo.battle_view._forecast != null and demo.battle_view._forecast_target_id == target_id and scroll_bar.value == 0.0, "returning to target builds its forecast from top")
+	demo.battle_view.set_attack_mode(false)
+	check(demo.battle_view._forecast == null and scroll_bar.value == 0.0, "changing mode clears forecast scroll")
+	demo.battle_view.set_attack_mode(true)
+	await motion(target_point)
+	check(demo.battle_view._forecast != null and scroll_bar.value == 0.0, "rebuilt forecast starts at top")
 	await click(point)
-	check(actor.action_resources.get_main_left() == 0, "real input spends one main")
+	check(actor.action_resources.get_main_left() == 0 and actor.action_resources.get_bonus_left() == 1, "click after scrolling executes exactly one attack for one main")
 	# Проверка маршрута UI использует команды смерти; полные партии — integration runner.
 	_finish(s, Faction.Type.ENEMY)
 	await process_frame; await process_frame
@@ -190,6 +213,15 @@ func click(position: Vector2) -> void:
 	viewport.push_input(event, true)
 	event.pressed = false; viewport.push_input(event, true)
 	await process_frame; await process_frame
+
+func wheel_at(position: Vector2, direction: int, factor: float) -> void:
+	var event := InputEventMouseButton.new()
+	event.button_index = direction
+	event.factor = factor
+	event.position = position; event.global_position = position; event.pressed = true
+	viewport.push_input(event, true)
+	event.pressed = false; viewport.push_input(event, true)
+	await process_frame
 
 func capture(label: String) -> void:
 	if captures.is_empty(): return
