@@ -69,6 +69,9 @@ def main():
             invalid = invalid or "0 failed" not in output
         if label == "ally_transit":
             invalid = invalid or "ALLY TRANSIT RESULTS:" not in output or ", 0 failed" not in output
+        if label in ("attack_modifiers", "critical_control", "control_ui"):
+            marker = {"attack_modifiers": "ATTACK MODIFIERS RESULTS:", "critical_control": "Critical control:", "control_ui": "CONTROL UI RESULTS:"}[label]
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("summon_definition", "summon_definition_ui"):
             invalid = invalid or "M1 RESULTS:" not in output or ", 0 failed" not in output
         if label.startswith("bleeding"):
@@ -94,6 +97,8 @@ def main():
         run("summon_definition", ["--script", "tests/test_summon_definition.gd"])
         run("attack_calculation", ["--script", "tests/test_attack_damage_calculation.gd"])
         run("attack_d1", ["--script", "tests/test_attack_damage_d1.gd"])
+        run("attack_modifiers", ["--script", "tests/test_attack_modifiers.gd"])
+        run("critical_control", ["--script", "tests/test_critical_control.gd"])
         run("armor_calculation", ["--script", "tests/test_armor_hit_calculation.gd"])
         run("armor_snapshot", ["--script", "tests/test_armor_snapshot.gd"])
         run("armor_integration", ["--script", "tests/test_armor_integration.gd"])
@@ -142,6 +147,10 @@ def main():
         if args.render_check:
             d5_args += ["--", "--captures=" + str(captures)]
         run("d5_ui", d5_args, headless=not args.render_check)
+        control_args = ["--script", "tests/test_control_battle.gd"]
+        if args.render_check:
+            control_args += ["--", "--captures=" + str(captures)]
+        run("control_ui", control_args, headless=not args.render_check)
     else:
         # This is the user-requested interactive window, so it is intentionally visible.
         with (out / "play.log").open("wb") as log:

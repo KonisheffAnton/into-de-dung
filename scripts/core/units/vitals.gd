@@ -149,9 +149,9 @@ func apply_hit_hp(after: float, checkpoint: Callable) -> SpatialMutation:
 	return receipt
 
 
-func add_spatial_impact(amount: float, checkpoint: Callable) -> SpatialMutation:
+func add_spatial_impact(amount: float, checkpoint: Callable, maximum_multiplier: int = 1) -> SpatialMutation:
 	var receipt := _spatial_receipt()
-	if not checkpoint.is_valid() or not is_finite(amount) or amount < 0.0 or not is_finite(_hp) or _hp < 0.0 or not is_finite(_balance) or _balance < 0.0 or _stats == null or _stats.get_script() != StatsBag:
+	if maximum_multiplier not in [1, 2] or not checkpoint.is_valid() or not is_finite(amount) or amount < 0.0 or not is_finite(_hp) or _hp < 0.0 or not is_finite(_balance) or _balance < 0.0 or _stats == null or _stats.get_script() != StatsBag:
 		receipt.reason = &"spatial/invalid_mutation"
 		return receipt
 	var stats_copy := StatsBag.from_snapshot_dict(_stats.to_snapshot_dict())
@@ -159,6 +159,8 @@ func add_spatial_impact(amount: float, checkpoint: Callable) -> SpatialMutation:
 		receipt.reason = &"spatial/invalid_mutation"
 		return receipt
 	receipt.balance_max = stats_copy.get_value(StatTypes.StatType.BALANCE_MAX)
+	# Подготовка команды передаёт множитель текущего состояния: сам stat остаётся прежним.
+	if maximum_multiplier == 2: receipt.balance_max *= 2.0
 	receipt.impact = amount
 	if not is_finite(receipt.balance_max):
 		receipt.reason = &"spatial/invalid_mutation"

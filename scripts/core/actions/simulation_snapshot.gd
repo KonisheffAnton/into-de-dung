@@ -29,6 +29,10 @@ static func capture_board(board: BattleBoard, unsupported_runtime_ids: Array[Str
 		if unit.vitals.get_script() != Vitals: return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, path + "/vitals/subclass", [StringName(path + "/vitals/subclass")])
 		if unit.action_resources != null and unit.action_resources.get_script() != ActionResources:
 			return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, path + "/action_resources/subclass", [StringName(path + "/action_resources/subclass")])
+		if unit.control != null:
+			if unit.control.get_script() != ControlState:
+				return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, path + "/control/subclass", [StringName(path + "/control/subclass")])
+			if not ControlState.valid(unit.control.to_dict()): return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, path + "/control")
 		if typeof(unit.stats._stats) != TYPE_DICTIONARY: return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, path + "/stats")
 		for stat_key in unit.stats._stats.keys():
 			if typeof(stat_key) != TYPE_INT or stat_key < 0 or stat_key > 10: return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, path + "/stats")
@@ -227,6 +231,10 @@ static func _find_unsupported(board_value: Dictionary) -> String:
 		if has_bleeding_shape:
 			unit_keys.append("bleeding")
 			if typeof(unit.get("bleeding")) != TYPE_DICTIONARY or not BleedingState.valid(unit["bleeding"]): continue
+		var has_control_shape: bool = typeof(unit_version) == TYPE_INT and (unit_version == 6 or unit.has("control"))
+		if has_control_shape:
+			unit_keys.append("control")
+			if not ControlState.valid(unit.get("control")): continue
 		if not _has_exact_string_keys(unit, unit_keys): continue
 		var unit_types_valid := true
 		for key in ["schema_version", "id", "faction", "cell_x", "cell_y", "height"]:
@@ -244,12 +252,13 @@ static func _find_unsupported(board_value: Dictionary) -> String:
 					resources = {}
 					break
 			if resources.is_empty(): continue
-		if typeof(unit_version) == TYPE_INT and unit_version not in [1, 2, 3, 4, 5]:
+		if typeof(unit_version) == TYPE_INT and unit_version not in [1, 2, 3, 4, 5, 6]:
 			return ("unit/%d" % unit["id"] if typeof(unit.get("id")) == TYPE_INT else "unit") + "/version"
 		var unit_path := "unit/%d" % unit["id"] if typeof(unit.get("id")) == TYPE_INT else "unit"
 		if typeof(unit.get("ai_profile_path")) == TYPE_STRING and not unit["ai_profile_path"].is_empty(): return unit_path + "/ai_profile"
 		if unit["schema_version"] == 5 and (not unit.has("action_resources") or not unit.has("guard_stance") or not unit.has("armor") or not unit.has("bleeding")): return unit_path + "/capability"
-		if unit["schema_version"] in [2, 3, 4, 5]:
+		if unit["schema_version"] == 6 and (not unit.has("action_resources") or not ControlState.valid(unit.get("control"))): return unit_path + "/control"
+		if unit["schema_version"] in [2, 3, 4, 5, 6]:
 			if typeof(resources.get("schema_version")) == TYPE_INT and resources["schema_version"] != 1: return unit_path + "/action_resources/version"
 		if typeof(unit.get("stats")) != TYPE_DICTIONARY: continue
 		var bag: Dictionary = unit["stats"]

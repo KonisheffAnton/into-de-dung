@@ -12,6 +12,7 @@ var enemy_range: bool = false
 var inspected: bool = false
 var forecast_entry: Dictionary = {}
 var armor_values: Dictionary = {}
+var show_rear: bool = false
 var transient_label: String = ""
 var transient_tint := Color("f7c97d")
 var fall_drop: float = 0.0:
@@ -101,6 +102,15 @@ func _draw_unit() -> void:
 		draw_line(marker - Vector2(4, -4), marker + Vector2(4, -4), Color("a5b3c5"), 2)
 		return
 	var tint := transient_tint if unit == null else (Color("65dfcc") if unit.faction == Faction.Type.PLAYER else Color("f7c97d"))
+	if show_rear and unit != null:
+		var rear := AttackModifiers.rear_offset(unit.faction)
+		if rear != Vector2i.ZERO:
+			# Направление берём из логики; проекция служит только отрисовке указателя.
+			var direction := (IsoGridUtils.grid_to_screen(rear, grid_config, 0) - IsoGridUtils.grid_to_screen(Vector2i.ZERO, grid_config, 0)).normalized()
+			var tip := foot + direction * 35.0 * factor
+			var side := Vector2(-direction.y, direction.x) * 4.0 * factor
+			draw_line(foot + direction * 18.0 * factor, tip, Color("f29b9b"), 2.0)
+			draw_polyline(PackedVector2Array([tip - direction * 7.0 * factor + side, tip, tip - direction * 7.0 * factor - side]), Color("f29b9b"), 2.0)
 	if selected:
 		var hw := grid_config.tile_size.x * 0.38
 		var hh := grid_config.tile_size.y * 0.38
@@ -123,6 +133,7 @@ func _draw_unit() -> void:
 	if unit != null:
 		var hp_max := unit.get_stat(StatTypes.StatType.HP_MAX)
 		var balance_max := unit.get_stat(StatTypes.StatType.BALANCE_MAX)
+		balance_max = ControlRules.balance_maximum(unit, balance_max)
 		var hp := clampf(unit.vitals.get_hp() / hp_max if hp_max > 0 else 0, 0, 1)
 		var forecast_after: Dictionary = forecast_entry.get("after", {}) as Dictionary
 		var expected_hp := float(forecast_after.get("hp", unit.vitals.get_hp()))

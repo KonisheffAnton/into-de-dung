@@ -8,14 +8,24 @@ static func valid_extras(extras: Array[Dictionary]) -> bool:
 		if extra["type"] not in ["physical", "fire"] or extra["policy"] not in ["standard", "hp_only_natural", "hp_only_unresisted"] or extra["source"].is_empty() or extra["source"].to_utf8_buffer().size() > 4096 or extra["denominator"] <= 0 or extra["factor_den"] <= 0 or extra["factor_num"] < 0: return false
 	return true
 
-static func components(strength: float, weapon: float, signed_steps: int, guarded: bool, extras: Array[Dictionary]) -> Array[Dictionary]:
+static func components(strength: float, weapon: float, signed_steps: int, guarded: bool, extras: Array[Dictionary], backstab_bonus_percent: int = 0, critical_multiplier: int = 1) -> Array[Dictionary]:
+	if backstab_bonus_percent < 0 or backstab_bonus_percent > 1000 or critical_multiplier not in [1, 2]: return []
 	if not valid_extras(extras): return []
 	var base := ArmorFraction.from_decimal(strength).add(ArmorFraction.from_decimal(weapon))
 	if not base.valid: return []
 	if base.numerator < 0: base = ArmorFraction.make(0)
 	var height := ArmorFraction.make(maxi(0, 10 + signed_steps), 10)
 	var multiplier := height.multiply(ArmorFraction.make(7, 10) if guarded else ArmorFraction.make(1))
-	var result := ArmorRuntime.physical(base.multiply(multiplier), "strength+weapon")
+	var physical := base.multiply(multiplier)
+	if backstab_bonus_percent > 0:
+		physical = base.multiply(height).add(base.multiply(ArmorFraction.make(backstab_bonus_percent, 100)))
+		physical = physical.multiply(ArmorFraction.make(7, 10) if guarded else ArmorFraction.make(1))
+	if not physical.valid: return []
+	if critical_multiplier == 2:
+		physical = physical.multiply(ArmorFraction.make(2))
+		if not physical.valid: return []
+	# Бонус входит только в физическую базу: предметные компоненты наследуют высоту и защиту, но не удар в спину.
+	var result := ArmorRuntime.physical(physical, "strength+weapon")
 	if result.is_empty(): return []
 	for extra: Dictionary in extras:
 		if not ItemSimulationSnapshot._shape(extra, {"type": TYPE_STRING, "policy": TYPE_STRING, "numerator": TYPE_INT, "denominator": TYPE_INT, "source": TYPE_STRING, "factor_num": TYPE_INT, "factor_den": TYPE_INT}): return []
@@ -23,6 +33,7 @@ static func components(strength: float, weapon: float, signed_steps: int, guarde
 		var factor := ArmorFraction.make(extra["factor_num"], extra["factor_den"])
 		if not factor.valid or factor.numerator < 0: return []
 		amount = amount.multiply(factor).multiply(multiplier)
+		if critical_multiplier == 2: amount = amount.multiply(ArmorFraction.make(2))
 		if not amount.valid: return []
 		result.append({"type": extra["type"], "policy": extra["policy"], "numerator": amount.numerator, "denominator": amount.denominator, "source": extra["source"]})
 	return result

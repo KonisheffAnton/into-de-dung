@@ -19,8 +19,11 @@ class Result extends RefCounted:
 			})
 		return copy
 
-static func calculate(strength: float, weapon: float, armor: float, spatial: bool, signed_height_steps: int, guarded: bool) -> Result:
+static func calculate(strength: float, weapon: float, armor: float, spatial: bool, signed_height_steps: int, guarded: bool, backstab_bonus_percent: int = 0, critical_multiplier: int = 1) -> Result:
 	var result := Result.new()
+	if backstab_bonus_percent < 0 or backstab_bonus_percent > 1000 or critical_multiplier not in [1, 2]:
+		result.reason = &"attack/invalid_backstab_bonus"
+		return result
 	if not is_finite(strength) or not is_finite(weapon) or not is_finite(armor):
 		result.reason = &"attack/nonfinite_damage"
 		return result
@@ -42,6 +45,28 @@ static func calculate(strength: float, weapon: float, armor: float, spatial: boo
 			result.reason = &"attack/nonfinite_damage"
 			return result
 		result._stages.append(_stage(&"height_multiply", raw_attack, multiplier, scaled))
+	# Нулевой бонус пропускает отдельные операции, сохраняя побитово прежние стадии и значения.
+	if backstab_bonus_percent > 0:
+		var bonus: float = raw_attack * float(backstab_bonus_percent) / 100.0
+		if not is_finite(bonus):
+			result._stages.clear()
+			result.reason = &"attack/nonfinite_damage"
+			return result
+		var with_backstab: float = scaled + bonus
+		if not is_finite(with_backstab):
+			result._stages.clear()
+			result.reason = &"attack/nonfinite_damage"
+			return result
+		result._stages.append(_stage(&"backstab_add", scaled, bonus, with_backstab))
+		scaled = with_backstab
+	if critical_multiplier == 2:
+		var critical_scaled := scaled * 2.0
+		if not is_finite(critical_scaled):
+			result._stages.clear()
+			result.reason = &"attack/nonfinite_damage"
+			return result
+		result._stages.append(_stage(&"critical_multiply", scaled, 2.0, critical_scaled))
+		scaled = critical_scaled
 	result.scaled = scaled
 
 	var raw := scaled - armor

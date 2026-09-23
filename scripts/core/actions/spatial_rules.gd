@@ -118,6 +118,8 @@ class Guard extends RefCounted:
 			if unit.guard_stance != v["guard_stance"]: return false
 			if unit.bleeding != r["bleeding"]: return false
 			if unit.bleeding != null and unit.bleeding.to_dict() != v["bleeding"]: return false
+			if unit.control != r["control"]: return false
+			if unit.control != null and (unit.control.get_script() != ControlState or unit.control.to_dict() != v["control"]): return false
 			if resources != null and (resources.get_owner_unit_id() != id or resources.get_main_left() != v["main"] or resources.get_bonus_left() != v["bonus"]): return false
 			var occupied: Array[Vector2i] = []
 			for cell: Vector2i in board._occupancy:
@@ -193,6 +195,12 @@ class Guard extends RefCounted:
 		result.seal()
 		return result
 
+	func control_phase(id: int, after: Dictionary) -> Guard:
+		var result := copy()
+		result.values["participants"][id]["control"] = after.duplicate(true)
+		result.seal()
+		return result
+
 	func hit_hp_phase(id: int, after: float, death_written: bool) -> Guard:
 		var result := hp_phase(id, 0.0, death_written)
 		result.values["participants"][id]["hp"] = after
@@ -259,6 +267,9 @@ static func capture_guard(context: ActionContext, units: Array[UnitState], cells
 		guard.refs["participants"][unit.id]["bleeding"] = unit.bleeding
 		guard.values["participants"][unit.id]["bleeding"] = unit.bleeding.to_dict() if unit.bleeding != null else {}
 		if unit.bleeding != null and (unit.bleeding.get_script() != BleedingState or not BleedingState.valid(unit.bleeding.to_dict())): return null
+		guard.refs["participants"][unit.id]["control"] = unit.control
+		guard.values["participants"][unit.id]["control"] = unit.control.to_dict() if unit.control != null else {}
+		if unit.control != null and (unit.control.get_script() != ControlState or not ControlState.valid(unit.control.to_dict())): return null
 		if unit.armor != null:
 			var armor_view := ArmorRuntime.capture(owner)
 			if armor_view.is_empty() or ArmorRuntime.totals(armor_view).is_empty() or context.get_rng() == null: return null

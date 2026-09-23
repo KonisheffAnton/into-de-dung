@@ -44,7 +44,9 @@ func _execute_spatial(context: ActionContext) -> CommandStepResult:
 	var done := _binding.spatial_guard.balance_phase(target_id, _binding.values["balance_after"])
 	var checkpoint := func(_stage: StringName) -> StringName:
 		return &"" if _binding.sealed() and done.check(context) else &"balance/invalid_binding"
-	var receipt := _binding.target_vitals.add_spatial_impact(_binding.values["impact"], checkpoint)
+	var control: Dictionary = _binding.spatial_guard.values["participants"][target_id]["control"]
+	var maximum_multiplier: int = 2 if control.get("entangled_turns", 0) > 0 else 1
+	var receipt := _binding.target_vitals.add_spatial_impact(_binding.values["impact"], checkpoint, maximum_multiplier)
 	var result := CommandStepResult.new()
 	result.status = &"APPLIED" if receipt.reason == &"" and _binding.sealed() and done.check(context) else &"FAULTED"
 	result.reason = &"" if result.status == &"APPLIED" else &"balance/invalid_binding"

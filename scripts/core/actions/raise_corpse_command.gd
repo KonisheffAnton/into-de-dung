@@ -24,6 +24,8 @@ func validate(context: ActionContext) -> StringName:
 	var board := state.get_board()
 	var actor := board.get_unit_by_id(_actor_id)
 	if actor == null or not actor.is_alive(): return &"environment/no_actor"
+	var control_reason := ControlRules.action_reason(actor)
+	if control_reason != &"": return control_reason
 	if not SummonDefinition.new().name_valid(actor.debug_name): return &"environment/invalid_helper_name"
 	if ItemSimulationSnapshot.capture(state, context.get_unsupported_runtime_ids()).code != ItemSnapshotResult.Code.OK: return &"environment/invalid_state"
 	if state.summon_owner_id(actor.id) != 0: return &"summon/helper_cannot_summon"

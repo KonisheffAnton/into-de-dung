@@ -219,10 +219,12 @@ static func _board_structure(envelope: Dictionary) -> String:
 		if typeof(unit) == TYPE_DICTIONARY and (unit.get("schema_version") == 3 or unit.has("guard_stance")): unit_fields["guard_stance"] = TYPE_BOOL
 		if typeof(unit) == TYPE_DICTIONARY and (unit.get("schema_version") == 4 or unit.has("armor")): unit_fields["armor"] = TYPE_DICTIONARY
 		if typeof(unit) == TYPE_DICTIONARY and (unit.get("schema_version") == 5 or unit.has("bleeding")): unit_fields["bleeding"] = TYPE_DICTIONARY
+		if typeof(unit) == TYPE_DICTIONARY and (unit.get("schema_version") == 6 or unit.has("control")): unit_fields["control"] = TYPE_DICTIONARY
 		if not _shape(unit, unit_fields): return "board/unit/schema"
 		if unit.get("schema_version") == 5:
 			if not unit.has("action_resources") or not unit.has("guard_stance") or not unit.has("armor") or not unit.has("bleeding"): return "board/unit/capability"
 			if not BleedingState.valid(unit["bleeding"]): return "board/unit/bleeding"
+		if unit.get("schema_version") == 6 and (not unit.has("action_resources") or not ControlState.valid(unit["control"])): return "board/unit/control"
 		if not _shape(unit["stats"], {"schema_version": TYPE_INT, "stats": TYPE_ARRAY}): return "board/unit/stats/schema"
 		if not _shape(unit["vitals"], {"hp": TYPE_FLOAT, "balance": TYPE_FLOAT, "is_alive": TYPE_BOOL}): return "board/unit/vitals/schema"
 		for entry: Variant in unit["stats"]["stats"]:
@@ -438,6 +440,9 @@ static func _live_board_shape_error(board: BattleBoard) -> String:
 		if unit.stats.get_script() != StatsBag: return "UNSUPPORTED:board/unit/stats/subclass"
 		if unit.vitals.get_script() != Vitals: return "UNSUPPORTED:board/unit/vitals/subclass"
 		if unit.action_resources != null and unit.action_resources.get_script() != ActionResources: return "UNSUPPORTED:board/unit/action_resources/subclass"
+		if unit.control != null:
+			if unit.control.get_script() != ControlState: return "UNSUPPORTED:board/unit/control/subclass"
+			if not ControlState.valid(unit.control.to_dict()): return "board/unit/control"
 		if unit.debug_name.to_utf8_buffer().size() > MAX_STRING_BYTES: return "board/unit/name/string_bytes"
 		if not is_finite(unit.move_points_left) or not is_finite(unit.vitals._hp) or not is_finite(unit.vitals._balance): return "board/unit/finite"
 		for stat_key: Variant in unit.stats._stats:
@@ -665,7 +670,7 @@ static func _validate(data: Dictionary) -> String:
 		if data["schema_version"] < 4 and unit.has("armor"): return "armor/envelope_version"
 		unit_map[unit["id"]] = unit
 	for unit: Dictionary in units:
-		if unit.get("schema_version", 1) != 5 or unit.get("bleeding", {}).get("ticks_left", 0) <= 0:
+		if unit.get("schema_version", 1) not in [5, 6] or unit.get("bleeding", {}).get("ticks_left", 0) <= 0:
 			continue
 		var bleeding: Dictionary = unit["bleeding"]
 		var source: Dictionary = bleeding["source"]

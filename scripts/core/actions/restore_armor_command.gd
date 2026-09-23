@@ -19,6 +19,8 @@ func _prepare(context: ActionContext) -> Dictionary:
 	if context.get_revision() != _expected_revision: return {"reason": &"armor/stale_revision"}
 	var unit := context.get_state().get_board().get_unit_by_id(_target_id)
 	if unit == null or not unit.is_alive() or unit.armor == null or unit.action_resources == null: return {"reason": &"armor/capability_required"}
+	var control_reason := ControlRules.action_reason(unit)
+	if control_reason != &"": return {"reason": control_reason}
 	var rules := context.get_move_rules()
 	if rules == null or rules.validate() != &"" or not rules.allows(unit.id): return {"reason": &"armor/not_admitted"}
 	# Цена этой способности фиксирована: частичное восстановление не даёт скидку.

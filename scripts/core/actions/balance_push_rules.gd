@@ -57,8 +57,9 @@ class Binding extends RefCounted:
 static func _empty() -> Dictionary:
 	return {"reason": &"", "binding": null}
 
-static func prepare_attack(context: ActionContext, actor: UnitState, target: UnitState, raw_attack: float, hit_amount: float, main_after: int, spatial: bool = false, armor_request: DamageRequest = null) -> Dictionary:
-	if spatial: return _prepare_spatial_attack(context, actor, target, raw_attack, hit_amount, main_after, armor_request)
+static func prepare_attack(context: ActionContext, actor: UnitState, target: UnitState, raw_attack: float, hit_amount: float, main_after: int, spatial: bool = false, armor_request: DamageRequest = null, impact_multiplier: int = 1) -> Dictionary:
+	if impact_multiplier not in [1, 2]: return {"reason": &"balance/invalid_multiplier", "binding": null}
+	if spatial: return _prepare_spatial_attack(context, actor, target, raw_attack, hit_amount, main_after, armor_request, impact_multiplier)
 	var out := _empty()
 	if context == null or context.get_state() == null or context.get_state().get_board() == null or actor == null or target == null or actor.get_script() != UnitState or target.get_script() != UnitState:
 		out["reason"] = &"balance/invalid_binding"; return out
@@ -71,7 +72,7 @@ static func prepare_attack(context: ActionContext, actor: UnitState, target: Uni
 	if actor_copy == null or target_copy == null or not actor_copy.has_stat(StatTypes.StatType.IMPACT_POWER) or not target_copy.has_stat(StatTypes.StatType.BALANCE_MAX):
 		out["reason"] = &"balance/missing_stat"; return out
 	var impact := actor_copy.get_value(StatTypes.StatType.IMPACT_POWER)
-	var maximum := target_copy.get_value(StatTypes.StatType.BALANCE_MAX)
+	var maximum := ControlRules.balance_maximum(target, target_copy.get_value(StatTypes.StatType.BALANCE_MAX))
 	var before := target.vitals.get_balance()
 	var hp_before := target.vitals.get_hp()
 	if not is_finite(impact) or impact < 0.0 or not is_finite(maximum) or not is_finite(before) or before < 0.0 or not is_finite(hp_before) or hp_before < 0.0:
@@ -79,6 +80,7 @@ static func prepare_attack(context: ActionContext, actor: UnitState, target: Uni
 	# Иммунитет и нулевой impact не вычисляют сумму: импортированный over-max
 	# balance остаётся наблюдаемым и не отклоняет постороннюю атаку.
 	var sum := before
+	if impact_multiplier == 2: impact *= 2.0
 	if target.guard_stance: impact *= 0.5
 	if impact > 0.0 and maximum > 0.0:
 		sum = before + impact
@@ -259,7 +261,7 @@ static func binding_reason(binding: Binding, context: ActionContext, phase: Stri
 	if not is_finite(float(binding.values.get("raw_attack", NAN))) or not is_finite(float(binding.values.get("impact", NAN))) or float(binding.values.get("impact", -1.0)) < 0.0 or not is_finite(float(binding.values.get("hit_amount", NAN))) or float(binding.values.get("hit_amount", 0.0)) < 1.0 or binding.values.get("phase", &"") != phase:
 		return &"push/invalid_binding"
 	# Даже отказ admission не должен прогревать или исправлять живой stat cache.
-	var maximum := _stat(target, StatTypes.StatType.BALANCE_MAX)
+	var maximum := ControlRules.balance_maximum(target, _stat(target, StatTypes.StatType.BALANCE_MAX))
 	if phase == &"balance" and (target.vitals.get_balance() != float(binding.values.get("balance_before", NAN)) or maximum != float(binding.values.get("balance_max", NAN))):
 		return &"push/invalid_binding"
 	if (phase == &"push" or phase == &"after_collision" or phase == &"push_damage") and (target.vitals.get_balance() != float(binding.values.get("balance_after", NAN)) or maximum != float(binding.values.get("balance_max", NAN))):
@@ -344,7 +346,7 @@ static func spatial_hp(binding: Binding, request: DamageRequest, context: Action
 		return {"result": result, "binding": binding}
 	return {"result": result, "binding": spatial_phase(binding, done, binding.values["phase"])}
 
-static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, target: UnitState, raw_attack: float, hit_amount: float, main_after: int, armor_request: DamageRequest = null) -> Dictionary:
+static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, target: UnitState, raw_attack: float, hit_amount: float, main_after: int, armor_request: DamageRequest = null, impact_multiplier: int = 1) -> Dictionary:
 	var out := _empty()
 	if context == null or context.get_state() == null or context.get_state().get_board() == null or actor == null or target == null or actor.vitals == null or target.vitals == null or actor.stats == null or target.stats == null:
 		out["reason"] = &"balance/invalid_binding"; return out
@@ -355,7 +357,7 @@ static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, ta
 	if not board.is_in_bounds(actor.cell) or not board.is_in_bounds(target.cell) or actor.cell == target.cell or (actor.cell.x != target.cell.x and actor.cell.y != target.cell.y):
 		out["reason"] = &"balance/invalid_binding"; return out
 	var impact := _stat(actor, StatTypes.StatType.IMPACT_POWER)
-	var maximum := _stat(target, StatTypes.StatType.BALANCE_MAX)
+	var maximum := ControlRules.balance_maximum(target, _stat(target, StatTypes.StatType.BALANCE_MAX))
 	var before := target.vitals.get_balance()
 	var multiplier := SpatialRules.height_multiplier(board.get_height_steps(actor.cell) - board.get_height_steps(target.cell))
 	if not is_finite(impact) or impact < 0.0 or not is_finite(maximum) or not is_finite(before) or before < 0.0:
@@ -364,6 +366,7 @@ static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, ta
 		impact *= multiplier
 		if not is_finite(impact): out["reason"] = &"balance/invalid_stat"; return out
 		impact = maxf(1.0, impact)
+		if impact_multiplier == 2: impact *= 2.0
 	if target.guard_stance: impact *= 0.5
 	var total := before + impact if impact > 0.0 and maximum > 0.0 else before
 	if not is_finite(total): out["reason"] = &"balance/nonfinite_sum"; return out

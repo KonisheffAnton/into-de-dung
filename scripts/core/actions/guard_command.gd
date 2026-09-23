@@ -20,6 +20,8 @@ func validate(context: ActionContext) -> StringName:
 	var board := context.get_state().get_board()
 	var actor := board.get_unit_by_id(_actor_id)
 	if actor == null or not actor.is_alive(): return &"guard/no_selected_unit"
+	var control_reason := ControlRules.action_reason(actor)
+	if control_reason != &"": return control_reason
 	if actor.get_script() != UnitState or actor.to_snapshot_dict().is_empty() or board.occupant_at(actor.cell) != actor: return &"guard/invalid_runtime"
 	var owner := context.get_state().get_owner(_actor_id)
 	if owner == null or owner.is_closed() or owner.get_owner() != actor: return &"guard/invalid_runtime"

@@ -111,6 +111,9 @@ func _validate_structure() -> void:
 			return
 
 static func _valid_components(definition: AttackDefinition) -> bool:
+	if definition.critical_on_control and definition.profile not in [SPATIAL_PROFILE, ARMOR_PROFILE]: return false
+	if definition.backstab_bonus_percent < 0 or definition.backstab_bonus_percent > 1000: return false
+	if definition.backstab_bonus_percent != 0 and definition.profile not in [SPATIAL_PROFILE, ARMOR_PROFILE]: return false
 	if definition.bleeding_policy not in [&"", &"physical_hp", &"bypass_hp_gate"]: return false
 	if definition.bleeding_policy != &"" and definition.profile != ARMOR_PROFILE: return false
 	return ArmorAttack.valid_extras(definition.damage_components) if definition.profile == ARMOR_PROFILE else definition.damage_components.is_empty()
@@ -120,6 +123,8 @@ static func _copy_definition(source: AttackDefinition) -> AttackDefinition:
 	copy.id = source.id
 	copy.profile = source.profile
 	copy.bleeding_policy = source.bleeding_policy
+	copy.backstab_bonus_percent = source.backstab_bonus_percent
+	copy.critical_on_control = source.critical_on_control
 	copy.damage_components.assign(source.damage_components.duplicate(true))
 	return copy
 

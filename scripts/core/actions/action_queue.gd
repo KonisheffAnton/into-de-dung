@@ -60,6 +60,8 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 				reason = &"armor/internal_expiry"
 			elif accepted is BleedingApplyCommand or accepted is BleedingTickCommand:
 				reason = &"bleeding/internal_command"
+			elif accepted is ControlExpireCommand:
+				reason = &"control/internal_command"
 			elif accepted is EnvironmentCommand:
 				reason = &"environment/internal_command"
 			elif accepted is DeathCommand and ((accepted as DeathCommand)._has_spatial_binding or (accepted as DeathCommand)._spatial_binding != null):
@@ -261,6 +263,14 @@ static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bo
 	if draft.get("kind") == &"corpse_created": return EnvironmentRules.valid_draft(draft)
 	if draft.get("kind") == &"corpse_raised": return RaiseCorpseCommand.valid_draft(draft)
 	if draft.get("kind") == &"bleeding_changed": return _valid_bleeding_draft(draft)
+	if draft.get("kind") == &"control_changed": return _valid_control_draft(draft)
+	if draft.get("kind") == &"attacked" and draft.has("modifiers"):
+		if not ItemSimulationSnapshot._shape(draft["modifiers"], {"backstab_percent": TYPE_INT, "critical": TYPE_BOOL}): return false
+		var clean := draft.duplicate(true)
+		clean.erase("modifiers")
+		if not _valid_draft(clean, context): return false
+		var definition := context.get_attack_rules().get_definition(draft["attack_definition_id"])
+		return definition != null and (definition.backstab_bonus_percent > 0 or definition.critical_on_control) and draft["modifiers"]["backstab_percent"] in [0, definition.backstab_bonus_percent] and (definition.critical_on_control or not draft["modifiers"]["critical"])
 	if draft.has("transit_path"):
 		return _valid_transit_draft(draft, context)
 	if draft.get("kind") in [&"armor_changed", &"hit_resolved"]:
@@ -342,6 +352,7 @@ static func _valid_transit_draft(draft: Dictionary, context: ActionContext) -> b
 	return _valid_draft(adjacent, context) and float(draft["move_cost"]) >= float(path_value.size() - 1)
 
 static func _event_capacity(command: Command) -> int:
+	if command is PushCommand and (command as PushCommand)._binding != null and (command as PushCommand)._binding.target != null and (command as PushCommand)._binding.target.control != null: return 4
 	if command is EnvironmentCommand: return 4
 	if command is BleedingTickCommand: return 5
 	if command is CollisionDamageCommand and (command as CollisionDamageCommand)._binding != null and (command as CollisionDamageCommand)._binding.values.get("armor", false): return 8
@@ -358,6 +369,15 @@ static func _valid_bleeding_draft(draft: Dictionary) -> bool:
 		if before["ticks_left"] < 1 or after["ticks_left"] != before["ticks_left"] - 1 or before["source"]["instigator_unit_id"] != draft["actor_unit_id"]: return false
 		return after["ticks_left"] == 0 or (after["source"] == before["source"] and after["hit_id"] == before["hit_id"])
 	return not after["immune"] and after["ticks_left"] == BleedingState.DURATION and after["source"]["instigator_unit_id"] == draft["actor_unit_id"] and ((draft["reason"] == &"applied" and before["ticks_left"] == 0) or (draft["reason"] == &"refreshed" and before["ticks_left"] > 0))
+
+static func _valid_control_draft(draft: Dictionary) -> bool:
+	if not ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "target_unit_id": TYPE_INT, "before": TYPE_DICTIONARY, "after": TYPE_DICTIONARY, "reason": TYPE_STRING_NAME}): return false
+	if draft["target_unit_id"] <= 0 or draft["target_unit_id"] >= MAX_ID or not ControlState.valid(draft["before"]) or not ControlState.valid(draft["after"]): return false
+	var before: Dictionary = draft["before"]
+	var after: Dictionary = draft["after"]
+	if draft["reason"] == &"push": return before["entangled_turns"] == 1 and after["entangled_turns"] == 0 and before["stunned_turns"] == after["stunned_turns"]
+	if draft["reason"] == &"turn_end": return before != after and after["stunned_turns"] == 0 and after["entangled_turns"] == 0
+	return false
 
 static func _valid_armor_draft(draft: Dictionary) -> bool:
 	var fields := {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "source": TYPE_DICTIONARY}

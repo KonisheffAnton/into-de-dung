@@ -44,6 +44,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var target: UnitState = prepared["target"]
 	# Готовим весь child до единственной мутации: между оплатой и Hit новых данных уже нет.
 	var event := {"kind": &"attacked", "actor_unit_id": actor.id, "target_unit_id": target.id, "attack_definition_id": _attack_definition_id, "actor_cell": actor.cell, "target_cell": target.cell, "main_cost": 1, "main_before": main_before, "main_after": main_after}
+	if prepared.has("modifiers"): event["modifiers"] = prepared["modifiers"]
 	var hit := AttackHitCommand.new(prepared["request"] as DamageRequest, actor, target, resources, actor.cell, target.cell, main_after, prepared.get("p07_binding") as BalancePushRules.Binding)
 	hit.bind_bleeding(prepared.get("bleeding_policy", &""), _attack_definition_id)
 	if not resources.try_spend_main(1):
@@ -87,6 +88,8 @@ func _prepare(context: ActionContext) -> Dictionary:
 		result["reason"] = &"attack/invalid_runtime"; return result
 	if not actor.is_alive():
 		result["reason"] = &"attack/dead_actor"; return result
+	var control_reason := ControlRules.action_reason(actor)
+	if control_reason != &"": result["reason"] = control_reason; return result
 	var target := board.get_unit_by_id(_target_unit_id)
 	if target == null:
 		result["reason"] = &"attack/missing_target"; return result
@@ -94,6 +97,10 @@ func _prepare(context: ActionContext) -> Dictionary:
 		result["reason"] = &"attack/invalid_runtime"; return result
 	if not target.is_alive():
 		result["reason"] = &"attack/dead_target"; return result
+	if not spatial and (actor.control != null or target.control != null):
+		result["reason"] = &"control/spatial_required"; return result
+	if target.control != null and (target.control.get_script() != ControlState or not ControlState.valid(target.control.to_dict())):
+		result["reason"] = &"control/invalid_state"; return result
 	if armor_profile and (actor.armor == null or target.armor == null):
 		result["reason"] = &"armor/capability_required"; return result
 	if definition.bleeding_policy != &"" and (target.bleeding == null or not BleedingState.valid(target.bleeding.to_dict())):
@@ -142,13 +149,18 @@ func _prepare(context: ActionContext) -> Dictionary:
 	if not is_finite(strength) or not is_finite(armor):
 		result["reason"] = &"attack/nonfinite_damage"; return result
 	var signed_height_steps := board.get_height_steps(actor.cell) - board.get_height_steps(target.cell) if spatial else 0
+	var backstab_percent: int = definition.backstab_bonus_percent if AttackModifiers.is_backstab(actor.cell, target.cell, target.faction) else 0
+	var critical: bool = definition.critical_on_control and ControlRules.critical_target(target)
+	var critical_multiplier: int = 2 if critical else 1
+	if definition.backstab_bonus_percent > 0 or definition.critical_on_control:
+		result["modifiers"] = {"backstab_percent": backstab_percent, "critical": critical}
 	if armor_profile:
-		var raw := ArmorAttack.components(strength, weapon, signed_height_steps, target.guard_stance, definition.damage_components)
+		var raw := ArmorAttack.components(strength, weapon, signed_height_steps, target.guard_stance, definition.damage_components, backstab_percent, critical_multiplier)
 		var request := ArmorAttack.request(target.id, raw, DamageSource.new(&"attack", 0, actor.cell, actor.id, actor.id))
 		var plan := ArmorHitExecutor.prepare(request, ArmorRuntime.capture(state.get_owner(target.id)), target.vitals.get_hp(), target_copy.get_value(StatTypes.StatType.HP_MAX), context.get_rng())
 		if plan.get("reason", &"") != &"": result["reason"] = plan["reason"]; return result
 		request.amount = float(plan["hp_before"] - plan["hp_after"])
-		var binding_result := BalancePushRules.prepare_attack(context, actor, target, strength + weapon, request.amount, resources.get_main_left() - 1, true, request)
+		var binding_result := BalancePushRules.prepare_attack(context, actor, target, strength + weapon, request.amount, resources.get_main_left() - 1, true, request, critical_multiplier)
 		if binding_result.get("reason", &"") != &"": return binding_result
 		var binding: BalancePushRules.Binding = binding_result["binding"]
 		var touches: int = int(binding.values.get("admission_board_touches", 0)) + (1 if plan["hp_after"] == 0 else 0)
@@ -156,7 +168,7 @@ func _prepare(context: ActionContext) -> Dictionary:
 			result["reason"] = &"push/board_version_exhausted"; return result
 		result.merge({"actor": actor, "target": target, "resources": resources, "request": request, "p07_binding": binding, "bleeding_policy": definition.bleeding_policy})
 		return result
-	var calculation := AttackDamageCalculation.calculate(strength, weapon, armor, spatial, signed_height_steps, target.guard_stance)
+	var calculation := AttackDamageCalculation.calculate(strength, weapon, armor, spatial, signed_height_steps, target.guard_stance, backstab_percent, critical_multiplier)
 	if calculation.reason != &"":
 		result["reason"] = calculation.reason; return result
 	var amount := calculation.hit_amount
@@ -172,7 +184,7 @@ func _prepare(context: ActionContext) -> Dictionary:
 		var max_balance := target_copy.get_value(StatTypes.StatType.BALANCE_MAX)
 		if not actor_copy.has_stat(StatTypes.StatType.IMPACT_POWER) or not target_copy.has_stat(StatTypes.StatType.BALANCE_MAX):
 			result["reason"] = &"balance/missing_stat"; return result
-		var p07 := BalancePushRules.prepare_attack(context, actor, target, calculation.raw_attack, amount, resources.get_main_left() - 1, spatial)
+		var p07 := BalancePushRules.prepare_attack(context, actor, target, calculation.raw_attack, amount, resources.get_main_left() - 1, spatial, null, critical_multiplier)
 		if p07.get("reason", &"") != &"": return p07
 		var binding_for_touches := p07.get("binding") as BalancePushRules.Binding
 		var touches: int = int(binding_for_touches.values.get("admission_board_touches", 0)) if binding_for_touches != null else 0

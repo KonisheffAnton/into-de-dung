@@ -76,6 +76,7 @@ var action_resources: ActionResources = null
 var guard_stance: bool = false
 var armor: ArmorState = null
 var bleeding: BleedingState = null
+var control: ControlState = null
 
 
 ## Фабрика: выдаёт новый id, создаёт Vitals на полном HP и заполняет очки хода.
@@ -216,7 +217,7 @@ func can_attack() -> bool:
 # --- Сериализация (R-4) ----------------------------------------------------
 
 func to_dict() -> Dictionary:
-	if action_resources != null or guard_stance or armor != null or bleeding != null:
+	if action_resources != null or guard_stance or armor != null or bleeding != null or control != null:
 		return {}
 	return {
 		"id": id,
@@ -234,7 +235,7 @@ func to_dict() -> Dictionary:
 
 
 static func from_dict(data: Dictionary) -> UnitState:
-	if data.has("armor") or data.has("bleeding"):
+	if data.has("armor") or data.has("bleeding") or data.has("control"):
 		return null
 	var unit := UnitState.new()
 
@@ -278,6 +279,8 @@ func to_snapshot_dict() -> Dictionary:
 		return {}
 	if bleeding != null and bleeding.get_script() != BleedingState:
 		return {}
+	if control != null and (control.get_script() != ControlState or action_resources == null or not ControlState.valid(control.to_dict())):
+		return {}
 	if vitals._stats != stats or id < UnitId.FIRST or int(faction) < 0 or int(faction) > 2 or not is_finite(move_points_left) or move_points_left < 0.0:
 		return {}
 	var bag := stats.to_snapshot_dict()
@@ -310,6 +313,10 @@ func to_snapshot_dict() -> Dictionary:
 			result["schema_version"] = 5
 			result["bleeding"] = bleeding.to_dict()
 		if not validate_snapshot_dict(result): return {}
+	if control != null:
+		result["schema_version"] = 6
+		result["control"] = control.to_dict()
+		if not validate_snapshot_dict(result): return {}
 	return result
 
 
@@ -325,22 +332,31 @@ static func from_snapshot_dict(data: Dictionary) -> UnitState:
 	unit.has_attacked = data["has_attacked"]
 	unit.stats = StatsBag.from_snapshot_dict(data["stats"])
 	unit.vitals = Vitals.from_dict(data["vitals"], unit.stats)
-	if data["schema_version"] in [2, 3, 4, 5]:
+	if data["schema_version"] in [2, 3, 4, 5, 6]:
 		unit.action_resources = ActionResources.from_snapshot_dict(data["action_resources"], unit.id)
 		if unit.action_resources == null: return null
 	unit.guard_stance = data.get("guard_stance", false)
-	if data["schema_version"] in [4, 5]:
+	if data["schema_version"] in [4, 5] or (data["schema_version"] == 6 and data.has("armor")):
 		unit.armor = ArmorState.from_dict(data["armor"])
 		if unit.armor == null: return null
-	if data["schema_version"] == 5:
+	if data["schema_version"] == 5 or (data["schema_version"] == 6 and data.has("bleeding")):
 		unit.bleeding = BleedingState.from_dict(data["bleeding"])
 		if unit.bleeding == null: return null
+	if data["schema_version"] == 6:
+		unit.control = ControlState.from_dict(data["control"])
+		if unit.control == null: return null
 	return unit
 
 
 static func validate_snapshot_dict(data: Variant) -> bool:
 	if typeof(data) != TYPE_DICTIONARY: return false
 	var d: Dictionary = data
+	if typeof(d.get("schema_version")) == TYPE_INT and d["schema_version"] == 6:
+		if not d.has("control") or not ControlState.valid(d["control"]): return false
+		var prior := d.duplicate(true)
+		prior.erase("control")
+		prior["schema_version"] = 5 if prior.has("bleeding") else (4 if prior.has("armor") else (3 if prior.has("guard_stance") else 2))
+		return validate_snapshot_dict(prior)
 	var base_required := ["schema_version", "id", "faction", "cell_x", "cell_y", "height", "debug_name", "ai_profile_path", "move_points_left", "has_attacked", "stats", "vitals"]
 	if typeof(data.get("schema_version")) != TYPE_INT or data["schema_version"] not in [1, 2, 3, 4, 5]: return false
 	var required := base_required if data["schema_version"] == 1 else base_required + ["action_resources"]

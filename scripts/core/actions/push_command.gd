@@ -106,6 +106,19 @@ func _execute_spatial(context: ActionContext) -> CommandStepResult:
 			var fault := CommandStepResult.faulted(&"push/invalid_binding")
 			fault.events = events; fault.state_changed = true
 			return fault
+		# Путы исчезают только после подтверждённого board.move_unit. Guard переносит
+		# известную дельту, сохраняя проверку ссылки и прочих полей после callback.
+		if binding.target.control != null and binding.target.control.entangled_turns > 0:
+			var before_control := binding.target.control.to_dict()
+			var after_control := before_control.duplicate(true)
+			after_control["entangled_turns"] = 0
+			binding.target.control.entangled_turns = 0
+			moved = moved.control_phase(target_id, after_control)
+			if not moved.check(context):
+				var fault := CommandStepResult.faulted(&"push/invalid_binding")
+				fault.events = events; fault.state_changed = true
+				return fault
+			events.append({"kind": &"control_changed", "target_unit_id": target_id, "before": before_control, "after": after_control, "reason": &"push"})
 		changed = true
 		binding = BalancePushRules.spatial_phase(binding, moved, &"push_damage")
 	if outcome == PushResult.Outcome.FELL:

@@ -80,6 +80,8 @@ func validate(context: ActionContext) -> StringName:
 		return &"move/missing_actor"
 	if not actor.is_alive():
 		return &"move/dead_actor"
+	var control_reason := ControlRules.action_reason(actor, true)
+	if control_reason != &"": return control_reason
 	if actor.armor != null and rules.get_profile() != &"spatial_move_v1": return &"armor/legacy_unsupported"
 	if actor.stats == null or actor.vitals == null:
 		return &"move/invalid_runtime"

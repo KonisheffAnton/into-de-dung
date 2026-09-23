@@ -5,6 +5,7 @@ class_name BattleDemo
 @export var armor_mode: bool = false
 @export var bleeding_mode: bool = false
 @export var environment_mode: bool = false
+@export var control_mode: bool = false
 var session: BattleDemoSession
 var board_view: BattleDemoBoard
 var attack_mode: bool = false
@@ -46,7 +47,10 @@ func _ready() -> void:
 	_refresh()
 
 func _create_session() -> void:
-	session = BattleEnvironmentSession.new() if environment_mode else (BattleBleedingSession.new() if bleeding_mode else (BattleArmorSession.new() if armor_mode else (BattleTacticalSession.new() if tactical_mode else BattleDemoSession.new())))
+	if control_mode:
+		session = BattleControlSession.new()
+	else:
+		session = BattleEnvironmentSession.new() if environment_mode else (BattleBleedingSession.new() if bleeding_mode else (BattleArmorSession.new() if armor_mode else (BattleTacticalSession.new() if tactical_mode else BattleDemoSession.new())))
 	_battle = session as BattleTacticalSession
 	_ai_delay = 0.0
 	_flow_cursor = 0
@@ -107,6 +111,11 @@ func _build_ui() -> void:
 	var environment_button := _button("Среда / трупы")
 	environment_button.pressed.connect(_open_environment_scenario)
 	title.add_child(environment_button)
+	var control_button := _button("Крит / спина")
+	# Enter остаётся концом хода после выбора сценария мышью.
+	control_button.focus_mode = Control.FOCUS_NONE
+	control_button.pressed.connect(_open_control_scenario)
+	title.add_child(control_button)
 	var expedition_button := _button("Забег")
 	expedition_button.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://scenes/demo/expedition_d4.tscn"))
 	title.add_child(expedition_button)
@@ -327,6 +336,7 @@ func reset_demo() -> void:
 	_refresh()
 
 func toggle_scenario() -> void:
+	control_mode = false
 	_clear_forecast()
 	session.close()
 	armor_mode = false
@@ -347,6 +357,7 @@ func _open_bleeding_scenario() -> void:
 	_open_armor_scenario(true)
 
 func _open_armor_scenario(with_bleeding: bool = false) -> void:
+	control_mode = false
 	_clear_forecast()
 	session.close()
 	armor_mode = true
@@ -364,6 +375,7 @@ func _open_armor_scenario(with_bleeding: bool = false) -> void:
 	_refresh()
 
 func _open_environment_scenario() -> void:
+	control_mode = false
 	_clear_forecast()
 	if session != null: session.close()
 	armor_mode = true
@@ -379,6 +391,24 @@ func _open_environment_scenario() -> void:
 	inspected_id = UnitId.NONE
 	_journal.clear()
 	_note("Среда: шипы наносят 8 урона при входе, тела можно поднять с соседней клетки.")
+	_refresh()
+
+func _open_control_scenario() -> void:
+	_clear_forecast()
+	if session != null: session.close()
+	control_mode = true
+	armor_mode = true
+	bleeding_mode = false
+	environment_mode = false
+	tactical_mode = true
+	_create_session()
+	board_view.session = session
+	summoning_mode = false
+	raising_mode = false
+	attack_mode = false
+	inspected_id = UnitId.NONE
+	_journal.clear()
+	_note("Крит по оглушённой или опутанной цели: ×2 урон и воздействие. Удар с тыла: +50% базы.")
 	_refresh()
 
 func end_turn() -> void:
@@ -405,6 +435,7 @@ func _refresh() -> void:
 	if armor_mode: _heading.text = "intoDeDung   /   Броня и огонь"
 	if bleeding_mode: _heading.text = "intoDeDung   /   Кровотечение"
 	if environment_mode: _heading.text = "intoDeDung   /   Среда и трупы"
+	if control_mode: _heading.text = "intoDeDung   /   Крит и спина"
 	_subtitle.text = "Трое против троих. Победите всех врагов; потеря команды означает поражение." if tactical_mode else "Поднимитесь по ступеням. Ударьте сверху. Столкните стража с уступа."
 	_subtitle.visible = not tactical_mode
 	_status.custom_minimum_size.y = 26 if tactical_mode else 46
@@ -421,6 +452,7 @@ func _refresh() -> void:
 		_instructions.text = "Кровавая руна (перк): выберите цель · 1 основное · Обходит требование HP-урона; иммунитет сохраняется · A: обычная атака"
 	var locked := _battle != null and not _battle.can_player_act()
 	_move_button.disabled = locked
+	if session.selected_unit() != null and ControlRules.action_reason(session.selected_unit(), true) != &"": _move_button.disabled = true
 	_attack_button.disabled = locked
 	_end_turn_button.disabled = locked
 	_action_bar.visible = tactical_mode
@@ -445,7 +477,8 @@ func _refresh() -> void:
 			var raise_reason := (session as BattleEnvironmentSession).raise_reason()
 			descriptors.append({"action_id": &"raise_corpse", "label": "Поднять тело", "cost": "1 основное", "disabled": locked or raise_reason != &"", "tooltip": "Выберите соседнюю свободную клетку без шипов той же высоты. Помощник: 16 HP, действует со следующего хода команды.\n" + (_reason_text(raise_reason) if raise_reason != &"" else "Тело расходуется после успешного поднятия.")})
 		_action_bar.set_dynamic_descriptors(descriptors)
-		_action_bar.set_slot_enabled(&"attack", not locked, "Сейчас нельзя действовать." if locked else "1 основное действие")
+		var control_reason := ControlRules.action_reason(session.selected_unit())
+		_action_bar.set_slot_enabled(&"attack", not locked and control_reason == &"", "Сейчас нельзя действовать." if locked else (_reason_text(control_reason) if control_reason != &"" else "1 основное действие"))
 		var guard_reason := _battle.guard_reason() if _battle != null else &"battle/input_locked"
 		var guard_enabled := not locked and guard_reason == &""
 		_action_bar.set_slot_enabled(&"guard", guard_enabled, "1 основное действие" if guard_enabled else _reason_text(guard_reason))
@@ -479,6 +512,9 @@ func _refresh() -> void:
 		var alive := unit.is_alive()
 		var waiting := " · ЖДЁТ ХОДА" if session.state.is_summon_pending(unit.id) and alive else ""
 		var stance := " · ОХРАНА" if unit.guard_stance and alive else ""
+		if alive and unit.control != null:
+			if unit.control.stunned_turns > 0: stance += " · ОГЛУШЁН"
+			if unit.control.entangled_turns > 0: stance += " · ОПУТАН"
 		var text := "%s%s  ·  %s" % [unit.debug_name, stance + waiting, "HP %.1f / %.1f" % [unit.vitals.get_hp(), unit.get_stat(StatTypes.StatType.HP_MAX)] if alive else "погиб"]
 		var button := _button(text)
 		button.custom_minimum_size.y = 30
@@ -507,6 +543,7 @@ func _refresh() -> void:
 	if inspected_id != UnitId.NONE:
 		var enemy := session.board.get_unit_by_id(inspected_id)
 		_status.text = "Осмотр: %s · движение на следующий ход: %.1f ОД\nТекущая расстановка; зона движения. Esc или клик по пустой клетке — закрыть." % [enemy.debug_name, enemy.get_stat(StatTypes.StatType.MOVE_RANGE)]
+		if ControlRules.action_reason(enemy, true) != &"": _status.text = "Осмотр: %s · движение в ближайший ход недоступно из-за состояния.\nEsc или клик по пустой клетке — закрыть." % enemy.debug_name
 	if summoning_mode: _status.text = "Призыв: выберите подсвеченную соседнюю клетку. 1 основное + 1 заряд. Esc — отмена."
 	if raising_mode: _status.text = "Поднять тело: выберите подсвеченную соседнюю свободную клетку без шипов. 1 основное. Esc — отмена."
 	if session.context.is_faulted(): _status.text = "Исполнение остановлено из-за ошибки. Выполненные последствия сохранены; сбросьте бой."
@@ -516,7 +553,16 @@ func _refresh() -> void:
 	_render_forecast_panel()
 
 func _inspection_text(unit: UnitState) -> String:
-	var text := "%s · %s · высота %+.1f\nHP: %.1f / %.1f\nПотеря равновесия: %.1f / %.1f\nДвижение: %.1f / %.1f · Основное: %d · Бонус: %d\nБроня: %.1f · Оружие: %.1f урона\nСила: %.1f · Воздействие: %.1f\nАтака: 1 основное · Дальность: %.1f" % [unit.debug_name, _cell_name(unit.cell), float(session.board.get_height_steps(unit.cell)) / 2.0, unit.vitals.get_hp(), unit.get_stat(StatTypes.StatType.HP_MAX), unit.vitals.get_balance(), unit.get_stat(StatTypes.StatType.BALANCE_MAX), unit.move_points_left, unit.get_stat(StatTypes.StatType.MOVE_RANGE), unit.action_resources.get_main_left(), unit.action_resources.get_bonus_left(), unit.get_stat(StatTypes.StatType.ARMOR), unit.get_stat(StatTypes.StatType.WEAPON_DAMAGE), unit.get_stat(StatTypes.StatType.STRENGTH), unit.get_stat(StatTypes.StatType.IMPACT_POWER), unit.get_stat(StatTypes.StatType.ATTACK_RANGE)]
+	var text := "%s · %s · высота %+.1f\nHP: %.1f / %.1f\nПотеря равновесия: %.1f / %.1f\nДвижение: %.1f / %.1f · Основное: %d · Бонус: %d\nБроня: %.1f · Оружие: %.1f урона\nСила: %.1f · Воздействие: %.1f\nАтака: 1 основное · Дальность: %.1f" % [unit.debug_name, _cell_name(unit.cell), float(session.board.get_height_steps(unit.cell)) / 2.0, unit.vitals.get_hp(), unit.get_stat(StatTypes.StatType.HP_MAX), unit.vitals.get_balance(), ControlRules.balance_maximum(unit, unit.get_stat(StatTypes.StatType.BALANCE_MAX)), unit.move_points_left, unit.get_stat(StatTypes.StatType.MOVE_RANGE), unit.action_resources.get_main_left(), unit.action_resources.get_bonus_left(), unit.get_stat(StatTypes.StatType.ARMOR), unit.get_stat(StatTypes.StatType.WEAPON_DAMAGE), unit.get_stat(StatTypes.StatType.STRENGTH), unit.get_stat(StatTypes.StatType.IMPACT_POWER), unit.get_stat(StatTypes.StatType.ATTACK_RANGE)]
+	var control_text := ""
+	if control_mode:
+		var rear := AttackModifiers.rear_offset(unit.faction)
+		if rear != Vector2i.ZERO: control_text += "Тыл: %s · соседняя клетка, +50%% базы\n" % _cell_name(unit.cell + rear)
+	if unit.control != null:
+		if unit.control.stunned_turns > 0: control_text += "Оглушён: добровольные действия недоступны; входящий крит ×2.\n"
+		if unit.control.entangled_turns > 0: control_text += "Опутан: движение недоступно; порог равновесия ×2 = %.1f.\nФактический толчок снимает путы; входящий крит ×2.\n" % ControlRules.balance_maximum(unit, unit.get_stat(StatTypes.StatType.BALANCE_MAX))
+		if unit.control.stunned_turns > 0 or unit.control.entangled_turns > 0: control_text += "Срок: до конца ближайшего хода этой команды.\n"
+	if not control_text.is_empty(): text = text.insert(text.find("\n") + 1, control_text)
 	if session.state.summon_owner_id(unit.id) != 0:
 		text += "\nПомощник: до гибели / конца боя; владелец " + _name_for(session.state.summon_owner_id(unit.id))
 		text += "\nДействия со следующего хода своей команды." if session.state.is_summon_pending(unit.id) else "\nГотов действовать."
@@ -615,6 +661,7 @@ func _hover(cell: Vector2i) -> void:
 		return
 	if not session.board.is_in_bounds(cell):
 		_hint.text = "Золотые клетки — движение врага на следующий ход; зона атаки не показана.\nВыбранный союзник сохранён. Осмотр не расходует действия." if inspected_id != UnitId.NONE else "Числа на клетках — высота. Бирюзовые точки — доступное движение.\nПолоски: здоровье / накопленная потеря равновесия. ПКМ или Esc — движение."
+		if control_mode and inspected_id == UnitId.NONE: _hint.text = "Розовая стрелка у ног — тыл: атака с соседней клетки даёт +50% базы.\nОглушение или путы на цели дают крит ×2; два состояния не складывают крит."
 		return
 	var reachable: Dictionary = board_view.inspection_cells if inspected_id != UnitId.NONE else session.reachable_cells()
 	var cost := " · путь: %.1f ОД" % float(reachable[cell]) if reachable.has(cell) else ""
@@ -683,9 +730,16 @@ func _render_forecast_panel() -> void:
 			text += "%s: броня %d → %d / %d\n" % [_name_for(id), before["armor_current"], after["armor_current"], after["armor_max"]]
 		if before.has("bleeding") and (id == _forecast_target_id or before["bleeding"] != after["bleeding"]):
 			text += "%s: кровотечение %d → %d тика\n" % [_name_for(id), before["bleeding"]["ticks_left"], after["bleeding"]["ticks_left"]]
+		if before.has("control") and before["control"] != after["control"]:
+			if before["control"]["entangled_turns"] > after["control"]["entangled_turns"]: text += "%s: путы будут сняты.\n" % _name_for(id)
 		if before["main"] != after["main"]:
 			text += "%s: основные действия %d → %d\n" % [_name_for(id), before["main"], after["main"]]
 	var events: Array[Dictionary] = _forecast.events
+	for event: Dictionary in events:
+		if event.get("kind") == &"attacked" and event.has("modifiers"):
+			var modifiers: Dictionary = event["modifiers"]
+			if modifiers["backstab_percent"] > 0: text += "\n[color=#f7c97d]Удар в спину +%d%% базы[/color]\n" % modifiers["backstab_percent"]
+			if modifiers["critical"]: text += "[color=#f29b9b]Крит ×2: прямой урон и воздействие[/color]\n"
 	for event: Dictionary in events:
 		if event.get("kind") != &"hit_resolved": continue
 		var hit: Dictionary = event["hit"]
@@ -746,7 +800,14 @@ func _event_text(event: Dictionary) -> String:
 			var ticks: int = event["after"]["ticks_left"]
 			if event["reason"] == &"tick": return "%s: тик кровотечения; %s." % [target, "срок истёк" if ticks == 0 else "остался %d тик" % ticks]
 			return "%s: кровотечение %s — 2 тика." % [target, "наложено" if event["reason"] == &"applied" else "обновлено"]
-		&"attacked": return "%s атакует %s." % [actor, target]
+		&"attacked":
+			var suffix := ""
+			var modifiers: Dictionary = event.get("modifiers", {})
+			if int(modifiers.get("backstab_percent", 0)) > 0: suffix += " Удар в спину +%d%%." % modifiers["backstab_percent"]
+			if modifiers.get("critical", false): suffix += " Крит ×2."
+			return "%s атакует %s.%s" % [actor, target, suffix]
+		&"control_changed":
+			return "%s: путы сняты толчком." % target if event["reason"] == &"push" else "%s: срок состояния контроля истёк." % target
 		&"guarded": return "%s занимает охранную стойку (1 основное действие)." % actor
 		&"item_used":
 			var owner := session.state.get_owner(int(event["actor_unit_id"]))
@@ -786,6 +847,8 @@ func _cell_name(cell: Vector2i) -> String:
 
 func _reason_text(reason: StringName) -> String:
 	match reason:
+		&"control/stunned": return "персонаж оглушён и не может выполнять добровольные действия."
+		&"control/entangled": return "персонаж опутан и не может двигаться; остальные действия доступны."
 		&"armor/summon_unsupported": return "призыв недоступен в сценарии брони."
 		&"armor/zero_restore": return "нечего восстанавливать."
 		&"armor/full": return "обычная броня уже восстановлена."

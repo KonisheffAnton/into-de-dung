@@ -16,6 +16,7 @@
 доступна отдельным сценарием D2; 2026-09-21 пользователь сообщил, что тест брони ок.
 Первый ограниченный цикл подготовки и забега описан в [D4](EXPEDITION_D4.md).
 Первый сценарий среды и нескольких тел на клетке описан в [D5](ENVIRONMENT_D5.md).
+Отдельный сценарий крита/спины и контроля описан в [C1](CRITICAL_BACKSTAB_C1.md).
 Профиля мага с метахарактеристиками и общего движка статусов/клеток пока нет.
 
 ## Владельцы данных и поведения
@@ -29,6 +30,7 @@
 | Предметы | `scripts/core/items/`, `scripts/core/inventory/` | Def/Instance/EffectRuntime, один ItemOwnerState и его фасады |
 | Команды и последствия | `scripts/core/actions/action_queue.gd`, `action_context.gd` в той же папке | Submit, admission, оплата, обязательные последствия и реакции; подробности в контракте очереди |
 | Расчёт прямого удара | `scripts/core/combat/attack_damage_calculation.gd` | Чистые числа и стадии нынешней формулы; AttackCommand владеет допуском и применением, контракт D1 |
+| Спина / крит / контроль | `AttackModifiers`, `ControlState`, `ControlRules`, `BattleControlSession` | Явные опции определения атаки, runtime состояния; контракт C1 |
 | Прогноз | `scripts/core/actions/attack_forecast.gd` | Настоящая AttackCommand на изолированных state/context/queue/RNG; не общий forecast всех действий |
 | Командный ход и исход | `scripts/demo/battle_tactical_session.gd`, `battle_demo_session.gd`, `battle_turn_refill.gd` | Управление игроком/врагом, refill, динамический состав, reset/cleanup |
 | Нынешний ИИ | `scripts/demo/battle_demo_bt.gd` | BT выбирает BattleAIIntent; исполнение через команды. Старый Utility AI остаётся в `scripts/core/ai/` |

@@ -80,6 +80,9 @@ static func _unit_values(board: BattleBoard, state: ItemSimulationState = null) 
 				result[unit.id]["armor_max"] = armor["maximum"]
 		if unit.bleeding != null:
 			result[unit.id]["bleeding"] = unit.bleeding.to_dict()
+		if unit.control != null:
+			result[unit.id]["control"] = unit.control.to_dict()
+			result[unit.id]["balance_max"] = ControlRules.balance_maximum(unit, unit.get_stat(StatTypes.StatType.BALANCE_MAX))
 	return result
 
 static func _close(state: ItemSimulationState) -> void:

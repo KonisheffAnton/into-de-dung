@@ -1,5 +1,27 @@
 # История и свидетельства проверок
 
+## C1 — команда GPT-6, крит и удар в спину — 2026-09-23
+
+Вход main `4329a48963fd64da2eade2417c52c7f4a3f25afa`, чистый. Команда обновлена
+отдельным `c172c7c`: Astra/high, Luna 6 low/medium, Sol 6/high; короткие пакеты,
+один кодер, независимое ревью. Экономия не объявляется измеренной.
+Выбран и реализован [C1](CRITICAL_BACKSTAB_C1.md): спина +50% B, условный крит
+×2 по оглушённой/опутанной цели, путы удваивают порог и снимаются фактическим
+push-сдвигом. Отдельный сценарий, состояния заданы при старте; источников нет.
+Предыдущая передача — точный [архив Git blob](CODEX_HANDOFF.history-20260923-2.md).
+
+Full/import/startup PASS: `test_reports/demo-45be6296d8274da9a721f34cec21f406/`.
+Render PASS: `test_reports/demo-5cec5ab34b4d4c91869b9bcee40cd36d/`, 64 PNG.
+Core 9440/0; известные legacy diagnostics: 47 ObjectDB / 18 resources при exit,
+не перенесены в допуски новых runner. C1 92/0 в full/render; после добавления
+проверки настоящего помощника адресный C1 96/0. UI 27/0 headless, 34/0 render.
+После замены ID на имя в журнале повторён адресный final UI/render 34/0.
+Все не-legacy runner без ошибок/leaks; PNG/input/scroll проверены ведущим.
+Точные составы/логи/ревью/commit — `test_reports/critical-backstab-20260923/`.
+Независимое ревью — APPROVE на review-manifest.json (374 файла);
+итоговый SHA/status — completion и текущий HANDOFF.
+Пользовательский плейтест C1 остаётся следующим шагом.
+
 ## D5 — название «Шипы» и отзыв пользователя — 2026-09-23
 
 Base main `663dfb923e652a728e9ee289f8417bfd778603a3`, вход чистый.
