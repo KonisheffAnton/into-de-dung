@@ -179,7 +179,7 @@ func _validate_definition(definition: ItemDef) -> bool:
 		if effect == null: return false
 		if effect.get_script() == StatModifierEffect:
 			var stat_effect := effect as StatModifierEffect
-			if int(stat_effect.stat_type) < 0 or int(stat_effect.stat_type) > 10: return false
+			if not StatTypes.is_valid_id(stat_effect.stat_type): return false
 			if int(stat_effect.operation) < 0 or int(stat_effect.operation) > 2 or not is_finite(stat_effect.value): return false
 		elif effect.get_script() == HealOnDamageEffect:
 			var heal_effect := effect as HealOnDamageEffect

@@ -199,6 +199,7 @@ func _item_text(record: Dictionary) -> String:
 	if definition.armor_max > 0: detail = " · броня %d/%d" % [record.armor, definition.armor_max]
 	elif record.kind == "charm": detail = " · +2 силы"
 	else: detail = " · +%d урона оружия" % (6 if record.kind == "keen_sword" else 4)
+	if record.kind == "piercing_sword": detail += " · пробивание 50%"
 	return "%s #%d%s" % [D4Catalog.title(record.kind), record.id, detail]
 
 func _text(value: String, font_size: int = 17) -> void:

@@ -79,6 +79,9 @@ def main():
             invalid = invalid or "M1 RESULTS:" not in output or ", 0 failed" not in output
         if label == "item_use":
             invalid = invalid or "ITEM USE RESULTS:" not in output or ", 0 failed" not in output
+        if label in ("piercing_calculation", "piercing"):
+            marker = "ARMOR PIERCING CALCULATION RESULTS:" if label == "piercing_calculation" else "ARMOR PIERCING RESULTS:"
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label.startswith("bleeding"):
             marker = {"bleeding": "BLEEDING RESULTS:", "bleeding_snapshot": "BLEEDING SNAPSHOT RESULTS:", "bleeding_ui": "BLEEDING UI RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -106,6 +109,8 @@ def main():
         run("attack_modifiers", ["--script", "tests/test_attack_modifiers.gd"])
         run("critical_control", ["--script", "tests/test_critical_control.gd"])
         run("armor_calculation", ["--script", "tests/test_armor_hit_calculation.gd"])
+        run("piercing_calculation", ["--script", "tests/test_armor_piercing_calculation.gd"])
+        run("piercing", ["--script", "tests/test_armor_piercing.gd"])
         run("armor_snapshot", ["--script", "tests/test_armor_snapshot.gd"])
         run("armor_integration", ["--script", "tests/test_armor_integration.gd"])
         run("armor_recovery", ["--script", "tests/test_armor_recovery.gd"])

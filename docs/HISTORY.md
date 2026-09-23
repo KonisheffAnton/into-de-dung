@@ -1,5 +1,38 @@
 # История и свидетельства проверок
 
+## Пробивание оружием M4 — 2026-09-23
+
+Base main `7dadc2614164a80d103422c5e75b78056a438ff8`, вход чистый.
+Пользователь принял и поручил пробивание 50%; реализован [контракт M4](ARMOR_PIERCING_M4.md).
+Физическая база после C1 делится на standard/hp_only_natural; extras и D0 floor
+сохранены. Append-only stat ID 11, единая raw-проверка ID, предметный модификатор,
+повторный допуск команды и Guard для наличия/отсутствия свойства. Один клинок
+на складе нового D4; прежние виды/старые профили и snapshot schemas не меняются.
+Прежний HANDOFF — точный [архив](CODEX_HANDOFF.history-20260923-6.md).
+
+Import/startup/full PASS: `test_reports/demo-fba97aaadb394ac2b99bc74f87dd5561/`;
+render PASS: `test_reports/demo-006a84cd4f13496a9204c2e78089fe26/`.
+Core 9440/0, M4 calculation 15/0, integration 79/0, боевой UI 252/0 и 273/0.
+D4 UI 44/0 и 52/0 в широких прогонах; после добавления проверки настоящей
+прокрутки адресный повтор финального runner: headless 46/0, render 55/0.
+PNG осмотрены на 1280×850: надетый клинок, прогноз HP 32→27 и отдельные строки
+physical 5→armor5, bypass 5→HP5, fire10→armor10. Другие размеры не проверялись.
+Core сохраняет прежние intentional occupied-cell / 47 ObjectDB / 18 resources
+при выходе; у остальных runner новых ошибок/leaks нет.
+
+В каждой широкой копии сверены 397 source-файлов. Единственное последующее
+изменение — UI runner, его финальный исходник/hash и отдельные логи сохранены.
+Оригинальные копии совпадают с manifests; новый UID integration runner создан
+импортом. Независимый game_reviewer — APPROVE по review-manifest-v2.json,
+27/27 hashes, diff/контракт/отчёты/PNG проверены; Godot сам не запускал.
+Кодер выполнил ограниченный расчёт/runner, ведущий — stat/сохранения/боевую
+интеграцию/UI и проверки preview/live, RNG/ID, FAULTED prefix.
+Архив побайтно совпадает с HANDOFF в base; объём/ссылки/правила проверены.
+Отчёты, manifests, validation, doc-audit, review и completion:
+`test_reports/armor-piercing-m4-20260923/` (ignored).
+Пользовательская приёмка баланса/удобства M4 открыта; следующий новый эффект
+не выбран. Командный бой и отдельное сравнение ходов сохранены.
+
 ## Общее применение предметов M3 — 2026-09-23
 
 Base main `add9f573b24d211a13dbd3d6f8466b4c516b4320`, вход чистый.

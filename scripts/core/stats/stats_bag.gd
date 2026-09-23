@@ -159,7 +159,7 @@ func to_snapshot_dict() -> Dictionary:
 	if get_script() != StatsBag: return {}
 	var entries: Array[Dictionary] = []
 	for key in _stats.keys():
-		if typeof(key) != TYPE_INT or key < 0 or key > 10 or not (_stats[key] is Stat):
+		if not StatTypes.is_valid_id(key) or not (_stats[key] is Stat):
 			return {}
 		var type: int = key
 		var stat: Stat = _stats[key]
@@ -195,7 +195,7 @@ static func validate_snapshot_dict(data: Variant) -> bool:
 		if typeof(raw) != TYPE_DICTIONARY: return false
 		var entry: Dictionary = raw
 		if not _has_exact_string_keys(entry, ["stat_type", "stat"]): return false
-		if typeof(entry["stat_type"]) != TYPE_INT or entry["stat_type"] < 0 or entry["stat_type"] > 10 or seen.has(entry["stat_type"]) or not Stat.validate_snapshot_dict(entry["stat"]): return false
+		if not StatTypes.is_valid_id(entry["stat_type"]) or seen.has(entry["stat_type"]) or not Stat.validate_snapshot_dict(entry["stat"]): return false
 		seen[entry["stat_type"]] = true
 	return true
 

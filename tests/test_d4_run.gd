@@ -35,13 +35,13 @@ func _check(_name: String, result: bool) -> void:
 
 func _initial_inventory() -> bool:
 	var state := D4RunState.new()
-	if state.heroes.size() != 3 or state.items.size() != 12 or state.next_item_id != 13: return false
+	if state.heroes.size() != 3 or state.items.size() != 13 or state.next_item_id != 14: return false
 	var equipped: int = 0
 	var warehouse: int = 0
 	for record: Dictionary in state.items:
 		if record["place"] == "equipped": equipped += 1
 		if record["place"] == "warehouse": warehouse += 1
-	return equipped == 9 and warehouse == 3 and state.to_dict()["schema_version"] == 1
+	return equipped == 9 and warehouse == 4 and state.to_dict()["schema_version"] == 1
 
 func _catalog() -> bool:
 	var first := D4Catalog.definition("sword")
@@ -195,7 +195,7 @@ func _item_overflow() -> bool:
 	var state := D4RunState.new(); var raw := state.to_dict()
 	var records: Array = raw["items"].duplicate(true)
 	var source: Dictionary = records[0].duplicate(true)
-	for offset: int in range(12, 1024):
+	for offset: int in range(records.size(), 1024):
 		var copy: Dictionary = source.duplicate(true); copy["id"] = offset + 1; copy["place"] = "warehouse"; copy["hero"] = 0; copy["slot"] = -1; records.append(copy)
 	raw["items"] = records; raw["next_item_id"] = 1037
 	var loaded := D4RunState.from_dict(raw)

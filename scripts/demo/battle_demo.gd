@@ -557,6 +557,9 @@ func _refresh() -> void:
 func _inspection_text(unit: UnitState) -> String:
 	var text := "%s · %s · высота %+.1f\nHP: %.1f / %.1f\nПотеря равновесия: %.1f / %.1f\nДвижение: %.1f / %.1f · Основное: %d · Бонус: %d\nБроня: %.1f · Оружие: %.1f урона\nСила: %.1f · Воздействие: %.1f\nАтака: 1 основное · Дальность: %.1f" % [unit.debug_name, _cell_name(unit.cell), float(session.board.get_height_steps(unit.cell)) / 2.0, unit.vitals.get_hp(), unit.get_stat(StatTypes.StatType.HP_MAX), unit.vitals.get_balance(), ControlRules.balance_maximum(unit, unit.get_stat(StatTypes.StatType.BALANCE_MAX)), unit.move_points_left, unit.get_stat(StatTypes.StatType.MOVE_RANGE), unit.action_resources.get_main_left(), unit.action_resources.get_bonus_left(), unit.get_stat(StatTypes.StatType.ARMOR), unit.get_stat(StatTypes.StatType.WEAPON_DAMAGE), unit.get_stat(StatTypes.StatType.STRENGTH), unit.get_stat(StatTypes.StatType.IMPACT_POWER), unit.get_stat(StatTypes.StatType.ATTACK_RANGE)]
 	var control_text := ""
+	var piercing := unit.get_stat(StatTypes.StatType.PHYSICAL_PIERCING_PERCENT)
+	if piercing > 0.0:
+		text += "\nПробивание %.0f%% физической базы: броня обходится, естественная защита действует." % piercing
 	if control_mode:
 		var rear := AttackModifiers.rear_offset(unit.faction)
 		if rear != Vector2i.ZERO: control_text += "Тыл: %s · соседняя клетка, +50%% базы\n" % _cell_name(unit.cell + rear)
@@ -600,6 +603,7 @@ func _inspection_text(unit: UnitState) -> String:
 					elif effect is StatModifierEffectRuntime:
 						var modifier := effect as StatModifierEffectRuntime
 						var amount := "%+.1f" % modifier.get_value()
+						if modifier.get_stat_type() == StatTypes.StatType.PHYSICAL_PIERCING_PERCENT: amount += " п.п."
 						if modifier.get_operation() == StatModifier.Operation.ADD_PERCENT: amount = "%+.1f%%" % (modifier.get_value() * 100.0)
 						elif modifier.get_operation() == StatModifier.Operation.MULTIPLY: amount = "×%.2f" % modifier.get_value()
 						descriptions.append("%s %s; пока предмет активен." % [_stat_name(modifier.get_stat_type()), amount])
@@ -610,7 +614,7 @@ func _inspection_text(unit: UnitState) -> String:
 	return text
 
 func _stat_name(type: StatTypes.StatType) -> String:
-	var names := ["Макс. HP", "Инициатива", "Порог равновесия", "Сила", "Воздействие", "Движение", "Броня", "Основные действия", "Бонусные действия", "Урон оружия", "Дальность атаки"]
+	var names := ["Макс. HP", "Инициатива", "Порог равновесия", "Сила", "Воздействие", "Движение", "Броня", "Основные действия", "Бонусные действия", "Урон оружия", "Дальность атаки", "Пробивание физической базы"]
 	return names[int(type)] if int(type) >= 0 and int(type) < names.size() else "Характеристика"
 
 func _refresh_inspection() -> void:
@@ -753,7 +757,10 @@ func _render_forecast_panel() -> void:
 		text += "\n[color=#f7c97d]%s · броня −%d[/color]\n" % [_name_for(event["target_unit_id"]), hit["armor_spent"]]
 		text += "В HP до защиты: %d/%d · урон %d · лечение %d\n" % [hit["p_num"], hit["p_den"], hit["total_damage"], hit["total_healing"]]
 		for row: Dictionary in hit["rows"]:
-			text += "%s: вход %d → броня %d / HP %d / лечение %d\n" % ["Физический" if row["type"] == &"physical" else "Огонь", row["D"], row["armor_spent"], row["hp_damage"], row["healing"]]
+			var damage_label := "Физический" if row["type"] == &"physical" else "Огонь"
+			if row["policy"] == &"hp_only_natural": damage_label += " · в обход брони"
+			elif row["policy"] == &"hp_only_unresisted": damage_label += " · без защит"
+			text += "%s: вход %d → броня %d / HP %d / лечение %d\n" % [damage_label, row["D"], row["armor_spent"], row["hp_damage"], row["healing"]]
 		if hit.has("bleeding"):
 			var gate: Dictionary = hit["bleeding"]
 			text += "Кровотечение: " + ("Перк «Кровавая руна» обходит требование физического HP-урона" if gate["policy"] == &"bypass_hp_gate" else ("есть физический HP-урон до лечения" if gate["eligible"] else "нет физического HP-урона")) + ".\n"

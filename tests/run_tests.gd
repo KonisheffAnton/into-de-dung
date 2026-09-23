@@ -1070,7 +1070,7 @@ func _test_p06_a10_rejections() -> void:
 	_check(not UnitState.validate_snapshot_dict(v3), "P06 A10 unknown unit version rejected")
 	_check(ActionResources.from_snapshot_dict({"schema_version": 2, "owner_unit_id": unit.id, "main_left": 0, "bonus_left": 0}, unit.id) == null, "P06 A10 unknown resource version rejected")
 	_check(ActionResources.from_snapshot_dict({"schema_version": 1, "owner_unit_id": unit.id, "main_left": 4097, "bonus_left": 0}, unit.id) == null, "P06 A10 resource range rejected")
-	_check(not StatsBag.validate_snapshot_dict({"schema_version": 1, "stats": [{"stat_type": 11, "stat": {}}]}), "P06 A10 stat 11 remains unsupported")
+	_check(not StatsBag.validate_snapshot_dict({"schema_version": 1, "stats": [{"stat_type": 12, "stat": {}}]}), "P06 A10 unknown stat remains unsupported (M4 appends ID 11)")
 	var board := BattleBoard.new(2, 1)
 	var first := _p06_unit()
 	var second := _p06_unit()
@@ -2700,7 +2700,7 @@ func _test_p02_a10_rejections() -> void:
 		[["board", "units", 0, "move_points_left"], -1.0], [["board", "units", 0, "vitals", "hp"], NAN],
 		[["board", "units", 0, "vitals", "balance"], INF], [["board", "units", 0, "vitals", "is_alive"], 1],
 		[["board", "units", 0, "stats"], null], [["board", "units", 0, "vitals"], {}],
-		[["board", "units", 0, "stats", "stats"], {}], [["board", "units", 0, "stats", "stats", 0, "stat_type"], 11],
+		[["board", "units", 0, "stats", "stats"], {}], [["board", "units", 0, "stats", "stats", 0, "stat_type"], 12],
 		[["board", "units", 0, "stats", "stats", 3, "stat", "base_value"], 1],
 		[["board", "units", 0, "stats", "stats", 3, "stat", "base_value"], INF],
 		[["board", "units", 0, "stats", "stats", 3, "stat", "modifiers"], {}],

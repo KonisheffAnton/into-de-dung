@@ -393,6 +393,7 @@ static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, ta
 		if resolved.outcome in [PushResult.Outcome.COLLISION, PushResult.Outcome.MOVED] and board.is_in_bounds(destination) and not board.is_lethal(destination) and board.get_height_steps(target.cell) - board.get_height_steps(destination) >= 2:
 			types[target.id].append(StatTypes.StatType.HP_MAX)
 	if armor_request != null:
+		types[actor.id].append(StatTypes.StatType.PHYSICAL_PIERCING_PERCENT)
 		for participant: UnitState in units:
 			if not types[participant.id].has(StatTypes.StatType.HP_MAX): types[participant.id].append(StatTypes.StatType.HP_MAX)
 	var guard := SpatialRules.capture_guard(context, units, cells, types)

@@ -270,7 +270,7 @@ static func _definition_error(definition: ItemDef, path: String) -> String:
 		if effect.get_script() == StatModifierEffect:
 			var stat := effect as StatModifierEffect
 			if not is_finite(stat.value): return path + "/effect/value"
-			if int(stat.stat_type) < 0 or int(stat.stat_type) > 10 or int(stat.operation) not in [0, 1, 2]: return "UNSUPPORTED:" + path + "/effect/enum"
+			if not StatTypes.is_valid_id(stat.stat_type) or int(stat.operation) not in [0, 1, 2]: return "UNSUPPORTED:" + path + "/effect/enum"
 		elif effect.get_script() == HealOnDamageEffect:
 			var heal := effect as HealOnDamageEffect
 			if not is_finite(heal.heal_amount) or heal.heal_amount < 0.0: return path + "/effect/heal_amount"
@@ -614,7 +614,7 @@ func instantiate(definitions: Dictionary) -> ItemSnapshotResult:
 
 static func _effect_capability(effect: Dictionary) -> bool:
 	match effect["kind"]:
-		"stat_modifier": return effect["stat_type"] >= 0 and effect["stat_type"] <= 10 and effect["operation"] >= 0 and effect["operation"] <= 2
+		"stat_modifier": return StatTypes.is_valid_id(effect["stat_type"]) and effect["operation"] >= 0 and effect["operation"] <= 2
 		"heal_on_damage": return effect["trigger_event"] == 0
 	return false
 

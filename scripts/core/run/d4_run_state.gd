@@ -33,7 +33,7 @@ func _init() -> void:
 		_add_item("sword", "equipped", hero_id, 0, 0)
 		_add_item("coat", "equipped", hero_id, 1, 60)
 		_add_item("bracer", "equipped", hero_id, 2, 40)
-	for kind: String in ["sword", "coat", "bracer"]:
+	for kind: String in ["sword", "coat", "bracer", "piercing_sword"]:
 		_add_item(kind, "warehouse", 0, -1, D4Catalog.definition(kind).armor_max)
 
 func _add_item(kind: String, place: String, hero: int, item_slot: int, armor: int) -> void:

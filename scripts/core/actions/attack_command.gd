@@ -133,6 +133,12 @@ func _prepare(context: ActionContext) -> Dictionary:
 	var target_copy := StatsBag.from_snapshot_dict(target.stats.to_snapshot_dict())
 	if actor_copy == null or target_copy == null:
 		result["reason"] = &"attack/invalid_stat"; return result
+	# Старый снимок без нового stat означает ноль; чтение клона не трогает live cache.
+	var piercing := actor_copy.get_value(StatTypes.StatType.PHYSICAL_PIERCING_PERCENT)
+	if not is_finite(piercing) or piercing != floorf(piercing) or piercing < 0.0 or piercing > 100.0:
+		result["reason"] = &"attack/invalid_piercing"; return result
+	if piercing != 0.0 and not armor_profile:
+		result["reason"] = &"attack/piercing_requires_armor"; return result
 	var main_max := actor_copy.get_value(StatTypes.StatType.MAIN_ACTIONS_MAX)
 	var bonus_max := actor_copy.get_value(StatTypes.StatType.BONUS_ACTIONS_MAX)
 	var weapon := actor_copy.get_value(StatTypes.StatType.WEAPON_DAMAGE)
@@ -155,7 +161,7 @@ func _prepare(context: ActionContext) -> Dictionary:
 	if definition.backstab_bonus_percent > 0 or definition.critical_on_control:
 		result["modifiers"] = {"backstab_percent": backstab_percent, "critical": critical}
 	if armor_profile:
-		var raw := ArmorAttack.components(strength, weapon, signed_height_steps, target.guard_stance, definition.damage_components, backstab_percent, critical_multiplier)
+		var raw := ArmorAttack.components(strength, weapon, signed_height_steps, target.guard_stance, definition.damage_components, backstab_percent, critical_multiplier, int(piercing))
 		var request := ArmorAttack.request(target.id, raw, DamageSource.new(&"attack", 0, actor.cell, actor.id, actor.id))
 		var plan := ArmorHitExecutor.prepare(request, ArmorRuntime.capture(state.get_owner(target.id)), target.vitals.get_hp(), target_copy.get_value(StatTypes.StatType.HP_MAX), context.get_rng())
 		if plan.get("reason", &"") != &"": result["reason"] = plan["reason"]; return result

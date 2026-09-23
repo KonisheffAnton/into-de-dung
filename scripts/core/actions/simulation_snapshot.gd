@@ -35,7 +35,7 @@ static func capture_board(board: BattleBoard, unsupported_runtime_ids: Array[Str
 			if not ControlState.valid(unit.control.to_dict()): return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, path + "/control")
 		if typeof(unit.stats._stats) != TYPE_DICTIONARY: return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, path + "/stats")
 		for stat_key in unit.stats._stats.keys():
-			if typeof(stat_key) != TYPE_INT or stat_key < 0 or stat_key > 10: return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, path + "/stats")
+			if not StatTypes.is_valid_id(stat_key): return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, path + "/stats")
 			if not (unit.stats._stats[stat_key] is Stat): return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, path + "/stat")
 			var stat := unit.stats._stats[stat_key] as Stat
 			if stat.get_script() != Stat: return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, path + "/stat/subclass", [StringName(path + "/stat/subclass")])

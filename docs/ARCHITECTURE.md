@@ -34,6 +34,7 @@
 | Команды и последствия | `scripts/core/actions/action_queue.gd`, `action_context.gd` в той же папке | Submit, admission, оплата, обязательные последствия и реакции; подробности в контракте очереди |
 | Расчёт прямого удара | `scripts/core/combat/attack_damage_calculation.gd` | Чистые числа и стадии нынешней формулы; AttackCommand владеет допуском и применением, контракт D1 |
 | Спина / крит / контроль | `AttackModifiers`, `ControlState`, `ControlRules`, `BattleControlSession` | Явные опции определения атаки, runtime состояния; контракт C1 |
+| Пробивание оружием | `StatTypes`, `AttackCommand`, `ArmorAttack` | Предметный stat → разделение физической базы по политикам D2; [M4](ARMOR_PIERCING_M4.md) |
 | Прогноз | `scripts/core/actions/attack_forecast.gd` | Настоящая AttackCommand на изолированных state/context/queue/RNG; не общий forecast всех действий |
 | Командный ход и исход | `scripts/demo/battle_tactical_session.gd`, `battle_demo_session.gd`, `battle_turn_refill.gd` | Управление игроком/врагом, refill, динамический состав, reset/cleanup |
 | Сравнение темпа ходов | `BattleInitiativeSession`, `BattleInitiativeDemo` | Одинаковый бой в двух режимах; собственный ход/очередь только в эксперименте |
@@ -101,7 +102,7 @@ Forecast и UI показывают срок/иммунитет/допуск. Э
 
 `scripts/core/run/d4_run_state.gd` хранит постоянный реестр предметов, HP трёх
 персонажей, фазу/номер боя, материалы и отдельный RNG потерь. Склад/рюкзаки
-пассивны. `D4Catalog` создаёт определения пяти предметов. `D4BattleSession`
+пассивны. `D4Catalog` создаёт определения предметов, включая клинок [M4](ARMOR_PIERCING_M4.md). `D4BattleSession`
 строит новый D3-совместимый бой только из надетого и связывает экземпляры с
 ID забега. После полного исхода возвращает HP/износ; snapshots боя не меняются.
 `D4Expedition` ведёт подготовку, сбор добычи, отправку и результат. `D4RunStore`

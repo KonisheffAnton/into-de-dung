@@ -128,6 +128,9 @@ class Guard extends RefCounted:
 			var stats_copy := StatsBag.from_snapshot_dict(stats.to_snapshot_dict())
 			if stats_copy == null: return false
 			for type: int in v["stats"]:
+				if v["stats"][type] == null:
+					if stats_copy.has_stat(type): return false
+					continue
 				if not stats_copy.has_stat(type) or stats_copy.get_value(type) != v["stats"][type]: return false
 		return true
 
@@ -256,6 +259,11 @@ static func capture_guard(context: ActionContext, units: Array[UnitState], cells
 		if stats_copy == null: return null
 		var stats_values: Dictionary = {}
 		for type: int in stat_types.get(unit.id, []):
+			# Старые юниты не объявляют пробивание: фиксируем отсутствие, чтобы callback
+			# не мог добавить его между оплатой и попаданием незамеченным.
+			if type == StatTypes.StatType.PHYSICAL_PIERCING_PERCENT and not stats_copy.has_stat(type):
+				stats_values[type] = null
+				continue
 			if not stats_copy.has_stat(type): return null
 			var value := stats_copy.get_value(type)
 			if not is_finite(value): return null

@@ -32,7 +32,12 @@ enum StatType {
 	BONUS_ACTIONS_MAX,
 	WEAPON_DAMAGE,
 	ATTACK_RANGE,
+	PHYSICAL_PIERCING_PERCENT, ## Доля физической базы, обходящая броню; ID 11.
 }
+
+## Одна проверка raw ID для runtime и снимков; float/bool не приводим к enum.
+static func is_valid_id(value: Variant) -> bool:
+	return typeof(value) == TYPE_INT and StatType.values().has(value)
 
 
 ## Человекочитаемое имя — для дебаг-панелей и логов (НЕ для локализации UI:
@@ -50,4 +55,5 @@ static func to_display_name(type: StatType) -> String:
 		StatType.BONUS_ACTIONS_MAX: return "Bonus Actions Max"
 		StatType.WEAPON_DAMAGE: return "Weapon Damage"
 		StatType.ATTACK_RANGE: return "Attack Range"
+		StatType.PHYSICAL_PIERCING_PERCENT: return "Physical Piercing Percent"
 	return "Unknown"

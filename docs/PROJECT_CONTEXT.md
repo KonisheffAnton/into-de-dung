@@ -25,6 +25,7 @@
 | Прогноз / стойка | [ATTACK_FORECAST](ATTACK_FORECAST.md) / [ACTION_PANEL_GUARD](ACTION_PANEL_GUARD.md) |
 | Флакон / призыв предметом | [HEALING_ITEM](HEALING_ITEM.md) / [SUMMON_ITEM](SUMMON_ITEM.md) |
 | Общее описание применения предметов M3 | [ITEM_USE_M3](ITEM_USE_M3.md) |
+| Пробивание физической базы оружием M4 | [ARMOR_PIERCING_M4](ARMOR_PIERCING_M4.md) |
 | Исполнение, маршруты к frozen Pxx | [COMMAND_ACTION_QUEUE_CONTRACT](COMMAND_ACTION_QUEUE_CONTRACT.md) |
 | Будущий дизайн / кандидаты модульности | [TACTICAL_DESIGN_NEXT](TACTICAL_DESIGN_NEXT.md) / [MODULARITY_PLAN](MODULARITY_PLAN.md) |
 | Свидетельства прошлых этапов, архивы | [HISTORY](HISTORY.md) |

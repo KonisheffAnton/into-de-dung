@@ -8,9 +8,11 @@ static func valid_extras(extras: Array[Dictionary]) -> bool:
 		if extra["type"] not in ["physical", "fire"] or extra["policy"] not in ["standard", "hp_only_natural", "hp_only_unresisted"] or extra["source"].is_empty() or extra["source"].to_utf8_buffer().size() > 4096 or extra["denominator"] <= 0 or extra["factor_den"] <= 0 or extra["factor_num"] < 0: return false
 	return true
 
-static func components(strength: float, weapon: float, signed_steps: int, guarded: bool, extras: Array[Dictionary], backstab_bonus_percent: int = 0, critical_multiplier: int = 1) -> Array[Dictionary]:
-	if backstab_bonus_percent < 0 or backstab_bonus_percent > 1000 or critical_multiplier not in [1, 2]: return []
+static func components(strength: float, weapon: float, signed_steps: int, guarded: bool, extras: Array[Dictionary], backstab_bonus_percent: int = 0, critical_multiplier: int = 1, physical_piercing_percent: int = 0) -> Array[Dictionary]:
+	if backstab_bonus_percent < 0 or backstab_bonus_percent > 1000 or critical_multiplier not in [1, 2] or physical_piercing_percent < 0 or physical_piercing_percent > 100: return []
 	if not valid_extras(extras): return []
+	# Две политики базы занимают два места в прежнем лимите 128 компонентов.
+	if physical_piercing_percent > 0 and physical_piercing_percent < 100 and extras.size() > 126: return []
 	var base := ArmorFraction.from_decimal(strength).add(ArmorFraction.from_decimal(weapon))
 	if not base.valid: return []
 	if base.numerator < 0: base = ArmorFraction.make(0)
@@ -25,8 +27,19 @@ static func components(strength: float, weapon: float, signed_steps: int, guarde
 		physical = physical.multiply(ArmorFraction.make(2))
 		if not physical.valid: return []
 	# Бонус входит только в физическую базу: предметные компоненты наследуют высоту и защиту, но не удар в спину.
-	var result := ArmorRuntime.physical(physical, "strength+weapon")
-	if result.is_empty(): return []
+	var result: Array[Dictionary] = []
+	if physical_piercing_percent == 0:
+		result = ArmorRuntime.physical(physical, "strength+weapon")
+		if result.is_empty(): return []
+	else:
+		var standard := physical.multiply(ArmorFraction.make(100 - physical_piercing_percent, 100))
+		var piercing := physical.multiply(ArmorFraction.make(physical_piercing_percent, 100))
+		if not standard.valid or not piercing.valid: return []
+		# Доли сохраняют точность до D0: округление каждой политики делает сам расчёт попадания.
+		if physical_piercing_percent < 100:
+			result.append({"type": "physical", "policy": "standard", "numerator": standard.numerator, "denominator": standard.denominator, "source": "strength+weapon"})
+		if physical_piercing_percent > 0:
+			result.append({"type": "physical", "policy": "hp_only_natural", "numerator": piercing.numerator, "denominator": piercing.denominator, "source": "strength+weapon"})
 	for extra: Dictionary in extras:
 		if not ItemSimulationSnapshot._shape(extra, {"type": TYPE_STRING, "policy": TYPE_STRING, "numerator": TYPE_INT, "denominator": TYPE_INT, "source": TYPE_STRING, "factor_num": TYPE_INT, "factor_den": TYPE_INT}): return []
 		var amount := ArmorFraction.make(maxi(0, extra["numerator"]), extra["denominator"])

@@ -36,6 +36,9 @@ func _run() -> void:
 	check(demo.run.item(1).hero == 2 and demo.run.item(4).place == "warehouse", "input transfers and replaces gear")
 	await press("hero_1")
 	await press("equip_10")
+	check(demo._item_text(demo.run.item(13)).contains("пробивание 50%"), "warehouse explains piercing weapon")
+	await press("equip_13")
+	check(demo.run.item(13).hero == 1, "input equips piercing weapon")
 	var scroll := demo.find_child("RunScroll", true, false) as ScrollContainer
 	await motion(scroll.global_position + Vector2(80, 180))
 	for _index: int in 9:
@@ -62,6 +65,8 @@ func _run() -> void:
 	var s := demo.battle
 	var actor: UnitState = s.hero_units[1]
 	var target: UnitState = s.units[3]
+	check(actor.get_stat(StatTypes.StatType.PHYSICAL_PIERCING_PERCENT) == 50, "equipped piercing reaches battle")
+	check(demo.battle_view._inspection_text(actor).contains("Пробивание 50%"), "inspection shows effective piercing")
 	s.board.move_unit(actor, Vector2i(3,3))
 	s.board.move_unit(target, Vector2i(4,3))
 	demo.battle_view._refresh()
@@ -69,7 +74,24 @@ func _run() -> void:
 	var point := demo.battle_view.board_view.global_position + demo.battle_view.board_view.cell_center(target.cell)
 	await motion(point)
 	check(demo.battle_view._forecast != null and demo.battle_view._forecast.status == ActionReceipt.APPLIED, "real input D4 attack forecast")
+	check(demo.battle_view._forecast_panel.text.contains("Физический · в обход брони"), "forecast explains separate piercing row")
 	await capture("d4-03-battle")
+	var live_before := ItemSimulationSnapshot.capture(s.state, []).snapshot.to_dict()
+	var panel := demo.battle_view._forecast_panel
+	await motion(panel.global_position + Vector2(35, 40))
+	for _index: int in 5:
+		var wheel := InputEventMouseButton.new()
+		wheel.button_index = MOUSE_BUTTON_WHEEL_DOWN
+		wheel.position = panel.global_position + Vector2(35, 40)
+		wheel.global_position = wheel.position
+		wheel.pressed = true
+		viewport.push_input(wheel, true)
+		wheel.pressed = false
+		viewport.push_input(wheel, true)
+		await process_frame
+	check(panel.get_v_scroll_bar().value > 0 and demo.battle_view._forecast != null, "real scroll retains piercing forecast")
+	check(ItemSimulationSnapshot.capture(s.state, []).snapshot.to_dict() == live_before, "forecast scroll preserves live")
+	await capture("d4-03-piercing-details")
 	await click(point)
 	check(actor.action_resources.get_main_left() == 0, "real input spends one main")
 	# Проверка маршрута UI использует команды смерти; полные партии — integration runner.
