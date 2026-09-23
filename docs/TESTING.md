@@ -40,6 +40,7 @@ core без `--full` в неё не входит. Повторять более 
 | Прогноз | `test_attack_forecast.gd` |
 | Стойка | `test_guard_stance.gd` |
 | Флакон | `test_healing_item.gd` |
+| Общее описание применения M3 | `test_item_use_action.gd` (full/render); UI и фактическое лечение — `test_tactical_battle.gd` |
 | Призыв / снимки призыва | `test_summoning_item.gd`, `test_summon_snapshot.gd` |
 | Определение помощника M1 / legacy v3–v5 / v6 | `test_summon_definition.gd` (включён в full/render) |
 | Полигон / нынешний бой | `test_battle_demo.gd`, `test_tactical_battle.gd` |

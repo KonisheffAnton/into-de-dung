@@ -30,6 +30,9 @@ func get_definition() -> ItemDef:
 	# Печать возвращает копию, чтобы внешний код не мог изменить зафиксированный runtime.
 	return _definition.duplicate(true) as ItemDef if _definition.use_summon else _definition
 func get_definition_id() -> StringName: return _definition_id
+func get_use_action() -> ItemUseAction:
+	# Описание производно от зафиксированных данных; его изменение не меняет предмет.
+	return ItemUseAction.from_definition(_definition)
 func get_item_instance_id() -> int: return _item_id
 func get_owner_unit_id() -> int: return _owner_id
 func get_effects() -> Array[ItemEffectRuntime]: return _effects.duplicate()

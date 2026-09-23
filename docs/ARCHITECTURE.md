@@ -30,6 +30,7 @@
 | Параметры | `scripts/core/stats/` | StatsBag/Stat/StatModifier; `(base + sum(flat)) * (1 + sum(percent)) * product(multiply)` |
 | Текущие ресурсы | `units/vitals.gd`, `actions/action_resources.gd` под `scripts/core/` | HP, накопленный impact до порога balance; остатки движения/main/bonus отдельно от maxima |
 | Предметы | `scripts/core/items/`, `scripts/core/inventory/` | Def/Instance/EffectRuntime, один ItemOwnerState и его фасады |
+| Применение предмета | `ItemUseAction`, две команды UseHealingItem/UseSummoningItem | Производное описание цели/параметров/цены и factory; окончательный допуск/оплата у команд, [M3](ITEM_USE_M3.md) |
 | Команды и последствия | `scripts/core/actions/action_queue.gd`, `action_context.gd` в той же папке | Submit, admission, оплата, обязательные последствия и реакции; подробности в контракте очереди |
 | Расчёт прямого удара | `scripts/core/combat/attack_damage_calculation.gd` | Чистые числа и стадии нынешней формулы; AttackCommand владеет допуском и применением, контракт D1 |
 | Спина / крит / контроль | `AttackModifiers`, `ControlState`, `ControlRules`, `BattleControlSession` | Явные опции определения атаки, runtime состояния; контракт C1 |
@@ -58,7 +59,8 @@
 - ItemDef имеет специальные use_heal_amount/use_summon и SummonDefinition:
   [M1](SUMMON_DEFINITION_M1.md) задаёт базовые stats/имя, фиксирует копию печати
   в ItemOwnerState и переносит нестандартный шаблон в ItemSimulation v6.
-  Общий контракт применения ещё не выделен.
+  [M3](ITEM_USE_M3.md) даёт общее типизированное описание применения и factory
+  двух прежних команд; use_* остаются сериализованным источником, schemas прежние.
 - Снимки проверяют точные схемы и поддерживаемые виды данных. Диапазон stat IDs
   0..10 проверяется в StatsBag, ItemOwnerState и SimulationSnapshot; одного нового
   значения enum недостаточно для расширения. Боевой snapshot не равен save-game.

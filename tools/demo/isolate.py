@@ -77,6 +77,8 @@ def main():
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("summon_definition", "summon_definition_ui"):
             invalid = invalid or "M1 RESULTS:" not in output or ", 0 failed" not in output
+        if label == "item_use":
+            invalid = invalid or "ITEM USE RESULTS:" not in output or ", 0 failed" not in output
         if label.startswith("bleeding"):
             marker = {"bleeding": "BLEEDING RESULTS:", "bleeding_snapshot": "BLEEDING SNAPSHOT RESULTS:", "bleeding_ui": "BLEEDING UI RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -98,6 +100,7 @@ def main():
     if args.check or args.render_check:
         run("startup", ["--quit-after", "3"])
         run("summon_definition", ["--script", "tests/test_summon_definition.gd"])
+        run("item_use", ["--script", "tests/test_item_use_action.gd"])
         run("attack_calculation", ["--script", "tests/test_attack_damage_calculation.gd"])
         run("attack_d1", ["--script", "tests/test_attack_damage_d1.gd"])
         run("attack_modifiers", ["--script", "tests/test_attack_modifiers.gd"])

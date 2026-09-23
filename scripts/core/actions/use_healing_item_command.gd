@@ -34,9 +34,10 @@ func validate(context: ActionContext) -> StringName:
 	var item: ItemInstance = owner._items.get(_item_id)
 	if item == null or item.get_owner_unit_id() != actor.id: return &"item/not_owned"
 	if not item.is_active() or item._get_placement() == 0: return &"item/inactive"
-	if item.get_definition().use_summon or item.get_definition().use_heal_amount <= 0.0: return &"item/not_usable"
-	if item.get_charges_left() == 0: return &"item/no_charges"
-	if actor.action_resources.get_main_left() < 1: return &"item/insufficient_main"
+	var action := item.get_use_action()
+	if action == null or action.get_kind() != ItemUseAction.Kind.HEAL_SELF: return &"item/not_usable"
+	if item.get_charges_left() < action.get_charge_cost(): return &"item/no_charges"
+	if actor.action_resources.get_main_left() < action.get_main_cost(): return &"item/insufficient_main"
 	var maximum := ActionHpExecutor._stat_value(actor, StatTypes.StatType.HP_MAX)
 	if not is_finite(maximum) or maximum <= 0.0: return &"item/invalid_runtime"
 	if actor.vitals.get_hp() >= maximum: return &"item/full_hp"
@@ -49,12 +50,15 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var actor := state.get_board().get_unit_by_id(_actor_id)
 	var item: ItemInstance = state.get_owner(_actor_id)._items[_item_id]
 	var maximum := ActionHpExecutor._stat_value(actor, StatTypes.StatType.HP_MAX)
-	var amount := minf(item.get_definition().use_heal_amount, maximum - actor.vitals.get_hp())
+	var action := item.get_use_action()
+	var main_cost := action.get_main_cost()
+	var charge_cost := action.get_charge_cost()
+	var amount := minf(action.get_heal_amount(), maximum - actor.vitals.get_hp())
 	var main_before := actor.action_resources.get_main_left()
 	var charges_before := item.get_charges_left()
 	var source := DamageSource.new(&"item", _item_id, actor.cell, actor.id, actor.id)
-	if not actor.action_resources.try_spend_main(1): return CommandStepResult.faulted(&"item/invalid_runtime")
-	item._charges_left -= 1
+	if not actor.action_resources.try_spend_main(main_cost): return CommandStepResult.faulted(&"item/invalid_runtime")
+	item._charges_left -= charge_cost
 	# Ожидаемые bytes строятся до сигнала; callback не может стать новым baseline.
 	var expected := ItemSimulationSnapshot.capture(state, []).snapshot.to_dict()
 	for unit: Dictionary in expected["board_snapshot"]["board"]["units"]:
@@ -68,7 +72,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 		var actual := ItemSimulationSnapshot.capture(state, [])
 		return &"" if actual.code == ItemSnapshotResult.Code.OK and actual.snapshot.to_dict() == expected else &"item/invalid_mutation"
 	var mutation := actor.vitals.heal_checked(amount, checkpoint)
-	var used := {"kind": &"item_used", "actor_unit_id": _actor_id, "target_unit_id": _actor_id, "item_instance_id": _item_id, "main_cost": 1, "main_before": main_before, "main_after": main_before - 1, "charges_before": charges_before, "charges_after": charges_before - 1}
+	var used := {"kind": &"item_used", "actor_unit_id": _actor_id, "target_unit_id": _actor_id, "item_instance_id": _item_id, "main_cost": main_cost, "main_before": main_before, "main_after": main_before - main_cost, "charges_before": charges_before, "charges_after": charges_before - charge_cost}
 	var healed := ActionHpExecutor._draft(&"healed", _actor_id, source, mutation.hp_before, mutation.hp_after, mutation.hp_after - mutation.hp_before, true, true)
 	var result := CommandStepResult.applied([used, healed], [], [], null, true)
 	if mutation.reason != &"":

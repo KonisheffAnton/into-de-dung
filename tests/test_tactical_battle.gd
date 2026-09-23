@@ -48,6 +48,7 @@ func _run() -> void:
 	_check(not (_demo._roster.get_child(1) as Button).disabled and not (_demo._roster.get_child(2) as Button).disabled, "enemy roster inspectable; allies selectable")
 	await _test_action_bar()
 	await _test_healing_item_viewport()
+	await _test_item_use_description_viewport()
 	await _test_summoning_item_viewport()
 	await _test_attack_forecast_viewport()
 	await _test_enemy_inspection()
@@ -238,6 +239,33 @@ func _test_healing_item_viewport() -> void:
 	var charges_before := item.get_charges_left()
 	await _key(KEY_3)
 	_check(bar._buttons[2].disabled and item.get_charges_left() == charges_before, "enemy phase disables healing without spending")
+	_demo.reset_demo()
+
+func _test_item_use_description_viewport() -> void:
+	_demo.reset_demo()
+	var battle := _demo.session as BattleTacticalSession
+	# Одинаковый каталог всех владельцев: подсказка обязана прочитать параметры,
+	# а настоящий input — применить их, без отдельного числа в UI.
+	for owner in battle.state.get_owners():
+		for item: ItemInstance in owner._items.values():
+			if item.get_definition_id() == &"tactical_healing_flask":
+				item.get_definition().use_heal_amount = 7.0
+	var actor := battle.selected_unit()
+	actor.vitals.apply_damage(20.0)
+	_demo._refresh()
+	var button := _demo._action_bar._buttons[2]
+	_check(button.tooltip_text.contains("+7 HP") and button.text.contains("1 основное") and button.text.contains("2/2"), "typed action drives healing tooltip, price and charges")
+	await _key(KEY_3)
+	_check(actor.vitals.get_hp() == 19.0 and actor.action_resources.get_main_left() == 0 and battle.healing_item().get_charges_left() == 1, "typed action UI applies the displayed heal and cost")
+	await _capture("battle-24-item-use-description")
+	_demo.reset_demo()
+	await _key(KEY_4)
+	_check(_demo.summoning_mode and not _demo.attack_mode, "adjacent target still enters summon mode")
+	await _key(KEY_ESCAPE)
+	_check(not _demo.summoning_mode and battle.summoning_item().get_charges_left() == 2, "target cancellation spends nothing")
+	await _key(KEY_4)
+	_demo.select_character(battle.units[2].id)
+	_check(not _demo.summoning_mode, "switching actor clears item target mode")
 	_demo.reset_demo()
 
 func _test_flow() -> void:

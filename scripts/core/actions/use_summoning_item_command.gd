@@ -37,11 +37,12 @@ func validate(context: ActionContext) -> StringName:
 	var item: ItemInstance = owner._items.get(_item_id)
 	if item == null or item.get_owner_unit_id() != actor.id: return &"item/not_owned"
 	if not item.is_active() or item._get_placement() == 0: return &"item/inactive"
-	if not item.get_definition().use_summon: return &"item/not_usable"
-	var summon_definition := item._definition.get_summon_definition()
+	var action := item.get_use_action()
+	if action == null or action.get_kind() != ItemUseAction.Kind.SUMMON_ADJACENT: return &"item/not_usable"
+	var summon_definition := action.get_summon_definition()
 	if not SummonDefinition.valid_definition(summon_definition) or not summon_definition.name_valid(actor.debug_name): return &"item/invalid_definition"
-	if item.get_charges_left() == 0: return &"item/no_charges"
-	if actor.action_resources.get_main_left() < 1: return &"item/insufficient_main"
+	if item.get_charges_left() < action.get_charge_cost(): return &"item/no_charges"
+	if actor.action_resources.get_main_left() < action.get_main_cost(): return &"item/insufficient_main"
 	if state.active_summon(actor.id) != null: return &"summon/active_helper"
 	if not valid_cell(board, actor.cell, _cell): return &"summon/invalid_cell"
 	var id := next_id(board)
@@ -75,9 +76,10 @@ func _apply(context: ActionContext, id: int, admission: Dictionary) -> UnitState
 	var state := context.get_state()
 	var actor := state.get_board().get_unit_by_id(_actor_id)
 	var item: ItemInstance = state.get_owner(_actor_id)._items[_item_id]
-	var unit := make_helper(id, actor.faction, _cell, actor.debug_name, item._definition.get_summon_definition())
-	actor.action_resources.try_spend_main(1)
-	item._charges_left -= 1
+	var action := item.get_use_action()
+	var unit := make_helper(id, actor.faction, _cell, actor.debug_name, action.get_summon_definition())
+	actor.action_resources.try_spend_main(action.get_main_cost())
+	item._charges_left -= action.get_charge_cost()
 	state.register_summon_owner(unit, actor.id)
 	context._move_rules = admission["move"]
 	context._attack_rules = admission["attack"]
@@ -110,6 +112,9 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var item: ItemInstance = state.get_owner(_actor_id)._items[_item_id]
 	var main_before := actor.action_resources.get_main_left()
 	var charges_before := item.get_charges_left()
+	var action := item.get_use_action()
+	var main_cost := action.get_main_cost()
+	var charge_cost := action.get_charge_cost()
 	var counters := context.simulation_counters()
 	var rng := context.get_rng()
 	var rng_before := rng.to_dict().duplicate(true)
@@ -120,7 +125,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	for original in originals: valid = valid and board.get_unit_by_id(original.id) == original
 	valid = valid and board.get_unit_by_id(id) == unit and state.get_owner(id).get_owner() == unit
 	valid = valid and state.get_owners().slice(0, owners.size()) == owners and state.get_inventories().slice(0, inventories.size()) == inventories and state.get_equipment_facades().slice(0, equipment.size()) == equipment
-	var used := {"kind": &"item_used", "actor_unit_id": _actor_id, "target_unit_id": _actor_id, "item_instance_id": _item_id, "main_cost": 1, "main_before": main_before, "main_after": main_before - 1, "charges_before": charges_before, "charges_after": charges_before - 1}
+	var used := {"kind": &"item_used", "actor_unit_id": _actor_id, "target_unit_id": _actor_id, "item_instance_id": _item_id, "main_cost": main_cost, "main_before": main_before, "main_after": main_before - main_cost, "charges_before": charges_before, "charges_after": charges_before - charge_cost}
 	var spawned := {"kind": &"summoned", "actor_unit_id": _actor_id, "target_unit_id": id, "item_instance_id": _item_id, "cell": _cell}
 	var result := CommandStepResult.applied([used, spawned], [], [], null, true)
 	if not valid:

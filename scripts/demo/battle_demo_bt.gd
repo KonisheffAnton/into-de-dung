@@ -184,9 +184,10 @@ func _summon() -> BattleAIIntent:
 	if battle == null or _actor == null or battle.context == null: return null
 	var item := battle.summoning_item(_actor.id)
 	if item == null: return null
+	var action := item.get_use_action()
+	if action == null or action.get_kind() != ItemUseAction.Kind.SUMMON_ADJACENT: return null
 	for cell in battle.summoning_cells(_actor.id):
-		var command := UseSummoningItemCommand.new(_actor.id, item.get_item_instance_id(), cell, battle.context.get_revision())
-		if command.validate(battle.context) != &"": continue
+		if action.availability_reason(battle.context, _actor.id, item.get_item_instance_id(), cell) != &"": continue
 		var intent := BattleAIIntent.new()
 		intent.kind = BattleAIIntent.Kind.SUMMON
 		intent.actor_id = _actor.id

@@ -105,7 +105,7 @@ func step_enemy() -> ActionReceipt:
 		return null
 	var command: Command
 	if intent.kind == BattleAIIntent.Kind.SUMMON:
-		command = UseSummoningItemCommand.new(actor.id, intent.item_id, intent.cell, context.get_revision())
+		command = item_command(actor.id, intent.item_id, intent.cell)
 	elif intent.kind == BattleAIIntent.Kind.MOVE:
 		command = MoveCommand.new(actor.id, intent.path, context.get_revision())
 	else:

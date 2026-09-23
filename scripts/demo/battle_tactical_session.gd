@@ -107,15 +107,30 @@ func healing_item() -> ItemInstance:
 	return null
 
 func healing_reason() -> StringName:
-	if not can_player_act(): return &"battle/input_locked"
-	var item := healing_item()
-	if item == null: return &"item/not_owned"
-	return UseHealingItemCommand.new(selected_id, item.get_item_instance_id(), context.get_revision()).validate(context)
+	return _item_reason(healing_item(), ItemUseAction.Kind.HEAL_SELF)
 
 func use_healing_item() -> ActionReceipt:
-	var reason := healing_reason()
+	return _use_item(healing_item(), ItemUseAction.Kind.HEAL_SELF)
+
+func _item_reason(item: ItemInstance, kind: ItemUseAction.Kind, cell: Vector2i = Vector2i(-1, -1)) -> StringName:
+	# Порядок ходов остаётся у session; описание действия знает только допуск команды.
+	if not can_player_act(): return &"battle/input_locked"
+	if item == null: return &"item/not_owned"
+	var action := item.get_use_action()
+	if action == null or action.get_kind() != kind: return &"item/not_usable"
+	return action.availability_reason(context, selected_id, item.get_item_instance_id(), cell)
+
+func _use_item(item: ItemInstance, kind: ItemUseAction.Kind, cell: Vector2i = Vector2i(-1, -1)) -> ActionReceipt:
+	var reason := _item_reason(item, kind, cell)
 	if reason != &"": return _reject(reason)
-	return _submit(UseHealingItemCommand.new(selected_id, healing_item().get_item_instance_id(), context.get_revision()))
+	return _submit(item_command(selected_id, item.get_item_instance_id(), cell))
+
+func item_command(actor_id: int, item_id: int, cell: Vector2i = Vector2i(-1, -1)) -> Command:
+	if context == null or state == null: return null
+	var owner := state.get_owner(actor_id)
+	var item: ItemInstance = owner._items.get(item_id) if owner != null and not owner.is_closed() else null
+	var action := item.get_use_action() if item != null else null
+	return action.create_command(actor_id, item_id, context.get_revision(), cell) if action != null else null
 
 func _submit(command: Command) -> ActionReceipt:
 	var receipt := super._submit(command)
@@ -196,7 +211,7 @@ func step_enemy() -> ActionReceipt:
 	_enemy_actions += 1
 	var command: Command
 	if intent.kind == BattleAIIntent.Kind.SUMMON:
-		command = UseSummoningItemCommand.new(actor.id, intent.item_id, intent.cell, context.get_revision())
+		command = item_command(actor.id, intent.item_id, intent.cell)
 	elif intent.kind == BattleAIIntent.Kind.MOVE:
 		command = MoveCommand.new(actor.id, intent.path, context.get_revision())
 	else:
@@ -235,21 +250,14 @@ func summoning_cells(actor_id: int = 0) -> Array[Vector2i]:
 	var cells: Array[Vector2i] = []
 	var actor := board.get_unit_by_id(selected_id if actor_id == 0 else actor_id) if board != null else null
 	if actor == null: return cells
-	for offset: Vector2i in [Vector2i.UP, Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]:
-		var cell := actor.cell + offset
-		if UseSummoningItemCommand.valid_cell(board, actor.cell, cell): cells.append(cell)
-	return cells
+	var item := summoning_item(actor_id)
+	var action := item.get_use_action() if item != null else null
+	return action.target_cells(board, actor.cell) if action != null else cells
 
 func summoning_reason() -> StringName:
-	if not can_player_act(): return &"battle/input_locked"
-	var item := summoning_item()
-	if item == null: return &"item/not_owned"
 	var cells := summoning_cells()
 	var cell := cells[0] if not cells.is_empty() else Vector2i(-1, -1)
-	return UseSummoningItemCommand.new(selected_id, item.get_item_instance_id(), cell, context.get_revision()).validate(context)
+	return _item_reason(summoning_item(), ItemUseAction.Kind.SUMMON_ADJACENT, cell)
 
 func use_summoning_item(cell: Vector2i) -> ActionReceipt:
-	if not can_player_act(): return _reject(&"battle/input_locked")
-	var item := summoning_item()
-	if item == null: return _reject(&"item/not_owned")
-	return _submit(UseSummoningItemCommand.new(selected_id, item.get_item_instance_id(), cell, context.get_revision()))
+	return _use_item(summoning_item(), ItemUseAction.Kind.SUMMON_ADJACENT, cell)
