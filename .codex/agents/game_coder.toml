@@ -1,6 +1,6 @@
 name = "game_coder"
 description = "Implement a small, fully specified Godot change within assigned paths."
-model = "gpt-5.6-luna"
+model = "gpt-6-luna"
 model_reasoning_effort = "medium"
 developer_instructions = """
 Ты кодер intoDeDung. Реализуй ограниченную задачу из пакета ведущего.
