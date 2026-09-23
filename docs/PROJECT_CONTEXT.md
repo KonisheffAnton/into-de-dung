@@ -1,45 +1,36 @@
-# intoDeDung — вход в проект
+# intoDeDung — карта контекста
 
-Актуальная карта на 2026-09-23. Здесь только маршруты чтения и границы проекта.
+Сначала [HANDOFF](CODEX_HANDOFF.md) и git status/HEAD, затем выбрать нужную строку.
+[AGENTS](../AGENTS.md) задаёт правила; уже предоставленный актуальный текст не перечитывать.
+Таблица — маршруты по задаче, не список обязательного чтения. Контракт/код/тесты
+читать адресно; историю и ссылки следующего уровня — только для конкретного вопроса.
 
-## Порядок чтения
-
-1. [AGENTS](../AGENTS.md) и [текущая передача](CODEX_HANDOFF.md): поручение и состояние Git.
-2. Этот индекс; затем один нужный документ из таблицы.
-3. Код и проверки затронутого механизма. Историю читать только для конкретного вопроса.
-
-## Где хранится информация
-
-| Вопрос | Основной документ |
+| Задача | Документ |
 |---|---|
-| Что реализовано, где владельцы поведения | [ARCHITECTURE](ARCHITECTURE.md) |
-| Архитектурные инварианты и причины | [DECISIONS](DECISIONS.md) |
-| Игра, концепция, предложения и открытые вопросы | [DESIGN_DIRECTION](DESIGN_DIRECTION.md) |
-| Проект новой брони/урона, числа и все пути миграции | [ARMOR_DAMAGE_D0](ARMOR_DAMAGE_D0.md); принятый дизайн; реализация первого среза — D2 |
-| Выделенный расчёт нынешней атаки без изменения поведения | [ATTACK_DAMAGE_D1](ATTACK_DAMAGE_D1.md); реализованный D1/M2a |
-| Новая броня, типы, снимки и игровой сценарий | [ARMOR_DAMAGE_D2](ARMOR_DAMAGE_D2.md); первый вертикальный срез |
-| Кровотечение, HP-gate, иммунитет и tick | [BLEEDING_D3](BLEEDING_D3.md); один рабочий срез состояния |
-| Крит по состоянию, удар в спину, оглушение/путы | [CRITICAL_BACKSTAB_C1](CRITICAL_BACKSTAB_C1.md); текущий пакет, статус — HANDOFF |
-| Подготовка, пассивное хранение, отправка, потери и сохранение забега | [EXPEDITION_D4](EXPEDITION_D4.md); первый ограниченный цикл |
-| Опасная клетка, записи тел и поднятие помощника | [ENVIRONMENT_D5](ENVIRONMENT_D5.md); первый ограниченный сценарий |
-| Предлагаемое следующее направление | Только §7 [DESIGN_DIRECTION](DESIGN_DIRECTION.md); выполнение плана требует поручения |
-| Спецификации кандидатов M1–M4 | [MODULARITY_PLAN](MODULARITY_PLAN.md); не отдельная очередь работ |
-| Определение помощника, изоляция и совместимость снимков | [SUMMON_DEFINITION_M1](SUMMON_DEFINITION_M1.md); реализованный M1 |
-| Нынешний бой и управление | [TACTICAL_BATTLE](TACTICAL_BATTLE.md) |
-| Проход через союзников / свободная остановка | [ALLY_TRANSIT](ALLY_TRANSIT.md) |
-| Прогноз / стойка / флакон / призыв | [ATTACK_FORECAST](ATTACK_FORECAST.md), [ACTION_PANEL_GUARD](ACTION_PANEL_GUARD.md), [HEALING_ITEM](HEALING_ITEM.md), [SUMMON_ITEM](SUMMON_ITEM.md) |
-| Ранее согласованный будущий дизайн | [TACTICAL_DESIGN_NEXT](TACTICAL_DESIGN_NEXT.md); не статус реализации |
-| Исполнение и точные Pxx-спецификации | [COMMAND_ACTION_QUEUE_CONTRACT](COMMAND_ACTION_QUEUE_CONTRACT.md) |
-| Запуск / проверка | [REPOSITORY_STATE](REPOSITORY_STATE.md) / [TESTING](TESTING.md) |
-| Организация работы и контекста | [CODEX_WORKFLOW](CODEX_WORKFLOW.md) |
-| Архивные решения, отчёты и старые дефекты | [HISTORY](HISTORY.md) |
+| Владельцы поведения / архитектурные инварианты | [ARCHITECTURE](ARCHITECTURE.md) / [DECISIONS](DECISIONS.md) |
+| Выбор следующего среза / концепция | §7 / нужный раздел [DESIGN_DIRECTION](DESIGN_DIRECTION.md) |
+| Делегирование, ведение и проверка объёма контекста | [CODEX_WORKFLOW](CODEX_WORKFLOW.md) |
+| Запуск / автоматические проверки | [REPOSITORY_STATE](REPOSITORY_STATE.md) / [TESTING](TESTING.md) |
+| Нынешний бой, управление | [TACTICAL_BATTLE](TACTICAL_BATTLE.md) |
+| Проход через союзников | [ALLY_TRANSIT](ALLY_TRANSIT.md) |
+| Дизайн брони, формулы, пути урона | [ARMOR_DAMAGE_D0](ARMOR_DAMAGE_D0.md) |
+| Выделенный расчёт атаки D1/M2a | [ATTACK_DAMAGE_D1](ATTACK_DAMAGE_D1.md) |
+| Реализованная броня и типы D2 | [ARMOR_DAMAGE_D2](ARMOR_DAMAGE_D2.md) |
+| Кровотечение D3 | [BLEEDING_D3](BLEEDING_D3.md) |
+| Подготовка, вещи, сохранение забега D4 | [EXPEDITION_D4](EXPEDITION_D4.md) |
+| Шипы, тела, поднятие D5 | [ENVIRONMENT_D5](ENVIRONMENT_D5.md) |
+| Шаблон помощника, снимки M1 | [SUMMON_DEFINITION_M1](SUMMON_DEFINITION_M1.md) |
+| Крит, спина, оглушение/путы C1 | [CRITICAL_BACKSTAB_C1](CRITICAL_BACKSTAB_C1.md) |
+| Прогноз / стойка | [ATTACK_FORECAST](ATTACK_FORECAST.md) / [ACTION_PANEL_GUARD](ACTION_PANEL_GUARD.md) |
+| Флакон / призыв предметом | [HEALING_ITEM](HEALING_ITEM.md) / [SUMMON_ITEM](SUMMON_ITEM.md) |
+| Исполнение, маршруты к frozen Pxx | [COMMAND_ACTION_QUEUE_CONTRACT](COMMAND_ACTION_QUEUE_CONTRACT.md) |
+| Будущий дизайн / кандидаты модульности | [TACTICAL_DESIGN_NEXT](TACTICAL_DESIGN_NEXT.md) / [MODULARITY_PLAN](MODULARITY_PLAN.md) |
+| Свидетельства прошлых этапов, архивы | [HISTORY](HISTORY.md) |
 
-## Как разрешать расхождения
-
-Последнее явное указание пользователя задаёт желаемое изменение, но не доказывает
-его реализацию. Текущее поведение подтверждается кодом и контрактом механизма;
-результаты проверок имеют дату и commit. При расхождении описать его до зависимой работы.
-Предложение, принятый дизайн, реализованный механизм и проверенный результат — разные статусы.
-Frozen Pxx описывают свои этапы; позднейшие изменения указаны в контрактах механизмов.
-Нельзя менять старый frozen текст, чтобы задним числом приписать ему новое поведение.
-Файлы `*.history-*.md` и `docs/modules/` — история, не рабочие инструкции.
+Последнее указание пользователя задаёт желаемое изменение, но не доказывает
+реализацию. Факты сверять с кодом и контрактом; проверки имеют дату и commit.
+При расхождении описать его до зависимой работы. План, принятое решение,
+реализация, техническая проверка и пользовательская приёмка — разные статусы.
+Frozen Pxx описывают свои этапы; последующие изменения — в контрактах механизмов.
+Не переписывать frozen текст под новое поведение. *.history-*.md и docs/modules/
+хранят историю; это не текущие инструкции. Наличие плана не разрешает его выполнение.
