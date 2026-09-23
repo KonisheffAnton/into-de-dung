@@ -66,9 +66,10 @@ BattleDemo перенаправляет колесо над текущей це�
   в ItemOwnerState и переносит нестандартный шаблон в ItemSimulation v6.
   [M3](ITEM_USE_M3.md) даёт общее типизированное описание применения и factory
   двух прежних команд; use_* остаются сериализованным источником, schemas прежние.
-- Снимки проверяют точные схемы и поддерживаемые виды данных. Диапазон stat IDs
-  0..10 проверяется в StatsBag, ItemOwnerState и SimulationSnapshot; одного нового
-  значения enum недостаточно для расширения. Боевой snapshot не равен save-game.
+- Снимки проверяют точные схемы и поддерживаемые виды данных. Raw stat IDs
+  проверяются через `StatTypes.is_valid_id` в StatsBag, ItemOwnerState и
+  SimulationSnapshot; M4 добавил ID 11. Новому stat нужны правила потребителя
+  и проверки runtime/снимков. Боевой snapshot не равен save-game.
 - Мёртвый UnitState остаётся в реестре без живой occupancy. Это не готовый CorpseState.
 
 Инварианты и обоснования — [DECISIONS](DECISIONS.md); API/пакеты исполнения —

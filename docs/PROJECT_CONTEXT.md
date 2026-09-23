@@ -8,7 +8,7 @@
 | Задача | Документ |
 |---|---|
 | Владельцы поведения / архитектурные инварианты | [ARCHITECTURE](ARCHITECTURE.md) / [DECISIONS](DECISIONS.md) |
-| Выбор следующего среза / концепция | §7 / нужный раздел [DESIGN_DIRECTION](DESIGN_DIRECTION.md) |
+| Готовность ядра / следующий срез | [CORE_READINESS](CORE_READINESS.md) / §7 [DESIGN_DIRECTION](DESIGN_DIRECTION.md) |
 | Делегирование, ведение и проверка объёма контекста | [CODEX_WORKFLOW](CODEX_WORKFLOW.md) |
 | Запуск / автоматические проверки | [REPOSITORY_STATE](REPOSITORY_STATE.md) / [TESTING](TESTING.md) |
 | Нынешний бой, управление | [TACTICAL_BATTLE](TACTICAL_BATTLE.md) |
