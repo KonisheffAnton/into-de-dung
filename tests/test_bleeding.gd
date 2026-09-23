@@ -14,6 +14,7 @@ func check(value: bool, label: String) -> void:
 func _run() -> void:
 	_test_gate()
 	_test_duration()
+	_test_stacked_duration()
 	_test_spatial()
 	_test_faults()
 	_test_turns()
@@ -143,7 +144,7 @@ func _test_duration() -> void:
 	check(kinds(r.get_events()).count(&"hit_resolved") == 1 and kinds(r.get_events()).count(&"bleeding_changed") == 1,"tick not recursive")
 	s.units[0].try_refill_turn_resources()
 	parity(s,"refresh")
-	check(target.bleeding.ticks_left == 2,"refresh to two no stack")
+	check(target.bleeding.ticks_left == 3,"repeat adds two to one remaining tick")
 	target.bleeding.immune = true
 	target.vitals.set_hp(32.0)
 	fill(s,target,true)
@@ -155,9 +156,11 @@ func _test_duration() -> void:
 	target.vitals.set_hp(16.0)
 	hp = target.vitals.get_hp()
 	r = turn(s,Faction.Type.ENEMY)
-	check(r.status == &"APPLIED" and target.vitals.get_hp() == hp - 2 and target.bleeding.ticks_left == 1,"natural defense, immunity does not cure existing")
+	check(r.status == &"APPLIED" and target.vitals.get_hp() == hp - 2 and target.bleeding.ticks_left == 2,"natural defense, immunity does not cure existing")
 	r = turn(s,Faction.Type.ENEMY)
-	check(r.status == &"APPLIED" and target.bleeding.ticks_left == 0 and target.bleeding.source.is_empty() and target.bleeding.hit_id.is_empty(),"second tick expires")
+	check(r.status == &"APPLIED" and target.bleeding.ticks_left == 1 and target.vitals.get_hp() == hp - 4,"stack keeps third remaining tick")
+	r = turn(s,Faction.Type.ENEMY)
+	check(r.status == &"APPLIED" and target.bleeding.ticks_left == 0 and target.bleeding.source.is_empty() and target.bleeding.hit_id.is_empty() and target.vitals.get_hp() == hp - 6,"full accumulated duration expires")
 	hp = target.vitals.get_hp()
 	r = turn(s,Faction.Type.ENEMY)
 	check(r.status == &"APPLIED" and r.get_events().is_empty() and target.vitals.get_hp() == hp,"expired no further tick")
@@ -207,10 +210,61 @@ func _test_spatial() -> void:
 			check(order.find(&"healed") > order.find(&"bleeding_changed"),"all optional healing after application " + mode)
 		s.close()
 
+func _test_stacked_duration() -> void:
+	var s := fixture()
+	var actor := s.units[0]
+	var target := s.units[1]
+	no_heal(s)
+	target.stats.set_base_value(StatTypes.StatType.HP_MAX,128.0)
+	target.vitals.set_hp(128.0)
+	s.rune_selected = true
+	for expected: int in [2,4,6]:
+		fill(s,target,true)
+		actor.try_refill_turn_resources()
+		var forecast := parity(s,"successive application %d" % expected)
+		check(target.bleeding.ticks_left == expected,"successive applications add two")
+		var changed: Dictionary = events_of_kind(forecast.events,&"bleeding_changed")[0]
+		check(changed["after"]["ticks_left"] == expected,"event reports accumulated duration")
+		if expected > 2:
+			# Проверяем draft, а не журнал с полями, добавленными очередью.
+			var draft := {"kind": &"bleeding_changed", "actor_unit_id": actor.id, "target_unit_id": target.id, "reason": &"refreshed", "before": changed["before"], "after": changed["after"].duplicate(true)}
+			check(ActionQueue._valid_bleeding_draft(draft),"queue accepts exact accumulated duration")
+			draft["after"]["ticks_left"] = 2
+			draft["after"]["schema_version"] = 1
+			check(not ActionQueue._valid_bleeding_draft(draft),"queue rejects old refresh duration")
+	var hp := target.vitals.get_hp()
+	var rng := s.context.get_rng().to_dict()
+	for elapsed: int in range(1,7):
+		var receipt := turn_parity(s,Faction.Type.ENEMY)
+		check(receipt.status == &"APPLIED" and target.bleeding.ticks_left == 6 - elapsed and target.vitals.get_hp() == hp - 4 * elapsed,"accumulated tick %d keeps fixed damage" % elapsed)
+	check(target.bleeding.source.is_empty() and target.bleeding.hit_id.is_empty() and s.context.get_rng().to_dict() == rng,"all six ticks expire without RNG")
+	var expired := turn(s,Faction.Type.ENEMY)
+	check(expired.get_events().is_empty() and target.vitals.get_hp() == hp - 24,"no seventh tick")
+	s.close()
+
+	s = fixture(); actor = s.units[0]; target = s.units[1]
+	seed_status(actor,target)
+	target.bleeding.ticks_left = BleedingState.MAX_TICKS - 2
+	s.rune_selected = true
+	fill(s,target,true)
+	parity(s,"last representable extension")
+	check(target.bleeding.ticks_left == BleedingState.MAX_TICKS,"maximum duration reached exactly")
+	actor.try_refill_turn_resources()
+	fill(s,target,true)
+	var preserved := target.bleeding.to_dict()
+	var before := ItemSimulationSnapshot.capture(s.state,[]).snapshot.to_dict()
+	var predicted := s.preview_attack(target.id)
+	check(ItemSimulationSnapshot.capture(s.state,[]).snapshot.to_dict() == before,"overflow preview stays isolated")
+	var overflow := s.attack_unit(target.id)
+	check(overflow.status == &"FAULTED" and overflow.reason == &"bleeding/duration_exhausted" and overflow.get_events() == predicted.events and overflow.get_steps() == predicted.steps,"overflow fault has preview/live parity")
+	check(target.bleeding.to_dict() == preserved and actor.action_resources.get_main_left() == 0 and kinds(overflow.get_events()).count(&"hit_resolved") == 1 and &"bleeding_changed" not in kinds(overflow.get_events()),"overflow preserves paid hit prefix and old status")
+	check(ItemSimulationSnapshot.capture(s.state,[]).snapshot.to_dict() == predicted.snapshot_after and s.context.get_rng().to_dict() == predicted.rng_after and s.context.simulation_counters() == predicted.counters_after,"overflow state RNG counters match forecast")
+	s.close()
+
 func _test_faults() -> void:
-	for mode: String in ["apply", "tick", "hp"]:
+	for mode: String in ["apply", "extend", "tick", "hp"]:
 		var s := fixture(); var target := s.units[1]
-		if mode == "tick": seed_status(s.units[0],target)
+		if mode in ["tick", "extend"]: seed_status(s.units[0],target)
 		var mutate := func() -> void: target.bleeding.immune = true
 		var hp_mutate := func(_a: float,_b: float) -> void: target.bleeding.immune = true
 		if mode == "hp": target.vitals.hp_changed.connect(hp_mutate)
@@ -221,7 +275,7 @@ func _test_faults() -> void:
 			check(target.bleeding.ticks_left == 0 and &"hit_resolved" not in kinds(r.get_events()),"HP callback no full hit or application")
 			target.vitals.hp_changed.disconnect(hp_mutate)
 		else:
-			check(target.bleeding.ticks_left == (1 if mode == "tick" else 2) and &"bleeding_changed" in kinds(r.get_events()),mode + " written status prefix retained")
+			check(target.bleeding.ticks_left == (1 if mode == "tick" else (4 if mode == "extend" else 2)) and &"bleeding_changed" in kinds(r.get_events()),mode + " written status prefix retained")
 			target.bleeding.changed.disconnect(mutate)
 		s.close()
 	for limit: int in [2,3]:
@@ -287,7 +341,7 @@ func _test_edge_refresh_and_boundary() -> void:
 		var source: Dictionary = target.bleeding.source
 		check(source["instigator_unit_id"] == second_actor.id and source["credit_unit_id"] == second_actor.id and source["origin_cell"] == second_actor.cell,"edge refresh source is latest actor and origin")
 		check(target.bleeding.hit_id == hit["hit_id"] and changed["after"]["hit_id"] == hit["hit_id"] and hit["hit_id"] != first_hit["hit_id"],"edge refresh links latest real hit id")
-		check(changed["reason"] == &"refreshed" and changed["before"]["ticks_left"] == 1 and changed["after"]["ticks_left"] == 2,"edge refresh updates one stack duration")
+		check(changed["reason"] == &"refreshed" and changed["before"]["ticks_left"] == 1 and changed["after"]["ticks_left"] == 3,"edge repeat adds duration and replaces source")
 	s.close()
 
 	s = fixture()

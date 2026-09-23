@@ -42,17 +42,21 @@ func execute(context: ActionContext) -> CommandStepResult:
 	if not _target.is_alive(): return CommandStepResult.skipped(&"bleeding/dead_target")
 	if _target.bleeding.immune: return CommandStepResult.skipped(&"bleeding/immune")
 	if not _eligible: return CommandStepResult.skipped(&"bleeding/hp_gate")
+	# Не допускаем переполнения и сохраняем уже исполненный hit без изменения статуса.
+	if _target.bleeding.ticks_left > BleedingState.MAX_TICKS - BleedingState.DURATION:
+		return CommandStepResult.faulted(&"bleeding/duration_exhausted")
 	var guard := SpatialRules.capture_guard(context, [_target], [_target.cell], {})
 	if guard == null: return CommandStepResult.faulted(&"bleeding/invalid_state")
 	var state := _target.bleeding
 	var before := state.to_dict()
 	var after := before.duplicate(true)
-	after["ticks_left"] = BleedingState.DURATION
+	after["ticks_left"] += BleedingState.DURATION
+	after["schema_version"] = BleedingState.schema_for_ticks(after["ticks_left"])
 	after["source"] = _source.to_dict()
 	after["hit_id"] = _hit_id
 	if not BleedingState.valid(after): return CommandStepResult.faulted(&"bleeding/invalid_source")
 	guard = guard.bleeding_phase(_target.id, after)
-	state.ticks_left = BleedingState.DURATION
+	state.ticks_left = after["ticks_left"]
 	state.source = _source.to_dict()
 	state.hit_id = _hit_id
 	var event := {"kind": &"bleeding_changed", "actor_unit_id": _actor.id, "target_unit_id": _target.id, "reason": &"applied" if before["ticks_left"] == 0 else &"refreshed", "before": before, "after": after}

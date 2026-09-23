@@ -100,6 +100,9 @@ BleedingState принадлежит UnitState; Unit v5 сохраняет ег�
 ItemSimulation остаётся v4. AttackDefinition явно выбирает physical_hp или
 bypass_hp_gate. AttackHit сохраняет допуск своего прямого hit до лечения;
 BleedingApplyCommand исполняется после spatial, перед отложенными item reactions.
+Повторное наложение накапливает срок; BleedingState использует прежний v1 для
+0..2 тиков и v2 для большего остатка, сохраняя legacy bytes. Очередь проверяет
+точное прибавление. Unit/ItemSimulation оболочки прежние.
 BleedingTurnCommand создаёт тики по ID в начале хода команды перед refill;
 BleedingTickCommand уменьшает срок и исполняет ArmorHitExecutor (physical,
 hp_only_natural). Guard проверяет значения и identity состояния; tick не рекурсивен.

@@ -368,7 +368,8 @@ static func _valid_bleeding_draft(draft: Dictionary) -> bool:
 	if draft["reason"] == &"tick":
 		if before["ticks_left"] < 1 or after["ticks_left"] != before["ticks_left"] - 1 or before["source"]["instigator_unit_id"] != draft["actor_unit_id"]: return false
 		return after["ticks_left"] == 0 or (after["source"] == before["source"] and after["hit_id"] == before["hit_id"])
-	return not after["immune"] and after["ticks_left"] == BleedingState.DURATION and after["source"]["instigator_unit_id"] == draft["actor_unit_id"] and ((draft["reason"] == &"applied" and before["ticks_left"] == 0) or (draft["reason"] == &"refreshed" and before["ticks_left"] > 0))
+	if before["ticks_left"] > BleedingState.MAX_TICKS - BleedingState.DURATION: return false
+	return not after["immune"] and after["ticks_left"] == before["ticks_left"] + BleedingState.DURATION and after["source"]["instigator_unit_id"] == draft["actor_unit_id"] and ((draft["reason"] == &"applied" and before["ticks_left"] == 0) or (draft["reason"] == &"refreshed" and before["ticks_left"] > 0))
 
 static func _valid_control_draft(draft: Dictionary) -> bool:
 	if not ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "target_unit_id": TYPE_INT, "before": TYPE_DICTIONARY, "after": TYPE_DICTIONARY, "reason": TYPE_STRING_NAME}): return false

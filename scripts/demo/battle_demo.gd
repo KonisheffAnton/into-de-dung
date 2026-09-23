@@ -509,7 +509,7 @@ func _refresh() -> void:
 			var reason := _battle.summoning_reason()
 			descriptors.append(_item_action_descriptor(seal, &"summoning_item", reason))
 		if session is BattleBleedingSession:
-			descriptors.append({"action_id": &"blood_rune", "label": "Кровавая руна", "cost": "Перк · 1 основное", "disabled": locked or session.selected_unit() == null or not session.selected_unit().can_attack(), "tooltip": "Перк персонажа «Кровавая руна»: эта атака накладывает кровотечение даже без физического урона HP. Иммунитет сохраняется. 2 тика по 4 с учётом естественной защиты; повторное наложение обновляет срок."})
+			descriptors.append({"action_id": &"blood_rune", "label": "Кровавая руна", "cost": "Перк · 1 основное", "disabled": locked or session.selected_unit() == null or not session.selected_unit().can_attack(), "tooltip": "Перк персонажа «Кровавая руна»: эта атака накладывает кровотечение даже без физического урона HP. Иммунитет сохраняется. Каждое успешное наложение добавляет 2 тика по 4 с учётом естественной защиты."})
 		if environment_mode and session is BattleEnvironmentSession:
 			var raise_reason := (session as BattleEnvironmentSession).raise_reason()
 			descriptors.append({"action_id": &"raise_corpse", "label": "Поднять тело", "cost": "1 основное", "disabled": locked or raise_reason != &"", "tooltip": "Выберите соседнюю свободную клетку без шипов той же высоты. Помощник: 16 HP, действует со следующего хода команды.\n" + (_reason_text(raise_reason) if raise_reason != &"" else "Тело расходуется после успешного поднятия.")})
@@ -608,7 +608,7 @@ func _inspection_text(unit: UnitState) -> String:
 		text += "\nДействия со следующего хода своей команды." if session.state.is_summon_pending(unit.id) else "\nГотов действовать."
 	var descriptions: Array[String] = []
 	if unit.bleeding != null:
-		var condition := "Кровотечение: %d тика · 4 до защиты" % unit.bleeding.ticks_left
+		var condition := "Кровотечение: тиков — %d · 4 до защиты" % unit.bleeding.ticks_left
 		if session is BattleBleedingSession and unit.faction == Faction.Type.PLAYER:
 			condition += "\nПерк: Кровавая руна · атака клавишей 5"
 		if unit.bleeding.immune: condition += "\nИммунитет к кровотечению и руне"
@@ -859,8 +859,8 @@ func _event_text(event: Dictionary) -> String:
 	match StringName(event.get("kind", &"")):
 		&"bleeding_changed":
 			var ticks: int = event["after"]["ticks_left"]
-			if event["reason"] == &"tick": return "%s: тик кровотечения; %s." % [target, "срок истёк" if ticks == 0 else "остался %d тик" % ticks]
-			return "%s: кровотечение %s — 2 тика." % [target, "наложено" if event["reason"] == &"applied" else "обновлено"]
+			if event["reason"] == &"tick": return "%s: тик кровотечения; %s." % [target, "срок истёк" if ticks == 0 else "осталось тиков: %d" % ticks]
+			return "%s: кровотечение %s — тиков: %d." % [target, "наложено" if event["reason"] == &"applied" else "продлено", ticks]
 		&"attacked":
 			var suffix := ""
 			var modifiers: Dictionary = event.get("modifiers", {})

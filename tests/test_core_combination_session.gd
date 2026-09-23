@@ -14,6 +14,7 @@ func check(value: bool, label: String) -> void:
 func _run() -> void:
 	_start_and_restore()
 	_attacks()
+	_stacked_bleeding()
 	_rejections_and_helper()
 	_team_boundaries()
 	_lethal_boundary(Faction.Type.ENEMY)
@@ -120,6 +121,27 @@ func _attacks() -> void:
 		elif mode == "rune": check(target.bleeding.ticks_left == 2, "rune applies through armour after root/spikes")
 		else: check(target.bleeding.ticks_left == 0, mode + " immunity preserved")
 		s.close()
+
+func _stacked_bleeding() -> void:
+	var s := BattleCoreCombinationSession.new()
+	var actor := s.units[2]
+	var target := s.units[3]
+	check(s.select_unit(actor.id),"stack select Bor")
+	actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER,0.0)
+	target.bleeding.immune = false
+	target.stats.set_base_value(StatTypes.StatType.HP_MAX,256.0)
+	target.vitals.set_hp(256.0)
+	target.armor.natural["physical"] = 0
+	s.rune_selected = true
+	_parity(s,target,"K2 first bleeding")
+	actor.try_refill_turn_resources()
+	_parity(s,target,"K2 repeated bleeding")
+	check(target.bleeding.ticks_left == 4,"K2 repeat stacks duration to four")
+	var hp := target.vitals.get_hp()
+	var rng := s.context.get_rng().to_dict()
+	check(s.end_player_turn() and target.bleeding.ticks_left == 3 and target.vitals.get_hp() == hp - 4,"K2 team boundary consumes one tick with fixed damage")
+	check(s.context.get_rng().to_dict() == rng,"K2 stacked tick uses no RNG")
+	s.close()
 
 func _rejections_and_helper() -> void:
 	var s := BattleCoreCombinationSession.new()

@@ -10,16 +10,17 @@ func _run() -> void:
 	var source := {"kind": &"attack", "source_instance_id": 0, "origin_cell": Vector2i(1, 2), "instigator_unit_id": 1, "credit_unit_id": 1}
 	var state := BleedingState.new()
 	state.immune = true
-	state.ticks_left = 2
+	state.ticks_left = 6
 	state.source = source
 	state.hit_id = "hit-1"
 	var raw := state.to_dict()
 	_check(BleedingState.valid(raw), "bleeding roundtrip shape")
 	var copy := BleedingState.from_dict(raw)
-	_check(copy != null and copy.immune and copy.ticks_left == 2 and copy.hit_id == "hit-1", "bleeding values")
+	_check(copy != null and copy.immune and copy.ticks_left == 6 and copy.hit_id == "hit-1" and raw["schema_version"] == 2, "stacked bleeding v2 values")
 	copy.source["origin_cell"] = Vector2i(9, 9)
 	_check(state.source["origin_cell"] == Vector2i(1, 2), "source deep isolation")
 	var expired := raw.duplicate(true)
+	expired["schema_version"] = 1
 	expired["ticks_left"] = 0
 	expired["source"] = {}
 	expired["hit_id"] = ""
@@ -29,8 +30,21 @@ func _run() -> void:
 	_check(not BleedingState.valid(invalid), "invalid source rejected")
 	_check(not BleedingState.valid(raw.merged({"extra": true})), "extra field rejected")
 	var bad_ticks := raw.duplicate(true)
-	bad_ticks["ticks_left"] = 3
-	_check(not BleedingState.valid(bad_ticks), "ticks limit rejected")
+	bad_ticks["ticks_left"] = -1
+	_check(not BleedingState.valid(bad_ticks), "negative ticks rejected")
+	bad_ticks["ticks_left"] = 2.0
+	_check(not BleedingState.valid(bad_ticks), "non-integer ticks rejected")
+	var legacy := raw.duplicate(true)
+	legacy["schema_version"] = 1
+	legacy["ticks_left"] = 2
+	var migrated := BleedingState.from_dict(legacy)
+	_check(migrated != null and migrated.to_dict() == legacy, "legacy v1 keeps exact fields without tick or refill")
+	_check(not BleedingState.valid(legacy.merged({"schema_version": 2}, true)), "noncanonical v2 with legacy duration rejected")
+	legacy["ticks_left"] = 3
+	_check(not BleedingState.valid(legacy), "legacy v1 duration remains bounded")
+	var largest := raw.duplicate(true)
+	largest["ticks_left"] = BleedingState.MAX_TICKS
+	_check(BleedingState.from_dict(largest).to_dict() == largest, "v2 keeps int64 duration exactly")
 	var bad_hit := raw.duplicate(true)
 	bad_hit["hit_id"] = ""
 	_check(not BleedingState.valid(bad_hit), "empty active hit rejected")
@@ -41,7 +55,7 @@ func _run() -> void:
 		var missing_field := raw.duplicate(true)
 		missing_field.erase(field)
 		_check(not BleedingState.valid(missing_field), "required state field " + field)
-	for version: int in [0,2]:
+	for version: int in [0,3]:
 		var unknown := raw.duplicate(true)
 		unknown["schema_version"] = version
 		_check(not BleedingState.valid(unknown), "unknown bleeding version")
@@ -94,6 +108,18 @@ func _run() -> void:
 		old_envelope["schema_version"] = 3
 		old_envelope["scope"] = ItemSimulationSnapshot.SCOPE_V3
 		_check(ItemSimulationSnapshot.from_dict(old_envelope).code != ItemSnapshotResult.Code.OK, "old envelope cannot hide status")
+		var legacy_dto := dto.duplicate(true)
+		legacy_dto["board_snapshot"]["board"]["units"][0]["bleeding"] = raw.merged({"schema_version": 1, "ticks_left": 2, "source": state.source.duplicate(true)}, true)
+		var legacy_capture := ItemSimulationSnapshot.from_dict(legacy_dto)
+		_check(legacy_capture.code == ItemSnapshotResult.Code.OK, "legacy item envelope with bleeding v1 decodes")
+		if legacy_capture.snapshot != null:
+			var legacy_restore := legacy_capture.snapshot.instantiate(_definitions(session))
+			_check(legacy_restore.code == ItemSnapshotResult.Code.OK, "legacy bleeding v1 instantiates")
+			if legacy_restore.state != null:
+				var legacy_status := legacy_restore.state.get_board().get_unit_by_id(unit.id).bleeding
+				_check(legacy_status.to_dict() == state.to_dict().merged({"schema_version": 1, "ticks_left": 2}, true), "legacy restore preserves exact v1 source immunity duration")
+				_check(ItemSimulationSnapshot.capture(legacy_restore.state, []).snapshot.canonical_bytes() == legacy_capture.snapshot.canonical_bytes(), "legacy v1 envelope retains exact canonical bytes")
+				AttackForecast._close(legacy_restore.state)
 		var altered := dto.duplicate(true)
 		altered["board_snapshot"]["board"]["units"][0]["bleeding"]["source"]["origin_cell"] = Vector2i(-2,9)
 		var altered_capture := ItemSimulationSnapshot.from_dict(altered)

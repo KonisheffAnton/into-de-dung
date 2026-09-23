@@ -4,6 +4,7 @@ class_name BleedingState
 const DURATION: int = 2
 const DAMAGE: int = 4
 const MAX_ID: int = 9223372036854775807
+const MAX_TICKS: int = 9223372036854775807
 
 var immune: bool = false
 var ticks_left: int = 0
@@ -14,12 +15,16 @@ signal changed()
 
 func to_dict() -> Dictionary:
 	return {
-		"schema_version": 1,
+		"schema_version": schema_for_ticks(ticks_left),
 		"immune": immune,
 		"ticks_left": ticks_left,
 		"source": _copy_source(source),
 		"hit_id": hit_id,
 	}
+
+static func schema_for_ticks(ticks: int) -> int:
+	# Минимальная схема сохраняет точные байты прежних снимков D3/M1.
+	return 1 if ticks <= DURATION else 2
 
 static func valid(data: Variant) -> bool:
 	if typeof(data) != TYPE_DICTIONARY:
@@ -27,12 +32,13 @@ static func valid(data: Variant) -> bool:
 	var value: Dictionary = data
 	if not _has_exact_keys(value, ["schema_version", "immune", "ticks_left", "source", "hit_id"]):
 		return false
-	if typeof(value["schema_version"]) != TYPE_INT or value["schema_version"] != 1:
+	if typeof(value["schema_version"]) != TYPE_INT or value["schema_version"] not in [1, 2]:
 		return false
 	if typeof(value["immune"]) != TYPE_BOOL or typeof(value["ticks_left"]) != TYPE_INT:
 		return false
 	var ticks: int = value["ticks_left"]
-	if ticks < 0 or ticks > DURATION or typeof(value["source"]) != TYPE_DICTIONARY or typeof(value["hit_id"]) != TYPE_STRING:
+	# Старый формат сохраняет свой предел; накопленный срок хранится только в v2.
+	if ticks < 0 or value["schema_version"] != schema_for_ticks(ticks) or typeof(value["source"]) != TYPE_DICTIONARY or typeof(value["hit_id"]) != TYPE_STRING:
 		return false
 	if value["hit_id"].to_utf8_buffer().size() > 128:
 		return false
