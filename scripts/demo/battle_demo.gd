@@ -6,6 +6,7 @@ class_name BattleDemo
 @export var bleeding_mode: bool = false
 @export var environment_mode: bool = false
 @export var control_mode: bool = false
+@export var core_combination_mode: bool = false
 var session: BattleDemoSession
 var board_view: BattleDemoBoard
 var attack_mode: bool = false
@@ -47,7 +48,10 @@ func _ready() -> void:
 	_refresh()
 
 func _create_session() -> void:
-	if control_mode:
+	# Составной сценарий проверяется первым, чтобы его флаги отображения не подменили сессию.
+	if core_combination_mode:
+		session = BattleCoreCombinationSession.new()
+	elif control_mode:
 		session = BattleControlSession.new()
 	else:
 		session = BattleEnvironmentSession.new() if environment_mode else (BattleBleedingSession.new() if bleeding_mode else (BattleArmorSession.new() if armor_mode else (BattleTacticalSession.new() if tactical_mode else BattleDemoSession.new())))
@@ -151,6 +155,10 @@ func _build_ui() -> void:
 	compare_button.focus_mode = Control.FOCUS_NONE
 	compare_button.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://scenes/demo/initiative_battle.tscn"))
 	toolbar.add_child(compare_button)
+	var combination_button := _button("Сочетания ядра")
+	combination_button.focus_mode = Control.FOCUS_NONE
+	combination_button.pressed.connect(_open_core_combination_scenario)
+	toolbar.add_child(combination_button)
 	board_view = BattleDemoBoard.new()
 	board_view.session = session
 	board_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -343,6 +351,7 @@ func reset_demo() -> void:
 
 func toggle_scenario() -> void:
 	control_mode = false
+	core_combination_mode = false
 	_clear_forecast()
 	session.close()
 	armor_mode = false
@@ -364,6 +373,7 @@ func _open_bleeding_scenario() -> void:
 
 func _open_armor_scenario(with_bleeding: bool = false) -> void:
 	control_mode = false
+	core_combination_mode = false
 	_clear_forecast()
 	session.close()
 	armor_mode = true
@@ -382,6 +392,7 @@ func _open_armor_scenario(with_bleeding: bool = false) -> void:
 
 func _open_environment_scenario() -> void:
 	control_mode = false
+	core_combination_mode = false
 	_clear_forecast()
 	if session != null: session.close()
 	armor_mode = true
@@ -402,6 +413,7 @@ func _open_environment_scenario() -> void:
 func _open_control_scenario() -> void:
 	_clear_forecast()
 	if session != null: session.close()
+	core_combination_mode = false
 	control_mode = true
 	armor_mode = true
 	bleeding_mode = false
@@ -415,6 +427,27 @@ func _open_control_scenario() -> void:
 	inspected_id = UnitId.NONE
 	_journal.clear()
 	_note("Крит по оглушённой или опутанной цели: ×2 урон и воздействие. Удар с тыла: +50% базы.")
+	_refresh()
+
+func _open_core_combination_scenario() -> void:
+	_clear_forecast()
+	if session != null: session.close()
+	core_combination_mode = true
+	# Эти флаги включают уже существующие подсказки и действия окружения/контроля.
+	control_mode = true
+	armor_mode = true
+	bleeding_mode = true
+	environment_mode = true
+	tactical_mode = true
+	_create_session()
+	board_view.session = session
+	board_view.environment_mode = true
+	summoning_mode = false
+	raising_mode = false
+	attack_mode = false
+	inspected_id = UnitId.NONE
+	_journal.clear()
+	_note("Сочетания ядра: контроль, тыл и крит, кровотечение, шипы и поднятие тела.")
 	_refresh()
 
 func end_turn() -> void:
@@ -442,6 +475,7 @@ func _refresh() -> void:
 	if bleeding_mode: _heading.text = "intoDeDung   /   Кровотечение"
 	if environment_mode: _heading.text = "intoDeDung   /   Среда и трупы"
 	if control_mode: _heading.text = "intoDeDung   /   Крит и спина"
+	if core_combination_mode: _heading.text = "intoDeDung   /   Сочетания ядра"
 	_subtitle.text = "Трое против троих. Победите всех врагов; потеря команды означает поражение." if tactical_mode else "Поднимитесь по ступеням. Ударьте сверху. Столкните стража с уступа."
 	_subtitle.visible = not tactical_mode
 	_status.custom_minimum_size.y = 26 if tactical_mode else 46

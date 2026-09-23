@@ -106,3 +106,10 @@ attacked полем `modifiers={backstab_percent:int,critical:bool}`; очере
 `BattleControlSession`/`control_battle.tscn` — отдельный вход; AI вызывает тот же
 AttackCommand. UI показывает реальный forecast/events, а направление стрелки
 рисует по разности проекций клеток (смещение карты не меняет вектор).
+
+В [K2](CORE_READINESS.md#k2--общий-игровой-сценарий-c1d3d5) те же опции
+включены в оба определения D3, без изменения их bleeding policy.
+`BattleCoreCombinationSession` завершает контроль исходящей команды перед
+унаследованным bleeding/refill входящей. После FAULTED или конца боя дальнейшие
+стадии и смена фазы запрещены. Первые шесть персонажей имеют ControlState;
+прежний помощник D5/M1 остаётся с nullable control. Наложение контроля не добавлено.
