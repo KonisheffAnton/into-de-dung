@@ -146,6 +146,11 @@ func _build_ui() -> void:
 	_end_turn_button = _button("Завершить ход · Enter")
 	_end_turn_button.pressed.connect(end_turn)
 	toolbar.add_child(_end_turn_button)
+	var compare_button := _button("Сравнить ходы")
+	compare_button.name = "CompareTurnsButton"
+	compare_button.focus_mode = Control.FOCUS_NONE
+	compare_button.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://scenes/demo/initiative_battle.tscn"))
+	toolbar.add_child(compare_button)
 	board_view = BattleDemoBoard.new()
 	board_view.session = session
 	board_view.size_flags_vertical = Control.SIZE_EXPAND_FILL

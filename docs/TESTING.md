@@ -43,6 +43,7 @@ core без `--full` в неё не входит. Повторять более 
 | Призыв / снимки призыва | `test_summoning_item.gd`, `test_summon_snapshot.gd` |
 | Определение помощника M1 / legacy v3–v5 / v6 | `test_summon_definition.gd` (включён в full/render) |
 | Полигон / нынешний бой | `test_battle_demo.gd`, `test_tactical_battle.gd` |
+| Сравнение ходов / инициатива | `test_initiative_session.gd`, `test_initiative_battle.gd` (full/render, ввод/очередь/PNG) |
 
 Пример адресного headless-запуска после импорта новых class_name:
 

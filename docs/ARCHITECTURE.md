@@ -17,6 +17,8 @@
 Первый ограниченный цикл подготовки и забега описан в [D4](EXPEDITION_D4.md).
 Первый сценарий среды и нескольких тел на клетке описан в [D5](ENVIRONMENT_D5.md).
 Отдельный сценарий крита/спины и контроля описан в [C1](CRITICAL_BACKSTAB_C1.md).
+Отдельное [сравнение порядка ходов](INITIATIVE_COMPARISON.md) добавляет инициативу
+только в экспериментальную session; основной бой остаётся командным.
 Профиля мага с метахарактеристиками и общего движка статусов/клеток пока нет.
 
 ## Владельцы данных и поведения
@@ -33,15 +35,21 @@
 | Спина / крит / контроль | `AttackModifiers`, `ControlState`, `ControlRules`, `BattleControlSession` | Явные опции определения атаки, runtime состояния; контракт C1 |
 | Прогноз | `scripts/core/actions/attack_forecast.gd` | Настоящая AttackCommand на изолированных state/context/queue/RNG; не общий forecast всех действий |
 | Командный ход и исход | `scripts/demo/battle_tactical_session.gd`, `battle_demo_session.gd`, `battle_turn_refill.gd` | Управление игроком/врагом, refill, динамический состав, reset/cleanup |
+| Сравнение темпа ходов | `BattleInitiativeSession`, `BattleInitiativeDemo` | Одинаковый бой в двух режимах; собственный ход/очередь только в эксперименте |
 | Нынешний ИИ | `scripts/demo/battle_demo_bt.gd` | BT выбирает BattleAIIntent; исполнение через команды. Старый Utility AI остаётся в `scripts/core/ai/` |
 | Представление | `scripts/demo/battle_demo.gd`, `battle_demo_iso_visual.gd`, `battle_action_bar.gd` | Ввод/UI; общий ENTITIES Y-sort реальных тайлов, стен и фигур |
 
 Отдельного готового `scripts/core/flow/BattleFlowStateMachine` нет: фактический
-владелец текущего flow — demo session. `core/initiative/` содержит legacy-механику,
-но инициатива не управляет нынешним боем. Наличие файла не означает его использование.
+владелец текущего flow — demo session. Из `core/initiative/` отдельный эксперимент
+использует SimpleInitiativeStrategy; InitiativeTimeline не управляет этим flow.
 
 ## Границы расширяемости
 
+- StatsBag/StatModifier уже поддерживают числовые прибавки/проценты/множители
+  и снятие по source_id. StatModifierEffect подключает их через предметы.
+  Общего runtime временных статусов с ID, сроком и политикой повторного наложения
+  пока нет: BleedingState и ControlState — специальные реализации. Изменение
+  максимума движения само по себе не определяет изменение его текущего остатка.
 - AttackCommand получает `STRENGTH + WEAPON_DAMAGE`, высоту, вычет ARMOR и стойку
   из чистого AttackDamageCalculation ([D1](ATTACK_DAMAGE_D1.md)). Legacy `combat/damage_calculator.gd` содержит отдельный расчёт.
   Далее передаётся DamageRequest с bypass, поскольку броня уже применена.

@@ -69,6 +69,9 @@ def main():
             invalid = invalid or "0 failed" not in output
         if label == "ally_transit":
             invalid = invalid or "ALLY TRANSIT RESULTS:" not in output or ", 0 failed" not in output
+        if label in ("initiative_session", "initiative_ui"):
+            marker = {"initiative_session": "INITIATIVE SESSION RESULTS:", "initiative_ui": "INITIATIVE UI RESULTS:"}[label]
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("attack_modifiers", "critical_control", "control_ui"):
             marker = {"attack_modifiers": "ATTACK MODIFIERS RESULTS:", "critical_control": "Critical control:", "control_ui": "CONTROL UI RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -114,6 +117,7 @@ def main():
         run("summon_snapshot", ["--script", "tests/test_summon_snapshot.gd"])
         run("summon", ["--script", "tests/test_summoning_item.gd"])
         run("healing", ["--script", "tests/test_healing_item.gd"])
+        run("initiative_session", ["--script", "tests/test_initiative_session.gd"])
         if args.full:
             run("core", ["--script", "tests/run_tests.gd"], legacy=True)
         demo_args = ["--script", "tests/test_battle_demo.gd"]
@@ -151,6 +155,10 @@ def main():
         if args.render_check:
             control_args += ["--", "--captures=" + str(captures)]
         run("control_ui", control_args, headless=not args.render_check)
+        initiative_args = ["--script", "tests/test_initiative_battle.gd"]
+        if args.render_check:
+            initiative_args += ["--", "--captures=" + str(captures)]
+        run("initiative_ui", initiative_args, headless=not args.render_check)
     else:
         # This is the user-requested interactive window, so it is intentionally visible.
         with (out / "play.log").open("wb") as log:

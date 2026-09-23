@@ -2,6 +2,10 @@
 
 ## Обычный запуск
 
+Сравнение темпа: F5 → «Сравнить ходы» или F6 на
+`scenes/demo/initiative_battle.tscn`. «Командой» / «По инициативе» перезапускают
+одинаковый бой; [правила эксперимента](INITIATIVE_COMPARISON.md).
+
 Откройте `project.godot` в Godot 4.7 и нажмите F5. Проверенная в проекте версия —
 4.7.2; главная сцена `scenes/demo/tactical_battle.tscn`. Из боя доступен ручной
 полигон; управление — [TACTICAL_BATTLE](TACTICAL_BATTLE.md) и [DEMO_SANDBOX](DEMO_SANDBOX.md).
