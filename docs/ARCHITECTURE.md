@@ -56,6 +56,11 @@ BattleDemo перенаправляет колесо над текущей це�
 без изменения оплаты/выбора в сессии; [управление](TACTICAL_BATTLE.md).
 BattleDemoBoard включает существующую стрелку тыла для C1 и K2, в том числе
 помощников без ControlState; направление остаётся у AttackModifiers.
+Hover движения использует один MoveForecastWorker: основной поток готовит
+изолированный ForecastSimulation.Prepared, worker восстанавливает его и исполняет
+команду, UI принимает только актуальное поколение. В worker нет session/узлов UI;
+hover обновляет прежние визуалы без rebuild доски. Порядок отмены и границы RNG —
+[ATTACK_FORECAST §K4](ATTACK_FORECAST.md#k4--прогноз-движения).
 
 Отдельного готового `scripts/core/flow/BattleFlowStateMachine` нет: фактический
 владелец текущего flow — demo session. Из `core/initiative/` отдельный эксперимент

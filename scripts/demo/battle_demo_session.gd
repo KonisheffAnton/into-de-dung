@@ -139,6 +139,13 @@ func preview_move(cell: Vector2i) -> MoveForecast:
 	# Тот же маршрут и revision, но отказ не меняет последний live receipt.
 	return MoveForecast.build(context, _queue, MoveCommand.new(unit.id, path, context.get_revision()))
 
+func prepare_move_forecast(cell: Vector2i) -> ForecastSimulation.Prepared:
+	var unit := selected_unit()
+	if unit == null: return ForecastSimulation.Prepared.rejected(&"move/no_selected_unit")
+	var path := path_to(cell)
+	if path.size() < 2: return ForecastSimulation.Prepared.rejected(&"move/unreachable")
+	return ForecastSimulation.prepare(context, _queue, MoveCommand.new(unit.id, path, context.get_revision()))
+
 func attack_unit(id: int) -> ActionReceipt:
 	var actor := selected_unit()
 	var target: UnitState = board.get_unit_by_id(id) if board != null else null

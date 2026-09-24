@@ -16,42 +16,77 @@ var units_before: Dictionary = {}
 var units_after: Dictionary = {}
 var items: Dictionary = {}
 
+class Prepared extends RefCounted:
+	var reason: StringName = &""
+	var snapshot: ItemSimulationSnapshot
+	var definitions: Dictionary = {}
+	var context: ActionContext
+	var queue: ActionQueue
+	var command: Command
+	var consumed: bool = false
+
+	static func rejected(value: StringName) -> Prepared:
+		var result := Prepared.new()
+		result.reason = value
+		return result
+
 static func rejected(value: StringName) -> ForecastSimulation:
 	var result := ForecastSimulation.new()
 	result.reason = value
 	return result
 
 static func run(context: ActionContext, queue: ActionQueue, command: Command) -> ForecastSimulation:
-	if context == null or queue == null: return rejected(&"session/closed")
-	if context.is_busy() or queue._busy: return rejected(&"BUSY")
-	if context.is_faulted() or queue._faulted: return rejected(&"CONTEXT_FAULTED")
-	if context.get_script() != ActionContext or queue.get_script() != ActionQueue: return rejected(&"preview/unsupported_context")
-	if command == null or command.get_script() not in [AttackCommand, UseHealingItemCommand, UseSummoningItemCommand, MoveCommand]: return rejected(&"preview/unsupported_command")
+	return run_prepared(prepare(context, queue, command))
+
+## Вызывается владельцем live: после возврата пакет не читает живое состояние.
+static func prepare(context: ActionContext, queue: ActionQueue, command: Command) -> Prepared:
+	if context == null or queue == null: return Prepared.rejected(&"session/closed")
+	if context.is_busy() or queue._busy: return Prepared.rejected(&"BUSY")
+	if context.is_faulted() or queue._faulted: return Prepared.rejected(&"CONTEXT_FAULTED")
+	if context.get_script() != ActionContext or queue.get_script() != ActionQueue: return Prepared.rejected(&"preview/unsupported_context")
+	if command == null or command.get_script() not in [AttackCommand, UseHealingItemCommand, UseSummoningItemCommand, MoveCommand]: return Prepared.rejected(&"preview/unsupported_command")
 	var capture := ItemSimulationSnapshot.capture(context.get_state(), context.get_unsupported_runtime_ids())
-	if capture.code != ItemSnapshotResult.Code.OK: return rejected(StringName(capture.reason))
+	if capture.code != ItemSnapshotResult.Code.OK: return Prepared.rejected(StringName(capture.reason))
 	var original_rng := context.get_rng()
-	if original_rng == null: return rejected(&"preview/rng_missing")
+	if original_rng == null: return Prepared.rejected(&"preview/rng_missing")
 	# Базовый порт не бросает случайных чисел; неизвестный порт обязан дать точную копию.
 	var rng_copy := ActionRngPort.new() if original_rng.get_script() == ActionRngPort else original_rng.clone()
-	if rng_copy == null or rng_copy == original_rng or rng_copy.get_script() != original_rng.get_script(): return rejected(&"preview/rng_not_cloneable")
-	if rng_copy.to_dict() != original_rng.to_dict(): return rejected(&"preview/rng_state_mismatch")
+	if rng_copy == null or rng_copy == original_rng or rng_copy.get_script() != original_rng.get_script(): return Prepared.rejected(&"preview/rng_not_cloneable")
+	if rng_copy.to_dict() != original_rng.to_dict(): return Prepared.rejected(&"preview/rng_state_mismatch")
 	var definitions: Dictionary = {}
 	for owner in context.get_state().get_owners():
 		for id: StringName in owner._definitions:
 			definitions[id] = (owner._definitions[id] as ItemDef).duplicate(true)
-	var restored := capture.snapshot.instantiate(definitions)
+	var prepared := Prepared.new()
+	prepared.snapshot = capture.snapshot
+	prepared.definitions = definitions
+	# Пустая оболочка переносит правила/счётчики штатным copy API, не удерживая live board.
+	prepared.context = context.copy_for_simulation(ItemSimulationState.new(null, [], [], []), rng_copy)
+	prepared.queue = queue.copy_for_simulation()
+	prepared.command = command.copy_for_queue()
+	if prepared.context == null or prepared.queue == null: return Prepared.rejected(&"preview/context_copy_failed")
+	return prepared
+
+## Одноразовая передача владения: читать/менять пакет параллельно с исполнением нельзя.
+static func run_prepared(prepared: Prepared) -> ForecastSimulation:
+	if prepared == null or prepared.consumed: return rejected(&"preview/request_consumed")
+	prepared.consumed = true
+	if prepared.reason != &"": return rejected(prepared.reason)
+	if prepared.command == null or prepared.command.get_script() not in [AttackCommand, UseHealingItemCommand, UseSummoningItemCommand, MoveCommand]: return rejected(&"preview/unsupported_command")
+	if prepared.snapshot == null or prepared.context == null or prepared.queue == null or prepared.context.get_script() != ActionContext or prepared.queue.get_script() != ActionQueue: return rejected(&"preview/context_copy_failed")
+	var restored := prepared.snapshot.instantiate(prepared.definitions)
 	if restored.code != ItemSnapshotResult.Code.OK: return rejected(StringName(restored.reason))
 	var state_copy := restored.state
-	var context_copy := context.copy_for_simulation(state_copy, rng_copy)
-	var queue_copy := queue.copy_for_simulation()
-	if context_copy == null or queue_copy == null:
-		close(state_copy)
-		return rejected(&"preview/context_copy_failed")
+	var context_copy := prepared.context
+	context_copy._state = state_copy
+	var queue_copy := prepared.queue
+	var command := prepared.command
+	var rng_copy := context_copy.get_rng()
 	var result := ForecastSimulation.new()
 	var is_move: bool = command.get_script() == MoveCommand
 	var item_use: bool = command.get_script() in [UseHealingItemCommand, UseSummoningItemCommand]
 	result.units_before = unit_values(state_copy.get_board(), state_copy, item_use)
-	result.snapshot_before = capture.snapshot.to_dict()
+	result.snapshot_before = prepared.snapshot.to_dict()
 	result.admission_before = SummonAdmission.values(context_copy)
 	var actor_id: int = 0
 	var item_id: int = 0

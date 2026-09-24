@@ -24,11 +24,18 @@ static func rejected(value: StringName) -> MoveForecast:
 
 static func build(context: ActionContext, queue: ActionQueue, command: Command) -> MoveForecast:
 	if command == null or command.get_script() != MoveCommand: return rejected(&"preview/unsupported_command")
-	var move := command as MoveCommand
+	return _from_simulation(command as MoveCommand, ForecastSimulation.run(context, queue, command))
+
+static func build_prepared(prepared: ForecastSimulation.Prepared) -> MoveForecast:
+	if prepared == null: return rejected(&"preview/request_consumed")
+	if prepared.reason != &"": return rejected(prepared.reason)
+	if prepared.command == null or prepared.command.get_script() != MoveCommand: return rejected(&"preview/unsupported_command")
+	return _from_simulation(prepared.command as MoveCommand, ForecastSimulation.run_prepared(prepared))
+
+static func _from_simulation(move: MoveCommand, simulation: ForecastSimulation) -> MoveForecast:
 	var result := MoveForecast.new()
 	result.actor_id = move.get_actor_unit_id()
 	result.requested_path = move.get_path()
-	var simulation := ForecastSimulation.run(context, queue, command)
 	result.status = simulation.status
 	result.reason = simulation.reason
 	result.events = simulation.events

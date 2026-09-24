@@ -92,6 +92,7 @@ func parity(s: BattleDemoSession, cmd: MoveCommand, label: String, status: Strin
 func _run() -> void:
 	_paths()
 	_hazards()
+	await _prepared_workers()
 	_refusals()
 	_limits()
 	_sessions_and_capabilities()
@@ -99,6 +100,112 @@ func _run() -> void:
 	_restore_cleanup()
 	print("MOVE FORECAST RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
+
+func _prepared_workers() -> void:
+	var ordinary := fixture()
+	await _worker_parity(ordinary, command(ordinary), "ordinary worker", ActionReceipt.APPLIED)
+	ordinary.close()
+
+	var combat := fixture(BattleEnvironmentSession.new())
+	combat.context._rng = CombatRng.new(913)
+	combat.state.environment.ignite(Vector2i(1, 0))
+	for item: ItemInstance in combat.state.get_owner(combat.units[0].id)._items.values(): item.armor_remaining = 0
+	await _worker_parity(combat, command(combat), "combat rng spikes", ActionReceipt.APPLIED)
+	combat.close()
+
+	var falling := fixture()
+	falling.context._rng = CombatRng.new(271)
+	falling.board.set_height_steps(Vector2i(0, 0), 6)
+	falling.units[0].height = 3
+	await _worker_parity(falling, command(falling), "combat rng fall", ActionReceipt.APPLIED)
+	falling.close()
+
+	var interrupted := fixture(BattleEnvironmentSession.new())
+	interrupted.context._rng = CombatRng.new(421)
+	interrupted.units[0].vitals.set_hp(1)
+	for item: ItemInstance in interrupted.state.get_owner(interrupted.units[0].id)._items.values(): item.armor_remaining = 0
+	interrupted.state.environment.ignite(Vector2i(1, 0))
+	await _worker_parity(interrupted, command(interrupted), "interrupted worker", ActionReceipt.INTERRUPTED)
+	interrupted.close()
+
+	var faulted := fixture()
+	faulted._queue = ActionQueue.new(1)
+	await _worker_parity(faulted, command(faulted), "faulted prefix worker", ActionReceipt.FAULTED)
+	faulted.close()
+
+	var isolated := fixture(BattleDemoSession.new()) as BattleDemoSession
+	isolated.board.move_unit(isolated.units[1], Vector2i(1, 0))
+	isolated.select_unit(isolated.units[1].id)
+	for item: ItemInstance in isolated.state.get_owner(isolated.units[1].id)._items.values(): item.armor_remaining = 0
+	var target := Vector2i(3, 0)
+	var expected_path := isolated.path_to(target)
+	var expected := MoveForecast.build(isolated.context, isolated._queue, MoveCommand.new(isolated.selected_id, expected_path, isolated.context.get_revision()))
+	var prepared := isolated.prepare_move_forecast(target)
+	var prepared_definition: ItemDef = prepared.definitions[&"demo_guard_amulet"]
+	var prepared_heal := (prepared_definition.effects[0] as HealOnDamageEffect).heal_amount
+	var saved_snapshot := snapshot(isolated)
+	var saved_rng := isolated.context.get_rng().to_dict().duplicate(true)
+	var saved_last := isolated.last_receipt
+	var saved_sink := isolated.context.get_sink() as CountingSink
+	var saved_sink_calls := saved_sink.calls
+	var allocator := UnitId.get_counter()
+	var live_definition: ItemDef = isolated.state.get_owner(isolated.units[1].id)._definitions[&"demo_guard_amulet"]
+	(live_definition.effects[0] as HealOnDamageEffect).heal_amount = 99.0
+	(isolated.context._move_rules as MoveRules)._admitted_unit_ids.clear()
+	check((prepared_definition.effects[0] as HealOnDamageEffect).heal_amount == prepared_heal and (prepared.context._move_rules as MoveRules).allows(isolated.units[1].id), "prepared definitions and movement rules are detached copies")
+	isolated.close()
+	var isolated_result := await _run_worker(prepared)
+	check(_same_forecast(expected, isolated_result), "prepared worker detaches closed live session and copies definitions/rules")
+	check(UnitId.get_counter() == allocator and saved_sink.calls == saved_sink_calls and saved_last == null, "worker leaves live allocator/sink/receipt untouched after close")
+	check(expected.snapshot_before == saved_snapshot and expected.rng_after == saved_rng, "detachment fixture matches captured initial live state")
+
+	var discarded_session := fixture()
+	var discard_worker := MoveForecastWorker.new()
+	discard_worker.start(discarded_session.prepare_move_forecast(Vector2i(3, 0)))
+	if discard_worker._thread != null and discard_worker._thread.is_alive():
+		check(discard_worker.take_finished() == null, "unfinished worker has no result")
+	discard_worker.close()
+	check(not discard_worker.is_started(), "closing worker discards and joins outstanding calculation")
+	discarded_session.close()
+
+func _worker_parity(s: BattleDemoSession, cmd: MoveCommand, label: String, status: StringName) -> void:
+	var expected := MoveForecast.build(s.context, s._queue, cmd)
+	var before := snapshot(s)
+	var rng := s.context.get_rng().to_dict().duplicate(true)
+	var counters := s.context.simulation_counters()
+	var admission := SummonAdmission.values(s.context)
+	var allocator := UnitId.get_counter()
+	var sink := s.context.get_sink() as CountingSink
+	var sink_calls := sink.calls
+	var last := s.last_receipt
+	var prepared := s.prepare_move_forecast(cmd.get_path()[-1])
+	var result := await _run_worker(prepared)
+	check(result != null and result.status == status, label + " runs in worker with expected status")
+	check(_same_forecast(expected, result), label + " exact prepared/sync parity")
+	check(snapshot(s) == before and s.context.get_rng().to_dict() == rng and s.context.simulation_counters() == counters and SummonAdmission.values(s.context) == admission, label + " leaves live snapshot/RNG/counters/admission unchanged")
+	check(UnitId.get_counter() == allocator and sink.calls == sink_calls and s.last_receipt == last, label + " leaves allocator/sink/receipt unchanged")
+
+func _run_worker(prepared: ForecastSimulation.Prepared) -> MoveForecast:
+	var worker := MoveForecastWorker.new()
+	worker.start(prepared)
+	var deadline := Time.get_ticks_msec() + 5000
+	var result: MoveForecast
+	while Time.get_ticks_msec() < deadline:
+		result = worker.take_finished()
+		if result != null: break
+		await create_timer(0.005).timeout
+	if result == null:
+		worker.close()
+		check(false, "worker completes before 5s deadline")
+		return null
+	check(worker.take_finished() == null, "worker result can only be taken once")
+	worker.close()
+	check(not worker.is_started(), "worker close releases finished thread")
+	check(MoveForecast.build_prepared(prepared).reason == &"preview/request_consumed", "prepared request is single use")
+	return result
+
+func _same_forecast(a: MoveForecast, b: MoveForecast) -> bool:
+	return a != null and b != null and a.status == b.status and a.reason == b.reason and a.units == b.units and a.events == b.events and a.steps == b.steps and a.snapshot_before == b.snapshot_before and a.snapshot_after == b.snapshot_after and a.rng_after == b.rng_after and a.counters_after == b.counters_after and a.admission_before == b.admission_before and a.admission_after == b.admission_after and a.actor_id == b.actor_id and a.requested_path == b.requested_path and a.traversed_path == b.traversed_path
 
 func _paths() -> void:
 	for kind: int in 4:

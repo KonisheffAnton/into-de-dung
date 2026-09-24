@@ -20,6 +20,7 @@ var _reachable: Dictionary = {}
 var inspection_cells: Dictionary = {}
 var forecast: AttackForecast
 var move_forecast: MoveForecast
+var move_forecast_pending: bool = false
 var _path: Array[Vector2i] = []
 var _tiles: Node2D
 var _entities: Node2D
@@ -81,6 +82,19 @@ func refresh() -> void:
 	queue_redraw()
 	if _overlay != null: _overlay.queue_redraw()
 
+func refresh_forecast() -> void:
+	# Наведение меняет только прогноз: сохраняем узлы доски и уже найденную доступность.
+	_refresh_path()
+	for visual: BattleDemoIsoVisual in _entity_visuals:
+		if visual.role == BattleDemoIsoVisual.Role.UNIT and visual.unit != null:
+			visual.forecast_entry = _forecast_entry(visual.unit.id)
+			visual.queue_redraw()
+	queue_redraw()
+	if _overlay != null: _overlay.queue_redraw()
+
+func reachable_cells() -> Dictionary:
+	return inspection_cells if inspected_id != UnitId.NONE else _reachable
+
 func cell_center(cell: Vector2i) -> Vector2:
 	var steps := session.board.get_height_steps(cell) if session != null and session.board != null else 0
 	return IsoGridUtils.grid_to_screen(cell, grid_config, 0) - Vector2(0, float(steps) * 0.5 * grid_config.height_step)
@@ -99,9 +113,8 @@ func _gui_input(event: InputEvent) -> void:
 		var cell := cell_at((event as InputEventMouseMotion).position)
 		if cell != hover_cell:
 			hover_cell = cell
-			_refresh_path()
 			cell_hovered.emit(cell)
-			_overlay.queue_redraw()
+			if _overlay != null: _overlay.queue_redraw()
 	elif event is InputEventMouseButton:
 		var button := event as InputEventMouseButton
 		if button.pressed and button.button_index == MOUSE_BUTTON_LEFT:
@@ -114,12 +127,13 @@ func _gui_input(event: InputEvent) -> void:
 
 func _clear_hover() -> void:
 	hover_cell = Vector2i(-1, -1)
-	_path.clear()
 	cell_hovered.emit(hover_cell)
+	refresh_forecast()
 	if _overlay != null: _overlay.queue_redraw()
 
 func _refresh_path() -> void:
 	_path.clear()
+	if move_forecast_pending: return
 	if move_forecast != null:
 		# После прерывания не рисуем непроходимый остаток как будущий ход.
 		if move_forecast.status in [ActionReceipt.APPLIED, ActionReceipt.INTERRUPTED]: _path = move_forecast.traversed_path.duplicate()
