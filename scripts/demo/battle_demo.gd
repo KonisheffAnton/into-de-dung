@@ -51,6 +51,9 @@ var _raise_forecast: RaiseCorpseForecast
 var _raise_forecast_cell := Vector2i(-1, -1)
 var _raise_forecast_actor: int = UnitId.NONE
 var _raise_forecast_revision: int = -1
+var _guard_forecast: GuardForecast
+var _guard_forecast_actor: int = UnitId.NONE
+var _guard_forecast_revision: int = -1
 var _forecast_cell := Vector2i(-1, -1)
 var _forecast_target_id: int = UnitId.NONE
 var _forecast_revision: int = -1
@@ -106,6 +109,7 @@ func _exit_tree() -> void:
 	_item_forecast = null
 	_item_forecast_kind = &""
 	_raise_forecast = null
+	_guard_forecast = null
 	if board_view != null:
 		board_view.forecast = null
 		board_view.move_forecast = null
@@ -418,6 +422,7 @@ func end_turn() -> void:
 
 func _refresh() -> void:
 	# Любой refresh перечитывает состояние, включая изменения вне command revision.
+	var refresh_guard := _guard_forecast != null and _hovered_bar_action == &"guard"
 	_clear_forecast()
 	if inspected_id != UnitId.NONE:
 		var inspected := session.board.get_unit_by_id(inspected_id) if session != null and session.board != null else null
@@ -540,6 +545,7 @@ func _refresh() -> void:
 	if locked: _status.text = _battle.phase_text() + (" · Можно начать заново: R." if _battle.phase != BattleTacticalSession.Phase.ENEMY_TURN else " · Противник выполняет действия.")
 	_hover(board_view.hover_cell)
 	_log.text = "\n".join(_journal)
+	if refresh_guard and _battle != null and _battle.can_player_act(): _action_bar_hovered(&"guard")
 	_render_forecast_panel()
 
 func _inspection_text(unit: UnitState) -> String:
@@ -616,8 +622,9 @@ func _refresh_inspection() -> void:
 
 func _hover(cell: Vector2i) -> void:
 	if session == null or session.board == null: return
+	if _guard_forecast != null and cell.x >= 0: _clear_forecast()
 	# Позволяем перейти к прокрутке длинной цепи, сохранив текущий прогноз.
-	if (_forecast != null or _item_forecast != null or _move_forecast != null or _raise_forecast != null) and cell.x < 0:
+	if (_forecast != null or _item_forecast != null or _move_forecast != null or _raise_forecast != null or _guard_forecast != null) and cell.x < 0:
 		# mouse_exited может прийти раньше _input того же движения мыши.
 		_resolve_hover_exit.call_deferred()
 		return
@@ -741,8 +748,9 @@ func _leave_forecast_panel() -> void:
 	_resolve_hover_exit.call_deferred()
 
 func _resolve_hover_exit() -> void:
-	if session == null or board_view.hover_cell.x >= 0 or (_forecast == null and _item_forecast == null and _move_forecast == null and _raise_forecast == null): return
+	if session == null or board_view.hover_cell.x >= 0 or (_forecast == null and _item_forecast == null and _move_forecast == null and _raise_forecast == null and _guard_forecast == null): return
 	if _item_forecast_kind == &"healing" and _hovered_bar_action == &"healing_item": return
+	if _guard_forecast != null and _hovered_bar_action == &"guard": return
 	if _forecast_reading_region().has_point(_pointer_position): return
 	_clear_forecast()
 	_refresh_inspection()
@@ -770,6 +778,9 @@ func _clear_forecast() -> void:
 	_raise_forecast_cell = Vector2i(-1, -1)
 	_raise_forecast_actor = UnitId.NONE
 	_raise_forecast_revision = -1
+	_guard_forecast = null
+	_guard_forecast_actor = UnitId.NONE
+	_guard_forecast_revision = -1
 	_forecast_cell = Vector2i(-1, -1)
 	_forecast_target_id = UnitId.NONE
 	_forecast_revision = -1
@@ -788,6 +799,9 @@ func _clear_forecast() -> void:
 
 func _render_forecast_panel() -> void:
 	if _forecast_panel == null: return
+	if _guard_forecast != null:
+		_render_guard_forecast_panel()
+		return
 	if _raise_forecast != null:
 		_render_raise_forecast_panel()
 		return
@@ -903,6 +917,19 @@ func _action_bar_hovered(action_id: StringName) -> void:
 	var previous := _hovered_bar_action
 	_hovered_bar_action = action_id
 	if previous == &"healing_item" and action_id != &"healing_item": _resolve_item_hover_exit.call_deferred()
+	if previous == &"guard" and action_id != &"guard": _resolve_guard_hover_exit.call_deferred()
+	if action_id == &"guard":
+		if _battle == null or not _battle.can_player_act(): return
+		var revision := session.context.get_revision()
+		if _guard_forecast != null and _guard_forecast_actor == session.selected_id and _guard_forecast_revision == revision: return
+		_clear_forecast()
+		_guard_forecast = _battle.preview_guard()
+		_guard_forecast_actor = session.selected_id
+		_guard_forecast_revision = revision
+		_forecast_panel.get_v_scroll_bar().value = 0.0
+		_render_guard_forecast_panel()
+		_refresh_inspection()
+		return
 	if action_id != &"healing_item" or _battle == null: return
 	var revision := session.context.get_revision()
 	if _item_forecast_kind == &"healing" and _item_forecast_revision == revision: return
@@ -917,6 +944,7 @@ func _action_bar_hovered(action_id: StringName) -> void:
 
 func _action_bar_hover_left(action_id: StringName) -> void:
 	if _hovered_bar_action == action_id: _hovered_bar_action = &""
+	if action_id == &"guard": _resolve_guard_hover_exit.call_deferred()
 	if action_id != &"healing_item" or _item_forecast_kind != &"healing": return
 	_resolve_item_hover_exit.call_deferred()
 
@@ -928,11 +956,37 @@ func _update_action_bar_hover() -> void:
 			if button.visible and button.get_global_rect().has_point(_pointer_position):
 				action_id = StringName(button.get_meta("action_id", &""))
 				break
-	if action_id == _hovered_bar_action: return
+	if action_id == _hovered_bar_action:
+		if action_id == &"guard" and _guard_forecast != null: _action_bar_hovered(action_id)
+		return
 	var previous := _hovered_bar_action
 	_hovered_bar_action = action_id
-	if previous == &"healing_item": _action_bar_hover_left(previous)
-	if action_id == &"healing_item": _action_bar_hovered(action_id)
+	if previous in [&"healing_item", &"guard"]: _action_bar_hover_left(previous)
+	if action_id in [&"healing_item", &"guard"]: _action_bar_hovered(action_id)
+
+func _resolve_guard_hover_exit() -> void:
+	if session == null or _guard_forecast == null: return
+	if _hovered_bar_action == &"guard" or _forecast_reading_region().has_point(_pointer_position): return
+	_clear_forecast()
+	_refresh_inspection()
+
+func _render_guard_forecast_panel() -> void:
+	_forecast_panel.visible = true
+	_forecast_heading.visible = true
+	_forecast_heading.text = "ПРОГНОЗ · КОЛЕСО НА ПАНЕЛИ"
+	_log.visible = false
+	_log_heading.visible = false
+	var text := "[font_size=16][color=#f7c97d]Охранная стойка · %s[/color][/font_size]\n" % _name_for(_guard_forecast_actor)
+	if _guard_forecast.status != ActionReceipt.APPLIED:
+		_forecast_panel.text = text + "[color=#f29b9b]Прогноз недоступен[/color]\n" + _reason_text(_guard_forecast.reason)
+		return
+	var row: Dictionary = _guard_forecast.units[_guard_forecast.actor_id]
+	var before: Dictionary = row["before"]
+	var after: Dictionary = row["after"]
+	text += "Основные: %d → %d (расход %d)\nБонусные: %d → %d\nДвижение: %.1f → %.1f\n" % [before["main"], after["main"], int(before["main"]) - int(after["main"]), before["bonus"], after["bonus"], before["move"], after["move"]]
+	text += "Стойка: %s → %s\n" % ["включена" if before["guard_stance"] else "выключена", "включена" if after["guard_stance"] else "выключена"]
+	text += "До следующего хода команды; добровольные движение и атака снимают стойку.\nКлик или клавиша 2 — занять стойку."
+	_forecast_panel.text = text
 
 func _resolve_item_hover_exit() -> void:
 	if _item_forecast == null or _item_forecast_kind != &"healing": return

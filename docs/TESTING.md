@@ -45,6 +45,7 @@ core без `--full` в неё не входит. Повторять более 
 | Прогноз движения K4 | `test_move_forecast.gd`, `test_move_forecast_ui.gd` (full/render): полная preview/live и worker parity, транзит/падение/шипы, INTERRUPTED/FAULTED, helper/admission, изоляция/restore/cleanup; ввод и инвалидация во время расчёта, scrolling, shutdown и четыре PNG |
 | Прогноз поднятия K5 | `test_raise_corpse_forecast.gd`, `test_raise_forecast_ui.gd` (full/render): изоляция/preview/live D5/K2, потребление тела и новый pending helper, отказы/DTO/restore; ввод, cache/refresh, свежий клик, сбросы/scroll и четыре PNG |
 | Стойка | `test_guard_stance.gd` |
+| Прогноз стойки K6 | `test_guard_forecast.gd`, `test_guard_forecast_ui.gd` (full/render): изоляция/preview/live tactical/K2, ресурсы/guard, отказы/FAULTED/restore; hover слота 2, свежие клик/клавиша, cache/refresh, сбросы/scroll и четыре PNG |
 | Флакон | `test_healing_item.gd` |
 | Общее описание применения M3 | `test_item_use_action.gd` (full/render); UI и фактическое лечение — `test_tactical_battle.gd` |
 | Призыв / снимки призыва | `test_summoning_item.gd`, `test_summon_snapshot.gd` |

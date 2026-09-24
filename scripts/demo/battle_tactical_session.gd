@@ -105,6 +105,11 @@ func guard_selected() -> ActionReceipt:
 	if reason != &"": return _reject(reason)
 	return _submit(GuardCommand.new(selected_id, context.get_revision()))
 
+func preview_guard() -> GuardForecast:
+	var reason := guard_reason()
+	if reason != &"": return GuardForecast.rejected(reason)
+	return GuardForecast.build(context, _queue, GuardCommand.new(selected_id, context.get_revision()))
+
 func healing_item() -> ItemInstance:
 	var actor := selected_unit()
 	if actor == null or actor.faction != Faction.Type.PLAYER or state == null: return null

@@ -88,6 +88,9 @@ def main():
         if label in ("raise_forecast", "raise_forecast_ui"):
             marker = "RAISE FORECAST RESULTS:" if label == "raise_forecast" else "RAISE FORECAST UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label in ("guard_forecast", "guard_forecast_ui"):
+            marker = "GUARD FORECAST RESULTS:" if label == "guard_forecast" else "GUARD FORECAST UI RESULTS:"
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("core_combinations", "core_combination_turns"):
             marker = "CORE COMBINATIONS RESULTS:" if label == "core_combinations" else "CORE COMBINATION TURNS RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -122,6 +125,7 @@ def main():
         run("item_forecast", ["--script", "tests/test_item_use_forecast.gd"])
         run("move_forecast", ["--script", "tests/test_move_forecast.gd"])
         run("raise_forecast", ["--script", "tests/test_raise_corpse_forecast.gd"])
+        run("guard_forecast", ["--script", "tests/test_guard_forecast.gd"])
         run("attack_calculation", ["--script", "tests/test_attack_damage_calculation.gd"])
         run("attack_d1", ["--script", "tests/test_attack_damage_d1.gd"])
         run("attack_modifiers", ["--script", "tests/test_attack_modifiers.gd"])
@@ -168,6 +172,10 @@ def main():
         if args.render_check:
             raise_forecast_args += ["--", "--captures=" + str(captures)]
         run("raise_forecast_ui", raise_forecast_args, headless=not args.render_check)
+        guard_forecast_args = ["--script", "tests/test_guard_forecast_ui.gd"]
+        if args.render_check:
+            guard_forecast_args += ["--", "--captures=" + str(captures)]
+        run("guard_forecast_ui", guard_forecast_args, headless=not args.render_check)
         armor_args = ["--script", "tests/test_armor_battle.gd"]
         if args.render_check:
             armor_args += ["--", "--captures=" + str(captures)]
