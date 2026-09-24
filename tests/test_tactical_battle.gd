@@ -50,6 +50,7 @@ func _run() -> void:
 	await _test_healing_item_viewport()
 	await _test_item_use_description_viewport()
 	await _test_summoning_item_viewport()
+	await _test_action_return_to_movement()
 	await _test_attack_forecast_viewport()
 	await _test_enemy_inspection()
 	battle = _demo.session as BattleTacticalSession
@@ -266,6 +267,52 @@ func _test_item_use_description_viewport() -> void:
 	await _key(KEY_4)
 	_demo.select_character(battle.units[2].id)
 	_check(not _demo.summoning_mode, "switching actor clears item target mode")
+	_demo.reset_demo()
+
+func _test_action_return_to_movement() -> void:
+	_demo.reset_demo()
+	var battle := _demo.session as BattleTacticalSession
+	var actor := battle.units[0]
+	await _click_cell(actor.cell)
+	_check(battle.selected_id == actor.id and not _demo.attack_mode and _demo._move_button.button_pressed, "first ally click selects movement immediately")
+	await _click_cell(Vector2i(1, 2))
+	_check(actor.cell == Vector2i(1, 2) and actor.move_points_left < 5.0, "first selection moves without M")
+	var before := ItemSimulationSnapshot.capture(battle.state, []).snapshot.to_dict()
+	var counters := battle.context.simulation_counters()
+	for invalid_cell: Vector2i in [Vector2i(1, 3), battle.units[2].cell, battle.units[5].cell]:
+		await _key(KEY_A)
+		await _click_cell(invalid_cell)
+		_check(not _demo.attack_mode and not _demo.board_view.attack_mode and _demo._forecast == null and _demo._move_button.button_pressed, "invalid empty/friendly/distant target returns movement: %s" % invalid_cell)
+		_check(_demo._status.text.contains("недопустимая цель") and _demo._log.text.contains("недопустимая цель"), "invalid target has visible explanation")
+		_check(ItemSimulationSnapshot.capture(battle.state, []).snapshot.to_dict() == before and battle.context.simulation_counters() == counters, "invalid target spends nothing and does not move on the same click")
+	await _click_cell(Vector2i(1, 3))
+	_check(actor.cell == Vector2i(1, 3), "next click after rejected attack moves without M")
+	_demo.reset_demo()
+	actor = battle.units[4]
+	await _click_cell(actor.cell)
+	await _key(KEY_A)
+	await _click_cell(battle.units[5].cell)
+	_check(battle.last_receipt.status == ActionReceipt.APPLIED and actor.action_resources.get_main_left() == 0 and not _demo.attack_mode and _demo._forecast == null, "successful attack spends main and returns movement")
+	var reachable := battle.reachable_cells()
+	var destination := actor.cell
+	for cell: Vector2i in reachable:
+		if cell != actor.cell and battle.board.occupant_at(cell) == null:
+			destination = cell
+			break
+	_check(destination != actor.cell, "reachable destination exists after attack")
+	await _click_cell(destination)
+	_check(actor.cell == destination and actor.move_points_left < 5.0 and actor.action_resources.get_main_left() == 0 and actor.action_resources.get_bonus_left() == 1, "attack return preserves resources and permits remaining movement")
+	await _key(KEY_A)
+	await _click_control(_demo._roster.get_child(0) as Button)
+	_check(battle.selected_id == battle.units[0].id and not _demo.attack_mode, "roster ally selection also returns movement")
+	_demo.reset_demo()
+	actor = battle.selected_unit()
+	await _key(KEY_4)
+	before = ItemSimulationSnapshot.capture(battle.state, []).snapshot.to_dict()
+	await _click_cell(actor.cell)
+	_check(not _demo.summoning_mode and _demo._status.text.contains("недопустимая цель") and ItemSimulationSnapshot.capture(battle.state, []).snapshot.to_dict() == before, "rejected summon returns movement without spending or reselecting")
+	await _click_cell(Vector2i(1, 2))
+	_check(actor.cell == Vector2i(1, 2), "next click after rejected summon moves")
 	_demo.reset_demo()
 
 func _test_flow() -> void:
@@ -616,8 +663,9 @@ func _test_summoning_item_viewport() -> void:
 	await _key(KEY_4)
 	_check(_demo.summoning_mode and not _demo.attack_mode and _demo.board_view._reachable.has(Vector2i(0, 1)) and not _demo.board_view._reachable.has(Vector2i(1, 2)), "key4 enters valid summon cells")
 	await _click_cell(Vector2i(1, 2))
-	_check(_demo.summoning_mode and battle.units.size() == 6 and battle.summoning_item().get_charges_left() == 2 and _demo._status.text.contains("клетка"), "invalid clicked cell preserves mode and charge")
+	_check(not _demo.summoning_mode and battle.units.size() == 6 and battle.summoning_item().get_charges_left() == 2 and _demo._status.text.contains("недопустимая цель"), "invalid clicked cell returns movement and preserves charge")
 	await _capture("battle-18-summon-targeting")
+	await _key(KEY_4)
 	await _key(KEY_ESCAPE)
 	_check(not _demo.summoning_mode, "escape cancels summon targeting")
 	await _click_control(bar._buttons[3])

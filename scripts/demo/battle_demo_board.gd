@@ -177,7 +177,8 @@ func _rebuild_visuals() -> void:
 		visual.selected = unit.id == session.selected_id and unit.is_alive()
 		visual.inspected = unit.id == inspected_id and unit.is_alive()
 		visual.forecast_entry = _forecast_entry(unit.id)
-		visual.show_rear = session is BattleControlSession
+		# K2 переиспользует маркер C1, хотя сессия наследуется от среды.
+		visual.show_rear = session is BattleControlSession or session is BattleCoreCombinationSession
 		if unit.armor != null: visual.armor_values = ArmorRuntime.totals(ArmorRuntime.capture(session.state.get_owner(unit.id)))
 		_entities.add_child(visual)
 		_entity_visuals.append(visual)

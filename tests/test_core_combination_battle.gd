@@ -31,6 +31,7 @@ func _run() -> void:
 	var session := demo.session as BattleCoreCombinationSession
 	board = demo.board_view
 	check(demo._heading.text.contains("Сочетания ядра"), "combined heading is visible")
+	check_rear_markers(session, "toolbar entry")
 	var rules := session.context.get_attack_rules()
 	var strike := rules.get_definition(&"demo_strike")
 	var rune := rules.get_definition(&"blood_rune")
@@ -64,6 +65,8 @@ func _run() -> void:
 	check(ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() == expected, "real attack matches forecast state")
 	check(session.last_receipt.get_events() == forecast.events and session.last_receipt.get_steps() == forecast.steps, "real attack matches forecast events and steps")
 	await capture("core-result")
+	check(not demo.attack_mode and not session.rune_selected and demo._forecast == null and demo._move_button.button_pressed, "combined attack returns to movement and clears forecast")
+	await test_action_input()
 	await key(KEY_R)
 	session = demo.session as BattleCoreCombinationSession
 	board = demo.board_view
@@ -73,6 +76,8 @@ func _run() -> void:
 	await click(at(actor)); await key(KEY_6); await click(at_cell(Vector2i(0, 3)))
 	var helper := session.state.active_summon(actor.id)
 	check(helper != null and helper.control == null and session.state.is_summon_pending(helper.id), "raised helper has no control state and waits for its turn")
+	board.refresh()
+	check_rear_markers(session, "nullable-control helper")
 	check(demo._log.text.contains("поднял тело"), "raising body is reported")
 	await key(KEY_ENTER)
 	for _step in 12:
@@ -97,6 +102,7 @@ func _run() -> void:
 	check(demo.core_combination_mode and demo._forecast == null and not demo.attack_mode and not demo.raising_mode and not demo.summoning_mode, "reset preserves scenario and clears UI modes")
 	await click(demo._mode_button.global_position + demo._mode_button.size * 0.5)
 	check(not demo.core_combination_mode and not demo.control_mode and not demo.environment_mode, "switching to another scenario clears combined flags")
+	check_no_rear_markers("other scenario")
 	if find_button(demo, "Сочетания ядра") != null:
 		await click(find_button(demo, "Сочетания ядра").global_position + find_button(demo, "Сочетания ядра").size * 0.5)
 	check(demo.core_combination_mode and demo.session is BattleCoreCombinationSession and demo._forecast == null and not demo.raising_mode and not demo.attack_mode, "return opens a clean combined scenario")
@@ -107,10 +113,46 @@ func _run() -> void:
 	demo = (load(main_scene) as PackedScene).instantiate()
 	viewport.add_child(demo)
 	await process_frame; await process_frame
+	board = demo.board_view
 	check(demo.core_combination_mode and demo.session is BattleCoreCombinationSession, "direct scene entry creates combined session")
+	check_rear_markers(demo.session as BattleCoreCombinationSession, "direct scene entry")
 	for obsolete: String in ["Броня", "Кровотечение", "Среда / трупы", "Крит / спина"]:
 		check(find_button(demo, obsolete) == null, "obsolete scenario removed from navigation: " + obsolete)
 	await finish()
+
+func test_action_input() -> void:
+	await key(KEY_R)
+	var session := demo.session as BattleCoreCombinationSession
+	var actor := session.units[2]
+	await click(at(actor)); await key(KEY_5)
+	var before := ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict()
+	await click(at_cell(Vector2i(4, 2)))
+	check(not demo.attack_mode and not session.rune_selected and demo._status.text.contains("недопустимая цель"), "rune invalid target returns movement and clears selected ability")
+	check(ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() == before, "rune refusal does not spend or move")
+	await key(KEY_5); await click(at(session.units[3]))
+	check(session.last_receipt.status == ActionReceipt.APPLIED and actor.action_resources.get_main_left() == 0 and not demo.attack_mode and not session.rune_selected, "successful rune spends main then returns movement")
+	await key(KEY_R)
+	actor = session.units[0]
+	await click(at(actor)); await key(KEY_6)
+	before = ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict()
+	await click(at_cell(Vector2i(1, 2)))
+	check(not demo.raising_mode and demo._status.text.contains("недопустимая цель") and ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() == before, "invalid body target returns movement without spending")
+	await key(KEY_6); await click(at_cell(Vector2i(0, 3)))
+	check(session.last_receipt.status == ActionReceipt.APPLIED and actor.action_resources.get_main_left() == 0 and not demo.raising_mode and demo._move_button.button_pressed, "successful raising returns movement")
+	await key(KEY_R)
+	actor = session.units[0]
+	await click(at(actor)); await key(KEY_5); await key(KEY_2)
+	check(actor.guard_stance and actor.action_resources.get_main_left() == 0 and not demo.attack_mode and not session.rune_selected, "instant guard clears rune selection and returns movement")
+	await key(KEY_R)
+	actor = session.units[0]
+	actor.vitals.apply_damage(10.0)
+	demo._refresh()
+	await click(at(actor)); await key(KEY_5); await key(KEY_3)
+	check(session.last_receipt.status == ActionReceipt.APPLIED and actor.action_resources.get_main_left() == 0 and not demo.attack_mode and not session.rune_selected, "instant healing clears rune selection and returns movement")
+	await key(KEY_R)
+	actor = session.units[0]
+	await click(at(actor)); await key(KEY_5); await key(KEY_4)
+	check(session.last_receipt.status == ActionReceipt.APPLIED and actor.action_resources.get_main_left() == 0 and not demo.attack_mode and not session.rune_selected, "instant armor restoration clears rune selection and returns movement")
 
 func finish() -> void:
 	if demo != null: demo.queue_free()
@@ -125,6 +167,25 @@ func check(value: bool, label: String) -> void:
 	else:
 		failed += 1
 		printerr("FAIL CORE COMBINATION UI: " + label)
+
+func check_rear_markers(session: BattleCoreCombinationSession, label: String) -> void:
+	var player_marked := false
+	var enemy_marked := false
+	var helper_marked := false
+	for visual: BattleDemoIsoVisual in board._entity_visuals:
+		if visual.unit == null: continue
+		if visual.unit.faction == Faction.Type.PLAYER and visual.unit.is_alive(): player_marked = visual.show_rear
+		if visual.unit.faction == Faction.Type.ENEMY and visual.unit.is_alive(): enemy_marked = visual.show_rear
+		if session.state.active_summon(session.units[0].id) == visual.unit: helper_marked = visual.show_rear
+	check(player_marked and enemy_marked, label + ": both factions show rear markers")
+	if session.state.active_summon(session.units[0].id) != null:
+		check(helper_marked, label + ": nullable-control helper shows rear marker")
+
+func check_no_rear_markers(label: String) -> void:
+	var no_markers := true
+	for visual: BattleDemoIsoVisual in board._entity_visuals:
+		if visual.unit != null: no_markers = no_markers and not visual.show_rear
+	check(no_markers, label + ": unrelated scenario hides rear markers")
 
 func find_button(node: Node, label: String) -> Button:
 	for child: Node in node.get_children():

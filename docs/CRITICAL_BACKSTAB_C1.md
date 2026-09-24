@@ -109,6 +109,8 @@ attacked полем `modifiers={backstab_percent:int,critical:bool}`; очере
 `tests/fixtures/demo/control_battle.tscn`; AI вызывает тот же AttackCommand.
 UI показывает реальный forecast/events, а направление стрелки
 рисует по разности проекций клеток (смещение карты не меняет вектор).
+Стрелка включена и в K2, у обеих команд и помощников с nullable control;
+наличие ControlState не определяет направление тыла.
 
 В [K2](CORE_READINESS.md#k2--общий-игровой-сценарий-c1d3d5) те же опции
 включены в оба определения D3, без изменения их bleeding policy.

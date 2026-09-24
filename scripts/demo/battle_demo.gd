@@ -233,14 +233,19 @@ func _button(value: String) -> Button:
 
 func set_attack_mode(enabled: bool) -> void:
 	if _battle != null and not _battle.can_player_act(): return
+	_clear_action_mode()
+	attack_mode = enabled
+	_refresh()
+
+func _clear_action_mode() -> void:
+	# Только состояние ввода: остатки действий и результат команды принадлежат сессии.
 	if session is BattleBleedingSession: (session as BattleBleedingSession).rune_selected = false
 	summoning_mode = false
 	raising_mode = false
-	attack_mode = enabled
+	attack_mode = false
 	_clear_forecast()
 	# Режим действия закрывает осмотр, чтобы подсветка не смешивалась с целью атаки.
 	inspected_id = UnitId.NONE
-	_refresh()
 
 func _action_bar_requested(action_id: StringName) -> void:
 	if not tactical_mode: return
@@ -257,25 +262,17 @@ func _action_bar_requested(action_id: StringName) -> void:
 		&"raise_corpse": _choose_raise()
 		&"restore_armor":
 			if session is BattleArmorSession:
-				attack_mode = false; summoning_mode = false; raising_mode = false; inspected_id = UnitId.NONE
+				_clear_action_mode()
 				_show_receipt((session as BattleArmorSession).restore_selected_armor())
 
 func _use_healing_item() -> void:
 	if _battle == null: return
-	_clear_forecast()
-	summoning_mode = false
-	attack_mode = false
-	inspected_id = UnitId.NONE
-	raising_mode = false
+	_clear_action_mode()
 	_show_receipt(_battle.use_healing_item())
 
 func _use_guard() -> void:
 	if _battle == null: return
-	_clear_forecast()
-	summoning_mode = false
-	attack_mode = false
-	inspected_id = UnitId.NONE
-	raising_mode = false
+	_clear_action_mode()
 	_show_receipt(_battle.guard_selected())
 
 func select_character(id: int) -> void:
@@ -299,17 +296,17 @@ func handle_cell(cell: Vector2i) -> void:
 	var occupant := session.board.occupant_at(cell)
 	if summoning_mode:
 		var receipt := _battle.use_summoning_item(cell)
-		if receipt.status != ActionReceipt.REJECTED: summoning_mode = false
-		_show_receipt(receipt)
+		_show_receipt(receipt, true)
 	elif raising_mode and session is BattleEnvironmentSession:
 		var raise_receipt := (session as BattleEnvironmentSession).raise_corpse(cell)
-		if raise_receipt.status != ActionReceipt.REJECTED: raising_mode = false
-		_show_receipt(raise_receipt)
+		_show_receipt(raise_receipt, true)
 	elif attack_mode:
 		if occupant == null:
-			_status.text = "Для атаки выберите персонажа на поле."
+			var rejected := ActionReceipt.new()
+			rejected.reason = &"attack/invalid_target"
+			_show_receipt(rejected, true)
 			return
-		_show_receipt(session.attack_unit(occupant.id))
+		_show_receipt(session.attack_unit(occupant.id), true)
 	elif occupant != null:
 		if _battle != null and occupant.faction == Faction.Type.ENEMY:
 			inspect_enemy(occupant.id)
@@ -749,7 +746,11 @@ func _render_forecast_panel() -> void:
 			text += "• " + _event_text(event_variant as Dictionary) + "\n"
 	_forecast_panel.text = text
 
-func _show_receipt(receipt: ActionReceipt) -> void:
+func _show_receipt(receipt: ActionReceipt, target_attempt: bool = false) -> void:
+	# Завершённое применение и отказ по выбранной цели возвращают движение.
+	# UI не зависит от того, основное или дополнительное действие оплатила команда.
+	if target_attempt or receipt.status != ActionReceipt.REJECTED:
+		_clear_action_mode()
 	_clear_forecast()
 	for event in receipt.get_events(): _note(_event_text(event))
 	_refresh()
@@ -769,7 +770,9 @@ func _show_receipt(receipt: ActionReceipt) -> void:
 		board_view.animate_fall(unit, origin, destination)
 	if receipt.status != ActionReceipt.APPLIED:
 		var message := "Действие отклонено" if receipt.status == ActionReceipt.REJECTED else "Исполнение остановлено"
-		message += ": " + _reason_text(receipt.reason)
+		message += ": "
+		if target_attempt and receipt.status == ActionReceipt.REJECTED: message += "недопустимая цель. "
+		message += _reason_text(receipt.reason)
 		_note(message)
 		_log.text = "\n".join(_journal)
 		_status.text = message
@@ -928,11 +931,8 @@ func _choose_summoning() -> void:
 	if reason != &"":
 		_status.text = _reason_text(reason)
 		return
-	attack_mode = false
-	raising_mode = false
+	_clear_action_mode()
 	summoning_mode = true
-	inspected_id = UnitId.NONE
-	_clear_forecast()
 	_refresh()
 
 func _choose_raise() -> void:
@@ -942,9 +942,6 @@ func _choose_raise() -> void:
 	if reason != &"":
 		_status.text = _reason_text(reason)
 		return
-	attack_mode = false
-	summoning_mode = false
+	_clear_action_mode()
 	raising_mode = true
-	inspected_id = UnitId.NONE
-	_clear_forecast()
 	_refresh()
