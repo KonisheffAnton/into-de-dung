@@ -1,7 +1,7 @@
 extends RefCounted
 class_name ForecastSimulation
 
-## Общая изоляция только для трёх известных команд; это не executor произвольного кода.
+## Общая изоляция известных команд; это не executor произвольного кода.
 var status: StringName = ActionReceipt.REJECTED
 var reason: StringName = &""
 var events: Array[Dictionary] = []
@@ -26,7 +26,7 @@ static func run(context: ActionContext, queue: ActionQueue, command: Command) ->
 	if context.is_busy() or queue._busy: return rejected(&"BUSY")
 	if context.is_faulted() or queue._faulted: return rejected(&"CONTEXT_FAULTED")
 	if context.get_script() != ActionContext or queue.get_script() != ActionQueue: return rejected(&"preview/unsupported_context")
-	if command == null or command.get_script() not in [AttackCommand, UseHealingItemCommand, UseSummoningItemCommand]: return rejected(&"preview/unsupported_command")
+	if command == null or command.get_script() not in [AttackCommand, UseHealingItemCommand, UseSummoningItemCommand, MoveCommand]: return rejected(&"preview/unsupported_command")
 	var capture := ItemSimulationSnapshot.capture(context.get_state(), context.get_unsupported_runtime_ids())
 	if capture.code != ItemSnapshotResult.Code.OK: return rejected(StringName(capture.reason))
 	var original_rng := context.get_rng()
@@ -48,7 +48,8 @@ static func run(context: ActionContext, queue: ActionQueue, command: Command) ->
 		close(state_copy)
 		return rejected(&"preview/context_copy_failed")
 	var result := ForecastSimulation.new()
-	var item_use: bool = command.get_script() != AttackCommand
+	var is_move: bool = command.get_script() == MoveCommand
+	var item_use: bool = command.get_script() in [UseHealingItemCommand, UseSummoningItemCommand]
 	result.units_before = unit_values(state_copy.get_board(), state_copy, item_use)
 	result.snapshot_before = capture.snapshot.to_dict()
 	result.admission_before = SummonAdmission.values(context_copy)
@@ -72,11 +73,11 @@ static func run(context: ActionContext, queue: ActionQueue, command: Command) ->
 	var after_capture := ItemSimulationSnapshot.capture(state_copy, [])
 	if after_capture.code == ItemSnapshotResult.Code.OK:
 		result.snapshot_after = after_capture.snapshot.to_dict()
-	elif result.status == ActionReceipt.APPLIED:
+	elif result.status == ActionReceipt.APPLIED or (is_move and result.status == ActionReceipt.INTERRUPTED):
 		result.status = ActionReceipt.FAULTED
 		result.reason = &"preview/result_snapshot_failed"
 	# FAULTED сохраняет prefix в снимках/журнале, но не выдаёт готовые полосы/помощника.
-	if result.status == ActionReceipt.APPLIED:
+	if result.status == ActionReceipt.APPLIED or (is_move and result.status == ActionReceipt.INTERRUPTED):
 		result.units_after = unit_values(state_copy.get_board(), state_copy, item_use)
 		if not item_before.is_empty():
 			result.items[item_id] = {"actor_id": actor_id, "before": item_before, "after": _item_values(state_copy, actor_id, item_id)}

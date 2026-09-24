@@ -33,6 +33,10 @@ var _ai_delay: float = 0.0
 var _flow_cursor: int = 0
 var _forecast_panel: RichTextLabel
 var _forecast: AttackForecast
+var _move_forecast: MoveForecast
+var _move_forecast_cell := Vector2i(-1, -1)
+var _move_forecast_actor: int = UnitId.NONE
+var _move_forecast_revision: int = -1
 var _item_forecast: ItemUseForecast
 var _item_forecast_kind: StringName = &""
 var _item_forecast_cell := Vector2i(-1, -1)
@@ -79,16 +83,18 @@ func _input(event: InputEvent) -> void:
 		# Координата самого viewport-события одинакова для мыши и replay/test input.
 		_pointer_position = (event as InputEventMouseMotion).position
 		_update_action_bar_hover()
-		if (_forecast != null or (_item_forecast != null and _item_forecast_kind == &"summon")) and board_view.hover_cell.x < 0 and not _forecast_reading_region().has_point(_pointer_position) and not board_view.get_global_rect().has_point(_pointer_position):
+		if (_forecast != null or _move_forecast != null or (_item_forecast != null and _item_forecast_kind == &"summon")) and board_view.hover_cell.x < 0 and not _forecast_reading_region().has_point(_pointer_position) and not board_view.get_global_rect().has_point(_pointer_position):
 			_clear_forecast()
 			_refresh_inspection()
 
 func _exit_tree() -> void:
 	_forecast = null
+	_move_forecast = null
 	_item_forecast = null
 	_item_forecast_kind = &""
 	if board_view != null:
 		board_view.forecast = null
+		board_view.move_forecast = null
 		board_view.session = null
 	if session != null: session.close()
 	session = null
@@ -463,8 +469,8 @@ func _refresh() -> void:
 	_attack_button.set_pressed_no_signal(attack_mode)
 	_log.visible = not attack_mode
 	_log_heading.visible = not attack_mode
-	_forecast_panel.visible = attack_mode or _item_forecast != null
-	_forecast_heading.visible = attack_mode or _item_forecast != null
+	_forecast_panel.visible = attack_mode or _item_forecast != null or _move_forecast != null
+	_forecast_heading.visible = attack_mode or _item_forecast != null or _move_forecast != null
 	if locked:
 		summoning_mode = false
 		raising_mode = false
@@ -596,7 +602,7 @@ func _refresh_inspection() -> void:
 func _hover(cell: Vector2i) -> void:
 	if session == null or session.board == null: return
 	# Позволяем перейти к прокрутке длинной цепи, сохранив текущий прогноз.
-	if (_forecast != null or _item_forecast != null) and cell.x < 0:
+	if (_forecast != null or _item_forecast != null or _move_forecast != null) and cell.x < 0:
 		# mouse_exited может прийти раньше _input того же движения мыши.
 		_resolve_hover_exit.call_deferred()
 		return
@@ -609,6 +615,17 @@ func _hover(cell: Vector2i) -> void:
 			_item_forecast_revision = revision
 			_forecast_panel.get_v_scroll_bar().value = 0.0
 			_render_item_forecast_panel()
+	elif not attack_mode and not summoning_mode and not raising_mode and inspected_id == UnitId.NONE and (_battle == null or _battle.can_player_act()) and session.board.is_in_bounds(cell) and session.board.occupant_at(cell) == null:
+		var revision := session.context.get_revision()
+		if _move_forecast == null or _move_forecast_cell != cell or _move_forecast_actor != session.selected_id or _move_forecast_revision != revision:
+			_clear_forecast()
+			_move_forecast = session.preview_move(cell)
+			_move_forecast_cell = cell
+			_move_forecast_actor = session.selected_id
+			_move_forecast_revision = revision
+			_forecast_panel.get_v_scroll_bar().value = 0.0
+			board_view.move_forecast = _move_forecast
+			board_view.refresh()
 	elif not attack_mode or (_battle != null and not _battle.can_player_act()) or not session.board.is_in_bounds(cell):
 		_clear_forecast()
 	else:
@@ -651,7 +668,7 @@ func _hover(cell: Vector2i) -> void:
 		return
 	var reachable: Dictionary = board_view.inspection_cells if inspected_id != UnitId.NONE else session.reachable_cells()
 	var cost := " · путь: %.1f ОД" % float(reachable[cell]) if reachable.has(cell) else ""
-	_hint.text = "%s · высота %+.1f%s\n%s" % [_cell_name(cell), float(session.board.get_height_steps(cell)) / 2.0, cost, "Осмотр: зона движения на следующий ход, не атаки." if inspected_id != UnitId.NONE else "Линия показывает маршрут; последствия падений не предсказываются."]
+	_hint.text = "%s · высота %+.1f%s\n%s" % [_cell_name(cell), float(session.board.get_height_steps(cell)) / 2.0, cost, "Осмотр: зона движения на следующий ход, не атаки." if inspected_id != UnitId.NONE else "Прогноз показывает итог движения. Клик — выполнить; кольцо — конечная клетка."]
 	if attack_mode: _hint.text = "Наведите на цель: прогноз одной атаки. Клик — выполнить.\nКрасный сегмент HP — потеря, зелёный — лечение; белая метка — итог."
 	_render_forecast_panel()
 
@@ -659,8 +676,10 @@ func _board_forecast_wheel_input(event: InputEvent) -> void:
 	if not event is InputEventMouseButton: return
 	var wheel := event as InputEventMouseButton
 	if not wheel.pressed or (wheel.button_index != MOUSE_BUTTON_WHEEL_UP and wheel.button_index != MOUSE_BUTTON_WHEEL_DOWN): return
-	if _forecast == null or not attack_mode or not _forecast_panel.is_visible_in_tree() or (_battle != null and not _battle.can_player_act()): return
-	if board_view.cell_at(wheel.position) != _forecast_cell: return
+	if not _forecast_panel.is_visible_in_tree() or (_battle != null and not _battle.can_player_act()): return
+	var target_cell := _forecast_cell if _forecast != null and attack_mode else _move_forecast_cell
+	if (_forecast == null or not attack_mode) and _move_forecast == null: return
+	if board_view.cell_at(wheel.position) != target_cell: return
 	var amount := 48.0 * (wheel.factor if wheel.factor > 0.0 else 1.0)
 	if wheel.button_index == MOUSE_BUTTON_WHEEL_UP: amount = -amount
 	var scroll_bar := _forecast_panel.get_v_scroll_bar()
@@ -672,7 +691,7 @@ func _leave_forecast_panel() -> void:
 	_resolve_hover_exit.call_deferred()
 
 func _resolve_hover_exit() -> void:
-	if session == null or board_view.hover_cell.x >= 0 or (_forecast == null and _item_forecast == null): return
+	if session == null or board_view.hover_cell.x >= 0 or (_forecast == null and _item_forecast == null and _move_forecast == null): return
 	if _item_forecast_kind == &"healing" and _hovered_bar_action == &"healing_item": return
 	if _forecast_reading_region().has_point(_pointer_position): return
 	_clear_forecast()
@@ -685,8 +704,12 @@ func _forecast_reading_region() -> Rect2:
 	return Rect2(Vector2(left, panel.position.y), Vector2(panel.end.x - left, panel.size.y))
 
 func _clear_forecast() -> void:
-	var had_forecast := _forecast != null
+	var had_forecast := _forecast != null or _move_forecast != null
 	_forecast = null
+	_move_forecast = null
+	_move_forecast_cell = Vector2i(-1, -1)
+	_move_forecast_actor = UnitId.NONE
+	_move_forecast_revision = -1
 	_item_forecast = null
 	_item_forecast_kind = &""
 	_item_forecast_cell = Vector2i(-1, -1)
@@ -696,6 +719,7 @@ func _clear_forecast() -> void:
 	_forecast_revision = -1
 	if board_view != null:
 		board_view.forecast = null
+		board_view.move_forecast = null
 		if had_forecast and board_view.session != null: board_view.refresh()
 	if _forecast_panel != null:
 		_forecast_panel.text = "Наведите курсор на врага в режиме A."
@@ -707,6 +731,9 @@ func _clear_forecast() -> void:
 
 func _render_forecast_panel() -> void:
 	if _forecast_panel == null: return
+	if _move_forecast != null:
+		_render_move_forecast_panel()
+		return
 	if _item_forecast != null:
 		_render_item_forecast_panel()
 		return
@@ -777,6 +804,36 @@ func _render_forecast_panel() -> void:
 		text += "\n[color=#a5b3c5]Последствия:[/color]\n"
 		for event_variant in events:
 			text += "• " + _event_text(event_variant as Dictionary) + "\n"
+	_forecast_panel.text = text
+
+func _render_move_forecast_panel() -> void:
+	_forecast_panel.visible = true
+	_forecast_heading.visible = true
+	_forecast_heading.text = "ПРОГНОЗ · КОЛЕСО НА ЦЕЛИ"
+	_log.visible = false
+	_log_heading.visible = false
+	var text := "[font_size=16][color=#f7c97d]Движение к %s[/color][/font_size]\n" % _cell_name(_move_forecast_cell)
+	if _move_forecast.status not in [ActionReceipt.APPLIED, ActionReceipt.INTERRUPTED]:
+		_forecast_panel.text = text + "[color=#f29b9b]Прогноз недоступен[/color]\n" + _reason_text(_move_forecast.reason)
+		return
+	if _move_forecast.status == ActionReceipt.INTERRUPTED:
+		text += "[color=#f29b9b]Маршрут прервётся: %s[/color]\n" % _reason_text(_move_forecast.reason)
+	for id: int in _move_forecast.units:
+		var row: Dictionary = _move_forecast.units[id]
+		var before: Dictionary = row["before"]
+		var after: Dictionary = row["after"]
+		if id != _move_forecast.actor_id and before == after: continue
+		text += "%s: %s → %s\n" % [_name_for(id), _cell_name(before["cell"]), _cell_name(after["cell"])]
+		text += "HP %.1f → %.1f%s\n" % [before["hp"], after["hp"], " · ГИБЕЛЬ" if not after["alive"] else ""]
+		if id == _move_forecast.actor_id:
+			text += "Движение %.1f → %.1f · расход %.1f ОД\n" % [before["move"], after["move"], float(before["move"]) - float(after["move"])]
+			text += "Основные %d → %d · бонусные %d → %d\n" % [before["main"], after["main"], before["bonus"], after["bonus"]]
+		if before.has("armor_current") and before["armor_current"] != after["armor_current"]:
+			text += "Броня %d → %d / %d\n" % [before["armor_current"], after["armor_current"], after["armor_max"]]
+		if before["guard_stance"] and not after["guard_stance"]: text += "Стойка будет снята.\n"
+	text += "\n[color=#a5b3c5]Последствия:[/color]\n"
+	for event: Dictionary in _move_forecast.events:
+		text += "• " + _event_text(event) + "\n"
 	_forecast_panel.text = text
 
 func _action_bar_hovered(action_id: StringName) -> void:
@@ -972,6 +1029,10 @@ func _reason_text(reason: StringName) -> String:
 		&"battle/input_locked": return "сейчас нельзя действовать."
 		&"battle/friendly_target": return "выберите противника."
 		&"move/insufficient_move": return "не хватает очков движения."
+		&"move/actor_dead": return "персонаж погибнет на пути."
+		&"move/actor_displaced": return "персонаж будет смещён с маршрута."
+		&"move/path_blocked": return "продолжение пути будет перекрыто."
+		&"move/budget_exhausted": return "очки движения закончатся на пути."
 		&"attack/out_of_reach", &"attack/not_aligned": return "цель вне досягаемости прямого удара."
 		&"move/unreachable": return "нет проходимого маршрута к этой клетке."
 		&"move/no_selected_unit", &"attack/no_selected_unit": return "выберите живого персонажа."

@@ -42,6 +42,7 @@ core без `--full` в неё не входит. Повторять более 
 | Проход союзников | `test_ally_transit.gd` (full/render; два PNG в render) |
 | Прогноз атаки | `test_attack_forecast.gd` |
 | Прогноз двух предметов K3 | `test_item_use_forecast.gd`, `test_item_forecast_ui.gd` (full/render): две копии/live, полные snapshots/events/steps/RNG/counters/admission, новый helper, отказы/FAULTED/cleanup; ввод и PNG |
+| Прогноз движения K4 | `test_move_forecast.gd`, `test_move_forecast_ui.gd` (full/render): полная preview/live parity, транзит/падение/шипы, INTERRUPTED/FAULTED, helper/admission, изоляция/restore/cleanup; реальный ввод, scrolling/инвалидация и четыре PNG |
 | Стойка | `test_guard_stance.gd` |
 | Флакон | `test_healing_item.gd` |
 | Общее описание применения M3 | `test_item_use_action.gd` (full/render); UI и фактическое лечение — `test_tactical_battle.gd` |

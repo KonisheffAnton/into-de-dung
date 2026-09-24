@@ -19,6 +19,7 @@ var grid_config := IsoGridConfig.new()
 var _reachable: Dictionary = {}
 var inspection_cells: Dictionary = {}
 var forecast: AttackForecast
+var move_forecast: MoveForecast
 var _path: Array[Vector2i] = []
 var _tiles: Node2D
 var _entities: Node2D
@@ -119,6 +120,10 @@ func _clear_hover() -> void:
 
 func _refresh_path() -> void:
 	_path.clear()
+	if move_forecast != null:
+		# После прерывания не рисуем непроходимый остаток как будущий ход.
+		if move_forecast.status in [ActionReceipt.APPLIED, ActionReceipt.INTERRUPTED]: _path = move_forecast.traversed_path.duplicate()
+		return
 	if session != null and not attack_mode and not summoning_mode and not raising_mode and inspected_id == UnitId.NONE and _reachable.has(hover_cell): _path = session.path_to(hover_cell)
 
 func _rescale_layout() -> void:
@@ -231,6 +236,12 @@ func _draw_overlay() -> void:
 			var records: Array = corpses_by_cell[corpse_cell]
 			_overlay.draw_circle(corpse_center + Vector2(0, 8), hw * 0.20, Color("a5b3c5"))
 			_overlay.draw_string(ThemeDB.fallback_font, corpse_center + Vector2(-35, 25), "ТЕЛА ×%d" % records.size(), HORIZONTAL_ALIGNMENT_CENTER, 70, 10, Color("e6ecf4"))
+	if move_forecast != null and move_forecast.status in [ActionReceipt.APPLIED, ActionReceipt.INTERRUPTED]:
+		var after: Dictionary = move_forecast.units.get(move_forecast.actor_id, {}).get("after", {})
+		if not after.is_empty():
+			var endpoint := cell_center(after["cell"])
+			var color := CYAN if after["alive"] else Color("f29b9b")
+			_overlay.draw_arc(endpoint, 10.0, 0, TAU, 24, color, 2.5, true)
 	if forecast != null and forecast.status == &"APPLIED":
 		for event_variant in forecast.events:
 			var event := event_variant as Dictionary
@@ -254,6 +265,8 @@ func _draw_overlay() -> void:
 				_overlay.draw_line(finish - Vector2(4, -4), finish + Vector2(4, -4), Color.WHITE, 2, true)
 
 func _forecast_entry(unit_id: int) -> Dictionary:
+	if move_forecast != null and move_forecast.status in [ActionReceipt.APPLIED, ActionReceipt.INTERRUPTED]:
+		return move_forecast.units.get(unit_id, {})
 	if forecast == null or forecast.status != ActionReceipt.APPLIED: return {}
 	var units: Dictionary = forecast.units
 	var entry: Variant = units.get(unit_id, {})

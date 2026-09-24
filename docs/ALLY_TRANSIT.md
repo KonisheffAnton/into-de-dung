@@ -46,5 +46,6 @@ move_cost — полная цена сегмента. ActionQueue проверя
 недопустимая остановка/враг/нейтрал, подъём/падение/смерть, callback/fault-prefix,
 лимит очереди, AI prefix, snapshot/RNG/events/steps/counters parity копии и live,
 изоляция и реальный UI-клик без M. Launcher включает runner в full/render.
-Общий прогноз движения не добавлен: сравнение выполняется настоящей командой
-на изолированном snapshot/context/queue/RNG. Итоги — HANDOFF и отчёт этапа.
+Первоначальный runner сравнивает настоящую команду на изолированном
+snapshot/context/queue/RNG. Пользовательский прогноз движения добавлен отдельным
+[K4](ATTACK_FORECAST.md#k4--прогноз-движения) и сохраняет этот транзит.

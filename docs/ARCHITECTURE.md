@@ -9,7 +9,8 @@
 Есть законченный сценарий боя 3v3 с ИИ, командными ходами и свободным выбором своих
 без пополнения ресурсов. Движение, main и bonus разделены; атака стоит 1 main.
 Работают высота, равновесие, толчки, столкновения/падения, осмотр, прогноз атаки,
-охранная стойка, флакон и призыв помощников, прогноз двух применений M3 (K3). Точное поведение — [TACTICAL_BATTLE](TACTICAL_BATTLE.md)
+охранная стойка, флакон и призыв помощников, прогноз двух применений M3 (K3)
+и движения (K4). Точное поведение — [TACTICAL_BATTLE](TACTICAL_BATTLE.md)
 и специализированные контракты из [индекса](PROJECT_CONTEXT.md).
 
 Это один тактический бой. Новая расходуемая броня с двумя ветвями сопротивлений
@@ -41,7 +42,7 @@ K2 — основной вход F5. Отдельные сцены D2/D3/D5/C1 �
 | Расчёт прямого удара | `scripts/core/combat/attack_damage_calculation.gd` | Чистые числа и стадии нынешней формулы; AttackCommand владеет допуском и применением, контракт D1 |
 | Спина / крит / контроль | `AttackModifiers`, `ControlState`, `ControlRules`, `BattleControlSession` | Явные опции определения атаки, runtime состояния; контракт C1 |
 | Пробивание оружием | `StatTypes`, `AttackCommand`, `ArmorAttack` | Предметный stat → разделение физической базы по политикам D2; [M4](ARMOR_PIERCING_M4.md) |
-| Прогноз | `AttackForecast`, `ItemUseForecast`, `ForecastSimulation` в `scripts/core/actions/` | Настоящие атака и две команды M3 на изолированных state/context/queue/RNG; общий helper изоляции, отдельный DTO нового помощника; не forecast произвольных действий |
+| Прогноз | `AttackForecast`, `ItemUseForecast`, `MoveForecast`, `ForecastSimulation` в `scripts/core/actions/` | Атака, две M3 и движение на изолированных state/context/queue/RNG; только движение выдаёт готовый INTERRUPTED и фактический путь. Отдельные DTO, закрытый список команд; [контракт](ATTACK_FORECAST.md) |
 | Командный ход и исход | `scripts/demo/battle_tactical_session.gd`, `battle_demo_session.gd`, `battle_turn_refill.gd` | Управление игроком/врагом, refill, динамический состав, reset/cleanup |
 | Совместный сценарий C1/D3/D5 | `BattleCoreCombinationSession`, `core_combination_battle.tscn` | Истечение контроля исходящей команды → унаследованный D3 tick входящей → исход → refill; терминальный результат останавливает переход |
 | Сравнение темпа ходов | `BattleInitiativeSession`, `BattleInitiativeDemo` | Одинаковый бой в двух режимах; собственный ход/очередь только в эксперименте |

@@ -1,5 +1,44 @@
 # История и свидетельства проверок
 
+## K4: прогноз движения — 2026-09-24
+
+Base main `ae6c2bab1e590c839835fb774e4963283f5caf88`, входное дерево чистое.
+После K3 пользователь сообщил «Пока ок»; это ограниченный отзыв, без заявления
+полной граничной приёмки. Следующий предложенный срез движения поручен «Давай».
+Реализован MoveForecast для настоящего MoveCommand на общей изолированной копии.
+APPLIED/INTERRUPTED показывают фактические клетку/путь/ресурсы/последствия,
+FAULTED оставляет диагностический prefix без готового результата. Hover не меняет
+live, клик заново ищет путь; AttackForecast/M3, правила/цены/формулы/codec сохранены.
+Владельцы — ATTACK_FORECAST §K4, CORE_READINESS §K4, ARCHITECTURE.
+
+Game_scout адресно нашёл UI/test точки; game_coder выполнил ограниченный core API,
+ведущий — session/UI, проверки, контракт и критическую интеграцию forecast/queue/save.
+Независимый game_reviewer — APPROVE на 18 записанных файлах; их hashes после
+финальных прогонов совпали. На момент ревью full/render ещё выполнялись,
+их окончательный результат проверил ведущий. Прежний HANDOFF — точный
+[архив](CODEX_HANDOFF.history-20260924-11.md), SHA256 исходной рабочей копии совпал.
+
+Godot 4.7.2, full `test_reports/demo-db8e21c38f9841a28d7c539ac968fdcd/`
+и render `test_reports/demo-1ce0365af7b5488e9218340afcce6617/`: exit 0,
+import/startup и все runner PASS. Core 9440/0; K4 465/0;
+UI headless 25/0, render 29/0; AttackForecast 166/0. Старые diagnostics core
+(occupied-cell/47 ObjectDB/18 resources) точно совпали с K3; non-legacy без новых
+ошибок/leaks. Проверено совпадение 206 исходников scripts/tests/scenes/tools
+(без UID) каждого прогона с финальными; UID новых тестов сгенерированы отдельно.
+
+Полные snapshots/events/steps/RNG/counters/admission, repeated isolation,
+транзит/падение/шипы/предметная реакция, отказы/INTERRUPTED/FAULTED prefix,
+terminal cleanup, pending/готовый custom M1 helper и restore/DTO проверены.
+Ввод проверяет hovering/scrolling/инвалидацию, осмотр/режимы/фазу/reset, смену
+K2 → полигон во время ИИ, реальные клики движения и падения. Осмотрены четыре
+PNG: шипы, прерванный смертельный путь, отказ по бюджету, падение в полигоне.
+Техническая приёмка не заменяет пользовательский плейтест K4 и всего ядра.
+
+Отчёт, manifest ревью, сверка исходников, объёма/ссылок и prompt —
+`test_reports/k4-movement-20260924/`. Прежние пробелы K2/C1/D3/D4/D5 сохранены.
+Прогноз поднятия, новые правила падения/цепей и следующий механизм не запускались.
+Push/sidebar tasks/расписаний не было.
+
 ## K3: прогноз лечения и призыва — 2026-09-24
 
 Base main `4cc1dfaf27fc4a96de58efa25f6ceefef59ab67f`, входное дерево чистое.

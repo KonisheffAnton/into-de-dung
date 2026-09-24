@@ -82,6 +82,9 @@ def main():
         if label in ("item_forecast", "item_forecast_ui"):
             marker = "ITEM FORECAST RESULTS:" if label == "item_forecast" else "ITEM FORECAST UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label in ("move_forecast", "move_forecast_ui"):
+            marker = "MOVE FORECAST RESULTS:" if label == "move_forecast" else "MOVE FORECAST UI RESULTS:"
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("core_combinations", "core_combination_turns"):
             marker = "CORE COMBINATIONS RESULTS:" if label == "core_combinations" else "CORE COMBINATION TURNS RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -114,6 +117,7 @@ def main():
         run("summon_definition", ["--script", "tests/test_summon_definition.gd"])
         run("item_use", ["--script", "tests/test_item_use_action.gd"])
         run("item_forecast", ["--script", "tests/test_item_use_forecast.gd"])
+        run("move_forecast", ["--script", "tests/test_move_forecast.gd"])
         run("attack_calculation", ["--script", "tests/test_attack_damage_calculation.gd"])
         run("attack_d1", ["--script", "tests/test_attack_damage_d1.gd"])
         run("attack_modifiers", ["--script", "tests/test_attack_modifiers.gd"])
@@ -184,6 +188,10 @@ def main():
         if args.render_check:
             combination_args += ["--", "--captures=" + str(captures)]
         run("core_combination_ui", combination_args, headless=not args.render_check)
+        move_forecast_args = ["--script", "tests/test_move_forecast_ui.gd"]
+        if args.render_check:
+            move_forecast_args += ["--", "--captures=" + str(captures)]
+        run("move_forecast_ui", move_forecast_args, headless=not args.render_check)
         initiative_args = ["--script", "tests/test_initiative_battle.gd"]
         if args.render_check:
             initiative_args += ["--", "--captures=" + str(captures)]
