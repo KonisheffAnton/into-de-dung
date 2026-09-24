@@ -2,6 +2,8 @@ extends Control
 class_name BattleActionBar
 
 signal action_requested(action_id: StringName)
+signal action_hovered(action_id: StringName)
+signal action_hover_left(action_id: StringName)
 
 const FIXED_SLOTS: int = 2
 const VISIBLE_SLOTS: int = 8
@@ -53,6 +55,8 @@ func _build() -> void:
 		button.add_theme_font_size_override("font_size", 13)
 		button.set_meta("slot", index + 1)
 		button.pressed.connect(_slot_pressed.bind(index))
+		button.mouse_entered.connect(_slot_mouse_entered.bind(index))
+		button.mouse_exited.connect(_slot_mouse_exited.bind(index))
 		_buttons.append(button)
 		row.add_child(button)
 	_down_button = _arrow_button("↓")
@@ -104,6 +108,16 @@ func _set_fixed(button: Button, slot: int, action_id: StringName, label: String,
 func _slot_pressed(index: int) -> void:
 	var action_id := StringName(_buttons[index].get_meta("action_id", &""))
 	if action_id != &"": action_requested.emit(action_id)
+
+func _slot_mouse_entered(index: int) -> void:
+	if index < 0 or index >= _buttons.size(): return
+	var action_id := StringName(_buttons[index].get_meta("action_id", &""))
+	if action_id != &"": action_hovered.emit(action_id)
+
+func _slot_mouse_exited(index: int) -> void:
+	if index < 0 or index >= _buttons.size(): return
+	var action_id := StringName(_buttons[index].get_meta("action_id", &""))
+	if action_id != &"": action_hover_left.emit(action_id)
 
 func _previous_page() -> void:
 	if _page <= 0: return

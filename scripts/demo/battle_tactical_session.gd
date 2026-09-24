@@ -112,6 +112,18 @@ func healing_reason() -> StringName:
 func use_healing_item() -> ActionReceipt:
 	return _use_item(healing_item(), ItemUseAction.Kind.HEAL_SELF)
 
+func preview_healing_item() -> ItemUseForecast:
+	return _preview_item(healing_item(), ItemUseAction.Kind.HEAL_SELF)
+
+func preview_summoning_item(cell: Vector2i) -> ItemUseForecast:
+	return _preview_item(summoning_item(), ItemUseAction.Kind.SUMMON_ADJACENT, cell)
+
+func _preview_item(item: ItemInstance, kind: ItemUseAction.Kind, cell: Vector2i = Vector2i(-1, -1)) -> ItemUseForecast:
+	# Допуск совпадает с кликом, но отказ прогноза не заменяет последний live receipt.
+	var reason := _item_reason(item, kind, cell)
+	if reason != &"": return ItemUseForecast.rejected(reason)
+	return ItemUseForecast.build(context, _queue, item_command(selected_id, item.get_item_instance_id(), cell))
+
 func _item_reason(item: ItemInstance, kind: ItemUseAction.Kind, cell: Vector2i = Vector2i(-1, -1)) -> StringName:
 	# Порядок ходов остаётся у session; описание действия знает только допуск команды.
 	if not can_player_act(): return &"battle/input_locked"

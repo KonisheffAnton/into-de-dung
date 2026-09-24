@@ -3,8 +3,8 @@
 Действующий прогноз нынешней атаки с её последствиями, стойкой и влияющими
 предметами. Стойка — [ACTION_PANEL_GUARD](ACTION_PANEL_GUARD.md); лечение/заряды —
 [HEALING_ITEM](HEALING_ITEM.md); helpers и item snapshot v3 — [SUMMON_ITEM](SUMMON_ITEM.md).
-Прогноз не расходует live-заряды. Прогноза применения предмета, движения или
-нескольких команд нет. Будущий дизайн TACTICAL_DESIGN_NEXT не включается автоматически.
+Прогноз не расходует live-заряды. K3 добавляет отдельный прогноз двух применений
+M3 (ниже); прогноза движения или нескольких команд нет. Будущий дизайн TACTICAL_DESIGN_NEXT не включается автоматически.
 Происхождение срезов — [архив](ATTACK_FORECAST.history-20260920.md).
 
 ## Контракт исполнения
@@ -82,7 +82,8 @@ runner; viewport hover/exit/selection/phase/reset и PNG, независимое
 полную доску с helpers, их предметных владельцев и admission rules копии контекста.
 Заряд печати не расходуется атакой. Совпадение полного snapshot, receipts,
 counters/RNG проверяется для атак с pending/готовым helper, включая атаку на
-него. Прогноза призыва нет. Unit snapshot v3 стойки не меняется.
+него. Прогноз самого призыва добавлен отдельным API K3 ниже. Unit snapshot v3
+стойки не меняется.
 
 ## Новая броня D2
 
@@ -116,3 +117,50 @@ ItemSimulation v6: все stats/параметры имени, включая н
 события fire hit и corpse_created видны в прогнозе. Состав среды включён в
 snapshot_before/after и проверку live isolation. Прогноза движения и поднятия
 тела этот API не добавляет. Правила транзита и потребления — [D5](ENVIRONMENT_D5.md).
+
+
+## K3 — прогноз лечения и печати
+
+`ItemUseForecast.build(context, queue, command: Command)` допускает только точные
+UseHealingItemCommand/UseSummoningItemCommand. Подклассы, атака, поднятие D5 и
+произвольные команды отклоняются с `preview/unsupported_command`. Отдельные
+`BattleTacticalSession.preview_healing_item()` / `preview_summoning_item(cell)`
+применяют прежние `_item_reason` gates без `_reject` и изменения last_receipt.
+Клик заново получает текущий ItemUseAction и создаёт свежую live-команду.
+
+`ForecastSimulation` владеет общей изоляцией: прежние snapshot/definitions/RNG,
+revision/counters, admission, лимиты очереди, изолированный sink и cleanup.
+Помощник также имеет закрытый список ровно трёх команд (атака и две M3).
+Публичный AttackForecast, его тип команды и поля units не меняются. Внешние
+callbacks не копируются; прогноз не моделирует следующий ход/refill/исход session.
+Настоящие обязательные последствия текущего submit исполняются очередью.
+
+ItemUseForecast возвращает значения `status/reason`, `events/steps`, полные
+`snapshot_before/after`, `rng_after`, `counters_after`, `admission_before/after`
+(представление SummonAdmission.values). Только APPLIED заполняет готовые `units`
+и `items`; FAULTED хранит исполненный prefix в журнале/снимках без обещания успеха.
+Ранние отказы capability/session могут не иметь снимков. Все данные независимы
+от live, следующего прогноза и восстановленного runtime, не являются save/token.
+
+`units[id]` содержит `before` и `after` с прежними значениями AttackForecast,
+плюс `id`, `name`, `owner_unit_id` (0 для исходного бойца), `pending`.
+У нового помощника **before = null**, after содержит реальный ID, клетку,
+HP/ресурсы, владельца и ожидание. Это появление, а не лечение погибшего бойца.
+`items[item_id]` содержит `actor_id`, `before/after: {charges: int}` только для
+предмета этой команды; ID экземпляра локален владельцу и используется вместе
+с actor_id. Остатки HP/main/bonus/move принадлежат units, полный runtime — снимку.
+Призыв сохраняет pending и нулевые стартовые действия; hover не добавляет live unit.
+
+Hover слота 3 показывает лечение/расход либо отказ даже у disabled-кнопки.
+Кнопка/клавиша 3 по-прежнему сразу лечит. В режиме печати hover клетки показывает
+нового помощника/цену либо отказ, клик применяет. Предметный результат выводится
+отдельно в существующей текстовой панели; поле AttackForecast/полосы атаки его
+не принимают. Смена выбора/режима/receipt/фазы/reset/сценария и выход очищают
+результат. Пересчёт при новом hover/refresh, без повторения каждый кадр; панель
+доступна для прокрутки. Правила возврата в движение сохраняются.
+
+Печать при `actor.armor != null` сохраняет `armor/summon_unsupported`: успех
+проверяется в обычном тактическом бою, лечение также в K2. K2/D4 не получают
+призыв при броне. Нет новых эффектов, цен, схем save, прогноза движения,
+поднятия D5 или цепочки действий. Покрытие и остаток — [CORE_READINESS §K3](CORE_READINESS.md#k3--прогноз-двух-применений-m3);
+команды/runner — [TESTING](TESTING.md), результаты — [HISTORY](HISTORY.md).

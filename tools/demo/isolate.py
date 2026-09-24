@@ -79,6 +79,9 @@ def main():
             invalid = invalid or "M1 RESULTS:" not in output or ", 0 failed" not in output
         if label == "item_use":
             invalid = invalid or "ITEM USE RESULTS:" not in output or ", 0 failed" not in output
+        if label in ("item_forecast", "item_forecast_ui"):
+            marker = "ITEM FORECAST RESULTS:" if label == "item_forecast" else "ITEM FORECAST UI RESULTS:"
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("core_combinations", "core_combination_turns"):
             marker = "CORE COMBINATIONS RESULTS:" if label == "core_combinations" else "CORE COMBINATION TURNS RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -110,6 +113,7 @@ def main():
         run("startup", ["--quit-after", "3"])
         run("summon_definition", ["--script", "tests/test_summon_definition.gd"])
         run("item_use", ["--script", "tests/test_item_use_action.gd"])
+        run("item_forecast", ["--script", "tests/test_item_use_forecast.gd"])
         run("attack_calculation", ["--script", "tests/test_attack_damage_calculation.gd"])
         run("attack_d1", ["--script", "tests/test_attack_damage_d1.gd"])
         run("attack_modifiers", ["--script", "tests/test_attack_modifiers.gd"])
@@ -148,6 +152,10 @@ def main():
         if args.render_check:
             battle_args += ["--", "--captures=" + str(captures)]
         run("battle", battle_args, headless=not args.render_check)
+        item_forecast_args = ["--script", "tests/test_item_forecast_ui.gd"]
+        if args.render_check:
+            item_forecast_args += ["--", "--captures=" + str(captures)]
+        run("item_forecast_ui", item_forecast_args, headless=not args.render_check)
         armor_args = ["--script", "tests/test_armor_battle.gd"]
         if args.render_check:
             armor_args += ["--", "--captures=" + str(captures)]

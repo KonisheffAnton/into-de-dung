@@ -40,7 +40,8 @@ core без `--full` в неё не входит. Повторять более 
 | Забег D4 | `test_d4_run.gd`, `test_d4_integration.gd`, `test_d4_ui.gd` (full/render, восемь PNG) |
 | Среда и трупы D5 | `test_d5_state.gd`, `test_d5_integration.gd`, `test_d5_ui.gd` (full/render; ввод, прогноз, поднятие, PNG) |
 | Проход союзников | `test_ally_transit.gd` (full/render; два PNG в render) |
-| Прогноз | `test_attack_forecast.gd` |
+| Прогноз атаки | `test_attack_forecast.gd` |
+| Прогноз двух предметов K3 | `test_item_use_forecast.gd`, `test_item_forecast_ui.gd` (full/render): две копии/live, полные snapshots/events/steps/RNG/counters/admission, новый helper, отказы/FAULTED/cleanup; ввод и PNG |
 | Стойка | `test_guard_stance.gd` |
 | Флакон | `test_healing_item.gd` |
 | Общее описание применения M3 | `test_item_use_action.gd` (full/render); UI и фактическое лечение — `test_tactical_battle.gd` |

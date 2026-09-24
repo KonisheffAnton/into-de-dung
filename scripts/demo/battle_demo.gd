@@ -33,6 +33,10 @@ var _ai_delay: float = 0.0
 var _flow_cursor: int = 0
 var _forecast_panel: RichTextLabel
 var _forecast: AttackForecast
+var _item_forecast: ItemUseForecast
+var _item_forecast_kind: StringName = &""
+var _item_forecast_cell := Vector2i(-1, -1)
+var _item_forecast_revision: int = -1
 var _forecast_cell := Vector2i(-1, -1)
 var _forecast_target_id: int = UnitId.NONE
 var _forecast_revision: int = -1
@@ -40,6 +44,7 @@ var _log_heading: Label
 var _forecast_heading: Label
 var _pointer_position := Vector2(-1, -1)
 var _shown_inspection_id: int = UnitId.NONE
+var _hovered_bar_action: StringName = &""
 
 func _ready() -> void:
 	_create_session()
@@ -73,12 +78,15 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		# Координата самого viewport-события одинакова для мыши и replay/test input.
 		_pointer_position = (event as InputEventMouseMotion).position
-		if _forecast != null and board_view.hover_cell.x < 0 and not _forecast_reading_region().has_point(_pointer_position) and not board_view.get_global_rect().has_point(_pointer_position):
+		_update_action_bar_hover()
+		if (_forecast != null or (_item_forecast != null and _item_forecast_kind == &"summon")) and board_view.hover_cell.x < 0 and not _forecast_reading_region().has_point(_pointer_position) and not board_view.get_global_rect().has_point(_pointer_position):
 			_clear_forecast()
 			_refresh_inspection()
 
 func _exit_tree() -> void:
 	_forecast = null
+	_item_forecast = null
+	_item_forecast_kind = &""
 	if board_view != null:
 		board_view.forecast = null
 		board_view.session = null
@@ -157,6 +165,8 @@ func _build_ui() -> void:
 	_action_bar.name = "BattleActionBar"
 	_action_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_action_bar.action_requested.connect(_action_bar_requested)
+	_action_bar.action_hovered.connect(_action_bar_hovered)
+	_action_bar.action_hover_left.connect(_action_bar_hover_left)
 	_action_bar.visible = tactical_mode
 	root.add_child(_action_bar)
 	_hint = _label("", 14, Color("a5b3c5"))
@@ -453,8 +463,8 @@ func _refresh() -> void:
 	_attack_button.set_pressed_no_signal(attack_mode)
 	_log.visible = not attack_mode
 	_log_heading.visible = not attack_mode
-	_forecast_panel.visible = attack_mode
-	_forecast_heading.visible = attack_mode
+	_forecast_panel.visible = attack_mode or _item_forecast != null
+	_forecast_heading.visible = attack_mode or _item_forecast != null
 	if locked:
 		summoning_mode = false
 		raising_mode = false
@@ -586,11 +596,20 @@ func _refresh_inspection() -> void:
 func _hover(cell: Vector2i) -> void:
 	if session == null or session.board == null: return
 	# Позволяем перейти к прокрутке длинной цепи, сохранив текущий прогноз.
-	if _forecast != null and cell.x < 0:
+	if (_forecast != null or _item_forecast != null) and cell.x < 0:
 		# mouse_exited может прийти раньше _input того же движения мыши.
 		_resolve_hover_exit.call_deferred()
 		return
-	if not attack_mode or (_battle != null and not _battle.can_player_act()) or not session.board.is_in_bounds(cell):
+	if summoning_mode and _battle != null and _battle.can_player_act() and session.board.is_in_bounds(cell):
+		var revision := session.context.get_revision()
+		if _item_forecast_kind != &"summon" or _item_forecast_cell != cell or _item_forecast_revision != revision:
+			_item_forecast = _battle.preview_summoning_item(cell)
+			_item_forecast_kind = &"summon"
+			_item_forecast_cell = cell
+			_item_forecast_revision = revision
+			_forecast_panel.get_v_scroll_bar().value = 0.0
+			_render_item_forecast_panel()
+	elif not attack_mode or (_battle != null and not _battle.can_player_act()) or not session.board.is_in_bounds(cell):
 		_clear_forecast()
 	else:
 		var target := session.board.occupant_at(cell)
@@ -653,7 +672,8 @@ func _leave_forecast_panel() -> void:
 	_resolve_hover_exit.call_deferred()
 
 func _resolve_hover_exit() -> void:
-	if session == null or board_view.hover_cell.x >= 0 or _forecast == null: return
+	if session == null or board_view.hover_cell.x >= 0 or (_forecast == null and _item_forecast == null): return
+	if _item_forecast_kind == &"healing" and _hovered_bar_action == &"healing_item": return
 	if _forecast_reading_region().has_point(_pointer_position): return
 	_clear_forecast()
 	_refresh_inspection()
@@ -667,16 +687,29 @@ func _forecast_reading_region() -> Rect2:
 func _clear_forecast() -> void:
 	var had_forecast := _forecast != null
 	_forecast = null
+	_item_forecast = null
+	_item_forecast_kind = &""
+	_item_forecast_cell = Vector2i(-1, -1)
+	_item_forecast_revision = -1
 	_forecast_cell = Vector2i(-1, -1)
 	_forecast_target_id = UnitId.NONE
 	_forecast_revision = -1
 	if board_view != null:
 		board_view.forecast = null
 		if had_forecast and board_view.session != null: board_view.refresh()
-	if _forecast_panel != null: _forecast_panel.text = "Наведите курсор на врага в режиме A."
+	if _forecast_panel != null:
+		_forecast_panel.text = "Наведите курсор на врага в режиме A."
+		_forecast_panel.visible = attack_mode
+		_forecast_heading.visible = attack_mode
+		_forecast_heading.text = "ПРОГНОЗ · КОЛЕСО НА ЦЕЛИ"
+	if _log != null: _log.visible = not attack_mode
+	if _log_heading != null: _log_heading.visible = not attack_mode
 
 func _render_forecast_panel() -> void:
 	if _forecast_panel == null: return
+	if _item_forecast != null:
+		_render_item_forecast_panel()
+		return
 	if _forecast == null:
 		_forecast_panel.text = "Наведите курсор на врага в режиме A."
 		return
@@ -745,6 +778,99 @@ func _render_forecast_panel() -> void:
 		for event_variant in events:
 			text += "• " + _event_text(event_variant as Dictionary) + "\n"
 	_forecast_panel.text = text
+
+func _action_bar_hovered(action_id: StringName) -> void:
+	var previous := _hovered_bar_action
+	_hovered_bar_action = action_id
+	if previous == &"healing_item" and action_id != &"healing_item": _resolve_item_hover_exit.call_deferred()
+	if action_id != &"healing_item" or _battle == null: return
+	var revision := session.context.get_revision()
+	if _item_forecast_kind == &"healing" and _item_forecast_revision == revision: return
+	_clear_forecast()
+	_item_forecast = _battle.preview_healing_item()
+	_item_forecast_kind = &"healing"
+	_item_forecast_revision = revision
+	_forecast_panel.get_v_scroll_bar().value = 0.0
+	_forecast_panel.visible = true
+	_forecast_heading.visible = true
+	_render_item_forecast_panel()
+
+func _action_bar_hover_left(action_id: StringName) -> void:
+	if _hovered_bar_action == action_id: _hovered_bar_action = &""
+	if action_id != &"healing_item" or _item_forecast_kind != &"healing": return
+	_resolve_item_hover_exit.call_deferred()
+
+func _update_action_bar_hover() -> void:
+	if _action_bar == null or not _action_bar.visible: return
+	var action_id: StringName = &""
+	if _action_bar.get_global_rect().has_point(_pointer_position):
+		for button in _action_bar._buttons:
+			if button.visible and button.get_global_rect().has_point(_pointer_position):
+				action_id = StringName(button.get_meta("action_id", &""))
+				break
+	if action_id == _hovered_bar_action: return
+	var previous := _hovered_bar_action
+	_hovered_bar_action = action_id
+	if previous == &"healing_item": _action_bar_hover_left(previous)
+	if action_id == &"healing_item": _action_bar_hovered(action_id)
+
+func _resolve_item_hover_exit() -> void:
+	if _item_forecast == null or _item_forecast_kind != &"healing": return
+	if _hovered_bar_action == &"healing_item": return
+	if _forecast_reading_region().has_point(_pointer_position): return
+	_clear_forecast()
+	_forecast_panel.visible = attack_mode
+	_forecast_heading.visible = attack_mode
+
+func _render_item_forecast_panel() -> void:
+	if _forecast_panel == null or _item_forecast == null: return
+	_forecast_panel.visible = true
+	_forecast_heading.visible = true
+	_forecast_heading.text = "ПРОГНОЗ · КОЛЕСО НА ПАНЕЛИ"
+	_log.visible = false
+	_log_heading.visible = false
+	var text := "[font_size=16][color=#f7c97d]"
+	if _item_forecast_kind == &"healing": text += "Прогноз лечения"
+	else: text += "Прогноз призыва · %s" % _cell_name(_item_forecast_cell)
+	text += "[/color][/font_size]\n"
+	var item_action: ItemUseAction = _item_action_for_forecast()
+	if _item_forecast.status != &"APPLIED":
+		text += "Цена: %s.\n[color=#f29b9b]Прогноз недоступен[/color]\n" % _item_cost_text(item_action) + _reason_text(_item_forecast.reason)
+		_forecast_panel.text = text
+		return
+	var item_actor_id: int = -1
+	for item_id_variant in _item_forecast.items:
+		var owner_row: Dictionary = _item_forecast.items[item_id_variant]
+		item_actor_id = int(owner_row.get("actor_id", -1))
+	for id_variant in _item_forecast.units:
+		var id := int(id_variant)
+		var entry: Dictionary = _item_forecast.units[id]
+		var before_value: Variant = entry.get("before")
+		var after: Dictionary = entry.get("after", {})
+		if _item_forecast_kind == &"healing" and id != item_actor_id: continue
+		if _item_forecast_kind == &"summon" and before_value != null: continue
+		var label := String(after.get("name", "Участник %d" % id))
+		if before_value == null:
+			# Призванный помощник не имеет состояния до появления и не считается погибшим.
+			var after_cell: Vector2i = after.get("cell", Vector2i.ZERO)
+			text += "%s · ID %d · помощник\nКлетка: %s · владелец: %d\nСтатус: %s\nHP: %.1f / %.1f\nДействия: %d основных, %d бонусных, %.1f движения\n" % [label, int(after.get("id", id)), _cell_name(after_cell), int(after.get("owner_unit_id", 0)), "ожидает следующего хода" if bool(after.get("pending", false)) else "готов", float(after.get("hp", 0.0)), float(after.get("hp_max", 0.0)), int(after.get("main", 0)), int(after.get("bonus", 0)), float(after.get("move", 0.0))]
+		else:
+			var before: Dictionary = before_value
+			text += "%s: HP %.1f → %.1f / %.1f\n" % [label, float(before.get("hp", 0.0)), float(after.get("hp", 0.0)), float(after.get("hp_max", 0.0))]
+			text += "Действия: основные %d → %d\n" % [int(before.get("main", 0)), int(after.get("main", 0))]
+	for item_id_variant in _item_forecast.items:
+		var item_row: Dictionary = _item_forecast.items[item_id_variant]
+		var item_before: Dictionary = item_row.get("before", {})
+		var item_after: Dictionary = item_row.get("after", {})
+		text += "Заряды: %d → %d\n" % [int(item_before.get("charges", 0)), int(item_after.get("charges", 0))]
+	text += "Цена: %s.\n" % _item_cost_text(item_action)
+	if _item_forecast_kind == &"summon": text += "Помощник не действует до следующего хода своей команды."
+	_forecast_panel.text = text
+
+func _item_action_for_forecast() -> ItemUseAction:
+	if _battle == null: return null
+	var item := _battle.healing_item() if _item_forecast_kind == &"healing" else _battle.summoning_item()
+	return item.get_use_action() if item != null else null
 
 func _show_receipt(receipt: ActionReceipt, target_attempt: bool = false) -> void:
 	# Завершённое применение и отказ по выбранной цели возвращают движение.
