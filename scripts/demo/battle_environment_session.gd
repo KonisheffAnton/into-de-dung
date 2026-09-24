@@ -39,6 +39,20 @@ func raise_reason() -> StringName:
 
 func raise_corpse(cell: Vector2i) -> ActionReceipt:
 	if not can_player_act() or selected_unit() == null: return _reject(&"battle/input_locked")
-	for record: Dictionary in state.environment.corpses_at(cell):
-		if record["creature_kind"] == "humanoid": return _submit(RaiseCorpseCommand.new(selected_id, record["id"], context.get_revision()))
+	var command := _raise_command(cell)
+	if command != null: return _submit(command)
 	return _reject(&"environment/no_corpse")
+
+func preview_raise_corpse(cell: Vector2i) -> RaiseCorpseForecast:
+	if not can_player_act() or selected_unit() == null: return RaiseCorpseForecast.rejected(&"battle/input_locked")
+	var command := _raise_command(cell)
+	if command == null: return RaiseCorpseForecast.rejected(&"environment/no_corpse")
+	return RaiseCorpseForecast.build(context, _queue, command)
+
+func _raise_command(cell: Vector2i) -> RaiseCorpseCommand:
+	if state == null or state.environment == null: return null
+	# Один выбор тела сохраняет прежний min-ID порядок для preview и настоящего клика.
+	for record: Dictionary in state.environment.corpses_at(cell):
+		if record["creature_kind"] == "humanoid":
+			return RaiseCorpseCommand.new(selected_id, record["id"], context.get_revision())
+	return null

@@ -15,6 +15,8 @@ var admission_after: Dictionary = {}
 var units_before: Dictionary = {}
 var units_after: Dictionary = {}
 var items: Dictionary = {}
+var corpses_before: Dictionary = {}
+var corpses_after: Dictionary = {}
 
 class Prepared extends RefCounted:
 	var reason: StringName = &""
@@ -44,7 +46,7 @@ static func prepare(context: ActionContext, queue: ActionQueue, command: Command
 	if context.is_busy() or queue._busy: return Prepared.rejected(&"BUSY")
 	if context.is_faulted() or queue._faulted: return Prepared.rejected(&"CONTEXT_FAULTED")
 	if context.get_script() != ActionContext or queue.get_script() != ActionQueue: return Prepared.rejected(&"preview/unsupported_context")
-	if command == null or command.get_script() not in [AttackCommand, UseHealingItemCommand, UseSummoningItemCommand, MoveCommand]: return Prepared.rejected(&"preview/unsupported_command")
+	if command == null or command.get_script() not in [AttackCommand, UseHealingItemCommand, UseSummoningItemCommand, MoveCommand, RaiseCorpseCommand]: return Prepared.rejected(&"preview/unsupported_command")
 	var capture := ItemSimulationSnapshot.capture(context.get_state(), context.get_unsupported_runtime_ids())
 	if capture.code != ItemSnapshotResult.Code.OK: return Prepared.rejected(StringName(capture.reason))
 	var original_rng := context.get_rng()
@@ -72,7 +74,7 @@ static func run_prepared(prepared: Prepared) -> ForecastSimulation:
 	if prepared == null or prepared.consumed: return rejected(&"preview/request_consumed")
 	prepared.consumed = true
 	if prepared.reason != &"": return rejected(prepared.reason)
-	if prepared.command == null or prepared.command.get_script() not in [AttackCommand, UseHealingItemCommand, UseSummoningItemCommand, MoveCommand]: return rejected(&"preview/unsupported_command")
+	if prepared.command == null or prepared.command.get_script() not in [AttackCommand, UseHealingItemCommand, UseSummoningItemCommand, MoveCommand, RaiseCorpseCommand]: return rejected(&"preview/unsupported_command")
 	if prepared.snapshot == null or prepared.context == null or prepared.queue == null or prepared.context.get_script() != ActionContext or prepared.queue.get_script() != ActionQueue: return rejected(&"preview/context_copy_failed")
 	var restored := prepared.snapshot.instantiate(prepared.definitions)
 	if restored.code != ItemSnapshotResult.Code.OK: return rejected(StringName(restored.reason))
@@ -85,7 +87,9 @@ static func run_prepared(prepared: Prepared) -> ForecastSimulation:
 	var result := ForecastSimulation.new()
 	var is_move: bool = command.get_script() == MoveCommand
 	var item_use: bool = command.get_script() in [UseHealingItemCommand, UseSummoningItemCommand]
-	result.units_before = unit_values(state_copy.get_board(), state_copy, item_use)
+	var raise_corpse: bool = command.get_script() == RaiseCorpseCommand
+	result.units_before = unit_values(state_copy.get_board(), state_copy, item_use or raise_corpse)
+	if raise_corpse: result.corpses_before = corpse_values(state_copy)
 	result.snapshot_before = prepared.snapshot.to_dict()
 	result.admission_before = SummonAdmission.values(context_copy)
 	var actor_id: int = 0
@@ -113,10 +117,18 @@ static func run_prepared(prepared: Prepared) -> ForecastSimulation:
 		result.reason = &"preview/result_snapshot_failed"
 	# FAULTED сохраняет prefix в снимках/журнале, но не выдаёт готовые полосы/помощника.
 	if result.status == ActionReceipt.APPLIED or (is_move and result.status == ActionReceipt.INTERRUPTED):
-		result.units_after = unit_values(state_copy.get_board(), state_copy, item_use)
+		result.units_after = unit_values(state_copy.get_board(), state_copy, item_use or raise_corpse)
+		if raise_corpse: result.corpses_after = corpse_values(state_copy)
 		if not item_before.is_empty():
 			result.items[item_id] = {"actor_id": actor_id, "before": item_before, "after": _item_values(state_copy, actor_id, item_id)}
 	close(state_copy)
+	return result
+
+static func corpse_values(state: ItemSimulationState) -> Dictionary:
+	var result: Dictionary = {}
+	if state == null or state.environment == null: return result
+	for corpse: Dictionary in state.environment.corpses:
+		result[corpse["id"]] = corpse.duplicate(true)
 	return result
 
 static func _item_values(state: ItemSimulationState, actor_id: int, item_id: int) -> Dictionary:

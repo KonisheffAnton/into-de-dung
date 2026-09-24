@@ -47,6 +47,10 @@ var _item_forecast: ItemUseForecast
 var _item_forecast_kind: StringName = &""
 var _item_forecast_cell := Vector2i(-1, -1)
 var _item_forecast_revision: int = -1
+var _raise_forecast: RaiseCorpseForecast
+var _raise_forecast_cell := Vector2i(-1, -1)
+var _raise_forecast_actor: int = UnitId.NONE
+var _raise_forecast_revision: int = -1
 var _forecast_cell := Vector2i(-1, -1)
 var _forecast_target_id: int = UnitId.NONE
 var _forecast_revision: int = -1
@@ -90,7 +94,7 @@ func _input(event: InputEvent) -> void:
 		# Координата самого viewport-события одинакова для мыши и replay/test input.
 		_pointer_position = (event as InputEventMouseMotion).position
 		_update_action_bar_hover()
-		if (_forecast != null or _move_forecast != null or _move_forecast_pending or (_item_forecast != null and _item_forecast_kind == &"summon")) and board_view.hover_cell.x < 0 and not _forecast_reading_region().has_point(_pointer_position) and not board_view.get_global_rect().has_point(_pointer_position):
+		if (_forecast != null or _move_forecast != null or _move_forecast_pending or _raise_forecast != null or (_item_forecast != null and _item_forecast_kind == &"summon")) and board_view.hover_cell.x < 0 and not _forecast_reading_region().has_point(_pointer_position) and not board_view.get_global_rect().has_point(_pointer_position):
 			_clear_forecast()
 			_refresh_inspection()
 
@@ -101,6 +105,7 @@ func _exit_tree() -> void:
 	_move_forecast = null
 	_item_forecast = null
 	_item_forecast_kind = &""
+	_raise_forecast = null
 	if board_view != null:
 		board_view.forecast = null
 		board_view.move_forecast = null
@@ -612,11 +617,21 @@ func _refresh_inspection() -> void:
 func _hover(cell: Vector2i) -> void:
 	if session == null or session.board == null: return
 	# Позволяем перейти к прокрутке длинной цепи, сохранив текущий прогноз.
-	if (_forecast != null or _item_forecast != null or _move_forecast != null) and cell.x < 0:
+	if (_forecast != null or _item_forecast != null or _move_forecast != null or _raise_forecast != null) and cell.x < 0:
 		# mouse_exited может прийти раньше _input того же движения мыши.
 		_resolve_hover_exit.call_deferred()
 		return
-	if summoning_mode and _battle != null and _battle.can_player_act() and session.board.is_in_bounds(cell):
+	if raising_mode and session is BattleEnvironmentSession and _battle.can_player_act() and session.board.is_in_bounds(cell):
+		var revision := session.context.get_revision()
+		if _raise_forecast == null or _raise_forecast_cell != cell or _raise_forecast_actor != session.selected_id or _raise_forecast_revision != revision:
+			_clear_forecast()
+			_raise_forecast = (session as BattleEnvironmentSession).preview_raise_corpse(cell)
+			_raise_forecast_cell = cell
+			_raise_forecast_actor = session.selected_id
+			_raise_forecast_revision = revision
+			_forecast_panel.get_v_scroll_bar().value = 0.0
+			_render_raise_forecast_panel()
+	elif summoning_mode and _battle != null and _battle.can_player_act() and session.board.is_in_bounds(cell):
 		var revision := session.context.get_revision()
 		if _item_forecast_kind != &"summon" or _item_forecast_cell != cell or _item_forecast_revision != revision:
 			_item_forecast = _battle.preview_summoning_item(cell)
@@ -712,7 +727,8 @@ func _board_forecast_wheel_input(event: InputEvent) -> void:
 	if not wheel.pressed or (wheel.button_index != MOUSE_BUTTON_WHEEL_UP and wheel.button_index != MOUSE_BUTTON_WHEEL_DOWN): return
 	if not _forecast_panel.is_visible_in_tree() or (_battle != null and not _battle.can_player_act()): return
 	var target_cell := _forecast_cell if _forecast != null and attack_mode else _move_forecast_cell
-	if (_forecast == null or not attack_mode) and _move_forecast == null: return
+	if _raise_forecast != null and raising_mode: target_cell = _raise_forecast_cell
+	if (_forecast == null or not attack_mode) and _move_forecast == null and _raise_forecast == null: return
 	if board_view.cell_at(wheel.position) != target_cell: return
 	var amount := 48.0 * (wheel.factor if wheel.factor > 0.0 else 1.0)
 	if wheel.button_index == MOUSE_BUTTON_WHEEL_UP: amount = -amount
@@ -725,7 +741,7 @@ func _leave_forecast_panel() -> void:
 	_resolve_hover_exit.call_deferred()
 
 func _resolve_hover_exit() -> void:
-	if session == null or board_view.hover_cell.x >= 0 or (_forecast == null and _item_forecast == null and _move_forecast == null): return
+	if session == null or board_view.hover_cell.x >= 0 or (_forecast == null and _item_forecast == null and _move_forecast == null and _raise_forecast == null): return
 	if _item_forecast_kind == &"healing" and _hovered_bar_action == &"healing_item": return
 	if _forecast_reading_region().has_point(_pointer_position): return
 	_clear_forecast()
@@ -750,6 +766,10 @@ func _clear_forecast() -> void:
 	_item_forecast_kind = &""
 	_item_forecast_cell = Vector2i(-1, -1)
 	_item_forecast_revision = -1
+	_raise_forecast = null
+	_raise_forecast_cell = Vector2i(-1, -1)
+	_raise_forecast_actor = UnitId.NONE
+	_raise_forecast_revision = -1
 	_forecast_cell = Vector2i(-1, -1)
 	_forecast_target_id = UnitId.NONE
 	_forecast_revision = -1
@@ -768,6 +788,9 @@ func _clear_forecast() -> void:
 
 func _render_forecast_panel() -> void:
 	if _forecast_panel == null: return
+	if _raise_forecast != null:
+		_render_raise_forecast_panel()
+		return
 	if _move_forecast != null or _move_forecast_pending:
 		_render_move_forecast_panel()
 		return
@@ -962,6 +985,32 @@ func _render_item_forecast_panel() -> void:
 		text += "Заряды: %d → %d\n" % [int(item_before.get("charges", 0)), int(item_after.get("charges", 0))]
 	text += "Цена: %s.\n" % _item_cost_text(item_action)
 	if _item_forecast_kind == &"summon": text += "Помощник не действует до следующего хода своей команды."
+	_forecast_panel.text = text
+
+func _render_raise_forecast_panel() -> void:
+	_forecast_panel.visible = true
+	_forecast_heading.visible = true
+	_forecast_heading.text = "ПРОГНОЗ · КОЛЕСО НА ЦЕЛИ"
+	_log.visible = false
+	_log_heading.visible = false
+	var text := "[font_size=16][color=#f7c97d]Поднятие тела · %s[/color][/font_size]\n" % _cell_name(_raise_forecast_cell)
+	if _raise_forecast.status != ActionReceipt.APPLIED:
+		_forecast_panel.text = text + "[color=#f29b9b]Прогноз недоступен[/color]\n" + _reason_text(_raise_forecast.reason)
+		return
+	for id: int in _raise_forecast.corpses:
+		var row: Dictionary = _raise_forecast.corpses[id]
+		if row["after"] == null:
+			var corpse: Dictionary = row["before"]
+			text += "Тело #%d на %s будет использовано.\n" % [id, _cell_name(corpse["cell"])]
+	for id: int in _raise_forecast.units:
+		var row: Dictionary = _raise_forecast.units[id]
+		var after: Dictionary = row["after"]
+		if row["before"] == null:
+			# Новый ID отличает помощника от погибшего, чьё тело расходуется.
+			text += "%s · ID %d · помощник\nКлетка: %s · владелец: %d\nHP: %.1f / %.1f\nДействия: %d основных, %d бонусных, %.1f движения\nСтатус: %s\n" % [after["name"], id, _cell_name(after["cell"]), after["owner_unit_id"], after["hp"], after["hp_max"], after["main"], after["bonus"], after["move"], "ожидает следующего хода" if after["pending"] else "готов"]
+		elif id == _raise_forecast.actor_id:
+			var before: Dictionary = row["before"]
+			text += "%s: основные %d → %d (расход %d)\nБонус: %d → %d · Движение: %.1f → %.1f\n" % [after["name"], before["main"], after["main"], before["main"] - after["main"], before["bonus"], after["bonus"], before["move"], after["move"]]
 	_forecast_panel.text = text
 
 func _item_action_for_forecast() -> ItemUseAction:
