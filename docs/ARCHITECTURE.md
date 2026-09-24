@@ -19,7 +19,10 @@
 Первый сценарий среды и нескольких тел на клетке описан в [D5](ENVIRONMENT_D5.md).
 Поведение крита/спины и контроля описано в [C1](CRITICAL_BACKSTAB_C1.md).
 Общий игровой сценарий [K2](CORE_READINESS.md#k2--общий-игровой-сценарий-c1d3d5)
-соединяет C1 с D3/D5 через `BattleCoreCombinationSession`; ядро команд не меняется.
+соединяет C1 с D3/D5 через `BattleCoreCombinationSession`; K7 добавляет Бору
+каталоговый клинок M4 через штатную экипировку до боевого lock. Урон оружия
+остаётся 4; источник бонуса — предмет. [Контракт K7](ARMOR_PIERCING_M4.md#k7--клинок-в-общем-бою-ядра).
+Ядро команд и профиль забега D4 не меняются.
 K2 — основной вход F5. Отдельные сцены D2/D3/D5/C1 перенесены в
 `tests/fixtures/demo/`; их сессии сохранены как зависимости K2/D4 и регрессии.
 Старая сцена сетки и восемь debug-визуализаторов удалены; LegacyItemDemoSink
@@ -44,7 +47,7 @@ K2 — основной вход F5. Отдельные сцены D2/D3/D5/C1 �
 | Пробивание оружием | `StatTypes`, `AttackCommand`, `ArmorAttack` | Предметный stat → разделение физической базы по политикам D2; [M4](ARMOR_PIERCING_M4.md) |
 | Прогноз | `AttackForecast`, `ItemUseForecast`, `MoveForecast`, `RaiseCorpseForecast`, `GuardForecast`, `ForecastSimulation` в `scripts/core/actions/` | Атака, две M3, движение, поднятие и стойка на изолированных state/context/queue/RNG; только движение выдаёт готовый INTERRUPTED и фактический путь. Отдельные DTO, закрытый список команд; [контракт](ATTACK_FORECAST.md) |
 | Командный ход и исход | `scripts/demo/battle_tactical_session.gd`, `battle_demo_session.gd`, `battle_turn_refill.gd` | Управление игроком/врагом, refill, динамический состав, reset/cleanup |
-| Совместный сценарий C1/D3/D5 | `BattleCoreCombinationSession`, `core_combination_battle.tscn` | Истечение контроля исходящей команды → унаследованный D3 tick входящей → исход → refill; терминальный результат останавливает переход |
+| Совместный сценарий C1/M4/D3/D5 | `BattleCoreCombinationSession`, `core_combination_battle.tscn` | Клинок через штатную экипировку; истечение контроля исходящей команды → унаследованный D3 tick входящей → исход → refill; терминальный результат останавливает переход |
 | Сравнение темпа ходов | `BattleInitiativeSession`, `BattleInitiativeDemo` | Одинаковый бой в двух режимах; собственный ход/очередь только в эксперименте |
 | Нынешний ИИ | `scripts/demo/battle_demo_bt.gd` | BT выбирает BattleAIIntent; исполнение через команды. Старый Utility AI остаётся в `scripts/core/ai/` |
 | Представление | `scripts/demo/battle_demo.gd`, `battle_demo_iso_visual.gd`, `battle_action_bar.gd` | Ввод/UI; общий ENTITIES Y-sort реальных тайлов, стен и фигур |

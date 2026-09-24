@@ -50,6 +50,8 @@ func _run() -> void:
 	var actor := session.units[2]
 	var target := session.units[3]
 	await click(at(actor))
+	check(demo._stats.text.contains("Пробивание 50%") and demo._stats.text.contains("Оружие: 4.0"), "Bor inspection exposes equipped piercing with unchanged weapon damage")
+	await capture("core-piercing-inspection")
 	await key(KEY_A)
 	var before := ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict()
 	var counters_before := session.context.simulation_counters()
@@ -58,14 +60,17 @@ func _run() -> void:
 	var forecast := demo._forecast
 	check(forecast != null and forecast.status == ActionReceipt.APPLIED, "rear attack forecast is available")
 	check(demo._forecast_panel.text.contains("Удар в спину +50%") and demo._forecast_panel.text.contains("Крит ×2"), "forecast combines backstab and control critical")
+	check(demo._forecast_panel.text.contains("Физический · в обход брони"), "combined forecast displays the actual piercing damage row")
 	check(ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() == before and session.context.simulation_counters() == counters_before and session.last_receipt == receipt_before, "hover leaves live state, events, and steps unchanged")
 	await capture("core-forecast")
 	var expected: Dictionary = forecast.snapshot_after.duplicate(true) if forecast != null else {}
 	await click(at(target))
 	check(ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() == expected, "real attack matches forecast state")
 	check(session.last_receipt.get_events() == forecast.events and session.last_receipt.get_steps() == forecast.steps, "real attack matches forecast events and steps")
+	check(target.vitals.get_hp() == 17.0 and target.bleeding.ticks_left == 0 and target.cell == Vector2i(2, 3), "piercing rear critical deals 15 HP, preserves immunity and pushes onto spikes")
 	await capture("core-result")
 	check(not demo.attack_mode and not session.rune_selected and demo._forecast == null and demo._move_button.button_pressed, "combined attack returns to movement and clears forecast")
+	await test_piercing_bleeding_input()
 	await test_action_input()
 	await key(KEY_R)
 	session = demo.session as BattleCoreCombinationSession
@@ -115,10 +120,31 @@ func _run() -> void:
 	await process_frame; await process_frame
 	board = demo.board_view
 	check(demo.core_combination_mode and demo.session is BattleCoreCombinationSession, "direct scene entry creates combined session")
+	check(demo.session.units[2].get_stat(StatTypes.StatType.PHYSICAL_PIERCING_PERCENT) == 50.0, "F5 scene equips Bor with piercing")
 	check_rear_markers(demo.session as BattleCoreCombinationSession, "direct scene entry")
 	for obsolete: String in ["Броня", "Кровотечение", "Среда / трупы", "Крит / спина"]:
 		check(find_button(demo, obsolete) == null, "obsolete scenario removed from navigation: " + obsolete)
 	await finish()
+
+func test_piercing_bleeding_input() -> void:
+	await key(KEY_R)
+	var session := demo.session as BattleCoreCombinationSession
+	var actor := session.units[2]
+	var target := session.units[5]
+	await click(at(actor)); await click(at_cell(Vector2i(4, 4)))
+	check(actor.cell == Vector2i(4, 4) and actor.action_resources.get_main_left() == 1, "Bor moves to E5 without spending attack main")
+	await key(KEY_A)
+	var before := ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict()
+	await motion(at(target))
+	var forecast := demo._forecast
+	check(forecast != null and forecast.status == ActionReceipt.APPLIED and demo._forecast_panel.text.contains("Физический · в обход брони"), "ordinary piercing against nonimmune Watcher is forecast")
+	check(ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() == before and target.bleeding.ticks_left == 0, "piercing hover does not apply bleeding or spend resources")
+	await capture("core-piercing-bleeding")
+	if forecast == null: return
+	await click(at(target))
+	check(ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() == forecast.snapshot_after and session.last_receipt.get_events() == forecast.events and session.last_receipt.get_steps() == forecast.steps, "ordinary piercing click matches full forecast")
+	check(target.vitals.get_hp() == 27.0 and target.bleeding.ticks_left == 2 and actor.action_resources.get_main_left() == 0, "ordinary piercing opens bleeding gate through armor for one main")
+	check(not demo.attack_mode and not session.rune_selected and demo._move_button.button_pressed, "piercing strike returns to movement")
 
 func test_action_input() -> void:
 	await key(KEY_R)

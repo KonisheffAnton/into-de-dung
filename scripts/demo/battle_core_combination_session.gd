@@ -1,6 +1,15 @@
 extends BattleEnvironmentSession
 class_name BattleCoreCombinationSession
 
+func _equip_scenario_weapon(unit: UnitState) -> void:
+	if unit != units[2]: return
+	# Сохраняем стартовый урон 4 после активации клинка, который добавляет ещё 4.
+	unit.stats.set_base_value(StatTypes.StatType.WEAPON_DAMAGE, 0.0)
+	var definition := D4Catalog.definition("piercing_sword")
+	var item := state.get_owner(unit.id).create_item(definition)
+	if item == null or not state.get_equipment(unit.id).equip(EquipmentState.EquipSlot.WEAPON, item):
+		push_error("K2 не удалось экипировать пробивающий клинок Бору")
+
 ## K2 соединяет прежние команды C1/D3/D5 в отдельном игровом сценарии.
 func _configure_map() -> void:
 	# Плоский участок отделяет сочетание контроля и шипов от прежнего уступа D2.
@@ -28,7 +37,7 @@ func reset() -> void:
 		definition.critical_on_control = true
 		definitions.append(definition)
 	context._attack_rules = AttackRules.new(rules._actors, rules._pairs, definitions)
-	flow_log.append("Бор на E4 бьёт опутанного Щита в спину и сдвигает на шипы C4. Щит сохраняет иммунитет к кровотечению. Рей оглушён до конца вашего хода.")
+	flow_log.append("Бор на E4 несёт пробивающий клинок: 50% физической базы обходят броню; Щит сохраняет иммунитет к кровотечению. Бор бьёт его в спину и сдвигает на шипы C4. Рей оглушён до конца вашего хода.")
 	flow_log.append("Контроль истекает в конце хода своей команды, затем кровотечение входящей команды исполняется до восстановления действий. Астра может поднять прежнее тело на A4.")
 
 func _refill(faction: Faction.Type) -> bool:

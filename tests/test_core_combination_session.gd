@@ -44,6 +44,14 @@ func _start_and_restore() -> void:
 	check(s.units.size() == 7 and not s.units[6].is_alive() and s.units[6].control == null, "original D5 body has no control")
 	check(s.state.environment.corpses_at(Vector2i(0, 3)).size() == 1 and s.state.environment.fires.size() == 2 and not s.state.environment.fire_at(Vector2i(2, 3)).is_empty(), "body and spike geometry")
 	check(s.units[1].control.stunned_turns == 1 and s.units[4].control.stunned_turns == 1 and s.units[3].control.entangled_turns == 1 and s.units[3].bleeding.immune, "authored durations and D3 immunity")
+	var bor := s.units[2]
+	var sword := s.state.get_equipment(bor.id).get_equipped(EquipmentState.EquipSlot.WEAPON)
+	check(sword != null and sword.get_definition_id() == &"d4_piercing_sword" and sword.is_active(), "K7 Bor has one active catalog blade")
+	check(bor.stats.get_base_value(StatTypes.StatType.WEAPON_DAMAGE) == 0.0 and bor.get_stat(StatTypes.StatType.WEAPON_DAMAGE) == 4.0 and bor.get_stat(StatTypes.StatType.PHYSICAL_PIERCING_PERCENT) == 50.0, "K7 preserves damage and adds 50 percent piercing")
+	check(s.state.get_equipment(bor.id).get_occupied_slots().count(EquipmentState.EquipSlot.WEAPON) == 1, "K7 weapon slot has one item")
+	for i: int in s.units.size():
+		if i == 2 or not s.units[i].is_alive(): continue
+		check(s.units[i].get_stat(StatTypes.StatType.WEAPON_DAMAGE) == 4.0 and s.units[i].get_stat(StatTypes.StatType.PHYSICAL_PIERCING_PERCENT) == 0.0, "K7 other unit baseline %d" % i)
 	for id: StringName in [&"demo_strike", &"blood_rune"]:
 		var definition := s.context.get_attack_rules().get_definition(id)
 		check(definition.backstab_bonus_percent == 50 and definition.critical_on_control and definition.bleeding_policy == (&"physical_hp" if id == &"demo_strike" else &"bypass_hp_gate"), "C1 data keeps D3 policy " + String(id))
@@ -59,6 +67,9 @@ func _start_and_restore() -> void:
 	check(restored.code == ItemSnapshotResult.Code.OK and restored.state != null, "restore with copied catalogue")
 	if restored.state != null:
 		check(ItemSimulationSnapshot.capture(restored.state, []).snapshot.to_dict() == original, "restore no refill or mutation")
+		var restored_bor := restored.state.get_board().get_unit_by_id(bor.id)
+		var restored_sword := restored.state.get_equipment(bor.id).get_equipped(EquipmentState.EquipSlot.WEAPON)
+		check(restored_sword != null and restored_sword.is_active() and restored_sword.get_definition_id() == &"d4_piercing_sword" and restored_bor.get_stat(StatTypes.StatType.WEAPON_DAMAGE) == 4.0 and restored_bor.get_stat(StatTypes.StatType.PHYSICAL_PIERCING_PERCENT) == 50.0, "K7 canonical restore equips once with effective stats")
 		var target := restored.state.get_board().get_unit_by_id(s.units[3].id)
 		target.control.entangled_turns = 0
 		target.bleeding.immune = false
@@ -71,6 +82,17 @@ func _start_and_restore() -> void:
 	copy._definitions[0].critical_on_control = false
 	copy._definitions[0].damage_components[0]["numerator"] = 999
 	check(s.context.get_attack_rules().get_definition(&"demo_strike").critical_on_control and s.context.get_attack_rules().get_definition(&"demo_strike").damage_components[0]["numerator"] == 10, "attack catalogue copies isolated")
+	var second := BattleCoreCombinationSession.new()
+	var other_sword := second.state.get_equipment(second.units[2].id).get_equipped(EquipmentState.EquipSlot.WEAPON)
+	var original_effect := (sword.get_definition().effects[0] as StatModifierEffect).value
+	var other_effect := (other_sword.get_definition().effects[0] as StatModifierEffect).value
+	(other_sword.get_definition().effects[0] as StatModifierEffect).value = 25.0
+	check(other_sword.get_definition() != sword.get_definition() and (sword.get_definition().effects[0] as StatModifierEffect).value == original_effect and s.units[2].get_stat(StatTypes.StatType.PHYSICAL_PIERCING_PERCENT) == 50.0 and other_effect == 50.0, "K7 session nested catalog mutation isolated from source and active stats")
+	var definition_count := s.state.get_owner(bor.id).get_item_count(&"d4_piercing_sword", ItemOwnerState.EQUIPMENT_BASE + int(EquipmentState.EquipSlot.WEAPON))
+	s.reset()
+	var reset_sword := s.state.get_equipment(s.units[2].id).get_equipped(EquipmentState.EquipSlot.WEAPON)
+	check(definition_count == 1 and reset_sword != null and s.units[2].get_stat(StatTypes.StatType.WEAPON_DAMAGE) == 4.0 and s.units[2].get_stat(StatTypes.StatType.PHYSICAL_PIERCING_PERCENT) == 50.0 and s.state.get_owner(s.units[2].id).get_item_count(&"d4_piercing_sword", ItemOwnerState.EQUIPMENT_BASE + int(EquipmentState.EquipSlot.WEAPON)) == 1, "K7 reset does not stack weapon effects")
+	second.close()
 	s.close()
 
 func _parity(s: BattleCoreCombinationSession, target: UnitState, label: String) -> ActionReceipt:
@@ -93,13 +115,13 @@ func _parity(s: BattleCoreCombinationSession, target: UnitState, label: String) 
 	return receipt
 
 func _attacks() -> void:
-	for mode: String in ["ordinary", "rune", "blocked", "direct_death", "spike_death"]:
+	for mode: String in ["ordinary", "rune", "piercing_bleed", "blocked", "direct_death", "spike_death"]:
 		var s := BattleCoreCombinationSession.new()
 		var target := s.units[3]
 		check(s.select_unit(s.units[2].id), mode + " select Bor")
-		if mode == "rune":
+		if mode in ["rune", "piercing_bleed"]:
 			target.bleeding.immune = false
-			s.rune_selected = true
+			if mode == "rune": s.rune_selected = true
 		if mode == "blocked": check(s.board.move_unit(s.units[5], Vector2i(2, 3)), "blocker placed through board")
 		if mode in ["direct_death", "spike_death"]:
 			for item: ItemInstance in s.state.get_owner(target.id)._items.values(): item.armor_remaining = 0
@@ -119,6 +141,7 @@ func _attacks() -> void:
 		if mode.ends_with("death"):
 			check(not target.is_alive() and not s.board.is_occupied(target.cell) and _events(events, &"died").size() == 1 and _events(events, &"corpse_created").size() == 1 and s.state.environment.corpses_at(target.cell).size() == 1, mode + " single death/body")
 		elif mode == "rune": check(target.bleeding.ticks_left == 2, "rune applies through armour after root/spikes")
+		elif mode == "piercing_bleed": check(target.bleeding.ticks_left == 2, "K7 piercing physical HP damage opens bleeding gate after spike push")
 		else: check(target.bleeding.ticks_left == 0, mode + " immunity preserved")
 		s.close()
 
@@ -155,6 +178,19 @@ func _rejections_and_helper() -> void:
 	check(denied.status == ActionReceipt.REJECTED and denied.reason == &"control/stunned", "stunned attack rejected")
 	check(s.guard_selected().reason == &"control/stunned" and s.use_healing_item().reason == &"control/stunned", "stunned guard/item rejected")
 	check(_snapshot(s) == before and s.context.get_revision() == revision and s.context.get_rng().to_dict() == rng and s.context.simulation_counters() == counters, "rejections preserve all resources and counters")
+	var bor := s.units[2]
+	s.select_unit(bor.id)
+	var target := s.units[3]
+	bor.action_resources.try_spend_main(1)
+	before = _snapshot(s)
+	revision = s.context.get_revision()
+	rng = s.context.get_rng().to_dict()
+	counters = s.context.simulation_counters()
+	check(s.attack_unit(target.id).reason == &"attack/insufficient_main" and _snapshot(s) == before and s.context.get_revision() == revision and s.context.get_rng().to_dict() == rng and s.context.simulation_counters() == counters, "armed Bor rejects insufficient main without mutation")
+	bor.try_refill_turn_resources()
+	bor.control.stunned_turns = 1
+	before = _snapshot(s)
+	check(s.attack_unit(target.id).reason == &"control/stunned" and _snapshot(s) == before and bor.get_stat(StatTypes.StatType.PHYSICAL_PIERCING_PERCENT) == 50.0, "armed Bor stun rejects without mutation")
 	var actor := s.units[0]
 	s.select_unit(actor.id)
 	actor.control.stunned_turns = 1
@@ -165,7 +201,7 @@ func _rejections_and_helper() -> void:
 	var helper := s.state.active_summon(actor.id)
 	check(helper != null, "helper registered")
 	if helper != null:
-		check(helper.control == null and helper.armor != null and helper.bleeding != null and helper.vitals.get_hp() == 16 and helper.action_resources.get_main_left() == 0 and s.state.is_summon_pending(helper.id), "D5/M1 default and pending resources")
+		check(helper.control == null and helper.armor != null and helper.bleeding != null and helper.vitals.get_hp() == 16 and helper.action_resources.get_main_left() == 0 and helper.get_stat(StatTypes.StatType.PHYSICAL_PIERCING_PERCENT) == 0.0 and s.state.is_summon_pending(helper.id), "D5/M1 default, no K7 piercing and pending resources")
 		before = _snapshot(s)
 		s.select_unit(helper.id)
 		check(s.move_to(Vector2i(0, 4)).status == ActionReceipt.REJECTED and _snapshot(s) == before, "pending helper has no early action")
@@ -265,6 +301,19 @@ func _faults() -> void:
 	var before := _snapshot(s)
 	var counters := s.context.simulation_counters()
 	check(not s.end_player_turn() and s.step_enemy() == null and _snapshot(s) == before and s.context.simulation_counters() == counters, "FAULTED prevents boundary")
+	s.close()
+	s = BattleCoreCombinationSession.new()
+	var armed_actor := s.units[2]
+	target = s.units[3]
+	s.select_unit(armed_actor.id)
+	var before_hp := target.vitals.get_hp()
+	var mutate_piercing := func(_kind: StringName, _id: int, _before_value: int, _after_value: int) -> void:
+		armed_actor.stats.set_base_value(StatTypes.StatType.PHYSICAL_PIERCING_PERCENT, 25.0)
+	target.armor.changed.connect(mutate_piercing)
+	var piercing_receipt := s.attack_unit(target.id)
+	target.armor.changed.disconnect(mutate_piercing)
+	check(piercing_receipt.status == ActionReceipt.FAULTED and s.phase == BattleTacticalSession.Phase.FAULTED, "K7 callback piercing mutation faults attack")
+	check(armed_actor.action_resources.get_main_left() == 0 and target.vitals.get_hp() == before_hp and _events(piercing_receipt.get_events(), &"hit_resolved").is_empty(), "K7 fault keeps spent main and armor prefix before hit")
 	s.close()
 	s = BattleCoreCombinationSession.new()
 	s.units[0].control.stunned_turns = 1

@@ -404,7 +404,7 @@ func _open_core_combination_scenario() -> void:
 	attack_mode = false
 	inspected_id = UnitId.NONE
 	_journal.clear()
-	_note("Сочетания ядра: контроль, тыл и крит, кровотечение, шипы и поднятие тела.")
+	_note("Сочетания ядра: пробивающий клинок Бора, контроль, тыл и крит, кровотечение, шипы и поднятие тела.")
 	_refresh()
 
 func end_turn() -> void:

@@ -14,6 +14,7 @@ func reset() -> void:
 			definition.display_name = "Кольчуга" if slot == EquipmentState.EquipSlot.ARMOR else "Наручи"
 			definition.armor_max = 60 if slot == EquipmentState.EquipSlot.ARMOR else 40
 			state.get_equipment(unit.id).equip(slot, owner.create_item(definition))
+		_equip_scenario_weapon(unit)
 		unit.armor.in_battle = true
 	# Страж начинает с четвертью комплекта: первый прогноз показывает обе ветви.
 	for item: ItemInstance in state.get_owner(units[1].id)._items.values():
@@ -29,6 +30,9 @@ func reset() -> void:
 	context._attack_rules = AttackRules.new(_unit_ids(), pairs, [definition])
 	context._rng = CombatRng.new(913)
 	flow_log = ["Броня: физический удар и огненная руна. Наведите на цель в режиме атаки, чтобы увидеть расход брони и HP."]
+
+func _equip_scenario_weapon(_unit: UnitState) -> void:
+	pass
 
 func summoning_reason() -> StringName:
 	return &"armor/summon_unsupported"
