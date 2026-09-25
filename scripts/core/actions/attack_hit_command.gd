@@ -103,7 +103,8 @@ func _binding_reason(context: ActionContext) -> StringName:
 	if _bleeding_policy != &"":
 		var definition := context.get_attack_rules().get_definition(_definition_id)
 		if definition == null or definition.bleeding_policy != _bleeding_policy or request.armor_mode != &"armor": return &"bleeding/invalid_source"
-	if _actor.guard_stance or _target.guard_stance != _target_guard_stance: return &"attack/invalid_hit"
+	var reaction: bool = _p07_binding != null and _p07_binding.values.get("reaction", false)
+	if (_actor.guard_stance and not reaction) or _target.guard_stance != _target_guard_stance: return &"attack/invalid_hit"
 	if _has_p07_binding:
 		if _p07_binding == null: return &"attack/invalid_hit"
 		var p07_reason := BalancePushRules.binding_reason(_p07_binding, context, &"balance", true)

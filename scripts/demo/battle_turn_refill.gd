@@ -43,6 +43,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var reason := validate(context)
 	if reason != &"": return CommandStepResult.faulted(reason)
 	var changed := false
+	var perk_changes: Dictionary = {}
 	for id in _ids:
 		var unit := context.get_state().get_board().get_unit_by_id(id)
 		reason = unit.try_refill_turn_resources()
@@ -52,10 +53,16 @@ func execute(context: ActionContext) -> CommandStepResult:
 			return failure
 		changed = true
 		unit.guard_stance = false
+		if unit.combat_perks != null:
+			unit.combat_perks.movement_stopped = false
+			unit.combat_perks.reaction_left = 1 if unit.combat_perks.definition.tank_reactions else 0
+			perk_changes[id] = CombatPerkGuard.record(unit, unit.combat_perks)
 		if context.get_state().is_summon_pending(id):
 			var admission := SummonAdmission.extend(context.get_move_rules(), context.get_attack_rules(), id, context.get_state().summon_owner_id(id), true)
 			context._move_rules = admission["move"]
 			context._attack_rules = admission["attack"]
 			for record: Dictionary in context.get_state()._summons:
 				if record["unit_id"] == id: record["pending"] = false
-	return CommandStepResult.applied([], [], [], null, true)
+	var result := CommandStepResult.applied([], [], [], null, true)
+	result.combat_perk_changes = perk_changes
+	return result

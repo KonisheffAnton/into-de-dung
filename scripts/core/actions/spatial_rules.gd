@@ -120,6 +120,8 @@ class Guard extends RefCounted:
 			if unit.bleeding != null and unit.bleeding.to_dict() != v["bleeding"]: return false
 			if unit.control != r["control"]: return false
 			if unit.control != null and (unit.control.get_script() != ControlState or unit.control.to_dict() != v["control"]): return false
+			if unit.combat_perks != r["combat_perks"]: return false
+			if unit.combat_perks != null and (unit.combat_perks.definition != r["perk_definition"] or unit.combat_perks.to_dict() != v["combat_perks"]): return false
 			if resources != null and (resources.get_owner_unit_id() != id or resources.get_main_left() != v["main"] or resources.get_bonus_left() != v["bonus"]): return false
 			var occupied: Array[Vector2i] = []
 			for cell: Vector2i in board._occupancy:
@@ -138,6 +140,14 @@ class Guard extends RefCounted:
 		var result := copy()
 		result.values["participants"][id]["main"] -= main_cost
 		result.values["participants"][id]["move"] -= move_cost
+		result.seal()
+		return result
+
+	func perks_phase(id: int, state: CombatPerksState, value: Dictionary) -> Guard:
+		var result := copy()
+		result.refs["participants"][id]["combat_perks"] = state
+		result.refs["participants"][id]["perk_definition"] = state.definition if state != null else null
+		result.values["participants"][id]["combat_perks"] = value.duplicate(true)
 		result.seal()
 		return result
 
@@ -276,6 +286,10 @@ static func capture_guard(context: ActionContext, units: Array[UnitState], cells
 		guard.values["participants"][unit.id]["bleeding"] = unit.bleeding.to_dict() if unit.bleeding != null else {}
 		if unit.bleeding != null and (unit.bleeding.get_script() != BleedingState or not BleedingState.valid(unit.bleeding.to_dict())): return null
 		guard.refs["participants"][unit.id]["control"] = unit.control
+		guard.refs["participants"][unit.id]["combat_perks"] = unit.combat_perks
+		guard.refs["participants"][unit.id]["perk_definition"] = unit.combat_perks.definition if unit.combat_perks != null else null
+		guard.values["participants"][unit.id]["combat_perks"] = unit.combat_perks.to_dict() if unit.combat_perks != null else {}
+		if unit.combat_perks != null and guard.values["participants"][unit.id]["combat_perks"].is_empty(): return null
 		guard.values["participants"][unit.id]["control"] = unit.control.to_dict() if unit.control != null else {}
 		if unit.control != null and (unit.control.get_script() != ControlState or not ControlState.valid(unit.control.to_dict())): return null
 		if unit.armor != null:

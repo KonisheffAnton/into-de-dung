@@ -14,6 +14,7 @@ var _dispatch_reason: StringName = &""
 var _attack_stances: Array[Dictionary] = []
 var _defer_item_reactions: bool = false
 var _deferred_item_reactions: Array[Dictionary] = []
+var _perk_guard: CombatPerkGuard
 
 func _init(max_commands: int = 256, max_events: int = 512, max_depth: int = 32) -> void:
 	_max_commands = max_commands
@@ -52,6 +53,10 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 			var capture := ItemSimulationSnapshot.capture(context.get_state(), context.get_unsupported_runtime_ids())
 			if capture.code != ItemSnapshotResult.Code.OK:
 				reason = &"BUSY" if capture.code == ItemSnapshotResult.Code.SNAPSHOT_BUSY else StringName(capture.reason)
+			elif accepted is AttackCommand and (accepted as AttackCommand).is_reaction():
+				reason = &"reaction/internal_attack"
+			elif accepted is ReactionStopCommand:
+				reason = &"reaction/internal_stop"
 			elif accepted is AttackHitCommand:
 				reason = &"attack/internal_hit"
 			elif accepted is MoveFallCommand:
@@ -84,6 +89,7 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 		return _reject(receipt, reason)
 	receipt.status = &"APPLIED"
 	receipt.root_id = context._take_root_id()
+	_perk_guard = CombatPerkGuard.capture(context.get_state().get_board())
 	if accepted is AttackCommand:
 		var attacker := (accepted as AttackCommand).get_actor_unit_id()
 		var definition := context.get_attack_rules().get_definition((accepted as AttackCommand).get_attack_definition_id())
@@ -174,6 +180,18 @@ func _execute_entry(entry: Dictionary, receipt: ActionReceipt, context: ActionCo
 	if result.status == &"FAULTED":
 		_fault(receipt, context, result.reason)
 		return
+	if not result.combat_perk_changes.is_empty():
+		if command.get_script() not in [AttackCommand, GuardCommand, BattleTurnRefill]:
+			_fault(receipt, context, &"perks/invalid_delta")
+			return
+		if _perk_guard == null:
+			_fault(receipt, context, &"perks/invalid_delta")
+			return
+		_perk_guard.accept(result.combat_perk_changes)
+	if _perk_guard != null and not _perk_guard.check(context.get_state().get_board()):
+		if not result.state_changed: context._bump_revision()
+		_fault(receipt, context, &"perks/invalid_runtime")
+		return
 	for stance in _attack_stances:
 		var unit: UnitState = stance["unit"]
 		if unit.guard_stance != stance["expected"]:
@@ -260,17 +278,46 @@ func _bind_batch(descriptions: Array[Dictionary], event_seq: int, context: Actio
 	return result
 
 static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bool:
+	if draft.get("kind") == &"reaction_used":
+		return ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "mode": TYPE_INT, "charge_before": TYPE_INT, "charge_after": TYPE_INT}) and draft["actor_unit_id"] > 0 and draft["actor_unit_id"] < MAX_ID and draft["target_unit_id"] > 0 and draft["target_unit_id"] < MAX_ID and draft["actor_unit_id"] != draft["target_unit_id"] and draft["mode"] in [CombatPerksState.Mode.OPPORTUNIST, CombatPerksState.Mode.COVER] and draft["charge_before"] == 1 and draft["charge_after"] == 0
+	if draft.get("kind") == &"guarded" and draft.has("reaction_mode"):
+		if typeof(draft.get("reaction_mode")) != TYPE_INT or typeof(draft.get("cover_target_id")) != TYPE_INT: return false
+		if draft["reaction_mode"] not in [0, 1, 2] or draft["cover_target_id"] < 0 or draft["cover_target_id"] >= MAX_ID: return false
+		if (draft["reaction_mode"] == 2) != (draft["cover_target_id"] > 0) or draft["cover_target_id"] == draft.get("actor_unit_id"): return false
+		var guarded := draft.duplicate(true)
+		guarded.erase("reaction_mode"); guarded.erase("cover_target_id")
+		return _valid_draft(guarded, context)
+	if draft.get("kind") == &"opportunity_attacked" and not draft.has("modifiers"):
+		if not ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "attack_definition_id": TYPE_STRING_NAME, "actor_cell": TYPE_VECTOR2I, "target_cell": TYPE_VECTOR2I, "main_cost": TYPE_INT, "main_before": TYPE_INT, "main_after": TYPE_INT}): return false
+		if context == null: return false
+		var reaction_def := context.get_attack_rules().get_definition(draft["attack_definition_id"])
+		return reaction_def != null and reaction_def.reaction_strike and draft["actor_unit_id"] > 0 and draft["actor_unit_id"] < MAX_ID and draft["target_unit_id"] > 0 and draft["target_unit_id"] < MAX_ID and draft["actor_unit_id"] != draft["target_unit_id"] and draft["main_cost"] == 0 and draft["main_before"] >= 0 and draft["main_before"] <= 4096 and draft["main_after"] == draft["main_before"]
 	if draft.get("kind") == &"corpse_created": return EnvironmentRules.valid_draft(draft)
 	if draft.get("kind") == &"corpse_raised": return RaiseCorpseCommand.valid_draft(draft)
 	if draft.get("kind") == &"bleeding_changed": return _valid_bleeding_draft(draft)
 	if draft.get("kind") == &"control_changed": return _valid_control_draft(draft)
-	if draft.get("kind") == &"attacked" and draft.has("modifiers"):
+	if draft.get("kind") in [&"attacked", &"opportunity_attacked"] and draft.has("modifiers"):
+		if typeof(draft["modifiers"]) != TYPE_DICTIONARY: return false
+		if draft["modifiers"].has("sneak_percent"):
+			var modifiers: Dictionary = draft["modifiers"]
+			if not ItemSimulationSnapshot._shape(modifiers, {"backstab_percent": TYPE_INT, "critical": TYPE_BOOL, "sneak_percent": TYPE_INT, "threat_ids": TYPE_ARRAY}): return false
+			if context == null: return false
+			var sneak_def := context.get_attack_rules().get_definition(draft.get("attack_definition_id", &""))
+			if sneak_def == null or not sneak_def.sneak_attack_enabled or modifiers["sneak_percent"] not in [0, 50]: return false
+			var last_id: int = 0
+			for id: Variant in modifiers["threat_ids"]:
+				if typeof(id) != TYPE_INT or id <= last_id or id >= MAX_ID: return false
+				last_id = id
+			if modifiers["sneak_percent"] == 50 and modifiers["threat_ids"].size() < 2: return false
+			var reduced := draft.duplicate(true)
+			reduced["modifiers"].erase("sneak_percent"); reduced["modifiers"].erase("threat_ids")
+			return _valid_draft(reduced, context)
 		if not ItemSimulationSnapshot._shape(draft["modifiers"], {"backstab_percent": TYPE_INT, "critical": TYPE_BOOL}): return false
 		var clean := draft.duplicate(true)
 		clean.erase("modifiers")
 		if not _valid_draft(clean, context): return false
 		var definition := context.get_attack_rules().get_definition(draft["attack_definition_id"])
-		return definition != null and (definition.backstab_bonus_percent > 0 or definition.critical_on_control) and draft["modifiers"]["backstab_percent"] in [0, definition.backstab_bonus_percent] and (definition.critical_on_control or not draft["modifiers"]["critical"])
+		return definition != null and (definition.backstab_bonus_percent > 0 or definition.critical_on_control or definition.sneak_attack_enabled) and draft["modifiers"]["backstab_percent"] in [0, definition.backstab_bonus_percent] and (definition.critical_on_control or not draft["modifiers"]["critical"])
 	if draft.has("transit_path"):
 		return _valid_transit_draft(draft, context)
 	if draft.get("kind") in [&"armor_changed", &"hit_resolved"]:
@@ -352,6 +399,7 @@ static func _valid_transit_draft(draft: Dictionary, context: ActionContext) -> b
 	return _valid_draft(adjacent, context) and float(draft["move_cost"]) >= float(path_value.size() - 1)
 
 static func _event_capacity(command: Command) -> int:
+	if command is AttackCommand and (command as AttackCommand).is_reaction(): return 3
 	if command is PushCommand and (command as PushCommand)._binding != null and (command as PushCommand)._binding.target != null and (command as PushCommand)._binding.target.control != null: return 4
 	if command is EnvironmentCommand: return 4
 	if command is BleedingTickCommand: return 5
@@ -411,6 +459,7 @@ func _fault(receipt: ActionReceipt, context: ActionContext, reason: StringName) 
 	_pending.clear()
 
 func _release(context: ActionContext) -> void:
+	_perk_guard = null
 	_attack_stances.clear()
 	_deferred_item_reactions.clear()
 	_defer_item_reactions = false

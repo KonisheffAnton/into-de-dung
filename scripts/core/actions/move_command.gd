@@ -254,6 +254,10 @@ func _execute_spatial_edge(context: ActionContext, board: BattleBoard, actor: Un
 	var from := edge[0]
 	var to := edge[-1]
 	if from == to: return CommandStepResult.interrupted(&"move/path_blocked")
+	var opportunist := MeleeThreat.departure(context, actor, to)
+	if opportunist != null:
+		# Перехват до оплаты/записи сегмента; занятые транзитные клетки не являются остановками.
+		return CommandStepResult.applied([], [AttackCommand.opportunity(opportunist, actor, context.get_revision()), ReactionStopCommand.new()], [], null, false)
 	var drop_from := edge[-2]
 	var drop := maxi(0, board.get_height_steps(drop_from) - board.get_height_steps(to))
 	var lethal := board.is_lethal(to)

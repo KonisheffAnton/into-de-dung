@@ -57,9 +57,10 @@ class Binding extends RefCounted:
 static func _empty() -> Dictionary:
 	return {"reason": &"", "binding": null}
 
-static func prepare_attack(context: ActionContext, actor: UnitState, target: UnitState, raw_attack: float, hit_amount: float, main_after: int, spatial: bool = false, armor_request: DamageRequest = null, impact_multiplier: int = 1) -> Dictionary:
+static func prepare_attack(context: ActionContext, actor: UnitState, target: UnitState, raw_attack: float, hit_amount: float, main_after: int, spatial: bool = false, armor_request: DamageRequest = null, impact_multiplier: int = 1, reaction: bool = false, cover: UnitState = null) -> Dictionary:
 	if impact_multiplier not in [1, 2]: return {"reason": &"balance/invalid_multiplier", "binding": null}
-	if spatial: return _prepare_spatial_attack(context, actor, target, raw_attack, hit_amount, main_after, armor_request, impact_multiplier)
+	if reaction and (not spatial or armor_request == null): return {"reason": &"reaction/armor_required", "binding": null}
+	if spatial: return _prepare_spatial_attack(context, actor, target, raw_attack, hit_amount, main_after, armor_request, impact_multiplier, reaction, cover)
 	var out := _empty()
 	if context == null or context.get_state() == null or context.get_state().get_board() == null or actor == null or target == null or actor.get_script() != UnitState or target.get_script() != UnitState:
 		out["reason"] = &"balance/invalid_binding"; return out
@@ -295,7 +296,7 @@ static func spatial_valid(binding: Binding, context: ActionContext, phase: Strin
 		if not guard.refs["participants"].has(id): return false
 		var pinned: Dictionary = guard.refs["participants"][id]
 		if pinned["unit"] != unit or pinned["stats"] != binding.get(role + "_stats") or pinned["vitals"] != binding.get(role + "_vitals") or pinned["owner"] != binding.get(role + "_owner"): return false
-	return guard.debit(binding.actor.id, -1, 0.0).stance(binding.actor.id, binding.values["actor_guard_before"]).check(context) if admission else guard.check(context)
+	return guard.debit(binding.actor.id, 0 if binding.values.get("reaction", false) else -1, 0.0).stance(binding.actor.id, binding.values["actor_guard_before"]).check(context) if admission else guard.check(context)
 
 static func spatial_phase(binding: Binding, guard: SpatialRules.Guard, phase: StringName) -> Binding:
 	var next := binding.copy()
@@ -346,7 +347,7 @@ static func spatial_hp(binding: Binding, request: DamageRequest, context: Action
 		return {"result": result, "binding": binding}
 	return {"result": result, "binding": spatial_phase(binding, done, binding.values["phase"])}
 
-static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, target: UnitState, raw_attack: float, hit_amount: float, main_after: int, armor_request: DamageRequest = null, impact_multiplier: int = 1) -> Dictionary:
+static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, target: UnitState, raw_attack: float, hit_amount: float, main_after: int, armor_request: DamageRequest = null, impact_multiplier: int = 1, reaction: bool = false, cover: UnitState = null) -> Dictionary:
 	var out := _empty()
 	if context == null or context.get_state() == null or context.get_state().get_board() == null or actor == null or target == null or actor.vitals == null or target.vitals == null or actor.stats == null or target.stats == null:
 		out["reason"] = &"balance/invalid_binding"; return out
@@ -368,6 +369,7 @@ static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, ta
 		impact = maxf(1.0, impact)
 		if impact_multiplier == 2: impact *= 2.0
 	if target.guard_stance: impact *= 0.5
+	if reaction: impact = 0.0
 	var total := before + impact if impact > 0.0 and maximum > 0.0 else before
 	if not is_finite(total): out["reason"] = &"balance/nonfinite_sum"; return out
 	var broke := impact > 0.0 and maximum > 0.0 and total >= maximum
@@ -381,6 +383,9 @@ static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, ta
 	if board.is_in_bounds(destination): cells.append(destination)
 	var units: Array[UnitState] = [actor, target]
 	var types := {actor.id: [StatTypes.StatType.STRENGTH, StatTypes.StatType.WEAPON_DAMAGE, StatTypes.StatType.ATTACK_RANGE, StatTypes.StatType.IMPACT_POWER, StatTypes.StatType.MAIN_ACTIONS_MAX, StatTypes.StatType.BONUS_ACTIONS_MAX], target.id: [StatTypes.StatType.ARMOR, StatTypes.StatType.BALANCE_MAX]}
+	if cover != null and not units.has(cover):
+		units.append(cover)
+		types[cover.id] = [StatTypes.StatType.ATTACK_RANGE]
 	var blocker: UnitState = null
 	if broke and target.vitals.get_hp() > hit_amount:
 		var resolved := PushResolver.resolve_push_steps(board, target, target.cell, direction, 1)
@@ -405,9 +410,10 @@ static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, ta
 	if blocker != null:
 		binding.blocker_stats = blocker.stats; binding.blocker_vitals = blocker.vitals; binding.blocker_owner = state.get_owner(blocker.id)
 	binding.attack_source = DamageSource.new(&"attack", 0, actor.cell, actor.id, actor.id)
-	binding.spatial_guard = guard.debit(actor.id, 1, 0.0).stance(actor.id, false)
+	binding.spatial_guard = guard.debit(actor.id, 0 if reaction else 1, 0.0).stance(actor.id, actor.guard_stance if reaction else false)
 	binding.values = {"spatial": true, "phase": &"balance", "actor_id": actor.id, "target_id": target.id, "blocker_id": blocker.id if blocker != null else 0, "raw_attack": raw_attack, "hit_amount": hit_amount, "impact": impact, "multiplier": multiplier, "balance_before": before, "balance_after": 0.0 if broke else total, "balance_max": maximum, "broke": broke, "main_after": main_after, "direction": direction, "attack_source": binding.attack_source.to_dict(), "expected_hp_before": target.vitals.get_hp()}
 	binding.values["actor_guard_before"] = actor.guard_stance
+	if reaction: binding.values["reaction"] = true
 	if armor_request != null:
 		# Collision получает ту же точную базу до высоты/стойки, без сложения через float.
 		var armor_raw := ArmorFraction.from_decimal(_stat(actor, StatTypes.StatType.STRENGTH)).add(ArmorFraction.from_decimal(_stat(actor, StatTypes.StatType.WEAPON_DAMAGE)))

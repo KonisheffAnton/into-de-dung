@@ -237,6 +237,8 @@ func step_enemy() -> ActionReceipt:
 	var command: Command
 	if intent.kind == BattleAIIntent.Kind.SUMMON:
 		command = item_command(actor.id, intent.item_id, intent.cell)
+	elif intent.kind == BattleAIIntent.Kind.GUARD:
+		command = GuardCommand.new(actor.id, context.get_revision(), intent.reaction_mode, intent.target_id)
 	elif intent.kind == BattleAIIntent.Kind.MOVE:
 		command = MoveCommand.new(actor.id, intent.path, context.get_revision())
 	else:
@@ -246,7 +248,7 @@ func step_enemy() -> ActionReceipt:
 			return null
 		command = AttackCommand.new(actor.id, target.id, actor.cell, target.cell, &"demo_strike", context.get_revision())
 	var receipt := _submit(command)
-	if receipt.status != ActionReceipt.APPLIED or intent.kind in [BattleAIIntent.Kind.ATTACK, BattleAIIntent.Kind.SUMMON]: _next_enemy()
+	if receipt.status != ActionReceipt.APPLIED or intent.kind in [BattleAIIntent.Kind.ATTACK, BattleAIIntent.Kind.SUMMON, BattleAIIntent.Kind.GUARD]: _next_enemy()
 	return receipt
 
 func _next_enemy() -> void:

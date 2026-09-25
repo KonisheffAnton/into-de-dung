@@ -20,9 +20,10 @@ func _ready() -> void:
 	_build()
 	_refresh()
 
-func set_dynamic_descriptors(descriptors: Array[Dictionary]) -> void:
+func set_dynamic_descriptors(descriptors: Array[Dictionary], reset_page: bool = false) -> void:
 	_dynamic_descriptors = descriptors.duplicate(true)
-	_page = 0
+	if reset_page: _page = 0
+	_page = mini(_page, maxi(0, ceili(float(_dynamic_descriptors.size()) / DYNAMIC_PAGE_SIZE) - 1))
 	_refresh()
 
 func activate_slot(slot: int) -> bool:

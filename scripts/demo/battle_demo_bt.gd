@@ -10,7 +10,27 @@ var _actor: UnitState
 
 
 func _init() -> void:
-	_nodes = [_attack, _summon, _advance, _wait]
+	_nodes = [_reaction_guard, _attack, _summon, _advance, _wait]
+
+func _reaction_guard() -> BattleAIIntent:
+	if _session == null or not MeleeThreat.has_tank(_actor) or not _actor.can_attack(): return null
+	# Чередование с обычным BT не оставляет двух последних защитников в вечной стойке.
+	if _session is BattleTacticalSession and (_session as BattleTacticalSession).round_number % 2 == 0: return null
+	var ally: UnitState = null
+	var enemy_near := false
+	for unit: UnitState in _session.board.get_alive_units():
+		if _actor.is_hostile_to(unit) and MeleeThreat.threatens(_session.context, _actor, unit): enemy_near = true
+		if MeleeThreat.cover_eligible(_session.context, _actor, unit) and (ally == null or unit.id < ally.id): ally = unit
+	if ally == null and not enemy_near: return null
+	var mode := CombatPerksState.Mode.COVER if ally != null else CombatPerksState.Mode.OPPORTUNIST
+	var target_id := ally.id if ally != null else 0
+	if GuardCommand.new(_actor.id, _session.context.get_revision(), mode, target_id).validate(_session.context) != &"": return null
+	var result := BattleAIIntent.new()
+	result.kind = BattleAIIntent.Kind.GUARD
+	result.actor_id = _actor.id
+	result.target_id = target_id
+	result.reaction_mode = mode
+	return result
 
 
 func decide(session: BattleDemoSession, actor: UnitState) -> BattleAIIntent:

@@ -32,6 +32,7 @@ core без `--full` в неё не входит. Повторять более 
 | Оптимизация снимков | `test_snapshot_walk_performance.gd`, `test_unit_snapshot_performance.gd` (full/render): parity raw graph/диагностики/лимитов, schema 1–6, HP_MAX и неизменность DTO |
 | Немедленный маршрут K4 | `test_move_forecast_ui.gd` (full/render): пунктир до worker, быстрая смена цели, очистка запретов/отмены, замена на исполненный prefix при гибели, PNG предварительного и точного маршрутов |
 | Единый боевой пакет K9 | `test_core_batch.gd`, `test_summon_composition.gd`, `test_core_batch_ui.gd` (full/render): расстановка, все восемь слотов, прогноз брони, печать/поднятие/оба хода, два боя до исхода, snapshot/FAULTED и четыре PNG |
+| Перки и реакции K10 | `test_combat_perks_state.gd`, `test_core_reactions.gd`, `test_core_reactions_ui.gd` (full/render): владельцы, геометрия/помощники, общий заряд/защита/перехват, preview/live/restore, смертельный и принудительный сдвиг, транзит/FAULTED, реальный ввод и PNG |
 | Ядро | `run_tests.gd` |
 | Совместная атака C1/M4/D3/D5 (K1) | `test_core_combinations.gd`, `test_core_combination_turns.gd` (full/render); тестовая композиция — `tests/fixtures/core_combination_session.gd` |
 | Игровая сессия C1/D3/D5 (K2) | `test_core_combination_session.gd`, `test_core_combination_battle.gd` (full/render); production-сессия, обе границы хода/AI, helper, terminal/FAULTED, два preview/live, restore, ввод/reset/PNG |
@@ -90,6 +91,7 @@ Armor UI runner отдельно проходит исходную карту: �
 ## Документация и история проверок
 
 CPU-замеры общего боя: `Godot --headless --path . --script tools/demo/profile_core_battle.gd`.
+Для K10 добавить `-- --reactions`; без аргумента сохраняется прежний сценарий K9.
 Runner измеряет обновление UI, снимки, прогнозы, реальную атаку и три хода ИИ;
 выводит JSON с временами и fingerprint/RNG/counters итоговых состояний.
 Сравнивать несколько чередующихся прогонов на одном компьютере без других

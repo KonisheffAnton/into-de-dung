@@ -103,6 +103,9 @@ def main():
         if label in ("snapshot_walk", "unit_snapshot_performance"):
             marker = "SNAPSHOT WALK RESULTS:" if label == "snapshot_walk" else "UNIT SNAPSHOT PERFORMANCE RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label in ("combat_perks_state", "core_reactions", "core_reactions_ui"):
+            marker = {"combat_perks_state": "COMBAT PERKS STATE RESULTS:", "core_reactions": "CORE REACTIONS RESULTS:", "core_reactions_ui": "CORE REACTIONS UI RESULTS:"}[label]
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("entangle_attack", "entangle_ui"):
             marker = "ENTANGLE ATTACK RESULTS:" if label == "entangle_attack" else "ENTANGLE UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -158,6 +161,8 @@ def main():
         run("core_combination_session", ["--script", "tests/test_core_combination_session.gd"])
         run("summon_composition", ["--script", "tests/test_summon_composition.gd"])
         run("core_batch", ["--script", "tests/test_core_batch.gd"])
+        run("combat_perks_state", ["--script", "tests/test_combat_perks_state.gd"])
+        run("core_reactions", ["--script", "tests/test_core_reactions.gd"])
         run("entangle_attack", ["--script", "tests/test_entangle_attack.gd"])
         run("forecast", ["--script", "tests/test_attack_forecast.gd"])
         run("guard", ["--script", "tests/test_guard_stance.gd"])
@@ -222,6 +227,10 @@ def main():
         if args.render_check:
             batch_args += ["--", "--captures=" + str(captures)]
         run("core_batch_ui", batch_args, headless=not args.render_check)
+        reactions_args = ["--script", "tests/test_core_reactions_ui.gd"]
+        if args.render_check:
+            reactions_args += ["--", "--captures=" + str(captures)]
+        run("core_reactions_ui", reactions_args, headless=not args.render_check)
         entangle_args = ["--script", "tests/test_entangle_ui.gd"]
         if args.render_check:
             entangle_args += ["--", "--captures=" + str(captures)]

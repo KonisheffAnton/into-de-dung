@@ -18,6 +18,9 @@ var hover_cell := Vector2i(-1, -1)
 var grid_config := IsoGridConfig.new()
 var _reachable: Dictionary = {}
 var inspection_cells: Dictionary = {}
+var reaction_zone_cells: Array[Vector2i] = []
+var cover_target_ids: Array[int] = []
+var sneak_threat_ids: Array[int] = []
 var forecast: AttackForecast
 var move_forecast: MoveForecast
 var move_forecast_pending: bool = false
@@ -206,7 +209,7 @@ func _rebuild_visuals() -> void:
 		visual.inspected = unit.id == inspected_id and unit.is_alive()
 		visual.forecast_entry = _forecast_entry(unit.id)
 		# K2 переиспользует маркер C1, хотя сессия наследуется от среды.
-		visual.show_rear = session is BattleControlSession or session is BattleCoreCombinationSession
+		visual.show_rear = session is BattleControlSession or (session is BattleCoreCombinationSession and not session is BattleCoreReactionsSession)
 		if unit.armor != null: visual.armor_values = ArmorRuntime.totals(ArmorRuntime.capture(session.state.get_owner(unit.id)))
 		_entities.add_child(visual)
 		_entity_visuals.append(visual)
@@ -231,6 +234,21 @@ func _draw() -> void:
 func _draw_overlay() -> void:
 	if session == null or session.board == null: return
 	var hw := grid_config.tile_size.x * 0.5
+	var highlight_hh := grid_config.tile_size.y * 0.48
+	var highlight_hw := grid_config.tile_size.x * 0.48
+	for cell: Vector2i in reaction_zone_cells:
+		var center := cell_center(cell)
+		_overlay.draw_polyline(PackedVector2Array([center + Vector2(0, -highlight_hh), center + Vector2(highlight_hw, 0), center + Vector2(0, highlight_hh), center + Vector2(-highlight_hw, 0), center + Vector2(0, -highlight_hh)]), Color("a5b3c5", 0.35), 1.0, true)
+	for id: int in cover_target_ids:
+		var ally := session.board.get_unit_by_id(id)
+		if ally == null: continue
+		var center := cell_center(ally.cell)
+		_overlay.draw_polyline(PackedVector2Array([center + Vector2(0, -highlight_hh), center + Vector2(highlight_hw, 0), center + Vector2(0, highlight_hh), center + Vector2(-highlight_hw, 0), center + Vector2(0, -highlight_hh)]), CYAN, 2.5, true)
+	for id: int in sneak_threat_ids:
+		var threat := session.board.get_unit_by_id(id)
+		if threat == null: continue
+		var center := cell_center(threat.cell)
+		_overlay.draw_arc(center, grid_config.tile_size.x * 0.25, 0, TAU, 24, GOLD, 2.5, true)
 	if _path.size() > 1:
 		var points := PackedVector2Array()
 		for cell in _path: points.append(cell_center(cell))

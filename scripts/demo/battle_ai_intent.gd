@@ -9,6 +9,7 @@ enum Kind {
 	MOVE,
 	ATTACK,
 	SUMMON,
+	GUARD,
 }
 
 var kind: Kind = Kind.WAIT
@@ -17,6 +18,7 @@ var target_id: int = UnitId.NONE
 var item_id: int = 0
 var cell: Vector2i = Vector2i.ZERO
 var path: Array[Vector2i] = []
+var reaction_mode: int = CombatPerksState.Mode.NONE
 
 
 static func from_utility(actor: UnitState, action: AIAction, utility_path: Array[Vector2i] = []) -> BattleAIIntent:

@@ -12,6 +12,8 @@ var mandatory: Array[Command] = []
 var reactions: Array[Command] = []
 var continuation: Command = null
 var state_changed: bool = false
+## Только известные команды оплаты/стойки/refill передают заранее записанную дельту.
+var combat_perk_changes: Dictionary = {}
 
 static func applied(p_events: Array[Dictionary] = [], p_mandatory: Array[Command] = [], p_reactions: Array[Command] = [], p_continuation: Command = null, p_state_changed: bool = false) -> CommandStepResult:
 	return _make(APPLIED, &"", p_events, p_mandatory, p_reactions, p_continuation, p_state_changed)

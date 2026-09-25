@@ -30,7 +30,8 @@ func run() -> void:
 	viewport = SubViewport.new()
 	viewport.size = Vector2i(1280, 850)
 	root.add_child(viewport)
-	demo = (load("res://scenes/demo/core_combination_battle.tscn") as PackedScene).instantiate()
+	var scene := "res://scenes/demo/core_reactions_battle.tscn" if OS.get_cmdline_user_args().has("--reactions") else "res://scenes/demo/core_combination_battle.tscn"
+	demo = (load(scene) as PackedScene).instantiate()
 	demo.deployment_enabled = false
 	viewport.add_child(demo)
 	await process_frame; await process_frame

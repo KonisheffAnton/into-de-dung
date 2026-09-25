@@ -115,16 +115,15 @@ func _run() -> void:
 	check(demo.core_combination_mode and demo.session is BattleCoreCombinationSession and demo._forecast == null and not demo.raising_mode and not demo.attack_mode, "return opens a clean combined scenario")
 	demo.queue_free()
 	await process_frame
-	var main_scene: String = ProjectSettings.get_setting("application/run/main_scene")
-	check(main_scene == "res://scenes/demo/core_combination_battle.tscn", "F5 starts the combined scenario")
-	demo = (load(main_scene) as PackedScene).instantiate()
+	# Исторический C1/K9 остаётся явным fixture; актуальный F5 проверяет K10.
+	demo = (load("res://scenes/demo/core_combination_battle.tscn") as PackedScene).instantiate()
 	# Адресная регрессия начинается после расстановки; полный вход проверяет core_batch.
 	demo.deployment_enabled = false
 	viewport.add_child(demo)
 	await process_frame; await process_frame
 	board = demo.board_view
 	check(demo.core_combination_mode and demo.session is BattleCoreCombinationSession, "direct scene entry creates combined session")
-	check(demo.session.units[2].get_stat(StatTypes.StatType.PHYSICAL_PIERCING_PERCENT) == 50.0, "F5 scene equips Bor with piercing")
+	check(demo.session.units[2].get_stat(StatTypes.StatType.PHYSICAL_PIERCING_PERCENT) == 50.0, "legacy scene equips Bor with piercing")
 	check_rear_markers(demo.session as BattleCoreCombinationSession, "direct scene entry")
 	for obsolete: String in ["Броня", "Кровотечение", "Среда / трупы", "Крит / спина"]:
 		check(find_button(demo, obsolete) == null, "obsolete scenario removed from navigation: " + obsolete)

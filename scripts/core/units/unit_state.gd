@@ -77,6 +77,7 @@ var guard_stance: bool = false
 var armor: ArmorState = null
 var bleeding: BleedingState = null
 var control: ControlState = null
+var combat_perks: CombatPerksState = null
 
 
 ## Фабрика: выдаёт новый id, создаёт Vitals на полном HP и заполняет очки хода.
@@ -217,7 +218,7 @@ func can_attack() -> bool:
 # --- Сериализация (R-4) ----------------------------------------------------
 
 func to_dict() -> Dictionary:
-	if action_resources != null or guard_stance or armor != null or bleeding != null or control != null:
+	if action_resources != null or guard_stance or armor != null or bleeding != null or control != null or combat_perks != null:
 		return {}
 	return {
 		"id": id,
@@ -235,7 +236,7 @@ func to_dict() -> Dictionary:
 
 
 static func from_dict(data: Dictionary) -> UnitState:
-	if data.has("armor") or data.has("bleeding") or data.has("control"):
+	if data.has("armor") or data.has("bleeding") or data.has("control") or data.has("combat_perks"):
 		return null
 	var unit := UnitState.new()
 
@@ -315,7 +316,14 @@ func to_snapshot_dict() -> Dictionary:
 	if control != null:
 		result["schema_version"] = 6
 		result["control"] = control.to_dict()
-	if armor != null or control != null:
+	if combat_perks != null:
+		if action_resources == null or combat_perks.get_script() != CombatPerksState:
+			return {}
+		var perks_data := combat_perks.to_dict()
+		if perks_data.is_empty() or (combat_perks.mode == CombatPerksState.Mode.COVER and combat_perks.cover_target_id == id): return {}
+		result["schema_version"] = 7
+		result["combat_perks"] = perks_data
+	if armor != null or control != null or combat_perks != null:
 		# Проверяем итоговый armor/control формат один раз после сборки полей.
 		if not validate_snapshot_dict(result): return {}
 	return result
@@ -333,25 +341,36 @@ static func from_snapshot_dict(data: Dictionary) -> UnitState:
 	unit.has_attacked = data["has_attacked"]
 	unit.stats = StatsBag.from_snapshot_dict(data["stats"])
 	unit.vitals = Vitals.from_dict(data["vitals"], unit.stats)
-	if data["schema_version"] in [2, 3, 4, 5, 6]:
+	if data["schema_version"] in [2, 3, 4, 5, 6, 7]:
 		unit.action_resources = ActionResources.from_snapshot_dict(data["action_resources"], unit.id)
 		if unit.action_resources == null: return null
 	unit.guard_stance = data.get("guard_stance", false)
-	if data["schema_version"] in [4, 5] or (data["schema_version"] == 6 and data.has("armor")):
+	if data["schema_version"] in [4, 5] or (data["schema_version"] in [6, 7] and data.has("armor")):
 		unit.armor = ArmorState.from_dict(data["armor"])
 		if unit.armor == null: return null
-	if data["schema_version"] == 5 or (data["schema_version"] == 6 and data.has("bleeding")):
+	if data["schema_version"] == 5 or (data["schema_version"] in [6, 7] and data.has("bleeding")):
 		unit.bleeding = BleedingState.from_dict(data["bleeding"])
 		if unit.bleeding == null: return null
-	if data["schema_version"] == 6:
+	if data["schema_version"] in [6, 7] and data.has("control"):
 		unit.control = ControlState.from_dict(data["control"])
 		if unit.control == null: return null
+	if data["schema_version"] == 7:
+		unit.combat_perks = CombatPerksState.from_dict(data["combat_perks"])
+		if unit.combat_perks == null or (unit.combat_perks.mode == CombatPerksState.Mode.COVER and unit.combat_perks.cover_target_id == unit.id): return null
 	return unit
 
 
 static func validate_snapshot_dict(data: Variant) -> bool:
 	if typeof(data) != TYPE_DICTIONARY: return false
 	var d: Dictionary = data
+	if typeof(d.get("schema_version")) == TYPE_INT and d["schema_version"] == 7:
+		if not d.has("combat_perks") or not CombatPerksState.valid(d["combat_perks"]): return false
+		if d["combat_perks"].get("mode") == CombatPerksState.Mode.COVER and typeof(d.get("id")) == TYPE_INT and d["combat_perks"].get("cover_target_id") == d["id"]: return false
+		if not d.has("action_resources") or not ActionResources.validate_snapshot_dict(d["action_resources"], d.get("id", -1)): return false
+		var prior := d.duplicate(false)
+		prior.erase("combat_perks")
+		prior["schema_version"] = 6 if prior.has("control") else (5 if prior.has("bleeding") else (4 if prior.has("armor") else (3 if prior.has("guard_stance") else 2)))
+		return validate_snapshot_dict(prior)
 	if typeof(d.get("schema_version")) == TYPE_INT and d["schema_version"] == 6:
 		if not d.has("control") or not ControlState.valid(d["control"]): return false
 		# Ниже меняются только ключи корневого словаря; вложенные данные читаются.

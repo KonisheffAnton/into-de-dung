@@ -248,11 +248,13 @@ static func _board_structure(envelope: Dictionary) -> String:
 		if typeof(unit) == TYPE_DICTIONARY and (unit.get("schema_version") == 4 or unit.has("armor")): unit_fields["armor"] = TYPE_DICTIONARY
 		if typeof(unit) == TYPE_DICTIONARY and (unit.get("schema_version") == 5 or unit.has("bleeding")): unit_fields["bleeding"] = TYPE_DICTIONARY
 		if typeof(unit) == TYPE_DICTIONARY and (unit.get("schema_version") == 6 or unit.has("control")): unit_fields["control"] = TYPE_DICTIONARY
+		if typeof(unit) == TYPE_DICTIONARY and (unit.get("schema_version") == 7 or unit.has("combat_perks")): unit_fields["combat_perks"] = TYPE_DICTIONARY
 		if not _shape(unit, unit_fields): return "board/unit/schema"
 		if unit.get("schema_version") == 5:
 			if not unit.has("action_resources") or not unit.has("guard_stance") or not unit.has("armor") or not unit.has("bleeding"): return "board/unit/capability"
 			if not BleedingState.valid(unit["bleeding"]): return "board/unit/bleeding"
 		if unit.get("schema_version") == 6 and (not unit.has("action_resources") or not ControlState.valid(unit["control"])): return "board/unit/control"
+		if unit.get("schema_version") == 7 and (not unit.has("action_resources") or not CombatPerksState.valid(unit.get("combat_perks")) or (unit["combat_perks"].get("mode") == CombatPerksState.Mode.COVER and unit["combat_perks"].get("cover_target_id") == unit.get("id"))): return "board/unit/combat_perks"
 		if not _shape(unit["stats"], {"schema_version": TYPE_INT, "stats": TYPE_ARRAY}): return "board/unit/stats/schema"
 		if not _shape(unit["vitals"], {"hp": TYPE_FLOAT, "balance": TYPE_FLOAT, "is_alive": TYPE_BOOL}): return "board/unit/vitals/schema"
 		for entry: Variant in unit["stats"]["stats"]:
@@ -471,6 +473,10 @@ static func _live_board_shape_error(board: BattleBoard) -> String:
 		if unit.control != null:
 			if unit.control.get_script() != ControlState: return "UNSUPPORTED:board/unit/control/subclass"
 			if not ControlState.valid(unit.control.to_dict()): return "board/unit/control"
+		if unit.combat_perks != null:
+			if unit.combat_perks.get_script() != CombatPerksState: return "UNSUPPORTED:board/unit/combat_perks/subclass"
+			if unit.combat_perks.definition != null and unit.combat_perks.definition.get_script() != CombatPerksDefinition: return "UNSUPPORTED:board/unit/combat_perks/definition/subclass"
+			if unit.combat_perks.to_dict().is_empty(): return "board/unit/combat_perks"
 		if unit.debug_name.to_utf8_buffer().size() > MAX_STRING_BYTES: return "board/unit/name/string_bytes"
 		if not is_finite(unit.move_points_left) or not is_finite(unit.vitals._hp) or not is_finite(unit.vitals._balance): return "board/unit/finite"
 		for stat_key: Variant in unit.stats._stats:

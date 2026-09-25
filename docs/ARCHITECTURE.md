@@ -6,6 +6,15 @@
 
 ## Рабочий срез
 
+[K10](CORE_REACTIONS_K10.md) расширяет общий бой перками: скрытая атака,
+Оппортунист и Прикрытие. CombatPerksDefinition задаёт способности, nullable
+CombatPerksState хранит состояние участника в Unit schema7. MeleeThreat читает
+общую AttackReachCheck; GuardCommand выбирает режим, AttackCommand/AttackHit
+исполняют обычный или внутренний реакционный удар, MoveCommand перехватывает
+до шага. Прикрытие меняет входные дроби ArmorAttack до D0. Дельты перков
+проверяют SpatialRules и малый CombatPerkGuard очереди; preview переносит их
+штатным ForecastSimulation. Общего runtime произвольных статусов не добавлено.
+
 [K9](CORE_BATTLE_BATCH_K9.md) включает расстановку в K2 до командного боя,
 печать в составе брони/среды и прогноз RestoreArmorCommand общим ForecastSimulation.
 Session владеет фазой подготовки и включением призыва в конкретный сценарий;
@@ -31,7 +40,8 @@ K8 добавляет [наложение пут](ENTANGLE_ATTACK_K8.md): явн
 внутренний `EntangleApplyCommand` после spatial-последствий и до реакций предметов.
 Admission, sealed binding, guard и валидатор очереди сохраняют отказ без оплаты
 и FAULTED prefix; прогноз исполняет ту же атаку. Профиль забега D4 не меняется.
-K2 — основной вход F5. Отдельные сцены D2/D3/D5/C1 перенесены в
+K10 (BattleCoreReactionsSession, наследник K9/K2) — основной вход F5.
+Старая сцена K2 сохраняет C1-спину для регрессии. Отдельные сцены D2/D3/D5/C1 перенесены в
 `tests/fixtures/demo/`; их сессии сохранены как зависимости K2/D4 и регрессии.
 Старая сцена сетки и восемь debug-визуализаторов удалены; LegacyItemDemoSink
 остаётся зависимостью frozen-тестов. Уникальные игровые входы — [запуск](REPOSITORY_STATE.md).
