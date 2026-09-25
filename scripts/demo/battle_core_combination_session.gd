@@ -1,6 +1,14 @@
 extends BattleEnvironmentSession
 class_name BattleCoreCombinationSession
 
+var entangle_selected: bool = false
+
+func _command_for(id: int) -> AttackCommand:
+	if not entangle_selected: return super._command_for(id)
+	var ordinary := super._command_for(id)
+	if ordinary == null: return null
+	return AttackCommand.new(ordinary.get_actor_unit_id(), ordinary.get_target_unit_id(), ordinary.get_expected_actor_cell(), ordinary.get_expected_target_cell(), &"entangling_strike", ordinary.get_expected_revision())
+
 func _equip_scenario_weapon(unit: UnitState) -> void:
 	if unit != units[2]: return
 	# Сохраняем стартовый урон 4 после активации клинка, который добавляет ещё 4.
@@ -17,6 +25,7 @@ func _configure_map() -> void:
 
 func reset() -> void:
 	super.reset()
+	entangle_selected = false
 	var positions: Array[Vector2i] = [Vector2i(0, 2), Vector2i(5, 1), Vector2i(4, 3), Vector2i(3, 3), Vector2i(5, 5), Vector2i(5, 4)]
 	for i: int in positions.size():
 		var unit := units[i]
@@ -36,9 +45,15 @@ func reset() -> void:
 		definition.backstab_bonus_percent = 50
 		definition.critical_on_control = true
 		definitions.append(definition)
+	var entangling := AttackRules._copy_definition(definitions[0])
+	entangling.id = &"entangling_strike"
+	entangling.bleeding_policy = &""
+	entangling.entangle_on_physical_hp = true
+	definitions.append(entangling)
 	context._attack_rules = AttackRules.new(rules._actors, rules._pairs, definitions)
 	flow_log.append("Бор на E4 несёт пробивающий клинок: 50% физической базы обходят броню; Щит сохраняет иммунитет к кровотечению. Бор бьёт его в спину и сдвигает на шипы C4. Рей оглушён до конца вашего хода.")
 	flow_log.append("Контроль истекает в конце хода своей команды, затем кровотечение входящей команды исполняется до восстановления действий. Астра может поднять прежнее тело на A4.")
+	flow_log.append("Опутывающий удар — слот 7: путы после физического HP-урона и последствий удара, до конца ближайшего хода цели. Бор E5 → Дозорный F5: пробивание открывает наложение сквозь броню.")
 
 func _refill(faction: Faction.Type) -> bool:
 	var outgoing := Faction.Type.PLAYER if faction == Faction.Type.ENEMY else Faction.Type.ENEMY

@@ -111,6 +111,7 @@ func _validate_structure() -> void:
 			return
 
 static func _valid_components(definition: AttackDefinition) -> bool:
+	if definition.entangle_on_physical_hp and definition.profile != ARMOR_PROFILE: return false
 	if definition.critical_on_control and definition.profile not in [SPATIAL_PROFILE, ARMOR_PROFILE]: return false
 	if definition.backstab_bonus_percent < 0 or definition.backstab_bonus_percent > 1000: return false
 	if definition.backstab_bonus_percent != 0 and definition.profile not in [SPATIAL_PROFILE, ARMOR_PROFILE]: return false
@@ -125,6 +126,7 @@ static func _copy_definition(source: AttackDefinition) -> AttackDefinition:
 	copy.bleeding_policy = source.bleeding_policy
 	copy.backstab_bonus_percent = source.backstab_bonus_percent
 	copy.critical_on_control = source.critical_on_control
+	copy.entangle_on_physical_hp = source.entangle_on_physical_hp
 	copy.damage_components.assign(source.damage_components.duplicate(true))
 	return copy
 

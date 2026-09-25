@@ -275,6 +275,7 @@ func set_attack_mode(enabled: bool) -> void:
 func _clear_action_mode() -> void:
 	# Только состояние ввода: остатки действий и результат команды принадлежат сессии.
 	if session is BattleBleedingSession: (session as BattleBleedingSession).rune_selected = false
+	if session is BattleCoreCombinationSession: (session as BattleCoreCombinationSession).entangle_selected = false
 	summoning_mode = false
 	raising_mode = false
 	attack_mode = false
@@ -285,6 +286,11 @@ func _clear_action_mode() -> void:
 func _action_bar_requested(action_id: StringName) -> void:
 	if not tactical_mode: return
 	match action_id:
+		&"entangling_strike":
+			set_attack_mode(true)
+			if session is BattleCoreCombinationSession:
+				(session as BattleCoreCombinationSession).entangle_selected = true
+				_refresh()
 		&"blood_rune":
 			set_attack_mode(true)
 			if session is BattleBleedingSession:
@@ -412,6 +418,7 @@ func end_turn() -> void:
 	if not _battle.end_player_turn():
 		_refresh()
 		return
+	if session is BattleCoreCombinationSession: (session as BattleCoreCombinationSession).entangle_selected = false
 	summoning_mode = false
 	raising_mode = false
 	attack_mode = false
@@ -448,6 +455,10 @@ func _refresh() -> void:
 	if environment_mode: _instructions.text = "1 / A: атака · 2: защита · 3: лечение · 6: поднять тело · M: движение · Enter: конец хода · R: заново"
 	if session is BattleBleedingSession and (session as BattleBleedingSession).rune_selected:
 		_instructions.text = "Кровавая руна (перк): выберите цель · 1 основное · Обходит требование HP-урона; иммунитет сохраняется · A: обычная атака"
+	if session is BattleCoreCombinationSession:
+		_instructions.text += " · 7: опутывающий удар"
+		if (session as BattleCoreCombinationSession).entangle_selected:
+			_instructions.text = "Опутывающий удар: выберите цель · 1 основное · Путы после физического HP-урона · A: обычная атака"
 	var locked := _battle != null and not _battle.can_player_act()
 	_move_button.disabled = locked
 	if session.selected_unit() != null and ControlRules.action_reason(session.selected_unit(), true) != &"": _move_button.disabled = true
@@ -471,6 +482,8 @@ func _refresh() -> void:
 		if environment_mode and session is BattleEnvironmentSession:
 			var raise_reason := (session as BattleEnvironmentSession).raise_reason()
 			descriptors.append({"action_id": &"raise_corpse", "label": "Поднять тело", "cost": "1 основное", "disabled": locked or raise_reason != &"", "tooltip": "Выберите соседнюю свободную клетку без шипов той же высоты. Помощник: 16 HP, действует со следующего хода команды.\n" + (_reason_text(raise_reason) if raise_reason != &"" else "Тело расходуется после успешного поднятия.")})
+		if session is BattleCoreCombinationSession:
+			descriptors.append({"action_id": &"entangling_strike", "label": "Опутывающий удар", "cost": "1 основное", "disabled": locked or session.selected_unit() == null or not session.selected_unit().can_attack() or ControlRules.action_reason(session.selected_unit()) != &"", "tooltip": "Обычный урон и толчок, затем путы при физическом HP-уроне. Без кровотечения. Движение цели запрещено до конца её ближайшего хода; следующий фактический толчок снимает путы. Повтор не накапливает срок."})
 		_action_bar.set_dynamic_descriptors(descriptors)
 		var control_reason := ControlRules.action_reason(session.selected_unit())
 		_action_bar.set_slot_enabled(&"attack", not locked and control_reason == &"", "Сейчас нельзя действовать." if locked else (_reason_text(control_reason) if control_reason != &"" else "1 основное действие"))
@@ -822,6 +835,12 @@ func _render_forecast_panel() -> void:
 		return
 	var units: Dictionary = _forecast.units
 	var target_after: Dictionary = units.get(_forecast_target_id, {}).get("after", {})
+	for step: Dictionary in _forecast.steps:
+		if step["kind"] != &"entangle_apply": continue
+		if step["status"] == &"APPLIED":
+			text += "Путы: до конца ближайшего хода команды цели. Движение запрещено; следующий толчок снимает путы.\n"
+		elif step["status"] == &"SKIPPED":
+			text += "Путы не наложены: " + ("цель погибла" if step["reason"] == &"control/dead_target" else "нет физического HP-урона") + ".\n"
 	if target_after.has("bleeding"):
 		text += "Кровотечение: %d тика после атаки\n" % target_after["bleeding"]["ticks_left"]
 		for step: Dictionary in _forecast.steps:
@@ -1122,6 +1141,8 @@ func _event_text(event: Dictionary) -> String:
 			if modifiers.get("critical", false): suffix += " Крит ×2."
 			return "%s атакует %s.%s" % [actor, target, suffix]
 		&"control_changed":
+			if event["reason"] == &"entangled": return "%s: наложены путы до конца ближайшего хода команды цели." % target
+			if event["reason"] == &"refreshed": return "%s: путы сохранены; срок не накапливается." % target
 			return "%s: путы сняты толчком." % target if event["reason"] == &"push" else "%s: срок состояния контроля истёк." % target
 		&"guarded": return "%s занимает охранную стойку (1 основное действие)." % actor
 		&"item_used":
@@ -1165,6 +1186,7 @@ func _reason_text(reason: StringName) -> String:
 	match reason:
 		&"control/stunned": return "персонаж оглушён и не может выполнять добровольные действия."
 		&"control/entangled": return "персонаж опутан и не может двигаться; остальные действия доступны."
+		&"control/capability_required": return "эта цель не поддерживает состояния контроля."
 		&"armor/summon_unsupported": return "призыв недоступен в сценарии брони."
 		&"armor/zero_restore": return "нечего восстанавливать."
 		&"armor/full": return "обычная броня уже восстановлена."

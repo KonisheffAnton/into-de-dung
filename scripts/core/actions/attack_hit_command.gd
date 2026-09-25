@@ -14,6 +14,12 @@ var _target_guard_stance: bool
 var _bleeding_policy: StringName = &""
 var _definition_id: StringName = &""
 var _bleeding_seal: Array = [&"", &""]
+var _entangle_on_physical_hp: bool = false
+var _entangle_seal: bool = false
+
+func bind_entangle(enabled: bool) -> void:
+	_entangle_on_physical_hp = enabled
+	_entangle_seal = enabled
 
 func bind_bleeding(policy: StringName, definition_id: StringName) -> void:
 	_bleeding_policy = policy
@@ -43,6 +49,8 @@ func copy_for_queue() -> Command:
 	copy._bleeding_policy = _bleeding_policy
 	copy._definition_id = _definition_id
 	copy._bleeding_seal = _bleeding_seal.duplicate()
+	copy._entangle_on_physical_hp = _entangle_on_physical_hp
+	copy._entangle_seal = _entangle_seal
 	return copy
 
 func validate(context: ActionContext) -> StringName:
@@ -60,16 +68,19 @@ func execute(context: ActionContext) -> CommandStepResult:
 		var next: BalancePushRules.Binding = hp["binding"]
 		if spatial_result.status == &"APPLIED" and next.values["expected_alive"] and float(next.values["impact"]) > 0.0 and float(next.values["balance_max"]) > 0.0:
 			spatial_result.mandatory.append(BalanceCommand.new(next))
-		if spatial_result.status == &"APPLIED" and _bleeding_policy != &"":
+		if spatial_result.status == &"APPLIED" and (_bleeding_policy != &"" or _entangle_on_physical_hp):
 			for event: Dictionary in spatial_result.events:
 				if event["kind"] != &"hit_resolved": continue
 				var physical_hp: int = 0
 				for row: Dictionary in event["hit"]["rows"]:
 					if row["type"] == &"physical": physical_hp += int(row["hp_damage"])
-				var eligible := physical_hp > 0 or _bleeding_policy == &"bypass_hp_gate"
-				event["hit"]["bleeding"] = {"policy": _bleeding_policy, "physical_hp_damage": physical_hp, "eligible": eligible}
 				# Sibling после Balance завершает всё mandatory spatial-поддерево.
-				spatial_result.mandatory.append(BleedingApplyCommand.new(_actor, _target, request.source, event["hit_id"], _definition_id, _bleeding_policy, eligible))
+				if _bleeding_policy != &"":
+					var eligible := physical_hp > 0 or _bleeding_policy == &"bypass_hp_gate"
+					event["hit"]["bleeding"] = {"policy": _bleeding_policy, "physical_hp_damage": physical_hp, "eligible": eligible}
+					spatial_result.mandatory.append(BleedingApplyCommand.new(_actor, _target, request.source, event["hit_id"], _definition_id, _bleeding_policy, eligible))
+				if _entangle_on_physical_hp:
+					spatial_result.mandatory.append(EntangleApplyCommand.new(_actor, _target, request.source, event["hit_id"], _definition_id, physical_hp > 0))
 		return spatial_result
 	var result := super.execute(context)
 	# Для legacy HP pipeline также сохраняем отказ с реальным префиксом урона.
@@ -85,6 +96,10 @@ func _binding_reason(context: ActionContext) -> StringName:
 		return &"attack/invalid_hit"
 	if not _same_request(request, _seal): return &"attack/invalid_hit"
 	if [_bleeding_policy, _definition_id] != _bleeding_seal: return &"bleeding/invalid_source"
+	if _entangle_on_physical_hp != _entangle_seal: return &"control/invalid_source"
+	if _entangle_on_physical_hp:
+		var definition := context.get_attack_rules().get_definition(_definition_id)
+		if definition == null or not definition.entangle_on_physical_hp or request.armor_mode != &"armor": return &"control/invalid_source"
 	if _bleeding_policy != &"":
 		var definition := context.get_attack_rules().get_definition(_definition_id)
 		if definition == null or definition.bleeding_policy != _bleeding_policy or request.armor_mode != &"armor": return &"bleeding/invalid_source"

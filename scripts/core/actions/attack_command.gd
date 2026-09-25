@@ -47,6 +47,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	if prepared.has("modifiers"): event["modifiers"] = prepared["modifiers"]
 	var hit := AttackHitCommand.new(prepared["request"] as DamageRequest, actor, target, resources, actor.cell, target.cell, main_after, prepared.get("p07_binding") as BalancePushRules.Binding)
 	hit.bind_bleeding(prepared.get("bleeding_policy", &""), _attack_definition_id)
+	hit.bind_entangle(prepared.get("entangle_on_physical_hp", false))
 	if not resources.try_spend_main(1):
 		return CommandStepResult.faulted(&"attack/invalid_runtime")
 	actor.has_attacked = true
@@ -101,6 +102,8 @@ func _prepare(context: ActionContext) -> Dictionary:
 		result["reason"] = &"control/spatial_required"; return result
 	if target.control != null and (target.control.get_script() != ControlState or not ControlState.valid(target.control.to_dict())):
 		result["reason"] = &"control/invalid_state"; return result
+	if definition.entangle_on_physical_hp and target.control == null:
+		result["reason"] = &"control/capability_required"; return result
 	if armor_profile and (actor.armor == null or target.armor == null):
 		result["reason"] = &"armor/capability_required"; return result
 	if definition.bleeding_policy != &"" and (target.bleeding == null or not BleedingState.valid(target.bleeding.to_dict())):
@@ -172,7 +175,7 @@ func _prepare(context: ActionContext) -> Dictionary:
 		var touches: int = int(binding.values.get("admission_board_touches", 0)) + (1 if plan["hp_after"] == 0 else 0)
 		if board.board_version < 0 or board.board_version > MAX_ID - touches:
 			result["reason"] = &"push/board_version_exhausted"; return result
-		result.merge({"actor": actor, "target": target, "resources": resources, "request": request, "p07_binding": binding, "bleeding_policy": definition.bleeding_policy})
+		result.merge({"actor": actor, "target": target, "resources": resources, "request": request, "p07_binding": binding, "bleeding_policy": definition.bleeding_policy, "entangle_on_physical_hp": definition.entangle_on_physical_hp})
 		return result
 	var calculation := AttackDamageCalculation.calculate(strength, weapon, armor, spatial, signed_height_steps, target.guard_stance, backstab_percent, critical_multiplier)
 	if calculation.reason != &"":
