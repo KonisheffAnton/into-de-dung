@@ -21,6 +21,7 @@ var inspection_cells: Dictionary = {}
 var forecast: AttackForecast
 var move_forecast: MoveForecast
 var move_forecast_pending: bool = false
+var pending_move_path: Array[Vector2i] = []
 var _path: Array[Vector2i] = []
 var _tiles: Node2D
 var _entities: Node2D
@@ -138,7 +139,10 @@ func _refresh_path() -> void:
 		_path.clear()
 		return
 	_path.clear()
-	if move_forecast_pending: return
+	if move_forecast_pending:
+		# Маршрут запроса виден сразу, но не обещает пройти опасные клетки до конца.
+		_path = pending_move_path.duplicate()
+		return
 	if move_forecast != null:
 		# После прерывания не рисуем непроходимый остаток как будущий ход.
 		if move_forecast.status in [ActionReceipt.APPLIED, ActionReceipt.INTERRUPTED]: _path = move_forecast.traversed_path.duplicate()
@@ -230,7 +234,11 @@ func _draw_overlay() -> void:
 	if _path.size() > 1:
 		var points := PackedVector2Array()
 		for cell in _path: points.append(cell_center(cell))
-		_overlay.draw_polyline(points, CYAN, 2, true)
+		if move_forecast_pending:
+			for i: int in range(1, points.size()):
+				_overlay.draw_dashed_line(points[i - 1], points[i], MUTED, 2, 6)
+		else:
+			_overlay.draw_polyline(points, CYAN, 2, true)
 	if session.board.is_in_bounds(hover_cell):
 		var center := cell_center(hover_cell)
 		if session.board.get_terrain(hover_cell) == TerrainType.Type.WALL: center.y -= grid_config.height_step

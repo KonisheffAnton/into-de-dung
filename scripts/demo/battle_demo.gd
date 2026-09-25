@@ -122,6 +122,7 @@ func _exit_tree() -> void:
 		board_view.forecast = null
 		board_view.move_forecast = null
 		board_view.move_forecast_pending = false
+		board_view.pending_move_path.clear()
 		board_view.session = null
 	if session != null: session.close()
 	session = null
@@ -711,6 +712,8 @@ func _hover(cell: Vector2i) -> void:
 			_move_forecast_revision = revision
 			_forecast_panel.get_v_scroll_bar().value = 0.0
 			board_view.move_forecast_pending = true
+			# Быстрая геометрия не ждёт полного исполнения прогноза в рабочем потоке.
+			if board_view.reachable_cells().has(cell): board_view.pending_move_path = session.path_to(cell)
 			board_view.refresh_forecast()
 	elif not attack_mode or (_battle != null and not _battle.can_player_act()) or not session.board.is_in_bounds(cell):
 		_clear_forecast()
@@ -767,6 +770,7 @@ func _process_move_forecast() -> void:
 		_move_forecast = result
 		_move_forecast_pending = false
 		board_view.move_forecast_pending = false
+		board_view.pending_move_path.clear()
 		board_view.move_forecast = result
 		board_view.refresh_forecast()
 		_render_forecast_panel()
@@ -845,6 +849,7 @@ func _clear_forecast() -> void:
 		board_view.forecast = null
 		board_view.move_forecast = null
 		board_view.move_forecast_pending = false
+		board_view.pending_move_path.clear()
 		if had_forecast and board_view.session != null: board_view.refresh_forecast()
 	if _forecast_panel != null:
 		_forecast_panel.text = "Наведите курсор на врага в режиме A."
@@ -954,7 +959,7 @@ func _render_move_forecast_panel() -> void:
 	_log_heading.visible = false
 	var text := "[font_size=16][color=#f7c97d]Движение к %s[/color][/font_size]\n" % _cell_name(_move_forecast_cell)
 	if _move_forecast_pending:
-		_forecast_panel.text = text + "Расчёт прогноза…"
+		_forecast_panel.text = text + ("Пунктир — выбранный маршрут.\nРассчитываем последствия…" if not board_view.pending_move_path.is_empty() else "Расчёт прогноза…")
 		return
 	if _move_forecast.status not in [ActionReceipt.APPLIED, ActionReceipt.INTERRUPTED]:
 		_forecast_panel.text = text + "[color=#f29b9b]Прогноз недоступен[/color]\n" + _reason_text(_move_forecast.reason)

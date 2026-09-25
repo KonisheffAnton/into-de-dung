@@ -38,7 +38,13 @@ func _run() -> void:
 	var before := ItemSimulationSnapshot.capture(s.state, []).snapshot.to_dict()
 	var counters := s.context.simulation_counters()
 	var last := s.last_receipt
-	await _hover(target)
+	_demo.set_process(false)
+	_push_hover(target)
+	_check(_demo._move_forecast_pending and _demo._move_forecast == null and not _demo._move_forecast_worker.is_started() and _demo.board_view._path == s.path_to(target), "route available in the input handler before debounce and exact simulation")
+	_check(_demo.board_view._forecast_entry(actor.id).is_empty(), "provisional path does not invent health outcome")
+	await _capture("move-route-pending")
+	_demo.set_process(true)
+	await _settle_forecast()
 	var f := _demo._move_forecast
 	_check(f != null and f.status == ActionReceipt.APPLIED and f.units[actor.id]["after"]["hp"] == 24, "hover predicts spike damage")
 	_check(_demo._forecast_panel.is_visible_in_tree() and _demo._forecast_panel.text.contains("расход 2.0 ОД") and _demo._forecast_panel.text.contains("32.0 → 24.0"), "visible final health and cost")
@@ -76,9 +82,12 @@ func _run() -> void:
 	for item: ItemInstance in s.state.get_owner(actor.id)._items.values(): item.armor_remaining = 0
 	actor.vitals.set_hp(1)
 	_demo._refresh()
-	await _hover(target)
+	_push_hover(target)
+	_check(_demo.board_view.move_forecast_pending and _demo.board_view._path == s.path_to(target) and _demo.board_view._path[-1] == target and _demo.board_view._forecast_entry(actor.id).is_empty(), "lethal route initially shows only requested geometry")
+	await _settle_forecast()
 	f = _demo._move_forecast
 	_check(f != null and f.status == ActionReceipt.INTERRUPTED and f.traversed_path == [Vector2i(0, 1), Vector2i(1, 1)], "lethal route shows only executed prefix")
+	_check(not _demo.board_view.move_forecast_pending and _demo.board_view.pending_move_path.is_empty() and _demo.board_view._path == f.traversed_path, "interruption replaces provisional tail with solid executed prefix")
 	_check(_demo._forecast_panel.text.contains("Маршрут прервётся") and _demo._forecast_panel.text.contains("ГИБЕЛЬ") and _demo._forecast_panel.text.contains("расход 1.0 ОД"), "lethal forecast explains endpoint cost and death")
 	await _capture("move-forecast-interrupted")
 	await _key(KEY_A)
@@ -99,6 +108,8 @@ func _run() -> void:
 	await _hover(Vector2i(0, 1))
 	f = _demo._move_forecast
 	await _click(s.units[4].cell)
+	_push_hover(Vector2i(4, 5))
+	_check(_demo.board_view.pending_move_path.is_empty() and _demo.board_view._path.is_empty(), "stunned selection has no provisional route")
 	await _hover(Vector2i(4, 5))
 	_check(_demo._move_forecast != f and _demo._move_forecast.reason == &"control/stunned", "selection invalidates and stun explains refusal")
 	await _click(s.units[1].cell)
@@ -141,10 +152,13 @@ func _async_cases() -> void:
 	var before := ItemSimulationSnapshot.capture(s.state, []).snapshot.to_dict()
 	var last := s.last_receipt
 	var next_id := UnitId.get_counter()
+	_push_hover(Vector2i(7, 7))
+	_check(_demo._move_forecast_pending and _demo.board_view.pending_move_path.is_empty() and _demo.board_view._path.is_empty(), "unreachable target has no provisional route")
 	# Пачка событий одного кадра не должна исполнять промежуточные прогнозы.
 	for cell: Vector2i in [a, b, a, b]: _push_hover(cell)
 	_check(_demo.board_view.hover_cell == b and _demo._move_forecast_pending and _demo._move_forecast == null and not _demo._move_forecast_worker.is_started(), "rapid hover coalesces before simulation starts")
-	_check(_demo.board_view._path.is_empty() and _demo.board_view._forecast_entry(s.selected_id).is_empty(), "pending hover shows no ready path or health")
+	_check(_demo.board_view.move_forecast_pending and _demo.board_view._path == s.path_to(b) and _demo.board_view._path.size() > 1 and _demo.board_view._forecast_entry(s.selected_id).is_empty(), "latest requested path appears on input before worker, without ready health")
+	_check(_demo._forecast_panel.text.contains("Пунктир") and not _demo._forecast_panel.text.contains("HP"), "pending route is labelled separately from consequences")
 	_check(ItemSimulationSnapshot.capture(s.state, []).snapshot.to_dict() == before and s.last_receipt == last and UnitId.get_counter() == next_id, "pending burst keeps live state and allocator")
 	await _settle_forecast()
 	_check(_demo._move_forecast_cell == b and _demo._move_forecast.requested_path[-1] == b, "only latest target gets a completed result")
@@ -153,6 +167,7 @@ func _async_cases() -> void:
 	_demo._process_move_forecast()
 	_check(_demo._move_forecast_worker.is_started(), "real worker starts for settled target")
 	_push_hover(b)
+	_check(_demo.board_view._path == s.path_to(b) and _demo._move_forecast == null, "new requested path replaces in-flight target immediately")
 	await _settle_forecast()
 	_check(_demo._move_forecast_cell == b and _demo._move_forecast.requested_path[-1] == b, "in-flight target change discards stale result")
 	_push_hover(a)
@@ -160,6 +175,7 @@ func _async_cases() -> void:
 	_demo._process_move_forecast()
 	s.selected_unit().move_points_left = 0
 	_demo._refresh()
+	_check(_demo.board_view.pending_move_path.is_empty() and _demo.board_view._path.is_empty(), "refresh clears provisional route when movement budget is exhausted")
 	await _settle_forecast()
 	_check(_demo._move_forecast.status == ActionReceipt.REJECTED, "refresh without revision discards in-flight result")
 	await _key(KEY_R)
@@ -175,7 +191,7 @@ func _async_cases() -> void:
 	_demo._process_move_forecast()
 	await _key(KEY_A)
 	await _drain_worker()
-	_check(_demo._move_forecast == null and not _demo._move_forecast_pending and _demo.board_view.move_forecast == null, "attack mode discards worker result")
+	_check(_demo._move_forecast == null and not _demo._move_forecast_pending and _demo.board_view.move_forecast == null and _demo.board_view.pending_move_path.is_empty() and _demo.board_view._path.is_empty(), "attack mode discards worker result and provisional route")
 	await _key(KEY_M)
 	_push_hover(b)
 	_demo._move_forecast_due = 0
@@ -190,6 +206,7 @@ func _async_cases() -> void:
 	await _motion(Vector2(4, 4))
 	await _drain_worker()
 	_check(_demo._move_forecast == null and not _demo._move_forecast_pending, "leaving board discards worker result")
+	_check(_demo.board_view.pending_move_path.is_empty() and _demo.board_view._path.is_empty(), "leaving board clears requested route")
 	await _click_control(_demo._mode_button)
 	_push_hover(a)
 	_demo._move_forecast_due = 0

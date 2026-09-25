@@ -30,6 +30,7 @@ core без `--full` в неё не входит. Повторять более 
 | Область | Адресный runner в `tests/` |
 |---|---|
 | Оптимизация снимков | `test_snapshot_walk_performance.gd`, `test_unit_snapshot_performance.gd` (full/render): parity raw graph/диагностики/лимитов, schema 1–6, HP_MAX и неизменность DTO |
+| Немедленный маршрут K4 | `test_move_forecast_ui.gd` (full/render): пунктир до worker, быстрая смена цели, очистка запретов/отмены, замена на исполненный prefix при гибели, PNG предварительного и точного маршрутов |
 | Единый боевой пакет K9 | `test_core_batch.gd`, `test_summon_composition.gd`, `test_core_batch_ui.gd` (full/render): расстановка, все восемь слотов, прогноз брони, печать/поднятие/оба хода, два боя до исхода, snapshot/FAULTED и четыре PNG |
 | Ядро | `run_tests.gd` |
 | Совместная атака C1/M4/D3/D5 (K1) | `test_core_combinations.gd`, `test_core_combination_turns.gd` (full/render); тестовая композиция — `tests/fixtures/core_combination_session.gd` |
