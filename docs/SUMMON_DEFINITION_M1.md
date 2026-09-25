@@ -22,7 +22,8 @@ Getters печати возвращают копии. Повтор ID также
 описания самого предмета. Остальные предметы сохраняют прежний контракт.
 Каждый helper имеет отдельные StatsBag/Vitals/ActionResources.
 make_helper принимает необязательное определение; D5 использует default,
-а capability D2/D3 по-прежнему добавляет RaiseCorpseCommand. Обычный исходный
+а capability D2/D3 добавляет RaiseCorpseCommand; композиция печати с ними —
+[SUMMON_ITEM §K9](SUMMON_ITEM.md#композиция-с-бронёй-и-средой-k9). Обычный исходный
 погибший D5 не становится зарегистрированным summon из-за общей фабрики.
 
 Writer сохраняет прежний минимальный envelope v1–v5 для default, включая
@@ -31,7 +32,8 @@ Writer сохраняет прежний минимальный envelope v1–v5
 armor-полями предметов и `summon_definition` в каждом descriptor.
 У печати это полный DTO с schema_version=1 и всеми 12 полями; у других — {}.
 Environment добавляется только при включённой среде и имеет прежнюю форму D5.
-Наличие armor-полей v6 не включает armor capability у Unit или старой печати.
+Наличие armor-полей v6 само по себе не включает armor capability у Unit;
+capability нового помощника задаёт команда по правилам SUMMON_ITEM/D5.
 Board/Unit codecs не меняются. Старые формы сохраняют canonical bytes.
 
 Raw preflight проверяет точные ключи/типы/границы/версию определения до allocation

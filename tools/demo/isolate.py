@@ -97,6 +97,9 @@ def main():
         if label in ("core_combination_session", "core_combination_ui"):
             marker = "CORE COMBINATION SESSION RESULTS:" if label == "core_combination_session" else "CORE COMBINATION UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label in ("core_batch", "core_batch_ui", "summon_composition"):
+            marker = {"core_batch": "CORE BATCH RESULTS:", "core_batch_ui": "CORE BATCH UI RESULTS:", "summon_composition": "SUMMON COMPOSITION RESULTS:"}[label]
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("entangle_attack", "entangle_ui"):
             marker = "ENTANGLE ATTACK RESULTS:" if label == "entangle_attack" else "ENTANGLE UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -148,6 +151,8 @@ def main():
         run("core_combinations", ["--script", "tests/test_core_combinations.gd"])
         run("core_combination_turns", ["--script", "tests/test_core_combination_turns.gd"])
         run("core_combination_session", ["--script", "tests/test_core_combination_session.gd"])
+        run("summon_composition", ["--script", "tests/test_summon_composition.gd"])
+        run("core_batch", ["--script", "tests/test_core_batch.gd"])
         run("entangle_attack", ["--script", "tests/test_entangle_attack.gd"])
         run("forecast", ["--script", "tests/test_attack_forecast.gd"])
         run("guard", ["--script", "tests/test_guard_stance.gd"])
@@ -208,6 +213,10 @@ def main():
         if args.render_check:
             combination_args += ["--", "--captures=" + str(captures)]
         run("core_combination_ui", combination_args, headless=not args.render_check)
+        batch_args = ["--script", "tests/test_core_batch_ui.gd"]
+        if args.render_check:
+            batch_args += ["--", "--captures=" + str(captures)]
+        run("core_batch_ui", batch_args, headless=not args.render_check)
         entangle_args = ["--script", "tests/test_entangle_ui.gd"]
         if args.render_check:
             entangle_args += ["--", "--captures=" + str(captures)]

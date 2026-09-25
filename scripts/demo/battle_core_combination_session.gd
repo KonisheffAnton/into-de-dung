@@ -2,6 +2,70 @@ extends BattleEnvironmentSession
 class_name BattleCoreCombinationSession
 
 var entangle_selected: bool = false
+var deployment_enabled: bool = false
+var _setup_revision: int = -1
+
+## Расстановка принадлежит сценарию: она не исполняет боевое перемещение/эффекты.
+func begin_deployment() -> bool:
+	if deployment_enabled or phase != Phase.PLAYER_TURN or context.get_revision() != _setup_revision or not _available(): return false
+	deployment_enabled = true
+	phase = Phase.DEPLOYMENT
+	return true
+
+func is_deploying() -> bool:
+	return phase == Phase.DEPLOYMENT
+
+func deployment_cells() -> Dictionary:
+	var result: Dictionary = {}
+	if not is_deploying() or board == null: return result
+	for y: int in range(2, 6):
+		for x: int in range(6):
+			var cell := Vector2i(x, y)
+			if board.is_in_bounds(cell) and board.is_terrain_walkable(cell) and not board.is_lethal(cell) and state.environment.fire_at(cell).is_empty():
+				result[cell] = 0.0
+	return result
+
+func select_unit(id: int) -> bool:
+	if not is_deploying(): return super.select_unit(id)
+	var unit := board.get_unit_by_id(id)
+	if not _available() or unit == null or not unit.is_alive() or unit.faction != Faction.Type.PLAYER: return false
+	selected_id = id
+	return true
+
+func selected_unit() -> UnitState:
+	if not is_deploying(): return super.selected_unit()
+	return board.get_unit_by_id(selected_id) if board != null else null
+
+func place_selected(cell: Vector2i) -> bool:
+	if not is_deploying() or not _available(): return false
+	var unit := selected_unit()
+	if unit == null or not unit.is_alive() or unit.faction != Faction.Type.PLAYER or not deployment_cells().has(cell): return false
+	if unit.cell == cell: return true
+	if board.is_occupied(cell): return false
+	return board.move_unit(unit, cell)
+
+func start_battle() -> bool:
+	if not is_deploying() or not _available(): return false
+	var cells := deployment_cells()
+	for id: int in living_ids(Faction.Type.PLAYER):
+		var unit := board.get_unit_by_id(id)
+		if not cells.has(unit.cell) or board.occupant_at(unit.cell) != unit: return false
+	if ItemSimulationSnapshot.capture(state, []).code != ItemSnapshotResult.Code.OK: return false
+	# Ресурсы и сроки уже заданы сценарием; повторное пополнение здесь меняло бы старт.
+	phase = Phase.PLAYER_TURN
+	flow_log.append("Расстановка завершена. Раунд 1: ваш ход.")
+	return true
+
+func phase_text() -> String:
+	return "Расстановка · выберите союзника и свободную клетку в зоне" if is_deploying() else super.phase_text()
+
+func summoning_reason() -> StringName:
+	var cells := summoning_cells()
+	var cell := cells[0] if not cells.is_empty() else Vector2i(-1, -1)
+	return _item_reason(summoning_item(), ItemUseAction.Kind.SUMMON_ADJACENT, cell)
+
+func supports_summoning() -> bool:
+	return true
 
 func _command_for(id: int) -> AttackCommand:
 	if not entangle_selected: return super._command_for(id)
@@ -54,6 +118,8 @@ func reset() -> void:
 	flow_log.append("Бор на E4 несёт пробивающий клинок: 50% физической базы обходят броню; Щит сохраняет иммунитет к кровотечению. Бор бьёт его в спину и сдвигает на шипы C4. Рей оглушён до конца вашего хода.")
 	flow_log.append("Контроль истекает в конце хода своей команды, затем кровотечение входящей команды исполняется до восстановления действий. Астра может поднять прежнее тело на A4.")
 	flow_log.append("Опутывающий удар — слот 7: путы после физического HP-урона и последствий удара, до конца ближайшего хода цели. Бор E5 → Дозорный F5: пробивание открывает наложение сквозь броню.")
+	if deployment_enabled: phase = Phase.DEPLOYMENT
+	_setup_revision = context.get_revision()
 
 func _refill(faction: Faction.Type) -> bool:
 	var outgoing := Faction.Type.PLAYER if faction == Faction.Type.ENEMY else Faction.Type.ENEMY

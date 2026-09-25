@@ -26,7 +26,6 @@ func validate(context: ActionContext) -> StringName:
 	if actor == null or not actor.is_alive(): return &"item/no_selected_unit"
 	var control_reason := ControlRules.action_reason(actor)
 	if control_reason != &"": return control_reason
-	if actor.armor != null: return &"armor/summon_unsupported"
 	if ItemSimulationSnapshot.capture(state, context.get_unsupported_runtime_ids()).code != ItemSnapshotResult.Code.OK: return &"item/invalid_runtime"
 	var owner := state.get_owner(_actor_id)
 	if owner == null or owner.is_closed() or owner.get_owner() != actor or board.occupant_at(actor.cell) != actor: return &"item/invalid_runtime"
@@ -45,6 +44,8 @@ func validate(context: ActionContext) -> StringName:
 	if actor.action_resources.get_main_left() < action.get_main_cost(): return &"item/insufficient_main"
 	if state.active_summon(actor.id) != null: return &"summon/active_helper"
 	if not valid_cell(board, actor.cell, _cell): return &"summon/invalid_cell"
+	if state.environment != null and not state.environment.fire_at(_cell).is_empty(): return &"summon/invalid_cell"
+	if board.get_all_units().size() >= ItemSimulationSnapshot.MAX_OWNERS: return &"summon/id_exhausted"
 	var id := next_id(board)
 	if id == 0 or board.board_version >= ActionQueue.MAX_ID - 1: return &"summon/id_exhausted"
 	if SummonAdmission.extend(move, context.get_attack_rules(), id, actor.id, false).is_empty(): return &"summon/invalid_admission"
@@ -78,6 +79,13 @@ func _apply(context: ActionContext, id: int, admission: Dictionary) -> UnitState
 	var item: ItemInstance = state.get_owner(_actor_id)._items[_item_id]
 	var action := item.get_use_action()
 	var unit := make_helper(id, actor.faction, _cell, actor.debug_name, action.get_summon_definition())
+	if actor.armor != null:
+		# Пустая боевая броня сохраняет capability, не выдавая помощнику бонусов.
+		unit.armor = ArmorState.new()
+		unit.armor.in_battle = true
+	if actor.bleeding != null:
+		# Пустое состояние нужно для единообразного боевого runtime без переноса эффекта.
+		unit.bleeding = BleedingState.new()
 	actor.action_resources.try_spend_main(action.get_main_cost())
 	item._charges_left -= action.get_charge_cost()
 	state.register_summon_owner(unit, actor.id)

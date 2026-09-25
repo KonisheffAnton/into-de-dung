@@ -24,6 +24,8 @@ func _run() -> void:
 	_viewport.size = Vector2i(1280, 850)
 	_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(_viewport)
+	# Адресная регрессия начинается после расстановки; полный вход проверяет core_batch.
+	_demo.deployment_enabled = false
 	_viewport.add_child(_demo)
 	_viewport.notify_mouse_entered()
 	await process_frame

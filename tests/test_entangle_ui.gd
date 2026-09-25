@@ -17,6 +17,8 @@ func _run() -> void:
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport)
 	demo = (load("res://scenes/demo/core_combination_battle.tscn") as PackedScene).instantiate()
+	# Адресная регрессия начинается после расстановки; полный вход проверяет core_batch.
+	demo.deployment_enabled = false
 	viewport.add_child(demo)
 	viewport.notify_mouse_entered()
 	await process_frame; await process_frame

@@ -29,6 +29,7 @@ core без `--full` в неё не входит. Повторять более 
 
 | Область | Адресный runner в `tests/` |
 |---|---|
+| Единый боевой пакет K9 | `test_core_batch.gd`, `test_summon_composition.gd`, `test_core_batch_ui.gd` (full/render): расстановка, все восемь слотов, прогноз брони, печать/поднятие/оба хода, два боя до исхода, snapshot/FAULTED и четыре PNG |
 | Ядро | `run_tests.gd` |
 | Совместная атака C1/M4/D3/D5 (K1) | `test_core_combinations.gd`, `test_core_combination_turns.gd` (full/render); тестовая композиция — `tests/fixtures/core_combination_session.gd` |
 | Игровая сессия C1/D3/D5 (K2) | `test_core_combination_session.gd`, `test_core_combination_battle.gd` (full/render); production-сессия, обе границы хода/AI, helper, terminal/FAULTED, два preview/live, restore, ввод/reset/PNG |

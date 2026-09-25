@@ -2,7 +2,7 @@ extends BattleDemoSession
 class_name BattleTacticalSession
 
 ## Первый бой: границы командных ходов принадлежат runtime, а не выделению в UI.
-enum Phase { PLAYER_TURN, ENEMY_TURN, VICTORY, DEFEAT, MUTUAL_DESTRUCTION, FAULTED }
+enum Phase { PLAYER_TURN, ENEMY_TURN, VICTORY, DEFEAT, MUTUAL_DESTRUCTION, FAULTED, DEPLOYMENT }
 var phase: Phase = Phase.PLAYER_TURN
 var round_number: int = 1
 var flow_log: Array[String] = []
@@ -271,13 +271,20 @@ func summoning_item(actor_id: int = 0) -> ItemInstance:
 		if item.get_definition_id() == &"tactical_summoning_seal": return item
 	return null
 
+func supports_summoning() -> bool:
+	return true
+
 func summoning_cells(actor_id: int = 0) -> Array[Vector2i]:
 	var cells: Array[Vector2i] = []
+	if not supports_summoning(): return cells
 	var actor := board.get_unit_by_id(selected_id if actor_id == 0 else actor_id) if board != null else null
 	if actor == null: return cells
 	var item := summoning_item(actor_id)
 	var action := item.get_use_action() if item != null else null
-	return action.target_cells(board, actor.cell) if action != null else cells
+	if action == null: return cells
+	for cell: Vector2i in action.target_cells(board, actor.cell):
+		if state.environment == null or state.environment.fire_at(cell).is_empty(): cells.append(cell)
+	return cells
 
 func summoning_reason() -> StringName:
 	var cells := summoning_cells()

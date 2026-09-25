@@ -220,7 +220,7 @@ func _refusals() -> void:
 		refuse(s, s.item_command(s.selected_id, s.summoning_item().get_item_instance_id(), cell), &"summon/invalid_cell")
 		s.close()
 	var k2 := fixture(BattleCoreCombinationSession.new())
-	refuse(k2, command(k2, true), &"armor/summon_unsupported")
+	refuse(k2, k2.item_command(k2.selected_id, k2.summoning_item().get_item_instance_id(), k2.selected_unit().cell), &"summon/invalid_cell")
 	k2.select_unit(k2.units[4].id)
 	k2.selected_unit().vitals.apply_damage(5.0)
 	refuse(k2, command(k2), &"control/stunned")

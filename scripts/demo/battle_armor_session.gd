@@ -37,6 +37,9 @@ func _equip_scenario_weapon(_unit: UnitState) -> void:
 func summoning_reason() -> StringName:
 	return &"armor/summon_unsupported"
 
+func supports_summoning() -> bool:
+	return false
+
 func restore_armor_reason() -> StringName:
 	if not can_player_act() or selected_unit() == null: return &"battle/input_locked"
 	return RestoreArmorCommand.new(selected_id, 20, context.get_revision()).validate(context)
@@ -45,3 +48,8 @@ func restore_selected_armor() -> ActionReceipt:
 	var reason := restore_armor_reason()
 	if reason != &"": return _reject(reason)
 	return _submit(RestoreArmorCommand.new(selected_id, 20, context.get_revision()))
+
+func preview_restore_armor() -> ForecastSimulation:
+	var reason := restore_armor_reason()
+	if reason != &"": return ForecastSimulation.rejected(reason)
+	return ForecastSimulation.run(context, _queue, RestoreArmorCommand.new(selected_id, 20, context.get_revision()))

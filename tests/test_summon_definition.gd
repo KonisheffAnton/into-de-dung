@@ -383,7 +383,7 @@ func _test_environment() -> void:
 	check(restored.code == ItemSnapshotResult.Code.OK and ItemSimulationSnapshot.capture(restored.state, []).snapshot.canonical_bytes() == snapshot(s).canonical_bytes(), "v6 environment restore")
 	if restored.state != null: AttackForecast._close(restored.state)
 	var cmd := UseSummoningItemCommand.new(s.units[0].id, s.summoning_item().get_item_instance_id(), Vector2i(0, 1), s.context.get_revision())
-	check(cmd.validate(s.context) == &"armor/summon_unsupported", "M1 does not widen seal capability")
+	check(cmd.validate(s.context) == &"item/insufficient_main", "raise spent the main action also required by the seal")
 	var corpse_count := s.state.environment.corpses.size()
 	var receipt := s._queue.submit(DeathCommand.new(helper.id, DamageSource.new(&"cell", 0, helper.cell)), s.context)
 	check(receipt.status == ActionReceipt.APPLIED and s.state.environment.corpses.size() == corpse_count and s.board.occupant_at(helper.cell) == null, "raised helper death leaves no corpse")

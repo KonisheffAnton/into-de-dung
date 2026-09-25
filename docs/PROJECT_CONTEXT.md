@@ -11,6 +11,7 @@
 | Готовность ядра / следующий срез | [CORE_READINESS](CORE_READINESS.md) / §7 [DESIGN_DIRECTION](DESIGN_DIRECTION.md) |
 | Делегирование, ведение и проверка объёма контекста | [CODEX_WORKFLOW](CODEX_WORKFLOW.md) |
 | Запуск / автоматические проверки | [REPOSITORY_STATE](REPOSITORY_STATE.md) / [TESTING](TESTING.md) |
+| Крупный боевой пакет / расстановка / единый плейтест | [CORE_BATTLE_BATCH_K9](CORE_BATTLE_BATCH_K9.md) |
 | Нынешний бой, управление | [TACTICAL_BATTLE](TACTICAL_BATTLE.md) |
 | Сравнение командных ходов и инициативы | [INITIATIVE_COMPARISON](INITIATIVE_COMPARISON.md) |
 | Проход через союзников | [ALLY_TRANSIT](ALLY_TRANSIT.md) |

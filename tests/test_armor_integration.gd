@@ -381,7 +381,7 @@ func _test_decimal_collision() -> void:
 		if event["kind"] == &"hit_resolved": hits.append(event)
 	_check(hits.size() == 2 and hits[1]["hit"]["armor_spent"] == 0, "decimal collision accepts exact0.3 and floors once")
 	var summon := UseSummoningItemCommand.new(actor.id, 0, actor.cell + Vector2i.UP, s.context.get_revision())
-	_check(summon.validate(s.context) == &"armor/summon_unsupported", "armor summon refuses before cost or creation")
+	_check(summon.validate(s.context) == &"item/not_owned", "unowned seal still refuses before cost or creation with armor")
 	s.close()
 
 func _test_expiry_rng_fault() -> void:

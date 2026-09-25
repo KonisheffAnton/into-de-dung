@@ -18,6 +18,8 @@ func _run() -> void:
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport)
 	demo = (load("res://scenes/demo/tactical_battle.tscn") as PackedScene).instantiate()
+	# Адресная регрессия начинается после расстановки; полный вход проверяет core_batch.
+	demo.deployment_enabled = false
 	viewport.add_child(demo)
 	viewport.notify_mouse_entered()
 	await process_frame; await process_frame
@@ -116,6 +118,8 @@ func _run() -> void:
 	var main_scene: String = ProjectSettings.get_setting("application/run/main_scene")
 	check(main_scene == "res://scenes/demo/core_combination_battle.tscn", "F5 starts the combined scenario")
 	demo = (load(main_scene) as PackedScene).instantiate()
+	# Адресная регрессия начинается после расстановки; полный вход проверяет core_batch.
+	demo.deployment_enabled = false
 	viewport.add_child(demo)
 	await process_frame; await process_frame
 	board = demo.board_view

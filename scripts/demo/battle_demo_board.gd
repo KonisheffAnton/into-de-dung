@@ -77,6 +77,8 @@ func refresh() -> void:
 	if raising_mode and session is BattleEnvironmentSession:
 		_reachable = {}
 		for cell in (session as BattleEnvironmentSession).raise_cells(): _reachable[cell] = 0.0
+	if session is BattleCoreCombinationSession and (session as BattleCoreCombinationSession).is_deploying():
+		_reachable = (session as BattleCoreCombinationSession).deployment_cells()
 	_refresh_path()
 	_rebuild_visuals()
 	queue_redraw()
@@ -132,6 +134,9 @@ func _clear_hover() -> void:
 	if _overlay != null: _overlay.queue_redraw()
 
 func _refresh_path() -> void:
+	if session is BattleCoreCombinationSession and (session as BattleCoreCombinationSession).is_deploying():
+		_path.clear()
+		return
 	_path.clear()
 	if move_forecast_pending: return
 	if move_forecast != null:

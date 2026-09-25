@@ -7,6 +7,7 @@ class_name BattleDemo
 @export var environment_mode: bool = false
 @export var control_mode: bool = false
 @export var core_combination_mode: bool = false
+@export var deployment_enabled: bool = true
 var session: BattleDemoSession
 var board_view: BattleDemoBoard
 var attack_mode: bool = false
@@ -51,6 +52,9 @@ var _raise_forecast: RaiseCorpseForecast
 var _raise_forecast_cell := Vector2i(-1, -1)
 var _raise_forecast_actor: int = UnitId.NONE
 var _raise_forecast_revision: int = -1
+var _armor_forecast: ForecastSimulation
+var _armor_forecast_actor: int = UnitId.NONE
+var _armor_forecast_revision: int = -1
 var _guard_forecast: GuardForecast
 var _guard_forecast_actor: int = UnitId.NONE
 var _guard_forecast_revision: int = -1
@@ -73,6 +77,7 @@ func _create_session() -> void:
 	# Составной сценарий проверяется первым, чтобы его флаги отображения не подменили сессию.
 	if core_combination_mode:
 		session = BattleCoreCombinationSession.new()
+		if deployment_enabled: (session as BattleCoreCombinationSession).begin_deployment()
 	elif control_mode:
 		session = BattleControlSession.new()
 	else:
@@ -109,6 +114,9 @@ func _exit_tree() -> void:
 	_item_forecast = null
 	_item_forecast_kind = &""
 	_raise_forecast = null
+	_armor_forecast = null
+	_armor_forecast_actor = UnitId.NONE
+	_armor_forecast_revision = -1
 	_guard_forecast = null
 	if board_view != null:
 		board_view.forecast = null
@@ -167,6 +175,8 @@ func _build_ui() -> void:
 	_attack_button.pressed.connect(set_attack_mode.bind(true))
 	toolbar.add_child(_attack_button)
 	_end_turn_button = _button("Завершить ход · Enter")
+	# Enter имеет один обработчик: фокус кнопки иначе повторяет старт на отпускании.
+	_end_turn_button.focus_mode = Control.FOCUS_NONE
 	_end_turn_button.pressed.connect(end_turn)
 	toolbar.add_child(_end_turn_button)
 	var compare_button := _button("Сравнить ходы")
@@ -284,7 +294,7 @@ func _clear_action_mode() -> void:
 	inspected_id = UnitId.NONE
 
 func _action_bar_requested(action_id: StringName) -> void:
-	if not tactical_mode: return
+	if not tactical_mode or (_battle != null and not _battle.can_player_act()): return
 	match action_id:
 		&"entangling_strike":
 			set_attack_mode(true)
@@ -319,10 +329,14 @@ func _use_guard() -> void:
 func select_character(id: int) -> void:
 	if session.select_unit(id):
 		inspected_id = UnitId.NONE
-		set_attack_mode(false)
+		_clear_action_mode()
+		_refresh()
+
+func _is_deploying() -> bool:
+	return session is BattleCoreCombinationSession and (session as BattleCoreCombinationSession).is_deploying()
 
 func inspect_enemy(id: int) -> void:
-	if _battle == null or _battle.phase != BattleTacticalSession.Phase.PLAYER_TURN or not _battle.can_player_act(): return
+	if _battle == null or (not _is_deploying() and not _battle.can_player_act()): return
 	var unit := session.board.get_unit_by_id(id)
 	if unit == null or not unit.is_alive() or unit.faction != Faction.Type.ENEMY: return
 	summoning_mode = false
@@ -333,6 +347,17 @@ func inspect_enemy(id: int) -> void:
 	_refresh()
 
 func handle_cell(cell: Vector2i) -> void:
+	if _is_deploying():
+		var unit := session.board.occupant_at(cell)
+		if unit != null:
+			if unit.faction == Faction.Type.PLAYER: select_character(unit.id)
+			else: inspect_enemy(unit.id)
+		else:
+			inspected_id = UnitId.NONE
+			var placed := (session as BattleCoreCombinationSession).place_selected(cell)
+			_refresh()
+			if not placed: _status.text = "Нужна свободная безопасная клетка в подсвеченной зоне A3–F6."
+		return
 	if _battle != null and not _battle.can_player_act(): return
 	var occupant := session.board.occupant_at(cell)
 	if summoning_mode:
@@ -415,6 +440,10 @@ func _open_core_combination_scenario() -> void:
 
 func end_turn() -> void:
 	if _battle == null: return
+	if _is_deploying():
+		if (session as BattleCoreCombinationSession).start_battle(): _clear_action_mode()
+		_refresh()
+		return
 	if not _battle.end_player_turn():
 		_refresh()
 		return
@@ -429,11 +458,12 @@ func end_turn() -> void:
 
 func _refresh() -> void:
 	# Любой refresh перечитывает состояние, включая изменения вне command revision.
+	var refresh_armor := _armor_forecast != null and _hovered_bar_action == &"restore_armor"
 	var refresh_guard := _guard_forecast != null and _hovered_bar_action == &"guard"
 	_clear_forecast()
 	if inspected_id != UnitId.NONE:
 		var inspected := session.board.get_unit_by_id(inspected_id) if session != null and session.board != null else null
-		if _battle == null or not _battle.can_player_act() or inspected == null or not inspected.is_alive() or inspected.faction != Faction.Type.ENEMY:
+		if _battle == null or (not _battle.can_player_act() and not _is_deploying()) or inspected == null or not inspected.is_alive() or inspected.faction != Faction.Type.ENEMY:
 			inspected_id = UnitId.NONE
 	_heading.text = "intoDeDung   /   Бой у обрыва" if tactical_mode else "intoDeDung   /   Полигон"
 	if armor_mode: _heading.text = "intoDeDung   /   Броня и огонь"
@@ -464,6 +494,8 @@ func _refresh() -> void:
 	if session.selected_unit() != null and ControlRules.action_reason(session.selected_unit(), true) != &"": _move_button.disabled = true
 	_attack_button.disabled = locked
 	_end_turn_button.disabled = locked
+	_end_turn_button.text = "Начать бой · Enter" if _is_deploying() else "Завершить ход · Enter"
+	if _is_deploying(): _end_turn_button.disabled = false
 	_action_bar.visible = tactical_mode
 	if tactical_mode and _action_bar != null:
 		var item := _battle.healing_item() if _battle != null else null
@@ -484,6 +516,7 @@ func _refresh() -> void:
 			descriptors.append({"action_id": &"raise_corpse", "label": "Поднять тело", "cost": "1 основное", "disabled": locked or raise_reason != &"", "tooltip": "Выберите соседнюю свободную клетку без шипов той же высоты. Помощник: 16 HP, действует со следующего хода команды.\n" + (_reason_text(raise_reason) if raise_reason != &"" else "Тело расходуется после успешного поднятия.")})
 		if session is BattleCoreCombinationSession:
 			descriptors.append({"action_id": &"entangling_strike", "label": "Опутывающий удар", "cost": "1 основное", "disabled": locked or session.selected_unit() == null or not session.selected_unit().can_attack() or ControlRules.action_reason(session.selected_unit()) != &"", "tooltip": "Обычный урон и толчок, затем путы при физическом HP-уроне. Без кровотечения. Движение цели запрещено до конца её ближайшего хода; следующий фактический толчок снимает путы. Повтор не накапливает срок."})
+			descriptors.append(_item_action_descriptor(seal, &"summoning_item", _battle.summoning_reason()))
 		_action_bar.set_dynamic_descriptors(descriptors)
 		var control_reason := ControlRules.action_reason(session.selected_unit())
 		_action_bar.set_slot_enabled(&"attack", not locked and control_reason == &"", "Сейчас нельзя действовать." if locked else (_reason_text(control_reason) if control_reason != &"" else "1 основное действие"))
@@ -530,10 +563,10 @@ func _refresh() -> void:
 		button.set_pressed_no_signal(unit.id == session.selected_id and alive)
 		if _battle != null and unit.faction == Faction.Type.ENEMY:
 			button.set_pressed_no_signal(unit.id == inspected_id and alive)
-			button.disabled = not alive or locked or _battle == null or _battle.phase != BattleTacticalSession.Phase.PLAYER_TURN
+			button.disabled = not alive or (locked and not _is_deploying())
 			button.pressed.connect(inspect_enemy.bind(unit.id))
 		else:
-			button.disabled = not alive or locked
+			button.disabled = not alive or (locked and not _is_deploying())
 			button.pressed.connect(select_character.bind(unit.id))
 		_roster.add_child(button)
 	var selected := session.selected_unit()
@@ -556,8 +589,14 @@ func _refresh() -> void:
 	if raising_mode: _status.text = "Поднять тело: выберите подсвеченную соседнюю свободную клетку без шипов. 1 основное. Esc — отмена."
 	if session.context.is_faulted(): _status.text = "Исполнение остановлено из-за ошибки. Выполненные последствия сохранены; сбросьте бой."
 	if locked: _status.text = _battle.phase_text() + (" · Можно начать заново: R." if _battle.phase != BattleTacticalSession.Phase.ENEMY_TURN else " · Противник выполняет действия.")
+	if _is_deploying():
+		_instructions.text = "Выберите союзника → свободную клетку в зоне A3–F6. Перестановки бесплатны. Enter: начать бой · R: исходная расстановка"
+		_status.text = "Расставьте отряд или начните с готовой позиции. Противников можно осмотреть; действия и эффекты пока не исполняются."
+	elif session is BattleCoreCombinationSession:
+		_instructions.text += " · 8: печать призыва"
 	_hover(board_view.hover_cell)
 	_log.text = "\n".join(_journal)
+	if refresh_armor and _battle != null and _battle.can_player_act(): _action_bar_hovered(&"restore_armor")
 	if refresh_guard and _battle != null and _battle.can_player_act(): _action_bar_hovered(&"guard")
 	_render_forecast_panel()
 
@@ -635,9 +674,10 @@ func _refresh_inspection() -> void:
 
 func _hover(cell: Vector2i) -> void:
 	if session == null or session.board == null: return
-	if _guard_forecast != null and cell.x >= 0: _clear_forecast()
+	if _is_deploying(): return
+	if (_guard_forecast != null or _armor_forecast != null) and cell.x >= 0: _clear_forecast()
 	# Позволяем перейти к прокрутке длинной цепи, сохранив текущий прогноз.
-	if (_forecast != null or _item_forecast != null or _move_forecast != null or _raise_forecast != null or _guard_forecast != null) and cell.x < 0:
+	if (_forecast != null or _item_forecast != null or _move_forecast != null or _raise_forecast != null or _guard_forecast != null or _armor_forecast != null) and cell.x < 0:
 		# mouse_exited может прийти раньше _input того же движения мыши.
 		_resolve_hover_exit.call_deferred()
 		return
@@ -761,8 +801,9 @@ func _leave_forecast_panel() -> void:
 	_resolve_hover_exit.call_deferred()
 
 func _resolve_hover_exit() -> void:
-	if session == null or board_view.hover_cell.x >= 0 or (_forecast == null and _item_forecast == null and _move_forecast == null and _raise_forecast == null and _guard_forecast == null): return
+	if session == null or board_view.hover_cell.x >= 0 or (_forecast == null and _item_forecast == null and _move_forecast == null and _raise_forecast == null and _guard_forecast == null and _armor_forecast == null): return
 	if _item_forecast_kind == &"healing" and _hovered_bar_action == &"healing_item": return
+	if _armor_forecast != null and _hovered_bar_action == &"restore_armor": return
 	if _guard_forecast != null and _hovered_bar_action == &"guard": return
 	if _forecast_reading_region().has_point(_pointer_position): return
 	_clear_forecast()
@@ -791,6 +832,9 @@ func _clear_forecast() -> void:
 	_raise_forecast_cell = Vector2i(-1, -1)
 	_raise_forecast_actor = UnitId.NONE
 	_raise_forecast_revision = -1
+	_armor_forecast = null
+	_armor_forecast_actor = UnitId.NONE
+	_armor_forecast_revision = -1
 	_guard_forecast = null
 	_guard_forecast_actor = UnitId.NONE
 	_guard_forecast_revision = -1
@@ -812,6 +856,9 @@ func _clear_forecast() -> void:
 
 func _render_forecast_panel() -> void:
 	if _forecast_panel == null: return
+	if _armor_forecast != null:
+		_render_armor_forecast_panel()
+		return
 	if _guard_forecast != null:
 		_render_guard_forecast_panel()
 		return
@@ -937,6 +984,18 @@ func _action_bar_hovered(action_id: StringName) -> void:
 	_hovered_bar_action = action_id
 	if previous == &"healing_item" and action_id != &"healing_item": _resolve_item_hover_exit.call_deferred()
 	if previous == &"guard" and action_id != &"guard": _resolve_guard_hover_exit.call_deferred()
+	if previous == &"restore_armor" and action_id != &"restore_armor": _resolve_armor_hover_exit.call_deferred()
+	if action_id == &"restore_armor":
+		if not session is BattleArmorSession or not _battle.can_player_act(): return
+		var current_revision := session.context.get_revision()
+		if _armor_forecast != null and _armor_forecast_actor == session.selected_id and _armor_forecast_revision == current_revision: return
+		_clear_forecast()
+		_armor_forecast = (session as BattleArmorSession).preview_restore_armor()
+		_armor_forecast_actor = session.selected_id
+		_armor_forecast_revision = current_revision
+		_forecast_panel.get_v_scroll_bar().value = 0.0
+		_render_armor_forecast_panel()
+		return
 	if action_id == &"guard":
 		if _battle == null or not _battle.can_player_act(): return
 		var revision := session.context.get_revision()
@@ -963,6 +1022,7 @@ func _action_bar_hovered(action_id: StringName) -> void:
 
 func _action_bar_hover_left(action_id: StringName) -> void:
 	if _hovered_bar_action == action_id: _hovered_bar_action = &""
+	if action_id == &"restore_armor": _resolve_armor_hover_exit.call_deferred()
 	if action_id == &"guard": _resolve_guard_hover_exit.call_deferred()
 	if action_id != &"healing_item" or _item_forecast_kind != &"healing": return
 	_resolve_item_hover_exit.call_deferred()
@@ -976,12 +1036,12 @@ func _update_action_bar_hover() -> void:
 				action_id = StringName(button.get_meta("action_id", &""))
 				break
 	if action_id == _hovered_bar_action:
-		if action_id == &"guard" and _guard_forecast != null: _action_bar_hovered(action_id)
+		if (action_id == &"guard" and _guard_forecast != null) or (action_id == &"restore_armor" and _armor_forecast != null): _action_bar_hovered(action_id)
 		return
 	var previous := _hovered_bar_action
 	_hovered_bar_action = action_id
-	if previous in [&"healing_item", &"guard"]: _action_bar_hover_left(previous)
-	if action_id in [&"healing_item", &"guard"]: _action_bar_hovered(action_id)
+	if previous in [&"healing_item", &"guard", &"restore_armor"]: _action_bar_hover_left(previous)
+	if action_id in [&"healing_item", &"guard", &"restore_armor"]: _action_bar_hovered(action_id)
 
 func _resolve_guard_hover_exit() -> void:
 	if session == null or _guard_forecast == null: return
@@ -1298,3 +1358,28 @@ func _choose_raise() -> void:
 	_clear_action_mode()
 	raising_mode = true
 	_refresh()
+
+func _resolve_armor_hover_exit() -> void:
+	if _armor_forecast == null or _hovered_bar_action == &"restore_armor" or _forecast_reading_region().has_point(_pointer_position): return
+	_clear_forecast()
+	_refresh_inspection()
+
+func _render_armor_forecast_panel() -> void:
+	_forecast_panel.visible = true
+	_forecast_heading.visible = true
+	_forecast_heading.text = "ПРОГНОЗ · КОЛЕСО НА ПАНЕЛИ"
+	_log.visible = false
+	_log_heading.visible = false
+	var text := "[font_size=16][color=#f7c97d]Восстановление брони · %s[/color][/font_size]\n" % _name_for(_armor_forecast_actor)
+	if _armor_forecast.status != ActionReceipt.APPLIED:
+		_forecast_panel.text = text + "Прогноз недоступен: " + _reason_text(_armor_forecast.reason)
+		return
+	var before: Dictionary = _armor_forecast.units_before[_armor_forecast_actor]
+	var after: Dictionary = _armor_forecast.units_after[_armor_forecast_actor]
+	text += "Броня: %d → %d\nОсновные: %d → %d (расход 1)\n" % [before["armor_current"], after["armor_current"], before["main"], after["main"]]
+	for event: Dictionary in _armor_forecast.events:
+		if event["kind"] != &"armor_changed": continue
+		for item: Dictionary in event["items"]: text += "Вещь #%d: %d → %d\n" % [item["id"], item["before"], item["after"]]
+		for grant: Dictionary in event["grants"]: text += "Временная броня: +%d до конца боя\n" % [int(grant["after"]) - int(grant["before"])]
+	text += "Стойка сохраняется. Клик или клавиша 4 — восстановить броню."
+	_forecast_panel.text = text
