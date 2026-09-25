@@ -312,10 +312,11 @@ func to_snapshot_dict() -> Dictionary:
 			if not BleedingState.valid(bleeding.to_dict()): return {}
 			result["schema_version"] = 5
 			result["bleeding"] = bleeding.to_dict()
-		if not validate_snapshot_dict(result): return {}
 	if control != null:
 		result["schema_version"] = 6
 		result["control"] = control.to_dict()
+	if armor != null or control != null:
+		# Проверяем итоговый armor/control формат один раз после сборки полей.
 		if not validate_snapshot_dict(result): return {}
 	return result
 
@@ -353,7 +354,8 @@ static func validate_snapshot_dict(data: Variant) -> bool:
 	var d: Dictionary = data
 	if typeof(d.get("schema_version")) == TYPE_INT and d["schema_version"] == 6:
 		if not d.has("control") or not ControlState.valid(d["control"]): return false
-		var prior := d.duplicate(true)
+		# Ниже меняются только ключи корневого словаря; вложенные данные читаются.
+		var prior := d.duplicate(false)
 		prior.erase("control")
 		prior["schema_version"] = 5 if prior.has("bleeding") else (4 if prior.has("armor") else (3 if prior.has("guard_stance") else 2))
 		return validate_snapshot_dict(prior)
@@ -384,9 +386,13 @@ static func validate_snapshot_dict(data: Variant) -> bool:
 	if typeof(v["balance"]) != TYPE_FLOAT or not is_finite(v["balance"]) or v["balance"] < 0.0: return false
 	if d["schema_version"] in [4, 5]:
 		if v["hp"] != floorf(v["hp"]) or v["hp"] > ArmorRuntime.MAX_EXACT_HP: return false
-		var stats_copy := StatsBag.from_snapshot_dict(d["stats"])
-		if stats_copy == null: return false
-		var maximum := stats_copy.get_value(StatTypes.StatType.HP_MAX)
+		var maximum := 0.0
+		for entry: Dictionary in d["stats"]["stats"]:
+			if entry["stat_type"] == StatTypes.StatType.HP_MAX:
+				var hp_stat := Stat.from_snapshot_dict(entry["stat"])
+				if hp_stat == null: return false
+				maximum = hp_stat.get_value()
+				break
 		if not is_finite(maximum) or maximum < 0.0 or maximum > ArmorRuntime.MAX_EXACT_HP or maximum != floorf(maximum) or v["hp"] > maximum: return false
 	return typeof(v["is_alive"]) == TYPE_BOOL
 

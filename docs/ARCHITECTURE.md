@@ -105,6 +105,10 @@ GuardForecast K6 исполняет GuardCommand тем же executor и пок�
   проверяются через `StatTypes.is_valid_id` в StatsBag, ItemOwnerState и
   SimulationSnapshot; M4 добавил ID 11. Новому stat нужны правила потребителя
   и проверки runtime/снимков. Боевой snapshot не равен save-game.
+  Успешный raw graph проходит быстрый валидатор без построения путей ошибок;
+  при отказе исходный обход сохраняет диагностику и её порядок. UnitState
+  проверяет итоговый armor/control DTO один раз, HP_MAX восстанавливает через
+  тот же Stat codec после полной проверки StatsBag. Долгоживущего кэша снимков нет.
 - Мёртвый UnitState остаётся в реестре без живой occupancy. Это не готовый CorpseState.
 
 Инварианты и обоснования — [DECISIONS](DECISIONS.md); API/пакеты исполнения —

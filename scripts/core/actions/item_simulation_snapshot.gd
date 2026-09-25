@@ -108,6 +108,34 @@ static func _walk(value: Variant, depth: int, ancestors: Array, count: Array[int
 			return ""
 	return path + "/value_type"
 
+## Успешный снимок не нуждается в строках пути и сортировке каждого словаря.
+## При отказе прежний walker сохраняет точную диагностику и её порядок.
+static func _walk_valid(value: Variant, depth: int, ancestors: Array, count: Array[int]) -> bool:
+	count[0] += 1
+	if count[0] > MAX_VALUE_NODES or depth > MAX_DEPTH: return false
+	match typeof(value):
+		TYPE_BOOL, TYPE_INT, TYPE_STRING_NAME, TYPE_VECTOR2I: return true
+		TYPE_FLOAT: return is_finite(value)
+		TYPE_STRING:
+			# Один символ UTF-8 занимает не больше четырёх байт; короткие строки
+			# проверяются без временного PackedByteArray, длинные — прежним лимитом.
+			return value.length() <= MAX_STRING_BYTES / 4 or value.to_utf8_buffer().size() <= MAX_STRING_BYTES
+		TYPE_ARRAY, TYPE_DICTIONARY:
+			for ancestor: Variant in ancestors:
+				if is_same(ancestor, value): return false
+			if value.size() > MAX_VALUE_NODES - count[0]: return false
+			ancestors.append(value)
+			if value is Array:
+				for item: Variant in value:
+					if not _walk_valid(item, depth + 1, ancestors, count): return false
+			else:
+				for key: Variant in value:
+					if typeof(key) != TYPE_STRING: return false
+					if not _walk_valid(key, depth + 1, ancestors, count) or not _walk_valid(value[key], depth + 1, ancestors, count): return false
+			ancestors.pop_back()
+			return true
+	return false
+
 static func _shape(value: Variant, fields: Dictionary) -> bool:
 	if typeof(value) != TYPE_DICTIONARY or value.size() != fields.size(): return false
 	for key: Variant in value:
@@ -620,8 +648,11 @@ static func _effect_capability(effect: Dictionary) -> bool:
 
 static func _validate(data: Dictionary) -> String:
 	var nodes: Array[int] = [0]
-	var error := _walk(data, 0, [], nodes, "envelope")
-	if not error.is_empty(): return error
+	var error := ""
+	if not _walk_valid(data, 0, [], nodes):
+		nodes[0] = 0
+		error = _walk(data, 0, [], nodes, "envelope")
+		if not error.is_empty(): return error
 	error = _structure(data)
 	if not error.is_empty(): return error
 	if data["schema_version"] not in [1, 2, 3, 4, 5, 6]: return "UNSUPPORTED:envelope/version"

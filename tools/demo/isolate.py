@@ -100,6 +100,9 @@ def main():
         if label in ("core_batch", "core_batch_ui", "summon_composition"):
             marker = {"core_batch": "CORE BATCH RESULTS:", "core_batch_ui": "CORE BATCH UI RESULTS:", "summon_composition": "SUMMON COMPOSITION RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label in ("snapshot_walk", "unit_snapshot_performance"):
+            marker = "SNAPSHOT WALK RESULTS:" if label == "snapshot_walk" else "UNIT SNAPSHOT PERFORMANCE RESULTS:"
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("entangle_attack", "entangle_ui"):
             marker = "ENTANGLE ATTACK RESULTS:" if label == "entangle_attack" else "ENTANGLE UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -140,6 +143,8 @@ def main():
         run("piercing_calculation", ["--script", "tests/test_armor_piercing_calculation.gd"])
         run("piercing", ["--script", "tests/test_armor_piercing.gd"])
         run("armor_snapshot", ["--script", "tests/test_armor_snapshot.gd"])
+        run("snapshot_walk", ["--script", "tests/test_snapshot_walk_performance.gd"])
+        run("unit_snapshot_performance", ["--script", "tests/test_unit_snapshot_performance.gd"])
         run("armor_integration", ["--script", "tests/test_armor_integration.gd"])
         run("armor_recovery", ["--script", "tests/test_armor_recovery.gd"])
         run("bleeding_snapshot", ["--script", "tests/test_bleeding_snapshot.gd"])

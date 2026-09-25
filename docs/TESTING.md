@@ -29,6 +29,7 @@ core без `--full` в неё не входит. Повторять более 
 
 | Область | Адресный runner в `tests/` |
 |---|---|
+| Оптимизация снимков | `test_snapshot_walk_performance.gd`, `test_unit_snapshot_performance.gd` (full/render): parity raw graph/диагностики/лимитов, schema 1–6, HP_MAX и неизменность DTO |
 | Единый боевой пакет K9 | `test_core_batch.gd`, `test_summon_composition.gd`, `test_core_batch_ui.gd` (full/render): расстановка, все восемь слотов, прогноз брони, печать/поднятие/оба хода, два боя до исхода, snapshot/FAULTED и четыре PNG |
 | Ядро | `run_tests.gd` |
 | Совместная атака C1/M4/D3/D5 (K1) | `test_core_combinations.gd`, `test_core_combination_turns.gd` (full/render); тестовая композиция — `tests/fixtures/core_combination_session.gd` |
@@ -86,6 +87,13 @@ Armor UI runner отдельно проходит исходную карту: �
 по [AGENTS](../AGENTS.md). Frozen acceptance расширять новым контрактом, не переписывать задним числом.
 
 ## Документация и история проверок
+
+CPU-замеры общего боя: `Godot --headless --path . --script tools/demo/profile_core_battle.gd`.
+Runner измеряет обновление UI, снимки, прогнозы, реальную атаку и три хода ИИ;
+выводит JSON с временами и fingerprint/RNG/counters итоговых состояний.
+Сравнивать несколько чередующихся прогонов на одном компьютере без других
+Godot runner. Это время синхронных операций, не FPS и не приёмка плавности;
+жёстких временных порогов в функциональных тестах нет.
 
 Для текста/процесса достаточно проверки diff; при реорганизации дополнительно
 проверять ссылки, сохранность архива/frozen и отсутствие изменений кода/ассетов.
