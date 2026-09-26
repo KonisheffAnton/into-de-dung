@@ -66,7 +66,7 @@ func _run() -> void:
 	actor.stats.set_base_value(StatTypes.StatType.PHYSICAL_PIERCING_PERCENT, -50.0)
 	await click(at(actor.cell)); await click(at(Vector2i(4, 4)))
 	await key(KEY_7); await motion(at(target.cell))
-	check(demo._forecast != null and demo._forecast_panel.text.contains("Путы не наложены: нет физического HP-урона"), "gate failure explained in forecast")
+	check(demo._forecast != null and demo._forecast_panel.text.contains("Путы не наложены: нет положительного физического урона HP"), "gate failure explained in forecast")
 	await capture("k8-entangle-gate")
 	await key(KEY_ESCAPE)
 	check(not session.entangle_selected and not demo.attack_mode and demo._forecast == null, "cancel clears mode and forecast")

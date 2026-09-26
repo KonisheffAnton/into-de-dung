@@ -65,7 +65,7 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 				reason = &"armor/internal_expiry"
 			elif accepted is BleedingApplyCommand or accepted is BleedingTickCommand:
 				reason = &"bleeding/internal_command"
-			elif accepted is ControlExpireCommand or accepted is EntangleApplyCommand:
+			elif accepted is ControlExpireCommand or accepted is ControlApplyCommand:
 				reason = &"control/internal_command"
 			elif accepted is EnvironmentCommand:
 				reason = &"environment/internal_command"
@@ -93,7 +93,7 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 	if accepted is AttackCommand:
 		var attacker := (accepted as AttackCommand).get_actor_unit_id()
 		var definition := context.get_attack_rules().get_definition((accepted as AttackCommand).get_attack_definition_id())
-		_defer_item_reactions = definition != null and (definition.bleeding_policy != &"" or definition.entangle_on_physical_hp)
+		_defer_item_reactions = definition != null and (definition.bleeding_policy != &"" or definition.entangle_on_physical_hp or definition.stun_on_physical_hp)
 		# Срок отмены — весь каскад атаки, включая legacy balance/push и item-heal.
 		for unit in context.get_state().get_board().get_all_units():
 			_attack_stances.append({"unit": unit, "expected": false if unit.id == attacker else unit.guard_stance})
@@ -428,6 +428,8 @@ static func _valid_control_draft(draft: Dictionary) -> bool:
 	if draft["reason"] == &"turn_end": return before != after and after["stunned_turns"] == 0 and after["entangled_turns"] == 0
 	if draft["reason"] in [&"entangled", &"refreshed"]:
 		return after["entangled_turns"] == 1 and before["stunned_turns"] == after["stunned_turns"] and ((draft["reason"] == &"entangled" and before["entangled_turns"] == 0) or (draft["reason"] == &"refreshed" and before["entangled_turns"] == 1))
+	if draft["reason"] in [&"stunned", &"stun_refreshed"]:
+		return after["stunned_turns"] == 1 and before["entangled_turns"] == after["entangled_turns"] and ((draft["reason"] == &"stunned" and before["stunned_turns"] == 0) or (draft["reason"] == &"stun_refreshed" and before["stunned_turns"] == 1))
 	return false
 
 static func _valid_armor_draft(draft: Dictionary) -> bool:

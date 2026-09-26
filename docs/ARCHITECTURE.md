@@ -6,6 +6,13 @@
 
 ## Рабочий срез
 
+[K11](CONTROL_PACKAGE_K11.md) добавляет перковый оглушающий удар и независимые
+иммунитеты к путам/оглушению. ControlApplyCommand объединяет два конечных
+наложения: sealed gate прямого HP-hit → пространственные последствия → контроль
+→ реакции предметов. ControlState и Unit schema7 прежние; CombatPerksState
+пишет вложенную schema2 только для новых флагов, иначе сохраняет schema1.
+BT передаёт ID выбранной атаки, команды проверяют владение и исполняют её.
+
 [K10](CORE_REACTIONS_K10.md) расширяет общий бой перками: скрытая атака,
 Оппортунист и Прикрытие. CombatPerksDefinition задаёт способности, nullable
 CombatPerksState хранит состояние участника в Unit schema7. MeleeThreat читает
@@ -40,7 +47,7 @@ K8 добавляет [наложение пут](ENTANGLE_ATTACK_K8.md): явн
 внутренний `EntangleApplyCommand` после spatial-последствий и до реакций предметов.
 Admission, sealed binding, guard и валидатор очереди сохраняют отказ без оплаты
 и FAULTED prefix; прогноз исполняет ту же атаку. Профиль забега D4 не меняется.
-K10 (BattleCoreReactionsSession, наследник K9/K2) — основной вход F5.
+K10 с K11 (BattleCoreReactionsSession, наследник K9/K2) — основной вход F5.
 Старая сцена K2 сохраняет C1-спину для регрессии. Отдельные сцены D2/D3/D5/C1 перенесены в
 `tests/fixtures/demo/`; их сессии сохранены как зависимости K2/D4 и регрессии.
 Старая сцена сетки и восемь debug-визуализаторов удалены; LegacyItemDemoSink

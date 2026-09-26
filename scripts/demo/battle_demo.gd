@@ -303,6 +303,7 @@ func _clear_action_mode() -> void:
 	# Только состояние ввода: остатки действий и результат команды принадлежат сессии.
 	if session is BattleBleedingSession: (session as BattleBleedingSession).rune_selected = false
 	if session is BattleCoreCombinationSession: (session as BattleCoreCombinationSession).entangle_selected = false
+	if session is BattleCoreReactionsSession: (session as BattleCoreReactionsSession).stun_selected = false
 	summoning_mode = false
 	raising_mode = false
 	attack_mode = false
@@ -318,6 +319,11 @@ func _action_bar_requested(action_id: StringName) -> void:
 			set_attack_mode(true)
 			if session is BattleCoreCombinationSession:
 				(session as BattleCoreCombinationSession).entangle_selected = true
+				_refresh()
+		&"stunning_strike":
+			set_attack_mode(true)
+			if session is BattleCoreReactionsSession:
+				(session as BattleCoreReactionsSession).stun_selected = true
 				_refresh()
 		&"blood_rune":
 			set_attack_mode(true)
@@ -386,6 +392,7 @@ func inspect_enemy(id: int) -> void:
 	summoning_mode = false
 	raising_mode = false
 	attack_mode = false
+	if session is BattleCoreReactionsSession: (session as BattleCoreReactionsSession).stun_selected = false
 	_clear_forecast()
 	inspected_id = UnitId.NONE if inspected_id == id else id
 	_cover_guard_mode = false
@@ -507,6 +514,7 @@ func end_turn() -> void:
 		_refresh()
 		return
 	if session is BattleCoreCombinationSession: (session as BattleCoreCombinationSession).entangle_selected = false
+	if session is BattleCoreReactionsSession: (session as BattleCoreReactionsSession).stun_selected = false
 	summoning_mode = false
 	raising_mode = false
 	attack_mode = false
@@ -552,6 +560,8 @@ func _refresh() -> void:
 		_instructions.text += " · 7: опутывающий удар"
 		if (session as BattleCoreCombinationSession).entangle_selected:
 			_instructions.text = "Опутывающий удар: выберите цель · 1 основное · Путы после физического HP-урона · A: обычная атака"
+	if session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).stun_selected:
+		_instructions.text = "Оглушающий удар: выберите цель · 1 основное · Оглушение после физического HP-урона · A: обычная атака"
 	var locked := _battle != null and not _battle.can_player_act()
 	_move_button.disabled = locked
 	if session.selected_unit() != null and ControlRules.action_reason(session.selected_unit(), true) != &"": _move_button.disabled = true
@@ -587,6 +597,12 @@ func _refresh() -> void:
 			var cover_reason := _cover_choice_reason(reaction_session, eligible_cover_targets)
 			descriptors.append({"action_id": &"opportunity_guard", "label": "Оппортунист", "cost": "1 основное", "disabled": locked or opportunity_reason != &"", "tooltip": "До следующего пополнения своей команды остановить первого врага, покидающего вашу угрозу. Перемещение полностью прекращается; расходуется один общий заряд реакции.\n" + (_reason_text(opportunity_reason) if opportunity_reason != &"" else "Наведение показывает прогноз. Клик ставит режим за 1 основное действие.")})
 			descriptors.append({"action_id": &"cover_guard", "label": "Прикрытие", "cost": "1 основное", "disabled": locked or cover_reason != &"", "tooltip": "Выберите соседнего союзника с допустимой геометрией. Один прямой удар снижается на 30% по всем компонентам до брони. Нужны стойка и общий заряд; заряд тратится при срабатывании.\n" + (_reason_text(cover_reason) if cover_reason != &"" else "Клик — выбор союзника.")})
+		if session is BattleCoreReactionsSession and session.selected_unit() != null and ControlRules.has_stunning_strike(session.selected_unit()):
+			var stun_actor := session.selected_unit()
+			var stun_reason := ControlRules.action_reason(stun_actor)
+			if locked: stun_reason = &"battle/input_locked"
+			elif not stun_actor.can_attack(): stun_reason = &"attack/insufficient_main"
+			descriptors.append({"action_id": &"stunning_strike", "label": "Оглушающий удар", "cost": "Перк · 1 основное", "disabled": stun_reason != &"", "tooltip": "Обычные урон, крит и толчок; оглушение накладывается после положительного физического урона HP. Без кровотечения. Иммунитет цели пропускает только оглушение.\n" + (_reason_text(stun_reason) if stun_reason != &"" else "Клик — выбрать цель; плата происходит после проверки владения и допуска.")})
 		_action_bar.set_dynamic_descriptors(descriptors, reset_dynamic_page)
 		_descriptors_session = session
 		_descriptors_actor = session.selected_id
@@ -644,6 +660,13 @@ func _refresh() -> void:
 		var perk_status := _perk_status_text(unit)
 		var text := "%s%s%s  ·  %s" % [unit.debug_name, stance + waiting, perk_status, "HP %.1f / %.1f" % [unit.vitals.get_hp(), unit.get_stat(StatTypes.StatType.HP_MAX)] if alive else "погиб"]
 		var button := _button(text)
+		if session is BattleCoreReactionsSession:
+			# Сочетания перков/контроля не должны расширять окно за пределы viewport.
+			button.clip_text = true
+			button.custom_minimum_size.x = 480
+			button.tooltip_text = text
+			# HP идёт перед длинными перками, чтобы оставаться видимым при обрезке.
+			button.text = "%s · %s%s%s" % [unit.debug_name, "HP %.1f / %.1f" % [unit.vitals.get_hp(), unit.get_stat(StatTypes.StatType.HP_MAX)] if alive else "погиб", stance + waiting, perk_status]
 		button.custom_minimum_size.y = 30
 		button.toggle_mode = true
 		button.set_pressed_no_signal(unit.id == session.selected_id and alive)
@@ -693,6 +716,9 @@ func _perk_status_text(unit: UnitState) -> String:
 	if not session is BattleCoreReactionsSession or unit.combat_perks == null: return ""
 	var parts: PackedStringArray = []
 	if unit.combat_perks.definition.sneak_attack: parts.append("Скрытая атака")
+	if unit.combat_perks.definition.stunning_strike: parts.append("Оглушающий удар")
+	if unit.combat_perks.definition.stun_immune: parts.append("иммунитет к оглушению")
+	if unit.combat_perks.definition.entangle_immune: parts.append("иммунитет к путам")
 	if unit.combat_perks.definition.tank_reactions:
 		var mode_text := "без режима"
 		if unit.combat_perks.mode == CombatPerksState.Mode.OPPORTUNIST: mode_text = "Оппортунист"
@@ -706,6 +732,9 @@ func _inspection_text(unit: UnitState) -> String:
 	var control_text := ""
 	if session is BattleCoreReactionsSession and unit.combat_perks != null:
 		if unit.combat_perks.definition.sneak_attack: control_text += "Перк «Скрытая атака»: +50% физической базы, если цели угрожают минимум двое. Оружие ближнего боя любое.\n"
+		if unit.combat_perks.definition.stunning_strike: control_text += "Перк «Оглушающий удар»: накладывает оглушение после положительного физического урона HP. Без кровотечения.\n"
+		if unit.combat_perks.definition.stun_immune: control_text += "Иммунитет к оглушению: полученный удар и толчок сохраняются.\n"
+		if unit.combat_perks.definition.entangle_immune: control_text += "Иммунитет к путам: полученный удар и толчок сохраняются.\n"
 		if unit.combat_perks.definition.tank_reactions:
 			var mode_text := "нет"
 			if unit.combat_perks.mode == CombatPerksState.Mode.OPPORTUNIST: mode_text = "Оппортунист"
@@ -886,6 +915,7 @@ func _hover(cell: Vector2i) -> void:
 	_render_forecast_panel()
 
 func _attack_variant() -> StringName:
+	if session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).stun_selected: return &"stun"
 	if session is BattleCoreCombinationSession and (session as BattleCoreCombinationSession).entangle_selected: return &"entangle"
 	if session is BattleBleedingSession and (session as BattleBleedingSession).rune_selected: return &"rune"
 	return &"ordinary"
@@ -1058,11 +1088,14 @@ func _render_forecast_panel() -> void:
 	var units: Dictionary = _forecast.units
 	var target_after: Dictionary = units.get(_forecast_target_id, {}).get("after", {})
 	for step: Dictionary in _forecast.steps:
+		if step["kind"] == &"stun_apply":
+			if step["status"] == &"APPLIED": text += "Оглушение: до конца ближайшего хода команды цели.\n"
+			elif step["status"] == &"SKIPPED": text += "Оглушение пропущено: " + _control_skip_text(step["reason"]) + ".\n"
+			continue
 		if step["kind"] != &"entangle_apply": continue
 		if step["status"] == &"APPLIED":
 			text += "Путы: до конца ближайшего хода команды цели. Движение запрещено; следующий толчок снимает путы.\n"
-		elif step["status"] == &"SKIPPED":
-			text += "Путы не наложены: " + ("цель погибла" if step["reason"] == &"control/dead_target" else "нет физического HP-урона") + ".\n"
+		elif step["status"] == &"SKIPPED": text += "Путы не наложены: " + _control_skip_text(step["reason"]) + ".\n"
 	if target_after.has("bleeding"):
 		text += "Кровотечение: %d тика после атаки\n" % target_after["bleeding"]["ticks_left"]
 		for step: Dictionary in _forecast.steps:
@@ -1087,6 +1120,7 @@ func _render_forecast_panel() -> void:
 			text += "%s: кровотечение %d → %d тика\n" % [_name_for(id), before["bleeding"]["ticks_left"], after["bleeding"]["ticks_left"]]
 		if before.has("control") and before["control"] != after["control"]:
 			if before["control"]["entangled_turns"] > after["control"]["entangled_turns"]: text += "%s: путы будут сняты.\n" % _name_for(id)
+			if after["control"]["stunned_turns"] > before["control"]["stunned_turns"]: text += "%s: оглушение будет наложено.\n" % _name_for(id)
 		if before["main"] != after["main"]:
 			text += "%s: основные действия %d → %d\n" % [_name_for(id), before["main"], after["main"]]
 	var events: Array[Dictionary] = _forecast.events
@@ -1134,6 +1168,13 @@ func _sync_sneak_threat_highlight() -> void:
 		var modifiers: Dictionary = event.get("modifiers", {})
 		for raw_id: Variant in modifiers.get("threat_ids", []):
 			if typeof(raw_id) == TYPE_INT and not board_view.sneak_threat_ids.has(raw_id): board_view.sneak_threat_ids.append(raw_id)
+
+func _control_skip_text(reason: StringName) -> String:
+	match reason:
+		&"control/dead_target": return "цель погибла"
+		&"control/stun_immune": return "иммунитет к оглушению"
+		&"control/entangle_immune": return "иммунитет к путам"
+		_: return "нет положительного физического урона HP"
 
 func _render_move_forecast_panel() -> void:
 	_forecast_panel.visible = true
@@ -1382,6 +1423,9 @@ func _show_receipt(receipt: ActionReceipt, target_attempt: bool = false) -> void
 		_clear_action_mode()
 	_clear_forecast()
 	for event in receipt.get_events(): _note(_event_text(event))
+	for step: Dictionary in receipt.get_steps():
+		if step["status"] == &"SKIPPED" and step["kind"] in [&"stun_apply", &"entangle_apply"]:
+			_note(("Оглушение" if step["kind"] == &"stun_apply" else "Путы") + ": наложение пропущено — " + _control_skip_text(step["reason"]) + ".")
 	_refresh()
 	# Смерть уже исполнена ядром; временная фигура лишь показывает падение в провал.
 	for event in receipt.get_events():
@@ -1432,6 +1476,8 @@ func _event_text(event: Dictionary) -> String:
 		&"control_changed":
 			if event["reason"] == &"entangled": return "%s: наложены путы до конца ближайшего хода команды цели." % target
 			if event["reason"] == &"refreshed": return "%s: путы сохранены; срок не накапливается." % target
+			if event["reason"] == &"stunned": return "%s: оглушён до конца ближайшего хода команды цели." % target
+			if event["reason"] == &"stun_refreshed": return "%s: оглушение сохранено; срок не накапливается." % target
 			return "%s: путы сняты толчком." % target if event["reason"] == &"push" else "%s: срок состояния контроля истёк." % target
 		&"guarded":
 			if event.has("reaction_mode") and int(event["reaction_mode"]) in [CombatPerksState.Mode.OPPORTUNIST, CombatPerksState.Mode.COVER]:
@@ -1483,6 +1529,9 @@ func _cell_name(cell: Vector2i) -> String:
 
 func _reason_text(reason: StringName) -> String:
 	match reason:
+		&"perks/stunning_strike_required": return "этот персонаж не владеет Оглушающим ударом."
+		&"control/stun_immune": return "цель невосприимчива к оглушению; урон и толчок сохраняются."
+		&"control/entangle_immune": return "цель невосприимчива к путам; урон и толчок сохраняются."
 		&"control/stunned": return "персонаж оглушён и не может выполнять добровольные действия."
 		&"control/entangled": return "персонаж опутан и не может двигаться; остальные действия доступны."
 		&"control/capability_required": return "эта цель не поддерживает состояния контроля."

@@ -35,7 +35,7 @@ func run() -> void:
 	check(session != null and demo.core_reactions_mode, "new scene selects core reaction session")
 	check(session.units[0].combat_perks.definition.tank_reactions and session.units[1].combat_perks.definition.tank_reactions, "only Astra and Strazh own tank perk")
 	check(session.units[2].combat_perks.definition.sneak_attack and session.units[5].combat_perks.definition.sneak_attack, "Bor and Dozorny own sneak perk")
-	check(session.units[3].combat_perks == null and session.units[4].combat_perks == null, "other units have no perk runtime")
+	check(session.units[3].combat_perks.definition.stun_immune and session.units[4].combat_perks.definition.entangle_immune and not session.units[3].combat_perks.definition.tank_reactions and not session.units[4].combat_perks.definition.sneak_attack, "control immunity perks do not grant tank or sneak abilities")
 	check(demo._inspection_text(session.units[0]).contains("реакции") and demo._inspection_text(session.units[2]).contains("Скрытая атака"), "inspection describes perks and charge")
 	check(demo._inspection_text(session.units[0]).contains("Печать: помощник") and not demo._inspection_text(session.units[0]).contains("призыв недоступен"), "inspection describes available summon seal in combined battle")
 	check(_dynamic_descriptors_prefix_intact(), "the eight original actions stay ahead of the perk page")
@@ -81,6 +81,8 @@ func run() -> void:
 	await key(KEY_ESCAPE)
 	check(not demo._cover_guard_mode, "escape cancels cover targeting")
 	demo.reset_demo()
+	# После reset первая страница меняет ширины кнопок; ввод идёт по завершённой раскладке.
+	await process_frame; await process_frame
 	session = demo.session as BattleCoreReactionsSession
 	action_bar = demo.get("_action_bar")
 	await click(action_bar._down_button.global_position + action_bar._down_button.size * 0.5)
@@ -177,7 +179,7 @@ func _attacked_event(events: Array[Dictionary]) -> Dictionary:
 func _dynamic_descriptors_prefix_intact() -> bool:
 	var ids: Array[StringName] = []
 	for descriptor: Dictionary in demo._action_bar._dynamic_descriptors: ids.append(descriptor.get("action_id", &""))
-	return ids.size() == 8 and ids.slice(0, 6) == [&"healing_item", &"restore_armor", &"blood_rune", &"raise_corpse", &"entangling_strike", &"summoning_item"]
+	return ids.size() == 9 and ids.slice(0, 6) == [&"healing_item", &"restore_armor", &"blood_rune", &"raise_corpse", &"entangling_strike", &"summoning_item"]
 
 func _journal_text() -> String:
 	return "\n".join(demo._journal)

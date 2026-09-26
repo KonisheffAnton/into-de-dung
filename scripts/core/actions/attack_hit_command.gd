@@ -16,6 +16,12 @@ var _definition_id: StringName = &""
 var _bleeding_seal: Array = [&"", &""]
 var _entangle_on_physical_hp: bool = false
 var _entangle_seal: bool = false
+var _stun_on_physical_hp: bool = false
+var _stun_seal: bool = false
+
+func bind_stun(enabled: bool) -> void:
+	_stun_on_physical_hp = enabled
+	_stun_seal = enabled
 
 func bind_entangle(enabled: bool) -> void:
 	_entangle_on_physical_hp = enabled
@@ -51,6 +57,8 @@ func copy_for_queue() -> Command:
 	copy._bleeding_seal = _bleeding_seal.duplicate()
 	copy._entangle_on_physical_hp = _entangle_on_physical_hp
 	copy._entangle_seal = _entangle_seal
+	copy._stun_on_physical_hp = _stun_on_physical_hp
+	copy._stun_seal = _stun_seal
 	return copy
 
 func validate(context: ActionContext) -> StringName:
@@ -68,7 +76,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 		var next: BalancePushRules.Binding = hp["binding"]
 		if spatial_result.status == &"APPLIED" and next.values["expected_alive"] and float(next.values["impact"]) > 0.0 and float(next.values["balance_max"]) > 0.0:
 			spatial_result.mandatory.append(BalanceCommand.new(next))
-		if spatial_result.status == &"APPLIED" and (_bleeding_policy != &"" or _entangle_on_physical_hp):
+		if spatial_result.status == &"APPLIED" and (_bleeding_policy != &"" or _entangle_on_physical_hp or _stun_on_physical_hp):
 			for event: Dictionary in spatial_result.events:
 				if event["kind"] != &"hit_resolved": continue
 				var physical_hp: int = 0
@@ -81,6 +89,8 @@ func execute(context: ActionContext) -> CommandStepResult:
 					spatial_result.mandatory.append(BleedingApplyCommand.new(_actor, _target, request.source, event["hit_id"], _definition_id, _bleeding_policy, eligible))
 				if _entangle_on_physical_hp:
 					spatial_result.mandatory.append(EntangleApplyCommand.new(_actor, _target, request.source, event["hit_id"], _definition_id, physical_hp > 0))
+				if _stun_on_physical_hp:
+					spatial_result.mandatory.append(StunApplyCommand.new(_actor, _target, request.source, event["hit_id"], _definition_id, physical_hp > 0))
 		return spatial_result
 	var result := super.execute(context)
 	# Для legacy HP pipeline также сохраняем отказ с реальным префиксом урона.
@@ -97,6 +107,10 @@ func _binding_reason(context: ActionContext) -> StringName:
 	if not _same_request(request, _seal): return &"attack/invalid_hit"
 	if [_bleeding_policy, _definition_id] != _bleeding_seal: return &"bleeding/invalid_source"
 	if _entangle_on_physical_hp != _entangle_seal: return &"control/invalid_source"
+	if _stun_on_physical_hp != _stun_seal: return &"control/invalid_source"
+	if _stun_on_physical_hp:
+		var definition := context.get_attack_rules().get_definition(_definition_id)
+		if definition == null or not definition.stun_on_physical_hp or request.armor_mode != &"armor" or not ControlRules.has_stunning_strike(_actor): return &"control/invalid_source"
 	if _entangle_on_physical_hp:
 		var definition := context.get_attack_rules().get_definition(_definition_id)
 		if definition == null or not definition.entangle_on_physical_hp or request.armor_mode != &"armor": return &"control/invalid_source"

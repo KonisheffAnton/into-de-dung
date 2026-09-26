@@ -58,10 +58,14 @@ func _attack() -> BattleAIIntent:
 	for target in board.get_alive_units():
 		if target == null or not _actor.is_hostile_to(target):
 			continue
-		var command := AttackCommand.new(_actor.id, target.id, _actor.cell, target.cell, &"demo_strike", context.get_revision())
+		var definition_id: StringName = &"demo_strike"
+		# BT выбирает способность владельца; gate и последствия остаются у команды.
+		if ControlRules.has_stunning_strike(_actor) and target.control != null and target.control.stunned_turns == 0 and not ControlRules.immune_to(target, &"stun") and context.get_attack_rules().get_definition(&"stunning_strike") != null:
+			definition_id = &"stunning_strike"
+		var command := AttackCommand.new(_actor.id, target.id, _actor.cell, target.cell, definition_id, context.get_revision())
 		if command.validate(context) != &"":
 			continue
-		valid.append({"target": target, "push": _push_toward_void(target), "hp": target.vitals.get_hp()})
+		valid.append({"target": target, "push": _push_toward_void(target), "hp": target.vitals.get_hp(), "definition_id": definition_id})
 	if valid.is_empty():
 		return null
 	valid.sort_custom(_attack_less)
@@ -70,6 +74,7 @@ func _attack() -> BattleAIIntent:
 	result.kind = BattleAIIntent.Kind.ATTACK
 	result.actor_id = _actor.id
 	result.target_id = chosen.id
+	result.attack_definition_id = valid[0]["definition_id"]
 	return result
 
 

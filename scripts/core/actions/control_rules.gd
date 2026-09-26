@@ -1,6 +1,13 @@
 extends RefCounted
 class_name ControlRules
 
+static func has_stunning_strike(unit: UnitState) -> bool:
+	return unit != null and unit.combat_perks != null and not unit.combat_perks.to_dict().is_empty() and unit.combat_perks.definition.stunning_strike
+
+static func immune_to(unit: UnitState, effect: StringName) -> bool:
+	if unit == null or unit.combat_perks == null or unit.combat_perks.to_dict().is_empty(): return false
+	return unit.combat_perks.definition.stun_immune if effect == &"stun" else unit.combat_perks.definition.entangle_immune if effect == &"entangle" else false
+
 static func action_reason(unit: UnitState, moving: bool = false) -> StringName:
 	if unit != null and unit.combat_perks != null:
 		if unit.combat_perks.to_dict().is_empty(): return &"perks/invalid_runtime"

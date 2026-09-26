@@ -252,7 +252,7 @@ func step_enemy() -> ActionReceipt:
 		if target == null or not target.is_alive() or not actor.is_hostile_to(target):
 			_next_enemy()
 			return null
-		command = AttackCommand.new(actor.id, target.id, actor.cell, target.cell, &"demo_strike", context.get_revision())
+		command = AttackCommand.new(actor.id, target.id, actor.cell, target.cell, intent.attack_definition_id, context.get_revision())
 	var receipt := _submit(command)
 	if receipt.status != ActionReceipt.APPLIED or intent.kind in [BattleAIIntent.Kind.ATTACK, BattleAIIntent.Kind.SUMMON, BattleAIIntent.Kind.GUARD]: _next_enemy()
 	return receipt

@@ -82,10 +82,11 @@ Base main `27657736e6243013526b900f9ac17ec7a71442f8`. Один общий бой
 
 ## Владельцы и изоляция
 
-`CombatPerksDefinition : Resource` задаёт два конечных перка. `CombatPerksState :
+`CombatPerksDefinition : Resource` задаёт перки; исходные два расширены
+флагами контроля в [K11](CONTROL_PACKAGE_K11.md). `CombatPerksState :
 RefCounted` хранит их независимую копию, режим, ID союзника, заряд 0..1 и временный
 запрет движения. Nullable `UnitState.combat_perks` не равен владению способностью:
-бойцу без перка можно записать только остановку. Общего runtime всех статусов нет.
+бойцу без перка K10 можно записать остановку; перки контроля описаны в K11. Общего runtime всех статусов нет.
 Unit snapshot 7 добавляет combat_perks и требует action_resources; nullable
 armor/bleeding/control сохраняются. Без capability writer оставляет схемы 1..6.
 Strict capture/restore, запрет downgrade/subclass и отсутствие refill обязательны.

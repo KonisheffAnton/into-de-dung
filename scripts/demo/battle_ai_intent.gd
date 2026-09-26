@@ -15,6 +15,7 @@ enum Kind {
 var kind: Kind = Kind.WAIT
 var actor_id: int = UnitId.NONE
 var target_id: int = UnitId.NONE
+var attack_definition_id: StringName = &"demo_strike"
 var item_id: int = 0
 var cell: Vector2i = Vector2i.ZERO
 var path: Array[Vector2i] = []

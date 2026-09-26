@@ -33,13 +33,16 @@
   `control/capability_required` до оплаты. Новые иммунитеты контроля и создание
   capability у nullable-помощников в этот срез не входят. Иммунитет D3 относится
   только к кровотечению и сам по себе не запрещает путы.
+  Последующее расширение [K11](CONTROL_PACKAGE_K11.md) добавляет отдельный
+  иммунитет к новому наложению пут; существующие путы сохраняются.
 
 ## Границы реализации
 
 `AttackDefinition.entangle_on_physical_hp` по умолчанию выключен и разрешён
 только для `ARMOR_PROFILE`; `AttackRules` проверяет и копирует его вместе с
 определением. `AttackCommand` проверяет capability до оплаты, затем передаёт
-sealed признак `AttackHitCommand`. Внутренний `EntangleApplyCommand` хранит
+sealed признак `AttackHitCommand`. Внутренний `EntangleApplyCommand` (общий исполнитель с K11 —
+`ControlApplyCommand`) хранит
 связь с actor/target/source/hit/definition и ссылку на ControlState, допускает
 известные изменения её значений предшествующим push, но не подмену объекта.
 Прямой submit команды наложения запрещён. Мутация проходит `control_phase`

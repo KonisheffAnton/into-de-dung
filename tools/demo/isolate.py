@@ -109,6 +109,9 @@ def main():
         if label in ("attack_forecast_worker", "attack_async_ui", "spatial_guard_stats"):
             marker = {"attack_forecast_worker": "ATTACK FORECAST WORKER RESULTS:", "attack_async_ui": "ATTACK ASYNC UI RESULTS:", "spatial_guard_stats": "SPATIAL GUARD STATS RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label in ("control_perks_codec", "control_package", "control_package_ui"):
+            marker = {"control_perks_codec": "CONTROL PERKS CODEC RESULTS:", "control_package": "CONTROL PACKAGE RESULTS:", "control_package_ui": "CONTROL PACKAGE UI RESULTS:"}[label]
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("entangle_attack", "entangle_ui"):
             marker = "ENTANGLE ATTACK RESULTS:" if label == "entangle_attack" else "ENTANGLE UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -170,6 +173,8 @@ def main():
         run("forecast", ["--script", "tests/test_attack_forecast.gd"])
         run("attack_forecast_worker", ["--script", "tests/test_attack_forecast_worker.gd"])
         run("spatial_guard_stats", ["--script", "tests/test_spatial_guard_stats.gd"])
+        run("control_perks_codec", ["--script", "tests/test_control_perks_codec.gd"])
+        run("control_package", ["--script", "tests/test_control_package.gd"])
         run("guard", ["--script", "tests/test_guard_stance.gd"])
         run("summon_snapshot", ["--script", "tests/test_summon_snapshot.gd"])
         run("summon", ["--script", "tests/test_summoning_item.gd"])
@@ -236,6 +241,10 @@ def main():
         if args.render_check:
             reactions_args += ["--", "--captures=" + str(captures)]
         run("core_reactions_ui", reactions_args, headless=not args.render_check)
+        control_package_args = ["--script", "tests/test_control_package_ui.gd"]
+        if args.render_check:
+            control_package_args += ["--", "--captures=" + str(captures)]
+        run("control_package_ui", control_package_args, headless=not args.render_check)
         attack_async_args = ["--script", "tests/test_attack_forecast_async_ui.gd"]
         if args.render_check:
             attack_async_args += ["--", "--captures=" + str(out)]

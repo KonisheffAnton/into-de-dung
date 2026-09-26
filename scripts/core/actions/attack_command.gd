@@ -77,6 +77,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var hit := AttackHitCommand.new(prepared["request"] as DamageRequest, actor, target, resources, actor.cell, target.cell, main_after, binding)
 	hit.bind_bleeding(prepared.get("bleeding_policy", &""), _attack_definition_id)
 	hit.bind_entangle(prepared.get("entangle_on_physical_hp", false))
+	hit.bind_stun(prepared.get("stun_on_physical_hp", false))
 	if main_cost > 0 and not resources.try_spend_main(main_cost):
 		return CommandStepResult.faulted(&"attack/invalid_runtime")
 	if _reaction:
@@ -150,7 +151,9 @@ func _prepare(context: ActionContext) -> Dictionary:
 		result["reason"] = &"control/spatial_required"; return result
 	if target.control != null and (target.control.get_script() != ControlState or not ControlState.valid(target.control.to_dict())):
 		result["reason"] = &"control/invalid_state"; return result
-	if definition.entangle_on_physical_hp and target.control == null:
+	if definition.stun_on_physical_hp and not ControlRules.has_stunning_strike(actor):
+		result["reason"] = &"perks/stunning_strike_required"; return result
+	if (definition.entangle_on_physical_hp or definition.stun_on_physical_hp) and target.control == null:
 		result["reason"] = &"control/capability_required"; return result
 	if armor_profile and (actor.armor == null or target.armor == null):
 		result["reason"] = &"armor/capability_required"; return result
@@ -232,7 +235,7 @@ func _prepare(context: ActionContext) -> Dictionary:
 		var touches: int = int(binding.values.get("admission_board_touches", 0)) + (1 if plan["hp_after"] == 0 else 0)
 		if board.board_version < 0 or board.board_version > MAX_ID - touches:
 			result["reason"] = &"push/board_version_exhausted"; return result
-		result.merge({"actor": actor, "target": target, "resources": resources, "request": request, "p07_binding": binding, "bleeding_policy": definition.bleeding_policy, "entangle_on_physical_hp": definition.entangle_on_physical_hp, "cover": cover})
+		result.merge({"actor": actor, "target": target, "resources": resources, "request": request, "p07_binding": binding, "bleeding_policy": definition.bleeding_policy, "entangle_on_physical_hp": definition.entangle_on_physical_hp, "stun_on_physical_hp": definition.stun_on_physical_hp, "cover": cover})
 		return result
 	var calculation := AttackDamageCalculation.calculate(strength, weapon, armor, spatial, signed_height_steps, target.guard_stance, backstab_percent, critical_multiplier)
 	if calculation.reason != &"":
