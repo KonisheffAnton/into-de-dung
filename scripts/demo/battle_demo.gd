@@ -1331,6 +1331,14 @@ func _render_forecast_panel() -> void:
 	if status != &"APPLIED":
 		_forecast_panel.text = text + "[color=#f29b9b]Прогноз недоступен[/color]\n" + _reason_text(reason)
 		return
+	# Краткий итог цепи виден до подробных строк брони и HP.
+	var chain_links: PackedStringArray = []
+	for event: Dictionary in _forecast.events:
+		if event.get("kind") == &"chain_link":
+			chain_links.append("%s: %s%s" % [_name_for(int(event.target_unit_id)), str(event.impulse), "" if event.broke else " (удержал)"])
+	if not chain_links.is_empty():
+		text += "[color=#f7c97d]Цепь · сила: %s[/color]\n" % " → ".join(chain_links)
+		text += "Пунктир — импульс; стрелка — сдвиг.\n"
 	var units: Dictionary = _forecast.units
 	var target_after: Dictionary = units.get(_forecast_target_id, {}).get("after", {})
 	for step: Dictionary in _forecast.steps:
@@ -1781,6 +1789,7 @@ func _event_text(event: Dictionary) -> String:
 			if event.get("movement_kind", &"") == &"safe_retreat": return "%s отходит: %s → %s · %d основное, %.1f движения." % [actor, _cell_name(event["from_cell"]), _cell_name(event["to_cell"]), int(event.get("main_cost", 0)), float(event["move_cost"])]
 			return "%s %s %s → %s." % [target if pushed else actor, "отброшен:" if pushed else "идёт:", _cell_name(event["from_cell"]), _cell_name(event["to_cell"])]
 		&"push_blocked": return "%s врезается в препятствие." % target
+		&"chain_link": return "Цепь: %s → %s, сила %s — %s." % [_name_for(int(event.get("from_unit_id", 0))), target, str(event.get("impulse", 0.0)), "равновесие потеряно" if event.get("broke", false) else "цепь остановлена"]
 		&"collision": return "%s сталкивается с %s." % [target, _name_for(int(event.get("blocker_unit_id", 0)))]
 		&"fell": return "%s падает с уступа." % target
 		&"died": return "%s погиб. Клетка свободна." % target

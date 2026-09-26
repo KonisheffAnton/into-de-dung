@@ -246,7 +246,7 @@ func _prepare(context: ActionContext) -> Dictionary:
 		var plan := ArmorHitExecutor.prepare(request, ArmorRuntime.capture(state.get_owner(target.id)), target.vitals.get_hp(), target_copy.get_value(StatTypes.StatType.HP_MAX), context.get_rng())
 		if plan.get("reason", &"") != &"": result["reason"] = plan["reason"]; return result
 		request.amount = float(plan["hp_before"] - plan["hp_after"])
-		var binding_result := BalancePushRules.prepare_attack(context, actor, target, strength + weapon, request.amount, resources.get_main_left() - (0 if _reaction else 1), true, request, critical_multiplier, _reaction, cover)
+		var binding_result := BalancePushRules.prepare_attack(context, actor, target, strength + weapon, request.amount, resources.get_main_left() - (0 if _reaction else 1), true, request, critical_multiplier, _reaction, cover, definition.chain_push)
 		if binding_result.get("reason", &"") != &"": return binding_result
 		var binding: BalancePushRules.Binding = binding_result["binding"]
 		var touches: int = int(binding.values.get("admission_board_touches", 0)) + (1 if plan["hp_after"] == 0 else 0)

@@ -57,10 +57,10 @@ class Binding extends RefCounted:
 static func _empty() -> Dictionary:
 	return {"reason": &"", "binding": null}
 
-static func prepare_attack(context: ActionContext, actor: UnitState, target: UnitState, raw_attack: float, hit_amount: float, main_after: int, spatial: bool = false, armor_request: DamageRequest = null, impact_multiplier: int = 1, reaction: bool = false, cover: UnitState = null) -> Dictionary:
+static func prepare_attack(context: ActionContext, actor: UnitState, target: UnitState, raw_attack: float, hit_amount: float, main_after: int, spatial: bool = false, armor_request: DamageRequest = null, impact_multiplier: int = 1, reaction: bool = false, cover: UnitState = null, chain_push: bool = false) -> Dictionary:
 	if impact_multiplier not in [1, 2]: return {"reason": &"balance/invalid_multiplier", "binding": null}
 	if reaction and (not spatial or armor_request == null): return {"reason": &"reaction/armor_required", "binding": null}
-	if spatial: return _prepare_spatial_attack(context, actor, target, raw_attack, hit_amount, main_after, armor_request, impact_multiplier, reaction, cover)
+	if spatial: return _prepare_spatial_attack(context, actor, target, raw_attack, hit_amount, main_after, armor_request, impact_multiplier, reaction, cover, chain_push)
 	var out := _empty()
 	if context == null or context.get_state() == null or context.get_state().get_board() == null or actor == null or target == null or actor.get_script() != UnitState or target.get_script() != UnitState:
 		out["reason"] = &"balance/invalid_binding"; return out
@@ -347,7 +347,7 @@ static func spatial_hp(binding: Binding, request: DamageRequest, context: Action
 		return {"result": result, "binding": binding}
 	return {"result": result, "binding": spatial_phase(binding, done, binding.values["phase"])}
 
-static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, target: UnitState, raw_attack: float, hit_amount: float, main_after: int, armor_request: DamageRequest = null, impact_multiplier: int = 1, reaction: bool = false, cover: UnitState = null) -> Dictionary:
+static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, target: UnitState, raw_attack: float, hit_amount: float, main_after: int, armor_request: DamageRequest = null, impact_multiplier: int = 1, reaction: bool = false, cover: UnitState = null, chain_push: bool = false) -> Dictionary:
 	var out := _empty()
 	if context == null or context.get_state() == null or context.get_state().get_board() == null or actor == null or target == null or actor.vitals == null or target.vitals == null or actor.stats == null or target.stats == null:
 		out["reason"] = &"balance/invalid_binding"; return out
@@ -397,6 +397,18 @@ static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, ta
 			types[blocker.id] = [StatTypes.StatType.ARMOR]
 		if resolved.outcome in [PushResult.Outcome.COLLISION, PushResult.Outcome.MOVED] and board.is_in_bounds(destination) and not board.is_lethal(destination) and board.get_height_steps(target.cell) - board.get_height_steps(destination) >= 2:
 			types[target.id].append(StatTypes.StatType.HP_MAX)
+	var chain: Dictionary = {}
+	if chain_push and armor_request != null and blocker != null:
+		var gathered := PushChainRules.gather(board, actor, target, impact)
+		if gathered.reason != &"": out["reason"] = gathered.reason; return out
+		chain = gathered.plan
+		for participant: UnitState in gathered.units:
+			if not units.has(participant): units.append(participant)
+			if not types.has(participant.id): types[participant.id] = []
+			for type: int in [StatTypes.StatType.ARMOR, StatTypes.StatType.BALANCE_MAX, StatTypes.StatType.HP_MAX]:
+				if not types[participant.id].has(type): types[participant.id].append(type)
+		for captured: Vector2i in gathered.cells:
+			if not cells.has(captured): cells.append(captured)
 	if armor_request != null:
 		types[actor.id].append(StatTypes.StatType.PHYSICAL_PIERCING_PERCENT)
 		for participant: UnitState in units:
@@ -412,6 +424,7 @@ static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, ta
 	binding.attack_source = DamageSource.new(&"attack", 0, actor.cell, actor.id, actor.id)
 	binding.spatial_guard = guard.debit(actor.id, 0 if reaction else 1, 0.0).stance(actor.id, actor.guard_stance if reaction else false)
 	binding.values = {"spatial": true, "phase": &"balance", "actor_id": actor.id, "target_id": target.id, "blocker_id": blocker.id if blocker != null else 0, "raw_attack": raw_attack, "hit_amount": hit_amount, "impact": impact, "multiplier": multiplier, "balance_before": before, "balance_after": 0.0 if broke else total, "balance_max": maximum, "broke": broke, "main_after": main_after, "direction": direction, "attack_source": binding.attack_source.to_dict(), "expected_hp_before": target.vitals.get_hp()}
+	if not chain.is_empty(): binding.values["chain"] = chain
 	binding.values["actor_guard_before"] = actor.guard_stance
 	if reaction: binding.values["reaction"] = true
 	if armor_request != null:
@@ -426,7 +439,7 @@ static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, ta
 	binding = spatial_phase(binding, binding.spatial_guard, &"balance")
 	if not spatial_valid(binding, context, &"balance", true): out["reason"] = &"balance/invalid_binding"; return out
 	if broke and target.vitals.get_hp() > hit_amount:
-		var pushed := _prepare_spatial_push(binding, context, true)
+		var pushed := PushChainRules.admission_touches(binding, context) if not chain.is_empty() else _prepare_spatial_push(binding, context, true)
 		if pushed.get("reason", &"") != &"": return pushed
 		binding.values["admission_board_touches"] = pushed["board_touches"]
 		binding.seal()

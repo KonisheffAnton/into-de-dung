@@ -369,6 +369,7 @@ func _draw_overlay() -> void:
 			var color := CYAN if after["alive"] else Color("f29b9b")
 			_overlay.draw_arc(endpoint, 10.0, 0, TAU, 24, color, 2.5, true)
 	if forecast != null and forecast.status == &"APPLIED":
+		var chain_preview := forecast.events.any(func(value: Dictionary) -> bool: return value.get("kind") == &"chain_link")
 		for event_variant in forecast.events:
 			var event := event_variant as Dictionary
 			var kind := StringName(event.get("kind", &""))
@@ -381,6 +382,13 @@ func _draw_overlay() -> void:
 			if _view_index(from_cell) < 0: continue
 			var start := cell_center(from_cell)
 			var finish := cell_center(to_cell) if _view_index(to_cell) >= 0 else start + IsoGridUtils.grid_to_screen(to_cell, grid_config, 0) - IsoGridUtils.grid_to_screen(from_cell, grid_config, 0)
+			# Переданный импульс не означает движения промежуточного тела.
+			if chain_preview and kind != &"moved":
+				_overlay.draw_dashed_line(start, finish, Color("f7c97d"), 2.0, 5.0, true)
+				if kind in [&"push_blocked", &"fell"]:
+					_overlay.draw_line(finish - Vector2(5, 5), finish + Vector2(5, 5), Color("f29b9b"), 2, true)
+					_overlay.draw_line(finish - Vector2(5, -5), finish + Vector2(5, -5), Color("f29b9b"), 2, true)
+				continue
 			_overlay.draw_line(start, finish, Color("f29b9b"), 3.0, true)
 			var direction := (finish - start).normalized()
 			_overlay.draw_line(finish, finish - direction.rotated(0.5) * 10.0, Color("f29b9b"), 3.0, true)

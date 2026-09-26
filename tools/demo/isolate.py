@@ -126,6 +126,9 @@ def main():
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "safe_retreat_integration":
             invalid = invalid or "SAFE RETREAT INTEGRATION RESULTS:" not in output or ", 0 failed" not in output
+        if label in ("push_chain", "push_chain_reactions", "push_chain_ui"):
+            marker = {"push_chain": "PUSH CHAIN RESULTS:", "push_chain_reactions": "PUSH CHAIN REACTIONS RESULTS:", "push_chain_ui": "PUSH CHAIN UI RESULTS:"}[label]
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "enemy_first":
             invalid = invalid or "ENEMY FIRST RESULTS:" not in output or ", 0 failed" not in output
         if label in ("collapse_state", "collapse_phase", "collapse_ui"):
@@ -209,6 +212,8 @@ def main():
         run("collapse_state", ["--script", "tests/test_collapse_state.gd"])
         run("collapse_phase", ["--script", "tests/test_collapse_phase.gd"])
         run("enemy_first", ["--script", "tests/test_enemy_first.gd"])
+        run("push_chain", ["--script", "tests/test_push_chain.gd"])
+        run("push_chain_reactions", ["--script", "tests/test_push_chain_reactions.gd"])
         run("spatial_guard_stats", ["--script", "tests/test_spatial_guard_stats.gd"])
         run("control_perks_codec", ["--script", "tests/test_control_perks_codec.gd"])
         run("control_package", ["--script", "tests/test_control_package.gd"])
@@ -306,6 +311,10 @@ def main():
         if args.render_check:
             safe_retreat_args += ["--", "--captures=" + str(out)]
         run("safe_retreat_ui", safe_retreat_args, headless=not args.render_check)
+        chain_args = ["--script", "tests/test_push_chain_ui.gd"]
+        if args.render_check:
+            chain_args += ["--", "--captures=" + str(out)]
+        run("push_chain_ui", chain_args, headless=not args.render_check)
         collapse_args = ["--script", "tests/test_collapse_ui.gd"]
         if args.render_check:
             collapse_args += ["--", "--captures=" + str(out)]

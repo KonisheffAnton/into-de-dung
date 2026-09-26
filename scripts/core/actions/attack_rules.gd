@@ -111,6 +111,7 @@ func _validate_structure() -> void:
 			return
 
 static func _valid_components(definition: AttackDefinition) -> bool:
+	if definition.chain_push and (definition.profile != ARMOR_PROFILE or definition.reaction_strike): return false
 	if (definition.sneak_attack_enabled or definition.reaction_strike) and definition.profile != ARMOR_PROFILE: return false
 	if definition.sneak_attack_enabled and definition.backstab_bonus_percent != 0: return false
 	if definition.reaction_strike and (definition.backstab_bonus_percent != 0 or definition.critical_on_control or definition.entangle_on_physical_hp or definition.stun_on_physical_hp): return false
@@ -133,6 +134,7 @@ static func _copy_definition(source: AttackDefinition) -> AttackDefinition:
 	copy.stun_on_physical_hp = source.stun_on_physical_hp
 	copy.sneak_attack_enabled = source.sneak_attack_enabled
 	copy.reaction_strike = source.reaction_strike
+	copy.chain_push = source.chain_push
 	copy.damage_components.assign(source.damage_components.duplicate(true))
 	return copy
 

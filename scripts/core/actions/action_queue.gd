@@ -77,6 +77,8 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 				reason = &"move/internal_continuation"
 			elif accepted is BalanceCommand:
 				reason = &"balance/internal_command"
+			elif accepted is PushChainCommand:
+				reason = &"chain/internal_command"
 			elif accepted is PushCommand:
 				reason = &"push/internal_command"
 			elif accepted is PushDamageCommand:
@@ -95,7 +97,7 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 	if accepted is AttackCommand:
 		var attacker := (accepted as AttackCommand).get_actor_unit_id()
 		var definition := context.get_attack_rules().get_definition((accepted as AttackCommand).get_attack_definition_id())
-		_defer_item_reactions = definition != null and (definition.bleeding_policy != &"" or definition.entangle_on_physical_hp or definition.stun_on_physical_hp)
+		_defer_item_reactions = definition != null and (definition.bleeding_policy != &"" or definition.entangle_on_physical_hp or definition.stun_on_physical_hp or definition.chain_push)
 		# Срок отмены — весь каскад атаки, включая legacy balance/push и item-heal.
 		for unit in context.get_state().get_board().get_all_units():
 			_attack_stances.append({"unit": unit, "expected": false if unit.id == attacker else unit.guard_stance})
@@ -303,6 +305,7 @@ func _bind_batch(descriptions: Array[Dictionary], event_seq: int, context: Actio
 	return result
 
 static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bool:
+	if draft.get("kind") == &"chain_link": return PushChainCommand.valid_draft(draft)
 	if draft.get("kind") in [&"environment_turn", &"support_collapsed"]: return CollapsePhaseCommand.valid_draft(draft)
 	if draft.get("kind") == &"reaction_used":
 		return ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "mode": TYPE_INT, "charge_before": TYPE_INT, "charge_after": TYPE_INT}) and draft["actor_unit_id"] > 0 and draft["actor_unit_id"] < MAX_ID and draft["target_unit_id"] > 0 and draft["target_unit_id"] < MAX_ID and draft["actor_unit_id"] != draft["target_unit_id"] and draft["mode"] in [CombatPerksState.Mode.OPPORTUNIST, CombatPerksState.Mode.COVER, CombatPerksState.Mode.COUNTERATTACK] and draft["charge_before"] == 1 and draft["charge_after"] == 0
@@ -442,6 +445,7 @@ static func _valid_safe_retreat_draft(draft: Dictionary, context: ActionContext)
 	return absi(dx) + absi(dy) == 1 and is_finite(cost) and cost >= 1.0 and is_finite(before) and before >= cost and is_finite(after) and after >= 0.0 and after < before and after == before - cost and before - after == cost and main_cost in [0, 1] and main_before >= main_cost and main_before <= 4096 and draft["main_after"] == main_before - main_cost
 
 static func _event_capacity(command: Command) -> int:
+	if command is PushChainCommand: return 9
 	if command is AttackCommand and (command as AttackCommand).is_reaction(): return 3
 	if command is PushCommand and (command as PushCommand)._binding != null and (command as PushCommand)._binding.target != null and (command as PushCommand)._binding.target.control != null: return 4
 	if command is EnvironmentCommand: return 4

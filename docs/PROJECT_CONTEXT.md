@@ -2,7 +2,7 @@
 
 Сначала [HANDOFF](CODEX_HANDOFF.md) и git status/HEAD, затем выбрать нужную строку.
 [AGENTS](../AGENTS.md) задаёт правила; уже предоставленный актуальный текст не перечитывать.
-Таблица — маршруты по задаче, не список обязательного чтения. Контракт/код/тесты
+Таблица — маршруты, не список обязательного чтения. Контракт/код/тесты
 читать адресно; историю и ссылки следующего уровня — только для конкретного вопроса.
 
 | Задача | Документ |
@@ -14,11 +14,11 @@
 | Боевой пакет / расстановка / плейтест | [CORE_BATTLE_BATCH_K9](CORE_BATTLE_BATCH_K9.md) |
 | Перки: скрытая атака, Оппортунист/Прикрытие | [CORE_REACTIONS_K10](CORE_REACTIONS_K10.md) |
 | Контратака / общий заряд | [COUNTERATTACK_K12](COUNTERATTACK_K12.md) |
-| Безопасный отход | [SAFE_RETREAT_K14](SAFE_RETREAT_K14.md) |
+| Отход / цепной толчок | [K14](SAFE_RETREAT_K14.md) / [K16](PUSH_CHAIN_K16.md) |
 | Обрушение / фаза среды | [ENVIRONMENT_COLLAPSE_K15](ENVIRONMENT_COLLAPSE_K15.md) |
 | Оглушающий удар и иммунитеты контроля | [CONTROL_PACKAGE_K11](CONTROL_PACKAGE_K11.md) |
 | Поток исполнения / владение runtime и вид UI | [BATTLE_EXECUTION_UI](BATTLE_EXECUTION_UI.md) |
-| Нынешний бой, управление | [TACTICAL_BATTLE](TACTICAL_BATTLE.md) |
+| Бой, управление | [TACTICAL_BATTLE](TACTICAL_BATTLE.md) |
 | Сравнение командных ходов и инициативы | [INITIATIVE_COMPARISON](INITIATIVE_COMPARISON.md) |
 | Проход через союзников | [ALLY_TRANSIT](ALLY_TRANSIT.md) |
 | Дизайн брони, формулы, пути урона | [ARMOR_DAMAGE_D0](ARMOR_DAMAGE_D0.md) |

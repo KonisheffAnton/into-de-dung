@@ -11,3 +11,4 @@ class_name AttackDefinition
 @export var stun_on_physical_hp: bool = false
 @export var sneak_attack_enabled: bool = false
 @export var reaction_strike: bool = false
+@export var chain_push: bool = false

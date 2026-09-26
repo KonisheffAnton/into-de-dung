@@ -59,6 +59,7 @@ func reset() -> void:
 	var definitions: Array[AttackDefinition] = []
 	for source: AttackDefinition in rules._definitions:
 		var definition := AttackRules._copy_definition(source)
+		definition.chain_push = true
 		definition.backstab_bonus_percent = 0
 		definition.sneak_attack_enabled = true
 		definitions.append(definition)
@@ -67,6 +68,7 @@ func reset() -> void:
 	reaction.id = &"opportunity_strike"
 	reaction.profile = AttackRules.ARMOR_PROFILE
 	reaction.reaction_strike = true
+	reaction.chain_push = false
 	reaction.critical_on_control = false
 	definitions.append(reaction)
 	var counter := AttackRules._copy_definition(reaction)

@@ -75,6 +75,8 @@ func execute(context: ActionContext) -> CommandStepResult:
 	return CommandStepResult.applied(events, mandatory, [], null, true)
 
 func _execute_spatial(context: ActionContext) -> CommandStepResult:
+	if _binding.values.has("chain"):
+		return CommandStepResult.applied([], [PushChainCommand.new(BalancePushRules.spatial_phase(_binding, _binding.spatial_guard, &"chain"))])
 	var prep := BalancePushRules.prepare_push(_binding, context)
 	if prep["reason"] != &"": return CommandStepResult.faulted(prep["reason"])
 	var required: int = prep["board_touches"]
