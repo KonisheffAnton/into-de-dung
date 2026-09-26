@@ -121,6 +121,11 @@ def main():
         if label in ("turn_forecast", "turn_forecast_ui"):
             marker = "TURN FORECAST RESULTS:" if label == "turn_forecast" else "TURN FORECAST UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label in ("safe_retreat", "safe_retreat_ui"):
+            marker = "SAFE RETREAT RESULTS:" if label == "safe_retreat" else "SAFE RETREAT UI RESULTS:"
+            invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label == "safe_retreat_integration":
+            invalid = invalid or "SAFE RETREAT INTEGRATION RESULTS:" not in output or ", 0 failed" not in output
         if label in ("attack_forecast_worker", "attack_async_ui", "spatial_guard_stats"):
             marker = {"attack_forecast_worker": "ATTACK FORECAST WORKER RESULTS:", "attack_async_ui": "ATTACK ASYNC UI RESULTS:", "spatial_guard_stats": "SPATIAL GUARD STATS RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -194,6 +199,8 @@ def main():
         run("attack_forecast_worker", ["--script", "tests/test_attack_forecast_worker.gd"])
         run("action_forecast_worker", ["--script", "tests/test_action_forecast_worker.gd"])
         run("turn_forecast", ["--script", "tests/test_turn_forecast.gd"])
+        run("safe_retreat", ["--script", "tests/test_safe_retreat.gd"])
+        run("safe_retreat_integration", ["--script", "tests/test_safe_retreat_integration.gd"])
         run("spatial_guard_stats", ["--script", "tests/test_spatial_guard_stats.gd"])
         run("control_perks_codec", ["--script", "tests/test_control_perks_codec.gd"])
         run("control_package", ["--script", "tests/test_control_package.gd"])
@@ -287,6 +294,10 @@ def main():
         if args.render_check:
             turn_forecast_args += ["--", "--captures=" + str(out)]
         run("turn_forecast_ui", turn_forecast_args, headless=not args.render_check)
+        safe_retreat_args = ["--script", "tests/test_safe_retreat_ui.gd"]
+        if args.render_check:
+            safe_retreat_args += ["--", "--captures=" + str(out)]
+        run("safe_retreat_ui", safe_retreat_args, headless=not args.render_check)
         entangle_args = ["--script", "tests/test_entangle_ui.gd"]
         if args.render_check:
             entangle_args += ["--", "--captures=" + str(captures)]

@@ -182,7 +182,7 @@ func _attacked_event(events: Array[Dictionary]) -> Dictionary:
 func _dynamic_descriptors_prefix_intact() -> bool:
 	var ids: Array[StringName] = []
 	for descriptor: Dictionary in demo._action_bar._dynamic_descriptors: ids.append(descriptor.get("action_id", &""))
-	return ids.size() == 10 and ids.slice(0, 6) == [&"healing_item", &"restore_armor", &"blood_rune", &"raise_corpse", &"entangling_strike", &"summoning_item"]
+	return ids.size() == 11 and ids[-1] == &"safe_retreat" and ids.slice(0, 6) == [&"healing_item", &"restore_armor", &"blood_rune", &"raise_corpse", &"entangling_strike", &"summoning_item"]
 
 func _journal_text() -> String:
 	return "\n".join(demo._journal)

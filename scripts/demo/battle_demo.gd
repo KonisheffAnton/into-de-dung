@@ -14,6 +14,7 @@ var board_view: BattleDemoBoard
 var attack_mode: bool = false
 var summoning_mode: bool = false
 var raising_mode: bool = false
+var retreat_mode: bool = false
 var inspected_id: int = UnitId.NONE
 var _roster: VBoxContainer
 var _stats: Label
@@ -45,6 +46,7 @@ var _move_forecast: MoveForecast
 var _move_forecast_cell := Vector2i(-1, -1)
 var _move_forecast_actor: int = UnitId.NONE
 var _move_forecast_revision: int = -1
+var _move_forecast_retreat: bool = false
 const MOVE_HOVER_SETTLE_MS: int = 60
 var _move_forecast_pending: bool = false
 var _move_forecast_due: int = 0
@@ -386,6 +388,7 @@ func _clear_action_mode() -> void:
 	if session is BattleCoreReactionsSession: (session as BattleCoreReactionsSession).stun_selected = false
 	summoning_mode = false
 	raising_mode = false
+	retreat_mode = false
 	attack_mode = false
 	_cover_guard_mode = false
 	_clear_forecast()
@@ -419,6 +422,7 @@ func _action_bar_requested(action_id: StringName) -> void:
 		&"healing_item": _use_healing_item()
 		&"summoning_item": _choose_summoning()
 		&"raise_corpse": _choose_raise()
+		&"safe_retreat": _choose_retreat()
 		&"restore_armor":
 			if session is BattleArmorSession:
 				_clear_action_mode()
@@ -478,6 +482,7 @@ func inspect_enemy(id: int) -> void:
 	if unit == null or not unit.is_alive() or unit.faction != Faction.Type.ENEMY: return
 	summoning_mode = false
 	raising_mode = false
+	retreat_mode = false
 	attack_mode = false
 	if session is BattleCoreReactionsSession: (session as BattleCoreReactionsSession).stun_selected = false
 	_clear_forecast()
@@ -534,7 +539,7 @@ func handle_cell(cell: Vector2i) -> void:
 		inspected_id = UnitId.NONE
 		_refresh()
 	else:
-		_execute_live(&"move_to", [cell])
+		_execute_live(&"retreat_to" if retreat_mode else &"move_to", [cell], retreat_mode)
 
 func reset_demo() -> void:
 	_join_execution()
@@ -545,6 +550,7 @@ func reset_demo() -> void:
 	_descriptors_actor = UnitId.NONE
 	summoning_mode = false
 	raising_mode = false
+	retreat_mode = false
 	attack_mode = false
 	inspected_id = UnitId.NONE
 	_journal.clear()
@@ -568,6 +574,7 @@ func toggle_scenario() -> void:
 	board_view.session = session
 	summoning_mode = false
 	raising_mode = false
+	retreat_mode = false
 	attack_mode = false
 	inspected_id = UnitId.NONE
 	_journal.clear()
@@ -577,6 +584,7 @@ func toggle_scenario() -> void:
 func _open_core_combination_scenario() -> void:
 	_join_execution()
 	_clear_forecast()
+	retreat_mode = false
 	_cover_guard_mode = false
 	if session != null: session.close()
 	core_combination_mode = true
@@ -692,6 +700,9 @@ func _refresh() -> void:
 			var counter_reason := (session as BattleCoreReactionsSession).reaction_reason(CombatPerksState.Mode.COUNTERATTACK)
 			if locked: counter_reason = &"battle/input_locked"
 			descriptors.append({"action_id": &"counterattack_guard", "label": "Контратака", "cost": "Перк · 1 основное", "disabled": counter_reason != &"", "tooltip": "Охранная стойка сохраняется. После прямого ближнего удара по вам последует один ответный удар без крита и толчка; расходуется общий заряд реакции.\n" + (_reason_text(counter_reason) if counter_reason != &"" else "Наведение показывает полный прогноз стойки. Клик включает режим за 1 основное действие.")})
+		if session is BattleCoreReactionsSession:
+			var retreat_reason := (session as BattleCoreReactionsSession).retreat_reason()
+			descriptors.append({"action_id": &"safe_retreat", "label": "Безопасный отход", "cost": "1 основное + движение", "disabled": locked or retreat_reason != &"", "tooltip": "Один маршрут без перехвата Оппортунистом. Контроль и опасности сохраняются. Основное списывается с первым сегментом, движение — за пройденный путь.\n" + (_reason_text(retreat_reason) if retreat_reason != &"" else "Выберите клетку; наведение покажет последствия.")})
 		_action_bar.set_dynamic_descriptors(descriptors, reset_dynamic_page)
 		_descriptors_session_id = session.get_instance_id()
 		_descriptors_actor = session.selected_id
@@ -717,9 +728,11 @@ func _refresh() -> void:
 	if locked:
 		summoning_mode = false
 		raising_mode = false
+		retreat_mode = false
 		_cover_guard_mode = false
 	board_view.summoning_mode = summoning_mode
 	board_view.raising_mode = raising_mode
+	board_view.retreat_mode = retreat_mode
 	board_view.environment_mode = environment_mode
 	board_view.attack_mode = attack_mode
 	board_view.inspected_id = inspected_id
@@ -785,6 +798,7 @@ func _refresh() -> void:
 		if ControlRules.action_reason(enemy, true) != &"": _status.text = "Осмотр: %s · движение в ближайший ход недоступно из-за состояния.\nEsc или клик по пустой клетке — закрыть." % enemy.debug_name
 	if summoning_mode: _status.text = "Призыв: выберите подсвеченную соседнюю клетку. 1 основное + 1 заряд. Esc — отмена."
 	if raising_mode: _status.text = "Поднять тело: выберите подсвеченную соседнюю свободную клетку без шипов. 1 основное. Esc — отмена."
+	if retreat_mode: _status.text = "Безопасный отход: выберите клетку. 1 основное + пройденное движение. Оппортунист не срабатывает; опасности сохраняются. Esc — отмена."
 	if session.context.is_faulted(): _status.text = "Исполнение остановлено из-за ошибки. Выполненные последствия сохранены; сбросьте бой."
 	if locked: _status.text = _battle.phase_text() + (" · Можно начать заново: R." if _battle.phase != BattleTacticalSession.Phase.ENEMY_TURN else " · Противник выполняет действия.")
 	if _is_deploying():
@@ -955,13 +969,14 @@ func _hover(cell: Vector2i) -> void:
 			_clear_forecast()
 	elif not attack_mode and not summoning_mode and not raising_mode and inspected_id == UnitId.NONE and (_battle == null or _battle.can_player_act()) and session.board.is_in_bounds(cell) and session.board.occupant_at(cell) == null:
 		var revision := session.context.get_revision()
-		if (_move_forecast == null and not _move_forecast_pending) or _move_forecast_cell != cell or _move_forecast_actor != session.selected_id or _move_forecast_revision != revision:
+		if (_move_forecast == null and not _move_forecast_pending) or _move_forecast_cell != cell or _move_forecast_actor != session.selected_id or _move_forecast_revision != revision or _move_forecast_retreat != retreat_mode:
 			_clear_forecast()
 			_move_forecast_pending = true
 			_move_forecast_due = Time.get_ticks_msec() + MOVE_HOVER_SETTLE_MS
 			_move_forecast_cell = cell
 			_move_forecast_actor = session.selected_id
 			_move_forecast_revision = revision
+			_move_forecast_retreat = retreat_mode
 			_forecast_panel.get_v_scroll_bar().value = 0.0
 			board_view.move_forecast_pending = true
 			# Быстрая геометрия не ждёт полного исполнения прогноза в рабочем потоке.
@@ -1127,10 +1142,11 @@ func _process_move_forecast() -> void:
 		return
 	_move_forecast_job_generation = _move_forecast_generation
 	# Только этот короткий capture читает live; исполнение и восстановление идут на копии.
-	_move_forecast_worker.start(session.prepare_move_forecast(_move_forecast_cell))
+	var prepared := (session as BattleCoreReactionsSession).prepare_retreat_forecast(_move_forecast_cell) if _move_forecast_retreat and session is BattleCoreReactionsSession else session.prepare_move_forecast(_move_forecast_cell)
+	_move_forecast_worker.start(prepared)
 
 func _move_forecast_request_current() -> bool:
-	return session != null and session.context != null and board_view != null and board_view.hover_cell == _move_forecast_cell and session.selected_id == _move_forecast_actor and session.context.get_revision() == _move_forecast_revision and not attack_mode and not summoning_mode and not raising_mode and inspected_id == UnitId.NONE and (_battle == null or _battle.can_player_act())
+	return session != null and session.context != null and board_view != null and board_view.hover_cell == _move_forecast_cell and session.selected_id == _move_forecast_actor and session.context.get_revision() == _move_forecast_revision and retreat_mode == _move_forecast_retreat and not attack_mode and not summoning_mode and not raising_mode and inspected_id == UnitId.NONE and (_battle == null or _battle.can_player_act())
 
 func _board_forecast_wheel_input(event: InputEvent) -> void:
 	if is_execution_pending(): return
@@ -1372,7 +1388,8 @@ func _render_move_forecast_panel() -> void:
 	_forecast_heading.text = "ПРОГНОЗ · КОЛЕСО НА ЦЕЛИ"
 	_log.visible = false
 	_log_heading.visible = false
-	var text := "[font_size=16][color=#f7c97d]Движение к %s[/color][/font_size]\n" % _cell_name(_move_forecast_cell)
+	var text := "[font_size=16][color=#f7c97d]%s к %s[/color][/font_size]\n" % ["Безопасный отход" if _move_forecast_retreat else "Движение", _cell_name(_move_forecast_cell)]
+	if _move_forecast_retreat: text += "Оппортунист не перехватывает этот маршрут. Опасности сохраняются.\n"
 	if _move_forecast_pending:
 		_forecast_panel.text = text + ("Пунктир — выбранный маршрут.\nРассчитываем последствия…" if not board_view.pending_move_path.is_empty() else "Расчёт прогноза…")
 		return
@@ -1717,6 +1734,7 @@ func _event_text(event: Dictionary) -> String:
 		&"balance_broken": return "%s теряет равновесие → толчок." % target
 		&"moved":
 			var pushed: bool = event.get("movement_kind", &"") == &"push"
+			if event.get("movement_kind", &"") == &"safe_retreat": return "%s отходит: %s → %s · %d основное, %.1f движения." % [actor, _cell_name(event["from_cell"]), _cell_name(event["to_cell"]), int(event.get("main_cost", 0)), float(event["move_cost"])]
 			return "%s %s %s → %s." % [target if pushed else actor, "отброшен:" if pushed else "идёт:", _cell_name(event["from_cell"]), _cell_name(event["to_cell"])]
 		&"push_blocked": return "%s врезается в препятствие." % target
 		&"collision": return "%s сталкивается с %s." % [target, _name_for(int(event.get("blocker_unit_id", 0)))]
@@ -1755,6 +1773,7 @@ func _reason_text(reason: StringName) -> String:
 		&"battle/input_locked": return "сейчас нельзя действовать."
 		&"battle/friendly_target": return "выберите противника."
 		&"move/insufficient_move": return "не хватает очков движения."
+		&"move/insufficient_main": return "для безопасного отхода нужно 1 основное действие."
 		&"move/actor_dead": return "персонаж погибнет на пути."
 		&"move/actor_displaced": return "персонаж будет смещён с маршрута."
 		&"move/path_blocked": return "продолжение пути будет перекрыто."
@@ -1871,6 +1890,16 @@ func _choose_raise() -> void:
 		return
 	_clear_action_mode()
 	raising_mode = true
+	_refresh()
+
+func _choose_retreat() -> void:
+	if is_execution_pending() or not session is BattleCoreReactionsSession: return
+	var reason := (session as BattleCoreReactionsSession).retreat_reason()
+	if reason != &"":
+		_status.text = _reason_text(reason)
+		return
+	_clear_action_mode()
+	retreat_mode = true
 	_refresh()
 
 func _resolve_armor_hover_exit() -> void:

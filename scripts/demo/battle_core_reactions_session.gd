@@ -3,6 +3,34 @@ class_name BattleCoreReactionsSession
 
 var stun_selected: bool = false
 
+func retreat_reason() -> StringName:
+	if not can_player_act(): return &"battle/input_locked"
+	var actor := selected_unit()
+	if actor == null or actor.faction != Faction.Type.PLAYER: return &"move/no_selected_unit"
+	var reason := ControlRules.action_reason(actor, true)
+	if reason != &"": return reason
+	if actor.action_resources == null: return &"move/invalid_runtime"
+	if actor.action_resources.get_main_left() < 1: return &"move/insufficient_main"
+	if actor.move_points_left < 1.0: return &"move/insufficient_move"
+	return &""
+
+func retreat_to(cell: Vector2i) -> ActionReceipt:
+	var reason := retreat_reason()
+	if reason != &"": return _reject(reason)
+	var path := path_to(cell)
+	if path.size() < 2: return _reject(&"move/unreachable")
+	return _submit(MoveCommand.new(selected_id, path, context.get_revision(), &"safe_retreat"))
+
+func preview_retreat(cell: Vector2i) -> MoveForecast:
+	return MoveForecast.build_prepared(prepare_retreat_forecast(cell))
+
+func prepare_retreat_forecast(cell: Vector2i) -> ForecastSimulation.Prepared:
+	var reason := retreat_reason()
+	if reason != &"": return ForecastSimulation.Prepared.rejected(reason)
+	var path := path_to(cell)
+	if path.size() < 2: return ForecastSimulation.Prepared.rejected(&"move/unreachable")
+	return ForecastSimulation.prepare(context, _queue, MoveCommand.new(selected_id, path, context.get_revision(), &"safe_retreat"))
+
 func _command_for(id: int) -> AttackCommand:
 	if not stun_selected: return super._command_for(id)
 	var ordinary := super._command_for(id)

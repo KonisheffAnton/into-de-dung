@@ -2,7 +2,7 @@ extends RefCounted
 class_name BattleExecutionWorker
 
 ## Session передаётся целиком одному исполнителю; UI возвращает её только после join.
-const METHODS: Array[StringName] = [&"move_to", &"attack_unit", &"guard_selected", &"use_healing_item", &"use_summoning_item", &"raise_corpse", &"restore_selected_armor", &"set_reaction_guard", &"end_player_turn", &"step_enemy"]
+const METHODS: Array[StringName] = [&"move_to", &"retreat_to", &"attack_unit", &"guard_selected", &"use_healing_item", &"use_summoning_item", &"raise_corpse", &"restore_selected_armor", &"set_reaction_guard", &"end_player_turn", &"step_enemy"]
 
 var _thread: Thread
 var _session: BattleCoreReactionsSession
@@ -74,7 +74,7 @@ func start(session: BattleCoreReactionsSession, action: StringName, args: Array,
 
 static func _valid_request(action: StringName, args: Array) -> bool:
 	if action not in METHODS: return false
-	if action in [&"move_to", &"use_summoning_item", &"raise_corpse"]:
+	if action in [&"move_to", &"retreat_to", &"use_summoning_item", &"raise_corpse"]:
 		return args.size() == 1 and args[0] is Vector2i
 	if action == &"attack_unit": return args.size() == 1 and args[0] is int
 	if action == &"set_reaction_guard":

@@ -1,5 +1,18 @@
 # История и свидетельства проверок
 
+## K14 — безопасный отход — 2026-09-27
+
+Base main `a1ccf483a362e7e521b15ae1978ec13cfc44f652`. Пользователь принял пакет
+базового действия; реализованы команда, оплата первого сегмента, изолированный
+прогноз, live-worker и ввод общего боя. Правила — [SAFE_RETREAT_K14](SAFE_RETREAT_K14.md).
+Godot 4.7.2 import/startup/full/render PASS; core 9440/0, K14 38/0 и 133/0,
+UI 85/0 headless и 87/0 render. Два PNG осмотрены, новых diagnostics нет:
+прежние diagnostics core побайтно совпали с K13. Source manifests сверены.
+Game_reviewer APPROVE; ведущий проверил очередь/guards/preview/FAULTED.
+Общая ручная приёмка открыта. AI не выбирает отход; другие режимы не расширены.
+Прежний HANDOFF сохранён [точным архивом](CODEX_HANDOFF.history-20260927.md).
+Отчёт, validation/review/completion/progress — `test_reports/safe-retreat-20260927/`.
+
 ## Передача для безопасного отхода — 2026-09-26
 
 По просьбе пользователя сохранён следующий срез для нового чата через неделю.

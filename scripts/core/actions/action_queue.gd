@@ -379,6 +379,8 @@ static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bo
 		var spatial := definition.profile in [AttackRules.SPATIAL_PROFILE, AttackRules.ARMOR_PROFILE]
 		var geometry := (attack_dx == 0 or attack_dy == 0) and absi(attack_dx) + absi(attack_dy) >= 1 if spatial else absi(attack_dx) + absi(attack_dy) == 1
 		return geometry and draft["main_cost"] == 1 and draft["main_before"] >= 1 and draft["main_before"] <= 4096 and draft["main_after"] == draft["main_before"] - 1
+	if typeof(draft.get("movement_kind")) == TYPE_STRING_NAME and draft.get("movement_kind") == &"safe_retreat":
+		return _valid_safe_retreat_draft(draft, context)
 	if ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "from_cell": TYPE_VECTOR2I, "to_cell": TYPE_VECTOR2I, "movement_kind": TYPE_STRING_NAME, "move_cost": TYPE_FLOAT, "move_before": TYPE_FLOAT, "move_after": TYPE_FLOAT}):
 		if draft["kind"] != &"moved" or draft["movement_kind"] != &"voluntary": return false
 		if draft["actor_unit_id"] <= 0 or draft["actor_unit_id"] >= MAX_ID or draft["target_unit_id"] != draft["actor_unit_id"]: return false
@@ -403,7 +405,7 @@ static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bo
 
 static func _valid_transit_draft(draft: Dictionary, context: ActionContext) -> bool:
 	if context == null or context.get_move_rules() == null or context.get_move_rules().get_profile() != &"spatial_move_v1": return false
-	if draft.get("kind") != &"moved" or draft.get("movement_kind") != &"voluntary": return false
+	if draft.get("kind") != &"moved" or draft.get("movement_kind") not in [&"voluntary", &"safe_retreat"]: return false
 	var path_value: Variant = draft["transit_path"]
 	if not path_value is Array or path_value.size() < 3 or path_value.size() > MoveCommand.MAX_PATH_CELLS: return false
 	for index in range(path_value.size()):
@@ -417,9 +419,24 @@ static func _valid_transit_draft(draft: Dictionary, context: ActionContext) -> b
 	var adjacent := draft.duplicate(true)
 	adjacent.erase("transit_path")
 	adjacent["from_cell"] = path_value[-2]
+	if draft["movement_kind"] == &"safe_retreat": return _valid_safe_retreat_draft(adjacent, context) and float(draft["move_cost"]) >= float(path_value.size() - 1)
 	# Каждое ребро стоит хотя бы 1. Геометрию заново не читаем: callback мог
 	# изменить её, а fault обязан сохранить событие уже оплаченного сегмента.
 	return _valid_draft(adjacent, context) and float(draft["move_cost"]) >= float(path_value.size() - 1)
+
+static func _valid_safe_retreat_draft(draft: Dictionary, context: ActionContext) -> bool:
+	var fields := {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "from_cell": TYPE_VECTOR2I, "to_cell": TYPE_VECTOR2I, "movement_kind": TYPE_STRING_NAME, "move_cost": TYPE_FLOAT, "move_before": TYPE_FLOAT, "move_after": TYPE_FLOAT, "main_cost": TYPE_INT, "main_before": TYPE_INT, "main_after": TYPE_INT}
+	if not ItemSimulationSnapshot._shape(draft, fields): return false
+	if context == null or context.get_move_rules() == null or context.get_move_rules().get_profile() != &"spatial_move_v1": return false
+	if draft["kind"] != &"moved" or draft["movement_kind"] != &"safe_retreat" or draft["actor_unit_id"] <= 0 or draft["actor_unit_id"] >= MAX_ID or draft["target_unit_id"] != draft["actor_unit_id"]: return false
+	var dx: int = int(draft["to_cell"].x) - int(draft["from_cell"].x)
+	var dy: int = int(draft["to_cell"].y) - int(draft["from_cell"].y)
+	var cost: float = draft["move_cost"]
+	var before: float = draft["move_before"]
+	var after: float = draft["move_after"]
+	var main_cost: int = draft["main_cost"]
+	var main_before: int = draft["main_before"]
+	return absi(dx) + absi(dy) == 1 and is_finite(cost) and cost >= 1.0 and is_finite(before) and before >= cost and is_finite(after) and after >= 0.0 and after < before and after == before - cost and before - after == cost and main_cost in [0, 1] and main_before >= main_cost and main_before <= 4096 and draft["main_after"] == main_before - main_cost
 
 static func _event_capacity(command: Command) -> int:
 	if command is AttackCommand and (command as AttackCommand).is_reaction(): return 3

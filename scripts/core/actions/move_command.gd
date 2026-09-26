@@ -7,21 +7,23 @@ const MAX_PATH_CELLS: int = 33
 var _actor_unit_id: int
 var _path: Array[Vector2i] = []
 var _expected_revision: int
+var _movement_kind: StringName = &"voluntary"
 var _invalid_length: bool = false
 var _continuation_index: int = 0
 var _is_continuation_flag: bool = false
 var _bound_actor: UnitState = null
 
-func _init(actor_unit_id: int = 0, path: Array[Vector2i] = [], expected_revision: int = 0) -> void:
+func _init(actor_unit_id: int = 0, path: Array[Vector2i] = [], expected_revision: int = 0, movement_kind: StringName = &"voluntary") -> void:
 	_actor_unit_id = actor_unit_id
 	_expected_revision = expected_revision
+	_movement_kind = movement_kind
 	if path.size() > MAX_PATH_CELLS:
 		_invalid_length = true
 		return
 	_path = path.duplicate()
 
 static func _make_continuation(source: MoveCommand, next_index: int, actor: UnitState) -> MoveCommand:
-	var result := MoveCommand.new(source._actor_unit_id, source._path, source._expected_revision)
+	var result := MoveCommand.new(source._actor_unit_id, source._path, source._expected_revision, source._movement_kind)
 	result._invalid_length = source._invalid_length
 	result._continuation_index = next_index
 	result._is_continuation_flag = true
@@ -32,7 +34,7 @@ func get_kind() -> StringName:
 	return &"move"
 
 func copy_for_queue() -> Command:
-	var result := MoveCommand.new(_actor_unit_id, _path, _expected_revision)
+	var result := MoveCommand.new(_actor_unit_id, _path, _expected_revision, _movement_kind)
 	result._invalid_length = _invalid_length
 	result._continuation_index = _continuation_index
 	result._is_continuation_flag = _is_continuation_flag
@@ -48,6 +50,9 @@ func get_path() -> Array[Vector2i]:
 func get_expected_revision() -> int:
 	return _expected_revision
 
+func get_movement_kind() -> StringName:
+	return _movement_kind
+
 func _is_continuation() -> bool:
 	return _is_continuation_flag
 
@@ -56,6 +61,10 @@ func validate(context: ActionContext) -> StringName:
 	# а не публичная ошибка нового root. Курсор и identity остаются отдельным контрактом.
 	if _is_continuation_flag and (_invalid_length or _path.size() < 2 or _path.size() > MAX_PATH_CELLS or _actor_unit_id <= 0 or _actor_unit_id >= MAX_ID or _expected_revision < 0 or _expected_revision > MAX_ID - 2):
 		return &"move/invalid_runtime"
+	if _movement_kind not in [&"voluntary", &"safe_retreat"]:
+		return &"move/unknown_movement_kind"
+	if _movement_kind == &"safe_retreat" and (context == null or context.get_move_rules() == null or context.get_move_rules().get_profile() != &"spatial_move_v1"):
+		return &"move/retreat_unsupported"
 	if _invalid_length or _path.size() < 2 or _path.size() > MAX_PATH_CELLS:
 		return &"move/path_length"
 	if _actor_unit_id <= 0 or _actor_unit_id >= MAX_ID:
@@ -99,6 +108,7 @@ func validate(context: ActionContext) -> StringName:
 	var required: int = _path.size() - 1
 	if rules.get_profile() == &"spatial_move_v1":
 		if actor.action_resources == null or SpatialRules.capture_guard(context, [actor], _path, {}) == null: return &"move/invalid_runtime"
+		if _movement_kind == &"safe_retreat" and actor.action_resources.get_main_left() < 1: return &"move/insufficient_main"
 		if actor.armor != null:
 			var armor_reason := _armor_path_reason(context, actor)
 			if armor_reason != &"": return armor_reason
@@ -124,8 +134,12 @@ func execute(context: ActionContext) -> CommandStepResult:
 		return CommandStepResult.faulted(&"move/invalid_runtime")
 	var board := context.get_state().get_board()
 	if _is_continuation_flag:
-		if _invalid_length or _path.size() < 2 or _path.size() > MAX_PATH_CELLS or _actor_unit_id <= 0 or _actor_unit_id >= MAX_ID or _expected_revision < 0 or _expected_revision > MAX_ID - 2:
+		if _invalid_length or _path.size() < 2 or _path.size() > MAX_PATH_CELLS or _actor_unit_id <= 0 or _actor_unit_id >= MAX_ID or _expected_revision < 0 or _expected_revision > MAX_ID - 2 or _movement_kind not in [&"voluntary", &"safe_retreat"]:
 			return CommandStepResult.faulted(&"move/invalid_runtime")
+		if _movement_kind == &"safe_retreat":
+			var continuation_rules := context.get_move_rules()
+			if continuation_rules == null or continuation_rules.validate() != &"" or continuation_rules.get_profile() != &"spatial_move_v1":
+				return CommandStepResult.faulted(&"move/invalid_runtime")
 		if _bound_actor == null or _bound_actor.id != _actor_unit_id or _continuation_index < 2 or _continuation_index > _path.size():
 			return CommandStepResult.faulted(&"move/invalid_continuation")
 		return _execute_continuation(context, board)
@@ -158,6 +172,8 @@ func _execute_continuation(context: ActionContext, board: BattleBoard) -> Comman
 func _execute_edge(context: ActionContext, board: BattleBoard, actor: UnitState) -> CommandStepResult:
 	var rules := context.get_move_rules()
 	if rules == null or rules.validate() != &"":
+		return CommandStepResult.faulted(&"move/invalid_runtime")
+	if _movement_kind not in [&"voluntary", &"safe_retreat"] or (_movement_kind == &"safe_retreat" and rules.get_profile() != &"spatial_move_v1"):
 		return CommandStepResult.faulted(&"move/invalid_runtime")
 	if rules.get_profile() == &"spatial_move_v1": return _execute_spatial_edge(context, board, actor, rules)
 	var edge_path: Array[Vector2i] = [_path[_continuation_index - 1], _path[_continuation_index]]
@@ -237,6 +253,8 @@ func _armor_path_reason(context: ActionContext, actor: UnitState) -> StringName:
 	return &""
 
 func _execute_spatial_edge(context: ActionContext, board: BattleBoard, actor: UnitState, rules: MoveRules) -> CommandStepResult:
+	if _movement_kind not in [&"voluntary", &"safe_retreat"] or (_movement_kind == &"safe_retreat" and rules.get_profile() != &"spatial_move_v1"):
+		return CommandStepResult.faulted(&"move/invalid_runtime")
 	var end_index := _continuation_index
 	var provider := board.make_spatial_data_provider(actor)
 	# Проход через союзников не создаёт совместной occupancy даже между сигналами.
@@ -254,7 +272,7 @@ func _execute_spatial_edge(context: ActionContext, board: BattleBoard, actor: Un
 	var from := edge[0]
 	var to := edge[-1]
 	if from == to: return CommandStepResult.interrupted(&"move/path_blocked")
-	var opportunist := MeleeThreat.departure(context, actor, to)
+	var opportunist := MeleeThreat.departure(context, actor, to) if _movement_kind == &"voluntary" else null
 	if opportunist != null:
 		# Перехват до оплаты/записи сегмента; занятые транзитные клетки не являются остановками.
 		return CommandStepResult.applied([], [AttackCommand.opportunity(opportunist, actor, context.get_revision()), ReactionStopCommand.new()], [], null, false)
@@ -283,16 +301,25 @@ func _execute_spatial_edge(context: ActionContext, board: BattleBoard, actor: Un
 	var cost := check.get_total_cost()
 	var after := before - cost
 	var id := actor.id
-	var moved := guard.debit(id, 0, cost).stance(id, false).moved(id, to)
+	var main_cost := 1 if _movement_kind == &"safe_retreat" and _continuation_index == 1 else 0
+	var main_before := actor.action_resources.get_main_left()
+	if main_cost > 0 and main_before < main_cost: return CommandStepResult.interrupted(&"move/insufficient_main")
+	var main_after := main_before - main_cost
+	var moved := guard.debit(id, main_cost, cost).stance(id, false).moved(id, to)
 	# Callback положения должен уже видеть оплату; между этими операциями нет внешнего кода.
+	if main_cost > 0 and not actor.action_resources.try_spend_main(main_cost): return CommandStepResult.faulted(&"move/invalid_runtime")
 	actor.spend_move_points(cost)
 	var stance_before := actor.guard_stance
 	actor.guard_stance = false
 	if not board.move_unit(actor, to):
+		# Неуспешная запись позиции отменяет обе оплаты локально.
+		if main_cost > 0: actor.action_resources._main_left = main_before
 		actor.move_points_left = before
 		actor.guard_stance = stance_before
 		return CommandStepResult.faulted(&"move/board_move_failed")
-	var event := {"kind": &"moved", "actor_unit_id": id, "target_unit_id": id, "from_cell": from, "to_cell": to, "movement_kind": &"voluntary", "move_cost": cost, "move_before": before, "move_after": after}
+	var event := {"kind": &"moved", "actor_unit_id": id, "target_unit_id": id, "from_cell": from, "to_cell": to, "movement_kind": _movement_kind, "move_cost": cost, "move_before": before, "move_after": after}
+	if _movement_kind == &"safe_retreat":
+		event.merge({"main_cost": main_cost, "main_before": main_before, "main_after": main_after})
 	if edge.size() > 2: event["transit_path"] = edge.duplicate()
 	var allies_unchanged := actor.faction == actor_faction
 	for participant in participants:

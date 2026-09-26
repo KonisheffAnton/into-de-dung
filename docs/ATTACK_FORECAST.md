@@ -219,6 +219,10 @@ Hover слота 3 показывает лечение/расход либо о�
 
 ## K4 — прогноз движения
 
+Безопасный отход K14 использует этот же механизм с видом команды `safe_retreat`.
+Правила расхода и UI — [SAFE_RETREAT_K14](SAFE_RETREAT_K14.md). Вид движения
+входит в актуальность hover; клик создаёт свежую команду соответствующего вида.
+
 `MoveForecast.build(context, queue, command: Command)` допускает только точный
 `MoveCommand`; подклассы/другие команды дают `preview/unsupported_command`,
 внутреннее продолжение — прежний отказ очереди `move/internal_continuation`.

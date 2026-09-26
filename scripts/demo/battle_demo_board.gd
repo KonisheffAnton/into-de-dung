@@ -11,6 +11,7 @@ const MUTED := Color("a5b3c5")
 var session: BattleDemoSession
 var execution_pending: bool = false
 var attack_mode: bool = false
+var retreat_mode: bool = false
 var summoning_mode: bool = false
 var raising_mode: bool = false
 var environment_mode: bool = false
@@ -90,6 +91,7 @@ func refresh() -> void:
 	# Состояние ограничивает добровольный путь, но не выбор персонажа и не толчки.
 	if inspected != null and ControlRules.action_reason(inspected, true) != &"": inspection_cells.clear()
 	if session != null and session.selected_unit() != null and ControlRules.action_reason(session.selected_unit(), true) != &"": _reachable.clear()
+	if retreat_mode and (not session is BattleCoreReactionsSession or (session as BattleCoreReactionsSession).retreat_reason() != &""): _reachable.clear()
 	if summoning_mode and session is BattleTacticalSession:
 		_reachable = {}
 		for cell in (session as BattleTacticalSession).summoning_cells(): _reachable[cell] = 0.0
