@@ -44,6 +44,7 @@ var _view_terrain: PackedByteArray = PackedByteArray()
 var _view_units: Array[Dictionary] = []
 var _view_fires: Array[Dictionary] = []
 var _view_corpses: Array[Dictionary] = []
+var _view_collapse: Array[Vector2i] = []
 
 func _ready() -> void:
 	custom_minimum_size = Vector2(520, 520)
@@ -247,6 +248,7 @@ func _capture_board_view(board: BattleBoard) -> void:
 	_view_units.clear()
 	_view_fires.clear()
 	_view_corpses.clear()
+	_view_collapse.clear()
 	if board == null: return
 	_view_heights.resize(_view_width * _view_height)
 	_view_terrain.resize(_view_width * _view_height)
@@ -276,6 +278,7 @@ func _capture_board_view(board: BattleBoard) -> void:
 		if environment != null:
 			_view_fires = environment.fires.duplicate(true)
 			_view_corpses = environment.corpses.duplicate(true)
+			_view_collapse.assign(environment.collapse.get("marked", []))
 
 func _view_index(cell: Vector2i) -> int:
 	return cell.y * _view_width + cell.x if cell.x >= 0 and cell.y >= 0 and cell.x < _view_width and cell.y < _view_height else -1
@@ -335,6 +338,14 @@ func _draw_overlay() -> void:
 		var hh := grid_config.tile_size.y * 0.48
 		_overlay.draw_polyline(PackedVector2Array([center + Vector2(0, -hh), center + Vector2(cell_hw, 0), center + Vector2(0, hh), center + Vector2(-cell_hw, 0), center + Vector2(0, -hh)]), GOLD if attack_mode or inspected_id != UnitId.NONE else (Color("f29b9b") if raising_mode else CYAN), 2, true)
 	if environment_mode:
+		for cell: Vector2i in _view_collapse:
+			var center := cell_center(cell)
+			var half_width := grid_config.tile_size.x * 0.44
+			var half_height := grid_config.tile_size.y * 0.44
+			var points := PackedVector2Array([center + Vector2(0, -half_height), center + Vector2(half_width, 0), center + Vector2(0, half_height), center + Vector2(-half_width, 0), center + Vector2(0, -half_height)])
+			_overlay.draw_colored_polygon(points, Color(1.0, 0.25, 0.12, 0.35))
+			_overlay.draw_polyline(points, Color("ff765c"), 3, true)
+			_overlay.draw_string(ThemeDB.fallback_font, center + Vector2(-42, -12), "ОБВАЛ", HORIZONTAL_ALIGNMENT_CENTER, 84, 13, Color("fff2d7"))
 		for fire: Dictionary in _view_fires:
 			var fire_center := cell_center(fire["cell"])
 			_overlay.draw_circle(fire_center, hw * 0.28, Color(0.95, 0.28, 0.12, 0.55))

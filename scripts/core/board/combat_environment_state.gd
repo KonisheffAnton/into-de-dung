@@ -11,9 +11,12 @@ var next_corpse_id: int = 1
 var fires: Array[Dictionary] = []
 var corpses: Array[Dictionary] = []
 var processed_deaths: Array[int] = []
+var collapse: Dictionary = {}
 
 func to_dict() -> Dictionary:
-	var raw := {"schema_version": 1, "next_fire_id": next_fire_id, "next_corpse_id": next_corpse_id, "fires": fires.duplicate(true), "corpses": corpses.duplicate(true), "processed_deaths": processed_deaths.duplicate()}
+	# Пустая фаза сохраняет точную старую форму, чтобы legacy-снимки не меняли канон.
+	var raw := {"schema_version": 1 if collapse.is_empty() else 2, "next_fire_id": next_fire_id, "next_corpse_id": next_corpse_id, "fires": fires.duplicate(true), "corpses": corpses.duplicate(true), "processed_deaths": processed_deaths.duplicate()}
+	if not collapse.is_empty(): raw["collapse"] = collapse.duplicate(true)
 	# Повреждённый runtime должен дойти до отказа capture, а не до сортировки
 	# по отсутствующему полю; нельзя скрывать лишние поля при построении DTO.
 	if not valid(raw): return raw
@@ -23,22 +26,26 @@ func to_dict() -> Dictionary:
 	var sorted_deaths: Array[int] = processed_deaths.duplicate()
 	sorted_deaths.sort()
 	return {
-		"schema_version": 1,
+		"schema_version": raw["schema_version"],
 		"next_fire_id": next_fire_id,
 		"next_corpse_id": next_corpse_id,
 		"fires": _copy_records(sorted_fires),
 		"corpses": _copy_records(sorted_corpses),
 		"processed_deaths": sorted_deaths,
-	}
+	}.merged({"collapse": collapse.duplicate(true)} if not collapse.is_empty() else {})
 
 static func valid(data: Variant) -> bool:
 	if typeof(data) != TYPE_DICTIONARY:
 		return false
 	var value: Dictionary = data
-	if not _has_exact_keys(value, ["schema_version", "next_fire_id", "next_corpse_id", "fires", "corpses", "processed_deaths"]):
+	if typeof(value.get("schema_version")) != TYPE_INT or value["schema_version"] not in [1, 2]:
 		return false
-	if typeof(value["schema_version"]) != TYPE_INT or value["schema_version"] != 1:
+	var schema: int = value["schema_version"]
+	var expected_keys: Array[String] = ["schema_version", "next_fire_id", "next_corpse_id", "fires", "corpses", "processed_deaths"]
+	if schema == 2: expected_keys.append("collapse")
+	if not _has_exact_keys(value, expected_keys):
 		return false
+	if schema == 2 and not _valid_collapse(value["collapse"]): return false
 	if typeof(value["next_fire_id"]) != TYPE_INT or typeof(value["next_corpse_id"]) != TYPE_INT:
 		return false
 	var next_fire: int = value["next_fire_id"]
@@ -112,6 +119,7 @@ static func from_dict(data: Dictionary) -> CombatEnvironmentState:
 	if not valid(data):
 		return null
 	var result := CombatEnvironmentState.new()
+	if data["schema_version"] == 2: result.collapse = data["collapse"].duplicate(true)
 	result.next_fire_id = data["next_fire_id"]
 	result.next_corpse_id = data["next_corpse_id"]
 	result.fires.assign(_sorted_records(data["fires"]))
@@ -119,6 +127,20 @@ static func from_dict(data: Dictionary) -> CombatEnvironmentState:
 	result.processed_deaths.assign(data["processed_deaths"].duplicate())
 	result.processed_deaths.sort()
 	return result
+
+static func _valid_collapse(value: Variant) -> bool:
+	if typeof(value) != TYPE_DICTIONARY: return false
+	var record: Dictionary = value
+	if not _has_exact_keys(record, ["turn", "marked"]): return false
+	if typeof(record["turn"]) != TYPE_INT or typeof(record["marked"]) != TYPE_ARRAY: return false
+	var turn: int = record["turn"]
+	var marked: Array = record["marked"]
+	# Один маркер исключает неоднозначное разрешение, а нулевой ход не имеет предыдущего хода.
+	if turn < 0 or turn > MAX_ID - 2 or marked.size() > 1: return false
+	if turn == 0 and not marked.is_empty(): return false
+	for cell: Variant in marked:
+		if typeof(cell) != TYPE_VECTOR2I: return false
+	return true
 
 func fire_at(cell: Vector2i) -> Dictionary:
 	for fire: Dictionary in fires:

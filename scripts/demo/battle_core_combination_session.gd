@@ -132,4 +132,8 @@ func _refill(faction: Faction.Type) -> bool:
 		return false
 	# Даже успешная граница может завершить бой; следующий корень уже недопустим.
 	if phase not in [Phase.PLAYER_TURN, Phase.ENEMY_TURN]: return false
+	if not _after_team_end(faction): return false
 	return super._refill(faction)
+
+func _after_team_end(_incoming: Faction.Type) -> bool:
+	return true

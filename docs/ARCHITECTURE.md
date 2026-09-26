@@ -230,6 +230,15 @@ ID забега. После полного исхода возвращает HP/
 
 ## Опасная клетка и поднятие тела — D5
 
+K15 добавляет основному `BattleCoreReactionsSession` фазу после обеих команд:
+hook `_after_team_end` после ControlTurnEnd врагов, до bleed/refill игрока.
+CollapsePhaseCommand фиксирует случайную новую отметку и порождает обрушение
+прежней; CollapseCellCommand меняет terrain через Board и порождает guarded
+DeathCommand. Исход проверяется после drain, FAULTED сохраняет prefix.
+CombatEnvironmentState v2 хранит ход/отметку; отсутствие capability сохраняет
+v1. Preview исполняет тот же корень через ForecastSimulation/worker, а UI
+хранит копию отметок. Точные правила и границы — [K15](ENVIRONMENT_COLLAPSE_K15.md).
+
 BattleEnvironmentSession расширяет D3 и служит основой K2; отдельная сцена — fixture D5.
 CombatEnvironmentState принадлежит ItemSimulationState: записи fire и corpses,
 монотонные ID и обработанные смерти. Geometry/occupancy и Unit codecs прежние.

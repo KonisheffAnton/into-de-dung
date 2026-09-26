@@ -69,6 +69,8 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 				reason = &"control/internal_command"
 			elif accepted is EnvironmentCommand:
 				reason = &"environment/internal_command"
+			elif accepted is CollapseCellCommand:
+				reason = &"collapse/internal_command"
 			elif accepted is DeathCommand and ((accepted as DeathCommand)._has_spatial_binding or (accepted as DeathCommand)._spatial_binding != null):
 				reason = &"move/internal_death"
 			elif accepted is MoveCommand and (accepted as MoveCommand)._is_continuation():
@@ -301,6 +303,7 @@ func _bind_batch(descriptions: Array[Dictionary], event_seq: int, context: Actio
 	return result
 
 static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bool:
+	if draft.get("kind") in [&"environment_turn", &"support_collapsed"]: return CollapsePhaseCommand.valid_draft(draft)
 	if draft.get("kind") == &"reaction_used":
 		return ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "mode": TYPE_INT, "charge_before": TYPE_INT, "charge_after": TYPE_INT}) and draft["actor_unit_id"] > 0 and draft["actor_unit_id"] < MAX_ID and draft["target_unit_id"] > 0 and draft["target_unit_id"] < MAX_ID and draft["actor_unit_id"] != draft["target_unit_id"] and draft["mode"] in [CombatPerksState.Mode.OPPORTUNIST, CombatPerksState.Mode.COVER, CombatPerksState.Mode.COUNTERATTACK] and draft["charge_before"] == 1 and draft["charge_after"] == 0
 	if draft.get("kind") == &"guarded" and draft.has("reaction_mode"):

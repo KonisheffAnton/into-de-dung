@@ -1,5 +1,27 @@
 # История и свидетельства проверок
 
+## K15 — случайное обрушение — 2026-09-27
+
+Base main `5aab47a7fcd6e2dcebc9fd27058510915e9f5afc`. Пользователь выбрал
+случайную отметку в начале хода окружения и обрушение только в следующий;
+окружение первым либо последним, не между командами. Реализован последний ход,
+очередь/guarded смерть, legacy/v2 среды, live-worker, условный preview/worker,
+предупреждение и BT. Правила — [ENVIRONMENT_COLLAPSE_K15](ENVIRONMENT_COLLAPSE_K15.md).
+Godot 4.7.2 import/startup/full/render PASS; core 9440/0, K15 state 22/0,
+phase 66/0. После осмотра исправлено размещение кнопки/подсказки; повторены
+import/startup и шесть UI render runner, финальный K15 UI 32/0 headless и 34/0
+render. Два финальных PNG осмотрены. Новых diagnostics нет; старые core
+совпадают с baseline K14. Manifests сверены: после общего прогона изменены
+два UI-файла и удалён хвостовой пробел в phase-тесте (повторно 66/0);
+механический код после полного прогона неизменен.
+Game_reviewer APPROVE, включая узкий UI follow-up. Ведущий проверил
+очередь/guards/FAULTED/RNG/preview. Общая ручная приёмка остаётся открытой;
+инициатива, новая шкала падения, нижняя поверхность и D4 не расширены.
+Прежняя передача сохранена [точным архивом](CODEX_HANDOFF.history-20260927-1.md).
+Отчёт, validation, review, lead-review, completion и финальные PNG —
+`test_reports/collapse-20260927/`; full — `demo-645edb87e2b84b12a0bb969579ecd394`,
+render — `demo-9ac2875e0bee494c918d6c473d603479`, финальный UI — `ui-final/` отчёта.
+
 ## K14 — безопасный отход — 2026-09-27
 
 Base main `a1ccf483a362e7e521b15ae1978ec13cfc44f652`. Пользователь принял пакет

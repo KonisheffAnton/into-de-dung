@@ -7,14 +7,15 @@
 
 | Задача | Документ |
 |---|---|
-| Владельцы поведения / архитектурные инварианты | [ARCHITECTURE](ARCHITECTURE.md) / [DECISIONS](DECISIONS.md) |
+| Архитектура / инварианты | [ARCHITECTURE](ARCHITECTURE.md) / [DECISIONS](DECISIONS.md) |
 | Готовность ядра / следующий срез | [CORE_READINESS](CORE_READINESS.md) / §7 [DESIGN_DIRECTION](DESIGN_DIRECTION.md) |
-| Делегирование, ведение и проверка объёма контекста | [CODEX_WORKFLOW](CODEX_WORKFLOW.md) |
+| Делегирование / ведение контекста | [CODEX_WORKFLOW](CODEX_WORKFLOW.md) |
 | Запуск / автоматические проверки | [REPOSITORY_STATE](REPOSITORY_STATE.md) / [TESTING](TESTING.md) |
-| Крупный боевой пакет / расстановка / единый плейтест | [CORE_BATTLE_BATCH_K9](CORE_BATTLE_BATCH_K9.md) |
+| Боевой пакет / расстановка / плейтест | [CORE_BATTLE_BATCH_K9](CORE_BATTLE_BATCH_K9.md) |
 | Перки: скрытая атака, Оппортунист/Прикрытие | [CORE_REACTIONS_K10](CORE_REACTIONS_K10.md) |
 | Контратака / общий заряд | [COUNTERATTACK_K12](COUNTERATTACK_K12.md) |
 | Безопасный отход | [SAFE_RETREAT_K14](SAFE_RETREAT_K14.md) |
+| Обрушение / фаза среды | [ENVIRONMENT_COLLAPSE_K15](ENVIRONMENT_COLLAPSE_K15.md) |
 | Оглушающий удар и иммунитеты контроля | [CONTROL_PACKAGE_K11](CONTROL_PACKAGE_K11.md) |
 | Поток исполнения / владение runtime и вид UI | [BATTLE_EXECUTION_UI](BATTLE_EXECUTION_UI.md) |
 | Нынешний бой, управление | [TACTICAL_BATTLE](TACTICAL_BATTLE.md) |
@@ -31,7 +32,7 @@
 | Наложение пут опутывающим ударом K8 | [ENTANGLE_ATTACK_K8](ENTANGLE_ATTACK_K8.md) |
 | Прогноз / стойка | [ATTACK_FORECAST](ATTACK_FORECAST.md) / [ACTION_PANEL_GUARD](ACTION_PANEL_GUARD.md) |
 | Флакон / призыв предметом | [HEALING_ITEM](HEALING_ITEM.md) / [SUMMON_ITEM](SUMMON_ITEM.md) |
-| Общее описание применения предметов M3 | [ITEM_USE_M3](ITEM_USE_M3.md) |
+| Предметы M3 | [ITEM_USE_M3](ITEM_USE_M3.md) |
 | Пробивание физической базы оружием M4 | [ARMOR_PIERCING_M4](ARMOR_PIERCING_M4.md) |
 | Исполнение, маршруты к frozen Pxx | [COMMAND_ACTION_QUEUE_CONTRACT](COMMAND_ACTION_QUEUE_CONTRACT.md) |
 | Будущий дизайн / кандидаты модульности | [TACTICAL_DESIGN_NEXT](TACTICAL_DESIGN_NEXT.md) / [MODULARITY_PLAN](MODULARITY_PLAN.md) |

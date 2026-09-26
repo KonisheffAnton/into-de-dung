@@ -12,6 +12,10 @@ static func snapshot_reason(data: Dictionary, board: Dictionary, summons: Array)
 	for record: Dictionary in summons: summoned[record["unit_id"]] = true
 	for record: Dictionary in data["fires"]:
 		if not _safe_cell(record["cell"], board): return "environment/fire_cell"
+	if data["schema_version"] == 2:
+		# Маркер должен указывать на доступную клетку, иначе следующий ход не сможет обрушить её.
+		for cell: Vector2i in data["collapse"]["marked"]:
+			if not _safe_cell(cell, board): return "environment/collapse_cell"
 	for id: int in data["processed_deaths"]:
 		if not units.has(id) or units[id]["vitals"]["is_alive"]: return "environment/death_reference"
 	for record: Dictionary in data["corpses"]:

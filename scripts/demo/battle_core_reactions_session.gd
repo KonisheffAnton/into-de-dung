@@ -40,6 +40,7 @@ func _command_for(id: int) -> AttackCommand:
 ## Новый состав способностей использует весь прежний общий бой и его границы хода.
 func reset() -> void:
 	super.reset()
+	state.environment.collapse = {"turn": 0, "marked": []}
 	stun_selected = false
 	for index: int in [0, 1, 2, 3, 4, 5]:
 		var perks := CombatPerksState.new()
@@ -82,6 +83,26 @@ func reset() -> void:
 	flow_log.append("Бор и Дозорный: перк «Скрытая атака» даёт +50% физической базы, когда цели угрожают хотя бы двое. Направление спины больше не даёт бонуса.")
 	flow_log.append("Астра и Страж владеют Оглушающим ударом; Щит защищён от оглушения, Рей — от пут. Способности контроля на второй странице действий.")
 	flow_log.append("Оппортунист/Прикрытие/Контратака на второй странице. Стойка с режимом стоит 1 основное; три режима делят один заряд. Контратака отвечает после полного удара, если враг ещё в досягаемости; стойка сохраняется.")
+	flow_log.append("После обеих команд ходит окружение: случайно отмечает одну клетку, а отметку прошлого круга обрушает в пропасть. Первый ход окружения только предупреждает; оставшийся на клетке погибает.")
+
+func _after_team_end(incoming: Faction.Type) -> bool:
+	if incoming != Faction.Type.PLAYER or state.environment.collapse.is_empty(): return true
+	_transitioning = true
+	var receipt := _submit(CollapsePhaseCommand.new(context.get_revision()))
+	turn_events.append_array(receipt.get_events())
+	_transitioning = false
+	if receipt.status != ActionReceipt.APPLIED:
+		_set_terminal(Phase.FAULTED, "Не удалось завершить ход окружения. Начните бой заново.")
+		return false
+	return phase in [Phase.PLAYER_TURN, Phase.ENEMY_TURN]
+
+func prepare_environment_forecast() -> ForecastSimulation.Prepared:
+	if not can_player_act(): return ForecastSimulation.Prepared.rejected(&"battle/input_locked")
+	if not BattleExecutionWorker.can_transfer(self): return ForecastSimulation.Prepared.rejected(&"collapse/unsupported_runtime")
+	return ForecastSimulation.prepare(context, _queue, CollapsePhaseCommand.new(context.get_revision()))
+
+func preview_environment() -> ForecastSimulation:
+	return ForecastSimulation.run_prepared(prepare_environment_forecast())
 
 func reaction_reason(mode: int, cover_id: int = 0) -> StringName:
 	if not can_player_act(): return &"battle/input_locked"

@@ -27,6 +27,7 @@ var _status: Label
 var _journal: Array[String] = []
 var _battle: BattleTacticalSession
 var _phase_label: Label
+var _phase_row: HBoxContainer
 var _end_turn_button: Button
 var _mode_button: Button
 var _heading: Label
@@ -98,6 +99,15 @@ var _turn_forecast_session_id: int = 0
 var _turn_forecast_actor: int = UnitId.NONE
 var _turn_forecast_revision: int = -1
 var _turn_forecast_worker := TurnForecastWorker.new()
+var _environment_button: Button
+var _environment_forecast: ForecastSimulation
+var _environment_forecast_pending: bool = false
+var _environment_forecast_generation: int = 0
+var _environment_forecast_job: int = -1
+var _environment_forecast_session: int = 0
+var _environment_forecast_revision: int = -1
+var _environment_forecast_actor: int = 0
+var _environment_forecast_worker := preload("res://scripts/demo/action_forecast_worker.gd").new()
 
 func is_execution_pending() -> bool:
 	return _execution_worker.is_started()
@@ -176,6 +186,7 @@ func _process(delta: float) -> void:
 	_process_attack_forecast()
 	_process_action_forecast()
 	_process_turn_forecast()
+	_process_environment_forecast()
 	if _battle == null or _battle.phase != BattleTacticalSession.Phase.ENEMY_TURN: return
 	_ai_delay -= delta
 	if _ai_delay > 0.0: return
@@ -190,6 +201,7 @@ func _input(event: InputEvent) -> void:
 		_pointer_position = (event as InputEventMouseMotion).position
 		_update_action_bar_hover()
 		_update_turn_forecast_hover()
+		_update_environment_forecast_hover()
 		if (_forecast != null or _attack_forecast_pending or _move_forecast != null or _move_forecast_pending or _raise_forecast != null or (_item_forecast != null and _item_forecast_kind == &"summon")) and board_view.hover_cell.x < 0 and not _forecast_reading_region().has_point(_pointer_position) and not board_view.get_global_rect().has_point(_pointer_position):
 			_clear_forecast()
 			_refresh_inspection()
@@ -200,6 +212,7 @@ func _exit_tree() -> void:
 	_attack_forecast_worker.close()
 	_action_forecast_worker.close()
 	_turn_forecast_worker.close()
+	_environment_forecast_worker.close()
 	_turn_forecast = null
 	_turn_forecast_pending = false
 	_attack_forecast_pending = false
@@ -253,7 +266,13 @@ func _build_ui() -> void:
 	_subtitle = _label("", 16, Color("a5b3c5"))
 	root.add_child(_subtitle)
 	_phase_label = _label("", 20, Color("f7c97d"))
-	root.add_child(_phase_label)
+	_phase_row = HBoxContainer.new()
+	root.add_child(_phase_row)
+	_phase_row.add_child(_phase_label)
+	_environment_button = _button("Окружение · прогноз фазы")
+	_environment_button.focus_mode = Control.FOCUS_NONE
+	_environment_button.pressed.connect(_request_environment_forecast)
+	_phase_row.add_child(_environment_button)
 	var content := HBoxContainer.new()
 	content.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_theme_constant_override("separation", 24)
@@ -618,6 +637,7 @@ func _refresh() -> void:
 	if is_execution_pending(): return
 	# Любой refresh перечитывает состояние, включая изменения вне command revision.
 	var refresh_turn := (_turn_forecast != null or _turn_forecast_pending) and (_over_end_turn_button() or _forecast_reading_region().has_point(_pointer_position))
+	var refresh_environment := (_environment_forecast != null or _environment_forecast_pending) and (_over_environment_button() or _forecast_reading_region().has_point(_pointer_position))
 	var refresh_armor := (_armor_forecast != null or (_action_forecast_pending and _action_forecast_kind == &"armor")) and _hovered_bar_action == &"restore_armor"
 	var refresh_guard_action := _hovered_bar_action if _guard_forecast != null or (_action_forecast_pending and _action_forecast_kind in [&"guard", &"opportunity", &"counterattack"]) else &""
 	var refresh_healing := (_item_forecast != null or (_action_forecast_pending and _action_forecast_kind == &"healing")) and _hovered_bar_action == &"healing_item"
@@ -640,7 +660,10 @@ func _refresh() -> void:
 	_status.custom_minimum_size.y = 26 if tactical_mode else 46
 	_mode_button.text = "Полигон" if tactical_mode else "Бой против ИИ"
 	_phase_label.visible = tactical_mode
+	_phase_row.visible = tactical_mode
 	_end_turn_button.visible = tactical_mode
+	_environment_button.visible = session is BattleCoreReactionsSession and not _is_deploying()
+	_environment_button.disabled = not _can_forecast_environment()
 	# В тактическом режиме атака должна иметь единственную точку входа в action bar;
 	# старая кнопка остаётся частью sandbox-полигона для совместимости.
 	_attack_button.visible = not tactical_mode
@@ -807,7 +830,7 @@ func _refresh() -> void:
 	elif session is BattleCoreCombinationSession:
 		_instructions.text += " · 8: печать призыва"
 	if session is BattleCoreReactionsSession and not _is_deploying():
-		_instructions.text = "Скрытая атака: +50% физической базы при двух угрозах. Танки переключают реакцию на странице 2; 1 основное за установку, заряд общий."
+		_instructions.text = "Окружение после врагов: красный «ОБВАЛ» сработает через полный круг. Реакции и безопасный отход — на странице 2."
 	if _cover_guard_mode: _status.text = "Прикрытие: выберите подсвеченного союзника. 1 основное действие, заряд реакции тратится при первом срабатывании. Esc — отмена."
 	_hover(board_view.hover_cell)
 	_log.text = "\n".join(_journal)
@@ -815,6 +838,7 @@ func _refresh() -> void:
 	if refresh_guard and _battle != null and _battle.can_player_act(): _action_bar_hovered(refresh_guard_action)
 	if refresh_healing and _battle != null and _battle.can_player_act(): _action_bar_hovered(&"healing_item")
 	if refresh_turn and _can_forecast_turn(): _request_turn_forecast()
+	if refresh_environment and _can_forecast_environment(): _request_environment_forecast()
 	_render_forecast_panel()
 
 func _perk_status_text(unit: UnitState) -> String:
@@ -924,6 +948,11 @@ func _hover(cell: Vector2i) -> void:
 	if is_execution_pending(): return
 	if session == null or session.board == null: return
 	if _is_deploying(): return
+	if _environment_forecast != null or _environment_forecast_pending:
+		if cell.x < 0:
+			_resolve_hover_exit.call_deferred()
+			return
+		_clear_forecast()
 	if _turn_forecast != null or _turn_forecast_pending:
 		if cell.x < 0:
 			_resolve_hover_exit.call_deferred()
@@ -1011,6 +1040,8 @@ func _hover(cell: Vector2i) -> void:
 			details.append("%s · %s" % [faction, kind])
 		var fire := "Шипы: 8 урона при входе." if not environment.fire_at(cell).is_empty() else "Шипов нет."
 		_hint.text = fire + ("\nТела ×%d: %s" % [details.size(), ", ".join(details)] if not details.is_empty() else "\nТрупов нет.")
+		if environment.collapse.get("marked", []).has(cell):
+			_hint.text = "%s · ОБВАЛ после хода врагов. Клетка станет пропастью; оставшийся здесь погибнет.\n" % _cell_name(cell) + _hint.text
 		if raising_mode: _hint.text += "\nПоднятие: выберите соседнюю клетку той же высоты."
 		_render_forecast_panel()
 		return
@@ -1171,6 +1202,11 @@ func _leave_forecast_panel() -> void:
 
 func _resolve_hover_exit() -> void:
 	if is_execution_pending(): return
+	if _environment_forecast != null or _environment_forecast_pending:
+		if _over_environment_button() or _forecast_reading_region().has_point(_pointer_position): return
+		_clear_forecast()
+		_refresh_inspection()
+		return
 	if _turn_forecast != null or _turn_forecast_pending:
 		if _over_end_turn_button() or _forecast_reading_region().has_point(_pointer_position): return
 		_clear_forecast()
@@ -1192,6 +1228,9 @@ func _forecast_reading_region() -> Rect2:
 
 func _clear_forecast() -> void:
 	if is_execution_pending(): return
+	_environment_forecast_generation += 1
+	_environment_forecast_pending = false
+	_environment_forecast = null
 	_turn_forecast_generation += 1
 	_turn_forecast_pending = false
 	_turn_forecast = null
@@ -1250,6 +1289,9 @@ func _clear_forecast() -> void:
 func _render_forecast_panel() -> void:
 	if is_execution_pending(): return
 	if _forecast_panel == null: return
+	if _environment_forecast_pending or _environment_forecast != null:
+		_render_environment_forecast()
+		return
 	if _turn_forecast_pending or _turn_forecast != null:
 		_render_turn_forecast()
 		return
@@ -1719,6 +1761,8 @@ func _event_text(event: Dictionary) -> String:
 			return "%s использует %s (%d основное; зарядов осталось: %d)." % [actor, name, int(event["main_cost"]), int(event["charges_after"])]
 		&"summoned": return "%s призывает: %s. Действия со следующего хода команды." % [actor, target]
 		&"corpse_created": return "Тело: %s, гуманоид." % _cell_name(event["corpse"]["cell"])
+		&"support_collapsed": return "Обвал: %s стала пропастью." % _cell_name(event["cell"])
+		&"environment_turn": return "Окружение %d: %s" % [event["turn"], "новых угроз нет." if event["marked"].is_empty() else ("%s обрушится в следующую фазу окружения." % _cell_name(event["marked"][0]))]
 		&"corpse_raised": return "%s поднял тело: %s (16 HP), ожидает следующего хода." % [actor, target]
 		&"damaged":
 			var source: Dictionary = event.get("source", {})
@@ -1931,6 +1975,64 @@ func _render_armor_forecast_panel() -> void:
 
 func _can_forecast_turn() -> bool:
 	return not is_execution_pending() and session != null and session.get_script() == BattleCoreReactionsSession and _battle != null and _battle.can_player_act() and not _is_deploying()
+
+func _can_forecast_environment() -> bool:
+	return _can_forecast_turn() and not session.state.environment.collapse.is_empty()
+
+func _over_environment_button() -> bool:
+	return _environment_button != null and _environment_button.is_visible_in_tree() and _environment_button.get_global_rect().has_point(_pointer_position)
+
+func _update_environment_forecast_hover() -> void:
+	if _over_environment_button() and _can_forecast_environment():
+		if _environment_forecast == null and not _environment_forecast_pending: _request_environment_forecast()
+	elif (_environment_forecast != null or _environment_forecast_pending) and not _forecast_reading_region().has_point(_pointer_position):
+		_clear_forecast()
+
+func _request_environment_forecast() -> void:
+	if not _can_forecast_environment(): return
+	_clear_forecast()
+	_environment_forecast_pending = true
+	_environment_forecast_session = session.get_instance_id()
+	_environment_forecast_revision = session.context.get_revision()
+	_environment_forecast_actor = session.selected_id
+	_forecast_panel.get_v_scroll_bar().value = 0.0
+	_render_forecast_panel()
+
+func _environment_request_current() -> bool:
+	return _can_forecast_environment() and session.get_instance_id() == _environment_forecast_session and session.context.get_revision() == _environment_forecast_revision and session.selected_id == _environment_forecast_actor and (_over_environment_button() or _forecast_reading_region().has_point(_pointer_position))
+
+func _process_environment_forecast() -> void:
+	if is_execution_pending(): return
+	var result := _environment_forecast_worker.take_finished()
+	if (_environment_forecast_pending or _environment_forecast != null) and not _environment_request_current():
+		_clear_forecast()
+		return
+	if result != null and _environment_forecast_pending and _environment_forecast_job == _environment_forecast_generation:
+		_environment_forecast = result
+		_environment_forecast_pending = false
+		_render_forecast_panel()
+	if not _environment_forecast_pending or _environment_forecast_worker.is_started(): return
+	_environment_forecast_job = _environment_forecast_generation
+	_environment_forecast_worker.start((session as BattleCoreReactionsSession).prepare_environment_forecast())
+
+func _render_environment_forecast() -> void:
+	_forecast_panel.visible = true
+	_forecast_heading.visible = true
+	_forecast_heading.text = "ПРОГНОЗ · ОКРУЖЕНИЕ"
+	_log.visible = false
+	_log_heading.visible = false
+	var text := "[font_size=16][color=#f7c97d]Фаза окружения[/color][/font_size]\nЕсли она начнётся при нынешней расстановке. Будущие действия могут изменить результат.\n\n"
+	if _environment_forecast_pending:
+		_forecast_panel.text = text + "Рассчитываем последствия…"
+		return
+	if _environment_forecast.status != ActionReceipt.APPLIED:
+		_forecast_panel.text = text + "Прогноз недоступен: " + _reason_text(_environment_forecast.reason)
+		return
+	for event: Dictionary in _environment_forecast.events: text += _event_text(event) + "\n"
+	for id: int in _environment_forecast.units_after:
+		if _environment_forecast.units_before[id].alive and not _environment_forecast.units_after[id].alive:
+			text += "[color=#f29b9b]%s: погибнет в пропасти.[/color]\n" % _name_for(id)
+	_forecast_panel.text = text
 
 func _over_end_turn_button() -> bool:
 	return _end_turn_button != null and _end_turn_button.is_visible_in_tree() and _end_turn_button.get_global_rect().has_point(_pointer_position)

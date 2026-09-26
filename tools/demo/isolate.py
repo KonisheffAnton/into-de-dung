@@ -126,6 +126,9 @@ def main():
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "safe_retreat_integration":
             invalid = invalid or "SAFE RETREAT INTEGRATION RESULTS:" not in output or ", 0 failed" not in output
+        if label in ("collapse_state", "collapse_phase", "collapse_ui"):
+            marker = {"collapse_state": "COLLAPSE STATE RESULTS:", "collapse_phase": "COLLAPSE PHASE RESULTS:", "collapse_ui": "COLLAPSE UI RESULTS:"}[label]
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("attack_forecast_worker", "attack_async_ui", "spatial_guard_stats"):
             marker = {"attack_forecast_worker": "ATTACK FORECAST WORKER RESULTS:", "attack_async_ui": "ATTACK ASYNC UI RESULTS:", "spatial_guard_stats": "SPATIAL GUARD STATS RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -201,6 +204,8 @@ def main():
         run("turn_forecast", ["--script", "tests/test_turn_forecast.gd"])
         run("safe_retreat", ["--script", "tests/test_safe_retreat.gd"])
         run("safe_retreat_integration", ["--script", "tests/test_safe_retreat_integration.gd"])
+        run("collapse_state", ["--script", "tests/test_collapse_state.gd"])
+        run("collapse_phase", ["--script", "tests/test_collapse_phase.gd"])
         run("spatial_guard_stats", ["--script", "tests/test_spatial_guard_stats.gd"])
         run("control_perks_codec", ["--script", "tests/test_control_perks_codec.gd"])
         run("control_package", ["--script", "tests/test_control_package.gd"])
@@ -298,6 +303,10 @@ def main():
         if args.render_check:
             safe_retreat_args += ["--", "--captures=" + str(out)]
         run("safe_retreat_ui", safe_retreat_args, headless=not args.render_check)
+        collapse_args = ["--script", "tests/test_collapse_ui.gd"]
+        if args.render_check:
+            collapse_args += ["--", "--captures=" + str(out)]
+        run("collapse_ui", collapse_args, headless=not args.render_check)
         entangle_args = ["--script", "tests/test_entangle_ui.gd"]
         if args.render_check:
             entangle_args += ["--", "--captures=" + str(captures)]

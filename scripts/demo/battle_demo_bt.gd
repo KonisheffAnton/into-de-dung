@@ -10,7 +10,36 @@ var _actor: UnitState
 
 
 func _init() -> void:
-	_nodes = [_reaction_guard, _attack, _summon, _advance, _wait]
+	_nodes = [_escape_collapse, _reaction_guard, _attack, _summon, _advance, _wait]
+
+func _collapse_danger(cell: Vector2i) -> bool:
+	return _session != null and _session.state != null and _session.state.environment != null and _session.state.environment.collapse.get("marked", []).has(cell)
+
+func _escape_collapse() -> BattleAIIntent:
+	if _actor == null or not _collapse_danger(_actor.cell) or ControlRules.action_reason(_actor, true) != &"": return null
+	var finder := GridPathfinder.new()
+	var board := _session.board
+	finder.configure(board.get_bounds(), board.make_spatial_data_provider(_actor), 1, &"spatial_move_v1")
+	var best: Array[Vector2i] = []
+	var best_cost := INF
+	# Равная цена разрешается порядком y/x; BT не расходует RNG окружения.
+	for y: int in board.height:
+		for x: int in board.width:
+			var cell := Vector2i(x, y)
+			if _collapse_danger(cell) or board.is_occupied(cell) or not board.is_terrain_walkable(cell) or not _session.state.environment.fire_at(cell).is_empty(): continue
+			var path := finder.find_path(_actor.cell, cell)
+			if path.size() < 2 or _has_large_drop(board, path): continue
+			var cost := _path_cost(board, path)
+			if cost > _actor.move_points_left or cost >= best_cost: continue
+			if MoveCommand.new(_actor.id, path, _session.context.get_revision()).validate(_session.context) != &"": continue
+			best = path
+			best_cost = cost
+	if best.is_empty(): return null
+	var result := BattleAIIntent.new()
+	result.kind = BattleAIIntent.Kind.MOVE
+	result.actor_id = _actor.id
+	result.path = best
+	return result
 
 func _reaction_guard() -> BattleAIIntent:
 	if _session == null or not MeleeThreat.has_reactions(_actor) or not _actor.can_attack(): return null
@@ -106,7 +135,7 @@ func _push_toward_void(target: UnitState) -> bool:
 	else:
 		direction = Vector2i(0, signi(direction.y))
 	var landing := target.cell + direction
-	return not _session.board.is_in_bounds(landing) or _session.board.get_terrain(landing) == TerrainType.Type.VOID
+	return not _session.board.is_in_bounds(landing) or _session.board.get_terrain(landing) == TerrainType.Type.VOID or _collapse_danger(landing)
 
 
 func _advance() -> BattleAIIntent:
@@ -135,6 +164,7 @@ func _advance() -> BattleAIIntent:
 			var endpoint: Vector2i = affordable[affordable.size() - 1]
 			# Прогресс измеряется по найденному пути: обход стены может временно удалять от цели.
 			if endpoint == _actor.cell: continue
+			if _collapse_danger(endpoint): continue
 			candidates.append({"path": affordable, "cost": _path_cost(board, full_path), "goal": goal, "target_id": target.id})
 	if candidates.is_empty():
 		return null
@@ -215,6 +245,7 @@ func _summon() -> BattleAIIntent:
 	var action := item.get_use_action()
 	if action == null or action.get_kind() != ItemUseAction.Kind.SUMMON_ADJACENT: return null
 	for cell in battle.summoning_cells(_actor.id):
+		if _collapse_danger(cell): continue
 		# Сначала дешёвый отказ: при исчерпанном main не снимаем весь мир для каждой клетки.
 		if action.hint_reason(battle.context, _actor.id, item.get_item_instance_id(), cell) != &"": continue
 		# Подходящего кандидата подтверждаем, сохраняя выбор BT при повреждённом runtime.
