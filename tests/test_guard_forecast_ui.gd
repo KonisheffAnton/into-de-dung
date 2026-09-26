@@ -41,6 +41,7 @@ func _run() -> void:
 	var rng := battle.context.get_rng().to_dict().duplicate(true)
 	var next_id := UnitId.get_counter()
 	await _guard_hover()
+	await _settle_action()
 	_check(_demo._guard_forecast != null and _demo._guard_forecast.status == ActionReceipt.APPLIED, "slot 2 hover builds ready guard forecast")
 	_check(_demo._forecast_panel.is_visible_in_tree() and _demo._forecast_panel.text.contains("Основные: 1 → 0 (расход 1)") and _demo._forecast_panel.text.contains("Стойка: выключена → включена"), "panel shows cost and stance from DTO")
 	_check(_demo._forecast_panel.text.contains("Бонусные:") and _demo._forecast_panel.text.contains("Движение:") and _demo._forecast_panel.text.contains("До следующего хода команды"), "panel explains remaining resources and duration")
@@ -65,6 +66,7 @@ func _run() -> void:
 	_check(_demo._guard_forecast == null and not _demo._forecast_panel.visible, "leaving panel clears result")
 	await _guard_hover()
 	await _mouse(_button_center(2))
+	await _settle_action()
 	_check(_demo._guard_forecast == null and _demo._item_forecast != null and _demo._item_forecast_kind == &"healing", "healing hover replaces guard forecast")
 	await _guard_hover()
 	await _mouse(_button_center(0))
@@ -73,16 +75,19 @@ func _run() -> void:
 	var revision := battle.context.get_revision()
 	actor.guard_stance = true
 	_demo._refresh()
+	await _settle_action()
 	_check(battle.context.get_revision() == revision and _demo._guard_forecast != null and _demo._guard_forecast != cached and _demo._guard_forecast.reason == &"guard/already_active" and _demo._action_bar._buttons[1].disabled, "refresh invalidates direct state change without revision")
 	_check(_demo._forecast_panel.text.contains("Прогноз недоступен") and not _demo._forecast_panel.text.contains("Стойка: выключена → включена"), "refusal has no ready stance result")
 	await _capture("guard-forecast-rejected")
 	actor.guard_stance = false
 	_demo._refresh()
+	await _settle_action()
 	_check(_demo._guard_forecast != null and _demo._guard_forecast.status == ActionReceipt.APPLIED and not _demo._action_bar._buttons[1].disabled, "refresh restores ready forecast")
 	var before_revision_change := _demo._guard_forecast
 	var other_actor: UnitState = battle.units[2]
 	var other_guard := battle._queue.submit(GuardCommand.new(other_actor.id, battle.context.get_revision()), battle.context)
 	await _mouse(_button_center(1) + Vector2(2, 0))
+	await _settle_action()
 	_check(other_guard.status == ActionReceipt.APPLIED and _demo._guard_forecast != before_revision_change and _demo._guard_forecast.snapshot_before == _snapshot() and not actor.guard_stance, "revision change refreshes same-button hover without executing selected actor")
 	# После hover команда должна заново проверить состояние, даже без revision.
 	actor.action_resources.try_spend_main(1)
@@ -92,6 +97,7 @@ func _run() -> void:
 	battle = _demo.session as BattleTacticalSession
 	actor = battle.selected_unit()
 	await _guard_hover()
+	await _settle_action()
 	var expected := _demo._guard_forecast
 	await _click(_button_center(1))
 	_check(actor.guard_stance and actor.action_resources.get_main_left() == 0 and _demo._guard_forecast == null, "click enables guard and spends one main then clears forecast")
@@ -99,12 +105,14 @@ func _run() -> void:
 	_check(_demo._stats.text.contains("Охранная стойка") and _demo._action_bar._buttons[1].disabled, "live stance and unavailable action displayed")
 	await _capture("guard-forecast-applied")
 	await _guard_hover()
+	await _settle_action()
 	_check(_demo._guard_forecast != null and _demo._guard_forecast.reason == &"guard/already_active", "disabled button still explains refusal on hover")
 	var guarded := _snapshot()
 	await _key(KEY_2)
 	_check(_snapshot() == guarded and battle.last_receipt.status == ActionReceipt.REJECTED and _demo._guard_forecast == null, "repeat keyboard guard refuses without additional cost")
 	await _key(KEY_R)
 	await _guard_hover()
+	await _settle_action()
 	expected = _demo._guard_forecast
 	await _key(KEY_2)
 	_check(_snapshot() == expected.snapshot_after and _demo._guard_forecast == null, "key 2 still executes fresh guard directly")
@@ -119,6 +127,7 @@ func _run() -> void:
 	battle._queue = ActionQueue.new(1, 512, 32)
 	var fault_before := _snapshot()
 	await _guard_hover()
+	await _settle_action()
 	_check(_demo._guard_forecast != null and _demo._guard_forecast.status == ActionReceipt.FAULTED and _demo._guard_forecast.units.is_empty(), "terminal limit yields diagnostic forecast only")
 	_check(_demo._forecast_panel.text.contains("Прогноз недоступен") and not _demo._forecast_panel.text.contains("Стойка: выключена → включена") and _snapshot() == fault_before and not actor.guard_stance, "FAULTED prefix never displays ready stance or changes live")
 	await _key(KEY_R)
@@ -140,10 +149,12 @@ func _run() -> void:
 	_demo.select_character(battle.units[2].id)
 	_check(_demo._guard_forecast == null, "selection clears previous actor forecast")
 	await _guard_hover()
+	await _settle_action()
 	_check(_demo._guard_forecast != null and _demo._guard_forecast.actor_id == battle.selected_id, "new hover uses newly selected actor")
 	_demo.inspect_enemy(battle.units[1].id)
 	_check(_demo._guard_forecast == null and _demo.inspected_id == battle.units[1].id, "inspection clears guard forecast")
 	await _guard_hover()
+	await _settle_action()
 	_check(_demo.inspected_id == battle.units[1].id and _demo._guard_forecast.actor_id == battle.selected_id, "guard hover during inspection retains inspection and targets ally")
 	await _key(KEY_R)
 	_check(_demo._guard_forecast == null, "reset clears guard forecast")
@@ -173,6 +184,9 @@ func _button_center(index: int) -> Vector2:
 func _guard_hover() -> void:
 	await _mouse(Vector2(4, 4))
 	await _mouse(_button_center(1))
+
+func _settle_action() -> void:
+	await preload("res://tests/fixtures/action_forecast_wait.gd").settle(self, _demo)
 
 func _mouse(position: Vector2) -> void:
 	var event := InputEventMouseMotion.new()

@@ -21,12 +21,14 @@ static func rejected(value: StringName) -> GuardForecast:
 
 static func build(context: ActionContext, queue: ActionQueue, command: Command) -> GuardForecast:
 	if command == null or command.get_script() != GuardCommand: return rejected(&"preview/unsupported_command")
-	var guard_command := command as GuardCommand
 	var simulation := ForecastSimulation.run(context, queue, command)
+	return from_simulation(simulation, (command as GuardCommand)._actor_id)
+
+static func from_simulation(simulation: ForecastSimulation, actor_id: int) -> GuardForecast:
 	var result := GuardForecast.new()
 	result.status = simulation.status
 	result.reason = simulation.reason
-	result.actor_id = guard_command._actor_id
+	result.actor_id = actor_id
 	result.events = simulation.events
 	result.steps = simulation.steps
 	result.snapshot_before = simulation.snapshot_before

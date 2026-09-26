@@ -120,21 +120,51 @@ static func _walk_valid(value: Variant, depth: int, ancestors: Array, count: Arr
 			# Один символ UTF-8 занимает не больше четырёх байт; короткие строки
 			# проверяются без временного PackedByteArray, длинные — прежним лимитом.
 			return value.length() <= MAX_STRING_BYTES / 4 or value.to_utf8_buffer().size() <= MAX_STRING_BYTES
-		TYPE_ARRAY, TYPE_DICTIONARY:
-			for ancestor: Variant in ancestors:
-				if is_same(ancestor, value): return false
-			if value.size() > MAX_VALUE_NODES - count[0]: return false
-			ancestors.append(value)
-			if value is Array:
-				for item: Variant in value:
-					if not _walk_valid(item, depth + 1, ancestors, count): return false
-			else:
-				for key: Variant in value:
-					if typeof(key) != TYPE_STRING: return false
-					if not _walk_valid(key, depth + 1, ancestors, count) or not _walk_valid(value[key], depth + 1, ancestors, count): return false
-			ancestors.pop_back()
-			return true
+		TYPE_ARRAY, TYPE_DICTIONARY: return _walk_valid_container(value, depth, ancestors, count)
 	return false
+
+static func _walk_valid_container(value: Variant, depth: int, ancestors: Array, count: Array[int]) -> bool:
+	for ancestor: Variant in ancestors:
+		if is_same(ancestor, value): return false
+	if value.size() > MAX_VALUE_NODES - count[0]: return false
+	ancestors.append(value)
+	if value is Array:
+		for item: Variant in value:
+			# Частые скалярные leaves проверяются здесь без рекурсивного вызова walker.
+			count[0] += 1
+			if count[0] > MAX_VALUE_NODES or depth + 1 > MAX_DEPTH: return false
+			match typeof(item):
+				TYPE_BOOL, TYPE_INT, TYPE_STRING_NAME, TYPE_VECTOR2I: pass
+				TYPE_FLOAT:
+					if not is_finite(item): return false
+				TYPE_STRING:
+					if item.length() > MAX_STRING_BYTES / 4 and item.to_utf8_buffer().size() > MAX_STRING_BYTES: return false
+				TYPE_ARRAY, TYPE_DICTIONARY:
+					if not _walk_valid_container(item, depth + 1, ancestors, count): return false
+				_:
+					return false
+	else:
+		for key: Variant in value:
+			if typeof(key) != TYPE_STRING: return false
+			# Ключ является отдельным узлом и проверяется до соответствующего значения.
+			count[0] += 1
+			if count[0] > MAX_VALUE_NODES or depth + 1 > MAX_DEPTH: return false
+			if key.length() > MAX_STRING_BYTES / 4 and key.to_utf8_buffer().size() > MAX_STRING_BYTES: return false
+			var item: Variant = value[key]
+			count[0] += 1
+			if count[0] > MAX_VALUE_NODES or depth + 1 > MAX_DEPTH: return false
+			match typeof(item):
+				TYPE_BOOL, TYPE_INT, TYPE_STRING_NAME, TYPE_VECTOR2I: pass
+				TYPE_FLOAT:
+					if not is_finite(item): return false
+				TYPE_STRING:
+					if item.length() > MAX_STRING_BYTES / 4 and item.to_utf8_buffer().size() > MAX_STRING_BYTES: return false
+				TYPE_ARRAY, TYPE_DICTIONARY:
+					if not _walk_valid_container(item, depth + 1, ancestors, count): return false
+				_:
+					return false
+	ancestors.pop_back()
+	return true
 
 static func _shape(value: Variant, fields: Dictionary) -> bool:
 	if typeof(value) != TYPE_DICTIONARY or value.size() != fields.size(): return false

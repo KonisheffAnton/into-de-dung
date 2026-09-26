@@ -39,6 +39,7 @@ func _run() -> void:
 	var last := battle.last_receipt
 	await _key(KEY_6)
 	await _mouse_motion(_demo.board_view.cell_center(target))
+	await _settle_action()
 	_check(_demo.raising_mode and _demo._raise_forecast != null and _demo._raise_forecast.status == ActionReceipt.APPLIED, "slot6 hover builds ready raise forecast")
 	_check(_demo._forecast_panel.is_visible_in_tree() and _demo._forecast_panel.text.contains("Тело #") and _demo._forecast_panel.text.contains("будет использовано") and _demo._forecast_panel.text.contains("основные 1 → 0 (расход 1)"), "visible body consumption and actual cost")
 	_check(_demo._forecast_panel.text.contains("HP: 16.0 / 16.0") and _demo._forecast_panel.text.contains("0 основных, 0 бонусных, 0.0 движения") and _demo._forecast_panel.text.contains("ожидает следующего хода") and _demo._forecast_panel.text.contains("владелец"), "new helper details and pending resources")
@@ -68,6 +69,7 @@ func _run() -> void:
 	await _mouse_motion_global(Vector2(4.0, 4.0))
 	_check(_demo._raise_forecast == null and not _demo._forecast_panel.visible, "leaving board and panel clears preview")
 	await _mouse_motion(_demo.board_view.cell_center(Vector2i(1, 3)))
+	await _settle_action()
 	_check(_demo._raise_forecast != null and _demo._raise_forecast.status == ActionReceipt.REJECTED and _demo._forecast_panel.text.contains("Прогноз недоступен") and not _demo._forecast_panel.text.contains("HP: 16"), "empty target explains refusal without ready helper")
 	await _capture("raise-forecast-rejected")
 	await _click_cell(Vector2i(1, 3))
@@ -77,9 +79,11 @@ func _run() -> void:
 	var revision := battle.context.get_revision()
 	battle.state.environment.ignite(target)
 	_demo._refresh()
+	await _settle_action()
 	_check(battle.context.get_revision() == revision and _demo._raise_forecast != null and _demo._raise_forecast.status == ActionReceipt.REJECTED and _demo._raise_forecast != cached, "refresh invalidates direct change without revision")
 	battle.state.environment.fires.clear()
 	_demo._refresh()
+	await _settle_action()
 	_check(_demo._raise_forecast != null and _demo._raise_forecast.status == ActionReceipt.APPLIED, "refresh restores valid target forecast")
 	# Между hover и кликом цель может измениться даже без revision.
 	battle.state.environment.ignite(target)
@@ -109,6 +113,7 @@ func _run() -> void:
 	await _key(KEY_ESCAPE)
 	await _key(KEY_6)
 	await _mouse_motion(_demo.board_view.cell_center(target))
+	await _settle_action()
 	var expected := _demo._raise_forecast
 	await _click_cell(target)
 	var helper := battle.state.active_summon(actor.id)
@@ -157,6 +162,9 @@ func _mouse_motion_global(position: Vector2) -> void:
 	await process_frame
 	await process_frame
 	await preload("res://tests/fixtures/attack_forecast_wait.gd").settle(self, _demo)
+
+func _settle_action() -> void:
+	await preload("res://tests/fixtures/action_forecast_wait.gd").settle(self, _demo)
 
 func _click_cell(cell: Vector2i) -> void:
 	await _click_at(_demo.board_view.global_position + _demo.board_view.cell_center(cell))

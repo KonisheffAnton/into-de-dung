@@ -17,6 +17,12 @@ func copy_for_queue() -> Command:
 	return UseHealingItemCommand.new(_actor_id, _item_id, _revision)
 
 func validate(context: ActionContext) -> StringName:
+	return _availability(context, true)
+
+func hint_reason(context: ActionContext) -> StringName:
+	return _availability(context, false)
+
+func _availability(context: ActionContext, full_snapshot: bool) -> StringName:
 	if context == null or context.get_state() == null or context.get_state().get_board() == null: return &"item/invalid_runtime"
 	if _revision < 0 or _revision > ActionQueue.MAX_ID - 2 or _revision != context.get_revision(): return &"item/stale_revision"
 	var state := context.get_state()
@@ -24,8 +30,9 @@ func validate(context: ActionContext) -> StringName:
 	if actor == null or not actor.is_alive(): return &"item/no_selected_unit"
 	var control_reason := ControlRules.action_reason(actor)
 	if control_reason != &"": return control_reason
-	var capture := ItemSimulationSnapshot.capture(state, context.get_unsupported_runtime_ids())
-	if capture.code != ItemSnapshotResult.Code.OK: return &"item/invalid_runtime"
+	if full_snapshot:
+		var capture := ItemSimulationSnapshot.capture(state, context.get_unsupported_runtime_ids())
+		if capture.code != ItemSnapshotResult.Code.OK: return &"item/invalid_runtime"
 	var owner := state.get_owner(_actor_id)
 	if owner == null or owner.is_closed() or owner.get_owner() != actor or state.get_board().occupant_at(actor.cell) != actor: return &"item/invalid_runtime"
 	var rules := context.get_move_rules()
@@ -38,6 +45,7 @@ func validate(context: ActionContext) -> StringName:
 	if action == null or action.get_kind() != ItemUseAction.Kind.HEAL_SELF: return &"item/not_usable"
 	if item.get_charges_left() < action.get_charge_cost(): return &"item/no_charges"
 	if actor.action_resources.get_main_left() < action.get_main_cost(): return &"item/insufficient_main"
+	if not full_snapshot and (actor.stats == null or actor.stats.get_script() != StatsBag or actor.vitals == null or actor.vitals.get_script() != Vitals or actor.vitals._stats != actor.stats): return &"item/invalid_runtime"
 	var maximum := ActionHpExecutor._stat_value(actor, StatTypes.StatType.HP_MAX)
 	if not is_finite(maximum) or maximum <= 0.0: return &"item/invalid_runtime"
 	if actor.vitals.get_hp() >= maximum: return &"item/full_hp"

@@ -80,7 +80,7 @@ func refresh() -> void:
 		for cell in (session as BattleTacticalSession).summoning_cells(): _reachable[cell] = 0.0
 	if raising_mode and session is BattleEnvironmentSession:
 		_reachable = {}
-		for cell in (session as BattleEnvironmentSession).raise_cells(): _reachable[cell] = 0.0
+		for cell in (session as BattleEnvironmentSession).raise_hint_cells(): _reachable[cell] = 0.0
 	if session is BattleCoreCombinationSession and (session as BattleCoreCombinationSession).is_deploying():
 		_reachable = (session as BattleCoreCombinationSession).deployment_cells()
 	_refresh_path()

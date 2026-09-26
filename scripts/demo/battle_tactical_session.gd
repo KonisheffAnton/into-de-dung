@@ -116,6 +116,13 @@ func preview_guard() -> GuardForecast:
 	if reason != &"": return GuardForecast.rejected(reason)
 	return GuardForecast.build(context, _queue, GuardCommand.new(selected_id, context.get_revision()))
 
+func prepare_guard_forecast(mode: int = CombatPerksState.Mode.NONE, cover_id: int = 0) -> ForecastSimulation.Prepared:
+	if not can_player_act(): return ForecastSimulation.Prepared.rejected(&"battle/input_locked")
+	var actor := selected_unit()
+	if actor == null or actor.faction != Faction.Type.PLAYER: return ForecastSimulation.Prepared.rejected(&"guard/no_selected_unit")
+	var command_mode := -1 if mode == CombatPerksState.Mode.NONE else mode
+	return ForecastSimulation.prepare(context, _queue, GuardCommand.new(actor.id, context.get_revision(), command_mode, cover_id))
+
 func healing_item() -> ItemInstance:
 	var actor := selected_unit()
 	if actor == null or actor.faction != Faction.Type.PLAYER or state == null: return null
@@ -128,6 +135,9 @@ func healing_item() -> ItemInstance:
 func healing_reason() -> StringName:
 	return _item_reason(healing_item(), ItemUseAction.Kind.HEAL_SELF)
 
+func healing_hint_reason() -> StringName:
+	return _item_reason(healing_item(), ItemUseAction.Kind.HEAL_SELF, Vector2i(-1, -1), true)
+
 func use_healing_item() -> ActionReceipt:
 	return _use_item(healing_item(), ItemUseAction.Kind.HEAL_SELF)
 
@@ -137,18 +147,28 @@ func preview_healing_item() -> ItemUseForecast:
 func preview_summoning_item(cell: Vector2i) -> ItemUseForecast:
 	return _preview_item(summoning_item(), ItemUseAction.Kind.SUMMON_ADJACENT, cell)
 
+func prepare_item_forecast(kind: ItemUseAction.Kind, cell: Vector2i = Vector2i(-1, -1)) -> ForecastSimulation.Prepared:
+	if not can_player_act(): return ForecastSimulation.Prepared.rejected(&"battle/input_locked")
+	var item := healing_item() if kind == ItemUseAction.Kind.HEAL_SELF else summoning_item()
+	if item == null: return ForecastSimulation.Prepared.rejected(&"item/not_owned")
+	var action := item.get_use_action()
+	if action == null or action.get_kind() != kind: return ForecastSimulation.Prepared.rejected(&"item/not_usable")
+	# Снимок проверяется при отделении; полная команда — на копии в рабочем потоке.
+	return ForecastSimulation.prepare(context, _queue, action.create_command(selected_id, item.get_item_instance_id(), context.get_revision(), cell))
+
 func _preview_item(item: ItemInstance, kind: ItemUseAction.Kind, cell: Vector2i = Vector2i(-1, -1)) -> ItemUseForecast:
 	# Допуск совпадает с кликом, но отказ прогноза не заменяет последний live receipt.
 	var reason := _item_reason(item, kind, cell)
 	if reason != &"": return ItemUseForecast.rejected(reason)
 	return ItemUseForecast.build(context, _queue, item_command(selected_id, item.get_item_instance_id(), cell))
 
-func _item_reason(item: ItemInstance, kind: ItemUseAction.Kind, cell: Vector2i = Vector2i(-1, -1)) -> StringName:
+func _item_reason(item: ItemInstance, kind: ItemUseAction.Kind, cell: Vector2i = Vector2i(-1, -1), hint_only: bool = false) -> StringName:
 	# Порядок ходов остаётся у session; описание действия знает только допуск команды.
 	if not can_player_act(): return &"battle/input_locked"
 	if item == null: return &"item/not_owned"
 	var action := item.get_use_action()
 	if action == null or action.get_kind() != kind: return &"item/not_usable"
+	if hint_only: return action.hint_reason(context, selected_id, item.get_item_instance_id(), cell)
 	return action.availability_reason(context, selected_id, item.get_item_instance_id(), cell)
 
 func _use_item(item: ItemInstance, kind: ItemUseAction.Kind, cell: Vector2i = Vector2i(-1, -1)) -> ActionReceipt:
@@ -298,6 +318,12 @@ func summoning_reason() -> StringName:
 	var cells := summoning_cells()
 	var cell := cells[0] if not cells.is_empty() else Vector2i(-1, -1)
 	return _item_reason(summoning_item(), ItemUseAction.Kind.SUMMON_ADJACENT, cell)
+
+func summoning_hint_reason() -> StringName:
+	if not supports_summoning(): return summoning_reason()
+	var cells := summoning_cells()
+	var cell := cells[0] if not cells.is_empty() else Vector2i(-1, -1)
+	return _item_reason(summoning_item(), ItemUseAction.Kind.SUMMON_ADJACENT, cell, true)
 
 func use_summoning_item(cell: Vector2i) -> ActionReceipt:
 	return _use_item(summoning_item(), ItemUseAction.Kind.SUMMON_ADJACENT, cell)

@@ -18,16 +18,23 @@ func _corpse(state: ItemSimulationState) -> Dictionary:
 	return {}
 
 func validate(context: ActionContext) -> StringName:
+	return _availability(context, true)
+
+func hint_reason(context: ActionContext) -> StringName:
+	return _availability(context, false)
+
+func _availability(context: ActionContext, full_snapshot: bool) -> StringName:
 	if context == null or context.get_state() == null or context.get_state().environment == null: return &"environment/not_enabled"
 	if _revision < 0 or _revision > ActionContext.MAX_ID - 2 or _revision != context.get_revision(): return &"environment/stale_revision"
 	var state := context.get_state()
 	var board := state.get_board()
+	if not full_snapshot and board == null: return &"environment/invalid_state"
 	var actor := board.get_unit_by_id(_actor_id)
 	if actor == null or not actor.is_alive(): return &"environment/no_actor"
 	var control_reason := ControlRules.action_reason(actor)
 	if control_reason != &"": return control_reason
 	if not SummonDefinition.new().name_valid(actor.debug_name): return &"environment/invalid_helper_name"
-	if ItemSimulationSnapshot.capture(state, context.get_unsupported_runtime_ids()).code != ItemSnapshotResult.Code.OK: return &"environment/invalid_state"
+	if full_snapshot and ItemSimulationSnapshot.capture(state, context.get_unsupported_runtime_ids()).code != ItemSnapshotResult.Code.OK: return &"environment/invalid_state"
 	if state.summon_owner_id(actor.id) != 0: return &"summon/helper_cannot_summon"
 	if state.active_summon(actor.id) != null: return &"summon/active_helper"
 	if actor.action_resources == null or actor.action_resources.validate(actor.id) != &"" or board.occupant_at(actor.cell) != actor: return &"environment/invalid_actor"

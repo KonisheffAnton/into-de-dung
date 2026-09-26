@@ -30,6 +30,7 @@ core без `--full` в неё не входит. Повторять более 
 | Область | Адресный runner в `tests/` |
 |---|---|
 | Оптимизация снимков | `test_snapshot_walk_performance.gd`, `test_unit_snapshot_performance.gd` (full/render): parity raw graph/диагностики/лимитов, schema 1–6, HP_MAX и неизменность DTO |
+| Плавность вспомогательных прогнозов | `test_action_forecast_worker.gd`, `test_action_forecast_async_ui.gd`: все семь вариантов, sync/worker/live parity, hints против строгого отказа, pending/latest/refresh/exit/phase/close; прежние пять UI runner ожидают готовый результат |
 | Немедленный маршрут K4 | `test_move_forecast_ui.gd` (full/render): пунктир до worker, быстрая смена цели, очистка запретов/отмены, замена на исполненный prefix при гибели, PNG предварительного и точного маршрутов |
 | Единый боевой пакет K9 | `test_core_batch.gd`, `test_summon_composition.gd`, `test_core_batch_ui.gd` (full/render): расстановка, все восемь слотов, прогноз брони, печать/поднятие/оба хода, два боя до исхода, snapshot/FAULTED и четыре PNG |
 | Перки и реакции K10 | `test_combat_perks_state.gd`, `test_core_reactions.gd`, `test_core_reactions_ui.gd` (full/render): владельцы, геометрия/помощники, общий заряд/защита/перехват, preview/live/restore, смертельный и принудительный сдвиг, транзит/FAULTED, реальный ввод и PNG |
@@ -69,6 +70,13 @@ core без `--full` в неё не входит. Повторять более 
 ```
 
 ## Что считать приёмкой
+
+`tools/demo/profile_smoothness.gd` запускается в изолированном проекте с рендером.
+Он измеряет CPU обработчиков и реальные интервалы кадров для одного сценария
+общего боя (refresh, наведение, действие, ход ИИ), записывает fingerprint/RNG/counters.
+Для A/B нужны одинаковый runner, машины/режимы и чередование base/current.
+CPU и интервалы кадров — разные величины; максимум в окне не равен FPS.
+Численные результаты принадлежат отчёту этапа, а не переносимому CI-порогу.
 
 Раздельные UI-расстановки D2/D3/D5/C1 находятся в `tests/fixtures/demo/`.
 Они используют общий BattleDemo и прежние сессии, но отсутствуют в игровом меню.

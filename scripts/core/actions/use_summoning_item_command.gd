@@ -18,6 +18,12 @@ func copy_for_queue() -> Command:
 	return UseSummoningItemCommand.new(_actor_id, _item_id, _cell, _revision)
 
 func validate(context: ActionContext) -> StringName:
+	return _availability(context, true)
+
+func hint_reason(context: ActionContext) -> StringName:
+	return _availability(context, false)
+
+func _availability(context: ActionContext, full_snapshot: bool) -> StringName:
 	if context == null or context.get_state() == null or context.get_state().get_board() == null: return &"item/invalid_runtime"
 	if _revision < 0 or _revision > ActionQueue.MAX_ID - 2 or _revision != context.get_revision(): return &"item/stale_revision"
 	var state := context.get_state()
@@ -26,7 +32,7 @@ func validate(context: ActionContext) -> StringName:
 	if actor == null or not actor.is_alive(): return &"item/no_selected_unit"
 	var control_reason := ControlRules.action_reason(actor)
 	if control_reason != &"": return control_reason
-	if ItemSimulationSnapshot.capture(state, context.get_unsupported_runtime_ids()).code != ItemSnapshotResult.Code.OK: return &"item/invalid_runtime"
+	if full_snapshot and ItemSimulationSnapshot.capture(state, context.get_unsupported_runtime_ids()).code != ItemSnapshotResult.Code.OK: return &"item/invalid_runtime"
 	var owner := state.get_owner(_actor_id)
 	if owner == null or owner.is_closed() or owner.get_owner() != actor or board.occupant_at(actor.cell) != actor: return &"item/invalid_runtime"
 	var move := context.get_move_rules()

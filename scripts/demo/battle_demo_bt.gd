@@ -212,6 +212,9 @@ func _summon() -> BattleAIIntent:
 	var action := item.get_use_action()
 	if action == null or action.get_kind() != ItemUseAction.Kind.SUMMON_ADJACENT: return null
 	for cell in battle.summoning_cells(_actor.id):
+		# Сначала дешёвый отказ: при исчерпанном main не снимаем весь мир для каждой клетки.
+		if action.hint_reason(battle.context, _actor.id, item.get_item_instance_id(), cell) != &"": continue
+		# Подходящего кандидата подтверждаем, сохраняя выбор BT при повреждённом runtime.
 		if action.availability_reason(battle.context, _actor.id, item.get_item_instance_id(), cell) != &"": continue
 		var intent := BattleAIIntent.new()
 		intent.kind = BattleAIIntent.Kind.SUMMON

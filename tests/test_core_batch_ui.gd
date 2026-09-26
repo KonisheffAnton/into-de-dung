@@ -45,11 +45,13 @@ func run() -> void:
 	var armor_button := demo._action_bar._buttons[3]
 	before = snapshot(s)
 	await motion(armor_button.global_position + armor_button.size * 0.5)
+	await _settle_action()
 	var armor := demo._armor_forecast
 	check(armor != null and armor.status == ActionReceipt.APPLIED and demo._forecast_panel.text.contains("Временная броня"), "armor hover forecasts real overflow")
 	check(snapshot(s) == before, "armor hover isolates live")
 	await capture("batch-armor-forecast")
 	demo._refresh()
+	await _settle_action()
 	check(demo._armor_forecast != null, "refresh rebuilds hovered armor forecast")
 	await key(KEY_4)
 	check(armor != null and snapshot(s) == armor.snapshot_after and s.last_receipt.get_events() == armor.events, "armor key executes forecast command")
@@ -72,6 +74,7 @@ func run() -> void:
 	check(not cells.is_empty(), "seal has valid targets")
 	if not cells.is_empty():
 		await motion(at(cells[0]))
+		await _settle_action()
 		var forecast := demo._item_forecast
 		check(forecast != null and forecast.status == ActionReceipt.APPLIED, "seal preview inside environment")
 		await capture("batch-summon-forecast")
@@ -85,6 +88,7 @@ func run() -> void:
 	check(s.can_player_act(), "Enter starts reset battle, phase=%d" % s.phase)
 	await click(at(s.units[2].cell))
 	await motion(armor_button.global_position + armor_button.size * 0.5)
+	await _settle_action()
 	check(demo._armor_forecast != null, "new battle has fresh armor forecast")
 	# Изменение без revision не должно подменять новый клик сохранённым прогнозом.
 	if s.selected_unit() != null: s.selected_unit().action_resources.try_spend_main(1)
@@ -110,6 +114,9 @@ func key(code: Key) -> void:
 	event.pressed = false; viewport.push_input(event, true)
 	await process_frame
 	await preload("res://tests/fixtures/attack_forecast_wait.gd").settle(self, demo)
+
+func _settle_action() -> void:
+	await preload("res://tests/fixtures/action_forecast_wait.gd").settle(self, demo)
 
 func motion(position: Vector2) -> void:
 	var event := InputEventMouseMotion.new()

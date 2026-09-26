@@ -23,6 +23,9 @@ static func rejected(value: StringName) -> ItemUseForecast:
 static func build(context: ActionContext, queue: ActionQueue, command: Command) -> ItemUseForecast:
 	if command == null or command.get_script() not in [UseHealingItemCommand, UseSummoningItemCommand]: return rejected(&"preview/unsupported_command")
 	var simulation := ForecastSimulation.run(context, queue, command)
+	return from_simulation(simulation)
+
+static func from_simulation(simulation: ForecastSimulation) -> ItemUseForecast:
 	var result := ItemUseForecast.new()
 	result.status = simulation.status
 	result.reason = simulation.reason

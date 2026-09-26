@@ -33,6 +33,7 @@ func _run() -> void:
 	var actor := battle.selected_unit()
 	var flask_button: Button = _demo._action_bar._buttons[2]
 	await _mouse_motion_global(flask_button.global_position + flask_button.size * 0.5)
+	await _settle_action()
 	_check(_demo._item_forecast != null and _demo._item_forecast.status == ActionReceipt.REJECTED and _demo._forecast_panel.text.contains("полное"), "disabled full flask hover explains refusal")
 	await _mouse_motion_global(flask_button.global_position + flask_button.size * 0.5 + Vector2(1.0, 0.0))
 	_check(_demo._item_forecast != null, "small pointer movement inside slot preserves preview")
@@ -45,6 +46,7 @@ func _run() -> void:
 	_demo._refresh()
 	await _mouse_motion_global(Vector2(4.0, 4.0))
 	await _mouse_motion_global(flask_button.global_position + flask_button.size * 0.5)
+	await _settle_action()
 	_check(_demo._item_forecast != null and _demo._item_forecast.status == ActionReceipt.APPLIED and _demo._forecast_panel.text.contains("HP 12.0 → 24.0") and _demo._forecast_panel.text.contains("Заряды: 2 → 1"), "healing hover shows isolated result and costs")
 	_check(_demo._forecast_panel.is_visible_in_tree() and actor.vitals.get_hp() == 12.0 and battle.healing_item().get_charges_left() == 2, "hover panel is visible without live mutation")
 	_check(_demo._action_bar.get_global_rect().end.y <= _viewport.size.y, "item preview keeps action bar inside viewport")
@@ -58,6 +60,7 @@ func _run() -> void:
 	await _key(KEY_4)
 	var rejected_cell := Vector2i(1, 2)
 	await _mouse_motion(_demo.board_view.cell_center(rejected_cell))
+	await _settle_action()
 	_check(_demo._item_forecast != null and _demo._item_forecast.status == ActionReceipt.REJECTED and _demo._forecast_panel.text.contains("нужна соседняя"), "invalid summon target hover explains refusal")
 	await _click_cell(rejected_cell)
 	_check(not _demo.summoning_mode and _demo._item_forecast == null and battle.summoning_item().get_charges_left() == 2, "rejected target returns to movement without spending")
@@ -68,6 +71,7 @@ func _run() -> void:
 	await _key(KEY_4)
 	var target := Vector2i(0, 1)
 	await _mouse_motion(_demo.board_view.cell_center(target))
+	await _settle_action()
 	_check(_demo._item_forecast != null and _demo._item_forecast.status == ActionReceipt.APPLIED and _demo._forecast_panel.text.contains("помощник") and _demo._forecast_panel.text.contains("владелец"), "summon hover shows new pending helper and owner")
 	_check(_demo._forecast_panel.is_visible_in_tree() and battle.state.active_summon(actor.id) == null and battle.units.size() == 6, "summon hover is visible without live spawn")
 	await _capture("item-forecast-summon")
@@ -91,14 +95,17 @@ func _run() -> void:
 		_demo._refresh()
 		flask_button = _demo._action_bar._buttons[2]
 		await _mouse_motion_global(flask_button.global_position + flask_button.size * 0.5)
+		await _settle_action()
 		_check(_demo.core_combination_mode and _demo._item_forecast != null and _demo._item_forecast.status == ActionReceipt.APPLIED, "K2 healing preview uses real slot hover")
 		_check(_demo._action_bar.get_global_rect().end.y <= _viewport.size.y, "K2 item preview keeps action bar inside viewport")
 		await _capture("item-forecast-k2-healing")
 		await _mouse_motion(_demo.board_view.cell_center(Vector2i(0, 1)))
 		await _mouse_motion_global(flask_button.global_position + flask_button.size * 0.5)
+		await _settle_action()
 		_check(_demo._item_forecast != null and _demo._forecast_panel.is_visible_in_tree(), "board exit into slot3 preserves new healing preview")
 		await _mouse_motion_global(_demo._forecast_panel.global_position + Vector2(20.0, 20.0))
 		await _mouse_motion_global(flask_button.global_position + flask_button.size * 0.5)
+		await _settle_action()
 		_check(_demo._item_forecast != null and _demo._forecast_panel.is_visible_in_tree(), "panel exit into slot3 preserves healing preview")
 		await _mouse_motion_global(_demo._action_bar._buttons[0].global_position + _demo._action_bar._buttons[0].size * 0.5)
 		_check(_demo._item_forecast == null, "leaving slot3 for another action clears healing preview")
@@ -133,6 +140,9 @@ func _key(code: Key) -> void:
 	_viewport.push_input(event, true)
 	await process_frame
 	await preload("res://tests/fixtures/attack_forecast_wait.gd").settle(self, _demo)
+
+func _settle_action() -> void:
+	await preload("res://tests/fixtures/action_forecast_wait.gd").settle(self, _demo)
 
 func _mouse_motion(position: Vector2) -> void:
 	var event := InputEventMouseMotion.new()

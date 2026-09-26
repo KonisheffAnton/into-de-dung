@@ -60,6 +60,14 @@ func availability_reason(context: ActionContext, actor_id: int, item_id: int, ce
 	if command == null: return &"item/not_usable"
 	return command.validate(context)
 
+## Подсказка нужна для планирования; validate и очередь всё равно заново проверяют runtime целиком.
+func hint_reason(context: ActionContext, actor_id: int, item_id: int, cell: Vector2i = Vector2i(-1, -1)) -> StringName:
+	if context == null: return &"item/invalid_runtime"
+	var command := create_command(actor_id, item_id, context.get_revision(), cell)
+	if command is UseHealingItemCommand: return (command as UseHealingItemCommand).hint_reason(context)
+	if command is UseSummoningItemCommand: return (command as UseSummoningItemCommand).hint_reason(context)
+	return &"item/not_usable"
+
 func target_cells(board: BattleBoard, origin: Vector2i) -> Array[Vector2i]:
 	var result: Array[Vector2i] = []
 	if _kind != Kind.SUMMON_ADJACENT or board == null: return result

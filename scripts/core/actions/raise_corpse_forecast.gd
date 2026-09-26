@@ -24,13 +24,15 @@ static func rejected(value: StringName) -> RaiseCorpseForecast:
 
 static func build(context: ActionContext, queue: ActionQueue, command: Command) -> RaiseCorpseForecast:
 	if command == null or command.get_script() != RaiseCorpseCommand: return rejected(&"preview/unsupported_command")
-	var raise_command := command as RaiseCorpseCommand
 	var simulation := ForecastSimulation.run(context, queue, command)
+	return from_simulation(simulation, (command as RaiseCorpseCommand)._actor_id, (command as RaiseCorpseCommand)._corpse_id)
+
+static func from_simulation(simulation: ForecastSimulation, actor_id: int, corpse_id: int) -> RaiseCorpseForecast:
 	var result := RaiseCorpseForecast.new()
 	result.status = simulation.status
 	result.reason = simulation.reason
-	result.actor_id = raise_command._actor_id
-	result.corpse_id = raise_command._corpse_id
+	result.actor_id = actor_id
+	result.corpse_id = corpse_id
 	result.events = simulation.events
 	result.steps = simulation.steps
 	result.snapshot_before = simulation.snapshot_before

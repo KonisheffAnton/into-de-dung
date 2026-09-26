@@ -47,10 +47,12 @@ func run() -> void:
 	check(action_bar._page == 1, "same actor refresh preserves dynamic action page")
 	var opportunity_button: Button = action_bar._buttons[2]
 	await motion(opportunity_button.global_position + opportunity_button.size * 0.5)
+	await _settle_action()
 	check(demo._guard_forecast != null and demo._guard_forecast.status == ActionReceipt.APPLIED and demo._forecast_panel.text.contains("Оппортунист"), "opportunity hover shows real guard forecast")
 	check(not demo._hint.text.contains("тыл"), "new battle never advertises old rear bonus")
 	await capture("reactions-opportunity-forecast")
 	demo._action_bar_hovered(&"guard")
+	await _settle_action()
 	var ordinary_forecast: GuardForecast = demo._guard_forecast
 	demo._action_bar_hovered(&"guard")
 	check(demo._guard_forecast_mode == CombatPerksState.Mode.NONE and demo._guard_forecast == ordinary_forecast and demo._forecast_panel.text.contains("Охранная стойка"), "ordinary guard has a distinct reusable preview after opportunity")
@@ -65,6 +67,7 @@ func run() -> void:
 	check(demo._cover_guard_mode, "cover enters ally-target mode")
 	var cover_target := session.board.get_unit_by_id(cover_targets[0])
 	await motion(at(cover_target.cell))
+	await _settle_action()
 	check(demo._guard_forecast != null and demo._guard_forecast_mode == CombatPerksState.Mode.COVER and demo._guard_forecast_target == cover_target.id, "cover hover previews chosen ally")
 	var cover_forecast: GuardForecast = demo._guard_forecast
 	demo._hover(cover_target.cell)
@@ -216,3 +219,6 @@ func capture(label: String) -> void:
 	var texture := viewport.get_texture()
 	var picture := texture.get_image() if texture != null else null
 	check(picture != null and picture.save_png(captures.path_join(label + ".png")) == OK, "PNG " + label)
+
+func _settle_action() -> void:
+	await preload("res://tests/fixtures/action_forecast_wait.gd").settle(self, demo)
