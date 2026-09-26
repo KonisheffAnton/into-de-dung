@@ -99,6 +99,8 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 			_attack_stances.append({"unit": unit, "expected": false if unit.id == attacker else unit.guard_stance})
 	_pending.append({"command": accepted, "parent_event_seq": 0, "depth": 0})
 	var armor_finish_scheduled := false
+	# Единственный ответ принадлежит корневой добровольной атаке, не её событиям.
+	var counter_considered := false
 	while not _pending.is_empty() and receipt.status != &"FAULTED":
 		var entry: Dictionary = _pending.pop_back()
 		if receipt._steps.size() >= _max_commands:
@@ -116,6 +118,13 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 			_defer_item_reactions = false
 			for i in range(_deferred_item_reactions.size() - 1, -1, -1): _pending.append(_deferred_item_reactions[i])
 			_deferred_item_reactions.clear()
+		if _pending.is_empty() and receipt.status == &"APPLIED" and not counter_considered:
+			counter_considered = true
+			var counter := _counterattack_after(accepted, context)
+			if counter != null:
+				var response := context.get_attack_rules().get_definition(counter.get_attack_definition_id())
+				_defer_item_reactions = response.bleeding_policy != &""
+				_pending.append({"command": counter, "parent_event_seq": int(receipt._events[0]["event_seq"]), "depth": 1})
 		# Смерть на клетке прерывает продолжение пути, но уже завершает бой;
 		# временная броня должна истечь и у такого корректного prefix.
 		if _pending.is_empty() and receipt.status in [&"APPLIED", &"INTERRUPTED"] and not armor_finish_scheduled and ArmorEndBattleCommand.battle_over(context):
@@ -135,6 +144,20 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 	_dispatch_reason = &""
 	_release(context)
 	return receipt
+
+static func _counterattack_after(root: Command, context: ActionContext) -> AttackCommand:
+	if root.get_script() != AttackCommand or (root as AttackCommand).is_reaction(): return null
+	var attack := root as AttackCommand
+	var rules := context.get_attack_rules()
+	var definition := rules.get_definition(attack.get_attack_definition_id())
+	var response := rules.get_definition(&"counter_strike")
+	# Только прямой weapon pipeline с явно заданным обычным ответом.
+	if definition == null or definition.profile != AttackRules.ARMOR_PROFILE or response == null or not response.reaction_strike: return null
+	var board := context.get_state().get_board()
+	var defender := board.get_unit_by_id(attack.get_target_unit_id())
+	var attacker := board.get_unit_by_id(attack.get_actor_unit_id())
+	if not MeleeThreat.reaction_ready(context, defender, CombatPerksState.Mode.COUNTERATTACK) or not MeleeThreat.threatens(context, defender, attacker): return null
+	return AttackCommand.counterattack(defender, attacker, context.get_revision())
 
 func _execute_entry(entry: Dictionary, receipt: ActionReceipt, context: ActionContext) -> void:
 	var command: Command = entry["command"]
@@ -279,15 +302,15 @@ func _bind_batch(descriptions: Array[Dictionary], event_seq: int, context: Actio
 
 static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bool:
 	if draft.get("kind") == &"reaction_used":
-		return ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "mode": TYPE_INT, "charge_before": TYPE_INT, "charge_after": TYPE_INT}) and draft["actor_unit_id"] > 0 and draft["actor_unit_id"] < MAX_ID and draft["target_unit_id"] > 0 and draft["target_unit_id"] < MAX_ID and draft["actor_unit_id"] != draft["target_unit_id"] and draft["mode"] in [CombatPerksState.Mode.OPPORTUNIST, CombatPerksState.Mode.COVER] and draft["charge_before"] == 1 and draft["charge_after"] == 0
+		return ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "mode": TYPE_INT, "charge_before": TYPE_INT, "charge_after": TYPE_INT}) and draft["actor_unit_id"] > 0 and draft["actor_unit_id"] < MAX_ID and draft["target_unit_id"] > 0 and draft["target_unit_id"] < MAX_ID and draft["actor_unit_id"] != draft["target_unit_id"] and draft["mode"] in [CombatPerksState.Mode.OPPORTUNIST, CombatPerksState.Mode.COVER, CombatPerksState.Mode.COUNTERATTACK] and draft["charge_before"] == 1 and draft["charge_after"] == 0
 	if draft.get("kind") == &"guarded" and draft.has("reaction_mode"):
 		if typeof(draft.get("reaction_mode")) != TYPE_INT or typeof(draft.get("cover_target_id")) != TYPE_INT: return false
-		if draft["reaction_mode"] not in [0, 1, 2] or draft["cover_target_id"] < 0 or draft["cover_target_id"] >= MAX_ID: return false
+		if draft["reaction_mode"] not in [0, 1, 2, 3] or draft["cover_target_id"] < 0 or draft["cover_target_id"] >= MAX_ID: return false
 		if (draft["reaction_mode"] == 2) != (draft["cover_target_id"] > 0) or draft["cover_target_id"] == draft.get("actor_unit_id"): return false
 		var guarded := draft.duplicate(true)
 		guarded.erase("reaction_mode"); guarded.erase("cover_target_id")
 		return _valid_draft(guarded, context)
-	if draft.get("kind") == &"opportunity_attacked" and not draft.has("modifiers"):
+	if draft.get("kind") in [&"opportunity_attacked", &"counterattacked"] and not draft.has("modifiers"):
 		if not ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "attack_definition_id": TYPE_STRING_NAME, "actor_cell": TYPE_VECTOR2I, "target_cell": TYPE_VECTOR2I, "main_cost": TYPE_INT, "main_before": TYPE_INT, "main_after": TYPE_INT}): return false
 		if context == null: return false
 		var reaction_def := context.get_attack_rules().get_definition(draft["attack_definition_id"])
@@ -296,7 +319,7 @@ static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bo
 	if draft.get("kind") == &"corpse_raised": return RaiseCorpseCommand.valid_draft(draft)
 	if draft.get("kind") == &"bleeding_changed": return _valid_bleeding_draft(draft)
 	if draft.get("kind") == &"control_changed": return _valid_control_draft(draft)
-	if draft.get("kind") in [&"attacked", &"opportunity_attacked"] and draft.has("modifiers"):
+	if draft.get("kind") in [&"attacked", &"opportunity_attacked", &"counterattacked"] and draft.has("modifiers"):
 		if typeof(draft["modifiers"]) != TYPE_DICTIONARY: return false
 		if draft["modifiers"].has("sneak_percent"):
 			var modifiers: Dictionary = draft["modifiers"]

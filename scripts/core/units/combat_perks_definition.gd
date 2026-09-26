@@ -7,3 +7,4 @@ class_name CombatPerksDefinition
 @export var stunning_strike: bool = false
 @export var stun_immune: bool = false
 @export var entangle_immune: bool = false
+@export var counterattack: bool = false

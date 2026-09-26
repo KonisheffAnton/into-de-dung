@@ -13,6 +13,7 @@
 | Запуск / автоматические проверки | [REPOSITORY_STATE](REPOSITORY_STATE.md) / [TESTING](TESTING.md) |
 | Крупный боевой пакет / расстановка / единый плейтест | [CORE_BATTLE_BATCH_K9](CORE_BATTLE_BATCH_K9.md) |
 | Перки: скрытая атака, Оппортунист/Прикрытие | [CORE_REACTIONS_K10](CORE_REACTIONS_K10.md) |
+| Контратака / общий заряд | [COUNTERATTACK_K12](COUNTERATTACK_K12.md) |
 | Оглушающий удар и иммунитеты контроля | [CONTROL_PACKAGE_K11](CONTROL_PACKAGE_K11.md) |
 | Поток исполнения / владение runtime и вид UI | [BATTLE_EXECUTION_UI](BATTLE_EXECUTION_UI.md) |
 | Нынешний бой, управление | [TACTICAL_BATTLE](TACTICAL_BATTLE.md) |

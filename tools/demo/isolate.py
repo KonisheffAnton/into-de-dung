@@ -109,6 +109,9 @@ def main():
         if label in ("snapshot_value_copy", "live_snapshot_capture", "summon_checkpoint"):
             marker = {"snapshot_value_copy": "SNAPSHOT VALUE COPY RESULTS:", "live_snapshot_capture": "LIVE SNAPSHOT CAPTURE RESULTS:", "summon_checkpoint": "SUMMON CHECKPOINT RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label in ("counterattack", "counterattack_ui"):
+            marker = "COUNTERATTACK RESULTS:" if label == "counterattack" else "COUNTERATTACK UI RESULTS:"
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("combat_perks_state", "core_reactions", "core_reactions_ui"):
             marker = {"combat_perks_state": "COMBAT PERKS STATE RESULTS:", "core_reactions": "CORE REACTIONS RESULTS:", "core_reactions_ui": "CORE REACTIONS UI RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -182,6 +185,7 @@ def main():
         run("core_batch", ["--script", "tests/test_core_batch.gd"])
         run("combat_perks_state", ["--script", "tests/test_combat_perks_state.gd"])
         run("core_reactions", ["--script", "tests/test_core_reactions.gd"])
+        run("counterattack", ["--script", "tests/test_counterattack.gd"])
         run("entangle_attack", ["--script", "tests/test_entangle_attack.gd"])
         run("forecast", ["--script", "tests/test_attack_forecast.gd"])
         run("attack_forecast_worker", ["--script", "tests/test_attack_forecast_worker.gd"])
@@ -259,6 +263,10 @@ def main():
         if args.render_check:
             reactions_args += ["--", "--captures=" + str(captures)]
         run("core_reactions_ui", reactions_args, headless=not args.render_check)
+        counter_args = ["--script", "tests/test_counterattack_ui.gd"]
+        if args.render_check:
+            counter_args += ["--", "--captures=" + str(captures)]
+        run("counterattack_ui", counter_args, headless=not args.render_check)
         control_package_args = ["--script", "tests/test_control_package_ui.gd"]
         if args.render_check:
             control_package_args += ["--", "--captures=" + str(captures)]

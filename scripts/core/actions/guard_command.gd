@@ -32,14 +32,16 @@ func validate(context: ActionContext) -> StringName:
 	var rules := context.get_move_rules()
 	if rules == null or rules.validate() != &"" or not rules.allows(_actor_id): return &"guard/not_admitted"
 	if actor.action_resources == null or actor.action_resources.validate(actor.id) != &"": return &"guard/invalid_runtime"
-	if _mode not in [-1, CombatPerksState.Mode.OPPORTUNIST, CombatPerksState.Mode.COVER]: return &"perks/invalid_mode"
+	if _mode not in [-1, CombatPerksState.Mode.OPPORTUNIST, CombatPerksState.Mode.COVER, CombatPerksState.Mode.COUNTERATTACK]: return &"perks/invalid_mode"
 	if _mode == CombatPerksState.Mode.COVER:
 		if not MeleeThreat.has_tank(actor): return &"perks/not_owned"
 		if not MeleeThreat.cover_eligible(context, actor, board.get_unit_by_id(_cover_id)): return &"perks/invalid_cover_target"
 	elif _cover_id != 0: return &"perks/invalid_cover_target"
-	if _mode >= 0 and not MeleeThreat.has_tank(actor): return &"perks/not_owned"
+	if _mode == CombatPerksState.Mode.COUNTERATTACK:
+		if not MeleeThreat.has_counterattack(actor): return &"perks/not_owned"
+	elif _mode >= 0 and not MeleeThreat.has_tank(actor): return &"perks/not_owned"
 	var requested_mode := CombatPerksState.Mode.NONE if _mode < 0 else _mode
-	if actor.guard_stance and (not MeleeThreat.has_tank(actor) or (actor.combat_perks.mode == requested_mode and actor.combat_perks.cover_target_id == _cover_id)): return &"guard/already_active"
+	if actor.guard_stance and (not MeleeThreat.has_reactions(actor) or (actor.combat_perks.mode == requested_mode and actor.combat_perks.cover_target_id == _cover_id)): return &"guard/already_active"
 	if actor.action_resources.get_main_left() < 1: return &"guard/insufficient_main"
 	return &""
 
@@ -52,7 +54,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	actor.guard_stance = true
 	var event := {"kind": &"guarded", "actor_unit_id": actor.id, "target_unit_id": actor.id, "main_cost": 1, "main_before": before, "main_after": before - 1}
 	var result := CommandStepResult.applied([event], [], [], null, true)
-	if MeleeThreat.has_tank(actor):
+	if MeleeThreat.has_reactions(actor):
 		actor.combat_perks.mode = CombatPerksState.Mode.NONE if _mode < 0 else _mode
 		actor.combat_perks.cover_target_id = _cover_id
 		# Переключение оплачивается действием, но никогда не возвращает заряд реакции.

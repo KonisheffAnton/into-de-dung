@@ -16,6 +16,7 @@ func reset() -> void:
 	for index: int in [0, 1, 2, 3, 4, 5]:
 		var perks := CombatPerksState.new()
 		perks.definition.tank_reactions = index in [0, 1]
+		perks.definition.counterattack = index in [0, 1]
 		perks.definition.sneak_attack = index in [2, 5]
 		perks.definition.stunning_strike = index in [0, 1]
 		perks.definition.stun_immune = index == 3
@@ -36,6 +37,9 @@ func reset() -> void:
 	reaction.reaction_strike = true
 	reaction.critical_on_control = false
 	definitions.append(reaction)
+	var counter := AttackRules._copy_definition(reaction)
+	counter.id = &"counter_strike"
+	definitions.append(counter)
 	var stunning := AttackRules._copy_definition(definitions[0])
 	stunning.id = &"stunning_strike"
 	stunning.profile = AttackRules.ARMOR_PROFILE
@@ -49,7 +53,7 @@ func reset() -> void:
 			flow_log[index] = "Клинок Бора пробивает 50% физической базы сквозь броню. Щит сохраняет иммунитет к кровотечению; шипы на C4. Рей оглушён до конца вашего хода."
 	flow_log.append("Бор и Дозорный: перк «Скрытая атака» даёт +50% физической базы, когда цели угрожают хотя бы двое. Направление спины больше не даёт бонуса.")
 	flow_log.append("Астра и Страж владеют Оглушающим ударом; Щит защищён от оглушения, Рей — от пут. Способности контроля на второй странице действий.")
-	flow_log.append("Оппортунист/Прикрытие на второй странице действий. Стойка с режимом стоит 1 основное; оба режима тратят один общий заряд реакции.")
+	flow_log.append("Оппортунист/Прикрытие/Контратака на второй странице. Стойка с режимом стоит 1 основное; три режима делят один заряд. Контратака отвечает после полного удара, если враг ещё в досягаемости; стойка сохраняется.")
 
 func reaction_reason(mode: int, cover_id: int = 0) -> StringName:
 	if not can_player_act(): return &"battle/input_locked"
@@ -79,7 +83,7 @@ func cover_targets() -> Array[int]:
 func reaction_zone(actor_id: int) -> Array[Vector2i]:
 	var cells: Array[Vector2i] = []
 	var actor := board.get_unit_by_id(actor_id)
-	if not MeleeThreat.has_tank(actor): return cells
+	if not MeleeThreat.has_reactions(actor): return cells
 	var reach := ActionHpExecutor._stat_value(actor, StatTypes.StatType.ATTACK_RANGE)
 	for y: int in board.height:
 		for x: int in board.width:

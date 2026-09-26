@@ -10,10 +10,17 @@ var _expected_target_cell: Vector2i
 var _attack_definition_id: StringName
 var _expected_revision: int
 var _reaction: bool = false
+var _counter: bool = false
 
 static func opportunity(actor: UnitState, target: UnitState, revision: int) -> AttackCommand:
 	var result := AttackCommand.new(actor.id, target.id, actor.cell, target.cell, &"opportunity_strike", revision)
 	result._reaction = true
+	return result
+
+static func counterattack(actor: UnitState, target: UnitState, revision: int) -> AttackCommand:
+	var result := AttackCommand.new(actor.id, target.id, actor.cell, target.cell, &"counter_strike", revision)
+	result._reaction = true
+	result._counter = true
 	return result
 
 func is_reaction() -> bool: return _reaction
@@ -26,11 +33,14 @@ func _init(actor_unit_id: int = 0, target_unit_id: int = 0, expected_actor_cell:
 	_attack_definition_id = attack_definition_id
 	_expected_revision = expected_revision
 
-func get_kind() -> StringName: return &"opportunity_attack" if _reaction else &"attack"
+func get_kind() -> StringName:
+	if _counter: return &"counterattack"
+	return &"opportunity_attack" if _reaction else &"attack"
 
 func copy_for_queue() -> Command:
 	var result := AttackCommand.new(_actor_unit_id, _target_unit_id, _expected_actor_cell, _expected_target_cell, _attack_definition_id, _expected_revision)
 	result._reaction = _reaction
+	result._counter = _counter
 	return result
 
 func get_actor_unit_id() -> int: return _actor_unit_id
@@ -61,18 +71,21 @@ func execute(context: ActionContext) -> CommandStepResult:
 	if _reaction:
 		var actor_value := actor.combat_perks.to_dict()
 		actor_value["reaction_left"] = 0
-		if stopped == null: stopped = CombatPerksState.new()
-		var target_value := stopped.to_dict()
-		target_value["movement_stopped"] = true
-		binding.spatial_guard = binding.spatial_guard.perks_phase(actor.id, actor.combat_perks, actor_value).perks_phase(target.id, stopped, target_value)
-		reaction_events.append(_reaction_event(actor.id, target.id, CombatPerksState.Mode.OPPORTUNIST))
+		binding.spatial_guard = binding.spatial_guard.perks_phase(actor.id, actor.combat_perks, actor_value)
+		if not _counter:
+			if stopped == null: stopped = CombatPerksState.new()
+			var target_value := stopped.to_dict()
+			target_value["movement_stopped"] = true
+			binding.spatial_guard = binding.spatial_guard.perks_phase(target.id, stopped, target_value)
+		reaction_events.append(_reaction_event(actor.id, target.id, CombatPerksState.Mode.COUNTERATTACK if _counter else CombatPerksState.Mode.OPPORTUNIST))
 	if cover != null:
 		var cover_value := cover.combat_perks.to_dict()
 		cover_value["reaction_left"] = 0
 		binding.spatial_guard = binding.spatial_guard.perks_phase(cover.id, cover.combat_perks, cover_value)
 		reaction_events.append(_reaction_event(cover.id, target.id, CombatPerksState.Mode.COVER))
 	# Готовим весь child до единственной мутации: между оплатой и Hit новых данных уже нет.
-	var event := {"kind": &"opportunity_attacked" if _reaction else &"attacked", "actor_unit_id": actor.id, "target_unit_id": target.id, "attack_definition_id": _attack_definition_id, "actor_cell": actor.cell, "target_cell": target.cell, "main_cost": main_cost, "main_before": main_before, "main_after": main_after}
+	var attack_kind: StringName = &"counterattacked" if _counter else (&"opportunity_attacked" if _reaction else &"attacked")
+	var event := {"kind": attack_kind, "actor_unit_id": actor.id, "target_unit_id": target.id, "attack_definition_id": _attack_definition_id, "actor_cell": actor.cell, "target_cell": target.cell, "main_cost": main_cost, "main_before": main_before, "main_after": main_after}
 	if prepared.has("modifiers"): event["modifiers"] = prepared["modifiers"]
 	var hit := AttackHitCommand.new(prepared["request"] as DamageRequest, actor, target, resources, actor.cell, target.cell, main_after, binding)
 	hit.bind_bleeding(prepared.get("bleeding_policy", &""), _attack_definition_id)
@@ -82,10 +95,11 @@ func execute(context: ActionContext) -> CommandStepResult:
 		return CommandStepResult.faulted(&"attack/invalid_runtime")
 	if _reaction:
 		actor.combat_perks.reaction_left = 0
-		target.combat_perks = stopped
-		stopped.movement_stopped = true
 		changes[actor.id] = CombatPerkGuard.record(actor, actor.combat_perks)
-		changes[target.id] = CombatPerkGuard.record(target, stopped)
+		if not _counter:
+			target.combat_perks = stopped
+			stopped.movement_stopped = true
+			changes[target.id] = CombatPerkGuard.record(target, stopped)
 	else:
 		actor.has_attacked = true
 		actor.guard_stance = false
@@ -123,7 +137,7 @@ func _prepare(context: ActionContext) -> Dictionary:
 	var definition := rules.get_definition(_attack_definition_id)
 	if definition == null:
 		result["reason"] = &"attack/unknown_definition"; return result
-	if definition.reaction_strike != _reaction:
+	if definition.reaction_strike != _reaction or (_counter and not _reaction):
 		result["reason"] = &"reaction/internal_definition"; return result
 	var state := context.get_state()
 	var board := state.get_board()
@@ -175,8 +189,11 @@ func _prepare(context: ActionContext) -> Dictionary:
 		result["reason"] = &"attack/target_not_placed"; return result
 	if not rules.allows(actor.id, target.id):
 		result["reason"] = &"attack/not_admitted"; return result
-	if _reaction and (not MeleeThreat.reaction_ready(context, actor, CombatPerksState.Mode.OPPORTUNIST) or not MeleeThreat.threatens(context, actor, target)):
-		result["reason"] = &"reaction/not_eligible"; return result
+	if _reaction:
+		var mode: int = CombatPerksState.Mode.COUNTERATTACK if _counter else CombatPerksState.Mode.OPPORTUNIST
+		var reaction_id: StringName = &"counter_strike" if _counter else &"opportunity_strike"
+		if _attack_definition_id != reaction_id or not MeleeThreat.reaction_ready(context, actor, mode) or not MeleeThreat.threatens(context, actor, target):
+			result["reason"] = &"reaction/not_eligible"; return result
 	var resources := actor.action_resources
 	if resources == null:
 		result["reason"] = &"attack/resources_missing"; return result

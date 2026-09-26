@@ -13,7 +13,7 @@ func _init() -> void:
 	_nodes = [_reaction_guard, _attack, _summon, _advance, _wait]
 
 func _reaction_guard() -> BattleAIIntent:
-	if _session == null or not MeleeThreat.has_tank(_actor) or not _actor.can_attack(): return null
+	if _session == null or not MeleeThreat.has_reactions(_actor) or not _actor.can_attack(): return null
 	# Чередование с обычным BT не оставляет двух последних защитников в вечной стойке.
 	if _session is BattleTacticalSession and (_session as BattleTacticalSession).round_number % 2 == 0: return null
 	var ally: UnitState = null
@@ -24,6 +24,9 @@ func _reaction_guard() -> BattleAIIntent:
 	if ally == null and not enemy_near: return null
 	var mode := CombatPerksState.Mode.COVER if ally != null else CombatPerksState.Mode.OPPORTUNIST
 	var target_id := ally.id if ally != null else 0
+	if MeleeThreat.has_counterattack(_actor) and enemy_near and (not MeleeThreat.has_tank(_actor) or (_session is BattleTacticalSession and (_session as BattleTacticalSession).round_number % 4 == 3)):
+		mode = CombatPerksState.Mode.COUNTERATTACK
+		target_id = 0
 	if GuardCommand.new(_actor.id, _session.context.get_revision(), mode, target_id).validate(_session.context) != &"": return null
 	var result := BattleAIIntent.new()
 	result.kind = BattleAIIntent.Kind.GUARD

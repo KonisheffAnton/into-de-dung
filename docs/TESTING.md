@@ -50,6 +50,7 @@ core без `--full` в неё не входит. Повторять более 
 | Среда и трупы D5 | `test_d5_state.gd`, `test_d5_integration.gd`, `test_d5_ui.gd` (full/render; ввод, прогноз, поднятие, PNG) |
 | Проход союзников | `test_ally_transit.gd` (full/render; два PNG в render) |
 | Прогноз атаки | `test_attack_forecast.gd` |
+| Контратака K12 | `test_counterattack.gd`, `test_counterattack_ui.gd` (full/render), codec в `test_combat_perks_state.gd`: общий заряд, tail после контроля/spatial/items, eligibility/смерть/FAULTED, sync/forecast worker/live worker parity, сохранения, ввод и PNG |
 | Контроль K11 | `test_control_perks_codec.gd`, `test_control_package.gd`, `test_control_package_ui.gd` (full/render): perk schema1/2, stun/иммунитеты/истечение/реакции/BT, worker/live/restore, HP-gate/FAULTED; ввод и два PNG |
 | Фоновый прогноз атаки | `test_attack_forecast_worker.gd`, `test_attack_forecast_async_ui.gd` (full/render): parity обычного удара/руны/K8, изоляция, pending/готовый PNG, замена цели/режима/фазы/сцены, refresh без revision и свежий клик; `test_spatial_guard_stats.gd` проверяет fast path и прежний fallback guards |
 | Прогноз двух предметов K3 | `test_item_use_forecast.gd`, `test_item_forecast_ui.gd` (full/render): две копии/live, полные snapshots/events/steps/RNG/counters/admission, новый helper, отказы/FAULTED/cleanup; ввод и PNG |

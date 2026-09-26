@@ -7,6 +7,12 @@ static func has_sneak(unit: UnitState) -> bool:
 static func has_tank(unit: UnitState) -> bool:
 	return unit != null and unit.combat_perks != null and unit.combat_perks.definition.tank_reactions
 
+static func has_counterattack(unit: UnitState) -> bool:
+	return unit != null and unit.combat_perks != null and unit.combat_perks.definition.counterattack
+
+static func has_reactions(unit: UnitState) -> bool:
+	return has_tank(unit) or has_counterattack(unit)
+
 static func reaches(board: BattleBoard, unit: UnitState, cell: Vector2i) -> bool:
 	var reach := ActionHpExecutor._stat_value(unit, StatTypes.StatType.ATTACK_RANGE)
 	return AttackReachCheck.inspect_spatial_cells(board, unit.cell, unit.faction, cell, reach) == &""
@@ -27,7 +33,8 @@ static func participants(context: ActionContext, target: UnitState) -> Array[int
 	return result
 
 static func reaction_ready(context: ActionContext, unit: UnitState, mode: int) -> bool:
-	return has_tank(unit) and unit.is_alive() and unit.guard_stance and unit.combat_perks.mode == mode and unit.combat_perks.reaction_left == 1 and ControlRules.action_reason(unit) == &"" and not context.get_state().is_summon_pending(unit.id)
+	var owned: bool = has_counterattack(unit) if mode == CombatPerksState.Mode.COUNTERATTACK else has_tank(unit)
+	return owned and unit.is_alive() and unit.guard_stance and unit.combat_perks.mode == mode and unit.combat_perks.reaction_left == 1 and ControlRules.action_reason(unit) == &"" and not context.get_state().is_summon_pending(unit.id)
 
 static func cover_eligible(context: ActionContext, tank: UnitState, ally: UnitState) -> bool:
 	if tank == null or ally == null or tank == ally or not tank.is_alive() or not ally.is_alive() or not tank.is_friendly_to(ally): return false

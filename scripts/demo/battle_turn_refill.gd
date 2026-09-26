@@ -55,7 +55,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 		unit.guard_stance = false
 		if unit.combat_perks != null:
 			unit.combat_perks.movement_stopped = false
-			unit.combat_perks.reaction_left = 1 if unit.combat_perks.definition.tank_reactions else 0
+			unit.combat_perks.reaction_left = 1 if MeleeThreat.has_reactions(unit) else 0
 			perk_changes[id] = CombatPerkGuard.record(unit, unit.combat_perks)
 		if context.get_state().is_summon_pending(id):
 			var admission := SummonAdmission.extend(context.get_move_rules(), context.get_attack_rules(), id, context.get_state().summon_owner_id(id), true)
