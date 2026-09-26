@@ -181,6 +181,7 @@ func _mouse(position: Vector2) -> void:
 	_viewport.push_input(event, true)
 	await process_frame
 	await process_frame
+	await preload("res://tests/fixtures/attack_forecast_wait.gd").settle(self, _demo)
 
 func _key(code: Key) -> void:
 	var event := InputEventKey.new()
@@ -190,6 +191,7 @@ func _key(code: Key) -> void:
 	event.pressed = false
 	_viewport.push_input(event, true)
 	await process_frame
+	await preload("res://tests/fixtures/attack_forecast_wait.gd").settle(self, _demo)
 
 func _click(position: Vector2) -> void:
 	for pressed: bool in [true, false]:

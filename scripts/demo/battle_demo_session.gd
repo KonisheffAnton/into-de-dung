@@ -166,6 +166,14 @@ func preview_attack(id: int) -> AttackForecast:
 	if actor.id == target.id: return AttackForecast.rejected(&"attack/self_target")
 	return AttackForecast.build(context, _queue, AttackCommand.new(actor.id, target.id, actor.cell, target.cell, &"demo_strike", context.get_revision()))
 
+func prepare_attack_forecast(id: int) -> ForecastSimulation.Prepared:
+	var actor := selected_unit()
+	var target: UnitState = board.get_unit_by_id(id) if board != null else null
+	if actor == null: return ForecastSimulation.Prepared.rejected(&"attack/no_selected_unit")
+	if target == null or not target.is_alive(): return ForecastSimulation.Prepared.rejected(&"attack/invalid_target")
+	if actor.id == target.id: return ForecastSimulation.Prepared.rejected(&"attack/self_target")
+	return ForecastSimulation.prepare(context, _queue, AttackCommand.new(actor.id, target.id, actor.cell, target.cell, &"demo_strike", context.get_revision()))
+
 func _submit(command: Command) -> ActionReceipt:
 	if _queue == null or context == null:
 		return _reject(&"session/closed")

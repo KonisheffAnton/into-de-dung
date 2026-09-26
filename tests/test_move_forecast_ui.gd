@@ -248,6 +248,7 @@ func _key(code: Key) -> void:
 	event.pressed = false
 	_viewport.push_input(event, true)
 	await process_frame
+	await preload("res://tests/fixtures/attack_forecast_wait.gd").settle(self, _demo)
 
 func _motion(position: Vector2) -> void:
 	var event := InputEventMouseMotion.new()
@@ -256,6 +257,7 @@ func _motion(position: Vector2) -> void:
 	_viewport.push_input(event, true)
 	await process_frame
 	await process_frame
+	await preload("res://tests/fixtures/attack_forecast_wait.gd").settle(self, _demo)
 
 func _hover(cell: Vector2i) -> void:
 	await _motion(_demo.board_view.global_position + _demo.board_view.cell_center(cell))

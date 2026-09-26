@@ -47,6 +47,7 @@ core без `--full` в неё не входит. Повторять более 
 | Среда и трупы D5 | `test_d5_state.gd`, `test_d5_integration.gd`, `test_d5_ui.gd` (full/render; ввод, прогноз, поднятие, PNG) |
 | Проход союзников | `test_ally_transit.gd` (full/render; два PNG в render) |
 | Прогноз атаки | `test_attack_forecast.gd` |
+| Фоновый прогноз атаки | `test_attack_forecast_worker.gd`, `test_attack_forecast_async_ui.gd` (full/render): parity обычного удара/руны/K8, изоляция, pending/готовый PNG, замена цели/режима/фазы/сцены, refresh без revision и свежий клик; `test_spatial_guard_stats.gd` проверяет fast path и прежний fallback guards |
 | Прогноз двух предметов K3 | `test_item_use_forecast.gd`, `test_item_forecast_ui.gd` (full/render): две копии/live, полные snapshots/events/steps/RNG/counters/admission, новый helper, отказы/FAULTED/cleanup; ввод и PNG |
 | Прогноз движения K4 | `test_move_forecast.gd`, `test_move_forecast_ui.gd` (full/render): полная preview/live и worker parity, транзит/падение/шипы, INTERRUPTED/FAULTED, helper/admission, изоляция/restore/cleanup; ввод и инвалидация во время расчёта, scrolling, shutdown и четыре PNG |
 | Прогноз поднятия K5 | `test_raise_corpse_forecast.gd`, `test_raise_forecast_ui.gd` (full/render): изоляция/preview/live D5/K2, потребление тела и новый pending helper, отказы/DTO/restore; ввод, cache/refresh, свежий клик, сбросы/scroll и четыре PNG |
@@ -97,6 +98,12 @@ Runner измеряет обновление UI, снимки, прогнозы,
 Сравнивать несколько чередующихся прогонов на одном компьютере без других
 Godot runner. Это время синхронных операций, не FPS и не приёмка плавности;
 жёстких временных порогов в функциональных тестах нет.
+
+`Godot --headless --path . --script tools/demo/profile_attack_forecast.gd`
+раздельно измеряет синхронный прогноз и UI-наведение Бор → Щит: input, подготовку,
+полное ожидание результата и кадры во время ожидания. Runner можно копировать
+в прежний checkout; JSON содержит parity, события/шаги/RNG/counters. Это сценарий
+исходной партии с шестью бойцами, а не оценка всех последующих размеров боя.
 
 Для текста/процесса достаточно проверки diff; при реорганизации дополнительно
 проверять ссылки, сохранность архива/frozen и отсутствие изменений кода/ассетов.

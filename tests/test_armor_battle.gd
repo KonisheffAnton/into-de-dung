@@ -224,6 +224,7 @@ func key(code: Key) -> void:
 	event.pressed = false
 	viewport.push_input(event,true)
 	await process_frame
+	await preload("res://tests/fixtures/attack_forecast_wait.gd").settle(self, demo)
 
 func motion(position: Vector2) -> void:
 	var event := InputEventMouseMotion.new()
@@ -231,6 +232,7 @@ func motion(position: Vector2) -> void:
 	viewport.push_input(event,true)
 	await process_frame
 	await process_frame
+	await preload("res://tests/fixtures/attack_forecast_wait.gd").settle(self, demo)
 
 func click(position: Vector2) -> void:
 	await motion(position)

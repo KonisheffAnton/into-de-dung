@@ -35,6 +35,12 @@ var _ai_delay: float = 0.0
 var _flow_cursor: int = 0
 var _forecast_panel: RichTextLabel
 var _forecast: AttackForecast
+var _attack_forecast_pending: bool = false
+var _attack_forecast_actor: int = UnitId.NONE
+var _attack_forecast_variant: StringName = &""
+var _attack_forecast_generation: int = 0
+var _attack_forecast_job_generation: int = -1
+var _attack_forecast_worker := preload("res://scripts/demo/attack_forecast_worker.gd").new()
 var _move_forecast: MoveForecast
 var _move_forecast_cell := Vector2i(-1, -1)
 var _move_forecast_actor: int = UnitId.NONE
@@ -94,6 +100,7 @@ func _create_session() -> void:
 
 func _process(delta: float) -> void:
 	_process_move_forecast()
+	_process_attack_forecast()
 	if _battle == null or _battle.phase != BattleTacticalSession.Phase.ENEMY_TURN: return
 	_ai_delay -= delta
 	if _ai_delay > 0.0: return
@@ -108,12 +115,14 @@ func _input(event: InputEvent) -> void:
 		# Координата самого viewport-события одинакова для мыши и replay/test input.
 		_pointer_position = (event as InputEventMouseMotion).position
 		_update_action_bar_hover()
-		if (_forecast != null or _move_forecast != null or _move_forecast_pending or _raise_forecast != null or (_item_forecast != null and _item_forecast_kind == &"summon")) and board_view.hover_cell.x < 0 and not _forecast_reading_region().has_point(_pointer_position) and not board_view.get_global_rect().has_point(_pointer_position):
+		if (_forecast != null or _attack_forecast_pending or _move_forecast != null or _move_forecast_pending or _raise_forecast != null or (_item_forecast != null and _item_forecast_kind == &"summon")) and board_view.hover_cell.x < 0 and not _forecast_reading_region().has_point(_pointer_position) and not board_view.get_global_rect().has_point(_pointer_position):
 			_clear_forecast()
 			_refresh_inspection()
 
 func _exit_tree() -> void:
 	_move_forecast_worker.close()
+	_attack_forecast_worker.close()
+	_attack_forecast_pending = false
 	_move_forecast_pending = false
 	_forecast = null
 	_move_forecast = null
@@ -764,7 +773,7 @@ func _stat_name(type: StatTypes.StatType) -> String:
 	return names[int(type)] if int(type) >= 0 and int(type) < names.size() else "Характеристика"
 
 func _refresh_inspection() -> void:
-	var id := _forecast_target_id if _forecast != null else inspected_id
+	var id := _forecast_target_id if _forecast != null or _attack_forecast_pending else inspected_id
 	var unit := session.board.get_unit_by_id(id) if id != UnitId.NONE else session.selected_unit()
 	if unit != null:
 		if _shown_inspection_id != unit.id:
@@ -777,7 +786,7 @@ func _hover(cell: Vector2i) -> void:
 	if _is_deploying(): return
 	if (_guard_forecast != null and _guard_forecast_mode != CombatPerksState.Mode.COVER or _armor_forecast != null) and cell.x >= 0: _clear_forecast()
 	# Позволяем перейти к прокрутке длинной цепи, сохранив текущий прогноз.
-	if (_forecast != null or _item_forecast != null or _move_forecast != null or _raise_forecast != null or _guard_forecast != null or _armor_forecast != null) and cell.x < 0:
+	if (_forecast != null or _attack_forecast_pending or _item_forecast != null or _move_forecast != null or _raise_forecast != null or _guard_forecast != null or _armor_forecast != null) and cell.x < 0:
 		# mouse_exited может прийти раньше _input того же движения мыши.
 		_resolve_hover_exit.call_deferred()
 		return
@@ -837,16 +846,16 @@ func _hover(cell: Vector2i) -> void:
 			_clear_forecast()
 		else:
 			var revision := session.context.get_revision()
-			if _forecast_cell != cell or _forecast_target_id != target.id or _forecast_revision != revision:
-				_forecast = session.preview_attack(target.id)
+			if _forecast_cell != cell or _forecast_target_id != target.id or _forecast_revision != revision or _attack_forecast_actor != session.selected_id or _attack_forecast_variant != _attack_variant():
+				_clear_forecast()
+				_attack_forecast_pending = true
+				_attack_forecast_actor = session.selected_id
+				_attack_forecast_variant = _attack_variant()
 				# Новый прогноз всегда читается с начала, даже после прокрутки предыдущей цели.
 				_forecast_panel.get_v_scroll_bar().value = 0.0
 				_forecast_cell = cell
 				_forecast_target_id = target.id
 				_forecast_revision = revision
-				board_view.forecast = _forecast
-				_sync_sneak_threat_highlight()
-				board_view.refresh_forecast()
 	_refresh_inspection()
 
 	if environment_mode and session is BattleEnvironmentSession and session.board.is_in_bounds(cell):
@@ -875,6 +884,41 @@ func _hover(cell: Vector2i) -> void:
 	_hint.text = "%s · высота %+.1f%s\n%s" % [_cell_name(cell), float(session.board.get_height_steps(cell)) / 2.0, cost, "Осмотр: зона движения на следующий ход, не атаки." if inspected_id != UnitId.NONE else "Прогноз показывает итог движения. Клик — выполнить; кольцо — конечная клетка."]
 	if attack_mode: _hint.text = "Наведите на цель: прогноз одной атаки. Клик — выполнить.\nКрасный сегмент HP — потеря, зелёный — лечение; белая метка — итог."
 	_render_forecast_panel()
+
+func _attack_variant() -> StringName:
+	if session is BattleCoreCombinationSession and (session as BattleCoreCombinationSession).entangle_selected: return &"entangle"
+	if session is BattleBleedingSession and (session as BattleBleedingSession).rune_selected: return &"rune"
+	return &"ordinary"
+
+func _attack_forecast_request_current() -> bool:
+	if session == null or session.context == null or board_view == null: return false
+	if not attack_mode or summoning_mode or raising_mode or _cover_guard_mode or (_battle != null and not _battle.can_player_act()): return false
+	if session.selected_id != _attack_forecast_actor or session.context.get_revision() != _forecast_revision or _attack_variant() != _attack_forecast_variant: return false
+	var target := session.board.get_unit_by_id(_forecast_target_id)
+	if target == null or target.cell != _forecast_cell: return false
+	# Переход к панели сохраняет ожидаемый результат так же, как уже готовый прогноз.
+	return board_view.hover_cell == _forecast_cell or (board_view.hover_cell.x < 0 and _forecast_reading_region().has_point(_pointer_position))
+
+func _process_attack_forecast() -> void:
+	var result := _attack_forecast_worker.take_finished()
+	if result != null and _attack_forecast_pending and _attack_forecast_job_generation == _attack_forecast_generation:
+		if not _attack_forecast_request_current():
+			_clear_forecast()
+			return
+		_forecast = result
+		_attack_forecast_pending = false
+		board_view.forecast = result
+		_sync_sneak_threat_highlight()
+		board_view.refresh_forecast()
+		_render_forecast_panel()
+		_refresh_inspection()
+	if not _attack_forecast_pending or _attack_forecast_worker.is_started(): return
+	if not _attack_forecast_request_current():
+		_clear_forecast()
+		return
+	_attack_forecast_job_generation = _attack_forecast_generation
+	# Ввод только запоминает последнюю цель; capture выполняется один раз на кадре.
+	_attack_forecast_worker.start(session.prepare_attack_forecast(_forecast_target_id))
 
 func _process_move_forecast() -> void:
 	var result := _move_forecast_worker.take_finished()
@@ -920,7 +964,7 @@ func _leave_forecast_panel() -> void:
 	_resolve_hover_exit.call_deferred()
 
 func _resolve_hover_exit() -> void:
-	if session == null or board_view.hover_cell.x >= 0 or (_forecast == null and _item_forecast == null and _move_forecast == null and _raise_forecast == null and _guard_forecast == null and _armor_forecast == null): return
+	if session == null or board_view.hover_cell.x >= 0 or (_forecast == null and not _attack_forecast_pending and _item_forecast == null and _move_forecast == null and _raise_forecast == null and _guard_forecast == null and _armor_forecast == null): return
 	if _item_forecast_kind == &"healing" and _hovered_bar_action == &"healing_item": return
 	if _armor_forecast != null and _hovered_bar_action == &"restore_armor": return
 	if _guard_forecast != null and _hovered_bar_action in [&"guard", &"opportunity_guard"]: return
@@ -935,7 +979,11 @@ func _forecast_reading_region() -> Rect2:
 	return Rect2(Vector2(left, panel.position.y), Vector2(panel.end.x - left, panel.size.y))
 
 func _clear_forecast() -> void:
-	var had_forecast := _forecast != null or _move_forecast != null or _move_forecast_pending
+	var had_forecast := _forecast != null or _attack_forecast_pending or _move_forecast != null or _move_forecast_pending
+	_attack_forecast_generation += 1
+	_attack_forecast_pending = false
+	_attack_forecast_actor = UnitId.NONE
+	_attack_forecast_variant = &""
 	_move_forecast_generation += 1
 	_move_forecast_pending = false
 	_forecast = null
@@ -994,6 +1042,9 @@ func _render_forecast_panel() -> void:
 		return
 	if _item_forecast != null:
 		_render_item_forecast_panel()
+		return
+	if _attack_forecast_pending:
+		_forecast_panel.text = "[font_size=16][color=#f7c97d]Цель: %s[/color][/font_size]\nРассчитываем последствия удара…" % _name_for(_forecast_target_id)
 		return
 	if _forecast == null:
 		_forecast_panel.text = "Наведите курсор на врага в режиме A."

@@ -63,6 +63,8 @@ class Guard extends RefCounted:
 	var values: Dictionary = {}
 	var _ref_seal: Dictionary = {}
 	var _value_seal: Dictionary = {}
+	var _validated_stats_snapshots: Dictionary = {}
+	var _validated_stats_values: Dictionary = {}
 
 	func copy() -> Guard:
 		var result := Guard.new()
@@ -70,6 +72,8 @@ class Guard extends RefCounted:
 		result.values = values.duplicate(true)
 		result._ref_seal = _ref_seal.duplicate(true)
 		result._value_seal = _value_seal.duplicate(true)
+		result._validated_stats_snapshots = _validated_stats_snapshots.duplicate(true)
+		result._validated_stats_values = _validated_stats_values.duplicate(true)
 		return result
 
 	func seal() -> void:
@@ -127,7 +131,12 @@ class Guard extends RefCounted:
 			for cell: Vector2i in board._occupancy:
 				if board._occupancy[cell] == id: occupied.append(cell)
 			if occupied != v["occupancy"]: return false
-			var stats_copy := StatsBag.from_snapshot_dict(stats.to_snapshot_dict())
+			var current_stats_snapshot := stats.to_snapshot_dict()
+			# Быстрый путь допустим лишь пока обе части публичного baseline совпадают
+			# с копией, сделанной при capture; новый seal не продвигает этот cache.
+			if _validated_stats_snapshots.has(id) and _validated_stats_values.has(id):
+				if current_stats_snapshot == _validated_stats_snapshots[id] and v["stats"] == _validated_stats_values[id]: continue
+			var stats_copy := StatsBag.from_snapshot_dict(current_stats_snapshot)
 			if stats_copy == null: return false
 			for type: int in v["stats"]:
 				if v["stats"][type] == null:
@@ -265,7 +274,8 @@ static func capture_guard(context: ActionContext, units: Array[UnitState], cells
 				equipment_count += 1
 				equipment = facade
 		if inventory_count != (1 if lifecycle[0] else 0) or equipment_count != (1 if lifecycle[2] else 0): return null
-		var stats_copy := StatsBag.from_snapshot_dict(stats.to_snapshot_dict())
+		var stats_snapshot := stats.to_snapshot_dict()
+		var stats_copy := StatsBag.from_snapshot_dict(stats_snapshot)
 		if stats_copy == null: return null
 		var stats_values: Dictionary = {}
 		for type: int in stat_types.get(unit.id, []):
@@ -280,6 +290,8 @@ static func capture_guard(context: ActionContext, units: Array[UnitState], cells
 			stats_values[type] = value
 		guard.refs["participants"][unit.id] = {"unit": unit, "stats": stats, "vitals": vitals, "owner": owner, "resources": resources, "inventory": inventory, "equipment": equipment}
 		guard.values["participants"][unit.id] = {"cell": unit.cell, "height": unit.height, "height_steps": board.get_height_steps(unit.cell), "hp": vitals._hp, "alive": vitals._is_alive, "balance": vitals._balance, "move": unit.move_points_left, "main": resources.get_main_left() if resources != null else 0, "bonus": resources.get_bonus_left() if resources != null else 0, "occupancy": [unit.cell], "lifecycle": lifecycle, "stats": stats_values}
+		guard._validated_stats_snapshots[unit.id] = stats_snapshot.duplicate(true)
+		guard._validated_stats_values[unit.id] = stats_values.duplicate(true)
 		guard.values["geometry"][unit.cell] = [board.get_height_steps(unit.cell), board.get_terrain(unit.cell), unit.id]
 		guard.values["participants"][unit.id]["guard_stance"] = unit.guard_stance
 		guard.refs["participants"][unit.id]["bleeding"] = unit.bleeding

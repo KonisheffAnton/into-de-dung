@@ -23,7 +23,15 @@ static func build(context: ActionContext, queue: ActionQueue, command: AttackCom
 	if context.is_faulted() or queue._faulted: return rejected(&"CONTEXT_FAULTED")
 	if context.get_script() != ActionContext or queue.get_script() != ActionQueue: return rejected(&"preview/unsupported_context")
 	if command == null or command.get_script() != AttackCommand: return rejected(&"preview/unsupported_command")
-	var simulation := ForecastSimulation.run(context, queue, command)
+	return _from_simulation(ForecastSimulation.run(context, queue, command))
+
+static func build_prepared(prepared: ForecastSimulation.Prepared) -> AttackForecast:
+	if prepared == null: return rejected(&"preview/request_consumed")
+	if prepared.reason != &"": return rejected(prepared.reason)
+	if prepared.command == null or prepared.command.get_script() != AttackCommand: return rejected(&"preview/unsupported_command")
+	return _from_simulation(ForecastSimulation.run_prepared(prepared))
+
+static func _from_simulation(simulation: ForecastSimulation) -> AttackForecast:
 	var result := AttackForecast.new()
 	result.status = simulation.status
 	result.reason = simulation.reason

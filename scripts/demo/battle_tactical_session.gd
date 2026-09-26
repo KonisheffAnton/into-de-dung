@@ -94,6 +94,12 @@ func preview_attack(id: int) -> AttackForecast:
 	if target != null and target.faction == Faction.Type.PLAYER: return AttackForecast.rejected(&"battle/friendly_target")
 	return super.preview_attack(id)
 
+func prepare_attack_forecast(id: int) -> ForecastSimulation.Prepared:
+	if not can_player_act(): return ForecastSimulation.Prepared.rejected(&"battle/input_locked")
+	var target := board.get_unit_by_id(id)
+	if target != null and target.faction == Faction.Type.PLAYER: return ForecastSimulation.Prepared.rejected(&"battle/friendly_target")
+	return super.prepare_attack_forecast(id)
+
 func guard_reason() -> StringName:
 	if not can_player_act(): return &"battle/input_locked"
 	var actor := selected_unit()

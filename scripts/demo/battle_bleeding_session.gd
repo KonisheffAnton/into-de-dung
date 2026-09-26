@@ -35,6 +35,11 @@ func preview_attack(id: int) -> AttackForecast:
 	if command == null: return AttackForecast.rejected(&"attack/invalid_target")
 	return AttackForecast.build(context, _queue, command)
 
+func prepare_attack_forecast(id: int) -> ForecastSimulation.Prepared:
+	var command := _command_for(id)
+	if command == null: return ForecastSimulation.Prepared.rejected(&"attack/invalid_target")
+	return ForecastSimulation.prepare(context, _queue, command)
+
 func _refill(faction: Faction.Type) -> bool:
 	_transitioning = true
 	var receipt := _submit(BleedingTurnCommand.new(faction, context.get_revision()))

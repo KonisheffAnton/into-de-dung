@@ -106,6 +106,9 @@ def main():
         if label in ("combat_perks_state", "core_reactions", "core_reactions_ui"):
             marker = {"combat_perks_state": "COMBAT PERKS STATE RESULTS:", "core_reactions": "CORE REACTIONS RESULTS:", "core_reactions_ui": "CORE REACTIONS UI RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label in ("attack_forecast_worker", "attack_async_ui", "spatial_guard_stats"):
+            marker = {"attack_forecast_worker": "ATTACK FORECAST WORKER RESULTS:", "attack_async_ui": "ATTACK ASYNC UI RESULTS:", "spatial_guard_stats": "SPATIAL GUARD STATS RESULTS:"}[label]
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("entangle_attack", "entangle_ui"):
             marker = "ENTANGLE ATTACK RESULTS:" if label == "entangle_attack" else "ENTANGLE UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -165,6 +168,8 @@ def main():
         run("core_reactions", ["--script", "tests/test_core_reactions.gd"])
         run("entangle_attack", ["--script", "tests/test_entangle_attack.gd"])
         run("forecast", ["--script", "tests/test_attack_forecast.gd"])
+        run("attack_forecast_worker", ["--script", "tests/test_attack_forecast_worker.gd"])
+        run("spatial_guard_stats", ["--script", "tests/test_spatial_guard_stats.gd"])
         run("guard", ["--script", "tests/test_guard_stance.gd"])
         run("summon_snapshot", ["--script", "tests/test_summon_snapshot.gd"])
         run("summon", ["--script", "tests/test_summoning_item.gd"])
@@ -231,6 +236,10 @@ def main():
         if args.render_check:
             reactions_args += ["--", "--captures=" + str(captures)]
         run("core_reactions_ui", reactions_args, headless=not args.render_check)
+        attack_async_args = ["--script", "tests/test_attack_forecast_async_ui.gd"]
+        if args.render_check:
+            attack_async_args += ["--", "--captures=" + str(out)]
+        run("attack_async_ui", attack_async_args, headless=not args.render_check)
         entangle_args = ["--script", "tests/test_entangle_ui.gd"]
         if args.render_check:
             entangle_args += ["--", "--captures=" + str(captures)]

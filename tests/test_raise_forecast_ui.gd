@@ -143,9 +143,11 @@ func _key(code: Key) -> void:
 	event.pressed = false
 	_viewport.push_input(event, true)
 	await process_frame
+	await preload("res://tests/fixtures/attack_forecast_wait.gd").settle(self, _demo)
 
 func _mouse_motion(position: Vector2) -> void:
 	await _mouse_motion_global(_demo.board_view.global_position + position)
+	await preload("res://tests/fixtures/attack_forecast_wait.gd").settle(self, _demo)
 
 func _mouse_motion_global(position: Vector2) -> void:
 	var event := InputEventMouseMotion.new()
@@ -154,6 +156,7 @@ func _mouse_motion_global(position: Vector2) -> void:
 	_viewport.push_input(event, true)
 	await process_frame
 	await process_frame
+	await preload("res://tests/fixtures/attack_forecast_wait.gd").settle(self, _demo)
 
 func _click_cell(cell: Vector2i) -> void:
 	await _click_at(_demo.board_view.global_position + _demo.board_view.cell_center(cell))
