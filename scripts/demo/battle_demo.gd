@@ -506,6 +506,10 @@ func handle_cell(cell: Vector2i) -> void:
 			rejected.reason = &"attack/invalid_target"
 			_show_receipt(rejected, true)
 			return
+		# В командном бою союзник под курсором означает выбор, а не дружественный удар.
+		if _battle != null and occupant.is_alive() and occupant.faction == Faction.Type.PLAYER:
+			select_character(occupant.id)
+			return
 		_execute_live(&"attack_unit", [occupant.id], true)
 	elif occupant != null:
 		if _battle != null and occupant.faction == Faction.Type.ENEMY:

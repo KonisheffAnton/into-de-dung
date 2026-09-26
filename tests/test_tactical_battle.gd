@@ -279,14 +279,23 @@ func _test_action_return_to_movement() -> void:
 	_check(actor.cell == Vector2i(1, 2) and actor.move_points_left < 5.0, "first selection moves without M")
 	var before := ItemSimulationSnapshot.capture(battle.state, []).snapshot.to_dict()
 	var counters := battle.context.simulation_counters()
-	for invalid_cell: Vector2i in [Vector2i(1, 3), battle.units[2].cell, battle.units[5].cell]:
+	for invalid_cell: Vector2i in [Vector2i(1, 3), battle.units[5].cell]:
 		await _key(KEY_A)
 		await _click_cell(invalid_cell)
-		_check(not _demo.attack_mode and not _demo.board_view.attack_mode and _demo._forecast == null and _demo._move_button.button_pressed, "invalid empty/friendly/distant target returns movement: %s" % invalid_cell)
+		_check(not _demo.attack_mode and not _demo.board_view.attack_mode and _demo._forecast == null and _demo._move_button.button_pressed, "invalid empty/distant target returns movement: %s" % invalid_cell)
 		_check(_demo._status.text.contains("недопустимая цель") and _demo._log.text.contains("недопустимая цель"), "invalid target has visible explanation")
 		_check(ItemSimulationSnapshot.capture(battle.state, []).snapshot.to_dict() == before and battle.context.simulation_counters() == counters, "invalid target spends nothing and does not move on the same click")
 	await _click_cell(Vector2i(1, 3))
 	_check(actor.cell == Vector2i(1, 3), "next click after rejected attack moves without M")
+	before = ItemSimulationSnapshot.capture(battle.state, []).snapshot.to_dict()
+	counters = battle.context.simulation_counters()
+	var last_receipt := battle.last_receipt
+	var journal := _demo._journal.duplicate()
+	await _key(KEY_A)
+	await _click_cell(battle.units[2].cell)
+	_check(battle.selected_id == battle.units[2].id and not _demo.attack_mode and _demo._move_button.button_pressed, "attack-mode ally click selects movement immediately")
+	_check(ItemSimulationSnapshot.capture(battle.state, []).snapshot.to_dict() == before and battle.context.simulation_counters() == counters, "attack-mode selection preserves all resources and counters")
+	_check(battle.last_receipt == last_receipt and _demo._journal == journal, "ally selection creates no rejected attack or journal entry")
 	_demo.reset_demo()
 	actor = battle.units[4]
 	await _click_cell(actor.cell)

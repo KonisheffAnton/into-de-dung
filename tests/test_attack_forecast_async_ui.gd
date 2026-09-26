@@ -29,6 +29,7 @@ func run() -> void:
 	await process_frame; await process_frame
 	# Останавливаем только автоматический tick: ввод идёт через настоящий SubViewport.
 	demo.set_process(false)
+	await test_ally_selection_during_attack()
 	setup_attack()
 	var s := demo.session as BattleCoreReactionsSession
 	var target := s.units[3]
@@ -145,6 +146,103 @@ func run() -> void:
 	viewport.queue_free(); await process_frame
 	print("ATTACK ASYNC UI RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
+
+func test_ally_selection_during_attack() -> void:
+	demo.reset_demo()
+	var s := demo.session as BattleCoreReactionsSession
+	var astra := s.units[0]
+	var target := s.units[5]
+	var ray := s.units[4]
+	# Плоская пустая арена оставляет единственной переменной направление атаки.
+	for y in s.board.height:
+		for x in s.board.width:
+			var cell := Vector2i(x, y)
+			s.board.set_terrain(cell, TerrainType.Type.FLOOR)
+			s.board.set_height_steps(cell, 0)
+	check(s.board.move_unit(astra, Vector2i(3, 2)), "fixture places Astra north of target")
+	check(s.board.move_unit(s.units[1], Vector2i(0, 7)), "fixture stages enemy one")
+	check(s.board.move_unit(s.units[2], Vector2i(1, 7)), "fixture stages ally two")
+	check(s.board.move_unit(s.units[3], Vector2i(2, 7)), "fixture stages ally three")
+	check(s.board.move_unit(ray, Vector2i(2, 3)), "fixture places Ray west of target")
+	check(s.board.move_unit(target, Vector2i(3, 3)), "fixture places Dozorny between attackers")
+	for attacker: UnitState in [astra, ray]:
+		attacker.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, 100.0)
+	ray.control.stunned_turns = 0
+	target.stats.set_base_value(StatTypes.StatType.HP_MAX, 256.0)
+	target.vitals.set_hp(256.0)
+	demo._refresh()
+	check(astra.debug_name == "Астра" and ray.debug_name == "Рей" and target.debug_name == "Дозорный", "fixture unit indices match named actors and target")
+
+	await click_cell(ray.cell)
+	check(s.selected_id == ray.id, "field click selects Ray through viewport")
+	push_key(KEY_A)
+	push_motion(at(target.cell))
+	check(demo._attack_forecast_pending, "Ray hover queues attack forecast")
+	demo._process_attack_forecast()
+	check(demo._attack_forecast_worker.is_started(), "Ray forecast is running before ally click")
+	var before_snapshot := snapshot()
+	var before_rng := s.context.get_rng().to_dict().duplicate(true)
+	var before_counters := s.context.simulation_counters()
+	var before_receipt := s.last_receipt
+	var before_journal := demo._journal.size()
+	await click_cell(astra.cell)
+	var pending_execution_after_click := demo.is_execution_pending()
+	check(not pending_execution_after_click, "ally click does not start a live attack worker")
+	if pending_execution_after_click:
+		await preload("res://tests/fixtures/battle_execution_wait.gd").settle(self, demo)
+	var switched_during_pending := s.selected_id == astra.id and not demo.attack_mode and not demo.is_execution_pending()
+	check(switched_during_pending, "clicking Astra during attack immediately selects her and returns to move mode")
+	if not switched_during_pending:
+		await drain()
+		return
+	check(s.last_receipt == before_receipt and demo._journal.size() == before_journal, "ally selection creates no receipt or journal entry")
+	check(snapshot() == before_snapshot and s.context.get_rng().to_dict() == before_rng and s.context.simulation_counters() == before_counters, "pending forecast and ally selection preserve battle state")
+	await drain()
+	check(demo._forecast == null and not demo._attack_forecast_pending, "Ray forecast cannot publish after switching to Astra")
+
+	# Повторяем выбор с уже готовым прогнозом, чтобы проверить обе стадии worker.
+	await click_cell(ray.cell)
+	push_key(KEY_A)
+	push_motion(at(target.cell))
+	await settle()
+	var ray_forecast := demo._forecast
+	check(ray_forecast != null and ray_forecast.status == ActionReceipt.APPLIED and ray_forecast.units.has(target.id) and ray_forecast.units[target.id]["after"]["cell"] == Vector2i(4, 3), "ready Ray forecast pushes east")
+	await click_cell(astra.cell)
+	pending_execution_after_click = demo.is_execution_pending()
+	check(not pending_execution_after_click, "ally click with ready forecast does not start a live worker")
+	if pending_execution_after_click:
+		await preload("res://tests/fixtures/battle_execution_wait.gd").settle(self, demo)
+	var switched_during_ready := s.selected_id == astra.id and not demo.attack_mode and demo._forecast == null
+	check(switched_during_ready, "ally click also clears a ready Ray forecast")
+	if not switched_during_ready: return
+	check(s.last_receipt == before_receipt and demo._journal.size() == before_journal, "ready-forecast selection still executes no command")
+
+	push_key(KEY_A)
+	push_motion(at(target.cell))
+	await settle()
+	var astra_forecast := demo._forecast
+	check(demo._attack_forecast_actor == astra.id and astra_forecast != null, "fresh hover belongs to Astra")
+	var valid_astra_forecast := astra_forecast != null and astra_forecast.status == ActionReceipt.APPLIED and astra_forecast.units.has(target.id)
+	check(valid_astra_forecast and astra_forecast.units[target.id]["after"]["cell"] == Vector2i(3, 4), "Astra forecast pushes south")
+	if not valid_astra_forecast: return
+	var expected_snapshot := astra_forecast.snapshot_after
+	var expected_rng: Dictionary = astra_forecast.rng_after.duplicate(true)
+	var expected_counters: Dictionary = astra_forecast.counters_after.duplicate(true)
+	push_click(at(target.cell))
+	await preload("res://tests/fixtures/battle_execution_wait.gd").settle(self, demo)
+	var receipt := s.last_receipt
+	var attacked_by_astra := false
+	for event: Dictionary in receipt.get_events():
+		if event.get("kind") == &"attacked" and event.get("actor_unit_id") == astra.id and event.get("target_unit_id") == target.id:
+			attacked_by_astra = true
+	check(attacked_by_astra, "live attack is executed by selected Astra")
+	check(receipt.get_events() == astra_forecast.events and snapshot() == expected_snapshot, "live receipt and full snapshot match Astra forecast")
+	check(s.context.get_rng().to_dict() == expected_rng and s.context.simulation_counters() == expected_counters, "live RNG and counters match Astra forecast")
+func click_cell(cell: Vector2i) -> void:
+	push_motion(at(cell))
+	await process_frame
+	push_click(at(cell))
+	await process_frame
 
 func setup_attack() -> void:
 	push_motion(Vector2(2, 2))
