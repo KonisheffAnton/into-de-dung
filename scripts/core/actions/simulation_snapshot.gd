@@ -99,11 +99,14 @@ static func _sorted_ids(raw: Array[StringName]) -> Array[StringName]:
 static func _copy_value(value: Variant) -> Variant:
 	if value is Dictionary:
 		var result: Dictionary = {}
-		for key in value.keys(): result[key] = _copy_value(value[key])
+		for key in value.keys():
+			var child: Variant = value[key]
+			result[key] = _copy_value(child) if child is Dictionary or child is Array else child
 		return result
 	if value is Array:
 		var result: Array = []
-		for item in value: result.append(_copy_value(item))
+		for item: Variant in value:
+			result.append(_copy_value(item) if item is Dictionary or item is Array else item)
 		return result
 	return value
 

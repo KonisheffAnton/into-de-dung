@@ -103,6 +103,9 @@ def main():
         if label in ("snapshot_walk", "unit_snapshot_performance"):
             marker = "SNAPSHOT WALK RESULTS:" if label == "snapshot_walk" else "UNIT SNAPSHOT PERFORMANCE RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label in ("snapshot_value_copy", "live_snapshot_capture", "summon_checkpoint"):
+            marker = {"snapshot_value_copy": "SNAPSHOT VALUE COPY RESULTS:", "live_snapshot_capture": "LIVE SNAPSHOT CAPTURE RESULTS:", "summon_checkpoint": "SUMMON CHECKPOINT RESULTS:"}[label]
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("combat_perks_state", "core_reactions", "core_reactions_ui"):
             marker = {"combat_perks_state": "COMBAT PERKS STATE RESULTS:", "core_reactions": "CORE REACTIONS RESULTS:", "core_reactions_ui": "CORE REACTIONS UI RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -157,6 +160,9 @@ def main():
         run("armor_snapshot", ["--script", "tests/test_armor_snapshot.gd"])
         run("snapshot_walk", ["--script", "tests/test_snapshot_walk_performance.gd"])
         run("unit_snapshot_performance", ["--script", "tests/test_unit_snapshot_performance.gd"])
+        run("snapshot_value_copy", ["--script", "tests/test_snapshot_value_copy.gd"])
+        run("live_snapshot_capture", ["--script", "tests/test_live_snapshot_capture.gd"])
+        run("summon_checkpoint", ["--script", "tests/test_summon_checkpoint.gd"])
         run("armor_integration", ["--script", "tests/test_armor_integration.gd"])
         run("armor_recovery", ["--script", "tests/test_armor_recovery.gd"])
         run("bleeding_snapshot", ["--script", "tests/test_bleeding_snapshot.gd"])

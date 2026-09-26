@@ -79,7 +79,7 @@ static func make_helper(id: int, faction: Faction.Type, cell: Vector2i, owner_na
 	unit.enable_action_resources()
 	return unit
 
-func _apply(context: ActionContext, id: int, admission: Dictionary) -> UnitState:
+func _new_helper(context: ActionContext, id: int) -> UnitState:
 	var state := context.get_state()
 	var actor := state.get_board().get_unit_by_id(_actor_id)
 	var item: ItemInstance = state.get_owner(_actor_id)._items[_item_id]
@@ -92,13 +92,19 @@ func _apply(context: ActionContext, id: int, admission: Dictionary) -> UnitState
 	if actor.bleeding != null:
 		# Пустое состояние нужно для единообразного боевого runtime без переноса эффекта.
 		unit.bleeding = BleedingState.new()
+	return unit
+
+func _apply(context: ActionContext, unit: UnitState, admission: Dictionary) -> void:
+	var state := context.get_state()
+	var actor := state.get_board().get_unit_by_id(_actor_id)
+	var item: ItemInstance = state.get_owner(_actor_id)._items[_item_id]
+	var action := item.get_use_action()
 	actor.action_resources.try_spend_main(action.get_main_cost())
 	item._charges_left -= action.get_charge_cost()
 	state.register_summon_owner(unit, actor.id)
 	context._move_rules = admission["move"]
 	context._attack_rules = admission["attack"]
 	state.get_board().add_unit(unit)
-	return unit
 
 func execute(context: ActionContext) -> CommandStepResult:
 	var reason := validate(context)
@@ -111,17 +117,6 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var equipment := state.get_equipment_facades()
 	var id := next_id(board)
 	var admission := SummonAdmission.extend(context.get_move_rules(), context.get_attack_rules(), id, _actor_id, false)
-	var definitions: Dictionary = {}
-	for owner in owners:
-		for key: StringName in owner._definitions: definitions[key] = (owner._definitions[key] as ItemDef).duplicate(true)
-	var restored := ItemSimulationSnapshot.capture(state, []).snapshot.instantiate(definitions)
-	if restored.code != ItemSnapshotResult.Code.OK: return CommandStepResult.faulted(&"summon/invalid_runtime")
-	var copy_context := ActionContext.new(restored.state, ActionRngPort.new(), ActionEventSink.new(), [], context.get_move_rules(), context.get_attack_rules())
-	_apply(copy_context, id, admission)
-	var expected := ItemSimulationSnapshot.capture(restored.state, [])
-	var expected_admission := SummonAdmission.values(copy_context)
-	AttackForecast._close(restored.state)
-	if expected.code != ItemSnapshotResult.Code.OK: return CommandStepResult.faulted(&"summon/invalid_runtime")
 	var actor := board.get_unit_by_id(_actor_id)
 	var item: ItemInstance = state.get_owner(_actor_id)._items[_item_id]
 	var main_before := actor.action_resources.get_main_left()
@@ -129,13 +124,20 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var action := item.get_use_action()
 	var main_cost := action.get_main_cost()
 	var charge_cost := action.get_charge_cost()
+	var unit := _new_helper(context, id)
+	var before := ItemSimulationSnapshot.capture(state, [])
+	if before.code != ItemSnapshotResult.Code.OK: return CommandStepResult.faulted(&"summon/invalid_runtime")
+	var expected := SummonMutationProjection.expected(before.snapshot, unit, _actor_id, board.get_height(_cell), main_cost, _item_id, charge_cost)
+	if expected.code != ItemSnapshotResult.Code.OK: return CommandStepResult.faulted(&"summon/invalid_runtime")
+	var expected_context := ActionContext.new(null, null, null, [], admission["move"], admission["attack"])
+	var expected_admission := SummonAdmission.values(expected_context)
 	var counters := context.simulation_counters()
 	var rng := context.get_rng()
 	var rng_before := rng.to_dict().duplicate(true)
-	var unit := _apply(context, id, admission)
+	_apply(context, unit, admission)
 	var actual := ItemSimulationSnapshot.capture(state, [])
 	var valid := context.get_state() == state and state.get_board() == board and context.get_rng() == rng and context.simulation_counters() == counters and rng.to_dict() == rng_before and SummonAdmission.values(context) == expected_admission and actual.code == ItemSnapshotResult.Code.OK
-	if valid: valid = actual.snapshot.to_dict() == expected.snapshot.to_dict()
+	if valid: valid = actual.snapshot._data == expected.snapshot._data
 	for original in originals: valid = valid and board.get_unit_by_id(original.id) == original
 	valid = valid and board.get_unit_by_id(id) == unit and state.get_owner(id).get_owner() == unit
 	valid = valid and state.get_owners().slice(0, owners.size()) == owners and state.get_inventories().slice(0, inventories.size()) == inventories and state.get_equipment_facades().slice(0, equipment.size()) == equipment

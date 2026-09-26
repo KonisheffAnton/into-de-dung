@@ -364,7 +364,9 @@ static func capture(state: ItemSimulationState, unsupported_runtime_ids: Array[S
 	var board_result := SimulationSnapshot.capture_board(state.get_board(), [])
 	if board_result.code != BoardSnapshotResult.Code.OK:
 		return _failure(("UNSUPPORTED:" if board_result.code == BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED else "") + board_result.reason)
-	var board_data := board_result.snapshot.to_dict()
+	# Этот DTO создан здесь и ещё никому не передан. Внешний снимок ниже всё
+	# равно копирует payload; промежуточная копия всей доски не нужна.
+	var board_data := board_result.snapshot._data
 	var units: Dictionary = {}
 	for unit: Dictionary in board_data["board"]["units"]: units[unit["id"]] = unit
 	var records: Array = []
@@ -421,7 +423,17 @@ static func capture(state: ItemSimulationState, unsupported_runtime_ids: Array[S
 	var payload := {"schema_version": version, "scope": SCOPE_V6 if use_v6 else (SCOPE_V5 if version == 5 else (SCOPE_V4 if use_v4 else (SCOPE_V3 if use_v3 else (SCOPE_V2 if use_v2 else SCOPE)))), "board_snapshot": board_data, "owners": records}
 	if version in [3, 4, 5, 6]: payload["summons"] = state.get_summons()
 	if state.environment != null: payload["environment"] = state.environment.to_dict()
-	return from_dict(payload)
+	# Между capture_board и этой проверкой менялись только записи предметов.
+	# Уже проверенная доска остаётся тем же локальным DTO, а общий raw preflight,
+	# лимиты и связи владельцев выполняются по-прежнему для всего payload.
+	error = _validate(payload, board_result.snapshot)
+	if not error.is_empty(): return _failure(error)
+	var snapshot := ItemSimulationSnapshot.new()
+	snapshot._data = _normalize(SimulationSnapshot._copy_value(payload))
+	var result := ItemSnapshotResult.new()
+	result.code = ItemSnapshotResult.Code.OK
+	result.snapshot = snapshot
+	return result
 
 static func _lifecycle(registered: bool, retired: bool) -> int:
 	return 1 if registered else (2 if retired else 0)
@@ -682,7 +694,7 @@ static func _effect_capability(effect: Dictionary) -> bool:
 		"heal_on_damage": return effect["trigger_event"] == 0
 	return false
 
-static func _validate(data: Dictionary) -> String:
+static func _validate(data: Dictionary, captured_board: SimulationSnapshot = null) -> String:
 	var nodes: Array[int] = [0]
 	var error := ""
 	if not _walk_valid(data, 0, [], nodes):
@@ -725,8 +737,11 @@ static func _validate(data: Dictionary) -> String:
 			effects.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["effect_instance_id"] < b["effect_instance_id"])
 			for effect: Dictionary in effects:
 				if not _effect_capability(effect): return "UNSUPPORTED:" + path + "/effect/%d" % effect["effect_instance_id"]
-	error = SimulationSnapshot._validate_envelope(data["board_snapshot"])
-	if not error.is_empty(): return error
+	# Исключение только для локального DTO из capture_board. from_dict и
+	# instantiate никогда не используют это свидетельство и проверяют доску заново.
+	if captured_board == null or not is_same(data["board_snapshot"], captured_board._data):
+		error = SimulationSnapshot._validate_envelope(data["board_snapshot"])
+		if not error.is_empty(): return error
 	if data["schema_version"] in [5, 6] and data.has("environment"):
 		error = EnvironmentRules.snapshot_reason(data["environment"], data["board_snapshot"]["board"], data["summons"])
 		if not error.is_empty(): return error

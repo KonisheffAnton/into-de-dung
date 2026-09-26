@@ -30,6 +30,7 @@ core без `--full` в неё не входит. Повторять более 
 | Область | Адресный runner в `tests/` |
 |---|---|
 | Оптимизация снимков | `test_snapshot_walk_performance.gd`, `test_unit_snapshot_performance.gd` (full/render): parity raw graph/диагностики/лимитов, schema 1–6, HP_MAX и неизменность DTO |
+| Live snapshot/checkpoint | `test_snapshot_value_copy.gd`, `test_live_snapshot_capture.gd`, `test_summon_checkpoint.gd` (full/render): типы/изоляция копий, fresh capture без revision, строгий raw/restore, parity checkpoint призыва/поднятия с полным clone и callback FAULTED prefix |
 | Плавность вспомогательных прогнозов | `test_action_forecast_worker.gd`, `test_action_forecast_async_ui.gd`: все семь вариантов, sync/worker/live parity, hints против строгого отказа, pending/latest/refresh/exit/phase/close; прежние пять UI runner ожидают готовый результат |
 | Немедленный маршрут K4 | `test_move_forecast_ui.gd` (full/render): пунктир до worker, быстрая смена цели, очистка запретов/отмены, замена на исполненный prefix при гибели, PNG предварительного и точного маршрутов |
 | Единый боевой пакет K9 | `test_core_batch.gd`, `test_summon_composition.gd`, `test_core_batch_ui.gd` (full/render): расстановка, все восемь слотов, прогноз брони, печать/поднятие/оба хода, два боя до исхода, snapshot/FAULTED и четыре PNG |

@@ -60,6 +60,11 @@ Unit codecs v1–v5 не меняются в M1. Restore переносит meta
 Board callback видит уже оплаченный шаг, occupancy и owner/facades. Ожидаемый
 snapshot и admission фиксируются до callback; мутация даёт FAULTED с собственным
 исполненным prefix. Лимит событий также сохраняет шаг. Sink после drain не мутирует.
+Ожидаемый снимок строится из полного снимка до шага и сериализованного нового
+помощника: цена, occupancy, board version, пустой owner/facades и pending.
+Итоговый граф проходит from_dict; полный снимок после callback сравнивается
+целиком, вместе с admission/RNG/counters и прежними identity. Второй runtime
+боя для checkpoint не создаётся. Прогноз остаётся реальным исполнением в изоляции.
 
 Admission расширяется при появлении для входящих атак и на границе готовности
 для действий помощника, наследуя допуски владельца. Контекст/revision/counters
