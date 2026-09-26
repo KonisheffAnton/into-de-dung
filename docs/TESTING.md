@@ -29,6 +29,7 @@ core без `--full` в неё не входит. Повторять более 
 
 | Область | Адресный runner в `tests/` |
 |---|---|
+| Прогноз конца командного хода K13 | `test_turn_forecast.gd`, `test_turn_forecast_ui.gd` (full/render): настоящий переход до первого решения ИИ, изоляция/preview/live/worker, terminal/FAULTED, runtime-отказы, реальный hover/click/Enter, refresh без revision, очистка/exit и PNG |
 | Исполнение общего боя вне render | `test_battle_execution_worker.gd`, `test_battle_execution_ui.gd` (full/render): владение session, sync parity всех действий/хода, callbacks fallback, pending/resize/публикация/reset/exit/FAULTED и PNG |
 | Оптимизация снимков | `test_snapshot_walk_performance.gd`, `test_unit_snapshot_performance.gd` (full/render): parity raw graph/диагностики/лимитов, schema 1–6, HP_MAX и неизменность DTO |
 | Live snapshot/checkpoint | `test_snapshot_value_copy.gd`, `test_live_snapshot_capture.gd`, `test_summon_checkpoint.gd` (full/render): типы/изоляция копий, fresh capture без revision, строгий raw/restore, parity checkpoint призыва/поднятия с полным clone и callback FAULTED prefix |

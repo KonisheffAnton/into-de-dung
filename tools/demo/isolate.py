@@ -118,6 +118,9 @@ def main():
         if label in ("action_forecast_worker", "action_async_ui"):
             marker = "ACTION FORECAST WORKER RESULTS:" if label == "action_forecast_worker" else "ACTION ASYNC UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label in ("turn_forecast", "turn_forecast_ui"):
+            marker = "TURN FORECAST RESULTS:" if label == "turn_forecast" else "TURN FORECAST UI RESULTS:"
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("attack_forecast_worker", "attack_async_ui", "spatial_guard_stats"):
             marker = {"attack_forecast_worker": "ATTACK FORECAST WORKER RESULTS:", "attack_async_ui": "ATTACK ASYNC UI RESULTS:", "spatial_guard_stats": "SPATIAL GUARD STATS RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -190,6 +193,7 @@ def main():
         run("forecast", ["--script", "tests/test_attack_forecast.gd"])
         run("attack_forecast_worker", ["--script", "tests/test_attack_forecast_worker.gd"])
         run("action_forecast_worker", ["--script", "tests/test_action_forecast_worker.gd"])
+        run("turn_forecast", ["--script", "tests/test_turn_forecast.gd"])
         run("spatial_guard_stats", ["--script", "tests/test_spatial_guard_stats.gd"])
         run("control_perks_codec", ["--script", "tests/test_control_perks_codec.gd"])
         run("control_package", ["--script", "tests/test_control_package.gd"])
@@ -279,6 +283,10 @@ def main():
         if args.render_check:
             action_async_args += ["--", "--captures=" + str(captures)]
         run("action_async_ui", action_async_args, headless=not args.render_check)
+        turn_forecast_args = ["--script", "tests/test_turn_forecast_ui.gd"]
+        if args.render_check:
+            turn_forecast_args += ["--", "--captures=" + str(out)]
+        run("turn_forecast_ui", turn_forecast_args, headless=not args.render_check)
         entangle_args = ["--script", "tests/test_entangle_ui.gd"]
         if args.render_check:
             entangle_args += ["--", "--captures=" + str(captures)]

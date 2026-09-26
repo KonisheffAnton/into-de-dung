@@ -12,8 +12,9 @@ var last_receipt: ActionReceipt
 
 var _queue: ActionQueue
 
-func _init() -> void:
-	reset()
+func _init(initialize: bool = true) -> void:
+	if initialize:
+		reset()
 
 func reset() -> void:
 	close()
@@ -178,7 +179,12 @@ func _submit(command: Command) -> ActionReceipt:
 	if _queue == null or context == null:
 		return _reject(&"session/closed")
 	last_receipt = _queue.submit(command, context)
+	_record_receipt(last_receipt)
 	return last_receipt
+
+func _record_receipt(_receipt: ActionReceipt) -> void:
+	# Пустая точка расширения нужна изолированным исполнителям; live не хранит trace.
+	pass
 
 func _reject(reason: StringName) -> ActionReceipt:
 	var receipt := ActionReceipt.new()

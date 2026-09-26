@@ -1,5 +1,21 @@
 # История и свидетельства проверок
 
+## K13 — прогноз конца командного хода, 2026-09-26
+
+Base main `2cda1ac598c676411a9c5b820a3abe43ab7d08dc`. Реализован hover границы
+основного общего боя до первого решения ИИ: настоящее исполнение на отделённой
+сессии без reset, все root receipts, ранний исход, FAULTED prefix и worker UI.
+Контракт — ATTACK_FORECAST §K13; формулы/цены/правила ходов не менялись.
+Godot 4.7.2 import/startup/full/render PASS, core 9440/0; K13 40/0,
+UI 27/0 headless и 30/0 render. Три PNG осмотрены; diagnostics без новых,
+baseline core и manifests сверены. Независимый game_reviewer: APPROVE.
+Full — test_reports/demo-c80f99b8b45a41fba463f6f99238a0bf/;
+render — test_reports/demo-c3107ce7ba6d4922992be7037fb250a5/;
+отчёт/validation/review/completion — test_reports/turn-forecast-20260926/.
+Точные передачи: [до начала](CODEX_HANDOFF.history-20260926-11.md),
+[точка восстановления](CODEX_HANDOFF.history-20260926-12.md).
+Общая ручная приёмка ядра остаётся открытой; отдельный микроплейтест не назначен.
+
 ## Имена в прогнозе атаки — 2026-09-26
 
 Base main `a86d1d526be5d1ef6a217b3f98b04332f226815b`, чистый старт. Заголовок

@@ -88,6 +88,14 @@ var _pointer_position := Vector2(-1, -1)
 var _shown_inspection_id: int = UnitId.NONE
 var _hovered_bar_action: StringName = &""
 var _execution_worker := BattleExecutionWorker.new()
+var _turn_forecast: TurnForecast
+var _turn_forecast_pending: bool = false
+var _turn_forecast_generation: int = 0
+var _turn_forecast_job_generation: int = -1
+var _turn_forecast_session_id: int = 0
+var _turn_forecast_actor: int = UnitId.NONE
+var _turn_forecast_revision: int = -1
+var _turn_forecast_worker := TurnForecastWorker.new()
 
 func is_execution_pending() -> bool:
 	return _execution_worker.is_started()
@@ -165,6 +173,7 @@ func _process(delta: float) -> void:
 	_process_move_forecast()
 	_process_attack_forecast()
 	_process_action_forecast()
+	_process_turn_forecast()
 	if _battle == null or _battle.phase != BattleTacticalSession.Phase.ENEMY_TURN: return
 	_ai_delay -= delta
 	if _ai_delay > 0.0: return
@@ -178,6 +187,7 @@ func _input(event: InputEvent) -> void:
 		# Координата самого viewport-события одинакова для мыши и replay/test input.
 		_pointer_position = (event as InputEventMouseMotion).position
 		_update_action_bar_hover()
+		_update_turn_forecast_hover()
 		if (_forecast != null or _attack_forecast_pending or _move_forecast != null or _move_forecast_pending or _raise_forecast != null or (_item_forecast != null and _item_forecast_kind == &"summon")) and board_view.hover_cell.x < 0 and not _forecast_reading_region().has_point(_pointer_position) and not board_view.get_global_rect().has_point(_pointer_position):
 			_clear_forecast()
 			_refresh_inspection()
@@ -187,6 +197,9 @@ func _exit_tree() -> void:
 	_move_forecast_worker.close()
 	_attack_forecast_worker.close()
 	_action_forecast_worker.close()
+	_turn_forecast_worker.close()
+	_turn_forecast = null
+	_turn_forecast_pending = false
 	_attack_forecast_pending = false
 	_move_forecast_pending = false
 	_forecast = null
@@ -596,6 +609,7 @@ func end_turn() -> void:
 func _refresh() -> void:
 	if is_execution_pending(): return
 	# Любой refresh перечитывает состояние, включая изменения вне command revision.
+	var refresh_turn := (_turn_forecast != null or _turn_forecast_pending) and (_over_end_turn_button() or _forecast_reading_region().has_point(_pointer_position))
 	var refresh_armor := (_armor_forecast != null or (_action_forecast_pending and _action_forecast_kind == &"armor")) and _hovered_bar_action == &"restore_armor"
 	var refresh_guard_action := _hovered_bar_action if _guard_forecast != null or (_action_forecast_pending and _action_forecast_kind in [&"guard", &"opportunity", &"counterattack"]) else &""
 	var refresh_healing := (_item_forecast != null or (_action_forecast_pending and _action_forecast_kind == &"healing")) and _hovered_bar_action == &"healing_item"
@@ -786,6 +800,7 @@ func _refresh() -> void:
 	if refresh_armor and _battle != null and _battle.can_player_act(): _action_bar_hovered(&"restore_armor")
 	if refresh_guard and _battle != null and _battle.can_player_act(): _action_bar_hovered(refresh_guard_action)
 	if refresh_healing and _battle != null and _battle.can_player_act(): _action_bar_hovered(&"healing_item")
+	if refresh_turn and _can_forecast_turn(): _request_turn_forecast()
 	_render_forecast_panel()
 
 func _perk_status_text(unit: UnitState) -> String:
@@ -895,6 +910,11 @@ func _hover(cell: Vector2i) -> void:
 	if is_execution_pending(): return
 	if session == null or session.board == null: return
 	if _is_deploying(): return
+	if _turn_forecast != null or _turn_forecast_pending:
+		if cell.x < 0:
+			_resolve_hover_exit.call_deferred()
+			return
+		_clear_forecast()
 	if (_guard_forecast != null and _guard_forecast_mode != CombatPerksState.Mode.COVER or _armor_forecast != null) and cell.x >= 0: _clear_forecast()
 	# Позволяем перейти к прокрутке длинной цепи, сохранив текущий прогноз.
 	if (_forecast != null or _attack_forecast_pending or _action_forecast_pending or _item_forecast != null or _move_forecast != null or _raise_forecast != null or _guard_forecast != null or _armor_forecast != null) and cell.x < 0:
@@ -1135,6 +1155,11 @@ func _leave_forecast_panel() -> void:
 
 func _resolve_hover_exit() -> void:
 	if is_execution_pending(): return
+	if _turn_forecast != null or _turn_forecast_pending:
+		if _over_end_turn_button() or _forecast_reading_region().has_point(_pointer_position): return
+		_clear_forecast()
+		_refresh_inspection()
+		return
 	if session == null or board_view.hover_cell.x >= 0 or (_forecast == null and not _attack_forecast_pending and not _action_forecast_pending and _item_forecast == null and _move_forecast == null and _raise_forecast == null and _guard_forecast == null and _armor_forecast == null): return
 	if _item_forecast_kind == &"healing" and _hovered_bar_action == &"healing_item": return
 	if (_armor_forecast != null or (_action_forecast_pending and _action_forecast_kind == &"armor")) and _hovered_bar_action == &"restore_armor": return
@@ -1151,6 +1176,12 @@ func _forecast_reading_region() -> Rect2:
 
 func _clear_forecast() -> void:
 	if is_execution_pending(): return
+	_turn_forecast_generation += 1
+	_turn_forecast_pending = false
+	_turn_forecast = null
+	_turn_forecast_session_id = 0
+	_turn_forecast_actor = UnitId.NONE
+	_turn_forecast_revision = -1
 	_action_forecast_generation += 1
 	_action_forecast_pending = false
 	_action_forecast_kind = &""
@@ -1203,6 +1234,9 @@ func _clear_forecast() -> void:
 func _render_forecast_panel() -> void:
 	if is_execution_pending(): return
 	if _forecast_panel == null: return
+	if _turn_forecast_pending or _turn_forecast != null:
+		_render_turn_forecast()
+		return
 	if _action_forecast_pending:
 		_forecast_panel.visible = true
 		_forecast_heading.visible = true
@@ -1761,7 +1795,10 @@ func _reason_text(reason: StringName) -> String:
 		&"perks/movement_stopped": return "движение уже остановлено Оппортунистом до пополнения команды."
 		&"perks/opportunist_stopped": return "Оппортунист прервёт выход из зоны угрозы."
 		&"perks/invalid_mode": return "режим реакции недоступен."
-		&"preview/rng_not_cloneable", &"preview/rng_state_mismatch", &"preview/unsupported_worker_rng": return "случайный эффект пока не поддерживает точный прогноз."
+		&"preview/rng_not_cloneable", &"preview/rng_state_mismatch", &"preview/unsupported_worker_rng", &"preview/unsupported_rng": return "случайный эффект пока не поддерживает точный прогноз."
+		&"turn/unsupported_session", &"turn/unsupported_runtime": return "этот вариант боя пока не поддерживает точный прогноз перехода."
+		&"turn/unsupported_phase", &"turn/not_transitioned": return "завершение хода сейчас недоступно."
+		&"turn/faulted": return "переход хода не завершится; точный итог недоступен."
 		&"preview/worker_unavailable": return "расчёт временно недоступен; наведите курсор ещё раз."
 		&"command_limit", &"event_limit", &"depth_limit", &"sequence_exhausted": return "цепь последствий не завершилась; точный итог недоступен."
 	return "Эта комбинация пока не поддерживается: " + String(reason)
@@ -1861,4 +1898,82 @@ func _render_armor_forecast_panel() -> void:
 		for item: Dictionary in event["items"]: text += "Вещь #%d: %d → %d\n" % [item["id"], item["before"], item["after"]]
 		for grant: Dictionary in event["grants"]: text += "Временная броня: +%d до конца боя\n" % [int(grant["after"]) - int(grant["before"])]
 	text += "Стойка сохраняется. Клик или клавиша 4 — восстановить броню."
+	_forecast_panel.text = text
+
+func _can_forecast_turn() -> bool:
+	return not is_execution_pending() and session != null and session.get_script() == BattleCoreReactionsSession and _battle != null and _battle.can_player_act() and not _is_deploying()
+
+func _over_end_turn_button() -> bool:
+	return _end_turn_button != null and _end_turn_button.is_visible_in_tree() and _end_turn_button.get_global_rect().has_point(_pointer_position)
+
+func _update_turn_forecast_hover() -> void:
+	if _over_end_turn_button() and _can_forecast_turn():
+		if _turn_forecast == null and not _turn_forecast_pending: _request_turn_forecast()
+	elif (_turn_forecast != null or _turn_forecast_pending) and not _forecast_reading_region().has_point(_pointer_position):
+		_clear_forecast()
+
+func _request_turn_forecast() -> void:
+	if not _can_forecast_turn(): return
+	_clear_forecast()
+	_turn_forecast_pending = true
+	_turn_forecast_session_id = session.get_instance_id()
+	_turn_forecast_actor = session.selected_id
+	_turn_forecast_revision = session.context.get_revision()
+	_forecast_panel.get_v_scroll_bar().value = 0.0
+	_render_forecast_panel()
+
+func _turn_forecast_request_current() -> bool:
+	if not _can_forecast_turn(): return false
+	if session.get_instance_id() != _turn_forecast_session_id or session.selected_id != _turn_forecast_actor or session.context.get_revision() != _turn_forecast_revision: return false
+	return _over_end_turn_button() or _forecast_reading_region().has_point(_pointer_position)
+
+func _process_turn_forecast() -> void:
+	if is_execution_pending(): return
+	var result := _turn_forecast_worker.take_finished()
+	if (_turn_forecast_pending or _turn_forecast != null) and not _turn_forecast_request_current():
+		_clear_forecast()
+		return
+	if result != null and _turn_forecast_pending and _turn_forecast_job_generation == _turn_forecast_generation:
+		_turn_forecast = result
+		_turn_forecast_pending = false
+		_render_forecast_panel()
+	if not _turn_forecast_pending or _turn_forecast_worker.is_started(): return
+	# Подготовка отделяет runtime на кадре; обработчик мыши только записывает запрос.
+	_turn_forecast_job_generation = _turn_forecast_generation
+	_turn_forecast_worker.start(TurnForecast.prepare(session as BattleCoreReactionsSession))
+
+func _render_turn_forecast() -> void:
+	_forecast_panel.visible = true
+	_forecast_heading.visible = true
+	_forecast_heading.text = "ПРОГНОЗ · КОНЕЦ ХОДА"
+	_log.visible = false
+	_log_heading.visible = false
+	var text := "[font_size=16][color=#f7c97d]Завершение командного хода[/color][/font_size]\nДо первого действия противника.\n"
+	if _turn_forecast_pending:
+		_forecast_panel.text = text + "Рассчитываем последствия перехода…"
+		return
+	if _turn_forecast.status != ActionReceipt.APPLIED:
+		_forecast_panel.text = text + "[color=#f29b9b]Прогноз недоступен[/color]\n" + _reason_text(_turn_forecast.reason)
+		return
+	var phases := {BattleTacticalSession.Phase.ENEMY_TURN: "Начнётся ход противника.", BattleTacticalSession.Phase.VICTORY: "Победа до действий противника.", BattleTacticalSession.Phase.DEFEAT: "Поражение до действий противника.", BattleTacticalSession.Phase.MUTUAL_DESTRUCTION: "Обе команды погибнут. Бой завершится."}
+	text += "[color=#f7c97d]%s[/color]\n" % phases.get(_turn_forecast.phase_after, "Переход завершён.")
+	var ids: Array = _turn_forecast.units_before.keys()
+	ids.sort()
+	for id: int in ids:
+		var before: Dictionary = _turn_forecast.units_before[id]
+		var after: Dictionary = _turn_forecast.units_after.get(id, {})
+		if after.is_empty(): continue
+		var changes: PackedStringArray = []
+		for pair: Array in [["hp", "HP"], ["armor_current", "Броня"], ["main", "Основные"], ["bonus", "Бонусные"], ["move", "Движение"]]:
+			var key: String = pair[0]
+			if before.has(key) and after.has(key) and before[key] != after[key]: changes.append("%s: %s → %s" % [pair[1], str(before[key]), str(after[key])])
+		if before.get("alive", true) and not after.get("alive", true): changes.append("Погибнет")
+		if before.get("guard_stance", false) != after.get("guard_stance", false): changes.append("Охранная стойка снята" if not after.guard_stance else "Охранная стойка включена")
+		if before.get("pending", false) and not after.get("pending", false): changes.append("Помощник готов действовать")
+		for entry: Array in [["bleeding", "ticks_left", "Кровотечение, тиков"], ["control", "stunned_turns", "Оглушение, ходов"], ["control", "entangled_turns", "Путы, ходов"], ["combat_perks", "reaction_left", "Общий заряд реакции"]]:
+			var old_value: int = before.get(entry[0], {}).get(entry[1], 0)
+			var new_value: int = after.get(entry[0], {}).get(entry[1], 0)
+			if old_value != new_value: changes.append("%s: %d → %d" % [entry[2], old_value, new_value])
+		if before.get("combat_perks", {}).get("movement_stopped", false) and not after.get("combat_perks", {}).get("movement_stopped", false): changes.append("Остановка движения снята")
+		if not changes.is_empty(): text += "\n[color=#f7c97d]%s[/color]\n%s\n" % [before.get("name", _name_for(id)), "\n".join(changes)]
 	_forecast_panel.text = text
