@@ -231,7 +231,9 @@ ID забега. После полного исхода возвращает HP/
 ## Опасная клетка и поднятие тела — D5
 
 K15 добавляет основному `BattleCoreReactionsSession` фазу после обеих команд:
-hook `_after_team_end` после ControlTurnEnd врагов, до bleed/refill игрока.
+порядок враги → игрок → окружение; hook `_after_team_end` после ControlTurnEnd
+игрока, до bleed/refill врагов. `_first_team` задаёт старт и границу номера раунда;
+K2/отдельные режимы сохраняют игрока первым. Старт из расстановки не делает refill.
 CollapsePhaseCommand фиксирует случайную новую отметку и порождает обрушение
 прежней; CollapseCellCommand меняет terrain через Board и порождает guarded
 DeathCommand. Исход проверяется после drain, FAULTED сохраняет prefix.

@@ -1,5 +1,7 @@
 extends SceneTree
 
+const PlayerTurnFixture = preload("res://tests/fixtures/player_turn_fixture.gd")
+
 var passed: int = 0
 var failed: int = 0
 var demo: BattleDemo
@@ -40,6 +42,7 @@ func run() -> void:
 	demo = (load("res://scenes/demo/core_reactions_battle.tscn") as PackedScene).instantiate()
 	demo.deployment_enabled = false
 	viewport.add_child(demo)
+	PlayerTurnFixture.enter_player_turn(demo)
 	await process_frame
 	await process_frame
 	demo.set_process(false)
@@ -95,6 +98,7 @@ func run() -> void:
 	await settle()
 	check(s.last_receipt.status == ActionReceipt.REJECTED and not s.selected_unit().guard_stance and demo._guard_forecast == null, "click validates fresh state without waiting for old success")
 	demo.reset_demo()
+	PlayerTurnFixture.enter_player_turn(demo)
 	demo._action_bar_hovered(&"guard")
 	demo._process_action_forecast()
 	demo.select_character(demo.session.units[2].id)
@@ -106,6 +110,7 @@ func run() -> void:
 	await settle()
 	check(demo._guard_forecast == null and not demo._action_forecast_pending, "enemy phase discards player request")
 	demo.reset_demo()
+	PlayerTurnFixture.enter_player_turn(demo)
 	demo._action_bar_hovered(&"guard")
 	demo._process_action_forecast()
 	var worker: RefCounted = demo._action_forecast_worker

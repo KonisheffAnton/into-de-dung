@@ -1,5 +1,7 @@
 extends SceneTree
 
+const PlayerTurnFixture = preload("res://tests/fixtures/player_turn_fixture.gd")
+
 var passed: int = 0
 var failed: int = 0
 var viewport: SubViewport
@@ -25,6 +27,7 @@ func run() -> void:
 	demo = (load("res://scenes/demo/core_reactions_battle.tscn") as PackedScene).instantiate() as BattleDemo
 	demo.deployment_enabled = false
 	viewport.add_child(demo)
+	PlayerTurnFixture.enter_player_turn(demo)
 	viewport.notify_mouse_entered()
 	await process_frame; await process_frame
 	# Останавливаем только автоматический tick: ввод идёт через настоящий SubViewport.
@@ -165,6 +168,7 @@ func run() -> void:
 
 func test_ally_selection_during_attack() -> void:
 	demo.reset_demo()
+	PlayerTurnFixture.enter_player_turn(demo)
 	var s := demo.session as BattleCoreReactionsSession
 	var astra := s.units[0]
 	var target := s.units[5]
@@ -277,6 +281,7 @@ func click_cell(cell: Vector2i) -> void:
 func setup_attack() -> void:
 	push_motion(Vector2(2, 2))
 	demo.reset_demo()
+	PlayerTurnFixture.enter_player_turn(demo)
 	demo.select_character(demo.session.units[2].id)
 	demo.set_attack_mode(true)
 

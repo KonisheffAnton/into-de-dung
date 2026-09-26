@@ -1,6 +1,7 @@
 extends SceneTree
 
 const Worker = preload("res://scripts/demo/action_forecast_worker.gd")
+const PlayerTurnFixture = preload("res://tests/fixtures/player_turn_fixture.gd")
 var passed: int = 0
 var failed: int = 0
 
@@ -30,7 +31,7 @@ func take(worker: Object) -> ForecastSimulation:
 	return ForecastSimulation.rejected(&"timeout")
 
 func parity(kind: String) -> void:
-	var s := BattleCoreReactionsSession.new()
+	var s := PlayerTurnFixture.create()
 	var actor := s.selected_unit()
 	var command: Command
 	var prepared: ForecastSimulation.Prepared
@@ -81,7 +82,7 @@ func parity(kind: String) -> void:
 
 func run() -> void:
 	for kind: String in ["guard", "opportunity", "cover", "heal", "summon", "raise", "armor"]: await parity(kind)
-	var s := BattleCoreReactionsSession.new()
+	var s := PlayerTurnFixture.create()
 	s.selected_unit().vitals.set_hp(10.0)
 	check(s.healing_hint_reason() == s.healing_reason() and s.summoning_hint_reason() == s.summoning_reason() and s.raise_hint_cells() == s.raise_cells(), "valid hints match strict checks")
 	var before := snapshot(s)

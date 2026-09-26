@@ -29,6 +29,7 @@ core без `--full` в неё не входит. Повторять более 
 
 | Область | Адресный runner в `tests/` |
 |---|---|
+| Противник первым в K15 | `test_enemy_first.gd` (full/render): старт/расстановка/reset без refill, раунд/контроль, полный круг предупреждения, K13/live worker parity, terminal/FAULTED prefix; настоящий ввод — `test_collapse_ui.gd` |
 | Обрушение K15 | `test_collapse_state.gd`, `test_collapse_phase.gd`, `test_collapse_ui.gd` (full/render): legacy/v2 codec, фаза после обеих команд, RNG/задержка/пропасть/тела/помощники, preview/live/worker/FAULTED, BT, ввод/refresh/pending/PNG |
 | Безопасный отход K14 | `test_safe_retreat.gd`, `test_safe_retreat_integration.gd`, `test_safe_retreat_ui.gd` (full/render): оплата/перехват/транзит/среда/отказы/FAULTED, helpers, preview/live/worker, настоящий ввод и инвалидация, PNG |
 | Прогноз конца командного хода K13 | `test_turn_forecast.gd`, `test_turn_forecast_ui.gd` (full/render): настоящий переход до первого решения ИИ, изоляция/preview/live/worker, terminal/FAULTED, runtime-отказы, реальный hover/click/Enter, refresh без revision, очистка/exit и PNG |

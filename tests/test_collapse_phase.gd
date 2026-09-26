@@ -29,6 +29,9 @@ func _run() -> void:
 
 func _session(seed: int = 41) -> BattleCoreReactionsSession:
 	var session := BattleCoreReactionsSession.new()
+	# Проверки отдельной фазы задают состояние хода игрока без решений ИИ.
+	session.phase = BattleTacticalSession.Phase.PLAYER_TURN
+	session.selected_id = session.units[0].id
 	session.context._rng = CombatRng.new(seed)
 	if session.state.environment == null: session.state.environment = CombatEnvironmentState.new()
 	session.state.environment.collapse = {"turn": 0, "marked": []}
@@ -125,9 +128,10 @@ func _test_turn_boundary_and_legacy() -> void:
 	var session := _session(17)
 	var old_turn: int = session.state.environment.collapse["turn"]
 	check(session.end_player_turn(), "player boundary starts enemy phase")
+	check(session.state.environment.collapse["turn"] == old_turn + 1, "player completion runs environment before enemy refill")
 	session._enemy_ids.clear()
 	session.step_enemy()
-	check(session.phase == BattleTacticalSession.Phase.PLAYER_TURN and session.state.environment.collapse["turn"] == old_turn + 1, "enemy completion runs exactly one environment phase before player refill")
+	check(session.phase == BattleTacticalSession.Phase.PLAYER_TURN and session.state.environment.collapse["turn"] == old_turn + 1, "enemy completion does not run a second environment phase")
 	session.state.environment.collapse = {}
 	session.end_player_turn()
 	session._enemy_ids.clear()
@@ -281,9 +285,7 @@ func _test_helper_and_terminal() -> void:
 		terminal._submit(DeathCommand.new(extra.id, DamageSource.new(&"test", 0, extra.cell)))
 	var remaining_main := last_player.action_resources.get_main_left()
 	terminal.state.environment.collapse = {"turn": 1, "marked": [last_player.cell]}
-	check(terminal.end_player_turn(), "terminal fixture enters enemy turn")
-	terminal._enemy_ids.clear()
-	terminal.step_enemy()
+	check(not terminal.end_player_turn(), "terminal collapse stops before enemy turn")
 	check(terminal.phase == BattleTacticalSession.Phase.DEFEAT and not last_player.is_alive(), "last player death ends battle during collapse")
 	check(last_player.action_resources.get_main_left() == remaining_main, "terminal collapse does not refill outgoing player actions")
 	terminal.close()

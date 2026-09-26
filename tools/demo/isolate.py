@@ -126,6 +126,8 @@ def main():
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "safe_retreat_integration":
             invalid = invalid or "SAFE RETREAT INTEGRATION RESULTS:" not in output or ", 0 failed" not in output
+        if label == "enemy_first":
+            invalid = invalid or "ENEMY FIRST RESULTS:" not in output or ", 0 failed" not in output
         if label in ("collapse_state", "collapse_phase", "collapse_ui"):
             marker = {"collapse_state": "COLLAPSE STATE RESULTS:", "collapse_phase": "COLLAPSE PHASE RESULTS:", "collapse_ui": "COLLAPSE UI RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -206,6 +208,7 @@ def main():
         run("safe_retreat_integration", ["--script", "tests/test_safe_retreat_integration.gd"])
         run("collapse_state", ["--script", "tests/test_collapse_state.gd"])
         run("collapse_phase", ["--script", "tests/test_collapse_phase.gd"])
+        run("enemy_first", ["--script", "tests/test_enemy_first.gd"])
         run("spatial_guard_stats", ["--script", "tests/test_spatial_guard_stats.gd"])
         run("control_perks_codec", ["--script", "tests/test_control_perks_codec.gd"])
         run("control_package", ["--script", "tests/test_control_package.gd"])

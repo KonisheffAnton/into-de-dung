@@ -1,5 +1,7 @@
 extends SceneTree
 
+const PlayerTurnFixture = preload("res://tests/fixtures/player_turn_fixture.gd")
+
 var passed: int = 0
 var failed: int = 0
 var viewport: SubViewport
@@ -28,6 +30,7 @@ func run() -> void:
 	demo = scene.instantiate()
 	demo.set("deployment_enabled", false)
 	viewport.add_child(demo)
+	PlayerTurnFixture.enter_player_turn(demo)
 	viewport.notify_mouse_entered()
 	await process_frame; await process_frame
 	demo.set_process(false)
@@ -84,6 +87,7 @@ func run() -> void:
 	await key(KEY_ESCAPE)
 	check(not demo._cover_guard_mode, "escape cancels cover targeting")
 	demo.reset_demo()
+	PlayerTurnFixture.enter_player_turn(demo)
 	# После reset первая страница меняет ширины кнопок; ввод идёт по завершённой раскладке.
 	await process_frame; await process_frame
 	session = demo.session as BattleCoreReactionsSession
@@ -102,6 +106,7 @@ func run() -> void:
 
 	# Расставляем тестовые угрозы board API, чтобы прогноз явно включал участников скрытой атаки.
 	demo.reset_demo()
+	PlayerTurnFixture.enter_player_turn(demo)
 	session = demo.session as BattleCoreReactionsSession
 	var attacker := session.units[2]
 	var target := session.units[5]
@@ -130,6 +135,7 @@ func run() -> void:
 	check(not demo.session is BattleCoreReactionsSession, "sandbox transition leaves reaction session")
 	demo._open_core_combination_scenario()
 	check(demo.session is BattleCoreReactionsSession and demo.core_reactions_mode, "core entry returns to the current reaction battle")
+	PlayerTurnFixture.enter_player_turn(demo)
 	demo.deployment_enabled = true
 	demo._open_core_combination_scenario()
 	check(demo._instructions.text.contains("Расстав") or demo._instructions.text.contains("Перестановки"), "deployment instructions survive reaction mode")
@@ -140,6 +146,7 @@ func run() -> void:
 
 func _opportunity_movement() -> void:
 	demo.reset_demo()
+	PlayerTurnFixture.enter_player_turn(demo)
 	var session := demo.session as BattleCoreReactionsSession
 	for index: int in 6:
 		var unit := session.units[index]

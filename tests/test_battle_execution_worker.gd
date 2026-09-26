@@ -1,5 +1,7 @@
 extends SceneTree
 
+const PlayerTurnFixture = preload("res://tests/fixtures/player_turn_fixture.gd")
+
 var passed: int = 0
 var failed: int = 0
 
@@ -62,13 +64,13 @@ func prepare(s: BattleCoreReactionsSession, kind: String) -> Array:
 
 func parity(kind: String) -> void:
 	var initial_id := UnitId.get_counter()
-	var s := BattleCoreReactionsSession.new()
+	var s := PlayerTurnFixture.create()
 	var request := prepare(s, kind)
 	var expected: Variant = receipt(s.callv(request[0], request[1]))
 	var expected_state := state(s)
 	s.close()
 	UnitId.set_counter(initial_id)
-	s = BattleCoreReactionsSession.new()
+	s = PlayerTurnFixture.create()
 	request = prepare(s, kind)
 	var allocator := UnitId.get_counter()
 	check(BattleExecutionWorker.can_transfer(s), kind + " graph owned")
@@ -96,7 +98,7 @@ func round_parity() -> void:
 	var expected: Array[Dictionary] = []
 	for threaded: bool in [false, true]:
 		UnitId.set_counter(initial_id)
-		var s := BattleCoreReactionsSession.new()
+		var s := PlayerTurnFixture.create()
 		s.end_player_turn()
 		var index: int = 0
 		while s.phase == BattleTacticalSession.Phase.ENEMY_TURN and index < 40:

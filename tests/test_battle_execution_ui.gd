@@ -1,5 +1,7 @@
 extends SceneTree
 
+const PlayerTurnFixture = preload("res://tests/fixtures/player_turn_fixture.gd")
+
 var passed: int = 0
 var failed: int = 0
 var viewport: SubViewport
@@ -49,6 +51,7 @@ func run() -> void:
 	demo = (load("res://scenes/demo/core_reactions_battle.tscn") as PackedScene).instantiate() as BattleDemo
 	demo.deployment_enabled = false
 	viewport.add_child(demo)
+	PlayerTurnFixture.enter_player_turn(demo)
 	viewport.notify_mouse_entered()
 	await process_frame
 	await process_frame
@@ -96,6 +99,7 @@ func run() -> void:
 	clicked(demo.session.units[3].cell)
 	check(demo.is_execution_pending(), "attack async")
 	demo.reset_demo()
+	PlayerTurnFixture.enter_player_turn(demo)
 	check(not demo.is_execution_pending() and demo.session.units[3].is_alive() and demo.session.selected_unit().action_resources.get_main_left() == 1, "reset joins before rebuilding runtime")
 	check(not demo._journal.any(func(line: String) -> bool: return line.contains("атакует")), "old receipt not published after reset")
 	var count_before := demo.session.units.size()
@@ -116,6 +120,7 @@ func run() -> void:
 		steps += 1
 	check(demo._battle.phase == BattleTacticalSession.Phase.PLAYER_TURN and demo._battle.round_number == 2, "AI and both boundaries publish complete round")
 	demo.reset_demo()
+	PlayerTurnFixture.enter_player_turn(demo)
 	count_before = demo.session.units.size()
 	demo._choose_raise()
 	clicked(Vector2i(0, 3))
@@ -123,11 +128,13 @@ func run() -> void:
 	await settle()
 	check(demo.session.units.size() == count_before + 1, "raise completes with helper: " + str(demo.session.last_receipt.reason) + " count=" + str(demo.session.units.size()))
 	demo.reset_demo()
+	PlayerTurnFixture.enter_player_turn(demo)
 	demo.session.units[0].vitals.set_hp(10)
 	demo.session.units[0].vitals.hp_changed.connect(hp_changed)
 	demo._use_healing_item()
 	check(not demo.is_execution_pending() and callback_on_main and demo.session.units[0].vitals.get_hp() > 10, "external callback executes on main via sync fallback")
 	demo.reset_demo()
+	PlayerTurnFixture.enter_player_turn(demo)
 	demo.session._queue._max_commands = 1
 	demo.select_character(demo.session.units[2].id)
 	demo.set_attack_mode(true)
@@ -135,10 +142,12 @@ func run() -> void:
 	await settle()
 	check(demo._battle.phase == BattleTacticalSession.Phase.FAULTED and demo._status.text.contains("остановлено"), "FAULTED prefix published to UI")
 	demo.reset_demo()
+	PlayerTurnFixture.enter_player_turn(demo)
 	clicked(Vector2i(1, 2))
 	demo.toggle_scenario()
 	check(not demo.is_execution_pending() and not demo.session is BattleCoreReactionsSession, "scenario switch joins previous owner")
 	demo._open_core_combination_scenario()
+	PlayerTurnFixture.enter_player_turn(demo)
 	clicked(Vector2i(1, 2))
 	var worker := demo._execution_worker
 	demo.queue_free()

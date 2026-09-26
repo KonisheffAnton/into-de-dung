@@ -1,5 +1,7 @@
 extends SceneTree
 
+const PlayerTurnFixture = preload("res://tests/fixtures/player_turn_fixture.gd")
+
 var passed: int = 0
 var failed: int = 0
 var viewport: SubViewport
@@ -27,6 +29,7 @@ func _run() -> void:
 	demo = scene.instantiate() as BattleDemo
 	demo.set("deployment_enabled", false)
 	viewport.add_child(demo)
+	PlayerTurnFixture.enter_player_turn(demo)
 	viewport.notify_mouse_entered()
 	await process_frame; await process_frame
 	demo.set_process(false)
@@ -79,6 +82,7 @@ func _run() -> void:
 	await capture("control-stun-applied")
 	# Иммунитет оставляет обычный урон цели и пропускает только наложение.
 	demo.reset_demo()
+	PlayerTurnFixture.enter_player_turn(demo)
 	session = demo.session as BattleCoreReactionsSession
 	_setup_pair(session, 0, 3)
 	demo._refresh()

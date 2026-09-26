@@ -1,6 +1,7 @@
 extends SceneTree
 
 const AttackWorkerScript = preload("res://scripts/demo/attack_forecast_worker.gd")
+const PlayerTurnFixture = preload("res://tests/fixtures/player_turn_fixture.gd")
 
 var passed: int = 0
 var failed: int = 0
@@ -78,7 +79,7 @@ func _parity(session: BattleDemoSession, actor_index: int, target_index: int, la
 	check(actor.id != target.id, label + " fixture uses distinct units")
 
 func _run() -> void:
-	var ordinary := BattleCoreReactionsSession.new()
+	var ordinary := PlayerTurnFixture.create()
 	_fixture(ordinary, 2, 5)
 	await _parity(ordinary, 2, 5, "ordinary core reaction attack")
 	ordinary.close()

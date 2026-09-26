@@ -27,11 +27,19 @@ func run() -> void:
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport)
 	demo = (load("res://scenes/demo/core_reactions_battle.tscn") as PackedScene).instantiate()
-	demo.deployment_enabled = false
 	viewport.add_child(demo)
 	viewport.notify_mouse_entered()
 	await process_frame; await process_frame
 	var s := demo.session as BattleCoreReactionsSession
+	check(s.is_deploying(), "main scene opens deployment")
+	await key(KEY_ENTER)
+	demo._ai_delay = 9999.0
+	check(s.phase == BattleTacticalSession.Phase.ENEMY_TURN and s.round_number == 1, "real start gives first turn to enemy")
+	check(demo._environment_button.disabled and s.state.environment.collapse.turn == 0, "initial enemy turn has no environment")
+	s._enemy_index = s._enemy_ids.size()
+	demo._execute_live(&"step_enemy")
+	await live_settle()
+	check(s.phase == BattleTacticalSession.Phase.PLAYER_TURN and s.round_number == 1 and s.state.environment.collapse.turn == 0, "enemy boundary begins player turn in same round without environment")
 	check(s.state.environment.collapse == {"turn": 0, "marked": []}, "battle starts before first environmental turn")
 	check(demo._environment_button.visible and demo.board_view._view_collapse.is_empty(), "button present and no initial warning")
 	var before := snapshot()
@@ -46,18 +54,18 @@ func run() -> void:
 	check(demo._forecast_panel.text.contains("Будущие действия") and demo._forecast_heading.text.contains("ОКРУЖЕНИЕ"), "conditional scope is explicit")
 	await key(KEY_ENTER)
 	demo._ai_delay = 9999.0
-	check(s.phase == BattleTacticalSession.Phase.ENEMY_TURN and s.state.environment.collapse.turn == 0, "Enter hands over to enemies without environment")
+	check(s.phase == BattleTacticalSession.Phase.ENEMY_TURN and s.round_number == 2 and s.state.environment.collapse.turn == 1, "Enter runs environment then hands over to next round enemies")
 	check(demo._environment_forecast == null and demo._environment_button.disabled, "enemy phase clears preview and disables request")
 	s._enemy_index = s._enemy_ids.size()
 	demo._execute_live(&"step_enemy")
-	check(demo.is_execution_pending() and demo.session == null, "environment boundary uses live worker ownership")
-	check(demo.board_view._view_collapse.is_empty(), "pending renderer keeps completed unmarked view")
+	check(demo.is_execution_pending() and demo.session == null, "enemy boundary uses live worker ownership")
+	check(demo.board_view._view_collapse.size() == 1, "pending renderer keeps completed marked view")
 	await live_settle()
 	check(s.phase == BattleTacticalSession.Phase.PLAYER_TURN and s.round_number == 2 and s.state.environment.collapse.turn == 1, "first environment completes after both teams")
 	var marked: Vector2i = s.state.environment.collapse.marked[0]
 	check(s.board.get_terrain(marked) == TerrainType.Type.FLOOR and demo.board_view._view_collapse == [marked], "new mark is visible but retains support")
 	await motion(at(marked))
-	check(demo._hint.text.contains("ОБВАЛ после хода врагов"), "hover explains deadline and death")
+	check(demo._hint.text.contains("ОБВАЛ после вашего хода"), "hover explains deadline and death")
 
 	# Прямая правка без revision моделирует внешний авторский сценарий.
 	s.state.environment.collapse = {"turn": 1, "marked": [s.units[0].cell]}
@@ -78,15 +86,16 @@ func run() -> void:
 	demo._refresh()
 	var fallen := s.units[0]
 	var fallen_cell := fallen.cell
-	await key(KEY_ENTER)
-	demo._ai_delay = 9999.0
-	s._enemy_index = s._enemy_ids.size()
-	demo._execute_live(&"step_enemy")
+	# Настоящий Enter запускает worker; осматриваем pending до ожидания join.
+	var finish := InputEventKey.new()
+	finish.keycode = KEY_ENTER; finish.pressed = true
+	viewport.push_input(finish, true)
 	var old_view := demo.board_view._view_collapse.duplicate()
 	viewport.size = Vector2i(1300, 870)
 	demo.board_view.queue_redraw()
 	check(demo.session == null and old_view == [fallen_cell], "resize while pending reads only old presentation")
 	await live_settle()
+	demo._ai_delay = 9999.0
 	check(not fallen.is_alive() and s.board.occupant_at(fallen_cell) == null and s.board.get_terrain(fallen_cell) == TerrainType.Type.VOID, "live boundary collapses occupied cell and clears occupancy")
 	check(s.state.environment.corpses_at(fallen_cell).is_empty(), "fall leaves no body")
 	check(demo.board_view._view_collapse == s.state.environment.collapse.marked and demo.board_view._view_terrain_at(fallen_cell) == TerrainType.Type.VOID, "joined worker publishes fresh geometry and next warning")
@@ -98,6 +107,7 @@ func run() -> void:
 	demo._process_environment_forecast()
 	demo.reset_demo()
 	await settle()
+	check(s.is_deploying(), "reset returns to deployment")
 	check((demo.session as BattleCoreReactionsSession).state.environment.collapse.turn == 0 and demo.board_view._view_collapse.is_empty(), "reset discards old warnings")
 	check(demo._environment_forecast == null or demo._environment_forecast.snapshot_before == snapshot(), "old worker cannot publish into reset session")
 	await motion(button_center()); demo._process_environment_forecast()

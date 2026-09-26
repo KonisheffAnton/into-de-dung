@@ -1,5 +1,7 @@
 extends SceneTree
 
+const PlayerTurnFixture = preload("res://tests/fixtures/player_turn_fixture.gd")
+
 var passed: int = 0
 var failed: int = 0
 var viewport: SubViewport
@@ -25,6 +27,7 @@ func run() -> void:
 	demo = (load("res://scenes/demo/core_reactions_battle.tscn") as PackedScene).instantiate() as BattleDemo
 	demo.deployment_enabled = false
 	viewport.add_child(demo)
+	PlayerTurnFixture.enter_player_turn(demo)
 	viewport.notify_mouse_entered()
 	await process_frame; await process_frame
 	demo.set_process(false)
@@ -68,6 +71,7 @@ func run() -> void:
 
 func _attack_forecast_and_live_result() -> void:
 	demo.reset_demo()
+	PlayerTurnFixture.enter_player_turn(demo)
 	var session := demo.session as BattleCoreReactionsSession
 	var attacker := session.units[0]
 	var defender := session.units[1]
@@ -115,6 +119,7 @@ func _attack_forecast_and_live_result() -> void:
 	await capture("counterattack-result")
 	# Reset обязан дождаться worker и закрыть результат старого боя до смены состояния.
 	demo.reset_demo()
+	PlayerTurnFixture.enter_player_turn(demo)
 	var pending_button := await _button_for_action(&"counterattack_guard")
 	var pending_position := pending_button.global_position + pending_button.size * 0.5
 	await motion(pending_position)

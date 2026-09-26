@@ -1,5 +1,7 @@
 extends SceneTree
 
+const PlayerTurnFixture = preload("res://tests/fixtures/player_turn_fixture.gd")
+
 var passed: int = 0
 var failed: int = 0
 
@@ -24,7 +26,7 @@ func _run() -> void:
 	quit(0 if failed == 0 else 1)
 
 func _session() -> BattleCoreReactionsSession:
-	var s := BattleCoreReactionsSession.new()
+	var s := PlayerTurnFixture.create()
 	s.state.environment.fires.clear()
 	for y: int in s.board.height:
 		for x: int in s.board.width:
@@ -259,6 +261,11 @@ func _lethal_and_forced() -> void:
 func _full_battle(passive: bool) -> void:
 	var s := BattleCoreReactionsSession.new()
 	check(s.begin_deployment() and s.start_battle(), "K10 full battle starts through deployment")
+	for initial_step: int in 100:
+		if s.phase != BattleTacticalSession.Phase.ENEMY_TURN: break
+		var initial_receipt := s.step_enemy()
+		if initial_receipt != null:
+			check(initial_receipt.status in [ActionReceipt.APPLIED, ActionReceipt.INTERRUPTED], "K10 initial enemy phase resolves: " + String(initial_receipt.reason))
 	var resolved := 0
 	for turn: int in 80:
 		if not s.can_player_act(): break

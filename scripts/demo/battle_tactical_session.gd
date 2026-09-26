@@ -11,6 +11,12 @@ var _enemy_index: int = 0
 var _enemy_actions: int = 0
 var _transitioning: bool = false
 
+func _first_team() -> Faction.Type:
+	return Faction.Type.PLAYER
+
+func _initial_phase() -> Phase:
+	return Phase.ENEMY_TURN if _first_team() == Faction.Type.ENEMY else Phase.PLAYER_TURN
+
 func _summoning_definition() -> ItemDef:
 	var definition := ItemDef.new()
 	definition.id = &"tactical_summoning_seal"
@@ -40,13 +46,15 @@ func reset() -> void:
 		var definition := _summoning_definition()
 		var owner := state.get_owner(unit.id)
 		state.get_inventory(unit.id).add_item(owner.create_item(definition))
-	phase = Phase.PLAYER_TURN
+	phase = _initial_phase()
 	round_number = 1
 	_enemy_ids.clear()
+	if phase == Phase.ENEMY_TURN: _enemy_ids = living_ids(Faction.Type.ENEMY)
 	_enemy_index = 0
 	_enemy_actions = 0
 	_transitioning = false
-	flow_log = ["Раунд 1. Ваш ход: победите трёх противников."]
+	if phase == Phase.ENEMY_TURN: selected_id = UnitId.NONE
+	flow_log = ["Раунд 1. Ход противника." if phase == Phase.ENEMY_TURN else "Раунд 1. Ваш ход: победите трёх противников."]
 
 func _demo_stats() -> StatsBag:
 	return StatsBag.from_base_values({
@@ -223,6 +231,7 @@ func end_player_turn() -> bool:
 	_check_outcome()
 	if phase != Phase.PLAYER_TURN: return false
 	if not _refill(Faction.Type.ENEMY): return false
+	if _first_team() == Faction.Type.ENEMY: round_number += 1
 	phase = Phase.ENEMY_TURN
 	selected_id = UnitId.NONE
 	_enemy_ids = living_ids(Faction.Type.ENEMY)
@@ -246,7 +255,7 @@ func step_enemy() -> ActionReceipt:
 	if phase != Phase.ENEMY_TURN: return null
 	if _enemy_index >= _enemy_ids.size():
 		if _refill(Faction.Type.PLAYER):
-			round_number += 1
+			if _first_team() == Faction.Type.PLAYER: round_number += 1
 			phase = Phase.PLAYER_TURN
 			selected_id = living_ids(Faction.Type.PLAYER)[0]
 			flow_log.append("Раунд %d. Ваш ход." % round_number)

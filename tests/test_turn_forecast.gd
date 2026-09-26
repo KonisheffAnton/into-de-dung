@@ -1,5 +1,7 @@
 extends SceneTree
 
+const PlayerTurnFixture = preload("res://tests/fixtures/player_turn_fixture.gd")
+
 const Forecast = preload("res://scripts/demo/turn_forecast.gd")
 const Worker = preload("res://scripts/demo/turn_forecast_worker.gd")
 var passed: int = 0
@@ -52,7 +54,7 @@ func _install_prepared(session: BattleCoreReactionsSession, prepared: Forecast.P
 	return true
 
 func _parity_and_worker() -> void:
-	var session := BattleCoreReactionsSession.new()
+	var session := PlayerTurnFixture.create()
 	var before := _snapshot(session)
 	var counters := session.context.simulation_counters()
 	var rng := session.context.get_rng().to_dict().duplicate(true)
@@ -60,6 +62,7 @@ func _parity_and_worker() -> void:
 	var first := Forecast.build(session)
 	var second := Forecast.build(session)
 	check(first.status == ActionReceipt.APPLIED and first.phase_after == BattleTacticalSession.Phase.ENEMY_TURN and first.transitioned, "boundary predicts enemy phase")
+	check(first.events.any(func(event: Dictionary) -> bool: return event.get("kind") == &"environment_turn") and int(first.rng_after.get("draws", -1)) == int(rng.get("draws", 0)) + 1, "boundary includes the environment root and its single random draw")
 	check(first.receipts == second.receipts and first.snapshot_after == second.snapshot_after and first.rng_after == second.rng_after and first.counters_after == second.counters_after, "two previews are deterministic")
 	check(session.context.simulation_counters() == counters and session.context.get_rng().to_dict() == rng and _snapshot(session) == before and UnitId.get_counter() == allocator, "previews preserve live state and allocator")
 	var traced := TracedSession.new(false)
@@ -77,7 +80,7 @@ func _parity_and_worker() -> void:
 	check(prepared.reason == &"turn/unsupported_phase", "enemy phase cannot prepare player boundary")
 	session.close()
 
-	var worker_session := BattleCoreReactionsSession.new()
+	var worker_session := PlayerTurnFixture.create()
 	var expected := Forecast.build(worker_session)
 	var worker := Worker.new()
 	worker.start(Forecast.prepare(worker_session))
@@ -92,7 +95,7 @@ func _parity_and_worker() -> void:
 	worker_session.close()
 
 func _early_victory_and_fault_prefix() -> void:
-	var terminal := BattleCoreReactionsSession.new()
+	var terminal := PlayerTurnFixture.create()
 	for id: int in [terminal.units[3].id, terminal.units[5].id]:
 		terminal._queue.submit(DeathCommand.new(id, DamageSource.new(&"test", 0, terminal.board.get_unit_by_id(id).cell)), terminal.context)
 	var last_enemy := terminal.board.get_unit_by_id(terminal.units[1].id)
@@ -103,10 +106,10 @@ func _early_victory_and_fault_prefix() -> void:
 	last_enemy.bleeding.hit_id = "turn-forecast-last-bleed"
 	var forecast := Forecast.build(terminal)
 	check(forecast.status == ActionReceipt.APPLIED and forecast.phase_after == BattleTacticalSession.Phase.VICTORY and forecast.transitioned, "last enemy bleed predicts victory")
-	check(int(forecast.counters_after["next_root_id"]) == before_root + 2, "terminal bleed stops before refill root or AI")
+	check(int(forecast.counters_after["next_root_id"]) > before_root + 1, "terminal boundary records environment before lethal enemy tick")
 	terminal.close()
 
-	var faulted := BattleCoreReactionsSession.new()
+	var faulted := PlayerTurnFixture.create()
 	faulted.units[1].control.stunned_turns = 1
 	faulted.units[3].control.entangled_turns = 1
 	faulted._queue._max_commands = 1
@@ -123,7 +126,7 @@ func _early_victory_and_fault_prefix() -> void:
 	faulted.close()
 
 func _rejections_and_detachment() -> void:
-	var session := BattleCoreReactionsSession.new()
+	var session := PlayerTurnFixture.create()
 	session.deployment_enabled = true
 	check(Forecast.prepare(session).reason == &"", "deployment opt-in setting does not reject player phase")
 	session.phase = BattleTacticalSession.Phase.DEPLOYMENT
@@ -166,7 +169,7 @@ func _rejections_and_detachment() -> void:
 	session.close()
 
 func _summon_and_enemy_refill() -> void:
-	var session := BattleCoreReactionsSession.new()
+	var session := PlayerTurnFixture.create()
 	var actor := session.board.get_unit_by_id(session.selected_id)
 	var summon := session.use_summoning_item(Vector2i(0, 1))
 	check(summon.status == ActionReceipt.APPLIED, "real summon command applied")

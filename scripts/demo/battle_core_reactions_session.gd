@@ -3,6 +3,9 @@ class_name BattleCoreReactionsSession
 
 var stun_selected: bool = false
 
+func _first_team() -> Faction.Type:
+	return Faction.Type.ENEMY
+
 func retreat_reason() -> StringName:
 	if not can_player_act(): return &"battle/input_locked"
 	var actor := selected_unit()
@@ -83,10 +86,10 @@ func reset() -> void:
 	flow_log.append("Бор и Дозорный: перк «Скрытая атака» даёт +50% физической базы, когда цели угрожают хотя бы двое. Направление спины больше не даёт бонуса.")
 	flow_log.append("Астра и Страж владеют Оглушающим ударом; Щит защищён от оглушения, Рей — от пут. Способности контроля на второй странице действий.")
 	flow_log.append("Оппортунист/Прикрытие/Контратака на второй странице. Стойка с режимом стоит 1 основное; три режима делят один заряд. Контратака отвечает после полного удара, если враг ещё в досягаемости; стойка сохраняется.")
-	flow_log.append("После обеих команд ходит окружение: случайно отмечает одну клетку, а отметку прошлого круга обрушает в пропасть. Первый ход окружения только предупреждает; оставшийся на клетке погибает.")
+	flow_log.append("Порядок раунда: противник → вы → окружение. Окружение случайно отмечает клетку, а отметку прошлого круга обрушает в пропасть. Первый ход окружения только предупреждает; оставшийся на клетке погибает.")
 
 func _after_team_end(incoming: Faction.Type) -> bool:
-	if incoming != Faction.Type.PLAYER or state.environment.collapse.is_empty(): return true
+	if incoming != Faction.Type.ENEMY or state.environment.collapse.is_empty(): return true
 	_transitioning = true
 	var receipt := _submit(CollapsePhaseCommand.new(context.get_revision()))
 	turn_events.append_array(receipt.get_events())

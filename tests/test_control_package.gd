@@ -1,5 +1,7 @@
 extends SceneTree
 
+const PlayerTurnFixture = preload("res://tests/fixtures/player_turn_fixture.gd")
+
 var passed: int = 0
 var failed: int = 0
 
@@ -12,7 +14,7 @@ func check(value: bool, label: String) -> void:
 		printerr("FAIL CONTROL PACKAGE: " + label)
 
 func fixture() -> BattleCoreReactionsSession:
-	var s := BattleCoreReactionsSession.new()
+	var s := PlayerTurnFixture.create()
 	for y: int in s.board.height:
 		for x: int in s.board.width:
 			s.board.set_terrain(Vector2i(x, y), TerrainType.Type.FLOOR)
@@ -299,8 +301,9 @@ func _combined_order_and_critical() -> void:
 	check(not s.units[1].is_alive() and s.units[1].control.stunned_turns == 0 and has_step(receipt, &"stun_apply", &"control/dead_target"), "fall death skips pending stun")
 	s.close()
 	s = fixture()
-	s.round_number = 2
+	s.round_number = 1
 	check(s.end_player_turn(), "enter enemy turn for active perk")
+	check(s.round_number == 2, "successful player boundary advances round before enemy AI")
 	receipt = s.step_enemy()
 	check(receipt != null and receipt.status == ActionReceipt.APPLIED and s.units[0].control.stunned_turns == 1 and s.units[1].action_resources.get_main_left() == 0, "session executes BT-selected stun for one main")
 	s.close()

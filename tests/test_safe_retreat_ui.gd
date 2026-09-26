@@ -1,5 +1,7 @@
 extends SceneTree
 
+const PlayerTurnFixture = preload("res://tests/fixtures/player_turn_fixture.gd")
+
 var passed: int = 0
 var failed: int = 0
 var viewport: SubViewport
@@ -25,6 +27,7 @@ func run() -> void:
 	demo = (load("res://scenes/demo/core_reactions_battle.tscn") as PackedScene).instantiate()
 	demo.deployment_enabled = false
 	viewport.add_child(demo)
+	PlayerTurnFixture.enter_player_turn(demo)
 	viewport.notify_mouse_entered()
 	await process_frame; await process_frame
 	var s := fixture()
@@ -93,6 +96,7 @@ func run() -> void:
 	await motion(at(target))
 	demo._move_forecast_due = 0; demo._process_move_forecast()
 	demo.reset_demo()
+	PlayerTurnFixture.enter_player_turn(demo)
 	await settle()
 	check(not demo.retreat_mode and (demo._move_forecast == null or (not demo._move_forecast_retreat and demo._move_forecast.snapshot_before == ItemSimulationSnapshot.capture(demo.session.state, []).snapshot.to_dict())), "reset cannot publish old retreat forecast")
 
@@ -110,6 +114,7 @@ func run() -> void:
 
 func fixture() -> BattleCoreReactionsSession:
 	demo.reset_demo()
+	PlayerTurnFixture.enter_player_turn(demo)
 	var s := demo.session as BattleCoreReactionsSession
 	for y: int in s.board.height:
 		for x: int in s.board.width:

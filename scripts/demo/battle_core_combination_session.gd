@@ -7,9 +7,10 @@ var _setup_revision: int = -1
 
 ## Расстановка принадлежит сценарию: она не исполняет боевое перемещение/эффекты.
 func begin_deployment() -> bool:
-	if deployment_enabled or phase != Phase.PLAYER_TURN or context.get_revision() != _setup_revision or not _available(): return false
+	if deployment_enabled or phase != _initial_phase() or context.get_revision() != _setup_revision or not _available(): return false
 	deployment_enabled = true
 	phase = Phase.DEPLOYMENT
+	selected_id = living_ids(Faction.Type.PLAYER)[0]
 	return true
 
 func is_deploying() -> bool:
@@ -52,8 +53,9 @@ func start_battle() -> bool:
 		if not cells.has(unit.cell) or board.occupant_at(unit.cell) != unit: return false
 	if ItemSimulationSnapshot.capture(state, []).code != ItemSnapshotResult.Code.OK: return false
 	# Ресурсы и сроки уже заданы сценарием; повторное пополнение здесь меняло бы старт.
-	phase = Phase.PLAYER_TURN
-	flow_log.append("Расстановка завершена. Раунд 1: ваш ход.")
+	phase = _initial_phase()
+	if phase == Phase.ENEMY_TURN: selected_id = UnitId.NONE
+	flow_log.append("Расстановка завершена. Раунд 1: ход противника." if phase == Phase.ENEMY_TURN else "Расстановка завершена. Раунд 1: ваш ход.")
 	return true
 
 func phase_text() -> String:
@@ -118,7 +120,9 @@ func reset() -> void:
 	flow_log.append("Бор на E4 несёт пробивающий клинок: 50% физической базы обходят броню; Щит сохраняет иммунитет к кровотечению. Бор бьёт его в спину и сдвигает на шипы C4. Рей оглушён до конца вашего хода.")
 	flow_log.append("Контроль истекает в конце хода своей команды, затем кровотечение входящей команды исполняется до восстановления действий. Астра может поднять прежнее тело на A4.")
 	flow_log.append("Опутывающий удар — слот 7: путы после физического HP-урона и последствий удара, до конца ближайшего хода цели. Бор E5 → Дозорный F5: пробивание открывает наложение сквозь броню.")
-	if deployment_enabled: phase = Phase.DEPLOYMENT
+	if deployment_enabled:
+		phase = Phase.DEPLOYMENT
+		selected_id = living_ids(Faction.Type.PLAYER)[0]
 	_setup_revision = context.get_revision()
 
 func _refill(faction: Faction.Type) -> bool:

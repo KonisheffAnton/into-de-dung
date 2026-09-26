@@ -65,6 +65,12 @@ func capture(label: String) -> void:
 func button_center() -> Vector2:
 	return demo._end_turn_button.global_position + demo._end_turn_button.size * 0.5
 
+func enter_player_turn(target: BattleDemo) -> void:
+	var session := target.session as BattleCoreReactionsSession
+	session.phase = BattleTacticalSession.Phase.PLAYER_TURN
+	session.selected_id = session.units[0].id
+	target._refresh()
+
 func snapshot() -> Dictionary:
 	return ItemSimulationSnapshot.capture(demo.session.state, []).snapshot.to_dict()
 
@@ -75,14 +81,20 @@ func run() -> void:
 	root.add_child(viewport)
 	demo = (load("res://scenes/demo/core_reactions_battle.tscn") as PackedScene).instantiate()
 	viewport.add_child(demo)
+	demo.set_process(false)
 	viewport.notify_mouse_entered()
 	await process_frame
 	await process_frame
-	demo.set_process(false)
 	await motion(button_center())
 	check(not demo._turn_forecast_pending and demo._turn_forecast == null, "deployment hover never simulates combat")
 	await click(button_center())
-	check((demo.session as BattleCoreReactionsSession).can_player_act(), "real button starts battle")
+	check((demo.session as BattleCoreReactionsSession).phase == BattleTacticalSession.Phase.ENEMY_TURN, "real button starts enemy-first battle")
+	check(demo._turn_forecast == null and not demo._turn_forecast_pending, "start clears deployment hover without player forecast")
+	var opening := demo.session as BattleCoreReactionsSession
+	opening._enemy_index = opening._enemy_ids.size()
+	demo._execute_live(&"step_enemy")
+	await preload("res://tests/fixtures/battle_execution_wait.gd").settle(self, demo)
+	check(opening.can_player_act() and opening.round_number == 1, "opening enemy boundary reaches first player turn")
 	await motion(Vector2(5, 5))
 	await motion(button_center())
 	var s := demo.session as BattleCoreReactionsSession
@@ -95,7 +107,7 @@ func run() -> void:
 	await settle()
 	check(demo._turn_forecast != null and demo._turn_forecast.status == ActionReceipt.APPLIED, "real hover returns complete forecast")
 	check(snapshot() == before and s.context.simulation_counters() == counters and UnitId.get_counter() == allocator, "hover preserves live state and IDs")
-	check(demo._forecast_panel.text.contains("Оглушение, ходов: 1 → 0") and demo._forecast_panel.text.contains("До первого действия противника"), "panel explains expiry and exact scope")
+	check(demo._forecast_panel.text.contains("Оглушение, ходов: 1 → 0") and demo._forecast_panel.text.contains("До первого действия противника") and demo._forecast_panel.text.contains("Окружение 1:"), "panel explains expiry, scope, and environment phase")
 	await capture("turn-ready")
 	var result := demo._turn_forecast
 	await motion(demo._forecast_panel.global_position + Vector2(20, 25))
@@ -144,7 +156,7 @@ func run() -> void:
 	check(not demo._turn_forecast_pending, "enemy phase cannot preview player boundary")
 	await key(KEY_R)
 	check(demo._turn_forecast == null and not demo._turn_forecast_pending, "reset clears completed and pending state")
-	await click(button_center())
+	enter_player_turn(demo)
 	s = demo.session as BattleCoreReactionsSession
 	var dying := s.units[5]
 	for unit: UnitState in s.units:
@@ -164,7 +176,7 @@ func run() -> void:
 	await key(KEY_ENTER)
 	check(s.phase == BattleTacticalSession.Phase.VICTORY and demo._turn_forecast == null, "Enter stops at predicted victory")
 	await key(KEY_R)
-	await click(button_center())
+	enter_player_turn(demo)
 	await motion(Vector2(5, 5))
 	await motion(button_center())
 	s = demo.session as BattleCoreReactionsSession
@@ -178,7 +190,7 @@ func run() -> void:
 	await key(KEY_R)
 	await settle()
 	check(demo._turn_forecast == null and not demo._turn_forecast_pending, "reset discards running generation")
-	await click(button_center())
+	enter_player_turn(demo)
 	await motion(Vector2(5, 5))
 	await motion(button_center())
 	demo._process_turn_forecast()

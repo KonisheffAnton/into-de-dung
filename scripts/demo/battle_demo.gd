@@ -830,7 +830,7 @@ func _refresh() -> void:
 	elif session is BattleCoreCombinationSession:
 		_instructions.text += " · 8: печать призыва"
 	if session is BattleCoreReactionsSession and not _is_deploying():
-		_instructions.text = "Окружение после врагов: красный «ОБВАЛ» сработает через полный круг. Реакции и безопасный отход — на странице 2."
+		_instructions.text = "Противник → вы → окружение. Красный «ОБВАЛ» сработает через полный круг. Реакции и отход — на странице 2."
 	if _cover_guard_mode: _status.text = "Прикрытие: выберите подсвеченного союзника. 1 основное действие, заряд реакции тратится при первом срабатывании. Esc — отмена."
 	_hover(board_view.hover_cell)
 	_log.text = "\n".join(_journal)
@@ -1041,7 +1041,7 @@ func _hover(cell: Vector2i) -> void:
 		var fire := "Шипы: 8 урона при входе." if not environment.fire_at(cell).is_empty() else "Шипов нет."
 		_hint.text = fire + ("\nТела ×%d: %s" % [details.size(), ", ".join(details)] if not details.is_empty() else "\nТрупов нет.")
 		if environment.collapse.get("marked", []).has(cell):
-			_hint.text = "%s · ОБВАЛ после хода врагов. Клетка станет пропастью; оставшийся здесь погибнет.\n" % _cell_name(cell) + _hint.text
+			_hint.text = "%s · ОБВАЛ после вашего хода. Клетка станет пропастью; оставшийся здесь погибнет.\n" % _cell_name(cell) + _hint.text
 		if raising_mode: _hint.text += "\nПоднятие: выберите соседнюю клетку той же высоты."
 		_render_forecast_panel()
 		return
@@ -2088,6 +2088,9 @@ func _render_turn_forecast() -> void:
 		return
 	var phases := {BattleTacticalSession.Phase.ENEMY_TURN: "Начнётся ход противника.", BattleTacticalSession.Phase.VICTORY: "Победа до действий противника.", BattleTacticalSession.Phase.DEFEAT: "Поражение до действий противника.", BattleTacticalSession.Phase.MUTUAL_DESTRUCTION: "Обе команды погибнут. Бой завершится."}
 	text += "[color=#f7c97d]%s[/color]\n" % phases.get(_turn_forecast.phase_after, "Переход завершён.")
+	for event: Dictionary in _turn_forecast.events:
+		if event.get("kind", &"") in [&"environment_turn", &"support_collapsed"]:
+			text += _event_text(event) + "\n"
 	var ids: Array = _turn_forecast.units_before.keys()
 	ids.sort()
 	for id: int in ids:

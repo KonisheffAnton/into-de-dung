@@ -1,5 +1,7 @@
 extends SceneTree
 
+const PlayerTurnFixture = preload("res://tests/fixtures/player_turn_fixture.gd")
+
 var passed: int = 0
 var failed: int = 0
 
@@ -12,7 +14,7 @@ func check(ok: bool, label: String) -> void:
 		printerr("FAIL COUNTERATTACK: " + label)
 
 func fixture() -> BattleCoreReactionsSession:
-	var s := BattleCoreReactionsSession.new()
+	var s := PlayerTurnFixture.create()
 	for y: int in s.board.height:
 		for x: int in s.board.width:
 			s.board.set_terrain(Vector2i(x, y), TerrainType.Type.FLOOR)
