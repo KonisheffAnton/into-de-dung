@@ -1228,14 +1228,14 @@ func _render_forecast_panel() -> void:
 		_render_item_forecast_panel()
 		return
 	if _attack_forecast_pending:
-		_forecast_panel.text = "[font_size=16][color=#f7c97d]Цель: %s[/color][/font_size]\nРассчитываем последствия удара…" % _name_for(_forecast_target_id)
+		_forecast_panel.text = "[font_size=16][color=#f7c97d]%s → %s[/color][/font_size]\nРассчитываем последствия удара…" % [_name_for(_attack_forecast_actor), _name_for(_forecast_target_id)]
 		return
 	if _forecast == null:
 		_forecast_panel.text = "Наведите курсор на врага в режиме A."
 		return
 	var status: StringName = _forecast.status
 	var reason: StringName = _forecast.reason
-	var text := "[font_size=16][color=#f7c97d]Цель: %s[/color][/font_size]\n" % _name_for(_forecast_target_id)
+	var text := "[font_size=16][color=#f7c97d]%s → %s[/color][/font_size]\n" % [_name_for(_attack_forecast_actor), _name_for(_forecast_target_id)]
 	if status != &"APPLIED":
 		_forecast_panel.text = text + "[color=#f29b9b]Прогноз недоступен[/color]\n" + _reason_text(reason)
 		return

@@ -1,5 +1,19 @@
 # История и свидетельства проверок
 
+## Имена в прогнозе атаки — 2026-09-26
+
+Base main `a86d1d526be5d1ef6a217b3f98b04332f226815b`, чистый старт. Заголовок
+ожидания и результата показывает атакующего и цель по ID существующего запроса.
+Контракт — [ATTACK_FORECAST](ATTACK_FORECAST.md); нового кэша мира нет.
+Прежняя передача точно сохранена в [архиве](CODEX_HANDOFF.history-20260926-10.md).
+Godot 4.7.2: import/startup/full/render 74 PASS, core 9440/0, 23 render runner;
+async UI 76/0 headless и 78/0 render. Два PNG осмотрены. Новых diagnostics нет,
+manifests сверены. Независимое ревью финального diff: APPROVE (game_reviewer).
+Отчёт/validation/review-result/финальный SHA — `test_reports/attack-header-20260926/`.
+Первый адресный тест уточнён: после удара допустим новый прогноз движения;
+production не менялся. Финальный snapshot — `test_reports/demo-5104b1e0e74d44868b546320a32fcade/project`.
+Ручной микроплейтест не запрашивался; общая приёмка ядра и backlog не закрыты.
+
 ## Выбор союзника из атаки — 2026-09-26
 
 Base main `2f616c04d335135a3851627e23d6753d4ec39cd6`, чистый старт. Пользователь

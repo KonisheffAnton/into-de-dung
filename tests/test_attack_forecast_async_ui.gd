@@ -41,6 +41,7 @@ func run() -> void:
 	push_motion(at(target.cell))
 	check(demo._attack_forecast_pending and demo._forecast == null and not demo._attack_forecast_worker.is_started(), "input queues target without running capture or simulation")
 	check(demo._forecast_panel.text.contains("Рассчитываем") and demo._forecast_panel.text.contains(target.debug_name), "pending panel immediately identifies target")
+	check_header(s.units[2], target, "pending identifies attacker and target")
 	check(demo.board_view.forecast == null and demo.board_view._forecast_entry(target.id).is_empty() and demo.board_view.sneak_threat_ids.is_empty(), "pending request invents no health or sneak result")
 	await capture("attack-pending")
 	push_motion(at(other.cell))
@@ -51,13 +52,16 @@ func run() -> void:
 	var obsolete_generation := demo._attack_forecast_job_generation
 	push_motion(at(other.cell))
 	check(demo._attack_forecast_generation != obsolete_generation and demo._forecast_target_id == other.id, "new input replaces active job target without waiting")
+	check_header(s.units[2], other, "pending header replaces old target immediately")
 	await settle()
 	check(same_forecast(demo._forecast, s.preview_attack(other.id)), "obsolete result cannot overwrite latest target")
+	check_header(s.units[2], other, "ready refusal keeps latest attacker and target")
 	check(snapshot() == before and s.context.get_rng().to_dict() == rng and s.context.simulation_counters() == counters and s.last_receipt == receipt, "asynchronous hover preserves all live state")
 	push_motion(at(target.cell))
 	await settle()
 	var forecast := demo._forecast
 	check(forecast != null and forecast.status == ActionReceipt.APPLIED, "ordinary attack gets exact ready forecast")
+	check_header(s.units[2], target, "ready attack keeps attacker and target")
 	check(demo.board_view.forecast == forecast and not demo.board_view._forecast_entry(target.id).is_empty(), "ready result updates existing health overlay")
 	push_motion(at(target.cell))
 	demo._process_attack_forecast()
@@ -66,6 +70,7 @@ func run() -> void:
 	push_motion(Vector2(2, 2))
 	await process_frame
 	check(demo._forecast == null and not demo._attack_forecast_pending and demo.board_view.forecast == null, "leaving clears completed result")
+	check_no_header("leaving clears ready names")
 
 	# Результат разрешено дочитать на панели даже при переходе туда до завершения.
 	push_motion(at(target.cell))
@@ -75,11 +80,20 @@ func run() -> void:
 	check(demo._attack_forecast_pending, "pending target survives move into reading panel")
 	await settle()
 	check(same_forecast(demo._forecast, s.preview_attack(target.id)), "worker publishes while pointer reads panel")
+	check_header(s.units[2], target, "reading panel keeps current names")
 	push_motion(Vector2(2, 2)); await process_frame
 	push_motion(at(target.cell)); demo._process_attack_forecast()
 	push_motion(Vector2(2, 2)); await process_frame
 	await drain()
 	check(demo._forecast == null and not demo._attack_forecast_pending, "leaving pending request discards its eventual result")
+	check_no_header("leaving pending clears names after obsolete completion")
+	push_motion(at(target.cell)); demo._process_attack_forecast()
+	push_key(KEY_ESCAPE)
+	check_no_header("escape clears names immediately")
+	await drain()
+	check_no_header("escape prevents obsolete names returning")
+	demo.set_attack_mode(true)
+	push_motion(at(target.cell))
 
 	# Смена определения не обязана менять revision, но меняет смысл прогноза.
 	push_motion(at(target.cell)); demo._process_attack_forecast()
@@ -106,6 +120,7 @@ func run() -> void:
 	demo.select_character(s.units[0].id)
 	await drain()
 	check(demo._forecast == null and not demo._attack_forecast_pending, "actor selection discards outstanding attack")
+	check_no_header("actor selection clears names")
 
 	setup_attack()
 	s = demo.session as BattleCoreReactionsSession
@@ -114,6 +129,7 @@ func run() -> void:
 	s.phase = BattleTacticalSession.Phase.ENEMY_TURN
 	await settle()
 	check(demo._forecast == null and not demo._attack_forecast_pending, "phase gate rejects stale completion before next UI refresh")
+	check_no_header("phase gate clears names")
 	setup_attack()
 	s = demo.session as BattleCoreReactionsSession
 	target = s.units[3]
@@ -178,6 +194,7 @@ func test_ally_selection_during_attack() -> void:
 	push_key(KEY_A)
 	push_motion(at(target.cell))
 	check(demo._attack_forecast_pending, "Ray hover queues attack forecast")
+	check_header(ray, target, "Ray pending header")
 	demo._process_attack_forecast()
 	check(demo._attack_forecast_worker.is_started(), "Ray forecast is running before ally click")
 	var before_snapshot := snapshot()
@@ -199,6 +216,7 @@ func test_ally_selection_during_attack() -> void:
 	check(snapshot() == before_snapshot and s.context.get_rng().to_dict() == before_rng and s.context.simulation_counters() == before_counters, "pending forecast and ally selection preserve battle state")
 	await drain()
 	check(demo._forecast == null and not demo._attack_forecast_pending, "Ray forecast cannot publish after switching to Astra")
+	check_no_header("ally selection clears pending Ray names")
 
 	# Повторяем выбор с уже готовым прогнозом, чтобы проверить обе стадии worker.
 	await click_cell(ray.cell)
@@ -215,12 +233,15 @@ func test_ally_selection_during_attack() -> void:
 	var switched_during_ready := s.selected_id == astra.id and not demo.attack_mode and demo._forecast == null
 	check(switched_during_ready, "ally click also clears a ready Ray forecast")
 	if not switched_during_ready: return
+	check_no_header("ally selection clears ready Ray names")
 	check(s.last_receipt == before_receipt and demo._journal.size() == before_journal, "ready-forecast selection still executes no command")
 
 	push_key(KEY_A)
 	push_motion(at(target.cell))
+	check_header(astra, target, "Astra pending header replaces Ray")
 	await settle()
 	var astra_forecast := demo._forecast
+	check_header(astra, target, "Astra ready header replaces Ray")
 	check(demo._attack_forecast_actor == astra.id and astra_forecast != null, "fresh hover belongs to Astra")
 	var valid_astra_forecast := astra_forecast != null and astra_forecast.status == ActionReceipt.APPLIED and astra_forecast.units.has(target.id)
 	check(valid_astra_forecast and astra_forecast.units[target.id]["after"]["cell"] == Vector2i(3, 4), "Astra forecast pushes south")
@@ -229,8 +250,10 @@ func test_ally_selection_during_attack() -> void:
 	var expected_rng: Dictionary = astra_forecast.rng_after.duplicate(true)
 	var expected_counters: Dictionary = astra_forecast.counters_after.duplicate(true)
 	push_click(at(target.cell))
+	check_no_header("live execution clears attack names before join")
 	await preload("res://tests/fixtures/battle_execution_wait.gd").settle(self, demo)
 	var receipt := s.last_receipt
+	check_no_header("completed action leaves no old names")
 	var attacked_by_astra := false
 	for event: Dictionary in receipt.get_events():
 		if event.get("kind") == &"attacked" and event.get("actor_unit_id") == astra.id and event.get("target_unit_id") == target.id:
@@ -238,6 +261,13 @@ func test_ally_selection_during_attack() -> void:
 	check(attacked_by_astra, "live attack is executed by selected Astra")
 	check(receipt.get_events() == astra_forecast.events and snapshot() == expected_snapshot, "live receipt and full snapshot match Astra forecast")
 	check(s.context.get_rng().to_dict() == expected_rng and s.context.simulation_counters() == expected_counters, "live RNG and counters match Astra forecast")
+func check_header(actor: UnitState, target: UnitState, label: String) -> void:
+	check(demo._forecast_panel.get_parsed_text().get_slice("\n", 0) == "%s → %s" % [actor.debug_name, target.debug_name], label)
+
+func check_no_header(label: String) -> void:
+	# После удара под курсором может уже начаться прогноз движения на пустую клетку.
+	check(not demo._forecast_panel.get_parsed_text().get_slice("\n", 0).contains(" → "), label)
+
 func click_cell(cell: Vector2i) -> void:
 	push_motion(at(cell))
 	await process_frame
