@@ -203,9 +203,9 @@ func check_rear_markers(session: BattleCoreCombinationSession, label: String) ->
 	var helper_marked := false
 	for visual: BattleDemoIsoVisual in board._entity_visuals:
 		if visual.unit == null: continue
-		if visual.unit.faction == Faction.Type.PLAYER and visual.unit.is_alive(): player_marked = visual.show_rear
-		if visual.unit.faction == Faction.Type.ENEMY and visual.unit.is_alive(): enemy_marked = visual.show_rear
-		if session.state.active_summon(session.units[0].id) == visual.unit: helper_marked = visual.show_rear
+		if visual.unit.faction == Faction.Type.PLAYER and visual.unit.alive: player_marked = visual.show_rear
+		if visual.unit.faction == Faction.Type.ENEMY and visual.unit.alive: enemy_marked = visual.show_rear
+		if session.state.active_summon(session.units[0].id) != null and session.state.active_summon(session.units[0].id).id == visual.unit.id: helper_marked = visual.show_rear
 	check(player_marked and enemy_marked, label + ": both factions show rear markers")
 	if session.state.active_summon(session.units[0].id) != null:
 		check(helper_marked, label + ": nullable-control helper shows rear marker")

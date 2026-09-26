@@ -2,6 +2,7 @@ extends RefCounted
 
 ## Ожидание ограничено, а выключенный процесс демо продвигает только worker прогноза.
 static func settle(tree: SceneTree, demo: BattleDemo) -> void:
+	await preload("res://tests/fixtures/battle_execution_wait.gd").settle(tree, demo)
 	var deadline := Time.get_ticks_msec() + 5000
 	for _frame: int in 600:
 		if not is_instance_valid(demo) or not demo._action_forecast_pending: return

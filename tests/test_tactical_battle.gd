@@ -535,7 +535,7 @@ func _test_attack_forecast_viewport() -> void:
 	_check(_demo._stats.text.begins_with(target.debug_name) and battle.selected_id == actor.id, "hover inspects target while keeping actor")
 	var target_visual: BattleDemoIsoVisual
 	for visual in _demo.board_view._entity_visuals:
-		if visual.unit == target: target_visual = visual
+		if visual.unit != null and visual.unit.id == target.id: target_visual = visual
 	_check(target_visual != null and target_visual.forecast_entry.get("after", {}).get("hp", -1.0) == 0.0, "target HP bar receives lethal final HP")
 	_check(battle.board.to_snapshot_dict() == before and battle.context.get_revision() == revision and actor.action_resources.get_main_left() == 1, "forecast hover does not mutate live state")
 	await _capture("battle-07-forecast")
@@ -606,7 +606,7 @@ func _test_attack_forecast_viewport() -> void:
 	await _mouse_motion(_demo.board_view.cell_center(battle.units[3].cell))
 	var collateral := false
 	for visual in _demo.board_view._entity_visuals:
-		if visual.unit == battle.units[0] and not visual.forecast_entry.is_empty():
+		if visual.unit != null and visual.unit.id == battle.units[0].id and not visual.forecast_entry.is_empty():
 			collateral = visual.forecast_entry["after"]["hp"] < visual.forecast_entry["before"]["hp"]
 	_check(collateral and _demo._forecast_panel.text.contains("сталкивается"), "collateral ally HP bar and collision detail")
 	await _capture("battle-09-collateral")

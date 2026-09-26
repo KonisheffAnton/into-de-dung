@@ -98,8 +98,11 @@ Prepared; обычный удар/руна/путы входят в ключ з�
 Остальные реализованные прогнозы действий обслуживает один ActionForecastWorker
 с тем же Prepared и проверкой поколения; UI/BT availability hints не выполняют
 снимок всего мира. Они не заменяют строгую авторизацию команды или preview.
-Полное live исполнение очереди остаётся синхронным. Правила и границы плавности —
-тот же ATTACK_FORECAST; API предметных подсказок — ITEM_USE_M3, поднятия — D5.
+Основной общий бой передаёт session в эксклюзивное владение BattleExecutionWorker;
+UI держит value projection и принимает результат после join. Внешние callbacks
+и остальные session сохраняют синхронный путь. Контракт владения/публикации —
+[BATTLE_EXECUTION_UI](BATTLE_EXECUTION_UI.md); прогнозы — ATTACK_FORECAST,
+API предметных подсказок — ITEM_USE_M3, поднятия — D5.
 Призыв/поднятие строят ожидаемый checkpoint через SummonMutationProjection из
 снимка до действия и того же нового помощника. Полный clone боя для этой проверки
 не создаётся; после callback сравнивается весь снимок, admission, RNG/counters и

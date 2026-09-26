@@ -12,10 +12,13 @@ func window(label: String, action: Callable, frames: int = 12) -> void:
 	var cpu: Array[float] = []
 	var intervals: Array[float] = []
 	await process_frame
-	for frame: int in frames:
+	var frame: int = 0
+	while frame < frames or (demo.has_method("is_execution_pending") and demo.call("is_execution_pending")):
+		assert(frame < 600, "Live execution timeout")
 		var start := Time.get_ticks_usec()
 		if frame == 0: action.call()
 		else:
+			if demo.has_method("_poll_execution"): demo.call("_poll_execution")
 			demo._process_move_forecast()
 			demo._process_attack_forecast()
 			# Старый commit исполняет эти прогнозы синхронно; один runner проверяет обе версии.
@@ -23,6 +26,7 @@ func window(label: String, action: Callable, frames: int = 12) -> void:
 		cpu.append(float(Time.get_ticks_usec() - start) / 1000.0)
 		await process_frame
 		intervals.append(float(Time.get_ticks_usec() - start) / 1000.0)
+		frame += 1
 	print(JSON.stringify({"label": label, "sample": sample, "cpu_ms": cpu, "frame_ms": intervals}))
 
 func reset() -> void:

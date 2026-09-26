@@ -127,6 +127,7 @@ func run() -> void:
 	var expected := s.preview_attack(target.id)
 	push_motion(at(target.cell)); demo._process_attack_forecast()
 	push_click(at(target.cell))
+	await preload("res://tests/fixtures/battle_execution_wait.gd").settle(self, demo)
 	check(s.last_receipt.get_events() == expected.events and snapshot() == expected.snapshot_after, "click while pending executes fresh matching live command")
 	await settle()
 	check(demo._forecast == null or demo._forecast.status == ActionReceipt.REJECTED, "old successful result cannot reappear after spent action")

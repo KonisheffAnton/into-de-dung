@@ -18,6 +18,7 @@ func check(ok: bool, label: String) -> void:
 		printerr("FAIL ACTION ASYNC UI: " + label)
 
 func settle() -> void:
+	await preload("res://tests/fixtures/battle_execution_wait.gd").settle(self, demo)
 	var deadline := Time.get_ticks_msec() + 5000
 	while Time.get_ticks_msec() < deadline:
 		demo._process_action_forecast()

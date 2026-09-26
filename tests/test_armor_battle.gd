@@ -50,7 +50,7 @@ func _run() -> void:
 	check(demo._forecast_panel.text.contains("броня 25 → 15 / 100") and demo._forecast_panel.text.contains("урон 10 · лечение 0"), "armor and gross HP explained")
 	var armor_bar := false
 	for visual: BattleDemoIsoVisual in demo.board_view._entity_visuals:
-		if visual.unit == s.units[1]: armor_bar = visual.armor_values.get("current") == 25 and visual.forecast_entry["after"].get("armor_current") == 15
+		if visual.unit != null and visual.unit.id == s.units[1].id: armor_bar = visual.armor_values.get("current") == 25 and visual.forecast_entry["after"].get("armor_current") == 15
 	check(armor_bar, "unit armor bar shows forecast marker")
 	await capture("armor-01-forecast")
 	var panel := demo._forecast_panel

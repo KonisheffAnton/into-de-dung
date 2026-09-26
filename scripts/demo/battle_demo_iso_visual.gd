@@ -4,7 +4,7 @@ class_name BattleDemoIsoVisual
 enum Role { FLOOR, PLATFORM, WALL, UNIT }
 var role: Role = Role.FLOOR
 var half_steps: int = 0
-var unit: UnitState
+var unit: BattleUnitView
 var is_void: bool = false
 var selected: bool = false
 var reachable: bool = false
@@ -44,7 +44,7 @@ func top_polygon() -> PackedVector2Array:
 
 func surface_polygons() -> Array[PackedVector2Array]:
 	if role == Role.UNIT:
-		if unit != null and not unit.is_alive(): return []
+		if unit != null and not unit.alive: return []
 		var factor := grid_config.tile_size.x / 128.0
 		var offset := get_visual_offset()
 		return [PackedVector2Array([offset + Vector2(-17, 7) * factor, offset + Vector2(-17, -37) * factor, offset + Vector2(17, -37) * factor, offset + Vector2(17, 7) * factor])]
@@ -96,7 +96,7 @@ func _draw() -> void:
 func _draw_unit() -> void:
 	var factor := grid_config.tile_size.x / 128.0
 	var foot := get_visual_offset()
-	if unit != null and not unit.is_alive():
+	if unit != null and not unit.alive:
 		var marker := foot + Vector2(16, 4) * factor
 		draw_line(marker - Vector2(4, 4), marker + Vector2(4, 4), Color("a5b3c5"), 2)
 		draw_line(marker - Vector2(4, -4), marker + Vector2(4, -4), Color("a5b3c5"), 2)
@@ -131,23 +131,22 @@ func _draw_unit() -> void:
 	var label := transient_label if unit == null else unit.debug_name
 	draw_string(ThemeDB.fallback_font, Vector2(-10, -12), label.left(1), HORIZONTAL_ALIGNMENT_CENTER, 20, 13, Color("172230"))
 	if unit != null:
-		var hp_max := unit.get_stat(StatTypes.StatType.HP_MAX)
-		var balance_max := unit.get_stat(StatTypes.StatType.BALANCE_MAX)
-		balance_max = ControlRules.balance_maximum(unit, balance_max)
-		var hp := clampf(unit.vitals.get_hp() / hp_max if hp_max > 0 else 0, 0, 1)
+		var hp_max := unit.hp_max
+		var balance_max := unit.balance_max
+		var hp := clampf(unit.hp / hp_max if hp_max > 0 else 0, 0, 1)
 		var forecast_after: Dictionary = forecast_entry.get("after", {}) as Dictionary
-		var expected_hp := float(forecast_after.get("hp", unit.vitals.get_hp()))
-		var expected_alive := bool(forecast_after.get("alive", unit.is_alive()))
-		var balance := clampf(unit.vitals.get_balance() / balance_max if balance_max > 0 else 0, 0, 1)
+		var expected_hp := float(forecast_after.get("hp", unit.hp))
+		var expected_alive := bool(forecast_after.get("alive", unit.alive))
+		var balance := clampf(unit.balance / balance_max if balance_max > 0 else 0, 0, 1)
 		draw_rect(Rect2(-19, 7, 38, 4), Color("0f1d28"))
 		draw_rect(Rect2(-19, 7, 38 * hp, 4), Color("65dfcc"))
-		if not is_equal_approx(expected_hp, unit.vitals.get_hp()):
+		if not is_equal_approx(expected_hp, unit.hp):
 			var expected_ratio := clampf(expected_hp / hp_max if hp_max > 0 else 0.0, 0.0, 1.0)
 			var current_ratio := hp
 			var segment_start := minf(current_ratio, expected_ratio)
 			var segment_width := absf(expected_ratio - current_ratio)
-			draw_rect(Rect2(-19 + 38 * segment_start, 7, 38 * segment_width, 4), Color("f29b9b") if expected_hp < unit.vitals.get_hp() else Color("65dfcc"))
-			draw_string(ThemeDB.fallback_font, Vector2(-28, 28), "%.1f→%.1f" % [unit.vitals.get_hp(), expected_hp], HORIZONTAL_ALIGNMENT_CENTER, 56, 9, Color("f29b9b") if expected_hp < unit.vitals.get_hp() else Color("65dfcc"))
+			draw_rect(Rect2(-19 + 38 * segment_start, 7, 38 * segment_width, 4), Color("f29b9b") if expected_hp < unit.hp else Color("65dfcc"))
+			draw_string(ThemeDB.fallback_font, Vector2(-28, 28), "%.1f→%.1f" % [unit.hp, expected_hp], HORIZONTAL_ALIGNMENT_CENTER, 56, 9, Color("f29b9b") if expected_hp < unit.hp else Color("65dfcc"))
 			draw_line(Vector2(-19 + 38 * expected_ratio, 6), Vector2(-19 + 38 * expected_ratio, 12), Color.WHITE, 1)
 		if not expected_alive: draw_string(ThemeDB.fallback_font, Vector2(-18, 38), "ПОГИБ", HORIZONTAL_ALIGNMENT_CENTER, 36, 8, Color("f29b9b"))
 		draw_rect(Rect2(-19, 13, 38, 3), Color("0f1d28"))

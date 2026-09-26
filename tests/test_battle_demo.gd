@@ -152,7 +152,7 @@ func _run() -> void:
 	_check(_demo.board_view.is_fall_animating(session.units[1].id), "mode refresh preserves active fall")
 	var corpse_visible := false
 	for visual in _demo.board_view._entity_visuals:
-		if visual.unit == session.units[1]: corpse_visible = true
+		if visual.unit != null and visual.unit.id == session.units[1].id: corpse_visible = true
 	_check(not corpse_visible, "boundary fall leaves no corpse figure on retained logical cell")
 	_demo.queue_free()
 	await process_frame
