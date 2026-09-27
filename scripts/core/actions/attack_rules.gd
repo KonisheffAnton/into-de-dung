@@ -43,7 +43,7 @@ func _init(admitted_actor_ids: Array[int] = [], allowed_pairs: Array[Dictionary]
 		_pairs.append({"actor_unit_id": actor_id, "target_unit_id": target_id})
 	var definition_ids: Dictionary = {}
 	for definition in definitions:
-		if definition == null or definition.get_script() != AttackDefinition or definition.id == &"" or String(definition.id).to_utf8_buffer().size() > MAX_DEFINITION_ID_BYTES or (definition.profile != PROFILE and definition.profile != BALANCE_PROFILE and definition.profile != SPATIAL_PROFILE and definition.profile != ARMOR_PROFILE) or definition_ids.has(definition.id):
+		if definition == null or definition.get_script() != AttackDefinition or definition.cooldown_turns != 0 or definition.id == &"" or String(definition.id).to_utf8_buffer().size() > MAX_DEFINITION_ID_BYTES or (definition.profile != PROFILE and definition.profile != BALANCE_PROFILE and definition.profile != SPATIAL_PROFILE and definition.profile != ARMOR_PROFILE) or definition_ids.has(definition.id):
 			_mark_invalid()
 			return
 		definition_ids[definition.id] = true
@@ -81,6 +81,12 @@ func get_definition(id: StringName) -> AttackDefinition:
 			return _copy_definition(definition)
 	return null
 
+func get_definitions() -> Array[AttackDefinition]:
+	var result: Array[AttackDefinition] = []
+	if validate() != &"": return result
+	for definition: AttackDefinition in _definitions: result.append(_copy_definition(definition))
+	return result
+
 func _validate_structure() -> void:
 	var actors: Dictionary = {}
 	for id in _actors:
@@ -102,7 +108,7 @@ func _validate_structure() -> void:
 		pairs[pair_key] = true
 	var ids: Dictionary = {}
 	for definition in _definitions:
-		if definition == null or definition.get_script() != AttackDefinition or definition.id == &"" or String(definition.id).to_utf8_buffer().size() > MAX_DEFINITION_ID_BYTES or (definition.profile != PROFILE and definition.profile != BALANCE_PROFILE and definition.profile != SPATIAL_PROFILE and definition.profile != ARMOR_PROFILE) or ids.has(definition.id):
+		if definition == null or definition.get_script() != AttackDefinition or definition.cooldown_turns != 0 or definition.id == &"" or String(definition.id).to_utf8_buffer().size() > MAX_DEFINITION_ID_BYTES or (definition.profile != PROFILE and definition.profile != BALANCE_PROFILE and definition.profile != SPATIAL_PROFILE and definition.profile != ARMOR_PROFILE) or ids.has(definition.id):
 			_invalid = true
 			return
 		ids[definition.id] = true
@@ -135,6 +141,7 @@ static func _copy_definition(source: AttackDefinition) -> AttackDefinition:
 	copy.sneak_attack_enabled = source.sneak_attack_enabled
 	copy.reaction_strike = source.reaction_strike
 	copy.chain_push = source.chain_push
+	copy.cooldown_turns = source.cooldown_turns
 	copy.damage_components.assign(source.damage_components.duplicate(true))
 	return copy
 

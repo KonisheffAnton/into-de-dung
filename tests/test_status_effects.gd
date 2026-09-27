@@ -38,6 +38,8 @@ func _fixture() -> BattleCoreReactionsSession:
 		for x: int in session.board.width:
 			session.board.set_height_steps(Vector2i(x, y), 0)
 			session.board.set_terrain(Vector2i(x, y), TerrainType.Type.FLOOR)
+	# Старый fixture проверяет прежний срез без capability K18.
+	session.state.abilities = null
 	session.phase = BattleTacticalSession.Phase.PLAYER_TURN
 	session.selected_id = session.units[0].id
 	session.state.environment.fires.clear()

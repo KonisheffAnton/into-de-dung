@@ -42,3 +42,14 @@ static func from_utility(actor: UnitState, action: AIAction, utility_path: Array
 				result.kind = Kind.MOVE
 				result.path = utility_path.duplicate()
 	return result
+
+func get_ability_definition(context: ActionContext) -> AbilityDefinition:
+	if context == null: return null
+	if kind == Kind.ATTACK:
+		var rules := context.get_attack_rules()
+		var definition := rules.get_definition(attack_definition_id) if rules != null else null
+		return definition.get_ability_definition() if definition != null else null
+	if kind == Kind.MOVE: return MoveCommand.new().get_ability_definition(context)
+	if kind == Kind.GUARD: return GuardCommand.new(actor_id, context.get_revision(), reaction_mode, target_id).get_ability_definition(context)
+	if kind == Kind.SUMMON: return UseSummoningItemCommand.new(actor_id, item_id, cell, context.get_revision()).get_ability_definition(context)
+	return null

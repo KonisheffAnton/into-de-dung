@@ -12,4 +12,5 @@ func _init() -> void:
 
 
 func create_runtime(owner_id: int, item_id: int, effect_id: int, effect_index: int) -> ItemEffectRuntime:
+	if cooldown_turns != 0: return null
 	return HealOnDamageEffectRuntime.new(owner_id, item_id, effect_id, effect_index, heal_amount, trigger_event)

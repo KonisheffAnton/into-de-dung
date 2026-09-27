@@ -9,3 +9,6 @@ func validate(_context: ActionContext) -> StringName:
 	return &"unknown_command"
 func execute(_context: ActionContext) -> CommandStepResult:
 	return CommandStepResult.faulted(&"unknown_command")
+
+func get_ability_definition(context: ActionContext) -> AbilityDefinition:
+	return AbilityCatalog.for_command(self, context)

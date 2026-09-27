@@ -7,6 +7,7 @@ enum TargetMode { SELF, ADJACENT_CELL }
 const MAIN_COST: int = 1
 const CHARGE_COST: int = 1
 
+var _ability: AbilityDefinition
 var _kind: Kind
 var _target_mode: TargetMode
 var _heal_amount: float = 0.0
@@ -17,7 +18,7 @@ static func from_definition(definition: ItemDef) -> ItemUseAction:
 	if definition == null: return null
 	var script: Script = definition.get_script()
 	if script != ItemDef and script != Item: return null
-	if definition.max_charges < 1 or definition.max_charges > 4096 or not definition.summon_definition_valid(): return null
+	if definition.cooldown_turns != 0 or definition.max_charges < 1 or definition.max_charges > 4096 or not definition.summon_definition_valid(): return null
 	var action := ItemUseAction.new()
 	action._max_charges = definition.max_charges
 	if definition.use_summon:
@@ -32,6 +33,7 @@ static func from_definition(definition: ItemDef) -> ItemUseAction:
 		action._kind = Kind.HEAL_SELF
 		action._target_mode = TargetMode.SELF
 		action._heal_amount = definition.use_heal_amount
+	action._ability = definition.get_ability_definition(&"summon_adjacent" if definition.use_summon else &"heal_self")
 	return action
 
 func get_kind() -> Kind: return _kind
@@ -75,3 +77,6 @@ func target_cells(board: BattleBoard, origin: Vector2i) -> Array[Vector2i]:
 		var cell := origin + offset
 		if UseSummoningItemCommand.valid_cell(board, origin, cell): result.append(cell)
 	return result
+
+func get_ability_definition() -> AbilityDefinition:
+	return _ability.copy() if _ability != null else null

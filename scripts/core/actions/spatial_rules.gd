@@ -90,6 +90,8 @@ class Guard extends RefCounted:
 		if context._state != state or state == null or state._board != board or board == null: return false
 		if refs.has("armor_rng") and (context.get_rng() != refs["armor_rng"] or context.get_rng().to_dict() != values["armor_rng"]): return false
 		if state._owners != refs["owners"] or state._inventories != refs["inventories"] or state._equipment != refs["equipment"]: return false
+		if state.abilities != refs.get("abilities"): return false
+		if state.abilities != null and (state.abilities.catalog != refs["ability_catalog"] or state.abilities.to_dict() != values["abilities"]): return false
 		if state.environment != refs.get("environment"): return false
 		if state.environment != null and state.environment.to_dict() != values["environment"]: return false
 		# Проверяем raw attachment до getters, которые обходят массив и вызывают методы.
@@ -146,6 +148,12 @@ class Guard extends RefCounted:
 					continue
 				if not stats_copy.has_stat(type) or stats_copy.get_value(type) != v["stats"][type]: return false
 		return true
+
+	func ability_phase(after: Dictionary) -> Guard:
+		var result := copy()
+		result.values["abilities"] = after.duplicate(true)
+		result.seal()
+		return result
 
 	func debit(id: int, main_cost: int, move_cost: float) -> Guard:
 		var result := copy()
@@ -245,6 +253,11 @@ static func capture_guard(context: ActionContext, units: Array[UnitState], cells
 	var guard := Guard.new()
 	guard.refs = {"context": context, "state": state, "board": board, "owners": state._owners.duplicate(), "inventories": state._inventories.duplicate(), "equipment": state._equipment.duplicate(), "attachments": [], "participants": {}}
 	guard.values = {"board_origin_version": board.board_version, "expected_board_version": board.board_version, "width": board.width, "height": board.height, "geometry": {}, "participants": {}}
+	guard.refs["abilities"] = state.abilities
+	if state.abilities != null:
+		if state.abilities.get_script() != BattleAbilityState or not BattleAbilityState.valid(state.abilities.to_dict()): return null
+		guard.refs["ability_catalog"] = state.abilities.catalog.duplicate()
+		guard.values["abilities"] = state.abilities.to_dict()
 	guard.refs["environment"] = state.environment
 	if state.environment != null: guard.values["environment"] = state.environment.to_dict()
 	for owner: ItemOwnerState in state._owners:

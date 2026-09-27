@@ -12,3 +12,11 @@ class_name AttackDefinition
 @export var sneak_attack_enabled: bool = false
 @export var reaction_strike: bool = false
 @export var chain_push: bool = false
+@export var cooldown_turns: int = 0
+
+func get_ability_definition() -> AbilityDefinition:
+	if cooldown_turns != 0: return null
+	var result := AbilityDefinition.new()
+	result.ability_id = StringName("attack:%s" % String(id))
+	result.cooldown_turns = cooldown_turns
+	return result

@@ -30,6 +30,8 @@ func _run() -> void:
 func _session(seed: int = 41) -> BattleCoreReactionsSession:
 	var session := BattleCoreReactionsSession.new()
 	# Проверки отдельной фазы задают состояние хода игрока без решений ИИ.
+	# Старый fixture проверяет прежний срез без capability K18.
+	session.state.abilities = null
 	session.phase = BattleTacticalSession.Phase.PLAYER_TURN
 	session.selected_id = session.units[0].id
 	session.context._rng = CombatRng.new(seed)

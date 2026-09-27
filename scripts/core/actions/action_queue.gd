@@ -86,6 +86,11 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 			elif accepted is CollisionDamageCommand:
 				reason = &"push/internal_collision"
 			else: reason = accepted.validate(context)
+	if reason == &"" and not AbilityCatalog.attack_references_valid(context): reason = &"ability/attack_catalog"
+	if reason == &"" and context.get_state().abilities != null and accepted.get_script() in [AttackCommand, MoveCommand, GuardCommand, RestoreArmorCommand, RaiseCorpseCommand, ElementalCastCommand, UseHealingItemCommand, UseSummoningItemCommand, MageCastCommand]:
+		var descriptor := accepted.get_ability_definition(context)
+		var registered := context.get_state().abilities.definition(descriptor.ability_id) if descriptor != null else null
+		if descriptor == null or registered == null or descriptor.to_dict() != registered.to_dict(): reason = &"ability/unregistered_action"
 	if reason == &"" and (context._next_root_id < 1 or context._next_root_id >= MAX_ID or not _can_step(context)):
 		reason = &"sequence_exhausted"
 	if reason != &"":
@@ -102,6 +107,13 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 		for unit in context.get_state().get_board().get_all_units():
 			_attack_stances.append({"unit": unit, "expected": false if unit.id == attacker else unit.guard_stance})
 	_pending.append({"command": accepted, "parent_event_seq": 0, "depth": 0})
+	var ability_ref := context.get_state().abilities
+	var ability_definitions: Array = ability_ref.catalog.duplicate() if ability_ref != null else []
+	var ability_expected: Dictionary = ability_ref.to_dict() if ability_ref != null else {}
+	if accepted is MageCastCommand: ability_expected = (accepted as MageCastCommand).projected_after(context)
+	if accepted is AbilityBoundaryCommand: ability_expected = (accepted as AbilityBoundaryCommand).projected_after(context)
+	var ability_check := func() -> bool:
+		return context.get_state().abilities == ability_ref and (ability_ref == null or (ability_ref.catalog == ability_definitions and ability_ref.to_dict() == ability_expected))
 	var armor_finish_scheduled := false
 	# Единственный ответ принадлежит корневой добровольной атаке, не её событиям.
 	var counter_considered := false
@@ -117,6 +129,7 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 			_fault(receipt, context, &"sequence_exhausted")
 			break
 		_execute_entry(entry, receipt, context)
+		if receipt.status != &"FAULTED" and not ability_check.call(): _fault(receipt, context, &"ability/checkpoint")
 		if _pending.is_empty() and receipt.status == &"APPLIED" and _defer_item_reactions:
 			# Сначала spatial и состояния исходного hit, затем optional реакции предметов.
 			_defer_item_reactions = false
@@ -139,10 +152,20 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 			for unit: UnitState in units:
 				if unit.armor != null and unit.armor.in_battle:
 					_pending.append({"command": ArmorEndBattleCommand.new(unit.id), "parent_event_seq": 0, "depth": 0})
+	if receipt.status in [&"APPLIED", &"INTERRUPTED"] and ability_ref != null and BattleAbilityState.battle_over(context.get_state()):
+		if not ability_check.call(): _fault(receipt, context, &"ability/checkpoint")
+		else:
+			ability_expected["stage"] = "terminal"; ability_expected["mage_allowed"] = false
+			ability_ref.apply_values(ability_expected)
+			context._bump_revision()
 	receipt.revision_after = context.get_revision()
 	_pending.clear()
 	# Публикация только завершённого prefix; sink не участвует в вычислении реакций.
-	for event in receipt._events: context.get_sink().publish(event.duplicate(true))
+	for event in receipt._events:
+		context.get_sink().publish(event.duplicate(true))
+		if receipt.status != &"FAULTED" and not ability_check.call():
+			_fault(receipt, context, &"ability/checkpoint")
+			break
 	_processed_event_seq.clear()
 	_reaction_keys.clear()
 	_dispatch_reason = &""
@@ -305,6 +328,7 @@ func _bind_batch(descriptions: Array[Dictionary], event_seq: int, context: Actio
 	return result
 
 static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bool:
+	if draft.get("kind") == &"mage_cast": return MageCastCommand.valid_draft(draft)
 	if draft.get("kind") == &"chain_link": return PushChainCommand.valid_draft(draft)
 	if draft.get("kind") in [&"environment_turn", &"support_collapsed"]: return CollapsePhaseCommand.valid_draft(draft)
 	if draft.get("kind") == &"reaction_used":
@@ -404,6 +428,7 @@ static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bo
 		if not is_finite(draft[key]) or draft[key] < 0.0: return false
 	if draft["kind"] == &"died" and draft["amount"] != 0.0: return false
 	var source: Dictionary = draft["source"]
+	if source.get("kind") == &"mage" and not DamageSource.valid_mage(source): return false
 	if not ItemSimulationSnapshot._shape(source, {"kind": TYPE_STRING_NAME, "source_instance_id": TYPE_INT, "origin_cell": TYPE_VECTOR2I, "instigator_unit_id": TYPE_INT, "credit_unit_id": TYPE_INT}): return false
 	if source["kind"] not in DamageSource.KINDS or source["instigator_unit_id"] != draft["actor_unit_id"]: return false
 	for key: String in ["source_instance_id", "instigator_unit_id", "credit_unit_id"]:
@@ -449,7 +474,7 @@ static func _event_capacity(command: Command) -> int:
 	if command is PushChainCommand: return 9
 	if command is AttackCommand and (command as AttackCommand).is_reaction(): return 3
 	if command is PushCommand and (command as PushCommand)._binding != null and (command as PushCommand)._binding.target != null and (command as PushCommand)._binding.target.control != null: return 4
-	if command is ElementalCastCommand: return 7
+	if command is ElementalCastCommand or command is MageCastCommand: return 7
 	if command is ElementalTickCommand: return 5
 	if command is BleedingMovementCommand: return 4
 	if command is EnvironmentCommand: return 4
@@ -521,6 +546,7 @@ static func _valid_armor_draft(draft: Dictionary) -> bool:
 	else: fields.merge({"hit_id": TYPE_STRING, "hit": TYPE_DICTIONARY})
 	if not ItemSimulationSnapshot._shape(draft, fields) or draft["target_unit_id"] < 1 or draft["target_unit_id"] >= MAX_ID: return false
 	var source: Dictionary = draft["source"]
+	if source.get("kind") == &"mage" and not DamageSource.valid_mage(source): return false
 	if not ItemSimulationSnapshot._shape(source, {"kind": TYPE_STRING_NAME, "source_instance_id": TYPE_INT, "origin_cell": TYPE_VECTOR2I, "instigator_unit_id": TYPE_INT, "credit_unit_id": TYPE_INT}) or source["kind"] not in DamageSource.KINDS or source["instigator_unit_id"] != draft["actor_unit_id"]: return false
 	for key: String in ["source_instance_id", "instigator_unit_id", "credit_unit_id"]:
 		if source[key] < 0 or source[key] >= MAX_ID: return false

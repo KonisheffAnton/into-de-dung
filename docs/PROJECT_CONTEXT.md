@@ -24,7 +24,7 @@
 | Выделенный расчёт атаки D1/M2a | [ATTACK_DAMAGE_D1](ATTACK_DAMAGE_D1.md) |
 | Реализованная броня и типы D2 | [ARMOR_DAMAGE_D2](ARMOR_DAMAGE_D2.md) |
 | Эффекты K17 / legacy D3 | [K17](STATUS_EFFECTS_NEXT.md) / [D3](BLEEDING_D3.md) |
-| Маг / откаты — контракт K18 | [K18](MAGE_COOLDOWNS_K18.md) |
+| Маг / откаты K18 | [K18](MAGE_COOLDOWNS_K18.md) |
 | Подготовка, вещи, сохранение забега D4 | [EXPEDITION_D4](EXPEDITION_D4.md) |
 | Шипы, тела, поднятие D5 | [ENVIRONMENT_D5](ENVIRONMENT_D5.md) |
 | Шаблон помощника, снимки M1 | [SUMMON_DEFINITION_M1](SUMMON_DEFINITION_M1.md) |

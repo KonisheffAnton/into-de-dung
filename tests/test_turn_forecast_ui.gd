@@ -67,6 +67,8 @@ func button_center() -> Vector2:
 
 func enter_player_turn(target: BattleDemo) -> void:
 	var session := target.session as BattleCoreReactionsSession
+	# Старый fixture проверяет прежний срез без capability K18.
+	session.state.abilities = null
 	session.phase = BattleTacticalSession.Phase.PLAYER_TURN
 	session.selected_id = session.units[0].id
 	target._refresh()

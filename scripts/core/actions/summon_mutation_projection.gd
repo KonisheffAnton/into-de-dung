@@ -8,7 +8,7 @@ static func expected(before: ItemSimulationSnapshot, helper: UnitState, actor_id
 	if before == null or helper == null or main_cost <= 0:
 		return ItemSimulationSnapshot._failure("summon/projection")
 	var data := before.to_dict()
-	if data.get("schema_version") not in [3, 4, 5, 6]: return ItemSimulationSnapshot._failure("summon/projection")
+	if data.get("schema_version") not in [3, 4, 5, 6, 7]: return ItemSimulationSnapshot._failure("summon/projection")
 	var unit := helper.to_snapshot_dict()
 	if unit.is_empty(): return ItemSimulationSnapshot._failure("summon/projection")
 	unit["height"] = height

@@ -52,6 +52,7 @@ static func prepare(session: BattleCoreReactionsSession) -> Prepared:
 		return Prepared.rejected(&"BUSY")
 	if session.context.is_faulted() or session._queue._faulted:
 		return Prepared.rejected(&"CONTEXT_FAULTED")
+	if not AbilityCatalog.attack_references_valid(session.context): return Prepared.rejected(&"ability/attack_catalog")
 	# Проверка графа отклоняет callbacks и неизвестные runtime до копирования.
 	if not BattleExecutionWorker.can_transfer(session):
 		return Prepared.rejected(&"turn/unsupported_runtime")

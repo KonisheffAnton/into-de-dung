@@ -11,6 +11,13 @@ class_name ItemDef
 @export var max_charges: int = 0
 @export var armor_max: int = 0
 @export var armor_resistances: Dictionary = {"physical": 0, "fire": 0}
+@export var cooldown_turns: int = 0
+
+func get_ability_definition(kind: StringName) -> AbilityDefinition:
+	if cooldown_turns != 0 or id == &"": return null
+	var result := AbilityDefinition.new()
+	result.ability_id = StringName("item_use:%s:%s" % [String(id), String(kind)])
+	return result
 
 func summon_definition_valid() -> bool:
 	return summon_definition == null or (use_summon and SummonDefinition.valid_definition(summon_definition))

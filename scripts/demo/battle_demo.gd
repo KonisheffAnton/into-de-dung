@@ -76,6 +76,10 @@ var _raise_forecast_cell := Vector2i(-1, -1)
 var _raise_forecast_actor: int = UnitId.NONE
 var _raise_forecast_revision: int = -1
 var _armor_forecast: ForecastSimulation
+var _mage_row: HBoxContainer
+var _mage_label: Label
+var _mage_fire: Button
+var _mage_heal: Button
 var _elemental_forecast: ForecastSimulation
 var _armor_forecast_actor: int = UnitId.NONE
 var _armor_forecast_revision: int = -1
@@ -187,6 +191,7 @@ func _process(delta: float) -> void:
 	if is_execution_pending():
 		_poll_execution()
 		return
+	_refresh_mage()
 	_process_move_forecast()
 	_process_attack_forecast()
 	_process_action_forecast()
@@ -278,6 +283,17 @@ func _build_ui() -> void:
 	_environment_button.focus_mode = Control.FOCUS_NONE
 	_environment_button.pressed.connect(_request_environment_forecast)
 	_phase_row.add_child(_environment_button)
+	_mage_row = HBoxContainer.new()
+	_mage_label = _label("", 14, Color("65dfcc"))
+	_phase_row.add_child(_mage_label)
+	_mage_fire = _button("Маг · Огонь 4 / 2 маны")
+	_mage_fire.name = "MageFireButton"
+	_mage_fire.pressed.connect(_choose_elemental.bind(&"mage.fire"))
+	_mage_row.add_child(_mage_fire)
+	_mage_heal = _button("Маг · Лечение 4 / 3 маны")
+	_mage_heal.name = "MageHealButton"
+	_mage_heal.pressed.connect(_choose_elemental.bind(&"mage.heal"))
+	_mage_row.add_child(_mage_heal)
 	var content := HBoxContainer.new()
 	content.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_theme_constant_override("separation", 24)
@@ -309,6 +325,7 @@ func _build_ui() -> void:
 	combination_button.focus_mode = Control.FOCUS_NONE
 	combination_button.pressed.connect(_open_core_combination_scenario)
 	toolbar.add_child(combination_button)
+	left.add_child(_mage_row)
 	board_view = BattleDemoBoard.new()
 	board_view.session = session
 	board_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -555,9 +572,11 @@ func handle_cell(cell: Vector2i) -> void:
 		return
 	if session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).elemental_selected != &"":
 		if occupant == null:
-			_status.text = "Выберите живую цель в пределах трёх клеток."
+			_status.text = "Выберите допустимую живую цель."
 			return
-		_execute_live(&"cast_unit", [occupant.id], true)
+		var spell := (session as BattleCoreReactionsSession).elemental_selected
+		if spell in [&"mage.fire", &"mage.heal"]: _execute_live(&"cast_mage_spell", [spell, occupant.id], true)
+		else: _execute_live(&"cast_unit", [occupant.id], true)
 	elif summoning_mode:
 		_execute_live(&"use_summoning_item", [cell], true)
 	elif raising_mode and session is BattleEnvironmentSession:
@@ -658,7 +677,27 @@ func end_turn() -> void:
 		return
 	_execute_live(&"end_player_turn")
 
+func _refresh_mage() -> void:
+	if not is_execution_pending() and _mage_row != null:
+		var mage_session := session as BattleCoreReactionsSession
+		_mage_row.visible = mage_session != null and mage_session.state.abilities != null
+		_mage_label.visible = _mage_row.visible
+		if board_view != null: board_view.custom_minimum_size.y = 476.0 if _mage_row.visible else 520.0
+		if _mage_row.visible:
+			var ability := mage_session.state.abilities
+			var fire_definition := ability.definition(&"mage.fire")
+			var heal_definition := ability.definition(&"mage.heal")
+			if fire_definition == null or heal_definition == null:
+				_mage_label.text = "Маг · каталог способностей недоступен"
+				_mage_fire.disabled = true
+				_mage_heal.disabled = true
+				return
+			_mage_label.text = "Маг · мана %d/%d · длительность: огонь %d, лечение %d · осталось: огонь %d, лечение %d" % [ability.mana, ability.maximum, fire_definition.cooldown_turns, heal_definition.cooldown_turns, ability.remaining(&"mage.fire"), ability.remaining(&"mage.heal")]
+			_mage_fire.disabled = mage_session.mage_reason(&"mage.fire") != &""
+			_mage_heal.disabled = mage_session.mage_reason(&"mage.heal") != &""
+
 func _refresh() -> void:
+	_refresh_mage()
 	if is_execution_pending(): return
 	# Любой refresh перечитывает состояние, включая изменения вне command revision.
 	var refresh_turn := (_turn_forecast != null or _turn_forecast_pending) and (_over_end_turn_button() or _forecast_reading_region().has_point(_pointer_position))
@@ -705,6 +744,7 @@ func _refresh() -> void:
 		_instructions.text = "Оглушающий удар: выберите цель · 1 основное · Оглушение после физического HP-урона · A: обычная атака"
 	if session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).elemental_selected != &"":
 		_instructions.text = "%s: выберите живую цель в пределах трёх клеток · 1 основное · Esc — отмена" % _elemental_effect_label((session as BattleCoreReactionsSession).elemental_selected)
+		if (session as BattleCoreReactionsSession).elemental_selected in [&"mage.fire", &"mage.heal"]: _instructions.text = "Маг: выберите цель на доске · отдельная мана · Esc — отмена"
 	var locked := _battle != null and not _battle.can_player_act()
 	_move_button.disabled = locked
 	if session.selected_unit() != null and ControlRules.action_reason(session.selected_unit(), true) != &"": _move_button.disabled = true
@@ -1173,11 +1213,11 @@ func _request_action_forecast(kind: StringName, cell: Vector2i = Vector2i(-1, -1
 	_render_forecast_panel()
 
 func _elemental_cast_cache(actor: UnitState, target: UnitState, effect: StringName) -> Dictionary:
-	if actor == null or target == null: return {}
+	if target == null or (actor == null and effect not in [&"mage.fire", &"mage.heal"]): return {}
 	# Равные totals/revision не означают равные вещи, перки, RNG и последствия.
 	var captured := ItemSimulationSnapshot.capture(session.state, session.context.get_unsupported_runtime_ids())
 	return {
-		"session_id": session.get_instance_id(), "actor_id": actor.id, "effect": effect,
+		"session_id": session.get_instance_id(), "actor_id": actor.id if actor != null else 0, "effect": effect,
 		"target_id": target.id, "world": captured.snapshot.to_dict() if captured.snapshot != null else {},
 		"capture_reason": captured.reason, "rng": session.context.get_rng().to_dict().duplicate(true),
 		"counters": session.context.simulation_counters(), "admission": SummonAdmission.values(session.context),
@@ -1870,6 +1910,8 @@ func _event_text(event: Dictionary) -> String:
 			var reason: StringName = event.get("reason", &"")
 			var label := "Тик горения" if reason == &"burn_tick" else ("Истечение статусов" if reason == &"turn_end" else _elemental_effect_label(reason))
 			return "%s: %s — %s." % [target, label, _elemental_summary(after)]
+		&"mage_cast":
+			return "Маг: %s → %s; мана %d → %d; откат %d." % [_elemental_effect_label(StringName(event.spell_id)), target, event.mana_before, event.mana_after, event.cooldown_after]
 		&"elemental_cast":
 			return "%s применяет «%s» к %s; основные действия %d → %d." % [actor, _elemental_effect_label(event.get("effect", &"")), target, int(event.get("main_before", 0)), int(event.get("main_after", 0))]
 		&"attacked":
@@ -1914,7 +1956,7 @@ func _event_text(event: Dictionary) -> String:
 			return "%s: −%.1f HP%s." % [target, float(event.get("amount", 0)), cause]
 		&"healed":
 			var heal_source: StringName = event.get("source", {}).get("kind", &"")
-			var heal_cause := " от сопротивления урону шипов" if heal_source == &"cell" else (" от сопротивления" if heal_source in [&"attack", &"collision", &"fall"] or (bleeding_mode and heal_source == &"status") else " от предмета")
+			var heal_cause := " от сопротивления урону шипов" if heal_source == &"cell" else (" от сопротивления" if heal_source in [&"attack", &"collision", &"fall"] or (bleeding_mode and heal_source == &"status") else " от мага" if heal_source == &"mage" else " от предмета")
 			return "%s: +%.1f HP%s." % [target, float(event.get("amount", 0)), heal_cause]
 		&"armor_changed": return "%s: запас брони изменился." % target
 		&"hit_resolved": return "%s: попадание завершено, HP %d → %d%s." % [target, event["hit"]["hp_before"], event["hit"]["hp_after"], " · добивание замороженной цели" if event["hit"].get("shattered", false) else ""]
@@ -1945,6 +1987,12 @@ func _cell_name(cell: Vector2i) -> String:
 	return String.chr(65 + cell.x) + str(cell.y + 1)
 
 func _reason_text(reason: StringName) -> String:
+	match reason:
+		&"mage/cooldown": return "Заклинание восстанавливается до конца следующих своих ходов."
+		&"mage/insufficient_mana": return "Недостаточно маны мага."
+		&"mage/full_hp": return "Для лечения нужен раненый живой союзник."
+		&"mage/invalid_target": return "Огонь — по живому противнику; лечение — по живому союзнику."
+		&"mage/window_closed", &"mage/terminal": return "Маг действует между завершёнными действиями вашего хода."
 	match reason:
 		&"perks/stunning_strike_required": return "этот персонаж не владеет Оглушающим ударом."
 		&"perks/not_owned": return "этот персонаж не владеет выбранным режимом реакции."
@@ -2135,6 +2183,15 @@ func _render_elemental_forecast_panel() -> void:
 	if _elemental_forecast.status != ActionReceipt.APPLIED:
 		_forecast_panel.text = text + "Прогноз недоступен: " + _reason_text(_elemental_forecast.reason)
 		return
+	if _action_forecast_effect in [&"mage.fire", &"mage.heal"]:
+		text = "[font_size=16]%s → %s · вся доска[/font_size]\n" % [_elemental_effect_label(_action_forecast_effect), _name_for(_action_forecast_target_id)]
+		var before_abilities := BattleAbilityState.from_dict(_elemental_forecast.snapshot_before.get("abilities", {}))
+		var after_abilities := BattleAbilityState.from_dict(_elemental_forecast.snapshot_after.get("abilities", {}))
+		var spell_definition: AbilityDefinition = before_abilities.definition(_action_forecast_effect) if before_abilities != null else null
+		if before_abilities == null or after_abilities == null or spell_definition == null:
+			_forecast_panel.text = text + "Прогноз недоступен: данные отката повреждены."
+			return
+		text += "Мана %d → %d · откат: длительность %d ходов, после действия осталось %d\n" % [before_abilities.mana, after_abilities.mana, spell_definition.cooldown_turns, after_abilities.remaining(_action_forecast_effect)]
 	var actor_before: Dictionary = _elemental_forecast.units_before.get(_action_forecast_actor, {})
 	var actor_after: Dictionary = _elemental_forecast.units_after.get(_action_forecast_actor, {})
 	if not actor_before.is_empty() and not actor_after.is_empty():
@@ -2153,6 +2210,8 @@ func _render_elemental_forecast_panel() -> void:
 	_forecast_panel.text = text
 
 func _elemental_effect_label(effect: StringName) -> String:
+	if effect == &"mage.fire": return "Огненный импульс"
+	if effect == &"mage.heal": return "Лечение мага"
 	match effect:
 		&"burning": return "Поджечь"
 		&"wet": return "Облить"
