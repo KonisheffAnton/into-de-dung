@@ -63,5 +63,5 @@ Runner: `test_safe_retreat.gd`, `test_safe_retreat_integration.gd`,
 `test_safe_retreat_ui.gd`; включены в full/render
 launcher. Проверяются цена, перехват/несколько противников, транзит, ограничения,
 среда/прерывание/FAULTED, helpers, copy, preview/live/worker, настоящий ввод,
-инвалидация и PNG. Свидетельства — HISTORY и отчёт этапа; общая ручная приёмка
-остаётся открытой, отдельный микроплейтест не требуется.
+инвалидация и PNG. Свидетельства — HISTORY и отчёт этапа; текущие границы
+общей приёмки — [CORE_READINESS](CORE_READINESS.md#статус-приёмки), отдельный микроплейтест не требуется.
