@@ -225,7 +225,7 @@ static func _fall_for(actor: UnitState, drop: int) -> float:
 static func _armor_fall_plan(context: ActionContext, actor: UnitState, drop: int) -> Dictionary:
 	var maximum := ActionHpExecutor._stat_value(actor, StatTypes.StatType.HP_MAX)
 	var raw := ArmorRuntime.physical(ArmorAttack.fall(maximum, drop, true), "fall")
-	return ArmorRuntime.plan(ArmorRuntime.capture(context.get_state().get_owner(actor.id)), raw, actor.vitals.get_hp(), maximum, context.get_rng())
+	return ElementalRules.shatter(ArmorRuntime.plan(ArmorRuntime.capture(context.get_state().get_owner(actor.id)), raw, actor.vitals.get_hp(), maximum, context.get_rng()), ElementalRules.is_frozen(actor))
 
 func _armor_path_reason(context: ActionContext, actor: UnitState) -> StringName:
 	# До первого шага переносим расход E/a_i и RNG вдоль всей известной цепи падений.
@@ -241,7 +241,7 @@ func _armor_path_reason(context: ActionContext, actor: UnitState) -> StringName:
 		var drop := maxi(0, board.get_height_steps(_path[index - 1]) - board.get_height_steps(_path[index]))
 		if drop <= 2: continue
 		var raw := ArmorRuntime.physical(ArmorAttack.fall(maximum, drop, true), "fall")
-		var plan := ArmorRuntime.plan(simulation["views"][actor.id], raw, simulation["hp"][actor.id], maximum, simulation["rng"])
+		var plan := ElementalRules.shatter(ArmorRuntime.plan(simulation["views"][actor.id], raw, simulation["hp"][actor.id], maximum, simulation["rng"]), ElementalRules.is_frozen(actor))
 		if plan.get("reason", &"") != &"": return plan["reason"]
 		if not ArmorSpatial._advance_rng(simulation, plan): return &"armor/rng_not_cloneable"
 		simulation["views"][actor.id] = plan["after"]

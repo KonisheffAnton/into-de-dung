@@ -8,3 +8,4 @@ class_name CombatPerksDefinition
 @export var stun_immune: bool = false
 @export var entangle_immune: bool = false
 @export var counterattack: bool = false
+@export var burning_bypass_hp_gate: bool = false

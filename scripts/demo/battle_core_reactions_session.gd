@@ -2,6 +2,25 @@ extends BattleCoreCombinationSession
 class_name BattleCoreReactionsSession
 
 var stun_selected: bool = false
+var elemental_selected: StringName = &""
+
+func cast_reason(effect: StringName) -> StringName:
+	if not can_player_act(): return &"battle/input_locked"
+	var actor := selected_unit()
+	if not ElementalRules.valid_unit(actor) or effect not in [&"burning", &"wet", &"freeze"]: return &"status/capability_required"
+	var reason := ControlRules.action_reason(actor)
+	if reason != &"": return reason
+	return &"" if actor.action_resources != null and actor.action_resources.get_main_left() >= 1 else &"status/insufficient_main"
+
+func cast_unit(id: int) -> ActionReceipt:
+	var reason := cast_reason(elemental_selected)
+	if reason != &"": return _reject(reason)
+	return _submit(ElementalCastCommand.new(selected_id, id, elemental_selected, context.get_revision()))
+
+func prepare_cast_forecast(id: int) -> ForecastSimulation.Prepared:
+	var reason := cast_reason(elemental_selected)
+	if reason != &"": return ForecastSimulation.Prepared.rejected(reason)
+	return ForecastSimulation.prepare(context, _queue, ElementalCastCommand.new(selected_id, id, elemental_selected, context.get_revision()))
 
 func _first_team() -> Faction.Type:
 	return Faction.Type.ENEMY
@@ -44,7 +63,14 @@ func _command_for(id: int) -> AttackCommand:
 func reset() -> void:
 	super.reset()
 	state.environment.collapse = {"turn": 0, "marked": []}
+	state.environment.status_effects = true
+	for hazard: Dictionary in state.environment.fires: hazard["effect"] = "bleeding"
+	state.environment.ignite(Vector2i(3, 2), "burning")
+	for unit: UnitState in board.get_all_units():
+		unit.elemental = ElementalState.new()
+		unit.bleeding.stacked = true
 	stun_selected = false
+	elemental_selected = &""
 	for index: int in [0, 1, 2, 3, 4, 5]:
 		var perks := CombatPerksState.new()
 		perks.definition.tank_reactions = index in [0, 1]
@@ -89,6 +115,8 @@ func reset() -> void:
 	flow_log.append("Астра и Страж владеют Оглушающим ударом; Щит защищён от оглушения, Рей — от пут. Способности контроля на второй странице действий.")
 	flow_log.append("Оппортунист/Прикрытие/Контратака на второй странице. Стойка с режимом стоит 1 основное; три режима делят один заряд. Контратака отвечает после полного удара, если враг ещё в досягаемости; стойка сохраняется.")
 	flow_log.append("Порядок раунда: противник → вы → окружение. Окружение случайно отмечает клетку, а отметку прошлого круга обрушает в пропасть. Первый ход окружения только предупреждает; оставшийся на клетке погибает.")
+	flow_log[0] = "Шипы: 8 физического урона и стак кровотечения при входе. Горящая земля D3: поджог при входе и в начале хода, без разового урона. Броня не мешает наложению клеткой."
+	flow_log.append("Кровотечение: 1 за стак в начале хода, 2 за пройденную клетку; новое наложение обновляет 3 тика. Поджог снимает кровотечение; мокрый гасит поджог. Новые действия: Поджечь, Облить, Заморозить — 1 основное, дальность 3.")
 
 func _after_team_end(incoming: Faction.Type) -> bool:
 	if incoming != Faction.Type.ENEMY or state.environment.collapse.is_empty(): return true

@@ -92,6 +92,9 @@ func _new_helper(context: ActionContext, id: int) -> UnitState:
 	if actor.bleeding != null:
 		# Пустое состояние нужно для единообразного боевого runtime без переноса эффекта.
 		unit.bleeding = BleedingState.new()
+	if actor.elemental != null:
+		unit.elemental = ElementalState.new()
+		unit.bleeding.stacked = true
 	return unit
 
 func _apply(context: ActionContext, unit: UnitState, admission: Dictionary) -> void:

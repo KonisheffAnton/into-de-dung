@@ -29,6 +29,7 @@ class Prepared extends RefCounted:
 	var rune_selected: bool = false
 	var entangle_selected: bool = false
 	var stun_selected: bool = false
+	var elemental_selected: StringName = &""
 	var deployment_enabled: bool = false
 	var setup_revision: int = -1
 	var enemy_ids: Array[int] = []
@@ -78,6 +79,7 @@ static func prepare(session: BattleCoreReactionsSession) -> Prepared:
 	prepared.rune_selected = session.rune_selected
 	prepared.entangle_selected = session.entangle_selected
 	prepared.stun_selected = session.stun_selected
+	prepared.elemental_selected = session.elemental_selected
 	prepared.deployment_enabled = session.deployment_enabled
 	prepared.setup_revision = session._setup_revision
 	prepared.enemy_ids = session._enemy_ids.duplicate()
@@ -111,6 +113,7 @@ static func run_prepared(prepared: Prepared) -> TurnForecast:
 	simulation.rune_selected = prepared.rune_selected
 	simulation.entangle_selected = prepared.entangle_selected
 	simulation.stun_selected = prepared.stun_selected
+	simulation.elemental_selected = prepared.elemental_selected
 	simulation.deployment_enabled = prepared.deployment_enabled
 	simulation._setup_revision = prepared.setup_revision
 	simulation._enemy_ids = prepared.enemy_ids.duplicate()

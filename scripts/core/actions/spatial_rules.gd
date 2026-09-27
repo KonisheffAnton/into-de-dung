@@ -122,6 +122,8 @@ class Guard extends RefCounted:
 			if unit.guard_stance != v["guard_stance"]: return false
 			if unit.bleeding != r["bleeding"]: return false
 			if unit.bleeding != null and unit.bleeding.to_dict() != v["bleeding"]: return false
+			if unit.elemental != r["elemental"]: return false
+			if unit.elemental != null and (unit.elemental.get_script() != ElementalState or unit.elemental.to_dict() != v["elemental"]): return false
 			if unit.control != r["control"]: return false
 			if unit.control != null and (unit.control.get_script() != ControlState or unit.control.to_dict() != v["control"]): return false
 			if unit.combat_perks != r["combat_perks"]: return false
@@ -217,6 +219,12 @@ class Guard extends RefCounted:
 		result.seal()
 		return result
 
+	func elemental_phase(id: int, after: Dictionary) -> Guard:
+		var result := copy()
+		result.values["participants"][id]["elemental"] = after.duplicate(true)
+		result.seal()
+		return result
+
 	func control_phase(id: int, after: Dictionary) -> Guard:
 		var result := copy()
 		result.values["participants"][id]["control"] = after.duplicate(true)
@@ -297,6 +305,9 @@ static func capture_guard(context: ActionContext, units: Array[UnitState], cells
 		guard.refs["participants"][unit.id]["bleeding"] = unit.bleeding
 		guard.values["participants"][unit.id]["bleeding"] = unit.bleeding.to_dict() if unit.bleeding != null else {}
 		if unit.bleeding != null and (unit.bleeding.get_script() != BleedingState or not BleedingState.valid(unit.bleeding.to_dict())): return null
+		guard.refs["participants"][unit.id]["elemental"] = unit.elemental
+		guard.values["participants"][unit.id]["elemental"] = unit.elemental.to_dict() if unit.elemental != null else {}
+		if unit.elemental != null and not ElementalRules.valid_unit(unit): return null
 		guard.refs["participants"][unit.id]["control"] = unit.control
 		guard.refs["participants"][unit.id]["combat_perks"] = unit.combat_perks
 		guard.refs["participants"][unit.id]["perk_definition"] = unit.combat_perks.definition if unit.combat_perks != null else null

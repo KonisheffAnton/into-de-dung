@@ -9,6 +9,9 @@
 через `retreat_to(Vector2i)`; новый объект runtime для него не требуется.
 Ход окружения [K15](ENVIRONMENT_COLLAPSE_K15.md) входит в `end_player_turn`
 того же worker; опубликованная проекция Board хранит также копию опасной отметки.
+K17 передаёт `cast_unit(int)` тем же способом. ElementalState входит в проверенный
+граф, выбранный эффект — scalar StringName; UI публикует значения новых статусов
+и вид опасности после join. Правила пакета — [STATUS_EFFECTS_NEXT](STATUS_EFFECTS_NEXT.md).
 
 ## Передача владения
 

@@ -62,6 +62,10 @@ var _action_forecast_cell := Vector2i(-1, -1)
 var _action_forecast_generation: int = 0
 var _action_forecast_job_generation: int = -1
 var _action_forecast_corpse_id: int = 0
+var _action_forecast_session_id: int = 0
+var _action_forecast_target_id: int = UnitId.NONE
+var _action_forecast_effect: StringName = &""
+var _action_forecast_cache: Dictionary = {}
 var _action_forecast_worker := preload("res://scripts/demo/action_forecast_worker.gd").new()
 var _item_forecast: ItemUseForecast
 var _item_forecast_kind: StringName = &""
@@ -72,6 +76,7 @@ var _raise_forecast_cell := Vector2i(-1, -1)
 var _raise_forecast_actor: int = UnitId.NONE
 var _raise_forecast_revision: int = -1
 var _armor_forecast: ForecastSimulation
+var _elemental_forecast: ForecastSimulation
 var _armor_forecast_actor: int = UnitId.NONE
 var _armor_forecast_revision: int = -1
 var _guard_forecast: GuardForecast
@@ -405,6 +410,7 @@ func _clear_action_mode() -> void:
 	if session is BattleBleedingSession: (session as BattleBleedingSession).rune_selected = false
 	if session is BattleCoreCombinationSession: (session as BattleCoreCombinationSession).entangle_selected = false
 	if session is BattleCoreReactionsSession: (session as BattleCoreReactionsSession).stun_selected = false
+	if session is BattleCoreReactionsSession: (session as BattleCoreReactionsSession).elemental_selected = &""
 	summoning_mode = false
 	raising_mode = false
 	retreat_mode = false
@@ -413,6 +419,17 @@ func _clear_action_mode() -> void:
 	_clear_forecast()
 	# Режим действия закрывает осмотр, чтобы подсветка не смешивалась с целью атаки.
 	inspected_id = UnitId.NONE
+
+func _choose_elemental(effect: StringName) -> void:
+	if is_execution_pending() or not session is BattleCoreReactionsSession: return
+	var reaction_session := session as BattleCoreReactionsSession
+	var reason := reaction_session.cast_reason(effect)
+	if reason != &"":
+		_status.text = _reason_text(reason)
+		return
+	_clear_action_mode()
+	reaction_session.elemental_selected = effect
+	_refresh()
 
 func _action_bar_requested(action_id: StringName) -> void:
 	if is_execution_pending(): return
@@ -428,6 +445,9 @@ func _action_bar_requested(action_id: StringName) -> void:
 			if session is BattleCoreReactionsSession:
 				(session as BattleCoreReactionsSession).stun_selected = true
 				_refresh()
+		&"elemental_burning": _choose_elemental(&"burning")
+		&"elemental_wet": _choose_elemental(&"wet")
+		&"elemental_freeze": _choose_elemental(&"freeze")
 		&"blood_rune":
 			set_attack_mode(true)
 			if session is BattleBleedingSession:
@@ -533,7 +553,12 @@ func handle_cell(cell: Vector2i) -> void:
 		else:
 			_status.text = "Выберите подсвеченного союзника для Прикрытия или нажмите Esc."
 		return
-	if summoning_mode:
+	if session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).elemental_selected != &"":
+		if occupant == null:
+			_status.text = "Выберите живую цель в пределах трёх клеток."
+			return
+		_execute_live(&"cast_unit", [occupant.id], true)
+	elif summoning_mode:
 		_execute_live(&"use_summoning_item", [cell], true)
 	elif raising_mode and session is BattleEnvironmentSession:
 		_execute_live(&"raise_corpse", [cell], true)
@@ -678,6 +703,8 @@ func _refresh() -> void:
 			_instructions.text = "Опутывающий удар: выберите цель · 1 основное · Путы после физического HP-урона · A: обычная атака"
 	if session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).stun_selected:
 		_instructions.text = "Оглушающий удар: выберите цель · 1 основное · Оглушение после физического HP-урона · A: обычная атака"
+	if session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).elemental_selected != &"":
+		_instructions.text = "%s: выберите живую цель в пределах трёх клеток · 1 основное · Esc — отмена" % _elemental_effect_label((session as BattleCoreReactionsSession).elemental_selected)
 	var locked := _battle != null and not _battle.can_player_act()
 	_move_button.disabled = locked
 	if session.selected_unit() != null and ControlRules.action_reason(session.selected_unit(), true) != &"": _move_button.disabled = true
@@ -699,7 +726,7 @@ func _refresh() -> void:
 			var reason := _battle.summoning_hint_reason()
 			descriptors.append(_item_action_descriptor(seal, &"summoning_item", reason))
 		if session is BattleBleedingSession:
-			descriptors.append({"action_id": &"blood_rune", "label": "Кровавая руна", "cost": "Перк · 1 основное", "disabled": locked or session.selected_unit() == null or not session.selected_unit().can_attack(), "tooltip": "Перк персонажа «Кровавая руна»: эта атака накладывает кровотечение даже без физического урона HP. Иммунитет сохраняется. Каждое успешное наложение добавляет 2 тика по 4 с учётом естественной защиты."})
+			descriptors.append({"action_id": &"blood_rune", "label": "Кровавая руна", "cost": "Перк · 1 основное", "disabled": locked or session.selected_unit() == null or not session.selected_unit().can_attack(), "tooltip": "Перк персонажа «Кровавая руна»: эта атака накладывает кровотечение даже без физического урона HP. Иммунитет сохраняется. " + ("Добавляет стак урона и обновляет срок до 3 тиков; 1 за стак в начале хода, 2 за клетку, с учётом естественной защиты." if session is BattleCoreReactionsSession else "Каждое успешное наложение добавляет 2 тика по 4 с учётом естественной защиты.")})
 		if environment_mode and session is BattleEnvironmentSession:
 			var raise_reason := (session as BattleEnvironmentSession).raise_hint_reason()
 			descriptors.append({"action_id": &"raise_corpse", "label": "Поднять тело", "cost": "1 основное", "disabled": locked or raise_reason != &"", "tooltip": "Выберите соседнюю свободную клетку без шипов той же высоты. Помощник: 16 HP, действует со следующего хода команды.\n" + (_reason_text(raise_reason) if raise_reason != &"" else "Тело расходуется после успешного поднятия.")})
@@ -722,10 +749,19 @@ func _refresh() -> void:
 		if session is BattleCoreReactionsSession and MeleeThreat.has_counterattack(session.selected_unit()):
 			var counter_reason := (session as BattleCoreReactionsSession).reaction_reason(CombatPerksState.Mode.COUNTERATTACK)
 			if locked: counter_reason = &"battle/input_locked"
-			descriptors.append({"action_id": &"counterattack_guard", "label": "Контратака", "cost": "Перк · 1 основное", "disabled": counter_reason != &"", "tooltip": "Охранная стойка сохраняется. После прямого ближнего удара по вам последует один ответный удар без крита и толчка; расходуется общий заряд реакции.\n" + (_reason_text(counter_reason) if counter_reason != &"" else "Наведение показывает полный прогноз стойки. Клик включает режим за 1 основное действие.")})
+			descriptors.append({"action_id": &"counterattack_guard", "label": "Контратака", "cost": "Перк · 1 основное", "disabled": counter_reason != &"", "tooltip": "Охранная стойка сохраняется. После прямого ближнего удара по вам последует один ответный удар без толчка; по замороженной цели — крит. Расходуется общий заряд реакции.\n" + (_reason_text(counter_reason) if counter_reason != &"" else "Наведение показывает полный прогноз стойки. Клик включает режим за 1 основное действие.")})
 		if session is BattleCoreReactionsSession:
 			var retreat_reason := (session as BattleCoreReactionsSession).retreat_reason()
 			descriptors.append({"action_id": &"safe_retreat", "label": "Безопасный отход", "cost": "1 основное + движение", "disabled": locked or retreat_reason != &"", "tooltip": "Один маршрут без перехвата Оппортунистом. Контроль и опасности сохраняются. Основное списывается с первым сегментом, движение — за пройденный путь.\n" + (_reason_text(retreat_reason) if retreat_reason != &"" else "Выберите клетку; наведение покажет последствия.")})
+		# Новые действия дополняют список, сохраняя прежние клавиши и страницы.
+		if session is BattleCoreReactionsSession and session.selected_unit() != null:
+			var reaction_session := session as BattleCoreReactionsSession
+			var burning_rule := "Огонь 4 урона; крит ×2 по замороженной цели. Без толчка. Требуется положительный огненный урон HP."
+			if session.selected_unit().combat_perks != null and session.selected_unit().combat_perks.definition.burning_bypass_hp_gate:
+				burning_rule = "Огонь 4 урона; крит ×2 по замороженной цели. Без толчка. Перк позволяет наложить горение без положительного огненного урона HP."
+			for ability: Array in [[&"elemental_burning", &"burning", "Поджечь", burning_rule], [&"elemental_wet", &"wet", "Облить", "Мокрый на 3 своих хода; снимает горение и защищает от одного наложения горения. Без урона."], [&"elemental_freeze", &"freeze", "Заморозить", "Мокрую цель замораживает только при броне ниже 50% максимума; сухую сначала делает мокрой. Замороженную можно продлить при том же пороге. Без урона."]]:
+				var reason := reaction_session.cast_reason(ability[1])
+				descriptors.append({"action_id": ability[0], "label": ability[2], "cost": "1 основное", "disabled": locked or reason != &"", "tooltip": "Дальность: 3 клетки. " + String(ability[3]) + "\n" + (_reason_text(reason) if reason != &"" else "Клик — выбрать цель; расход после проверки цели.")})
 		_action_bar.set_dynamic_descriptors(descriptors, reset_dynamic_page)
 		_descriptors_session_id = session.get_instance_id()
 		_descriptors_actor = session.selected_id
@@ -748,16 +784,21 @@ func _refresh() -> void:
 	_log_heading.visible = not attack_mode
 	_forecast_panel.visible = attack_mode or _item_forecast != null or _move_forecast != null or _guard_forecast != null or _armor_forecast != null or _raise_forecast != null
 	_forecast_heading.visible = attack_mode or _item_forecast != null or _move_forecast != null or _guard_forecast != null or _armor_forecast != null or _raise_forecast != null
+	var elemental_mode: bool = session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).elemental_selected != &""
+	_forecast_panel.visible = _forecast_panel.visible or elemental_mode or _elemental_forecast != null
+	_forecast_heading.visible = _forecast_panel.visible
 	if locked:
 		summoning_mode = false
 		raising_mode = false
 		retreat_mode = false
 		_cover_guard_mode = false
+		if session is BattleCoreReactionsSession: (session as BattleCoreReactionsSession).elemental_selected = &""
 	board_view.summoning_mode = summoning_mode
 	board_view.raising_mode = raising_mode
 	board_view.retreat_mode = retreat_mode
 	board_view.environment_mode = environment_mode
 	board_view.attack_mode = attack_mode
+	board_view.elemental_mode = elemental_mode
 	board_view.inspected_id = inspected_id
 	board_view.reaction_zone_cells.clear()
 	board_view.cover_target_ids.clear()
@@ -815,6 +856,8 @@ func _refresh() -> void:
 		if enemy != null:
 			_stats.text = _inspection_text(enemy)
 	_status.text = "Атака: щёлкните по цели. Расход — 1 основное действие." if attack_mode else "Движение: щёлкните по свободной клетке. Персонаж на поле или в списке — выбор."
+	if session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).elemental_selected != &"":
+		_status.text = "%s: наведите курсор на цель для прогноза, щёлкните для применения." % _elemental_effect_label((session as BattleCoreReactionsSession).elemental_selected)
 	if inspected_id != UnitId.NONE:
 		var enemy := session.board.get_unit_by_id(inspected_id)
 		_status.text = "Осмотр: %s · движение на следующий ход: %.1f ОД\nТекущая расстановка; зона движения. Esc или клик по пустой клетке — закрыть." % [enemy.debug_name, enemy.get_stat(StatTypes.StatType.MOVE_RANGE)]
@@ -864,7 +907,8 @@ func _inspection_text(unit: UnitState) -> String:
 	if session is BattleCoreReactionsSession and unit.combat_perks != null:
 		if unit.combat_perks.definition.sneak_attack: control_text += "Перк «Скрытая атака»: +50% физической базы, если цели угрожают минимум двое. Оружие ближнего боя любое.\n"
 		if unit.combat_perks.definition.stunning_strike: control_text += "Перк «Оглушающий удар»: накладывает оглушение после положительного физического урона HP. Без кровотечения.\n"
-		if unit.combat_perks.definition.counterattack: control_text += "Перк «Контратака»: стойка отвечает одним ударом на прямую ближнюю атаку; без крита и толчка. Стойка сохраняется, тратится общий заряд реакции.\n"
+		if unit.combat_perks.definition.burning_bypass_hp_gate: control_text += "Перк «Поджог»: горение накладывается без положительного огненного урона HP.\n"
+		if unit.combat_perks.definition.counterattack: control_text += "Перк «Контратака»: стойка отвечает одним ударом на прямую ближнюю атаку; без толчка, по замороженной цели — крит. Стойка сохраняется, тратится общий заряд реакции.\n"
 		if unit.combat_perks.definition.stun_immune: control_text += "Иммунитет к оглушению: полученный удар и толчок сохраняются.\n"
 		if unit.combat_perks.definition.entangle_immune: control_text += "Иммунитет к путам: полученный удар и толчок сохраняются.\n"
 		if MeleeThreat.has_reactions(unit):
@@ -893,9 +937,19 @@ func _inspection_text(unit: UnitState) -> String:
 		var condition := "Кровотечение: тиков — %d · 4 до защиты" % unit.bleeding.ticks_left
 		if session is BattleBleedingSession and unit.faction == Faction.Type.PLAYER:
 			condition += "\nПерк: Кровавая руна · атака клавишей 5"
-		if unit.bleeding.immune: condition += "\nИммунитет к кровотечению и руне"
+		if unit.bleeding.stacked: condition = "Кровотечение: " + _bleeding_summary(unit.bleeding.to_dict())
+		if unit.bleeding.immune: condition += "\nИммунитет к кровотечению"
 		var first_line := text.find("\n")
 		text = text.insert(first_line + 1, condition + "\n")
+	if unit.elemental != null:
+		var effects: PackedStringArray = []
+		if unit.elemental.burning_stacks > 0: effects.append("Горение: %d ст. · %d тиков · %d огненного урона за тик" % [unit.elemental.burning_stacks, unit.elemental.burning_ticks, unit.elemental.burning_stacks])
+		if unit.elemental.wet_turns > 0: effects.append("Мокрый: %d своих ходов" % unit.elemental.wet_turns)
+		if unit.elemental.frozen_turns > 0: effects.append("Заморожен: %d своих ходов · входящий удар критический" % unit.elemental.frozen_turns)
+		if unit.elemental.freeze_immune: effects.append("Иммунитет к заморозке")
+		if effects.is_empty(): effects.append("Элементальные статусы отсутствуют")
+		var first_line := text.find("\n")
+		text = text.insert(first_line + 1, "\n".join(effects) + "\n")
 	if unit.armor != null:
 		var armor := ArmorRuntime.totals(ArmorRuntime.capture(session.state.get_owner(unit.id)))
 		if not armor.is_empty():
@@ -960,7 +1014,7 @@ func _hover(cell: Vector2i) -> void:
 		_clear_forecast()
 	if (_guard_forecast != null and _guard_forecast_mode != CombatPerksState.Mode.COVER or _armor_forecast != null) and cell.x >= 0: _clear_forecast()
 	# Позволяем перейти к прокрутке длинной цепи, сохранив текущий прогноз.
-	if (_forecast != null or _attack_forecast_pending or _action_forecast_pending or _item_forecast != null or _move_forecast != null or _raise_forecast != null or _guard_forecast != null or _armor_forecast != null) and cell.x < 0:
+	if (_forecast != null or _attack_forecast_pending or _action_forecast_pending or _item_forecast != null or _move_forecast != null or _raise_forecast != null or _guard_forecast != null or _armor_forecast != null or _elemental_forecast != null) and cell.x < 0:
 		# mouse_exited может прийти раньше _input того же движения мыши.
 		_resolve_hover_exit.call_deferred()
 		return
@@ -996,6 +1050,17 @@ func _hover(cell: Vector2i) -> void:
 				_request_action_forecast(&"cover", cell)
 		else:
 			_clear_forecast()
+	elif session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).elemental_selected != &"":
+		var reaction_session := session as BattleCoreReactionsSession
+		var target := session.board.occupant_at(cell) if session.board.is_in_bounds(cell) else null
+		if _battle == null or not _battle.can_player_act() or target == null:
+			_clear_forecast()
+		else:
+			var cache := _elemental_cast_cache(reaction_session.selected_unit(), target, reaction_session.elemental_selected)
+			if _action_forecast_kind != &"elemental" or _action_forecast_target_id != target.id or _action_forecast_revision != session.context.get_revision() or _action_forecast_cache != cache:
+				_clear_forecast()
+				_forecast_panel.get_v_scroll_bar().value = 0.0
+				_request_action_forecast(&"elemental", cell)
 	elif not attack_mode and not summoning_mode and not raising_mode and inspected_id == UnitId.NONE and (_battle == null or _battle.can_player_act()) and session.board.is_in_bounds(cell) and session.board.occupant_at(cell) == null:
 		var revision := session.context.get_revision()
 		if (_move_forecast == null and not _move_forecast_pending) or _move_forecast_cell != cell or _move_forecast_actor != session.selected_id or _move_forecast_revision != revision or _move_forecast_retreat != retreat_mode:
@@ -1038,7 +1103,10 @@ func _hover(cell: Vector2i) -> void:
 			var faction: String = {Faction.Type.PLAYER: "союзник", Faction.Type.ENEMY: "противник", Faction.Type.NEUTRAL: "нейтральный"}[corpse["faction"]]
 			var kind := "гуманоид" if corpse["creature_kind"] == "humanoid" else String(corpse["creature_kind"])
 			details.append("%s · %s" % [faction, kind])
-		var fire := "Шипы: 8 урона при входе." if not environment.fire_at(cell).is_empty() else "Шипов нет."
+		var fire_record: Dictionary = environment.fire_at(cell)
+		var fire := "Опасностей нет."
+		if not fire_record.is_empty():
+			fire = _hazard_summary(fire_record)
 		_hint.text = fire + ("\nТела ×%d: %s" % [details.size(), ", ".join(details)] if not details.is_empty() else "\nТрупов нет.")
 		if environment.collapse.get("marked", []).has(cell):
 			_hint.text = "%s · ОБВАЛ после вашего хода. Клетка станет пропастью; оставшийся здесь погибнет.\n" % _cell_name(cell) + _hint.text
@@ -1058,7 +1126,17 @@ func _hover(cell: Vector2i) -> void:
 	var cost := " · путь: %.1f ОД" % float(reachable[cell]) if reachable.has(cell) else ""
 	_hint.text = "%s · высота %+.1f%s\n%s" % [_cell_name(cell), float(session.board.get_height_steps(cell)) / 2.0, cost, "Осмотр: зона движения на следующий ход, не атаки." if inspected_id != UnitId.NONE else "Прогноз показывает итог движения. Клик — выполнить; кольцо — конечная клетка."]
 	if attack_mode: _hint.text = "Наведите на цель: прогноз одной атаки. Клик — выполнить.\nКрасный сегмент HP — потеря, зелёный — лечение; белая метка — итог."
+	var environment_state: CombatEnvironmentState = session.state.environment if session.state != null else null
+	if environment_state != null:
+		var hazard: Dictionary = environment_state.fire_at(cell)
+		if not hazard.is_empty():
+			_hint.text += "\n" + _hazard_summary(hazard)
 	_render_forecast_panel()
+
+func _hazard_summary(hazard: Dictionary) -> String:
+	if String(hazard.get("effect", "")) == "burning": return "Огонь: поджог при входе и в начале своего хода, независимо от брони."
+	if hazard.has("effect"): return "Шипы: 8 физического урона при входе; кровотечение независимо от брони."
+	return "Шипы: 8 урона при входе."
 
 func _attack_variant() -> StringName:
 	if session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).stun_selected: return &"stun"
@@ -1082,11 +1160,33 @@ func _request_action_forecast(kind: StringName, cell: Vector2i = Vector2i(-1, -1
 	_action_forecast_actor = session.selected_id
 	_action_forecast_revision = session.context.get_revision()
 	_action_forecast_cell = cell
+	_action_forecast_session_id = session.get_instance_id()
+	_action_forecast_target_id = UnitId.NONE
+	_action_forecast_effect = &""
+	_action_forecast_cache = {}
+	if kind == &"elemental" and session is BattleCoreReactionsSession:
+		var reaction_session := session as BattleCoreReactionsSession
+		var target := session.board.occupant_at(cell) if session.board.is_in_bounds(cell) else null
+		_action_forecast_target_id = target.id if target != null else UnitId.NONE
+		_action_forecast_effect = reaction_session.elemental_selected
+		_action_forecast_cache = _elemental_cast_cache(reaction_session.selected_unit(), target, _action_forecast_effect)
 	_render_forecast_panel()
+
+func _elemental_cast_cache(actor: UnitState, target: UnitState, effect: StringName) -> Dictionary:
+	if actor == null or target == null: return {}
+	# Равные totals/revision не означают равные вещи, перки, RNG и последствия.
+	var captured := ItemSimulationSnapshot.capture(session.state, session.context.get_unsupported_runtime_ids())
+	return {
+		"session_id": session.get_instance_id(), "actor_id": actor.id, "effect": effect,
+		"target_id": target.id, "world": captured.snapshot.to_dict() if captured.snapshot != null else {},
+		"capture_reason": captured.reason, "rng": session.context.get_rng().to_dict().duplicate(true),
+		"counters": session.context.simulation_counters(), "admission": SummonAdmission.values(session.context),
+		"limits": [session._queue._max_commands, session._queue._max_events, session._queue._max_depth],
+	}
 
 func _action_forecast_request_current() -> bool:
 	if _battle == null or not _battle.can_player_act() or board_view == null: return false
-	if session.selected_id != _action_forecast_actor or session.context.get_revision() != _action_forecast_revision: return false
+	if session == null or session.get_instance_id() != _action_forecast_session_id or session.selected_id != _action_forecast_actor or session.context.get_revision() != _action_forecast_revision: return false
 	var over_panel := board_view.hover_cell.x < 0 and _forecast_reading_region().has_point(_pointer_position)
 	match _action_forecast_kind:
 		&"healing": return _hovered_bar_action == &"healing_item" or over_panel
@@ -1099,10 +1199,21 @@ func _action_forecast_request_current() -> bool:
 		&"cover":
 			var target := session.board.get_unit_by_id(_guard_forecast_target)
 			return _cover_guard_mode and target != null and target.cell == _action_forecast_cell and (board_view.hover_cell == _action_forecast_cell or over_panel)
+		&"elemental":
+			if not session is BattleCoreReactionsSession: return false
+			var reaction_session := session as BattleCoreReactionsSession
+			var target := session.board.get_unit_by_id(_action_forecast_target_id)
+			if target == null or target.cell != _action_forecast_cell or reaction_session.elemental_selected != _action_forecast_effect or reaction_session.cast_reason(_action_forecast_effect) != &"": return false
+			if _elemental_cast_cache(reaction_session.selected_unit(), target, _action_forecast_effect) != _action_forecast_cache: return false
+			return board_view.hover_cell == _action_forecast_cell or over_panel
 	return false
 
 func _process_action_forecast() -> void:
 	if is_execution_pending(): return
+	# Готовый прогноз тоже устаревает при изменении мира без движения мыши.
+	if _elemental_forecast != null and not _action_forecast_request_current():
+		_clear_forecast()
+		_hover(board_view.hover_cell)
 	var result: ForecastSimulation = _action_forecast_worker.take_finished()
 	if result != null and _action_forecast_pending and _action_forecast_job_generation == _action_forecast_generation:
 		if not _action_forecast_request_current():
@@ -1114,6 +1225,7 @@ func _process_action_forecast() -> void:
 			&"guard", &"opportunity", &"cover", &"counterattack": _guard_forecast = GuardForecast.from_simulation(result, _action_forecast_actor)
 			&"raise": _raise_forecast = RaiseCorpseForecast.from_simulation(result, _action_forecast_actor, _action_forecast_corpse_id)
 			&"armor": _armor_forecast = result
+			&"elemental": _elemental_forecast = result
 		_render_forecast_panel()
 		_refresh_inspection()
 	if not _action_forecast_pending or _action_forecast_worker.is_started(): return
@@ -1127,6 +1239,7 @@ func _process_action_forecast() -> void:
 		&"guard", &"opportunity", &"cover", &"counterattack": prepared = _battle.prepare_guard_forecast(_guard_forecast_mode, _guard_forecast_target)
 		&"raise": prepared = (session as BattleEnvironmentSession).prepare_raise_corpse_forecast(_action_forecast_cell)
 		&"armor": prepared = (session as BattleArmorSession).prepare_restore_armor_forecast()
+		&"elemental": prepared = (session as BattleCoreReactionsSession).prepare_cast_forecast(_action_forecast_target_id)
 	_action_forecast_corpse_id = (prepared.command as RaiseCorpseCommand)._corpse_id if prepared != null and prepared.command is RaiseCorpseCommand else 0
 	_action_forecast_job_generation = _action_forecast_generation
 	_action_forecast_worker.start(prepared)
@@ -1212,7 +1325,7 @@ func _resolve_hover_exit() -> void:
 		_clear_forecast()
 		_refresh_inspection()
 		return
-	if session == null or board_view.hover_cell.x >= 0 or (_forecast == null and not _attack_forecast_pending and not _action_forecast_pending and _item_forecast == null and _move_forecast == null and _raise_forecast == null and _guard_forecast == null and _armor_forecast == null): return
+	if session == null or board_view.hover_cell.x >= 0 or (_forecast == null and not _attack_forecast_pending and not _action_forecast_pending and _item_forecast == null and _move_forecast == null and _raise_forecast == null and _guard_forecast == null and _armor_forecast == null and _elemental_forecast == null): return
 	if _item_forecast_kind == &"healing" and _hovered_bar_action == &"healing_item": return
 	if (_armor_forecast != null or (_action_forecast_pending and _action_forecast_kind == &"armor")) and _hovered_bar_action == &"restore_armor": return
 	if (_guard_forecast != null or (_action_forecast_pending and _action_forecast_kind in [&"guard", &"opportunity", &"counterattack"])) and _hovered_bar_action in [&"guard", &"opportunity_guard", &"counterattack_guard"]: return
@@ -1240,6 +1353,10 @@ func _clear_forecast() -> void:
 	_action_forecast_generation += 1
 	_action_forecast_pending = false
 	_action_forecast_kind = &""
+	_action_forecast_session_id = 0
+	_action_forecast_target_id = UnitId.NONE
+	_action_forecast_effect = &""
+	_action_forecast_cache.clear()
 	var had_forecast := _forecast != null or _attack_forecast_pending or _move_forecast != null or _move_forecast_pending
 	_attack_forecast_generation += 1
 	_attack_forecast_pending = false
@@ -1261,6 +1378,7 @@ func _clear_forecast() -> void:
 	_raise_forecast_actor = UnitId.NONE
 	_raise_forecast_revision = -1
 	_armor_forecast = null
+	_elemental_forecast = null
 	_armor_forecast_actor = UnitId.NONE
 	_armor_forecast_revision = -1
 	_guard_forecast = null
@@ -1301,10 +1419,13 @@ func _render_forecast_panel() -> void:
 		_forecast_heading.text = "ПРОГНОЗ ДЕЙСТВИЯ"
 		_log.visible = false
 		_log_heading.visible = false
-		_forecast_panel.text = "Рассчитываем последствия действия…"
+		_forecast_panel.text = "Рассчитываем последствия для %s…" % _name_for(_action_forecast_target_id) if _action_forecast_kind == &"elemental" else "Рассчитываем последствия действия…"
 		return
 	if _armor_forecast != null:
 		_render_armor_forecast_panel()
+		return
+	if _elemental_forecast != null:
+		_render_elemental_forecast_panel()
 		return
 	if _guard_forecast != null:
 		if _guard_forecast_mode in [CombatPerksState.Mode.OPPORTUNIST, CombatPerksState.Mode.COVER, CombatPerksState.Mode.COUNTERATTACK]: _render_reaction_guard_forecast()
@@ -1351,10 +1472,10 @@ func _render_forecast_panel() -> void:
 			text += "Путы: до конца ближайшего хода команды цели. Движение запрещено; следующий толчок снимает путы.\n"
 		elif step["status"] == &"SKIPPED": text += "Путы не наложены: " + _control_skip_text(step["reason"]) + ".\n"
 	if target_after.has("bleeding"):
-		text += "Кровотечение: %d тика после атаки\n" % target_after["bleeding"]["ticks_left"]
+		text += "Кровотечение после атаки: %s\n" % _bleeding_summary(target_after["bleeding"]) if target_after["bleeding"].has("stacks") else "Кровотечение: %d тика после атаки\n" % target_after["bleeding"]["ticks_left"]
 		for step: Dictionary in _forecast.steps:
 			if step["kind"] == &"bleeding_apply" and step["status"] == &"SKIPPED":
-				text += "Не наложено: " + ("иммунитет" if step["reason"] == &"bleeding/immune" else ("цель погибла" if step["reason"] == &"bleeding/dead_target" else "нет физического HP-урона")) + ".\n"
+				text += "Не наложено: " + _bleeding_skip_text(step["reason"]) + ".\n"
 	for id_variant in units:
 		var id := int(id_variant)
 		var entry: Dictionary = units[id]
@@ -1371,7 +1492,12 @@ func _render_forecast_panel() -> void:
 		if before.has("armor_current"):
 			text += "%s: броня %d → %d / %d\n" % [_name_for(id), before["armor_current"], after["armor_current"], after["armor_max"]]
 		if before.has("bleeding") and (id == _forecast_target_id or before["bleeding"] != after["bleeding"]):
-			text += "%s: кровотечение %d → %d тика\n" % [_name_for(id), before["bleeding"]["ticks_left"], after["bleeding"]["ticks_left"]]
+			if before["bleeding"].has("stacks"):
+				text += "%s: кровотечение %s → %s\n" % [_name_for(id), _bleeding_summary(before["bleeding"]), _bleeding_summary(after["bleeding"])]
+			else:
+				text += "%s: кровотечение %d → %d тика\n" % [_name_for(id), before["bleeding"]["ticks_left"], after["bleeding"]["ticks_left"]]
+		if before.get("elemental", {}) != after.get("elemental", {}):
+			text += "%s: %s → %s\n" % [_name_for(id), _elemental_summary(before.get("elemental", {})), _elemental_summary(after.get("elemental", {}))]
 		if before.has("control") and before["control"] != after["control"]:
 			if before["control"]["entangled_turns"] > after["control"]["entangled_turns"]: text += "%s: путы будут сняты.\n" % _name_for(id)
 			if after["control"]["stunned_turns"] > before["control"]["stunned_turns"]: text += "%s: оглушение будет наложено.\n" % _name_for(id)
@@ -1405,7 +1531,7 @@ func _render_forecast_panel() -> void:
 			text += "Кровотечение: " + ("Перк «Кровавая руна» обходит требование физического HP-урона" if gate["policy"] == &"bypass_hp_gate" else ("есть физический HP-урон до лечения" if gate["eligible"] else "нет физического HP-урона")) + ".\n"
 	for step: Dictionary in _forecast.steps:
 		if step["kind"] != &"bleeding_apply" or step["status"] != &"SKIPPED": continue
-		text += "Кровотечение не наложено: " + ("иммунитет" if step["reason"] == &"bleeding/immune" else ("цель погибла" if step["reason"] == &"bleeding/dead_target" else "нет физического HP-урона")) + ".\n"
+		text += "Кровотечение не наложено: " + _bleeding_skip_text(step["reason"]) + ".\n"
 	if events.is_empty(): text += "Событий последствий нет.\n"
 	else:
 		text += "\n[color=#a5b3c5]Последствия:[/color]\n"
@@ -1734,8 +1860,18 @@ func _event_text(event: Dictionary) -> String:
 	match StringName(event.get("kind", &"")):
 		&"bleeding_changed":
 			var ticks: int = event["after"]["ticks_left"]
+			if event["reason"] == &"burned": return "%s: кровотечение снято горением." % target
+			if event["reason"] == &"tick" and event["after"].has("stacks"): return "%s: тик кровотечения; %s." % [target, "срок истёк" if ticks == 0 else _bleeding_summary(event["after"])]
 			if event["reason"] == &"tick": return "%s: тик кровотечения; %s." % [target, "срок истёк" if ticks == 0 else "осталось тиков: %d" % ticks]
-			return "%s: кровотечение %s — тиков: %d." % [target, "наложено" if event["reason"] == &"applied" else "продлено", ticks]
+			if not event["after"].has("stacks"): return "%s: кровотечение %s — тиков: %d." % [target, "наложено" if event["reason"] == &"applied" else "продлено", ticks]
+			return "%s: кровотечение %s — %s." % [target, "наложено" if event["reason"] == &"applied" else "продлено", _bleeding_summary(event["after"])]
+		&"elemental_changed":
+			var after: Dictionary = event.get("after", {})
+			var reason: StringName = event.get("reason", &"")
+			var label := "Тик горения" if reason == &"burn_tick" else ("Истечение статусов" if reason == &"turn_end" else _elemental_effect_label(reason))
+			return "%s: %s — %s." % [target, label, _elemental_summary(after)]
+		&"elemental_cast":
+			return "%s применяет «%s» к %s; основные действия %d → %d." % [actor, _elemental_effect_label(event.get("effect", &"")), target, int(event.get("main_before", 0)), int(event.get("main_after", 0))]
 		&"attacked":
 			var suffix := ""
 			var modifiers: Dictionary = event.get("modifiers", {})
@@ -1748,7 +1884,7 @@ func _event_text(event: Dictionary) -> String:
 			var mode_name := "Оппортунист" if used_mode == CombatPerksState.Mode.OPPORTUNIST else ("Контратака" if used_mode == CombatPerksState.Mode.COUNTERATTACK else "Прикрытие")
 			return "%s: режим «%s» срабатывает на %s; общий заряд реакции %d → %d." % [actor, mode_name, target, int(event.get("charge_before", 1)), int(event.get("charge_after", 0))]
 		&"opportunity_attacked": return "%s прерывает движение %s атакой Оппортуниста без основного действия; общий заряд реакции потрачен." % [actor, target]
-		&"counterattacked": return "%s контратакует %s без крита и толчка; расходуется общий заряд реакции." % [actor, target]
+		&"counterattacked": return "%s контратакует %s без толчка; расходуется общий заряд реакции." % [actor, target]
 		&"control_changed":
 			if event["reason"] == &"entangled": return "%s: наложены путы до конца ближайшего хода команды цели." % target
 			if event["reason"] == &"refreshed": return "%s: путы сохранены; срок не накапливается." % target
@@ -1774,14 +1910,14 @@ func _event_text(event: Dictionary) -> String:
 		&"corpse_raised": return "%s поднял тело: %s (16 HP), ожидает следующего хода." % [actor, target]
 		&"damaged":
 			var source: Dictionary = event.get("source", {})
-			var cause := " от падения" if source.get("kind", &"") == &"fall" else (" от кровотечения" if bleeding_mode and source.get("kind", &"") == &"status" else (" от шипов (8)" if source.get("kind", &"") == &"cell" else ""))
+			var cause := " от падения" if source.get("kind", &"") == &"fall" else (" от эффекта" if bleeding_mode and source.get("kind", &"") == &"status" else (" от шипов (8)" if source.get("kind", &"") == &"cell" else ""))
 			return "%s: −%.1f HP%s." % [target, float(event.get("amount", 0)), cause]
 		&"healed":
 			var heal_source: StringName = event.get("source", {}).get("kind", &"")
 			var heal_cause := " от сопротивления урону шипов" if heal_source == &"cell" else (" от сопротивления" if heal_source in [&"attack", &"collision", &"fall"] or (bleeding_mode and heal_source == &"status") else " от предмета")
 			return "%s: +%.1f HP%s." % [target, float(event.get("amount", 0)), heal_cause]
 		&"armor_changed": return "%s: запас брони изменился." % target
-		&"hit_resolved": return "%s: попадание завершено, HP %d → %d." % [target, event["hit"]["hp_before"], event["hit"]["hp_after"]]
+		&"hit_resolved": return "%s: попадание завершено, HP %d → %d%s." % [target, event["hit"]["hp_before"], event["hit"]["hp_after"], " · добивание замороженной цели" if event["hit"].get("shattered", false) else ""]
 		&"balance_changed": return "%s: равновесие %.1f / %.1f." % [target, float(event.get("balance_after", 0)), float(event.get("balance_max", 0))]
 		&"balance_broken": return "%s теряет равновесие → толчок." % target
 		&"moved":
@@ -1817,6 +1953,12 @@ func _reason_text(reason: StringName) -> String:
 		&"control/stun_immune": return "цель невосприимчива к оглушению; урон и толчок сохраняются."
 		&"control/entangle_immune": return "цель невосприимчива к путам; урон и толчок сохраняются."
 		&"control/stunned": return "персонаж оглушён и не может выполнять добровольные действия."
+		&"control/frozen": return "персонаж заморожен и не может выполнять добровольные действия."
+		&"status/insufficient_main": return "для этого действия нужно 1 основное действие."
+		&"status/dead_target": return "живой цели больше нет на поле."
+		&"status/not_admitted": return "сейчас этот персонаж не может действовать."
+		&"status/stale_revision": return "состояние боя изменилось; наведите курсор заново."
+		&"status/capability_required": return "эти эффекты доступны в основном бою."
 		&"control/entangled": return "персонаж опутан и не может двигаться; остальные действия доступны."
 		&"control/capability_required": return "эта цель не поддерживает состояния контроля."
 		&"armor/summon_unsupported": return "призыв недоступен в сценарии брони."
@@ -1982,6 +2124,69 @@ func _render_armor_forecast_panel() -> void:
 	text += "Стойка сохраняется. Клик или клавиша 4 — восстановить броню."
 	_forecast_panel.text = text
 
+func _render_elemental_forecast_panel() -> void:
+	if is_execution_pending() or _elemental_forecast == null: return
+	_forecast_panel.visible = true
+	_forecast_heading.visible = true
+	_forecast_heading.text = "ПРОГНОЗ · ЭЛЕМЕНТАЛЬНЫЙ ЭФФЕКТ"
+	_log.visible = false
+	_log_heading.visible = false
+	var text := "[font_size=16][color=#f7c97d]%s → %s · дальность 3[/color][/font_size]\n" % [_elemental_effect_label(_action_forecast_effect), _name_for(_action_forecast_target_id)]
+	if _elemental_forecast.status != ActionReceipt.APPLIED:
+		_forecast_panel.text = text + "Прогноз недоступен: " + _reason_text(_elemental_forecast.reason)
+		return
+	var actor_before: Dictionary = _elemental_forecast.units_before.get(_action_forecast_actor, {})
+	var actor_after: Dictionary = _elemental_forecast.units_after.get(_action_forecast_actor, {})
+	if not actor_before.is_empty() and not actor_after.is_empty():
+		text += "Основные действия: %d → %d\n" % [actor_before.get("main", 0), actor_after.get("main", 0)]
+	var before: Dictionary = _elemental_forecast.units_before.get(_action_forecast_target_id, {})
+	var after: Dictionary = _elemental_forecast.units_after.get(_action_forecast_target_id, {})
+	if not before.is_empty() and not after.is_empty():
+		text += "%s: HP %.1f → %.1f\n" % [_name_for(_action_forecast_target_id), before.get("hp", 0.0), after.get("hp", 0.0)]
+		text += "Элементальные статусы: %s → %s\n" % [_elemental_summary(before.get("elemental", {})), _elemental_summary(after.get("elemental", {}))]
+		text += "Кровотечение: %s → %s\n" % [_bleeding_summary(before.get("bleeding", {})), _bleeding_summary(after.get("bleeding", {}))]
+	if _elemental_forecast.events.is_empty():
+		text += "Событий последствий нет.\n"
+	else:
+		text += "\n[color=#a5b3c5]Последствия:[/color]\n"
+		for event: Dictionary in _elemental_forecast.events: text += "• " + _event_text(event) + "\n"
+	_forecast_panel.text = text
+
+func _elemental_effect_label(effect: StringName) -> String:
+	match effect:
+		&"burning": return "Поджечь"
+		&"wet": return "Облить"
+		&"freeze": return "Заморозить"
+	return "Элементальное действие"
+
+func _elemental_summary(value: Variant) -> String:
+	if typeof(value) != TYPE_DICTIONARY: return "нет"
+	var data: Dictionary = value
+	var parts: PackedStringArray = []
+	if int(data.get("burning_stacks", 0)) > 0: parts.append("горение %d ст. / %d т." % [data["burning_stacks"], data["burning_ticks"]])
+	if int(data.get("wet_turns", 0)) > 0: parts.append("мокрый %d х." % data["wet_turns"])
+	if int(data.get("frozen_turns", 0)) > 0: parts.append("заморозка %d х." % data["frozen_turns"])
+	if parts.is_empty(): return "нет"
+	return ", ".join(parts)
+
+func _bleeding_skip_text(reason: StringName) -> String:
+	match reason:
+		&"bleeding/immune": return "иммунитет"
+		&"bleeding/dead_target": return "цель погибла"
+		&"bleeding/burning": return "горение блокирует кровотечение"
+	return "нет физического HP-урона"
+
+func _bleeding_summary(value: Variant) -> String:
+	if typeof(value) != TYPE_DICTIONARY: return "нет"
+	var data: Dictionary = value
+	var ticks: int = int(data.get("ticks_left", 0))
+	if ticks <= 0: return "нет"
+	if bool(data.get("stacked", false)) or data.has("stacks"):
+		var stacks: int = int(data.get("stacks", 0))
+		var movement_damage := str(stacks * BleedingState.MOVE_DAMAGE) if stacks <= 4611686018427387903 else "за пределом расчёта"
+		return "%d ст. · %d т. · %d/тик · %s/клетку" % [stacks, ticks, stacks, movement_damage]
+	return "%d т. · 4/тик" % ticks
+
 func _can_forecast_turn() -> bool:
 	return not is_execution_pending() and session != null and session.get_script() == BattleCoreReactionsSession and _battle != null and _battle.can_player_act() and not _is_deploying()
 
@@ -2113,7 +2318,9 @@ func _render_turn_forecast() -> void:
 		if before.get("alive", true) and not after.get("alive", true): changes.append("Погибнет")
 		if before.get("guard_stance", false) != after.get("guard_stance", false): changes.append("Охранная стойка снята" if not after.guard_stance else "Охранная стойка включена")
 		if before.get("pending", false) and not after.get("pending", false): changes.append("Помощник готов действовать")
-		for entry: Array in [["bleeding", "ticks_left", "Кровотечение, тиков"], ["control", "stunned_turns", "Оглушение, ходов"], ["control", "entangled_turns", "Путы, ходов"], ["combat_perks", "reaction_left", "Общий заряд реакции"]]:
+		if before.get("bleeding", {}) != after.get("bleeding", {}): changes.append("Кровотечение: %s → %s" % [_bleeding_summary(before.get("bleeding", {})), _bleeding_summary(after.get("bleeding", {}))])
+		if before.get("elemental", {}) != after.get("elemental", {}): changes.append("Статусы: %s → %s" % [_elemental_summary(before.get("elemental", {})), _elemental_summary(after.get("elemental", {}))])
+		for entry: Array in [["control", "stunned_turns", "Оглушение, ходов"], ["control", "entangled_turns", "Путы, ходов"], ["combat_perks", "reaction_left", "Общий заряд реакции"]]:
 			var old_value: int = before.get(entry[0], {}).get(entry[1], 0)
 			var new_value: int = after.get(entry[0], {}).get(entry[1], 0)
 			if old_value != new_value: changes.append("%s: %d → %d" % [entry[2], old_value, new_value])

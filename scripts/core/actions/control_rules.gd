@@ -12,6 +12,9 @@ static func action_reason(unit: UnitState, moving: bool = false) -> StringName:
 	if unit != null and unit.combat_perks != null:
 		if unit.combat_perks.to_dict().is_empty(): return &"perks/invalid_runtime"
 		if moving and unit.combat_perks.movement_stopped: return &"perks/movement_stopped"
+	if unit != null and unit.elemental != null:
+		if not ElementalRules.valid_unit(unit): return &"status/invalid_state"
+		if ElementalRules.is_frozen(unit): return &"control/frozen"
 	if unit == null or unit.control == null: return &""
 	if unit.control.get_script() != ControlState or not ControlState.valid(unit.control.to_dict()): return &"control/invalid_state"
 	if unit.control.stunned_turns > 0: return &"control/stunned"

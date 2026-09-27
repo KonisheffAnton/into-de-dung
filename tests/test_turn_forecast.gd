@@ -101,6 +101,7 @@ func _early_victory_and_fault_prefix() -> void:
 	var last_enemy := terminal.board.get_unit_by_id(terminal.units[1].id)
 	last_enemy.vitals.set_hp(1.0)
 	last_enemy.bleeding.ticks_left = 1
+	last_enemy.bleeding.stacks = 1
 	last_enemy.bleeding.source = DamageSource.new(&"attack", 0, terminal.units[0].cell, terminal.units[0].id, terminal.units[0].id).to_dict()
 	var before_root := int(terminal.context.simulation_counters()["next_root_id"])
 	last_enemy.bleeding.hit_id = "turn-forecast-last-bleed"

@@ -2,7 +2,7 @@
 
 Сначала [HANDOFF](CODEX_HANDOFF.md) и git status/HEAD, затем выбрать нужную строку.
 [AGENTS](../AGENTS.md) задаёт правила; уже предоставленный актуальный текст не перечитывать.
-Таблица — маршруты, не список обязательного чтения. Контракт/код/тесты
+Таблица — маршруты. Контракт/код/тесты
 читать адресно; историю и ссылки следующего уровня — только для конкретного вопроса.
 
 | Задача | Документ |
@@ -24,7 +24,7 @@
 | Дизайн брони, формулы, пути урона | [ARMOR_DAMAGE_D0](ARMOR_DAMAGE_D0.md) |
 | Выделенный расчёт атаки D1/M2a | [ATTACK_DAMAGE_D1](ATTACK_DAMAGE_D1.md) |
 | Реализованная броня и типы D2 | [ARMOR_DAMAGE_D2](ARMOR_DAMAGE_D2.md) |
-| Кровотечение D3 | [BLEEDING_D3](BLEEDING_D3.md) |
+| Эффекты K17 / legacy D3 | [K17](STATUS_EFFECTS_NEXT.md) / [D3](BLEEDING_D3.md) |
 | Подготовка, вещи, сохранение забега D4 | [EXPEDITION_D4](EXPEDITION_D4.md) |
 | Шипы, тела, поднятие D5 | [ENVIRONMENT_D5](ENVIRONMENT_D5.md) |
 | Шаблон помощника, снимки M1 | [SUMMON_DEFINITION_M1](SUMMON_DEFINITION_M1.md) |

@@ -70,7 +70,15 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var guard := SpatialRules.capture_guard(context, [_target], [_target.cell, _cell], {_target.id: [StatTypes.StatType.HP_MAX]})
 	if guard == null: return CommandStepResult.faulted(&"environment/invalid_fire")
 	var source := DamageSource.new(&"cell", _fire["id"], _cell)
-	var raw: Array[Dictionary] = [{"type": "fire", "policy": "standard", "source": "fire_cell", "numerator": _fire["damage"], "denominator": 1}]
+	if _fire.get("effect", "") == "burning":
+		if not ElementalRules.valid_unit(_target): return CommandStepResult.faulted(&"status/capability_required")
+		var change := ElementalRules.transition(_target.elemental.to_dict(), &"burning", 1, source.to_dict())
+		if change["reason"] != &"": return CommandStepResult.faulted(change["reason"])
+		return ElementalRules.write(_target, change["after"], guard, context, &"burning")["result"]
+	var raw: Array[Dictionary] = [{"type": "physical" if _fire.get("effect", "") == "bleeding" else "fire", "policy": "standard", "source": "fire_cell", "numerator": _fire["damage"], "denominator": 1}]
 	var request := ArmorAttack.request(_target.id, raw, source)
 	var hit := ArmorHitExecutor.execute(request, guard, context)
-	return hit["result"]
+	var result: CommandStepResult = hit["result"]
+	if result.status == &"APPLIED" and _fire.get("effect", "") == "bleeding" and _target.is_alive():
+		result.mandatory.append(BleedingApplyCommand.from_cell(_target, source, "%d:%d" % [context._next_command_seq - 1, _target.id]))
+	return result

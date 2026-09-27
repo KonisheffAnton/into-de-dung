@@ -13,6 +13,7 @@ var inspected: bool = false
 var forecast_entry: Dictionary = {}
 var armor_values: Dictionary = {}
 var show_rear: bool = false
+var status_text: String = ""
 var transient_label: String = ""
 var transient_tint := Color("f7c97d")
 var fall_drop: float = 0.0:
@@ -131,6 +132,8 @@ func _draw_unit() -> void:
 	var label := transient_label if unit == null else unit.debug_name
 	draw_string(ThemeDB.fallback_font, Vector2(-10, -12), label.left(1), HORIZONTAL_ALIGNMENT_CENTER, 20, 13, Color("172230"))
 	if unit != null:
+		if not status_text.is_empty():
+			draw_string(ThemeDB.fallback_font, Vector2(-34, 49), status_text, HORIZONTAL_ALIGNMENT_CENTER, 68, 7, Color("ffd08a"))
 		var hp_max := unit.hp_max
 		var balance_max := unit.balance_max
 		var hp := clampf(unit.hp / hp_max if hp_max > 0 else 0, 0, 1)

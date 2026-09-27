@@ -6,6 +6,16 @@
 
 ## Рабочий срез
 
+[K17](STATUS_EFFECTS_NEXT.md) включает конечные состояния bleeding/burning/wet/freeze
+в основном бою и у помощников. Unit8/ElementalState и bleeding3 изолируют новый
+профиль от legacy; Environment3 задаёт физические шипы и горящие клетки.
+Схемы Board/Item/D4 прежние. SpatialRules охраняет новые ссылки и значения;
+ArmorHitExecutor и admission используют одинаковое добивание замороженного
+по gross HP damage. ElementalCastCommand/внутренние тики исполняются очередью,
+ForecastSimulation и оба worker сохраняют то же состояние/порядок.
+ControlRules блокирует действия/угрозы замороженного; крит frozen распространяется
+и на реакции K12, сохраняя исключения обычного контроля у реакций.
+
 [K14](SAFE_RETREAT_K14.md) добавляет `safe_retreat` в MoveCommand: тот же путь,
 continuation и очередь последствий, без перехвата Оппортуниста. Первый сегмент
 оплачивает main внутри прежнего spatial guard; события строго проверяет ActionQueue.
@@ -17,7 +27,8 @@ continuation и очередь последствий, без перехвата
 зарядом K10. ActionQueue ставит один внутренний AttackCommand после полного
 исходного каскада и реакций вещей; проверяет текущую допустимость, сохраняет
 guards/FAULTED prefix и не строит цепь ответов. Counter-hit сохраняет стойку,
-не ставит остановку движения и использует прежний pipeline без crit/impact/push.
+не ставит остановку движения и использует прежний pipeline без impact/push.
+Крит обычного контроля отключён; исключение заморозки задаёт K17.
 Вложенная perk schema3 нужна только counterattack; прежние schema1/2 формы
 остаются точными. Forecast и эксклюзивный live worker исполняют тот же хвост.
 

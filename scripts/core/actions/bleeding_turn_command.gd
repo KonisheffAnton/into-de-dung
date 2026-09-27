@@ -24,6 +24,8 @@ func execute(context: ActionContext) -> CommandStepResult:
 	units.sort_custom(func(a: UnitState, b: UnitState) -> bool: return a.id < b.id)
 	var children: Array[Command] = []
 	for unit: UnitState in units:
-		if unit.faction == _faction and unit.is_alive() and unit.bleeding != null and unit.bleeding.ticks_left > 0:
+		if unit.faction == _faction and unit.is_alive() and unit.elemental != null:
+			children.append(StatusTurnUnitCommand.new(unit))
+		elif unit.faction == _faction and unit.is_alive() and unit.bleeding != null and unit.bleeding.ticks_left > 0:
 			children.append(BleedingTickCommand.new(unit))
 	return CommandStepResult.applied([], children)

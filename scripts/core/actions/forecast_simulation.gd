@@ -46,7 +46,7 @@ static func prepare(context: ActionContext, queue: ActionQueue, command: Command
 	if context.is_busy() or queue._busy: return Prepared.rejected(&"BUSY")
 	if context.is_faulted() or queue._faulted: return Prepared.rejected(&"CONTEXT_FAULTED")
 	if context.get_script() != ActionContext or queue.get_script() != ActionQueue: return Prepared.rejected(&"preview/unsupported_context")
-	if command == null or command.get_script() not in [AttackCommand, UseHealingItemCommand, UseSummoningItemCommand, MoveCommand, RaiseCorpseCommand, GuardCommand, RestoreArmorCommand, CollapsePhaseCommand]: return Prepared.rejected(&"preview/unsupported_command")
+	if command == null or command.get_script() not in [AttackCommand, UseHealingItemCommand, UseSummoningItemCommand, MoveCommand, RaiseCorpseCommand, GuardCommand, RestoreArmorCommand, CollapsePhaseCommand, ElementalCastCommand]: return Prepared.rejected(&"preview/unsupported_command")
 	var capture := ItemSimulationSnapshot.capture(context.get_state(), context.get_unsupported_runtime_ids())
 	if capture.code != ItemSnapshotResult.Code.OK: return Prepared.rejected(StringName(capture.reason))
 	var original_rng := context.get_rng()
@@ -74,7 +74,7 @@ static func run_prepared(prepared: Prepared) -> ForecastSimulation:
 	if prepared == null or prepared.consumed: return rejected(&"preview/request_consumed")
 	prepared.consumed = true
 	if prepared.reason != &"": return rejected(prepared.reason)
-	if prepared.command == null or prepared.command.get_script() not in [AttackCommand, UseHealingItemCommand, UseSummoningItemCommand, MoveCommand, RaiseCorpseCommand, GuardCommand, RestoreArmorCommand, CollapsePhaseCommand]: return rejected(&"preview/unsupported_command")
+	if prepared.command == null or prepared.command.get_script() not in [AttackCommand, UseHealingItemCommand, UseSummoningItemCommand, MoveCommand, RaiseCorpseCommand, GuardCommand, RestoreArmorCommand, CollapsePhaseCommand, ElementalCastCommand]: return rejected(&"preview/unsupported_command")
 	if prepared.snapshot == null or prepared.context == null or prepared.queue == null or prepared.context.get_script() != ActionContext or prepared.queue.get_script() != ActionQueue: return rejected(&"preview/context_copy_failed")
 	var restored := prepared.snapshot.instantiate(prepared.definitions)
 	if restored.code != ItemSnapshotResult.Code.OK: return rejected(StringName(restored.reason))
@@ -152,6 +152,8 @@ static func unit_values(board: BattleBoard, state: ItemSimulationState = null, i
 			result[unit.id]["bleeding"] = unit.bleeding.to_dict()
 		if unit.combat_perks != null:
 			result[unit.id]["combat_perks"] = unit.combat_perks.to_dict()
+		if unit.elemental != null:
+			result[unit.id]["elemental"] = unit.elemental.to_dict()
 		if unit.control != null:
 			result[unit.id]["control"] = unit.control.to_dict()
 			result[unit.id]["balance_max"] = ControlRules.balance_maximum(unit, unit.get_stat(StatTypes.StatType.BALANCE_MAX))

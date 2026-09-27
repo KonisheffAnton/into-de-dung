@@ -8,11 +8,12 @@ static func snapshot_reason(data: Dictionary, board: Dictionary, summons: Array)
 	for unit: Dictionary in board["units"]:
 		units[unit["id"]] = unit
 		if not unit.has("armor"): return "environment/armor_required"
+		if data["schema_version"] == 3 and not unit.has("elemental"): return "environment/status_required"
 	var summoned: Dictionary = {}
 	for record: Dictionary in summons: summoned[record["unit_id"]] = true
 	for record: Dictionary in data["fires"]:
 		if not _safe_cell(record["cell"], board): return "environment/fire_cell"
-	if data["schema_version"] == 2:
+	if data["schema_version"] >= 2:
 		# Маркер должен указывать на доступную клетку, иначе следующий ход не сможет обрушить её.
 		for cell: Vector2i in data["collapse"]["marked"]:
 			if not _safe_cell(cell, board): return "environment/collapse_cell"
@@ -32,16 +33,17 @@ static func _safe_cell(cell: Vector2i, board: Dictionary) -> bool:
 static func consequences(event: Dictionary, context: ActionContext) -> Array[Command]:
 	var result: Array[Command] = []
 	var state := context.get_state()
-	if state.environment == null: return result
 	if event["kind"] == &"died":
-		result.append(EnvironmentCommand.for_death(event, context))
+		if state.environment != null: result.append(EnvironmentCommand.for_death(event, context))
 	elif event["kind"] == &"moved":
 		var cells: Array[Vector2i] = []
 		if event.has("transit_path"):
 			cells.assign(event["transit_path"].slice(1))
 		else: cells.append(event["to_cell"])
 		for cell: Vector2i in cells:
-			if not state.environment.fire_at(cell).is_empty(): result.append(EnvironmentCommand.for_entry(event["target_unit_id"], cell, context))
+			var unit := state.get_board().get_unit_by_id(event["target_unit_id"])
+			if unit != null and unit.elemental != null: result.append(BleedingMovementCommand.new(unit))
+			if state.environment != null and not state.environment.fire_at(cell).is_empty(): result.append(EnvironmentCommand.for_entry(event["target_unit_id"], cell, context))
 	return result
 
 static func valid_draft(event: Dictionary) -> bool:

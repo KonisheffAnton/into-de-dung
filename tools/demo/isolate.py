@@ -129,6 +129,9 @@ def main():
         if label in ("push_chain", "push_chain_reactions", "push_chain_ui"):
             marker = {"push_chain": "PUSH CHAIN RESULTS:", "push_chain_reactions": "PUSH CHAIN REACTIONS RESULTS:", "push_chain_ui": "PUSH CHAIN UI RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label in ("status_models", "status_snapshots", "status_effects", "status_ui"):
+            marker = {"status_models": "STATUS STATE MODEL RESULTS:", "status_snapshots": "ELEMENTAL SNAPSHOT RESULTS:", "status_effects": "STATUS EFFECTS RESULTS:", "status_ui": "STATUS EFFECTS UI RESULTS:"}[label]
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "enemy_first":
             invalid = invalid or "ENEMY FIRST RESULTS:" not in output or ", 0 failed" not in output
         if label in ("collapse_state", "collapse_phase", "collapse_ui"):
@@ -166,6 +169,15 @@ def main():
         raise RuntimeError("Archived scripts leaked into the class cache")
     if args.check or args.render_check:
         run("startup", ["--quit-after", "3"])
+        run("status_models", ["--script", "tests/test_status_state_models.gd"])
+        run("status_snapshots", ["--script", "tests/test_elemental_snapshots.gd"])
+        run("status_effects", ["--script", "tests/test_status_effects.gd"])
+        status_args = ["--script", "tests/test_status_effects_ui.gd"]
+        if args.render_check:
+            status_captures = out / "status-screenshots"
+            status_captures.mkdir()
+            status_args += ["--", "--captures=" + str(status_captures)]
+        run("status_ui", status_args, headless=not args.render_check)
         run("summon_definition", ["--script", "tests/test_summon_definition.gd"])
         run("item_use", ["--script", "tests/test_item_use_action.gd"])
         run("item_forecast", ["--script", "tests/test_item_use_forecast.gd"])

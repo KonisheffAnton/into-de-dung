@@ -165,6 +165,7 @@ func run() -> void:
 			check(death.status == ActionReceipt.APPLIED and not unit.is_alive(), "victory fixture removes other enemy through command")
 	dying.vitals.set_hp(1.0)
 	dying.bleeding.ticks_left = 1
+	dying.bleeding.stacks = 1
 	dying.bleeding.source = DamageSource.new(&"attack", 0, s.units[0].cell, s.units[0].id, s.units[0].id).to_dict()
 	dying.bleeding.hit_id = "1:%d" % dying.id
 	demo._refresh()

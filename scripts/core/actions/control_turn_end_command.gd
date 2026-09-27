@@ -16,6 +16,7 @@ func validate(context: ActionContext) -> StringName:
 	if _faction not in [Faction.Type.PLAYER, Faction.Type.ENEMY]: return &"control/invalid_team"
 	for unit: UnitState in context.get_state().get_board().get_all_units():
 		if unit.control != null and (unit.control.get_script() != ControlState or not ControlState.valid(unit.control.to_dict())): return &"control/invalid_state"
+		if unit.elemental != null and not ElementalRules.valid_unit(unit): return &"status/invalid_state"
 	return &""
 
 func execute(context: ActionContext) -> CommandStepResult:
@@ -25,6 +26,9 @@ func execute(context: ActionContext) -> CommandStepResult:
 	units.sort_custom(func(a: UnitState, b: UnitState) -> bool: return a.id < b.id)
 	var children: Array[Command] = []
 	for unit: UnitState in units:
+		# Пустое состояние не создаёт команду и не отнимает лимит каскада.
+		if unit.faction == _faction and unit.is_alive() and unit.elemental != null and (unit.elemental.wet_turns > 0 or unit.elemental.frozen_turns > 0):
+			children.append(ElementalTickCommand.new(unit, true))
 		if unit.faction == _faction and unit.is_alive() and unit.control != null and (unit.control.stunned_turns > 0 or unit.control.entangled_turns > 0):
 			children.append(ControlExpireCommand.new(unit))
 	return CommandStepResult.applied([], children)

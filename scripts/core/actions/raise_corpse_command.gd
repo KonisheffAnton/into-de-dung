@@ -56,6 +56,9 @@ func _new_helper(context: ActionContext, id: int, corpse: Dictionary) -> UnitSta
 	unit.armor = ArmorState.new()
 	unit.armor.in_battle = true
 	unit.bleeding = BleedingState.new()
+	if actor.elemental != null:
+		unit.elemental = ElementalState.new()
+		unit.bleeding.stacked = true
 	return unit
 
 func _apply(context: ActionContext, unit: UnitState, admission: Dictionary) -> void:

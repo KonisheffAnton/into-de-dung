@@ -75,7 +75,7 @@ static func _advance_rng(simulation: Dictionary, plan: Dictionary) -> bool:
 
 static func _hit(binding: BalancePushRules.Binding, simulation: Dictionary, id: int, amount: ArmorFraction, source: DamageSource) -> Dictionary:
 	var request := ArmorAttack.request(id, ArmorRuntime.physical(amount, String(source.kind)), source)
-	var plan := ArmorHitExecutor.prepare(request, simulation["views"][id], simulation["hp"][id], BalancePushRules._spatial_stat(binding, id, StatTypes.StatType.HP_MAX), simulation["rng"])
+	var plan := ArmorHitExecutor.prepare(request, simulation["views"][id], simulation["hp"][id], BalancePushRules._spatial_stat(binding, id, StatTypes.StatType.HP_MAX), simulation["rng"], ElementalRules.is_frozen(binding.board.get_unit_by_id(id)))
 	if plan.get("reason", &"") != &"": return plan
 	if not _advance_rng(simulation, plan): return {"reason": &"armor/rng_not_cloneable"}
 	request.amount = float(plan["hp_before"] - plan["hp_after"])

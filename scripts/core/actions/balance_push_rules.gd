@@ -432,7 +432,7 @@ static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, ta
 		var armor_raw := ArmorFraction.from_decimal(_stat(actor, StatTypes.StatType.STRENGTH)).add(ArmorFraction.from_decimal(_stat(actor, StatTypes.StatType.WEAPON_DAMAGE)))
 		if not armor_raw.valid: out["reason"] = &"armor/invalid_component"; return out
 		binding.values["armor_raw"] = {"numerator": maxi(0, armor_raw.numerator), "denominator": armor_raw.denominator}
-		var plan := ArmorHitExecutor.prepare(armor_request, guard.values["participants"][target.id]["armor"], target.vitals.get_hp(), _stat(target, StatTypes.StatType.HP_MAX), context.get_rng())
+		var plan := ArmorHitExecutor.prepare(armor_request, guard.values["participants"][target.id]["armor"], target.vitals.get_hp(), _stat(target, StatTypes.StatType.HP_MAX), context.get_rng(), ElementalRules.is_frozen(target))
 		if plan.get("reason", &"") != &"": out["reason"] = plan["reason"]; return out
 		binding.values["armor"] = true
 		binding.values["armor_plan"] = plan

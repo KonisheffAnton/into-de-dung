@@ -232,9 +232,9 @@ func _prepare(context: ActionContext) -> Dictionary:
 	var threats: Array[int] = []
 	if definition.sneak_attack_enabled and MeleeThreat.has_sneak(actor): threats = MeleeThreat.participants(context, target)
 	var sneak_percent := 50 if threats.size() >= 2 else 0
-	var critical: bool = definition.critical_on_control and ControlRules.critical_target(target)
+	var critical: bool = (definition.critical_on_control and ControlRules.critical_target(target)) or ElementalRules.is_frozen(target)
 	var critical_multiplier: int = 2 if critical else 1
-	if definition.backstab_bonus_percent > 0 or definition.critical_on_control or definition.sneak_attack_enabled:
+	if definition.backstab_bonus_percent > 0 or definition.critical_on_control or definition.sneak_attack_enabled or ElementalRules.is_frozen(target):
 		result["modifiers"] = {"backstab_percent": backstab_percent, "critical": critical}
 		if definition.sneak_attack_enabled:
 			result["modifiers"]["sneak_percent"] = sneak_percent
@@ -243,7 +243,7 @@ func _prepare(context: ActionContext) -> Dictionary:
 		var cover := MeleeThreat.cover_for(context, target)
 		var raw := ArmorAttack.components(strength, weapon, signed_height_steps, target.guard_stance, definition.damage_components, backstab_percent + sneak_percent, critical_multiplier, int(piercing), 30 if cover != null else 0)
 		var request := ArmorAttack.request(target.id, raw, DamageSource.new(&"attack", 0, actor.cell, actor.id, actor.id))
-		var plan := ArmorHitExecutor.prepare(request, ArmorRuntime.capture(state.get_owner(target.id)), target.vitals.get_hp(), target_copy.get_value(StatTypes.StatType.HP_MAX), context.get_rng())
+		var plan := ArmorHitExecutor.prepare(request, ArmorRuntime.capture(state.get_owner(target.id)), target.vitals.get_hp(), target_copy.get_value(StatTypes.StatType.HP_MAX), context.get_rng(), ElementalRules.is_frozen(target))
 		if plan.get("reason", &"") != &"": result["reason"] = plan["reason"]; return result
 		request.amount = float(plan["hp_before"] - plan["hp_after"])
 		var binding_result := BalancePushRules.prepare_attack(context, actor, target, strength + weapon, request.amount, resources.get_main_left() - (0 if _reaction else 1), true, request, critical_multiplier, _reaction, cover, definition.chain_push)

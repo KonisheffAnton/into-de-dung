@@ -33,6 +33,9 @@ static func capture_board(board: BattleBoard, unsupported_runtime_ids: Array[Str
 			if unit.control.get_script() != ControlState:
 				return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, path + "/control/subclass", [StringName(path + "/control/subclass")])
 			if not ControlState.valid(unit.control.to_dict()): return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, path + "/control")
+		if unit.elemental != null:
+			if unit.elemental.get_script() != ElementalState: return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, path + "/elemental/subclass", [StringName(path + "/elemental/subclass")])
+			if not ElementalRules.valid_unit(unit): return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, path + "/elemental")
 		if unit.combat_perks != null:
 			if unit.combat_perks.get_script() != CombatPerksState or (unit.combat_perks.definition != null and unit.combat_perks.definition.get_script() != CombatPerksDefinition): return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, path + "/combat_perks/subclass", [StringName(path + "/combat_perks/subclass")])
 			if unit.combat_perks.to_dict().is_empty(): return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, path + "/combat_perks")
@@ -181,7 +184,22 @@ static func _validate_envelope(data: Variant) -> String:
 	if typeof(d["board"]) != TYPE_DICTIONARY: return "board"
 	var unsupported := _find_unsupported(d["board"])
 	if not unsupported.is_empty(): return "UNSUPPORTED:" + unsupported
-	return "" if BattleBoard.validate_snapshot_dict(d["board"]) else "board"
+	if not BattleBoard.validate_snapshot_dict(d["board"]): return "board"
+	return _validate_status_sources(d["board"]["units"])
+
+static func _validate_status_sources(units: Array) -> String:
+	var unit_ids: Dictionary = {}
+	for unit: Dictionary in units:
+		unit_ids[unit["id"]] = true
+	for unit: Dictionary in units:
+		if unit.get("schema_version") != 8: continue
+		var bleeding: Dictionary = unit["bleeding"]
+		if bleeding["ticks_left"] > 0 and bleeding["source"]["kind"] == &"attack":
+			if not unit_ids.has(bleeding["source"]["instigator_unit_id"]) or not unit_ids.has(bleeding["source"]["credit_unit_id"]): return "unit/%d/bleeding/source" % unit["id"]
+		var elemental: Dictionary = unit["elemental"]
+		if elemental["burning_stacks"] > 0 and elemental["burning_source"]["kind"] == &"attack":
+			if not unit_ids.has(elemental["burning_source"]["instigator_unit_id"]) or not unit_ids.has(elemental["burning_source"]["credit_unit_id"]): return "unit/%d/elemental/burning_source" % unit["id"]
+	return ""
 
 static func _find_unsupported(board_value: Dictionary) -> String:
 	# Сначала типы: строка вместо версии — повреждённый DTO, а неизвестное число — новая схема.
@@ -245,6 +263,10 @@ static func _find_unsupported(board_value: Dictionary) -> String:
 		if has_combat_perks_shape:
 			unit_keys.append("combat_perks")
 			if not CombatPerksState.valid(unit.get("combat_perks")): continue
+		var has_elemental_shape: bool = typeof(unit_version) == TYPE_INT and (unit_version == 8 or unit.has("elemental"))
+		if has_elemental_shape:
+			unit_keys.append("elemental")
+			if not ElementalState.valid(unit.get("elemental")): continue
 		if not _has_exact_string_keys(unit, unit_keys): continue
 		var unit_types_valid := true
 		for key in ["schema_version", "id", "faction", "cell_x", "cell_y", "height"]:
@@ -262,14 +284,15 @@ static func _find_unsupported(board_value: Dictionary) -> String:
 					resources = {}
 					break
 			if resources.is_empty(): continue
-		if typeof(unit_version) == TYPE_INT and unit_version not in [1, 2, 3, 4, 5, 6, 7]:
+		if typeof(unit_version) == TYPE_INT and unit_version not in [1, 2, 3, 4, 5, 6, 7, 8]:
 			return ("unit/%d" % unit["id"] if typeof(unit.get("id")) == TYPE_INT else "unit") + "/version"
 		var unit_path := "unit/%d" % unit["id"] if typeof(unit.get("id")) == TYPE_INT else "unit"
 		if typeof(unit.get("ai_profile_path")) == TYPE_STRING and not unit["ai_profile_path"].is_empty(): return unit_path + "/ai_profile"
 		if unit["schema_version"] == 5 and (not unit.has("action_resources") or not unit.has("guard_stance") or not unit.has("armor") or not unit.has("bleeding")): return unit_path + "/capability"
 		if unit["schema_version"] == 6 and (not unit.has("action_resources") or not ControlState.valid(unit.get("control"))): return unit_path + "/control"
 		if unit["schema_version"] == 7 and (not unit.has("action_resources") or not CombatPerksState.valid(unit.get("combat_perks")) or (unit["combat_perks"].get("mode") == CombatPerksState.Mode.COVER and unit["combat_perks"].get("cover_target_id") == unit.get("id"))): return unit_path + "/combat_perks"
-		if unit["schema_version"] in [2, 3, 4, 5, 6, 7]:
+		if unit["schema_version"] == 8 and (not unit.has("action_resources") or not unit.has("guard_stance") or not unit.has("armor") or not unit.has("bleeding") or not unit.has("elemental") or unit["bleeding"].get("schema_version") != 3 or not BleedingState.valid(unit["bleeding"])): return unit_path + "/elemental/capability"
+		if unit["schema_version"] in [2, 3, 4, 5, 6, 7, 8]:
 			if typeof(resources.get("schema_version")) == TYPE_INT and resources["schema_version"] != 1: return unit_path + "/action_resources/version"
 		if typeof(unit.get("stats")) != TYPE_DICTIONARY: continue
 		var bag: Dictionary = unit["stats"]

@@ -279,12 +279,14 @@ static func _board_structure(envelope: Dictionary) -> String:
 		if typeof(unit) == TYPE_DICTIONARY and (unit.get("schema_version") == 5 or unit.has("bleeding")): unit_fields["bleeding"] = TYPE_DICTIONARY
 		if typeof(unit) == TYPE_DICTIONARY and (unit.get("schema_version") == 6 or unit.has("control")): unit_fields["control"] = TYPE_DICTIONARY
 		if typeof(unit) == TYPE_DICTIONARY and (unit.get("schema_version") == 7 or unit.has("combat_perks")): unit_fields["combat_perks"] = TYPE_DICTIONARY
+		if typeof(unit) == TYPE_DICTIONARY and (unit.get("schema_version") == 8 or unit.has("elemental")): unit_fields["elemental"] = TYPE_DICTIONARY
 		if not _shape(unit, unit_fields): return "board/unit/schema"
 		if unit.get("schema_version") == 5:
 			if not unit.has("action_resources") or not unit.has("guard_stance") or not unit.has("armor") or not unit.has("bleeding"): return "board/unit/capability"
 			if not BleedingState.valid(unit["bleeding"]): return "board/unit/bleeding"
 		if unit.get("schema_version") == 6 and (not unit.has("action_resources") or not ControlState.valid(unit["control"])): return "board/unit/control"
 		if unit.get("schema_version") == 7 and (not unit.has("action_resources") or not CombatPerksState.valid(unit.get("combat_perks")) or (unit["combat_perks"].get("mode") == CombatPerksState.Mode.COVER and unit["combat_perks"].get("cover_target_id") == unit.get("id"))): return "board/unit/combat_perks"
+		if unit.get("schema_version") == 8 and (not unit.has("action_resources") or not unit.has("guard_stance") or not unit.has("armor") or not unit.has("bleeding") or not unit.has("elemental") or not ElementalState.valid(unit.get("elemental")) or not BleedingState.valid(unit.get("bleeding")) or unit["bleeding"].get("schema_version") != 3): return "board/unit/elemental"
 		if not _shape(unit["stats"], {"schema_version": TYPE_INT, "stats": TYPE_ARRAY}): return "board/unit/stats/schema"
 		if not _shape(unit["vitals"], {"hp": TYPE_FLOAT, "balance": TYPE_FLOAT, "is_alive": TYPE_BOOL}): return "board/unit/vitals/schema"
 		for entry: Variant in unit["stats"]["stats"]:
@@ -515,6 +517,9 @@ static func _live_board_shape_error(board: BattleBoard) -> String:
 		if unit.control != null:
 			if unit.control.get_script() != ControlState: return "UNSUPPORTED:board/unit/control/subclass"
 			if not ControlState.valid(unit.control.to_dict()): return "board/unit/control"
+		if unit.elemental != null:
+			if unit.elemental.get_script() != ElementalState: return "UNSUPPORTED:board/unit/elemental/subclass"
+			if not ElementalRules.valid_unit(unit): return "board/unit/elemental"
 		if unit.combat_perks != null:
 			if unit.combat_perks.get_script() != CombatPerksState: return "UNSUPPORTED:board/unit/combat_perks/subclass"
 			if unit.combat_perks.definition != null and unit.combat_perks.definition.get_script() != CombatPerksDefinition: return "UNSUPPORTED:board/unit/combat_perks/definition/subclass"
@@ -752,12 +757,16 @@ static func _validate(data: Dictionary, captured_board: SimulationSnapshot = nul
 		if data["schema_version"] < 4 and unit.has("armor"): return "armor/envelope_version"
 		unit_map[unit["id"]] = unit
 	for unit: Dictionary in units:
-		if unit.get("schema_version", 1) not in [5, 6] or unit.get("bleeding", {}).get("ticks_left", 0) <= 0:
-			continue
-		var bleeding: Dictionary = unit["bleeding"]
-		var source: Dictionary = bleeding["source"]
-		if not unit_map.has(source["instigator_unit_id"]) or not unit_map.has(source["credit_unit_id"]):
-			return "board/unit/bleeding/source"
+		if unit.get("schema_version", 1) in [5, 6, 7, 8] and unit.get("bleeding", {}).get("ticks_left", 0) > 0:
+			var bleeding: Dictionary = unit["bleeding"]
+			var source: Dictionary = bleeding["source"]
+			if source["kind"] == &"attack" and (not unit_map.has(source["instigator_unit_id"]) or not unit_map.has(source["credit_unit_id"])):
+				return "board/unit/bleeding/source"
+		if unit.get("schema_version", 1) == 8:
+			var elemental: Dictionary = unit["elemental"]
+			if elemental["burning_stacks"] > 0 and elemental["burning_source"]["kind"] == &"attack":
+				var burning_source: Dictionary = elemental["burning_source"]
+				if not unit_map.has(burning_source["instigator_unit_id"]) or not unit_map.has(burning_source["credit_unit_id"]): return "board/unit/elemental/burning_source"
 	var seen: Dictionary = {}
 	var armor_identities: Dictionary = {}
 	var catalogue: Dictionary = {}

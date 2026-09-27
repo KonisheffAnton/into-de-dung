@@ -1,9 +1,9 @@
 extends RefCounted
 class_name ArmorHitExecutor
 
-static func prepare(request: DamageRequest, view: Dictionary, hp: float, maximum: float, rng: ActionRngPort) -> Dictionary:
+static func prepare(request: DamageRequest, view: Dictionary, hp: float, maximum: float, rng: ActionRngPort, frozen: bool = false) -> Dictionary:
 	if request == null or request.armor_mode != &"armor" or request.source == null: return {"reason": &"armor/invalid_hit"}
-	return ArmorRuntime.plan(view, request.armor_components, hp, maximum, rng)
+	return ElementalRules.shatter(ArmorRuntime.plan(view, request.armor_components, hp, maximum, rng), frozen)
 
 static func execute(request: DamageRequest, guard: SpatialRules.Guard, context: ActionContext, outer_check: Callable = Callable()) -> Dictionary:
 	var step := CommandStepResult.faulted(&"armor/invalid_hit")
@@ -15,7 +15,7 @@ static func execute(request: DamageRequest, guard: SpatialRules.Guard, context: 
 	if not values.has("armor") or not values["alive"] or request.source.validate(context) != &"": return out
 	var unit: UnitState = refs["unit"]
 	var maximum := ActionHpExecutor._stat_value(unit, StatTypes.StatType.HP_MAX)
-	var plan := prepare(request, values["armor"], values["hp"], maximum, context.get_rng())
+	var plan := prepare(request, values["armor"], values["hp"], maximum, context.get_rng(), ElementalRules.is_frozen(unit))
 	if plan.get("reason", &"") != &"":
 		step.reason = plan["reason"]
 		return out

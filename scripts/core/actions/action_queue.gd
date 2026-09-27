@@ -63,7 +63,7 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 				reason = &"move/internal_fall"
 			elif accepted is ArmorEndBattleCommand:
 				reason = &"armor/internal_expiry"
-			elif accepted is BleedingApplyCommand or accepted is BleedingTickCommand:
+			elif accepted is BleedingApplyCommand or accepted is BleedingTickCommand or accepted is BleedingMovementCommand or accepted is ElementalTickCommand or accepted is StatusTurnUnitCommand:
 				reason = &"bleeding/internal_command"
 			elif accepted is ControlExpireCommand or accepted is ControlApplyCommand:
 				reason = &"control/internal_command"
@@ -325,6 +325,7 @@ static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bo
 	if draft.get("kind") == &"corpse_raised": return RaiseCorpseCommand.valid_draft(draft)
 	if draft.get("kind") == &"bleeding_changed": return _valid_bleeding_draft(draft)
 	if draft.get("kind") == &"control_changed": return _valid_control_draft(draft)
+	if draft.get("kind") in [&"elemental_changed", &"elemental_cast"]: return _valid_elemental_draft(draft)
 	if draft.get("kind") in [&"attacked", &"opportunity_attacked", &"counterattacked"] and draft.has("modifiers"):
 		if typeof(draft["modifiers"]) != TYPE_DICTIONARY: return false
 		if draft["modifiers"].has("sneak_percent"):
@@ -346,7 +347,7 @@ static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bo
 		clean.erase("modifiers")
 		if not _valid_draft(clean, context): return false
 		var definition := context.get_attack_rules().get_definition(draft["attack_definition_id"])
-		return definition != null and (definition.backstab_bonus_percent > 0 or definition.critical_on_control or definition.sneak_attack_enabled) and draft["modifiers"]["backstab_percent"] in [0, definition.backstab_bonus_percent] and (definition.critical_on_control or not draft["modifiers"]["critical"])
+		return definition != null and (definition.backstab_bonus_percent > 0 or definition.critical_on_control or definition.sneak_attack_enabled or ElementalRules.is_frozen(context.get_state().get_board().get_unit_by_id(draft["target_unit_id"]))) and draft["modifiers"]["backstab_percent"] in [0, definition.backstab_bonus_percent] and (definition.critical_on_control or ElementalRules.is_frozen(context.get_state().get_board().get_unit_by_id(draft["target_unit_id"])) or not draft["modifiers"]["critical"])
 	if draft.has("transit_path"):
 		return _valid_transit_draft(draft, context)
 	if draft.get("kind") in [&"armor_changed", &"hit_resolved"]:
@@ -448,6 +449,9 @@ static func _event_capacity(command: Command) -> int:
 	if command is PushChainCommand: return 9
 	if command is AttackCommand and (command as AttackCommand).is_reaction(): return 3
 	if command is PushCommand and (command as PushCommand)._binding != null and (command as PushCommand)._binding.target != null and (command as PushCommand)._binding.target.control != null: return 4
+	if command is ElementalCastCommand: return 7
+	if command is ElementalTickCommand: return 5
+	if command is BleedingMovementCommand: return 4
 	if command is EnvironmentCommand: return 4
 	if command is BleedingTickCommand: return 5
 	if command is CollisionDamageCommand and (command as CollisionDamageCommand)._binding != null and (command as CollisionDamageCommand)._binding.values.get("armor", false): return 8
@@ -457,9 +461,12 @@ static func _event_capacity(command: Command) -> int:
 
 static func _valid_bleeding_draft(draft: Dictionary) -> bool:
 	if not ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "reason": TYPE_STRING_NAME, "before": TYPE_DICTIONARY, "after": TYPE_DICTIONARY}): return false
-	if draft["actor_unit_id"] < 1 or draft["actor_unit_id"] >= MAX_ID or draft["target_unit_id"] < 1 or draft["target_unit_id"] >= MAX_ID: return false
+	if draft["actor_unit_id"] < 0 or draft["actor_unit_id"] >= MAX_ID or draft["target_unit_id"] < 1 or draft["target_unit_id"] >= MAX_ID: return false
 	var before: Dictionary = draft["before"]; var after: Dictionary = draft["after"]
 	if not BleedingState.valid(before) or not BleedingState.valid(after) or before["immune"] != after["immune"]: return false
+	if before["schema_version"] == 3 or after["schema_version"] == 3:
+		return _valid_stacked_bleeding(draft)
+	if draft["actor_unit_id"] == 0: return false
 	if draft["reason"] == &"tick":
 		if before["ticks_left"] < 1 or after["ticks_left"] != before["ticks_left"] - 1 or before["source"]["instigator_unit_id"] != draft["actor_unit_id"]: return false
 		return after["ticks_left"] == 0 or (after["source"] == before["source"] and after["hit_id"] == before["hit_id"])
@@ -478,6 +485,35 @@ static func _valid_control_draft(draft: Dictionary) -> bool:
 	if draft["reason"] in [&"stunned", &"stun_refreshed"]:
 		return after["stunned_turns"] == 1 and before["entangled_turns"] == after["entangled_turns"] and ((draft["reason"] == &"stunned" and before["stunned_turns"] == 0) or (draft["reason"] == &"stun_refreshed" and before["stunned_turns"] == 1))
 	return false
+
+static func _valid_stacked_bleeding(draft: Dictionary) -> bool:
+	var before: Dictionary = draft["before"]
+	var after: Dictionary = draft["after"]
+	if before["schema_version"] != 3 or after["schema_version"] != 3: return false
+	if draft["reason"] == &"burned":
+		return before["ticks_left"] > 0 and after["ticks_left"] == 0
+	if draft["reason"] == &"tick":
+		if before["ticks_left"] < 1 or after["ticks_left"] != before["ticks_left"] - 1 or before["source"]["instigator_unit_id"] != draft["actor_unit_id"]: return false
+		return after["ticks_left"] == 0 or (after["stacks"] == before["stacks"] and after["source"] == before["source"] and after["hit_id"] == before["hit_id"])
+	if before["stacks"] == BleedingState.MAX_STACKS or after["immune"]: return false
+	return after["ticks_left"] == 3 and after["stacks"] == before["stacks"] + 1 and after["source"]["instigator_unit_id"] == draft["actor_unit_id"] and ((draft["reason"] == &"applied" and before["ticks_left"] == 0) or (draft["reason"] == &"refreshed" and before["ticks_left"] > 0))
+
+static func _valid_elemental_draft(draft: Dictionary) -> bool:
+	if draft["kind"] == &"elemental_cast":
+		if not ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "effect": TYPE_STRING_NAME, "main_before": TYPE_INT, "main_after": TYPE_INT}): return false
+		return draft["actor_unit_id"] > 0 and draft["actor_unit_id"] < MAX_ID and draft["target_unit_id"] > 0 and draft["target_unit_id"] < MAX_ID and draft["effect"] in [&"burning", &"wet", &"freeze"] and draft["main_before"] > 0 and draft["main_before"] <= 4096 and draft["main_after"] == draft["main_before"] - 1
+	if not ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "reason": TYPE_STRING_NAME, "before": TYPE_DICTIONARY, "after": TYPE_DICTIONARY}): return false
+	if draft["actor_unit_id"] < 0 or draft["actor_unit_id"] >= MAX_ID or draft["target_unit_id"] < 1 or draft["target_unit_id"] >= MAX_ID: return false
+	var before: Dictionary = draft["before"]
+	var after: Dictionary = draft["after"]
+	if not ElementalState.valid(before) or not ElementalState.valid(after) or before == after or before["freeze_immune"] != after["freeze_immune"]: return false
+	var ticks := 1
+	if draft["reason"] == &"burning" and after["burning_ticks"] > before["burning_ticks"]: ticks = after["burning_ticks"] - before["burning_ticks"]
+	if draft["reason"] == &"freeze" and after["frozen_turns"] > before["frozen_turns"]: ticks = after["frozen_turns"] - before["frozen_turns"]
+	# Источник нужен лишь для ветки действительного горения; отмена его не хранит.
+	var source: Dictionary = after["burning_source"] if after["burning_stacks"] > 0 else DamageSource.new(&"cell", 1, Vector2i.ZERO).to_dict()
+	var expected := ElementalRules.transition(before, draft["reason"], ticks, source, true)
+	return expected.get("reason", &"") == &"" and expected.get("after") == after
 
 static func _valid_armor_draft(draft: Dictionary) -> bool:
 	var fields := {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "source": TYPE_DICTIONARY}

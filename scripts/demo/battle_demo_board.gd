@@ -15,6 +15,7 @@ var retreat_mode: bool = false
 var summoning_mode: bool = false
 var raising_mode: bool = false
 var environment_mode: bool = false
+var elemental_mode: bool = false
 var inspected_id: int = UnitId.NONE
 var hover_cell := Vector2i(-1, -1)
 var grid_config := IsoGridConfig.new()
@@ -170,7 +171,7 @@ func _refresh_path() -> void:
 		# После прерывания не рисуем непроходимый остаток как будущий ход.
 		if move_forecast.status in [ActionReceipt.APPLIED, ActionReceipt.INTERRUPTED]: _path = move_forecast.traversed_path.duplicate()
 		return
-	if session != null and not attack_mode and not summoning_mode and not raising_mode and inspected_id == UnitId.NONE and _reachable.has(hover_cell): _path = session.path_to(hover_cell)
+	if session != null and not attack_mode and not summoning_mode and not raising_mode and not elemental_mode and inspected_id == UnitId.NONE and _reachable.has(hover_cell): _path = session.path_to(hover_cell)
 
 func _rescale_layout() -> void:
 	var factor := maxf(0.1, minf((size.x - 64) / 1024.0, (size.y - 108) / 544.0))
@@ -205,7 +206,7 @@ func _rebuild_visuals() -> void:
 		var terrain := _view_terrain_at(cell)
 		var floor_visual := _make_visual(cell, steps, BattleDemoIsoVisual.Role.PLATFORM if steps > 0 else BattleDemoIsoVisual.Role.FLOOR)
 		floor_visual.is_void = terrain == TerrainType.Type.VOID
-		floor_visual.reachable = not attack_mode and _reachable.has(cell)
+		floor_visual.reachable = not attack_mode and not elemental_mode and _reachable.has(cell)
 		floor_visual.enemy_range = inspected_id != UnitId.NONE and inspection_cells.has(cell)
 		# Видимые поверхности всех высот сортируются вместе: ближний пол закрывает
 		# дальнюю грань уступа. Разделение по высоте на два слоя ломает это перекрытие.
@@ -227,6 +228,7 @@ func _rebuild_visuals() -> void:
 		visual.forecast_entry = _forecast_entry(unit.id)
 		visual.show_rear = bool(row["show_rear"])
 		visual.armor_values = (row["armor"] as Dictionary).duplicate(true)
+		visual.status_text = String(row.get("status", ""))
 		_entities.add_child(visual)
 		_entity_visuals.append(visual)
 	_entity_visuals.sort_custom(func(a: BattleDemoIsoVisual, b: BattleDemoIsoVisual) -> bool: return a.position.y < b.position.y or (a.position.y == b.position.y and a.get_index() < b.get_index()))
@@ -272,13 +274,13 @@ func _capture_board_view(board: BattleBoard) -> void:
 			"inspected": unit.id == inspected_id,
 			"show_rear": session is BattleControlSession or (session is BattleCoreCombinationSession and not session is BattleCoreReactionsSession),
 			"armor": armor.duplicate(true),
+			"status": _status_text(unit),
 		})
-	if session is BattleEnvironmentSession:
-		var environment := (session as BattleEnvironmentSession).state.environment
-		if environment != null:
-			_view_fires = environment.fires.duplicate(true)
-			_view_corpses = environment.corpses.duplicate(true)
-			_view_collapse.assign(environment.collapse.get("marked", []))
+	var environment: CombatEnvironmentState = session.state.environment if session != null and session.state != null else null
+	if environment != null:
+		_view_fires = environment.fires.duplicate(true)
+		_view_corpses = environment.corpses.duplicate(true)
+		_view_collapse.assign(environment.collapse.get("marked", []))
 
 func _view_index(cell: Vector2i) -> int:
 	return cell.y * _view_width + cell.x if cell.x >= 0 and cell.y >= 0 and cell.x < _view_width and cell.y < _view_height else -1
@@ -296,6 +298,17 @@ func _view_unit_cell(unit_id: int) -> Vector2i:
 		var unit: BattleUnitView = row["unit"]
 		if unit.id == unit_id: return row["cell"]
 	return Vector2i(-1, -1)
+
+func _status_text(unit: UnitState) -> String:
+	if unit == null: return ""
+	var labels: PackedStringArray = []
+	if unit.bleeding != null and unit.bleeding.stacked and unit.bleeding.stacks > 0:
+		labels.append("Кровь ×%d" % unit.bleeding.stacks)
+	if unit.elemental != null:
+		if unit.elemental.burning_stacks > 0: labels.append("Горение ×%d" % unit.elemental.burning_stacks)
+		if unit.elemental.wet_turns > 0: labels.append("Мокрый %d" % unit.elemental.wet_turns)
+		if unit.elemental.frozen_turns > 0: labels.append("Заморожен %d" % unit.elemental.frozen_turns)
+	return " · ".join(labels)
 
 func _draw() -> void:
 	if _view_width <= 0 or _view_height <= 0: return
@@ -336,8 +349,8 @@ func _draw_overlay() -> void:
 		if _view_terrain_at(hover_cell) == TerrainType.Type.WALL: center.y -= grid_config.height_step
 		var cell_hw := grid_config.tile_size.x * 0.48
 		var hh := grid_config.tile_size.y * 0.48
-		_overlay.draw_polyline(PackedVector2Array([center + Vector2(0, -hh), center + Vector2(cell_hw, 0), center + Vector2(0, hh), center + Vector2(-cell_hw, 0), center + Vector2(0, -hh)]), GOLD if attack_mode or inspected_id != UnitId.NONE else (Color("f29b9b") if raising_mode else CYAN), 2, true)
-	if environment_mode:
+		_overlay.draw_polyline(PackedVector2Array([center + Vector2(0, -hh), center + Vector2(cell_hw, 0), center + Vector2(0, hh), center + Vector2(-cell_hw, 0), center + Vector2(0, -hh)]), GOLD if attack_mode or elemental_mode or inspected_id != UnitId.NONE else (Color("f29b9b") if raising_mode else CYAN), 2, true)
+	if environment_mode or not _view_fires.is_empty() or not _view_corpses.is_empty() or not _view_collapse.is_empty():
 		for cell: Vector2i in _view_collapse:
 			var center := cell_center(cell)
 			var half_width := grid_config.tile_size.x * 0.44
@@ -348,8 +361,9 @@ func _draw_overlay() -> void:
 			_overlay.draw_string(ThemeDB.fallback_font, center + Vector2(-42, -12), "ОБВАЛ", HORIZONTAL_ALIGNMENT_CENTER, 84, 13, Color("fff2d7"))
 		for fire: Dictionary in _view_fires:
 			var fire_center := cell_center(fire["cell"])
-			_overlay.draw_circle(fire_center, hw * 0.28, Color(0.95, 0.28, 0.12, 0.55))
-			_overlay.draw_string(ThemeDB.fallback_font, fire_center + Vector2(-32, 4), "ШИПЫ 8", HORIZONTAL_ALIGNMENT_CENTER, 64, 10, Color("ffd08a"))
+			var is_burning := String(fire.get("effect", "bleeding")) == "burning"
+			_overlay.draw_circle(fire_center, hw * 0.28, Color(1.0, 0.32, 0.06, 0.62) if is_burning else Color(0.95, 0.28, 0.12, 0.55))
+			_overlay.draw_string(ThemeDB.fallback_font, fire_center + Vector2(-32, 4), "ОГОНЬ" if is_burning else "ШИПЫ 8", HORIZONTAL_ALIGNMENT_CENTER, 64, 10, Color("ffd08a"))
 		var corpses_by_cell: Dictionary = {}
 		for corpse: Dictionary in _view_corpses:
 			var corpse_cell: Vector2i = corpse["cell"]

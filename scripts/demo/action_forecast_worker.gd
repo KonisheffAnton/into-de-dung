@@ -16,7 +16,7 @@ func start(prepared: ForecastSimulation.Prepared) -> void:
 	if prepared.reason != &"":
 		_immediate = ForecastSimulation.rejected(prepared.reason)
 		return
-	if prepared.command == null or prepared.command.get_script() not in [GuardCommand, UseHealingItemCommand, UseSummoningItemCommand, RaiseCorpseCommand, RestoreArmorCommand, CollapsePhaseCommand]:
+	if prepared.command == null or prepared.command.get_script() not in [GuardCommand, UseHealingItemCommand, UseSummoningItemCommand, RaiseCorpseCommand, RestoreArmorCommand, CollapsePhaseCommand, ElementalCastCommand]:
 		_immediate = ForecastSimulation.rejected(&"preview/unsupported_command")
 		return
 	if prepared.context == null or prepared.context.get_rng() == null:

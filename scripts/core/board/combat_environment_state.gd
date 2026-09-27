@@ -12,11 +12,12 @@ var fires: Array[Dictionary] = []
 var corpses: Array[Dictionary] = []
 var processed_deaths: Array[int] = []
 var collapse: Dictionary = {}
+var status_effects: bool = false
 
 func to_dict() -> Dictionary:
 	# Пустая фаза сохраняет точную старую форму, чтобы legacy-снимки не меняли канон.
-	var raw := {"schema_version": 1 if collapse.is_empty() else 2, "next_fire_id": next_fire_id, "next_corpse_id": next_corpse_id, "fires": fires.duplicate(true), "corpses": corpses.duplicate(true), "processed_deaths": processed_deaths.duplicate()}
-	if not collapse.is_empty(): raw["collapse"] = collapse.duplicate(true)
+	var raw := {"schema_version": 3 if status_effects else (1 if collapse.is_empty() else 2), "next_fire_id": next_fire_id, "next_corpse_id": next_corpse_id, "fires": fires.duplicate(true), "corpses": corpses.duplicate(true), "processed_deaths": processed_deaths.duplicate()}
+	if status_effects or not collapse.is_empty(): raw["collapse"] = collapse.duplicate(true)
 	# Повреждённый runtime должен дойти до отказа capture, а не до сортировки
 	# по отсутствующему полю; нельзя скрывать лишние поля при построении DTO.
 	if not valid(raw): return raw
@@ -32,20 +33,20 @@ func to_dict() -> Dictionary:
 		"fires": _copy_records(sorted_fires),
 		"corpses": _copy_records(sorted_corpses),
 		"processed_deaths": sorted_deaths,
-	}.merged({"collapse": collapse.duplicate(true)} if not collapse.is_empty() else {})
+	}.merged({"collapse": collapse.duplicate(true)} if status_effects or not collapse.is_empty() else {})
 
 static func valid(data: Variant) -> bool:
 	if typeof(data) != TYPE_DICTIONARY:
 		return false
 	var value: Dictionary = data
-	if typeof(value.get("schema_version")) != TYPE_INT or value["schema_version"] not in [1, 2]:
+	if typeof(value.get("schema_version")) != TYPE_INT or value["schema_version"] not in [1, 2, 3]:
 		return false
 	var schema: int = value["schema_version"]
 	var expected_keys: Array[String] = ["schema_version", "next_fire_id", "next_corpse_id", "fires", "corpses", "processed_deaths"]
-	if schema == 2: expected_keys.append("collapse")
+	if schema >= 2: expected_keys.append("collapse")
 	if not _has_exact_keys(value, expected_keys):
 		return false
-	if schema == 2 and not _valid_collapse(value["collapse"]): return false
+	if schema >= 2 and not _valid_collapse(value["collapse"]): return false
 	if typeof(value["next_fire_id"]) != TYPE_INT or typeof(value["next_corpse_id"]) != TYPE_INT:
 		return false
 	var next_fire: int = value["next_fire_id"]
@@ -66,11 +67,15 @@ static func valid(data: Variant) -> bool:
 		if typeof(raw) != TYPE_DICTIONARY:
 			return false
 		var fire: Dictionary = raw
-		if not _has_exact_keys(fire, ["id", "cell", "damage"]):
+		var fire_keys: Array[String] = ["id", "cell", "damage"]
+		if schema == 3: fire_keys.append("effect")
+		if not _has_exact_keys(fire, fire_keys):
 			return false
 		if typeof(fire["id"]) != TYPE_INT or not _valid_id(fire["id"]) or fire_ids.has(fire["id"]):
 			return false
-		if typeof(fire["cell"]) != TYPE_VECTOR2I or typeof(fire["damage"]) != TYPE_INT or fire["damage"] != FIRE_DAMAGE:
+		if schema == 3 and (typeof(fire["effect"]) != TYPE_STRING or fire["effect"] not in ["bleeding", "burning"]): return false
+		var damage: int = 0 if schema == 3 and fire["effect"] == "burning" else FIRE_DAMAGE
+		if typeof(fire["cell"]) != TYPE_VECTOR2I or typeof(fire["damage"]) != TYPE_INT or fire["damage"] != damage:
 			return false
 		var cell: Vector2i = fire["cell"]
 		var cell_key: String = "%d:%d" % [cell.x, cell.y]
@@ -119,7 +124,8 @@ static func from_dict(data: Dictionary) -> CombatEnvironmentState:
 	if not valid(data):
 		return null
 	var result := CombatEnvironmentState.new()
-	if data["schema_version"] == 2: result.collapse = data["collapse"].duplicate(true)
+	if data["schema_version"] >= 2: result.collapse = data["collapse"].duplicate(true)
+	result.status_effects = data["schema_version"] == 3
 	result.next_fire_id = data["next_fire_id"]
 	result.next_corpse_id = data["next_corpse_id"]
 	result.fires.assign(_sorted_records(data["fires"]))
@@ -156,11 +162,13 @@ func corpses_at(cell: Vector2i) -> Array[Dictionary]:
 	result.sort_custom(_sort_by_id)
 	return result
 
-func ignite(cell: Vector2i) -> Dictionary:
+func ignite(cell: Vector2i, effect: String = "bleeding") -> Dictionary:
+	if status_effects and effect not in ["bleeding", "burning"]: return {}
 	# Проверяем пределы до записи, чтобы отказ не менял ни запись, ни счётчик.
 	if fires.size() >= MAX_RECORDS or not _valid_id(next_fire_id) or next_fire_id >= MAX_ID - 1 or not fire_at(cell).is_empty():
 		return {}
-	var result := {"id": next_fire_id, "cell": cell, "damage": FIRE_DAMAGE}
+	var result := {"id": next_fire_id, "cell": cell, "damage": 0 if status_effects and effect == "burning" else FIRE_DAMAGE}
+	if status_effects: result["effect"] = effect
 	fires.append(result.duplicate(true))
 	next_fire_id += 1
 	return result.duplicate(true)
