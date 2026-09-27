@@ -29,6 +29,7 @@ core без `--full` в неё не входит. Повторять более 
 
 | Область | Адресный runner в `tests/` |
 |---|---|
+| Завершающая сверка K10–K17 | `test_core_readiness_status.gd` (full/render): совместные границы команд/раунда, настоящие пространственные пути добивания, restore/preview/live и FAULTED; `test_push_chain_reactions.gd::_death_spikes_and_collapse`: смерть среднего помощника, реакции, кровотечение/шипы и следующий обвал. Карта покрытия — CORE_READINESS. |
 | Эффекты K17 | `test_status_state_models.gd`, `test_elemental_snapshots.gd`, `test_status_effects.gd`, `test_status_effects_ui.gd` (full/render): codec/изоляция, источники/armor-gates/сроки, движение/цепи/добивание, guards/FAULTED, workers/preview/live и UI |
 | Цепное отталкивание K16 | `test_push_chain.gd`, `test_push_chain_reactions.gd`, `test_push_chain_ui.gd` (full/render): затухание/смерти/геометрия, помощники/вещи/реакции, preflight/guards/FAULTED, полный parity/worker, ввод и PNG |
 | Противник первым в K15 | `test_enemy_first.gd` (full/render): старт/расстановка/reset без refill, раунд/контроль, полный круг предупреждения, K13/live worker parity, terminal/FAULTED prefix; настоящий ввод — `test_collapse_ui.gd` |

@@ -88,6 +88,7 @@ func summon(s: BattleCoreReactionsSession, owner: UnitState, cell: Vector2i) -> 
 func run() -> void:
 	_helpers()
 	_reactions_and_armor()
+	_death_spikes_and_collapse()
 	print("PUSH CHAIN REACTIONS RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
 
@@ -106,6 +107,7 @@ func _helpers() -> void:
 		check(receipt.status == ActionReceipt.APPLIED and links.size() == 2 and links[1]["target_unit_id"] == helper.id and helper.cell == Vector2i(5, 3), "helper receives second impulse and final move")
 		check(s.units[1].cell == Vector2i(2, 3) and owner.cell == Vector2i(3, 3), "earlier bodies remain in place")
 	s.close()
+
 	s = fixture()
 	owner = s.units[4]
 	check(s.board.move_unit(s.units[2], Vector2i(2, 0)), "clear middle for helper")
@@ -166,4 +168,67 @@ func _reactions_and_armor() -> void:
 		var source: Dictionary = event.get("source", {})
 		if source.get("kind") != &"collision": continue
 		check(source.get("instigator_unit_id") == attacker.id and source.get("credit_unit_id") == attacker.id, "collision source credits original attacker")
+	s.close()
+
+## Один каскад связывает смерть помощника, реальные шипы K17 и следующий обвал.
+func _death_spikes_and_collapse() -> void:
+	var s := fixture()
+	var owner: UnitState = s.units[4]
+	check(s.board.move_unit(s.units[2], Vector2i(2, 0)), "audit clears middle")
+	check(s.board.move_unit(owner, Vector2i(3, 2)), "audit helper owner")
+	var helper := summon(s, owner, Vector2i(3, 3))
+	if helper == null:
+		s.close()
+		return
+	helper.stats.set_base_value(StatTypes.StatType.BALANCE_MAX, 1.0)
+	helper.vitals.set_hp(1.0)
+	var heal_definition := ItemDef.new()
+	heal_definition.id = &"audit_dead_helper_heal"
+	var heal := HealOnDamageEffect.new()
+	heal.heal_amount = 2.0
+	heal_definition.effects.append(heal)
+	var item := s.state.get_owner(helper.id).create_item(heal_definition)
+	check(item != null and s.state.get_inventory(helper.id).add_item(item), "helper owns damage reaction")
+	var last: UnitState = s.units[5]
+	last.control.entangled_turns = 1
+	last.bleeding.stacks = 1
+	last.bleeding.ticks_left = 3
+	last.bleeding.hit_id = "audit"
+	last.bleeding.source = DamageSource.new(&"attack", 0, owner.cell, owner.id, owner.id).to_dict()
+	var target: UnitState = s.units[1]
+	target.guard_stance = true
+	target.combat_perks.mode = CombatPerksState.Mode.COUNTERATTACK
+	target.combat_perks.reaction_left = 1
+	var destination := Vector2i(5, 3)
+	s.state.environment.ignite(destination, "bleeding")
+	s.state.environment.collapse = {"turn": 1, "marked": [destination]}
+	var receipt := parity(s, "dead helper to spikes before collapse")
+	check(receipt.status == ActionReceipt.APPLIED and not helper.is_alive() and s.board.occupant_at(helper.cell) == null, "middle helper dies and releases occupancy")
+	check(s.state.environment.processed_deaths.count(helper.id) == 1 and s.state.environment.corpses_at(helper.cell).is_empty(), "disappearing helper records one death without a corpse")
+	check(last.cell == destination and last.control.entangled_turns == 0 and last.bleeding.stacks == 2 and last.bleeding.ticks_left == 3, "last moves, loses roots and gains spike stack")
+	check(s.units[1].cell == Vector2i(2, 3) and helper.cell == Vector2i(3, 3), "dead middle never pulls earlier bodies into vacancy")
+	var move_damage_seq := 0
+	var spike_damage_seq := 0
+	var spike_status_seq := 0
+	for event: Dictionary in receipt.get_events():
+		if event.get("target_unit_id") == helper.id:
+			check(event["kind"] != &"healed", "dead helper cannot receive an item heal")
+		if event.get("target_unit_id") != last.id: continue
+		if event["kind"] == &"hit_resolved":
+			for row: Dictionary in event["hit"]["raw"]:
+				if row["source"] == "bleeding_move": move_damage_seq = event["event_seq"]
+			if event["source"]["kind"] == &"cell": spike_damage_seq = event["event_seq"]
+		if event["kind"] == &"bleeding_changed": spike_status_seq = event["event_seq"]
+	check(move_damage_seq > 0 and spike_damage_seq > move_damage_seq and spike_status_seq > spike_damage_seq, "old bleed damage precedes spike hit and new stack")
+	var counter := events(receipt, &"counterattacked")
+	check(counter.size() == 1 and counter[0]["event_seq"] > spike_status_seq and target.combat_perks.reaction_left == 0, "one counter follows full spatial and status tail")
+	check(s.board.get_terrain(destination) == TerrainType.Type.FLOOR, "marked destination survives until environment phase")
+	var before := snapshot(s)
+	var forecast := TurnForecast.build(s)
+	check(forecast.status == ActionReceipt.APPLIED and snapshot(s) == before, "combined boundary forecast is isolated")
+	check(s.end_player_turn(), "combined boundary executes")
+	check(snapshot(s) == forecast.snapshot_after and s.context.get_rng().to_dict() == forecast.rng_after and s.context.simulation_counters() == forecast.counters_after and s.turn_events == forecast.events, "combined boundary matches snapshot events RNG counters")
+	check(not last.is_alive() and s.board.occupant_at(destination) == null and s.board.get_terrain(destination) == TerrainType.Type.VOID, "environment kills pushed terminal at marked destination")
+	check(s.state.environment.fire_at(destination).is_empty() and s.state.environment.corpses_at(destination).is_empty() and s.state.environment.processed_deaths.count(last.id) == 1, "collapse removes spikes and records one death without corpse")
+	check(s.state.environment.corpses_at(helper.cell).is_empty() and s.state.environment.processed_deaths.count(helper.id) == 1, "later phase never recreates disappearing helper corpse")
 	s.close()
