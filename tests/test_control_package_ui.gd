@@ -24,7 +24,7 @@ func _run() -> void:
 	viewport.size = Vector2i(1280, 850)
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport)
-	var scene_path: String = ProjectSettings.get_setting("application/run/main_scene")
+	var scene_path: String = "res://scenes/demo/core_reactions_battle.tscn"
 	var scene := load(scene_path) as PackedScene
 	demo = scene.instantiate() as BattleDemo
 	demo.set("deployment_enabled", false)
@@ -34,7 +34,7 @@ func _run() -> void:
 	await process_frame; await process_frame
 	demo.set_process(false)
 	var session := demo.session as BattleCoreReactionsSession
-	check(session != null and demo.core_reactions_mode, "main scene opens reaction session")
+	check(session != null and demo.core_reactions_mode, "standalone scene opens reaction session")
 	if session == null:
 		quit(1)
 		return

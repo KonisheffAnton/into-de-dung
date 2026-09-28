@@ -3,9 +3,21 @@ class_name BattleCoreReactionsSession
 
 var stun_selected: bool = false
 var elemental_selected: StringName = &""
+## Сессионная проекция классов не хранит ссылки на постоянных героев хаба.
+var actor_loadouts: Dictionary = {}
+
+func allows_loadout_action(action: StringName) -> bool:
+	if not actor_loadouts.has(selected_id): return true
+	var class_id: StringName = actor_loadouts[selected_id].class_id
+	match action:
+		&"blood_rune": return false
+		&"entangling_strike": return class_id == &"archer"
+		&"elemental", &"restore_armor": return class_id == &"mage"
+	return true
 
 func cast_reason(effect: StringName) -> StringName:
 	if effect in [&"mage.fire", &"mage.heal"]: return mage_reason(effect)
+	if not allows_loadout_action(&"elemental"): return &"status/capability_required"
 	if not can_player_act(): return &"battle/input_locked"
 	var actor := selected_unit()
 	if not ElementalRules.valid_unit(actor) or effect not in [&"burning", &"wet", &"freeze"]: return &"status/capability_required"
@@ -57,6 +69,13 @@ func prepare_retreat_forecast(cell: Vector2i) -> ForecastSimulation.Prepared:
 	return ForecastSimulation.prepare(context, _queue, MoveCommand.new(selected_id, path, context.get_revision(), &"safe_retreat"))
 
 func _command_for(id: int) -> AttackCommand:
+	if actor_loadouts.has(selected_id):
+		var ordinary := super._command_for(id)
+		if ordinary == null or rune_selected or (entangle_selected and not allows_loadout_action(&"entangling_strike")): return null
+		var attack_id: StringName = actor_loadouts[selected_id].attack_id
+		if stun_selected: attack_id = &"stunning_strike"
+		elif entangle_selected: attack_id = &"entangling_strike"
+		return AttackCommand.new(ordinary.get_actor_unit_id(), id, ordinary.get_expected_actor_cell(), ordinary.get_expected_target_cell(), attack_id, context.get_revision())
 	if not stun_selected: return super._command_for(id)
 	var ordinary := super._command_for(id)
 	if ordinary == null: return null
@@ -64,6 +83,7 @@ func _command_for(id: int) -> AttackCommand:
 
 ## Новый состав способностей использует весь прежний общий бой и его границы хода.
 func reset() -> void:
+	actor_loadouts.clear()
 	super.reset()
 	state.environment.collapse = {"turn": 0, "marked": []}
 	state.environment.status_effects = true
@@ -124,6 +144,28 @@ func reset() -> void:
 	flow_log.append("Порядок раунда: противник → вы → окружение. Окружение случайно отмечает клетку, а отметку прошлого круга обрушает в пропасть. Первый ход окружения только предупреждает; оставшийся на клетке погибает.")
 	flow_log[0] = "Шипы: 8 физического урона и стак кровотечения при входе. Горящая земля D3: поджог при входе и в начале хода, без разового урона. Броня не мешает наложению клеткой."
 	flow_log.append("Кровотечение: 1 за стак в начале хода, 2 за пройденную клетку; новое наложение обновляет 3 тика. Поджог снимает кровотечение; мокрый гасит поджог. Новые действия: Поджечь, Облить, Заморозить — 1 основное, дальность 3.")
+
+func restore_armor_reason() -> StringName:
+	if not allows_loadout_action(&"restore_armor"): return &"status/capability_required"
+	return super.restore_armor_reason()
+
+func healing_item() -> ItemInstance:
+	if not actor_loadouts.has(selected_id): return super.healing_item()
+	var owner := state.get_owner(selected_id) if state != null else null
+	if owner == null: return null
+	for item: ItemInstance in owner.get_items_for(ItemOwnerState.INVENTORY_PLACEMENT):
+		if String(item.get_definition_id()).begins_with("hero_flask_"): return item
+	return null
+
+func _check_outcome() -> void:
+	super._check_outcome()
+	if actor_loadouts.is_empty() or context == null or context.is_busy() or context.is_faulted(): return
+	if phase not in [Phase.PLAYER_TURN, Phase.ENEMY_TURN, Phase.VICTORY]: return
+	for id: int in actor_loadouts:
+		var unit := board.get_unit_by_id(id)
+		if unit != null and unit.is_alive(): return
+	# Временный помощник не заменяет погибших постоянных участников похода.
+	_set_terminal(Phase.DEFEAT, "Все наёмники погибли. Резерв остался в хабе.")
 
 # Переход владеет вводом целиком, включая callbacks каждого корня.
 func _refill(faction: Faction.Type) -> bool:

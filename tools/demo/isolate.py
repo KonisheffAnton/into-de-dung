@@ -67,6 +67,9 @@ def main():
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if legacy:
             invalid = invalid or "0 failed" not in output
+        if label in ("hero_progression", "hero_hub", "hero_hub_ui", "hero_hub_playthrough"):
+            marker = {"hero_progression": "HERO PROGRESSION RESULTS:", "hero_hub": "HERO HUB RESULTS:", "hero_hub_ui": "HERO HUB UI RESULTS:", "hero_hub_playthrough": "HERO HUB PLAYTHROUGH RESULTS:"}[label]
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "ally_transit":
             invalid = invalid or "ALLY TRANSIT RESULTS:" not in output or ", 0 failed" not in output
         if label in ("initiative_session", "initiative_ui"):
@@ -174,6 +177,13 @@ def main():
         raise RuntimeError("Archived scripts leaked into the class cache")
     if args.check or args.render_check:
         run("startup", ["--quit-after", "3"])
+        run("hero_progression", ["--script", "tests/test_hero_progression.gd"])
+        run("hero_hub", ["--script", "tests/test_hero_hub.gd"])
+        run("hero_hub_playthrough", ["--script", "tests/test_hero_hub_playthrough.gd"])
+        hero_ui_args = ["--script", "tests/test_hero_hub_ui.gd"]
+        if args.render_check:
+            hero_ui_args += ["--", "--captures=" + str(out / "captures")]
+        run("hero_hub_ui", hero_ui_args, headless=not args.render_check)
         run("ability_catalog", ["--script", "tests/test_ability_catalog.gd"])
         run("mage_cooldowns", ["--script", "tests/test_mage_cooldowns.gd"])
         run("mage_guards", ["--script", "tests/test_mage_boundaries_guards.gd"])

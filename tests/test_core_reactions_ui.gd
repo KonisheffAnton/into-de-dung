@@ -24,9 +24,8 @@ func run() -> void:
 	viewport.size = Vector2i(1280, 850)
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport)
-	var main_scene: String = ProjectSettings.get_setting("application/run/main_scene")
-	check(main_scene == "res://scenes/demo/core_reactions_battle.tscn", "F5 starts current combined reaction battle")
-	var scene := load(main_scene) as PackedScene
+	var scene := load("res://scenes/demo/core_reactions_battle.tscn") as PackedScene
+	check(scene != null, "standalone combined reaction battle remains available")
 	demo = scene.instantiate()
 	demo.set("deployment_enabled", false)
 	viewport.add_child(demo)

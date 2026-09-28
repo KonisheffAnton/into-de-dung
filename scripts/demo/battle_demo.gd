@@ -121,10 +121,13 @@ var _environment_forecast_worker := preload("res://scripts/demo/action_forecast_
 func is_execution_pending() -> bool:
 	return _execution_worker.is_started()
 
+func _allows_execution_worker() -> bool:
+	return get_script() == BattleDemo
+
 func _execute_live(method: StringName, args: Array = [], target_attempt: bool = false) -> void:
 	if is_execution_pending(): return
 	_clear_forecast()
-	if get_script() == BattleDemo and session != null and session.get_script() == BattleCoreReactionsSession:
+	if _allows_execution_worker() and session != null and session.get_script() == BattleCoreReactionsSession:
 		var owned := session as BattleCoreReactionsSession
 		# Отрисовка уже держит значения последнего refresh. Убираем доступ UI к runtime.
 		board_view.execution_pending = true
@@ -765,12 +768,12 @@ func _refresh() -> void:
 		elif seal != null:
 			var reason := _battle.summoning_hint_reason()
 			descriptors.append(_item_action_descriptor(seal, &"summoning_item", reason))
-		if session is BattleBleedingSession:
+		if session is BattleBleedingSession and (not session is BattleCoreReactionsSession or (session as BattleCoreReactionsSession).allows_loadout_action(&"blood_rune")):
 			descriptors.append({"action_id": &"blood_rune", "label": "Кровавая руна", "cost": "Перк · 1 основное", "disabled": locked or session.selected_unit() == null or not session.selected_unit().can_attack(), "tooltip": "Перк персонажа «Кровавая руна»: эта атака накладывает кровотечение даже без физического урона HP. Иммунитет сохраняется. " + ("Добавляет стак урона и обновляет срок до 3 тиков; 1 за стак в начале хода, 2 за клетку, с учётом естественной защиты." if session is BattleCoreReactionsSession else "Каждое успешное наложение добавляет 2 тика по 4 с учётом естественной защиты.")})
 		if environment_mode and session is BattleEnvironmentSession:
 			var raise_reason := (session as BattleEnvironmentSession).raise_hint_reason()
 			descriptors.append({"action_id": &"raise_corpse", "label": "Поднять тело", "cost": "1 основное", "disabled": locked or raise_reason != &"", "tooltip": "Выберите соседнюю свободную клетку без шипов той же высоты. Помощник: 16 HP, действует со следующего хода команды.\n" + (_reason_text(raise_reason) if raise_reason != &"" else "Тело расходуется после успешного поднятия.")})
-		if session is BattleCoreCombinationSession:
+		if session is BattleCoreCombinationSession and (not session is BattleCoreReactionsSession or (session as BattleCoreReactionsSession).allows_loadout_action(&"entangling_strike")):
 			descriptors.append({"action_id": &"entangling_strike", "label": "Опутывающий удар", "cost": "1 основное", "disabled": locked or session.selected_unit() == null or not session.selected_unit().can_attack() or ControlRules.action_reason(session.selected_unit()) != &"", "tooltip": "Обычный урон и толчок, затем путы при физическом HP-уроне. Без кровотечения. Движение цели запрещено до конца её ближайшего хода; следующий фактический толчок снимает путы. Повтор не накапливает срок."})
 			descriptors.append(_item_action_descriptor(seal, &"summoning_item", _battle.summoning_hint_reason()))
 		if session is BattleCoreReactionsSession and session.selected_unit() != null and session.selected_unit().combat_perks != null and session.selected_unit().combat_perks.definition.tank_reactions:
