@@ -12,8 +12,11 @@ var revision_before: int = 0
 var revision_after: int = 0
 var _steps: Array[Dictionary] = []
 var _events: Array[Dictionary] = []
+var _presentation_frames: Array[Dictionary] = []
 
 func get_steps() -> Array[Dictionary]:
 	return _steps.duplicate(true)
 func get_events() -> Array[Dictionary]:
 	return _events.duplicate(true)
+func get_presentation_frames() -> Array[Dictionary]:
+	return _presentation_frames.duplicate(true)

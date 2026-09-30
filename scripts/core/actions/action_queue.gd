@@ -1,10 +1,13 @@
 extends RefCounted
 class_name ActionQueue
 
+const PresentationState = preload("res://scripts/core/actions/action_presentation_state.gd")
+
 const MAX_ID: int = 9223372036854775807
 var _max_commands: int
 var _max_events: int
 var _max_depth: int
+var capture_presentation: bool = false
 var _busy := false
 var _faulted := false
 var _pending: Array[Dictionary] = []
@@ -139,9 +142,20 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 		if entry.command is ArtifactFormationCommand:
 			var projected := (entry.command as ArtifactFormationCommand).projected_after(context)
 			if not projected.is_empty(): artifact_expected.merge(projected,true)
+		var step_count_before := receipt._steps.size()
+		var event_count_before := receipt._events.size()
 		_execute_entry(entry, receipt, context)
 		if receipt.status != &"FAULTED" and not ability_check.call(): _fault(receipt, context, &"ability/checkpoint")
 		if receipt.status != &"FAULTED" and not artifact_check.call(): _fault(receipt, context, &"artifact/checkpoint")
+		if capture_presentation and receipt._steps.size() > step_count_before:
+			var new_events: Array[Dictionary] = []
+			for event_index: int in range(event_count_before, receipt._events.size()):
+				new_events.append(receipt._events[event_index].duplicate(true))
+			receipt._presentation_frames.append({
+				"step": receipt._steps[-1].duplicate(true),
+				"events": new_events,
+				"after": PresentationState.capture(context.get_state()),
+			})
 		if _pending.is_empty() and receipt.status == &"APPLIED" and _defer_item_reactions:
 			# Сначала spatial и состояния исходного hit, затем optional реакции предметов.
 			_defer_item_reactions = false

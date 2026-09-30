@@ -17,7 +17,7 @@
 | Отход / цепной толчок | [K14](SAFE_RETREAT_K14.md) / [K16](PUSH_CHAIN_K16.md) |
 | Обрушение / фаза среды | [ENVIRONMENT_COLLAPSE_K15](ENVIRONMENT_COLLAPSE_K15.md) |
 | Оглушающий удар и иммунитеты контроля | [CONTROL_PACKAGE_K11](CONTROL_PACKAGE_K11.md) |
-| Поток исполнения / владение runtime и вид UI | [BATTLE_EXECUTION_UI](BATTLE_EXECUTION_UI.md) |
+| Владение runtime / показ боя | [UI](BATTLE_EXECUTION_UI.md) / [V1](BATTLE_PRESENTATION_V1.md) |
 | Бой, управление | [TACTICAL_BATTLE](TACTICAL_BATTLE.md) |
 | Сравнение командных ходов и инициативы | [INITIATIVE_COMPARISON](INITIATIVE_COMPARISON.md) |
 | Проход через союзников | [ALLY_TRANSIT](ALLY_TRANSIT.md) |

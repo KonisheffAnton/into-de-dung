@@ -46,6 +46,144 @@ var _view_units: Array[Dictionary] = []
 var _view_fires: Array[Dictionary] = []
 var _view_corpses: Array[Dictionary] = []
 var _view_collapse: Array[Vector2i] = []
+## Сменяемая временная фигура; будущая сцена может использовать AnimationPlayer/AnimatedSprite2D.
+var unit_visual_scene: PackedScene
+
+func show_presentation_state(value: Dictionary) -> void:
+	clear_presentation_effects()
+	_view_width = int(value.get("width", 0))
+	_view_height = int(value.get("height", 0))
+	_view_heights = value.get("heights", PackedInt32Array()).duplicate()
+	_view_terrain = value.get("terrain", PackedByteArray()).duplicate()
+	_view_units.clear()
+	for row: Dictionary in value.get("units", {}).values():
+		var view := BattleUnitView.new()
+		view.id = row.id
+		view.debug_name = row.name
+		view.faction = int(row.faction) as Faction.Type
+		view.alive = row.alive
+		view.hp = row.hp
+		view.hp_max = row.hp_max
+		view.balance = row.balance
+		view.balance_max = row.balance_max
+		_view_units.append({"unit": view, "cell": row.cell, "selected": false,
+			"inspected": false, "show_rear": false, "armor": row.armor.duplicate(true),
+			"status": presentation_status(row)})
+	_view_fires.assign(value.get("fires", []).duplicate(true))
+	_view_corpses.assign(value.get("corpses", []).duplicate(true))
+	_view_collapse.assign(value.get("collapse", {}).get("marked", []).duplicate(true))
+	_reachable.clear()
+	inspection_cells.clear()
+	reaction_zone_cells.clear()
+	cover_target_ids.clear()
+	sneak_threat_ids.clear()
+	_path.clear()
+	_rebuild_visuals()
+	queue_redraw()
+	if _overlay != null: _overlay.queue_redraw()
+
+static func presentation_status(row: Dictionary) -> String:
+	var labels: PackedStringArray = []
+	var bleed: Dictionary = row.get("bleeding", {})
+	var elemental: Dictionary = row.get("elemental", {})
+	var control: Dictionary = row.get("control", {})
+	if int(bleed.get("stacks", 0)) > 0: labels.append("Кровь ×%d" % bleed.stacks)
+	if int(elemental.get("burning_stacks", 0)) > 0: labels.append("Горение ×%d" % elemental.burning_stacks)
+	if int(elemental.get("wet_turns", 0)) > 0: labels.append("Мокрый")
+	if int(elemental.get("frozen_turns", 0)) > 0: labels.append("Заморожен")
+	if int(control.get("stunned_turns", 0)) > 0: labels.append("Оглушён")
+	if int(control.get("entangled_turns", 0)) > 0: labels.append("Путы")
+	return " · ".join(labels)
+
+func clear_presentation_effects() -> void:
+	_clear_layer(_ghosts)
+
+func _presentation_visual(id: int) -> BattleDemoIsoVisual:
+	for visual: BattleDemoIsoVisual in _entity_visuals:
+		if visual.unit != null and visual.unit.id == id: return visual
+	return null
+
+func _presentation_motion(progress: float, id: int, from: Vector2i, to: Vector2i) -> void:
+	# Поиск текущего узла сохраняет Tween при rebuild/resize; ссылки на runtime здесь нет.
+	var visual := _presentation_visual(id)
+	if visual == null: return
+	visual.half_steps = 0
+	visual.position = IsoGridUtils.grid_to_screen(from, grid_config, 0).lerp(IsoGridUtils.grid_to_screen(to, grid_config, 0), progress)
+	visual.presentation_lift = -0.5 * lerpf(_view_height_steps(from), _view_height_steps(to), progress) * grid_config.height_step
+	if progress >= 1.0:
+		for row: Dictionary in _view_units:
+			if row.unit.id == id: row.cell = to
+
+func _presentation_pulse(progress: float, id: int, dying: bool, falling: bool) -> void:
+	var visual := _presentation_visual(id)
+	if visual == null: return
+	if dying:
+		visual.modulate.a = 1.0 - progress
+		if falling: visual.fall_drop = progress * grid_config.tile_size.y * 1.4
+	else:
+		visual.modulate = Color.WHITE.lerp(Color("ffd07a"), sin(progress * PI) * 0.8)
+
+func _presentation_badge(event: Dictionary) -> void:
+	clear_presentation_effects()
+	var id := int(event.get("target_unit_id", 0))
+	var cell: Vector2i = event.get("cell", _view_unit_cell(id))
+	if cell.x < 0: return
+	# Внутри одного шага moved может уже сдвинуть фигуру до died/control_changed.
+	var visual := _presentation_visual(id)
+	var anchor := visual.position + visual.get_visual_offset() if visual != null else cell_center(cell)
+	var label := Label.new()
+	label.text = _presentation_caption(event)
+	label.add_theme_color_override("font_color", Color("fff2bd"))
+	label.add_theme_color_override("font_shadow_color", Color("101522"))
+	label.add_theme_constant_override("shadow_offset_x", 2)
+	label.add_theme_constant_override("shadow_offset_y", 2)
+	label.position = anchor + Vector2(-35, -72)
+	_ghosts.add_child(label)
+	if event.get("kind") in [&"attacked", &"opportunity_attacked", &"counterattacked"]:
+		var from: Vector2i = event.get("actor_cell", cell)
+		var line := Line2D.new()
+		line.width = 3.0
+		line.default_color = Color("ffd07a")
+		line.points = PackedVector2Array([cell_center(from) + Vector2(0, -20), anchor + Vector2(0, -20)])
+		_ghosts.add_child(line)
+
+static func _presentation_caption(event: Dictionary) -> String:
+	match StringName(event.get("kind", &"")):
+		&"damaged": return "−%.1f HP" % float(event.amount)
+		&"healed": return "+%.1f HP" % float(event.amount)
+		&"armor_changed": return "БРОНЯ"
+		&"attacked": return "УДАР"
+		&"opportunity_attacked", &"counterattacked", &"reaction_used": return "РЕАКЦИЯ"
+		&"died": return "ПАДЕНИЕ" if event.get("source", {}).get("kind") == &"fall" else "ГИБЕЛЬ"
+		&"mage_cast": return "МАГ"
+		&"elemental_cast", &"elemental_changed", &"control_changed", &"bleeding_changed": return "СОСТОЯНИЕ"
+		&"summoned", &"corpse_raised": return "ПРИЗЫВ"
+		&"support_collapsed": return "ОБВАЛ"
+		&"fell": return "ПАДЕНИЕ"
+		&"collision", &"push_blocked": return "СТОЛКНОВЕНИЕ"
+		&"balance_broken", &"chain_link": return "ТОЛЧОК"
+		&"guarded": return "ЗАЩИТА"
+	return ""
+
+func animate_presentation_frame(events: Array) -> Tween:
+	var tween := create_tween()
+	var visible_event := false
+	for event: Dictionary in events:
+		var kind := StringName(event.get("kind", &""))
+		var id := int(event.get("target_unit_id", 0))
+		if kind == &"moved" or kind == &"fell":
+			var path: Array = event.get("transit_path", [event.from_cell, event.get("to_cell", event.get("attempted_cell", event.from_cell))])
+			for index in range(1, path.size()):
+				tween.tween_method(_presentation_motion.bind(id, path[index - 1], path[index]), 0.0, 1.0, 0.16)
+			visible_event = true
+		elif not _presentation_caption(event).is_empty():
+			tween.tween_callback(_presentation_badge.bind(event.duplicate(true)))
+			var dying := kind == &"died"
+			var falling: bool = dying and event.get("source", {}).get("kind") == &"fall"
+			tween.tween_method(_presentation_pulse.bind(id, dying, falling), 0.0, 1.0, 0.3 if dying else 0.16)
+			visible_event = true
+	if not visible_event: tween.tween_interval(0.035)
+	return tween
 
 func _ready() -> void:
 	custom_minimum_size = Vector2(520, 520)
@@ -234,7 +372,12 @@ func _rebuild_visuals() -> void:
 	_entity_visuals.sort_custom(func(a: BattleDemoIsoVisual, b: BattleDemoIsoVisual) -> bool: return a.position.y < b.position.y or (a.position.y == b.position.y and a.get_index() < b.get_index()))
 
 func _make_visual(cell: Vector2i, steps: int, role: BattleDemoIsoVisual.Role) -> BattleDemoIsoVisual:
-	var visual := BattleDemoIsoVisual.new()
+	var visual: BattleDemoIsoVisual
+	if role == BattleDemoIsoVisual.Role.UNIT and unit_visual_scene != null:
+		var candidate := unit_visual_scene.instantiate()
+		visual = candidate as BattleDemoIsoVisual
+		if visual == null: candidate.free()
+	if visual == null: visual = BattleDemoIsoVisual.new()
 	visual.grid_config = grid_config
 	visual.role = role
 	visual.half_steps = steps

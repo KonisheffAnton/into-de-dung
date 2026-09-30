@@ -40,6 +40,7 @@ func _build_ui() -> void:
 	_heading.get_parent().add_child(_return_button)
 
 func _refresh() -> void:
+	if is_execution_pending(): return
 	super._refresh()
 	if _heading == null or session == null:
 		return

@@ -16,6 +16,10 @@ var show_rear: bool = false
 var status_text: String = ""
 var transient_label: String = ""
 var transient_tint := Color("f7c97d")
+var presentation_lift: float = 0.0:
+	set(value):
+		presentation_lift = value
+		queue_redraw()
 var fall_drop: float = 0.0:
 	set(value):
 		fall_drop = value
@@ -28,7 +32,7 @@ func _update_sort_position() -> void:
 
 func get_visual_offset() -> Vector2:
 	if grid_config == null: return Vector2.ZERO
-	return Vector2(0, -0.5 * float(half_steps) * grid_config.height_step + fall_drop)
+	return Vector2(0, -0.5 * float(half_steps) * grid_config.height_step + fall_drop + presentation_lift)
 
 func _top_offset() -> Vector2:
 	var offset := get_visual_offset()

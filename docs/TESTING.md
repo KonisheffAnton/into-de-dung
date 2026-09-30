@@ -29,6 +29,7 @@ core без `--full` в неё не входит. Повторять более 
 
 | Область | Адресный runner в `tests/` |
 |---|---|
+| Показ V1 | `test_presentation_capture.gd`, `test_battle_presentation.gd` (full/render): value-only кадры, preview/live parity, пустые события/refill, FAULTED prefix, настоящий UI/HP/порядок, пропуск/скорость/resize, multi-root ход/маг, цепное падение, задержка исхода H1, reset/exit и PNG |
 | Полный цикл U14 | `test_expedition_generator`, `test_expedition_transitions`, `test_battle_artifact_snapshot`, `test_expedition_artifacts`, `test_expedition_playthrough`, `test_expedition_ui` (`.gd`, full/render): граф/seed, фазы/потери/merge/миграция, v8/guards, триггеры/preview/workers, настоящий поход и ввод/PNG. Полная победа — допустимый профиль ветеранов уровня 10; ранний выход и поражение — новички. Баланс новичков runner не утверждает. UI использует terminal fixture; playthrough исполняет обычные действия/ИИ. |
 | Хаб H1 | `test_hero_progression.gd`, `test_hero_hub.gd`, `test_hero_hub_ui.gd`, `test_hero_hub_playthrough.gd`: найм/XP/сброс, codecs/изоляция/отказ записи, бой/прогноз, полные бои, ввод/автосохранение/PNG |
 | Маг и откаты K18 | `test_ability_catalog.gd`, `test_mage_cooldowns.gd`, `test_mage_boundaries_guards.gd`, `test_mage_ui.gd` (full/render): реестр, schema7/часы/skip, цена/FAULTED/guards, полные snapshots/events/steps/RNG/counters, оба worker/TurnForecast, ввод/refresh/PNG |

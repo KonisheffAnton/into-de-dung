@@ -112,6 +112,9 @@ def main():
         if label in ("battle_execution_worker", "battle_execution_ui"):
             marker = "BATTLE EXECUTION WORKER RESULTS:" if label == "battle_execution_worker" else "BATTLE EXECUTION UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label in ("presentation_capture", "battle_presentation"):
+            marker = label.replace("_", " ").upper() + " RESULTS:"
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("snapshot_value_copy", "live_snapshot_capture", "summon_checkpoint"):
             marker = {"snapshot_value_copy": "SNAPSHOT VALUE COPY RESULTS:", "live_snapshot_capture": "LIVE SNAPSHOT CAPTURE RESULTS:", "summon_checkpoint": "SUMMON CHECKPOINT RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -180,6 +183,13 @@ def main():
         raise RuntimeError("Archived scripts leaked into the class cache")
     if args.check or args.render_check:
         run("startup", ["--quit-after", "3"])
+        run("presentation_capture", ["--script", "tests/test_presentation_capture.gd"])
+        presentation_args = ["--script", "tests/test_battle_presentation.gd"]
+        if args.render_check:
+            presentation_captures = out / "presentation-screenshots"
+            presentation_captures.mkdir()
+            presentation_args += ["--", "--captures=" + str(presentation_captures)]
+        run("battle_presentation", presentation_args, headless=not args.render_check)
         run("hero_progression", ["--script", "tests/test_hero_progression.gd"])
         run("hero_hub", ["--script", "tests/test_hero_hub.gd"])
         run("hero_hub_playthrough", ["--script", "tests/test_hero_hub_playthrough.gd"])

@@ -100,6 +100,18 @@ var _pointer_position := Vector2(-1, -1)
 var _shown_inspection_id: int = UnitId.NONE
 var _hovered_bar_action: StringName = &""
 var _execution_worker := BattleExecutionWorker.new()
+@export var presentation_enabled: bool = true
+var _presentation_player: BattlePresentationPlayer
+var _presentation_before: Dictionary = {}
+var _presentation_roots: Array[Dictionary] = []
+var _presentation_events: Array[Dictionary] = []
+var _presentation_seen: Dictionary = {}
+var _presentation_method: StringName
+var _presentation_result: Variant
+var _presentation_target: bool = false
+var _receipt_already_presented: bool = false
+var _skip_presentation_button: Button
+var _speed_presentation_button: Button
 var _turn_forecast: TurnForecast
 var _turn_forecast_pending: bool = false
 var _turn_forecast_generation: int = 0
@@ -119,7 +131,10 @@ var _environment_forecast_actor: int = 0
 var _environment_forecast_worker := preload("res://scripts/demo/action_forecast_worker.gd").new()
 
 func is_execution_pending() -> bool:
-	return _execution_worker.is_started()
+	return _execution_worker.is_started() or is_presentation_pending()
+
+func is_presentation_pending() -> bool:
+	return _presentation_player != null and _presentation_player.active
 
 func _allows_execution_worker() -> bool:
 	return get_script() == BattleDemo
@@ -127,6 +142,10 @@ func _allows_execution_worker() -> bool:
 func _execute_live(method: StringName, args: Array = [], target_attempt: bool = false) -> void:
 	if is_execution_pending(): return
 	_clear_forecast()
+	# Сбор значений разрешён только для проверенного штатного runtime, включая sync fallback.
+	if presentation_enabled and session != null and session.get_script() == BattleCoreReactionsSession and BattleExecutionWorker.can_transfer(session):
+		_presentation_before = ActionPresentationState.capture(session.state)
+		session.begin_presentation_capture()
 	if _allows_execution_worker() and session != null and session.get_script() == BattleCoreReactionsSession:
 		var owned := session as BattleCoreReactionsSession
 		# Отрисовка уже держит значения последнего refresh. Убираем доступ UI к runtime.
@@ -156,11 +175,43 @@ func _restore_execution_owner(completed: Dictionary) -> void:
 	board_view.execution_pending = false
 
 func _join_execution() -> void:
+	if _presentation_player != null: _presentation_player.cancel()
 	# Reset/выход ждут завершения prefix, но не публикуют устаревший receipt в новый бой.
 	var completed := _execution_worker.take_finished(true)
 	if not completed.is_empty(): _restore_execution_owner(completed)
+	if not _presentation_before.is_empty() and session != null: session.take_presentation_capture()
+	_presentation_before.clear()
+	_presentation_roots.clear()
+	_presentation_events.clear()
+	_presentation_result = null
+	if board_view != null: board_view.execution_pending = false
+	if _skip_presentation_button != null: _skip_presentation_button.hide()
+	if _speed_presentation_button != null: _speed_presentation_button.hide()
 
 func _complete_live(method: StringName, result: Variant, target_attempt: bool) -> void:
+	if not _presentation_before.is_empty():
+		_presentation_roots = session.take_presentation_capture()
+		var frames: Array[Dictionary] = []
+		for root: Dictionary in _presentation_roots: frames.append_array(root.frames)
+		if not frames.is_empty():
+			_presentation_method = method
+			_presentation_result = result
+			_presentation_target = target_attempt
+			_presentation_seen.clear()
+			board_view.execution_pending = true
+			_skip_presentation_button.show()
+			_speed_presentation_button.show()
+			_action_bar.hide()
+			_mage_row.hide()
+			_move_button.disabled = true
+			_attack_button.disabled = true
+			_end_turn_button.disabled = true
+			_environment_button.disabled = true
+			_phase_label.text = "Показ действия"
+			_render_presentation_hud(_presentation_before)
+			_presentation_player.play(board_view, _presentation_before, frames, ActionPresentationState.capture(session.state))
+			return
+		_presentation_before.clear()
 	if method == &"end_player_turn":
 		if result:
 			_clear_action_mode()
@@ -171,9 +222,84 @@ func _complete_live(method: StringName, result: Variant, target_attempt: bool) -
 	else:
 		_refresh()
 
+func _presentation_frame_started(frame: Dictionary) -> void:
+	_presentation_events.assign(frame.events)
+	var caption := "Изменение состояния хода"
+	for event: Dictionary in frame.events:
+		var value := BattleDemoBoard._presentation_caption(event)
+		if event.get("kind") == &"moved": value = "Движение"
+		if not value.is_empty():
+			caption = value
+			break
+	_status.text = caption + " · Пробел: пропустить · ×1 / ×3"
+
+func _presentation_frame_finished(state: Dictionary) -> void:
+	for event: Dictionary in _presentation_events: _note_presentation_event(event)
+	_render_presentation_hud(state)
+	_log.text = "\n".join(_journal)
+
+func _note_presentation_event(event: Dictionary) -> void:
+	var seq := int(event.get("event_seq", 0))
+	if _presentation_seen.has(seq): return
+	_presentation_seen[seq] = true
+	_note(_event_text(event))
+
+func _render_presentation_hud(state: Dictionary) -> void:
+	for child: Node in _roster.get_children():
+		_roster.remove_child(child)
+		child.queue_free()
+	var details: PackedStringArray = []
+	for row: Dictionary in state.get("units", {}).values():
+		var status := BattleDemoBoard.presentation_status(row)
+		var text := "%s · HP %.1f / %.1f" % [row.name, row.hp, row.hp_max] if row.alive else "%s · погиб" % row.name
+		if not status.is_empty(): text += " · " + status
+		var button := _button(text)
+		button.disabled = true
+		button.clip_text = true
+		button.custom_minimum_size = Vector2(480, 30)
+		button.tooltip_text = text
+		_roster.add_child(button)
+		if row.alive:
+			details.append("%s · основное %d · движение %.1f · броня %d + %d" % [row.name, row.main, row.move, int(row.armor.get("current", 0)) - int(row.armor.get("extra", 0)), int(row.armor.get("extra", 0))])
+	_stats.text = "\n".join(details)
+	var abilities: Dictionary = state.get("abilities", {})
+	_mage_label.text = "Маг · мана %d" % int(abilities.get("mana", 0)) if not abilities.is_empty() else ""
+	for entry: Dictionary in abilities.get("ledger", []):
+		if String(entry.get("ability_id", "")).begins_with("mage."):
+			_mage_label.text += " · %s %d" % ["огонь" if entry.ability_id == "mage.fire" else "лечение", int(entry.remaining)]
+
+func skip_presentation() -> void:
+	if _presentation_player != null: _presentation_player.skip()
+
+func _toggle_presentation_speed() -> void:
+	_presentation_player.set_speed(3.0 if _presentation_player.speed < 2.0 else 1.0)
+	_speed_presentation_button.text = "Скорость ×%d" % int(_presentation_player.speed)
+
+func _finish_presentation() -> void:
+	for root: Dictionary in _presentation_roots:
+		for frame: Dictionary in root.frames:
+			for event: Dictionary in frame.events: _note_presentation_event(event)
+	# turn_events дублирует уже собранные roots; журнал границы не должен повторяться.
+	if session is BattleBleedingSession: (session as BattleBleedingSession).turn_events.clear()
+	_presentation_before.clear()
+	_presentation_roots.clear()
+	_presentation_events.clear()
+	board_view.execution_pending = false
+	_skip_presentation_button.hide()
+	_speed_presentation_button.hide()
+	_receipt_already_presented = true
+	_complete_live(_presentation_method, _presentation_result, _presentation_target)
+	_receipt_already_presented = false
+	_presentation_result = null
+
 func _ready() -> void:
 	_create_session()
 	_build_ui()
+	_presentation_player = BattlePresentationPlayer.new()
+	add_child(_presentation_player)
+	_presentation_player.frame_started.connect(_presentation_frame_started)
+	_presentation_player.frame_finished.connect(_presentation_frame_finished)
+	_presentation_player.finished.connect(_finish_presentation)
 	_note("Победите противников. Берегите своих персонажей у края." if tactical_mode else "Полигон готов. Все шесть персонажей управляются вручную.")
 	_refresh()
 
@@ -191,9 +317,10 @@ func _create_session() -> void:
 	_flow_cursor = 0
 
 func _process(delta: float) -> void:
-	if is_execution_pending():
+	if _execution_worker.is_started():
 		_poll_execution()
 		return
+	if is_presentation_pending(): return
 	_refresh_mage()
 	_process_move_forecast()
 	_process_attack_forecast()
@@ -208,6 +335,11 @@ func _process(delta: float) -> void:
 	_execute_live(&"step_enemy")
 
 func _input(event: InputEvent) -> void:
+	# Горячая клавиша показа должна опережать Space у кнопки, сохранившей фокус.
+	if is_presentation_pending() and event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_SPACE:
+		skip_presentation()
+		get_viewport().set_input_as_handled()
+		return
 	if is_execution_pending(): return
 	if event is InputEventMouseMotion:
 		# Координата самого viewport-события одинакова для мыши и replay/test input.
@@ -282,6 +414,15 @@ func _build_ui() -> void:
 	_phase_row = HBoxContainer.new()
 	root.add_child(_phase_row)
 	_phase_row.add_child(_phase_label)
+	_skip_presentation_button = _button("Пропустить · Пробел")
+	_skip_presentation_button.name = "SkipPresentationButton"
+	_skip_presentation_button.pressed.connect(skip_presentation)
+	_phase_row.add_child(_skip_presentation_button)
+	_skip_presentation_button.hide()
+	_speed_presentation_button = _button("Скорость ×1")
+	_speed_presentation_button.pressed.connect(_toggle_presentation_speed)
+	_phase_row.add_child(_speed_presentation_button)
+	_speed_presentation_button.hide()
 	_environment_button = _button("Окружение · прогноз фазы")
 	_environment_button.focus_mode = Control.FOCUS_NONE
 	_environment_button.pressed.connect(_request_environment_forecast)
@@ -1865,13 +2006,15 @@ func _show_receipt(receipt: ActionReceipt, target_attempt: bool = false) -> void
 	if target_attempt or receipt.status != ActionReceipt.REJECTED:
 		_clear_action_mode()
 	_clear_forecast()
-	for event in receipt.get_events(): _note(_event_text(event))
+	if not _receipt_already_presented:
+		for event in receipt.get_events(): _note(_event_text(event))
 	for step: Dictionary in receipt.get_steps():
 		if step["status"] == &"SKIPPED" and step["kind"] in [&"stun_apply", &"entangle_apply"]:
 			_note(("Оглушение" if step["kind"] == &"stun_apply" else "Путы") + ": наложение пропущено — " + _control_skip_text(step["reason"]) + ".")
 	_refresh()
 	# Смерть уже исполнена ядром; временная фигура лишь показывает падение в провал.
 	for event in receipt.get_events():
+		if _receipt_already_presented: break
 		if event.get("kind", &"") != &"died": continue
 		var source: Dictionary = event.get("source", {})
 		if source.get("kind", &"") != &"fall": continue
@@ -2071,6 +2214,7 @@ func _reason_text(reason: StringName) -> String:
 func _unhandled_input(event: InputEvent) -> void:
 	if is_execution_pending():
 		if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_R: reset_demo()
+		if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_SPACE: skip_presentation()
 		return
 	if event is InputEventKey and event.pressed and not event.echo:
 		match event.keycode:

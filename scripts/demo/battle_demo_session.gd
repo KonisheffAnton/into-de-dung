@@ -182,9 +182,23 @@ func _submit(command: Command) -> ActionReceipt:
 	_record_receipt(last_receipt)
 	return last_receipt
 
-func _record_receipt(_receipt: ActionReceipt) -> void:
-	# Пустая точка расширения нужна изолированным исполнителям; live не хранит trace.
-	pass
+var _presentation_receipts: Array[Dictionary] = []
+
+func begin_presentation_capture() -> void:
+	_presentation_receipts.clear()
+	_queue.capture_presentation = true
+
+func take_presentation_capture() -> Array[Dictionary]:
+	_queue.capture_presentation = false
+	var result := _presentation_receipts
+	_presentation_receipts = []
+	return result
+
+func _record_receipt(receipt: ActionReceipt) -> void:
+	# Один вызов перехода может исполнить несколько roots, включая шаги без событий.
+	if _queue.capture_presentation:
+		_presentation_receipts.append({"status": receipt.status, "reason": receipt.reason,
+			"root_id": receipt.root_id, "frames": receipt.get_presentation_frames()})
 
 func _reject(reason: StringName) -> ActionReceipt:
 	var receipt := ActionReceipt.new()
