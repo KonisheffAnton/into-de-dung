@@ -20,6 +20,12 @@ var transient_tint := Color("f7c97d")
 var frozen: bool = false
 var burning: bool = false
 var _scene_art_enabled: bool = false
+## Выпад/отдача сдвигают рисунок, но не опору сортировки, клетку и HUD.
+var action_offset: Vector2 = Vector2.ZERO:
+	set(value):
+		action_offset = value
+		sync_scene_art()
+		queue_redraw()
 var presentation_lift: float = 0.0:
 	set(value):
 		presentation_lift = value
@@ -51,7 +57,7 @@ func sync_scene_art() -> void:
 	_scene_art_enabled = true
 	var factor := grid_config.tile_size.x / 128.0 if grid_config != null else 1.0
 	art.scale = Vector2.ONE * factor
-	art.position = get_visual_offset()
+	art.position = get_visual_offset() + action_offset
 	art.show_behind_parent = true
 	var surface := get_node_or_null("ArtRoot/SurfaceSprite") as Sprite2D
 	var body := get_node_or_null("ArtRoot/BodySprite") as Sprite2D
@@ -199,6 +205,7 @@ func _draw_unit() -> void:
 	# Высота силуэта отделена от его наземной опоры для общей Y-сортировки.
 	draw_set_transform(foot, 0, Vector2.ONE * factor)
 	if not _scene_art_enabled:
+		draw_set_transform(foot + action_offset, 0, Vector2.ONE * factor)
 		draw_colored_polygon(PackedVector2Array([Vector2(-18, 0), Vector2(0, -7), Vector2(18, 0), Vector2(0, 7)]), Color(0.03, 0.07, 0.10, 0.65))
 		draw_rect(Rect2(-10, -10, 7, 12), tint.darkened(0.5))
 		draw_rect(Rect2(3, -10, 7, 12), tint.darkened(0.5))
@@ -206,6 +213,7 @@ func _draw_unit() -> void:
 		draw_colored_polygon(PackedVector2Array([Vector2(10, -26), Vector2(16, -22), Vector2(17, -8), Vector2(14, -9)]), tint.darkened(0.3))
 		draw_rect(Rect2(-8, -37, 16, 13), tint.lightened(0.25))
 		draw_line(Vector2(-4, -30), Vector2(7, -30), Color("172230"), 3)
+		draw_set_transform(foot, 0, Vector2.ONE * factor)
 	var label := transient_label if unit == null else unit.debug_name
 	draw_string(ThemeDB.fallback_font, Vector2(-10, -12), label.left(1), HORIZONTAL_ALIGNMENT_CENTER, 20, 13, Color("172230"))
 	if unit != null:

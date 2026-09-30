@@ -34,6 +34,10 @@ var _tiles: Node2D
 var _entities: Node2D
 var _overlay: Node2D
 var _ghosts: Node2D
+var _numbers: Node2D
+var _impacts: Node2D
+var _pending_strikes: Dictionary = {}
+var _action_offsets: Dictionary = {}
 var _falling: Dictionary = {}
 var _fallen_ids: Dictionary = {}
 var _shown_board: BattleBoard
@@ -51,6 +55,11 @@ var _view_collapse: Array[Vector2i] = []
 var unit_visual_scene: PackedScene = preload("res://scenes/demo/visuals/placeholder_unit.tscn")
 var tile_visual_scene: PackedScene = preload("res://scenes/demo/visuals/placeholder_tile.tscn")
 const MOVE_SEGMENT_SECONDS: float = 0.10
+const STRIKE_WINDUP_SECONDS: float = 0.12
+const STRIKE_LUNGE_SECONDS: float = 0.08
+const STRIKE_RECOVERY_SECONDS: float = 0.20
+var number_scene: PackedScene = preload("res://scenes/demo/visuals/result_number.tscn")
+var impact_scene: PackedScene = preload("res://scenes/demo/visuals/hit_impact.tscn")
 
 func show_presentation_state(value: Dictionary) -> void:
 	clear_presentation_effects()
@@ -100,6 +109,132 @@ static func presentation_status(row: Dictionary) -> String:
 
 func clear_presentation_effects() -> void:
 	_clear_layer(_ghosts)
+
+func clear_strike_poses() -> void:
+	_pending_strikes.clear()
+	_action_offsets.clear()
+	for visual: BattleDemoIsoVisual in _entity_visuals: visual.action_offset = Vector2.ZERO
+
+func clear_presentation_feedback() -> void:
+	clear_presentation_effects()
+	clear_strike_poses()
+	_clear_layer(_numbers)
+	_clear_layer(_impacts)
+
+static func _strike_key(event: Dictionary) -> String:
+	return "%d:%d" % [int(event.get("root_id", 0)), int(event.get("event_seq", 0))]
+
+func _strike_direction(event: Dictionary) -> Vector2:
+	var from: Vector2i = event.actor_cell
+	var to: Vector2i = event.target_cell
+	return Vector2((to.x - from.x) - (to.y - from.y), ((to.x - from.x) + (to.y - from.y)) * 0.5).normalized()
+
+func _set_action_offset(id: int, offset: Vector2) -> void:
+	_action_offsets[id] = offset
+	var visual := _presentation_visual(id)
+	if visual != null: visual.action_offset = offset * grid_config.tile_size.x / 128.0
+
+func _strike_pose(distance: float, event: Dictionary) -> void:
+	_set_action_offset(int(event.actor_unit_id), _strike_direction(event) * distance)
+
+func _hit_recovery(progress: float, strike: Dictionary, dying: bool) -> void:
+	_strike_pose(24.0 * (1.0 - progress), strike)
+	_set_action_offset(int(strike.target_unit_id), _strike_direction(strike) * sin(progress * PI) * 14.0)
+	if dying:
+		var visual := _presentation_visual(int(strike.target_unit_id))
+		if visual != null: visual.modulate.a = 1.0 - progress
+
+func _hit_impact(event: Dictionary, tint: Color) -> void:
+	var visual := _presentation_visual(int(event.target_unit_id))
+	if visual == null: return
+	var impact := impact_scene.instantiate() as BattlePresentationImpact
+	_impacts.add_child(impact)
+	var anchor := visual.get_node_or_null("ArtRoot/EffectAnchor") as Node2D
+	impact.set_meta("cell", _view_unit_cell(int(event.target_unit_id)))
+	impact.set_meta("anchor", anchor.position if anchor != null else Vector2(0, -18))
+	_place_impacts()
+	impact.start(tint)
+
+func _place_impacts() -> void:
+	if _impacts == null: return
+	for impact: Node2D in _impacts.get_children():
+		var anchor: Vector2 = impact.get_meta("anchor")
+		impact.position = cell_center(impact.get_meta("cell")) + anchor * grid_config.tile_size.x / 128.0
+		impact.scale = Vector2.ONE * grid_config.tile_size.x / 128.0 * 0.7
+
+func _matching_strike(events: Array, step: Dictionary) -> Dictionary:
+	if step.get("kind") != &"attack_hit": return {}
+	for event: Dictionary in events:
+		if event.get("kind") not in [&"damaged", &"healed", &"armor_changed", &"hit_resolved"]: continue
+		# Mandatory attack_hit наследует parent_event_seq=0, а не event_seq атаки.
+		# Связываем только следующий шаг attack_hit того же root и тех же участников.
+		for strike: Dictionary in _pending_strikes.values():
+			if event.get("root_id") == strike.root_id and int(step.get("command_seq", 0)) == int(strike.command_seq) + 1 and event.get("source", {}).get("kind") == &"attack" and event.get("actor_unit_id") == strike.actor_unit_id and event.get("target_unit_id") == strike.target_unit_id:
+				return strike
+	return {}
+
+## Числа создаются на той же атомарной границе, что HP/броня поля и HUD.
+func finish_presentation_frame(events: Array, step: Dictionary = {}) -> void:
+	var strike := _matching_strike(events, step)
+	var numbered: Dictionary = {}
+	for event: Dictionary in events:
+		var kind := StringName(event.get("kind", &""))
+		var target := int(event.get("target_unit_id", 0))
+		var text := ""
+		var tint := Color("f29b9b")
+		if kind in [&"damaged", &"healed"] and float(event.get("amount", 0.0)) > 0.0:
+			text = ("−" if kind == &"damaged" else "+") + ("%.1f HP" % float(event.amount))
+			if kind == &"healed": tint = Color("65dfcc")
+			elif not strike.is_empty() and bool(strike.get("modifiers", {}).get("critical", false)): text = "КРИТ · " + text
+		elif kind == &"armor_changed":
+			var delta := 0.0
+			for change: Dictionary in event.get("grants", []) + event.get("items", []):
+				delta += float(change.after) - float(change.before)
+			if not is_zero_approx(delta): text = ("+" if delta > 0.0 else "−") + ("%.1f броня" % absf(delta))
+			tint = Color("8dcaff")
+		if not text.is_empty():
+			_add_result_number(target, text, tint)
+			numbered[target] = true
+	for event: Dictionary in events:
+		if event.get("kind") == &"hit_resolved" and not numbered.has(int(event.target_unit_id)):
+			_add_result_number(int(event.target_unit_id), "0 · без урона", Color("d6dfeb"))
+			numbered[int(event.target_unit_id)] = true
+	# FAULTED attack_hit без результата снимает замах без выдуманного попадания.
+	if step.get("kind") == &"attack_hit": clear_strike_poses()
+
+func _add_result_number(id: int, text: String, tint: Color) -> void:
+	var cell := _view_unit_cell(id)
+	if cell.x < 0: return
+	var number := number_scene.instantiate() as BattlePresentationNumber
+	_numbers.add_child(number)
+	number.set_meta("cell", cell)
+	var visual := _presentation_visual(id)
+	var anchor := visual.get_node_or_null("ArtRoot/LabelAnchor") as Node2D if visual != null else null
+	number.set_meta("anchor", anchor.position if anchor != null else Vector2(0, -48))
+	number.start(text, tint)
+	_place_result_numbers()
+
+func _place_result_numbers() -> void:
+	if _numbers == null: return
+	var occupied: Array[Rect2] = []
+	for number: BattlePresentationNumber in _numbers.get_children():
+		if number.is_queued_for_deletion(): continue
+		var anchor: Vector2 = number.get_meta("anchor")
+		var point := cell_center(number.get_meta("cell")) + anchor * grid_config.tile_size.x / 128.0
+		# Резервируем весь путь подписи: старое число не налетает на новое при подъёме.
+		var dimensions := number._label.size
+		var bounds := Rect2(point - Vector2(dimensions.x * 0.5, dimensions.y + number.rise), dimensions + Vector2(0, number.rise)).grow(3.0)
+		var collision := true
+		while collision:
+			collision = false
+			for prior: Rect2 in occupied:
+				if bounds.intersects(prior):
+					point.y = prior.position.y - 4.0
+					bounds.position.y = point.y - dimensions.y - number.rise - 3.0
+					collision = true
+					break
+		number.position = point
+		occupied.append(bounds)
 
 func _presentation_visual(id: int) -> BattleDemoIsoVisual:
 	for visual: BattleDemoIsoVisual in _entity_visuals:
@@ -179,12 +314,35 @@ static func _presentation_caption(event: Dictionary) -> String:
 		&"guarded": return "ЗАЩИТА"
 	return ""
 
-func animate_presentation_frame(events: Array) -> Tween:
+func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 	var tween := create_tween()
 	var visible_event := false
+	var strike := _matching_strike(events, step)
+	var melee_start := events.any(func(e: Dictionary) -> bool: return e.get("kind") in [&"attacked", &"opportunity_attacked", &"counterattacked"] and (e.actor_cell as Vector2i).distance_squared_to(e.target_cell) == 1)
+	if not strike.is_empty():
+		var impact_tint := Color("f29b9b") if events.any(func(e: Dictionary) -> bool: return e.get("kind") == &"damaged") else (Color("8dcaff") if events.any(func(e: Dictionary) -> bool: return e.get("kind") == &"armor_changed") else Color("d6dfeb"))
+		tween.tween_callback(_hit_impact.bind(strike, impact_tint))
+		var dying := events.any(func(e: Dictionary) -> bool: return e.get("kind") == &"died" and e.get("target_unit_id") == strike.target_unit_id)
+		tween.tween_method(_hit_recovery.bind(strike, dying), 0.0, 1.0, STRIKE_RECOVERY_SECONDS)
+		visible_event = true
 	for event: Dictionary in events:
 		var kind := StringName(event.get("kind", &""))
 		var id := int(event.get("target_unit_id", 0))
+		if kind == &"reaction_used" and melee_start: continue
+		if kind == &"died" and not strike.is_empty(): continue
+		if kind in [&"attacked", &"opportunity_attacked", &"counterattacked"] and (event.actor_cell as Vector2i).distance_squared_to(event.target_cell) == 1:
+			clear_strike_poses()
+			_pending_strikes[_strike_key(event)] = event.duplicate(true)
+			tween.tween_method(_strike_pose.bind(event.duplicate(true)), 0.0, -8.0, STRIKE_WINDUP_SECONDS)
+			tween.tween_method(_strike_pose.bind(event.duplicate(true)), -8.0, 24.0, STRIKE_LUNGE_SECONDS)
+			visible_event = true
+			continue
+		if kind in [&"damaged", &"healed", &"armor_changed", &"hit_resolved"]:
+			# Несколько технических записей попадания не создают повторную отдачу.
+			if strike.is_empty() and kind in [&"damaged", &"healed"]:
+				tween.tween_method(_presentation_pulse.bind(id, false, false), 0.0, 1.0, 0.16)
+				visible_event = true
+			continue
 		if kind == &"moved" or kind == &"fell":
 			var path: Array = event.get("transit_path", [event.from_cell, event.get("to_cell", event.get("attempted_cell", event.from_cell))])
 			for index in range(1, path.size()):
@@ -201,7 +359,7 @@ func animate_presentation_frame(events: Array) -> Tween:
 
 static func has_presentation_animation(events: Array) -> bool:
 	for event: Dictionary in events:
-		if event.get("kind", &"") in [&"moved", &"fell"] or not _presentation_caption(event).is_empty(): return true
+		if event.get("kind", &"") in [&"moved", &"fell", &"hit_resolved"] or not _presentation_caption(event).is_empty(): return true
 	return false
 
 func _ready() -> void:
@@ -212,6 +370,8 @@ func _ready() -> void:
 	_entities = _layer("EntitiesLayer", RenderLayers.Layer.ENTITIES)
 	_entities.y_sort_enabled = true
 	_ghosts = _layer("FallingFigures", RenderLayers.Layer.VFX_OVERLAY)
+	_impacts = _layer("HitImpacts", RenderLayers.Layer.VFX_OVERLAY)
+	_numbers = _layer("ResultNumbers", RenderLayers.Layer.VFX_OVERLAY)
 	_overlay = _layer("PathOverlay", RenderLayers.Layer.UI_PREVIEW)
 	_overlay.draw.connect(_draw_overlay)
 	mouse_exited.connect(_clear_hover)
@@ -231,6 +391,7 @@ func refresh() -> void:
 	if execution_pending: return
 	var live_board: BattleBoard = session.board if session != null else null
 	if live_board != _shown_board:
+		clear_presentation_feedback()
 		_clear_falls()
 		_fallen_ids.clear()
 		_shown_board = live_board
@@ -366,6 +527,8 @@ func _rescale_layout() -> void:
 	if is_inside_tree():
 		if not execution_pending: _clear_falls()
 		_rebuild_visuals()
+		_place_result_numbers()
+		_place_impacts()
 		queue_redraw()
 		if _overlay != null: _overlay.queue_redraw()
 
@@ -421,6 +584,7 @@ func _rebuild_visuals() -> void:
 		visual.frozen = bool(row.get("frozen", false))
 		_entities.add_child(visual)
 		visual.sync_scene_art()
+		visual.action_offset = (_action_offsets.get(unit.id, Vector2.ZERO) as Vector2) * grid_config.tile_size.x / 128.0
 		_entity_visuals.append(visual)
 	_sort_visuals()
 

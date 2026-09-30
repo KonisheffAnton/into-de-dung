@@ -185,6 +185,7 @@ func run() -> void:
 	demo._presentation_player._tween.play()
 	await preload("res://tests/fixtures/battle_execution_wait.gd").settle(self, demo)
 	check(shown(target.id).hp == target.vitals.get_hp(), "natural completion publishes actual HP")
+	check(not demo.is_execution_pending() and demo.board_view._numbers.get_child_count() > 0, "result numbers outlive playback without blocking commands")
 	var ordered := frame_sequences.duplicate()
 	ordered.sort()
 	check(frame_sequences == ordered and frame_sequences.size() > 1, "native tweens present command frames in order")
