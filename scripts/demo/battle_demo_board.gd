@@ -11,6 +11,12 @@ const GOLD := Color("f7c97d")
 const MUTED := Color("a5b3c5")
 var session: BattleDemoSession
 var execution_pending: bool = false
+var camera_controls_enabled: bool = false
+var forecast_wheel_handler: Callable
+var camera_view := BattleBoardCamera.new()
+var _camera_dragging: bool = false
+var _camera_reset: Button
+var _camera_layout_size := Vector2.ZERO
 var attack_mode: bool = false
 var retreat_mode: bool = false
 var summoning_mode: bool = false
@@ -159,7 +165,7 @@ func _place_impacts() -> void:
 	if _impacts == null: return
 	for impact: Node2D in _impacts.get_children():
 		var anchor: Vector2 = impact.get_meta("anchor")
-		impact.position = cell_center(impact.get_meta("cell")) + anchor * grid_config.tile_size.x / 128.0
+		impact.position = _world_cell_center(impact.get_meta("cell")) + anchor * grid_config.tile_size.x / 128.0
 		impact.scale = Vector2.ONE * grid_config.tile_size.x / 128.0 * 0.7
 
 func _matching_strike(events: Array, step: Dictionary) -> Dictionary:
@@ -220,7 +226,7 @@ func _place_result_numbers() -> void:
 	for number: BattlePresentationNumber in _numbers.get_children():
 		if number.is_queued_for_deletion(): continue
 		var anchor: Vector2 = number.get_meta("anchor")
-		var point := cell_center(number.get_meta("cell")) + anchor * grid_config.tile_size.x / 128.0
+		var point := _world_cell_center(number.get_meta("cell")) + anchor * grid_config.tile_size.x / 128.0
 		# Резервируем весь путь подписи: старое число не налетает на новое при подъёме.
 		var dimensions := number._label.size
 		var bounds := Rect2(point - Vector2(dimensions.x * 0.5, dimensions.y + number.rise), dimensions + Vector2(0, number.rise)).grow(3.0)
@@ -279,7 +285,7 @@ func _presentation_badge(event: Dictionary) -> void:
 	if cell.x < 0: return
 	# Внутри одного шага moved может уже сдвинуть фигуру до died/control_changed.
 	var visual := _presentation_visual(id)
-	var anchor := visual.position + visual.get_visual_offset() if visual != null else cell_center(cell)
+	var anchor := visual.position + visual.get_visual_offset() if visual != null else _world_cell_center(cell)
 	var label := Label.new()
 	label.text = _presentation_caption(event)
 	label.add_theme_color_override("font_color", Color("fff2bd"))
@@ -293,7 +299,7 @@ func _presentation_badge(event: Dictionary) -> void:
 		var line := Line2D.new()
 		line.width = 3.0
 		line.default_color = Color("ffd07a")
-		line.points = PackedVector2Array([cell_center(from) + Vector2(0, -20), anchor + Vector2(0, -20)])
+		line.points = PackedVector2Array([_world_cell_center(from) + Vector2(0, -20), anchor + Vector2(0, -20)])
 		_ghosts.add_child(line)
 
 static func _presentation_caption(event: Dictionary) -> String:
@@ -375,7 +381,86 @@ func _ready() -> void:
 	_overlay = _layer("PathOverlay", RenderLayers.Layer.UI_PREVIEW)
 	_overlay.draw.connect(_draw_overlay)
 	mouse_exited.connect(_clear_hover)
+	if camera_controls_enabled: _build_camera_controls()
 	_rescale_layout()
+	_apply_camera()
+
+func _build_camera_controls() -> void:
+	var controls := HBoxContainer.new()
+	controls.name = "CameraControls"
+	controls.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+	controls.offset_left = -160
+	controls.offset_right = -8
+	controls.offset_top = 8
+	controls.offset_bottom = 40
+	controls.z_index = RenderLayers.z_index_for(RenderLayers.Layer.UI_PREVIEW) + 1
+	add_child(controls)
+	for caption: String in ["−", "100%", "+"]:
+		var button := Button.new()
+		button.text = caption
+		button.custom_minimum_size = Vector2(64 if caption == "100%" else 40, 32)
+		button.focus_mode = Control.FOCUS_NONE
+		controls.add_child(button)
+		if caption == "100%":
+			_camera_reset = button
+			button.name = "ResetCamera"
+			button.tooltip_text = "Общий вид. Колесо — масштаб; зажатое колесо — сдвиг. Ctrl+колесо — масштаб над прогнозом."
+			button.pressed.connect(reset_camera)
+		else:
+			var factor := 1.1 if caption == "+" else 1.0 / 1.1
+			button.pressed.connect(func() -> void: zoom_camera(camera_view.zoom * factor, size * 0.5))
+
+func world_to_view(point: Vector2) -> Vector2:
+	return camera_view.world_to_view(point)
+
+func view_to_world(point: Vector2) -> Vector2:
+	return camera_view.view_to_world(point)
+
+func cell_center(cell: Vector2i) -> Vector2:
+	return world_to_view(_world_cell_center(cell))
+
+func zoom_camera(value: float, anchor: Vector2) -> void:
+	camera_view.zoom_at(value, anchor)
+	_apply_camera()
+
+func pan_camera(delta: Vector2) -> void:
+	camera_view.pan(delta)
+	_apply_camera()
+
+func reset_camera() -> void:
+	_camera_dragging = false
+	camera_view.reset()
+	_apply_camera()
+
+func _apply_camera() -> void:
+	# Меняется только canvas-преобразование: текущие Tween и показанные узлы живут дальше.
+	for layer: Node2D in [_tiles, _entities, _ghosts, _impacts, _numbers, _overlay]:
+		if layer != null: layer.transform = camera_view.get_transform()
+	if _camera_reset != null: _camera_reset.text = "%d%%" % roundi(camera_view.zoom * 100.0)
+	queue_redraw()
+
+func _camera_input(event: InputEvent) -> bool:
+	if event is InputEventMouseButton:
+		var button := event as InputEventMouseButton
+		if button.pressed and button.button_index in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]:
+			# Прогноз получает прежнюю прокрутку первым; Ctrl явно выбирает камеру.
+			if (not camera_controls_enabled or not button.ctrl_pressed) and forecast_wheel_handler.is_valid() and bool(forecast_wheel_handler.call(event)): return true
+			if not camera_controls_enabled: return false
+			var ticks := clampf(button.factor if button.factor > 0.0 else 1.0, 0.05, 8.0)
+			zoom_camera(camera_view.zoom * pow(1.1, ticks if button.button_index == MOUSE_BUTTON_WHEEL_UP else -ticks), button.position)
+			return true
+		if camera_controls_enabled and button.button_index == MOUSE_BUTTON_MIDDLE:
+			_camera_dragging = button.pressed
+			if button.pressed: _clear_hover()
+			return true
+	elif camera_controls_enabled and event is InputEventMouseMotion and _camera_dragging:
+		pan_camera(event.relative)
+		return true
+	return false
+
+func _input(event: InputEvent) -> void:
+	# Отпускание за пределами поля не должно оставлять режим перетаскивания включённым.
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_MIDDLE and not event.pressed: _camera_dragging = false
 
 func _layer(label: String, layer: RenderLayers.Layer) -> Node2D:
 	var result := Node2D.new()
@@ -391,6 +476,7 @@ func refresh() -> void:
 	if execution_pending: return
 	var live_board: BattleBoard = session.board if session != null else null
 	if live_board != _shown_board:
+		reset_camera()
 		clear_presentation_feedback()
 		_clear_falls()
 		_fallen_ids.clear()
@@ -439,12 +525,13 @@ func refresh_forecast() -> void:
 func reachable_cells() -> Dictionary:
 	return inspection_cells if inspected_id != UnitId.NONE else _reachable
 
-func cell_center(cell: Vector2i) -> Vector2:
+func _world_cell_center(cell: Vector2i) -> Vector2:
 	var steps := _view_height_steps(cell)
 	return IsoGridUtils.grid_to_screen(cell, grid_config, 0) - Vector2(0, float(steps) * 0.5 * grid_config.height_step)
 
 func cell_at(point: Vector2) -> Vector2i:
 	if execution_pending or _view_width <= 0 or _view_height <= 0: return Vector2i(-1, -1)
+	point = view_to_world(point)
 	# Те же поверхности, но в обратном порядке их фактической отрисовки.
 	for i in range(_entity_visuals.size() - 1, -1, -1):
 		if _entity_visuals[i].contains_point(point): return _entity_visuals[i].grid_anchor
@@ -453,6 +540,9 @@ func cell_at(point: Vector2) -> Vector2i:
 	return Vector2i(-1, -1)
 
 func _gui_input(event: InputEvent) -> void:
+	if _camera_input(event):
+		accept_event()
+		return
 	if execution_pending:
 		# Осмотр использует только опубликованные значения и экранные фигуры.
 		if event is InputEventMouseMotion:
@@ -486,6 +576,7 @@ func _clear_hover() -> void:
 	if _overlay != null: _overlay.queue_redraw()
 
 func displayed_unit_at(point: Vector2) -> int:
+	point = view_to_world(point)
 	_sort_visuals()
 	for index in range(_entity_visuals.size() - 1, -1, -1):
 		var visual := _entity_visuals[index]
@@ -520,6 +611,8 @@ func _refresh_path() -> void:
 	if session != null and not attack_mode and not summoning_mode and not raising_mode and not elemental_mode and inspected_id == UnitId.NONE and _reachable.has(hover_cell): _path = session.path_to(hover_cell)
 
 func _rescale_layout() -> void:
+	if _camera_layout_size != Vector2.ZERO: camera_view.recenter_after_resize(_camera_layout_size * 0.5, size * 0.5)
+	_camera_layout_size = size
 	var factor := maxf(0.1, minf((size.x - 64) / 1024.0, (size.y - 108) / 544.0))
 	grid_config.tile_size = Vector2(128, 64) * factor
 	grid_config.height_step = 32 * factor
@@ -529,6 +622,7 @@ func _rescale_layout() -> void:
 		_rebuild_visuals()
 		_place_result_numbers()
 		_place_impacts()
+		_apply_camera()
 		queue_redraw()
 		if _overlay != null: _overlay.queue_redraw()
 
@@ -677,6 +771,7 @@ func _status_text(unit: UnitState) -> String:
 
 func _draw() -> void:
 	if _view_width <= 0 or _view_height <= 0: return
+	draw_set_transform_matrix(camera_view.get_transform())
 	var hh := grid_config.tile_size.y * 0.5
 	var hw := grid_config.tile_size.x * 0.5
 	for n in 8:
@@ -689,35 +784,35 @@ func _draw_overlay() -> void:
 	var highlight_hh := grid_config.tile_size.y * 0.48
 	var highlight_hw := grid_config.tile_size.x * 0.48
 	for cell: Vector2i in reaction_zone_cells:
-		var center := cell_center(cell)
+		var center := _world_cell_center(cell)
 		_overlay.draw_polyline(PackedVector2Array([center + Vector2(0, -highlight_hh), center + Vector2(highlight_hw, 0), center + Vector2(0, highlight_hh), center + Vector2(-highlight_hw, 0), center + Vector2(0, -highlight_hh)]), Color("a5b3c5", 0.35), 1.0, true)
 	for id: int in cover_target_ids:
 		var ally_cell := _view_unit_cell(id)
 		if ally_cell.x < 0: continue
-		var center := cell_center(ally_cell)
+		var center := _world_cell_center(ally_cell)
 		_overlay.draw_polyline(PackedVector2Array([center + Vector2(0, -highlight_hh), center + Vector2(highlight_hw, 0), center + Vector2(0, highlight_hh), center + Vector2(-highlight_hw, 0), center + Vector2(0, -highlight_hh)]), CYAN, 2.5, true)
 	for id: int in sneak_threat_ids:
 		var threat_cell := _view_unit_cell(id)
 		if threat_cell.x < 0: continue
-		var center := cell_center(threat_cell)
+		var center := _world_cell_center(threat_cell)
 		_overlay.draw_arc(center, grid_config.tile_size.x * 0.25, 0, TAU, 24, GOLD, 2.5, true)
 	if _path.size() > 1:
 		var points := PackedVector2Array()
-		for cell in _path: points.append(cell_center(cell))
+		for cell in _path: points.append(_world_cell_center(cell))
 		if move_forecast_pending:
 			for i: int in range(1, points.size()):
 				_overlay.draw_dashed_line(points[i - 1], points[i], MUTED, 2, 6)
 		else:
 			_overlay.draw_polyline(points, CYAN, 2, true)
 	if _view_index(hover_cell) >= 0:
-		var center := cell_center(hover_cell)
+		var center := _world_cell_center(hover_cell)
 		if _view_terrain_at(hover_cell) == TerrainType.Type.WALL: center.y -= grid_config.height_step
 		var cell_hw := grid_config.tile_size.x * 0.48
 		var hh := grid_config.tile_size.y * 0.48
 		_overlay.draw_polyline(PackedVector2Array([center + Vector2(0, -hh), center + Vector2(cell_hw, 0), center + Vector2(0, hh), center + Vector2(-cell_hw, 0), center + Vector2(0, -hh)]), GOLD if attack_mode or elemental_mode or inspected_id != UnitId.NONE else (Color("f29b9b") if raising_mode else CYAN), 2, true)
 	if environment_mode or not _view_fires.is_empty() or not _view_corpses.is_empty() or not _view_collapse.is_empty():
 		for cell: Vector2i in _view_collapse:
-			var center := cell_center(cell)
+			var center := _world_cell_center(cell)
 			var half_width := grid_config.tile_size.x * 0.44
 			var half_height := grid_config.tile_size.y * 0.44
 			var points := PackedVector2Array([center + Vector2(0, -half_height), center + Vector2(half_width, 0), center + Vector2(0, half_height), center + Vector2(-half_width, 0), center + Vector2(0, -half_height)])
@@ -725,7 +820,7 @@ func _draw_overlay() -> void:
 			_overlay.draw_polyline(points, Color("ff765c"), 3, true)
 			_overlay.draw_string(ThemeDB.fallback_font, center + Vector2(-42, -12), "ОБВАЛ", HORIZONTAL_ALIGNMENT_CENTER, 84, 13, Color("fff2d7"))
 		for fire: Dictionary in _view_fires:
-			var fire_center := cell_center(fire["cell"])
+			var fire_center := _world_cell_center(fire["cell"])
 			var is_burning := String(fire.get("effect", "bleeding")) == "burning"
 			if is_burning and tile_visual_scene != null: continue
 			_overlay.draw_circle(fire_center, hw * 0.28, Color(1.0, 0.32, 0.06, 0.62) if is_burning else Color(0.95, 0.28, 0.12, 0.55))
@@ -738,14 +833,14 @@ func _draw_overlay() -> void:
 			corpses_by_cell[corpse_cell] = records
 		for cell_variant: Variant in corpses_by_cell:
 			var corpse_cell: Vector2i = cell_variant
-			var corpse_center := cell_center(corpse_cell)
+			var corpse_center := _world_cell_center(corpse_cell)
 			var records: Array = corpses_by_cell[corpse_cell]
 			_overlay.draw_circle(corpse_center + Vector2(0, 8), hw * 0.20, Color("a5b3c5"))
 			_overlay.draw_string(ThemeDB.fallback_font, corpse_center + Vector2(-35, 25), "ТЕЛА ×%d" % records.size(), HORIZONTAL_ALIGNMENT_CENTER, 70, 10, Color("e6ecf4"))
 	if move_forecast != null and move_forecast.status in [ActionReceipt.APPLIED, ActionReceipt.INTERRUPTED]:
 		var after: Dictionary = move_forecast.units.get(move_forecast.actor_id, {}).get("after", {})
 		if not after.is_empty():
-			var endpoint := cell_center(after["cell"])
+			var endpoint := _world_cell_center(after["cell"])
 			var color := CYAN if after["alive"] else Color("f29b9b")
 			_overlay.draw_arc(endpoint, 10.0, 0, TAU, 24, color, 2.5, true)
 	if forecast != null and forecast.status == &"APPLIED":
@@ -760,8 +855,8 @@ func _draw_overlay() -> void:
 			if event.has("to_cell"): to_cell = event["to_cell"] as Vector2i
 			elif event.has("attempted_cell"): to_cell = event["attempted_cell"] as Vector2i
 			if _view_index(from_cell) < 0: continue
-			var start := cell_center(from_cell)
-			var finish := cell_center(to_cell) if _view_index(to_cell) >= 0 else start + IsoGridUtils.grid_to_screen(to_cell, grid_config, 0) - IsoGridUtils.grid_to_screen(from_cell, grid_config, 0)
+			var start := _world_cell_center(from_cell)
+			var finish := _world_cell_center(to_cell) if _view_index(to_cell) >= 0 else start + IsoGridUtils.grid_to_screen(to_cell, grid_config, 0) - IsoGridUtils.grid_to_screen(from_cell, grid_config, 0)
 			# Переданный импульс не означает движения промежуточного тела.
 			if chain_preview and kind != &"moved":
 				_overlay.draw_dashed_line(start, finish, Color("f7c97d"), 2.0, 5.0, true)
@@ -794,7 +889,7 @@ func animate_fall(unit: UnitState, origin: Vector2i, destination: Vector2i) -> v
 	# При вылете за границу ядро сохраняет последнюю клетку, но фигура уже упала.
 	_fallen_ids[unit_view.id] = true
 	_rebuild_visuals()
-	var center := cell_center(destination)
+	var center := _world_cell_center(destination)
 	var hw := grid_config.tile_size.x * 0.5
 	var hh := grid_config.tile_size.y * 0.5
 	var mask := Polygon2D.new()
@@ -808,7 +903,7 @@ func animate_fall(unit: UnitState, origin: Vector2i, destination: Vector2i) -> v
 	ghost.transient_label = unit_view.debug_name
 	ghost.transient_tint = CYAN if unit_view.faction == Faction.Type.PLAYER else GOLD
 	mask.add_child(ghost)
-	ghost.position = cell_center(origin) - center
+	ghost.position = _world_cell_center(origin) - center
 	_falling[unit_view.id] = mask
 	var tween := mask.create_tween()
 	tween.tween_property(ghost, "position", Vector2.ZERO, 0.18)

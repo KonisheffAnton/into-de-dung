@@ -498,12 +498,13 @@ func _build_ui() -> void:
 	toolbar.add_child(combination_button)
 	left.add_child(_mage_row)
 	board_view = BattleDemoBoard.new()
+	board_view.camera_controls_enabled = core_reactions_mode
+	board_view.forecast_wheel_handler = _board_forecast_wheel_input
 	board_view.session = session
 	board_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	board_view.cell_clicked.connect(handle_cell)
 	board_view.cell_hovered.connect(_hover)
 	board_view.displayed_unit_hovered.connect(_displayed_unit_hovered)
-	board_view.gui_input.connect(_board_forecast_wheel_input)
 	board_view.cancel_requested.connect(set_attack_mode.bind(false))
 	left.add_child(board_view)
 	_action_bar = BattleActionBar.new()
@@ -1550,22 +1551,23 @@ func _process_move_forecast() -> void:
 func _move_forecast_request_current() -> bool:
 	return session != null and session.context != null and board_view != null and board_view.hover_cell == _move_forecast_cell and session.selected_id == _move_forecast_actor and session.context.get_revision() == _move_forecast_revision and retreat_mode == _move_forecast_retreat and not attack_mode and not summoning_mode and not raising_mode and inspected_id == UnitId.NONE and (_battle == null or _battle.can_player_act())
 
-func _board_forecast_wheel_input(event: InputEvent) -> void:
-	if is_execution_pending(): return
-	if not event is InputEventMouseButton: return
+func _board_forecast_wheel_input(event: InputEvent) -> bool:
+	if is_execution_pending(): return false
+	if not event is InputEventMouseButton: return false
 	var wheel := event as InputEventMouseButton
-	if not wheel.pressed or (wheel.button_index != MOUSE_BUTTON_WHEEL_UP and wheel.button_index != MOUSE_BUTTON_WHEEL_DOWN): return
-	if not _forecast_panel.is_visible_in_tree() or (_battle != null and not _battle.can_player_act()): return
+	if not wheel.pressed or (wheel.button_index != MOUSE_BUTTON_WHEEL_UP and wheel.button_index != MOUSE_BUTTON_WHEEL_DOWN): return false
+	if not _forecast_panel.is_visible_in_tree() or (_battle != null and not _battle.can_player_act()): return false
 	var target_cell := _forecast_cell if _forecast != null and attack_mode else _move_forecast_cell
 	if _raise_forecast != null and raising_mode: target_cell = _raise_forecast_cell
-	if (_forecast == null or not attack_mode) and _move_forecast == null and _raise_forecast == null: return
-	if board_view.cell_at(wheel.position) != target_cell: return
+	if (_forecast == null or not attack_mode) and _move_forecast == null and _raise_forecast == null: return false
+	if board_view.cell_at(wheel.position) != target_cell: return false
 	var amount := 48.0 * (wheel.factor if wheel.factor > 0.0 else 1.0)
 	if wheel.button_index == MOUSE_BUTTON_WHEEL_UP: amount = -amount
 	var scroll_bar := _forecast_panel.get_v_scroll_bar()
 	var last_value := maxf(scroll_bar.min_value, scroll_bar.max_value - scroll_bar.page)
 	scroll_bar.value = clampf(scroll_bar.value + amount, scroll_bar.min_value, last_value)
 	accept_event()
+	return true
 
 func _leave_forecast_panel() -> void:
 	if is_execution_pending(): return

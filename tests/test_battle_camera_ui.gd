@@ -1,0 +1,286 @@
+extends SceneTree
+
+const PlayerTurnFixture = preload("res://tests/fixtures/player_turn_fixture.gd")
+
+var passed: int = 0
+var failed: int = 0
+var viewport: SubViewport
+var demo: BattleDemo
+var captures: String = ""
+
+func _initialize() -> void:
+	for argument: String in OS.get_cmdline_user_args():
+		if argument.begins_with("--captures="):
+			captures = argument.trim_prefix("--captures=")
+	call_deferred("_run")
+
+func check(value: bool, label: String) -> void:
+	if value:
+		passed += 1
+	else:
+		failed += 1
+		printerr("FAIL BATTLE CAMERA UI: " + label)
+
+func snapshot(session: BattleCoreReactionsSession) -> Dictionary:
+	return {
+		"state": ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict(),
+		"rng": session.context.get_rng().to_dict(),
+		"counters": session.context.simulation_counters(),
+	}
+
+func capture(label: String) -> void:
+	if captures.is_empty():
+		return
+	await process_frame
+	await RenderingServer.frame_post_draw
+	var image := viewport.get_texture().get_image()
+	check(image != null and image.save_png(captures.path_join(label + ".png")) == OK, "capture " + label)
+
+func _run() -> void:
+	if not captures.is_empty():
+		DirAccess.make_dir_recursive_absolute(captures)
+	viewport = SubViewport.new()
+	viewport.size = Vector2i(1440, 950)
+	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	root.add_child(viewport)
+	demo = (load("res://scenes/demo/core_reactions_battle.tscn") as PackedScene).instantiate() as BattleDemo
+	demo.deployment_enabled = false
+	viewport.add_child(demo)
+	demo.set_process(false)
+	PlayerTurnFixture.enter_player_turn(demo)
+	viewport.notify_mouse_entered()
+	await process_frame
+	await process_frame
+	_test_initial_state()
+	await _test_viewport_zoom_pan_and_buttons()
+	await _test_forecast_wheel_and_cancel()
+	await _test_execution_motion()
+	await _test_board_reset()
+	await _test_hub_view()
+	print("BATTLE CAMERA UI RESULTS: %d passed, %d failed" % [passed, failed])
+	quit(0 if failed == 0 else 1)
+
+func _test_initial_state() -> void:
+	var board := demo.board_view
+	check(demo.core_reactions_mode and board.camera_controls_enabled, "H1 enables camera controls")
+	check(board.get_node_or_null("CameraControls") != null, "screen camera controls are present")
+	check(is_equal_approx(board.camera_view.zoom, 1.0) and board.camera_view.offset == Vector2.ZERO, "initial camera is centered at 100 percent")
+	var center := board.cell_center(demo.session.selected_unit().cell)
+	check(board.cell_at(center) == demo.session.selected_unit().cell, "initial screen cell center picks same cell")
+	check(board.displayed_unit_at(center + Vector2(0, -12)) == demo.session.selected_id, "initial unit picking uses view coordinates")
+
+func _test_viewport_zoom_pan_and_buttons() -> void:
+	var board := demo.board_view
+	var actor := demo.session.selected_unit()
+	var cell := actor.cell
+	var anchor := board.global_position + board.cell_center(cell)
+	var world_anchor := board.view_to_world(anchor - board.global_position)
+	var toolbar_rect := demo._move_button.get_global_rect()
+	var actionbar_rect := demo._action_bar.get_global_rect()
+	var before_camera_input := snapshot(demo.session as BattleCoreReactionsSession)
+	var wheel_anchor := anchor
+	_push_wheel(wheel_anchor, MOUSE_BUTTON_WHEEL_UP, 6.0)
+	var expected_zoom: float = pow(1.1, 6.0)
+	check(is_equal_approx(board.camera_view.zoom, expected_zoom), "real viewport wheel zooms camera")
+	check(board.view_to_world(wheel_anchor - board.global_position).is_equal_approx(board.camera_view.view_to_world(wheel_anchor - board.global_position)), "wheel transform remains invertible")
+	check(board.world_to_view(world_anchor).is_equal_approx(anchor - board.global_position), "wheel keeps cursor world point fixed")
+	check(board.cell_at(board.cell_center(cell)) == cell, "cell picking follows zoom transform")
+	check(board.displayed_unit_at(board.cell_center(cell) + Vector2(0, -12)) == actor.id, "unit picking follows zoom transform")
+	check(demo._move_button.get_global_rect().size == toolbar_rect.size and demo._action_bar.get_global_rect().size == actionbar_rect.size, "camera zoom does not resize toolbar or action bar")
+	check(snapshot(demo.session as BattleCoreReactionsSession) == before_camera_input, "real camera input leaves snapshot RNG and counters unchanged")
+	var layers: Array[Node2D] = [board._tiles, board._entities, board._ghosts, board._impacts, board._numbers, board._overlay]
+	for layer: Node2D in layers:
+		check(layer.transform.is_equal_approx(board.camera_view.get_transform()), "all six visual layers share camera transform " + layer.name)
+	await capture("main-zoomed")
+	var before_pan := board.camera_view.offset
+	var down := InputEventMouseButton.new()
+	down.button_index = MOUSE_BUTTON_MIDDLE
+	down.pressed = true
+	down.position = board.global_position + Vector2(100, 100)
+	down.global_position = down.position
+	viewport.push_input(down, true)
+	var drag := InputEventMouseMotion.new()
+	drag.position = down.position + Vector2(36, -24)
+	drag.global_position = drag.position
+	drag.relative = Vector2(36, -24)
+	viewport.push_input(drag, true)
+	check(board.camera_view.offset.is_equal_approx(before_pan + Vector2(36, -24)), "middle-button drag pans camera")
+	var release := InputEventMouseButton.new()
+	release.button_index = MOUSE_BUTTON_MIDDLE
+	release.pressed = false
+	release.position = Vector2(3, 3)
+	release.global_position = release.position
+	viewport.push_input(release, true)
+	check(not board._camera_dragging, "release outside board ends middle-button drag")
+	var controls := board.get_node("CameraControls") as HBoxContainer
+	var minus := controls.get_child(0) as Button
+	var reset := controls.get_child(1) as Button
+	var plus := controls.get_child(2) as Button
+	await _click_control(minus)
+	check(is_equal_approx(board.camera_view.zoom, expected_zoom / 1.1), "minus button zooms out")
+	await _click_control(plus)
+	check(is_equal_approx(board.camera_view.zoom, expected_zoom), "plus button zooms in")
+	await _click_control(reset)
+	check(is_equal_approx(board.camera_view.zoom, 1.0) and board.camera_view.offset == Vector2.ZERO, "reset button restores camera")
+	check(reset.text == "100%", "reset button shows current zoom percentage")
+
+func _push_wheel(position: Vector2, button_index: MouseButton, factor: float, ctrl: bool = false) -> void:
+	var event := InputEventMouseButton.new()
+	event.button_index = button_index
+	event.factor = factor
+	event.ctrl_pressed = ctrl
+	event.position = position
+	event.global_position = position
+	for pressed: bool in [true, false]:
+		event.pressed = pressed
+		viewport.push_input(event, true)
+
+func _push_motion(position: Vector2, relative: Vector2 = Vector2.ZERO) -> void:
+	var event := InputEventMouseMotion.new()
+	event.position = position
+	event.global_position = position
+	event.relative = relative
+	viewport.push_input(event, true)
+
+func _test_forecast_wheel_and_cancel() -> void:
+	demo.set_diagnostics_visible(true)
+	demo.select_character(demo.session.units[2].id)
+	demo.set_attack_mode(true)
+	var target := demo.session.units[3]
+	var board := demo.board_view
+	var point := board.global_position + board.cell_center(target.cell)
+	_push_motion(point)
+	demo._process_attack_forecast()
+	await preload("res://tests/fixtures/attack_forecast_wait.gd").settle(self, demo)
+	check(demo._forecast != null and demo._forecast_panel.is_visible_in_tree(), "diagnostic attack forecast is visible for target")
+	var zoom_before := board.camera_view.zoom
+	var offset_before := board.camera_view.offset
+	var scroll := demo._forecast_panel.get_v_scroll_bar()
+	var scroll_before := scroll.value
+	_push_wheel(point, MOUSE_BUTTON_WHEEL_DOWN, 1.0)
+	check(board.camera_view.zoom == zoom_before and board.camera_view.offset == offset_before, "ordinary wheel over forecast does not zoom camera")
+	if scroll.max_value > scroll.page:
+		check(scroll.value > scroll_before, "ordinary target wheel scrolls diagnostic forecast")
+	else:
+		check(false, "diagnostic forecast content is scrollable")
+	var anchor := point - board.global_position
+	var world_under_cursor := board.view_to_world(anchor)
+	_push_wheel(point, MOUSE_BUTTON_WHEEL_UP, 1.0, true)
+	check(is_equal_approx(board.camera_view.zoom, zoom_before * 1.1), "Ctrl plus target wheel zooms camera")
+	check(board.world_to_view(world_under_cursor).is_equal_approx(anchor), "Ctrl zoom keeps target under cursor")
+	check(demo._forecast != null and demo._forecast_panel.is_visible_in_tree(), "Ctrl zoom preserves visible forecast")
+	var cancel := InputEventMouseButton.new()
+	cancel.button_index = MOUSE_BUTTON_RIGHT
+	cancel.position = point
+	cancel.global_position = point
+	for pressed: bool in [true, false]:
+		cancel.pressed = pressed
+		viewport.push_input(cancel, true)
+	check(not demo.attack_mode and demo._forecast == null, "right click cancels targeting while camera is enabled")
+	demo.set_diagnostics_visible(false)
+	demo.reset_demo()
+	await process_frame
+	PlayerTurnFixture.enter_player_turn(demo)
+
+func _click_control(control: Control) -> void:
+	var point := control.global_position + control.size * 0.5
+	for pressed: bool in [true, false]:
+		var event := InputEventMouseButton.new()
+		event.button_index = MOUSE_BUTTON_LEFT
+		event.pressed = pressed
+		event.position = point
+		event.global_position = point
+		viewport.push_input(event, true)
+	await process_frame
+
+func _wait_for_presentation() -> void:
+	var deadline := Time.get_ticks_msec() + 10000
+	while demo._execution_worker.is_started() and Time.get_ticks_msec() < deadline:
+		demo._poll_execution()
+		if demo.is_presentation_pending():
+			break
+		await process_frame
+	check(demo.is_presentation_pending(), "movement worker joins and starts clip")
+	if demo.is_presentation_pending():
+		demo._presentation_player._tween.pause()
+
+func _test_execution_motion() -> void:
+	var board := demo.board_view
+	var session := demo.session as BattleCoreReactionsSession
+	var actor := session.selected_unit()
+	var actor_id: int = actor.id
+	var from: Vector2i = actor.cell
+	var destination := Vector2i(1, 2)
+	demo._execute_live(&"move_to", [destination])
+	check(demo.session == null and board.execution_pending, "camera test runs while worker owns detached runtime")
+	# Камерой можно пользоваться, пока worker считает результат; его сессия не читается здесь.
+	var camera_point := board.global_position + board.size * 0.5
+	_push_wheel(camera_point, MOUSE_BUTTON_WHEEL_UP, 2.0)
+	var drag_down := InputEventMouseButton.new()
+	drag_down.button_index = MOUSE_BUTTON_MIDDLE
+	drag_down.pressed = true
+	drag_down.position = camera_point
+	drag_down.global_position = camera_point
+	viewport.push_input(drag_down, true)
+	var offset_before := board.camera_view.offset
+	_push_motion(camera_point + Vector2(18, 12), Vector2(18, 12))
+	check(board.camera_view.zoom > 1.0, "viewport camera controls work while execution worker runs")
+	check(board.camera_view.offset.is_equal_approx(offset_before + Vector2(18, 12)), "worker camera drag moves only view")
+	drag_down.pressed = false
+	viewport.push_input(drag_down, true)
+	await _wait_for_presentation()
+	var committed := snapshot(session)
+	var visual := board._presentation_visual(actor_id)
+	check(visual != null and board._view_unit_cell(actor_id) == from, "clip keeps original shown location before publishing")
+	var tween := demo._presentation_player._tween
+	var origin_pose := board._world_cell_center(from)
+	var destination_pose := board._world_cell_center(destination)
+	var current_pose := visual.position + visual.get_visual_offset()
+	for step: int in 20:
+		if not current_pose.is_equal_approx(origin_pose) and not current_pose.is_equal_approx(destination_pose):
+			break
+		tween.custom_step(0.025)
+		current_pose = visual.position + visual.get_visual_offset()
+	check(not current_pose.is_equal_approx(origin_pose) and not current_pose.is_equal_approx(destination_pose), "paused movement tween advances to a mid-segment pose")
+	var result_number_count := board._numbers.get_child_count()
+	if result_number_count == 0:
+		board._add_result_number(actor_id, "+1.0 HP", Color("65dfcc"))
+	var result_number := board._numbers.get_child(0) as BattlePresentationNumber
+	var number_tween := result_number._tween
+	var zoom_anchor := board.global_position + Vector2(340, 260)
+	var zoom_before := board.camera_view.zoom
+	_push_wheel(zoom_anchor, MOUSE_BUTTON_WHEEL_UP, 1.0)
+	check(is_equal_approx(board.camera_view.zoom, zoom_before * 1.1), "viewport wheel zooms during movement clip")
+	check(board._presentation_visual(actor_id) == visual and demo._presentation_player._tween == tween, "zoom keeps moving node and active clip tween")
+	check((visual.position + visual.get_visual_offset()).is_equal_approx(current_pose), "zoom leaves current tween world pose unchanged")
+	check(board.displayed_unit_at(board.world_to_view(current_pose + Vector2(0, -12))) == actor_id, "inspection picks moving body after zoom and pan")
+	check(result_number._tween == number_tween and number_tween.is_valid(), "zoom does not restart independent result number")
+	check(snapshot(session) == committed, "camera and shown clip preserve committed snapshot RNG and counters")
+	await capture("motion-paused")
+	demo.skip_presentation()
+	check(not demo.is_execution_pending() and board._view_unit_cell(actor_id) == destination, "skip publishes destination after camera changes")
+	check(snapshot(session) == committed, "skip preserves committed snapshot RNG and counters")
+
+func _test_board_reset() -> void:
+	var board := demo.board_view
+	board.zoom_camera(2.0, Vector2(140, 120))
+	demo.reset_demo()
+	await process_frame
+	check(is_equal_approx(board.camera_view.zoom, 1.0) and board.camera_view.offset == Vector2.ZERO, "new battle resets camera")
+
+func _test_hub_view() -> void:
+	demo.queue_free()
+	await process_frame
+	var hub := HeroHubBattleView.new()
+	hub.supplied_session = PlayerTurnFixture.create()
+	viewport.add_child(hub)
+	# Настоящий HeroHubScreen растягивает view после добавления в host.
+	hub.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	hub.set_process(false)
+	await process_frame
+	check(hub.board_view.camera_controls_enabled and hub.board_view.get_node_or_null("CameraControls") != null, "hero hub battle enables camera")
+	_push_wheel(hub.board_view.global_position + hub.board_view.size * 0.5, MOUSE_BUTTON_WHEEL_UP, 3.0)
+	check(is_equal_approx(hub.board_view.camera_view.zoom, pow(1.1, 3.0)), "viewport wheel zooms hero hub battlefield")
+	await capture("hub-battle")
+	hub.queue_free()
+	await process_frame
