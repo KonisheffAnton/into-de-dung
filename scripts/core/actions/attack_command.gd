@@ -231,7 +231,7 @@ func _prepare(context: ActionContext) -> Dictionary:
 	var backstab_percent: int = definition.backstab_bonus_percent if AttackModifiers.is_backstab(actor.cell, target.cell, target.faction) else 0
 	var threats: Array[int] = []
 	if definition.sneak_attack_enabled and MeleeThreat.has_sneak(actor): threats = MeleeThreat.participants(context, target)
-	var sneak_percent := 50 if threats.size() >= 2 else 0
+	var sneak_percent := 50 if threats.size() >= 2 and threats.has(actor.id) else 0
 	var critical: bool = (definition.critical_on_control and ControlRules.critical_target(target)) or ElementalRules.is_frozen(target)
 	var critical_multiplier: int = 2 if critical else 1
 	if definition.backstab_bonus_percent > 0 or definition.critical_on_control or definition.sneak_attack_enabled or ElementalRules.is_frozen(target):

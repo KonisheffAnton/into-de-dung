@@ -27,8 +27,12 @@ static func threatens(context: ActionContext, unit: UnitState, target: UnitState
 
 static func participants(context: ActionContext, target: UnitState) -> Array[int]:
 	var result: Array[int] = []
-	for unit: UnitState in context.get_state().get_board().get_all_units():
-		if threatens(context, unit, target): result.append(unit.id)
+	var board := context.get_state().get_board()
+	for unit: UnitState in board.get_all_units():
+		if not threatens(context, unit, target): continue
+		# Скрытая атака требует соседства по стороне, даже если оружие угрозы дальнобойное.
+		if AttackReachCheck.inspect_spatial_cells(board, unit.cell, unit.faction, target.cell, 1.0) == &"":
+			result.append(unit.id)
 	result.sort()
 	return result
 

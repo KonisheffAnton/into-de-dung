@@ -42,7 +42,9 @@ BT передаёт ID выбранной атаки, команды прове�
 [K10](CORE_REACTIONS_K10.md) расширяет общий бой перками: скрытая атака,
 Оппортунист и Прикрытие. CombatPerksDefinition задаёт способности, nullable
 CombatPerksState хранит состояние участника в Unit schema7. MeleeThreat читает
-общую AttackReachCheck; GuardCommand выбирает режим, AttackCommand/AttackHit
+общую AttackReachCheck; список участников скрытой атаки ограничен ближней
+геометрией с дальностью 1 и требует участия атакующего. Дальность обычных
+атак и реакций от этого фильтра не меняется. GuardCommand выбирает режим, AttackCommand/AttackHit
 исполняют обычный или внутренний реакционный удар, MoveCommand перехватывает
 до шага. Прикрытие меняет входные дроби ArmorAttack до D0. Дельты перков
 проверяют SpatialRules и малый CombatPerkGuard очереди; preview переносит их
