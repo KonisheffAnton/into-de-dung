@@ -16,13 +16,24 @@ var show_rear: bool = false
 var status_text: String = ""
 var transient_label: String = ""
 var transient_tint := Color("f7c97d")
+## Демонстрационные состояния выбираются доской; сцена только отображает слои.
+var frozen: bool = false
+var burning: bool = false
+var _scene_art_enabled: bool = false
 var presentation_lift: float = 0.0:
 	set(value):
 		presentation_lift = value
+		sync_scene_art()
 		queue_redraw()
 var fall_drop: float = 0.0:
 	set(value):
 		fall_drop = value
+		sync_scene_art()
+		queue_redraw()
+var presentation_offset: Vector2 = Vector2.ZERO:
+	set(value):
+		presentation_offset = value
+		sync_scene_art()
 		queue_redraw()
 
 func _update_sort_position() -> void:
@@ -32,7 +43,68 @@ func _update_sort_position() -> void:
 
 func get_visual_offset() -> Vector2:
 	if grid_config == null: return Vector2.ZERO
-	return Vector2(0, -0.5 * float(half_steps) * grid_config.height_step + fall_drop + presentation_lift)
+	return Vector2(0, -0.5 * float(half_steps) * grid_config.height_step + fall_drop + presentation_lift) + presentation_offset
+
+func sync_scene_art() -> void:
+	var art := get_node_or_null("ArtRoot") as Node2D
+	if art == null: return
+	_scene_art_enabled = true
+	var factor := grid_config.tile_size.x / 128.0 if grid_config != null else 1.0
+	art.scale = Vector2.ONE * factor
+	art.position = get_visual_offset()
+	art.show_behind_parent = true
+	var surface := get_node_or_null("ArtRoot/SurfaceSprite") as Sprite2D
+	var body := get_node_or_null("ArtRoot/BodySprite") as Sprite2D
+	if surface != null:
+		surface.visible = role != Role.UNIT
+		surface.position = (_top_offset() - get_visual_offset()) / factor
+		surface.modulate = _surface_tint()
+	if body != null:
+		body.visible = role == Role.UNIT and (unit == null or unit.alive)
+		body.modulate = transient_tint if unit == null else (Color("65dfcc") if unit.faction == Faction.Type.PLAYER else Color("f7c97d"))
+	_sync_scene_sides(factor)
+	var effect_root := get_node_or_null("ArtRoot/EffectRoot") as Node2D
+	if effect_root == null: return
+	effect_root.scale = Vector2.ONE
+	effect_root.position = Vector2.ZERO
+	var fire := get_node_or_null("ArtRoot/EffectRoot/BurningSprite") as Sprite2D
+	var ice := get_node_or_null("ArtRoot/EffectRoot/IceSprite") as Sprite2D
+	if fire != null: fire.visible = role != Role.UNIT and burning
+	# Смерть завершает демонстрацию состояния: ледяная оболочка не скрывает крест.
+	if ice != null: ice.visible = role == Role.UNIT and frozen and (unit == null or unit.alive)
+	# Якоря наследуют ArtRoot; их локальные позиции задаёт заменяемая сцена.
+
+func _surface_tint() -> Color:
+	var tint := Color("344858") if (grid_anchor.x + grid_anchor.y) % 2 == 0 else Color("3d5361")
+	if half_steps > 0: tint = Color("527e78").lightened(float(half_steps) * 0.025)
+	if half_steps < 0: tint = Color("304453")
+	if role == Role.WALL: tint = Color("78818d")
+	if is_void: tint = Color("080f1a")
+	return tint
+
+func _sync_scene_sides(factor: float) -> void:
+	var left := get_node_or_null("ArtRoot/SideLeft") as Polygon2D
+	var right := get_node_or_null("ArtRoot/SideRight") as Polygon2D
+	if left == null or right == null: return
+	var shapes := surface_polygons()
+	if role == Role.UNIT or shapes.size() != 3:
+		left.visible = false
+		right.visible = false
+		return
+	var visual_offset := get_visual_offset()
+	left.visible = true
+	right.visible = true
+	left.polygon = _to_art_points(shapes[0], visual_offset, factor)
+	right.polygon = _to_art_points(shapes[1], visual_offset, factor)
+	var base_tint := _surface_tint()
+	left.color = base_tint.darkened(0.40)
+	right.color = base_tint.darkened(0.22)
+
+func _to_art_points(points: PackedVector2Array, visual_offset: Vector2, factor: float) -> PackedVector2Array:
+	var result := PackedVector2Array()
+	for point: Vector2 in points:
+		result.append((point - visual_offset) / factor)
+	return result
 
 func _top_offset() -> Vector2:
 	var offset := get_visual_offset()
@@ -77,11 +149,11 @@ func _draw() -> void:
 	if role == Role.WALL: color = Color("78818d")
 	if is_void: color = Color("080f1a")
 	var shapes := surface_polygons()
-	if shapes.size() == 3:
+	if not _scene_art_enabled and shapes.size() == 3:
 		draw_colored_polygon(shapes[0], color.darkened(0.40))
 		draw_colored_polygon(shapes[1], color.darkened(0.22))
 	var top := top_polygon()
-	draw_colored_polygon(top, color)
+	if not _scene_art_enabled: draw_colored_polygon(top, color)
 	draw_polyline(top + PackedVector2Array([top[0]]), Color("14232e"), 1.2, true)
 	if enemy_range:
 		# Зона осмотра лежит на самой поверхности, чтобы не закрывать native Y-sort сущностей.
@@ -126,13 +198,14 @@ func _draw_unit() -> void:
 		draw_polyline(PackedVector2Array([foot + Vector2(0, -ring_hh), foot + Vector2(ring_hw, 0), foot + Vector2(0, ring_hh), foot + Vector2(-ring_hw, 0), foot + Vector2(0, -ring_hh)]), Color("f7c97d"), 3, true)
 	# Высота силуэта отделена от его наземной опоры для общей Y-сортировки.
 	draw_set_transform(foot, 0, Vector2.ONE * factor)
-	draw_colored_polygon(PackedVector2Array([Vector2(-18, 0), Vector2(0, -7), Vector2(18, 0), Vector2(0, 7)]), Color(0.03, 0.07, 0.10, 0.65))
-	draw_rect(Rect2(-10, -10, 7, 12), tint.darkened(0.5))
-	draw_rect(Rect2(3, -10, 7, 12), tint.darkened(0.5))
-	draw_colored_polygon(PackedVector2Array([Vector2(-14, -26), Vector2(10, -26), Vector2(14, -9), Vector2(-12, -9)]), tint)
-	draw_colored_polygon(PackedVector2Array([Vector2(10, -26), Vector2(16, -22), Vector2(17, -8), Vector2(14, -9)]), tint.darkened(0.3))
-	draw_rect(Rect2(-8, -37, 16, 13), tint.lightened(0.25))
-	draw_line(Vector2(-4, -30), Vector2(7, -30), Color("172230"), 3)
+	if not _scene_art_enabled:
+		draw_colored_polygon(PackedVector2Array([Vector2(-18, 0), Vector2(0, -7), Vector2(18, 0), Vector2(0, 7)]), Color(0.03, 0.07, 0.10, 0.65))
+		draw_rect(Rect2(-10, -10, 7, 12), tint.darkened(0.5))
+		draw_rect(Rect2(3, -10, 7, 12), tint.darkened(0.5))
+		draw_colored_polygon(PackedVector2Array([Vector2(-14, -26), Vector2(10, -26), Vector2(14, -9), Vector2(-12, -9)]), tint)
+		draw_colored_polygon(PackedVector2Array([Vector2(10, -26), Vector2(16, -22), Vector2(17, -8), Vector2(14, -9)]), tint.darkened(0.3))
+		draw_rect(Rect2(-8, -37, 16, 13), tint.lightened(0.25))
+		draw_line(Vector2(-4, -30), Vector2(7, -30), Color("172230"), 3)
 	var label := transient_label if unit == null else unit.debug_name
 	draw_string(ThemeDB.fallback_font, Vector2(-10, -12), label.left(1), HORIZONTAL_ALIGNMENT_CENTER, 20, 13, Color("172230"))
 	if unit != null:

@@ -29,6 +29,8 @@ func _run() -> void:
 	demo = scene.instantiate() as BattleDemo
 	demo.set("deployment_enabled", false)
 	viewport.add_child(demo)
+	# Подробный прогноз/реестр проверяется в явно открытой диагностике.
+	demo.set_diagnostics_visible(true)
 	PlayerTurnFixture.enter_player_turn(demo)
 	viewport.notify_mouse_entered()
 	await process_frame; await process_frame

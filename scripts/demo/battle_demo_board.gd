@@ -4,6 +4,7 @@ class_name BattleDemoBoard
 signal cell_clicked(cell: Vector2i)
 signal cell_hovered(cell: Vector2i)
 signal cancel_requested()
+signal displayed_unit_hovered(unit_id: int)
 
 const CYAN := Color("65dfcc")
 const GOLD := Color("f7c97d")
@@ -47,7 +48,9 @@ var _view_fires: Array[Dictionary] = []
 var _view_corpses: Array[Dictionary] = []
 var _view_collapse: Array[Vector2i] = []
 ## Сменяемая временная фигура; будущая сцена может использовать AnimationPlayer/AnimatedSprite2D.
-var unit_visual_scene: PackedScene
+var unit_visual_scene: PackedScene = preload("res://scenes/demo/visuals/placeholder_unit.tscn")
+var tile_visual_scene: PackedScene = preload("res://scenes/demo/visuals/placeholder_tile.tscn")
+const MOVE_SEGMENT_SECONDS: float = 0.10
 
 func show_presentation_state(value: Dictionary) -> void:
 	clear_presentation_effects()
@@ -68,7 +71,7 @@ func show_presentation_state(value: Dictionary) -> void:
 		view.balance_max = row.balance_max
 		_view_units.append({"unit": view, "cell": row.cell, "selected": false,
 			"inspected": false, "show_rear": false, "armor": row.armor.duplicate(true),
-			"status": presentation_status(row)})
+			"status": presentation_status(row), "frozen": int(row.get("elemental", {}).get("frozen_turns", 0)) > 0})
 	_view_fires.assign(value.get("fires", []).duplicate(true))
 	_view_corpses.assign(value.get("corpses", []).duplicate(true))
 	_view_collapse.assign(value.get("collapse", {}).get("marked", []).duplicate(true))
@@ -108,9 +111,20 @@ func _presentation_motion(progress: float, id: int, from: Vector2i, to: Vector2i
 	var visual := _presentation_visual(id)
 	if visual == null: return
 	visual.half_steps = 0
-	visual.position = IsoGridUtils.grid_to_screen(from, grid_config, 0).lerp(IsoGridUtils.grid_to_screen(to, grid_config, 0), progress)
+	var origin := IsoGridUtils.grid_to_screen(from, grid_config, 0)
+	var destination := IsoGridUtils.grid_to_screen(to, grid_config, 0)
+	var foot := origin.lerp(destination, progress)
+	# Обе поверхности сегмента должны оставаться под стопами и между центрами.
+	# Смещаем только ключ сортировки; стены следующего ряда остаются впереди.
+	visual.position = Vector2(foot.x, maxf(origin.y, destination.y) - 0.25)
+	visual.presentation_offset = foot - visual.position
 	visual.presentation_lift = -0.5 * lerpf(_view_height_steps(from), _view_height_steps(to), progress) * grid_config.height_step
+	_sort_visuals()
 	if progress >= 1.0:
+		# После сегмента возвращаем обычную глубину клетки до дальнейших эффектов шага.
+		visual.position = destination
+		visual.presentation_offset = Vector2.ZERO
+		_sort_visuals()
 		for row: Dictionary in _view_units:
 			if row.unit.id == id: row.cell = to
 
@@ -174,7 +188,7 @@ func animate_presentation_frame(events: Array) -> Tween:
 		if kind == &"moved" or kind == &"fell":
 			var path: Array = event.get("transit_path", [event.from_cell, event.get("to_cell", event.get("attempted_cell", event.from_cell))])
 			for index in range(1, path.size()):
-				tween.tween_method(_presentation_motion.bind(id, path[index - 1], path[index]), 0.0, 1.0, 0.16)
+				tween.tween_method(_presentation_motion.bind(id, path[index - 1], path[index]), 0.0, 1.0, MOVE_SEGMENT_SECONDS)
 			visible_event = true
 		elif not _presentation_caption(event).is_empty():
 			tween.tween_callback(_presentation_badge.bind(event.duplicate(true)))
@@ -184,6 +198,11 @@ func animate_presentation_frame(events: Array) -> Tween:
 			visible_event = true
 	if not visible_event: tween.tween_interval(0.035)
 	return tween
+
+static func has_presentation_animation(events: Array) -> bool:
+	for event: Dictionary in events:
+		if event.get("kind", &"") in [&"moved", &"fell"] or not _presentation_caption(event).is_empty(): return true
+	return false
 
 func _ready() -> void:
 	custom_minimum_size = Vector2(520, 520)
@@ -273,7 +292,16 @@ func cell_at(point: Vector2) -> Vector2i:
 	return Vector2i(-1, -1)
 
 func _gui_input(event: InputEvent) -> void:
+	if execution_pending:
+		# Осмотр использует только опубликованные значения и экранные фигуры.
+		if event is InputEventMouseMotion:
+			displayed_unit_hovered.emit(displayed_unit_at(event.position))
+		elif event is InputEventMouseButton and event.pressed:
+			if event.button_index == MOUSE_BUTTON_LEFT: displayed_unit_hovered.emit(displayed_unit_at(event.position))
+			accept_event()
+		return
 	if event is InputEventMouseMotion:
+		displayed_unit_hovered.emit(displayed_unit_at(event.position))
 		var cell := cell_at((event as InputEventMouseMotion).position)
 		if cell != hover_cell:
 			hover_cell = cell
@@ -290,10 +318,29 @@ func _gui_input(event: InputEvent) -> void:
 			accept_event()
 
 func _clear_hover() -> void:
+	displayed_unit_hovered.emit(UnitId.NONE)
 	hover_cell = Vector2i(-1, -1)
 	cell_hovered.emit(hover_cell)
 	refresh_forecast()
 	if _overlay != null: _overlay.queue_redraw()
+
+func displayed_unit_at(point: Vector2) -> int:
+	_sort_visuals()
+	for index in range(_entity_visuals.size() - 1, -1, -1):
+		var visual := _entity_visuals[index]
+		if not visual.contains_point(point): continue
+		return visual.unit.id if visual.unit != null else UnitId.NONE
+	return UnitId.NONE
+
+func displayed_unit_summary(unit_id: int) -> String:
+	for row: Dictionary in _view_units:
+		var value: BattleUnitView = row.unit
+		if value.id != unit_id: continue
+		var summary := "%s · HP %.1f/%.1f · броня %.1f" % [value.debug_name, value.hp, value.hp_max, float(row.armor.get("current", 0))]
+		if not value.alive: summary += " · погиб"
+		var states := String(row.get("status", ""))
+		return summary + ("\n" + states if not states.is_empty() else "")
+	return "Наведите на фигуру для осмотра."
 
 func _refresh_path() -> void:
 	if execution_pending: return
@@ -346,13 +393,17 @@ func _rebuild_visuals() -> void:
 		floor_visual.is_void = terrain == TerrainType.Type.VOID
 		floor_visual.reachable = not attack_mode and not elemental_mode and _reachable.has(cell)
 		floor_visual.enemy_range = inspected_id != UnitId.NONE and inspection_cells.has(cell)
+		for fire: Dictionary in _view_fires:
+			if fire.get("cell", Vector2i(-1, -1)) == cell and String(fire.get("effect", "bleeding")) == "burning": floor_visual.burning = true
 		# Видимые поверхности всех высот сортируются вместе: ближний пол закрывает
 		# дальнюю грань уступа. Разделение по высоте на два слоя ломает это перекрытие.
 		_entities.add_child(floor_visual)
+		floor_visual.sync_scene_art()
 		_entity_visuals.append(floor_visual)
 		if terrain == TerrainType.Type.WALL:
 			var wall := _make_visual(cell, steps, BattleDemoIsoVisual.Role.WALL)
 			_entities.add_child(wall)
+			wall.sync_scene_art()
 			_entity_visuals.append(wall)
 	for row: Dictionary in _view_units:
 		var unit: BattleUnitView = row["unit"]
@@ -367,14 +418,20 @@ func _rebuild_visuals() -> void:
 		visual.show_rear = bool(row["show_rear"])
 		visual.armor_values = (row["armor"] as Dictionary).duplicate(true)
 		visual.status_text = String(row.get("status", ""))
+		visual.frozen = bool(row.get("frozen", false))
 		_entities.add_child(visual)
+		visual.sync_scene_art()
 		_entity_visuals.append(visual)
+	_sort_visuals()
+
+func _sort_visuals() -> void:
 	_entity_visuals.sort_custom(func(a: BattleDemoIsoVisual, b: BattleDemoIsoVisual) -> bool: return a.position.y < b.position.y or (a.position.y == b.position.y and a.get_index() < b.get_index()))
 
 func _make_visual(cell: Vector2i, steps: int, role: BattleDemoIsoVisual.Role) -> BattleDemoIsoVisual:
 	var visual: BattleDemoIsoVisual
-	if role == BattleDemoIsoVisual.Role.UNIT and unit_visual_scene != null:
-		var candidate := unit_visual_scene.instantiate()
+	var source := unit_visual_scene if role == BattleDemoIsoVisual.Role.UNIT else tile_visual_scene
+	if source != null:
+		var candidate := source.instantiate()
 		visual = candidate as BattleDemoIsoVisual
 		if visual == null: candidate.free()
 	if visual == null: visual = BattleDemoIsoVisual.new()
@@ -418,6 +475,7 @@ func _capture_board_view(board: BattleBoard) -> void:
 			"show_rear": session is BattleControlSession or (session is BattleCoreCombinationSession and not session is BattleCoreReactionsSession),
 			"armor": armor.duplicate(true),
 			"status": _status_text(unit),
+			"frozen": unit.elemental != null and unit.elemental.frozen_turns > 0,
 		})
 	var environment: CombatEnvironmentState = session.state.environment if session != null and session.state != null else null
 	if environment != null:
@@ -505,6 +563,7 @@ func _draw_overlay() -> void:
 		for fire: Dictionary in _view_fires:
 			var fire_center := cell_center(fire["cell"])
 			var is_burning := String(fire.get("effect", "bleeding")) == "burning"
+			if is_burning and tile_visual_scene != null: continue
 			_overlay.draw_circle(fire_center, hw * 0.28, Color(1.0, 0.32, 0.06, 0.62) if is_burning else Color(0.95, 0.28, 0.12, 0.55))
 			_overlay.draw_string(ThemeDB.fallback_font, fire_center + Vector2(-32, 4), "ОГОНЬ" if is_burning else "ШИПЫ 8", HORIZONTAL_ALIGNMENT_CENTER, 64, 10, Color("ffd08a"))
 		var corpses_by_cell: Dictionary = {}

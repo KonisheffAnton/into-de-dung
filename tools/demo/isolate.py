@@ -112,7 +112,7 @@ def main():
         if label in ("battle_execution_worker", "battle_execution_ui"):
             marker = "BATTLE EXECUTION WORKER RESULTS:" if label == "battle_execution_worker" else "BATTLE EXECUTION UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
-        if label in ("presentation_capture", "battle_presentation"):
+        if label in ("presentation_capture", "battle_presentation", "presentation_foundation"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("snapshot_value_copy", "live_snapshot_capture", "summon_checkpoint"):
@@ -190,6 +190,12 @@ def main():
             presentation_captures.mkdir()
             presentation_args += ["--", "--captures=" + str(presentation_captures)]
         run("battle_presentation", presentation_args, headless=not args.render_check)
+        foundation_args = ["--script", "tests/test_presentation_foundation.gd"]
+        if args.render_check:
+            foundation_captures = out / "foundation-screenshots"
+            foundation_captures.mkdir()
+            foundation_args += ["--", "--captures=" + str(foundation_captures)]
+        run("presentation_foundation", foundation_args, headless=not args.render_check)
         run("hero_progression", ["--script", "tests/test_hero_progression.gd"])
         run("hero_hub", ["--script", "tests/test_hero_hub.gd"])
         run("hero_hub_playthrough", ["--script", "tests/test_hero_hub_playthrough.gd"])

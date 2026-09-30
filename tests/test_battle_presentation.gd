@@ -33,8 +33,12 @@ func wait_presentation() -> void:
 	var deadline := Time.get_ticks_msec() + 10000
 	while demo._execution_worker.is_started() and Time.get_ticks_msec() < deadline:
 		demo._poll_execution()
+		if demo.is_presentation_pending(): break
 		await process_frame
 	check(demo.is_presentation_pending(), "joined result starts presentation")
+	# Короткий клип не должен закончиться за первый дорогой кадр render-backend.
+	# Осматриваем точную фазу, затем явно возобновляем естественное воспроизведение.
+	if demo.is_presentation_pending(): demo._presentation_player._tween.pause()
 
 func shown(id: int) -> BattleUnitView:
 	for row: Dictionary in demo.board_view._view_units:
@@ -87,6 +91,7 @@ func chain_fall() -> void:
 	var events := s.last_receipt.get_events()
 	check(events.any(func(e: Dictionary) -> bool: return e.kind == &"chain_link") and events.any(func(e: Dictionary) -> bool: return e.kind == &"fell"), "real chain and out-of-board fall in receipt")
 	demo._presentation_player.set_speed(3.0)
+	demo._presentation_player._tween.play()
 	await preload("res://tests/fixtures/battle_execution_wait.gd").settle(self, demo)
 	check(snapshot(s) == committed and not shown(s.units[5].id).alive, "natural chain playback leaves exact dead prefix")
 
@@ -177,6 +182,7 @@ func run() -> void:
 	check(shown(target.id).hp == hp_before and target.vitals.get_hp() != hp_before, "HUD and figure keep pre-hit HP at attack cue")
 	await capture("presentation-attack")
 	demo._presentation_player.set_speed(3.0)
+	demo._presentation_player._tween.play()
 	await preload("res://tests/fixtures/battle_execution_wait.gd").settle(self, demo)
 	check(shown(target.id).hp == target.vitals.get_hp(), "natural completion publishes actual HP")
 	var ordered := frame_sequences.duplicate()

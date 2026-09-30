@@ -83,6 +83,8 @@ func run() -> void:
 	root.add_child(viewport)
 	demo = (load("res://scenes/demo/core_reactions_battle.tscn") as PackedScene).instantiate()
 	viewport.add_child(demo)
+	# Подробный прогноз/реестр проверяется в явно открытой диагностике.
+	demo.set_diagnostics_visible(true)
 	demo.set_process(false)
 	viewport.notify_mouse_entered()
 	await process_frame

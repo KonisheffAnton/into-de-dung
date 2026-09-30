@@ -42,6 +42,8 @@ func run() -> void:
 	demo = (load("res://scenes/demo/core_reactions_battle.tscn") as PackedScene).instantiate()
 	demo.deployment_enabled = false
 	viewport.add_child(demo)
+	# Подробный прогноз/реестр проверяется в явно открытой диагностике.
+	demo.set_diagnostics_visible(true)
 	PlayerTurnFixture.enter_player_turn(demo)
 	await process_frame
 	await process_frame

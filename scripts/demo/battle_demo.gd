@@ -112,6 +112,10 @@ var _presentation_target: bool = false
 var _receipt_already_presented: bool = false
 var _skip_presentation_button: Button
 var _speed_presentation_button: Button
+var _diagnostics: PanelContainer
+var _diagnostics_button: Button
+var _compact_inspection: Label
+var _display_inspection_id: int = UnitId.NONE
 var _turn_forecast: TurnForecast
 var _turn_forecast_pending: bool = false
 var _turn_forecast_generation: int = 0
@@ -185,8 +189,10 @@ func _join_execution() -> void:
 	_presentation_events.clear()
 	_presentation_result = null
 	if board_view != null: board_view.execution_pending = false
-	if _skip_presentation_button != null: _skip_presentation_button.hide()
-	if _speed_presentation_button != null: _speed_presentation_button.hide()
+	if _skip_presentation_button != null:
+		_skip_presentation_button.visible = core_reactions_mode
+		_skip_presentation_button.disabled = true
+	if _speed_presentation_button != null: _speed_presentation_button.visible = core_reactions_mode
 
 func _complete_live(method: StringName, result: Variant, target_attempt: bool) -> void:
 	if not _presentation_before.is_empty():
@@ -200,9 +206,11 @@ func _complete_live(method: StringName, result: Variant, target_attempt: bool) -
 			_presentation_seen.clear()
 			board_view.execution_pending = true
 			_skip_presentation_button.show()
+			_skip_presentation_button.disabled = false
 			_speed_presentation_button.show()
-			_action_bar.hide()
-			_mage_row.hide()
+			# Слоты остаются на месте; до завершения показа запрещено только исполнение.
+			_disable_action_buttons(_action_bar)
+			_disable_action_buttons(_mage_row)
 			_move_button.disabled = true
 			_attack_button.disabled = true
 			_end_turn_button.disabled = true
@@ -237,6 +245,23 @@ func _presentation_frame_finished(state: Dictionary) -> void:
 	for event: Dictionary in _presentation_events: _note_presentation_event(event)
 	_render_presentation_hud(state)
 	_log.text = "\n".join(_journal)
+	_displayed_unit_hovered(_display_inspection_id)
+
+func _disable_action_buttons(parent: Node) -> void:
+	for child: Node in parent.get_children():
+		if child is Button: (child as Button).disabled = true
+		_disable_action_buttons(child)
+
+func set_diagnostics_visible(value: bool) -> void:
+	if _diagnostics == null: return
+	_diagnostics.visible = value
+	_diagnostics_button.set_pressed_no_signal(value)
+
+func _displayed_unit_hovered(unit_id: int) -> void:
+	_display_inspection_id = unit_id
+	if _compact_inspection == null: return
+	_compact_inspection.text = board_view.displayed_unit_summary(unit_id)
+	_compact_inspection.tooltip_text = _compact_inspection.text
 
 func _note_presentation_event(event: Dictionary) -> void:
 	var seq := int(event.get("event_seq", 0))
@@ -256,7 +281,7 @@ func _render_presentation_hud(state: Dictionary) -> void:
 		var button := _button(text)
 		button.disabled = true
 		button.clip_text = true
-		button.custom_minimum_size = Vector2(480, 30)
+		button.custom_minimum_size = Vector2(0 if _diagnostics != null else 480, 30)
 		button.tooltip_text = text
 		_roster.add_child(button)
 		if row.alive:
@@ -285,8 +310,9 @@ func _finish_presentation() -> void:
 	_presentation_roots.clear()
 	_presentation_events.clear()
 	board_view.execution_pending = false
-	_skip_presentation_button.hide()
-	_speed_presentation_button.hide()
+	_skip_presentation_button.visible = core_reactions_mode
+	_skip_presentation_button.disabled = true
+	_speed_presentation_button.visible = core_reactions_mode
 	_receipt_already_presented = true
 	_complete_live(_presentation_method, _presentation_result, _presentation_target)
 	_receipt_already_presented = false
@@ -418,11 +444,12 @@ func _build_ui() -> void:
 	_skip_presentation_button.name = "SkipPresentationButton"
 	_skip_presentation_button.pressed.connect(skip_presentation)
 	_phase_row.add_child(_skip_presentation_button)
-	_skip_presentation_button.hide()
+	_skip_presentation_button.visible = core_reactions_mode
+	_skip_presentation_button.disabled = true
 	_speed_presentation_button = _button("Скорость ×1")
 	_speed_presentation_button.pressed.connect(_toggle_presentation_speed)
 	_phase_row.add_child(_speed_presentation_button)
-	_speed_presentation_button.hide()
+	_speed_presentation_button.visible = core_reactions_mode
 	_environment_button = _button("Окружение · прогноз фазы")
 	_environment_button.focus_mode = Control.FOCUS_NONE
 	_environment_button.pressed.connect(_request_environment_forecast)
@@ -475,6 +502,7 @@ func _build_ui() -> void:
 	board_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	board_view.cell_clicked.connect(handle_cell)
 	board_view.cell_hovered.connect(_hover)
+	board_view.displayed_unit_hovered.connect(_displayed_unit_hovered)
 	board_view.gui_input.connect(_board_forecast_wheel_input)
 	board_view.cancel_requested.connect(set_attack_mode.bind(false))
 	left.add_child(board_view)
@@ -489,10 +517,42 @@ func _build_ui() -> void:
 	_hint = _label("", 14, Color("a5b3c5"))
 	_hint.custom_minimum_size.y = 40
 	left.add_child(_hint)
+	if core_reactions_mode:
+		_hint.clip_text = true
+		_hint.max_lines_visible = 2
+		_compact_inspection = _label("Наведите на фигуру для осмотра.", 14, Color("e6ecf4"))
+		_compact_inspection.custom_minimum_size.y = 42
+		_compact_inspection.clip_text = true
+		_compact_inspection.max_lines_visible = 2
+		left.add_child(_compact_inspection)
 	var side := VBoxContainer.new()
 	side.custom_minimum_size.x = 340
 	side.add_theme_constant_override("separation", 10)
-	content.add_child(side)
+	if core_reactions_mode:
+		# Диагностика — отдельная область поверх поля, её текст не меняет раскладку боя.
+		_diagnostics_button = _button("Диагностика")
+		_diagnostics_button.toggle_mode = true
+		_diagnostics_button.focus_mode = Control.FOCUS_NONE
+		_diagnostics_button.toggled.connect(set_diagnostics_visible)
+		title.add_child(_diagnostics_button)
+		_diagnostics = PanelContainer.new()
+		_diagnostics.name = "BattleDiagnostics"
+		_diagnostics.set_anchors_and_offsets_preset(Control.PRESET_RIGHT_WIDE)
+		_diagnostics.offset_left = -380
+		_diagnostics.offset_right = -24
+		_diagnostics.offset_top = 104
+		_diagnostics.offset_bottom = -140
+		add_child(_diagnostics)
+		var panel_style := StyleBoxFlat.new()
+		panel_style.bg_color = Color("172637")
+		_diagnostics.add_theme_stylebox_override("panel", panel_style)
+		var scroll := ScrollContainer.new()
+		scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+		_diagnostics.add_child(scroll)
+		scroll.add_child(side)
+		_diagnostics.hide()
+	else:
+		content.add_child(side)
 	side.add_child(_label("ПЕРСОНАЖИ", 13, Color("65dfcc")))
 	var roster_scroll := ScrollContainer.new()
 	roster_scroll.custom_minimum_size.y = 192
@@ -530,12 +590,25 @@ func _build_ui() -> void:
 	_forecast_panel.add_theme_color_override("default_color", Color("e6ecf4"))
 	_forecast_panel.mouse_exited.connect(_leave_forecast_panel)
 	side.add_child(_forecast_panel)
+	if core_reactions_mode:
+		side.move_child(_forecast_heading, 0)
+		side.move_child(_forecast_panel, 1)
 	_status = _label("", 14, Color("f7c97d"))
 	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_status.custom_minimum_size.y = 46
 	root.add_child(_status)
 	_instructions = _label("", 14, Color("a5b3c5"))
 	root.add_child(_instructions)
+	if core_reactions_mode:
+		_status.clip_text = true
+		_status.max_lines_visible = 2
+		_instructions.clip_text = true
+		_instructions.max_lines_visible = 1
+		_phase_label.clip_text = true
+		_phase_label.custom_minimum_size.x = 160
+		_phase_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_mage_label.clip_text = true
+		_mage_label.custom_minimum_size.x = 180
 
 func _label(value: String, font_size: int, color: Color) -> Label:
 	var label := Label.new()
@@ -826,7 +899,8 @@ func _refresh_mage() -> void:
 		var mage_session := session as BattleCoreReactionsSession
 		_mage_row.visible = mage_session != null and mage_session.state.abilities != null
 		_mage_label.visible = _mage_row.visible
-		if board_view != null: board_view.custom_minimum_size.y = 476.0 if _mage_row.visible else 520.0
+		if board_view != null:
+			board_view.custom_minimum_size.y = 350.0 if _compact_inspection != null else (476.0 if _mage_row.visible else 520.0)
 		if _mage_row.visible:
 			var ability := mage_session.state.abilities
 			var fire_definition := ability.definition(&"mage.fire")
@@ -865,7 +939,7 @@ func _refresh() -> void:
 	if session is BattleCoreReactionsSession: _heading.text = "intoDeDung   /   Реакции и скрытая атака"
 	_subtitle.text = "Трое против троих. Победите всех врагов; потеря команды означает поражение." if tactical_mode else "Поднимитесь по ступеням. Ударьте сверху. Столкните стража с уступа."
 	_subtitle.visible = not tactical_mode
-	_status.custom_minimum_size.y = 26 if tactical_mode else 46
+	_status.custom_minimum_size.y = 42 if core_reactions_mode else (26 if tactical_mode else 46)
 	_mode_button.text = "Полигон" if tactical_mode else "Бой против ИИ"
 	_phase_label.visible = tactical_mode
 	_phase_row.visible = tactical_mode
@@ -1013,7 +1087,7 @@ func _refresh() -> void:
 		if session is BattleCoreReactionsSession:
 			# Сочетания перков/контроля не должны расширять окно за пределы viewport.
 			button.clip_text = true
-			button.custom_minimum_size.x = 480
+			button.custom_minimum_size.x = 0 if _diagnostics != null else 480
 			button.tooltip_text = text
 			# HP идёт перед длинными перками, чтобы оставаться видимым при обрезке.
 			button.text = "%s · %s%s%s" % [unit.debug_name, "HP %.1f / %.1f" % [unit.vitals.get_hp(), unit.get_stat(StatTypes.StatType.HP_MAX)] if alive else "погиб", stance + waiting, perk_status]
@@ -1518,6 +1592,7 @@ func _resolve_hover_exit() -> void:
 	_refresh_inspection()
 
 func _forecast_reading_region() -> Rect2:
+	if not _forecast_panel.is_visible_in_tree(): return Rect2()
 	var panel := _forecast_panel.get_global_rect()
 	# Узкий зазор между полем и панелью не должен прерывать переход курсора.
 	var left := minf(board_view.get_global_rect().end.x, panel.position.x)

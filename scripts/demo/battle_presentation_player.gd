@@ -33,11 +33,20 @@ func _next() -> void:
 	if _index >= _frames.size():
 		skip()
 		return
-	var frame: Dictionary = _frames[_index]
-	frame_started.emit(frame.duplicate(true))
-	_tween = _board.animate_presentation_frame(frame.events)
-	_tween.set_speed_scale(speed)
-	_tween.finished.connect(_complete_frame)
+	# Техническая граница без видимого события публикуется без искусственной паузы.
+	# Снимки и сигналы не пропускаются, порядок настоящих последствий сохранён.
+	while active and _index < _frames.size():
+		var frame: Dictionary = _frames[_index]
+		frame_started.emit(frame.duplicate(true))
+		if _board.has_presentation_animation(frame.events):
+			_tween = _board.animate_presentation_frame(frame.events)
+			_tween.set_speed_scale(speed)
+			_tween.finished.connect(_complete_frame)
+			return
+		_board.show_presentation_state(frame.after)
+		frame_finished.emit(frame.after.duplicate(true))
+		_index += 1
+	if active: skip()
 
 func _complete_frame() -> void:
 	if not active: return

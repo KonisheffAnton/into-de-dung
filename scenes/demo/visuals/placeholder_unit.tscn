@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/demo/battle_demo_iso_visual.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/placeholder_battle/unit.svg" id="2_unit"]
+[ext_resource type="PackedScene" path="res://scenes/demo/visuals/ice_overlay.tscn" id="3_ice"]
+
+[node name="PlaceholderUnit" type="Node2D"]
+script = ExtResource("1_script")
+role = 3
+
+[node name="ArtRoot" type="Node2D" parent="."]
+
+[node name="BodySprite" type="Sprite2D" parent="ArtRoot"]
+position = Vector2(0, -15)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_unit")
+
+[node name="EffectRoot" type="Node2D" parent="ArtRoot"]
+
+[node name="IceSprite" parent="ArtRoot/EffectRoot" instance=ExtResource("3_ice")]
+visible = false
+
+[node name="EffectAnchor" type="Marker2D" parent="ArtRoot"]
+position = Vector2(0, -18)
+
+[node name="LabelAnchor" type="Marker2D" parent="ArtRoot"]
+position = Vector2(0, -48)
