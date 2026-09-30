@@ -8,6 +8,7 @@ var _equipment: Array[EquipmentState] = []
 var _summons: Array[Dictionary] = []
 var abilities: BattleAbilityState = null
 var environment: CombatEnvironmentState = null
+var artifacts: BattleArtifactState = null
 
 func _init(board: BattleBoard, owners: Array[ItemOwnerState], inventories: Array[InventoryState], equipment: Array[EquipmentState]) -> void:
 	_board = board

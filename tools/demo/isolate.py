@@ -70,6 +70,9 @@ def main():
         if label in ("hero_progression", "hero_hub", "hero_hub_ui", "hero_hub_playthrough"):
             marker = {"hero_progression": "HERO PROGRESSION RESULTS:", "hero_hub": "HERO HUB RESULTS:", "hero_hub_ui": "HERO HUB UI RESULTS:", "hero_hub_playthrough": "HERO HUB PLAYTHROUGH RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label.startswith("expedition_") or label == "battle_artifact_snapshot":
+            marker = label.replace("_", " ").upper() + " RESULTS:"
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "ally_transit":
             invalid = invalid or "ALLY TRANSIT RESULTS:" not in output or ", 0 failed" not in output
         if label in ("initiative_session", "initiative_ui"):
@@ -184,6 +187,12 @@ def main():
         if args.render_check:
             hero_ui_args += ["--", "--captures=" + str(out / "captures")]
         run("hero_hub_ui", hero_ui_args, headless=not args.render_check)
+        for label in ("expedition_generator", "expedition_transitions", "battle_artifact_snapshot", "expedition_artifacts", "expedition_playthrough"):
+            run(label, ["--script", "tests/test_" + label + ".gd"])
+        expedition_ui_args = ["--script", "tests/test_expedition_ui.gd"]
+        if args.render_check:
+            expedition_ui_args += ["--", "--captures=" + str(out / "expedition_ui")]
+        run("expedition_ui", expedition_ui_args, headless=not args.render_check)
         run("ability_catalog", ["--script", "tests/test_ability_catalog.gd"])
         run("mage_cooldowns", ["--script", "tests/test_mage_cooldowns.gd"])
         run("mage_guards", ["--script", "tests/test_mage_boundaries_guards.gd"])

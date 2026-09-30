@@ -18,6 +18,9 @@ var next_item_id: int = 1
 var run_serial: int = 0
 var rng_state: int = 0
 var last_result: String = "Выберите отряд. Новички нанимаются бесплатно."
+var essence: int = 0
+var expedition_rng_state: int = 0
+var expedition: ExpeditionRunState = null
 
 static func create(seed_value: int = 73191) -> HeroHubState:
 	var result := HeroHubState.new()
@@ -30,6 +33,9 @@ static func create(seed_value: int = 73191) -> HeroHubState:
 		result._starter_gear(hero)
 		if result.party.size() < MAX_PARTY: result.party.append(hero.id)
 	result.rng_state = rng.state
+	var expedition_rng := RandomNumberGenerator.new()
+	expedition_rng.seed = seed_value ^ 0x553134
+	result.expedition_rng_state = expedition_rng.state
 	result._refresh_candidates()
 	return result
 
@@ -171,11 +177,14 @@ func to_dict() -> Dictionary:
 	for hero: HeroProgression in candidates: candidate_rows.append(hero.to_dict())
 	ids = items.keys(); ids.sort()
 	for id: int in ids: item_rows.append(items[id].duplicate(true))
-	return {"schema":1, "heroes":hero_rows, "party":party.duplicate(), "candidates":candidate_rows, "items":item_rows, "phase":phase, "gold":gold, "next_id":next_id, "next_item_id":next_item_id, "run_serial":run_serial, "rng_state":rng_state, "last_result":last_result}
+	return {"schema":2, "heroes":hero_rows, "party":party.duplicate(), "candidates":candidate_rows, "items":item_rows, "phase":phase, "gold":gold, "next_id":next_id, "next_item_id":next_item_id, "run_serial":run_serial, "rng_state":rng_state, "last_result":last_result,"essence":essence,"expedition_rng_state":expedition_rng_state,"expedition":expedition.to_dict() if expedition != null else {}}
 
 static func from_dict(data: Variant) -> HeroHubState:
-	if not ItemSimulationSnapshot._shape(data, {"schema":TYPE_INT,"heroes":TYPE_ARRAY,"party":TYPE_ARRAY,"candidates":TYPE_ARRAY,"items":TYPE_ARRAY,"phase":TYPE_STRING,"gold":TYPE_INT,"next_id":TYPE_INT,"next_item_id":TYPE_INT,"run_serial":TYPE_INT,"rng_state":TYPE_INT,"last_result":TYPE_STRING}): return null
-	if data.schema != 1 or data.phase not in ["hub", "battle"] or data.gold < 0 or data.gold > 1000000000 or data.run_serial < 0 or data.run_serial > 1000000000: return null
+	if typeof(data) != TYPE_DICTIONARY or typeof(data.get("schema")) != TYPE_INT or data.schema not in [1,2]: return null
+	var shape := {"schema":TYPE_INT,"heroes":TYPE_ARRAY,"party":TYPE_ARRAY,"candidates":TYPE_ARRAY,"items":TYPE_ARRAY,"phase":TYPE_STRING,"gold":TYPE_INT,"next_id":TYPE_INT,"next_item_id":TYPE_INT,"run_serial":TYPE_INT,"rng_state":TYPE_INT,"last_result":TYPE_STRING}
+	if data.schema == 2: shape.merge({"essence":TYPE_INT,"expedition_rng_state":TYPE_INT,"expedition":TYPE_DICTIONARY})
+	if not ItemSimulationSnapshot._shape(data, shape): return null
+	if data.phase not in (["hub","battle"] if data.schema == 1 else ["hub","battle","expedition"]) or data.gold < 0 or data.gold > 1000000000 or data.run_serial < 0 or data.run_serial > 1000000000: return null
 	if data.next_id < 1 or data.next_id > 1000000000 or data.next_item_id < 1 or data.next_item_id > 1000000000 or data.last_result.length() > 1024: return null
 	if data.heroes.size() > MAX_ROSTER or data.party.size() > MAX_PARTY or data.candidates.size() != 4 or data.items.size() > MAX_ITEMS: return null
 	var result := HeroHubState.new()
@@ -209,4 +218,16 @@ static func from_dict(data: Variant) -> HeroHubState:
 	result.phase = data.phase; result.gold = data.gold
 	result.next_id = data.next_id; result.next_item_id = data.next_item_id
 	result.run_serial = data.run_serial; result.rng_state = data.rng_state; result.last_result = data.last_result
+	if data.schema == 2:
+		if data.essence < 0 or data.essence > 1000000000: return null
+		result.essence = data.essence; result.expedition_rng_state = data.expedition_rng_state
+		if data.phase == "expedition":
+			result.expedition = ExpeditionRunState.from_dict(data.expedition)
+			if result.expedition == null or not result.expedition.valid_profile(result): return null
+		elif not data.expedition.is_empty(): return null
+	else:
+		# Миграция не двигает RNG найма и не меняет старую контрольную точку боя.
+		var migration_rng := RandomNumberGenerator.new()
+		migration_rng.seed = data.rng_state ^ 0x553134
+		result.expedition_rng_state = migration_rng.state
 	return result

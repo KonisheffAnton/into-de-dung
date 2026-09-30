@@ -28,4 +28,6 @@ func execute(context: ActionContext) -> CommandStepResult:
 			children.append(StatusTurnUnitCommand.new(unit))
 		elif unit.faction == _faction and unit.is_alive() and unit.bleeding != null and unit.bleeding.ticks_left > 0:
 			children.append(BleedingTickCommand.new(unit))
+	if context.get_state().artifacts != null:
+		children.append(ArtifactFormationCommand.new(_faction))
 	return CommandStepResult.applied([], children)

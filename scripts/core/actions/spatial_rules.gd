@@ -92,6 +92,13 @@ class Guard extends RefCounted:
 		if state._owners != refs["owners"] or state._inventories != refs["inventories"] or state._equipment != refs["equipment"]: return false
 		if state.abilities != refs.get("abilities"): return false
 		if state.abilities != null and (state.abilities.catalog != refs["ability_catalog"] or state.abilities.to_dict() != values["abilities"]): return false
+		if state.artifacts != refs.get("artifacts"): return false
+		if state.artifacts != null:
+			if state.artifacts.get_script() != BattleArtifactState or not BattleArtifactState.valid(state.artifacts.to_dict()) or not state.artifacts.references_valid(board) or state.artifacts.to_dict() != values["artifacts"]: return false
+			for hero_id: int in state.artifacts.heroes:
+				if state.summon_owner_id(hero_id) != 0: return false
+			for item: Dictionary in state.artifacts.equipped:
+				if state.summon_owner_id(item["unit_id"]) != 0: return false
 		if state.environment != refs.get("environment"): return false
 		if state.environment != null and state.environment.to_dict() != values["environment"]: return false
 		# Проверяем raw attachment до getters, которые обходят массив и вызывают методы.
@@ -152,6 +159,12 @@ class Guard extends RefCounted:
 	func ability_phase(after: Dictionary) -> Guard:
 		var result := copy()
 		result.values["abilities"] = after.duplicate(true)
+		result.seal()
+		return result
+
+	func artifacts_phase(after: Dictionary) -> Guard:
+		var result := copy()
+		result.values["artifacts"] = after.duplicate(true)
 		result.seal()
 		return result
 
@@ -258,6 +271,14 @@ static func capture_guard(context: ActionContext, units: Array[UnitState], cells
 		if state.abilities.get_script() != BattleAbilityState or not BattleAbilityState.valid(state.abilities.to_dict()): return null
 		guard.refs["ability_catalog"] = state.abilities.catalog.duplicate()
 		guard.values["abilities"] = state.abilities.to_dict()
+	guard.refs["artifacts"] = state.artifacts
+	if state.artifacts != null:
+		if state.artifacts.get_script() != BattleArtifactState or not BattleArtifactState.valid(state.artifacts.to_dict()) or not state.artifacts.references_valid(board): return null
+		for hero_id: int in state.artifacts.heroes:
+			if state.summon_owner_id(hero_id) != 0: return null
+		for item: Dictionary in state.artifacts.equipped:
+			if state.summon_owner_id(item["unit_id"]) != 0: return null
+		guard.values["artifacts"] = state.artifacts.to_dict()
 	guard.refs["environment"] = state.environment
 	if state.environment != null: guard.values["environment"] = state.environment.to_dict()
 	for owner: ItemOwnerState in state._owners:

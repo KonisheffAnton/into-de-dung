@@ -11,9 +11,11 @@ var target_attempt: bool = false
 
 static func can_transfer(session: BattleDemoSession) -> bool:
 	var runtime_scripts: Array[Script] = [BattleAbilityState, AbilityDefinition, BattleCoreReactionsSession, BattleBoard, ItemSimulationState, ActionQueue, ActionContext, ActionRngPort, CombatRng, ActionEventSink, MoveRules, AttackRules, AttackDefinition, UnitState, StatsBag, Stat, StatModifier, Vitals, ActionResources, ArmorState, BleedingState, ElementalState, ControlState, CombatPerksState, CombatPerksDefinition, CombatEnvironmentState, ItemOwnerState, InventoryState, EquipmentState, ItemInstance, ItemDef, SummonDefinition, HealOnDamageEffect, HealOnDamageEffectRuntime, StatModifierEffect, StatModifierEffectRuntime]
+	runtime_scripts.append(BattleArtifactState)
 	if session == null or session.get_script() != BattleCoreReactionsSession: return false
 	if session.context == null or session._queue == null or session._queue.get_script() != ActionQueue: return false
 	if session.context.is_busy() or session._queue._busy: return false
+	if session.state.artifacts != null and not BattleArtifactRules.references_valid(session.context): return false
 	# Это проверка владения, не замена capture/admission внутри реального submit.
 	# Старый receipt не исполняется повторно; очередь тоже входит в аудит графа.
 	var pending: Array = [session]

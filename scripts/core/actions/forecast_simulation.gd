@@ -47,6 +47,7 @@ static func prepare(context: ActionContext, queue: ActionQueue, command: Command
 	if context.is_faulted() or queue._faulted: return Prepared.rejected(&"CONTEXT_FAULTED")
 	if context.get_script() != ActionContext or queue.get_script() != ActionQueue: return Prepared.rejected(&"preview/unsupported_context")
 	if not AbilityCatalog.attack_references_valid(context): return Prepared.rejected(&"ability/attack_catalog")
+	if context.get_state().artifacts != null and not BattleArtifactRules.references_valid(context): return Prepared.rejected(&"artifact/attack_catalog")
 	if command == null or command.get_script() not in [AttackCommand, UseHealingItemCommand, UseSummoningItemCommand, MoveCommand, RaiseCorpseCommand, GuardCommand, RestoreArmorCommand, CollapsePhaseCommand, ElementalCastCommand, MageCastCommand]: return Prepared.rejected(&"preview/unsupported_command")
 	var capture := ItemSimulationSnapshot.capture(context.get_state(), context.get_unsupported_runtime_ids())
 	if capture.code != ItemSnapshotResult.Code.OK: return Prepared.rejected(StringName(capture.reason))

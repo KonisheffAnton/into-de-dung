@@ -18,7 +18,7 @@ func check(value: bool, label: String) -> void:
 		printerr("FAIL HERO HUB UI: " + label)
 
 func _run() -> void:
-	check(ProjectSettings.get_setting("application/run/main_scene") == "res://scenes/demo/hero_hub.tscn", "F5 starts the persistent hero hub")
+	check(ProjectSettings.get_setting("application/run/main_scene") == "res://scenes/demo/main_menu.tscn", "F5 starts the expedition main menu")
 	demo = (load("res://scenes/demo/hero_hub.tscn") as PackedScene).instantiate()
 	demo.save_path = "user://hero-hub-ui-%d.save" % Time.get_ticks_usec()
 	var path := demo.save_path

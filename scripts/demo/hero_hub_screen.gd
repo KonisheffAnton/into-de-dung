@@ -2,6 +2,7 @@ extends Control
 class_name HeroHubScreen
 
 @export var save_path: String = "user://hero-hub-v1.save"
+@export var expedition_mode: bool = false
 
 var run: HeroHubState
 var selected_hero_id: int = 0
@@ -19,7 +20,7 @@ func _ready() -> void:
 	var loaded := HeroHubStore.read_run(save_path)
 	run = loaded.get("run") as HeroHubState
 	_storage_error = String(loaded.get("error", ""))
-	if run != null and not save_existed and _storage_error.is_empty():
+	if run != null and (not save_existed or loaded.get("migrated", false)) and _storage_error.is_empty():
 		# Первый профиль сразу фиксируется, чтобы кандидаты и стартовый отряд не менялись после перезапуска.
 		selected_hero_id = run.party[0] if not run.party.is_empty() else 0
 		_commit(run)
@@ -34,6 +35,13 @@ func _process(_delta: float) -> void:
 		return
 	var outcome := HeroHubBattleFactory.outcome(_battle_bundle)
 	if outcome.is_empty():
+		return
+	if run.phase == "expedition":
+		var transition := ExpeditionTransitions.apply(run, "outcome", outcome)
+		if transition.is_ok(): _commit(transition.profile)
+		else:
+			_storage_error = "Исход не прошёл проверку: " + transition.reason
+			_clear_battle(); _render()
 		return
 	var candidate := _copy_run()
 	if candidate == null or not candidate.finish_battle(int(outcome.get("serial", -1)), bool(outcome.get("victory", false)), outcome.get("hp", {}), outcome.get("gear", {})):
@@ -90,6 +98,9 @@ func _mutate(method: StringName, args: Array = []) -> void:
 	_commit(candidate)
 
 func _start_battle() -> void:
+	if expedition_mode:
+		_expedition_action("start")
+		return
 	if run == null or run.party.is_empty() or _pending_save != null or not _storage_error.is_empty():
 		return
 	var candidate := _copy_run()
@@ -100,7 +111,7 @@ func _start_battle() -> void:
 	_commit(candidate)
 
 func _begin_battle() -> void:
-	if run == null or run.phase != "battle":
+	if run == null or (run.phase != "battle" and (run.expedition == null or run.expedition.phase != "battle")):
 		_render()
 		return
 	_battle_bundle = HeroHubBattleFactory.create(run)
@@ -109,6 +120,7 @@ func _begin_battle() -> void:
 		_render()
 		return
 	battle_view = HeroHubBattleView.new()
+	battle_view.expedition_battle = run.phase == "expedition"
 	battle_view.supplied_session = _battle_bundle["session"]
 	battle_view.return_requested.connect(_on_battle_return)
 	battle_view.restart_requested.connect(_restart_checkpoint)
@@ -147,6 +159,7 @@ func _render() -> void:
 	if battle_view != null:
 		_clear_battle()
 	if run != null:
+		if run.phase == "expedition" and not run.party.has(selected_hero_id): selected_hero_id = run.party[0]
 		var selected: HeroProgression = run.heroes.get(selected_hero_id)
 		if selected == null or selected.hp_current <= 0.0:
 			selected_hero_id = 0
@@ -170,19 +183,21 @@ func _render() -> void:
 	_root_panel.add_child(column)
 	var header := HBoxContainer.new()
 	column.add_child(header)
-	var title := _label("intoDeDung · Хаб героев", 27)
+	var title := _label("intoDeDung · Поход" if run != null and run.phase == "expedition" else "intoDeDung · Хаб героев", 27)
 	title.autowrap_mode = TextServer.AUTOWRAP_OFF
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(title)
 	if run != null:
-		var gold_label := _label("Золото: %d" % run.gold, 21)
+		var gold_label := _label("Золото: %d · Эссенция: %d" % [run.gold, run.essence], 21)
+		gold_label.name = "HubWallet"
 		gold_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 		gold_label.size_flags_horizontal = Control.SIZE_SHRINK_END
 		header.add_child(gold_label)
 	var scroll := ScrollContainer.new()
 	scroll.name = "HeroHubScroll"
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	# Длинная строка снаряжения не должна расширять весь экран за границы viewport.
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	column.add_child(scroll)
 	scroll.set_deferred("scroll_vertical", scroll_offset)
 	_content = VBoxContainer.new()
@@ -196,15 +211,19 @@ func _render() -> void:
 	if run == null:
 		_text("Профиль не загружен. Сохранение не изменено.")
 		return
-	_text(run.last_result, 18)
+	if run.phase != "expedition": _text(run.last_result, 18)
 	if run.phase == "battle":
 		_begin_battle()
+		return
+	if run.phase == "expedition":
+		if run.expedition.phase == "battle": _begin_battle()
+		else: ExpeditionHubPanel.render(self)
 		return
 	if not _message.is_empty(): _text(_message)
 	_hub_content()
 
 func _hub_content() -> void:
-	_text("ОТРЯД · выберите до трёх героев. Перед боем их HP восстанавливается.", 20)
+	_text("ОТРЯД · выберите до трёх героев. HP восстанавливается при выходе из хаба.", 20)
 	var party_row := HFlowContainer.new()
 	_content.add_child(party_row)
 	for id: int in run.heroes:
@@ -246,7 +265,8 @@ func _hub_content() -> void:
 	var footer := HBoxContainer.new()
 	_content.add_child(footer)
 	var send := Button.new()
-	send.text = "Отправиться в настоящий бой"
+	send.name = "start_expedition" if expedition_mode else "start_battle"
+	send.text = "Начать поход · 7 комнат" if expedition_mode else "Отправиться в настоящий бой"
 	send.custom_minimum_size = Vector2(320, 44)
 	send.pressed.connect(_start_battle)
 	send.disabled = run.party.is_empty() or _pending_save != null
@@ -313,8 +333,9 @@ func _allocation_controls() -> void:
 	var apply := _button_for(actions, "Применить распределение", "apply_allocation", _apply_allocation)
 	apply.disabled = not preview_ok
 	_button_for(actions, "Отменить предварительное", "cancel_allocation", _cancel_allocation)
-	var reset := _button_for(actions, "Перераспределить · %d золота" % HeroHubState.RESPEC_PRICE, "respec", _respec)
-	reset.disabled = hero.available_points() == hero.level() - 1 or run.gold < HeroHubState.RESPEC_PRICE
+	if run.phase == "hub":
+		var reset := _button_for(actions, "Перераспределить · %d золота" % HeroHubState.RESPEC_PRICE, "respec", _respec)
+		reset.disabled = hero.available_points() == hero.level() - 1 or run.gold < HeroHubState.RESPEC_PRICE
 
 func _stat_preview(hero: HeroProgression) -> String:
 	var attrs := hero.attributes()
@@ -381,6 +402,9 @@ func _apply_allocation() -> void:
 	if _delta_sum() <= 0: return
 	var delta: Array[int] = pending_delta.duplicate()
 	pending_delta = [0, 0, 0, 0]
+	if run.phase == "expedition":
+		_expedition_action("allocate", {"hero":selected_hero_id,"delta":delta})
+		return
 	_mutate(&"allocate", [selected_hero_id, delta])
 
 func _respec() -> void:
@@ -451,3 +475,11 @@ func _button_for(parent: Node, value: String, key: String, action: Callable) -> 
 	button.pressed.connect(action)
 	parent.add_child(button)
 	return button
+
+func _expedition_action(action: String, args: Dictionary = {}) -> void:
+	if run == null or _pending_save != null or not _storage_error.is_empty() or battle_view != null: return
+	var transition := ExpeditionTransitions.apply(run,action,args)
+	if transition.is_ok(): _commit(transition.profile)
+	else:
+		_message = "Действие недоступно: " + transition.reason
+		_render()

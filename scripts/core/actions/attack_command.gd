@@ -91,6 +91,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	hit.bind_bleeding(prepared.get("bleeding_policy", &""), _attack_definition_id)
 	hit.bind_entangle(prepared.get("entangle_on_physical_hp", false))
 	hit.bind_stun(prepared.get("stun_on_physical_hp", false))
+	hit.bind_artifacts(prepared.get("artifact_values", {}), prepared.get("artifact_freeze_gate", false))
 	if main_cost > 0 and not resources.try_spend_main(main_cost):
 		return CommandStepResult.faulted(&"attack/invalid_runtime")
 	if _reaction:
@@ -241,7 +242,15 @@ func _prepare(context: ActionContext) -> Dictionary:
 			result["modifiers"]["threat_ids"] = threats
 	if armor_profile:
 		var cover := MeleeThreat.cover_for(context, target)
-		var raw := ArmorAttack.components(strength, weapon, signed_height_steps, target.guard_stance, definition.damage_components, backstab_percent + sneak_percent, critical_multiplier, int(piercing), 30 if cover != null else 0)
+		var extras: Array[Dictionary] = definition.damage_components.duplicate(true)
+		if state.artifacts != null:
+			if not BattleArtifactRules.references_valid(context): return {"reason": &"artifact/invalid_state"}
+			if not _reaction and state.artifacts.ordinary(actor.id, _attack_definition_id):
+				result["artifact_values"] = state.artifacts.to_dict()
+				result["artifact_freeze_gate"] = ElementalRules.freeze_gate(ArmorRuntime.capture(state.get_owner(target.id)))
+				var stacks := state.artifacts.stacks(actor.id, "spark")
+				if stacks > 0 and state.artifacts.effect_allowed(actor.id, "spark"): extras.append({"type":"fire","policy":"standard","numerator":ExpeditionCatalog.SPARK_DAMAGE * stacks,"denominator":1,"source":"artifact:spark","factor_num":1,"factor_den":1})
+		var raw := ArmorAttack.components(strength, weapon, signed_height_steps, target.guard_stance, extras, backstab_percent + sneak_percent, critical_multiplier, int(piercing), 30 if cover != null else 0)
 		var request := ArmorAttack.request(target.id, raw, DamageSource.new(&"attack", 0, actor.cell, actor.id, actor.id))
 		var plan := ArmorHitExecutor.prepare(request, ArmorRuntime.capture(state.get_owner(target.id)), target.vitals.get_hp(), target_copy.get_value(StatTypes.StatType.HP_MAX), context.get_rng(), ElementalRules.is_frozen(target))
 		if plan.get("reason", &"") != &"": result["reason"] = plan["reason"]; return result

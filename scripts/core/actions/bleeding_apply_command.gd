@@ -39,7 +39,10 @@ func validate(context: ActionContext) -> StringName:
 	if board.get_unit_by_id(_actor.id) != _actor or board.get_unit_by_id(_target.id) != _target or _source.validate(context) != &"": return &"bleeding/invalid_source"
 	if _source.kind != &"attack" or _source.instigator_unit_id != _actor.id or _source.credit_unit_id != _actor.id or _source.source_instance_id != 0 or _hit_id.is_empty(): return &"bleeding/invalid_source"
 	var definition := context.get_attack_rules().get_definition(_definition_id)
-	if definition == null or definition.profile != AttackRules.ARMOR_PROFILE or definition.bleeding_policy != _policy or _policy not in [&"physical_hp", &"bypass_hp_gate"]: return &"bleeding/invalid_source"
+	if definition == null or definition.profile != AttackRules.ARMOR_PROFILE: return &"bleeding/invalid_source"
+	if _policy == &"artifact":
+		if not BattleArtifactRules.references_valid(context) or not context.get_state().artifacts.ordinary(_actor.id, _definition_id) or context.get_state().artifacts.stacks(_actor.id, "blood") != 1: return &"artifact/invalid_source"
+	elif definition.bleeding_policy != _policy or _policy not in [&"physical_hp", &"bypass_hp_gate"]: return &"bleeding/invalid_source"
 	if _target.bleeding == null or _target.bleeding.get_script() != BleedingState or not BleedingState.valid(_target.bleeding.to_dict()): return &"bleeding/invalid_state"
 	return &""
 
@@ -47,6 +50,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var reason := validate(context)
 	if reason != &"": return CommandStepResult.faulted(reason)
 	if not _target.is_alive(): return CommandStepResult.skipped(&"bleeding/dead_target")
+	if _policy == &"artifact" and not _actor.is_alive(): return CommandStepResult.skipped(&"artifact/dead_actor")
 	if _target.bleeding.immune: return CommandStepResult.skipped(&"bleeding/immune")
 	if _target.bleeding.stacked and ElementalRules.burning(_target): return CommandStepResult.skipped(&"bleeding/burning")
 	if not _eligible: return CommandStepResult.skipped(&"bleeding/hp_gate")

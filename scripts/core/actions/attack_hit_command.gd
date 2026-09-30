@@ -18,6 +18,14 @@ var _entangle_on_physical_hp: bool = false
 var _entangle_seal: bool = false
 var _stun_on_physical_hp: bool = false
 var _stun_seal: bool = false
+var _artifact_values: Dictionary = {}
+var _artifact_freeze_gate: bool = false
+var _artifact_seal: Array = [{}, false]
+
+func bind_artifacts(values: Dictionary, freeze_allowed: bool) -> void:
+	_artifact_values = values.duplicate(true)
+	_artifact_freeze_gate = freeze_allowed
+	_artifact_seal = [_artifact_values.duplicate(true), freeze_allowed]
 
 func bind_stun(enabled: bool) -> void:
 	_stun_on_physical_hp = enabled
@@ -59,6 +67,9 @@ func copy_for_queue() -> Command:
 	copy._entangle_seal = _entangle_seal
 	copy._stun_on_physical_hp = _stun_on_physical_hp
 	copy._stun_seal = _stun_seal
+	copy._artifact_values = _artifact_values.duplicate(true)
+	copy._artifact_freeze_gate = _artifact_freeze_gate
+	copy._artifact_seal = _artifact_seal.duplicate(true)
 	return copy
 
 func validate(context: ActionContext) -> StringName:
@@ -91,6 +102,21 @@ func execute(context: ActionContext) -> CommandStepResult:
 					spatial_result.mandatory.append(EntangleApplyCommand.new(_actor, _target, request.source, event["hit_id"], _definition_id, physical_hp > 0))
 				if _stun_on_physical_hp:
 					spatial_result.mandatory.append(StunApplyCommand.new(_actor, _target, request.source, event["hit_id"], _definition_id, physical_hp > 0))
+		if spatial_result.status == &"APPLIED" and not _artifact_values.is_empty():
+			for event: Dictionary in spatial_result.events:
+				if event.kind != &"hit_resolved": continue
+				var physical_hp: int = 0; var fire_hp: int = 0
+				for row: Dictionary in event.hit.rows:
+					if row.type == &"physical": physical_hp += int(row.hp_damage)
+					if row.type == &"fire": fire_hp += int(row.hp_damage)
+				var artifacts := context.get_state().artifacts
+				if artifacts.stacks(_actor.id, "blood") > 0:
+					spatial_result.mandatory.append(BleedingApplyCommand.new(_actor, _target, request.source, event.hit_id, _definition_id, &"artifact", physical_hp > 0))
+				for effect: String in ["ember", "ice", "harvest"]:
+					if artifacts.stacks(_actor.id, effect) == 0 or not artifacts.effect_allowed(_actor.id, effect): continue
+					# Смерть от толчка/падения ниже по очереди не превращается в прямое убийство.
+					var eligible: bool = fire_hp > 0 if effect == "ember" else (event.hit.hp_after == 0 if effect == "harvest" else _artifact_freeze_gate)
+					spatial_result.mandatory.append(ArtifactHitEffectCommand.new(_actor.id, _target.id, _definition_id, effect, eligible, request.source, event.hit_id, _artifact_values))
 		return spatial_result
 	var result := super.execute(context)
 	# Для legacy HP pipeline также сохраняем отказ с реальным префиксом урона.
@@ -108,6 +134,9 @@ func _binding_reason(context: ActionContext) -> StringName:
 	if [_bleeding_policy, _definition_id] != _bleeding_seal: return &"bleeding/invalid_source"
 	if _entangle_on_physical_hp != _entangle_seal: return &"control/invalid_source"
 	if _stun_on_physical_hp != _stun_seal: return &"control/invalid_source"
+	if [_artifact_values, _artifact_freeze_gate] != _artifact_seal: return &"artifact/invalid_source"
+	if not _artifact_values.is_empty():
+		if not BattleArtifactRules.references_valid(context) or context.get_state().artifacts.to_dict() != _artifact_values or not context.get_state().artifacts.ordinary(_actor.id, _definition_id) or request.armor_mode != &"armor" or (_p07_binding != null and _p07_binding.values.get("reaction", false)): return &"artifact/invalid_source"
 	if _stun_on_physical_hp:
 		var definition := context.get_attack_rules().get_definition(_definition_id)
 		if definition == null or not definition.stun_on_physical_hp or request.armor_mode != &"armor" or not ControlRules.has_stunning_strike(_actor): return &"control/invalid_source"

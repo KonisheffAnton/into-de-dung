@@ -5,6 +5,7 @@ signal return_requested
 signal restart_requested
 
 var supplied_session: BattleCoreReactionsSession
+var expedition_battle: bool = false
 var _return_button: Button
 
 func _allows_execution_worker() -> bool:
@@ -50,17 +51,17 @@ func _refresh() -> void:
 		return
 	var terminal := _battle.phase in [BattleTacticalSession.Phase.VICTORY, BattleTacticalSession.Phase.DEFEAT, BattleTacticalSession.Phase.MUTUAL_DESTRUCTION]
 	var faulted := _battle.phase == BattleTacticalSession.Phase.FAULTED
-	_return_button.text = "Повторить бой с начала" if faulted else "Вернуться в хаб"
+	_return_button.text = "Повторить бой с начала" if faulted else "Продолжить поход" if expedition_battle else "Вернуться в хаб"
 	_return_button.disabled = not (terminal or faulted) or is_execution_pending()
 	if terminal or faulted:
 		_stats.text = _battle.phase_text()
-		_status.text = "Бой остановлен. Можно повторить сохранённое начало." if faulted else "Результат передаётся в хаб."
+		_status.text = "Бой остановлен. Можно повторить сохранённое начало." if faulted else "Результат сохраняется."
 	if faulted:
 		_subtitle.text = "Ошибка исполнения. Награды не начислены; контрольная точка сохранена."
 		_instructions.text = "Повторить бой с начала — восстановить сохранённый отряд и экипировку."
 	elif _battle.phase == BattleTacticalSession.Phase.VICTORY:
 		_subtitle.text = "Победа. Результат автоматически записывается после завершения действия."
-		_instructions.text = "Бой завершён. Хаб сохранит опыт, золото, HP и состояние экипировки."
+		_instructions.text = "Бой завершён. Сохраняются опыт, добыча, HP и состояние экипировки."
 	elif _battle.phase in [BattleTacticalSession.Phase.DEFEAT, BattleTacticalSession.Phase.MUTUAL_DESTRUCTION]:
 		_subtitle.text = "Поражение. Исход автоматически записывается после завершения действия."
 		_instructions.text = "Бой завершён. Хаб сохранит состояние отряда и потери."

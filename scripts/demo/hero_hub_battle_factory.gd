@@ -2,7 +2,15 @@ extends RefCounted
 class_name HeroHubBattleFactory
 
 static func create(run: HeroHubState) -> Dictionary:
-	if run == null or run.phase != "battle" or HeroHubState.from_dict(run.to_dict()) == null: return {}
+	if run == null or HeroHubState.from_dict(run.to_dict()) == null: return {}
+	var expedition := run.phase == "expedition" and run.expedition != null and run.expedition.phase == "battle"
+	if run.phase != "battle" and not expedition: return {}
+	var node: Dictionary = run.expedition.current_node() if expedition else {}
+	var encounter := ExpeditionCatalog.encounter(node.kind if expedition else "battle",node.variant if expedition else 0)
+	if encounter == null: return {}
+	var enemy_count := encounter.enemy_cells.size()
+	var enemy_hp := encounter.enemy_hp
+	var enemy_strength := encounter.enemy_strength
 	var session := BattleCoreReactionsSession.new(false)
 	session.board = BattleBoard.new(8, 8)
 	var hero_units: Dictionary = {}
@@ -26,23 +34,23 @@ static func create(run: HeroHubState) -> Dictionary:
 		reaction.chain_push = false
 		reaction.critical_on_control = false
 		definitions.append(reaction)
-	for index: int in range(run.party.size() + 3):
+	for index: int in range(run.party.size() + enemy_count):
 		var hero: HeroProgression = run.heroes[run.party[index]] if index < run.party.size() else null
 		var hero_class := HeroCatalog.class_definition(hero.class_id) if hero != null else null
 		var stats := StatsBag.from_base_values({
-			StatTypes.StatType.HP_MAX: float(hero.max_hp() if hero != null else 24),
+			StatTypes.StatType.HP_MAX: float(hero.max_hp() if hero != null else enemy_hp),
 			StatTypes.StatType.ARMOR: 0.0,
-			StatTypes.StatType.STRENGTH: float(hero.attributes()[0] if hero != null and hero.class_id != &"mage" else 0 if hero != null else 3),
-			StatTypes.StatType.WEAPON_DAMAGE: 0.0 if hero != null else 3.0,
-			StatTypes.StatType.IMPACT_POWER: 4.0,
-			StatTypes.StatType.BALANCE_MAX: float(hero.balance_max() if hero != null else 12),
-			StatTypes.StatType.MOVE_RANGE: hero.move_max() if hero != null else 4.0,
+			StatTypes.StatType.STRENGTH: float(hero.attributes()[0] if hero != null and hero.class_id != &"mage" else 0 if hero != null else enemy_strength),
+			StatTypes.StatType.WEAPON_DAMAGE: 0.0 if hero != null else float(encounter.enemy_weapon_damage),
+			StatTypes.StatType.IMPACT_POWER: 4.0 if hero != null else float(encounter.enemy_impact),
+			StatTypes.StatType.BALANCE_MAX: float(hero.balance_max() if hero != null else encounter.enemy_balance),
+			StatTypes.StatType.MOVE_RANGE: hero.move_max() if hero != null else float(encounter.enemy_move),
 			StatTypes.StatType.MAIN_ACTIONS_MAX: 1.0,
 			StatTypes.StatType.BONUS_ACTIONS_MAX: 1.0,
-			StatTypes.StatType.ATTACK_RANGE: float(hero_class.attack_range if hero != null else 1),
+			StatTypes.StatType.ATTACK_RANGE: float(hero_class.attack_range if hero != null else encounter.enemy_range),
 			StatTypes.StatType.PHYSICAL_PIERCING_PERCENT: 0.0,
 		})
-		var cell := Vector2i(1, 2 + index) if hero != null else Vector2i(6, 1 + 2 * (index - run.party.size()))
+		var cell := Vector2i(1, 2 + index) if hero != null else encounter.enemy_cells[index - run.party.size()]
 		var unit := UnitState.create(Faction.Type.PLAYER if hero != null else Faction.Type.ENEMY, cell, stats, hero.name if hero != null else "Дозорный %d" % (index - run.party.size() + 1))
 		unit.armor = ArmorState.new(); unit.armor.in_battle = false
 		unit.bleeding = BleedingState.new(); unit.bleeding.stacked = true
@@ -93,12 +101,27 @@ static func create(run: HeroHubState) -> Dictionary:
 	session.state.environment = CombatEnvironmentState.new()
 	session.state.environment.status_effects = true
 	session.state.environment.collapse = {"turn":0,"marked":[]}
+	if expedition:
+		var artifacts := BattleArtifactState.new()
+		for id: int in run.party:
+			var unit_id: int = hero_units[id]
+			artifacts.heroes.append(unit_id)
+			if (run.heroes[id] as HeroProgression).class_id == &"mage": artifacts.mages.append(unit_id)
+			artifacts.attacks[unit_id] = session.actor_loadouts[unit_id].attack_id
+		for record: Dictionary in run.expedition.artifacts:
+			if record.hero_id == 0: continue
+			artifacts.equipped.append({"id":record.id,"unit_id":hero_units[record.hero_id],"slot":record.slot,"definition":record.definition,"version":1,"stacks":record.stacks})
+		session.state.artifacts = artifacts
+		if node.modifier in ["spikes", "fire"]:
+			for cell: Vector2i in encounter.hazard_cells:
+				session.state.environment.fires.append({"id":session.state.environment.next_fire_id,"cell":cell,"damage":ExpeditionCatalog.SPIKE_DAMAGE if node.modifier == "spikes" else 0,"effect":"bleeding" if node.modifier == "spikes" else "burning"})
+				session.state.environment.next_fire_id += 1
 	var pairs: Array[Dictionary] = []
 	for actor: UnitState in session.units:
 		for target: UnitState in session.units:
 			if actor.id != target.id: pairs.append({"actor_unit_id":actor.id,"target_unit_id":target.id})
 	var rules := AttackRules.new(session._unit_ids(), pairs, definitions)
-	session.context = ActionContext.new(session.state, CombatRng.new(9101 + run.run_serial), ActionEventSink.new(), [], MoveRules.new(session._unit_ids(), 1, &"spatial_move_v1"), rules)
+	session.context = ActionContext.new(session.state, CombatRng.new(int(node.battle_seed) if expedition else 9101 + run.run_serial), ActionEventSink.new(), [], MoveRules.new(session._unit_ids(), 1, &"spatial_move_v1"), rules)
 	session._queue = ActionQueue.new()
 	var item_definitions: Dictionary = {}
 	for owner: ItemOwnerState in owners: item_definitions.merge(owner._definitions, true)
@@ -107,9 +130,14 @@ static func create(run: HeroHubState) -> Dictionary:
 	session._enemy_ids = session.living_ids(Faction.Type.ENEMY)
 	session._setup_revision = session.context.get_revision()
 	session.flow_log = ["Расставьте отряд. Противник ходит первым; затем ваш отряд и окружение.", "Победа: каждому выжившему +100 опыта, каждому резервисту +10; +40 золота. Погибшие герои не возвращаются."]
+	if expedition:
+		var reward := ExpeditionCatalog.room(node.kind)
+		session.flow_log[1] = "%s · встреча %d. Победа: выжившим +%d XP, резерву 10%%; добыча +%d золота." % [reward.title,int(node.variant) + 1,reward.xp,reward.gold]
 	if rules.validate() != &"" or session.state.abilities == null or not session.begin_deployment() or ItemSimulationSnapshot.capture(session.state, []).code != ItemSnapshotResult.Code.OK:
 		session.close(); return {}
-	return {"session":session,"hero_units":hero_units,"gear_items":gear_items,"serial":run.run_serial}
+	var bundle := {"session":session,"hero_units":hero_units,"gear_items":gear_items,"serial":run.expedition.battle_serial if expedition else run.run_serial}
+	if expedition: bundle.merge({"run_id":run.expedition.run_id,"node_id":node.id})
+	return bundle
 
 static func outcome(bundle: Dictionary) -> Dictionary:
 	if bundle.is_empty(): return {}
@@ -126,7 +154,9 @@ static func outcome(bundle: Dictionary) -> Dictionary:
 		var item: ItemInstance = owner._items.get(mapping.item_id) if owner != null else null
 		if item == null: return {}
 		gear[id] = item.armor_remaining
-	return {"serial":bundle.serial,"victory":session.phase == BattleTacticalSession.Phase.VICTORY,"hp":hp,"gear":gear}
+	var result := {"serial":bundle.serial,"victory":session.phase == BattleTacticalSession.Phase.VICTORY,"hp":hp,"gear":gear}
+	if bundle.has("run_id"): result.merge({"run_id":bundle.run_id,"node_id":bundle.node_id})
+	return result
 
 static func _attack(id: StringName) -> AttackDefinition:
 	var result := AttackDefinition.new()

@@ -59,6 +59,8 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 				reason = &"reaction/internal_stop"
 			elif accepted is AttackHitCommand:
 				reason = &"attack/internal_hit"
+			elif accepted is ArtifactHitEffectCommand or accepted is ArtifactFormationCommand or accepted is ArtifactRepairCommand:
+				reason = &"artifact/internal_command"
 			elif accepted is MoveFallCommand:
 				reason = &"move/internal_fall"
 			elif accepted is ArmorEndBattleCommand:
@@ -87,6 +89,7 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 				reason = &"push/internal_collision"
 			else: reason = accepted.validate(context)
 	if reason == &"" and not AbilityCatalog.attack_references_valid(context): reason = &"ability/attack_catalog"
+	if reason == &"" and context.get_state().artifacts != null and not BattleArtifactRules.references_valid(context): reason = &"artifact/attack_catalog"
 	if reason == &"" and context.get_state().abilities != null and accepted.get_script() in [AttackCommand, MoveCommand, GuardCommand, RestoreArmorCommand, RaiseCorpseCommand, ElementalCastCommand, UseHealingItemCommand, UseSummoningItemCommand, MageCastCommand]:
 		var descriptor := accepted.get_ability_definition(context)
 		var registered := context.get_state().abilities.definition(descriptor.ability_id) if descriptor != null else null
@@ -103,6 +106,7 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 		var attacker := (accepted as AttackCommand).get_actor_unit_id()
 		var definition := context.get_attack_rules().get_definition((accepted as AttackCommand).get_attack_definition_id())
 		_defer_item_reactions = definition != null and (definition.bleeding_policy != &"" or definition.entangle_on_physical_hp or definition.stun_on_physical_hp or definition.chain_push)
+		if context.get_state().artifacts != null and context.get_state().artifacts.ordinary(attacker,(accepted as AttackCommand).get_attack_definition_id()): _defer_item_reactions = true
 		# Срок отмены — весь каскад атаки, включая legacy balance/push и item-heal.
 		for unit in context.get_state().get_board().get_all_units():
 			_attack_stances.append({"unit": unit, "expected": false if unit.id == attacker else unit.guard_stance})
@@ -114,6 +118,10 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 	if accepted is AbilityBoundaryCommand: ability_expected = (accepted as AbilityBoundaryCommand).projected_after(context)
 	var ability_check := func() -> bool:
 		return context.get_state().abilities == ability_ref and (ability_ref == null or (ability_ref.catalog == ability_definitions and ability_ref.to_dict() == ability_expected))
+	var artifact_ref := context.get_state().artifacts
+	var artifact_expected: Dictionary = artifact_ref.to_dict() if artifact_ref != null else {}
+	var artifact_check := func() -> bool:
+		return context.get_state().artifacts == artifact_ref and (artifact_ref == null or artifact_ref.to_dict() == artifact_expected)
 	var armor_finish_scheduled := false
 	# Единственный ответ принадлежит корневой добровольной атаке, не её событиям.
 	var counter_considered := false
@@ -128,8 +136,12 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 		if not _can_step(context, _event_capacity(entry["command"] as Command)):
 			_fault(receipt, context, &"sequence_exhausted")
 			break
+		if entry.command is ArtifactFormationCommand:
+			var projected := (entry.command as ArtifactFormationCommand).projected_after(context)
+			if not projected.is_empty(): artifact_expected.merge(projected,true)
 		_execute_entry(entry, receipt, context)
 		if receipt.status != &"FAULTED" and not ability_check.call(): _fault(receipt, context, &"ability/checkpoint")
+		if receipt.status != &"FAULTED" and not artifact_check.call(): _fault(receipt, context, &"artifact/checkpoint")
 		if _pending.is_empty() and receipt.status == &"APPLIED" and _defer_item_reactions:
 			# Сначала spatial и состояния исходного hit, затем optional реакции предметов.
 			_defer_item_reactions = false
@@ -165,6 +177,9 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 		context.get_sink().publish(event.duplicate(true))
 		if receipt.status != &"FAULTED" and not ability_check.call():
 			_fault(receipt, context, &"ability/checkpoint")
+			break
+		if receipt.status != &"FAULTED" and not artifact_check.call():
+			_fault(receipt, context, &"artifact/checkpoint")
 			break
 	_processed_event_seq.clear()
 	_reaction_keys.clear()
