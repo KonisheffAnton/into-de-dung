@@ -162,7 +162,13 @@ func _is_ranged_strike(event: Dictionary) -> bool:
 
 static func _shot_flight_seconds(event: Dictionary) -> float:
 	var delta: Vector2i = event.target_cell - event.actor_cell
-	return clampf(0.12 + 0.035 * float(absi(delta.x) + absi(delta.y) - 1), 0.12, 0.30)
+	return clampf(0.10 + 0.025 * float(absi(delta.x) + absi(delta.y) - 1), 0.10, 0.24)
+
+static func _shot_arc_height(from_cell: Vector2i, to_cell: Vector2i) -> float:
+	var delta := to_cell - from_cell
+	var distance := float(absi(delta.x) + absi(delta.y))
+	# Дальние дуги растут быстрее длины пути; предел удерживает заглушку в пределах поля.
+	return minf(180.0, 12.0 * distance + 2.0 * distance * distance)
 
 func _effect_anchor(id: int) -> Vector2:
 	var visual := _presentation_visual(id)
@@ -187,7 +193,8 @@ func _place_projectiles() -> void:
 		var art_scale := grid_config.tile_size.x / 128.0
 		var from := _world_cell_center(projectile.get_meta("from_cell")) + (projectile.get_meta("from_anchor") as Vector2) * art_scale
 		var to := _world_cell_center(projectile.get_meta("to_cell")) + (projectile.get_meta("to_anchor") as Vector2) * art_scale
-		projectile.sample(from, to, float(projectile.get_meta("progress")), art_scale)
+		var arc_height := _shot_arc_height(projectile.get_meta("from_cell"), projectile.get_meta("to_cell")) * art_scale
+		projectile.sample(from, to, float(projectile.get_meta("progress")), art_scale, arc_height)
 
 func _shot_flight(progress: float, event: Dictionary, projectile: BattlePresentationProjectile) -> void:
 	if not is_instance_valid(projectile): return

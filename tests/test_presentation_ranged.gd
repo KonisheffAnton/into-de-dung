@@ -114,10 +114,18 @@ func scenario(target: Vector2i, mode: String) -> void:
 	advance(0.05)
 	check(not projectile().visible and board._impacts.get_child_count() == 0 and board._numbers.get_child_count() == 0, "preparation has no premature flight or impact")
 	var delta := target - Vector2i(2, 3)
-	var flight := 0.12 + 0.035 * float(absi(delta.x) + absi(delta.y) - 1)
-	advance(0.05 + flight * 0.5)
+	var distance := absi(delta.x) + absi(delta.y)
+	var flight := 0.10 + 0.025 * float(distance - 1)
+	advance(0.05 + flight * 0.25)
+	if mode == "hp" and target == Vector2i(5, 3): await capture("arc-ascent")
+	advance(flight * 0.25)
 	var shot := projectile()
 	check(shot != null and shot.visible and is_equal_approx(float(shot.get_meta("progress")), 0.5), "real Tween reaches middle of distance-timed flight")
+	var art_scale := board.grid_config.tile_size.x / 128.0
+	var source := board._world_cell_center(shot.get_meta("from_cell")) + (shot.get_meta("from_anchor") as Vector2) * art_scale
+	var destination := board._world_cell_center(shot.get_meta("to_cell")) + (shot.get_meta("to_anchor") as Vector2) * art_scale
+	var expected_height := 14.0 if distance == 1 else 54.0
+	check(shot.position.is_equal_approx(source.lerp(destination, 0.5) - Vector2(0, expected_height * art_scale)), "flight midpoint has distance-scaled parabolic lift")
 	check(board._presentation_visual(victim).unit.hp == data.before.units[victim].hp and board._impacts.get_child_count() == 0, "HP and impact wait for delivery")
 	var tween := player._tween
 	var position_before := shot.position
@@ -126,9 +134,15 @@ func scenario(target: Vector2i, mode: String) -> void:
 	check(projectile() == shot and player._tween == tween and shot.position == position_before, "camera transforms ongoing shot without restarting")
 	board.size += Vector2(18, 12)
 	check(projectile() == shot and is_equal_approx(float(shot.get_meta("progress")), 0.5) and shot.position != position_before, "resize reprojects paused shot from cells at same progress")
+	art_scale = board.grid_config.tile_size.x / 128.0
+	source = board._world_cell_center(shot.get_meta("from_cell")) + (shot.get_meta("from_anchor") as Vector2) * art_scale
+	destination = board._world_cell_center(shot.get_meta("to_cell")) + (shot.get_meta("to_anchor") as Vector2) * art_scale
+	check(shot.position.is_equal_approx(source.lerp(destination, 0.5) - Vector2(0, expected_height * art_scale)), "resize scales arc height with the field")
 	check(shot.get_parent().transform == board.camera_view.get_transform(), "projectile shares field camera")
 	if mode == "hp": await capture("flight-%d-%d" % [target.x, target.y])
-	advance(flight * 0.5 + 0.001)
+	advance(flight * 0.25)
+	if mode == "hp" and target == Vector2i(5, 3): await capture("arc-descent")
+	advance(flight * 0.25 + 0.001)
 	advance(0.08)
 	check(projectile() == null and board._impacts.get_child_count() == 1 and board._presentation_visual(victim).action_offset.length() > 1.0, "delivery becomes exactly one contact and victim recoil")
 	check(board._presentation_visual(actor).action_offset.is_zero_approx(), "shooter recovery does not invent melee lunge")
@@ -225,6 +239,7 @@ func ui_case(hub: bool) -> void:
 	await process_frame
 
 func run() -> void:
+	arc_geometry()
 	viewport = SubViewport.new()
 	viewport.size = Vector2i(1440, 950)
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
@@ -238,7 +253,7 @@ func run() -> void:
 	for mode: String in ["hp", "armor", "zero", "critical", "lethal"]: await scenario(Vector2i(5, 3), mode)
 	await scenario(Vector2i(3, 3), "hp")
 	await scenario(Vector2i(2, 6), "hp")
-	check(is_equal_approx(BattleDemoBoard._shot_flight_seconds({"actor_cell": Vector2i.ZERO, "target_cell": Vector2i(99, 99)}), 0.30), "very long delivery duration is bounded")
+	check(is_equal_approx(BattleDemoBoard._shot_flight_seconds({"actor_cell": Vector2i.ZERO, "target_cell": Vector2i(99, 99)}), 0.24), "very long delivery duration is bounded")
 	await abort_cases()
 	board.queue_free()
 	player.queue_free()
@@ -249,3 +264,29 @@ func run() -> void:
 	await process_frame
 	print("PRESENTATION RANGED RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
+
+func arc_geometry() -> void:
+	var shot := BattlePresentationProjectile.new()
+	var from := Vector2(80, 160)
+	for delta: Vector2 in [Vector2(180, 90), Vector2(-180, 90), Vector2(180, -90), Vector2(-180, -90), Vector2(180, -130)]:
+		var to := from + delta
+		shot.sample(from, to, -1.0, 1.5, 54.0)
+		check(shot.position == from and shot.scale == Vector2(1.5, 1.5), "arc launch clamps to source with independent artwork scale")
+		shot.sample(from, to, 0.5, 1.5, 54.0)
+		check(shot.position.is_equal_approx(from.lerp(to, 0.5) - Vector2(0, 54)), "arc midpoint lifts above endpoint chord including unequal heights")
+		for progress: float in [0.25, 0.75]:
+			shot.sample(from, to, progress - 0.001, 1.5, 54.0)
+			var before := shot.position
+			shot.sample(from, to, progress + 0.001, 1.5, 54.0)
+			var after := shot.position
+			shot.sample(from, to, progress, 1.5, 54.0)
+			check(Vector2.RIGHT.rotated(shot.rotation).dot((after - before).normalized()) > 0.9999, "projectile points along measured ascent or descent tangent")
+		shot.sample(from, to, 2.0, 1.5, 54.0)
+		check(shot.position == to, "arc lands at exact destination in every direction")
+	shot.sample(from, from, 0.5, 1.0)
+	check(shot.position == from and is_finite(shot.rotation), "coincident endpoints and default straight sampler stay finite")
+	var near_height := BattleDemoBoard._shot_arc_height(Vector2i.ZERO, Vector2i(1, 0))
+	var far_height := BattleDemoBoard._shot_arc_height(Vector2i.ZERO, Vector2i(4, 0))
+	check(far_height > near_height * 4.0, "long shot is steeper relative to chord length")
+	check(BattleDemoBoard._shot_arc_height(Vector2i.ZERO, Vector2i(99, 0)) == 180.0, "extreme arc lift is bounded")
+	shot.free()
