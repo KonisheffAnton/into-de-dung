@@ -10,7 +10,7 @@
 | Готовность ядра / следующий срез | [CORE_READINESS](CORE_READINESS.md) / §7 [DESIGN_DIRECTION](DESIGN_DIRECTION.md) |
 | Делегирование / ведение контекста | [CODEX_WORKFLOW](CODEX_WORKFLOW.md) |
 | Запуск / автоматические проверки | [REPOSITORY_STATE](REPOSITORY_STATE.md) / [TESTING](TESTING.md) |
-| Хаб, найм, рост, профиль | [H1](HERO_HUB_H1.md) |
+| Хаб / герои | [H1](HERO_HUB_H1.md) |
 | Боевой пакет / расстановка / плейтест | [CORE_BATTLE_BATCH_K9](CORE_BATTLE_BATCH_K9.md) |
 | Перки: скрытая атака, Оппортунист/Прикрытие | [CORE_REACTIONS_K10](CORE_REACTIONS_K10.md) |
 | Контратака / общий заряд | [COUNTERATTACK_K12](COUNTERATTACK_K12.md) |
@@ -26,7 +26,7 @@
 | Реализованная броня и типы D2 | [ARMOR_DAMAGE_D2](ARMOR_DAMAGE_D2.md) |
 | Эффекты K17 / legacy D3 | [K17](STATUS_EFFECTS_NEXT.md) / [D3](BLEEDING_D3.md) |
 | Маг / откаты K18 | [K18](MAGE_COOLDOWNS_K18.md) |
-| Подготовка, вещи, сохранение забега D4 | [EXPEDITION_D4](EXPEDITION_D4.md) |
+| Полный цикл / legacy D4 | [U14](EXPEDITION_U14.md) / [D4](EXPEDITION_D4.md) |
 | Шипы, тела, поднятие D5 | [ENVIRONMENT_D5](ENVIRONMENT_D5.md) |
 | Шаблон помощника, снимки M1 | [SUMMON_DEFINITION_M1](SUMMON_DEFINITION_M1.md) |
 | Крит, спина, оглушение/путы C1 | [CRITICAL_BACKSTAB_C1](CRITICAL_BACKSTAB_C1.md) |
