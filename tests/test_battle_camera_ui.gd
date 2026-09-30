@@ -57,6 +57,7 @@ func _run() -> void:
 	await _test_execution_motion()
 	await _test_board_reset()
 	await _test_hub_view()
+	await _test_legacy_cancel()
 	print("BATTLE CAMERA UI RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
 
@@ -64,7 +65,10 @@ func _test_initial_state() -> void:
 	var board := demo.board_view
 	check(demo.core_reactions_mode and board.camera_controls_enabled, "H1 enables camera controls")
 	check(board.get_node_or_null("CameraControls") != null, "screen camera controls are present")
+	check(board._camera_reset.tooltip_text.contains("ПКМ — сдвиг карты"), "camera tooltip documents right-button pan")
 	check(is_equal_approx(board.camera_view.zoom, 1.0) and board.camera_view.offset == Vector2.ZERO, "initial camera is centered at 100 percent")
+	demo._hover(Vector2i(-1, -1))
+	check(demo._hint.text.contains("ПКМ — сдвиг карты") and demo._hint.text.contains("Esc или M"), "main hint describes right-button pan and keyboard cancel")
 	var center := board.cell_center(demo.session.selected_unit().cell)
 	check(board.cell_at(center) == demo.session.selected_unit().cell, "initial screen cell center picks same cell")
 	check(board.displayed_unit_at(center + Vector2(0, -12)) == demo.session.selected_id, "initial unit picking uses view coordinates")
@@ -82,8 +86,7 @@ func _test_viewport_zoom_pan_and_buttons() -> void:
 	_push_wheel(wheel_anchor, MOUSE_BUTTON_WHEEL_UP, 6.0)
 	var expected_zoom: float = pow(1.1, 6.0)
 	check(is_equal_approx(board.camera_view.zoom, expected_zoom), "real viewport wheel zooms camera")
-	check(board.view_to_world(wheel_anchor - board.global_position).is_equal_approx(board.camera_view.view_to_world(wheel_anchor - board.global_position)), "wheel transform remains invertible")
-	check(board.world_to_view(world_anchor).is_equal_approx(anchor - board.global_position), "wheel keeps cursor world point fixed")
+	check(board.view_to_world(wheel_anchor - board.global_position).is_equal_approx(world_anchor), "wheel keeps world point under cursor")
 	check(board.cell_at(board.cell_center(cell)) == cell, "cell picking follows zoom transform")
 	check(board.displayed_unit_at(board.cell_center(cell) + Vector2(0, -12)) == actor.id, "unit picking follows zoom transform")
 	check(demo._move_button.get_global_rect().size == toolbar_rect.size and demo._action_bar.get_global_rect().size == actionbar_rect.size, "camera zoom does not resize toolbar or action bar")
@@ -94,7 +97,7 @@ func _test_viewport_zoom_pan_and_buttons() -> void:
 	await capture("main-zoomed")
 	var before_pan := board.camera_view.offset
 	var down := InputEventMouseButton.new()
-	down.button_index = MOUSE_BUTTON_MIDDLE
+	down.button_index = MOUSE_BUTTON_RIGHT
 	down.pressed = true
 	down.position = board.global_position + Vector2(100, 100)
 	down.global_position = down.position
@@ -104,14 +107,35 @@ func _test_viewport_zoom_pan_and_buttons() -> void:
 	drag.global_position = drag.position
 	drag.relative = Vector2(36, -24)
 	viewport.push_input(drag, true)
-	check(board.camera_view.offset.is_equal_approx(before_pan + Vector2(36, -24)), "middle-button drag pans camera")
+	check(board.camera_view.offset.is_equal_approx(before_pan + Vector2(36, -24)), "right-button drag pans camera")
+	var zoom_anchor := board.global_position + Vector2(220, 170)
+	var anchor_local := zoom_anchor - board.global_position
+	var world_before_zoom_out := board.view_to_world(anchor_local)
+	var zoom_before_zoom_out := board.camera_view.zoom
+	_push_wheel(zoom_anchor, MOUSE_BUTTON_WHEEL_DOWN, 1.0)
+	check(is_equal_approx(board.camera_view.zoom, zoom_before_zoom_out / 1.1), "wheel zooms out after pan")
+	check(board.world_to_view(world_before_zoom_out).is_equal_approx(anchor_local), "zoom-out after pan preserves cursor anchor")
+	expected_zoom /= 1.1
 	var release := InputEventMouseButton.new()
-	release.button_index = MOUSE_BUTTON_MIDDLE
+	release.button_index = MOUSE_BUTTON_RIGHT
 	release.pressed = false
 	release.position = Vector2(3, 3)
 	release.global_position = release.position
 	viewport.push_input(release, true)
-	check(not board._camera_dragging, "release outside board ends middle-button drag")
+	check(not board._camera_dragging, "right-button release outside field ends drag")
+	var focus_drag := InputEventMouseButton.new()
+	focus_drag.button_index = MOUSE_BUTTON_RIGHT
+	focus_drag.pressed = true
+	focus_drag.position = zoom_anchor
+	focus_drag.global_position = zoom_anchor
+	viewport.push_input(focus_drag, true)
+	board.notification(Node.NOTIFICATION_WM_WINDOW_FOCUS_OUT)
+	check(not board._camera_dragging, "window focus loss ends drag")
+	var focus_release := focus_drag.duplicate() as InputEventMouseButton
+	focus_release.pressed = false
+	focus_release.position = Vector2(3, 3)
+	focus_release.global_position = focus_release.position
+	viewport.push_input(focus_release, true)
 	var controls := board.get_node("CameraControls") as HBoxContainer
 	var minus := controls.get_child(0) as Button
 	var reset := controls.get_child(1) as Button
@@ -169,14 +193,24 @@ func _test_forecast_wheel_and_cancel() -> void:
 	check(is_equal_approx(board.camera_view.zoom, zoom_before * 1.1), "Ctrl plus target wheel zooms camera")
 	check(board.world_to_view(world_under_cursor).is_equal_approx(anchor), "Ctrl zoom keeps target under cursor")
 	check(demo._forecast != null and demo._forecast_panel.is_visible_in_tree(), "Ctrl zoom preserves visible forecast")
-	var cancel := InputEventMouseButton.new()
-	cancel.button_index = MOUSE_BUTTON_RIGHT
-	cancel.position = point
-	cancel.global_position = point
-	for pressed: bool in [true, false]:
-		cancel.pressed = pressed
-		viewport.push_input(cancel, true)
-	check(not demo.attack_mode and demo._forecast == null, "right click cancels targeting while camera is enabled")
+	var selected_before_drag: int = demo.session.selected_id
+	var offset_before_click := board.camera_view.offset
+	await _right_drag(point, Vector2(22, -14))
+	check(demo.attack_mode and demo.session.selected_id == selected_before_drag, "right-button drag preserves attack mode and selected unit")
+	check(board.camera_view.offset.is_equal_approx(offset_before_click + Vector2(22, -14)), "right-button drag pans while targeting")
+	offset_before_click = board.camera_view.offset
+	await _right_click(point)
+	check(demo.attack_mode and demo.session.selected_id == selected_before_drag, "simple right click preserves attack mode and selection")
+	check(board.camera_view.offset == offset_before_click, "simple right click does not pan")
+	await _key(KEY_M)
+	check(not demo.attack_mode and demo._forecast == null, "M cancels targeting")
+	demo.set_attack_mode(true)
+	await _key(KEY_ESCAPE)
+	check(not demo.attack_mode, "Escape cancels targeting")
+	demo.inspect_enemy(target.id)
+	check(demo.inspected_id == target.id, "fixture enters enemy inspection")
+	await _right_click(point)
+	check(demo.inspected_id == target.id, "simple right click preserves inspection")
 	demo.set_diagnostics_visible(false)
 	demo.reset_demo()
 	await process_frame
@@ -190,6 +224,44 @@ func _click_control(control: Control) -> void:
 		event.pressed = pressed
 		event.position = point
 		event.global_position = point
+		viewport.push_input(event, true)
+	await process_frame
+
+func _right_click(point: Vector2) -> void:
+	for pressed: bool in [true, false]:
+		var event := InputEventMouseButton.new()
+		event.button_index = MOUSE_BUTTON_RIGHT
+		event.pressed = pressed
+		event.position = point
+		event.global_position = point
+		viewport.push_input(event, true)
+	await process_frame
+
+func _right_drag(point: Vector2, delta: Vector2) -> void:
+	var down := InputEventMouseButton.new()
+	down.button_index = MOUSE_BUTTON_RIGHT
+	down.pressed = true
+	down.position = point
+	down.global_position = point
+	viewport.push_input(down, true)
+	var motion := InputEventMouseMotion.new()
+	motion.position = point + delta
+	motion.global_position = motion.position
+	motion.relative = delta
+	viewport.push_input(motion, true)
+	var up := InputEventMouseButton.new()
+	up.button_index = MOUSE_BUTTON_RIGHT
+	up.pressed = false
+	up.position = Vector2(3, 3)
+	up.global_position = up.position
+	viewport.push_input(up, true)
+	await process_frame
+
+func _key(keycode: Key) -> void:
+	for pressed: bool in [true, false]:
+		var event := InputEventKey.new()
+		event.keycode = keycode
+		event.pressed = pressed
 		viewport.push_input(event, true)
 	await process_frame
 
@@ -217,7 +289,7 @@ func _test_execution_motion() -> void:
 	var camera_point := board.global_position + board.size * 0.5
 	_push_wheel(camera_point, MOUSE_BUTTON_WHEEL_UP, 2.0)
 	var drag_down := InputEventMouseButton.new()
-	drag_down.button_index = MOUSE_BUTTON_MIDDLE
+	drag_down.button_index = MOUSE_BUTTON_RIGHT
 	drag_down.pressed = true
 	drag_down.position = camera_point
 	drag_down.global_position = camera_point
@@ -225,7 +297,7 @@ func _test_execution_motion() -> void:
 	var offset_before := board.camera_view.offset
 	_push_motion(camera_point + Vector2(18, 12), Vector2(18, 12))
 	check(board.camera_view.zoom > 1.0, "viewport camera controls work while execution worker runs")
-	check(board.camera_view.offset.is_equal_approx(offset_before + Vector2(18, 12)), "worker camera drag moves only view")
+	check(board.camera_view.offset.is_equal_approx(offset_before + Vector2(18, 12)), "worker right-button drag moves only view")
 	drag_down.pressed = false
 	viewport.push_input(drag_down, true)
 	await _wait_for_presentation()
@@ -283,4 +355,16 @@ func _test_hub_view() -> void:
 	check(is_equal_approx(hub.board_view.camera_view.zoom, pow(1.1, 3.0)), "viewport wheel zooms hero hub battlefield")
 	await capture("hub-battle")
 	hub.queue_free()
+	await process_frame
+
+func _test_legacy_cancel() -> void:
+	var board := BattleDemoBoard.new()
+	board.size = viewport.size
+	viewport.add_child(board)
+	await process_frame
+	var calls: Array[int] = [0]
+	board.cancel_requested.connect(func() -> void: calls[0] += 1)
+	await _right_click(board.global_position + Vector2(300, 300))
+	check(not board.camera_controls_enabled and calls[0] == 1, "camera-disabled field keeps legacy right-click cancel")
+	board.queue_free()
 	await process_frame

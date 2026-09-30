@@ -1378,7 +1378,8 @@ func _hover(cell: Vector2i) -> void:
 		_hint.text = "Бирюзовые точки — клетки призыва. Клик — %s.\nПомощник с %s HP действует со следующего хода своей команды. Esc — отмена." % [_item_cost_text(item.get_use_action() if item != null else null), _summon_hp_text(item)]
 		return
 	if not session.board.is_in_bounds(cell):
-		_hint.text = "Золотые клетки — движение врага на следующий ход; зона атаки не показана.\nВыбранный союзник сохранён. Осмотр не расходует действия." if inspected_id != UnitId.NONE else "Числа на клетках — высота. Бирюзовые точки — доступное движение.\nПолоски: здоровье / накопленная потеря равновесия. ПКМ или Esc — движение."
+		var movement_cancel_hint := "ПКМ — сдвиг карты; Esc или M — отмена." if board_view.camera_controls_enabled else "ПКМ или Esc — движение."
+		_hint.text = "Золотые клетки — движение врага на следующий ход; зона атаки не показана.\nВыбранный союзник сохранён. Осмотр не расходует действия." if inspected_id != UnitId.NONE else "Числа на клетках — высота. Бирюзовые точки — доступное движение.\nПолоски: здоровье / накопленная потеря равновесия. %s" % movement_cancel_hint
 		if control_mode and not session is BattleCoreReactionsSession and inspected_id == UnitId.NONE: _hint.text = "Розовая стрелка у ног — тыл: атака с соседней клетки даёт +50% базы.\nОглушение или путы на цели дают крит ×2; два состояния не складывают крит."
 		return
 	var reachable: Dictionary = board_view.reachable_cells()
@@ -2308,7 +2309,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_M, KEY_ESCAPE: set_attack_mode(false)
 			KEY_R: reset_demo()
 			KEY_ENTER, KEY_KP_ENTER: end_turn()
-	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
+	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT and (board_view == null or not board_view.camera_controls_enabled):
 		set_attack_mode(false)
 
 func _item_cost_text(action: ItemUseAction) -> String:

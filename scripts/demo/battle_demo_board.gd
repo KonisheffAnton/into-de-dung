@@ -60,9 +60,10 @@ var _view_collapse: Array[Vector2i] = []
 ## Сменяемая временная фигура; будущая сцена может использовать AnimationPlayer/AnimatedSprite2D.
 var unit_visual_scene: PackedScene = preload("res://scenes/demo/visuals/placeholder_unit.tscn")
 var tile_visual_scene: PackedScene = preload("res://scenes/demo/visuals/placeholder_tile.tscn")
-const MOVE_SEGMENT_SECONDS: float = 0.10
+const MOVE_SEGMENT_SECONDS: float = 0.08
+const FORCED_MOVE_SEGMENT_SECONDS: float = 0.10
 const STRIKE_WINDUP_SECONDS: float = 0.12
-const STRIKE_LUNGE_SECONDS: float = 0.08
+const STRIKE_LUNGE_SECONDS: float = 0.04
 const STRIKE_RECOVERY_SECONDS: float = 0.20
 var number_scene: PackedScene = preload("res://scenes/demo/visuals/result_number.tscn")
 var impact_scene: PackedScene = preload("res://scenes/demo/visuals/hit_impact.tscn")
@@ -340,7 +341,7 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			clear_strike_poses()
 			_pending_strikes[_strike_key(event)] = event.duplicate(true)
 			tween.tween_method(_strike_pose.bind(event.duplicate(true)), 0.0, -8.0, STRIKE_WINDUP_SECONDS)
-			tween.tween_method(_strike_pose.bind(event.duplicate(true)), -8.0, 24.0, STRIKE_LUNGE_SECONDS)
+			tween.tween_method(_strike_pose.bind(event.duplicate(true)), -8.0, 24.0, STRIKE_LUNGE_SECONDS).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 			visible_event = true
 			continue
 		if kind in [&"damaged", &"healed", &"armor_changed", &"hit_resolved"]:
@@ -351,8 +352,10 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			continue
 		if kind == &"moved" or kind == &"fell":
 			var path: Array = event.get("transit_path", [event.from_cell, event.get("to_cell", event.get("attempted_cell", event.from_cell))])
+			# Добровольный путь ощущается отзывчивее; толчки и падения сохраняют прежний темп.
+			var segment_seconds: float = MOVE_SEGMENT_SECONDS if event.get("movement_kind", &"") in [&"voluntary", &"safe_retreat"] else FORCED_MOVE_SEGMENT_SECONDS
 			for index in range(1, path.size()):
-				tween.tween_method(_presentation_motion.bind(id, path[index - 1], path[index]), 0.0, 1.0, MOVE_SEGMENT_SECONDS)
+				tween.tween_method(_presentation_motion.bind(id, path[index - 1], path[index]), 0.0, 1.0, segment_seconds)
 			visible_event = true
 		elif not _presentation_caption(event).is_empty():
 			tween.tween_callback(_presentation_badge.bind(event.duplicate(true)))
@@ -404,7 +407,7 @@ func _build_camera_controls() -> void:
 		if caption == "100%":
 			_camera_reset = button
 			button.name = "ResetCamera"
-			button.tooltip_text = "Общий вид. Колесо — масштаб; зажатое колесо — сдвиг. Ctrl+колесо — масштаб над прогнозом."
+			button.tooltip_text = "Общий вид. Колесо — масштаб; ПКМ — сдвиг карты. Ctrl+колесо — масштаб над прогнозом."
 			button.pressed.connect(reset_camera)
 		else:
 			var factor := 1.1 if caption == "+" else 1.0 / 1.1
@@ -449,9 +452,8 @@ func _camera_input(event: InputEvent) -> bool:
 			var ticks := clampf(button.factor if button.factor > 0.0 else 1.0, 0.05, 8.0)
 			zoom_camera(camera_view.zoom * pow(1.1, ticks if button.button_index == MOUSE_BUTTON_WHEEL_UP else -ticks), button.position)
 			return true
-		if camera_controls_enabled and button.button_index == MOUSE_BUTTON_MIDDLE:
+		if camera_controls_enabled and button.button_index == MOUSE_BUTTON_RIGHT:
 			_camera_dragging = button.pressed
-			if button.pressed: _clear_hover()
 			return true
 	elif camera_controls_enabled and event is InputEventMouseMotion and _camera_dragging:
 		pan_camera(event.relative)
@@ -459,8 +461,8 @@ func _camera_input(event: InputEvent) -> bool:
 	return false
 
 func _input(event: InputEvent) -> void:
-	# Отпускание за пределами поля не должно оставлять режим перетаскивания включённым.
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_MIDDLE and not event.pressed: _camera_dragging = false
+	# Отпускание или потеря фокуса не должны оставлять камеру в режиме перетаскивания.
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and not event.pressed: _camera_dragging = false
 
 func _layer(label: String, layer: RenderLayers.Layer) -> Node2D:
 	var result := Node2D.new()
@@ -471,6 +473,7 @@ func _layer(label: String, layer: RenderLayers.Layer) -> Node2D:
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_RESIZED: _rescale_layout()
+	elif what in [NOTIFICATION_WM_WINDOW_FOCUS_OUT, NOTIFICATION_APPLICATION_FOCUS_OUT]: _camera_dragging = false
 
 func refresh() -> void:
 	if execution_pending: return

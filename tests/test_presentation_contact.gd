@@ -108,8 +108,9 @@ func scenario(mode: String) -> void:
 	check(board._presentation_visual(a).action_offset.length() > 1.0 and board._presentation_visual(a).position == origin, mode + " windup only moves artwork")
 	check(board._numbers.get_child_count() == 0 and board._presentation_visual(b).unit.hp == data.before.units[b].hp, mode + " no premature result")
 	if mode == "mixed": await capture("windup")
-	advance(0.081)
-	check(board._presentation_visual(a).action_offset.length() > 8.0, mode + " lunge persists across attack publication")
+	advance(0.04)
+	var lunge_end_distance := 24.0 * board.grid_config.tile_size.x / 128.0
+	check(is_equal_approx(board._presentation_visual(a).action_offset.length(), lunge_end_distance), mode + " real Tween reaches lunge endpoint after 0.04s")
 	advance(0.10)
 	check(board._presentation_visual(b).action_offset.length() > 1.0 and board._impacts.get_child_count() == 1, mode + " one contact and recoil")
 	if mode == "mixed":
@@ -184,11 +185,49 @@ func run() -> void:
 	player = BattlePresentationPlayer.new()
 	viewport.add_child(player)
 	for mode: String in ["hp", "mixed", "armor", "zero", "lethal", "critical", "counter"]: await scenario(mode)
+	await movement_timing()
 	await abort_cases()
 	viewport.queue_free()
 	await process_frame
 	print("PRESENTATION CONTACT RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
+
+func movement_timing() -> void:
+	var s := fixture("hp")
+	var actor_id: int = s.units[0].id
+	var start: Vector2i = s.units[0].cell
+	var middle := Vector2i(2, 3)
+	var finish_cell := Vector2i(1, 3)
+	var after := ActionPresentationState.capture(s.state)
+	var voluntary := {"kind": &"moved", "actor_unit_id": actor_id, "target_unit_id": actor_id,
+		"from_cell": start, "to_cell": finish_cell, "movement_kind": &"voluntary",
+		"transit_path": [start, middle, finish_cell]}
+	board.show_presentation_state(after)
+	var tween := board.animate_presentation_frame([voluntary])
+	tween.pause()
+	tween.custom_step(0.079)
+	check(board._view_unit_cell(actor_id) == start, "voluntary segment is still in flight before 0.08s")
+	tween.custom_step(0.002)
+	check(board._view_unit_cell(actor_id) == middle, "voluntary transit segment completes at 0.08s per cell")
+	tween.custom_step(0.078)
+	check(board._view_unit_cell(actor_id) == middle, "second voluntary transit segment uses same duration")
+	tween.custom_step(0.003)
+	check(board._view_unit_cell(actor_id) == finish_cell, "second voluntary transit segment completes at 0.08s")
+	tween.kill()
+	var forced := {"kind": &"moved", "actor_unit_id": actor_id, "target_unit_id": actor_id,
+		"from_cell": start, "to_cell": middle, "movement_kind": &"push",
+		"transit_path": [start, middle]}
+	board.show_presentation_state(after)
+	tween = board.animate_presentation_frame([forced])
+	tween.pause()
+	tween.custom_step(0.08)
+	check(board._view_unit_cell(actor_id) == start, "forced displacement retains 0.10s segment")
+	tween.custom_step(0.021)
+	check(board._view_unit_cell(actor_id) == middle, "forced segment completes after prior 0.10s timing")
+	tween.kill()
+	board.clear_strike_poses()
+	s.close()
+	await process_frame
 
 func abort_cases() -> void:
 	var s := fixture("hp")
