@@ -18,7 +18,7 @@ static func capture(state: ItemSimulationState) -> Dictionary:
 	for unit: UnitState in board.get_all_units():
 		if unit == null:
 			continue
-		# Максимумы вычисляются на отдельной копии, чтобы чтение кадра не прогревало live cache.
+		# Производные значения читаем из копии, чтобы кадр не прогревал live cache.
 		var stats_copy := StatsBag.from_snapshot_dict(unit.stats.to_snapshot_dict()) if unit.stats != null else null
 		var hp_max := stats_copy.get_value(StatTypes.StatType.HP_MAX) if stats_copy != null else 0.0
 		var balance_max := stats_copy.get_value(StatTypes.StatType.BALANCE_MAX) if stats_copy != null else 0.0
@@ -35,6 +35,7 @@ static func capture(state: ItemSimulationState) -> Dictionary:
 			"cell": unit.cell, "alive": unit.is_alive(),
 			"hp": unit.vitals.get_hp() if unit.vitals != null else 0.0,
 			"hp_max": hp_max,
+			"attack_range": stats_copy.get_value(StatTypes.StatType.ATTACK_RANGE) if stats_copy != null else 1.0,
 			"balance": unit.vitals.get_balance() if unit.vitals != null else 0.0,
 			"balance_max": balance_max, "armor": armor.duplicate(true),
 			"bleeding": bleeding, "elemental": elemental, "control": control,

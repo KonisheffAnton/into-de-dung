@@ -84,7 +84,12 @@ func _run() -> void:
 	var actor: UnitState = session.units[0]
 	var from_cell := actor.cell
 	var to_cell := from_cell + Vector2i(0, 1)
+	actor.stats.set_base_value(StatTypes.StatType.ATTACK_RANGE, 4.0)
+	var stats_before := actor.stats.to_snapshot_dict()
 	var before: Dictionary = PresentationState.capture(session.state)
+	check(before.units[actor.id].attack_range == 4.0 and actor.stats.to_snapshot_dict() == stats_before, "range is captured without warming dirty live stats")
+	actor.stats.set_base_value(StatTypes.StatType.ATTACK_RANGE, 3.0)
+	check(before.units[actor.id].attack_range == 4.0, "captured range does not follow later live changes")
 	var command := MoveCommand.new(actor.id, [from_cell, to_cell], session.context.get_revision())
 	var predicted := ForecastSimulation.run(session.context, session._queue, command)
 	var snapshot_before := _snapshot(session)

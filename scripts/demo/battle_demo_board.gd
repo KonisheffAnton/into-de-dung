@@ -63,10 +63,12 @@ var tile_visual_scene: PackedScene = preload("res://scenes/demo/visuals/placehol
 const MOVE_SEGMENT_SECONDS: float = 0.08
 const FORCED_MOVE_SEGMENT_SECONDS: float = 0.10
 const STRIKE_WINDUP_SECONDS: float = 0.12
-const STRIKE_LUNGE_SECONDS: float = 0.04
+const STRIKE_LUNGE_SECONDS: float = 0.03
 const STRIKE_RECOVERY_SECONDS: float = 0.20
+const SHOT_WINDUP_SECONDS: float = 0.10
 var number_scene: PackedScene = preload("res://scenes/demo/visuals/result_number.tscn")
 var impact_scene: PackedScene = preload("res://scenes/demo/visuals/hit_impact.tscn")
+var projectile_scene: PackedScene = preload("res://scenes/demo/visuals/shot_projectile.tscn")
 
 func show_presentation_state(value: Dictionary) -> void:
 	clear_presentation_effects()
@@ -86,6 +88,7 @@ func show_presentation_state(value: Dictionary) -> void:
 		view.balance = row.balance
 		view.balance_max = row.balance_max
 		_view_units.append({"unit": view, "cell": row.cell, "selected": false,
+			"attack_range": float(row.get("attack_range", 1.0)),
 			"inspected": false, "show_rear": false, "armor": row.armor.duplicate(true),
 			"status": presentation_status(row), "frozen": int(row.get("elemental", {}).get("frozen_turns", 0)) > 0})
 	_view_fires.assign(value.get("fires", []).duplicate(true))
@@ -145,11 +148,53 @@ func _strike_pose(distance: float, event: Dictionary) -> void:
 	_set_action_offset(int(event.actor_unit_id), _strike_direction(event) * distance)
 
 func _hit_recovery(progress: float, strike: Dictionary, dying: bool) -> void:
-	_strike_pose(24.0 * (1.0 - progress), strike)
+	_strike_pose((0.0 if strike.get("presentation_ranged", false) else 24.0) * (1.0 - progress), strike)
 	_set_action_offset(int(strike.target_unit_id), _strike_direction(strike) * sin(progress * PI) * 14.0)
 	if dying:
 		var visual := _presentation_visual(int(strike.target_unit_id))
 		if visual != null: visual.modulate.a = 1.0 - progress
+
+func _is_ranged_strike(event: Dictionary) -> bool:
+	# Дальность приходит из отделённого кадра; соседство не превращает стрелка в бойца ближнего боя.
+	for row: Dictionary in _view_units:
+		if row.unit.id == int(event.actor_unit_id) and float(row.get("attack_range", 1.0)) > 1.0: return true
+	return (event.actor_cell as Vector2i).distance_squared_to(event.target_cell) > 1
+
+static func _shot_flight_seconds(event: Dictionary) -> float:
+	var delta: Vector2i = event.target_cell - event.actor_cell
+	return clampf(0.12 + 0.035 * float(absi(delta.x) + absi(delta.y) - 1), 0.12, 0.30)
+
+func _effect_anchor(id: int) -> Vector2:
+	var visual := _presentation_visual(id)
+	var anchor := visual.get_node_or_null("ArtRoot/EffectAnchor") as Node2D if visual != null else null
+	return anchor.position if anchor != null else Vector2(0, -18)
+
+func _prepare_projectile(event: Dictionary) -> BattlePresentationProjectile:
+	var projectile := projectile_scene.instantiate() as BattlePresentationProjectile
+	_ghosts.add_child(projectile)
+	projectile.set_meta("from_cell", event.actor_cell)
+	projectile.set_meta("to_cell", event.target_cell)
+	projectile.set_meta("from_anchor", _effect_anchor(int(event.actor_unit_id)) - _strike_direction(event) * 8.0)
+	projectile.set_meta("to_anchor", _effect_anchor(int(event.target_unit_id)))
+	projectile.set_meta("progress", 0.0)
+	return projectile
+
+func _place_projectiles() -> void:
+	if _ghosts == null: return
+	for child: Node in _ghosts.get_children():
+		var projectile := child as BattlePresentationProjectile
+		if projectile == null: continue
+		var art_scale := grid_config.tile_size.x / 128.0
+		var from := _world_cell_center(projectile.get_meta("from_cell")) + (projectile.get_meta("from_anchor") as Vector2) * art_scale
+		var to := _world_cell_center(projectile.get_meta("to_cell")) + (projectile.get_meta("to_anchor") as Vector2) * art_scale
+		projectile.sample(from, to, float(projectile.get_meta("progress")), art_scale)
+
+func _shot_flight(progress: float, event: Dictionary, projectile: BattlePresentationProjectile) -> void:
+	if not is_instance_valid(projectile): return
+	projectile.visible = true
+	projectile.set_meta("progress", progress)
+	_place_projectiles()
+	_strike_pose(-8.0 * (1.0 - progress), event)
 
 func _hit_impact(event: Dictionary, tint: Color) -> void:
 	var visual := _presentation_visual(int(event.target_unit_id))
@@ -325,7 +370,7 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 	var tween := create_tween()
 	var visible_event := false
 	var strike := _matching_strike(events, step)
-	var melee_start := events.any(func(e: Dictionary) -> bool: return e.get("kind") in [&"attacked", &"opportunity_attacked", &"counterattacked"] and (e.actor_cell as Vector2i).distance_squared_to(e.target_cell) == 1)
+	var attack_start := events.any(func(e: Dictionary) -> bool: return e.get("kind") in [&"attacked", &"opportunity_attacked", &"counterattacked"])
 	if not strike.is_empty():
 		var impact_tint := Color("f29b9b") if events.any(func(e: Dictionary) -> bool: return e.get("kind") == &"damaged") else (Color("8dcaff") if events.any(func(e: Dictionary) -> bool: return e.get("kind") == &"armor_changed") else Color("d6dfeb"))
 		tween.tween_callback(_hit_impact.bind(strike, impact_tint))
@@ -335,13 +380,20 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 	for event: Dictionary in events:
 		var kind := StringName(event.get("kind", &""))
 		var id := int(event.get("target_unit_id", 0))
-		if kind == &"reaction_used" and melee_start: continue
+		if kind == &"reaction_used" and attack_start: continue
 		if kind == &"died" and not strike.is_empty(): continue
-		if kind in [&"attacked", &"opportunity_attacked", &"counterattacked"] and (event.actor_cell as Vector2i).distance_squared_to(event.target_cell) == 1:
+		if kind in [&"attacked", &"opportunity_attacked", &"counterattacked"]:
 			clear_strike_poses()
-			_pending_strikes[_strike_key(event)] = event.duplicate(true)
-			tween.tween_method(_strike_pose.bind(event.duplicate(true)), 0.0, -8.0, STRIKE_WINDUP_SECONDS)
-			tween.tween_method(_strike_pose.bind(event.duplicate(true)), -8.0, 24.0, STRIKE_LUNGE_SECONDS).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+			var start := event.duplicate(true)
+			start["presentation_ranged"] = _is_ranged_strike(event)
+			_pending_strikes[_strike_key(event)] = start
+			if start.presentation_ranged:
+				var projectile := _prepare_projectile(start)
+				tween.tween_method(_strike_pose.bind(start), 0.0, -8.0, SHOT_WINDUP_SECONDS)
+				tween.tween_method(_shot_flight.bind(start, projectile), 0.0, 1.0, _shot_flight_seconds(start))
+			else:
+				tween.tween_method(_strike_pose.bind(start), 0.0, -8.0, STRIKE_WINDUP_SECONDS)
+				tween.tween_method(_strike_pose.bind(start), -8.0, 24.0, STRIKE_LUNGE_SECONDS).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 			visible_event = true
 			continue
 		if kind in [&"damaged", &"healed", &"armor_changed", &"hit_resolved"]:
@@ -625,6 +677,7 @@ func _rescale_layout() -> void:
 		_rebuild_visuals()
 		_place_result_numbers()
 		_place_impacts()
+		_place_projectiles()
 		_apply_camera()
 		queue_redraw()
 		if _overlay != null: _overlay.queue_redraw()

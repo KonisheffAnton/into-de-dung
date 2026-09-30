@@ -108,9 +108,9 @@ func scenario(mode: String) -> void:
 	check(board._presentation_visual(a).action_offset.length() > 1.0 and board._presentation_visual(a).position == origin, mode + " windup only moves artwork")
 	check(board._numbers.get_child_count() == 0 and board._presentation_visual(b).unit.hp == data.before.units[b].hp, mode + " no premature result")
 	if mode == "mixed": await capture("windup")
-	advance(0.04)
+	advance(0.03)
 	var lunge_end_distance := 24.0 * board.grid_config.tile_size.x / 128.0
-	check(is_equal_approx(board._presentation_visual(a).action_offset.length(), lunge_end_distance), mode + " real Tween reaches lunge endpoint after 0.04s")
+	check(is_equal_approx(board._presentation_visual(a).action_offset.length(), lunge_end_distance), mode + " real Tween reaches lunge endpoint after 0.03s")
 	advance(0.10)
 	check(board._presentation_visual(b).action_offset.length() > 1.0 and board._impacts.get_child_count() == 1, mode + " one contact and recoil")
 	if mode == "mixed":
