@@ -138,16 +138,14 @@ func fixture() -> BattleCoreReactionsSession:
 
 func choose_retreat() -> void:
 	await process_frame; await process_frame
+	var session := demo.session as BattleCoreReactionsSession
+	session.action_slot_overrides[session.selected_id] = [&"safe_retreat", &"healing_item"]
+	demo._refresh()
 	var bar := demo._action_bar
-	var index := -1
-	for i: int in bar._dynamic_descriptors.size():
-		if bar._dynamic_descriptors[i].action_id == &"safe_retreat": index = i
-	check(index >= 0, "retreat descriptor exists")
-	if index < 0: return
-	while bar._page < index / BattleActionBar.DYNAMIC_PAGE_SIZE:
-		await click(bar._down_button.global_position + bar._down_button.size * 0.5)
-	await process_frame; await process_frame
-	var button := bar._buttons[BattleActionBar.FIXED_SLOTS + index % BattleActionBar.DYNAMIC_PAGE_SIZE]
+	check(bar._buttons.size() == 4 and bar._page == 0, "retreat uses the compact four-slot bar without paging")
+	check(session.action_slot_overrides[session.selected_id] == [&"safe_retreat", &"healing_item"], "fixture assigns retreat and healing as its requested slots")
+	var button := bar._buttons[2]
+	check(button.get_meta("action_id", &"") == &"safe_retreat", "retreat action occupies visible slot three")
 	await click(button.global_position + button.size * 0.5)
 
 func at(cell: Vector2i) -> Vector2:

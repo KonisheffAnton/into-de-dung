@@ -29,7 +29,7 @@ func _run() -> void:
 	session.selected_id = 0
 	demo._refresh(); await process_frame; await process_frame
 	_check(demo._mage_row.visible and not demo._mage_fire.disabled and not demo._mage_heal.disabled, "mage independent of hero selection")
-	_check(demo._mage_label.text.contains("длительность: огонь 2") and demo._mage_label.text.contains("лечение 2"), "default mage durations remain two turns")
+	_check(demo._mage_label.tooltip_text.contains("длительность: огонь 2") and demo._mage_label.tooltip_text.contains("лечение 2"), "default mage durations remain two turns")
 	_check(demo._instructions.get_global_rect().end.y <= float(viewport.size.y), "instructions fit viewport")
 	_check(demo.size.x <= viewport.size.x and demo.size.y <= viewport.size.y, "UI fits viewport")
 	var main_before := actor.action_resources.get_main_left()
@@ -69,7 +69,7 @@ func _test_descriptor_durations(session: BattleCoreReactionsSession, actor: Unit
 			session.state.abilities.mana = 6
 			demo._refresh_mage()
 			var label_key := "огонь %d" % duration if spell == &"mage.fire" else "лечение %d" % duration
-			_check(demo._mage_label.text.contains("длительность:") and demo._mage_label.text.contains(label_key), "%s duration %d comes from live descriptor" % [String(spell), duration])
+			_check(demo._mage_label.tooltip_text.contains("длительность:") and demo._mage_label.tooltip_text.contains(label_key), "%s duration %d comes from live descriptor" % [String(spell), duration])
 			var target_id := target.id if spell == &"mage.fire" else actor.id
 			var forecast := ForecastSimulation.run_prepared(session.prepare_mage_forecast(spell, target_id))
 			_check(forecast.status == ActionReceipt.APPLIED, "%s duration %d forecast executes" % [String(spell), duration])

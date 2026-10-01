@@ -41,11 +41,13 @@ func _run() -> void:
 	if session == null:
 		quit(1)
 		return
+	session.action_slot_overrides[session.selected_id] = [&"elemental_wet", &"elemental_burning"]
+	demo._refresh()
 	_check(demo.size.x <= viewport.size.x and demo.size.y <= viewport.size.y, "main scene fits viewport bounds")
 	var action_ids: Array[StringName] = []
 	for descriptor: Dictionary in demo._action_bar._dynamic_descriptors:
 		action_ids.append(descriptor.get("action_id", &""))
-	_check(action_ids.has(&"elemental_burning") and action_ids.has(&"elemental_wet") and action_ids.has(&"elemental_freeze"), "all three elemental actions appear")
+	_check(action_ids == [&"elemental_wet", &"elemental_burning"] and demo._action_bar._buttons.size() == 4 and demo._action_bar._page == 0, "wet and burning occupy the two assigned slots in the compact bar")
 	var target := session.units[1]
 	var actor := session.selected_unit()
 	if target.cell.distance_to(actor.cell) > 3:
@@ -97,8 +99,8 @@ func _run() -> void:
 	target.elemental.wet_turns = 2
 	demo._refresh()
 	var action_bar := demo.get("_action_bar") as BattleActionBar
-	var wet_button := await _button_for(&"elemental_wet")
-	_check(wet_button != null, "wet action can be reached on an action page")
+	var wet_button := _button_for(&"elemental_wet")
+	_check(wet_button != null, "wet action occupies an assigned compact slot")
 	if wet_button == null:
 		quit(1)
 		return
@@ -107,7 +109,7 @@ func _run() -> void:
 	_check(session.elemental_selected == &"wet" and demo.board_view.elemental_mode and actor.action_resources.get_main_left() == main_before, "mouse selects effect without spending main action")
 	await _key(KEY_ESCAPE)
 	_check(session.elemental_selected == &"" and not demo.board_view.elemental_mode and actor.action_resources.get_main_left() == main_before, "Escape cancels target mode without spending")
-	wet_button = await _button_for(&"elemental_wet")
+	wet_button = _button_for(&"elemental_wet")
 	await _click(wet_button.global_position + wet_button.size * 0.5)
 	_check(session.elemental_selected == &"wet", "mouse re-enters target mode")
 	# Первый свободный fixture часто занимает (0, 0); камера должна поместить его внутрь обрезаемой доски.
@@ -151,7 +153,7 @@ func _run() -> void:
 	_check(restored_armor > 4, "fire gate fixture has restored armor above the fire damage")
 	actor.combat_perks.definition.burning_bypass_hp_gate = false
 	demo._refresh()
-	var burning_button := await _button_for(&"elemental_burning")
+	var burning_button := _button_for(&"elemental_burning")
 	_check(burning_button != null, "burning action is available for the UI regression")
 	if burning_button == null:
 		demo.queue_free(); await process_frame
@@ -187,14 +189,8 @@ func _run() -> void:
 
 func _button_for(action_id: StringName) -> Button:
 	var action_bar := demo.get("_action_bar") as BattleActionBar
-	for _page: int in 4:
-		if action_bar._up_button.disabled: break
-		await _click(action_bar._up_button.global_position + action_bar._up_button.size * 0.5)
-	for _page: int in 4:
-		for button: Button in action_bar._buttons:
-			if button.visible and StringName(button.get_meta("action_id", &"")) == action_id: return button
-		if action_bar._down_button.disabled: return null
-		await _click(action_bar._down_button.global_position + action_bar._down_button.size * 0.5)
+	for button: Button in action_bar._buttons:
+		if button.visible and StringName(button.get_meta("action_id", &"")) == action_id: return button
 	return null
 
 func _at(cell: Vector2i) -> Vector2:

@@ -35,18 +35,19 @@ func run() -> void:
 	check(session != null and session.selected_unit() != null, "combined reaction battle is active")
 	var owner := session.units[0]
 	check(MeleeThreat.has_counterattack(owner) and MeleeThreat.has_counterattack(session.units[1]), "Astra and Strazh own counterattack")
-	check(_dynamic_counterattack_follows_stun(), "counterattack descriptor follows the existing stun action")
 	var saved_tank: bool = owner.combat_perks.definition.tank_reactions
 	owner.combat_perks.definition.tank_reactions = false
+	session.action_slot_overrides[owner.id] = [&"counterattack_guard", &"safe_retreat"]
 	demo._refresh()
 	var counter_only_ids := _descriptor_ids()
-	check(counter_only_ids.has(&"counterattack_guard") and not counter_only_ids.has(&"opportunity_guard") and not counter_only_ids.has(&"cover_guard"), "counter-only owner sees only the counterattack reaction control")
+	check(counter_only_ids == [&"counterattack_guard", &"safe_retreat"] and demo._action_bar._buttons.size() == 4 and demo._action_bar._page == 0, "counter-only owner gets exactly the explicitly assigned compact slots")
 	owner.combat_perks.definition.tank_reactions = saved_tank
+	session.action_slot_overrides[owner.id] = [&"counterattack_guard", &"safe_retreat"]
 	demo._refresh()
 	var main_before: int = owner.action_resources.get_main_left()
 	var charge_before: int = owner.combat_perks.reaction_left
 	var state_before := ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict()
-	var counter_button := await _button_for_action(&"counterattack_guard")
+	var counter_button := _button_for_action(&"counterattack_guard")
 	check(counter_button != null, "counterattack action is reachable by action bar input")
 	await motion(counter_button.global_position + counter_button.size * 0.5)
 	await _settle_action()
@@ -120,7 +121,10 @@ func _attack_forecast_and_live_result() -> void:
 	# Reset обязан дождаться worker и закрыть результат старого боя до смены состояния.
 	demo.reset_demo()
 	PlayerTurnFixture.enter_player_turn(demo)
-	var pending_button := await _button_for_action(&"counterattack_guard")
+	session = demo.session as BattleCoreReactionsSession
+	session.action_slot_overrides[session.selected_id] = [&"counterattack_guard", &"safe_retreat"]
+	demo._refresh()
+	var pending_button := _button_for_action(&"counterattack_guard")
 	var pending_position := pending_button.global_position + pending_button.size * 0.5
 	await motion(pending_position)
 	var pending_click := InputEventMouseButton.new()
@@ -134,11 +138,8 @@ func _attack_forecast_and_live_result() -> void:
 
 func _button_for_action(action_id: StringName) -> Button:
 	var action_bar: BattleActionBar = demo.get("_action_bar")
-	for page: int in 4:
-		for button: Button in action_bar._buttons:
-			if button.visible and button.get_meta("action_id", &"") == action_id: return button
-		if action_bar._down_button.disabled: break
-		await click(action_bar._down_button.global_position + action_bar._down_button.size * 0.5)
+	for button: Button in action_bar._buttons:
+		if button.visible and button.get_meta("action_id", &"") == action_id: return button
 	return null
 
 func _descriptor_ids() -> Array[StringName]:
@@ -146,12 +147,6 @@ func _descriptor_ids() -> Array[StringName]:
 	for descriptor: Dictionary in demo._action_bar._dynamic_descriptors:
 		result.append(descriptor.get("action_id", &""))
 	return result
-
-func _dynamic_counterattack_follows_stun() -> bool:
-	var ids := _descriptor_ids()
-	var stun_index := ids.find(&"stunning_strike")
-	var counter_index := ids.find(&"counterattack_guard")
-	return counter_index >= 0 and (stun_index < 0 or counter_index == stun_index + 1)
 
 func _has_event(events: Array[Dictionary], kind: StringName) -> bool:
 	for event: Dictionary in events:

@@ -1,6 +1,25 @@
 extends Resource
 class_name AbilityDefinition
 
+## Дополнительный каталог нового тестового боя; старые снимки его не требуют.
+const TEST_EFFECTS: Dictionary = {
+	&"mage.test_burning": &"burning", &"mage.test_wet": &"wet",
+	&"mage.test_freeze": &"freeze", &"mage.test_stun": &"stun",
+	&"mage.test_roots": &"entangle", &"mage.test_bleeding": &"bleeding",
+}
+
+static func mage_source_id(id: StringName) -> int:
+	match id:
+		&"mage.fire": return 1
+		&"mage.heal": return 2
+		&"mage.test_burning": return 3
+		&"mage.test_wet": return 4
+		&"mage.test_freeze": return 5
+		&"mage.test_stun": return 6
+		&"mage.test_roots": return 7
+		&"mage.test_bleeding": return 8
+	return 0
+
 @export var ability_id: StringName = &""
 @export var cooldown_turns: int = 0
 @export var mana_cost: int = 0
@@ -18,6 +37,8 @@ func validate() -> StringName:
 		if effect != &"heal" or mana_cost != 3 or amount != 4:
 			return &"ability/invalid_mage_heal"
 		return &""
+	if TEST_EFFECTS.has(ability_id):
+		return &"" if effect == TEST_EFFECTS[ability_id] and mana_cost == 1 and cooldown_turns == 0 and amount == 1 else &"ability/invalid_test_spell"
 	if String(ability_id).begins_with("mage.") or effect != &"":
 		return &"ability/unsupported_effect"
 	if cooldown_turns != 0:

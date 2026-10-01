@@ -125,7 +125,7 @@ static func create(run: HeroHubState) -> Dictionary:
 	session._queue = ActionQueue.new()
 	var item_definitions: Dictionary = {}
 	for owner: ItemOwnerState in owners: item_definitions.merge(owner._definitions, true)
-	session.state.abilities = BattleAbilityState.create(AbilityCatalog.build(rules, item_definitions))
+	session.state.abilities = BattleAbilityState.create(AbilityCatalog.build(rules, item_definitions, true))
 	session.phase = BattleTacticalSession.Phase.ENEMY_TURN
 	session._enemy_ids = session.living_ids(Faction.Type.ENEMY)
 	session._setup_revision = session.context.get_revision()

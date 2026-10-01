@@ -37,8 +37,11 @@ static func participants(context: ActionContext, target: UnitState) -> Array[int
 	return result
 
 static func reaction_ready(context: ActionContext, unit: UnitState, mode: int) -> bool:
+	return reaction_ready_state(context.get_state(), unit, mode)
+
+static func reaction_ready_state(state: ItemSimulationState, unit: UnitState, mode: int) -> bool:
 	var owned: bool = has_counterattack(unit) if mode == CombatPerksState.Mode.COUNTERATTACK else has_tank(unit)
-	return owned and unit.is_alive() and unit.guard_stance and unit.combat_perks.mode == mode and unit.combat_perks.reaction_left == 1 and ControlRules.action_reason(unit) == &"" and not context.get_state().is_summon_pending(unit.id)
+	return owned and unit.is_alive() and unit.guard_stance and unit.combat_perks.mode == mode and unit.combat_perks.reaction_left == 1 and ControlRules.action_reason(unit) == &"" and not state.is_summon_pending(unit.id)
 
 static func cover_eligible(context: ActionContext, tank: UnitState, ally: UnitState) -> bool:
 	if tank == null or ally == null or tank == ally or not tank.is_alive() or not ally.is_alive() or not tank.is_friendly_to(ally): return false

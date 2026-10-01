@@ -5,6 +5,26 @@ var stun_selected: bool = false
 var elemental_selected: StringName = &""
 ## Сессионная проекция классов не хранит ссылки на постоянных героев хаба.
 var actor_loadouts: Dictionary = {}
+## Назначение двух дополнительных кнопок образца; не часть D4-save.
+var action_slot_overrides: Dictionary = {}
+
+func visible_action_descriptors(available: Array[Dictionary]) -> Array[Dictionary]:
+	var actor := selected_unit()
+	var desired: Array = [&"entangling_strike", &"safe_retreat"]
+	if MeleeThreat.has_tank(actor): desired = [&"opportunity_guard", &"stunning_strike"]
+	elif MeleeThreat.has_counterattack(actor): desired = [&"counterattack_guard", &"safe_retreat"]
+	elif actor_loadouts.get(selected_id, {}).get("class_id", &"") == &"mage": desired = [&"restore_armor", &"healing_item"]
+	if action_slot_overrides.has(selected_id): desired = action_slot_overrides[selected_id]
+	var result: Array[Dictionary] = []
+	var seen: Array[StringName] = []
+	for id: StringName in desired.slice(0, 2):
+		if seen.has(id): continue
+		seen.append(id)
+		for descriptor: Dictionary in available:
+			if descriptor.get("action_id", &"") == id:
+				result.append(descriptor)
+				break
+	return result
 
 func allows_loadout_action(action: StringName) -> bool:
 	if not actor_loadouts.has(selected_id): return true
@@ -16,7 +36,7 @@ func allows_loadout_action(action: StringName) -> bool:
 	return true
 
 func cast_reason(effect: StringName) -> StringName:
-	if effect in [&"mage.fire", &"mage.heal"]: return mage_reason(effect)
+	if AbilityDefinition.mage_source_id(effect) > 0: return mage_reason(effect)
 	if not allows_loadout_action(&"elemental"): return &"status/capability_required"
 	if not can_player_act(): return &"battle/input_locked"
 	var actor := selected_unit()
@@ -26,13 +46,13 @@ func cast_reason(effect: StringName) -> StringName:
 	return &"" if actor.action_resources != null and actor.action_resources.get_main_left() >= 1 else &"status/insufficient_main"
 
 func cast_unit(id: int) -> ActionReceipt:
-	if elemental_selected in [&"mage.fire", &"mage.heal"]: return cast_mage_spell(elemental_selected, id)
+	if AbilityDefinition.mage_source_id(elemental_selected) > 0: return cast_mage_spell(elemental_selected, id)
 	var reason := cast_reason(elemental_selected)
 	if reason != &"": return _reject(reason)
 	return _submit(ElementalCastCommand.new(selected_id, id, elemental_selected, context.get_revision()))
 
 func prepare_cast_forecast(id: int) -> ForecastSimulation.Prepared:
-	if elemental_selected in [&"mage.fire", &"mage.heal"]: return prepare_mage_forecast(elemental_selected, id)
+	if AbilityDefinition.mage_source_id(elemental_selected) > 0: return prepare_mage_forecast(elemental_selected, id)
 	var reason := cast_reason(elemental_selected)
 	if reason != &"": return ForecastSimulation.Prepared.rejected(reason)
 	return ForecastSimulation.prepare(context, _queue, ElementalCastCommand.new(selected_id, id, elemental_selected, context.get_revision()))
@@ -84,6 +104,7 @@ func _command_for(id: int) -> AttackCommand:
 ## Новый состав способностей использует весь прежний общий бой и его границы хода.
 func reset() -> void:
 	actor_loadouts.clear()
+	action_slot_overrides.clear()
 	super.reset()
 	state.environment.collapse = {"turn": 0, "marked": []}
 	state.environment.status_effects = true
@@ -91,6 +112,7 @@ func reset() -> void:
 	state.environment.ignite(Vector2i(3, 2), "burning")
 	for unit: UnitState in board.get_all_units():
 		unit.elemental = ElementalState.new()
+		if unit.control == null: unit.control = ControlState.new()
 		unit.bleeding.stacked = true
 	stun_selected = false
 	elemental_selected = &""
@@ -133,14 +155,14 @@ func reset() -> void:
 	context._attack_rules = AttackRules.new(rules._actors, rules._pairs, definitions)
 	var item_definitions: Dictionary = {}
 	for owner: ItemOwnerState in state.get_owners(): item_definitions.merge(owner._definitions, true)
-	state.abilities = BattleAbilityState.create(AbilityCatalog.build(context.get_attack_rules(), item_definitions))
+	state.abilities = BattleAbilityState.create(AbilityCatalog.build(context.get_attack_rules(), item_definitions, true))
 	if not deployment_enabled: state.abilities.apply_values(state.abilities.boundary(&"start", Faction.Type.ENEMY, 0))
 	for index: int in flow_log.size():
 		if flow_log[index].contains("в спину"):
 			flow_log[index] = "Клинок Бора пробивает 50% физической базы сквозь броню. Щит сохраняет иммунитет к кровотечению; шипы на C4. Рей оглушён до конца вашего хода."
 	flow_log.append("Бор и Дозорный: перк «Скрытая атака» даёт +50% физической базы, когда цели угрожают хотя бы двое. Направление спины больше не даёт бонуса.")
-	flow_log.append("Астра и Страж владеют Оглушающим ударом; Щит защищён от оглушения, Рей — от пут. Способности контроля на второй странице действий.")
-	flow_log.append("Оппортунист/Прикрытие/Контратака на второй странице. Стойка с режимом стоит 1 основное; три режима делят один заряд. Контратака отвечает после полного удара, если враг ещё в досягаемости; стойка сохраняется.")
+	flow_log.append("Астра и Страж владеют Оглушающим ударом; Щит защищён от оглушения, Рей — от пут. Назначенные способности персонажа слева.")
+	flow_log.append("Режимы реакции назначаются в два дополнительных слота. Стойка с режимом стоит 1 основное; три режима делят один заряд. Контратака отвечает после полного удара, если враг ещё в досягаемости; стойка сохраняется.")
 	flow_log.append("Порядок раунда: противник → вы → окружение. Окружение случайно отмечает клетку, а отметку прошлого круга обрушает в пропасть. Первый ход окружения только предупреждает; оставшийся на клетке погибает.")
 	flow_log[0] = "Шипы: 8 физического урона и стак кровотечения при входе. Горящая земля D3: поджог при входе и в начале хода, без разового урона. Броня не мешает наложению клеткой."
 	flow_log.append("Кровотечение: 1 за стак в начале хода, 2 за пройденную клетку; новое наложение обновляет 3 тика. Поджог снимает кровотечение; мокрый гасит поджог. Новые действия: Поджечь, Облить, Заморозить — 1 основное, дальность 3.")
@@ -224,7 +246,7 @@ func mage_reason(spell: StringName) -> StringName:
 	if ability == null or not BattleAbilityState.valid(ability.to_dict()): return &"mage/capability_required"
 	if not ability.mage_allowed: return &"mage/window_closed"
 	var definition := ability.definition(spell)
-	if definition == null or spell not in [&"mage.fire", &"mage.heal"]: return &"mage/unknown_spell"
+	if definition == null or AbilityDefinition.mage_source_id(spell) == 0: return &"mage/unknown_spell"
 	if ability.remaining(spell) > 0: return &"mage/cooldown"
 	return &"mage/insufficient_mana" if ability.mana < definition.mana_cost else &""
 

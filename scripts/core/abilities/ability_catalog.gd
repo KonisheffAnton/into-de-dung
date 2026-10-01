@@ -13,8 +13,14 @@ static func defaults() -> Array[AbilityDefinition]:
 	result.append(heal)
 	return result
 
-static func build(attack_rules: AttackRules, item_definitions: Dictionary) -> Array[AbilityDefinition]:
+static func build(attack_rules: AttackRules, item_definitions: Dictionary, include_test_spells: bool = false) -> Array[AbilityDefinition]:
 	var result := defaults()
+	if include_test_spells:
+		for id: StringName in AbilityDefinition.TEST_EFFECTS:
+			var spell := _definition(id)
+			spell.effect = AbilityDefinition.TEST_EFFECTS[id]
+			spell.amount = 1; spell.mana_cost = 1
+			result.append(spell)
 	if attack_rules == null or attack_rules.validate() != &"": return []
 	for attack: AttackDefinition in attack_rules.get_definitions():
 		var descriptor := attack.get_ability_definition()

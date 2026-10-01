@@ -109,7 +109,7 @@ def main():
         if label in ("battle_execution_worker", "battle_execution_ui"):
             marker = "BATTLE EXECUTION WORKER RESULTS:" if label == "battle_execution_worker" else "BATTLE EXECUTION UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
-        if label in ("presentation_capture", "battle_presentation", "presentation_foundation", "presentation_contact", "presentation_ranged", "presentation_status", "battle_board_camera", "battle_camera_ui"):
+        if label in ("presentation_capture", "battle_presentation", "presentation_foundation", "presentation_contact", "presentation_ranged", "presentation_status", "battle_board_camera", "battle_camera_ui", "four_slot_bar", "battle_panels"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("snapshot_value_copy", "live_snapshot_capture", "summon_checkpoint"):
@@ -199,6 +199,13 @@ def main():
             status_captures.mkdir()
             status_args += ["--", "--captures=" + str(status_captures)]
         run("presentation_status", status_args, headless=not args.render_check)
+        run("four_slot_bar", ["--script", "tests/test_four_slot_bar.gd"])
+        panel_args = ["--script", "tests/test_battle_panels.gd"]
+        if args.render_check:
+            panel_captures = out / "battle-panel-screenshots"
+            panel_captures.mkdir()
+            panel_args += ["--", "--captures=" + str(panel_captures)]
+        run("battle_panels", panel_args, headless=not args.render_check)
         contact_args = ["--script", "tests/test_presentation_contact.gd"]
         if args.render_check:
             contact_captures = out / "contact-screenshots"

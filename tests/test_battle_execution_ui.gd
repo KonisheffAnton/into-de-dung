@@ -43,6 +43,15 @@ func clicked(cell: Vector2i) -> void:
 func hp_changed(_before: float, _after: float) -> void:
 	callback_on_main = OS.get_thread_caller_id() == OS.get_main_thread_id()
 
+func _assign_slots(actions: Array[StringName]) -> void:
+	var session := demo.session as BattleCoreReactionsSession
+	session.action_slot_overrides[session.selected_id] = actions.duplicate()
+	demo._refresh()
+
+func _assigned_slots_match(unit_id: int, expected: Array[StringName]) -> bool:
+	var session := demo.session as BattleCoreReactionsSession
+	return session.action_slot_overrides.get(unit_id, []) == expected
+
 func run() -> void:
 	viewport = SubViewport.new()
 	viewport.size = Vector2i(1280, 850)
@@ -103,12 +112,17 @@ func run() -> void:
 	check(not demo.is_execution_pending() and demo.session.units[3].is_alive() and demo.session.selected_unit().action_resources.get_main_left() == 1, "reset joins before rebuilding runtime")
 	check(not demo._journal.any(func(line: String) -> bool: return line.contains("атакует")), "old receipt not published after reset")
 	var count_before := demo.session.units.size()
+	var summon_session := demo.session as BattleCoreReactionsSession
+	var summoner_id := summon_session.selected_id
+	_assign_slots([&"summoning_item", &"safe_retreat"])
+	check(_assigned_slots_match(summoner_id, [&"summoning_item", &"safe_retreat"]), "summoning fixture uses its explicit two-slot loadout")
 	demo._action_bar._next_page()
+	check(demo._action_bar._page == 0, "compact action bar ignores page navigation")
 	demo._choose_summoning()
 	clicked(Vector2i(0, 1))
 	check(demo.is_execution_pending(), "summon async")
 	await settle()
-	check(demo._action_bar._page == 1, "same actor action preserves dynamic page after publication")
+	check(demo._action_bar._page == 0 and _assigned_slots_match(summoner_id, [&"summoning_item", &"safe_retreat"]), "worker publication preserves actor loadout without page state")
 	check(demo.session.units.size() == count_before + 1 and demo.board_view._view_units.size() == demo.session.units.size(), "summon publication includes new helper: " + str(demo.session.last_receipt.reason) + " count=" + str(demo.session.units.size()))
 	demo.end_turn()
 	check(demo.is_execution_pending(), "turn boundary async")
@@ -121,6 +135,7 @@ func run() -> void:
 	check(demo._battle.phase == BattleTacticalSession.Phase.PLAYER_TURN and demo._battle.round_number == 2, "AI and both boundaries publish complete round")
 	demo.reset_demo()
 	PlayerTurnFixture.enter_player_turn(demo)
+	_assign_slots([&"raise_corpse", &"safe_retreat"])
 	count_before = demo.session.units.size()
 	demo._choose_raise()
 	clicked(Vector2i(0, 3))
@@ -129,6 +144,7 @@ func run() -> void:
 	check(demo.session.units.size() == count_before + 1, "raise completes with helper: " + str(demo.session.last_receipt.reason) + " count=" + str(demo.session.units.size()))
 	demo.reset_demo()
 	PlayerTurnFixture.enter_player_turn(demo)
+	_assign_slots([&"restore_armor", &"healing_item"])
 	demo.session.units[0].vitals.set_hp(10)
 	demo.session.units[0].vitals.hp_changed.connect(hp_changed)
 	demo._use_healing_item()

@@ -88,7 +88,10 @@ K10–K12 (BattleCoreReactionsSession, наследник K9/K2) — основ�
 
 `ActionPresentationState.capture` копирует значения доски, бойцов, среды и мага;
 максимумы и attack_range читает из копии StatsBag. DTO не содержит runtime/Resource/Node ссылок
-и не является save-схемой. Опциональный `ActionQueue.capture_presentation` добавляет
+и не является save-схемой. `action_areas` копирует геометрию AttackReachCheck,
+владельца/фракцию и готовность реакции через общий MeleeThreat.reaction_ready_state;
+Board использует её и в покое, и на границе кадра. Наведение выбирает лишь
+value-only область, не читает runtime во время worker. Опциональный `ActionQueue.capture_presentation` добавляет
 в receipt отдельный кадр после каждого исполненного шага/guards: step, новые events,
 after. Существующие events/steps, RNG, counters и порядок команд не меняются.
 Кадр есть и для пустого события, и для выполненного FAULTED prefix. Копия очереди
@@ -176,8 +179,14 @@ resize пересчитывает геометрию, публикация ка�
 `AbilityBoundaryCommand` проводит часы через закрытый переход session;
 SpatialRules и queue проверяют значения и identity нового графа.
 Schema7, ForecastSimulation, TurnForecast и оба worker переносят capability;
-две кнопки и показатели мага находятся отдельно от действий героев.
-Точные правила, ограничения и критерии принадлежат K18; приёмка F5 открыта.
+панель мага находится отдельно от четырёх вертикальных кнопок персонажа main/H1.
+`AbilityCatalog.build(..., true)` добавляет только новым main/H1 шесть тестовых
+определений. Они необязательны в прежнем schema7; ledger K18 не расширяется,
+поскольку у тестовых заклинаний откат 0. `MageStatusEffect` готовит эффект до
+оплаты и записывает его под тем же SpatialRules.Guard с проверкой seal после
+callback, включая остановку перед второй записью ElementalRules.write.
+Базовые правила/критерии — K18 (приёмка F5 закрыта); назначение UI, временные
+параметры и области — [образец](BATTLE_PRESENTATION_REWORK.md#панели-способностей-и-области-действия--образец-2026-10-01).
 
 ## Владельцы данных и поведения
 

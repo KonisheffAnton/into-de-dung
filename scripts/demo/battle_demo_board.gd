@@ -29,6 +29,10 @@ var grid_config := IsoGridConfig.new()
 var _reachable: Dictionary = {}
 var inspection_cells: Dictionary = {}
 var reaction_zone_cells: Array[Vector2i] = []
+var action_areas: Array[Dictionary] = []
+var area_preview_owner: int = UnitId.NONE
+const ALLY_AREA := Color("64cb8c")
+const ENEMY_AREA := Color("e97979")
 var cover_target_ids: Array[int] = []
 var sneak_threat_ids: Array[int] = []
 var forecast: AttackForecast
@@ -72,6 +76,8 @@ var projectile_scene: PackedScene = preload("res://scenes/demo/visuals/shot_proj
 
 func show_presentation_state(value: Dictionary) -> void:
 	clear_presentation_effects()
+	action_areas.assign(value.get("action_areas", []).duplicate(true))
+	area_preview_owner = UnitId.NONE
 	_view_width = int(value.get("width", 0))
 	_view_height = int(value.get("height", 0))
 	_view_heights = value.get("heights", PackedInt32Array()).duplicate()
@@ -816,6 +822,7 @@ func _make_visual(cell: Vector2i, steps: int, role: BattleDemoIsoVisual.Role) ->
 	return visual
 
 func _capture_board_view(board: BattleBoard) -> void:
+	action_areas.assign(ActionPresentationState.capture_action_areas(session.state) if session is BattleCoreReactionsSession else [])
 	# Рендер и resize читают эту копию, чтобы worker не менял уже показанный кадр.
 	_view_width = board.width if board != null else 0
 	_view_height = board.height if board != null else 0
@@ -888,11 +895,38 @@ func _draw() -> void:
 		draw_string(ThemeDB.fallback_font, IsoGridUtils.grid_to_screen(Vector2i(n, 0), grid_config, 0) + Vector2(5, -hh - 7), String.chr(65 + n), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, MUTED)
 		draw_string(ThemeDB.fallback_font, IsoGridUtils.grid_to_screen(Vector2i(0, n), grid_config, 0) + Vector2(-hw - 17, 4), str(n + 1), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, MUTED)
 
+func area_details(cell: Vector2i) -> String:
+	var lines: PackedStringArray = []
+	for area: Dictionary in action_areas:
+		if not area.ready or (cell != area.origin and not area.cells.has(cell)): continue
+		var mode := "Оппортунист: останавливает при выходе из зоны" if area.mode == CombatPerksState.Mode.OPPORTUNIST else "Контратака: отвечает на прямой ближний удар"
+		lines.append("%s · %s · реакция готова" % [area.name, mode])
+	return "\n".join(lines)
+
+func _draw_action_areas() -> void:
+	for area: Dictionary in action_areas:
+		var preview: bool = area.owner_id == area_preview_owner
+		if not area.ready and not preview: continue
+		var color := ALLY_AREA if area.faction == Faction.Type.PLAYER else ENEMY_AREA
+		for cell: Vector2i in area.cells:
+			var center := _world_cell_center(cell)
+			# Два вложенных контура оставляют различимыми перекрытия разных сторон.
+			var inset := 0.42 if area.faction == Faction.Type.PLAYER else 0.48
+			var half := grid_config.tile_size * inset
+			var points := PackedVector2Array([center + Vector2(0, -half.y), center + Vector2(half.x, 0), center + Vector2(0, half.y), center + Vector2(-half.x, 0), center + Vector2(0, -half.y)])
+			if area.ready: _overlay.draw_colored_polygon(points, Color(color, 0.12))
+			_overlay.draw_polyline(points, Color(color, 0.85 if preview else 0.6), 2.0 if preview else 1.5, true)
+		var origin := _world_cell_center(area.origin)
+		_overlay.draw_arc(origin, grid_config.tile_size.x * 0.27, 0, TAU, 32, color, 3.0, true)
+		if area.cells.has(hover_cell):
+			_overlay.draw_dashed_line(origin, _world_cell_center(hover_cell), color, 1.5, 5.0)
+
 func _draw_overlay() -> void:
 	if _view_width <= 0 or _view_height <= 0: return
 	var hw := grid_config.tile_size.x * 0.5
 	var highlight_hh := grid_config.tile_size.y * 0.48
 	var highlight_hw := grid_config.tile_size.x * 0.48
+	_draw_action_areas()
 	for cell: Vector2i in reaction_zone_cells:
 		var center := _world_cell_center(cell)
 		_overlay.draw_polyline(PackedVector2Array([center + Vector2(0, -highlight_hh), center + Vector2(highlight_hw, 0), center + Vector2(0, highlight_hh), center + Vector2(-highlight_hw, 0), center + Vector2(0, -highlight_hh)]), Color("a5b3c5", 0.35), 1.0, true)

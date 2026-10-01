@@ -101,13 +101,15 @@ func run() -> void:
 	push_motion(at(target.cell))
 
 	# Смена определения не обязана менять revision, но меняет смысл прогноза.
+	s.action_slot_overrides[s.selected_id] = [&"entangling_strike", &"blood_rune"]
+	demo._refresh()
 	push_motion(at(target.cell)); demo._process_attack_forecast()
 	var revision := s.context.get_revision()
-	push_key(KEY_7)
+	push_key(KEY_3)
 	check(demo._attack_forecast_variant == &"entangle" and s.context.get_revision() == revision, "K8 key replaces pending ordinary request at same revision")
 	await settle()
 	check(same_forecast(demo._forecast, s.preview_attack(target.id)), "K8 worker matches selected synchronous command")
-	push_key(KEY_5)
+	push_key(KEY_4)
 	await settle()
 	check(demo._attack_forecast_variant == &"rune" and same_forecast(demo._forecast, s.preview_attack(target.id)), "rune replaces K8 with exact selected command")
 	push_key(KEY_1)

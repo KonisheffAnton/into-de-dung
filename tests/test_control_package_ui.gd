@@ -40,15 +40,16 @@ func _run() -> void:
 	if session == null:
 		quit(1)
 		return
+	session.action_slot_overrides[session.selected_id] = [&"opportunity_guard", &"stunning_strike"]
+	demo._refresh()
 	check(demo.size.x <= viewport.size.x and demo._action_bar.global_position.x + demo._action_bar.size.x <= viewport.size.x, "long perk and control labels preserve viewport width")
 	check(session.units[0].combat_perks.definition.stunning_strike and session.units[1].combat_perks.definition.stunning_strike, "Astra and Strazh own stunning strike")
 	check(session.units[3].combat_perks.definition.stun_immune and not session.units[3].combat_perks.definition.entangle_immune, "Shield owns stun immunity only")
 	check(session.units[4].combat_perks.definition.entangle_immune and not session.units[4].combat_perks.definition.stun_immune and session.units[4].combat_perks.reaction_left == 0, "Rei owns entangle immunity only")
 	check(demo._inspection_text(session.units[3]).to_lower().contains("иммунитет к оглушению") and demo._inspection_text(session.units[4]).to_lower().contains("иммунитет к путам"), "inspection explains each immunity")
 	var action_bar := demo.get("_action_bar") as BattleActionBar
-	await click(action_bar._down_button.global_position + action_bar._down_button.size * 0.5)
 	var stun_button := _button_for(&"stunning_strike")
-	check(stun_button != null and _button_for(&"opportunity_guard") != null and _button_for(&"cover_guard") != null, "second page follows reaction actions with active stun perk")
+	check(action_bar._buttons.size() == 4 and action_bar._page == 0 and action_bar._buttons[2].get_meta("action_id") == &"opportunity_guard" and stun_button != null and _button_for(&"cover_guard") == null, "explicit tank loadout assigns opportunity and stun to the four-slot bar")
 	if stun_button == null:
 		quit(1)
 		return
@@ -62,6 +63,7 @@ func _run() -> void:
 	check(session.selected_id == session.units[2].id and _button_for(&"stunning_strike") == null, "nonowner does not receive stun action")
 	await click(_roster_button(0).global_position + _roster_button(0).size * 0.5)
 	_setup_pair(session, 0, 5)
+	session.action_slot_overrides[session.selected_id] = [&"opportunity_guard", &"stunning_strike"]
 	demo._refresh()
 	# Начать обычный прогноз, затем переключить вариант до завершения worker на том же revision.
 	await key(KEY_1)
@@ -69,7 +71,6 @@ func _run() -> void:
 	await motion(at(target.cell))
 	demo._process_attack_forecast()
 	var original_revision := session.context.get_revision()
-	await click(action_bar._down_button.global_position + action_bar._down_button.size * 0.5)
 	stun_button = _button_for(&"stunning_strike")
 	await click(stun_button.global_position + stun_button.size * 0.5)
 	check(session.context.get_revision() == original_revision and session.stun_selected and demo._attack_variant() == &"stun", "ordinary forecast variant switches to stun at same revision")
@@ -87,9 +88,9 @@ func _run() -> void:
 	PlayerTurnFixture.enter_player_turn(demo)
 	session = demo.session as BattleCoreReactionsSession
 	_setup_pair(session, 0, 3)
+	session.action_slot_overrides[session.selected_id] = [&"opportunity_guard", &"stunning_strike"]
 	demo._refresh()
 	action_bar = demo.get("_action_bar") as BattleActionBar
-	await click(action_bar._down_button.global_position + action_bar._down_button.size * 0.5)
 	stun_button = _button_for(&"stunning_strike")
 	await click(stun_button.global_position + stun_button.size * 0.5)
 	actor = session.units[0]

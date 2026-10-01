@@ -35,18 +35,20 @@ func run() -> void:
 	demo.set_process(false)
 	var session := demo.session as BattleCoreReactionsSession
 	check(session != null and demo.core_reactions_mode, "new scene selects core reaction session")
+	session.action_slot_overrides[session.selected_id] = [&"opportunity_guard", &"cover_guard"]
+	demo._refresh()
 	check(session.units[0].combat_perks.definition.tank_reactions and session.units[1].combat_perks.definition.tank_reactions, "only Astra and Strazh own tank perk")
 	check(session.units[2].combat_perks.definition.sneak_attack and session.units[5].combat_perks.definition.sneak_attack, "Bor and Dozorny own sneak perk")
 	check(session.units[3].combat_perks.definition.stun_immune and session.units[4].combat_perks.definition.entangle_immune and not session.units[3].combat_perks.definition.tank_reactions and not session.units[4].combat_perks.definition.sneak_attack, "control immunity perks do not grant tank or sneak abilities")
 	check(demo._inspection_text(session.units[0]).contains("реакции") and demo._inspection_text(session.units[2]).contains("Скрытая атака"), "inspection describes perks and charge")
 	check(demo._inspection_text(session.units[0]).contains("Печать: помощник") and not demo._inspection_text(session.units[0]).contains("призыв недоступен"), "inspection describes available summon seal in combined battle")
-	check(_dynamic_descriptors_prefix_intact(), "the eight original actions stay ahead of the perk page")
+	check(_dynamic_descriptors_match([&"opportunity_guard", &"cover_guard"]), "selected tank receives exactly its two assigned reaction slots")
 	var action_bar: BattleActionBar = demo.get("_action_bar")
+	check(action_bar._buttons.size() == 4, "compact action bar exposes exactly four buttons")
 	check(action_bar._buttons[0].get_meta("action_id") == &"attack" and action_bar._buttons[1].get_meta("action_id") == &"guard", "fixed attack and guard slots remain")
-	await click(action_bar._down_button.global_position + action_bar._down_button.size * 0.5)
-	check(action_bar._page == 1 and action_bar._buttons[2].get_meta("action_id") == &"opportunity_guard" and action_bar._buttons[3].get_meta("action_id") == &"cover_guard", "tank reaction controls occupy second page")
+	check(action_bar._page == 0 and action_bar._buttons[2].get_meta("action_id") == &"opportunity_guard" and action_bar._buttons[3].get_meta("action_id") == &"cover_guard", "tank reactions occupy the two dynamic slots without pages")
 	demo._refresh()
-	check(action_bar._page == 1, "same actor refresh preserves dynamic action page")
+	check(action_bar._page == 0 and _dynamic_descriptors_match([&"opportunity_guard", &"cover_guard"]), "refresh preserves the selected actor loadout")
 	var opportunity_button: Button = action_bar._buttons[2]
 	await motion(opportunity_button.global_position + opportunity_button.size * 0.5)
 	await _settle_action()
@@ -87,11 +89,14 @@ func run() -> void:
 	check(not demo._cover_guard_mode, "escape cancels cover targeting")
 	demo.reset_demo()
 	PlayerTurnFixture.enter_player_turn(demo)
-	# После reset первая страница меняет ширины кнопок; ввод идёт по завершённой раскладке.
+	session = demo.session as BattleCoreReactionsSession
+	session.action_slot_overrides[session.selected_id] = [&"opportunity_guard", &"cover_guard"]
+	demo._refresh()
+	# После reset ждём готовности compact-панели перед вводом.
 	await process_frame; await process_frame
 	session = demo.session as BattleCoreReactionsSession
 	action_bar = demo.get("_action_bar")
-	await click(action_bar._down_button.global_position + action_bar._down_button.size * 0.5)
+	check(_dynamic_descriptors_match([&"opportunity_guard", &"cover_guard"]), "reset fixture explicitly assigns both tank reactions")
 	var opportunity_actor := session.selected_unit()
 	var opportunity_main_before: int = opportunity_actor.action_resources.get_main_left()
 	await click(action_bar._buttons[2].global_position + action_bar._buttons[2].size * 0.5)
@@ -185,10 +190,10 @@ func _attacked_event(events: Array[Dictionary]) -> Dictionary:
 		if event.get("kind") == &"attacked": return event
 	return {}
 
-func _dynamic_descriptors_prefix_intact() -> bool:
+func _dynamic_descriptors_match(expected: Array[StringName]) -> bool:
 	var ids: Array[StringName] = []
 	for descriptor: Dictionary in demo._action_bar._dynamic_descriptors: ids.append(descriptor.get("action_id", &""))
-	return ids.size() == 14 and ids[10] == &"safe_retreat" and ids.slice(0, 6) == [&"healing_item", &"restore_armor", &"blood_rune", &"raise_corpse", &"entangling_strike", &"summoning_item"] and ids.slice(11) == [&"elemental_burning", &"elemental_wet", &"elemental_freeze"]
+	return ids == expected
 
 func _journal_text() -> String:
 	return "\n".join(demo._journal)

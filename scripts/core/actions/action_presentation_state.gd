@@ -53,4 +53,25 @@ static func capture(state: ItemSimulationState) -> Dictionary:
 		"corpses": environment.corpses.duplicate(true) if environment != null else [],
 		"collapse": environment.collapse.duplicate(true) if environment != null else {},
 		"abilities": abilities,
+		"action_areas": capture_action_areas(state),
 	}
+
+## Область — геометрия действия, не обещание попадания по любой цели внутри неё.
+static func capture_action_areas(state: ItemSimulationState) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	if state == null or (state.abilities != null and state.abilities.stage in ["setup", "terminal"]): return result
+	var board := state.get_board()
+	for unit: UnitState in board.get_all_units():
+		if not unit.is_alive() or state.is_summon_pending(unit.id) or ControlRules.action_reason(unit) != &"": continue
+		var stats := StatsBag.from_snapshot_dict(unit.stats.to_snapshot_dict()) if unit.stats != null else null
+		if stats == null: continue
+		var reach := stats.get_value(StatTypes.StatType.ATTACK_RANGE)
+		var cells: Array[Vector2i] = []
+		for y: int in board.height:
+			for x: int in board.width:
+				var cell := Vector2i(x, y)
+				if cell != unit.cell and board.is_terrain_walkable(cell) and AttackReachCheck.inspect_spatial_cells(board, unit.cell, unit.faction, cell, reach) == &"": cells.append(cell)
+		var mode := unit.combat_perks.mode if unit.combat_perks != null else CombatPerksState.Mode.NONE
+		var ready := mode in [CombatPerksState.Mode.OPPORTUNIST, CombatPerksState.Mode.COUNTERATTACK] and MeleeThreat.reaction_ready_state(state, unit, mode)
+		result.append({"owner_id": unit.id, "name": unit.debug_name, "faction": int(unit.faction), "origin": unit.cell, "cells": cells, "mode": mode, "ready": ready})
+	return result

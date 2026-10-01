@@ -69,10 +69,10 @@ static func _clear_burning(value: Dictionary) -> void:
 	value["burning_source"] = {}
 
 ## Обе записи защищены тем же guard; сигнал не может подменить второй статус.
-static func write(unit: UnitState, after: Dictionary, guard: SpatialRules.Guard, context: ActionContext, effect: StringName, actor: int = 0) -> Dictionary:
+static func write(unit: UnitState, after: Dictionary, guard: SpatialRules.Guard, context: ActionContext, effect: StringName, actor: int = 0, command_check: Callable = Callable()) -> Dictionary:
 	var result := CommandStepResult.applied([])
 	var out := {"result": result, "guard": guard}
-	if not valid_unit(unit) or not ElementalState.valid(after) or guard == null or not guard.check(context):
+	if not valid_unit(unit) or not ElementalState.valid(after) or guard == null or not guard.check(context) or (command_check.is_valid() and not command_check.call()):
 		result.status = &"FAULTED"; result.reason = &"status/checkpoint"
 		return out
 	var before := unit.elemental.to_dict()
@@ -87,7 +87,7 @@ static func write(unit: UnitState, after: Dictionary, guard: SpatialRules.Guard,
 		result.state_changed = true
 		result.events.append({"kind": &"elemental_changed", "actor_unit_id": actor, "target_unit_id": unit.id, "reason": effect, "before": before, "after": after.duplicate(true)})
 		if guard.check(context): state.changed.emit()
-		if not guard.check(context):
+		if not guard.check(context) or (command_check.is_valid() and not command_check.call()):
 			result.status = &"FAULTED"; result.reason = &"status/checkpoint"
 			return out
 	if effect == &"burning" and after["burning_stacks"] > 0 and unit.bleeding.ticks_left > 0:
@@ -102,7 +102,7 @@ static func write(unit: UnitState, after: Dictionary, guard: SpatialRules.Guard,
 		result.state_changed = true
 		result.events.append({"kind": &"bleeding_changed", "actor_unit_id": actor, "target_unit_id": unit.id, "reason": &"burned", "before": bleed_before, "after": bleed_after})
 		if guard.check(context): unit.bleeding.changed.emit()
-		if not guard.check(context):
+		if not guard.check(context) or (command_check.is_valid() and not command_check.call()):
 			result.status = &"FAULTED"; result.reason = &"status/checkpoint"
 	out["guard"] = guard
 	return out

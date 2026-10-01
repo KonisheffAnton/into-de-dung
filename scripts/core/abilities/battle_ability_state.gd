@@ -65,6 +65,7 @@ static func valid(value: Variant) -> bool:
 		if not id.begins_with("mage.") and ids[id].to_dict() != descriptor.to_dict(): return false
 	for id: String in ids:
 		if fixed.has(id): continue
+		if AbilityDefinition.TEST_EFFECTS.has(StringName(id)): continue
 		# Ссылки предметов сверяет envelope; ссылки атак — контекст с AttackRules.
 		if id.begins_with("attack:") and id.length() > 7: continue
 		if id.begins_with("item_use:") or id.begins_with("item_effect:"): continue
