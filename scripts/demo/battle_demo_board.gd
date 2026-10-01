@@ -86,6 +86,12 @@ const OBSTACLE_RECOVERY_SECONDS: float = 0.20
 var number_scene: PackedScene = preload("res://scenes/demo/visuals/result_number.tscn")
 var impact_scene: PackedScene = preload("res://scenes/demo/visuals/hit_impact.tscn")
 var projectile_scene: PackedScene = preload("res://scenes/demo/visuals/shot_projectile.tscn")
+var mage_scene: PackedScene = preload("res://scenes/demo/visuals/mage_delivery.tscn")
+var _mage_effect: BattlePresentationMage
+var _mage_target_id: int = UnitId.NONE
+var _mage_spell_id: StringName = &""
+var _mage_recoil_direction: Vector2 = Vector2.ZERO
+var _mage_dying: bool = false
 
 func show_presentation_state(value: Dictionary) -> void:
 	clear_presentation_effects()
@@ -134,6 +140,15 @@ static func _presentation_resources(row: Dictionary) -> Dictionary:
 
 func clear_presentation_effects() -> void:
 	_clear_layer(_ghosts)
+	if _mage_target_id != UnitId.NONE: _set_action_offset(_mage_target_id, Vector2.ZERO)
+	if is_instance_valid(_mage_effect):
+		remove_child(_mage_effect)
+		_mage_effect.free()
+	_mage_effect = null
+	_mage_target_id = UnitId.NONE
+	_mage_spell_id = &""
+	_mage_recoil_direction = Vector2.ZERO
+	_mage_dying = false
 
 func clear_strike_poses() -> void:
 	_pending_strikes.clear()
@@ -533,6 +548,8 @@ static func _presentation_caption(event: Dictionary) -> String:
 	return ""
 
 func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
+	var mage_frame := _matching_mage_cast(events, step)
+	if not mage_frame.is_empty(): return _animate_mage_frame(events, mage_frame)
 	var tween := create_tween()
 	var visible_event := false
 	var strike := _matching_strike(events, step)
@@ -608,6 +625,72 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			visible_event = true
 	if not visible_event: tween.tween_interval(0.035)
 	return tween
+
+func _matching_mage_cast(events: Array, step: Dictionary) -> Dictionary:
+	if step.get("kind") != &"mage_cast": return {}
+	for event: Dictionary in events:
+		var source: Dictionary = event.get("source", {})
+		if event.get("kind") != &"mage_cast" or int(event.get("actor_unit_id", -1)) != 0: continue
+		if int(event.get("command_seq", -1)) != int(step.get("command_seq", -2)): continue
+		var spell := StringName(event.get("spell_id", &""))
+		var expected_source := 1 if spell == &"mage.fire" else (2 if spell == &"mage.heal" else 0)
+		if expected_source == 0 or source.get("kind") != &"mage" or int(source.get("source_instance_id", 0)) != expected_source: continue
+		return event
+	return {}
+
+func _mage_result_matches(event: Dictionary, cast: Dictionary) -> bool:
+	var source: Dictionary = event.get("source", {})
+	return event.get("root_id") == cast.get("root_id") and int(event.get("command_seq", -1)) == int(cast.get("command_seq", -2)) and int(event.get("target_unit_id", -1)) == int(cast.get("target_unit_id", -2)) and source.get("kind") == &"mage" and int(source.get("source_instance_id", 0)) == int(cast.get("source", {}).get("source_instance_id", -1))
+
+func _animate_mage_frame(events: Array, cast: Dictionary) -> Tween:
+	var target_id := int(cast.get("target_unit_id", UnitId.NONE))
+	var spell := StringName(cast.get("spell_id", &""))
+	var contact_kind := &"healed" if spell == &"mage.heal" else &""
+	var confirms_contact := false
+	_mage_dying = false
+	for event: Dictionary in events:
+		if not _mage_result_matches(event, cast): continue
+		if spell == &"mage.heal" and event.get("kind") == contact_kind: confirms_contact = true
+		if spell == &"mage.fire" and event.get("kind") in [&"hit_resolved", &"damaged", &"healed", &"armor_changed"]: confirms_contact = true
+		if spell == &"mage.fire" and event.get("kind") == &"died": _mage_dying = true
+	_clear_layer(_ghosts)
+	_mage_target_id = target_id
+	_mage_spell_id = spell
+	_mage_effect = mage_scene.instantiate() as BattlePresentationMage
+	add_child(_mage_effect)
+	_mage_effect.z_index = RenderLayers.z_index_for(RenderLayers.Layer.VFX_OVERLAY) + 1
+	_update_mage_geometry()
+	var tween := create_tween()
+	tween.tween_method(_sample_mage.bind(&"prepare"), 0.0, 1.0, 0.10)
+	tween.tween_method(_sample_mage.bind(&"delivery"), 0.0, 1.0, 0.22)
+	if confirms_contact:
+		tween.tween_callback(_mage_contact.bind(cast, spell))
+		tween.tween_method(_sample_mage.bind(&"contact"), 0.0, 1.0, 0.20)
+	return tween
+
+func _sample_mage(progress: float, phase: StringName) -> void:
+	if is_instance_valid(_mage_effect): _update_mage_geometry(phase, progress)
+	if phase == &"contact" and _mage_spell_id == &"mage.fire":
+		_set_action_offset(_mage_target_id, _mage_recoil_direction * 7.0 * sin(progress * PI) * (1.0 - progress))
+		if _mage_dying:
+			var visual := _presentation_visual(_mage_target_id)
+			if visual != null: visual.modulate.a = 1.0 - progress
+
+func _update_mage_geometry(phase: StringName = &"prepare", progress: float = 0.0) -> void:
+	if not is_instance_valid(_mage_effect): return
+	var source_point := Vector2(20.0, 52.0)
+	var visual := _presentation_visual(_mage_target_id)
+	var anchor := visual.get_node_or_null("ArtRoot/EffectAnchor") as Node2D if visual != null else null
+	var world_point := _world_cell_center(_view_unit_cell(_mage_target_id)) + ((anchor.position if anchor != null else Vector2(0, -18)) * grid_config.tile_size.x / 128.0)
+	_mage_effect.spell_id = _mage_spell_id
+	_mage_effect.sample(phase, progress, source_point, world_to_view(world_point))
+
+func _mage_contact(cast: Dictionary, spell: StringName) -> void:
+	var target_id := int(cast.get("target_unit_id", UnitId.NONE))
+	var visual := _presentation_visual(target_id)
+	if visual != null and spell == &"mage.fire":
+		_mage_recoil_direction = (world_to_view(_world_cell_center(_view_unit_cell(target_id))) - Vector2(20, 52)).normalized()
+	if spell == &"mage.fire": _hit_impact(cast, Color("ffb35c"))
 
 static func has_presentation_animation(events: Array) -> bool:
 	for event: Dictionary in events:
@@ -687,6 +770,7 @@ func _apply_camera() -> void:
 		if layer != null: layer.transform = camera_view.get_transform()
 	if _camera_reset != null: _camera_reset.text = "%d%%" % roundi(camera_view.zoom * 100.0)
 	if compact_forecast != null: compact_forecast.place(self)
+	_update_mage_geometry(_mage_effect.phase if is_instance_valid(_mage_effect) else &"prepare", _mage_effect.progress if is_instance_valid(_mage_effect) else 0.0)
 	queue_redraw()
 
 func _camera_input(event: InputEvent) -> bool:
