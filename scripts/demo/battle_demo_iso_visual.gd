@@ -82,8 +82,8 @@ func status_hud_bounds() -> Rect2:
 	var width := maxf(0.0, float(entries - 1) * (STATUS_ICON_SIZE + STATUS_ICON_GAP) + STATUS_ICON_SIZE)
 	if overflow: width += STATUS_ICON_GAP + 26.0
 	# Строка стоит над бронёй, чтобы передняя ровная поверхность не закрывала значки и бейджи.
-	# Подложки стаков выходят за край значка на один пиксель.
-	return Rect2(-width * 0.5 - 1.0, -21, width + 2.0, 21)
+	# Верхний бейдж стаков выходит над значком; нижний показывает оставшуюся длительность.
+	return Rect2(-width * 0.5 - 1.0, -29, width + 2.0, 29)
 
 func _update_sort_position() -> void:
 	super._update_sort_position()
@@ -338,9 +338,9 @@ func _draw_unit() -> void:
 			draw_string(ThemeDB.fallback_font, Vector2(-28, 28), "%.1f→%.1f" % [unit.hp, expected_hp], HORIZONTAL_ALIGNMENT_CENTER, 56, 9, Color("f29b9b") if expected_hp < unit.hp else Color("65dfcc"))
 			draw_line(Vector2(-19 + 38 * expected_ratio, 6), Vector2(-19 + 38 * expected_ratio, 12), Color.WHITE, 1)
 		if not expected_alive: draw_string(ThemeDB.fallback_font, Vector2(-18, 38), "ПОГИБ", HORIZONTAL_ALIGNMENT_CENTER, 36, 8, Color("f29b9b"))
-		if selected or inspected:
-			draw_rect(Rect2(-19, 13, 38, 1), Color("0f1d28"))
-			draw_rect(Rect2(-19, 13, 38 * balance, 1), Color("f7c97d"))
+		# Равновесие — постоянный боевой ресурс, поэтому полоса видна без выбора и осмотра.
+		draw_rect(Rect2(-19, 13, 38, 1), Color("0f1d28"))
+		draw_rect(Rect2(-19, 13, 38 * balance, 1), Color("f7c97d"))
 		if not armor_values.is_empty():
 			var maximum := maxf(1.0, float(armor_values["maximum"]))
 			var current: float = armor_values["current"]
@@ -374,9 +374,14 @@ func _draw_status_icons(canvas: Node2D) -> void:
 		var stacks := int(entry.get("stacks", 0))
 		if id in ["bleeding", "burning"] and stacks > 0:
 			var badge := "99+" if stacks > 99 else "×%d" % stacks
-			# Подложка сохраняет читаемость числа и не раздвигает фиксированную ячейку.
+			# Стаки сверху и срок снизу не смешиваются; срок остаётся числом, единица есть в подсказке.
+			canvas.draw_rect(Rect2(x - 1, -29, STATUS_ICON_SIZE + 2, 10), Color("101d27", 0.92))
+			canvas.draw_string(ThemeDB.fallback_font, Vector2(x - 1, -21), badge, HORIZONTAL_ALIGNMENT_CENTER, STATUS_ICON_SIZE + 2, 9, Color("fff0ce"))
+		var remaining := int(entry.get("remaining", 0))
+		if remaining > 0:
+			var remaining_label := "99+" if remaining > 99 else str(remaining)
 			canvas.draw_rect(Rect2(x - 1, -11, STATUS_ICON_SIZE + 2, 10), Color("101d27", 0.92))
-			canvas.draw_string(ThemeDB.fallback_font, Vector2(x - 1, -3), badge, HORIZONTAL_ALIGNMENT_CENTER, STATUS_ICON_SIZE + 2, 9, Color("fff0ce"))
+			canvas.draw_string(ThemeDB.fallback_font, Vector2(x - 1, -3), remaining_label, HORIZONTAL_ALIGNMENT_CENTER, STATUS_ICON_SIZE + 2, 9, Color("b9dfff"))
 		x += STATUS_ICON_SIZE + STATUS_ICON_GAP
 	if overflow > 0:
 		var overflow_label := "+99+" if overflow > 99 else "+%d" % overflow

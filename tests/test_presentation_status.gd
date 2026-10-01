@@ -47,6 +47,22 @@ func fixture() -> Dictionary:
 	units[3].bleeding = {"stacks": 123, "ticks_left": 3}
 	return {"width": 8, "height": 8, "heights": heights, "terrain": terrain, "units": units, "fires": [], "corpses": [], "collapse": {}}
 
+func status_entry(row: Dictionary, id: String) -> Dictionary:
+	for entry: Dictionary in BattleStatusPresentation.entries(row):
+		if String(entry.get("id", "")) == id: return entry
+	return {}
+
+func has_balance_pixel(image: Image, point: Vector2) -> bool:
+	var center := Vector2i(roundi(point.x), roundi(point.y))
+	var expected := Color("f7c97d")
+	for y: int in range(center.y - 3, center.y + 4):
+		for x: int in range(center.x - 3, center.x + 4):
+			if x < 0 or y < 0 or x >= image.get_width() or y >= image.get_height(): continue
+			var pixel := image.get_pixel(x, y)
+			if absf(pixel.r - expected.r) < 0.16 and absf(pixel.g - expected.g) < 0.16 and absf(pixel.b - expected.b) < 0.16:
+				return true
+	return false
+
 func run() -> void:
 	viewport = SubViewport.new()
 	viewport.size = Vector2i(1280, 850)
@@ -65,7 +81,7 @@ func run() -> void:
 	check(visual.get_node("ArtRoot/EffectRoot/IceSprite").visible and visual.get_node("ArtRoot/EffectRoot/StunSprite").visible and visual.get_node("ArtRoot/EffectRoot/EntangleSprite").visible, "separate control overlays visible")
 	var hud_box := visual.status_hud_bounds()
 	check(visual._status_hud.z_index == 0, "status HUD stays in local Y-sort so foreground entities can occlude it")
-	check(hud_box.position.y == -21.0 and hud_box.size.y == 21.0 and BattleDemoIsoVisual.STATUS_ICON_SIZE == 16.0 and BattleDemoIsoVisual.STATUS_ICON_GAP == 1.0, "compact status row is fixed above the bars")
+	check(hud_box.position.y == -29.0 and hud_box.size.y == 29.0 and BattleDemoIsoVisual.STATUS_ICON_SIZE == 16.0 and BattleDemoIsoVisual.STATUS_ICON_GAP == 1.0, "compact status row bounds include both counter rows")
 	var hud_origin := visual._status_hud.position
 	board._presentation_motion(0.5, 4, Vector2i(3, 4), Vector2i(2, 3))
 	check(visual.status_hud_bounds() == hud_box and visual._status_hud.position == hud_origin, "neighbor crossing does not shift the anchored status row")
@@ -75,6 +91,28 @@ func run() -> void:
 	check(visual.status_hud_bounds() == hud_box, "selection and inspection do not move the status row")
 	visual.selected = false
 	visual.inspected = false
+	var unit_rows: Dictionary = value["units"]
+	var bleeding_row: Dictionary = unit_rows[1]
+	var burning_row: Dictionary = unit_rows[2]
+	var wet_row: Dictionary = unit_rows[3]
+	var bleeding_entry := status_entry(bleeding_row, "bleeding")
+	var burning_entry := status_entry(burning_row, "burning")
+	var wet_entry := status_entry(wet_row, "wet")
+	check(int(bleeding_entry.get("stacks", 0)) == 2 and int(bleeding_entry.get("remaining", 0)) == 3 and int(burning_entry.get("stacks", 0)) == 3 and int(burning_entry.get("remaining", 0)) == 2, "real stack and tick values stay distinct in published status entries")
+	check(int(wet_entry.get("stacks", 0)) == 0 and int(wet_entry.get("remaining", 0)) == 2 and String(wet_entry.get("duration_unit", "")).contains("концов хода"), "wet keeps turn duration without inventing stacks or tick units")
+	visual.status_entries = [bleeding_entry, burning_entry, wet_entry]
+	for neighbor: BattleDemoIsoVisual in board._entity_visuals:
+		if neighbor.unit != null and neighbor != visual: neighbor.visible = false
+	visual.queue_redraw()
+	check(not visual.selected and not visual.inspected, "isolated living status carrier is unselected and uninspected")
+	await capture("isolated-status-stacks-duration-wet")
+	# Headless использует dummy-renderer без изображения; пиксель проверяется в render-прогоне.
+	if not captures.is_empty():
+		var bar_factor := visual.grid_config.tile_size.x / 128.0
+		var bar_pixel := visual.get_global_transform_with_canvas() * (visual.get_visual_offset() + Vector2(-12, 13) * bar_factor)
+		check(has_balance_pixel(viewport.get_texture().get_image(), bar_pixel), "balance bar renders on isolated living unit without selection or inspection")
+	board.show_presentation_state(value)
+	visual = board._presentation_visual(1)
 	var details := board.displayed_unit_details(1)
 	check(details.contains("стаки: 2") and details.contains("3 тиков") and details.contains("2 концов хода") and details.contains("до конца ближайшего хода"), "inspection distinguishes stacks ticks elemental expiry and control expiry")
 	check(details.contains("равновесие 4.0/12.0") and details.contains("реакция 1"), "inspection carries balance and action resources")
@@ -96,9 +134,9 @@ func run() -> void:
 	await capture("controlled-motion-midpoint")
 	board.show_presentation_state(value)
 	visual = board._presentation_visual(1)
-	visual.status_entries = [{"id": "bleeding", "stacks": 2, "embodied": false}]
+	visual.status_entries = [{"id": "bleeding", "stacks": 2, "remaining": 3, "duration_unit": "тиков в начале своего хода", "embodied": false}]
 	for index: int in 7:
-		visual.status_entries.append({"id": "test-%d" % index, "stacks": 0, "embodied": false})
+		visual.status_entries.append({"id": "test-%d" % index, "stacks": 0, "remaining": 2, "duration_unit": "концов хода своей команды", "embodied": false})
 	visual.status_entries.append(visual.status_entries[0].duplicate(true))
 	check(visual.visible_status_entries().size() == 5 and visual.status_overflow_count() == 3, "five icons plus distinct overflow ignores duplicate kinds")
 	for neighbor: BattleDemoIsoVisual in board._entity_visuals:
