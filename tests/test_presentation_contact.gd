@@ -89,7 +89,9 @@ func finish() -> void:
 
 func number_texts() -> Array[String]:
 	var values: Array[String] = []
-	for number: BattlePresentationNumber in board._numbers.get_children(): values.append(number._label.text)
+	for number: BattlePresentationNumber in board._numbers.get_children():
+		# Подпись состояния не считается ещё одним результатом HP/брони.
+		if number.feedback_kind == &"result": values.append(number._label.text)
 	return values
 
 func scenario(mode: String) -> void:
@@ -121,6 +123,7 @@ func scenario(mode: String) -> void:
 	check(board._presentation_visual(a).action_offset == Vector2.ZERO and board._presentation_visual(b).action_offset == Vector2.ZERO, mode + " poses restored")
 	check(board._presentation_visual(b).unit.hp == data.after.units[b].hp, mode + " shown HP equals committed state")
 	var texts := number_texts()
+	var feedback_count := board._numbers.get_child_count()
 	var hp_loss := 0.0
 	var expected_hp_numbers := 0
 	for event: Dictionary in data.events:
@@ -147,13 +150,13 @@ func scenario(mode: String) -> void:
 		check(not first._label.get_global_rect().intersects(second._label.get_global_rect()), "older rising number cannot cover fresh number")
 		first.sample(0.0)
 		board.show_presentation_state(data.after)
-		check(board._numbers.get_child_count() == texts.size(), "next snapshot retains numbers")
+		check(board._numbers.get_child_count() == feedback_count, "next snapshot retains all feedback")
 		player.set_speed(3.0)
 		player.play(board, data.before, data.frames, data.after)
 		player._tween.pause()
 		var label_y := first._label.position.y
 		first._tween.custom_step(0.2)
-		check(board._numbers.get_child_count() == texts.size() and is_equal_approx(label_y - first._label.position.y, first.rise / 6.0), "next command and x3 retain real-time number lifetime")
+		check(board._numbers.get_child_count() == feedback_count and is_equal_approx(label_y - first._label.position.y, first.rise / 6.0), "next command and x3 retain real-time number lifetime")
 		advance(0.041)
 		check(board._presentation_visual(a).action_offset.length() > 1.0, "x3 advances windup")
 		player.skip()

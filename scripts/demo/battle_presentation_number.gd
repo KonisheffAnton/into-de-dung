@@ -3,6 +3,7 @@ extends Node2D
 
 @export var lifetime: float = 1.2
 @export var rise: float = 24.0
+var feedback_kind: StringName = &"result"
 
 var _tween: Tween
 var _label: Label

@@ -16,11 +16,23 @@ var show_rear: bool = false
 var status_text: String = ""
 var transient_label: String = ""
 var transient_tint := Color("f7c97d")
+## Доска передаёт снимок значений, чтобы рисунок не читал runtime боя.
+var status_entries: Array[Dictionary] = []
 @export var body_pick_rect: Rect2 = Rect2(-17, -37, 34, 44)
 ## Демонстрационные состояния выбираются доской; сцена только отображает слои.
 var frozen: bool = false
 var burning: bool = false
+var stunned: bool = false
+var entangled: bool = false
+const STATUS_ICON_SIZE: float = 20.0
+const STATUS_ICON_GAP: float = 3.0
+const STATUS_ICON_LIMIT: int = 5
+const BLEEDING_ICON: Texture2D = preload("res://assets/placeholder_battle/bleeding_icon.svg")
+const BURNING_ICON: Texture2D = preload("res://assets/placeholder_battle/burning_icon.svg")
+const WET_ICON: Texture2D = preload("res://assets/placeholder_battle/wet_icon.svg")
 var _scene_art_enabled: bool = false
+var _status_hud: Node2D
+var status_hud_shift: float = 0.0
 ## Выпад/отдача сдвигают рисунок, но не опору сортировки, клетку и HUD.
 var action_offset: Vector2 = Vector2.ZERO:
 	set(value):
@@ -43,6 +55,37 @@ var presentation_offset: Vector2 = Vector2.ZERO:
 		sync_scene_art()
 		queue_redraw()
 
+func _ready() -> void:
+	super._ready()
+	if role != Role.UNIT: return
+	_status_hud = Node2D.new()
+	_status_hud.name = "StatusHud"
+	# Строка информации должна читаться поверх следующей опоры; телесные эффекты остаются в Y-sort.
+	_status_hud.z_index = 1
+	add_child(_status_hud)
+	_status_hud.draw.connect(_draw_status_hud)
+	_sync_status_hud()
+
+func _sync_status_hud() -> void:
+	if _status_hud == null: return
+	_status_hud.position = get_visual_offset()
+	_status_hud.scale = Vector2.ONE * (grid_config.tile_size.x / 128.0 if grid_config != null else 1.0)
+	_status_hud.visible = role == Role.UNIT and unit != null and unit.alive
+	_status_hud.queue_redraw()
+
+func _draw_status_hud() -> void:
+	if not is_zero_approx(status_hud_shift):
+		_status_hud.draw_line(Vector2(0, 17), Vector2(status_hud_shift, 40), Color("a5b3c5", 0.7), 1.0)
+	_status_hud.draw_set_transform(Vector2(status_hud_shift, 0))
+	_draw_status_icons(_status_hud)
+	_status_hud.draw_set_transform(Vector2.ZERO)
+
+func status_hud_bounds() -> Rect2:
+	var count := visible_status_entries().size() + (1 if status_overflow_count() > 0 else 0)
+	if count == 0: return Rect2()
+	var width := float(count) * (STATUS_ICON_SIZE + STATUS_ICON_GAP) + 10.0
+	return Rect2(-width * 0.5, 43, width, 22)
+
 func _update_sort_position() -> void:
 	super._update_sort_position()
 	# При одной опоре площадка рисуется перед стоящей на ней фигурой.
@@ -53,6 +96,7 @@ func get_visual_offset() -> Vector2:
 	return Vector2(0, -0.5 * float(half_steps) * grid_config.height_step + fall_drop + presentation_lift) + presentation_offset
 
 func sync_scene_art() -> void:
+	_sync_status_hud()
 	var art := get_node_or_null("ArtRoot") as Node2D
 	if art == null: return
 	_scene_art_enabled = true
@@ -76,9 +120,13 @@ func sync_scene_art() -> void:
 	effect_root.position = Vector2.ZERO
 	var fire := get_node_or_null("ArtRoot/EffectRoot/BurningSprite") as Sprite2D
 	var ice := get_node_or_null("ArtRoot/EffectRoot/IceSprite") as Sprite2D
+	var stun_mark := get_node_or_null("ArtRoot/EffectRoot/StunSprite") as Sprite2D
+	var entangle_mark := get_node_or_null("ArtRoot/EffectRoot/EntangleSprite") as Sprite2D
 	if fire != null: fire.visible = role != Role.UNIT and burning
 	# Смерть завершает демонстрацию состояния: ледяная оболочка не скрывает крест.
 	if ice != null: ice.visible = role == Role.UNIT and frozen and (unit == null or unit.alive)
+	if stun_mark != null: stun_mark.visible = role == Role.UNIT and stunned and (unit == null or unit.alive)
+	if entangle_mark != null: entangle_mark.visible = role == Role.UNIT and entangled and (unit == null or unit.alive)
 	# Якоря наследуют ArtRoot; их локальные позиции задаёт заменяемая сцена.
 
 func _surface_tint() -> Color:
@@ -140,6 +188,39 @@ func surface_polygons() -> Array[PackedVector2Array]:
 	var hh := grid_config.tile_size.y * 0.5
 	return [PackedVector2Array([top[3], top[2], bottom + Vector2(0, hh), bottom + Vector2(-hw, 0)]), PackedVector2Array([top[2], top[1], bottom + Vector2(hw, 0), bottom + Vector2(0, hh)]), top]
 
+## Возвращает первые пять уникальных не воплощённых видов в порядке доски.
+func visible_status_entries() -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	var seen: Dictionary = {}
+	for entry: Dictionary in status_entries:
+		var id := String(entry.get("id", ""))
+		if id.is_empty() or seen.has(id):
+			continue
+		seen[id] = true
+		if _is_embodied_status(id, entry):
+			continue
+		result.append(entry.duplicate())
+		if result.size() >= STATUS_ICON_LIMIT:
+			break
+	return result
+
+## Считает скрытые виды после дедупликации и исключения нарисованных на фигуре.
+func status_overflow_count() -> int:
+	var count := 0
+	var seen: Dictionary = {}
+	for entry: Dictionary in status_entries:
+		var id := String(entry.get("id", ""))
+		if id.is_empty() or seen.has(id):
+			continue
+		seen[id] = true
+		if _is_embodied_status(id, entry):
+			continue
+		count += 1
+	return maxi(0, count - STATUS_ICON_LIMIT)
+
+func _is_embodied_status(id: String, entry: Dictionary) -> bool:
+	return bool(entry.get("embodied", false)) or id in ["stun", "stunned", "frozen", "freeze", "entangled", "entangle"]
+
 func contains_point(point: Vector2) -> bool:
 	for polygon in surface_polygons():
 		if Geometry2D.is_point_in_polygon(point - position, polygon): return true
@@ -186,6 +267,28 @@ func _draw_unit() -> void:
 		draw_line(marker - Vector2(4, -4), marker + Vector2(4, -4), Color("a5b3c5"), 2)
 		return
 	var tint := transient_tint if unit == null else (Color("65dfcc") if unit.faction == Faction.Type.PLAYER else Color("f7c97d"))
+	if stunned and not _scene_art_enabled:
+		# Знак рисуется вместе с фигурой, поэтому движется синхронно с ArtRoot.
+		var stun_center := foot + action_offset + Vector2(0, -73) * factor
+		var ring := PackedVector2Array()
+		for point_index: int in range(17):
+			var angle := TAU * float(point_index) / 16.0
+			ring.append(stun_center + Vector2(cos(angle) * 18.0, sin(angle) * 8.0) * factor)
+		draw_polyline(ring, Color("9dd9ed"), 1.5 * factor, true)
+		for index: int in range(3):
+			var star_center := stun_center + Vector2(float(index - 1) * 8.0, -3.0) * factor
+			draw_circle(star_center, 2.8 * factor, Color("ffd85e"))
+	if entangled and not _scene_art_enabled:
+		# Корни оплетают опору и следуют за временным сдвигом рисунка.
+		var root_center := foot + action_offset + Vector2(0, 4) * factor
+		for root_index: int in range(3):
+			var side := float(root_index - 1)
+			var root_points := PackedVector2Array([
+				root_center + Vector2(side * 8.0, 9.0) * factor,
+				root_center + Vector2(side * 5.0, 3.0) * factor,
+				root_center + Vector2(side * 12.0, -3.0) * factor,
+			])
+			draw_polyline(root_points, Color("9bb86b"), 2.0 * factor, true)
 	if show_rear and unit != null:
 		var rear := AttackModifiers.rear_offset(unit.faction)
 		if rear != Vector2i.ZERO:
@@ -218,8 +321,6 @@ func _draw_unit() -> void:
 	var label := transient_label if unit == null else unit.debug_name
 	draw_string(ThemeDB.fallback_font, Vector2(-10, -12), label.left(1), HORIZONTAL_ALIGNMENT_CENTER, 20, 13, Color("172230"))
 	if unit != null:
-		if not status_text.is_empty():
-			draw_string(ThemeDB.fallback_font, Vector2(-34, 49), status_text, HORIZONTAL_ALIGNMENT_CENTER, 68, 7, Color("ffd08a"))
 		var hp_max := unit.hp_max
 		var balance_max := unit.balance_max
 		var hp := clampf(unit.hp / hp_max if hp_max > 0 else 0, 0, 1)
@@ -238,8 +339,9 @@ func _draw_unit() -> void:
 			draw_string(ThemeDB.fallback_font, Vector2(-28, 28), "%.1f→%.1f" % [unit.hp, expected_hp], HORIZONTAL_ALIGNMENT_CENTER, 56, 9, Color("f29b9b") if expected_hp < unit.hp else Color("65dfcc"))
 			draw_line(Vector2(-19 + 38 * expected_ratio, 6), Vector2(-19 + 38 * expected_ratio, 12), Color.WHITE, 1)
 		if not expected_alive: draw_string(ThemeDB.fallback_font, Vector2(-18, 38), "ПОГИБ", HORIZONTAL_ALIGNMENT_CENTER, 36, 8, Color("f29b9b"))
-		draw_rect(Rect2(-19, 13, 38, 3), Color("0f1d28"))
-		draw_rect(Rect2(-19, 13, 38 * balance, 3), Color("f7c97d"))
+		if selected or inspected:
+			draw_rect(Rect2(-19, 13, 38, 3), Color("0f1d28"))
+			draw_rect(Rect2(-19, 13, 38 * balance, 3), Color("f7c97d"))
 		if not armor_values.is_empty():
 			var maximum := maxf(1.0, float(armor_values["maximum"]))
 			var current: float = armor_values["current"]
@@ -250,3 +352,40 @@ func _draw_unit() -> void:
 				var mark := -19 + 38 * clampf(expected / maximum, 0.0, 1.0)
 				draw_line(Vector2(mark, 0), Vector2(mark, 6), Color.WHITE, 1)
 	draw_set_transform(Vector2.ZERO)
+
+func _draw_status_icons(canvas: Node2D) -> void:
+	var entries := visible_status_entries()
+	var overflow := status_overflow_count()
+	var count := entries.size() + (1 if overflow > 0 else 0)
+	if count == 0:
+		return
+	var total_width := float(count) * STATUS_ICON_SIZE + float(count - 1) * STATUS_ICON_GAP
+	var x := -total_width * 0.5
+	for entry: Dictionary in entries:
+		var id := String(entry.get("id", ""))
+		var rect := Rect2(Vector2(x, 43), Vector2(STATUS_ICON_SIZE, STATUS_ICON_SIZE))
+		var icon := _status_icon(id)
+		if icon != null:
+			canvas.draw_texture_rect(icon, rect, false)
+		else:
+			# Неизвестные виды получают одинаковую геометрию для проверки переполнения.
+			var center := rect.position + rect.size * 0.5
+			canvas.draw_colored_polygon(PackedVector2Array([center + Vector2(0, -4), center + Vector2(4, 0), center + Vector2(0, 4), center + Vector2(-4, 0)]), Color("c7d4e2"))
+		var stacks := int(entry.get("stacks", 0))
+		if id in ["bleeding", "burning"] and stacks > 0:
+			var badge := "99+" if stacks > 99 else "×%d" % stacks
+			# Подложка сохраняет читаемость числа и не раздвигает фиксированную ячейку.
+			canvas.draw_rect(Rect2(x - 1, 52, STATUS_ICON_SIZE + 2, 11), Color("101d27", 0.92))
+			canvas.draw_string(ThemeDB.fallback_font, Vector2(x - 1, 61), badge, HORIZONTAL_ALIGNMENT_CENTER, STATUS_ICON_SIZE + 2, 10, Color("fff0ce"))
+		x += STATUS_ICON_SIZE + STATUS_ICON_GAP
+	if overflow > 0:
+		var overflow_label := "+99+" if overflow > 99 else "+%d" % overflow
+		canvas.draw_rect(Rect2(x - 2, 45, 31, 16), Color("101d27", 0.92))
+		canvas.draw_string(ThemeDB.fallback_font, Vector2(x - 1, 57), overflow_label, HORIZONTAL_ALIGNMENT_CENTER, 29, 11, Color("d4deea"))
+
+func _status_icon(id: String) -> Texture2D:
+	match id:
+		"bleeding": return BLEEDING_ICON
+		"burning": return BURNING_ICON
+		"wet": return WET_ICON
+		_: return null

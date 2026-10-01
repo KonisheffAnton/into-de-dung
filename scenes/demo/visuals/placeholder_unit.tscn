@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/demo/battle_demo_iso_visual.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/placeholder_battle/unit.svg" id="2_unit"]
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/ice_overlay.tscn" id="3_ice"]
+[ext_resource type="PackedScene" path="res://scenes/demo/visuals/stun_overlay.tscn" id="4_stun"]
+[ext_resource type="PackedScene" path="res://scenes/demo/visuals/entangle_overlay.tscn" id="5_entangle"]
 
 [node name="PlaceholderUnit" type="Node2D"]
 script = ExtResource("1_script")
@@ -19,6 +21,12 @@ texture = ExtResource("2_unit")
 [node name="EffectRoot" type="Node2D" parent="ArtRoot"]
 
 [node name="IceSprite" parent="ArtRoot/EffectRoot" instance=ExtResource("3_ice")]
+visible = false
+
+[node name="StunSprite" parent="ArtRoot/EffectRoot" instance=ExtResource("4_stun")]
+visible = false
+
+[node name="EntangleSprite" parent="ArtRoot/EffectRoot" instance=ExtResource("5_entangle")]
 visible = false
 
 [node name="EffectAnchor" type="Marker2D" parent="ArtRoot"]

@@ -90,7 +90,7 @@ func show_presentation_state(value: Dictionary) -> void:
 		_view_units.append({"unit": view, "cell": row.cell, "selected": false,
 			"attack_range": float(row.get("attack_range", 1.0)),
 			"inspected": false, "show_rear": false, "armor": row.armor.duplicate(true),
-			"status": presentation_status(row), "frozen": int(row.get("elemental", {}).get("frozen_turns", 0)) > 0})
+			"statuses": BattleStatusPresentation.entries(row), "resources": _presentation_resources(row)})
 	_view_fires.assign(value.get("fires", []).duplicate(true))
 	_view_corpses.assign(value.get("corpses", []).duplicate(true))
 	_view_collapse.assign(value.get("collapse", {}).get("marked", []).duplicate(true))
@@ -105,17 +105,13 @@ func show_presentation_state(value: Dictionary) -> void:
 	if _overlay != null: _overlay.queue_redraw()
 
 static func presentation_status(row: Dictionary) -> String:
-	var labels: PackedStringArray = []
-	var bleed: Dictionary = row.get("bleeding", {})
-	var elemental: Dictionary = row.get("elemental", {})
-	var control: Dictionary = row.get("control", {})
-	if int(bleed.get("stacks", 0)) > 0: labels.append("Кровь ×%d" % bleed.stacks)
-	if int(elemental.get("burning_stacks", 0)) > 0: labels.append("Горение ×%d" % elemental.burning_stacks)
-	if int(elemental.get("wet_turns", 0)) > 0: labels.append("Мокрый")
-	if int(elemental.get("frozen_turns", 0)) > 0: labels.append("Заморожен")
-	if int(control.get("stunned_turns", 0)) > 0: labels.append("Оглушён")
-	if int(control.get("entangled_turns", 0)) > 0: labels.append("Путы")
-	return " · ".join(labels)
+	return BattleStatusPresentation.summary(BattleStatusPresentation.entries(row))
+
+static func _presentation_resources(row: Dictionary) -> Dictionary:
+	var result: Dictionary = {}
+	for key: String in ["main", "bonus", "move", "reaction"]:
+		if row.has(key): result[key] = row[key]
+	return result
 
 func clear_presentation_effects() -> void:
 	_clear_layer(_ghosts)
@@ -143,6 +139,7 @@ func _set_action_offset(id: int, offset: Vector2) -> void:
 	_action_offsets[id] = offset
 	var visual := _presentation_visual(id)
 	if visual != null: visual.action_offset = offset * grid_config.tile_size.x / 128.0
+	_layout_status_huds()
 
 func _strike_pose(distance: float, event: Dictionary) -> void:
 	_set_action_offset(int(event.actor_unit_id), _strike_direction(event) * distance)
@@ -237,6 +234,8 @@ func finish_presentation_frame(events: Array, step: Dictionary = {}) -> void:
 	var strike := _matching_strike(events, step)
 	var numbered: Dictionary = {}
 	for event: Dictionary in events:
+		var status_feedback := BattleStatusPresentation.event_feedback(event)
+		if not status_feedback.is_empty(): _add_result_number(int(event.get("target_unit_id", 0)), status_feedback, Color("ffd08a"), &"status")
 		var kind := StringName(event.get("kind", &""))
 		var target := int(event.get("target_unit_id", 0))
 		var text := ""
@@ -261,10 +260,11 @@ func finish_presentation_frame(events: Array, step: Dictionary = {}) -> void:
 	# FAULTED attack_hit без результата снимает замах без выдуманного попадания.
 	if step.get("kind") == &"attack_hit": clear_strike_poses()
 
-func _add_result_number(id: int, text: String, tint: Color) -> void:
+func _add_result_number(id: int, text: String, tint: Color, feedback_kind: StringName = &"result") -> void:
 	var cell := _view_unit_cell(id)
 	if cell.x < 0: return
 	var number := number_scene.instantiate() as BattlePresentationNumber
+	number.feedback_kind = feedback_kind
 	_numbers.add_child(number)
 	number.set_meta("cell", cell)
 	var visual := _presentation_visual(id)
@@ -388,6 +388,11 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 		var kind := StringName(event.get("kind", &""))
 		var id := int(event.get("target_unit_id", 0))
 		if kind == &"reaction_used" and attack_start: continue
+		if kind in [&"bleeding_changed", &"elemental_changed", &"control_changed"]:
+			# Название изменения публикуется вместе с after; до него — только короткий импульс.
+			tween.tween_method(_presentation_pulse.bind(id, false, false), 0.0, 1.0, 0.16)
+			visible_event = true
+			continue
 		if kind == &"died" and not strike.is_empty(): continue
 		if kind in [&"attacked", &"opportunity_attacked", &"counterattacked"]:
 			clear_strike_poses()
@@ -652,8 +657,22 @@ func displayed_unit_summary(unit_id: int) -> String:
 		if value.id != unit_id: continue
 		var summary := "%s · HP %.1f/%.1f · броня %.1f" % [value.debug_name, value.hp, value.hp_max, float(row.armor.get("current", 0))]
 		if not value.alive: summary += " · погиб"
-		var states := String(row.get("status", ""))
+		var states := BattleStatusPresentation.summary(row.get("statuses", [])) if value.alive else ""
 		return summary + ("\n" + states if not states.is_empty() else "")
+	return "Наведите на фигуру для осмотра."
+
+func displayed_unit_details(unit_id: int) -> String:
+	for row: Dictionary in _view_units:
+		var value: BattleUnitView = row.unit
+		if value.id != unit_id: continue
+		if not value.alive: return "%s · погиб" % value.debug_name
+		var lines: PackedStringArray = ["%s · HP %.1f/%.1f" % [value.debug_name, value.hp, value.hp_max],
+			"Броня %.1f/%.1f · равновесие %.1f/%.1f" % [float(row.armor.get("current", 0)), float(row.armor.get("maximum", 0)), value.balance, value.balance_max]]
+		var resources: Dictionary = row.get("resources", {})
+		if not resources.is_empty():
+			lines.append("Действия: основное %d · доп. %d · движение %.1f · реакция %d" % [int(resources.get("main", 0)), int(resources.get("bonus", 0)), float(resources.get("move", 0)), int(resources.get("reaction", 0))])
+		lines.append(BattleStatusPresentation.details(row.get("statuses", [])))
+		return "\n".join(lines)
 	return "Наведите на фигуру для осмотра."
 
 func _refresh_path() -> void:
@@ -738,8 +757,11 @@ func _rebuild_visuals() -> void:
 		visual.forecast_entry = _forecast_entry(unit.id)
 		visual.show_rear = bool(row["show_rear"])
 		visual.armor_values = (row["armor"] as Dictionary).duplicate(true)
-		visual.status_text = String(row.get("status", ""))
-		visual.frozen = bool(row.get("frozen", false))
+		visual.status_entries.assign(row.get("statuses", []).duplicate(true))
+		visual.status_text = BattleStatusPresentation.summary(visual.status_entries)
+		visual.frozen = BattleStatusPresentation.has(visual.status_entries, "frozen")
+		visual.stunned = BattleStatusPresentation.has(visual.status_entries, "stunned")
+		visual.entangled = BattleStatusPresentation.has(visual.status_entries, "entangled")
 		_entities.add_child(visual)
 		visual.sync_scene_art()
 		visual.action_offset = (_action_offsets.get(unit.id, Vector2.ZERO) as Vector2) * grid_config.tile_size.x / 128.0
@@ -748,6 +770,36 @@ func _rebuild_visuals() -> void:
 
 func _sort_visuals() -> void:
 	_entity_visuals.sort_custom(func(a: BattleDemoIsoVisual, b: BattleDemoIsoVisual) -> bool: return a.position.y < b.position.y or (a.position.y == b.position.y and a.get_index() < b.get_index()))
+	_layout_status_huds()
+
+func _layout_status_huds() -> void:
+	var occupied: Array[Rect2] = []
+	var factor := grid_config.tile_size.x / 128.0
+	for visual: BattleDemoIsoVisual in _entity_visuals:
+		if visual.unit == null or not visual.unit.alive: continue
+		var local := visual.status_hud_bounds()
+		if not local.has_area(): continue
+		var origin := visual.position + visual.get_visual_offset()
+		for shift: float in [0.0, 40.0, -40.0, 80.0, -80.0, 120.0, -120.0]:
+			var bounds := Rect2(origin + (local.position + Vector2(shift, 0)) * factor, local.size * factor)
+			var blocked := false
+			for other: BattleDemoIsoVisual in _entity_visuals:
+				if other.unit == null or not other.unit.alive or other == visual: continue
+				var body := Rect2(other.position + other.get_visual_offset() + other.action_offset + other.body_pick_rect.position * factor, other.body_pick_rect.size * factor)
+				if bounds.intersects(body):
+					blocked = true
+					break
+			if not blocked:
+				for previous: Rect2 in occupied:
+					if bounds.intersects(previous):
+						blocked = true
+						break
+			# Ограниченный поиск не раздвигает поле; линия сохраняет владельца смещённой строки.
+			if not blocked or shift == -120.0:
+				visual.status_hud_shift = shift
+				visual._sync_status_hud()
+				occupied.append(bounds)
+				break
 
 func _make_visual(cell: Vector2i, steps: int, role: BattleDemoIsoVisual.Role) -> BattleDemoIsoVisual:
 	var visual: BattleDemoIsoVisual
@@ -796,8 +848,13 @@ func _capture_board_view(board: BattleBoard) -> void:
 			"inspected": unit.id == inspected_id,
 			"show_rear": session is BattleControlSession or (session is BattleCoreCombinationSession and not session is BattleCoreReactionsSession),
 			"armor": armor.duplicate(true),
-			"status": _status_text(unit),
-			"frozen": unit.elemental != null and unit.elemental.frozen_turns > 0,
+			"statuses": BattleStatusPresentation.entries({
+				"bleeding": unit.bleeding.to_dict() if unit.bleeding != null else {},
+				"elemental": unit.elemental.to_dict() if unit.elemental != null else {},
+				"control": unit.control.to_dict() if unit.control != null else {}}),
+			"resources": {"main": unit.action_resources.get_main_left() if unit.action_resources != null else 0,
+				"bonus": unit.action_resources.get_bonus_left() if unit.action_resources != null else 0,
+				"move": unit.move_points_left, "reaction": unit.combat_perks.reaction_left if unit.combat_perks != null else 0},
 		})
 	var environment: CombatEnvironmentState = session.state.environment if session != null and session.state != null else null
 	if environment != null:
@@ -821,17 +878,6 @@ func _view_unit_cell(unit_id: int) -> Vector2i:
 		var unit: BattleUnitView = row["unit"]
 		if unit.id == unit_id: return row["cell"]
 	return Vector2i(-1, -1)
-
-func _status_text(unit: UnitState) -> String:
-	if unit == null: return ""
-	var labels: PackedStringArray = []
-	if unit.bleeding != null and unit.bleeding.stacked and unit.bleeding.stacks > 0:
-		labels.append("Кровь ×%d" % unit.bleeding.stacks)
-	if unit.elemental != null:
-		if unit.elemental.burning_stacks > 0: labels.append("Горение ×%d" % unit.elemental.burning_stacks)
-		if unit.elemental.wet_turns > 0: labels.append("Мокрый %d" % unit.elemental.wet_turns)
-		if unit.elemental.frozen_turns > 0: labels.append("Заморожен %d" % unit.elemental.frozen_turns)
-	return " · ".join(labels)
 
 func _draw() -> void:
 	if _view_width <= 0 or _view_height <= 0: return

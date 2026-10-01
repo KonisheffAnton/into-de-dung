@@ -150,7 +150,9 @@ func scenario(target: Vector2i, mode: String) -> void:
 	finish()
 	check(board._presentation_visual(victim).unit.hp == data.after.units[victim].hp, "result publishes HP after contact")
 	var texts: Array[String] = []
-	for number: BattlePresentationNumber in board._numbers.get_children(): texts.append(number._label.text)
+	for number: BattlePresentationNumber in board._numbers.get_children():
+		# Изменение состояния имеет отдельный вид обратной связи и не дублирует HP.
+		if number.feedback_kind == &"result": texts.append(number._label.text)
 	if mode == "armor": check(texts.size() == 1 and texts[0].contains("броня"), "armor absorption has one armor result")
 	elif mode == "zero": check(texts == ["0 · без урона"], "zero has one honest result")
 	elif mode == "critical": check(texts[0].begins_with("КРИТ"), "critical shot tagged")

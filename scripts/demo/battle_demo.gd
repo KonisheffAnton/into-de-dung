@@ -261,7 +261,8 @@ func _displayed_unit_hovered(unit_id: int) -> void:
 	_display_inspection_id = unit_id
 	if _compact_inspection == null: return
 	_compact_inspection.text = board_view.displayed_unit_summary(unit_id)
-	_compact_inspection.tooltip_text = _compact_inspection.text
+	_compact_inspection.tooltip_text = board_view.displayed_unit_details(unit_id)
+	board_view.tooltip_text = _compact_inspection.tooltip_text if unit_id != UnitId.NONE else ""
 
 func _note_presentation_event(event: Dictionary) -> void:
 	var seq := int(event.get("event_seq", 0))
@@ -522,7 +523,8 @@ func _build_ui() -> void:
 		_hint.clip_text = true
 		_hint.max_lines_visible = 2
 		_compact_inspection = _label("Наведите на фигуру для осмотра.", 14, Color("e6ecf4"))
-		_compact_inspection.custom_minimum_size.y = 42
+		# Две строки этого шрифта занимают 43 px; запас предотвращает resize при появлении статусов.
+		_compact_inspection.custom_minimum_size.y = 44
 		_compact_inspection.clip_text = true
 		_compact_inspection.max_lines_visible = 2
 		left.add_child(_compact_inspection)
@@ -1142,6 +1144,7 @@ func _refresh() -> void:
 	if refresh_turn and _can_forecast_turn(): _request_turn_forecast()
 	if refresh_environment and _can_forecast_environment(): _request_environment_forecast()
 	_render_forecast_panel()
+	_displayed_unit_hovered(_display_inspection_id)
 
 func _perk_status_text(unit: UnitState) -> String:
 	if not session is BattleCoreReactionsSession or unit.combat_perks == null: return ""
