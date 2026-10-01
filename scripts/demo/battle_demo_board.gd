@@ -73,6 +73,9 @@ const CRITICAL_RECOIL_DISTANCE: float = 20.0
 const CRITICAL_SHAKE_DISTANCE: float = 8.0
 const CRITICAL_SHAKE_CYCLES: float = 3.0
 const SHOT_WINDUP_SECONDS: float = 0.10
+const OBSTACLE_APPROACH_SECONDS: float = 0.07
+const OBSTACLE_HOLD_SECONDS: float = 0.05
+const OBSTACLE_RECOVERY_SECONDS: float = 0.20
 var number_scene: PackedScene = preload("res://scenes/demo/visuals/result_number.tscn")
 var impact_scene: PackedScene = preload("res://scenes/demo/visuals/hit_impact.tscn")
 var projectile_scene: PackedScene = preload("res://scenes/demo/visuals/shot_projectile.tscn")
@@ -149,21 +152,81 @@ func _set_action_offset(id: int, offset: Vector2) -> void:
 	var visual := _presentation_visual(id)
 	if visual != null: visual.action_offset = offset * grid_config.tile_size.x / 128.0
 
+func _obstacle_direction(event: Dictionary) -> Vector2:
+	var from_cell: Vector2i = event.get("from_cell", Vector2i.ZERO)
+	var attempted_cell: Vector2i = event.get("attempted_cell", from_cell)
+	var delta := attempted_cell - from_cell
+	return Vector2(delta.x - delta.y, (delta.x + delta.y) * 0.5).normalized()
+
+func _obstacle_participant_alive(id: int) -> bool:
+	for row: Dictionary in _view_units:
+		var unit := row.get("unit") as BattleUnitView
+		if unit != null and unit.id == id:
+			return unit.alive and _presentation_visual(id) != null
+	return false
+
+func _obstacle_approach(progress: float, event: Dictionary) -> void:
+	var target_id := int(event.get("target_unit_id", UnitId.NONE))
+	if not _obstacle_participant_alive(target_id): return
+	_set_action_offset(target_id, _obstacle_direction(event) * 28.0 * clampf(progress, 0.0, 1.0))
+
+func _obstacle_recovery(progress: float, event: Dictionary) -> void:
+	var amount := clampf(progress, 0.0, 1.0)
+	var direction := _obstacle_direction(event)
+	var recovery_curve := cos(amount * TAU) * pow(1.0 - amount, 2.0)
+	var target_id := int(event.get("target_unit_id", UnitId.NONE))
+	if _obstacle_participant_alive(target_id):
+		# Затухающая отдача остаётся только в рисунке тела и точно сходит к нулю.
+		_set_action_offset(target_id, direction * 28.0 * recovery_curve)
+	if event.get("kind") == &"collision":
+		var blocker_id := int(event.get("blocker_unit_id", UnitId.NONE))
+		if _obstacle_participant_alive(blocker_id):
+			_set_action_offset(blocker_id, direction * 10.0 * recovery_curve)
+	if amount >= 1.0:
+		if _obstacle_participant_alive(target_id): _set_action_offset(target_id, Vector2.ZERO)
+		if event.get("kind") == &"collision":
+			var final_blocker_id := int(event.get("blocker_unit_id", UnitId.NONE))
+			if _obstacle_participant_alive(final_blocker_id): _set_action_offset(final_blocker_id, Vector2.ZERO)
+
+func _obstacle_impact(event: Dictionary) -> void:
+	var direction := _obstacle_direction(event)
+	var target_id := int(event.get("target_unit_id", UnitId.NONE))
+	if _obstacle_participant_alive(target_id):
+		var impact := impact_scene.instantiate() as BattlePresentationImpact
+		_impacts.add_child(impact)
+		impact.set_meta("obstacle_contact", true)
+		impact.set_meta("cell", event.get("from_cell", Vector2i.ZERO))
+		impact.set_meta("anchor", direction * 38.0 + Vector2(0.0, -18.0))
+		impact.set_meta("impact_scale", 1.0)
+		_place_impacts()
+		impact.start(Color("ffd08a"))
+	if event.get("kind") == &"collision":
+		var blocker_id := int(event.get("blocker_unit_id", UnitId.NONE))
+		if _obstacle_participant_alive(blocker_id):
+			_set_action_offset(blocker_id, direction * 10.0)
+
 func _strike_pose(distance: float, event: Dictionary) -> void:
 	_set_action_offset(int(event.actor_unit_id), _strike_direction(event) * distance)
 
+static func _impact_recoil(progress: float) -> float:
+	if progress <= 0.0 or progress >= 1.0: return 0.0
+	if progress <= 0.2: return sin((progress / 0.2) * PI * 0.5)
+	var fade_progress := (progress - 0.2) / 0.8
+	return cos(fade_progress * TAU) * pow(1.0 - fade_progress, 2.0)
+
 func _hit_recovery(progress: float, strike: Dictionary, dying: bool) -> void:
-	_strike_pose((0.0 if strike.get("presentation_ranged", false) else 24.0) * (1.0 - progress), strike)
-	var recoil := _strike_direction(strike) * sin(progress * PI) * 14.0
+	var amount := clampf(progress, 0.0, 1.0)
+	_strike_pose((0.0 if strike.get("presentation_ranged", false) else 24.0) * pow(1.0 - amount, 3.0), strike)
+	var recoil := _strike_direction(strike) * _impact_recoil(amount) * 14.0
 	if bool(strike.get("modifiers", {}).get("critical", false)):
-		if progress <= 0.0 or progress >= 1.0:
+		if amount <= 0.0 or amount >= 1.0:
 			recoil = Vector2.ZERO
 		else:
 			var direction := _strike_direction(strike)
 			var perpendicular := Vector2(-direction.y, direction.x)
 			# Критический удар заметнее, но толчок остаётся только на рисунке тела.
-			var shake := sin(progress * PI * CRITICAL_SHAKE_CYCLES * 2.0) * (1.0 - progress)
-			recoil = direction * sin(progress * PI) * CRITICAL_RECOIL_DISTANCE
+			var shake := sin(amount * PI * CRITICAL_SHAKE_CYCLES * 2.0) * pow(1.0 - amount, 2.0)
+			recoil = direction * _impact_recoil(amount) * CRITICAL_RECOIL_DISTANCE
 			recoil += perpendicular * shake * CRITICAL_SHAKE_DISTANCE
 	_set_action_offset(int(strike.target_unit_id), recoil)
 	if dying:
@@ -235,7 +298,7 @@ func _place_impacts() -> void:
 	for impact: Node2D in _impacts.get_children():
 		var anchor: Vector2 = impact.get_meta("anchor")
 		impact.position = _world_cell_center(impact.get_meta("cell")) + anchor * grid_config.tile_size.x / 128.0
-		impact.scale = Vector2.ONE * grid_config.tile_size.x / 128.0 * 0.7
+		impact.scale = Vector2.ONE * grid_config.tile_size.x / 128.0 * float(impact.get_meta("impact_scale", 0.7))
 
 func _matching_strike(events: Array, step: Dictionary) -> Dictionary:
 	if step.get("kind") != &"attack_hit": return {}
@@ -468,7 +531,15 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 		var kind := StringName(event.get("kind", &""))
 		var id := int(event.get("target_unit_id", 0))
 		if kind == &"reaction_used" and attack_start: continue
-		if kind in [&"balance_changed", &"balance_broken", &"chain_link", &"push_blocked", &"collision"]:
+		if kind in [&"push_blocked", &"collision"]:
+			var obstacle_event := event.duplicate(true)
+			tween.tween_method(_obstacle_approach.bind(obstacle_event), 0.0, 1.0, OBSTACLE_APPROACH_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+			tween.tween_callback(_obstacle_impact.bind(obstacle_event))
+			tween.tween_interval(OBSTACLE_HOLD_SECONDS)
+			tween.tween_method(_obstacle_recovery.bind(obstacle_event), 0.0, 1.0, OBSTACLE_RECOVERY_SECONDS)
+			visible_event = true
+			continue
+		if kind in [&"balance_changed", &"balance_broken", &"chain_link"]:
 			# Изменение и пробой одного balance — один импульс, без обещания сдвига.
 			if not consequence_pulses.has(id):
 				tween.tween_method(_presentation_pulse.bind(id, false, false), 0.0, 1.0, 0.16)
@@ -491,8 +562,8 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 				tween.tween_method(_strike_pose.bind(start), 0.0, -8.0, SHOT_WINDUP_SECONDS)
 				tween.tween_method(_shot_flight.bind(start, projectile), 0.0, 1.0, _shot_flight_seconds(start))
 			else:
-				tween.tween_method(_strike_pose.bind(start), 0.0, -8.0, STRIKE_WINDUP_SECONDS)
-				tween.tween_method(_strike_pose.bind(start), -8.0, 24.0, STRIKE_LUNGE_SECONDS).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+				tween.tween_method(_strike_pose.bind(start), 0.0, -8.0, STRIKE_WINDUP_SECONDS).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				tween.tween_method(_strike_pose.bind(start), -8.0, 24.0, STRIKE_LUNGE_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 			visible_event = true
 			continue
 		if kind in [&"damaged", &"healed", &"armor_changed", &"hit_resolved"]:
@@ -506,7 +577,10 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			# Добровольный путь ощущается отзывчивее; толчки и падения сохраняют прежний темп.
 			var segment_seconds: float = MOVE_SEGMENT_SECONDS if event.get("movement_kind", &"") in [&"voluntary", &"safe_retreat"] else FORCED_MOVE_SEGMENT_SECONDS
 			for index in range(1, path.size()):
-				tween.tween_method(_presentation_motion.bind(id, path[index - 1], path[index]), 0.0, 1.0, segment_seconds)
+				if event.get("movement_kind", &"") in [&"voluntary", &"safe_retreat"]:
+					tween.tween_method(_presentation_motion.bind(id, path[index - 1], path[index]), 0.0, 1.0, segment_seconds).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+				else:
+					tween.tween_method(_presentation_motion.bind(id, path[index - 1], path[index]), 0.0, 1.0, segment_seconds).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 			visible_event = true
 		elif not _presentation_caption(event).is_empty():
 			tween.tween_callback(_presentation_badge.bind(event.duplicate(true)))

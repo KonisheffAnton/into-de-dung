@@ -110,11 +110,30 @@ func scenario(mode: String) -> void:
 	check(board._presentation_visual(a).action_offset.length() > 1.0 and board._presentation_visual(a).position == origin, mode + " windup only moves artwork")
 	check(board._numbers.get_child_count() == 0 and board._presentation_visual(b).unit.hp == data.before.units[b].hp, mode + " no premature result")
 	if mode == "mixed": await capture("windup")
-	advance(0.03)
+	var strike_direction := (board._world_cell_center(data.before.units[b].cell) - board._world_cell_center(data.before.units[a].cell)).normalized()
+	var lunge_start := board._presentation_visual(a).action_offset.dot(strike_direction)
+	advance(0.0075)
+	var lunge_quarter := board._presentation_visual(a).action_offset.dot(strike_direction)
+	advance(0.015)
+	var lunge_three_quarters := board._presentation_visual(a).action_offset.dot(strike_direction)
+	advance(0.0075)
 	var lunge_end_distance := 24.0 * board.grid_config.tile_size.x / 128.0
 	check(is_equal_approx(board._presentation_visual(a).action_offset.length(), lunge_end_distance), mode + " real Tween reaches lunge endpoint after 0.03s")
+	check(lunge_end_distance - lunge_three_quarters > lunge_quarter - lunge_start, mode + " lunge accelerates into contact instead of travelling at constant speed")
 	advance(0.10)
 	check(board._presentation_visual(b).action_offset.length() > 1.0 and board._impacts.get_child_count() == 1, mode + " one contact and recoil")
+	if mode == "hp":
+		var strike: Dictionary = board._pending_strikes.values()[0]
+		var target_support := board._presentation_visual(b).position
+		board._hit_recovery(0.2, strike, false)
+		var peak := board._presentation_visual(b).action_offset.dot(strike_direction)
+		board._hit_recovery(0.6, strike, false)
+		var rebound := board._presentation_visual(b).action_offset.dot(strike_direction)
+		board._hit_recovery(0.9, strike, false)
+		var tail := board._presentation_visual(b).action_offset.dot(strike_direction)
+		check(peak > 10.0 and rebound < 0.0 and absf(tail) < absf(rebound) and absf(rebound) < peak, "hit kicks early then rebounds with diminishing amplitude")
+		check(board._presentation_visual(b).position == target_support and board._view_unit_cell(b) == data.before.units[b].cell, "damped recoil leaves support and cell fixed")
+		board._hit_recovery(0.5, strike, false)
 	if mode == "critical":
 		var critical_strike: Dictionary = board._pending_strikes.values()[0]
 		var critical_cell: Vector2i = board._view_unit_cell(b)
@@ -232,7 +251,18 @@ func movement_timing() -> void:
 	board.show_presentation_state(after)
 	var tween := board.animate_presentation_frame([voluntary])
 	tween.pause()
-	tween.custom_step(0.079)
+	var origin := board._world_cell_center(start)
+	var length := origin.distance_to(board._world_cell_center(middle))
+	tween.custom_step(0.02)
+	var visual := board._presentation_visual(actor_id)
+	var quarter := (visual.position + visual.get_visual_offset()).distance_to(origin) / length
+	tween.custom_step(0.02)
+	var midpoint := (visual.position + visual.get_visual_offset()).distance_to(origin) / length
+	tween.custom_step(0.02)
+	var three_quarters := (visual.position + visual.get_visual_offset()).distance_to(origin) / length
+	check(quarter > 0.0 and quarter < 0.25 and is_equal_approx(midpoint, 0.5) and three_quarters > 0.75 and three_quarters < 1.0, "voluntary movement accelerates and brakes within unchanged duration")
+	check(midpoint - quarter > quarter and three_quarters - midpoint > 1.0 - three_quarters, "middle movement is faster than departure and arrival")
+	tween.custom_step(0.019)
 	check(board._view_unit_cell(actor_id) == start, "voluntary segment is still in flight before 0.08s")
 	tween.custom_step(0.002)
 	check(board._view_unit_cell(actor_id) == middle, "voluntary transit segment completes at 0.08s per cell")
@@ -247,7 +277,11 @@ func movement_timing() -> void:
 	board.show_presentation_state(after)
 	tween = board.animate_presentation_frame([forced])
 	tween.pause()
-	tween.custom_step(0.08)
+	tween.custom_step(0.025)
+	visual = board._presentation_visual(actor_id)
+	var forced_quarter := (visual.position + visual.get_visual_offset()).distance_to(origin) / length
+	check(forced_quarter > 0.25 and forced_quarter < 1.0, "forced push starts with an impulse and decelerates")
+	tween.custom_step(0.055)
 	check(board._view_unit_cell(actor_id) == start, "forced displacement retains 0.10s segment")
 	tween.custom_step(0.021)
 	check(board._view_unit_cell(actor_id) == middle, "forced segment completes after prior 0.10s timing")

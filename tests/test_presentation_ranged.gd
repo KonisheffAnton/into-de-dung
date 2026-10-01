@@ -143,10 +143,14 @@ func scenario(target: Vector2i, mode: String) -> void:
 	advance(flight * 0.25)
 	if mode == "hp" and target == Vector2i(5, 3): await capture("arc-descent")
 	advance(flight * 0.25 + 0.001)
-	advance(0.08)
+	# Отдача теперь достигает раннего пика; старая середина попадала в ноль отскока.
+	advance(0.04)
 	check(projectile() == null and board._impacts.get_child_count() == 1 and board._presentation_visual(victim).action_offset.length() > 1.0, "delivery becomes exactly one contact and victim recoil")
+	var recoil_peak := board._presentation_visual(victim).action_offset.length()
 	check(board._presentation_visual(actor).action_offset.is_zero_approx(), "shooter recovery does not invent melee lunge")
 	if mode in ["hp", "armor"]: await capture("contact-" + mode)
+	advance(0.08)
+	check(board._presentation_visual(victim).action_offset.length() < recoil_peak, "ranged impact recoil decays after early peak")
 	finish()
 	check(board._presentation_visual(victim).unit.hp == data.after.units[victim].hp, "result publishes HP after contact")
 	var texts: Array[String] = []

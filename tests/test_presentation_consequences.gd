@@ -61,6 +61,7 @@ func finish() -> void:
 func capture(label: String) -> void:
 	if captures.is_empty(): return
 	for number: BattlePresentationNumber in board._numbers.get_children(): number._tween.pause()
+	for impact: BattlePresentationImpact in board._impacts.get_children(): impact._tween.pause()
 	await process_frame
 	await process_frame
 	check(viewport.get_texture().get_image().save_png(captures.path_join(label + ".png")) == OK, "PNG " + label)
@@ -235,6 +236,108 @@ func consecutive_roots() -> void:
 	s.close()
 	await process_frame
 
+func obstacle_impacts() -> Array[BattlePresentationImpact]:
+	var result: Array[BattlePresentationImpact] = []
+	for impact: BattlePresentationImpact in board._impacts.get_children():
+		if impact.get_meta("obstacle_contact", false): result.append(impact)
+	return result
+
+func seek_obstacle() -> Dictionary:
+	var guard := 0
+	while player.active and guard < 100:
+		var frame: Dictionary = player._frames[player._index]
+		for event: Dictionary in frame.events:
+			if event.kind in [&"push_blocked", &"collision"]: return event
+		advance(1.0)
+		guard += 1
+	return {}
+
+func obstacle_contacts() -> void:
+	for mode: String in ["wall", "height", "body"]:
+		for direction: Vector2i in [Vector2i.RIGHT, Vector2i.LEFT, Vector2i.DOWN, Vector2i.UP]:
+			player.cancel()
+			var s := open_lane()
+			var target := s.units[1]
+			var blocker := s.units[2]
+			check(s.board.move_unit(target, Vector2i(7, 7)), "obstacle fixture parks target")
+			check(s.board.move_unit(s.units[0], Vector2i(3, 3) - direction), "obstacle fixture places attacker")
+			check(s.board.move_unit(target, Vector2i(3, 3)), "obstacle fixture places target")
+			target.vitals.set_balance(8.0)
+			var destination := target.cell + direction
+			if mode == "wall": s.board.set_terrain(destination, TerrainType.Type.WALL)
+			elif mode == "height": s.board.set_height_steps(destination, 2)
+			else:
+				check(s.board.move_unit(blocker, destination), "obstacle fixture places body")
+				blocker.stats.set_base_value(StatTypes.StatType.BALANCE_MAX, 20.0)
+			var label := "contact-%s-%d-%d" % [mode, direction.x, direction.y]
+			var data := packet(s, label)
+			var immutable := data.duplicate(true)
+			var state := snapshot(s)
+			var rng := s.context.get_rng().to_dict().duplicate(true)
+			var counters := s.context.simulation_counters()
+			player.set_speed(1.0)
+			player.play(board, data.before, data.frames, data.after)
+			if player.active: player._tween.pause()
+			var event := seek_obstacle()
+			check(not event.is_empty(), label + " real receipt contains obstacle contact")
+			if event.is_empty():
+				s.close()
+				continue
+			var visual := board._presentation_visual(target.id)
+			var cell := board._view_unit_cell(target.id)
+			var support := visual.position
+			var hud := visual._status_hud.position
+			var shown_hp := visual.unit.hp
+			var expected_direction := Vector2(direction.x - direction.y, (direction.x + direction.y) * 0.5).normalized()
+			check(obstacle_impacts().is_empty(), label + " no contact flash before contact")
+			advance(BattleDemoBoard.OBSTACLE_APPROACH_SECONDS * 0.5)
+			check(visual.action_offset.dot(expected_direction) > 1.0, label + " body approaches obstacle in correct direction")
+			check(visual.position == support and visual._status_hud.position == hud and board._view_unit_cell(target.id) == cell, label + " approach preserves logical cell sorting support and HUD")
+			advance(BattleDemoBoard.OBSTACLE_APPROACH_SECONDS * 0.5 + 0.002)
+			var impacts := obstacle_impacts()
+			check(impacts.size() == 1, label + " one contact flash per real obstacle event")
+			check(visual.action_offset.dot(expected_direction) >= 27.0 and visual.unit.hp == shown_hp, label + " contact holds body without publishing damage early")
+			if mode == "body":
+				var receiver := board._presentation_visual(blocker.id)
+				check(receiver.action_offset.dot(expected_direction) >= 9.0 and board._view_unit_cell(blocker.id) == destination, label + " receiver visibly recoils without changing cell")
+			if not impacts.is_empty():
+				var impact := impacts[0]
+				var factor := board.grid_config.tile_size.x / 128.0
+				var expected_contact := board._world_cell_center(cell) + (expected_direction * 38.0 + Vector2(0, -18)) * factor
+				check(impact.position.is_equal_approx(expected_contact), label + " flash is at obstacle facing contact point")
+				board.size += Vector2(16, 12)
+				board.zoom_camera(0.75, board.size * 0.5)
+				visual = board._presentation_visual(target.id)
+				check(visual.action_offset.dot(expected_direction) >= 27.0 and obstacle_impacts().size() == 1 and impact.position.is_equal_approx(board._world_cell_center(cell) + (expected_direction * 38.0 + Vector2(0, -18)) * factor), label + " resize and zoom preserve contact pose and anchor")
+			await capture(label)
+			advance(BattleDemoBoard.OBSTACLE_HOLD_SECONDS + BattleDemoBoard.OBSTACLE_RECOVERY_SECONDS * 0.5)
+			check(absf(board._presentation_visual(target.id).action_offset.dot(expected_direction)) < 27.0, label + " body rebounds from contact")
+			if direction == Vector2i.RIGHT: await capture(label + "-rebound")
+			finish()
+			check(board._presentation_visual(target.id).action_offset == Vector2.ZERO and board._view_unit_cell(target.id) == cell, label + " completed contact returns body to unchanged cell")
+			if mode == "body": check(board._presentation_visual(blocker.id).action_offset == Vector2.ZERO, label + " receiver returns after contact")
+			check(not shown_texts().contains("Сдвиг"), label + " contact does not invent displacement")
+			check(snapshot(s) == state and s.context.get_rng().to_dict() == rng and s.context.simulation_counters() == counters and data == immutable, label + " contact never mutates world RNG counters or receipt")
+			if direction == Vector2i.RIGHT:
+				for cancel_playback: bool in [false, true]:
+					player.cancel()
+					player.set_speed(3.0)
+					player.play(board, data.before, data.frames, data.after)
+					if player.active: player._tween.pause()
+					check(not seek_obstacle().is_empty(), label + " x3 reaches real obstacle event")
+					advance((BattleDemoBoard.OBSTACLE_APPROACH_SECONDS + 0.01) / 3.0)
+					check(obstacle_impacts().size() == 1 and board._presentation_visual(target.id).action_offset.dot(expected_direction) >= 27.0, label + " x3 preserves contact phase")
+					if cancel_playback: player.cancel()
+					else: player.skip()
+					check(not player.active and board._action_offsets.is_empty() and board._impacts.get_child_count() == 0, label + " skip or cancel removes contact poses and flashes")
+					check(snapshot(s) == state and data == immutable, label + " interrupted contact preserves world and packet")
+			player.cancel()
+			player.set_speed(1.0)
+			board.size = viewport.size
+			board.zoom_camera(1.0, board.size * 0.5)
+			s.close()
+			await process_frame
+
 func run() -> void:
 	viewport = SubViewport.new()
 	viewport.size = Vector2i(1280, 850)
@@ -253,6 +356,7 @@ func run() -> void:
 	await armor_cases()
 	await threshold_and_fault()
 	await consecutive_roots()
+	await obstacle_contacts()
 	player.queue_free()
 	viewport.queue_free()
 	await process_frame
