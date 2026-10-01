@@ -69,6 +69,9 @@ const FORCED_MOVE_SEGMENT_SECONDS: float = 0.10
 const STRIKE_WINDUP_SECONDS: float = 0.12
 const STRIKE_LUNGE_SECONDS: float = 0.03
 const STRIKE_RECOVERY_SECONDS: float = 0.20
+const CRITICAL_RECOIL_DISTANCE: float = 20.0
+const CRITICAL_SHAKE_DISTANCE: float = 8.0
+const CRITICAL_SHAKE_CYCLES: float = 3.0
 const SHOT_WINDUP_SECONDS: float = 0.10
 var number_scene: PackedScene = preload("res://scenes/demo/visuals/result_number.tscn")
 var impact_scene: PackedScene = preload("res://scenes/demo/visuals/hit_impact.tscn")
@@ -151,7 +154,18 @@ func _strike_pose(distance: float, event: Dictionary) -> void:
 
 func _hit_recovery(progress: float, strike: Dictionary, dying: bool) -> void:
 	_strike_pose((0.0 if strike.get("presentation_ranged", false) else 24.0) * (1.0 - progress), strike)
-	_set_action_offset(int(strike.target_unit_id), _strike_direction(strike) * sin(progress * PI) * 14.0)
+	var recoil := _strike_direction(strike) * sin(progress * PI) * 14.0
+	if bool(strike.get("modifiers", {}).get("critical", false)):
+		if progress <= 0.0 or progress >= 1.0:
+			recoil = Vector2.ZERO
+		else:
+			var direction := _strike_direction(strike)
+			var perpendicular := Vector2(-direction.y, direction.x)
+			# Критический удар заметнее, но толчок остаётся только на рисунке тела.
+			var shake := sin(progress * PI * CRITICAL_SHAKE_CYCLES * 2.0) * (1.0 - progress)
+			recoil = direction * sin(progress * PI) * CRITICAL_RECOIL_DISTANCE
+			recoil += perpendicular * shake * CRITICAL_SHAKE_DISTANCE
+	_set_action_offset(int(strike.target_unit_id), recoil)
 	if dying:
 		var visual := _presentation_visual(int(strike.target_unit_id))
 		if visual != null: visual.modulate.a = 1.0 - progress

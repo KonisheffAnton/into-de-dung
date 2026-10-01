@@ -115,6 +115,30 @@ func scenario(mode: String) -> void:
 	check(is_equal_approx(board._presentation_visual(a).action_offset.length(), lunge_end_distance), mode + " real Tween reaches lunge endpoint after 0.03s")
 	advance(0.10)
 	check(board._presentation_visual(b).action_offset.length() > 1.0 and board._impacts.get_child_count() == 1, mode + " one contact and recoil")
+	if mode == "critical":
+		var critical_strike: Dictionary = board._pending_strikes.values()[0]
+		var critical_cell: Vector2i = board._view_unit_cell(b)
+		var target_root_position: Vector2 = board._presentation_visual(b).position
+		var normal_strike := critical_strike.duplicate(true)
+		normal_strike["modifiers"] = {"critical": false}
+		board._hit_recovery(0.0, critical_strike, false)
+		check(board._presentation_visual(b).action_offset == Vector2.ZERO, "critical recovery has exact zero start")
+		board._hit_recovery(0.25, normal_strike, false)
+		var normal_pose: Vector2 = board._presentation_visual(b).action_offset
+		board._hit_recovery(0.25, critical_strike, false)
+		var critical_pose: Vector2 = board._presentation_visual(b).action_offset
+		check(bool(critical_strike.get("modifiers", {}).get("critical", false)), "real critical receipt selects critical recovery")
+		check(critical_pose.length() > normal_pose.length(), "critical recoil exceeds normal recoil at same sample")
+		var direction := board._strike_direction(critical_strike)
+		var perpendicular := Vector2(-direction.y, direction.x)
+		board._hit_recovery(1.0 / 12.0, critical_strike, false)
+		var lateral_a: float = board._presentation_visual(b).action_offset.dot(perpendicular)
+		board._hit_recovery(3.0 / 12.0, critical_strike, false)
+		var lateral_b: float = board._presentation_visual(b).action_offset.dot(perpendicular)
+		check(lateral_a * lateral_b < 0.0, "critical lateral shake alternates direction")
+		board._hit_recovery(1.0, critical_strike, false)
+		check(board._presentation_visual(b).action_offset == Vector2.ZERO, "critical recovery has exact zero endpoint")
+		check(board._view_unit_cell(b) == critical_cell and board._presentation_visual(b).position == target_root_position, "critical shake leaves logical cell and HUD anchor root fixed")
 	if mode == "mixed":
 		await capture("contact-recoil")
 		board.size += Vector2(16, 16)
