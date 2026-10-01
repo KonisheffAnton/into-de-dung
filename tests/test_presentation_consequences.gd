@@ -338,6 +338,118 @@ func obstacle_contacts() -> void:
 			s.close()
 			await process_frame
 
+func chain_overlap() -> void:
+	for mode: String in ["open", "wall", "middle-dead", "last-dead"]:
+		for direction: Vector2i in [Vector2i.RIGHT, Vector2i.LEFT, Vector2i.DOWN, Vector2i.UP]:
+			player.cancel()
+			var s := fixture()
+			for i: int in 6:
+				check(s.board.move_unit(s.units[i], Vector2i(i, 0)), "overlap fixture parks bodies")
+			for pair: Array in [[0, -1], [1, 0], [2, 1], [5, 2]]:
+				check(s.board.move_unit(s.units[pair[0]], Vector2i(4, 4) + direction * int(pair[1])), "overlap fixture places column")
+			if mode == "wall": s.board.set_terrain(Vector2i(4, 4) + direction * 3, TerrainType.Type.WALL)
+			if mode == "middle-dead": s.units[2].vitals.set_hp(1.0)
+			if mode == "last-dead": s.units[5].vitals.set_hp(1.0)
+			var label := "overlap-%s-%d-%d" % [mode, direction.x, direction.y]
+			var data := packet(s, label)
+			var immutable := data.duplicate(true)
+			var state := snapshot(s)
+			var rng := s.context.get_rng().to_dict().duplicate(true)
+			var counters := s.context.simulation_counters()
+			var started: Array[Dictionary] = []
+			var published: Array[Dictionary] = []
+			var on_start := func(frame: Dictionary) -> void: started.append(frame)
+			var on_finish := func(after: Dictionary) -> void: published.append(after)
+			player.frame_started.connect(on_start)
+			player.frame_finished.connect(on_finish)
+			player.play(board, data.before, data.frames, data.after)
+			player._tween.pause()
+			check(not seek_obstacle().is_empty() and player._chain != null, label + " receipt selects one shared chain clock")
+			var first := player._index
+			var chain := player._chain
+			var axis := Vector2(direction.x - direction.y, (direction.x + direction.y) * 0.5).normalized()
+			var a: int = s.units[1].id
+			var b: int = s.units[2].id
+			var c: int = s.units[5].id
+			var a_cell := board._view_unit_cell(a)
+			var b_cell := board._view_unit_cell(b)
+			var approach := BattleDemoBoard.OBSTACLE_APPROACH_SECONDS
+			var hold := BattleDemoBoard.OBSTACLE_HOLD_SECONDS
+			advance(approach + hold)
+			check(player._chain == chain and player._index == first + 1, label + " first after publishes at release while next collision starts")
+			check(board._action_offsets[a].is_equal_approx(axis * 28.0), label + " first body starts return from contact")
+			if mode != "middle-dead": check(board._action_offsets[b].is_equal_approx(axis * 10.0), label + " second receives continuous pose without zero reset")
+			check(board._presentation_visual(b).unit.hp == float(data.frames[first].after.units[b].hp), label + " only first collision HP is published")
+			advance(approach * 0.5)
+			var a_offset: Vector2 = board._action_offsets[a]
+			check(a_offset.dot(axis) > 0.0 and a_offset.dot(axis) < 28.0, label + " first return overlaps next approach")
+			if mode != "middle-dead": check(board._action_offsets[b].dot(axis) > 10.0 and board._action_offsets[b].dot(axis) < 28.0, label + " next body accelerates before first finishes return")
+			else: check(board._action_offsets[b] == Vector2.ZERO and not board._presentation_visual(b).unit.alive, label + " dead middle stays still while receipt continues")
+			check(board._view_unit_cell(a) == a_cell and board._view_unit_cell(b) == b_cell, label + " temporary chain poses never move logical cells")
+			board.size += Vector2(12, 10)
+			board.zoom_camera(0.75, board.size * 0.5)
+			check(board._presentation_visual(a).action_offset.is_equal_approx(a_offset), label + " resize preserves overlapping poses")
+			if direction == Vector2i.RIGHT: await capture(label + "-handover")
+			advance(approach * 0.5 + hold + 0.025)
+			if mode in ["open", "middle-dead"]:
+				var last := board._presentation_visual(c)
+				check(last.presentation_offset.length() > 0.0 and absf(board._action_offsets[a].dot(axis)) > 0.1, label + " terminal movement overlaps remaining return")
+				check(board._action_offsets[c].dot(axis) > 0.0 and board._action_offsets[c].dot(axis) < 10.0, label + " incoming offset decays continuously during terminal movement")
+			elif mode == "last-dead": check(not board._presentation_visual(c).unit.alive and board._action_offsets[c] == Vector2.ZERO, label + " dead terminal never moves")
+			finish()
+			check(started == data.frames, label + " every frame starts once in receipt order")
+			var expected: Array[Dictionary] = []
+			for frame: Dictionary in data.frames: expected.append(frame.after)
+			expected.append(data.after)
+			check(published == expected, label + " all after snapshots including empty steps publish in exact order")
+			for id: int in [a, b, c]:
+				check(board._presentation_visual(id).action_offset == Vector2.ZERO and board._view_unit_cell(id) == data.after.units[id].cell, label + " final poses zero and cells authoritative")
+			check(snapshot(s) == state and s.context.get_rng().to_dict() == rng and s.context.simulation_counters() == counters and data == immutable, label + " overlap is isolated from runtime RNG counters and receipt")
+			player.frame_started.disconnect(on_start)
+			player.frame_finished.disconnect(on_finish)
+			if mode == "open" and direction == Vector2i.RIGHT:
+				await chain_boundaries(data, first, a, b, axis)
+			player.cancel()
+			player.set_speed(1.0)
+			board.size = viewport.size
+			board.zoom_camera(1.0, board.size * 0.5)
+			s.close()
+			await process_frame
+
+func chain_boundaries(data: Dictionary, first: int, a: int, b: int, axis: Vector2) -> void:
+	for boundary: String in ["root", "actor", "gap", "reaction", "fault", "eventless-change"]:
+		var frames: Array[Dictionary] = data.frames.duplicate(true)
+		var next: Dictionary = frames[first + 1]
+		match boundary:
+			"root": next.events[0].root_id += 1
+			"actor": next.events[0].actor_unit_id += 10
+			"gap": next.step.command_seq += 1
+			"reaction": next.step.kind = &"attack_hit"
+			"fault": next.step.status = &"FAULTED"
+			"eventless-change":
+				next.events.clear()
+		check(BattleChainTimeline.collect(frames, first).is_empty(), boundary + " cannot bridge unrelated or faulted frames")
+	for interruption: String in ["finish", "skip", "cancel", "replay"]:
+		player.set_speed(1.0)
+		player.play(board, data.before, data.frames, data.after)
+		player._tween.pause()
+		seek_obstacle()
+		advance(BattleDemoBoard.OBSTACLE_APPROACH_SECONDS + BattleDemoBoard.OBSTACLE_HOLD_SECONDS)
+		player.set_speed(3.0)
+		advance(BattleDemoBoard.OBSTACLE_APPROACH_SECONDS / 6.0)
+		check(board._action_offsets[a].dot(axis) < 28.0 and board._action_offsets[b].dot(axis) > 10.0, interruption + " speed change advances both bodies on one clock")
+		match interruption:
+			"finish": finish()
+			"skip": player.skip()
+			"cancel": player.cancel()
+			"replay":
+				player.play(board, data.before, data.frames, data.after)
+				player._tween.pause()
+				finish()
+		check(not player.active and board._action_offsets.is_empty(), interruption + " clears all overlapping poses")
+		if interruption in ["skip", "cancel"]: check(board._impacts.get_child_count() == 0, interruption + " clears chain flashes")
+	player.set_speed(1.0)
+
 func run() -> void:
 	viewport = SubViewport.new()
 	viewport.size = Vector2i(1280, 850)
@@ -357,6 +469,7 @@ func run() -> void:
 	await threshold_and_fault()
 	await consecutive_roots()
 	await obstacle_contacts()
+	await chain_overlap()
 	player.queue_free()
 	viewport.queue_free()
 	await process_frame

@@ -66,10 +66,13 @@ var unit_visual_scene: PackedScene = preload("res://scenes/demo/visuals/placehol
 var tile_visual_scene: PackedScene = preload("res://scenes/demo/visuals/placeholder_tile.tscn")
 const MOVE_SEGMENT_SECONDS: float = 0.08
 const FORCED_MOVE_SEGMENT_SECONDS: float = 0.10
-const STRIKE_WINDUP_SECONDS: float = 0.12
-const STRIKE_LUNGE_SECONDS: float = 0.03
+const STRIKE_WINDUP_SECONDS: float = 0.10
+const STRIKE_LUNGE_SECONDS: float = 0.025
+const STRIKE_LUNGE_DISTANCE: float = 32.0
+const HIT_STOP_SECONDS: float = 0.035
 const STRIKE_RECOVERY_SECONDS: float = 0.20
-const CRITICAL_RECOIL_DISTANCE: float = 20.0
+const NORMAL_RECOIL_DISTANCE: float = 18.0
+const CRITICAL_RECOIL_DISTANCE: float = 24.0
 const CRITICAL_SHAKE_DISTANCE: float = 8.0
 const CRITICAL_SHAKE_CYCLES: float = 3.0
 const SHOT_WINDUP_SECONDS: float = 0.10
@@ -216,8 +219,8 @@ static func _impact_recoil(progress: float) -> float:
 
 func _hit_recovery(progress: float, strike: Dictionary, dying: bool) -> void:
 	var amount := clampf(progress, 0.0, 1.0)
-	_strike_pose((0.0 if strike.get("presentation_ranged", false) else 24.0) * pow(1.0 - amount, 3.0), strike)
-	var recoil := _strike_direction(strike) * _impact_recoil(amount) * 14.0
+	_strike_pose((0.0 if strike.get("presentation_ranged", false) else STRIKE_LUNGE_DISTANCE) * pow(1.0 - amount, 3.0), strike)
+	var recoil := _strike_direction(strike) * _impact_recoil(amount) * NORMAL_RECOIL_DISTANCE
 	if bool(strike.get("modifiers", {}).get("critical", false)):
 		if amount <= 0.0 or amount >= 1.0:
 			recoil = Vector2.ZERO
@@ -288,6 +291,7 @@ func _hit_impact(event: Dictionary, tint: Color) -> void:
 	var impact := impact_scene.instantiate() as BattlePresentationImpact
 	_impacts.add_child(impact)
 	var anchor := visual.get_node_or_null("ArtRoot/EffectAnchor") as Node2D
+	impact.set_meta("impact_scale", 0.85)
 	impact.set_meta("cell", _view_unit_cell(int(event.target_unit_id)))
 	impact.set_meta("anchor", anchor.position if anchor != null else Vector2(0, -18))
 	_place_impacts()
@@ -524,6 +528,7 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 	if not strike.is_empty():
 		var impact_tint := Color("f29b9b") if events.any(func(e: Dictionary) -> bool: return e.get("kind") == &"damaged") else (Color("8dcaff") if events.any(func(e: Dictionary) -> bool: return e.get("kind") == &"armor_changed") else Color("d6dfeb"))
 		tween.tween_callback(_hit_impact.bind(strike, impact_tint))
+		tween.tween_interval(HIT_STOP_SECONDS)
 		var dying := events.any(func(e: Dictionary) -> bool: return e.get("kind") == &"died" and e.get("target_unit_id") == strike.target_unit_id)
 		tween.tween_method(_hit_recovery.bind(strike, dying), 0.0, 1.0, STRIKE_RECOVERY_SECONDS)
 		visible_event = true
@@ -562,8 +567,8 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 				tween.tween_method(_strike_pose.bind(start), 0.0, -8.0, SHOT_WINDUP_SECONDS)
 				tween.tween_method(_shot_flight.bind(start, projectile), 0.0, 1.0, _shot_flight_seconds(start))
 			else:
-				tween.tween_method(_strike_pose.bind(start), 0.0, -8.0, STRIKE_WINDUP_SECONDS).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-				tween.tween_method(_strike_pose.bind(start), -8.0, 24.0, STRIKE_LUNGE_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+				tween.tween_method(_strike_pose.bind(start), 0.0, -10.0, STRIKE_WINDUP_SECONDS).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				tween.tween_method(_strike_pose.bind(start), -10.0, STRIKE_LUNGE_DISTANCE, STRIKE_LUNGE_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 			visible_event = true
 			continue
 		if kind in [&"damaged", &"healed", &"armor_changed", &"hit_resolved"]:

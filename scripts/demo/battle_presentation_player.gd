@@ -14,6 +14,7 @@ var _final: Dictionary = {}
 var _published: Dictionary = {}
 var _index: int = 0
 var _tween: Tween
+var _chain: BattleChainTimeline
 
 func play(board: BattleDemoBoard, before: Dictionary, frames: Array[Dictionary], final_state: Dictionary) -> void:
 	cancel(false)
@@ -39,8 +40,19 @@ func _next() -> void:
 	# Снимки и сигналы не пропускаются, порядок настоящих последствий сохранён.
 	while active and _index < _frames.size():
 		var frame: Dictionary = _frames[_index]
-		_board.begin_presentation_frame(frame.events)
-		frame_started.emit(frame.duplicate(true))
+		var group := BattleChainTimeline.collect(_frames, _index)
+		if not group.is_empty():
+			_chain = BattleChainTimeline.new()
+			var chain := _chain
+			var chain_tween := chain.animate(_board, group, _start_chain_frame, _publish_chain_frame)
+			if not active or _chain != chain:
+				chain_tween.kill()
+				return
+			_tween = chain_tween
+			_tween.set_speed_scale(speed)
+			_tween.finished.connect(_complete_chain)
+			return
+		_start_chain_frame(_index)
 		if _board.has_presentation_animation(frame.events):
 			_tween = _board.animate_presentation_frame(frame.events, frame.step)
 			_tween.set_speed_scale(speed)
@@ -52,6 +64,22 @@ func _next() -> void:
 		frame_finished.emit(frame.after.duplicate(true))
 		_index += 1
 	if active: _finish(false)
+
+func _start_chain_frame(index: int) -> void:
+	_board.begin_presentation_frame(_frames[index].events)
+	frame_started.emit(_frames[index].duplicate(true))
+
+func _publish_chain_frame(index: int) -> void:
+	var frame: Dictionary = _frames[index]
+	_board.show_presentation_state(frame.after)
+	_board.finish_presentation_frame(frame.events, frame.step, _published, frame.after)
+	_published = frame.after
+	_index = index + 1
+	frame_finished.emit(frame.after.duplicate(true))
+
+func _complete_chain() -> void:
+	_chain = null
+	_next()
 
 func _complete_frame() -> void:
 	if not active: return
@@ -69,6 +97,8 @@ func skip() -> void:
 func _finish(discard_feedback: bool) -> void:
 	if not active: return
 	if _tween != null and _tween.is_valid(): _tween.kill()
+	if _chain != null: _chain.cancel()
+	_chain = null
 	if discard_feedback: _board.clear_presentation_feedback()
 	else: _board.clear_strike_poses()
 	_board.show_presentation_state(_final)
@@ -83,6 +113,8 @@ func cancel(discard_feedback: bool = true) -> void:
 	active = false
 	if _tween != null and _tween.is_valid(): _tween.kill()
 	_tween = null
+	if _chain != null: _chain.cancel()
+	_chain = null
 	_frames.clear()
 	_final.clear()
 	_published = {}

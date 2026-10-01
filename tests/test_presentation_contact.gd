@@ -106,20 +106,23 @@ func scenario(mode: String) -> void:
 	player.play(board, data.before, data.frames, data.after)
 	player._tween.pause()
 	var origin := board._presentation_visual(a).position
-	advance(0.12)
+	advance(0.10)
 	check(board._presentation_visual(a).action_offset.length() > 1.0 and board._presentation_visual(a).position == origin, mode + " windup only moves artwork")
 	check(board._numbers.get_child_count() == 0 and board._presentation_visual(b).unit.hp == data.before.units[b].hp, mode + " no premature result")
 	if mode == "mixed": await capture("windup")
 	var strike_direction := (board._world_cell_center(data.before.units[b].cell) - board._world_cell_center(data.before.units[a].cell)).normalized()
 	var lunge_start := board._presentation_visual(a).action_offset.dot(strike_direction)
-	advance(0.0075)
+	advance(0.00625)
 	var lunge_quarter := board._presentation_visual(a).action_offset.dot(strike_direction)
-	advance(0.015)
+	advance(0.0125)
 	var lunge_three_quarters := board._presentation_visual(a).action_offset.dot(strike_direction)
-	advance(0.0075)
-	var lunge_end_distance := 24.0 * board.grid_config.tile_size.x / 128.0
-	check(is_equal_approx(board._presentation_visual(a).action_offset.length(), lunge_end_distance), mode + " real Tween reaches lunge endpoint after 0.03s")
+	advance(0.00625)
+	var lunge_end_distance := 32.0 * board.grid_config.tile_size.x / 128.0
+	check(is_equal_approx(board._presentation_visual(a).action_offset.length(), lunge_end_distance), mode + " real Tween reaches lunge endpoint after 0.025s")
 	check(lunge_end_distance - lunge_three_quarters > lunge_quarter - lunge_start, mode + " lunge accelerates into contact instead of travelling at constant speed")
+	advance(0.025)
+	check(is_equal_approx(board._presentation_visual(a).action_offset.length(), lunge_end_distance), mode + " hit stop holds attacker at reach")
+	check(board._presentation_visual(b).unit.hp == data.before.units[b].hp and board._numbers.get_child_count() == 0, mode + " hit stop delays HP and HUD publication")
 	advance(0.10)
 	check(board._presentation_visual(b).action_offset.length() > 1.0 and board._impacts.get_child_count() == 1, mode + " one contact and recoil")
 	if mode == "hp":
@@ -131,7 +134,8 @@ func scenario(mode: String) -> void:
 		var rebound := board._presentation_visual(b).action_offset.dot(strike_direction)
 		board._hit_recovery(0.9, strike, false)
 		var tail := board._presentation_visual(b).action_offset.dot(strike_direction)
-		check(peak > 10.0 and rebound < 0.0 and absf(tail) < absf(rebound) and absf(rebound) < peak, "hit kicks early then rebounds with diminishing amplitude")
+		var expected_normal_peak := 18.0 * board.grid_config.tile_size.x / 128.0
+		check(is_equal_approx(peak, expected_normal_peak) and rebound < 0.0 and absf(tail) < absf(rebound) and absf(rebound) < peak, "normal hit reaches 18px early peak then rebounds with diminishing amplitude")
 		check(board._presentation_visual(b).position == target_support and board._view_unit_cell(b) == data.before.units[b].cell, "damped recoil leaves support and cell fixed")
 		board._hit_recovery(0.5, strike, false)
 	if mode == "critical":
@@ -148,6 +152,9 @@ func scenario(mode: String) -> void:
 		var critical_pose: Vector2 = board._presentation_visual(b).action_offset
 		check(bool(critical_strike.get("modifiers", {}).get("critical", false)), "real critical receipt selects critical recovery")
 		check(critical_pose.length() > normal_pose.length(), "critical recoil exceeds normal recoil at same sample")
+		board._hit_recovery(0.2, critical_strike, false)
+		var expected_critical_peak := 24.0 * board.grid_config.tile_size.x / 128.0
+		check(is_equal_approx(board._presentation_visual(b).action_offset.dot(board._strike_direction(critical_strike)), expected_critical_peak), "critical hit reaches 24px early peak")
 		var direction := board._strike_direction(critical_strike)
 		var perpendicular := Vector2(-direction.y, direction.x)
 		board._hit_recovery(1.0 / 12.0, critical_strike, false)
