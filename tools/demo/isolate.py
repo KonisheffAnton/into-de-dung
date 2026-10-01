@@ -16,6 +16,7 @@ def main():
     modes.add_argument("--render-check", action="store_true", help="render demo checks and save screenshots")
     parser.add_argument("--full", action="store_true", help="also run the existing core regression")
     parser.add_argument("--godot", default=os.environ.get("GODOT_BIN"))
+    parser.add_argument("--screen", type=int, default=os.environ.get("GODOT_TEST_SCREEN"), help="Godot screen index for windowed runs (or GODOT_TEST_SCREEN)")
     args = parser.parse_args()
     repo = Path(__file__).resolve().parents[2]
     godot = args.godot or shutil.which("godot") or shutil.which("godot4")
@@ -55,6 +56,8 @@ def main():
         command = [godot, "--path", str(project)]
         if headless:
             command.append("--headless")
+        elif args.screen is not None:
+            command += ["--screen", str(args.screen)]
         command += command_args
         with (out / (label + ".log")).open("wb") as log:
             result = subprocess.run(command, env=env, stdout=log, stderr=subprocess.STDOUT, timeout=600 if legacy else 120, **hidden)

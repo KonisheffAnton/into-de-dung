@@ -20,6 +20,12 @@ python tools/demo/isolate.py --check --full
 python tools/demo/isolate.py --render-check
 ```
 
+Оконные прогоны можно направить на нужный монитор:
+`python tools/demo/isolate.py --render-check --screen 0`.
+Индекс Godot можно также передать через `GODOT_TEST_SCREEN`; headless его игнорирует.
+На рабочем месте пользователя 2026-10-01 экран слева, не основной, имеет индекс 0;
+после изменения конфигурации экранов индекс следует перепроверить.
+
 Оба режима включают новые D2 runner (расчёт, snapshot, integration, recovery, UI).
 Первая команда включает import/startup, attack_calculation/attack_d1, forecast, guard, summon_snapshot,
 summon, healing, core и headless demo/battle. Вторая повторяет import/startup
