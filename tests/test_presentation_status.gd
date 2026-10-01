@@ -63,13 +63,18 @@ func run() -> void:
 	check(visual.frozen and visual.stunned and visual.entangled, "three embodied states coexist")
 	check(visual.visible_status_entries().size() == 1 and visual.visible_status_entries()[0].id == "bleeding", "embodied states are not repeated below figure")
 	check(visual.get_node("ArtRoot/EffectRoot/IceSprite").visible and visual.get_node("ArtRoot/EffectRoot/StunSprite").visible and visual.get_node("ArtRoot/EffectRoot/EntangleSprite").visible, "separate control overlays visible")
-	check(visual._status_hud.z_index > visual.z_index and visual.status_hud_shift != 0.0, "dense group keeps status HUD above tiles and shifts it away from foreground body")
 	var hud_box := visual.status_hud_bounds()
-	hud_box.position += visual.position + visual.get_visual_offset() + Vector2(visual.status_hud_shift, 0)
-	var front := board._presentation_visual(4)
-	var body_box := front.body_pick_rect
-	body_box.position += front.position + front.get_visual_offset()
-	check(not hud_box.intersects(body_box), "dense group icon row does not cover front figure")
+	check(visual._status_hud.z_index == 0, "status HUD stays in local Y-sort so foreground entities can occlude it")
+	check(hud_box.position.y == -21.0 and hud_box.size.y == 21.0 and BattleDemoIsoVisual.STATUS_ICON_SIZE == 16.0 and BattleDemoIsoVisual.STATUS_ICON_GAP == 1.0, "compact status row is fixed above the bars")
+	var hud_origin := visual._status_hud.position
+	board._presentation_motion(0.5, 4, Vector2i(3, 4), Vector2i(2, 3))
+	check(visual.status_hud_bounds() == hud_box and visual._status_hud.position == hud_origin, "neighbor crossing does not shift the anchored status row")
+	visual.selected = true
+	visual.inspected = true
+	visual.queue_redraw()
+	check(visual.status_hud_bounds() == hud_box, "selection and inspection do not move the status row")
+	visual.selected = false
+	visual.inspected = false
 	var details := board.displayed_unit_details(1)
 	check(details.contains("стаки: 2") and details.contains("3 тиков") and details.contains("2 концов хода") and details.contains("до конца ближайшего хода"), "inspection distinguishes stacks ticks elemental expiry and control expiry")
 	check(details.contains("равновесие 4.0/12.0") and details.contains("реакция 1"), "inspection carries balance and action resources")
@@ -79,7 +84,7 @@ func run() -> void:
 	var hud_id := visual._status_hud.get_instance_id()
 	board.zoom_camera(0.75, board.size * 0.5)
 	board.pan_camera(Vector2(20, 12))
-	check(visual._status_hud.get_instance_id() == hud_id and board.displayed_unit_details(1) == details, "zoom and pan transform published HUD without rebuilding or reading mutated input")
+	check(visual._status_hud.get_instance_id() == hud_id and board.displayed_unit_details(1) == details and visual.status_hud_bounds() == hud_box, "zoom and pan transform fixed local HUD without rebuilding or reading mutated input")
 	await capture("dense-states-75")
 	board.zoom_camera(1.0, board.size * 0.5)
 	var art := visual.get_node("ArtRoot") as Node2D
@@ -91,11 +96,13 @@ func run() -> void:
 	await capture("controlled-motion-midpoint")
 	board.show_presentation_state(value)
 	visual = board._presentation_visual(1)
-	visual.status_entries = []
-	for index: int in 8:
+	visual.status_entries = [{"id": "bleeding", "stacks": 2, "embodied": false}]
+	for index: int in 7:
 		visual.status_entries.append({"id": "test-%d" % index, "stacks": 0, "embodied": false})
 	visual.status_entries.append(visual.status_entries[0].duplicate(true))
 	check(visual.visible_status_entries().size() == 5 and visual.status_overflow_count() == 3, "five icons plus distinct overflow ignores duplicate kinds")
+	for neighbor: BattleDemoIsoVisual in board._entity_visuals:
+		if neighbor.unit != null and neighbor != visual: neighbor.visible = false
 	visual.queue_redraw()
 	visual.sync_scene_art()
 	await capture("synthetic-overflow")

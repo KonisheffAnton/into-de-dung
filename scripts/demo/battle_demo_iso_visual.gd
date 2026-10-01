@@ -24,15 +24,14 @@ var frozen: bool = false
 var burning: bool = false
 var stunned: bool = false
 var entangled: bool = false
-const STATUS_ICON_SIZE: float = 20.0
-const STATUS_ICON_GAP: float = 3.0
+const STATUS_ICON_SIZE: float = 16.0
+const STATUS_ICON_GAP: float = 1.0
 const STATUS_ICON_LIMIT: int = 5
 const BLEEDING_ICON: Texture2D = preload("res://assets/placeholder_battle/bleeding_icon.svg")
 const BURNING_ICON: Texture2D = preload("res://assets/placeholder_battle/burning_icon.svg")
 const WET_ICON: Texture2D = preload("res://assets/placeholder_battle/wet_icon.svg")
 var _scene_art_enabled: bool = false
 var _status_hud: Node2D
-var status_hud_shift: float = 0.0
 ## Выпад/отдача сдвигают рисунок, но не опору сортировки, клетку и HUD.
 var action_offset: Vector2 = Vector2.ZERO:
 	set(value):
@@ -60,8 +59,8 @@ func _ready() -> void:
 	if role != Role.UNIT: return
 	_status_hud = Node2D.new()
 	_status_hud.name = "StatusHud"
-	# Строка информации должна читаться поверх следующей опоры; телесные эффекты остаются в Y-sort.
-	_status_hud.z_index = 1
+	# HUD остаётся в локальной сортировке, чтобы передние фигуры и тайлы могли его закрыть.
+	_status_hud.z_index = 0
 	add_child(_status_hud)
 	_status_hud.draw.connect(_draw_status_hud)
 	_sync_status_hud()
@@ -74,17 +73,17 @@ func _sync_status_hud() -> void:
 	_status_hud.queue_redraw()
 
 func _draw_status_hud() -> void:
-	if not is_zero_approx(status_hud_shift):
-		_status_hud.draw_line(Vector2(0, 17), Vector2(status_hud_shift, 40), Color("a5b3c5", 0.7), 1.0)
-	_status_hud.draw_set_transform(Vector2(status_hud_shift, 0))
 	_draw_status_icons(_status_hud)
-	_status_hud.draw_set_transform(Vector2.ZERO)
 
 func status_hud_bounds() -> Rect2:
-	var count := visible_status_entries().size() + (1 if status_overflow_count() > 0 else 0)
-	if count == 0: return Rect2()
-	var width := float(count) * (STATUS_ICON_SIZE + STATUS_ICON_GAP) + 10.0
-	return Rect2(-width * 0.5, 43, width, 22)
+	var entries := visible_status_entries().size()
+	var overflow := status_overflow_count() > 0
+	if entries == 0 and not overflow: return Rect2()
+	var width := maxf(0.0, float(entries - 1) * (STATUS_ICON_SIZE + STATUS_ICON_GAP) + STATUS_ICON_SIZE)
+	if overflow: width += STATUS_ICON_GAP + 26.0
+	# Строка стоит над бронёй, чтобы передняя ровная поверхность не закрывала значки и бейджи.
+	# Подложки стаков выходят за край значка на один пиксель.
+	return Rect2(-width * 0.5 - 1.0, -21, width + 2.0, 21)
 
 func _update_sort_position() -> void:
 	super._update_sort_position()
@@ -340,8 +339,8 @@ func _draw_unit() -> void:
 			draw_line(Vector2(-19 + 38 * expected_ratio, 6), Vector2(-19 + 38 * expected_ratio, 12), Color.WHITE, 1)
 		if not expected_alive: draw_string(ThemeDB.fallback_font, Vector2(-18, 38), "ПОГИБ", HORIZONTAL_ALIGNMENT_CENTER, 36, 8, Color("f29b9b"))
 		if selected or inspected:
-			draw_rect(Rect2(-19, 13, 38, 3), Color("0f1d28"))
-			draw_rect(Rect2(-19, 13, 38 * balance, 3), Color("f7c97d"))
+			draw_rect(Rect2(-19, 13, 38, 1), Color("0f1d28"))
+			draw_rect(Rect2(-19, 13, 38 * balance, 1), Color("f7c97d"))
 		if not armor_values.is_empty():
 			var maximum := maxf(1.0, float(armor_values["maximum"]))
 			var current: float = armor_values["current"]
@@ -359,11 +358,12 @@ func _draw_status_icons(canvas: Node2D) -> void:
 	var count := entries.size() + (1 if overflow > 0 else 0)
 	if count == 0:
 		return
-	var total_width := float(count) * STATUS_ICON_SIZE + float(count - 1) * STATUS_ICON_GAP
+	var total_width := float(entries.size()) * STATUS_ICON_SIZE + float(maxi(0, entries.size() - 1)) * STATUS_ICON_GAP
+	if overflow > 0: total_width += STATUS_ICON_GAP + 26.0
 	var x := -total_width * 0.5
 	for entry: Dictionary in entries:
 		var id := String(entry.get("id", ""))
-		var rect := Rect2(Vector2(x, 43), Vector2(STATUS_ICON_SIZE, STATUS_ICON_SIZE))
+		var rect := Rect2(Vector2(x, -21), Vector2(STATUS_ICON_SIZE, STATUS_ICON_SIZE))
 		var icon := _status_icon(id)
 		if icon != null:
 			canvas.draw_texture_rect(icon, rect, false)
@@ -375,13 +375,13 @@ func _draw_status_icons(canvas: Node2D) -> void:
 		if id in ["bleeding", "burning"] and stacks > 0:
 			var badge := "99+" if stacks > 99 else "×%d" % stacks
 			# Подложка сохраняет читаемость числа и не раздвигает фиксированную ячейку.
-			canvas.draw_rect(Rect2(x - 1, 52, STATUS_ICON_SIZE + 2, 11), Color("101d27", 0.92))
-			canvas.draw_string(ThemeDB.fallback_font, Vector2(x - 1, 61), badge, HORIZONTAL_ALIGNMENT_CENTER, STATUS_ICON_SIZE + 2, 10, Color("fff0ce"))
+			canvas.draw_rect(Rect2(x - 1, -11, STATUS_ICON_SIZE + 2, 10), Color("101d27", 0.92))
+			canvas.draw_string(ThemeDB.fallback_font, Vector2(x - 1, -3), badge, HORIZONTAL_ALIGNMENT_CENTER, STATUS_ICON_SIZE + 2, 9, Color("fff0ce"))
 		x += STATUS_ICON_SIZE + STATUS_ICON_GAP
 	if overflow > 0:
 		var overflow_label := "+99+" if overflow > 99 else "+%d" % overflow
-		canvas.draw_rect(Rect2(x - 2, 45, 31, 16), Color("101d27", 0.92))
-		canvas.draw_string(ThemeDB.fallback_font, Vector2(x - 1, 57), overflow_label, HORIZONTAL_ALIGNMENT_CENTER, 29, 11, Color("d4deea"))
+		canvas.draw_rect(Rect2(x, -21, 26, 21), Color("101d27", 0.92))
+		canvas.draw_string(ThemeDB.fallback_font, Vector2(x, -7), overflow_label, HORIZONTAL_ALIGNMENT_CENTER, 26, 10, Color("d4deea"))
 
 func _status_icon(id: String) -> Texture2D:
 	match id:

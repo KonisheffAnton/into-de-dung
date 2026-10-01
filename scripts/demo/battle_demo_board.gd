@@ -145,7 +145,6 @@ func _set_action_offset(id: int, offset: Vector2) -> void:
 	_action_offsets[id] = offset
 	var visual := _presentation_visual(id)
 	if visual != null: visual.action_offset = offset * grid_config.tile_size.x / 128.0
-	_layout_status_huds()
 
 func _strike_pose(distance: float, event: Dictionary) -> void:
 	_set_action_offset(int(event.actor_unit_id), _strike_direction(event) * distance)
@@ -776,36 +775,6 @@ func _rebuild_visuals() -> void:
 
 func _sort_visuals() -> void:
 	_entity_visuals.sort_custom(func(a: BattleDemoIsoVisual, b: BattleDemoIsoVisual) -> bool: return a.position.y < b.position.y or (a.position.y == b.position.y and a.get_index() < b.get_index()))
-	_layout_status_huds()
-
-func _layout_status_huds() -> void:
-	var occupied: Array[Rect2] = []
-	var factor := grid_config.tile_size.x / 128.0
-	for visual: BattleDemoIsoVisual in _entity_visuals:
-		if visual.unit == null or not visual.unit.alive: continue
-		var local := visual.status_hud_bounds()
-		if not local.has_area(): continue
-		var origin := visual.position + visual.get_visual_offset()
-		for shift: float in [0.0, 40.0, -40.0, 80.0, -80.0, 120.0, -120.0]:
-			var bounds := Rect2(origin + (local.position + Vector2(shift, 0)) * factor, local.size * factor)
-			var blocked := false
-			for other: BattleDemoIsoVisual in _entity_visuals:
-				if other.unit == null or not other.unit.alive or other == visual: continue
-				var body := Rect2(other.position + other.get_visual_offset() + other.action_offset + other.body_pick_rect.position * factor, other.body_pick_rect.size * factor)
-				if bounds.intersects(body):
-					blocked = true
-					break
-			if not blocked:
-				for previous: Rect2 in occupied:
-					if bounds.intersects(previous):
-						blocked = true
-						break
-			# Ограниченный поиск не раздвигает поле; линия сохраняет владельца смещённой строки.
-			if not blocked or shift == -120.0:
-				visual.status_hud_shift = shift
-				visual._sync_status_hud()
-				occupied.append(bounds)
-				break
 
 func _make_visual(cell: Vector2i, steps: int, role: BattleDemoIsoVisual.Role) -> BattleDemoIsoVisual:
 	var visual: BattleDemoIsoVisual
