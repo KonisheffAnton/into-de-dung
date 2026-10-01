@@ -17,6 +17,11 @@ func check(value: bool, label: String) -> void:
 		failed += 1
 		printerr("FAIL HERO HUB UI: " + label)
 
+func has_label_text(root_node: Node, text_value: String) -> bool:
+	for node: Node in root_node.find_children("*", "Label", true, false):
+		if (node as Label).text.contains(text_value): return true
+	return false
+
 func _run() -> void:
 	check(ProjectSettings.get_setting("application/run/main_scene") == "res://scenes/demo/main_menu.tscn", "F5 starts the expedition main menu")
 	demo = (load("res://scenes/demo/hero_hub.tscn") as PackedScene).instantiate()
@@ -87,9 +92,11 @@ func _run() -> void:
 		for enemy_id: int in session.living_ids(Faction.Type.ENEMY):
 			session._submit(DeathCommand.new(enemy_id,DamageSource.new(&"test",0,Vector2i.ZERO)))
 		await process_frame; await process_frame; await process_frame
-		check(demo.run.phase == "hub" and demo.battle_view == null, "terminal outcome autosaves and returns without extra click")
+		check(demo.run.phase == "hub" and demo.battle_view == null and bool(demo.run.battle_report.get("open", false)), "terminal outcome autosaves and opens its summary before the hub")
 		check(HeroHubStore.read_run(path).run.to_dict() == demo.run.to_dict(), "on-disk outcome matches visible roster")
 		await capture("h1-04-result")
+		await press("continue_battle_report")
+		check(not bool(demo.run.battle_report.get("open", true)) and has_label_text(demo, "ДОСТИЖЕНИЯ ·"), "Continue clears the barrier and hub exposes saved achievements")
 	# Аварийный prefix не коммитится; явная кнопка повторяет сохранённый старт.
 	demo._start_battle()
 	await process_frame; await process_frame

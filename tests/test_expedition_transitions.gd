@@ -76,7 +76,7 @@ func _content_restore() -> void:
 	check(HeroHubState.from_dict(raw) == null,"profile refuses different saved content")
 	var path := "user://u14-content-%d.save" % Time.get_ticks_usec()
 	var payload := var_to_bytes(raw)
-	var bytes := var_to_bytes({"format":"hero-hub-v2","payload":payload,"sha256":HeroHubStore._digest(payload)})
+	var bytes := var_to_bytes({"format":"hero-hub-v3","payload":payload,"sha256":HeroHubStore._digest(payload)})
 	var file := FileAccess.open(path,FileAccess.WRITE); file.store_buffer(bytes); file.close()
 	var restored := HeroHubStore.read_run(path)
 	check(restored.run == null and restored.error.contains("каталога"),"store returns explicit content refusal")
@@ -157,7 +157,7 @@ func _migration() -> void:
 	for battle: bool in [false,true]:
 		if battle: legacy.start_battle()
 		var data := legacy.to_dict(); data.schema = 1
-		for key: String in ["essence","expedition_rng_state","expedition"]: data.erase(key)
+		for key: String in ["essence","expedition_rng_state","expedition","achievements","battle_report"]: data.erase(key)
 		var migrated := HeroHubState.from_dict(data)
 		check(migrated != null and migrated.phase == legacy.phase and migrated.expedition == null and migrated.essence == 0 and migrated.rng_state == legacy.rng_state,"schema1 hub/battle migration preserves checkpoint")
 		var path := "user://u14-migration-%d.save" % Time.get_ticks_usec()
@@ -166,5 +166,5 @@ func _migration() -> void:
 		file.store_buffer(var_to_bytes({"format":"hero-hub-v1","payload":payload,"sha256":HeroHubStore._digest(payload)})); file.close()
 		var loaded := HeroHubStore.read_run(path)
 		check(loaded.get("migrated",false) and loaded.run != null,"store reads legacy")
-		check(HeroHubStore.write_run(path,loaded.run).is_empty() and not HeroHubStore.read_run(path).get("migrated",true),"store persists v2")
+		check(HeroHubStore.write_run(path,loaded.run).is_empty() and not HeroHubStore.read_run(path).get("migrated",true),"store persists v3")
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(path))

@@ -232,7 +232,7 @@ def main():
         if args.render_check:
             hero_ui_args += ["--", "--captures=" + str(out / "captures")]
         run("hero_hub_ui", hero_ui_args, headless=not args.render_check)
-        for label in ("expedition_generator", "expedition_transitions", "battle_artifact_snapshot", "expedition_artifacts", "expedition_playthrough"):
+        for label in ("expedition_generator", "expedition_transitions", "expedition_postbattle", "battle_artifact_snapshot", "expedition_artifacts", "expedition_playthrough"):
             run(label, ["--script", "tests/test_" + label + ".gd"])
         expedition_ui_args = ["--script", "tests/test_expedition_ui.gd"]
         if args.render_check:

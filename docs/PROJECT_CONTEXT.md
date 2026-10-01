@@ -10,7 +10,7 @@
 | Готовность ядра / следующий срез | [CORE_READINESS](CORE_READINESS.md) / §7 [DESIGN_DIRECTION](DESIGN_DIRECTION.md) |
 | Делегирование / ведение контекста | [CODEX_WORKFLOW](CODEX_WORKFLOW.md) |
 | Запуск / автоматические проверки | [REPOSITORY_STATE](REPOSITORY_STATE.md) / [TESTING](TESTING.md) |
-| Хаб / герои | [H1](HERO_HUB_H1.md) |
+| Хаб / итоги / достижения | [H1](HERO_HUB_H1.md) / [Итоги](POST_BATTLE_V1.md) |
 | Боевой пакет / расстановка / плейтест | [CORE_BATTLE_BATCH_K9](CORE_BATTLE_BATCH_K9.md) |
 | Перки: скрытая атака, Оппортунист/Прикрытие | [CORE_REACTIONS_K10](CORE_REACTIONS_K10.md) |
 | Контратака / общий заряд | [COUNTERATTACK_K12](COUNTERATTACK_K12.md) |
@@ -39,9 +39,9 @@
 | Будущий дизайн / кандидаты модульности | [TACTICAL_DESIGN_NEXT](TACTICAL_DESIGN_NEXT.md) / [MODULARITY_PLAN](MODULARITY_PLAN.md) |
 | Свидетельства прошлых этапов, архивы | [HISTORY](HISTORY.md) |
 
-Указание пользователя задаёт изменение, но не доказывает реализацию.
+Поручение не доказывает реализацию.
 Факты сверять с кодом и контрактом; проверки имеют дату и commit.
-При расхождении описать его до зависимой работы. План, принятое решение,
+Расхождение описать до зависимой работы. План, принятое решение,
 реализация, техническая проверка и пользовательская приёмка — разные статусы.
 Frozen Pxx описывают свои этапы; не переписывать их под новое поведение.
 Изменения — в контрактах механизмов. *.history-*.md и docs/modules/

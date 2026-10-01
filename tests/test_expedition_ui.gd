@@ -16,6 +16,11 @@ func check(ok: bool, label: String) -> void:
 	if ok: passed += 1
 	else: failed += 1; printerr("FAIL EXPEDITION UI: " + label)
 
+func has_label_text(root_node: Node, text_value: String) -> bool:
+	for node: Node in root_node.find_children("*", "Label", true, false):
+		if (node as Label).text.contains(text_value): return true
+	return false
+
 func _run() -> void:
 	path = "user://u14-ui-%d.save" % Time.get_ticks_usec()
 	viewport = SubViewport.new(); viewport.size = Vector2i(1280,850); viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
@@ -42,6 +47,16 @@ func _run() -> void:
 	check(button != null and not button.disabled and button.text.contains("3 дозорных") and button.tooltip_text.contains("HP 24") and button.tooltip_text.contains("Клетки:"),"nearest exact encounter disclosed")
 	(hub.find_child("HeroHubScroll",true,false) as ScrollContainer).scroll_vertical = 0
 	await capture("u14-02-map")
+	var battle_setup := hub._copy_run()
+	var repair_hero_id: int = hub.run.party[0]
+	var damaged_armor := battle_setup.equipped(repair_hero_id,"armor")
+	var armor_definition := HeroGearCatalog.definition(damaged_armor.definition)
+	battle_setup.items[damaged_armor.id].remaining = armor_definition.armor_max - 3
+	hub._commit(battle_setup)
+	var armor_fixture_valid := hub.run != null and hub.run.expedition != null and hub._pending_save == null and hub._storage_error.is_empty() and int(hub.run.items[damaged_armor.id].remaining) == armor_definition.armor_max - 3 and hub.run.expedition.gold == 0
+	check(armor_fixture_valid,"damaged armor fixture preserves the earned expedition-gold ledger")
+	if not armor_fixture_valid:
+		quit(1); return
 	var before := hub.run.to_dict()
 	hub.save_path = path + "/cannot-write"
 	await press("room_%d" % available)
@@ -56,11 +71,26 @@ func _run() -> void:
 	await capture("u14-03-deployment")
 	# Только fixture для проверки UI исхода; полный поход без DeathCommand покрыт playthrough runner.
 	await terminal_fixture()
-	check(hub.run.expedition.phase == "reward" and hub.battle_view == null,"real queue terminal hands off to reward panel")
+	check(hub.run.expedition.phase == "reward" and hub.battle_view == null and bool(hub.run.battle_report.get("open", false)),"real queue terminal hands off to saved report and reward panel")
 	(hub.find_child("HeroHubScroll",true,false) as ScrollContainer).scroll_vertical = 0
 	await capture("u14-04-reward")
+	var repair_button := hub.find_child("repair_%d" % repair_hero_id,true,false) as Button
+	check(repair_button != null and not repair_button.disabled,"damaged participating hero has an affordable repair quote")
+	var repair_hero: HeroProgression = hub.run.heroes[repair_hero_id]
+	var quote_text := "%s: %d→%d" % [repair_hero.name, armor_definition.armor_max - 3, armor_definition.armor_max]
+	var wallet_label := hub.find_child("HubWallet",true,false) as Label
+	check(repair_button != null and repair_button.text.contains(quote_text) and wallet_label != null and wallet_label.text.contains("Золото похода: %d" % hub.run.expedition.gold),"repair preview names the hero and shows before/after alongside available run gold")
+	var gold_before_repair: int = hub.run.expedition.gold
+	await press("repair_%d" % repair_hero_id)
+	check(hub.run.expedition.gold == gold_before_repair - 6 and hub.run.battle_report.repairs.size() == 1 and int(hub.run.items[damaged_armor.id].remaining) == armor_definition.armor_max,"repair applies quoted amount and saves run gold and report receipt")
+	check(HeroHubStore.read_run(path).run.to_dict() == hub.run.to_dict(),"paid repair and its report row are persisted together")
+	var continue_during_reward := hub.find_child("continue_battle_report",true,false) as Button
+	check(continue_during_reward != null and continue_during_reward.disabled,"report cannot continue while artifact reward is pending")
 	await press("reward_0")
 	check(hub.run.expedition.phase == "route" and hub.run.expedition.artifacts.size() == 1,"reward real click")
+	check(bool(hub.run.battle_report.get("open", false)),"reward selection stays on the report until Continue")
+	await capture("u14-04b-post-battle-ledger")
+	await press("continue_battle_report")
 	await press("artifact_1_slot_1")
 	check(hub.run.expedition.artifact(1).hero_id == hub.selected_hero_id,"equip artifact real click")
 	await capture("u14-05-inventory")
@@ -70,14 +100,19 @@ func _run() -> void:
 		if hub.run.expedition.current_node().get("kind") == "camp": break
 		match hub.run.expedition.phase:
 			"route": await press("room_%d" % hub.run.expedition.available_nodes()[0])
-			"battle": await terminal_fixture()
-			"reward": await press("reward_0")
+			"battle":
+				await terminal_fixture()
+				await settle_report()
+			"reward":
+				await press("reward_0")
+				await settle_report()
 			"service": await press("service_heal")
 	check(hub.run.expedition.phase == "service" and hub.run.expedition.current_node().kind == "camp","arrives safe camp")
 	await press("service_heal")
 	check(hub.run.expedition.phase == "camp_departure","service before camp choice")
 	await press("camp_leave")
 	check(hub.run.phase == "hub" and hub.run.gold > 100 and hub.run.essence >= 20,"exit through input banks loot")
+	check(hub.run.achievements.total_points > 0 and hub.run.achievements.available_points == hub.run.achievements.total_points and has_label_text(hub,"ДОСТИЖЕНИЯ ·"),"completed profile displays persistent achievement progress and points")
 	(hub.find_child("HeroHubScroll",true,false) as ScrollContainer).scroll_vertical = 0
 	await capture("u14-06-result")
 	await process_frame; await process_frame
@@ -103,6 +138,11 @@ func terminal_fixture() -> void:
 	for id: int in session.living_ids(Faction.Type.ENEMY): session._submit(DeathCommand.new(id,DamageSource.new(&"test",0,Vector2i.ZERO)))
 	hub._process(0.0)
 	await process_frame; await process_frame
+
+func settle_report() -> void:
+	if not bool(hub.run.battle_report.get("open", false)): return
+	if hub.run.phase == "expedition" and hub.run.expedition.phase == "reward": await press("reward_0")
+	if bool(hub.run.battle_report.get("open", false)): await press("continue_battle_report")
 
 func press(key: String) -> void:
 	await process_frame; await process_frame

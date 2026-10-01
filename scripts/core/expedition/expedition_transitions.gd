@@ -20,6 +20,7 @@ static func _apply(hub: HeroHubState, action: String, args: Dictionary) -> Strin
 	if action == "start":
 		if not args.is_empty() or hub.phase != "hub" or hub.party.is_empty() or hub.run_serial >= ExpeditionRunState.MAX_VALUE: return "expedition/cannot_start"
 		hub.run_serial += 1
+		if not hub.battle_report.is_empty(): hub.battle_report.open = false
 		var run := ExpeditionRunState.new()
 		run.run_id = hub.run_serial
 		var rng := RandomNumberGenerator.new(); rng.state = hub.expedition_rng_state
@@ -36,6 +37,7 @@ static func _apply(hub: HeroHubState, action: String, args: Dictionary) -> Strin
 	if action == "outcome": return _outcome(hub,args)
 	if action == "choose":
 		if not _ints(args,["node"]) or run.phase != "route" or not run.available_nodes().has(args.node): return "expedition/node_unavailable"
+		if not hub.battle_report.is_empty(): hub.battle_report.open = false
 		run.route.append(args.node)
 		var node := run.current_node()
 		if node.kind in ["battle","elite","final"]:
@@ -69,6 +71,9 @@ static func _apply(hub: HeroHubState, action: String, args: Dictionary) -> Strin
 	if action == "reward":
 		if run.phase != "reward" or not _ints(args,["index"]) or args.index < 0 or args.index > 2: return "expedition/reward_unavailable"
 		run.artifacts.append({"id":run.next_artifact_id,"definition":String(run.current_node().reward[args.index]),"stacks":1,"hero_id":0,"slot":0})
+		if not hub.battle_report.is_empty() and hub.battle_report.open:
+			hub.battle_report.artifact_selected = String(run.current_node().reward[args.index])
+			hub.battle_report.items.append(ExpeditionCatalog.artifact_name(hub.battle_report.artifact_selected))
 		run.next_artifact_id += 1; _resolve(run)
 		return ""
 	if run.phase != "route": return "expedition/map_required"
@@ -131,6 +136,9 @@ static func _outcome(hub: HeroHubState, receipt: Dictionary) -> String:
 	for id: Variant in receipt.gear:
 		if typeof(id) != TYPE_INT or not expected_gear.has(id) or typeof(receipt.gear[id]) != TYPE_INT: return "expedition/invalid_gear"
 		if receipt.gear[id] < 0 or receipt.gear[id] > HeroGearCatalog.definition(hub.items[id].definition).armor_max: return "expedition/invalid_gear"
+	var report := PostBattleRules.begin(hub,"expedition",run.current_node().id,run.battle_serial,ExpeditionCatalog.room_name(run.current_node().kind),receipt.victory,receipt.victory and run.current_node().kind == "final")
+	if not receipt.victory:
+		for id: int in run.ordinary_item_ids: report.lost_items.append(String(HeroGearCatalog.definition(hub.items[id].definition).display_name))
 	var deployed: Array[int] = hub.party.duplicate()
 	var dead: Array[int] = []
 	for id: int in deployed:
@@ -140,17 +148,23 @@ static func _outcome(hub: HeroHubState, receipt: Dictionary) -> String:
 	for id: int in receipt.gear:
 		var item: Dictionary = hub.items[id]
 		item.remaining = receipt.gear[id]
-		if receipt.victory and dead.has(item.hero_id): item.hero_id = 0; run.ordinary_item_ids.erase(id)
+		if receipt.victory and dead.has(item.hero_id):
+			report.items.append(String(HeroGearCatalog.definition(item.definition).display_name) + " · на склад")
+			item.hero_id = 0; run.ordinary_item_ids.erase(id)
 	for item: Dictionary in run.artifacts:
 		if dead.has(item.hero_id): item.hero_id = 0; item.slot = 0
 	for id: int in dead: hub.party.erase(id); hub.heroes.erase(id)
 	run.checkpoint.clear()
-	if not receipt.victory: return _finish(hub,true,false)
+	if not receipt.victory:
+		PostBattleRules.finish(hub,report,receipt.hp)
+		return _finish(hub,true,false)
 	var room := ExpeditionCatalog.room(run.current_node().kind)
 	if run.gold > ExpeditionRunState.MAX_VALUE - room.gold: return "expedition/overflow"
 	run.gold += room.gold
+	report.gold_awarded = room.gold
 	for id: int in hub.heroes:
 		if not (hub.heroes[id] as HeroProgression).award_experience_tenths(room.xp * (10 if deployed.has(id) else 1)): return "expedition/overflow"
+	PostBattleRules.finish(hub,report,receipt.hp)
 	if run.current_node().kind == "final": _resolve(run); return _finish(hub,false,true)
 	run.phase = "reward"
 	return ""
@@ -165,6 +179,11 @@ static func _finish(hub: HeroHubState, defeat: bool, completed: bool) -> String:
 	if defeat:
 		for id: int in run.ordinary_item_ids: hub.items.erase(id)
 	hub.gold += gold; hub.essence += essence
+	if not hub.battle_report.is_empty() and hub.battle_report.open:
+		hub.battle_report.gold_scope = "hub"
+		hub.battle_report.gold_lost = run.gold if defeat else 0
+		hub.battle_report.essence_awarded = essence
+		if completed: hub.battle_report.gold_awarded += ExpeditionCatalog.FINAL_GOLD
 	hub.last_result = "%s · комнат %d. Золото +%d, эссенция +%d. %s\nОпыт прошлых побед сохранён; артефакты %s." % ["Поражение" if defeat else ("Поход завершён" if completed else "Досрочное возвращение"),run.route.size(),gold,essence,"Погибли: " + ", ".join(run.fallen) if not run.fallen.is_empty() else "Все герои вернулись.","потеряны" if defeat else "переработаны"]
 	hub.expedition = null; hub.phase = "hub"; hub._refresh_candidates()
 	return ""

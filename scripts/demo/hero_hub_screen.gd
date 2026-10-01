@@ -188,7 +188,10 @@ func _render() -> void:
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(title)
 	if run != null:
-		var gold_label := _label("Золото: %d · Эссенция: %d" % [run.gold, run.essence], 21)
+		var wallet_text := "Золото: %d" % run.gold
+		if run.phase == "expedition" and run.expedition != null:
+			wallet_text = "Золото похода: %d · В хабе: %d" % [run.expedition.gold, run.gold]
+		var gold_label := _label("%s · Эссенция: %d · Очки: %d (%d доступно)" % [wallet_text, run.essence, run.achievements.total_points, run.achievements.available_points], 18)
 		gold_label.name = "HubWallet"
 		gold_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 		gold_label.size_flags_horizontal = Control.SIZE_SHRINK_END
@@ -211,6 +214,9 @@ func _render() -> void:
 	if run == null:
 		_text("Профиль не загружен. Сохранение не изменено.")
 		return
+	if run.battle_report.get("open", false):
+		PostBattlePanel.render(self)
+		return
 	if run.phase != "expedition": _text(run.last_result, 18)
 	if run.phase == "battle":
 		_begin_battle()
@@ -224,6 +230,7 @@ func _render() -> void:
 
 func _hub_content() -> void:
 	_text("ОТРЯД · выберите до трёх героев. HP восстанавливается при выходе из хаба.", 20)
+	_achievement_content()
 	var party_row := HFlowContainer.new()
 	_content.add_child(party_row)
 	for id: int in run.heroes:
@@ -272,6 +279,16 @@ func _hub_content() -> void:
 	send.disabled = run.party.is_empty() or _pending_save != null
 	footer.add_child(send)
 	footer.add_child(_label("Выбранных героев и их экипировку можно менять в хабе.", 14))
+
+func _achievement_content() -> void:
+	var achievements := run.achievements
+	_text("ДОСТИЖЕНИЯ · заработано %d очков · доступно %d" % [achievements.total_points, achievements.available_points], 19)
+	_text("Очки сохраняются для будущих открытий мага.", 14)
+	for definition: ProfileAchievementDefinition in ProfileAchievements.definitions():
+		var count := achievements.count_for(definition.id)
+		var unlocked := achievements.unlocked.has(String(definition.id))
+		_text("%s · %s · %d/%d · %d очков" % ["✓" if unlocked else "○", definition.title, count, definition.goal, definition.points], 14)
+		_text(definition.description, 12)
 
 func _hero_detail(hero: HeroProgression) -> String:
 	var definition := HeroCatalog.class_definition(hero.class_id)

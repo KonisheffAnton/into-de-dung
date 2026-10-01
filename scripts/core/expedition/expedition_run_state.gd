@@ -11,6 +11,7 @@ var ordinary_item_ids: Array[int] = []
 var battle_serial: int = 0
 var checkpoint: Dictionary = {}
 var gold: int = 0
+var repair_spent: int = 0
 var artifacts: Array[Dictionary] = []
 var next_artifact_id: int = 1
 var fallen: Array[String] = []
@@ -31,14 +32,17 @@ func artifact(id: int) -> Dictionary:
 	return {}
 
 func to_dict() -> Dictionary:
-	return {"schema":1,"run_id":run_id,"plan":plan.duplicate(true),"phase":phase,
+	return {"schema":2,"run_id":run_id,"plan":plan.duplicate(true),"phase":phase,
 		"route":route.duplicate(),"resolved":resolved.duplicate(),"ordinary_item_ids":ordinary_item_ids.duplicate(),
-		"battle_serial":battle_serial,"checkpoint":checkpoint.duplicate(true),"gold":gold,
+		"battle_serial":battle_serial,"checkpoint":checkpoint.duplicate(true),"gold":gold,"repair_spent":repair_spent,
 		"artifacts":artifacts.duplicate(true),"next_artifact_id":next_artifact_id,"fallen":fallen.duplicate()}
 
 static func from_dict(data: Variant) -> ExpeditionRunState:
-	if not ItemSimulationSnapshot._shape(data, {"schema":TYPE_INT,"run_id":TYPE_INT,"plan":TYPE_DICTIONARY,"phase":TYPE_STRING,"route":TYPE_ARRAY,"resolved":TYPE_ARRAY,"ordinary_item_ids":TYPE_ARRAY,"battle_serial":TYPE_INT,"checkpoint":TYPE_DICTIONARY,"gold":TYPE_INT,"artifacts":TYPE_ARRAY,"next_artifact_id":TYPE_INT,"fallen":TYPE_ARRAY}): return null
-	if data.schema != 1 or data.run_id < 1 or data.run_id > MAX_VALUE or not ExpeditionGenerator.valid(data.plan): return null
+	if not data is Dictionary or typeof(data.get("schema")) != TYPE_INT or data.schema not in [1,2]: return null
+	var shape := {"schema":TYPE_INT,"run_id":TYPE_INT,"plan":TYPE_DICTIONARY,"phase":TYPE_STRING,"route":TYPE_ARRAY,"resolved":TYPE_ARRAY,"ordinary_item_ids":TYPE_ARRAY,"battle_serial":TYPE_INT,"checkpoint":TYPE_DICTIONARY,"gold":TYPE_INT,"artifacts":TYPE_ARRAY,"next_artifact_id":TYPE_INT,"fallen":TYPE_ARRAY}
+	if data.schema == 2: shape.repair_spent = TYPE_INT
+	if not ItemSimulationSnapshot._shape(data,shape): return null
+	if data.run_id < 1 or data.run_id > MAX_VALUE or not ExpeditionGenerator.valid(data.plan): return null
 	if data.phase not in ["route","battle","reward","service","camp_departure"] or data.gold < 0 or data.gold > MAX_VALUE: return null
 	if data.battle_serial < 0 or data.battle_serial > 6 or data.next_artifact_id < 1 or data.next_artifact_id > 6: return null
 	if data.route.size() > 7 or data.ordinary_item_ids.size() > HeroHubState.MAX_PARTY * 2 or data.artifacts.size() > 5 or data.fallen.size() > HeroHubState.MAX_PARTY: return null
@@ -75,7 +79,9 @@ static func from_dict(data: Variant) -> ExpeditionRunState:
 		if result.resolved.has(id) or (id == result.route.back() and result.phase == "reward"):
 			if node.kind == "cache": expected_gold += ExpeditionCatalog.RICH_CACHE_GOLD if node.modifier == "rich" else ExpeditionCatalog.CACHE_GOLD
 			else: expected_gold += ExpeditionCatalog.room(node.kind).gold
-	if data.gold != expected_gold: return null
+	var spent := int(data.get("repair_spent",0))
+	if spent < 0 or spent > expected_gold or data.gold != expected_gold - spent: return null
+	result.repair_spent = spent
 	for id: Variant in data.ordinary_item_ids:
 		if typeof(id) != TYPE_INT or id < 1 or id >= MAX_VALUE or result.ordinary_item_ids.has(id): return null
 		result.ordinary_item_ids.append(id)
