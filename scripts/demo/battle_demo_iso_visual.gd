@@ -16,6 +16,7 @@ var show_rear: bool = false
 var status_text: String = ""
 var transient_label: String = ""
 var transient_tint := Color("f7c97d")
+@export var body_pick_rect: Rect2 = Rect2(-17, -37, 34, 44)
 ## Демонстрационные состояния выбираются доской; сцена только отображает слои.
 var frozen: bool = false
 var burning: bool = false
@@ -130,7 +131,7 @@ func surface_polygons() -> Array[PackedVector2Array]:
 		if unit != null and not unit.alive: return []
 		var factor := grid_config.tile_size.x / 128.0
 		var offset := get_visual_offset()
-		return [PackedVector2Array([offset + Vector2(-17, 7) * factor, offset + Vector2(-17, -37) * factor, offset + Vector2(17, -37) * factor, offset + Vector2(17, 7) * factor])]
+		return [PackedVector2Array([offset + body_pick_rect.position * factor, offset + Vector2(body_pick_rect.end.x, body_pick_rect.position.y) * factor, offset + body_pick_rect.end * factor, offset + Vector2(body_pick_rect.position.x, body_pick_rect.end.y) * factor])]
 	var top := top_polygon()
 	if is_void: return [top]
 	var bottom := Vector2(0, grid_config.height_step * 0.55 + 0.5)

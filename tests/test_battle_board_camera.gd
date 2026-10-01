@@ -39,7 +39,7 @@ func _test_zoom_clamps_and_anchor() -> void:
 	var anchor: Vector2 = Vector2(120.0, 75.0)
 	var world_anchor: Vector2 = camera.view_to_world(anchor)
 	camera.zoom_at(0.1, anchor)
-	check(is_equal_approx(camera.zoom, 0.5), "zoom clamps to minimum")
+	check(is_equal_approx(camera.zoom, 0.75), "zoom clamps to minimum")
 	check(camera.world_to_view(world_anchor).is_equal_approx(anchor), "minimum zoom preserves cursor world point")
 	camera.zoom_at(9.0, anchor)
 	check(is_equal_approx(camera.zoom, 2.5), "zoom clamps to maximum")

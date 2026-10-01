@@ -110,10 +110,24 @@ func _run() -> void:
 	wet_button = await _button_for(&"elemental_wet")
 	await _click(wet_button.global_position + wet_button.size * 0.5)
 	_check(session.elemental_selected == &"wet", "mouse re-enters target mode")
+	# Первый свободный fixture часто занимает (0, 0); камера должна поместить его внутрь обрезаемой доски.
+	var board := demo.board_view
+	board.zoom_camera(0.75, board.size * 0.5)
+	var target_point := board.cell_center(target.cell)
+	_check(Rect2(Vector2.ZERO, board.size).has_point(target_point), "status fixture target point is inside board bounds")
+	_check(board.cell_at(target_point) == target.cell, "status fixture target point resolves to intended cell")
 	await _motion(_at(target.cell))
 	await preload("res://tests/fixtures/action_forecast_wait.gd").settle(self, demo)
-	_check(demo._elemental_forecast != null and demo._forecast_panel.text.contains("мокрый"), "hover produces before and after status preview")
-	_check(demo._elemental_forecast != null and demo._forecast_panel.text.contains("Кровотечение"), "preview includes stacked bleeding state")
+	if demo._elemental_forecast == null:
+		_check(false, "hover produces before and after status preview")
+		_check(false, "preview includes stacked bleeding state")
+		demo.queue_free(); await process_frame
+		viewport.queue_free(); await process_frame
+		print("STATUS EFFECTS UI RESULTS: %d passed, %d failed" % [passed, failed])
+		quit(1)
+		return
+	_check(demo._forecast_panel.text.contains("мокрый"), "hover produces before and after status preview")
+	_check(demo._forecast_panel.text.contains("Кровотечение"), "preview includes stacked bleeding state")
 	var expected_elemental: Dictionary = demo._elemental_forecast.units_after[target.id]["elemental"].duplicate(true)
 	var expected_bleeding: Dictionary = demo._elemental_forecast.units_after[target.id]["bleeding"].duplicate(true)
 	await _capture("status-effects-forecast")

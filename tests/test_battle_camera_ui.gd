@@ -40,7 +40,7 @@ func _run() -> void:
 	if not captures.is_empty():
 		DirAccess.make_dir_recursive_absolute(captures)
 	viewport = SubViewport.new()
-	viewport.size = Vector2i(1440, 950)
+	viewport.size = Vector2i(1280, 850)
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport)
 	demo = (load("res://scenes/demo/core_reactions_battle.tscn") as PackedScene).instantiate() as BattleDemo
@@ -51,7 +51,7 @@ func _run() -> void:
 	viewport.notify_mouse_entered()
 	await process_frame
 	await process_frame
-	_test_initial_state()
+	await _test_initial_state()
 	await _test_viewport_zoom_pan_and_buttons()
 	await _test_forecast_wheel_and_cancel()
 	await _test_execution_motion()
@@ -66,12 +66,22 @@ func _test_initial_state() -> void:
 	check(demo.core_reactions_mode and board.camera_controls_enabled, "H1 enables camera controls")
 	check(board.get_node_or_null("CameraControls") != null, "screen camera controls are present")
 	check(board._camera_reset.tooltip_text.contains("ПКМ — сдвиг карты"), "camera tooltip documents right-button pan")
+	check(board._camera_reset.tooltip_text.contains("100%") and not board._camera_reset.tooltip_text.contains("Общий вид"), "camera tooltip describes base size")
 	check(is_equal_approx(board.camera_view.zoom, 1.0) and board.camera_view.offset == Vector2.ZERO, "initial camera is centered at 100 percent")
+	check(board.grid_config.tile_size == Vector2(128, 64) and board.grid_config.height_step == 32.0, "main H1 uses 128x64 tiles and 32 height step at 100 percent")
+	await capture("main-100")
 	demo._hover(Vector2i(-1, -1))
 	check(demo._hint.text.contains("ПКМ — сдвиг карты") and demo._hint.text.contains("Esc или M"), "main hint describes right-button pan and keyboard cancel")
 	var center := board.cell_center(demo.session.selected_unit().cell)
 	check(board.cell_at(center) == demo.session.selected_unit().cell, "initial screen cell center picks same cell")
 	check(board.displayed_unit_at(center + Vector2(0, -12)) == demo.session.selected_id, "initial unit picking uses view coordinates")
+	var head := board.world_to_view(board._world_cell_center(demo.session.selected_unit().cell) + Vector2(0, -55))
+	check(board.displayed_unit_at(head) == demo.session.selected_id, "100 percent picking covers placeholder head")
+	var saved_size := board.size
+	board.size = Vector2(540, board.size.y)
+	check(board.grid_config.tile_size == Vector2(128, 64) and board.grid_config.height_step == 32.0, "narrow camera field keeps base tile geometry")
+	board.size = saved_size
+	await process_frame
 
 func _test_viewport_zoom_pan_and_buttons() -> void:
 	var board := demo.board_view
@@ -91,6 +101,10 @@ func _test_viewport_zoom_pan_and_buttons() -> void:
 	check(board.displayed_unit_at(board.cell_center(cell) + Vector2(0, -12)) == actor.id, "unit picking follows zoom transform")
 	check(demo._move_button.get_global_rect().size == toolbar_rect.size and demo._action_bar.get_global_rect().size == actionbar_rect.size, "camera zoom does not resize toolbar or action bar")
 	check(snapshot(demo.session as BattleCoreReactionsSession) == before_camera_input, "real camera input leaves snapshot RNG and counters unchanged")
+	# Основные сцены проверяются в исходном рабочем размере после новых узких кадров.
+	viewport.size = Vector2i(1440, 950)
+	await process_frame
+	await process_frame
 	var layers: Array[Node2D] = [board._tiles, board._entities, board._ghosts, board._impacts, board._numbers, board._overlay]
 	for layer: Node2D in layers:
 		check(layer.transform.is_equal_approx(board.camera_view.get_transform()), "all six visual layers share camera transform " + layer.name)
@@ -115,6 +129,8 @@ func _test_viewport_zoom_pan_and_buttons() -> void:
 	_push_wheel(zoom_anchor, MOUSE_BUTTON_WHEEL_DOWN, 1.0)
 	check(is_equal_approx(board.camera_view.zoom, zoom_before_zoom_out / 1.1), "wheel zooms out after pan")
 	check(board.world_to_view(world_before_zoom_out).is_equal_approx(anchor_local), "zoom-out after pan preserves cursor anchor")
+	var head_after_pan := board.world_to_view(board._world_cell_center(cell) + Vector2(0, -55))
+	check(board.displayed_unit_at(head_after_pan) == actor.id, "picking covers placeholder head after pan")
 	expected_zoom /= 1.1
 	var release := InputEventMouseButton.new()
 	release.button_index = MOUSE_BUTTON_RIGHT
@@ -147,6 +163,19 @@ func _test_viewport_zoom_pan_and_buttons() -> void:
 	await _click_control(reset)
 	check(is_equal_approx(board.camera_view.zoom, 1.0) and board.camera_view.offset == Vector2.ZERO, "reset button restores camera")
 	check(reset.text == "100%", "reset button shows current zoom percentage")
+	viewport.size = Vector2i(1280, 850)
+	await process_frame
+	await process_frame
+	board.reset_camera()
+	_push_wheel(board.global_position + Vector2(240, 180), MOUSE_BUTTON_WHEEL_DOWN, 100.0)
+	check(is_equal_approx(board.camera_view.zoom, 0.75) and board._camera_reset.text == "75%", "real wheel clamps at 75 percent and updates label")
+	var head_at_minimum := board.world_to_view(board._world_cell_center(actor.cell) + Vector2(0, -55))
+	check(board.displayed_unit_at(head_at_minimum) == actor.id, "75 percent picking covers placeholder head")
+	await capture("main-75")
+	board.reset_camera()
+	viewport.size = Vector2i(1440, 950)
+	await process_frame
+	await process_frame
 
 func _push_wheel(position: Vector2, button_index: MouseButton, factor: float, ctrl: bool = false) -> void:
 	var event := InputEventMouseButton.new()
@@ -339,6 +368,7 @@ func _test_board_reset() -> void:
 	demo.reset_demo()
 	await process_frame
 	check(is_equal_approx(board.camera_view.zoom, 1.0) and board.camera_view.offset == Vector2.ZERO, "new battle resets camera")
+	check(board.grid_config.tile_size == Vector2(128, 64) and board.grid_config.height_step == 32.0, "new battle reset retains camera base geometry")
 
 func _test_hub_view() -> void:
 	demo.queue_free()
@@ -351,8 +381,19 @@ func _test_hub_view() -> void:
 	hub.set_process(false)
 	await process_frame
 	check(hub.board_view.camera_controls_enabled and hub.board_view.get_node_or_null("CameraControls") != null, "hero hub battle enables camera")
+	check(hub.board_view.grid_config.tile_size == Vector2(128, 64) and hub.board_view.grid_config.height_step == 32.0, "hero hub H1 uses base tile geometry at 100 percent")
+	viewport.size = Vector2i(1280, 850)
+	await process_frame
+	await process_frame
+	await capture("hub-100")
 	_push_wheel(hub.board_view.global_position + hub.board_view.size * 0.5, MOUSE_BUTTON_WHEEL_UP, 3.0)
 	check(is_equal_approx(hub.board_view.camera_view.zoom, pow(1.1, 3.0)), "viewport wheel zooms hero hub battlefield")
+	hub.board_view.zoom_camera(0.75, hub.board_view.size * 0.5)
+	check(is_equal_approx(hub.board_view.camera_view.zoom, 0.75), "hero hub H1 supports 75 percent zoom")
+	await capture("hub-75")
+	viewport.size = Vector2i(1440, 950)
+	await process_frame
+	await process_frame
 	await capture("hub-battle")
 	hub.queue_free()
 	await process_frame
@@ -364,6 +405,8 @@ func _test_legacy_cancel() -> void:
 	await process_frame
 	var calls: Array[int] = [0]
 	board.cancel_requested.connect(func() -> void: calls[0] += 1)
+	var legacy_factor := maxf(0.1, minf((board.size.x - 64) / 1024.0, (board.size.y - 108) / 544.0))
+	check(board.grid_config.tile_size == Vector2(128, 64) * legacy_factor and board.grid_config.height_step == 32.0 * legacy_factor, "camera-disabled field keeps legacy auto-fit geometry")
 	await _right_click(board.global_position + Vector2(300, 300))
 	check(not board.camera_controls_enabled and calls[0] == 1, "camera-disabled field keeps legacy right-click cancel")
 	board.queue_free()

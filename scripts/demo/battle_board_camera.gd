@@ -1,7 +1,7 @@
 class_name BattleBoardCamera
 extends RefCounted
 
-const MIN_ZOOM: float = 0.5
+const MIN_ZOOM: float = 0.75
 const MAX_ZOOM: float = 2.5
 
 var zoom: float = 1.0

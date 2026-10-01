@@ -7,12 +7,13 @@
 [node name="PlaceholderUnit" type="Node2D"]
 script = ExtResource("1_script")
 role = 3
+body_pick_rect = Rect2(-25, -60, 50, 68)
 
 [node name="ArtRoot" type="Node2D" parent="."]
 
 [node name="BodySprite" type="Sprite2D" parent="ArtRoot"]
-position = Vector2(0, -15)
-scale = Vector2(0.5, 0.5)
+position = Vector2(0, -26)
+scale = Vector2(0.75, 0.75)
 texture = ExtResource("2_unit")
 
 [node name="EffectRoot" type="Node2D" parent="ArtRoot"]
@@ -21,7 +22,7 @@ texture = ExtResource("2_unit")
 visible = false
 
 [node name="EffectAnchor" type="Marker2D" parent="ArtRoot"]
-position = Vector2(0, -18)
+position = Vector2(0, -28)
 
 [node name="LabelAnchor" type="Marker2D" parent="ArtRoot"]
-position = Vector2(0, -48)
+position = Vector2(0, -72)

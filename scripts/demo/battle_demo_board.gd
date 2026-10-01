@@ -466,7 +466,7 @@ func _build_camera_controls() -> void:
 		if caption == "100%":
 			_camera_reset = button
 			button.name = "ResetCamera"
-			button.tooltip_text = "Общий вид. Колесо — масштаб; ПКМ — сдвиг карты. Ctrl+колесо — масштаб над прогнозом."
+			button.tooltip_text = "100% — базовый размер. Колесо — масштаб; ПКМ — сдвиг карты. Ctrl+колесо — масштаб над прогнозом."
 			button.pressed.connect(reset_camera)
 		else:
 			var factor := 1.1 if caption == "+" else 1.0 / 1.1
@@ -675,7 +675,8 @@ func _refresh_path() -> void:
 func _rescale_layout() -> void:
 	if _camera_layout_size != Vector2.ZERO: camera_view.recenter_after_resize(_camera_layout_size * 0.5, size * 0.5)
 	_camera_layout_size = size
-	var factor := maxf(0.1, minf((size.x - 64) / 1024.0, (size.y - 108) / 544.0))
+	var factor := 1.0 if camera_controls_enabled else maxf(0.1, minf((size.x - 64) / 1024.0, (size.y - 108) / 544.0))
+	# Базовая геометрия в камере остаётся читаемой независимо от размера поля.
 	grid_config.tile_size = Vector2(128, 64) * factor
 	grid_config.height_step = 32 * factor
 	grid_config.origin_offset = Vector2(size.x * 0.5, size.y * 0.5 - grid_config.tile_size.y * 3.5)
