@@ -111,11 +111,29 @@ func run() -> void:
 		var bar_factor := visual.grid_config.tile_size.x / 128.0
 		var bar_pixel := visual.get_global_transform_with_canvas() * (visual.get_visual_offset() + Vector2(-12, 13) * bar_factor)
 		check(has_balance_pixel(viewport.get_texture().get_image(), bar_pixel), "balance bar renders on isolated living unit without selection or inspection")
+		# Корни у ног имеют близкий цвет; границы самой полосы проверяем без перекрывающего рисунка.
+		(visual.get_node("ArtRoot") as Node2D).hide()
+		visual.unit.balance = 0.0
+		visual.unit.balance_max = 12.0
+		visual.queue_redraw()
+		await process_frame
+		await RenderingServer.frame_post_draw
+		var full_edge := visual.get_global_transform_with_canvas() * (visual.get_visual_offset() + Vector2(17, 13) * bar_factor)
+		check(has_balance_pixel(viewport.get_texture().get_image(), full_edge), "full reserve reaches the bar endpoint")
+		await capture("balance-reserve-full")
+		visual.unit.balance = 12.0
+		visual.unit.balance_max = 12.0
+		visual.queue_redraw()
+		await process_frame
+		await RenderingServer.frame_post_draw
+		var empty_inside := visual.get_global_transform_with_canvas() * (visual.get_visual_offset() + Vector2(0, 13) * bar_factor)
+		check(not has_balance_pixel(viewport.get_texture().get_image(), empty_inside), "depleted reserve leaves the bar interior empty")
+		await capture("balance-reserve-empty")
 	board.show_presentation_state(value)
 	visual = board._presentation_visual(1)
 	var details := board.displayed_unit_details(1)
 	check(details.contains("стаки: 2") and details.contains("3 тиков") and details.contains("2 концов хода") and details.contains("до конца ближайшего хода"), "inspection distinguishes stacks ticks elemental expiry and control expiry")
-	check(details.contains("равновесие 4.0/12.0") and details.contains("реакция 1"), "inspection carries balance and action resources")
+	check(details.contains("запас равновесия 8/12") and details.contains("реакция 1"), "inspection reports reserve and action resources")
 	value.units[1].bleeding.stacks = 999
 	check(board.displayed_unit_details(1) == details, "projection does not alias incoming dictionaries")
 	await capture("dense-states-100")

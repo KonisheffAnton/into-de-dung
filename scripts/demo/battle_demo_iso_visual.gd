@@ -336,7 +336,7 @@ func _draw_unit() -> void:
 		var forecast_after: Dictionary = forecast_entry.get("after", {}) as Dictionary
 		var expected_hp := float(forecast_after.get("hp", unit.hp))
 		var expected_alive := bool(forecast_after.get("alive", unit.alive))
-		var balance := clampf(unit.balance / balance_max if balance_max > 0 else 0, 0, 1)
+		var balance := BattleBalanceDisplay.ratio(unit.balance, balance_max)
 		draw_rect(Rect2(-19, 7, 38, 4), Color("0f1d28"))
 		draw_rect(Rect2(-19, 7, 38 * hp, 4), Color("65dfcc"))
 		if not is_equal_approx(expected_hp, unit.hp):
@@ -348,7 +348,7 @@ func _draw_unit() -> void:
 			draw_string(ThemeDB.fallback_font, Vector2(-28, 28), "%.1f→%.1f" % [unit.hp, expected_hp], HORIZONTAL_ALIGNMENT_CENTER, 56, 9, Color("f29b9b") if expected_hp < unit.hp else Color("65dfcc"))
 			draw_line(Vector2(-19 + 38 * expected_ratio, 6), Vector2(-19 + 38 * expected_ratio, 12), Color.WHITE, 1)
 		if not expected_alive: draw_string(ThemeDB.fallback_font, Vector2(-18, 38), "ПОГИБ", HORIZONTAL_ALIGNMENT_CENTER, 36, 8, Color("f29b9b"))
-		# Равновесие — постоянный боевой ресурс, поэтому полоса видна без выбора и осмотра.
+		# Runtime хранит нарушение; полоса показывает оставшуюся устойчивость даже без осмотра.
 		draw_rect(Rect2(-19, 13, 38, 1), Color("0f1d28"))
 		draw_rect(Rect2(-19, 13, 38 * balance, 1), Color("f7c97d"))
 		if not armor_values.is_empty():

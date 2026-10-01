@@ -1,7 +1,7 @@
 extends RefCounted
 class_name BattleConsequenceFeedback
 
-## Причины берём из событий; заполненная шкала сама по себе не доказывает пробой.
+## Причины берём из событий; пустой запас сам по себе не доказывает пробой.
 static func entries(events: Array, before: Dictionary, after: Dictionary) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	var chain_targets: Dictionary = {}
@@ -40,7 +40,7 @@ static func entries(events: Array, before: Dictionary, after: Dictionary) -> Arr
 				_add(result, seen, target_id, "Потеря равновесия", &"balance")
 			&"balance_changed":
 				if not bool(event.get("broke", false)) and float(event.get("impact", 0.0)) > 0.0 and not chain_targets.has(target_id):
-					_add(result, seen, target_id, "Устоял · %.1f/%.1f" % [float(event.get("balance_after", 0.0)), float(event.get("balance_max", 0.0))], &"balance")
+					_add(result, seen, target_id, "Устоял · запас " + BattleBalanceDisplay.value_text(float(event.get("balance_after", 0.0)), float(event.get("balance_max", 0.0))), &"balance")
 			&"chain_link":
 				_add(result, seen, int(event.get("from_unit_id", 0)), "Импульс передан", &"push")
 				if not bool(event.get("broke", false)):
@@ -78,7 +78,13 @@ static func recovery_entries(before: Dictionary, after: Dictionary) -> Array[Dic
 		var old_balance := float(old_unit.get("balance", 0.0))
 		var new_balance := float(new_unit.get("balance", 0.0))
 		if new_balance < old_balance and new_balance == maxf(0.0, old_balance - BattleTurnRefill.BALANCE_RECOVERY):
-			result.append({"unit_id": id, "text": "Восстановлено равновесие · %.1f" % (old_balance - new_balance), "kind": &"balance"})
+			var maximum := float(new_unit.get("balance_max", old_unit.get("balance_max", 0.0)))
+			var restored := BattleBalanceDisplay.remaining(new_balance, maximum) - BattleBalanceDisplay.remaining(old_balance, maximum)
+			# При достигнутом пороге нарушение уменьшается, но доступный запас ещё не появляется.
+			var restored_text := str(roundi(restored)) if is_equal_approx(restored, round(restored)) else String.num(restored, 1)
+			var text := "Восстановление равновесия; запас пока исчерпан" if restored <= 0.0 else "Восстановлен запас равновесия · +%s" % restored_text
+			if maximum <= 0.0: text = "Равновесие · невосприимчив"
+			result.append({"unit_id": id, "text": text, "kind": &"balance"})
 	return result
 
 static func _unit(snapshot: Dictionary, unit_id: int) -> Dictionary:

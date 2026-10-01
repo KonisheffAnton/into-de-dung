@@ -35,6 +35,7 @@ func run() -> void:
 	# Останавливаем только автоматический tick: ввод идёт через настоящий SubViewport.
 	demo.set_process(false)
 	await test_ally_selection_during_attack()
+	await test_balance_reserve_text()
 	setup_attack()
 	var s := demo.session as BattleCoreReactionsSession
 	var target := s.units[3]
@@ -280,6 +281,24 @@ func check_no_header(label: String) -> void:
 	# После удара под курсором может уже начаться прогноз движения на пустую клетку.
 	check(not demo._forecast_panel.get_parsed_text().get_slice("\n", 0).contains(" → "), label)
 	check(not demo.board_view.compact_forecast.visible or not demo.board_view.compact_forecast.label.text.get_slice("\n", 0).contains(" → "), "compact " + label)
+
+func test_balance_reserve_text() -> void:
+	setup_attack()
+	var target := demo.session.units[3]
+	target.stats.set_base_value(StatTypes.StatType.BALANCE_MAX, 12.0)
+	# Отдельно от теста снятия пут: здесь нужен неизменный максимум до и после удара.
+	target.control.entangled_turns = 0
+	target.vitals.set_balance(11.0)
+	demo.board_view.refresh()
+	var before := snapshot()
+	check(demo._inspection_text(target).contains("Равновесие: 1/12"), "diagnostic inspection shows remaining reserve instead of disruption")
+	check(demo._event_text({"kind": &"balance_changed", "target_unit_id": target.id, "balance_after": 4.0, "balance_max": 12.0}).contains("равновесие 8/12"), "event log uses the same reserve convention")
+	push_motion(at(target.cell))
+	await settle()
+	check(demo._forecast != null and demo._forecast.status == ActionReceipt.APPLIED, "reserve fixture gets a real worker attack forecast")
+	check(demo._forecast_panel.get_parsed_text().contains("равновесие 1/12 → 12/12"), "diagnostic forecast shows full final reserve after break")
+	check(demo.board_view.compact_forecast.label.text.contains("1/12→12/12") and demo.board_view.compact_forecast.label.text.contains("Потеря равновесия"), "compact forecast distinguishes break from recovery despite full final reserve")
+	check(snapshot() == before, "reserve text and real worker preview leave live state unchanged")
 
 func compact_layout_and_focus(s: BattleCoreReactionsSession, target: UnitState) -> void:
 	var board := demo.board_view

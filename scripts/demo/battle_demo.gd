@@ -1212,7 +1212,8 @@ func _perk_status_text(unit: UnitState) -> String:
 	return " · " + " · ".join(parts) if not parts.is_empty() else ""
 
 func _inspection_text(unit: UnitState) -> String:
-	var text := "%s · %s · высота %+.1f\nHP: %.1f / %.1f\nПотеря равновесия: %.1f / %.1f\nДвижение: %.1f / %.1f · Основное: %d · Бонус: %d\nБроня: %.1f · Оружие: %.1f урона\nСила: %.1f · Воздействие: %.1f\nАтака: 1 основное · Дальность: %.1f" % [unit.debug_name, _cell_name(unit.cell), float(session.board.get_height_steps(unit.cell)) / 2.0, unit.vitals.get_hp(), unit.get_stat(StatTypes.StatType.HP_MAX), unit.vitals.get_balance(), ControlRules.balance_maximum(unit, unit.get_stat(StatTypes.StatType.BALANCE_MAX)), unit.move_points_left, unit.get_stat(StatTypes.StatType.MOVE_RANGE), unit.action_resources.get_main_left(), unit.action_resources.get_bonus_left(), unit.get_stat(StatTypes.StatType.ARMOR), unit.get_stat(StatTypes.StatType.WEAPON_DAMAGE), unit.get_stat(StatTypes.StatType.STRENGTH), unit.get_stat(StatTypes.StatType.IMPACT_POWER), unit.get_stat(StatTypes.StatType.ATTACK_RANGE)]
+	var balance_text := BattleBalanceDisplay.value_text(unit.vitals.get_balance(), ControlRules.balance_maximum(unit, unit.get_stat(StatTypes.StatType.BALANCE_MAX)))
+	var text := "%s · %s · высота %+.1f\nHP: %.1f / %.1f\nРавновесие: %s\nДвижение: %.1f / %.1f · Основное: %d · Бонус: %d\nБроня: %.1f · Оружие: %.1f урона\nСила: %.1f · Воздействие: %.1f\nАтака: 1 основное · Дальность: %.1f" % [unit.debug_name, _cell_name(unit.cell), float(session.board.get_height_steps(unit.cell)) / 2.0, unit.vitals.get_hp(), unit.get_stat(StatTypes.StatType.HP_MAX), balance_text, unit.move_points_left, unit.get_stat(StatTypes.StatType.MOVE_RANGE), unit.action_resources.get_main_left(), unit.action_resources.get_bonus_left(), unit.get_stat(StatTypes.StatType.ARMOR), unit.get_stat(StatTypes.StatType.WEAPON_DAMAGE), unit.get_stat(StatTypes.StatType.STRENGTH), unit.get_stat(StatTypes.StatType.IMPACT_POWER), unit.get_stat(StatTypes.StatType.ATTACK_RANGE)]
 	var control_text := ""
 	if session is BattleCoreReactionsSession and unit.combat_perks != null:
 		if unit.combat_perks.definition.sneak_attack: control_text += "Перк «Скрытая атака»: +50% физической базы, если цели угрожают минимум двое. Оружие ближнего боя любое.\n"
@@ -1236,7 +1237,7 @@ func _inspection_text(unit: UnitState) -> String:
 		if rear != Vector2i.ZERO: control_text += "Тыл: %s · соседняя клетка, +50%% базы\n" % _cell_name(unit.cell + rear)
 	if unit.control != null:
 		if unit.control.stunned_turns > 0: control_text += "Оглушён: добровольные действия недоступны; входящий крит ×2.\n"
-		if unit.control.entangled_turns > 0: control_text += "Опутан: движение недоступно; порог равновесия ×2 = %.1f.\nФактический толчок снимает путы; входящий крит ×2.\n" % ControlRules.balance_maximum(unit, unit.get_stat(StatTypes.StatType.BALANCE_MAX))
+		if unit.control.entangled_turns > 0: control_text += "Опутан: движение недоступно; максимум равновесия ×2 = %.1f.\nФактический толчок снимает путы; входящий крит ×2.\n" % ControlRules.balance_maximum(unit, unit.get_stat(StatTypes.StatType.BALANCE_MAX))
 		if unit.control.stunned_turns > 0 or unit.control.entangled_turns > 0: control_text += "Срок: до конца ближайшего хода этой команды.\n"
 	if not control_text.is_empty(): text = text.insert(text.find("\n") + 1, control_text)
 	if session.state.summon_owner_id(unit.id) != 0:
@@ -1295,7 +1296,7 @@ func _inspection_text(unit: UnitState) -> String:
 	return text
 
 func _stat_name(type: StatTypes.StatType) -> String:
-	var names := ["Макс. HP", "Инициатива", "Порог равновесия", "Сила", "Воздействие", "Движение", "Броня", "Основные действия", "Бонусные действия", "Урон оружия", "Дальность атаки", "Пробивание физической базы"]
+	var names := ["Макс. HP", "Инициатива", "Макс. равновесие", "Сила", "Воздействие", "Движение", "Броня", "Основные действия", "Бонусные действия", "Урон оружия", "Дальность атаки", "Пробивание физической базы"]
 	return names[int(type)] if int(type) >= 0 and int(type) < names.size() else "Характеристика"
 
 func _refresh_inspection() -> void:
@@ -1433,7 +1434,7 @@ func _hover(cell: Vector2i) -> void:
 		return
 	if not session.board.is_in_bounds(cell):
 		var movement_cancel_hint := "ПКМ — сдвиг карты; Esc или M — отмена." if board_view.camera_controls_enabled else "ПКМ или Esc — движение."
-		_hint.text = "Золотые клетки — движение врага на следующий ход; зона атаки не показана.\nВыбранный союзник сохранён. Осмотр не расходует действия." if inspected_id != UnitId.NONE else "Числа на клетках — высота. Бирюзовые точки — доступное движение.\nПолоски: здоровье / накопленная потеря равновесия. %s" % movement_cancel_hint
+		_hint.text = "Золотые клетки — движение врага на следующий ход; зона атаки не показана.\nВыбранный союзник сохранён. Осмотр не расходует действия." if inspected_id != UnitId.NONE else "Числа на клетках — высота. Бирюзовые точки — доступное движение.\nПолоски: здоровье / запас равновесия. %s" % movement_cancel_hint
 		if control_mode and not session is BattleCoreReactionsSession and inspected_id == UnitId.NONE: _hint.text = "Розовая стрелка у ног — тыл: атака с соседней клетки даёт +50% базы.\nОглушение или путы на цели дают крит ×2; два состояния не складывают крит."
 		return
 	var reachable: Dictionary = board_view.reachable_cells()
@@ -1805,8 +1806,8 @@ func _render_forecast_panel() -> void:
 		var hp_color := "#f29b9b" if hp_after < hp_before else "#65dfcc"
 		if hp_before != hp_after or id == _forecast_target_id:
 			text += "%s: HP [color=%s]%.1f → %.1f%s[/color]\n" % [_name_for(id), hp_color, hp_before, hp_after, " · ГИБЕЛЬ" if not after["alive"] else ""]
-		if before["balance"] != after["balance"]:
-			text += "%s: потеря равновесия %.1f → %.1f\n" % [_name_for(id), before["balance"], after["balance"]]
+		if before["balance"] != after["balance"] or before.get("balance_max") != after.get("balance_max"):
+			text += "%s: равновесие %s → %s\n" % [_name_for(id), BattleBalanceDisplay.value_text(float(before["balance"]), float(before["balance_max"])), BattleBalanceDisplay.value_text(float(after["balance"]), float(after["balance_max"]))]
 		if before.has("armor_current"):
 			text += "%s: броня %d → %d / %d\n" % [_name_for(id), before["armor_current"], after["armor_current"], after["armor_max"]]
 		if before.has("bleeding") and (id == _forecast_target_id or before["bleeding"] != after["bleeding"]):
@@ -2258,8 +2259,8 @@ func _event_text(event: Dictionary) -> String:
 			return "%s: +%.1f HP%s." % [target, float(event.get("amount", 0)), heal_cause]
 		&"armor_changed": return "%s: запас брони изменился." % target
 		&"hit_resolved": return "%s: попадание завершено, HP %d → %d%s." % [target, event["hit"]["hp_before"], event["hit"]["hp_after"], " · добивание замороженной цели" if event["hit"].get("shattered", false) else ""]
-		&"balance_changed": return "%s: равновесие %.1f / %.1f." % [target, float(event.get("balance_after", 0)), float(event.get("balance_max", 0))]
-		&"balance_broken": return "%s теряет равновесие → толчок." % target
+		&"balance_changed": return "%s: равновесие %s." % [target, BattleBalanceDisplay.value_text(float(event.get("balance_after", 0)), float(event.get("balance_max", 0)))]
+		&"balance_broken": return "%s теряет равновесие; запас после пробоя восстановлен." % target
 		&"moved":
 			var pushed: bool = event.get("movement_kind", &"") == &"push"
 			if event.get("movement_kind", &"") == &"safe_retreat": return "%s отходит: %s → %s · %d основное, %.1f движения." % [actor, _cell_name(event["from_cell"]), _cell_name(event["to_cell"]), int(event.get("main_cost", 0)), float(event["move_cost"])]

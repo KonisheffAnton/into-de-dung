@@ -119,7 +119,7 @@ func balance_cases() -> void:
 		if mode == "fall": s.board.set_terrain(Vector2i(3, 3), TerrainType.Type.VOID)
 		var data := packet(s, mode)
 		var entries := feedback(data)
-		var expected := "Устоял · 4.0/12.0" if mode == "held" else "Потеря равновесия"
+		var expected := "Устоял · запас 8/12" if mode == "held" else "Потеря равновесия"
 		check(count_text(entries, "Потеря равновесия", target.id) == (0 if mode == "held" else 1), mode + " change+break emit exactly one break cue")
 		if mode in ["held", "wall", "height"]: check(not has_text(entries, "Сдвиг"), mode + " no invented displacement")
 		if mode == "open": check(count_text(entries, "Сдвиг", target.id) == 1, "actual moved produces shift cue")
@@ -453,6 +453,7 @@ func chain_boundaries(data: Dictionary, first: int, a: int, b: int, axis: Vector
 func recovery_feedback() -> void:
 	var s := open_lane()
 	var id := s.units[0].id
+	s.units[0].stats.set_base_value(StatTypes.StatType.BALANCE_MAX, 12.0)
 	s.units[0].vitals.set_balance(8.0)
 	var before := ActionPresentationState.capture(s.state)
 	s._queue.capture_presentation = true
@@ -461,9 +462,17 @@ func recovery_feedback() -> void:
 	check(receipt.status == ActionReceipt.APPLIED and receipt.get_events().is_empty(), "recovery remains eventless refill, without fake impact/damage")
 	player.play(board, before, receipt.get_presentation_frames(), after)
 	finish()
-	check(board._presentation_visual(id).unit.balance == 7.0 and shown_texts().contains("Восстановлено равновесие"), "refill publishes decreased bar and visible recovery together")
+	check(board._presentation_visual(id).unit.balance == 7.0 and shown_texts().contains("Восстановлен запас равновесия · +1"), "refill publishes increased reserve and visible recovery together")
 	check(not shown_texts().contains("Потеря равновесия") and not shown_texts().contains("HP"), "recovery invents neither break nor damage")
-	check(board.displayed_unit_details(id).contains("уменьшается на 1"), "inspection describes turn recovery")
+	check(board.displayed_unit_details(id).contains("восстанавливается до 1 ед. равновесия"), "inspection describes turn reserve recovery")
+	var depleted_recovery := BattleConsequenceFeedback.recovery_entries(
+		{"units": {id: {"alive": true, "balance": 18.0, "balance_max": 12.0}}},
+		{"units": {id: {"alive": true, "balance": 17.0, "balance_max": 12.0}}})
+	check(not depleted_recovery.is_empty() and String(depleted_recovery[0].text).contains("запас пока исчерпан"), "over-threshold refill does not promise reserve while it remains empty")
+	var immune_recovery := BattleConsequenceFeedback.recovery_entries(
+		{"units": {id: {"alive": true, "balance": 8.0, "balance_max": 0.0}}},
+		{"units": {id: {"alive": true, "balance": 7.0, "balance_max": 0.0}}})
+	check(not immune_recovery.is_empty() and String(immune_recovery[0].text).contains("невосприимчив") and not String(immune_recovery[0].text).contains("исчерпан"), "immune refill never presents an exhausted reserve")
 	await capture("balance-recovery")
 	s.close()
 

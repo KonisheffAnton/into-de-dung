@@ -65,10 +65,8 @@ static func _unit_line(id: int, row: Dictionary, names: Dictionary, events: Arra
 	if primary or old.get("hp") != now.get("hp"): _pair(parts, "ОЗ", old, now, "hp")
 	if old.get("armor_current") != now.get("armor_current"): _pair(parts, "броня", old, now, "armor_current")
 	if old.get("balance") != now.get("balance") or old.get("balance_max") != now.get("balance_max") or _has_balance_break(events, id):
-		if float(old.get("balance_max", 1.0)) <= 0.0 or float(now.get("balance_max", 1.0)) <= 0.0:
-			parts.append("равновесие: невосприимчив")
-		elif old.has("balance") and now.has("balance") and old.has("balance_max") and now.has("balance_max"):
-			parts.append("нарушение %s/%s→%s/%s" % [_number(old["balance"]), _number(old["balance_max"]), _number(now["balance"]), _number(now["balance_max"])])
+		if old.has("balance") and now.has("balance") and old.has("balance_max") and now.has("balance_max"):
+			parts.append("запас равновесия %s→%s" % [BattleBalanceDisplay.value_text(float(old["balance"]), float(old["balance_max"])), BattleBalanceDisplay.value_text(float(now["balance"]), float(now["balance_max"]))])
 	if _has_balance_break(events, id): parts.append("Потеря равновесия")
 	if old.get("cell") != now.get("cell"):
 		parts.append("клетка %s→%s" % [_cell(old.get("cell")), _cell(now.get("cell"))])

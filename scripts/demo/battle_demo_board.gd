@@ -869,14 +869,15 @@ func displayed_unit_details(unit_id: int) -> String:
 		if value.id != unit_id: continue
 		if not value.alive: return "%s · погиб" % value.debug_name
 		var lines: PackedStringArray = ["%s · HP %.1f/%.1f" % [value.debug_name, value.hp, value.hp_max],
-			"Броня %.1f/%.1f · равновесие %.1f/%.1f" % [float(row.armor.get("current", 0)), float(row.armor.get("maximum", 0)), value.balance, value.balance_max]]
+			"Броня %.1f/%.1f · запас равновесия %s" % [float(row.armor.get("current", 0)), float(row.armor.get("maximum", 0)), BattleBalanceDisplay.value_text(value.balance, value.balance_max)]]
 		if value.balance_max <= 0.0:
 			lines.append("Невосприимчив к потере равновесия.")
 		else:
-			lines.append("Равновесие: накопленное нарушение / порог потери.")
-			lines.append("В начале хода своей команды нарушение уменьшается на 1, минимум до 0.")
+			lines.append("Полная шкала означает устойчивость. Воздействие тратит запас.")
+			lines.append("После пробоя запас вновь полный.")
+			lines.append("В начале своего командного хода восстанавливается до 1 ед. равновесия.")
 			if value.balance >= value.balance_max:
-				lines.append("Порог достигнут; проверка при следующем воздействии на равновесие.\nСнижение порога само по себе не вызывает сдвиг.")
+				lines.append("Запас исчерпан; пробой проверяется при следующем воздействии. При переполненном нарушении запас может оставаться нулевым.\nСнижение порога само по себе не вызывает сдвиг.")
 		var resources: Dictionary = row.get("resources", {})
 		if not resources.is_empty():
 			lines.append("Действия: основное %d · доп. %d · движение %.1f · реакция %d" % [int(resources.get("main", 0)), int(resources.get("bonus", 0)), float(resources.get("move", 0)), int(resources.get("reaction", 0))])

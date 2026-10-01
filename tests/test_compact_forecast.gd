@@ -26,21 +26,21 @@ func run() -> void:
 	check(interrupted.text.contains("Путь прерван: смерть актёра") and interrupted.text.contains("ОЗ 20→0"), "interrupted result labels its committed prefix")
 	var mixed := {1: {"before": row(15, 2, 8), "after": row(12, 4, 6)}}
 	var result := Formatter.build("Удар", &"APPLIED", "", mixed, [], 1, {1: "Страж"})
-	check(result.text.contains("ОЗ 15→12") and result.text.contains("броня 2→4") and result.text.contains("нарушение 8/10→6/10"), "independent final metrics include balance threshold")
+	check(result.text.contains("ОЗ 15→12") and result.text.contains("броня 2→4") and result.text.contains("запас равновесия 2/10→4/10"), "forecast reports remaining reserve, not accumulated disruption")
 	var break_before := row(20, 0, 0)
 	var break_after := row(20, 0, 0)
 	break_before["balance_max"] = 12.0
 	break_after["balance_max"] = 12.0
 	var broken := Formatter.build("Удар", &"APPLIED", "", {1: {"before": break_before, "after": break_after}}, [{"kind": &"balance_broken", "target_unit_id": 1}], 1, {1: "Страж"})
-	check(broken.text.contains("нарушение 0/12→0/12") and broken.text.contains("Потеря равновесия"), "actual zero balance break and threshold shown explicitly")
+	check(broken.text.contains("запас равновесия 12/12→12/12") and broken.text.contains("Потеря равновесия"), "event proves loss even when the reset leaves a full final reserve")
 	var old_threshold := row(20, 0, 18)
 	var new_threshold := row(20, 0, 18)
 	old_threshold["balance_max"] = 24.0
 	new_threshold["balance_max"] = 12.0
 	var threshold_only := Formatter.build("Ход", &"APPLIED", "", {1: {"before": old_threshold, "after": new_threshold}}, [], 1, {1: "Страж"})
-	check(threshold_only.text.contains("нарушение 18/24→18/12") and not threshold_only.text.contains("Потеря равновесия"), "threshold decrease is not inferred as a break")
+	check(threshold_only.text.contains("запас равновесия 6/24→0/12") and not threshold_only.text.contains("Потеря равновесия"), "threshold decrease recomputes each side reserve without inferring a break")
 	var full := Formatter.build("Удар", &"APPLIED", "", {1: {"before": row(20, 0, 10), "after": row(20, 0, 10)}}, [], 1, {1: "Страж"})
-	check(not full.text.contains("слом") and not full.text.contains("стойкость"), "full bar alone is not a break")
+	check(not full.text.contains("Потеря равновесия"), "empty reserve alone is not a break")
 	var chain_events := [{"kind": &"chain_link", "from_unit_id": 1, "target_unit_id": 2, "broke": false}, {"kind": &"collision", "actor_unit_id": 1, "target_unit_id": 2, "blocker_unit_id": 3}]
 	var chain_rows := {1: {"before": row(20), "after": row(20)}, 2: {"before": row(20, 0, 10), "after": row(20, 0, 10)}}
 	var chain_before := chain_events.duplicate(true)
@@ -64,7 +64,13 @@ func run() -> void:
 	check(immune_chain.text.contains("Цепь остановлена · невосприимчив"), "zero balance maximum is shown as immunity")
 	statue_after["balance"] = 1.0
 	var immune_value := Formatter.build("Удар", &"APPLIED", "", {2: {"before": statue_before, "after": statue_after}}, [], 2, {2: "Статуя"})
-	check(immune_value.text.contains("равновесие: невосприимчив"), "zero balance maximum uses the dedicated immunity label")
+	check(immune_value.text.contains("запас равновесия невосприимчив→невосприимчив"), "zero balance maximum uses the dedicated immunity label")
+	var exhausted := row(20, 0, 18)
+	exhausted["balance_max"] = 12.0
+	var recovering := exhausted.duplicate(true)
+	recovering["balance"] = 17.0
+	var depleted := Formatter.build("Ход", &"APPLIED", "", {1: {"before": exhausted, "after": recovering}}, [], 1, {1: "Страж"})
+	check(depleted.text.contains("запас равновесия 0/12→0/12"), "over-threshold recovery keeps the reserve empty")
 	var many: Dictionary = {}
 	var names: Dictionary = {}
 	for id: int in [1, 5, 3, 4, 2]:
