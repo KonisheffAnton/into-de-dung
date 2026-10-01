@@ -450,6 +450,23 @@ func chain_boundaries(data: Dictionary, first: int, a: int, b: int, axis: Vector
 		if interruption in ["skip", "cancel"]: check(board._impacts.get_child_count() == 0, interruption + " clears chain flashes")
 	player.set_speed(1.0)
 
+func recovery_feedback() -> void:
+	var s := open_lane()
+	var id := s.units[0].id
+	s.units[0].vitals.set_balance(8.0)
+	var before := ActionPresentationState.capture(s.state)
+	s._queue.capture_presentation = true
+	var receipt := s._queue.submit(BattleTurnRefill.new(s.living_ids(Faction.Type.PLAYER), s.context.get_revision(), Faction.Type.PLAYER), s.context)
+	var after := ActionPresentationState.capture(s.state)
+	check(receipt.status == ActionReceipt.APPLIED and receipt.get_events().is_empty(), "recovery remains eventless refill, without fake impact/damage")
+	player.play(board, before, receipt.get_presentation_frames(), after)
+	finish()
+	check(board._presentation_visual(id).unit.balance == 7.0 and shown_texts().contains("Восстановлено равновесие"), "refill publishes decreased bar and visible recovery together")
+	check(not shown_texts().contains("Потеря равновесия") and not shown_texts().contains("HP"), "recovery invents neither break nor damage")
+	check(board.displayed_unit_details(id).contains("уменьшается на 1"), "inspection describes turn recovery")
+	await capture("balance-recovery")
+	s.close()
+
 func run() -> void:
 	viewport = SubViewport.new()
 	viewport.size = Vector2i(1280, 850)
@@ -470,6 +487,7 @@ func run() -> void:
 	await consecutive_roots()
 	await obstacle_contacts()
 	await chain_overlap()
+	await recovery_feedback()
 	player.queue_free()
 	viewport.queue_free()
 	await process_frame

@@ -344,6 +344,9 @@ func finish_presentation_frame(events: Array, step: Dictionary = {}, before: Dic
 			_add_result_number(int(event.target_unit_id), "0 · без урона", Color("d6dfeb"))
 			numbered[int(event.target_unit_id)] = true
 	_show_consequence_feedback(BattleConsequenceFeedback.entries(events, before, after), int(events[0].get("root_id", 0)) if not events.is_empty() else 0)
+	# Командный refill остаётся кадром значений без боевого импакта/HP-события.
+	if step.get("kind") == &"battle_turn_refill" and step.get("status") == &"APPLIED":
+		_show_consequence_feedback(BattleConsequenceFeedback.recovery_entries(before, after), 0)
 	# FAULTED attack_hit без результата снимает замах без выдуманного попадания.
 	if step.get("kind") == &"attack_hit": clear_strike_poses()
 
@@ -838,6 +841,7 @@ func displayed_unit_details(unit_id: int) -> String:
 			lines.append("Невосприимчив к потере равновесия.")
 		else:
 			lines.append("Равновесие: накопленное нарушение / порог потери.")
+			lines.append("В начале хода своей команды нарушение уменьшается на 1, минимум до 0.")
 			if value.balance >= value.balance_max:
 				lines.append("Порог достигнут; проверка при следующем воздействии на равновесие.\nСнижение порога само по себе не вызывает сдвиг.")
 		var resources: Dictionary = row.get("resources", {})

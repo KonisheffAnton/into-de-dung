@@ -69,6 +69,18 @@ static func entries(events: Array, before: Dictionary, after: Dictionary) -> Arr
 					_add(result, seen, target_id, "Падение", &"push")
 	return result
 
+static func recovery_entries(before: Dictionary, after: Dictionary) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for id: int in after.get("units", {}):
+		var old_unit := _unit(before, id)
+		var new_unit := _unit(after, id)
+		if not old_unit.get("alive", false) or not new_unit.get("alive", false): continue
+		var old_balance := float(old_unit.get("balance", 0.0))
+		var new_balance := float(new_unit.get("balance", 0.0))
+		if new_balance < old_balance and new_balance == maxf(0.0, old_balance - BattleTurnRefill.BALANCE_RECOVERY):
+			result.append({"unit_id": id, "text": "Восстановлено равновесие · %.1f" % (old_balance - new_balance), "kind": &"balance"})
+	return result
+
 static func _unit(snapshot: Dictionary, unit_id: int) -> Dictionary:
 	var units: Variant = snapshot.get("units", {})
 	if typeof(units) != TYPE_DICTIONARY:
