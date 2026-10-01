@@ -35,6 +35,8 @@ func sample(progress: float) -> void:
 	var alpha: float = 1.0 if amount <= fade_start else 1.0 - (amount - fade_start) / (1.0 - fade_start)
 	_label.position = Vector2(-_label.size.x * 0.5, -_label.size.y - rise * amount)
 	_label.modulate = Color(_tint.r, _tint.g, _tint.b, _tint.a * alpha)
+	var leader := get_node_or_null("Leader") as Line2D
+	if leader != null: leader.modulate.a = alpha
 
 
 func _exit_tree() -> void:

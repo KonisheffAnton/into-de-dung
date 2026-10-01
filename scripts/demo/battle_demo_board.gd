@@ -249,7 +249,7 @@ func _matching_strike(events: Array, step: Dictionary) -> Dictionary:
 	return {}
 
 ## Числа создаются на той же атомарной границе, что HP/броня поля и HUD.
-func finish_presentation_frame(events: Array, step: Dictionary = {}) -> void:
+func finish_presentation_frame(events: Array, step: Dictionary = {}, before: Dictionary = {}, after: Dictionary = {}) -> void:
 	var strike := _matching_strike(events, step)
 	var numbered: Dictionary = {}
 	for event: Dictionary in events:
@@ -276,43 +276,105 @@ func finish_presentation_frame(events: Array, step: Dictionary = {}) -> void:
 		if event.get("kind") == &"hit_resolved" and not numbered.has(int(event.target_unit_id)):
 			_add_result_number(int(event.target_unit_id), "0 · без урона", Color("d6dfeb"))
 			numbered[int(event.target_unit_id)] = true
+	_show_consequence_feedback(BattleConsequenceFeedback.entries(events, before, after), int(events[0].get("root_id", 0)) if not events.is_empty() else 0)
 	# FAULTED attack_hit без результата снимает замах без выдуманного попадания.
 	if step.get("kind") == &"attack_hit": clear_strike_poses()
 
-func _add_result_number(id: int, text: String, tint: Color, feedback_kind: StringName = &"result") -> void:
+func _show_consequence_feedback(entries: Array[Dictionary], root_id: int) -> void:
+	var grouped: Dictionary = {}
+	for entry: Dictionary in entries:
+		var id := int(entry.unit_id)
+		if not grouped.has(id): grouped[id] = {}
+		var parts: Dictionary = grouped[id]
+		var kind := StringName(entry.kind)
+		parts[kind] = String(parts[kind]) + "\n" + String(entry.text) if parts.has(kind) else String(entry.text)
+	for id: int in grouped:
+		var parts: Dictionary = {}
+		# Один блок причин на фигуру: исходный пробой остаётся рядом с последующим упором.
+		for number: BattlePresentationNumber in _numbers.get_children():
+			if number.feedback_kind == &"consequence" and int(number.get_meta("unit_id", 0)) == id:
+				if int(number.get_meta("root_id", -1)) == root_id: parts = number.get_meta("parts").duplicate(true)
+				_numbers.remove_child(number)
+				number.queue_free()
+		parts.merge(grouped[id], true)
+		var texts: PackedStringArray = []
+		for kind: StringName in [&"armor", &"balance", &"push"]:
+			if parts.has(kind): texts.append(String(parts[kind]).replace(" · ", "\n").replace("Столкновение: ", "Столкновение:\n"))
+		var tint := Color("8dcaff") if parts.size() == 1 and parts.has(&"armor") else Color("f7c97d")
+		var number := _add_result_number(id, "\n".join(texts), tint, &"consequence")
+		if number != null:
+			number.set_meta("root_id", root_id)
+			number.set_meta("parts", parts)
+
+func begin_presentation_frame(events: Array) -> void:
+	# Следующее действие участника убирает прежнюю причину до движения/замаха.
+	# Числа результата привязаны к месту прошлого удара и сохраняют свой срок R05.
+	for event: Dictionary in events:
+		var root_id := int(event.get("root_id", 0))
+		var participants: Array[int] = []
+		for field: String in ["actor_unit_id", "target_unit_id", "from_unit_id", "blocker_unit_id"]:
+			if event.has(field): participants.append(int(event[field]))
+		for number: BattlePresentationNumber in _numbers.get_children():
+			if number.feedback_kind == &"consequence" and int(number.get_meta("root_id", -1)) != root_id and int(number.get_meta("unit_id", 0)) in participants:
+				_numbers.remove_child(number)
+				number.queue_free()
+
+func _add_result_number(id: int, text: String, tint: Color, feedback_kind: StringName = &"result") -> BattlePresentationNumber:
 	var cell := _view_unit_cell(id)
-	if cell.x < 0: return
+	if cell.x < 0: return null
 	var number := number_scene.instantiate() as BattlePresentationNumber
 	number.feedback_kind = feedback_kind
 	_numbers.add_child(number)
 	number.set_meta("cell", cell)
+	number.set_meta("unit_id", id)
 	var visual := _presentation_visual(id)
 	var anchor := visual.get_node_or_null("ArtRoot/LabelAnchor") as Node2D if visual != null else null
 	number.set_meta("anchor", anchor.position if anchor != null else Vector2(0, -48))
+	if feedback_kind == &"consequence":
+		number.rise = 0.0
+		number._label.add_theme_font_size_override("font_size", 16)
+		number.set_meta("anchor", Vector2(0, 35))
+		var leader := Line2D.new()
+		leader.name = "Leader"
+		leader.width = 1.0
+		leader.default_color = Color(tint, 0.55)
+		leader.z_index = -1
+		number.add_child(leader)
 	number.start(text, tint)
 	_place_result_numbers()
+	return number
 
 func _place_result_numbers() -> void:
 	if _numbers == null: return
 	var occupied: Array[Rect2] = []
+	var ordered: Array[Node] = []
 	for number: BattlePresentationNumber in _numbers.get_children():
+		if number.feedback_kind != &"consequence": ordered.append(number)
+	for number: BattlePresentationNumber in _numbers.get_children():
+		if number.feedback_kind == &"consequence": ordered.append(number)
+	for number: BattlePresentationNumber in ordered:
 		if number.is_queued_for_deletion(): continue
 		var anchor: Vector2 = number.get_meta("anchor")
 		var point := _world_cell_center(number.get_meta("cell")) + anchor * grid_config.tile_size.x / 128.0
 		# Резервируем весь путь подписи: старое число не налетает на новое при подъёме.
 		var dimensions := number._label.size
+		var consequence := number.feedback_kind == &"consequence"
+		if consequence: point.y += dimensions.y
 		var bounds := Rect2(point - Vector2(dimensions.x * 0.5, dimensions.y + number.rise), dimensions + Vector2(0, number.rise)).grow(3.0)
 		var collision := true
 		while collision:
 			collision = false
 			for prior: Rect2 in occupied:
 				if bounds.intersects(prior):
-					point.y = prior.position.y - 4.0
+					point.y = prior.end.y + dimensions.y + 4.0 if consequence else prior.position.y - 4.0
 					bounds.position.y = point.y - dimensions.y - number.rise - 3.0
 					collision = true
 					break
 		number.position = point
 		occupied.append(bounds)
+		if consequence:
+			var leader := number.get_node("Leader") as Line2D
+			leader.points = PackedVector2Array([_world_cell_center(number.get_meta("cell")) + Vector2(0, 18) * grid_config.tile_size.x / 128.0 - point, Vector2(0, -dimensions.y - 2)])
 
 func _presentation_visual(id: int) -> BattleDemoIsoVisual:
 	for visual: BattleDemoIsoVisual in _entity_visuals:
@@ -387,8 +449,6 @@ static func _presentation_caption(event: Dictionary) -> String:
 		&"summoned", &"corpse_raised": return "ПРИЗЫВ"
 		&"support_collapsed": return "ОБВАЛ"
 		&"fell": return "ПАДЕНИЕ"
-		&"collision", &"push_blocked": return "СТОЛКНОВЕНИЕ"
-		&"balance_broken", &"chain_link": return "ТОЛЧОК"
 		&"guarded": return "ЗАЩИТА"
 	return ""
 
@@ -397,6 +457,7 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 	var visible_event := false
 	var strike := _matching_strike(events, step)
 	var attack_start := events.any(func(e: Dictionary) -> bool: return e.get("kind") in [&"attacked", &"opportunity_attacked", &"counterattacked"])
+	var consequence_pulses: Dictionary = {}
 	if not strike.is_empty():
 		var impact_tint := Color("f29b9b") if events.any(func(e: Dictionary) -> bool: return e.get("kind") == &"damaged") else (Color("8dcaff") if events.any(func(e: Dictionary) -> bool: return e.get("kind") == &"armor_changed") else Color("d6dfeb"))
 		tween.tween_callback(_hit_impact.bind(strike, impact_tint))
@@ -407,6 +468,13 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 		var kind := StringName(event.get("kind", &""))
 		var id := int(event.get("target_unit_id", 0))
 		if kind == &"reaction_used" and attack_start: continue
+		if kind in [&"balance_changed", &"balance_broken", &"chain_link", &"push_blocked", &"collision"]:
+			# Изменение и пробой одного balance — один импульс, без обещания сдвига.
+			if not consequence_pulses.has(id):
+				tween.tween_method(_presentation_pulse.bind(id, false, false), 0.0, 1.0, 0.16)
+				consequence_pulses[id] = true
+				visible_event = true
+			continue
 		if kind in [&"bleeding_changed", &"elemental_changed", &"control_changed"]:
 			# Название изменения публикуется вместе с after; до него — только короткий импульс.
 			tween.tween_method(_presentation_pulse.bind(id, false, false), 0.0, 1.0, 0.16)
@@ -451,7 +519,7 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 
 static func has_presentation_animation(events: Array) -> bool:
 	for event: Dictionary in events:
-		if event.get("kind", &"") in [&"moved", &"fell", &"hit_resolved"] or not _presentation_caption(event).is_empty(): return true
+		if event.get("kind", &"") in [&"moved", &"fell", &"hit_resolved", &"balance_changed", &"balance_broken", &"chain_link", &"push_blocked", &"collision"] or not _presentation_caption(event).is_empty(): return true
 	return false
 
 func _ready() -> void:
@@ -687,6 +755,12 @@ func displayed_unit_details(unit_id: int) -> String:
 		if not value.alive: return "%s · погиб" % value.debug_name
 		var lines: PackedStringArray = ["%s · HP %.1f/%.1f" % [value.debug_name, value.hp, value.hp_max],
 			"Броня %.1f/%.1f · равновесие %.1f/%.1f" % [float(row.armor.get("current", 0)), float(row.armor.get("maximum", 0)), value.balance, value.balance_max]]
+		if value.balance_max <= 0.0:
+			lines.append("Невосприимчив к потере равновесия.")
+		else:
+			lines.append("Равновесие: накопленное нарушение / порог потери.")
+			if value.balance >= value.balance_max:
+				lines.append("Порог достигнут; проверка при следующем воздействии на равновесие.\nСнижение порога само по себе не вызывает сдвиг.")
 		var resources: Dictionary = row.get("resources", {})
 		if not resources.is_empty():
 			lines.append("Действия: основное %d · доп. %d · движение %.1f · реакция %d" % [int(resources.get("main", 0)), int(resources.get("bonus", 0)), float(resources.get("move", 0)), int(resources.get("reaction", 0))])
