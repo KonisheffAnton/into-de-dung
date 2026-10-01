@@ -24,6 +24,10 @@ var raising_mode: bool = false
 var environment_mode: bool = false
 var elemental_mode: bool = false
 var inspected_id: int = UnitId.NONE
+var displayed_selected_id: int = UnitId.NONE
+var acting_id: int = UnitId.NONE
+var hovered_unit_id: int = UnitId.NONE
+var compact_forecast: BattleForecastCard
 var hover_cell := Vector2i(-1, -1)
 var grid_config := IsoGridConfig.new()
 var _reachable: Dictionary = {}
@@ -102,7 +106,7 @@ func show_presentation_state(value: Dictionary) -> void:
 		view.hp_max = row.hp_max
 		view.balance = row.balance
 		view.balance_max = row.balance_max
-		_view_units.append({"unit": view, "cell": row.cell, "selected": false,
+		_view_units.append({"unit": view, "cell": row.cell, "selected": view.id == displayed_selected_id,
 			"attack_range": float(row.get("attack_range", 1.0)),
 			"inspected": false, "show_rear": false, "armor": row.armor.duplicate(true),
 			"statuses": BattleStatusPresentation.entries(row), "resources": _presentation_resources(row)})
@@ -377,6 +381,12 @@ func _show_consequence_feedback(entries: Array[Dictionary], root_id: int) -> voi
 			number.set_meta("parts", parts)
 
 func begin_presentation_frame(events: Array) -> void:
+	set_acting_unit(UnitId.NONE)
+	for event: Dictionary in events:
+		var actor_id := int(event.get("actor_unit_id", UnitId.NONE))
+		if _view_unit_cell(actor_id).x >= 0:
+			set_acting_unit(actor_id)
+			break
 	# Следующее действие участника убирает прежнюю причину до движения/замаха.
 	# Числа результата привязаны к месту прошлого удара и сохраняют свой срок R05.
 	for event: Dictionary in events:
@@ -616,6 +626,9 @@ func _ready() -> void:
 	_numbers = _layer("ResultNumbers", RenderLayers.Layer.VFX_OVERLAY)
 	_overlay = _layer("PathOverlay", RenderLayers.Layer.UI_PREVIEW)
 	_overlay.draw.connect(_draw_overlay)
+	compact_forecast = BattleForecastCard.new()
+	compact_forecast.name = "CompactForecast"
+	add_child(compact_forecast)
 	mouse_exited.connect(_clear_hover)
 	if camera_controls_enabled: _build_camera_controls()
 	_rescale_layout()
@@ -673,6 +686,7 @@ func _apply_camera() -> void:
 	for layer: Node2D in [_tiles, _entities, _ghosts, _impacts, _numbers, _overlay]:
 		if layer != null: layer.transform = camera_view.get_transform()
 	if _camera_reset != null: _camera_reset.text = "%d%%" % roundi(camera_view.zoom * 100.0)
+	if compact_forecast != null: compact_forecast.place(self)
 	queue_redraw()
 
 func _camera_input(event: InputEvent) -> bool:
@@ -820,11 +834,30 @@ func displayed_unit_at(point: Vector2) -> int:
 		return visual.unit.id if visual.unit != null else UnitId.NONE
 	return UnitId.NONE
 
+func set_acting_unit(id: int) -> void:
+	acting_id = id
+	for visual: BattleDemoIsoVisual in _entity_visuals:
+		visual.acting = visual.unit != null and visual.unit.alive and visual.unit.id == id
+		visual.queue_redraw()
+
+func set_hovered_unit(id: int) -> void:
+	hovered_unit_id = id
+	for visual: BattleDemoIsoVisual in _entity_visuals:
+		visual.hovered = visual.unit != null and visual.unit.alive and visual.unit.id == id
+		visual.queue_redraw()
+
+func displayed_names() -> Dictionary:
+	var result: Dictionary = {}
+	for row: Dictionary in _view_units: result[row.unit.id] = row.unit.debug_name
+	return result
+
 func displayed_unit_summary(unit_id: int) -> String:
 	for row: Dictionary in _view_units:
 		var value: BattleUnitView = row.unit
 		if value.id != unit_id: continue
 		var summary := "%s · HP %.1f/%.1f · броня %.1f" % [value.debug_name, value.hp, value.hp_max, float(row.armor.get("current", 0))]
+		if unit_id == displayed_selected_id: summary = "Выбран · " + summary
+		if unit_id == acting_id: summary = "Действует · " + summary
 		if not value.alive: summary += " · погиб"
 		var states := BattleStatusPresentation.summary(row.get("statuses", [])) if value.alive else ""
 		return summary + ("\n" + states if not states.is_empty() else "")
@@ -930,6 +963,8 @@ func _rebuild_visuals() -> void:
 		visual.unit = unit
 		visual.selected = bool(row["selected"]) and unit.alive
 		visual.inspected = bool(row["inspected"]) and unit.alive
+		visual.hovered = unit.id == hovered_unit_id and unit.alive
+		visual.acting = unit.id == acting_id and unit.alive
 		visual.forecast_entry = _forecast_entry(unit.id)
 		visual.show_rear = bool(row["show_rear"])
 		visual.armor_values = (row["armor"] as Dictionary).duplicate(true)
@@ -982,6 +1017,7 @@ func _capture_board_view(board: BattleBoard) -> void:
 			_view_heights[index] = board.get_height_steps(cell)
 			_view_terrain[index] = board.get_terrain(cell)
 	var selected_id := session.selected_id if session != null else UnitId.NONE
+	displayed_selected_id = selected_id
 	var source_units: Array[UnitState] = session.units if session != null else []
 	for unit: UnitState in source_units:
 		var value := BattleUnitView.capture(unit)

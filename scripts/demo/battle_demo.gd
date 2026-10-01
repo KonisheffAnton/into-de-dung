@@ -190,6 +190,7 @@ func _join_execution() -> void:
 	_presentation_events.clear()
 	_presentation_result = null
 	if board_view != null: board_view.execution_pending = false
+	if board_view != null: board_view.set_acting_unit(UnitId.NONE)
 	if _skip_presentation_button != null:
 		_skip_presentation_button.visible = core_reactions_mode
 		_skip_presentation_button.disabled = true
@@ -260,6 +261,7 @@ func set_diagnostics_visible(value: bool) -> void:
 
 func _displayed_unit_hovered(unit_id: int) -> void:
 	_display_inspection_id = unit_id
+	board_view.set_hovered_unit(unit_id)
 	if _compact_inspection == null: return
 	_compact_inspection.text = board_view.displayed_unit_summary(unit_id)
 	_compact_inspection.tooltip_text = board_view.displayed_unit_details(unit_id)
@@ -313,6 +315,7 @@ func _finish_presentation() -> void:
 	_presentation_events.clear()
 	board_view.execution_pending = false
 	_skip_presentation_button.visible = core_reactions_mode
+	board_view.set_acting_unit(UnitId.NONE)
 	_skip_presentation_button.disabled = true
 	_speed_presentation_button.visible = core_reactions_mode
 	_receipt_already_presented = true
@@ -405,6 +408,7 @@ func _exit_tree() -> void:
 		board_view.move_forecast_pending = false
 		board_view.pending_move_path.clear()
 		board_view.sneak_threat_ids.clear()
+		board_view.compact_forecast.publish({}, Vector2i(-1, -1), board_view)
 		board_view.session = null
 	if session != null: session.close()
 	session = null
@@ -1702,6 +1706,7 @@ func _clear_forecast() -> void:
 	_forecast_target_id = UnitId.NONE
 	_forecast_revision = -1
 	if board_view != null:
+		board_view.compact_forecast.publish({}, Vector2i(-1, -1), board_view)
 		board_view.forecast = null
 		board_view.move_forecast = null
 		board_view.move_forecast_pending = false
@@ -1717,6 +1722,7 @@ func _clear_forecast() -> void:
 	if _log_heading != null: _log_heading.visible = not attack_mode
 
 func _render_forecast_panel() -> void:
+	BattleCompactForecastPresenter.publish(self)
 	if is_execution_pending(): return
 	if _forecast_panel == null: return
 	if _environment_forecast_pending or _environment_forecast != null:
@@ -1870,6 +1876,7 @@ func _control_skip_text(reason: StringName) -> String:
 		_: return "нет положительного физического урона HP"
 
 func _render_move_forecast_panel() -> void:
+	BattleCompactForecastPresenter.publish(self)
 	if is_execution_pending(): return
 	_forecast_panel.visible = true
 	_forecast_heading.visible = true
@@ -2013,6 +2020,7 @@ func _resolve_guard_hover_exit() -> void:
 	_refresh_inspection()
 
 func _render_guard_forecast_panel() -> void:
+	BattleCompactForecastPresenter.publish(self)
 	if is_execution_pending(): return
 	_forecast_panel.visible = true
 	_forecast_heading.visible = true
@@ -2032,6 +2040,7 @@ func _render_guard_forecast_panel() -> void:
 	_forecast_panel.text = text
 
 func _render_reaction_guard_forecast() -> void:
+	BattleCompactForecastPresenter.publish(self)
 	if is_execution_pending(): return
 	_forecast_panel.visible = true
 	_forecast_heading.visible = true
@@ -2063,6 +2072,7 @@ func _resolve_item_hover_exit() -> void:
 	_forecast_heading.visible = attack_mode
 
 func _render_item_forecast_panel() -> void:
+	BattleCompactForecastPresenter.publish(self)
 	if is_execution_pending(): return
 	if _forecast_panel == null or _item_forecast == null: return
 	_forecast_panel.visible = true
@@ -2109,6 +2119,7 @@ func _render_item_forecast_panel() -> void:
 	_forecast_panel.text = text
 
 func _render_raise_forecast_panel() -> void:
+	BattleCompactForecastPresenter.publish(self)
 	if is_execution_pending(): return
 	_forecast_panel.visible = true
 	_forecast_heading.visible = true
@@ -2441,6 +2452,7 @@ func _resolve_armor_hover_exit() -> void:
 	_refresh_inspection()
 
 func _render_armor_forecast_panel() -> void:
+	BattleCompactForecastPresenter.publish(self)
 	if is_execution_pending(): return
 	_forecast_panel.visible = true
 	_forecast_heading.visible = true
@@ -2462,6 +2474,7 @@ func _render_armor_forecast_panel() -> void:
 	_forecast_panel.text = text
 
 func _render_elemental_forecast_panel() -> void:
+	BattleCompactForecastPresenter.publish(self)
 	if is_execution_pending() or _elemental_forecast == null: return
 	_forecast_panel.visible = true
 	_forecast_heading.visible = true
@@ -2585,6 +2598,7 @@ func _process_environment_forecast() -> void:
 	_environment_forecast_worker.start((session as BattleCoreReactionsSession).prepare_environment_forecast())
 
 func _render_environment_forecast() -> void:
+	BattleCompactForecastPresenter.publish(self)
 	_forecast_panel.visible = true
 	_forecast_heading.visible = true
 	_forecast_heading.text = "ПРОГНОЗ · ОКРУЖЕНИЕ"
@@ -2643,6 +2657,7 @@ func _process_turn_forecast() -> void:
 	_turn_forecast_worker.start(TurnForecast.prepare(session as BattleCoreReactionsSession))
 
 func _render_turn_forecast() -> void:
+	BattleCompactForecastPresenter.publish(self)
 	_forecast_panel.visible = true
 	_forecast_heading.visible = true
 	_forecast_heading.text = "ПРОГНОЗ · КОНЕЦ ХОДА"

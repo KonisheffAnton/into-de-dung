@@ -46,6 +46,7 @@ func run() -> void:
 	push_motion(at(target.cell))
 	check(demo._attack_forecast_pending and demo._forecast == null and not demo._attack_forecast_worker.is_started(), "input queues target without running capture or simulation")
 	check(demo._forecast_panel.text.contains("Рассчитываем") and demo._forecast_panel.text.contains(target.debug_name), "pending panel immediately identifies target")
+	check(demo.board_view.compact_forecast.label.text.contains("Расчёт") and demo.board_view.compact_forecast.model.affected_ids.is_empty(), "compact pending has no predicted values")
 	check_header(s.units[2], target, "pending identifies attacker and target")
 	check(demo.board_view.forecast == null and demo.board_view._forecast_entry(target.id).is_empty() and demo.board_view.sneak_threat_ids.is_empty(), "pending request invents no health or sneak result")
 	await capture("attack-pending")
@@ -61,6 +62,7 @@ func run() -> void:
 	await settle()
 	check(same_forecast(demo._forecast, s.preview_attack(other.id)), "obsolete result cannot overwrite latest target")
 	check_header(s.units[2], other, "ready refusal keeps latest attacker and target")
+	check(demo.board_view.compact_forecast.label.text.contains("Недоступно") and demo.board_view.compact_forecast.model.affected_ids.is_empty(), "refusal stays visible beside target without partial numbers")
 	check(snapshot() == before and s.context.get_rng().to_dict() == rng and s.context.simulation_counters() == counters and s.last_receipt == receipt, "asynchronous hover preserves all live state")
 	push_motion(at(target.cell))
 	await settle()
@@ -68,6 +70,7 @@ func run() -> void:
 	check(forecast != null and forecast.status == ActionReceipt.APPLIED, "ordinary attack gets exact ready forecast")
 	check_header(s.units[2], target, "ready attack keeps attacker and target")
 	check(demo.board_view.forecast == forecast and not demo.board_view._forecast_entry(target.id).is_empty(), "ready result updates existing health overlay")
+	await compact_layout_and_focus(s, target)
 	push_motion(at(target.cell))
 	demo._process_attack_forecast()
 	check(demo._forecast == forecast and not demo._attack_forecast_worker.is_started(), "unchanged hover reuses completed result")
@@ -271,10 +274,44 @@ func test_ally_selection_during_attack() -> void:
 	check(s.context.get_rng().to_dict() == expected_rng and s.context.simulation_counters() == expected_counters, "live RNG and counters match Astra forecast")
 func check_header(actor: UnitState, target: UnitState, label: String) -> void:
 	check(demo._forecast_panel.get_parsed_text().get_slice("\n", 0) == "%s → %s" % [actor.debug_name, target.debug_name], label)
+	check(demo.board_view.compact_forecast.visible and demo.board_view.compact_forecast.label.text.get_slice("\n", 0).contains("%s → %s" % [actor.debug_name, target.debug_name]), "compact " + label)
 
 func check_no_header(label: String) -> void:
 	# После удара под курсором может уже начаться прогноз движения на пустую клетку.
 	check(not demo._forecast_panel.get_parsed_text().get_slice("\n", 0).contains(" → "), label)
+	check(not demo.board_view.compact_forecast.visible or not demo.board_view.compact_forecast.label.text.get_slice("\n", 0).contains(" → "), "compact " + label)
+
+func compact_layout_and_focus(s: BattleCoreReactionsSession, target: UnitState) -> void:
+	var board := demo.board_view
+	var card := board.compact_forecast
+	var selected := s.selected_id
+	var before := snapshot()
+	demo.set_diagnostics_visible(false)
+	await process_frame; await process_frame
+	check(card.visible and card.label.text.contains("ОЗ") and card.mouse_filter == Control.MOUSE_FILTER_IGNORE, "compact ready forecast needs no diagnostic panel and cannot steal target click")
+	await capture("compact-ready")
+	for zoom: float in [0.75, 1.0, 2.5]:
+		board.zoom_camera(zoom, board.size * 0.5)
+		await process_frame; await process_frame
+		check(Rect2(Vector2.ZERO, board.size).encloses(card.get_rect()), "compact forecast stays inside viewport at %s zoom" % zoom)
+	board.reset_camera()
+	board.set_acting_unit(s.units[1].id)
+	demo._displayed_unit_hovered(target.id)
+	check(board.displayed_selected_id == selected and s.selected_id == selected, "hover and acting indicators never change selected actor")
+	check(board._presentation_visual(selected).selected and board._presentation_visual(target.id).hovered and board._presentation_visual(s.units[1].id).acting, "selected hovered and acting have separate visual flags")
+	var copied := ActionPresentationState.capture(s.state)
+	board.execution_pending = true
+	board.session = null
+	board.show_presentation_state(copied)
+	demo._displayed_unit_hovered(target.id)
+	check(board._presentation_visual(selected).selected and board._presentation_visual(target.id).hovered and board._presentation_visual(s.units[1].id).acting, "published frame preserves three indicators without runtime owner")
+	check(snapshot() == before, "compact forecast and indicators preserve live snapshot")
+	board.session = s
+	board.execution_pending = false
+	board.set_acting_unit(UnitId.NONE)
+	demo.set_diagnostics_visible(true)
+	board.refresh()
+	await process_frame; await process_frame
 
 func click_cell(cell: Vector2i) -> void:
 	push_motion(at(cell))

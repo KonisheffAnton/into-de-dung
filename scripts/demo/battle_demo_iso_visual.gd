@@ -10,6 +10,8 @@ var selected: bool = false
 var reachable: bool = false
 var enemy_range: bool = false
 var inspected: bool = false
+var hovered: bool = false
+var acting: bool = false
 var forecast_entry: Dictionary = {}
 var armor_values: Dictionary = {}
 var show_rear: bool = false
@@ -305,6 +307,14 @@ func _draw_unit() -> void:
 		var ring_hw := grid_config.tile_size.x * 0.42
 		var ring_hh := grid_config.tile_size.y * 0.42
 		draw_polyline(PackedVector2Array([foot + Vector2(0, -ring_hh), foot + Vector2(ring_hw, 0), foot + Vector2(0, ring_hh), foot + Vector2(-ring_hw, 0), foot + Vector2(0, -ring_hh)]), Color("f7c97d"), 3, true)
+	if hovered:
+		# Уголки осмотра не подменяют замкнутый ромб выбранного бойца.
+		for side: float in [-1.0, 1.0]:
+			var corner := foot + Vector2(side * 31, -18) * factor
+			draw_polyline(PackedVector2Array([corner + Vector2(-side * 8, -12) * factor, corner + Vector2(0, -12) * factor, corner + Vector2(0, 10) * factor]), Color("eef4fa"), 2, true)
+	if acting:
+		var tip := foot + Vector2(0, 20) * factor
+		draw_colored_polygon(PackedVector2Array([tip, tip + Vector2(-8, 10) * factor, tip + Vector2(8, 10) * factor]), Color("f7c97d"))
 	# Высота силуэта отделена от его наземной опоры для общей Y-сортировки.
 	draw_set_transform(foot, 0, Vector2.ONE * factor)
 	if not _scene_art_enabled:

@@ -76,10 +76,11 @@ def main():
         if label.startswith("expedition_") or label == "battle_artifact_snapshot":
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
-        if label == "balance_recovery":
-            invalid = invalid or "BALANCE RECOVERY RESULTS:" not in output or ", 0 failed" not in output
         if label == "ally_transit":
             invalid = invalid or "ALLY TRANSIT RESULTS:" not in output or ", 0 failed" not in output
+        if label in ("balance_recovery", "compact_forecast"):
+            marker = label.replace("_", " ").upper() + " RESULTS:"
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("attack_modifiers", "critical_control", "control_ui"):
             marker = {"attack_modifiers": "ATTACK MODIFIERS RESULTS:", "critical_control": "Critical control:", "control_ui": "CONTROL UI RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -310,6 +311,7 @@ def main():
         run("action_forecast_worker", ["--script", "tests/test_action_forecast_worker.gd"])
         run("turn_forecast", ["--script", "tests/test_turn_forecast.gd"])
         run("balance_recovery", ["--script", "tests/test_balance_recovery.gd"])
+        run("compact_forecast", ["--script", "tests/test_compact_forecast.gd"])
         run("safe_retreat", ["--script", "tests/test_safe_retreat.gd"])
         run("safe_retreat_integration", ["--script", "tests/test_safe_retreat_integration.gd"])
         run("collapse_state", ["--script", "tests/test_collapse_state.gd"])
