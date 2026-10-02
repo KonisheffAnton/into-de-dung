@@ -43,6 +43,7 @@ static func capture(state: ItemSimulationState) -> Dictionary:
 			"bonus": actions.get_bonus_left() if actions != null else 0,
 			"move": unit.move_points_left, "guard": unit.guard_stance,
 			"reaction": unit.combat_perks.reaction_left if unit.combat_perks != null else 0,
+			"reaction_view": capture_reaction_view(state, unit),
 		}
 	var environment := state.environment
 	var abilities: Dictionary = state.abilities.to_dict().duplicate(true) if state.abilities != null else {}
@@ -55,6 +56,22 @@ static func capture(state: ItemSimulationState) -> Dictionary:
 		"abilities": abilities,
 		"action_areas": capture_action_areas(state),
 	}
+
+## Только значения для показа: выбранный режим переживает снятие стойки.
+## Готовность режима не обещает допустимость конкретного будущего удара.
+static func capture_reaction_view(state: ItemSimulationState, unit: UnitState) -> Dictionary:
+	var perks := unit.combat_perks
+	var mode := perks.mode if perks != null else CombatPerksState.Mode.NONE
+	var target_id := perks.cover_target_id if perks != null else UnitId.NONE
+	var ready := mode != CombatPerksState.Mode.NONE and MeleeThreat.reaction_ready_state(state, unit, mode)
+	var cover_valid := false
+	if mode == CombatPerksState.Mode.COVER:
+		var board := state.get_board()
+		var ally := board.get_unit_by_id(target_id)
+		cover_valid = ally != null and ally != unit and unit.is_alive() and ally.is_alive() and unit.is_friendly_to(ally) and board.occupant_at(unit.cell) == unit and board.occupant_at(ally.cell) == ally and absi(unit.cell.x - ally.cell.x) + absi(unit.cell.y - ally.cell.y) == 1 and MeleeThreat.reaches(board, unit, ally.cell)
+		ready = ready and cover_valid
+	return {"guard": unit.guard_stance, "mode": mode, "charge": perks.reaction_left if perks != null else 0,
+		"owned": MeleeThreat.has_reactions(unit), "ready": ready, "cover_target_id": target_id, "cover_valid": cover_valid}
 
 ## Область — геометрия действия, не обещание попадания по любой цели внутри неё.
 static func capture_action_areas(state: ItemSimulationState) -> Array[Dictionary]:

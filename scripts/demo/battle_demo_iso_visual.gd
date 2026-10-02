@@ -20,6 +20,8 @@ var transient_label: String = ""
 var transient_tint := Color("f7c97d")
 ## Доска передаёт снимок значений, чтобы рисунок не читал runtime боя.
 var status_entries: Array[Dictionary] = []
+## Пассивный снимок стойки; отдельный знак не занимает место в строке состояний.
+var reaction_view: Dictionary = {}
 @export var body_pick_rect: Rect2 = Rect2(-17, -37, 34, 44)
 ## Демонстрационные состояния выбираются доской; сцена только отображает слои.
 var frozen: bool = false
@@ -76,6 +78,41 @@ func _sync_status_hud() -> void:
 
 func _draw_status_hud() -> void:
 	_draw_status_icons(_status_hud)
+	_draw_reaction_view(_status_hud)
+
+func _draw_reaction_view(canvas: Node2D) -> void:
+	var mode := int(reaction_view.get("mode", 0))
+	var guard_active := bool(reaction_view.get("guard", false))
+	var owned := bool(reaction_view.get("owned", false))
+	if not guard_active and mode == 0 and not owned:
+		return
+	var charge := clampi(int(reaction_view.get("charge", 0)), 0, 1)
+	var ready := bool(reaction_view.get("ready", false))
+	var tint := Color("75dfdc") if ready else Color("6b7782")
+	var box := Rect2(29, -39, 18, 26)
+	# Знак вынесен из ряда эффектов: его смысл и габариты не зависят от числа статусов.
+	# Даже полная строка и +N остаются ниже капсулы с небольшим зазором.
+	canvas.draw_set_transform(Vector2(0, -20))
+	canvas.draw_rect(box, Color("101d27", 0.94))
+	canvas.draw_rect(box, tint, false, 1.0)
+	if guard_active:
+		var shield := PackedVector2Array([Vector2(32, -36), Vector2(44, -36), Vector2(43, -29), Vector2(38, -25), Vector2(33, -29), Vector2(32, -36)])
+		canvas.draw_polyline(shield, Color("83c9e7") if owned else Color("d5e0e7"), 1.4, true)
+	var mode_label := ""
+	match mode:
+		1: mode_label = "О"
+		2: mode_label = "П"
+		3: mode_label = "К"
+	if not mode_label.is_empty():
+		canvas.draw_string(ThemeDB.fallback_font, Vector2(31, -16), mode_label, HORIZONTAL_ALIGNMENT_LEFT, 8, 10, tint)
+	if owned:
+		canvas.draw_circle(Vector2(43, -18), 2.2, tint.darkened(0.55))
+		if charge == 1:
+			canvas.draw_circle(Vector2(43, -18), 1.3, tint)
+	canvas.draw_set_transform(Vector2.ZERO)
+
+func reaction_hud_bounds() -> Rect2:
+	return Rect2(29, -59, 18, 26)
 
 func status_hud_bounds() -> Rect2:
 	var entries := visible_status_entries().size()

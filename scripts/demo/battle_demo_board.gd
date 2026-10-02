@@ -87,6 +87,9 @@ var number_scene: PackedScene = preload("res://scenes/demo/visuals/result_number
 var impact_scene: PackedScene = preload("res://scenes/demo/visuals/hit_impact.tscn")
 var projectile_scene: PackedScene = preload("res://scenes/demo/visuals/shot_projectile.tscn")
 var mage_scene: PackedScene = preload("res://scenes/demo/visuals/mage_delivery.tscn")
+var reaction_scene: PackedScene = preload("res://scenes/demo/visuals/reaction_cue.tscn")
+const REACTION_CUE_SECONDS: float = 0.18
+var _reaction_cues: Array[BattlePresentationReaction] = []
 var _mage_effect: BattlePresentationMage
 var _mage_target_id: int = UnitId.NONE
 var _mage_spell_id: StringName = &""
@@ -115,7 +118,8 @@ func show_presentation_state(value: Dictionary) -> void:
 		_view_units.append({"unit": view, "cell": row.cell, "selected": view.id == displayed_selected_id,
 			"attack_range": float(row.get("attack_range", 1.0)),
 			"inspected": false, "show_rear": false, "armor": row.armor.duplicate(true),
-			"statuses": BattleStatusPresentation.entries(row), "resources": _presentation_resources(row)})
+			"statuses": BattleStatusPresentation.entries(row), "resources": _presentation_resources(row),
+			"reaction_view": row.get("reaction_view", {}).duplicate(true)})
 	_view_fires.assign(value.get("fires", []).duplicate(true))
 	_view_corpses.assign(value.get("corpses", []).duplicate(true))
 	_view_collapse.assign(value.get("collapse", {}).get("marked", []).duplicate(true))
@@ -140,6 +144,7 @@ static func _presentation_resources(row: Dictionary) -> Dictionary:
 
 func clear_presentation_effects() -> void:
 	_clear_layer(_ghosts)
+	_reaction_cues.clear()
 	if _mage_target_id != UnitId.NONE: _set_action_offset(_mage_target_id, Vector2.ZERO)
 	if is_instance_valid(_mage_effect):
 		remove_child(_mage_effect)
@@ -337,6 +342,8 @@ func _matching_strike(events: Array, step: Dictionary) -> Dictionary:
 ## Числа создаются на той же атомарной границе, что HP/броня поля и HUD.
 func finish_presentation_frame(events: Array, step: Dictionary = {}, before: Dictionary = {}, after: Dictionary = {}) -> void:
 	var strike := _matching_strike(events, step)
+	for feedback: Dictionary in BattleReactionPresentation.feedback(events, step, before, after):
+		_add_result_number(int(feedback.id), String(feedback.text), Color("93dce9"), &"reaction")
 	var numbered: Dictionary = {}
 	for event: Dictionary in events:
 		var status_feedback := BattleStatusPresentation.event_feedback(event)
@@ -553,9 +560,12 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 	var tween := create_tween()
 	var visible_event := false
 	var strike := _matching_strike(events, step)
-	var attack_start := events.any(func(e: Dictionary) -> bool: return e.get("kind") in [&"attacked", &"opportunity_attacked", &"counterattacked"])
 	var consequence_pulses: Dictionary = {}
+	var reaction_cues := BattleReactionPresentation.cues(events, step)
 	if not strike.is_empty():
+		for cue: Dictionary in strike.get("presentation_cues", []):
+			var effect := _make_reaction_cue(cue)
+			_sample_reaction_cue(1.0, effect)
 		var impact_tint := Color("f29b9b") if events.any(func(e: Dictionary) -> bool: return e.get("kind") == &"damaged") else (Color("8dcaff") if events.any(func(e: Dictionary) -> bool: return e.get("kind") == &"armor_changed") else Color("d6dfeb"))
 		tween.tween_callback(_hit_impact.bind(strike, impact_tint))
 		tween.tween_interval(HIT_STOP_SECONDS)
@@ -565,7 +575,13 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 	for event: Dictionary in events:
 		var kind := StringName(event.get("kind", &""))
 		var id := int(event.get("target_unit_id", 0))
-		if kind == &"reaction_used" and attack_start: continue
+		# Расход уже объяснён единственным клипом действия; это не ещё одно попадание.
+		if kind == &"reaction_used": continue
+		if kind == &"guarded" and not reaction_cues.is_empty():
+			for cue: Dictionary in reaction_cues:
+				if cue.kind == &"guard": _append_reaction_cue(tween, cue)
+			visible_event = true
+			continue
 		if kind in [&"push_blocked", &"collision"]:
 			var obstacle_event := event.duplicate(true)
 			tween.tween_method(_obstacle_approach.bind(obstacle_event), 0.0, 1.0, OBSTACLE_APPROACH_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
@@ -591,7 +607,12 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			clear_strike_poses()
 			var start := event.duplicate(true)
 			start["presentation_ranged"] = _is_ranged_strike(event)
+			start["presentation_cues"] = reaction_cues.duplicate(true)
 			_pending_strikes[_strike_key(event)] = start
+			for cue: Dictionary in reaction_cues:
+				if cue.kind in [&"opportunist", &"counterattack"]: _append_reaction_cue(tween, cue)
+			for cue: Dictionary in reaction_cues:
+				if cue.kind == &"cover": _append_reaction_cue(tween, cue)
 			if start.presentation_ranged:
 				var projectile := _prepare_projectile(start)
 				tween.tween_method(_strike_pose.bind(start), 0.0, -8.0, SHOT_WINDUP_SECONDS)
@@ -625,6 +646,34 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			visible_event = true
 	if not visible_event: tween.tween_interval(0.035)
 	return tween
+
+func _make_reaction_cue(cue: Dictionary) -> BattlePresentationReaction:
+	var effect := reaction_scene.instantiate() as BattlePresentationReaction
+	_ghosts.add_child(effect)
+	effect.set_meta("cue", cue.duplicate(true))
+	_reaction_cues.append(effect)
+	_sample_reaction_cue(0.0, effect)
+	return effect
+
+func _append_reaction_cue(tween: Tween, cue: Dictionary) -> void:
+	var effect := _make_reaction_cue(cue)
+	effect.visible = false
+	tween.tween_method(_sample_reaction_cue.bind(effect), 0.0, 1.0, REACTION_CUE_SECONDS)
+
+func _sample_reaction_cue(progress: float, effect: BattlePresentationReaction) -> void:
+	if not is_instance_valid(effect): return
+	var cue: Dictionary = effect.get_meta("cue")
+	effect.visible = true
+	effect.sample(cue.kind, cue.title, progress, _reaction_anchor(int(cue.actor_id)), _reaction_anchor(int(cue.target_id)))
+
+func _reaction_anchor(id: int) -> Vector2:
+	var visual := _presentation_visual(id)
+	if visual == null: return _world_cell_center(_view_unit_cell(id))
+	return visual.position + visual.get_visual_offset() + _effect_anchor(id) * grid_config.tile_size.x / 128.0
+
+func _place_reaction_cues() -> void:
+	for effect: BattlePresentationReaction in _reaction_cues:
+		if is_instance_valid(effect) and effect.visible: _sample_reaction_cue(effect.progress, effect)
 
 func _matching_mage_cast(events: Array, step: Dictionary) -> Dictionary:
 	if step.get("kind") != &"mage_cast": return {}
@@ -966,6 +1015,8 @@ func displayed_unit_details(unit_id: int) -> String:
 		if not resources.is_empty():
 			lines.append("Действия: основное %d · доп. %d · движение %.1f · реакция %d" % [int(resources.get("main", 0)), int(resources.get("bonus", 0)), float(resources.get("move", 0)), int(resources.get("reaction", 0))])
 		lines.append(BattleStatusPresentation.details(row.get("statuses", [])))
+		var reaction_details := BattleReactionPresentation.details(row.get("reaction_view", {}), displayed_names())
+		if not reaction_details.is_empty(): lines.append(reaction_details)
 		return "\n".join(lines)
 	return "Наведите на фигуру для осмотра."
 
@@ -999,6 +1050,7 @@ func _rescale_layout() -> void:
 		_place_result_numbers()
 		_place_impacts()
 		_place_projectiles()
+		_place_reaction_cues()
 		_apply_camera()
 		queue_redraw()
 		if _overlay != null: _overlay.queue_redraw()
@@ -1054,6 +1106,7 @@ func _rebuild_visuals() -> void:
 		visual.show_rear = bool(row["show_rear"])
 		visual.armor_values = (row["armor"] as Dictionary).duplicate(true)
 		visual.status_entries.assign(row.get("statuses", []).duplicate(true))
+		visual.reaction_view = row.get("reaction_view", {}).duplicate(true)
 		visual.status_text = BattleStatusPresentation.summary(visual.status_entries)
 		visual.frozen = BattleStatusPresentation.has(visual.status_entries, "frozen")
 		visual.stunned = BattleStatusPresentation.has(visual.status_entries, "stunned")
@@ -1116,6 +1169,7 @@ func _capture_board_view(board: BattleBoard) -> void:
 			"inspected": unit.id == inspected_id,
 			"show_rear": session is BattleControlSession or (session is BattleCoreCombinationSession and not session is BattleCoreReactionsSession),
 			"armor": armor.duplicate(true),
+			"reaction_view": ActionPresentationState.capture_reaction_view(session.state, unit),
 			"statuses": BattleStatusPresentation.entries({
 				"bleeding": unit.bleeding.to_dict() if unit.bleeding != null else {},
 				"elemental": unit.elemental.to_dict() if unit.elemental != null else {},
@@ -1182,7 +1236,17 @@ func _draw_action_areas() -> void:
 		if area.cells.has(hover_cell):
 			_overlay.draw_dashed_line(origin, _world_cell_center(hover_cell), color, 1.5, 5.0)
 
+func _draw_cover_links() -> void:
+	for row: Dictionary in _view_units:
+		var view: Dictionary = row.get("reaction_view", {})
+		if not row.unit.alive or int(view.get("mode", 0)) != CombatPerksState.Mode.COVER or not bool(view.get("ready", false)): continue
+		var source := _reaction_anchor(int(row.unit.id))
+		var target := _reaction_anchor(int(view.get("cover_target_id", 0)))
+		_overlay.draw_line(source, target, Color("76d9f2", 0.45), 1.5, true)
+		_overlay.draw_arc(target, 9.0, 0.0, TAU, 16, Color("76d9f2", 0.65), 1.5, true)
+
 func _draw_overlay() -> void:
+	_draw_cover_links()
 	if _view_width <= 0 or _view_height <= 0: return
 	var hw := grid_config.tile_size.x * 0.5
 	var highlight_hh := grid_config.tile_size.y * 0.48
