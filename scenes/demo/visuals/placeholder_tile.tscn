@@ -1,14 +1,25 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/demo/battle_demo_iso_visual.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/placeholder_battle/tile.svg" id="2_tile"]
-[ext_resource type="PackedScene" path="res://scenes/demo/visuals/fire_overlay.tscn" id="3_fire"]
+[ext_resource type="Texture2D" path="res://assets/battle_tiles/ground_earth_v1.png" id="3_ground"]
+[ext_resource type="PackedScene" path="res://scenes/demo/visuals/fire_overlay.tscn" id="4_fire"]
+
+[sub_resource type="AtlasTexture" id="GroundAtlas"]
+atlas = ExtResource("3_ground")
+region = Rect2(90, 9, 1593, 869)
+filter_clip = true
 
 [node name="PlaceholderTile" type="Node2D"]
 script = ExtResource("1_script")
 role = 0
 
 [node name="ArtRoot" type="Node2D" parent="."]
+
+[node name="GroundBase" type="Polygon2D" parent="ArtRoot"]
+visible = false
+color = Color(0.596078, 0.454902, 0.282353, 1)
+polygon = PackedVector2Array(0, -32, 64, 0, 0, 32, -64, 0)
 
 [node name="SideLeft" type="Polygon2D" parent="ArtRoot"]
 visible = false
@@ -19,9 +30,14 @@ visible = false
 [node name="SurfaceSprite" type="Sprite2D" parent="ArtRoot"]
 texture = ExtResource("2_tile")
 
+[node name="GroundSurface" type="Sprite2D" parent="ArtRoot"]
+visible = false
+texture = SubResource("GroundAtlas")
+scale = Vector2(0.0803515, 0.073648)
+
 [node name="EffectRoot" type="Node2D" parent="ArtRoot"]
 
-[node name="BurningSprite" parent="ArtRoot/EffectRoot" instance=ExtResource("3_fire")]
+[node name="BurningSprite" parent="ArtRoot/EffectRoot" instance=ExtResource("4_fire")]
 visible = false
 
 [node name="EffectAnchor" type="Marker2D" parent="ArtRoot"]

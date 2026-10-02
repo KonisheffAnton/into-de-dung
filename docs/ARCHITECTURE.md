@@ -159,6 +159,12 @@ Board копирует опубликованные resources в IsoVisual.actio
 боковой плашки О/Д; uses_bonus в reaction_view выключает дублирующий кружок.
 Точное поведение/совместимость — REACTION_BONUS_ACTIONS.
 
+В `placeholder_tile.tscn` optional GroundBase/GroundSurface заменяют верх
+FLOOR/PLATFORM вне пустоты; AtlasTexture отделяет поля исходного PNG от опоры.
+IsoVisual синхронизирует верх с прежним смещением высоты; подложка и боковины
+закрывают стыки, эффекты остаются поверх. Геометрия/picking не берутся из PNG;
+без этих узлов сохраняется SurfaceSprite. Вид/приёмка — BATTLE_PRESENTATION_REWORK.
+
 При движении Y-sort корня фиксируется у ближнего конца сегмента чуть перед
 стоящей там фигурой, но после обеих опор; `presentation_offset` компенсирует
 это смещение изображения. Высотный lift независим. Picking использует ту же

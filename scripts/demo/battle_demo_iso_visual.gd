@@ -33,6 +33,9 @@ var entangled: bool = false
 const STATUS_ICON_SIZE: float = 16.0
 const STATUS_ICON_GAP: float = 1.0
 const STATUS_ICON_LIMIT: int = 5
+const GROUND_BASE_TINT := Color("987448")
+const GROUND_SOURCE_SIZE := Vector2(1593.0, 869.0)
+const GROUND_TILE_SIZE := Vector2(128.0, 64.0)
 const BLEEDING_ICON: Texture2D = preload("res://assets/placeholder_battle/bleeding_icon.svg")
 const BURNING_ICON: Texture2D = preload("res://assets/placeholder_battle/burning_icon.svg")
 const WET_ICON: Texture2D = preload("res://assets/placeholder_battle/wet_icon.svg")
@@ -163,12 +166,25 @@ func sync_scene_art() -> void:
 	art.scale = Vector2.ONE * factor
 	art.position = get_visual_offset() + action_offset
 	art.show_behind_parent = true
+	var surface_position := (_top_offset() - get_visual_offset()) / factor
 	var surface := get_node_or_null("ArtRoot/SurfaceSprite") as Sprite2D
+	var ground_base := get_node_or_null("ArtRoot/GroundBase") as Polygon2D
+	var ground_surface := get_node_or_null("ArtRoot/GroundSurface") as Sprite2D
+	var ground_art_active := ground_surface != null and _uses_ground_art()
 	var body := get_node_or_null("ArtRoot/BodySprite") as Sprite2D
 	if surface != null:
-		surface.visible = role != Role.UNIT
-		surface.position = (_top_offset() - get_visual_offset()) / factor
+		surface.visible = role != Role.UNIT and not ground_art_active
+		surface.position = surface_position
 		surface.modulate = _surface_tint()
+	if ground_base != null:
+		ground_base.visible = ground_art_active
+		ground_base.position = surface_position
+		ground_base.color = GROUND_BASE_TINT
+	if ground_surface != null:
+		ground_surface.visible = ground_art_active
+		ground_surface.position = surface_position
+		ground_surface.scale = GROUND_TILE_SIZE / GROUND_SOURCE_SIZE
+		ground_surface.modulate = Color.WHITE
 	if body != null:
 		body.visible = role == Role.UNIT and (unit == null or unit.alive)
 		body.modulate = transient_tint if unit == null else (Color("65dfcc") if unit.faction == Faction.Type.PLAYER else Color("f7c97d"))
@@ -196,6 +212,9 @@ func _surface_tint() -> Color:
 	if is_void: tint = Color("080f1a")
 	return tint
 
+func _uses_ground_art() -> bool:
+	return role in [Role.FLOOR, Role.PLATFORM] and not is_void
+
 func _sync_scene_sides(factor: float) -> void:
 	var left := get_node_or_null("ArtRoot/SideLeft") as Polygon2D
 	var right := get_node_or_null("ArtRoot/SideRight") as Polygon2D
@@ -210,7 +229,9 @@ func _sync_scene_sides(factor: float) -> void:
 	right.visible = true
 	left.polygon = _to_art_points(shapes[0], visual_offset, factor)
 	right.polygon = _to_art_points(shapes[1], visual_offset, factor)
-	var base_tint := _surface_tint()
+	var ground_surface := get_node_or_null("ArtRoot/GroundSurface") as Sprite2D
+	var ground_art_active := ground_surface != null and _uses_ground_art()
+	var base_tint := GROUND_BASE_TINT if ground_art_active else _surface_tint()
 	left.color = base_tint.darkened(0.40)
 	right.color = base_tint.darkened(0.22)
 
