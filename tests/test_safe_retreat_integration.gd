@@ -103,13 +103,13 @@ func transit_and_reactions() -> void:
 		s.board.move_unit(tank, Vector2i(0 if index == 1 else 1, 1))
 		tank.combat_perks.definition.tank_reactions = true
 		tank.combat_perks.mode = CombatPerksState.Mode.OPPORTUNIST
-		tank.combat_perks.reaction_left = 1
+		tank.action_resources._set_for_refill(tank.action_resources.get_main_left(), 1)
 		tank.guard_stance = true
 	await parity(s, command(s), ActionReceipt.APPLIED)
-	check(s.units[1].combat_perks.reaction_left == 1 and s.units[3].combat_perks.reaction_left == 1, "all opportunists remain unused across route")
+	check(s.units[1].action_resources.get_bonus_left() == 1 and s.units[3].action_resources.get_bonus_left() == 1, "all opportunists remain unused across route")
 	s.board.move_unit(s.units[1], Vector2i(3, 3))
 	var receipt := s._queue.submit(MoveCommand.new(s.selected_id, [Vector2i(3, 2), Vector2i(4, 2)], s.context.get_revision()), s.context)
-	check(receipt.status == ActionReceipt.INTERRUPTED and receipt.reason == &"perks/opportunist_stopped" and s.units[1].combat_perks.reaction_left == 0, "following ordinary movement is no longer protected")
+	check(receipt.status == ActionReceipt.INTERRUPTED and receipt.reason == &"perks/opportunist_stopped" and s.units[1].action_resources.get_bonus_left() == 0, "following ordinary movement is no longer protected")
 	s.close()
 
 func helpers() -> void:

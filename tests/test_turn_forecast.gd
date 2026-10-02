@@ -181,7 +181,7 @@ func _summon_and_enemy_refill() -> void:
 	enemy.action_resources.try_spend_main(1)
 	enemy.guard_stance = true
 	enemy.combat_perks.mode = CombatPerksState.Mode.OPPORTUNIST
-	enemy.combat_perks.reaction_left = 0
+	enemy.action_resources._set_for_refill(enemy.action_resources.get_main_left(), 0)
 	var before := _snapshot(session)
 	var selected_before := session.selected_id
 	var receipt_before := session.last_receipt
@@ -192,7 +192,7 @@ func _summon_and_enemy_refill() -> void:
 	check(_snapshot(session) == before and session.phase == BattleTacticalSession.Phase.PLAYER_TURN and session.selected_id == selected_before and session.last_receipt == receipt_before, "build preserves live phase/selection/last receipt")
 	check(session.end_player_turn(), "live summon boundary transitions")
 	check(forecast.snapshot_after == _snapshot(session) and forecast.admission_after == SummonAdmission.values(session.context), "pending helper and admission match live transition")
-	check(session.state.is_summon_pending(helper_id) and enemy.guard_stance == false and enemy.combat_perks.reaction_left == 1, "live enemy refill resets stance and restores reaction charge")
+	check(session.state.is_summon_pending(helper_id) and enemy.guard_stance == false and enemy.action_resources.get_bonus_left() == 1, "live enemy refill resets stance and restores reaction charge")
 	session.close()
 
 func run() -> void:

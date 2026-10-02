@@ -127,8 +127,8 @@ func stances() -> void:
 		frame_order(data)
 		await capture("guard-%d-after" % mode)
 	# Выбор после расхода оставляет пустой заряд; refill снимает стойку, но не режим.
-	a.combat_perks.reaction_left = 0
-	a.action_resources._set_for_refill(1, 1)
+	a.action_resources._set_for_refill(a.action_resources.get_main_left(), 0)
+	a.action_resources._set_for_refill(1, a.action_resources.get_bonus_left())
 	var switch_data := packet(s, GuardCommand.new(a.id, s.context.get_revision(), 1))
 	play(switch_data)
 	finish()
@@ -138,7 +138,7 @@ func stances() -> void:
 	finish()
 	var view: Dictionary = board._presentation_visual(a.id).reaction_view
 	check(view.charge == 1 and not view.guard and view.mode == 1 and not view.ready, "refill shows full charge and remembered inactive mode")
-	check(board.displayed_unit_details(a.id).contains("Общий заряд"), "tooltip explains shared charge")
+	check(board.displayed_unit_details(a.id).contains("Реакция расходует 1 дополнительное действие"), "tooltip explains the additional-action reaction cost")
 	await capture("refill")
 	s.close()
 
@@ -164,7 +164,7 @@ func reactions(kind: String, condition: String = "normal") -> void:
 			command = MoveCommand.new(a.id, path, s.context.get_revision())
 		else: command = attack(s, a, b)
 	if condition == "stun": reactor.control.stunned_turns = 1
-	if condition == "spent": reactor.combat_perks.reaction_left = 0
+	if condition == "spent": reactor.action_resources._set_for_refill(reactor.action_resources.get_main_left(), 0)
 	if condition == "range" and kind == "cover": s.board.move_unit(reactor, Vector2i(1, 4))
 	if condition == "lethal": b.vitals.set_hp(1.0)
 	if condition == "armor":
@@ -173,7 +173,7 @@ func reactions(kind: String, condition: String = "normal") -> void:
 		var helper := s.units[2]
 		s.board.move_unit(helper, Vector2i(3, 4))
 		helper.combat_perks.definition.tank_reactions = true
-		helper.combat_perks.reaction_left = 1
+		helper.action_resources._set_for_refill(helper.action_resources.get_main_left(), 1)
 		check(s._queue.submit(GuardCommand.new(helper.id, s.context.get_revision(), 2, target.id), s.context).status == ActionReceipt.APPLIED, "ally arms cover against reaction strike")
 		if kind == "opportunist":
 			var path: Array[Vector2i] = [a.cell, Vector2i(2, 3)]
@@ -211,7 +211,7 @@ func reactions(kind: String, condition: String = "normal") -> void:
 	check(board._reaction_cues.is_empty(), "natural end removes cues")
 	check(snapshot(s) == committed, "playback never mutates committed runtime")
 	if condition == "covered":
-		check(s.units[2].combat_perks.reaction_left == 0 and reactor.combat_perks.reaction_left == 0, "reaction and cover consume their distinct shared charges")
+		check(s.units[2].action_resources.get_bonus_left() == 0 and reactor.action_resources.get_bonus_left() == 0, "reaction and cover consume their distinct shared charges")
 		var combined := false
 		for frame: Dictionary in data.frames:
 			if BattleReactionPresentation.cues(frame.events, frame.step).size() == 2: combined = true
@@ -237,7 +237,7 @@ func controls_and_fault() -> void:
 		play(data)
 		advance(0.06)
 		if control == "paid_fault":
-			check(b.combat_perks.reaction_left == 0 and a.vitals.get_hp() == data.before.units[a.id].hp and board._reaction_cues.size() == 1, "paid fault shows actual reaction cue and charge without unfinished hit")
+			check(b.action_resources.get_bonus_left() == 0 and a.vitals.get_hp() == data.before.units[a.id].hp and board._reaction_cues.size() == 1, "paid fault shows actual reaction cue and charge without unfinished hit")
 		if control == "speed":
 			player.set_speed(3.0)
 			advance(0.1)

@@ -78,7 +78,7 @@ def main():
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "ally_transit":
             invalid = invalid or "ALLY TRANSIT RESULTS:" not in output or ", 0 failed" not in output
-        if label in ("balance_recovery", "compact_forecast"):
+        if label in ("balance_recovery", "compact_forecast", "reaction_bonus"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("attack_modifiers", "critical_control", "control_ui"):
@@ -242,6 +242,7 @@ def main():
             reaction_captures.mkdir()
             reaction_presentation_args += ["--", "--captures=" + str(reaction_captures)]
         run("presentation_reactions", reaction_presentation_args, headless=not args.render_check)
+        run("reaction_bonus", ["--script", "tests/test_reaction_bonus.gd"])
         run("battle_board_camera", ["--script", "tests/test_battle_board_camera.gd"])
         camera_args = ["--script", "tests/test_battle_camera_ui.gd"]
         if args.render_check:

@@ -1045,8 +1045,8 @@ func _refresh() -> void:
 			var opportunity_reason := reaction_session.reaction_reason(CombatPerksState.Mode.OPPORTUNIST)
 			var eligible_cover_targets := reaction_session.cover_targets()
 			var cover_reason := _cover_choice_reason(reaction_session, eligible_cover_targets)
-			descriptors.append({"action_id": &"opportunity_guard", "label": "Оппортунист", "cost": "1 основное", "disabled": locked or opportunity_reason != &"", "tooltip": "До следующего пополнения своей команды остановить первого врага, покидающего вашу угрозу. Перемещение полностью прекращается; расходуется один общий заряд реакции.\n" + (_reason_text(opportunity_reason) if opportunity_reason != &"" else "Наведение показывает прогноз. Клик ставит режим за 1 основное действие.")})
-			descriptors.append({"action_id": &"cover_guard", "label": "Прикрытие", "cost": "1 основное", "disabled": locked or cover_reason != &"", "tooltip": "Выберите соседнего союзника с допустимой геометрией. Один прямой удар снижается на 30% по всем компонентам до брони. Нужны стойка и общий заряд; заряд тратится при срабатывании.\n" + (_reason_text(cover_reason) if cover_reason != &"" else "Клик — выбор союзника.")})
+			descriptors.append({"action_id": &"opportunity_guard", "label": "Оппортунист", "cost": "1 основное", "disabled": locked or opportunity_reason != &"", "tooltip": "До следующего пополнения своей команды останавливать врага, покидающего вашу угрозу. Каждое срабатывание прекращает его перемещение и расходует 1 дополнительное действие.\n" + (_reason_text(opportunity_reason) if opportunity_reason != &"" else "Наведение показывает прогноз. Клик ставит режим за 1 основное действие.")})
+			descriptors.append({"action_id": &"cover_guard", "label": "Прикрытие", "cost": "1 основное", "disabled": locked or cover_reason != &"", "tooltip": "Выберите соседнего союзника с допустимой геометрией. Каждое прикрытое прямое попадание снижается на 30% по всем компонентам до брони. Нужна стойка; каждое срабатывание расходует 1 дополнительное действие.\n" + (_reason_text(cover_reason) if cover_reason != &"" else "Клик — выбор союзника.")})
 		if session is BattleCoreReactionsSession and session.selected_unit() != null and ControlRules.has_stunning_strike(session.selected_unit()):
 			var stun_actor := session.selected_unit()
 			var stun_reason := ControlRules.action_reason(stun_actor)
@@ -1056,7 +1056,7 @@ func _refresh() -> void:
 		if session is BattleCoreReactionsSession and MeleeThreat.has_counterattack(session.selected_unit()):
 			var counter_reason := (session as BattleCoreReactionsSession).reaction_reason(CombatPerksState.Mode.COUNTERATTACK)
 			if locked: counter_reason = &"battle/input_locked"
-			descriptors.append({"action_id": &"counterattack_guard", "label": "Контратака", "cost": "Перк · 1 основное", "disabled": counter_reason != &"", "tooltip": "Охранная стойка сохраняется. После прямого ближнего удара по вам последует один ответный удар без толчка; по замороженной цели — крит. Расходуется общий заряд реакции.\n" + (_reason_text(counter_reason) if counter_reason != &"" else "Наведение показывает полный прогноз стойки. Клик включает режим за 1 основное действие.")})
+			descriptors.append({"action_id": &"counterattack_guard", "label": "Контратака", "cost": "Перк · 1 основное", "disabled": counter_reason != &"", "tooltip": "Охранная стойка сохраняется. После прямого ближнего удара по вам последует один ответный удар без толчка; по замороженной цели — крит. Расходуется 1 дополнительное действие.\n" + (_reason_text(counter_reason) if counter_reason != &"" else "Наведение показывает полный прогноз стойки. Клик включает режим за 1 основное действие.")})
 		if session is BattleCoreReactionsSession:
 			var retreat_reason := (session as BattleCoreReactionsSession).retreat_reason()
 			descriptors.append({"action_id": &"safe_retreat", "label": "Безопасный отход", "cost": "1 основное + движение", "disabled": locked or retreat_reason != &"", "tooltip": "Один маршрут без перехвата Оппортунистом. Контроль и опасности сохраняются. Основное списывается с первым сегментом, движение — за пройденный путь.\n" + (_reason_text(retreat_reason) if retreat_reason != &"" else "Выберите клетку; наведение покажет последствия.")})
@@ -1183,7 +1183,7 @@ func _refresh() -> void:
 		_instructions.text += " · 8: печать призыва"
 	if session is BattleCoreReactionsSession and not _is_deploying():
 		_instructions.text = "1–4: способности слева · маг: снизу · зелёная зона: союзник, красная: враг · контур: область выбранного действия"
-	if _cover_guard_mode: _status.text = "Прикрытие: выберите подсвеченного союзника. 1 основное действие, заряд реакции тратится при первом срабатывании. Esc — отмена."
+	if _cover_guard_mode: _status.text = "Прикрытие: выберите подсвеченного союзника. 1 основное действие, дополнительное действие тратится при срабатывании. Esc — отмена."
 	_hover(board_view.hover_cell)
 	_log.text = "\n".join(_journal)
 	if refresh_armor and _battle != null and _battle.can_player_act(): _action_bar_hovered(&"restore_armor")
@@ -1207,7 +1207,7 @@ func _perk_status_text(unit: UnitState) -> String:
 		if unit.combat_perks.mode == CombatPerksState.Mode.OPPORTUNIST: mode_text = "Оппортунист"
 		elif unit.combat_perks.mode == CombatPerksState.Mode.COVER: mode_text = "Прикрытие → " + _name_for(unit.combat_perks.cover_target_id)
 		elif unit.combat_perks.mode == CombatPerksState.Mode.COUNTERATTACK: mode_text = "Контратака"
-		parts.append("%s · реакция %d/1" % [mode_text, unit.combat_perks.reaction_left])
+		parts.append("%s · %s %d" % [mode_text, "доп." if unit.combat_perks.uses_bonus_actions else "реакция", MeleeThreat.reaction_points(unit)])
 	if unit.combat_perks.movement_stopped: parts.append("движение остановлено")
 	return " · " + " · ".join(parts) if not parts.is_empty() else ""
 
@@ -1219,7 +1219,7 @@ func _inspection_text(unit: UnitState) -> String:
 		if unit.combat_perks.definition.sneak_attack: control_text += "Перк «Скрытая атака»: +50% физической базы, если цели угрожают минимум двое. Оружие ближнего боя любое.\n"
 		if unit.combat_perks.definition.stunning_strike: control_text += "Перк «Оглушающий удар»: накладывает оглушение после положительного физического урона HP. Без кровотечения.\n"
 		if unit.combat_perks.definition.burning_bypass_hp_gate: control_text += "Перк «Поджог»: горение накладывается без положительного огненного урона HP.\n"
-		if unit.combat_perks.definition.counterattack: control_text += "Перк «Контратака»: стойка отвечает одним ударом на прямую ближнюю атаку; без толчка, по замороженной цели — крит. Стойка сохраняется, тратится общий заряд реакции.\n"
+		if unit.combat_perks.definition.counterattack: control_text += "Перк «Контратака»: стойка отвечает одним ударом на прямую ближнюю атаку; без толчка, по замороженной цели — крит. Стойка сохраняется, тратится 1 дополнительное действие.\n"
 		if unit.combat_perks.definition.stun_immune: control_text += "Иммунитет к оглушению: полученный удар и толчок сохраняются.\n"
 		if unit.combat_perks.definition.entangle_immune: control_text += "Иммунитет к путам: полученный удар и толчок сохраняются.\n"
 		if MeleeThreat.has_reactions(unit):
@@ -1227,7 +1227,7 @@ func _inspection_text(unit: UnitState) -> String:
 			if unit.combat_perks.mode == CombatPerksState.Mode.OPPORTUNIST: mode_text = "Оппортунист"
 			elif unit.combat_perks.mode == CombatPerksState.Mode.COVER: mode_text = "Прикрытие: " + _name_for(unit.combat_perks.cover_target_id)
 			elif unit.combat_perks.mode == CombatPerksState.Mode.COUNTERATTACK: mode_text = "Контратака"
-			control_text += "Режим реакции: %s · общий заряд: %d/1.\n" % [mode_text, unit.combat_perks.reaction_left]
+			control_text += "Режим реакции: %s · %s: %d. Восстановление в начале хода своей команды.\n" % [mode_text, "дополнительных действий" if unit.combat_perks.uses_bonus_actions else "общий заряд", MeleeThreat.reaction_points(unit)]
 		if unit.combat_perks.movement_stopped: control_text += "Движение остановлено Оппортунистом до следующего пополнения команды цели.\n"
 	var piercing := unit.get_stat(StatTypes.StatType.PHYSICAL_PIERCING_PERCENT)
 	if piercing > 0.0:
@@ -1894,7 +1894,7 @@ func _render_move_forecast_panel() -> void:
 		return
 	if _move_forecast.status == ActionReceipt.INTERRUPTED:
 		text += "[color=#f29b9b]Маршрут прервётся: %s[/color]\n" % _reason_text(_move_forecast.reason)
-		if _move_forecast.reason == &"perks/opportunist_stopped": text += "Оппортунист остановит движение до выхода на следующую клетку; заряд реакции будет потрачен.\n"
+		if _move_forecast.reason == &"perks/opportunist_stopped": text += "Оппортунист остановит движение до выхода на следующую клетку; будет потрачено 1 дополнительное действие.\n"
 	for id: int in _move_forecast.units:
 		var row: Dictionary = _move_forecast.units[id]
 		var before: Dictionary = row["before"]
@@ -2059,8 +2059,11 @@ func _render_reaction_guard_forecast() -> void:
 	var after: Dictionary = row.get("after", {})
 	text += "Основные: %d → %d (расход 1)\n" % [before.get("main", 0), after.get("main", 0)]
 	var perks: Dictionary = after.get("combat_perks", {})
-	text += "Общий заряд реакции: %d → %d\n" % [before.get("combat_perks", {}).get("reaction_left", 0), perks.get("reaction_left", 0)]
-	text += "Клик — занять стойку за 1 основное действие. Реакция сработает при подходящем событии, если останется общий заряд."
+	if int(perks.get("schema_version", 0)) == 5:
+		text += "Дополнительные: %d → %d (реакция расходует 1)\n" % [before.get("bonus", 0), after.get("bonus", 0)]
+	else:
+		text += "Общий заряд реакции: %d → %d\n" % [before.get("combat_perks", {}).get("reaction_left", 0), perks.get("reaction_left", 0)]
+	text += "Клик — занять стойку за 1 основное действие. Реакция сработает при подходящем событии и наличии запаса для её оплаты."
 	_forecast_panel.text = text
 
 func _resolve_item_hover_exit() -> void:
@@ -2223,9 +2226,11 @@ func _event_text(event: Dictionary) -> String:
 		&"reaction_used":
 			var used_mode: int = int(event.get("mode", 0))
 			var mode_name := "Оппортунист" if used_mode == CombatPerksState.Mode.OPPORTUNIST else ("Контратака" if used_mode == CombatPerksState.Mode.COUNTERATTACK else "Прикрытие")
+			if event.has("bonus_before"):
+				return "%s: режим «%s» срабатывает на %s; дополнительные действия %d → %d." % [actor, mode_name, target, int(event.bonus_before), int(event.bonus_after)]
 			return "%s: режим «%s» срабатывает на %s; общий заряд реакции %d → %d." % [actor, mode_name, target, int(event.get("charge_before", 1)), int(event.get("charge_after", 0))]
-		&"opportunity_attacked": return "%s прерывает движение %s атакой Оппортуниста без основного действия; общий заряд реакции потрачен." % [actor, target]
-		&"counterattacked": return "%s контратакует %s без толчка; расходуется общий заряд реакции." % [actor, target]
+		&"opportunity_attacked": return "%s прерывает движение %s атакой Оппортуниста без основного действия." % [actor, target]
+		&"counterattacked": return "%s контратакует %s без толчка." % [actor, target]
 		&"control_changed":
 			if event["reason"] == &"entangled": return "%s: наложены путы до конца ближайшего хода команды цели." % target
 			if event["reason"] == &"refreshed": return "%s: путы сохранены; срок не накапливается." % target
@@ -2236,7 +2241,7 @@ func _event_text(event: Dictionary) -> String:
 			if event.has("reaction_mode") and int(event["reaction_mode"]) in [CombatPerksState.Mode.OPPORTUNIST, CombatPerksState.Mode.COVER, CombatPerksState.Mode.COUNTERATTACK]:
 				var reaction_mode: int = int(event["reaction_mode"])
 				var mode_name := "Оппортунист" if reaction_mode == CombatPerksState.Mode.OPPORTUNIST else ("Контратака" if reaction_mode == CombatPerksState.Mode.COUNTERATTACK else "Прикрытие → " + _name_for(int(event.get("cover_target_id", 0))))
-				return "%s включает режим «%s» за 1 основное действие; заряд реакции не пополняется." % [actor, mode_name]
+				return "%s включает режим «%s» за 1 основное действие; запас для реакций не пополняется." % [actor, mode_name]
 			return "%s занимает охранную стойку (1 основное действие)." % actor
 		&"item_used":
 			var owner := session.state.get_owner(int(event["actor_unit_id"]))

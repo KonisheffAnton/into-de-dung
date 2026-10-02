@@ -213,10 +213,10 @@ func _reactions_and_ai() -> void:
 	var actor := s.units[0]
 	s._queue.submit(GuardCommand.new(tank.id, s.context.get_revision(), CombatPerksState.Mode.OPPORTUNIST), s.context)
 	parity(s, command(s), "stun opportunist")
-	check(tank.guard_stance and tank.combat_perks.reaction_left == 1 and not MeleeThreat.threatens(s.context, tank, actor), "stun removes threat without consuming guard charge")
+	check(tank.guard_stance and tank.action_resources.get_bonus_left() == 1 and not MeleeThreat.threatens(s.context, tank, actor), "stun removes threat without consuming guard charge")
 	var path: Array[Vector2i] = [actor.cell, Vector2i(1, 3)]
 	var moved := s._queue.submit(MoveCommand.new(actor.id, path, s.context.get_revision()), s.context)
-	check(moved.status == ActionReceipt.APPLIED and actor.cell == path[-1] and tank.combat_perks.reaction_left == 1, "stunned opportunist permits departure without charge use")
+	check(moved.status == ActionReceipt.APPLIED and actor.cell == path[-1] and tank.action_resources.get_bonus_left() == 1, "stunned opportunist permits departure without charge use")
 	s.close()
 	s = fixture(); tank = s.units[1]
 	var ally := s.units[5]
@@ -227,7 +227,7 @@ func _reactions_and_ai() -> void:
 	s.board.move_unit(s.units[0], Vector2i(2, 2))
 	var hit := AttackCommand.new(s.units[0].id, ally.id, s.units[0].cell, ally.cell, &"demo_strike", s.context.get_revision())
 	var receipt := s._queue.submit(hit, s.context)
-	check(receipt.status == ActionReceipt.APPLIED and tank.combat_perks.reaction_left == 1 and receipt.get_events().all(func(e: Dictionary) -> bool: return e.get("kind") != &"reaction_used"), "stunned cover tank cannot protect or spend charge")
+	check(receipt.status == ActionReceipt.APPLIED and tank.action_resources.get_bonus_left() == 1 and receipt.get_events().all(func(e: Dictionary) -> bool: return e.get("kind") != &"reaction_used"), "stunned cover tank cannot protect or spend charge")
 	s.close()
 	s = fixture(); tank = s.units[1]
 	s.round_number = 2

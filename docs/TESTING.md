@@ -100,6 +100,12 @@ core без `--full` в неё не входит. Повторять более 
 
 ## Что считать приёмкой
 
+`test_reaction_bonus.gd` входит в full/render: единый bonus, два ответа при bonus2
+и отказ при bonus0, schema5 и точный legacy roundtrip/оплата, строгие события,
+callback-guard и полный preview/live parity, настоящий H1 воин/Оппортунист/refill
+и опубликованный боковой HUD. Режимы/косвенная оплата Прикрытия/FAULTED/worker
+дополнительно покрываются прежними K10/K12/R10 runner на новом источнике.
+
 `test_battle_board_camera.gd` (full/render) проверяет границы масштаба, якорь под курсором,
 обратимость координат, reset/resize и нефинитные входы. `test_battle_camera_ui.gd` (full/render)
 проверяет реальный ввод, picking после преобразования, неизменность раскладки,

@@ -35,6 +35,12 @@ func try_spend_main(amount: int) -> bool:
 	_main_left -= amount
 	return true
 
+func try_spend_bonus(amount: int) -> bool:
+	if validate(_owner_unit_id) != &"" or amount <= 0 or amount > _bonus_left:
+		return false
+	_bonus_left -= amount
+	return true
+
 func _set_for_refill(main_left: int, bonus_left: int) -> void:
 	# Назначение доступно только UnitState после полной атомарной проверки.
 	_main_left = main_left

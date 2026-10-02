@@ -13,6 +13,14 @@ static func has_counterattack(unit: UnitState) -> bool:
 static func has_reactions(unit: UnitState) -> bool:
 	return has_tank(unit) or has_counterattack(unit)
 
+## Старые снимки сохраняют прежнюю оплату; новые бои читают только дополнительное действие.
+static func reaction_points(unit: UnitState) -> int:
+	if not has_reactions(unit): return 0
+	if not unit.combat_perks.uses_bonus_actions: return unit.combat_perks.reaction_left
+	var resources := unit.action_resources
+	if resources == null or resources.get_script() != ActionResources or resources.validate(unit.id) != &"": return 0
+	return resources.get_bonus_left()
+
 static func reaches(board: BattleBoard, unit: UnitState, cell: Vector2i) -> bool:
 	var reach := ActionHpExecutor._stat_value(unit, StatTypes.StatType.ATTACK_RANGE)
 	return AttackReachCheck.inspect_spatial_cells(board, unit.cell, unit.faction, cell, reach) == &""
@@ -41,7 +49,7 @@ static func reaction_ready(context: ActionContext, unit: UnitState, mode: int) -
 
 static func reaction_ready_state(state: ItemSimulationState, unit: UnitState, mode: int) -> bool:
 	var owned: bool = has_counterattack(unit) if mode == CombatPerksState.Mode.COUNTERATTACK else has_tank(unit)
-	return owned and unit.is_alive() and unit.guard_stance and unit.combat_perks.mode == mode and unit.combat_perks.reaction_left == 1 and ControlRules.action_reason(unit) == &"" and not state.is_summon_pending(unit.id)
+	return owned and unit.is_alive() and unit.guard_stance and unit.combat_perks.mode == mode and reaction_points(unit) > 0 and ControlRules.action_reason(unit) == &"" and not state.is_summon_pending(unit.id)
 
 static func cover_eligible(context: ActionContext, tank: UnitState, ally: UnitState) -> bool:
 	if tank == null or ally == null or tank == ally or not tank.is_alive() or not ally.is_alive() or not tank.is_friendly_to(ally): return false

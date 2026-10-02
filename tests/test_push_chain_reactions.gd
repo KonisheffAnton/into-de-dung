@@ -143,7 +143,7 @@ func _reactions_and_armor() -> void:
 	if coat != null: coat.armor_remaining = 4
 	var armor_before := coat.armor_remaining if coat != null else -1
 	target.combat_perks.mode = CombatPerksState.Mode.COUNTERATTACK
-	target.combat_perks.reaction_left = 1
+	target.action_resources._set_for_refill(target.action_resources.get_main_left(), 1)
 	target.guard_stance = true
 	var receipt := parity(s, "item armor heal and one counter")
 	var links := events(receipt, &"chain_link")
@@ -152,7 +152,7 @@ func _reactions_and_armor() -> void:
 	var middle_heals := 0
 	for event: Dictionary in healed:
 		if event.get("target_unit_id") == middle.id: middle_heals += 1
-	check(receipt.status == ActionReceipt.APPLIED and links.size() == 2 and counters.size() == 1 and target.combat_perks.reaction_left == 0, "counter executes once after full chain")
+	check(receipt.status == ActionReceipt.APPLIED and links.size() == 2 and counters.size() == 1 and target.action_resources.get_bonus_left() == 0, "counter executes once after full chain")
 	check(coat != null and coat.armor_remaining < armor_before and events(receipt, &"armor_changed").size() > 0, "collision consumes equipped armor")
 	check(middle_heals == 2, "two collision hits schedule two middle-item heals")
 	var collision_hits := 0
@@ -198,7 +198,7 @@ func _death_spikes_and_collapse() -> void:
 	var target: UnitState = s.units[1]
 	target.guard_stance = true
 	target.combat_perks.mode = CombatPerksState.Mode.COUNTERATTACK
-	target.combat_perks.reaction_left = 1
+	target.action_resources._set_for_refill(target.action_resources.get_main_left(), 1)
 	var destination := Vector2i(5, 3)
 	s.state.environment.ignite(destination, "bleeding")
 	s.state.environment.collapse = {"turn": 1, "marked": [destination]}
@@ -221,7 +221,7 @@ func _death_spikes_and_collapse() -> void:
 		if event["kind"] == &"bleeding_changed": spike_status_seq = event["event_seq"]
 	check(move_damage_seq > 0 and spike_damage_seq > move_damage_seq and spike_status_seq > spike_damage_seq, "old bleed damage precedes spike hit and new stack")
 	var counter := events(receipt, &"counterattacked")
-	check(counter.size() == 1 and counter[0]["event_seq"] > spike_status_seq and target.combat_perks.reaction_left == 0, "one counter follows full spatial and status tail")
+	check(counter.size() == 1 and counter[0]["event_seq"] > spike_status_seq and target.action_resources.get_bonus_left() == 0, "one counter follows full spatial and status tail")
 	check(s.board.get_terrain(destination) == TerrainType.Type.FLOOR, "marked destination survives until environment phase")
 	var before := snapshot(s)
 	var forecast := TurnForecast.build(s)

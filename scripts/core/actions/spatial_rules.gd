@@ -168,9 +168,10 @@ class Guard extends RefCounted:
 		result.seal()
 		return result
 
-	func debit(id: int, main_cost: int, move_cost: float) -> Guard:
+	func debit(id: int, main_cost: int, move_cost: float, bonus_cost: int = 0) -> Guard:
 		var result := copy()
 		result.values["participants"][id]["main"] -= main_cost
+		result.values["participants"][id]["bonus"] -= bonus_cost
 		result.values["participants"][id]["move"] -= move_cost
 		result.seal()
 		return result

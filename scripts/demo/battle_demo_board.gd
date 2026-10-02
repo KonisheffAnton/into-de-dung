@@ -1013,7 +1013,7 @@ func displayed_unit_details(unit_id: int) -> String:
 				lines.append("Запас исчерпан; пробой проверяется при следующем воздействии. При переполненном нарушении запас может оставаться нулевым.\nСнижение порога само по себе не вызывает сдвиг.")
 		var resources: Dictionary = row.get("resources", {})
 		if not resources.is_empty():
-			lines.append("Действия: основное %d · доп. %d · движение %.1f · реакция %d" % [int(resources.get("main", 0)), int(resources.get("bonus", 0)), float(resources.get("move", 0)), int(resources.get("reaction", 0))])
+			lines.append("Действия: основное %d · доп. %d · движение %.1f" % [int(resources.get("main", 0)), int(resources.get("bonus", 0)), float(resources.get("move", 0))])
 		lines.append(BattleStatusPresentation.details(row.get("statuses", [])))
 		var reaction_details := BattleReactionPresentation.details(row.get("reaction_view", {}), displayed_names())
 		if not reaction_details.is_empty(): lines.append(reaction_details)
@@ -1107,6 +1107,7 @@ func _rebuild_visuals() -> void:
 		visual.armor_values = (row["armor"] as Dictionary).duplicate(true)
 		visual.status_entries.assign(row.get("statuses", []).duplicate(true))
 		visual.reaction_view = row.get("reaction_view", {}).duplicate(true)
+		visual.action_resources_view = (row.get("resources", {}) as Dictionary).duplicate(true)
 		visual.status_text = BattleStatusPresentation.summary(visual.status_entries)
 		visual.frozen = BattleStatusPresentation.has(visual.status_entries, "frozen")
 		visual.stunned = BattleStatusPresentation.has(visual.status_entries, "stunned")
@@ -1176,7 +1177,7 @@ func _capture_board_view(board: BattleBoard) -> void:
 				"control": unit.control.to_dict() if unit.control != null else {}}),
 			"resources": {"main": unit.action_resources.get_main_left() if unit.action_resources != null else 0,
 				"bonus": unit.action_resources.get_bonus_left() if unit.action_resources != null else 0,
-				"move": unit.move_points_left, "reaction": unit.combat_perks.reaction_left if unit.combat_perks != null else 0},
+				"move": unit.move_points_left, "reaction": MeleeThreat.reaction_points(unit)},
 		})
 	var environment: CombatEnvironmentState = session.state.environment if session != null and session.state != null else null
 	if environment != null:

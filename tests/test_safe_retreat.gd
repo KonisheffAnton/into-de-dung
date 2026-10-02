@@ -45,7 +45,7 @@ func _opportunist() -> void:
 	var ordinary := s._queue.submit(ordinary_command, s.context)
 	check(ordinary.status == ActionReceipt.INTERRUPTED and mover.cell == path[0], "ordinary movement still intercepts")
 	# Возвращаем заряд и снимаем метку реакции, чтобы проверить отдельный отход.
-	tank.combat_perks.reaction_left = 1
+	tank.action_resources._set_for_refill(tank.action_resources.get_main_left(), 1)
 	mover.combat_perks.movement_stopped = false
 	mover.action_resources._set_for_refill(2, mover.action_resources.get_bonus_left())
 	var retreat_command := MoveCommand.new(mover.id, path, s.context.get_revision(), &"safe_retreat")
@@ -53,7 +53,7 @@ func _opportunist() -> void:
 	var moves: Array[Dictionary] = retreat.get_events().filter(func(event: Dictionary) -> bool: return event.get("kind") == &"moved")
 	check(retreat.status == ActionReceipt.APPLIED and mover.cell == path[-1], "safe retreat completes")
 	check(moves.size() == 1 and moves[0].get("movement_kind") == &"safe_retreat" and moves[0].get("main_cost") == 1 and moves[0].get("main_after") == moves[0].get("main_before") - 1, "safe movement event records one main payment")
-	check(tank.combat_perks.reaction_left == 1 and not mover.combat_perks.movement_stopped, "opportunist suppressed without spending charge or stopping")
+	check(tank.action_resources.get_bonus_left() == 1 and not mover.combat_perks.movement_stopped, "opportunist suppressed without spending charge or stopping")
 	s.close()
 
 func _payment_and_preview() -> void:
@@ -95,6 +95,7 @@ func _refusals() -> void:
 	check(safe.validate(s.context) == &"control/stunned", "control still blocks retreat")
 	actor.control = null
 	actor.combat_perks = CombatPerksState.new()
+	actor.combat_perks.uses_bonus_actions = true
 	actor.combat_perks.movement_stopped = true
 	check(safe.validate(s.context) == &"perks/movement_stopped", "movement stopped still blocks retreat")
 	actor.combat_perks.movement_stopped = false

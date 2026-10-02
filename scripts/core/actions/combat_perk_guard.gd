@@ -13,7 +13,8 @@ static func capture(board: BattleBoard) -> CombatPerkGuard:
 	return result if enabled else null
 
 static func record(unit: UnitState, state: CombatPerksState) -> Dictionary:
-	return {"unit": unit, "state": state, "definition": state.definition if state != null else null, "value": state.to_dict() if state != null else {}}
+	return {"unit": unit, "state": state, "definition": state.definition if state != null else null, "value": state.to_dict() if state != null else {},
+		"resources": unit.action_resources, "bonus": unit.action_resources.get_bonus_left() if unit.action_resources != null else 0}
 
 func accept(changes: Dictionary) -> void:
 	for id: int in changes:
@@ -30,6 +31,9 @@ func check(board: BattleBoard) -> bool:
 			continue
 		var expected: Dictionary = _units[unit.id]
 		if unit != expected["unit"] or unit.combat_perks != expected["state"]: return false
+		# Общий запас защищён и у третьего бойца вне пространственного каскада удара.
+		if unit.action_resources != expected["resources"]: return false
+		if unit.action_resources != null and unit.action_resources.get_bonus_left() != expected["bonus"]: return false
 		if unit.combat_perks != null:
 			if unit.combat_perks.definition != expected["definition"] or unit.combat_perks.to_dict() != expected["value"]: return false
 	return true

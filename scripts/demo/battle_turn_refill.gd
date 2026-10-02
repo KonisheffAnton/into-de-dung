@@ -47,6 +47,8 @@ func execute(context: ActionContext) -> CommandStepResult:
 	if reason != &"": return CommandStepResult.faulted(reason)
 	var changed := false
 	var perk_changes: Dictionary = {}
+	# В старых боях без перков очередь не создаёт CombatPerkGuard и не принимает delta.
+	var tracks_reactions := context.get_state().get_board().get_all_units().any(func(value: UnitState) -> bool: return value.combat_perks != null)
 	for id in _ids:
 		var unit := context.get_state().get_board().get_unit_by_id(id)
 		reason = unit.try_refill_turn_resources()
@@ -58,8 +60,10 @@ func execute(context: ActionContext) -> CommandStepResult:
 		unit.guard_stance = false
 		if unit.combat_perks != null:
 			unit.combat_perks.movement_stopped = false
-			unit.combat_perks.reaction_left = 1 if MeleeThreat.has_reactions(unit) else 0
-			perk_changes[id] = CombatPerkGuard.record(unit, unit.combat_perks)
+			if not unit.combat_perks.uses_bonus_actions:
+				unit.combat_perks.reaction_left = 1 if MeleeThreat.has_reactions(unit) else 0
+		# Дополнительные действия есть и у помощника без классовых перков.
+		if tracks_reactions: perk_changes[id] = CombatPerkGuard.record(unit, unit.combat_perks)
 		if context.get_state().is_summon_pending(id):
 			var admission := SummonAdmission.extend(context.get_move_rules(), context.get_attack_rules(), id, context.get_state().summon_owner_id(id), true)
 			context._move_rules = admission["move"]

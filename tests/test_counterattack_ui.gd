@@ -45,7 +45,7 @@ func run() -> void:
 	session.action_slot_overrides[owner.id] = [&"counterattack_guard", &"safe_retreat"]
 	demo._refresh()
 	var main_before: int = owner.action_resources.get_main_left()
-	var charge_before: int = owner.combat_perks.reaction_left
+	var charge_before: int = owner.action_resources.get_bonus_left()
 	var state_before := ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict()
 	var counter_button := _button_for_action(&"counterattack_guard")
 	check(counter_button != null, "counterattack action is reachable by action bar input")
@@ -55,14 +55,14 @@ func run() -> void:
 	check(guard_forecast != null and guard_forecast.status == ActionReceipt.APPLIED and demo._guard_forecast_mode == CombatPerksState.Mode.COUNTERATTACK, "hover uses asynchronous mode-three guard forecast")
 	var forecast_row: Dictionary = guard_forecast.units.get(owner.id, {}) if guard_forecast != null else {}
 	var forecast_after: Dictionary = forecast_row.get("after", {})
-	check(forecast_after.get("main", -1) == main_before - 1 and forecast_after.get("combat_perks", {}).get("reaction_left", -1) == charge_before, "guard preview predicts one main action and preserves the shared charge")
-	check(demo._forecast_panel.text.contains("Контратака") and demo._forecast_panel.text.contains("Общий заряд реакции"), "guard preview names counterattack and shared charge")
-	check(owner.action_resources.get_main_left() == main_before and owner.combat_perks.reaction_left == charge_before and ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() == state_before, "hover leaves live actions, charge, and board unchanged")
+	check(forecast_after.get("main", -1) == main_before - 1 and forecast_after.get("bonus", -1) == charge_before, "guard preview predicts one main action and preserves the additional action")
+	check(demo._forecast_panel.text.contains("Контратака") and demo._forecast_panel.text.contains("Дополнительные:"), "guard preview names counterattack and additional action")
+	check(owner.action_resources.get_main_left() == main_before and owner.action_resources.get_bonus_left() == charge_before and ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() == state_before, "hover leaves live actions, charge, and board unchanged")
 	await capture("counterattack-guard")
 	await click(counter_button.global_position + counter_button.size * 0.5)
 	check(owner.guard_stance and owner.combat_perks.mode == CombatPerksState.Mode.COUNTERATTACK, "click installs counterattack guard mode")
-	check(owner.action_resources.get_main_left() == main_before - 1 and owner.combat_perks.reaction_left == charge_before, "stance costs one main and leaves the shared charge ready")
-	check(demo._inspection_text(owner).contains("Контратака") and demo._inspection_text(owner).contains("общий заряд: 1/1"), "inspection reports mode and charge")
+	check(owner.action_resources.get_main_left() == main_before - 1 and owner.action_resources.get_bonus_left() == charge_before, "stance costs one main and leaves the shared charge ready")
+	check(demo._inspection_text(owner).contains("Контратака") and demo._inspection_text(owner).contains("дополнительных действий: 1"), "inspection reports mode and available additional actions")
 	check(_journal_contains("включает режим «Контратака»"), "guard event uses the correct reaction name")
 	await _attack_forecast_and_live_result()
 	demo.queue_free(); await process_frame
@@ -97,7 +97,7 @@ func _attack_forecast_and_live_result() -> void:
 	session.board.move_unit(attacker, Vector2i(2, 3))
 	session.board.move_unit(defender, Vector2i(3, 3))
 	defender.combat_perks.mode = CombatPerksState.Mode.COUNTERATTACK
-	defender.combat_perks.reaction_left = 1
+	defender.action_resources._set_for_refill(defender.action_resources.get_main_left(), 1)
 	defender.guard_stance = true
 	demo._refresh()
 	await click(demo.board_view.global_position + demo.board_view.cell_center(attacker.cell))
@@ -108,15 +108,15 @@ func _attack_forecast_and_live_result() -> void:
 	check(forecast != null and forecast.status == ActionReceipt.APPLIED, "attack hover prepares the complete counterattack tail")
 	check(forecast != null and _has_event(forecast.events, &"counterattacked") and _has_counter_mode_event(forecast.events), "forecast includes counterattacked and mode-three charge events")
 	check(demo._forecast_panel.text.contains("контратакует") and demo._forecast_panel.text.contains("Контратака"), "attack forecast explains the response")
-	check(defender.guard_stance and defender.combat_perks.reaction_left == 1 and not attacker.combat_perks.movement_stopped, "forecast keeps stance and shared charge live, without stopping movement")
+	check(defender.guard_stance and defender.action_resources.get_bonus_left() == 1 and not attacker.combat_perks.movement_stopped, "forecast keeps stance and shared charge live, without stopping movement")
 	var forecast_events: Array[Dictionary] = forecast.events.duplicate(true) if forecast != null else []
 	var forecast_after: Dictionary = forecast.snapshot_after if forecast != null else {}
 	await click(demo.board_view.global_position + demo.board_view.cell_center(defender.cell))
 	check(session.last_receipt.status == ActionReceipt.APPLIED and session.last_receipt.get_events() == forecast_events, "live attack events match full forecast")
 	check(not forecast_after.is_empty() and ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() == forecast_after, "live counterattack state matches forecast snapshot")
-	check(defender.guard_stance and defender.combat_perks.reaction_left == 0 and not attacker.combat_perks.movement_stopped, "counter spends one charge, keeps guard stance, and does not stop the attacker")
+	check(defender.guard_stance and defender.action_resources.get_bonus_left() == 0 and not attacker.combat_perks.movement_stopped, "counter spends one charge, keeps guard stance, and does not stop the attacker")
 	check(_journal_contains("контратакует") and _journal_contains("режим «Контратака»") and not _journal_contains("Прикрытие →"), "live journal names counterattack without cover")
-	check(demo._inspection_text(defender).contains("Контратака") and demo._inspection_text(defender).contains("общий заряд: 0/1"), "post-hit inspection reports spent counterattack charge")
+	check(demo._inspection_text(defender).contains("Контратака") and demo._inspection_text(defender).contains("дополнительных действий: 0"), "post-hit inspection reports spent additional action")
 	await capture("counterattack-result")
 	# Reset обязан дождаться worker и закрыть результат старого боя до смены состояния.
 	demo.reset_demo()
@@ -134,7 +134,7 @@ func _attack_forecast_and_live_result() -> void:
 	await process_frame
 	check(demo.is_execution_pending(), "counterattack guard starts a pending live worker")
 	demo.reset_demo()
-	check(not demo.is_execution_pending() and demo.session is BattleCoreReactionsSession and (demo.session as BattleCoreReactionsSession).units[0].combat_perks.reaction_left == 1, "reset joins the pending live action before rebuilding")
+	check(not demo.is_execution_pending() and demo.session is BattleCoreReactionsSession and (demo.session as BattleCoreReactionsSession).units[0].action_resources.get_bonus_left() == 1, "reset joins the pending live action before rebuilding")
 
 func _button_for_action(action_id: StringName) -> Button:
 	var action_bar: BattleActionBar = demo.get("_action_bar")

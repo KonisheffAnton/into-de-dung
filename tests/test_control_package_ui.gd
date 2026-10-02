@@ -45,7 +45,7 @@ func _run() -> void:
 	check(demo.size.x <= viewport.size.x and demo._action_bar.global_position.x + demo._action_bar.size.x <= viewport.size.x, "long perk and control labels preserve viewport width")
 	check(session.units[0].combat_perks.definition.stunning_strike and session.units[1].combat_perks.definition.stunning_strike, "Astra and Strazh own stunning strike")
 	check(session.units[3].combat_perks.definition.stun_immune and not session.units[3].combat_perks.definition.entangle_immune, "Shield owns stun immunity only")
-	check(session.units[4].combat_perks.definition.entangle_immune and not session.units[4].combat_perks.definition.stun_immune and session.units[4].combat_perks.reaction_left == 0, "Rei owns entangle immunity only")
+	check(session.units[4].combat_perks.definition.entangle_immune and not session.units[4].combat_perks.definition.stun_immune and not session.units[4].combat_perks.definition.tank_reactions, "Rei owns entangle immunity without tank reactions")
 	check(demo._inspection_text(session.units[3]).to_lower().contains("иммунитет к оглушению") and demo._inspection_text(session.units[4]).to_lower().contains("иммунитет к путам"), "inspection explains each immunity")
 	var action_bar := demo.get("_action_bar") as BattleActionBar
 	var stun_button := _button_for(&"stunning_strike")

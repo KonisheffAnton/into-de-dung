@@ -164,27 +164,28 @@ func _cover() -> void:
 	var enemy := _put(s, 5, Vector2i(4, 2))
 	s.selected_id = tank.id
 	_parity(s, GuardCommand.new(tank.id, s.context.get_revision(), CombatPerksState.Mode.COVER, target.id), "cover stance")
-	check(tank.action_resources.get_main_left() == 0 and tank.combat_perks.reaction_left == 1 and tank.guard_stance, "stance pays main not reaction")
+	check(tank.action_resources.get_main_left() == 0 and tank.action_resources.get_bonus_left() == 1 and tank.guard_stance, "stance pays main not reaction")
 	var before := _snapshot(s)
 	check(s.set_reaction_guard(CombatPerksState.Mode.OPPORTUNIST).status == ActionReceipt.REJECTED and _snapshot(s) == before, "cannot switch free")
 	var second := _put(s, 4, Vector2i(3, 1))
 	second.combat_perks = CombatPerksState.new()
+	second.combat_perks.uses_bonus_actions = true
 	second.combat_perks.definition.tank_reactions = true
 	second.combat_perks.mode = CombatPerksState.Mode.COVER
 	second.combat_perks.cover_target_id = target.id
-	second.combat_perks.reaction_left = 1
+	second.action_resources._set_for_refill(second.action_resources.get_main_left(), 1)
 	second.guard_stance = true
 	var receipt := _parity(s, _attack(s, enemy, target), "covered direct attack")
 	var reactions := _events(receipt.get_events(), &"reaction_used")
-	check(reactions.size() == 1 and reactions[0]["actor_unit_id"] == tank.id and tank.combat_perks.reaction_left == 0 and second.combat_perks.reaction_left == 1, "lowest eligible ID only; common charge spent")
+	check(reactions.size() == 1 and reactions[0]["actor_unit_id"] == tank.id and tank.action_resources.get_bonus_left() == 0 and second.action_resources.get_bonus_left() == 1, "lowest eligible ID only; common charge spent")
 	check(tank.guard_stance, "cover preserves tank stance")
-	tank.action_resources._set_for_refill(1, 1)
-	check(s.set_reaction_guard(CombatPerksState.Mode.OPPORTUNIST).status == ActionReceipt.APPLIED and tank.combat_perks.reaction_left == 0, "paid mode switch never replenishes charge")
-	tank.action_resources._set_for_refill(1, 1)
+	tank.action_resources._set_for_refill(1, tank.action_resources.get_bonus_left())
+	check(s.set_reaction_guard(CombatPerksState.Mode.OPPORTUNIST).status == ActionReceipt.APPLIED and tank.action_resources.get_bonus_left() == 0, "paid mode switch never replenishes charge")
+	tank.action_resources._set_for_refill(1, tank.action_resources.get_bonus_left())
 	_parity(s, GuardCommand.new(tank.id, s.context.get_revision()), "paid active reaction to ordinary guard")
-	check(tank.combat_perks.mode == CombatPerksState.Mode.NONE and tank.combat_perks.cover_target_id == 0 and tank.combat_perks.reaction_left == 0 and tank.guard_stance and tank.action_resources.get_main_left() == 0, "ordinary guard disables mode without refilling charge")
+	check(tank.combat_perks.mode == CombatPerksState.Mode.NONE and tank.combat_perks.cover_target_id == 0 and tank.action_resources.get_bonus_left() == 0 and tank.guard_stance and tank.action_resources.get_main_left() == 0, "ordinary guard disables mode without refilling charge")
 	check(GuardCommand.new(tank.id, s.context.get_revision()).validate(s.context) == &"guard/already_active", "same ordinary stance remains rejected")
-	check(s._queue.submit(BattleTurnRefill.new(s.living_ids(Faction.Type.PLAYER), s.context.get_revision(), Faction.Type.PLAYER), s.context).status == ActionReceipt.APPLIED and tank.combat_perks.reaction_left == 1 and not tank.guard_stance, "own team refills reaction and expires stance")
+	check(s._queue.submit(BattleTurnRefill.new(s.living_ids(Faction.Type.PLAYER), s.context.get_revision(), Faction.Type.PLAYER), s.context).status == ActionReceipt.APPLIED and tank.action_resources.get_bonus_left() == 1 and not tank.guard_stance, "own team refills reaction and expires stance")
 	check(GuardCommand.new(tank.id, s.context.get_revision(), CombatPerksState.Mode.COVER, tank.id).validate(s.context) == &"perks/invalid_cover_target", "self cover refused")
 	s.close()
 
@@ -202,13 +203,13 @@ func _opportunity() -> void:
 	var receipt := _parity(s, MoveCommand.new(mover.id, path, s.context.get_revision()), "opportunity movement")
 	check(receipt.status == ActionReceipt.INTERRUPTED and receipt.reason == &"perks/opportunist_stopped", "movement interrupted after reaction")
 	check(mover.cell == path[0] and mover.move_points_left == move and mover.action_resources.get_main_left() == main and mover.vitals.get_balance() == balance, "stop before paying/moving; no main or balance damage")
-	check(tank.guard_stance and tank.action_resources.get_main_left() == 0 and tank.combat_perks.reaction_left == 0, "reaction uses charge and preserves stance")
+	check(tank.guard_stance and tank.action_resources.get_main_left() == 0 and tank.action_resources.get_bonus_left() == 0, "reaction uses charge and preserves stance")
 	check(mover.combat_perks != null and mover.combat_perks.movement_stopped and mover.control == null and not ControlRules.critical_target(mover), "stop not stun or entangle; nullable control preserved")
 	var stopped := _snapshot(s)
 	check(s._queue.submit(MoveCommand.new(mover.id, path, s.context.get_revision()), s.context).reason == &"perks/movement_stopped" and _snapshot(s) == stopped, "repeat click cannot bypass stop")
 	check(ControlRules.action_reason(mover) == &"", "other voluntary actions remain allowed")
 	check(s._queue.submit(AttackCommand.opportunity(tank, mover, s.context.get_revision()), s.context).reason == &"reaction/internal_attack", "external free reaction refused")
-	check(s._queue.submit(BattleTurnRefill.new(s.living_ids(Faction.Type.PLAYER), s.context.get_revision(), Faction.Type.PLAYER), s.context).status == ActionReceipt.APPLIED and not mover.combat_perks.movement_stopped and tank.combat_perks.reaction_left == 0, "victim team unlocks move, enemy charge not refilled")
+	check(s._queue.submit(BattleTurnRefill.new(s.living_ids(Faction.Type.PLAYER), s.context.get_revision(), Faction.Type.PLAYER), s.context).status == ActionReceipt.APPLIED and not mover.combat_perks.movement_stopped and tank.action_resources.get_bonus_left() == 0, "victim team unlocks move, enemy charge not refilled")
 	s.close()
 
 func _limits_and_callbacks() -> void:
@@ -220,12 +221,12 @@ func _limits_and_callbacks() -> void:
 		check(s._queue.submit(GuardCommand.new(tank.id, s.context.get_revision(), 1), s.context).status == ActionReceipt.APPLIED, "arm fault fixture")
 		var hp := mover.vitals.get_hp()
 		if callback:
-			mover.vitals.hp_changed.connect(func(_old: float, _new: float) -> void: tank.combat_perks.reaction_left = 1)
+			mover.vitals.hp_changed.connect(func(_old: float, _new: float) -> void: tank.action_resources._set_for_refill(tank.action_resources.get_main_left(), 1))
 		else: s._queue = ActionQueue.new(2)
 		var receipt := s._queue.submit(MoveCommand.new(mover.id, [mover.cell, Vector2i(4, 2)], s.context.get_revision()), s.context)
 		check(receipt.status == ActionReceipt.FAULTED and mover.cell == Vector2i(3, 2) and mover.combat_perks.movement_stopped, "fault retains stop/payment before unfinished hit")
 		if callback: check(mover.vitals.get_hp() < hp and not _events(receipt.get_events(), &"damaged").is_empty(), "callback fault retains HP prefix")
-		else: check(mover.vitals.get_hp() == hp and tank.combat_perks.reaction_left == 0 and receipt.reason == &"command_limit", "command limit retains charge but no unexecuted HP")
+		else: check(mover.vitals.get_hp() == hp and tank.action_resources.get_bonus_left() == 0 and receipt.reason == &"command_limit", "command limit retains charge but no unexecuted HP")
 		s.close()
 
 func _transit_and_ai() -> void:
@@ -239,14 +240,14 @@ func _transit_and_ai() -> void:
 	check(s._queue.submit(GuardCommand.new(tank.id, s.context.get_revision(), 1), s.context).status == ActionReceipt.APPLIED, "arm transit fixture")
 	var path: Array[Vector2i] = [Vector2i(0, 1), Vector2i(1, 1), Vector2i(1, 2), Vector2i(1, 3), Vector2i(0, 3)]
 	var receipt := _parity(s, MoveCommand.new(mover.id, path, s.context.get_revision()), "allied transit crosses threat")
-	check(receipt.status == ActionReceipt.APPLIED and mover.cell == path[-1] and tank.combat_perks.reaction_left == 1, "transit-only encounter does not provoke")
+	check(receipt.status == ActionReceipt.APPLIED and mover.cell == path[-1] and tank.action_resources.get_bonus_left() == 1, "transit-only encounter does not provoke")
 	s.close()
 	s = _session()
 	tank = _put(s, 1, Vector2i(2, 2))
 	_put(s, 5, Vector2i(3, 2))
 	var intent := BattleDemoBT.new().decide(s, tank)
 	check(intent != null and intent.kind == BattleAIIntent.Kind.GUARD and intent.reaction_mode == CombatPerksState.Mode.COVER, "BT selects cover intention, not mutation")
-	check(not tank.guard_stance and tank.combat_perks.reaction_left == 1, "BT leaves live state")
+	check(not tank.guard_stance and tank.action_resources.get_bonus_left() == 1, "BT leaves live state")
 	s.close()
 
 func _helpers_restore_and_geometry() -> void:
@@ -305,13 +306,13 @@ func _lethal_and_forced() -> void:
 	s = _session()
 	tank = _put(s, 5, Vector2i(3, 1))
 	tank.combat_perks.definition.tank_reactions = true
-	tank.combat_perks.reaction_left = 1
+	tank.action_resources._set_for_refill(tank.action_resources.get_main_left(), 1)
 	mover = _put(s, 2, Vector2i(3, 2))
 	var enemy := _put(s, 1, Vector2i(4, 2))
 	enemy.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, 100.0)
 	check(s._queue.submit(GuardCommand.new(tank.id, s.context.get_revision(), 1), s.context).status == ActionReceipt.APPLIED, "arm forced fixture")
 	receipt = _parity(s, _attack(s, enemy, mover), "forced push through reaction zone")
-	check(mover.cell == Vector2i(2, 2) and tank.combat_perks.reaction_left == 1 and _events(receipt.get_events(), &"reaction_used").is_empty(), "forced exit does not provoke")
+	check(mover.cell == Vector2i(2, 2) and tank.action_resources.get_bonus_left() == 1 and _events(receipt.get_events(), &"reaction_used").is_empty(), "forced exit does not provoke")
 	s.close()
 
 # Общий командный бой проверяет завершение и BT после новых перехватов/стоек.

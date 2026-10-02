@@ -22,6 +22,8 @@ var transient_tint := Color("f7c97d")
 var status_entries: Array[Dictionary] = []
 ## Пассивный снимок стойки; отдельный знак не занимает место в строке состояний.
 var reaction_view: Dictionary = {}
+## Доска публикует только видимые остатки ресурсов; HUD не обращается к runtime.
+var action_resources_view: Dictionary = {}
 @export var body_pick_rect: Rect2 = Rect2(-17, -37, 34, 44)
 ## Демонстрационные состояния выбираются доской; сцена только отображает слои.
 var frozen: bool = false
@@ -78,13 +80,32 @@ func _sync_status_hud() -> void:
 
 func _draw_status_hud() -> void:
 	_draw_status_icons(_status_hud)
+	_draw_action_resources(_status_hud)
 	_draw_reaction_view(_status_hud)
+
+func _draw_action_resources(canvas: Node2D) -> void:
+	var main_left := maxi(0, int(action_resources_view.get("main", 0)))
+	var bonus_left := maxi(0, int(action_resources_view.get("bonus", 0)))
+	var main_text := "О: %d" % main_left
+	var bonus_text := "Д: %d" % bonus_left
+	var font := ThemeDB.fallback_font
+	var font_size := 9
+	var text_width := maxf(font.get_string_size(main_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x,
+		font.get_string_size(bonus_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x)
+	# Правый край фиксирован у тела, поэтому длинные числа расширяют плашку влево.
+	var width := maxf(26.0, text_width + 6.0)
+	var box := Rect2(-29.0 - width, -59.0, width, 26.0)
+	canvas.draw_rect(box, Color("101d27", 0.94))
+	var main_tint := Color("75dfdc") if main_left > 0 else Color("6b7782")
+	var bonus_tint := Color("f2b85e") if bonus_left > 0 else Color("6b7782")
+	canvas.draw_string(font, Vector2(box.position.x + 3.0, -47.0), main_text, HORIZONTAL_ALIGNMENT_LEFT, width - 6.0, font_size, main_tint)
+	canvas.draw_string(font, Vector2(box.position.x + 3.0, -35.0), bonus_text, HORIZONTAL_ALIGNMENT_LEFT, width - 6.0, font_size, bonus_tint)
 
 func _draw_reaction_view(canvas: Node2D) -> void:
 	var mode := int(reaction_view.get("mode", 0))
 	var guard_active := bool(reaction_view.get("guard", false))
 	var owned := bool(reaction_view.get("owned", false))
-	if not guard_active and mode == 0 and not owned:
+	if not guard_active and mode == 0 and (not owned or bool(reaction_view.get("uses_bonus", false))):
 		return
 	var charge := clampi(int(reaction_view.get("charge", 0)), 0, 1)
 	var ready := bool(reaction_view.get("ready", false))
@@ -105,7 +126,7 @@ func _draw_reaction_view(canvas: Node2D) -> void:
 		3: mode_label = "К"
 	if not mode_label.is_empty():
 		canvas.draw_string(ThemeDB.fallback_font, Vector2(31, -16), mode_label, HORIZONTAL_ALIGNMENT_LEFT, 8, 10, tint)
-	if owned:
+	if owned and not bool(reaction_view.get("uses_bonus", false)):
 		canvas.draw_circle(Vector2(43, -18), 2.2, tint.darkened(0.55))
 		if charge == 1:
 			canvas.draw_circle(Vector2(43, -18), 1.3, tint)

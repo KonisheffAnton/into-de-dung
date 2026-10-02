@@ -83,8 +83,8 @@ func normal() -> void:
 	var cell := a.cell
 	var receipt := parity(s, command(s), "ordinary weapon answer")
 	check(receipt.status == ActionReceipt.APPLIED and events(receipt, &"counterattacked").size() == 1, "exactly one answer")
-	check(b.guard_stance and b.combat_perks.reaction_left == 0 and b.action_resources.get_main_left() == 0 and not b.has_attacked, "only charge spent and defender stance kept")
-	check(not a.guard_stance and a.combat_perks.reaction_left == 1 and not a.combat_perks.movement_stopped and a.cell == cell, "no recursive answer, stop or push")
+	check(b.guard_stance and b.action_resources.get_bonus_left() == 0 and b.action_resources.get_main_left() == 0 and not b.has_attacked, "only charge spent and defender stance kept")
+	check(not a.guard_stance and a.action_resources.get_bonus_left() == 1 and not a.combat_perks.movement_stopped and a.cell == cell, "no recursive answer, stop or push")
 	var reply := events(receipt, &"counterattacked")[0]
 	check(not reply["modifiers"]["critical"] and reply["main_cost"] == 0, "no critical on controlled original attacker")
 	var last_source: int = 0
@@ -118,7 +118,7 @@ func eligibility() -> void:
 		var a := s.units[0]
 		var b := s.units[1]
 		match condition:
-			"spent": b.combat_perks.reaction_left = 0
+			"spent": b.action_resources._set_for_refill(b.action_resources.get_main_left(), 0)
 			"stance": b.guard_stance = false
 			"mode": b.combat_perks.mode = CombatPerksState.Mode.NONE
 			"lethal": b.vitals.set_hp(1)
@@ -130,9 +130,9 @@ func eligibility() -> void:
 				for pair: Dictionary in rules._pairs:
 					if pair["actor_unit_id"] != b.id or pair["target_unit_id"] != a.id: pairs.append(pair)
 				s.context._attack_rules = AttackRules.new(rules._actors, pairs, rules._definitions)
-		var before := b.combat_perks.reaction_left
+		var before := b.action_resources.get_bonus_left()
 		var receipt := parity(s, command(s, &"stunning_strike" if condition == "stun" else &"demo_strike"), condition)
-		check(receipt.status == ActionReceipt.APPLIED and events(receipt, &"counterattacked").is_empty() and b.combat_perks.reaction_left == before, "ineligible keeps charge: " + condition + " / " + String(receipt.reason))
+		check(receipt.status == ActionReceipt.APPLIED and events(receipt, &"counterattacked").is_empty() and b.action_resources.get_bonus_left() == before, "ineligible keeps charge: " + condition + " / " + String(receipt.reason))
 		s.close()
 
 func consequences() -> void:
@@ -157,11 +157,11 @@ func consequences() -> void:
 	cover.combat_perks.definition.tank_reactions = true
 	cover.combat_perks.mode = CombatPerksState.Mode.COVER
 	cover.combat_perks.cover_target_id = s.units[0].id
-	cover.combat_perks.reaction_left = 1
+	cover.action_resources._set_for_refill(cover.action_resources.get_main_left(), 1)
 	cover.guard_stance = true
 	receipt = parity(s, command(s), "cover protects original attacker from reply")
 	var spent_modes: Array = events(receipt, &"reaction_used").map(func(e: Dictionary) -> int: return e["mode"])
-	check(spent_modes == [CombatPerksState.Mode.COUNTERATTACK, CombatPerksState.Mode.COVER] and cover.combat_perks.reaction_left == 0 and cover.guard_stance, "two distinct owners spend their shared charges in one answer")
+	check(spent_modes == [CombatPerksState.Mode.COUNTERATTACK, CombatPerksState.Mode.COVER] and cover.action_resources.get_bonus_left() == 0 and cover.guard_stance, "two distinct owners spend their shared charges in one answer")
 	s.close()
 	s = fixture()
 	var mover := s.units[0]
@@ -169,7 +169,7 @@ func consequences() -> void:
 	mover.combat_perks.mode = CombatPerksState.Mode.COUNTERATTACK
 	s.units[1].combat_perks.mode = CombatPerksState.Mode.OPPORTUNIST
 	receipt = parity(s, MoveCommand.new(mover.id, [mover.cell, Vector2i(1, 3)], s.context.get_revision()), "opportunity cannot trigger answer")
-	check(receipt.status == ActionReceipt.INTERRUPTED and events(receipt, &"counterattacked").is_empty() and mover.combat_perks.reaction_left == 1, "reaction strike never opens counterattack chain")
+	check(receipt.status == ActionReceipt.INTERRUPTED and events(receipt, &"counterattacked").is_empty() and mover.action_resources.get_bonus_left() == 1, "reaction strike never opens counterattack chain")
 	s.close()
 	s = fixture()
 	# Прямой ответ может завершить бой; expiry брони следует за всем его каскадом.
@@ -199,13 +199,13 @@ func resource_and_codec() -> void:
 	check(GuardCommand.new(b.id, s.context.get_revision(), CombatPerksState.Mode.COUNTERATTACK).validate(s.context) == &"guard/already_active", "same active stance rejected")
 	var receipt := parity(s, command(s), "counter-only owner")
 	check(events(receipt, &"counterattacked").size() == 1, "counter perk independent of tank")
-	b.action_resources._set_for_refill(1, 1)
-	check(s._queue.submit(GuardCommand.new(b.id, s.context.get_revision()), s.context).status == ActionReceipt.APPLIED and b.combat_perks.mode == CombatPerksState.Mode.NONE and b.combat_perks.reaction_left == 0, "ordinary guard leaves spent charge")
-	b.action_resources._set_for_refill(1, 1)
+	b.action_resources._set_for_refill(1, b.action_resources.get_bonus_left())
+	check(s._queue.submit(GuardCommand.new(b.id, s.context.get_revision()), s.context).status == ActionReceipt.APPLIED and b.combat_perks.mode == CombatPerksState.Mode.NONE and b.action_resources.get_bonus_left() == 0, "ordinary guard leaves spent charge")
+	b.action_resources._set_for_refill(1, b.action_resources.get_bonus_left())
 	check(GuardCommand.new(b.id, s.context.get_revision(), CombatPerksState.Mode.OPPORTUNIST).validate(s.context) == &"perks/not_owned", "counter-only cannot acquire tank modes")
 	b.combat_perks.definition.tank_reactions = true
-	check(s._queue.submit(GuardCommand.new(b.id, s.context.get_revision(), CombatPerksState.Mode.OPPORTUNIST), s.context).status == ActionReceipt.APPLIED and b.combat_perks.reaction_left == 0, "switch shares exhausted charge")
-	check(s._queue.submit(BattleTurnRefill.new(s.living_ids(Faction.Type.ENEMY), s.context.get_revision(), Faction.Type.ENEMY), s.context).status == ActionReceipt.APPLIED and b.combat_perks.reaction_left == 1 and not b.guard_stance, "own turn refill once, stance ends")
+	check(s._queue.submit(GuardCommand.new(b.id, s.context.get_revision(), CombatPerksState.Mode.OPPORTUNIST), s.context).status == ActionReceipt.APPLIED and b.action_resources.get_bonus_left() == 0, "switch shares exhausted charge")
+	check(s._queue.submit(BattleTurnRefill.new(s.living_ids(Faction.Type.ENEMY), s.context.get_revision(), Faction.Type.ENEMY), s.context).status == ActionReceipt.APPLIED and b.action_resources.get_bonus_left() == 1 and not b.guard_stance, "own turn refill once, stance ends")
 	s.round_number = 3
 	var intent := BattleDemoBT.new().decide(s, b)
 	check(intent.kind == BattleAIIntent.Kind.GUARD and intent.reaction_mode == CombatPerksState.Mode.COUNTERATTACK and not b.guard_stance, "BT chooses reply without mutation")
@@ -230,22 +230,22 @@ func limits_and_callbacks() -> void:
 		s._queue._max_commands = maximum
 		var receipt := parity(s, command(s), "tail command limit")
 		check(receipt.status == ActionReceipt.FAULTED and receipt.reason == &"command_limit" and s.units[0].vitals.get_hp() == hp, "fault keeps source prefix without unexecuted reply HP")
-		check(s.units[1].combat_perks.reaction_left == (1 if maximum == index else 0), "charge follows executed reply step")
+		check(s.units[1].action_resources.get_bonus_left() == (1 if maximum == index else 0), "charge follows executed reply step")
 		s.close()
 	s = fixture()
 	s._queue._max_events = source_events
 	var initial_hp := s.units[0].vitals.get_hp()
 	var limited := parity(s, command(s), "response event limit")
-	check(limited.status == ActionReceipt.FAULTED and limited.reason == &"event_limit" and s.units[1].combat_perks.reaction_left == 0 and s.units[0].vitals.get_hp() == initial_hp and events(limited, &"counterattacked").size() == 1, "atomic response events and charge kept, unexecuted hit absent")
+	check(limited.status == ActionReceipt.FAULTED and limited.reason == &"event_limit" and s.units[1].action_resources.get_bonus_left() == 0 and s.units[0].vitals.get_hp() == initial_hp and events(limited, &"counterattacked").size() == 1, "atomic response events and charge kept, unexecuted hit absent")
 	s.close()
 	s = fixture()
 	s._queue._max_depth = 2
 	limited = parity(s, command(s), "response child depth limit")
-	check(limited.status == ActionReceipt.FAULTED and limited.reason == &"depth_limit" and s.units[1].combat_perks.reaction_left == 0 and s.units[0].vitals.get_hp() < initial_hp, "depth failure retains executed reply hit and charge")
+	check(limited.status == ActionReceipt.FAULTED and limited.reason == &"depth_limit" and s.units[1].action_resources.get_bonus_left() == 0 and s.units[0].vitals.get_hp() < initial_hp, "depth failure retains executed reply hit and charge")
 	s.close()
 	s = fixture()
 	var defender := s.units[1]
-	var restore_charge := func(_old: float, _new: float) -> void: defender.combat_perks.reaction_left = 1
+	var restore_charge := func(_old: float, _new: float) -> void: defender.action_resources._set_for_refill(defender.action_resources.get_main_left(), 1)
 	s.units[0].vitals.hp_changed.connect(restore_charge)
 	var corrupt := s._queue.submit(command(s), s.context)
 	check(corrupt.status == ActionReceipt.FAULTED and not events(corrupt, &"counterattacked").is_empty(), "callback cannot restore spent charge silently")
@@ -274,7 +274,7 @@ func unsupported_response() -> void:
 		s.context._attack_rules = AttackRules.new(rules._actors, rules._pairs, definitions)
 		check(s.context.get_attack_rules().validate() == &"", "ordinary same-name definition is a valid configuration")
 		var receipt := parity(s, command(s), "unsupported response capability")
-		check(receipt.status == ActionReceipt.APPLIED and not s.context.is_faulted() and events(receipt, &"counterattacked").is_empty() and s.units[1].combat_perks.reaction_left == 1, "missing reaction capability preserves source attack and charge")
+		check(receipt.status == ActionReceipt.APPLIED and not s.context.is_faulted() and events(receipt, &"counterattacked").is_empty() and s.units[1].action_resources.get_bonus_left() == 1, "missing reaction capability preserves source attack and charge")
 		s.close()
 
 func workers() -> void:

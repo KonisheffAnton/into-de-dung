@@ -69,20 +69,16 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var stopped: CombatPerksState = target.combat_perks
 	var reaction_events: Array[Dictionary] = []
 	if _reaction:
-		var actor_value := actor.combat_perks.to_dict()
-		actor_value["reaction_left"] = 0
-		binding.spatial_guard = binding.spatial_guard.perks_phase(actor.id, actor.combat_perks, actor_value)
+		binding.spatial_guard = _reaction_payment_phase(binding.spatial_guard, actor)
 		if not _counter:
 			if stopped == null: stopped = CombatPerksState.new()
 			var target_value := stopped.to_dict()
 			target_value["movement_stopped"] = true
 			binding.spatial_guard = binding.spatial_guard.perks_phase(target.id, stopped, target_value)
-		reaction_events.append(_reaction_event(actor.id, target.id, CombatPerksState.Mode.COUNTERATTACK if _counter else CombatPerksState.Mode.OPPORTUNIST))
+		reaction_events.append(_reaction_event(actor, target.id, CombatPerksState.Mode.COUNTERATTACK if _counter else CombatPerksState.Mode.OPPORTUNIST))
 	if cover != null:
-		var cover_value := cover.combat_perks.to_dict()
-		cover_value["reaction_left"] = 0
-		binding.spatial_guard = binding.spatial_guard.perks_phase(cover.id, cover.combat_perks, cover_value)
-		reaction_events.append(_reaction_event(cover.id, target.id, CombatPerksState.Mode.COVER))
+		binding.spatial_guard = _reaction_payment_phase(binding.spatial_guard, cover)
+		reaction_events.append(_reaction_event(cover, target.id, CombatPerksState.Mode.COVER))
 	# Готовим весь child до единственной мутации: между оплатой и Hit новых данных уже нет.
 	var attack_kind: StringName = &"counterattacked" if _counter else (&"opportunity_attacked" if _reaction else &"attacked")
 	var event := {"kind": attack_kind, "actor_unit_id": actor.id, "target_unit_id": target.id, "attack_definition_id": _attack_definition_id, "actor_cell": actor.cell, "target_cell": target.cell, "main_cost": main_cost, "main_before": main_before, "main_after": main_after}
@@ -95,7 +91,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	if main_cost > 0 and not resources.try_spend_main(main_cost):
 		return CommandStepResult.faulted(&"attack/invalid_runtime")
 	if _reaction:
-		actor.combat_perks.reaction_left = 0
+		_spend_reaction(actor)
 		changes[actor.id] = CombatPerkGuard.record(actor, actor.combat_perks)
 		if not _counter:
 			target.combat_perks = stopped
@@ -105,7 +101,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 		actor.has_attacked = true
 		actor.guard_stance = false
 	if cover != null:
-		cover.combat_perks.reaction_left = 0
+		_spend_reaction(cover)
 		changes[cover.id] = CombatPerkGuard.record(cover, cover.combat_perks)
 	var events: Array[Dictionary] = [event]
 	events.append_array(reaction_events)
@@ -113,8 +109,27 @@ func execute(context: ActionContext) -> CommandStepResult:
 	result.combat_perk_changes = changes
 	return result
 
-static func _reaction_event(actor_id: int, target_id: int, mode: int) -> Dictionary:
-	return {"kind": &"reaction_used", "actor_unit_id": actor_id, "target_unit_id": target_id, "mode": mode, "charge_before": 1, "charge_after": 0}
+static func _reaction_payment_phase(guard: SpatialRules.Guard, unit: UnitState) -> SpatialRules.Guard:
+	if unit.combat_perks.uses_bonus_actions: return guard.debit(unit.id, 0, 0.0, 1)
+	var value := unit.combat_perks.to_dict()
+	value["reaction_left"] = 0
+	return guard.perks_phase(unit.id, unit.combat_perks, value)
+
+static func _spend_reaction(unit: UnitState) -> void:
+	# Полная подготовка уже проверила оба плательщика; до hit нет callbacks.
+	if unit.combat_perks.uses_bonus_actions:
+		unit.action_resources.try_spend_bonus(1)
+	else:
+		unit.combat_perks.reaction_left = 0
+
+static func _reaction_event(actor: UnitState, target_id: int, mode: int) -> Dictionary:
+	var event := {"kind": &"reaction_used", "actor_unit_id": actor.id, "target_unit_id": target_id, "mode": mode}
+	if actor.combat_perks.uses_bonus_actions:
+		var before := actor.action_resources.get_bonus_left()
+		event.merge({"bonus_before": before, "bonus_after": before - 1, "bonus_cost": 1})
+	else:
+		event.merge({"charge_before": 1, "charge_after": 0})
+	return event
 
 func _prepare(context: ActionContext) -> Dictionary:
 	var result: Dictionary = {"reason": &""}

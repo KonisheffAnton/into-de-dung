@@ -273,7 +273,11 @@ func _perk_and_transit() -> void:
 	a.combat_perks.definition.burning_bypass_hp_gate = true
 	for item: ItemInstance in s.state.get_owner(u.id)._items.values(): item.armor_remaining = item.get_definition().armor_max
 	var dto := a.combat_perks.to_dict()
-	_check(dto.get("schema_version") == 4 and CombatPerksState.from_dict(dto).to_dict() == dto, "bypass perk canonical schema4 roundtrip")
+	_check(dto.get("schema_version") == 5 and not dto.has("reaction_left") and CombatPerksState.from_dict(dto).to_dict() == dto, "modern bypass perk uses exact schema5 without a reaction counter")
+	var legacy_perks := CombatPerksState.new()
+	legacy_perks.definition.burning_bypass_hp_gate = true
+	var legacy_dto := legacy_perks.to_dict()
+	_check(legacy_dto.get("schema_version") == 4 and legacy_dto.has("reaction_left") and CombatPerksState.from_dict(legacy_dto).to_dict() == legacy_dto, "standalone legacy bypass perk keeps schema4 codec")
 	var forecast := ForecastSimulation.run(s.context, s._queue, ElementalCastCommand.new(a.id, u.id, &"burning", s.context.get_revision()))
 	var receipt := _cast(s, &"burning")
 	_check(receipt.status == ActionReceipt.APPLIED and u.elemental.burning_stacks == 1 and receipt.get_events() == forecast.events and ItemSimulationSnapshot.capture(s.state, []).snapshot.to_dict() == forecast.snapshot_after, "owned bypass perk applies through armor with forecast parity")

@@ -147,6 +147,17 @@ IsoVisual постоянно рисует равновесие живых фиг
 во время worker недоступен. Порядок кадров и публикация after прежние.
 Параметры/вид/границы приёмки — R10 в BATTLE_PRESENTATION_REWORK.
 
+Новые main/H1 сессии включают `CombatPerksState.uses_bonus_actions`: schema5
+хранит режим/перки без reaction_left, оплатой владеет ActionResources.bonus_left.
+Legacy schema1–4 сохраняют старый счётчик и поведение без миграции. MeleeThreat
+читает выбранный источник; AttackCommand готовит debit SpatialRules.Guard до
+оплаты актёром/защитником, а CombatPerkGuard охраняет bonus и ссылку ресурсов
+также у третьих участников каскада. Новое reaction_used имеет строгие поля
+bonus_before/after/cost; прежняя форма допускается только отдельным shape.
+Board копирует опубликованные resources в IsoVisual.action_resources_view для
+боковой плашки О/Д; uses_bonus в reaction_view выключает дублирующий кружок.
+Точное поведение/совместимость — REACTION_BONUS_ACTIONS.
+
 При движении Y-sort корня фиксируется у ближнего конца сегмента чуть перед
 стоящей там фигурой, но после обеих опор; `presentation_offset` компенсирует
 это смещение изображения. Высотный lift независим. Picking использует ту же

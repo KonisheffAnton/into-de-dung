@@ -39,7 +39,10 @@ static func details(view: Dictionary, names: Dictionary) -> String:
 		text += " · " + mode_name(mode)
 		text += " · " + ("готов" if bool(view.get("ready", false)) else "не готов")
 	if bool(view.get("owned", false)):
-		text += "\nОбщий заряд реакции: %d/1. Выбор режима не пополняет заряд." % int(view.get("charge", 0))
+		if bool(view.get("uses_bonus", false)):
+			text += "\nРеакция расходует 1 дополнительное действие. Запас восстанавливается в начале хода своей команды; выбор режима его не пополняет."
+		else:
+			text += "\nОбщий заряд реакции: %d/1. Восстанавливается в начале хода своей команды. Выбор режима не пополняет заряд." % int(view.get("charge", 0))
 	if mode == CombatPerksState.Mode.COVER:
 		text += "\nПрикрывает: %s. Урон получает союзник; прямое попадание ослаблено на 30%% до брони." % String(names.get(int(view.get("cover_target_id", 0)), "нет цели"))
 		if not bool(view.get("cover_valid", false)): text += " Связь сейчас недоступна."
@@ -48,7 +51,9 @@ static func details(view: Dictionary, names: Dictionary) -> String:
 static func feedback(events: Array, step: Dictionary, before: Dictionary, after: Dictionary) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	for cue: Dictionary in cues(events, step):
-		result.append({"id": cue.actor_id, "text": String(cue.title) + (" · заряд потрачен" if cue.kind != &"guard" else "")})
+		var view: Dictionary = after.get("units", {}).get(cue.actor_id, {}).get("reaction_view", {})
+		var cost := " · −1 доп." if bool(view.get("uses_bonus", false)) else " · заряд потрачен"
+		result.append({"id": cue.actor_id, "text": String(cue.title) + (cost if cue.kind != &"guard" else "")})
 	# Refill не содержит события: сравниваем соседние опубликованные снимки.
 	if step.get("kind") == &"battle_turn_refill" and step.get("status") == &"APPLIED":
 		for id: int in after.get("units", {}):
@@ -57,6 +62,8 @@ static func feedback(events: Array, step: Dictionary, before: Dictionary, after:
 			if not bool(after.units[id].get("alive", false)): continue
 			var parts: PackedStringArray = []
 			if bool(old.get("guard", false)) and not bool(current.get("guard", false)): parts.append("Стойка снята")
-			if int(current.get("charge", 0)) > int(old.get("charge", 0)): parts.append("Заряд реакции восстановлен")
+			if bool(current.get("uses_bonus", false)):
+				if int(after.units[id].get("bonus", 0)) > int(before.get("units", {}).get(id, {}).get("bonus", 0)): parts.append("Доп. действие восстановлено")
+			elif int(current.get("charge", 0)) > int(old.get("charge", 0)): parts.append("Заряд реакции восстановлен")
 			if not parts.is_empty(): result.append({"id": id, "text": " · ".join(parts)})
 	return result

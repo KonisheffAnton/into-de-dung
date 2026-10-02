@@ -70,7 +70,7 @@ static func create(run: HeroHubState) -> Dictionary:
 				attack.damage_components.append(_fire(hero.attributes()[0] + (hero_class.weapon_damage if not weapon.is_empty() else 0)))
 			definitions.append(attack)
 			session.actor_loadouts[unit.id] = {"class_id":hero.class_id,"attack_id":attack.id}
-		unit.combat_perks.reaction_left = 1 if unit.combat_perks.definition.tank_reactions else 0
+		unit.combat_perks.uses_bonus_actions = true
 		unit.enable_action_resources(); unit.try_refill_turn_resources()
 		session.board.add_unit(unit)
 		session.units.append(unit)

@@ -42,7 +42,7 @@ static func capture(state: ItemSimulationState) -> Dictionary:
 			"main": actions.get_main_left() if actions != null else 0,
 			"bonus": actions.get_bonus_left() if actions != null else 0,
 			"move": unit.move_points_left, "guard": unit.guard_stance,
-			"reaction": unit.combat_perks.reaction_left if unit.combat_perks != null else 0,
+			"reaction": MeleeThreat.reaction_points(unit),
 			"reaction_view": capture_reaction_view(state, unit),
 		}
 	var environment := state.environment
@@ -70,7 +70,8 @@ static func capture_reaction_view(state: ItemSimulationState, unit: UnitState) -
 		var ally := board.get_unit_by_id(target_id)
 		cover_valid = ally != null and ally != unit and unit.is_alive() and ally.is_alive() and unit.is_friendly_to(ally) and board.occupant_at(unit.cell) == unit and board.occupant_at(ally.cell) == ally and absi(unit.cell.x - ally.cell.x) + absi(unit.cell.y - ally.cell.y) == 1 and MeleeThreat.reaches(board, unit, ally.cell)
 		ready = ready and cover_valid
-	return {"guard": unit.guard_stance, "mode": mode, "charge": perks.reaction_left if perks != null else 0,
+	return {"guard": unit.guard_stance, "mode": mode, "charge": MeleeThreat.reaction_points(unit),
+		"uses_bonus": perks != null and perks.uses_bonus_actions,
 		"owned": MeleeThreat.has_reactions(unit), "ready": ready, "cover_target_id": target_id, "cover_valid": cover_valid}
 
 ## Область — геометрия действия, не обещание попадания по любой цели внутри неё.

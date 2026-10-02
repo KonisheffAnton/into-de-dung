@@ -84,7 +84,7 @@ func run() -> void:
 	await click(at(cover_target.cell))
 	check(not demo._cover_guard_mode and session.selected_unit().guard_stance, "ally click installs cover guard")
 	check(session.selected_unit().combat_perks.mode == CombatPerksState.Mode.COVER and session.selected_unit().combat_perks.cover_target_id == cover_target.id, "cover mode stores chosen ally")
-	check(session.selected_unit().combat_perks.reaction_left == 1 and session.selected_unit().action_resources.get_main_left() == main_before - 1, "cover install spends one main and preserves shared reaction charge")
+	check(session.selected_unit().action_resources.get_bonus_left() == 1 and session.selected_unit().action_resources.get_main_left() == main_before - 1, "cover install spends one main and preserves shared reaction charge")
 	await key(KEY_ESCAPE)
 	check(not demo._cover_guard_mode, "escape cancels cover targeting")
 	demo.reset_demo()
@@ -101,12 +101,12 @@ func run() -> void:
 	var opportunity_main_before: int = opportunity_actor.action_resources.get_main_left()
 	await click(action_bar._buttons[2].global_position + action_bar._buttons[2].size * 0.5)
 	check(opportunity_actor.guard_stance and opportunity_actor.combat_perks.mode == CombatPerksState.Mode.OPPORTUNIST, "opportunity click installs the selected mode")
-	check(opportunity_actor.action_resources.get_main_left() == opportunity_main_before - 1 and opportunity_actor.combat_perks.reaction_left == 1, "opportunity install spends one main and leaves the shared charge ready")
-	opportunity_actor.combat_perks.reaction_left = 0
-	opportunity_actor.action_resources._set_for_refill(1, 1)
+	check(opportunity_actor.action_resources.get_main_left() == opportunity_main_before - 1 and opportunity_actor.action_resources.get_bonus_left() == 1, "opportunity install spends one main and leaves the shared charge ready")
+	opportunity_actor.action_resources._set_for_refill(opportunity_actor.action_resources.get_main_left(), 0)
+	opportunity_actor.action_resources._set_for_refill(1, opportunity_actor.action_resources.get_bonus_left())
 	demo._refresh()
 	await key(KEY_2)
-	check(opportunity_actor.combat_perks.mode == CombatPerksState.Mode.NONE and opportunity_actor.combat_perks.reaction_left == 0 and opportunity_actor.guard_stance, "ordinary guard can disable spent mode through UI")
+	check(opportunity_actor.combat_perks.mode == CombatPerksState.Mode.NONE and opportunity_actor.action_resources.get_bonus_left() == 0 and opportunity_actor.guard_stance, "ordinary guard can disable spent mode through UI")
 
 	# Расставляем тестовые угрозы board API, чтобы прогноз явно включал участников скрытой атаки.
 	demo.reset_demo()
@@ -178,7 +178,7 @@ func _opportunity_movement() -> void:
 	await capture("reactions-movement-stop")
 	await click(at(destination))
 	check(forecast != null and session.last_receipt.get_events() == forecast.events and ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() == forecast.snapshot_after, "fresh movement click matches complete reaction forecast")
-	check(mover.combat_perks.movement_stopped and tank.combat_perks.reaction_left == 0 and demo._inspection_text(mover).contains("остановлено"), "UI describes spent charge and stopped mover")
+	check(mover.combat_perks.movement_stopped and tank.action_resources.get_bonus_left() == 0 and demo._inspection_text(mover).contains("остановлено"), "UI describes spent charge and stopped mover")
 
 func _roster_button(id: int) -> Button:
 	for button: Button in demo._roster.get_children():

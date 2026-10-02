@@ -48,7 +48,7 @@ func run() -> void:
 	await click(at(target))
 	check(not demo.retreat_mode and not demo.is_execution_pending() and s.last_receipt.status == ActionReceipt.APPLIED, "live worker completes and returns ordinary movement: %s/%s" % [s.last_receipt.status, s.last_receipt.reason])
 	check(forecast != null and s.last_receipt.get_events() == forecast.events and s.last_receipt.get_steps() == forecast.steps and ItemSimulationSnapshot.capture(s.state, []).snapshot.to_dict() == forecast.snapshot_after, "live worker matches full forecast")
-	check(s.units[1].combat_perks.reaction_left == 1 and not s.units[0].combat_perks.movement_stopped, "opportunist retains charge without stopping mover")
+	check(s.units[1].action_resources.get_bonus_left() == 1 and not s.units[0].combat_perks.movement_stopped, "opportunist retains charge without stopping mover")
 	await capture("safe-retreat-live")
 
 	s = fixture()

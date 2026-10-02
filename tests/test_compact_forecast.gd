@@ -92,11 +92,20 @@ func run() -> void:
 	check(inferred_death.text.contains("погиб"), "published alive delta still communicates death without journal event")
 	var costs_before := row(20)
 	var costs_after := row(20)
+	var modern_perks := {"schema_version": 5, "definition": {"sneak_attack": false, "tank_reactions": false,
+		"stunning_strike": false, "stun_immune": false, "entangle_immune": false, "counterattack": false,
+		"burning_bypass_hp_gate": false}, "mode": 0, "cover_target_id": 0, "movement_stopped": false}
+	costs_before["combat_perks"] = modern_perks.duplicate(true)
 	costs_after["main"] = 0
 	costs_after["bonus"] = 0
 	costs_after["move"] = 0
 	costs_after["guard_stance"] = true
-	costs_after["combat_perks"] = {"reaction_left": 0}
+	var guarded_perks: Dictionary = modern_perks.duplicate(true)
+	var guarded_definition: Dictionary = guarded_perks["definition"]
+	guarded_perks["mode"] = 1
+	guarded_definition["tank_reactions"] = true
+	guarded_perks["definition"] = guarded_definition
+	costs_after["combat_perks"] = guarded_perks
 	var costs := Formatter.build("Действие", &"APPLIED", "", {1: {"before": costs_before, "after": costs_after}}, [], 1, {1: "Страж"})
 	check(costs.text.contains("основное 1→0") and costs.text.contains("дополнительное 1→0") and costs.text.contains("движение 2→0") and costs.text.contains("стойка включена") and costs.text.contains("перки изменятся"), "action resources and guard/perks deltas are visible")
 	var unchanged := Formatter.build("Атака", &"APPLIED", "", {1: {"before": row(20), "after": row(19)}, 2: {"before": row(20), "after": row(20)}}, [], 1, {1: "Страж", 2: "Тень"})

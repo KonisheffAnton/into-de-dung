@@ -100,7 +100,7 @@ func ui_and_areas() -> void:
 	s.selected_id = ally.id
 	ally.guard_stance = true; enemy.guard_stance = true
 	ally.combat_perks.mode = CombatPerksState.Mode.OPPORTUNIST; enemy.combat_perks.mode = CombatPerksState.Mode.OPPORTUNIST
-	ally.combat_perks.reaction_left = 1; enemy.combat_perks.reaction_left = 1
+	ally.action_resources._set_for_refill(ally.action_resources.get_main_left(), 1); enemy.action_resources._set_for_refill(enemy.action_resources.get_main_left(), 1)
 	demo._refresh(); await process_frame; await process_frame
 	check(demo._action_bar._buttons.size() == 4 and demo._action_bar._page == 0, "main four slots no pages")
 	check(demo._action_bar.get_global_rect().end.x <= demo.board_view.global_position.x, "character slots left of field")
@@ -113,11 +113,11 @@ func ui_and_areas() -> void:
 	check(area_for(ally.id, areas).faction == Faction.Type.PLAYER and area_for(enemy.id, areas).faction == Faction.Type.ENEMY and BattleDemoBoard.ALLY_AREA != BattleDemoBoard.ENEMY_AREA, "side colors separate")
 	check(demo.board_view.area_details(enemy.cell).contains(enemy.debug_name), "area inspection names source")
 	var saved := ActionPresentationState.capture(s.state)
-	enemy.combat_perks.reaction_left = 0
+	enemy.action_resources._set_for_refill(enemy.action_resources.get_main_left(), 0)
 	check(not area_for(enemy.id, ActionPresentationState.capture_action_areas(s.state)).ready, "spent reaction removes active zone")
 	demo.board_view.show_presentation_state(saved)
 	check(area_for(enemy.id, demo.board_view.action_areas).ready, "presentation uses copied readiness")
-	enemy.combat_perks.reaction_left = 1; enemy.control.stunned_turns = 1
+	enemy.action_resources._set_for_refill(enemy.action_resources.get_main_left(), 1); enemy.control.stunned_turns = 1
 	check(area_for(enemy.id, ActionPresentationState.capture_action_areas(s.state)).is_empty(), "stun removes area")
 	enemy.control.stunned_turns = 0; enemy.elemental.frozen_turns = 2
 	check(area_for(enemy.id, ActionPresentationState.capture_action_areas(s.state)).is_empty(), "freeze removes area")

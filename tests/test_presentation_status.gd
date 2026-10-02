@@ -133,7 +133,7 @@ func run() -> void:
 	visual = board._presentation_visual(1)
 	var details := board.displayed_unit_details(1)
 	check(details.contains("стаки: 2") and details.contains("3 тиков") and details.contains("2 концов хода") and details.contains("до конца ближайшего хода"), "inspection distinguishes stacks ticks elemental expiry and control expiry")
-	check(details.contains("запас равновесия 8/12") and details.contains("реакция 1"), "inspection reports reserve and action resources")
+	check(details.contains("запас равновесия 8/12") and details.contains("основное 1 · доп. 0"), "inspection reports reserve and action resources")
 	value.units[1].bleeding.stacks = 999
 	check(board.displayed_unit_details(1) == details, "projection does not alias incoming dictionaries")
 	await capture("dense-states-100")
