@@ -80,11 +80,12 @@ func _build() -> void:
 
 func _refresh() -> void:
 	if _button_row == null: return
-	# Скрытые фильтром кнопки остаются детьми панели, чтобы дерево освободило их вместе с ней.
+	# Не переустанавливаем visible у кнопки с тем же состоянием: это сохраняет незавершённое нажатие между кадрами.
 	for button: Button in _all_buttons:
-		if is_instance_valid(button): button.visible = false
-	for index: int in range(_buttons.size()):
-		_buttons[index].visible = index >= _page * PAGE_SIZE and index < (_page + 1) * PAGE_SIZE
+		if not is_instance_valid(button): continue
+		var index := _buttons.find(button)
+		var should_be_visible := index >= _page * PAGE_SIZE and index < (_page + 1) * PAGE_SIZE
+		if button.visible != should_be_visible: button.visible = should_be_visible
 	_refresh_controls()
 
 func _refresh_controls() -> void:

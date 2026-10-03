@@ -15,7 +15,7 @@ func _run() -> void:
 	viewport = SubViewport.new(); viewport.size = Vector2i(1280, 850)
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS; root.add_child(viewport)
 	demo = (load("res://scenes/demo/core_reactions_battle.tscn") as PackedScene).instantiate() as BattleDemo
-	demo.deployment_enabled = false; viewport.add_child(demo); demo.set_process(false)
+	demo.deployment_enabled = false; viewport.add_child(demo); demo.set_process(true)
 	viewport.notify_mouse_entered()
 	var session := demo.session as BattleCoreReactionsSession
 	session._enemy_index = session._enemy_ids.size(); session.step_enemy()
@@ -28,6 +28,7 @@ func _run() -> void:
 		for item: ItemInstance in session.state.get_owner(unit.id)._items.values(): item.armor_remaining = 0
 	session.selected_id = 0
 	demo._refresh(); await process_frame; await process_frame
+	_check(demo.is_processing(), "per-frame mage refresh remains enabled during real clicks")
 	_check(demo._mage_row.visible and not demo._mage_fire.disabled and not demo._mage_heal.disabled, "mage independent of hero selection")
 	_check(demo._mage_label.tooltip_text.contains("длительность: огонь 2") and demo._mage_label.tooltip_text.contains("лечение 2"), "default mage durations remain two turns")
 	_check(demo._instructions.get_global_rect().end.y <= float(viewport.size.y), "instructions fit viewport")
@@ -35,6 +36,20 @@ func _run() -> void:
 	var main_before := actor.action_resources.get_main_left()
 	await _click(demo._mage_fire.global_position + demo._mage_fire.size * 0.5)
 	_check(session.elemental_selected == &"mage.fire", "real button selects fire")
+	var mage_bar := demo._mage_row as BattleMageBar
+	_check(mage_bar != null and mage_bar.get_page_count() >= 2, "test spells are available on a second pager page")
+	if mage_bar != null and mage_bar.get_page_count() >= 2:
+		await _click(mage_bar._next_button.global_position + mage_bar._next_button.size * 0.5)
+		_check(mage_bar.get_page() == 1 and session.elemental_selected == &"", "real pager click changes page and clears old selection")
+		var test_spell_button: Button = demo._mage_buttons.get(&"mage.test_summon") as Button
+		_check(is_instance_valid(test_spell_button) and test_spell_button.visible, "test cell spell is visible on second page")
+		if is_instance_valid(test_spell_button):
+			await _click(test_spell_button.global_position + test_spell_button.size * 0.5)
+			_check(session.elemental_selected == &"mage.test_summon", "real second-page button selects test spell")
+		await _click(mage_bar._previous_button.global_position + mage_bar._previous_button.size * 0.5)
+		_check(mage_bar.get_page() == 0 and session.elemental_selected == &"", "real pager click returns to base spells without stale selection")
+		await _click(demo._mage_fire.global_position + demo._mage_fire.size * 0.5)
+		_check(session.elemental_selected == &"mage.fire", "base spell remains selectable after page round trip")
 	await _motion(_at(target.cell))
 	await preload("res://tests/fixtures/action_forecast_wait.gd").settle(self, demo)
 	var first := demo._elemental_forecast
@@ -100,9 +115,11 @@ func _click(position: Vector2) -> void:
 	event.global_position = position
 	event.pressed = true
 	viewport.push_input(event, true)
+	await process_frame
+	await process_frame
 	event.pressed = false
 	viewport.push_input(event, true)
-	await process_frame; await process_frame
+	await process_frame
 	await preload("res://tests/fixtures/battle_execution_wait.gd").settle(self, demo)
 
 func _key(code: Key) -> void:

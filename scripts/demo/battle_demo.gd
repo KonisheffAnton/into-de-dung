@@ -951,8 +951,9 @@ func _refresh_mage() -> void:
 			for id: StringName in _mage_buttons:
 				var button: Button = _mage_buttons[id]
 				var definition := ability.definition(id)
-				# До configure скрываем и кнопки отсутствующих в старом каталоге определений.
-				button.visible = false if _mage_row is BattleMageBar else definition != null
+				# В панели видимостью управляет pager только при смене фильтра или страницы,
+				# иначе сброс между кадрами отменит удерживаемое нажатие.
+				if not (_mage_row is BattleMageBar): button.visible = definition != null
 				var reason := mage_session.mage_reason(id)
 				button.disabled = reason != &""
 				if definition == null: continue
