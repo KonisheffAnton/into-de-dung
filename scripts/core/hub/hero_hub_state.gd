@@ -23,6 +23,18 @@ var expedition_rng_state: int = 0
 var expedition: ExpeditionRunState = null
 var achievements := ProfileAchievements.new()
 var battle_report: Dictionary = {}
+var mage_deck: Dictionary = {}
+var h1_ruleset: String = ""
+
+func enable_mage_deck() -> void:
+	if mage_deck.is_empty(): mage_deck = MageDeckProfile.initial()
+	h1_ruleset = "h1-legacy-v1" if phase == "battle" else ""
+
+func set_mage_base(types: Array) -> bool:
+	if phase != "hub" or mage_deck.is_empty() or not MageCardCatalog.valid_base(types): return false
+	var sorted: Array = types.duplicate(); sorted.sort()
+	mage_deck.base_types = sorted
+	return true
 
 func dismiss_battle_report() -> bool:
 	if battle_report.is_empty() or not battle_report.open or (expedition != null and expedition.phase == "reward"): return false
@@ -131,6 +143,7 @@ func start_battle() -> bool:
 	run_serial += 1
 	if not battle_report.is_empty(): battle_report.open = false
 	phase = "battle"
+	if not mage_deck.is_empty(): h1_ruleset = "h1-legacy-v1"
 	return true
 
 func battle_items() -> Array[int]:
@@ -180,6 +193,7 @@ func finish_battle(serial: int, victory: bool, hp: Dictionary, gear: Dictionary)
 			# Десятые опыта сохраняют ровно 10%, включая награды меньше десяти.
 			(heroes[id] as HeroProgression).award_experience_tenths(VICTORY_XP * (10 if party.has(id) else 1))
 	phase = "hub"
+	h1_ruleset = ""
 	PostBattleRules.finish(self,report,hp)
 	last_result = ("Победа: бойцам +%d опыта, резерву +%d; +%d золота." % [VICTORY_XP, VICTORY_XP / 10, VICTORY_GOLD]) if victory else "Поражение. Опыт не начислен. Бесплатные новички доступны в найме."
 	last_result += " Погибло: %d." % lost.size()
@@ -195,18 +209,24 @@ func to_dict() -> Dictionary:
 	for hero: HeroProgression in candidates: candidate_rows.append(hero.to_dict())
 	ids = items.keys(); ids.sort()
 	for id: int in ids: item_rows.append(items[id].duplicate(true))
-	return {"schema":3, "heroes":hero_rows, "party":party.duplicate(), "candidates":candidate_rows, "items":item_rows, "phase":phase, "gold":gold, "next_id":next_id, "next_item_id":next_item_id, "run_serial":run_serial, "rng_state":rng_state, "last_result":last_result,"essence":essence,"expedition_rng_state":expedition_rng_state,"expedition":expedition.to_dict() if expedition != null else {},"achievements":achievements.to_dict(),"battle_report":battle_report.duplicate(true)}
+	var data := {"schema":3, "heroes":hero_rows, "party":party.duplicate(), "candidates":candidate_rows, "items":item_rows, "phase":phase, "gold":gold, "next_id":next_id, "next_item_id":next_item_id, "run_serial":run_serial, "rng_state":rng_state, "last_result":last_result,"essence":essence,"expedition_rng_state":expedition_rng_state,"expedition":expedition.to_dict() if expedition != null else {},"achievements":achievements.to_dict(),"battle_report":battle_report.duplicate(true)}
+	if not mage_deck.is_empty(): data.merge({"schema":4,"mage_deck":mage_deck.duplicate(true),"h1_ruleset":h1_ruleset},true)
+	return data
 
 static func from_dict(data: Variant) -> HeroHubState:
-	if typeof(data) != TYPE_DICTIONARY or typeof(data.get("schema")) != TYPE_INT or data.schema not in [1,2,3]: return null
+	if typeof(data) != TYPE_DICTIONARY or typeof(data.get("schema")) != TYPE_INT or data.schema not in [1,2,3,4]: return null
 	var shape := {"schema":TYPE_INT,"heroes":TYPE_ARRAY,"party":TYPE_ARRAY,"candidates":TYPE_ARRAY,"items":TYPE_ARRAY,"phase":TYPE_STRING,"gold":TYPE_INT,"next_id":TYPE_INT,"next_item_id":TYPE_INT,"run_serial":TYPE_INT,"rng_state":TYPE_INT,"last_result":TYPE_STRING}
 	if data.schema >= 2: shape.merge({"essence":TYPE_INT,"expedition_rng_state":TYPE_INT,"expedition":TYPE_DICTIONARY})
-	if data.schema == 3: shape.merge({"achievements":TYPE_DICTIONARY,"battle_report":TYPE_DICTIONARY})
+	if data.schema >= 3: shape.merge({"achievements":TYPE_DICTIONARY,"battle_report":TYPE_DICTIONARY})
+	if data.schema == 4: shape.merge({"mage_deck":TYPE_DICTIONARY,"h1_ruleset":TYPE_STRING})
 	if not ItemSimulationSnapshot._shape(data, shape): return null
 	if data.phase not in (["hub","battle"] if data.schema == 1 else ["hub","battle","expedition"]) or data.gold < 0 or data.gold > 1000000000 or data.run_serial < 0 or data.run_serial > 1000000000: return null
 	if data.next_id < 1 or data.next_id > 1000000000 or data.next_item_id < 1 or data.next_item_id > 1000000000 or data.last_result.length() > 1024: return null
 	if data.heroes.size() > MAX_ROSTER or data.party.size() > MAX_PARTY or data.candidates.size() != 4 or data.items.size() > MAX_ITEMS: return null
 	var result := HeroHubState.new()
+	if data.schema == 4:
+		if not MageDeckProfile.valid(data.mage_deck) or data.h1_ruleset != ("h1-legacy-v1" if data.phase == "battle" else ""): return null
+		result.mage_deck = data.mage_deck.duplicate(true); result.h1_ruleset = data.h1_ruleset
 	var ids: Dictionary = {}
 	for row: Variant in data.heroes:
 		var hero := HeroProgression.from_dict(row)
@@ -249,7 +269,7 @@ static func from_dict(data: Variant) -> HeroHubState:
 		var migration_rng := RandomNumberGenerator.new()
 		migration_rng.seed = data.rng_state ^ 0x553134
 		result.expedition_rng_state = migration_rng.state
-	if data.schema == 3:
+	if data.schema >= 3:
 		result.achievements = ProfileAchievements.from_dict(data.achievements)
 		if result.achievements == null: return null
 		result.battle_report = data.battle_report.duplicate(true)

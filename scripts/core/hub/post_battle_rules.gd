@@ -39,6 +39,7 @@ static func finish(hub: HeroHubState, report: Dictionary, hp: Dictionary) -> voi
 
 static func repair_quote(hub: HeroHubState, hero_id: int) -> Dictionary:
 	var report := hub.battle_report
+	if report.get("schema") == 2 and report.get("reward_state") == "pending" and hub.expedition != null and hub.expedition.current_node().kind == "final": return {}
 	if report.is_empty() or not report.open or not report.victory or report.repairs.size() >= 256: return {}
 	if hub.phase == "battle" or (hub.phase == "expedition" and hub.expedition.phase not in ["reward","route"]): return {}
 	var eligible := false
@@ -65,6 +66,10 @@ static func repair(hub: HeroHubState, hero_id: int) -> bool:
 	return true
 
 static func valid_report(data: Dictionary, hub: HeroHubState) -> bool:
+	if data.get("schema") == 2: return MageDeckReport.valid(data,hub)
+	return _valid_legacy_report(data,hub)
+
+static func _valid_legacy_report(data: Dictionary, hub: HeroHubState, early: bool = false) -> bool:
 	if data.is_empty(): return true
 	if not ItemSimulationSnapshot._shape(data,{"schema":TYPE_INT,"open":TYPE_BOOL,"source":TYPE_STRING,"run_id":TYPE_INT,"node_id":TYPE_INT,"serial":TYPE_INT,"title":TYPE_STRING,"victory":TYPE_BOOL,"completed":TYPE_BOOL,"heroes":TYPE_ARRAY,"gold_awarded":TYPE_INT,"essence_awarded":TYPE_INT,"gold_lost":TYPE_INT,"gold_scope":TYPE_STRING,"items":TYPE_ARRAY,"lost_items":TYPE_ARRAY,"achievements":TYPE_ARRAY,"points_awarded":TYPE_INT,"repairs":TYPE_ARRAY,"artifact_selected":TYPE_STRING}): return false
 	if data.schema != 1 or data.source not in ["legacy","expedition"] or data.gold_scope not in ["run","hub"]: return false
@@ -109,5 +114,5 @@ static func valid_report(data: Dictionary, hub: HeroHubState) -> bool:
 		if data.run_id != hub.run_serial or hub.phase == "battle": return false
 		if hub.phase == "expedition":
 			if data.source != "expedition" or data.gold_scope != "run" or data.serial != hub.expedition.battle_serial or data.node_id != hub.expedition.current_node().id or hub.expedition.phase not in ["reward","route"]: return false
-		elif data.gold_scope != "hub" or (data.source == "expedition" and data.victory and not data.completed): return false
+		elif data.gold_scope != "hub" or (data.source == "expedition" and data.victory and not data.completed and not early): return false
 	return true

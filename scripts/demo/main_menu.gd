@@ -1,6 +1,7 @@
 extends Control
 
 @export var save_path: String = "user://hero-hub-v1.save"
+@export var mage_deck_mode: bool = true
 
 func _ready() -> void:
 	var background := ColorRect.new(); background.color = Color("111a27")
@@ -14,4 +15,5 @@ func _ready() -> void:
 func _open_hub() -> void:
 	for child: Node in get_children(): remove_child(child); child.queue_free()
 	var hub := HeroHubScreen.new(); hub.name = "ExpeditionHub"; hub.expedition_mode = true; hub.save_path = save_path
+	hub.mage_deck_mode = mage_deck_mode
 	hub.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); add_child(hub)

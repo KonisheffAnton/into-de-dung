@@ -147,6 +147,9 @@ def main():
         if label in ("ability_catalog", "mage_cooldowns", "mage_guards", "mage_ui"):
             marker = {"ability_catalog": "ABILITY CATALOG RESULTS:", "mage_cooldowns": "MAGE COOLDOWNS RESULTS:", "mage_guards": "MAGE GUARDS RESULTS:", "mage_ui": "MAGE UI RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label in ("mage_deck_models", "deck_ability_state", "mage_deck_expedition", "mage_deck_battle", "mage_deck_playthrough", "mage_deck_ui"):
+            marker = "MAGE DECK MODEL RESULTS:" if label == "mage_deck_models" else label.replace("_", " ").upper() + " RESULTS:"
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("status_models", "status_snapshots", "status_effects", "status_ui"):
             marker = {"status_models": "STATUS STATE MODEL RESULTS:", "status_snapshots": "ELEMENTAL SNAPSHOT RESULTS:", "status_effects": "STATUS EFFECTS RESULTS:", "status_ui": "STATUS EFFECTS UI RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -292,6 +295,13 @@ def main():
         if args.render_check:
             expedition_ui_args += ["--", "--captures=" + str(out / "expedition_ui")]
         run("expedition_ui", expedition_ui_args, headless=not args.render_check)
+        for label in ("mage_deck_models", "deck_ability_state", "mage_deck_expedition", "mage_deck_battle"):
+            run(label, ["--script", "tests/test_" + label + ".gd"])
+        run("mage_deck_playthrough", ["--script", "tests/test_expedition_playthrough.gd", "--", "--deck"])
+        deck_ui_args = ["--script", "tests/test_mage_deck_ui.gd"]
+        if args.render_check:
+            deck_ui_args += ["--", "--captures=" + str(out / "mage_deck_ui")]
+        run("mage_deck_ui", deck_ui_args, headless=not args.render_check)
         run("ability_catalog", ["--script", "tests/test_ability_catalog.gd"])
         run("mage_cooldowns", ["--script", "tests/test_mage_cooldowns.gd"])
         run("mage_guards", ["--script", "tests/test_mage_boundaries_guards.gd"])

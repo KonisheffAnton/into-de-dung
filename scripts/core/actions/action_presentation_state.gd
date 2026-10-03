@@ -48,7 +48,7 @@ static func capture(state: ItemSimulationState) -> Dictionary:
 		}
 	var environment := state.environment
 	var abilities: Dictionary = state.abilities.to_dict().duplicate(true) if state.abilities != null else {}
-	return {
+	var result := {
 		"width": board.width, "height": board.height,
 		"heights": heights, "terrain": terrain, "units": units,
 		"fires": environment.fires.duplicate(true) if environment != null else [],
@@ -57,6 +57,9 @@ static func capture(state: ItemSimulationState) -> Dictionary:
 		"abilities": abilities,
 		"action_areas": capture_action_areas(state),
 	}
+	if state.deck != null:
+		result["deck"] = state.deck.to_dict(); result["card_effects"] = state.card_effects.to_dict()
+	return result
 
 ## Только значения для показа: выбранный режим переживает снятие стойки.
 ## Готовность режима не обещает допустимость конкретного будущего удара.

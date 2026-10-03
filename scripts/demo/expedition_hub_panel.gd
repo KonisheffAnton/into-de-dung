@@ -26,8 +26,9 @@ static func render(host: HeroHubScreen) -> void:
 			_action(host,host._content,"Починить %d%% максимальной брони всему отряду" % (50 if node.modifier == "repair" else 25),"service_repair","service",{"kind":"repair"})
 		"camp_departure":
 			host._text("Безопасная точка · услуга получена",20)
+			if run.is_deck(): MageDeckPanel.camp_editor(host)
 			_action(host,host._content,"Продолжить поход","camp_continue","continue")
-			_action(host,host._content,"Вернуться в хаб · сохранить добычу и переработать артефакты","camp_leave","leave")
+			_action(host,host._content,"Вернуться в хаб · сохранить добычу и переработать " + ("найденные карты" if run.is_deck() else "артефакты"),"camp_leave","leave")
 	var map := ExpeditionMapView.new()
 	map.run = run; map.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	map.room_chosen.connect(func(id: int) -> void: host._expedition_action("choose",{"node":id}))
@@ -39,21 +40,24 @@ static func render(host: HeroHubScreen) -> void:
 		host._button_for(selectors,("• " if id == host.selected_hero_id else "") + (host.run.heroes[id] as HeroProgression).name,"select_%d" % id,host._select_hero.bind(id))
 	host._text(host._hero_detail(host.run.heroes[host.selected_hero_id]),14)
 	host._allocation_controls()
-	host._text("АРТЕФАКТЫ · 3 слота · объединённые стаки неделимы",20)
-	if run.artifacts.is_empty(): host._text("Пока пусто. Артефакт выбирается после каждой победы до финала.")
-	for item: Dictionary in run.artifacts:
-		var owner := "рюкзак" if item.hero_id == 0 else "%s · слот %d" % [(host.run.heroes[item.hero_id] as HeroProgression).name,item.slot]
-		host._text("%s #%d · %d/%d · %s" % [ExpeditionCatalog.artifact_name(item.definition),item.id,item.stacks,ExpeditionCatalog.artifact(item.definition).max_stacks,owner],17)
-		host._text(ExpeditionCatalog.artifact(item.definition).description,14)
-		var row := HFlowContainer.new(); host._content.add_child(row)
-		if item.hero_id != 0: _action(host,row,"Снять в рюкзак","artifact_off_%d" % item.id,"artifact_unequip",{"item":item.id,"hero":0,"slot":0})
-		for slot: int in range(1,4):
-			_action(host,row,"Выбранному · слот %d" % slot,"artifact_%d_slot_%d" % [item.id,slot],"artifact_equip",{"item":item.id,"hero":host.selected_hero_id,"slot":slot})
-		if item.definition == "spark":
-			for other: Dictionary in run.artifacts:
-				if other.id > item.id and other.definition == "spark":
-					var merge := _action(host,row,"Объединить с #%d" % other.id,"merge_%d_%d" % [item.id,other.id],"artifact_merge",{"item":other.id,"target":item.id})
-					merge.disabled = int(item.stacks) + int(other.stacks) > 3
+	if run.is_deck():
+		host._text("Колода: %d активных, %d в хранении. Пересборка доступна у костра." % [run.active_ids.size(),run.cards.size()-run.active_ids.size()],16)
+	else:
+		host._text("АРТЕФАКТЫ · 3 слота · объединённые стаки неделимы",20)
+		if run.artifacts.is_empty(): host._text("Пока пусто. Артефакт выбирается после каждой победы до финала.")
+		for item: Dictionary in run.artifacts:
+			var owner := "рюкзак" if item.hero_id == 0 else "%s · слот %d" % [(host.run.heroes[item.hero_id] as HeroProgression).name,item.slot]
+			host._text("%s #%d · %d/%d · %s" % [ExpeditionCatalog.artifact_name(item.definition),item.id,item.stacks,ExpeditionCatalog.artifact(item.definition).max_stacks,owner],17)
+			host._text(ExpeditionCatalog.artifact(item.definition).description,14)
+			var row := HFlowContainer.new(); host._content.add_child(row)
+			if item.hero_id != 0: _action(host,row,"Снять в рюкзак","artifact_off_%d" % item.id,"artifact_unequip",{"item":item.id,"hero":0,"slot":0})
+			for slot: int in range(1,4):
+				_action(host,row,"Выбранному · слот %d" % slot,"artifact_%d_slot_%d" % [item.id,slot],"artifact_equip",{"item":item.id,"hero":host.selected_hero_id,"slot":slot})
+			if item.definition == "spark":
+				for other: Dictionary in run.artifacts:
+					if other.id > item.id and other.definition == "spark":
+						var merge := _action(host,row,"Объединить с #%d" % other.id,"merge_%d_%d" % [item.id,other.id],"artifact_merge",{"item":other.id,"target":item.id})
+						merge.disabled = int(item.stacks) + int(other.stacks) > 3
 	host._text("ПОХОДНАЯ ЭКИПИРОВКА",20)
 	for id: int in run.ordinary_item_ids:
 		var item: Dictionary = host.run.items[id]

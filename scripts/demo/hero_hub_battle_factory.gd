@@ -4,6 +4,7 @@ class_name HeroHubBattleFactory
 static func create(run: HeroHubState) -> Dictionary:
 	if run == null or HeroHubState.from_dict(run.to_dict()) == null: return {}
 	var expedition := run.phase == "expedition" and run.expedition != null and run.expedition.phase == "battle"
+	var deck: bool = expedition and run.expedition.is_deck()
 	if run.phase != "battle" and not expedition: return {}
 	var node: Dictionary = run.expedition.current_node() if expedition else {}
 	var encounter := ExpeditionCatalog.encounter(node.kind if expedition else "battle",node.variant if expedition else 0)
@@ -64,7 +65,7 @@ static func create(run: HeroHubState) -> Dictionary:
 			unit.combat_perks.definition.stunning_strike = hero.class_id == &"warrior"
 			unit.combat_perks.definition.sneak_attack = hero.class_id == &"rogue"
 			hero_units[hero.id] = unit.id
-			var attack := _attack(StringName("hero_attack_%d" % unit.id))
+			var attack := _attack(MageDeckRules.hero_attack_id(unit.id))
 			if hero.class_id == &"mage":
 				var weapon := run.equipped(hero.id, "weapon")
 				attack.damage_components.append(_fire(hero.attributes()[0] + (hero_class.weapon_damage if not weapon.is_empty() else 0)))
@@ -101,7 +102,7 @@ static func create(run: HeroHubState) -> Dictionary:
 	session.state.environment = CombatEnvironmentState.new()
 	session.state.environment.status_effects = true
 	session.state.environment.collapse = {"turn":0,"marked":[]}
-	if expedition:
+	if expedition and not deck:
 		var artifacts := BattleArtifactState.new()
 		for id: int in run.party:
 			var unit_id: int = hero_units[id]
@@ -112,6 +113,7 @@ static func create(run: HeroHubState) -> Dictionary:
 			if record.hero_id == 0: continue
 			artifacts.equipped.append({"id":record.id,"unit_id":hero_units[record.hero_id],"slot":record.slot,"definition":record.definition,"version":1,"stacks":record.stacks})
 		session.state.artifacts = artifacts
+	if expedition:
 		if node.modifier in ["spikes", "fire"]:
 			for cell: Vector2i in encounter.hazard_cells:
 				session.state.environment.fires.append({"id":session.state.environment.next_fire_id,"cell":cell,"damage":ExpeditionCatalog.SPIKE_DAMAGE if node.modifier == "spikes" else 0,"effect":"bleeding" if node.modifier == "spikes" else "burning"})
@@ -126,6 +128,13 @@ static func create(run: HeroHubState) -> Dictionary:
 	var item_definitions: Dictionary = {}
 	for owner: ItemOwnerState in owners: item_definitions.merge(owner._definitions, true)
 	session.state.abilities = BattleAbilityState.create(AbilityCatalog.build(rules, item_definitions, true))
+	if deck:
+		session.state.abilities = BattleAbilityState.create_deck(AbilityCatalog.build(rules,item_definitions,true),Faction.Type.ENEMY)
+		session.state.deck = BattleDeckState.create(run.expedition.active_cards(),run.expedition.checkpoint.draw_seed)
+		session.state.card_effects = BattleCardEffectState.new()
+		for unit: UnitState in session.units:
+			var attack_id: StringName = session.actor_loadouts[unit.id].attack_id if session.actor_loadouts.has(unit.id) else &"demo_strike"
+			session.state.card_effects.ordinary_attacks.append({"unit_id":unit.id,"attack_id":String(attack_id)})
 	session.phase = BattleTacticalSession.Phase.ENEMY_TURN
 	session._enemy_ids = session.living_ids(Faction.Type.ENEMY)
 	session._setup_revision = session.context.get_revision()
@@ -137,6 +146,7 @@ static func create(run: HeroHubState) -> Dictionary:
 		session.close(); return {}
 	var bundle := {"session":session,"hero_units":hero_units,"gear_items":gear_items,"serial":run.expedition.battle_serial if expedition else run.run_serial}
 	if expedition: bundle.merge({"run_id":run.expedition.run_id,"node_id":node.id})
+	if deck: bundle["ruleset_id"] = ExpeditionRulesRegistry.DECK
 	return bundle
 
 static func outcome(bundle: Dictionary) -> Dictionary:
@@ -156,6 +166,7 @@ static func outcome(bundle: Dictionary) -> Dictionary:
 		gear[id] = item.armor_remaining
 	var result := {"serial":bundle.serial,"victory":session.phase == BattleTacticalSession.Phase.VICTORY,"hp":hp,"gear":gear}
 	if bundle.has("run_id"): result.merge({"run_id":bundle.run_id,"node_id":bundle.node_id})
+	if bundle.has("ruleset_id"): result["ruleset_id"] = bundle.ruleset_id
 	return result
 
 static func _attack(id: StringName) -> AttackDefinition:

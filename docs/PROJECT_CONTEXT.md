@@ -1,13 +1,13 @@
-# intoDeDung — карта контекста
+# intoDeDung — маршруты
 
-Сначала [HANDOFF](CODEX_HANDOFF.md) и git status/HEAD, затем выбрать строку.
-[AGENTS](../AGENTS.md) задаёт правила; уже предоставленный актуальный текст не перечитывать.
-Контракты/код/тесты адресно; историю и ссылки — по конкретному вопросу.
+Сначала [HANDOFF](CODEX_HANDOFF.md), git status/HEAD, затем маршрут ниже.
+[AGENTS](../AGENTS.md) — правила; предоставленный актуальный текст не перечитывать.
+Код/контракты/тесты адресно; историю/ссылки — по вопросу.
 
 | Задача | Документ |
 |---|---|
 | Архитектура / инварианты | [ARCHITECTURE](ARCHITECTURE.md) / [DECISIONS](DECISIONS.md) |
-| Готовность ядра / следующий срез | [CORE_READINESS](CORE_READINESS.md) / §7 [DESIGN_DIRECTION](DESIGN_DIRECTION.md) |
+| Готовность ядра / срез | [CORE_READINESS](CORE_READINESS.md) / §7 [DESIGN_DIRECTION](DESIGN_DIRECTION.md) |
 | Делегирование / ведение контекста | [CODEX_WORKFLOW](CODEX_WORKFLOW.md) |
 | Запуск / автоматические проверки | [REPOSITORY_STATE](REPOSITORY_STATE.md) / [TESTING](TESTING.md) |
 | Хаб / итоги / достижения | [H1](HERO_HUB_H1.md) / [Итоги](POST_BATTLE_V1.md) |
@@ -27,7 +27,7 @@
 | Реализованная броня и типы D2 | [ARMOR_DAMAGE_D2](ARMOR_DAMAGE_D2.md) |
 | Эффекты K17 / legacy D3 | [K17](STATUS_EFFECTS_NEXT.md) / [D3](BLEEDING_D3.md) |
 | Маг, откаты / щит, призыв | [K18](MAGE_COOLDOWNS_K18.md) / [R14](MAGE_SUPPORT_R14.md) |
-| Колода мага: контракт до реализации | [MAGE_DECK_V1](MAGE_DECK_V1.md) |
+| Колода мага, рука / награды / костёр | [MAGE_DECK_V1](MAGE_DECK_V1.md) |
 | Полный цикл / legacy D4 | [U14](EXPEDITION_U14.md) / [D4](EXPEDITION_D4.md) |
 | Шипы, тела, поднятие D5 | [ENVIRONMENT_D5](ENVIRONMENT_D5.md) |
 | Шаблон помощника, снимки M1 | [SUMMON_DEFINITION_M1](SUMMON_DEFINITION_M1.md) |
@@ -37,11 +37,11 @@
 | Флакон / призыв предметом | [HEALING_ITEM](HEALING_ITEM.md) / [SUMMON_ITEM](SUMMON_ITEM.md) |
 | Предметы M3 | [ITEM_USE_M3](ITEM_USE_M3.md) |
 | Пробивание физической базы оружием M4 | [ARMOR_PIERCING_M4](ARMOR_PIERCING_M4.md) |
-| Исполнение, маршруты к frozen Pxx | [COMMAND_ACTION_QUEUE_CONTRACT](COMMAND_ACTION_QUEUE_CONTRACT.md) |
+| Исполнение / frozen Pxx | [COMMAND_ACTION_QUEUE_CONTRACT](COMMAND_ACTION_QUEUE_CONTRACT.md) |
 | Будущий дизайн / кандидаты модульности | [TACTICAL_DESIGN_NEXT](TACTICAL_DESIGN_NEXT.md) / [MODULARITY_PLAN](MODULARITY_PLAN.md) |
 | Свидетельства прошлых этапов, архивы | [HISTORY](HISTORY.md) |
 
-Факты сверять с кодом и контрактом; проверки имеют дату и commit.
+Факты сверять с кодом/контрактом; проверки имеют дату и commit.
 Расхождение описать до зависимой работы. План, принятое решение,
 реализация, техническая проверка и пользовательская приёмка — разные статусы.
 Frozen Pxx не переписывать; новое поведение — в контрактах механизмов.

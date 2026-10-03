@@ -25,7 +25,7 @@ static func publish(demo: BattleDemo) -> void:
 		primary = UnitId.NONE
 		cell = Vector2i(-1, -1)
 	elif demo._action_forecast_pending:
-		title = _action_title(demo._action_forecast_kind)
+		title = _card_title(demo._action_forecast_effect) if demo._action_forecast_kind == &"mage_card" else _action_title(demo._action_forecast_kind)
 		pending = true
 		if demo._action_forecast_target_id > 0: primary = demo._action_forecast_target_id
 		cell = demo._action_forecast_cell if demo._action_forecast_cell.x >= 0 else board._view_unit_cell(primary)
@@ -33,11 +33,12 @@ static func publish(demo: BattleDemo) -> void:
 		title = "Восстановление брони"
 		value = demo._armor_forecast
 	elif demo._elemental_forecast != null:
-		title = demo._elemental_effect_label(demo._action_forecast_effect)
+		title = _card_title(demo._action_forecast_effect) if demo._action_forecast_kind == &"mage_card" else demo._elemental_effect_label(demo._action_forecast_effect)
 		value = demo._elemental_forecast
 		primary = demo._action_forecast_target_id
 		cell = board._view_unit_cell(primary)
 		if AbilityDefinition.is_cell_spell(demo._action_forecast_effect): cell = demo._action_forecast_cell
+		if demo._action_forecast_kind == &"mage_card" and demo._action_forecast_effect in [&"card.summon", &"card.raise"]: cell = demo._action_forecast_cell
 	elif demo._guard_forecast != null:
 		title = "Стойка"
 		value = demo._guard_forecast
@@ -95,3 +96,7 @@ static func publish(demo: BattleDemo) -> void:
 
 static func _action_title(kind: StringName) -> String:
 	return {&"armor": "Восстановление брони", &"elemental": "Способность", &"guard": "Стойка", &"raise": "Поднять тело", &"summon": "Призыв", &"heal": "Лечение"}.get(kind, "Действие")
+
+static func _card_title(type_id: StringName) -> String:
+	var definition := MageCardCatalog.get_card(String(type_id))
+	return definition.name if definition != null else "Карта мага"

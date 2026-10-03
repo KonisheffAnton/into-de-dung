@@ -1,5 +1,21 @@
 # История и свидетельства проверок
 
+## Реализация Mage Deck V1 — 2026-10-04
+
+Base main `e2a254749add81dadfce7a3676c1c6b3605cdc64`, поручение «Вперед».
+[MAGE_DECK_V1](MAGE_DECK_V1.md): связный путь база/рука/награда/костёр/итог,
+все12 карт, versioned profile/run/runtime, legacy H1/U14 dispatch,
+atomic save/retry, отдельные RNG, сквозной UI и точный runtime snapshot.
+Дисковый checkpoint по-прежнему начало боя; новых школ/кузни/экипировки нет.
+Независимые journey/core ревью APPROVE; core замечания о владельце усиления
+и подмене ordinary binding исправлены, смерть очищает бафф до dispatch.
+Import PASS; full/render по131 PASS, core9440/0 с прежними exit diagnostics.
+Targeted боевой runner313/0, остальные проверки и области свидетельств —
+`test_reports/mage-deck-v1-20261004/verification.md`; review/completion/PNG рядом.
+Ручная приёмка всего пути и баланс открыты, исторический R14 PASS не подменяет их.
+Прежняя передача — [точный снимок](CODEX_HANDOFF.history-20261004-6.md).
+Без push; финальный HEAD/status — completion и ответ.
+
 ## Технический контракт колоды — 2026-10-04
 
 Base main `d2c70d19521a3a9ac2820e351682cae837edea85`.

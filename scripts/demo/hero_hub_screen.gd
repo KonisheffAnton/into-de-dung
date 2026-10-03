@@ -3,6 +3,9 @@ class_name HeroHubScreen
 
 @export var save_path: String = "user://hero-hub-v1.save"
 @export var expedition_mode: bool = false
+@export var mage_deck_mode: bool = false
+var deck_editing: bool = false
+var deck_draft: Array = []
 
 var run: HeroHubState
 var selected_hero_id: int = 0
@@ -17,7 +20,7 @@ var _content: VBoxContainer
 
 func _ready() -> void:
 	var save_existed := FileAccess.file_exists(save_path) or FileAccess.file_exists(save_path + ".bak")
-	var loaded := HeroHubStore.read_run(save_path)
+	var loaded := HeroHubStore.read_run(save_path,mage_deck_mode)
 	run = loaded.get("run") as HeroHubState
 	_storage_error = String(loaded.get("error", ""))
 	if run != null and (not save_existed or loaded.get("migrated", false)) and _storage_error.is_empty():
@@ -98,6 +101,9 @@ func _mutate(method: StringName, args: Array = []) -> void:
 	_commit(candidate)
 
 func _start_battle() -> void:
+	if deck_editing:
+		_message = "Сохраните или отмените состав колоды перед выходом."
+		_render(); return
 	if expedition_mode:
 		_expedition_action("start")
 		return
@@ -184,6 +190,8 @@ func _render() -> void:
 	var header := HBoxContainer.new()
 	column.add_child(header)
 	var title := _label("intoDeDung · Поход" if run != null and run.phase == "expedition" else "intoDeDung · Хаб героев", 27)
+	title.name = "HubTitle"
+	if run != null and run.phase == "hub" and deck_editing: title.text = "Колода мага · %d/10" % deck_draft.size()
 	title.autowrap_mode = TextServer.AUTOWRAP_OFF
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(title)
@@ -229,6 +237,7 @@ func _render() -> void:
 	_hub_content()
 
 func _hub_content() -> void:
+	if not run.mage_deck.is_empty(): MageDeckPanel.base_editor(self)
 	_text("ОТРЯД · выберите до трёх героев. HP восстанавливается при выходе из хаба.", 20)
 	_achievement_content()
 	var party_row := HFlowContainer.new()
@@ -494,6 +503,9 @@ func _button_for(parent: Node, value: String, key: String, action: Callable) -> 
 	return button
 
 func _expedition_action(action: String, args: Dictionary = {}) -> void:
+	if deck_editing and action != "deck_compose":
+		_message = "Сохраните или отмените изменения состава."
+		_render(); return
 	if run == null or _pending_save != null or not _storage_error.is_empty() or battle_view != null: return
 	var transition := ExpeditionTransitions.apply(run,action,args)
 	if transition.is_ok(): _commit(transition.profile)

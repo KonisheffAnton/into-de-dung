@@ -25,6 +25,12 @@ static func _apply(hub: HeroHubState, action: String, args: Dictionary) -> Strin
 		run.run_id = hub.run_serial
 		var rng := RandomNumberGenerator.new(); rng.state = hub.expedition_rng_state
 		run.plan = ExpeditionGenerator.generate(int(rng.randi()))
+		if not hub.mage_deck.is_empty():
+			run.ruleset_id = ExpeditionRulesRegistry.DECK
+			run.plan = ExpeditionRulesRegistry.generate(run.plan.seed)
+			for type_id: String in hub.mage_deck.base_types:
+				run.cards.append({"id":run.next_card_id,"type_id":type_id,"origin":"base"})
+				run.active_ids.append(run.next_card_id); run.next_card_id += 1
 		hub.expedition_rng_state = rng.state
 		for id: int in hub.party:
 			var hero: HeroProgression = hub.heroes[id]
@@ -66,15 +72,26 @@ static func _apply(hub: HeroHubState, action: String, args: Dictionary) -> Strin
 		return ""
 	if action == "continue" or action == "leave":
 		if run.phase != "camp_departure" or not args.is_empty(): return "expedition/exit_unavailable"
+		if run.is_deck() and action == "leave": return MageDeckReport.finish_run(hub,false,false)
 		_resolve(run)
 		return _finish(hub,false,false) if action == "leave" else ""
 	if action == "reward":
+		if run.is_deck(): return _deck_reward(hub,args)
 		if run.phase != "reward" or not _ints(args,["index"]) or args.index < 0 or args.index > 2: return "expedition/reward_unavailable"
 		run.artifacts.append({"id":run.next_artifact_id,"definition":String(run.current_node().reward[args.index]),"stacks":1,"hero_id":0,"slot":0})
 		if not hub.battle_report.is_empty() and hub.battle_report.open:
 			hub.battle_report.artifact_selected = String(run.current_node().reward[args.index])
 			hub.battle_report.items.append(ExpeditionCatalog.artifact_name(hub.battle_report.artifact_selected))
 		run.next_artifact_id += 1; _resolve(run)
+		return ""
+	if action == "deck_compose":
+		if not run.is_deck() or run.phase != "camp_departure" or not ItemSimulationSnapshot._shape(args,{"active_ids":TYPE_ARRAY}): return "expedition/deck_unavailable"
+		var ids: Array[int] = []
+		for id: Variant in args.active_ids:
+			if typeof(id) != TYPE_INT or id < 1 or id >= run.next_card_id or ids.has(id): return "expedition/invalid_deck"
+			ids.append(id)
+		if ids.size() < 10: return "expedition/invalid_deck"
+		ids.sort(); run.active_ids = ids
 		return ""
 	if run.phase != "route": return "expedition/map_required"
 	if action == "allocate":
@@ -93,7 +110,7 @@ static func _apply(hub: HeroHubState, action: String, args: Dictionary) -> Strin
 		if not old.is_empty(): old.hero_id = 0
 		item.hero_id = args.hero
 		return ""
-	if action in ["artifact_equip","artifact_unequip","artifact_merge"]: return _artifact(run,hub.party,action,args)
+	if action in ["artifact_equip","artifact_unequip","artifact_merge"] and not run.is_deck(): return _artifact(run,hub.party,action,args)
 	return "expedition/unknown_action"
 
 static func _artifact(run: ExpeditionRunState, party: Array[int], action: String, args: Dictionary) -> String:
@@ -121,9 +138,13 @@ static func _artifact(run: ExpeditionRunState, party: Array[int], action: String
 
 static func _outcome(hub: HeroHubState, receipt: Dictionary) -> String:
 	var run := hub.expedition
-	if run.phase != "battle" or not ItemSimulationSnapshot._shape(receipt,{"run_id":TYPE_INT,"node_id":TYPE_INT,"serial":TYPE_INT,"victory":TYPE_BOOL,"hp":TYPE_DICTIONARY,"gear":TYPE_DICTIONARY}): return "expedition/invalid_receipt"
+	var shape := {"run_id":TYPE_INT,"node_id":TYPE_INT,"serial":TYPE_INT,"victory":TYPE_BOOL,"hp":TYPE_DICTIONARY,"gear":TYPE_DICTIONARY}
+	if run.is_deck(): shape.ruleset_id = TYPE_STRING
+	if run.phase != "battle" or not ItemSimulationSnapshot._shape(receipt,shape): return "expedition/invalid_receipt"
+	if run.is_deck() and receipt.ruleset_id != run.ruleset_id: return "expedition/invalid_ruleset"
 	if receipt.run_id != run.run_id or receipt.node_id != run.current_node().id or receipt.serial != run.battle_serial: return "expedition/stale_receipt"
-	if receipt.hp.size() != hub.party.size() or receipt.gear.size() != run.checkpoint.items.size(): return "expedition/incomplete_receipt"
+	var inputs: Dictionary = run.checkpoint.legacy_inputs if run.is_deck() else run.checkpoint
+	if receipt.hp.size() != hub.party.size() or receipt.gear.size() != inputs.items.size(): return "expedition/incomplete_receipt"
 	var living: int = 0
 	for id: Variant in receipt.hp:
 		if typeof(id) != TYPE_INT or not hub.party.has(id) or typeof(receipt.hp[id]) not in [TYPE_FLOAT,TYPE_INT]: return "expedition/invalid_hp"
@@ -132,7 +153,7 @@ static func _outcome(hub: HeroHubState, receipt: Dictionary) -> String:
 		if value > 0.0: living += 1
 	if receipt.victory != (living > 0): return "expedition/invalid_victory"
 	var expected_gear: Array[int] = []
-	for row: Dictionary in run.checkpoint.items: expected_gear.append(row.id)
+	for row: Dictionary in inputs.items: expected_gear.append(row.id)
 	for id: Variant in receipt.gear:
 		if typeof(id) != TYPE_INT or not expected_gear.has(id) or typeof(receipt.gear[id]) != TYPE_INT: return "expedition/invalid_gear"
 		if receipt.gear[id] < 0 or receipt.gear[id] > HeroGearCatalog.definition(hub.items[id].definition).armor_max: return "expedition/invalid_gear"
@@ -157,6 +178,9 @@ static func _outcome(hub: HeroHubState, receipt: Dictionary) -> String:
 	run.checkpoint.clear()
 	if not receipt.victory:
 		PostBattleRules.finish(hub,report,receipt.hp)
+		if run.is_deck():
+			hub.battle_report = MageDeckReport.upgrade(hub.battle_report,[])
+			return MageDeckReport.finish_run(hub,true,false)
 		return _finish(hub,true,false)
 	var room := ExpeditionCatalog.room(run.current_node().kind)
 	if run.gold > ExpeditionRunState.MAX_VALUE - room.gold: return "expedition/overflow"
@@ -165,6 +189,11 @@ static func _outcome(hub: HeroHubState, receipt: Dictionary) -> String:
 	for id: int in hub.heroes:
 		if not (hub.heroes[id] as HeroProgression).award_experience_tenths(room.xp * (10 if deployed.has(id) else 1)): return "expedition/overflow"
 	PostBattleRules.finish(hub,report,receipt.hp)
+	if run.is_deck():
+		hub.battle_report = MageDeckReport.upgrade(hub.battle_report,run.current_node().reward)
+		hub.battle_report.completed = false
+		run.phase = "reward"
+		return ""
 	if run.current_node().kind == "final": _resolve(run); return _finish(hub,false,true)
 	run.phase = "reward"
 	return ""
@@ -196,3 +225,21 @@ static func _ints(args: Dictionary, keys: Array[String]) -> bool:
 	for key: String in keys:
 		if not args.has(key) or typeof(args[key]) != TYPE_INT: return false
 	return true
+
+static func _deck_reward(hub: HeroHubState, args: Dictionary) -> String:
+	var run := hub.expedition
+	if run.phase != "reward" or not _ints(args,["index"]) or args.index < -1 or args.index > 2: return "expedition/reward_unavailable"
+	var report := hub.battle_report
+	if report.get("schema") != 2 or report.reward_state != "pending": return "expedition/invalid_report"
+	if args.index >= 0:
+		if run.next_card_id >= ActionContext.MAX_ID - 1: return "expedition/overflow"
+		var type_id: String = run.current_node().reward[args.index]
+		run.cards.append({"id":run.next_card_id,"type_id":type_id,"origin":"found"})
+		run.active_ids.append(run.next_card_id)
+		report.selected_type = type_id; report.selected_card_id = run.next_card_id
+		run.next_card_id += 1
+	report.reward_state = "skipped" if args.index == -1 else "chosen"
+	run.reward_decisions.append({"node_id":run.current_node().id,"choice_index":args.index})
+	if run.current_node().kind == "final": return MageDeckReport.finish_run(hub,false,true)
+	_resolve(run)
+	return ""

@@ -70,7 +70,8 @@ static func valid_event(event: Dictionary) -> bool:
 	elif source.origin_cell == Vector2i(-1, -1): return false
 	if (not event.before.is_empty() and not valid(event.before)) or (not event.after.is_empty() and not valid(event.after)): return false
 	if event.reason in ["applied", "refreshed", "replaced"]:
-		if source != DamageSource.new(&"mage", 12, Vector2i(-1, -1), 0, 0).to_dict() or event.after.get("spell_id") != "mage.shield": return false
+		if source not in [DamageSource.new(&"mage", 12, Vector2i(-1, -1), 0, 0).to_dict(), DamageSource.new(&"mage", 15, Vector2i(-1, -1), 0, 0).to_dict()] or event.after.get("spell_id") not in ["mage.shield", "card.shield"]: return false
+		if (source.source_instance_id == 12) != (event.after.spell_id == "mage.shield"): return false
 		return event.absorbed == 0 and not event.after.is_empty() and (event.reason == "applied" if event.before.is_empty() else event.reason == ("refreshed" if event.before.spell_id == event.after.spell_id else "replaced"))
 	if event.reason != "absorbed" or event.before.is_empty() or event.absorbed <= 0 or event.absorbed > event.before.hp: return false
 	var after: Dictionary = event.before.duplicate(true)

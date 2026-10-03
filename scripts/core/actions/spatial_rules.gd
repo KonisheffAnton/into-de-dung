@@ -91,6 +91,10 @@ class Guard extends RefCounted:
 		if refs.has("armor_rng") and (context.get_rng() != refs["armor_rng"] or context.get_rng().to_dict() != values["armor_rng"]): return false
 		if state._owners != refs["owners"] or state._inventories != refs["inventories"] or state._equipment != refs["equipment"]: return false
 		if state.abilities != refs.get("abilities"): return false
+		if state.deck != refs.get("deck") or state.card_effects != refs.get("card_effects"): return false
+		if state.deck != null:
+			if state.deck.get_script() != BattleDeckState or state.card_effects.get_script() != BattleCardEffectState or state.deck.draw_rng.get_script() != CombatRng: return false
+			if state.deck.draw_rng != refs["deck_rng"] or state.deck.to_dict() != values["deck"] or state.card_effects.to_dict() != values["card_effects"]: return false
 		if state.abilities != null and (state.abilities.catalog != refs["ability_catalog"] or state.abilities.to_dict() != values["abilities"]): return false
 		if state.artifacts != refs.get("artifacts"): return false
 		if state.artifacts != null:
@@ -165,6 +169,13 @@ class Guard extends RefCounted:
 	func artifacts_phase(after: Dictionary) -> Guard:
 		var result := copy()
 		result.values["artifacts"] = after.duplicate(true)
+		result.seal()
+		return result
+
+	func deck_phase(after: Dictionary, effects_after: Dictionary = {}) -> Guard:
+		var result := copy()
+		result.values["deck"] = after.duplicate(true)
+		if not effects_after.is_empty(): result.values["card_effects"] = effects_after.duplicate(true)
 		result.seal()
 		return result
 
@@ -268,6 +279,11 @@ static func capture_guard(context: ActionContext, units: Array[UnitState], cells
 	guard.refs = {"context": context, "state": state, "board": board, "owners": state._owners.duplicate(), "inventories": state._inventories.duplicate(), "equipment": state._equipment.duplicate(), "attachments": [], "participants": {}}
 	guard.values = {"board_origin_version": board.board_version, "expected_board_version": board.board_version, "width": board.width, "height": board.height, "geometry": {}, "participants": {}}
 	guard.refs["abilities"] = state.abilities
+	guard.refs["deck"] = state.deck; guard.refs["card_effects"] = state.card_effects
+	if state.deck != null or state.card_effects != null:
+		if not MageDeckRules.live_valid(state): return null
+		guard.refs["deck_rng"] = state.deck.draw_rng
+		guard.values["deck"] = state.deck.to_dict(); guard.values["card_effects"] = state.card_effects.to_dict()
 	if state.abilities != null:
 		if state.abilities.get_script() != BattleAbilityState or not BattleAbilityState.valid(state.abilities.to_dict()): return null
 		guard.refs["ability_catalog"] = state.abilities.catalog.duplicate()

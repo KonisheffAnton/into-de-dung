@@ -258,6 +258,10 @@ func _prepare(context: ActionContext) -> Dictionary:
 	if armor_profile:
 		var cover := MeleeThreat.cover_for(context, target)
 		var extras: Array[Dictionary] = definition.damage_components.duplicate(true)
+		if state.deck != null:
+			if not MageDeckRules.references_valid(context): return {"reason": &"deck/invalid_state"}
+			if not _reaction and MageDeckRules.ordinary_bonus(state,actor.id,_attack_definition_id):
+				extras.append({"type":"fire","policy":"standard","numerator":2,"denominator":1,"source":"card:fire_imbue","factor_num":1,"factor_den":1})
 		if state.artifacts != null:
 			if not BattleArtifactRules.references_valid(context): return {"reason": &"artifact/invalid_state"}
 			if not _reaction and state.artifacts.ordinary(actor.id, _attack_definition_id):

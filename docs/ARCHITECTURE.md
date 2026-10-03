@@ -502,6 +502,26 @@ ProfileAchievements и value-отчётом; PostBattleRules дополняет 
 PostBattlePanel вызывает прежнюю границу копия→запись→публикация. Отчёт сохраняется
 вместе с результатом; его показ не исполняет команды и не начисляет награды.
 
+Колода [MAGE_DECK_V1](MAGE_DECK_V1.md) добавляет profile4/run3/plan2 и
+ItemSimulation schema10; прежние codecs остаются отдельными режимами.
+MainMenu включает upgrade до profile4 через тот же барьер записи; сохранённые
+H1 battle и весь U14 legacy-run сохраняют свои правила до завершения.
+ExpeditionRulesRegistry проверяет механические каталоги и порождает сохранённые
+тройки отдельным reward RNG. BattleDeckState владеет копиями/зонами и draw RNG,
+BattleAbilityState schema2 — маной/часами, BattleCardEffectState — ordinary
+binding и огненным усилением. Вместе эти capability обязательны и исключают
+BattleArtifactState. Guards, snapshots и workers переносят их как единый граф.
+PlayMageCardCommand платит картой/маной до общего MageEffectExecutor; legacy
+MageCastCommand сохраняет собственную оплату. Корневая ordinary AttackCommand
+добавляет огонь внутрь существующего hit; default binding сверяется с
+каноническим factory-ID в каталоге, каталог — с AttackRules при admission.
+Смерть очищает эффект до snapshot коллектора реакций; terminal очищает остатки.
+MageDeckReport фиксирует все копии до удаления run; ранний выход создаёт новый
+сохраняемый отчёт без повторного XP/лечения/достижений. Финальная награда требует
+выбора/отказа до возврата. Дисковый checkpoint — начало боя, точная рука/эффекты
+сохраняются в runtime snapshot. MageDeckPanel обслуживает базу/костёр/награду,
+BattleDemo — руку и показ value-кадров без чтения detached worker session.
+
 ## Цепное отталкивание — K16
 
 В общем бою обычные ARMOR_PROFILE определения включают `chain_push`; другие

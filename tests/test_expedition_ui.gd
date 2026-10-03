@@ -26,6 +26,7 @@ func _run() -> void:
 	viewport = SubViewport.new(); viewport.size = Vector2i(1280,850); viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport); viewport.notify_mouse_entered()
 	menu = (load("res://scenes/demo/main_menu.tscn") as PackedScene).instantiate()
+	menu.set("mage_deck_mode",false)
 	menu.set("save_path",path); viewport.add_child(menu)
 	await process_frame; await process_frame
 	await capture("u14-01-menu")
@@ -121,7 +122,7 @@ func _run() -> void:
 	check(wallet != null and wallet.size.x >= wallet.get_theme_font("font").get_string_size(wallet.text,HORIZONTAL_ALIGNMENT_LEFT,-1,wallet.get_theme_font_size("font_size")).x,"wallet width includes every digit")
 	var final_profile := hub.run.to_dict()
 	viewport.remove_child(menu); menu.queue_free(); await process_frame
-	menu = (load("res://scenes/demo/main_menu.tscn") as PackedScene).instantiate(); menu.set("save_path",path); viewport.add_child(menu)
+	menu = (load("res://scenes/demo/main_menu.tscn") as PackedScene).instantiate(); menu.set("mage_deck_mode",false); menu.set("save_path",path); viewport.add_child(menu)
 	await process_frame; await press("continue_game")
 	hub = menu.find_child("ExpeditionHub",true,false) as HeroHubScreen
 	check(hub.run.to_dict() == final_profile,"restart preserves settled result")

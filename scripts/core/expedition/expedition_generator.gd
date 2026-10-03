@@ -48,11 +48,16 @@ static func generate(seed_value: int) -> Dictionary:
 	return {"schema": 1, "seed": seed_value, "nodes": nodes, "start": [1, 2], "content": ExpeditionCatalog.content_values()}
 
 static func valid(data: Variant) -> bool:
-	if not data is Dictionary or not _has_exact_keys(data, PLAN_KEYS):
+	if not data is Dictionary: return false
+	var deck: bool = data.get("schema") == 2 and typeof(data.get("schema")) == TYPE_INT
+	var keys: Array[String] = PLAN_KEYS.duplicate()
+	if deck: keys.append("ruleset_id")
+	if not _has_exact_keys(data, keys):
 		return false
 	var plan: Dictionary = data
-	if not ExpeditionCatalog.matches_content(plan["content"]): return false
-	if not _is_plain_int(plan["schema"]) or plan["schema"] != 1 or not _is_plain_int(plan["seed"]):
+	if not ExpeditionRulesRegistry.matches_content(plan["content"],deck): return false
+	if deck and plan.ruleset_id != ExpeditionRulesRegistry.DECK: return false
+	if not _is_plain_int(plan["schema"]) or plan["schema"] != (2 if deck else 1) or not _is_plain_int(plan["seed"]):
 		return false
 	if not plan["nodes"] is Array or not plan["start"] is Array:
 		return false
@@ -81,13 +86,14 @@ static func valid(data: Variant) -> bool:
 			return false
 		if not _modifier_allowed(kind, node["modifier"]):
 			return false
-		if kind == "battle" or kind == "elite":
+		if kind == "battle" or kind == "elite" or (deck and kind == "final"):
 			if node["reward"].size() != 3:
 				return false
 			var unique_rewards: Dictionary = {}
 			for reward: Variant in node["reward"]:
-				if not reward is String or not ARTIFACT_IDS.has(reward) or unique_rewards.has(reward):
+				if not reward is String or unique_rewards.has(reward):
 					return false
+				if (MageCardCatalog.get_card(reward) == null if deck else not ARTIFACT_IDS.has(reward)): return false
 				unique_rewards[reward] = true
 		elif not node["reward"].is_empty():
 			return false

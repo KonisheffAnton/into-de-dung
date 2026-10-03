@@ -9,6 +9,8 @@ var _summons: Array[Dictionary] = []
 var abilities: BattleAbilityState = null
 var environment: CombatEnvironmentState = null
 var artifacts: BattleArtifactState = null
+var deck: BattleDeckState = null
+var card_effects: BattleCardEffectState = null
 
 func _init(board: BattleBoard, owners: Array[ItemOwnerState], inventories: Array[InventoryState], equipment: Array[EquipmentState]) -> void:
 	_board = board
@@ -98,6 +100,9 @@ func _register_summon(unit: UnitState, owner_id: int, mage: bool) -> void:
 	var record := {"unit_id": unit.id, "owner_unit_id": owner_id, "pending": true}
 	if mage: record["source_kind"] = "mage"
 	_summons.append(record)
+	if card_effects != null:
+		card_effects.ordinary_attacks.append({"unit_id":unit.id,"attack_id":"demo_strike"})
+		card_effects.ordinary_attacks.sort_custom(func(a: Dictionary,b: Dictionary) -> bool: return a.unit_id < b.unit_id)
 	_owners.append(owner)
 	_inventories.append(InventoryState._restore_registered(owner))
 	_equipment.append(EquipmentState._restore_registered(owner))

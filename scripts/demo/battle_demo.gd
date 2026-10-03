@@ -1,6 +1,8 @@
 extends Control
 class_name BattleDemo
 
+const MAGE_CARD_ICON: Texture2D = preload("res://assets/placeholder_battle/mage_card.svg")
+
 @export var tactical_mode: bool = false
 @export var armor_mode: bool = false
 @export var bleeding_mode: bool = false
@@ -81,6 +83,12 @@ var _mage_label: Label
 var _mage_fire: Button
 var _mage_buttons: Dictionary = {}
 var _mage_heal: Button
+var _card_buttons: Array[Button] = []
+var _card_replace_button: Button
+var _card_confirm_button: Button
+var _card_selected_id: int = 0
+var _mulligan_ids: Array[int] = []
+var _action_forecast_card_id: int = 0
 var _elemental_forecast: ForecastSimulation
 var _armor_forecast_actor: int = UnitId.NONE
 var _armor_forecast_revision: int = -1
@@ -267,7 +275,18 @@ func _displayed_unit_hovered(unit_id: int) -> void:
 	if _compact_inspection == null: return
 	_compact_inspection.text = board_view.displayed_unit_summary(unit_id)
 	_compact_inspection.tooltip_text = board_view.displayed_unit_details(unit_id)
+	if not is_execution_pending(): _compact_inspection.tooltip_text += _card_imbue_text(unit_id)
 	board_view.tooltip_text = _compact_inspection.tooltip_text if unit_id != UnitId.NONE else ""
+
+func _card_imbue_text(unit_id: int) -> String:
+	if unit_id <= 0 or session == null or session.state == null or session.state.card_effects == null or session.state.abilities == null: return ""
+	var unit := session.board.get_unit_by_id(unit_id)
+	if unit == null or unit.faction not in [Faction.Type.PLAYER, Faction.Type.ENEMY]: return ""
+	for effect: Dictionary in session.state.card_effects.fire_imbues:
+		if effect.unit_id != unit_id: continue
+		var serial: int = session.state.abilities.serials[unit.faction]
+		return "\nОгненное усиление +2: этот ход и %d следующих (карта #%d)." % [maxi(0, effect.expires_after_serial - serial), effect.source_card_id]
+	return ""
 
 func _note_presentation_event(event: Dictionary) -> void:
 	var seq := int(event.get("event_seq", 0))
@@ -294,7 +313,28 @@ func _render_presentation_hud(state: Dictionary) -> void:
 			details.append("%s · основное %d · движение %.1f · броня %d + %d" % [row.name, row.main, row.move, int(row.armor.get("current", 0)) - int(row.armor.get("extra", 0)), int(row.armor.get("extra", 0))])
 	_stats.text = "\n".join(details)
 	var abilities: Dictionary = state.get("abilities", {})
-	_mage_label.text = "Маг · мана %d" % int(abilities.get("mana", 0)) if not abilities.is_empty() else ""
+	var frame_deck: Dictionary = state.get("deck", {})
+	if not frame_deck.is_empty():
+		var serials: Array = abilities.get("serials", [])
+		var replacement: String = "доступна" if serials.size() > 0 and int(frame_deck.get("replaced_serial", 0)) != int(serials[0]) and not frame_deck.get("draw_ids", []).is_empty() else "использована или добор пуст"
+		_mage_label.text = "Мана %d/%d · добор %d · сыграно %d · замена: %s" % [int(abilities.get("mana", 0)), int(abilities.get("maximum", 0)), frame_deck.get("draw_ids", []).size(), frame_deck.get("spent_ids", []).size(), replacement]
+	else:
+		_mage_label.text = "Маг · мана %d" % int(abilities.get("mana", 0)) if not abilities.is_empty() else ""
+	if not frame_deck.is_empty():
+		_mage_label.tooltip_text = "Рука %d/6 · кадр исполненного действия" % frame_deck.get("hand_ids", []).size()
+		var frame_buttons: Array[Button] = []
+		for slot: int in mini(_card_buttons.size(), frame_deck.get("hand_ids", []).size()):
+			var id: int = int(frame_deck["hand_ids"][slot])
+			var type_id := ""
+			for card: Dictionary in frame_deck.get("cards", []):
+				if int(card.id) == id: type_id = String(card.type_id); break
+			var definition := MageCardCatalog.get_card(type_id)
+			var button: Button = _card_buttons[slot]
+			button.text = "%s\n%d маны" % [definition.name, definition.mana_cost] if definition != null else "Карта #%d" % id
+			button.tooltip_text = "%s · копия #%d" % [definition.description, id] if definition != null else "Копия #%d" % id
+			button.disabled = true
+			frame_buttons.append(button)
+		if _mage_row is BattleMageBar: (_mage_row as BattleMageBar).configure(frame_buttons)
 	for entry: Dictionary in abilities.get("ledger", []):
 		if String(entry.get("ability_id", "")).begins_with("mage."):
 			_mage_label.text += " · %s %d" % ["огонь" if entry.ability_id == "mage.fire" else "лечение", int(entry.remaining)]
@@ -466,7 +506,8 @@ func _build_ui() -> void:
 	if _mage_row is BattleMageBar:
 		(_mage_row as BattleMageBar).page_changed.connect(_mage_page_changed)
 	_mage_label = _label("", 14, Color("65dfcc"))
-	_phase_row.add_child(_mage_label)
+	var deck_layout: bool = session != null and session.state != null and session.state.deck != null
+	if not deck_layout: _phase_row.add_child(_mage_label)
 	_mage_fire = _button("Маг · Огонь 4 / 2 маны")
 	_mage_fire.name = "MageFireButton"
 	_mage_fire.pressed.connect(_choose_elemental.bind(&"mage.fire"))
@@ -488,6 +529,31 @@ func _build_ui() -> void:
 			button.clip_text = true
 			button.custom_minimum_size = Vector2(96, 64)
 			button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			button.hide()
+		for slot: int in 6:
+			var card_button := _button("Карта")
+			card_button.name = "MageCardSlot%d" % slot
+			card_button.clip_text = true
+			card_button.custom_minimum_size = Vector2(96, 64)
+			card_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			card_button.icon = MAGE_CARD_ICON
+			card_button.expand_icon = true
+			card_button.add_theme_constant_override("icon_max_width",18)
+			card_button.add_theme_font_size_override("font_size", 14)
+			card_button.pressed.connect(_choose_card_slot.bind(slot))
+			card_button.hide()
+			_card_buttons.append(card_button)
+			_mage_row.add_child(card_button)
+		_card_replace_button = _button("Заменить")
+		_card_replace_button.name = "MageCardReplaceButton"
+		_card_replace_button.pressed.connect(_replace_selected_card)
+		_card_replace_button.hide()
+		_mage_row.add_child(_card_replace_button)
+		_card_confirm_button = _button("Подтвердить")
+		_card_confirm_button.name = "MageMulliganConfirmButton"
+		_card_confirm_button.pressed.connect(_confirm_selected_mulligan)
+		_card_confirm_button.hide()
+		_mage_row.add_child(_card_confirm_button)
 	var content := HBoxContainer.new()
 	content.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_theme_constant_override("separation", 24)
@@ -550,6 +616,7 @@ func _build_ui() -> void:
 		_action_bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		field_row.add_child(_action_bar)
 		field_row.move_child(_action_bar, 0)
+		if deck_layout: root.add_child(_mage_label)
 		root.add_child(_mage_row)
 	else: root.add_child(_action_bar)
 	_hint = _label("", 14, Color("a5b3c5"))
@@ -646,8 +713,8 @@ func _build_ui() -> void:
 		_phase_label.clip_text = true
 		_phase_label.custom_minimum_size.x = 160
 		_phase_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		_mage_label.clip_text = true
-		_mage_label.custom_minimum_size.x = 180
+		_mage_label.clip_text = not deck_layout
+		if not deck_layout: _mage_label.custom_minimum_size.x = 180
 
 func _label(value: String, font_size: int, color: Color) -> Label:
 	var label := Label.new()
@@ -679,6 +746,7 @@ func set_attack_mode(enabled: bool) -> void:
 
 func _clear_action_mode() -> void:
 	if is_execution_pending(): return
+	_card_selected_id = 0
 	# Только состояние ввода: остатки действий и результат команды принадлежат сессии.
 	if session is BattleBleedingSession: (session as BattleBleedingSession).rune_selected = false
 	if session is BattleCoreCombinationSession: (session as BattleCoreCombinationSession).entangle_selected = false
@@ -805,6 +873,9 @@ func inspect_enemy(id: int) -> void:
 func handle_cell(cell: Vector2i) -> void:
 	if is_execution_pending(): return
 	if _is_deploying():
+		if session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).mage_deployment_confirmed:
+			_status.text = "Расстановка подтверждена. Выберите до двух карт и подтвердите или пропустите замену."
+			return
 		var unit := session.board.occupant_at(cell)
 		if unit != null:
 			if unit.faction == Faction.Type.PLAYER: select_character(unit.id)
@@ -817,6 +888,17 @@ func handle_cell(cell: Vector2i) -> void:
 		return
 	if _battle != null and not _battle.can_player_act(): return
 	var occupant := session.board.occupant_at(cell)
+	if _card_selected_id > 0 and session is BattleCoreReactionsSession and session.state.deck != null:
+		var card := session.state.deck.card(_card_selected_id)
+		var definition := MageCardCatalog.get_card(String(card.get("type_id", "")))
+		var cell_card: bool = definition != null and definition.target_policy in ["valid_cell", "corpse_cell"]
+		if not cell_card and occupant == null:
+			var rejected := ActionReceipt.new()
+			rejected.reason = &"mage/invalid_target"
+			_show_receipt(rejected, true)
+			return
+		_execute_live(&"play_mage_card", [_card_selected_id, 0 if cell_card else occupant.id, cell], true)
+		return
 	if _cover_guard_mode and session is BattleCoreReactionsSession:
 		var reaction_session := session as BattleCoreReactionsSession
 		if occupant != null and reaction_session.cover_targets().has(occupant.id):
@@ -867,6 +949,8 @@ func reset_demo() -> void:
 	_join_execution()
 	_clear_forecast()
 	session.reset()
+	_card_selected_id = 0
+	_mulligan_ids.clear()
 	_cover_guard_mode = false
 	_descriptors_session_id = 0
 	_descriptors_actor = UnitId.NONE
@@ -931,6 +1015,18 @@ func end_turn() -> void:
 	if is_execution_pending(): return
 	if _battle == null: return
 	if _is_deploying():
+		if session is BattleCoreReactionsSession and session.state.deck != null:
+			var mage_session := session as BattleCoreReactionsSession
+			if not mage_session.mage_deployment_confirmed:
+				if mage_session.confirm_mage_deployment():
+					_clear_action_mode()
+					_status.text = "Расстановка подтверждена. Выберите до двух карт для замены и подтвердите или пропустите."
+				else: _status.text = "Сначала разместите всех союзников на безопасных клетках."
+				_refresh()
+				return
+			if not session.state.deck.mulligan_done:
+				_confirm_selected_mulligan()
+				return
 		if (session as BattleCoreCombinationSession).start_battle(): _clear_action_mode()
 		_refresh()
 		return
@@ -945,6 +1041,9 @@ func _refresh_mage() -> void:
 			board_view.custom_minimum_size.y = 350.0 if _compact_inspection != null else (476.0 if _mage_row.visible else 520.0)
 		if _mage_row.visible:
 			var ability := mage_session.state.abilities
+			if mage_session.state.deck != null:
+				_refresh_deck_bar(mage_session)
+				return
 			_mage_label.text = "Маг · мана %d/%d" % [ability.mana, ability.maximum]
 			_mage_label.tooltip_text = "Откаты: длительность: огонь %d, лечение %d · осталось: огонь %d, лечение %d" % [ability.definition(&"mage.fire").cooldown_turns, ability.definition(&"mage.heal").cooldown_turns, ability.remaining(&"mage.fire"), ability.remaining(&"mage.heal")]
 			var available_buttons: Array[Button] = []
@@ -965,6 +1064,80 @@ func _refresh_mage() -> void:
 				var bar := _mage_row as BattleMageBar
 				bar.configure(available_buttons)
 				bar.set_paging_enabled(true)
+
+func _refresh_deck_bar(mage_session: BattleCoreReactionsSession) -> void:
+	var deck := mage_session.state.deck
+	var ability := mage_session.state.abilities
+	if deck == null or ability == null: return
+	var setup: bool = mage_session.is_deploying()
+	var replacement: String = "доступна" if deck.replaced_serial != ability.serials[0] and not deck.draw_ids.is_empty() else "использована или добор пуст"
+	if setup: replacement = "до двух стартовых карт" if not deck.mulligan_done else "стартовая подтверждена"
+	_mage_label.text = "Мана %d/%d · добор %d · сыграно %d · замена: %s" % [ability.mana, ability.maximum, deck.draw_ids.size(), deck.spent_ids.size(), replacement]
+	_mage_label.tooltip_text = "Рука %d/6" % deck.hand_ids.size()
+	var shown: Array[Button] = []
+	for slot: int in _card_buttons.size():
+		var button: Button = _card_buttons[slot]
+		if slot >= deck.hand_ids.size(): continue
+		var id: int = deck.hand_ids[slot]
+		var card := deck.card(id)
+		var definition := MageCardCatalog.get_card(String(card.get("type_id", "")))
+		if definition == null: continue
+		shown.append(button)
+		button.toggle_mode = setup and mage_session.mage_deployment_confirmed and not deck.mulligan_done
+		button.set_pressed_no_signal(_mulligan_ids.has(id) if button.toggle_mode else _card_selected_id == id)
+		button.text = "%s\n%d маны" % [definition.name, definition.mana_cost]
+		button.tooltip_text = "%s\n%s\nКопия #%d" % [definition.name, definition.description, id]
+		var reason := mage_session.mage_card_reason(id) if not setup else &""
+		button.disabled = not mage_session.mage_deployment_confirmed if setup else reason not in [&"", &"mage_card/insufficient_mana"]
+		if not setup and button.disabled: button.tooltip_text += "\n" + _reason_text(mage_session.mage_card_reason(id))
+		elif reason == &"mage_card/insufficient_mana": button.tooltip_text += "\nМаны для розыгрыша нет; заменить карту можно бесплатно."
+	if setup:
+		if mage_session.mage_deployment_confirmed and not deck.mulligan_done:
+			_card_confirm_button.text = "Заменить %d/2 · начать" % _mulligan_ids.size() if not _mulligan_ids.is_empty() else "Пропустить · начать"
+			_card_confirm_button.disabled = false
+			shown.append(_card_confirm_button)
+	else:
+		_card_replace_button.text = "Заменить карту"
+		_card_replace_button.disabled = _card_selected_id == 0 or deck.draw_ids.is_empty() or deck.replaced_serial == ability.serials[0] or not mage_session.can_player_act()
+		shown.append(_card_replace_button)
+	if _mage_row is BattleMageBar:
+		var bar := _mage_row as BattleMageBar
+		bar.configure(shown)
+		bar.set_paging_enabled(true)
+
+func _choose_card_slot(slot: int) -> void:
+	if is_execution_pending() or not session is BattleCoreReactionsSession or session.state.deck == null: return
+	var mage_session := session as BattleCoreReactionsSession
+	if slot < 0 or slot >= mage_session.state.deck.hand_ids.size(): return
+	var id: int = mage_session.state.deck.hand_ids[slot]
+	if mage_session.is_deploying():
+		if not mage_session.mage_deployment_confirmed or mage_session.state.deck.mulligan_done: return
+		if _mulligan_ids.has(id): _mulligan_ids.erase(id)
+		elif _mulligan_ids.size() < 2: _mulligan_ids.append(id)
+		else: _status.text = "Можно заменить не более двух карт."
+		_refresh()
+		return
+	var reason := mage_session.mage_card_reason(id)
+	if reason != &"" and reason != &"mage_card/insufficient_mana": _status.text = _reason_text(reason); return
+	_clear_action_mode()
+	_card_selected_id = id
+	_refresh()
+
+func _replace_selected_card() -> void:
+	if is_execution_pending() or _card_selected_id == 0 or not session is BattleCoreReactionsSession: return
+	_execute_live(&"replace_mage_card", [_card_selected_id], true)
+
+func _confirm_selected_mulligan() -> void:
+	if is_execution_pending() or not session is BattleCoreReactionsSession: return
+	var mage_session := session as BattleCoreReactionsSession
+	if not mage_session.is_deploying() or not mage_session.mage_deployment_confirmed or mage_session.state.deck == null or mage_session.state.deck.mulligan_done: return
+	var receipt := mage_session.confirm_mage_mulligan(_mulligan_ids)
+	if receipt.status != ActionReceipt.APPLIED:
+		_show_receipt(receipt)
+		return
+	_mulligan_ids.clear()
+	if mage_session.start_battle(): _clear_action_mode()
+	_refresh()
 
 func _mage_page_changed(_page: int) -> void:
 	if is_execution_pending(): return
@@ -1043,6 +1216,8 @@ func _refresh() -> void:
 	_attack_button.disabled = locked
 	_end_turn_button.disabled = locked
 	_end_turn_button.text = "Начать бой · Enter" if _is_deploying() else "Завершить ход · Enter"
+	if _is_deploying() and session is BattleCoreReactionsSession and session.state.deck != null:
+		_end_turn_button.text = "Подтвердить расстановку · Enter" if not (session as BattleCoreReactionsSession).mage_deployment_confirmed else "Подтвердить карты · Enter"
 	if _is_deploying(): _end_turn_button.disabled = false
 	_action_bar.visible = tactical_mode
 	if tactical_mode and _action_bar != null:
@@ -1334,7 +1509,7 @@ func _refresh_inspection() -> void:
 		if _shown_inspection_id != unit.id:
 			(_stats.get_parent() as ScrollContainer).scroll_vertical = 0
 		_shown_inspection_id = unit.id
-		_stats.text = _inspection_text(unit)
+		_stats.text = _inspection_text(unit) + _card_imbue_text(unit.id)
 
 func _hover(cell: Vector2i) -> void:
 	if is_execution_pending(): return
@@ -1388,6 +1563,19 @@ func _hover(cell: Vector2i) -> void:
 				_request_action_forecast(&"cover", cell)
 		else:
 			_clear_forecast()
+	elif _card_selected_id > 0 and session is BattleCoreReactionsSession:
+		var target := session.board.occupant_at(cell) if session.board.is_in_bounds(cell) else null
+		var card := session.state.deck.card(_card_selected_id)
+		var definition := MageCardCatalog.get_card(String(card.get("type_id", "")))
+		var cell_card: bool = definition != null and definition.target_policy in ["valid_cell", "corpse_cell"]
+		if _battle == null or not _battle.can_player_act() or (target == null and not cell_card):
+			_clear_forecast()
+		else:
+			var cache := _mage_card_cache(target, cell)
+			if _action_forecast_kind != &"mage_card" or _action_forecast_cell != cell or _action_forecast_card_id != _card_selected_id or _action_forecast_cache != cache:
+				_clear_forecast()
+				_forecast_panel.get_v_scroll_bar().value = 0.0
+				_request_action_forecast(&"mage_card", cell)
 	elif session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).elemental_selected != &"":
 		var reaction_session := session as BattleCoreReactionsSession
 		var target := session.board.occupant_at(cell) if session.board.is_in_bounds(cell) else null
@@ -1506,6 +1694,7 @@ func _request_action_forecast(kind: StringName, cell: Vector2i = Vector2i(-1, -1
 	_action_forecast_session_id = session.get_instance_id()
 	_action_forecast_target_id = UnitId.NONE
 	_action_forecast_effect = &""
+	_action_forecast_card_id = 0
 	_action_forecast_cache = {}
 	if kind == &"elemental" and session is BattleCoreReactionsSession:
 		var reaction_session := session as BattleCoreReactionsSession
@@ -1513,7 +1702,23 @@ func _request_action_forecast(kind: StringName, cell: Vector2i = Vector2i(-1, -1
 		_action_forecast_target_id = target.id if target != null else UnitId.NONE
 		_action_forecast_effect = reaction_session.elemental_selected
 		_action_forecast_cache = _elemental_cast_cache(reaction_session.selected_unit(), target, _action_forecast_effect, cell if AbilityDefinition.is_cell_spell(_action_forecast_effect) else Vector2i(-1, -1))
+	elif kind == &"mage_card" and session is BattleCoreReactionsSession:
+		var target := session.board.occupant_at(cell) if session.board.is_in_bounds(cell) else null
+		_action_forecast_card_id = _card_selected_id
+		_action_forecast_target_id = target.id if target != null else UnitId.NONE
+		_action_forecast_effect = StringName(String(session.state.deck.card(_card_selected_id).get("type_id", "")))
+		_action_forecast_cache = _mage_card_cache(target, cell)
 	_render_forecast_panel()
+
+func _mage_card_cache(target: UnitState, cell: Vector2i) -> Dictionary:
+	if not session is BattleCoreReactionsSession or session.state.deck == null or _card_selected_id <= 0: return {}
+	var captured := ItemSimulationSnapshot.capture(session.state, session.context.get_unsupported_runtime_ids())
+	return {"session_id": session.get_instance_id(), "card_instance_id": _card_selected_id,
+		"target_id": target.id if target != null else UnitId.NONE, "cell": cell,
+		"world": captured.snapshot.to_dict() if captured.snapshot != null else {}, "capture_reason": captured.reason,
+		"rng": session.context.get_rng().to_dict().duplicate(true), "counters": session.context.simulation_counters(),
+		"admission": SummonAdmission.values(session.context),
+		"limits": [session._queue._max_commands, session._queue._max_events, session._queue._max_depth]}
 
 func _elemental_cast_cache(actor: UnitState, target: UnitState, effect: StringName, cell: Vector2i = Vector2i(-1, -1)) -> Dictionary:
 	if (target == null and not AbilityDefinition.is_cell_spell(effect)) or (actor == null and AbilityDefinition.mage_source_id(effect) == 0): return {}
@@ -1550,6 +1755,12 @@ func _action_forecast_request_current() -> bool:
 			if (not cell_spell and (target == null or target.cell != _action_forecast_cell)) or reaction_session.elemental_selected != _action_forecast_effect or reaction_session.cast_reason(_action_forecast_effect) != &"": return false
 			if _elemental_cast_cache(reaction_session.selected_unit(), target, _action_forecast_effect, _action_forecast_cell if cell_spell else Vector2i(-1, -1)) != _action_forecast_cache: return false
 			return board_view.hover_cell == _action_forecast_cell or over_panel
+		&"mage_card":
+			if not session is BattleCoreReactionsSession or _card_selected_id != _action_forecast_card_id: return false
+			var target := session.board.get_unit_by_id(_action_forecast_target_id)
+			if (target == null and _action_forecast_target_id > 0) or (session as BattleCoreReactionsSession).mage_card_reason(_card_selected_id) != &"": return false
+			if _mage_card_cache(target, _action_forecast_cell) != _action_forecast_cache: return false
+			return board_view.hover_cell == _action_forecast_cell or over_panel
 	return false
 
 func _process_action_forecast() -> void:
@@ -1569,7 +1780,7 @@ func _process_action_forecast() -> void:
 			&"guard", &"opportunity", &"cover", &"counterattack": _guard_forecast = GuardForecast.from_simulation(result, _action_forecast_actor)
 			&"raise": _raise_forecast = RaiseCorpseForecast.from_simulation(result, _action_forecast_actor, _action_forecast_corpse_id)
 			&"armor": _armor_forecast = result
-			&"elemental": _elemental_forecast = result
+			&"elemental", &"mage_card": _elemental_forecast = result
 		_render_forecast_panel()
 		_refresh_inspection()
 	if not _action_forecast_pending or _action_forecast_worker.is_started(): return
@@ -1586,6 +1797,7 @@ func _process_action_forecast() -> void:
 		&"elemental":
 			var reaction_session := session as BattleCoreReactionsSession
 			prepared = reaction_session.prepare_mage_cell_forecast(_action_forecast_effect, _action_forecast_cell) if AbilityDefinition.is_cell_spell(_action_forecast_effect) else reaction_session.prepare_cast_forecast(_action_forecast_target_id)
+		&"mage_card": prepared = (session as BattleCoreReactionsSession).prepare_mage_card_forecast(_action_forecast_card_id, _action_forecast_target_id if _action_forecast_target_id > 0 else 0, _action_forecast_cell)
 	_action_forecast_corpse_id = (prepared.command as RaiseCorpseCommand)._corpse_id if prepared != null and prepared.command is RaiseCorpseCommand else 0
 	_action_forecast_job_generation = _action_forecast_generation
 	_action_forecast_worker.start(prepared)
@@ -1704,6 +1916,7 @@ func _clear_forecast() -> void:
 	_action_forecast_session_id = 0
 	_action_forecast_target_id = UnitId.NONE
 	_action_forecast_effect = &""
+	_action_forecast_card_id = 0
 	_action_forecast_cache.clear()
 	var had_forecast := _forecast != null or _attack_forecast_pending or _move_forecast != null or _move_forecast_pending
 	_attack_forecast_generation += 1
@@ -2245,6 +2458,12 @@ func _event_text(event: Dictionary) -> String:
 			return "%s: %s — %s." % [target, label, _elemental_summary(after)]
 		&"mage_cast":
 			return "Маг: %s → %s; мана %d → %d; откат %d." % [_elemental_effect_label(StringName(event.spell_id)), target, event.mana_before, event.mana_after, event.cooldown_after]
+		&"mage_card_played":
+			var definition := MageCardCatalog.get_card(String(event.type_id))
+			var destination := _cell_name(event.target_cell) if definition != null and definition.target_policy in ["valid_cell", "corpse_cell"] else target
+			return "Маг разыграл «%s» (#%d) → %s; мана %d → %d." % [definition.name if definition != null else String(event.type_id), event.card_instance_id, destination, event.mana_before, event.mana_after]
+		&"deck_changed":
+			return "Колода: %s; рука %d, добор %d, сыграно %d." % [String(event.reason), event.after.hand_ids.size(), event.after.draw_ids.size(), event.after.spent_ids.size()]
 		&"elemental_cast":
 			return "%s применяет «%s» к %s; основные действия %d → %d." % [actor, _elemental_effect_label(event.get("effect", &"")), target, int(event.get("main_before", 0)), int(event.get("main_after", 0))]
 		&"attacked":
@@ -2515,6 +2734,9 @@ func _render_armor_forecast_panel() -> void:
 func _render_elemental_forecast_panel() -> void:
 	BattleCompactForecastPresenter.publish(self)
 	if is_execution_pending() or _elemental_forecast == null: return
+	if _action_forecast_kind == &"mage_card":
+		_render_card_forecast_panel()
+		return
 	_forecast_panel.visible = true
 	_forecast_heading.visible = true
 	_forecast_heading.text = "ПРОГНОЗ · ЭЛЕМЕНТАЛЬНЫЙ ЭФФЕКТ"
@@ -2550,6 +2772,28 @@ func _render_elemental_forecast_panel() -> void:
 	else:
 		text += "\n[color=#a5b3c5]Последствия:[/color]\n"
 		for event: Dictionary in _elemental_forecast.events: text += "• " + _event_text(event) + "\n"
+	_forecast_panel.text = text
+
+func _render_card_forecast_panel() -> void:
+	var definition := MageCardCatalog.get_card(String(_action_forecast_effect))
+	if definition == null: return
+	_forecast_panel.visible = true
+	_forecast_heading.visible = true
+	_forecast_heading.text = "ПРОГНОЗ · КАРТА МАГА"
+	_log.visible = false
+	_log_heading.visible = false
+	var target_text := _cell_name(_action_forecast_cell) if definition.target_policy in ["valid_cell", "corpse_cell"] else _name_for(_action_forecast_target_id)
+	var text := "[font_size=16][color=#f7c97d]%s → %s[/color][/font_size]\n" % [definition.name, target_text]
+	if _elemental_forecast.status != ActionReceipt.APPLIED:
+		_forecast_panel.text = text + "Прогноз недоступен: " + _reason_text(_elemental_forecast.reason)
+		return
+	var before := BattleAbilityState.from_dict(_elemental_forecast.snapshot_before.get("abilities", {}))
+	var after := BattleAbilityState.from_dict(_elemental_forecast.snapshot_after.get("abilities", {}))
+	if before == null or after == null:
+		_forecast_panel.text = text + "Прогноз недоступен: данные маны повреждены."
+		return
+	text += "Мана %d → %d · карта #%d уйдёт в сыгранные.\n" % [before.mana, after.mana, _action_forecast_card_id]
+	for event: Dictionary in _elemental_forecast.events: text += "• " + _event_text(event) + "\n"
 	_forecast_panel.text = text
 
 func _elemental_effect_label(effect: StringName) -> String:

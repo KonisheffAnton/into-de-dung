@@ -7,6 +7,7 @@ var elemental_selected: StringName = &""
 var actor_loadouts: Dictionary = {}
 ## Назначение двух дополнительных кнопок образца; не часть D4-save.
 var action_slot_overrides: Dictionary = {}
+var mage_deployment_confirmed: bool = false
 
 func visible_action_descriptors(available: Array[Dictionary]) -> Array[Dictionary]:
 	var actor := selected_unit()
@@ -58,6 +59,8 @@ func prepare_cast_forecast(id: int) -> ForecastSimulation.Prepared:
 	return ForecastSimulation.prepare(context, _queue, ElementalCastCommand.new(selected_id, id, elemental_selected, context.get_revision()))
 
 func _first_team() -> Faction.Type:
+	if state != null and state.abilities != null and state.abilities.schema_version == 2:
+		return Faction.Type.PLAYER if state.abilities.first_team == Faction.Type.PLAYER else Faction.Type.ENEMY
 	return Faction.Type.ENEMY
 
 func retreat_reason() -> StringName:
@@ -103,6 +106,7 @@ func _command_for(id: int) -> AttackCommand:
 
 ## Новый состав способностей использует весь прежний общий бой и его границы хода.
 func reset() -> void:
+	mage_deployment_confirmed = false
 	actor_loadouts.clear()
 	action_slot_overrides.clear()
 	super.reset()
@@ -227,18 +231,63 @@ func _ability_boundary(operation: StringName) -> bool:
 
 func begin_deployment() -> bool:
 	if not super.begin_deployment(): return false
+	mage_deployment_confirmed = false
 	if state.abilities != null:
 		state.abilities.serials = [0, 0]; state.abilities.ended = [0, 0]
 		state.abilities.stage = "setup"; state.abilities.mage_allowed = false
 	return true
 
 func start_battle() -> bool:
+	if state.deck != null and (not mage_deployment_confirmed or not state.deck.mulligan_done): return false
 	if not super.start_battle(): return false
 	if state.abilities != null:
-		var after := state.abilities.boundary(&"start", Faction.Type.ENEMY, 0)
+		var after := state.abilities.boundary(&"start", state.abilities.team, 0)
 		if after.is_empty(): return false
 		state.abilities.apply_values(after)
 	return true
+
+func confirm_mage_deployment() -> bool:
+	if state.deck == null or not is_deploying() or not _available() or mage_deployment_confirmed: return false
+	var cells := deployment_cells()
+	for id: int in living_ids(Faction.Type.PLAYER):
+		var unit := board.get_unit_by_id(id)
+		if not cells.has(unit.cell) or board.occupant_at(unit.cell) != unit: return false
+	if ItemSimulationSnapshot.capture(state, []).code != ItemSnapshotResult.Code.OK: return false
+	mage_deployment_confirmed = true
+	return true
+
+func phase_text() -> String:
+	if state != null and state.deck != null and is_deploying() and mage_deployment_confirmed:
+		return "Подготовка руки · выберите до двух карт и подтвердите или пропустите"
+	return super.phase_text()
+
+func confirm_mage_mulligan(ids: Array[int]) -> ActionReceipt:
+	if state.deck == null or not mage_deployment_confirmed or not is_deploying() or not _available(): return _reject(&"deck/setup_closed")
+	return _submit(ConfirmMageMulliganCommand.new(ids, context.get_revision()))
+
+func mage_card_reason(id: int) -> StringName:
+	if not can_player_act(): return &"battle/input_locked"
+	if state.deck == null or state.abilities == null or not MageDeckRules.references_valid(context): return &"mage_card/capability_required"
+	if not state.abilities.mage_allowed: return &"mage_card/window_closed"
+	if not state.deck.hand_ids.has(id): return &"mage_card/not_in_hand"
+	var definition := MageCardCatalog.get_card(String(state.deck.card(id).get("type_id", "")))
+	if definition == null: return &"mage_card/unknown_type"
+	return &"mage_card/insufficient_mana" if state.abilities.mana < definition.mana_cost else &""
+
+func play_mage_card(id: int, target: int, cell: Vector2i) -> ActionReceipt:
+	var reason := mage_card_reason(id)
+	if reason != &"": return _reject(reason)
+	return _submit(PlayMageCardCommand.new(id, target, cell, context.get_revision()))
+
+func replace_mage_card(id: int) -> ActionReceipt:
+	var reason := mage_card_reason(id)
+	if reason != &"" and reason != &"mage_card/insufficient_mana": return _reject(reason)
+	return _submit(MageDeckChangeCommand.new(&"replace", [id], context.get_revision()))
+
+func prepare_mage_card_forecast(id: int, target: int, cell: Vector2i) -> ForecastSimulation.Prepared:
+	var reason := mage_card_reason(id)
+	if reason != &"": return ForecastSimulation.Prepared.rejected(reason)
+	return ForecastSimulation.prepare(context, _queue, PlayMageCardCommand.new(id, target, cell, context.get_revision()))
 
 func mage_reason(spell: StringName) -> StringName:
 	if not can_player_act(): return &"battle/input_locked"

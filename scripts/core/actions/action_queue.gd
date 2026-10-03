@@ -92,6 +92,7 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 				reason = &"push/internal_collision"
 			else: reason = accepted.validate(context)
 	if reason == &"" and not AbilityCatalog.attack_references_valid(context): reason = &"ability/attack_catalog"
+	if reason == &"" and not MageDeckRules.references_valid(context): reason = &"deck/attack_catalog"
 	if reason == &"" and context.get_state().artifacts != null and not BattleArtifactRules.references_valid(context): reason = &"artifact/attack_catalog"
 	if reason == &"" and context.get_state().abilities != null and accepted.get_script() in [AttackCommand, MoveCommand, GuardCommand, RestoreArmorCommand, RaiseCorpseCommand, ElementalCastCommand, UseHealingItemCommand, UseSummoningItemCommand, MageCastCommand]:
 		var descriptor := accepted.get_ability_definition(context)
@@ -118,6 +119,7 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 	var ability_definitions: Array = ability_ref.catalog.duplicate() if ability_ref != null else []
 	var ability_expected: Dictionary = ability_ref.to_dict() if ability_ref != null else {}
 	if accepted is MageCastCommand: ability_expected = (accepted as MageCastCommand).projected_after(context)
+	if accepted is PlayMageCardCommand: ability_expected = (accepted as PlayMageCardCommand).projected_after(context)
 	if accepted is AbilityBoundaryCommand: ability_expected = (accepted as AbilityBoundaryCommand).projected_after(context)
 	var ability_check := func() -> bool:
 		return context.get_state().abilities == ability_ref and (ability_ref == null or (ability_ref.catalog == ability_definitions and ability_ref.to_dict() == ability_expected))
@@ -126,6 +128,21 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 	var artifact_check := func() -> bool:
 		return context.get_state().artifacts == artifact_ref and (artifact_ref == null or artifact_ref.to_dict() == artifact_expected)
 	var armor_finish_scheduled := false
+	var deck_ref := context.get_state().deck
+	var effects_ref := context.get_state().card_effects
+	var deck_rng: CombatRng = deck_ref.draw_rng if deck_ref != null else null
+	var deck_expected: Dictionary = deck_ref.to_dict() if deck_ref != null else {}
+	var effects_expected: Dictionary = effects_ref.to_dict() if effects_ref != null else {}
+	if deck_ref != null:
+		if accepted is PlayMageCardCommand:
+			deck_expected = (accepted as PlayMageCardCommand).projected_deck(context)
+			effects_expected = (accepted as PlayMageCardCommand).projected_effects(context)
+		elif accepted is MageDeckChangeCommand: deck_expected = (accepted as MageDeckChangeCommand).projected_deck(context)
+		elif accepted is AbilityBoundaryCommand:
+			deck_expected = (accepted as AbilityBoundaryCommand).projected_deck(context)
+			effects_expected = (accepted as AbilityBoundaryCommand).projected_effects(context)
+	var deck_check := func() -> bool:
+		return context.get_state().deck == deck_ref and context.get_state().card_effects == effects_ref and (deck_ref == null or (deck_ref.draw_rng == deck_rng and deck_ref.to_dict() == deck_expected and effects_ref.to_dict() == effects_expected))
 	# Единственный ответ принадлежит корневой добровольной атаке, не её событиям.
 	var counter_considered := false
 	while not _pending.is_empty() and receipt.status != &"FAULTED":
@@ -145,7 +162,14 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 			if not projected.is_empty(): artifact_expected.merge(projected,true)
 		var step_count_before := receipt._steps.size()
 		var event_count_before := receipt._events.size()
-		_execute_entry(entry, receipt, context, event_capacity)
+		_execute_entry(entry, receipt, context, event_capacity, effects_ref, effects_expected)
+		if deck_ref != null:
+			# Новое admission принадлежит исполненному шагу, включая FAULTED prefix.
+			if entry.command is UseSummoningItemCommand or entry.command is RaiseCorpseCommand:
+				for binding: Dictionary in effects_ref.ordinary_attacks:
+					if context.get_state().is_summon(binding.unit_id) and binding.attack_id == "demo_strike" and not effects_expected.ordinary_attacks.any(func(value: Dictionary) -> bool: return value.unit_id == binding.unit_id):
+						effects_expected.ordinary_attacks.append(binding.duplicate(true))
+		if receipt.status != &"FAULTED" and not deck_check.call(): _fault(receipt,context,&"deck/checkpoint")
 		if receipt.status != &"FAULTED" and not ability_check.call(): _fault(receipt, context, &"ability/checkpoint")
 		if receipt.status != &"FAULTED" and not artifact_check.call(): _fault(receipt, context, &"artifact/checkpoint")
 		if capture_presentation and receipt._steps.size() > step_count_before:
@@ -184,6 +208,8 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 		else:
 			ability_expected["stage"] = "terminal"; ability_expected["mage_allowed"] = false
 			ability_ref.apply_values(ability_expected)
+			if effects_ref != null:
+				effects_ref.fire_imbues.clear(); effects_expected.fire_imbues.clear()
 			context._bump_revision()
 	receipt.revision_after = context.get_revision()
 	_pending.clear()
@@ -195,6 +221,9 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 			break
 		if receipt.status != &"FAULTED" and not artifact_check.call():
 			_fault(receipt, context, &"artifact/checkpoint")
+			break
+		if receipt.status != &"FAULTED" and not deck_check.call():
+			_fault(receipt, context, &"deck/checkpoint")
 			break
 	_processed_event_seq.clear()
 	_reaction_keys.clear()
@@ -216,7 +245,7 @@ static func _counterattack_after(root: Command, context: ActionContext) -> Attac
 	if not MeleeThreat.reaction_ready(context, defender, CombatPerksState.Mode.COUNTERATTACK) or not MeleeThreat.threatens(context, defender, attacker): return null
 	return AttackCommand.counterattack(defender, attacker, context.get_revision())
 
-func _execute_entry(entry: Dictionary, receipt: ActionReceipt, context: ActionContext, event_capacity: int) -> void:
+func _execute_entry(entry: Dictionary, receipt: ActionReceipt, context: ActionContext, event_capacity: int, effects_ref: BattleCardEffectState, effects_expected: Dictionary) -> void:
 	var command: Command = entry["command"]
 	var seq := context._take_command_seq()
 	var result: CommandStepResult
@@ -257,6 +286,12 @@ func _execute_entry(entry: Dictionary, receipt: ActionReceipt, context: ActionCo
 		event["parent_event_seq"] = int(entry["parent_event_seq"])
 		events.append(event)
 		receipt._events.append(event)
+		if effects_ref != null and event.kind == &"died":
+			# Очистка входит в подтверждённый prefix смерти до snapshot коллектора
+			# реакций; внешние callbacks шага уже прошли свои фазовые guards.
+			var id: int = event.target_unit_id
+			effects_ref.fire_imbues = effects_ref.fire_imbues.filter(func(value: Dictionary) -> bool: return value.unit_id != id)
+			effects_expected.fire_imbues = effects_expected.fire_imbues.filter(func(value: Dictionary) -> bool: return value.unit_id != id)
 	if result.status == &"FAULTED":
 		_fault(receipt, context, result.reason)
 		return
@@ -360,6 +395,8 @@ func _bind_batch(descriptions: Array[Dictionary], event_seq: int, context: Actio
 static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bool:
 	if draft.get("kind") == &"shield_changed": return SpellShield.valid_event(draft)
 	if draft.get("kind") == &"mage_cast": return MageCastCommand.valid_draft(draft)
+	if draft.get("kind") == &"mage_card_played": return PlayMageCardCommand.valid_draft(draft)
+	if draft.get("kind") == &"deck_changed": return MageDeckChangeCommand.valid_draft(draft)
 	if draft.get("kind") == &"mage_summoned": return MageSummonEffect.valid_draft(draft)
 	if draft.get("kind") == &"chain_link": return PushChainCommand.valid_draft(draft)
 	if draft.get("kind") in [&"environment_turn", &"support_collapsed"]: return CollapsePhaseCommand.valid_draft(draft)
@@ -535,6 +572,7 @@ static func _reserved_event_capacity(command: Command, context: ActionContext) -
 	return capacity
 
 static func _event_capacity(command: Command) -> int:
+	if command is PlayMageCardCommand: return 9
 	if command is PushChainCommand: return 9
 	if command is AttackCommand and (command as AttackCommand).is_reaction(): return 3
 	if command is PushCommand and (command as PushCommand)._binding != null and (command as PushCommand)._binding.target != null and (command as PushCommand)._binding.target.control != null: return 4

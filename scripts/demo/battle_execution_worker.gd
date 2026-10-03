@@ -2,7 +2,7 @@ extends RefCounted
 class_name BattleExecutionWorker
 
 ## Session передаётся целиком одному исполнителю; UI возвращает её только после join.
-const METHODS: Array[StringName] = [&"move_to", &"retreat_to", &"attack_unit", &"cast_unit", &"cast_mage_spell", &"cast_mage_cell", &"guard_selected", &"use_healing_item", &"use_summoning_item", &"raise_corpse", &"restore_selected_armor", &"set_reaction_guard", &"end_player_turn", &"step_enemy"]
+const METHODS: Array[StringName] = [&"move_to", &"retreat_to", &"attack_unit", &"cast_unit", &"cast_mage_spell", &"cast_mage_cell", &"play_mage_card", &"replace_mage_card", &"guard_selected", &"use_healing_item", &"use_summoning_item", &"raise_corpse", &"restore_selected_armor", &"set_reaction_guard", &"end_player_turn", &"step_enemy"]
 
 var _thread: Thread
 var _session: BattleCoreReactionsSession
@@ -12,9 +12,11 @@ var target_attempt: bool = false
 static func can_transfer(session: BattleDemoSession) -> bool:
 	var runtime_scripts: Array[Script] = [BattleAbilityState, AbilityDefinition, BattleCoreReactionsSession, BattleBoard, ItemSimulationState, ActionQueue, ActionContext, ActionRngPort, CombatRng, ActionEventSink, MoveRules, AttackRules, AttackDefinition, UnitState, StatsBag, Stat, StatModifier, Vitals, ActionResources, ArmorState, BleedingState, ElementalState, ControlState, CombatPerksState, CombatPerksDefinition, CombatEnvironmentState, ItemOwnerState, InventoryState, EquipmentState, ItemInstance, ItemDef, SummonDefinition, HealOnDamageEffect, HealOnDamageEffectRuntime, StatModifierEffect, StatModifierEffectRuntime]
 	runtime_scripts.append(BattleArtifactState)
+	runtime_scripts.append_array([BattleDeckState,BattleCardEffectState])
 	if session == null or session.get_script() != BattleCoreReactionsSession: return false
 	if session.context == null or session._queue == null or session._queue.get_script() != ActionQueue: return false
 	if session.context.is_busy() or session._queue._busy: return false
+	if not MageDeckRules.references_valid(session.context): return false
 	if session.state.artifacts != null and not BattleArtifactRules.references_valid(session.context): return false
 	# Это проверка владения, не замена capture/admission внутри реального submit.
 	# Старый receipt не исполняется повторно; очередь тоже входит в аудит графа.
@@ -76,6 +78,8 @@ func start(session: BattleCoreReactionsSession, action: StringName, args: Array,
 
 static func _valid_request(action: StringName, args: Array) -> bool:
 	if action not in METHODS: return false
+	if action == &"play_mage_card": return args.size() == 3 and typeof(args[0]) == TYPE_INT and typeof(args[1]) == TYPE_INT and typeof(args[2]) == TYPE_VECTOR2I
+	if action == &"replace_mage_card": return args.size() == 1 and typeof(args[0]) == TYPE_INT
 	if action in [&"move_to", &"retreat_to", &"use_summoning_item", &"raise_corpse"]:
 		return args.size() == 1 and args[0] is Vector2i
 	if action in [&"attack_unit", &"cast_unit"]: return args.size() == 1 and args[0] is int

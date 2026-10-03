@@ -47,8 +47,9 @@ static func prepare(context: ActionContext, queue: ActionQueue, command: Command
 	if context.is_faulted() or queue._faulted: return Prepared.rejected(&"CONTEXT_FAULTED")
 	if context.get_script() != ActionContext or queue.get_script() != ActionQueue: return Prepared.rejected(&"preview/unsupported_context")
 	if not AbilityCatalog.attack_references_valid(context): return Prepared.rejected(&"ability/attack_catalog")
+	if not MageDeckRules.references_valid(context): return Prepared.rejected(&"deck/attack_catalog")
 	if context.get_state().artifacts != null and not BattleArtifactRules.references_valid(context): return Prepared.rejected(&"artifact/attack_catalog")
-	if command == null or command.get_script() not in [AttackCommand, UseHealingItemCommand, UseSummoningItemCommand, MoveCommand, RaiseCorpseCommand, GuardCommand, RestoreArmorCommand, CollapsePhaseCommand, ElementalCastCommand, MageCastCommand]: return Prepared.rejected(&"preview/unsupported_command")
+	if command == null or command.get_script() not in [AttackCommand, UseHealingItemCommand, UseSummoningItemCommand, MoveCommand, RaiseCorpseCommand, GuardCommand, RestoreArmorCommand, CollapsePhaseCommand, ElementalCastCommand, MageCastCommand, PlayMageCardCommand, MageDeckChangeCommand, ConfirmMageMulliganCommand]: return Prepared.rejected(&"preview/unsupported_command")
 	var capture := ItemSimulationSnapshot.capture(context.get_state(), context.get_unsupported_runtime_ids())
 	if capture.code != ItemSnapshotResult.Code.OK: return Prepared.rejected(StringName(capture.reason))
 	var original_rng := context.get_rng()
@@ -76,7 +77,7 @@ static func run_prepared(prepared: Prepared) -> ForecastSimulation:
 	if prepared == null or prepared.consumed: return rejected(&"preview/request_consumed")
 	prepared.consumed = true
 	if prepared.reason != &"": return rejected(prepared.reason)
-	if prepared.command == null or prepared.command.get_script() not in [AttackCommand, UseHealingItemCommand, UseSummoningItemCommand, MoveCommand, RaiseCorpseCommand, GuardCommand, RestoreArmorCommand, CollapsePhaseCommand, ElementalCastCommand, MageCastCommand]: return rejected(&"preview/unsupported_command")
+	if prepared.command == null or prepared.command.get_script() not in [AttackCommand, UseHealingItemCommand, UseSummoningItemCommand, MoveCommand, RaiseCorpseCommand, GuardCommand, RestoreArmorCommand, CollapsePhaseCommand, ElementalCastCommand, MageCastCommand, PlayMageCardCommand, MageDeckChangeCommand, ConfirmMageMulliganCommand]: return rejected(&"preview/unsupported_command")
 	if prepared.snapshot == null or prepared.context == null or prepared.queue == null or prepared.context.get_script() != ActionContext or prepared.queue.get_script() != ActionQueue: return rejected(&"preview/context_copy_failed")
 	var restored := prepared.snapshot.instantiate(prepared.definitions)
 	if restored.code != ItemSnapshotResult.Code.OK: return rejected(StringName(restored.reason))
@@ -92,6 +93,10 @@ static func run_prepared(prepared: Prepared) -> ForecastSimulation:
 	var raise_corpse: bool = command.get_script() == RaiseCorpseCommand
 	var mage_summon: bool = command is MageCastCommand and AbilityDefinition.is_cell_spell((command as MageCastCommand).spell_id)
 	if mage_summon and (command as MageCastCommand).spell_id == &"mage.test_raise": raise_corpse = true
+	if command is PlayMageCardCommand:
+		var card: Dictionary = state_copy.deck.card(command.card_instance_id)
+		mage_summon = card.get("type_id") in ["card.summon","card.raise"]
+		raise_corpse = card.get("type_id") == "card.raise"
 	result.units_before = unit_values(state_copy.get_board(), state_copy, item_use or raise_corpse or mage_summon)
 	if raise_corpse: result.corpses_before = corpse_values(state_copy)
 	result.snapshot_before = prepared.snapshot.to_dict()

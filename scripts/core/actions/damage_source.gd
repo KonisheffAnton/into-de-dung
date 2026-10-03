@@ -19,6 +19,7 @@ func validate(context: ActionContext) -> StringName:
 	if instigator_unit_id < 0 or credit_unit_id < 0 or instigator_unit_id >= ActionContext.MAX_ID or credit_unit_id >= ActionContext.MAX_ID: return &"source/unit_id"
 	if context == null or context.get_state() == null or context.get_state().get_board() == null: return &"source/context"
 	if kind == &"mage" and not valid_mage(to_dict()): return &"source/mage"
+	if kind == &"mage" and source_instance_id >= 13 and context.get_state().deck == null: return &"source/deck_required"
 	if kind != &"mage" and origin_cell == Vector2i(-1, -1): return &"source/origin"
 	var board := context.get_state().get_board()
 	if instigator_unit_id != 0 and board.get_unit_by_id(instigator_unit_id) == null: return &"source/instigator_unit_id"
@@ -26,4 +27,4 @@ func validate(context: ActionContext) -> StringName:
 	return &""
 
 static func valid_mage(value: Dictionary) -> bool:
-	return value.get("kind") == &"mage" and value.get("source_instance_id") in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] and value.get("origin_cell") == Vector2i(-1, -1) and value.get("instigator_unit_id") == 0 and value.get("credit_unit_id") == 0
+	return value.get("kind") == &"mage" and value.get("source_instance_id") in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] and value.get("origin_cell") == Vector2i(-1, -1) and value.get("instigator_unit_id") == 0 and value.get("credit_unit_id") == 0

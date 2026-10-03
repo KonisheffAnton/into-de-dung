@@ -4,14 +4,23 @@ class_name SummonMutationProjection
 ## Ожидаемый снимок атомарного создания помощника. Это checkpoint для проверки
 ## callbacks, а не preview: прогноз по-прежнему исполняет настоящую команду.
 ## Меняются только DTO; live-позицию и occupancy записывает BattleBoard.add_unit.
-static func expected(before: ItemSimulationSnapshot, helper: UnitState, actor_id: int, height: int, main_cost: int, item_id: int = 0, charge_cost: int = 0, corpse_id: int = 0, ability_after: Dictionary = {}, mage: bool = false) -> ItemSnapshotResult:
+static func expected(before: ItemSimulationSnapshot, helper: UnitState, actor_id: int, height: int, main_cost: int, item_id: int = 0, charge_cost: int = 0, corpse_id: int = 0, ability_after: Dictionary = {}, mage: bool = false, deck_after: Dictionary = {}, effects_after: Dictionary = {}) -> ItemSnapshotResult:
 	if before == null or helper == null or main_cost < 0 or (main_cost == 0 and ability_after.is_empty()):
 		return ItemSimulationSnapshot._failure("summon/projection")
 	var data := before.to_dict()
 	if not ability_after.is_empty():
 		if not data.has("abilities") or not BattleAbilityState.valid(ability_after): return ItemSimulationSnapshot._failure("summon/projection")
 		data["abilities"] = ability_after.duplicate(true)
-	if data.get("schema_version") not in [3, 4, 5, 6, 7, 8, 9]: return ItemSimulationSnapshot._failure("summon/projection")
+	if data.get("schema_version") not in [3, 4, 5, 6, 7, 8, 9, 10]: return ItemSimulationSnapshot._failure("summon/projection")
+	if data.schema_version == 10:
+		var deck_value: Dictionary = data["deck"] if deck_after.is_empty() else deck_after
+		var effects_value: Dictionary = data["card_effects"].duplicate(true) if effects_after.is_empty() else effects_after.duplicate(true)
+		if BattleDeckState.from_dict(deck_value) == null or BattleCardEffectState.from_dict(effects_value) == null: return ItemSimulationSnapshot._failure("summon/projection")
+		effects_value["ordinary_attacks"].append({"unit_id":helper.id,"attack_id":"demo_strike"})
+		effects_value["ordinary_attacks"].sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a.unit_id < b.unit_id)
+		if BattleCardEffectState.from_dict(effects_value) == null: return ItemSimulationSnapshot._failure("summon/projection")
+		data["deck"] = deck_value.duplicate(true)
+		data["card_effects"] = effects_value
 	var unit := helper.to_snapshot_dict()
 	if unit.is_empty(): return ItemSimulationSnapshot._failure("summon/projection")
 	unit["height"] = height
@@ -44,7 +53,8 @@ static func expected(before: ItemSimulationSnapshot, helper: UnitState, actor_id
 	var record := {"unit_id": helper.id, "owner_unit_id": actor_id, "pending": true}
 	if mage:
 		record.owner_unit_id = 0; record["source_kind"] = "mage"
-		data.schema_version = 9; data.scope = ItemSimulationSnapshot.SCOPE_V9
+		if data.schema_version != 10:
+			data.schema_version = 9; data.scope = ItemSimulationSnapshot.SCOPE_V9
 	data["summons"].append(record)
 	# Полная проверка итогового графа остаётся: лимиты, owner/item связи, pending,
 	# геометрия и схемы не зависят от корректности построителя этой проекции.

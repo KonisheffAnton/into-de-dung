@@ -79,7 +79,7 @@ static func valid_effect_source(value: Variant) -> bool:
 	var instigator: int = source["instigator_unit_id"]
 	var credit: int = source["credit_unit_id"]
 	if source["kind"] == &"mage":
-		return source_id in [3, 8] and DamageSource.valid_mage(source)
+		return source_id in [3, 8, 18, 23] and DamageSource.valid_mage(source)
 	if source["kind"] == &"attack":
 		return source_id == 0 and instigator == credit and credit > 0 and credit < MAX_ID
 	if source["kind"] == &"cell":

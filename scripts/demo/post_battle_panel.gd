@@ -6,7 +6,7 @@ static func render(host: HeroHubScreen) -> void:
 	host._text(String(report.get("title", "Итоги боя")), 25)
 	var outcome := "Победа" if bool(report.get("victory", false)) else "Поражение"
 	var scope := "походное золото" if String(report.get("gold_scope", "hub")) == "run" else "золото хаба"
-	host._text("%s · %s" % [outcome, "поход завершён" if bool(report.get("completed", false)) else "бой завершён"], 20)
+	host._text("Поход завершён у безопасной точки" if report.get("return_reason") == "early" else "%s · %s" % [outcome, "поход завершён" if bool(report.get("completed", false)) else "бой завершён"], 20)
 
 	host._text("ГЕРОИ", 20)
 	var heroes: Array = report.get("heroes", [])
@@ -26,6 +26,7 @@ static func render(host: HeroHubScreen) -> void:
 	host._text("Золото: +%d · потери: %d (%s) · эссенция: +%d" % [int(report.get("gold_awarded", 0)), int(report.get("gold_lost", 0)), scope, int(report.get("essence_awarded", 0))], 16)
 	_show_names(host, "Предметы", report.get("items", []))
 	_show_names(host, "Потеряно", report.get("lost_items", []))
+	if report.get("schema") == 2: MageDeckPanel.report(host)
 	var selected_artifact := String(report.get("artifact_selected", ""))
 	if not selected_artifact.is_empty():
 		var definition := ExpeditionCatalog.artifact(selected_artifact)
@@ -43,7 +44,7 @@ static func render(host: HeroHubScreen) -> void:
 	var continue_button := host._button_for(host._content, "Продолжить", "continue_battle_report", host._mutate.bind(&"dismiss_battle_report"))
 	continue_button.disabled = reward_pending or host._pending_save != null
 	if reward_pending:
-		host._text("Сначала выберите один артефакт награды.", 14)
+		host._text("Сначала выберите награду или откажитесь от неё." if report.get("schema") == 2 else "Сначала выберите один артефакт награды.", 14)
 
 static func _show_names(host: HeroHubScreen, heading: String, values: Variant) -> void:
 	if not values is Array or (values as Array).is_empty(): return
@@ -79,6 +80,7 @@ static func _show_repairs(host: HeroHubScreen, report: Dictionary) -> void:
 
 static func _show_reward_choices(host: HeroHubScreen) -> void:
 	if not _reward_pending(host): return
+	if host.run.expedition.is_deck(): MageDeckPanel.rewards(host); return
 	host._text("ПОБЕДА · выберите один артефакт", 20)
 	var rewards: Array = host.run.expedition.current_node().reward
 	for index: int in rewards.size():

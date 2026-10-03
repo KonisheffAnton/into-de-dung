@@ -598,7 +598,7 @@ static func _presentation_caption(event: Dictionary) -> String:
 		&"opportunity_attacked", &"counterattacked", &"reaction_used": return "РЕАКЦИЯ"
 		&"died": return "ПАДЕНИЕ" if event.get("source", {}).get("kind") == &"fall" else "ГИБЕЛЬ"
 		&"shield_changed": return "ЩИТ"
-		&"mage_cast": return "МАГ"
+		&"mage_cast", &"mage_card_play": return "МАГ"
 		&"elemental_cast", &"elemental_changed", &"control_changed", &"bleeding_changed": return "СОСТОЯНИЕ"
 		&"summoned", &"corpse_raised": return "ПРИЗЫВ"
 		&"mage_summoned": return "ПОДНЯТИЕ" if int(event.get("corpse_id", 0)) > 0 else "ПРИЗЫВ"
@@ -776,27 +776,39 @@ func _place_reaction_cues() -> void:
 		if is_instance_valid(effect) and effect.visible: _sample_reaction_cue(effect.progress, effect)
 
 func _matching_mage_cast(events: Array, step: Dictionary) -> Dictionary:
-	if step.get("kind") != &"mage_cast": return {}
+	if step.get("kind") not in [&"mage_cast", &"mage_card_play"]: return {}
 	for event: Dictionary in events:
 		var source: Dictionary = event.get("source", {})
-		if event.get("kind") != &"mage_cast" or int(event.get("actor_unit_id", -1)) != 0: continue
+		if event.get("kind") not in [&"mage_cast", &"mage_card_played"] or int(event.get("actor_unit_id", -1)) != 0: continue
 		if int(event.get("command_seq", -1)) != int(step.get("command_seq", -2)): continue
-		var spell := StringName(event.get("spell_id", &""))
+		if event.get("kind") == &"mage_card_played":
+			var card := MageCardCatalog.get_card(String(event.get("type_id","")))
+			if step.get("kind") == &"mage_card_play" and card != null and card.effect.begins_with("mage.") and source.get("kind") == &"mage" and source.get("source_instance_id") == card.source_id(): return event
+			continue
+		var spell := _mage_visual_spell(event)
 		var expected_source := AbilityDefinition.mage_source_id(spell) if spell in [&"mage.fire", &"mage.heal", &"mage.test_heal", &"mage.test_summon", &"mage.test_raise", &"mage.shield"] else 0
 		if expected_source == 0 or source.get("kind") != &"mage" or int(source.get("source_instance_id", 0)) != expected_source: continue
 		return event
 	return {}
 
+func _mage_visual_spell(cast: Dictionary) -> StringName:
+	if cast.get("kind") == &"mage_card_played":
+		var card := MageCardCatalog.get_card(String(cast.get("type_id","")))
+		return StringName(card.effect) if card != null else &""
+	return StringName(cast.get("spell_id", &""))
+
 func _mage_result_matches(event: Dictionary, cast: Dictionary) -> bool:
 	var source: Dictionary = event.get("source", {})
 	var target_matches := int(event.get("target_unit_id", -1)) == int(cast.get("target_unit_id", -2))
-	if AbilityDefinition.is_cell_spell(StringName(cast.get("spell_id", &""))):
-		target_matches = event.get("kind") == &"mage_summoned" and event.get("spell_id") == cast.get("spell_id") and int(event.get("anchor_unit_id", event.get("owner_unit_id", -1))) == int(cast.get("target_unit_id", -2))
+	if AbilityDefinition.is_cell_spell(_mage_visual_spell(cast)):
+		var same_spell: bool = event.get("card_type_id") == cast.get("type_id") if cast.get("kind") == &"mage_card_played" else event.get("spell_id") == cast.get("spell_id")
+		var same_target: bool = event.get("cell") == cast.get("target_cell") if cast.get("kind") == &"mage_card_played" else int(event.get("anchor_unit_id", event.get("owner_unit_id", -1))) == int(cast.get("target_unit_id", -2))
+		target_matches = event.get("kind") == &"mage_summoned" and same_spell and same_target
 	return event.get("root_id") == cast.get("root_id") and int(event.get("command_seq", -1)) == int(cast.get("command_seq", -2)) and target_matches and source.get("kind") == &"mage" and int(source.get("source_instance_id", 0)) == int(cast.get("source", {}).get("source_instance_id", -1))
 
 func _animate_mage_frame(events: Array, cast: Dictionary) -> Tween:
 	var target_id := int(cast.get("target_unit_id", UnitId.NONE))
-	var spell := StringName(cast.get("spell_id", &""))
+	var spell := _mage_visual_spell(cast)
 	var contact_kind := &"healed" if spell in [&"mage.heal", &"mage.test_heal"] else &""
 	var confirms_contact := false
 	_mage_dying = false

@@ -5,6 +5,8 @@ var failed: int = 0
 var profile: HeroHubState
 var actual_attacks: int = 0
 var actual_moves: int = 0
+var deck_mode: bool = false
+var actual_cards: int = 0
 
 func _initialize() -> void: call_deferred("_run")
 func check(ok: bool, label: String) -> void:
@@ -19,14 +21,17 @@ func transition(action: String, args: Dictionary = {}) -> bool:
 	return true
 
 func _run() -> void:
+	deck_mode = OS.get_cmdline_user_args().has("--deck")
 	_journey(false)
 	_journey(true)
 	_defeat()
-	print("EXPEDITION PLAYTHROUGH RESULTS: %d passed, %d failed; attacks %d, moves %d" % [passed,failed,actual_attacks,actual_moves])
+	if deck_mode: check(actual_cards > 0,"real cards executed during connected journey")
+	print(("MAGE DECK PLAYTHROUGH RESULTS:" if deck_mode else "EXPEDITION PLAYTHROUGH RESULTS:") + " %d passed, %d failed; attacks %d, moves %d, cards %d" % [passed,failed,actual_attacks,actual_moves,actual_cards])
 	quit(0 if failed == 0 else 1)
 
 func _journey(leave: bool) -> void:
 	profile = HeroHubState.create(4280)
+	if deck_mode: profile.enable_mage_deck()
 	# Полная победа проверяет цикл на допустимом отряде ветеранов; баланс новичков не является утверждением этого runner.
 	if not leave:
 		for hero: HeroProgression in profile.heroes.values():
@@ -50,12 +55,18 @@ func _journey(leave: bool) -> void:
 					if kind == "rest": break
 				transition("choose",{"node":node})
 			"service": transition("service",{"kind":"heal"})
-			"camp_departure": transition("leave" if leave else "continue")
+			"camp_departure":
+				if deck_mode:
+					var active := profile.expedition.active_ids.duplicate()
+					if active.size() > 10: active.pop_front()
+					transition("deck_compose",{"active_ids":active})
+				transition("leave" if leave else "continue")
 			"reward":
 				var reward: Array = profile.expedition.current_node().reward
 				var choice := reward.find("spark")
 				if choice < 0: choice = 0
 				transition("reward",{"index":choice})
+				if deck_mode: check(profile.dismiss_battle_report(),"reward Continue")
 			"battle":
 				var outcome := _battle(false)
 				if outcome.is_empty(): break
@@ -88,18 +99,22 @@ func _battle(passive: bool) -> Dictionary:
 	check(not bundle.is_empty(),"real factory")
 	if bundle.is_empty(): return {}
 	var s: BattleCoreReactionsSession = bundle.session
+	if deck_mode:
+		s.mage_deployment_confirmed = true
+		check(s.confirm_mage_mulligan([]).status == ActionReceipt.APPLIED,"explicit no-mulligan")
 	check(s.start_battle(),"deployment completes")
 	for unused: int in 2400:
 		if s.phase in [BattleTacticalSession.Phase.VICTORY,BattleTacticalSession.Phase.DEFEAT,BattleTacticalSession.Phase.MUTUAL_DESTRUCTION,BattleTacticalSession.Phase.FAULTED]: break
 		if s.phase == BattleTacticalSession.Phase.ENEMY_TURN: s.step_enemy(); continue
 		if s.phase != BattleTacticalSession.Phase.PLAYER_TURN: break
 		if not passive:
+			if deck_mode: _play_cards(s)
 			for id: int in profile.party:
 				if not s.can_player_act(): break
 				var unit := s.board.get_unit_by_id(bundle.hero_units[id])
 				if unit == null or not unit.is_alive() or not s.select_unit(unit.id): continue
 				if unit.vitals.get_hp() < ActionHpExecutor._stat_value(unit,StatTypes.StatType.HP_MAX) - 8.0:
-					if s.mage_reason(&"mage.heal") == &"": s.cast_mage_spell(&"mage.heal",unit.id)
+					if not deck_mode and s.mage_reason(&"mage.heal") == &"": s.cast_mage_spell(&"mage.heal",unit.id)
 					var flask := s.healing_item()
 					if flask != null and flask.get_charges_left() > 0: s.use_healing_item()
 				for attempt: int in 4:
@@ -142,9 +157,22 @@ func _distance(s: BattleCoreReactionsSession, cell: Vector2i) -> int:
 	return score
 
 func _defeat() -> void:
-	profile = HeroHubState.create(4280); transition("start"); transition("choose",{"node":1})
+	profile = HeroHubState.create(4280)
+	if deck_mode: profile.enable_mage_deck()
+	transition("start"); transition("choose",{"node":1})
 	var outcome := _battle(true)
 	if outcome.is_empty(): return
 	check(not outcome.victory,"passive party reaches actual defeat")
 	transition("outcome",outcome)
 	check(profile.phase == "hub" and profile.party.is_empty() and profile.gold == 100 and profile.essence == 0,"defeat settles loss")
+
+func _play_cards(s: BattleCoreReactionsSession) -> void:
+	var hand := s.state.deck.hand_ids.duplicate()
+	for id: int in hand:
+		if not s.can_player_act() or s.mage_card_reason(id) != &"": continue
+		var type: String = s.state.deck.card(id).type_id
+		var target_ids := s.living_ids(Faction.Type.ENEMY if type == "card.fire" else Faction.Type.PLAYER)
+		if type not in ["card.fire","card.heal","card.shield","card.wet"]: continue
+		for target: int in target_ids:
+			var result := s.play_mage_card(id,target,Vector2i(-1,-1))
+			if result.status == ActionReceipt.APPLIED: actual_cards += 1; break

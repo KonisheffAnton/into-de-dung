@@ -35,6 +35,7 @@ core без `--full` в неё не входит. Повторять более 
 
 | Область | Адресный runner в `tests/` |
 |---|---|
+| Колода мага V1 | `test_mage_deck_models.gd`, `test_deck_ability_state.gd`, `test_mage_deck_expedition.gd`, `test_mage_deck_battle.gd`, `test_expedition_playthrough.gd -- --deck`, `test_mage_deck_ui.gd` (full/render): codecs/legacy/барьеры записи, рука/мана, все12 эффектов, sync/preview/workers, FAULTED prefix, реальный поход и UI до сохранённого итога; UI PNG через `-- --captures=<dir>` |
 | Поддержка верховного мага R14 | `test_mage_r14.gd`, `test_battle_mage_bar.gd`, `test_mage_ui.gd` (full/render): лечение/командный призыв/поднятие/щит, полный preview/live и worker, отказы, pending/тело/зона помощников, schema9/legacy, H1 с артефактами, обе страницы 8+4 и межкадровые клики. PNG — mage-r14-screenshots/. |
 | Щит R14 | `test_spell_shield.gd`, `test_push_chain.gd` (full/render): schema1/2 roundtrip, mage preview/live, обновление/замена, ноль/смешанный урон/overflow/несколько ударов, броня/горение/кровотечение/шипы, callback FAULTED prefix, летальный тик и 11 событий парного столкновения. |
 | Предметы и появление R14 | `test_presentation_support.gd` (full/render): реальные флакон/печать/поднятие и верховный маг, before/after, привязка к root/шагу, промежуточный контакт/поднятие/щит/pending, камера/×3/skip. PNG — support-presentation-screenshots/. |
