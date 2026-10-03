@@ -65,6 +65,10 @@ var _view_units: Array[Dictionary] = []
 var _view_fires: Array[Dictionary] = []
 var _view_corpses: Array[Dictionary] = []
 var _view_collapse: Array[Vector2i] = []
+var environment_visual_scene: PackedScene = preload("res://scenes/demo/visuals/environment_overlay.tscn")
+var _environment_visuals: Dictionary = {}
+var _field_presentation := BattleFieldPresentation.new()
+var _warning_phase: float = 0.0
 ## Сменяемая временная фигура; будущая сцена может использовать AnimationPlayer/AnimatedSprite2D.
 var unit_visual_scene: PackedScene = preload("res://scenes/demo/visuals/placeholder_unit.tscn")
 var tile_visual_scene: PackedScene = preload("res://scenes/demo/visuals/placeholder_tile.tscn")
@@ -98,6 +102,7 @@ var _mage_dying: bool = false
 
 func show_presentation_state(value: Dictionary) -> void:
 	clear_presentation_effects()
+	_field_presentation.clear()
 	action_areas.assign(value.get("action_areas", []).duplicate(true))
 	area_preview_owner = UnitId.NONE
 	_view_width = int(value.get("width", 0))
@@ -163,6 +168,8 @@ func clear_strike_poses() -> void:
 func clear_presentation_feedback() -> void:
 	clear_presentation_effects()
 	clear_strike_poses()
+	_field_presentation.clear()
+	_rebuild_visuals()
 	_clear_layer(_numbers)
 	_clear_layer(_impacts)
 
@@ -257,8 +264,7 @@ func _hit_recovery(progress: float, strike: Dictionary, dying: bool) -> void:
 			recoil += perpendicular * shake * CRITICAL_SHAKE_DISTANCE
 	_set_action_offset(int(strike.target_unit_id), recoil)
 	if dying:
-		var visual := _presentation_visual(int(strike.target_unit_id))
-		if visual != null: visual.modulate.a = 1.0 - progress
+		_field_presentation.sample_death(progress, self, int(strike.target_unit_id))
 
 func _is_ranged_strike(event: Dictionary) -> bool:
 	# Дальность приходит из отделённого кадра; соседство не превращает стрелка в бойца ближнего боя.
@@ -562,6 +568,15 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 	var strike := _matching_strike(events, step)
 	var consequence_pulses: Dictionary = {}
 	var reaction_cues := BattleReactionPresentation.cues(events, step)
+	# Исторический источник тика может указывать на прежнюю клетку: подсвечиваем
+	# только реальное исполнение опасности, а не любой урон с таким source.
+	var hazard := BattleFieldPresentation.hazard_cell(events, _view_fires) if step.get("kind") == &"fire_entry" else Vector2i(-1, -1)
+	if hazard.x >= 0:
+		tween.tween_method(_field_presentation.sample_cell.bind(self, hazard, &"hazard"), 0.0, 1.0, BattleFieldPresentation.HAZARD_SECONDS)
+		visible_event = true
+	var falling_ids: Array[int] = []
+	for event: Dictionary in events:
+		if event.get("kind") == &"fell": falling_ids.append(int(event.target_unit_id))
 	if not strike.is_empty():
 		for cue: Dictionary in strike.get("presentation_cues", []):
 			var effect := _make_reaction_cue(cue)
@@ -575,6 +590,29 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 	for event: Dictionary in events:
 		var kind := StringName(event.get("kind", &""))
 		var id := int(event.get("target_unit_id", 0))
+		if kind == &"support_collapsed":
+			tween.tween_method(_field_presentation.sample_cell.bind(self, event.cell, &"collapse"), 0.0, 1.0, BattleFieldPresentation.COLLAPSE_SECONDS)
+			visible_event = true
+			continue
+		if kind == &"fell":
+			tween.tween_method(_field_presentation.sample_fall.bind(self, id, event.from_cell, event.attempted_cell, true), 0.0, 1.0, BattleFieldPresentation.FALL_SECONDS)
+			visible_event = true
+			continue
+		if kind == &"died":
+			if id in falling_ids or not strike.is_empty(): continue
+			var cell := _view_unit_cell(id)
+			var origin: Vector2i = event.get("source", {}).get("origin_cell", cell)
+			if event.get("source", {}).get("kind") in [&"fall", &"cell"] and _view_terrain_at(origin) in [TerrainType.Type.VOID, TerrainType.Type.HAZARD]:
+				# moved и died могут находиться в одном кадре: падение начинается
+				# после уже показанного сдвига, а не повторяет его из старой клетки.
+				for prior: Dictionary in events:
+					if prior == event: break
+					if prior.get("kind") == &"moved" and int(prior.get("target_unit_id", 0)) == id: cell = prior.to_cell
+				tween.tween_method(_field_presentation.sample_fall.bind(self, id, cell, origin, true), 0.0, 1.0, BattleFieldPresentation.FALL_SECONDS)
+			else:
+				tween.tween_method(_field_presentation.sample_death.bind(self, id), 0.0, 1.0, BattleFieldPresentation.DEATH_SECONDS)
+			visible_event = true
+			continue
 		# Расход уже объяснён единственным клипом действия; это не ещё одно попадание.
 		if kind == &"reaction_used": continue
 		if kind == &"guarded" and not reaction_cues.is_empty():
@@ -599,8 +637,9 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			continue
 		if kind in [&"bleeding_changed", &"elemental_changed", &"control_changed"]:
 			# Название изменения публикуется вместе с after; до него — только короткий импульс.
-			tween.tween_method(_presentation_pulse.bind(id, false, false), 0.0, 1.0, 0.16)
-			visible_event = true
+			if hazard.x < 0:
+				tween.tween_method(_presentation_pulse.bind(id, false, false), 0.0, 1.0, 0.16)
+				visible_event = true
 			continue
 		if kind == &"died" and not strike.is_empty(): continue
 		if kind in [&"attacked", &"opportunity_attacked", &"counterattacked"]:
@@ -624,16 +663,19 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			continue
 		if kind in [&"damaged", &"healed", &"armor_changed", &"hit_resolved"]:
 			# Несколько технических записей попадания не создают повторную отдачу.
-			if strike.is_empty() and kind in [&"damaged", &"healed"]:
+			if strike.is_empty() and hazard.x < 0 and event.get("source", {}).get("kind") != &"fall" and kind in [&"damaged", &"healed"]:
 				tween.tween_method(_presentation_pulse.bind(id, false, false), 0.0, 1.0, 0.16)
 				visible_event = true
 			continue
-		if kind == &"moved" or kind == &"fell":
+		if kind == &"moved":
 			var path: Array = event.get("transit_path", [event.from_cell, event.get("to_cell", event.get("attempted_cell", event.from_cell))])
 			# Добровольный путь ощущается отзывчивее; толчки и падения сохраняют прежний темп.
 			var segment_seconds: float = MOVE_SEGMENT_SECONDS if event.get("movement_kind", &"") in [&"voluntary", &"safe_retreat"] else FORCED_MOVE_SEGMENT_SECONDS
 			for index in range(1, path.size()):
-				if event.get("movement_kind", &"") in [&"voluntary", &"safe_retreat"]:
+				if _is_presentation_drop(path[index - 1], path[index]):
+					tween.tween_method(_field_presentation.sample_fall.bind(self, id, path[index - 1], path[index], false), 0.0, 1.0, BattleFieldPresentation.FALL_SECONDS)
+					tween.tween_method(_field_presentation.sample_land.bind(self, id), 0.0, 1.0, BattleFieldPresentation.LAND_SECONDS)
+				elif event.get("movement_kind", &"") in [&"voluntary", &"safe_retreat"]:
 					tween.tween_method(_presentation_motion.bind(id, path[index - 1], path[index]), 0.0, 1.0, segment_seconds).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 				else:
 					tween.tween_method(_presentation_motion.bind(id, path[index - 1], path[index]), 0.0, 1.0, segment_seconds).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
@@ -646,6 +688,9 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			visible_event = true
 	if not visible_event: tween.tween_interval(0.035)
 	return tween
+
+func _is_presentation_drop(from: Vector2i, to: Vector2i) -> bool:
+	return _view_terrain_at(to) == TerrainType.Type.FLOOR and _view_height_steps(from) > _view_height_steps(to)
 
 func _make_reaction_cue(cue: Dictionary) -> BattlePresentationReaction:
 	var effect := reaction_scene.instantiate() as BattlePresentationReaction
@@ -722,8 +767,7 @@ func _sample_mage(progress: float, phase: StringName) -> void:
 	if phase == &"contact" and _mage_spell_id == &"mage.fire":
 		_set_action_offset(_mage_target_id, _mage_recoil_direction * 7.0 * sin(progress * PI) * (1.0 - progress))
 		if _mage_dying:
-			var visual := _presentation_visual(_mage_target_id)
-			if visual != null: visual.modulate.a = 1.0 - progress
+			_field_presentation.sample_death(progress, self, _mage_target_id)
 
 func _update_mage_geometry(phase: StringName = &"prepare", progress: float = 0.0) -> void:
 	if not is_instance_valid(_mage_effect): return
@@ -1065,6 +1109,7 @@ func _rebuild_visuals() -> void:
 	if _entities == null: return
 	_tile_visuals.clear()
 	_entity_visuals.clear()
+	_environment_visuals.clear()
 	_clear_layer(_tiles)
 	_clear_layer(_entities)
 	if _view_width <= 0 or _view_height <= 0: return
@@ -1085,6 +1130,7 @@ func _rebuild_visuals() -> void:
 		# дальнюю грань уступа. Разделение по высоте на два слоя ломает это перекрытие.
 		_entities.add_child(floor_visual)
 		floor_visual.sync_scene_art()
+		_add_environment_visual(floor_visual, cell)
 		_entity_visuals.append(floor_visual)
 		if terrain == TerrainType.Type.WALL:
 			var wall := _make_visual(cell, steps, BattleDemoIsoVisual.Role.WALL)
@@ -1117,6 +1163,39 @@ func _rebuild_visuals() -> void:
 		visual.action_offset = (_action_offsets.get(unit.id, Vector2.ZERO) as Vector2) * grid_config.tile_size.x / 128.0
 		_entity_visuals.append(visual)
 	_sort_visuals()
+	_field_presentation.restore(self)
+
+func _add_environment_visual(floor_visual: BattleDemoIsoVisual, cell: Vector2i, force: bool = false) -> void:
+	if _view_terrain_at(cell) != TerrainType.Type.FLOOR: return
+	var corpses: Array[Dictionary] = []
+	for corpse: Dictionary in _view_corpses:
+		if corpse.cell == cell: corpses.append(corpse)
+	var spikes := false
+	for fire: Dictionary in _view_fires:
+		if fire.cell == cell and fire.get("effect", "bleeding") != "burning": spikes = true
+	var warning := cell in _view_collapse
+	if not force and not spikes and not floor_visual.burning and not warning and corpses.is_empty(): return
+	var overlay := environment_visual_scene.instantiate() as BattleEnvironmentVisual
+	floor_visual.add_child(overlay)
+	overlay.position = floor_visual.get_visual_offset() + Vector2(0, 0.5)
+	overlay.scale = Vector2.ONE * grid_config.tile_size.x / 128.0
+	overlay.configure(spikes, floor_visual.burning and tile_visual_scene == null, warning, corpses)
+	overlay.warning_phase = _warning_phase
+	_environment_visuals[cell] = overlay
+
+func _ensure_environment_visual(cell: Vector2i) -> BattleEnvironmentVisual:
+	if not _environment_visuals.has(cell):
+		for visual: BattleDemoIsoVisual in _entity_visuals:
+			if visual.grid_anchor == cell and visual.role in [BattleDemoIsoVisual.Role.FLOOR, BattleDemoIsoVisual.Role.PLATFORM]:
+				_add_environment_visual(visual, cell, true)
+				break
+	return _environment_visuals.get(cell) as BattleEnvironmentVisual
+
+func _process(delta: float) -> void:
+	_warning_phase = fmod(_warning_phase + delta * TAU / 1.8, TAU)
+	for cell: Vector2i in _view_collapse:
+		var overlay := _environment_visuals.get(cell) as BattleEnvironmentVisual
+		if overlay != null: overlay.warning_phase = _warning_phase
 
 func _sort_visuals() -> void:
 	_entity_visuals.sort_custom(func(a: BattleDemoIsoVisual, b: BattleDemoIsoVisual) -> bool: return a.position.y < b.position.y or (a.position.y == b.position.y and a.get_index() < b.get_index()))
@@ -1280,33 +1359,6 @@ func _draw_overlay() -> void:
 		var cell_hw := grid_config.tile_size.x * 0.48
 		var hh := grid_config.tile_size.y * 0.48
 		_overlay.draw_polyline(PackedVector2Array([center + Vector2(0, -hh), center + Vector2(cell_hw, 0), center + Vector2(0, hh), center + Vector2(-cell_hw, 0), center + Vector2(0, -hh)]), GOLD if attack_mode or elemental_mode or inspected_id != UnitId.NONE else (Color("f29b9b") if raising_mode else CYAN), 2, true)
-	if environment_mode or not _view_fires.is_empty() or not _view_corpses.is_empty() or not _view_collapse.is_empty():
-		for cell: Vector2i in _view_collapse:
-			var center := _world_cell_center(cell)
-			var half_width := grid_config.tile_size.x * 0.44
-			var half_height := grid_config.tile_size.y * 0.44
-			var points := PackedVector2Array([center + Vector2(0, -half_height), center + Vector2(half_width, 0), center + Vector2(0, half_height), center + Vector2(-half_width, 0), center + Vector2(0, -half_height)])
-			_overlay.draw_colored_polygon(points, Color(1.0, 0.25, 0.12, 0.35))
-			_overlay.draw_polyline(points, Color("ff765c"), 3, true)
-			_overlay.draw_string(ThemeDB.fallback_font, center + Vector2(-42, -12), "ОБВАЛ", HORIZONTAL_ALIGNMENT_CENTER, 84, 13, Color("fff2d7"))
-		for fire: Dictionary in _view_fires:
-			var fire_center := _world_cell_center(fire["cell"])
-			var is_burning := String(fire.get("effect", "bleeding")) == "burning"
-			if is_burning and tile_visual_scene != null: continue
-			_overlay.draw_circle(fire_center, hw * 0.28, Color(1.0, 0.32, 0.06, 0.62) if is_burning else Color(0.95, 0.28, 0.12, 0.55))
-			_overlay.draw_string(ThemeDB.fallback_font, fire_center + Vector2(-32, 4), "ОГОНЬ" if is_burning else "ШИПЫ 8", HORIZONTAL_ALIGNMENT_CENTER, 64, 10, Color("ffd08a"))
-		var corpses_by_cell: Dictionary = {}
-		for corpse: Dictionary in _view_corpses:
-			var corpse_cell: Vector2i = corpse["cell"]
-			var records: Array = corpses_by_cell.get(corpse_cell, [])
-			records.append(corpse)
-			corpses_by_cell[corpse_cell] = records
-		for cell_variant: Variant in corpses_by_cell:
-			var corpse_cell: Vector2i = cell_variant
-			var corpse_center := _world_cell_center(corpse_cell)
-			var records: Array = corpses_by_cell[corpse_cell]
-			_overlay.draw_circle(corpse_center + Vector2(0, 8), hw * 0.20, Color("a5b3c5"))
-			_overlay.draw_string(ThemeDB.fallback_font, corpse_center + Vector2(-35, 25), "ТЕЛА ×%d" % records.size(), HORIZONTAL_ALIGNMENT_CENTER, 70, 10, Color("e6ecf4"))
 	if move_forecast != null and move_forecast.status in [ActionReceipt.APPLIED, ActionReceipt.INTERRUPTED]:
 		var after: Dictionary = move_forecast.units.get(move_forecast.actor_id, {}).get("after", {})
 		if not after.is_empty():

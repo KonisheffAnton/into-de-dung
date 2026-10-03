@@ -19,7 +19,7 @@ static func _event(frame: Dictionary) -> Dictionary:
 	if frame.step.get("status") != &"APPLIED": return {}
 	var found: Dictionary = {}
 	for event: Dictionary in frame.events:
-		if event.kind in [&"collision", &"push_blocked", &"moved"]:
+		if event.kind in [&"collision", &"push_blocked", &"moved", &"fell"]:
 			if not found.is_empty(): return {}
 			found = event
 		elif event.kind not in [&"damaged", &"healed", &"armor_changed", &"hit_resolved", &"died", &"control_changed"]:
@@ -32,12 +32,30 @@ static func _event(frame: Dictionary) -> Dictionary:
 		if event == found: continue
 		if found.kind == &"collision":
 			if event.get("source", {}).get("kind") != &"collision" or event.target_unit_id not in [found.target_unit_id, found.blocker_unit_id]: return {}
-	# Падение и другие последствия движения сохраняют свой обычный клип.
+	# Последний вылет за край завершает цепь, но не задерживается возвратом соседа.
+	if found.kind == &"fell":
+		for event: Dictionary in frame.events:
+			if event.kind not in [&"fell", &"damaged", &"died"]: return {}
+			if event.kind != &"fell" and (event.get("source", {}).get("kind") != &"fall" or event.target_unit_id != found.target_unit_id): return {}
 	if found.kind == &"moved":
 		if found.get("movement_kind") != &"push": return {}
+		var vanished := _vanishes(frame, found)
 		for event: Dictionary in frame.events:
-			if event.kind not in [&"moved", &"control_changed"]: return {}
+			if event.kind in [&"moved", &"control_changed"]: continue
+			if not vanished or event.kind not in [&"damaged", &"died"]: return {}
+			if event.get("source", {}).get("kind") != &"fall" or event.target_unit_id != found.target_unit_id: return {}
 	return found
+
+static func _vanishes(frame: Dictionary, event: Dictionary) -> bool:
+	if event.kind == &"fell": return true
+	if event.kind != &"moved": return false
+	# Внутри карты тот же PushCommand публикует moved+died, без отдельного fell.
+	# Группируем лишь подтверждённую гибель в месте этого сдвига.
+	for result: Dictionary in frame.events:
+		if result.kind == &"died" and result.target_unit_id == event.target_unit_id:
+			var source: Dictionary = result.get("source", {})
+			if source.get("kind") == &"fall" and source.get("origin_cell") == event.to_cell: return true
+	return false
 
 static func collect(frames: Array[Dictionary], first: int) -> Array[Dictionary]:
 	var group: Array[Dictionary] = []
@@ -76,9 +94,12 @@ func animate(board: BattleDemoBoard, group: Array[Dictionary], started: Callable
 		var event: Dictionary = item.event
 		_cues.append({"time": cursor, "kind": &"start", "index": item.index})
 		if not event.is_empty():
-			var moving: bool = event.kind == &"moved"
-			var end := cursor + (BattleDemoBoard.FORCED_MOVE_SEGMENT_SECONDS if moving else BattleDemoBoard.OBSTACLE_APPROACH_SECONDS + BattleDemoBoard.OBSTACLE_HOLD_SECONDS)
-			_clips.append({"event": event, "events": item.frame.events, "start": cursor, "end": end, "incoming": incoming})
+			var moving: bool = event.kind in [&"moved", &"fell"]
+			var vanish := _vanishes(item.frame, event)
+			var falling: bool = vanish or (moving and board._is_presentation_drop(event.from_cell, event.to_cell))
+			var motion_seconds := BattleFieldPresentation.FALL_SECONDS + (0.0 if vanish else BattleFieldPresentation.LAND_SECONDS) if falling else BattleDemoBoard.FORCED_MOVE_SEGMENT_SECONDS
+			var end := cursor + (motion_seconds if moving else BattleDemoBoard.OBSTACLE_APPROACH_SECONDS + BattleDemoBoard.OBSTACLE_HOLD_SECONDS)
+			_clips.append({"event": event, "events": item.frame.events, "start": cursor, "end": end, "incoming": incoming, "falling": falling, "vanish": vanish})
 			if not moving:
 				_cues.append({"time": cursor + BattleDemoBoard.OBSTACLE_APPROACH_SECONDS, "kind": &"contact", "event": event})
 				duration = maxf(duration, end + BattleDemoBoard.OBSTACLE_RECOVERY_SECONDS)
@@ -114,7 +135,14 @@ func _pose(time: float) -> void:
 		if time < float(clip.start): break
 		var event: Dictionary = clip.event
 		var id := int(event.target_unit_id)
-		if event.kind == &"moved":
+		if event.kind in [&"moved", &"fell"]:
+			if clip.falling:
+				var fall_progress := clampf((time - float(clip.start)) / BattleFieldPresentation.FALL_SECONDS, 0.0, 1.0)
+				_board._field_presentation.sample_fall(fall_progress, _board, id, event.from_cell, event.get("to_cell", event.get("attempted_cell")), clip.vanish)
+				if not clip.vanish and fall_progress >= 1.0:
+					_board._field_presentation.sample_land(clampf((time - float(clip.start) - BattleFieldPresentation.FALL_SECONDS) / BattleFieldPresentation.LAND_SECONDS, 0.0, 1.0), _board, id)
+				offsets[id] = (clip.incoming as Vector2) * (1.0 - fall_progress)
+				continue
 			var p := clampf((time - float(clip.start)) / BattleDemoBoard.FORCED_MOVE_SEGMENT_SECONDS, 0.0, 1.0)
 			var eased := 1.0 - pow(1.0 - p, 2.0)
 			_board._presentation_motion(eased, id, event.from_cell, event.to_cell)
@@ -132,7 +160,6 @@ func _pose(time: float) -> void:
 		if time >= contact and time < float(clip.end):
 			for result: Dictionary in clip.events:
 				if result.kind != &"died": continue
-				var visual := _board._presentation_visual(int(result.target_unit_id))
-				if visual != null: visual.modulate.a = 1.0 - (time - contact) / BattleDemoBoard.OBSTACLE_HOLD_SECONDS
+				_board._field_presentation.sample_death((time - contact) / BattleDemoBoard.OBSTACLE_HOLD_SECONDS, _board, int(result.target_unit_id))
 	for id: int in offsets:
 		_board._set_action_offset(id, offsets[id] if _board._obstacle_participant_alive(id) else Vector2.ZERO)

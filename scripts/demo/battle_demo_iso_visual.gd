@@ -41,6 +41,17 @@ const BURNING_ICON: Texture2D = preload("res://assets/placeholder_battle/burning
 const WET_ICON: Texture2D = preload("res://assets/placeholder_battle/wet_icon.svg")
 var _scene_art_enabled: bool = false
 var _status_hud: Node2D
+var landing_compression: float = 0.0:
+	set(value):
+		landing_compression = clampf(value, 0.0, 0.4)
+		sync_scene_art()
+		queue_redraw()
+## Оседание относится к рисунку; HUD и опора остаются на опубликованном кадре.
+var death_progress: float = 0.0:
+	set(value):
+		death_progress = clampf(value, 0.0, 1.0)
+		sync_scene_art()
+		queue_redraw()
 ## Выпад/отдача сдвигают рисунок, но не опору сортировки, клетку и HUD.
 var action_offset: Vector2 = Vector2.ZERO:
 	set(value):
@@ -164,6 +175,8 @@ func sync_scene_art() -> void:
 	_scene_art_enabled = true
 	var factor := grid_config.tile_size.x / 128.0 if grid_config != null else 1.0
 	art.scale = Vector2.ONE * factor
+	art.scale.y *= (1.0 - death_progress * 0.25) * (1.0 - landing_compression)
+	art.rotation = death_progress * PI * 0.5
 	art.position = get_visual_offset() + action_offset
 	art.show_behind_parent = true
 	var surface_position := (_top_offset() - get_visual_offset()) / factor
@@ -342,9 +355,7 @@ func _draw_unit() -> void:
 	var factor := grid_config.tile_size.x / 128.0
 	var foot := get_visual_offset()
 	if unit != null and not unit.alive:
-		var marker := foot + Vector2(16, 4) * factor
-		draw_line(marker - Vector2(4, 4), marker + Vector2(4, 4), Color("a5b3c5"), 2)
-		draw_line(marker - Vector2(4, -4), marker + Vector2(4, -4), Color("a5b3c5"), 2)
+		# Наличие тела определяет environment, а не оставшийся мёртвый UnitState.
 		return
 	var tint := transient_tint if unit == null else (Color("65dfcc") if unit.faction == Faction.Type.PLAYER else Color("f7c97d"))
 	if stunned and not _scene_art_enabled:
@@ -397,7 +408,7 @@ func _draw_unit() -> void:
 	# Высота силуэта отделена от его наземной опоры для общей Y-сортировки.
 	draw_set_transform(foot, 0, Vector2.ONE * factor)
 	if not _scene_art_enabled:
-		draw_set_transform(foot + action_offset, 0, Vector2.ONE * factor)
+		draw_set_transform(foot + action_offset, death_progress * PI * 0.5, Vector2(1.0, (1.0 - death_progress * 0.25) * (1.0 - landing_compression)) * factor)
 		draw_colored_polygon(PackedVector2Array([Vector2(-18, 0), Vector2(0, -7), Vector2(18, 0), Vector2(0, 7)]), Color(0.03, 0.07, 0.10, 0.65))
 		draw_rect(Rect2(-10, -10, 7, 12), tint.darkened(0.5))
 		draw_rect(Rect2(3, -10, 7, 12), tint.darkened(0.5))

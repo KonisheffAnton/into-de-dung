@@ -115,7 +115,7 @@ def main():
         if label in ("battle_execution_worker", "battle_execution_ui"):
             marker = "BATTLE EXECUTION WORKER RESULTS:" if label == "battle_execution_worker" else "BATTLE EXECUTION UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
-        if label in ("presentation_capture", "battle_presentation", "presentation_foundation", "presentation_contact", "presentation_consequences", "presentation_ranged", "presentation_mage", "presentation_reactions", "presentation_status", "battle_board_camera", "battle_camera_ui", "four_slot_bar", "battle_panels"):
+        if label in ("presentation_capture", "battle_presentation", "presentation_foundation", "presentation_contact", "presentation_consequences", "presentation_environment", "presentation_ranged", "presentation_mage", "presentation_reactions", "presentation_status", "battle_board_camera", "battle_camera_ui", "four_slot_bar", "battle_panels"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("snapshot_value_copy", "live_snapshot_capture", "summon_checkpoint"):
@@ -224,6 +224,12 @@ def main():
             consequence_captures.mkdir()
             consequence_args += ["--", "--captures=" + str(consequence_captures)]
         run("presentation_consequences", consequence_args, headless=not args.render_check)
+        environment_args = ["--script", "tests/test_presentation_environment.gd"]
+        if args.render_check:
+            environment_captures = out / "environment-presentation-screenshots"
+            environment_captures.mkdir()
+            environment_args += ["--", "--captures=" + str(environment_captures)]
+        run("presentation_environment", environment_args, headless=not args.render_check)
         ranged_args = ["--script", "tests/test_presentation_ranged.gd"]
         if args.render_check:
             ranged_captures = out / "ranged-screenshots"
