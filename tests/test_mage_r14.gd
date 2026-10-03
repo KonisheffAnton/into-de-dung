@@ -54,6 +54,8 @@ func _run() -> void:
 	await _production_factory_artifacts()
 	_rejections_are_immutable()
 	_fault_keeps_paid_spawn_prefix()
+	_team_summons_codec_and_zone()
+	_anchor_does_not_define_helper()
 	await _page_two_ui()
 	print("MAGE R14 RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
@@ -126,10 +128,10 @@ func _summon_preview_live_and_pending() -> void:
 			"summon worker/live matches preview snapshot, events, steps, RNG, counters and admission")
 		check(find_event(receipt.get_events(), &"mage_cast").get("source", {}).get("source_instance_id", 0) == 10,
 			"test summon uses stable mage source 10")
-	check(summoned.get("owner_unit_id", 0) == owner.id and summoned.get("actor_unit_id", -1) == 0
+	check(summoned.get("owner_unit_id", -1) == 0 and summoned.get("anchor_unit_id", 0) > 0 and summoned.get("actor_unit_id", -1) == 0
 		and summoned.get("corpse_id", -1) == 0 and summoned.get("cell", Vector2i(-1, -1)) == cell,
-		"summon event binds original owner and destination")
-	var helper := session.state.active_summon(owner.id)
+		"summon event binds allied anchor and destination without owner")
+	var helper := session.board.get_unit_by_id(int(summoned.get("target_unit_id", 0)))
 	check(helper != null and session.state.is_summon_pending(helper.id), "summoned helper is pending until next own turn")
 	check(owner.action_resources.to_snapshot_dict() == action_before and is_equal_approx(owner.move_points_left, move_before),
 		"summon does not spend main, bonus, movement or other hero actions")
@@ -183,9 +185,9 @@ func _raise_preview_live_and_corpse() -> void:
 			"raise worker/live matches preview snapshot, events, steps, RNG, counters and admission")
 		check(find_event(receipt.get_events(), &"mage_cast").get("source", {}).get("source_instance_id", 0) == 11,
 			"test raise uses stable mage source 11")
-	check(raised.get("corpse_id", 0) == corpse_id and raised.get("owner_unit_id", 0) == owner.id
-		and raised.get("cell", Vector2i(-1, -1)) == cell, "raise event consumes selected body for original owner")
-	check(session.state.environment.corpses_at(cell).is_empty() and session.state.active_summon(owner.id) != null,
+	check(raised.get("corpse_id", 0) == corpse_id and raised.get("owner_unit_id", -1) == 0 and raised.get("anchor_unit_id", 0) > 0
+		and raised.get("cell", Vector2i(-1, -1)) == cell, "raise event consumes selected body without owner")
+	check(session.state.environment.corpses_at(cell).is_empty() and not session.state.get_summons().is_empty(),
 		"raise consumes one body and installs the active helper")
 	check(owner.action_resources.to_snapshot_dict() == action_before, "raise spends no hero resources despite disabled actor")
 	session.close()
@@ -249,7 +251,7 @@ func _rejections_are_immutable() -> void:
 	var enemy := session.board.get_unit_by_id(enemy_id)
 	var original_selected := session.selected_id
 	session.selected_id = enemy.id
-	_rejected_cell(session, &"mage.test_summon", adjacent_safe_cell(session, enemy), "non-player owner")
+	_rejected_cell(session, &"mage.test_summon", adjacent_safe_cell(session, enemy), "cell outside allied zone")
 	session.selected_id = original_selected
 	var before := snapshot(session)
 	var counters := session.context.simulation_counters()
@@ -284,7 +286,7 @@ func _rejections_are_immutable() -> void:
 	rng = session.context.get_rng().to_dict()
 	admission = SummonAdmission.values(session.context)
 	var active := session.cast_mage_cell(&"mage.test_summon", second_cell)
-	check(active.status == ActionReceipt.REJECTED and _unchanged(session, before, counters, rng, admission), "one active helper per owner without mutation")
+	check(active.status == ActionReceipt.APPLIED and session.state.get_summons().size() == 2 and session.state.active_summon(owner.id) == null, "two supreme mage summons have no owner limit")
 	var revision := session.context.get_revision()
 	var stale := MageCastCommand.new(&"mage.test_summon", owner.id, revision - 1, second_cell)
 	before = snapshot(session)
@@ -316,7 +318,7 @@ func _fault_keeps_paid_spawn_prefix() -> void:
 	session.board.board_changed.disconnect(callback)
 	check(receipt.status == ActionReceipt.FAULTED and receipt.get_events().size() >= 1,
 		"board callback faults after summon begins")
-	check(session.state.abilities.mana == 5 and session.state.active_summon(owner.id) != null,
+	check(session.state.abilities.mana == 5 and not session.state.get_summons().is_empty(),
 		"fault keeps mana payment and already-written helper prefix")
 	session.close()
 
@@ -355,7 +357,7 @@ func _page_two_ui() -> void:
 		return
 	await click(bar._next_button.global_position + bar._next_button.size * 0.5)
 	check(bar.get_page() == 1 and session.elemental_selected == &"", "page click changes page and clears chosen spell")
-	for spell: StringName in [&"mage.test_heal", &"mage.test_summon", &"mage.test_raise"]:
+	for spell: StringName in [&"mage.test_heal", &"mage.test_summon", &"mage.test_raise", &"mage.shield"]:
 		check(demo._mage_buttons.has(spell) and demo._mage_buttons[spell].visible, "%s is visible on second page" % String(spell))
 	if not captures.is_empty(): await capture("mage-r14-page-2")
 	var heal: Button = demo._mage_buttons.get(&"mage.test_heal")
@@ -364,6 +366,12 @@ func _page_two_ui() -> void:
 	var ally := session.units[0]
 	await click(demo.board_view.global_position + demo.board_view.cell_center(ally.cell))
 	check(is_equal_approx(ally.vitals.get_hp(), 84.0) and session.state.abilities.mana == 5, "second-page heal button applies on target click")
+	var shield: Button = demo._mage_buttons.get(&"mage.shield")
+	await click(shield.global_position + shield.size * 0.5)
+	await click(demo.board_view.global_position + demo.board_view.cell_center(ally.cell))
+	check(ally.armor.shield == SpellShield.make(&"mage.shield", 6, 1) and session.state.abilities.mana == 4, "supreme mage shield button applies six HP for one mana")
+	check(demo.board_view._presentation_visual(ally.id).shield_view == ally.armor.shield, "shield is published on the figure after casting")
+	if not captures.is_empty(): await capture("mage-shield-applied")
 	# Отказ тоже обязан описывать клеточную цель, а не старую дальность героя.
 	var invalid_cell := Vector2i(session.board.width - 1, session.board.height - 1)
 	demo._action_forecast_actor = ally.id
@@ -373,7 +381,7 @@ func _page_two_ui() -> void:
 		demo._action_forecast_effect = spell
 		demo._elemental_forecast = ForecastSimulation.run_prepared(session.prepare_mage_cell_forecast(spell, invalid_cell))
 		demo._render_elemental_forecast_panel()
-		check(demo._elemental_forecast.status == ActionReceipt.REJECTED and demo._forecast_panel.text.contains(demo._cell_name(invalid_cell)) and demo._forecast_panel.text.contains("рядом с") and not demo._forecast_panel.text.contains("дальность 3"), "rejected cell spell forecast names cell and adjacency: " + String(spell))
+		check(demo._elemental_forecast.status == ActionReceipt.REJECTED and demo._forecast_panel.text.contains(demo._cell_name(invalid_cell)) and demo._forecast_panel.text.contains("в зоне союзников") and not demo._forecast_panel.text.contains("дальность 3"), "rejected cell spell forecast names cell and adjacency: " + String(spell))
 	demo._clear_forecast()
 	# Отделённый оплаченный prefix без результата проверяет только представление:
 	# кольцо нельзя переносить с неизвестной клетки появления на владельца.
@@ -418,3 +426,77 @@ func capture(label: String) -> void:
 	await process_frame
 	var image := viewport.get_texture().get_image()
 	check(image != null and image.save_png(captures.path_join(label + ".png")) == OK, "PNG " + label)
+
+
+func _team_summons_codec_and_zone() -> void:
+	var session := fixture()
+	var original := session.selected_unit()
+	var first_cell := adjacent_safe_cell(session, original)
+	session.selected_id = UnitId.NONE
+	var receipt := session.cast_mage_cell(&"mage.test_summon", first_cell)
+	check(receipt.status == ActionReceipt.APPLIED, "supreme mage summon does not need a selected hero")
+	var event := find_event(receipt.get_events(), &"mage_summoned")
+	var helper := session.board.get_unit_by_id(int(event.get("target_unit_id", 0)))
+	if helper == null:
+		session.close(); return
+	var only_helper_cell := Vector2i(-1, -1)
+	for direction: Vector2i in [Vector2i.LEFT, Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN]:
+		var cell := helper.cell + direction
+		if not UseSummoningItemCommand.valid_cell(session.board, helper.cell, cell) or not session.state.environment.fire_at(cell).is_empty(): continue
+		var original_reaches := false
+		for ally: UnitState in session.board.get_all_units():
+			if ally.is_alive() and ally.faction == Faction.Type.PLAYER and not session.state.is_summon(ally.id) and UseSummoningItemCommand.valid_cell(session.board, ally.cell, cell): original_reaches = true
+		if not original_reaches: only_helper_cell = cell; break
+	check(only_helper_cell.x >= 0, "fixture finds cell covered only by pending helper")
+	if only_helper_cell.x >= 0:
+		var preview := ForecastSimulation.run_prepared(session.prepare_mage_cell_forecast(&"mage.test_summon", only_helper_cell))
+		receipt = session.cast_mage_cell(&"mage.test_summon", only_helper_cell)
+		check(receipt.status == ActionReceipt.APPLIED and receipt.get_events() == preview.events and snapshot(session) == preview.snapshot_after, "pending helper expands zone with complete preview parity")
+	var saved := snapshot(session)
+	check(saved.schema_version == 9 and saved.scope == ItemSimulationSnapshot.SCOPE_V9, "team summons use distinct v9 envelope")
+	var definitions: Dictionary = {}
+	for owner: ItemOwnerState in session.state.get_owners():
+		for key: StringName in owner._definitions: definitions[key] = owner._definitions[key].duplicate(true)
+	var parsed := ItemSimulationSnapshot.from_dict(saved)
+	var restored := parsed.snapshot.instantiate(definitions) if parsed.snapshot != null else parsed
+	check(restored.code == ItemSnapshotResult.Code.OK and ItemSimulationSnapshot.capture(restored.state, []).snapshot.to_dict() == saved, "v9 restore preserves source pending and complete snapshot")
+	if restored.state != null:
+		for owner: ItemOwnerState in restored.state.get_owners(): owner.close()
+	var legacy := saved.duplicate(true)
+	legacy.schema_version = 7; legacy.scope = ItemSimulationSnapshot.SCOPE_V7
+	check(ItemSimulationSnapshot.from_dict(legacy).code != ItemSnapshotResult.Code.OK, "legacy envelope refuses ownerless source record")
+	var corrupted := saved.duplicate(true)
+	corrupted.summons[0].source_kind = "unknown"
+	check(ItemSimulationSnapshot.from_dict(corrupted).code != ItemSnapshotResult.Code.OK, "unknown summon source refused")
+	corrupted = saved.duplicate(true); corrupted.summons[0].owner_unit_id = original.id
+	check(ItemSimulationSnapshot.from_dict(corrupted).code != ItemSnapshotResult.Code.OK, "mage record cannot acquire character owner")
+	var owned := MageSummonEffect.prepare_owned(session.context, helper.id, adjacent_safe_cell(session, helper), &"mage.test_summon", session.state.abilities.paid(&"mage.test_summon"))
+	check(owned.reason == &"summon/helper_cannot_summon", "old owned spell still refuses a helper as owner")
+	var cell_before := helper.cell
+	receipt = session._queue.submit(DeathCommand.new(helper.id, DamageSource.new(&"test", 0, cell_before)), session.context)
+	check(receipt.status == ActionReceipt.APPLIED and session.state.environment.corpses_at(cell_before).is_empty(), "mage helper death leaves no humanoid corpse")
+	check(session.state.is_mage_summon(helper.id) and session.state.get_summons().size() >= 1, "dead team helper retains metadata for restore")
+	session.close()
+
+func _anchor_does_not_define_helper() -> void:
+	for has_elemental: bool in [false, true]:
+		var session := fixture()
+		var cell := adjacent_safe_cell(session, session.selected_unit())
+		var anchor := MageSummonEffect.zone_anchor(session.state, cell)
+		check(anchor != null, "mixed-capability fixture has a zone anchor")
+		if anchor == null:
+			session.close(); continue
+		# Среда v3 требует elemental у всех. Здесь проверяется допустимый
+		# смешанный граф без этой возможности, а не повреждённая среда.
+		session.state.environment = null
+		anchor.elemental = ElementalState.new() if has_elemental else null
+		anchor.bleeding.stacked = has_elemental
+		var owned := MageSummonEffect.prepare_owned(session.context, anchor.id, cell, &"mage.test_summon", session.state.abilities.paid(&"mage.test_summon"))
+		check(owned.reason == &"" and (owned.helper.elemental != null) == has_elemental, "preserved owned variant retains its original capability rule: " + String(owned.reason))
+		var preview := ForecastSimulation.run_prepared(session.prepare_mage_cell_forecast(&"mage.test_summon", cell))
+		var receipt := session.cast_mage_cell(&"mage.test_summon", cell)
+		check(receipt.status == ActionReceipt.APPLIED and preview.status == receipt.status and receipt.get_events() == preview.events and snapshot(session) == preview.snapshot_after, "mixed-capability anchor preserves summon preview/live parity: " + String(receipt.reason) + "/" + String(preview.reason))
+		var event := find_event(receipt.get_events(), &"mage_summoned")
+		var helper := session.board.get_unit_by_id(int(event.get("target_unit_id", 0)))
+		check(helper != null and helper.elemental != null and helper.bleeding.stacked, "supreme helper has fixed statuses regardless of anchor capabilities")
+		session.close()

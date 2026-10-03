@@ -60,19 +60,33 @@ func is_summon_pending(unit_id: int) -> bool:
 		if record["unit_id"] == unit_id: return record["pending"]
 	return false
 
+func is_summon(unit_id: int) -> bool:
+	return _summons.any(func(record: Dictionary) -> bool: return int(record.unit_id) == unit_id)
+
+func is_mage_summon(unit_id: int) -> bool:
+	return _summons.any(func(record: Dictionary) -> bool: return int(record.unit_id) == unit_id and record.get("source_kind") == "mage")
+
 func summon_owner_id(unit_id: int) -> int:
 	for record: Dictionary in _summons:
 		if record["unit_id"] == unit_id: return record["owner_unit_id"]
 	return 0
 
 func active_summon(owner_id: int) -> UnitState:
+	if owner_id <= 0: return null
 	for record: Dictionary in _summons:
 		if record["owner_unit_id"] != owner_id: continue
 		var unit := _board.get_unit_by_id(record["unit_id"]) if _board != null else null
 		if unit != null and unit.is_alive(): return unit
 	return null
 
+func register_mage_summon(unit: UnitState) -> void:
+	_register_summon(unit, 0, true)
+
 func register_summon_owner(unit: UnitState, owner_id: int) -> void:
+	if owner_id <= 0: return
+	_register_summon(unit, owner_id, false)
+
+func _register_summon(unit: UnitState, owner_id: int, mage: bool) -> void:
 	# Метаданные регистрируются до board.add_unit, чтобы admission видел pending атомарно.
 	if unit == null or _board == null or unit.id <= 0 or unit.id == owner_id: return
 	if active_summon(owner_id) != null: return
@@ -81,7 +95,9 @@ func register_summon_owner(unit: UnitState, owner_id: int) -> void:
 	var owner := ItemOwnerState.new(unit)
 	owner.register_inventory()
 	owner.register_equipment()
-	_summons.append({"unit_id": unit.id, "owner_unit_id": owner_id, "pending": true})
+	var record := {"unit_id": unit.id, "owner_unit_id": owner_id, "pending": true}
+	if mage: record["source_kind"] = "mage"
+	_summons.append(record)
 	_owners.append(owner)
 	_inventories.append(InventoryState._restore_registered(owner))
 	_equipment.append(EquipmentState._restore_registered(owner))

@@ -46,6 +46,11 @@ func _run() -> void:
 		if is_instance_valid(test_spell_button):
 			await _click(test_spell_button.global_position + test_spell_button.size * 0.5)
 			_check(session.elemental_selected == &"mage.test_summon", "real second-page button selects test spell")
+		var shield_button: Button = demo._mage_buttons.get(&"mage.shield") as Button
+		_check(is_instance_valid(shield_button) and shield_button.visible and not shield_button.disabled, "supreme mage shield visible on second page")
+		if is_instance_valid(shield_button):
+			await _click(shield_button.global_position + shield_button.size * 0.5)
+			_check(session.elemental_selected == &"mage.shield", "real inter-frame click selects shield")
 		await _click(mage_bar._previous_button.global_position + mage_bar._previous_button.size * 0.5)
 		_check(mage_bar.get_page() == 0 and session.elemental_selected == &"", "real pager click returns to base spells without stale selection")
 		await _click(demo._mage_fire.global_position + demo._mage_fire.size * 0.5)

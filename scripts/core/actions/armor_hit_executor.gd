@@ -31,6 +31,16 @@ static func execute(request: DamageRequest, guard: SpatialRules.Guard, context: 
 	if plan["hp_after"] == 0 and context.get_state().get_board().board_version >= ActionContext.MAX_ID:
 		step.reason = &"push/board_version_exhausted"
 		return out
+	if plan.has("shield") and int(plan.shield.absorbed) > 0:
+		var next_view: Dictionary = current[0].values["participants"][id]["armor"].duplicate(true)
+		SpellShield.write_state(next_view.state, plan.shield.after)
+		current[0] = current[0].armor_phase(id, next_view)
+		state.shield = plan.shield.after.duplicate(true)
+		step.events.append({"kind": &"shield_changed", "actor_unit_id": pinned_source.instigator_unit_id, "target_unit_id": id, "source": pinned_source.to_dict(), "before": plan.shield.before, "after": plan.shield.after, "absorbed": int(plan.shield.absorbed), "reason": "absorbed"})
+		step.state_changed = true
+		if not check.call(): return out
+		state.changed.emit(&"shield", 0, int(plan.shield.before.hp), int(plan.shield.after.get("hp", 0)))
+		if not check.call(): return out
 	var changed_grants: Array[Dictionary] = []
 	var changed_items: Array[Dictionary] = []
 	var armor_event := {"kind": &"armor_changed", "actor_unit_id": pinned_source.instigator_unit_id, "target_unit_id": id, "source": pinned_source.to_dict(), "grants": changed_grants, "items": changed_items}
@@ -43,7 +53,7 @@ static func execute(request: DamageRequest, guard: SpatialRules.Guard, context: 
 			if grant["grant_id"] == delta["id"]: grant["remaining"] = delta["after"]
 		changed_grants.append(delta.duplicate(true))
 		step.state_changed = true
-		if step.events.is_empty(): step.events.append(armor_event)
+		if not step.events.has(armor_event): step.events.append(armor_event)
 		if not check.call(): return out
 		state.changed.emit(&"extra", delta["id"], delta["before"], delta["after"])
 		if not check.call(): return out
@@ -60,7 +70,7 @@ static func execute(request: DamageRequest, guard: SpatialRules.Guard, context: 
 		(owner._items[delta["id"]] as ItemInstance).armor_remaining = delta["after"]
 		changed_items.append(delta.duplicate(true))
 		step.state_changed = true
-		if step.events.is_empty(): step.events.append(armor_event)
+		if not step.events.has(armor_event): step.events.append(armor_event)
 		if not check.call(): return out
 		state.changed.emit(&"item", delta["id"], delta["before"], delta["after"])
 		if not check.call(): return out

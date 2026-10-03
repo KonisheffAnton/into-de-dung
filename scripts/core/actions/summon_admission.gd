@@ -20,6 +20,26 @@ static func extend(move: MoveRules, attack: AttackRules, id: int, owner_id: int,
 	if new_move.validate() != &"" or new_attack.validate() != &"": return {}
 	return {"move": new_move, "attack": new_attack}
 
+## Верховный маг даёт участника команде, поэтому допуск не зависит от живого владельца.
+static func extend_team(move: MoveRules, attack: AttackRules, id: int, board: BattleBoard, ready: bool) -> Dictionary:
+	if move == null or attack == null or move.validate() != &"" or attack.validate() != &"": return {}
+	var actors := attack._actors.duplicate()
+	var pairs := attack._pairs.duplicate(true)
+	var movers := move._admitted_unit_ids.duplicate()
+	if ready:
+		if not actors.has(id): actors.append(id)
+		if not movers.has(id): movers.append(id)
+	for unit: UnitState in board.get_all_units():
+		if unit.faction != Faction.Type.ENEMY: continue
+		if actors.has(unit.id): _add_pair(pairs, unit.id, id)
+		if ready: _add_pair(pairs, id, unit.id)
+	var new_move := MoveRules.new(movers, move.get_max_height_step(), move.get_profile())
+	var new_attack := AttackRules.new(actors, pairs, attack._definitions)
+	return {"move": new_move, "attack": new_attack} if new_move.validate() == &"" and new_attack.validate() == &"" else {}
+
+static func for_pending(move: MoveRules, attack: AttackRules, id: int, state: ItemSimulationState) -> Dictionary:
+	return extend_team(move, attack, id, state.get_board(), true) if state.is_mage_summon(id) else extend(move, attack, id, state.summon_owner_id(id), true)
+
 static func _add_pair(pairs: Array[Dictionary], actor: int, target: int) -> void:
 	var pair := {"actor_unit_id": actor, "target_unit_id": target}
 	if not pairs.has(pair): pairs.append(pair)

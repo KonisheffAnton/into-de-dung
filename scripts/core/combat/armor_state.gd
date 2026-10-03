@@ -10,9 +10,12 @@ var grants: Array[Dictionary] = []
 var next_grant_id: int = 1
 var battle_id: int = 1
 var in_battle: bool = true
+var shield: Dictionary = {}
 
 func to_dict() -> Dictionary:
-	return {"schema_version": 1, "natural": natural.duplicate(true), "perks": perks.duplicate(true), "grants": grants.duplicate(true), "next_grant_id": next_grant_id, "battle_id": battle_id, "in_battle": in_battle}
+	var result := {"schema_version": 1, "natural": natural.duplicate(true), "perks": perks.duplicate(true), "grants": grants.duplicate(true), "next_grant_id": next_grant_id, "battle_id": battle_id, "in_battle": in_battle}
+	SpellShield.write_state(result, shield)
+	return result
 
 static func from_dict(data: Dictionary) -> ArmorState:
 	if not valid(data): return null
@@ -23,9 +26,15 @@ static func from_dict(data: Dictionary) -> ArmorState:
 	result.next_grant_id = data["next_grant_id"]
 	result.battle_id = data["battle_id"]
 	result.in_battle = data["in_battle"]
+	result.shield = data.get("shield", {}).duplicate(true)
 	return result
 
 static func valid(data: Variant) -> bool:
+	if typeof(data) == TYPE_DICTIONARY and data.get("schema_version") == 2:
+		if not data.get("in_battle", false) or not SpellShield.valid(data.get("shield")): return false
+		var prior: Dictionary = data.duplicate(true)
+		SpellShield.write_state(prior, {})
+		return valid(prior)
 	if not ItemSimulationSnapshot._shape(data, {"schema_version": TYPE_INT, "natural": TYPE_DICTIONARY, "perks": TYPE_ARRAY, "grants": TYPE_ARRAY, "next_grant_id": TYPE_INT, "battle_id": TYPE_INT, "in_battle": TYPE_BOOL}): return false
 	if data["schema_version"] != 1 or data["next_grant_id"] < 1 or data["next_grant_id"] >= ActionContext.MAX_ID or data["battle_id"] < 1: return false
 	if not valid_resistances(data["natural"]) or data["perks"].size() > 4096 or data["grants"].size() > 4096: return false

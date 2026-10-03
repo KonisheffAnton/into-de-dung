@@ -9,7 +9,7 @@ static func references_valid(context: ActionContext) -> bool:
 	var rules := context.get_attack_rules()
 	if rules == null or rules.validate() != &"": return false
 	for id: int in artifacts.heroes:
-		if state.summon_owner_id(id) != 0: return false
+		if state.is_summon(id): return false
 		var definition := rules.get_definition(artifacts.attacks[id])
 		if definition == null or definition.profile != AttackRules.ARMOR_PROFILE or definition.reaction_strike or definition.entangle_on_physical_hp or definition.stun_on_physical_hp: return false
 	return true

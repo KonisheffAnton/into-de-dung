@@ -136,7 +136,8 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 		if entry["depth"] > _max_depth:
 			_fault(receipt, context, &"depth_limit")
 			break
-		if not _can_step(context, _event_capacity(entry["command"] as Command)):
+		var event_capacity := _reserved_event_capacity(entry["command"] as Command, context)
+		if not _can_step(context, event_capacity):
 			_fault(receipt, context, &"sequence_exhausted")
 			break
 		if entry.command is ArtifactFormationCommand:
@@ -144,7 +145,7 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 			if not projected.is_empty(): artifact_expected.merge(projected,true)
 		var step_count_before := receipt._steps.size()
 		var event_count_before := receipt._events.size()
-		_execute_entry(entry, receipt, context)
+		_execute_entry(entry, receipt, context, event_capacity)
 		if receipt.status != &"FAULTED" and not ability_check.call(): _fault(receipt, context, &"ability/checkpoint")
 		if receipt.status != &"FAULTED" and not artifact_check.call(): _fault(receipt, context, &"artifact/checkpoint")
 		if capture_presentation and receipt._steps.size() > step_count_before:
@@ -215,7 +216,7 @@ static func _counterattack_after(root: Command, context: ActionContext) -> Attac
 	if not MeleeThreat.reaction_ready(context, defender, CombatPerksState.Mode.COUNTERATTACK) or not MeleeThreat.threatens(context, defender, attacker): return null
 	return AttackCommand.counterattack(defender, attacker, context.get_revision())
 
-func _execute_entry(entry: Dictionary, receipt: ActionReceipt, context: ActionContext) -> void:
+func _execute_entry(entry: Dictionary, receipt: ActionReceipt, context: ActionContext, event_capacity: int) -> void:
 	var command: Command = entry["command"]
 	var seq := context._take_command_seq()
 	var result: CommandStepResult
@@ -232,7 +233,7 @@ func _execute_entry(entry: Dictionary, receipt: ActionReceipt, context: ActionCo
 		_fault(receipt, context, &"malformed_step")
 		return
 	if result.state_changed: context._bump_revision()
-	if result.status not in [&"APPLIED", &"SKIPPED", &"FAULTED", &"INTERRUPTED"] or result.events.size() > _event_capacity(command) or (result.status == &"SKIPPED" and (result.state_changed or not result.events.is_empty())) or (result.status == &"INTERRUPTED" and (result.state_changed or not result.events.is_empty() or not result.mandatory.is_empty() or not result.reactions.is_empty() or result.continuation != null)):
+	if result.status not in [&"APPLIED", &"SKIPPED", &"FAULTED", &"INTERRUPTED"] or result.events.size() > event_capacity or (result.status == &"SKIPPED" and (result.state_changed or not result.events.is_empty())) or (result.status == &"INTERRUPTED" and (result.state_changed or not result.events.is_empty() or not result.mandatory.is_empty() or not result.reactions.is_empty() or result.continuation != null)):
 		_fault(receipt, context, &"malformed_step")
 		return
 	step["status"] = result.status
@@ -357,6 +358,7 @@ func _bind_batch(descriptions: Array[Dictionary], event_seq: int, context: Actio
 	return result
 
 static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bool:
+	if draft.get("kind") == &"shield_changed": return SpellShield.valid_event(draft)
 	if draft.get("kind") == &"mage_cast": return MageCastCommand.valid_draft(draft)
 	if draft.get("kind") == &"mage_summoned": return MageSummonEffect.valid_draft(draft)
 	if draft.get("kind") == &"chain_link": return PushChainCommand.valid_draft(draft)
@@ -501,6 +503,36 @@ static func _valid_safe_retreat_draft(draft: Dictionary, context: ActionContext)
 	var main_cost: int = draft["main_cost"]
 	var main_before: int = draft["main_before"]
 	return absi(dx) + absi(dy) == 1 and is_finite(cost) and cost >= 1.0 and is_finite(before) and before >= cost and is_finite(after) and after >= 0.0 and after < before and after == before - cost and before - after == cost and main_cost in [0, 1] and main_before >= main_cost and main_before <= 4096 and draft["main_after"] == main_before - main_cost
+
+static func _reserved_event_capacity(command: Command, context: ActionContext) -> int:
+	# Резерв фиксируется до execute: исчезнувший щит всё равно оставляет событие.
+	# Без щита сохраняется прежняя граница sequence_exhausted.
+	var ids: Array[int] = []
+	if command is PushChainCommand:
+		var chain := command as PushChainCommand
+		if chain._stage == &"pair": ids.assign(chain._pair_target_ids())
+	elif command is CollisionDamageCommand:
+		var collision := command as CollisionDamageCommand
+		if collision._binding != null and collision._binding.values.get("armor", false):
+			for request: DamageRequest in [collision._first, collision._second]:
+				if request != null: ids.append(request.target_unit_id)
+	elif command is DamageCommand:
+		var request := (command as DamageCommand).request
+		if request != null and request.armor_mode == &"armor": ids.append(request.target_unit_id)
+	elif command is MoveFallCommand:
+		var binding := (command as MoveFallCommand)._binding
+		if binding != null and binding.request != null and binding.request.armor_mode == &"armor": ids.append(binding.request.target_unit_id)
+	elif command is ElementalTickCommand:
+		var tick := command as ElementalTickCommand
+		if tick._unit != null and not tick._expire: ids.append(tick._unit.id)
+	elif command is EnvironmentCommand:
+		var environment := command as EnvironmentCommand
+		if environment._target != null and not environment._death: ids.append(environment._target.id)
+	var capacity := _event_capacity(command)
+	for id: int in ids:
+		var unit := context.get_state().get_board().get_unit_by_id(id)
+		if unit != null and unit.armor != null and not unit.armor.shield.is_empty(): capacity += 1
+	return capacity
 
 static func _event_capacity(command: Command) -> int:
 	if command is PushChainCommand: return 9

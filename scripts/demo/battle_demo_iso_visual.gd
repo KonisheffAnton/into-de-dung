@@ -14,6 +14,8 @@ var hovered: bool = false
 var acting: bool = false
 var forecast_entry: Dictionary = {}
 var armor_values: Dictionary = {}
+var shield_view: Dictionary = {}
+var summon_pending: bool = false
 var show_rear: bool = false
 var status_text: String = ""
 var transient_label: String = ""
@@ -358,6 +360,17 @@ func _draw_unit() -> void:
 		# Наличие тела определяет environment, а не оставшийся мёртвый UnitState.
 		return
 	var tint := transient_tint if unit == null else (Color("65dfcc") if unit.faction == Faction.Type.PLAYER else Color("f7c97d"))
+	if not shield_view.is_empty():
+		var center := foot + action_offset + Vector2(0, -29) * factor
+		var outline := PackedVector2Array()
+		for index: int in range(33):
+			var angle := TAU * float(index) / 32.0
+			outline.append(center + Vector2(cos(angle) * 26, sin(angle) * 39) * factor)
+		draw_colored_polygon(outline, Color(0.3, 0.75, 1.0, 0.10))
+		draw_polyline(outline, Color("71cefa"), 1.7 * factor, true)
+		draw_string(ThemeDB.fallback_font, center + Vector2(-25, -43) * factor, "Щ %d · %d" % [int(shield_view.hp), int(shield_view.hits_left)], HORIZONTAL_ALIGNMENT_CENTER, 50 * factor, int(11 * factor), Color("aee7ff"))
+	if summon_pending:
+		draw_string(ThemeDB.fallback_font, foot + Vector2(-29, 30) * factor, "ЖДЁТ ХОДА", HORIZONTAL_ALIGNMENT_CENTER, 58 * factor, int(9 * factor), Color("b6d5ec"))
 	if stunned and not _scene_art_enabled:
 		# Знак рисуется вместе с фигурой, поэтому движется синхронно с ArtRoot.
 		var stun_center := foot + action_offset + Vector2(0, -73) * factor

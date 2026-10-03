@@ -63,6 +63,10 @@ static func _unit_line(id: int, row: Dictionary, names: Dictionary, events: Arra
 	var old: Dictionary = before
 	var now: Dictionary = after
 	if primary or old.get("hp") != now.get("hp"): _pair(parts, "ОЗ", old, now, "hp")
+	var old_shield: Dictionary = old.get("armor_state", {}).get("shield", {})
+	var new_shield: Dictionary = now.get("armor_state", {}).get("shield", {})
+	if old_shield != new_shield:
+		parts.append("щит %d→%d HP · ударов %d→%d" % [int(old_shield.get("hp", 0)), int(new_shield.get("hp", 0)), int(old_shield.get("hits_left", 0)), int(new_shield.get("hits_left", 0))])
 	if old.get("armor_current") != now.get("armor_current"): _pair(parts, "броня", old, now, "armor_current")
 	if old.get("balance") != now.get("balance") or old.get("balance_max") != now.get("balance_max") or _has_balance_break(events, id):
 		if old.has("balance") and now.has("balance") and old.has("balance_max") and now.has("balance_max"):

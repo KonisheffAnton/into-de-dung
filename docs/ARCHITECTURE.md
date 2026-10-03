@@ -311,17 +311,16 @@ Schema7, ForecastSimulation, TurnForecast и оба worker переносят ca
 оплаты и записывает его под тем же SpatialRules.Guard с проверкой seal после
 callback, включая остановку перед второй записью ElementalRules.write.
 
-Три дополнительных тестовых определения R14 и листание принадлежат
-BATTLE_PRESENTATION_REWORK, разделу тестовых действий R14. `MageCastCommand`
-получил необязательную цель-клетку, копируемую и проверяемую seal. Для появления
-`MageSummonEffect` готовит отделённого помощника/допуски и ожидаемый полный снимок
-до оплаты; после оплаты маны записывает тело/owner/admission и вызывает
-`BattleBoard.add_unit`, затем проверяет snapshot, identity, admission, RNG/counters.
-`SummonMutationProjection` допускает оплату маной при нулевом main и существующий
-schema8 с артефактами, не меняя writer/reader или сохранения. `mage_cast` сохраняет
-целевого владельца, `mage_summoned` отдельно называет нового помощника, клетку
-и израсходованное тело. События предметов и обычного поднятия не подменяются.
-Preview исполняет ту же команду; worker переносит session прежним способом.
+Поддержка R14 — [MAGE_SUPPORT_R14](MAGE_SUPPORT_R14.md). MageSummonEffect
+готовит detached helper, admission и полный checkpoint до оплаты; потом атомарно
+записывает тело/metadata/admission и BattleBoard.add_unit, сверяя snapshot,
+identity и RNG/counters. Верховный маг использует командную связь в schema9;
+anchor события не является владельцем. Предметная связь и prepare_owned сохранены.
+Щит живёт в ArmorState.schema2; ArmorRuntime планирует его перед защитами,
+ArmorHitExecutor пишет ожидаемую delta до остаточного урона. Старые ArmorState1
+и envelope1–8 сохраняют свои bytes. Forecast/worker переносят эти данные через
+общий snapshot. Показ получает только скопированные shield/pending и события;
+BattleSupportEffect отвечает за флакон/печать/появление/поднятие.
 `BattleMageBar` владеет всеми полученными кнопками, включая временно скрытые;
 страницы только меняют видимость, не создают действий и не читают боевой runtime.
 Кадровый refresh задаёт конечную видимость без промежуточного hide/show:

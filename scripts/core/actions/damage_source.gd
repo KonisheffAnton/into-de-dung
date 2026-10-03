@@ -26,4 +26,4 @@ func validate(context: ActionContext) -> StringName:
 	return &""
 
 static func valid_mage(value: Dictionary) -> bool:
-	return value.get("kind") == &"mage" and value.get("source_instance_id") in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] and value.get("origin_cell") == Vector2i(-1, -1) and value.get("instigator_unit_id") == 0 and value.get("credit_unit_id") == 0
+	return value.get("kind") == &"mage" and value.get("source_instance_id") in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] and value.get("origin_cell") == Vector2i(-1, -1) and value.get("instigator_unit_id") == 0 and value.get("credit_unit_id") == 0

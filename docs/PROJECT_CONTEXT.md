@@ -26,7 +26,7 @@
 | Выделенный расчёт атаки D1/M2a | [ATTACK_DAMAGE_D1](ATTACK_DAMAGE_D1.md) |
 | Реализованная броня и типы D2 | [ARMOR_DAMAGE_D2](ARMOR_DAMAGE_D2.md) |
 | Эффекты K17 / legacy D3 | [K17](STATUS_EFFECTS_NEXT.md) / [D3](BLEEDING_D3.md) |
-| Маг / откаты K18 | [K18](MAGE_COOLDOWNS_K18.md) |
+| Маг, откаты / щит, призыв | [K18](MAGE_COOLDOWNS_K18.md) / [R14](MAGE_SUPPORT_R14.md) |
 | Полный цикл / legacy D4 | [U14](EXPEDITION_U14.md) / [D4](EXPEDITION_D4.md) |
 | Шипы, тела, поднятие D5 | [ENVIRONMENT_D5](ENVIRONMENT_D5.md) |
 | Шаблон помощника, снимки M1 | [SUMMON_DEFINITION_M1](SUMMON_DEFINITION_M1.md) |
@@ -40,7 +40,6 @@
 | Будущий дизайн / кандидаты модульности | [TACTICAL_DESIGN_NEXT](TACTICAL_DESIGN_NEXT.md) / [MODULARITY_PLAN](MODULARITY_PLAN.md) |
 | Свидетельства прошлых этапов, архивы | [HISTORY](HISTORY.md) |
 
-Поручение не доказывает реализацию.
 Факты сверять с кодом и контрактом; проверки имеют дату и commit.
 Расхождение описать до зависимой работы. План, принятое решение,
 реализация, техническая проверка и пользовательская приёмка — разные статусы.

@@ -98,6 +98,7 @@ var number_scene: PackedScene = preload("res://scenes/demo/visuals/result_number
 var impact_scene: PackedScene = preload("res://scenes/demo/visuals/hit_impact.tscn")
 var projectile_scene: PackedScene = preload("res://scenes/demo/visuals/shot_projectile.tscn")
 var mage_scene: PackedScene = preload("res://scenes/demo/visuals/mage_delivery.tscn")
+var support_effect_scene: PackedScene = preload("res://scenes/demo/visuals/support_effect.tscn")
 var reaction_scene: PackedScene = preload("res://scenes/demo/visuals/reaction_cue.tscn")
 const REACTION_CUE_SECONDS: float = 0.18
 var _reaction_cues: Array[BattlePresentationReaction] = []
@@ -107,6 +108,12 @@ var _mage_target_cell: Vector2i = Vector2i(-1, -1)
 var _mage_spell_id: StringName = &""
 var _mage_recoil_direction: Vector2 = Vector2.ZERO
 var _mage_dying: bool = false
+var _support_effect: BattleSupportEffect
+var _support_kind: StringName = &""
+var _support_actor_id: int = UnitId.NONE
+var _support_target_cell: Vector2i = Vector2i(-1, -1)
+var _support_target_id: int = UnitId.NONE
+var _support_started: bool = false
 
 func show_presentation_state(value: Dictionary) -> void:
 	clear_presentation_effects()
@@ -130,6 +137,7 @@ func show_presentation_state(value: Dictionary) -> void:
 		view.balance_max = row.balance_max
 		_view_units.append({"unit": view, "cell": row.cell, "selected": view.id == displayed_selected_id,
 			"attack_range": float(row.get("attack_range", 1.0)),
+			"shield": row.get("shield", {}).duplicate(true), "pending": bool(row.get("pending", false)),
 			"inspected": false, "show_rear": false, "armor": row.armor.duplicate(true),
 			"statuses": BattleStatusPresentation.entries(row), "resources": _presentation_resources(row),
 			"reaction_view": row.get("reaction_view", {}).duplicate(true)})
@@ -168,6 +176,15 @@ func clear_presentation_effects() -> void:
 	_mage_spell_id = &""
 	_mage_recoil_direction = Vector2.ZERO
 	_mage_dying = false
+	if is_instance_valid(_support_effect):
+		remove_child(_support_effect)
+		_support_effect.free()
+	_support_effect = null
+	_support_kind = &""
+	_support_actor_id = UnitId.NONE
+	_support_target_cell = Vector2i(-1, -1)
+	_support_target_id = UnitId.NONE
+	_support_started = false
 
 func clear_strike_poses() -> void:
 	_pending_strikes.clear()
@@ -387,6 +404,9 @@ func finish_presentation_frame(events: Array, step: Dictionary = {}, before: Dic
 			text = ("−" if kind == &"damaged" else "+") + ("%.1f HP" % float(event.amount))
 			if kind == &"healed": tint = Color("65dfcc")
 			elif not strike.is_empty() and bool(strike.get("modifiers", {}).get("critical", false)): text = "КРИТ · " + text
+		elif kind == &"shield_changed":
+			text = "Щит −%d" % int(event.absorbed) if int(event.absorbed) > 0 else "Щит %d" % int(event.after.get("hp", 0))
+			tint = Color("71cefa")
 		elif kind == &"armor_changed":
 			var delta := 0.0
 			for change: Dictionary in event.get("grants", []) + event.get("items", []):
@@ -577,6 +597,7 @@ static func _presentation_caption(event: Dictionary) -> String:
 		&"attacked": return "УДАР"
 		&"opportunity_attacked", &"counterattacked", &"reaction_used": return "РЕАКЦИЯ"
 		&"died": return "ПАДЕНИЕ" if event.get("source", {}).get("kind") == &"fall" else "ГИБЕЛЬ"
+		&"shield_changed": return "ЩИТ"
 		&"mage_cast": return "МАГ"
 		&"elemental_cast", &"elemental_changed", &"control_changed", &"bleeding_changed": return "СОСТОЯНИЕ"
 		&"summoned", &"corpse_raised": return "ПРИЗЫВ"
@@ -589,6 +610,8 @@ static func _presentation_caption(event: Dictionary) -> String:
 func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 	var mage_frame := _matching_mage_cast(events, step)
 	if not mage_frame.is_empty(): return _animate_mage_frame(events, mage_frame)
+	var support_frame := _matching_support_action(events, step)
+	if not support_frame.is_empty(): return _animate_support_action(support_frame)
 	var tween := create_tween()
 	var visible_event := false
 	var strike := _matching_strike(events, step)
@@ -640,7 +663,7 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			visible_event = true
 			continue
 		# Расход уже объяснён единственным клипом действия; это не ещё одно попадание.
-		if kind == &"reaction_used": continue
+		if kind == &"reaction_used" or (kind == &"shield_changed" and not strike.is_empty()): continue
 		if kind == &"guarded" and not reaction_cues.is_empty():
 			for cue: Dictionary in reaction_cues:
 				if cue.kind == &"guard": _append_reaction_cue(tween, cue)
@@ -759,7 +782,7 @@ func _matching_mage_cast(events: Array, step: Dictionary) -> Dictionary:
 		if event.get("kind") != &"mage_cast" or int(event.get("actor_unit_id", -1)) != 0: continue
 		if int(event.get("command_seq", -1)) != int(step.get("command_seq", -2)): continue
 		var spell := StringName(event.get("spell_id", &""))
-		var expected_source := AbilityDefinition.mage_source_id(spell) if spell in [&"mage.fire", &"mage.heal", &"mage.test_heal", &"mage.test_summon", &"mage.test_raise"] else 0
+		var expected_source := AbilityDefinition.mage_source_id(spell) if spell in [&"mage.fire", &"mage.heal", &"mage.test_heal", &"mage.test_summon", &"mage.test_raise", &"mage.shield"] else 0
 		if expected_source == 0 or source.get("kind") != &"mage" or int(source.get("source_instance_id", 0)) != expected_source: continue
 		return event
 	return {}
@@ -768,7 +791,7 @@ func _mage_result_matches(event: Dictionary, cast: Dictionary) -> bool:
 	var source: Dictionary = event.get("source", {})
 	var target_matches := int(event.get("target_unit_id", -1)) == int(cast.get("target_unit_id", -2))
 	if AbilityDefinition.is_cell_spell(StringName(cast.get("spell_id", &""))):
-		target_matches = event.get("kind") == &"mage_summoned" and event.get("spell_id") == cast.get("spell_id") and int(event.get("owner_unit_id", -1)) == int(cast.get("target_unit_id", -2))
+		target_matches = event.get("kind") == &"mage_summoned" and event.get("spell_id") == cast.get("spell_id") and int(event.get("anchor_unit_id", event.get("owner_unit_id", -1))) == int(cast.get("target_unit_id", -2))
 	return event.get("root_id") == cast.get("root_id") and int(event.get("command_seq", -1)) == int(cast.get("command_seq", -2)) and target_matches and source.get("kind") == &"mage" and int(source.get("source_instance_id", 0)) == int(cast.get("source", {}).get("source_instance_id", -1))
 
 func _animate_mage_frame(events: Array, cast: Dictionary) -> Tween:
@@ -783,7 +806,11 @@ func _animate_mage_frame(events: Array, cast: Dictionary) -> Tween:
 		if AbilityDefinition.is_cell_spell(spell) and event.get("kind") == &"mage_summoned":
 			confirms_contact = true
 			_mage_target_cell = event.cell
+			_support_kind = &"mage_raise" if int(event.get("corpse_id", 0)) > 0 else &"mage_summon"
+			_support_actor_id = UnitId.NONE
+			_support_target_id = int(event.get("target_unit_id", UnitId.NONE))
 		if spell in [&"mage.heal", &"mage.test_heal"] and event.get("kind") == contact_kind: confirms_contact = true
+		if spell == &"mage.shield" and event.get("kind") == &"shield_changed": confirms_contact = true
 		if spell == &"mage.fire" and event.get("kind") in [&"hit_resolved", &"damaged", &"healed", &"armor_changed"]: confirms_contact = true
 		if spell == &"mage.fire" and event.get("kind") == &"died": _mage_dying = true
 	_clear_layer(_ghosts)
@@ -800,6 +827,12 @@ func _animate_mage_frame(events: Array, cast: Dictionary) -> Tween:
 	if AbilityDefinition.is_cell_spell(spell) and not confirms_contact: return tween
 	tween.tween_method(_sample_mage.bind(&"delivery"), 0.0, 1.0, 0.22)
 	if confirms_contact:
+		if AbilityDefinition.is_cell_spell(spell):
+			_create_support_effect(_support_kind, UnitId.NONE, _mage_target_cell, int(cast.get("target_unit_id", UnitId.NONE)))
+			_support_started = false
+			_support_effect.visible = false
+			tween.tween_callback(_begin_support_contact)
+			tween.tween_method(_sample_support.bind(&"contact"), 0.0, 1.0, 0.20)
 		tween.tween_callback(_mage_contact.bind(cast, spell))
 		tween.tween_method(_sample_mage.bind(&"contact"), 0.0, 1.0, 0.20)
 	return tween
@@ -810,6 +843,83 @@ func _sample_mage(progress: float, phase: StringName) -> void:
 		_set_action_offset(_mage_target_id, _mage_recoil_direction * 7.0 * sin(progress * PI) * (1.0 - progress))
 		if _mage_dying:
 			_field_presentation.sample_death(progress, self, _mage_target_id)
+
+func _matching_support_action(events: Array, step: Dictionary) -> Dictionary:
+	var kind := StringName(step.get("kind", &""))
+	var command_seq := int(step.get("command_seq", -1))
+	var root_id := -1
+	for event: Dictionary in events:
+		if int(event.get("command_seq", -2)) == command_seq:
+			var event_root := int(event.get("root_id", -1))
+			if event_root < 1 or (root_id >= 0 and root_id != event_root): return {}
+			root_id = event_root
+	if root_id < 0: return {}
+	if kind == &"raise_corpse":
+		for event: Dictionary in events:
+			if event.get("kind") == &"corpse_raised" and int(event.get("root_id", -2)) == root_id and int(event.get("command_seq", -2)) == command_seq:
+				return {"kind": &"character_raise", "actor_id": int(event.actor_unit_id), "target_id": int(event.target_unit_id), "cell": event.cell}
+		return {}
+	if kind != &"use_healing_item" and kind != &"use_summoning_item": return {}
+	var used: Dictionary = {}
+	for event: Dictionary in events:
+		if event.get("kind") == &"item_used" and int(event.get("root_id", -2)) == root_id and int(event.get("command_seq", -2)) == command_seq:
+			used = event
+			break
+	if used.is_empty(): return {}
+	var actor_id := int(used.get("actor_unit_id", UnitId.NONE))
+	if kind == &"use_healing_item":
+		if int(used.get("target_unit_id", UnitId.NONE)) != actor_id: return {}
+		var healed := false
+		for event: Dictionary in events:
+			var source: Dictionary = event.get("source", {})
+			if event.get("kind") == &"healed" and int(event.get("root_id", -2)) == root_id and int(event.get("command_seq", -2)) == command_seq and int(event.get("target_unit_id", UnitId.NONE)) == actor_id and source.get("kind") == &"item" and int(source.get("source_instance_id", -1)) == int(used.get("item_instance_id", -2)):
+				healed = true
+				break
+		if not healed: return {}
+		return {"kind": &"item_potion", "actor_id": actor_id, "target_id": actor_id, "cell": _view_unit_cell(actor_id)}
+	for event: Dictionary in events:
+		if event.get("kind") == &"summoned" and int(event.get("root_id", -2)) == root_id and int(event.get("command_seq", -2)) == command_seq and int(event.get("actor_unit_id", UnitId.NONE)) == actor_id and int(event.get("item_instance_id", -1)) == int(used.get("item_instance_id", -2)):
+			return {"kind": &"item_seal", "actor_id": actor_id, "target_id": int(event.target_unit_id), "cell": event.cell}
+	return {}
+
+func _animate_support_action(frame: Dictionary) -> Tween:
+	_create_support_effect(StringName(frame.kind), int(frame.actor_id), frame.cell, int(frame.target_id))
+	var tween := create_tween()
+	tween.tween_method(_sample_support.bind(&"prepare"), 0.0, 1.0, 0.10)
+	tween.tween_method(_sample_support.bind(&"delivery"), 0.0, 1.0, 0.22)
+	tween.tween_method(_sample_support.bind(&"contact"), 0.0, 1.0, 0.20)
+	return tween
+
+func _create_support_effect(kind: StringName, actor_id: int, cell: Vector2i, target_id: int) -> void:
+	if is_instance_valid(_support_effect):
+		remove_child(_support_effect)
+		_support_effect.free()
+	_support_kind = kind
+	_support_actor_id = actor_id
+	_support_target_cell = cell
+	_support_target_id = target_id
+	_support_effect = support_effect_scene.instantiate() as BattleSupportEffect
+	add_child(_support_effect)
+	_support_effect.z_index = RenderLayers.z_index_for(RenderLayers.Layer.VFX_OVERLAY) + 2
+	_support_started = kind in [&"item_potion", &"item_seal", &"character_raise"]
+	_sample_support(0.0, &"prepare")
+
+func _begin_support_contact() -> void:
+	_support_started = true
+	if is_instance_valid(_support_effect): _support_effect.visible = true
+	_sample_support(0.0, &"contact")
+
+func _sample_support(progress: float, phase: StringName) -> void:
+	if not _support_started or not is_instance_valid(_support_effect): return
+	var source := Vector2(20.0, 52.0) if _support_kind in [&"mage_summon", &"mage_raise"] else _support_anchor(_support_actor_id)
+	var target := world_to_view(_world_cell_center(_support_target_cell))
+	if _support_kind == &"item_potion": target = source
+	_support_effect.sample(_support_kind, phase, progress, source, target)
+
+func _support_anchor(unit_id: int) -> Vector2:
+	var visual := _presentation_visual(unit_id)
+	if visual == null: return world_to_view(_world_cell_center(_view_unit_cell(unit_id)))
+	return world_to_view(visual.position + visual.get_visual_offset())
 
 func _update_mage_geometry(phase: StringName = &"prepare", progress: float = 0.0) -> void:
 	if not is_instance_valid(_mage_effect): return
@@ -907,6 +1017,7 @@ func _apply_camera() -> void:
 	if _camera_reset != null: _camera_reset.text = "%d%%" % roundi(camera_view.zoom * 100.0)
 	if compact_forecast != null: compact_forecast.place(self)
 	_update_mage_geometry(_mage_effect.phase if is_instance_valid(_mage_effect) else &"prepare", _mage_effect.progress if is_instance_valid(_mage_effect) else 0.0)
+	_sample_support(_support_effect.progress if is_instance_valid(_support_effect) else 0.0, _support_effect.phase if is_instance_valid(_support_effect) else &"prepare")
 	queue_redraw()
 
 func _camera_input(event: InputEvent) -> bool:
@@ -1194,6 +1305,8 @@ func _rebuild_visuals() -> void:
 		visual.forecast_entry = _forecast_entry(unit.id)
 		visual.show_rear = bool(row["show_rear"])
 		visual.armor_values = (row["armor"] as Dictionary).duplicate(true)
+		visual.shield_view = row.get("shield", {}).duplicate(true)
+		visual.summon_pending = bool(row.get("pending", false))
 		visual.status_entries.assign(row.get("statuses", []).duplicate(true))
 		visual.reaction_view = row.get("reaction_view", {}).duplicate(true)
 		visual.action_resources_view = (row.get("resources", {}) as Dictionary).duplicate(true)
@@ -1298,8 +1411,10 @@ func _capture_board_view(board: BattleBoard) -> void:
 			"inspected": unit.id == inspected_id,
 			"show_rear": session is BattleControlSession or (session is BattleCoreCombinationSession and not session is BattleCoreReactionsSession),
 			"armor": armor.duplicate(true),
+			"shield": unit.armor.shield.duplicate(true) if unit.armor != null else {}, "pending": session.state.is_summon_pending(unit.id),
 			"reaction_view": ActionPresentationState.capture_reaction_view(session.state, unit),
 			"statuses": BattleStatusPresentation.entries({
+				"shield": unit.armor.shield.duplicate(true) if unit.armor != null else {},
 				"bleeding": unit.bleeding.to_dict() if unit.bleeding != null else {},
 				"elemental": unit.elemental.to_dict() if unit.elemental != null else {},
 				"control": unit.control.to_dict() if unit.control != null else {}}),

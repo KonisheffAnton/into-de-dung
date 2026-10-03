@@ -35,7 +35,7 @@ func _availability(context: ActionContext, full_snapshot: bool) -> StringName:
 	if control_reason != &"": return control_reason
 	if not SummonDefinition.new().name_valid(actor.debug_name): return &"environment/invalid_helper_name"
 	if full_snapshot and ItemSimulationSnapshot.capture(state, context.get_unsupported_runtime_ids()).code != ItemSnapshotResult.Code.OK: return &"environment/invalid_state"
-	if state.summon_owner_id(actor.id) != 0: return &"summon/helper_cannot_summon"
+	if state.is_summon(actor.id): return &"summon/helper_cannot_summon"
 	if state.active_summon(actor.id) != null: return &"summon/active_helper"
 	if actor.action_resources == null or actor.action_resources.validate(actor.id) != &"" or board.occupant_at(actor.cell) != actor: return &"environment/invalid_actor"
 	if actor.action_resources.get_main_left() < 1: return &"item/insufficient_main"

@@ -86,6 +86,7 @@ func run() -> void:
 	_normal_and_fraction()
 	_stops_and_stance()
 	_deaths()
+	_shielded_collision_capacity()
 	_geometry()
 	_admission_and_faults()
 	await _workers_and_restore()
@@ -165,6 +166,52 @@ func _deaths() -> void:
 		var dead_cell: Vector2i = s.units[victim].cell
 		check(s.board.occupant_at(dead_cell) == null, "dead occupancy cleared " + str(victim))
 		s.close()
+
+func _armor_item_with_capacity(s: BattleCoreReactionsSession, unit: UnitState) -> ItemInstance:
+	for item: ItemInstance in s.state.get_owner(unit.id)._items.values():
+		if item.get_definition().armor_max >= 3 and item._placement >= ItemOwnerState.EQUIPMENT_BASE:
+			return item
+	return null
+
+func _shielded_collision_capacity() -> void:
+	var s := fixture(100.0)
+	var middle: UnitState = s.units[2]
+	var terminal: UnitState = s.units[5]
+	var middle_armor := _armor_item_with_capacity(s, middle)
+	var terminal_armor := _armor_item_with_capacity(s, terminal)
+	check(middle_armor != null and terminal_armor != null, "shielded chain collision fixture has equipped armor for both participants")
+	if middle_armor == null or terminal_armor == null:
+		s.close()
+		return
+	middle.vitals.set_hp(1.0)
+	terminal.vitals.set_hp(1.0)
+	middle_armor.armor_remaining = 1
+	terminal_armor.armor_remaining = 1
+	# Middle принимает оба collision packet: щит гасит первый и оставляет 1 HP
+	# щита для смертельного overflow во второй паре.
+	middle.armor.shield = SpellShield.make(&"mage.shield", 76, 2)
+	terminal.armor.shield = SpellShield.make(&"mage.shield", 1, 1)
+	var receipt := parity(s, "shielded lethal chain collisions")
+	var collisions := events(receipt, &"collision")
+	var shields := events(receipt, &"shield_changed")
+	var armor_changes := events(receipt, &"armor_changed")
+	var damaged := events(receipt, &"damaged")
+	var died := events(receipt, &"died")
+	var hits := events(receipt, &"hit_resolved")
+	var expected_targets: Array[int] = [middle.id, middle.id, terminal.id]
+	var shield_targets: Array[int] = []
+	for event: Dictionary in shields: shield_targets.append(event.target_unit_id)
+	check(receipt.status == ActionReceipt.APPLIED and receipt.reason == &"", "shielded chain completes without capacity fault: %s" % String(receipt.reason))
+	check(collisions.size() == 2 and shields.size() == 3 and shield_targets == expected_targets, "both collisions retain middle's two shield hits and terminal shield hit")
+	check(armor_changes.size() >= 2 and damaged.size() >= 2 and died.size() == 2 and hits.size() >= 2, "both lethal overflow packets retain armor, damage, death and hit events (%d,%d,%d,%d)" % [armor_changes.size(), damaged.size(), died.size(), hits.size()])
+	check(middle_armor.armor_remaining == 0 and terminal_armor.armor_remaining == 0 and middle.armor.shield.is_empty() and terminal.armor.shield.is_empty(), "both collision participants spend one armor and their shields")
+	check(not middle.is_alive() and not terminal.is_alive(), "middle survives first shielded hit then both participants die from chain collision overflow")
+	var pair_kinds: Array[StringName] = []
+	if not collisions.is_empty():
+		for event: Dictionary in receipt.get_events():
+			if event.command_seq == collisions[-1].command_seq: pair_kinds.append(event.kind)
+	check(pair_kinds == [&"collision", &"shield_changed", &"armor_changed", &"damaged", &"died", &"hit_resolved", &"shield_changed", &"armor_changed", &"damaged", &"died", &"hit_resolved"], "one pair step retains all eleven ordered events: " + str(pair_kinds))
+	s.close()
 
 func _geometry() -> void:
 	for shape: String in ["wall", "ledge", "void", "hazard", "fall", "fire"]:

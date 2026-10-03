@@ -37,7 +37,7 @@ func _availability(context: ActionContext, full_snapshot: bool) -> StringName:
 	if owner == null or owner.is_closed() or owner.get_owner() != actor or board.occupant_at(actor.cell) != actor: return &"item/invalid_runtime"
 	var move := context.get_move_rules()
 	if move == null or move.validate() != &"" or not move.allows(actor.id): return &"item/not_admitted"
-	if state.summon_owner_id(actor.id) != 0: return &"summon/helper_cannot_summon"
+	if state.is_summon(actor.id): return &"summon/helper_cannot_summon"
 	if actor.action_resources == null or actor.action_resources.validate(actor.id) != &"": return &"item/invalid_runtime"
 	var item: ItemInstance = owner._items.get(_item_id)
 	if item == null or item.get_owner_unit_id() != actor.id: return &"item/not_owned"

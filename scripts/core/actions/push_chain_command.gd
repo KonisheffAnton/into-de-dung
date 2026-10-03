@@ -22,10 +22,20 @@ func copy_for_queue() -> Command:
 func validate(context: ActionContext) -> StringName:
 	if _stage != _stage_seal or _index != _index_seal or _stage not in [&"balance", &"pair", &"final"]: return &"chain/invalid_binding"
 	if _binding == null or not BalancePushRules.spatial_valid(_binding, context, &"chain"): return &"chain/invalid_binding"
-	var plan: Dictionary = _binding.values.get("chain", {})
-	if plan.is_empty() or plan.get("links", []).is_empty(): return &"chain/invalid_binding"
-	if _index < 0 or _index >= plan.links.size(): return &"chain/invalid_binding"
+	if _pair_target_ids().is_empty(): return &"chain/invalid_binding"
 	return &""
+
+func _pair_target_ids() -> Array[int]:
+	# Очередь читает цели до validate ради резерва событий; неверный дочерний
+	# payload должен дойти до штатного отказа, а не прервать скрипт при чтении.
+	if _binding == null: return []
+	var plan: Variant = _binding.values.get("chain")
+	if typeof(plan) != TYPE_DICTIONARY: return []
+	var links: Variant = plan.get("links")
+	if typeof(links) != TYPE_ARRAY or _index < 0 or _index >= links.size(): return []
+	var link: Variant = links[_index]
+	if typeof(link) != TYPE_DICTIONARY or typeof(link.get("from_id")) != TYPE_INT or typeof(link.get("to_id")) != TYPE_INT: return []
+	return [int(link.from_id), int(link.to_id)]
 
 func execute(context: ActionContext) -> CommandStepResult:
 	var reason := validate(context)

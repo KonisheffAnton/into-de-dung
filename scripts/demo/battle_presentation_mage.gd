@@ -19,7 +19,9 @@ func _draw() -> void:
 	var fire := spell_id == &"mage.fire"
 	var tint := Color("ffb35c") if fire else Color("75e6a3")
 	var title := "Внешний маг · Огонь" if fire else "Внешний маг · Лечение"
-	if spell_id == &"mage.test_summon":
+	if spell_id == &"mage.shield":
+		tint = Color("71cefa"); title = "Верховный маг · Щит"
+	elif spell_id == &"mage.test_summon":
 		tint = Color("8fc9fa"); title = "Внешний маг · Призыв"
 	elif spell_id == &"mage.test_raise":
 		tint = Color("c7a2ed"); title = "Внешний маг · Поднятие"

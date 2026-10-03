@@ -29,7 +29,7 @@ func validate(context: ActionContext) -> StringName:
 		if unit == null or not unit.is_alive() or unit.faction != _faction or seen.has(id): return &"turn/invalid_unit"
 		seen[id] = true
 		if context.get_state().is_summon_pending(id):
-			var admission := SummonAdmission.extend(move, attack, id, context.get_state().summon_owner_id(id), true)
+			var admission := SummonAdmission.for_pending(move, attack, id, context.get_state())
 			if admission.is_empty(): return &"summon/invalid_admission"
 			move = admission["move"]
 			attack = admission["attack"]
@@ -65,7 +65,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 		# Дополнительные действия есть и у помощника без классовых перков.
 		if tracks_reactions: perk_changes[id] = CombatPerkGuard.record(unit, unit.combat_perks)
 		if context.get_state().is_summon_pending(id):
-			var admission := SummonAdmission.extend(context.get_move_rules(), context.get_attack_rules(), id, context.get_state().summon_owner_id(id), true)
+			var admission := SummonAdmission.for_pending(context.get_move_rules(), context.get_attack_rules(), id, context.get_state())
 			context._move_rules = admission["move"]
 			context._attack_rules = admission["attack"]
 			for record: Dictionary in context.get_state()._summons:

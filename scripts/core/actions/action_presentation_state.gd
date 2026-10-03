@@ -38,6 +38,7 @@ static func capture(state: ItemSimulationState) -> Dictionary:
 			"attack_range": stats_copy.get_value(StatTypes.StatType.ATTACK_RANGE) if stats_copy != null else 1.0,
 			"balance": unit.vitals.get_balance() if unit.vitals != null else 0.0,
 			"balance_max": balance_max, "armor": armor.duplicate(true),
+			"shield": unit.armor.shield.duplicate(true) if unit.armor != null else {}, "pending": state.is_summon_pending(unit.id),
 			"bleeding": bleeding, "elemental": elemental, "control": control,
 			"main": actions.get_main_left() if actions != null else 0,
 			"bonus": actions.get_bonus_left() if actions != null else 0,

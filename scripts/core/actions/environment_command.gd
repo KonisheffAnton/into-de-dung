@@ -22,7 +22,7 @@ static func for_death(event: Dictionary, context: ActionContext) -> EnvironmentC
 	result._faction = result._target.faction
 	var source: Dictionary = event["source"]
 	var fell_away: bool = source["kind"] == &"fall" and (not state.get_board().is_in_bounds(source["origin_cell"]) or state.get_board().is_lethal(source["origin_cell"]))
-	result._leaves_body = not fell_away and state.summon_owner_id(result._target.id) == 0 and state.get_board().is_in_bounds(result._cell) and not state.get_board().is_lethal(result._cell)
+	result._leaves_body = not fell_away and not state.is_summon(result._target.id) and state.get_board().is_in_bounds(result._cell) and not state.get_board().is_lethal(result._cell)
 	result._seal = result._values()
 	return result
 

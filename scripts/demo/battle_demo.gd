@@ -982,8 +982,9 @@ func _mage_spell_help(id: StringName) -> String:
 		&"mage.test_roots": return "Тест: корни до конца хода цели, без удара. Иммунитет сохраняется."
 		&"mage.test_bleeding": return "Тест: +1 стак, срок 3 тика. Горение и иммунитет блокируют наложение."
 		&"mage.test_heal": return "Тест: восстановить раненому союзнику 4 HP, без затрат действий и предметов героя."
-		&"mage.test_summon": return "Тест: помощник на соседней безопасной клетке выбранного союзника. Один на владельца, готов со следующего своего хода. Без затрат действий и предметов героя."
-		&"mage.test_raise": return "Тест: новое создание из одного тела на соседней безопасной клетке выбранного союзника. Общий лимит помощника; готов со следующего своего хода. Без затрат действий героя."
+		&"mage.test_summon": return "Помощник рядом с любым союзником, включая помощников. Без владельца и лимита; готов со следующего своего хода. 1 мана."
+		&"mage.shield": return "Щит: 6 HP, один удар любого урона. Остаток проходит защиты и броню; новый щит заменяет прежний. 1 мана, откат 0."
+		&"mage.test_raise": return "Новое создание из тела рядом с любым союзником. Без владельца и лимита; готов со следующего своего хода. 1 мана."
 	return ""
 
 func _refresh() -> void:
@@ -1035,7 +1036,7 @@ func _refresh() -> void:
 	if session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).elemental_selected != &"":
 		_instructions.text = "%s: выберите живую цель в пределах трёх клеток · 1 основное · Esc — отмена" % _elemental_effect_label((session as BattleCoreReactionsSession).elemental_selected)
 		if AbilityDefinition.mage_source_id((session as BattleCoreReactionsSession).elemental_selected) > 0: _instructions.text = "Маг: выберите цель на доске · отдельная мана · Esc — отмена"
-		if AbilityDefinition.is_cell_spell((session as BattleCoreReactionsSession).elemental_selected): _instructions.text = "Маг: соседняя свободная клетка выбранного союзника%s · 1 мана · Esc — отмена" % (" с телом" if (session as BattleCoreReactionsSession).elemental_selected == &"mage.test_raise" else "")
+		if AbilityDefinition.is_cell_spell((session as BattleCoreReactionsSession).elemental_selected): _instructions.text = "Маг: свободная клетка рядом с любым союзником%s · 1 мана · Esc — отмена" % (" с телом" if (session as BattleCoreReactionsSession).elemental_selected == &"mage.test_raise" else "")
 	var locked := _battle != null and not _battle.can_player_act()
 	_move_button.disabled = locked
 	if session.selected_unit() != null and ControlRules.action_reason(session.selected_unit(), true) != &"": _move_button.disabled = true
@@ -1264,9 +1265,11 @@ func _inspection_text(unit: UnitState) -> String:
 		if unit.control.entangled_turns > 0: control_text += "Опутан: движение недоступно; максимум равновесия ×2 = %.1f.\nФактический толчок снимает путы; входящий крит ×2.\n" % ControlRules.balance_maximum(unit, unit.get_stat(StatTypes.StatType.BALANCE_MAX))
 		if unit.control.stunned_turns > 0 or unit.control.entangled_turns > 0: control_text += "Срок: до конца ближайшего хода этой команды.\n"
 	if not control_text.is_empty(): text = text.insert(text.find("\n") + 1, control_text)
-	if session.state.summon_owner_id(unit.id) != 0:
-		text += "\nПомощник: до гибели / конца боя; владелец " + _name_for(session.state.summon_owner_id(unit.id))
+	if session.state.is_summon(unit.id):
+		text += "\nПомощник верховного мага: до гибели / конца боя." if session.state.is_mage_summon(unit.id) else "\nПомощник: до гибели / конца боя; владелец " + _name_for(session.state.summon_owner_id(unit.id))
 		text += "\nДействия со следующего хода своей команды." if session.state.is_summon_pending(unit.id) else "\nГотов действовать."
+	if unit.armor != null and not unit.armor.shield.is_empty():
+		text += "\nЩит: %d HP · осталось попаданий: %d. Поглощает любой урон до защит и брони." % [int(unit.armor.shield.hp), int(unit.armor.shield.hits_left)]
 	var descriptions: Array[String] = []
 	if unit.bleeding != null:
 		var condition := "Кровотечение: тиков — %d · 4 до защиты" % unit.bleeding.ticks_left
@@ -2278,7 +2281,7 @@ func _event_text(event: Dictionary) -> String:
 			var name := "печать" if action != null and action.get_kind() == ItemUseAction.Kind.SUMMON_ADJACENT else "флакон"
 			return "%s использует %s (%d основное; зарядов осталось: %d)." % [actor, name, int(event["main_cost"]), int(event["charges_after"])]
 		&"summoned": return "%s призывает: %s. Действия со следующего хода команды." % [actor, target]
-		&"mage_summoned": return "Маг %s: %s. Владелец — %s; действия со следующего хода команды." % ["поднял тело" if int(event.corpse_id) > 0 else "призывает", target, _name_for(int(event.owner_unit_id))]
+		&"mage_summoned": return "Маг %s: %s. %sДействия со следующего хода команды." % ["поднял тело" if int(event.corpse_id) > 0 else "призывает", target, "" if int(event.owner_unit_id) == 0 else "Владелец — %s; " % _name_for(int(event.owner_unit_id))]
 		&"corpse_created": return "Тело: %s, гуманоид." % _cell_name(event["corpse"]["cell"])
 		&"support_collapsed": return "Обвал: %s стала пропастью." % _cell_name(event["cell"])
 		&"environment_turn": return "Окружение %d: %s" % [event["turn"], "новых угроз нет." if event["marked"].is_empty() else ("%s обрушится в следующую фазу окружения." % _cell_name(event["marked"][0]))]
@@ -2520,7 +2523,7 @@ func _render_elemental_forecast_panel() -> void:
 	var text := "[font_size=16][color=#f7c97d]%s → %s · дальность 3[/color][/font_size]\n" % [_elemental_effect_label(_action_forecast_effect), _name_for(_action_forecast_target_id)]
 	if AbilityDefinition.mage_source_id(_action_forecast_effect) > 0:
 		text = "[font_size=16]%s → %s · вся доска[/font_size]\n" % [_elemental_effect_label(_action_forecast_effect), _name_for(_action_forecast_target_id)]
-		if AbilityDefinition.is_cell_spell(_action_forecast_effect): text = "[font_size=16]%s → %s · рядом с %s[/font_size]\n" % [_elemental_effect_label(_action_forecast_effect), _cell_name(_action_forecast_cell), _name_for(_action_forecast_actor)]
+		if AbilityDefinition.is_cell_spell(_action_forecast_effect): text = "[font_size=16]%s → %s · в зоне союзников[/font_size]\n" % [_elemental_effect_label(_action_forecast_effect), _cell_name(_action_forecast_cell)]
 	if _elemental_forecast.status != ActionReceipt.APPLIED:
 		_forecast_panel.text = text + "Прогноз недоступен: " + _reason_text(_elemental_forecast.reason)
 		return
@@ -2559,6 +2562,7 @@ func _elemental_effect_label(effect: StringName) -> String:
 		&"mage.test_bleeding": return "Кровотечение"
 		&"mage.test_heal": return "Тест: лечение"
 		&"mage.test_summon": return "Тест: призыв"
+		&"mage.shield": return "Щит · 6 HP"
 		&"mage.test_raise": return "Тест: поднятие"
 	if effect == &"mage.fire": return "Огненный импульс"
 	if effect == &"mage.heal": return "Лечение мага"

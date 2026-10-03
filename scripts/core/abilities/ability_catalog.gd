@@ -26,6 +26,7 @@ static func build(attack_rules: AttackRules, item_definitions: Dictionary, inclu
 			spell.effect = AbilityDefinition.TEST_SUPPORT_EFFECTS[id]
 			spell.amount = 4 if id == &"mage.test_heal" else 1
 			spell.mana_cost = 1
+			if id == &"mage.shield": spell.amount = 6; spell.shield_hits = 1
 			result.append(spell)
 	if attack_rules == null or attack_rules.validate() != &"": return []
 	for attack: AttackDefinition in attack_rules.get_definitions():

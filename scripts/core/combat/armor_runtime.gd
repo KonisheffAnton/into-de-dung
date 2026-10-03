@@ -90,9 +90,15 @@ static func plan(view: Dictionary, raw: Array[Dictionary], hp: float, hp_max: fl
 	var values := totals(view)
 	var prepared := components(raw)
 	if values.is_empty() or prepared.is_empty(): return failed
+	var shield_plan: Dictionary = {}
+	if view.state.has("shield"):
+		shield_plan = SpellShield.intercept(raw, view.state.shield)
+		if shield_plan.reason != &"": return shield_plan
+		prepared = components(shield_plan.raw)
 	var calculation := ArmorHitCalculation.calculate(prepared, values["current"], values["maximum"], int(hp), int(hp_max), values["defenses"])
 	if calculation.reason != &"": return {"reason": calculation.reason}
 	var after := view.duplicate(true)
+	if not shield_plan.is_empty(): SpellShield.write_state(after.state, shield_plan.after)
 	var remaining: int = calculation.armor_spent
 	var order: Array = after["state"]["grants"].duplicate()
 	order.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
@@ -140,4 +146,7 @@ static func plan(view: Dictionary, raw: Array[Dictionary], hp: float, hp_max: fl
 		var before: Dictionary = view["items"][index]
 		var item: Dictionary = after["items"][index]
 		if item["remaining"] != before["remaining"]: item_changes.append({"id": item["item_id"], "before": before["remaining"], "after": item["remaining"]})
-	return {"reason": &"", "before": view.duplicate(true), "after": after, "raw": raw.duplicate(true), "p_num": calculation.p_num, "p_den": calculation.p_den, "rows": calculation.get_rows(), "armor_spent": calculation.armor_spent, "hp_before": calculation.hp_before, "hp_after": calculation.hp_after, "hp_loss": maxi(0, calculation.hp_before - calculation.hp_after), "hp_gain": maxi(0, calculation.hp_after - calculation.hp_before), "total_damage": calculation.total_damage, "total_healing": calculation.total_healing, "grant_changes": grant_changes, "item_changes": item_changes, "draws": draws, "rng_before": rng_before, "rng_after": rng_copy.to_dict().duplicate(true) if rng_copy != null else rng_before}
+	var result := {"reason": &"", "before": view.duplicate(true), "after": after, "raw": raw.duplicate(true), "p_num": calculation.p_num, "p_den": calculation.p_den, "rows": calculation.get_rows(), "armor_spent": calculation.armor_spent, "hp_before": calculation.hp_before, "hp_after": calculation.hp_after, "hp_loss": maxi(0, calculation.hp_before - calculation.hp_after), "hp_gain": maxi(0, calculation.hp_after - calculation.hp_before), "total_damage": calculation.total_damage, "total_healing": calculation.total_healing, "grant_changes": grant_changes, "item_changes": item_changes, "draws": draws, "rng_before": rng_before, "rng_after": rng_copy.to_dict().duplicate(true) if rng_copy != null else rng_before}
+
+	if not shield_plan.is_empty(): result["shield"] = shield_plan
+	return result

@@ -4,14 +4,14 @@ class_name SummonMutationProjection
 ## Ожидаемый снимок атомарного создания помощника. Это checkpoint для проверки
 ## callbacks, а не preview: прогноз по-прежнему исполняет настоящую команду.
 ## Меняются только DTO; live-позицию и occupancy записывает BattleBoard.add_unit.
-static func expected(before: ItemSimulationSnapshot, helper: UnitState, actor_id: int, height: int, main_cost: int, item_id: int = 0, charge_cost: int = 0, corpse_id: int = 0, ability_after: Dictionary = {}) -> ItemSnapshotResult:
+static func expected(before: ItemSimulationSnapshot, helper: UnitState, actor_id: int, height: int, main_cost: int, item_id: int = 0, charge_cost: int = 0, corpse_id: int = 0, ability_after: Dictionary = {}, mage: bool = false) -> ItemSnapshotResult:
 	if before == null or helper == null or main_cost < 0 or (main_cost == 0 and ability_after.is_empty()):
 		return ItemSimulationSnapshot._failure("summon/projection")
 	var data := before.to_dict()
 	if not ability_after.is_empty():
 		if not data.has("abilities") or not BattleAbilityState.valid(ability_after): return ItemSimulationSnapshot._failure("summon/projection")
 		data["abilities"] = ability_after.duplicate(true)
-	if data.get("schema_version") not in [3, 4, 5, 6, 7, 8]: return ItemSimulationSnapshot._failure("summon/projection")
+	if data.get("schema_version") not in [3, 4, 5, 6, 7, 8, 9]: return ItemSimulationSnapshot._failure("summon/projection")
 	var unit := helper.to_snapshot_dict()
 	if unit.is_empty(): return ItemSimulationSnapshot._failure("summon/projection")
 	unit["height"] = height
@@ -41,7 +41,11 @@ static func expected(before: ItemSimulationSnapshot, helper: UnitState, actor_id
 	board["units"].append(unit)
 	board["occupancy"].append({"x": helper.cell.x, "y": helper.cell.y, "unit_id": helper.id})
 	data["owners"].append({"schema_version": 1, "owner_unit_id": helper.id, "next_item_id": 1, "next_effect_id": 1, "closed": false, "inventory_lifecycle": 1, "equipment_lifecycle": 1, "inventory_order": [], "definitions": [], "items": []})
-	data["summons"].append({"unit_id": helper.id, "owner_unit_id": actor_id, "pending": true})
+	var record := {"unit_id": helper.id, "owner_unit_id": actor_id, "pending": true}
+	if mage:
+		record.owner_unit_id = 0; record["source_kind"] = "mage"
+		data.schema_version = 9; data.scope = ItemSimulationSnapshot.SCOPE_V9
+	data["summons"].append(record)
 	# Полная проверка итогового графа остаётся: лимиты, owner/item связи, pending,
 	# геометрия и схемы не зависят от корректности построителя этой проекции.
 	return ItemSimulationSnapshot.from_dict(data)

@@ -37,7 +37,7 @@ func _prepare(context: ActionContext) -> Dictionary:
 	var target := board.get_unit_by_id(target_id)
 	if target == null or not target.is_alive() or not board.is_in_bounds(target.cell) or state.is_summon_pending(target_id): return {"reason": &"mage/invalid_target"}
 	if target.faction not in [Faction.Type.PLAYER, Faction.Type.ENEMY]: return {"reason": &"mage/invalid_target"}
-	if spell_id in [&"mage.fire", &"mage.heal", &"mage.test_heal"] and target.faction != (Faction.Type.ENEMY if spell_id == &"mage.fire" else Faction.Type.PLAYER): return {"reason": &"mage/invalid_target"}
+	if spell_id in [&"mage.fire", &"mage.heal", &"mage.test_heal", &"mage.shield"] and target.faction != (Faction.Type.ENEMY if spell_id == &"mage.fire" else Faction.Type.PLAYER): return {"reason": &"mage/invalid_target"}
 	var guard := SpatialRules.capture_guard(context, [target], [target.cell], {target_id: [StatTypes.StatType.HP_MAX]})
 	if guard == null or target.armor == null: return {"reason": &"mage/invalid_runtime"}
 	var source := DamageSource.new(&"mage", AbilityDefinition.mage_source_id(spell_id), Vector2i(-1, -1), 0, 0)
@@ -47,6 +47,9 @@ func _prepare(context: ActionContext) -> Dictionary:
 	var hp_after := minf(maximum, target.vitals.get_hp() + float(spell.amount))
 	if spell_id in [&"mage.heal", &"mage.test_heal"]:
 		if target.vitals.get_hp() >= maximum or ActionHpExecutor.validate_heal(target_id, float(spell.amount), source, context) != &"": return {"reason": &"mage/full_hp"}
+	elif spell_id == &"mage.shield":
+		if not target.armor.in_battle: return {"reason": &"mage/invalid_runtime"}
+		status_plan = {"shield_after": SpellShield.make(spell_id, spell.amount, spell.shield_hits)}
 	elif spell_id == &"mage.fire":
 		var extras: Array[Dictionary] = [{"type": "fire", "policy": "standard", "source": "mage.fire", "numerator": spell.amount, "denominator": 1, "factor_num": 1, "factor_den": 1}]
 		var raw := ArmorAttack.components(0.0, 0.0, 0, target.guard_stance, extras, 0, 2 if ElementalRules.is_frozen(target) else 1)
@@ -74,7 +77,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	# Обе части оплаты записываются без callback; baseline вычислен до первой записи.
 	ability.apply_values(plan.paid)
 	var result := CommandStepResult.applied([], [], [], null, true)
-	result.events.append({"kind": &"mage_cast", "spell_id": String(spell_id), "actor_unit_id": 0, "target_unit_id": target_id, "source": source.to_dict(), "mana_before": before.mana, "mana_after": ability.mana, "cooldown_before": 0, "cooldown_after": ability.remaining(spell_id)})
+	result.events.append({"kind": &"mage_cast", "spell_id": String(spell_id), "actor_unit_id": 0, "target_unit_id": target.id, "source": source.to_dict(), "mana_before": before.mana, "mana_after": ability.mana, "cooldown_before": 0, "cooldown_after": ability.remaining(spell_id)})
 	if not guard.check(context) or [spell_id, target_id, revision, target_cell] != seal:
 		result.status = &"FAULTED"; result.reason = &"mage/checkpoint"; return result
 	if plan.has("summon_plan"):
@@ -85,6 +88,17 @@ func execute(context: ActionContext) -> CommandStepResult:
 		var hit := ArmorHitExecutor.execute(plan.request, guard, context, func() -> bool: return [spell_id, target_id, revision, target_cell] == seal)
 		var hit_result: CommandStepResult = hit.result
 		result.events.append_array(hit_result.events); result.status = hit_result.status; result.reason = hit_result.reason
+	elif plan.status_plan.has("shield_after"):
+		var before_shield := target.armor.shield.duplicate(true)
+		var after_shield: Dictionary = plan.status_plan.shield_after
+		var view: Dictionary = guard.values.participants[target_id].armor.duplicate(true)
+		SpellShield.write_state(view.state, after_shield)
+		var expected := guard.armor_phase(target_id, view)
+		target.armor.shield = after_shield.duplicate(true)
+		result.events.append({"kind": &"shield_changed", "actor_unit_id": 0, "target_unit_id": target_id, "source": source.to_dict(), "before": before_shield, "after": after_shield, "absorbed": 0, "reason": "applied" if before_shield.is_empty() else "refreshed" if before_shield.spell_id == after_shield.spell_id else "replaced"})
+		target.armor.changed.emit(&"shield", 0, int(before_shield.get("hp", 0)), int(after_shield.hp))
+		if not expected.check(context) or [spell_id, target_id, revision, target_cell] != seal:
+			result.status = &"FAULTED"; result.reason = &"mage/shield_checkpoint"
 	elif not plan.status_plan.is_empty():
 		var status_result := MageStatusEffect.apply(target, plan.effect, plan.status_plan.after, guard, context, func() -> bool: return [spell_id, target_id, revision, target_cell] == seal)
 		result.events.append_array(status_result.events); result.status = status_result.status; result.reason = status_result.reason

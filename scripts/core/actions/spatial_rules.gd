@@ -96,9 +96,9 @@ class Guard extends RefCounted:
 		if state.artifacts != null:
 			if state.artifacts.get_script() != BattleArtifactState or not BattleArtifactState.valid(state.artifacts.to_dict()) or not state.artifacts.references_valid(board) or state.artifacts.to_dict() != values["artifacts"]: return false
 			for hero_id: int in state.artifacts.heroes:
-				if state.summon_owner_id(hero_id) != 0: return false
+				if state.is_summon(hero_id): return false
 			for item: Dictionary in state.artifacts.equipped:
-				if state.summon_owner_id(item["unit_id"]) != 0: return false
+				if state.is_summon(item["unit_id"]): return false
 		if state.environment != refs.get("environment"): return false
 		if state.environment != null and state.environment.to_dict() != values["environment"]: return false
 		# Проверяем raw attachment до getters, которые обходят массив и вызывают методы.
@@ -276,9 +276,9 @@ static func capture_guard(context: ActionContext, units: Array[UnitState], cells
 	if state.artifacts != null:
 		if state.artifacts.get_script() != BattleArtifactState or not BattleArtifactState.valid(state.artifacts.to_dict()) or not state.artifacts.references_valid(board): return null
 		for hero_id: int in state.artifacts.heroes:
-			if state.summon_owner_id(hero_id) != 0: return null
+			if state.is_summon(hero_id): return null
 		for item: Dictionary in state.artifacts.equipped:
-			if state.summon_owner_id(item["unit_id"]) != 0: return null
+			if state.is_summon(item["unit_id"]): return null
 		guard.values["artifacts"] = state.artifacts.to_dict()
 	guard.refs["environment"] = state.environment
 	if state.environment != null: guard.values["environment"] = state.environment.to_dict()

@@ -105,7 +105,7 @@ func ui_and_areas() -> void:
 	check(demo._action_bar._buttons.size() == 4 and demo._action_bar._page == 0, "main four slots no pages")
 	check(demo._action_bar.get_global_rect().end.x <= demo.board_view.global_position.x, "character slots left of field")
 	check(demo._action_bar._buttons[3].global_position.y > demo._action_bar._buttons[0].get_global_rect().end.y, "slots vertical")
-	check(demo._mage_row.global_position.y >= demo.board_view.get_global_rect().end.y and demo._mage_buttons.size() == 11, "eleven mage spells below field across pages")
+	check(demo._mage_row.global_position.y >= demo.board_view.get_global_rect().end.y and demo._mage_buttons.size() == 12, "twelve mage spells including shield below field across pages")
 	check(demo._mage_row.get_global_rect().end.x <= viewport.size.x and demo._instructions.get_global_rect().end.y <= viewport.size.y, "panels fit 1280x850")
 	check(demo.board_view.grid_config.tile_size == Vector2(128,64), "panels preserve fixed tiles")
 	var areas := demo.board_view.action_areas

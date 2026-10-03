@@ -121,7 +121,7 @@ def main():
         if label in ("snapshot_value_copy", "live_snapshot_capture", "summon_checkpoint"):
             marker = {"snapshot_value_copy": "SNAPSHOT VALUE COPY RESULTS:", "live_snapshot_capture": "LIVE SNAPSHOT CAPTURE RESULTS:", "summon_checkpoint": "SUMMON CHECKPOINT RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
-        if label in ("mage_r14", "battle_mage_bar"):
+        if label in ("mage_r14", "battle_mage_bar", "spell_shield", "presentation_support"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("counterattack", "counterattack_ui"):
@@ -222,6 +222,13 @@ def main():
             mage_r14_captures.mkdir()
             mage_r14_args += ["--", "--captures=" + str(mage_r14_captures)]
         run("mage_r14", mage_r14_args, headless=not args.render_check)
+        run("spell_shield", ["--script", "tests/test_spell_shield.gd"])
+        support_args = ["--script", "tests/test_presentation_support.gd"]
+        if args.render_check:
+            support_captures = out / "support-presentation-screenshots"
+            support_captures.mkdir()
+            support_args += ["--", "--captures=" + str(support_captures)]
+        run("presentation_support", support_args, headless=not args.render_check)
         contact_args = ["--script", "tests/test_presentation_contact.gd"]
         if args.render_check:
             contact_captures = out / "contact-screenshots"

@@ -1,16 +1,32 @@
 extends RefCounted
 class_name MageSummonEffect
 
-## Тестовые заклинания используют прежний runtime помощника; выбранный союзник
-## задаёт только связь/лимит и соседство, но не платит действия или предметы.
-static func prepare(context: ActionContext, owner_id: int, cell: Vector2i, spell: StringName, paid: Dictionary) -> Dictionary:
+## Прежний вариант с владельцем сохранён для будущего персонажа-мага.
+## Верховный маг выбирает лишь опорного союзника для проверки зоны, не владельца.
+static func prepare_owned(context: ActionContext, owner_id: int, cell: Vector2i, spell: StringName, paid: Dictionary) -> Dictionary:
+	return _prepare(context, owner_id, cell, spell, paid, true)
+
+static func zone_anchor(state: ItemSimulationState, cell: Vector2i) -> UnitState:
+	var found: UnitState = null
+	for ally: UnitState in state.get_board().get_all_units():
+		if not ally.is_alive() or ally.faction != Faction.Type.PLAYER: continue
+		if not UseSummoningItemCommand.valid_cell(state.get_board(), ally.cell, cell): continue
+		if found == null or ally.id < found.id: found = ally
+	return found
+
+static func prepare(context: ActionContext, _selected_id: int, cell: Vector2i, spell: StringName, paid: Dictionary) -> Dictionary:
+	var anchor := zone_anchor(context.get_state(), cell)
+	if anchor == null: return {"reason": &"summon/invalid_cell"}
+	return _prepare(context, anchor.id, cell, spell, paid, false)
+
+static func _prepare(context: ActionContext, owner_id: int, cell: Vector2i, spell: StringName, paid: Dictionary, owned: bool) -> Dictionary:
 	var state := context.get_state()
 	var board := state.get_board()
 	var owner := board.get_unit_by_id(owner_id)
 	if owner == null or not owner.is_alive() or owner.faction != Faction.Type.PLAYER or board.occupant_at(owner.cell) != owner:
 		return {"reason": &"mage/invalid_summon_owner"}
-	if state.summon_owner_id(owner_id) != 0: return {"reason": &"summon/helper_cannot_summon"}
-	if state.active_summon(owner_id) != null: return {"reason": &"summon/active_helper"}
+	if owned and state.is_summon(owner_id): return {"reason": &"summon/helper_cannot_summon"}
+	if owned and state.active_summon(owner_id) != null: return {"reason": &"summon/active_helper"}
 	var facade := state.get_owner(owner_id)
 	if facade == null or facade.is_closed() or facade.get_owner() != owner or owner.action_resources == null:
 		return {"reason": &"mage/invalid_runtime"}
@@ -25,21 +41,21 @@ static func prepare(context: ActionContext, owner_id: int, cell: Vector2i, spell
 	var id := UseSummoningItemCommand.next_id(board)
 	if id == 0 or board.board_version >= ActionContext.MAX_ID - 1 or board.get_all_units().size() >= ItemSimulationSnapshot.MAX_OWNERS:
 		return {"reason": &"summon/id_exhausted"}
-	var admission := SummonAdmission.extend(context.get_move_rules(), context.get_attack_rules(), id, owner_id, false)
+	var admission := SummonAdmission.extend(context.get_move_rules(), context.get_attack_rules(), id, owner_id, false) if owned else SummonAdmission.extend_team(context.get_move_rules(), context.get_attack_rules(), id, board, false)
 	if admission.is_empty(): return {"reason": &"summon/invalid_admission"}
-	var helper := UseSummoningItemCommand.make_helper(id, owner.faction, cell, owner.debug_name)
+	var helper := UseSummoningItemCommand.make_helper(id, owner.faction, cell, owner.debug_name if owned else "Верховный маг")
 	if helper == null: return {"reason": &"environment/invalid_helper_name"}
 	helper.armor = ArmorState.new(); helper.armor.in_battle = true
 	helper.bleeding = BleedingState.new()
-	if owner.elemental != null:
+	if not owned or owner.elemental != null:
 		helper.elemental = ElementalState.new(); helper.bleeding.stacked = true
 	var before := ItemSimulationSnapshot.capture(state, context.get_unsupported_runtime_ids())
 	if before.code != ItemSnapshotResult.Code.OK: return {"reason": &"mage/invalid_runtime"}
-	var expected := SummonMutationProjection.expected(before.snapshot, helper, owner_id, board.get_height(cell), 0, 0, 0, corpse_id, paid)
+	var expected := SummonMutationProjection.expected(before.snapshot, helper, owner_id, board.get_height(cell), 0, 0, 0, corpse_id, paid, not owned)
 	if expected.code != ItemSnapshotResult.Code.OK: return {"reason": &"mage/invalid_runtime"}
 	var guard := SpatialRules.capture_guard(context, [owner], [owner.cell, cell], {})
 	if guard == null: return {"reason": &"mage/invalid_runtime"}
-	return {"reason": &"", "target": owner, "guard": guard, "helper": helper, "owner_id": owner_id, "corpse_id": corpse_id,
+	return {"reason": &"", "target": owner, "guard": guard, "helper": helper, "owner_id": owner_id if owned else 0, "anchor_id": owner_id, "corpse_id": corpse_id,
 		"admission": admission, "expected": expected.snapshot.to_dict(), "state": state, "board": board,
 		"environment": state.environment, "originals": board.get_all_units(), "owners": state.get_owners(),
 		"inventories": state.get_inventories(), "equipment": state.get_equipment_facades(),
@@ -52,12 +68,14 @@ static func apply(context: ActionContext, plan: Dictionary, spell: StringName, s
 	var helper_id := helper.id
 	var cell := helper.cell
 	if int(plan.corpse_id) != 0: state.environment.consume_corpse(int(plan.corpse_id))
-	state.register_summon_owner(helper, int(plan.owner_id))
+	if int(plan.owner_id) == 0: state.register_mage_summon(helper)
+	else: state.register_summon_owner(helper, int(plan.owner_id))
 	context._move_rules = plan.admission.move
 	context._attack_rules = plan.admission.attack
 	board.add_unit(helper)
 	var event := {"kind": &"mage_summoned", "spell_id": String(spell), "actor_unit_id": 0, "owner_unit_id": int(plan.owner_id),
 		"target_unit_id": helper_id, "corpse_id": int(plan.corpse_id), "cell": cell, "source": source.to_dict()}
+	if int(plan.owner_id) == 0: event["anchor_unit_id"] = int(plan.anchor_id)
 	var result := CommandStepResult.applied([event], [], [], null, true)
 	var actual := ItemSimulationSnapshot.capture(state, [])
 	var expected_context := ActionContext.new(null, null, null, [], plan.admission.move, plan.admission.attack)
@@ -73,9 +91,12 @@ static func apply(context: ActionContext, plan: Dictionary, spell: StringName, s
 	return result
 
 static func valid_draft(event: Dictionary) -> bool:
-	if not ItemSimulationSnapshot._shape(event, {"kind": TYPE_STRING_NAME, "spell_id": TYPE_STRING, "actor_unit_id": TYPE_INT, "owner_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "corpse_id": TYPE_INT, "cell": TYPE_VECTOR2I, "source": TYPE_DICTIONARY}): return false
+	var fields := {"kind": TYPE_STRING_NAME, "spell_id": TYPE_STRING, "actor_unit_id": TYPE_INT, "owner_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "corpse_id": TYPE_INT, "cell": TYPE_VECTOR2I, "source": TYPE_DICTIONARY}
+	if event.has("anchor_unit_id"): fields["anchor_unit_id"] = TYPE_INT
+	if not ItemSimulationSnapshot._shape(event, fields): return false
 	if event.kind != &"mage_summoned" or event.actor_unit_id != 0 or not AbilityDefinition.is_cell_spell(StringName(event.spell_id)): return false
-	for key: String in ["owner_unit_id", "target_unit_id"]:
+	if event.has("anchor_unit_id") and (event.owner_unit_id != 0 or event.anchor_unit_id <= 0 or event.anchor_unit_id >= ActionContext.MAX_ID or event.anchor_unit_id == event.target_unit_id): return false
+	for key: String in (["anchor_unit_id", "target_unit_id"] if event.has("anchor_unit_id") else ["owner_unit_id", "target_unit_id"]):
 		if event[key] <= 0 or event[key] >= ActionContext.MAX_ID: return false
 	if event.owner_unit_id == event.target_unit_id: return false
 	if event.spell_id == "mage.test_raise":

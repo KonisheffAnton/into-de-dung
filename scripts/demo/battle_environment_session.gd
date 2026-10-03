@@ -46,7 +46,7 @@ func raise_hint_reason() -> StringName:
 
 func _raise_reason(hint_only: bool) -> StringName:
 	if not can_player_act() or selected_unit() == null: return &"battle/input_locked"
-	if state.summon_owner_id(selected_id) != 0: return &"summon/helper_cannot_summon"
+	if state.is_summon(selected_id): return &"summon/helper_cannot_summon"
 	if state.active_summon(selected_id) != null: return &"summon/active_helper"
 	if selected_unit().action_resources.get_main_left() < 1: return &"item/insufficient_main"
 	return &"" if not _raise_cells(hint_only).is_empty() else &"environment/no_corpse"
