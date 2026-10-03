@@ -7,6 +7,12 @@ const TEST_EFFECTS: Dictionary = {
 	&"mage.test_freeze": &"freeze", &"mage.test_stun": &"stun",
 	&"mage.test_roots": &"entangle", &"mage.test_bleeding": &"bleeding",
 }
+const TEST_SUPPORT_EFFECTS: Dictionary = {
+	&"mage.test_heal": &"heal", &"mage.test_summon": &"summon", &"mage.test_raise": &"raise",
+}
+
+static func is_cell_spell(id: StringName) -> bool:
+	return id in [&"mage.test_summon", &"mage.test_raise"]
 
 static func mage_source_id(id: StringName) -> int:
 	match id:
@@ -18,6 +24,9 @@ static func mage_source_id(id: StringName) -> int:
 		&"mage.test_stun": return 6
 		&"mage.test_roots": return 7
 		&"mage.test_bleeding": return 8
+		&"mage.test_heal": return 9
+		&"mage.test_summon": return 10
+		&"mage.test_raise": return 11
 	return 0
 
 @export var ability_id: StringName = &""
@@ -39,6 +48,8 @@ func validate() -> StringName:
 		return &""
 	if TEST_EFFECTS.has(ability_id):
 		return &"" if effect == TEST_EFFECTS[ability_id] and mana_cost == 1 and cooldown_turns == 0 and amount == 1 else &"ability/invalid_test_spell"
+	if TEST_SUPPORT_EFFECTS.has(ability_id):
+		return &"" if effect == TEST_SUPPORT_EFFECTS[ability_id] and mana_cost == 1 and cooldown_turns == 0 and amount == (4 if ability_id == &"mage.test_heal" else 1) else &"ability/invalid_test_spell"
 	if String(ability_id).begins_with("mage.") or effect != &"":
 		return &"ability/unsupported_effect"
 	if cooldown_turns != 0:

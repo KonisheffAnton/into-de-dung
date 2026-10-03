@@ -67,7 +67,7 @@ func run() -> void:
 	s = player_session()
 	# Каталог двух базовых заклинаний остаётся допустимым снимком без миграции.
 	for index: int in range(s.state.abilities.catalog.size() - 1, -1, -1):
-		if AbilityDefinition.TEST_EFFECTS.has(s.state.abilities.catalog[index].ability_id): s.state.abilities.catalog.remove_at(index)
+		if AbilityDefinition.TEST_EFFECTS.has(s.state.abilities.catalog[index].ability_id) or AbilityDefinition.TEST_SUPPORT_EFFECTS.has(s.state.abilities.catalog[index].ability_id): s.state.abilities.catalog.remove_at(index)
 	check(BattleAbilityState.valid(s.state.abilities.to_dict()), "old catalog remains valid")
 	check(s.cast_mage_spell(&"mage.test_roots", s.units[1].id).reason == &"mage/unknown_spell", "optional catalog required")
 	s.close()
@@ -105,7 +105,7 @@ func ui_and_areas() -> void:
 	check(demo._action_bar._buttons.size() == 4 and demo._action_bar._page == 0, "main four slots no pages")
 	check(demo._action_bar.get_global_rect().end.x <= demo.board_view.global_position.x, "character slots left of field")
 	check(demo._action_bar._buttons[3].global_position.y > demo._action_bar._buttons[0].get_global_rect().end.y, "slots vertical")
-	check(demo._mage_row.global_position.y >= demo.board_view.get_global_rect().end.y and demo._mage_buttons.size() == 8, "eight mage spells below field")
+	check(demo._mage_row.global_position.y >= demo.board_view.get_global_rect().end.y and demo._mage_buttons.size() == 11, "eleven mage spells below field across pages")
 	check(demo._mage_row.get_global_rect().end.x <= viewport.size.x and demo._instructions.get_global_rect().end.y <= viewport.size.y, "panels fit 1280x850")
 	check(demo.board_view.grid_config.tile_size == Vector2(128,64), "panels preserve fixed tiles")
 	var areas := demo.board_view.action_areas

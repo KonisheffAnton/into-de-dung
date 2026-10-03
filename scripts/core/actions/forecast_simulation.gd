@@ -90,7 +90,9 @@ static func run_prepared(prepared: Prepared) -> ForecastSimulation:
 	var is_move: bool = command.get_script() == MoveCommand
 	var item_use: bool = command.get_script() in [UseHealingItemCommand, UseSummoningItemCommand]
 	var raise_corpse: bool = command.get_script() == RaiseCorpseCommand
-	result.units_before = unit_values(state_copy.get_board(), state_copy, item_use or raise_corpse)
+	var mage_summon: bool = command is MageCastCommand and AbilityDefinition.is_cell_spell((command as MageCastCommand).spell_id)
+	if mage_summon and (command as MageCastCommand).spell_id == &"mage.test_raise": raise_corpse = true
+	result.units_before = unit_values(state_copy.get_board(), state_copy, item_use or raise_corpse or mage_summon)
 	if raise_corpse: result.corpses_before = corpse_values(state_copy)
 	result.snapshot_before = prepared.snapshot.to_dict()
 	result.admission_before = SummonAdmission.values(context_copy)
@@ -119,7 +121,7 @@ static func run_prepared(prepared: Prepared) -> ForecastSimulation:
 		result.reason = &"preview/result_snapshot_failed"
 	# FAULTED сохраняет prefix в снимках/журнале, но не выдаёт готовые полосы/помощника.
 	if result.status == ActionReceipt.APPLIED or (is_move and result.status == ActionReceipt.INTERRUPTED):
-		result.units_after = unit_values(state_copy.get_board(), state_copy, item_use or raise_corpse)
+		result.units_after = unit_values(state_copy.get_board(), state_copy, item_use or raise_corpse or mage_summon)
 		if raise_corpse: result.corpses_after = corpse_values(state_copy)
 		if not item_before.is_empty():
 			result.items[item_id] = {"actor_id": actor_id, "before": item_before, "after": _item_values(state_copy, actor_id, item_id)}

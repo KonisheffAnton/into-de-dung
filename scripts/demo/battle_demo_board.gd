@@ -103,6 +103,7 @@ const REACTION_CUE_SECONDS: float = 0.18
 var _reaction_cues: Array[BattlePresentationReaction] = []
 var _mage_effect: BattlePresentationMage
 var _mage_target_id: int = UnitId.NONE
+var _mage_target_cell: Vector2i = Vector2i(-1, -1)
 var _mage_spell_id: StringName = &""
 var _mage_recoil_direction: Vector2 = Vector2.ZERO
 var _mage_dying: bool = false
@@ -163,6 +164,7 @@ func clear_presentation_effects() -> void:
 		_mage_effect.free()
 	_mage_effect = null
 	_mage_target_id = UnitId.NONE
+	_mage_target_cell = Vector2i(-1, -1)
 	_mage_spell_id = &""
 	_mage_recoil_direction = Vector2.ZERO
 	_mage_dying = false
@@ -578,6 +580,7 @@ static func _presentation_caption(event: Dictionary) -> String:
 		&"mage_cast": return "МАГ"
 		&"elemental_cast", &"elemental_changed", &"control_changed", &"bleeding_changed": return "СОСТОЯНИЕ"
 		&"summoned", &"corpse_raised": return "ПРИЗЫВ"
+		&"mage_summoned": return "ПОДНЯТИЕ" if int(event.get("corpse_id", 0)) > 0 else "ПРИЗЫВ"
 		&"support_collapsed": return "ОБВАЛ"
 		&"fell": return "ПАДЕНИЕ"
 		&"guarded": return "ЗАЩИТА"
@@ -756,35 +759,45 @@ func _matching_mage_cast(events: Array, step: Dictionary) -> Dictionary:
 		if event.get("kind") != &"mage_cast" or int(event.get("actor_unit_id", -1)) != 0: continue
 		if int(event.get("command_seq", -1)) != int(step.get("command_seq", -2)): continue
 		var spell := StringName(event.get("spell_id", &""))
-		var expected_source := 1 if spell == &"mage.fire" else (2 if spell == &"mage.heal" else 0)
+		var expected_source := AbilityDefinition.mage_source_id(spell) if spell in [&"mage.fire", &"mage.heal", &"mage.test_heal", &"mage.test_summon", &"mage.test_raise"] else 0
 		if expected_source == 0 or source.get("kind") != &"mage" or int(source.get("source_instance_id", 0)) != expected_source: continue
 		return event
 	return {}
 
 func _mage_result_matches(event: Dictionary, cast: Dictionary) -> bool:
 	var source: Dictionary = event.get("source", {})
-	return event.get("root_id") == cast.get("root_id") and int(event.get("command_seq", -1)) == int(cast.get("command_seq", -2)) and int(event.get("target_unit_id", -1)) == int(cast.get("target_unit_id", -2)) and source.get("kind") == &"mage" and int(source.get("source_instance_id", 0)) == int(cast.get("source", {}).get("source_instance_id", -1))
+	var target_matches := int(event.get("target_unit_id", -1)) == int(cast.get("target_unit_id", -2))
+	if AbilityDefinition.is_cell_spell(StringName(cast.get("spell_id", &""))):
+		target_matches = event.get("kind") == &"mage_summoned" and event.get("spell_id") == cast.get("spell_id") and int(event.get("owner_unit_id", -1)) == int(cast.get("target_unit_id", -2))
+	return event.get("root_id") == cast.get("root_id") and int(event.get("command_seq", -1)) == int(cast.get("command_seq", -2)) and target_matches and source.get("kind") == &"mage" and int(source.get("source_instance_id", 0)) == int(cast.get("source", {}).get("source_instance_id", -1))
 
 func _animate_mage_frame(events: Array, cast: Dictionary) -> Tween:
 	var target_id := int(cast.get("target_unit_id", UnitId.NONE))
 	var spell := StringName(cast.get("spell_id", &""))
-	var contact_kind := &"healed" if spell == &"mage.heal" else &""
+	var contact_kind := &"healed" if spell in [&"mage.heal", &"mage.test_heal"] else &""
 	var confirms_contact := false
 	_mage_dying = false
+	_mage_target_cell = Vector2i(-1, -1)
 	for event: Dictionary in events:
 		if not _mage_result_matches(event, cast): continue
-		if spell == &"mage.heal" and event.get("kind") == contact_kind: confirms_contact = true
+		if AbilityDefinition.is_cell_spell(spell) and event.get("kind") == &"mage_summoned":
+			confirms_contact = true
+			_mage_target_cell = event.cell
+		if spell in [&"mage.heal", &"mage.test_heal"] and event.get("kind") == contact_kind: confirms_contact = true
 		if spell == &"mage.fire" and event.get("kind") in [&"hit_resolved", &"damaged", &"healed", &"armor_changed"]: confirms_contact = true
 		if spell == &"mage.fire" and event.get("kind") == &"died": _mage_dying = true
 	_clear_layer(_ghosts)
 	_mage_target_id = target_id
 	_mage_spell_id = spell
 	_mage_effect = mage_scene.instantiate() as BattlePresentationMage
+	_mage_effect.show_target = not AbilityDefinition.is_cell_spell(spell) or confirms_contact
 	add_child(_mage_effect)
 	_mage_effect.z_index = RenderLayers.z_index_for(RenderLayers.Layer.VFX_OVERLAY) + 1
 	_update_mage_geometry()
 	var tween := create_tween()
 	tween.tween_method(_sample_mage.bind(&"prepare"), 0.0, 1.0, 0.10)
+	# Без подтверждённого появления prefix не знает целевую клетку и не выдумывает её.
+	if AbilityDefinition.is_cell_spell(spell) and not confirms_contact: return tween
 	tween.tween_method(_sample_mage.bind(&"delivery"), 0.0, 1.0, 0.22)
 	if confirms_contact:
 		tween.tween_callback(_mage_contact.bind(cast, spell))
@@ -804,6 +817,7 @@ func _update_mage_geometry(phase: StringName = &"prepare", progress: float = 0.0
 	var visual := _presentation_visual(_mage_target_id)
 	var anchor := visual.get_node_or_null("ArtRoot/EffectAnchor") as Node2D if visual != null else null
 	var world_point := _world_cell_center(_view_unit_cell(_mage_target_id)) + ((anchor.position if anchor != null else Vector2(0, -18)) * grid_config.tile_size.x / 128.0)
+	if _mage_target_cell.x >= 0: world_point = _world_cell_center(_mage_target_cell)
 	_mage_effect.spell_id = _mage_spell_id
 	_mage_effect.sample(phase, progress, source_point, world_to_view(world_point))
 

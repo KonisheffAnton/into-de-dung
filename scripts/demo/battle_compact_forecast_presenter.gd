@@ -37,6 +37,7 @@ static func publish(demo: BattleDemo) -> void:
 		value = demo._elemental_forecast
 		primary = demo._action_forecast_target_id
 		cell = board._view_unit_cell(primary)
+		if AbilityDefinition.is_cell_spell(demo._action_forecast_effect): cell = demo._action_forecast_cell
 	elif demo._guard_forecast != null:
 		title = "Стойка"
 		value = demo._guard_forecast

@@ -358,6 +358,7 @@ func _bind_batch(descriptions: Array[Dictionary], event_seq: int, context: Actio
 
 static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bool:
 	if draft.get("kind") == &"mage_cast": return MageCastCommand.valid_draft(draft)
+	if draft.get("kind") == &"mage_summoned": return MageSummonEffect.valid_draft(draft)
 	if draft.get("kind") == &"chain_link": return PushChainCommand.valid_draft(draft)
 	if draft.get("kind") in [&"environment_turn", &"support_collapsed"]: return CollapsePhaseCommand.valid_draft(draft)
 	if draft.get("kind") == &"reaction_used":

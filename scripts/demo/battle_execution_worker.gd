@@ -2,7 +2,7 @@ extends RefCounted
 class_name BattleExecutionWorker
 
 ## Session передаётся целиком одному исполнителю; UI возвращает её только после join.
-const METHODS: Array[StringName] = [&"move_to", &"retreat_to", &"attack_unit", &"cast_unit", &"cast_mage_spell", &"guard_selected", &"use_healing_item", &"use_summoning_item", &"raise_corpse", &"restore_selected_armor", &"set_reaction_guard", &"end_player_turn", &"step_enemy"]
+const METHODS: Array[StringName] = [&"move_to", &"retreat_to", &"attack_unit", &"cast_unit", &"cast_mage_spell", &"cast_mage_cell", &"guard_selected", &"use_healing_item", &"use_summoning_item", &"raise_corpse", &"restore_selected_armor", &"set_reaction_guard", &"end_player_turn", &"step_enemy"]
 
 var _thread: Thread
 var _session: BattleCoreReactionsSession
@@ -80,6 +80,7 @@ static func _valid_request(action: StringName, args: Array) -> bool:
 		return args.size() == 1 and args[0] is Vector2i
 	if action in [&"attack_unit", &"cast_unit"]: return args.size() == 1 and args[0] is int
 	if action == &"cast_mage_spell": return args.size() == 2 and typeof(args[0]) in [TYPE_STRING, TYPE_STRING_NAME] and typeof(args[1]) == TYPE_INT
+	if action == &"cast_mage_cell": return args.size() == 2 and typeof(args[0]) in [TYPE_STRING, TYPE_STRING_NAME] and typeof(args[1]) == TYPE_VECTOR2I
 	if action == &"set_reaction_guard":
 		return args.size() in [1, 2] and args[0] is int and (args.size() == 1 or args[1] is int)
 	return args.is_empty()

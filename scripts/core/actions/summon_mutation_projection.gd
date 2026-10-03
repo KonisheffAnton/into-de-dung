@@ -4,11 +4,14 @@ class_name SummonMutationProjection
 ## Ожидаемый снимок атомарного создания помощника. Это checkpoint для проверки
 ## callbacks, а не preview: прогноз по-прежнему исполняет настоящую команду.
 ## Меняются только DTO; live-позицию и occupancy записывает BattleBoard.add_unit.
-static func expected(before: ItemSimulationSnapshot, helper: UnitState, actor_id: int, height: int, main_cost: int, item_id: int = 0, charge_cost: int = 0, corpse_id: int = 0) -> ItemSnapshotResult:
-	if before == null or helper == null or main_cost <= 0:
+static func expected(before: ItemSimulationSnapshot, helper: UnitState, actor_id: int, height: int, main_cost: int, item_id: int = 0, charge_cost: int = 0, corpse_id: int = 0, ability_after: Dictionary = {}) -> ItemSnapshotResult:
+	if before == null or helper == null or main_cost < 0 or (main_cost == 0 and ability_after.is_empty()):
 		return ItemSimulationSnapshot._failure("summon/projection")
 	var data := before.to_dict()
-	if data.get("schema_version") not in [3, 4, 5, 6, 7]: return ItemSimulationSnapshot._failure("summon/projection")
+	if not ability_after.is_empty():
+		if not data.has("abilities") or not BattleAbilityState.valid(ability_after): return ItemSimulationSnapshot._failure("summon/projection")
+		data["abilities"] = ability_after.duplicate(true)
+	if data.get("schema_version") not in [3, 4, 5, 6, 7, 8]: return ItemSimulationSnapshot._failure("summon/projection")
 	var unit := helper.to_snapshot_dict()
 	if unit.is_empty(): return ItemSimulationSnapshot._failure("summon/projection")
 	unit["height"] = height

@@ -260,6 +260,18 @@ func prepare_mage_forecast(spell: StringName, target: int) -> ForecastSimulation
 	if reason != &"": return ForecastSimulation.Prepared.rejected(reason)
 	return ForecastSimulation.prepare(context, _queue, MageCastCommand.new(spell, target, context.get_revision()))
 
+func cast_mage_cell(spell: StringName, cell: Vector2i) -> ActionReceipt:
+	var reason := mage_reason(spell)
+	if reason != &"": return _reject(reason)
+	if not AbilityDefinition.is_cell_spell(spell): return _reject(&"mage/unknown_spell")
+	return _submit(MageCastCommand.new(spell, selected_id, context.get_revision(), cell))
+
+func prepare_mage_cell_forecast(spell: StringName, cell: Vector2i) -> ForecastSimulation.Prepared:
+	var reason := mage_reason(spell)
+	if reason != &"": return ForecastSimulation.Prepared.rejected(reason)
+	if not AbilityDefinition.is_cell_spell(spell): return ForecastSimulation.Prepared.rejected(&"mage/unknown_spell")
+	return ForecastSimulation.prepare(context, _queue, MageCastCommand.new(spell, selected_id, context.get_revision(), cell))
+
 func _after_team_end(incoming: Faction.Type) -> bool:
 	if incoming != Faction.Type.ENEMY or state.environment.collapse.is_empty(): return true
 	_transitioning = true
