@@ -62,6 +62,7 @@ var _view_height: int = 0
 var _view_heights: PackedInt32Array = PackedInt32Array()
 var _view_terrain: PackedByteArray = PackedByteArray()
 var _view_units: Array[Dictionary] = []
+var _view_actor_classes: Dictionary = {}
 var _view_fires: Array[Dictionary] = []
 var _view_corpses: Array[Dictionary] = []
 var _view_collapse: Array[Vector2i] = []
@@ -77,6 +78,12 @@ const FORCED_MOVE_SEGMENT_SECONDS: float = 0.10
 const STRIKE_WINDUP_SECONDS: float = 0.10
 const STRIKE_LUNGE_SECONDS: float = 0.025
 const STRIKE_LUNGE_DISTANCE: float = 32.0
+const POUNCE_PREPARE_SECONDS: float = 0.10
+const POUNCE_JUMP_SECONDS: float = 0.12
+const POUNCE_PREPARE_DISTANCE: float = -10.0
+const POUNCE_CONTACT_DISTANCE: float = 32.0
+const POUNCE_PREPARE_LIFT: float = 3.0
+const POUNCE_JUMP_ARC_HEIGHT: float = 18.0
 const HIT_STOP_SECONDS: float = 0.035
 const STRIKE_RECOVERY_SECONDS: float = 0.20
 const NORMAL_RECOIL_DISTANCE: float = 18.0
@@ -241,6 +248,22 @@ func _obstacle_impact(event: Dictionary) -> void:
 
 func _strike_pose(distance: float, event: Dictionary) -> void:
 	_set_action_offset(int(event.actor_unit_id), _strike_direction(event) * distance)
+
+func _pounce_prepare(progress: float, event: Dictionary) -> void:
+	var amount := clampf(progress, 0.0, 1.0)
+	var offset := _strike_direction(event) * lerpf(0.0, POUNCE_PREPARE_DISTANCE, amount)
+	offset += Vector2(0.0, POUNCE_PREPARE_LIFT * amount)
+	_set_action_offset(int(event.actor_unit_id), offset)
+
+func _pounce_jump(progress: float, event: Dictionary) -> void:
+	var amount := clampf(progress, 0.0, 1.0)
+	if amount >= 1.0:
+		# Контакт должен совпасть с прежним выпадом без остатка от lift по вертикали.
+		_set_action_offset(int(event.actor_unit_id), _strike_direction(event) * POUNCE_CONTACT_DISTANCE)
+		return
+	var offset := _strike_direction(event) * lerpf(POUNCE_PREPARE_DISTANCE, POUNCE_CONTACT_DISTANCE, amount * amount)
+	offset += Vector2(0.0, POUNCE_PREPARE_LIFT * (1.0 - amount) - POUNCE_JUMP_ARC_HEIGHT * sin(PI * amount))
+	_set_action_offset(int(event.actor_unit_id), offset)
 
 static func _impact_recoil(progress: float) -> float:
 	if progress <= 0.0 or progress >= 1.0: return 0.0
@@ -646,6 +669,8 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			clear_strike_poses()
 			var start := event.duplicate(true)
 			start["presentation_ranged"] = _is_ranged_strike(event)
+			# Класс берётся только из снимка боя, чтобы playback не читал session во время worker.
+			start["presentation_pounce"] = not bool(start.presentation_ranged) and _view_actor_classes.get(int(event.actor_unit_id), &"") == &"rogue"
 			start["presentation_cues"] = reaction_cues.duplicate(true)
 			_pending_strikes[_strike_key(event)] = start
 			for cue: Dictionary in reaction_cues:
@@ -657,8 +682,12 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 				tween.tween_method(_strike_pose.bind(start), 0.0, -8.0, SHOT_WINDUP_SECONDS)
 				tween.tween_method(_shot_flight.bind(start, projectile), 0.0, 1.0, _shot_flight_seconds(start))
 			else:
-				tween.tween_method(_strike_pose.bind(start), 0.0, -10.0, STRIKE_WINDUP_SECONDS).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-				tween.tween_method(_strike_pose.bind(start), -10.0, STRIKE_LUNGE_DISTANCE, STRIKE_LUNGE_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+				if bool(start.presentation_pounce):
+					tween.tween_method(_pounce_prepare.bind(start), 0.0, 1.0, POUNCE_PREPARE_SECONDS).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+					tween.tween_method(_pounce_jump.bind(start), 0.0, 1.0, POUNCE_JUMP_SECONDS)
+				else:
+					tween.tween_method(_strike_pose.bind(start), 0.0, -10.0, STRIKE_WINDUP_SECONDS).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+					tween.tween_method(_strike_pose.bind(start), -10.0, STRIKE_LUNGE_DISTANCE, STRIKE_LUNGE_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 			visible_event = true
 			continue
 		if kind in [&"damaged", &"healed", &"armor_changed", &"hit_resolved"]:
@@ -1216,6 +1245,12 @@ func _make_visual(cell: Vector2i, steps: int, role: BattleDemoIsoVisual.Role) ->
 
 func _capture_board_view(board: BattleBoard) -> void:
 	action_areas.assign(ActionPresentationState.capture_action_areas(session.state) if session is BattleCoreReactionsSession else [])
+	_view_actor_classes.clear()
+	if session is BattleCoreReactionsSession:
+		for unit_id: Variant in (session as BattleCoreReactionsSession).actor_loadouts:
+			var loadout: Variant = (session as BattleCoreReactionsSession).actor_loadouts[unit_id]
+			if loadout is Dictionary:
+				_view_actor_classes[int(unit_id)] = StringName(loadout.get("class_id", &""))
 	# Рендер и resize читают эту копию, чтобы worker не менял уже показанный кадр.
 	_view_width = board.width if board != null else 0
 	_view_height = board.height if board != null else 0
