@@ -1,0 +1,18 @@
+[gd_scene format=3]
+
+[node name="ErrorPage" type="VBoxContainer"]
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+
+[node name="Error" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 16
+text = "Сохранение недоступно"
+autowrap_mode = 3
+
+[node name="retry_save" type="Button" parent="."]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 34)
+text = "Повторить запись"

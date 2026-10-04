@@ -1,0 +1,42 @@
+[gd_scene format=3]
+
+[node name="Allocation" type="VBoxContainer"]
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+
+[node name="Attributes" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Current" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 15
+text = "Текущие характеристики"
+autowrap_mode = 3
+
+[node name="Preview" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 15
+text = "Предпросмотр: выберите очки в пределах уровня и лимита атрибута 40."
+autowrap_mode = 3
+
+[node name="Actions" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="apply_allocation" type="Button" parent="Actions"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 34)
+text = "Применить распределение"
+
+[node name="cancel_allocation" type="Button" parent="Actions"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 34)
+text = "Отменить предварительное"
+
+[node name="respec" type="Button" parent="Actions"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 34)
+text = "Перераспределить"

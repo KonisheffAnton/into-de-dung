@@ -1,0 +1,105 @@
+[gd_scene format=3]
+
+[node name="ReportPage" type="VBoxContainer"]
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 25
+autowrap_mode = 3
+text = "Итоги боя"
+size_flags_horizontal = 3
+
+[node name="Outcome" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 20
+autowrap_mode = 3
+text = ""
+size_flags_horizontal = 3
+
+[node name="HeroesHeading" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 20
+autowrap_mode = 3
+text = "ГЕРОИ"
+size_flags_horizontal = 3
+
+[node name="Heroes" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LootHeading" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 20
+autowrap_mode = 3
+text = "НАГРАДА И ПОТЕРИ"
+size_flags_horizontal = 3
+
+[node name="Loot" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="DeckReport" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+visible = false
+
+[node name="AchievementsHeading" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 20
+autowrap_mode = 3
+text = "НОВЫЕ ДОСТИЖЕНИЯ · +0 очков"
+size_flags_horizontal = 3
+visible = false
+
+[node name="Achievements" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+visible = false
+
+[node name="RepairsHeading" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 19
+autowrap_mode = 3
+text = "ПОЧИНКА ПОСЛЕ БОЯ"
+size_flags_horizontal = 3
+visible = false
+
+[node name="Repairs" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+visible = false
+
+[node name="RewardsHeading" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 20
+autowrap_mode = 3
+text = "ПОБЕДА · выберите один артефакт"
+size_flags_horizontal = 3
+visible = false
+
+[node name="Rewards" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+visible = false
+
+[node name="continue_battle_report" type="Button" parent="."]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+text = "Продолжить"
+
+[node name="RewardHint" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 3
+text = ""
+size_flags_horizontal = 3
+visible = false

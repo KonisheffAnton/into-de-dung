@@ -1,0 +1,46 @@
+[gd_scene format=3]
+
+[node name="CampDeck" type="VBoxContainer"]
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 20
+text = "КОЛОДА У КОСТРА · минимум 10 активных карт"
+autowrap_mode = 3
+
+[node name="camp_deck_edit" type="Button" parent="."]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 34)
+text = "Изменить состав"
+
+[node name="Editor" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+
+[node name="Count" type="Label" parent="Editor"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 16
+text = "Активно: 10 · в хранении: 0"
+autowrap_mode = 3
+
+[node name="Cards" type="VBoxContainer" parent="Editor"]
+layout_mode = 2
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+
+[node name="camp_deck_save" type="Button" parent="Editor"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 34)
+text = "Применить состав"
+
+[node name="camp_deck_cancel" type="Button" parent="Editor"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 34)
+text = "Отмена"

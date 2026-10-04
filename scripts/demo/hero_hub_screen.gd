@@ -17,8 +17,17 @@ var _storage_error: String = ""
 var _message: String = ""
 var _root_panel: Control
 var _content: VBoxContainer
+var _pages: Dictionary[String, VBoxContainer] = {}
+var _page_host: VBoxContainer
+var _start_button: Button
 
 func _ready() -> void:
+	_root_panel = $Panel
+	_page_host = $Panel/Column/HeroHubScroll/Content/Pages
+	for child: Node in _page_host.get_children():
+		_pages[String(child.name)] = child as VBoxContainer
+		_page_host.remove_child(child)
+	_start_button = _page("BasePage").get_node("Footer/Start") as Button
 	var save_existed := FileAccess.file_exists(save_path) or FileAccess.file_exists(save_path + ".bak")
 	var loaded := HeroHubStore.read_run(save_path,mage_deck_mode)
 	run = loaded.get("run") as HeroHubState
@@ -56,6 +65,10 @@ func _process(_delta: float) -> void:
 
 func _exit_tree() -> void:
 	_clear_battle()
+	# Неактивные страницы временно вне дерева, но принадлежат этому экрану.
+	for page: VBoxContainer in _pages.values():
+		if page.get_parent() == null: page.free()
+	_pages.clear()
 
 func _copy_run() -> HeroHubState:
 	return HeroHubState.from_dict(run.to_dict()) if run != null else null
@@ -159,9 +172,22 @@ func _clear_battle() -> void:
 			session.call("close")
 	_battle_bundle.clear()
 
+func _page(key: String) -> VBoxContainer:
+	return _pages[key]
+
+func _show_page(key: String) -> VBoxContainer:
+	for child: Node in _page_host.get_children():
+		_page_host.remove_child(child)
+	var page := _page(key)
+	HubUI.clear_dynamic(page)
+	_page_host.add_child(page)
+	page.show()
+	_content = page
+	return page
+
 func _render() -> void:
-	var previous_scroll := find_child("HeroHubScroll", true, false) as ScrollContainer
-	var scroll_offset: int = previous_scroll.scroll_vertical if previous_scroll != null else 0
+	var scroll := $Panel/Column/HeroHubScroll as ScrollContainer
+	var scroll_offset := scroll.scroll_vertical
 	if battle_view != null:
 		_clear_battle()
 	if run != null:
@@ -174,130 +200,94 @@ func _render() -> void:
 				if candidate.hp_current > 0.0:
 					selected_hero_id = id
 					break
-	if _root_panel != null:
-		remove_child(_root_panel)
-		_root_panel.queue_free()
-	_root_panel = PanelContainer.new()
-	_root_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color("111a27")
-	for side: String in ["left", "right", "top", "bottom"]: style.set("content_margin_" + side, 20.0)
-	_root_panel.add_theme_stylebox_override("panel", style)
-	add_child(_root_panel)
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
-	_root_panel.add_child(column)
-	var header := HBoxContainer.new()
-	column.add_child(header)
-	var title := _label("intoDeDung · Поход" if run != null and run.phase == "expedition" else "intoDeDung · Хаб героев", 27)
-	title.name = "HubTitle"
+	var title := HubUI.text(self, ^"Panel/Column/Header/HubTitle", "intoDeDung · Поход" if run != null and run.phase == "expedition" else "intoDeDung · Хаб героев")
 	if run != null and run.phase == "hub" and deck_editing: title.text = "Колода мага · %d/10" % deck_draft.size()
-	title.autowrap_mode = TextServer.AUTOWRAP_OFF
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	header.add_child(title)
+	var wallet := $Panel/Column/Header/HubWallet as Label
+	wallet.visible = run != null
 	if run != null:
 		var wallet_text := "Золото: %d" % run.gold
 		if run.phase == "expedition" and run.expedition != null:
 			wallet_text = "Золото похода: %d · В хабе: %d" % [run.expedition.gold, run.gold]
-		var gold_label := _label("%s · Эссенция: %d · Очки: %d (%d доступно)" % [wallet_text, run.essence, run.achievements.total_points, run.achievements.available_points], 18)
-		gold_label.name = "HubWallet"
-		gold_label.autowrap_mode = TextServer.AUTOWRAP_OFF
-		gold_label.size_flags_horizontal = Control.SIZE_SHRINK_END
-		header.add_child(gold_label)
-	var scroll := ScrollContainer.new()
-	scroll.name = "HeroHubScroll"
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	# Длинная строка снаряжения не должна расширять весь экран за границы viewport.
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
-	column.add_child(scroll)
+		wallet.text = "%s · Эссенция: %d · Очки: %d (%d доступно)" % [wallet_text, run.essence, run.achievements.total_points, run.achievements.available_points]
+	var last_result := $Panel/Column/HeroHubScroll/Content/LastResult as Label
+	var message := $Panel/Column/HeroHubScroll/Content/Message as Label
+	last_result.hide()
+	message.hide()
 	scroll.set_deferred("scroll_vertical", scroll_offset)
-	_content = VBoxContainer.new()
-	_content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_content.add_theme_constant_override("separation", 12)
-	scroll.add_child(_content)
-	if not _storage_error.is_empty():
-		_text("Сохранение недоступно: " + _storage_error)
-		if _pending_save != null: _button_for(_content, "Повторить запись", "retry_save", _retry_save)
-		return
-	if run == null:
-		_text("Профиль не загружен. Сохранение не изменено.")
+	if not _storage_error.is_empty() or run == null:
+		var error_page := _show_page("ErrorPage")
+		HubUI.text(error_page, ^"Error", "Сохранение недоступно: " + _storage_error if not _storage_error.is_empty() else "Профиль не загружен. Сохранение не изменено.")
+		HubUI.bind(error_page, ^"retry_save", _retry_save).visible = _pending_save != null
 		return
 	if run.battle_report.get("open", false):
+		_show_page("ReportPage")
 		PostBattlePanel.render(self)
 		return
-	if run.phase != "expedition": _text(run.last_result, 18)
-	if run.phase == "battle":
+	last_result.text = run.last_result
+	last_result.visible = run.phase != "expedition"
+	if run.phase == "battle" or (run.phase == "expedition" and run.expedition.phase == "battle"):
+		for child: Node in _page_host.get_children(): _page_host.remove_child(child)
 		_begin_battle()
 		return
 	if run.phase == "expedition":
-		if run.expedition.phase == "battle": _begin_battle()
-		else: ExpeditionHubPanel.render(self)
+		_show_page("ExpeditionPage")
+		ExpeditionHubPanel.render(self)
 		return
-	if not _message.is_empty(): _text(_message)
+	message.text = _message
+	message.visible = not _message.is_empty()
+	_show_page("BasePage")
 	_hub_content()
 
 func _hub_content() -> void:
-	if not run.mage_deck.is_empty(): MageDeckPanel.base_editor(self)
-	_text("ОТРЯД · выберите до трёх героев. HP восстанавливается при выходе из хаба.", 20)
+	var page := _page("BasePage")
+	_content = page.get_node("Deck") as VBoxContainer
+	_content.visible = not run.mage_deck.is_empty()
+	if _content.visible: MageDeckPanel.base_editor(self)
 	_achievement_content()
-	var party_row := HFlowContainer.new()
-	_content.add_child(party_row)
+	var party_row := page.get_node("Party") as HFlowContainer
 	for id: int in run.heroes:
 		var hero: HeroProgression = run.heroes[id]
-		var button := Button.new()
-		button.text = ("✓ " if run.party.has(id) else "□ ") + hero.name
+		var button := _button_for(party_row, ("✓ " if run.party.has(id) else "□ ") + hero.name, "party_%d" % id, _toggle_party.bind(id))
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		button.pressed.connect(_toggle_party.bind(id))
-		party_row.add_child(button)
-	_text("СОСТАВ · %d/%d · выбранный герой: %s" % [run.party.size(), HeroHubState.MAX_PARTY, _selected_name()], 17)
-	_text("ГЕРОИ", 20)
+	HubUI.text(page, ^"Composition", "СОСТАВ · %d/%d · выбранный герой: %s" % [run.party.size(), HeroHubState.MAX_PARTY, _selected_name()])
 	for id: int in run.heroes:
 		var hero: HeroProgression = run.heroes[id]
-		var box := VBoxContainer.new()
-		_content.add_child(box)
-		var select_row := HBoxContainer.new()
-		box.add_child(select_row)
+		var entry := HubUI.instance("hero_entry", page.get_node("Heroes"))
 		var selected := " · выбран" if selected_hero_id == id else ""
-		var choose := Button.new()
+		var choose := HubUI.bind(entry, ^"Select", _select_hero.bind(id))
 		choose.text = "%s · %s · уровень %d · XP %d.%d · очки %d%s" % [hero.name, HeroCatalog.class_definition(hero.class_id).display_name, hero.level(), hero.xp_tenths / 10, hero.xp_tenths % 10, hero.available_points(), selected]
-		choose.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		choose.pressed.connect(_select_hero.bind(id))
-		select_row.add_child(choose)
-		_text_for_box(box, _hero_detail(hero), 14)
-	_text("ПРЕДВАРИТЕЛЬНЫЕ ОЧКИ · %s" % _selected_name(), 19)
+		HubUI.text(entry, ^"Detail", _hero_detail(hero))
+	HubUI.text(page, ^"AllocationHeading", "ПРЕДВАРИТЕЛЬНЫЕ ОЧКИ · %s" % _selected_name())
+	_content = page.get_node("Allocation") as VBoxContainer
 	_allocation_controls()
-	_text("КАНДИДАТЫ · состав %d/%d · бесплатный найм, свойства показаны до найма" % [run.heroes.size(), HeroHubState.MAX_ROSTER], 20)
-	if run.items.size() + 2 > HeroHubState.MAX_ITEMS:
-		_text("Для комплекта новичка нужно два места: освободите склад, выбросив ненужные ненадетые предметы.")
+	HubUI.text(page, ^"CandidatesHeading", "КАНДИДАТЫ · состав %d/%d · бесплатный найм, свойства показаны до найма" % [run.heroes.size(), HeroHubState.MAX_ROSTER])
+	(page.get_node("StorageHint") as Control).visible = run.items.size() + 2 > HeroHubState.MAX_ITEMS
 	for index: int in run.candidates.size():
 		var candidate: HeroProgression = run.candidates[index]
-		var candidate_box := VBoxContainer.new()
-		_content.add_child(candidate_box)
-		_text_for_box(candidate_box, _hero_detail(candidate), 15)
-		var hire: Button = _button_for(candidate_box, "Нанять без переброса свойств", "hire_%d" % index, _hire.bind(index))
+		var entry := HubUI.instance("candidate_entry", page.get_node("Candidates"))
+		HubUI.text(entry, ^"Detail", _hero_detail(candidate))
+		var hire := HubUI.bind(entry, ^"Hire", _hire.bind(index))
+		hire.name = "hire_%d" % index
 		hire.disabled = run.heroes.size() >= HeroHubState.MAX_ROSTER or run.items.size() + 2 > HeroHubState.MAX_ITEMS
-	_text("СКЛАД ЭКИПИРОВКИ · всего вещей %d/%d" % [run.items.size(), HeroHubState.MAX_ITEMS], 20)
+	HubUI.text(page, ^"EquipmentHeading", "СКЛАД ЭКИПИРОВКИ · всего вещей %d/%d" % [run.items.size(), HeroHubState.MAX_ITEMS])
 	_equipment_controls()
-	var footer := HBoxContainer.new()
-	_content.add_child(footer)
-	var send := Button.new()
+	# Ссылка переживает смену runtime-имени, порядок элементов в редакторе свободен.
+	var send := _start_button
+	HubUI.bind(send.get_parent(), NodePath(send.name), _start_battle)
 	send.name = "start_expedition" if expedition_mode else "start_battle"
 	send.text = "Начать поход · 7 комнат" if expedition_mode else "Отправиться в настоящий бой"
-	send.custom_minimum_size = Vector2(320, 44)
-	send.pressed.connect(_start_battle)
 	send.disabled = run.party.is_empty() or _pending_save != null
-	footer.add_child(send)
-	footer.add_child(_label("Выбранных героев и их экипировку можно менять в хабе.", 14))
 
 func _achievement_content() -> void:
+	var section := _page("BasePage").get_node("Achievements")
 	var achievements := run.achievements
-	_text("ДОСТИЖЕНИЯ · заработано %d очков · доступно %d" % [achievements.total_points, achievements.available_points], 19)
-	_text("Очки сохраняются для будущих открытий мага.", 14)
+	HubUI.text(section, ^"Title", "ДОСТИЖЕНИЯ · заработано %d очков · доступно %d" % [achievements.total_points, achievements.available_points])
 	for definition: ProfileAchievementDefinition in ProfileAchievements.definitions():
 		var count := achievements.count_for(definition.id)
 		var unlocked := achievements.unlocked.has(String(definition.id))
-		_text("%s · %s · %d/%d · %d очков" % ["✓" if unlocked else "○", definition.title, count, definition.goal, definition.points], 14)
-		_text(definition.description, 12)
+		var entry := HubUI.instance("achievement_entry", section.get_node("Entries"))
+		HubUI.text(entry, ^"Title", "%s · %s · %d/%d · %d очков" % ["✓" if unlocked else "○", definition.title, count, definition.goal, definition.points])
+		HubUI.text(entry, ^"Description", definition.description)
 
 func _hero_detail(hero: HeroProgression) -> String:
 	var definition := HeroCatalog.class_definition(hero.class_id)
@@ -334,34 +324,24 @@ func _allocation_controls() -> void:
 	var attributes := ["Мощь", "Ловкость", "Выносливость", "Интеллект"]
 	var preview := HeroProgression.from_dict(hero.to_dict())
 	var preview_ok := preview != null and _delta_sum() > 0 and preview.apply_allocation(pending_delta)
-	var row := HBoxContainer.new()
-	_content.add_child(row)
+	var panel := HubUI.instance("allocation_panel", _content)
 	for index: int in 4:
-		var cell := VBoxContainer.new()
-		cell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		cell.custom_minimum_size.x = 200
-		row.add_child(cell)
-		_text_for_box(cell, attributes[index], 15)
-		var controls := HBoxContainer.new()
-		cell.add_child(controls)
-		_button_for(controls, "−", "alloc_minus_%d" % index, _change_delta.bind(index, -1))
-		_text_for_box(controls, "%d" % pending_delta[index], 16)
-		var plus := _button_for(controls, "+", "alloc_plus_%d" % index, _change_delta.bind(index, 1))
+		var cell := HubUI.instance("attribute_entry", panel.get_node("Attributes"))
+		HubUI.text(cell, ^"Title", attributes[index])
+		HubUI.text(cell, ^"Controls/Value", "%d" % pending_delta[index])
+		var minus := HubUI.bind(cell, ^"Controls/Minus", _change_delta.bind(index, -1))
+		minus.name = "alloc_minus_%d" % index
+		var plus := HubUI.bind(cell, ^"Controls/Plus", _change_delta.bind(index, 1))
+		plus.name = "alloc_plus_%d" % index
 		plus.disabled = hero.available_points() <= _delta_sum()
-	var summary := _label("Сейчас %s" % _stat_preview(hero), 15)
-	_content.add_child(summary)
-	if preview_ok:
-		_text("После применения: %s" % _allocation_delta_text(hero, preview), 15)
-	else:
-		_text("Предпросмотр: выберите очки в пределах уровня и лимита атрибута 40.")
-	var actions := HBoxContainer.new()
-	_content.add_child(actions)
-	var apply := _button_for(actions, "Применить распределение", "apply_allocation", _apply_allocation)
-	apply.disabled = not preview_ok
-	_button_for(actions, "Отменить предварительное", "cancel_allocation", _cancel_allocation)
-	if run.phase == "hub":
-		var reset := _button_for(actions, "Перераспределить · %d золота" % HeroHubState.RESPEC_PRICE, "respec", _respec)
-		reset.disabled = hero.available_points() == hero.level() - 1 or run.gold < HeroHubState.RESPEC_PRICE
+	HubUI.text(panel, ^"Current", "Сейчас %s" % _stat_preview(hero))
+	if preview_ok: HubUI.text(panel, ^"Preview", "После применения: %s" % _allocation_delta_text(hero, preview))
+	HubUI.bind(panel, ^"Actions/apply_allocation", _apply_allocation).disabled = not preview_ok
+	HubUI.bind(panel, ^"Actions/cancel_allocation", _cancel_allocation)
+	var reset := HubUI.bind(panel, ^"Actions/respec", _respec)
+	reset.visible = run.phase == "hub"
+	reset.text = "Перераспределить · %d золота" % HeroHubState.RESPEC_PRICE
+	reset.disabled = hero.available_points() == hero.level() - 1 or run.gold < HeroHubState.RESPEC_PRICE
 
 func _stat_preview(hero: HeroProgression) -> String:
 	var attrs := hero.attributes()
@@ -392,31 +372,30 @@ func _attack_base_text(hero: HeroProgression) -> String:
 	return "база основной атаки %d (не урон по цели)" % (hero.attributes()[0] + int(weapon_value))
 
 func _equipment_controls() -> void:
-	var selector := HFlowContainer.new()
-	_content.add_child(selector)
+	var page := _page("BasePage")
+	var selector := page.get_node("EquipmentSelector")
 	for id: int in run.heroes:
 		var hero: HeroProgression = run.heroes[id]
-		var button := Button.new()
-		button.text = ("• " if selected_hero_id == id else "") + hero.name
-		button.pressed.connect(_select_hero.bind(id))
-		selector.add_child(button)
-	_text("Экипировка героя: " + _selected_name(), 16)
+		_button_for(selector, ("• " if selected_hero_id == id else "") + hero.name, "equipment_hero_%d" % id, _select_hero.bind(id))
+	HubUI.text(page, ^"EquipmentSelected", "Экипировка героя: " + _selected_name())
 	for item_id: int in run.items:
 		var item: Dictionary = run.items[item_id]
 		var definition := HeroGearCatalog.definition(String(item.definition))
 		if definition == null: continue
 		var owner := "на складе" if int(item.hero_id) == 0 else "надето на " + String((run.heroes[item.hero_id] as HeroProgression).name)
 		var detail := " · броня %d/%d" % [item.remaining, definition.armor_max] if definition.armor_max > 0 else ""
-		var row := HBoxContainer.new()
-		_content.add_child(row)
-		_text_for_box(row, "%s #%d · %s%s" % [definition.display_name, item_id, owner, detail], 15)
-		if selected_hero_id != 0 and int(item.hero_id) == selected_hero_id:
-			_button_for(row, "Снять на склад", "unequip_%d" % item_id, _unequip.bind(item_id))
-		elif selected_hero_id != 0 and int(item.hero_id) == 0:
-			var equip := _button_for(row, "Надеть выбранному", "equip_%d" % item_id, _equip.bind(item_id, selected_hero_id))
-			equip.disabled = not HeroGearCatalog.allowed(String(item.definition), (run.heroes[selected_hero_id] as HeroProgression).class_id)
-		if int(item.hero_id) == 0:
-			_button_for(row, "Выбросить навсегда", "discard_%d" % item_id, _discard.bind(item_id))
+		var row := HubUI.instance("equipment_entry", page.get_node("Equipment"))
+		HubUI.text(row, ^"Detail", "%s #%d · %s%s" % [definition.display_name, item_id, owner, detail])
+		var unequip := HubUI.bind(row, ^"Unequip", _unequip.bind(item_id))
+		unequip.name = "unequip_%d" % item_id
+		unequip.visible = selected_hero_id != 0 and int(item.hero_id) == selected_hero_id
+		var equip := HubUI.bind(row, ^"Equip", _equip.bind(item_id, selected_hero_id))
+		equip.name = "equip_%d" % item_id
+		equip.visible = selected_hero_id != 0 and int(item.hero_id) == 0
+		if equip.visible: equip.disabled = not HeroGearCatalog.allowed(String(item.definition), (run.heroes[selected_hero_id] as HeroProgression).class_id)
+		var discard := HubUI.bind(row, ^"Discard", _discard.bind(item_id))
+		discard.name = "discard_%d" % item_id
+		discard.visible = int(item.hero_id) == 0
 
 func _toggle_party(id: int) -> void:
 	_mutate(&"toggle_party", [id])
@@ -479,12 +458,11 @@ func _selected_name() -> String:
 	return hero.name if hero != null else "не выбран"
 
 func _label(value: String, size: int = 16) -> Label:
-	var result := Label.new()
-	result.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var scene := preload("res://scenes/demo/hub/text.tscn")
+	var result := scene.instantiate() as Label
+	result.set_meta(&"hub_dynamic", true)
 	result.text = value
-	result.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	result.add_theme_font_size_override("font_size", size)
-	result.add_theme_color_override("font_color", Color("dce7f2"))
 	return result
 
 func _text(value: String, size: int = 16) -> void:
@@ -494,12 +472,10 @@ func _text_for_box(parent: Node, value: String, size: int = 16) -> void:
 	parent.add_child(_label(value, size))
 
 func _button_for(parent: Node, value: String, key: String, action: Callable) -> Button:
-	var button := Button.new()
+	var button := HubUI.instance("action_button", parent) as Button
 	button.name = key
 	button.text = value
-	button.custom_minimum_size.y = 34
 	button.pressed.connect(action)
-	parent.add_child(button)
 	return button
 
 func _expedition_action(action: String, args: Dictionary = {}) -> void:

@@ -70,6 +70,8 @@ def main():
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if legacy:
             invalid = invalid or "0 failed" not in output
+        if label == "hub_scene_authoring":
+            invalid = invalid or "HUB SCENE AUTHORING RESULTS:" not in output or ", 0 failed" not in output
         if label in ("hero_progression", "hero_hub", "hero_hub_ui", "hero_hub_playthrough"):
             marker = {"hero_progression": "HERO PROGRESSION RESULTS:", "hero_hub": "HERO HUB RESULTS:", "hero_hub_ui": "HERO HUB UI RESULTS:", "hero_hub_playthrough": "HERO HUB PLAYTHROUGH RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -285,6 +287,7 @@ def main():
         run("hero_progression", ["--script", "tests/test_hero_progression.gd"])
         run("hero_hub", ["--script", "tests/test_hero_hub.gd"])
         run("hero_hub_playthrough", ["--script", "tests/test_hero_hub_playthrough.gd"])
+        run("hub_scene_authoring", ["--script", "tests/test_hub_scene_authoring.gd"])
         hero_ui_args = ["--script", "tests/test_hero_hub_ui.gd"]
         if args.render_check:
             hero_ui_args += ["--", "--captures=" + str(out / "captures")]

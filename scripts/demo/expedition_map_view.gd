@@ -6,10 +6,10 @@ var run: ExpeditionRunState
 var _positions: Dictionary = {}
 
 func _ready() -> void:
-	custom_minimum_size = Vector2(760, 658)
 	resized.connect(_layout)
+	if run == null: return
 	for node: Dictionary in run.plan.nodes:
-		var button := Button.new()
+		var button := preload("res://scenes/demo/hub/map_room.tscn").instantiate() as Button
 		button.name = "room_%d" % node.id
 		var accessible := run.available_nodes().has(node.id)
 		var prefix := "✓ " if run.resolved.has(node.id) else "→ " if accessible else ""
@@ -20,7 +20,6 @@ func _ready() -> void:
 				button.text += "\n%d дозорных · %s" % [encounter.enemy_cells.size(), ["колонна","уступ","широко"][node.variant]]
 				button.tooltip_text = encounter_details(encounter,node.modifier)
 			button.text += "\n" + modifier_name(node.modifier)
-		button.add_theme_font_size_override("font_size",14)
 		button.disabled = not accessible
 		button.pressed.connect(func() -> void: room_chosen.emit(node.id))
 		add_child(button)

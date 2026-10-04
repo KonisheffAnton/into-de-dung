@@ -1,0 +1,54 @@
+[gd_scene format=3]
+
+[node name="BaseDeck" type="VBoxContainer"]
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 20
+text = "КОЛОДА МАГА · 10/10 · не более двух одного типа"
+autowrap_mode = 3
+
+[node name="Summary" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 15
+text = "Состав колоды"
+autowrap_mode = 3
+
+[node name="deck_edit" type="Button" parent="."]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 34)
+text = "Пересобрать базу"
+
+[node name="Editor" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+
+[node name="Count" type="Label" parent="Editor"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 18
+text = "В составе: 10/10"
+autowrap_mode = 3
+
+[node name="Cards" type="VBoxContainer" parent="Editor"]
+layout_mode = 2
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+
+[node name="deck_save" type="Button" parent="Editor"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 34)
+text = "Сохранить колоду"
+
+[node name="deck_cancel" type="Button" parent="Editor"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 34)
+text = "Отмена"

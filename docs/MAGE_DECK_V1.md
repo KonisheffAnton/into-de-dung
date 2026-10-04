@@ -316,6 +316,10 @@ fire_imbue при capture/restore обязан быть живым PLAYER без
 
 ## 7. Изоляция, UI и критерии проверки
 
+Внебоевое представление перенесено в редактируемые сцены:
+[HUB_SCENES_V1](HUB_SCENES_V1.md). Таблица ниже по-прежнему задаёт поведение;
+боевые панель/рука этим переносом не изменены.
+
 Добавить deck/card_effects к ItemSimulationState, capture/restore/clone,
 SpatialRules guard и ожидаемым phase-after, snapshot bytes, admission и всем
 forecast/live workers. Проверяются не только значения, но identity/reference

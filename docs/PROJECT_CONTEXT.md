@@ -8,9 +8,9 @@
 |---|---|
 | Архитектура / инварианты | [ARCHITECTURE](ARCHITECTURE.md) / [DECISIONS](DECISIONS.md) |
 | Готовность ядра / срез | [CORE_READINESS](CORE_READINESS.md) / §7 [DESIGN_DIRECTION](DESIGN_DIRECTION.md) |
-| Делегирование / ведение контекста | [CODEX_WORKFLOW](CODEX_WORKFLOW.md) |
+| Команда / контекст | [CODEX_WORKFLOW](CODEX_WORKFLOW.md) |
 | Запуск / автоматические проверки | [REPOSITORY_STATE](REPOSITORY_STATE.md) / [TESTING](TESTING.md) |
-| Хаб / итоги / достижения | [H1](HERO_HUB_H1.md) / [Итоги](POST_BATTLE_V1.md) |
+| Хаб / итоги / достижения / сцены | [H1](HERO_HUB_H1.md) / [Итоги](POST_BATTLE_V1.md) / [Сцены](HUB_SCENES_V1.md) |
 | Боевой пакет / расстановка / плейтест | [CORE_BATTLE_BATCH_K9](CORE_BATTLE_BATCH_K9.md) |
 | Перки: скрытая атака, Оппортунист/Прикрытие | [CORE_REACTIONS_K10](CORE_REACTIONS_K10.md) |
 | Контратака | [K12](COUNTERATTACK_K12.md) |
@@ -42,8 +42,8 @@
 | Свидетельства прошлых этапов, архивы | [HISTORY](HISTORY.md) |
 
 Факты сверять с кодом/контрактом; проверки имеют дату и commit.
-Расхождение описать до зависимой работы. План, принятое решение,
-реализация, техническая проверка и пользовательская приёмка — разные статусы.
+Расхождение описать до зависимой работы.
+План, решение, реализация, техническая проверка и приёмка — разные статусы.
 Frozen Pxx не переписывать; новое поведение — в контрактах механизмов.
 *.history-*.md и docs/modules/ — история, не текущие инструкции.
 План не разрешает выполнение.

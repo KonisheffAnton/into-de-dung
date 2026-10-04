@@ -1,0 +1,39 @@
+[gd_scene format=3]
+
+[node name="DeckReport" type="VBoxContainer"]
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+
+[node name="Selection" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 17
+text = "Выбрана карта"
+autowrap_mode = 3
+
+[node name="Return" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="Return"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 20
+text = "КАРТЫ ПОХОДА · переработано · эссенция"
+autowrap_mode = 3
+
+[node name="Cards" type="VBoxContainer" parent="Return"]
+layout_mode = 2
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+
+[node name="Forge" type="Label" parent="Return"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 15
+text = "Новые открытия для кузни"
+autowrap_mode = 3

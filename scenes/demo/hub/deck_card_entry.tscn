@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/placeholder_battle/mage_card.svg" id="1"]
+
+[node name="Card" type="VBoxContainer"]
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+
+[node name="Row" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(18, 18)
+texture = ExtResource("1")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 16
+text = "Карта · мана · 0/2"
+autowrap_mode = 3
+
+[node name="Less" type="Button" parent="Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 34)
+text = "−"
+
+[node name="More" type="Button" parent="Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 34)
+text = "+"
+
+[node name="Description" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 14
+text = "Описание карты"
+autowrap_mode = 3

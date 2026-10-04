@@ -1,0 +1,148 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/demo/hub/deck_base_panel.tscn" id="1"]
+
+[node name="BasePage" type="VBoxContainer"]
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+
+[node name="Deck" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+
+[node name="BaseDeck" parent="Deck" instance=ExtResource("1")]
+layout_mode = 2
+
+[node name="PartyHeading" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 20
+text = "ОТРЯД · выберите до трёх героев. HP восстанавливается при выходе из хаба."
+autowrap_mode = 3
+
+
+[node name="Achievements" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="Achievements"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 19
+text = "ДОСТИЖЕНИЯ"
+autowrap_mode = 3
+
+[node name="Hint" type="Label" parent="Achievements"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 14
+text = "Очки сохраняются для будущих открытий мага."
+autowrap_mode = 3
+
+[node name="Entries" type="VBoxContainer" parent="Achievements"]
+layout_mode = 2
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+
+[node name="Party" type="HFlowContainer" parent="."]
+layout_mode = 2
+
+[node name="Composition" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 17
+text = "СОСТАВ"
+autowrap_mode = 3
+
+[node name="HeroesHeading" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 20
+text = "ГЕРОИ"
+autowrap_mode = 3
+
+[node name="Heroes" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+
+[node name="AllocationHeading" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 19
+text = "ПРЕДВАРИТЕЛЬНЫЕ ОЧКИ"
+autowrap_mode = 3
+
+[node name="Allocation" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+
+[node name="CandidatesHeading" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 20
+text = "КАНДИДАТЫ"
+autowrap_mode = 3
+
+[node name="StorageHint" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 16
+text = "Для комплекта новичка нужно два места: освободите склад, выбросив ненужные ненадетые предметы."
+autowrap_mode = 3
+
+[node name="Candidates" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+
+[node name="EquipmentHeading" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 20
+text = "СКЛАД ЭКИПИРОВКИ"
+autowrap_mode = 3
+
+[node name="EquipmentSelector" type="HFlowContainer" parent="."]
+layout_mode = 2
+
+[node name="EquipmentSelected" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 16
+text = "Экипировка героя"
+autowrap_mode = 3
+
+[node name="Equipment" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+
+[node name="Footer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Start" type="Button" parent="Footer"]
+layout_mode = 2
+custom_minimum_size = Vector2(320, 44)
+text = "Начать поход · 7 комнат"
+
+[node name="Hint" type="Label" parent="Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 14
+text = "Выбранных героев и их экипировку можно менять в хабе."
+autowrap_mode = 3

@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[node name="ReportHero" type="VBoxContainer"]
+theme_override_constants/separation = 12
+
+[node name="Summary" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 16
+autowrap_mode = 3
+text = ""
+size_flags_horizontal = 3
+
+[node name="Recovery" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 3
+text = ""
+size_flags_horizontal = 3
+visible = false

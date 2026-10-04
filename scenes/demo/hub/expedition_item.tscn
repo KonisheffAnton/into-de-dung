@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[node name="Item" type="VBoxContainer"]
+theme_override_constants/separation = 12
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 17
+text = "Предмет"
+autowrap_mode = 3
+
+[node name="Description" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.862745, 0.905882, 0.94902, 1)
+theme_override_font_sizes/font_size = 14
+text = "Описание"
+autowrap_mode = 3
+
+[node name="Actions" type="HFlowContainer" parent="."]
+layout_mode = 2

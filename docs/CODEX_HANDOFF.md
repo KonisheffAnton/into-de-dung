@@ -1,32 +1,34 @@
-# Передача — 2026-10-04: Mage Deck V1
+# Передача — 2026-10-04: UI scenes V1
 
-Main; base `e2a254749add81dadfce7a3676c1c6b3605cdc64`, без push.
-По «Вперед» реализован связный путь: база → бой с рукой → награда → костёр → итог.
-Владелец правил/codec — MAGE_DECK_V1; U/Q — DESIGN_DIRECTION §6.3.
-Все12 карт, profile4/run3/plan2/snapshot10, отдельные RNG, atomic save/retry.
-Legacy H1 battle и весь старый U14 run заканчиваются прежними правилами;
-колода со следующего похода. Disk checkpoint — начало боя, runtime snapshot точен.
-Ранний/финальный итог сохраняет копии до удаления run и открывается после reload.
+Main; base `084516331de3116d6b814844e7ad8b39f9713746`, без push.
+По «Приступай» меню → база/колода → награда/костёр → итог перенесены
+в редактируемые Godot .tscn. Карта сцен/владение — HUB_SCENES_V1.
+Постоянные страницы и overrides сохраняются при render; списки — экземпляры
+шаблонов, обработчики не копятся. Core/бой/codec/RNG/save не изменены.
+Mage Deck V1 предварительно принят: «по приемке пока ок»; арт/баланс не закрыты.
+Правила колоды — MAGE_DECK_V1, U/Q — DESIGN_DIRECTION §6.3.
 
-Import PASS; адресные models34/ability117/expedition518/battle313/UI91, без ошибок.
-Боевой playthrough156/0: реальные AI/команды; UI исходы — явные fixtures.
-Итоговые full/render по131 PASS, core9440/0; прежние exit diagnostics сохранены.
-Независимые journey/core ревью APPROVE; ошибки snapshot/binding исправлены.
-Артефакты: `test_reports/mage-deck-v1-20261004/` — verification/review/completion,
-PNG и manifest. Исторический R14 PASS не заменяет новые проверки.
-Прежняя передача — CODEX_HANDOFF.history-20261004-6.md, ссылка HISTORY.
-Пакет — один Conventional Commit; итоговый HEAD/status — ответ/completion.
+Import PASS; full132 PASS, render132 PASS; core9440/0, прежние exit diagnostics.
+Authoring272/0; UI H1 31/35, поход46/53, колода87/98 (headless/render).
+Независимое ревью APPROVE; 12 ключевых PNG осмотрены, 22 сохранены.
+Артефакты: test_reports/ui-scenes-20261004/ — verification/review/visual-review,
+captures, manifests, completion. 33 исходника сверены; очищены только EOF сцен.
+Прежний HANDOFF — точный CODEX_HANDOFF.history-20261004-7.md, ссылка HISTORY.
+Этап — один Conventional Commit; финальный HEAD/status — ответ/completion.
 
-Следующий шаг — одна сквозная ручная F5-приёмка колоды; технический PASS её не закрывает.
-Q-E/слоты постоянных артефактов открыты; экипировка13/стаки — следующий пакет,
-не начат. R16/R17 предложены; R02/R12/R13/R14 приняты. Бой/R10/HUD/грунт/R07 —
-предварительно; R11, выбор при busy, редактор назначений, финал показа/арта/баланса,
+Следующий шаг — ручная проверка сцен в редакторе и одного целого F5-маршрута.
+Перенос боевого HUD — отдельный следующий пакет, автоматически не начинать.
+Q-E/слоты постоянных артефактов открыты; экипировка13/стаки не начаты.
+R16/R17 предложены; R02/R12/R13/R14 приняты. Бой/R10/HUD/грунт/R07 предварительно.
+R11, выбор при busy, редактор назначений, финал показа/арта/баланса,
 сквозная приёмка U14, полный D4, ближняя скрытая атака открыты.
+
 Сохранять покомандность/preview/live/queue/RNG/save/frozen. Без микроплейтестов
-ядра, новых покрытий/реакций, revision-only кэша, D4-save миграции, финального арта,
-push/sidebar/расписаний. Школы/кузню/экипировку13/стаки/backlog не начинать.
-Инициатива вне full/render; viewport baseline открыт; --screen 0;
-capture cost не измерен. PROJECT_CONTEXT — маршруты; CODEX_WORKFLOW — процесс.
+ядра, новых покрытий/реакций, revision-only кэша, D4-save миграции, финального
+арта, push/sidebar/расписаний. Школы/кузню/R16/R17/экипировку13/стаки/backlog
+не начинать. Инициатива вне full/render; viewport baseline открыт;
+--screen 0; capture cost не измерен. PROJECT_CONTEXT — маршруты,
+CODEX_WORKFLOW — процесс; архивы/modules читать адресно.
 
 Проверенный этап — Conventional Commit, короткий HANDOFF и точный архив прежнего
 со ссылкой HISTORY. Предложить новый чат, кроме явного продолжения здесь;
