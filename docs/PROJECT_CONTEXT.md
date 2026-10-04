@@ -1,14 +1,14 @@
 # intoDeDung — маршруты
 
-Сначала [HANDOFF](CODEX_HANDOFF.md), git status/HEAD, затем маршрут ниже.
-[AGENTS](../AGENTS.md) — правила; предоставленный актуальный текст не перечитывать.
-Код/контракты/тесты адресно; историю/ссылки — по вопросу.
+Старт: [HANDOFF](CODEX_HANDOFF.md), Git; [правила](../AGENTS.md) повторно не читать.
+Код/контракты/историю читать адресно.
 
 | Задача | Документ |
 |---|---|
 | Архитектура / инварианты | [ARCHITECTURE](ARCHITECTURE.md) / [DECISIONS](DECISIONS.md) |
 | Готовность ядра / срез | [CORE_READINESS](CORE_READINESS.md) / §7 [DESIGN_DIRECTION](DESIGN_DIRECTION.md) |
 | Команда / контекст | [CODEX_WORKFLOW](CODEX_WORKFLOW.md) |
+| Генерация графики / PixelLab | [GRAPHICS_WORKFLOW](GRAPHICS_WORKFLOW.md) |
 | Запуск / автоматические проверки | [REPOSITORY_STATE](REPOSITORY_STATE.md) / [TESTING](TESTING.md) |
 | Хаб / итоги / сцены | [H1](HERO_HUB_H1.md) / [Итоги](POST_BATTLE_V1.md) / [Сцены](HUB_SCENES_V1.md) |
 | Боевой пакет / расстановка / плейтест | [CORE_BATTLE_BATCH_K9](CORE_BATTLE_BATCH_K9.md) |
