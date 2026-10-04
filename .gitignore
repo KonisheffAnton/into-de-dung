@@ -69,6 +69,8 @@ ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
 .DS_Store
+__pycache__/
+*.pyc
 ._*
 .Spotlight-V100
 .Trashes

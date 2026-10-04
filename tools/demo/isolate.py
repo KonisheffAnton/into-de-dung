@@ -1,12 +1,35 @@
 """Run the current working-tree demo without importing archived test reports."""
 import argparse
+import atexit
+import ast
 import hashlib
 import json
 import os
 from pathlib import Path
 import shutil
 import subprocess
+import time
 import uuid
+
+
+def available_check_labels():
+    """Read labels from the real schedule so the CLI cannot drift from it."""
+    tree = ast.parse(Path(__file__).read_text(encoding="utf-8"))
+    labels = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == "run" and node.args:
+            first = node.args[0]
+            if isinstance(first, ast.Constant) and isinstance(first.value, str):
+                labels.add(first.value)
+            elif isinstance(first, ast.Name):
+                # Existing batch schedules pass a loop variable into run().
+                for loop in ast.walk(tree):
+                    if isinstance(loop, ast.For) and isinstance(loop.target, ast.Name) and loop.target.id == first.id:
+                        if isinstance(loop.iter, (ast.Tuple, ast.List)):
+                            labels.update(item.value for item in loop.iter.elts if isinstance(item, ast.Constant) and isinstance(item.value, str))
+    # Infrastructure is mandatory; core still requires explicit selection or --full.
+    labels.difference_update({"import", "startup"})
+    return sorted(labels)
 
 
 def main():
@@ -15,9 +38,22 @@ def main():
     modes.add_argument("--check", action="store_true", help="headless import, startup and demo input checks")
     modes.add_argument("--render-check", action="store_true", help="render demo checks and save screenshots")
     parser.add_argument("--full", action="store_true", help="also run the existing core regression")
+    parser.add_argument("--only", nargs="+", action="append", metavar="LABEL", help="run only these scheduled checks (requires --check or --render-check; import/startup still run)")
+    parser.add_argument("--list-checks", action="store_true", help="print scheduled check labels and exit")
     parser.add_argument("--godot", default=os.environ.get("GODOT_BIN"))
     parser.add_argument("--screen", type=int, default=os.environ.get("GODOT_TEST_SCREEN"), help="Godot screen index for windowed runs (or GODOT_TEST_SCREEN)")
     args = parser.parse_args()
+    if args.list_checks:
+        print("\n".join(available_check_labels()))
+        return
+    if args.only and not (args.check or args.render_check):
+        parser.error("--only requires --check or --render-check")
+    if args.only and args.full:
+        parser.error("--only cannot be combined with --full")
+    selected = {label for group in (args.only or []) for label in group}
+    unknown = sorted(selected - set(available_check_labels()))
+    if unknown:
+        parser.error("unknown --only label(s): " + ", ".join(unknown))
     repo = Path(__file__).resolve().parents[2]
     godot = args.godot or shutil.which("godot") or shutil.which("godot4")
     local = Path(r"D:\Downloads\Godot_v4.7.2-stable_win64.exe\Godot_v4.7.2-stable_win64_console.exe")
@@ -26,6 +62,8 @@ def main():
     if not godot:
         parser.error("Set GODOT_BIN or pass --godot with the Godot 4.7 executable path.")
     out = repo / "test_reports" / ("demo-" + uuid.uuid4().hex)
+    total_started = time.perf_counter()
+    snapshot_started = total_started
     project = out / "project"
     project.mkdir(parents=True)
     names = subprocess.check_output(["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"], cwd=repo).decode().split("\0")
@@ -41,6 +79,13 @@ def main():
         shutil.copyfile(source, target)
         manifest.append({"path": name, "sha256": hashlib.sha256(source.read_bytes()).hexdigest()})
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    timing = {"snapshot_seconds": time.perf_counter() - snapshot_started, "checks": {}, "total_seconds": None}
+    timing_path = out / "timing.json"
+    def save_timing():
+        timing["total_seconds"] = time.perf_counter() - total_started
+        timing_path.write_text(json.dumps(timing, indent=2), encoding="utf-8")
+    save_timing()
+    atexit.register(save_timing)
     env = os.environ.copy()
     env["APPDATA"] = str(out / "profile")
     Path(env["APPDATA"]).mkdir()
@@ -53,16 +98,25 @@ def main():
         hidden = {"startupinfo": startup, "creationflags": subprocess.CREATE_NO_WINDOW}
 
     def run(label, command_args, headless=True, legacy=False):
+        # Импорт и запуск сцены обязательны для targeted режима: так выбранный тест проверяет рабочий проект.
+        if args.only and label not in selected and label not in ("import", "startup"):
+            return
+        check_started = time.perf_counter()
         command = [godot, "--path", str(project)]
         if headless:
             command.append("--headless")
         elif args.screen is not None:
             command += ["--screen", str(args.screen)]
         command += command_args
-        with (out / (label + ".log")).open("wb") as log:
-            result = subprocess.run(command, env=env, stdout=log, stderr=subprocess.STDOUT, timeout=600 if legacy else 120, **hidden)
+        timed_out = False
+        try:
+            with (out / (label + ".log")).open("wb") as log:
+                result = subprocess.run(command, env=env, stdout=log, stderr=subprocess.STDOUT, timeout=600 if legacy else 120, **hidden)
+        except subprocess.TimeoutExpired:
+            timed_out = True
+            result = None
         output = (out / (label + ".log")).read_text(encoding="utf-8", errors="replace")
-        invalid = result.returncode != 0 or "SCRIPT ERROR" in output or "Parse Error" in output
+        invalid = timed_out or result.returncode != 0 or "SCRIPT ERROR" in output or "Parse Error" in output
         if not legacy:
             invalid = invalid or "ERROR:" in output or "WARNING: ObjectDB" in output
         if label in ("demo", "battle", "forecast", "guard", "healing", "summon", "summon_snapshot", "attack_calculation", "attack_d1", "armor_calculation", "armor_snapshot", "armor_integration", "armor_recovery", "armor_ui"):
@@ -185,7 +239,10 @@ def main():
         if label.startswith("d5_"):
             marker = {"d5_state": "D5 STATE RESULTS:", "d5_integration": "D5 INTEGRATION RESULTS:", "d5_ui": "D5 UI RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
-        print(label, "FAIL" if invalid else "PASS", flush=True)
+        elapsed = time.perf_counter() - check_started
+        timing["checks"][label] = {"elapsed_seconds": elapsed, "status": "TIMEOUT" if timed_out else ("FAIL" if invalid else "PASS")}
+        save_timing()
+        print(label, "TIMEOUT" if timed_out else ("FAIL" if invalid else "PASS"), "({:.2f}s)".format(elapsed), flush=True)
         if invalid:
             print(output[-4000:])
             raise SystemExit(1)
@@ -387,7 +444,7 @@ def main():
         run("summon_snapshot", ["--script", "tests/test_summon_snapshot.gd"])
         run("summon", ["--script", "tests/test_summoning_item.gd"])
         run("healing", ["--script", "tests/test_healing_item.gd"])
-        if args.full:
+        if args.full or "core" in selected:
             run("core", ["--script", "tests/run_tests.gd"], legacy=True)
         demo_args = ["--script", "tests/test_battle_demo.gd"]
         if args.render_check:
@@ -492,6 +549,9 @@ def main():
         if args.render_check:
             move_forecast_args += ["--", "--captures=" + str(captures)]
         run("move_forecast_ui", move_forecast_args, headless=not args.render_check)
+        missing = selected - timing["checks"].keys()
+        if missing:
+            raise SystemExit("Requested checks were not executed: " + ", ".join(sorted(missing)))
     else:
         # This is the user-requested interactive window, so it is intentionally visible.
         with (out / "play.log").open("wb") as log:
