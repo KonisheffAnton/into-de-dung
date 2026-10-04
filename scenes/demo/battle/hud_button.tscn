@@ -1,0 +1,35 @@
+[gd_scene format=3]
+
+[sub_resource type="StyleBoxFlat" id="normal"]
+bg_color = Color(0.1411765, 0.2, 0.2705882, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_left = 6
+corner_radius_bottom_right = 6
+content_margin_left = 12.0
+content_margin_right = 12.0
+
+[sub_resource type="StyleBoxFlat" id="hover"]
+bg_color = Color(0.2039216, 0.2705882, 0.3490196, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_left = 6
+corner_radius_bottom_right = 6
+content_margin_left = 12.0
+content_margin_right = 12.0
+
+[sub_resource type="StyleBoxFlat" id="pressed"]
+bg_color = Color(0.1882353, 0.2901961, 0.3372549, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_left = 6
+corner_radius_bottom_right = 6
+content_margin_left = 12.0
+content_margin_right = 12.0
+
+[node name="HUDButton" type="Button"]
+custom_minimum_size = Vector2(0, 38)
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("normal")
+theme_override_styles/hover = SubResource("hover")
+theme_override_styles/pressed = SubResource("pressed")

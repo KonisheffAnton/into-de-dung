@@ -138,7 +138,7 @@ func _begin_battle() -> void:
 		_storage_error = "Не удалось собрать бой из сохранённого отряда и экипировки."
 		_render()
 		return
-	battle_view = HeroHubBattleView.new()
+	battle_view = (load("res://scenes/demo/battle/hero_hub_battle.tscn") as PackedScene).instantiate() as HeroHubBattleView
 	battle_view.expedition_battle = run.phase == "expedition"
 	battle_view.supplied_session = _battle_bundle["session"]
 	battle_view.return_requested.connect(_on_battle_return)

@@ -1,8 +1,6 @@
 extends Control
 class_name BattleDemo
 
-const MAGE_CARD_ICON: Texture2D = preload("res://assets/placeholder_battle/mage_card.svg")
-
 @export var tactical_mode: bool = false
 @export var armor_mode: bool = false
 @export var bleeding_mode: bool = false
@@ -19,6 +17,7 @@ var raising_mode: bool = false
 var retreat_mode: bool = false
 var inspected_id: int = UnitId.NONE
 var _roster: VBoxContainer
+var _hud_bound: bool = false
 var _stats: Label
 var _hint: Label
 var _log: RichTextLabel
@@ -295,18 +294,17 @@ func _note_presentation_event(event: Dictionary) -> void:
 	_note(_event_text(event))
 
 func _render_presentation_hud(state: Dictionary) -> void:
-	for child: Node in _roster.get_children():
-		_roster.remove_child(child)
-		child.queue_free()
+	_clear_roster_entries()
 	var details: PackedStringArray = []
 	for row: Dictionary in state.get("units", {}).values():
 		var status := BattleDemoBoard.presentation_status(row)
 		var text := "%s · HP %.1f / %.1f" % [row.name, row.hp, row.hp_max] if row.alive else "%s · погиб" % row.name
 		if not status.is_empty(): text += " · " + status
-		var button := _button(text)
+		var button := _roster_entry(text)
 		button.disabled = true
-		button.clip_text = true
-		button.custom_minimum_size = Vector2(0 if _diagnostics != null else 480, 30)
+		if not core_reactions_mode:
+			button.clip_text = true
+			button.custom_minimum_size = Vector2(480, 30)
 		button.tooltip_text = text
 		_roster.add_child(button)
 		if row.alive:
@@ -456,6 +454,98 @@ func _exit_tree() -> void:
 	session = null
 
 func _build_ui() -> void:
+	if core_reactions_mode:
+		_build_authored_hud()
+		return
+	_build_legacy_ui()
+
+func _build_authored_hud() -> void:
+	if _hud_bound: return
+	var hud := get_node_or_null("BattleHUD") as Control
+	if hud == null:
+		# Прямые .new() из тестов получают ту же сцену, что и редакторский вход.
+		hud = (load("res://scenes/demo/battle/battle_hud.tscn") as PackedScene).instantiate() as Control
+		add_child(hud)
+	var column := hud.get_node("Margin/Column")
+	var title := column.get_node("Title")
+	var left := column.get_node("Content/Left")
+	var toolbar := left.get_node("Toolbar")
+	var side := hud.get_node("BattleDiagnostics/Scroll/Side")
+	_heading = title.get_node("Heading") as Label
+	_mode_button = title.get_node("Mode") as Button
+	_mode_button.pressed.connect(toggle_scenario)
+	(title.get_node("Expedition") as Button).pressed.connect(func() -> void: get_tree().change_scene_to_file("res://scenes/demo/expedition_d4.tscn"))
+	(title.get_node("Reset") as Button).pressed.connect(reset_demo)
+	_subtitle = column.get_node("Subtitle") as Label
+	_phase_row = column.get_node("Phase") as HBoxContainer
+	_phase_label = _phase_row.get_node("PhaseLabel") as Label
+	_skip_presentation_button = _phase_row.get_node("SkipPresentationButton") as Button
+	_skip_presentation_button.pressed.connect(skip_presentation)
+	_speed_presentation_button = _phase_row.get_node("Speed") as Button
+	_speed_presentation_button.pressed.connect(_toggle_presentation_speed)
+	_environment_button = _phase_row.get_node("Environment") as Button
+	_environment_button.pressed.connect(_request_environment_forecast)
+	var deck_layout: bool = session != null and session.state != null and session.state.deck != null
+	var deck_label := column.get_node("DeckSummary") as Label
+	var legacy_label := _phase_row.get_node("MageSummary") as Label
+	deck_label.visible = deck_layout
+	legacy_label.visible = not deck_layout
+	_mage_label = deck_label if deck_layout else legacy_label
+	_mage_row = column.get_node("MageBar") as BattleMageBar
+	(_mage_row as BattleMageBar).page_changed.connect(_mage_page_changed)
+	_mage_buttons.clear()
+	_card_buttons.clear()
+	for child: Node in _mage_row.get_node("Buttons").get_children():
+		if child is Button and child.has_meta("spell_id"):
+			var spell := StringName(child.get_meta("spell_id"))
+			_mage_buttons[spell] = child
+			(child as Button).pressed.connect(_choose_elemental.bind(spell))
+	_mage_fire = _mage_buttons[&"mage.fire"]
+	_mage_heal = _mage_buttons[&"mage.heal"]
+	for slot: int in 6:
+		var button := _mage_row.get_node("Buttons/MageCardSlot%d" % slot) as Button
+		button.pressed.connect(_choose_card_slot.bind(slot))
+		_card_buttons.append(button)
+	_card_replace_button = _mage_row.get_node("Buttons/MageCardReplaceButton") as Button
+	_card_replace_button.pressed.connect(_replace_selected_card)
+	_card_confirm_button = _mage_row.get_node("Buttons/MageMulliganConfirmButton") as Button
+	_card_confirm_button.pressed.connect(_confirm_selected_mulligan)
+	_move_button = toolbar.get_node("Move") as Button
+	_move_button.pressed.connect(set_attack_mode.bind(false))
+	_attack_button = toolbar.get_node("Attack") as Button
+	_attack_button.pressed.connect(set_attack_mode.bind(true))
+	_end_turn_button = toolbar.get_node("EndTurn") as Button
+	_end_turn_button.pressed.connect(end_turn)
+	(toolbar.get_node("CompareTurnsButton") as Button).pressed.connect(func() -> void: get_tree().change_scene_to_file("res://scenes/demo/initiative_battle.tscn"))
+	(toolbar.get_node("Combination") as Button).pressed.connect(_open_core_combination_scenario)
+	board_view = left.get_node("Field/Board") as BattleDemoBoard
+	board_view.forecast_wheel_handler = _board_forecast_wheel_input
+	board_view.session = session
+	board_view.cell_clicked.connect(handle_cell)
+	board_view.cell_hovered.connect(_hover)
+	board_view.displayed_unit_hovered.connect(_displayed_unit_hovered)
+	board_view.cancel_requested.connect(set_attack_mode.bind(false))
+	_action_bar = left.get_node("Field/BattleActionBar") as BattleActionBar
+	_action_bar.action_requested.connect(_action_bar_requested)
+	_action_bar.action_hovered.connect(_action_bar_hovered)
+	_action_bar.action_hover_left.connect(_action_bar_hover_left)
+	_hint = left.get_node("Hint") as Label
+	_compact_inspection = left.get_node("Inspection") as Label
+	_diagnostics_button = title.get_node("Diagnostics") as Button
+	_diagnostics_button.toggled.connect(set_diagnostics_visible)
+	_diagnostics = hud.get_node("BattleDiagnostics") as PanelContainer
+	_roster = side.get_node("RosterScroll/Roster") as VBoxContainer
+	_stats = side.get_node("InspectionScroll/Stats") as Label
+	_log_heading = side.get_node("LogHeading") as Label
+	_log = side.get_node("Log") as RichTextLabel
+	_forecast_heading = side.get_node("ForecastHeading") as Label
+	_forecast_panel = side.get_node("Forecast") as RichTextLabel
+	_forecast_panel.mouse_exited.connect(_leave_forecast_panel)
+	_status = column.get_node("Status") as Label
+	_instructions = column.get_node("Instructions") as Label
+	_hud_bound = true
+
+func _build_legacy_ui() -> void:
 	var background := ColorRect.new()
 	background.color = Color("111a27")
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -492,22 +582,19 @@ func _build_ui() -> void:
 	_skip_presentation_button.name = "SkipPresentationButton"
 	_skip_presentation_button.pressed.connect(skip_presentation)
 	_phase_row.add_child(_skip_presentation_button)
-	_skip_presentation_button.visible = core_reactions_mode
+	_skip_presentation_button.hide()
 	_skip_presentation_button.disabled = true
 	_speed_presentation_button = _button("Скорость ×1")
 	_speed_presentation_button.pressed.connect(_toggle_presentation_speed)
 	_phase_row.add_child(_speed_presentation_button)
-	_speed_presentation_button.visible = core_reactions_mode
+	_speed_presentation_button.hide()
 	_environment_button = _button("Окружение · прогноз фазы")
 	_environment_button.focus_mode = Control.FOCUS_NONE
 	_environment_button.pressed.connect(_request_environment_forecast)
 	_phase_row.add_child(_environment_button)
-	_mage_row = BattleMageBar.new() if core_reactions_mode else HBoxContainer.new()
-	if _mage_row is BattleMageBar:
-		(_mage_row as BattleMageBar).page_changed.connect(_mage_page_changed)
+	_mage_row = HBoxContainer.new()
 	_mage_label = _label("", 14, Color("65dfcc"))
-	var deck_layout: bool = session != null and session.state != null and session.state.deck != null
-	if not deck_layout: _phase_row.add_child(_mage_label)
+	_phase_row.add_child(_mage_label)
 	_mage_fire = _button("Маг · Огонь 4 / 2 маны")
 	_mage_fire.name = "MageFireButton"
 	_mage_fire.pressed.connect(_choose_elemental.bind(&"mage.fire"))
@@ -517,43 +604,6 @@ func _build_ui() -> void:
 	_mage_heal.pressed.connect(_choose_elemental.bind(&"mage.heal"))
 	_mage_row.add_child(_mage_heal)
 	_mage_buttons = {&"mage.fire": _mage_fire, &"mage.heal": _mage_heal}
-	if core_reactions_mode:
-		_mage_fire.text = "Огонь\n2 маны"
-		_mage_heal.text = "Лечение\n3 маны"
-		for spell: StringName in AbilityDefinition.TEST_EFFECTS.keys() + AbilityDefinition.TEST_SUPPORT_EFFECTS.keys():
-			var button := _button(_elemental_effect_label(spell) + "\n1 мана")
-			button.pressed.connect(_choose_elemental.bind(spell))
-			_mage_buttons[spell] = button
-			_mage_row.add_child(button)
-		for button: Button in _mage_buttons.values():
-			button.clip_text = true
-			button.custom_minimum_size = Vector2(96, 64)
-			button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			button.hide()
-		for slot: int in 6:
-			var card_button := _button("Карта")
-			card_button.name = "MageCardSlot%d" % slot
-			card_button.clip_text = true
-			card_button.custom_minimum_size = Vector2(96, 64)
-			card_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			card_button.icon = MAGE_CARD_ICON
-			card_button.expand_icon = true
-			card_button.add_theme_constant_override("icon_max_width",18)
-			card_button.add_theme_font_size_override("font_size", 14)
-			card_button.pressed.connect(_choose_card_slot.bind(slot))
-			card_button.hide()
-			_card_buttons.append(card_button)
-			_mage_row.add_child(card_button)
-		_card_replace_button = _button("Заменить")
-		_card_replace_button.name = "MageCardReplaceButton"
-		_card_replace_button.pressed.connect(_replace_selected_card)
-		_card_replace_button.hide()
-		_mage_row.add_child(_card_replace_button)
-		_card_confirm_button = _button("Подтвердить")
-		_card_confirm_button.name = "MageMulliganConfirmButton"
-		_card_confirm_button.pressed.connect(_confirm_selected_mulligan)
-		_card_confirm_button.hide()
-		_mage_row.add_child(_card_confirm_button)
 	var content := HBoxContainer.new()
 	content.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_theme_constant_override("separation", 24)
@@ -585,14 +635,8 @@ func _build_ui() -> void:
 	combination_button.focus_mode = Control.FOCUS_NONE
 	combination_button.pressed.connect(_open_core_combination_scenario)
 	toolbar.add_child(combination_button)
-	if not core_reactions_mode: left.add_child(_mage_row)
-	var field_row := HBoxContainer.new()
-	if core_reactions_mode:
-		field_row.size_flags_vertical = Control.SIZE_EXPAND_FILL
-		field_row.add_theme_constant_override("separation", 12)
-		left.add_child(field_row)
+	left.add_child(_mage_row)
 	board_view = BattleDemoBoard.new()
-	board_view.camera_controls_enabled = core_reactions_mode
 	board_view.forecast_wheel_handler = _board_forecast_wheel_input
 	board_view.session = session
 	board_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -601,64 +645,22 @@ func _build_ui() -> void:
 	board_view.displayed_unit_hovered.connect(_displayed_unit_hovered)
 	board_view.cancel_requested.connect(set_attack_mode.bind(false))
 	board_view.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	if core_reactions_mode: field_row.add_child(board_view)
-	else: left.add_child(board_view)
+	left.add_child(board_view)
 	_action_bar = BattleActionBar.new()
-	_action_bar.compact_vertical = core_reactions_mode
 	_action_bar.name = "BattleActionBar"
 	_action_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_action_bar.action_requested.connect(_action_bar_requested)
 	_action_bar.action_hovered.connect(_action_bar_hovered)
 	_action_bar.action_hover_left.connect(_action_bar_hover_left)
 	_action_bar.visible = tactical_mode
-	if core_reactions_mode:
-		_action_bar.size_flags_horizontal = Control.SIZE_FILL
-		_action_bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		field_row.add_child(_action_bar)
-		field_row.move_child(_action_bar, 0)
-		if deck_layout: root.add_child(_mage_label)
-		root.add_child(_mage_row)
-	else: root.add_child(_action_bar)
+	root.add_child(_action_bar)
 	_hint = _label("", 14, Color("a5b3c5"))
 	_hint.custom_minimum_size.y = 40
 	left.add_child(_hint)
-	if core_reactions_mode:
-		_hint.clip_text = true
-		_hint.max_lines_visible = 2
-		_compact_inspection = _label("Наведите на фигуру для осмотра.", 14, Color("e6ecf4"))
-		# Две строки этого шрифта занимают 43 px; запас предотвращает resize при появлении статусов.
-		_compact_inspection.custom_minimum_size.y = 44
-		_compact_inspection.clip_text = true
-		_compact_inspection.max_lines_visible = 2
-		left.add_child(_compact_inspection)
 	var side := VBoxContainer.new()
 	side.custom_minimum_size.x = 340
 	side.add_theme_constant_override("separation", 10)
-	if core_reactions_mode:
-		# Диагностика — отдельная область поверх поля, её текст не меняет раскладку боя.
-		_diagnostics_button = _button("Диагностика")
-		_diagnostics_button.toggle_mode = true
-		_diagnostics_button.focus_mode = Control.FOCUS_NONE
-		_diagnostics_button.toggled.connect(set_diagnostics_visible)
-		title.add_child(_diagnostics_button)
-		_diagnostics = PanelContainer.new()
-		_diagnostics.name = "BattleDiagnostics"
-		_diagnostics.set_anchors_and_offsets_preset(Control.PRESET_RIGHT_WIDE)
-		_diagnostics.offset_left = -380
-		_diagnostics.offset_right = -24
-		_diagnostics.offset_top = 104
-		_diagnostics.offset_bottom = -140
-		add_child(_diagnostics)
-		var panel_style := StyleBoxFlat.new()
-		panel_style.bg_color = Color("172637")
-		_diagnostics.add_theme_stylebox_override("panel", panel_style)
-		var scroll := ScrollContainer.new()
-		scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-		_diagnostics.add_child(scroll)
-		scroll.add_child(side)
-		_diagnostics.hide()
-	else:
-		content.add_child(side)
+	content.add_child(side)
 	side.add_child(_label("ПЕРСОНАЖИ", 13, Color("65dfcc")))
 	var roster_scroll := ScrollContainer.new()
 	roster_scroll.custom_minimum_size.y = 192
@@ -696,32 +698,30 @@ func _build_ui() -> void:
 	_forecast_panel.add_theme_color_override("default_color", Color("e6ecf4"))
 	_forecast_panel.mouse_exited.connect(_leave_forecast_panel)
 	side.add_child(_forecast_panel)
-	if core_reactions_mode:
-		side.move_child(_forecast_heading, 0)
-		side.move_child(_forecast_panel, 1)
 	_status = _label("", 14, Color("f7c97d"))
 	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_status.custom_minimum_size.y = 46
 	root.add_child(_status)
 	_instructions = _label("", 14, Color("a5b3c5"))
 	root.add_child(_instructions)
-	if core_reactions_mode:
-		_status.clip_text = true
-		_status.max_lines_visible = 2
-		_instructions.clip_text = true
-		_instructions.max_lines_visible = 1
-		_phase_label.clip_text = true
-		_phase_label.custom_minimum_size.x = 160
-		_phase_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		_mage_label.clip_text = not deck_layout
-		if not deck_layout: _mage_label.custom_minimum_size.x = 180
-
 func _label(value: String, font_size: int, color: Color) -> Label:
 	var label := Label.new()
 	label.text = value
 	label.add_theme_font_size_override("font_size", font_size)
 	label.add_theme_color_override("font_color", color)
 	return label
+
+func _clear_roster_entries() -> void:
+	for child: Node in _roster.get_children():
+		if core_reactions_mode and not child.has_meta("runtime_roster_entry"): continue
+		_roster.remove_child(child)
+		child.queue_free()
+
+func _roster_entry(text: String) -> Button:
+	var button := (load("res://scenes/demo/battle/roster_entry.tscn") as PackedScene).instantiate() as Button if core_reactions_mode else _button(text)
+	button.text = text
+	button.set_meta("runtime_roster_entry", true)
+	return button
 
 func _button(value: String) -> Button:
 	var button := Button.new()
@@ -1037,7 +1037,7 @@ func _refresh_mage() -> void:
 		var mage_session := session as BattleCoreReactionsSession
 		_mage_row.visible = mage_session != null and mage_session.state.abilities != null
 		_mage_label.visible = _mage_row.visible
-		if board_view != null:
+		if board_view != null and not board_view.authored_layout:
 			board_view.custom_minimum_size.y = 350.0 if _compact_inspection != null else (476.0 if _mage_row.visible else 520.0)
 		if _mage_row.visible:
 			var ability := mage_session.state.abilities
@@ -1185,7 +1185,7 @@ func _refresh() -> void:
 	if session is BattleCoreReactionsSession: _heading.text = "intoDeDung   /   Реакции и скрытая атака"
 	_subtitle.text = "Трое против троих. Победите всех врагов; потеря команды означает поражение." if tactical_mode else "Поднимитесь по ступеням. Ударьте сверху. Столкните стража с уступа."
 	_subtitle.visible = not tactical_mode
-	_status.custom_minimum_size.y = 42 if core_reactions_mode else (26 if tactical_mode else 46)
+	if not core_reactions_mode: _status.custom_minimum_size.y = 26 if tactical_mode else 46
 	_mode_button.text = "Полигон" if tactical_mode else "Бой против ИИ"
 	_phase_label.visible = tactical_mode
 	_phase_row.visible = tactical_mode
@@ -1322,9 +1322,7 @@ func _refresh() -> void:
 			for threat_id: Variant in modifiers.get("threat_ids", []):
 				if typeof(threat_id) == TYPE_INT and not board_view.sneak_threat_ids.has(threat_id): board_view.sneak_threat_ids.append(threat_id)
 	board_view.refresh()
-	for child in _roster.get_children():
-		_roster.remove_child(child)
-		child.queue_free()
+	_clear_roster_entries()
 	for unit in session.units:
 		var alive := unit.is_alive()
 		var waiting := " · ЖДЁТ ХОДА" if session.state.is_summon_pending(unit.id) and alive else ""
@@ -1334,16 +1332,18 @@ func _refresh() -> void:
 			if unit.control.entangled_turns > 0: stance += " · ОПУТАН"
 		var perk_status := _perk_status_text(unit)
 		var text := "%s%s%s  ·  %s" % [unit.debug_name, stance + waiting, perk_status, "HP %.1f / %.1f" % [unit.vitals.get_hp(), unit.get_stat(StatTypes.StatType.HP_MAX)] if alive else "погиб"]
-		var button := _button(text)
+		var button := _roster_entry(text)
 		if session is BattleCoreReactionsSession:
 			# Сочетания перков/контроля не должны расширять окно за пределы viewport.
-			button.clip_text = true
-			button.custom_minimum_size.x = 0 if _diagnostics != null else 480
+			if not core_reactions_mode:
+				button.clip_text = true
+				button.custom_minimum_size.x = 480
 			button.tooltip_text = text
 			# HP идёт перед длинными перками, чтобы оставаться видимым при обрезке.
 			button.text = "%s · %s%s%s" % [unit.debug_name, "HP %.1f / %.1f" % [unit.vitals.get_hp(), unit.get_stat(StatTypes.StatType.HP_MAX)] if alive else "погиб", stance + waiting, perk_status]
-		button.custom_minimum_size.y = 30
-		button.toggle_mode = true
+		if not core_reactions_mode:
+			button.custom_minimum_size.y = 30
+			button.toggle_mode = true
 		button.set_pressed_no_signal(unit.id == session.selected_id and alive)
 		if _battle != null and unit.faction == Faction.Type.ENEMY:
 			button.set_pressed_no_signal(unit.id == inspected_id and alive)

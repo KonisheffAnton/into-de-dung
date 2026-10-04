@@ -59,24 +59,25 @@ func set_paging_enabled(enabled: bool) -> void:
 
 func _build() -> void:
 	if _button_row != null: return
-	_button_row = HBoxContainer.new()
-	_button_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	add_child(_button_row)
-	_previous_button = Button.new()
-	_previous_button.text = "‹"
-	_previous_button.custom_minimum_size = Vector2(34, 36)
-	_previous_button.pressed.connect(_previous_page)
-	add_child(_previous_button)
-	_page_label = Label.new()
-	_page_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_page_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_page_label.custom_minimum_size.x = 48
-	add_child(_page_label)
-	_next_button = Button.new()
-	_next_button.text = "›"
-	_next_button.custom_minimum_size = Vector2(34, 36)
-	_next_button.pressed.connect(_next_page)
-	add_child(_next_button)
+	if get_node_or_null("Buttons") == null:
+		var layout := (load("res://scenes/demo/battle/mage_bar.tscn") as PackedScene).instantiate() as Control
+		while layout.get_child_count() > 0:
+			var child := layout.get_child(0)
+			layout.remove_child(child)
+			_set_runtime_owner(child)
+			add_child(child)
+		layout.free()
+	_button_row = get_node_or_null("Buttons") as HBoxContainer
+	_previous_button = get_node_or_null("Previous") as Button
+	_page_label = get_node_or_null("Page") as Label
+	_next_button = get_node_or_null("Next") as Button
+	if _button_row == null or _previous_button == null or _page_label == null or _next_button == null: return
+	if not _previous_button.pressed.is_connected(_previous_page): _previous_button.pressed.connect(_previous_page)
+	if not _next_button.pressed.is_connected(_next_page): _next_button.pressed.connect(_next_page)
+
+func _set_runtime_owner(node: Node) -> void:
+	node.owner = null
+	for child: Node in node.get_children(): _set_runtime_owner(child)
 
 func _refresh() -> void:
 	if _button_row == null: return

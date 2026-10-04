@@ -10,7 +10,7 @@
 | Готовность ядра / срез | [CORE_READINESS](CORE_READINESS.md) / §7 [DESIGN_DIRECTION](DESIGN_DIRECTION.md) |
 | Команда / контекст | [CODEX_WORKFLOW](CODEX_WORKFLOW.md) |
 | Запуск / автоматические проверки | [REPOSITORY_STATE](REPOSITORY_STATE.md) / [TESTING](TESTING.md) |
-| Хаб / итоги / достижения / сцены | [H1](HERO_HUB_H1.md) / [Итоги](POST_BATTLE_V1.md) / [Сцены](HUB_SCENES_V1.md) |
+| Хаб / итоги / сцены | [H1](HERO_HUB_H1.md) / [Итоги](POST_BATTLE_V1.md) / [Сцены](HUB_SCENES_V1.md) |
 | Боевой пакет / расстановка / плейтест | [CORE_BATTLE_BATCH_K9](CORE_BATTLE_BATCH_K9.md) |
 | Перки: скрытая атака, Оппортунист/Прикрытие | [CORE_REACTIONS_K10](CORE_REACTIONS_K10.md) |
 | Контратака | [K12](COUNTERATTACK_K12.md) |
@@ -18,7 +18,7 @@
 | Отход / цепной толчок | [K14](SAFE_RETREAT_K14.md) / [K16](PUSH_CHAIN_K16.md) |
 | Обрушение / фаза среды | [ENVIRONMENT_COLLAPSE_K15](ENVIRONMENT_COLLAPSE_K15.md) |
 | Оглушающий удар и иммунитеты контроля | [CONTROL_PACKAGE_K11](CONTROL_PACKAGE_K11.md) |
-| Показ | [UI](BATTLE_EXECUTION_UI.md) [V1](BATTLE_PRESENTATION_V1.md) [Пакеты](BATTLE_PRESENTATION_REWORK.md) |
+| Показ | [UI](BATTLE_EXECUTION_UI.md) [V1](BATTLE_PRESENTATION_V1.md) [Пакеты](BATTLE_PRESENTATION_REWORK.md) [HUD](BATTLE_HUD_SCENES_V1.md) |
 | Бой, управление | [TACTICAL_BATTLE](TACTICAL_BATTLE.md) |
 | Сравнение командных ходов и инициативы | [INITIATIVE_COMPARISON](INITIATIVE_COMPARISON.md) |
 | Проход через союзников | [ALLY_TRANSIT](ALLY_TRANSIT.md) |
@@ -39,7 +39,7 @@
 | Пробивание физической базы оружием M4 | [ARMOR_PIERCING_M4](ARMOR_PIERCING_M4.md) |
 | Исполнение / frozen Pxx | [COMMAND_ACTION_QUEUE_CONTRACT](COMMAND_ACTION_QUEUE_CONTRACT.md) |
 | Будущий дизайн / кандидаты модульности | [TACTICAL_DESIGN_NEXT](TACTICAL_DESIGN_NEXT.md) / [MODULARITY_PLAN](MODULARITY_PLAN.md) |
-| Свидетельства прошлых этапов, архивы | [HISTORY](HISTORY.md) |
+| История / архивы | [HISTORY](HISTORY.md) |
 
 Факты сверять с кодом/контрактом; проверки имеют дату и commit.
 Расхождение описать до зависимой работы.

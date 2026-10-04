@@ -9,11 +9,9 @@ const FIXED_SLOTS: int = 2
 const VISIBLE_SLOTS: int = 8
 const DYNAMIC_PAGE_SIZE: int = 6
 const COMPACT_DYNAMIC_SLOTS: int = 2
-const COMPACT_WIDTH: float = 160.0
-const COMPACT_BUTTON_HEIGHT: float = 74.0
 
-## Включается до add_child: старая горизонтальная панель остаётся режимом по умолчанию.
-var compact_vertical: bool = false
+## Режим сохраняется в сцене, а выставление до add_child остаётся совместимым.
+@export var compact_vertical: bool = false
 var _dynamic_descriptors: Array[Dictionary] = []
 var _page: int = 0
 var _buttons: Array[Button] = []
@@ -50,68 +48,64 @@ func set_slot_enabled(action_id: StringName, enabled: bool, reason: String = "")
 			button.tooltip_text = reason
 
 func _build() -> void:
+	if _buttons.size() == (4 if compact_vertical else VISIBLE_SLOTS) and _up_button != null and _down_button != null: return
+	if _bind_authored_layout(): return
+	var layout_path := "res://scenes/demo/battle/action_bar.tscn" if compact_vertical else "res://scenes/demo/battle/action_bar_legacy.tscn"
+	var layout := (load(layout_path) as PackedScene).instantiate() as Control
+	# Совместимый .new() переносит готовую разметку; её размеры и шрифты не пересобираются.
 	if compact_vertical:
-		_build_compact()
-		return
-	custom_minimum_size.y = 52.0
-	var row := HBoxContainer.new()
-	row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	row.add_theme_constant_override("separation", 4)
-	add_child(row)
-	_up_button = _arrow_button("↑")
-	_up_button.pressed.connect(_previous_page)
-	row.add_child(_up_button)
-	for index in VISIBLE_SLOTS:
-		var button := Button.new()
-		button.custom_minimum_size = Vector2(0, 36)
-		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		button.add_theme_font_size_override("font_size", 13)
-		button.set_meta("slot", index + 1)
-		button.pressed.connect(_slot_pressed.bind(index))
-		button.mouse_entered.connect(_slot_mouse_entered.bind(index))
-		button.mouse_exited.connect(_slot_mouse_exited.bind(index))
-		_buttons.append(button)
-		row.add_child(button)
-	_down_button = _arrow_button("↓")
-	_down_button.pressed.connect(_next_page)
-	row.add_child(_down_button)
+		custom_minimum_size = layout.custom_minimum_size
+		# Горизонтальный режим сохраняет флаг, выставленный вызывающим кодом.
+		size_flags_horizontal = layout.size_flags_horizontal
+	else:
+		custom_minimum_size.y = layout.custom_minimum_size.y
+	while layout.get_child_count() > 0:
+		var child := layout.get_child(0)
+		layout.remove_child(child)
+		_set_runtime_owner(child)
+		add_child(child)
+	layout.free()
+	if _bind_authored_layout(): return
 
-func _build_compact() -> void:
-	_page = 0
-	custom_minimum_size = Vector2(COMPACT_WIDTH, COMPACT_BUTTON_HEIGHT * 4 + 12)
-	size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-	var column := VBoxContainer.new()
-	column.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	column.add_theme_constant_override("separation", 4)
-	add_child(column)
-	for index: int in range(4):
-		var button := Button.new()
-		button.custom_minimum_size = Vector2(COMPACT_WIDTH, COMPACT_BUTTON_HEIGHT)
-		button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-		button.clip_text = true
-		button.add_theme_font_size_override("font_size", 13)
-		button.set_meta("slot", index + 1)
-		button.pressed.connect(_slot_pressed.bind(index))
-		button.mouse_entered.connect(_slot_mouse_entered.bind(index))
-		button.mouse_exited.connect(_slot_mouse_exited.bind(index))
-		_buttons.append(button)
-		column.add_child(button)
-	# Ссылки на стрелки сохраняют безопасный API старого компонента, но не занимают место.
-	_up_button = _arrow_button("↑")
-	_down_button = _arrow_button("↓")
-	_up_button.visible = false
-	_down_button.visible = false
-	_up_button.pressed.connect(_previous_page)
-	_down_button.pressed.connect(_next_page)
-	add_child(_up_button)
-	add_child(_down_button)
+func _set_runtime_owner(node: Node) -> void:
+	node.owner = null
+	for child: Node in node.get_children(): _set_runtime_owner(child)
 
-func _arrow_button(text: String) -> Button:
-	var button := Button.new()
-	button.text = text
-	button.custom_minimum_size = Vector2(34, 36)
-	button.add_theme_font_size_override("font_size", 18)
-	return button
+func _bind_authored_layout() -> bool:
+	var row := get_node_or_null("Row") as HBoxContainer
+	var column := get_node_or_null("Column") as VBoxContainer
+	var slots: Array[Button] = []
+	if compact_vertical:
+		if column == null or column.get_child_count() < 4: return false
+		_up_button = get_node_or_null("Previous") as Button
+		_down_button = get_node_or_null("Next") as Button
+		if _up_button == null or _down_button == null: return false
+		for index: int in range(4):
+			var button := column.get_node_or_null("Slot%d" % (index + 1)) as Button
+			if button == null: return false
+			slots.append(button)
+	else:
+		if row == null: return false
+		_up_button = row.get_node_or_null("Previous") as Button
+		_down_button = row.get_node_or_null("Next") as Button
+		if _up_button == null or _down_button == null: return false
+		for index: int in range(VISIBLE_SLOTS):
+			var button := row.get_node_or_null("Slot%d" % (index + 1)) as Button
+			if button == null: return false
+			slots.append(button)
+	_buttons.clear()
+	for index: int in range(slots.size()): _bind_slot(slots[index], index)
+	if _up_button == null or _down_button == null: return false
+	if not _up_button.pressed.is_connected(_previous_page): _up_button.pressed.connect(_previous_page)
+	if not _down_button.pressed.is_connected(_next_page): _down_button.pressed.connect(_next_page)
+	return true
+
+func _bind_slot(button: Button, index: int) -> void:
+	button.set_meta("slot", index + 1)
+	if not button.pressed.is_connected(_slot_pressed.bind(index)): button.pressed.connect(_slot_pressed.bind(index))
+	if not button.mouse_entered.is_connected(_slot_mouse_entered.bind(index)): button.mouse_entered.connect(_slot_mouse_entered.bind(index))
+	if not button.mouse_exited.is_connected(_slot_mouse_exited.bind(index)): button.mouse_exited.connect(_slot_mouse_exited.bind(index))
+	_buttons.append(button)
 
 func _refresh() -> void:
 	if compact_vertical:

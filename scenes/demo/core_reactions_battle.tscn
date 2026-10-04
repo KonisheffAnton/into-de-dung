@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/demo/battle_demo.gd" id="1_demo"]
+[ext_resource type="PackedScene" path="res://scenes/demo/battle/battle_hud.tscn" id="2_hud"]
 
 [node name="CoreReactionsBattle" type="Control"]
 layout_mode = 3
@@ -18,3 +19,5 @@ control_mode = true
 core_combination_mode = true
 core_reactions_mode = true
 deployment_enabled = true
+
+[node name="BattleHUD" parent="." instance=ExtResource("2_hud")]

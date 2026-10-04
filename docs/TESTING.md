@@ -35,6 +35,7 @@ core без `--full` в неё не входит. Повторять более 
 
 | Область | Адресный runner в `tests/` |
 |---|---|
+| Редактируемые сцены боя | `test_battle_hud_authoring.gd` (full/render): main/H1 до _ready, overrides и identity после binding/refresh/after-кадров, один обработчик, сохранность runtime/RNG, legacy/.new(), PNG; карта — [BATTLE_HUD_SCENES_V1](BATTLE_HUD_SCENES_V1.md). |
 | Редактируемые сцены хаба | `test_hub_scene_authoring.gd` (full/render): узлы до _ready, сохранность настроек и экземпляров после refresh/ошибки, один обработчик на кнопку, профиль неизменен при редактировании/отмене; карта сцен — [HUB_SCENES_V1](HUB_SCENES_V1.md). |
 | Колода мага V1 | `test_mage_deck_models.gd`, `test_deck_ability_state.gd`, `test_mage_deck_expedition.gd`, `test_mage_deck_battle.gd`, `test_expedition_playthrough.gd -- --deck`, `test_mage_deck_ui.gd` (full/render): codecs/legacy/барьеры записи, рука/мана, все12 эффектов, sync/preview/workers, FAULTED prefix, реальный поход и UI до сохранённого итога; UI PNG через `-- --captures=<dir>` |
 | Поддержка верховного мага R14 | `test_mage_r14.gd`, `test_battle_mage_bar.gd`, `test_mage_ui.gd` (full/render): лечение/командный призыв/поднятие/щит, полный preview/live и worker, отказы, pending/тело/зона помощников, schema9/legacy, H1 с артефактами, обе страницы 8+4 и межкадровые клики. PNG — mage-r14-screenshots/. |

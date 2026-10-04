@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/demo/battle/hud_button.tscn" id="button"]
+
+[node name="RosterEntry" instance=ExtResource("button")]
+custom_minimum_size = Vector2(0, 30)
+clip_text = true
+toggle_mode = true

@@ -1,0 +1,447 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/demo/battle/hud_button.tscn" id="button"]
+
+[ext_resource type="PackedScene" path="res://scenes/demo/battle/mage_card.tscn" id="card"]
+
+[ext_resource type="PackedScene" path="res://scenes/demo/battle/action_bar.tscn" id="action"]
+
+[ext_resource type="Script" path="res://scripts/demo/battle_action_bar.gd" id="action_script"]
+
+[ext_resource type="PackedScene" path="res://scenes/demo/battle/mage_bar.tscn" id="mage"]
+
+[ext_resource type="Script" path="res://scripts/demo/battle_mage_bar.gd" id="mage_script"]
+
+[ext_resource type="PackedScene" path="res://scenes/demo/battle/battle_board.tscn" id="board"]
+
+[sub_resource type="StyleBoxFlat" id="diagnostics"]
+bg_color = Color(0.0901961, 0.1490196, 0.2156863, 1)
+
+[node name="BattleHUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0666667, 0.1019608, 0.1529412, 1)
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="Column" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="HBoxContainer" parent="Margin/Column"]
+layout_mode = 2
+
+[node name="Heading" type="Label" parent="Margin/Column/Title"]
+layout_mode = 2
+text = "intoDeDung · Бой"
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(0.9019608, 0.9254902, 0.9568627, 1)
+size_flags_horizontal = 3
+
+[node name="Mode" parent="Margin/Column/Title" instance=ExtResource("button")]
+layout_mode = 2
+text = "Полигон"
+
+[node name="Expedition" parent="Margin/Column/Title" instance=ExtResource("button")]
+layout_mode = 2
+text = "Забег"
+
+[node name="Reset" parent="Margin/Column/Title" instance=ExtResource("button")]
+layout_mode = 2
+text = "Сбросить бой  ·  R"
+
+[node name="Diagnostics" parent="Margin/Column/Title" instance=ExtResource("button")]
+layout_mode = 2
+text = "Диагностика"
+toggle_mode = true
+focus_mode = 0
+
+[node name="ReturnToHeroHubButton" type="Button" parent="Margin/Column/Title"]
+layout_mode = 2
+text = "Вернуться в хаб"
+visible = false
+custom_minimum_size = Vector2(190, 38)
+
+[node name="Subtitle" type="Label" parent="Margin/Column"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.6470588, 0.7019608, 0.772549, 1)
+
+[node name="Phase" type="HBoxContainer" parent="Margin/Column"]
+layout_mode = 2
+
+[node name="PhaseLabel" type="Label" parent="Margin/Column/Phase"]
+layout_mode = 2
+text = "Фаза боя"
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.9686275, 0.7882353, 0.4901961, 1)
+clip_text = true
+custom_minimum_size = Vector2(160, 0)
+size_flags_horizontal = 3
+
+[node name="SkipPresentationButton" parent="Margin/Column/Phase" instance=ExtResource("button")]
+layout_mode = 2
+text = "Пропустить · Пробел"
+disabled = true
+
+[node name="Speed" parent="Margin/Column/Phase" instance=ExtResource("button")]
+layout_mode = 2
+text = "Скорость ×1"
+
+[node name="Environment" parent="Margin/Column/Phase" instance=ExtResource("button")]
+layout_mode = 2
+text = "Окружение · прогноз фазы"
+focus_mode = 0
+
+[node name="MageSummary" type="Label" parent="Margin/Column/Phase"]
+layout_mode = 2
+text = "Маг · мана"
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.3960784, 0.8745098, 0.8, 1)
+clip_text = true
+custom_minimum_size = Vector2(180, 0)
+
+[node name="Content" type="HBoxContainer" parent="Margin/Column"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+
+[node name="Left" type="VBoxContainer" parent="Margin/Column/Content"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Toolbar" type="HBoxContainer" parent="Margin/Column/Content/Left"]
+layout_mode = 2
+
+[node name="Move" parent="Margin/Column/Content/Left/Toolbar" instance=ExtResource("button")]
+layout_mode = 2
+text = "Выбор / движение  ·  M"
+toggle_mode = true
+
+[node name="Attack" parent="Margin/Column/Content/Left/Toolbar" instance=ExtResource("button")]
+layout_mode = 2
+text = "Атака  ·  A"
+toggle_mode = true
+
+[node name="EndTurn" parent="Margin/Column/Content/Left/Toolbar" instance=ExtResource("button")]
+layout_mode = 2
+text = "Завершить ход · Enter"
+focus_mode = 0
+
+[node name="CompareTurnsButton" parent="Margin/Column/Content/Left/Toolbar" instance=ExtResource("button")]
+layout_mode = 2
+text = "Сравнить ходы"
+focus_mode = 0
+
+[node name="Combination" parent="Margin/Column/Content/Left/Toolbar" instance=ExtResource("button")]
+layout_mode = 2
+text = "Сочетания ядра"
+focus_mode = 0
+
+[node name="Field" type="HBoxContainer" parent="Margin/Column/Content/Left"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="BattleActionBar" parent="Margin/Column/Content/Left/Field" instance=ExtResource("action")]
+script = ExtResource("action_script")
+compact_vertical = true
+layout_mode = 2
+size_flags_horizontal = 1
+size_flags_vertical = 4
+
+[node name="Board" parent="Margin/Column/Content/Left/Field" instance=ExtResource("board")]
+layout_mode = 2
+
+[node name="Hint" type="Label" parent="Margin/Column/Content/Left"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.6470588, 0.7019608, 0.772549, 1)
+clip_text = true
+max_lines_visible = 2
+custom_minimum_size = Vector2(0, 40)
+
+[node name="Inspection" type="Label" parent="Margin/Column/Content/Left"]
+layout_mode = 2
+text = "Наведите на фигуру для осмотра."
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.9019608, 0.9254902, 0.9568627, 1)
+clip_text = true
+max_lines_visible = 2
+custom_minimum_size = Vector2(0, 44)
+
+[node name="DeckSummary" type="Label" parent="Margin/Column"]
+layout_mode = 2
+text = "Мана · добор · сыграно"
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.3960784, 0.8745098, 0.8, 1)
+
+[node name="MageBar" parent="Margin/Column" instance=ExtResource("mage")]
+script = ExtResource("mage_script")
+layout_mode = 2
+
+[node name="MageFireButton" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("button")]
+layout_mode = 2
+text = "Огонь\n2 маны"
+visible = false
+custom_minimum_size = Vector2(96, 64)
+size_flags_horizontal = 3
+clip_text = true
+metadata/spell_id = &"mage.fire"
+
+[node name="MageHealButton" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("button")]
+layout_mode = 2
+text = "Лечение\n3 маны"
+visible = false
+custom_minimum_size = Vector2(96, 64)
+size_flags_horizontal = 3
+clip_text = true
+metadata/spell_id = &"mage.heal"
+
+[node name="Burning" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("button")]
+layout_mode = 2
+text = "Поджог\n1 мана"
+visible = false
+custom_minimum_size = Vector2(96, 64)
+size_flags_horizontal = 3
+clip_text = true
+metadata/spell_id = &"mage.test_burning"
+
+[node name="Wet" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("button")]
+layout_mode = 2
+text = "Вода\n1 мана"
+visible = false
+custom_minimum_size = Vector2(96, 64)
+size_flags_horizontal = 3
+clip_text = true
+metadata/spell_id = &"mage.test_wet"
+
+[node name="Freeze" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("button")]
+layout_mode = 2
+text = "Заморозка\n1 мана"
+visible = false
+custom_minimum_size = Vector2(96, 64)
+size_flags_horizontal = 3
+clip_text = true
+metadata/spell_id = &"mage.test_freeze"
+
+[node name="Stun" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("button")]
+layout_mode = 2
+text = "Оглушение\n1 мана"
+visible = false
+custom_minimum_size = Vector2(96, 64)
+size_flags_horizontal = 3
+clip_text = true
+metadata/spell_id = &"mage.test_stun"
+
+[node name="Roots" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("button")]
+layout_mode = 2
+text = "Корни\n1 мана"
+visible = false
+custom_minimum_size = Vector2(96, 64)
+size_flags_horizontal = 3
+clip_text = true
+metadata/spell_id = &"mage.test_roots"
+
+[node name="Bleeding" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("button")]
+layout_mode = 2
+text = "Кровотечение\n1 мана"
+visible = false
+custom_minimum_size = Vector2(96, 64)
+size_flags_horizontal = 3
+clip_text = true
+metadata/spell_id = &"mage.test_bleeding"
+
+[node name="HealTest" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("button")]
+layout_mode = 2
+text = "Тест: лечение\n1 мана"
+visible = false
+custom_minimum_size = Vector2(96, 64)
+size_flags_horizontal = 3
+clip_text = true
+metadata/spell_id = &"mage.test_heal"
+
+[node name="Summon" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("button")]
+layout_mode = 2
+text = "Тест: призыв\n1 мана"
+visible = false
+custom_minimum_size = Vector2(96, 64)
+size_flags_horizontal = 3
+clip_text = true
+metadata/spell_id = &"mage.test_summon"
+
+[node name="Raise" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("button")]
+layout_mode = 2
+text = "Тест: поднятие\n1 мана"
+visible = false
+custom_minimum_size = Vector2(96, 64)
+size_flags_horizontal = 3
+clip_text = true
+metadata/spell_id = &"mage.test_raise"
+
+[node name="Shield" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("button")]
+layout_mode = 2
+text = "Щит · 6 HP\n1 мана"
+visible = false
+custom_minimum_size = Vector2(96, 64)
+size_flags_horizontal = 3
+clip_text = true
+metadata/spell_id = &"mage.shield"
+
+[node name="MageCardSlot0" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("card")]
+layout_mode = 2
+visible = false
+
+[node name="MageCardSlot1" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("card")]
+layout_mode = 2
+visible = false
+
+[node name="MageCardSlot2" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("card")]
+layout_mode = 2
+visible = false
+
+[node name="MageCardSlot3" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("card")]
+layout_mode = 2
+visible = false
+
+[node name="MageCardSlot4" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("card")]
+layout_mode = 2
+visible = false
+
+[node name="MageCardSlot5" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("card")]
+layout_mode = 2
+visible = false
+
+[node name="MageCardReplaceButton" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("button")]
+layout_mode = 2
+text = "Заменить"
+visible = false
+
+[node name="MageMulliganConfirmButton" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("button")]
+layout_mode = 2
+text = "Подтвердить"
+visible = false
+
+[node name="Status" type="Label" parent="Margin/Column"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.9686275, 0.7882353, 0.4901961, 1)
+autowrap_mode = 3
+clip_text = true
+max_lines_visible = 2
+custom_minimum_size = Vector2(0, 42)
+
+[node name="Instructions" type="Label" parent="Margin/Column"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.6470588, 0.7019608, 0.772549, 1)
+clip_text = true
+max_lines_visible = 1
+
+[node name="BattleDiagnostics" type="PanelContainer" parent="."]
+visible = false
+z_index = 600
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -380.0
+offset_right = -24.0
+offset_top = 104.0
+offset_bottom = -140.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("diagnostics")
+
+[node name="Scroll" type="ScrollContainer" parent="BattleDiagnostics"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Side" type="VBoxContainer" parent="BattleDiagnostics/Scroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(340, 0)
+theme_override_constants/separation = 10
+
+[node name="ForecastHeading" type="Label" parent="BattleDiagnostics/Scroll/Side"]
+layout_mode = 2
+text = "ПРОГНОЗ · КОЛЕСО НА ЦЕЛИ"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.3960784, 0.8745098, 0.8, 1)
+
+[node name="Forecast" type="RichTextLabel" parent="BattleDiagnostics/Scroll/Side"]
+layout_mode = 2
+custom_minimum_size = Vector2(340, 130)
+size_flags_vertical = 3
+bbcode_enabled = true
+theme_override_font_sizes/normal_font_size = 14
+theme_override_colors/default_color = Color(0.9019608, 0.9254902, 0.9568627, 1)
+
+[node name="RosterHeading" type="Label" parent="BattleDiagnostics/Scroll/Side"]
+layout_mode = 2
+text = "ПЕРСОНАЖИ"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.3960784, 0.8745098, 0.8, 1)
+
+[node name="RosterScroll" type="ScrollContainer" parent="BattleDiagnostics/Scroll/Side"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 192)
+horizontal_scroll_mode = 0
+
+[node name="Roster" type="VBoxContainer" parent="BattleDiagnostics/Scroll/Side/RosterScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InspectionScroll" type="ScrollContainer" parent="BattleDiagnostics/Scroll/Side"]
+layout_mode = 2
+custom_minimum_size = Vector2(340, 144)
+horizontal_scroll_mode = 0
+
+[node name="Stats" type="Label" parent="BattleDiagnostics/Scroll/Side/InspectionScroll"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.9019608, 0.9254902, 0.9568627, 1)
+autowrap_mode = 3
+size_flags_horizontal = 3
+
+[node name="LogHeading" type="Label" parent="BattleDiagnostics/Scroll/Side"]
+layout_mode = 2
+text = "ЖУРНАЛ ПОСЛЕДСТВИЙ"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.3960784, 0.8745098, 0.8, 1)
+
+[node name="Log" type="RichTextLabel" parent="BattleDiagnostics/Scroll/Side"]
+layout_mode = 2
+custom_minimum_size = Vector2(340, 130)
+size_flags_vertical = 3
+scroll_following = true
+theme_override_font_sizes/normal_font_size = 14
+theme_override_colors/default_color = Color(0.7843137, 0.827451, 0.8823529, 1)

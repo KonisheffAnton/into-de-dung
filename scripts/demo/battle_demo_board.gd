@@ -1,6 +1,8 @@
 extends Control
 class_name BattleDemoBoard
 
+@export var authored_layout: bool = false
+
 signal cell_clicked(cell: Vector2i)
 signal cell_hovered(cell: Vector2i)
 signal cancel_requested()
@@ -11,7 +13,7 @@ const GOLD := Color("f7c97d")
 const MUTED := Color("a5b3c5")
 var session: BattleDemoSession
 var execution_pending: bool = false
-var camera_controls_enabled: bool = false
+@export var camera_controls_enabled: bool = false
 var forecast_wheel_handler: Callable
 var camera_view := BattleBoardCamera.new()
 var _camera_dragging: bool = false
@@ -956,9 +958,10 @@ static func has_presentation_animation(events: Array) -> bool:
 	return false
 
 func _ready() -> void:
-	custom_minimum_size = Vector2(520, 520)
-	mouse_filter = Control.MOUSE_FILTER_STOP
-	clip_contents = true
+	if not authored_layout:
+		custom_minimum_size = Vector2(520, 520)
+		mouse_filter = Control.MOUSE_FILTER_STOP
+		clip_contents = true
 	_tiles = _layer("TilesLayer", RenderLayers.Layer.TILES)
 	_entities = _layer("EntitiesLayer", RenderLayers.Layer.ENTITIES)
 	_entities.y_sort_enabled = true
@@ -967,38 +970,26 @@ func _ready() -> void:
 	_numbers = _layer("ResultNumbers", RenderLayers.Layer.VFX_OVERLAY)
 	_overlay = _layer("PathOverlay", RenderLayers.Layer.UI_PREVIEW)
 	_overlay.draw.connect(_draw_overlay)
-	compact_forecast = BattleForecastCard.new()
-	compact_forecast.name = "CompactForecast"
-	add_child(compact_forecast)
+	compact_forecast = get_node_or_null("CompactForecast") as BattleForecastCard
+	if compact_forecast == null:
+		compact_forecast = BattleForecastCard.new()
+		compact_forecast.name = "CompactForecast"
+		add_child(compact_forecast)
 	mouse_exited.connect(_clear_hover)
 	if camera_controls_enabled: _build_camera_controls()
 	_rescale_layout()
 	_apply_camera()
 
 func _build_camera_controls() -> void:
-	var controls := HBoxContainer.new()
-	controls.name = "CameraControls"
-	controls.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
-	controls.offset_left = -160
-	controls.offset_right = -8
-	controls.offset_top = 8
-	controls.offset_bottom = 40
+	var controls := get_node_or_null("CameraControls") as HBoxContainer
+	if controls == null:
+		controls = (load("res://scenes/demo/battle/camera_controls.tscn") as PackedScene).instantiate() as HBoxContainer
+		add_child(controls)
 	controls.z_index = RenderLayers.z_index_for(RenderLayers.Layer.UI_PREVIEW) + 1
-	add_child(controls)
-	for caption: String in ["−", "100%", "+"]:
-		var button := Button.new()
-		button.text = caption
-		button.custom_minimum_size = Vector2(64 if caption == "100%" else 40, 32)
-		button.focus_mode = Control.FOCUS_NONE
-		controls.add_child(button)
-		if caption == "100%":
-			_camera_reset = button
-			button.name = "ResetCamera"
-			button.tooltip_text = "100% — базовый размер. Колесо — масштаб; ПКМ — сдвиг карты. Ctrl+колесо — масштаб над прогнозом."
-			button.pressed.connect(reset_camera)
-		else:
-			var factor := 1.1 if caption == "+" else 1.0 / 1.1
-			button.pressed.connect(func() -> void: zoom_camera(camera_view.zoom * factor, size * 0.5))
+	_camera_reset = controls.get_node("ResetCamera") as Button
+	_camera_reset.pressed.connect(reset_camera)
+	(controls.get_node("ZoomOut") as Button).pressed.connect(func() -> void: zoom_camera(camera_view.zoom / 1.1, size * 0.5))
+	(controls.get_node("ZoomIn") as Button).pressed.connect(func() -> void: zoom_camera(camera_view.zoom * 1.1, size * 0.5))
 
 func world_to_view(point: Vector2) -> Vector2:
 	return camera_view.world_to_view(point)

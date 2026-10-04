@@ -31,13 +31,11 @@ func _build_ui() -> void:
 	board_view.environment_mode = true
 	# Сценарные переходы и сброс обходили бы сохранённую контрольную точку отряда.
 	_mode_button.hide()
-	_hide_named_buttons(self, ["Забег", "Сбросить бой  ·  R", "Сравнить ходы", "Сочетания ядра"])
-	_return_button = Button.new()
-	_return_button.name = "ReturnToHeroHubButton"
-	_return_button.text = "Вернуться в хаб"
-	_return_button.custom_minimum_size = Vector2(190, 38)
-	_return_button.pressed.connect(_request_return)
-	_heading.get_parent().add_child(_return_button)
+	for node_path: String in ["Title/Expedition", "Title/Reset", "Content/Left/Toolbar/CompareTurnsButton", "Content/Left/Toolbar/Combination"]:
+		(get_node("BattleHUD/Margin/Column/" + node_path) as Control).hide()
+	_return_button = _heading.get_parent().get_node("ReturnToHeroHubButton") as Button
+	_return_button.show()
+	if not _return_button.pressed.is_connected(_request_return): _return_button.pressed.connect(_request_return)
 
 func _refresh() -> void:
 	if is_execution_pending(): return
@@ -89,9 +87,3 @@ func _request_return() -> void:
 	if _battle.phase not in [BattleTacticalSession.Phase.VICTORY, BattleTacticalSession.Phase.DEFEAT, BattleTacticalSession.Phase.MUTUAL_DESTRUCTION]:
 		return
 	return_requested.emit()
-
-func _hide_named_buttons(parent: Node, labels: Array[String]) -> void:
-	for child: Node in parent.get_children():
-		if child is Button and (child as Button).text in labels:
-			(child as Button).hide()
-		_hide_named_buttons(child, labels)
