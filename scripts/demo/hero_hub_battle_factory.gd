@@ -7,6 +7,7 @@ static func create(run: HeroHubState) -> Dictionary:
 	var deck: bool = expedition and run.expedition.is_deck()
 	if run.phase != "battle" and not expedition: return {}
 	var node: Dictionary = run.expedition.current_node() if expedition else {}
+	var opening: Dictionary = run.expedition.plan.content.opening if deck and run.expedition.plan.schema == 3 and node.layer == 0 else {}
 	var encounter := ExpeditionCatalog.encounter(node.kind if expedition else "battle",node.variant if expedition else 0)
 	if encounter == null: return {}
 	var enemy_count := encounter.enemy_cells.size()
@@ -37,6 +38,7 @@ static func create(run: HeroHubState) -> Dictionary:
 		definitions.append(reaction)
 	for index: int in range(run.party.size() + enemy_count):
 		var hero: HeroProgression = run.heroes[run.party[index]] if index < run.party.size() else null
+		var enemy_data: Dictionary = opening.enemies[index - run.party.size()] if hero == null and not opening.is_empty() else {}
 		var hero_class := HeroCatalog.class_definition(hero.class_id) if hero != null else null
 		var stats := StatsBag.from_base_values({
 			StatTypes.StatType.HP_MAX: float(hero.max_hp() if hero != null else enemy_hp),
@@ -52,11 +54,20 @@ static func create(run: HeroHubState) -> Dictionary:
 			StatTypes.StatType.PHYSICAL_PIERCING_PERCENT: 0.0,
 		})
 		var cell := Vector2i(1, 2 + index) if hero != null else encounter.enemy_cells[index - run.party.size()]
+		if not enemy_data.is_empty(): cell = ExpeditionOpening.cell(enemy_data.cell)
 		var unit := UnitState.create(Faction.Type.PLAYER if hero != null else Faction.Type.ENEMY, cell, stats, hero.name if hero != null else "Дозорный %d" % (index - run.party.size() + 1))
 		unit.armor = ArmorState.new(); unit.armor.in_battle = false
 		unit.bleeding = BleedingState.new(); unit.bleeding.stacked = true
 		unit.control = ControlState.new(); unit.elemental = ElementalState.new()
 		unit.combat_perks = CombatPerksState.new()
+		if not enemy_data.is_empty():
+			unit.debug_name = enemy_data.name
+			unit.combat_perks.definition.tank_reactions = enemy_data.role == "guard"
+			unit.combat_perks.definition.counterattack = enemy_data.role == "guard"
+			unit.combat_perks.definition.stunning_strike = enemy_data.role == "guard"
+			unit.combat_perks.definition.stun_immune = enemy_data.role == "shield"
+			unit.combat_perks.definition.sneak_attack = enemy_data.role == "sneak"
+			unit.bleeding.immune = enemy_data.role == "shield"
 		if hero != null:
 			unit.vitals.set_hp(hero.hp_current)
 			unit.armor.natural.fire = hero.fire_resistance()
@@ -79,6 +90,12 @@ static func create(run: HeroHubState) -> Dictionary:
 		var inventory := InventoryState.new(owner)
 		var equipped := EquipmentState.new(owner)
 		owners.append(owner); inventories.append(inventory); equipment.append(equipped)
+		if not enemy_data.is_empty() and enemy_data.armor > 0:
+			var coat := ItemDef.new()
+			coat.id = StringName("opening_armor_" + String(enemy_data.role))
+			coat.display_name = "Броня противника"; coat.armor_max = enemy_data.armor
+			if not equipped.equip(EquipmentState.EquipSlot.ARMOR, owner.create_item(coat)):
+				session.close(); return {}
 		if hero != null:
 			for id: int in run.items:
 				var record: Dictionary = run.items[id]
@@ -102,6 +119,14 @@ static func create(run: HeroHubState) -> Dictionary:
 	session.state.environment = CombatEnvironmentState.new()
 	session.state.environment.status_effects = true
 	session.state.environment.collapse = {"turn":0,"marked":[]}
+	if not opening.is_empty():
+		for tile: Dictionary in opening.terrain:
+			session.board.set_terrain(ExpeditionOpening.cell(tile.cell), tile.type)
+		for tile: Dictionary in opening.heights:
+			session.board.set_height_steps(ExpeditionOpening.cell(tile.cell), tile.steps)
+		for hazard: Dictionary in opening.hazards:
+			session.state.environment.ignite(ExpeditionOpening.cell(hazard.cell), hazard.effect)
+		session.state.environment.collapse = opening.collapse.duplicate(true)
 	if expedition and not deck:
 		var artifacts := BattleArtifactState.new()
 		for id: int in run.party:
@@ -142,6 +167,8 @@ static func create(run: HeroHubState) -> Dictionary:
 	if expedition:
 		var reward := ExpeditionCatalog.room(node.kind)
 		session.flow_log[1] = "%s · встреча %d. Победа: выжившим +%d XP, резерву 10%%; добыча +%d золота." % [reward.title,int(node.variant) + 1,reward.xp,reward.gold]
+		if not opening.is_empty():
+			session.flow_log.append("Стартовая комната: Страж, Щит, Дозорный; шипы, огонь, уступ, стена, пропасти и обрушение. После победы откроется выбор пути.")
 	if rules.validate() != &"" or session.state.abilities == null or not session.begin_deployment() or ItemSimulationSnapshot.capture(session.state, []).code != ItemSnapshotResult.Code.OK:
 		session.close(); return {}
 	var bundle := {"session":session,"hero_units":hero_units,"gear_items":gear_items,"serial":run.expedition.battle_serial if expedition else run.run_serial}

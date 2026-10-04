@@ -93,7 +93,8 @@ static func valid(data: Dictionary, hub: HeroHubState) -> bool:
 		if data.return_reason in ["early","defeat"] and data.reward_state != "none": return false
 		if data.return_reason == "completed" and data.reward_state not in ["chosen","skipped"]: return false
 		if data.return_reason == "early":
-			if data.node_id != 8 or not data.victory or not data.repairs.is_empty() or not data.achievements.is_empty() or data.points_awarded != 0: return false
+			# План уже удалён при возвращении; отчёт допускает костёр обеих сохранённых раскладок.
+			if data.node_id not in [7, 8] or not data.victory or not data.repairs.is_empty() or not data.achievements.is_empty() or data.points_awarded != 0: return false
 			for row: Dictionary in data.heroes:
 				if row.xp_before != row.xp_after or row.hp_restored != 0.0: return false
 	return true

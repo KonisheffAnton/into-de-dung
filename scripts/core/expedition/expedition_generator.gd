@@ -2,6 +2,7 @@ class_name ExpeditionGenerator
 extends RefCounted
 
 const LAYER_SIZES: Array[int] = [2, 3, 2, 1, 3, 2, 1]
+const OPENING_LAYER_SIZES: Array[int] = [1, 3, 2, 1, 3, 2, 1]
 const ARTIFACT_IDS: Array[String] = ["spark", "blood", "ember", "ice", "formation", "harvest"]
 const NODE_KEYS: Array[String] = ["id", "layer", "kind", "variant", "modifier", "next", "reward", "battle_seed"]
 const PLAN_KEYS: Array[String] = ["schema", "seed", "nodes", "start", "content"]
@@ -49,21 +50,23 @@ static func generate(seed_value: int) -> Dictionary:
 
 static func valid(data: Variant) -> bool:
 	if not data is Dictionary: return false
-	var deck: bool = data.get("schema") == 2 and typeof(data.get("schema")) == TYPE_INT
+	var opening: bool = data.get("schema") == 3 and typeof(data.get("schema")) == TYPE_INT
+	var deck: bool = (data.get("schema") == 2 or opening) and typeof(data.get("schema")) == TYPE_INT
+	var layer_sizes: Array[int] = OPENING_LAYER_SIZES if opening else LAYER_SIZES
 	var keys: Array[String] = PLAN_KEYS.duplicate()
 	if deck: keys.append("ruleset_id")
 	if not _has_exact_keys(data, keys):
 		return false
 	var plan: Dictionary = data
-	if not ExpeditionRulesRegistry.matches_content(plan["content"],deck): return false
+	if not ExpeditionRulesRegistry.matches_content(plan["content"],deck,opening): return false
 	if deck and plan.ruleset_id != ExpeditionRulesRegistry.DECK: return false
-	if not _is_plain_int(plan["schema"]) or plan["schema"] != (2 if deck else 1) or not _is_plain_int(plan["seed"]):
+	if not _is_plain_int(plan["schema"]) or plan["schema"] != (3 if opening else 2 if deck else 1) or not _is_plain_int(plan["seed"]):
 		return false
 	if not plan["nodes"] is Array or not plan["start"] is Array:
 		return false
 	var nodes: Array = plan["nodes"]
 	var starts: Array = plan["start"]
-	if nodes.size() != 14 or starts != [1, 2]:
+	if nodes.size() != (13 if opening else 14) or starts != ([1] if opening else [1, 2]):
 		return false
 	var by_id: Dictionary = {}
 	var expected_layer: int = 0
@@ -101,7 +104,7 @@ static func valid(data: Variant) -> bool:
 		if expected_layer == 6:
 			if not next_nodes.is_empty():
 				return false
-		elif expected_layer == 3:
+		elif expected_layer == 3 or (opening and expected_layer == 0):
 			if next_nodes.size() != 3:
 				return false
 		else:
@@ -114,33 +117,34 @@ static func valid(data: Variant) -> bool:
 			edge_seen[target_id] = true
 		by_id[node["id"]] = node
 		layer_position += 1
-		if layer_position == LAYER_SIZES[expected_layer]:
+		if layer_position == layer_sizes[expected_layer]:
 			layer_position = 0
 			expected_layer += 1
-	if expected_layer != LAYER_SIZES.size() or layer_position != 0:
+	if expected_layer != layer_sizes.size() or layer_position != 0:
 		return false
-	for id: int in range(1, 15):
+	for id: int in range(1, nodes.size() + 1):
 		var node: Dictionary = by_id[id]
 		for target_id: int in node["next"]:
 			if not by_id.has(target_id) or by_id[target_id]["layer"] != node["layer"] + 1:
 				return false
 	if not _has_all_expected_kinds(by_id):
 		return false
-	if by_id[1]["next"].size() < 2 or by_id[2]["next"].size() < 2:
+	if opening and (by_id[1].next != [2,3,4] or by_id[1].variant != 0 or by_id[1].modifier != "neutral"): return false
+	if not opening and (by_id[1]["next"].size() < 2 or by_id[2]["next"].size() < 2):
 		return false
-	var camp: Dictionary = by_id[8]
+	var camp: Dictionary = by_id[7 if opening else 8]
 	var camp_targets: Array = camp["next"]
-	if camp_targets != [9, 10, 11]:
+	if camp_targets != ([8,9,10] if opening else [9,10,11]):
 		return false
-	for id: int in [9, 10, 11]:
+	for id: int in camp_targets:
 		if by_id[id]["next"].size() != 2:
 			return false
 	var reached: Dictionary = {}
 	_reachable(1, by_id, reached)
-	_reachable(2, by_id, reached)
-	if reached.size() != 14:
+	if not opening: _reachable(2, by_id, reached)
+	if reached.size() != nodes.size():
 		return false
-	return _all_paths_have_branches(by_id)
+	return _paths_have_two_branches(1, 0, by_id) if opening else _all_paths_have_branches(by_id)
 
 static func _layer_kinds(layer_index: int) -> Array[String]:
 	match layer_index:
@@ -235,7 +239,7 @@ static func _modifier_allowed(kind: String, modifier: String) -> bool:
 
 static func _has_all_expected_kinds(by_id: Dictionary) -> bool:
 	var observed: Array[String] = []
-	for id: int in range(1, 15):
+	for id: int in range(1, by_id.size() + 1):
 		var layer: int = by_id[id]["layer"]
 		if not observed.has("%d:%s" % [layer, by_id[id]["kind"]]):
 			observed.append("%d:%s" % [layer, by_id[id]["kind"]])
@@ -258,7 +262,7 @@ static func _all_paths_have_branches(by_id: Dictionary) -> bool:
 
 static func _paths_have_two_branches(id: int, branch_count: int, by_id: Dictionary) -> bool:
 	var node: Dictionary = by_id[id]
-	var count: int = branch_count + (1 if node["next"].size() == 2 else 0)
+	var count: int = branch_count + (1 if node["next"].size() == 2 or (node.layer == 0 and node.next.size() == 3) else 0)
 	if node["layer"] == 6:
 		return count >= 2
 	for target_id: int in node["next"]:

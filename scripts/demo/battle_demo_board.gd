@@ -17,6 +17,10 @@ var execution_pending: bool = false
 var forecast_wheel_handler: Callable
 var camera_view := BattleBoardCamera.new()
 var _camera_dragging: bool = false
+var _camera_gesture_active: bool = false
+var _camera_press_position: Vector2 = Vector2.ZERO
+var _camera_last_position: Vector2 = Vector2.ZERO
+var _camera_max_displacement: float = 0.0
 var _camera_reset: Button
 var _camera_layout_size := Vector2.ZERO
 var attack_mode: bool = false
@@ -1009,9 +1013,16 @@ func pan_camera(delta: Vector2) -> void:
 	_apply_camera()
 
 func reset_camera() -> void:
-	_camera_dragging = false
+	_cancel_camera_gesture()
 	camera_view.reset()
 	_apply_camera()
+
+func _cancel_camera_gesture() -> void:
+	_camera_gesture_active = false
+	_camera_dragging = false
+	_camera_press_position = Vector2.ZERO
+	_camera_last_position = Vector2.ZERO
+	_camera_max_displacement = 0.0
 
 func _apply_camera() -> void:
 	# Меняется только canvas-преобразование: текущие Tween и показанные узлы живут дальше.
@@ -1034,16 +1045,35 @@ func _camera_input(event: InputEvent) -> bool:
 			zoom_camera(camera_view.zoom * pow(1.1, ticks if button.button_index == MOUSE_BUTTON_WHEEL_UP else -ticks), button.position)
 			return true
 		if camera_controls_enabled and button.button_index == MOUSE_BUTTON_RIGHT:
-			_camera_dragging = button.pressed
+			if button.pressed:
+				_camera_gesture_active = true
+				_camera_dragging = false
+				_camera_press_position = button.global_position
+				_camera_last_position = button.global_position
+				_camera_max_displacement = 0.0
 			return true
-	elif camera_controls_enabled and event is InputEventMouseMotion and _camera_dragging:
-		pan_camera(event.relative)
+	elif camera_controls_enabled and event is InputEventMouseMotion and _camera_gesture_active:
 		return true
 	return false
 
 func _input(event: InputEvent) -> void:
-	# Отпускание или потеря фокуса не должны оставлять камеру в режиме перетаскивания.
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and not event.pressed: _camera_dragging = false
+	if not camera_controls_enabled or not _camera_gesture_active: return
+	if event is InputEventMouseMotion:
+		var motion := event as InputEventMouseMotion
+		var position := motion.global_position
+		_camera_max_displacement = maxf(_camera_max_displacement, position.distance_to(_camera_press_position))
+		if not _camera_dragging and _camera_max_displacement >= 6.0:
+			_camera_dragging = true
+			# Первый заметный сдвиг применяет весь путь с точки нажатия, даже если был jitter.
+			pan_camera(position - _camera_press_position)
+		elif _camera_dragging:
+			pan_camera(position - _camera_last_position)
+		_camera_last_position = position
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and not event.pressed:
+		var should_cancel := not _camera_dragging
+		_cancel_camera_gesture()
+		# Сигнал выдаётся на отпускании в глобальном input, чтобы клик снаружи доски тоже завершал жест ровно один раз.
+		if should_cancel: cancel_requested.emit()
 
 func _layer(label: String, layer: RenderLayers.Layer) -> Node2D:
 	var result := Node2D.new()
@@ -1054,7 +1084,7 @@ func _layer(label: String, layer: RenderLayers.Layer) -> Node2D:
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_RESIZED: _rescale_layout()
-	elif what in [NOTIFICATION_WM_WINDOW_FOCUS_OUT, NOTIFICATION_APPLICATION_FOCUS_OUT]: _camera_dragging = false
+	elif what in [NOTIFICATION_WM_WINDOW_FOCUS_OUT, NOTIFICATION_APPLICATION_FOCUS_OUT]: _cancel_camera_gesture()
 
 func refresh() -> void:
 	if execution_pending: return

@@ -37,6 +37,9 @@ static func _apply(hub: HeroHubState, action: String, args: Dictionary) -> Strin
 			hero.hp_current = hero.max_hp()
 		run.ordinary_item_ids = hub.battle_items()
 		hub.expedition = run; hub.phase = "expedition"
+		if run.plan.schema == 3:
+			# Один commit содержит и план, и первый checkpoint; UI не публикует промежуточную карту.
+			return _apply(hub, "choose", {"node":1})
 		return ""
 	var run := hub.expedition
 	if hub.phase != "expedition" or run == null: return "expedition/not_active"

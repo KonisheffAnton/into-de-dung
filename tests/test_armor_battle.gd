@@ -161,7 +161,7 @@ func _test_turn_flow() -> void:
 func _test_inspection() -> void:
 	demo.reset_demo()
 	var s := demo.session as BattleArmorSession
-	await click(demo.board_view.global_position + demo.board_view.cell_center(s.units[1].cell))
+	(demo._roster.get_child(1) as Button).pressed.emit()
 	check(demo.inspected_id == s.units[1].id and demo._stats.text.contains("Печать: призыв недоступен в сценарии брони"), "armor inspection explains unavailable summon")
 	var stats_scroll := demo._stats.get_parent() as ScrollContainer
 	var stats_scroll_before := stats_scroll.get_v_scroll_bar().value

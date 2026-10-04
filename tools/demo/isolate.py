@@ -146,6 +146,8 @@ def main():
             invalid = invalid or "M1 RESULTS:" not in output or ", 0 failed" not in output
         if label == "item_use":
             invalid = invalid or "ITEM USE RESULTS:" not in output or ", 0 failed" not in output
+        if label == "click_attack":
+            invalid = invalid or "CLICK ATTACK RESULTS:" not in output or ", 0 failed" not in output
         if label in ("item_forecast", "item_forecast_ui"):
             marker = "ITEM FORECAST RESULTS:" if label == "item_forecast" else "ITEM FORECAST UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -404,6 +406,7 @@ def main():
         run("snapshot_walk", ["--script", "tests/test_snapshot_walk_performance.gd"])
         run("unit_snapshot_performance", ["--script", "tests/test_unit_snapshot_performance.gd"])
         run("battle_execution_worker", ["--script", "tests/test_battle_execution_worker.gd"])
+        run("click_attack", ["--script", "tests/test_click_attack.gd"], headless=not args.render_check)
         run("snapshot_value_copy", ["--script", "tests/test_snapshot_value_copy.gd"])
         run("live_snapshot_capture", ["--script", "tests/test_live_snapshot_capture.gd"])
         run("summon_checkpoint", ["--script", "tests/test_summon_checkpoint.gd"])

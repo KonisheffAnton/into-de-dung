@@ -112,7 +112,7 @@ func _run() -> void:
 	_check(_demo.board_view.pending_move_path.is_empty() and _demo.board_view._path.is_empty(), "stunned selection has no provisional route")
 	await _hover(Vector2i(4, 5))
 	_check(_demo._move_forecast != f and _demo._move_forecast.reason == &"control/stunned", "selection invalidates and stun explains refusal")
-	await _click(s.units[1].cell)
+	_demo.inspect_enemy(s.units[1].id)
 	_check(_demo.inspected_id == s.units[1].id and _demo._move_forecast == null, "enemy inspection suppresses movement forecast")
 	await _key(KEY_ESCAPE)
 	await _click(s.units[0].cell)

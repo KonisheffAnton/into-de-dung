@@ -29,6 +29,20 @@ func _run() -> void:
 	check(unique_plans.size() > 1, "seeds produce diverse plans")
 	_validate_rejections(serialized)
 	_copy_isolation()
+	for seed_value: int in 32:
+		var current := ExpeditionRulesRegistry.generate(seed_value)
+		var previous := ExpeditionRulesRegistry.generate(seed_value, false)
+		check(ExpeditionGenerator.valid(current) and current.schema == 3 and current.start == [1] and current.nodes.size() == 13, "single opening graph %d" % seed_value)
+		check(current.nodes[0].next == [2,3,4] and current.nodes[0].variant == 0 and current.nodes[0].modifier == "neutral", "fixed opening has all next-layer choices")
+		check(ExpeditionGenerator.valid(previous) and previous.schema == 2 and previous.start == [1,2], "old deck graph remains loadable")
+		check(ExpeditionRulesRegistry.generate(seed_value) == current, "opening graph is deterministic")
+		for index: int in range(1, current.nodes.size()):
+			check(current.nodes[index].battle_seed == previous.nodes[index+1].battle_seed and current.nodes[index].reward == previous.nodes[index+1].reward, "downstream battle/reward streams preserved")
+	var damaged := ExpeditionRulesRegistry.generate(17)
+	damaged.content.opening.hazards[0].effect = "burning"
+	check(not ExpeditionGenerator.valid(damaged), "opening manifest cannot silently drift")
+	damaged = ExpeditionRulesRegistry.generate(17); damaged.nodes[0].next = [2,3]
+	check(not ExpeditionGenerator.valid(damaged), "opening cannot strand a next-layer room")
 	for kind: String in ["battle","elite","final"]:
 		for variant: int in (3 if kind == "battle" else 2):
 			var definition := ExpeditionCatalog.encounter(kind,variant)

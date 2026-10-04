@@ -19,7 +19,8 @@ func step(hub: HeroHubState, action: String, args: Dictionary = {}) -> HeroHubSt
 		check(not HeroHubStore.write_run(path + "/blocked",result.profile).is_empty(),"failed write " + action)
 		check(HeroHubStore.read_run(path).run.to_dict() == before,"restart before commit " + action)
 		check(HeroHubStore.write_run(path,result.profile).is_empty(),"retry exact candidate " + action)
-		check(HeroHubStore.read_run(path).run.to_dict() == result.profile.to_dict(),"restart after commit " + action)
+		var loaded := HeroHubStore.read_run(path)
+		check(loaded.run != null and loaded.run.to_dict() == result.profile.to_dict(),"restart after commit " + action + " " + loaded.error)
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
 	return result.profile if result.is_ok() else hub
 
@@ -39,6 +40,7 @@ func run() -> void:
 	hub = step(hub,"start")
 	if hub.expedition == null: quit(1); return
 	check(hub.expedition.is_deck() and hub.expedition.cards.size() == 10,"deck start")
+	_opening(hub)
 	var saved_plan := hub.expedition.plan.duplicate(true)
 	for node: Dictionary in saved_plan.nodes:
 		if node.kind in ["battle","elite","final"]: check(node.reward.size() == 3,"triple including final")
@@ -68,6 +70,10 @@ func run() -> void:
 		check(report.schema == 2 and report.open and report.return_reason == exit_kind,"open return report " + exit_kind)
 		check(report.returned_cards.size() >= 10,"all copies historical")
 		check(HeroHubState.from_dict(route.to_dict()) != null,"return reload " + exit_kind)
+		if exit_kind == "early":
+			check(report.node_id == 7, "new layout returns from camp seven")
+			var wrong_camp := route.to_dict(); wrong_camp.battle_report.node_id = 6
+			check(HeroHubState.from_dict(wrong_camp) == null, "early report rejects non-camp node")
 		var broken := route.to_dict(); broken.battle_report.schema = 2.0
 		check(HeroHubState.from_dict(broken) == null,"report rejects float schema")
 		broken = route.to_dict(); broken.battle_report.erase("source")
@@ -85,6 +91,45 @@ func run() -> void:
 	_legacy_migration()
 	print("MAGE DECK EXPEDITION RESULTS: %d passed, %d failed" % [passed,failed])
 	quit(0 if failed == 0 else 1)
+
+func _opening(hub: HeroHubState) -> void:
+	check(hub.expedition.phase == "battle" and hub.expedition.route == [1] and hub.expedition.battle_serial == 1, "start atomically enters first battle")
+	check(not ExpeditionTransitions.apply(hub, "choose", {"node":1}).is_ok(), "first room cannot be entered twice")
+	var next_id := UnitId.get_counter()
+	var bundle := HeroHubBattleFactory.create(hub)
+	check(not bundle.is_empty(), "opening battle constructed")
+	if bundle.is_empty(): return
+	var session: BattleCoreReactionsSession = bundle.session
+	var snapshot := ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict()
+	var rng := session.context.get_rng().to_dict()
+	var enemies: Array[UnitState] = []
+	for unit: UnitState in session.units:
+		if unit.faction == Faction.Type.ENEMY: enemies.append(unit)
+	check(enemies.size() == 3 and enemies[0].debug_name == "Страж" and enemies[1].debug_name == "Щит" and enemies[2].debug_name == "Дозорный", "three existing enemy archetypes")
+	check(enemies[0].combat_perks.definition.counterattack and enemies[0].combat_perks.definition.tank_reactions and enemies[0].combat_perks.definition.stunning_strike, "guard capabilities")
+	check(enemies[1].bleeding.immune and enemies[1].combat_perks.definition.stun_immune and enemies[2].combat_perks.definition.sneak_attack, "shield and sneak capabilities")
+	check(session.state.environment.fire_at(Vector2i(3,2)).effect == "bleeding" and session.state.environment.fire_at(Vector2i(4,4)).effect == "burning", "both existing cell hazards")
+	check(session.board.get_terrain(Vector2i(3,0)) == TerrainType.Type.WALL and session.board.get_terrain(Vector2i(5,6)) == TerrainType.Type.HAZARD and session.board.get_terrain(Vector2i(6,7)) == TerrainType.Type.VOID, "wall and both lethal terrain forms")
+	check(session.board.get_height_steps(Vector2i(3,3)) == 1 and session.board.get_height_steps(Vector2i(4,3)) == 2 and not session.state.environment.collapse.is_empty(), "half/full height steps and collapse enabled")
+	check(session.is_deploying() and session.state.deck.hand_ids.size() == 5, "opening keeps deployment and mulligan")
+	session.close()
+	UnitId.set_counter(next_id)
+	var restored := HeroHubState.from_dict(hub.to_dict())
+	bundle = HeroHubBattleFactory.create(restored)
+	session = bundle.session
+	check(ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() == snapshot and session.context.get_rng().to_dict() == rng, "restart restores exact opening battle and RNG")
+	session.close()
+	var old := hub.to_dict()
+	old.expedition.plan = ExpeditionRulesRegistry.generate(hub.expedition.plan.seed, false)
+	var old_hub := HeroHubState.from_dict(old)
+	check(old_hub != null and old_hub.to_dict() == old, "old two-entry deck save is preserved without migration")
+	if old_hub != null:
+		bundle = HeroHubBattleFactory.create(old_hub)
+		check(not bundle.is_empty(), "old deck encounter still constructs")
+		if not bundle.is_empty():
+			session = bundle.session
+			check(session.board.get_terrain(Vector2i(3,0)) == TerrainType.Type.FLOOR, "old first encounter is not replaced by test room")
+			session.close()
 
 func _legacy_migration() -> void:
 	var path := "user://deck-migration-%d.save" % Time.get_ticks_usec()

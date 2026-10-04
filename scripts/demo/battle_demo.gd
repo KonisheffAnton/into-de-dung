@@ -935,7 +935,11 @@ func handle_cell(cell: Vector2i) -> void:
 		_execute_live(&"attack_unit", [occupant.id], true)
 	elif occupant != null:
 		if _battle != null and occupant.faction == Faction.Type.ENEMY:
-			inspect_enemy(occupant.id)
+			if retreat_mode:
+				inspect_enemy(occupant.id)
+			else:
+				inspected_id = UnitId.NONE
+				_execute_live(&"click_attack", [occupant.id], true)
 		else:
 			select_character(occupant.id)
 	elif inspected_id != UnitId.NONE:
@@ -1364,7 +1368,7 @@ func _refresh() -> void:
 		var enemy := session.board.get_unit_by_id(inspected_id)
 		if enemy != null:
 			_stats.text = _inspection_text(enemy)
-	_status.text = "Атака: щёлкните по цели. Расход — 1 основное действие." if attack_mode else "Движение: щёлкните по свободной клетке. Персонаж на поле или в списке — выбор."
+	_status.text = "Атака: щёлкните по цели. Расход — 1 основное действие." if attack_mode else ("ЛКМ: пустая клетка — движение; враг — подход и обычная атака; свой герой — выбор." if _battle != null else "Движение: щёлкните по свободной клетке. Персонаж на поле или в списке — выбор.")
 	if session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).elemental_selected != &"":
 		_status.text = "%s: наведите курсор на цель для прогноза, щёлкните для применения." % _elemental_effect_label((session as BattleCoreReactionsSession).elemental_selected)
 	if inspected_id != UnitId.NONE:
@@ -1649,7 +1653,7 @@ func _hover(cell: Vector2i) -> void:
 		_hint.text = "Бирюзовые точки — клетки призыва. Клик — %s.\nПомощник с %s HP действует со следующего хода своей команды. Esc — отмена." % [_item_cost_text(item.get_use_action() if item != null else null), _summon_hp_text(item)]
 		return
 	if not session.board.is_in_bounds(cell):
-		var movement_cancel_hint := "ПКМ — сдвиг карты; Esc или M — отмена." if board_view.camera_controls_enabled else "ПКМ или Esc — движение."
+		var movement_cancel_hint := "Клик ПКМ — отмена; перетаскивание ПКМ — камера; Esc/M — отмена." if board_view.camera_controls_enabled else "ПКМ или Esc — движение."
 		_hint.text = "Золотые клетки — движение врага на следующий ход; зона атаки не показана.\nВыбранный союзник сохранён. Осмотр не расходует действия." if inspected_id != UnitId.NONE else "Числа на клетках — высота. Бирюзовые точки — доступное движение.\nПолоски: здоровье / запас равновесия. %s" % movement_cancel_hint
 		if control_mode and not session is BattleCoreReactionsSession and inspected_id == UnitId.NONE: _hint.text = "Розовая стрелка у ног — тыл: атака с соседней клетки даёт +50% базы.\nОглушение или путы на цели дают крит ×2; два состояния не складывают крит."
 		return
@@ -2608,6 +2612,7 @@ func _reason_text(reason: StringName) -> String:
 		&"guard/not_admitted": return "персонаж не может занять стойку."
 		&"guard/stale_revision": return "состояние боя изменилось; повторите попытку."
 		&"guard/invalid_runtime": return "состояние персонажа повреждено; сбросьте бой."
+		&"attack/no_reachable_position": return "не хватает движения или нет доступной позиции для обычной атаки."
 		&"perks/not_owned": return "этот персонаж не владеет преимуществом."
 		&"perks/invalid_cover_target": return "выберите допустимого соседнего союзника."
 		&"perks/movement_stopped": return "движение уже остановлено Оппортунистом до пополнения команды."

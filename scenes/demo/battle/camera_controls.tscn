@@ -22,7 +22,7 @@ layout_mode = 2
 text = "100%"
 custom_minimum_size = Vector2(64, 32)
 focus_mode = 0
-tooltip_text = "100% — базовый размер. Колесо — масштаб; ПКМ — сдвиг карты. Ctrl+колесо — масштаб над прогнозом."
+tooltip_text = "100% — базовый размер. Колесо — масштаб; перетаскивание ПКМ — сдвиг; клик ПКМ — отмена. Ctrl+колесо — масштаб над прогнозом."
 
 [node name="ZoomIn" type="Button" parent="."]
 layout_mode = 2

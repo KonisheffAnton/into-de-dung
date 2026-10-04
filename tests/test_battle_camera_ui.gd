@@ -65,13 +65,13 @@ func _test_initial_state() -> void:
 	var board := demo.board_view
 	check(demo.core_reactions_mode and board.camera_controls_enabled, "H1 enables camera controls")
 	check(board.get_node_or_null("CameraControls") != null, "screen camera controls are present")
-	check(board._camera_reset.tooltip_text.contains("ПКМ — сдвиг карты"), "camera tooltip documents right-button pan")
+	check(board._camera_reset.tooltip_text.contains("перетаскивание ПКМ") and board._camera_reset.tooltip_text.contains("клик ПКМ — отмена"), "camera tooltip distinguishes right-button drag and cancel")
 	check(board._camera_reset.tooltip_text.contains("100%") and not board._camera_reset.tooltip_text.contains("Общий вид"), "camera tooltip describes base size")
 	check(is_equal_approx(board.camera_view.zoom, 1.0) and board.camera_view.offset == Vector2.ZERO, "initial camera is centered at 100 percent")
 	check(board.grid_config.tile_size == Vector2(128, 64) and board.grid_config.height_step == 32.0, "main H1 uses 128x64 tiles and 32 height step at 100 percent")
 	await capture("main-100")
 	demo._hover(Vector2i(-1, -1))
-	check(demo._hint.text.contains("ПКМ — сдвиг карты") and demo._hint.text.contains("Esc или M"), "main hint describes right-button pan and keyboard cancel")
+	check(demo._hint.text.contains("Клик ПКМ — отмена") and demo._hint.text.contains("перетаскивание ПКМ — камера") and demo._hint.text.contains("Esc/M"), "main hint describes right-button click/drag and keyboard cancel")
 	var center := board.cell_center(demo.session.selected_unit().cell)
 	check(board.cell_at(center) == demo.session.selected_unit().cell, "initial screen cell center picks same cell")
 	check(board.displayed_unit_at(center + Vector2(0, -12)) == demo.session.selected_id, "initial unit picking uses view coordinates")
@@ -228,9 +228,72 @@ func _test_forecast_wheel_and_cancel() -> void:
 	check(demo.attack_mode and demo.session.selected_id == selected_before_drag, "right-button drag preserves attack mode and selected unit")
 	check(board.camera_view.offset.is_equal_approx(offset_before_click + Vector2(22, -14)), "right-button drag pans while targeting")
 	offset_before_click = board.camera_view.offset
-	await _right_click(point)
-	check(demo.attack_mode and demo.session.selected_id == selected_before_drag, "simple right click preserves attack mode and selection")
-	check(board.camera_view.offset == offset_before_click, "simple right click does not pan")
+	var click_down := InputEventMouseButton.new()
+	click_down.button_index = MOUSE_BUTTON_RIGHT
+	click_down.pressed = true
+	click_down.position = point
+	click_down.global_position = point
+	viewport.push_input(click_down, true)
+	check(demo.attack_mode, "right-button press does not cancel targeting")
+	var click_up := click_down.duplicate() as InputEventMouseButton
+	click_up.pressed = false
+	viewport.push_input(click_up, true)
+	await process_frame
+	check(not demo.attack_mode and demo.session.selected_id == selected_before_drag, "right-button release cancels targeting and preserves selection")
+	check(board.camera_view.offset == offset_before_click and not board._camera_gesture_active, "right click does not pan and releases capture")
+	demo.set_attack_mode(true)
+	click_down = InputEventMouseButton.new()
+	click_down.button_index = MOUSE_BUTTON_RIGHT
+	click_down.pressed = true
+	click_down.position = point
+	click_down.global_position = point
+	viewport.push_input(click_down, true)
+	_push_motion(point + Vector2(3, 2), Vector2(3, 2))
+	check(board.camera_view.offset == offset_before_click and demo.attack_mode, "sub-threshold jitter does not pan or cancel before release")
+	click_up = click_down.duplicate() as InputEventMouseButton
+	click_up.pressed = false
+	click_up.position = Vector2(3, 3)
+	click_up.global_position = click_up.position
+	viewport.push_input(click_up, true)
+	await process_frame
+	check(not demo.attack_mode and board.camera_view.offset == offset_before_click, "sub-threshold jitter cancels on release without panning")
+	demo.set_attack_mode(true)
+	click_down = InputEventMouseButton.new()
+	click_down.button_index = MOUSE_BUTTON_RIGHT
+	click_down.pressed = true
+	click_down.position = point
+	click_down.global_position = point
+	viewport.push_input(click_down, true)
+	_push_motion(point + Vector2(10, 0), Vector2(10, 0))
+	_push_motion(point, Vector2(-10, 0))
+	click_up = click_down.duplicate() as InputEventMouseButton
+	click_up.pressed = false
+	click_up.position = Vector2(3, 3)
+	click_up.global_position = click_up.position
+	viewport.push_input(click_up, true)
+	await process_frame
+	check(demo.attack_mode and board.camera_view.offset == offset_before_click, "large out-and-back drag keeps action and pans full path")
+	check(not board._camera_gesture_active and not board._camera_dragging, "release outside field ends drag capture")
+	click_down = InputEventMouseButton.new()
+	click_down.button_index = MOUSE_BUTTON_RIGHT
+	click_down.pressed = true
+	click_down.position = point
+	click_down.global_position = point
+	viewport.push_input(click_down, true)
+	board.reset_camera()
+	click_up = click_down.duplicate() as InputEventMouseButton
+	click_up.pressed = false
+	click_up.position = point
+	click_up.global_position = point
+	viewport.push_input(click_up, true)
+	check(demo.attack_mode, "camera reset clears gesture without cancelling action")
+	click_down.pressed = true
+	viewport.push_input(click_down, true)
+	board.notification(Node.NOTIFICATION_WM_WINDOW_FOCUS_OUT)
+	click_up = click_down.duplicate() as InputEventMouseButton
+	click_up.pressed = false
+	viewport.push_input(click_up, true)
+	check(demo.attack_mode, "focus loss clears gesture without cancelling action")
 	await _key(KEY_M)
 	check(not demo.attack_mode and demo._forecast == null, "M cancels targeting")
 	demo.set_attack_mode(true)
@@ -239,7 +302,7 @@ func _test_forecast_wheel_and_cancel() -> void:
 	demo.inspect_enemy(target.id)
 	check(demo.inspected_id == target.id, "fixture enters enemy inspection")
 	await _right_click(point)
-	check(demo.inspected_id == target.id, "simple right click preserves inspection")
+	check(demo.inspected_id == UnitId.NONE, "right-button click release clears inspection")
 	demo.set_diagnostics_visible(false)
 	demo.reset_demo()
 	await process_frame

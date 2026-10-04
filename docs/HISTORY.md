@@ -1,5 +1,25 @@
 # История и свидетельства проверок
 
+## Старт похода, атака кликом и область проверок — 2026-10-05
+
+Base main `e09fb99e11ef983de0b8cae1f2e6ebb0faeeecc1`. Поручение пользователя:
+одна стартовая комната со всеми существующими опасностями и типами врагов,
+обычная атака кликом с подходом, короткий ПКМ отменяет действие, drag сохраняет.
+[EXPEDITION_U14](EXPEDITION_U14.md), [TACTICAL_BATTLE](TACTICAL_BATTLE.md):
+новые plan3/content2 и буквальная совместимость plan1/2, прежние команды и RNG.
+[TESTING](TESTING.md): `--only`, `--list-checks`, timing и выбор объёма по риску;
+full/render не запускаются автоматически для локальных изменений.
+[GRAPHICS_WORKFLOW](GRAPHICS_WORKFLOW.md): выбран PixelLab, ключ DPAPI вне Git.
+
+Import/startup PASS; 16 адресных headless и 3 render сценария PASS; Python5/0.
+Click152/0, сквозной поход156/0; камера78/85, deck UI87/101. Полные suites не повторялись.
+Ревью APPROVE после исправления безопасного обхода; последние текстовые подсказки
+проверены ведущим (повтор reviewer — model capacity) и отдельным camera render85/0.
+5 итоговых PNG осмотрены, 18 сохранены; ручной Editor/F5 и арт/баланс открыты.
+Свидетельства, source manifests, измерения — `test_reports/playthrough-input-20261005/`.
+Пользовательская main_menu.tscn вне коммитов; без push. HEAD/status — completion/ответ.
+Прежняя передача — [точный снимок](CODEX_HANDOFF.history-20261005.md).
+
 ## Редактируемый боевой HUD — 2026-10-04
 
 Base main `94b4ec51a924ead9add48880c66cc78a91c8d56a`, поручение «Приступай».

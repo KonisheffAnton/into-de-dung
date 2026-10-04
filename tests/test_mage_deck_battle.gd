@@ -91,7 +91,6 @@ func run() -> void:
 		session.close()
 	var hub := HeroHubState.create(997); hub.enable_mage_deck()
 	hub = ExpeditionTransitions.apply(hub,"start").profile
-	hub = ExpeditionTransitions.apply(hub,"choose",{"node":1}).profile
 	var bundle := HeroHubBattleFactory.create(hub)
 	check(not bundle.is_empty(),"production factory schema10")
 	if not bundle.is_empty():
@@ -163,7 +162,6 @@ func _invalid_hero_attack_binding() -> void:
 	var hub := HeroHubState.create(1997)
 	hub.enable_mage_deck()
 	hub = ExpeditionTransitions.apply(hub,"start").profile
-	hub = ExpeditionTransitions.apply(hub,"choose",{"node":1}).profile
 	var bundle := HeroHubBattleFactory.create(hub)
 	check(not bundle.is_empty(),"hero binding production fixture")
 	if bundle.is_empty(): return

@@ -69,6 +69,7 @@ core без `--full` или явного `--only core` в неё не входи
 
 | Область | Адресный runner в `tests/` |
 |---|---|
+| Обычная атака кликом | `test_click_attack.gd` (`--only click_attack`): подход, отказ без расхода, изоляция планирования, порядок move/attack, worker/sync и маршрутизация UI. Камера/отмена — `test_battle_camera_ui.gd`. |
 | Редактируемые сцены боя | `test_battle_hud_authoring.gd` (full/render): main/H1 до _ready, overrides и identity после binding/refresh/after-кадров, один обработчик, сохранность runtime/RNG, legacy/.new(), PNG; карта — [BATTLE_HUD_SCENES_V1](BATTLE_HUD_SCENES_V1.md). |
 | Редактируемые сцены хаба | `test_hub_scene_authoring.gd` (full/render): узлы до _ready, сохранность настроек и экземпляров после refresh/ошибки, один обработчик на кнопку, профиль неизменен при редактировании/отмене; карта сцен — [HUB_SCENES_V1](HUB_SCENES_V1.md). |
 | Колода мага V1 | `test_mage_deck_models.gd`, `test_deck_ability_state.gd`, `test_mage_deck_expedition.gd`, `test_mage_deck_battle.gd`, `test_expedition_playthrough.gd -- --deck`, `test_mage_deck_ui.gd` (full/render): codecs/legacy/барьеры записи, рука/мана, все12 эффектов, sync/preview/workers, FAULTED prefix, реальный поход и UI до сохранённого итога; UI PNG через `-- --captures=<dir>` |

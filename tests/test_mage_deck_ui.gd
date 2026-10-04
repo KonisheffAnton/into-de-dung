@@ -39,23 +39,17 @@ func _run() -> void:
 	await _press("deck_more_card_burning")
 	await _press("deck_save")
 	check(not host.deck_editing and host.run.mage_deck.base_types.count("card.burning") == 1 and HeroHubStore.read_run(path).run.to_dict() == host.run.to_dict(), "save publishes exact base")
-	await _press("start_expedition")
-	check(host.run.expedition != null and host.run.expedition.is_deck(), "production expedition")
-	if host.run.expedition == null: _finish(); return
-	var node_id: int = host.run.expedition.available_nodes()[0]
-	var map: ExpeditionMapView = null
-	for candidate: Node in host.find_children("*", "", true, false):
-		if candidate is ExpeditionMapView: map = candidate as ExpeditionMapView; break
-	check(map != null, "map route visible")
 	var before_checkpoint := host.run.to_dict()
 	host.save_path = path + "/cannot-write"
-	await _press("room_%d" % node_id)
+	await _press("start_expedition")
 	check(host._pending_save != null and host.run.to_dict() == before_checkpoint and host.battle_view == null, "failed checkpoint write blocks battle")
 	var pending_checkpoint: Dictionary = host._pending_save.to_dict() if host._pending_save != null else {}
-	host._expedition_action("choose",{"node":node_id})
+	host._expedition_action("start")
 	check(host._pending_save != null and host._pending_save.to_dict() == pending_checkpoint, "pending checkpoint blocks second choice")
 	host.save_path = path
 	await _press("retry_save")
+	check(host.run.expedition != null and host.run.expedition.is_deck() and host.run.expedition.route == [1], "production starts directly in the only opening room")
+	check(host.find_children("room_*", "Button", true, false).is_empty(), "no initial route choice")
 	check(host.run.to_dict() == pending_checkpoint and HeroHubStore.read_run(path).run.to_dict() == pending_checkpoint, "retry publishes exact checkpoint")
 	await process_frame; await process_frame
 	check(host.battle_view != null and host.run.expedition.phase == "battle", "saved checkpoint opens battle")

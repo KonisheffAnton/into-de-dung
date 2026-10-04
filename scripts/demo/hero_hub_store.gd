@@ -26,7 +26,7 @@ static func read_run(path: String, deck_mode: bool = false) -> Dictionary:
 	var schemas := {"hero-hub-v1":1,"hero-hub-v2":2,"hero-hub-v3":3,"hero-hub-v4":4}
 	if not decoded is Dictionary or decoded.get("schema") != schemas[envelope.format]: return {"run":null,"error":"Версия профиля не совпадает с форматом файла."}
 	var expedition: Variant = decoded.get("expedition")
-	if expedition is Dictionary and expedition.get("plan") is Dictionary and not ExpeditionRulesRegistry.matches_content(expedition.plan.get("content"),expedition.get("schema") == 3):
+	if expedition is Dictionary and expedition.get("plan") is Dictionary and not ExpeditionRulesRegistry.matches_content(expedition.plan.get("content"),expedition.get("schema") == 3,expedition.plan.get("schema") == 3):
 		return {"run":null,"error":"Сохранённый поход использует другую версию или параметры каталога. Файл сохранён без изменений."}
 	var run := HeroHubState.from_dict(decoded)
 	var migrated: bool = decoded.schema < 3

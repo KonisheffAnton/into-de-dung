@@ -66,7 +66,7 @@ static func from_dict(data: Variant) -> ExpeditionRunState:
 	if not ItemSimulationSnapshot._shape(data,shape): return null
 	if deck and (data.ruleset_id != ExpeditionRulesRegistry.DECK or data.catalog_id != "mage-neutral-v1" or data.catalog_version != 1): return null
 	if data.run_id < 1 or data.run_id > MAX_VALUE or not ExpeditionGenerator.valid(data.plan): return null
-	if data.plan.schema != (2 if deck else 1): return null
+	if (deck and data.plan.schema not in [2,3]) or (not deck and data.plan.schema != 1): return null
 	if data.phase not in ["route","battle","reward","service","camp_departure"] or data.gold < 0 or data.gold > MAX_VALUE: return null
 	if data.battle_serial < 0 or data.battle_serial > 6: return null
 	if not deck and (data.next_artifact_id < 1 or data.next_artifact_id > 6 or data.artifacts.size() > 5): return null
@@ -76,7 +76,7 @@ static func from_dict(data: Variant) -> ExpeditionRunState:
 	result.run_id = data.run_id; result.plan = data.plan.duplicate(true); result.phase = data.phase
 	var previous: int = 0
 	for id: Variant in data.route:
-		if typeof(id) != TYPE_INT or id < 1 or id > 14: return null
+		if typeof(id) != TYPE_INT or id < 1 or id > data.plan.nodes.size(): return null
 		var allowed: Array = data.plan.start if previous == 0 else data.plan.nodes[previous - 1].next
 		if not allowed.has(id): return null
 		result.route.append(id); previous = id

@@ -82,6 +82,9 @@ func move_to(cell: Vector2i) -> ActionReceipt:
 	if not can_player_act(): return _reject(&"battle/input_locked")
 	return super.move_to(cell)
 
+func click_attack(id: int) -> ActionReceipt:
+	return BattleClickAttack.execute(self, id)
+
 func preview_move(cell: Vector2i) -> MoveForecast:
 	if not can_player_act(): return MoveForecast.rejected(&"battle/input_locked")
 	return super.preview_move(cell)

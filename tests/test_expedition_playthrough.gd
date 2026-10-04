@@ -36,6 +36,9 @@ func _journey(leave: bool) -> void:
 	if not leave:
 		for hero: HeroProgression in profile.heroes.values():
 			hero.award_experience_tenths(45000); hero.apply_allocation([9,0,0,0])
+		if deck_mode:
+			# Для полного маршрута полигон с бронёй проходит допустимый смешанный отряд.
+			check(profile.toggle_party(2) and profile.toggle_party(4), "veteran party includes mage against opening armor")
 	transition("start")
 	var battles: int = 0
 	var path := "user://u14-playthrough-%d.save" % Time.get_ticks_usec()
@@ -66,7 +69,13 @@ func _journey(leave: bool) -> void:
 				var choice := reward.find("spark")
 				if choice < 0: choice = 0
 				transition("reward",{"index":choice})
-				if deck_mode: check(profile.dismiss_battle_report(),"reward Continue")
+				if deck_mode:
+					if not leave and profile.expedition != null:
+						for id: int in profile.party:
+							var quote := PostBattleRules.repair_quote(profile,id)
+							if not quote.is_empty() and quote.affordable:
+								check(profile.repair_after_battle(id), "pilot buys quoted armor repair")
+					check(profile.dismiss_battle_report(),"reward Continue")
 			"battle":
 				var outcome := _battle(false)
 				if outcome.is_empty(): break
@@ -95,6 +104,10 @@ func _prepare_party() -> void:
 			if equipped: break
 
 func _battle(passive: bool) -> Dictionary:
+	var starting_party: Array = []
+	for id: int in profile.party:
+		var hero: HeroProgression = profile.heroes[id]
+		starting_party.append({"name":hero.name,"hp":hero.hp_current,"attributes":hero.attributes()})
 	var bundle := HeroHubBattleFactory.create(profile)
 	check(not bundle.is_empty(),"real factory")
 	if bundle.is_empty(): return {}
@@ -138,13 +151,21 @@ func _battle(passive: bool) -> Dictionary:
 	check(s.phase != BattleTacticalSession.Phase.FAULTED and not s.context.is_faulted(),"real battle no fault " + (String(s.last_receipt.reason) if s.last_receipt != null else ""))
 	var outcome := HeroHubBattleFactory.outcome(bundle)
 	check(not outcome.is_empty(),"real terminal receipt")
+	if not passive and not outcome.is_empty() and not outcome.victory:
+		printerr("JOURNEY DIAGNOSTIC: node %s party %s outcome %s; %s" % [outcome.node_id, starting_party, outcome.hp, s.flow_log.slice(-8)])
 	s.close()
 	return outcome
 
 func _approach(s: BattleCoreReactionsSession, actor: UnitState) -> Vector2i:
 	var best := Vector2i(-1,-1); var score := _distance(s,actor.cell)
 	for cell: Vector2i in s.reachable_cells():
-		if s.path_to(cell).size() < 2: continue
+		var path := s.path_to(cell)
+		if path.size() < 2: continue
+		# Полигон содержит опасности: пилот не сокращает путь через шипы, огонь и провалы.
+		var safe := true
+		for step: Vector2i in path.slice(1):
+			if s.board.is_lethal(step) or not s.state.environment.fire_at(step).is_empty(): safe = false; break
+		if not safe: continue
 		var value := _distance(s,cell)
 		if value < score: score = value; best = cell
 	return best
@@ -159,7 +180,8 @@ func _distance(s: BattleCoreReactionsSession, cell: Vector2i) -> int:
 func _defeat() -> void:
 	profile = HeroHubState.create(4280)
 	if deck_mode: profile.enable_mage_deck()
-	transition("start"); transition("choose",{"node":1})
+	transition("start")
+	if not deck_mode: transition("choose",{"node":1})
 	var outcome := _battle(true)
 	if outcome.is_empty(): return
 	check(not outcome.victory,"passive party reaches actual defeat")
@@ -173,6 +195,15 @@ func _play_cards(s: BattleCoreReactionsSession) -> void:
 		var type: String = s.state.deck.card(id).type_id
 		var target_ids := s.living_ids(Faction.Type.ENEMY if type == "card.fire" else Faction.Type.PLAYER)
 		if type not in ["card.fire","card.heal","card.shield","card.wet"]: continue
+		if type == "card.heal":
+			# Лечение первого полного бойца впустую оставляло раненого без помощи перед финалом.
+			target_ids.sort_custom(func(a: int, b: int) -> bool: return _missing_hp(s,a) > _missing_hp(s,b))
 		for target: int in target_ids:
+			if type == "card.heal" and _missing_hp(s,target) <= 0.0: continue
+			if type == "card.wet" and s.board.get_unit_by_id(target).elemental.burning_stacks == 0: continue
 			var result := s.play_mage_card(id,target,Vector2i(-1,-1))
 			if result.status == ActionReceipt.APPLIED: actual_cards += 1; break
+
+func _missing_hp(s: BattleCoreReactionsSession, id: int) -> float:
+	var unit := s.board.get_unit_by_id(id)
+	return ActionHpExecutor._stat_value(unit,StatTypes.StatType.HP_MAX) - unit.vitals.get_hp()
