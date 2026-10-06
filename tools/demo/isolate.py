@@ -348,7 +348,10 @@ def main():
         run("hero_progression", ["--script", "tests/test_hero_progression.gd"])
         run("hero_hub", ["--script", "tests/test_hero_hub.gd"])
         run("hero_hub_playthrough", ["--script", "tests/test_hero_hub_playthrough.gd"])
-        run("hub_scene_authoring", ["--script", "tests/test_hub_scene_authoring.gd"])
+        hub_scene_args = ["--script", "tests/test_hub_scene_authoring.gd"]
+        if args.render_check:
+            hub_scene_args += ["--", "--captures=" + str(out / "hub-scene-screenshots")]
+        run("hub_scene_authoring", hub_scene_args, headless=not args.render_check)
         hud_args = ["--script", "tests/test_battle_hud_authoring.gd"]
         if args.render_check:
             hud_args += ["--", "--captures=" + str(out / "battle-hud-screenshots")]

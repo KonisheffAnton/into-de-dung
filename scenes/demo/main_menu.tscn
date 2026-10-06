@@ -47,4 +47,9 @@ horizontal_alignment = 1
 [node name="continue_game" type="Button" parent="CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
-text = "Продолжить · хаб и поход"
+text = "Начать тест · хаб и поход"
+
+[node name="TestProfileHint" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Тестовый прогресс сбрасывается после выхода."
+horizontal_alignment = 1
