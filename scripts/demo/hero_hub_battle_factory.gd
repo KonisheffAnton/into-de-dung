@@ -82,6 +82,9 @@ static func create(run: HeroHubState) -> Dictionary:
 				attack.damage_components.append(_fire(hero.attributes()[0] + (hero_class.weapon_damage if not weapon.is_empty() else 0)))
 			definitions.append(attack)
 			session.actor_loadouts[unit.id] = {"class_id":hero.class_id,"attack_id":attack.id}
+		elif enemy_data.is_empty() or enemy_data.role in ["guard", "shield"]:
+			# Обычные бойцы, Страж и Щит получают только рисунок; Дозорный сохраняет свой вид.
+			session.unit_visual_classes[unit.id] = &"warrior"
 		unit.combat_perks.uses_bonus_actions = true
 		unit.enable_action_resources(); unit.try_refill_turn_resources()
 		session.board.add_unit(unit)

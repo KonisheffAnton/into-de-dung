@@ -44,4 +44,7 @@ idempotency key и тем же телом, без переключения ве�
 Запросы, исходники, usage, проверки и сравнение без сглаживания:
 `C:\Users\Aston\.codex\generated_images\warrior-comparison-20261006\`.
 Оба исходника прозрачные; PixelLab — 1 generation подписки, Retro Diffusion — $0.18.
-Ни один вариант не подключён к сценам и не принят как финальный арт.
+По следующему поручению оба варианта подключены к сцене бойца: союзные воины —
+Retro Diffusion, вражеские — PixelLab. Файлы с происхождением —
+`assets/battle_units/README.md`; правила выбора — BATTLE_PRESENTATION_REWORK.
+Это пробное подключение, не приёмка финального арта.

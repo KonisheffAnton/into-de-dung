@@ -1,5 +1,19 @@
 # История и свидетельства проверок
 
+## Пробные спрайты воинов в бою — 2026-10-06
+
+Base main `fcc6c98bdc8103d6a098915e7cbc354f90db53ce`. Пользователь назначил
+PixelLab вражеским воинам, Retro Diffusion — союзным. Исходники в
+`assets/battle_units/`; область назначения и статичный показ —
+[контракт](BATTLE_PRESENTATION_REWORK.md). Игровые классы/save/RNG прежние.
+Import/startup PASS; адресный render foundation97/0, contact149/0, status62/0,
+28.11s, 3 PNG осмотрены. Независимое ревью APPROVE; прежняя буква имени
+остаётся поверх рисунка (неблокирующее замечание). Full/core не повторялись;
+ручной F5 и финальный арт не приняты. Прогон `demo-4189beec05d64ed68359c39dfa5bb7d6`,
+отчёты `test_reports/warrior-sprite-integration-20261006/`.
+Пользовательские изменения main_menu.tscn сохранены вне коммита, без push.
+Прежняя передача — [точный снимок](CODEX_HANDOFF.history-20261006-4.md).
+
 ## Сравнение воина PixelLab / Retro Diffusion — 2026-10-06
 
 Base main `9a552c5af5d1fed8e7ac98f0e4c70426bc5cf641`. По поручению пользователя

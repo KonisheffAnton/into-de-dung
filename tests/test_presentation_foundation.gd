@@ -106,6 +106,7 @@ func run() -> void:
 	check(board._presentation_visual(1).get_node_or_null("ArtRoot") == null, "procedural fallback remains available")
 	board.queue_free()
 	await process_frame
+	await warrior_art()
 	await live_ui()
 	viewport.queue_free()
 	await process_frame
@@ -116,6 +117,73 @@ func tile_at(cell: Vector2i) -> BattleDemoIsoVisual:
 	for visual: BattleDemoIsoVisual in board._entity_visuals:
 		if visual.role in [BattleDemoIsoVisual.Role.FLOOR, BattleDemoIsoVisual.Role.PLATFORM] and visual.grid_anchor == cell: return visual
 	return null
+
+func warrior_art() -> void:
+	var hub := HeroHubState.create(443)
+	hub.enable_mage_deck()
+	var started := ExpeditionTransitions.apply(hub, "start")
+	check(started.is_ok(), "warrior art fixture enters production opening")
+	if not started.is_ok(): return
+	var bundle := HeroHubBattleFactory.create(started.profile)
+	check(not bundle.is_empty(), "warrior art uses actual hero and enemy roles")
+	if bundle.is_empty(): return
+	var session: BattleCoreReactionsSession = bundle.session
+	var original := ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict()
+	var rng := session.context.get_rng().to_dict()
+	board = BattleDemoBoard.new()
+	board.size = Vector2(1280, 800)
+	board.session = session
+	viewport.add_child(board)
+	await process_frame
+	board.refresh()
+	var ally_id: int = UnitId.NONE
+	var enemy_id: int = UnitId.NONE
+	for unit: UnitState in session.units:
+		var visual := board._presentation_visual(unit.id)
+		var ally_sprite := visual.get_node("ArtRoot/PlayerWarriorSprite") as Sprite2D
+		var enemy_sprite := visual.get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D
+		var is_ally_warrior: bool = session.actor_loadouts.get(unit.id, {}).get("class_id", &"") == &"warrior"
+		var is_enemy_warrior: bool = unit.faction == Faction.Type.ENEMY and unit.debug_name in ["Страж", "Щит"]
+		check(ally_sprite.visible == is_ally_warrior and enemy_sprite.visible == is_enemy_warrior, "role and faction select requested art: " + unit.debug_name)
+		check((visual.get_node("ArtRoot/BodySprite") as Sprite2D).visible == not (is_ally_warrior or is_enemy_warrior), "other archetypes retain their body: " + unit.debug_name)
+		if is_ally_warrior:
+			ally_id = unit.id
+			check(ally_sprite.texture.resource_path.ends_with("warrior_ally_retro_v1.png") and ally_sprite.modulate == Color.WHITE, "allied warrior keeps Retro texture and palette")
+		if is_enemy_warrior:
+			enemy_id = unit.id
+			check(enemy_sprite.texture.resource_path.ends_with("warrior_enemy_pixellab_v1.png") and enemy_sprite.modulate == Color.WHITE, "enemy warrior keeps PixelLab texture and palette")
+	check(ally_id != UnitId.NONE and enemy_id != UnitId.NONE, "production opening contains both warrior sides")
+	await capture("warrior-opening")
+	if ally_id != UnitId.NONE and enemy_id != UnitId.NONE:
+		var value := ActionPresentationState.capture(session.state)
+		board.execution_pending = true
+		board.session = null
+		# После отделения session смена её метаданных не должна менять показанный рисунок.
+		session.unit_visual_classes.clear()
+		session.actor_loadouts[ally_id].class_id = &"rogue"
+		board.show_presentation_state(value)
+		check((board._presentation_visual(ally_id).get_node("ArtRoot/PlayerWarriorSprite") as Sprite2D).visible, "allied art survives detached presentation frame")
+		check((board._presentation_visual(enemy_id).get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D).visible, "enemy art survives detached presentation frame")
+		value.units[ally_id].elemental = {"frozen_turns": 1}
+		board.show_presentation_state(value)
+		var source: Vector2i = value.units[ally_id].cell
+		board._presentation_motion(0.5, ally_id, source, source + Vector2i.RIGHT)
+		var moving := board._presentation_visual(ally_id)
+		check((moving.get_node("ArtRoot/EffectRoot/IceSprite") as Sprite2D).visible, "warrior keeps existing frozen overlay in motion")
+		check(board.displayed_unit_at(moving.position + moving.get_visual_offset() + Vector2(0, -24)) == ally_id, "moving warrior remains pickable")
+		await capture("warrior-frozen-motion")
+		value.units[ally_id].alive = false
+		board.show_presentation_state(value)
+		check(not (board._presentation_visual(ally_id).get_node("ArtRoot/PlayerWarriorSprite") as Sprite2D).visible, "published death hides warrior body")
+		board.execution_pending = false
+		board.session = session
+		board.refresh()
+		check((board._presentation_visual(ally_id).get_node("ArtRoot/BodySprite") as Sprite2D).visible, "new live refresh replaces old class copy")
+	check(ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() == original and session.context.get_rng().to_dict() == rng, "art refresh and detached playback preserve battle snapshot and RNG")
+	board.session = null
+	board.queue_free()
+	await process_frame
+	session.close()
 
 func live_ui() -> void:
 	var demo := (load("res://scenes/demo/core_reactions_battle.tscn") as PackedScene).instantiate() as BattleDemo

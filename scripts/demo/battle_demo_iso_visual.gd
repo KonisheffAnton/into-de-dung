@@ -5,6 +5,7 @@ enum Role { FLOOR, PLATFORM, WALL, UNIT }
 var role: Role = Role.FLOOR
 var half_steps: int = 0
 var unit: BattleUnitView
+var visual_class_id: StringName = &""
 var is_void: bool = false
 var selected: bool = false
 var reachable: bool = false
@@ -187,6 +188,21 @@ func sync_scene_art() -> void:
 	var ground_surface := get_node_or_null("ArtRoot/GroundSurface") as Sprite2D
 	var ground_art_active := ground_surface != null and _uses_ground_art()
 	var body := get_node_or_null("ArtRoot/BodySprite") as Sprite2D
+	var player_warrior := get_node_or_null("ArtRoot/PlayerWarriorSprite") as Sprite2D
+	var enemy_warrior := get_node_or_null("ArtRoot/EnemyWarriorSprite") as Sprite2D
+	var warrior_sprite: Sprite2D
+	if visual_class_id == &"warrior" and unit != null:
+		if unit.faction == Faction.Type.PLAYER:
+			warrior_sprite = player_warrior
+		elif unit.faction == Faction.Type.ENEMY:
+			warrior_sprite = enemy_warrior
+	# Кастомный силуэт остаётся нейтральным: исходная палитра уже задаёт его сторону.
+	if player_warrior != null:
+		player_warrior.visible = player_warrior == warrior_sprite and role == Role.UNIT and unit != null and unit.alive
+		player_warrior.modulate = Color.WHITE
+	if enemy_warrior != null:
+		enemy_warrior.visible = enemy_warrior == warrior_sprite and role == Role.UNIT and unit != null and unit.alive
+		enemy_warrior.modulate = Color.WHITE
 	if surface != null:
 		surface.visible = role != Role.UNIT and not ground_art_active
 		surface.position = surface_position
@@ -201,7 +217,7 @@ func sync_scene_art() -> void:
 		ground_surface.scale = GROUND_TILE_SIZE / GROUND_SOURCE_SIZE
 		ground_surface.modulate = Color.WHITE
 	if body != null:
-		body.visible = role == Role.UNIT and (unit == null or unit.alive)
+		body.visible = role == Role.UNIT and (unit == null or unit.alive) and warrior_sprite == null
 		body.modulate = transient_tint if unit == null else (Color("65dfcc") if unit.faction == Faction.Type.PLAYER else Color("f7c97d"))
 	_sync_scene_sides(factor)
 	var effect_root := get_node_or_null("ArtRoot/EffectRoot") as Node2D

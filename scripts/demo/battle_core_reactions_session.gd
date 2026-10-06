@@ -5,6 +5,8 @@ var stun_selected: bool = false
 var elemental_selected: StringName = &""
 ## Сессионная проекция классов не хранит ссылки на постоянных героев хаба.
 var actor_loadouts: Dictionary = {}
+## Рисунок задан составом встречи и не меняет класс, способности или save-схему.
+var unit_visual_classes: Dictionary[int, StringName] = {}
 ## Назначение двух дополнительных кнопок образца; не часть D4-save.
 var action_slot_overrides: Dictionary = {}
 var mage_deployment_confirmed: bool = false
@@ -108,6 +110,7 @@ func _command_for(id: int) -> AttackCommand:
 func reset() -> void:
 	mage_deployment_confirmed = false
 	actor_loadouts.clear()
+	unit_visual_classes.clear()
 	action_slot_overrides.clear()
 	super.reset()
 	state.environment.collapse = {"turn": 0, "marked": []}
@@ -130,6 +133,8 @@ func reset() -> void:
 		perks.definition.entangle_immune = index == 4
 		perks.uses_bonus_actions = true
 		units[index].combat_perks = perks
+	# В этом образце Астра, Страж и Щит используют пробный рисунок воина.
+	for index: int in [0, 1, 3]: unit_visual_classes[units[index].id] = &"warrior"
 	var rules := context.get_attack_rules()
 	var definitions: Array[AttackDefinition] = []
 	for source: AttackDefinition in rules._definitions:

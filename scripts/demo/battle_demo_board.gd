@@ -69,6 +69,7 @@ var _view_heights: PackedInt32Array = PackedInt32Array()
 var _view_terrain: PackedByteArray = PackedByteArray()
 var _view_units: Array[Dictionary] = []
 var _view_actor_classes: Dictionary = {}
+var _view_visual_classes: Dictionary[int, StringName] = {}
 var _view_fires: Array[Dictionary] = []
 var _view_corpses: Array[Dictionary] = []
 var _view_collapse: Array[Vector2i] = []
@@ -1331,6 +1332,7 @@ func _rebuild_visuals() -> void:
 		if not unit.alive and (_fallen_ids.has(unit.id) or _view_terrain_at(unit_cell) in [TerrainType.Type.VOID, TerrainType.Type.HAZARD]): continue
 		var visual := _make_visual(unit_cell, _view_height_steps(unit_cell), BattleDemoIsoVisual.Role.UNIT)
 		visual.unit = unit
+		visual.visual_class_id = _view_visual_classes.get(unit.id, &"")
 		visual.selected = bool(row["selected"]) and unit.alive
 		visual.inspected = bool(row["inspected"]) and unit.alive
 		visual.hovered = unit.id == hovered_unit_id and unit.alive
@@ -1406,11 +1408,14 @@ func _make_visual(cell: Vector2i, steps: int, role: BattleDemoIsoVisual.Role) ->
 func _capture_board_view(board: BattleBoard) -> void:
 	action_areas.assign(ActionPresentationState.capture_action_areas(session.state) if session is BattleCoreReactionsSession else [])
 	_view_actor_classes.clear()
+	_view_visual_classes.clear()
 	if session is BattleCoreReactionsSession:
+		_view_visual_classes.assign((session as BattleCoreReactionsSession).unit_visual_classes)
 		for unit_id: Variant in (session as BattleCoreReactionsSession).actor_loadouts:
 			var loadout: Variant = (session as BattleCoreReactionsSession).actor_loadouts[unit_id]
 			if loadout is Dictionary:
 				_view_actor_classes[int(unit_id)] = StringName(loadout.get("class_id", &""))
+				_view_visual_classes[int(unit_id)] = StringName(loadout.get("class_id", &""))
 	# Рендер и resize читают эту копию, чтобы worker не менял уже показанный кадр.
 	_view_width = board.width if board != null else 0
 	_view_height = board.height if board != null else 0
