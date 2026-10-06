@@ -1,4 +1,4 @@
-# Графика: PixelLab
+# Графика: PixelLab и Retro Diffusion
 
 Поручение пользователя 2026-10-05: использовать предоставленный ключ PixelLab
 для генерации графики intoDeDung. Провайдер — PixelLab.ai, API v2; это рабочий
@@ -22,3 +22,26 @@ usage 1 generation из подписки. Исходник/запрос/отве
 `C:\Users\Aston\.codex\generated_images\pixellab-20261004\mage-trial-01.*`.
 Ассет остаётся пробным и не подключён к игре. Текущий баланс читать через
 `GET /v2/balance`, не считать зафиксированный ранее остаток актуальным.
+
+## Retro Diffusion
+
+Поручение 2026-10-06: сравнить одного воина через PixelLab и Retro Diffusion.
+Это проба провайдеров; выбор финального стиля и интеграция в игру не поручены.
+Ключ Retro Diffusion — `C:\Users\Aston\.codex\secrets\retrodiffusion.dpapi`,
+Windows DPAPI текущего пользователя; те же правила Trim/расшифровки и запрета
+записи значения в код, Git, журналы, отчёты и промпты. Передавать только
+в `X-RD-Token` официальному `https://api.retrodiffusion.ai`.
+
+API v2: `GET /v2/styles/selector` — актуальные ограничения;
+`POST /v2/inferences` с `check_cost=true` — бесплатная оценка до генерации.
+Перед платным запросом сохранить уникальный `Idempotency-Key` и запрос без ключа.
+После получения task_id опрашивать `GET /v2/inferences/tasks/{task_id}`,
+не создавать повторную задачу; неопределённый приём восстанавливать тем же
+idempotency key и тем же телом, без переключения версии API.
+Результат может быть в base64_images или output_urls; сохранить исходник локально.
+
+Проба воина: общий prompt, по одному 64×64 PNG; PixelLab Pixflux и RD Pro default.
+Запросы, исходники, usage, проверки и сравнение без сглаживания:
+`C:\Users\Aston\.codex\generated_images\warrior-comparison-20261006\`.
+Оба исходника прозрачные; PixelLab — 1 generation подписки, Retro Diffusion — $0.18.
+Ни один вариант не подключён к сценам и не принят как финальный арт.
