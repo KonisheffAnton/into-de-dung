@@ -1,29 +1,31 @@
-# Передача — 2026-10-08: один аудит worker
+# Передача — 2026-10-08: доска capture
 
-Main; base 7d7777273d66e49e5b518afbe9ed43b910c6dc13; без push.
-Пользователь принял прошлый срез поля/HUD и поручил продолжить оптимизацию.
-Start объединяет свежий аудит графа, before/capture и запуск потока;
-UI получает только DTO. Sync-only/отказ запуска сохраняют прежний показ.
-Контракты: ARCHITECTURE/BATTLE_EXECUTION_UI; команды замера — TESTING.
-Нет кэша допуска, изменений правил/queue/snapshot codecs.
+Main; base b174552fde0d4c8c12d6a6c1ed4447065e1dafff; без push.
+Прежний worker-аудит получил «пока ок»; новый срез реализован по поручению.
+ItemSimulationSnapshot.capture принимает изолированный локальный board DTO
+без второй копии; прочие ветви копируются как прежде. Все проверки сохранены.
+Кэша/смены правил/queue/codecs/save нет. Владение — ARCHITECTURE,
+проверки — TESTING; worker/UI — BATTLE_EXECUTION_UI.
 
-Production catalog2/deck, два control A/B: AI8.03→7.95–7.98s,
-p95 24.0–24.6→21.6–23.0ms, >25ms21→19–20, max33.9–38.1→32.8–33.0ms.
-Отдельный probe:8 аудитов вместо16, CPU сумма137→74ms за8 запусков.
-Все6 before/after/events/steps/RNG/counters/admission/publications совпали.
-Новый срез технически проверен, пользовательская оценка ещё не получена.
-Fixture не заменяет F5/редактор; GPU не измерен. Hover p95~20.5ms прежний.
-Далее адресно capture~11–12ms; разбивка в отчёте, вложенные времена не складывать.
+Два probe: median capture11.57–11.77→10.92–11.27ms, выигрыш0.50–0.65ms.
+Три production A/B: заметное улучшение кадровой плавности не доказано.
+Полные состояния/events/steps/RNG/counters/admission/publications
+всех6 controls и4 probes совпали. Fixture не F5/редактор; GPU не измерен.
+Ручная оценка среза открыта. Далее адресно MageDeckRules.live_valid:
+180 вызовов/180 idle кадров; проверить владельца и сериализацию бойцов.
+Вложенные времена не складывать; диагностику/свежесть/изоляцию сохранять.
 
-Отчёт/логи/manifests/review: test_reports/worker-preflight-20261008/;
-baseline: snapshot-preflight-20261008/. Runner: profile_snapshot_preflight.py.
-Import/startup PASS; worker195/0, UI28/0, presentation44/0, capture33/0,
-deck battle313/0; адресные render/headless, независимое APPROVE.
-Full/core не повторялись: исторически full137PASS/2FAIL control_ui/entangle_ui
-(оба на base), core9440/0 с47ObjectDB/18resources; это не текущие PASS.
-Вне коммита пользовательская main_menu.tscn; не сбрасывать.
+Отчёт/замеры/manifests/review/verification/completion:
+test_reports/capture-preflight-20261008/. Runner: profile_snapshot_preflight.py.
+Import/startup PASS; live snapshot41/0, value copy12/0, deck313/0,
+render presentation44/0 и PNG; независимое APPROVE.
+Full с продолжением:138PASS/2FAIL из140 уникальных меток;
+control_ui25/1 и entangle_ui21/1 воспроизведены на base. Не общий PASS.
+Core9440/0 с прежними47ObjectDB/18resources; логи — отчёт.
+Пользовательская main_menu.tscn вне коммита; не сбрасывать.
 
-Щитоносец принят; F5/колода/спрайты предварительно приняты.
+Прошлый срез поля/HUD и Щитоносец приняты;
+F5/колода/спрайты предварительно приняты.
 Полный маршрут/редактор, HUD, финальный арт/баланс, Q-E/артефакты открыты.
 Общий набор/отход/исключения/автостойка — Q DESIGN_DIRECTION §3.1.
 Сохранять покомандность/preview/live/queue/RNG/save/frozen, profile1–4.
@@ -34,7 +36,7 @@ DPAPI вне Git/логов/промптов. PROJECT_CONTEXT — маршрут
 CODEX_WORKFLOW — процесс, DESIGN_DIRECTION §7 — порядок.
 
 Проверенный этап: Conventional Commit; прежний HANDOFF точным архивом
-CODEX_HANDOFF.history-20261008.md со ссылкой HISTORY. Без push/sidebar/расписаний.
+CODEX_HANDOFF.history-20261008-2.md со ссылкой HISTORY. Без push/sidebar/расписаний.
 В конце/при блокере предложить новый чат (кроме явного продолжения здесь)
 и полный промпт: HEAD, результат, docs/artifacts, остаток, ограничения,
 проверки и это правило передачи. Ссылка не заменяет текст; чат не создавать.

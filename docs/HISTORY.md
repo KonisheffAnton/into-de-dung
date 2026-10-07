@@ -1,5 +1,27 @@
 # История и свидетельства проверок
 
+## Передача локального board DTO в capture — 2026-10-08
+
+Base main `b174552fde0d4c8c12d6a6c1ed4447065e1dafff`; пользователь разрешил
+следующий срез оптимизации, прежнему worker-аудиту дал предварительное «пока ок».
+Внешний capture принимает уже скопированную локальную доску без второй копии;
+остальные ветви копируются, все проверки/нормализация прежние. Владение —
+ARCHITECTURE; codecs/queue/RNG/save/правила/допуск не менялись.
+Два probe: median capture11.57–11.77→10.92–11.27ms, выигрыш0.50–0.65ms.
+Три control A/B: hover p95 20.37–20.76→20.12–20.40ms; устойчивое улучшение
+max/ИИ/shield не доказано. Все6 controls и4 probes имеют полную parity
+before/after/publications. Это fixture, не F5/редактор/GPU или ручная приёмка.
+Import/startup PASS; live capture41/0, value copy12/0, deck313/0,
+render presentation44/0/PNG; независимое APPROVE. Новый тест сначала отказал
+из-за конфликтующей фикстуры общего ID определения; после её исправления PASS.
+Full остановился на известном control_ui; оставшиеся14 наборов исполнены адресно:
+138PASS/2FAIL из140 уникальных меток, включая import/startup. Control25/1 и
+entangle21/1 точно воспроизведены на base; это не общий PASS. Core9440/0,
+прежние47ObjectDB/18resources. Области, логи, полные hashes,
+A/B, review/verification/completion — `test_reports/capture-preflight-20261008/`.
+Пользовательская main_menu.tscn неизменна вне коммита. Команды — TESTING.
+Прежняя передача — [точный снимок](CODEX_HANDOFF.history-20261008-2.md).
+
 ## Один аудит перед запуском worker — 2026-10-08
 
 Base main `7d7777273d66e49e5b518afbe9ed43b910c6dc13`; пользователь поручил

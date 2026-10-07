@@ -452,8 +452,14 @@ static func capture(state: ItemSimulationState, unsupported_runtime_ids: Array[S
 	# лимиты и связи владельцев выполняются по-прежнему для всего payload.
 	error = _validate(payload, board_result.snapshot)
 	if not error.is_empty(): return _failure(error)
+	# Доска уже отделена от runtime внутри capture_board и принадлежит только
+	# этому вызову. Передаём её внешнему снимку без второго рекурсивного копирования;
+	# остальные ветви отделяем по-прежнему, включая вложенные определения предметов.
+	var owned_payload: Dictionary = {}
+	for key: String in payload:
+		owned_payload[key] = board_data if key == "board_snapshot" else SimulationSnapshot._copy_value(payload[key])
 	var snapshot := ItemSimulationSnapshot.new()
-	snapshot._data = _normalize(SimulationSnapshot._copy_value(payload))
+	snapshot._data = _normalize(owned_payload)
 	var result := ItemSnapshotResult.new()
 	result.code = ItemSnapshotResult.Code.OK
 	result.snapshot = snapshot
