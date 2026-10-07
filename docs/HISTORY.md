@@ -1,5 +1,27 @@
 # История и свидетельства проверок
 
+## Переиспользование узлов боя — 2026-10-07
+
+Base main `dfd08f619b59294fc6a80614ff0685598744b4b5`. Штатные опоры/стены
+и runtime-строки HUD сохраняются между свежими публикациями; новый board/размер/
+оболочка сбрасывают владение. Контракты — ARCHITECTURE/BATTLE_HUD_SCENES_V1.
+Два production A/B: весь AI >25ms44–56→24–25, >50ms2–3→0, max55→34–43ms;
+время8.50–8.56→8.04–8.09s, shield max71–72→46ms. CPU поле median6.07→2.64ms,
+HUD1.06→0.21ms; создание визуальных корней5751→486, строк486→0 за ход.
+Hover/capture не улучшались. Полные snapshots/events/steps/RNG/counters/
+admission/ordered publications совпали. Fixture не закрывает F5/редактор.
+Import/startup; targeted headless reuse26/0, HUD230/0, environment312/0;
+21 адресный render suite PASS, launcher Python5/0, независимое APPROVE.
+Ошибка отступа в первом import исправлена. В HUD-тесте смена session вынесена
+перед setup прогноза для PNG; утверждения сохранены, финальный render повторён.
+Full/core не повторялись, прежние failures/leaks не объявляются новым PASS.
+Методика, исходники probes/AB, manifests, результаты/ограничения, review и
+verification: `test_reports/battle-view-reuse-20261007/`.
+Render: `test_reports/demo-4c4239089e5b49b39155b3e793a51683/`; окончательный HUD
+и его исходники указаны в verification.json. Пользовательская main_menu.tscn
+сохранена вне коммита; без push. Остаток — F5/темп и prepare/capture/preflight.
+Прежняя передача — [точный снимок](CODEX_HANDOFF.history-20261007-9.md).
+
 ## Адресное улучшение плавности — 2026-10-07
 
 Base main `b13e41059555bec20772b74a60f5b12a7ec36422`. Общий аудит руки

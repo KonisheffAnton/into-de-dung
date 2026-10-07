@@ -1,32 +1,31 @@
-# Передача — 2026-10-07: адресное улучшение плавности
+# Передача — 2026-10-07: переиспользование узлов боя
 
-Main; base b13e41059555bec20772b74a60f5b12a7ec36422; без push.
-Аудит карт разделён внутри refresh; межкадрового кэша нет.
-Шаблон строки HUD удерживается как PackedScene. Технические after показа
-уступают рендеру по одному за проход; порядок/skip/cancel сохранены.
-Контракты: MAGE_DECK_V1, BATTLE_PRESENTATION_V1, BATTLE_HUD_SCENES_V1.
+Main; base dfd08f619b59294fc6a80614ff0685598744b4b5; без push.
+Поле сохраняет штатные опоры/стены, HUD — строки по ID в сессии/оболочке.
+Свежие значения; custom scenes/бойцы/накладки прежние.
+Нет revision-only кэша; порядок after, worker ownership и правила не менялись.
+Контракты: ARCHITECTURE, BATTLE_HUD_SCENES_V1, BATTLE_PRESENTATION_V1.
 
-Production catalog2/deck A/B, _process включён, два render:
-hover p95 27–28→20.2ms, >25ms 29–36/180→0/180;
-AI max312–356→53–66ms, >50ms 14–15→2–3 за весь ход.
-Компромисс: >25ms 25→41–56, показ хода +0.7–0.8s; shield max68–74ms.
-Полная плавность НЕ закрыта. Все before/after/events/steps/RNG/counters
-и публикации A/B совпали. Capture остаётся~11.7ms; GPU отдельно не измерен.
-Далее: пользовательский F5 по темпу; при доработке адресно измерять
-show_presentation_state/_rebuild_visuals/completion и освобождение узлов.
-Не расширять механики и не вводить revision-only кэш.
+Два production catalog2/deck A/B с _process: за весь AI >25ms44–56→24–25,
+>50ms2–3→0, max~55→34–43ms, время8.50–8.56→8.04–8.09s;
+shield max71–72→46ms. Hover p95~20.6ms: улучшения в этом срезе нет.
+CPU поле median6.07→2.64ms, HUD1.06→0.21ms; визуальных корней5751→486,
+новых строк486→0 за AI. Capture~11.6ms не оптимизирован; GPU отдельно не измерен.
+Все before/after/events/steps/RNG/counters/admission/publications совпали.
+Плавность не принята. Далее F5; технический остаток —
+адресно prepare/capture/worker preflight, без расширения механик.
 
-test_reports/battle-smoothness-fix-20261007/: report.md,
-summary/manifests, probe/AB логи, review, completion/next-chat-prompt.
-Runner tools/demo/profile_production_smoothness.gd — изолированный fixture,
-не полный F5/редактор. Import/startup, адресные headless и20 render suites PASS;
-Ревью APPROVE. Ошибки/повторы — отчёт/HISTORY.
-Full/core не повторялись. Исторически full137PASS/2FAIL (control_ui/entangle_ui
-на base), core9440/0 с47ObjectDB/18resources; это не новые проверки.
+test_reports/battle-view-reuse-20261007/: report.md, summary/manifests,
+probe/AB логи, review, verification/completion/next-chat-prompt.
+Runner tools/demo/profile_production_smoothness.gd — fixture, не F5/редактор.
+Import/startup, headless reuse26/0, HUD230/0, environment312/0,
+21 адресный render suite PASS; Python5/0; независимое ревью APPROVE.
+Full/core не повторялись: исторически full137PASS/2FAIL control_ui/entangle_ui
+(оба на base), core9440/0 с47ObjectDB/18resources; это не новые PASS.
 Вне коммита только пользовательская main_menu.tscn; не сбрасывать.
 
-Щитоносец принят (SHIELDBEARER_V1). F5/колода/спрайты предварительно приняты;
-полный маршрут/редактор, HUD, финальный арт/баланс, Q-E/артефакты открыты.
+Щитоносец принят (SHIELDBEARER_V1); F5/колода/спрайты предварительно приняты.
+Полный маршрут/редактор, HUD, финальный арт/баланс, Q-E/артефакты открыты.
 Общий набор/отход/исключения/автостойка — Q DESIGN_DIRECTION §3.1.
 Сохранять покомандность/preview/live/queue/RNG/save/frozen и profile1–4.
 Не начинать школы/кузню/R16/R17/экипировку13/стаки/backlog, микроплейтесты
@@ -35,7 +34,7 @@ full/render; viewport baseline открыт; --screen0; DPAPI вне Git/лог�
 PROJECT_CONTEXT — маршруты, CODEX_WORKFLOW — процесс, DESIGN_DIRECTION §7 — порядок.
 
 Проверенный этап: Conventional Commit; прежний HANDOFF точным архивом
-CODEX_HANDOFF.history-20261007-8.md со ссылкой HISTORY. Без push/sidebar/расписаний.
+CODEX_HANDOFF.history-20261007-9.md со ссылкой HISTORY. Без push/sidebar/расписаний.
 В конце/при блокере предложить новый чат (кроме явного продолжения здесь)
 и полный промпт: HEAD, результат, docs/artifacts, остаток, ограничения,
 проверки и это правило передачи. Ссылка не заменяет текст; чат не создавать.

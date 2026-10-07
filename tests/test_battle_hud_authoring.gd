@@ -77,6 +77,12 @@ func _exercise(deck_mode: bool) -> void:
 	await process_frame
 	var before := ItemSimulationSnapshot.capture(demo.session.state, []).snapshot.to_dict()
 	var rng := demo.session.context.get_rng().to_dict()
+	var original_session := demo.session
+	var original_frame := ActionPresentationState.capture(demo.session.state)
+	var first_unit_id: int = int(original_frame.units.keys()[0])
+	var first_button := _roster_button(demo, first_unit_id)
+	check(first_button != null, "roster entry exists before repeated updates")
+	var first_button_instance: int = first_button.get_instance_id() if is_instance_valid(first_button) else 0
 	for repeat: int in 3:
 		demo._build_ui()
 		action._build()
@@ -84,6 +90,29 @@ func _exercise(deck_mode: bool) -> void:
 		demo._refresh()
 		demo._render_presentation_hud(ActionPresentationState.capture(demo.session.state))
 		demo._refresh()
+	var retained_button := _roster_button(demo, first_unit_id)
+	check(is_instance_valid(retained_button) and retained_button.get_instance_id() == first_button_instance, "roster entry identity survives refresh and presentation")
+	var changed_frame := ActionPresentationState.capture(demo.session.state)
+	var changed_row: Dictionary = changed_frame.units[first_unit_id].duplicate(true)
+	changed_row.hp = maxf(0.0, float(changed_row.hp) - 1.0)
+	changed_frame.units[first_unit_id] = changed_row
+	demo.session = null
+	demo._render_presentation_hud(changed_frame)
+	var after_button := _roster_button(demo, first_unit_id)
+	check(is_instance_valid(after_button) and after_button.get_instance_id() == first_button_instance and after_button.text.contains("HP %.1f" % changed_row.hp), "after frame reuses entry and renders copied HP without a live session")
+	demo.session = original_session
+	demo._refresh()
+	var added_frame := ActionPresentationState.capture(demo.session.state)
+	var added_id: int = int(added_frame.units.keys().max()) + 1000
+	var added_row: Dictionary = added_frame.units[first_unit_id].duplicate(true)
+	added_row.id = added_id; added_row.name = "Проверка нового бойца"
+	added_frame.units[added_id] = added_row
+	demo._render_presentation_hud(added_frame)
+	check(_roster_button(demo, added_id) != null, "presentation adds a new runtime roster entry")
+	added_frame.units.erase(first_unit_id)
+	demo._render_presentation_hud(added_frame)
+	check(not demo._runtime_roster_buttons.has(first_unit_id) and roster.get_children().all(func(node: Node) -> bool: return not node.has_meta("runtime_roster_unit_id") or int(node.get_meta("runtime_roster_unit_id")) != first_unit_id), "presentation removes absent runtime entry without removing author children")
+	demo._refresh()
 	for node_path: NodePath in identities:
 		var node := hud.get_node_or_null(node_path)
 		check(node != null and node.get_instance_id() == identities[node_path], "persistent authored node " + String(node_path))
@@ -94,8 +123,49 @@ func _exercise(deck_mode: bool) -> void:
 	check(card.custom_minimum_size.y == 69 and card.get_theme_font_size("font_size") == 16, "hand overrides survive")
 	check(end_turn.custom_minimum_size.y == 41 and status.custom_minimum_size.y == 47 and board.custom_minimum_size.y == 355, "control status and board sizes survive refresh")
 	check(end_turn.pressed.get_connections().size() == 1 and card.pressed.get_connections().size() == 1, "one gameplay handler per persistent button")
+	var live_roster_button := _roster_button(demo, int(demo.session.units[0].id))
+	check(is_instance_valid(live_roster_button) and live_roster_button.pressed.get_connections().size() == 1, "reused roster entry keeps one bound handler")
+	if demo._battle != null and (demo._battle.can_player_act() or demo._is_deploying()):
+		var saved_inspected_id: int = demo.inspected_id
+		var enemy_id: int = UnitId.NONE
+		for unit in demo.session.units:
+			if unit.faction == Faction.Type.ENEMY and unit.is_alive(): enemy_id = unit.id; break
+		if enemy_id != UnitId.NONE:
+			var enemy_button := _roster_button(demo, enemy_id)
+			if is_instance_valid(enemy_button):
+				enemy_button.pressed.emit()
+				check(demo.inspected_id == enemy_id, "roster signal dispatches through the current enemy inspection guard")
+		demo.inspected_id = saved_inspected_id
+		demo._refresh()
 	check(action._buttons[0].pressed.get_connections().size() == 1 and mage._next_button.pressed.get_connections().size() == 1, "one handler after repeated component binding")
 	check(ItemSimulationSnapshot.capture(demo.session.state, []).snapshot.to_dict() == before and demo.session.context.get_rng().to_dict() == rng, "layout binding and refresh preserve runtime and RNG")
+	var current_roster_id: int = int(demo.session.units[0].id)
+	var current_roster_button := _roster_button(demo, current_roster_id)
+	var old_roster_instance: int = current_roster_button.get_instance_id() if is_instance_valid(current_roster_button) else 0
+	var original_session_mode: bool = demo.core_reactions_mode
+	var original_runtime_session := demo.session
+	var replacement_session := BattleCoreReactionsSession.new()
+	var replacement_roster_id: int = int(replacement_session.units[0].id)
+	demo.session = replacement_session
+	demo._battle = replacement_session as BattleTacticalSession
+	board.session = replacement_session
+	demo._refresh()
+	var reset_session_button := _roster_button(demo, replacement_roster_id)
+	check(not demo._runtime_roster_buttons.has(current_roster_id) and is_instance_valid(reset_session_button) and reset_session_button.get_instance_id() != old_roster_instance, "new session retires old rows and binds fresh IDs")
+	check(is_instance_valid(reset_session_button) and reset_session_button.pressed.get_connections().size() == 1, "new session roster row has one current handler")
+	var stable_after_reset := _roster_button(demo, replacement_roster_id)
+	demo.core_reactions_mode = not demo.core_reactions_mode
+	demo._refresh()
+	var alternate_mode_entry := _roster_button(demo, replacement_roster_id)
+	var stable_reset_instance: int = stable_after_reset.get_instance_id() if is_instance_valid(stable_after_reset) else 0
+	check(is_instance_valid(alternate_mode_entry) and alternate_mode_entry.get_instance_id() != stable_reset_instance, "roster rows reset when authored mode changes")
+	demo.core_reactions_mode = original_session_mode
+	demo.session = original_runtime_session
+	demo._battle = original_runtime_session as BattleTacticalSession
+	board.session = original_runtime_session
+	replacement_session.close()
+	demo._refresh()
+	check(demo.core_reactions_mode == original_session_mode, "roster fixture restores authored mode")
 	forecast.publish({"text": "Прогноз\nHP 20 → 16 · щит 6 → 2"}, Vector2i(3, 3), board)
 	await process_frame
 	check(is_equal_approx(forecast.size.x, 315) and forecast.label.get_theme_font_size("font_size") == 16, "forecast authored width and font survive publish")
@@ -122,6 +192,9 @@ func _exercise(deck_mode: bool) -> void:
 func _collect(node: Node, root_node: Node, identities: Dictionary) -> void:
 	identities[root_node.get_path_to(node)] = node.get_instance_id()
 	for child: Node in node.get_children(): _collect(child, root_node, identities)
+
+func _roster_button(demo: BattleDemo, unit_id: int) -> Button:
+	return demo._runtime_roster_buttons.get(unit_id) as Button
 
 func _fallbacks() -> void:
 	var bar := BattleActionBar.new()

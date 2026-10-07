@@ -178,7 +178,7 @@ def main():
         if label in ("battle_execution_worker", "battle_execution_ui"):
             marker = "BATTLE EXECUTION WORKER RESULTS:" if label == "battle_execution_worker" else "BATTLE EXECUTION UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
-        if label in ("presentation_capture", "battle_presentation", "presentation_foundation", "presentation_contact", "presentation_attack_styles", "presentation_consequences", "presentation_environment", "presentation_ranged", "presentation_mage", "presentation_reactions", "presentation_status", "battle_board_camera", "battle_camera_ui", "four_slot_bar", "battle_panels"):
+        if label in ("presentation_capture", "battle_presentation", "presentation_foundation", "presentation_contact", "presentation_attack_styles", "presentation_consequences", "presentation_environment", "presentation_ranged", "presentation_mage", "presentation_reactions", "presentation_status", "battle_board_camera", "battle_camera_ui", "battle_view_reuse", "four_slot_bar", "battle_panels"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("snapshot_value_copy", "live_snapshot_capture", "summon_checkpoint"):
@@ -259,6 +259,7 @@ def main():
     if args.check or args.render_check:
         run("startup", ["--quit-after", "3"])
         run("presentation_capture", ["--script", "tests/test_presentation_capture.gd"])
+        run("battle_view_reuse", ["--script", "tests/test_battle_view_reuse.gd"], headless=not args.render_check)
         presentation_args = ["--script", "tests/test_battle_presentation.gd"]
         if args.render_check:
             presentation_captures = out / "presentation-screenshots"

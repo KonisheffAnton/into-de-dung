@@ -63,6 +63,10 @@ var _fallen_ids: Dictionary = {}
 var _shown_board: BattleBoard
 var _tile_visuals: Array[BattleDemoIsoVisual] = []
 var _entity_visuals: Array[BattleDemoIsoVisual] = []
+const DEFAULT_TILE_SCENE: PackedScene = preload("res://scenes/demo/visuals/placeholder_tile.tscn")
+var _terrain_visuals: Dictionary[Vector3i, BattleDemoIsoVisual] = {}
+var _terrain_board_id: int = 0
+var _terrain_size: Vector2i = Vector2i.ZERO
 var _view_width: int = 0
 var _view_height: int = 0
 var _view_heights: PackedInt32Array = PackedInt32Array()
@@ -79,7 +83,7 @@ var _field_presentation := BattleFieldPresentation.new()
 var _warning_phase: float = 0.0
 ## Сменяемая временная фигура; будущая сцена может использовать AnimationPlayer/AnimatedSprite2D.
 var unit_visual_scene: PackedScene = preload("res://scenes/demo/visuals/placeholder_unit.tscn")
-var tile_visual_scene: PackedScene = preload("res://scenes/demo/visuals/placeholder_tile.tscn")
+var tile_visual_scene: PackedScene = DEFAULT_TILE_SCENE
 const MOVE_SEGMENT_SECONDS: float = 0.08
 const FORCED_MOVE_SEGMENT_SECONDS: float = 0.10
 const STRIKE_WINDUP_SECONDS: float = 0.10
@@ -1299,9 +1303,8 @@ func _rebuild_visuals() -> void:
 	if _entities == null: return
 	_tile_visuals.clear()
 	_entity_visuals.clear()
-	_environment_visuals.clear()
 	_clear_layer(_tiles)
-	_clear_layer(_entities)
+	_prepare_terrain_rebuild()
 	if _view_width <= 0 or _view_height <= 0: return
 	var cells: Array[Vector2i] = []
 	for y in _view_height:
@@ -1310,7 +1313,7 @@ func _rebuild_visuals() -> void:
 	for cell in cells:
 		var steps := _view_height_steps(cell)
 		var terrain := _view_terrain_at(cell)
-		var floor_visual := _make_visual(cell, steps, BattleDemoIsoVisual.Role.PLATFORM if steps > 0 else BattleDemoIsoVisual.Role.FLOOR)
+		var floor_visual := _terrain_visual(cell, steps, false)
 		floor_visual.is_void = terrain == TerrainType.Type.VOID
 		floor_visual.reachable = not attack_mode and not elemental_mode and _reachable.has(cell)
 		floor_visual.enemy_range = inspected_id != UnitId.NONE and inspection_cells.has(cell)
@@ -1318,15 +1321,13 @@ func _rebuild_visuals() -> void:
 			if fire.get("cell", Vector2i(-1, -1)) == cell and String(fire.get("effect", "bleeding")) == "burning": floor_visual.burning = true
 		# Видимые поверхности всех высот сортируются вместе: ближний пол закрывает
 		# дальнюю грань уступа. Разделение по высоте на два слоя ломает это перекрытие.
-		_entities.add_child(floor_visual)
+		_attach_visual(floor_visual)
 		floor_visual.sync_scene_art()
 		_add_environment_visual(floor_visual, cell)
-		_entity_visuals.append(floor_visual)
 		if terrain == TerrainType.Type.WALL:
-			var wall := _make_visual(cell, steps, BattleDemoIsoVisual.Role.WALL)
-			_entities.add_child(wall)
+			var wall := _terrain_visual(cell, steps, true)
+			_attach_visual(wall)
 			wall.sync_scene_art()
-			_entity_visuals.append(wall)
 	for row: Dictionary in _view_units:
 		var unit: BattleUnitView = row["unit"]
 		var unit_cell: Vector2i = row["cell"]
@@ -1352,12 +1353,69 @@ func _rebuild_visuals() -> void:
 		visual.frozen = BattleStatusPresentation.has(visual.status_entries, "frozen")
 		visual.stunned = BattleStatusPresentation.has(visual.status_entries, "stunned")
 		visual.entangled = BattleStatusPresentation.has(visual.status_entries, "entangled")
-		_entities.add_child(visual)
+		_attach_visual(visual)
 		visual.sync_scene_art()
 		visual.action_offset = (_action_offsets.get(unit.id, Vector2.ZERO) as Vector2) * grid_config.tile_size.x / 128.0
-		_entity_visuals.append(visual)
 	_sort_visuals()
 	_field_presentation.restore(self)
+
+func _prepare_terrain_rebuild() -> void:
+	# Переиспользуем только штатную сцену с известным жизненным циклом.
+	# Сменные сцены могут иметь собственные _ready/анимации и сохраняют старый путь.
+	var board_id := _shown_board.get_instance_id() if _shown_board != null else 0
+	var dimensions := Vector2i(_view_width, _view_height)
+	if tile_visual_scene != DEFAULT_TILE_SCENE or board_id != _terrain_board_id or dimensions != _terrain_size:
+		_terrain_visuals.clear()
+	_terrain_board_id = board_id
+	_terrain_size = dimensions
+	# Накладки зависят от полного снимка среды и ещё не участвуют в переиспользовании.
+	for overlay: BattleEnvironmentVisual in _environment_visuals.values():
+		if not is_instance_valid(overlay): continue
+		if overlay.get_parent() != null: overlay.get_parent().remove_child(overlay)
+		overlay.queue_free()
+	_environment_visuals.clear()
+	var retained: Dictionary[int, bool] = {}
+	for key: Vector3i in _terrain_visuals.keys():
+		var visual := _terrain_visuals[key]
+		var cell := Vector2i(key.x, key.y)
+		if not is_instance_valid(visual) or visual.is_queued_for_deletion() or visual.get_parent() != _entities or (key.z == 1 and _view_terrain_at(cell) != TerrainType.Type.WALL):
+			_terrain_visuals.erase(key)
+		else:
+			retained[visual.get_instance_id()] = true
+	for child: Node in _entities.get_children():
+		if retained.has(child.get_instance_id()): continue
+		_entities.remove_child(child)
+		child.queue_free()
+
+func _terrain_visual(cell: Vector2i, steps: int, wall: bool) -> BattleDemoIsoVisual:
+	var role := BattleDemoIsoVisual.Role.WALL if wall else (BattleDemoIsoVisual.Role.PLATFORM if steps > 0 else BattleDemoIsoVisual.Role.FLOOR)
+	var key := Vector3i(cell.x, cell.y, 1 if wall else 0)
+	var visual := _terrain_visuals.get(key) as BattleDemoIsoVisual
+	if visual == null:
+		visual = _make_visual(cell, steps, role)
+		if tile_visual_scene == DEFAULT_TILE_SCENE: _terrain_visuals[key] = visual
+	else:
+		visual.grid_config = grid_config
+		visual.role = role
+		visual.half_steps = steps
+		visual.set_grid_anchor(cell)
+		# Обвал меняет позу/прозрачность опоры. Новый after обязан убрать старую
+		# позу; resize ниже восстановит ещё активную через _field_presentation.
+		if visual.presentation_lift != 0.0: visual.presentation_lift = 0.0
+		visual.modulate = Color.WHITE
+		visual.burning = false
+		visual.is_void = false
+		visual.reachable = false
+		visual.enemy_range = false
+	return visual
+
+func _attach_visual(visual: BattleDemoIsoVisual) -> void:
+	if visual.get_parent() == null: _entities.add_child(visual)
+	# При равной глубине picking и Y-sort должны видеть прежний порядок клеток,
+	# даже если стена появилась позже соседнего сохранённого узла.
+	var index := _entity_visuals.size()
+	if visual.get_index() != index: _entities.move_child(visual, index)
+	_entity_visuals.append(visual)
 
 func _add_environment_visual(floor_visual: BattleDemoIsoVisual, cell: Vector2i, force: bool = false) -> void:
 	if _view_terrain_at(cell) != TerrainType.Type.FLOOR: return
