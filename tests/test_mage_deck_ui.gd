@@ -94,13 +94,25 @@ func _run() -> void:
 	check(closed_ok, "batch observes window changes between calls")
 	session.state.abilities.mage_allowed = saved_allowed
 	var saved_attack: String = session.state.card_effects.ordinary_attacks[0].attack_id
+	var reference_revision := session.context.get_revision()
 	session.state.card_effects.ordinary_attacks[0].attack_id = "invalid_binding"
 	var invalid_reasons := session.mage_card_reasons(reason_ids)
 	var invalid_ok := true
 	for card_id: int in reason_ids: invalid_ok = invalid_ok and invalid_reasons.get(card_id, &"") == &"mage_card/capability_required"
 	check(invalid_ok, "batch validates attack bindings on every call")
+	await process_frame; await process_frame
+	var panel_rejected := true
+	for slot: int in reason_ids.size():
+		panel_rejected = panel_rejected and demo._card_buttons[slot].tooltip_text.contains("capability_required")
+	check(panel_rejected and session.context.get_revision() == reference_revision, "idle panel observes invalid reference without revision")
+	check(not BattleExecutionWorker.can_transfer(session), "worker still rejects invalid live reference")
 	session.state.card_effects.ordinary_attacks[0].attack_id = saved_attack
 	check(session.mage_card_reasons(reason_ids) == batch_reasons, "batch recovers after reference restoration")
+	await process_frame; await process_frame
+	var panel_restored := true
+	for slot: int in reason_ids.size():
+		panel_restored = panel_restored and not demo._card_buttons[slot].tooltip_text.contains("capability_required")
+	check(panel_restored and session.context.get_revision() == reference_revision, "idle panel refreshes restored reference without revision")
 	session.state.abilities.mana = 0
 	demo._refresh()
 	var costly_id: int = session.state.deck.hand_ids[0]

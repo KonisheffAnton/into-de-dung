@@ -1,31 +1,28 @@
-# Передача — 2026-10-08: доска capture
+# Передача — 2026-10-08: live_valid колоды
 
-Main; base b174552fde0d4c8c12d6a6c1ed4447065e1dafff; без push.
-Прежний worker-аудит получил «пока ок»; новый срез реализован по поручению.
-ItemSimulationSnapshot.capture принимает изолированный локальный board DTO
-без второй копии; прочие ветви копируются как прежде. Все проверки сохранены.
-Кэша/смены правил/queue/codecs/save нет. Владение — ARCHITECTURE,
-проверки — TESTING; worker/UI — BATTLE_EXECUTION_UI.
+Main; base f4fa5180fe7720cc67c63d0e43e9cd80f25f8b9e; без push.
+По «Давай» UnitState получил общий проверяющий producer полного/короткого DTO.
+MageDeckRules.live_valid берёт id/faction/vitals.is_alive без полного Unit DTO.
+Проверки компонентов/HP_MAX/ссылок, raw-форматы и диагностика сохранены.
+180 опросов/180 idle кадров прежние; кэша/смены правил/queue/save/RNG нет.
+Владение — ARCHITECTURE; UI — BATTLE_EXECUTION_UI; проверки — TESTING.
 
-Два probe: median capture11.57–11.77→10.92–11.27ms, выигрыш0.50–0.65ms.
-Три production A/B: заметное улучшение кадровой плавности не доказано.
-Полные состояния/events/steps/RNG/counters/admission/publications
-всех6 controls и4 probes совпали. Fixture не F5/редактор; GPU не измерен.
-Ручная оценка среза открыта. Далее адресно MageDeckRules.live_valid:
-180 вызовов/180 idle кадров; проверить владельца и сериализацию бойцов.
-Вложенные времена не складывать; диагностику/свежесть/изоляцию сохранять.
+Два probe: idle live_valid median2.05–2.17→1.54–1.69ms, выигрыш0.48–0.51ms.
+Три A/B: hover p95 20.58–20.67→19.68–20.08ms; AI total меньше,
+но AI p95/пики не улучшились устойчиво. Общая плавность не доказана.
+Полная parity всех6 controls/4 probes сохранена. Вложенные времена не складывать.
+Fixture не F5/редактор; GPU не измерен. Ручная оценка capture/live_valid открыта;
+прежний worker-аудит предварительно ок. Далее оценка при обычном прохождении;
+следующие оптимизации только отдельным поручением, новых механик не начинать.
 
-Отчёт/замеры/manifests/review/verification/completion:
-test_reports/capture-preflight-20261008/. Runner: profile_snapshot_preflight.py.
-Import/startup PASS; live snapshot41/0, value copy12/0, deck313/0,
-render presentation44/0 и PNG; независимое APPROVE.
-Full с продолжением:138PASS/2FAIL из140 уникальных меток;
-control_ui25/1 и entangle_ui21/1 воспроизведены на base. Не общий PASS.
-Core9440/0 с прежними47ObjectDB/18resources; логи — отчёт.
+Артефакты: test_reports/deck-live-valid-20261008/report.md, base/current,
+ab-summary, review/verification/completion. Runner: profile_snapshot_preflight.py.
+Import/startup PASS; producer809/0, live snapshot41/0, render deck UI110/0/PNG;
+независимое APPROVE. Full138PASS/2FAIL из140; control25/1 и entangle21/1 повторены на base.
+Не общий PASS. Core9440/0, прежние47ObjectDB/18resources.
 Пользовательская main_menu.tscn вне коммита; не сбрасывать.
 
-Прошлый срез поля/HUD и Щитоносец приняты;
-F5/колода/спрайты предварительно приняты.
+Щитоносец и прошлый срез поля/HUD приняты; F5/колода/спрайты предварительно.
 Полный маршрут/редактор, HUD, финальный арт/баланс, Q-E/артефакты открыты.
 Общий набор/отход/исключения/автостойка — Q DESIGN_DIRECTION §3.1.
 Сохранять покомандность/preview/live/queue/RNG/save/frozen, profile1–4.
@@ -35,8 +32,8 @@ F5/колода/спрайты предварительно приняты.
 DPAPI вне Git/логов/промптов. PROJECT_CONTEXT — маршруты,
 CODEX_WORKFLOW — процесс, DESIGN_DIRECTION §7 — порядок.
 
-Проверенный этап: Conventional Commit; прежний HANDOFF точным архивом
-CODEX_HANDOFF.history-20261008-2.md со ссылкой HISTORY. Без push/sidebar/расписаний.
+Этап: Conventional Commit; прежний HANDOFF точным архивом
+CODEX_HANDOFF.history-20261008-3.md со ссылкой HISTORY. Без push/sidebar/расписаний.
 В конце/при блокере предложить новый чат (кроме явного продолжения здесь)
 и полный промпт: HEAD, результат, docs/artifacts, остаток, ограничения,
 проверки и это правило передачи. Ссылка не заменяет текст; чат не создавать.

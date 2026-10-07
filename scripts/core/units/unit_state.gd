@@ -275,16 +275,32 @@ static func from_dict(data: Dictionary) -> UnitState:
 
 
 func to_snapshot_dict() -> Dictionary:
+	return _checked_snapshot_data(false)
+
+
+## Ссылкам колоды нужны только эти значения, но допуск бойца остаётся полным.
+## Результат живёт один вызов; отсутствие revision не разрешает переиспользование.
+func to_reference_dict() -> Dictionary:
+	return _checked_snapshot_data(true)
+
+
+func _checked_snapshot_data(reference_only: bool) -> Dictionary:
 	if get_script() != UnitState or stats == null or vitals == null or stats.get_script() != StatsBag or vitals.get_script() != Vitals or ai_profile != null:
 		return {}
 	if bleeding != null and (action_resources == null or armor == null):
 		return {}
 	if bleeding != null and bleeding.get_script() != BleedingState:
 		return {}
-	if elemental != null and (elemental.get_script() != ElementalState or not ElementalState.valid(elemental.to_dict())):
-		return {}
-	if control != null and (control.get_script() != ControlState or action_resources == null or not ControlState.valid(control.to_dict())):
-		return {}
+	var elemental_data: Dictionary = {}
+	if elemental != null:
+		if elemental.get_script() != ElementalState: return {}
+		elemental_data = elemental.to_dict()
+		if not ElementalState.valid(elemental_data): return {}
+	var control_data: Dictionary = {}
+	if control != null:
+		if control.get_script() != ControlState or action_resources == null: return {}
+		control_data = control.to_dict()
+		if not ControlState.valid(control_data): return {}
 	if vitals._stats != stats or id < UnitId.FIRST or int(faction) < 0 or int(faction) > 2 or not is_finite(move_points_left) or move_points_left < 0.0:
 		return {}
 	var bag := stats.to_snapshot_dict()
@@ -293,49 +309,63 @@ func to_snapshot_dict() -> Dictionary:
 	var vital_data := vitals.to_dict()
 	if typeof(vital_data["hp"]) != TYPE_FLOAT or typeof(vital_data["balance"]) != TYPE_FLOAT or typeof(vital_data["is_alive"]) != TYPE_BOOL or not is_finite(vital_data["hp"]) or not is_finite(vital_data["balance"]) or vital_data["hp"] < 0.0 or vital_data["balance"] < 0.0:
 		return {}
-	var schema := 1
-	var result := {"schema_version": schema, "id": id, "faction": int(faction),
+	if action_resources != null:
+		if action_resources.get_script() != ActionResources or action_resources.validate(id) != &"": return {}
+	if guard_stance and action_resources == null: return {}
+	var armor_data: Dictionary = {}
+	var bleeding_data: Dictionary = {}
+	if armor != null:
+		if armor.get_script() != ArmorState or action_resources == null: return {}
+		armor_data = armor.to_dict()
+		if not ArmorState.valid(armor_data): return {}
+		if bleeding != null:
+			bleeding_data = bleeding.to_dict()
+			if not BleedingState.valid(bleeding_data): return {}
+	var perks_data: Dictionary = {}
+	if combat_perks != null:
+		if action_resources == null or combat_perks.get_script() != CombatPerksState:
+			return {}
+		perks_data = combat_perks.to_dict()
+		if perks_data.is_empty() or (combat_perks.mode == CombatPerksState.Mode.COVER and combat_perks.cover_target_id == id): return {}
+	if elemental != null:
+		if action_resources == null or armor == null or bleeding == null or not bleeding.stacked or bleeding_data.get("schema_version") != 3: return {}
+		if elemental_data["burning_stacks"] > 0 and bleeding_data["stacks"] > 0: return {}
+	elif bleeding_data.get("schema_version") == 3: return {}
+	if armor != null or control != null or combat_perks != null:
+		# Поля envelope ниже задаются типизированным producer. Проверки вложенных
+		# значений и связей общие для полного снимка и короткого вида ссылок.
+		# Внешний raw DTO по-прежнему проходит validate_snapshot_dict целиком.
+		if not StatsBag.validate_snapshot_dict(bag): return {}
+		if armor != null and not _snapshot_armor_hp_valid(vital_data["hp"], bag): return {}
+	if reference_only:
+		return {"id": id, "faction": int(faction), "vitals": {"is_alive": vital_data["is_alive"]}}
+	var result := {"schema_version": 1, "id": id, "faction": int(faction),
 		"cell_x": cell.x, "cell_y": cell.y, "height": height,
 		"debug_name": debug_name, "ai_profile_path": "",
 		"move_points_left": move_points_left, "has_attacked": has_attacked,
 		"stats": bag, "vitals": vital_data}
 	if action_resources != null:
-		if action_resources.get_script() != ActionResources or action_resources.validate(id) != &"": return {}
 		result["schema_version"] = 2
 		result["action_resources"] = action_resources.to_snapshot_dict()
 	if guard_stance:
-		if action_resources == null: return {}
 		result["schema_version"] = 3
 		result["guard_stance"] = guard_stance
 	if armor != null:
-		if armor.get_script() != ArmorState or action_resources == null or not ArmorState.valid(armor.to_dict()): return {}
 		result["schema_version"] = 4
 		result["guard_stance"] = guard_stance
-		result["armor"] = armor.to_dict()
+		result["armor"] = armor_data
 		if bleeding != null:
-			if not BleedingState.valid(bleeding.to_dict()): return {}
 			result["schema_version"] = 5
-			result["bleeding"] = bleeding.to_dict()
+			result["bleeding"] = bleeding_data
 	if control != null:
 		result["schema_version"] = 6
-		result["control"] = control.to_dict()
+		result["control"] = control_data
 	if combat_perks != null:
-		if action_resources == null or combat_perks.get_script() != CombatPerksState:
-			return {}
-		var perks_data := combat_perks.to_dict()
-		if perks_data.is_empty() or (combat_perks.mode == CombatPerksState.Mode.COVER and combat_perks.cover_target_id == id): return {}
 		result["schema_version"] = 7
 		result["combat_perks"] = perks_data
 	if elemental != null:
-		if action_resources == null or armor == null or bleeding == null or not bleeding.stacked or bleeding.to_dict().get("schema_version") != 3 or not BleedingState.valid(bleeding.to_dict()): return {}
 		result["schema_version"] = 8
-		result["guard_stance"] = guard_stance
-		result["armor"] = armor.to_dict()
-		result["bleeding"] = bleeding.to_dict()
-		result["elemental"] = elemental.to_dict()
-	if armor != null or control != null or combat_perks != null:
-		# Проверяем итоговый armor/control формат один раз после сборки полей.
-		if not validate_snapshot_dict(result): return {}
+		result["elemental"] = elemental_data
 	return result
 
 
@@ -433,16 +463,20 @@ static func validate_snapshot_dict(data: Variant) -> bool:
 	if typeof(v["hp"]) != TYPE_FLOAT or not is_finite(v["hp"]) or v["hp"] < 0.0: return false
 	if typeof(v["balance"]) != TYPE_FLOAT or not is_finite(v["balance"]) or v["balance"] < 0.0: return false
 	if d["schema_version"] in [4, 5]:
-		if v["hp"] != floorf(v["hp"]) or v["hp"] > ArmorRuntime.MAX_EXACT_HP: return false
-		var maximum := 0.0
-		for entry: Dictionary in d["stats"]["stats"]:
-			if entry["stat_type"] == StatTypes.StatType.HP_MAX:
-				var hp_stat := Stat.from_snapshot_dict(entry["stat"])
-				if hp_stat == null: return false
-				maximum = hp_stat.get_value()
-				break
-		if not is_finite(maximum) or maximum < 0.0 or maximum > ArmorRuntime.MAX_EXACT_HP or maximum != floorf(maximum) or v["hp"] > maximum: return false
+		if not _snapshot_armor_hp_valid(v["hp"], d["stats"]): return false
 	return typeof(v["is_alive"]) == TYPE_BOOL
+
+
+static func _snapshot_armor_hp_valid(hp: float, bag: Dictionary) -> bool:
+	if hp != floorf(hp) or hp > ArmorRuntime.MAX_EXACT_HP: return false
+	var maximum := 0.0
+	for entry: Dictionary in bag["stats"]:
+		if entry["stat_type"] == StatTypes.StatType.HP_MAX:
+			var hp_stat := Stat.from_snapshot_dict(entry["stat"])
+			if hp_stat == null: return false
+			maximum = hp_stat.get_value()
+			break
+	return is_finite(maximum) and maximum >= 0.0 and maximum <= ArmorRuntime.MAX_EXACT_HP and maximum == floorf(maximum) and hp <= maximum
 
 
 static func _has_exact_string_keys(value: Dictionary, required: Array) -> bool:

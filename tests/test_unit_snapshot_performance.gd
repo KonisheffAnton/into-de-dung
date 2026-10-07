@@ -1,5 +1,7 @@
 extends SceneTree
 
+const SnapshotReference = preload("res://tests/fixtures/unit_snapshot_reference.gd")
+
 var passed: int = 0
 var failed: int = 0
 
@@ -15,6 +17,7 @@ func check(value: bool, label: String) -> void:
 func _run() -> void:
 	_test_all_schemas_and_input_purity()
 	_test_armor_hp_cases()
+	_test_reference_equivalence()
 	print("UNIT SNAPSHOT PERFORMANCE RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
 
@@ -143,3 +146,188 @@ func _test_armor_hp_cases() -> void:
 	var hp_above_max := _unit_snapshot(4, 10.0, 10.0)
 	hp_above_max["vitals"]["hp"] = 20.0
 	_compare(hp_above_max, "current HP above effective maximum")
+
+func _reference_unit() -> UnitState:
+	var unit := UnitState.from_snapshot_dict(_unit_snapshot(1))
+	return unit
+
+func _check_reference_matches_legacy(unit: UnitState, label: String) -> void:
+	var expected := SnapshotReference.capture(unit)
+	var expected_reference := {} if expected.is_empty() else {"id": expected["id"],
+		"faction": expected["faction"], "vitals": {"is_alive": expected["vitals"]["is_alive"]}}
+	check(unit.to_snapshot_dict() == expected, label + " frozen snapshot")
+	var reference := unit.to_reference_dict()
+	check(reference == expected_reference, label + " reference parity")
+	check(SnapshotReference.capture(unit) == expected, label + " reference leaves runtime unchanged")
+
+func _test_reference_equivalence() -> void:
+	# Каждый штатный optional-state путь сверяется с замороженной сериализацией.
+	for schema: int in range(1, 9):
+		var unit := _reference_unit()
+		if schema >= 2: check(unit.enable_action_resources() == &"", "reference resources schema " + str(schema))
+		if schema >= 3: unit.guard_stance = true
+		if schema >= 4: unit.armor = ArmorState.new()
+		if schema >= 5: unit.bleeding = BleedingState.new()
+		if schema >= 6: unit.control = ControlState.new()
+		if schema >= 7: unit.combat_perks = CombatPerksState.new()
+		if schema >= 8:
+			unit.bleeding.stacked = true
+			unit.bleeding.stacks = 1
+			unit.bleeding.ticks_left = 1
+			unit.bleeding.hit_id = "snapshot-reference"
+			unit.bleeding.source = {"kind": &"attack", "source_instance_id": 0,
+				"origin_cell": Vector2i.ZERO, "instigator_unit_id": unit.id,
+				"credit_unit_id": unit.id}
+			unit.elemental = ElementalState.new()
+		var expected := SnapshotReference.capture(unit)
+		var actual := unit.to_snapshot_dict()
+		check(actual == expected, "frozen full snapshot unchanged schema " + str(schema))
+		var runtime_before := SnapshotReference.capture(unit)
+		var reference := unit.to_reference_dict()
+		check(SnapshotReference.capture(unit) == runtime_before, "reference conversion does not mutate runtime schema " + str(schema))
+		var expected_reference := {} if expected.is_empty() else {"id": expected["id"],
+			"faction": expected["faction"], "vitals": {"is_alive": expected["vitals"]["is_alive"]}}
+		check(reference == expected_reference, "reference DTO parity schema " + str(schema))
+		unit.faction = Faction.Type.ENEMY
+		unit.vitals.apply_damage(unit.vitals.get_hp())
+		check(reference == expected_reference, "reference DTO detached schema " + str(schema))
+		var changed := unit.to_reference_dict()
+		check(changed.get("faction") == int(Faction.Type.ENEMY), "reference refreshed faction schema " + str(schema))
+		check(changed.get("vitals", {}).get("is_alive") == false, "reference refreshed alive schema " + str(schema))
+		check(SnapshotReference.capture(unit) != runtime_before, "runtime mutation observed schema " + str(schema))
+		unit.faction = Faction.Type.PLAYER
+		unit.vitals.revive(5.0 / unit.vitals.get_hp_max())
+	# Семь опциональных компонентов проверяются во всех 128 сочетаниях.
+	for mask: int in range(128):
+		var unit := _reference_unit()
+		if (mask & 1) != 0: check(unit.enable_action_resources() == &"", "combo resources " + str(mask))
+		if (mask & 2) != 0: unit.guard_stance = true
+		if (mask & 4) != 0: unit.armor = ArmorState.new()
+		if (mask & 8) != 0: unit.bleeding = BleedingState.new()
+		if (mask & 16) != 0: unit.control = ControlState.new()
+		if (mask & 32) != 0: unit.combat_perks = CombatPerksState.new()
+		if (mask & 64) != 0: unit.elemental = ElementalState.new()
+		_check_reference_matches_legacy(unit, "optional combination " + str(mask))
+	var invalid_id := _reference_unit()
+	invalid_id.id = UnitId.NONE
+	_check_reference_matches_legacy(invalid_id, "invalid id")
+	var invalid_move := _reference_unit()
+	invalid_move.move_points_left = INF
+	_check_reference_matches_legacy(invalid_move, "nonfinite move")
+	var invalid_faction := _reference_unit()
+	invalid_faction.set("faction", 99)
+	_check_reference_matches_legacy(invalid_faction, "invalid faction")
+	var missing_stats := _reference_unit()
+	missing_stats.stats = null
+	_check_reference_matches_legacy(missing_stats, "null stats")
+	var missing_vitals := _reference_unit()
+	missing_vitals.vitals = null
+	_check_reference_matches_legacy(missing_vitals, "null vitals")
+	var wrong_vitals_stats := _reference_unit()
+	wrong_vitals_stats.vitals._stats = StatsBag.new()
+	_check_reference_matches_legacy(wrong_vitals_stats, "vitals references different stats")
+	var malformed_resources := _reference_unit()
+	check(malformed_resources.enable_action_resources() == &"", "malformed-resource fixture setup")
+	malformed_resources.action_resources._main_left = ActionResources.MAX_COUNTER + 1
+	_check_reference_matches_legacy(malformed_resources, "malformed resources")
+	var wrong_resource_owner := _reference_unit()
+	check(wrong_resource_owner.enable_action_resources() == &"", "wrong-owner fixture setup")
+	wrong_resource_owner.action_resources._owner_unit_id += 1
+	_check_reference_matches_legacy(wrong_resource_owner, "resource owner mismatch")
+	var malformed_armor := _reference_unit()
+	check(malformed_armor.enable_action_resources() == &"", "malformed-armor fixture setup")
+	malformed_armor.armor = ArmorState.new()
+	malformed_armor.armor.natural["physical"] = -1
+	_check_reference_matches_legacy(malformed_armor, "malformed armor")
+	var malformed_perks := _reference_unit()
+	check(malformed_perks.enable_action_resources() == &"", "malformed-perks fixture setup")
+	malformed_perks.combat_perks = CombatPerksState.new()
+	malformed_perks.combat_perks.mode = CombatPerksState.Mode.COVER
+	malformed_perks.combat_perks.cover_target_id = malformed_perks.id
+	_check_reference_matches_legacy(malformed_perks, "self cover rejected")
+	var malformed_status := _reference_unit()
+	check(malformed_status.enable_action_resources() == &"", "malformed-status fixture setup")
+	malformed_status.armor = ArmorState.new()
+	malformed_status.bleeding = BleedingState.new()
+	malformed_status.bleeding.stacked = true
+	malformed_status.bleeding.stacks = 1
+	malformed_status.bleeding.ticks_left = 1
+	malformed_status.bleeding.hit_id = "without-valid-source"
+	_check_reference_matches_legacy(malformed_status, "stacked bleeding without source")
+	var malformed_control := _reference_unit()
+	check(malformed_control.enable_action_resources() == &"", "malformed-control fixture setup")
+	malformed_control.control = ControlState.new()
+	malformed_control.control.stunned_turns = 2
+	_check_reference_matches_legacy(malformed_control, "invalid control state")
+	var malformed_elemental := _reference_unit()
+	check(malformed_elemental.enable_action_resources() == &"", "malformed-elemental fixture setup")
+	malformed_elemental.armor = ArmorState.new()
+	malformed_elemental.bleeding = BleedingState.new()
+	malformed_elemental.bleeding.stacked = true
+	malformed_elemental.bleeding.stacks = 1
+	malformed_elemental.bleeding.ticks_left = 1
+	malformed_elemental.bleeding.hit_id = "valid-source"
+	malformed_elemental.bleeding.source = {"kind": &"attack", "source_instance_id": 0,
+		"origin_cell": Vector2i.ZERO, "instigator_unit_id": malformed_elemental.id,
+		"credit_unit_id": malformed_elemental.id}
+	malformed_elemental.elemental = ElementalState.new()
+	malformed_elemental.elemental.burning_stacks = 1
+	_check_reference_matches_legacy(malformed_elemental, "burning without ticks rejected")
+	var burning_and_bleeding := _reference_unit()
+	check(burning_and_bleeding.enable_action_resources() == &"", "burning-bleeding fixture resources")
+	burning_and_bleeding.armor = ArmorState.new()
+	burning_and_bleeding.bleeding = BleedingState.new()
+	burning_and_bleeding.bleeding.stacked = true
+	burning_and_bleeding.bleeding.stacks = 1
+	burning_and_bleeding.bleeding.ticks_left = 1
+	burning_and_bleeding.bleeding.hit_id = "bleed-stack"
+	burning_and_bleeding.bleeding.source = {"kind": &"attack", "source_instance_id": 0,
+		"origin_cell": Vector2i.ZERO, "instigator_unit_id": burning_and_bleeding.id,
+		"credit_unit_id": burning_and_bleeding.id}
+	burning_and_bleeding.elemental = ElementalState.new()
+	burning_and_bleeding.elemental.burning_stacks = 1
+	burning_and_bleeding.elemental.burning_ticks = 1
+	burning_and_bleeding.elemental.burning_source = {"kind": &"attack", "source_instance_id": 0,
+		"origin_cell": Vector2i.ZERO, "instigator_unit_id": burning_and_bleeding.id,
+		"credit_unit_id": burning_and_bleeding.id}
+	_check_reference_matches_legacy(burning_and_bleeding, "burning with bleeding rejected")
+	var invalid_modifier := _reference_unit()
+	var hp_stat: Stat = invalid_modifier.stats._stats[StatTypes.StatType.HP_MAX]
+	hp_stat._modifiers[0].value = INF
+	_check_reference_matches_legacy(invalid_modifier, "nonfinite stat modifier")
+	var invalid_slot := _reference_unit()
+	var slot_stat: Stat = invalid_slot.stats._stats[StatTypes.StatType.HP_MAX]
+	slot_stat._modifier_slots[0] = -1
+	_check_reference_matches_legacy(invalid_slot, "invalid modifier slot")
+	var stale_cache := _reference_unit()
+	var cache_stat: Stat = stale_cache.stats._stats[StatTypes.StatType.HP_MAX]
+	cache_stat.get_value()
+	cache_stat._cached_value += 1.0
+	_check_reference_matches_legacy(stale_cache, "stale stat cache")
+	var fractional_hp := _reference_unit()
+	check(fractional_hp.enable_action_resources() == &"", "fractional-HP fixture resources")
+	fractional_hp.armor = ArmorState.new()
+	fractional_hp.vitals._hp = 1.5
+	_check_reference_matches_legacy(fractional_hp, "fractional current HP")
+	var overmax_hp := _reference_unit()
+	check(overmax_hp.enable_action_resources() == &"", "overmax-HP fixture resources")
+	overmax_hp.armor = ArmorState.new()
+	overmax_hp.vitals._hp = 19.0
+	_check_reference_matches_legacy(overmax_hp, "current HP above maximum")
+	var fractional_max_hp := _reference_unit()
+	check(fractional_max_hp.enable_action_resources() == &"", "fractional-max fixture resources")
+	fractional_max_hp.armor = ArmorState.new()
+	fractional_max_hp.stats._stats[StatTypes.StatType.HP_MAX].base_value = 10.5
+	_check_reference_matches_legacy(fractional_max_hp, "fractional effective maximum HP")
+	var overmax_effective_hp := _reference_unit()
+	check(overmax_effective_hp.enable_action_resources() == &"", "overmax-effective fixture resources")
+	overmax_effective_hp.armor = ArmorState.new()
+	overmax_effective_hp.stats._stats[StatTypes.StatType.HP_MAX].base_value = 9007199254740992.0
+	overmax_effective_hp.vitals._hp = 0.0
+	_check_reference_matches_legacy(overmax_effective_hp, "effective maximum HP exceeds exact range")
+	var absent_max_hp := _reference_unit()
+	check(absent_max_hp.enable_action_resources() == &"", "absent-max fixture resources")
+	absent_max_hp.armor = ArmorState.new()
+	absent_max_hp.stats._stats.erase(StatTypes.StatType.HP_MAX)
+	absent_max_hp.vitals._hp = 0.0
+	_check_reference_matches_legacy(absent_max_hp, "absent HP_MAX")

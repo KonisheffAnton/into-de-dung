@@ -7,7 +7,7 @@ static func live_valid(state: ItemSimulationState) -> bool:
 	if state.deck.get_script() != BattleDeckState or state.card_effects.get_script() != BattleCardEffectState or state.deck.draw_rng == null or state.deck.draw_rng.get_script() != CombatRng: return false
 	if not state.deck.valid() or not state.card_effects.valid() or state.abilities.to_dict().get("schema_version") != 2: return false
 	var units: Array = []
-	for unit: UnitState in state.get_board().get_all_units(): units.append(unit.to_snapshot_dict())
+	for unit: UnitState in state.get_board().get_all_units(): units.append(unit.to_reference_dict())
 	return _references(state.deck,state.card_effects,state.abilities.to_dict(),units,state.get_summons())
 
 static func snapshot_valid(data: Dictionary) -> bool:

@@ -1,5 +1,28 @@
 # История и свидетельства проверок
 
+## Короткий Unit DTO для live_valid колоды — 2026-10-08
+
+Base main `f4fa5180fe7720cc67c63d0e43e9cd80f25f8b9e`; реализация по «Давай».
+UnitState проверяет компоненты/связи общим producer полного и короткого DTO;
+MageDeckRules.live_valid получает свежие id/faction/vitals.is_alive. Частота
+опроса руки, диагностика, raw-форматы/нормализация, queue/RNG/save неизменны;
+кэша нет. Владение — ARCHITECTURE, опрос — BATTLE_EXECUTION_UI.
+Два probe: idle live_valid median2.05–2.17→1.54–1.69ms, выигрыш0.48–0.51ms;
+180 опросов/180 кадров прежние, вместо1080 полных Unit DTO — короткие.
+Три production A/B: hover p95 20.58–20.67→19.68–20.08ms, AI total меньше,
+но AI p95/пики не улучшились устойчиво. Общая плавность не доказана.
+Полная parity всех6 controls/4 probes; fixture не F5/редактор/GPU.
+Import/startup PASS; producer809/0 (schema1–8,128 сочетаний, malformed runtime,
+freshness/изоляция), live capture41/0, render deck UI110/0/PNG; review APPROVE.
+Первый targeted обнаружил лишний запрет producer и ошибку фикстуры живости;
+оба исправлены, повтор и full проверяют фиксированный итог. Full с продолжением:
+138PASS/2FAIL из140 уникальных меток; control25/1 и entangle21/1 повторены на base.
+Это не общий PASS. Core9440/0 с прежними47ObjectDB/18resources.
+Логи, manifests, полные parity, review/verification/completion и детали метода —
+`test_reports/deck-live-valid-20261008/`. main_menu.tscn сохранена вне коммита.
+Ручная оценка capture/live_valid остаётся открытой; новых механик нет.
+Прежняя передача — [точный снимок](CODEX_HANDOFF.history-20261008-3.md).
+
 ## Передача локального board DTO в capture — 2026-10-08
 
 Base main `b174552fde0d4c8c12d6a6c1ed4447065e1dafff`; пользователь разрешил
