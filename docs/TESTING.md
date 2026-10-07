@@ -196,6 +196,17 @@ HeroHubBattleView/catalog2/deck с обычным `_process` (кроме явн�
 конечный снимки, RNG/counters/admission и публикации events/steps/after.
 Runner проверяет отсутствие live-мутации от hover, но не заменяет F5/редактор.
 
+Разбивка main-thread стоимости снимка/подготовки/аудита worker:
+`python tools/demo/profile_snapshot_preflight.py --godot <Godot> --output test_reports/<новый-каталог> --screen 0`.
+Инструмент сохраняет исходные и преобразованные hashes, создаёт отдельные
+control/probe проекты и APPDATA, последовательно выполняет import/render
+и сравнивает полные before/after/publications. `--prepare-only` позволяет
+осмотреть копии; `--run-existing` запускает их после проверки hashes один раз.
+Таймеры внедряются только в probe-копию, runtime checkout не меняется.
+Длительности включают вложенные вызовы: складывать их нельзя. Instrumented
+кадры не служат A/B доказательством ускорения; отсутствие вызова в fixture
+не означает нулевую стоимость в других сценариях. GPU этим способом не измеряется.
+
 Раздельные UI-расстановки D2/D3/D5/C1 находятся в `tests/fixtures/demo/`.
 Они используют общий BattleDemo и прежние сессии, но отсутствуют в игровом меню.
 K2 UI runner проверяет основной вход F5 и отсутствие старых кнопок; удаление

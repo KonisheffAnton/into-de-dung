@@ -162,10 +162,6 @@ func _execute_live(method: StringName, args: Array = [], target_attempt: bool = 
 	if is_execution_pending(): return
 	if _mage_row is BattleMageBar: (_mage_row as BattleMageBar).set_paging_enabled(false)
 	_clear_forecast()
-	# Сбор значений разрешён только для проверенного штатного runtime, включая sync fallback.
-	if presentation_enabled and session != null and session.get_script() == BattleCoreReactionsSession and BattleExecutionWorker.can_transfer(session):
-		_presentation_before = ActionPresentationState.capture(session.state)
-		session.begin_presentation_capture()
 	if _allows_execution_worker() and session != null and session.get_script() == BattleCoreReactionsSession:
 		var owned := session as BattleCoreReactionsSession
 		# Отрисовка уже держит значения последнего refresh. Убираем доступ UI к runtime.
@@ -173,13 +169,21 @@ func _execute_live(method: StringName, args: Array = [], target_attempt: bool = 
 		board_view.session = null
 		session = null
 		_battle = null
-		if _execution_worker.start(owned, method, args, target_attempt):
+		# Worker проверяет граф и собирает before до запуска потока одним проходом.
+		# Здесь забираются только отделённые значения, runtime уже недоступен UI.
+		var started := _execution_worker.start(owned, method, args, target_attempt, presentation_enabled)
+		_presentation_before = _execution_worker.take_presentation_before()
+		if started:
 			_status.text = "Выполняется действие…"
 			return
 		session = owned
 		_battle = owned
 		board_view.session = owned
 		board_view.execution_pending = false
+	elif presentation_enabled and session != null and session.get_script() == BattleCoreReactionsSession and BattleExecutionWorker.can_transfer(session):
+		# Sync-only оболочки сохраняют тот же аудит перед включением показа.
+		_presentation_before = ActionPresentationState.capture(session.state)
+		session.begin_presentation_capture()
 	_complete_live(method, session.callv(method, args), target_attempt)
 
 func _poll_execution() -> void:

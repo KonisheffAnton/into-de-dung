@@ -6,6 +6,7 @@ const METHODS: Array[StringName] = [&"click_attack", &"move_to", &"retreat_to", 
 
 var _thread: Thread
 var _session: BattleCoreReactionsSession
+var _presentation_before: Dictionary = {}
 var method: StringName
 var target_attempt: bool = false
 
@@ -64,17 +65,32 @@ static func _owned_death_callback(session: BattleDemoSession, object: Object, si
 func is_started() -> bool:
 	return _thread != null
 
-func start(session: BattleCoreReactionsSession, action: StringName, args: Array, attempt: bool = false) -> bool:
-	assert(not is_started())
+func start(session: BattleCoreReactionsSession, action: StringName, args: Array, attempt: bool = false, capture_presentation: bool = false) -> bool:
+	if is_started(): return false
+	_presentation_before.clear()
 	if not _valid_request(action, args) or not can_transfer(session): return false
+	if capture_presentation:
+		# Снимок делается только после успешного аудита, пока worker ещё не владеет session.
+		_presentation_before = ActionPresentationState.capture(session.state)
+		session.begin_presentation_capture()
 	_session = session
 	method = action
 	target_attempt = attempt
 	_thread = Thread.new()
-	if _thread.start(_run.bind(args.duplicate())) == OK: return true
+	if _start_thread(args) == OK: return true
 	_thread = null
 	_session = null
 	return false
+
+func _start_thread(args: Array) -> Error:
+	# Отдельная точка запуска позволяет проверить отказ ОС без реального исчерпания потоков.
+	return _thread.start(_run.bind(args.duplicate()))
+
+func take_presentation_before() -> Dictionary:
+	# _run не читает этот DTO: main забирает значения даже во время исполнения session.
+	var result := _presentation_before
+	_presentation_before = {}
+	return result
 
 static func _valid_request(action: StringName, args: Array) -> bool:
 	if action not in METHODS: return false

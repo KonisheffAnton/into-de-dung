@@ -1,5 +1,36 @@
 # История и свидетельства проверок
 
+## Один аудит перед запуском worker — 2026-10-08
+
+Base main `7d7777273d66e49e5b518afbe9ed43b910c6dc13`; пользователь поручил
+продолжить оптимизацию. Раздельный probe выявил16 аудитов can_transfer на8
+запусков ИИ. Start теперь объединяет полный аудит, before/capture и запуск;
+sync-only и отказ запуска сохраняют показ без повторного допуска. Контракты —
+ARCHITECTURE/BATTLE_EXECUTION_UI. Нет кэша допуска/изменения snapshot codecs.
+За ход8 аудитов, суммарно CPU137→74ms. Два production control A/B:
+AI8.03→7.95–7.98s, p95 24.0–24.6→21.6–23.0ms, >25ms21→19–20,
+max33.9–38.1→32.8–33.0ms. Hover p95~20.5ms не улучшен.
+Полные before/after/events/steps/RNG/counters/admission/publications всех
+4 controls и2 probes совпали; это fixture, не F5/редактор или GPU-профиль.
+Import/startup PASS; worker195/0, execution UI28/0, presentation44/0,
+capture33/0, deck battle313/0; независимое ревью APPROVE. Проверен отказ ОС
+при запуске потока и однократный sync fallback; full/core не повторялись.
+Инструмент замера и команды — TESTING; метод/логи/manifests/parity/review/
+verification — `test_reports/worker-preflight-20261008/`, baseline breakdown —
+`test_reports/snapshot-preflight-20261008/`. Текущие render/headless логи —
+`test_reports/demo-596de17dcdf8453f8bf7a37fe4f60fc0/`.
+Прежняя передача — [точный снимок](CODEX_HANDOFF.history-20261008.md).
+
+## Приёмка последнего улучшения плавности — 2026-10-08
+
+На main `7d7777273d66e49e5b518afbe9ed43b910c6dc13` пользователь подтвердил:
+«По приемке ок - давай дальше». Последний срез переиспользования поля/HUD
+принят; прежнее ожидание его пользовательской оценки закрыто. Это не приёмка
+полного маршрута/редактора, всего HUD, финального арта или баланса.
+Технические замеры и ограничения прошлого этапа остаются в записи ниже;
+этот отзыв не является новым прогоном тестов или измерением GPU.
+Прежняя передача — [точный снимок](CODEX_HANDOFF.history-20261008.md).
+
 ## Переиспользование узлов боя — 2026-10-07
 
 Base main `dfd08f619b59294fc6a80614ff0685598744b4b5`. Штатные опоры/стены

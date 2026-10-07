@@ -11,6 +11,10 @@ class CallbackRng extends ActionRngPort:
 class CallbackSink extends ActionEventSink:
 	pass
 
+class FailedLaunchWorker extends BattleExecutionWorker:
+	func _start_thread(_args: Array) -> Error:
+		return ERR_CANT_CREATE
+
 func _initialize() -> void: call_deferred("run")
 
 func check(ok: bool, label: String) -> void:
@@ -76,6 +80,7 @@ func parity(kind: String) -> void:
 	check(BattleExecutionWorker.can_transfer(s), kind + " graph owned")
 	var worker := BattleExecutionWorker.new()
 	check(worker.start(s, request[0], request[1]), kind + " started")
+	check(worker.take_presentation_before().is_empty(), kind + " default presentation before empty")
 	var completed: Dictionary = {}
 	var deadline := Time.get_ticks_msec() + 10000
 	while completed.is_empty() and Time.get_ticks_msec() < deadline:
@@ -84,11 +89,85 @@ func parity(kind: String) -> void:
 	if completed.is_empty():
 		check(false, kind + " timeout")
 		completed = worker.take_finished(true)
+	check(not s._queue.capture_presentation, kind + " default presentation capture unchanged")
 	check(receipt(completed.result) == expected, kind + " receipt/events/steps parity")
 	check(state(s) == expected_state, kind + " full state/RNG/counters/session parity")
 	check(UnitId.get_counter() == allocator, kind + " global allocator unchanged")
 	check(not worker.is_started() and worker.take_finished().is_empty(), kind + " one completion")
 	if kind == "fault": check(s.phase == BattleTacticalSession.Phase.FAULTED, "fault prefix remains terminal")
+	s.close()
+
+func presentation_parity(kind: String) -> void:
+	var initial_id := UnitId.get_counter()
+	var s := PlayerTurnFixture.create()
+	var request := prepare(s, kind)
+	var expected_before := ActionPresentationState.capture(s.state).duplicate(true)
+	s.begin_presentation_capture()
+	var expected_result: Variant = receipt(s.callv(request[0], request[1]))
+	var expected_packets := s.take_presentation_capture()
+	var expected_state := state(s)
+	s.close()
+	UnitId.set_counter(initial_id)
+	s = PlayerTurnFixture.create()
+	request = prepare(s, kind)
+	var worker := BattleExecutionWorker.new()
+	check(worker.start(s, request[0], request[1], false, true), kind + " capture worker started")
+	var actual_before := worker.take_presentation_before()
+	check(actual_before == expected_before, kind + " detached before snapshot parity")
+	var completed := worker.take_finished(true)
+	check(receipt(completed.result) == expected_result, kind + " capture receipt parity")
+	check(s.take_presentation_capture() == expected_packets, kind + " ordered root presentation parity")
+	check(state(s) == expected_state, kind + " capture full state/RNG/counters parity")
+	check(worker.take_presentation_before().is_empty(), kind + " before snapshot transfers once")
+	s.close()
+
+func presentation_refusals_and_fallback() -> void:
+	var s := PlayerTurnFixture.create()
+	var worker := BattleExecutionWorker.new()
+	check(not worker.start(s, &"reset", [], false, true), "invalid request refused")
+	check(worker.take_presentation_before().is_empty() and not s._queue.capture_presentation, "invalid request has no capture mutation")
+	var rng := s.context._rng
+	s.context._rng = CallbackRng.new()
+	check(not worker.start(s, &"guard_selected", [], false, true), "custom RNG transfer refused")
+	check(worker.take_presentation_before().is_empty() and not s._queue.capture_presentation, "custom RNG refusal has no capture")
+	s.context._rng = rng
+	s.board.board_changed.connect(callback)
+	check(not worker.start(s, &"guard_selected", [], false, true), "custom board callback transfer refused")
+	check(worker.take_presentation_before().is_empty() and not s._queue.capture_presentation, "callback refusal has no capture")
+	s.board.board_changed.disconnect(callback)
+	s._queue._pending.append({"foreign": self})
+	check(not worker.start(s, &"guard_selected", [], false, true), "foreign queued object transfer refused")
+	check(worker.take_presentation_before().is_empty() and not s._queue.capture_presentation, "foreign graph refusal has no capture")
+	s._queue._pending.clear()
+	s.close()
+
+	s = PlayerTurnFixture.create()
+	var request := prepare(s, "guard")
+	var initial_state := state(s)
+	var expected_before := ActionPresentationState.capture(s.state).duplicate(true)
+	var failed := FailedLaunchWorker.new()
+	check(not failed.start(s, request[0], request[1], false, true), "simulated thread launch failure")
+	var transferred_before := failed.take_presentation_before()
+	check(transferred_before == expected_before, "launch failure retains before snapshot")
+	check(s._queue.capture_presentation and state(s) == initial_state, "launch failure leaves capture armed before fallback")
+	var fallback_result: ActionReceipt = s.callv(request[0], request[1])
+	var fallback_packets := s.take_presentation_capture()
+	check(fallback_result.status == ActionReceipt.APPLIED and fallback_packets.size() == 1, "launch failure synchronous fallback records one packet")
+	check(failed.take_presentation_before().is_empty() and state(s) != initial_state, "fallback consumes retained packet exactly once")
+	s.close()
+
+func presentation_before_replaced() -> void:
+	var s := PlayerTurnFixture.create()
+	var worker := BattleExecutionWorker.new()
+	check(worker.start(s, &"guard_selected", [], false, true), "first capture-enabled start")
+	var first := worker.take_presentation_before()
+	worker.take_finished(true)
+	s.take_presentation_capture()
+	s.units[0].vitals.set_hp(1)
+	check(worker.start(s, &"guard_selected", [], false, true), "fresh capture-enabled start")
+	var second := worker.take_presentation_before()
+	check(second != first, "fresh start replaces prior before metadata")
+	worker.take_finished(true)
 	s.close()
 
 func callback() -> void: pass
@@ -120,6 +199,10 @@ func round_parity() -> void:
 func run() -> void:
 	for kind: String in ["move", "attack", "rune", "entangle", "stun", "guard", "opportunity", "cover", "heal", "summon", "raise", "armor", "refused", "fault", "end", "enemy"]:
 		await parity(kind)
+	for kind: String in ["guard", "refused", "fault", "end", "enemy"]:
+		presentation_parity(kind)
+	presentation_refusals_and_fallback()
+	presentation_before_replaced()
 	round_parity()
 	var s := BattleCoreReactionsSession.new()
 	check(BattleExecutionWorker.can_transfer(s), "normal session eligible")

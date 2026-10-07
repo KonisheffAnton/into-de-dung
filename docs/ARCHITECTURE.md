@@ -107,7 +107,12 @@ value-only область, не читает runtime во время worker. О�
 в receipt отдельный кадр после каждого исполненного шага/guards: step, новые events,
 after. Существующие events/steps, RNG, counters и порядок команд не меняются.
 Кадр есть и для пустого события, и для выполненного FAULTED prefix. Копия очереди
-для forecast всегда начинает без capture; UI включает его только после аудита runtime.
+для forecast всегда начинает без capture; показ включает его только после аудита runtime.
+
+На worker-пути аудит и включение capture объединены внутри `BattleExecutionWorker.start`:
+один свежий обход графа, отделённый before, затем запуск потока. UI получает before
+отдельно от session; при отказе запуска тот же пакет обслуживает sync fallback.
+Sync-only оболочки проверяют граф перед capture сами; допуска между вызовами нет.
 
 `BattleDemoSession._record_receipt` собирает roots одного session-вызова; после
 возврата владения UI забирает пакет и выключает capture. Начальный и конечный
