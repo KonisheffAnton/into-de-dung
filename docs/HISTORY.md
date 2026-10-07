@@ -1,5 +1,28 @@
 # История и свидетельства проверок
 
+## Адресное улучшение плавности — 2026-10-07
+
+Base main `b13e41059555bec20772b74a60f5b12a7ec36422`. Общий аудит руки
+разделён внутри синхронного refresh без persistent/revision-кэша; сохранён
+PackedScene строки HUD; технический after уступает рендеру перед следующим.
+Поведение — MAGE_DECK_V1/BATTLE_PRESENTATION_V1/BATTLE_HUD_SCENES_V1.
+Два финальных production A/B: hover p95 27–28→20.2ms, >25ms29–36/180→0;
+весь AI max312–356→53–66ms, >50ms14–15→2–3. Но >25ms25→41–56,
+показ +0.7–0.8s; полное устранение рваности/приёмка F5 не заявлены.
+Полные before/after/events/steps/RNG/counters/admission/publications совпали.
+Import/startup, headless battle_presentation41/0, mage_deck_ui93/0,
+move_forecast520/0;20 адресных render suites PASS. Первый UI-прогон выявил
+типизацию пустого словаря (исправлена); тест обвала переведён на ожидание
+начала клипа после технической границы, его прежние утверждения сохранены.
+Независимое ревью конечного runtime и адаптации теста — APPROVE.
+Отчёт/таблицы/CPU probes/manifests/логи/review: `test_reports/battle-smoothness-fix-20261007/`.
+Render: `test_reports/demo-92d92b16093741b492ec8ce3218eb596/` (до остановки
+на старом ожидании обвала), `test_reports/demo-29d9445acca547eb84f8add63cd60e7f/`
+(исправленный обвал и оставшиеся suites). Это fixture/PNG, не F5/редактор.
+Full/core не повторялись; исторические failures/leaks не объявляются PASS.
+Пользовательская main_menu.tscn сохранена вне коммита; без push.
+Прежняя передача — [точный снимок](CODEX_HANDOFF.history-20261007-8.md).
+
 ## Приёмка Щитоносца и диагностика плавности — 2026-10-07
 
 Base main `8ad3ef8c62cde7630c740c2787db48f9c2811188`. Пользователь принял класс:

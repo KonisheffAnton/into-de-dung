@@ -328,6 +328,9 @@ func collapse_and_corpse_cleanup() -> void:
 		"marked floor warns and keeps corpse before collapse publication")
 	await capture("warning")
 	var saved: Dictionary = start_packet(data, s, "collapse")
+	# Граница environment_turn теперь уступает рендеру: измеряем прогресс
+	# относительно начала настоящего клипа обвала, а не начала всего пакета.
+	seek_cell(cell, &"collapse")
 	advance(0.11)
 	overlay = board._environment_visuals.get(cell) as BattleEnvironmentVisual
 	var cell_pose: Dictionary = board._field_presentation.cells.get(cell, {})

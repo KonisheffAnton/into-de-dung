@@ -1,6 +1,9 @@
 extends Control
 class_name BattleDemo
 
+## PackedScene держим живой: иначе load каждой строки заново читает сцену и тему.
+const ROSTER_ENTRY_SCENE: PackedScene = preload("res://scenes/demo/battle/roster_entry.tscn")
+
 @export var tactical_mode: bool = false
 @export var armor_mode: bool = false
 @export var bleeding_mode: bool = false
@@ -718,7 +721,7 @@ func _clear_roster_entries() -> void:
 		child.queue_free()
 
 func _roster_entry(text: String) -> Button:
-	var button := (load("res://scenes/demo/battle/roster_entry.tscn") as PackedScene).instantiate() as Button if core_reactions_mode else _button(text)
+	var button := ROSTER_ENTRY_SCENE.instantiate() as Button if core_reactions_mode else _button(text)
 	button.text = text
 	button.set_meta("runtime_roster_entry", true)
 	return button
@@ -1082,6 +1085,9 @@ func _refresh_deck_bar(mage_session: BattleCoreReactionsSession) -> void:
 	_mage_label.text = "Мана %d/%d · добор %d · сыграно %d · замена: %s" % [ability.mana, ability.maximum, deck.draw_ids.size(), deck.spent_ids.size(), replacement]
 	_mage_label.tooltip_text = "Рука %d/6" % deck.hand_ids.size()
 	var shown: Array[Button] = []
+	var ids: Array[int] = deck.hand_ids.duplicate()
+	var reasons: Dictionary[int, StringName] = {}
+	if not setup: reasons = mage_session.mage_card_reasons(ids)
 	for slot: int in _card_buttons.size():
 		var button: Button = _card_buttons[slot]
 		if slot >= deck.hand_ids.size(): continue
@@ -1094,9 +1100,9 @@ func _refresh_deck_bar(mage_session: BattleCoreReactionsSession) -> void:
 		button.set_pressed_no_signal(_mulligan_ids.has(id) if button.toggle_mode else _card_selected_id == id)
 		button.text = "%s\n%d маны" % [definition.name, definition.mana_cost]
 		button.tooltip_text = "%s\n%s\nКопия #%d" % [definition.name, definition.description, id]
-		var reason := mage_session.mage_card_reason(id) if not setup else &""
+		var reason: StringName = reasons.get(id, &"") if not setup else &""
 		button.disabled = not mage_session.mage_deployment_confirmed if setup else reason not in [&"", &"mage_card/insufficient_mana"]
-		if not setup and button.disabled: button.tooltip_text += "\n" + _reason_text(mage_session.mage_card_reason(id))
+		if not setup and button.disabled: button.tooltip_text += "\n" + _reason_text(reason)
 		elif reason == &"mage_card/insufficient_mana": button.tooltip_text += "\nМаны для розыгрыша нет; заменить карту можно бесплатно."
 	if setup:
 		if mage_session.mage_deployment_confirmed and not deck.mulligan_done:

@@ -36,8 +36,8 @@ func _next() -> void:
 	if _index >= _frames.size():
 		_finish(false)
 		return
-	# Техническая граница без видимого события публикуется без искусственной паузы.
-	# Снимки и сигналы не пропускаются, порядок настоящих последствий сохранён.
+	# Технические границы тоже перестраивают поле и HUD. Публикуем одну за
+	# проход, чтобы длинная граница хода не задерживала весь кадр рендера.
 	while active and _index < _frames.size():
 		var frame: Dictionary = _frames[_index]
 		var group := BattleChainTimeline.collect(_frames, _index)
@@ -63,7 +63,18 @@ func _next() -> void:
 		_published = frame.after
 		frame_finished.emit(frame.after.duplicate(true))
 		_index += 1
+		if active:
+			_schedule_next()
+		return
 	if active: _finish(false)
+
+func _schedule_next() -> void:
+	# Нулевой интервал отдаёт управление рендеру без фиксированной игровой
+	# паузы; обычный Tween сохраняет поддержку pause/skip/cancel. Скорость
+	# меняет анимацию, но не объединяет технические публикации в один проход.
+	_tween = create_tween()
+	_tween.tween_interval(0.0)
+	_tween.finished.connect(_next)
 
 func _start_chain_frame(index: int) -> void:
 	_board.begin_presentation_frame(_frames[index].events)

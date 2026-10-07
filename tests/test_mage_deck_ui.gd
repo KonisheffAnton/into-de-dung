@@ -69,6 +69,38 @@ func _run() -> void:
 	if session.phase == BattleTacticalSession.Phase.ENEMY_TURN:
 		session._enemy_index = session._enemy_ids.size(); session.step_enemy()
 	check(session.phase == BattleTacticalSession.Phase.PLAYER_TURN, "player card window")
+	var reason_ids: Array[int] = session.state.deck.hand_ids.duplicate()
+	var batch_reasons := session.mage_card_reasons(reason_ids)
+	var parity := true
+	for card_id: int in reason_ids: parity = parity and batch_reasons.get(card_id, &"missing") == session.mage_card_reason(card_id)
+	check(parity, "batched reasons match singular API")
+	var saved_mana: int = session.state.abilities.mana
+	session.state.abilities.mana = 0
+	check(session.mage_card_reasons(reason_ids) != batch_reasons, "batch observes mana changes between calls")
+	session.state.abilities.mana = saved_mana
+	var moved_id: int = reason_ids[0]
+	var hand_index: int = session.state.deck.hand_ids.find(moved_id)
+	session.state.deck.hand_ids.remove_at(hand_index)
+	session.state.deck.draw_ids.append(moved_id)
+	var moved_reasons := session.mage_card_reasons([moved_id])
+	check(moved_reasons.get(moved_id, &"") == &"mage_card/not_in_hand", "batch observes hand changes between calls")
+	session.state.deck.draw_ids.erase(moved_id)
+	session.state.deck.hand_ids.insert(hand_index, moved_id)
+	var saved_allowed: bool = session.state.abilities.mage_allowed
+	session.state.abilities.mage_allowed = false
+	var closed_reasons := session.mage_card_reasons(reason_ids)
+	var closed_ok := true
+	for card_id: int in reason_ids: closed_ok = closed_ok and closed_reasons.get(card_id, &"") == &"mage_card/window_closed"
+	check(closed_ok, "batch observes window changes between calls")
+	session.state.abilities.mage_allowed = saved_allowed
+	var saved_attack: String = session.state.card_effects.ordinary_attacks[0].attack_id
+	session.state.card_effects.ordinary_attacks[0].attack_id = "invalid_binding"
+	var invalid_reasons := session.mage_card_reasons(reason_ids)
+	var invalid_ok := true
+	for card_id: int in reason_ids: invalid_ok = invalid_ok and invalid_reasons.get(card_id, &"") == &"mage_card/capability_required"
+	check(invalid_ok, "batch validates attack bindings on every call")
+	session.state.card_effects.ordinary_attacks[0].attack_id = saved_attack
+	check(session.mage_card_reasons(reason_ids) == batch_reasons, "batch recovers after reference restoration")
 	session.state.abilities.mana = 0
 	demo._refresh()
 	var costly_id: int = session.state.deck.hand_ids[0]

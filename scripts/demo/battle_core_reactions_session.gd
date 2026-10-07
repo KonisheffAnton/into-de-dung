@@ -273,8 +273,30 @@ func confirm_mage_mulligan(ids: Array[int]) -> ActionReceipt:
 
 func mage_card_reason(id: int) -> StringName:
 	if not can_player_act(): return &"battle/input_locked"
-	if state.deck == null or state.abilities == null or not MageDeckRules.references_valid(context): return &"mage_card/capability_required"
+	if not _mage_card_capability_valid(): return &"mage_card/capability_required"
 	if not state.abilities.mage_allowed: return &"mage_card/window_closed"
+	return _mage_card_reason_in_open_window(id)
+
+func mage_card_reasons(ids: Array[int]) -> Dictionary[int, StringName]:
+	# Один синхронный опрос руки разделяет общий аудит capability. Между
+	# вызовами ничего не кэшируем: внешние изменения видны без смены revision.
+	var reasons: Dictionary[int, StringName] = {}
+	if not can_player_act():
+		for id: int in ids: reasons[id] = &"battle/input_locked"
+		return reasons
+	if not _mage_card_capability_valid():
+		for id: int in ids: reasons[id] = &"mage_card/capability_required"
+		return reasons
+	if not state.abilities.mage_allowed:
+		for id: int in ids: reasons[id] = &"mage_card/window_closed"
+		return reasons
+	for id: int in ids: reasons[id] = _mage_card_reason_in_open_window(id)
+	return reasons
+
+func _mage_card_capability_valid() -> bool:
+	return state.deck != null and state.abilities != null and MageDeckRules.references_valid(context)
+
+func _mage_card_reason_in_open_window(id: int) -> StringName:
 	if not state.deck.hand_ids.has(id): return &"mage_card/not_in_hand"
 	var definition := MageCardCatalog.get_card(String(state.deck.card(id).get("type_id", "")))
 	if definition == null: return &"mage_card/unknown_type"

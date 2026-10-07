@@ -129,6 +129,54 @@ func hub_terminal() -> void:
 	screen.battle_view = null
 	screen.free()
 
+func technical_frame_budget() -> void:
+	await fresh()
+	var s := demo.session as BattleCoreReactionsSession
+	var before := ActionPresentationState.capture(s.state)
+	var committed := snapshot(s)
+	var board := demo.board_view
+	var player := BattlePresentationPlayer.new()
+	viewport.add_child(player)
+	var frames: Array[Dictionary] = []
+	for i: int in 24:
+		var after := before.duplicate(true)
+		after["smoothness_marker"] = i
+		frames.append({"events": [], "step": {"kind": &"technical", "command_seq": i + 1}, "after": after})
+	var published: Array[int] = []
+	var render_frames: Array[int] = []
+	player.frame_finished.connect(func(state: Dictionary) -> void:
+		published.append(int(state.get("smoothness_marker", -1)))
+		render_frames.append(Engine.get_process_frames()))
+	player.play(board, before, frames, frames[-1].after)
+	check(player.active and published.size() == 1, "long technical packet yields after one atomic publication")
+	for i: int in 100:
+		if not player.active: break
+		await process_frame
+	var expected: Array[int] = []
+	for i: int in 24: expected.append(i)
+	expected.append(23)
+	check(not player.active and published == expected, "all technical after states publish in order including final")
+	var spread := true
+	for i: int in range(2, 24):
+		if render_frames.size() <= i or render_frames[i] <= render_frames[i - 1]: spread = false
+	check(spread, "technical packet cannot drain in one rendered frame")
+	check(snapshot(s) == committed, "scheduled technical publication leaves snapshot RNG counters unchanged")
+	published.clear()
+	player.play(board, before, frames, frames[-1].after)
+	player.skip()
+	var skipped := published.duplicate()
+	await process_frame; await process_frame; await process_frame
+	check(not player.active and published == skipped and published[-1] == 23, "skip kills queued continuation and publishes final")
+	player.play(board, before, frames, frames[-1].after)
+	player.cancel()
+	published.clear()
+	var replacement: Array[Dictionary] = [frames[7]]
+	player.play(board, before, replacement, frames[7].after)
+	for i: int in 5: await process_frame
+	check(not player.active and published == [7, 7], "cancel and immediate replay cannot resume old packet")
+	player.queue_free()
+	await process_frame
+
 func run() -> void:
 	viewport = SubViewport.new()
 	viewport.size = Vector2i(1440, 950)
@@ -220,6 +268,7 @@ func run() -> void:
 	check(snapshot(s) == committed and demo._status.text.contains("остановлено"), "fault skip keeps prefix and reports failure")
 	await chain_fall()
 	await hub_terminal()
+	await technical_frame_budget()
 	await fresh()
 	demo._execute_live(&"move_to", [Vector2i(1, 2)])
 	await wait_presentation()
