@@ -14,6 +14,11 @@ var _next_root_id: int = 1
 var _next_command_seq: int = 1
 var _next_event_seq: int = 1
 var _revision: int = 0
+## Только текущий drain: сохранённые счётчики не позволяют повторно использовать старую атаку.
+var _current_root_id: int = 0
+
+func damage_attack_group() -> int:
+	return _next_command_seq - 1 if _current_root_id > 0 else _next_command_seq
 
 func _init(state: ItemSimulationState, rng: ActionRngPort, sink: ActionEventSink, unsupported_runtime_ids: Array[StringName], move_rules: MoveRules = null, attack_rules: AttackRules = null) -> void:
 	_state = state

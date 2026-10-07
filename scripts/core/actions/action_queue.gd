@@ -94,7 +94,7 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 	if reason == &"" and not AbilityCatalog.attack_references_valid(context): reason = &"ability/attack_catalog"
 	if reason == &"" and not MageDeckRules.references_valid(context): reason = &"deck/attack_catalog"
 	if reason == &"" and context.get_state().artifacts != null and not BattleArtifactRules.references_valid(context): reason = &"artifact/attack_catalog"
-	if reason == &"" and context.get_state().abilities != null and accepted.get_script() in [AttackCommand, MoveCommand, GuardCommand, RestoreArmorCommand, RaiseCorpseCommand, ElementalCastCommand, UseHealingItemCommand, UseSummoningItemCommand, MageCastCommand]:
+	if reason == &"" and context.get_state().abilities != null and accepted.get_script() in [AttackCommand, MoveCommand, GuardCommand, RaiseShieldsCommand, RestoreArmorCommand, RaiseCorpseCommand, ElementalCastCommand, UseHealingItemCommand, UseSummoningItemCommand, MageCastCommand]:
 		var descriptor := accepted.get_ability_definition(context)
 		var registered := context.get_state().abilities.definition(descriptor.ability_id) if descriptor != null else null
 		if descriptor == null or registered == null or descriptor.to_dict() != registered.to_dict(): reason = &"ability/unregistered_action"
@@ -105,6 +105,7 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 		return _reject(receipt, reason)
 	receipt.status = &"APPLIED"
 	receipt.root_id = context._take_root_id()
+	context._current_root_id = receipt.root_id
 	_perk_guard = CombatPerkGuard.capture(context.get_state().get_board())
 	if accepted is AttackCommand:
 		var attacker := (accepted as AttackCommand).get_actor_unit_id()
@@ -163,6 +164,7 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 		var step_count_before := receipt._steps.size()
 		var event_count_before := receipt._events.size()
 		_execute_entry(entry, receipt, context, event_capacity, effects_ref, effects_expected)
+		if receipt.status != &"FAULTED" and context._current_root_id != receipt.root_id: _fault(receipt, context, &"raise_shields/root_checkpoint")
 		if deck_ref != null:
 			# Новое admission принадлежит исполненному шагу, включая FAULTED prefix.
 			if entry.command is UseSummoningItemCommand or entry.command is RaiseCorpseCommand:
@@ -393,6 +395,13 @@ func _bind_batch(descriptions: Array[Dictionary], event_seq: int, context: Actio
 	return result
 
 static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bool:
+	if draft.get("kind") in [&"raised_shields", &"raised_shield_used"]:
+		var fields := {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "before": TYPE_DICTIONARY, "after": TYPE_DICTIONARY}
+		if draft.kind == &"raised_shields": fields.merge({"main_before": TYPE_INT, "main_after": TYPE_INT})
+		if not ItemSimulationSnapshot._shape(draft, fields) or draft.actor_unit_id < 0 or draft.actor_unit_id >= MAX_ID or draft.target_unit_id < 1 or draft.target_unit_id >= MAX_ID or not RaisedShield.valid(draft.before) or not RaisedShield.valid(draft.after): return false
+		if draft.kind == &"raised_shields":
+			return draft.actor_unit_id == draft.target_unit_id and draft.main_before > 0 and draft.main_after == draft.main_before - 1 and not draft.before.active and draft.after.active and draft.after.ready_turn >= 3
+		return draft.before.active and not draft.after.active and draft.before.ready_turn == draft.after.ready_turn and draft.after.blocked_root > 0 and draft.after.blocked_group > 0
 	if draft.get("kind") == &"shield_changed": return SpellShield.valid_event(draft)
 	if draft.get("kind") == &"mage_cast": return MageCastCommand.valid_draft(draft)
 	if draft.get("kind") == &"mage_card_played": return PlayMageCardCommand.valid_draft(draft)
@@ -569,6 +578,11 @@ static func _reserved_event_capacity(command: Command, context: ActionContext) -
 	for id: int in ids:
 		var unit := context.get_state().get_board().get_unit_by_id(id)
 		if unit != null and unit.armor != null and not unit.armor.shield.is_empty(): capacity += 1
+		if unit != null and unit.armor != null and not unit.armor.raised_shield.is_empty(): capacity += 1
+	# Корневые заклинания исполняют прямой hit внутри собственного шага.
+	if command is ElementalCastCommand or command is MageCastCommand or command is PlayMageCardCommand:
+		for unit: UnitState in context.get_state().get_board().get_all_units():
+			if unit.armor != null and not unit.armor.raised_shield.is_empty(): capacity += 1
 	return capacity
 
 static func _event_capacity(command: Command) -> int:
@@ -678,6 +692,7 @@ func _release(context: ActionContext) -> void:
 	_defer_item_reactions = false
 	_busy = false
 	context._busy = false
+	context._current_root_id = 0
 
 static func _reject(receipt: ActionReceipt, reason: StringName) -> ActionReceipt:
 	receipt.reason = reason

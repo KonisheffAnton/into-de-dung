@@ -11,9 +11,11 @@ var next_grant_id: int = 1
 var battle_id: int = 1
 var in_battle: bool = true
 var shield: Dictionary = {}
+var raised_shield: Dictionary = {}
 
 func to_dict() -> Dictionary:
 	var result := {"schema_version": 1, "natural": natural.duplicate(true), "perks": perks.duplicate(true), "grants": grants.duplicate(true), "next_grant_id": next_grant_id, "battle_id": battle_id, "in_battle": in_battle}
+	RaisedShield.write_state(result, raised_shield)
 	SpellShield.write_state(result, shield)
 	return result
 
@@ -27,10 +29,18 @@ static func from_dict(data: Dictionary) -> ArmorState:
 	result.battle_id = data["battle_id"]
 	result.in_battle = data["in_battle"]
 	result.shield = data.get("shield", {}).duplicate(true)
+	result.raised_shield = data.get("raised_shield", {}).duplicate(true)
 	return result
 
 static func valid(data: Variant) -> bool:
+	if typeof(data) == TYPE_DICTIONARY and data.get("schema_version") == 3:
+		if not data.has("raised_shield") or not RaisedShield.valid(data["raised_shield"]) or data["raised_shield"].is_empty(): return false
+		var prior: Dictionary = data.duplicate(true)
+		prior.erase("raised_shield")
+		prior["schema_version"] = 2 if prior.has("shield") else 1
+		return valid(prior)
 	if typeof(data) == TYPE_DICTIONARY and data.get("schema_version") == 2:
+		if data.has("raised_shield"): return false
 		if not data.get("in_battle", false) or not SpellShield.valid(data.get("shield")): return false
 		var prior: Dictionary = data.duplicate(true)
 		SpellShield.write_state(prior, {})

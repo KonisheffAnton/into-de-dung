@@ -47,7 +47,8 @@ func _prepare(context: ActionContext) -> Dictionary:
 		# Нулевую оружейную базу не переносим в объяснение чисто огненной способности.
 		if not raw.is_empty(): raw.remove_at(0)
 		request = ArmorAttack.request(target.id, raw, source)
-		var plan := ArmorHitExecutor.prepare(request, view, target.vitals.get_hp(), ActionHpExecutor._stat_value(target, StatTypes.StatType.HP_MAX), context.get_rng(), ElementalRules.is_frozen(target))
+		request.attack_group_id = context.damage_attack_group()
+		var plan := ArmorHitExecutor.prepare(request, view, target.vitals.get_hp(), ActionHpExecutor._stat_value(target, StatTypes.StatType.HP_MAX), context.get_rng(), ElementalRules.is_frozen(target), context)
 		if plan.get("reason", &"") != &"": return plan
 		if plan["hp_after"] == 0 and board.board_version >= ActionContext.MAX_ID: return {"reason": &"push/board_version_exhausted"}
 		eligible = actor.combat_perks != null and actor.combat_perks.definition.burning_bypass_hp_gate

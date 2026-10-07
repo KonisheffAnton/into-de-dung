@@ -9,7 +9,7 @@ static func read_run(path: String, deck_mode: bool = false) -> Dictionary:
 		if FileAccess.file_exists(path + ".bak"): return {"run":null, "error":"Сохранение прервано. Сохранена резервная копия: " + path + ".bak"}
 		var rng := RandomNumberGenerator.new()
 		rng.randomize()
-		var fresh := HeroHubState.create(rng.seed)
+		var fresh := HeroHubState.create(rng.seed, 2 if deck_mode else 1)
 		if deck_mode: fresh.enable_mage_deck()
 		return {"run":fresh, "error":""}
 	var file := FileAccess.open(path, FileAccess.READ)
@@ -18,12 +18,12 @@ static func read_run(path: String, deck_mode: bool = false) -> Dictionary:
 	var bytes := file.get_buffer(file.get_length())
 	file.close()
 	var envelope: Variant = bytes_to_var(bytes)
-	if not envelope is Dictionary or envelope.keys().size() != 3 or envelope.get("format") not in ["hero-hub-v1","hero-hub-v2","hero-hub-v3","hero-hub-v4"] or not envelope.get("payload") is PackedByteArray or not envelope.get("sha256") is String:
+	if not envelope is Dictionary or envelope.keys().size() != 3 or envelope.get("format") not in ["hero-hub-v1","hero-hub-v2","hero-hub-v3","hero-hub-v4","hero-hub-v5"] or not envelope.get("payload") is PackedByteArray or not envelope.get("sha256") is String:
 		return {"run":null, "error":"Неизвестный формат сохранения."}
 	var payload: PackedByteArray = envelope.payload
 	if _digest(payload) != envelope.sha256: return {"run":null, "error":"Сохранение повреждено; контрольная сумма не совпала."}
 	var decoded: Variant = bytes_to_var(payload)
-	var schemas := {"hero-hub-v1":1,"hero-hub-v2":2,"hero-hub-v3":3,"hero-hub-v4":4}
+	var schemas := {"hero-hub-v1":1,"hero-hub-v2":2,"hero-hub-v3":3,"hero-hub-v4":4,"hero-hub-v5":5}
 	if not decoded is Dictionary or decoded.get("schema") != schemas[envelope.format]: return {"run":null,"error":"Версия профиля не совпадает с форматом файла."}
 	var expedition: Variant = decoded.get("expedition")
 	if expedition is Dictionary and expedition.get("plan") is Dictionary and not ExpeditionRulesRegistry.matches_content(expedition.plan.get("content"),expedition.get("schema") == 3,expedition.plan.get("schema") == 3):
@@ -39,7 +39,8 @@ static func write_run(path: String, run: HeroHubState) -> String:
 	var absolute := ProjectSettings.globalize_path(path)
 	if DirAccess.make_dir_recursive_absolute(absolute.get_base_dir()) != OK: return "Не удалось создать папку сохранения."
 	var payload := var_to_bytes(run.to_dict())
-	var bytes := var_to_bytes({"format":"hero-hub-v4" if not run.mage_deck.is_empty() else "hero-hub-v3", "payload":payload, "sha256":_digest(payload)})
+	var format := "hero-hub-v5" if run.hero_catalog_version == 2 else ("hero-hub-v4" if not run.mage_deck.is_empty() else "hero-hub-v3")
+	var bytes := var_to_bytes({"format":format, "payload":payload, "sha256":_digest(payload)})
 	if bytes.size() > MAX_BYTES: return "Превышен размер сохранения."
 	var temp := absolute + ".tmp"
 	var file := FileAccess.open(temp, FileAccess.WRITE)

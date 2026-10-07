@@ -795,6 +795,9 @@ func _action_bar_requested(action_id: StringName) -> void:
 				(session as BattleBleedingSession).rune_selected = true
 				_refresh()
 		&"attack": set_attack_mode(true)
+		&"raise_shields":
+			_clear_action_mode()
+			_execute_live(&"raise_shields")
 		&"guard": _use_guard()
 		&"opportunity_guard": _choose_reaction_guard(CombatPerksState.Mode.OPPORTUNIST)
 		&"cover_guard": _choose_reaction_guard(CombatPerksState.Mode.COVER)
@@ -1171,9 +1174,9 @@ func _refresh() -> void:
 	var refresh_turn := (_turn_forecast != null or _turn_forecast_pending) and (_over_end_turn_button() or _forecast_reading_region().has_point(_pointer_position))
 	var refresh_environment := (_environment_forecast != null or _environment_forecast_pending) and (_over_environment_button() or _forecast_reading_region().has_point(_pointer_position))
 	var refresh_armor := (_armor_forecast != null or (_action_forecast_pending and _action_forecast_kind == &"armor")) and _hovered_bar_action == &"restore_armor"
-	var refresh_guard_action := _hovered_bar_action if _guard_forecast != null or (_action_forecast_pending and _action_forecast_kind in [&"guard", &"opportunity", &"counterattack"]) else &""
+	var refresh_guard_action := _hovered_bar_action if _guard_forecast != null or (_action_forecast_pending and _action_forecast_kind in [&"guard", &"opportunity", &"counterattack", &"raise_shields"]) else &""
 	var refresh_healing := (_item_forecast != null or (_action_forecast_pending and _action_forecast_kind == &"healing")) and _hovered_bar_action == &"healing_item"
-	var refresh_guard := refresh_guard_action in [&"guard", &"opportunity_guard", &"counterattack_guard"]
+	var refresh_guard := refresh_guard_action in [&"guard", &"opportunity_guard", &"counterattack_guard", &"raise_shields"]
 	var reset_dynamic_page := _descriptors_session_id != session.get_instance_id() or _descriptors_actor != session.selected_id
 	_clear_forecast()
 	if inspected_id != UnitId.NONE:
@@ -1244,6 +1247,9 @@ func _refresh() -> void:
 		if session is BattleCoreCombinationSession and (not session is BattleCoreReactionsSession or (session as BattleCoreReactionsSession).allows_loadout_action(&"entangling_strike")):
 			descriptors.append({"action_id": &"entangling_strike", "label": "Опутывающий удар", "cost": "1 основное", "disabled": locked or session.selected_unit() == null or not session.selected_unit().can_attack() or ControlRules.action_reason(session.selected_unit()) != &"", "tooltip": "Обычный урон и толчок, затем путы при физическом HP-уроне. Без кровотечения. Движение цели запрещено до конца её ближайшего хода; следующий фактический толчок снимает путы. Повтор не накапливает срок."})
 			descriptors.append(_item_action_descriptor(seal, &"summoning_item", _battle.summoning_hint_reason()))
+		if _battle != null and session.selected_unit() != null and session.selected_unit().armor != null and not session.selected_unit().armor.raised_shield.is_empty():
+			var shield_reason := _battle.raise_shields_reason()
+			descriptors.append({"action_id": &"raise_shields", "label": "Поднять щиты", "cost": "1 основное · откат 1", "disabled": locked or shield_reason != &"", "tooltip": "Блокирует 90% прямого урона первой атаки до начала следующего своего хода. Все попадания этой атаки; движение и Оппортунист сохраняют защиту. Не защищает от тиков, падения и контроля.\n" + (_reason_text(shield_reason) if shield_reason != &"" else "Следующий свой ход недоступно, затем можно повторить.")})
 		if session is BattleCoreReactionsSession and session.selected_unit() != null and session.selected_unit().combat_perks != null and session.selected_unit().combat_perks.definition.tank_reactions:
 			var reaction_session := session as BattleCoreReactionsSession
 			var opportunity_reason := reaction_session.reaction_reason(CombatPerksState.Mode.OPPORTUNIST)
@@ -1407,7 +1413,7 @@ func _perk_status_text(unit: UnitState) -> String:
 	if unit.combat_perks.definition.stun_immune: parts.append("иммунитет к оглушению")
 	if unit.combat_perks.definition.entangle_immune: parts.append("иммунитет к путам")
 	if MeleeThreat.has_reactions(unit):
-		var mode_text := "без режима"
+		var mode_text := "Оппортунист (пассивный)" if MeleeThreat.has_passive_opportunist(unit) else "без режима"
 		if unit.combat_perks.mode == CombatPerksState.Mode.OPPORTUNIST: mode_text = "Оппортунист"
 		elif unit.combat_perks.mode == CombatPerksState.Mode.COVER: mode_text = "Прикрытие → " + _name_for(unit.combat_perks.cover_target_id)
 		elif unit.combat_perks.mode == CombatPerksState.Mode.COUNTERATTACK: mode_text = "Контратака"
@@ -1427,11 +1433,12 @@ func _inspection_text(unit: UnitState) -> String:
 		if unit.combat_perks.definition.stun_immune: control_text += "Иммунитет к оглушению: полученный удар и толчок сохраняются.\n"
 		if unit.combat_perks.definition.entangle_immune: control_text += "Иммунитет к путам: полученный удар и толчок сохраняются.\n"
 		if MeleeThreat.has_reactions(unit):
-			var mode_text := "нет"
+			var mode_text := "Оппортунист (пассивный)" if MeleeThreat.has_passive_opportunist(unit) else "нет"
 			if unit.combat_perks.mode == CombatPerksState.Mode.OPPORTUNIST: mode_text = "Оппортунист"
 			elif unit.combat_perks.mode == CombatPerksState.Mode.COVER: mode_text = "Прикрытие: " + _name_for(unit.combat_perks.cover_target_id)
 			elif unit.combat_perks.mode == CombatPerksState.Mode.COUNTERATTACK: mode_text = "Контратака"
 			control_text += "Режим реакции: %s · %s: %d. Восстановление в начале хода своей команды.\n" % [mode_text, "дополнительных действий" if unit.combat_perks.uses_bonus_actions else "общий заряд", MeleeThreat.reaction_points(unit)]
+			if MeleeThreat.has_passive_opportunist(unit): control_text += "Выход врага из ближней угрозы: удар и остановка за 1 дополнительное действие. Без включения стойки; безопасный отход и принудительное движение не вызывают реакцию.\n"
 		if unit.combat_perks.movement_stopped: control_text += "Движение остановлено Оппортунистом до следующего пополнения команды цели.\n"
 	var piercing := unit.get_stat(StatTypes.StatType.PHYSICAL_PIERCING_PERCENT)
 	if piercing > 0.0:
@@ -1447,6 +1454,8 @@ func _inspection_text(unit: UnitState) -> String:
 	if session.state.is_summon(unit.id):
 		text += "\nПомощник верховного мага: до гибели / конца боя." if session.state.is_mage_summon(unit.id) else "\nПомощник: до гибели / конца боя; владелец " + _name_for(session.state.summon_owner_id(unit.id))
 		text += "\nДействия со следующего хода своей команды." if session.state.is_summon_pending(unit.id) else "\nГотов действовать."
+	if unit.armor != null and not unit.armor.raised_shield.is_empty():
+		text += "\nПоднять щиты: " + ("активно · −90% урона первой атаки" if unit.armor.raised_shield.active else "не активно")
 	if unit.armor != null and not unit.armor.shield.is_empty():
 		text += "\nЩит: %d HP · осталось попаданий: %d. Поглощает любой урон до защит и брони." % [int(unit.armor.shield.hp), int(unit.armor.shield.hits_left)]
 	var descriptions: Array[String] = []
@@ -1743,6 +1752,7 @@ func _action_forecast_request_current() -> bool:
 	match _action_forecast_kind:
 		&"healing": return _hovered_bar_action == &"healing_item" or over_panel
 		&"armor": return _hovered_bar_action == &"restore_armor" or over_panel
+		&"raise_shields": return _hovered_bar_action == &"raise_shields" or over_panel
 		&"guard": return _hovered_bar_action == &"guard" or over_panel
 		&"opportunity": return _hovered_bar_action == &"opportunity_guard" or over_panel
 		&"counterattack": return _hovered_bar_action == &"counterattack_guard" or over_panel
@@ -1781,7 +1791,7 @@ func _process_action_forecast() -> void:
 		_action_forecast_pending = false
 		match _action_forecast_kind:
 			&"healing", &"summon": _item_forecast = ItemUseForecast.from_simulation(result)
-			&"guard", &"opportunity", &"cover", &"counterattack": _guard_forecast = GuardForecast.from_simulation(result, _action_forecast_actor)
+			&"guard", &"opportunity", &"cover", &"counterattack", &"raise_shields": _guard_forecast = GuardForecast.from_simulation(result, _action_forecast_actor)
 			&"raise": _raise_forecast = RaiseCorpseForecast.from_simulation(result, _action_forecast_actor, _action_forecast_corpse_id)
 			&"armor": _armor_forecast = result
 			&"elemental", &"mage_card": _elemental_forecast = result
@@ -1797,6 +1807,7 @@ func _process_action_forecast() -> void:
 		&"summon": prepared = _battle.prepare_item_forecast(ItemUseAction.Kind.SUMMON_ADJACENT, _action_forecast_cell)
 		&"guard", &"opportunity", &"cover", &"counterattack": prepared = _battle.prepare_guard_forecast(_guard_forecast_mode, _guard_forecast_target)
 		&"raise": prepared = (session as BattleEnvironmentSession).prepare_raise_corpse_forecast(_action_forecast_cell)
+		&"raise_shields": prepared = _battle.prepare_raise_shields_forecast()
 		&"armor": prepared = (session as BattleArmorSession).prepare_restore_armor_forecast()
 		&"elemental":
 			var reaction_session := session as BattleCoreReactionsSession
@@ -1891,7 +1902,7 @@ func _resolve_hover_exit() -> void:
 	if session == null or board_view.hover_cell.x >= 0 or (_forecast == null and not _attack_forecast_pending and not _action_forecast_pending and _item_forecast == null and _move_forecast == null and _raise_forecast == null and _guard_forecast == null and _armor_forecast == null and _elemental_forecast == null): return
 	if _item_forecast_kind == &"healing" and _hovered_bar_action == &"healing_item": return
 	if (_armor_forecast != null or (_action_forecast_pending and _action_forecast_kind == &"armor")) and _hovered_bar_action == &"restore_armor": return
-	if (_guard_forecast != null or (_action_forecast_pending and _action_forecast_kind in [&"guard", &"opportunity", &"counterattack"])) and _hovered_bar_action in [&"guard", &"opportunity_guard", &"counterattack_guard"]: return
+	if (_guard_forecast != null or (_action_forecast_pending and _action_forecast_kind in [&"guard", &"opportunity", &"counterattack", &"raise_shields"])) and _hovered_bar_action in [&"guard", &"opportunity_guard", &"counterattack_guard", &"raise_shields"]: return
 	if _forecast_reading_region().has_point(_pointer_position): return
 	_clear_forecast()
 	_refresh_inspection()
@@ -2168,8 +2179,17 @@ func _action_bar_hovered(action_id: StringName) -> void:
 	_update_area_preview()
 	if previous == &"healing_item" and action_id != &"healing_item": _resolve_item_hover_exit.call_deferred()
 	if previous == &"guard" and action_id != &"guard": _resolve_guard_hover_exit.call_deferred()
-	if previous in [&"opportunity_guard", &"counterattack_guard"] and action_id != previous: _resolve_guard_hover_exit.call_deferred()
+	if previous in [&"opportunity_guard", &"counterattack_guard", &"raise_shields"] and action_id != previous: _resolve_guard_hover_exit.call_deferred()
 	if previous == &"restore_armor" and action_id != &"restore_armor": _resolve_armor_hover_exit.call_deferred()
+	if action_id == &"raise_shields":
+		if _battle == null or not _battle.can_player_act(): return
+		var revision := session.context.get_revision()
+		if (_guard_forecast != null or _action_forecast_pending) and _action_forecast_kind == &"raise_shields" and _guard_forecast_actor == session.selected_id and _guard_forecast_revision == revision: return
+		_clear_forecast()
+		_guard_forecast_actor = session.selected_id
+		_guard_forecast_revision = revision
+		_request_action_forecast(&"raise_shields")
+		return
 	if action_id == &"opportunity_guard":
 		if not session is BattleCoreReactionsSession or not _battle.can_player_act(): return
 		var revision := session.context.get_revision()
@@ -2205,7 +2225,7 @@ func _action_bar_hovered(action_id: StringName) -> void:
 	if action_id == &"guard":
 		if _battle == null or not _battle.can_player_act(): return
 		var revision := session.context.get_revision()
-		if (_guard_forecast != null or _action_forecast_pending) and _guard_forecast_actor == session.selected_id and _guard_forecast_revision == revision and _guard_forecast_mode == CombatPerksState.Mode.NONE: return
+		if (_guard_forecast != null or _action_forecast_pending) and _guard_forecast_actor == session.selected_id and _guard_forecast_revision == revision and _guard_forecast_mode == CombatPerksState.Mode.NONE and _action_forecast_kind == &"guard": return
 		_clear_forecast()
 		_guard_forecast_actor = session.selected_id
 		_guard_forecast_revision = revision
@@ -2229,7 +2249,7 @@ func _action_bar_hover_left(action_id: StringName) -> void:
 	if _hovered_bar_action == action_id: _hovered_bar_action = &""
 	_update_area_preview()
 	if action_id == &"restore_armor": _resolve_armor_hover_exit.call_deferred()
-	if action_id in [&"guard", &"opportunity_guard", &"counterattack_guard"]: _resolve_guard_hover_exit.call_deferred()
+	if action_id in [&"guard", &"opportunity_guard", &"counterattack_guard", &"raise_shields"]: _resolve_guard_hover_exit.call_deferred()
 	if action_id != &"healing_item" or _item_forecast_kind != &"healing": return
 	_resolve_item_hover_exit.call_deferred()
 
@@ -2253,18 +2273,18 @@ func _update_action_bar_hover() -> void:
 				action_id = StringName(button.get_meta("action_id", &""))
 				break
 	if action_id == _hovered_bar_action:
-		if (action_id in [&"guard", &"opportunity_guard", &"counterattack_guard"] and (_guard_forecast != null or _action_forecast_pending)) or (action_id == &"restore_armor" and (_armor_forecast != null or _action_forecast_pending)) or (action_id == &"healing_item" and (_item_forecast != null or _action_forecast_pending)): _action_bar_hovered(action_id)
+		if (action_id in [&"guard", &"opportunity_guard", &"counterattack_guard", &"raise_shields"] and (_guard_forecast != null or _action_forecast_pending)) or (action_id == &"restore_armor" and (_armor_forecast != null or _action_forecast_pending)) or (action_id == &"healing_item" and (_item_forecast != null or _action_forecast_pending)): _action_bar_hovered(action_id)
 		return
 	var previous := _hovered_bar_action
 	_hovered_bar_action = action_id
 	_update_area_preview()
-	if previous in [&"healing_item", &"guard", &"opportunity_guard", &"counterattack_guard", &"restore_armor"]: _action_bar_hover_left(previous)
-	if action_id in [&"healing_item", &"guard", &"opportunity_guard", &"counterattack_guard", &"restore_armor"]: _action_bar_hovered(action_id)
+	if previous in [&"healing_item", &"guard", &"opportunity_guard", &"counterattack_guard", &"raise_shields", &"restore_armor"]: _action_bar_hover_left(previous)
+	if action_id in [&"healing_item", &"guard", &"opportunity_guard", &"counterattack_guard", &"raise_shields", &"restore_armor"]: _action_bar_hovered(action_id)
 
 func _resolve_guard_hover_exit() -> void:
 	if is_execution_pending(): return
-	if session == null or (_guard_forecast == null and not (_action_forecast_pending and _action_forecast_kind in [&"guard", &"opportunity", &"counterattack"])): return
-	if _hovered_bar_action in [&"guard", &"opportunity_guard", &"counterattack_guard"] or _forecast_reading_region().has_point(_pointer_position): return
+	if session == null or (_guard_forecast == null and not (_action_forecast_pending and _action_forecast_kind in [&"guard", &"opportunity", &"counterattack", &"raise_shields"])): return
+	if _hovered_bar_action in [&"guard", &"opportunity_guard", &"counterattack_guard", &"raise_shields"] or _forecast_reading_region().has_point(_pointer_position): return
 	_clear_forecast()
 	_refresh_inspection()
 
@@ -2276,7 +2296,7 @@ func _render_guard_forecast_panel() -> void:
 	_forecast_heading.text = "ПРОГНОЗ · КОЛЕСО НА ПАНЕЛИ"
 	_log.visible = false
 	_log_heading.visible = false
-	var text := "[font_size=16][color=#f7c97d]Охранная стойка · %s[/color][/font_size]\n" % _name_for(_guard_forecast_actor)
+	var text := "[font_size=16][color=#f7c97d]%s · %s[/color][/font_size]\n" % ["Поднять щиты" if _action_forecast_kind == &"raise_shields" else "Охранная стойка", _name_for(_guard_forecast_actor)]
 	if _guard_forecast.status != ActionReceipt.APPLIED:
 		_forecast_panel.text = text + "[color=#f29b9b]Прогноз недоступен[/color]\n" + _reason_text(_guard_forecast.reason)
 		return
@@ -2284,6 +2304,9 @@ func _render_guard_forecast_panel() -> void:
 	var before: Dictionary = row["before"]
 	var after: Dictionary = row["after"]
 	text += "Основные: %d → %d (расход %d)\nБонусные: %d → %d\nДвижение: %.1f → %.1f\n" % [before["main"], after["main"], int(before["main"]) - int(after["main"]), before["bonus"], after["bonus"], before["move"], after["move"]]
+	if _action_forecast_kind == &"raise_shields":
+		_forecast_panel.text = text + "90% урона первой атаки до начала следующего своего хода.\nДвижение и Оппортунист сохраняются. Откат: 1 полный следующий свой ход."
+		return
 	text += "Стойка: %s → %s\n" % ["включена" if before["guard_stance"] else "выключена", "включена" if after["guard_stance"] else "выключена"]
 	text += "До следующего хода команды; добровольные движение и атака снимают стойку.\nКлик или клавиша 2 — занять стойку."
 	_forecast_panel.text = text
@@ -2547,6 +2570,10 @@ func _cell_name(cell: Vector2i) -> String:
 
 func _reason_text(reason: StringName) -> String:
 	match reason:
+		&"raise_shields/cooldown": return "Поднять щиты восстанавливается: следующий свой ход нужно пропустить."
+		&"raise_shields/already_active": return "Щиты уже подняты до первой атаки или следующего своего хода."
+		&"raise_shields/insufficient_main": return "Нужно 1 основное действие."
+		&"raise_shields/not_owned": return "У бойца нет способности Поднять щиты."
 		&"mage/cooldown": return "Заклинание восстанавливается до конца следующих своих ходов."
 		&"mage/insufficient_mana": return "Недостаточно маны мага."
 		&"mage/full_hp": return "Для лечения нужен раненый живой союзник."

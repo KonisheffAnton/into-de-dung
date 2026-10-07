@@ -40,7 +40,7 @@ static func publish(demo: BattleDemo) -> void:
 		if AbilityDefinition.is_cell_spell(demo._action_forecast_effect): cell = demo._action_forecast_cell
 		if demo._action_forecast_kind == &"mage_card" and demo._action_forecast_effect in [&"card.summon", &"card.raise"]: cell = demo._action_forecast_cell
 	elif demo._guard_forecast != null:
-		title = "Стойка"
+		title = "Поднять щиты" if demo._action_forecast_kind == &"raise_shields" else "Стойка"
 		value = demo._guard_forecast
 		if demo._guard_forecast_target > 0: primary = demo._guard_forecast_target
 		cell = board._view_unit_cell(primary)
@@ -89,13 +89,15 @@ static func publish(demo: BattleDemo) -> void:
 			var after: Variant = units[id].get("after")
 			if after is Dictionary and after.has("name"): names[id] = after.name
 	var model := BattleCompactForecast.build(title, status, demo._reason_text(reason), units, events, primary, names, pending)
+	if demo._action_forecast_kind == &"raise_shields" and value is GuardForecast and status == ActionReceipt.APPLIED:
+		model.text += "\nПервая атака: −90% урона · откат 1"
 	if value is TurnForecast and status == ActionReceipt.APPLIED:
 		var phases := {BattleTacticalSession.Phase.ENEMY_TURN: "Ход противника", BattleTacticalSession.Phase.VICTORY: "Победа", BattleTacticalSession.Phase.DEFEAT: "Поражение", BattleTacticalSession.Phase.MUTUAL_DESTRUCTION: "Обе команды погибли"}
 		model.text += "\n" + String(phases.get(value.phase_after, "Переход завершён"))
 	board.compact_forecast.publish(model, cell, board)
 
 static func _action_title(kind: StringName) -> String:
-	return {&"armor": "Восстановление брони", &"elemental": "Способность", &"guard": "Стойка", &"raise": "Поднять тело", &"summon": "Призыв", &"heal": "Лечение"}.get(kind, "Действие")
+	return {&"armor": "Восстановление брони", &"elemental": "Способность", &"guard": "Стойка", &"raise_shields": "Поднять щиты", &"raise": "Поднять тело", &"summon": "Призыв", &"heal": "Лечение"}.get(kind, "Действие")
 
 static func _card_title(type_id: StringName) -> String:
 	var definition := MageCardCatalog.get_card(String(type_id))

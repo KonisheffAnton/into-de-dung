@@ -300,10 +300,10 @@ func _hero_detail(hero: HeroProgression) -> String:
 	var base_stats := "Мощь %d · Ловкость %d · Выносливость %d · Интеллект %d" % [stats[0], stats[1], stats[2], stats[3]]
 	var xp_text := "%d.%d опыта всего" % [hero.xp_tenths / 10, hero.xp_tenths % 10]
 	var perk := HeroCatalog.perk_text(hero.perk)
-	var weapon_name: String = {"warrior":"меч", "archer":"лук", "rogue":"кинжал", "mage":"посох"}.get(String(hero.class_id), "оружие класса")
+	var weapon_name: String = {"warrior":"меч", "shieldbearer":"меч", "archer":"лук", "rogue":"кинжал", "mage":"посох"}.get(String(hero.class_id), "оружие класса")
 	var abilities := definition.abilities_text
 	if hero.class_id == &"mage": abilities += " Броня +20."
-	abilities += " Общие действия: походный флакон (4 + Мощь), общий отход и стойка."
+	abilities += " Общие действия: походный флакон (4 + Мощь), стойка." if hero.class_id == &"shieldbearer" else " Общие действия: походный флакон (4 + Мощь), общий отход и стойка."
 	var allowed := "Оружие: только %s своего класса · доспехи: любое обычное имеющееся" % weapon_name
 	return "%s\n%s\nУровень %d · %s · свободно очков: %d\nПерк: %s\nБазовые атрибуты: Мощь %d / Ловкость %d / Выносливость %d / Интеллект %d\nHP %.1f/%d · равновесие %d · движение %.0f · сопротивление огню %d%%\nБроня надетого доспеха: %s · базовый урон оружия: %s\nСпособности: %s\nДопуски: %s" % [hero.name, base_stats, hero.level(), xp_text, hero.available_points(), perk, hero.base_attributes[0], hero.base_attributes[1], hero.base_attributes[2], hero.base_attributes[3], hero.hp_current, hero.max_hp(), hero.balance_max(), hero.move_max(), hero.fire_resistance(), armor_text, String.num(weapon_damage).trim_suffix(".0"), abilities, allowed]
 

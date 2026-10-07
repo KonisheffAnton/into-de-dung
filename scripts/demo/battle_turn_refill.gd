@@ -58,6 +58,8 @@ func execute(context: ActionContext) -> CommandStepResult:
 			return failure
 		changed = true
 		unit.guard_stance = false
+		if unit.armor != null and not unit.armor.raised_shield.is_empty():
+			unit.armor.raised_shield = RaisedShield.expired(unit.armor.raised_shield)
 		if unit.combat_perks != null:
 			unit.combat_perks.movement_stopped = false
 			if not unit.combat_perks.uses_bonus_actions:

@@ -1,8 +1,11 @@
 extends Resource
 class_name HeroCatalog
 
-static func class_ids() -> Array[StringName]:
-	return [&"warrior", &"archer", &"rogue", &"mage"]
+static func class_ids(catalog_version: int = 1) -> Array[StringName]:
+	match catalog_version:
+		1: return [&"warrior", &"archer", &"rogue", &"mage"]
+		2: return [&"shieldbearer", &"archer", &"rogue", &"mage"]
+		_: return []
 
 static func class_definition(id: StringName) -> HeroClassDefinition:
 	var definition := HeroClassDefinition.new()
@@ -16,6 +19,14 @@ static func class_definition(id: StringName) -> HeroClassDefinition:
 			definition.armor_max = 40
 			definition.abilities_text = "Удар, оглушающий удар, реакционные стойки."
 			definition.equipment_text = "Броня воина и оружие ближнего боя."
+		&"shieldbearer":
+			definition.display_name = "Щитоносец"
+			definition.base_attributes = [3, 2, 3, 1]
+			definition.attack_range = 1
+			definition.weapon_damage = 4
+			definition.armor_max = 40
+			definition.abilities_text = "Оппортунист (пассивный); Поднять щиты: 90% первой атаки, 1 основное действие, перезарядка 1."
+			definition.equipment_text = "Броня Щитоносца и оружие ближнего боя."
 		&"archer":
 			definition.display_name = "Стрелок"
 			definition.base_attributes = [3, 3, 2, 1]

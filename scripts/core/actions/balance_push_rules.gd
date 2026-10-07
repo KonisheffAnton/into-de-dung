@@ -279,7 +279,7 @@ static func requests_sealed(binding: Binding) -> bool:
 static func _same_request(left: DamageRequest, right: DamageRequest) -> bool:
 	if left == null and right == null: return true
 	if left == null or right == null or left.target_unit_id != right.target_unit_id or left.amount != right.amount or left.damage_type != right.damage_type or left.armor_mode != right.armor_mode or left.source == null or right.source == null: return false
-	return left.source.to_dict() == right.source.to_dict() and left.armor_components == right.armor_components
+	return left.source.to_dict() == right.source.to_dict() and left.armor_components == right.armor_components and left.attack_group_id == right.attack_group_id
 
 static func spatial_valid(binding: Binding, context: ActionContext, phase: StringName, admission: bool = false) -> bool:
 	if not binding.sealed() or binding.context != context or binding.values.get("phase") != phase or not requests_sealed(binding): return false
@@ -432,7 +432,7 @@ static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, ta
 		var armor_raw := ArmorFraction.from_decimal(_stat(actor, StatTypes.StatType.STRENGTH)).add(ArmorFraction.from_decimal(_stat(actor, StatTypes.StatType.WEAPON_DAMAGE)))
 		if not armor_raw.valid: out["reason"] = &"armor/invalid_component"; return out
 		binding.values["armor_raw"] = {"numerator": maxi(0, armor_raw.numerator), "denominator": armor_raw.denominator}
-		var plan := ArmorHitExecutor.prepare(armor_request, guard.values["participants"][target.id]["armor"], target.vitals.get_hp(), _stat(target, StatTypes.StatType.HP_MAX), context.get_rng(), ElementalRules.is_frozen(target))
+		var plan := ArmorHitExecutor.prepare(armor_request, guard.values["participants"][target.id]["armor"], target.vitals.get_hp(), _stat(target, StatTypes.StatType.HP_MAX), context.get_rng(), ElementalRules.is_frozen(target), context)
 		if plan.get("reason", &"") != &"": out["reason"] = plan["reason"]; return out
 		binding.values["armor"] = true
 		binding.values["armor_plan"] = plan

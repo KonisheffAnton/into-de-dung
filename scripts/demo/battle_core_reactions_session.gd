@@ -15,6 +15,7 @@ func visible_action_descriptors(available: Array[Dictionary]) -> Array[Dictionar
 	var actor := selected_unit()
 	var desired: Array = [&"entangling_strike", &"safe_retreat"]
 	if MeleeThreat.has_tank(actor): desired = [&"opportunity_guard", &"stunning_strike"]
+	elif actor != null and actor.armor != null and not actor.armor.raised_shield.is_empty(): desired = [&"raise_shields"]
 	elif MeleeThreat.has_counterattack(actor): desired = [&"counterattack_guard", &"safe_retreat"]
 	elif actor_loadouts.get(selected_id, {}).get("class_id", &"") == &"mage": desired = [&"restore_armor", &"healing_item"]
 	if action_slot_overrides.has(selected_id): desired = action_slot_overrides[selected_id]

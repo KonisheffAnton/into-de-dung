@@ -2,7 +2,7 @@ extends RefCounted
 class_name BattleExecutionWorker
 
 ## Session передаётся целиком одному исполнителю; UI возвращает её только после join.
-const METHODS: Array[StringName] = [&"click_attack", &"move_to", &"retreat_to", &"attack_unit", &"cast_unit", &"cast_mage_spell", &"cast_mage_cell", &"play_mage_card", &"replace_mage_card", &"guard_selected", &"use_healing_item", &"use_summoning_item", &"raise_corpse", &"restore_selected_armor", &"set_reaction_guard", &"end_player_turn", &"step_enemy"]
+const METHODS: Array[StringName] = [&"click_attack", &"move_to", &"retreat_to", &"attack_unit", &"cast_unit", &"cast_mage_spell", &"cast_mage_cell", &"play_mage_card", &"replace_mage_card", &"guard_selected", &"raise_shields", &"use_healing_item", &"use_summoning_item", &"raise_corpse", &"restore_selected_armor", &"set_reaction_guard", &"end_player_turn", &"step_enemy"]
 
 var _thread: Thread
 var _session: BattleCoreReactionsSession

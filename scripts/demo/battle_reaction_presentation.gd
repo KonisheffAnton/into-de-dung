@@ -35,12 +35,14 @@ static func details(view: Dictionary, names: Dictionary) -> String:
 	if view.is_empty(): return ""
 	var mode := int(view.get("mode", 0))
 	var text := "Стойка: " + ("активна" if bool(view.get("guard", false)) else "снята")
+	if bool(view.get("passive_opportunist", false)): text = "Пассивная реакция"
 	if mode != 0:
 		text += " · " + mode_name(mode)
 		text += " · " + ("готов" if bool(view.get("ready", false)) else "не готов")
 	if bool(view.get("owned", false)):
 		if bool(view.get("uses_bonus", false)):
-			text += "\nРеакция расходует 1 дополнительное действие. Запас восстанавливается в начале хода своей команды; выбор режима его не пополняет."
+			text += "\nРеакция расходует 1 дополнительное действие. Запас восстанавливается в начале хода своей команды."
+			if not bool(view.get("passive_opportunist", false)): text += " Выбор режима его не пополняет."
 		else:
 			text += "\nОбщий заряд реакции: %d/1. Восстанавливается в начале хода своей команды. Выбор режима не пополняет заряд." % int(view.get("charge", 0))
 	if mode == CombatPerksState.Mode.COVER:

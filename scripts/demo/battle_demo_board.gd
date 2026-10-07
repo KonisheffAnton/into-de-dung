@@ -145,6 +145,7 @@ func show_presentation_state(value: Dictionary) -> void:
 		_view_units.append({"unit": view, "cell": row.cell, "selected": view.id == displayed_selected_id,
 			"attack_range": float(row.get("attack_range", 1.0)),
 			"shield": row.get("shield", {}).duplicate(true), "pending": bool(row.get("pending", false)),
+			"raised_shield": row.get("raised_shield", {}).duplicate(true),
 			"inspected": false, "show_rear": false, "armor": row.armor.duplicate(true),
 			"statuses": BattleStatusPresentation.entries(row), "resources": _presentation_resources(row),
 			"reaction_view": row.get("reaction_view", {}).duplicate(true)})
@@ -1247,6 +1248,7 @@ func displayed_unit_details(unit_id: int) -> String:
 		if not resources.is_empty():
 			lines.append("Действия: основное %d · доп. %d · движение %.1f" % [int(resources.get("main", 0)), int(resources.get("bonus", 0)), float(resources.get("move", 0))])
 		lines.append(BattleStatusPresentation.details(row.get("statuses", [])))
+		if bool(row.get("raised_shield", {}).get("active", false)): lines.append("Поднять щиты: блок 90% прямого урона первой атаки; до следующего своего хода.")
 		var reaction_details := BattleReactionPresentation.details(row.get("reaction_view", {}), displayed_names())
 		if not reaction_details.is_empty(): lines.append(reaction_details)
 		return "\n".join(lines)
@@ -1341,6 +1343,7 @@ func _rebuild_visuals() -> void:
 		visual.show_rear = bool(row["show_rear"])
 		visual.armor_values = (row["armor"] as Dictionary).duplicate(true)
 		visual.shield_view = row.get("shield", {}).duplicate(true)
+		visual.raised_shield_view = row.get("raised_shield", {}).duplicate(true)
 		visual.summon_pending = bool(row.get("pending", false))
 		visual.status_entries.assign(row.get("statuses", []).duplicate(true))
 		visual.reaction_view = row.get("reaction_view", {}).duplicate(true)
@@ -1415,7 +1418,9 @@ func _capture_board_view(board: BattleBoard) -> void:
 			var loadout: Variant = (session as BattleCoreReactionsSession).actor_loadouts[unit_id]
 			if loadout is Dictionary:
 				_view_actor_classes[int(unit_id)] = StringName(loadout.get("class_id", &""))
-				_view_visual_classes[int(unit_id)] = StringName(loadout.get("class_id", &""))
+				# Отдельный рисунок класса не должен менять его игровой loadout.
+				if not _view_visual_classes.has(int(unit_id)):
+					_view_visual_classes[int(unit_id)] = StringName(loadout.get("class_id", &""))
 	# Рендер и resize читают эту копию, чтобы worker не менял уже показанный кадр.
 	_view_width = board.width if board != null else 0
 	_view_height = board.height if board != null else 0
@@ -1450,6 +1455,7 @@ func _capture_board_view(board: BattleBoard) -> void:
 			"show_rear": session is BattleControlSession or (session is BattleCoreCombinationSession and not session is BattleCoreReactionsSession),
 			"armor": armor.duplicate(true),
 			"shield": unit.armor.shield.duplicate(true) if unit.armor != null else {}, "pending": session.state.is_summon_pending(unit.id),
+			"raised_shield": unit.armor.raised_shield.duplicate(true) if unit.armor != null else {},
 			"reaction_view": ActionPresentationState.capture_reaction_view(session.state, unit),
 			"statuses": BattleStatusPresentation.entries({
 				"shield": unit.armor.shield.duplicate(true) if unit.armor != null else {},

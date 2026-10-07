@@ -10,8 +10,11 @@ static func has_tank(unit: UnitState) -> bool:
 static func has_counterattack(unit: UnitState) -> bool:
 	return unit != null and unit.combat_perks != null and unit.combat_perks.definition.counterattack
 
+static func has_passive_opportunist(unit: UnitState) -> bool:
+	return unit != null and unit.combat_perks != null and unit.combat_perks.definition.passive_opportunist
+
 static func has_reactions(unit: UnitState) -> bool:
-	return has_tank(unit) or has_counterattack(unit)
+	return has_tank(unit) or has_counterattack(unit) or has_passive_opportunist(unit)
 
 ## Старые снимки сохраняют прежнюю оплату; новые бои читают только дополнительное действие.
 static func reaction_points(unit: UnitState) -> int:
@@ -48,8 +51,14 @@ static func reaction_ready(context: ActionContext, unit: UnitState, mode: int) -
 	return reaction_ready_state(context.get_state(), unit, mode)
 
 static func reaction_ready_state(state: ItemSimulationState, unit: UnitState, mode: int) -> bool:
+	if unit == null or unit.combat_perks == null: return false
+	var passive_opportunist: bool = mode == CombatPerksState.Mode.OPPORTUNIST and has_passive_opportunist(unit)
 	var owned: bool = has_counterattack(unit) if mode == CombatPerksState.Mode.COUNTERATTACK else has_tank(unit)
-	return owned and unit.is_alive() and unit.guard_stance and unit.combat_perks.mode == mode and reaction_points(unit) > 0 and ControlRules.action_reason(unit) == &"" and not state.is_summon_pending(unit.id)
+	if mode == CombatPerksState.Mode.COVER or mode == CombatPerksState.Mode.COUNTERATTACK: passive_opportunist = false
+	if not (owned or passive_opportunist) or not unit.is_alive() or reaction_points(unit) <= 0 or ControlRules.action_reason(unit) != &"" or state.is_summon_pending(unit.id): return false
+	# Пассивный перк запускает только уход от угрозы и потому не зависит от оплаченной стойки.
+	if passive_opportunist: return true
+	return unit.guard_stance and unit.combat_perks.mode == mode
 
 static func cover_eligible(context: ActionContext, tank: UnitState, ally: UnitState) -> bool:
 	if tank == null or ally == null or tank == ally or not tank.is_alive() or not ally.is_alive() or not tank.is_friendly_to(ally): return false

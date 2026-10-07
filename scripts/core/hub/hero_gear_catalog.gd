@@ -12,7 +12,7 @@ static func definition(key: String) -> ItemDef:
 		result.display_name = "Доспех · " + hero_class.display_name
 		result.armor_max = hero_class.armor_max
 	else:
-		result.display_name = {"warrior":"Меч", "archer":"Лук", "rogue":"Кинжал", "mage":"Посох"}[parts[1]]
+		result.display_name = {"warrior":"Меч", "shieldbearer":"Меч", "archer":"Лук", "rogue":"Кинжал", "mage":"Посох"}[parts[1]]
 		# Посох усиливает огненный компонент определения атаки, а не физическую базу.
 		if parts[1] != "mage":
 			var modifier := StatModifierEffect.new()

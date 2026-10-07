@@ -109,6 +109,7 @@ static func valid(value: Variant) -> bool:
 	for id: String in ids:
 		if schema == 2 and id.begins_with("mage."): return false
 		if fixed.has(id): continue
+		if id == "unit.raise_shields" and ids[id].to_dict() == RaiseShieldsCommand.definition().to_dict(): continue
 		if schema == 1 and (AbilityDefinition.TEST_EFFECTS.has(StringName(id)) or AbilityDefinition.TEST_SUPPORT_EFFECTS.has(StringName(id))): continue
 		# Ссылки предметов сверяет envelope; ссылки атак — контекст с AttackRules.
 		if id.begins_with("attack:") and id.length() > 7: continue

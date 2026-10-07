@@ -75,6 +75,9 @@ static func create(run: HeroHubState) -> Dictionary:
 			unit.combat_perks.definition.counterattack = hero.class_id == &"warrior"
 			unit.combat_perks.definition.stunning_strike = hero.class_id == &"warrior"
 			unit.combat_perks.definition.sneak_attack = hero.class_id == &"rogue"
+			if hero.class_id == &"shieldbearer":
+				unit.combat_perks.definition.passive_opportunist = true
+				unit.armor.raised_shield = RaisedShield.make()
 			hero_units[hero.id] = unit.id
 			var attack := _attack(MageDeckRules.hero_attack_id(unit.id))
 			if hero.class_id == &"mage":
@@ -82,6 +85,7 @@ static func create(run: HeroHubState) -> Dictionary:
 				attack.damage_components.append(_fire(hero.attributes()[0] + (hero_class.weapon_damage if not weapon.is_empty() else 0)))
 			definitions.append(attack)
 			session.actor_loadouts[unit.id] = {"class_id":hero.class_id,"attack_id":attack.id}
+			if hero.class_id == &"shieldbearer": session.unit_visual_classes[unit.id] = &"warrior"
 		elif enemy_data.is_empty() or enemy_data.role in ["guard", "shield"]:
 			# Обычные бойцы, Страж и Щит получают только рисунок; Дозорный сохраняет свой вид.
 			session.unit_visual_classes[unit.id] = &"warrior"
@@ -155,9 +159,16 @@ static func create(run: HeroHubState) -> Dictionary:
 	session._queue = ActionQueue.new()
 	var item_definitions: Dictionary = {}
 	for owner: ItemOwnerState in owners: item_definitions.merge(owner._definitions, true)
-	session.state.abilities = BattleAbilityState.create(AbilityCatalog.build(rules, item_definitions, true))
+	var ability_definitions := AbilityCatalog.build(rules, item_definitions, true)
+	var has_raised_shield := false
+	for unit: UnitState in session.units:
+		if unit.armor != null and not unit.armor.raised_shield.is_empty():
+			has_raised_shield = true
+			break
+	if has_raised_shield: ability_definitions.append(RaiseShieldsCommand.definition())
+	session.state.abilities = BattleAbilityState.create(ability_definitions)
 	if deck:
-		session.state.abilities = BattleAbilityState.create_deck(AbilityCatalog.build(rules,item_definitions,true),Faction.Type.ENEMY)
+		session.state.abilities = BattleAbilityState.create_deck(ability_definitions,Faction.Type.ENEMY)
 		session.state.deck = BattleDeckState.create(run.expedition.active_cards(),run.expedition.checkpoint.draw_seed)
 		session.state.card_effects = BattleCardEffectState.new()
 		for unit: UnitState in session.units:

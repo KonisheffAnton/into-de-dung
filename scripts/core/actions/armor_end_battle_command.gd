@@ -55,10 +55,12 @@ func execute(context: ActionContext) -> CommandStepResult:
 			unit["armor"]["grants"] = remaining.duplicate(true)
 			unit["armor"]["in_battle"] = false
 			SpellShield.write_state(unit["armor"], {})
+			if unit["armor"].has("raised_shield"): RaisedShield.write_state(unit["armor"], RaisedShield.expired(unit["armor"].raised_shield))
 	var step := CommandStepResult.faulted(&"armor/invalid_expiry")
 	armor.grants = remaining
 	armor.in_battle = false
 	armor.shield = {}
+	if not armor.raised_shield.is_empty(): armor.raised_shield = RaisedShield.expired(armor.raised_shield)
 	step.state_changed = true
 	if not changes.is_empty():
 		step.events.append({"kind": &"armor_changed", "actor_unit_id": 0, "target_unit_id": _unit_id, "source": DamageSource.new(&"status",0,owner._owner.cell,0,0).to_dict(), "grants": changes, "items": []})

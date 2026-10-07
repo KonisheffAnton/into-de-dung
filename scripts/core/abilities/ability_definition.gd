@@ -57,6 +57,8 @@ func validate() -> StringName:
 		return &"" if effect == TEST_SUPPORT_EFFECTS[ability_id] and mana_cost == 1 and cooldown_turns == 0 and amount == (4 if ability_id == &"mage.test_heal" else 1) else &"ability/invalid_test_spell"
 	if String(ability_id).begins_with("mage.") or effect != &"":
 		return &"ability/unsupported_effect"
+	if ability_id == &"unit.raise_shields":
+		return &"" if cooldown_turns == 1 and mana_cost == 0 and amount == 0 else &"ability/invalid_raise_shields"
 	if cooldown_turns != 0:
 		return &"ability/unsupported_cooldown"
 	if mana_cost != 0 or amount != 0:

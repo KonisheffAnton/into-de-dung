@@ -92,6 +92,7 @@ static func for_command(command: Command, context: ActionContext) -> AbilityDefi
 	elif command is GuardCommand:
 		var mode := (command as GuardCommand)._mode
 		id = &"guard:opportunist" if mode == CombatPerksState.Mode.OPPORTUNIST else &"guard:cover" if mode == CombatPerksState.Mode.COVER else &"guard:counterattack" if mode == CombatPerksState.Mode.COUNTERATTACK else &"guard:default"
+	elif command is RaiseShieldsCommand: id = &"unit.raise_shields"
 	elif command is RestoreArmorCommand: id = &"restore_armor"
 	elif command is RaiseCorpseCommand: id = &"raise_corpse"
 	elif command is ElementalCastCommand: id = StringName("elemental:" + String((command as ElementalCastCommand)._effect))

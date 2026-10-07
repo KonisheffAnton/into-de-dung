@@ -39,7 +39,8 @@ static func prepare(context: ActionContext, target_id: int, target_cell: Vector2
 		var raw := ArmorAttack.components(0.0, 0.0, 0, target.guard_stance, extras, 0, 2 if ElementalRules.is_frozen(target) else 1)
 		if not raw.is_empty(): raw.remove_at(0)
 		request = ArmorAttack.request(target_id, raw, source)
-		var plan := ArmorHitExecutor.prepare(request, guard.values["participants"][target_id]["armor"], target.vitals.get_hp(), maximum, context.get_rng(), ElementalRules.is_frozen(target))
+		request.attack_group_id = context.damage_attack_group()
+		var plan := ArmorHitExecutor.prepare(request, guard.values["participants"][target_id]["armor"], target.vitals.get_hp(), maximum, context.get_rng(), ElementalRules.is_frozen(target), context)
 		if plan.get("reason", &"") != &"": return plan
 		if plan["hp_after"] == 0 and board.board_version >= ActionContext.MAX_ID: return {"reason": &"push/board_version_exhausted"}
 	elif effect == &"fire_imbue":

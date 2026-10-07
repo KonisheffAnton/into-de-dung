@@ -122,6 +122,19 @@ func guard_selected() -> ActionReceipt:
 	if reason != &"": return _reject(reason)
 	return _submit(GuardCommand.new(selected_id, context.get_revision()))
 
+func raise_shields_reason() -> StringName:
+	if not can_player_act(): return &"battle/input_locked"
+	return RaiseShieldsCommand.new(selected_id, context.get_revision()).validate(context)
+
+func raise_shields() -> ActionReceipt:
+	var reason := raise_shields_reason()
+	if reason != &"": return _reject(reason)
+	return _submit(RaiseShieldsCommand.new(selected_id, context.get_revision()))
+
+func prepare_raise_shields_forecast() -> ForecastSimulation.Prepared:
+	if not can_player_act(): return ForecastSimulation.Prepared.rejected(&"battle/input_locked")
+	return ForecastSimulation.prepare(context, _queue, RaiseShieldsCommand.new(selected_id, context.get_revision()))
+
 func preview_guard() -> GuardForecast:
 	var reason := guard_reason()
 	if reason != &"": return GuardForecast.rejected(reason)

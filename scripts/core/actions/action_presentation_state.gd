@@ -39,6 +39,7 @@ static func capture(state: ItemSimulationState) -> Dictionary:
 			"balance": unit.vitals.get_balance() if unit.vitals != null else 0.0,
 			"balance_max": balance_max, "armor": armor.duplicate(true),
 			"shield": unit.armor.shield.duplicate(true) if unit.armor != null else {}, "pending": state.is_summon_pending(unit.id),
+			"raised_shield": unit.armor.raised_shield.duplicate(true) if unit.armor != null else {},
 			"bleeding": bleeding, "elemental": elemental, "control": control,
 			"main": actions.get_main_left() if actions != null else 0,
 			"bonus": actions.get_bonus_left() if actions != null else 0,
@@ -66,6 +67,7 @@ static func capture(state: ItemSimulationState) -> Dictionary:
 static func capture_reaction_view(state: ItemSimulationState, unit: UnitState) -> Dictionary:
 	var perks := unit.combat_perks
 	var mode := perks.mode if perks != null else CombatPerksState.Mode.NONE
+	if MeleeThreat.has_passive_opportunist(unit): mode = CombatPerksState.Mode.OPPORTUNIST
 	var target_id := perks.cover_target_id if perks != null else UnitId.NONE
 	var ready := mode != CombatPerksState.Mode.NONE and MeleeThreat.reaction_ready_state(state, unit, mode)
 	var cover_valid := false
@@ -74,9 +76,11 @@ static func capture_reaction_view(state: ItemSimulationState, unit: UnitState) -
 		var ally := board.get_unit_by_id(target_id)
 		cover_valid = ally != null and ally != unit and unit.is_alive() and ally.is_alive() and unit.is_friendly_to(ally) and board.occupant_at(unit.cell) == unit and board.occupant_at(ally.cell) == ally and absi(unit.cell.x - ally.cell.x) + absi(unit.cell.y - ally.cell.y) == 1 and MeleeThreat.reaches(board, unit, ally.cell)
 		ready = ready and cover_valid
-	return {"guard": unit.guard_stance, "mode": mode, "charge": MeleeThreat.reaction_points(unit),
+	var result := {"guard": unit.guard_stance, "mode": mode, "charge": MeleeThreat.reaction_points(unit),
 		"uses_bonus": perks != null and perks.uses_bonus_actions,
 		"owned": MeleeThreat.has_reactions(unit), "ready": ready, "cover_target_id": target_id, "cover_valid": cover_valid}
+	if MeleeThreat.has_passive_opportunist(unit): result["passive_opportunist"] = true
+	return result
 
 ## Область — геометрия действия, не обещание попадания по любой цели внутри неё.
 static func capture_action_areas(state: ItemSimulationState) -> Array[Dictionary]:
@@ -94,6 +98,7 @@ static func capture_action_areas(state: ItemSimulationState) -> Array[Dictionary
 				var cell := Vector2i(x, y)
 				if cell != unit.cell and board.is_terrain_walkable(cell) and AttackReachCheck.inspect_spatial_cells(board, unit.cell, unit.faction, cell, reach) == &"": cells.append(cell)
 		var mode := unit.combat_perks.mode if unit.combat_perks != null else CombatPerksState.Mode.NONE
+		if MeleeThreat.has_passive_opportunist(unit): mode = CombatPerksState.Mode.OPPORTUNIST
 		var ready := mode in [CombatPerksState.Mode.OPPORTUNIST, CombatPerksState.Mode.COUNTERATTACK] and MeleeThreat.reaction_ready_state(state, unit, mode)
 		result.append({"owner_id": unit.id, "name": unit.debug_name, "faction": int(unit.faction), "origin": unit.cell, "cells": cells, "mode": mode, "ready": ready})
 	return result

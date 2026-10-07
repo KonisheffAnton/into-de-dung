@@ -9,6 +9,7 @@ class_name CombatPerksDefinition
 @export var entangle_immune: bool = false
 @export var counterattack: bool = false
 @export var burning_bypass_hp_gate: bool = false
+@export var passive_opportunist: bool = false
 
 func get_ability_definitions() -> Array[AbilityDefinition]:
 	var result: Array[AbilityDefinition] = []

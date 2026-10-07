@@ -16,6 +16,7 @@ var acting: bool = false
 var forecast_entry: Dictionary = {}
 var armor_values: Dictionary = {}
 var shield_view: Dictionary = {}
+var raised_shield_view: Dictionary = {}
 var summon_pending: bool = false
 var show_rear: bool = false
 var status_text: String = ""
@@ -99,6 +100,10 @@ func _draw_status_hud() -> void:
 	_draw_status_icons(_status_hud)
 	_draw_action_resources(_status_hud)
 	_draw_reaction_view(_status_hud)
+	if bool(raised_shield_view.get("active", false)):
+		# Рядом с реакцией: выше поверхности тайла и внутри видимой высоты фигуры.
+		_status_hud.draw_rect(Rect2(29, -31, 64, 15), Color("172230"))
+		_status_hud.draw_string(ThemeDB.fallback_font, Vector2(32, -19), "ЩИТ 90%", HORIZONTAL_ALIGNMENT_CENTER, 58, 11, Color("f7d58d"))
 
 func _draw_action_resources(canvas: Node2D) -> void:
 	var main_left := maxi(0, int(action_resources_view.get("main", 0)))

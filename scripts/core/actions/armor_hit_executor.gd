@@ -1,9 +1,24 @@
 extends RefCounted
 class_name ArmorHitExecutor
 
-static func prepare(request: DamageRequest, view: Dictionary, hp: float, maximum: float, rng: ActionRngPort, frozen: bool = false) -> Dictionary:
+static func prepare(request: DamageRequest, view: Dictionary, hp: float, maximum: float, rng: ActionRngPort, frozen: bool = false, context: ActionContext = null) -> Dictionary:
 	if request == null or request.armor_mode != &"armor" or request.source == null: return {"reason": &"armor/invalid_hit"}
-	return ElementalRules.shatter(ArmorRuntime.plan(view, request.armor_components, hp, maximum, rng), frozen)
+	var raw := request.armor_components
+	var raised: Dictionary = {}
+	if view.get("state", {}).has("raised_shield") and request.source.kind in [&"attack", &"mage"] and request.attack_group_id > 0:
+		if context == null: return {"reason": &"raise_shields/missing_context"}
+		var root_id := context._current_root_id if context._current_root_id > 0 else context._next_root_id
+		raised = RaisedShield.intercept(raw, view.state.raised_shield, root_id, request.attack_group_id)
+		if raised.reason != &"": return raised
+		raw = raised.raw
+	var plan := ArmorRuntime.plan(view, raw, hp, maximum, rng)
+	if plan.get("reason", &"") != &"": return plan
+	if not raised.is_empty():
+		plan["raised_shield"] = raised
+		RaisedShield.write_state(plan.after.state, raised.after)
+		# Binding проверяет исходный запрос; уменьшенные дроби остаются в объяснении слоя.
+		plan.raw = request.armor_components.duplicate(true)
+	return ElementalRules.shatter(plan, frozen)
 
 static func execute(request: DamageRequest, guard: SpatialRules.Guard, context: ActionContext, outer_check: Callable = Callable()) -> Dictionary:
 	var step := CommandStepResult.faulted(&"armor/invalid_hit")
@@ -15,7 +30,7 @@ static func execute(request: DamageRequest, guard: SpatialRules.Guard, context: 
 	if not values.has("armor") or not values["alive"] or request.source.validate(context) != &"": return out
 	var unit: UnitState = refs["unit"]
 	var maximum := ActionHpExecutor._stat_value(unit, StatTypes.StatType.HP_MAX)
-	var plan := prepare(request, values["armor"], values["hp"], maximum, context.get_rng(), ElementalRules.is_frozen(unit))
+	var plan := prepare(request, values["armor"], values["hp"], maximum, context.get_rng(), ElementalRules.is_frozen(unit), context)
 	if plan.get("reason", &"") != &"":
 		step.reason = plan["reason"]
 		return out
@@ -24,13 +39,22 @@ static func execute(request: DamageRequest, guard: SpatialRules.Guard, context: 
 	var state: ArmorState = unit.armor
 	var owner: ItemOwnerState = refs["owner"]
 	var rng := context.get_rng()
+	var root_id := context._current_root_id
 	var current: Array[SpatialRules.Guard] = [guard.copy()]
 	var check := func() -> bool:
-		return BalancePushRules._same_request(request, seal) and current[0].check(context) and (not outer_check.is_valid() or bool(outer_check.call()))
+		return context._current_root_id == root_id and BalancePushRules._same_request(request, seal) and current[0].check(context) and (not outer_check.is_valid() or bool(outer_check.call()))
 	if not check.call(): return out
 	if plan["hp_after"] == 0 and context.get_state().get_board().board_version >= ActionContext.MAX_ID:
 		step.reason = &"push/board_version_exhausted"
 		return out
+	if plan.has("raised_shield") and plan.raised_shield.before != plan.raised_shield.after:
+		var next_view: Dictionary = current[0].values["participants"][id]["armor"].duplicate(true)
+		RaisedShield.write_state(next_view.state, plan.raised_shield.after)
+		current[0] = current[0].armor_phase(id, next_view)
+		state.raised_shield = plan.raised_shield.after.duplicate(true)
+		step.events.append({"kind": &"raised_shield_used", "actor_unit_id": pinned_source.instigator_unit_id, "target_unit_id": id, "before": plan.raised_shield.before, "after": plan.raised_shield.after})
+		step.state_changed = true
+		if not check.call(): return out
 	if plan.has("shield") and int(plan.shield.absorbed) > 0:
 		var next_view: Dictionary = current[0].values["participants"][id]["armor"].duplicate(true)
 		SpellShield.write_state(next_view.state, plan.shield.after)

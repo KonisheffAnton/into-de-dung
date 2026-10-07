@@ -128,6 +128,9 @@ def main():
             invalid = invalid or "HUB SCENE AUTHORING RESULTS:" not in output or ", 0 failed" not in output
         if label == "battle_hud_authoring":
             invalid = invalid or "BATTLE HUD AUTHORING RESULTS:" not in output or ", 0 failed" not in output
+        if label in ("passive_opportunist", "raised_shield", "raise_shields", "shieldbearer_profile", "shieldbearer_ui"):
+            marker = label.replace("_", " ").upper() + " RESULTS:"
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("hero_progression", "hero_hub", "hero_hub_ui", "hero_hub_playthrough"):
             marker = {"hero_progression": "HERO PROGRESSION RESULTS:", "hero_hub": "HERO HUB RESULTS:", "hero_hub_ui": "HERO HUB UI RESULTS:", "hero_hub_playthrough": "HERO HUB PLAYTHROUGH RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -289,6 +292,16 @@ def main():
             mage_r14_args += ["--", "--captures=" + str(mage_r14_captures)]
         run("mage_r14", mage_r14_args, headless=not args.render_check)
         run("spell_shield", ["--script", "tests/test_spell_shield.gd"])
+        run("passive_opportunist", ["--script", "tests/test_passive_opportunist.gd"])
+        run("raised_shield", ["--script", "tests/test_raised_shield_state.gd"])
+        run("raise_shields", ["--script", "tests/test_raise_shields.gd"])
+        run("shieldbearer_profile", ["--script", "tests/test_shieldbearer_profile.gd"])
+        shieldbearer_args = ["--script", "tests/test_shieldbearer_ui.gd"]
+        if args.render_check:
+            shieldbearer_captures = out / "shieldbearer-screenshots"
+            shieldbearer_captures.mkdir()
+            shieldbearer_args += ["--", "--captures=" + str(shieldbearer_captures)]
+        run("shieldbearer_ui", shieldbearer_args, headless=not args.render_check)
         support_args = ["--script", "tests/test_presentation_support.gd"]
         if args.render_check:
             support_captures = out / "support-presentation-screenshots"
