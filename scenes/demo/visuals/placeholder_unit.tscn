@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://scripts/demo/battle_demo_iso_visual.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/placeholder_battle/unit.svg" id="2_unit"]
@@ -7,6 +7,21 @@
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/entangle_overlay.tscn" id="5_entangle"]
 [ext_resource type="Texture2D" path="res://assets/battle_units/warrior_ally_retro_v1.png" id="6_warrior_ally"]
 [ext_resource type="Texture2D" path="res://assets/battle_units/warrior_enemy_pixellab_v1.png" id="7_warrior_enemy"]
+[ext_resource type="Texture2D" path="res://assets/battle_units/enemy_iso_bearded_v1.png" id="8_enemy_bearded"]
+[ext_resource type="Texture2D" path="res://assets/battle_units/enemy_iso_helmet_v1.png" id="9_enemy_helmet"]
+[ext_resource type="Texture2D" path="res://assets/battle_units/enemy_iso_redhair_v1.png" id="10_enemy_redhair"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_enemy_bearded"]
+atlas = ExtResource("8_enemy_bearded")
+region = Rect2(190, 267, 758, 739)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_enemy_helmet"]
+atlas = ExtResource("9_enemy_helmet")
+region = Rect2(140, 238, 895, 867)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_enemy_redhair"]
+atlas = ExtResource("10_enemy_redhair")
+region = Rect2(106, 172, 939, 950)
 
 [node name="PlaceholderUnit" type="Node2D"]
 script = ExtResource("1_script")
@@ -33,6 +48,29 @@ texture_filter = 1
 position = Vector2(0, -26)
 scale = Vector2(1.1, 1.1)
 texture = ExtResource("7_warrior_enemy")
+
+[node name="EnemyPresets" type="Node2D" parent="ArtRoot"]
+
+[node name="Bearded" type="Sprite2D" parent="ArtRoot/EnemyPresets"]
+visible = false
+texture_filter = 1
+position = Vector2(0, -26)
+scale = Vector2(0.08931, 0.08931)
+texture = SubResource("AtlasTexture_enemy_bearded")
+
+[node name="Helmet" type="Sprite2D" parent="ArtRoot/EnemyPresets"]
+visible = false
+texture_filter = 1
+position = Vector2(0, -26)
+scale = Vector2(0.07612, 0.07612)
+texture = SubResource("AtlasTexture_enemy_helmet")
+
+[node name="Redhair" type="Sprite2D" parent="ArtRoot/EnemyPresets"]
+visible = false
+texture_filter = 1
+position = Vector2(0, -26)
+scale = Vector2(0.06947, 0.06947)
+texture = SubResource("AtlasTexture_enemy_redhair")
 
 [node name="EffectRoot" type="Node2D" parent="ArtRoot"]
 

@@ -195,19 +195,29 @@ func sync_scene_art() -> void:
 	var body := get_node_or_null("ArtRoot/BodySprite") as Sprite2D
 	var player_warrior := get_node_or_null("ArtRoot/PlayerWarriorSprite") as Sprite2D
 	var enemy_warrior := get_node_or_null("ArtRoot/EnemyWarriorSprite") as Sprite2D
+	var enemy_presets := _enemy_preset_sprites()
+	var selected_enemy_preset: Sprite2D
 	var warrior_sprite: Sprite2D
 	if visual_class_id == &"warrior" and unit != null:
 		if unit.faction == Faction.Type.PLAYER:
 			warrior_sprite = player_warrior
 		elif unit.faction == Faction.Type.ENEMY:
 			warrior_sprite = enemy_warrior
+	var presets_ready: bool = enemy_presets.size() == 3
+	for preset: Sprite2D in enemy_presets:
+		presets_ready = presets_ready and preset.texture != null
+	if role == Role.UNIT and unit != null and unit.faction == Faction.Type.ENEMY and presets_ready:
+		selected_enemy_preset = enemy_presets[posmod(unit.id, enemy_presets.size())]
 	# Кастомный силуэт остаётся нейтральным: исходная палитра уже задаёт его сторону.
 	if player_warrior != null:
 		player_warrior.visible = player_warrior == warrior_sprite and role == Role.UNIT and unit != null and unit.alive
 		player_warrior.modulate = Color.WHITE
 	if enemy_warrior != null:
-		enemy_warrior.visible = enemy_warrior == warrior_sprite and role == Role.UNIT and unit != null and unit.alive
+		enemy_warrior.visible = selected_enemy_preset == null and enemy_warrior == warrior_sprite and role == Role.UNIT and unit != null and unit.alive
 		enemy_warrior.modulate = Color.WHITE
+	for preset: Sprite2D in enemy_presets:
+		preset.visible = preset == selected_enemy_preset and unit != null and unit.alive
+		preset.modulate = Color.WHITE
 	if surface != null:
 		surface.visible = role != Role.UNIT and not ground_art_active
 		surface.position = surface_position
@@ -222,7 +232,7 @@ func sync_scene_art() -> void:
 		ground_surface.scale = GROUND_TILE_SIZE / GROUND_SOURCE_SIZE
 		ground_surface.modulate = Color.WHITE
 	if body != null:
-		body.visible = role == Role.UNIT and (unit == null or unit.alive) and warrior_sprite == null
+		body.visible = role == Role.UNIT and (unit == null or unit.alive) and warrior_sprite == null and selected_enemy_preset == null
 		body.modulate = transient_tint if unit == null else (Color("65dfcc") if unit.faction == Faction.Type.PLAYER else Color("f7c97d"))
 	_sync_scene_sides(factor)
 	var effect_root := get_node_or_null("ArtRoot/EffectRoot") as Node2D
@@ -239,6 +249,17 @@ func sync_scene_art() -> void:
 	if stun_mark != null: stun_mark.visible = role == Role.UNIT and stunned and (unit == null or unit.alive)
 	if entangle_mark != null: entangle_mark.visible = role == Role.UNIT and entangled and (unit == null or unit.alive)
 	# Якоря наследуют ArtRoot; их локальные позиции задаёт заменяемая сцена.
+
+func _enemy_preset_sprites() -> Array[Sprite2D]:
+	var result: Array[Sprite2D] = []
+	for node_path: NodePath in [
+		NodePath("ArtRoot/EnemyPresets/Bearded"),
+		NodePath("ArtRoot/EnemyPresets/Helmet"),
+		NodePath("ArtRoot/EnemyPresets/Redhair")
+	]:
+		var sprite := get_node_or_null(node_path) as Sprite2D
+		if sprite != null: result.append(sprite)
+	return result
 
 func _surface_tint() -> Color:
 	var tint := Color("344858") if (grid_anchor.x + grid_anchor.y) % 2 == 0 else Color("3d5361")
