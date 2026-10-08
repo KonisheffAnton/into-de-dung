@@ -1,6 +1,30 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/demo/battle_environment_visual.gd" id="1_visual"]
+[ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/floor_trap.tscn" id="2_floor"]
+[ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/wall_trap_up.tscn" id="3_wall_up"]
+[ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/wall_trap_right.tscn" id="4_wall_right"]
+[ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/wall_trap_down.tscn" id="5_wall_down"]
+[ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/wall_trap_left.tscn" id="6_wall_left"]
+[ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/acid_pool.tscn" id="7_acid"]
 
 [node name="EnvironmentOverlay" type="Node2D"]
 script = ExtResource("1_visual")
+
+[node name="FloorTrap" parent="." instance=ExtResource("2_floor")]
+visible = false
+
+[node name="WallTrapUp" parent="." instance=ExtResource("3_wall_up")]
+visible = false
+
+[node name="WallTrapRight" parent="." instance=ExtResource("4_wall_right")]
+visible = false
+
+[node name="WallTrapDown" parent="." instance=ExtResource("5_wall_down")]
+visible = false
+
+[node name="WallTrapLeft" parent="." instance=ExtResource("6_wall_left")]
+visible = false
+
+[node name="AcidPool" parent="." instance=ExtResource("7_acid")]
+visible = false

@@ -31,6 +31,7 @@ func run() -> void:
 	viewport.size = Vector2i(1280, 800)
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport)
+	await authored_presets()
 	board = BattleDemoBoard.new()
 	board.size = Vector2(1280, 800)
 	viewport.add_child(board)
@@ -111,6 +112,76 @@ func run() -> void:
 	await process_frame
 	print("HAZARDS UI RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
+
+func authored_presets() -> void:
+	var scene := preload("res://scenes/demo/visuals/environment_overlay.tscn")
+	var gallery := Node2D.new()
+	viewport.add_child(gallery)
+	var names: Array[String] = ["FloorTrap", "WallTrapUp", "WallTrapRight", "WallTrapDown", "WallTrapLeft"]
+	var directions: Array[Vector2i] = [Vector2i.ZERO, Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT]
+	var positions: Array[Vector2] = [Vector2(180, 280), Vector2(460, 280), Vector2(770, 250), Vector2(470, 560), Vector2(820, 580)]
+	# Контракт опоры: общая грань соседних ромбов и вертикальная высота стены 32.
+	var edges: Array[Vector2] = [Vector2.ZERO, Vector2(0, -32), Vector2(64, 0), Vector2(0, 32), Vector2(-64, 0)]
+	for index: int in names.size():
+		var overlay := scene.instantiate() as BattleEnvironmentVisual
+		gallery.add_child(overlay)
+		overlay.position = positions[index]
+		overlay.scale = Vector2(2.5, 2.5)
+		overlay.configure(false, false, false, [], false, index == 0, directions[index], true)
+		overlay.trap_progress = 1.0
+		var preset := overlay.get_node(names[index]) as Node2D
+		var spikes := preset.get_node("Spikes")
+		check(preset.visible and spikes.get_child_count() == 16, names[index] + " shows 16 authored spikes")
+		var tip := spikes.get_child(0).get_node("Tip") as Polygon2D
+		var original := tip.polygon.duplicate()
+		# Изменённый в редакторе силуэт должен пережить семплирование анимации.
+		var edited := original.duplicate()
+		edited[0] += Vector2(0.25, 0.5)
+		tip.polygon = edited
+		overlay.trap_progress = 0.4
+		check(tip.polygon == edited, names[index] + " playback preserves authored polygon overrides")
+		tip.polygon = original
+		overlay.trap_progress = 1.0
+		var panel := preset.get_node("Panel") as Polygon2D
+		if index == 0:
+			check(panel.polygon.has(Vector2(62, 0)) and panel.polygon.has(Vector2(-62, 0))
+				and panel.polygon.has(Vector2(0, 30)) and panel.polygon.has(Vector2(0, -30)), "floor preset fills the tile rhombus")
+			check(tip.polygon[0].is_equal_approx(Vector2(0, -36)), "floor spikes retain their accepted 36px extension")
+		else:
+			var start := edges[index]
+			var end := edges[index % 4 + 1]
+			for corner: Vector2 in [start, end, start + Vector2(0, -32), end + Vector2(0, -32)]:
+				var near := false
+				for point: Vector2 in panel.polygon:
+					if (preset.transform * panel.transform * point).distance_to(corner) <= 4.0: near = true
+				check(near, names[index] + " panel reaches shared wall face corner " + str(corner))
+			var inward := BattleEnvironmentVisual.wall_spike_direction(directions[index])
+			var columns: Dictionary = {}
+			var rows: Dictionary = {}
+			var inward_tips := true
+			for spike: Node2D in spikes.get_children():
+				var u := (spike.position.x - start.x) / (end.x - start.x)
+				var v := (start.lerp(end, u).y - spike.position.y) / 32.0
+				columns[snappedf(u, 0.001)] = true
+				rows[snappedf(v, 0.001)] = true
+				var shape := spike.get_node("Tip") as Polygon2D
+				var extended := spike.transform * shape.polygon[0] - spike.position
+				inward_tips = inward_tips and extended.dot(inward) > 35.9
+			check(columns.size() == 4 and rows.size() == 4 and rows.has(0.125) and rows.has(0.875)
+				and columns.has(0.125) and columns.has(0.875), names[index] + " spike bases cover all four rows and columns")
+			check(inward_tips, names[index] + " authored spikes extend 36px from wall into contact tile")
+		overlay.collapse_progress = 1.0
+		check(preset.modulate.a == 0.0, names[index] + " disappears with its collapsed support")
+		overlay.collapse_progress = -1.0
+	var acid := scene.instantiate() as BattleEnvironmentVisual
+	gallery.add_child(acid)
+	acid.position = Vector2(1080, 400)
+	acid.scale = Vector2(2.5, 2.5)
+	acid.configure(false, false, false, [], true)
+	check(acid.get_node("AcidPool").visible, "acid uses its authored scene preset")
+	await capture("authored-hazard-presets")
+	gallery.queue_free()
+	await process_frame
 
 func advance(player: BattlePresentationPlayer, seconds: float) -> void:
 	player._tween.pause()

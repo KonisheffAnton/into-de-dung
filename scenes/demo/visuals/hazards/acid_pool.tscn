@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3]
+
+[node name="AcidPool" type="Node2D"]
+show_behind_parent = true
+
+[node name="Pool" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(31, 10, 28.7, 13.1, 21.9, 16.0, 12.6, 18.5, 0, 19, -12.6, 18.5, -21.9, 16, -28.7, 13.1, -31, 10, -28.7, 6.9, -21.9, 4, -12.6, 1.5, 0, 1, 12.6, 1.5, 21.9, 4, 28.7, 6.9)
+color = Color(0.317647, 0.847059, 0.470588, 0.58)
+
+[node name="Rim" type="Line2D" parent="."]
+points = PackedVector2Array(31, 10, 28.7, 13.1, 21.9, 16, 12.6, 18.5, 0, 19, -12.6, 18.5, -21.9, 16, -28.7, 13.1, -31, 10, -28.7, 6.9, -21.9, 4, -12.6, 1.5, 0, 1, 12.6, 1.5, 21.9, 4, 28.7, 6.9, 31, 10)
+width = 1.5
+default_color = Color(0.643137, 1, 0.545098, 0.85)
+
+[node name="BubbleA" type="Polygon2D" parent="."]
+position = Vector2(-12, 9)
+polygon = PackedVector2Array(0, -2, 1.4, -1.4, 2, 0, 1.4, 1.4, 0, 2, -1.4, 1.4, -2, 0, -1.4, -1.4)
+color = Color(0.768627, 1, 0.603922, 0.82)
+
+[node name="BubbleB" type="Polygon2D" parent="."]
+position = Vector2(4, 13)
+polygon = PackedVector2Array(0, -2, 1.4, -1.4, 2, 0, 1.4, 1.4, 0, 2, -1.4, 1.4, -2, 0, -1.4, -1.4)
+color = Color(0.768627, 1, 0.603922, 0.82)
+
+[node name="BubbleC" type="Polygon2D" parent="."]
+position = Vector2(16, 7)
+polygon = PackedVector2Array(0, -2, 1.4, -1.4, 2, 0, 1.4, 1.4, 0, 2, -1.4, 1.4, -2, 0, -1.4, -1.4)
+color = Color(0.768627, 1, 0.603922, 0.82)
