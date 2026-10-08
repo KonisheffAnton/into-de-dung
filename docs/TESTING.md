@@ -110,9 +110,9 @@ core без `--full` или явного `--only core` в неё не входи
 | Совместная атака C1/M4/D3/D5 (K1) | `test_core_combinations.gd`, `test_core_combination_turns.gd` (full/render); тестовая композиция — `tests/fixtures/core_combination_session.gd` |
 | Игровая сессия C1/D3/D5 (K2) | `test_core_combination_session.gd`, `test_core_combination_battle.gd` (full/render); production-сессия, обе границы хода/AI, helper, terminal/FAULTED, два preview/live, restore, ввод/reset/PNG |
 | Клинок M4 в общем бою (K7) | Те же K2 runner: штатная экипировка Бора/источник stats, reset и restore без накопления, изоляция определений, пробивание с C1/D3/D5, отказы/FAULTED; настоящий ввод, осмотр, прогноз и атаки Щита/Дозорного |
-| Опутывающий удар K8 | `test_entangle_attack.gd`, `test_entangle_ui.gd` (full/render): наложение/gate/повтор/истечение, порядок push/смертей, preview/live/restore/FAULTED, ввод/прогноз/PNG |
+| Опутывающий удар K8 | `test_entangle_attack.gd`, `test_entangle_ui.gd` (full/render): наложение/gate/повтор/истечение, порядок push/смертей, preview/live/restore/FAULTED, ввод/прогноз/PNG; осмотр пут/срока реальным кликом по кнопке врага в списке без мутации боя |
 | Выделенный расчёт / эквивалентность до D1 | `test_attack_damage_calculation.gd`, `test_attack_damage_d1.gd` |
-| Спина, крит и состояния контроля C1 | `test_attack_modifiers.gd`, `test_critical_control.gd`, `test_control_battle.gd` (full/render, ввод/scroll/PNG) |
+| Спина, крит и состояния контроля C1 | `test_attack_modifiers.gd`, `test_critical_control.gd`, `test_control_battle.gd` (full/render, ввод/scroll/PNG); осмотр оглушения/тыла кнопкой врага в списке без мутации боя, обновление осмотра после истечения оглушения/пут |
 | Броня D2 | `test_armor_hit_calculation.gd`, `test_armor_snapshot.gd`, `test_armor_integration.gd`, `test_armor_recovery.gd`, `test_armor_battle.gd` |
 | Пробивание оружием M4 | `test_armor_piercing_calculation.gd`, `test_armor_piercing.gd`; ввод/осмотр/прогноз — `test_d4_ui.gd` (full/render) |
 | Кровотечение D3 | `test_bleeding_snapshot.gd`, `test_bleeding.gd`, `test_bleeding_battle.gd` (full/render, шесть PNG): накопление срока, fixed tick, v1→v2, overflow/prefix, прогноз и ввод; production K2 — `test_core_combination_session.gd` |

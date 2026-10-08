@@ -44,7 +44,14 @@ func _run() -> void:
 	check(ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() == before, "hover keeps live state")
 	await capture("c1-front-critical")
 	await key(KEY_ESCAPE)
-	await click(at(target))
+	var selected_before_inspection: int = session.selected_id
+	var inspection_snapshot := ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict()
+	var inspection_rng: Dictionary = session.context.get_rng().to_dict().duplicate(true)
+	var inspection_counters: Dictionary = session.context.simulation_counters()
+	var inspection_receipt: ActionReceipt = session.last_receipt
+	await click_roster_enemy(target.id)
+	check(demo.inspected_id == target.id and session.selected_id == selected_before_inspection, "roster click inspects stun target without changing selection")
+	check(ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() == inspection_snapshot and session.context.get_rng().to_dict() == inspection_rng and session.context.simulation_counters() == inspection_counters and session.last_receipt == inspection_receipt, "roster inspection does not mutate battle")
 	check(demo._stats.text.contains("Оглушён") and demo._stats.text.contains("Тыл:"), "inspection explains stun and rear")
 	await capture("c1-stun-inspection")
 	await click(at(session.units[2]))
@@ -89,6 +96,10 @@ func _run() -> void:
 	check(session.units[1].control.stunned_turns == 0 and session.units[3].control.entangled_turns == 0, "statuses expire after own turn")
 	demo._refresh()
 	await capture("c1-after-enemy-turn")
+	await click_roster_enemy(session.units[1].id)
+	check(demo.inspected_id == session.units[1].id and not demo._stats.text.contains("Оглушён"), "inspection refreshes after stun expires")
+	await click_roster_enemy(session.units[3].id)
+	check(demo.inspected_id == session.units[3].id and not demo._stats.text.contains("Опутан"), "inspection refreshes after root expires")
 	await click(demo._mode_button.global_position + demo._mode_button.size * 0.5)
 	check(not demo.control_mode and not demo.session is BattleControlSession, "mode exit clears capability")
 	await finish()
@@ -132,6 +143,27 @@ func click(position: Vector2) -> void:
 	event.button_index = MOUSE_BUTTON_LEFT; event.position = position; event.global_position = position; event.pressed = true
 	viewport.push_input(event, true)
 	event.pressed = false; viewport.push_input(event, true)
+	await process_frame; await process_frame
+
+func click_roster_enemy(unit_id: int) -> void:
+	var button := demo._runtime_roster_buttons.get(unit_id) as Button
+	check(button != null and is_instance_valid(button), "enemy roster button exists")
+	if button == null or not is_instance_valid(button): return
+	var ancestor: Node = button.get_parent()
+	while ancestor != null:
+		if ancestor is ScrollContainer:
+			(ancestor as ScrollContainer).ensure_control_visible(button)
+		ancestor = ancestor.get_parent()
+	await process_frame; await process_frame
+	var position := button.global_position + button.size * 0.5
+	await motion(position)
+	var down := InputEventMouseButton.new()
+	down.button_index = MOUSE_BUTTON_LEFT; down.position = position; down.global_position = position; down.pressed = true
+	viewport.push_input(down, true)
+	await process_frame
+	var up := InputEventMouseButton.new()
+	up.button_index = MOUSE_BUTTON_LEFT; up.position = position; up.global_position = position; up.pressed = false
+	viewport.push_input(up, true)
 	await process_frame; await process_frame
 
 func capture(label: String) -> void:

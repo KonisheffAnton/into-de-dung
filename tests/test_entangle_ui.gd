@@ -47,7 +47,14 @@ func _run() -> void:
 	check(forecast != null and snapshot(session) == forecast.snapshot_after and session.last_receipt.get_events() == forecast.events and session.last_receipt.get_steps() == forecast.steps, "real click matches full preview")
 	check(target.control.entangled_turns == 1 and target.bleeding.ticks_left == 0 and actor.action_resources.get_main_left() == 0, "one main applies root without bleeding")
 	check(not demo.attack_mode and not session.entangle_selected and demo._forecast == null, "completed attack returns to movement")
-	await click(at(target.cell))
+	var selected_before_inspection: int = session.selected_id
+	var inspection_snapshot := snapshot(session)
+	var inspection_rng: Dictionary = session.context.get_rng().to_dict().duplicate(true)
+	var inspection_counters: Dictionary = session.context.simulation_counters()
+	var inspection_receipt: ActionReceipt = session.last_receipt
+	await click_roster_enemy(target.id)
+	check(demo.inspected_id == target.id and session.selected_id == selected_before_inspection, "roster click inspects root target without changing selection")
+	check(snapshot(session) == inspection_snapshot and session.context.get_rng().to_dict() == inspection_rng and session.context.simulation_counters() == inspection_counters and session.last_receipt == inspection_receipt, "roster inspection does not mutate battle")
 	check(demo._stats.text.contains("Опутан") and demo._stats.text.contains("Срок: до конца"), "inspection shows root and expiry")
 	await capture("k8-entangle-result")
 	# Свежий клик обязан учесть изменение gate после прогноза без изменения revision.
@@ -127,6 +134,27 @@ func click(position: Vector2) -> void:
 	event.button_index = MOUSE_BUTTON_LEFT; event.position = position; event.global_position = position; event.pressed = true
 	viewport.push_input(event, true)
 	event.pressed = false; viewport.push_input(event, true)
+	await process_frame; await process_frame
+
+func click_roster_enemy(unit_id: int) -> void:
+	var button := demo._runtime_roster_buttons.get(unit_id) as Button
+	check(button != null and is_instance_valid(button), "enemy roster button exists")
+	if button == null or not is_instance_valid(button): return
+	var ancestor: Node = button.get_parent()
+	while ancestor != null:
+		if ancestor is ScrollContainer:
+			(ancestor as ScrollContainer).ensure_control_visible(button)
+		ancestor = ancestor.get_parent()
+	await process_frame; await process_frame
+	var position := button.global_position + button.size * 0.5
+	await motion(position)
+	var down := InputEventMouseButton.new()
+	down.button_index = MOUSE_BUTTON_LEFT; down.position = position; down.global_position = position; down.pressed = true
+	viewport.push_input(down, true)
+	await process_frame
+	var up := InputEventMouseButton.new()
+	up.button_index = MOUSE_BUTTON_LEFT; up.position = position; up.global_position = position; up.pressed = false
+	viewport.push_input(up, true)
 	await process_frame; await process_frame
 
 func capture(label: String) -> void:

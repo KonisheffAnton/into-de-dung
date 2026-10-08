@@ -1,40 +1,40 @@
-# Передача — 2026-10-08: приёмка capture/live_valid
+# Передача — 2026-10-08: control/entangle UI
 
-Main; base 7639d9d785d8c4cf8cad3a4c690844d4969245d3; без push.
-Пользователь: «По приемке ок». Ручная оценка capture/live_valid принята;
-прежнее ожидание закрыто, worker-аудит остаётся предварительно ок.
-Этап только документальный; новых оптимизаций/механик не начинали.
-Следующий пакет — по отдельному поручению. Владение — ARCHITECTURE;
-UI — BATTLE_EXECUTION_UI; проверки — TESTING; свидетельства — HISTORY.
+Main; base 7c8abd5880c15c7584ca5382ffa7fe75380b47a4; без push.
+По поручению исправлены оба старых UI-сценария:
+ЛКМ по врагу на поле атакует; осмотр открывает кнопка врага в списке.
+Тесты проверяют настоящий клик, прежний текст, неизменность боя и обновление
+осмотра после истечения контроля. Поправлена подсказка демо; правила прежние.
+Владельцы: управление — TACTICAL_BATTLE; проверки — TESTING;
+свидетельства — HISTORY. Отчёт: test_reports/control-entangle-ui-20261008/.
 
-Два probe: idle live_valid median2.05–2.17→1.54–1.69ms, выигрыш0.48–0.51ms.
-Три A/B: hover p95 20.58–20.67→19.68–20.08ms; AI total меньше,
-но AI p95/пики не улучшились устойчиво. Общая плавность замерами не доказана.
-Полная parity всех6 controls/4 probes сохранена. Вложенные времена не складывать.
-Fixture не F5/редактор; GPU не измерен. Отзыв не расширяет область этих замеров.
-Свежий Unit producer, проверки/raw DTO и180 опросов/180 кадров прежние; кэша нет.
+До: control25/1, entangle21/1. После исправления headless
+control33/0, entangle25/0; final render control40/0, entangle28/0/PNG;
+import/startup PASS. Click_attack152/0 до правки только текста подсказки.
+Независимое ревью: APPROVE. Full/core не повторялись;
+прежние138PASS/2FAIL — история, оба отказа закрыты адресно, не новый общий PASS.
+Прежние core9440/0 и47ObjectDB/18resources; viewport baseline открыт.
+Пользовательская scenes/demo/main_menu.tscn сохранена вне коммита; не сбрасывать.
 
-Артефакты: test_reports/deck-live-valid-20261008/report.md, base/current,
-ab-summary, review/verification/completion. Runner: profile_snapshot_preflight.py.
-Прежние: import/startup PASS; producer809/0, snapshot41/0, deck313/0, render UI110/0/PNG;
-независимое APPROVE. Full138PASS/2FAIL из140; control25/1 и entangle21/1 повторены на base.
-Не общий PASS. Core9440/0, прежние47ObjectDB/18resources.
-Этот этап: diff/архив/ссылки/размеры; Godot не повторялся.
-Отчёт: test_reports/capture-live-valid-acceptance-20261008/.
-Пользовательская main_menu.tscn вне коммита; не сбрасывать.
+Приёмка capture/live_valid закрыта; worker-аудит предварительно ок.
+Владельцы: ARCHITECTURE/BATTLE_EXECUTION_UI; прежние отчёты:
+test_reports/capture-live-valid-acceptance-20261008/ и deck-live-valid-20261008/.
+Общая плавность замерами не доказана; AI p95/пики без устойчивого улучшения.
+Parity6 controls/4 probes прежняя; вложенные времена не складывать;
+fixture не F5/редактор, GPU не измерен. Новых оптимизаций нет.
 
 Щитоносец и прошлый срез поля/HUD приняты; F5/колода/спрайты предварительно.
-Полный маршрут/редактор, HUD, финальный арт/баланс, Q-E/артефакты открыты.
+Полный маршрут/редактор/HUD/финальный арт/баланс/Q-E/артефакты открыты.
 Общий набор/отход/исключения/автостойка — Q DESIGN_DIRECTION §3.1.
+Следующий пакет — по поручению; согласование направления не запускает код.
 Сохранять покомандность/preview/live/queue/RNG/save/frozen, profile1–4.
 Не начинать школы/кузню/R16/R17/экипировку13/стаки/backlog, микроплейтесты
 ядра, покрытия/реакции, revision-only кэш, D4-save миграцию, финальный арт.
-Инициатива вне full/render; viewport baseline открыт; --screen0;
-DPAPI вне Git/логов/промптов. PROJECT_CONTEXT — маршруты,
-CODEX_WORKFLOW — процесс, DESIGN_DIRECTION §7 — порядок.
+Инициатива вне full/render; --screen 0; DPAPI вне Git/логов/промптов.
+PROJECT_CONTEXT — маршруты; CODEX_WORKFLOW — процесс; DESIGN_DIRECTION §7 — порядок.
 
-Этап: Conventional Commit; прежний HANDOFF точным архивом
-CODEX_HANDOFF.history-20261008-4.md со ссылкой HISTORY. Без push/sidebar/расписаний.
-В конце/при блокере предложить новый чат (кроме явного продолжения здесь)
-и полный промпт: HEAD, результат, docs/artifacts, остаток, ограничения,
+Этап — Conventional Commit; прежний HANDOFF точным архивом
+CODEX_HANDOFF.history-20261008-5.md со ссылкой HISTORY. Без push/sidebar/расписаний.
+В конце/при блокере предложить новый чат, кроме явного продолжения здесь,
+и вывести полный промпт: HEAD, результат, docs/artifacts, остаток, ограничения,
 проверки и это правило передачи. Ссылка не заменяет текст; чат не создавать.

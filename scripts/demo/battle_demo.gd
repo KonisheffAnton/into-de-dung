@@ -1301,7 +1301,7 @@ func _refresh() -> void:
 	# В тактическом режиме атака должна иметь единственную точку входа в action bar;
 	# старая кнопка остаётся частью sandbox-полигона для совместимости.
 	_attack_button.visible = not tactical_mode
-	_instructions.text = "1 / A: атака · 2: защита · 3: лечение · 4: призыв · M: движение · Клик по врагу: осмотр · Enter: конец хода · R: заново" if tactical_mode else "Ступени: Астра → D3 → A → Страж. Стена: Бор → A → Щит. Пропасть: Рей → A → Мишень на G7."
+	_instructions.text = "1 / A: атака · 2: защита · 3: лечение · 4: призыв · M: движение · ЛКМ по врагу: атака · Осмотр: список · Enter: конец хода · R: заново" if tactical_mode else "Ступени: Астра → D3 → A → Страж. Стена: Бор → A → Щит. Пропасть: Рей → A → Мишень на G7."
 	if armor_mode: _instructions.text = _instructions.text.replace("4: призыв", "4: броня +20")
 	if environment_mode: _instructions.text = "1 / A: атака · 2: защита · 3: лечение · 6: поднять тело · M: движение · Enter: конец хода · R: заново"
 	if session is BattleBleedingSession and (session as BattleBleedingSession).rune_selected:
