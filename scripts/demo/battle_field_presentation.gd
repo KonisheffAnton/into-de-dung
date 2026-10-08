@@ -7,6 +7,9 @@ const LAND_SECONDS: float = 0.07
 const COLLAPSE_SECONDS: float = 0.22
 const DEATH_SECONDS: float = 0.20
 const HAZARD_SECONDS: float = 0.12
+const SPIKE_EXTEND_SECONDS: float = 0.04
+const SPIKE_HOLD_SECONDS: float = 0.16
+const SPIKE_RETRACT_SECONDS: float = 0.10
 var poses: Dictionary = {}
 var cells: Dictionary = {}
 
@@ -23,7 +26,8 @@ func restore(board: BattleDemoBoard) -> void:
 			&"land": sample_land(pose.progress, board, id)
 	for cell: Vector2i in cells.keys():
 		var pose: Dictionary = cells[cell]
-		sample_cell(pose.progress, board, cell, pose.kind)
+		if pose.kind == &"trap": sample_trap(pose.progress, board, cell, pose.get("trap_kind", "floor"), pose.get("direction", Vector2i.ZERO))
+		else: sample_cell(pose.progress, board, cell, pose.kind)
 
 func sample_fall(progress: float, board: BattleDemoBoard, id: int, from: Vector2i, to: Vector2i, vanish: bool) -> void:
 	poses[id] = {"kind": &"fall", "progress": progress, "from": from, "to": to, "vanish": vanish}
@@ -72,6 +76,19 @@ func sample_cell(progress: float, board: BattleDemoBoard, cell: Vector2i, kind: 
 			overlay.position = floor_visual.get_visual_offset() + Vector2(0, 0.5)
 	else:
 		overlay.hazard_progress = progress
+
+func sample_trap(progress: float, board: BattleDemoBoard, cell: Vector2i, trap_kind: String = "floor", direction: Vector2i = Vector2i.ZERO) -> void:
+	cells[cell] = {"kind": &"trap", "progress": progress, "trap_kind": trap_kind, "direction": direction}
+	var overlay := board._ensure_environment_visual(cell)
+	if overlay != null:
+		overlay.floor_trap = trap_kind == "floor"
+		overlay.wall_trap_direction = direction if trap_kind == "wall" else Vector2i.ZERO
+		overlay.trap_progress = progress
+
+static func trap_event(events: Array) -> Dictionary:
+	for event: Dictionary in events:
+		if event.get("kind") == &"trap_fired": return event.duplicate(true)
+	return {}
 
 static func hazard_cell(events: Array, fires: Array[Dictionary]) -> Vector2i:
 	for event: Dictionary in events:

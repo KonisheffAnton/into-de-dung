@@ -118,6 +118,7 @@ core без `--full` или явного `--only core` в неё не входи
 | Кровотечение D3 | `test_bleeding_snapshot.gd`, `test_bleeding.gd`, `test_bleeding_battle.gd` (full/render, шесть PNG): накопление срока, fixed tick, v1→v2, overflow/prefix, прогноз и ввод; production K2 — `test_core_combination_session.gd` |
 | Забег D4 | `test_d4_run.gd`, `test_d4_integration.gd`, `test_d4_ui.gd` (full/render, восемь PNG) |
 | Среда и трупы D5 | `test_d5_state.gd`, `test_d5_integration.gd`, `test_d5_ui.gd` (full/render; ввод, прогноз, поднятие, PNG) |
+| Выдвижные ловушки/кислота | `test_hazards.gd`, `test_acid.gd`, `test_hazards_ui.gd` (`--only hazards acid hazards_ui`): срок команды/выход/повтор, push/wall/fall≥2 halfsteps, lethal/guard/corpse/collapse, прямой armor10 и срок, codec/preview/worker/live/production opening; detached показ/анимация/resize/PNG. Правила — [контракт](ENVIRONMENT_HAZARDS_V1.md). |
 | Проход союзников | `test_ally_transit.gd` (full/render; два PNG в render) |
 | Прогноз атаки | `test_attack_forecast.gd` |
 | Контратака K12 | `test_counterattack.gd`, `test_counterattack_ui.gd` (full/render), codec в `test_combat_perks_state.gd`: доп. действие/legacy-заряд, tail после контроля/spatial/items, eligibility/смерть/FAULTED, sync/forecast worker/live worker parity, сохранения, ввод и PNG |

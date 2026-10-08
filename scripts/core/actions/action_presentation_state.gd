@@ -60,6 +60,7 @@ static func capture(state: ItemSimulationState) -> Dictionary:
 	}
 	if state.deck != null:
 		result["deck"] = state.deck.to_dict(); result["card_effects"] = state.card_effects.to_dict()
+	if environment != null and not environment.hazards.is_empty(): result["hazards"] = BattleHazards.canonical(environment.hazards)
 	return result
 
 ## Только значения для показа: выбранный режим переживает снятие стойки.

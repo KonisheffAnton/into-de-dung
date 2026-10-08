@@ -35,6 +35,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 		for record: Dictionary in next_environment[key]:
 			if record["cell"] != _cell: kept.append(record.duplicate(true))
 		next_environment[key] = kept
+	if next_environment.has("hazards"): next_environment.hazards = BattleHazards.remove_support(next_environment.hazards, _cell)
 	var expected := _guard.copy()
 	expected.values["environment"] = next_environment
 	expected.values["geometry"][_cell][1] = TerrainType.Type.VOID
@@ -42,6 +43,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	expected.seal()
 	environment.fires.assign(next_environment["fires"])
 	environment.corpses.assign(next_environment["corpses"])
+	if next_environment.has("hazards"): environment.hazards = next_environment.hazards.duplicate(true)
 	board.set_terrain(_cell, TerrainType.Type.VOID)
 	var events: Array[Dictionary] = [{"kind": &"support_collapsed", "actor_unit_id": 0, "target_unit_id": 0, "cell": _cell}]
 	# Callback после смены terrain не может подменить жертву или ожидаемую геометрию.

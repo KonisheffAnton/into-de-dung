@@ -13,8 +13,16 @@ var corpses: Array[Dictionary] = []
 var processed_deaths: Array[int] = []
 var collapse: Dictionary = {}
 var status_effects: bool = false
+var hazards: Dictionary = {}
 
 func to_dict() -> Dictionary:
+	var result := _legacy_dict()
+	if not hazards.is_empty():
+		result["schema_version"] = 4
+		result["hazards"] = BattleHazards.canonical(hazards)
+	return result
+
+func _legacy_dict() -> Dictionary:
 	# Пустая фаза сохраняет точную старую форму, чтобы legacy-снимки не меняли канон.
 	var raw := {"schema_version": 3 if status_effects else (1 if collapse.is_empty() else 2), "next_fire_id": next_fire_id, "next_corpse_id": next_corpse_id, "fires": fires.duplicate(true), "corpses": corpses.duplicate(true), "processed_deaths": processed_deaths.duplicate()}
 	if status_effects or not collapse.is_empty(): raw["collapse"] = collapse.duplicate(true)
@@ -38,6 +46,13 @@ func to_dict() -> Dictionary:
 static func valid(data: Variant) -> bool:
 	if typeof(data) != TYPE_DICTIONARY:
 		return false
+	if typeof(data.get("schema_version")) != TYPE_INT: return false
+	if data.get("schema_version") == 4:
+		if not BattleHazards.valid(data.get("hazards")): return false
+		var prior: Dictionary = data.duplicate(true)
+		prior.erase("hazards")
+		prior["schema_version"] = 3
+		return valid(prior)
 	var value: Dictionary = data
 	if typeof(value.get("schema_version")) != TYPE_INT or value["schema_version"] not in [1, 2, 3]:
 		return false
@@ -125,7 +140,8 @@ static func from_dict(data: Dictionary) -> CombatEnvironmentState:
 		return null
 	var result := CombatEnvironmentState.new()
 	if data["schema_version"] >= 2: result.collapse = data["collapse"].duplicate(true)
-	result.status_effects = data["schema_version"] == 3
+	result.status_effects = data["schema_version"] >= 3
+	if data["schema_version"] == 4: result.hazards = BattleHazards.canonical(data["hazards"])
 	result.next_fire_id = data["next_fire_id"]
 	result.next_corpse_id = data["next_corpse_id"]
 	result.fires.assign(_sorted_records(data["fires"]))

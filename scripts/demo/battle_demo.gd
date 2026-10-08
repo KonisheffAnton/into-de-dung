@@ -1748,6 +1748,7 @@ func _hover(cell: Vector2i) -> void:
 		var fire := "Опасностей нет."
 		if not fire_record.is_empty():
 			fire = _hazard_summary(fire_record)
+		fire = _append_cell_hazards(fire, environment.hazards, cell)
 		_hint.text = fire + ("\nТела ×%d: %s" % [details.size(), ", ".join(details)] if not details.is_empty() else "\nТрупов нет.")
 		if environment.collapse.get("marked", []).has(cell):
 			_hint.text = "%s · ОБВАЛ после вашего хода. Клетка станет пропастью; оставшийся здесь погибнет.\n" % _cell_name(cell) + _hint.text
@@ -1776,12 +1777,29 @@ func _hover(cell: Vector2i) -> void:
 		var hazard: Dictionary = environment_state.fire_at(cell)
 		if not hazard.is_empty():
 			_hint.text += "\n" + _hazard_summary(hazard)
+		var cell_hazards := _cell_hazard_text(environment_state.hazards, cell)
+		if not cell_hazards.is_empty(): _hint.text += "\n" + cell_hazards
 	_render_forecast_panel()
 
 func _hazard_summary(hazard: Dictionary) -> String:
 	if String(hazard.get("effect", "")) == "burning": return "Огонь: поджог при входе и в начале своего хода, независимо от брони."
 	if hazard.has("effect"): return "Шипы: 8 физического урона при входе; кровотечение независимо от брони."
 	return "Шипы: 8 урона при входе."
+
+func _cell_hazard_text(hazards: Dictionary, cell: Vector2i) -> String:
+	var lines: PackedStringArray = []
+	if cell in hazards.get("acid", []): lines.append("Кислота: вход добавляет 1 ход; в начале своего командного хода снимает 10 брони, HP не затрагивает. Стоя в луже, вы добавляете ещё 1 ход.")
+	for trap: Dictionary in hazards.get("traps", []):
+		if trap.get("cell", Vector2i(-1, -1)) != cell: continue
+		if String(trap.get("kind", "")) == "wall":
+			lines.append("Настенная ловушка-шипы: срабатывает при толчке в соседнюю стену.")
+		else:
+			lines.append("Напольные шипы: добровольный вход взводит ловушку; она срабатывает в начале следующего хода этой команды. Толчок или падение минимум на 1 клетку срабатывает сразу.")
+	return "\n".join(lines)
+
+func _append_cell_hazards(base: String, hazards: Dictionary, cell: Vector2i) -> String:
+	var details := _cell_hazard_text(hazards, cell)
+	return base + ("\n" + details if not details.is_empty() else "")
 
 func _attack_variant() -> StringName:
 	if session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).stun_selected: return &"stun"
@@ -2584,6 +2602,8 @@ func _event_text(event: Dictionary) -> String:
 			var reason: StringName = event.get("reason", &"")
 			var label := "Тик горения" if reason == &"burn_tick" else ("Истечение статусов" if reason == &"turn_end" else _elemental_effect_label(reason))
 			return "%s: %s — %s." % [target, label, _elemental_summary(after)]
+		&"trap_armed": return "Ловушка-шипы подготовлена на %s." % _cell_name(event.get("cell", Vector2i(-1, -1)))
+		&"trap_fired": return "Ловушка-шипы сработала%s на %s." % [" по " + target if int(event.get("target_unit_id", 0)) > 0 else " вхолостую", _cell_name(event.get("cell", Vector2i(-1, -1)))]
 		&"mage_cast":
 			return "Маг: %s → %s; мана %d → %d; откат %d." % [_elemental_effect_label(StringName(event.spell_id)), target, event.mana_before, event.mana_after, event.cooldown_after]
 		&"mage_card_played":
@@ -2956,6 +2976,7 @@ func _elemental_summary(value: Variant) -> String:
 	if int(data.get("burning_stacks", 0)) > 0: parts.append("горение %d ст. / %d т." % [data["burning_stacks"], data["burning_ticks"]])
 	if int(data.get("wet_turns", 0)) > 0: parts.append("мокрый %d х." % data["wet_turns"])
 	if int(data.get("frozen_turns", 0)) > 0: parts.append("заморозка %d х." % data["frozen_turns"])
+	if int(data.get("acid_ticks", 0)) > 0: parts.append("В кислоте · %d ход." % int(data["acid_ticks"]))
 	if parts.is_empty(): return "нет"
 	return ", ".join(parts)
 

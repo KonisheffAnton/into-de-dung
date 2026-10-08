@@ -27,6 +27,14 @@ ForecastSimulation и оба worker сохраняют то же состоян�
 ControlRules блокирует действия/угрозы замороженного; крит frozen распространяется
 и на реакции K12, сохраняя исключения обычного контроля у реакций.
 
+[Выдвижные ловушки и кислота](ENVIRONMENT_HAZARDS_V1.md) расширяют Environment
+до schema4 и ElementalState до schema2 только при соответствующей capability.
+HazardCommand/HazardTurnCommand разрешают контакты/отложенные срабатывания через
+ту же очередь; AcidCommand пишет только статус и броню под SpatialRules.Guard.
+Состояние взвода/защёлки входит в snapshot, а показ — в detached публикации.
+BattleHazardSetup авторит слой первой комнаты в HeroHubBattleFactory, сохраняя
+persisted каталог/планы/profile1–4 и прежние D5/K2. Владелец правил — новый контракт.
+
 [K14](SAFE_RETREAT_K14.md) добавляет `safe_retreat` в MoveCommand: тот же путь,
 continuation и очередь последствий, без перехвата Оппортуниста. Первый сегмент
 оплачивает main внутри прежнего spatial guard; события строго проверяет ActionQueue.

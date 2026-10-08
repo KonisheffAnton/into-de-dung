@@ -213,6 +213,8 @@ def main():
         if label in ("mage_deck_models", "deck_ability_state", "mage_deck_expedition", "mage_deck_battle", "mage_deck_playthrough", "mage_deck_ui"):
             marker = "MAGE DECK MODEL RESULTS:" if label == "mage_deck_models" else label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label in ("acid", "hazards", "hazards_ui"):
+            invalid = invalid or label.replace("_", " ").upper() + " RESULTS:" not in output or ", 0 failed" not in output
         if label in ("status_models", "status_snapshots", "status_effects", "status_ui"):
             marker = {"status_models": "STATUS STATE MODEL RESULTS:", "status_snapshots": "ELEMENTAL SNAPSHOT RESULTS:", "status_effects": "STATUS EFFECTS RESULTS:", "status_ui": "STATUS EFFECTS UI RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -399,6 +401,13 @@ def main():
         run("status_models", ["--script", "tests/test_status_state_models.gd"])
         run("status_snapshots", ["--script", "tests/test_elemental_snapshots.gd"])
         run("status_effects", ["--script", "tests/test_status_effects.gd"])
+        run("acid", ["--script", "tests/test_acid.gd"])
+        run("hazards", ["--script", "tests/test_hazards.gd"])
+        hazards_ui_args = ["--script", "tests/test_hazards_ui.gd"]
+        if args.render_check:
+            (out / "hazards-screenshots").mkdir(exist_ok=True)
+            hazards_ui_args += ["--", "--captures=" + str(out / "hazards-screenshots")]
+        run("hazards_ui", hazards_ui_args, headless=not args.render_check)
         run("core_readiness_status", ["--script", "tests/test_core_readiness_status.gd"])
         status_args = ["--script", "tests/test_status_effects_ui.gd"]
         if args.render_check:

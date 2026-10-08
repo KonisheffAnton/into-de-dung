@@ -151,6 +151,7 @@ static func create(run: HeroHubState) -> Dictionary:
 				session.state.environment.fires.append({"id":session.state.environment.next_fire_id,"cell":cell,"damage":ExpeditionCatalog.SPIKE_DAMAGE if node.modifier == "spikes" else 0,"effect":"bleeding" if node.modifier == "spikes" else "burning"})
 				session.state.environment.next_fire_id += 1
 	var pairs: Array[Dictionary] = []
+	if deck and not opening.is_empty(): BattleHazardSetup.opening(session)
 	for actor: UnitState in session.units:
 		for target: UnitState in session.units:
 			if actor.id != target.id: pairs.append({"actor_unit_id":actor.id,"target_unit_id":target.id})

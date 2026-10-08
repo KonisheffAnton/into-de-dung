@@ -75,6 +75,7 @@ var _view_units: Array[Dictionary] = []
 var _view_actor_classes: Dictionary = {}
 var _view_visual_classes: Dictionary[int, StringName] = {}
 var _view_fires: Array[Dictionary] = []
+var _view_hazards: Dictionary = {}
 var _view_corpses: Array[Dictionary] = []
 var _view_collapse: Array[Vector2i] = []
 var environment_visual_scene: PackedScene = preload("res://scenes/demo/visuals/environment_overlay.tscn")
@@ -154,6 +155,7 @@ func show_presentation_state(value: Dictionary) -> void:
 			"statuses": BattleStatusPresentation.entries(row), "resources": _presentation_resources(row),
 			"reaction_view": row.get("reaction_view", {}).duplicate(true)})
 	_view_fires.assign(value.get("fires", []).duplicate(true))
+	_view_hazards = value.get("hazards", {}).duplicate(true)
 	_view_corpses.assign(value.get("corpses", []).duplicate(true))
 	_view_collapse.assign(value.get("collapse", {}).get("marked", []).duplicate(true))
 	_reachable.clear()
@@ -632,6 +634,15 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 	# Исторический источник тика может указывать на прежнюю клетку: подсвечиваем
 	# только реальное исполнение опасности, а не любой урон с таким source.
 	var hazard := BattleFieldPresentation.hazard_cell(events, _view_fires) if step.get("kind") == &"fire_entry" else Vector2i(-1, -1)
+	var trap_event := BattleFieldPresentation.trap_event(events) if step.get("kind") in [&"hazard_contact", &"hazard_trigger"] else {}
+	var trap_cell: Vector2i = trap_event.get("cell", Vector2i(-1, -1))
+	if trap_cell.x >= 0:
+		var trap_kind: String = String(trap_event.get("trap_kind", "floor"))
+		var trap_direction: Vector2i = trap_event.get("direction", Vector2i.ZERO)
+		tween.tween_method(_field_presentation.sample_trap.bind(self, trap_cell, trap_kind, trap_direction), 0.0, 1.0, BattleFieldPresentation.SPIKE_EXTEND_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_interval(BattleFieldPresentation.SPIKE_HOLD_SECONDS)
+		tween.tween_method(_field_presentation.sample_trap.bind(self, trap_cell, trap_kind, trap_direction), 1.0, 0.0, BattleFieldPresentation.SPIKE_RETRACT_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		visible_event = true
 	if hazard.x >= 0:
 		tween.tween_method(_field_presentation.sample_cell.bind(self, hazard, &"hazard"), 0.0, 1.0, BattleFieldPresentation.HAZARD_SECONDS)
 		visible_event = true
@@ -1426,14 +1437,23 @@ func _add_environment_visual(floor_visual: BattleDemoIsoVisual, cell: Vector2i, 
 	for fire: Dictionary in _view_fires:
 		if fire.cell == cell and fire.get("effect", "bleeding") != "burning": spikes = true
 	var warning := cell in _view_collapse
-	if not force and not spikes and not floor_visual.burning and not warning and corpses.is_empty(): return
+	var acid: bool = cell in _view_hazards.get("acid", [])
+	var trap := _trap_at_cell(cell)
+	if not force and not spikes and not floor_visual.burning and not warning and corpses.is_empty() and not acid and trap.is_empty(): return
 	var overlay := environment_visual_scene.instantiate() as BattleEnvironmentVisual
 	floor_visual.add_child(overlay)
 	overlay.position = floor_visual.get_visual_offset() + Vector2(0, 0.5)
 	overlay.scale = Vector2.ONE * grid_config.tile_size.x / 128.0
-	overlay.configure(spikes, floor_visual.burning and tile_visual_scene == null, warning, corpses)
+	overlay.configure(spikes, floor_visual.burning and tile_visual_scene == null, warning, corpses, acid,
+		String(trap.get("kind", "")) == "floor", trap.get("direction", Vector2i.ZERO), bool(trap.get("armed", false)))
 	overlay.warning_phase = _warning_phase
 	_environment_visuals[cell] = overlay
+
+func _trap_at_cell(cell: Vector2i) -> Dictionary:
+	for trap: Dictionary in _view_hazards.get("traps", []):
+		if trap.get("cell", Vector2i(-1, -1)) == cell:
+			return {"kind": String(trap.get("kind", "")), "direction": trap.get("direction", Vector2i.ZERO), "armed": int(trap.get("armed_team", -1)) >= 0}
+	return {}
 
 func _ensure_environment_visual(cell: Vector2i) -> BattleEnvironmentVisual:
 	if not _environment_visuals.has(cell):
@@ -1486,6 +1506,7 @@ func _capture_board_view(board: BattleBoard) -> void:
 	_view_terrain = PackedByteArray()
 	_view_units.clear()
 	_view_fires.clear()
+	_view_hazards.clear()
 	_view_corpses.clear()
 	_view_collapse.clear()
 	if board == null: return
@@ -1527,6 +1548,7 @@ func _capture_board_view(board: BattleBoard) -> void:
 	var environment: CombatEnvironmentState = session.state.environment if session != null and session.state != null else null
 	if environment != null:
 		_view_fires = environment.fires.duplicate(true)
+		_view_hazards = environment.hazards.duplicate(true)
 		_view_corpses = environment.corpses.duplicate(true)
 		_view_collapse.assign(environment.collapse.get("marked", []))
 

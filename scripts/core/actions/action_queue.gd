@@ -74,6 +74,8 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 				reason = &"control/internal_command"
 			elif accepted is EnvironmentCommand:
 				reason = &"environment/internal_command"
+			elif accepted is HazardCommand or accepted is HazardTurnCommand or accepted is AcidCommand:
+				reason = &"hazard/internal_command"
 			elif accepted is CollapseCellCommand:
 				reason = &"collapse/internal_command"
 			elif accepted is DeathCommand and ((accepted as DeathCommand)._has_spatial_binding or (accepted as DeathCommand)._spatial_binding != null):
@@ -429,6 +431,7 @@ static func _valid_draft(draft: Dictionary, context: ActionContext = null) -> bo
 	if draft.get("kind") == &"corpse_raised": return RaiseCorpseCommand.valid_draft(draft)
 	if draft.get("kind") == &"bleeding_changed": return _valid_bleeding_draft(draft)
 	if draft.get("kind") == &"control_changed": return _valid_control_draft(draft)
+	if draft.get("kind") in [&"trap_armed", &"trap_fired"]: return BattleHazards.valid_event(draft)
 	if draft.get("kind") in [&"elemental_changed", &"elemental_cast"]: return _valid_elemental_draft(draft)
 	if draft.get("kind") in [&"attacked", &"opportunity_attacked", &"counterattacked"] and draft.has("modifiers"):
 		if typeof(draft["modifiers"]) != TYPE_DICTIONARY: return false
@@ -586,6 +589,8 @@ static func _reserved_event_capacity(command: Command, context: ActionContext) -
 	return capacity
 
 static func _event_capacity(command: Command) -> int:
+	if command is HazardCommand: return 3
+	if command is AcidCommand: return 2
 	if command is PlayMageCardCommand: return 9
 	if command is PushChainCommand: return 9
 	if command is AttackCommand and (command as AttackCommand).is_reaction(): return 3

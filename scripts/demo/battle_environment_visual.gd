@@ -5,6 +5,14 @@ var has_spikes: bool = false
 var has_burning_fallback: bool = false
 var is_warning: bool = false
 var corpse_records: Array[Dictionary] = []
+var acid_pool: bool = false
+var floor_trap: bool = false
+var wall_trap_direction: Vector2i = Vector2i.ZERO
+var trap_armed: bool = false
+var trap_progress: float = -1.0:
+	set(value):
+		trap_progress = value
+		queue_redraw()
 
 var collapse_progress: float = -1.0:
 	set(value):
@@ -22,12 +30,16 @@ var warning_phase: float = 0.0:
 		queue_redraw()
 
 
-func configure(spikes: bool, burning_fallback: bool, collapse_warning: bool, corpses: Array[Dictionary]) -> void:
+func configure(spikes: bool, burning_fallback: bool, collapse_warning: bool, corpses: Array[Dictionary], acid: bool = false, floor_plate: bool = false, wall_direction: Vector2i = Vector2i.ZERO, armed: bool = false) -> void:
 	has_spikes = spikes
 	has_burning_fallback = burning_fallback
 	is_warning = collapse_warning
 	# Значения отделяются от вызывающей стороны, чтобы визуал не удерживал живые runtime-записи.
 	corpse_records = corpses.duplicate(true)
+	acid_pool = acid
+	floor_trap = floor_plate
+	wall_trap_direction = wall_direction
+	trap_armed = armed
 	queue_redraw()
 
 
@@ -39,8 +51,12 @@ func _draw() -> void:
 
 	if is_warning and collapse < 1.0:
 		_draw_warning(remains_alpha)
+	if acid_pool:
+		_draw_acid(remains_alpha)
 	if has_spikes:
 		_draw_spikes(remains_alpha)
+	if floor_trap or wall_trap_direction != Vector2i.ZERO:
+		_draw_trap(remains_alpha)
 	if has_burning_fallback:
 		_draw_fire(remains_alpha)
 	_draw_corpses(remains_alpha)
@@ -60,6 +76,57 @@ func _draw_spikes(alpha: float) -> void:
 		var tip: Vector2 = Vector2(x, y - 9.0)
 		draw_colored_polygon(PackedVector2Array([tip, Vector2(x - 5.0, y + 2.0), Vector2(x + 5.0, y + 2.0)]), tint)
 		draw_polyline(PackedVector2Array([tip, Vector2(x, y + 1.0)]), dark, 1.1, true)
+
+func _draw_acid(alpha: float) -> void:
+	# Кислота остаётся внутри клетки и имеет отдельный зелёный силуэт.
+	draw_colored_polygon(_ellipse_points(Vector2(0, 10), 31, 12, 24), Color("51d878", 0.58 * alpha))
+	draw_polyline(_ellipse_points(Vector2(0, 10), 31, 12, 24), Color("a4ff8b", 0.85 * alpha), 1.5, true)
+	for point: Vector2 in [Vector2(-12, 9), Vector2(4, 13), Vector2(16, 7)]:
+		draw_circle(point, 2.0, Color("c4ff9a", alpha * 0.82))
+
+func _draw_trap(alpha: float) -> void:
+	if wall_trap_direction != Vector2i.ZERO:
+		var toward_wall := _grid_direction_to_screen(wall_trap_direction)
+		var side := Vector2(-toward_wall.y, toward_wall.x)
+		var panel_center := Vector2(0, 8) + toward_wall * 27.0
+		var panel := PackedVector2Array([panel_center - side * 25.0, panel_center - side * 25.0 + Vector2(0, -11), panel_center + side * 25.0 + Vector2(0, -11), panel_center + side * 25.0])
+		draw_colored_polygon(panel, Color("343e49", 0.96 * alpha))
+		draw_polyline(PackedVector2Array([panel[0], panel[1], panel[2], panel[3], panel[0]]), Color("aeb8bd", 0.9 * alpha), 1.5, true)
+		var wall_progress := clampf(trap_progress, 0.0, 1.0) if trap_progress >= 0.0 else 0.0
+		if wall_progress > 0.0: _draw_projected_spikes(-toward_wall, wall_progress, alpha, panel_center)
+		return
+	var plate := PackedVector2Array([Vector2(-27, 8), Vector2(-19, 1), Vector2(27, 8), Vector2(19, 15)])
+	var edge := Color("efba73", 0.92 * alpha) if trap_armed else Color("818c92", 0.8 * alpha)
+	draw_colored_polygon(plate, Color("303a42", 0.9 * alpha))
+	draw_polyline(PackedVector2Array([plate[0], plate[1], plate[2], plate[3], plate[0]]), edge, 2.0, true)
+	var progress := clampf(trap_progress, 0.0, 1.0) if trap_progress >= 0.0 else 0.0
+	if progress > 0.0:
+		_draw_projected_spikes(Vector2.UP, progress, alpha)
+	else:
+		for index: int in 3:
+			var hole := Vector2(-13.0 + float(index) * 13.0, 8.0)
+			draw_ellipse_placeholder(hole, alpha)
+	if trap_armed:
+		draw_polyline(_ellipse_points(Vector2(0, 10), 33, 13, 20), Color("ffc26d", (0.36 + 0.18 * sin(warning_phase)) * alpha), 1.5, true)
+
+static func wall_spike_direction(grid_direction: Vector2i) -> Vector2:
+	return -_grid_direction_to_screen(grid_direction)
+
+static func _grid_direction_to_screen(grid_direction: Vector2i) -> Vector2:
+	# Ромбовая клетка сужает вертикальный шаг вдвое относительно горизонтального.
+	return Vector2(float(grid_direction.x - grid_direction.y), float(grid_direction.x + grid_direction.y) * 0.5).normalized()
+
+func _draw_projected_spikes(direction: Vector2, progress: float, alpha: float, origin: Vector2 = Vector2(0, 10)) -> void:
+	# Одинаковая форма шипов сохраняет читаемость floor- и wall-срабатываний.
+	var side := Vector2(-direction.y, direction.x)
+	for index: int in 3:
+		var base := side * (float(index) - 1.0) * 12.0 + origin
+		var tip := base + direction * (36.0 * progress)
+		draw_colored_polygon(PackedVector2Array([tip, base + side * 3.5, base - side * 3.5]), Color("d8e0e2", 0.98 * alpha))
+
+func draw_ellipse_placeholder(center: Vector2, alpha: float) -> void:
+	draw_colored_polygon(_ellipse_points(center, 3.0, 1.6, 12), Color("111b20", 0.95 * alpha))
+	draw_polyline(_ellipse_points(center, 3.0, 1.6, 12), Color("8b9798", 0.7 * alpha), 0.8, true)
 
 
 func _draw_fire(alpha: float) -> void:

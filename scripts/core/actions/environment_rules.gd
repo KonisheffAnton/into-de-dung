@@ -8,7 +8,10 @@ static func snapshot_reason(data: Dictionary, board: Dictionary, summons: Array)
 	for unit: Dictionary in board["units"]:
 		units[unit["id"]] = unit
 		if not unit.has("armor"): return "environment/armor_required"
-		if data["schema_version"] == 3 and not unit.has("elemental"): return "environment/status_required"
+		if data["schema_version"] >= 3 and not unit.has("elemental"): return "environment/status_required"
+	if data["schema_version"] == 4:
+		var hazard_reason := BattleHazards.snapshot_reason(data["hazards"], board)
+		if not hazard_reason.is_empty(): return hazard_reason
 	var summoned: Dictionary = {}
 	for record: Dictionary in summons: summoned[record["unit_id"]] = true
 	for record: Dictionary in data["fires"]:
@@ -40,10 +43,19 @@ static func consequences(event: Dictionary, context: ActionContext) -> Array[Com
 		if event.has("transit_path"):
 			cells.assign(event["transit_path"].slice(1))
 		else: cells.append(event["to_cell"])
+		var from: Vector2i = event["from_cell"]
 		for cell: Vector2i in cells:
 			var unit := state.get_board().get_unit_by_id(event["target_unit_id"])
 			if unit != null and unit.elemental != null: result.append(BleedingMovementCommand.new(unit))
+			if state.environment != null and not state.environment.hazards.is_empty():
+				var board := state.get_board()
+				var immediate: bool = event.get("movement_kind") == &"push" or board.get_height_steps(from) - board.get_height_steps(cell) >= 2
+				result.append(HazardCommand.new(state.environment, unit, cell, immediate))
 			if state.environment != null and not state.environment.fire_at(cell).is_empty(): result.append(EnvironmentCommand.for_entry(event["target_unit_id"], cell, context))
+			from = cell
+	elif event["kind"] == &"push_blocked" and event.get("reason") == &"wall" and state.environment != null and not state.environment.hazards.is_empty():
+		var unit := state.get_board().get_unit_by_id(event["target_unit_id"])
+		result.append(HazardCommand.new(state.environment, unit, event["from_cell"], true, true, event["attempted_cell"] - event["from_cell"]))
 	return result
 
 static func valid_draft(event: Dictionary) -> bool:

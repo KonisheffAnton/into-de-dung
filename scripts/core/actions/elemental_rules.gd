@@ -8,7 +8,7 @@ static func burning(unit: UnitState) -> bool:
 	return unit != null and unit.elemental != null and unit.elemental.burning_stacks > 0
 
 static func valid_unit(unit: UnitState) -> bool:
-	return unit != null and unit.elemental != null and unit.elemental.get_script() == ElementalState and ElementalState.valid(unit.elemental.to_dict()) and unit.bleeding != null and unit.bleeding.stacked and BleedingState.valid(unit.bleeding.to_dict()) and not (unit.elemental.burning_stacks > 0 and unit.bleeding.stacks > 0)
+	return unit != null and unit.elemental != null and unit.elemental.get_script() == ElementalState and unit.elemental.acid_ticks >= 0 and ElementalState.valid(unit.elemental.to_dict()) and unit.bleeding != null and unit.bleeding.stacked and BleedingState.valid(unit.bleeding.to_dict()) and not (unit.elemental.burning_stacks > 0 and unit.bleeding.stacks > 0)
 
 static func freeze_gate(view: Dictionary) -> bool:
 	var totals := ArmorRuntime.totals(view)
@@ -57,6 +57,18 @@ static func transition(before: Dictionary, effect: StringName, ticks: int, sourc
 			if before["burning_ticks"] > 0:
 				after["burning_ticks"] -= 1
 				if after["burning_ticks"] == 0: _clear_burning(after)
+		&"acid_apply":
+			var acid_before_apply: int = int(before.get("acid_ticks", 0))
+			if acid_before_apply == ElementalState.MAX_VALUE: return {"reason": &"status/duration_exhausted"}
+			after["acid_ticks"] = acid_before_apply + 1
+			after["schema_version"] = 2
+		&"acid_tick":
+			var acid_before_tick: int = int(before.get("acid_ticks", 0))
+			if acid_before_tick > 0:
+				after["acid_ticks"] = acid_before_tick - 1
+				if after["acid_ticks"] == 0:
+					after.erase("acid_ticks")
+					after["schema_version"] = 1
 		&"turn_end":
 			after["wet_turns"] = maxi(0, after["wet_turns"] - 1)
 			after["frozen_turns"] = maxi(0, after["frozen_turns"] - 1)
@@ -84,6 +96,7 @@ static func write(unit: UnitState, after: Dictionary, guard: SpatialRules.Guard,
 		state.burning_source = after["burning_source"].duplicate(true)
 		state.wet_turns = after["wet_turns"]
 		state.frozen_turns = after["frozen_turns"]
+		state.acid_ticks = int(after.get("acid_ticks", 0))
 		result.state_changed = true
 		result.events.append({"kind": &"elemental_changed", "actor_unit_id": actor, "target_unit_id": unit.id, "reason": effect, "before": before, "after": after.duplicate(true)})
 		if guard.check(context): state.changed.emit()

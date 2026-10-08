@@ -15,6 +15,7 @@ static func entries(row: Dictionary) -> Array[Dictionary]:
 	_add(result, "entangled", "Путы", 0, int(control.get("entangled_turns", 0)), "до конца ближайшего хода своей команды", true)
 	_add(result, "bleeding", "Кровотечение", int(bleeding.get("stacks", 0)), int(bleeding.get("ticks_left", 0)), "тиков в начале своего хода", false)
 	_add(result, "burning", "Горение", int(elemental.get("burning_stacks", 0)), int(elemental.get("burning_ticks", 0)), "тиков в начале своего хода", false)
+	_add(result, "acid", "В кислоте", 0, int(elemental.get("acid_ticks", 0)), "ход., 10 брони/ход", false)
 	_add(result, "wet", "Мокрый", 0, int(elemental.get("wet_turns", 0)), "концов хода своей команды", false)
 	return result
 

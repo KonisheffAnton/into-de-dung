@@ -23,6 +23,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var units := context.get_state().get_board().get_all_units()
 	units.sort_custom(func(a: UnitState, b: UnitState) -> bool: return a.id < b.id)
 	var children: Array[Command] = []
+	if context.get_state().environment != null and not context.get_state().environment.hazards.is_empty(): children.append(HazardTurnCommand.new(_faction))
 	for unit: UnitState in units:
 		if unit.faction == _faction and unit.is_alive() and unit.elemental != null:
 			children.append(StatusTurnUnitCommand.new(unit))

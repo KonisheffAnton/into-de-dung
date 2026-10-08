@@ -522,6 +522,10 @@ func _draw_status_icons(canvas: Node2D) -> void:
 		var icon := _status_icon(id)
 		if icon != null:
 			canvas.draw_texture_rect(icon, rect, false)
+		elif id == "acid":
+			canvas.draw_circle(rect.get_center(), 6.0, Color("57dd72"))
+			canvas.draw_circle(rect.get_center() + Vector2(2.0, -2.0), 1.4, Color("d0ff9d"))
+			canvas.draw_circle(rect.get_center() + Vector2(-2.0, 2.0), 1.0, Color("d0ff9d"))
 		else:
 			# Неизвестные виды получают одинаковую геометрию для проверки переполнения.
 			var center := rect.position + rect.size * 0.5

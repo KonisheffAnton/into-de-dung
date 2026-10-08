@@ -32,8 +32,9 @@ func _run() -> void:
 func _journey(leave: bool) -> void:
 	profile = HeroHubState.create(4280)
 	if deck_mode: profile.enable_mage_deck()
-	# Полная победа проверяет цикл на допустимом отряде ветеранов; баланс новичков не является утверждением этого runner.
-	if not leave:
+	# Оба успешных маршрута Mage Deck проверяют цикл, а не баланс новичков против новых
+	# летальных ловушек. Отдельное пассивное поражение ниже сохраняет новичков.
+	if deck_mode or not leave:
 		for hero: HeroProgression in profile.heroes.values():
 			hero.award_experience_tenths(45000); hero.apply_allocation([9,0,0,0])
 		if deck_mode:
@@ -161,10 +162,11 @@ func _approach(s: BattleCoreReactionsSession, actor: UnitState) -> Vector2i:
 	for cell: Vector2i in s.reachable_cells():
 		var path := s.path_to(cell)
 		if path.size() < 2: continue
-		# Полигон содержит опасности: пилот не сокращает путь через шипы, огонь и провалы.
+		# Пилот маршрута учитывает новые плиты/кислоту наряду со старыми опасностями.
 		var safe := true
 		for step: Vector2i in path.slice(1):
 			if s.board.is_lethal(step) or not s.state.environment.fire_at(step).is_empty(): safe = false; break
+			if s.state.environment.hazards.get("traps", []).any(func(trap: Dictionary) -> bool: return trap.cell == step) or step in s.state.environment.hazards.get("acid", []): safe = false; break
 		if not safe: continue
 		var value := _distance(s,cell)
 		if value < score: score = value; best = cell
