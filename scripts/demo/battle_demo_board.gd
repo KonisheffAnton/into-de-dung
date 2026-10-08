@@ -640,8 +640,8 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 		var trap_kind: String = String(trap_event.get("trap_kind", "floor"))
 		var trap_direction: Vector2i = trap_event.get("direction", Vector2i.ZERO)
 		tween.tween_method(_field_presentation.sample_trap.bind(self, trap_cell, trap_kind, trap_direction), 0.0, 1.0, BattleFieldPresentation.SPIKE_EXTEND_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		tween.tween_interval(BattleFieldPresentation.SPIKE_HOLD_SECONDS)
-		tween.tween_method(_field_presentation.sample_trap.bind(self, trap_cell, trap_kind, trap_direction), 1.0, 0.0, BattleFieldPresentation.SPIKE_RETRACT_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		# Шипы остаются поднятыми во время урона/смерти и публикации чисел.
+		# Втягивание принадлежит отдельному хвосту уже опубликованного кадра.
 		visible_event = true
 	if hazard.x >= 0:
 		tween.tween_method(_field_presentation.sample_cell.bind(self, hazard, &"hazard"), 0.0, 1.0, BattleFieldPresentation.HAZARD_SECONDS)
@@ -765,6 +765,18 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			tween.tween_method(_presentation_pulse.bind(id, dying, falling), 0.0, 1.0, 0.3 if dying else 0.16)
 			visible_event = true
 	if not visible_event: tween.tween_interval(0.035)
+	return tween
+
+func animate_trap_retraction(event: Dictionary) -> Tween:
+	var cell: Vector2i = event.cell
+	var kind: String = String(event.trap_kind)
+	var direction: Vector2i = event.direction
+	# show_presentation_state пересобрал позы: восстанавливаем укол по событию,
+	# сохраняя атомарную публикацию HP, тела и чисел до паузы чтения результата.
+	_field_presentation.sample_trap(1.0, self, cell, kind, direction)
+	var tween := create_tween()
+	tween.tween_interval(BattleFieldPresentation.SPIKE_HOLD_SECONDS)
+	tween.tween_method(_field_presentation.sample_trap.bind(self, cell, kind, direction), 1.0, 0.0, BattleFieldPresentation.SPIKE_RETRACT_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	return tween
 
 func _is_presentation_drop(from: Vector2i, to: Vector2i) -> bool:
@@ -975,7 +987,7 @@ func _mage_contact(cast: Dictionary, spell: StringName) -> void:
 
 static func has_presentation_animation(events: Array) -> bool:
 	for event: Dictionary in events:
-		if event.get("kind", &"") in [&"moved", &"fell", &"hit_resolved", &"balance_changed", &"balance_broken", &"chain_link", &"push_blocked", &"collision"] or not _presentation_caption(event).is_empty(): return true
+		if event.get("kind", &"") in [&"moved", &"fell", &"hit_resolved", &"balance_changed", &"balance_broken", &"chain_link", &"push_blocked", &"collision", &"trap_fired"] or not _presentation_caption(event).is_empty(): return true
 	return false
 
 func _ready() -> void:

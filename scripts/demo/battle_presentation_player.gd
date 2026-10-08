@@ -94,13 +94,19 @@ func _complete_chain() -> void:
 
 func _complete_frame() -> void:
 	if not active: return
-	var state: Dictionary = _frames[_index].after
+	var frame: Dictionary = _frames[_index]
+	var state: Dictionary = frame.after
 	_board.show_presentation_state(state)
-	_board.finish_presentation_frame(_frames[_index].events, _frames[_index].step, _published, state)
+	_board.finish_presentation_frame(frame.events, frame.step, _published, state)
 	_published = state
+	var trap := BattleFieldPresentation.trap_event(frame.events) if frame.step.get("kind") in [&"hazard_contact", &"hazard_trigger"] else {}
+	if not trap.is_empty():
+		_tween = _board.animate_trap_retraction(trap)
+		_tween.set_speed_scale(speed)
+		_tween.finished.connect(_next)
 	frame_finished.emit(state.duplicate(true))
 	_index += 1
-	_next()
+	if trap.is_empty(): _next()
 
 func skip() -> void:
 	_finish(true)

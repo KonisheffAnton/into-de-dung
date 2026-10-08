@@ -85,8 +85,6 @@ func run() -> void:
 			board._field_presentation.sample_trap(0.0, board, spike_cell)
 			check(is_equal_approx(overlay.trap_progress, 0.0), "spike retracts to the plate after impact")
 			board.execution_pending = false
-			check(is_equal_approx(BattleFieldPresentation.SPIKE_EXTEND_SECONDS + BattleFieldPresentation.SPIKE_HOLD_SECONDS + BattleFieldPresentation.SPIKE_RETRACT_SECONDS, 0.30),
-				"impale cue remains a short deterministic sequence")
 			var unit_ids: Array = value.get("units", {}).keys()
 			if not unit_ids.is_empty():
 				var acid_frame := value.duplicate(true)
@@ -98,6 +96,7 @@ func run() -> void:
 					and board.displayed_unit_details(acid_id).contains("3 ход., 10 брони/ход"),
 					"visible acid debuff names its remaining duration and armor-only tick")
 				await capture("acid-status")
+			await trap_playback(session)
 			board.session = null
 			session.close()
 	var acid_status := BattleStatusPresentation.entries({"elemental": {"acid_ticks": 3}})
@@ -112,3 +111,76 @@ func run() -> void:
 	await process_frame
 	print("HAZARDS UI RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
+
+func advance(player: BattlePresentationPlayer, seconds: float) -> void:
+	player._tween.pause()
+	player._tween.custom_step(seconds)
+	if player.active and player._tween != null: player._tween.pause()
+
+func trap_playback(session: BattleCoreReactionsSession) -> void:
+	var unit := session.units[0]
+	var cell := Vector2i(2, 4)
+	session.board.move_unit(unit, cell)
+	var trap: Dictionary = session.state.environment.hazards.traps[0]
+	trap.occupant_id = unit.id
+	trap.armed_team = int(unit.faction)
+	var before := ActionPresentationState.capture(session.state)
+	session._queue.capture_presentation = true
+	var receipt := session._queue.submit(BleedingTurnCommand.new(unit.faction, session.context.get_revision()), session.context)
+	var frames := receipt.get_presentation_frames()
+	var index := frames.find_custom(func(frame: Dictionary) -> bool: return not BattleFieldPresentation.trap_event(frame.events).is_empty())
+	check(receipt.status == ActionReceipt.APPLIED and index >= 0, "real delayed trap supplies its damage presentation frame")
+	if index < 0: return
+	var frame: Dictionary = frames[index].duplicate(true)
+	if index > 0: before = frames[index - 1].after.duplicate(true)
+	var packet: Array[Dictionary] = [frame]
+	var original := packet.duplicate(true)
+	var snapshot := ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict()
+	var rng := session.context.get_rng().to_dict()
+	var counters := session.context.simulation_counters()
+	var player := BattlePresentationPlayer.new()
+	viewport.add_child(player)
+	board.execution_pending = true
+	var publications: Array[Dictionary] = []
+	player.frame_finished.connect(func(value: Dictionary) -> void: publications.append(value))
+	player.play(board, before, packet, frame.after)
+	advance(player, 1.0)
+	check(player.active and publications == [frame.after] and player._published.units[unit.id].hp == 0.0
+		and board._numbers.get_child_count() > 0 and is_equal_approx(board._environment_visuals[cell].trap_progress, 1.0),
+		"damage HP and result number publish while spikes remain fully raised")
+	advance(player, 0.35)
+	check(is_equal_approx(board._environment_visuals[cell].trap_progress, 1.0), "spikes remain visible 350ms after damage publication")
+	board.size += Vector2(8, 6)
+	board._rebuild_visuals()
+	check(is_equal_approx(board._environment_visuals[cell].trap_progress, 1.0), "resize preserves the raised spikes during the result hold")
+	await capture("damage-spikes-held")
+	advance(player, 0.34)
+	check(player.active and is_equal_approx(board._environment_visuals[cell].trap_progress, 1.0), "spikes still hold at 690ms after damage")
+	advance(player, 0.06)
+	check(player.active and board._environment_visuals[cell].trap_progress > 0.0 and board._environment_visuals[cell].trap_progress < 1.0, "spikes retract only after the 700ms result hold")
+	advance(player, 0.06)
+	check(not player.active and publications == [frame.after, frame.after] and board._field_presentation.cells.is_empty(), "retraction finishes without duplicate frame publication or lingering poses")
+	for abort: String in ["skip", "cancel", "speed"]:
+		player.play(board, before, packet, frame.after)
+		advance(player, 1.0)
+		if abort == "skip": player.skip()
+		elif abort == "cancel": player.cancel()
+		else:
+			player.set_speed(2.0)
+			advance(player, 0.34)
+			check(player.active and is_equal_approx(board._environment_visuals[cell].trap_progress, 1.0), "playback speed applies to the post-damage hold")
+			advance(player, 0.07)
+		check(not player.active and board._field_presentation.cells.is_empty(), "result hold cleans up on " + abort)
+	player.set_speed(1.0)
+	var empty := BattleFieldPresentation.trap_event(frame.events)
+	empty.target_unit_id = 0
+	var empty_packet: Array[Dictionary] = [{"step": frame.step.duplicate(true), "events": [empty], "after": before.duplicate(true)}]
+	player.play(board, before, empty_packet, before)
+	advance(player, 0.05)
+	check(player.active and is_equal_approx(board._environment_visuals[cell].trap_progress, 1.0), "empty armed plate still visibly extends and holds")
+	player.skip()
+	check(packet == original and ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() == snapshot
+		and session.context.get_rng().to_dict() == rng and session.context.simulation_counters() == counters,
+		"timed playback and cancellation leave source packet, live state, RNG and counters unchanged")
+	board.execution_pending = false
+	player.queue_free()

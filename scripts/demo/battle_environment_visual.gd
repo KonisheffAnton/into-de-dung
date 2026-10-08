@@ -95,19 +95,45 @@ func _draw_trap(alpha: float) -> void:
 		var wall_progress := clampf(trap_progress, 0.0, 1.0) if trap_progress >= 0.0 else 0.0
 		if wall_progress > 0.0: _draw_projected_spikes(-toward_wall, wall_progress, alpha, panel_center)
 		return
-	var plate := PackedVector2Array([Vector2(-27, 8), Vector2(-19, 1), Vector2(27, 8), Vector2(19, 15)])
-	var edge := Color("efba73", 0.92 * alpha) if trap_armed else Color("818c92", 0.8 * alpha)
-	draw_colored_polygon(plate, Color("303a42", 0.9 * alpha))
-	draw_polyline(PackedVector2Array([plate[0], plate[1], plate[2], plate[3], plate[0]]), edge, 2.0, true)
 	var progress := clampf(trap_progress, 0.0, 1.0) if trap_progress >= 0.0 else 0.0
-	if progress > 0.0:
-		_draw_projected_spikes(Vector2.UP, progress, alpha)
-	else:
-		for index: int in 3:
-			var hole := Vector2(-13.0 + float(index) * 13.0, 8.0)
-			draw_ellipse_placeholder(hole, alpha)
-	if trap_armed:
-		draw_polyline(_ellipse_points(Vector2(0, 10), 33, 13, 20), Color("ffc26d", (0.36 + 0.18 * sin(warning_phase)) * alpha), 1.5, true)
+	_draw_floor_trap(progress, alpha)
+
+func _draw_floor_trap(progress: float, alpha: float) -> void:
+	var plate := _floor_tile_rhombus(2.0)
+	var edge := Color("efba73", (0.66 + 0.30 * sin(warning_phase)) * alpha) if trap_armed else Color("818c92", 0.78 * alpha)
+	# Плита занимает ромб опоры целиком, оставляя лишь небольшой зазор до её кромки.
+	draw_colored_polygon(plate, Color("303a42", 0.94 * alpha))
+	draw_polyline(PackedVector2Array([plate[0], plate[1], plate[2], plate[3], plate[0]]), edge, 2.0, true)
+	var bases := _floor_spike_bases()
+	for base: Vector2 in bases:
+		var hole := _ellipse_points(base, 3.2, 1.9, 12)
+		draw_colored_polygon(hole, Color("111b20", 0.98 * alpha))
+		draw_polyline(hole, Color("a6b0b4", 0.72 * alpha), 0.8, true)
+	if progress <= 0.0:
+		return
+	# Порядок рядов идёт от дальней кромки к ближней, чтобы передние шипы перекрывали дальние.
+	for base: Vector2 in bases:
+		var tip := base + Vector2(0, -36.0 * progress)
+		var left := base + Vector2(-4.0, 0)
+		var right := base + Vector2(4.0, 0)
+		draw_colored_polygon(PackedVector2Array([tip, left, right]), Color("d8e0e2", 0.98 * alpha))
+		draw_polyline(PackedVector2Array([tip, left, right]), Color("414d55", 0.92 * alpha), 1.0, true)
+
+static func _floor_tile_rhombus(inset: float = 0.0) -> PackedVector2Array:
+	var horizontal := 64.0 - inset
+	var vertical := 32.0 - inset
+	return PackedVector2Array([Vector2(0, -vertical), Vector2(horizontal, 0), Vector2(0, vertical), Vector2(-horizontal, 0)])
+
+static func _floor_spike_bases() -> Array[Vector2]:
+	var result: Array[Vector2] = []
+	# Две равномерные оси тайла дают сетку 4x4 и заполняют боковые половины ромба.
+	for row: int in 4:
+		for column: int in 4:
+			var u := (float(column) + 0.5) / 4.0 - 0.5
+			var v := (float(row) + 0.5) / 4.0 - 0.5
+			result.append(Vector2((u - v) * 64.0, (u + v) * 32.0))
+	result.sort_custom(func(a: Vector2, b: Vector2) -> bool: return a.y < b.y or (a.y == b.y and a.x < b.x))
+	return result
 
 static func wall_spike_direction(grid_direction: Vector2i) -> Vector2:
 	return -_grid_direction_to_screen(grid_direction)

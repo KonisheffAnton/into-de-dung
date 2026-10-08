@@ -32,6 +32,8 @@ ControlRules блокирует действия/угрозы заморожен
 HazardCommand/HazardTurnCommand разрешают контакты/отложенные срабатывания через
 ту же очередь; AcidCommand пишет только статус и броню под SpatialRules.Guard.
 Состояние взвода/защёлки входит в snapshot, а показ — в detached публикации.
+Playback удерживает шипы после атомарной публикации HP/чисел; втягивание
+завершает кадр перед продолжением, сохраняя общие speed/skip/cancel/resize.
 BattleHazardSetup авторит слой первой комнаты в HeroHubBattleFactory, сохраняя
 persisted каталог/планы/profile1–4 и прежние D5/K2. Владелец правил — новый контракт.
 
