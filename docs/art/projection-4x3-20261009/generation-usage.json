@@ -1,0 +1,123 @@
+{
+  "pixellab": {
+    "items": [
+      {
+        "name": "defender-1",
+        "status": "completed",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 1
+        }
+      },
+      {
+        "name": "defender-2",
+        "status": "completed",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 1
+        }
+      },
+      {
+        "name": "defender-3",
+        "status": "completed",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 1
+        }
+      },
+      {
+        "name": "tile-A-guided",
+        "status": "synchronous",
+        "usage": {
+          "type": "generations",
+          "generations": 1.0
+        }
+      },
+      {
+        "name": "tile-A",
+        "status": "synchronous",
+        "usage": {
+          "type": "generations",
+          "generations": 1.0
+        }
+      },
+      {
+        "name": "tile-C-free",
+        "status": "synchronous",
+        "usage": {
+          "type": "generations",
+          "generations": 1.0
+        }
+      },
+      {
+        "name": "tile-C-grass",
+        "status": "synchronous",
+        "usage": {
+          "type": "generations",
+          "generations": 1.0
+        }
+      },
+      {
+        "name": "tile-C-guided",
+        "status": "synchronous",
+        "usage": {
+          "type": "generations",
+          "generations": 1.0
+        }
+      },
+      {
+        "name": "tile-D-free",
+        "status": "synchronous",
+        "usage": {
+          "type": "generations",
+          "generations": 1.0
+        }
+      },
+      {
+        "name": "tile-D-guided",
+        "status": "synchronous",
+        "usage": {
+          "type": "generations",
+          "generations": 1.0
+        }
+      },
+      {
+        "name": "tile-E-free",
+        "status": "synchronous",
+        "usage": {
+          "type": "generations",
+          "generations": 1.0
+        }
+      },
+      {
+        "name": "tile-E-guided",
+        "status": "synchronous",
+        "usage": {
+          "type": "generations",
+          "generations": 1.0
+        }
+      }
+    ],
+    "balance_before": 4985,
+    "balance_after": 4973
+  },
+  "image_gen": {
+    "operations": 1,
+    "usage": null,
+    "source_sha256": "d19091d4c94e8b7d798a05bacfc0a0c7bdb66537216323a089633b358f0fcd91"
+  },
+  "retro_diffusion": {
+    "created_at": 1791563902,
+    "credit_cost": 0,
+    "balance_cost": 0.18,
+    "output_images": [],
+    "base64_images": [],
+    "output_urls": [],
+    "model": "check_cost",
+    "remaining_credits": 0,
+    "remaining_balance": 0.14
+  }
+}

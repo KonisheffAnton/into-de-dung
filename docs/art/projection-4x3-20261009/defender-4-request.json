@@ -1,0 +1,9 @@
+{
+  "provider": "image_gen",
+  "prompt": "Edit the provided defender character (image 1) into a HIGHER CAMERA VIEW that matches the tactical board in image 2. Image 1 is the identity/design to preserve. Image 2 is only the camera/projection reference; do not reproduce tiles, board, captions or background. The board uses 4:3 diamonds, 128 wide by 96 high, Into the Breach-like elevated orthographic camera about 49 degrees above the ground, azimuth 45 degrees. This is an actual redraw of the solid figure from above, not a vertical stretch. Show a noticeably larger helmet crown, upper shoulders, shield rim and boot insteps, foreshorten front-facing torso and legs. Southeast orientation. Maintain the same chunky human bearded veteran, rounded plain open-face steel helmet, steel armor, ochre tabard, brown leather, large burgundy heater shield in left arm and broad short sword in right arm. Warcraft heroic mass plus Kingdom Rush clear simple shapes, very restrained detail. Keep face readable beneath helmet; head can look slightly forward. Clean broad pixel clusters, hard edges, 2 or 3 quiet flat shade planes per material, no gradients/dithering/engraving or new decoration. Target readability of a roughly 64x64 logical game sprite, but deliver clean transparent art. Center the COMPLETE figure, all equipment and BOTH BOOTS inside the image with generous transparent margin on every side. One character only. Genuinely transparent background and between legs. No ground tile, base, platform, shadow, text, labels or scenery. Preserve alpha transparency.",
+  "transparent_background": true,
+  "reference_image_files": [
+    "../defender-20261009/defender-4-original.png",
+    "previous-art-96.png"
+  ]
+}

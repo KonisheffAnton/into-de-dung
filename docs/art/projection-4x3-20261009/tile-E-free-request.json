@@ -1,0 +1,22 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "create-image-pixflux",
+  "parameters": {
+    "description": "A single clean pixel art ground tile. A tall diamond TOP in 4:3 width-to-height proportion, with very thin straight side walls. Elevated orthographic camera with clearly visible top surface. Muted olive green flat top, very quiet low contrast colors from supplied palette. Add sparse but readable GRASS BLADES on the surface: ONE clearly visible 5x5 pixel grass tuft at the rear-left rim, several upright blades. Rest empty. Broad calm flat color, no noise, stones, cracks, flowers, shading texture or random pixels. 85 percent empty area; visible low grass blades occupying only 15 percent. Transparent background, no shadow, no text. Full tile inside canvas. Camera elevated like Into the Breach.",
+    "image_size": {
+      "width": 64,
+      "height": 64
+    },
+    "outline": "lineless",
+    "shading": "flat shading",
+    "detail": "low detail",
+    "view": "high top-down",
+    "isometric": true,
+    "no_background": true,
+    "color_image": {
+      "reference_file": "itb-grass-palette.png",
+      "transport": "base64 PNG"
+    },
+    "seed": 2026100972
+  }
+}

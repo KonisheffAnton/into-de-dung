@@ -1,0 +1,27 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "create-image-pixflux",
+  "parameters": {
+    "description": "A single clean pixel art ground tile. Keep the tall 4:3 diamond top and thin straight side walls from the reference. Muted olive green flat top, very quiet low contrast colors from supplied palette. Add sparse but readable GRASS BLADES on the surface: THREE clearly visible short grass tufts, each a 3x3 pixel cluster, separated across the top. The tufts are not dots. Broad calm flat color, no noise, stones, cracks, flowers, shading texture or random pixels. 90 percent empty area. Transparent background, no shadow, no text. Full tile inside canvas. Camera elevated like Into the Breach.",
+    "image_size": {
+      "width": 64,
+      "height": 64
+    },
+    "outline": "lineless",
+    "shading": "flat shading",
+    "detail": "low detail",
+    "view": "high top-down",
+    "isometric": true,
+    "no_background": true,
+    "color_image": {
+      "reference_file": "itb-grass-palette.png",
+      "transport": "base64 PNG"
+    },
+    "seed": 2026100960,
+    "init_image": {
+      "reference_file": "tile-C-geometry-guide.png",
+      "transport": "base64 PNG"
+    },
+    "init_image_strength": 300
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "create-image-pixflux",
+  "parameters": {
+    "description": "Preserve the supplied diamond silhouette exactly, including 4:3 top proportions and thin sides. Add only tiny restrained grass accents to this simple ground tile. One minimalist grass/earth ground tile for a tactical game. Restrained clean pixel art, soft actual Into the Breach colors, extremely little detail. CRITICAL GEOMETRY: elevated orthographic view like Into the Breach; the TOP diamond is FOUR units wide and THREE units tall (4:3), visibly tall, not a shallow 2:1 diamond. On this 64x64 canvas top vertices approximately (32,6), (60,27), (32,48), (4,27). Very thin 4 pixel side walls below the front edges. Sharp straight matching edges. Full tile fits with transparent padding. 90 percent flat quiet solid color, broad simple clusters. No stones, cracks, flowers, shadows outside tile, gradients, noise, dithering, outlines, props, text. Use only supplied palette. Muted green grass surface #4B6347 with ONE small grass tuft at the rear-left edge and two tiny marks. At least 90 percent completely empty.",
+    "image_size": {
+      "width": 64,
+      "height": 64
+    },
+    "outline": "lineless",
+    "shading": "flat shading",
+    "detail": "low detail",
+    "view": "high top-down",
+    "isometric": true,
+    "no_background": true,
+    "color_image": {
+      "reference_file": "itb-grass-palette.png",
+      "transport": "base64 PNG"
+    },
+    "seed": 2026100953,
+    "init_image": {
+      "reference_file": "tile-E-geometry-guide.png",
+      "transport": "base64 PNG"
+    },
+    "init_image_strength": 650
+  }
+}

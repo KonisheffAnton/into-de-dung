@@ -1,0 +1,402 @@
+{
+  "preview_only": true,
+  "projection": "4:3; 128x96 top",
+  "grid_steps": [
+    [
+      64,
+      48
+    ],
+    [
+      -64,
+      48
+    ]
+  ],
+  "counts": {
+    "A": 18,
+    "C": 6,
+    "D": 6,
+    "E": 6
+  },
+  "layout_rows_y_columns_x": [
+    [
+      "A",
+      "A",
+      "A",
+      "A",
+      "C",
+      "D"
+    ],
+    [
+      "C",
+      "A",
+      "E",
+      "D",
+      "D",
+      "A"
+    ],
+    [
+      "A",
+      "C",
+      "D",
+      "A",
+      "A",
+      "C"
+    ],
+    [
+      "A",
+      "A",
+      "A",
+      "A",
+      "C",
+      "A"
+    ],
+    [
+      "C",
+      "E",
+      "D",
+      "E",
+      "A",
+      "A"
+    ],
+    [
+      "E",
+      "A",
+      "E",
+      "E",
+      "D",
+      "A"
+    ]
+  ],
+  "tiles": [
+    {
+      "id": "A",
+      "provider": "PixelLab Pixflux",
+      "file": "tile-A-original.png",
+      "sha256": "9706958f39a071a355e56be9db1f46ea935f4247b0c29d70204a4b2397833d7f",
+      "canvas": [
+        64,
+        64
+      ],
+      "top_box": [
+        4,
+        7,
+        61,
+        50
+      ],
+      "preview_top": [
+        128,
+        96
+      ],
+      "scale_xy": [
+        2.245614035087719,
+        2.2325581395348837
+      ],
+      "off_palette_pixels": 0,
+      "side_pixels_clipped_for_flat_preview": 278,
+      "source_request": "tile-A-guided-request.json"
+    },
+    {
+      "id": "C",
+      "provider": "PixelLab Pixflux",
+      "file": "tile-C-original.png",
+      "sha256": "72a5d4fdc71119b14242bab7840eff065bb67ade4a2c4f47631944f75a54c504",
+      "canvas": [
+        64,
+        64
+      ],
+      "top_box": [
+        6,
+        6,
+        58,
+        36
+      ],
+      "preview_top": [
+        128,
+        96
+      ],
+      "scale_xy": [
+        2.4615384615384617,
+        3.2
+      ],
+      "off_palette_pixels": 0,
+      "side_pixels_clipped_for_flat_preview": 8126,
+      "source_request": "tile-C-free-request.json"
+    },
+    {
+      "id": "D",
+      "provider": "PixelLab Pixflux",
+      "file": "tile-D-original.png",
+      "sha256": "96cd4f8b4cfe6a7723e0719a3791563829b7003b0167c01d16d6beaa30b86ab4",
+      "canvas": [
+        64,
+        64
+      ],
+      "top_box": [
+        6,
+        10,
+        58,
+        40
+      ],
+      "preview_top": [
+        128,
+        96
+      ],
+      "scale_xy": [
+        2.4615384615384617,
+        3.2
+      ],
+      "off_palette_pixels": 0,
+      "side_pixels_clipped_for_flat_preview": 4573,
+      "source_request": "tile-D-free-request.json"
+    },
+    {
+      "id": "E",
+      "provider": "PixelLab Pixflux",
+      "file": "tile-E-original.png",
+      "sha256": "4d808e90142e692a376efc12c95ede8b4c3af789c015849b8d9ebbfaf50f7356",
+      "canvas": [
+        64,
+        64
+      ],
+      "top_box": [
+        5,
+        10,
+        59,
+        43
+      ],
+      "preview_top": [
+        128,
+        96
+      ],
+      "scale_xy": [
+        2.3703703703703702,
+        2.909090909090909
+      ],
+      "off_palette_pixels": 0,
+      "side_pixels_clipped_for_flat_preview": 4467,
+      "source_request": "tile-E-free-request.json"
+    }
+  ],
+  "defenders": [
+    {
+      "id": "1",
+      "file": "defender-1-original.png",
+      "sha256": "0df16785c7a2cb411b2c47ad3f94ec9011b93e911187eabfa097b2aa54856aa2",
+      "canvas": [
+        64,
+        64
+      ],
+      "bbox_alpha_128": [
+        10,
+        8,
+        51,
+        54
+      ],
+      "scale": 1.565217391304348,
+      "target_visible_height": 72,
+      "cell": [
+        1,
+        1
+      ],
+      "foot_canvas": [
+        450,
+        279
+      ],
+      "source_foot_contacts": [
+        [
+          24,
+          53
+        ],
+        [
+          39,
+          46
+        ]
+      ],
+      "source_anchor": [
+        31.5,
+        49.5
+      ],
+      "origin_canvas": [
+        401,
+        202
+      ],
+      "contact_midpoint_offset_px": [
+        0.3043478260869392,
+        0.47826086956524705
+      ],
+      "background_changes_outside_overlay": 0,
+      "title": "Массивный",
+      "provider": "PixelLab"
+    },
+    {
+      "id": "2",
+      "file": "defender-2-original.png",
+      "sha256": "9089cc9f70f2b4ec4c2dd561f877e7fef2b72ac8cabd986fc0641d232c1c8c81",
+      "canvas": [
+        64,
+        64
+      ],
+      "bbox_alpha_128": [
+        11,
+        4,
+        53,
+        59
+      ],
+      "scale": 1.309090909090909,
+      "target_visible_height": 72,
+      "cell": [
+        4,
+        1
+      ],
+      "foot_canvas": [
+        642,
+        423
+      ],
+      "source_foot_contacts": [
+        [
+          24,
+          58
+        ],
+        [
+          39,
+          54
+        ]
+      ],
+      "source_anchor": [
+        31.5,
+        56.0
+      ],
+      "origin_canvas": [
+        601,
+        350
+      ],
+      "contact_midpoint_offset_px": [
+        0.23636363636364877,
+        0.3090909090909122
+      ],
+      "background_changes_outside_overlay": 0,
+      "title": "Страж",
+      "provider": "PixelLab"
+    },
+    {
+      "id": "3",
+      "file": "defender-3-original.png",
+      "sha256": "5dbc1a923b3c8fc1ac6f4c13434cdc090ae1b6596b5841c5d6c83302e43f9f34",
+      "canvas": [
+        64,
+        64
+      ],
+      "bbox_alpha_128": [
+        8,
+        5,
+        57,
+        58
+      ],
+      "scale": 1.3584905660377358,
+      "target_visible_height": 72,
+      "cell": [
+        1,
+        4
+      ],
+      "foot_canvas": [
+        258,
+        423
+      ],
+      "source_foot_contacts": [
+        [
+          21,
+          55
+        ],
+        [
+          36,
+          49
+        ]
+      ],
+      "source_anchor": [
+        28.5,
+        52.0
+      ],
+      "origin_canvas": [
+        219,
+        352
+      ],
+      "contact_midpoint_offset_px": [
+        -0.28301886792451114,
+        -0.35849056603774443
+      ],
+      "background_changes_outside_overlay": 0,
+      "title": "Вид сверху",
+      "provider": "PixelLab"
+    },
+    {
+      "id": "4",
+      "file": "defender-4-original.png",
+      "sha256": "d19091d4c94e8b7d798a05bacfc0a0c7bdb66537216323a089633b358f0fcd91",
+      "canvas": [
+        1230,
+        1278
+      ],
+      "bbox_alpha_128": [
+        126,
+        259,
+        1073,
+        1123
+      ],
+      "scale": 0.08333333333333333,
+      "target_visible_height": 72,
+      "cell": [
+        4,
+        4
+      ],
+      "foot_canvas": [
+        450,
+        567
+      ],
+      "source_foot_contacts": [
+        [
+          441,
+          964
+        ],
+        [
+          881,
+          1119
+        ]
+      ],
+      "source_anchor": [
+        661.0,
+        1041.5
+      ],
+      "origin_canvas": [
+        395,
+        480
+      ],
+      "contact_midpoint_offset_px": [
+        0.08333333333331439,
+        -0.20833333333337123
+      ],
+      "background_changes_outside_overlay": 0,
+      "title": "Мой вариант",
+      "provider": "imagegen"
+    }
+  ],
+  "provider_generation_count": {
+    "PixelLab": 12,
+    "image_gen": 1
+  },
+  "rejected_local": [
+    "tile-A.png (rounded silhouette)",
+    "tile-C-guided.png",
+    "tile-D-guided.png",
+    "tile-E-guided.png",
+    "tile-C-grass.png (insufficient grass differentiation with init guide)"
+  ],
+  "original_game_art_sent_to_providers": false,
+  "game_code_changed": false,
+  "filter": "nearest",
+  "limits": [
+    "Exact 4:3 grid in montage; generated character camera is judged visually, not measured 3D.",
+    "Tile top boxes are normalized to the common grid; excessive side depth is clipped to 8 screen pixels in the preview. Originals unchanged.",
+    "Imagegen character is a large pixel-styled raster, not a native 64x64 sprite.",
+    "Boot contacts estimated visually; their midpoint is placed at the cell center within half a screen pixel."
+  ]
+}

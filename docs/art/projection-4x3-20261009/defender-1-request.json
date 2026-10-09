@@ -1,0 +1,15 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "edit-image-pixen",
+  "parameters": {
+    "image": {
+      "reference_file": "../defender-20261009/defender-1-original.png",
+      "transport": "base64 PNG"
+    },
+    "description": "Repaint this same defender from a HIGHER orthographic camera, looking down about 49 degrees, matching an Into the Breach 4:3 diamond board. Face southeast. Show much more helmet top, shoulder tops, shield upper rim and boot insteps; foreshorten torso and legs. Preserve the character design, colors, shield and sword, chunky Warcraft/Kingdom Rush simple pixel art. Plain helmet, no plume. Entire body and gear inside 64x64 with 3px clear margin. Transparent background, no ground or shadow.",
+    "width": 64,
+    "height": 64,
+    "seed": 2026100951,
+    "no_background": true
+  }
+}

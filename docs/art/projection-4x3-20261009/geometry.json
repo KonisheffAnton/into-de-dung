@@ -1,0 +1,18 @@
+{
+  "top_boxes": {
+    "A": [4, 7, 61, 50],
+    "C": [6, 6, 58, 36],
+    "D": [6, 10, 58, 40],
+    "E": [5, 10, 59, 43]
+  },
+  "guide_top_vertices": [[32, 7], [60, 28], [32, 49], [4, 28]],
+  "defender_target_visible_height": 72,
+  "max_preview_side_depth": 8,
+  "defender_foot_contacts": {
+    "1": [[24, 53], [39, 46]],
+    "2": [[24, 58], [39, 54]],
+    "3": [[21, 55], [36, 49]],
+    "4": [[441, 964], [881, 1119]]
+  },
+  "note": "Top boxes measured on generated art; foot contacts artistically estimated from visible boot soles, midpoint centered within half a screen pixel."
+}
