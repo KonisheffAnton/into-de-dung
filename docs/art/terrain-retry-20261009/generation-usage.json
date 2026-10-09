@@ -1,0 +1,52 @@
+{
+  "pixellab": {
+    "items": [
+      {
+        "name": "tile-M",
+        "usage": {
+          "type": "generations",
+          "generations": 1.0
+        }
+      },
+      {
+        "name": "tile-N",
+        "usage": {
+          "type": "generations",
+          "generations": 1.0
+        }
+      },
+      {
+        "name": "tile-M-refined",
+        "usage": {
+          "type": "generations",
+          "generations": 1.0
+        }
+      },
+      {
+        "name": "tile-N-refined",
+        "usage": {
+          "type": "generations",
+          "generations": 1.0
+        }
+      },
+      {
+        "name": "tile-N-clean",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 1
+        }
+      }
+    ],
+    "balance_before": 4961.0,
+    "balance_after": 4956.0,
+    "charged_generations": 5
+  },
+  "image_gen": {
+    "calls": 4,
+    "monetary_usage": null
+  },
+  "retro_diffusion": {
+    "calls": 0
+  }
+}

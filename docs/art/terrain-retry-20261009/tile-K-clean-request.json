@@ -1,0 +1,8 @@
+{
+  "provider": "image_gen",
+  "prompt": "Edit ONLY the terrain surface rendering of this tile, preserve grass placement, thin slab silhouette and transparent background. The surface currently has far too much fine mottling, tiny dots and nearly-invisible paint grain. Remove all that small texture. Redraw the ground with about FIVE broad, connected, quiet flat olive/sage color masses, very close in value, with simple gently irregular stepped borders and no outlines. A few wide bare earth areas are okay. Keep the three organic low grass clumps, but consolidate their shading into coherent dark base, medium leaves and a few broad lighter tips; no loose pixels around them. It should feel like a lovely restrained tactical game terrain sprite, not blank cardboard and not a noisy texture. No continuous grass border, no corner markers, no high contrast spots. Preserve the soft muted palette. Entire top uses clean coherent color areas, no brush grain or microtexture whatsoever, no checkerboard/dithering. Preserve full tile, no crops, no background, no ground shadow. Use the higher4:3 width:height top-diamond view desired for the project, with a very thin sidewall.",
+  "reference_files": [
+    "tile-K-original.png"
+  ],
+  "transparent_background": true
+}

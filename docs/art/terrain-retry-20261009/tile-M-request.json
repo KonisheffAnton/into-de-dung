@@ -1,0 +1,18 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "create-image-pixflux",
+  "parameters": {
+    "description": "Single original pixel art grassland terrain tile for a calm tactical board. Elevated orthographic camera49degrees, symmetric diamond top with width:height exactly4:3; about84x63 pixels, vertices at(48,8),(90,39),(48,71),(6,39). Very thin sidewall only4px. Soft dark desaturated gray-olive and earth-brown hues inspired by Into the Breach; NOT bright yellow green. Expert hand-placed coherent pixel clusters, restrained organic shape design, no noisy isolated pixels. No stones, flowers, cracks, checkerboard, decorative outline or grid on surface. No raised grass border or corner ornaments, no continuous strip along any edge. Detail contrast stays lower than character contrast. One full tile centered on transparent background, no cast shadow or floor. Natural low meadow: the entire surface is a muted mossy olive. Use a few broad barely visible overlapping green color masses, with TWO tiny uneven loose grass clumps growing organically out of the masses at different positions, away from tile corners and center. One clump subtly wider than the other. Large calm areas between. The clumps are low cohesive leaf shapes, not symmetrical trident icons. Shading should describe little grass volume without pepper noise.",
+    "image_size": {
+      "width": 96,
+      "height": 96
+    },
+    "view": "high top-down",
+    "isometric": true,
+    "no_background": true,
+    "detail": "low detail",
+    "shading": "basic shading",
+    "outline": "lineless",
+    "seed": 2026100977
+  }
+}

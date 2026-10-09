@@ -1,0 +1,15 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "edit-image-pixen",
+  "parameters": {
+    "image": {
+      "reference_file": "tile-N-refined.png",
+      "transport": "base64 PNG"
+    },
+    "description": "Remove ALL scattered tiny green and brown pixels from the ground. Keep only the TWO main grass clumps. Replace the noisy terrain texture with THREE broad flat connected low-contrast color areas: calm olive-brown earth and two gray-olive moss shapes with no outlines. No granular detail, flecks, stippling or dithering. Preserve tile shape, thin sides, camera, palette mood, and plant positions. Transparent outside. Quiet natural ground, not a patterned carpet.",
+    "width": 96,
+    "height": 96,
+    "no_background": true,
+    "seed": 2026100977
+  }
+}

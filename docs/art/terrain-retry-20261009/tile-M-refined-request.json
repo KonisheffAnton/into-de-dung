@@ -1,0 +1,28 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "create-image-pixflux",
+  "parameters": {
+    "description": "Refine this supplied terrain tile into excellent restrained native96x96 pixel art. Preserve the elevated4:3 diamond shape, thin4px side edge and organic placement of plants. Keep the three low irregular organic grass clusters, using broad connected blades, and merge the mottled background into a handful of broad low-contrast olive masses. Force the supplied muted palette. Coherent calm shapes, substantial connected pixel clusters. No scattered singles, no dither, no repetitive little hash marks. No neon grass, tall soil block, edge border, corner ornament or cracks. Quiet spacious surface, flat lighting. Entire tile in transparent background; no cast shadow.",
+    "image_size": {
+      "width": 96,
+      "height": 96
+    },
+    "init_image": {
+      "reference_file": "tile-M-input-96.png",
+      "transport": "base64 PNG"
+    },
+    "init_image_strength": 350,
+    "color_image": {
+      "reference_file": "trial-palette.png",
+      "transport": "base64 PNG"
+    },
+    "detail": "low detail",
+    "shading": "flat shading",
+    "outline": "lineless",
+    "view": "high top-down",
+    "isometric": true,
+    "no_background": true,
+    "seed": 2026101057
+  },
+  "input_preparation": "Nearest crop/normalization of image_gen concept to84x67, pasted at6,8 in96x96. M source crop[104,144,1342,979]; N[118,164,1330,946]. No local painting."
+}

@@ -1,0 +1,8 @@
+{
+  "provider": "image_gen",
+  "prompt": "Preserve this exact single earth-and-moss tile, camera, very thin sidewalls, two main grass clumps and transparent background, but simplify ONLY the small background texture. Remove the hundreds of tiny mottled pixels and paint grain. Consolidate the earth into a broad quiet solid brown-olive mass; keep the moss as two or three large softly irregular gray-olive shapes without outlines. All top-surface regions use very similar lightness, restrained hue differences. No surface speckles, microtexture, dither or fine patches. Keep the two grass clumps organic and asymmetric, but their leaves are made of broad clean pixel clusters, not individual hairs. A few tiny accents only in plants, nowhere across the soil. The result should feel like calm beautiful game art: not sterile geometric cardboard, not a busy texture. No continuous grass rim or border, no corner decoration, no new elements. Consistent softly stepped pixel edges. Keep all corners and plants inside generous transparent margins. No cast shadow or background. Desired symmetric top diamond width:height4:3, seen from a high elevated orthographic camera.",
+  "reference_files": [
+    "tile-L-original.png"
+  ],
+  "transparent_background": true
+}
