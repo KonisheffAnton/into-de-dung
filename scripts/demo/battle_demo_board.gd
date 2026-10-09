@@ -64,9 +64,12 @@ var _shown_board: BattleBoard
 var _tile_visuals: Array[BattleDemoIsoVisual] = []
 var _entity_visuals: Array[BattleDemoIsoVisual] = []
 const DEFAULT_TILE_SCENE: PackedScene = preload("res://scenes/demo/visuals/placeholder_tile.tscn")
+const ART_TRIAL_TILE_SCENE: PackedScene = preload("res://scenes/demo/visuals/art_trial_tile.tscn")
 var _terrain_visuals: Dictionary[Vector3i, BattleDemoIsoVisual] = {}
 var _terrain_board_id: int = 0
 var _terrain_size: Vector2i = Vector2i.ZERO
+var _terrain_scene: PackedScene
+var _terrain_screen_transform := Transform2D.IDENTITY
 var _view_width: int = 0
 var _view_height: int = 0
 var _view_heights: PackedInt32Array = PackedInt32Array()
@@ -78,8 +81,10 @@ var _view_fires: Array[Dictionary] = []
 var _view_hazards: Dictionary = {}
 var _view_corpses: Array[Dictionary] = []
 var _view_collapse: Array[Vector2i] = []
-var environment_visual_scene: PackedScene = preload("res://scenes/demo/visuals/environment_overlay.tscn")
+const DEFAULT_ENVIRONMENT_SCENE: PackedScene = preload("res://scenes/demo/visuals/environment_overlay.tscn")
+var environment_visual_scene: PackedScene = DEFAULT_ENVIRONMENT_SCENE
 var _environment_visuals: Dictionary = {}
+var _environment_scene: PackedScene
 var _field_presentation := BattleFieldPresentation.new()
 var _warning_phase: float = 0.0
 ## Сменяемая временная фигура; будущая сцена может использовать AnimationPlayer/AnimatedSprite2D.
@@ -1387,20 +1392,14 @@ func _rebuild_visuals() -> void:
 	_field_presentation.restore(self)
 
 func _prepare_terrain_rebuild() -> void:
-	# Переиспользуем только штатную сцену с известным жизненным циклом.
-	# Сменные сцены могут иметь собственные _ready/анимации и сохраняют старый путь.
+	# У этих проверенных сцен свежие значения и поза полностью синхронизируются ниже.
 	var board_id := _shown_board.get_instance_id() if _shown_board != null else 0
 	var dimensions := Vector2i(_view_width, _view_height)
-	if tile_visual_scene != DEFAULT_TILE_SCENE or board_id != _terrain_board_id or dimensions != _terrain_size:
+	if not _can_reuse_terrain_scene(tile_visual_scene) or board_id != _terrain_board_id or dimensions != _terrain_size or tile_visual_scene != _terrain_scene:
 		_terrain_visuals.clear()
 	_terrain_board_id = board_id
 	_terrain_size = dimensions
-	# Накладки зависят от полного снимка среды и ещё не участвуют в переиспользовании.
-	for overlay: BattleEnvironmentVisual in _environment_visuals.values():
-		if not is_instance_valid(overlay): continue
-		if overlay.get_parent() != null: overlay.get_parent().remove_child(overlay)
-		overlay.queue_free()
-	_environment_visuals.clear()
+	_terrain_scene = tile_visual_scene
 	var retained: Dictionary[int, bool] = {}
 	for key: Vector3i in _terrain_visuals.keys():
 		var visual := _terrain_visuals[key]
@@ -1409,10 +1408,21 @@ func _prepare_terrain_rebuild() -> void:
 			_terrain_visuals.erase(key)
 		else:
 			retained[visual.get_instance_id()] = true
+	var preserve_overlays := environment_visual_scene == DEFAULT_ENVIRONMENT_SCENE and environment_visual_scene == _environment_scene
+	for cell: Vector2i in _environment_visuals.keys():
+		var overlay := _environment_visuals[cell] as BattleEnvironmentVisual
+		var parent := overlay.get_parent() as BattleDemoIsoVisual if is_instance_valid(overlay) else null
+		if not preserve_overlays or parent == null or not retained.has(parent.get_instance_id()) or overlay.is_queued_for_deletion():
+			_retire_environment_visual(cell)
+	_environment_scene = environment_visual_scene
 	for child: Node in _entities.get_children():
 		if retained.has(child.get_instance_id()): continue
 		_entities.remove_child(child)
 		child.queue_free()
+
+func _can_reuse_terrain_scene(scene: PackedScene) -> bool:
+	# Произвольные сцены могут владеть Tween/позами, поэтому им оставляем свежий lifecycle.
+	return scene == DEFAULT_TILE_SCENE or scene == ART_TRIAL_TILE_SCENE
 
 func _terrain_visual(cell: Vector2i, steps: int, wall: bool) -> BattleDemoIsoVisual:
 	var role := BattleDemoIsoVisual.Role.WALL if wall else (BattleDemoIsoVisual.Role.PLATFORM if steps > 0 else BattleDemoIsoVisual.Role.FLOOR)
@@ -1420,7 +1430,7 @@ func _terrain_visual(cell: Vector2i, steps: int, wall: bool) -> BattleDemoIsoVis
 	var visual := _terrain_visuals.get(key) as BattleDemoIsoVisual
 	if visual == null:
 		visual = _make_visual(cell, steps, role)
-		if tile_visual_scene == DEFAULT_TILE_SCENE: _terrain_visuals[key] = visual
+		if _can_reuse_terrain_scene(tile_visual_scene): _terrain_visuals[key] = visual
 	else:
 		visual.grid_config = grid_config
 		visual.role = role
@@ -1445,7 +1455,9 @@ func _attach_visual(visual: BattleDemoIsoVisual) -> void:
 	_entity_visuals.append(visual)
 
 func _add_environment_visual(floor_visual: BattleDemoIsoVisual, cell: Vector2i, force: bool = false) -> void:
-	if _view_terrain_at(cell) != TerrainType.Type.FLOOR: return
+	if _view_terrain_at(cell) != TerrainType.Type.FLOOR:
+		_retire_environment_visual(cell)
+		return
 	var corpses: Array[Dictionary] = []
 	for corpse: Dictionary in _view_corpses:
 		if corpse.cell == cell: corpses.append(corpse)
@@ -1455,15 +1467,33 @@ func _add_environment_visual(floor_visual: BattleDemoIsoVisual, cell: Vector2i, 
 	var warning := cell in _view_collapse
 	var acid: bool = cell in _view_hazards.get("acid", [])
 	var trap := _trap_at_cell(cell)
-	if not force and not spikes and not floor_visual.burning and not warning and corpses.is_empty() and not acid and trap.is_empty(): return
-	var overlay := environment_visual_scene.instantiate() as BattleEnvironmentVisual
-	floor_visual.add_child(overlay)
+	# Активная поза просит overlay повторно после rebuild, поэтому держим его до restore.
+	var has_presentation_pose := _field_presentation.cells.has(cell)
+	if not force and not has_presentation_pose and not spikes and not floor_visual.burning and not warning and corpses.is_empty() and not acid and trap.is_empty():
+		_retire_environment_visual(cell)
+		return
+	var overlay := _environment_visuals.get(cell) as BattleEnvironmentVisual
+	if not is_instance_valid(overlay) or overlay.is_queued_for_deletion() or overlay.get_parent() != floor_visual:
+		_retire_environment_visual(cell)
+		overlay = environment_visual_scene.instantiate() as BattleEnvironmentVisual
+		floor_visual.add_child(overlay)
+		_environment_visuals[cell] = overlay
+	else:
+		if overlay.collapse_progress != -1.0: overlay.collapse_progress = -1.0
+		if overlay.hazard_progress != -1.0: overlay.hazard_progress = -1.0
+		if overlay.trap_progress != -1.0: overlay.trap_progress = -1.0
 	overlay.position = floor_visual.get_visual_offset() + Vector2(0, 0.5)
 	overlay.scale = Vector2.ONE * grid_config.tile_size.x / 128.0
 	overlay.configure(spikes, floor_visual.burning and tile_visual_scene == null, warning, corpses, acid,
 		String(trap.get("kind", "")) == "floor", trap.get("direction", Vector2i.ZERO), bool(trap.get("armed", false)))
 	overlay.warning_phase = _warning_phase
-	_environment_visuals[cell] = overlay
+
+func _retire_environment_visual(cell: Vector2i) -> void:
+	var overlay := _environment_visuals.get(cell) as BattleEnvironmentVisual
+	_environment_visuals.erase(cell)
+	if not is_instance_valid(overlay): return
+	if overlay.get_parent() != null: overlay.get_parent().remove_child(overlay)
+	overlay.queue_free()
 
 func _trap_at_cell(cell: Vector2i) -> Dictionary:
 	for trap: Dictionary in _view_hazards.get("traps", []):
@@ -1480,6 +1510,14 @@ func _ensure_environment_visual(cell: Vector2i) -> BattleEnvironmentVisual:
 	return _environment_visuals.get(cell) as BattleEnvironmentVisual
 
 func _process(delta: float) -> void:
+	if tile_visual_scene == ART_TRIAL_TILE_SCENE:
+		# Смена canvas/stretch не обязана прислать transform notification дочерним узлам.
+		# Проверяем один transform доски, а авторские стыки обновляем только при его смене.
+		var screen_transform := get_screen_transform()
+		if screen_transform != _terrain_screen_transform:
+			_terrain_screen_transform = screen_transform
+			for visual: BattleDemoIsoVisual in _terrain_visuals.values():
+				if is_instance_valid(visual): visual.sync_scene_art()
 	_warning_phase = fmod(_warning_phase + delta * TAU / 1.8, TAU)
 	for cell: Vector2i in _view_collapse:
 		var overlay := _environment_visuals.get(cell) as BattleEnvironmentVisual
