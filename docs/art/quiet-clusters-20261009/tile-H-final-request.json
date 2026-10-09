@@ -1,0 +1,15 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "edit-image-pixen",
+  "parameters": {
+    "image": {
+      "reference_file": "tile-H-original.png",
+      "transport": "base64 PNG"
+    },
+    "description": "Keep exact tile footprint, 4:3 top and thin sidewalls. Remove ALL the repeated light corner triangles, dark corner seams and symmetrical decoration. Make the earth one quiet uniform muted brown-olive color, with only ONE broad very subtle soft-edged irregular patch near the back-left, no outline around it. 95% blank flat earth. No marks at the four corners. No speckles or texture, no gradients. Transparent outside tile.",
+    "width": 64,
+    "height": 64,
+    "seed": 2026100936,
+    "no_background": true
+  }
+}

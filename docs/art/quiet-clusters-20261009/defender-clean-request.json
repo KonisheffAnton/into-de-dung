@@ -1,0 +1,15 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "edit-image-pixen",
+  "parameters": {
+    "image": {
+      "reference_file": "../defender-palette-20261009/defender-4-original.png",
+      "transport": "base64 PNG"
+    },
+    "description": "Redraw same shield-and-sword defender at 96x96, same elevated camera and braced asymmetric stance. Greatly simplify: broad clean shapes, 2-3 flat tones per material. Pale muted slate steel helmet and shoulder plates, olive cloth, warm face, plain shield. Remove rivets, scratches, tiny highlights, armor strips, folds and all stippling. Strong readable silhouette. Fine clean edges, no blocky enlarged pixels. Transparent ground, no floor or shadow. Whole sword and boots inside canvas.",
+    "width": 96,
+    "height": 96,
+    "seed": 202610104,
+    "no_background": true
+  }
+}

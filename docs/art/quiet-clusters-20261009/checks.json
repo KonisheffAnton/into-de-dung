@@ -1,0 +1,323 @@
+{
+  "preview_only": true,
+  "top_size": [
+    128,
+    96
+  ],
+  "tiles": [
+    {
+      "id": "H",
+      "file": "tile-H-plain.png",
+      "sha256": "16375af38e11a6de21e6f7fc87f6da20c0564e3ffccf323838cdd673bfe482ab",
+      "size": [
+        64,
+        64
+      ],
+      "top_box": [
+        4,
+        7,
+        61,
+        50
+      ],
+      "scale_xy": [
+        2.245614035087719,
+        2.2325581395348837
+      ]
+    },
+    {
+      "id": "I",
+      "file": "tile-I-final.png",
+      "sha256": "623b36f5c522060d6cf1f834a56c8a5b66ea1f69ffe182b0efcf7278dc2166a5",
+      "size": [
+        64,
+        64
+      ],
+      "top_box": [
+        4,
+        7,
+        61,
+        50
+      ],
+      "scale_xy": [
+        2.245614035087719,
+        2.2325581395348837
+      ]
+    },
+    {
+      "id": "J",
+      "file": "tile-J-original.png",
+      "sha256": "6b302b8b33c4bcc2772a7b577a8b001c3e868531ffc47031ff7650b59749672d",
+      "size": [
+        64,
+        64
+      ],
+      "top_box": [
+        4,
+        7,
+        61,
+        50
+      ],
+      "scale_xy": [
+        2.245614035087719,
+        2.2325581395348837
+      ]
+    }
+  ],
+  "characters": {
+    "old": {
+      "source": "../defender-palette-20261009/defender-4-original.png",
+      "sha256": "7b74c91f4144d9996456aeec6df969410b25eb8f1bb8d65f438d57179793b020",
+      "size": [
+        64,
+        64
+      ],
+      "bbox": [
+        5,
+        11,
+        58,
+        59
+      ],
+      "target_height": 72,
+      "rendered_alpha_height": 72,
+      "anchor": [
+        34.25,
+        54.0
+      ],
+      "actual_scale_xy": [
+        1.5,
+        1.5
+      ]
+    },
+    "clean": {
+      "source": "defender-clean-original.png",
+      "sha256": "768dde25bfc60e7de4d90eb3c7c6842ec38409731408bb5881438a395acfbadc",
+      "size": [
+        96,
+        96
+      ],
+      "bbox": [
+        7,
+        16,
+        87,
+        89
+      ],
+      "target_height": 72,
+      "rendered_alpha_height": 72,
+      "anchor": [
+        51.75,
+        82.0
+      ],
+      "actual_scale_xy": [
+        0.9895833333333334,
+        0.9895833333333334
+      ]
+    },
+    "soft": {
+      "source": "defender-soft-original.png",
+      "sha256": "37e60a8f78924e17b12c629ff01a54d0b8f24607abddab22a185213ffe80f78d",
+      "size": [
+        1230,
+        1278
+      ],
+      "bbox": [
+        118,
+        230,
+        1090,
+        1143
+      ],
+      "target_height": 72,
+      "rendered_alpha_height": 72,
+      "anchor": [
+        658.75,
+        1065.0
+      ],
+      "actual_scale_xy": [
+        0.07886178861788617,
+        0.07902973395931143
+      ]
+    }
+  },
+  "placements": [
+    {
+      "field": "field-H",
+      "character": "soft",
+      "cell": [
+        2,
+        2
+      ],
+      "foot_canvas": [
+        450,
+        375
+      ],
+      "origin": [
+        398,
+        291
+      ],
+      "center_error": [
+        -0.04979674796749123,
+        0.16666666666668561
+      ],
+      "background_changes_outside_character": 0
+    },
+    {
+      "field": "field-I",
+      "character": "soft",
+      "cell": [
+        2,
+        2
+      ],
+      "foot_canvas": [
+        450,
+        375
+      ],
+      "origin": [
+        398,
+        291
+      ],
+      "center_error": [
+        -0.04979674796749123,
+        0.16666666666668561
+      ],
+      "background_changes_outside_character": 0
+    },
+    {
+      "field": "field-J",
+      "character": "soft",
+      "cell": [
+        2,
+        2
+      ],
+      "foot_canvas": [
+        450,
+        375
+      ],
+      "origin": [
+        398,
+        291
+      ],
+      "center_error": [
+        -0.04979674796749123,
+        0.16666666666668561
+      ],
+      "background_changes_outside_character": 0
+    },
+    {
+      "field": "mixed-soft",
+      "character": "soft",
+      "cell": [
+        2,
+        2
+      ],
+      "foot_canvas": [
+        450,
+        375
+      ],
+      "origin": [
+        398,
+        291
+      ],
+      "center_error": [
+        -0.04979674796749123,
+        0.16666666666668561
+      ],
+      "background_changes_outside_character": 0
+    },
+    {
+      "field": "mixed-pixellab",
+      "character": "clean",
+      "cell": [
+        2,
+        2
+      ],
+      "foot_canvas": [
+        450,
+        375
+      ],
+      "origin": [
+        399,
+        294
+      ],
+      "center_error": [
+        0.2109375,
+        0.14583333333337123
+      ],
+      "background_changes_outside_character": 0
+    },
+    {
+      "field": "mixed-old",
+      "character": "old",
+      "cell": [
+        2,
+        2
+      ],
+      "foot_canvas": [
+        450,
+        375
+      ],
+      "origin": [
+        399,
+        294
+      ],
+      "center_error": [
+        0.375,
+        0.0
+      ],
+      "background_changes_outside_character": 0
+    }
+  ],
+  "mixed_layout": [
+    [
+      "H",
+      "H",
+      "H",
+      "H",
+      "I",
+      "J"
+    ],
+    [
+      "I",
+      "H",
+      "J",
+      "I",
+      "J",
+      "H"
+    ],
+    [
+      "H",
+      "I",
+      "J",
+      "H",
+      "H",
+      "I"
+    ],
+    [
+      "H",
+      "H",
+      "H",
+      "H",
+      "J",
+      "H"
+    ],
+    [
+      "I",
+      "J",
+      "I",
+      "J",
+      "H",
+      "H"
+    ],
+    [
+      "I",
+      "H",
+      "J",
+      "I",
+      "J",
+      "H"
+    ]
+  ],
+  "mixed_counts": {
+    "H": 18,
+    "I": 9,
+    "J": 9
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "pixellab": {
+    "items": [
+      {
+        "name": "tile-H",
+        "status": "completed",
+        "billing_usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 1
+        }
+      },
+      {
+        "name": "tile-I",
+        "status": "completed",
+        "billing_usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 1
+        }
+      },
+      {
+        "name": "tile-J",
+        "status": "completed",
+        "billing_usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 1
+        }
+      },
+      {
+        "name": "defender-clean",
+        "status": "completed",
+        "billing_usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 1
+        }
+      },
+      {
+        "name": "tile-H-final",
+        "status": "completed",
+        "billing_usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 1
+        }
+      },
+      {
+        "name": "tile-I-final",
+        "status": "completed",
+        "billing_usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 1
+        }
+      },
+      {
+        "name": "tile-H-plain",
+        "status": "completed",
+        "billing_usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 1
+        }
+      }
+    ],
+    "charged_generations": 7,
+    "balance_before": 4968.0,
+    "balance_after": 4961.0
+  },
+  "image_gen": {
+    "calls": 1,
+    "monetary_usage": null
+  },
+  "retro_diffusion": {
+    "calls": 0
+  }
+}

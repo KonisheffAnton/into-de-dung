@@ -1,0 +1,15 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "edit-image-pixen",
+  "parameters": {
+    "image": {
+      "reference_file": "tile-H-final.png",
+      "transport": "base64 PNG"
+    },
+    "description": "Flatten the ENTIRE upper diamond surface into ONE completely uniform solid muted earth color, matching its current main earth color. Erase the dark squiggly line and ALL interior patches and corner triangles. Absolutely ZERO internal lines or texture on the top. Plain empty earth. Preserve ONLY the outside diamond silhouette, its elevated4:3 proportions, and the two darker thin sidewalls. Transparent outside tile.",
+    "width": 64,
+    "height": 64,
+    "seed": 2026100961,
+    "no_background": true
+  }
+}

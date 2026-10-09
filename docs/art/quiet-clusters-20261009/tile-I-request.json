@@ -1,0 +1,15 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "edit-image-pixen",
+  "parameters": {
+    "image": {
+      "reference_file": "../projection-4x3-20261009/tile-A-original.png",
+      "transport": "base64 PNG"
+    },
+    "description": "Preserve exact elevated 4:3 diamond footprint and thin sides. Quiet gray olive green grass tile: flat calm center, just TWO small readable grass tufts near rear corners, each made of 3 chunky connected blades sharing one base. Broad clean pixel clusters, 85% empty surface, two restrained green tones. No scattered pixels, tiny flecks, checkerboard dithering, stones or cracks. Clean flat top, transparent outside tile, no cast shadow.",
+    "width": 64,
+    "height": 64,
+    "seed": 202610096,
+    "no_background": true
+  }
+}

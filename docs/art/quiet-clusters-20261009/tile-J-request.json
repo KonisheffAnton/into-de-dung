@@ -1,0 +1,15 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "edit-image-pixen",
+  "parameters": {
+    "image": {
+      "reference_file": "../projection-4x3-20261009/tile-A-original.png",
+      "transport": "base64 PNG"
+    },
+    "description": "Preserve exact elevated 4:3 diamond footprint and thin sides. Quiet olive earth tile with ONE broad irregular mossy grass island at back left edge and ONE short 3-blade tuft attached to it. Keep 85% of surface calm and empty, center clear. Connected solid color clusters with two green tones, soft subdued contrast. No random pixels, flecks, stippling, dithering, pebbles or repeated little marks. Flat top color, transparent outside, no cast shadow.",
+    "width": 64,
+    "height": 64,
+    "seed": 202610096,
+    "no_background": true
+  }
+}

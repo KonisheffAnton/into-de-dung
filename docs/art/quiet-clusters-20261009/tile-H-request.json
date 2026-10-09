@@ -1,0 +1,15 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "edit-image-pixen",
+  "parameters": {
+    "image": {
+      "reference_file": "../projection-4x3-20261009/tile-A-original.png",
+      "transport": "base64 PNG"
+    },
+    "description": "Preserve the exact elevated 4:3 diamond footprint and thin sides. Redraw as quiet muted brown olive earth: one large connected flat base, just two broad subtle irregular earth patches near rear edges. Leave 90% calm empty surface. No speckles, stones, cracks, grain, dithering or isolated single pixels. Clean coherent color clusters, flat top plane. No lighting gradient across top. Transparent outside tile. No cast shadow.",
+    "width": 64,
+    "height": 64,
+    "seed": 202610096,
+    "no_background": true
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "edit-image-pixen",
+  "parameters": {
+    "image": {
+      "reference_file": "tile-I-original.png",
+      "transport": "base64 PNG"
+    },
+    "description": "Keep exact tile footprint, elevated4:3 top, sidewalls and green color. There are FOUR tufts arranged at all four corners: delete the FRONT/bottom tuft and the RIGHT tuft completely, replacing them with the same flat green ground. Keep ONLY the back/top tuft and left tuft. They should differ slightly in size and shape. Keep the large center plain. No other decoration, dots, scattered pixels, or noise. No ground shadows outside the tile. Transparent background.",
+    "width": 64,
+    "height": 64,
+    "seed": 2026100936,
+    "no_background": true
+  }
+}

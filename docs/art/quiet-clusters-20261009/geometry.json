@@ -1,0 +1,12 @@
+{
+  "tiles": {
+    "H": {"file": "tile-H-plain.png", "top_box": [4, 7, 61, 50]},
+    "I": {"file": "tile-I-final.png", "top_box": [4, 7, 61, 50]},
+    "J": {"file": "tile-J-original.png", "top_box": [4, 7, 61, 50]}
+  },
+  "characters": {
+    "old": {"file": "../defender-palette-20261009/defender-4-original.png", "feet": [[21.5, 50], [47, 58]]},
+    "clean": {"file": "defender-clean-original.png", "feet": [[32.5, 76], [71, 88]]},
+    "soft": {"file": "defender-soft-original.png", "feet": [[411.5, 988], [906, 1142]]}
+  }
+}
