@@ -1,0 +1,67 @@
+{
+  "counts": {
+    "A": 18,
+    "C": 6,
+    "D": 6,
+    "E": 6
+  },
+  "layout_rows_y_columns_x": [
+    [
+      "A",
+      "A",
+      "A",
+      "A",
+      "C",
+      "D"
+    ],
+    [
+      "C",
+      "A",
+      "E",
+      "D",
+      "D",
+      "A"
+    ],
+    [
+      "A",
+      "C",
+      "D",
+      "A",
+      "A",
+      "C"
+    ],
+    [
+      "A",
+      "A",
+      "A",
+      "A",
+      "C",
+      "A"
+    ],
+    [
+      "C",
+      "E",
+      "D",
+      "E",
+      "A",
+      "A"
+    ],
+    [
+      "E",
+      "A",
+      "E",
+      "E",
+      "D",
+      "A"
+    ]
+  ],
+  "composition_seed": 202610091,
+  "projection": "2:1; 128x64 top",
+  "filter": "nearest",
+  "source_sha256": {
+    "A": "ea11c1064b056a766f5d698a334c1f96929822835b396ec410aac84e848dec70",
+    "C": "8f388e515fab2f4129bf9d1c0b540fd8defed6570396f1ab35ce356d5a3c613d",
+    "D": "9dc986d284cad41f5bb13a7c31966e3961676ba5ae930a17100bbabe932813d7",
+    "E": "ef8bb177f6afd233da67c74f201fd439ed9acce6cbc4f58ef267bf3313262485"
+  }
+}
