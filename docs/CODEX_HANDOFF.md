@@ -1,9 +1,9 @@
-# Передача — 2026-10-09: Color and Light
-D:\Games\into-de-dung; main; base 30addf729e951311a711f09554b836fac5c978cb; без push.
-PIXEL_ART_GUIDE — три книги, страницы; советы не контракт; review APPROVE.
-Color and Light: 226 сканов, текст фрагментарный, нумерация расходится;
-Graphic L.A.: 124 скана с пропусками. Полнота обоих не подтверждена.
-Отчёт: test_reports/color-light-study-20261009/; прежние — HISTORY.
+# Передача — 2026-10-09: Framed Ink
+D:\Games\into-de-dung; main; base 1f5572bac4d8b327703b29f74cc700b7f37855cd; без push.
+PIXEL_ART_GUIDE — четыре книги, страницы; советы не контракт; review APPROVE.
+Framed Ink:128 сканов без текста; обзор/адресное чтение, не полное построчное.
+Полнота не подтверждена; ограничения прежних книг — памятка.
+Отчёт: test_reports/framed-ink-study-20261009/; прежние — HISTORY.
 
 Прошлая проба: сдержанный отзыв, не выбрана. Последняя:
 docs/art/graphic-la-tiles-20261009/proposal-01.png; README/запрос рядом.
