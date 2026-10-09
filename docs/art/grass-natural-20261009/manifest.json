@@ -1,0 +1,159 @@
+{
+  "provider": "built-in image_gen",
+  "calls": 3,
+  "reference": {
+    "file": "docs/art/defender-field-20261009/user-tile-reference.png",
+    "sha256": "c76de6809c15100d2c2905f099eb5baaee94110a3b8bc4c227d5aff7c6c4b2d0"
+  },
+  "assets": [
+    {
+      "file": "assets/art_presets/trials/grass_natural_v2/grass_low_a.png",
+      "sha256": "bf651435d1144a649d77f25ab0d6da6233cba2c4deca3dfc5795ba1f8df49914",
+      "size": [
+        1961,
+        802
+      ],
+      "alpha128_bbox": [
+        273,
+        224,
+        1688,
+        632
+      ]
+    },
+    {
+      "file": "assets/art_presets/trials/grass_natural_v2/grass_low_b.png",
+      "sha256": "fbf9788cb4135b9df3cfe8249ccb0a44a41305f8cdff7f07af50b3b122da1663",
+      "size": [
+        2172,
+        724
+      ],
+      "alpha128_bbox": [
+        357,
+        225,
+        1828,
+        613
+      ]
+    },
+    {
+      "file": "assets/art_presets/trials/grass_natural_v2/ground_quiet.png",
+      "sha256": "f082d75270ed0181dd2523df57f6ba58a8ea1d50da1f83a9ece34afc20cca320",
+      "size": [
+        1448,
+        1086
+      ],
+      "alpha128_bbox": [
+        107,
+        139,
+        1342,
+        953
+      ]
+    }
+  ],
+  "editable_scene": "scenes/demo/visuals/art_trial_tile.tscn",
+  "base_top": [
+    128,
+    96
+  ],
+  "base_alpha": 0.55,
+  "base_uv": [
+    [
+      724.5,
+      212
+    ],
+    [
+      1231,
+      546
+    ],
+    [
+      724.5,
+      880
+    ],
+    [
+      218,
+      546
+    ]
+  ],
+  "variant_grid_8x8": [
+    0,
+    0,
+    0,
+    3,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    2,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    4,
+    0,
+    0,
+    0,
+    2,
+    3,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    4,
+    2,
+    3,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    4,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    3,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    4,
+    0,
+    0,
+    0
+  ],
+  "empty_cells": 49,
+  "decorated_cells": 15,
+  "grass_regions": {
+    "A": [
+      273,
+      224,
+      1415,
+      408
+    ],
+    "B": [
+      357,
+      225,
+      1471,
+      388
+    ]
+  },
+  "acceptance": "trial only; manual visual feedback pending; no performance claim"
+}

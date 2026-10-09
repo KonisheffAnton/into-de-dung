@@ -1,20 +1,21 @@
-# Передача — 2026-10-09: игровая арт-проба
-D:\Games\into-de-dung; main; base2762b21fdda85de71ba272c82a5b8e16c835f7a5; без push.
-F6 scenes/demo/art_trial_battle.tscn: штатный бой8×8, три новых тайла,
-новый союзный Защитник, прежний№4 зеркально у врагов-воинов.
-Прочие классы прежние. Enter старт; R сброс; колесо/ПКМ камера.
-Четыре image_gen; PNG/запросы/SHA/UV: docs/art/defender-field-20261009/.
-Editable пресеты: scenes/demo/visuals/art_trial_{tile,unit}.tscn;
-assets/art_presets/trials/defender_field_v1/. Варианты без RNG.
-Пропорции/посадка/стыки/тон/камера требуют отзыва; это проба, не приёмка.
+# Передача — 2026-10-09: поправка травы
+D:\Games\into-de-dung; main; base d2a38b9b451e9b7c18f2a4daab3c6e1c9a0ed105; без push.
+F6 scenes/demo/art_trial_battle.tscn: штатный бой8×8; новый союзный Защитник,
+прежний№4 зеркально у врагов-воинов. Прочие классы прежние.
+Первая трава отклонена как неестественная. По поручению заменена:
+единая тихая основа, низкие пучки, пустая+4композиции;15украшенных клеток из64.
+art_trial_tile.tscn: PNG/region/масштаб/позиции; таблица8×8 без RNG.
+Три image_gen; assets/art_presets/trials/grass_natural_v2/;
+источники/запросы/SHA: docs/art/grass-natural-20261009/. Бойцы не менялись.
+Открыты: плотность/естественность/стыки/посадка/пропорции/камера.
 Основной M3/№4 — ART_DIRECTION и assets/art_presets/approved/README.md; F5 прежний.
-4:3, верх128×96, высота32; новый sprite72px, старый отражён вокруг опоры.
+4:3, верх128×96, высота32. Enter старт; R сброс; колесо/ПКМ камера.
 Контракты BATTLE_PRESENTATION_REWORK/ARCHITECTURE/ENVIRONMENT_HAZARDS_V1.
-Import/startup/render: art_trial_battle292/0, foundation143/0; launcher5/5.
-Рендер100/75% и36тайлов6×6 просмотрен; оси fixture8×8. Review APPROVE.
-Отчёт: test_reports/defender-field-20261009/. Core/full/ручнойF5 не запускались.
-Прежний full138PASS/2FAIL не общий PASS; control/entangle закрыты адресно.
-В status пользовательская scenes/demo/main_menu.tscn: не трогать/коммитить.
+Import/startup/render art_trial_battle386/0 PASS; review APPROVE.
+Рендер100/75% и36тайлов6×6 просмотрен; оси fixture8×8.
+Отчёт test_reports/grass-natural-20261009/. Core/full/ручнойF5 не запускались.
+Прежние foundation143/0, launcher5/5 не повторялись. Full138PASS/2FAIL не общий
+PASS; control/entangle закрыты адресно. Пользовательскую main_menu.tscn не трогать/коммитить.
 Далее ручной отзыв; весь арт/анимации/баланс открыты. Новый пакет по поручению.
 Пять книг — PIXEL_ART_GUIDE; Williams346сканов: миниатюры+адресное чтение,
 не полное; издание/год/полнота неизвестны. Советы не контракты.

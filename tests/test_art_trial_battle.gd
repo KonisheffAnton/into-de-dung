@@ -38,13 +38,13 @@ func run() -> void:
 	print("ART TRIAL BATTLE RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(1 if failed else 0)
 
-func visible_grass(tile: BattleDemoIsoVisual) -> Polygon2D:
-	var chosen: Polygon2D
+func visible_grass(tile: BattleDemoIsoVisual) -> Node2D:
+	var chosen: Node2D
 	var count: int = 0
 	for child: Node in tile.get_node("ArtRoot/GroundSurface").get_children():
-		if child is Polygon2D and (child as Polygon2D).visible:
+		if child is Node2D and String(child.name).begins_with("Grass") and (child as Node2D).visible:
 			count += 1
-			chosen = child as Polygon2D
+			chosen = child as Node2D
 	check(count == 1, "one authored grass variant selected")
 	return chosen
 
@@ -72,11 +72,11 @@ func live_battle() -> void:
 	var assignments: Dictionary = {}
 	for visual: BattleDemoIsoVisual in demo.board_view._entity_visuals:
 		if visual.role != BattleDemoIsoVisual.Role.FLOOR or visual.is_void: continue
-		assignments[visual.grid_anchor] = visible_grass(visual).texture.resource_path
+		assignments[visual.grid_anchor] = visible_grass(visual).name
 	demo.board_view.refresh()
 	for visual: BattleDemoIsoVisual in demo.board_view._entity_visuals:
 		if assignments.has(visual.grid_anchor) and visual.role == BattleDemoIsoVisual.Role.FLOOR:
-			check(visible_grass(visual).texture.resource_path == assignments[visual.grid_anchor], "refresh retains per-cell art")
+			check(visible_grass(visual).name == assignments[visual.grid_anchor], "refresh retains per-cell art")
 	check(ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() == original and session.context.get_rng().to_dict() == rng, "visual refresh leaves snapshot and RNG unchanged")
 	await capture("battle-deployment")
 	demo.board_view.zoom_camera(0.75, demo.board_view.size * 0.5)
@@ -122,14 +122,38 @@ func field_sample() -> void:
 	board.show_presentation_state(value)
 	var used: Dictionary = {}
 	var tile_count: int = 0
+	var empty_count: int = 0
+	var common_ground: Texture2D
+	var common_tint := Color.WHITE
+	var decorated: Dictionary = {}
 	for visual: BattleDemoIsoVisual in board._entity_visuals:
 		if visual.role != BattleDemoIsoVisual.Role.FLOOR: continue
 		tile_count += 1
 		var grass := visible_grass(visual)
-		used[grass.texture.resource_path] = true
-		check(grass.polygon == PackedVector2Array([Vector2(0, -48), Vector2(64, 0), Vector2(0, 48), Vector2(-64, 0)]), "textured top exactly matches 4:3 support")
-	check(used.size() == 3, "6x6 uses all three variations")
+		used[grass.name] = true
+		if grass.get_child_count() == 0:
+			empty_count += 1
+		else:
+			decorated[visual.grid_anchor] = true
+			for child: Sprite2D in grass.get_children():
+				check(child.scale.x == child.scale.y and not child.flip_h and not child.flip_v, "grass preserves authored proportions and lighting")
+				var footprint := child.get_rect()
+				for corner: Vector2 in [footprint.position, footprint.end, Vector2(footprint.position.x, footprint.end.y), Vector2(footprint.end.x, footprint.position.y)]:
+					var point := child.transform * corner
+					check(absf(point.x) / 64.0 + absf(point.y) / 48.0 <= 1.0, "grass stays within its authored support")
+		var ground := visual.get_node("ArtRoot/GroundSurface/QuietGround") as Polygon2D
+		if common_ground == null:
+			common_ground = ground.texture
+			common_tint = ground.modulate
+		check(ground.texture == common_ground and ground.modulate == common_tint, "all cells share one quiet ground without variant tint")
+		check(ground.polygon == PackedVector2Array([Vector2(0, -48), Vector2(64, 0), Vector2(0, 48), Vector2(-64, 0)]), "textured top exactly matches 4:3 support")
+	check(used.size() == 5, "6x6 uses empty and four decorated compositions")
 	check(tile_count == 36, "6x6 sample contains exactly 36 tile supports")
+	check(empty_count > tile_count / 2, "quiet cells are the majority")
+	var adjacent_grass: bool = false
+	for cell: Vector2i in decorated:
+		adjacent_grass = adjacent_grass or decorated.has(cell + Vector2i.RIGHT) or decorated.has(cell + Vector2i.DOWN)
+	check(adjacent_grass, "grass includes grouped neighbors rather than isolated regular marks")
 	await capture("field-6x6")
 	var source := Vector2i(1, 2)
 	for destination: Vector2i in [source + Vector2i.RIGHT, source + Vector2i.LEFT, source + Vector2i.UP, source + Vector2i.DOWN]:
@@ -143,10 +167,15 @@ func field_sample() -> void:
 	value.units[2].alive = false
 	board.show_presentation_state(value)
 	check(not (board._presentation_visual(2).get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D).visible, "enemy death hides mirrored artwork")
-	terrain[0] = TerrainType.Type.VOID
+	# Убираем именно украшенную клетку, чтобы проверить исчезновение всех пучков.
+	var void_cell: Vector2i = decorated.keys()[0]
+	terrain[void_cell.y * 6 + void_cell.x] = TerrainType.Type.VOID
 	board.show_presentation_state(value)
 	for visual: BattleDemoIsoVisual in board._entity_visuals:
-		if visual.grid_anchor == Vector2i.ZERO and visual.role == BattleDemoIsoVisual.Role.FLOOR:
-			check(not (visual.get_node("ArtRoot/GroundSurface") as Sprite2D).visible, "void hides all grass children")
+		if visual.grid_anchor == void_cell and visual.role == BattleDemoIsoVisual.Role.FLOOR:
+			var ground_surface := visual.get_node("ArtRoot/GroundSurface") as Sprite2D
+			check(not ground_surface.visible, "void hides ground container")
+			for child: CanvasItem in ground_surface.get_children():
+				check(not child.is_visible_in_tree(), "void hides shared base and every decorative composition")
 	board.queue_free()
 	await process_frame

@@ -2,9 +2,9 @@
 
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/placeholder_tile.tscn" id="1_base"]
 [ext_resource type="Script" path="res://scripts/demo/art_trial_tile.gd" id="2_script"]
-[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_field_v1/grass_a.png" id="3_a"]
-[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_field_v1/grass_b.png" id="4_b"]
-[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_field_v1/grass_c.png" id="5_c"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/grass_natural_v2/ground_quiet.png" id="3_ground"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/grass_natural_v2/grass_low_a.png" id="4_grass_a"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/grass_natural_v2/grass_low_b.png" id="5_grass_b"]
 
 [node name="PlaceholderTile" instance=ExtResource("1_base")]
 script = ExtResource("2_script")
@@ -14,23 +14,64 @@ texture = null
 scale = Vector2(1, 1)
 offset = Vector2(0, 0)
 
-[node name="Grass0" type="Polygon2D" parent="ArtRoot/GroundSurface"]
+[node name="QuietGround" type="Polygon2D" parent="ArtRoot/GroundSurface"]
+modulate = Color(1, 1, 1, 0.55)
+texture_filter = 1
+polygon = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
+uv = PackedVector2Array(724.5, 212, 1231, 546, 724.5, 880, 218, 546)
+texture = ExtResource("3_ground")
+
+[node name="Grass0" type="Node2D" parent="ArtRoot/GroundSurface"]
 visible = true
-texture_filter = 1
-polygon = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
-uv = PackedVector2Array(724, 200, 1228, 547.5, 724, 895, 220, 547.5)
-texture = ExtResource("3_a")
 
-[node name="Grass1" type="Polygon2D" parent="ArtRoot/GroundSurface"]
+[node name="Grass1" type="Node2D" parent="ArtRoot/GroundSurface"]
 visible = false
-texture_filter = 1
-polygon = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
-uv = PackedVector2Array(724, 212, 1225, 543.5, 724, 875, 223, 543.5)
-texture = ExtResource("4_b")
 
-[node name="Grass2" type="Polygon2D" parent="ArtRoot/GroundSurface"]
-visible = false
+[node name="Primary" type="Sprite2D" parent="ArtRoot/GroundSurface/Grass1"]
 texture_filter = 1
-polygon = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
-uv = PackedVector2Array(724.5, 207.5, 1262.5, 542.5, 724.5, 877.5, 186.5, 542.5)
-texture = ExtResource("5_c")
+texture = ExtResource("4_grass_a")
+position = Vector2(-12, -3)
+scale = Vector2(0.031, 0.031)
+region_enabled = true
+region_rect = Rect2(273, 224, 1415, 408)
+
+[node name="Secondary" type="Sprite2D" parent="ArtRoot/GroundSurface/Grass1"]
+texture_filter = 1
+texture = ExtResource("5_grass_b")
+position = Vector2(10, 5)
+scale = Vector2(0.016, 0.016)
+region_enabled = true
+region_rect = Rect2(357, 225, 1471, 388)
+
+[node name="Grass2" type="Node2D" parent="ArtRoot/GroundSurface"]
+visible = false
+
+[node name="Primary" type="Sprite2D" parent="ArtRoot/GroundSurface/Grass2"]
+texture_filter = 1
+texture = ExtResource("5_grass_b")
+position = Vector2(13, 10)
+scale = Vector2(0.032, 0.032)
+region_enabled = true
+region_rect = Rect2(357, 225, 1471, 388)
+
+[node name="Grass3" type="Node2D" parent="ArtRoot/GroundSurface"]
+visible = false
+
+[node name="Primary" type="Sprite2D" parent="ArtRoot/GroundSurface/Grass3"]
+texture_filter = 1
+texture = ExtResource("4_grass_a")
+position = Vector2(8, -20)
+scale = Vector2(0.027, 0.027)
+region_enabled = true
+region_rect = Rect2(273, 224, 1415, 408)
+
+[node name="Grass4" type="Node2D" parent="ArtRoot/GroundSurface"]
+visible = false
+
+[node name="Primary" type="Sprite2D" parent="ArtRoot/GroundSurface/Grass4"]
+texture_filter = 1
+texture = ExtResource("5_grass_b")
+position = Vector2(-20, 10)
+scale = Vector2(0.029, 0.029)
+region_enabled = true
+region_rect = Rect2(357, 225, 1471, 388)
