@@ -1,0 +1,366 @@
+{
+  "preview_only": true,
+  "top": [
+    128,
+    96
+  ],
+  "reference_sha256": "4f72980af5287ab82a6f4f45b3dbe6c728d5cceb900092abff76559f3cdb84f0",
+  "tiles": {
+    "A": {
+      "file": "../tiles-20261009/A-original.png",
+      "top_box": [
+        0,
+        14,
+        64,
+        50
+      ],
+      "provider": "Retro Diffusion",
+      "title": "Спокойная земля",
+      "series": "very first A-F",
+      "sha256": "ea11c1064b056a766f5d698a334c1f96929822835b396ec410aac84e848dec70",
+      "scale_xy": [
+        2.0,
+        2.6666666666666665
+      ]
+    },
+    "B": {
+      "file": "../tiles-20261009/B-original.png",
+      "top_box": [
+        6,
+        13,
+        58,
+        45
+      ],
+      "provider": "PixelLab",
+      "title": "Чистый газон",
+      "series": "very first A-F",
+      "sha256": "658cceecfcb056b814582991ab13f9d96405e9b919dd722d9e698a8518423318",
+      "scale_xy": [
+        2.4615384615384617,
+        3.0
+      ]
+    },
+    "C": {
+      "file": "../tiles-20261009/C-original.png",
+      "top_box": [
+        5,
+        13,
+        59,
+        47
+      ],
+      "provider": "PixelLab",
+      "title": "Редкие пучки",
+      "series": "very first A-F",
+      "sha256": "8f388e515fab2f4129bf9d1c0b540fd8defed6570396f1ab35ce356d5a3c613d",
+      "scale_xy": [
+        2.3703703703703702,
+        2.823529411764706
+      ]
+    },
+    "D": {
+      "file": "../tiles-20261009/D-original.png",
+      "top_box": [
+        0,
+        24,
+        64,
+        56
+      ],
+      "provider": "PixelLab",
+      "title": "Трава по краям",
+      "series": "very first A-F",
+      "sha256": "9dc986d284cad41f5bb13a7c31966e3961676ba5ae930a17100bbabe932813d7",
+      "scale_xy": [
+        2.0,
+        3.0
+      ]
+    },
+    "E": {
+      "file": "../tiles-20261009/E-original.png",
+      "top_box": [
+        0,
+        23,
+        64,
+        55
+      ],
+      "provider": "PixelLab",
+      "title": "Крупный пучок",
+      "series": "very first A-F",
+      "sha256": "ef8bb177f6afd233da67c74f201fd439ed9acce6cbc4f58ef267bf3313262485",
+      "scale_xy": [
+        2.0,
+        3.0
+      ]
+    },
+    "F": {
+      "file": "../tiles-20261009/F-original.png",
+      "top_box": [
+        0,
+        24,
+        64,
+        56
+      ],
+      "provider": "PixelLab",
+      "title": "Рассеянная трава",
+      "series": "very first A-F",
+      "sha256": "7fe7a23f1e7c4b8d70d170c9d98f352cd72218a0e64e7b486b45fef04d588e2d",
+      "scale_xy": [
+        2.0,
+        3.0
+      ]
+    },
+    "K": {
+      "file": "../terrain-fluffy-20261009/tile-K2.png",
+      "top_box": [
+        104,
+        142,
+        1342,
+        932
+      ],
+      "provider": "image_gen",
+      "title": "Низкий луг",
+      "series": "latest K2/L2/M3",
+      "sha256": "a833136171a37c1ae7a61be85760f9a7066c730ed7cce428f0e7893da02ce6a4",
+      "scale_xy": [
+        0.10339256865912763,
+        0.12151898734177215
+      ]
+    },
+    "L": {
+      "file": "../terrain-fluffy-20261009/tile-L2.png",
+      "top_box": [
+        126,
+        182,
+        1314,
+        926
+      ],
+      "provider": "image_gen",
+      "title": "Земля и мох",
+      "series": "latest K2/L2/M3",
+      "sha256": "d9a2017110866e0c0786c0f47642c63fef04e4c571719f9256034798f2761201",
+      "scale_xy": [
+        0.10774410774410774,
+        0.12903225806451613
+      ]
+    },
+    "M": {
+      "file": "../terrain-fluffy-20261009/tile-M3.png",
+      "top_box": [
+        6,
+        8,
+        90,
+        71
+      ],
+      "provider": "PixelLab using image_gen concept",
+      "title": "Спокойный луг",
+      "series": "latest K2/L2/M3",
+      "sha256": "eaaebe9809dc2406438ebcdbd1caa771e6cd9beade31f71fd566700b410b2630",
+      "scale_xy": [
+        1.5238095238095237,
+        1.5238095238095237
+      ]
+    }
+  },
+  "fields": [
+    {
+      "name": "field-A",
+      "cell": [
+        2,
+        2
+      ],
+      "origin": [
+        405,
+        319
+      ],
+      "counts": {
+        "A": 36
+      },
+      "background_changes_outside_hero": 0
+    },
+    {
+      "name": "field-B",
+      "cell": [
+        2,
+        2
+      ],
+      "origin": [
+        405,
+        319
+      ],
+      "counts": {
+        "B": 36
+      },
+      "background_changes_outside_hero": 0
+    },
+    {
+      "name": "field-C",
+      "cell": [
+        2,
+        2
+      ],
+      "origin": [
+        405,
+        319
+      ],
+      "counts": {
+        "C": 36
+      },
+      "background_changes_outside_hero": 0
+    },
+    {
+      "name": "field-D",
+      "cell": [
+        2,
+        2
+      ],
+      "origin": [
+        405,
+        319
+      ],
+      "counts": {
+        "D": 36
+      },
+      "background_changes_outside_hero": 0
+    },
+    {
+      "name": "field-E",
+      "cell": [
+        2,
+        2
+      ],
+      "origin": [
+        405,
+        319
+      ],
+      "counts": {
+        "E": 36
+      },
+      "background_changes_outside_hero": 0
+    },
+    {
+      "name": "field-F",
+      "cell": [
+        2,
+        2
+      ],
+      "origin": [
+        405,
+        319
+      ],
+      "counts": {
+        "F": 36
+      },
+      "background_changes_outside_hero": 0
+    },
+    {
+      "name": "field-K",
+      "cell": [
+        2,
+        2
+      ],
+      "origin": [
+        405,
+        319
+      ],
+      "counts": {
+        "K": 36
+      },
+      "background_changes_outside_hero": 0
+    },
+    {
+      "name": "field-L",
+      "cell": [
+        2,
+        2
+      ],
+      "origin": [
+        405,
+        319
+      ],
+      "counts": {
+        "L": 36
+      },
+      "background_changes_outside_hero": 0
+    },
+    {
+      "name": "field-M",
+      "cell": [
+        2,
+        2
+      ],
+      "origin": [
+        405,
+        319
+      ],
+      "counts": {
+        "M": 36
+      },
+      "background_changes_outside_hero": 0
+    },
+    {
+      "name": "mixed-early",
+      "cell": [
+        2,
+        2
+      ],
+      "origin": [
+        405,
+        319
+      ],
+      "counts": {
+        "A": 18,
+        "C": 6,
+        "D": 6,
+        "E": 6
+      },
+      "background_changes_outside_hero": 0
+    },
+    {
+      "name": "mixed-current",
+      "cell": [
+        2,
+        2
+      ],
+      "origin": [
+        405,
+        319
+      ],
+      "counts": {
+        "M": 12,
+        "L": 12,
+        "K": 12
+      },
+      "background_changes_outside_hero": 0
+    }
+  ],
+  "warrior": {
+    "source": "../quiet-clusters-20261009/defender-soft-original.png",
+    "source_sha256": "37e60a8f78924e17b12c629ff01a54d0b8f24607abddab22a185213ffe80f78d",
+    "height_alpha128": 72,
+    "cropped_size": [
+      78,
+      73
+    ],
+    "offset_from_tile_top_left": [
+      19.0,
+      -8.0
+    ],
+    "origin_in_field": [
+      405,
+      319
+    ],
+    "uncropped_origin_in_field": [
+      396,
+      301
+    ],
+    "foot_midpoint": [
+      447.9502032520325,
+      385.1666666666667
+    ],
+    "foot_midpoint_offset_from_cell_center": [
+      -2.0497967479674912,
+      10.166666666666686
+    ],
+    "placement_from_user_reference": true,
+    "not_a_universal_anchor": true
+  }
+}

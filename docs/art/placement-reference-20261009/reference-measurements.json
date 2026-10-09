@@ -1,0 +1,36 @@
+{
+  "reference_size": [
+    657,
+    491
+  ],
+  "scale_of_exports": 4,
+  "placements": {
+    "tile": {
+      "origin": [
+        73,
+        65
+      ],
+      "sample_matches": 500,
+      "sample_size": 800,
+      "matching_near_opaque_pixels": 68344,
+      "near_opaque_pixels": 109888,
+      "best_candidate_count": 1
+    },
+    "warrior": {
+      "origin": [
+        149,
+        33
+      ],
+      "sample_matches": 800,
+      "sample_size": 800,
+      "matching_near_opaque_pixels": 47136,
+      "near_opaque_pixels": 47136,
+      "best_candidate_count": 1
+    }
+  },
+  "cropped_warrior_origin_relative_to_cropped_tile_at_1x": [
+    19.0,
+    -8.0
+  ],
+  "note": "RGB translation vote with alpha>=240 composited on white and max channel difference3. No resizing fit. Tile is occluded by warrior; rough-cut defects reduce matches. Visual reference is authoritative, measurements describe this static pose only."
+}

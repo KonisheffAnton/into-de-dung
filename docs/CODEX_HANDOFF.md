@@ -1,22 +1,22 @@
-# Передача — 2026-10-09: посадка №4 и пышнее трава
+# Передача — 2026-10-09: пользовательский эталон посадки
 
-D:\Games\into-de-dung; main; base58d1fc5cfad87696c7388f3f657dc5e5a009d80b, без push.
-ART_DIRECTION — установки/приёмка; PIXEL_ART_GUIDE — учебные выводы;
-GRAPHICS_WORKFLOW — провайдеры. По отзыву поправлены K/L через image_gen,
-M через PixelLab: чуть шире пучки. Светлый статичный №4 ранее одобрен и неизменён.
-Прежняя посадка по середине подошв отклонена: слишком много земли впереди.
-Теперь спрайт72px сдвинут(4,24)px вправо/вниз; bbox-центр на0.5px левее/6px выше
-центра ромба, оба контакта внутри. Это проба монтажа, не новый игровой anchor.
+D:\Games\into-de-dung; main; base5476cff0ce88dfc362c31515ef2a5b3f64e84dcb; без push.
+Пользователь отверг посадку terrain-fluffy, сам совместил PNG в Paint и поручил
+запомнить/воспроизвести, включая первые тайлы. Эталон без обработки:
+docs/art/placement-reference-20261009/user-reference.png.
+Установка — ART_DIRECTION; учебные выводы — PIXEL_ART_GUIDE. Белый фон/дефекты вырезки не требования.
+№4 неизменён,72px; alpha-crop(19,-8) для верха128×96 — только эта поза.
+Прежняя посадка не эталон; игровой anchor не менялся.
 
-docs/art/terrain-fluffy-20261009/: placement-before-after, all-fields/all-mixed,
-mixed-KLM(12 каждого), mixed-AKLM(A18/K6/L6/M6), однородные/A+каждый,
-исходники/промпты/compose/geometry/checks/usage, README. Выбраны K2/L2/M3;
-M2 слишком пышный, оставлен для аудита. image_gen2, PixelLab2(4956→4954), RD0.
-Приняты ракурс4:3 и статичный №4;
-новая посадка/тайлы/сетка/анимации/интеграция открыты; игра пока2:1.
+В пакете: reference-comparison, чистая сборка, early-fields(A–F),
+mixed-early(A18/C6/D6/E6), current-fields(K/L/M), mixed-current(по12),
+исходные exports, измерения/compose/checks, README.
+Ранние PNG из tiles-20261009, не позднего projection-4x3; показ приведён к4:3.
+Новых генераций/списаний0. Эталон посадки/ракурс4:3/статичный №4 приняты;
+восстановление показано для отзыва. Тайлы/анимации/интеграция открыты; игра2:1.
 
-PNG/alpha/SHA/раскладки/опоры/фон проверены, PNG просмотрены.
-Review APPROVE; отчёт — test_reports/terrain-fluffy-20261009/.
+PNG/SHA/масштаб/положение/раскладки/фон проверены, PNG просмотрены.
+Review APPROVE; отчёт — test_reports/placement-reference-20261009/.
 Godot/core/full/render/F5 не запускались. Full138PASS/2FAIL — история, не общий
 PASS; control/entangle закрыты адресно. В status пользовательская
 scenes/demo/main_menu.tscn — не сбрасывать/коммитить. Прежний арт — HISTORY.
