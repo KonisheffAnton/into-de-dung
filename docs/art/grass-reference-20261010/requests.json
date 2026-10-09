@@ -1,0 +1,75 @@
+{
+  "tool": "built-in image_gen",
+  "transparent_background": true,
+  "postprocessing": "None. Original PNG copied; scene defines UV and geometry.",
+  "requests": [
+    {
+      "id": "A",
+      "prompt": "Use case: style-transfer. Asset type: one game-ready pixel-art meadow tile upper surface.\nImage 1 is the user's preferred field COLOR and detail-density reference. Image 2 is the exact grass/earth DESIGN reference. Create a single clean ground tile faithful to these references, without the warrior.\nIsometric diamond with visible top width:height ratio exactly 4:3. Entire upper surface only, centered with transparent space outside. NO soil sidewalls, NO height extrusion, NO drop shadow outside. Fill the diamond to its boundary; there must be NO bright bevel, NO border line, NO light perimeter fringe, so neighboring tiles join quietly.\nMatch the muted warm olive ground of image1 and the chunky pixel clusters of image2. Broad connected olive turf, 2-3 irregular subtle warm dusty-earth patches, two very tiny darker turf patches. A SINGLE compact, clearly three-dimensional tuft of grass toward the lower-left interior (not touching edges), standing above the ground, leaves forming a connected irregular fan, several broad distinct pointed blades, dark green base/contact shadow and muted olive highlights. Tuft about 15 percent of tile width and 15 percent of tile height, readable as a little plant at 128x96. Keep most ground open. No scattered hairlines or noise. Pixel-art with large clean color clusters, no antialiasing, no gradients, no outlines around earth patches, no dithering. Cohesive subdued olive palette: base near #717A50, soil near #7E7853, grass shadows #40512F, grass lights #84934D. Character contrast must remain stronger than ground.\nThis is an asset for a tactical battle grid, not a presentation scene. One diamond, no text, no UI, no characters, no stones, no flowers. Do not add gridlines. Think roughly 128x96 source pixel design scaled up with nearest neighbor. Genuine transparent background.",
+      "inputs": [
+        "user-field-reference.png",
+        "user-tile-reference.png"
+      ],
+      "output": "first-pass/grass_a.png"
+    },
+    {
+      "id": "B",
+      "prompt": "Use case: precise-object-edit. Asset: alternate pixel-art meadow upper tile. Image 1 is the tile to edit; image 2 is preferred field appearance. Change ONLY the arrangement of the earth patches and the grass tuft, preserving image1 diamond footprint, exact muted olive palette, ambient ground brightness, transparent background, pixel scale and sharp clustered pixel style. Move earth patches to different interior positions and change their shapes modestly. Replace the single large lower-left tuft with one smaller rounder fan-shaped tuft toward upper-right interior, dark contact base and 5-6 broad olive blades with varied heights; two very tiny turf marks elsewhere. Keep tuft dimensional and compact (about 11% of tile width), not flat or stretched horizontally. Preserve a mostly calm surface. Keep color at every boundary consistent with image1, do NOT make entire tile lighter or darker. No characters, no soil sidewalls, no perimeter border/bevel/highlight, no white halo, no extra objects, no text. The diamond is a seamless upper surface for a 128x96 tactical tile. Genuine transparent outside.",
+      "inputs": [
+        "first-pass/grass_a.png",
+        "user-field-reference.png"
+      ],
+      "output": "first-pass/grass_b.png"
+    },
+    {
+      "id": "C",
+      "prompt": "Use case: precise-object-edit. Asset: quiet alternate pixel-art meadow upper tile. Image 1 is the tile to edit; image 2 is preferred field appearance. Change ONLY interior vegetation and earth-patch arrangement. Remove the large grass tuft, fill its former place with matching olive turf. Keep only two tiny low natural dark-olive turf clumps, each about 3% tile width, not symmetrically placed. Rearrange 2-3 broad connected dusty ochre-earth patches across upper-left and lower-right interior. Preserve EXACT muted olive palette, overall brightness and boundary color of image1, the same diamond footprint, transparency and coarse sharp pixel clusters. This is the quiet member of a matched tileset; it must have visible soft earth patches rather than a blank flat fill. No sidewalls, no drop shadow, no lighter/darker rim, no bevel or border, no characters, no text, no rocks or flowers. Transparent outside only. Intended to join decorated variants at 128x96 without checkerboard shifts.",
+      "inputs": [
+        "first-pass/grass_a.png",
+        "user-field-reference.png"
+      ],
+      "output": "first-pass/grass_c.png"
+    },
+    {
+      "id": "D",
+      "prompt": "Use case: precise-object-edit. Asset: alternate pixel-art meadow upper tile. Image 1 is the tile to edit; image 2 is preferred field appearance. Change ONLY the internal pattern, preserving exact diamond footprint, matched muted olive palette, ground brightness, boundary colors and sharp large pixel-cluster style. Replace the big lower-left tuft with a compact pair of upright grass clumps near the lower-right INTERIOR, far from the perimeter: one fan with a leaning blade and four short broader leaves (about 12% tile width), a neighboring smaller asymmetric fan (6% width). They share a modest dark contact patch. These are full dimensional little plants, not a horizontal strip. Rearrange broad dusty-earth patches in the left half and upper interior, keeping most surface calm and cohesive. No global recoloring. No characters, no text, no sidewalls, no perimeter highlight/bevel/rim, no noise or hairlike scatter, no flowers. One upper diamond surface, transparent outside. It must combine quietly with image1 as part of a tactical game tileset at 128x96.",
+      "inputs": [
+        "first-pass/grass_a.png",
+        "user-field-reference.png"
+      ],
+      "output": "first-pass/grass_d.png"
+    },
+    {
+      "id": "A-cleanup",
+      "prompt": "Use case: precise-object-edit. Edit this pixel-art grass tile with ONE targeted correction: REMOVE ALL the scattered light yellow-green moss-like blotches, especially near the perimeter and between the dirt patches. Replace those light blotches with the SAME medium muted olive turf as the calm center, approximately RGB108,115,75. Preserve the brown/ochre dirt patches in their current shape and position; preserve all upright grass tufts and tiny dark turf marks exactly, including their size, silhouette, contact shadows and highlights. Preserve diamond shape, framing and dimensions, genuine transparency outside, no sidewalls. All remaining ground should use the same coherent quiet olive tone, not become brighter or more saturated. No new details. Sharp chunky pixel clusters. No border, no rim highlight, no gradients, no soft blur. Do not lighten the whole tile. The purpose is to stop bright repetitive ground marks when 64 of these tile assets are assembled into a field at128x96; keep the readable grass plants and earthy patches.",
+      "inputs": [
+        "first-pass/grass_a.png"
+      ],
+      "output": "../../../assets/art_presets/trials/grass_reference_v3/grass_a.png"
+    },
+    {
+      "id": "B-cleanup",
+      "prompt": "Use case: precise-object-edit. Edit this pixel-art grass tile with ONE targeted correction: REMOVE ALL the scattered light yellow-green moss-like blotches, especially near the perimeter and between the dirt patches. Replace those light blotches with the SAME medium muted olive turf as the calm center, approximately RGB108,115,75. Preserve the brown/ochre dirt patches in their current shape and position; preserve all upright grass tufts and tiny dark turf marks exactly, including their size, silhouette, contact shadows and highlights. Preserve diamond shape, framing and dimensions, genuine transparency outside, no sidewalls. All remaining ground should use the same coherent quiet olive tone, not become brighter or more saturated. No new details. Sharp chunky pixel clusters. No border, no rim highlight, no gradients, no soft blur. Do not lighten the whole tile. The purpose is to stop bright repetitive ground marks when 64 of these tile assets are assembled into a field at128x96; keep the readable grass plants and earthy patches.",
+      "inputs": [
+        "first-pass/grass_b.png"
+      ],
+      "output": "../../../assets/art_presets/trials/grass_reference_v3/grass_b.png"
+    },
+    {
+      "id": "C-cleanup",
+      "prompt": "Use case: precise-object-edit. Edit this pixel-art grass tile with ONE targeted correction: REMOVE ALL the scattered light yellow-green moss-like blotches, especially near the perimeter and between the dirt patches. Replace those light blotches with the SAME medium muted olive turf as the calm center, approximately RGB108,115,75. Preserve the brown/ochre dirt patches in their current shape and position; preserve all upright grass tufts and tiny dark turf marks exactly, including their size, silhouette, contact shadows and highlights. Preserve diamond shape, framing and dimensions, genuine transparency outside, no sidewalls. All remaining ground should use the same coherent quiet olive tone, not become brighter or more saturated. No new details. Sharp chunky pixel clusters. No border, no rim highlight, no gradients, no soft blur. Do not lighten the whole tile. The purpose is to stop bright repetitive ground marks when 64 of these tile assets are assembled into a field at128x96; keep the readable grass plants and earthy patches.",
+      "inputs": [
+        "first-pass/grass_c.png"
+      ],
+      "output": "../../../assets/art_presets/trials/grass_reference_v3/grass_c.png"
+    },
+    {
+      "id": "D-cleanup",
+      "prompt": "Use case: precise-object-edit. Edit this pixel-art grass tile with ONE targeted correction: REMOVE ALL the scattered light yellow-green moss-like blotches, especially near the perimeter and between the dirt patches. Replace those light blotches with the SAME medium muted olive turf as the calm center, approximately RGB108,115,75. Preserve the brown/ochre dirt patches in their current shape and position; preserve all upright grass tufts and tiny dark turf marks exactly, including their size, silhouette, contact shadows and highlights. Preserve diamond shape, framing and dimensions, genuine transparency outside, no sidewalls. All remaining ground should use the same coherent quiet olive tone, not become brighter or more saturated. No new details. Sharp chunky pixel clusters. No border, no rim highlight, no gradients, no soft blur. Do not lighten the whole tile. The purpose is to stop bright repetitive ground marks when 64 of these tile assets are assembled into a field at128x96; keep the readable grass plants and earthy patches.",
+      "inputs": [
+        "first-pass/grass_d.png"
+      ],
+      "output": "../../../assets/art_presets/trials/grass_reference_v3/grass_d.png"
+    }
+  ]
+}

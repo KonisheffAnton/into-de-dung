@@ -20,6 +20,19 @@ func check(value: bool, label: String) -> void:
 		failed += 1
 		printerr("FAIL ART TRIAL: " + label)
 
+func opaque_uv_boundary(grass: Polygon2D) -> bool:
+	var image: Image = grass.texture.get_image()
+	if image == null: return false
+	var uv := grass.uv
+	if uv.size() != 4: return false
+	for edge: int in range(4):
+		for sample: int in range(65):
+			var point: Vector2 = uv[edge].lerp(uv[(edge + 1) % 4], float(sample) / 64.0)
+			if not Rect2(Vector2.ZERO, image.get_size()).has_point(point): return false
+			var pixel := image.get_pixelv(Vector2i(roundi(point.x), roundi(point.y)))
+			if int(round(pixel.a * 255.0)) < 240: return false
+	return true
+
 func capture(label: String) -> void:
 	if captures.is_empty(): return
 	await process_frame
@@ -122,38 +135,34 @@ func field_sample() -> void:
 	board.show_presentation_state(value)
 	var used: Dictionary = {}
 	var tile_count: int = 0
-	var empty_count: int = 0
-	var common_ground: Texture2D
-	var common_tint := Color.WHITE
-	var decorated: Dictionary = {}
+	var boundary_by_texture: Dictionary = {}
+	var void_cell := Vector2i(-1, -1)
 	for visual: BattleDemoIsoVisual in board._entity_visuals:
 		if visual.role != BattleDemoIsoVisual.Role.FLOOR: continue
 		tile_count += 1
-		var grass := visible_grass(visual)
+		var grass := visible_grass(visual) as Polygon2D
 		used[grass.name] = true
-		if grass.get_child_count() == 0:
-			empty_count += 1
-		else:
-			decorated[visual.grid_anchor] = true
-			for child: Sprite2D in grass.get_children():
-				check(child.scale.x == child.scale.y and not child.flip_h and not child.flip_v, "grass preserves authored proportions and lighting")
-				var footprint := child.get_rect()
-				for corner: Vector2 in [footprint.position, footprint.end, Vector2(footprint.position.x, footprint.end.y), Vector2(footprint.end.x, footprint.position.y)]:
-					var point := child.transform * corner
-					check(absf(point.x) / 64.0 + absf(point.y) / 48.0 <= 1.0, "grass stays within its authored support")
-		var ground := visual.get_node("ArtRoot/GroundSurface/QuietGround") as Polygon2D
-		if common_ground == null:
-			common_ground = ground.texture
-			common_tint = ground.modulate
-		check(ground.texture == common_ground and ground.modulate == common_tint, "all cells share one quiet ground without variant tint")
-		check(ground.polygon == PackedVector2Array([Vector2(0, -48), Vector2(64, 0), Vector2(0, 48), Vector2(-64, 0)]), "textured top exactly matches 4:3 support")
-	check(used.size() == 5, "6x6 uses empty and four decorated compositions")
+		if grass.name == &"Grass0": void_cell = visual.grid_anchor
+		check(grass.polygon == PackedVector2Array([Vector2(0, -48), Vector2(64, 0), Vector2(0, 48), Vector2(-64, 0)]), "authored grass fills the complete 128x96 top")
+		check(grass.uv == PackedVector2Array([Vector2(724, 110), Vector2(1350, 543), Vector2(724, 975), Vector2(96, 543)]), "grass uses the shared full-top UV diamond")
+		var image: Image = grass.texture.get_image()
+		var uv_inside: bool = image != null
+		if image != null:
+			for point: Vector2 in grass.uv:
+				uv_inside = uv_inside and point.x >= 0.0 and point.y >= 0.0 and point.x < image.get_width() and point.y < image.get_height()
+		check(uv_inside, "all four UV corners stay inside the authored texture")
+		check(grass.texture_filter == CanvasItem.TEXTURE_FILTER_NEAREST and grass.color == Color.WHITE and grass.transform == Transform2D.IDENTITY, "full-top artwork keeps nearest filtering without tint or transform")
+		if not boundary_by_texture.has(grass.texture):
+			boundary_by_texture[grass.texture] = opaque_uv_boundary(grass)
+	check(used.size() == 4, "6x6 sample uses all four full-top compositions")
+	for texture: Texture2D in [
+		load("res://assets/art_presets/trials/grass_reference_v3/grass_a.png") as Texture2D,
+		load("res://assets/art_presets/trials/grass_reference_v3/grass_b.png") as Texture2D,
+		load("res://assets/art_presets/trials/grass_reference_v3/grass_c.png") as Texture2D,
+		load("res://assets/art_presets/trials/grass_reference_v3/grass_d.png") as Texture2D,
+	]:
+		check(bool(boundary_by_texture.get(texture, false)), "each complete grass texture has an opaque UV boundary")
 	check(tile_count == 36, "6x6 sample contains exactly 36 tile supports")
-	check(empty_count > tile_count / 2, "quiet cells are the majority")
-	var adjacent_grass: bool = false
-	for cell: Vector2i in decorated:
-		adjacent_grass = adjacent_grass or decorated.has(cell + Vector2i.RIGHT) or decorated.has(cell + Vector2i.DOWN)
-	check(adjacent_grass, "grass includes grouped neighbors rather than isolated regular marks")
 	await capture("field-6x6")
 	var source := Vector2i(1, 2)
 	for destination: Vector2i in [source + Vector2i.RIGHT, source + Vector2i.LEFT, source + Vector2i.UP, source + Vector2i.DOWN]:
@@ -167,8 +176,8 @@ func field_sample() -> void:
 	value.units[2].alive = false
 	board.show_presentation_state(value)
 	check(not (board._presentation_visual(2).get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D).visible, "enemy death hides mirrored artwork")
-	# Убираем именно украшенную клетку, чтобы проверить исчезновение всех пучков.
-	var void_cell: Vector2i = decorated.keys()[0]
+	# Убираем клетку с крупным пучком, чтобы проверить исчезновение всей текстуры.
+	check(void_cell != Vector2i(-1, -1), "decorated support exists for void check")
 	terrain[void_cell.y * 6 + void_cell.x] = TerrainType.Type.VOID
 	board.show_presentation_state(value)
 	for visual: BattleDemoIsoVisual in board._entity_visuals:
@@ -176,6 +185,6 @@ func field_sample() -> void:
 			var ground_surface := visual.get_node("ArtRoot/GroundSurface") as Sprite2D
 			check(not ground_surface.visible, "void hides ground container")
 			for child: CanvasItem in ground_surface.get_children():
-				check(not child.is_visible_in_tree(), "void hides shared base and every decorative composition")
+				check(not child.is_visible_in_tree(), "void hides all full-top variants")
 	board.queue_free()
 	await process_frame

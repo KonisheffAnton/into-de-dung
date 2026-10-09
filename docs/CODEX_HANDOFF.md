@@ -1,22 +1,22 @@
-# Передача — 2026-10-09: поправка травы
-D:\Games\into-de-dung; main; base d2a38b9b451e9b7c18f2a4daab3c6e1c9a0ed105; без push.
-F6 scenes/demo/art_trial_battle.tscn: штатный бой8×8; новый союзный Защитник,
-прежний№4 зеркально у врагов-воинов. Прочие классы прежние.
-Первая трава отклонена как неестественная. По поручению заменена:
-единая тихая основа, низкие пучки, пустая+4композиции;15украшенных клеток из64.
-art_trial_tile.tscn: PNG/region/масштаб/позиции; таблица8×8 без RNG.
-Три image_gen; assets/art_presets/trials/grass_natural_v2/;
-источники/запросы/SHA: docs/art/grass-natural-20261009/. Бойцы не менялись.
-Открыты: плотность/естественность/стыки/посадка/пропорции/камера.
-Основной M3/№4 — ART_DIRECTION и assets/art_presets/approved/README.md; F5 прежний.
-4:3, верх128×96, высота32. Enter старт; R сброс; колесо/ПКМ камера.
-Контракты BATTLE_PRESENTATION_REWORK/ARCHITECTURE/ENVIRONMENT_HAZARDS_V1.
-Import/startup/render art_trial_battle386/0 PASS; review APPROVE.
-Рендер100/75% и36тайлов6×6 просмотрен; оси fixture8×8.
-Отчёт test_reports/grass-natural-20261009/. Core/full/ручнойF5 не запускались.
+# Передача — 2026-10-10: трава по референсам
+D:\Games\into-de-dung; main; base 4025155623ec3df18d98b488ef9e83eb694e13d8; без push.
+Трава v1/v2 отклонена. Новые референсы поля/тайла задали цвет и рисунок;
+попытка v3 ещё не принята.
+F6 scenes/demo/art_trial_battle.tscn: штатный бой8×8; четыре цельных рисунка
+земли/пучков, тихие стыки. Верх128×96,4:3; геометрия/UV/контур в сцене;
+таблица8×8 без RNG. Восемь image_gen:4варианта+убраны светлые россыпи.
+PNG assets/art_presets/trials/grass_reference_v3/; источники/запросы/SHA:
+docs/art/grass-reference-20261010/. Новый союзный и прежний зеркальный
+Защитник№4 сохранены. Основной M3/№4, F5 прежние — ART_DIRECTION/approved.
+Enter старт; R сброс; колесо/ПКМ камера. Статичный стиль принят, весь арт/
+анимации/баланс открыты. Следующий шаг — ручной отзыв, без нового пакета.
+Import/startup/render art_trial_battle410/0 PASS; review APPROVE.
+PNG100/75% и36тайлов6×6 просмотрены; оси fixture8×8. Остались повторяемость
+пятен, естественность/цвет/стыки, пропорции/посадка бойцов, камера/ловушки.
+Отчёт test_reports/grass-reference-20261010/. Core/full/ручнойF5 не запускались.
 Прежние foundation143/0, launcher5/5 не повторялись. Full138PASS/2FAIL не общий
 PASS; control/entangle закрыты адресно. Пользовательскую main_menu.tscn не трогать/коммитить.
-Далее ручной отзыв; весь арт/анимации/баланс открыты. Новый пакет по поручению.
+Контракты BATTLE_PRESENTATION_REWORK/ARCHITECTURE/ENVIRONMENT_HAZARDS_V1.
 Пять книг — PIXEL_ART_GUIDE; Williams346сканов: миниатюры+адресное чтение,
 не полное; издание/год/полнота неизвестны. Советы не контракты.
 Capture/live_valid, Щитоносец/прежнийHUD приняты; worker-аудит предварительно.
@@ -28,7 +28,6 @@ GPU/плавность/AI p95 не доказаны; вложенные врем
 ядра/покрытия/реакции/revision-only кэш/D4-save/прочий финальный арт.
 Без sidebar/расписаний; --screen 0; инициатива вне full/render; DPAPI вне Git/логов/промптов.
 PROJECT_CONTEXT — маршруты; CODEX_WORKFLOW — процесс; DESIGN_DIRECTION§7 — порядок.
-
 Этап: Conventional Commit, короткий HANDOFF, прежний точным архивом + HISTORY.
 В конце/при блокере предложить новый чат, кроме явного продолжения здесь,
 и полный промпт: HEAD,результат,docs/artifacts,остаток,ограничения,проверки
