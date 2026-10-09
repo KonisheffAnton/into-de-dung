@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-09",
+  "provider": "built-in image_gen",
+  "calls": 2,
+  "approval": "unapproved visual proposal; not integrated",
+  "primary": "proposal-02.png",
+  "files": {
+    "proposal-01.png": {
+      "sha256": "47950b51099d5df250371e6a3a830bc9ac21b81df73c0500a3565603e926c9bd",
+      "size": [
+        1539,
+        1022
+      ],
+      "mode": "RGB"
+    },
+    "proposal-02.png": {
+      "sha256": "3655f6f15426f84761ca2adb38e5156945eccb756b88521b0f83eb8bbda76851",
+      "size": [
+        1539,
+        1022
+      ],
+      "mode": "RGB"
+    }
+  },
+  "reference_scene": "docs/art/style-reference-20261009/scene-preview.png",
+  "reference_tile": "assets/art_presets/approved/grass_defender_v1/grass_reference_v1.png"
+}

@@ -17,6 +17,7 @@
 # Точная передача содержит исходный CRLF; архив сохраняется без нормализации.
 docs/CODEX_HANDOFF.history-20260927.md -text whitespace=cr-at-eol
 docs/CODEX_HANDOFF.history-20260927-1.md -text whitespace=cr-at-eol
+docs/CODEX_HANDOFF.history-20261009-11.md -text whitespace=cr-at-eol
 
 # ---------------------------------------------------------------------------
 # Бинарные ассеты: не пытаться мержить/диффить.
