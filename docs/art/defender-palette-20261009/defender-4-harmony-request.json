@@ -1,0 +1,16 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "edit-image-pixen",
+  "parameters": {
+    "image": {
+      "reference_file": "defender-4-readable-original.png",
+      "transport": "base64 PNG"
+    },
+    "description": "Improve readability of this SAME defender on muted olive terrain. Medium-light desaturated slate-steel armor with broad pale grey-green top highlights; muted olive cloth and brown leather; warm light earthy face, dark beard. Colors harmonize with Into the Breach terrain but are NOT limited to its dark seven colors. Keep silhouette, camera, gear and ready stance. Crisp 64x64 pixel clusters, 2-3 flat shades, no smooth gradients or noise. Full body, transparent background, no floor/shadow.",
+    "width": 64,
+    "height": 64,
+    "seed": 2026100994,
+    "no_background": true
+  },
+  "instruction": "User clarified palette should capture the spirit, not exact seven colors. This is the final primary color treatment."
+}

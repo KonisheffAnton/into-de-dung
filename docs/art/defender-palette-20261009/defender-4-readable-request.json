@@ -1,0 +1,29 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "create-image-pixflux",
+  "parameters": {
+    "description": "Same complete bearded defender #4, elevated southeast view. Preserve helmet, beard, broad shoulders, forward shield and short sword; expressive ready asymmetric stance. Native 64x64 pixel art with clear square clusters, crisp simple shading, no smoothing. Muted blue-grey armor with PALE GREY GREEN TOP EDGE HIGHLIGHTS #7A8687, muted olive trim, earthy brown tabard, warm muted tan face #AC9878 clearly separated from dark beard. Strong dark outline #252C2A for readability on olive terrain. Use supplied palette. Simple large planes, full body with both feet and all gear inside 3px transparent margin. No floor or shadow.",
+    "image_size": {
+      "width": 64,
+      "height": 64
+    },
+    "init_image": {
+      "reference_file": "defender-4-input-64.png",
+      "transport": "base64 PNG"
+    },
+    "init_image_strength": 300,
+    "color_image": {
+      "reference_file": "character-extended-palette.png",
+      "transport": "base64 PNG"
+    },
+    "view": "high top-down",
+    "direction": "south-east",
+    "isometric": true,
+    "no_background": true,
+    "detail": "low detail",
+    "shading": "basic shading",
+    "outline": "selective outline",
+    "seed": 2026100993
+  },
+  "purpose": "Optional readability comparison; seven exact tile colors plus four proposed character shades."
+}

@@ -1,0 +1,244 @@
+{
+  "preview_only": true,
+  "angle_accepted_by_user": "4:3",
+  "top_size": [
+    128,
+    96
+  ],
+  "grid_steps": [
+    [
+      64,
+      48
+    ],
+    [
+      -64,
+      48
+    ]
+  ],
+  "tiles": [
+    {
+      "id": "A",
+      "source": "projection-4x3-20261009/tile-A-original.png",
+      "provider": "PixelLab",
+      "source_sha256": "9706958f39a071a355e56be9db1f46ea935f4247b0c29d70204a4b2397833d7f",
+      "source_canvas": [
+        64,
+        64
+      ],
+      "top_box": [
+        4,
+        7,
+        61,
+        50
+      ],
+      "scale_xy": [
+        2.245614035087719,
+        2.2325581395348837
+      ],
+      "off_palette_pixels": 0
+    },
+    {
+      "id": "B",
+      "source": "tiles-20261009/B-original.png",
+      "provider": "PixelLab, первая серия",
+      "source_sha256": "658cceecfcb056b814582991ab13f9d96405e9b919dd722d9e698a8518423318",
+      "source_canvas": [
+        64,
+        64
+      ],
+      "top_box": [
+        6,
+        13,
+        58,
+        45
+      ],
+      "scale_xy": [
+        2.4615384615384617,
+        3.0
+      ],
+      "off_palette_pixels": 0
+    },
+    {
+      "id": "C",
+      "source": "projection-4x3-20261009/tile-C-original.png",
+      "provider": "PixelLab",
+      "source_sha256": "72a5d4fdc71119b14242bab7840eff065bb67ade4a2c4f47631944f75a54c504",
+      "source_canvas": [
+        64,
+        64
+      ],
+      "top_box": [
+        6,
+        6,
+        58,
+        36
+      ],
+      "scale_xy": [
+        2.4615384615384617,
+        3.2
+      ],
+      "off_palette_pixels": 0
+    },
+    {
+      "id": "D",
+      "source": "projection-4x3-20261009/tile-D-original.png",
+      "provider": "PixelLab",
+      "source_sha256": "96cd4f8b4cfe6a7723e0719a3791563829b7003b0167c01d16d6beaa30b86ab4",
+      "source_canvas": [
+        64,
+        64
+      ],
+      "top_box": [
+        6,
+        10,
+        58,
+        40
+      ],
+      "scale_xy": [
+        2.4615384615384617,
+        3.2
+      ],
+      "off_palette_pixels": 0
+    },
+    {
+      "id": "E",
+      "source": "projection-4x3-20261009/tile-E-original.png",
+      "provider": "PixelLab",
+      "source_sha256": "4d808e90142e692a376efc12c95ede8b4c3af789c015849b8d9ebbfaf50f7356",
+      "source_canvas": [
+        64,
+        64
+      ],
+      "top_box": [
+        5,
+        10,
+        59,
+        43
+      ],
+      "scale_xy": [
+        2.3703703703703702,
+        2.909090909090909
+      ],
+      "off_palette_pixels": 0
+    },
+    {
+      "id": "F",
+      "source": "tiles-20261009/F-original.png",
+      "provider": "PixelLab, первая серия",
+      "source_sha256": "7fe7a23f1e7c4b8d70d170c9d98f352cd72218a0e64e7b486b45fef04d588e2d",
+      "source_canvas": [
+        64,
+        64
+      ],
+      "top_box": [
+        0,
+        24,
+        64,
+        56
+      ],
+      "scale_xy": [
+        2.0,
+        3.0
+      ],
+      "off_palette_pixels": 0
+    },
+    {
+      "id": "G",
+      "source": "defender-palette-20261009/tile-G-original.png",
+      "provider": "imagegen + PixelLab palette pass",
+      "source_sha256": "4a04c68ffadc8fbc646c467bd94f0f0189a412340ff668d00f9f6c1b61ab8d51",
+      "source_canvas": [
+        64,
+        64
+      ],
+      "top_box": [
+        3,
+        13,
+        61,
+        48
+      ],
+      "scale_xy": [
+        2.206896551724138,
+        2.742857142857143
+      ],
+      "off_palette_pixels": 0
+    }
+  ],
+  "defender": {
+    "file": "defender-4-original.png",
+    "sha256": "7b74c91f4144d9996456aeec6df969410b25eb8f1bb8d65f438d57179793b020",
+    "source_size": [
+      64,
+      64
+    ],
+    "bbox_alpha_128": [
+      5,
+      11,
+      58,
+      59
+    ],
+    "colors_outside_terrain_palette_expected": 1351,
+    "palette_requirement": "Related muted hues, not exact RGB after user clarification",
+    "strict_control_off_palette_pixels": 0,
+    "visible_height": 72,
+    "scale": 1.5,
+    "foot_contacts_source": [
+      [
+        21.5,
+        50
+      ],
+      [
+        47,
+        58
+      ]
+    ],
+    "anchor_source": [
+      34.25,
+      54.0
+    ],
+    "cell": [
+      2,
+      2
+    ],
+    "foot_canvas": [
+      450,
+      375
+    ],
+    "origin_canvas": [
+      399,
+      294
+    ],
+    "center_rounding_error_px": [
+      0.375,
+      0.0
+    ]
+  },
+  "single_fields": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G"
+  ],
+  "mixed_ACDE_counts": {
+    "A": 18,
+    "C": 6,
+    "D": 6,
+    "E": 6
+  },
+  "mixed_AG_counts": {
+    "A": 18,
+    "G": 18
+  },
+  "background_changes_outside_character": 0,
+  "imagegen_calls": 2,
+  "pixellab_charged_calls": 5,
+  "game_changed": false,
+  "limits": [
+    "Strict terrain palette control reduces contrast; final character uses related hues and readable accents as requested.",
+    "4:3 is exact in montage; native source top geometry is normalized.",
+    "Foot contacts estimated visually and verified against source pixels; no measured3D."
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "provider": "image_gen",
+  "prompt": "Create ONE original minimalist pixel-art GRASS GROUND TILE, a new alternative for our tactical game. Image 1 supplies the exact small color palette ONLY. Image 2 is an existing tile reference for relative simplicity and elevated view; design a distinct cleaner quieter alternative. Use an orthographic camera like Into the Breach, a FOUR-to-THREE top diamond (width128 height96), symmetrical left/right slopes, clean straight matching edges, very thin flat sidewall only about6 pixels in that scale. Visually a thin ground wafer, not a tall dirt cube. My concept: quiet olive-earth clearing with one small low green crescent of grass tucked at the rear-left corner and two very short 3-blade tufts near the rear edge. At least90 percent of the top is a completely uninterrupted flat color #464B3E. Empty center and front half for the character. Grass uses #4B6347 and #475643, tiny low-contrast shaded rim #3F3F3A, left side #5B5141/#473E34, cool right side #354249. ONLY these seven exact RGB colors. Keep grass soft and sparse, clean broad pixel clusters. No scattered dots, dirt texture, gravel, stones, flowers, cracks, ridges, dithering, gradients, glossy lighting, border glow or exaggerated outline. Strong consistent coarse pixel grid, target a64x64 logical source, no antialiasing. One complete standalone tile fully visible with generous transparent margin, transparent around it and no ground shadow. No characters, no props, no grid of multiple tiles, no captions. Matchable edges, all cells level.",
+  "transparent_background": true,
+  "reference_image_files": [
+    "../projection-4x3-20261009/itb-grass-palette.png",
+    "../projection-4x3-20261009/tile-E-display.png"
+  ]
+}

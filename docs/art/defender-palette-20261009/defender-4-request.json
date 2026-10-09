@@ -1,0 +1,9 @@
+{
+  "provider": "image_gen",
+  "prompt": "Edit image 1, the original bearded defender character #4, into the EXACT small muted color palette shown in image 2. This is a palette experiment for a game board, so preserve the recognizable design, complete silhouette, southeast elevated orthographic camera, helmet, face/beard, shield, sword, tabard, boots and their positions as closely as possible. Preserve the existing asymmetric bent-knee stance and intent gaze; do not make him stand stiffly with arms along his sides. Recolor ALL materials into the terrain palette: cool dark blue-grey armor #354249 and neutral dark rim #3F3F3A; olive-green highlights #4B6347 and #475643; earthy muted brown face/tabard/leather #5B5141 and #473E34; neutral olive #464B3E. No burgundy, gold, bright skin, white or light silver left. Use ONLY these seven exact flat RGB colors, no added highlight colors, no gradients, no dithering, no texture noise. Make material planes and face as readable as this constrained low-contrast palette permits; do not brighten the palette. Hard clean pixel-art clusters, same Warcraft/Kingdom Rush chunky graphic style. Complete figure centered with all sword/shield/feet visible, generous transparent padding. Background truly transparent, including between legs; no floor, base, cast shadow, labels or text. Image 2 is palette-only reference, not an object to draw.",
+  "transparent_background": true,
+  "reference_image_files": [
+    "../projection-4x3-20261009/defender-4-original.png",
+    "../projection-4x3-20261009/itb-grass-palette.png"
+  ]
+}

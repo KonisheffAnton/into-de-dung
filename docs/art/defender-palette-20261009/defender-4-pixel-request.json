@@ -1,0 +1,29 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "create-image-pixflux",
+  "parameters": {
+    "description": "Same complete bearded shield defender, southeast elevated 4:3 board view, same helmet sword shield clothing and ready bent-knee stance. Clean NATIVE 64x64 pixel art, visible deliberate square pixel clusters, no smooth or subpixel rendering. Strong simple silhouette, readable small face, 2 flat shades per material. Keep full body and both feet inside 3px margin. Force the supplied seven-color muted terrain palette on all materials. Transparent background, no floor or shadow. Preserve character design, do not add ornament.",
+    "image_size": {
+      "width": 64,
+      "height": 64
+    },
+    "init_image": {
+      "reference_file": "defender-4-input-64.png",
+      "transport": "base64 PNG"
+    },
+    "init_image_strength": 500,
+    "color_image": {
+      "reference_file": "../projection-4x3-20261009/itb-grass-palette.png",
+      "transport": "base64 PNG"
+    },
+    "view": "high top-down",
+    "direction": "south-east",
+    "isometric": true,
+    "no_background": true,
+    "detail": "low detail",
+    "shading": "basic shading",
+    "outline": "selective outline",
+    "seed": 2026100991
+  },
+  "input_preparation": "Entire source uniformly fit to 64x64 with transparent padding and nearest filter before API, no painted changes."
+}

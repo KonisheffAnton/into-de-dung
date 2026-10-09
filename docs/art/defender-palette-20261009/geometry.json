@@ -1,0 +1,9 @@
+{
+  "top_box_G": [3, 13, 61, 48],
+  "top_size": [128, 96],
+  "side_depth_limit": 8,
+  "character_visible_height": 72,
+  "character_foot_contacts": [[21.5, 50], [47, 58]],
+  "character_cell": [2, 2],
+  "note": "Contacts from enlarged source and alpha rows; midpoint centered. Top G normalized for accepted4:3 projection."
+}

@@ -1,0 +1,28 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "create-image-pixflux",
+  "parameters": {
+    "description": "Preserve this original simple single ground tile design, quiet olive earth center, tiny low green crescent and only two very short tufts near the rear rim, thin sidewall, elevated 4:3 tactical board diamond. Clean native pixel art with large calm color clusters. Do not add details, texture, speckles or noise. Force the supplied exact seven colors. Flat areas, no gradients. Full standalone tile, transparent outside, no scenery, shadows or text.",
+    "image_size": {
+      "width": 64,
+      "height": 64
+    },
+    "init_image": {
+      "reference_file": "tile-G-input-64.png",
+      "transport": "base64 PNG"
+    },
+    "init_image_strength": 500,
+    "color_image": {
+      "reference_file": "../projection-4x3-20261009/itb-grass-palette.png",
+      "transport": "base64 PNG"
+    },
+    "view": "high top-down",
+    "isometric": true,
+    "no_background": true,
+    "detail": "low detail",
+    "shading": "flat shading",
+    "outline": "lineless",
+    "seed": 2026100992
+  },
+  "input_preparation": "Visible source bbox [260,265,1188,858] fit to 58x37 inside64x64, nearest, transparent padding. Concept shape retained; no local painting."
+}

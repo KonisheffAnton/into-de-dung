@@ -1,0 +1,64 @@
+{
+  "image_gen": {
+    "calls": 2,
+    "monetary_usage": null
+  },
+  "pixellab": {
+    "items": [
+      {
+        "name": "defender-4-final",
+        "status": "completed",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 1
+        }
+      },
+      {
+        "name": "defender-4-harmony",
+        "status": "completed",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 1
+        }
+      },
+      {
+        "name": "defender-4-pixel",
+        "status": "synchronous",
+        "usage": {
+          "type": "generations",
+          "generations": 1.0
+        }
+      },
+      {
+        "name": "defender-4-readable",
+        "status": "synchronous",
+        "usage": {
+          "type": "generations",
+          "generations": 1.0
+        }
+      },
+      {
+        "name": "tile-G-pixel",
+        "status": "synchronous",
+        "usage": {
+          "type": "generations",
+          "generations": 1.0
+        }
+      }
+    ],
+    "balance_before": 4973.0,
+    "balance_after": 4968.0,
+    "uncharged_failed_attempts": [
+      {
+        "name": "defender-4-pixel initial",
+        "status": 422,
+        "cause": "init_image dimensions did not match requested64x64; prepared matching input and resubmitted"
+      }
+    ]
+  },
+  "retro_diffusion": {
+    "calls": 0
+  }
+}

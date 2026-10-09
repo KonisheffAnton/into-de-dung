@@ -1,0 +1,15 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "edit-image-pixen",
+  "parameters": {
+    "image": {
+      "reference_file": "defender-4-harmony-before-cleanup.png",
+      "transport": "base64 PNG"
+    },
+    "description": "Remove ONLY the flat olive green puddle / ground shadow underneath and between the boots. That ground-colored patch is NOT part of the character. Make it completely TRANSPARENT. Preserve both boots and soles, sword, shield, body, helmet, face, pose, camera and all character colors exactly. Clean native 64x64 pixel art. No floor, base, platform or cast shadow. Transparent everywhere around the figure and between legs. Entire figure remains inside the canvas.",
+    "width": 64,
+    "height": 64,
+    "seed": 2026100995,
+    "no_background": true
+  }
+}
