@@ -178,7 +178,7 @@ def main():
         if label in ("battle_execution_worker", "battle_execution_ui"):
             marker = "BATTLE EXECUTION WORKER RESULTS:" if label == "battle_execution_worker" else "BATTLE EXECUTION UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
-        if label in ("presentation_capture", "battle_presentation", "presentation_foundation", "presentation_contact", "presentation_attack_styles", "presentation_consequences", "presentation_environment", "presentation_ranged", "presentation_mage", "presentation_reactions", "presentation_status", "battle_board_camera", "battle_camera_ui", "battle_view_reuse", "four_slot_bar", "battle_panels"):
+        if label in ("art_trial_battle", "presentation_capture", "battle_presentation", "presentation_foundation", "presentation_contact", "presentation_attack_styles", "presentation_consequences", "presentation_environment", "presentation_ranged", "presentation_mage", "presentation_reactions", "presentation_status", "battle_board_camera", "battle_camera_ui", "battle_view_reuse", "four_slot_bar", "battle_panels"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("snapshot_value_copy", "live_snapshot_capture", "summon_checkpoint"):
@@ -274,6 +274,12 @@ def main():
             foundation_captures.mkdir()
             foundation_args += ["--", "--captures=" + str(foundation_captures)]
         run("presentation_foundation", foundation_args, headless=not args.render_check)
+        art_trial_args = ["--script", "tests/test_art_trial_battle.gd"]
+        if args.render_check:
+            art_trial_captures = out / "art-trial-screenshots"
+            art_trial_captures.mkdir()
+            art_trial_args += ["--", "--captures=" + str(art_trial_captures)]
+        run("art_trial_battle", art_trial_args, headless=not args.render_check)
         status_args = ["--script", "tests/test_presentation_status.gd"]
         if args.render_check:
             status_captures = out / "presentation-status-screenshots"

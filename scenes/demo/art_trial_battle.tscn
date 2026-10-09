@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/demo/core_reactions_battle.tscn" id="1_core"]
+[ext_resource type="PackedScene" path="res://scenes/demo/visuals/art_trial_tile.tscn" id="2_tile"]
+[ext_resource type="PackedScene" path="res://scenes/demo/visuals/art_trial_unit.tscn" id="3_unit"]
+
+[node name="CoreReactionsBattle" instance=ExtResource("1_core")]
+
+[editable path="BattleHUD"]
+[editable path="BattleHUD/Margin/Column/Content/Left/Field/Board"]
+
+[node name="Board" parent="BattleHUD/Margin/Column/Content/Left/Field" index="1"]
+tile_visual_scene = ExtResource("2_tile")
+unit_visual_scene = ExtResource("3_unit")

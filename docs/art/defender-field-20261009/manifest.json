@@ -1,0 +1,195 @@
+{
+  "provider": "built-in image_gen",
+  "calls": 4,
+  "source_images": [
+    "docs/art/defender-field-20261009/user-defender.png",
+    "docs/art/defender-field-20261009/user-tile-reference.png"
+  ],
+  "assets": [
+    {
+      "file": "assets/art_presets/trials/defender_field_v1/defender_new.png",
+      "sha256": "7cbd0358fe42264f8090b4d77da03274fcca1a4ebbe5984b960d77c9f5874082",
+      "size": [
+        1230,
+        1278
+      ],
+      "mode": "RGBA",
+      "alpha128_bbox": [
+        89,
+        206,
+        1123,
+        1172
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "assets/art_presets/trials/defender_field_v1/grass_a.png",
+      "sha256": "8a2f0be125cfffd7db76785040f5204fca44b13213ba8ba9ce85ae22149f4962",
+      "size": [
+        1448,
+        1086
+      ],
+      "mode": "RGBA",
+      "alpha128_bbox": [
+        109,
+        124,
+        1339,
+        971
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "authored_uv": [
+        [
+          724,
+          200
+        ],
+        [
+          1228,
+          547.5
+        ],
+        [
+          724,
+          895
+        ],
+        [
+          220,
+          547.5
+        ]
+      ],
+      "sampled_top_alpha_min": 252,
+      "sampled_top_points": 6177
+    },
+    {
+      "file": "assets/art_presets/trials/defender_field_v1/grass_b.png",
+      "sha256": "81fa61fea0fcc6dc1f639879006ac47310e5f3a710048fc15c27052a9174fb99",
+      "size": [
+        1448,
+        1086
+      ],
+      "mode": "RGBA",
+      "alpha128_bbox": [
+        113,
+        139,
+        1335,
+        948
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "authored_uv": [
+        [
+          724,
+          212
+        ],
+        [
+          1225,
+          543.5
+        ],
+        [
+          724,
+          875
+        ],
+        [
+          223,
+          543.5
+        ]
+      ],
+      "sampled_top_alpha_min": 242,
+      "sampled_top_points": 6177
+    },
+    {
+      "file": "assets/art_presets/trials/defender_field_v1/grass_c.png",
+      "sha256": "ab65bd0e88ccde3b55ba7a9ca7190d849805ad710c4c5566b51994dbade477f8",
+      "size": [
+        1448,
+        1086
+      ],
+      "mode": "RGBA",
+      "alpha128_bbox": [
+        68,
+        134,
+        1381,
+        951
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "authored_uv": [
+        [
+          724.5,
+          207.5
+        ],
+        [
+          1262.5,
+          542.5
+        ],
+        [
+          724.5,
+          877.5
+        ],
+        [
+          186.5,
+          542.5
+        ]
+      ],
+      "sampled_top_alpha_min": 250,
+      "sampled_top_points": 6177
+    }
+  ],
+  "status": "trial only; gameplay scene; manual visual acceptance open",
+  "projection": {
+    "tile_top": [
+      128,
+      96
+    ],
+    "height_step": 32
+  },
+  "runtime_selection": "authored coordinate table; no RNG; no saved gameplay data",
+  "source_hashes": {
+    "docs/art/defender-field-20261009/user-defender.png": "c1966796542ea7286ec2e7884e2e8275db593590a4c55c4d5fd8af29d5520daa",
+    "docs/art/defender-field-20261009/user-tile-reference.png": "c76de6809c15100d2c2905f099eb5baaee94110a3b8bc4c227d5aff7c6c4b2d0"
+  },
+  "scene_parameters": {
+    "player": {
+      "atlas_region": [
+        89,
+        206,
+        1034,
+        966
+      ],
+      "scale": [
+        0.0745342,
+        0.0745342
+      ],
+      "position": [
+        -44.42,
+        -65.14
+      ]
+    },
+    "enemy": {
+      "texture": "assets/art_presets/approved/grass_defender_v1/defender_reference_v1.png",
+      "scale": [
+        0.25,
+        0.25
+      ],
+      "position": [
+        -33,
+        -56
+      ],
+      "flip_h": true
+    },
+    "pick_rect": [
+      -45,
+      -66,
+      90,
+      83
+    ]
+  }
+}

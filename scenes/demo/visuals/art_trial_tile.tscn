@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/demo/visuals/placeholder_tile.tscn" id="1_base"]
+[ext_resource type="Script" path="res://scripts/demo/art_trial_tile.gd" id="2_script"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_field_v1/grass_a.png" id="3_a"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_field_v1/grass_b.png" id="4_b"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_field_v1/grass_c.png" id="5_c"]
+
+[node name="PlaceholderTile" instance=ExtResource("1_base")]
+script = ExtResource("2_script")
+
+[node name="GroundSurface" parent="ArtRoot" index="4"]
+texture = null
+scale = Vector2(1, 1)
+offset = Vector2(0, 0)
+
+[node name="Grass0" type="Polygon2D" parent="ArtRoot/GroundSurface"]
+visible = true
+texture_filter = 1
+polygon = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
+uv = PackedVector2Array(724, 200, 1228, 547.5, 724, 895, 220, 547.5)
+texture = ExtResource("3_a")
+
+[node name="Grass1" type="Polygon2D" parent="ArtRoot/GroundSurface"]
+visible = false
+texture_filter = 1
+polygon = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
+uv = PackedVector2Array(724, 212, 1225, 543.5, 724, 875, 223, 543.5)
+texture = ExtResource("4_b")
+
+[node name="Grass2" type="Polygon2D" parent="ArtRoot/GroundSurface"]
+visible = false
+texture_filter = 1
+polygon = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
+uv = PackedVector2Array(724.5, 207.5, 1262.5, 542.5, 724.5, 877.5, 186.5, 542.5)
+texture = ExtResource("5_c")

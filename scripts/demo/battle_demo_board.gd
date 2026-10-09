@@ -83,8 +83,8 @@ var _environment_visuals: Dictionary = {}
 var _field_presentation := BattleFieldPresentation.new()
 var _warning_phase: float = 0.0
 ## Сменяемая временная фигура; будущая сцена может использовать AnimationPlayer/AnimatedSprite2D.
-var unit_visual_scene: PackedScene = preload("res://scenes/demo/visuals/placeholder_unit.tscn")
-var tile_visual_scene: PackedScene = DEFAULT_TILE_SCENE
+@export var unit_visual_scene: PackedScene = preload("res://scenes/demo/visuals/placeholder_unit.tscn")
+@export var tile_visual_scene: PackedScene = DEFAULT_TILE_SCENE
 const MOVE_SEGMENT_SECONDS: float = 0.08
 const FORCED_MOVE_SEGMENT_SECONDS: float = 0.10
 const STRIKE_WINDUP_SECONDS: float = 0.10

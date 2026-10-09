@@ -1,37 +1,34 @@
-# Передача — 2026-10-09: Williams и арт-проба
-D:\Games\into-de-dung; main; base d4cd69d552de017d6f3744faf89c029533362c5c; без push.
-PIXEL_ART_GUIDE — пять книг со страницами; советы не контракт.
-Williams:346 сканов без текста; командный обзор миниатюр всего файла и
-адресное чтение, не полное построчное. Издание/год/полнота не подтверждены.
-Отчёт: test_reports/animators-kit-study-20261009/; прежние — HISTORY.
-Новая проба docs/art/animators-kit-20261009/proposal-01.png:
-один image_gen, Защитник на тайле; README/запрос/manifest рядом.
-Не утверждена/не подключена; поза изменена умеренно, кант заметен.
-Игровой масштаб/6×6/геометрия/анимация не проверены; улучшение не доказано.
-
-Действует правая M3/Защитник№4, ART_DIRECTION;
-assets/art_presets/approved/README.md — PNG/SHA/preset/сцены.
-docs/art/style-reference-20261009/; F6 scenes/demo/art_style_preview.tscn.
-4:3, верх128×96, высота32, посадка preset.json; F5 сохранён.
+# Передача — 2026-10-09: игровая арт-проба
+D:\Games\into-de-dung; main; base2762b21fdda85de71ba272c82a5b8e16c835f7a5; без push.
+F6 scenes/demo/art_trial_battle.tscn: штатный бой8×8, три новых тайла,
+новый союзный Защитник, прежний№4 зеркально у врагов-воинов.
+Прочие классы прежние. Enter старт; R сброс; колесо/ПКМ камера.
+Четыре image_gen; PNG/запросы/SHA/UV: docs/art/defender-field-20261009/.
+Editable пресеты: scenes/demo/visuals/art_trial_{tile,unit}.tscn;
+assets/art_presets/trials/defender_field_v1/. Варианты без RNG.
+Пропорции/посадка/стыки/тон/камера требуют отзыва; это проба, не приёмка.
+Основной M3/№4 — ART_DIRECTION и assets/art_presets/approved/README.md; F5 прежний.
+4:3, верх128×96, высота32; новый sprite72px, старый отражён вокруг опоры.
 Контракты BATTLE_PRESENTATION_REWORK/ARCHITECTURE/ENVIRONMENT_HAZARDS_V1.
-Docs/SHA/архив PASS; review APPROVE. Godot/core/full/render/F5 не запускались.
-Прежние import/startup/адресный render PASS: test_reports/art-integration-20261009/.
-Full138PASS/2FAIL не общий PASS; control/entangle закрыты адресно.
-В status только пользовательская scenes/demo/main_menu.tscn: не сбрасывать/коммитить.
-Далее отзыв по игре/камере/стыкам/воину/ловушкам/новой пробе.
-Приняты стиль/статичный эталон, не весь арт/анимации/баланс. Новый пакет по поручению.
-Capture/live_valid, Щитоносец/прежний HUD приняты; worker-аудит предварительно.
+Import/startup/render: art_trial_battle292/0, foundation143/0; launcher5/5.
+Рендер100/75% и36тайлов6×6 просмотрен; оси fixture8×8. Review APPROVE.
+Отчёт: test_reports/defender-field-20261009/. Core/full/ручнойF5 не запускались.
+Прежний full138PASS/2FAIL не общий PASS; control/entangle закрыты адресно.
+В status пользовательская scenes/demo/main_menu.tscn: не трогать/коммитить.
+Далее ручной отзыв; весь арт/анимации/баланс открыты. Новый пакет по поручению.
+Пять книг — PIXEL_ART_GUIDE; Williams346сканов: миниатюры+адресное чтение,
+не полное; издание/год/полнота неизвестны. Советы не контракты.
+Capture/live_valid, Щитоносец/прежнийHUD приняты; worker-аудит предварительно.
 F5/колода/спрайты предварительно. Маршрут/редактор/HUD/арт/баланс/Q-E/артефакты/
 viewport открыты; набор/отход/исключения/автостойка — Q.
-GPU/плавность не доказаны; AI p95 без устойчивого улучшения;
-вложенные времена не складывать; fixture не F5.
+GPU/плавность/AI p95 не доказаны; вложенные времена не складывать; fixture не F5.
 Сохранять покомандность/preview/live/worker/queue/RNG/save/frozen/profile1–4.
 Не начинать школы/кузню/R16/R17/экипировку13/общие стаки/backlog/микроплейтесты
 ядра/покрытия/реакции/revision-only кэш/D4-save/прочий финальный арт.
 Без sidebar/расписаний; --screen 0; инициатива вне full/render; DPAPI вне Git/логов/промптов.
-PROJECT_CONTEXT — маршруты; CODEX_WORKFLOW — процесс; DESIGN_DIRECTION §7 — порядок.
+PROJECT_CONTEXT — маршруты; CODEX_WORKFLOW — процесс; DESIGN_DIRECTION§7 — порядок.
 
 Этап: Conventional Commit, короткий HANDOFF, прежний точным архивом + HISTORY.
 В конце/при блокере предложить новый чат, кроме явного продолжения здесь,
-и полный промпт: HEAD, результат, docs/artifacts, остаток, ограничения, проверки
+и полный промпт: HEAD,результат,docs/artifacts,остаток,ограничения,проверки
 и это правило. Ссылка не заменяет текст; чат не создавать.
