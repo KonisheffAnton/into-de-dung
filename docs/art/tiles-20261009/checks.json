@@ -1,0 +1,170 @@
+[
+  {
+    "id": "A",
+    "provider": "Retro Diffusion",
+    "source_job_name": "A",
+    "title": "Спокойная земля",
+    "source_sha256": "ea11c1064b056a766f5d698a334c1f96929822835b396ec410aac84e848dec70",
+    "canvas": [
+      64,
+      64
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "opaque_color_count": 6,
+    "off_palette_count": 0,
+    "top_crop": [
+      0,
+      14,
+      64,
+      50
+    ],
+    "preview_surface": [
+      64,
+      32
+    ],
+    "field_cells": 36
+  },
+  {
+    "id": "B",
+    "provider": "PixelLab",
+    "source_job_name": "G",
+    "title": "Чистый газон",
+    "source_sha256": "658cceecfcb056b814582991ab13f9d96405e9b919dd722d9e698a8518423318",
+    "canvas": [
+      64,
+      64
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "opaque_color_count": 4,
+    "off_palette_count": 0,
+    "top_crop": [
+      6,
+      13,
+      58,
+      45
+    ],
+    "preview_surface": [
+      64,
+      32
+    ],
+    "field_cells": 36
+  },
+  {
+    "id": "C",
+    "provider": "PixelLab",
+    "source_job_name": "H",
+    "title": "Редкие пучки",
+    "source_sha256": "8f388e515fab2f4129bf9d1c0b540fd8defed6570396f1ab35ce356d5a3c613d",
+    "canvas": [
+      64,
+      64
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "opaque_color_count": 7,
+    "off_palette_count": 0,
+    "top_crop": [
+      5,
+      13,
+      59,
+      47
+    ],
+    "preview_surface": [
+      64,
+      32
+    ],
+    "field_cells": 36
+  },
+  {
+    "id": "D",
+    "provider": "PixelLab",
+    "source_job_name": "B2",
+    "title": "Трава по краям",
+    "source_sha256": "9dc986d284cad41f5bb13a7c31966e3961676ba5ae930a17100bbabe932813d7",
+    "canvas": [
+      64,
+      64
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "opaque_color_count": 6,
+    "off_palette_count": 0,
+    "top_crop": [
+      0,
+      24,
+      64,
+      56
+    ],
+    "preview_surface": [
+      64,
+      32
+    ],
+    "field_cells": 36
+  },
+  {
+    "id": "E",
+    "provider": "PixelLab",
+    "source_job_name": "E2",
+    "title": "Крупный пучок",
+    "source_sha256": "ef8bb177f6afd233da67c74f201fd439ed9acce6cbc4f58ef267bf3313262485",
+    "canvas": [
+      64,
+      64
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "opaque_color_count": 6,
+    "off_palette_count": 0,
+    "top_crop": [
+      0,
+      23,
+      64,
+      55
+    ],
+    "preview_surface": [
+      64,
+      32
+    ],
+    "field_cells": 36
+  },
+  {
+    "id": "F",
+    "provider": "PixelLab",
+    "source_job_name": "F2",
+    "title": "Рассеянная трава",
+    "source_sha256": "7fe7a23f1e7c4b8d70d170c9d98f352cd72218a0e64e7b486b45fef04d588e2d",
+    "canvas": [
+      64,
+      64
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "opaque_color_count": 7,
+    "off_palette_count": 0,
+    "top_crop": [
+      0,
+      24,
+      64,
+      56
+    ],
+    "preview_surface": [
+      64,
+      32
+    ],
+    "field_cells": 36
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "description": "A single very simple flat grass ground tile for an isometric tactical board, clean restrained pixel art like Into the Breach. Diamond top in exact 2:1 projection, straight matching edges, very thin tile, no tall block or cliff. At least 90 percent of the surface is one calm uninterrupted muted olive color. Only two or three tiny grass tufts, each a few solid pixels. Tiny detail, broad flat pixel clusters, low contrast. Flat lighting. Strict supplied palette sampled from the actual game Into the Breach: ground #464B3E, grass #4B6347 and #475643, edge #3F3F3A, earth #5B5141, soil #473E34, shaded side #354249. Grass is subtle. No pebbles, flowers, stones, cracks, texture noise, dithering, gradients, glow, shadows outside tile, props or text. Entire single tile visible, transparent background. Variant: Quiet green lawn with one broad barely darker irregular patch and two tiny sparse tufts. No textured filling.",
+  "image_size": {
+    "width": 64,
+    "height": 64
+  },
+  "isometric_tile_size": 32,
+  "isometric_tile_shape": "thin tile",
+  "outline": "lineless",
+  "shading": "flat shading",
+  "detail": "low detail",
+  "seed": 202610095,
+  "palette_file": "itb-grass-palette.png",
+  "palette_transport": "64x64 raw RGBA base64",
+  "endpoint": "https://api.pixellab.ai/v2/create-isometric-tile"
+}

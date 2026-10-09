@@ -8,7 +8,7 @@
 | Архитектура / инварианты | [ARCHITECTURE](ARCHITECTURE.md) / [DECISIONS](DECISIONS.md) |
 | Готовность ядра / срез | [CORE_READINESS](CORE_READINESS.md) / §7 [DESIGN_DIRECTION](DESIGN_DIRECTION.md) |
 | Команда / контекст | [CODEX_WORKFLOW](CODEX_WORKFLOW.md) |
-| Графика / PixelLab / Retro Diffusion | [GRAPHICS_WORKFLOW](GRAPHICS_WORKFLOW.md) |
+| Графика: стиль / API | [ART](ART_DIRECTION.md) / [WORKFLOW](GRAPHICS_WORKFLOW.md) |
 | Запуск / автоматические проверки | [REPOSITORY_STATE](REPOSITORY_STATE.md) / [TESTING](TESTING.md) |
 | Хаб / итоги / сцены | [H1](HERO_HUB_H1.md) / [Итоги](POST_BATTLE_V1.md) / [Сцены](HUB_SCENES_V1.md) |
 | Боевой пакет / расстановка / плейтест | [CORE_BATTLE_BATCH_K9](CORE_BATTLE_BATCH_K9.md) |

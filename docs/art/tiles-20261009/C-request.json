@@ -1,0 +1,17 @@
+{
+  "description": "One flat thin isometric diamond game-board tile, 2:1 top face, tiny thickness. Clean minimalist tactical pixel art, extremely low detail, no texture. The top surface is a single uninterrupted flat muted olive-green color #464B3E. Two tiny isolated grass tufts, each exactly a small three-pixel V shape, colored #4B6347 and #475643. Put both tufts INSIDE the face with much empty space around them. All four edges perfectly straight and completely bare. Grass never touches the edges. 95 percent blank calm flat surface. Soft low contrast. Use ONLY the supplied exact Into the Breach palette. No border of grass, no edge vegetation, no gravel, no cracks, no flowers, no speckles, no dithering, no raised platform, no objects. Single tile centered, fully visible, transparent background. One very broad low contrast moss-green patch fills a small corner of the face, with two tiny isolated tufts.",
+  "image_size": {
+    "width": 64,
+    "height": 64
+  },
+  "no_background": true,
+  "isometric": true,
+  "view": "low top-down",
+  "outline": "lineless",
+  "shading": "flat shading",
+  "detail": "low detail",
+  "seed": 202610098,
+  "palette_file": "itb-grass-palette.png",
+  "palette_transport": "PNG base64",
+  "endpoint": "https://api.pixellab.ai/v2/create-image-pixflux"
+}

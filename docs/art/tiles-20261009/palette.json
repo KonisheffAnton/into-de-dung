@@ -1,0 +1,74 @@
+{
+  "archive": "D:\\Games\\Into the Breach\\resources\\resource.dat",
+  "entry": "img/combat/tiles_grass/ground_0.png",
+  "source_sha256": "2ac75b69842997cbfa1bc7702c487de2bd44e41313c348d1abd9925c2942ec84",
+  "source_size": [
+    56,
+    74
+  ],
+  "colors": [
+    {
+      "hex": "#464B3E",
+      "rgb": [
+        70,
+        75,
+        62
+      ],
+      "count": 611
+    },
+    {
+      "hex": "#4B6347",
+      "rgb": [
+        75,
+        99,
+        71
+      ],
+      "count": 279
+    },
+    {
+      "hex": "#475643",
+      "rgb": [
+        71,
+        86,
+        67
+      ],
+      "count": 232
+    },
+    {
+      "hex": "#3F3F3A",
+      "rgb": [
+        63,
+        63,
+        58
+      ],
+      "count": 54
+    },
+    {
+      "hex": "#5B5141",
+      "rgb": [
+        91,
+        81,
+        65
+      ],
+      "count": 234
+    },
+    {
+      "hex": "#473E34",
+      "rgb": [
+        71,
+        62,
+        52
+      ],
+      "count": 182
+    },
+    {
+      "hex": "#354249",
+      "rgb": [
+        53,
+        66,
+        73
+      ],
+      "count": 234
+    }
+  ]
+}
