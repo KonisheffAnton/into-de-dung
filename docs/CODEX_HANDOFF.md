@@ -1,39 +1,40 @@
-# Передача — 2026-10-09: Pixel Logic и проба тайлов
+# Передача — 2026-10-09: Graphic L.A.
+D:\Games\into-de-dung; main; base 98c74937e4bc3f8f866c9b89d1995f6cf873b165; без push.
+Две книги разобраны: PIXEL_ART_GUIDE — выжимка со страницами.
+Graphic L.A.: 124 скана, пропуски; полнота издания не подтверждена,
+PDF/печать сверены. Приложений-анимаций Pixel Logic нет. Review APPROVE;
+отчёт test_reports/graphic-la-study-20261009/.
 
-D:\Games\into-de-dung; main; base b2ebc34fca824b03d518169e5bce5d5582d09ee1; без push.
-Pixel Logic v1.0 (2019) изучен: текст9глав, ключевые иллюстрации.
-PIXEL_ART_GUIDE — 12 принципов со страницами; PDF читать адресно.
-Анимационных приложений нет. Review APPROVE;
-отчёт test_reports/pixel-logic-study-20261009/.
+Прошлая проба получила сдержанный отзыв, не выбрана. Новая:
+docs/art/graphic-la-tiles-20261009/proposal-01.png; README/запрос рядом.
+Фактура похожа на мох; улучшение не доказано.
+Неутверждённый image_gen-эскиз, не игровой тайл/рендер; игра не изменена.
 
-Проба M3: тихие швы/цельные пучки/меньше повторов.
-Рисунок: docs/art/pixel-logic-tiles-20261009/proposal-02.png; README/запросы рядом.
-Неутверждённый эскиз image_gen, не игровой тайл/рендер. Игра не изменена.
-
-Действует правая композиция M3/Защитник№4: ART_DIRECTION — стиль;
+Действует правая M3/Защитник №4; ART_DIRECTION — стиль;
 assets/art_presets/approved/README.md — PNG/параметры/SHA/сцены.
-Референс: docs/art/style-reference-20261009/; F6: scenes/demo/art_style_preview.tscn.
-Игра4:3, верх128×96, высота32; посадка preset.json. F5 сохранён.
-Контракты: BATTLE_PRESENTATION_REWORK/ARCHITECTURE/ENVIRONMENT_HAZARDS_V1.
-Прошлые import/startup/адресный render PASS, review APPROVE и PNG —
+docs/art/style-reference-20261009/; F6 scenes/demo/art_style_preview.tscn.
+Игра 4:3, верх128×96, высота32; посадка preset.json; F5 сохранён.
+Контракты BATTLE_PRESENTATION_REWORK/ARCHITECTURE/ENVIRONMENT_HAZARDS_V1.
+import/startup/адресный render PASS, review APPROVE:
 test_reports/art-integration-20261009/, HISTORY. Сейчас Godot/core/full/render/F5
 не повторялись; docs/PNG/diff/ссылки/SHA/архив проверены.
-Исторический full138PASS/2FAIL не общий PASS; control/entangle закрыты адресно.
+Full138PASS/2FAIL не общий PASS; control/entangle закрыты адресно.
 В status только пользовательская scenes/demo/main_menu.tscn: не сбрасывать/коммитить.
 
-Далее отзыв по игре/камере/стыкам/воину/ловушкам и новой пробе. Стиль/статичный
-эталон приняты, весь арт/анимации/баланс нет. Новый пакет только по поручению.
-Capture/live_valid приняты, worker-аудит предварительно; Щитоносец/прежний HUD
-приняты. F5/колода/спрайты предварительно. Маршрут/редактор/HUD/арт/баланс/Q-E/
-артефакты/viewport открыты; набор/отход/исключения/автостойка — Q.
-GPU/плавность не доказаны; AI p95 без устойчивого улучшения; времена не складывать,
-fixture не F5. Сохранять покомандность/preview/live/worker/queue/RNG/save/frozen/profile1–4.
+Далее отзыв по игре/камере/стыкам/воину/ловушкам и пробе. Приняты стиль/статичный
+эталон, не весь арт/анимации/баланс. Новый пакет по поручению.
+Capture/live_valid, Щитоносец/прежний HUD приняты; worker-аудит предварительно.
+F5/колода/спрайты предварительно. Маршрут/редактор/HUD/арт/баланс/Q-E/артефакты/
+viewport открыты; набор/отход/исключения/автостойка — Q.
+GPU/плавность не доказаны; AI p95 без устойчивого улучшения;
+вложенные времена не складывать; fixture не F5.
+Сохранять покомандность/preview/live/worker/queue/RNG/save/frozen/profile1–4.
 Не начинать школы/кузню/R16/R17/экипировку13/общие стаки/backlog/микроплейтесты
 ядра/покрытия/реакции/revision-only кэш/D4-save/прочий финальный арт.
 Без sidebar/расписаний; --screen 0; инициатива вне full/render; DPAPI вне Git/логов/промптов.
 PROJECT_CONTEXT — маршруты; CODEX_WORKFLOW — процесс; DESIGN_DIRECTION §7 — порядок.
 
-Этап — Conventional Commit, короткий HANDOFF; прежний точным архивом + HISTORY.
+Этап: Conventional Commit, короткий HANDOFF, прежний точным архивом + HISTORY.
 В конце/при блокере предложить новый чат, кроме явного продолжения здесь,
 и полный промпт: HEAD, результат, docs/artifacts, остаток, ограничения, проверки
 и это правило. Ссылка не заменяет текст; чат не создавать.

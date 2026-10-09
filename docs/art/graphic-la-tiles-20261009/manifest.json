@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-09",
+  "provider": "built-in image_gen",
+  "calls": 1,
+  "approval": "unapproved visual proposal; not integrated",
+  "primary": "proposal-01.png",
+  "files": {
+    "proposal-01.png": {
+      "sha256": "d65835663a854780a7f9229387fcbdf7c5054ed035438a79af24d09bb86e62f3",
+      "size": [
+        1539,
+        1022
+      ],
+      "mode": "RGB"
+    }
+  },
+  "request": "request-01.json",
+  "reference_scene": "docs/art/style-reference-20261009/scene-preview.png",
+  "approved_preset": "assets/art_presets/approved/grass_defender_v1/preset.json",
+  "book_images_used_as_generation_reference": false,
+  "limitations": [
+    "Grass patches resemble moss or camouflage; light seams remain visible.",
+    "No proven improvement over approved M3 composition.",
+    "Concept only; exact geometry, character identity and placement are not guaranteed."
+  ]
+}
