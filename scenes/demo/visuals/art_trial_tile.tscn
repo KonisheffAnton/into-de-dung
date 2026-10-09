@@ -51,4 +51,5 @@ texture = ExtResource("6_d")
 points = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
 closed = true
 width = 0.7
-default_color = Color(0.25, 0.29, 0.17, 0.38)
+default_color = Color(0.25, 0.29, 0.17, 0.32)
+antialiased = true

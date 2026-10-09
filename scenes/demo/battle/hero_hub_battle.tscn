@@ -1,8 +1,9 @@
-[gd_scene format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scripts/demo/hero_hub_battle_view.gd" id="view"]
-
 [ext_resource type="PackedScene" path="res://scenes/demo/battle/battle_hud.tscn" id="hud"]
+[ext_resource type="PackedScene" path="res://scenes/demo/visuals/art_trial_tile.tscn" id="tile"]
+[ext_resource type="PackedScene" path="res://scenes/demo/visuals/art_trial_unit.tscn" id="unit"]
 
 [node name="HeroHubBattle" type="Control"]
 layout_mode = 3
@@ -14,3 +15,10 @@ grow_vertical = 2
 script = ExtResource("view")
 
 [node name="BattleHUD" parent="." instance=ExtResource("hud")]
+
+[editable path="BattleHUD"]
+[editable path="BattleHUD/Margin/Column/Content/Left/Field/Board"]
+
+[node name="Board" parent="BattleHUD/Margin/Column/Content/Left/Field" index="1"]
+tile_visual_scene = ExtResource("tile")
+unit_visual_scene = ExtResource("unit")

@@ -1,0 +1,90 @@
+{
+  "base": "3a31e560ced84745a9c4cac8400baab551c91bca",
+  "status": "rendering trial, visual acceptance pending",
+  "test_snapshot": "test_reports/demo-36026d94258848a0be15898552697e79",
+  "new_image_generations": 0,
+  "files": [
+    {
+      "path": "assets/art_presets/trials/defender_field_v1/defender_new.png",
+      "sha256": "7cbd0358fe42264f8090b4d77da03274fcca1a4ebbe5984b960d77c9f5874082",
+      "bytes": 718048
+    },
+    {
+      "path": "assets/art_presets/approved/grass_defender_v1/defender_reference_v1.png",
+      "sha256": "f6b4e66fb267c443c24f3913af97b3220a7ca554eae7a3c524b08d2bd83b6515",
+      "bytes": 13520
+    },
+    {
+      "path": "assets/art_presets/trials/grass_reference_v3/grass_a.png",
+      "sha256": "a76bae2880c836a262fd347b3cccc9525974928eb393ac810ffed7131f98a01f",
+      "bytes": 711077
+    },
+    {
+      "path": "assets/art_presets/trials/grass_reference_v3/grass_b.png",
+      "sha256": "e0ca947fb1f0045483d9bc816cb9022bd4274ecd86efa60e25aef11a27ca55a5",
+      "bytes": 693139
+    },
+    {
+      "path": "assets/art_presets/trials/grass_reference_v3/grass_c.png",
+      "sha256": "051270d4bd06f31de56d76c7bb45137920706d03b757b101bb86386b76614aef",
+      "bytes": 749718
+    },
+    {
+      "path": "assets/art_presets/trials/grass_reference_v3/grass_d.png",
+      "sha256": "1ad59faa83e1109e74e215d272a8492372ff76966ecceab19f9a56fd8d968d69",
+      "bytes": 736651
+    },
+    {
+      "path": "scenes/demo/battle/hero_hub_battle.tscn",
+      "sha256_lf": "3e94716c47963f273b80e2bd3ba63e9761f58489a50e26af292e71fe3bde5291",
+      "bytes_lf": 917
+    },
+    {
+      "path": "scenes/demo/visuals/art_trial_unit.tscn",
+      "sha256_lf": "5f143c72fae75c9d6946c96667b2bc757eadc96facc10f48d3198a54764c4f77",
+      "bytes_lf": 1585
+    },
+    {
+      "path": "scenes/demo/visuals/art_trial_tile.tscn",
+      "sha256_lf": "e16cd04e7877e6f3dfbc0ce7bd0b1d0de0673c13b334e1049e2ccf28bc9fa148",
+      "bytes_lf": 2227
+    },
+    {
+      "path": "scripts/demo/art_trial_tile.gd",
+      "sha256_lf": "afe550cb799415ae8980e7d7a7971d147e9d83e643c60451b6d3312d1a45f684",
+      "bytes_lf": 1802
+    },
+    {
+      "path": "assets/art_presets/trials/pixel_zoom_v1/native_sprite.gdshader",
+      "sha256_lf": "d1be4fc8a57c5477a5d6dcc4b57d1ac07d23ba087f4365a88e2abd678e6547b9",
+      "bytes_lf": 1982
+    },
+    {
+      "path": "docs/art/pixel-zoom-20261010/current-75.png",
+      "sha256": "d1450701a8756522bcf40e082ce3e8c16161539fb9261e0cbc36c557c455f6e1",
+      "bytes": 315091,
+      "dimensions": [
+        1280,
+        850
+      ]
+    },
+    {
+      "path": "docs/art/pixel-zoom-20261010/sampling-enemy.png",
+      "sha256": "faab681cb4d23e0530758be1461c141645f5f11206e483a4f99fb167f3eba00b",
+      "bytes": 89409,
+      "dimensions": [
+        1152,
+        744
+      ]
+    },
+    {
+      "path": "docs/art/pixel-zoom-20261010/sampling-player.png",
+      "sha256": "c39e4c3eaf52769990971f1a5a12248d1f5fae189b4fa6bb13ef92526b7350db",
+      "bytes": 94789,
+      "dimensions": [
+        1152,
+        744
+      ]
+    }
+  ]
+}
