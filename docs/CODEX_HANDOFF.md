@@ -1,28 +1,25 @@
-# Передача — 2026-10-09: Framed Ink
-D:\Games\into-de-dung; main; base 1f5572bac4d8b327703b29f74cc700b7f37855cd; без push.
-PIXEL_ART_GUIDE — четыре книги, страницы; советы не контракт; review APPROVE.
-Framed Ink:128 сканов без текста; обзор/адресное чтение, не полное построчное.
-Полнота не подтверждена; ограничения прежних книг — памятка.
-Отчёт: test_reports/framed-ink-study-20261009/; прежние — HISTORY.
+# Передача — 2026-10-09: Williams и арт-проба
+D:\Games\into-de-dung; main; base d4cd69d552de017d6f3744faf89c029533362c5c; без push.
+PIXEL_ART_GUIDE — пять книг со страницами; советы не контракт.
+Williams:346 сканов без текста; командный обзор миниатюр всего файла и
+адресное чтение, не полное построчное. Издание/год/полнота не подтверждены.
+Отчёт: test_reports/animators-kit-study-20261009/; прежние — HISTORY.
+Новая проба docs/art/animators-kit-20261009/proposal-01.png:
+один image_gen, Защитник на тайле; README/запрос/manifest рядом.
+Не утверждена/не подключена; поза изменена умеренно, кант заметен.
+Игровой масштаб/6×6/геометрия/анимация не проверены; улучшение не доказано.
 
-Прошлая проба: сдержанный отзыв, не выбрана. Последняя:
-docs/art/graphic-la-tiles-20261009/proposal-01.png; README/запрос рядом.
-Фактура похожа на мох; улучшение не доказано.
-Неутверждённый image_gen-эскиз, не игровой тайл/рендер.
-
-Действует правая M3/Защитник №4; ART_DIRECTION — стиль;
-assets/art_presets/approved/README.md — PNG/параметры/SHA/сцены.
+Действует правая M3/Защитник№4, ART_DIRECTION;
+assets/art_presets/approved/README.md — PNG/SHA/preset/сцены.
 docs/art/style-reference-20261009/; F6 scenes/demo/art_style_preview.tscn.
-Игра 4:3, верх128×96, высота32; посадка preset.json; F5 сохранён.
+4:3, верх128×96, высота32, посадка preset.json; F5 сохранён.
 Контракты BATTLE_PRESENTATION_REWORK/ARCHITECTURE/ENVIRONMENT_HAZARDS_V1.
-Прежние import/startup/адресный render PASS, review APPROVE:
-test_reports/art-integration-20261009/. Сейчас Godot/core/full/render/F5
-не повторялись; docs/diff/ссылки/SHA/архив PASS.
+Docs/SHA/архив PASS; review APPROVE. Godot/core/full/render/F5 не запускались.
+Прежние import/startup/адресный render PASS: test_reports/art-integration-20261009/.
 Full138PASS/2FAIL не общий PASS; control/entangle закрыты адресно.
 В status только пользовательская scenes/demo/main_menu.tscn: не сбрасывать/коммитить.
-
-Далее отзыв по игре/камере/стыкам/воину/ловушкам/пробе. Приняты стиль/статичный
-эталон, не весь арт/анимации/баланс. Новый пакет по поручению.
+Далее отзыв по игре/камере/стыкам/воину/ловушкам/новой пробе.
+Приняты стиль/статичный эталон, не весь арт/анимации/баланс. Новый пакет по поручению.
 Capture/live_valid, Щитоносец/прежний HUD приняты; worker-аудит предварительно.
 F5/колода/спрайты предварительно. Маршрут/редактор/HUD/арт/баланс/Q-E/артефакты/
 viewport открыты; набор/отход/исключения/автостойка — Q.

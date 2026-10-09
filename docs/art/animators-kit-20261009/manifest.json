@@ -1,0 +1,26 @@
+{
+  "created_on": "2026-10-09",
+  "provider": "built-in image_gen",
+  "calls": 1,
+  "mode": "reference edit; alternative static proposal",
+  "request": "request-01.json",
+  "request_sha256": "8ec8569754e8e8287e54c552a28bd7ca1c3c303e79d7bfd2cbae7999f801356d",
+  "reference": "docs/art/style-reference-20261009/selected-style.png",
+  "reference_sha256": "af95a196244b133a7d11933475fc9d6847241068c402c7220406b28b1499d7cb",
+  "original_output": "C:\\Users\\Aston\\.codex\\generated_images\\01a12249-3a6c-7fe1-8ffa-72a2709ba04e\\exec-ab8f12f9-6a90-4635-9d06-9ca48fc8ad30.png",
+  "output": "proposal-01.png",
+  "sha256": "f8ad0c5d1b8d6c69e59c15b6da0f4242c0a7bbfd1381e12dee9054787b0fa79e",
+  "width": 1448,
+  "height": 1086,
+  "mode_pixels": "RGB",
+  "approved": false,
+  "game_integrated": false,
+  "book_images_sent_to_generator": false,
+  "limitations": [
+    "single composite RGB still",
+    "projection and placement unverified",
+    "no game-scale or 6x6 repetition test",
+    "no animation",
+    "visual acceptance pending"
+  ]
+}
