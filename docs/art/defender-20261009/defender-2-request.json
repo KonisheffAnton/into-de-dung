@@ -1,0 +1,16 @@
+{
+  "description": "Single human shield-bearing defender hero, full body, standing combat-ready idle pose. Original fantasy tactical RPG character blending the bold chunky heroic proportions of Warcraft with the charming simplified readable cartoon shapes of Kingdom Rush. Restrained clean pixel art, large deliberate solid color clusters, basic two or three tone shading, limited small details. Thick steel shoulder plates, substantial gauntlets and boots, open-face steel helmet with visible face, muted blue cloth tabard, brown leather straps. One large sturdy kite shield on the left arm, one short broad straight sword in the right hand. The shield is the main identifying silhouette; separate sword, shield and both feet clearly. Soft desaturated steel blue and warm cream metal highlights, dusty blue fabric, brown leather, warm natural skin; sufficiently brighter than dark olive terrain. NOT restricted to a green terrain palette. A genuine elevated isometric game-sprite camera: orthographic dimetric 2:1 ground projection, camera elevation approximately 27 degrees, azimuth 45 degrees. Character faces screen lower right (south-east), three-quarter orientation. Show the TOP planes of helmet and both shoulders, visible depth and upper rim of shield, foreshortened feet on the same ground plane. Near shoulder and foot are lower in the image than the far ones. Solid three-dimensional form, no flat side-on silhouette, no frontal portrait, no eye-level camera, no perspective convergence. Center the entire character in a 64x64 pixel canvas with at least 3 pixels of transparent padding on every side. Both soles sit on one invisible ground plane, neutral balanced stance. No ground tile, no pedestal, no scenery, no painted floor, no cast shadow, no labels, no text, no cropped equipment. True transparent background. One character only. Variant direction: Compact approachable Kingdom Rush-like proportions, slightly larger expressive head and short stout body, rounded armor shapes, broad simple shield. Friendly determined readable face, a plain rounded helmet. No crest, no patterns, no complex decoration.",
+  "image_size": {
+    "width": 64,
+    "height": 64
+  },
+  "no_background": true,
+  "isometric": true,
+  "view": "low top-down",
+  "direction": "south-east",
+  "outline": "selective outline",
+  "shading": "basic shading",
+  "detail": "low detail",
+  "seed": 2026100902,
+  "endpoint": "create-image-pixflux"
+}

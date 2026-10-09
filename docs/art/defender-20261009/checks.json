@@ -1,0 +1,214 @@
+{
+  "reference_board_sha256": "970c1bfd9556301cac65f9375ca85ed46a4058993d60c3aaa39be9c4a9f95fc2",
+  "same_reference_pixels_as_previous_mixed_board": true,
+  "background_pixels_changed_outside_sprite_and_badge_overlay": 0,
+  "preview_only": true,
+  "variants": [
+    {
+      "label": "1",
+      "source": "defender-1-clean",
+      "provider": "PixelLab",
+      "title": "Массивный",
+      "file": "defender-1-original.png",
+      "sha256": "bd2799b1fb50cfa525815e39c77f19d589ec79f1a93b54baafc6b09c009b610b",
+      "canvas": [
+        64,
+        64
+      ],
+      "bbox_at_alpha_128": [
+        10,
+        8,
+        51,
+        54
+      ],
+      "full_alpha_bbox": [
+        10,
+        8,
+        51,
+        54
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "scale": 2,
+      "cell": [
+        1,
+        1
+      ],
+      "foot_canvas": [
+        430,
+        236
+      ],
+      "anchor_source": [
+        30,
+        53
+      ],
+      "origin_canvas": [
+        370,
+        130
+      ],
+      "usage": {
+        "seconds": 36.60522270202637
+      },
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      }
+    },
+    {
+      "label": "2",
+      "source": "defender-2",
+      "provider": "PixelLab",
+      "title": "Страж",
+      "file": "defender-2-original.png",
+      "sha256": "5d2194d2eda3cfe5bf71d1ad573fd1dee9be793cdb251126305ec0e6b0c91bee",
+      "canvas": [
+        64,
+        64
+      ],
+      "bbox_at_alpha_128": [
+        11,
+        4,
+        53,
+        59
+      ],
+      "full_alpha_bbox": [
+        11,
+        4,
+        53,
+        59
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "scale": 2,
+      "cell": [
+        4,
+        1
+      ],
+      "foot_canvas": [
+        622,
+        332
+      ],
+      "anchor_source": [
+        32,
+        58
+      ],
+      "origin_canvas": [
+        558,
+        216
+      ],
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "billing_usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "label": "3",
+      "source": "defender-4-clean",
+      "provider": "PixelLab",
+      "title": "Вид сверху",
+      "file": "defender-3-original.png",
+      "sha256": "8e8c464c68f0e4344833f12f3e0e66005a77b1be24984eba71404260927b3677",
+      "canvas": [
+        64,
+        64
+      ],
+      "bbox_at_alpha_128": [
+        8,
+        5,
+        57,
+        59
+      ],
+      "full_alpha_bbox": [
+        8,
+        5,
+        57,
+        59
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "scale": 2,
+      "cell": [
+        1,
+        4
+      ],
+      "foot_canvas": [
+        238,
+        332
+      ],
+      "anchor_source": [
+        32,
+        58
+      ],
+      "origin_canvas": [
+        174,
+        216
+      ],
+      "usage": {
+        "seconds": 46.24506402015686
+      },
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      }
+    },
+    {
+      "label": "4",
+      "source": "defender-own",
+      "provider": "image_gen",
+      "title": "Мой вариант",
+      "file": "defender-4-original.png",
+      "sha256": "afa9cab2a7b5fe21a5cbd21aab7e85c9ce5c43181ac8fb3b6ae66bf784b50b86",
+      "canvas": [
+        1230,
+        1278
+      ],
+      "bbox_at_alpha_128": [
+        99,
+        194,
+        1097,
+        1134
+      ],
+      "full_alpha_bbox": [
+        0,
+        98,
+        1165,
+        1278
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "scale": 0.1148936170212766,
+      "cell": [
+        4,
+        4
+      ],
+      "foot_canvas": [
+        430,
+        428
+      ],
+      "anchor_source": [
+        598,
+        1133
+      ],
+      "origin_canvas": [
+        361,
+        298
+      ],
+      "usage": null,
+      "billing_usage": null
+    }
+  ]
+}

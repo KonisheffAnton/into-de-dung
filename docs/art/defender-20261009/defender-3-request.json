@@ -1,0 +1,9 @@
+{
+  "description": "Remove the blue plume/crest above the helmet completely. Keep a plain rounded steel helmet. Fit the complete knight, helmet, sword, shield and both boots inside the 64x64 canvas with 3 clear transparent pixels on all sides. Preserve the elevated isometric camera, southeast facing, armor, face, sword, shield, colors and pixel art style. Keep the silhouette complete and uncropped. Transparent background; no floor, no shadow.",
+  "width": 64,
+  "height": 64,
+  "seed": 2026100915,
+  "no_background": true,
+  "input_image_file": "defender-3-before-cleanup.png",
+  "endpoint": "edit-image-pixen"
+}

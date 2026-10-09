@@ -1,0 +1,14 @@
+{
+  "description": "An isometric fantasy game defender unit viewed clearly FROM ABOVE, like a small solid three-dimensional miniature on a 2:1 isometric tactical board. Camera looks down at the top of the helmet, shoulder plates, forearms and upper edge of a thick shield. The upper surfaces must be prominently visible. Three-quarter southeast orientation, head and torso turned screen lower right, not looking straight at the viewer. Strongly foreshortened torso and legs, large helmet/head, wide squat chunky shoulders, sturdy boots separated diagonally in depth. A readable human knight combining Warcraft footman bulk and Kingdom Rush charming simple cartoon design. Steel-blue armor with broad pale highlights, a simple dusty blue tabard, leather belt, warm face partly visible below helmet. One big thick kite shield in left arm and a short broad sword in right hand, both distinct silhouettes. Very clean restrained pixel art, large simple shading planes that communicate VOLUME, low detail, no gritty texture or intricate armor patterns. Orthographic projection, parallel axes, no perspective convergence. Full body including both soles and all equipment visible in 64x64 canvas, at least 3px empty margin. Transparent everywhere around and between feet. NO floor tile, NO shadow, NO platform, NO scenery, NO front-facing portrait, NO flat side view, NO eye-level view, NO text. One character only.",
+  "image_size": {
+    "width": 64,
+    "height": 64
+  },
+  "outline": "selective outline",
+  "detail": "low detail",
+  "view": "high top-down",
+  "direction": "south-east",
+  "no_background": true,
+  "enhance_prompt": false,
+  "seed": 2026100914
+}

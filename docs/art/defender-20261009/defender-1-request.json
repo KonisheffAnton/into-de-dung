@@ -1,0 +1,9 @@
+{
+  "description": "Remove only the light gray ground/shadow shape beneath and between the boots. Replace that ground shape with full transparency. Preserve the entire human knight, armor, helmet, face, sword, shield, boots, pose, palette and pixel style. No floor, no shadow, no pedestal. Transparent background.",
+  "width": 64,
+  "height": 64,
+  "seed": 2026100911,
+  "no_background": true,
+  "input_image_file": "defender-1-before-cleanup.png",
+  "endpoint": "edit-image-pixen"
+}
