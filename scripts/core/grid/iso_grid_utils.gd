@@ -4,6 +4,11 @@ class_name IsoGridUtils
 ## Чистые (без состояния) функции конвертации координат для изометрической сетки.
 ## Ничего не знает о сценах/нодах — только математика. Легко покрывается тестами.
 
+## Направление по клеткам -> единичный вектор в плоскости показа.
+static func grid_direction_to_screen(direction: Vector2i, tile_size: Vector2 = IsoGridConfig.DEFAULT_TILE_SIZE) -> Vector2:
+	# Выпад и контакт следуют плоскости доски, а высота фигуры от ракурса не зависит.
+	return Vector2(float(direction.x - direction.y) * tile_size.x, float(direction.x + direction.y) * tile_size.y).normalized()
+
 ## Логическая клетка -> позиция в мировых координатах (центр тайла).
 static func grid_to_screen(grid_pos: Vector2i, config: IsoGridConfig, height_level: int = 0) -> Vector2:
 	var half_w := config.tile_size.x * 0.5

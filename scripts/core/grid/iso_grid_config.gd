@@ -6,7 +6,8 @@ class_name IsoGridConfig
 ## без хардкода параметров в коде.
 
 ## Полный размер тайла в пикселях (ширина/высота ромба).
-@export var tile_size: Vector2 = Vector2(128.0, 64.0)
+const DEFAULT_TILE_SIZE := Vector2(128.0, 96.0)
+@export var tile_size: Vector2 = DEFAULT_TILE_SIZE
 
 ## Визуальный сдвиг по экранной оси Y на 1 уровень высоты клетки.
 @export var height_step: float = 32.0

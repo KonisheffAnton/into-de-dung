@@ -4,25 +4,25 @@
 show_behind_parent = true
 
 [node name="Pool" type="Polygon2D" parent="."]
-polygon = PackedVector2Array(31, 10, 28.7, 13.1, 21.9, 16.0, 12.6, 18.5, 0, 19, -12.6, 18.5, -21.9, 16, -28.7, 13.1, -31, 10, -28.7, 6.9, -21.9, 4, -12.6, 1.5, 0, 1, 12.6, 1.5, 21.9, 4, 28.7, 6.9)
+polygon = PackedVector2Array(31, 15, 28.7, 19.65, 21.9, 24, 12.6, 27.75, 0, 28.5, -12.6, 27.75, -21.9, 24, -28.7, 19.65, -31, 15, -28.7, 10.35, -21.9, 6, -12.6, 2.25, 0, 1.5, 12.6, 2.25, 21.9, 6, 28.7, 10.35)
 color = Color(0.317647, 0.847059, 0.470588, 0.58)
 
 [node name="Rim" type="Line2D" parent="."]
-points = PackedVector2Array(31, 10, 28.7, 13.1, 21.9, 16, 12.6, 18.5, 0, 19, -12.6, 18.5, -21.9, 16, -28.7, 13.1, -31, 10, -28.7, 6.9, -21.9, 4, -12.6, 1.5, 0, 1, 12.6, 1.5, 21.9, 4, 28.7, 6.9, 31, 10)
+points = PackedVector2Array(31, 15, 28.7, 19.65, 21.9, 24, 12.6, 27.75, 0, 28.5, -12.6, 27.75, -21.9, 24, -28.7, 19.65, -31, 15, -28.7, 10.35, -21.9, 6, -12.6, 2.25, 0, 1.5, 12.6, 2.25, 21.9, 6, 28.7, 10.35, 31, 15)
 width = 1.5
 default_color = Color(0.643137, 1, 0.545098, 0.85)
 
 [node name="BubbleA" type="Polygon2D" parent="."]
-position = Vector2(-12, 9)
+position = Vector2(-12, 13.5)
 polygon = PackedVector2Array(0, -2, 1.4, -1.4, 2, 0, 1.4, 1.4, 0, 2, -1.4, 1.4, -2, 0, -1.4, -1.4)
 color = Color(0.768627, 1, 0.603922, 0.82)
 
 [node name="BubbleB" type="Polygon2D" parent="."]
-position = Vector2(4, 13)
+position = Vector2(4, 19.5)
 polygon = PackedVector2Array(0, -2, 1.4, -1.4, 2, 0, 1.4, 1.4, 0, 2, -1.4, 1.4, -2, 0, -1.4, -1.4)
 color = Color(0.768627, 1, 0.603922, 0.82)
 
 [node name="BubbleC" type="Polygon2D" parent="."]
-position = Vector2(16, 7)
+position = Vector2(16, 10.5)
 polygon = PackedVector2Array(0, -2, 1.4, -1.4, 2, 0, 1.4, 1.4, 0, 2, -1.4, 1.4, -2, 0, -1.4, -1.4)
 color = Color(0.768627, 1, 0.603922, 0.82)

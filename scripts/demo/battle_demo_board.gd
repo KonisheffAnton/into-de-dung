@@ -219,7 +219,7 @@ static func _strike_key(event: Dictionary) -> String:
 func _strike_direction(event: Dictionary) -> Vector2:
 	var from: Vector2i = event.actor_cell
 	var to: Vector2i = event.target_cell
-	return Vector2((to.x - from.x) - (to.y - from.y), ((to.x - from.x) + (to.y - from.y)) * 0.5).normalized()
+	return IsoGridUtils.grid_direction_to_screen(to - from, grid_config.tile_size)
 
 func _set_action_offset(id: int, offset: Vector2) -> void:
 	_action_offsets[id] = offset
@@ -230,7 +230,7 @@ func _obstacle_direction(event: Dictionary) -> Vector2:
 	var from_cell: Vector2i = event.get("from_cell", Vector2i.ZERO)
 	var attempted_cell: Vector2i = event.get("attempted_cell", from_cell)
 	var delta := attempted_cell - from_cell
-	return Vector2(delta.x - delta.y, (delta.x + delta.y) * 0.5).normalized()
+	return IsoGridUtils.grid_direction_to_screen(delta, grid_config.tile_size)
 
 func _obstacle_participant_alive(id: int) -> bool:
 	for row: Dictionary in _view_units:
@@ -1300,11 +1300,15 @@ func _refresh_path() -> void:
 func _rescale_layout() -> void:
 	if _camera_layout_size != Vector2.ZERO: camera_view.recenter_after_resize(_camera_layout_size * 0.5, size * 0.5)
 	_camera_layout_size = size
-	var factor := 1.0 if camera_controls_enabled else maxf(0.1, minf((size.x - 64) / 1024.0, (size.y - 108) / 544.0))
+	var base_size := IsoGridConfig.DEFAULT_TILE_SIZE
+	var factor := 1.0 if camera_controls_enabled else maxf(0.1, minf((size.x - 64) / (base_size.x * 8.0), (size.y - 108) / (base_size.y * 8.0 + 32.0)))
 	# Базовая геометрия в камере остаётся читаемой независимо от размера поля.
-	grid_config.tile_size = Vector2(128, 64) * factor
+	grid_config.tile_size = base_size * factor
 	grid_config.height_step = 32 * factor
 	grid_config.origin_offset = Vector2(size.x * 0.5, size.y * 0.5 - grid_config.tile_size.y * 3.5)
+	# Более высокий ромб требует запаса сверху для стартовых фигур при 100%.
+	# Это постоянное кадрирование: resize и ручная камера сохраняют прежние преобразования.
+	if camera_controls_enabled: grid_config.origin_offset.y += grid_config.tile_size.x * 0.5
 	if is_inside_tree():
 		if not execution_pending: _clear_falls()
 		_rebuild_visuals()

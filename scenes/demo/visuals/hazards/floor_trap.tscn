@@ -4,23 +4,23 @@
 show_behind_parent = true
 
 [node name="Panel" type="Polygon2D" parent="."]
-polygon = PackedVector2Array(0, -30, 62, 0, 0, 30, -62, 0)
+polygon = PackedVector2Array(0, -45, 62, 0, 0, 45, -62, 0)
 color = Color(0.188235, 0.227451, 0.258824, 0.94)
 
 [node name="Rim" type="Line2D" parent="."]
-points = PackedVector2Array(0, -30, 62, 0, 0, 30, -62, 0, 0, -30)
+points = PackedVector2Array(0, -45, 62, 0, 0, 45, -62, 0, 0, -45)
 width = 2.0
 default_color = Color(0.505882, 0.54902, 0.572549, 0.78)
 
 [node name="ArmedRim" type="Line2D" parent="."]
-points = PackedVector2Array(0, -30, 62, 0, 0, 30, -62, 0, 0, -30)
+points = PackedVector2Array(0, -45, 62, 0, 0, 45, -62, 0, 0, -45)
 width = 2.0
 default_color = Color(0.937255, 0.729412, 0.45098, 0.96)
 
 [node name="Spikes" type="Node2D" parent="."]
 
 [node name="Spike01" type="Node2D" parent="Spikes"]
-position = Vector2(0, -24)
+position = Vector2(0, -36)
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike01"]
 polygon = PackedVector2Array(-3.2, 0, -2.3, -1.3, 0, -1.9, 2.3, -1.3, 3.2, 0, 2.3, 1.3, 0, 1.9, -2.3, 1.3)
 color = Color(0.0666667, 0.105882, 0.12549, 0.98)
@@ -31,7 +31,7 @@ color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 
 [node name="Spike02" type="Node2D" parent="Spikes"]
-position = Vector2(16, -16)
+position = Vector2(16, -24)
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike02"]
 polygon = PackedVector2Array(-3.2, 0, -2.3, -1.3, 0, -1.9, 2.3, -1.3, 3.2, 0, 2.3, 1.3, 0, 1.9, -2.3, 1.3)
 color = Color(0.0666667, 0.105882, 0.12549, 0.98)
@@ -42,7 +42,7 @@ color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 
 [node name="Spike03" type="Node2D" parent="Spikes"]
-position = Vector2(32, -8)
+position = Vector2(32, -12)
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike03"]
 polygon = PackedVector2Array(-3.2, 0, -2.3, -1.3, 0, -1.9, 2.3, -1.3, 3.2, 0, 2.3, 1.3, 0, 1.9, -2.3, 1.3)
 color = Color(0.0666667, 0.105882, 0.12549, 0.98)
@@ -64,7 +64,7 @@ color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 
 [node name="Spike05" type="Node2D" parent="Spikes"]
-position = Vector2(-16, -16)
+position = Vector2(-16, -24)
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike05"]
 polygon = PackedVector2Array(-3.2, 0, -2.3, -1.3, 0, -1.9, 2.3, -1.3, 3.2, 0, 2.3, 1.3, 0, 1.9, -2.3, 1.3)
 color = Color(0.0666667, 0.105882, 0.12549, 0.98)
@@ -75,7 +75,7 @@ color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 
 [node name="Spike06" type="Node2D" parent="Spikes"]
-position = Vector2(0, -8)
+position = Vector2(0, -12)
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike06"]
 polygon = PackedVector2Array(-3.2, 0, -2.3, -1.3, 0, -1.9, 2.3, -1.3, 3.2, 0, 2.3, 1.3, 0, 1.9, -2.3, 1.3)
 color = Color(0.0666667, 0.105882, 0.12549, 0.98)
@@ -97,7 +97,7 @@ color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 
 [node name="Spike08" type="Node2D" parent="Spikes"]
-position = Vector2(32, 8)
+position = Vector2(32, 12)
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike08"]
 polygon = PackedVector2Array(-3.2, 0, -2.3, -1.3, 0, -1.9, 2.3, -1.3, 3.2, 0, 2.3, 1.3, 0, 1.9, -2.3, 1.3)
 color = Color(0.0666667, 0.105882, 0.12549, 0.98)
@@ -108,7 +108,7 @@ color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 
 [node name="Spike09" type="Node2D" parent="Spikes"]
-position = Vector2(-32, -8)
+position = Vector2(-32, -12)
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike09"]
 polygon = PackedVector2Array(-3.2, 0, -2.3, -1.3, 0, -1.9, 2.3, -1.3, 3.2, 0, 2.3, 1.3, 0, 1.9, -2.3, 1.3)
 color = Color(0.0666667, 0.105882, 0.12549, 0.98)
@@ -130,7 +130,7 @@ color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 
 [node name="Spike11" type="Node2D" parent="Spikes"]
-position = Vector2(0, 8)
+position = Vector2(0, 12)
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike11"]
 polygon = PackedVector2Array(-3.2, 0, -2.3, -1.3, 0, -1.9, 2.3, -1.3, 3.2, 0, 2.3, 1.3, 0, 1.9, -2.3, 1.3)
 color = Color(0.0666667, 0.105882, 0.12549, 0.98)
@@ -141,7 +141,7 @@ color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 
 [node name="Spike12" type="Node2D" parent="Spikes"]
-position = Vector2(16, 16)
+position = Vector2(16, 24)
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike12"]
 polygon = PackedVector2Array(-3.2, 0, -2.3, -1.3, 0, -1.9, 2.3, -1.3, 3.2, 0, 2.3, 1.3, 0, 1.9, -2.3, 1.3)
 color = Color(0.0666667, 0.105882, 0.12549, 0.98)
@@ -163,7 +163,7 @@ color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 
 [node name="Spike14" type="Node2D" parent="Spikes"]
-position = Vector2(-32, 8)
+position = Vector2(-32, 12)
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike14"]
 polygon = PackedVector2Array(-3.2, 0, -2.3, -1.3, 0, -1.9, 2.3, -1.3, 3.2, 0, 2.3, 1.3, 0, 1.9, -2.3, 1.3)
 color = Color(0.0666667, 0.105882, 0.12549, 0.98)
@@ -174,7 +174,7 @@ color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 
 [node name="Spike15" type="Node2D" parent="Spikes"]
-position = Vector2(-16, 16)
+position = Vector2(-16, 24)
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike15"]
 polygon = PackedVector2Array(-3.2, 0, -2.3, -1.3, 0, -1.9, 2.3, -1.3, 3.2, 0, 2.3, 1.3, 0, 1.9, -2.3, 1.3)
 color = Color(0.0666667, 0.105882, 0.12549, 0.98)
@@ -185,7 +185,7 @@ color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 
 [node name="Spike16" type="Node2D" parent="Spikes"]
-position = Vector2(0, 24)
+position = Vector2(0, 36)
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike16"]
 polygon = PackedVector2Array(-3.2, 0, -2.3, -1.3, 0, -1.9, 2.3, -1.3, 3.2, 0, 2.3, 1.3, 0, 1.9, -2.3, 1.3)
 color = Color(0.0666667, 0.105882, 0.12549, 0.98)

@@ -1,0 +1,353 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/grass_defender_v1/grass_reference_v1.png" id="tile"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/grass_defender_v1/defender_reference_v1.png" id="warrior"]
+
+[node name="ArtStylePreview" type="Node2D"]
+
+[node name="Background" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 850, 0, 850)
+color = Color(0.12549, 0.152941, 0.168627, 1)
+
+[node name="Title" type="Label" parent="."]
+offset_left = 40.0
+offset_top = 24.0
+offset_right = 1240.0
+offset_bottom = 68.0
+theme_override_colors/font_color = Color(0.929412, 0.941176, 0.913725, 1)
+theme_override_font_sizes/font_size = 28
+text = "Спокойный луг / Защитник"
+
+[node name="Description" type="Label" parent="."]
+offset_left = 40.0
+offset_top = 72.0
+offset_right = 1240.0
+offset_bottom = 106.0
+theme_override_colors/font_color = Color(0.65098, 0.690196, 0.654902, 1)
+theme_override_font_sizes/font_size = 18
+text = "Выбранный стиль · ракурс 4:3 · посадка из эталона"
+
+[node name="Field" type="Node2D" parent="."]
+position = Vector2(640, 180)
+y_sort_enabled = true
+
+[node name="Tile00" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile10" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(64, 48)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile20" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(128, 96)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile30" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(192, 144)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile40" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(256, 192)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile50" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(320, 240)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile01" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(-64, 48)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile11" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(0, 96)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile21" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(64, 144)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile31" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(128, 192)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile41" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(192, 240)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile51" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(256, 288)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile02" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(-128, 96)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile12" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(-64, 144)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile22" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(0, 192)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile32" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(64, 240)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile42" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(128, 288)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile52" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(192, 336)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile03" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(-192, 144)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile13" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(-128, 192)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile23" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(-64, 240)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile33" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(0, 288)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile43" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(64, 336)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile53" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(128, 384)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile04" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(-256, 192)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile14" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(-192, 240)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile24" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(-128, 288)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile34" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(-64, 336)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile44" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(0, 384)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile54" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(64, 432)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile05" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(-320, 240)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile15" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(-256, 288)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile25" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(-192, 336)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile35" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(-128, 384)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile45" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(-64, 432)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Tile55" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(0, 480)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("tile")
+centered = false
+offset = Vector2(-256, -192)
+
+[node name="Defender1" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(0, 96)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("warrior")
+centered = false
+offset = Vector2(-180, -224)
+
+[node name="Defender2" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(128, 288)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("warrior")
+centered = false
+offset = Vector2(-180, -224)
+
+[node name="Defender3" type="Sprite2D" parent="Field"]
+texture_filter = 1
+position = Vector2(-128, 288)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("warrior")
+centered = false
+offset = Vector2(-180, -224)
+
+[node name="Caption" type="Label" parent="."]
+offset_left = 40.0
+offset_top = 776.0
+offset_right = 1240.0
+offset_bottom = 824.0
+theme_override_colors/font_color = Color(0.65098, 0.690196, 0.654902, 1)
+theme_override_font_sizes/font_size = 18
+text = "Редактируемая арт-сцена. Те же PNG подключены к игровому полю и классу воина."

@@ -68,7 +68,17 @@ func _test_initial_state() -> void:
 	check(board._camera_reset.tooltip_text.contains("перетаскивание ПКМ") and board._camera_reset.tooltip_text.contains("клик ПКМ — отмена"), "camera tooltip distinguishes right-button drag and cancel")
 	check(board._camera_reset.tooltip_text.contains("100%") and not board._camera_reset.tooltip_text.contains("Общий вид"), "camera tooltip describes base size")
 	check(is_equal_approx(board.camera_view.zoom, 1.0) and board.camera_view.offset == Vector2.ZERO, "initial camera is centered at 100 percent")
-	check(board.grid_config.tile_size == Vector2(128, 64) and board.grid_config.height_step == 32.0, "main H1 uses 128x64 tiles and 32 height step at 100 percent")
+	check(board.grid_config.tile_size == Vector2(128, 96) and board.grid_config.height_step == 32.0, "main H1 uses 128x96 tiles and 32 height step at 100 percent")
+	for direction: Vector2i in [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT]:
+		var projected := IsoGridUtils.grid_to_screen(direction, board.grid_config) - IsoGridUtils.grid_to_screen(Vector2i.ZERO, board.grid_config)
+		check(projected.abs() == Vector2(64, 48), "4:3 adjacent cell step " + str(direction))
+		var strike := board._strike_direction({"actor_cell": Vector2i.ZERO, "target_cell": direction})
+		var obstacle := board._obstacle_direction({"from_cell": Vector2i.ZERO, "attempted_cell": direction})
+		check(strike.is_equal_approx(projected.normalized()) and obstacle.is_equal_approx(strike), "strike and collision follow projected grid " + str(direction))
+		check(BattleEnvironmentVisual.wall_spike_direction(direction).is_equal_approx(-strike), "wall trap points into same contact plane " + str(direction))
+		for height: int in [-1, 0, 2]:
+			var point := IsoGridUtils.grid_to_screen(direction, board.grid_config, height)
+			check(IsoGridUtils.screen_to_grid_flat(point, board.grid_config, height) == direction, "4:3 grid conversion preserves height " + str(height))
 	await capture("main-100")
 	demo._hover(Vector2i(-1, -1))
 	check(demo._hint.text.contains("Клик ПКМ — отмена") and demo._hint.text.contains("перетаскивание ПКМ — камера") and demo._hint.text.contains("Esc/M"), "main hint describes right-button click/drag and keyboard cancel")
@@ -76,10 +86,11 @@ func _test_initial_state() -> void:
 	check(board.cell_at(center) == demo.session.selected_unit().cell, "initial screen cell center picks same cell")
 	check(board.displayed_unit_at(center + Vector2(0, -12)) == demo.session.selected_id, "initial unit picking uses view coordinates")
 	var head := board.world_to_view(board._world_cell_center(demo.session.selected_unit().cell) + Vector2(0, -55))
+	check(Rect2(Vector2.ZERO, board.size).has_point(head), "initial 4:3 framing keeps selected warrior head inside input area")
 	check(board.displayed_unit_at(head) == demo.session.selected_id, "100 percent picking covers placeholder head")
 	var saved_size := board.size
 	board.size = Vector2(540, board.size.y)
-	check(board.grid_config.tile_size == Vector2(128, 64) and board.grid_config.height_step == 32.0, "narrow camera field keeps base tile geometry")
+	check(board.grid_config.tile_size == Vector2(128, 96) and board.grid_config.height_step == 32.0, "narrow camera field keeps base tile geometry")
 	board.size = saved_size
 	await process_frame
 
@@ -431,7 +442,7 @@ func _test_board_reset() -> void:
 	demo.reset_demo()
 	await process_frame
 	check(is_equal_approx(board.camera_view.zoom, 1.0) and board.camera_view.offset == Vector2.ZERO, "new battle resets camera")
-	check(board.grid_config.tile_size == Vector2(128, 64) and board.grid_config.height_step == 32.0, "new battle reset retains camera base geometry")
+	check(board.grid_config.tile_size == Vector2(128, 96) and board.grid_config.height_step == 32.0, "new battle reset retains camera base geometry")
 
 func _test_hub_view() -> void:
 	demo.queue_free()
@@ -444,7 +455,7 @@ func _test_hub_view() -> void:
 	hub.set_process(false)
 	await process_frame
 	check(hub.board_view.camera_controls_enabled and hub.board_view.get_node_or_null("CameraControls") != null, "hero hub battle enables camera")
-	check(hub.board_view.grid_config.tile_size == Vector2(128, 64) and hub.board_view.grid_config.height_step == 32.0, "hero hub H1 uses base tile geometry at 100 percent")
+	check(hub.board_view.grid_config.tile_size == Vector2(128, 96) and hub.board_view.grid_config.height_step == 32.0, "hero hub H1 uses base tile geometry at 100 percent")
 	viewport.size = Vector2i(1280, 850)
 	await process_frame
 	await process_frame
@@ -468,8 +479,8 @@ func _test_legacy_cancel() -> void:
 	await process_frame
 	var calls: Array[int] = [0]
 	board.cancel_requested.connect(func() -> void: calls[0] += 1)
-	var legacy_factor := maxf(0.1, minf((board.size.x - 64) / 1024.0, (board.size.y - 108) / 544.0))
-	check(board.grid_config.tile_size == Vector2(128, 64) * legacy_factor and board.grid_config.height_step == 32.0 * legacy_factor, "camera-disabled field keeps legacy auto-fit geometry")
+	var legacy_factor := maxf(0.1, minf((board.size.x - 64) / 1024.0, (board.size.y - 108) / 800.0))
+	check(board.grid_config.tile_size == Vector2(128, 96) * legacy_factor and board.grid_config.height_step == 32.0 * legacy_factor, "camera-disabled field keeps legacy auto-fit geometry")
 	await _right_click(board.global_position + Vector2(300, 300))
 	check(not board.camera_controls_enabled and calls[0] == 1, "camera-disabled field keeps legacy right-click cancel")
 	board.queue_free()

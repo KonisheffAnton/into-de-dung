@@ -52,6 +52,18 @@ func run() -> void:
 	var tile := tile_at(Vector2i(3, 3))
 	check(tile.get_node_or_null("ArtRoot/SurfaceSprite") is Sprite2D, "tile is an instantiated sprite scene")
 	check(visual.get_node("ArtRoot/BodySprite").texture is Texture2D, "placeholder uses imported image")
+	var ground := tile.get_node("ArtRoot/GroundSurface") as Sprite2D
+	var ground_base := tile.get_node("ArtRoot/GroundBase") as Polygon2D
+	var tile_factor := board.grid_config.tile_size.x / 128.0
+	check(is_equal_approx(board.grid_config.tile_size.x / board.grid_config.tile_size.y, 4.0 / 3.0), "presentation grid keeps authored 4:3 tile top")
+	var authored_top := PackedVector2Array([Vector2(0, -48), Vector2(64, 0), Vector2(0, 48), Vector2(-64, 0)])
+	var actual_top := tile.top_polygon()
+	for top_index: int in actual_top.size(): actual_top[top_index] = (actual_top[top_index] - tile._top_offset()) / tile_factor
+	for top_index: int in actual_top.size():
+		check(actual_top[top_index].is_equal_approx(authored_top[top_index]), "tile presentation vertex matches authored 4:3 top")
+	check(ground.texture.resource_path.ends_with("grass_reference_v1.png") and ground.texture.get_size() == Vector2(512, 408), "ground uses the full selected PNG")
+	check(not ground.centered and ground.offset == Vector2(-256, -192) and ground.scale == Vector2(0.25, 0.25) and ground.texture_filter == CanvasItem.TEXTURE_FILTER_NEAREST, "ground keeps authored full image placement, proportional scale, and nearest filter")
+	check(ground_base.polygon == PackedVector2Array([Vector2(0, -48), Vector2(64, 0), Vector2(0, 48), Vector2(-64, 0)]) and tile.ground_base_tint.is_equal_approx(Color("697553")), "ground base keeps authored 4:3 olive diamond")
 	var custom_anchor := visual.get_node("ArtRoot/EffectAnchor") as Marker2D
 	custom_anchor.position = Vector2(3, -27)
 	visual.sync_scene_art()
@@ -140,34 +152,65 @@ func warrior_art() -> void:
 	var enemy_id: int = UnitId.NONE
 	var enemy_ids: Array[int] = []
 	var enemy_preset_assignments: Dictionary[int, String] = {}
+	var tile_factor := board.grid_config.tile_size.x / 128.0
 	for unit: UnitState in session.units:
 		var visual := board._presentation_visual(unit.id)
 		var ally_sprite := visual.get_node("ArtRoot/PlayerWarriorSprite") as Sprite2D
 		var enemy_sprite := visual.get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D
 		var preset_root := visual.get_node("ArtRoot/EnemyPresets") as Node2D
-		var is_ally_warrior: bool = session.actor_loadouts.get(unit.id, {}).get("class_id", &"") == &"warrior"
-		var is_enemy_warrior: bool = unit.faction == Faction.Type.ENEMY and unit.debug_name in ["Страж", "Щит"]
+		var loadout: Dictionary = session.actor_loadouts.get(unit.id, {})
+		var expected_warrior: bool = (unit.faction == Faction.Type.PLAYER and loadout.get("class_id", &"") in [&"warrior", &"shieldbearer"]) or (unit.faction == Faction.Type.ENEMY and unit.debug_name in ["Страж", "Щит"])
+		check((visual.visual_class_id == &"warrior") == expected_warrior, "visual class routing matches production loadout/role contract: " + unit.debug_name)
 		var visible_presets: Array[Sprite2D] = []
 		for child: Node in preset_root.get_children():
 			var preset := child as Sprite2D
 			if preset.visible: visible_presets.append(preset)
-		check(ally_sprite.visible == is_ally_warrior and not enemy_sprite.visible, "allied warrior stays Retro and enemy uses preset layer: " + unit.debug_name)
-		check(visible_presets.size() == (1 if unit.faction == Faction.Type.ENEMY and unit.is_alive() else 0), "enemy role displays one preset: " + unit.debug_name)
-		check((visual.get_node("ArtRoot/BodySprite") as Sprite2D).visible == not (is_ally_warrior or is_enemy_warrior or not visible_presets.is_empty()), "other archetypes retain their body: " + unit.debug_name)
-		if is_ally_warrior:
+		var is_live_enemy: bool = unit.faction == Faction.Type.ENEMY and unit.is_alive()
+		var warrior_sprite: Sprite2D = ally_sprite if unit.faction == Faction.Type.PLAYER else enemy_sprite
+		check(warrior_sprite.visible == (expected_warrior and unit.is_alive()) and (unit.faction != Faction.Type.ENEMY or not enemy_sprite.visible or expected_warrior), "warrior class art takes priority for either faction: " + unit.debug_name)
+		check(visible_presets.size() == (1 if is_live_enemy and not expected_warrior else 0), "nonwarrior enemy role displays one preset: " + unit.debug_name)
+		check((visual.get_node("ArtRoot/BodySprite") as Sprite2D).visible == (unit.is_alive() and not expected_warrior and visible_presets.is_empty()), "other archetypes retain their body: " + unit.debug_name)
+		if expected_warrior and unit.is_alive():
+			check(warrior_sprite.texture.resource_path.ends_with("defender_reference_v1.png") and warrior_sprite.modulate == Color.WHITE, "both warrior factions use selected neutral defender art")
+			check(warrior_sprite.texture.get_size() == Vector2(312, 292) and not warrior_sprite.centered and warrior_sprite.position == Vector2(-45, -56) and warrior_sprite.scale == Vector2(0.25, 0.25) and warrior_sprite.texture_filter == CanvasItem.TEXTURE_FILTER_NEAREST, "warrior full image yields approved 78x73 crop at nearest scale")
+			check(visual.warrior_pick_rect == Rect2(-45, -56, 78, 73), "warrior picking covers approved visible crop")
+			var foot := visual.position + visual.get_visual_offset()
+			check(visual.contains_point(foot + Vector2(-30, -48) * tile_factor) and visual.contains_point(foot + Vector2(20, -34) * tile_factor), "warrior head and shield area are pickable")
+		if unit.faction == Faction.Type.PLAYER and expected_warrior:
 			ally_id = unit.id
-			check(ally_sprite.texture.resource_path.ends_with("warrior_ally_retro_v1.png") and ally_sprite.modulate == Color.WHITE, "allied warrior keeps Retro texture and palette")
-		if unit.faction == Faction.Type.ENEMY and unit.is_alive():
+		if is_live_enemy and not expected_warrior:
 			enemy_ids.append(unit.id)
 			var atlas := visible_presets[0].texture as AtlasTexture
+			var expected_preset_paths: Array[String] = ["res://assets/battle_units/enemy_iso_bearded_v1.png", "res://assets/battle_units/enemy_iso_helmet_v1.png", "res://assets/battle_units/enemy_iso_redhair_v1.png"]
 			enemy_preset_assignments[unit.id] = atlas.atlas.resource_path
+			check(atlas.atlas.resource_path == expected_preset_paths[posmod(unit.id, 3)], "nonwarrior preset uses stable id modulo 3 assignment: " + unit.debug_name)
 			check(visible_presets[0].modulate == Color.WHITE, "enemy preset preserves source palette: " + unit.debug_name)
-			if is_enemy_warrior and enemy_id == UnitId.NONE: enemy_id = unit.id
-			if is_enemy_warrior:
-				check(not enemy_sprite.visible and enemy_sprite.texture.resource_path.ends_with("warrior_enemy_pixellab_v1.png"), "legacy enemy warrior sprite remains available as fallback")
+		if unit.faction == Faction.Type.ENEMY and expected_warrior and unit.is_alive(): enemy_id = unit.id
 	check(ally_id != UnitId.NONE and enemy_id != UnitId.NONE, "production opening contains both warrior sides")
-	check(enemy_ids.size() >= 3 and _unique_count(enemy_preset_assignments.values()) == 3, "H1/U14 opening has three distinct enemy presets")
+	check(not enemy_ids.is_empty(), "production opening contains a nonwarrior enemy for preset fallback")
+	check(not enemy_preset_assignments.is_empty(), "production nonwarrior enemy receives deterministic preset")
 	var initial_enemy_preset_assignments := enemy_preset_assignments.duplicate(true)
+	var preset_probe := board.unit_visual_scene.instantiate() as BattleDemoIsoVisual
+	preset_probe.role = BattleDemoIsoVisual.Role.UNIT
+	preset_probe.grid_config = board.grid_config
+	preset_probe.visual_class_id = &""
+	var preset_probe_unit := BattleUnitView.new()
+	preset_probe_unit.faction = Faction.Type.ENEMY
+	preset_probe_unit.alive = true
+	preset_probe.unit = preset_probe_unit
+	var expected_probe_paths: Array[String] = ["res://assets/battle_units/enemy_iso_bearded_v1.png", "res://assets/battle_units/enemy_iso_helmet_v1.png", "res://assets/battle_units/enemy_iso_redhair_v1.png"]
+	for residue: int in 3:
+		preset_probe_unit.id = 300 + residue
+		preset_probe.sync_scene_art()
+		var selected_probe_path: String = ""
+		var selected_probe_count: int = 0
+		for child: Node in (preset_probe.get_node("ArtRoot/EnemyPresets") as Node2D).get_children():
+			var preset := child as Sprite2D
+			if preset.visible:
+				selected_probe_count += 1
+				selected_probe_path = (preset.texture as AtlasTexture).atlas.resource_path
+		check(selected_probe_count == 1 and selected_probe_path == expected_probe_paths[residue], "isolated nonwarrior visual exercises preset residue %d" % residue)
+	preset_probe.free()
 	for _refresh_index: int in 3:
 		board.refresh()
 		enemy_preset_assignments.clear()
@@ -187,10 +230,10 @@ func warrior_art() -> void:
 	board.unit_visual_scene = fallback_scene
 	board.refresh()
 	var fallback_enemy := board._presentation_visual(enemy_id)
-	check((fallback_enemy.get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D).visible and not (fallback_enemy.get_node("ArtRoot/BodySprite") as Sprite2D).visible, "missing preset group retains warrior fallback")
+	check((fallback_enemy.get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D).visible and not (fallback_enemy.get_node("ArtRoot/BodySprite") as Sprite2D).visible, "warrior art remains selected without preset group")
 	board.unit_visual_scene = standard_unit_scene
 	board.refresh()
-	var texture_test_visual := board._presentation_visual(enemy_id)
+	var texture_test_visual := board._presentation_visual(enemy_ids[0])
 	var texture_test_group := texture_test_visual.get_node("ArtRoot/EnemyPresets") as Node2D
 	var replaced_preset: Sprite2D
 	var replaced_texture: Texture2D
@@ -206,15 +249,37 @@ func warrior_art() -> void:
 		var all_presets_hidden: bool = true
 		for child: Node in texture_test_group.get_children():
 			all_presets_hidden = all_presets_hidden and not (child as Sprite2D).visible
-		check(all_presets_hidden and (texture_test_visual.get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D).visible, "incomplete preset texture hides variants and restores warrior fallback")
+		check(all_presets_hidden and (texture_test_visual.get_node("ArtRoot/BodySprite") as Sprite2D).visible, "incomplete nonwarrior presets fall back to body")
 		replaced_preset.texture = replaced_texture
 		texture_test_visual.sync_scene_art()
 		var restored_presets: int = 0
 		for child: Node in texture_test_group.get_children():
 			if (child as Sprite2D).visible: restored_presets += 1
-		check(restored_presets == 1 and not (texture_test_visual.get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D).visible, "restored preset texture reselects one enemy image")
+		check(restored_presets == 1 and not (texture_test_visual.get_node("ArtRoot/BodySprite") as Sprite2D).visible, "restored preset texture reselects one enemy image")
 	await capture("warrior-opening")
 	if ally_id != UnitId.NONE and enemy_id != UnitId.NONE:
+		var selected_enemy_visual := board._presentation_visual(enemy_id)
+		var selected_enemy_sprite := selected_enemy_visual.get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D
+		var selected_enemy_texture := selected_enemy_sprite.texture
+		selected_enemy_sprite.texture = null
+		selected_enemy_visual.sync_scene_art()
+		var fallback_preset_count := 0
+		for child: Node in (selected_enemy_visual.get_node("ArtRoot/EnemyPresets") as Node2D).get_children():
+			if (child as Sprite2D).visible: fallback_preset_count += 1
+		check(fallback_preset_count == 1 and not (selected_enemy_visual.get_node("ArtRoot/BodySprite") as Sprite2D).visible, "missing warrior texture falls back to deterministic enemy preset")
+		var saved_preset_textures: Array[Texture2D] = []
+		for child: Node in (selected_enemy_visual.get_node("ArtRoot/EnemyPresets") as Node2D).get_children():
+			var preset := child as Sprite2D
+			saved_preset_textures.append(preset.texture)
+			preset.texture = null
+		selected_enemy_visual.sync_scene_art()
+		check((selected_enemy_visual.get_node("ArtRoot/BodySprite") as Sprite2D).visible, "missing warrior and preset textures fall back to body")
+		var preset_index: int = 0
+		for child: Node in (selected_enemy_visual.get_node("ArtRoot/EnemyPresets") as Node2D).get_children():
+			(child as Sprite2D).texture = saved_preset_textures[preset_index]
+			preset_index += 1
+		selected_enemy_sprite.texture = selected_enemy_texture
+		selected_enemy_visual.sync_scene_art()
 		var value := ActionPresentationState.capture(session.state)
 		board.execution_pending = true
 		board.session = null
@@ -224,14 +289,7 @@ func warrior_art() -> void:
 		board.show_presentation_state(value)
 		check((board._presentation_visual(ally_id).get_node("ArtRoot/PlayerWarriorSprite") as Sprite2D).visible, "allied art survives detached presentation frame")
 		var detached_enemy_visual := board._presentation_visual(enemy_id)
-		var detached_presets := detached_enemy_visual.get_node("ArtRoot/EnemyPresets") as Node2D
-		var detached_visible_count: int = 0
-		for child: Node in detached_presets.get_children():
-			var preset := child as Sprite2D
-			if preset.visible:
-				detached_visible_count += 1
-				check((preset.texture as AtlasTexture).atlas.resource_path == String(initial_enemy_preset_assignments[enemy_id]), "detached frame keeps the enemy's original preset")
-		check(detached_visible_count == 1, "enemy preset survives detached presentation frame")
+		check((detached_enemy_visual.get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D).visible, "detached frame keeps selected enemy warrior art")
 		value.units[ally_id].elemental = {"frozen_turns": 1}
 		board.show_presentation_state(value)
 		var source: Vector2i = value.units[ally_id].cell
@@ -259,11 +317,6 @@ func warrior_art() -> void:
 	board.queue_free()
 	await process_frame
 	session.close()
-
-func _unique_count(values: Array) -> int:
-	var unique: Dictionary = {}
-	for value: Variant in values: unique[value] = true
-	return unique.size()
 
 func live_ui() -> void:
 	var demo := (load("res://scenes/demo/core_reactions_battle.tscn") as PackedScene).instantiate() as BattleDemo

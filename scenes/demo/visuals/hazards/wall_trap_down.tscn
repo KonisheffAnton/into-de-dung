@@ -4,24 +4,24 @@
 z_index = 1
 
 [node name="Panel" type="Polygon2D" parent="."]
-polygon = PackedVector2Array(0, 32, -64, 0, -64, -32, 0, 0)
+polygon = PackedVector2Array(0, 48, -64, 0, -64, -32, 0, 16)
 color = Color(0.203922, 0.243137, 0.286275, 0.96)
 
 [node name="Rim" type="Line2D" parent="."]
-points = PackedVector2Array(0, 32, -64, 0, -64, -32, 0, 0, 0, 32)
+points = PackedVector2Array(0, 48, -64, 0, -64, -32, 0, 16, 0, 48)
 width = 1.5
 default_color = Color(0.45, 0.49, 0.52, 0.78)
 
 [node name="ArmedRim" type="Line2D" parent="."]
-points = PackedVector2Array(0, 32, -64, 0, -64, -32, 0, 0, 0, 32)
+points = PackedVector2Array(0, 48, -64, 0, -64, -32, 0, 16, 0, 48)
 width = 1.5
 default_color = Color(0.937255, 0.729412, 0.45098, 0.96)
 
 [node name="Spikes" type="Node2D" parent="."]
 
 [node name="Spike01" type="Node2D" parent="Spikes"]
-position = Vector2(-8.0000, 24.0000)
-rotation_degrees = 63.4349
+position = Vector2(-8, 38)
+rotation_degrees = 53.130102
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike01"]
 polygon = PackedVector2Array(-2.2, -1, 0, -1.6, 2.2, -1, 2.2, 1, -2.2, 1)
 color = Color(0.066667, 0.105882, 0.12549, 0.98)
@@ -30,8 +30,8 @@ polygon = PackedVector2Array(0, -36, -3.5, 0, 3.5, 0)
 color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 [node name="Spike02" type="Node2D" parent="Spikes"]
-position = Vector2(-24.0000, 16.0000)
-rotation_degrees = 63.4349
+position = Vector2(-24, 26)
+rotation_degrees = 53.130102
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike02"]
 polygon = PackedVector2Array(-2.2, -1, 0, -1.6, 2.2, -1, 2.2, 1, -2.2, 1)
 color = Color(0.066667, 0.105882, 0.12549, 0.98)
@@ -40,8 +40,8 @@ polygon = PackedVector2Array(0, -36, -3.5, 0, 3.5, 0)
 color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 [node name="Spike03" type="Node2D" parent="Spikes"]
-position = Vector2(-40.0000, 8.0000)
-rotation_degrees = 63.4349
+position = Vector2(-40, 14)
+rotation_degrees = 53.130102
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike03"]
 polygon = PackedVector2Array(-2.2, -1, 0, -1.6, 2.2, -1, 2.2, 1, -2.2, 1)
 color = Color(0.066667, 0.105882, 0.12549, 0.98)
@@ -50,8 +50,8 @@ polygon = PackedVector2Array(0, -36, -3.5, 0, 3.5, 0)
 color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 [node name="Spike04" type="Node2D" parent="Spikes"]
-position = Vector2(-56.0000, 0.0000)
-rotation_degrees = 63.4349
+position = Vector2(-56, 2)
+rotation_degrees = 53.130102
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike04"]
 polygon = PackedVector2Array(-2.2, -1, 0, -1.6, 2.2, -1, 2.2, 1, -2.2, 1)
 color = Color(0.066667, 0.105882, 0.12549, 0.98)
@@ -60,8 +60,8 @@ polygon = PackedVector2Array(0, -36, -3.5, 0, 3.5, 0)
 color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 [node name="Spike05" type="Node2D" parent="Spikes"]
-position = Vector2(-8.0000, 16.0000)
-rotation_degrees = 63.4349
+position = Vector2(-8, 30)
+rotation_degrees = 53.130102
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike05"]
 polygon = PackedVector2Array(-2.2, -1, 0, -1.6, 2.2, -1, 2.2, 1, -2.2, 1)
 color = Color(0.066667, 0.105882, 0.12549, 0.98)
@@ -70,8 +70,8 @@ polygon = PackedVector2Array(0, -36, -3.5, 0, 3.5, 0)
 color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 [node name="Spike06" type="Node2D" parent="Spikes"]
-position = Vector2(-24.0000, 8.0000)
-rotation_degrees = 63.4349
+position = Vector2(-24, 18)
+rotation_degrees = 53.130102
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike06"]
 polygon = PackedVector2Array(-2.2, -1, 0, -1.6, 2.2, -1, 2.2, 1, -2.2, 1)
 color = Color(0.066667, 0.105882, 0.12549, 0.98)
@@ -80,8 +80,8 @@ polygon = PackedVector2Array(0, -36, -3.5, 0, 3.5, 0)
 color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 [node name="Spike07" type="Node2D" parent="Spikes"]
-position = Vector2(-40.0000, 0.0000)
-rotation_degrees = 63.4349
+position = Vector2(-40, 6)
+rotation_degrees = 53.130102
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike07"]
 polygon = PackedVector2Array(-2.2, -1, 0, -1.6, 2.2, -1, 2.2, 1, -2.2, 1)
 color = Color(0.066667, 0.105882, 0.12549, 0.98)
@@ -90,8 +90,8 @@ polygon = PackedVector2Array(0, -36, -3.5, 0, 3.5, 0)
 color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 [node name="Spike08" type="Node2D" parent="Spikes"]
-position = Vector2(-56.0000, -8.0000)
-rotation_degrees = 63.4349
+position = Vector2(-56, -6)
+rotation_degrees = 53.130102
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike08"]
 polygon = PackedVector2Array(-2.2, -1, 0, -1.6, 2.2, -1, 2.2, 1, -2.2, 1)
 color = Color(0.066667, 0.105882, 0.12549, 0.98)
@@ -100,8 +100,8 @@ polygon = PackedVector2Array(0, -36, -3.5, 0, 3.5, 0)
 color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 [node name="Spike09" type="Node2D" parent="Spikes"]
-position = Vector2(-8.0000, 8.0000)
-rotation_degrees = 63.4349
+position = Vector2(-8, 22)
+rotation_degrees = 53.130102
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike09"]
 polygon = PackedVector2Array(-2.2, -1, 0, -1.6, 2.2, -1, 2.2, 1, -2.2, 1)
 color = Color(0.066667, 0.105882, 0.12549, 0.98)
@@ -110,8 +110,8 @@ polygon = PackedVector2Array(0, -36, -3.5, 0, 3.5, 0)
 color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 [node name="Spike10" type="Node2D" parent="Spikes"]
-position = Vector2(-24.0000, 0.0000)
-rotation_degrees = 63.4349
+position = Vector2(-24, 10)
+rotation_degrees = 53.130102
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike10"]
 polygon = PackedVector2Array(-2.2, -1, 0, -1.6, 2.2, -1, 2.2, 1, -2.2, 1)
 color = Color(0.066667, 0.105882, 0.12549, 0.98)
@@ -120,8 +120,8 @@ polygon = PackedVector2Array(0, -36, -3.5, 0, 3.5, 0)
 color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 [node name="Spike11" type="Node2D" parent="Spikes"]
-position = Vector2(-40.0000, -8.0000)
-rotation_degrees = 63.4349
+position = Vector2(-40, -2)
+rotation_degrees = 53.130102
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike11"]
 polygon = PackedVector2Array(-2.2, -1, 0, -1.6, 2.2, -1, 2.2, 1, -2.2, 1)
 color = Color(0.066667, 0.105882, 0.12549, 0.98)
@@ -130,8 +130,8 @@ polygon = PackedVector2Array(0, -36, -3.5, 0, 3.5, 0)
 color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 [node name="Spike12" type="Node2D" parent="Spikes"]
-position = Vector2(-56.0000, -16.0000)
-rotation_degrees = 63.4349
+position = Vector2(-56, -14)
+rotation_degrees = 53.130102
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike12"]
 polygon = PackedVector2Array(-2.2, -1, 0, -1.6, 2.2, -1, 2.2, 1, -2.2, 1)
 color = Color(0.066667, 0.105882, 0.12549, 0.98)
@@ -140,8 +140,8 @@ polygon = PackedVector2Array(0, -36, -3.5, 0, 3.5, 0)
 color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 [node name="Spike13" type="Node2D" parent="Spikes"]
-position = Vector2(-8.0000, 0.0000)
-rotation_degrees = 63.4349
+position = Vector2(-8, 14)
+rotation_degrees = 53.130102
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike13"]
 polygon = PackedVector2Array(-2.2, -1, 0, -1.6, 2.2, -1, 2.2, 1, -2.2, 1)
 color = Color(0.066667, 0.105882, 0.12549, 0.98)
@@ -150,8 +150,8 @@ polygon = PackedVector2Array(0, -36, -3.5, 0, 3.5, 0)
 color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 [node name="Spike14" type="Node2D" parent="Spikes"]
-position = Vector2(-24.0000, -8.0000)
-rotation_degrees = 63.4349
+position = Vector2(-24, 2)
+rotation_degrees = 53.130102
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike14"]
 polygon = PackedVector2Array(-2.2, -1, 0, -1.6, 2.2, -1, 2.2, 1, -2.2, 1)
 color = Color(0.066667, 0.105882, 0.12549, 0.98)
@@ -160,8 +160,8 @@ polygon = PackedVector2Array(0, -36, -3.5, 0, 3.5, 0)
 color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 [node name="Spike15" type="Node2D" parent="Spikes"]
-position = Vector2(-40.0000, -16.0000)
-rotation_degrees = 63.4349
+position = Vector2(-40, -10)
+rotation_degrees = 53.130102
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike15"]
 polygon = PackedVector2Array(-2.2, -1, 0, -1.6, 2.2, -1, 2.2, 1, -2.2, 1)
 color = Color(0.066667, 0.105882, 0.12549, 0.98)
@@ -170,8 +170,8 @@ polygon = PackedVector2Array(0, -36, -3.5, 0, 3.5, 0)
 color = Color(0.847059, 0.878431, 0.886275, 0.98)
 
 [node name="Spike16" type="Node2D" parent="Spikes"]
-position = Vector2(-56.0000, -24.0000)
-rotation_degrees = 63.4349
+position = Vector2(-56, -22)
+rotation_degrees = 53.130102
 [node name="Hole" type="Polygon2D" parent="Spikes/Spike16"]
 polygon = PackedVector2Array(-2.2, -1, 0, -1.6, 2.2, -1, 2.2, 1, -2.2, 1)
 color = Color(0.066667, 0.105882, 0.12549, 0.98)

@@ -134,26 +134,22 @@ func _draw_spikes(alpha: float) -> void:
 	# Низкие треугольные шипы повторяют поверхность клетки и не закрывают соседние тайлы.
 	for index: int in range(5):
 		var x: float = -35.0 + float(index) * 17.5
-		var y: float = 12.0 + absf(x) * 0.22
+		var y: float = 18.0 - absf(x) * 0.15
 		var tip: Vector2 = Vector2(x, y - 9.0)
 		draw_colored_polygon(PackedVector2Array([tip, Vector2(x - 5.0, y + 2.0), Vector2(x + 5.0, y + 2.0)]), tint)
 		draw_polyline(PackedVector2Array([tip, Vector2(x, y + 1.0)]), dark, 1.1, true)
 
 static func wall_spike_direction(grid_direction: Vector2i) -> Vector2:
-	return -_grid_direction_to_screen(grid_direction)
-
-static func _grid_direction_to_screen(grid_direction: Vector2i) -> Vector2:
-	# Ромбовая клетка сужает вертикальный шаг вдвое относительно горизонтального.
-	return Vector2(float(grid_direction.x - grid_direction.y), float(grid_direction.x + grid_direction.y) * 0.5).normalized()
+	return -IsoGridUtils.grid_direction_to_screen(grid_direction)
 
 func _draw_fire(alpha: float) -> void:
 	var pulse: float = 0.5 + 0.5 * sin(warning_phase)
-	var center: Vector2 = Vector2(0.0, 10.0)
+	var center: Vector2 = Vector2(0.0, 15.0)
 	var glow: Color = Color("f5a34b", (0.22 + pulse * 0.12) * alpha)
-	draw_colored_polygon(_ellipse_points(center, 19.0, 7.0, 14), glow)
+	draw_colored_polygon(_ellipse_points(center, 19.0, 10.5, 14), glow)
 	for index: int in range(3):
 		var x: float = -9.0 + float(index) * 9.0
-		var base_y: float = 13.0 + (1.0 if index == 1 else 0.0)
+		var base_y: float = 19.5 + (1.5 if index == 1 else 0.0)
 		var height: float = 11.0 + pulse * 3.0 - float(index % 2) * 2.0
 		var flame: PackedVector2Array = PackedVector2Array([
 			Vector2(x - 4.0, base_y), Vector2(x - 2.0, base_y - height * 0.58),
@@ -171,10 +167,10 @@ func _draw_warning(alpha: float) -> void:
 	var tint: Color = Color("f0a267", alpha * (0.42 + pulse * 0.32))
 	# Разломы лежат внутри ромба: они предупреждают об обвале без текстовой метки.
 	var cracks: Array[PackedVector2Array] = [
-		PackedVector2Array([Vector2(-37, -7), Vector2(-25, -12), Vector2(-16, -8), Vector2(-6, -14), Vector2(5, -10)]),
-		PackedVector2Array([Vector2(-27, 6), Vector2(-18, 11), Vector2(-20, 18), Vector2(-11, 23)]),
-		PackedVector2Array([Vector2(25, 3), Vector2(17, 9), Vector2(20, 15), Vector2(11, 20)]),
-		PackedVector2Array([Vector2(-5, 17), Vector2(1, 13), Vector2(7, 18), Vector2(12, 15)])
+		PackedVector2Array([Vector2(-37, -10.5), Vector2(-25, -18), Vector2(-16, -12), Vector2(-6, -21), Vector2(5, -15)]),
+		PackedVector2Array([Vector2(-27, 9), Vector2(-18, 16.5), Vector2(-20, 27), Vector2(-11, 34.5)]),
+		PackedVector2Array([Vector2(25, 4.5), Vector2(17, 13.5), Vector2(20, 22.5), Vector2(11, 30)]),
+		PackedVector2Array([Vector2(-5, 25.5), Vector2(1, 19.5), Vector2(7, 27), Vector2(12, 22.5)])
 	]
 	for crack: PackedVector2Array in cracks:
 		draw_polyline(crack, Color("291711", alpha * 0.9), 4.5, true)
@@ -183,7 +179,7 @@ func _draw_warning(alpha: float) -> void:
 			var point: Vector2 = crack[point_index]
 			draw_circle(point, 1.0, Color("ffe0ab", tint.a * 0.8))
 	# Край остаётся заметным даже под несколькими телами или стоящей фигурой.
-	var rim := PackedVector2Array([Vector2(0, -28), Vector2(56, 0), Vector2(0, 28), Vector2(-56, 0), Vector2(0, -28)])
+	var rim := PackedVector2Array([Vector2(0, -42), Vector2(56, 0), Vector2(0, 42), Vector2(-56, 0), Vector2(0, -42)])
 	draw_polyline(rim, Color("291711", alpha * 0.8), 3.5, true)
 	draw_polyline(rim, Color("ffc17d", alpha * (0.30 + pulse * 0.40)), 1.6, true)
 
@@ -195,7 +191,7 @@ func _draw_corpses(alpha: float) -> void:
 	for index: int in range(visible_count):
 		var record: Dictionary = corpse_records[index]
 		var centered_index: float = float(index) - float(visible_count - 1) * 0.5
-		var center: Vector2 = Vector2(centered_index * 12.0, 4.0 + float(index) * 6.0)
+		var center: Vector2 = Vector2(centered_index * 12.0, 6.0 + float(index) * 9.0)
 		_draw_corpse(center, _faction_color(record.get("faction", -1)), alpha)
 	if corpse_records.size() > 1:
 		# Число сообщает только количество тел; детали состояния юнита здесь недоступны.
@@ -228,10 +224,10 @@ func _draw_hazard_accent(progress: float, alpha: float) -> void:
 	if has_spikes:
 		for index: int in range(5):
 			var x: float = -35.0 + float(index) * 17.5
-			var y: float = 4.0 + absf(x) * 0.22
+			var y: float = 10.0 - absf(x) * 0.15
 			draw_circle(Vector2(x, y), 2.0 + strength, tint)
 	else:
-		draw_polyline(_ellipse_points(Vector2(0.0, 10.0), 22.0, 9.0, 20), Color("ffd07a", strength * 0.7), 2.0, true)
+		draw_polyline(_ellipse_points(Vector2(0.0, 15.0), 22.0, 13.5, 20), Color("ffd07a", strength * 0.7), 2.0, true)
 
 
 func _draw_collapse(progress: float) -> void:
@@ -242,7 +238,7 @@ func _draw_collapse(progress: float) -> void:
 	for index: int in range(7):
 		var phase: float = float(index) * 1.71
 		var travel: float = amount * (7.0 + float(index % 3) * 5.0)
-		var point: Vector2 = Vector2(sin(phase) * (13.0 + float(index % 4) * 8.0), 5.0 + float(index % 3) * 8.0 + travel)
+		var point: Vector2 = Vector2(sin(phase) * (13.0 + float(index % 4) * 8.0), 7.5 + float(index % 3) * 12.0 + travel)
 		var fade: float = 1.0 - amount * 0.72
 		var tint: Color = Color("c6a789", fade * 0.75)
 		draw_colored_polygon(PackedVector2Array([

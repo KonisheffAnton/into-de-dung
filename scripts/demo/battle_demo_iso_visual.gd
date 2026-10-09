@@ -29,6 +29,8 @@ var reaction_view: Dictionary = {}
 ## Доска публикует только видимые остатки ресурсов; HUD не обращается к runtime.
 var action_resources_view: Dictionary = {}
 @export var body_pick_rect: Rect2 = Rect2(-17, -37, 34, 44)
+@export var warrior_pick_rect: Rect2 = Rect2(-45, -56, 78, 73)
+@export var show_flat_height_labels: bool = false
 ## Демонстрационные состояния выбираются доской; сцена только отображает слои.
 var frozen: bool = false
 var burning: bool = false
@@ -37,9 +39,7 @@ var entangled: bool = false
 const STATUS_ICON_SIZE: float = 16.0
 const STATUS_ICON_GAP: float = 1.0
 const STATUS_ICON_LIMIT: int = 5
-const GROUND_BASE_TINT := Color("987448")
-const GROUND_SOURCE_SIZE := Vector2(1593.0, 869.0)
-const GROUND_TILE_SIZE := Vector2(128.0, 64.0)
+@export var ground_base_tint: Color = Color("697553")
 const BLEEDING_ICON: Texture2D = preload("res://assets/placeholder_battle/bleeding_icon.svg")
 const BURNING_ICON: Texture2D = preload("res://assets/placeholder_battle/burning_icon.svg")
 const WET_ICON: Texture2D = preload("res://assets/placeholder_battle/wet_icon.svg")
@@ -203,10 +203,13 @@ func sync_scene_art() -> void:
 			warrior_sprite = player_warrior
 		elif unit.faction == Faction.Type.ENEMY:
 			warrior_sprite = enemy_warrior
+	# Отсутствующий рисунок считается отсутствующим классным слоем и позволяет fallback.
+	if warrior_sprite != null and warrior_sprite.texture == null:
+		warrior_sprite = null
 	var presets_ready: bool = enemy_presets.size() == 3
 	for preset: Sprite2D in enemy_presets:
 		presets_ready = presets_ready and preset.texture != null
-	if role == Role.UNIT and unit != null and unit.faction == Faction.Type.ENEMY and presets_ready:
+	if role == Role.UNIT and unit != null and unit.faction == Faction.Type.ENEMY and presets_ready and warrior_sprite == null:
 		selected_enemy_preset = enemy_presets[posmod(unit.id, enemy_presets.size())]
 	# Кастомный силуэт остаётся нейтральным: исходная палитра уже задаёт его сторону.
 	if player_warrior != null:
@@ -225,11 +228,10 @@ func sync_scene_art() -> void:
 	if ground_base != null:
 		ground_base.visible = ground_art_active
 		ground_base.position = surface_position
-		ground_base.color = GROUND_BASE_TINT
+		ground_base.color = ground_base_tint
 	if ground_surface != null:
 		ground_surface.visible = ground_art_active
 		ground_surface.position = surface_position
-		ground_surface.scale = GROUND_TILE_SIZE / GROUND_SOURCE_SIZE
 		ground_surface.modulate = Color.WHITE
 	if body != null:
 		body.visible = role == Role.UNIT and (unit == null or unit.alive) and warrior_sprite == null and selected_enemy_preset == null
@@ -288,7 +290,7 @@ func _sync_scene_sides(factor: float) -> void:
 	right.polygon = _to_art_points(shapes[1], visual_offset, factor)
 	var ground_surface := get_node_or_null("ArtRoot/GroundSurface") as Sprite2D
 	var ground_art_active := ground_surface != null and _uses_ground_art()
-	var base_tint := GROUND_BASE_TINT if ground_art_active else _surface_tint()
+	var base_tint := ground_base_tint if ground_art_active else _surface_tint()
 	left.color = base_tint.darkened(0.40)
 	right.color = base_tint.darkened(0.22)
 
@@ -316,14 +318,25 @@ func surface_polygons() -> Array[PackedVector2Array]:
 		if unit != null and not unit.alive: return []
 		var factor := grid_config.tile_size.x / 128.0
 		var offset := get_visual_offset()
-		return [PackedVector2Array([offset + body_pick_rect.position * factor, offset + Vector2(body_pick_rect.end.x, body_pick_rect.position.y) * factor, offset + body_pick_rect.end * factor, offset + Vector2(body_pick_rect.position.x, body_pick_rect.end.y) * factor])]
+		var pick_rect := warrior_pick_rect if _has_visible_warrior_sprite() else body_pick_rect
+		return [PackedVector2Array([offset + pick_rect.position * factor, offset + Vector2(pick_rect.end.x, pick_rect.position.y) * factor, offset + pick_rect.end * factor, offset + Vector2(pick_rect.position.x, pick_rect.end.y) * factor])]
 	var top := top_polygon()
 	if is_void: return [top]
 	var bottom := Vector2(0, grid_config.height_step * 0.55 + 0.5)
 	if role == Role.WALL: bottom = get_visual_offset() + Vector2(0, 0.5)
+	elif _uses_ground_art():
+		# PNG уже содержит шестипиксельный торец; совпадающая опора не удваивает его толщину.
+		bottom = Vector2(0, grid_config.tile_size.x * (6.0 / 128.0) + 0.5)
 	var hw := grid_config.tile_size.x * 0.5
 	var hh := grid_config.tile_size.y * 0.5
 	return [PackedVector2Array([top[3], top[2], bottom + Vector2(0, hh), bottom + Vector2(-hw, 0)]), PackedVector2Array([top[2], top[1], bottom + Vector2(hw, 0), bottom + Vector2(0, hh)]), top]
+
+func _has_visible_warrior_sprite() -> bool:
+	if visual_class_id != &"warrior" or unit == null or not unit.alive:
+		return false
+	var path := "ArtRoot/PlayerWarriorSprite" if unit.faction == Faction.Type.PLAYER else "ArtRoot/EnemyWarriorSprite"
+	var sprite := get_node_or_null(path) as Sprite2D
+	return sprite != null and sprite.texture != null and (sprite == get_node_or_null("ArtRoot/PlayerWarriorSprite") and unit.faction == Faction.Type.PLAYER or sprite == get_node_or_null("ArtRoot/EnemyWarriorSprite") and unit.faction == Faction.Type.ENEMY)
 
 ## Возвращает первые пять уникальных не воплощённых видов в порядке доски.
 func visible_status_entries() -> Array[Dictionary]:
@@ -379,7 +392,9 @@ func _draw() -> void:
 		draw_colored_polygon(shapes[1], color.darkened(0.22))
 	var top := top_polygon()
 	if not _scene_art_enabled: draw_colored_polygon(top, color)
-	draw_polyline(top + PackedVector2Array([top[0]]), Color("14232e"), 1.2, true)
+	var ground_surface := get_node_or_null("ArtRoot/GroundSurface") as Sprite2D
+	var ground_art_active := ground_surface != null and _uses_ground_art()
+	if not ground_art_active: draw_polyline(top + PackedVector2Array([top[0]]), Color("14232e"), 1.2, true)
 	if enemy_range:
 		# Зона осмотра лежит на самой поверхности, чтобы не закрывать native Y-sort сущностей.
 		draw_colored_polygon(top, Color(0.96, 0.68, 0.20, 0.22))
@@ -392,7 +407,8 @@ func _draw() -> void:
 	elif is_void:
 		draw_string(ThemeDB.fallback_font, center + Vector2(-hw * 0.6, 3), "ПРОПАСТЬ", HORIZONTAL_ALIGNMENT_CENTER, hw * 1.2, 8, Color("53647a"))
 	else:
-		draw_string(ThemeDB.fallback_font, center + Vector2(-22, -hh * 0.37), "%+.1f" % (float(half_steps) / 2.0), HORIZONTAL_ALIGNMENT_CENTER, 44, 10, Color("b7c9ce"))
+		if half_steps != 0 or show_flat_height_labels:
+			draw_string(ThemeDB.fallback_font, center + Vector2(-22, -hh * 0.37), "%+.1f" % (float(half_steps) / 2.0), HORIZONTAL_ALIGNMENT_CENTER, 44, 10, Color("b7c9ce"))
 		if reachable: draw_circle(center + Vector2(hw * 0.62, 0), 2, Color("65dfcc"))
 
 func _draw_unit() -> void:

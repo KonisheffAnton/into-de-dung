@@ -24,7 +24,7 @@ func capture(label: String) -> void:
 	check(viewport.get_texture().get_image().save_png(captures.path_join(label + ".png")) == OK, "PNG " + label)
 
 func run() -> void:
-	var wall_toward := Vector2(1.0, -0.5).normalized()
+	var wall_toward := Vector2(1.0, -0.75).normalized()
 	check(BattleEnvironmentVisual.wall_spike_direction(Vector2i.UP).dot(wall_toward) < -0.99,
 		"wall spikes extend from wall into the contact cell")
 	viewport = SubViewport.new()
@@ -121,7 +121,7 @@ func authored_presets() -> void:
 	var directions: Array[Vector2i] = [Vector2i.ZERO, Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT]
 	var positions: Array[Vector2] = [Vector2(180, 280), Vector2(460, 280), Vector2(770, 250), Vector2(470, 560), Vector2(820, 580)]
 	# Контракт опоры: общая грань соседних ромбов и вертикальная высота стены 32.
-	var edges: Array[Vector2] = [Vector2.ZERO, Vector2(0, -32), Vector2(64, 0), Vector2(0, 32), Vector2(-64, 0)]
+	var edges: Array[Vector2] = [Vector2.ZERO, Vector2(0, -48), Vector2(64, 0), Vector2(0, 48), Vector2(-64, 0)]
 	for index: int in names.size():
 		var overlay := scene.instantiate() as BattleEnvironmentVisual
 		gallery.add_child(overlay)
@@ -145,7 +145,7 @@ func authored_presets() -> void:
 		var panel := preset.get_node("Panel") as Polygon2D
 		if index == 0:
 			check(panel.polygon.has(Vector2(62, 0)) and panel.polygon.has(Vector2(-62, 0))
-				and panel.polygon.has(Vector2(0, 30)) and panel.polygon.has(Vector2(0, -30)), "floor preset fills the tile rhombus")
+				and panel.polygon.has(Vector2(0, 45)) and panel.polygon.has(Vector2(0, -45)), "floor preset fills the tile rhombus")
 			check(tip.polygon[0].is_equal_approx(Vector2(0, -36)), "floor spikes retain their accepted 36px extension")
 		else:
 			var start := edges[index]

@@ -1,0 +1,79 @@
+{
+  "id": "grass_defender_v1",
+  "selected_on": "2026-10-09",
+  "approval_scope": "Selected static style, 4:3 angle, defender image and reference placement. Manual in-game/F5 acceptance and animations remain open.",
+  "style_owner": "docs/ART_DIRECTION.md",
+  "reference": "docs/art/style-reference-20261009/selected-style.png",
+  "user_selection": "docs/art/style-reference-20261009/user-selection.png",
+  "preview_scene": "scenes/demo/art_style_preview.tscn",
+  "projection": {
+    "tile_top_size": [
+      128,
+      96
+    ],
+    "neighbor_steps": [
+      [
+        64,
+        48
+      ],
+      [
+        -64,
+        48
+      ]
+    ],
+    "height_step": 32
+  },
+  "assets": {
+    "tile": {
+      "file": "grass_reference_v1.png",
+      "source": "docs/art/placement-reference-20261009/paint-tile.png",
+      "sha256": "3441f4ad7e02d3a5cfdba22f75741f6a4eb8f42bfa1adf6ef5f18c2d39b9af02",
+      "production_scene": "scenes/demo/visuals/placeholder_tile.tscn",
+      "scale": [
+        0.25,
+        0.25
+      ],
+      "filter": "nearest",
+      "centered": false,
+      "source_size": [
+        512,
+        408
+      ],
+      "sprite_offset": [
+        -256,
+        -192
+      ],
+      "top_origin_from_cell_center": [
+        -64,
+        -48
+      ],
+      "flat_side_height": 6
+    },
+    "defender": {
+      "file": "defender_reference_v1.png",
+      "source": "docs/art/placement-reference-20261009/paint-warrior.png",
+      "sha256": "f6b4e66fb267c443c24f3913af97b3220a7ca554eae7a3c524b08d2bd83b6515",
+      "production_scene": "scenes/demo/visuals/placeholder_unit.tscn",
+      "scale": [
+        0.25,
+        0.25
+      ],
+      "filter": "nearest",
+      "centered": false,
+      "source_size": [
+        312,
+        292
+      ],
+      "sprite_position": [
+        -45,
+        -56
+      ],
+      "display_crop_size": [
+        78,
+        73
+      ],
+      "alpha128_height": 72,
+      "placement_applies_to_this_pose_only": true
+    }
+  }
+}
