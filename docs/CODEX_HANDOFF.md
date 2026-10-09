@@ -1,27 +1,27 @@
-# Передача — 2026-10-09: Graphic L.A.
-D:\Games\into-de-dung; main; base 98c74937e4bc3f8f866c9b89d1995f6cf873b165; без push.
-Две книги разобраны: PIXEL_ART_GUIDE — выжимка со страницами.
-Graphic L.A.: 124 скана, пропуски; полнота издания не подтверждена,
-PDF/печать сверены. Приложений-анимаций Pixel Logic нет. Review APPROVE;
-отчёт test_reports/graphic-la-study-20261009/.
+# Передача — 2026-10-09: Color and Light
+D:\Games\into-de-dung; main; base 30addf729e951311a711f09554b836fac5c978cb; без push.
+PIXEL_ART_GUIDE — три книги, страницы; советы не контракт; review APPROVE.
+Color and Light: 226 сканов, текст фрагментарный, нумерация расходится;
+Graphic L.A.: 124 скана с пропусками. Полнота обоих не подтверждена.
+Отчёт: test_reports/color-light-study-20261009/; прежние — HISTORY.
 
-Прошлая проба получила сдержанный отзыв, не выбрана. Новая:
+Прошлая проба: сдержанный отзыв, не выбрана. Последняя:
 docs/art/graphic-la-tiles-20261009/proposal-01.png; README/запрос рядом.
 Фактура похожа на мох; улучшение не доказано.
-Неутверждённый image_gen-эскиз, не игровой тайл/рендер; игра не изменена.
+Неутверждённый image_gen-эскиз, не игровой тайл/рендер.
 
 Действует правая M3/Защитник №4; ART_DIRECTION — стиль;
 assets/art_presets/approved/README.md — PNG/параметры/SHA/сцены.
 docs/art/style-reference-20261009/; F6 scenes/demo/art_style_preview.tscn.
 Игра 4:3, верх128×96, высота32; посадка preset.json; F5 сохранён.
 Контракты BATTLE_PRESENTATION_REWORK/ARCHITECTURE/ENVIRONMENT_HAZARDS_V1.
-import/startup/адресный render PASS, review APPROVE:
-test_reports/art-integration-20261009/, HISTORY. Сейчас Godot/core/full/render/F5
-не повторялись; docs/PNG/diff/ссылки/SHA/архив проверены.
+Прежние import/startup/адресный render PASS, review APPROVE:
+test_reports/art-integration-20261009/. Сейчас Godot/core/full/render/F5
+не повторялись; docs/diff/ссылки/SHA/архив PASS.
 Full138PASS/2FAIL не общий PASS; control/entangle закрыты адресно.
 В status только пользовательская scenes/demo/main_menu.tscn: не сбрасывать/коммитить.
 
-Далее отзыв по игре/камере/стыкам/воину/ловушкам и пробе. Приняты стиль/статичный
+Далее отзыв по игре/камере/стыкам/воину/ловушкам/пробе. Приняты стиль/статичный
 эталон, не весь арт/анимации/баланс. Новый пакет по поручению.
 Capture/live_valid, Щитоносец/прежний HUD приняты; worker-аудит предварительно.
 F5/колода/спрайты предварительно. Маршрут/редактор/HUD/арт/баланс/Q-E/артефакты/
