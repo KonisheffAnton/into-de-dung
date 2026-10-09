@@ -1,0 +1,15 @@
+{
+  "parameters": {
+    "width": 96,
+    "image": {
+      "reference_file": "tile-M2.png",
+      "transport": "base64 PNG"
+    },
+    "no_background": true,
+    "seed": 2026100989,
+    "height": 96,
+    "description": "Shrink the oversized grass tuft at the bottom tip to HALF its current width and height. Place its base slightly inward from the tile edge. Keep it a small soft clump with 4 broad simple blades, no dark outline. Preserve all other pixels, the quiet flat olive ground, two tiny side tufts, exact diamond geometry, camera, thin soil, muted colors and transparency. No extra detail."
+  },
+  "endpoint": "edit-image-pixen",
+  "provider": "PixelLab"
+}

@@ -1,0 +1,44 @@
+{
+  "tiles": {
+    "A": {
+      "file": "../projection-4x3-20261009/tile-A-original.png",
+      "top_box": [
+        4,
+        7,
+        61,
+        50
+      ],
+      "provider": "Earlier PixelLab base"
+    },
+    "K": {
+      "file": "tile-K2.png",
+      "top_box": [
+        104,
+        142,
+        1342,
+        932
+      ],
+      "provider": "image_gen"
+    },
+    "L": {
+      "file": "tile-L2.png",
+      "top_box": [
+        126,
+        182,
+        1314,
+        926
+      ],
+      "provider": "image_gen"
+    },
+    "M": {
+      "file": "tile-M3.png",
+      "top_box": [
+        6,
+        8,
+        90,
+        71
+      ],
+      "provider": "PixelLab using image_gen concept"
+    }
+  }
+}

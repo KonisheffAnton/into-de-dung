@@ -1,0 +1,15 @@
+{
+  "endpoint": "edit-image-pixen",
+  "parameters": {
+    "width": 96,
+    "image": {
+      "reference_file": "../terrain-retry-20261009/tile-M-refined.png",
+      "transport": "base64 PNG"
+    },
+    "no_background": true,
+    "seed": 2026100988,
+    "height": 96,
+    "description": "Make existing grass tufts slightly fluffier, about 25 percent wider, with a few broad fan-shaped blades joined at the base. Keep positions and low height. Preserve muted olive earth, calm empty areas, sparse density, exact diamond, camera, thin sides, transparency and low contrast. No new dots, stones, flowers, bright outlines, dithering, grain, noise or grass border. No character."
+  },
+  "provider": "PixelLab"
+}

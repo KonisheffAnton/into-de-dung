@@ -1,0 +1,15 @@
+{
+  "provider": "PixelLab",
+  "parameters": {
+    "width": 96,
+    "image": {
+      "transport": "base64 PNG",
+      "reference_file": "../terrain-retry-20261009/tile-M-refined.png"
+    },
+    "no_background": true,
+    "seed": 2026100988,
+    "height": 96,
+    "description": "Make the existing small grass tufts slightly fuller and fluffier, about 25 percent wider. Use a few broad soft fan-shaped blades joined at a common base. Keep their current positions and low height. Preserve the quiet muted olive earth background, sparse density, exact tile diamond and camera, thin soil sides, transparency and low contrast. Do not add scattered pixels, dots, stones, flowers, bright outlines, dithering, noise or a continuous grass border. Most of the tile remains calm. No character."
+  },
+  "endpoint": "edit-image-pixen"
+}

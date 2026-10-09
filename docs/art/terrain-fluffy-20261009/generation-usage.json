@@ -1,0 +1,13 @@
+{
+  "image_gen": {"calls": 2, "selected": ["tile-K2.png", "tile-L2.png"]},
+  "PixelLab": {
+    "charged_generations": 2,
+    "balance_before": 4956,
+    "balance_after": 4954,
+    "selected": "tile-M3.png",
+    "intermediate": "tile-M2.png",
+    "rejected_before_admission": {"http_status": 422, "reason": "Description exceeds 500 characters", "charged": 0},
+    "jobs": ["73680a45-0bc1-4911-8b67-d00162cdde39", "3d826dbb-78fc-4e69-add4-20a0a73f3cc0"]
+  },
+  "Retro_Diffusion": {"calls": 0}
+}

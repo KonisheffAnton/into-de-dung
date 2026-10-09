@@ -1,0 +1,11 @@
+{
+  "provider": "image_gen",
+  "inputs": {
+    "K": "../terrain-retry-20261009/tile-K-clean.png",
+    "L": "../terrain-retry-20261009/tile-L-clean.png"
+  },
+  "prompts": {
+    "K": "Use case: precise-object-edit. Input image 1 is the edit target, our own existing tactical game terrain tile K. Make the grass SLIGHTLY fluffier: change its three existing stiff sparse tufts into slightly wider, soft fan-shaped leafy grass clumps with a united low base and a few broad blades. About 25% more fullness, not tall bushes. Keep the same three clump positions and broad low-contrast olive-earth ground patches. Preserve the exact diamond silhouette, camera/projection, thin soil sides, tile dimensions and framing. Keep the quiet muted olive/sage palette and clean pixel clusters, no extra rocks, flowers, dots, granular noise, dithering, bright outlines or continuous grass border. Most of the ground stays calm and empty. Do not add a character. Transparent background preserved. Output only one tile.",
+    "L": "Use case: precise-object-edit. Input image 1 is the edit target, our own existing tactical game terrain tile L. Make the grass SLIGHTLY fluffier: reshape its two main grass clumps into softer broader tufts with more rounded fan-shaped volume, joined bases and a few broad simple leafy blades. About 25% more width/fullness; keep the different sizes and same positions, no taller than before. Preserve the quiet broad earth/moss ground patches and generous untextured spaces. Preserve exact diamond silhouette, camera/projection, thin soil sides, dimensions and framing. Keep muted warm olive/sage/brown palette, low contrast clean pixel clusters, not smooth 3D. No new rocks, flowers, fine speckles, texture noise, dithering, bright contour or dense border. Do not add a character. Transparent background preserved. Output only one tile."
+  }
+}
