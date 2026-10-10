@@ -1,0 +1,352 @@
+{
+  "frames": [
+    {
+      "file": "frame-01.png",
+      "width": 128,
+      "height": 128,
+      "opaque": 2994,
+      "colors": 39,
+      "alphaValues": [
+        0,
+        255
+      ],
+      "bounds": [
+        25,
+        25,
+        101,
+        96
+      ],
+      "outsideCrop": 0,
+      "sha256": "d13ef0d5674dce675a9de7b7124826eaf15c7fb5fa4732c17304fbe29dc416d1"
+    },
+    {
+      "file": "frame-02.png",
+      "width": 128,
+      "height": 128,
+      "opaque": 2993,
+      "colors": 40,
+      "alphaValues": [
+        0,
+        255
+      ],
+      "bounds": [
+        25,
+        25,
+        101,
+        96
+      ],
+      "outsideCrop": 0,
+      "sha256": "f3f23c8d0ce7ce0e2191830e6bfa7c0fc002d11946c81dc4bad83ec477aa67f1"
+    },
+    {
+      "file": "frame-03.png",
+      "width": 128,
+      "height": 128,
+      "opaque": 3066,
+      "colors": 43,
+      "alphaValues": [
+        0,
+        255
+      ],
+      "bounds": [
+        24,
+        24,
+        102,
+        96
+      ],
+      "outsideCrop": 0,
+      "sha256": "cb2beea494bd65c0944c951030a5aca29e855f3bc080fad313758f26e8fabcc8"
+    },
+    {
+      "file": "frame-04.png",
+      "width": 128,
+      "height": 128,
+      "opaque": 3054,
+      "colors": 40,
+      "alphaValues": [
+        0,
+        255
+      ],
+      "bounds": [
+        24,
+        24,
+        102,
+        96
+      ],
+      "outsideCrop": 0,
+      "sha256": "6e5ee9ad97568633f6c8787e77caf741c75ed9354dbbcc5c133eccf7a0c3ad16"
+    },
+    {
+      "file": "frame-05.png",
+      "width": 128,
+      "height": 128,
+      "opaque": 3115,
+      "colors": 41,
+      "alphaValues": [
+        0,
+        255
+      ],
+      "bounds": [
+        23,
+        23,
+        102,
+        96
+      ],
+      "outsideCrop": 0,
+      "sha256": "dc9dd1da601ba802eb20434f0cd7cf660b89f0bb5c9d0d128f63c5cecb191d09"
+    },
+    {
+      "file": "frame-06.png",
+      "width": 128,
+      "height": 128,
+      "opaque": 3097,
+      "colors": 42,
+      "alphaValues": [
+        0,
+        255
+      ],
+      "bounds": [
+        23,
+        23,
+        102,
+        96
+      ],
+      "outsideCrop": 0,
+      "sha256": "8909cda13e27573f7fc3bfafddd27b0e1a0d336b767f3bc5807196ac82a2b175"
+    },
+    {
+      "file": "frame-07.png",
+      "width": 128,
+      "height": 128,
+      "opaque": 3070,
+      "colors": 40,
+      "alphaValues": [
+        0,
+        255
+      ],
+      "bounds": [
+        23,
+        23,
+        101,
+        96
+      ],
+      "outsideCrop": 0,
+      "sha256": "4985eeece69228789417769ac2834230dca4ee6d6284da2cf8c5ced74b48b579"
+    },
+    {
+      "file": "frame-08.png",
+      "width": 128,
+      "height": 128,
+      "opaque": 3013,
+      "colors": 42,
+      "alphaValues": [
+        0,
+        255
+      ],
+      "bounds": [
+        24,
+        23,
+        100,
+        96
+      ],
+      "outsideCrop": 0,
+      "sha256": "ecef4c5abf808c4519372dce327725dedb93abf9eee80ee848d921e4b9b8bba3"
+    },
+    {
+      "file": "frame-09.png",
+      "width": 128,
+      "height": 128,
+      "opaque": 3017,
+      "colors": 40,
+      "alphaValues": [
+        0,
+        255
+      ],
+      "bounds": [
+        24,
+        23,
+        100,
+        96
+      ],
+      "outsideCrop": 0,
+      "sha256": "838c0620013ac37eb420c606475ac08fb175dc6d5de90319e8d983d1994d9670"
+    },
+    {
+      "file": "frame-10.png",
+      "width": 128,
+      "height": 128,
+      "opaque": 2957,
+      "colors": 42,
+      "alphaValues": [
+        0,
+        255
+      ],
+      "bounds": [
+        24,
+        24,
+        99,
+        96
+      ],
+      "outsideCrop": 0,
+      "sha256": "7017f4b070586fd296c771c5a65d0f24289049d0b6d10342c73da1d000a59bc6"
+    },
+    {
+      "file": "frame-11.png",
+      "width": 128,
+      "height": 128,
+      "opaque": 2960,
+      "colors": 41,
+      "alphaValues": [
+        0,
+        255
+      ],
+      "bounds": [
+        24,
+        24,
+        99,
+        96
+      ],
+      "outsideCrop": 0,
+      "sha256": "f11f0650800efd0464bccca276256737b8cde4e368037ed0da197d8425a94559"
+    },
+    {
+      "file": "frame-12.png",
+      "width": 128,
+      "height": 128,
+      "opaque": 2969,
+      "colors": 43,
+      "alphaValues": [
+        0,
+        255
+      ],
+      "bounds": [
+        25,
+        25,
+        100,
+        96
+      ],
+      "outsideCrop": 0,
+      "sha256": "a5922c182999ed0156849c93c50b46b0816930a4e4fc018d8d8e4dc0e6e64e83"
+    }
+  ],
+  "transitions": [
+    {
+      "from": "frame-01.png",
+      "to": "frame-02.png",
+      "rgbaPixels": 11,
+      "alphaPixels": 1
+    },
+    {
+      "from": "frame-02.png",
+      "to": "frame-03.png",
+      "rgbaPixels": 1186,
+      "alphaPixels": 201
+    },
+    {
+      "from": "frame-03.png",
+      "to": "frame-04.png",
+      "rgbaPixels": 223,
+      "alphaPixels": 34
+    },
+    {
+      "from": "frame-04.png",
+      "to": "frame-05.png",
+      "rgbaPixels": 825,
+      "alphaPixels": 133
+    },
+    {
+      "from": "frame-05.png",
+      "to": "frame-06.png",
+      "rgbaPixels": 328,
+      "alphaPixels": 38
+    },
+    {
+      "from": "frame-06.png",
+      "to": "frame-07.png",
+      "rgbaPixels": 837,
+      "alphaPixels": 113
+    },
+    {
+      "from": "frame-07.png",
+      "to": "frame-08.png",
+      "rgbaPixels": 853,
+      "alphaPixels": 131
+    },
+    {
+      "from": "frame-08.png",
+      "to": "frame-09.png",
+      "rgbaPixels": 39,
+      "alphaPixels": 4
+    },
+    {
+      "from": "frame-09.png",
+      "to": "frame-10.png",
+      "rgbaPixels": 1064,
+      "alphaPixels": 148
+    },
+    {
+      "from": "frame-10.png",
+      "to": "frame-11.png",
+      "rgbaPixels": 145,
+      "alphaPixels": 13
+    },
+    {
+      "from": "frame-11.png",
+      "to": "frame-12.png",
+      "rgbaPixels": 1136,
+      "alphaPixels": 209
+    },
+    {
+      "from": "frame-12.png",
+      "to": "frame-01.png",
+      "rgbaPixels": 897,
+      "alphaPixels": 103
+    }
+  ],
+  "gifs": {
+    "comparison.gif": {
+      "pages": 16,
+      "delay": [
+        200,
+        100,
+        100,
+        200,
+        200,
+        100,
+        100,
+        200,
+        200,
+        100,
+        100,
+        200,
+        200,
+        100,
+        100,
+        200
+      ],
+      "cycleMs": 2400,
+      "width": 800,
+      "height": 590
+    },
+    "idle-native.gif": {
+      "pages": 12,
+      "delay": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "cycleMs": 2400,
+      "width": 96,
+      "height": 96
+    }
+  }
+}

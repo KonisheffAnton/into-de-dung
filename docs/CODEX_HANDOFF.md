@@ -1,13 +1,13 @@
-# Передача — 2026-10-10: GitHub
-D:\Games\into-de-dung; main; base 57f40ce91287fd33a112c126848962ef4b7a3039; U: push origin/main.
+# Передача — 2026-10-10: живость idle
+D:\Games\into-de-dung; main; base e4e04e7ea9e991d5c428e292566c657167b3a20a; без push.
 U: сохранять текущие PNG/посадку/гаммуА/масштаб80%; тени/динамический свет отложены.
-U: дальше анимации через PixelLab; idle — только дыхание, без поворотов.
-Петля8×300ms вне игры: docs/art/defender-idle-breathing-20261010/README.md.
-Ревью APPROVE, отзыв U открыт; первые две пробы отклонены.
+U: PixelLab; дыхание верно, добавить мягкое покачивание рук/щита/тела без разворота.
+Проба вне игры: docs/art/defender-idle-sway-20261010/README.md.
+Ревью APPROVE; отзыв U и интеграция открыты.
 P-удар в BATTLE_PRESENTATION_REWORK отложен; PixelLab — GRAPHICS_WORKFLOW.
 Весь набор стойка/ход/удар/урон/смерть открыт; другие бойцы после приёмки.
-Баланс после графики/анимаций. Документы PASS; публикация — HISTORY.
-Godot/tests/замеров нет; test_reports/defender-idle-breathing-20261010/.
+Баланс после графики/анимаций. Публикация e4e04e7 — HISTORY; новые push по поручению.
+Godot/tests/замеров нет; test_reports/defender-idle-sway-20261010/.
 ART_DIRECTION; BATTLE_VISUAL_SCENE_CONTRACT/BATTLE_EXECUTION_UI — lifecycle/показ.
 PROJECT_CONTEXT/CODEX_WORKFLOW — маршруты/процесс.
 Прежние: import/startup+9render PASS, current_art_zoom360/0, art_trial410/0;
