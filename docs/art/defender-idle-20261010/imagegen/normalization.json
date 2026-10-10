@@ -1,0 +1,107 @@
+{
+  "sheet": {
+    "width": 1774,
+    "height": 887
+  },
+  "layout": {
+    "columns": 4,
+    "rows": 2
+  },
+  "scale": 0.9863013698630136,
+  "offset": {
+    "x": -1,
+    "y": -7
+  },
+  "alphaThreshold": 128,
+  "frameBounds": [
+    {
+      "x": 6,
+      "y": 9,
+      "width": 81,
+      "height": 72
+    },
+    {
+      "x": 5,
+      "y": 8,
+      "width": 82,
+      "height": 73
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "width": 80,
+      "height": 74
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "width": 80,
+      "height": 75
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "width": 81,
+      "height": 76
+    },
+    {
+      "x": 5,
+      "y": 6,
+      "width": 82,
+      "height": 75
+    },
+    {
+      "x": 5,
+      "y": 7,
+      "width": 80,
+      "height": 74
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "width": 81,
+      "height": 75
+    }
+  ],
+  "footAnchor": {
+    "x": 70,
+    "y": 80
+  },
+  "registration": [
+    {
+      "x": -1,
+      "y": 0
+    },
+    {
+      "x": -2,
+      "y": 0
+    },
+    {
+      "x": -1,
+      "y": 0
+    },
+    {
+      "x": -1,
+      "y": 0
+    },
+    {
+      "x": -2,
+      "y": 5
+    },
+    {
+      "x": -2,
+      "y": 5
+    },
+    {
+      "x": -2,
+      "y": 5
+    },
+    {
+      "x": -1,
+      "y": 5
+    }
+  ],
+  "delayMs": 200,
+  "loopMs": 1600,
+  "notes": "Shared rest-height scale, nearest sampling, then per-frame integer translation to register the lower boot. No redrawing or interpolation. Original sheets retained; shape flicker is not corrected. Preview only."
+}

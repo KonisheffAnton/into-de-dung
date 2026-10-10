@@ -1,15 +1,16 @@
-# Передача — 2026-10-10: клип Защитника
-D:\Games\into-de-dung; main; base a367b6378ddbb922aa498734ee1a0573fe1a18ba; без push.
+# Передача — 2026-10-10: две idle-пробы
+D:\Games\into-de-dung; main; base c1b310afecf5ed57522be5a56449155c4915bf3c; без push.
 U: сохранять текущие PNG/посадку/гаммуА/масштаб80%; тени/динамический свет отложены.
-Сверены playback/lifecycle. Следующий P: стойка→замах→удар→контакт→возврат
-союзного Защитника в походе; BATTLE_PRESENTATION_REWORK, «Первый авторский клип».
-Реализации/новых кадров нет. Весь набор стойка/ход/удар/урон/смерть открыт;
-другие бойцы после приёмки. Баланс после графики/анимаций.
-Только docs: diff/ссылки/объём/правила/архив PASS.
-Новых Godot/тестов/замеров/ревью нет; test_reports/defender-animation-slice-20261010/.
+U: сначала idle + параллельно PixelLab. Две петли вне игры готовы к отзыву:
+docs/art/defender-idle-20261010/README.md, comparison.gif. Вход общий;
+Ревью артефактов APPROVE.
+Следующий шаг — отзыв/выбор; P-удар в BATTLE_PRESENTATION_REWORK отложен.
+Весь набор стойка/ход/удар/урон/смерть открыт; другие бойцы после приёмки.
+Баланс после графики/анимаций. Файлы/diff/ссылки/объём/правила/архив проверены.
+Godot/tests/замеров нет; test_reports/defender-idle-20261010/.
 ART_DIRECTION — образ; BATTLE_VISUAL_SCENE_CONTRACT/BATTLE_EXECUTION_UI — lifecycle/показ.
 PROJECT_CONTEXT/CODEX_WORKFLOW — маршруты/процесс.
-Артефакты docs/art/: palette-defender-20261010/, shadow-preview-20261010/.
+Прежние арт-артефакты — ART_DIRECTION.
 Прежние: import/startup+9render PASS, current_art_zoom360/0, art_trial410/0;
 логи: test_reports/palette-defender-20261010/. Review APPROVE; full/core не запускались.
 Движение/ИИ8bcd61d приняты U10-10, графика предварительно.

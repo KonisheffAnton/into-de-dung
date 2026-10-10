@@ -1,0 +1,9 @@
+{
+  "http_status": 200,
+  "background_job_id": "a88e93b3-bb71-44f1-a7b2-34e09d588566",
+  "status": "processing",
+  "usage": null,
+  "enhanced_prompt": null,
+  "enhance_usage": null,
+  "accepted_utc": "2026-10-10T10:35:02.9293989Z"
+}

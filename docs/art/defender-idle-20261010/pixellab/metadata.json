@@ -1,0 +1,104 @@
+{
+  "provider": "PixelLab API v2",
+  "endpoint": "POST /v2/animate-with-text-v3",
+  "job_id": "a88e93b3-bb71-44f1-a7b2-34e09d588566",
+  "generation_id": "f706657e-0ec7-4cb2-97ef-f25b75b8e37e",
+  "status": "completed",
+  "requested_frame_count": 8,
+  "returned_image_count": 9,
+  "seed": 20261010,
+  "usage": {
+    "type": "generations",
+    "generations": 2.0
+  },
+  "billing_charged": true,
+  "first_response_usage": null,
+  "final_usage_source": "GET /v2/background-jobs/{job_id} -> last_response.billing_usage",
+  "frame_dimensions": "96x96 each",
+  "loop_fps": "not provided by API; prompt described ~1.6 sec cycle (~5 fps for 8 frames), 9 returned files require manual timing choice",
+  "transparent_background": "all frames RGBA with transparent pixels",
+  "frames": [
+    {
+      "file": "frame-01.png",
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA",
+      "transparent_pixels": 6224,
+      "alpha_levels": 2,
+      "sha256": "e1e56f50bb192965a085e6048b6fe790b5d07d52fa8f380f554b85c0d23e948c"
+    },
+    {
+      "file": "frame-02.png",
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA",
+      "transparent_pixels": 6224,
+      "alpha_levels": 2,
+      "sha256": "739e77f17076235bdbc4433708656a5081227590df2d9231c4cb4f3fbde01181"
+    },
+    {
+      "file": "frame-03.png",
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA",
+      "transparent_pixels": 6290,
+      "alpha_levels": 2,
+      "sha256": "54b5b13359d31515a47f5bcac64735c959e8b607b9a23a424c72a9639a2b2706"
+    },
+    {
+      "file": "frame-04.png",
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA",
+      "transparent_pixels": 6368,
+      "alpha_levels": 2,
+      "sha256": "427576e97a06a261df2c829d21eac0ba28ce6e6b014f602f3515f093efae9adc"
+    },
+    {
+      "file": "frame-05.png",
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA",
+      "transparent_pixels": 6460,
+      "alpha_levels": 2,
+      "sha256": "cbdfd83b3da24637065872bbbd19105528fcde5039b26d8b68f70aeeb7692b55"
+    },
+    {
+      "file": "frame-06.png",
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA",
+      "transparent_pixels": 6453,
+      "alpha_levels": 2,
+      "sha256": "c8835d27b8c75c4810b6ebbd30ab23115a367f20b3ad4451e98e6803c7f6fb12"
+    },
+    {
+      "file": "frame-07.png",
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA",
+      "transparent_pixels": 6329,
+      "alpha_levels": 2,
+      "sha256": "37a3eeefbee5e947c46e6514279f0835335fc9729256b78c6e8dc1a2d9dd2d26"
+    },
+    {
+      "file": "frame-08.png",
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA",
+      "transparent_pixels": 6265,
+      "alpha_levels": 2,
+      "sha256": "5e51ede057770cdb54cfa5694a2abd2d4471ad2b2447effc920f01d099f9ffd7"
+    },
+    {
+      "file": "frame-09.png",
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA",
+      "transparent_pixels": 6226,
+      "alpha_levels": 2,
+      "sha256": "cf28989f4cce0c63b1c85ef0013d71ee7c2f1f9c5cbd1f306b7979e0693330dd"
+    }
+  ],
+  "completed_utc": "2026-10-10T10:37:09.5402176Z"
+}

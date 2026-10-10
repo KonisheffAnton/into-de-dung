@@ -1,0 +1,107 @@
+{
+  "job_id": "a88e93b3-bb71-44f1-a7b2-34e09d588566",
+  "status": "completed",
+  "generation_id": "f706657e-0ec7-4cb2-97ef-f25b75b8e37e",
+  "seed": 20261010,
+  "usage": {
+    "type": "generations",
+    "generations": 2.0
+  },
+  "billing_charged": true,
+  "completed_utc": "2026-10-10T10:37:09.5402176Z",
+  "image_count": 9,
+  "image_items": [
+    {
+      "type": "base64",
+      "format": "png",
+      "keys": [
+        "type",
+        "base64",
+        "format"
+      ]
+    },
+    {
+      "type": "base64",
+      "format": "png",
+      "keys": [
+        "type",
+        "base64",
+        "format"
+      ]
+    },
+    {
+      "type": "base64",
+      "format": "png",
+      "keys": [
+        "type",
+        "base64",
+        "format"
+      ]
+    },
+    {
+      "type": "base64",
+      "format": "png",
+      "keys": [
+        "type",
+        "base64",
+        "format"
+      ]
+    },
+    {
+      "type": "base64",
+      "format": "png",
+      "keys": [
+        "type",
+        "base64",
+        "format"
+      ]
+    },
+    {
+      "type": "base64",
+      "format": "png",
+      "keys": [
+        "type",
+        "base64",
+        "format"
+      ]
+    },
+    {
+      "type": "base64",
+      "format": "png",
+      "keys": [
+        "type",
+        "base64",
+        "format"
+      ]
+    },
+    {
+      "type": "base64",
+      "format": "png",
+      "keys": [
+        "type",
+        "base64",
+        "format"
+      ]
+    },
+    {
+      "type": "base64",
+      "format": "png",
+      "keys": [
+        "type",
+        "base64",
+        "format"
+      ]
+    }
+  ],
+  "files": [
+    "frame-01.png",
+    "frame-02.png",
+    "frame-03.png",
+    "frame-04.png",
+    "frame-05.png",
+    "frame-06.png",
+    "frame-07.png",
+    "frame-08.png",
+    "frame-09.png"
+  ]
+}

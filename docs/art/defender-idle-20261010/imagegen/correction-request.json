@@ -1,0 +1,7 @@
+{
+  "prompt": "Precise correction to image1 (the eight-frame transparent sprite sheet), using image2 as the fixed identity and planted-feet reference. Keep exactly eight cells in a 4 column by 2 row grid, equal square cells, transparent background. Correct ONLY animation registration and excessive motion: in every cell BOTH BOOTS, LEGS, BELT and LOWER TABARD must be in EXACTLY IDENTICAL positions and silhouette, copied unchanged from cell1. In particular, all four cells of row2 must sit at the SAME vertical baseline within their cell as row1; currently row2 floats upwards. No translation/scaling/rotation of the whole character. Animate a very small calm inhale/exhale of upper chest, head and shoulders, at most ONE logical pixel over the full cycle at 96px per cell, with a tiny shield/sword settle. Keep helmet shape, sword, shield, outline and colors consistent. Frame1 rest, 2 beginning inhale, 3 inhale, 4 peak inhale, 5 beginning exhale, 6 exhale, 7 almost resting, 8 return to the EXACT same resting drawing as frame1. All source identity/palette/proportions from image2 preserved. No redesign, no walking, no extra shadows, no background, no labels or grid lines. Deliver a properly aligned 4x2 sprite sheet at 2048x1024.",
+  "tool": "image_gen",
+  "target": "imagegen/sheet-original.png",
+  "reference": "reference-96.png",
+  "output": "imagegen/sheet-corrected.png"
+}

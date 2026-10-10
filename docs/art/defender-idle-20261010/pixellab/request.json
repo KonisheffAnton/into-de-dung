@@ -1,0 +1,15 @@
+{
+  "provider": "PixelLab API v2",
+  "endpoint": "POST /v2/animate-with-text-v3",
+  "submitted_utc": "2026-10-10T10:34:59.6314570Z",
+  "reference": "reference-96.png",
+  "first_frame_format": "png",
+  "last_frame": "same reference PNG to guide return to resting pose",
+  "action": "Create an 8-frame seamless idle breathing loop for this exact isometric defender, about 1.6 seconds per cycle. Preserve the input character identity, helmet, olive tunic, steel armor, brown leather, sword and shield, existing pixel clusters, palette, camera angle, facing, proportions and scale. Feet stay planted in exactly the same pixels, with no root drift. Only a subtle 1-2 pixel rise and settle of chest, shoulders, head and held equipment with calm breathing; sword and shield follow gently with slight delayed settling. Fixed 96x96 transparent canvas and unchanged framing. Start and end at the reference resting pose. No walking, stepping, turning, attack, weapon swing, bouncing, whole-image scaling, lighting change, shadows, background, text or extra objects.",
+  "frame_count": 8,
+  "seed": 20261010,
+  "no_background": true,
+  "enhance_prompt": false,
+  "drift_threshold": "omitted (provider default)",
+  "note": "Reference bytes are sent as base64 in first_frame/last_frame; excluded from this record."
+}

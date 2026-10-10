@@ -1,0 +1,27 @@
+{
+  "source": "assets/art_presets/trials/defender_field_v1/defender_new.png",
+  "region": {
+    "x": 89,
+    "y": 206,
+    "w": 1034,
+    "h": 966
+  },
+  "native": {
+    "w": 77,
+    "h": 72
+  },
+  "offset": {
+    "x": 9,
+    "y": 9
+  },
+  "canvas": {
+    "width": 96,
+    "height": 96
+  },
+  "alphaThreshold": 128,
+  "displayScale": 0.8,
+  "gameOriginInCanvas": {
+    "x": 53.42,
+    "y": 74.14
+  }
+}
