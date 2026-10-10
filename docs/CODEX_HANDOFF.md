@@ -1,13 +1,13 @@
-# Передача — 2026-10-10: вертикальный idle
-D:\Games\into-de-dung; main; base fe506d93cb7e6b69d9c826bb7c187697b42faa74; без push.
+# Передача — 2026-10-10: анимации отложены
+D:\Games\into-de-dung; main; base 71d2e0c7fd4a83d72ed01b286e2d45ffc29f1535; без push.
 U: сохранять текущие PNG/посадку/гаммуА/масштаб80%; тени/динамический свет отложены.
-U: PixelLab; только вверх-вниз с задержкой деталей: сложное покачивание даёт артефакты.
-Проба вне игры: docs/art/defender-idle-vertical-20261010/README.md.
-Ревью APPROVE; отзыв U и интеграция открыты.
+U: получилось неплохо; выбирает sway или vertical. Оба сохранены.
+Доработка отложена; кандидаты/план — ART_DIRECTION. Ждать выбора U.
+Пробы вне игры; финальная приёмка и интеграция открыты.
 P-удар в BATTLE_PRESENTATION_REWORK отложен; PixelLab — GRAPHICS_WORKFLOW.
 Весь набор стойка/ход/удар/урон/смерть открыт; другие бойцы после приёмки.
 Баланс после графики/анимаций. Публикация e4e04e7 — HISTORY; новые push по поручению.
-Godot/tests/замеров нет; test_reports/defender-idle-vertical-20261010/.
+Docs; новых Godot/tests/ревью/замеров нет; test_reports/animation-deferred-20261010/.
 ART_DIRECTION; BATTLE_VISUAL_SCENE_CONTRACT/BATTLE_EXECUTION_UI — lifecycle/показ.
 PROJECT_CONTEXT/CODEX_WORKFLOW — маршруты/процесс.
 Прежние: import/startup+9render PASS, current_art_zoom360/0, art_trial410/0;
