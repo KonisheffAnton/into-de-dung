@@ -58,14 +58,11 @@ HP-смерть/occupancy/item-heal/завершение брони идут ч�
 
 BleedingState: immune:bool, ticks_left:int 0..INT64_MAX,
 source:Dictionary (DamageSource attack либо пусто при ticks_left=0), hit_id:String.
-Схема определяется остатком: schema_version:int=1 для 0..2 (прежний формат),
-v2 для 3..INT64_MAX. Наложение/тик пересчитывают минимальную версию; при 3 → 2
-снова используется v1. Restore не тикает и сохраняет точные поля/байты v1 и v2.
-Неизвестные версии и несоответствие версии диапазону отвергаются.
+Единая форма bleeding4 с явным `stacked=false`, `stacks=0` сохраняет срок
+0..INT64_MAX без смены версии при наложении/тике. Старые формы отклоняются —
+[текущий контракт снимков](BATTLE_SNAPSHOT_CURRENT.md). Restore не тикает.
 Активный source хранит исходные actor/credit/origin, hit_id связывает прямой hit.
-Unit v5 требует resources/guard/armor/bleeding. Старые Unit v1–4 производятся
-как раньше при отсутствии capability. ItemSimulation v4 сохраняет Unit v5:
-структура предметов не меняется; старые оболочки не скрывают capability.
+Unit9 и Item11 сохраняют nullable capability и прежние зависимости.
 Неполная схема/неизвестная версия/невалидный источник отвергаются; restore
 не тикает, не обновляет срок и не разделяет runtime с исходником.
 Forecast исполняет реальную очередь на копиях state/definitions/RNG/counters,

@@ -30,10 +30,10 @@ static func reward_seed(seed_value: int) -> int:
 	for i: int in 8: result |= (int(bytes[i]) & (127 if i == 7 else 255)) << (8 * i)
 	return result
 
-static func generate(seed_value: int, opening: bool = true) -> Dictionary:
+static func generate_plan(seed_value: int, opening: bool) -> Dictionary:
 	# Геометрия, услуги и семена боёв остаются в своих прежних потоках.
 	var plan := ExpeditionGenerator.generate(seed_value)
-	plan.schema = 2; plan["ruleset_id"] = DECK; plan.content = content_values()
+	plan["ruleset_id"] = DECK; plan["opening"] = opening; plan.content = content_values()
 	var rng := CombatRng.new(reward_seed(seed_value))
 	for node: Dictionary in plan.nodes:
 		if node.kind not in ["battle","elite","final"]: continue
@@ -47,12 +47,16 @@ static func generate(seed_value: int, opening: bool = true) -> Dictionary:
 			var saved: String = types[i]; types[i] = types[other]; types[other] = saved
 		node.reward = types.slice(0,3)
 	if opening:
-		# Старые планы не преобразуются при загрузке. Новый вход сохраняется целиком.
-		plan.schema = 3; plan.content = content_values(true); plan.start = [1]
+		# Стартовая комната хранится как свойство плана, чтобы геометрия графа не кодировала правила.
+		plan.content = content_values(true); plan.start = [1]
 		plan.nodes.remove_at(1)
 		for node: Dictionary in plan.nodes:
 			if node.id > 1: node.id -= 1
 			for i: int in node.next.size(): node.next[i] -= 1
 		plan.nodes[0].next = [2,3,4]
 		plan.nodes[0].variant = 0; plan.nodes[0].modifier = "neutral"
+	plan.schema = 4
 	return plan
+
+static func generate(seed_value: int, opening: bool = true) -> Dictionary:
+	return generate_plan(seed_value, opening)

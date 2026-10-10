@@ -147,11 +147,11 @@ A, технические решения в рамках принятого па
 
 UnitState получает nullable ElementalState (burning_stacks/ticks/source,
 wet_turns, frozen_turns, freeze_immune). В [текущей Unit schema9](BATTLE_SNAPSHOT_CURRENT.md)
-elemental опционален; при его наличии обязателен stacked BleedingState schema3.
-Формы компонентов bleed1/2 сохраняются для бойцов без elemental. Environment schema3
-дополняет записи опасностей effect=bleeding/burning; v1/v2 прежние. D4 save-формат
-не меняется. CombatPerksState schema4 нужна только при новом
-флаге burning_bypass_hp_gate; false оставляет точные старые формы. В стартовом
+elemental опционален; при его наличии обязателен режим stacked в BleedingState.
+Срок и стаки представлены одной текущей формой. Environment с status_effects
+дополняет записи опасностей effect=bleeding/burning. D4 save-формат
+не меняется. CombatPerksState хранит флаг burning_bypass_hp_gate
+в единой текущей форме, включая false. В стартовом
 составе этот специальный перк никому не выдан; его copy/restore/прогноз проверяются.
 Одновременно активные горение и кровотечение отвергаются при capture/restore.
 

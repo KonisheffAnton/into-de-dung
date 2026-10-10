@@ -540,12 +540,11 @@ func to_snapshot_dict() -> Dictionary:
 	for cell: Vector2i in _occupancy:
 		occupancy.append({"x": cell.x, "y": cell.y, "unit_id": _occupancy[cell]})
 	occupancy.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["y"] < b["y"] or (a["y"] == b["y"] and a["x"] < b["x"]))
-	var schema := 2 if has_half_heights() else 1
+	var schema := 2
 	var result := {"schema_version": schema, "width": width, "height": height,
 		"board_version": board_version, "heights": Array(_heights),
 		"terrain": Array(_terrain), "units": units, "occupancy": occupancy}
-	if schema == 2:
-		result["height_half_steps"] = Array(_height_half_steps)
+	result["height_half_steps"] = Array(_height_half_steps)
 	return result if validate_snapshot_dict(result) else {}
 
 
@@ -557,9 +556,7 @@ static func from_snapshot_dict(data: Dictionary) -> BattleBoard:
 static func _from_snapshot_validated(data: Dictionary) -> BattleBoard:
 	var board := BattleBoard.new(data["width"], data["height"])
 	board._heights = PackedInt32Array(data["heights"])
-	board._height_half_steps = PackedByteArray(data.get("height_half_steps", []))
-	if board._height_half_steps.is_empty():
-		board._height_half_steps.resize(data["width"] * data["height"])
+	board._height_half_steps = PackedByteArray(data["height_half_steps"])
 	board._terrain = PackedByteArray(data["terrain"])
 	board._units.clear()
 	board._occupancy.clear()
@@ -581,24 +578,19 @@ static func validate_snapshot_dict(data: Variant) -> bool:
 	var b: Dictionary = data
 	var schema_value: Variant = data.get("schema_version")
 	if typeof(schema_value) != TYPE_INT: return false
-	var required := ["schema_version", "width", "height", "board_version", "heights", "terrain", "units", "occupancy"]
-	if schema_value == 2: required.append("height_half_steps")
+	var required := ["schema_version", "width", "height", "board_version", "heights", "terrain", "units", "occupancy", "height_half_steps"]
 	if not _has_exact_string_keys(b, required): return false
 	for key in ["schema_version", "width", "height", "board_version"]:
 		if typeof(b[key]) != TYPE_INT: return false
-	if b["schema_version"] not in [1, 2] or b["width"] < 0 or b["height"] < 0 or b["board_version"] < 0 or b["width"] > 1024 or b["height"] > 1024 or (b["width"] > 0 and b["height"] > 65536 / b["width"]): return false
+	if b["schema_version"] != 2 or b["width"] < 0 or b["height"] < 0 or b["board_version"] < 0 or b["width"] > 1024 or b["height"] > 1024 or (b["width"] > 0 and b["height"] > 65536 / b["width"]): return false
 	if typeof(b["heights"]) != TYPE_ARRAY or typeof(b["terrain"]) != TYPE_ARRAY or typeof(b["units"]) != TYPE_ARRAY or typeof(b["occupancy"]) != TYPE_ARRAY: return false
 	var cells: int = b["width"] * b["height"]
 	var heights: Array = b["heights"]
 	var terrain: Array = b["terrain"]
 	if heights.size() != cells or terrain.size() != cells: return false
-	if b["schema_version"] == 2:
-		if typeof(b["height_half_steps"]) != TYPE_ARRAY or b["height_half_steps"].size() != cells: return false
-		var any_half := false
-		for bit in b["height_half_steps"]:
-			if typeof(bit) != TYPE_INT or bit < 0 or bit > 1: return false
-			any_half = any_half or bit == 1
-		if not any_half: return false
+	if typeof(b["height_half_steps"]) != TYPE_ARRAY or b["height_half_steps"].size() != cells: return false
+	for bit in b["height_half_steps"]:
+		if typeof(bit) != TYPE_INT or bit < 0 or bit > 1: return false
 	for value in heights:
 		if typeof(value) != TYPE_INT or value < -2147483648 or value > 2147483647: return false
 	for value in terrain:

@@ -7,6 +7,7 @@ const RESPEC_PRICE: int = 50
 const VICTORY_XP: int = 100
 const VICTORY_GOLD: int = 40
 const MAX_ITEMS: int = 2048
+const SCHEMA_VERSION: int = 6
 var heroes: Dictionary = {}
 var party: Array[int] = []
 var candidates: Array[HeroProgression] = []
@@ -212,37 +213,26 @@ func to_dict() -> Dictionary:
 	for hero: HeroProgression in candidates: candidate_rows.append(hero.to_dict())
 	ids = items.keys(); ids.sort()
 	for id: int in ids: item_rows.append(items[id].duplicate(true))
-	var data := {"schema":3, "heroes":hero_rows, "party":party.duplicate(), "candidates":candidate_rows, "items":item_rows, "phase":phase, "gold":gold, "next_id":next_id, "next_item_id":next_item_id, "run_serial":run_serial, "rng_state":rng_state, "last_result":last_result,"essence":essence,"expedition_rng_state":expedition_rng_state,"expedition":expedition.to_dict() if expedition != null else {},"achievements":achievements.to_dict(),"battle_report":battle_report.duplicate(true)}
-	if hero_catalog_version == 2:
-		data.merge({"schema":5,"hero_catalog_version":2,"mage_deck":mage_deck.duplicate(true),"h1_ruleset":h1_ruleset},true)
-	elif not mage_deck.is_empty():
-		data.merge({"schema":4,"mage_deck":mage_deck.duplicate(true),"h1_ruleset":h1_ruleset},true)
-	return data
+	return {"schema":SCHEMA_VERSION, "heroes":hero_rows, "party":party.duplicate(), "candidates":candidate_rows, "items":item_rows, "phase":phase, "gold":gold, "next_id":next_id, "next_item_id":next_item_id, "run_serial":run_serial, "rng_state":rng_state, "last_result":last_result,"essence":essence,"expedition_rng_state":expedition_rng_state,"expedition":expedition.to_dict() if expedition != null else {},"achievements":achievements.to_dict(),"battle_report":battle_report.duplicate(true),"hero_catalog_version":hero_catalog_version,"mage_deck":mage_deck.duplicate(true),"h1_ruleset":h1_ruleset}
 
 static func from_dict(data: Variant) -> HeroHubState:
-	if typeof(data) != TYPE_DICTIONARY or typeof(data.get("schema")) != TYPE_INT or data.schema not in [1,2,3,4,5]: return null
-	var shape := {"schema":TYPE_INT,"heroes":TYPE_ARRAY,"party":TYPE_ARRAY,"candidates":TYPE_ARRAY,"items":TYPE_ARRAY,"phase":TYPE_STRING,"gold":TYPE_INT,"next_id":TYPE_INT,"next_item_id":TYPE_INT,"run_serial":TYPE_INT,"rng_state":TYPE_INT,"last_result":TYPE_STRING}
-	if data.schema >= 2: shape.merge({"essence":TYPE_INT,"expedition_rng_state":TYPE_INT,"expedition":TYPE_DICTIONARY})
-	if data.schema >= 3: shape.merge({"achievements":TYPE_DICTIONARY,"battle_report":TYPE_DICTIONARY})
-	if data.schema in [4, 5]: shape.merge({"mage_deck":TYPE_DICTIONARY,"h1_ruleset":TYPE_STRING})
-	if data.schema == 5: shape["hero_catalog_version"] = TYPE_INT
+	# Единая обязательная форма исключает частичное восстановление игровых контрольных точек.
+	if typeof(data) != TYPE_DICTIONARY or typeof(data.get("schema")) != TYPE_INT or data.schema != SCHEMA_VERSION: return null
+	var shape := {"schema":TYPE_INT,"heroes":TYPE_ARRAY,"party":TYPE_ARRAY,"candidates":TYPE_ARRAY,"items":TYPE_ARRAY,"phase":TYPE_STRING,"gold":TYPE_INT,"next_id":TYPE_INT,"next_item_id":TYPE_INT,"run_serial":TYPE_INT,"rng_state":TYPE_INT,"last_result":TYPE_STRING,"essence":TYPE_INT,"expedition_rng_state":TYPE_INT,"expedition":TYPE_DICTIONARY,"achievements":TYPE_DICTIONARY,"battle_report":TYPE_DICTIONARY,"mage_deck":TYPE_DICTIONARY,"h1_ruleset":TYPE_STRING,"hero_catalog_version":TYPE_INT}
 	if not ItemSimulationSnapshot._shape(data, shape): return null
-	if data.schema == 5 and data.hero_catalog_version != 2: return null
-	var catalog_version: int = 2 if data.schema == 5 else 1
-	if data.phase not in (["hub","battle"] if data.schema == 1 else ["hub","battle","expedition"]) or data.gold < 0 or data.gold > 1000000000 or data.run_serial < 0 or data.run_serial > 1000000000: return null
+	if data.hero_catalog_version not in [1, 2]: return null
+	var catalog_version: int = data.hero_catalog_version
+	if data.phase not in ["hub","battle","expedition"] or data.gold < 0 or data.gold > 1000000000 or data.run_serial < 0 or data.run_serial > 1000000000: return null
 	if data.next_id < 1 or data.next_id > 1000000000 or data.next_item_id < 1 or data.next_item_id > 1000000000 or data.last_result.length() > 1024: return null
 	if data.heroes.size() > MAX_ROSTER or data.party.size() > MAX_PARTY or data.candidates.size() != 4 or data.items.size() > MAX_ITEMS: return null
 	var result := HeroHubState.new()
-	if data.schema == 4:
+	if data.mage_deck.is_empty():
+		if data.h1_ruleset != "": return null
+	else:
 		if not MageDeckProfile.valid(data.mage_deck) or data.h1_ruleset != ("h1-legacy-v1" if data.phase == "battle" else ""): return null
-		result.mage_deck = data.mage_deck.duplicate(true); result.h1_ruleset = data.h1_ruleset
-	if data.schema == 5:
-		if data.mage_deck.is_empty():
-			if data.h1_ruleset != "": return null
-		else:
-			if not MageDeckProfile.valid(data.mage_deck) or data.h1_ruleset != ("h1-legacy-v1" if data.phase == "battle" else ""): return null
-			result.mage_deck = data.mage_deck.duplicate(true); result.h1_ruleset = data.h1_ruleset
-		result.hero_catalog_version = catalog_version
+		result.mage_deck = data.mage_deck.duplicate(true)
+		result.h1_ruleset = data.h1_ruleset
+	result.hero_catalog_version = catalog_version
 	var ids: Dictionary = {}
 	for row: Variant in data.heroes:
 		var hero := HeroProgression.from_dict(row)
@@ -273,21 +263,14 @@ static func from_dict(data: Variant) -> HeroHubState:
 	result.phase = data.phase; result.gold = data.gold
 	result.next_id = data.next_id; result.next_item_id = data.next_item_id
 	result.run_serial = data.run_serial; result.rng_state = data.rng_state; result.last_result = data.last_result
-	if data.schema >= 2:
-		if data.essence < 0 or data.essence > 1000000000: return null
-		result.essence = data.essence; result.expedition_rng_state = data.expedition_rng_state
-		if data.phase == "expedition":
-			result.expedition = ExpeditionRunState.from_dict(data.expedition)
-			if result.expedition == null or not result.expedition.valid_profile(result): return null
-		elif not data.expedition.is_empty(): return null
-	else:
-		# Миграция не двигает RNG найма и не меняет старую контрольную точку боя.
-		var migration_rng := RandomNumberGenerator.new()
-		migration_rng.seed = data.rng_state ^ 0x553134
-		result.expedition_rng_state = migration_rng.state
-	if data.schema >= 3:
-		result.achievements = ProfileAchievements.from_dict(data.achievements)
-		if result.achievements == null: return null
-		result.battle_report = data.battle_report.duplicate(true)
-		if not PostBattleRules.valid_report(result.battle_report,result): return null
+	if data.essence < 0 or data.essence > 1000000000: return null
+	result.essence = data.essence; result.expedition_rng_state = data.expedition_rng_state
+	if data.phase == "expedition":
+		result.expedition = ExpeditionRunState.from_dict(data.expedition)
+		if result.expedition == null or not result.expedition.valid_profile(result): return null
+	elif not data.expedition.is_empty(): return null
+	result.achievements = ProfileAchievements.from_dict(data.achievements)
+	if result.achievements == null: return null
+	result.battle_report = data.battle_report.duplicate(true)
+	if not PostBattleRules.valid_report(result.battle_report,result): return null
 	return result

@@ -19,7 +19,7 @@ func _test_current_roundtrip() -> void:
 	var stats := StatsBag.from_snapshot_dict(source_unit.stats.to_snapshot_dict())
 	var current := UnitState.create(Faction.Type.PLAYER, Vector2i(1, 1), stats, "current")
 	var dto := current.to_snapshot_dict()
-	_check(dto["schema_version"] == UnitState.SNAPSHOT_SCHEMA_VERSION and dto["guard_stance"] == false and UnitState.validate_snapshot_dict(dto), "current unit uses schema nine with inactive stance")
+	_check(dto["schema_version"] == UnitState.SNAPSHOT_SCHEMA_VERSION and dto["guard_stance"] == false and not dto.has("elemental") and UnitState.validate_snapshot_dict(dto), "current unit preserves absent elemental capability")
 	var decoded := UnitState.from_snapshot_dict(dto)
 	_check(decoded != null and decoded.to_snapshot_dict() == dto, "current unit roundtrip")
 	for old_version: int in range(1, UnitState.SNAPSHOT_SCHEMA_VERSION):
@@ -55,7 +55,7 @@ func _test_schema_nine_restore() -> void:
 			bleed.hit_id = "snapshot-hit"
 		target.bleeding = bleed
 		var target_dto: Dictionary = target.to_snapshot_dict()
-		_check(target_dto.get("schema_version") == UnitState.SNAPSHOT_SCHEMA_VERSION and target_dto.has("guard_stance") and target_dto.has("elemental") and target_dto["bleeding"]["schema_version"] == 3, state_kind + " creates schema nine")
+		_check(target_dto.get("schema_version") == UnitState.SNAPSHOT_SCHEMA_VERSION and target_dto.has("guard_stance") and target_dto.has("elemental") and target_dto["elemental"]["acid_ticks"] == 0 and target_dto["bleeding"]["schema_version"] == 4, state_kind + " creates schema nine with current status codecs")
 		var item_snapshot := ItemSimulationSnapshot.capture(session.state, [])
 		_check(item_snapshot.code == ItemSnapshotResult.Code.OK, state_kind + " item capture")
 		if item_snapshot.code == ItemSnapshotResult.Code.OK:
@@ -87,20 +87,25 @@ func _test_rejections() -> void:
 	bad["elemental"]["unknown"] = 1
 	_check(not UnitState.validate_snapshot_dict(bad), "schema nine rejects elemental extra key")
 	bad = dto.duplicate(true)
+	bad["elemental"].erase("acid_ticks")
+	_check(not UnitState.validate_snapshot_dict(bad), "current elemental schema requires zero acid field")
+	bad = dto.duplicate(true)
+	bad["elemental"]["schema_version"] = 2
+	bad["elemental"]["acid_ticks"] = 1
+	_check(not UnitState.validate_snapshot_dict(bad), "old elemental codec is refused")
+	bad = dto.duplicate(true)
 	bad["schema_version"] = 7
 	_check(not UnitState.validate_snapshot_dict(bad), "schema nine rejects old version")
 	bad = dto.duplicate(true)
 	bad.erase("elemental")
 	bad["schema_version"] = 8
-	_check(not UnitState.validate_snapshot_dict(bad), "old Unit version rejects stacked bleeding schema three")
+	_check(not UnitState.validate_snapshot_dict(bad), "old Unit version rejects current stacked bleeding")
 	bad = dto.duplicate(true)
 	bad["schema_version"] = UnitState.SNAPSHOT_SCHEMA_VERSION + 1
 	_check(not UnitState.validate_snapshot_dict(bad), "future Unit version rejected")
 	bad = dto.duplicate(true)
-	bad["bleeding"]["schema_version"] = 2
-	bad["bleeding"]["ticks_left"] = 0
-	bad["bleeding"].erase("stacks")
-	_check(not UnitState.validate_snapshot_dict(bad), "schema nine requires bleeding schema three")
+	bad["bleeding"]["schema_version"] = 3
+	_check(not UnitState.validate_snapshot_dict(bad), "schema nine requires bleeding schema four")
 	var active := dto.duplicate(true)
 	active["elemental"]["burning_stacks"] = 1
 	active["elemental"]["burning_ticks"] = 1

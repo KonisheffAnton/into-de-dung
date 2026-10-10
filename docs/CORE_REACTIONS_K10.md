@@ -102,8 +102,8 @@ Base main `27657736e6243013526b900f9ac17ec7a71442f8`. Один общий бой
 RefCounted` хранит их независимую копию, режим, ID союзника, заряд 0..1 и временный
 запрет движения. Nullable `UnitState.combat_perks` не равен владению способностью:
 бойцу без перка K10 можно записать остановку; перки контроля описаны в K11. Общего runtime всех статусов нет.
-Unit snapshot 7 добавляет combat_perks и требует action_resources; nullable
-armor/bleeding/control сохраняются. Без capability writer оставляет схемы 1..6.
+Текущий Unit9 переносит combat_perks и требует action_resources; nullable
+armor/bleeding/control сохраняются. Единые вложенные формы — [снимки](BATTLE_SNAPSHOT_CURRENT.md).
 Strict capture/restore, запрет downgrade/subclass и отсутствие refill обязательны.
 
 `MeleeThreat` использует общую геометрию без мутации live-позиций/кэша stats.

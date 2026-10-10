@@ -74,7 +74,8 @@ RNG и счётчики, затем исполняет настоящую ком
 могут только дочерние sealed hit/collision/fall команды. Числовой результат
 пересчитывается на pinned состоянии с клоном RNG перед применением.
 
-ArmorState v1: `schema_version`, `natural: {physical:int,fire:int}`,
+Базовые поля ArmorState (текущая armor4 — [снимки](BATTLE_SNAPSHOT_CURRENT.md)):
+`schema_version`, `natural: {physical:int,fire:int}`,
 `perks: Array`, `grants: Array`, `next_grant_id:int`, `battle_id:int`, `in_battle:bool`.
 Перк лимита — `{id,type,branch,bonus}`, строки и int bonus; branch both/armor/natural.
 Одинаковый id с одинаковыми значениями учитывается один раз, конфликт — отказ.

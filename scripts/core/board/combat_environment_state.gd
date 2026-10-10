@@ -16,52 +16,30 @@ var status_effects: bool = false
 var hazards: Dictionary = {}
 
 func to_dict() -> Dictionary:
-	var result := _legacy_dict()
-	if not hazards.is_empty():
-		result["schema_version"] = 4
-		result["hazards"] = BattleHazards.canonical(hazards)
-	return result
-
-func _legacy_dict() -> Dictionary:
-	# Пустая фаза сохраняет точную старую форму, чтобы legacy-снимки не меняли канон.
-	var raw := {"schema_version": 3 if status_effects else (1 if collapse.is_empty() else 2), "next_fire_id": next_fire_id, "next_corpse_id": next_corpse_id, "fires": fires.duplicate(true), "corpses": corpses.duplicate(true), "processed_deaths": processed_deaths.duplicate()}
+	var raw := {"schema_version": 5, "status_effects": status_effects, "next_fire_id": next_fire_id,
+		"next_corpse_id": next_corpse_id, "fires": fires.duplicate(true), "corpses": corpses.duplicate(true),
+		"processed_deaths": processed_deaths.duplicate()}
 	if status_effects or not collapse.is_empty(): raw["collapse"] = collapse.duplicate(true)
-	# Повреждённый runtime должен дойти до отказа capture, а не до сортировки
-	# по отсутствующему полю; нельзя скрывать лишние поля при построении DTO.
+	if not hazards.is_empty(): raw["hazards"] = BattleHazards.canonical(hazards)
+	# Повреждённые записи возвращаем для отказа capture, не нормализуя их.
 	if not valid(raw): return raw
-	# Сортировка нужна, чтобы одинаковое состояние имело один канонический снимок.
-	var sorted_fires: Array[Dictionary] = _sorted_records(fires)
-	var sorted_corpses: Array[Dictionary] = _sorted_records(corpses)
-	var sorted_deaths: Array[int] = processed_deaths.duplicate()
-	sorted_deaths.sort()
-	return {
-		"schema_version": raw["schema_version"],
-		"next_fire_id": next_fire_id,
-		"next_corpse_id": next_corpse_id,
-		"fires": _copy_records(sorted_fires),
-		"corpses": _copy_records(sorted_corpses),
-		"processed_deaths": sorted_deaths,
-	}.merged({"collapse": collapse.duplicate(true)} if status_effects or not collapse.is_empty() else {})
+	raw.fires = _sorted_records(fires)
+	raw.corpses = _sorted_records(corpses)
+	raw.processed_deaths.sort()
+	return raw
 
 static func valid(data: Variant) -> bool:
-	if typeof(data) != TYPE_DICTIONARY:
-		return false
-	if typeof(data.get("schema_version")) != TYPE_INT: return false
-	if data.get("schema_version") == 4:
-		if not BattleHazards.valid(data.get("hazards")): return false
-		var prior: Dictionary = data.duplicate(true)
-		prior.erase("hazards")
-		prior["schema_version"] = 3
-		return valid(prior)
+	if typeof(data) != TYPE_DICTIONARY: return false
 	var value: Dictionary = data
-	if typeof(value.get("schema_version")) != TYPE_INT or value["schema_version"] not in [1, 2, 3]:
-		return false
-	var schema: int = value["schema_version"]
-	var expected_keys: Array[String] = ["schema_version", "next_fire_id", "next_corpse_id", "fires", "corpses", "processed_deaths"]
-	if schema >= 2: expected_keys.append("collapse")
-	if not _has_exact_keys(value, expected_keys):
-		return false
-	if schema >= 2 and not _valid_collapse(value["collapse"]): return false
+	var shape := {"schema_version": TYPE_INT, "status_effects": TYPE_BOOL, "next_fire_id": TYPE_INT,
+		"next_corpse_id": TYPE_INT, "fires": TYPE_ARRAY, "corpses": TYPE_ARRAY, "processed_deaths": TYPE_ARRAY}
+	for key: String in ["collapse", "hazards"]:
+		if value.has(key): shape[key] = TYPE_DICTIONARY
+	if not ItemSimulationSnapshot._shape(value, shape) or value.schema_version != 5: return false
+	var status_enabled: bool = value.status_effects
+	if status_enabled and not value.has("collapse"): return false
+	if value.has("collapse") and not _valid_collapse(value.collapse): return false
+	if value.has("hazards") and (not status_enabled or not BattleHazards.valid(value.hazards)): return false
 	if typeof(value["next_fire_id"]) != TYPE_INT or typeof(value["next_corpse_id"]) != TYPE_INT:
 		return false
 	var next_fire: int = value["next_fire_id"]
@@ -83,13 +61,13 @@ static func valid(data: Variant) -> bool:
 			return false
 		var fire: Dictionary = raw
 		var fire_keys: Array[String] = ["id", "cell", "damage"]
-		if schema == 3: fire_keys.append("effect")
+		if status_enabled: fire_keys.append("effect")
 		if not _has_exact_keys(fire, fire_keys):
 			return false
 		if typeof(fire["id"]) != TYPE_INT or not _valid_id(fire["id"]) or fire_ids.has(fire["id"]):
 			return false
-		if schema == 3 and (typeof(fire["effect"]) != TYPE_STRING or fire["effect"] not in ["bleeding", "burning"]): return false
-		var damage: int = 0 if schema == 3 and fire["effect"] == "burning" else FIRE_DAMAGE
+		if status_enabled and (typeof(fire["effect"]) != TYPE_STRING or fire["effect"] not in ["bleeding", "burning"]): return false
+		var damage: int = 0 if status_enabled and fire["effect"] == "burning" else FIRE_DAMAGE
 		if typeof(fire["cell"]) != TYPE_VECTOR2I or typeof(fire["damage"]) != TYPE_INT or fire["damage"] != damage:
 			return false
 		var cell: Vector2i = fire["cell"]
@@ -139,9 +117,9 @@ static func from_dict(data: Dictionary) -> CombatEnvironmentState:
 	if not valid(data):
 		return null
 	var result := CombatEnvironmentState.new()
-	if data["schema_version"] >= 2: result.collapse = data["collapse"].duplicate(true)
-	result.status_effects = data["schema_version"] >= 3
-	if data["schema_version"] == 4: result.hazards = BattleHazards.canonical(data["hazards"])
+	if data.has("collapse"): result.collapse = data["collapse"].duplicate(true)
+	result.status_effects = data["status_effects"]
+	if data.has("hazards"): result.hazards = BattleHazards.canonical(data["hazards"])
 	result.next_fire_id = data["next_fire_id"]
 	result.next_corpse_id = data["next_corpse_id"]
 	result.fires.assign(_sorted_records(data["fires"]))

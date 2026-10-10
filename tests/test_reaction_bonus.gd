@@ -16,16 +16,18 @@ func codec_and_budget() -> void:
 	var unit := s.units[1]
 	unit.action_resources._set_for_refill(0, 2)
 	var data := unit.to_snapshot_dict()
-	check(data.combat_perks.schema_version == 5 and not data.combat_perks.has("reaction_left"), "new snapshot has one resource owner")
+	check(data.combat_perks.schema_version == 7 and data.combat_perks.has("reaction_left") and data.combat_perks.reaction_left == 0 and data.combat_perks.definition.size() == 8, "new snapshot stores all perk flags with zero legacy reserve")
 	var restored := UnitState.from_snapshot_dict(data)
 	check(restored != null and restored.to_snapshot_dict() == data and restored.action_resources != unit.action_resources, "unit roundtrip preserves bonus and detached ownership")
 	if restored != null:
 		check(restored.action_resources.try_spend_bonus(1) and restored.action_resources.get_bonus_left() == 1 and unit.action_resources.get_bonus_left() == 2, "detached debit cannot spend live bonus")
 	var perks: Dictionary = data.combat_perks
-	for key: String in ["reaction_left", "extra"]:
-		var bad := perks.duplicate(true)
-		bad[key] = 0
-		check(not CombatPerksState.valid(bad), "schema5 rejects extra " + key)
+	var bad_reserve := perks.duplicate(true)
+	bad_reserve.reaction_left = 1
+	check(not CombatPerksState.valid(bad_reserve), "bonus mode rejects a nonzero legacy reserve")
+	var extra := perks.duplicate(true)
+	extra.extra = 0
+	check(not CombatPerksState.valid(extra), "schema7 rejects unknown field")
 	for key: String in perks.definition:
 		var bad := perks.duplicate(true)
 		bad.definition[key] = 0
@@ -36,7 +38,7 @@ func codec_and_budget() -> void:
 	unit.combat_perks.reaction_left = 1
 	check(unit.to_snapshot_dict().is_empty(), "new runtime rejects a second reserve")
 	unit.combat_perks.reaction_left = 0
-	# Старый снимок хранит две разные величины: чтение не превращает его в новый бой.
+	# Runtime-режим с legacy charge сохраняется отдельно от запаса бонусных действий.
 	unit.combat_perks.uses_bonus_actions = false
 	unit.combat_perks.reaction_left = 0
 	var legacy := unit.to_snapshot_dict()

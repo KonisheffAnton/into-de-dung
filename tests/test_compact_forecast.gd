@@ -92,9 +92,9 @@ func run() -> void:
 	check(inferred_death.text.contains("погиб"), "published alive delta still communicates death without journal event")
 	var costs_before := row(20)
 	var costs_after := row(20)
-	var modern_perks := {"schema_version": 5, "definition": {"sneak_attack": false, "tank_reactions": false,
+	var modern_perks := {"schema_version": 7, "uses_bonus_actions": true, "definition": {"sneak_attack": false, "tank_reactions": false,
 		"stunning_strike": false, "stun_immune": false, "entangle_immune": false, "counterattack": false,
-		"burning_bypass_hp_gate": false}, "mode": 0, "cover_target_id": 0, "movement_stopped": false}
+		"burning_bypass_hp_gate": false, "passive_opportunist": false}, "mode": 0, "cover_target_id": 0, "reaction_left": 0, "movement_stopped": false}
 	costs_before["combat_perks"] = modern_perks.duplicate(true)
 	costs_after["main"] = 0
 	costs_after["bonus"] = 0

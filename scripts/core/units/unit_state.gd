@@ -330,9 +330,9 @@ func _validated_snapshot_components() -> Dictionary:
 		perks_data = combat_perks.to_dict()
 		if perks_data.is_empty() or (combat_perks.mode == CombatPerksState.Mode.COVER and combat_perks.cover_target_id == id): return {}
 	if elemental != null:
-		if action_resources == null or armor == null or bleeding == null or not bleeding.stacked or bleeding_data.get("schema_version") != 3: return {}
+		if action_resources == null or armor == null or bleeding == null or not bleeding.stacked or not bleeding_data.get("stacked", false): return {}
 		if elemental_data["burning_stacks"] > 0 and bleeding_data["stacks"] > 0: return {}
-	elif bleeding_data.get("schema_version") == 3: return {}
+	elif bleeding_data.get("stacked", false): return {}
 	if armor != null:
 		var maximum := 0.0
 		if stats._stats.has(StatTypes.StatType.HP_MAX):
@@ -425,9 +425,9 @@ static func validate_snapshot_dict(data: Variant) -> bool:
 	if d.has("bleeding") and (not has_actions or not d.has("armor")): return false
 	if d.has("elemental"):
 		if not has_actions or not d.has("armor") or not d.has("bleeding"): return false
-		if d["bleeding"].get("schema_version") != 3: return false
+		if not d["bleeding"].get("stacked", false): return false
 		if d["elemental"]["burning_stacks"] > 0 and d["bleeding"]["stacks"] > 0: return false
-	elif d.has("bleeding") and d["bleeding"].get("schema_version") == 3:
+	elif d.has("bleeding") and d["bleeding"].get("stacked", false):
 		return false
 	if typeof(d["vitals"]) != TYPE_DICTIONARY: return false
 	var v: Dictionary = d["vitals"]

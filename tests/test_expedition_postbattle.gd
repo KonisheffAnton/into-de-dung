@@ -92,18 +92,15 @@ func _migration(current: Dictionary) -> void:
 	var old := current.duplicate(true)
 	old.schema = 2; old.erase("achievements"); old.erase("battle_report")
 	old.expedition.schema = 1; old.expedition.erase("repair_spent")
-	var migrated := HeroHubState.from_dict(old)
-	check(migrated != null,"schema2 profile and schema1 expedition migrate")
-	if migrated == null: return
-	check(migrated.achievements.total_points == 0 and migrated.battle_report.is_empty() and migrated.expedition.repair_spent == 0,"old outcomes not replayed on migration")
-	check(migrated.expedition.checkpoint == current.expedition.checkpoint and migrated.rng_state == current.rng_state and migrated.expedition_rng_state == current.expedition_rng_state,"migration preserves battle checkpoint and RNG")
+	check(HeroHubState.from_dict(old) == null,"schema2 profile is refused without migration")
 	var path := "user://postbattle/v2.save"
 	var payload := var_to_bytes(old)
+	var bytes := var_to_bytes({"format":"hero-hub-v2","payload":payload,"sha256":HeroHubStore._digest(payload)})
 	var file := FileAccess.open(path,FileAccess.WRITE)
-	file.store_buffer(var_to_bytes({"format":"hero-hub-v2","payload":payload,"sha256":HeroHubStore._digest(payload)})); file.close()
+	file.store_buffer(bytes); file.close()
 	var loaded := HeroHubStore.read_run(path)
-	check(loaded.error.is_empty() and loaded.migrated,"v2 envelope recognized for atomic upgrade")
-	check(HeroHubStore.write_run(path,loaded.run).is_empty() and not HeroHubStore.read_run(path).migrated,"rewritten v3 profile no longer needs migration")
+	check(loaded.run == null and not loaded.error.is_empty(),"v2 envelope is explicitly refused")
+	check(FileAccess.get_file_as_bytes(path) == bytes,"refused v2 file remains byte-exact")
 
 func _losses_and_final() -> void:
 	var hub := first_battle(88124)

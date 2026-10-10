@@ -70,25 +70,28 @@ func _test_state_codec() -> void:
 	check(bad_self.to_snapshot_dict().is_empty(), "reject self cover target")
 
 func _test_counterattack_codec() -> void:
-	var legacy := CombatPerksState.new().to_dict()
-	check(legacy == {"schema_version": 1, "definition": {"sneak_attack": false, "tank_reactions": false}, "mode": 0, "cover_target_id": 0, "reaction_left": 0, "movement_stopped": false}, "schema one exact canonical bytes")
+	var old := {"schema_version": 1, "definition": {"sneak_attack": false, "tank_reactions": false}, "mode": 0, "cover_target_id": 0, "reaction_left": 0, "movement_stopped": false}
+	check(not CombatPerksState.valid(old), "old perk schema is refused")
+	var canonical := CombatPerksState.new().to_dict()
+	check(canonical.schema_version == 7 and canonical.definition.size() == 8 and CombatPerksState.valid(canonical), "all-false definitions use the current complete shape")
+	check(CombatPerksState.from_dict(canonical).to_dict() == canonical, "current empty definition roundtrips")
 	var v2_state := CombatPerksState.new()
 	v2_state.definition.stun_immune = true
 	var v2 := v2_state.to_dict()
-	var expected_v2 := {"schema_version": 2, "definition": {"sneak_attack": false, "tank_reactions": false, "stunning_strike": false, "stun_immune": true, "entangle_immune": false}, "mode": 0, "cover_target_id": 0, "reaction_left": 0, "movement_stopped": false}
-	check(v2 == expected_v2, "schema two exact canonical bytes")
-	var bad_legacy_mode := legacy.duplicate(true)
+	check(v2.schema_version == 7 and v2.definition.size() == 8 and CombatPerksState.valid(v2), "current definition includes every perk flag")
+	check(CombatPerksState.from_dict(v2).to_dict() == v2, "current definition roundtrips")
+	var bad_legacy_mode := canonical.duplicate(true)
 	bad_legacy_mode["mode"] = CombatPerksState.Mode.COUNTERATTACK
-	check(not CombatPerksState.valid(bad_legacy_mode), "schema one rejects counterattack mode")
+	check(not CombatPerksState.valid(bad_legacy_mode), "counterattack mode requires counterattack perk")
 	var bad_v2 := v2.duplicate(true)
 	bad_v2["definition"]["counterattack"] = true
-	check(not CombatPerksState.valid(bad_v2), "schema two rejects unknown counterattack flag")
+	check(CombatPerksState.valid(bad_v2), "counterattack is a known current definition flag")
 	var counter := CombatPerksState.new()
 	counter.definition.counterattack = true
 	counter.mode = CombatPerksState.Mode.COUNTERATTACK
 	counter.reaction_left = 1
 	var v3 := counter.to_dict()
-	check(v3["schema_version"] == 3 and v3["definition"].size() == 6 and CombatPerksState.valid(v3), "schema three counterattack roundtrip shape")
+	check(v3["schema_version"] == 7 and v3["definition"].size() == 8 and CombatPerksState.valid(v3), "schema seven counterattack roundtrip shape")
 	var restored := CombatPerksState.from_dict(v3)
 	check(restored != null and restored.definition.counterattack and restored.mode == CombatPerksState.Mode.COUNTERATTACK and restored.reaction_left == 1, "counterattack state restored")
 	var cloned := counter.copy()
@@ -97,20 +100,19 @@ func _test_counterattack_codec() -> void:
 	check(counter.definition.counterattack and counter.reaction_left == 1, "counterattack definition and charge isolated")
 	var bad_type := v3.duplicate(true)
 	bad_type["definition"]["counterattack"] = 1
-	check(not CombatPerksState.valid(bad_type), "schema three rejects wrong counterattack type")
+	check(not CombatPerksState.valid(bad_type), "schema seven rejects wrong counterattack type")
 	var bad_flag_type := v3.duplicate(true)
 	bad_flag_type["definition"]["stunning_strike"] = 1
-	check(not CombatPerksState.valid(bad_flag_type), "schema three rejects wrong legacy flag type")
+	check(not CombatPerksState.valid(bad_flag_type), "schema seven rejects wrong perk flag type")
 	var bad_key := v3.duplicate(true)
 	bad_key["definition"]["unknown"] = false
-	check(not CombatPerksState.valid(bad_key), "schema three rejects unknown definition key")
+	check(not CombatPerksState.valid(bad_key), "schema seven rejects unknown definition key")
 	var downgraded := v3.duplicate(true)
-	downgraded["schema_version"] = 2
-	downgraded["definition"].erase("counterattack")
-	check(not CombatPerksState.valid(downgraded), "schema two rejects counterattack downgrade mode")
+	downgraded["schema_version"] = 6
+	check(not CombatPerksState.valid(downgraded), "old perk schema is rejected")
 	var fake_v3 := v3.duplicate(true)
 	fake_v3["definition"]["counterattack"] = false
-	check(not CombatPerksState.valid(fake_v3), "schema three requires counterattack flag")
+	check(not CombatPerksState.valid(fake_v3), "counterattack mode requires counterattack flag")
 	var counter_only_charge := CombatPerksState.new()
 	counter_only_charge.definition.counterattack = true
 	counter_only_charge.reaction_left = 1
@@ -139,7 +141,7 @@ func _test_unit_schema_and_board() -> void:
 	unit.combat_perks.definition.counterattack = true
 	unit.combat_perks.reaction_left = 1
 	packed = unit.to_snapshot_dict()
-	check(packed.get("schema_version") == UnitState.SNAPSHOT_SCHEMA_VERSION and packed["combat_perks"]["schema_version"] == 3, "counterattack keeps nested perk schema three")
+	check(packed.get("schema_version") == UnitState.SNAPSHOT_SCHEMA_VERSION and packed["combat_perks"]["schema_version"] == 7, "counterattack uses nested perk schema seven")
 	var counter_restored := UnitState.from_snapshot_dict(packed)
 	check(counter_restored != null and counter_restored.combat_perks.definition.counterattack and counter_restored.combat_perks.reaction_left == 1, "current unit schema restores counterattack and shared charge")
 	var missing := packed.duplicate(true)

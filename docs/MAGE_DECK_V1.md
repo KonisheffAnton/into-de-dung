@@ -80,24 +80,23 @@ type_id, затем номера копии; находки — очередно
 ## 3. Владельцы и точные расширения codec
 
 Каждый вложенный объект проверяется по точному набору полей; неизвестные
-версии/режимы/типы/смешанные форматы отвергаются. Только чтение старого формата
-может заполнить определённые ниже migration defaults. Во всех новых codecs
+версии/режимы/типы/смешанные форматы отвергаются. Старые форматы не читаются и migration defaults не заполняются. Во всех codecs
 числовые поля принимают int, не bool/float; массивы и поля — value-only.
 
 | Формат | Новая запись и ограничения |
 |---|---|
-| Профиль | Payload `schema=4`, envelope `hero-hub-v4`, прежний `user://hero-hub-v1.save`, SHA-256 и atomic replace/.bak по H1. Все schema3 поля сохраняются; добавляются `mage_deck` и `h1_ruleset` |
+| Профиль | Единственный формат и отказ старой загрузки — [SAVE_FORMAT_CURRENT](SAVE_FORMAT_CURRENT.md); `mage_deck` и `h1_ruleset` обязательны |
 | `mage_deck` | `{schema:1, catalog_id:"mage-neutral-v1", catalog_version:1, base_types:Array[String], crafted_types:Array[String], forge_discovered_types:Array[String]}` |
 | `h1_ruleset` | `"h1-legacy-v1"` только для верхней `phase=battle`, иначе пустая строка. В checkpoint H1 поле не дописывать; режим находится у профиля |
-| Поход legacy | Сохранённый run schema1/2 читается прежними правилами; после нормализации writer оставляет вложенную schema2. Она однозначно означает `u14-legacy-v1` |
-| Поход колоды | Run `schema=3`: поля schema2 без `artifacts/next_artifact_id`; вместо них `ruleset_id="u14-deck-v1"`, `catalog_id/version`, `cards`, `active_ids`, `next_card_id`, `reward_decisions` |
-| План колоды | Plan `schema=2`: прежние ключи плана плюс `ruleset_id="u14-deck-v1"`; node keys прежние. `content` — `{catalog_id:"u14-deck-content-v1", version:1, rooms, encounters, cards}` с полными механическими values, без старого artifact-каталога |
+| Поход legacy | Run4 с `ruleset_id="u14-legacy-v1"`; артефактная часть без карточных полей |
+| Поход колоды | Run4 с `ruleset_id="u14-deck-v1"`: без `artifacts/next_artifact_id`, с `catalog_id/version`, `cards`, `active_ids`, `next_card_id`, `reward_decisions` |
+| План колоды | Plan4, `ruleset_id="u14-deck-v1"`, `opening:bool`; node keys прежние. `content` хранит полные механические values текущего варианта графа |
 | Checkpoint колоды | `{schema:1, ruleset_id:"u14-deck-v1", run_id, node_id, battle_serial, legacy_inputs, cards, active_ids, catalog_id, catalog_version, draw_seed}`. `legacy_inputs={heroes:Array, items:Array, seed:int}` — прежние value-входы героев/надетых обычных вещей/seed, поле artifacts отсутствует |
-| Отчёт колоды | `battle_report.schema=2`: прежние поля отчёта schema1, кроме `artifact_selected`; добавить `ruleset_id`, `reward_state`, `offered_types`, `selected_type`, `selected_card_id`, `recycled_count`, `new_forge_types`, `return_reason`, `returned_cards`. Старые отчёты сохраняют schema1 |
-| Ability runtime | `BattleAbilityState.schema_version=2`: поля schema1 плюс `ruleset_id="u14-deck-v1"`, `first_team:int`; legacy mage definitions/ledger отсутствуют, остаются descriptors прежних действий/предметов. Мана 0..maximum, maximum 2..9; часы поддерживают любой порядок команд |
+| Отчёт колоды | Report3 с карточным `ruleset_id`, без `artifact_selected`; содержит `reward_state`, `offered_types`, `selected_type`, `selected_card_id`, `recycled_count`, `new_forge_types`, `return_reason`, `returned_cards` |
+| Ability runtime | Abilities3: явные `ruleset_id="u14-deck-v1"` и `first_team:int`; legacy mage definitions/ledger отсутствуют. Мана 0..maximum, maximum 2..9; часы поддерживают любой порядок команд |
 | Deck runtime | `BattleDeckState`: `{schema:1, catalog_id, catalog_version, cards, draw_ids, hand_ids, spent_ids, draw_rng, mulligan_done, replaced_serial}`; только активные копии текущего боя |
 | Эффект атаки | `BattleCardEffectState`: `{schema:1, ordinary_attacks, fire_imbues}`; карта unit→ID обычной атаки, плюс отсортированные записи эффекта из §6 |
-| Боевой envelope | [Текущий ItemSimulation schema11](BATTLE_SNAPSHOT_CURRENT.md), scope `battle_state_v11`. При наличии `deck` обязательны `abilities` schema2 и `card_effects`, `artifacts` запрещён; summons допускает R14 `source_kind` |
+| Боевой envelope | [Текущий ItemSimulation schema11](BATTLE_SNAPSHOT_CURRENT.md), scope `battle_state_v11`. При наличии `deck` обязательны `abilities` с карточным ruleset_id и `card_effects`, `artifacts` запрещён; summons допускает R14 `source_kind` |
 
 `base_types` содержит ровно 10 записей, повтор type_id ≤2; сериализация
 лексикографическая. Постоянные множества типов сортируются, не содержат дублей.
@@ -150,14 +149,12 @@ content version1, прежними наградами/поясом/маной/ф
 каталога, затем при factory/outcome/route/service/reward/retry/report.
 Неизвестный ключ/content version не подменяется последним известным.
 
-Миграция envelope/payload 1/2/3→4: сначала проверить согласованную старую пару
-и данные старым reader; на отдельной копии добавить базу/пустые множества,
-явный H1-mode если нужен; старый U14 run нормализовать только его существующим
-reader. Сохранить героев/вещи/валюты/достижения, оба профильных RNG, seed,
-весь план/checkpoint и открытый schema1 report. Старые artifacts/отчёты
-не создают карты или открытия. Новая оболочка не меняет ruleset вложенного run.
-Записать schema4 до допуска действий. При неудаче — исходный файл и тот же
-pending candidate для retry; не создавать новый профиль и не регенерировать план.
+Текущий файл и отказ прежних версий — [SAVE_FORMAT_CURRENT](SAVE_FORMAT_CURRENT.md).
+Чтение не включает колоду автоматически. Режим U14, герои/вещи/валюты,
+достижения, оба профильных RNG, seed, план/checkpoint и отчёт текущей формы
+сохраняются точно. Артефактный режим не создаёт карты или открытия.
+Запись результата по-прежнему предшествует допуску новых действий; при ошибке
+сохраняются исходный файл и тот же pending candidate для retry.
 
 Профиль без активного боя/похода может собирать базу; следующий start в U14
 создаёт только deck-run. Legacy H1 и U14 заканчиваются своим dispatch до hub,
@@ -198,7 +195,7 @@ reload не повторяет XP. В финале до решения нагр�
 по POST_BATTLE_V1; в ожидании финального выбора ремонт заблокирован, после
 возвращения действует обычный доступ отчёта/хаба, без изменения цен.
 
-Ранний leave **создаёт новый открытый schema2 report**, даже если предыдущий
+Ранний leave **создаёт новый открытый report3 карточного режима**, даже если предыдущий
 боевой отчёт уже закрыт. До удаления run захватить returned_cards (включая
 пассивные), run/node/serial, кошелёк/эссенцию/потери и новые открытия. Установить
 source=expedition, gold_scope=hub, open=true, return_reason=early, victory=true,
@@ -214,7 +211,7 @@ Schema2 validator разрешает открытый return-report при phase
 проверяет исторические ID по самому payload, не ищет удалённые карты в run.
 При раннем выходе node — camp, serial — последний battle serial. Continue
 сохраняет только open=false; restart до него показывает тот же итог, после него
-не открывает отчёт заново. Старый schema1 validator этим не ослабляется.
+не открывает отчёт заново. Проверка отчётов артефактного режима этим не ослабляется.
 
 ## 5. Случайность, рука и команда розыгрыша
 
@@ -356,7 +353,7 @@ click строит свежую команду. Кэш по одной revision 
 full/render по [TESTING](TESTING.md), затем независимое ревью фиксированного
 результата и один целый пользовательский маршрут. Матрица:
 
-- Codec: согласованные v1/2/3→4; H1 battle, все legacy U14 фазы и открытый отчёт;
+- Codec: текущие profile6/run4/plan4/report3 и отказ старых форм; H1 battle, все legacy U14 фазы и открытый отчёт;
   завершение/поражение по старым правилам, затем новый deck-run. Неизвестные
   версии/content/hybrid/дубликаты ID/плохая provenance/множества/RNG — отказ.
 - Save: failed write + retry и restart до/после commit на каждом барьере §4;

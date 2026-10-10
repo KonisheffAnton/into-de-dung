@@ -35,7 +35,6 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var state := _target.bleeding
 	var after := _expected.duplicate(true)
 	after["ticks_left"] -= 1
-	if not state.stacked: after["schema_version"] = BleedingState.schema_for_ticks(after["ticks_left"])
 	if after["ticks_left"] == 0:
 		if state.stacked: after["stacks"] = 0
 		after["source"] = {}

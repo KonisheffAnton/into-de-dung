@@ -39,19 +39,18 @@ Base — main `ad55cc1960d026e57707616e8b26f9413f9f4c07`.
 Осмотр объясняет оплату и время восстановления. Геометрия/масштаб/глубина —
 BATTLE_PRESENTATION_REWORK; устройство — ARCHITECTURE.
 
-Новые main/H1 сессии используют CombatPerksState schema5 без reaction_left;
-единственный источник остатка — ActionResources.bonus_left. Схемы1–4 читаются
-и исполняются по прежним правилам с отдельным зарядом, без преобразования данных
-старого боя. Unit/board/envelope и ActionResources schema1 не меняют форму;
-D4-save миграции нет. Детач/restore/preview сохраняют способ оплаты и оба типа
-снимков точно. Новое reaction_used сообщает bonus_before/after/cost; старые
+Новые main/H1 сессии используют `uses_bonus_actions=true`; единственный источник
+остатка — ActionResources.bonus_left, reaction_left строго 0. Legacy-режим
+сохраняет отдельный заряд. Оба представлены единой perks7, без старых readers —
+[снимки](BATTLE_SNAPSHOT_CURRENT.md). D4-save миграции нет. Детач/restore/preview
+сохраняют способ оплаты и значения точно. Новое reaction_used сообщает bonus_before/after/cost; старые
 события сохраняют charge_before/after. Строгие shapes не допускают смешение.
 
 ## Проверка и граница
 
 `test_reaction_bonus.gd`: два последовательных ответа при bonus2, отказ при
 bonus0, отсутствие отдельного резерва, атомарная оплата/основное действие,
-schema5/legacy roundtrip, прежняя оплата старого снимка, event shapes, чужая
+roundtrip обоих способов оплаты в текущей форме, прежняя оплата старого снимка, event shapes, чужая
 callback-мутация бонуса, полный preview/live parity и настоящий H1 переход
 враг → воин → Оппортунист → враг → refill, включая опубликованный HUD.
 Прежние K10/K12/контроль/цепь/отход/R10/UI проверки переведены на новый источник.

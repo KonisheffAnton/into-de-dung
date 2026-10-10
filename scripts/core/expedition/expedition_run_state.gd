@@ -46,33 +46,33 @@ func artifact(id: int) -> Dictionary:
 	return {}
 
 func to_dict() -> Dictionary:
-	var data := {"schema":2,"run_id":run_id,"plan":plan.duplicate(true),"phase":phase,
+	var data := {"schema":4,"ruleset_id":ruleset_id,"run_id":run_id,"plan":plan.duplicate(true),"phase":phase,
 		"route":route.duplicate(),"resolved":resolved.duplicate(),"ordinary_item_ids":ordinary_item_ids.duplicate(),
 		"battle_serial":battle_serial,"checkpoint":checkpoint.duplicate(true),"gold":gold,"repair_spent":repair_spent,
 		"artifacts":artifacts.duplicate(true),"next_artifact_id":next_artifact_id,"fallen":fallen.duplicate()}
 	if is_deck():
 		data.erase("artifacts"); data.erase("next_artifact_id")
-		data.merge({"schema":3,"ruleset_id":ruleset_id,"catalog_id":"mage-neutral-v1","catalog_version":1,"cards":cards.duplicate(true),"active_ids":active_ids.duplicate(),"next_card_id":next_card_id,"reward_decisions":reward_decisions.duplicate(true)},true)
+		data.merge({"catalog_id":"mage-neutral-v1","catalog_version":1,"cards":cards.duplicate(true),"active_ids":active_ids.duplicate(),"next_card_id":next_card_id,"reward_decisions":reward_decisions.duplicate(true)},true)
 	return data
 
 static func from_dict(data: Variant) -> ExpeditionRunState:
-	if not data is Dictionary or typeof(data.get("schema")) != TYPE_INT or data.schema not in [1,2,3]: return null
-	var deck: bool = data.schema == 3
-	var shape := {"schema":TYPE_INT,"run_id":TYPE_INT,"plan":TYPE_DICTIONARY,"phase":TYPE_STRING,"route":TYPE_ARRAY,"resolved":TYPE_ARRAY,"ordinary_item_ids":TYPE_ARRAY,"battle_serial":TYPE_INT,"checkpoint":TYPE_DICTIONARY,"gold":TYPE_INT,"artifacts":TYPE_ARRAY,"next_artifact_id":TYPE_INT,"fallen":TYPE_ARRAY}
-	if data.schema >= 2: shape.repair_spent = TYPE_INT
+	if not data is Dictionary or typeof(data.get("schema")) != TYPE_INT or data.schema != 4: return null
+	if typeof(data.get("ruleset_id")) != TYPE_STRING or data.ruleset_id not in [ExpeditionRulesRegistry.LEGACY, ExpeditionRulesRegistry.DECK]: return null
+	var deck: bool = data.ruleset_id == ExpeditionRulesRegistry.DECK
+	var shape := {"schema":TYPE_INT,"ruleset_id":TYPE_STRING,"run_id":TYPE_INT,"plan":TYPE_DICTIONARY,"phase":TYPE_STRING,"route":TYPE_ARRAY,"resolved":TYPE_ARRAY,"ordinary_item_ids":TYPE_ARRAY,"battle_serial":TYPE_INT,"checkpoint":TYPE_DICTIONARY,"gold":TYPE_INT,"repair_spent":TYPE_INT,"fallen":TYPE_ARRAY}
+	if not deck: shape.merge({"artifacts":TYPE_ARRAY,"next_artifact_id":TYPE_INT})
 	if deck:
-		shape.erase("artifacts"); shape.erase("next_artifact_id")
-		shape.merge({"ruleset_id":TYPE_STRING,"catalog_id":TYPE_STRING,"catalog_version":TYPE_INT,"cards":TYPE_ARRAY,"active_ids":TYPE_ARRAY,"next_card_id":TYPE_INT,"reward_decisions":TYPE_ARRAY})
+		shape.merge({"catalog_id":TYPE_STRING,"catalog_version":TYPE_INT,"cards":TYPE_ARRAY,"active_ids":TYPE_ARRAY,"next_card_id":TYPE_INT,"reward_decisions":TYPE_ARRAY})
 	if not ItemSimulationSnapshot._shape(data,shape): return null
 	if deck and (data.ruleset_id != ExpeditionRulesRegistry.DECK or data.catalog_id != "mage-neutral-v1" or data.catalog_version != 1): return null
 	if data.run_id < 1 or data.run_id > MAX_VALUE or not ExpeditionGenerator.valid(data.plan): return null
-	if (deck and data.plan.schema not in [2,3]) or (not deck and data.plan.schema != 1): return null
+	if data.plan.ruleset_id != data.ruleset_id: return null
 	if data.phase not in ["route","battle","reward","service","camp_departure"] or data.gold < 0 or data.gold > MAX_VALUE: return null
 	if data.battle_serial < 0 or data.battle_serial > 6: return null
 	if not deck and (data.next_artifact_id < 1 or data.next_artifact_id > 6 or data.artifacts.size() > 5): return null
 	if data.route.size() > 7 or data.ordinary_item_ids.size() > HeroHubState.MAX_PARTY * 2 or data.fallen.size() > HeroHubState.MAX_PARTY: return null
 	var result := ExpeditionRunState.new()
-	if deck: result.ruleset_id = ExpeditionRulesRegistry.DECK
+	result.ruleset_id = data.ruleset_id
 	result.run_id = data.run_id; result.plan = data.plan.duplicate(true); result.phase = data.phase
 	var previous: int = 0
 	for id: Variant in data.route:
@@ -105,7 +105,7 @@ static func from_dict(data: Variant) -> ExpeditionRunState:
 		if result.resolved.has(id) or (id == result.route.back() and result.phase == "reward"):
 			if node.kind == "cache": expected_gold += ExpeditionCatalog.RICH_CACHE_GOLD if node.modifier == "rich" else ExpeditionCatalog.CACHE_GOLD
 			else: expected_gold += ExpeditionCatalog.room(node.kind).gold
-	var spent := int(data.get("repair_spent",0))
+	var spent: int = data.repair_spent
 	if spent < 0 or spent > expected_gold or data.gold != expected_gold - spent: return null
 	result.repair_spent = spent
 	for id: Variant in data.ordinary_item_ids:
@@ -132,7 +132,7 @@ static func from_dict(data: Variant) -> ExpeditionRunState:
 		if typeof(name_value) != TYPE_STRING or name_value.length() > 128: return null
 		result.fallen.append(name_value)
 	result.battle_serial = data.battle_serial; result.gold = data.gold
-	result.next_artifact_id = data.get("next_artifact_id",1)
+	if not deck: result.next_artifact_id = data.next_artifact_id
 	result.checkpoint = data.checkpoint.duplicate(true)
 	if result.phase == "battle":
 		if deck:

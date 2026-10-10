@@ -22,19 +22,21 @@ func _run() -> void:
 
 func _test_schema_one_compatibility() -> void:
 	var state := BattleAbilityState.create(AbilityCatalog.defaults())
-	check(state != null and state.schema_version == 1, "legacy constructor remains schema one")
 	var values := state.to_dict()
-	check(values == {"schema_version":1,"catalog":values.catalog,"mana":6,"maximum":6,"ledger":[],"serials":[0,0],"ended":[0,0],"team":1,"stage":"setup","mage_allowed":false}, "legacy bytes retain exact field shape and values")
-	check(not values.has("ruleset_id") and not values.has("first_team"), "legacy bytes omit deck fields")
-	check(BattleAbilityState.from_dict(values).to_dict() == values, "legacy codec roundtrip unchanged")
+	check(values.schema_version == 3 and values.ruleset_id == "" and values.first_team == 1 and values.mana == 6 and values.maximum == 6, "legacy runtime uses current shared schema with legacy ruleset")
+	check(values.has("ruleset_id") and values.has("first_team"), "legacy codec carries explicit dispatch fields")
+	var restored := BattleAbilityState.from_dict(values)
+	check(restored != null and restored.to_dict() == values, "current legacy-rule codec roundtrip unchanged")
+	var old := values.duplicate(true); old.schema_version = 1; old.erase("ruleset_id"); old.erase("first_team")
+	check(not BattleAbilityState.valid(old), "old ability schema is refused")
 
 func _test_deck_codec_and_mixed_rejection() -> void:
 	var deck := BattleAbilityState.create_deck(AbilityCatalog.defaults(), 0)
-	check(deck != null and deck.schema_version == 2 and deck.ruleset_id == "u14-deck-v1" and deck.first_team == 0, "deck constructor tags schema and first team")
+	check(deck != null and deck.ruleset_id == "u14-deck-v1" and deck.first_team == 0 and deck.to_dict().schema_version == 3, "deck constructor tags current schema and first team")
 	check(deck != null and deck.maximum == 2 and deck.mana == 2 and not deck.mage_allowed and deck.ledger.is_empty(), "deck constructor starts at two mana without legacy mage state")
 	check(deck != null and deck.definition(&"mage.fire") == null and BattleAbilityState.valid(deck.to_dict()), "deck catalog excludes legacy mage definitions")
 	var restored := BattleAbilityState.from_dict(deck.to_dict())
-	check(restored != null and restored.to_dict() == deck.to_dict() and restored.schema_version == 2, "deck state codec roundtrip")
+	check(restored != null and restored.to_dict() == deck.to_dict(), "deck state codec roundtrip")
 	var mixed := deck.to_dict(); mixed["catalog"].append(AbilityCatalog.defaults().back().to_dict())
 	check(not BattleAbilityState.valid(mixed), "deck rejects mixed legacy mage catalog")
 	mixed = deck.to_dict(); mixed.erase("first_team")

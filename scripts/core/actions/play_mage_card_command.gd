@@ -29,7 +29,7 @@ func _prepare(context: ActionContext) -> Dictionary:
 	var state := context.get_state()
 	if not MageDeckRules.references_valid(context): return {"reason": &"mage_card/capability_required"}
 	var ability := state.abilities
-	if ability == null or ability.schema_version != 2 or not ability.mage_allowed or ability.team != Faction.Type.PLAYER or ability.stage != "active": return {"reason": &"mage_card/window_closed"}
+	if ability == null or ability.ruleset_id != "u14-deck-v1" or not ability.mage_allowed or ability.team != Faction.Type.PLAYER or ability.stage != "active": return {"reason": &"mage_card/window_closed"}
 	if card_instance_id <= 0 or card_instance_id >= ActionContext.MAX_ID or not state.deck.hand_ids.has(card_instance_id): return {"reason": &"mage_card/not_in_hand"}
 	var card_value := state.deck.card(card_instance_id)
 	var definition := MageCardCatalog.get_card(String(card_value.get("type_id", "")))

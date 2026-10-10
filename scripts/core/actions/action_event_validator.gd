@@ -166,7 +166,7 @@ static func _valid_bleeding_draft(draft: Dictionary) -> bool:
 	if draft["actor_unit_id"] < 0 or draft["actor_unit_id"] >= MAX_ID or draft["target_unit_id"] < 1 or draft["target_unit_id"] >= MAX_ID: return false
 	var before: Dictionary = draft["before"]; var after: Dictionary = draft["after"]
 	if not BleedingState.valid(before) or not BleedingState.valid(after) or before["immune"] != after["immune"]: return false
-	if before["schema_version"] == 3 or after["schema_version"] == 3:
+	if before["stacked"] or after["stacked"]:
 		return _valid_stacked_bleeding(draft)
 	if draft["actor_unit_id"] == 0: return false
 	if draft["reason"] == &"tick":
@@ -191,7 +191,7 @@ static func _valid_control_draft(draft: Dictionary) -> bool:
 static func _valid_stacked_bleeding(draft: Dictionary) -> bool:
 	var before: Dictionary = draft["before"]
 	var after: Dictionary = draft["after"]
-	if before["schema_version"] != 3 or after["schema_version"] != 3: return false
+	if not before["stacked"] or not after["stacked"]: return false
 	if draft["reason"] == &"burned":
 		return before["ticks_left"] > 0 and after["ticks_left"] == 0
 	if draft["reason"] == &"tick":

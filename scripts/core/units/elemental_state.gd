@@ -16,7 +16,8 @@ signal changed()
 
 func to_dict() -> Dictionary:
 	var result := {
-		"schema_version": 1,
+		"schema_version": 3,
+		"acid_ticks": acid_ticks,
 		"burning_stacks": burning_stacks,
 		"burning_ticks": burning_ticks,
 		"burning_source": _copy_source(burning_source),
@@ -24,9 +25,6 @@ func to_dict() -> Dictionary:
 		"frozen_turns": frozen_turns,
 		"freeze_immune": freeze_immune,
 	}
-	if acid_ticks != 0:
-		result["schema_version"] = 2
-		result["acid_ticks"] = acid_ticks
 	return result
 
 static func valid(data: Variant) -> bool:
@@ -34,10 +32,9 @@ static func valid(data: Variant) -> bool:
 		return false
 	var value: Dictionary = data
 	var schema: Variant = value.get("schema_version")
-	if typeof(schema) != TYPE_INT or schema not in [1, 2]: return false
-	var schema_one_keys: Array[String] = ["schema_version", "burning_stacks", "burning_ticks", "burning_source", "wet_turns", "frozen_turns", "freeze_immune"]
+	if typeof(schema) != TYPE_INT or schema != 3: return false
+	var schema_one_keys: Array[String] = ["schema_version", "burning_stacks", "burning_ticks", "burning_source", "wet_turns", "frozen_turns", "freeze_immune", "acid_ticks"]
 	var expected_keys: Array[String] = schema_one_keys.duplicate()
-	if schema == 2: expected_keys.append("acid_ticks")
 	if not _has_exact_keys(value, expected_keys):
 		return false
 	for key: String in ["schema_version", "burning_stacks", "burning_ticks", "wet_turns", "frozen_turns"]:
@@ -45,13 +42,13 @@ static func valid(data: Variant) -> bool:
 			return false
 	if typeof(value["freeze_immune"]) != TYPE_BOOL or typeof(value["burning_source"]) != TYPE_DICTIONARY:
 		return false
-	if schema == 2 and typeof(value["acid_ticks"]) != TYPE_INT: return false
+	if typeof(value["acid_ticks"]) != TYPE_INT: return false
 	var stacks: int = value["burning_stacks"]
 	var ticks: int = value["burning_ticks"]
 	var wet: int = value["wet_turns"]
 	var frozen: int = value["frozen_turns"]
-	var acid: int = int(value.get("acid_ticks", 0))
-	if stacks < 0 or ticks < 0 or wet < 0 or wet > 3 or frozen < 0 or acid < 0 or (schema == 2 and acid == 0):
+	var acid: int = int(value["acid_ticks"])
+	if stacks < 0 or ticks < 0 or wet < 0 or wet > 3 or frozen < 0 or acid < 0:
 		return false
 	if (stacks == 0) != (ticks == 0):
 		return false
@@ -75,7 +72,7 @@ static func from_dict(data: Dictionary) -> ElementalState:
 	result.wet_turns = data["wet_turns"]
 	result.frozen_turns = data["frozen_turns"]
 	result.freeze_immune = data["freeze_immune"]
-	result.acid_ticks = int(data.get("acid_ticks", 0))
+	result.acid_ticks = int(data["acid_ticks"])
 	return result
 
 static func valid_effect_source(value: Variant) -> bool:

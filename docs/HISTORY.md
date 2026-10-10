@@ -1,5 +1,22 @@
 # История и свидетельства проверок
 
+## Текущие форматы сериализации — 2026-10-11
+
+U «Приступай»; main, base `f75213383e4e5ff4c0d94bf251cd0ef2ceb8d5de`, без push.
+Profile6/run4/plan4/report3 и вложенные боевые формы заменяют старые читатели;
+режимы сохранены явными полями, старые файлы отклоняются без записи/удаления.
+Владельцы — [профиль](SAVE_FORMAT_CURRENT.md) и [боевые снимки](BATTLE_SNAPSHOT_CURRENT.md).
+Unit9/Item11, D4, queue/RNG/checkpoint, capture/restore и worker lifecycle прежние.
+Import/startup PASS; boundary588/0, D1 503/0, core9440/0; Python15 OK; review APPROVE.
+Full141/11: D1/codec-эталоны и bleeding UI исправлены, повтор этих меток PASS;
+остаются 8 базовых shader FAIL. Core exit47ObjectDB/18resources прежние; общего PASS нет.
+Render6 PASS; 54 нормализованных command fingerprints и оба сквозных похода равны base.
+57 D1 traces сверены с прежними хэшами до проекции представления; новый executor
+не использован для ожидаемых значений. Отчёт — `test_reports/schema-cleanup-20261011/REPORT.md`.
+main_menu.tscn U сохранена; F5/Editor/DPI/GPU/длинные кадры открыты.
+Следующий срез не запущен. Прежняя передача сохранена побайтно в
+[архиве](CODEX_HANDOFF.history-20261011.md).
+
 ## Разделение обязанностей ActionQueue — 2026-10-10
 
 U «Приступай»; main, base `afec3d4388168f95ed15a1a0fd4e2fd6a89a67a6`, без push.

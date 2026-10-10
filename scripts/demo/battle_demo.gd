@@ -2169,7 +2169,7 @@ func _render_forecast_panel() -> void:
 			text += "Путы: до конца ближайшего хода команды цели. Движение запрещено; следующий толчок снимает путы.\n"
 		elif step["status"] == &"SKIPPED": text += "Путы не наложены: " + _control_skip_text(step["reason"]) + ".\n"
 	if target_after.has("bleeding"):
-		text += "Кровотечение после атаки: %s\n" % _bleeding_summary(target_after["bleeding"]) if target_after["bleeding"].has("stacks") else "Кровотечение: %d тика после атаки\n" % target_after["bleeding"]["ticks_left"]
+		text += "Кровотечение после атаки: %s\n" % _bleeding_summary(target_after["bleeding"]) if bool(target_after["bleeding"].get("stacked", false)) else "Кровотечение: %d тика после атаки\n" % target_after["bleeding"]["ticks_left"]
 		for step: Dictionary in _forecast.steps:
 			if step["kind"] == &"bleeding_apply" and step["status"] == &"SKIPPED":
 				text += "Не наложено: " + _bleeding_skip_text(step["reason"]) + ".\n"
@@ -2189,7 +2189,7 @@ func _render_forecast_panel() -> void:
 		if before.has("armor_current"):
 			text += "%s: броня %d → %d / %d\n" % [_name_for(id), before["armor_current"], after["armor_current"], after["armor_max"]]
 		if before.has("bleeding") and (id == _forecast_target_id or before["bleeding"] != after["bleeding"]):
-			if before["bleeding"].has("stacks"):
+			if bool(before["bleeding"].get("stacked", false)):
 				text += "%s: кровотечение %s → %s\n" % [_name_for(id), _bleeding_summary(before["bleeding"]), _bleeding_summary(after["bleeding"])]
 			else:
 				text += "%s: кровотечение %d → %d тика\n" % [_name_for(id), before["bleeding"]["ticks_left"], after["bleeding"]["ticks_left"]]
@@ -2449,7 +2449,7 @@ func _render_reaction_guard_forecast() -> void:
 	var after: Dictionary = row.get("after", {})
 	text += "Основные: %d → %d (расход 1)\n" % [before.get("main", 0), after.get("main", 0)]
 	var perks: Dictionary = after.get("combat_perks", {})
-	if int(perks.get("schema_version", 0)) == 5:
+	if bool(perks.get("uses_bonus_actions", false)) and not bool(perks.get("definition", {}).get("passive_opportunist", false)):
 		text += "Дополнительные: %d → %d (реакция расходует 1)\n" % [before.get("bonus", 0), after.get("bonus", 0)]
 	else:
 		text += "Общий заряд реакции: %d → %d\n" % [before.get("combat_perks", {}).get("reaction_left", 0), perks.get("reaction_left", 0)]
@@ -2593,9 +2593,9 @@ func _event_text(event: Dictionary) -> String:
 		&"bleeding_changed":
 			var ticks: int = event["after"]["ticks_left"]
 			if event["reason"] == &"burned": return "%s: кровотечение снято горением." % target
-			if event["reason"] == &"tick" and event["after"].has("stacks"): return "%s: тик кровотечения; %s." % [target, "срок истёк" if ticks == 0 else _bleeding_summary(event["after"])]
+			if event["reason"] == &"tick" and bool(event["after"].get("stacked", false)): return "%s: тик кровотечения; %s." % [target, "срок истёк" if ticks == 0 else _bleeding_summary(event["after"])]
 			if event["reason"] == &"tick": return "%s: тик кровотечения; %s." % [target, "срок истёк" if ticks == 0 else "осталось тиков: %d" % ticks]
-			if not event["after"].has("stacks"): return "%s: кровотечение %s — тиков: %d." % [target, "наложено" if event["reason"] == &"applied" else "продлено", ticks]
+			if not bool(event["after"].get("stacked", false)): return "%s: кровотечение %s — тиков: %d." % [target, "наложено" if event["reason"] == &"applied" else "продлено", ticks]
 			return "%s: кровотечение %s — %s." % [target, "наложено" if event["reason"] == &"applied" else "продлено", _bleeding_summary(event["after"])]
 		&"elemental_changed":
 			var after: Dictionary = event.get("after", {})
@@ -2992,7 +2992,7 @@ func _bleeding_summary(value: Variant) -> String:
 	var data: Dictionary = value
 	var ticks: int = int(data.get("ticks_left", 0))
 	if ticks <= 0: return "нет"
-	if bool(data.get("stacked", false)) or data.has("stacks"):
+	if bool(data.get("stacked", false)):
 		var stacks: int = int(data.get("stacks", 0))
 		var movement_damage := str(stacks * BleedingState.MOVE_DAMAGE) if stacks <= 4611686018427387903 else "за пределом расчёта"
 		return "%d ст. · %d т. · %d/тик · %s/клетку" % [stacks, ticks, stacks, movement_damage]

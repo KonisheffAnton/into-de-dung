@@ -7,7 +7,7 @@ static func create(run: HeroHubState) -> Dictionary:
 	var deck: bool = expedition and run.expedition.is_deck()
 	if run.phase != "battle" and not expedition: return {}
 	var node: Dictionary = run.expedition.current_node() if expedition else {}
-	var opening: Dictionary = run.expedition.plan.content.opening if deck and run.expedition.plan.schema == 3 and node.layer == 0 else {}
+	var opening: Dictionary = run.expedition.plan.content.opening if deck and run.expedition.plan.opening and node.layer == 0 else {}
 	var encounter := ExpeditionCatalog.encounter(node.kind if expedition else "battle",node.variant if expedition else 0)
 	if encounter == null: return {}
 	var enemy_count := encounter.enemy_cells.size()

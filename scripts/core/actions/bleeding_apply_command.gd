@@ -67,7 +67,6 @@ func execute(context: ActionContext) -> CommandStepResult:
 		after["stacks"] += 1
 	else:
 		after["ticks_left"] += BleedingState.DURATION
-		after["schema_version"] = BleedingState.schema_for_ticks(after["ticks_left"])
 	after["source"] = _source.to_dict()
 	after["hit_id"] = _hit_id
 	if not BleedingState.valid(after): return CommandStepResult.faulted(&"bleeding/invalid_source")

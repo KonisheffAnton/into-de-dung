@@ -35,6 +35,21 @@ func _run() -> void:
 	var initial := profile.to_dict(); var hire_rng := profile.rng_state
 	(profile.heroes[profile.party[0]] as HeroProgression).hp_current = 1.0
 	step("start")
+	var current_run := profile.expedition.to_dict()
+	var invalid_run: Dictionary
+	for version: int in [1,2,3,5]:
+		invalid_run = current_run.duplicate(true); invalid_run.schema = version
+		check(ExpeditionRunState.from_dict(invalid_run) == null,"reject old/future run schema %d" % version)
+	invalid_run = current_run.duplicate(true); invalid_run.erase("ruleset_id")
+	check(ExpeditionRunState.from_dict(invalid_run) == null,"legacy run requires mode")
+	invalid_run = current_run.duplicate(true); invalid_run.erase("repair_spent")
+	check(ExpeditionRunState.from_dict(invalid_run) == null,"legacy run requires repair ledger")
+	invalid_run = current_run.duplicate(true); invalid_run.ruleset_id = ExpeditionRulesRegistry.DECK
+	check(ExpeditionRunState.from_dict(invalid_run) == null,"legacy capability fields require legacy mode")
+	invalid_run = current_run.duplicate(true); invalid_run.plan.ruleset_id = ExpeditionRulesRegistry.DECK
+	check(ExpeditionRunState.from_dict(invalid_run) == null and profile.expedition.to_dict() == current_run,"run refuses mismatched plan without source mutation")
+	var invalid_plan: Dictionary = current_run.plan.duplicate(true); invalid_plan.schema = 3
+	check(not ExpeditionGenerator.valid(invalid_plan),"run rejects old plan version")
 	check(profile.rng_state == hire_rng,"independent hire RNG")
 	check((profile.heroes[profile.party[0]] as HeroProgression).hp_current == (profile.heroes[profile.party[0]] as HeroProgression).max_hp(),"hub heals once")
 	var original_plan := profile.expedition.plan.duplicate(true)
@@ -76,7 +91,7 @@ func _content_restore() -> void:
 	check(HeroHubState.from_dict(raw) == null,"profile refuses different saved content")
 	var path := "user://u14-content-%d.save" % Time.get_ticks_usec()
 	var payload := var_to_bytes(raw)
-	var bytes := var_to_bytes({"format":"hero-hub-v3","payload":payload,"sha256":HeroHubStore._digest(payload)})
+	var bytes := var_to_bytes({"format":"hero-hub-v6","payload":payload,"sha256":HeroHubStore._digest(payload)})
 	var file := FileAccess.open(path,FileAccess.WRITE); file.store_buffer(bytes); file.close()
 	var restored := HeroHubStore.read_run(path)
 	check(restored.run == null and restored.error.contains("каталога"),"store returns explicit content refusal")
@@ -157,14 +172,13 @@ func _migration() -> void:
 	for battle: bool in [false,true]:
 		if battle: legacy.start_battle()
 		var data := legacy.to_dict(); data.schema = 1
-		for key: String in ["essence","expedition_rng_state","expedition","achievements","battle_report"]: data.erase(key)
-		var migrated := HeroHubState.from_dict(data)
-		check(migrated != null and migrated.phase == legacy.phase and migrated.expedition == null and migrated.essence == 0 and migrated.rng_state == legacy.rng_state,"schema1 hub/battle migration preserves checkpoint")
+		check(HeroHubState.from_dict(data) == null,"schema1 hub/battle profile is refused")
 		var path := "user://u14-migration-%d.save" % Time.get_ticks_usec()
 		var payload := var_to_bytes(data)
+		var bytes := var_to_bytes({"format":"hero-hub-v1","payload":payload,"sha256":HeroHubStore._digest(payload)})
 		var file := FileAccess.open(path,FileAccess.WRITE)
-		file.store_buffer(var_to_bytes({"format":"hero-hub-v1","payload":payload,"sha256":HeroHubStore._digest(payload)})); file.close()
+		file.store_buffer(bytes); file.close()
 		var loaded := HeroHubStore.read_run(path)
-		check(loaded.get("migrated",false) and loaded.run != null,"store reads legacy")
-		check(HeroHubStore.write_run(path,loaded.run).is_empty() and not HeroHubStore.read_run(path).get("migrated",true),"store persists v3")
+		check(loaded.run == null and not loaded.error.is_empty(),"store refuses legacy profile explicitly")
+		check(FileAccess.get_file_as_bytes(path) == bytes,"refused legacy profile remains unchanged")
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(path))

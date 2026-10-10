@@ -27,7 +27,7 @@ static func _apply(hub: HeroHubState, action: String, args: Dictionary) -> Strin
 		run.plan = ExpeditionGenerator.generate(int(rng.randi()))
 		if not hub.mage_deck.is_empty():
 			run.ruleset_id = ExpeditionRulesRegistry.DECK
-			run.plan = ExpeditionRulesRegistry.generate(run.plan.seed)
+			run.plan = ExpeditionRulesRegistry.generate_plan(run.plan.seed, true)
 			for type_id: String in hub.mage_deck.base_types:
 				run.cards.append({"id":run.next_card_id,"type_id":type_id,"origin":"base"})
 				run.active_ids.append(run.next_card_id); run.next_card_id += 1
@@ -37,7 +37,7 @@ static func _apply(hub: HeroHubState, action: String, args: Dictionary) -> Strin
 			hero.hp_current = hero.max_hp()
 		run.ordinary_item_ids = hub.battle_items()
 		hub.expedition = run; hub.phase = "expedition"
-		if run.plan.schema == 3:
+		if run.plan.opening:
 			# Один commit содержит и план, и первый checkpoint; UI не публикует промежуточную карту.
 			return _apply(hub, "choose", {"node":1})
 		return ""
@@ -233,7 +233,7 @@ static func _deck_reward(hub: HeroHubState, args: Dictionary) -> String:
 	var run := hub.expedition
 	if run.phase != "reward" or not _ints(args,["index"]) or args.index < -1 or args.index > 2: return "expedition/reward_unavailable"
 	var report := hub.battle_report
-	if report.get("schema") != 2 or report.reward_state != "pending": return "expedition/invalid_report"
+	if report.get("ruleset_id") != ExpeditionRulesRegistry.DECK or report.reward_state != "pending": return "expedition/invalid_report"
 	if args.index >= 0:
 		if run.next_card_id >= ActionContext.MAX_ID - 1: return "expedition/overflow"
 		var type_id: String = run.current_node().reward[args.index]

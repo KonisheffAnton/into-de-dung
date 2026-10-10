@@ -18,7 +18,7 @@ static func write_state(state: Dictionary, value: Dictionary) -> void:
 		state.erase("raised_shield")
 	else:
 		state["raised_shield"] = value.duplicate(true)
-	state["schema_version"] = 3 if state.has("raised_shield") else (2 if state.has("shield") else 1)
+	state["schema_version"] = 4
 
 static func activated(before: Dictionary, serial: int) -> Dictionary:
 	if not valid(before) or before.active or serial < 1 or serial < before.ready_turn or serial > MAX_ID - 3: return {}

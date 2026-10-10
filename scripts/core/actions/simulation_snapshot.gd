@@ -154,34 +154,24 @@ static func _validate_status_sources(units: Array) -> String:
 
 static func _find_unsupported(board_value: Dictionary) -> String:
 	# Сначала типы: строка вместо версии — повреждённый DTO, а неизвестное число — новая схема.
-	var shape_v2 := _has_exact_string_keys(board_value, ["schema_version", "width", "height", "board_version", "heights", "terrain", "units", "occupancy", "height_half_steps"])
-	var shape_v1 := _has_exact_string_keys(board_value, ["schema_version", "width", "height", "board_version", "heights", "terrain", "units", "occupancy"])
-	if not shape_v1 and not shape_v2: return ""
-	if shape_v2:
-		var halves: Variant = board_value.get("height_half_steps")
-		if typeof(halves) != TYPE_ARRAY: return ""
-		if typeof(board_value.get("width")) != TYPE_INT or typeof(board_value.get("height")) != TYPE_INT: return ""
-		var w: int = board_value["width"]
-		var h: int = board_value["height"]
-		if w < 0 or h < 0 or w > 1024 or h > 1024 or w * h > MAX_CELLS or halves.size() != w * h: return ""
-		var any_half := false
-		for bit: Variant in halves:
-			if typeof(bit) != TYPE_INT or bit < 0 or bit > 1: return ""
-			any_half = any_half or bit == 1
-		if not any_half: return ""
+	if not _has_exact_string_keys(board_value, ["schema_version", "width", "height", "board_version", "heights", "terrain", "units", "occupancy", "height_half_steps"]): return ""
 	var schema_value: Variant = board_value.get("schema_version")
 	if typeof(schema_value) != TYPE_INT: return ""
-	if schema_value not in [1, 2]:
-		# Неизвестная версия не скрывает повреждение известной формы. Копируется
-		# только внешний словарь; runtime/массивы/юниты не создаются и не меняются.
+	if typeof(board_value.get("width")) != TYPE_INT or typeof(board_value.get("height")) != TYPE_INT: return ""
+	var w: int = board_value.width
+	var h: int = board_value.height
+	if w < 0 or h < 0 or w > MAX_BOARD_SIDE or h > MAX_BOARD_SIDE or w * h > MAX_CELLS: return ""
+	if typeof(board_value.height_half_steps) != TYPE_ARRAY or board_value.height_half_steps.size() != w * h: return ""
+	for bit: Variant in board_value.height_half_steps:
+		if typeof(bit) != TYPE_INT or bit < 0 or bit > 1: return ""
+	if schema_value != 2:
+		# Проверяем известную форму, не превращая отказ версии в миграцию.
 		var known := board_value.duplicate(false)
-		known["schema_version"] = 2 if shape_v2 else 1
+		known["schema_version"] = 2
 		if not _board_arrays_shape(known): return ""
 		var nested_unsupported := _find_unsupported(known)
 		if nested_unsupported.is_empty() and not BattleBoard.validate_snapshot_dict(known): return ""
 		return "board/version"
-	if typeof(schema_value) == TYPE_INT and schema_value == 2 and not shape_v2: return ""
-	if typeof(schema_value) == TYPE_INT and schema_value == 1 and not shape_v1: return ""
 	if typeof(board_value.get("units")) != TYPE_ARRAY: return ""
 	var units: Array = board_value["units"]
 	for raw_unit in units:

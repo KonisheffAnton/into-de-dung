@@ -89,6 +89,44 @@ func _saving() -> void:
 	loaded = HeroHubStore.read_run(path)
 	check(loaded.run == null and not loaded.error.is_empty(), "corruption does not silently create a new roster")
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+	_rejected_files_are_untouched()
+	for catalog: int in [1, 2]:
+		for with_deck: bool in [false, true]:
+			var profile := HeroHubState.create(8120 + catalog, catalog)
+			if with_deck: profile.enable_mage_deck()
+			var roundtrip_path := "user://hero-hub-v6-%d-%s.save" % [catalog, str(with_deck)]
+			check(HeroHubStore.write_run(roundtrip_path, profile).is_empty(), "schema6 saves catalog/deck combination")
+			var envelope_file := FileAccess.open(roundtrip_path, FileAccess.READ)
+			var envelope: Variant = bytes_to_var(envelope_file.get_buffer(envelope_file.get_length()))
+			envelope_file.close()
+			check(envelope.format == "hero-hub-v6" and envelope.payload is PackedByteArray and envelope.sha256 == HeroHubStore._digest(envelope.payload), "schema6 envelope and checksum")
+			var profile_loaded := HeroHubStore.read_run(roundtrip_path, not with_deck)
+			check(profile_loaded.error.is_empty() and not profile_loaded.migrated and profile_loaded.run.to_dict() == profile.to_dict(), "schema6 roundtrip ignores read deck mode")
+			DirAccess.remove_absolute(ProjectSettings.globalize_path(roundtrip_path))
+
+func _rejected_files_are_untouched() -> void:
+	var path := "user://hero-hub-reject-%d.save" % Time.get_ticks_usec()
+	var schema6 := HeroHubState.create(991).to_dict()
+	var old_payload := var_to_bytes({"schema":5})
+	var cases: Array[Dictionary] = []
+	for version: int in range(1, 6):
+		cases.append({"format":"hero-hub-v%d" % version,"payload":old_payload,"sha256":HeroHubStore._digest(old_payload)})
+	cases.append({"format":"hero-hub-v7","payload":var_to_bytes(schema6),"sha256":HeroHubStore._digest(var_to_bytes(schema6))})
+	var mismatch := var_to_bytes(schema6); schema6.schema = 5
+	cases.append({"format":"hero-hub-v6","payload":var_to_bytes(schema6),"sha256":HeroHubStore._digest(var_to_bytes(schema6))})
+	var valid_payload := var_to_bytes(HeroHubState.create(992).to_dict())
+	cases.append({"format":"hero-hub-v6","payload":valid_payload,"sha256":"bad-checksum"})
+	for index: int in cases.size():
+		var bytes := var_to_bytes(cases[index])
+		var file := FileAccess.open(path, FileAccess.WRITE); file.store_buffer(bytes); file.close()
+		var backup := FileAccess.open(path + ".bak", FileAccess.WRITE); backup.store_buffer(PackedByteArray([7,8,9])); backup.close()
+		var temp := FileAccess.open(path + ".tmp", FileAccess.WRITE); temp.store_buffer(PackedByteArray([4,5,6])); temp.close()
+		var result := HeroHubStore.read_run(path, true)
+		check(result.run == null and not result.error.is_empty(), "reject old/future/mismatch/checksum envelope %d" % index)
+		check(FileAccess.get_file_as_bytes(path) == bytes and FileAccess.get_file_as_bytes(path + ".bak") == PackedByteArray([7,8,9]) and FileAccess.get_file_as_bytes(path + ".tmp") == PackedByteArray([4,5,6]), "rejection preserves save and sentinels %d" % index)
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(path + ".bak"))
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(path + ".tmp"))
 
 func _full_warehouse() -> void:
 	var hub := HeroHubState.create()

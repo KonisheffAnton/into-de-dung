@@ -230,7 +230,6 @@ func _test_stacked_duration() -> void:
 			var draft := {"kind": &"bleeding_changed", "actor_unit_id": actor.id, "target_unit_id": target.id, "reason": &"refreshed", "before": changed["before"], "after": changed["after"].duplicate(true)}
 			check(ActionEventValidator._valid_bleeding_draft(draft),"queue accepts exact accumulated duration")
 			draft["after"]["ticks_left"] = 2
-			draft["after"]["schema_version"] = 1
 			check(not ActionEventValidator._valid_bleeding_draft(draft),"queue rejects old refresh duration")
 	var hp := target.vitals.get_hp()
 	var rng := s.context.get_rng().to_dict()

@@ -2,16 +2,16 @@ class_name MageDeckRules
 extends RefCounted
 
 static func live_valid(state: ItemSimulationState) -> bool:
-	if state.deck == null and state.card_effects == null: return state.abilities == null or state.abilities.to_dict().get("schema_version") == 1
+	if state.deck == null and state.card_effects == null: return state.abilities == null or state.abilities.to_dict().get("ruleset_id") == ""
 	if state.deck == null or state.card_effects == null or state.abilities == null or state.artifacts != null: return false
 	if state.deck.get_script() != BattleDeckState or state.card_effects.get_script() != BattleCardEffectState or state.deck.draw_rng == null or state.deck.draw_rng.get_script() != CombatRng: return false
-	if not state.deck.valid() or not state.card_effects.valid() or state.abilities.to_dict().get("schema_version") != 2: return false
+	if not state.deck.valid() or not state.card_effects.valid() or state.abilities.to_dict().get("ruleset_id") != "u14-deck-v1": return false
 	var units: Array = []
 	for unit: UnitState in state.get_board().get_all_units(): units.append(unit.to_reference_dict())
 	return _references(state.deck,state.card_effects,state.abilities.to_dict(),units,state.get_summons())
 
 static func snapshot_valid(data: Dictionary) -> bool:
-	if not BattleAbilityState.valid(data.abilities) or data.abilities.get("schema_version") != 2 or data.has("artifacts"): return false
+	if not BattleAbilityState.valid(data.abilities) or data.abilities.get("ruleset_id") != "u14-deck-v1" or data.has("artifacts"): return false
 	var deck := BattleDeckState.from_dict(data.deck)
 	var effects := BattleCardEffectState.from_dict(data.card_effects)
 	if deck == null or effects == null: return false
@@ -55,7 +55,7 @@ static func _references(deck: BattleDeckState, effects: BattleCardEffectState, a
 
 static func references_valid(context: ActionContext) -> bool:
 	var state := context.get_state()
-	if state.deck == null: return state.card_effects == null and (state.abilities == null or state.abilities.schema_version == 1)
+	if state.deck == null: return state.card_effects == null and (state.abilities == null or state.abilities.ruleset_id == "")
 	if not live_valid(state) or context._attack_rules == null: return false
 	for record: Dictionary in state.card_effects.ordinary_attacks:
 		if context._attack_rules.get_definition(StringName(record.attack_id)) == null: return false

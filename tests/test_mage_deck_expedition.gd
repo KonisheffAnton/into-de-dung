@@ -34,11 +34,24 @@ func run() -> void:
 	var hub := HeroHubState.create(443)
 	var old := hub.to_dict()
 	hub.enable_mage_deck()
-	check(hub.to_dict().schema == 4 and HeroHubState.from_dict(hub.to_dict()) != null,"profile4")
+	check(hub.to_dict().schema == 6 and HeroHubState.from_dict(hub.to_dict()) != null,"profile6")
 	check(hub.rng_state == old.rng_state and hub.expedition_rng_state == old.expedition_rng_state,"upgrade preserves streams")
 	check(hub.mage_deck.base_types.count("card.wet") == 2 and not hub.mage_deck.base_types.has("card.burning"),"D13 exact default")
 	hub = step(hub,"start")
 	if hub.expedition == null: quit(1); return
+	var strict_run := hub.expedition.to_dict()
+	var invalid_run: Dictionary
+	for version: int in [2, 3, 5]:
+		invalid_run = strict_run.duplicate(true); invalid_run.schema = version
+		check(ExpeditionRunState.from_dict(invalid_run) == null,"reject old/future run schema %d" % version)
+	invalid_run = strict_run.duplicate(true); invalid_run.erase("ruleset_id")
+	check(ExpeditionRunState.from_dict(invalid_run) == null,"run requires ruleset")
+	invalid_run = strict_run.duplicate(true); invalid_run.ruleset_id = ExpeditionRulesRegistry.LEGACY
+	check(ExpeditionRunState.from_dict(invalid_run) == null,"deck capability requires deck ruleset")
+	invalid_run = strict_run.duplicate(true); invalid_run.erase("repair_spent")
+	check(ExpeditionRunState.from_dict(invalid_run) == null,"run requires repair ledger")
+	var invalid_plan := strict_run.duplicate(true); invalid_plan.plan.ruleset_id = ExpeditionRulesRegistry.LEGACY
+	check(ExpeditionRunState.from_dict(invalid_plan) == null and hub.expedition.to_dict() == strict_run,"run rejects mismatched plan without mutating source")
 	check(hub.expedition.is_deck() and hub.expedition.cards.size() == 10,"deck start")
 	_opening(hub)
 	var saved_plan := hub.expedition.plan.duplicate(true)
@@ -67,14 +80,14 @@ func run() -> void:
 		check(route.expedition == null,"terminates " + exit_kind)
 		if route.expedition != null: continue
 		var report := route.battle_report
-		check(report.schema == 2 and report.open and report.return_reason == exit_kind,"open return report " + exit_kind)
+		check(report.schema == 3 and report.open and report.return_reason == exit_kind,"open return report " + exit_kind)
 		check(report.returned_cards.size() >= 10,"all copies historical")
 		check(HeroHubState.from_dict(route.to_dict()) != null,"return reload " + exit_kind)
 		if exit_kind == "early":
 			check(report.node_id == 7, "new layout returns from camp seven")
 			var wrong_camp := route.to_dict(); wrong_camp.battle_report.node_id = 6
 			check(HeroHubState.from_dict(wrong_camp) == null, "early report rejects non-camp node")
-		var broken := route.to_dict(); broken.battle_report.schema = 2.0
+		var broken := route.to_dict(); broken.battle_report.schema = 3.0
 		check(HeroHubState.from_dict(broken) == null,"report rejects float schema")
 		broken = route.to_dict(); broken.battle_report.erase("source")
 		check(HeroHubState.from_dict(broken) == null,"report rejects missing common field without exception")
@@ -120,9 +133,9 @@ func _opening(hub: HeroHubState) -> void:
 	check(ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() == snapshot and session.context.get_rng().to_dict() == rng, "restart restores exact opening battle and RNG")
 	session.close()
 	var old := hub.to_dict()
-	old.expedition.plan = ExpeditionRulesRegistry.generate(hub.expedition.plan.seed, false)
+	old.expedition.plan = ExpeditionRulesRegistry.generate_plan(hub.expedition.plan.seed, false)
 	var old_hub := HeroHubState.from_dict(old)
-	check(old_hub != null and old_hub.to_dict() == old, "old two-entry deck save is preserved without migration")
+	check(old_hub != null and old_hub.to_dict() == old and not old_hub.expedition.plan.opening and old_hub.expedition.plan.start == [1,2], "current two-start deck graph roundtrips without migration")
 	if old_hub != null:
 		bundle = HeroHubBattleFactory.create(old_hub)
 		check(not bundle.is_empty(), "old deck encounter still constructs")
@@ -134,23 +147,13 @@ func _opening(hub: HeroHubState) -> void:
 func _legacy_migration() -> void:
 	var path := "user://deck-migration-%d.save" % Time.get_ticks_usec()
 	for version: int in [1,2,3]:
-		for battle: bool in [false,true]:
-			var legacy := HeroHubState.create(808)
-			if battle: check(legacy.start_battle(),"legacy H1 start")
-			var raw := legacy.to_dict(); raw.schema = version
-			if version < 3: raw.erase("achievements"); raw.erase("battle_report")
-			if version < 2:
-				for key: String in ["essence","expedition_rng_state","expedition"]: raw.erase(key)
-			var payload := var_to_bytes(raw)
-			var file := FileAccess.open(path,FileAccess.WRITE)
-			file.store_buffer(var_to_bytes({"format":"hero-hub-v%d" % version,"payload":payload,"sha256":HeroHubStore._digest(payload)})); file.close()
-			var loaded := HeroHubStore.read_run(path,true)
-			check(loaded.run != null and loaded.migrated and loaded.run.to_dict().schema == 4,"v%d upgrade battle=%s" % [version,battle])
-			check(HeroHubStore.read_run(path).run.to_dict().schema == 3,"old file untouched before upgrade commit")
-			if loaded.run != null and battle:
-				var bundle := HeroHubBattleFactory.create(loaded.run)
-				check(not bundle.is_empty() and bundle.session.state.deck == null and bundle.session.state.abilities.schema_version == 1,"legacy H1 still legacy after upgrade")
-				if not bundle.is_empty(): bundle.session.close()
+		var payload := var_to_bytes({"schema":version})
+		var bytes := var_to_bytes({"format":"hero-hub-v%d" % version,"payload":payload,"sha256":HeroHubStore._digest(payload)})
+		var file := FileAccess.open(path,FileAccess.WRITE)
+		file.store_buffer(bytes); file.close()
+		var loaded := HeroHubStore.read_run(path,true)
+		check(loaded.run == null and not loaded.error.is_empty(),"v%d profile refused even in deck mode" % version)
+		check(FileAccess.get_file_as_bytes(path) == bytes,"v%d old profile left unchanged" % version)
 	var route := step(HeroHubState.create(779),"start")
 	var legacy_copies: int = 0
 	for safety: int in 30:

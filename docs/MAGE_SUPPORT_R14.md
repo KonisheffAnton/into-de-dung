@@ -61,8 +61,8 @@ U, 2026-10-03: продолжить показ R14, изменить призы�
 
 ## Данные и изоляция
 
-`ArmorState` владеет одним value-only `shield`; вложенная schema2 появляется
-только при активном щите. Пустое состояние сохраняет прежнюю schema1 и bytes.
+`ArmorState` владеет одним value-only `shield`; поле опционально в единой
+armor4. Пустое состояние не включает щит — [снимки](BATTLE_SNAPSHOT_CURRENT.md).
 `ArmorRuntime.plan` вычисляет поглощение до защит/RNG, `ArmorHitExecutor` записывает
 щит под ожидаемым guard и выпускает `shield_changed` до остаточного урона.
 Callbacks не становятся baseline; при нарушении остаётся реально исполненный prefix.

@@ -14,20 +14,19 @@ func _run() -> void:
 	quit(0 if failed == 0 else 1)
 
 func _test_bleeding_codecs() -> void:
-	var legacy := BleedingState.new()
-	legacy.ticks_left = 2
-	legacy.hit_id = "legacy"
-	legacy.source = _source(&"attack")
-	var legacy_dto: Dictionary = legacy.to_dict()
-	_check(legacy_dto == {"schema_version": 1, "immune": false, "ticks_left": 2, "source": _source(&"attack"), "hit_id": "legacy"}, "legacy v1 retains its exact DTO")
-	_check(BleedingState.valid(legacy_dto) and BleedingState.from_dict(legacy_dto).to_dict() == legacy_dto, "legacy v1 roundtrip")
-	legacy.ticks_left = 3
-	var legacy_v2: Dictionary = legacy.to_dict()
-	_check(legacy_v2["schema_version"] == 2 and BleedingState.from_dict(legacy_v2).to_dict() == legacy_v2, "legacy v2 roundtrip")
-	legacy.ticks_left = BleedingState.MAX_TICKS
-	_check(BleedingState.from_dict(legacy.to_dict()).ticks_left == BleedingState.MAX_TICKS, "legacy int64 duration boundary")
-	legacy.stacks = 1
-	_check(not BleedingState.valid(legacy.to_dict()), "unstacked state cannot hide a nonzero stack")
+	var unstacked := BleedingState.new()
+	unstacked.ticks_left = BleedingState.MAX_TICKS
+	unstacked.hit_id = "active-unstacked"
+	unstacked.source = _source(&"attack")
+	var unstacked_dto: Dictionary = unstacked.to_dict()
+	_check(unstacked_dto["schema_version"] == 4 and unstacked_dto["stacked"] == false and unstacked_dto["stacks"] == 0, "unstacked duration uses current schema with explicit stack state")
+	_check(BleedingState.valid(unstacked_dto) and BleedingState.from_dict(unstacked_dto).to_dict() == unstacked_dto, "unstacked current state roundtrip")
+	_check(BleedingState.from_dict(unstacked_dto).ticks_left == BleedingState.MAX_TICKS, "unstacked int64 duration boundary")
+	var old_unstacked := unstacked_dto.duplicate(true); old_unstacked.schema_version = 2
+	old_unstacked.erase("stacked"); old_unstacked.erase("stacks")
+	_check(not BleedingState.valid(old_unstacked), "old unstacked schema is refused")
+	unstacked.stacks = 1
+	_check(not BleedingState.valid(unstacked.to_dict()), "unstacked state cannot hide a nonzero stack")
 
 	var stacked := BleedingState.new()
 	stacked.stacked = true
@@ -36,7 +35,7 @@ func _test_bleeding_codecs() -> void:
 	stacked.hit_id = "hit/new"
 	stacked.source = _source(&"cell")
 	var dto: Dictionary = stacked.to_dict()
-	_check(dto["schema_version"] == 3 and BleedingState.valid(dto), "stacked cell source and max stacks accepted")
+	_check(dto["schema_version"] == 4 and BleedingState.valid(dto), "stacked cell source and max stacks accepted")
 	var decoded := BleedingState.from_dict(dto)
 	_check(decoded != null and decoded.stacked and decoded.stacks == BleedingState.MAX_STACKS and decoded.to_dict() == dto, "new bleeding roundtrip")
 	decoded.source["origin_cell"] = Vector2i(90, 90)
@@ -44,7 +43,7 @@ func _test_bleeding_codecs() -> void:
 	var empty := BleedingState.new()
 	empty.stacked = true
 	var empty_dto: Dictionary = empty.to_dict()
-	_check(empty_dto["schema_version"] == 3 and empty_dto["stacks"] == 0 and BleedingState.valid(empty_dto), "empty stacked state keeps schema three")
+	_check(empty_dto["schema_version"] == 4 and empty_dto["stacked"] and empty_dto["stacks"] == 0 and BleedingState.valid(empty_dto), "empty stacked state uses current schema")
 	var bad: Dictionary = dto.duplicate(true)
 	bad["ticks_left"] = BleedingState.STACK_DURATION + 1
 	_check(not BleedingState.valid(bad), "stacked duration has fixed upper boundary")
@@ -64,7 +63,7 @@ func _test_bleeding_codecs() -> void:
 	bad["ticks_left"] = 1
 	_check(not BleedingState.valid(bad), "empty source cannot describe active stack")
 	bad = empty_dto.duplicate(true)
-	bad["schema_version"] = 4
+	bad["schema_version"] = 5
 	_check(not BleedingState.valid(bad), "unknown bleeding schema rejected")
 	var attack_state := stacked.to_dict()
 	attack_state["source"] = _source(&"attack")
@@ -116,7 +115,8 @@ func _test_elemental_codec() -> void:
 	_check(not ElementalState.valid(bad), "elemental codec rejects extra keys")
 	bad = clear.duplicate(true)
 	bad["schema_version"] = 2
-	_check(not ElementalState.valid(bad), "unknown elemental schema rejected")
+	bad["acid_ticks"] = 1
+	_check(not ElementalState.valid(bad), "old elemental schema is refused")
 	bad = clear.duplicate(true)
 	bad["wet_turns"] = true
 	_check(not ElementalState.valid(bad), "bool is not an integer counter")

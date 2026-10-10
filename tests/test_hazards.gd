@@ -86,13 +86,15 @@ func plate(s: BattleCoreReactionsSession, cell: Vector2i) -> void:
 func _codec() -> void:
 	var old := BattleEnvironmentSession.new()
 	var before := old.state.environment.to_dict()
-	check(before.schema_version == 1 and CombatEnvironmentState.from_dict(before).to_dict() == before, "legacy environment stays byte-shape compatible")
+	check(before.schema_version == 5 and before.status_effects == false and CombatEnvironmentState.from_dict(before).to_dict() == before, "empty environment roundtrips with explicit disabled capability")
+	var old_shape := before.duplicate(true); old_shape.schema_version = 4; old_shape.erase("status_effects")
+	check(not CombatEnvironmentState.valid(old_shape), "old environment reader format is refused")
 	old.close()
 	var s := fixture()
 	plate(s, Vector2i(2, 4))
 	s.state.environment.hazards.acid.append(Vector2i(4, 4))
 	var raw := snap(s)
-	check(raw.environment.schema_version == 4 and CombatEnvironmentState.from_dict(raw.environment).to_dict() == raw.environment, "new environment schema roundtrip")
+	check(raw.environment.schema_version == 5 and raw.environment.status_effects and CombatEnvironmentState.from_dict(raw.environment).to_dict() == raw.environment, "current environment schema roundtrip")
 	var detached := CombatEnvironmentState.from_dict(raw.environment)
 	detached.hazards.traps[0].armed_team = Faction.Type.ENEMY
 	check(s.state.environment.hazards.traps[0].armed_team == -1, "detached timers do not alias live")

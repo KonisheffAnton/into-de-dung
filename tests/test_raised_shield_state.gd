@@ -25,30 +25,32 @@ func _run() -> void:
 func _test_codec() -> void:
 	var legacy := ArmorState.new()
 	var v1 := legacy.to_dict()
-	check(v1.schema_version == 1 and not v1.has("raised_shield") and ArmorState.from_dict(v1).to_dict() == v1, "schema one encoding and roundtrip unchanged")
+	check(v1.schema_version == 4 and not v1.has("raised_shield") and not v1.has("shield") and ArmorState.from_dict(v1).to_dict() == v1, "empty current armor encoding and roundtrip")
+	var old_armor := v1.duplicate(true); old_armor.schema_version = 1
+	check(not ArmorState.valid(old_armor), "old armor schema is refused")
 	legacy.shield = SpellShield.make(&"mage.shield", 6, 1)
 	var v2 := legacy.to_dict()
-	check(v2.schema_version == 2 and not v2.has("raised_shield") and ArmorState.from_dict(v2).to_dict() == v2, "schema two encoding and roundtrip unchanged")
+	check(v2.schema_version == 4 and v2.has("shield") and not v2.has("raised_shield") and ArmorState.from_dict(v2).to_dict() == v2, "spell shield keeps raised capability absent in current schema")
 	legacy.raised_shield = RaisedShield.make()
 	legacy.shield = {}
 	var v3 := legacy.to_dict()
-	check(v3.schema_version == 3 and not v3.has("shield") and ArmorState.valid(v3), "raised shield emits schema three")
-	check(ArmorState.from_dict(v3).to_dict() == v3, "schema three without spell shield roundtrips")
+	check(v3.schema_version == 4 and not v3.has("shield") and v3.has("raised_shield") and ArmorState.valid(v3), "raised shield emits current armor schema")
+	check(ArmorState.from_dict(v3).to_dict() == v3, "current schema without spell shield roundtrips")
 	legacy.shield = SpellShield.make(&"mage.shield", 6, 1)
 	v3 = legacy.to_dict()
-	check(v3.schema_version == 3 and v3.has("shield") and ArmorState.from_dict(v3).to_dict() == v3, "schema three composes with spell shield")
+	check(v3.schema_version == 4 and v3.has("shield") and ArmorState.from_dict(v3).to_dict() == v3, "current schema composes both shield capabilities")
 	var copied := ArmorState.from_dict(v3)
 	copied.raised_shield.ready_turn = 8
 	copied.shield.hp = 2
 	check(legacy.raised_shield.ready_turn == 0 and legacy.shield.hp == 6, "decoded raised and spell shields are isolated copies")
 	var removed_spell := legacy.to_dict()
 	SpellShield.write_state(removed_spell, {})
-	check(removed_spell.schema_version == 3 and removed_spell.raised_shield == legacy.raised_shield, "removing mage shield preserves raised shield schema")
+	check(removed_spell.schema_version == 4 and removed_spell.raised_shield == legacy.raised_shield, "removing mage shield preserves raised shield state")
 	SpellShield.write_state(removed_spell, SpellShield.make(&"card.shield", 4, 2))
-	check(removed_spell.schema_version == 3 and removed_spell.raised_shield == legacy.raised_shield, "adding mage shield preserves raised shield schema")
+	check(removed_spell.schema_version == 4 and removed_spell.raised_shield == legacy.raised_shield, "adding mage shield preserves raised shield state")
 	var removed_raised := legacy.to_dict()
 	RaisedShield.write_state(removed_raised, {})
-	check(removed_raised.schema_version == 2 and removed_raised.shield == legacy.shield, "removing raised shield returns schema two")
+	check(removed_raised.schema_version == 4 and removed_raised.shield == legacy.shield and not removed_raised.has("raised_shield"), "removing raised shield keeps current schema and optional spell shield")
 	var bad := v3.duplicate(true)
 	bad.raised_shield.extra = 1
 	check(not ArmorState.valid(bad), "armor schema rejects nested unknown keys")
@@ -63,8 +65,8 @@ func _test_codec() -> void:
 	bad.raised_shield.ready_turn = ActionContext.MAX_ID
 	check(not ArmorState.valid(bad), "armor schema rejects out of bounds cooldown")
 	bad = v3.duplicate(true)
-	bad.schema_version = 2
-	check(not ArmorState.valid(bad), "old schema rejects raised field")
+	bad.schema_version = 3
+	check(not ArmorState.valid(bad), "old schema rejects current shield fields")
 
 func _test_lifecycle() -> void:
 	var initial := RaisedShield.make()

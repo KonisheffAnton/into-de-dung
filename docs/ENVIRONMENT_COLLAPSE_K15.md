@@ -70,11 +70,12 @@ Live не меняется; клик по кнопке только обновл
 
 ## Снимки и границы
 
-CombatEnvironmentState v2 добавляет `collapse: {turn, marked}`: turn 0..MAX_ID-2,
+CombatEnvironmentState хранит optional `collapse: {turn, marked}`: turn 0..MAX_ID-2,
 не более одной Vector2i, при turn=0 список пуст. Отмеченная клетка должна быть
 FLOOR в границах. Runtime/codec проверяют точную форму и копируют вложенные
-значения. Без capability сериализация остаётся точной v1; старые снимки дают
-пустой collapse. ItemSimulation v5/v6, Board/Unit и сохранения D4 не меняются.
+значения. Отсутствие capability не включает обрушение. Текущие единые формы и
+отказ старых снимков — [BATTLE_SNAPSHOT_CURRENT](BATTLE_SNAPSHOT_CURRENT.md);
+отдельные сохранения D4 не меняются.
 Снимок боя не сохраняет целую session/очередь и не становится checkpoint D4.
 
 Проверки: `test_collapse_state.gd`, `test_collapse_phase.gd`,

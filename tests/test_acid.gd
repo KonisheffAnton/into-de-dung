@@ -76,24 +76,26 @@ func _fill_equipped_armor(session: BattleCoreReactionsSession, unit: UnitState) 
 
 func _state_codec() -> void:
 	var state := ElementalState.new()
-	var schema_one := state.to_dict()
-	_check(schema_one.size() == 7 and schema_one.schema_version == 1 and not schema_one.has("acid_ticks"), "zero acid preserves the exact schema 1 shape")
-	var old_state := ElementalState.from_dict(schema_one)
-	_check(old_state != null and old_state.to_dict() == schema_one, "legacy schema 1 round trips unchanged")
+	var current := state.to_dict()
+	_check(current.size() == 8 and current.schema_version == 3 and current.acid_ticks == 0, "zero acid uses the current mandatory-field schema")
+	var old_shape := current.duplicate(true); old_shape.schema_version = 2; old_shape.acid_ticks = 1
+	_check(not ElementalState.valid(old_shape), "old elemental schema is refused")
+	var empty_state := ElementalState.from_dict(current)
+	_check(empty_state != null and empty_state.to_dict() == current, "empty elemental state roundtrips unchanged")
 	state.acid_ticks = 2
-	var schema_two := state.to_dict()
-	_check(schema_two.size() == 8 and schema_two.schema_version == 2 and schema_two.acid_ticks == 2, "positive acid uses schema 2 with one new field")
-	var restored := ElementalState.from_dict(schema_two)
-	_check(restored != null and restored.to_dict() == schema_two, "schema 2 round trips without aliasing values")
-	schema_two["acid_ticks"] = -1
-	_check(not ElementalState.valid(schema_two), "negative serialized acid is malformed")
-	schema_two["acid_ticks"] = 0
-	_check(not ElementalState.valid(schema_two), "schema 2 cannot encode zero acid")
-	schema_two["acid_ticks"] = "1"
-	_check(not ElementalState.valid(schema_two), "schema 2 requires an integer acid duration")
-	var extra := schema_one.duplicate(true)
-	extra["acid_ticks"] = 1
-	_check(not ElementalState.valid(extra), "schema 1 rejects extra fields")
+	var current_acid := state.to_dict()
+	_check(current_acid.size() == 8 and current_acid.schema_version == 3 and current_acid.acid_ticks == 2, "positive acid uses the same schema")
+	var restored := ElementalState.from_dict(current_acid)
+	_check(restored != null and restored.to_dict() == current_acid, "schema 3 round trips without aliasing values")
+	current_acid["acid_ticks"] = -1
+	_check(not ElementalState.valid(current_acid), "negative serialized acid is malformed")
+	current_acid["acid_ticks"] = 0
+	_check(ElementalState.valid(current_acid), "current schema accepts zero acid")
+	current_acid["acid_ticks"] = "1"
+	_check(not ElementalState.valid(current_acid), "schema 3 requires an integer acid duration")
+	var extra := current.duplicate(true)
+	extra["extra"] = 1
+	_check(not ElementalState.valid(extra), "schema 3 rejects extra fields")
 
 func _apply_and_tick() -> void:
 	var session := _fixture()
@@ -114,7 +116,7 @@ func _apply_and_tick() -> void:
 	var outside := _submit(session, unit, true, false)
 	_check(outside.status == ActionReceipt.APPLIED and unit.elemental.acid_ticks == 1 and unit.armor.grants[0]["remaining"] == 10, "outside tick consumes one duration and deals ten armor")
 	outside = _submit(session, unit, true, false)
-	_check(outside.status == ActionReceipt.APPLIED and unit.elemental.acid_ticks == 0 and unit.elemental.to_dict().schema_version == 1, "final outside tick expires acid to exact schema 1")
+	_check(outside.status == ActionReceipt.APPLIED and unit.elemental.acid_ticks == 0 and unit.elemental.to_dict().schema_version == 3, "final outside tick expires acid while retaining schema three")
 	_check(unit.vitals.get_hp() == hp_before and unit.armor.grants[0]["remaining"] == 0, "fixed damage remains armor-only through expiration")
 	session.close()
 

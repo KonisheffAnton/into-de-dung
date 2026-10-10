@@ -13,7 +13,7 @@ static func begin(hub: HeroHubState, source: String, node_id: int, serial: int, 
 		rows.append({"id":id,"name":hero.name,"participated":hub.party.has(id),"alive":true,
 			"xp_before":hero.xp_tenths,"xp_after":hero.xp_tenths,"level_before":hero.level(),"level_after":hero.level(),
 			"hp_after_battle":float(hero.hp_current),"hp_restored":0.0,"hp_after_recovery":float(hero.hp_current),"hp_max":hero.max_hp()})
-	return {"schema":1,"open":true,"source":source,"run_id":hub.run_serial,"node_id":node_id,"serial":serial,"title":title,
+	return {"schema":3,"ruleset_id":ExpeditionRulesRegistry.LEGACY,"open":true,"source":source,"run_id":hub.run_serial,"node_id":node_id,"serial":serial,"title":title,
 		"victory":victory,"completed":completed,"heroes":rows,"gold_awarded":0,"essence_awarded":0,"gold_lost":0,
 		"gold_scope":"run" if source == "expedition" else "hub","items":[],"lost_items":[],"achievements":[],"points_awarded":0,"repairs":[],"artifact_selected":""}
 
@@ -39,7 +39,7 @@ static func finish(hub: HeroHubState, report: Dictionary, hp: Dictionary) -> voi
 
 static func repair_quote(hub: HeroHubState, hero_id: int) -> Dictionary:
 	var report := hub.battle_report
-	if report.get("schema") == 2 and report.get("reward_state") == "pending" and hub.expedition != null and hub.expedition.current_node().kind == "final": return {}
+	if report.get("ruleset_id") == ExpeditionRulesRegistry.DECK and report.get("reward_state") == "pending" and hub.expedition != null and hub.expedition.current_node().kind == "final": return {}
 	if report.is_empty() or not report.open or not report.victory or report.repairs.size() >= 256: return {}
 	if hub.phase == "battle" or (hub.phase == "expedition" and hub.expedition.phase not in ["reward","route"]): return {}
 	var eligible := false
@@ -66,13 +66,13 @@ static func repair(hub: HeroHubState, hero_id: int) -> bool:
 	return true
 
 static func valid_report(data: Dictionary, hub: HeroHubState) -> bool:
-	if data.get("schema") == 2: return MageDeckReport.valid(data,hub)
+	if data.get("ruleset_id") == ExpeditionRulesRegistry.DECK: return MageDeckReport.valid(data,hub)
 	return _valid_legacy_report(data,hub)
 
 static func _valid_legacy_report(data: Dictionary, hub: HeroHubState, early: bool = false) -> bool:
 	if data.is_empty(): return true
-	if not ItemSimulationSnapshot._shape(data,{"schema":TYPE_INT,"open":TYPE_BOOL,"source":TYPE_STRING,"run_id":TYPE_INT,"node_id":TYPE_INT,"serial":TYPE_INT,"title":TYPE_STRING,"victory":TYPE_BOOL,"completed":TYPE_BOOL,"heroes":TYPE_ARRAY,"gold_awarded":TYPE_INT,"essence_awarded":TYPE_INT,"gold_lost":TYPE_INT,"gold_scope":TYPE_STRING,"items":TYPE_ARRAY,"lost_items":TYPE_ARRAY,"achievements":TYPE_ARRAY,"points_awarded":TYPE_INT,"repairs":TYPE_ARRAY,"artifact_selected":TYPE_STRING}): return false
-	if data.schema != 1 or data.source not in ["legacy","expedition"] or data.gold_scope not in ["run","hub"]: return false
+	if not ItemSimulationSnapshot._shape(data,{"schema":TYPE_INT,"ruleset_id":TYPE_STRING,"open":TYPE_BOOL,"source":TYPE_STRING,"run_id":TYPE_INT,"node_id":TYPE_INT,"serial":TYPE_INT,"title":TYPE_STRING,"victory":TYPE_BOOL,"completed":TYPE_BOOL,"heroes":TYPE_ARRAY,"gold_awarded":TYPE_INT,"essence_awarded":TYPE_INT,"gold_lost":TYPE_INT,"gold_scope":TYPE_STRING,"items":TYPE_ARRAY,"lost_items":TYPE_ARRAY,"achievements":TYPE_ARRAY,"points_awarded":TYPE_INT,"repairs":TYPE_ARRAY,"artifact_selected":TYPE_STRING}): return false
+	if data.schema != 3 or data.ruleset_id != ExpeditionRulesRegistry.LEGACY or data.source not in ["legacy","expedition"] or data.gold_scope not in ["run","hub"]: return false
 	if data.run_id < 1 or data.run_id > hub.run_serial or data.serial < 1 or data.serial > ExpeditionRunState.MAX_VALUE or data.node_id < 0 or data.node_id > 14: return false
 	if data.source == "legacy" and (data.node_id != 0 or data.serial != data.run_id or data.completed): return false
 	if data.source == "expedition" and (data.node_id < 1 or data.serial > 6): return false

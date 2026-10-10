@@ -6,7 +6,7 @@ const FIELDS: Dictionary = {"ruleset_id":TYPE_STRING,"reward_state":TYPE_STRING,
 static func upgrade(report: Dictionary, offered: Array) -> Dictionary:
 	var data := report.duplicate(true)
 	data.erase("artifact_selected")
-	data.merge({"schema":2,"ruleset_id":ExpeditionRulesRegistry.DECK,"reward_state":"pending" if not offered.is_empty() else "none","offered_types":offered.duplicate(),"selected_type":"","selected_card_id":0,"recycled_count":0,"new_forge_types":[],"return_reason":"none","returned_cards":[]},true)
+	data.merge({"schema":3,"ruleset_id":ExpeditionRulesRegistry.DECK,"reward_state":"pending" if not offered.is_empty() else "none","offered_types":offered.duplicate(),"selected_type":"","selected_card_id":0,"recycled_count":0,"new_forge_types":[],"return_reason":"none","returned_cards":[]},true)
 	return data
 
 static func finish_run(hub: HeroHubState, defeat: bool, completed: bool) -> String:
@@ -40,13 +40,13 @@ static func finish_run(hub: HeroHubState, defeat: bool, completed: bool) -> Stri
 	return ""
 
 static func valid(data: Dictionary, hub: HeroHubState) -> bool:
-	if hub.mage_deck.is_empty() or typeof(data.get("schema")) != TYPE_INT or data.schema != 2: return false
+	if hub.mage_deck.is_empty() or typeof(data.get("schema")) != TYPE_INT or data.schema != 3: return false
 	for key: String in FIELDS:
 		if not data.has(key) or typeof(data[key]) != FIELDS[key]: return false
 	# Общая форма проверяется до чтения полей и строк героев из внешнего save.
 	var legacy := data.duplicate(true)
 	for key: String in FIELDS: legacy.erase(key)
-	legacy.schema = 1; legacy["artifact_selected"] = ""
+	legacy["ruleset_id"] = ExpeditionRulesRegistry.LEGACY; legacy["artifact_selected"] = ""
 	if not PostBattleRules._valid_legacy_report(legacy,hub,data.return_reason == "early"): return false
 	if data.has("artifact_selected") or data.ruleset_id != ExpeditionRulesRegistry.DECK or data.source != "expedition": return false
 	if data.reward_state not in ["pending","chosen","skipped","none"] or data.return_reason not in ["none","early","completed","defeat"]: return false

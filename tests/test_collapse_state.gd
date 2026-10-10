@@ -13,28 +13,31 @@ func check(value: bool, label: String) -> void:
 		printerr("FAIL COLLAPSE STATE: " + label)
 
 func _run() -> void:
-	_test_legacy()
-	_test_v2_roundtrip()
+	_test_empty_current()
+	_test_current_with_collapse()
 	_test_invalid_shapes()
 	_test_snapshot_geometry()
 	print("COLLAPSE STATE RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
 
-func _test_legacy() -> void:
+func _test_empty_current() -> void:
 	var session := BattleEnvironmentSession.new()
 	var raw: Dictionary = session.state.environment.to_dict()
-	check(raw.keys().size() == 6 and raw["schema_version"] == 1 and not raw.has("collapse"), "empty state emits exact legacy v1 fields")
+	check(raw.keys().size() == 7 and raw["schema_version"] == 5 and raw["status_effects"] == false and not raw.has("collapse"), "empty state emits current explicit disabled-capability form")
 	var decoded := CombatEnvironmentState.from_dict(raw)
-	check(decoded != null and decoded.collapse.is_empty() and decoded.to_dict() == raw, "legacy v1 roundtrip stays exact")
+	check(decoded != null and decoded.collapse.is_empty() and decoded.to_dict() == raw, "empty current environment roundtrip")
+	var old := raw.duplicate(true); old.schema_version = 4; old.erase("status_effects")
+	check(not CombatEnvironmentState.valid(old), "old environment codec is refused")
 	session.close()
 
-func _test_v2_roundtrip() -> void:
+func _test_current_with_collapse() -> void:
 	var state := CombatEnvironmentState.new()
+	state.status_effects = true
 	state.collapse = {"turn": 19, "marked": [Vector2i(2, 3)]}
 	var raw := state.to_dict()
-	check(raw["schema_version"] == 2 and raw["collapse"] == state.collapse, "enabled state emits v2 collapse")
+	check(raw["schema_version"] == 5 and raw["status_effects"] and raw["collapse"] == state.collapse, "enabled state emits current explicit capability and collapse")
 	var decoded := CombatEnvironmentState.from_dict(raw)
-	check(decoded != null and decoded.to_dict() == raw, "v2 roundtrip is canonical")
+	check(decoded != null and decoded.to_dict() == raw, "current collapse roundtrip is canonical")
 	if decoded != null:
 		raw["collapse"]["marked"][0] = Vector2i(9, 9)
 		raw["collapse"]["turn"] = 20
@@ -42,15 +45,15 @@ func _test_v2_roundtrip() -> void:
 	var exported := state.to_dict()
 	exported["collapse"]["marked"][0] = Vector2i(8, 8)
 	check(state.collapse["marked"] == [Vector2i(2, 3)], "to_dict deep-copies nested values")
-	var canonical := CombatEnvironmentState.from_dict({"schema_version": 2, "next_fire_id": 1, "next_corpse_id": 1, "fires": [], "corpses": [], "processed_deaths": [], "collapse": {"turn": 7, "marked": []}})
-	check(canonical != null and canonical.to_dict()["collapse"] == {"turn": 7, "marked": []}, "v2 accepts empty marker list at positive turn")
+	var canonical := CombatEnvironmentState.from_dict({"schema_version": 5, "status_effects": true, "next_fire_id": 1, "next_corpse_id": 1, "fires": [], "corpses": [], "processed_deaths": [], "collapse": {"turn": 7, "marked": []}})
+	check(canonical != null and canonical.to_dict()["collapse"] == {"turn": 7, "marked": []}, "current schema accepts empty marker list at positive turn")
 
 func _test_invalid_shapes() -> void:
 	var base: Dictionary = CombatEnvironmentState.new().to_dict()
 	var cases: Array[Dictionary] = []
 	var item := base.duplicate(true); item["schema_version"] = true; cases.append(item)
 	item = base.duplicate(true); item["extra"] = 1; cases.append(item)
-	item = base.duplicate(true); item["schema_version"] = 2; cases.append(item)
+	item = base.duplicate(true); item["schema_version"] = 4; cases.append(item)
 	item = _v2({"turn": true, "marked": []}); cases.append(item)
 	item = _v2({"turn": -1, "marked": []}); cases.append(item)
 	item = _v2({"turn": CombatEnvironmentState.MAX_ID - 1, "marked": []}); cases.append(item)
@@ -69,7 +72,8 @@ func _test_invalid_shapes() -> void:
 
 func _v2(collapse: Dictionary) -> Dictionary:
 	var raw: Dictionary = CombatEnvironmentState.new().to_dict()
-	raw["schema_version"] = 2
+	raw["schema_version"] = 5
+	raw["status_effects"] = true
 	raw["collapse"] = collapse
 	return raw
 

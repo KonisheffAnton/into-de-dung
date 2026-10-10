@@ -338,7 +338,7 @@ func _test_p08_spatial_geometry() -> void:
 	_check(restored != null and restored.get_height_steps(Vector2i(2, 0)) == -1 and restored.get_height_steps(Vector2i(4, 0)) == 4294967295, "P08 schema2 independent restore")
 	var all_zero: Dictionary = board_v2.duplicate(true)
 	all_zero["height_half_steps"] = [0, 0, 0, 0, 0]
-	_check(not BattleBoard.validate_snapshot_dict(all_zero), "P08 schema2 all zero is noncanonical")
+	_check(BattleBoard.validate_snapshot_dict(all_zero), "current board2 also stores an all-zero half array")
 	var missing_bits: Dictionary = board_v2.duplicate(true)
 	missing_bits.erase("height_half_steps")
 	_check(not BattleBoard.validate_snapshot_dict(missing_bits), "P08 schema2 missing bits is invalid")
@@ -2677,7 +2677,7 @@ func _test_p02_a09_codec() -> void:
 		_check(bytes == PackedByteArray(cases[i][1]), "A09 literal codec leaf %d" % i)
 	_check(snap.canonical_bytes().slice(0, 5) == PackedByteArray([80, 48, 50, 83, 1]), "A09 literal P02S prefix")
 	var empty := SimulationSnapshot.capture_board(BattleBoard.new(), []).snapshot
-	_check(empty.canonical_bytes().size() == 423 and empty.fingerprint() == "2131efbbb21524e70a9558c18f6010ac8c745d903ca6fd652a2bb44893dd7100", "A09 independent whole codec oracle")
+	_check(empty.canonical_bytes().size() == 467 and empty.fingerprint() == "11edabed4cf6c226775752220122e9caf835c45fbc63c1e7a31f8fa5267e693a", "A09 independent whole codec oracle")
 	data = snap.to_dict()
 	data["board"]["units"][0]["move_points_left"] = -0.0
 	var negative := SimulationSnapshot.from_dict(data).snapshot
@@ -4426,7 +4426,7 @@ func _test_p03b_b11_codec() -> void:
 	_check(ItemSimulationSnapshot.from_dict(data).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B11 ordered definitions cannot drift from runtime")
 	# Фикстура целого envelope вычислена отдельно по спецификации тегов, не через codec Godot.
 	var empty := ItemSimulationSnapshot.capture(ItemSimulationState.new(BattleBoard.new(), [], [], []), []).snapshot
-	var literal := "503033420b050500000000000000050200000000000000040e00000000000000626f6172645f736e617073686f74050300000000000000050200000000000000040500000000000000626f617264050800000000000000050200000000000000040d00000000000000626f6172645f76657273696f6e020100000000000000050200000000000000040600000000000000686569676874020000000000000000050200000000000000040700000000000000686569676874730500000000000000000502000000000000000409000000000000006f63637570616e6379050000000000000000050200000000000000040e00000000000000736368656d615f76657273696f6e0201000000000000000502000000000000000407000000000000007465727261696e050000000000000000050200000000000000040500000000000000756e6974730500000000000000000502000000000000000405000000000000007769647468020000000000000000050200000000000000040e00000000000000736368656d615f76657273696f6e02010000000000000005020000000000000004050000000000000073636f7065041600000000000000626f6172645f6f6e6c795f6e6f5f6974656d735f76310502000000000000000406000000000000006f776e657273050000000000000000050200000000000000040e00000000000000736368656d615f76657273696f6e020b0000000000000005020000000000000004050000000000000073636f7065041000000000000000626174746c655f73746174655f76313105020000000000000004070000000000000073756d6d6f6e73050000000000000000".hex_decode()
+	var literal := "503033420b050500000000000000050200000000000000040e00000000000000626f6172645f736e617073686f74050300000000000000050200000000000000040500000000000000626f617264050900000000000000050200000000000000040d00000000000000626f6172645f76657273696f6e0201000000000000000502000000000000000406000000000000006865696768740200000000000000000502000000000000000411000000000000006865696768745f68616c665f7374657073050000000000000000050200000000000000040700000000000000686569676874730500000000000000000502000000000000000409000000000000006f63637570616e6379050000000000000000050200000000000000040e00000000000000736368656d615f76657273696f6e0202000000000000000502000000000000000407000000000000007465727261696e050000000000000000050200000000000000040500000000000000756e6974730500000000000000000502000000000000000405000000000000007769647468020000000000000000050200000000000000040e00000000000000736368656d615f76657273696f6e02010000000000000005020000000000000004050000000000000073636f7065041600000000000000626f6172645f6f6e6c795f6e6f5f6974656d735f76310502000000000000000406000000000000006f776e657273050000000000000000050200000000000000040e00000000000000736368656d615f76657273696f6e020b0000000000000005020000000000000004050000000000000073636f7065041000000000000000626174746c655f73746174655f76313105020000000000000004070000000000000073756d6d6f6e73050000000000000000".hex_decode()
 	_check(empty.canonical_bytes() == literal, "B11 independent literal outer envelope")
 	data = _p03b_minimal_dto()
 	data["owners"][0]["next_item_id"] = 9223372036854775807
@@ -6434,7 +6434,7 @@ func _test_p08_boundaries() -> void:
 	_check(board.set_height_steps(Vector2i.ZERO,-1) and board.board_version == version + 1,"P08 S01 one setter touch")
 	_check(board.set_height_steps(Vector2i.ZERO,-1) and board.board_version == version + 2,"P08 S01 same value touch")
 	board.set_height(Vector2i.ZERO,-1)
-	_check(board.get_height_steps(Vector2i.ZERO) == -2 and not board.has_half_heights() and board.to_snapshot_dict().schema_version == 1,"P08 S01 last bit resets schema1")
+	_check(board.get_height_steps(Vector2i.ZERO) == -2 and not board.has_half_heights() and board.to_snapshot_dict().schema_version == 2,"current board2 keeps zero half bits")
 	board.board_version = ActionContext.MAX_ID
 	var before := board.to_snapshot_dict()
 	_check(not board.set_height_steps(Vector2i.ZERO,1) and board.to_snapshot_dict() == before,"P08 S01 MAX version no mutation")
@@ -6467,6 +6467,9 @@ func _test_p08_boundaries() -> void:
 		else: raw.schema_version = 3
 		var item_result := ItemSimulationSnapshot.from_dict(bad)
 		var board_result := SimulationSnapshot.from_dict(bad.board_snapshot)
+		if mutation == "zero":
+			_check(item_result.code == ItemSnapshotResult.Code.OK and board_result.code == BoardSnapshotResult.Code.OK, "current board2 accepts all-zero half bits")
+			continue
 		_check(item_result.code == (ItemSnapshotResult.Code.SNAPSHOT_UNSUPPORTED if mutation == "unknown3" else ItemSnapshotResult.Code.SNAPSHOT_INVALID) and board_result.code == (BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED if mutation == "unknown3" else BoardSnapshotResult.Code.SNAPSHOT_INVALID),"P08 S03 exact shape classification " + mutation,item_result.reason + "/" + board_result.reason)
 	a._board.resize(0,0); b._board.resize(0,0); _p08_cleanup(f)
 	for direction: Vector2i in [Vector2i.RIGHT,Vector2i.LEFT,Vector2i.UP,Vector2i.DOWN]:

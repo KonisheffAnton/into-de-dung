@@ -5,7 +5,7 @@ extends SceneTree
 const BASE_COMMIT: String = "f17b7d9bda9ccc5633bbca8650a57b564413fcb0"
 const BASELINE_PATH: String = "res://tests/fixtures/attack_damage_d1_baseline.json"
 const BASE_ATTACK_SHA256: String = "f76124bc55556277a6d3493d63447e0713aa23f84e86609c603c4554e0808e8d"
-const TRACE_FORMAT: String = "ordered_unit9_item11"
+const TRACE_FORMAT: String = "ordered_current_components"
 var passed: int = 0
 var failed: int = 0
 var observations: Dictionary = {}

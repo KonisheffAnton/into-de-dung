@@ -61,14 +61,10 @@ static func transition(before: Dictionary, effect: StringName, ticks: int, sourc
 			var acid_before_apply: int = int(before.get("acid_ticks", 0))
 			if acid_before_apply == ElementalState.MAX_VALUE: return {"reason": &"status/duration_exhausted"}
 			after["acid_ticks"] = acid_before_apply + 1
-			after["schema_version"] = 2
 		&"acid_tick":
 			var acid_before_tick: int = int(before.get("acid_ticks", 0))
 			if acid_before_tick > 0:
 				after["acid_ticks"] = acid_before_tick - 1
-				if after["acid_ticks"] == 0:
-					after.erase("acid_ticks")
-					after["schema_version"] = 1
 		&"turn_end":
 			after["wet_turns"] = maxi(0, after["wet_turns"] - 1)
 			after["frozen_turns"] = maxi(0, after["frozen_turns"] - 1)

@@ -11,7 +11,7 @@ var ended: Array[int] = [0, 0]
 var team: int = 1
 var stage: String = "setup"
 var mage_allowed: bool = false
-var schema_version: int = 1
+const SCHEMA_VERSION: int = 3
 var ruleset_id: String = ""
 var first_team: int = 1
 
@@ -24,7 +24,7 @@ static func create(definitions: Array[AbilityDefinition]) -> BattleAbilityState:
 static func create_deck(definitions: Array[AbilityDefinition], first_team_value: int) -> BattleAbilityState:
 	if first_team_value not in [0, 1]: return null
 	var result := BattleAbilityState.new()
-	result.schema_version = 2; result.ruleset_id = "u14-deck-v1"; result.first_team = first_team_value
+	result.ruleset_id = "u14-deck-v1"; result.first_team = first_team_value
 	result.team = first_team_value; result.mana = 2; result.maximum = 2; result.mage_allowed = false
 	for definition: AbilityDefinition in definitions:
 		if definition == null or definition.validate() != &"": return null
@@ -50,21 +50,21 @@ func to_dict() -> Dictionary:
 	for value: AbilityDefinition in catalog:
 		if value == null: return {}
 		definitions.append(value.to_dict())
-	var result: Dictionary = {"schema_version": schema_version, "catalog": definitions, "mana": mana, "maximum": maximum, "ledger": ledger.duplicate(true), "serials": Array(serials).duplicate(), "ended": Array(ended).duplicate(), "team": team, "stage": stage, "mage_allowed": mage_allowed}
-	if schema_version == 2:
-		result["ruleset_id"] = ruleset_id; result["first_team"] = first_team
+	var result: Dictionary = {"schema_version": SCHEMA_VERSION, "catalog": definitions, "mana": mana, "maximum": maximum, "ledger": ledger.duplicate(true), "serials": Array(serials).duplicate(), "ended": Array(ended).duplicate(), "team": team, "stage": stage, "mage_allowed": mage_allowed}
+	result["ruleset_id"] = ruleset_id; result["first_team"] = first_team
 	return result
 
 static func valid(value: Variant) -> bool:
 	if typeof(value) != TYPE_DICTIONARY: return false
 	var common: Dictionary = {"schema_version": TYPE_INT, "catalog": TYPE_ARRAY, "mana": TYPE_INT, "maximum": TYPE_INT, "ledger": TYPE_ARRAY, "serials": TYPE_ARRAY, "ended": TYPE_ARRAY, "team": TYPE_INT, "stage": TYPE_STRING, "mage_allowed": TYPE_BOOL}
 	if typeof(value.get("schema_version")) != TYPE_INT: return false
-	var schema: int = value.schema_version
-	if schema == 2:
-		common["ruleset_id"] = TYPE_STRING; common["first_team"] = TYPE_INT
-	if not ItemSimulationSnapshot._shape(value, common) or schema not in [1, 2]: return false
+	common["ruleset_id"] = TYPE_STRING; common["first_team"] = TYPE_INT
+	if not ItemSimulationSnapshot._shape(value, common) or value.schema_version != SCHEMA_VERSION: return false
+	if value.ruleset_id not in ["", "u14-deck-v1"]: return false
+	var deck: bool = value.ruleset_id == "u14-deck-v1"
+	if not deck and value.first_team != 1: return false
 	if value.maximum < 1 or value.mana < 0 or value.mana > value.maximum or value.team not in [0, 1] or value.stage not in ["setup", "active", "closing", "ended", "ready", "terminal"]: return false
-	if schema == 1:
+	if not deck:
 		if value.maximum != 6 or value.mage_allowed != (value.stage == "active" and value.team == 0): return false
 	else:
 		if value.ruleset_id != "u14-deck-v1" or value.first_team not in [0, 1] or value.maximum < 2 or value.maximum > 9: return false
@@ -72,7 +72,7 @@ static func valid(value: Variant) -> bool:
 	if value.serials.size() != 2 or value.ended.size() != 2: return false
 	for i: int in 2:
 		if typeof(value.serials[i]) != TYPE_INT or typeof(value.ended[i]) != TYPE_INT or value.serials[i] < 0 or value.ended[i] < 0 or value.ended[i] > value.serials[i] or value.serials[i] - value.ended[i] > 1: return false
-	if schema == 1:
+	if not deck:
 		if value.serials[1] < value.serials[0] or value.serials[1] - value.serials[0] > 1: return false
 	else:
 		var first_delta: int = value.serials[value.first_team] - value.serials[1 - value.first_team]
@@ -80,17 +80,17 @@ static func valid(value: Variant) -> bool:
 		var expected_maximum: int = 2 if value.serials[0] <= 1 else (9 if value.serials[0] >= 8 else value.serials[0] + 1)
 		if value.maximum != expected_maximum: return false
 	if value.stage == "setup":
-		if schema == 1 and (value.team != 1 or not value.ledger.is_empty() or value.mana != value.maximum): return false
-		if schema == 2 and (value.team != value.first_team or value.mana != 2 or value.maximum != 2 or not value.ledger.is_empty()): return false
+		if not deck and (value.team != 1 or not value.ledger.is_empty() or value.mana != value.maximum): return false
+		if deck and (value.team != value.first_team or value.mana != 2 or value.maximum != 2 or not value.ledger.is_empty()): return false
 		if value.serials != [0, 0] or value.ended != [0, 0]: return false
 	if value.stage in ["active", "closing", "ready", "ended"]:
 		if value.serials[1 - value.team] != value.ended[1 - value.team]: return false
-		if schema == 1 and value.serials[1] - value.serials[0] != value.team: return false
-		if schema == 2 and (value.serials[value.team] < value.serials[1 - value.team] or value.serials[value.team] - value.serials[1 - value.team] > 1): return false
+		if not deck and value.serials[1] - value.serials[0] != value.team: return false
+		if deck and (value.serials[value.team] < value.serials[1 - value.team] or value.serials[value.team] - value.serials[1 - value.team] > 1): return false
 	if value.stage in ["active", "closing", "ready"] and value.serials[value.team] - value.ended[value.team] != 1: return false
 	if value.stage == "ended":
 		if value.serials[value.team] != value.ended[value.team]: return false
-		if schema == 2 and value.serials != value.ended: return false
+		if deck and value.serials != value.ended: return false
 	if value.catalog.size() < 2 or value.catalog.size() > 4096 or value.ledger.size() > 2: return false
 	var ids: Dictionary = {}
 	var previous := ""
@@ -102,20 +102,20 @@ static func valid(value: Variant) -> bool:
 	var fixed: Dictionary = {}
 	for descriptor: AbilityDefinition in AbilityCatalog.defaults():
 		var id := String(descriptor.ability_id)
-		if schema == 2 and id.begins_with("mage."): continue
+		if deck and id.begins_with("mage."): continue
 		fixed[id] = true
 		if not ids.has(id): return false
-		if (schema == 2 or not id.begins_with("mage.")) and ids[id].to_dict() != descriptor.to_dict(): return false
+		if (deck or not id.begins_with("mage.")) and ids[id].to_dict() != descriptor.to_dict(): return false
 	for id: String in ids:
-		if schema == 2 and id.begins_with("mage."): return false
+		if deck and id.begins_with("mage."): return false
 		if fixed.has(id): continue
 		if id == "unit.raise_shields" and ids[id].to_dict() == RaiseShieldsCommand.definition().to_dict(): continue
-		if schema == 1 and (AbilityDefinition.TEST_EFFECTS.has(StringName(id)) or AbilityDefinition.TEST_SUPPORT_EFFECTS.has(StringName(id))): continue
+		if not deck and (AbilityDefinition.TEST_EFFECTS.has(StringName(id)) or AbilityDefinition.TEST_SUPPORT_EFFECTS.has(StringName(id))): continue
 		# Ссылки предметов сверяет envelope; ссылки атак — контекст с AttackRules.
 		if id.begins_with("attack:") and id.length() > 7: continue
 		if id.begins_with("item_use:") or id.begins_with("item_effect:"): continue
 		return false
-	if schema == 2: return value.ledger.is_empty()
+	if deck: return value.ledger.is_empty()
 	previous = ""
 	for record: Variant in value.ledger:
 		if not ItemSimulationSnapshot._shape(record, {"owner_kind": TYPE_STRING, "owner_id": TYPE_INT, "ability_id": TYPE_STRING, "source_instance_id": TYPE_INT, "remaining": TYPE_INT, "skip_current_end": TYPE_BOOL}): return false
@@ -137,13 +137,12 @@ func apply_values(value: Dictionary) -> void:
 	ledger.assign(value.ledger.duplicate(true))
 	serials.assign(value.serials); ended.assign(value.ended)
 	team = value.team; stage = value.stage; mage_allowed = value.mage_allowed
-	schema_version = value.schema_version
-	ruleset_id = String(value.get("ruleset_id", "")); first_team = int(value.get("first_team", 1))
+	ruleset_id = String(value["ruleset_id"]); first_team = int(value["first_team"])
 
 func paid(id: StringName) -> Dictionary:
 	var after := to_dict()
 	var spell := definition(id)
-	if schema_version != 1 or not valid(after) or spell == null or not mage_allowed or remaining(id) > 0 or mana < spell.mana_cost: return {}
+	if ruleset_id != "" or not valid(after) or spell == null or not mage_allowed or remaining(id) > 0 or mana < spell.mana_cost: return {}
 	after.mana -= spell.mana_cost
 	if spell.cooldown_turns > 0:
 		var found := false
@@ -166,7 +165,7 @@ func boundary(operation: StringName, expected_team: int, serial: int) -> Diction
 			after.stage = "closing"
 		&"end":
 			if stage != "closing" or ended[team] == serial: return {}
-			if schema_version == 1 and team == 0:
+			if ruleset_id == "" and team == 0:
 				for record: Dictionary in after.ledger:
 					if record.skip_current_end: record.skip_current_end = false
 					elif record.remaining > 0: record.remaining -= 1
@@ -175,7 +174,7 @@ func boundary(operation: StringName, expected_team: int, serial: int) -> Diction
 			if stage != "ended" or serials[1 - team] == MAX: return {}
 			after.team = 1 - team; after.serials[1 - team] += 1; after.stage = "ready"
 			if after.team == 0:
-				if schema_version == 1: after.mana = mini(maximum, mana + 2)
+				if ruleset_id == "": after.mana = mini(maximum, mana + 2)
 				else:
 					if serials[0] >= 1: after.maximum = mini(9, maximum + 1)
 					after.mana = after.maximum

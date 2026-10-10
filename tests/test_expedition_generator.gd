@@ -18,7 +18,7 @@ func _run() -> void:
 	var serialized: Dictionary = {}
 	for seed_value: int in range(256):
 		var plan: Dictionary = ExpeditionGenerator.generate(seed_value)
-		check(ExpeditionGenerator.valid(plan), "seed %d produces a valid full plan" % seed_value)
+		check(ExpeditionGenerator.valid(plan) and plan.schema == 4 and plan.ruleset_id == ExpeditionRulesRegistry.LEGACY and not plan.opening, "seed %d produces a valid legacy schema4 plan" % seed_value)
 		if seed_value == 17:
 			serialized = plan
 		check(ExpeditionGenerator.generate(seed_value) == plan, "seed %d is reproducible" % seed_value)
@@ -30,18 +30,18 @@ func _run() -> void:
 	_validate_rejections(serialized)
 	_copy_isolation()
 	for seed_value: int in 32:
-		var current := ExpeditionRulesRegistry.generate(seed_value)
-		var previous := ExpeditionRulesRegistry.generate(seed_value, false)
-		check(ExpeditionGenerator.valid(current) and current.schema == 3 and current.start == [1] and current.nodes.size() == 13, "single opening graph %d" % seed_value)
+		var current := ExpeditionRulesRegistry.generate_plan(seed_value, true)
+		var previous := ExpeditionRulesRegistry.generate_plan(seed_value, false)
+		check(ExpeditionGenerator.valid(current) and current.schema == 4 and current.ruleset_id == ExpeditionRulesRegistry.DECK and current.opening and current.start == [1] and current.nodes.size() == 13, "single opening graph %d" % seed_value)
 		check(current.nodes[0].next == [2,3,4] and current.nodes[0].variant == 0 and current.nodes[0].modifier == "neutral", "fixed opening has all next-layer choices")
-		check(ExpeditionGenerator.valid(previous) and previous.schema == 2 and previous.start == [1,2], "old deck graph remains loadable")
-		check(ExpeditionRulesRegistry.generate(seed_value) == current, "opening graph is deterministic")
+		check(ExpeditionGenerator.valid(previous) and previous.schema == 4 and previous.ruleset_id == ExpeditionRulesRegistry.DECK and not previous.opening and previous.start == [1,2], "current two-start deck graph remains loadable")
+		check(ExpeditionRulesRegistry.generate_plan(seed_value, true) == current, "opening graph is deterministic")
 		for index: int in range(1, current.nodes.size()):
 			check(current.nodes[index].battle_seed == previous.nodes[index+1].battle_seed and current.nodes[index].reward == previous.nodes[index+1].reward, "downstream battle/reward streams preserved")
-	var damaged := ExpeditionRulesRegistry.generate(17)
+	var damaged := ExpeditionRulesRegistry.generate_plan(17, true)
 	damaged.content.opening.hazards[0].effect = "burning"
 	check(not ExpeditionGenerator.valid(damaged), "opening manifest cannot silently drift")
-	damaged = ExpeditionRulesRegistry.generate(17); damaged.nodes[0].next = [2,3]
+	damaged = ExpeditionRulesRegistry.generate_plan(17, true); damaged.nodes[0].next = [2,3]
 	check(not ExpeditionGenerator.valid(damaged), "opening cannot strand a next-layer room")
 	for kind: String in ["battle","elite","final"]:
 		for variant: int in (3 if kind == "battle" else 2):
@@ -53,8 +53,16 @@ func _run() -> void:
 
 func _validate_rejections(source: Dictionary) -> void:
 	var bad: Dictionary = source.duplicate(true)
-	bad.schema = 2
-	check(not ExpeditionGenerator.valid(bad), "unknown schema rejected")
+	bad.schema = 3
+	check(not ExpeditionGenerator.valid(bad), "old plan version rejected")
+	bad = source.duplicate(true); bad.schema = 5
+	check(not ExpeditionGenerator.valid(bad), "future plan version rejected")
+	bad = source.duplicate(true); bad.erase("ruleset_id")
+	check(not ExpeditionGenerator.valid(bad), "missing ruleset rejected")
+	bad = source.duplicate(true); bad.ruleset_id = "unknown"
+	check(not ExpeditionGenerator.valid(bad), "unknown ruleset rejected")
+	bad = source.duplicate(true); bad.opening = true
+	check(not ExpeditionGenerator.valid(bad), "legacy plan cannot claim opening")
 	bad = source.duplicate(true); bad.content.version += 1
 	check(not ExpeditionGenerator.valid(bad), "unknown content version rejected")
 	bad = source.duplicate(true); bad.content.encounters[0].enemy_hp += 1
@@ -94,7 +102,7 @@ func _copy_isolation() -> void:
 	var untouched: Dictionary = ExpeditionGenerator.generate(9001)
 	first.nodes[0].next.clear()
 	first.nodes[0].reward.clear()
-	check(ExpeditionGenerator.generate(9001) == untouched, "mutating returned plan cannot change a later plan")
+	check(ExpeditionGenerator.generate(9001) == untouched and ExpeditionGenerator.valid(untouched), "mutating returned plan cannot change later plan or source")
 	var first_definition := ExpeditionCatalog.artifact("spark")
 	first_definition.title = "Изменено"
 	var second_definition := ExpeditionCatalog.artifact("spark")

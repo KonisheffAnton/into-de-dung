@@ -95,5 +95,6 @@ Frozen TASK/DEPENDENCIES/REVIEW остаются на прежних путях 
 [D3](BLEEDING_D3.md) добавляет внутренние BleedingApply/Tick и корневую
 BleedingTurnCommand. Внешняя подача Apply/Tick отвергается. Событие
 bleeding_changed несёт before/after состояния и applied/refreshed/tick;
+текущая вложенная форма — [bleeding4](BATTLE_SNAPSHOT_CURRENT.md), режим срока/стаков явный.
 hit_resolved прямого источника дополнительно сохраняет policy/physical_hp_damage/eligible.
 Лимиты, counters и реальные события префикса учитывают эти команды.

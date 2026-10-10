@@ -39,10 +39,10 @@
 ## Владельцы и совместимость
 
 CombatPerksDefinition.counterattack и append-only Mode.COUNTERATTACK=3 отделены
-от tank_reactions. CombatPerksState schema3 требуется только новому перку;
-при выключенном флаге точные старые schema1/2 формы сохранены. Режимы проверяют
-владение соответствующим перком; заряд допустим у любого владельца реакций.
-Unit7/envelopes неизменны, строгие shape/copy/restore/downgrade проверки сохраняются.
+от tank_reactions. Единый codec и явный способ оплаты —
+[текущие снимки](BATTLE_SNAPSHOT_CURRENT.md). Режимы проверяют владение
+соответствующим перком; legacy-заряд допустим у владельца реакций, в bonus-режиме
+он строго нулевой. Строгие shape/copy/restore проверки сохраняются.
 
 ActionQueue планирует максимум один внутренний AttackCommand.counterattack после
 полного drain исходного каскада и до истечения временной брони по исходу боя.

@@ -190,7 +190,7 @@ def main():
             invalid = invalid or "ITEM GRAPH CLONE RESULTS:" not in output or ", 0 failed" not in output or "ITEM GRAPH CLONE DONE" not in output
         if label == "forecast_clone_probe":
             invalid = invalid or "FORECAST CLONE RESULTS:" not in output or ", 0 failed" not in output or "FORECAST CLONE DONE" not in output or "WARNING:" in output
-        if label in ("action_event_validator", "forecast_definition_copy", "forecast_restore_isolation"):
+        if label in ("current_schema_boundary", "action_event_validator", "forecast_definition_copy", "forecast_restore_isolation"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output or "WARNING:" in output
         if label in ("current_art_zoom", "art_trial_battle", "presentation_capture", "battle_presentation", "presentation_foundation", "presentation_contact", "presentation_attack_styles", "presentation_consequences", "presentation_environment", "presentation_ranged", "presentation_mage", "presentation_reactions", "presentation_status", "battle_board_camera", "battle_camera_ui", "battle_view_reuse", "four_slot_bar", "battle_panels", "environment_visual_contract", "unit_visual_contract", "visual_scene_contract"):
@@ -469,6 +469,7 @@ def main():
         run("snapshot_value_copy", ["--script", "tests/test_snapshot_value_copy.gd"])
         run("live_snapshot_capture", ["--script", "tests/test_live_snapshot_capture.gd"])
         run("action_event_validator", ["--script", "tests/test_action_event_validator.gd"])
+        run("current_schema_boundary", ["--script", "tests/test_current_schema_boundary.gd"])
         run("forecast_definition_copy", ["--script", "tests/test_forecast_definition_copy.gd"])
         run("forecast_restore_isolation", ["--script", "tests/test_forecast_restore_isolation.gd"])
         if "snapshot_strategies" in selected:

@@ -32,7 +32,7 @@ func _ready() -> void:
 	var loaded := HeroHubStore.read_run(save_path,mage_deck_mode)
 	run = loaded.get("run") as HeroHubState
 	_storage_error = String(loaded.get("error", ""))
-	if run != null and (not save_existed or loaded.get("migrated", false)) and _storage_error.is_empty():
+	if run != null and not save_existed and _storage_error.is_empty():
 		# Первый профиль сразу фиксируется, чтобы кандидаты и стартовый отряд не менялись после перезапуска.
 		selected_hero_id = run.party[0] if not run.party.is_empty() else 0
 		_commit(run)

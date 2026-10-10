@@ -35,9 +35,8 @@
 ## Границы реализации
 
 Статические stunning_strike/stun_immune/entangle_immune принадлежат
-CombatPerksDefinition. CombatPerksState пишет schema2 только при наличии нового
-флага; выключенные новые флаги сохраняют точные прежние schema1 данные. Unit7,
-ControlState1 и внешние envelopes не меняются; все validators/copy/restore
+CombatPerksDefinition. CombatPerksState хранит все флаги в единой perks7 —
+[текущие снимки](BATTLE_SNAPSHOT_CURRENT.md). Все validators/copy/restore
 должны сохранять новые определения и отвергать malformed/downgrade данные.
 У цели по-прежнему нужна существующая ControlState; nullable capability
 помощникам автоматически не добавляется. Проверка владения/допуска — до оплаты.

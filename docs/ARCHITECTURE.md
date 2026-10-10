@@ -18,8 +18,9 @@
 барьеры исполнения прежние. Карта — [BATTLE_HUD_SCENES_V1](BATTLE_HUD_SCENES_V1.md).
 
 [K17](STATUS_EFFECTS_NEXT.md) включает конечные состояния bleeding/burning/wet/freeze
-в основном бою и у помощников. Nullable ElementalState и bleeding3 изолируют новый
-профиль от legacy; Environment3 задаёт физические шипы и горящие клетки.
+в основном бою и у помощников. Nullable ElementalState и явный режим bleeding.stacked разделяют правила
+статусов; environment.status_effects задаёт эффекты постоянных шипов и горящих клеток.
+Выдвижные напольные/настенные шипы и кислота принадлежат отдельной capability hazards.
 Боевые снимки — [текущий контракт](BATTLE_SNAPSHOT_CURRENT.md), D4 прежний.
 ActionForecastWorker имеет выключенный по умолчанию clone-путь (`--forecast-clone`):
 свежий capture, сборка изолированного графа на main, одноразовая передача,
@@ -35,8 +36,8 @@ ForecastSimulation и оба worker сохраняют то же состоян�
 ControlRules блокирует действия/угрозы замороженного; крит frozen распространяется
 и на реакции K12, сохраняя исключения обычного контроля у реакций.
 
-[Выдвижные ловушки и кислота](ENVIRONMENT_HAZARDS_V1.md) расширяют Environment
-до schema4 и ElementalState до schema2 только при соответствующей capability.
+[Выдвижные ловушки и кислота](ENVIRONMENT_HAZARDS_V1.md) добавляют optional hazards
+в единую environment5 и acid_ticks в elemental3; правила — в контракте снимков.
 HazardCommand/HazardTurnCommand разрешают контакты/отложенные срабатывания через
 ту же очередь; AcidCommand пишет только статус и броню под SpatialRules.Guard.
 Состояние взвода/защёлки входит в snapshot, а показ — в detached публикации.
@@ -47,7 +48,7 @@ HazardCommand/HazardTurnCommand разрешают контакты/отложе
 Playback удерживает шипы после атомарной публикации HP/чисел; втягивание
 завершает кадр перед продолжением, сохраняя общие speed/skip/cancel/resize.
 BattleHazardSetup авторит слой первой комнаты в HeroHubBattleFactory, сохраняя
-persisted каталог/планы/profile1–4 и прежние D5/K2. Владелец правил — новый контракт.
+значения каталога/плана и прежние режимы D5/K2. Владелец правил — новый контракт.
 
 [K14](SAFE_RETREAT_K14.md) добавляет `safe_retreat` в MoveCommand: тот же путь,
 continuation и очередь последствий, без перехвата Оппортуниста. Первый сегмент
@@ -62,7 +63,7 @@ ActionQueue ставит один внутренний AttackCommand после 
 guards/FAULTED prefix и не строит цепь ответов. Counter-hit сохраняет стойку,
 не ставит остановку движения и использует прежний pipeline без impact/push.
 Крит обычного контроля отключён; исключение заморозки задаёт K17.
-Текущий codec main/H1 — schema5, legacy1–4 сохраняют точные прежние формы;
+Единый CombatPerks codec хранит явный способ оплаты;
 оплата — [REACTION_BONUS_ACTIONS](REACTION_BONUS_ACTIONS.md).
 Forecast и эксклюзивный live worker исполняют тот же хвост.
 
@@ -70,7 +71,7 @@ Forecast и эксклюзивный live worker исполняют тот же 
 иммунитеты к путам/оглушению. ControlApplyCommand объединяет два конечных
 наложения: sealed gate прямого HP-hit → пространственные последствия → контроль
 → реакции предметов. ControlState переносится текущим Unit snapshot; CombatPerksState
-в legacy пишет вложенную schema2 для флагов K11; текущая форма — schema5.
+всегда хранит полный набор флагов в текущей форме.
 BT передаёт ID выбранной атаки, команды проверяют владение и исполняют её.
 
 [K10](CORE_REACTIONS_K10.md) расширяет общий бой перками: скрытая атака,
@@ -235,9 +236,9 @@ IsoVisual постоянно рисует равновесие живых фиг
 во время worker недоступен. Порядок кадров и публикация after прежние.
 Параметры/вид/границы приёмки — R10 в BATTLE_PRESENTATION_REWORK.
 
-Новые main/H1 сессии включают `CombatPerksState.uses_bonus_actions`: schema5
-хранит режим/перки без reaction_left, оплатой владеет ActionResources.bonus_left.
-Legacy schema1–4 сохраняют старый счётчик и поведение без миграции. MeleeThreat
+Новые main/H1 сессии включают `CombatPerksState.uses_bonus_actions`: оплатой
+владеет ActionResources.bonus_left, reaction_left строго 0. Единая perks7
+сохраняет также legacy-режим с отдельным зарядом. MeleeThreat
 читает выбранный источник; AttackCommand готовит debit SpatialRules.Guard до
 оплаты актёром/защитником, а CombatPerkGuard охраняет bonus и ссылку ресурсов
 также у третьих участников каскада. Новое reaction_used имеет строгие поля
@@ -403,7 +404,7 @@ callback, включая остановку перед второй запись
 записывает тело/metadata/admission и BattleBoard.add_unit, сверяя snapshot,
 identity и RNG/counters. Верховный маг использует командную связь в schema9;
 anchor события не является владельцем. Предметная связь и prepare_owned сохранены.
-Щит живёт в ArmorState.schema2; ArmorRuntime планирует его перед защитами,
+Щит живёт в optional поле единой ArmorState; ArmorRuntime планирует его перед защитами,
 ArmorHitExecutor пишет ожидаемую delta до остаточного урона. Старые ArmorState1
 и envelope1–8 сохраняют свои bytes. Forecast/worker переносят эти данные через
 общий snapshot. Показ получает только скопированные shield/pending и события;
@@ -417,7 +418,7 @@ BattleSupportEffect отвечает за флакон/печать/появле
 
 ## Владельцы данных и поведения
 
-Щитоносец — [SHIELDBEARER_V1](SHIELDBEARER_V1.md): profile5 закрепляет каталог v2;
+Щитоносец — [SHIELDBEARER_V1](SHIELDBEARER_V1.md): явный hero_catalog_version закрепляет каталог v2;
 прежний warrior и профили сохраняют v1. Пассивный Оппортунист — CombatPerksState6,
 поднятые щиты/откат владельца — ArmorState3. RaiseShieldsCommand расходует main;
 ArmorHitExecutor уменьшает прямой пакет первой атаки до прочих защит. Root/group
@@ -608,28 +609,28 @@ ID забега. После полного исхода возвращает HP/
 ExpeditionRunState, переходы выполняются на проверенной копии до записи и публикации.
 HeroHubBattleFactory собирает изолированный бой комнаты; receipt касается только
 реально надетых вещей, походная собственность отдельно учитывает снятые вещи.
-Новые походы с колодой используют plan schema3 и `ExpeditionOpening`: один вход
-с существующими угрозами, атомарный старт сразу в checkpoint. Старые plan1/2
-сохраняются буквально; версия/значения стартовой комнаты входят в content manifest.
+Новые походы с колодой используют plan4 с opening=true и `ExpeditionOpening`:
+один вход с существующими угрозами, атомарный старт сразу в checkpoint. Вариант
+с двумя входами задаётся opening=false; значения комнаты входят в content manifest.
 BattleArtifactState — nullable capability ItemSimulationState; текущий snapshot переносит
 её значения, roster/ordinary-attack mapping и serial ремонта. Без capability поле
 отсутствует. Артефакты работают через команды общей очереди;
 SpatialRules и очередь защищают вложенные значения. F5 начинается с главного меню.
 
-Итоги боя — [POST_BATTLE_V1](POST_BATTLE_V1.md): HeroHubState schema3 владеет
+Итоги боя — [POST_BATTLE_V1](POST_BATTLE_V1.md): HeroHubState владеет
 ProfileAchievements и value-отчётом; PostBattleRules дополняет проверенный исход
-лечением/достижениями и выполняет платный ремонт. Run schema2 учитывает траты
-золота; прежние профили/run читаются без пересоздания плана/checkpoint/RNG.
+лечением/достижениями и выполняет платный ремонт. Run4 учитывает траты
+золота; текущий roundtrip не пересоздаёт план/checkpoint/RNG.
 PostBattlePanel вызывает прежнюю границу копия→запись→публикация. Отчёт сохраняется
 вместе с результатом; его показ не исполняет команды и не начисляет награды.
 
-Колода [MAGE_DECK_V1](MAGE_DECK_V1.md) добавляет profile4/run3/plan2 и
-боевые компоненты колоды (теперь общий ItemSimulation schema11).
-MainMenu включает upgrade до profile4 через тот же барьер записи; сохранённые
-H1 battle и весь U14 legacy-run сохраняют свои правила до завершения.
+Постоянные форматы и явный отказ старой загрузки без изменения файла —
+[SAVE_FORMAT_CURRENT](SAVE_FORMAT_CURRENT.md). MainMenu создаёт профиль с колодой;
+чтение существующего профиля не включает её автоматически. H1/U14/deck режимы
+хранятся в одной текущей форме и сохраняют собственные правила.
 ExpeditionRulesRegistry проверяет механические каталоги и порождает сохранённые
 тройки отдельным reward RNG. BattleDeckState владеет копиями/зонами и draw RNG,
-BattleAbilityState schema2 — маной/часами, BattleCardEffectState — ordinary
+BattleAbilityState с явным ruleset_id — маной/часами, BattleCardEffectState — ordinary
 binding и огненным усилением. Вместе эти capability обязательны и исключают
 BattleArtifactState. Guards, snapshots и workers переносят их как единый граф.
 PlayMageCardCommand платит картой/маной до общего MageEffectExecutor; legacy

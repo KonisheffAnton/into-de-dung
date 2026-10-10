@@ -14,7 +14,7 @@ var shield: Dictionary = {}
 var raised_shield: Dictionary = {}
 
 func to_dict() -> Dictionary:
-	var result := {"schema_version": 1, "natural": natural.duplicate(true), "perks": perks.duplicate(true), "grants": grants.duplicate(true), "next_grant_id": next_grant_id, "battle_id": battle_id, "in_battle": in_battle}
+	var result := {"schema_version": 4, "natural": natural.duplicate(true), "perks": perks.duplicate(true), "grants": grants.duplicate(true), "next_grant_id": next_grant_id, "battle_id": battle_id, "in_battle": in_battle}
 	RaisedShield.write_state(result, raised_shield)
 	SpellShield.write_state(result, shield)
 	return result
@@ -33,20 +33,15 @@ static func from_dict(data: Dictionary) -> ArmorState:
 	return result
 
 static func valid(data: Variant) -> bool:
-	if typeof(data) == TYPE_DICTIONARY and data.get("schema_version") == 3:
-		if not data.has("raised_shield") or not RaisedShield.valid(data["raised_shield"]) or data["raised_shield"].is_empty(): return false
-		var prior: Dictionary = data.duplicate(true)
-		prior.erase("raised_shield")
-		prior["schema_version"] = 2 if prior.has("shield") else 1
-		return valid(prior)
-	if typeof(data) == TYPE_DICTIONARY and data.get("schema_version") == 2:
-		if data.has("raised_shield"): return false
-		if not data.get("in_battle", false) or not SpellShield.valid(data.get("shield")): return false
-		var prior: Dictionary = data.duplicate(true)
-		SpellShield.write_state(prior, {})
-		return valid(prior)
-	if not ItemSimulationSnapshot._shape(data, {"schema_version": TYPE_INT, "natural": TYPE_DICTIONARY, "perks": TYPE_ARRAY, "grants": TYPE_ARRAY, "next_grant_id": TYPE_INT, "battle_id": TYPE_INT, "in_battle": TYPE_BOOL}): return false
-	if data["schema_version"] != 1 or data["next_grant_id"] < 1 or data["next_grant_id"] >= ActionContext.MAX_ID or data["battle_id"] < 1: return false
+	var shape := {"schema_version": TYPE_INT, "natural": TYPE_DICTIONARY, "perks": TYPE_ARRAY,
+		"grants": TYPE_ARRAY, "next_grant_id": TYPE_INT, "battle_id": TYPE_INT, "in_battle": TYPE_BOOL}
+	if typeof(data) != TYPE_DICTIONARY: return false
+	for key: String in ["shield", "raised_shield"]:
+		if data.has(key): shape[key] = TYPE_DICTIONARY
+	if not ItemSimulationSnapshot._shape(data, shape): return false
+	if data.schema_version != 4 or data.next_grant_id < 1 or data.next_grant_id >= ActionContext.MAX_ID or data.battle_id < 1: return false
+	if data.has("shield") and (not data.in_battle or not SpellShield.valid(data.shield)): return false
+	if data.has("raised_shield") and not RaisedShield.valid(data.raised_shield): return false
 	if not valid_resistances(data["natural"]) or data["perks"].size() > 4096 or data["grants"].size() > 4096: return false
 	var ids: Dictionary = {}
 	for perk: Variant in data["perks"]:

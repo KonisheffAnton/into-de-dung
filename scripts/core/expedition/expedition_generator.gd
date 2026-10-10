@@ -5,7 +5,7 @@ const LAYER_SIZES: Array[int] = [2, 3, 2, 1, 3, 2, 1]
 const OPENING_LAYER_SIZES: Array[int] = [1, 3, 2, 1, 3, 2, 1]
 const ARTIFACT_IDS: Array[String] = ["spark", "blood", "ember", "ice", "formation", "harvest"]
 const NODE_KEYS: Array[String] = ["id", "layer", "kind", "variant", "modifier", "next", "reward", "battle_seed"]
-const PLAN_KEYS: Array[String] = ["schema", "seed", "nodes", "start", "content"]
+const PLAN_KEYS: Array[String] = ["schema", "ruleset_id", "opening", "seed", "nodes", "start", "content"]
 
 static func generate(seed_value: int) -> Dictionary:
 	var graph_rng := RandomNumberGenerator.new()
@@ -46,21 +46,22 @@ static func generate(seed_value: int) -> Dictionary:
 				"reward": reward,
 				"battle_seed": battle_rng.randi_range(1, 2147483647)
 			})
-	return {"schema": 1, "seed": seed_value, "nodes": nodes, "start": [1, 2], "content": ExpeditionCatalog.content_values()}
+	return {"schema": 4, "ruleset_id": ExpeditionRulesRegistry.LEGACY, "opening": false, "seed": seed_value, "nodes": nodes, "start": [1, 2], "content": ExpeditionCatalog.content_values()}
 
 static func valid(data: Variant) -> bool:
 	if not data is Dictionary: return false
-	var opening: bool = data.get("schema") == 3 and typeof(data.get("schema")) == TYPE_INT
-	var deck: bool = (data.get("schema") == 2 or opening) and typeof(data.get("schema")) == TYPE_INT
+	if typeof(data.get("ruleset_id")) != TYPE_STRING or typeof(data.get("opening")) != TYPE_BOOL: return false
+	var deck: bool = data.ruleset_id == ExpeditionRulesRegistry.DECK
+	if not deck and data.ruleset_id != ExpeditionRulesRegistry.LEGACY: return false
+	var opening: bool = data.opening
+	if opening and not deck: return false
 	var layer_sizes: Array[int] = OPENING_LAYER_SIZES if opening else LAYER_SIZES
 	var keys: Array[String] = PLAN_KEYS.duplicate()
-	if deck: keys.append("ruleset_id")
 	if not _has_exact_keys(data, keys):
 		return false
 	var plan: Dictionary = data
 	if not ExpeditionRulesRegistry.matches_content(plan["content"],deck,opening): return false
-	if deck and plan.ruleset_id != ExpeditionRulesRegistry.DECK: return false
-	if not _is_plain_int(plan["schema"]) or plan["schema"] != (3 if opening else 2 if deck else 1) or not _is_plain_int(plan["seed"]):
+	if not _is_plain_int(plan["schema"]) or plan["schema"] != 4 or not _is_plain_int(plan["seed"]):
 		return false
 	if not plan["nodes"] is Array or not plan["start"] is Array:
 		return false

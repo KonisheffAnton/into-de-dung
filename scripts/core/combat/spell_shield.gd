@@ -12,10 +12,10 @@ static func make(id: StringName, hp: int, hits: int) -> Dictionary:
 static func write_state(state: Dictionary, value: Dictionary) -> void:
 	if value.is_empty():
 		state.erase("shield")
-		state["schema_version"] = 3 if state.has("raised_shield") else 1
+		state["schema_version"] = 4
 	else:
 		state["shield"] = value.duplicate(true)
-		state["schema_version"] = 3 if state.has("raised_shield") else 2
+		state["schema_version"] = 4
 
 ## Округление групп совпадает с D0. Поглощение распределяется пропорционально
 ## между типами/политиками; остаточные единицы идут в неизменном порядке D0.

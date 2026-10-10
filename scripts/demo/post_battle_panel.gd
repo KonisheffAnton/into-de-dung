@@ -44,7 +44,7 @@ static func render(host: HeroHubScreen) -> void:
 		var definition := ExpeditionCatalog.artifact(selected_artifact)
 		_host_text(host, "Выбран артефакт: %s" % (definition.title if definition != null else selected_artifact), 15)
 
-	deck_slot.visible = report.get("schema") == 2
+	deck_slot.visible = report.get("ruleset_id") == ExpeditionRulesRegistry.DECK
 	if deck_slot.visible:
 		_host_content(host, deck_slot)
 		MageDeckPanel.report(host)
@@ -74,7 +74,7 @@ static func render(host: HeroHubScreen) -> void:
 	var continue_button: Button = HubUI.bind(page, ^"continue_battle_report", host._mutate.bind(&"dismiss_battle_report"))
 	continue_button.disabled = reward_pending or host._pending_save != null
 	var reward_hint: Label = page.get_node("RewardHint") as Label
-	reward_hint.text = "Сначала выберите награду или откажитесь от неё." if report.get("schema") == 2 else "Сначала выберите один артефакт награды."
+	reward_hint.text = "Сначала выберите награду или откажитесь от неё." if report.get("ruleset_id") == ExpeditionRulesRegistry.DECK else "Сначала выберите один артефакт награды."
 	reward_hint.visible = reward_pending
 
 static func _show_names(host: HeroHubScreen, heading: String, values: Variant) -> void:

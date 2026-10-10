@@ -35,44 +35,44 @@ func _test_catalog_and_gear() -> void:
 
 func _test_profile_codec() -> void:
 	var legacy := HeroHubState.create(7101)
-	var legacy_v3 := legacy.to_dict()
-	check(legacy.hero_catalog_version == 1 and legacy_v3.schema == 3 and legacy_v3.heroes[0].class_id == "warrior" and HeroHubState.from_dict(legacy_v3).to_dict() == legacy_v3, "legacy schema three remains exact")
+	var legacy_v6 := legacy.to_dict()
+	check(legacy.hero_catalog_version == 1 and legacy_v6.schema == 6 and legacy_v6.hero_catalog_version == 1 and legacy_v6.heroes[0].class_id == "warrior" and HeroHubState.from_dict(legacy_v6).to_dict() == legacy_v6, "catalog one encodes in schema six")
 	legacy._refresh_candidates()
 	check(legacy.candidates[0].class_id == &"warrior", "legacy refresh remains on warrior catalog")
 	legacy.enable_mage_deck()
-	var legacy_v4 := legacy.to_dict()
-	var restored_v4 := HeroHubState.from_dict(legacy_v4)
-	check(legacy_v4.schema == 4 and restored_v4 != null and restored_v4.to_dict() == legacy_v4 and restored_v4.hero_catalog_version == 1, "legacy schema four roundtrip remains exact")
+	var legacy_deck_v6 := legacy.to_dict()
+	var restored_legacy_deck := HeroHubState.from_dict(legacy_deck_v6)
+	check(legacy_deck_v6.schema == 6 and restored_legacy_deck != null and restored_legacy_deck.to_dict() == legacy_deck_v6 and restored_legacy_deck.hero_catalog_version == 1, "catalog one deck profile uses schema six")
 	var fresh := HeroHubState.create(7101, 2)
-	var v5 := fresh.to_dict()
-	check(fresh.hero_catalog_version == 2 and v5.schema == 5 and v5.hero_catalog_version == 2 and v5.mage_deck.is_empty() and v5.h1_ruleset == "", "catalog version two writes schema five before deck enable")
+	var v6 := fresh.to_dict()
+	check(fresh.hero_catalog_version == 2 and v6.schema == 6 and v6.hero_catalog_version == 2 and v6.mage_deck.is_empty() and v6.h1_ruleset == "", "catalog version two writes schema six before deck enable")
 	check(fresh.heroes[1].class_id == &"shieldbearer" and fresh.candidates[0].class_id == &"shieldbearer", "version two creates shieldbearer first in roster and candidates")
 	var hire_profile := HeroHubState.create(7104, 2)
 	var hired_id: int = hire_profile.candidates[0].id
 	check(hire_profile.hire(0), "version two can hire shieldbearer candidate")
 	var hired: HeroProgression = hire_profile.heroes[hired_id]
 	check(hired.class_id == &"shieldbearer" and hire_profile.equipped(hired.id, "weapon").definition == "weapon:shieldbearer" and hire_profile.equipped(hired.id, "armor").definition == "armor:shieldbearer", "hired shieldbearer receives valid class gear")
-	var restored := HeroHubState.from_dict(v5)
-	check(restored != null and restored.to_dict() == v5 and restored.hero_catalog_version == 2, "schema five profile roundtrip")
+	var restored := HeroHubState.from_dict(v6)
+	check(restored != null and restored.to_dict() == v6 and restored.hero_catalog_version == 2, "schema six profile roundtrip")
 	if restored != null:
 		restored._refresh_candidates()
-		check(restored.candidates[0].class_id == &"shieldbearer", "schema five refresh uses stored catalog")
+		check(restored.candidates[0].class_id == &"shieldbearer", "schema six refresh uses stored catalog")
 	var deck_profile := HeroHubState.create(7102, 2)
 	deck_profile.enable_mage_deck()
-	var deck_v5 := deck_profile.to_dict()
-	check(deck_v5.schema == 5 and MageDeckProfile.valid(deck_v5.mage_deck) and HeroHubState.from_dict(deck_v5) != null, "schema five also stores enabled mage deck")
-	var bad := v5.duplicate(true)
+	var deck_v6 := deck_profile.to_dict()
+	check(deck_v6.schema == 6 and MageDeckProfile.valid(deck_v6.mage_deck) and HeroHubState.from_dict(deck_v6) != null, "schema six also stores enabled mage deck")
+	var bad := v6.duplicate(true)
 	bad.hero_catalog_version = 1
-	check(HeroHubState.from_dict(bad) == null, "schema five rejects wrong catalog version")
-	bad = v5.duplicate(true)
+	check(HeroHubState.from_dict(bad) == null, "schema six rejects class list inconsistent with catalog")
+	bad = v6.duplicate(true)
 	bad.hero_catalog_version = "2"
-	check(HeroHubState.from_dict(bad) == null, "schema five rejects wrong catalog version type")
-	bad = v5.duplicate(true)
+	check(HeroHubState.from_dict(bad) == null, "schema six rejects wrong catalog version type")
+	bad = v6.duplicate(true)
 	bad.heroes[0].class_id = "warrior"
-	check(HeroHubState.from_dict(bad) == null, "schema five rejects legacy hero class")
-	bad = v5.duplicate(true)
+	check(HeroHubState.from_dict(bad) == null, "schema six rejects legacy hero class")
+	bad = v6.duplicate(true)
 	bad.candidates[0].class_id = "warrior"
-	check(HeroHubState.from_dict(bad) == null, "schema five rejects legacy candidate class")
+	check(HeroHubState.from_dict(bad) == null, "schema six rejects legacy candidate class")
 	check(HeroHubState.create(7101, 3) == null, "new profile rejects unsupported catalog version")
 
 func _test_store_dispatch() -> void:
@@ -81,21 +81,21 @@ func _test_store_dispatch() -> void:
 	var run: HeroHubState = fresh.run
 	check(run != null and run.hero_catalog_version == 2 and run.heroes[1].class_id == &"shieldbearer" and not run.mage_deck.is_empty(), "missing deck profile starts with shieldbearer and deck")
 	if run != null:
-		check(HeroHubStore.write_run(path, run).is_empty(), "schema five profile saves")
+		check(HeroHubStore.write_run(path, run).is_empty(), "schema six profile saves")
 		var loaded := HeroHubStore.read_run(path)
-		check(loaded.run != null and loaded.run.hero_catalog_version == 2 and loaded.run.to_dict() == run.to_dict(), "schema five store envelope reads back without migration")
+		check(loaded.run != null and loaded.run.hero_catalog_version == 2 and loaded.run.to_dict() == run.to_dict(), "schema six store envelope reads back without migration")
 		var file := FileAccess.open(path, FileAccess.READ)
 		if file != null:
 			var envelope: Variant = bytes_to_var(file.get_buffer(file.get_length()))
-			check(envelope is Dictionary and envelope.get("format") == "hero-hub-v5", "new catalog uses matching profile envelope")
+			check(envelope is Dictionary and envelope.get("format") == "hero-hub-v6", "new catalog uses matching profile envelope")
 			file.close()
 	var old_path := path + "-old"
 	var old := HeroHubState.create(7103)
 	check(HeroHubStore.write_run(old_path, old).is_empty(), "legacy profile saves")
 	var old_roundtrip := HeroHubStore.read_run(old_path)
-	check(old_roundtrip.run != null and old_roundtrip.run.to_dict() == old.to_dict(), "existing version three store roundtrips unchanged")
+	check(old_roundtrip.run != null and old_roundtrip.run.to_dict() == old.to_dict(), "catalog one schema six store roundtrips unchanged")
 	var old_loaded := HeroHubStore.read_run(old_path, true)
-	check(old_loaded.run != null and old_loaded.run.hero_catalog_version == 1 and old_loaded.run.heroes[1].class_id == &"warrior" and old_loaded.run.candidates[0].class_id == &"warrior", "reading an existing profile never replaces its catalog")
+	check(old_loaded.run != null and old_loaded.run.hero_catalog_version == 1 and old_loaded.run.mage_deck.is_empty() and old_loaded.run.heroes[1].class_id == &"warrior" and old_loaded.run.candidates[0].class_id == &"warrior", "deck mode never auto enables or changes an existing profile")
 	for target: String in [path, path + ".bak", path + ".tmp", old_path, old_path + ".bak", old_path + ".tmp"]:
 		var absolute := ProjectSettings.globalize_path(target)
 		if FileAccess.file_exists(target): DirAccess.remove_absolute(absolute)
@@ -110,7 +110,7 @@ func _test_factory_dispatch() -> void:
 	var hero_id := 1
 	var unit := session.board.get_unit_by_id(bundle.hero_units[hero_id])
 	check(unit.combat_perks.definition.passive_opportunist and not unit.combat_perks.definition.tank_reactions and not unit.combat_perks.definition.counterattack and not unit.combat_perks.definition.stunning_strike, "factory gives passive perk without legacy reactions")
-	check(RaisedShield.valid(unit.armor.raised_shield) and unit.armor.to_dict().schema_version == 3 and unit.action_resources != null and unit.combat_perks.uses_bonus_actions, "factory attaches raised-shield armor state and modern resources")
+	check(RaisedShield.valid(unit.armor.raised_shield) and unit.armor.to_dict().schema_version == 4 and unit.action_resources != null and unit.combat_perks.uses_bonus_actions, "factory attaches raised-shield armor state and modern resources")
 	var raise_ability := session.state.abilities.definition(&"unit.raise_shields")
 	check(raise_ability != null and raise_ability.cooldown_turns == 1, "factory registers raised shields ability when owned")
 	check(session.actor_loadouts[unit.id].class_id == &"shieldbearer" and session.unit_visual_classes[unit.id] == &"warrior", "factory keeps stable melee loadout and warrior visual")

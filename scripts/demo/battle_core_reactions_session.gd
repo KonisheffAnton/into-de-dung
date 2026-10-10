@@ -62,7 +62,7 @@ func prepare_cast_forecast(id: int) -> ForecastSimulation.Prepared:
 	return prepare_action_forecast(ElementalCastCommand.new(selected_id, id, elemental_selected, context.get_revision()))
 
 func _first_team() -> Faction.Type:
-	if state != null and state.abilities != null and state.abilities.schema_version == 2:
+	if state != null and state.abilities != null and state.abilities.ruleset_id == "u14-deck-v1":
 		return Faction.Type.PLAYER if state.abilities.first_team == Faction.Type.PLAYER else Faction.Type.ENEMY
 	return Faction.Type.ENEMY
 

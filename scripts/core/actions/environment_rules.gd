@@ -8,15 +8,15 @@ static func snapshot_reason(data: Dictionary, board: Dictionary, summons: Array)
 	for unit: Dictionary in board["units"]:
 		units[unit["id"]] = unit
 		if not unit.has("armor"): return "environment/armor_required"
-		if data["schema_version"] >= 3 and not unit.has("elemental"): return "environment/status_required"
-	if data["schema_version"] == 4:
+		if data["status_effects"] and not unit.has("elemental"): return "environment/status_required"
+	if data.has("hazards"):
 		var hazard_reason := BattleHazards.snapshot_reason(data["hazards"], board)
 		if not hazard_reason.is_empty(): return hazard_reason
 	var summoned: Dictionary = {}
 	for record: Dictionary in summons: summoned[record["unit_id"]] = true
 	for record: Dictionary in data["fires"]:
 		if not _safe_cell(record["cell"], board): return "environment/fire_cell"
-	if data["schema_version"] >= 2:
+	if data.has("collapse"):
 		# Маркер должен указывать на доступную клетку, иначе следующий ход не сможет обрушить её.
 		for cell: Vector2i in data["collapse"]["marked"]:
 			if not _safe_cell(cell, board): return "environment/collapse_cell"

@@ -54,6 +54,22 @@ core — 600 с. Это предел ожидания, не разрешение
 
 Обычная локальная правка: начать с 1–3 связанных runner (плюс import/startup).
 
+Для границы старых форматов: `python tools/demo/isolate.py --check --only current_schema_boundary hero_hub expedition_transitions mage_deck_expedition --screen 0`.
+`current_schema_boundary` входит в обычный/full набор: отказ старых/будущих
+номеров и неверных типов, режимы компонентов, 512 сочетаний флагов/оплаты,
+изоляция и приоритет повреждённых половин высоты перед неизвестной версией.
+HeroHub проверяет неизменность файла и .bak/.tmp при отказах envelope/checksum.
+Далее codecs затронутых компонентов, переходы/оба сквозных похода и full —
+по риску общей сериализации. Render: hero_hub_ui, expedition_ui, mage_deck_ui,
+shieldbearer_ui, bleeding_ui и status_ui: оба режима статусов должны сохранить
+прогноз/журнал/описание после появления обязательных полей. Старые файлы
+не мигрируются — SAVE_FORMAT_CURRENT.
+Сравнение base/current после смены формы использует отдельный наблюдатель
+только в копиях отчёта: добавляет явные значения прежних режимов и текущие
+номера, затем сравнивает полные before/after/events/steps/frames/publications/
+RNG/counters/admission. Код игры и его validators не заменяются; обычные
+регрессии исполняются без наблюдателя. Методика и исходник — отчёт этапа.
+
 Для разделения ActionQueue: `python tools/demo/isolate.py --check --only action_event_validator guard counterattack --screen 0`,
 затем `--check --full` по риску общей очереди. Новый `action_event_validator` входит
 в обычный/full набор и проверяет helper без экземпляра очереди. Прежние core,
@@ -216,7 +232,7 @@ core без `--full` или явного `--only core` в неё не входи
 | Редактируемые сцены хаба | `test_hub_scene_authoring.gd` (full/render): узлы до _ready, сохранность настроек и экземпляров после refresh/ошибки, один обработчик на кнопку, профиль неизменен при редактировании/отмене; карта сцен — [HUB_SCENES_V1](HUB_SCENES_V1.md). |
 | Колода мага V1 | `test_mage_deck_models.gd`, `test_deck_ability_state.gd`, `test_mage_deck_expedition.gd`, `test_mage_deck_battle.gd`, `test_expedition_playthrough.gd -- --deck`, `test_mage_deck_ui.gd` (full/render): codecs/legacy/барьеры записи, рука/мана, все12 эффектов, sync/preview/workers, FAULTED prefix, реальный поход и UI до сохранённого итога; UI PNG через `-- --captures=<dir>` |
 | Поддержка верховного мага R14 | `test_mage_r14.gd`, `test_battle_mage_bar.gd`, `test_mage_ui.gd` (full/render): лечение/командный призыв/поднятие/щит, полный preview/live и worker, отказы, pending/тело/зона помощников, schema9/legacy, H1 с артефактами, обе страницы 8+4 и межкадровые клики. PNG — mage-r14-screenshots/. |
-| Щит R14 | `test_spell_shield.gd`, `test_push_chain.gd` (full/render): schema1/2 roundtrip, mage preview/live, обновление/замена, ноль/смешанный урон/overflow/несколько ударов, броня/горение/кровотечение/шипы, callback FAULTED prefix, летальный тик и 11 событий парного столкновения. |
+| Щит R14 | `test_spell_shield.gd`, `test_push_chain.gd` (full/render): armor4 с/без щита и отказ старых форм, mage preview/live, обновление/замена, ноль/смешанный урон/overflow/несколько ударов, броня/горение/кровотечение/шипы, callback FAULTED prefix, летальный тик и 11 событий парного столкновения. |
 | Предметы и появление R14 | `test_presentation_support.gd` (full/render): реальные флакон/печать/поднятие и верховный маг, before/after, привязка к root/шагу, промежуточный контакт/поднятие/щит/pending, камера/×3/skip. PNG — support-presentation-screenshots/. |
 | Показ V1 | `test_presentation_capture.gd`, `test_battle_presentation.gd` (full/render): value-only кадры, preview/live parity, пустые события/refill, FAULTED prefix, настоящий UI/HP/порядок, пропуск/скорость/resize, multi-root ход/маг, цепное падение, задержка исхода H1, reset/exit и PNG |
 | Повторное использование поля | `test_battle_view_reuse.gd` (full/render): identity штатных и trial-опор/стен/накладок, свежие высоты/VOID/огонь/подсветка/тела/ловушки, сброс и resize поз, удаление истёкших накладок/стен, новая доска/размер, переключение сцен, custom/procedural fallback; trial-трава/стык при zoom/fractional canvas; неизменность live/RNG/counters. Порядок показа и ввод проверяют прежние presentation/UI runners. |
@@ -227,22 +243,22 @@ core без `--full` или явного `--only core` в неё не входи
 | Состояния у фигур R06/R08/R09/R15 | `test_presentation_status.gd` (full/render): лёд/оглушение/корни вместе и в движении, стаки/сроки, смерть/fallback, синтетическое переполнение, настоящий конец хода/×3/skip, preview/live наложения, осмотр main/H1 во время worker/показа и PNG |
 | Причины R06/R11 | `test_presentation_consequences.gd` (full/render): реальные receipts/preview parity, истощение/частичный расход/проникновение брони, удержание/пробой/сдвиг/стена/уступ/падение, контакт/отдача от стены/уступа/бойца в четырёх направлениях, цепь/иммунитет, 18/24→18/12 без толчка, FAULTED, отдельные блоки причин, последовательные roots без cancel, ×3/skip/cancel/resize и PNG |
 | Дальний показ R03 | `test_presentation_ranged.gd` (full/render): штатный receipt и оба UI, соседний выстрел/обе оси/отказ диагонали, фазы/броня/ноль/крит/смерть, камера/resize, ×3/skip/cancel/FAULTED и parity; ближний контакт/цифры — `test_presentation_contact.gd` |
-| Полный цикл U14 | `test_expedition_generator`, `test_expedition_transitions`, `test_battle_artifact_snapshot`, `test_expedition_artifacts`, `test_expedition_playthrough`, `test_expedition_ui` (`.gd`, full/render): граф/seed, фазы/потери/merge/миграция, v8/guards, триггеры/preview/workers, настоящий поход и ввод/PNG. Полная победа — допустимый профиль ветеранов уровня 10; ранний выход и поражение — новички. Баланс новичков runner не утверждает. UI использует terminal fixture; playthrough исполняет обычные действия/ИИ. |
+| Полный цикл U14 | `test_expedition_generator`, `test_expedition_transitions`, `test_battle_artifact_snapshot`, `test_expedition_artifacts`, `test_expedition_playthrough`, `test_expedition_ui` (`.gd`, full/render): граф/seed, фазы/потери/merge/отказ старых форм, текущие snapshot/guards, триггеры/preview/workers, настоящий поход и ввод/PNG. Полная победа — допустимый профиль ветеранов уровня 10; ранний выход и поражение — новички. Баланс новичков runner не утверждает. UI использует terminal fixture; playthrough исполняет обычные действия/ИИ. |
 | Хаб H1 | `test_hero_progression.gd`, `test_hero_hub.gd`, `test_hero_hub_ui.gd`, `test_hero_hub_playthrough.gd`: найм/XP/сброс, codecs/изоляция/отказ записи, бой/прогноз, полные бои, ввод/автосохранение/PNG |
-| Итоги боя V1 | `test_expedition_postbattle.gd` (full/render): восстановление/потери/резерв, ремонт/цена/ledger, достижения/однократность, schema3/run2 и миграция с checkpoint/RNG, отказ записи, финал/поражение/H1; ввод и PNG — `test_expedition_ui.gd`, `test_hero_hub_ui.gd`. Контракт — POST_BATTLE_V1. |
+| Итоги боя V1 | `test_expedition_postbattle.gd` (full/render): восстановление/потери/резерв, ремонт/цена/ledger, достижения/однократность, profile6/run4/report3, отказ старых форм и roundtrip checkpoint/RNG, отказ записи, финал/поражение/H1; ввод и PNG — `test_expedition_ui.gd`, `test_hero_hub_ui.gd`. Контракт — POST_BATTLE_V1. |
 | Маг и откаты K18 | `test_ability_catalog.gd`, `test_mage_cooldowns.gd`, `test_mage_boundaries_guards.gd`, `test_mage_ui.gd` (full/render): реестр, schema7/часы/skip, цена/FAULTED/guards, полные snapshots/events/steps/RNG/counters, оба worker/TurnForecast, ввод/refresh/PNG. UI оставляет `_process` включённым, разделяет mouse down/up двумя кадрами и проверяет выбор заклинаний и стрелки обеих страниц. |
 | Четыре слота, маг и зоны | `test_four_slot_bar.gd`, `test_battle_panels.gd` (full/render): четыре кнопки/нет страниц, legacy, макет 1280×850, шесть эффектов через preview/live worker, snapshots/events/steps/RNG/counters, K18-цены/иммунитеты/опциональный каталог, callback prefix, зоны готовности/источник/копия кадра и реальные клики/PNG |
 | Завершающая сверка K10–K17 | `test_core_readiness_status.gd` (full/render): совместные границы команд/раунда, настоящие пространственные пути добивания, restore/preview/live и FAULTED; `test_push_chain_reactions.gd::_death_spikes_and_collapse`: смерть среднего помощника, реакции, кровотечение/шипы и следующий обвал. Карта покрытия — CORE_READINESS. |
 | Эффекты K17 | `test_status_state_models.gd`, `test_elemental_snapshots.gd`, `test_status_effects.gd`, `test_status_effects_ui.gd` (full/render): codec/изоляция, источники/armor-gates/сроки, движение/цепи/добивание, guards/FAULTED, workers/preview/live и UI |
 | Цепное отталкивание K16 | `test_push_chain.gd`, `test_push_chain_reactions.gd`, `test_push_chain_ui.gd` (full/render): затухание/смерти/геометрия, помощники/вещи/реакции, preflight/guards/FAULTED, полный parity/worker, ввод и PNG |
 | Противник первым в K15 | `test_enemy_first.gd` (full/render): старт/расстановка/reset без refill, раунд/контроль, полный круг предупреждения, K13/live worker parity, terminal/FAULTED prefix; настоящий ввод — `test_collapse_ui.gd` |
-| Обрушение K15 | `test_collapse_state.gd`, `test_collapse_phase.gd`, `test_collapse_ui.gd` (full/render): legacy/v2 codec, фаза после обеих команд, RNG/задержка/пропасть/тела/помощники, preview/live/worker/FAULTED, BT, ввод/refresh/pending/PNG |
+| Обрушение K15 | `test_collapse_state.gd`, `test_collapse_phase.gd`, `test_collapse_ui.gd` (full/render): environment5 и отказ старых форм, фаза после обеих команд, RNG/задержка/пропасть/тела/помощники, preview/live/worker/FAULTED, BT, ввод/refresh/pending/PNG |
 | Безопасный отход K14 | `test_safe_retreat.gd`, `test_safe_retreat_integration.gd`, `test_safe_retreat_ui.gd` (full/render): оплата/перехват/транзит/среда/отказы/FAULTED, helpers, preview/live/worker, настоящий ввод и инвалидация, PNG |
 | Прогноз конца командного хода K13 | `test_turn_forecast.gd`, `test_turn_forecast_ui.gd` (full/render): настоящий переход до первого решения ИИ, изоляция/preview/live/worker, terminal/FAULTED, runtime-отказы, реальный hover/click/Enter, refresh без revision, очистка/exit и PNG |
 | Восстановление равновесия | `test_balance_recovery.gd` (full/render): -1 на своём командном ходе, clamp, союзники/враги/помощники, мёртвые/выбор, реальный preview/live, без пробоя/RNG, preflight и повреждающие callbacks; `test_presentation_consequences.gd`: eventless refill, шкала/подпись и PNG |
 | Компактный прогноз R15 | `test_compact_forecast.gd`: числа/запас равновесия, смена порога, пробой со сбросом, отказ/pending/префикс, цепь/упор/падение, новые участники/переполнение/изоляция; `test_attack_forecast_async_ui.gd`: живой hover, одинаковый запас в карточке/диагностике, stale/clear, закрытая диагностика, 75–250%, выбор/наведение/действующий без runtime; прочие forecast UI runners покрывают адаптеры |
 | Исполнение общего боя вне render | `test_battle_execution_worker.gd`, `test_battle_execution_ui.gd` (full/render): владение session, sync parity всех действий/хода, callbacks fallback, pending/resize/публикация/reset/exit/FAULTED и PNG |
-| Оптимизация снимков | `test_snapshot_walk_performance.gd`, `test_unit_snapshot_performance.gd` (full/render): parity raw graph/диагностики/лимитов, schema 1–8, HP_MAX; полный и короткий DTO против прежнего producer, 128 сочетаний компонентов, повреждённый runtime, свежесть/изоляция без мутаций; `test_mage_deck_ui.gd`: покадровый отказ/восстановление binding без revision и worker admission |
+| Оптимизация снимков | `test_snapshot_walk_performance.gd`, `test_unit_snapshot_performance.gd` (full/render): parity raw graph/диагностики/лимитов, unit9/текущие компоненты, HP_MAX; полный и короткий DTO, 128 сочетаний компонентов, повреждённый runtime, свежесть/изоляция без мутаций; `test_mage_deck_ui.gd`: покадровый отказ/восстановление binding без revision и worker admission |
 | Live snapshot/checkpoint | `test_snapshot_value_copy.gd`, `test_live_snapshot_capture.gd`, `test_summon_checkpoint.gd` (full/render): типы/изоляция копий, fresh capture без revision, владение вложенными ветвями доски/определений и порядок отказов, строгий raw/restore, parity checkpoint призыва/поднятия с полным clone и callback FAULTED prefix |
 | Плавность вспомогательных прогнозов | `test_action_forecast_worker.gd`, `test_action_forecast_async_ui.gd`: все семь вариантов, sync/worker/live parity, hints против строгого отказа, pending/latest/refresh/exit/phase/close; прежние пять UI runner ожидают готовый результат |
 | Немедленный маршрут K4 | `test_move_forecast_ui.gd` (full/render): пунктир до worker, быстрая смена цели, очистка запретов/отмены, замена на исполненный prefix при гибели, PNG предварительного и точного маршрутов |
@@ -257,14 +273,14 @@ core без `--full` или явного `--only core` в неё не входи
 | Спина, крит и состояния контроля C1 | `test_attack_modifiers.gd`, `test_critical_control.gd`, `test_control_battle.gd` (full/render, ввод/scroll/PNG); осмотр оглушения/тыла кнопкой врага в списке без мутации боя, обновление осмотра после истечения оглушения/пут |
 | Броня D2 | `test_armor_hit_calculation.gd`, `test_armor_snapshot.gd`, `test_armor_integration.gd`, `test_armor_recovery.gd`, `test_armor_battle.gd` |
 | Пробивание оружием M4 | `test_armor_piercing_calculation.gd`, `test_armor_piercing.gd`; ввод/осмотр/прогноз — `test_d4_ui.gd` (full/render) |
-| Кровотечение D3 | `test_bleeding_snapshot.gd`, `test_bleeding.gd`, `test_bleeding_battle.gd` (full/render, шесть PNG): накопление срока, fixed tick, v1→v2, overflow/prefix, прогноз и ввод; production K2 — `test_core_combination_session.gd` |
+| Кровотечение D3 | `test_bleeding_snapshot.gd`, `test_bleeding.gd`, `test_bleeding_battle.gd` (full/render, шесть PNG): накопление срока, fixed tick, bleeding4 без смены версии, overflow/prefix, прогноз и ввод; production K2 — `test_core_combination_session.gd` |
 | Забег D4 | `test_d4_run.gd`, `test_d4_integration.gd`, `test_d4_ui.gd` (full/render, восемь PNG) |
 | Среда и трупы D5 | `test_d5_state.gd`, `test_d5_integration.gd`, `test_d5_ui.gd` (full/render; ввод, прогноз, поднятие, PNG) |
 | Выдвижные ловушки/кислота | `test_hazards.gd`, `test_acid.gd`, `test_hazards_ui.gd` (`--only hazards acid hazards_ui`): срок команды/выход/повтор, push/wall/fall≥2 halfsteps, lethal/guard/corpse/collapse, прямой armor10 и срок, codec/preview/worker/live/production opening; detached показ/HP/пауза укола/resize/skip/cancel/speed/PNG. UI также проверяет авторские пресеты, 16 шипов, полную грань стены во всех четырёх направлениях и сохранность редактируемых силуэтов при анимации. Правила — [контракт](ENVIRONMENT_HAZARDS_V1.md). |
 | Проход союзников | `test_ally_transit.gd` (full/render; два PNG в render) |
 | Прогноз атаки | `test_attack_forecast.gd` |
 | Контратака K12 | `test_counterattack.gd`, `test_counterattack_ui.gd` (full/render), codec в `test_combat_perks_state.gd`: доп. действие/legacy-заряд, tail после контроля/spatial/items, eligibility/смерть/FAULTED, sync/forecast worker/live worker parity, сохранения, ввод и PNG |
-| Контроль K11 | `test_control_perks_codec.gd`, `test_control_package.gd`, `test_control_package_ui.gd` (full/render): perk schema1/2, stun/иммунитеты/истечение/реакции/BT, worker/live/restore, HP-gate/FAULTED; ввод и два PNG |
+| Контроль K11 | `test_control_perks_codec.gd`, `test_control_package.gd`, `test_control_package_ui.gd` (full/render): единая perks7, stun/иммунитеты/истечение/реакции/BT, worker/live/restore, HP-gate/FAULTED; ввод и два PNG |
 | Фоновый прогноз атаки | `test_attack_forecast_worker.gd`, `test_attack_forecast_async_ui.gd` (full/render): parity обычного удара/руны/K8, изоляция, pending/готовый PNG, замена цели/режима/фазы/сцены, refresh без revision и свежий клик; `test_spatial_guard_stats.gd` проверяет fast path и прежний fallback guards |
 | Прогноз двух предметов K3 | `test_item_use_forecast.gd`, `test_item_forecast_ui.gd` (full/render): две копии/live, полные snapshots/events/steps/RNG/counters/admission, новый helper, отказы/FAULTED/cleanup; ввод и PNG |
 | Прогноз движения K4 | `test_move_forecast.gd`, `test_move_forecast_ui.gd` (full/render): полная preview/live и worker parity, транзит/падение/шипы, INTERRUPTED/FAULTED, helper/admission, изоляция/restore/cleanup; ввод и инвалидация во время расчёта, scrolling, shutdown и четыре PNG |
@@ -288,7 +304,7 @@ core без `--full` или явного `--only core` в неё не входи
 ## Что считать приёмкой
 
 `test_reaction_bonus.gd` входит в full/render: единый bonus, два ответа при bonus2
-и отказ при bonus0, schema5 и точный legacy roundtrip/оплата, строгие события,
+и отказ при bonus0, perks7 и точный roundtrip/оплата обоих режимов, строгие события,
 callback-guard и полный preview/live parity, настоящий H1 воин/Оппортунист/refill
 и опубликованный боковой HUD. Режимы/косвенная оплата Прикрытия/FAULTED/worker
 дополнительно покрываются прежними K10/K12/R10 runner на новом источнике.
