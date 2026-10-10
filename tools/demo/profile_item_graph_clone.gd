@@ -1,6 +1,7 @@
 extends SceneTree
 
 const Probe = preload("res://tools/demo/item_graph_clone_probe.gd")
+const Transfer = preload("res://tools/demo/item_clone_transfer_probe.gd")
 const PlayerFixture = preload("res://tests/fixtures/player_turn_fixture.gd")
 var passed: int = 0
 var failed: int = 0
@@ -24,6 +25,11 @@ func values(state: ItemSimulationState) -> Dictionary:
 	var captured := ItemSimulationSnapshot.capture(state, [])
 	check(captured.code == ItemSnapshotResult.Code.OK, "capture values: " + captured.reason)
 	return captured.snapshot.to_dict() if captured.snapshot != null else {}
+
+func record_parity(label: String, data: Dictionary) -> void:
+	if OS.get_cmdline_user_args().has("--emit-parity"):
+		var digest := var_to_bytes(SimulationSnapshot._canonical(data)).hex_encode().sha256_text()
+		print("ITEM_GRAPH_PARITY " + JSON.stringify({"label": label, "digest": digest}))
 
 func catalogue(state: ItemSimulationState) -> Dictionary:
 	var definitions: Dictionary = {}
@@ -94,6 +100,7 @@ func identities(source: ItemSimulationState, clone: ItemSimulationState, label: 
 
 func graph_case(session: BattleDemoSession, label: String) -> void:
 	var before := values(session.state)
+	record_parity("graph/" + label, before)
 	var cache_before := caches(session.state)
 	var rng_before := session.context.get_rng().to_dict().duplicate(true)
 	var counters_before := session.context.simulation_counters()
@@ -217,6 +224,24 @@ func outcome(session: BattleCoreReactionsSession, state: ItemSimulationState, co
 	var receipt := queue.submit(command.copy_for_queue(), context)
 	return {"before": before, "status": receipt.status, "reason": receipt.reason, "events": receipt.get_events(), "steps": receipt.get_steps(), "after": values(state), "rng": context.get_rng().to_dict(), "counters": context.simulation_counters(), "admission_before": admission_before, "admission": SummonAdmission.values(context), "publications": sink.publications}
 
+func worker_outcome(session: BattleCoreReactionsSession, command: Command, fault: bool, use_clone: bool, expected: Dictionary, label: String) -> void:
+	var state := Probe.clone_state(session.state).state if use_clone else restore(session.state)
+	check(state != null, label + " worker graph admitted")
+	if state == null: return
+	var packet := Transfer.prepare(session.context, session._queue, command, state, fault)
+	var error := Transfer.isolation_error([session.context, session._queue, command], packet)
+	check(error.is_empty(), label + " whole packet ownership: " + error)
+	if error.is_empty():
+		var worker := Transfer.Worker.new()
+		var started := worker.start(packet)
+		check(started, label + " real thread started")
+		if started:
+			var result := worker.take()
+			check(result == expected, label + " threaded before/after/receipt/publications/RNG/counters/admission")
+			check(worker.take().is_empty() and not worker.start(packet) and packet.run() == {"error": "consumed"}, label + " one shot")
+		worker.close()
+	close_checked(state, label + " worker joined cleanup")
+
 func command_case(session: BattleCoreReactionsSession, command: Command, label: String, fault: bool = false, expected_status: StringName = ActionReceipt.APPLIED) -> void:
 	var before := values(session.state)
 	var original_rng := session.context.get_rng().to_dict().duplicate(true)
@@ -228,9 +253,12 @@ func command_case(session: BattleCoreReactionsSession, command: Command, label: 
 	check(control != null and clone.state != null, label + " both strategies admitted")
 	if control != null and clone.state != null:
 		var expected := outcome(session, control, command, fault)
+		record_parity("command/" + label, expected)
 		var actual := outcome(session, clone.state, command, fault)
 		check(expected.status == expected_status, label + " expected status: " + String(expected.reason))
 		check(actual == expected, label + " full command/publication/RNG/counters/admission parity")
+		worker_outcome(session, command, fault, false, expected, label + " restore")
+		worker_outcome(session, command, fault, true, expected, label + " clone")
 		check(values(session.state) == before and session.context.get_rng().to_dict() == original_rng and session.context.simulation_counters() == original_counters and SummonAdmission.values(session.context) == original_admission and UnitId.get_counter() == allocator, label + " isolated execution")
 		if not fault:
 			var preview := ForecastSimulation.run(session.context, session._queue, command)
@@ -326,6 +354,76 @@ func freshness_and_lifecycle() -> void:
 			check(item_session.use_summoning_item(Vector2i(0, 1)).status == ActionReceipt.APPLIED, "active summon fixture")
 		graph_case(item_session, kind)
 
+func transfer_lifecycle() -> void:
+	var session := PlayerFixture.create()
+	var command := GuardCommand.new(session.selected_id, session.context.get_revision())
+	var state := Probe.clone_state(session.state).state
+	var packet := Transfer.prepare(session.context, session._queue, command, state, false)
+	var roots: Array = [session.context, session._queue, command]
+	check(Transfer.isolation_error(roots, packet).is_empty(), "transfer baseline ownership")
+	var own_rng := packet.context._rng
+	packet.context._rng = session.context._rng
+	check(Transfer.isolation_error(roots, packet) == "shared object", "ownership rejects RNG alias")
+	packet.context._rng = own_rng
+	var definition: ItemDef = state.get_owners()[0]._definitions.values()[0]
+	definition.set_meta(&"probe", session.context)
+	check(not Transfer.isolation_error(roots, packet).is_empty(), "ownership follows metadata alias")
+	definition.remove_meta(&"probe")
+	var nested: Dictionary = {"values": [1, 2]}
+	session.context.set_meta(&"probe", nested)
+	definition.set_meta(&"probe", nested)
+	check(Transfer.isolation_error(roots, packet) == "shared container", "ownership rejects nested container alias")
+	session.context.remove_meta(&"probe")
+	definition.remove_meta(&"probe")
+	definition.set_meta(&"probe", Callable(session, "close"))
+	check(Transfer.isolation_error(roots, packet) == "callback", "ownership rejects callback")
+	definition.remove_meta(&"probe")
+	var foreign := RefCounted.new()
+	definition.set_meta(&"probe", foreign)
+	check(Transfer.isolation_error(roots, packet).begins_with("unknown object:"), "ownership rejects unknown native object")
+	definition.remove_meta(&"probe")
+	var callback := func() -> void: pass
+	state.get_board().get_all_units()[0].vitals.died.connect(callback)
+	check(Transfer.isolation_error(roots, packet) == "signal", "ownership rejects external signal")
+	state.get_board().get_all_units()[0].vitals.died.disconnect(callback)
+	check(Transfer.isolation_error(roots, packet).is_empty(), "ownership fresh after negative cases")
+	var failed_worker := Transfer.Worker.new()
+	check(not failed_worker.start(packet, null, true) and not packet.consumed and failed_worker.take().is_empty(), "launch refusal retains packet")
+	failed_worker.close()
+	close_checked(state, "launch refusal")
+	# Поток ждёт gate; main меняет только исходник и не читает переданный пакет.
+	state = Probe.clone_state(session.state).state
+	packet = Transfer.prepare(session.context, session._queue, command, state, false)
+	var expected_state := restore(session.state)
+	var expected := outcome(session, expected_state, command, false)
+	close_checked(expected_state, "transfer expected")
+	check(Transfer.isolation_error(roots, packet).is_empty(), "delayed transfer ownership")
+	var gate := Semaphore.new()
+	var worker := Transfer.Worker.new()
+	var started := worker.start(packet, gate)
+	check(started, "delayed real thread started")
+	if started:
+		session.units[0].vitals.set_hp(3.0)
+		for owner: ItemOwnerState in session.state.get_owners():
+			for item_definition: ItemDef in owner._definitions.values():
+				if item_definition.use_heal_amount > 0.0: item_definition.use_heal_amount += 1.0
+		var changed := values(session.state)
+		gate.post()
+		check(worker.take() == expected, "worker independent of source mutation after transfer")
+		check(values(session.state) == changed, "worker leaves mutated source untouched")
+	worker.close()
+	close_checked(state, "delayed transfer")
+	state = Probe.clone_state(session.state).state
+	packet = Transfer.prepare(session.context, session._queue, command, state, false)
+	check(Transfer.isolation_error(roots, packet).is_empty(), "discard ownership")
+	worker = Transfer.Worker.new()
+	started = worker.start(packet)
+	check(started, "discard real thread started")
+	worker.close()
+	check((not started or packet.consumed) and worker.take().is_empty(), "discard joins before returning ownership")
+	close_checked(state, "discard joined cleanup")
+	session.close()
+
 func benchmark(session: BattleDemoSession, label: String) -> void:
 	var before := values(session.state)
 	var raw: Array[Dictionary] = []
@@ -371,6 +469,7 @@ func _run() -> void:
 	admission_cases()
 	freshness_and_lifecycle()
 	command_cases()
+	transfer_lifecycle()
 	if failed == 0 and not OS.get_cmdline_user_args().has("--verify-only"):
 		benchmark(BattleTacticalSession.new(), "tactical")
 		benchmark(artifact_fixture(), "artifacts")

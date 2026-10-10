@@ -137,9 +137,18 @@ diagnostics. Полный capture сохранён; это не runtime-ауди
 `-- --reverse` обращает первый порядок стратегий. По 3 прогрева и 21 sample на
 стратегию/fixture, чередование; `ITEM_GRAPH_SAMPLE` хранит capture/catalogue/build/
 cleanup/total в мкс. Отдельные APPDATA и последовательные процессы, как выше.
-Это tactical/artifacts/deck CPU fixtures, не рост 6/24/96, worker или FPS.
-При изменениях harness достаточно его runner; board clone и штатные
+Это tactical/artifacts/deck CPU fixtures, не рост 6/24/96 или FPS.
+В verify-only также выполняется передача отделённых restore/clone пакетов в
+реальный Thread: ownership всего известного графа, before/after/receipt/events/
+steps/publications/RNG/counters/admission, FAULTED, one-shot, отказ запуска,
+discard/join и изменение исходника после передачи. Потоковый harness не является
+новым входом production forecast worker. `--emit-parity` сохраняет отпечатки
+полных graph/command результатов для сравнения с отдельной копией исходного HEAD;
+одного сравнения двух путей с общим builder недостаточно для независимого эталона.
+При изменениях только harness достаточно его runner; board clone и штатные
 `action_forecast_worker mage_deck_battle` проверяют соседние затронутые границы.
+Изменение общего item builder требует также codec/checkpoint, live worker и
+core/full по таблице риска. Diagnostics и известные baseline FAIL не скрывать.
 
 Оба режима включают новые D2 runner (расчёт, snapshot, integration, recovery, UI).
 Первая команда включает import/startup, attack_calculation/attack_d1, forecast, guard, summon_snapshot,

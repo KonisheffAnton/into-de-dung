@@ -175,20 +175,36 @@ summons и опциональные ветви собираются по лок�
 призыва дополнительно разделяются по владельцам, как при instantiate. Новые
 владельцы ссылаются на новую доску, facades — на своих владельцев. Опциональные
 abilities/environment/artifacts/deck/card_effects используют действующие codecs.
-Это гибрид с полным capture, а не runtime-аудит всего графа без DTO. Ручная сборка
-item-ветви допустима только в harness; её нельзя переносить вторым codec в production.
+Это гибрид с полным capture, а не runtime-аудит всего графа без DTO. Item-ветвь
+собирает один внутренний `ItemSimulationSnapshot._build_checked_state`: тот же
+builder вызывает `instantiate` после прежней полной проверки внешнего DTO,
+каталога и восстановления доски. Builder не проверяет произвольный вход и не
+выдаёт допуск: его вызывают сразу после проверки с соответствующими DTO/board/
+definitions. Ручная вторая реализация сборки в harness удалена.
 
 `profile_item_graph_clone.gd` сравнивает полный DTO/canonical bytes, вложенную
 изоляцию, свежесть без revision/version, lifecycle и cleanup с capture/restore.
 Исполнение команд на восстановленном и клонированном графах сравнивает before/after,
 receipt/events/steps/publications/RNG/counters/admission, включая отказ и FAULTED.
-Обычный preview/live служит дополнительным контролем. Это синхронная parity
-ограниченных fixtures; перенос нового clone через worker здесь не реализован.
+Обычный preview/live служит дополнительным контролем. Opt-in
+`item_clone_transfer_probe.gd` переносит каждый restore/clone fixture в настоящий
+Thread с отдельными context/RNG/rules/queue/command/sink. До передачи проверяются
+runtime/Resource/container identity относительно исходника, metadata и сигналы;
+разрешены только перечисленные fixture-типы и death callbacks собственной доски.
+Это диагностический ownership gate известного графа, не production-разрешение
+произвольных объектов. После передачи пакет не читается до join; повторный запуск
+отклоняется. Проверены отказ запуска, discard/join, мутация исходника после
+передачи и cleanup; FAULTED использует sink, принадлежащий только копии.
+Штатный ForecastSimulation/ActionForecastWorker по-прежнему принимает snapshot,
+а BattleExecutionWorker — целую session. Новый harness не меняет эти входы.
 CPU сравнивает две стратегии с одинаковым fresh capture и detached catalogue,
 включает cleanup, сохраняет сырые samples; фазы вложены в total. Не FPS/hover.
-Перед production нужны одно место сборки, полный ownership/worker audit и проверки
-всего затронутого пути. Команды — TESTING; свидетельства —
-`test_reports/item-graph-clone-20261010/`.
+Единый builder и потоковая parity ограниченных fixtures подготовлены. Перед
+production остаются выбор штатного входа clone, его lifecycle/admission и parity
+целого потребителя (включая отмену, устаревший результат и fallback). Новый clone
+к игре не подключён. Команды — TESTING; исходные CPU-свидетельства —
+`test_reports/item-graph-clone-20261010/`, сборка/ownership/Thread —
+`test_reports/item-clone-worker-20261010/`.
 
 Команды — [TESTING](TESTING.md). Свидетельства и измерения с границами сравнения —
 `test_reports/snapshot-current-20261010/`. Производственная сцена с `_process`

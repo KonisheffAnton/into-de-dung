@@ -626,10 +626,18 @@ func instantiate(definitions: Dictionary) -> ItemSnapshotResult:
 	# копию и нормализовал её, хотя BattleBoard сам проверяет DTO при восстановлении.
 	var board := BattleBoard.from_snapshot_dict(_data["board_snapshot"]["board"])
 	if board == null: return _failure("board/instantiate")
+	var result := ItemSnapshotResult.new()
+	result.code = ItemSnapshotResult.Code.OK
+	result.state = _build_checked_state(_data, checked, board)
+	return result
+
+static func _build_checked_state(data: Dictionary, checked: Dictionary, board: BattleBoard) -> ItemSimulationState:
+	# Только сразу после свежей проверки, с её DTO, соответствующей новой доской
+	# и проверенным каталогом. Долгоживущий допуск этот внутренний builder не создаёт.
 	var owners: Array[ItemOwnerState] = []
 	var inventories: Array[InventoryState] = []
 	var equipment: Array[EquipmentState] = []
-	for record: Dictionary in _data["owners"]:
+	for record: Dictionary in data["owners"]:
 		var owner := ItemOwnerState.new(board.get_unit_by_id(record["owner_unit_id"]))
 		owner._next_item_id = record["next_item_id"]
 		owner._next_effect_id = record["next_effect_id"]
@@ -667,18 +675,16 @@ func instantiate(definitions: Dictionary) -> ItemSnapshotResult:
 		owners.append(owner)
 		if owner._inventory_registered: inventories.append(InventoryState._restore_registered(owner))
 		if owner._equipment_registered: equipment.append(EquipmentState._restore_registered(owner))
-	var result := ItemSnapshotResult.new()
-	result.code = ItemSnapshotResult.Code.OK
-	result.state = ItemSimulationState.new(board, owners, inventories, equipment)
-	for record: Dictionary in _data["summons"]:
-		(result.state as ItemSimulationState)._summons.append(record.duplicate(true))
-	if _data.has("abilities"): result.state.abilities = BattleAbilityState.from_dict(_data["abilities"])
-	if _data.has("environment"): result.state.environment = CombatEnvironmentState.from_dict(_data["environment"])
-	if _data.has("artifacts"): result.state.artifacts = BattleArtifactState.from_dict(_data["artifacts"])
-	if _data.has("deck"):
-		result.state.deck = BattleDeckState.from_dict(_data.deck)
-		result.state.card_effects = BattleCardEffectState.from_dict(_data.card_effects)
-	return result
+	var state := ItemSimulationState.new(board, owners, inventories, equipment)
+	for record: Dictionary in data["summons"]:
+		state._summons.append(record.duplicate(true))
+	if data.has("abilities"): state.abilities = BattleAbilityState.from_dict(data["abilities"])
+	if data.has("environment"): state.environment = CombatEnvironmentState.from_dict(data["environment"])
+	if data.has("artifacts"): state.artifacts = BattleArtifactState.from_dict(data["artifacts"])
+	if data.has("deck"):
+		state.deck = BattleDeckState.from_dict(data["deck"])
+		state.card_effects = BattleCardEffectState.from_dict(data["card_effects"])
+	return state
 
 static func _effect_capability(effect: Dictionary) -> bool:
 	match effect["kind"]:

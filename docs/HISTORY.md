@@ -1,5 +1,21 @@
 # История и свидетельства проверок
 
+## Единая сборка item-графа и Thread parity — 2026-10-10
+
+U «Делай»; base `f8325f6b42cfaad29183eca90bdf8fd8d0cc700b`, main, без push.
+Restore и opt-in clone используют один внутренний builder; внешняя валидация
+и fresh capture сохранены. Production clone не подключён. Контракт —
+[BATTLE_SNAPSHOT_CURRENT](BATTLE_SNAPSHOT_CURRENT.md), команды — TESTING.
+Import/startup и graph11275/0 PASS; 22 команды через настоящий Thread,
+ownership/изоляция/публикации/FAULTED и join. Все 32 graph/command fingerprints
+совпали с исходным codec в отдельной копии; независимое review APPROVE.
+Штатные worker/deck/codec/checkpoint PASS. Full140/8FAIL(shader на base),
+core9440/0 с прежним выходом47ObjectDB/18resources; общего PASS нет. Отчёт
+`test_reports/item-clone-worker-20261010/REPORT.md`, там же baseline и логи.
+CPU не измерялся; F5/Editor/GPU и production cancel/latest/fallback не закрыты.
+Пользовательская main_menu.tscn сохранена. Предыдущая передача — точный
+[архив](CODEX_HANDOFF.history-20261010-26.md).
+
 ## Opt-in clone полного item-графа — 2026-10-10
 
 U «Давай дальше»; base `6886caedfe46dfd375e7a1c125d92c1f8100300d`.
