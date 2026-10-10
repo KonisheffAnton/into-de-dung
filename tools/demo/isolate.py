@@ -182,6 +182,8 @@ def main():
         if label in ("battle_execution_worker", "battle_execution_ui"):
             marker = "BATTLE EXECUTION WORKER RESULTS:" if label == "battle_execution_worker" else "BATTLE EXECUTION UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label == "board_audit_probe":
+            invalid = invalid or "BOARD AUDIT PROBE RESULTS:" not in output or ", 0 failed" not in output or "BOARD AUDIT PROBE DONE" not in output
         if label in ("current_art_zoom", "art_trial_battle", "presentation_capture", "battle_presentation", "presentation_foundation", "presentation_contact", "presentation_attack_styles", "presentation_consequences", "presentation_environment", "presentation_ranged", "presentation_mage", "presentation_reactions", "presentation_status", "battle_board_camera", "battle_camera_ui", "battle_view_reuse", "four_slot_bar", "battle_panels", "environment_visual_contract", "unit_visual_contract", "visual_scene_contract"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -456,6 +458,8 @@ def main():
         run("live_snapshot_capture", ["--script", "tests/test_live_snapshot_capture.gd"])
         if "snapshot_strategies" in selected:
             run("snapshot_strategies", ["--script", "tools/demo/profile_snapshot_strategies.gd"])
+        if "board_audit_probe" in selected:
+            run("board_audit_probe", ["--script", "tools/demo/profile_board_audit.gd", "--", "--verify-only"])
         run("summon_checkpoint", ["--script", "tests/test_summon_checkpoint.gd"])
         run("armor_integration", ["--script", "tests/test_armor_integration.gd"])
         run("armor_recovery", ["--script", "tests/test_armor_recovery.gd"])

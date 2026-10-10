@@ -90,6 +90,23 @@ summary в мс. `direct_parts` — отдельная инструментир�
 с вложенным build. Тайминги не имеют машинозависимого порога PASS; допуск,
 DTO/изоляция, live/RNG/counters/UnitId и снятие death callbacks проверяются assert.
 
+Свежий аудит без board/unit/stats/modifier DTO проверяется отдельно:
+`python tools/demo/isolate.py --check --only board_audit_probe --screen 0`.
+Runner opt-in, вне full/render; включает import/startup и `--verify-only`:
+матрицу допуска/причин/IDs, purity live/cache/signals и изоляцию вложенных копий.
+После успешного импорта в этой изолированной копии запустить
+`<Godot> --headless --path <изолированный-project> --screen 0 --script tools/demo/profile_board_audit.gd`.
+Для обратного порядка размеров добавить `-- --reverse`. Каждый процесс —
+последовательно, отдельный APPDATA внутри нового отчёта, весь stdout/exit code.
+Требовать `BOARD AUDIT PROBE DONE`, `BOARD AUDIT PROBE RESULTS: ... 0 failed`,
+exit0 и отсутствие ERROR/SCRIPT ERROR/ObjectDB diagnostics. Три стратегии:
+capture/restore, clone с capture-аудитом, clone с runtime-аудитом; 3 прогрева,
+21 sample, шесть перестановок порядка. Сырые total/capture либо audit/build/cleanup
+выводятся после серии; медианы/p95/max — в мс. Фазы вложены в total, не складывать
+их медианы. Малые DTO компонентов сохранены; допуск не является снимком или кэшем.
+Fixture-only clone не покрывает весь допустимый capture-граф: границы —
+[контракт снимков](BATTLE_SNAPSHOT_CURRENT.md#эксперимент-свежего-runtime-аудита).
+
 Оба режима включают новые D2 runner (расчёт, snapshot, integration, recovery, UI).
 Первая команда включает import/startup, attack_calculation/attack_d1, forecast, guard, summon_snapshot,
 summon, healing, core и headless demo/battle. Вторая повторяет import/startup

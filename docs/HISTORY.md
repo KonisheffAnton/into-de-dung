@@ -1,5 +1,21 @@
 # История и свидетельства проверок
 
+## Эксперимент свежего board-аудита — 2026-10-10
+
+Base main `ed3ddc78d9012400a3eacbb4327356cd215f590a`, U «вперед», без push.
+Без большого board/unit/stats/modifier DTO; вложенные валидаторы сохранены.
+Четыре парных прогона: clone96 с runtime-аудитом19.828–20.093мс против
+63.474–65.235мс с capture-аудитом, capture/restore89.871–92.703мс.
+Admission/reasons/IDs, purity/ownership/DTO/cleanup/RNG/counters/UnitId PASS.
+Import/startup/default PASS, verify1556/0(224cases),4paired1647/0(227cases),
+Python8/0; независимое review APPROVE. Production/core/full/render/F5 не менялись
+и не пересчитывались; общего full PASS и доказанного ускорения кадров нет.
+Старый direct_board не сохраняет все допустимые occupancy/height, остаётся
+fixture-only. Следующий кандидат/production gate — [контракт](BATTLE_SNAPSHOT_CURRENT.md).
+Сырые samples/методика/review — `test_reports/board-audit-20261010/`.
+Пользовательская сцена меню сохранена и исключена из commit. Прежний HANDOFF —
+точный [архив](CODEX_HANDOFF.history-20261010-22.md). Прочие направления §7 не начаты.
+
 ## Исследование роста board clone — 2026-10-10
 
 Base main `2002433f286d3bebfaf6b37bd0a4afe2140b20b3`, U «продолжай», без push.
