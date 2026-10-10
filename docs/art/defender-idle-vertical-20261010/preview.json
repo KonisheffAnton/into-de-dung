@@ -1,0 +1,98 @@
+{
+  "inputs": {
+    "previousDirectory": "..\\defender-idle-sway-20261010\\pixellab",
+    "previousFrames": [
+      "frame-01.png",
+      "frame-02.png",
+      "frame-03.png",
+      "frame-04.png",
+      "frame-05.png",
+      "frame-06.png",
+      "frame-07.png",
+      "frame-08.png",
+      "frame-09.png",
+      "frame-10.png",
+      "frame-11.png",
+      "frame-12.png"
+    ],
+    "verticalDirectory": "pixellab",
+    "verticalFrames": [
+      "frame-01.png",
+      "frame-02.png",
+      "frame-03.png",
+      "frame-04.png",
+      "frame-05.png",
+      "frame-06.png",
+      "frame-07.png",
+      "frame-08.png",
+      "frame-09.png",
+      "frame-10.png",
+      "frame-11.png",
+      "frame-12.png"
+    ],
+    "reference": "pixellab\\reference-128.png"
+  },
+  "counts": {
+    "previousSource": 12,
+    "verticalSource": 12,
+    "comparisonFrames": 12,
+    "nativeVerticalFrames": 12
+  },
+  "durations": {
+    "comparisonFrameMs": 200,
+    "comparisonCycleMs": 2400,
+    "previousPoseHoldMs": 200,
+    "verticalPoseHoldMs": 200,
+    "nativeFrameMs": 200,
+    "nativeCycleMs": 2400
+  },
+  "transforms": {
+    "source": "128x128 input; remove exactly 16px transparent padding on each edge to 96x96",
+    "cropValidation": "reject alpha >= 128 in the removed border",
+    "display": "nearest-neighbor enlargement only; 80% art scale, large view x4, approximate camera 75/100/125%",
+    "playback": "source order, one pose per 200ms tick; no interpolation, registration, or pose drawing",
+    "comparison": "previous sway and vertical idle each use 12 source poses at 200ms per pose",
+    "native": "12 vertical poses in source order, 200ms each",
+    "reference": "cropped source reference used for input validation only"
+  },
+  "gif": {
+    "comparison": {
+      "pages": 12,
+      "delay": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "width": 800,
+      "pageHeight": 590
+    },
+    "native": {
+      "pages": 12,
+      "delay": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "width": 96,
+      "pageHeight": 96
+    }
+  }
+}

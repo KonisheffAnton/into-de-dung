@@ -1,0 +1,86 @@
+{
+  "frames": 12,
+  "delayMs": 200,
+  "cycleMs": 2400,
+  "amplitudePixels": 3,
+  "armLagFrames": 1,
+  "armLagMs": 200,
+  "allXAndZFixed": true,
+  "lowerBodyFixed": true,
+  "armGeometryFixed": true,
+  "offsetsPixels": [
+    {
+      "frame": 1,
+      "bodyY": 0,
+      "armsY": -0.20096189432334194,
+      "lowerBodyY": 0
+    },
+    {
+      "frame": 2,
+      "bodyY": -0.20096189432334194,
+      "armsY": 0,
+      "lowerBodyY": 0
+    },
+    {
+      "frame": 3,
+      "bodyY": -0.7499999999999998,
+      "armsY": -0.20096189432334194,
+      "lowerBodyY": 0
+    },
+    {
+      "frame": 4,
+      "bodyY": -1.4999999999999998,
+      "armsY": -0.7500000000000002,
+      "lowerBodyY": 0
+    },
+    {
+      "frame": 5,
+      "bodyY": -2.2499999999999996,
+      "armsY": -1.4999999999999998,
+      "lowerBodyY": 0
+    },
+    {
+      "frame": 6,
+      "bodyY": -2.799038105676658,
+      "armsY": -2.2500000000000004,
+      "lowerBodyY": 0
+    },
+    {
+      "frame": 7,
+      "bodyY": -3,
+      "armsY": -2.799038105676658,
+      "lowerBodyY": 0
+    },
+    {
+      "frame": 8,
+      "bodyY": -2.799038105676658,
+      "armsY": -3,
+      "lowerBodyY": 0
+    },
+    {
+      "frame": 9,
+      "bodyY": -2.250000000000001,
+      "armsY": -2.799038105676658,
+      "lowerBodyY": 0
+    },
+    {
+      "frame": 10,
+      "bodyY": -1.5000000000000004,
+      "armsY": -2.250000000000001,
+      "lowerBodyY": 0
+    },
+    {
+      "frame": 11,
+      "bodyY": -0.7499999999999998,
+      "armsY": -1.5000000000000004,
+      "lowerBodyY": 0
+    },
+    {
+      "frame": 12,
+      "bodyY": -0.20096189432334244,
+      "armsY": -0.750000000000001,
+      "lowerBodyY": 0
+    }
+  ],
+  "note": "No X motion. Each whole arm translates vertically without changing internal joint geometry. These checks do not prove generated image geometry."
+}
