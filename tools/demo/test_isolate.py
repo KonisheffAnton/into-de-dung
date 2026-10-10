@@ -50,6 +50,8 @@ class IsolateSelectionTests(unittest.TestCase):
                     "battle_execution_ui": "BATTLE EXECUTION UI RESULTS:",
                 }
                 text = markers[label] + " 3 passed, 0 failed\n" if label in markers else "0 failed\n"
+                if label == "profile_board_clone":
+                    text = "BOARD CLONE PROBE RESULTS: 3 passed, 0 failed\nBOARD CLONE PROBE DONE\n"
                 if failure_kind == "marker" and label == failure_label: text = "no result\n"
                 kwargs["stdout"].write(text.encode())
                 return subprocess.CompletedProcess(command, 1 if failure_kind == "exit" and label == failure_label else 0)
@@ -95,6 +97,20 @@ class IsolateSelectionTests(unittest.TestCase):
         code, calls, timing, output = self.exercise(["--list-checks"])
         self.assertEqual((code, calls, timing), (0, [], None))
         self.assertIn("battle_hud_authoring\n", output)
+
+    def test_board_clone_probe_is_opt_in_and_keeps_infrastructure(self):
+        code, calls, timing, _ = self.exercise(["--check", "--only", "board_clone_probe"])
+        self.assertEqual((code, calls), (0, ["import", "startup", "profile_board_clone"]))
+        self.assertEqual(timing["checks"]["board_clone_probe"]["status"], "PASS")
+        _, default_calls, _, _ = self.exercise(["--check"])
+        self.assertNotIn("profile_board_clone", default_calls)
+
+    def test_board_clone_probe_cannot_pass_without_completion_or_clean_exit(self):
+        for failure in ("marker", "exit", "timeout"):
+            with self.subTest(failure=failure):
+                code, _, timing, _ = self.exercise(["--check", "--only", "board_clone_probe"], failure + ":profile_board_clone")
+                self.assertEqual(code, 1)
+                self.assertNotEqual(timing["checks"]["board_clone_probe"]["status"], "PASS")
 
     def test_art_checks_automatically_include_all_visual_gates(self):
         code, calls, timing, _ = self.exercise(["--check", "--only", "art_trial_battle"])

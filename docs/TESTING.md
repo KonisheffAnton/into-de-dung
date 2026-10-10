@@ -107,6 +107,19 @@ capture/restore, clone с capture-аудитом, clone с runtime-аудито�
 Fixture-only clone не покрывает весь допустимый capture-граф: границы —
 [контракт снимков](BATTLE_SNAPSHOT_CURRENT.md#эксперимент-свежего-runtime-аудита).
 
+Точный экспериментальный board clone:
+`python tools/demo/isolate.py --check --only board_clone_probe --screen 0`.
+Runner opt-in, вне full/render, с import/startup и `--verify-only`.
+Он прогоняет также матрицу допуска старого аудитора, но проверяет clone для
+каждого OK, включая неполную occupancy/дубли cell/различный height.
+После импорта парный режим:
+`<Godot> --headless --path <изолированный-project> --screen 0 --script tools/demo/profile_board_clone.gd`.
+Обратный порядок — `-- --reverse`. Методика, APPDATA, сырые samples/фазы и
+критерии diagnostics — как выше; маркеры `BOARD CLONE PROBE RESULTS: ... 0 failed`
+и `BOARD CLONE PROBE DONE`, exit0. Обе clone-стратегии здесь точные; старый
+`profile_snapshot_strategies.gd` сохраняет fixture-only `direct_board`.
+Это board-only CPU и локальные board events, не полный worker/queue/FPS.
+
 Оба режима включают новые D2 runner (расчёт, snapshot, integration, recovery, UI).
 Первая команда включает import/startup, attack_calculation/attack_d1, forecast, guard, summon_snapshot,
 summon, healing, core и headless demo/battle. Вторая повторяет import/startup

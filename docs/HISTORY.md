@@ -1,5 +1,21 @@
 # История и свидетельства проверок
 
+## Точный экспериментальный board clone — 2026-10-10
+
+Base main `5ad310f6b152ef088fe00b0aa7e4bc36dc8d8df5`, U «давай», без push.
+Clone сохраняет явную occupancy, дубли cell, независимый height и всё допустимое
+board-состояние; production прежний. Границы — [контракт](BATTLE_SNAPSHOT_CURRENT.md).
+Import/startup/default/старый audit PASS; clone3565/0(236cases),
+4paired9314/0(239cases), Python10/0. DTO/admission/ownership/purity/события
+доски/cleanup/RNG/counters/UnitId PASS; независимое review APPROVE.
+На96 clone с runtime-аудитом 19.465–20.207мс, с capture-аудитом 62.712–64.722,
+capture/restore 90.154–92.841. Board-only CPU; FPS/hover и полный clone не доказаны.
+Общий validator и full item/deck/worker parity остаются production gate.
+Core/full/render/F5 не повторялись; прежние границы общего PASS/приёмки сохраняются.
+Отчёт, сырые samples, validation/review — `test_reports/board-clone-20261010/`.
+Сцена меню U сохранена. Прежний HANDOFF — точный
+[архив](CODEX_HANDOFF.history-20261010-23.md). Прочие направления не начаты.
+
 ## Эксперимент свежего board-аудита — 2026-10-10
 
 Base main `ed3ddc78d9012400a3eacbb4327356cd215f590a`, U «вперед», без push.

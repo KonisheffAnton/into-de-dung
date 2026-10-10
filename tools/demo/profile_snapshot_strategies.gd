@@ -2,6 +2,7 @@ extends SceneTree
 
 ## Изолированный эксперимент, не production clone API. Прямой клон пока покрывает
 ## только доску; время полного снимка предметов измеряется отдельно.
+const BoardClone = preload("res://tools/demo/board_clone_probe.gd")
 const SAMPLES := 21
 
 func _initialize() -> void:
@@ -25,32 +26,7 @@ func measure(label: String, operation: Callable) -> void:
 	print(JSON.stringify({"label": label, "timing": summary(values)}))
 
 func direct_unit(source: UnitState) -> UnitState:
-	var unit := UnitState.new()
-	unit.id = source.id
-	unit.faction = source.faction
-	unit.cell = source.cell
-	unit.height = source.height
-	unit.debug_name = source.debug_name
-	unit.move_points_left = source.move_points_left
-	unit.has_attacked = source.has_attacked
-	unit.guard_stance = source.guard_stance
-	unit.stats = StatsBag.new()
-	for key: int in source.stats._stats:
-		var original: Stat = source.stats._stats[key]
-		var stat := Stat.new(original.base_value)
-		stat._next_modifier_slot = original._next_modifier_slot
-		stat._modifier_slots.assign(original._modifier_slots)
-		for modifier: StatModifier in original._modifiers:
-			stat._modifiers.append(StatModifier.new(modifier.source_id, modifier.operation, modifier.value))
-		unit.stats._stats[key] = stat
-	unit.vitals = Vitals.from_dict(source.vitals.to_dict(), unit.stats)
-	if source.action_resources != null: unit.action_resources = ActionResources.from_snapshot_dict(source.action_resources.to_snapshot_dict(), unit.id)
-	if source.armor != null: unit.armor = ArmorState.from_dict(source.armor.to_dict())
-	if source.bleeding != null: unit.bleeding = BleedingState.from_dict(source.bleeding.to_dict())
-	if source.control != null: unit.control = ControlState.from_dict(source.control.to_dict())
-	if source.combat_perks != null: unit.combat_perks = CombatPerksState.from_dict(source.combat_perks.to_dict())
-	if source.elemental != null: unit.elemental = ElementalState.from_dict(source.elemental.to_dict())
-	return unit
+	return BoardClone.copy_unit_unchecked(source)
 
 func direct_board(source: BattleBoard) -> BattleBoard:
 	var board := BattleBoard.new(source.width, source.height)
