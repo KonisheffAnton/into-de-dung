@@ -60,6 +60,11 @@ live/after и барьер worker; последние две — настоящ�
 список. Сравнение base/current и PNG — в отчёте среза. Core/full не требуются,
 если изменены только узлы списка, а guards, данные и исполнение сохранены.
 
+Для форматирования событий: `python tools/demo/isolate.py --render-check --only battle_event_text battle_hud_authoring battle_execution_ui battle attack_async_ui status_ui mage_deck_ui --screen 0`.
+Проверяются эталонные строки, изоляция значений, journal/forecast и предметы,
+статусы, карты, worker и показ. Base-эталон не строится новым formatter;
+full/core не требуются при сохранении мест вызовов и отсутствии изменений ядра.
+
 Для границы старых форматов: `python tools/demo/isolate.py --check --only current_schema_boundary hero_hub expedition_transitions mage_deck_expedition --screen 0`.
 `current_schema_boundary` входит в обычный/full набор: отказ старых/будущих
 номеров и неверных типов, режимы компонентов, 512 сочетаний флагов/оплаты,

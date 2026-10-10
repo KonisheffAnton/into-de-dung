@@ -1,5 +1,19 @@
 # История и свидетельства проверок
 
+## Форматирование боевых событий — 2026-10-11
+
+U «Давай дальше»; main, base `ac5cfbc0267da6c6774d398f4d53d48453754c97`, без push.
+Следующий срез §7.3: `BattleEventText` формирует тексты событий журнала/прогнозов
+из значений; `BattleDemo` сохраняет свежий live lookup, guards, журнал и
+дедупликацию. Контракт — [HUD](BATTLE_HUD_SCENES_V1.md); пути и остаток UI открыты.
+Import/startup PASS; text840/0, HUD240/0, execution28/0, battle298/0,
+attack113/0, status35/0, deck107/0; Python15 OK; review APPROVE.
+458 строк равны зафиксированному base; четыре HUD PNG пиксельно равны base.
+Full/core не повторялись; прежние baseline FAIL и ручная приёмка не закрыты.
+Отчёт — `test_reports/ui-event-text-20261011/REPORT.md`; main_menu.tscn U сохранена.
+Следующий срез не запущен; прежняя передача побайтно в
+[архиве](CODEX_HANDOFF.history-20261011-3.md).
+
 ## Жизненный цикл списка бойцов — 2026-10-11
 
 U «Приступай»; main, base `c5cc9b279946fe48fc6c0bf4876f048c99ff2b70`, без push.
