@@ -70,6 +70,10 @@ full/core не требуются при сохранении мест вызо�
 проверяются во время worker/показа, предметы — в обычном бою, контроль — реальным
 кликом осмотра врага. Full/core не нужны при неизменных guards и правилах ядра.
 
+Для привязки authored HUD: `python tools/demo/isolate.py --render-check --only battle_hud_authoring battle_panels battle_execution_ui mage_deck_ui --screen 0`.
+Проверяются main/H1/.new/legacy, overrides и повторное связывание, сигналы,
+карты/страницы, worker и показ. При сохранении поведения full/core не требуются.
+
 Для границы старых форматов: `python tools/demo/isolate.py --check --only current_schema_boundary hero_hub expedition_transitions mage_deck_expedition --screen 0`.
 `current_schema_boundary` входит в обычный/full набор: отказ старых/будущих
 номеров и неверных типов, режимы компонентов, 512 сочетаний флагов/оплаты,

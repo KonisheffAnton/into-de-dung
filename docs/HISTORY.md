@@ -1,5 +1,18 @@
 # История и свидетельства проверок
 
+## Привязка authored HUD — 2026-10-11
+
+U «Давай» с остатком лимита; main, base `b0156e8110c54bb5b8565b05d871f418ace5cdd6`.
+BattleHudBinding владеет NodePath/wiring; BattleDemo сохраняет fallback,
+guard, Board session и roster. Legacy UI/обработчики прежние; пути не перенесены,
+§7.3 остаётся открыт. Контракт — [HUD](BATTLE_HUD_SCENES_V1.md).
+Base/current import/startup PASS; HUD240/0, panels81/0, execution28/0; deck107/0→110/0;
+4 HUD PNG пиксельно равны base; независимое ревью APPROVE. Full/core не повторялись;
+прежние baseline FAIL и ручная F5/Editor/DPI/GPU-приёмка открыты.
+Отчёт — `test_reports/ui-hud-binding-20261011/REPORT.md`; main_menu.tscn U сохранена.
+Без push; следующий пакет не запущен. Прежняя передача побайтно в
+[архиве](CODEX_HANDOFF.history-20261011-5.md).
+
 ## Подробный осмотр бойца — 2026-10-11
 
 U «Приступай»; main, base `9c4cc1fa1002e594f99e87f85f138b578ba2097a`, без push.

@@ -479,84 +479,70 @@ func _build_authored_hud() -> void:
 		# Прямые .new() из тестов получают ту же сцену, что и редакторский вход.
 		hud = (load("res://scenes/demo/battle/battle_hud.tscn") as PackedScene).instantiate() as Control
 		add_child(hud)
-	var column := hud.get_node("Margin/Column")
-	var title := column.get_node("Title")
-	var left := column.get_node("Content/Left")
-	var toolbar := left.get_node("Toolbar")
-	var side := hud.get_node("BattleDiagnostics/Scroll/Side")
-	_heading = title.get_node("Heading") as Label
-	_mode_button = title.get_node("Mode") as Button
-	_mode_button.pressed.connect(toggle_scenario)
-	(title.get_node("Expedition") as Button).pressed.connect(func() -> void: get_tree().change_scene_to_file("res://scenes/demo/expedition_d4.tscn"))
-	(title.get_node("Reset") as Button).pressed.connect(reset_demo)
-	_subtitle = column.get_node("Subtitle") as Label
-	_phase_row = column.get_node("Phase") as HBoxContainer
-	_phase_label = _phase_row.get_node("PhaseLabel") as Label
-	_skip_presentation_button = _phase_row.get_node("SkipPresentationButton") as Button
-	_skip_presentation_button.pressed.connect(skip_presentation)
-	_speed_presentation_button = _phase_row.get_node("Speed") as Button
-	_speed_presentation_button.pressed.connect(_toggle_presentation_speed)
-	_environment_button = _phase_row.get_node("Environment") as Button
-	_environment_button.pressed.connect(_request_environment_forecast)
 	var deck_layout: bool = session != null and session.state != null and session.state.deck != null
-	var deck_label := column.get_node("DeckSummary") as Label
-	var legacy_label := _phase_row.get_node("MageSummary") as Label
-	deck_label.visible = deck_layout
-	legacy_label.visible = not deck_layout
-	_mage_label = deck_label if deck_layout else legacy_label
-	_mage_row = column.get_node("MageBar") as BattleMageBar
-	(_mage_row as BattleMageBar).page_changed.connect(_mage_page_changed)
-	_mage_buttons.clear()
-	_card_buttons.clear()
-	for child: Node in _mage_row.get_node("Buttons").get_children():
-		if child is Button and child.has_meta("spell_id"):
-			var spell := StringName(child.get_meta("spell_id"))
-			_mage_buttons[spell] = child
-			(child as Button).pressed.connect(_choose_elemental.bind(spell))
-	_mage_fire = _mage_buttons[&"mage.fire"]
-	_mage_heal = _mage_buttons[&"mage.heal"]
-	for slot: int in 6:
-		var button := _mage_row.get_node("Buttons/MageCardSlot%d" % slot) as Button
-		button.pressed.connect(_choose_card_slot.bind(slot))
-		_card_buttons.append(button)
-	_card_replace_button = _mage_row.get_node("Buttons/MageCardReplaceButton") as Button
-	_card_replace_button.pressed.connect(_replace_selected_card)
-	_card_confirm_button = _mage_row.get_node("Buttons/MageMulliganConfirmButton") as Button
-	_card_confirm_button.pressed.connect(_confirm_selected_mulligan)
-	_move_button = toolbar.get_node("Move") as Button
-	_move_button.pressed.connect(set_attack_mode.bind(false))
-	_attack_button = toolbar.get_node("Attack") as Button
-	_attack_button.pressed.connect(set_attack_mode.bind(true))
-	_end_turn_button = toolbar.get_node("EndTurn") as Button
-	_end_turn_button.pressed.connect(end_turn)
-	(toolbar.get_node("CompareTurnsButton") as Button).pressed.connect(func() -> void: get_tree().change_scene_to_file("res://scenes/demo/initiative_battle.tscn"))
-	(toolbar.get_node("Combination") as Button).pressed.connect(_open_core_combination_scenario)
-	board_view = left.get_node("Field/Board") as BattleDemoBoard
-	board_view.forecast_wheel_handler = _board_forecast_wheel_input
+	var handlers: Dictionary[StringName, Callable] = {
+		&"toggle_scenario": toggle_scenario,
+		&"open_expedition": func() -> void: get_tree().change_scene_to_file("res://scenes/demo/expedition_d4.tscn"),
+		&"reset_demo": reset_demo,
+		&"skip_presentation": skip_presentation,
+		&"toggle_presentation_speed": _toggle_presentation_speed,
+		&"request_environment_forecast": _request_environment_forecast,
+		&"mage_page_changed": _mage_page_changed,
+		&"choose_elemental": _choose_elemental,
+		&"choose_card_slot": _choose_card_slot,
+		&"replace_selected_card": _replace_selected_card,
+		&"confirm_selected_mulligan": _confirm_selected_mulligan,
+		&"set_move_mode": set_attack_mode.bind(false),
+		&"set_attack_mode": set_attack_mode.bind(true),
+		&"end_turn": end_turn,
+		&"open_initiative": func() -> void: get_tree().change_scene_to_file("res://scenes/demo/initiative_battle.tscn"),
+		&"open_core_combination": _open_core_combination_scenario,
+		&"forecast_wheel": _board_forecast_wheel_input,
+		&"handle_cell": handle_cell,
+		&"hover": _hover,
+		&"displayed_unit_hovered": _displayed_unit_hovered,
+		&"action_bar_requested": _action_bar_requested,
+		&"action_bar_hovered": _action_bar_hovered,
+		&"action_bar_hover_left": _action_bar_hover_left,
+		&"set_diagnostics_visible": set_diagnostics_visible,
+		&"leave_forecast_panel": _leave_forecast_panel,
+	}
+	var binding := BattleHudBinding.bind(hud, handlers, deck_layout)
+	_heading = binding.heading
+	_mode_button = binding.mode_button
+	_subtitle = binding.subtitle
+	_phase_row = binding.phase_row
+	_phase_label = binding.phase_label
+	_skip_presentation_button = binding.skip_presentation_button
+	_speed_presentation_button = binding.speed_presentation_button
+	_environment_button = binding.environment_button
+	_mage_label = binding.mage_label
+	_mage_row = binding.mage_row
+	_mage_buttons = binding.mage_buttons
+	_mage_fire = binding.mage_fire
+	_mage_heal = binding.mage_heal
+	_card_buttons = binding.card_buttons
+	_card_replace_button = binding.card_replace_button
+	_card_confirm_button = binding.card_confirm_button
+	_move_button = binding.move_button
+	_attack_button = binding.attack_button
+	_end_turn_button = binding.end_turn_button
+	board_view = binding.board_view
 	board_view.session = session
-	board_view.cell_clicked.connect(handle_cell)
-	board_view.cell_hovered.connect(_hover)
-	board_view.displayed_unit_hovered.connect(_displayed_unit_hovered)
-	board_view.cancel_requested.connect(set_attack_mode.bind(false))
-	_action_bar = left.get_node("Field/BattleActionBar") as BattleActionBar
-	_action_bar.action_requested.connect(_action_bar_requested)
-	_action_bar.action_hovered.connect(_action_bar_hovered)
-	_action_bar.action_hover_left.connect(_action_bar_hover_left)
-	_hint = left.get_node("Hint") as Label
-	_compact_inspection = left.get_node("Inspection") as Label
-	_diagnostics_button = title.get_node("Diagnostics") as Button
-	_diagnostics_button.toggled.connect(set_diagnostics_visible)
-	_diagnostics = hud.get_node("BattleDiagnostics") as PanelContainer
-	_roster = side.get_node("RosterScroll/Roster") as VBoxContainer
+	_action_bar = binding.action_bar
+	_hint = binding.hint
+	_compact_inspection = binding.compact_inspection
+	_diagnostics_button = binding.diagnostics_button
+	_diagnostics = binding.diagnostics
+	_roster = binding.roster
 	_roster_presenter.bind(_roster, _on_roster_entry_pressed, _button)
-	_stats = side.get_node("InspectionScroll/Stats") as Label
-	_log_heading = side.get_node("LogHeading") as Label
-	_log = side.get_node("Log") as RichTextLabel
-	_forecast_heading = side.get_node("ForecastHeading") as Label
-	_forecast_panel = side.get_node("Forecast") as RichTextLabel
-	_forecast_panel.mouse_exited.connect(_leave_forecast_panel)
-	_status = column.get_node("Status") as Label
-	_instructions = column.get_node("Instructions") as Label
+	_stats = binding.stats
+	_log_heading = binding.log_heading
+	_log = binding.log
+	_forecast_heading = binding.forecast_heading
+	_forecast_panel = binding.forecast_panel
+	_status = binding.status
+	_instructions = binding.instructions
 	_hud_bound = true
 
 func _build_legacy_ui() -> void:

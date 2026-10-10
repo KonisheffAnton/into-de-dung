@@ -47,8 +47,12 @@ Python или генерация сцен для обычного запуска
 
 ## Владение и совместимость
 
-`BattleDemo._build_authored_hud` один раз связывает существующие узлы с прежними
-обработчиками. Основная сцена и `HeroHubScreen` создают полный authored-экземпляр;
+`BattleDemo._build_authored_hud` один раз передаёт authored HUD в `BattleHudBinding`:
+он разрешает NodePath, подключает переданные обработчики и возвращает типизированные
+ссылки на узлы. Binding получает корень HUD, callbacks и флаг колоды; сессию и
+BattleDemo не получает, callbacks отдельно не хранит. Создание fallback-сцены,
+guard повторного binding, session у Board и roster presenter остаются у BattleDemo.
+Основная сцена и `HeroHubScreen` создают полный authored-экземпляр;
 прямой `HeroHubBattleView.new()` загружает ту же разметку при инициализации.
 Повторное связывание не дублирует обработчики. Обновления и after-кадры сохраняют
 постоянные экземпляры и overrides. Строки runtime-списка сохраняются по unit_id

@@ -22,6 +22,8 @@
 сохраняет журнал и дедупликацию показа. `BattleInspectionText` синхронно строит
 подробный live-осмотр из unit/state и параметров-значений без хранения ссылок;
 guards, выбор live/показанного кадра и публикация остаются у `BattleDemo`.
+NodePath и сигналы authored HUD связывает `BattleHudBinding`, получая узлы,
+callbacks и флаг колоды. Session у Board и lifecycle остаются у `BattleDemo`.
 Карта и границы — [BATTLE_HUD_SCENES_V1](BATTLE_HUD_SCENES_V1.md).
 
 [K17](STATUS_EFFECTS_NEXT.md) включает конечные состояния bleeding/burning/wet/freeze
