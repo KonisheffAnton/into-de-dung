@@ -1,19 +1,19 @@
-# Передача — 2026-10-10: оптимизация боя
-D:\Games\into-de-dung; main; base 5788f0094a7712a0fd290221746025b27cd30287; без push.
-U: графика пока ок; поручены все пакеты оптимизации.
+# Передача — 2026-10-10: приёмка движения/ИИ
+D:\Games\into-de-dung; main; base 8bcd61d012d104d2d4d6d0bf6578dfe3297b10d3; без push.
+U: «Движение и ИИ устраивают» (2026-10-10); графика пока ок.
+Приёмка в открытой игре: test_reports/manual-movement-20261010-ebbd2e26/.
 Бойцы сохраняют typed roots, fresh DTO и reset/apply/restore; legacy прежний.
 Worker переиспользует имена полей только в одном свежем аудите; action_areas
 обходит строку/столбец с прежним порядком/правилами. Art gate расширен на
 позы/ловушки/камеру/worker/ИИ. PNG/посадка/темп/расчёт не менялись.
 Владельцы: BATTLE_VISUAL_SCENE_CONTRACT/BATTLE_EXECUTION_UI; ARCHITECTURE/TESTING — связи.
-Отчёт: test_reports/battle-optimization-20261010/; review APPROVE; launcher8/8.
-Import/startup PASS; состав full/render147/0 после исправления двух старых
+Код: test_reports/battle-optimization-20261010/; review APPROVE; launcher8/8.
+Прежние import/startup PASS; full/render147/0 после исправления двух старых
 ожиданий 2:1, core9440/0 с legacy-диагностикой выхода. Старый full не общий PASS.
-A/B: движение p95 18.08–18.54→17.78–18.01ms; ИИ >25ms 13–14→6–8.
-Паритет before/after/publications/events/steps/RNG/counters/admission равен (4+4 прогона).
+A/B/полный паритет — в отчёте кода; новых Godot/full/render/review нет.
 Длинные кадры остаются.
-Далее ручной отзыв о движении/ИИ; новый пакет только по поручению, продолжаем здесь.
-OS DPI/F5/редактор/GPU/общая плавность не приняты.
+Проверены docs/diff/точный архив. Следующий пакет только по поручению, здесь.
+Редактор/F5, OS DPI/GPU и плавность иных сценариев не приняты.
 F5→Начать тест→Начать поход: HeroHubBattleView/supplied-session;
 F6 art_trial_battle — fixture. V1/V2 травы отклонены; эталон M3/№4 прежний.
 Арт/анимации/баланс не финальны; ART_DIRECTION, docs/art/ — параметры/PNG.
