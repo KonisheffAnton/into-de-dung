@@ -21,6 +21,10 @@
 в основном бою и у помощников. Nullable ElementalState и bleeding3 изолируют новый
 профиль от legacy; Environment3 задаёт физические шипы и горящие клетки.
 Боевые снимки — [текущий контракт](BATTLE_SNAPSHOT_CURRENT.md), D4 прежний.
+ActionForecastWorker имеет выключенный по умолчанию clone-путь (`--forecast-clone`):
+свежий capture, сборка изолированного графа на main, одноразовая передача,
+проверка переносимого пакета и fallback к restore. Generation/cancel/join прежние;
+границы и стоимость подготовки — в контракте снимков. Остальные worker не меняются.
 SpatialRules охраняет новые ссылки и значения;
 ArmorHitExecutor и admission используют одинаковое добивание замороженного
 по gross HP damage. ElementalCastCommand/внутренние тики исполняются очередью,

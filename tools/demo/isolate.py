@@ -188,6 +188,8 @@ def main():
             invalid = invalid or "BOARD CLONE PROBE RESULTS:" not in output or ", 0 failed" not in output or "BOARD CLONE PROBE DONE" not in output
         if label == "item_graph_clone_probe":
             invalid = invalid or "ITEM GRAPH CLONE RESULTS:" not in output or ", 0 failed" not in output or "ITEM GRAPH CLONE DONE" not in output
+        if label == "forecast_clone_probe":
+            invalid = invalid or "FORECAST CLONE RESULTS:" not in output or ", 0 failed" not in output or "FORECAST CLONE DONE" not in output or "WARNING:" in output
         if label in ("current_art_zoom", "art_trial_battle", "presentation_capture", "battle_presentation", "presentation_foundation", "presentation_contact", "presentation_attack_styles", "presentation_consequences", "presentation_environment", "presentation_ranged", "presentation_mage", "presentation_reactions", "presentation_status", "battle_board_camera", "battle_camera_ui", "battle_view_reuse", "four_slot_bar", "battle_panels", "environment_visual_contract", "unit_visual_contract", "visual_scene_contract"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -205,6 +207,9 @@ def main():
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("action_forecast_worker", "action_async_ui"):
             marker = "ACTION FORECAST WORKER RESULTS:" if label == "action_forecast_worker" else "ACTION ASYNC UI RESULTS:"
+            invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label in ("action_clone_worker", "action_clone_ui"):
+            marker = "ACTION FORECAST WORKER RESULTS:" if label == "action_clone_worker" else "ACTION ASYNC UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("turn_forecast", "turn_forecast_ui"):
             marker = "TURN FORECAST RESULTS:" if label == "turn_forecast" else "TURN FORECAST UI RESULTS:"
@@ -468,6 +473,12 @@ def main():
             run("board_clone_probe", ["--script", "tools/demo/profile_board_clone.gd", "--", "--verify-only"])
         if "item_graph_clone_probe" in selected:
             run("item_graph_clone_probe", ["--script", "tools/demo/profile_item_graph_clone.gd", "--", "--verify-only"])
+        if "forecast_clone_probe" in selected:
+            run("forecast_clone_probe", ["--script", "tools/demo/profile_forecast_clone.gd", "--", "--verify-only"])
+        if "action_clone_worker" in selected:
+            run("action_clone_worker", ["--script", "tests/test_action_forecast_worker.gd", "--", "--forecast-clone"])
+        if "action_clone_ui" in selected:
+            run("action_clone_ui", ["--script", "tests/test_action_forecast_async_ui.gd", "--", "--forecast-clone"], headless=not args.render_check)
         run("summon_checkpoint", ["--script", "tests/test_summon_checkpoint.gd"])
         run("armor_integration", ["--script", "tests/test_armor_integration.gd"])
         run("armor_recovery", ["--script", "tests/test_armor_recovery.gd"])

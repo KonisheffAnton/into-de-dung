@@ -26,6 +26,8 @@ class Prepared extends RefCounted:
 	var queue: ActionQueue
 	var command: Command
 	var consumed: bool = false
+	var clone_requested: bool = false
+	var cloned_state: ItemSimulationState
 
 	static func rejected(value: StringName) -> Prepared:
 		var result := Prepared.new()
@@ -41,7 +43,7 @@ static func run(context: ActionContext, queue: ActionQueue, command: Command) ->
 	return run_prepared(prepare(context, queue, command))
 
 ## Вызывается владельцем live: после возврата пакет не читает живое состояние.
-static func prepare(context: ActionContext, queue: ActionQueue, command: Command) -> Prepared:
+static func prepare(context: ActionContext, queue: ActionQueue, command: Command, use_clone: bool = false) -> Prepared:
 	if context == null or queue == null: return Prepared.rejected(&"session/closed")
 	if context.is_busy() or queue._busy: return Prepared.rejected(&"BUSY")
 	if context.is_faulted() or queue._faulted: return Prepared.rejected(&"CONTEXT_FAULTED")
@@ -61,7 +63,10 @@ static func prepare(context: ActionContext, queue: ActionQueue, command: Command
 	var definitions: Dictionary = {}
 	for owner in context.get_state().get_owners():
 		for id: StringName in owner._definitions:
-			definitions[id] = (owner._definitions[id] as ItemDef).duplicate(true)
+			var definition := owner._definitions[id] as ItemDef
+			# Обычный duplicate(true) сохраняет внешний вложенный .tres по ссылке.
+			# Opt-in пакет переносится в Thread целиком, включая эти определения.
+			definitions[id] = definition.duplicate_deep(Resource.DEEP_DUPLICATE_ALL) if use_clone else definition.duplicate(true)
 	var prepared := Prepared.new()
 	prepared.snapshot = capture.snapshot
 	prepared.definitions = definitions
@@ -70,18 +75,60 @@ static func prepare(context: ActionContext, queue: ActionQueue, command: Command
 	prepared.queue = queue.copy_for_simulation()
 	prepared.command = command.copy_for_queue()
 	if prepared.context == null or prepared.queue == null: return Prepared.rejected(&"preview/context_copy_failed")
+	prepared.clone_requested = use_clone
+	if use_clone:
+		# Capture и сборка идут в одном вызове владельца live. DTO остаётся для
+		# before и безопасного возврата к restore; сохранённого допуска здесь нет.
+		var board_copy := CheckedBoardClone.copy_board_unchecked(context.get_state().get_board())
+		prepared.cloned_state = ItemSimulationSnapshot._build_checked_state(capture.snapshot._data, definitions, board_copy)
 	return prepared
+
+## Вызывается только текущим владельцем до передачи или после join.
+static func discard_prepared(prepared: Prepared) -> void:
+	if prepared == null: return
+	if prepared.cloned_state != null:
+		close(prepared.cloned_state)
+		prepared.cloned_state = null
+	prepared.consumed = true
+	prepared.snapshot = null
+	prepared.definitions = {}
+	prepared.context = null
+	prepared.queue = null
+	prepared.command = null
+
+## Main переносит ссылки в недоступный вызывающему пакет до запуска Thread.
+static func take_prepared(prepared: Prepared) -> Prepared:
+	if prepared == null or prepared.consumed: return null
+	var owned := Prepared.new()
+	owned.reason = prepared.reason
+	owned.snapshot = prepared.snapshot
+	owned.definitions = prepared.definitions
+	owned.context = prepared.context
+	owned.queue = prepared.queue
+	owned.command = prepared.command
+	owned.clone_requested = prepared.clone_requested
+	owned.cloned_state = prepared.cloned_state
+	prepared.cloned_state = null
+	discard_prepared(prepared)
+	return owned
+
+static func _reject_prepared(prepared: Prepared, reason: StringName) -> ForecastSimulation:
+	discard_prepared(prepared)
+	return rejected(reason)
 
 ## Одноразовая передача владения: читать/менять пакет параллельно с исполнением нельзя.
 static func run_prepared(prepared: Prepared) -> ForecastSimulation:
 	if prepared == null or prepared.consumed: return rejected(&"preview/request_consumed")
 	prepared.consumed = true
-	if prepared.reason != &"": return rejected(prepared.reason)
-	if prepared.command == null or prepared.command.get_script() not in [AttackCommand, UseHealingItemCommand, UseSummoningItemCommand, MoveCommand, RaiseCorpseCommand, GuardCommand, RaiseShieldsCommand, RestoreArmorCommand, CollapsePhaseCommand, ElementalCastCommand, MageCastCommand, PlayMageCardCommand, MageDeckChangeCommand, ConfirmMageMulliganCommand]: return rejected(&"preview/unsupported_command")
-	if prepared.snapshot == null or prepared.context == null or prepared.queue == null or prepared.context.get_script() != ActionContext or prepared.queue.get_script() != ActionQueue: return rejected(&"preview/context_copy_failed")
-	var restored := prepared.snapshot.instantiate(prepared.definitions)
-	if restored.code != ItemSnapshotResult.Code.OK: return rejected(StringName(restored.reason))
-	var state_copy := restored.state
+	if prepared.reason != &"": return _reject_prepared(prepared, prepared.reason)
+	if prepared.command == null or prepared.command.get_script() not in [AttackCommand, UseHealingItemCommand, UseSummoningItemCommand, MoveCommand, RaiseCorpseCommand, GuardCommand, RaiseShieldsCommand, RestoreArmorCommand, CollapsePhaseCommand, ElementalCastCommand, MageCastCommand, PlayMageCardCommand, MageDeckChangeCommand, ConfirmMageMulliganCommand]: return _reject_prepared(prepared, &"preview/unsupported_command")
+	if prepared.snapshot == null or prepared.context == null or prepared.queue == null or prepared.context.get_script() != ActionContext or prepared.queue.get_script() != ActionQueue: return _reject_prepared(prepared, &"preview/context_copy_failed")
+	var state_copy := prepared.cloned_state
+	prepared.cloned_state = null
+	if state_copy == null:
+		var restored := prepared.snapshot.instantiate(prepared.definitions)
+		if restored.code != ItemSnapshotResult.Code.OK: return _reject_prepared(prepared, StringName(restored.reason))
+		state_copy = restored.state
 	var context_copy := prepared.context
 	context_copy._state = state_copy
 	var queue_copy := prepared.queue

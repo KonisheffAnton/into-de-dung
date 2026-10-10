@@ -145,6 +145,30 @@ discard/join и изменение исходника после передач�
 новым входом production forecast worker. `--emit-parity` сохраняет отпечатки
 полных graph/command результатов для сравнения с отдельной копией исходного HEAD;
 одного сравнения двух путей с общим builder недостаточно для независимого эталона.
+
+Отключаемый clone штатного потребителя:
+`python tools/demo/isolate.py --check --only forecast_clone_probe action_clone_worker action_clone_ui --screen 0`.
+Все три метки opt-in, вне default/full/render. Последние две запускают обычные
+worker/UI тесты с `--forecast-clone`; отдельно заказать исходные
+`action_forecast_worker action_async_ui`. UI render —
+`python tools/demo/isolate.py --render-check --only action_clone_ui --screen 0`.
+Probe требует `FORECAST CLONE RESULTS: ... 0 failed`, `FORECAST CLONE DONE`,
+exit0 и чистые diagnostics. Он проверяет реальные команды/Thread, перенос,
+unsafe graph fallback/refusal, отказ ОС, discard/join, live isolation и FAULTED.
+Отдельные границы: metadata с живым RefCounted и внешние `.tres` эффектов/призыва;
+проверяются identity исходника/пакета, clone и fallback, отказ до Thread и cleanup.
+Полная регрессия нужна при изменении общего ForecastSimulation по таблице выше.
+
+CPU в уже импортированной изолированной копии:
+`<Godot> --headless --path <изолированный-project> --screen 0 --script tools/demo/profile_forecast_clone.gd`.
+Повтор с `-- --reverse`; последовательные процессы и отдельные APPDATA.
+Три прогрева, 21 чередующийся sample на каждую стратегию/fixture;
+`FORECAST_CLONE_SAMPLE` сохраняет prepare/admission_launch/execute_join_cleanup/total
+в мкс. Измеряются и полный путь, и оплачиваемая main подготовка, без UI frame/GPU.
+`-- --verify-only --emit-parity` выдаёт command fingerprints. Сравнение с base:
+обычный `tests/test_action_forecast_worker.gd -- --emit-parity` в отдельных
+копиях base/current, затем current с `-- --forecast-clone --emit-parity`.
+Изменённый тест на base переносит только наблюдение результатов, не runtime код.
 При изменениях только harness достаточно его runner; board clone и штатные
 `action_forecast_worker mage_deck_battle` проверяют соседние затронутые границы.
 Изменение общего item builder требует также codec/checkpoint, live worker и

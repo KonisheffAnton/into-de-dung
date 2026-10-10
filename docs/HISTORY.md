@@ -1,5 +1,22 @@
 # История и свидетельства проверок
 
+## Opt-in clone штатного прогноза — 2026-10-10
+
+U «Давай»; base `7002f6ca225bd14528b52b426cd4f07118ddd391`, main, без push.
+ActionForecastWorker и общий UI получили отключённый clone-путь с fresh capture,
+одноразовым переносом, gate, audited fallback/refusal и прежним cancel/latest/join.
+Контракт — [BATTLE_SNAPSHOT_CURRENT](BATTLE_SNAPSHOT_CURRENT.md), команды — TESTING.
+Import/startup PASS; clone49231/0, worker65/0, UI14/0, render16/0; Python15 OK.
+25 command fingerprints стабильны; 7 штатных результатов совпали с base/restore/clone.
+Ревью APPROVE после исправления callback registry, metadata и внешних Resource.
+Full140/8FAIL: shader diagnostics воспроизведены на base. Core9440/0 с выходом
+47 ObjectDB/18 resources; общего PASS нет. CPU deck88.10→125.49мс, 42 samples
+на путь: default restore сохранён. Это замеры CPU fixtures, не F5/GPU/FPS.
+Legacy aliases каталога обычного restore и ручная приёмка остаются отдельно.
+Отчёт/сырые samples/логи: `test_reports/forecast-clone-20261010/REPORT.md`.
+main_menu.tscn U сохранена; предыдущая передача — точный
+[архив](CODEX_HANDOFF.history-20261010-27.md). Следующий срез не запущен.
+
 ## Единая сборка item-графа и Thread parity — 2026-10-10
 
 U «Делай»; base `f8325f6b42cfaad29183eca90bdf8fd8d0cc700b`, main, без push.

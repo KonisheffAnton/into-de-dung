@@ -66,6 +66,8 @@ func run() -> void:
 	check(demo._action_forecast_generation != generation and demo._action_forecast_kind == &"healing", "latest action replaces running request")
 	await settle()
 	check(demo._guard_forecast == null and demo._item_forecast != null and demo._item_forecast.snapshot_after == s.preview_healing_item().snapshot_after, "old guard cannot replace latest healing")
+	if OS.get_cmdline_user_args().has("--forecast-clone"):
+		check(demo._action_forecast_worker.last_preparation == &"clone", "latest result used clone in actual UI")
 	check(ItemSimulationSnapshot.capture(s.state, []).snapshot.to_dict() == before and s.context.simulation_counters() == counters and s.last_receipt == last, "worker hover isolates live state")
 	await capture("action-ready")
 	demo._clear_forecast()

@@ -11,6 +11,11 @@ var selected_id: int = UnitId.NONE
 var last_receipt: ActionReceipt
 
 var _queue: ActionQueue
+## Opt-in только для ActionForecastWorker; обычный запуск сохраняет restore.
+var forecast_clone_enabled: bool = OS.get_cmdline_user_args().has("--forecast-clone")
+
+func prepare_action_forecast(command: Command) -> ForecastSimulation.Prepared:
+	return ForecastSimulation.prepare(context, _queue, command, forecast_clone_enabled)
 
 func _init(initialize: bool = true) -> void:
 	if initialize:

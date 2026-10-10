@@ -56,4 +56,4 @@ func preview_restore_armor() -> ForecastSimulation:
 
 func prepare_restore_armor_forecast() -> ForecastSimulation.Prepared:
 	if not can_player_act() or selected_unit() == null: return ForecastSimulation.Prepared.rejected(&"battle/input_locked")
-	return ForecastSimulation.prepare(context, _queue, RestoreArmorCommand.new(selected_id, 20, context.get_revision()))
+	return prepare_action_forecast(RestoreArmorCommand.new(selected_id, 20, context.get_revision()))

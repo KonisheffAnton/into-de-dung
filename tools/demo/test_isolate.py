@@ -14,6 +14,8 @@ import isolate
 class IsolateSelectionTests(unittest.TestCase):
     def exercise(self, options, failure=None):
         calls = []
+        commands = []
+        self.last_commands = commands
         with tempfile.TemporaryDirectory(prefix="into-dedung-launcher-") as directory:
             repo = Path(directory)
             source = repo / "tools/demo/isolate.py"
@@ -22,11 +24,15 @@ class IsolateSelectionTests(unittest.TestCase):
             (repo / "project.godot").write_text("config_version=5\n", encoding="utf-8")
 
             def fake_run(command, **kwargs):
+                commands.append((list(command), kwargs.get("timeout"), "--headless" in command))
                 project = Path(command[command.index("--path") + 1])
                 label = "import" if "--import" in command else "startup"
                 if "--script" in command:
                     script = command[command.index("--script") + 1]
                     label = "core" if script == "tests/run_tests.gd" else Path(script).stem.removeprefix("test_")
+                    if script == "tools/demo/profile_forecast_clone.gd": label = "forecast_clone_probe"
+                    if "--forecast-clone" in command:
+                        label = "action_clone_ui" if script.endswith("test_action_forecast_async_ui.gd") else "action_clone_worker"
                 calls.append(label)
                 if label == "import":
                     (project / ".godot").mkdir()
@@ -48,6 +54,8 @@ class IsolateSelectionTests(unittest.TestCase):
                     "presentation_environment": "PRESENTATION ENVIRONMENT RESULTS:",
                     "battle_camera_ui": "BATTLE CAMERA UI RESULTS:",
                     "battle_execution_ui": "BATTLE EXECUTION UI RESULTS:",
+                    "action_clone_worker": "ACTION FORECAST WORKER RESULTS:",
+                    "action_clone_ui": "ACTION ASYNC UI RESULTS:",
                 }
                 text = markers[label] + " 3 passed, 0 failed\n" if label in markers else "0 failed\n"
                 if label == "profile_board_clone":
@@ -56,6 +64,11 @@ class IsolateSelectionTests(unittest.TestCase):
                     text = "ITEM GRAPH CLONE RESULTS: 3 passed, 0 failed\nITEM GRAPH CLONE DONE\n"
                     if failure_kind == "done": text = text.replace("ITEM GRAPH CLONE DONE", "")
                     if failure_kind == "diagnostic": text += "SCRIPT ERROR: probe failure\n"
+                if label == "forecast_clone_probe":
+                    text = "FORECAST CLONE RESULTS: 3 passed, 0 failed\nFORECAST CLONE DONE\n"
+                    if failure_kind == "done": text = text.replace("FORECAST CLONE DONE", "")
+                    if failure_kind == "diagnostic": text += "ERROR: probe failure\n"
+                    if failure_kind == "warning": text += "WARNING: probe warning\n"
                 if failure_kind == "marker" and label == failure_label: text = "no result\n"
                 kwargs["stdout"].write(text.encode())
                 return subprocess.CompletedProcess(command, 1 if failure_kind == "exit" and label == failure_label else 0)
@@ -130,6 +143,44 @@ class IsolateSelectionTests(unittest.TestCase):
                 code, _, timing, _ = self.exercise(["--check", "--only", "item_graph_clone_probe"], failure + ":profile_item_graph_clone")
                 self.assertEqual(code, 1)
                 self.assertNotEqual(timing["checks"]["item_graph_clone_probe"]["status"], "PASS")
+
+    def test_forecast_clone_probe_is_explicit_opt_in(self):
+        code, calls, timing, _ = self.exercise(["--check", "--only", "forecast_clone_probe"])
+        self.assertEqual((code, calls), (0, ["import", "startup", "forecast_clone_probe"]))
+        self.assertEqual(timing["checks"]["forecast_clone_probe"]["status"], "PASS")
+        command = self.last_commands[-1][0]
+        self.assertEqual(command[command.index("--script") + 1], "tools/demo/profile_forecast_clone.gd")
+        self.assertEqual(command[-2:], ["--", "--verify-only"])
+        for mode in (["--check"], ["--check", "--full"], ["--render-check"]):
+            _, default_calls, _, _ = self.exercise(mode)
+            self.assertNotIn("forecast_clone_probe", default_calls)
+
+    def test_forecast_clone_probe_requires_complete_clean_run(self):
+        for failure in ("marker", "done", "diagnostic", "warning", "exit", "timeout"):
+            with self.subTest(failure=failure):
+                code, _, timing, _ = self.exercise(["--check", "--only", "forecast_clone_probe"], failure + ":forecast_clone_probe")
+                self.assertEqual(code, 1)
+                self.assertNotEqual(timing["checks"]["forecast_clone_probe"]["status"], "PASS")
+
+    def test_action_clone_tests_are_explicit_opt_in(self):
+        cases = (("action_clone_worker", "tests/test_action_forecast_worker.gd", "ACTION FORECAST WORKER RESULTS:"),
+                 ("action_clone_ui", "tests/test_action_forecast_async_ui.gd", "ACTION ASYNC UI RESULTS:"))
+        for label, script, marker in cases:
+            with self.subTest(label=label):
+                code, calls, timing, _ = self.exercise(["--check", "--only", label])
+                self.assertEqual((code, calls), (0, ["import", "startup", label]))
+                self.assertEqual(timing["checks"][label]["status"], "PASS")
+                command, _, headless = self.last_commands[-1]
+                self.assertEqual(command[command.index("--script") + 1], script)
+                self.assertEqual(command[-2:], ["--", "--forecast-clone"])
+                self.assertTrue(headless)
+                for mode in (["--check"], ["--check", "--full"], ["--render-check"]):
+                    _, default_calls, _, _ = self.exercise(mode)
+                    self.assertNotIn(label, default_calls)
+                if label == "action_clone_ui":
+                    _, render_calls, _, _ = self.exercise(["--render-check", "--only", label])
+                    self.assertEqual(render_calls, ["import", "startup", label])
+                    self.assertFalse(self.last_commands[-1][2])
 
     def test_art_checks_automatically_include_all_visual_gates(self):
         code, calls, timing, _ = self.exercise(["--check", "--only", "art_trial_battle"])

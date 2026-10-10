@@ -59,7 +59,7 @@ func prepare_cast_forecast(id: int) -> ForecastSimulation.Prepared:
 	if AbilityDefinition.mage_source_id(elemental_selected) > 0: return prepare_mage_forecast(elemental_selected, id)
 	var reason := cast_reason(elemental_selected)
 	if reason != &"": return ForecastSimulation.Prepared.rejected(reason)
-	return ForecastSimulation.prepare(context, _queue, ElementalCastCommand.new(selected_id, id, elemental_selected, context.get_revision()))
+	return prepare_action_forecast(ElementalCastCommand.new(selected_id, id, elemental_selected, context.get_revision()))
 
 func _first_team() -> Faction.Type:
 	if state != null and state.abilities != null and state.abilities.schema_version == 2:
@@ -315,7 +315,7 @@ func replace_mage_card(id: int) -> ActionReceipt:
 func prepare_mage_card_forecast(id: int, target: int, cell: Vector2i) -> ForecastSimulation.Prepared:
 	var reason := mage_card_reason(id)
 	if reason != &"": return ForecastSimulation.Prepared.rejected(reason)
-	return ForecastSimulation.prepare(context, _queue, PlayMageCardCommand.new(id, target, cell, context.get_revision()))
+	return prepare_action_forecast(PlayMageCardCommand.new(id, target, cell, context.get_revision()))
 
 func mage_reason(spell: StringName) -> StringName:
 	if not can_player_act(): return &"battle/input_locked"
@@ -335,7 +335,7 @@ func cast_mage_spell(spell: StringName, target: int) -> ActionReceipt:
 func prepare_mage_forecast(spell: StringName, target: int) -> ForecastSimulation.Prepared:
 	var reason := mage_reason(spell)
 	if reason != &"": return ForecastSimulation.Prepared.rejected(reason)
-	return ForecastSimulation.prepare(context, _queue, MageCastCommand.new(spell, target, context.get_revision()))
+	return prepare_action_forecast(MageCastCommand.new(spell, target, context.get_revision()))
 
 func cast_mage_cell(spell: StringName, cell: Vector2i) -> ActionReceipt:
 	var reason := mage_reason(spell)
@@ -347,7 +347,7 @@ func prepare_mage_cell_forecast(spell: StringName, cell: Vector2i) -> ForecastSi
 	var reason := mage_reason(spell)
 	if reason != &"": return ForecastSimulation.Prepared.rejected(reason)
 	if not AbilityDefinition.is_cell_spell(spell): return ForecastSimulation.Prepared.rejected(&"mage/unknown_spell")
-	return ForecastSimulation.prepare(context, _queue, MageCastCommand.new(spell, selected_id, context.get_revision(), cell))
+	return prepare_action_forecast(MageCastCommand.new(spell, selected_id, context.get_revision(), cell))
 
 func _after_team_end(incoming: Faction.Type) -> bool:
 	if incoming != Faction.Type.ENEMY or state.environment.collapse.is_empty(): return true
@@ -363,7 +363,7 @@ func _after_team_end(incoming: Faction.Type) -> bool:
 func prepare_environment_forecast() -> ForecastSimulation.Prepared:
 	if not can_player_act(): return ForecastSimulation.Prepared.rejected(&"battle/input_locked")
 	if not BattleExecutionWorker.can_transfer(self): return ForecastSimulation.Prepared.rejected(&"collapse/unsupported_runtime")
-	return ForecastSimulation.prepare(context, _queue, CollapsePhaseCommand.new(context.get_revision()))
+	return prepare_action_forecast(CollapsePhaseCommand.new(context.get_revision()))
 
 func preview_environment() -> ForecastSimulation:
 	return ForecastSimulation.run_prepared(prepare_environment_forecast())

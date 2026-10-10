@@ -156,8 +156,8 @@ occupancy/height. Проверяются изоляция, source purity/cache/s
 Результаты — `test_reports/board-clone-20261010/`; команды — TESTING.
 
 Допуск и результат production capture/restore сохранены общим validator.
-Перед переносом clone в игру остаётся parity полного затронутого графа/порядка
-команд и передачи worker. Производственные item/deck/worker clone и кэш не реализованы;
+Локальный board clone не разрешает перенос всего графа/порядка команд в worker.
+Полный item-граф и отключаемый потребитель описаны ниже; кэша нет;
 локальная parity доски не доказывает очередь, preview/live/worker или ускорение FPS.
 
 ## Эксперимент clone полного item-графа после capture
@@ -195,16 +195,71 @@ runtime/Resource/container identity относительно исходника,
 произвольных объектов. После передачи пакет не читается до join; повторный запуск
 отклоняется. Проверены отказ запуска, discard/join, мутация исходника после
 передачи и cleanup; FAULTED использует sink, принадлежащий только копии.
-Штатный ForecastSimulation/ActionForecastWorker по-прежнему принимает snapshot,
-а BattleExecutionWorker — целую session. Новый harness не меняет эти входы.
+Сам harness не меняет входы штатных worker. Отдельный потребитель clone описан
+ниже; BattleExecutionWorker по-прежнему получает целую session.
 CPU сравнивает две стратегии с одинаковым fresh capture и detached catalogue,
 включает cleanup, сохраняет сырые samples; фазы вложены в total. Не FPS/hover.
-Единый builder и потоковая parity ограниченных fixtures подготовлены. Перед
-production остаются выбор штатного входа clone, его lifecycle/admission и parity
-целого потребителя (включая отмену, устаревший результат и fallback). Новый clone
-к игре не подключён. Команды — TESTING; исходные CPU-свидетельства —
+Единый builder и потоковая parity ограниченных fixtures подготовлены. Этот
+harness не включает clone в игре. Команды — TESTING; исходные CPU-свидетельства —
 `test_reports/item-graph-clone-20261010/`, сборка/ownership/Thread —
 `test_reports/item-clone-worker-20261010/`.
+
+## Отключаемый clone в штатном ActionForecastWorker
+
+Обычный запуск использует capture/restore. Аргумент `--forecast-clone` после
+`--` включает эксперимент в `BattleDemoSession.prepare_action_forecast`;
+локальный переключатель session — `forecast_clone_enabled`. Он не сохраняется
+в profile или snapshot. Атака, движение, TurnForecast и live execution сохраняют
+прежние входы. Общий BattleDemo/HeroHubBattleView используют прежний путь
+запроса/подготовки/публикации ActionForecastWorker.
+
+`ForecastSimulation.prepare(..., use_clone=true)` выполняет прежние guards,
+полный свежий capture и отделение каталога/context/RNG/queue/command. В
+opt-in пакете каталог использует `duplicate_deep(DEEP_DUPLICATE_ALL)`, чтобы
+отделить также внешние вложенные `.tres` эффектов и SummonDefinition. В том же
+синхронном вызове `CheckedBoardClone` копирует проверенную доску, а общий
+`ItemSimulationSnapshot._build_checked_state` собирает остальной граф. Board
+probe делегирует этому же builder. Capture DTO сохраняется для snapshot_before
+и fallback; успешный допуск не переиспользуется, кеша между запросами нет.
+Сборка клона оплачивается главным потоком; это отдельная граница замера.
+
+`ActionForecastWorker.start` синхронно переносит Prepared в собственный пакет,
+помечая исходный consumed и забирая ссылки. Повторный start/run отвергается до
+доступа к графу. Вызывающий не сохраняет и не читает внутренние ссылки во время
+исполнения. Непереданный пакет закрывается через `discard_prepared`; отказ
+команды/RNG/ОС тоже закрывает готовый клон. Успешное исполнение закрывает граф
+в конце run_prepared, а take/close всегда присоединяют Thread.
+
+Для clone-пакета `ForecastCloneGuard` проверяет известные runtime-типы,
+script-поля, metadata, сигналы и точный состав реестра death callbacks.
+Metadata допускает только значения и их контейнеры: Object любого типа,
+Callable, Signal и RID запрещены также во вложенных значениях и ключах.
+`Resource.duplicate(true)` сохраняет некоторые RefCounted в metadata по ссылке,
+поэтому известного типа здесь недостаточно для доказательства изоляции.
+Допускаются только собственные death callbacks доски.
+Неизвестные объекты, Node, Script, Callable/Signal и превышение бюджета
+отклоняются. Это проверка переносимого пакета, не новый snapshot admission.
+При отказе клон закрывается, пакет без него проверяется заново и использует
+штатный restore. Если и этот пакет небезопасен, возвращается
+`preview/unsupported_worker_graph` без запуска. Отказ ОС остаётся
+`preview/worker_unavailable`; синхронного исполнения на main не добавлено.
+
+UI сохраняет generation, проверку текущей session/actor/revision/цели и прежние
+проверки свежести. Отмена не прерывает команду: результат отбрасывается после
+join; новый запрос готовится только после освобождения worker. Fallback не
+перечитывает live и проходит ту же проверку актуальности перед публикацией.
+
+Opt-in `profile_forecast_clone.gd` проверяет целого потребителя, все семейства
+его команд, before/after/events/steps/publications/RNG/counters/admission,
+FAULTED, ownership, свежесть, refusal/fallback/discard/join. Подписчик для записи
+публикаций и внесения fault создаётся только внутри тестового потока после gate.
+Парные CPU-замеры включают prepare, admission/launch и execute/join/cleanup;
+проверки результата выполняются вне замера. Это CPU fixtures, не FPS/GPU/F5.
+Команды — TESTING; результаты — `test_reports/forecast-clone-20261010/REPORT.md`.
+Эксперимент выключен по умолчанию; измерения не разрешают включить его автоматически.
+Обычный restore сохраняет прежнее копирование каталога и не проходит этот gate.
+Выявленные aliases внешних Resource и metadata в его Prepared требуют отдельного
+разбора; общая изоляция legacy-пути для таких определений этим срезом не заявлена.
 
 Команды — [TESTING](TESTING.md). Свидетельства и измерения с границами сравнения —
 `test_reports/snapshot-current-20261010/`. Производственная сцена с `_process`

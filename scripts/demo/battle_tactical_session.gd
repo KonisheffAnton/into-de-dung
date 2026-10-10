@@ -133,7 +133,7 @@ func raise_shields() -> ActionReceipt:
 
 func prepare_raise_shields_forecast() -> ForecastSimulation.Prepared:
 	if not can_player_act(): return ForecastSimulation.Prepared.rejected(&"battle/input_locked")
-	return ForecastSimulation.prepare(context, _queue, RaiseShieldsCommand.new(selected_id, context.get_revision()))
+	return prepare_action_forecast(RaiseShieldsCommand.new(selected_id, context.get_revision()))
 
 func preview_guard() -> GuardForecast:
 	var reason := guard_reason()
@@ -145,7 +145,7 @@ func prepare_guard_forecast(mode: int = CombatPerksState.Mode.NONE, cover_id: in
 	var actor := selected_unit()
 	if actor == null or actor.faction != Faction.Type.PLAYER: return ForecastSimulation.Prepared.rejected(&"guard/no_selected_unit")
 	var command_mode := -1 if mode == CombatPerksState.Mode.NONE else mode
-	return ForecastSimulation.prepare(context, _queue, GuardCommand.new(actor.id, context.get_revision(), command_mode, cover_id))
+	return prepare_action_forecast(GuardCommand.new(actor.id, context.get_revision(), command_mode, cover_id))
 
 func healing_item() -> ItemInstance:
 	var actor := selected_unit()
@@ -178,7 +178,7 @@ func prepare_item_forecast(kind: ItemUseAction.Kind, cell: Vector2i = Vector2i(-
 	var action := item.get_use_action()
 	if action == null or action.get_kind() != kind: return ForecastSimulation.Prepared.rejected(&"item/not_usable")
 	# Снимок проверяется при отделении; полная команда — на копии в рабочем потоке.
-	return ForecastSimulation.prepare(context, _queue, action.create_command(selected_id, item.get_item_instance_id(), context.get_revision(), cell))
+	return prepare_action_forecast(action.create_command(selected_id, item.get_item_instance_id(), context.get_revision(), cell))
 
 func _preview_item(item: ItemInstance, kind: ItemUseAction.Kind, cell: Vector2i = Vector2i(-1, -1)) -> ItemUseForecast:
 	# Допуск совпадает с кликом, но отказ прогноза не заменяет последний live receipt.

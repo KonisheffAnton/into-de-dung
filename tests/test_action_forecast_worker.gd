@@ -69,6 +69,11 @@ func parity(kind: String) -> void:
 	var worker := Worker.new()
 	worker.start(prepared)
 	var result := await take(worker)
+	if OS.get_cmdline_user_args().has("--forecast-clone"):
+		check(worker.get("last_preparation") == &"clone", kind + " actual clone worker path")
+	if OS.get_cmdline_user_args().has("--emit-parity"):
+		var probe := preload("res://tests/fixtures/forecast_result_probe.gd")
+		print("ACTION_FORECAST_PARITY " + JSON.stringify({"label": kind, "digest": probe.digest(probe.values(result))}))
 	check(result.status == ActionReceipt.APPLIED, kind + " applied fixture")
 	check(result.status == expected.status and result.reason == expected.reason and result.events == expected.events and result.steps == expected.steps, kind + " sync receipt parity")
 	check(result.snapshot_before == expected.snapshot_before and result.snapshot_after == expected.snapshot_after and result.units_before == expected.units_before and result.units_after == expected.units_after and result.items == expected.items and result.corpses_after == expected.corpses_after, kind + " complete values parity")

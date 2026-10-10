@@ -67,7 +67,7 @@ func prepare_raise_corpse_forecast(cell: Vector2i) -> ForecastSimulation.Prepare
 	if not can_player_act() or selected_unit() == null: return ForecastSimulation.Prepared.rejected(&"battle/input_locked")
 	var command := _raise_command(cell)
 	if command == null: return ForecastSimulation.Prepared.rejected(&"environment/no_corpse")
-	return ForecastSimulation.prepare(context, _queue, command)
+	return prepare_action_forecast(command)
 
 func _raise_command(cell: Vector2i) -> RaiseCorpseCommand:
 	if state == null or state.environment == null: return null
