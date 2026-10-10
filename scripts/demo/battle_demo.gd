@@ -1,9 +1,6 @@
 extends Control
 class_name BattleDemo
 
-## PackedScene держим живой: иначе load каждой строки заново читает сцену и тему.
-const ROSTER_ENTRY_SCENE: PackedScene = preload("res://scenes/demo/battle/roster_entry.tscn")
-
 @export var tactical_mode: bool = false
 @export var armor_mode: bool = false
 @export var bleeding_mode: bool = false
@@ -20,10 +17,7 @@ var raising_mode: bool = false
 var retreat_mode: bool = false
 var inspected_id: int = UnitId.NONE
 var _roster: VBoxContainer
-var _runtime_roster_buttons: Dictionary[int, Button] = {}
-var _runtime_roster_session_id: int = 0
-var _runtime_roster_authored_mode: bool = false
-var _runtime_roster_mode_initialized: bool = false
+var _roster_presenter: BattleRosterPresenter = BattleRosterPresenter.new()
 var _hud_bound: bool = false
 var _stats: Label
 var _hint: Label
@@ -306,7 +300,7 @@ func _note_presentation_event(event: Dictionary) -> void:
 
 func _render_presentation_hud(state: Dictionary) -> void:
 	# Кадр может прийти при временно снятой сессии, поэтому здесь важны только ID снимка.
-	_ensure_runtime_roster_mode()
+	_roster_presenter.ensure_mode(core_reactions_mode)
 	var roster_ids: Array[int] = []
 	var details: PackedStringArray = []
 	for row: Dictionary in state.get("units", {}).values():
@@ -316,7 +310,7 @@ func _render_presentation_hud(state: Dictionary) -> void:
 		var status := BattleDemoBoard.presentation_status(row)
 		var text := "%s · HP %.1f / %.1f" % [row.name, row.hp, row.hp_max] if row.alive else "%s · погиб" % row.name
 		if not status.is_empty(): text += " · " + status
-		var button := _runtime_roster_button(unit_id)
+		var button := _roster_presenter.get_or_create_button(unit_id)
 		button.text = text
 		button.disabled = true
 		button.set_pressed_no_signal(false)
@@ -326,8 +320,7 @@ func _render_presentation_hud(state: Dictionary) -> void:
 		button.tooltip_text = text
 		if row.alive:
 			details.append("%s · основное %d · движение %.1f · броня %d + %d" % [row.name, row.main, row.move, int(row.armor.get("current", 0)) - int(row.armor.get("extra", 0)), int(row.armor.get("extra", 0))])
-	_prune_runtime_roster(roster_ids)
-	_order_runtime_roster(roster_ids)
+	_roster_presenter.retain_ordered(roster_ids)
 	_stats.text = "\n".join(details)
 	var abilities: Dictionary = state.get("abilities", {})
 	var frame_deck: Dictionary = state.get("deck", {})
@@ -394,7 +387,7 @@ func _ready() -> void:
 	_refresh()
 
 func _create_session() -> void:
-	_reset_runtime_roster()
+	_roster_presenter.reset()
 	# Составной сценарий проверяется первым, чтобы его флаги отображения не подменили сессию.
 	if core_combination_mode:
 		session = BattleCoreReactionsSession.new() if core_reactions_mode else BattleCoreCombinationSession.new()
@@ -404,7 +397,6 @@ func _create_session() -> void:
 	else:
 		session = BattleEnvironmentSession.new() if environment_mode else (BattleBleedingSession.new() if bleeding_mode else (BattleArmorSession.new() if armor_mode else (BattleTacticalSession.new() if tactical_mode else BattleDemoSession.new())))
 	_battle = session as BattleTacticalSession
-	_runtime_roster_session_id = session.get_instance_id()
 	_ai_delay = 0.0
 	_flow_cursor = 0
 
@@ -556,6 +548,7 @@ func _build_authored_hud() -> void:
 	_diagnostics_button.toggled.connect(set_diagnostics_visible)
 	_diagnostics = hud.get_node("BattleDiagnostics") as PanelContainer
 	_roster = side.get_node("RosterScroll/Roster") as VBoxContainer
+	_roster_presenter.bind(_roster, _on_roster_entry_pressed, _button)
 	_stats = side.get_node("InspectionScroll/Stats") as Label
 	_log_heading = side.get_node("LogHeading") as Label
 	_log = side.get_node("Log") as RichTextLabel
@@ -690,6 +683,7 @@ func _build_legacy_ui() -> void:
 	_roster = VBoxContainer.new()
 	_roster.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	roster_scroll.add_child(_roster)
+	_roster_presenter.bind(_roster, _on_roster_entry_pressed, _button)
 	_stats = _label("", 15, Color("e6ecf4"))
 	_stats.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_stats.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -732,78 +726,6 @@ func _label(value: String, font_size: int, color: Color) -> Label:
 	label.add_theme_color_override("font_color", color)
 	return label
 
-func _reset_runtime_roster() -> void:
-	# Смена боя/шаблона освобождает только строки presenter и оставляет авторские узлы.
-	_runtime_roster_buttons.clear()
-	_runtime_roster_session_id = 0
-	if _roster == null: return
-	for child: Node in _roster.get_children():
-		if not child.has_meta("runtime_roster_entry"): continue
-		_roster.remove_child(child)
-		child.queue_free()
-
-func _ensure_runtime_roster_scope() -> void:
-	_ensure_runtime_roster_mode()
-	var session_changed: bool = session != null and _runtime_roster_session_id != session.get_instance_id()
-	if session_changed: _reset_runtime_roster()
-	if session != null: _runtime_roster_session_id = session.get_instance_id()
-
-func _ensure_runtime_roster_mode() -> void:
-	var mode_changed: bool = _runtime_roster_mode_initialized and _runtime_roster_authored_mode != core_reactions_mode
-	if mode_changed: _reset_runtime_roster()
-	if not _runtime_roster_mode_initialized or mode_changed:
-		_runtime_roster_authored_mode = core_reactions_mode
-		_runtime_roster_mode_initialized = true
-
-func _runtime_roster_button(unit_id: int) -> Button:
-	var button := _runtime_roster_buttons.get(unit_id) as Button
-	if button != null:
-		if not is_instance_valid(button):
-			_runtime_roster_buttons.erase(unit_id)
-			button = null
-		elif button.get_parent() != _roster:
-			_runtime_roster_buttons.erase(unit_id)
-			button = null
-	if button == null:
-		button = _roster_entry("")
-		button.set_meta("runtime_roster_unit_id", unit_id)
-		button.pressed.connect(_on_roster_entry_pressed.bind(unit_id))
-		_roster.add_child(button)
-		_runtime_roster_buttons[unit_id] = button
-	return button
-
-func _prune_runtime_roster(visible_ids: Array[int]) -> void:
-	var removed: Array[int] = []
-	for unit_id: int in _runtime_roster_buttons:
-		if not visible_ids.has(unit_id): removed.append(unit_id)
-	for unit_id: int in removed:
-		var button: Button = _runtime_roster_buttons[unit_id]
-		_runtime_roster_buttons.erase(unit_id)
-		if is_instance_valid(button) and button.get_parent() == _roster:
-			_roster.remove_child(button)
-			button.queue_free()
-	# Удаляем только строки, созданные этим presenter, если карта соответствий устарела.
-	for child: Node in _roster.get_children():
-		if not child.has_meta("runtime_roster_entry"): continue
-		var unit_id: int = int(child.get_meta("runtime_roster_unit_id", UnitId.NONE))
-		if _runtime_roster_buttons.get(unit_id) == child: continue
-		_roster.remove_child(child)
-		child.queue_free()
-
-func _order_runtime_roster(ordered_ids: Array[int]) -> void:
-	var destination: int = 0
-	for child: Node in _roster.get_children():
-		if not child.has_meta("runtime_roster_entry"): destination += 1
-	for offset: int in ordered_ids.size():
-		var unit_id: int = ordered_ids[offset]
-		var button := _runtime_roster_buttons.get(unit_id) as Button
-		if button == null: continue
-		if not is_instance_valid(button):
-			_runtime_roster_buttons.erase(unit_id)
-			continue
-		if button.get_parent() == _roster and button.get_index() != destination + offset:
-			_roster.move_child(button, destination + offset)
-
 func _on_roster_entry_pressed(unit_id: int) -> void:
 	# Сигнал хранит ID, а выбранное действие определяется только по текущей сессии.
 	if is_execution_pending() or session == null or session.board == null: return
@@ -811,12 +733,6 @@ func _on_roster_entry_pressed(unit_id: int) -> void:
 	if unit == null or not unit.is_alive(): return
 	if _battle != null and unit.faction == Faction.Type.ENEMY: inspect_enemy(unit_id)
 	else: select_character(unit_id)
-
-func _roster_entry(text: String) -> Button:
-	var button := ROSTER_ENTRY_SCENE.instantiate() as Button if core_reactions_mode else _button(text)
-	button.text = text
-	button.set_meta("runtime_roster_entry", true)
-	return button
 
 func _button(value: String) -> Button:
 	var button := Button.new()
@@ -1268,7 +1184,7 @@ func _mage_spell_help(id: StringName) -> String:
 func _refresh() -> void:
 	_refresh_mage()
 	if is_execution_pending(): return
-	_ensure_runtime_roster_scope()
+	_roster_presenter.ensure_scope(session.get_instance_id(), core_reactions_mode)
 	# Любой refresh перечитывает состояние, включая изменения вне command revision.
 	var refresh_turn := (_turn_forecast != null or _turn_forecast_pending) and (_over_end_turn_button() or _forecast_reading_region().has_point(_pointer_position))
 	var refresh_environment := (_environment_forecast != null or _environment_forecast_pending) and (_over_environment_button() or _forecast_reading_region().has_point(_pointer_position))
@@ -1442,7 +1358,7 @@ func _refresh() -> void:
 			if unit.control.entangled_turns > 0: stance += " · ОПУТАН"
 		var perk_status := _perk_status_text(unit)
 		var text := "%s%s%s  ·  %s" % [unit.debug_name, stance + waiting, perk_status, "HP %.1f / %.1f" % [unit.vitals.get_hp(), unit.get_stat(StatTypes.StatType.HP_MAX)] if alive else "погиб"]
-		var button := _runtime_roster_button(unit.id)
+		var button := _roster_presenter.get_or_create_button(unit.id)
 		button.text = text
 		button.tooltip_text = ""
 		if session is BattleCoreReactionsSession:
@@ -1462,8 +1378,7 @@ func _refresh() -> void:
 			button.disabled = not alive or (locked and not _is_deploying())
 		else:
 			button.disabled = not alive or (locked and not _is_deploying())
-	_prune_runtime_roster(roster_ids)
-	_order_runtime_roster(roster_ids)
+	_roster_presenter.retain_ordered(roster_ids)
 	var selected := session.selected_unit()
 	if selected == null:
 		_stats.text = "Выберите живого персонажа в списке."

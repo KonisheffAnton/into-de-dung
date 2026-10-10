@@ -1,18 +1,19 @@
-# Передача — 2026-10-11: текущие формы сериализации
-D:\Games\into-de-dung; main; base f75213383e4e5ff4c0d94bf251cd0ef2ceb8d5de; без push.
-U «Приступай»: сокращены старые читатели по DESIGN_DIRECTION §7.2.
-Profile6/run4/plan4/report3; SAVE_FORMAT_CURRENT владеет отказом загрузки.
-Старые файлы отклоняются без удаления/миграции/перезаписи. D4 не менялся.
-Unit9/Item11 прежние; board2/components — BATTLE_SNAPSHOT_CURRENT.
-Игровые режимы сохранены явными полями. Queue/RNG/checkpoint/preview прежние.
-Отчёт: test_reports/schema-cleanup-20261011/REPORT.md; команды TESTING.
-Import/startup PASS; boundary588/0, D1 503/0, core9440/0; Python15 OK; review APPROVE.
-Full141/11; 3 закрыты повторами, остались 8shaderFAIL(base); не общий PASS.
-Exit47ObjectDB/18resources прежние; render6 PASS; 54 fingerprints и оба похода равны.
+# Передача — 2026-10-11: жизненный цикл списка бойцов
+D:\Games\into-de-dung; main; base c5cc9b279946fe48fc6c0bf4876f048c99ff2b70; без push.
+U «Приступай»: первый ограниченный срез DESIGN_DIRECTION §7.3.
+BattleRosterPresenter владеет узлами списка; BattleDemo — текстом и живым кликом.
+Live/DTO, reuse/порядок/декорации/оболочки сохранены; BATTLE_HUD_SCENES_V1.
+Игровые пути прежние. Остальной UI и упорядочение путей открыты; §7.3 не закрыт.
+Отчёт: test_reports/ui-responsibility-20261011/REPORT.md; команды TESTING.
+Import/startup PASS; render HUD240/0, panels81/0, execution28/0, control40/0, entangle28/0.
+Четыре HUD PNG пиксельно равны base; независимое ревью APPROVE.
+Full/core не повторялись: узкий UI-срез. Прежние 8shaderFAIL(base) не закрыты.
+Прежние exit47ObjectDB/18resources и сдвиг96 — без новой проверки; общего PASS нет.
+F5/Editor/DPI/GPU/длинные кадры открыты; CPU fixtures не FPS.
+Profile6/run4/plan4/report3 — SAVE_FORMAT_CURRENT; старые — отказ без миграции/удаления/записи.
+Unit9/Item11/board2, prepare-изоляция — BATTLE_SNAPSHOT_CURRENT; D4 прежний.
 Default capture/restore; --forecast-clone эксперимент, сам не включать; кэша нет.
-Fresh capture/внешняя валидация/shared builders/полный parity сохранены.
-Resource/metadata-изоляция prepare — BATTLE_SNAPSHOT_CURRENT; worker lifecycle прежний.
-F5/Editor/DPI/GPU/длинные кадры открыты; CPU fixtures не FPS; сдвиг96 не объяснён.
+Fresh capture/внешняя валидация/shared builders/полный parity/worker lifecycle прежние.
 PROJECT_CONTEXT — маршруты; CODEX_WORKFLOW — процесс; DESIGN_DIRECTION §7 — порядок.
 U: десктоп; инициативы не будет, очистка впереди. Следующий срез не запущен.
 scenes/demo/main_menu.tscn — только U: не трогать/сбрасывать/коммитить.

@@ -15,7 +15,9 @@
 Главный бой и HeroHubBattleView также используют постоянную сцену HUD с
 именованными слотами и шаблонами записей. Presenter сохраняет узлы/overrides,
 заполняет значения и связывает прежние обработчики; процедурные слои поля и
-барьеры исполнения прежние. Карта — [BATTLE_HUD_SCENES_V1](BATTLE_HUD_SCENES_V1.md).
+барьеры исполнения прежние. Жизненный цикл строк списка вынесен в
+`BattleRosterPresenter`; сессия, формирование значений и guards клика остаются в
+`BattleDemo`. Карта и границы — [BATTLE_HUD_SCENES_V1](BATTLE_HUD_SCENES_V1.md).
 
 [K17](STATUS_EFFECTS_NEXT.md) включает конечные состояния bleeding/burning/wet/freeze
 в основном бою и у помощников. Nullable ElementalState и явный режим bleeding.stacked разделяют правила

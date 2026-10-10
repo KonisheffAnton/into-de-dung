@@ -146,7 +146,7 @@ func click(position: Vector2) -> void:
 	await process_frame; await process_frame
 
 func click_roster_enemy(unit_id: int) -> void:
-	var button := demo._runtime_roster_buttons.get(unit_id) as Button
+	var button := demo._roster_presenter.get_button(unit_id)
 	check(button != null and is_instance_valid(button), "enemy roster button exists")
 	if button == null or not is_instance_valid(button): return
 	var ancestor: Node = button.get_parent()

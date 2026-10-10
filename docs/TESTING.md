@@ -54,6 +54,12 @@ core — 600 с. Это предел ожидания, не разрешение
 
 Обычная локальная правка: начать с 1–3 связанных runner (плюс import/startup).
 
+Для жизненного цикла списка бойцов: `python tools/demo/isolate.py --render-check --only battle_hud_authoring battle_panels battle_execution_ui control_ui entangle_ui --screen 0`.
+Первые три метки проверяют authored/legacy/H1, повторное связывание, строки
+live/after и барьер worker; последние две — настоящий клик осмотра врага через
+список. Сравнение base/current и PNG — в отчёте среза. Core/full не требуются,
+если изменены только узлы списка, а guards, данные и исполнение сохранены.
+
 Для границы старых форматов: `python tools/demo/isolate.py --check --only current_schema_boundary hero_hub expedition_transitions mage_deck_expedition --screen 0`.
 `current_schema_boundary` входит в обычный/full набор: отказ старых/будущих
 номеров и неверных типов, режимы компонентов, 512 сочетаний флагов/оплаты,

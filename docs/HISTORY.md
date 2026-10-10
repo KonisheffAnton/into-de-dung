@@ -1,5 +1,20 @@
 # История и свидетельства проверок
 
+## Жизненный цикл списка бойцов — 2026-10-11
+
+U «Приступай»; main, base `c5cc9b279946fe48fc6c0bf4876f048c99ff2b70`, без push.
+Первый ограниченный срез §7.3: `BattleRosterPresenter` владеет узлами списка,
+`BattleDemo` сохраняет формирование значений и guards живого клика.
+Контракт — [HUD](BATTLE_HUD_SCENES_V1.md); игровые пути и остальные обязанности UI
+пока прежние, весь §7.3 не закрыт. Main/H1/legacy сохраняют строки, author overrides,
+состав и порядок из DTO, смену сессии/оболочки и одиночные обработчики.
+Import/startup PASS; render HUD240/0, panels81/0, execution28/0, control40/0,
+entangle28/0; независимое ревью APPROVE. Четыре HUD PNG равны base пиксельно.
+Full/core не повторялись; прежние базовые shader FAIL и ручная F5/Editor/DPI/GPU-приёмка
+не закрыты. Отчёт — `test_reports/ui-responsibility-20261011/REPORT.md`.
+main_menu.tscn U сохранена; следующий срез не запущен. Предыдущая передача
+сохранена побайтно в [архиве](CODEX_HANDOFF.history-20261011-2.md).
+
 ## Текущие форматы сериализации — 2026-10-11
 
 U «Приступай»; main, base `f75213383e4e5ff4c0d94bf251cd0ef2ceb8d5de`, без push.

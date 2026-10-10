@@ -100,6 +100,23 @@ func _exercise(deck_mode: bool) -> void:
 	demo._render_presentation_hud(changed_frame)
 	var after_button := _roster_button(demo, first_unit_id)
 	check(is_instance_valid(after_button) and after_button.get_instance_id() == first_button_instance and after_button.text.contains("HP %.1f" % changed_row.hp), "after frame reuses entry and renders copied HP without a live session")
+	var inspected_before: int = demo.inspected_id
+	var selected_before: int = original_session.selected_id
+	after_button.pressed.emit()
+	check(after_button.disabled and demo.inspected_id == inspected_before and original_session.selected_id == selected_before, "detached frame row callback cannot select or inspect live units")
+	var reordered_frame: Dictionary = changed_frame.duplicate(true)
+	var ordered_ids: Array = reordered_frame.units.keys()
+	ordered_ids.reverse()
+	reordered_frame.units = {}
+	for unit_id: int in ordered_ids:
+		reordered_frame.units[unit_id] = changed_frame.units[unit_id]
+	demo._render_presentation_hud(reordered_frame)
+	var visible_ids: Array[int] = []
+	for child: Node in roster.get_children():
+		if child.has_meta("runtime_roster_unit_id"):
+			visible_ids.append(int(child.get_meta("runtime_roster_unit_id")))
+	check(visible_ids == ordered_ids, "detached frame roster follows published order")
+	check(_roster_button(demo, first_unit_id).get_instance_id() == first_button_instance and decoration.get_index() == 0, "reordering reuses rows after author decoration")
 	demo.session = original_session
 	demo._refresh()
 	var added_frame := ActionPresentationState.capture(demo.session.state)
@@ -111,7 +128,7 @@ func _exercise(deck_mode: bool) -> void:
 	check(_roster_button(demo, added_id) != null, "presentation adds a new runtime roster entry")
 	added_frame.units.erase(first_unit_id)
 	demo._render_presentation_hud(added_frame)
-	check(not demo._runtime_roster_buttons.has(first_unit_id) and roster.get_children().all(func(node: Node) -> bool: return not node.has_meta("runtime_roster_unit_id") or int(node.get_meta("runtime_roster_unit_id")) != first_unit_id), "presentation removes absent runtime entry without removing author children")
+	check(demo._roster_presenter.get_button(first_unit_id) == null and roster.get_children().all(func(node: Node) -> bool: return not node.has_meta("runtime_roster_unit_id") or int(node.get_meta("runtime_roster_unit_id")) != first_unit_id), "presentation removes absent runtime entry without removing author children")
 	demo._refresh()
 	for node_path: NodePath in identities:
 		var node := hud.get_node_or_null(node_path)
@@ -151,7 +168,7 @@ func _exercise(deck_mode: bool) -> void:
 	board.session = replacement_session
 	demo._refresh()
 	var reset_session_button := _roster_button(demo, replacement_roster_id)
-	check(not demo._runtime_roster_buttons.has(current_roster_id) and is_instance_valid(reset_session_button) and reset_session_button.get_instance_id() != old_roster_instance, "new session retires old rows and binds fresh IDs")
+	check(demo._roster_presenter.get_button(current_roster_id) == null and is_instance_valid(reset_session_button) and reset_session_button.get_instance_id() != old_roster_instance, "new session retires old rows and binds fresh IDs")
 	check(is_instance_valid(reset_session_button) and reset_session_button.pressed.get_connections().size() == 1, "new session roster row has one current handler")
 	var stable_after_reset := _roster_button(demo, replacement_roster_id)
 	demo.core_reactions_mode = not demo.core_reactions_mode
@@ -194,7 +211,7 @@ func _collect(node: Node, root_node: Node, identities: Dictionary) -> void:
 	for child: Node in node.get_children(): _collect(child, root_node, identities)
 
 func _roster_button(demo: BattleDemo, unit_id: int) -> Button:
-	return demo._runtime_roster_buttons.get(unit_id) as Button
+	return demo._roster_presenter.get_button(unit_id)
 
 func _fallbacks() -> void:
 	var bar := BattleActionBar.new()
