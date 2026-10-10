@@ -21,6 +21,7 @@ shader_parameter/native_size = Vector2(78, 73)
 
 [node name="PlaceholderUnit" instance=ExtResource("1_base")]
 warrior_pick_rect = Rect2(-45, -66, 90, 83)
+warrior_art_scale = 0.8
 
 [node name="PlayerWarriorSprite" parent="ArtRoot" index="1"]
 material = SubResource("ShaderMaterial_player")

@@ -30,6 +30,7 @@ var reaction_view: Dictionary = {}
 var action_resources_view: Dictionary = {}
 @export var body_pick_rect: Rect2 = Rect2(-17, -37, 34, 44)
 @export var warrior_pick_rect: Rect2 = Rect2(-45, -56, 78, 73)
+@export_range(0.25, 2.0, 0.05) var warrior_art_scale: float = 1.0
 @export var show_flat_height_labels: bool = false
 ## Демонстрационные состояния выбираются доской; сцена только отображает слои.
 var frozen: bool = false
@@ -182,7 +183,7 @@ func sync_scene_art() -> void:
 	if art == null: return
 	_scene_art_enabled = true
 	var factor := grid_config.tile_size.x / 128.0 if grid_config != null else 1.0
-	art.scale = Vector2.ONE * factor
+	art.scale = Vector2.ONE * factor * get_unit_art_scale()
 	art.scale.y *= (1.0 - death_progress * 0.25) * (1.0 - landing_compression)
 	art.rotation = death_progress * PI * 0.5
 	art.position = get_visual_offset() + action_offset
@@ -318,8 +319,9 @@ func surface_polygons() -> Array[PackedVector2Array]:
 		if unit != null and not unit.alive: return []
 		var factor := grid_config.tile_size.x / 128.0
 		var offset := get_visual_offset()
+		var art_scale := get_unit_art_scale()
 		var pick_rect := warrior_pick_rect if _has_visible_warrior_sprite() else body_pick_rect
-		return [PackedVector2Array([offset + pick_rect.position * factor, offset + Vector2(pick_rect.end.x, pick_rect.position.y) * factor, offset + pick_rect.end * factor, offset + Vector2(pick_rect.position.x, pick_rect.end.y) * factor])]
+		return [PackedVector2Array([offset + pick_rect.position * factor * art_scale, offset + Vector2(pick_rect.end.x, pick_rect.position.y) * factor * art_scale, offset + pick_rect.end * factor * art_scale, offset + Vector2(pick_rect.position.x, pick_rect.end.y) * factor * art_scale])]
 	var top := top_polygon()
 	if is_void: return [top]
 	var bottom := Vector2(0, grid_config.height_step * 0.55 + 0.5)
@@ -337,6 +339,9 @@ func _has_visible_warrior_sprite() -> bool:
 	var path := "ArtRoot/PlayerWarriorSprite" if unit.faction == Faction.Type.PLAYER else "ArtRoot/EnemyWarriorSprite"
 	var sprite := get_node_or_null(path) as Sprite2D
 	return sprite != null and sprite.texture != null and (sprite == get_node_or_null("ArtRoot/PlayerWarriorSprite") and unit.faction == Faction.Type.PLAYER or sprite == get_node_or_null("ArtRoot/EnemyWarriorSprite") and unit.faction == Faction.Type.ENEMY)
+
+func get_unit_art_scale() -> float:
+	return warrior_art_scale if role == Role.UNIT and _has_visible_warrior_sprite() else 1.0
 
 ## Возвращает первые пять уникальных не воплощённых видов в порядке доски.
 func visible_status_entries() -> Array[Dictionary]:
@@ -413,17 +418,18 @@ func _draw() -> void:
 
 func _draw_unit() -> void:
 	var factor := grid_config.tile_size.x / 128.0
+	var body_factor := factor * get_unit_art_scale()
 	var foot := get_visual_offset()
 	if unit != null and not unit.alive:
 		# Наличие тела определяет environment, а не оставшийся мёртвый UnitState.
 		return
 	var tint := transient_tint if unit == null else (Color("65dfcc") if unit.faction == Faction.Type.PLAYER else Color("f7c97d"))
 	if not shield_view.is_empty():
-		var center := foot + action_offset + Vector2(0, -29) * factor
+		var center := foot + action_offset + Vector2(0, -29) * body_factor
 		var outline := PackedVector2Array()
 		for index: int in range(33):
 			var angle := TAU * float(index) / 32.0
-			outline.append(center + Vector2(cos(angle) * 26, sin(angle) * 39) * factor)
+			outline.append(center + Vector2(cos(angle) * 26, sin(angle) * 39) * body_factor)
 		draw_colored_polygon(outline, Color(0.3, 0.75, 1.0, 0.10))
 		draw_polyline(outline, Color("71cefa"), 1.7 * factor, true)
 		draw_string(ThemeDB.fallback_font, center + Vector2(-25, -43) * factor, "Щ %d · %d" % [int(shield_view.hp), int(shield_view.hits_left)], HORIZONTAL_ALIGNMENT_CENTER, 50 * factor, int(11 * factor), Color("aee7ff"))

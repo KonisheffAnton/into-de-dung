@@ -83,6 +83,8 @@ func _run() -> void:
 	await process_frame
 	await process_frame
 	check(snapshot(session) == baseline, "window resize keeps current snapshot, RNG, counters and phase")
+	_check_warrior_art()
+	check(snapshot(session) == baseline, "art scale lifecycle checks preserve snapshot, RNG, counters and phase")
 	heading_rect = demo._heading.get_global_rect()
 	action_rect = demo._action_bar.get_global_rect()
 	await _capture_zoom_set("1440x1000", baseline, heading_rect, action_rect)
@@ -149,6 +151,8 @@ func _check_camera_preserves_state(baseline: Dictionary, heading_rect: Rect2, ac
 	check(demo._heading.get_global_rect() == heading_rect and demo._action_bar.get_global_rect() == action_rect, "camera leaves title and action HUD scale unchanged " + label)
 	demo._refresh()
 	check(snapshot(demo.session as BattleCoreReactionsSession) == baseline, "current refresh preserves snapshot/RNG/counters " + label)
+	_check_warrior_art()
+	check(snapshot(demo.session as BattleCoreReactionsSession) == baseline, "warrior art refresh preserves snapshot/RNG/counters " + label)
 	check(demo._heading.get_global_rect() == heading_rect and demo._action_bar.get_global_rect() == action_rect, "refresh leaves title and action HUD geometry unchanged " + label)
 
 func _check_seam_minimum_screen_width(label: String, expect_fractional_transform: bool = false) -> void:
@@ -207,9 +211,46 @@ func _capture_source_sampling(size_label: String) -> void:
 func _check_warrior_art() -> void:
 	var player_count: int = 0
 	var enemy_count: int = 0
+	var nonwarrior_count: int = 0
+	var tile_factor: float = demo.board_view.grid_config.tile_size.x / 128.0
+	var number_checks: int = 0
 	for visual: BattleDemoIsoVisual in demo.board_view._entity_visuals:
-		if visual.unit == null or visual.visual_class_id != &"warrior":
+		if visual.unit == null:
 			continue
+		if visual.visual_class_id != &"warrior":
+			nonwarrior_count += 1
+			check(visual.get_unit_art_scale() == 1.0 and (visual.get_node("ArtRoot") as Node2D).scale.is_equal_approx(Vector2.ONE * tile_factor), "nonwarrior art keeps tile scale and existing pick size")
+			continue
+		var art_root := visual.get_node("ArtRoot") as Node2D
+		var expected_scale := Vector2.ONE * tile_factor * 0.8
+		check(is_equal_approx(visual.get_unit_art_scale(), 0.8) and is_equal_approx(art_root.scale.x, expected_scale.x), "warrior art uses the authored 80 percent scale")
+		var pick_bounds := visual.surface_polygons()[0]
+		var pick_width: float = pick_bounds[1].x - pick_bounds[0].x
+		check(is_equal_approx(pick_width, visual.warrior_pick_rect.size.x * tile_factor * 0.8), "warrior picking footprint follows the reduced body")
+		var inner_pick_point := visual.position + visual.get_visual_offset() + Vector2(visual.warrior_pick_rect.position.x + visual.warrior_pick_rect.size.x * 0.5, visual.warrior_pick_rect.position.y + visual.warrior_pick_rect.size.y * 0.5) * tile_factor * 0.8
+		var outside_pick_point := visual.position + visual.get_visual_offset() + Vector2(visual.warrior_pick_rect.end.x * tile_factor * 0.9, (visual.warrior_pick_rect.position.y + visual.warrior_pick_rect.size.y * 0.5) * tile_factor * 0.8)
+		check(visual.contains_point(inner_pick_point) and not visual.contains_point(outside_pick_point), "warrior picking hit region ends at its scaled boundary")
+		var effect_anchor := visual.get_node("ArtRoot/EffectAnchor") as Node2D
+		check(demo.board_view._effect_anchor(visual.unit.id).is_equal_approx(effect_anchor.position * 0.8), "projectile and impact anchor follows the reduced body")
+		var managed := visual as BattleManagedUnitVisual
+		visual.action_offset = Vector2(7, -3)
+		managed.reset_view_pose()
+		check(visual.action_offset == Vector2.ZERO and is_equal_approx((visual.get_node("ArtRoot") as Node2D).scale.x, expected_scale.x), "pose reset restores the same reduced art scale")
+		visual.visual_class_id = &"mage"
+		visual.sync_scene_art()
+		check(visual.get_unit_art_scale() == 1.0 and is_equal_approx((visual.get_node("ArtRoot") as Node2D).scale.x, tile_factor), "class change removes warrior-only scale from the reused root")
+		visual.visual_class_id = &"warrior"
+		visual.sync_scene_art()
+		check(is_equal_approx((visual.get_node("ArtRoot") as Node2D).scale.x, expected_scale.x), "warrior scale reapplies when the same root changes back")
+		if number_checks == 0:
+			var label_anchor := visual.get_node("ArtRoot/LabelAnchor") as Node2D
+			var result_number := demo.board_view._add_result_number(visual.unit.id, "12", Color.WHITE)
+			var consequence_number := demo.board_view._add_result_number(visual.unit.id, "2", Color.WHITE, &"consequence")
+			check(result_number != null and (result_number.get_meta("anchor") as Vector2).is_equal_approx(label_anchor.position * 0.8), "floating result number follows the reduced body")
+			check(consequence_number != null and consequence_number.get_meta("anchor") == Vector2(0, 35), "consequence number keeps its fixed board anchor")
+			if result_number != null: result_number.queue_free()
+			if consequence_number != null: consequence_number.queue_free()
+		number_checks += 1
 		if visual.unit.faction == Faction.Type.PLAYER:
 			player_count += 1
 			var player_sprite := visual.get_node_or_null("ArtRoot/PlayerWarriorSprite") as Sprite2D
@@ -220,6 +261,7 @@ func _check_warrior_art() -> void:
 			var enemy_sprite := visual.get_node_or_null("ArtRoot/EnemyWarriorSprite") as Sprite2D
 			check(enemy_sprite != null and enemy_sprite.visible and enemy_sprite.flip_h and enemy_sprite.texture.resource_path.ends_with("defender_reference_v1.png"), "current enemy warrior keeps its faction artwork and mirror")
 	check(player_count > 0 and enemy_count > 0, "current encounter contains both warrior artwork factions")
+	check(nonwarrior_count > 0, "current encounter provides a nonwarrior scale control")
 
 func _check_picking_roundtrip() -> void:
 	var board := demo.board_view

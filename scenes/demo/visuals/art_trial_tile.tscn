@@ -9,6 +9,7 @@
 
 [node name="PlaceholderTile" instance=ExtResource("1_base")]
 script = ExtResource("2_script")
+ground_base_tint = Color(0.32549, 0.368627, 0.243137, 1)
 
 [node name="GroundSurface" parent="ArtRoot" index="4"]
 texture = null
@@ -18,7 +19,7 @@ offset = Vector2(0, 0)
 [node name="Grass0" type="Polygon2D" parent="ArtRoot/GroundSurface"]
 visible = true
 texture_filter = 1
-color = Color(1, 1, 1, 1)
+color = Color(0.79, 0.8, 0.75, 1)
 polygon = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
 uv = PackedVector2Array(724, 110, 1350, 543, 724, 975, 96, 543)
 texture = ExtResource("3_a")
@@ -26,7 +27,7 @@ texture = ExtResource("3_a")
 [node name="Grass1" type="Polygon2D" parent="ArtRoot/GroundSurface"]
 visible = false
 texture_filter = 1
-color = Color(1, 1, 1, 1)
+color = Color(0.79, 0.8, 0.75, 1)
 polygon = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
 uv = PackedVector2Array(724, 110, 1350, 543, 724, 975, 96, 543)
 texture = ExtResource("4_b")
@@ -34,7 +35,7 @@ texture = ExtResource("4_b")
 [node name="Grass2" type="Polygon2D" parent="ArtRoot/GroundSurface"]
 visible = false
 texture_filter = 1
-color = Color(1, 1, 1, 1)
+color = Color(0.79, 0.8, 0.75, 1)
 polygon = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
 uv = PackedVector2Array(724, 110, 1350, 543, 724, 975, 96, 543)
 texture = ExtResource("5_c")
@@ -42,7 +43,7 @@ texture = ExtResource("5_c")
 [node name="Grass3" type="Polygon2D" parent="ArtRoot/GroundSurface"]
 visible = false
 texture_filter = 1
-color = Color(1, 1, 1, 1)
+color = Color(0.79, 0.8, 0.75, 1)
 polygon = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
 uv = PackedVector2Array(724, 110, 1350, 543, 724, 975, 96, 543)
 texture = ExtResource("6_d")

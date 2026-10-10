@@ -355,7 +355,7 @@ static func _shot_arc_height(from_cell: Vector2i, to_cell: Vector2i) -> float:
 func _effect_anchor(id: int) -> Vector2:
 	var visual := _presentation_visual(id)
 	var anchor := visual.get_node_or_null("ArtRoot/EffectAnchor") as Node2D if visual != null else null
-	return anchor.position if anchor != null else Vector2(0, -18)
+	return (anchor.position if anchor != null else Vector2(0, -18)) * (visual.get_unit_art_scale() if visual != null else 1.0)
 
 func _prepare_projectile(event: Dictionary) -> BattlePresentationProjectile:
 	var projectile := projectile_scene.instantiate() as BattlePresentationProjectile
@@ -393,7 +393,7 @@ func _hit_impact(event: Dictionary, tint: Color) -> void:
 	var anchor := visual.get_node_or_null("ArtRoot/EffectAnchor") as Node2D
 	impact.set_meta("impact_scale", 0.85)
 	impact.set_meta("cell", _view_unit_cell(int(event.target_unit_id)))
-	impact.set_meta("anchor", anchor.position if anchor != null else Vector2(0, -18))
+	impact.set_meta("anchor", (anchor.position if anchor != null else Vector2(0, -18)) * visual.get_unit_art_scale())
 	_place_impacts()
 	impact.start(tint)
 
@@ -510,7 +510,7 @@ func _add_result_number(id: int, text: String, tint: Color, feedback_kind: Strin
 	number.set_meta("unit_id", id)
 	var visual := _presentation_visual(id)
 	var anchor := visual.get_node_or_null("ArtRoot/LabelAnchor") as Node2D if visual != null else null
-	number.set_meta("anchor", anchor.position if anchor != null else Vector2(0, -48))
+	number.set_meta("anchor", (anchor.position if anchor != null else Vector2(0, -48)) * (visual.get_unit_art_scale() if visual != null else 1.0))
 	if feedback_kind == &"consequence":
 		number.rise = 0.0
 		number._label.add_theme_font_size_override("font_size", 16)
@@ -987,7 +987,7 @@ func _update_mage_geometry(phase: StringName = &"prepare", progress: float = 0.0
 	var source_point := Vector2(20.0, 52.0)
 	var visual := _presentation_visual(_mage_target_id)
 	var anchor := visual.get_node_or_null("ArtRoot/EffectAnchor") as Node2D if visual != null else null
-	var world_point := _world_cell_center(_view_unit_cell(_mage_target_id)) + ((anchor.position if anchor != null else Vector2(0, -18)) * grid_config.tile_size.x / 128.0)
+	var world_point := _world_cell_center(_view_unit_cell(_mage_target_id)) + ((anchor.position if anchor != null else Vector2(0, -18)) * (visual.get_unit_art_scale() if visual != null else 1.0) * grid_config.tile_size.x / 128.0)
 	if _mage_target_cell.x >= 0: world_point = _world_cell_center(_mage_target_cell)
 	_mage_effect.spell_id = _mage_spell_id
 	_mage_effect.sample(phase, progress, source_point, world_to_view(world_point))

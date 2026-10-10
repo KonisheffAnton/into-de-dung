@@ -151,7 +151,7 @@ func field_sample() -> void:
 			for point: Vector2 in grass.uv:
 				uv_inside = uv_inside and point.x >= 0.0 and point.y >= 0.0 and point.x < image.get_width() and point.y < image.get_height()
 		check(uv_inside, "all four UV corners stay inside the authored texture")
-		check(grass.texture_filter == CanvasItem.TEXTURE_FILTER_NEAREST and grass.color == Color.WHITE and grass.transform == Transform2D.IDENTITY, "full-top artwork keeps nearest filtering without tint or transform")
+		check(grass.texture_filter == CanvasItem.TEXTURE_FILTER_NEAREST and grass.color == Color(0.79, 0.80, 0.75, 1.0) and grass.transform == Transform2D.IDENTITY, "full-top artwork shares the authored palette without extra transform")
 		if not boundary_by_texture.has(grass.texture):
 			boundary_by_texture[grass.texture] = opaque_uv_boundary(grass)
 	check(used.size() == 4, "6x6 sample uses all four full-top compositions")

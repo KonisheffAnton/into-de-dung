@@ -5,6 +5,7 @@ const UNIT = preload("res://scenes/demo/visuals/art_trial_unit.tscn")
 ## Увеличивается уже отрисованный кадр, чтобы видеть экранные пиксели A/B.
 static func capture_comparison(tree: SceneTree, captures: String) -> bool:
 	var prototype := UNIT.instantiate()
+	var prototype_art_scale: float = (prototype as BattleDemoIsoVisual).warrior_art_scale
 	var success: bool = true
 	for kind: String in ["Player", "Enemy"]:
 		var original := prototype.get_node("ArtRoot/" + kind + "WarriorSprite") as Sprite2D
@@ -24,7 +25,7 @@ static func capture_comparison(tree: SceneTree, captures: String) -> bool:
 				samples.append(sample)
 				var sprite := original.duplicate() as Sprite2D
 				sprite.position = Vector2(12, 12)
-				sprite.scale = original.scale * zoom
+				sprite.scale = original.scale * zoom * prototype_art_scale
 				sprite.visible = true
 				if row == 0:
 					sprite.material = null
@@ -38,7 +39,7 @@ static func capture_comparison(tree: SceneTree, captures: String) -> bool:
 				panel.add_child(enlarged)
 				var label := Label.new()
 				label.position = Vector2(column * 384 + 12, row * 372 + 4)
-				label.text = "%s %d%% / %s / pixels x3" % [kind, roundi(zoom * 100), "source" if row == 0 else "native grid"]
+				label.text = "%s %d%% / art %d%% / %s / pixels x3" % [kind, roundi(zoom * 100), roundi(prototype_art_scale * 100), "source" if row == 0 else "native grid"]
 				panel.add_child(label)
 		await tree.process_frame
 		await tree.process_frame
