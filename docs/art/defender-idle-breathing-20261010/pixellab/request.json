@@ -1,0 +1,15 @@
+{
+  "provider": "PixelLab API v2",
+  "endpoint": "POST /v2/animate-with-text-v3",
+  "head": "5a28b699268bd7d561e85f89e0914bdf7c5411d8",
+  "reference": "reference-96.png",
+  "first_frame_format": "png",
+  "last_frame": "same reference PNG",
+  "action": "A motionless isometric soldier calmly breathing in place. Make a tiny seamless idle loop in four frames. Lock the original facing, head direction, torso orientation and camera exactly as in the reference for every frame. Both feet, knees, hips, sword direction and shield angle remain fixed. ONLY the upper chest and shoulders gently rise ONE pixel on inhalation and settle back ONE pixel on exhalation; the hands and held equipment may translate with breathing but NEVER rotate. Preserve the exact helmet, face, olive tunic, steel, leather, silhouette, pixel style, size, colors and canvas registration. Start and finish at the supplied resting pose. NO turning, looking around, head nodding, torso twisting, weight shifting, walking, stepping, bouncing, sword swing or shield tilt. Fixed 96x96 transparent canvas, no shadow, no camera motion. The soldier is standing still, not performing an action.",
+  "frame_count": 4,
+  "seed": 20261011,
+  "no_background": true,
+  "enhance_prompt": false,
+  "drift_threshold": "omitted (provider default)",
+  "note": "Reference bytes are sent as base64 in first_frame/last_frame; excluded from this record."
+}

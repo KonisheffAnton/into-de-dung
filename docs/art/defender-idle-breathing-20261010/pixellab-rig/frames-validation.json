@@ -1,0 +1,50 @@
+[
+  {
+    "file": "frame-01.png",
+    "changedVisiblePixelsVsFirst": 0,
+    "opaque": 2993,
+    "sha256": "ad7c58e70816b75ce564c369f0d3b7d650975976e290f2d09669c9e98938a540"
+  },
+  {
+    "file": "frame-02.png",
+    "changedVisiblePixelsVsFirst": 15,
+    "opaque": 2993,
+    "sha256": "19c102d5ca0ac299d3af11fff30bba89fb933a3e0342cea0394aed6fe78f16d0"
+  },
+  {
+    "file": "frame-03.png",
+    "changedVisiblePixelsVsFirst": 38,
+    "opaque": 2993,
+    "sha256": "e9db6bc61fa30e227f626ab7c11d48841b59cd4679ba928c2b5eeb9b1c972882"
+  },
+  {
+    "file": "frame-04.png",
+    "changedVisiblePixelsVsFirst": 34,
+    "opaque": 2993,
+    "sha256": "4d43e35d1d7864c634eca3cc1e708b64100adf0c2e203fffe4876e77927cfdc8"
+  },
+  {
+    "file": "frame-05.png",
+    "changedVisiblePixelsVsFirst": 36,
+    "opaque": 2993,
+    "sha256": "937ccdc1ca18b51d9f7c2b84fc4a9c18f0b6ce02cbd99700b155c2c66cfb8dbc"
+  },
+  {
+    "file": "frame-06.png",
+    "changedVisiblePixelsVsFirst": 33,
+    "opaque": 2993,
+    "sha256": "f6c4ebafac9bd0dd794a25f3bbd099464b2bc625051671c0180ddebe786c576f"
+  },
+  {
+    "file": "frame-07.png",
+    "changedVisiblePixelsVsFirst": 40,
+    "opaque": 2993,
+    "sha256": "acb4677d3eaf09e37da646211442903b17f31edebbe07a90e0bb99defc8f769b"
+  },
+  {
+    "file": "frame-08.png",
+    "changedVisiblePixelsVsFirst": 37,
+    "opaque": 2993,
+    "sha256": "88e935559f81810923f3cc30b8f7b89c50261e12e41cd5afc4db554bdddb8442"
+  }
+]

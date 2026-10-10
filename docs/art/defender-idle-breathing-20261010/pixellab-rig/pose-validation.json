@@ -1,0 +1,72 @@
+{
+  "schema": "https://api.pixellab.ai/v2/openapi.json",
+  "endpoint": "/v2/animate-with-skeleton-v3",
+  "reference": "reference-128.png",
+  "reference_preparation": "16px transparent padding around unchanged reference-96.png; no resizing",
+  "joints": 18,
+  "frames": 8,
+  "only_changed_joints": [
+    "LEFT SHOULDER",
+    "RIGHT SHOULDER"
+  ],
+  "max_displacement_px": 1,
+  "all_other_positions_and_z_order": "exactly fixed",
+  "direction": "south-east",
+  "view": "high top-down",
+  "pose_changes": [
+    [],
+    [
+      {
+        "joint": "LEFT SHOULDER",
+        "dy_px": -0.5
+      },
+      {
+        "joint": "RIGHT SHOULDER",
+        "dy_px": -0.5
+      }
+    ],
+    [
+      {
+        "joint": "LEFT SHOULDER",
+        "dy_px": -1.0
+      },
+      {
+        "joint": "RIGHT SHOULDER",
+        "dy_px": -1.0
+      }
+    ],
+    [
+      {
+        "joint": "LEFT SHOULDER",
+        "dy_px": -1.0
+      },
+      {
+        "joint": "RIGHT SHOULDER",
+        "dy_px": -1.0
+      }
+    ],
+    [
+      {
+        "joint": "LEFT SHOULDER",
+        "dy_px": -0.5
+      },
+      {
+        "joint": "RIGHT SHOULDER",
+        "dy_px": -0.5
+      }
+    ],
+    [],
+    [
+      {
+        "joint": "LEFT SHOULDER",
+        "dy_px": 0.5
+      },
+      {
+        "joint": "RIGHT SHOULDER",
+        "dy_px": 0.5
+      }
+    ],
+    []
+  ],
+  "note": "Input constraint validation, not a guarantee of generated image compliance."
+}

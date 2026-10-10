@@ -1,0 +1,26 @@
+{
+  "job_id": "7e8a10a0-7cf5-489b-b154-8472f52e7551",
+  "status": "completed",
+  "usage": {
+    "type": "generations",
+    "generations": 1.0
+  },
+  "checked_utc": "2026-10-10T10:48:30.1974203Z",
+  "last_response_fields": {
+    "generation_id": "c1038537-d789-4f92-af2a-3e65d0799a5b",
+    "seed": 20261011,
+    "billing_usage": {
+      "type": "generations",
+      "generations": 1.0
+    },
+    "billing_charged": true,
+    "image_count": 5,
+    "image_formats": [
+      "png",
+      "png",
+      "png",
+      "png",
+      "png"
+    ]
+  }
+}

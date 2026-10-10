@@ -1,0 +1,67 @@
+{
+  "provider": "PixelLab API v2",
+  "endpoint": "POST /v2/animate-with-text-v3",
+  "job_id": "7e8a10a0-7cf5-489b-b154-8472f52e7551",
+  "generation_id": "c1038537-d789-4f92-af2a-3e65d0799a5b",
+  "status": "completed",
+  "requested_frame_count": 4,
+  "returned_image_count": 5,
+  "seed": 20261011,
+  "usage": {
+    "type": "generations",
+    "generations": 1.0
+  },
+  "billing_charged": true,
+  "reference_sha256": "65be27d580a99ede49fd72dd1f77a297910eab75023abfe1a69236c1cbe289f4",
+  "reference_copy_sha256": "65be27d580a99ede49fd72dd1f77a297910eab75023abfe1a69236c1cbe289f4",
+  "reference_copy_matches": true,
+  "frames": [
+    {
+      "file": "frame-01.png",
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA",
+      "transparent_pixels": 6223,
+      "alpha_levels": 2,
+      "sha256": "ba19dd03efde2e7d2e5aae1ec539194157af282c3011ff9744178faed29cfe6a"
+    },
+    {
+      "file": "frame-02.png",
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA",
+      "transparent_pixels": 6294,
+      "alpha_levels": 2,
+      "sha256": "42de564708f955af75872a829d080ec21f031aa8fbf980122841ced8786b6cd6"
+    },
+    {
+      "file": "frame-03.png",
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA",
+      "transparent_pixels": 6313,
+      "alpha_levels": 2,
+      "sha256": "d032760ce5f1711ac59fb38f3de92993b378a2778c5d5ff3d1ae06a739576c83"
+    },
+    {
+      "file": "frame-04.png",
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA",
+      "transparent_pixels": 6287,
+      "alpha_levels": 2,
+      "sha256": "2a8fa3da950640b1236ac55b2929cd0a83401ee6455c0f5275cdfd657728fb56"
+    },
+    {
+      "file": "frame-05.png",
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA",
+      "transparent_pixels": 6223,
+      "alpha_levels": 2,
+      "sha256": "10afdcc7b4285372377756cbb013886f00b2ec07fa653ca2a8edb5db96119b4d"
+    }
+  ],
+  "note": "PNG outputs are saved unchanged from the API response. No FPS provided by API.",
+  "completed_utc": "2026-10-10T10:48:20.6075682Z"
+}

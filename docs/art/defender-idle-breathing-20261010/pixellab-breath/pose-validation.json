@@ -1,0 +1,25 @@
+{
+  "joints": 18,
+  "seed": 20261012,
+  "upperBodyShiftYPixels": [
+    0,
+    -1,
+    -2,
+    -3,
+    -2,
+    -1,
+    0,
+    0
+  ],
+  "note": "Upper joints translate together: relative face, shoulder and arm geometry unchanged. Constraints describe request, not proof of output.",
+  "frameCount": 8,
+  "allXAndZFixed": true,
+  "fixedJoints": [
+    "LEFT HIP",
+    "RIGHT HIP",
+    "LEFT KNEE",
+    "RIGHT KNEE",
+    "LEFT LEG",
+    "RIGHT LEG"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "sourceFrames": [
+    "frame-02.png",
+    "frame-03.png",
+    "frame-04.png",
+    "frame-05.png"
+  ],
+  "selectedFrames": [
+    "frame-02.png",
+    "frame-03.png",
+    "frame-04.png",
+    "frame-05.png",
+    "frame-04.png",
+    "frame-03.png"
+  ],
+  "allOriginalFrames": [
+    "frame-01.png",
+    "frame-02.png",
+    "frame-03.png",
+    "frame-04.png",
+    "frame-05.png"
+  ],
+  "delayMs": 400,
+  "cycleMs": 2400,
+  "transform": "Forward/reverse playback of four source poses. Nearest display resize only; original frame registration and pose unchanged",
+  "gif": {
+    "pages": 6,
+    "delay": [
+      400,
+      400,
+      400,
+      400,
+      400,
+      400
+    ],
+    "width": 800,
+    "pageHeight": 590
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "frame_count": 8,
+  "generation_id": "90b3bf01-f81f-4984-9fe1-4394708629cc",
+  "last_response_keys": [
+    "seed",
+    "type",
+    "action",
+    "images",
+    "status",
+    "progress",
+    "flow_kind",
+    "billing_usage",
+    "generation_id",
+    "queue_position",
+    "billing_charged",
+    "generation_started_at",
+    "estimated_wait_seconds"
+  ],
+  "status": "completed",
+  "job_id": "9bbe2314-0309-492f-bda7-6375cf911966",
+  "billing_charged": true,
+  "billing_usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 3
+  }
+}

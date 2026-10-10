@@ -1,0 +1,12 @@
+{
+  "job_id": "c08aab89-800a-451c-a4b1-ba4bdd473102",
+  "frame_count": 8,
+  "generation_id": "7f6ec6e3-7d4a-4b57-a62c-cbbba1ee63d2",
+  "status": "completed",
+  "billing_charged": true,
+  "billing_usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 3
+  }
+}

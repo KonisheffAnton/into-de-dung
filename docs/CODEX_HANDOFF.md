@@ -1,16 +1,15 @@
-# Передача — 2026-10-10: две idle-пробы
-D:\Games\into-de-dung; main; base c1b310afecf5ed57522be5a56449155c4915bf3c; без push.
+# Передача — 2026-10-10: idle-дыхание
+D:\Games\into-de-dung; main; base 5a28b699268bd7d561e85f89e0914bdf7c5411d8; без push.
 U: сохранять текущие PNG/посадку/гаммуА/масштаб80%; тени/динамический свет отложены.
-U: сначала idle + параллельно PixelLab. Две петли вне игры готовы к отзыву:
-docs/art/defender-idle-20261010/README.md, comparison.gif. Вход общий;
-Ревью артефактов APPROVE.
-Следующий шаг — отзыв/выбор; P-удар в BATTLE_PRESENTATION_REWORK отложен.
+U: дальше анимации через PixelLab; idle — только дыхание, без поворотов.
+Петля8×300ms вне игры: docs/art/defender-idle-breathing-20261010/README.md.
+Ревью APPROVE, отзыв U открыт; первые две пробы отклонены.
+P-удар в BATTLE_PRESENTATION_REWORK отложен; PixelLab — GRAPHICS_WORKFLOW.
 Весь набор стойка/ход/удар/урон/смерть открыт; другие бойцы после приёмки.
 Баланс после графики/анимаций. Файлы/diff/ссылки/объём/правила/архив проверены.
-Godot/tests/замеров нет; test_reports/defender-idle-20261010/.
-ART_DIRECTION — образ; BATTLE_VISUAL_SCENE_CONTRACT/BATTLE_EXECUTION_UI — lifecycle/показ.
+Godot/tests/замеров нет; test_reports/defender-idle-breathing-20261010/.
+ART_DIRECTION; BATTLE_VISUAL_SCENE_CONTRACT/BATTLE_EXECUTION_UI — lifecycle/показ.
 PROJECT_CONTEXT/CODEX_WORKFLOW — маршруты/процесс.
-Прежние арт-артефакты — ART_DIRECTION.
 Прежние: import/startup+9render PASS, current_art_zoom360/0, art_trial410/0;
 логи: test_reports/palette-defender-20261010/. Review APPROVE; full/core не запускались.
 Движение/ИИ8bcd61d приняты U10-10, графика предварительно.

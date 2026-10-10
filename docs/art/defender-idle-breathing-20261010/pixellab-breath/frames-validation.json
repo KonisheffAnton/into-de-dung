@@ -1,0 +1,158 @@
+{
+  "frames": [
+    {
+      "file": "frame-01.png",
+      "width": 128,
+      "height": 128,
+      "opaquePixels": 2994,
+      "bounds": [
+        25,
+        25,
+        101,
+        96
+      ],
+      "sha256": "caa7771fd1f1cd646521c3aa86a0d7b81be0b5ef2b04db1e6840de8705144191"
+    },
+    {
+      "file": "frame-02.png",
+      "width": 128,
+      "height": 128,
+      "opaquePixels": 3011,
+      "bounds": [
+        25,
+        24,
+        101,
+        96
+      ],
+      "sha256": "df1e7415e23ac66d6286948be54ee96607380d6661010de406891faa7db698cc"
+    },
+    {
+      "file": "frame-03.png",
+      "width": 128,
+      "height": 128,
+      "opaquePixels": 3046,
+      "bounds": [
+        25,
+        23,
+        101,
+        96
+      ],
+      "sha256": "2594773ed09143acdb3f4896678a6f1016659a4b4a285c92a324851603c79b4b"
+    },
+    {
+      "file": "frame-04.png",
+      "width": 128,
+      "height": 128,
+      "opaquePixels": 3060,
+      "bounds": [
+        25,
+        22,
+        101,
+        96
+      ],
+      "sha256": "c6bef12b8b816dbd52e570e682c1e79481feb54d3d768b11959db3941dd4ada4"
+    },
+    {
+      "file": "frame-05.png",
+      "width": 128,
+      "height": 128,
+      "opaquePixels": 3043,
+      "bounds": [
+        25,
+        23,
+        101,
+        96
+      ],
+      "sha256": "09a7d2a7f5952cf2f7d6325b79c9df4c202e48286ad4775e493c6a39f4dd9d63"
+    },
+    {
+      "file": "frame-06.png",
+      "width": 128,
+      "height": 128,
+      "opaquePixels": 3013,
+      "bounds": [
+        25,
+        24,
+        101,
+        96
+      ],
+      "sha256": "a0924a90f201dd6bcea851927617e5e515721b0032a629bbbcab52b4f5397ac2"
+    },
+    {
+      "file": "frame-07.png",
+      "width": 128,
+      "height": 128,
+      "opaquePixels": 2994,
+      "bounds": [
+        25,
+        25,
+        101,
+        96
+      ],
+      "sha256": "bdf10a2540d2a2f09d2328dafe66458fabf2a393d0df4b10c94fa2514e89f7f9"
+    },
+    {
+      "file": "frame-08.png",
+      "width": 128,
+      "height": 128,
+      "opaquePixels": 2994,
+      "bounds": [
+        25,
+        25,
+        101,
+        96
+      ],
+      "sha256": "51c53bf3aaf61d35c72e7b9b84e4f43d09be296d8eb255c7c213135f31a3aa27"
+    }
+  ],
+  "transitions": [
+    {
+      "from": "frame-01.png",
+      "to": "frame-02.png",
+      "rgbaPixels": 1027,
+      "alphaPixels": 147
+    },
+    {
+      "from": "frame-02.png",
+      "to": "frame-03.png",
+      "rgbaPixels": 926,
+      "alphaPixels": 135
+    },
+    {
+      "from": "frame-03.png",
+      "to": "frame-04.png",
+      "rgbaPixels": 1037,
+      "alphaPixels": 146
+    },
+    {
+      "from": "frame-04.png",
+      "to": "frame-05.png",
+      "rgbaPixels": 1048,
+      "alphaPixels": 147
+    },
+    {
+      "from": "frame-05.png",
+      "to": "frame-06.png",
+      "rgbaPixels": 993,
+      "alphaPixels": 138
+    },
+    {
+      "from": "frame-06.png",
+      "to": "frame-07.png",
+      "rgbaPixels": 966,
+      "alphaPixels": 141
+    },
+    {
+      "from": "frame-07.png",
+      "to": "frame-08.png",
+      "rgbaPixels": 4,
+      "alphaPixels": 0
+    },
+    {
+      "from": "frame-08.png",
+      "to": "frame-01.png",
+      "rgbaPixels": 37,
+      "alphaPixels": 0
+    }
+  ]
+}

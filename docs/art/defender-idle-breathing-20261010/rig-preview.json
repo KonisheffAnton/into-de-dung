@@ -1,0 +1,50 @@
+{
+  "sourceFrames": [
+    "frame-01.png",
+    "frame-02.png",
+    "frame-03.png",
+    "frame-04.png",
+    "frame-05.png",
+    "frame-06.png",
+    "frame-07.png",
+    "frame-08.png"
+  ],
+  "selectedFrames": [
+    "frame-01.png",
+    "frame-02.png",
+    "frame-03.png",
+    "frame-04.png",
+    "frame-05.png",
+    "frame-06.png",
+    "frame-07.png",
+    "frame-08.png"
+  ],
+  "allOriginalFrames": [
+    "frame-01.png",
+    "frame-02.png",
+    "frame-03.png",
+    "frame-04.png",
+    "frame-05.png",
+    "frame-06.png",
+    "frame-07.png",
+    "frame-08.png"
+  ],
+  "delayMs": 300,
+  "cycleMs": 2400,
+  "transform": "Remove only 16px transparent padding, original order, nearest display resize; no pose edits or per-frame registration",
+  "gif": {
+    "pages": 8,
+    "delay": [
+      300,
+      300,
+      300,
+      300,
+      300,
+      300,
+      300,
+      300
+    ],
+    "width": 800,
+    "pageHeight": 590
+  }
+}
