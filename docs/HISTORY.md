@@ -1,5 +1,29 @@
 # История и свидетельства проверок
 
+## Контракт сменного арта: опоры и окружение — 2026-10-10
+
+Base main `9b95f7501f617fb04bc403707868edf5dcfc36ab`. По поручению «Приступай»
+реализован первый пакет защиты от повторения фризов после замены тайлов.
+Явные typed roots сохраняют lifecycle без allowlist путей; свежие видимые
+значения применяются с пропуском неизменной настройки, позы reset/restore
+сохранены. Допуск actual Hero Hub presets/dynamic scenes и структурная проверка
+движения включаются автоматически вместе с адресными art/reuse runners.
+Контракт — [BATTLE_VISUAL_SCENE_CONTRACT](BATTLE_VISUAL_SCENE_CONTRACT.md).
+PNG/геометрия/посадка, бойцы, темп и расчёт не менялись.
+
+Import/startup PASS; render contract36/0,environment_contract15/0,reuse100/0,
+current_art_zoom109/0,art_trial410/0,presentation_environment323/0,
+battle_camera_ui110/0,hazards_ui79/0; Python launcher8/8; review APPROVE.
+Production A/B с обычным `_process`, два повтора baseline/final:
+движение p95 20.418–20.424→18.111–18.446ms, max28.759–28.879→23.025–27.117ms.
+Пять записанных прогонов вместе с промежуточным: полные before/after,
+87publications/events/steps/RNG/counters/admission равны. Редкие длинные кадры
+остаются; ручные F5/editor, OS DPI/GPU/общая плавность не приняты.
+Core/full не запускались; прежний full138PASS/2FAIL не общий PASS.
+Отчёт: `test_reports/visual-scene-contract-20261010/`.
+Пользовательская `main_menu.tscn` сохранена вне коммита; без push.
+Прежний HANDOFF — [точный архив](CODEX_HANDOFF.history-20261010-4.md).
+
 ## Фризы при движении: сохранение поля и накладок — 2026-10-10
 
 Base main `a6148dfbc390cf30dc81ca6f7bba403b438fd494`. Пользователь предварительно

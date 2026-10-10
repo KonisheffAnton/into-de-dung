@@ -33,6 +33,13 @@ python -m unittest discover -s tools/demo -p test_isolate.py
 ошибка/timeout сохраняет уже полученные результаты и логи. Таймаут runner — 120 с,
 core — 600 с. Это предел ожидания, не разрешение обрезать проверки до PASS.
 
+Выбор `current_art_zoom`, `art_trial_battle` или `battle_view_reuse` автоматически
+добавляет `visual_scene_contract` и `environment_visual_contract`: защита от
+возврата пересоздания поля при смене пресета. Прямой запуск:
+`python tools/demo/isolate.py --render-check --only visual_scene_contract environment_visual_contract --screen 0`.
+Счётчики/identity — hard gate, frame median/p95/max/>25ms — диагностика без
+машинозависимого порога PASS. [Контракт и границы](BATTLE_VISUAL_SCENE_CONTRACT.md).
+
 | Изменение | Достаточная начальная область |
 |---|---|
 | Только документы/процесс, подписи без поведения | Diff и ссылки; Godot не нужен для чистого текста. Для Python launcher — его unittest/CLI |

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3]
 
-[ext_resource type="Script" path="res://scripts/demo/battle_demo_iso_visual.gd" id="1_script"]
+[ext_resource type="Script" path="res://scripts/demo/battle_terrain_visual.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/placeholder_battle/tile.svg" id="2_tile"]
 [ext_resource type="Texture2D" path="res://assets/art_presets/approved/grass_defender_v1/grass_reference_v1.png" id="3_ground"]
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/fire_overlay.tscn" id="4_fire"]

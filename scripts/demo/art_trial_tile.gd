@@ -1,4 +1,4 @@
-extends BattleDemoIsoVisual
+extends BattleTerrainVisual
 
 @export_range(0.0, 3.0, 0.05) var minimum_seam_pixels: float = 1.15
 @onready var _seam: Line2D = $ArtRoot/GroundSurface/QuietSeam
@@ -12,6 +12,9 @@ func _ready() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSFORM_CHANGED and is_node_ready():
 		_sync_seam_width()
+
+func sync_view_transform() -> void:
+	_sync_seam_width()
 
 func _sync_seam_width() -> void:
 	if _seam == null: return

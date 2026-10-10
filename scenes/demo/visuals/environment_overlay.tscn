@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3]
 
-[ext_resource type="Script" path="res://scripts/demo/battle_environment_visual.gd" id="1_visual"]
+[ext_resource type="Script" path="res://scripts/demo/battle_managed_environment_visual.gd" id="1_visual"]
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/floor_trap.tscn" id="2_floor"]
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/wall_trap_up.tscn" id="3_wall_up"]
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/wall_trap_right.tscn" id="4_wall_right"]
