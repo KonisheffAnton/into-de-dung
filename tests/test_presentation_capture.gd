@@ -20,6 +20,90 @@ func _snapshot(session: Variant) -> Dictionary:
 	var result := ItemSimulationSnapshot.capture(session.state, [])
 	return result.snapshot.to_dict() if result.code == ItemSnapshotResult.Code.OK and result.snapshot != null else {}
 
+func _brute_force_action_areas(state: ItemSimulationState) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	if state == null or (state.abilities != null and state.abilities.stage in ["setup", "terminal"]): return result
+	var board := state.get_board()
+	for unit: UnitState in board.get_all_units():
+		if not unit.is_alive() or state.is_summon_pending(unit.id) or ControlRules.action_reason(unit) != &"": continue
+		var stats := StatsBag.from_snapshot_dict(unit.stats.to_snapshot_dict()) if unit.stats != null else null
+		if stats == null: continue
+		var reach := stats.get_value(StatTypes.StatType.ATTACK_RANGE)
+		var cells: Array[Vector2i] = []
+		for y: int in board.height:
+			for x: int in board.width:
+				var cell := Vector2i(x, y)
+				if cell != unit.cell and board.is_terrain_walkable(cell) and AttackReachCheck.inspect_spatial_cells(board, unit.cell, unit.faction, cell, reach) == &"": cells.append(cell)
+		var mode := unit.combat_perks.mode if unit.combat_perks != null else CombatPerksState.Mode.NONE
+		if MeleeThreat.has_passive_opportunist(unit): mode = CombatPerksState.Mode.OPPORTUNIST
+		var ready := mode in [CombatPerksState.Mode.OPPORTUNIST, CombatPerksState.Mode.COUNTERATTACK] and MeleeThreat.reaction_ready_state(state, unit, mode)
+		result.append({"owner_id": unit.id, "name": unit.debug_name, "faction": int(unit.faction), "origin": unit.cell, "cells": cells, "mode": mode, "ready": ready})
+	return result
+
+func _stats_cache_signature(session: BattleCoreReactionsSession) -> Dictionary:
+	var result: Dictionary = {}
+	for unit: UnitState in session.units:
+		var stats: Dictionary = {}
+		if unit.stats != null:
+			for stat_type: Variant in unit.stats._stats:
+				var stat: Stat = unit.stats._stats[stat_type]
+				stats[stat_type] = [stat._cache_dirty, stat._cached_value]
+		result[unit.id] = stats
+	return result
+
+func _area_observation(session: BattleCoreReactionsSession) -> Dictionary:
+	var cells: Array[Vector2i] = []
+	for unit: UnitState in session.units: cells.append(unit.cell)
+	return {"snapshot": _snapshot(session), "cache": _stats_cache_signature(session),
+		"board_version": session.board.board_version, "unit_cells": cells,
+		"rng": session.context.get_rng().to_dict(), "counters": session.context.simulation_counters()}
+
+func _check_action_area_oracle(session: BattleCoreReactionsSession, label: String) -> void:
+	var before := _area_observation(session)
+	var expected := _brute_force_action_areas(session.state)
+	var actual := PresentationState.capture_action_areas(session.state)
+	var after := _area_observation(session)
+	check(actual == expected, "%s preserves brute-force action-area DTO" % label)
+	check(after == before, "%s leaves live state, stat cache, board, RNG, and counters unchanged" % label)
+	var before_capture := PresentationState.capture(session.state)
+	var after_capture := PresentationState.capture(session.state)
+	check(before_capture.action_areas == after_capture.action_areas and after_capture.action_areas == expected,
+		"%s full capture keeps the same action-area DTO" % label)
+
+func _action_area_candidate_parity() -> void:
+	var session := PlayerTurnFixture.create()
+	var actor: UnitState = session.units[0]
+	var ally: UnitState = session.units[2]
+	var enemy: UnitState = session.units[1]
+	var other_ally: UnitState = session.units[3]
+	check(actor.is_friendly_to(ally) and not actor.is_friendly_to(enemy), "area fixture has both friendly and enemy blockers")
+	check(session.board.move_unit(other_ally, Vector2i(1, 5)), "area fixture clears central ally cell")
+	check(session.board.move_unit(actor, Vector2i(3, 3)), "area fixture moves actor to center")
+	check(session.board.move_unit(ally, Vector2i(3, 5)), "area fixture places friendly line blocker")
+	check(session.board.move_unit(enemy, Vector2i(5, 3)), "area fixture places enemy line blocker")
+	session.board.set_terrain(Vector2i(1, 3), TerrainType.Type.WALL)
+	session.board.set_terrain(Vector2i(0, 3), TerrainType.Type.FLOOR)
+	session.board.set_terrain(Vector2i(3, 1), TerrainType.Type.VOID)
+	session.board.set_terrain(Vector2i(3, 0), TerrainType.Type.FLOOR)
+	session.board.set_terrain(Vector2i(6, 3), TerrainType.Type.FLOOR)
+	session.board.set_height_steps(Vector2i(3, 2), 3)
+	session.board.set_height_steps(Vector2i(3, 4), 2)
+	actor.control = ControlState.new()
+	for reach: float in [1.0, 2.0, 7.0, 1.5, 4097.0]:
+		actor.stats.set_base_value(StatTypes.StatType.ATTACK_RANGE, reach)
+		_check_action_area_oracle(session, "reach %s" % reach)
+	actor.stats.set_base_value(StatTypes.StatType.ATTACK_RANGE, 7.0)
+	actor.control.stunned_turns = 1
+	_check_action_area_oracle(session, "stunned actor")
+	actor.control.stunned_turns = 0
+	check(session.board.move_unit(actor, Vector2i.ZERO), "area fixture moves actor to board edge")
+	_check_action_area_oracle(session, "board edge")
+	var valid_origin := actor.cell
+	actor.cell = Vector2i(-1, 0)
+	_check_action_area_oracle(session, "out-of-bounds origin")
+	actor.cell = valid_origin
+	session.close()
+
 func _contains_runtime_ref(value: Variant) -> bool:
 	if typeof(value) in [TYPE_OBJECT, TYPE_CALLABLE, TYPE_SIGNAL]:
 		return true
@@ -127,5 +211,6 @@ func _run() -> void:
 	_attack_capture_parity()
 	_faulted_prefix()
 	_eventless_ability_boundary()
+	_action_area_candidate_parity()
 	print("PRESENTATION CAPTURE RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)

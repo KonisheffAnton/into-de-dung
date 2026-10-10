@@ -181,7 +181,9 @@ func _test_isometric_view() -> void:
 	var x_axis := view.cell_center(Vector2i.RIGHT) - origin
 	var y_axis := view.cell_center(Vector2i.DOWN) - origin
 	_check(x_axis.x > 0 and x_axis.y > 0 and y_axis.x < 0 and y_axis.y > 0, "ISO logical axes become opposing diagonals")
-	_check(is_equal_approx(x_axis.x, 2.0 * x_axis.y) and is_equal_approx(-y_axis.x, 2.0 * y_axis.y), "ISO 2:1 projection")
+	# Пропорции ромба задаёт сцена, включая текущую арт-пробу 128×96.
+	_check(x_axis.is_equal_approx(config.tile_size * 0.5)
+		and y_axis.is_equal_approx(Vector2(-config.tile_size.x, config.tile_size.y) * 0.5), "ISO projection follows configured tile dimensions")
 	_check(origin.is_equal_approx(IsoGridUtils.grid_to_screen(Vector2i.ZERO, config, 0)), "ISO reuses original core projection")
 	for y in 8:
 		for x in 8:

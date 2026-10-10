@@ -51,6 +51,11 @@ func advance(seconds: float) -> void:
 	player._tween.custom_step(seconds)
 	if player.active: player._tween.pause()
 
+func expected_screen_direction(direction: Vector2i) -> Vector2:
+	# Пропорции поля задаёт текущая сцена; прежняя константа 2:1 устарела после арт-пробы.
+	return Vector2((direction.x - direction.y) * board.grid_config.tile_size.x,
+		(direction.x + direction.y) * board.grid_config.tile_size.y).normalized()
+
 func finish() -> void:
 	var guard := 0
 	while player.active and guard < 100:
@@ -288,7 +293,7 @@ func obstacle_contacts() -> void:
 			var support := visual.position
 			var hud := visual._status_hud.position
 			var shown_hp := visual.unit.hp
-			var expected_direction := Vector2(direction.x - direction.y, (direction.x + direction.y) * 0.5).normalized()
+			var expected_direction := expected_screen_direction(direction)
 			check(obstacle_impacts().is_empty(), label + " no contact flash before contact")
 			advance(BattleDemoBoard.OBSTACLE_APPROACH_SECONDS * 0.5)
 			check(visual.action_offset.dot(expected_direction) > 1.0, label + " body approaches obstacle in correct direction")
@@ -367,7 +372,7 @@ func chain_overlap() -> void:
 			check(not seek_obstacle().is_empty() and player._chain != null, label + " receipt selects one shared chain clock")
 			var first := player._index
 			var chain := player._chain
-			var axis := Vector2(direction.x - direction.y, (direction.x + direction.y) * 0.5).normalized()
+			var axis := expected_screen_direction(direction)
 			var a: int = s.units[1].id
 			var b: int = s.units[2].id
 			var c: int = s.units[5].id

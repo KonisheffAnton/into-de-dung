@@ -172,6 +172,25 @@ func presentation_before_replaced() -> void:
 
 func callback() -> void: pass
 
+func fresh_same_script_objects() -> void:
+	var s := PlayerTurnFixture.create()
+	check(BattleExecutionWorker.can_transfer(s), "same-script fixture initially eligible")
+	# Поля одного script описываются один раз, но значения всех экземпляров
+	# и добавленные каждому из них сигналы обязаны проверяться в том же аудите.
+	for unit: UnitState in s.units:
+		var stats := unit.stats
+		var original: Variant = stats._stats[StatTypes.StatType.HP_MAX]
+		stats._stats[StatTypes.StatType.HP_MAX] = self
+		check(not BattleExecutionWorker.can_transfer(s), "foreign field on every same-script instance refused")
+		stats._stats[StatTypes.StatType.HP_MAX] = original
+		check(BattleExecutionWorker.can_transfer(s), "restored instance read without revision change")
+		stats.add_user_signal(&"audit_probe_signal")
+		stats.connect(&"audit_probe_signal", callback)
+		check(not BattleExecutionWorker.can_transfer(s), "instance-added signal listener refused")
+		stats.disconnect(&"audit_probe_signal", callback)
+		check(BattleExecutionWorker.can_transfer(s), "removed instance listener read fresh")
+	s.close()
+
 func round_parity() -> void:
 	var initial_id := UnitId.get_counter()
 	var expected: Array[Dictionary] = []
@@ -203,6 +222,7 @@ func run() -> void:
 		presentation_parity(kind)
 	presentation_refusals_and_fallback()
 	presentation_before_replaced()
+	fresh_same_script_objects()
 	round_parity()
 	var s := BattleCoreReactionsSession.new()
 	check(BattleExecutionWorker.can_transfer(s), "normal session eligible")

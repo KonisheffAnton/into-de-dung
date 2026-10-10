@@ -23,6 +23,9 @@ static func can_transfer(session: BattleDemoSession) -> bool:
 	# Старый receipt не исполняется повторно; очередь тоже входит в аудит графа.
 	var pending: Array = [session]
 	var seen: Dictionary = {}
+	# В одном аудите одинаковые штатные scripts имеют одинаковый набор полей.
+	# Сохраняем только имена: значения и подписки каждого объекта читаются заново.
+	var script_fields: Dictionary[Script, Array] = {}
 	var budget: int = 50000
 	while not pending.is_empty():
 		budget -= 1
@@ -45,9 +48,16 @@ static func can_transfer(session: BattleDemoSession) -> bool:
 				for connection: Dictionary in object.get_signal_connection_list(signal_info.name):
 					if not _owned_death_callback(session, object, signal_info.name, connection):
 						return false
-			for property: Dictionary in object.get_property_list():
-				if (int(property.usage) & PROPERTY_USAGE_SCRIPT_VARIABLE) == 0: continue
-				var key: StringName = property.name
+			var script := object.get_script() as Script
+			if script == null: continue
+			var dynamic_fields := object.has_method(&"_get_property_list")
+			if dynamic_fields or not script_fields.has(script):
+				var fields: Array[StringName] = []
+				for property: Dictionary in object.get_property_list():
+					if (int(property.usage) & PROPERTY_USAGE_SCRIPT_VARIABLE) != 0:
+						fields.append(StringName(property.name))
+				script_fields[script] = fields
+			for key: StringName in script_fields[script]:
 				if object == session and key == &"last_receipt": continue
 				if object == session.board and key == &"_death_callbacks": continue
 				pending.append(object.get(key))

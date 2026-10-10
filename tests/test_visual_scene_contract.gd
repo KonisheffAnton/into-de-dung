@@ -42,9 +42,78 @@ func _terrain_ids(board: BattleDemoBoard) -> Dictionary:
 		result[key] = visual.get_instance_id()
 	return result
 
+func _unit_ids(board: BattleDemoBoard) -> Dictionary:
+	var result: Dictionary = {}
+	for id: int in board._unit_visuals:
+		result[id] = board._unit_visuals[id].get_instance_id()
+	return result
+
+func _exercise_unit_lifecycle(board: BattleDemoBoard, state: Dictionary) -> void:
+	var original_scene := board.unit_visual_scene
+	check(BattleVisualSceneContract.validate_unit(original_scene).is_empty(), "actual unit preset accepts lifecycle")
+	check(not BattleVisualSceneContract.validate_unit(null).is_empty(), "missing unit preset fails art admission")
+	board.show_presentation_state(state)
+	var id: int = board._unit_visuals.keys()[0]
+	var visual := board._unit_visuals[id]
+	var changed := state.duplicate(true)
+	changed.units[id].hp -= 1.0
+	changed.units[id].main = 0
+	changed.units[id].armor["isolation_probe"] = [1]
+	board.show_presentation_state(changed)
+	check(board._unit_visuals[id] == visual and visual.unit.hp == changed.units[id].hp and visual.action_resources_view.main == 0,
+		"unit applies fresh vitals and action resources without a runtime revision")
+	changed.units[id].armor.isolation_probe[0] = 2
+	check(visual.armor_values.isolation_probe[0] == 1, "unit collections do not alias the publication")
+	board.show_presentation_state(state)
+	visual.half_steps = 99
+	visual.position += Vector2(20, 30)
+	visual.presentation_offset = Vector2(4, 5)
+	visual.death_progress = 0.7
+	board.show_presentation_state(state)
+	check(visual.death_progress == 0.0 and visual.presentation_offset == Vector2.ZERO
+		and visual.half_steps == board._view_height_steps(state.units[id].cell)
+		and visual.position.is_equal_approx(IsoGridUtils.grid_to_screen(state.units[id].cell, board.grid_config, 0)),
+		"unchanged publication resets the prior pose and restores actual geometry")
+	board._field_presentation.sample_death(0.4, board, id)
+	board.execution_pending = true
+	var prior_size := board.size
+	board.size += Vector2(17, 13)
+	board._rescale_layout()
+	check(board._unit_visuals[id] == visual and is_equal_approx(visual.death_progress, 0.4),
+		"resize restores active unit pose on its retained root")
+	board.size = prior_size
+	board._rescale_layout()
+	board.execution_pending = false
+	board._field_presentation.clear()
+	var removed := state.duplicate(true)
+	removed.units.erase(id)
+	board.show_presentation_state(removed)
+	check(not board._unit_visuals.has(id) and visual.is_queued_for_deletion() and visual.get_parent() == null,
+		"disappeared unit retires and detaches its root")
+	board.show_presentation_state(state)
+	var custom_scene := _pack(BattleManagedUnitVisual.new())
+	check(BattleVisualSceneContract.validate_unit(custom_scene).is_empty(), "new managed unit scene needs no path registration")
+	board.unit_visual_scene = custom_scene
+	board.show_presentation_state(state)
+	var custom_ids := _unit_ids(board)
+	board.show_presentation_state(state)
+	check(_unit_ids(board) == custom_ids, "unregistered managed unit scene retains all roots")
+	var legacy_scene := _pack(BattleDemoIsoVisual.new())
+	check(not BattleVisualSceneContract.validate_unit(legacy_scene).is_empty(), "legacy unit fallback fails new-art admission")
+	board.unit_visual_scene = legacy_scene
+	board.show_presentation_state(state)
+	var legacy := board._presentation_visual(id)
+	board.show_presentation_state(state)
+	check(board._unit_visuals.is_empty() and board._presentation_visual(id) != legacy and legacy.is_queued_for_deletion(),
+		"legacy unit scene still uses fresh construction")
+	board.unit_visual_scene = original_scene
+	board.show_presentation_state(state)
+
 
 func _apply_count_snapshot(board: BattleDemoBoard) -> Dictionary:
-	var result: Dictionary = {"terrain": {}, "environment": {}}
+	var result: Dictionary = {"terrain": {}, "environment": {}, "units": {}}
+	for id: int in board._unit_visuals:
+		result.units[id] = board._unit_visuals[id].view_apply_count
 	for key: Vector3i in board._terrain_visuals:
 		var visual := board._terrain_visuals[key] as BattleTerrainVisual
 		result.terrain[key] = visual.view_apply_count
@@ -110,7 +179,8 @@ func _run() -> void:
 	var hero_probe := hero_scene.instantiate() if hero_scene != null else null
 	var hero_board := hero_probe.get_node_or_null("BattleHUD/Margin/Column/Content/Left/Field/Board") as BattleDemoBoard if hero_probe != null else null
 	check(trial_probe is BattleTerrainVisual and hero_board != null
-		and BattleVisualSceneContract.validate(hero_board.tile_visual_scene, hero_board.environment_visual_scene).is_empty(),
+		and BattleVisualSceneContract.validate(hero_board.tile_visual_scene, hero_board.environment_visual_scene).is_empty()
+		and BattleVisualSceneContract.validate_unit(hero_board.unit_visual_scene).is_empty(),
 		"actual trial root and current Hero Hub battle board scenes satisfy admission")
 	if trial_probe != null: trial_probe.free()
 	if hero_probe != null: hero_probe.free()
@@ -161,6 +231,8 @@ func _run() -> void:
 	check(_apply_count_snapshot(board) == applies,
 		"identical production publication leaves managed apply counts unchanged")
 	check(_audit(session) == baseline, "passive visual publication preserves battle snapshot, RNG and counters")
+	_exercise_unit_lifecycle(board, effects)
+	check(_audit(session) == baseline, "unit lifecycle preserves live snapshot, RNG and counters")
 
 	var terrain := _terrain_at(board, cell)
 	if terrain != null:
@@ -209,6 +281,7 @@ func _run() -> void:
 	trial._presentation_player.frame_finished.connect(func(value: Dictionary) -> void: final_states.append(value))
 	var move_counts := board.visual_lifecycle_counts()
 	var move_ids := _terrain_ids(board)
+	var move_unit_ids := _unit_ids(board)
 	for _warmup: int in 10:
 		await process_frame
 	var movement_samples_ms: Array[float] = []
@@ -233,6 +306,8 @@ func _run() -> void:
 			"final presentation agrees with the live unit position")
 	check(_terrain_ids(board) == move_ids and board.visual_lifecycle_counts() == move_counts,
 		"ordinary movement retains terrain identities and does not create or retire terrain")
+	check(not move_unit_ids.is_empty() and _unit_ids(board) == move_unit_ids,
+		"ordinary movement retains every unit root through worker and ordered publications")
 
 	var lifecycle_before_swap := board.visual_lifecycle_counts()
 	board.tile_visual_scene = BattleDemoBoard.DEFAULT_TILE_SCENE
@@ -247,6 +322,8 @@ func _run() -> void:
 	var after_board_swap := board.visual_lifecycle_counts()
 	check(after_board_swap.terrain_retired > before_board_swap.terrain_retired,
 		"battle board identity swap retires previous managed supports")
+	check(after_board_swap.unit_retired > before_board_swap.unit_retired,
+		"battle owner swap retires previous managed unit roots")
 	replacement_session.close()
 	viewport.queue_free()
 	await process_frame

@@ -20,3 +20,14 @@ static func validate(terrain_scene: PackedScene, environment_scene: PackedScene)
 			errors.append("Environment root must extend BattleManagedEnvironmentVisual")
 		environment.free()
 	return errors
+
+static func validate_unit(unit_scene: PackedScene) -> Array[String]:
+	var errors: Array[String] = []
+	if unit_scene == null:
+		errors.append("Unit preset requires a BattleManagedUnitVisual scene")
+	else:
+		var unit := unit_scene.instantiate()
+		if not unit is BattleManagedUnitVisual:
+			errors.append("Unit root must extend BattleManagedUnitVisual")
+		unit.free()
+	return errors

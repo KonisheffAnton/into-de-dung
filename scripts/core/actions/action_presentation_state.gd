@@ -94,12 +94,23 @@ static func capture_action_areas(state: ItemSimulationState) -> Array[Dictionary
 		if stats == null: continue
 		var reach := stats.get_value(StatTypes.StatType.ATTACK_RANGE)
 		var cells: Array[Vector2i] = []
-		for y: int in board.height:
-			for x: int in board.width:
-				var cell := Vector2i(x, y)
-				if cell != unit.cell and board.is_terrain_walkable(cell) and AttackReachCheck.inspect_spatial_cells(board, unit.cell, unit.faction, cell, reach) == &"": cells.append(cell)
+		for cell: Vector2i in _action_area_candidates(board, unit.cell):
+			if board.is_terrain_walkable(cell) and AttackReachCheck.inspect_spatial_cells(board, unit.cell, unit.faction, cell, reach) == &"": cells.append(cell)
 		var mode := unit.combat_perks.mode if unit.combat_perks != null else CombatPerksState.Mode.NONE
 		if MeleeThreat.has_passive_opportunist(unit): mode = CombatPerksState.Mode.OPPORTUNIST
 		var ready := mode in [CombatPerksState.Mode.OPPORTUNIST, CombatPerksState.Mode.COUNTERATTACK] and MeleeThreat.reaction_ready_state(state, unit, mode)
 		result.append({"owner_id": unit.id, "name": unit.debug_name, "faction": int(unit.faction), "origin": unit.cell, "cells": cells, "mode": mode, "ready": ready})
 	return result
+
+static func _action_area_candidates(board: BattleBoard, origin: Vector2i) -> Array[Vector2i]:
+	var candidates: Array[Vector2i] = []
+	# Идём строками сверху вниз; в строке начала берём её целиком, в остальных — только столбец.
+	# Так пересечение попадает один раз, а порядок совпадает с прежним обходом всей доски.
+	for y: int in board.height:
+		if y == origin.y:
+			for x: int in board.width:
+				var cell := Vector2i(x, y)
+				if cell != origin: candidates.append(cell)
+		elif origin.x >= 0 and origin.x < board.width:
+			candidates.append(Vector2i(origin.x, y))
+	return candidates

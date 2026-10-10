@@ -34,9 +34,11 @@ python -m unittest discover -s tools/demo -p test_isolate.py
 core — 600 с. Это предел ожидания, не разрешение обрезать проверки до PASS.
 
 Выбор `current_art_zoom`, `art_trial_battle` или `battle_view_reuse` автоматически
-добавляет `visual_scene_contract` и `environment_visual_contract`: защита от
-возврата пересоздания поля при смене пресета. Прямой запуск:
-`python tools/demo/isolate.py --render-check --only visual_scene_contract environment_visual_contract --screen 0`.
+добавляет `visual_scene_contract`, `environment_visual_contract`, `unit_visual_contract`,
+`presentation_consequences`, `presentation_environment`, `battle_camera_ui`, `battle_execution_ui`:
+защита от пересоздания поля и сбоев поз, ловушек, камеры и worker/ИИ при смене пресета.
+Прямой запуск только lifecycle:
+`python tools/demo/isolate.py --render-check --only visual_scene_contract environment_visual_contract unit_visual_contract --screen 0`.
 Счётчики/identity — hard gate, frame median/p95/max/>25ms — диагностика без
 машинозависимого порога PASS. [Контракт и границы](BATTLE_VISUAL_SCENE_CONTRACT.md).
 

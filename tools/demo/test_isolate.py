@@ -39,10 +39,15 @@ class IsolateSelectionTests(unittest.TestCase):
                 markers = {
                     "battle_hud_authoring": "BATTLE HUD AUTHORING RESULTS:",
                     "environment_visual_contract": "ENVIRONMENT VISUAL CONTRACT RESULTS:",
+                    "unit_visual_contract": "UNIT VISUAL CONTRACT RESULTS:",
                     "visual_scene_contract": "VISUAL SCENE CONTRACT RESULTS:",
                     "current_art_zoom": "CURRENT ART ZOOM RESULTS:",
                     "art_trial_battle": "ART TRIAL BATTLE RESULTS:",
                     "battle_view_reuse": "BATTLE VIEW REUSE RESULTS:",
+                    "presentation_consequences": "PRESENTATION CONSEQUENCES RESULTS:",
+                    "presentation_environment": "PRESENTATION ENVIRONMENT RESULTS:",
+                    "battle_camera_ui": "BATTLE CAMERA UI RESULTS:",
+                    "battle_execution_ui": "BATTLE EXECUTION UI RESULTS:",
                 }
                 text = markers[label] + " 3 passed, 0 failed\n" if label in markers else "0 failed\n"
                 if failure_kind == "marker" and label == failure_label: text = "no result\n"
@@ -91,10 +96,12 @@ class IsolateSelectionTests(unittest.TestCase):
         self.assertEqual((code, calls, timing), (0, [], None))
         self.assertIn("battle_hud_authoring\n", output)
 
-    def test_art_checks_automatically_include_both_visual_gates(self):
+    def test_art_checks_automatically_include_all_visual_gates(self):
         code, calls, timing, _ = self.exercise(["--check", "--only", "art_trial_battle"])
         self.assertEqual(code, 0)
-        self.assertEqual(calls, ["import", "startup", "environment_visual_contract", "visual_scene_contract", "art_trial_battle"])
+        self.assertEqual(calls, ["import", "startup", "environment_visual_contract", "unit_visual_contract",
+                                 "visual_scene_contract", "art_trial_battle", "presentation_consequences",
+                                 "presentation_environment", "battle_camera_ui", "battle_execution_ui"])
         self.assertEqual(timing["checks"]["visual_scene_contract"]["status"], "PASS")
 
     def test_visual_gate_requires_its_result_marker(self):
@@ -105,8 +112,9 @@ class IsolateSelectionTests(unittest.TestCase):
         self.assertEqual(timing["checks"]["visual_scene_contract"]["status"], "FAIL")
         self.assertNotIn("visual_scene_contract PASS", output)
 
-    def test_both_visual_gates_propagate_process_failures(self):
-        for label in ("environment_visual_contract", "visual_scene_contract"):
+    def test_all_visual_gates_propagate_process_failures(self):
+        for label in ("environment_visual_contract", "unit_visual_contract", "visual_scene_contract",
+                      "presentation_consequences", "presentation_environment", "battle_camera_ui", "battle_execution_ui"):
             with self.subTest(label=label):
                 code, calls, timing, output = self.exercise(
                     ["--check", "--only", label], "exit:" + label)

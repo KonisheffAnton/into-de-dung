@@ -1,22 +1,22 @@
-# Передача — 2026-10-10: lifecycle арта
-D:\Games\into-de-dung; main; base 9b95f7501f617fb04bc403707868edf5dcfc36ab; без push.
-U: графика пока ок; фризы при движении. Порученная защита реализована:
-typed lifecycle тайлов/окружения без списка путей, apply по fresh values,
-reset/restore поз, автоматический art gate. Бойцы/PNG/посадка/темп прежние.
-Владелец: BATTLE_VISUAL_SCENE_CONTRACT; ARCHITECTURE/TESTING — связи/команды.
-Отчёт: test_reports/visual-scene-contract-20261010/.
-Render A/B от предыдущего исправления: движение p95~20.4→18.1–18.4ms;
-редкие длинные кадры остаются. 5 прогонов: before/after/87publications,
-events/steps/RNG/counters/admission равны. Fixture не F5/GPU-приёмка.
-Import/startup PASS; render contract36/0,env15/0,reuse100/0,zoom109/0,
-art_trial410/0,environment323/0,camera110/0,hazards79/0; launcher8/8.
-Независимое review APPROVE. Core/full не запускались.
+# Передача — 2026-10-10: оптимизация боя
+D:\Games\into-de-dung; main; base 5788f0094a7712a0fd290221746025b27cd30287; без push.
+U: графика пока ок; поручены все пакеты оптимизации.
+Бойцы сохраняют typed roots, fresh DTO и reset/apply/restore; legacy прежний.
+Worker переиспользует имена полей только в одном свежем аудите; action_areas
+обходит строку/столбец с прежним порядком/правилами. Art gate расширен на
+позы/ловушки/камеру/worker/ИИ. PNG/посадка/темп/расчёт не менялись.
+Владельцы: BATTLE_VISUAL_SCENE_CONTRACT/BATTLE_EXECUTION_UI; ARCHITECTURE/TESTING — связи.
+Отчёт: test_reports/battle-optimization-20261010/; review APPROVE; launcher8/8.
+Import/startup PASS; состав full/render147/0 после исправления двух старых
+ожиданий 2:1, core9440/0 с legacy-диагностикой выхода. Старый full не общий PASS.
+A/B: движение p95 18.08–18.54→17.78–18.01ms; ИИ >25ms 13–14→6–8.
+Паритет before/after/publications/events/steps/RNG/counters/admission равен (4+4 прогона).
+Длинные кадры остаются.
 Далее ручной отзыв о движении/ИИ; новый пакет только по поручению, продолжаем здесь.
 OS DPI/F5/редактор/GPU/общая плавность не приняты.
 F5→Начать тест→Начать поход: HeroHubBattleView/supplied-session;
 F6 art_trial_battle — fixture. V1/V2 травы отклонены; эталон M3/№4 прежний.
 Арт/анимации/баланс не финальны; ART_DIRECTION, docs/art/ — параметры/PNG.
-Full138PASS/2FAIL не общий PASS; control/entangle закрыты адресно.
 Пользовательскую scenes/demo/main_menu.tscn не трогать/коммитить.
 Capture/live_valid, Щитоносец/прежнийHUD приняты; worker-аудит предварительно.
 F5/колода/спрайты предварительно. Маршрут/редактор/HUD/арт/баланс/Q-E/артефакты/

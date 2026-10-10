@@ -116,6 +116,8 @@ K10–K12 (BattleCoreReactionsSession, наследник K9/K2) — основ�
 максимумы и attack_range читает из копии StatsBag. DTO не содержит runtime/Resource/Node ссылок
 и не является save-схемой. `action_areas` копирует геометрию AttackReachCheck,
 владельца/фракцию и готовность реакции через общий MeleeThreat.reaction_ready_state;
+кандидаты идут в прежнем порядке строк только по строке/столбцу бойца:
+`AttackReachCheck` отвергает диагонали, все проверки оставшихся клеток прежние.
 Board использует её и в покое, и на границе кадра. Наведение выбирает лишь
 value-only область, не читает runtime во время worker. Опциональный `ActionQueue.capture_presentation` добавляет
 в receipt отдельный кадр после каждого исполненного шага/guards: step, новые events,
@@ -127,6 +129,8 @@ after. Существующие events/steps, RNG, counters и порядок к
 один свежий обход графа, отделённый before, затем запуск потока. UI получает before
 отдельно от session; при отказе запуска тот же пакет обслуживает sync fallback.
 Sync-only оболочки проверяют граф перед capture сами; допуска между вызовами нет.
+Локальное повторное использование имён полей одинаковых scripts не сохраняет
+результаты проверок; подробная граница — [BATTLE_EXECUTION_UI](BATTLE_EXECUTION_UI.md).
 
 `BattleDemoSession._record_receipt` собирает roots одного session-вызова; после
 возврата владения UI забирает пакет и выключает capture. Начальный и конечный
@@ -163,13 +167,14 @@ canvas/stretch синхронизирует сохранённые trial-тай�
 не прислал им transform notification. При неизменном transform обхода тайлов нет.
 Правила и границы пробы — [представление](BATTLE_PRESENTATION_REWORK.md).
 
-`BattleDemoBoard` сохраняет опоры и окружение по явному контракту корней
-`BattleTerrainVisual` / `BattleManagedEnvironmentVisual`, без списка файлов арта.
+`BattleDemoBoard` сохраняет опоры, окружение и фигуры по явному контракту корней
+`BattleTerrainVisual` / `BattleManagedEnvironmentVisual` / `BattleManagedUnitVisual`,
+без списка файлов арта.
 Каждый after передаёт свежие значения; одинаковые видимые значения пропускают
 повторную настройку, прямые изменения без revision остаются видны.
 Lifecycle, владение при смене сцены/доски, reset/restore поз и автоматический
 допуск пресетов — [BATTLE_VISUAL_SCENE_CONTRACT](BATTLE_VISUAL_SCENE_CONTRACT.md).
-Бойцы и legacy-корни сохраняют создание заново. Runtime/готовность команд не кэшируются.
+Legacy-корни сохраняют создание заново. Runtime/готовность команд не кэшируются.
 
 Сцена фигуры также задаёт `body_pick_rect` в координатах базового рисунка:
 увеличенный силуэт выбирается до головы, тогда как процедурный fallback сохраняет

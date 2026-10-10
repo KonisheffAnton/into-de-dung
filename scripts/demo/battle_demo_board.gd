@@ -68,10 +68,16 @@ var _terrain_visuals: Dictionary[Vector3i, BattleDemoIsoVisual] = {}
 var _terrain_board_id: int = 0
 var _terrain_size: Vector2i = Vector2i.ZERO
 var _terrain_scene: PackedScene
+var _unit_visuals: Dictionary[int, BattleManagedUnitVisual] = {}
+var _unit_board_id: int = 0
+var _unit_session_id: int = 0
+var _unit_size: Vector2i = Vector2i.ZERO
+var _unit_scene: PackedScene
 var _terrain_screen_transform := Transform2D.IDENTITY
 var _visual_lifecycle: Dictionary[String, int] = {
 	"terrain_created": 0, "terrain_retired": 0,
 	"environment_created": 0, "environment_retired": 0,
+	"unit_created": 0, "unit_retired": 0,
 }
 var _view_width: int = 0
 var _view_height: int = 0
@@ -1366,9 +1372,21 @@ func _rebuild_visuals() -> void:
 	for row: Dictionary in _view_units:
 		var unit: BattleUnitView = row["unit"]
 		var unit_cell: Vector2i = row["cell"]
-		if environment_mode and not unit.alive: continue
-		if not unit.alive and (_fallen_ids.has(unit.id) or _view_terrain_at(unit_cell) in [TerrainType.Type.VOID, TerrainType.Type.HAZARD]): continue
-		var visual := _make_visual(unit_cell, _view_height_steps(unit_cell), BattleDemoIsoVisual.Role.UNIT)
+		if not _unit_row_visible(row): continue
+		var visual: BattleDemoIsoVisual = _unit_visuals.get(unit.id)
+		if visual == null:
+			visual = _make_visual(unit_cell, _view_height_steps(unit_cell), BattleDemoIsoVisual.Role.UNIT)
+			_visual_lifecycle.unit_created += 1
+			if visual is BattleManagedUnitVisual: _unit_visuals[unit.id] = visual
+		if visual is BattleManagedUnitVisual:
+			_attach_visual(visual)
+			var managed := visual as BattleManagedUnitVisual
+			managed.reset_view_pose()
+			managed.apply_view(_unit_view_values(row), grid_config)
+			var offset := (_action_offsets.get(unit.id, Vector2.ZERO) as Vector2) * grid_config.tile_size.x / 128.0
+			if visual.action_offset != offset: visual.action_offset = offset
+			continue
+		# Не принявшая lifecycle сцена сохраняет прежний путь полной пересборки.
 		visual.unit = unit
 		visual.visual_class_id = _view_visual_classes.get(unit.id, &"")
 		visual.selected = bool(row["selected"]) and unit.alive
@@ -1394,6 +1412,59 @@ func _rebuild_visuals() -> void:
 	_sort_visuals()
 	_field_presentation.restore(self)
 
+func _unit_row_visible(row: Dictionary) -> bool:
+	var unit: BattleUnitView = row["unit"]
+	if environment_mode and not unit.alive: return false
+	return unit.alive or (not _fallen_ids.has(unit.id) and _view_terrain_at(row["cell"]) not in [TerrainType.Type.VOID, TerrainType.Type.HAZARD])
+
+func _unit_view_values(row: Dictionary) -> Dictionary:
+	var unit: BattleUnitView = row["unit"]
+	return {"cell": row["cell"], "half_steps": _view_height_steps(row["cell"]),
+		"unit": {"id": unit.id, "faction": int(unit.faction), "name": unit.debug_name,
+			"alive": unit.alive, "hp": unit.hp, "hp_max": unit.hp_max,
+			"balance": unit.balance, "balance_max": unit.balance_max},
+		"visual_class_id": _view_visual_classes.get(unit.id, &""),
+		"selected": bool(row["selected"]) and unit.alive,
+		"inspected": bool(row["inspected"]) and unit.alive,
+		"hovered": unit.id == hovered_unit_id and unit.alive,
+		"acting": unit.id == acting_id and unit.alive,
+		"forecast_entry": _forecast_entry(unit.id), "show_rear": bool(row["show_rear"]),
+		"armor_values": row["armor"], "shield_view": row.get("shield", {}),
+		"raised_shield_view": row.get("raised_shield", {}),
+		"summon_pending": bool(row.get("pending", false)),
+		"status_entries": row.get("statuses", []), "reaction_view": row.get("reaction_view", {}),
+		"action_resources_view": row.get("resources", {})}
+
+func _retain_unit_visuals(retained: Dictionary[int, bool]) -> void:
+	var board_id := _shown_board.get_instance_id() if _shown_board != null else 0
+	# Во время worker runtime закрыт для UI; resize использует прежнюю область владения.
+	var session_id := session.get_instance_id() if session != null else _unit_session_id
+	var dimensions := Vector2i(_view_width, _view_height)
+	if board_id != _unit_board_id or session_id != _unit_session_id or dimensions != _unit_size or unit_visual_scene != _unit_scene:
+		for visual: BattleManagedUnitVisual in _unit_visuals.values(): _retire_unit_visual(visual)
+		_unit_visuals.clear()
+	_unit_board_id = board_id
+	_unit_session_id = session_id
+	_unit_size = dimensions
+	_unit_scene = unit_visual_scene
+	var visible_ids: Dictionary[int, bool] = {}
+	for row: Dictionary in _view_units:
+		if _unit_row_visible(row): visible_ids[(row["unit"] as BattleUnitView).id] = true
+	for id: int in _unit_visuals.keys():
+		var visual := _unit_visuals[id]
+		if not visible_ids.has(id) or not is_instance_valid(visual) or visual.is_queued_for_deletion() or visual.get_parent() != _entities:
+			_retire_unit_visual(visual)
+			_unit_visuals.erase(id)
+		else:
+			retained[visual.get_instance_id()] = true
+
+func _retire_unit_visual(visual: BattleDemoIsoVisual) -> void:
+	if not is_instance_valid(visual): return
+	_visual_lifecycle.unit_retired += 1
+	if visual is BattleManagedUnitVisual: (visual as BattleManagedUnitVisual).retire_view()
+	if visual.get_parent() != null: visual.get_parent().remove_child(visual)
+	visual.queue_free()
+
 func _prepare_terrain_rebuild() -> void:
 	var board_id := _shown_board.get_instance_id() if _shown_board != null else 0
 	var dimensions := Vector2i(_view_width, _view_height)
@@ -1417,11 +1488,15 @@ func _prepare_terrain_rebuild() -> void:
 		if not preserve_overlays or not overlay is BattleManagedEnvironmentVisual or parent == null or not retained.has(parent.get_instance_id()) or overlay.is_queued_for_deletion():
 			_retire_environment_visual(cell)
 	_environment_scene = environment_visual_scene
+	_retain_unit_visuals(retained)
 	for child: Node in _entities.get_children():
 		if retained.has(child.get_instance_id()): continue
 		if child is BattleDemoIsoVisual and (child as BattleDemoIsoVisual).role != BattleDemoIsoVisual.Role.UNIT:
 			_visual_lifecycle.terrain_retired += 1
 			if child is BattleTerrainVisual: (child as BattleTerrainVisual).retire_view()
+		elif child is BattleDemoIsoVisual:
+			_retire_unit_visual(child as BattleDemoIsoVisual)
+			continue
 		_entities.remove_child(child)
 		child.queue_free()
 

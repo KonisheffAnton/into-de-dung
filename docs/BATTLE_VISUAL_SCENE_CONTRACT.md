@@ -1,19 +1,22 @@
-# Жизненный цикл тайлов и окружения V1
+# Жизненный цикл визуальных сцен V1
 
 Поручение 2026-10-10: замена арта не должна возвращать пересоздание всего поля
-при каждом шаге движения. Срез охватывает опоры/стены и накладки окружения.
-Бойцы, их анимации, игровой расчёт и очереди этим контрактом не меняются.
+при каждом шаге движения. Контракт охватывает опоры/стены, накладки окружения
+и фигуры бойцов. Изображения, геометрия пресетов, темп анимаций, игровой расчёт
+и очереди не меняются.
 
 ## Допуск сцены
 
 Корень тайла наследует `BattleTerrainVisual`, корень окружения —
-`BattleManagedEnvironmentVisual`. Это явное принятие описанного ниже lifecycle.
+`BattleManagedEnvironmentVisual`, фигура бойца — `BattleManagedUnitVisual`.
+Это явное принятие описанного ниже lifecycle.
 Доска определяет поддержку по типу экземпляра, без списка путей PackedScene.
-`placeholder_tile`, `art_trial_tile` и `environment_overlay` подключены к контракту.
+`placeholder_tile`, `art_trial_tile`, `environment_overlay`, `placeholder_unit`
+и наследующий его `art_trial_unit` подключены к контракту.
 Новый производный пресет не требует изменения доски.
 
-`BattleVisualSceneContract.validate` проверяет корни отдельными экземплярами
-вне дерева и возвращает все ошибки. Новый пресет допускается после проверки
+`BattleVisualSceneContract.validate` и `validate_unit` проверяют корни отдельными экземплярами
+вне дерева и возвращают все ошибки. Новый пресет допускается после проверки
 типа **и поведения** в адресном render-сценарии. Наследование само по себе не
 доказывает корректность пользовательского Tween, `_process` или override.
 Инициализация сцены не должна читать/менять runtime боя, RNG или профиль.
@@ -32,6 +35,7 @@ UnitState, CombatState, queue, RNG или alias входных изменяем�
 |---|---|
 | `BattleTerrainVisual.apply_view(values, config)` | `cell:Vector2i`, `role:Role`, `half_steps:int`, `is_void/reachable/enemy_range/burning:bool`; отдельно ненулевой `IsoGridConfig` представления |
 | `BattleManagedEnvironmentVisual.apply_view(values)` | `spikes/burning/warning/acid/floor_trap/armed:bool`, `wall_direction:Vector2i`, `corpses:Array[Dictionary]` |
+| `BattleManagedUnitVisual.apply_view(values, config)` | `cell`, `half_steps`, `unit:{id,faction,name,alive,hp,hp_max,balance,balance_max}`, `visual_class_id`, `selected/inspected/hovered/acting/show_rear/summon_pending`, `forecast_entry/armor_values/shield_view/raised_shield_view/reaction_view/action_resources_view`, `status_entries`; ненулевой `IsoGridConfig` |
 
 Это внутренний типизированный producer/consumer, не формат сохранения и не
 вход недоверенных данных. Board собирает полный набор из отделённых `_view_*`.
@@ -40,6 +44,9 @@ UnitState, CombatState, queue, RNG или alias входных изменяем�
 рисунка/пресетов. Изменение возвращает `true`, увеличивает `view_apply_count`.
 Тела копируются глубоко. Геометрия конфигурации сравнивается по `tile_size`,
 `height_step`, `origin_offset`, поэтому правка Resource на месте не теряется.
+Фигура создаёт собственный `BattleUnitView` из скаляров и копирует коллекции.
+Сравнение включает фактические публичные поля: прямое изменение hover/forecast
+или геометрии позой не должно скрыться за равенством предыдущему входу.
 Редактируемые PNG, геометрия, материалы и посадка остаются в сценах.
 
 ## Владение и временные эффекты
@@ -49,6 +56,11 @@ UnitState, CombatState, queue, RNG или alias входных изменяем�
 хранится при прежней сцене под той же опорой, пока нужна эффекту или активной
 позе. Смена состояния эффекта обновляет узел; исчезновение всех причин удаляет.
 Y-sort и picking сохраняют порядок клеток, включая появившиеся позже стены.
+Фигура хранится по ID внутри текущих session/board/размера/PackedScene.
+Смена владельца или пресета, исчезновение из показанного состава и потеря
+родителя завершают её lifecycle. При обычном движении корень и его авторские
+дочерние узлы сохраняются. Удалённый боец и новый боец с тем же ID не используют
+старый узел после границы отсутствия; legacy-корни по-прежнему пересоздаются.
 
 Общий порядок: создать/подключить при необходимости → `reset_view_pose` →
 `apply_view` → после сборки поля `BattleFieldPresentation.restore`.
@@ -57,6 +69,8 @@ resize применяет прежние отделённые значения �
 Тайл сбрасывает временные смещения/сжатие/смерть и возвращает авторский modulate;
 окружение сбрасывает collapse/hazard/trap progress. Флаги состояния не стираются
 перед сравнением: это позволило убрать повторную полную настройку.
+Фигура также снимает временную подпись, восстанавливает опору/высоту из fresh
+values, затем получает текущий action offset доски и активную полевую позу.
 
 Перед удалением доска вызывает `retire_view`, затем отключает и освобождает узел.
 Метод не освобождает и не переподключает себя. Производный пресет обязан отменить
@@ -72,15 +86,17 @@ resize применяет прежние отделённые значения �
 ## Автоматическая защита
 
 Команды и состав проверок — [TESTING](TESTING.md). Выбор `current_art_zoom`,
-`art_trial_battle` или `battle_view_reuse` автоматически включает оба новых
-runner: `visual_scene_contract`, `environment_visual_contract`.
+`art_trial_battle` или `battle_view_reuse` автоматически включает три lifecycle
+runner: `visual_scene_contract`, `environment_visual_contract`, `unit_visual_contract`,
+а также `presentation_consequences`, `presentation_environment`, `battle_camera_ui`,
+`battle_execution_ui` для поз, ловушек, камеры, worker/ИИ и смены UI.
 Они также входят в full/render; инициатива этим не подключается.
 
 Hard gate: совместимый новый PackedScene без регистрации в доске, неизменные
 identity и счётчики создания/удаления при повторной публикации и обычном
 движении, fresh values без revision, правка конфигурации на месте, отделение
 тел, снятие/восстановление поз, удаление при смене владельца. Счётчики
-`visual_lifecycle_counts` возвращаются копией; бойцы в них не входят.
+`visual_lifecycle_counts` возвращаются копией и включают terrain/environment/unit.
 Пассивные операции не меняют live snapshot/RNG/counters; исполнение движения
 остаётся настоящим worker → публикации → показ. Более широкие сценарии эффектов,
 камеры и порядка показа принадлежат существующим адресным runner.
