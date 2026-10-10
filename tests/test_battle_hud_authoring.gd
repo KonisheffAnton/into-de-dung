@@ -79,6 +79,7 @@ func _exercise(deck_mode: bool) -> void:
 	var rng := demo.session.context.get_rng().to_dict()
 	var original_session := demo.session
 	var original_frame := ActionPresentationState.capture(demo.session.state)
+	_check_detached_frame_text(demo, original_frame)
 	var first_unit_id: int = int(original_frame.units.keys()[0])
 	var first_button := _roster_button(demo, first_unit_id)
 	check(first_button != null, "roster entry exists before repeated updates")
@@ -212,6 +213,50 @@ func _collect(node: Node, root_node: Node, identities: Dictionary) -> void:
 
 func _roster_button(demo: BattleDemo, unit_id: int) -> Button:
 	return demo._roster_presenter.get_button(unit_id)
+
+func _check_detached_frame_text(demo: BattleDemo, source: Dictionary) -> void:
+	var original_session := demo.session
+	var frame: Dictionary = source.duplicate(true)
+	var units: Dictionary = {
+		1: {"id": 1, "name": "Живой", "alive": true, "hp": 7.0, "hp_max": 12.0, "main": 2, "move": 3.5, "armor": {"current": 8, "extra": 3},
+			"shield": {"hp": 2, "hits_left": 1}, "control": {"stunned_turns": 1, "entangled_turns": 1}, "elemental": {"frozen_turns": 2, "burning_stacks": 2, "burning_ticks": 3, "acid_ticks": 1, "wet_turns": 1}, "bleeding": {"stacks": 1, "ticks_left": 2}},
+		2: {"id": 2, "name": "Павший", "alive": false, "hp": 0.0, "hp_max": 9.0, "main": 0, "move": 0.0, "armor": {"current": 0, "extra": 0}},
+		0: {"id": 0, "name": "Пропустить", "alive": true, "hp": 1.0, "hp_max": 1.0, "main": 1, "move": 1.0, "armor": {}}
+	}
+	frame.units = units
+	frame.abilities = {"mana": 3, "maximum": 5, "serials": [41], "ledger": [
+		{"ability_id": "mage.fire", "remaining": 2}, {"ability_id": "other.action", "remaining": 99}, {"ability_id": "mage.unknown", "remaining": 4}
+	]}
+	frame.deck = {"draw_ids": [8], "spent_ids": [9], "hand_ids": [10, 11, 12], "replaced_serial": 0,
+		"cards": [{"id": 10, "type_id": "card.fire"}, {"id": 11, "type_id": "card.unknown"}]}
+	demo.session = null
+	demo._render_presentation_hud(frame)
+	var living := _roster_button(demo, 1)
+	var dead := _roster_button(demo, 2)
+	check(living.text == "Живой · HP 7.0 / 12.0 · Щит 2 HP · Оглушён · Заморожен · Путы · Кровотечение ×1 · Горение ×2 · В кислоте · Мокрый", "detached roster text preserves status order and exact summary")
+	check(dead.text == "Павший · погиб" and _roster_button(demo, 0) == null, "dead row text and invalid ID skip")
+	check(demo._stats.text == "Живой · основное 2 · движение 3.5 · броня 5 + 3", "detached detail text subtracts extra armor exactly")
+	check(demo._mage_label.text == "Мана 3/5 · добор 1 · сыграно 1 · замена: доступна · огонь 2 · лечение 4", "mage ledger keeps order, skips non-mage, and maps unknown mage ID to healing")
+	var fire: MageCardDefinition = MageCardCatalog.get_card("card.fire")
+	check(demo._card_buttons[0].text == "%s\n%d маны" % [fire.name, fire.mana_cost] and demo._card_buttons[0].tooltip_text == "%s · копия #10" % fire.description, "known card uses catalog text")
+	check(demo._card_buttons[1].text == "Карта #11" and demo._card_buttons[1].tooltip_text == "Копия #11" and demo._card_buttons[2].text == "Карта #12", "unknown and missing card IDs use fallback within visible slots")
+	var used: Dictionary = frame.duplicate(true)
+	(used.deck as Dictionary).replaced_serial = 41
+	demo._render_presentation_hud(used)
+	check(demo._mage_label.text.begins_with("Мана 3/5 · добор 1 · сыграно 1 · замена: использована или добор пуст"), "matching serial renders used replacement")
+	var empty_draw: Dictionary = used.duplicate(true)
+	(empty_draw.deck as Dictionary).replaced_serial = 0
+	(empty_draw.deck as Dictionary).draw_ids = []
+	demo._render_presentation_hud(empty_draw)
+	check(demo._mage_label.text.begins_with("Мана 3/5 · добор 0 · сыграно 1 · замена: использована или добор пуст"), "empty draw renders unavailable replacement")
+	var no_deck: Dictionary = frame.duplicate(true)
+	no_deck.deck = {}
+	demo._render_presentation_hud(no_deck)
+	check(demo._mage_label.text == "Маг · мана 3 · огонь 2 · лечение 4", "mage without deck retains base label and ledger suffix")
+	check(demo._mage_label.tooltip_text == "Рука 3/6 · кадр исполненного действия", "no-deck frame preserves previous tooltip")
+	check(frame.units[1].armor == {"current": 8, "extra": 3} and frame.deck.hand_ids == [10, 11, 12], "formatting leaves detached input DTO unchanged")
+	demo.session = original_session
+	demo._render_presentation_hud(source)
 
 func _fallbacks() -> void:
 	var bar := BattleActionBar.new()

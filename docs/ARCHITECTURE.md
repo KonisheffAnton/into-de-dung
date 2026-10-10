@@ -24,6 +24,8 @@
 guards, выбор live/показанного кадра и публикация остаются у `BattleDemo`.
 NodePath и сигналы authored HUD связывает `BattleHudBinding`, получая узлы,
 callbacks и флаг колоды. Session у Board и lifecycle остаются у `BattleDemo`.
+`BattleFrameText` форматирует опубликованный DTO-кадр без runtime и UI;
+`BattleDemo` сохраняет порядок обновления узлов и pager.
 Карта и границы — [BATTLE_HUD_SCENES_V1](BATTLE_HUD_SCENES_V1.md).
 
 [K17](STATUS_EFFECTS_NEXT.md) включает конечные состояния bleeding/burning/wet/freeze

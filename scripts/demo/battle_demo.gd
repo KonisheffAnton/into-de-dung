@@ -307,9 +307,7 @@ func _render_presentation_hud(state: Dictionary) -> void:
 		var unit_id: int = int(row.get("id", UnitId.NONE))
 		if unit_id <= UnitId.NONE: continue
 		roster_ids.append(unit_id)
-		var status := BattleDemoBoard.presentation_status(row)
-		var text := "%s · HP %.1f / %.1f" % [row.name, row.hp, row.hp_max] if row.alive else "%s · погиб" % row.name
-		if not status.is_empty(): text += " · " + status
+		var text: String = BattleFrameText.roster(row)
 		var button := _roster_presenter.get_or_create_button(unit_id)
 		button.text = text
 		button.disabled = true
@@ -319,35 +317,27 @@ func _render_presentation_hud(state: Dictionary) -> void:
 			button.custom_minimum_size = Vector2(480, 30)
 		button.tooltip_text = text
 		if row.alive:
-			details.append("%s · основное %d · движение %.1f · броня %d + %d" % [row.name, row.main, row.move, int(row.armor.get("current", 0)) - int(row.armor.get("extra", 0)), int(row.armor.get("extra", 0))])
+			details.append(BattleFrameText.details(row))
 	_roster_presenter.retain_ordered(roster_ids)
 	_stats.text = "\n".join(details)
 	var abilities: Dictionary = state.get("abilities", {})
 	var frame_deck: Dictionary = state.get("deck", {})
+	_mage_label.text = BattleFrameText.mage(abilities, frame_deck)
 	if not frame_deck.is_empty():
-		var serials: Array = abilities.get("serials", [])
-		var replacement: String = "доступна" if serials.size() > 0 and int(frame_deck.get("replaced_serial", 0)) != int(serials[0]) and not frame_deck.get("draw_ids", []).is_empty() else "использована или добор пуст"
-		_mage_label.text = "Мана %d/%d · добор %d · сыграно %d · замена: %s" % [int(abilities.get("mana", 0)), int(abilities.get("maximum", 0)), frame_deck.get("draw_ids", []).size(), frame_deck.get("spent_ids", []).size(), replacement]
-	else:
-		_mage_label.text = "Маг · мана %d" % int(abilities.get("mana", 0)) if not abilities.is_empty() else ""
-	if not frame_deck.is_empty():
-		_mage_label.tooltip_text = "Рука %d/6 · кадр исполненного действия" % frame_deck.get("hand_ids", []).size()
+		_mage_label.tooltip_text = BattleFrameText.deck_tooltip(frame_deck)
 		var frame_buttons: Array[Button] = []
 		for slot: int in mini(_card_buttons.size(), frame_deck.get("hand_ids", []).size()):
 			var id: int = int(frame_deck["hand_ids"][slot])
-			var type_id := ""
-			for card: Dictionary in frame_deck.get("cards", []):
-				if int(card.id) == id: type_id = String(card.type_id); break
-			var definition := MageCardCatalog.get_card(type_id)
+			var card_text: BattleFrameText.CardText = BattleFrameText.card(frame_deck, id)
 			var button: Button = _card_buttons[slot]
-			button.text = "%s\n%d маны" % [definition.name, definition.mana_cost] if definition != null else "Карта #%d" % id
-			button.tooltip_text = "%s · копия #%d" % [definition.description, id] if definition != null else "Копия #%d" % id
+			button.text = card_text.text
+			button.tooltip_text = card_text.tooltip
 			button.disabled = true
 			frame_buttons.append(button)
 		if _mage_row is BattleMageBar: (_mage_row as BattleMageBar).configure(frame_buttons)
 	for entry: Dictionary in abilities.get("ledger", []):
 		if String(entry.get("ability_id", "")).begins_with("mage."):
-			_mage_label.text += " · %s %d" % ["огонь" if entry.ability_id == "mage.fire" else "лечение", int(entry.remaining)]
+			_mage_label.text += BattleFrameText.mage_ledger_suffix(entry)
 
 func skip_presentation() -> void:
 	if _presentation_player != null: _presentation_player.skip()

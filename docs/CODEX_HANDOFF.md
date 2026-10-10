@@ -1,11 +1,10 @@
-# Передача — 2026-10-11: привязка authored HUD
-D:\Games\into-de-dung; main; base b0156e8110c54bb5b8565b05d871f418ace5cdd6; без push.
-U «Давай», остаток лимита: ограниченный пакет §7.3, authored HUD binding.
-BattleHudBinding — NodePath/сигналы; BattleDemo — fallback/guard/session/roster.
-Legacy UI, обработчики и live/DTO прежние: BATTLE_HUD_SCENES_V1.
-Игровые пути прежние. Остальной UI и упорядочение путей открыты; §7.3 не закрыт.
-Отчёт: test_reports/ui-hud-binding-20261011/REPORT.md; команды TESTING.
-Base/current import/startup PASS; HUD240/0, panels81/0, execution28/0; deck107/0→110/0.
+# Передача — 2026-10-11: тексты HUD-кадра
+D:\Games\into-de-dung; main; base 2ad04d11316e422b2389f06ef55fb98a314a178b; без push.
+U «Дальше»: технический срез §7.3, форматирование опубликованного DTO-кадра.
+BattleFrameText — тексты; BattleDemo — узлы/порядок/roster/pager; live/DTO прежние.
+Контракт BATTLE_HUD_SCENES_V1. Остальной UI и игровые пути открыты; §7.3 не закрыт.
+Отчёт: test_reports/ui-frame-text-20261011/REPORT.md; команды TESTING.
+Base/current import/startup PASS; HUD262/0, execution28/0, status66/0; deck110/0→107/0.
 Четыре HUD PNG равны base; независимое ревью APPROVE.
 Full/core не повторялись: узкий UI-срез. Прежние 8shaderFAIL(base) не закрыты.
 Exit47ObjectDB/18resources и сдвиг96 не перепроверены; общего PASS нет.

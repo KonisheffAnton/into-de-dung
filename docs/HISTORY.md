@@ -1,5 +1,20 @@
 # История и свидетельства проверок
 
+## Тексты опубликованного HUD-кадра — 2026-10-11
+
+U «Дальше»; main, base `2ad04d11316e422b2389f06ef55fb98a314a178b`, без push.
+BattleFrameText форматирует DTO бойцов/диагностики/маны/карт; узлы, порядок
+публикации и pager остаются у BattleDemo. Строки и live/DTO-границы сохранены;
+остальные методы BattleDemo совпадают с base. [Контракт HUD](BATTLE_HUD_SCENES_V1.md).
+Новые 22 ожидания прошли сначала на исходном formatter, затем после переноса.
+Base/current import/startup PASS; HUD262/0, execution28/0, status66/0;
+deck110/0→107/0 (переменный маршрут, не полный trajectory parity).
+Четыре HUD PNG пиксельно равны base; независимое ревью APPROVE.
+Full/core не повторялись; прежние baseline FAIL и ручная приёмка открыты.
+Отчёт — `test_reports/ui-frame-text-20261011/REPORT.md`; main_menu.tscn U сохранена.
+§7.3 не закрыт: остальной UI и упорядочение игровых путей впереди.
+Прежняя передача побайтно в [архиве](CODEX_HANDOFF.history-20261011-6.md).
+
 ## Привязка authored HUD — 2026-10-11
 
 U «Давай» с остатком лимита; main, base `b0156e8110c54bb5b8565b05d871f418ace5cdd6`.

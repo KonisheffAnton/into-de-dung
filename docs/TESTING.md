@@ -74,6 +74,11 @@ full/core не требуются при сохранении мест вызо�
 Проверяются main/H1/.new/legacy, overrides и повторное связывание, сигналы,
 карты/страницы, worker и показ. При сохранении поведения full/core не требуются.
 
+Для текстов DTO-кадра: `python tools/demo/isolate.py --render-check --only battle_hud_authoring battle_execution_ui mage_deck_ui presentation_status --screen 0`.
+Точные строки/порядок статусов, мана/карты и отсутствие live-сессии проверяются
+на исходном formatter и после переноса. Worker/показ и HUD PNG — тот же набор;
+full/core не требуются при неизменных узлах, guards и правилах ядра.
+
 Для границы старых форматов: `python tools/demo/isolate.py --check --only current_schema_boundary hero_hub expedition_transitions mage_deck_expedition --screen 0`.
 `current_schema_boundary` входит в обычный/full набор: отказ старых/будущих
 номеров и неверных типов, режимы компонентов, 512 сочетаний флагов/оплаты,
