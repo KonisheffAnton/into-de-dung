@@ -53,6 +53,21 @@ core — 600 с. Это предел ожидания, не разрешение
 | Core queue/board/RNG/общая сериализация/неясный радиус воздействия | Адресные проверки плюс `--check --full`; render затронутых видов, весь render при общем изменении представления |
 
 Обычная локальная правка: начать с 1–3 связанных runner (плюс import/startup).
+
+Для разделения ActionQueue: `python tools/demo/isolate.py --check --only action_event_validator guard counterattack --screen 0`,
+затем `--check --full` по риску общей очереди. Новый `action_event_validator` входит
+в обычный/full набор и проверяет helper без экземпляра очереди. Прежние core,
+bleeding/control/reaction/safe-retreat тесты обращаются к новому владельцу схем;
+их проверки типов, арифметики и отказов сохранены. Core проверяет admission,
+BUSY/reentrancy, malformed steps/events, limits/sequence и FAULTED-префикс.
+В импортированных отдельных копиях base/current выполнить
+`<Godot> --headless --path <project> --screen 0 --script tests/test_counterattack.gd -- --emit-parity`.
+На base переносится только этот тест-наблюдатель, runtime остаётся исходным.
+Сравнить все строки `ACTION QUEUE PARITY` по порядку, включая повторяющиеся labels:
+before/after, полный preview, receipt, публикации, кадры, admission, RNG/counters;
+матрица содержит нормальные ответы, отказ ответа, INTERRUPTED и FAULTED по лимитам.
+Worker/clone fingerprints — команды ниже. UI render по риску: `presentation_reactions`,
+`action_async_ui`, `attack_async_ui`, `move_forecast_ui`, `turn_forecast_ui`.
 Если нужны больше — записать конкретные затронутые границы; это ориентир, не
 лимит покрытия. После сбоя повторять исправленный runner и зависимые проверки.
 Не запускать повторно уже зелёный широкий набор без новой правки или нового риска.

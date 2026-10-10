@@ -700,13 +700,13 @@ func _test_p06_attack_event_schema() -> void:
 	schema_definition.profile = AttackRules.PROFILE
 	var schema_context := ActionContext.new(null, null, null, [], null, AttackRules.new([], [], [schema_definition]))
 	var valid := {"kind": &"attacked", "actor_unit_id": 1, "target_unit_id": 2, "attack_definition_id": &"flat", "actor_cell": Vector2i.ZERO, "target_cell": Vector2i(1, 0), "main_cost": 1, "main_before": 1, "main_after": 0}
-	_check(ActionQueue._valid_draft(valid, schema_context), "P06 A12 accepts exact attacked value schema")
+	_check(ActionEventValidator.valid_draft(valid, schema_context), "P06 A12 accepts exact attacked value schema")
 	for key: String in valid.keys():
 		var missing: Dictionary = valid.duplicate(true)
 		missing.erase(key)
 		var wrong_type: Dictionary = valid.duplicate(true)
 		wrong_type[key] = "wrong"
-		_check(not ActionQueue._valid_draft(missing, schema_context) and not ActionQueue._valid_draft(wrong_type, schema_context), "P06 A12 attacked key/type rejects " + key)
+		_check(not ActionEventValidator.valid_draft(missing, schema_context) and not ActionEventValidator.valid_draft(wrong_type, schema_context), "P06 A12 attacked key/type rejects " + key)
 	for mutation: String in ["extra", "damage", "diagonal", "before", "type"]:
 		var malformed := valid.duplicate(true)
 		if mutation == "extra": malformed["hit"] = true
@@ -714,11 +714,11 @@ func _test_p06_attack_event_schema() -> void:
 		elif mutation == "diagonal": malformed["target_cell"] = Vector2i(1, 1)
 		elif mutation == "before": malformed["main_before"] = 0
 		else: malformed["attack_definition_id"] = "flat"
-		_check(not ActionQueue._valid_draft(malformed, schema_context), "P06 A12 attacked schema rejects " + mutation)
+		_check(not ActionEventValidator.valid_draft(malformed, schema_context), "P06 A12 attacked schema rejects " + mutation)
 	for range_case: Dictionary in [{"main_before": 4097, "main_after": 4096}, {"main_before": 1, "main_after": 1}, {"actor_unit_id": 0}, {"target_unit_id": 1}]:
 		var malformed_range: Dictionary = valid.duplicate(true)
 		for key: String in range_case: malformed_range[key] = range_case[key]
-		_check(not ActionQueue._valid_draft(malformed_range, schema_context), "P06 A12 attacked arithmetic/range rejects")
+		_check(not ActionEventValidator.valid_draft(malformed_range, schema_context), "P06 A12 attacked arithmetic/range rejects")
 	var fixture := _p06_attack_fixture(1.0)
 	var sink := P04HookSink.new()
 	fixture["context"] = ActionContext.new(fixture["state"] as ItemSimulationState, P04TestRng.new(), sink, [], null, fixture["rules"] as AttackRules)
@@ -1486,17 +1486,17 @@ func _test_p05_m09_moved_schema() -> void:
 	_check(event.keys().size() == 13 and event["kind"] == &"moved" and event["target_unit_id"] == 201 and event["parent_event_seq"] == 0, "M09 moved schema and parent sequence")
 	var raw_event := event.duplicate(true)
 	for metadata: String in ["event_seq", "root_id", "command_seq", "parent_event_seq"]: raw_event.erase(metadata)
-	_check(ActionQueue._valid_draft(raw_event), "M09 moved draft validates")
+	_check(ActionEventValidator.valid_draft(raw_event), "M09 moved draft validates")
 	var malformed := event.duplicate(true); malformed["move_before"] = 1.0; malformed["move_cost"] = 1.0; malformed["move_after"] = 1e-20
 	for metadata: String in ["event_seq", "root_id", "command_seq", "parent_event_seq"]: malformed.erase(metadata)
-	_check(not ActionQueue._valid_draft(malformed), "M09 asymmetric arithmetic is rejected")
+	_check(not ActionEventValidator.valid_draft(malformed), "M09 asymmetric arithmetic is rejected")
 	for mutation in [{"move_cost": 0.0}, {"move_cost": NAN}, {"move_cost": 1}, {"move_before": NAN}, {"move_after": -1.0}, {"target_unit_id": 0}, {"target_unit_id": 202}, {"movement_kind": &"forced"}, {"to_cell": Vector2i(1, 2)}, {"to_cell": Vector2i(2147483647, 1)}, {"source": DamageSource.new(&"test")}, {"callback": Callable()}, {"extra": true}]:
 		var bad := raw_event.duplicate(true)
 		for key in mutation.keys(): bad[key] = mutation[key]
-		_check(not ActionQueue._valid_draft(bad), "M09 malformed moved field %s rejects" % str(mutation.keys()))
+		_check(not ActionEventValidator.valid_draft(bad), "M09 malformed moved field %s rejects" % str(mutation.keys()))
 	var missing := raw_event.duplicate(true); missing.erase("move_cost")
 	var string_name_key := raw_event.duplicate(true); string_name_key.erase("move_cost"); string_name_key[&"move_cost"] = 1.0
-	_check(not ActionQueue._valid_draft(missing) and not ActionQueue._valid_draft(string_name_key), "M09 missing and StringName draft keys reject")
+	_check(not ActionEventValidator.valid_draft(missing) and not ActionEventValidator.valid_draft(string_name_key), "M09 missing and StringName draft keys reject")
 	var copied := receipt.get_events(); copied[0]["move_cost"] = 99.0; var copied_steps := receipt.get_steps(); copied_steps[0]["kind"] = &"bad"; sink.events[0]["move_cost"] = 88.0
 	_check(receipt.get_events()[0]["move_cost"] == 1.0 and receipt.get_steps()[0]["kind"] == &"move" and sink.events[0]["move_cost"] == 88.0 and receipt.get_events()[0]["event_seq"] == 1 and receipt.get_events()[1]["event_seq"] == 2 and receipt.get_steps()[2]["command_seq"] == 3, "M09 receipt steps and sink copies plus exact child sequences")
 	var fault_fixture := _p05_fixture()
@@ -5674,13 +5674,13 @@ func _test_p07_a14_events_busy() -> void:
 		{"kind": &"collision", "actor_unit_id": 1, "target_unit_id": 2, "from_cell": Vector2i.ZERO, "attempted_cell": Vector2i.RIGHT, "blocker_unit_id": 3},
 		{"kind": &"fell", "actor_unit_id": 1, "target_unit_id": 2, "from_cell": Vector2i.ZERO, "attempted_cell": Vector2i.LEFT, "reason": &"bounds"}]
 	for draft in drafts:
-		_check(ActionQueue._valid_draft(draft), "P07 A14 valid strict schema " + String(draft.kind))
+		_check(ActionEventValidator.valid_draft(draft), "P07 A14 valid strict schema " + String(draft.kind))
 		for key in draft.keys():
 			var malformed := draft.duplicate(true); malformed[key] = null
-			_check(not ActionQueue._valid_draft(malformed), "P07 A14 exact type " + String(draft.kind) + "/" + key)
+			_check(not ActionEventValidator.valid_draft(malformed), "P07 A14 exact type " + String(draft.kind) + "/" + key)
 		var extra := draft.duplicate(true); extra["extra"] = 0
 		var string_kind := draft.duplicate(true); string_kind.kind = String(draft.kind)
-		_check(not ActionQueue._valid_draft(extra) and not ActionQueue._valid_draft(string_kind), "P07 A14 extra keys/String refused")
+		_check(not ActionEventValidator.valid_draft(extra) and not ActionEventValidator.valid_draft(string_kind), "P07 A14 extra keys/String refused")
 		var malformed := draft.duplicate(true); malformed.target_unit_id = malformed.actor_unit_id
 		var invalid_root := P04Work.new(&"p07_schema", func(_c: ActionContext) -> CommandStepResult: return CommandStepResult.applied([malformed]))
 		var local := _p07_fixture(); var q := ActionQueue.new()
@@ -5844,11 +5844,11 @@ func _test_p07_extended_boundaries() -> void:
 	var balance := {"kind": &"balance_changed", "actor_unit_id": 1, "target_unit_id": 2, "balance_before": 1.0, "balance_after": 3.0, "balance_max": 5.0, "impact": 2.0, "broke": false}
 	for pair: Array in [["actor_unit_id", ActionContext.MAX_ID], ["target_unit_id", ActionContext.MAX_ID], ["balance_after", 4.0], ["balance_before", -1.0], ["balance_max", 0.0], ["impact", 0.0], ["impact", INF], ["broke", true], ["kind", &"balance_broken"]]:
 		var draft := balance.duplicate(true); draft[pair[0]] = pair[1]
-		_check(not ActionQueue._valid_draft(draft), "P07 A14 balance schema semantic rejection " + str(pair))
+		_check(not ActionEventValidator.valid_draft(draft), "P07 A14 balance schema semantic rejection " + str(pair))
 	var overflow := balance.duplicate(true); overflow.balance_before = 1e308; overflow.impact = 1e308; overflow.balance_after = 0.0; overflow.broke = true
-	_check(not ActionQueue._valid_draft(overflow), "P07 A14 event balance sum overflow")
+	_check(not ActionEventValidator.valid_draft(overflow), "P07 A14 event balance sum overflow")
 	var unchanged := balance.duplicate(true); unchanged.balance_before = 0.0; unchanged.balance_after = 0.0; unchanged.impact = 5.0; unchanged.broke = true
-	_check(not ActionQueue._valid_draft(unchanged), "P07 A14 changed requires actual numeric delta")
+	_check(not ActionEventValidator.valid_draft(unchanged), "P07 A14 changed requires actual numeric delta")
 	for kind: StringName in [&"push_blocked", &"fell", &"collision", &"moved"]:
 		var valid := {"kind": kind, "actor_unit_id": 1, "target_unit_id": 2, "from_cell": Vector2i.ZERO}
 		var destination_key: String = "to_cell" if kind == &"moved" else "attempted_cell"
@@ -5858,21 +5858,21 @@ func _test_p07_extended_boundaries() -> void:
 		else: valid.reason = &"wall" if kind == &"push_blocked" else &"bounds"
 		for cell: Vector2i in [Vector2i.ZERO, Vector2i(1, 1), Vector2i(2, 0)]:
 			var draft := valid.duplicate(true); draft[destination_key] = cell
-			_check(not ActionQueue._valid_draft(draft), "P07 A14 one edge " + kind + str(cell))
+			_check(not ActionEventValidator.valid_draft(draft), "P07 A14 one edge " + kind + str(cell))
 		for bad_id: int in [0, -1, ActionContext.MAX_ID]:
 			var draft := valid.duplicate(true); draft.actor_unit_id = bad_id
-			_check(not ActionQueue._valid_draft(draft), "P07 A14 bounded actor id " + kind)
+			_check(not ActionEventValidator.valid_draft(draft), "P07 A14 bounded actor id " + kind)
 		if kind == &"collision":
 			for bad_id: int in [0, 1, 2, ActionContext.MAX_ID]:
 				var draft := valid.duplicate(true); draft.blocker_unit_id = bad_id
-				_check(not ActionQueue._valid_draft(draft), "P07 A14 blocker distinct bounded ID")
+				_check(not ActionEventValidator.valid_draft(draft), "P07 A14 blocker distinct bounded ID")
 		elif kind == &"moved":
 			for pair: Array in [["move_cost", 1.0], ["move_after", 2.0], ["move_before", -1.0], ["movement_kind", &"other"]]:
 				var draft := valid.duplicate(true); draft[pair[0]] = pair[1]
-				_check(not ActionQueue._valid_draft(draft), "P07 A14 forced movement semantics")
+				_check(not ActionEventValidator.valid_draft(draft), "P07 A14 forced movement semantics")
 		else:
 			var draft := valid.duplicate(true); draft.reason = &"occupied"
-			_check(not ActionQueue._valid_draft(draft), "P07 A14 exact terrain reason " + kind)
+			_check(not ActionEventValidator.valid_draft(draft), "P07 A14 exact terrain reason " + kind)
 	for mode: String in ["missing_hpmax", "negative_hpmax", "overflow_entry"]:
 		var f := _p07_fixture(8.0)
 		f.board.set_height(f.destination, -10 if mode == "overflow_entry" else -1)

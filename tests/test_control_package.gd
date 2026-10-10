@@ -261,11 +261,11 @@ func _faults_and_events() -> void:
 	var before := ControlState.new().to_dict()
 	var after := before.duplicate(true); after["stunned_turns"] = 1
 	var event := {"kind": &"control_changed", "target_unit_id": 1, "before": before, "after": after, "reason": &"stunned"}
-	check(ActionQueue._valid_control_draft(event), "new exact stun delta accepted")
+	check(ActionEventValidator._valid_control_draft(event), "new exact stun delta accepted")
 	after["entangled_turns"] = 1
-	check(not ActionQueue._valid_control_draft(event), "stun event cannot forge additional entangle")
+	check(not ActionEventValidator._valid_control_draft(event), "stun event cannot forge additional entangle")
 	after["entangled_turns"] = 0; event["reason"] = &"stun_refreshed"
-	check(not ActionQueue._valid_control_draft(event), "refresh cannot forge first application")
+	check(not ActionEventValidator._valid_control_draft(event), "refresh cannot forge first application")
 
 func _combined_order_and_critical() -> void:
 	var s := fixture()

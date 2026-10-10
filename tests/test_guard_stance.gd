@@ -326,7 +326,7 @@ func _test_callbacks_and_limits() -> void:
 		emitter.connect(mutation)
 		receipt = s.attack_unit(target.id)
 		check(receipt.status == ActionReceipt.FAULTED and receipt.reason == &"attack/invalid_stance", "legacy attack lifetime catches " + stage)
-		check(actor.action_resources.get_main_left() == 0 and s._queue._attack_stances.is_empty(), "fault retains price and releases refs " + stage)
+		check(actor.action_resources.get_main_left() == 0 and s._queue._attack_policy == null, "fault retains price and releases refs " + stage)
 		if stage == "balance": check(target.vitals.get_hp() == 72.0 and target.vitals.get_balance() == 5.0 and receipt.get_events().size() == 3, "balance prefix before heal")
 		if stage == "push": check(target.cell == Vector2i(5, 3) and target.vitals.get_hp() == 72.0, "forced move prefix before reactions")
 		emitter.disconnect(mutation)

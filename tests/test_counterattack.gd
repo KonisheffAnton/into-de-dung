@@ -5,6 +5,11 @@ const PlayerTurnFixture = preload("res://tests/fixtures/player_turn_fixture.gd")
 var passed: int = 0
 var failed: int = 0
 
+class RecordingSink extends ActionEventSink:
+	var publications: Array[Dictionary] = []
+	func publish(event: Dictionary) -> void:
+		publications.append(event.duplicate(true))
+
 func _initialize() -> void: call_deferred("run")
 
 func check(ok: bool, label: String) -> void:
@@ -50,15 +55,30 @@ func events(receipt: ActionReceipt, kind: StringName) -> Array[Dictionary]:
 	return receipt.get_events().filter(func(e: Dictionary) -> bool: return e["kind"] == kind)
 
 func parity(s: BattleCoreReactionsSession, attack: Command, label: String) -> ActionReceipt:
+	var sink := RecordingSink.new()
+	s.context._sink = sink
+	s._queue.capture_presentation = true
 	var before := snapshot(s)
 	var rng := s.context.get_rng().to_dict()
 	var counters := s.context.simulation_counters()
+	var admission := SummonAdmission.values(s.context)
 	var ids := UnitId.get_counter()
 	var preview := ForecastSimulation.run(s.context, s._queue, attack)
 	check(snapshot(s) == before and rng == s.context.get_rng().to_dict() and counters == s.context.simulation_counters() and ids == UnitId.get_counter(), label + " isolation")
 	var receipt := s._queue.submit(attack, s.context)
 	check(receipt.status == preview.status and receipt.reason == preview.reason and receipt.get_events() == preview.events and receipt.get_steps() == preview.steps, label + " receipt parity " + String(receipt.reason))
 	check(snapshot(s) == preview.snapshot_after and s.context.get_rng().to_dict() == preview.rng_after and s.context.simulation_counters() == preview.counters_after and SummonAdmission.values(s.context) == preview.admission_after, label + " final parity")
+	check(sink.publications == receipt.get_events(), label + " publishes exactly the completed prefix")
+	if OS.get_cmdline_user_args().has("--emit-parity"):
+		# Один и тот же наблюдатель запускается на base/current без замены runtime.
+		var probe := preload("res://tests/fixtures/forecast_result_probe.gd")
+		var data := {"before": before, "rng_before": rng, "counters_before": counters, "admission_before": admission,
+			"preview": probe.values(preview), "status": receipt.status, "reason": receipt.reason,
+			"root_id": receipt.root_id, "revision_before": receipt.revision_before, "revision_after": receipt.revision_after,
+			"events": receipt.get_events(), "steps": receipt.get_steps(), "frames": receipt.get_presentation_frames(),
+			"publications": sink.publications, "after": snapshot(s), "rng_after": s.context.get_rng().to_dict(),
+			"counters_after": s.context.simulation_counters(), "admission_after": SummonAdmission.values(s.context)}
+		print("ACTION QUEUE PARITY " + JSON.stringify({"label": label, "digest": probe.digest(data)}))
 	return receipt
 
 func run() -> void:

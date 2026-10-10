@@ -93,9 +93,9 @@ func transit_and_reactions() -> void:
 	check(moves.size() == 2 and moves[0].transit_path.size() == 3 and moves[0].main_cost == 1 and moves[1].main_cost == 0 and s.units[0].move_points_left == 2.0, "transit pays main once and every edge")
 	var malformed := moves[0].duplicate(true)
 	malformed.erase("event_seq"); malformed.erase("root_id"); malformed.erase("command_seq"); malformed.erase("parent_event_seq")
-	check(ActionQueue._valid_draft(malformed, s.context), "transit accepts exact recorded payment")
+	check(ActionEventValidator.valid_draft(malformed, s.context), "transit accepts exact recorded payment")
 	malformed["main_after"] = 12
-	check(not ActionQueue._valid_draft(malformed, s.context), "transit event rejects incorrect payment")
+	check(not ActionEventValidator.valid_draft(malformed, s.context), "transit event rejects incorrect payment")
 	s.close()
 	s = fixture()
 	for index: int in [1, 3]:

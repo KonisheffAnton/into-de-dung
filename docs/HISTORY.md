@@ -1,5 +1,19 @@
 # История и свидетельства проверок
 
+## Разделение обязанностей ActionQueue — 2026-10-10
+
+U «Приступай»; main, base `afec3d4388168f95ed15a1a0fd4e2fd6a89a67a6`, без push.
+Допуск корня, проверка draft и политика каскада атаки выделены в ActionAdmission,
+ActionEventValidator и ActionAttackPolicy. Queue сохраняет drain/IDs/checkpoints,
+порядок последствий и FAULTED-префикс. Правила — [контракт очереди](COMMAND_ACTION_QUEUE_CONTRACT.md#разделение-обязанностей-actionqueue).
+Import/startup PASS; validator7/0, counterattack242/0, core9440/0; Python15 OK;
+54 полных fingerprints base/current совпали; независимое ревью APPROVE; render5 PASS.
+Full143/8FAIL: все shader diagnostics равны base, core exit47ObjectDB/18resources;
+общего PASS нет. Отчёт — `test_reports/action-queue-20261010/REPORT.md`.
+main_menu.tscn U сохранена; ручные F5/Editor/DPI/GPU/длинные кадры открыты.
+Следующий срез не запущен. Прежняя передача побайтно сохранена в
+[архиве](CODEX_HANDOFF.history-20261010-29.md).
+
 ## Изоляция каталога штатного restore — 2026-10-10
 
 U «Приступай — заверши всё тут»; main, base `b8c4cdab4787e02103d3053e832f2767500c46a3`, без push.

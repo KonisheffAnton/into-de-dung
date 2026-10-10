@@ -71,12 +71,12 @@ func shared_budget() -> void:
 		if costs.size() == 1:
 			check(costs[0].bonus_after == expected and not costs[0].has("charge_after"), "event reports actual shared debit")
 			var draft := {"kind": &"reaction_used", "actor_unit_id": defender.id, "target_unit_id": s.units[0].id, "mode": 3, "bonus_before": expected + 1, "bonus_after": expected, "bonus_cost": 1}
-			check(ActionQueue._valid_draft(draft), "new payment event accepted")
+			check(ActionEventValidator.valid_draft(draft), "new payment event accepted")
 			draft.bonus_cost = 2
-			check(not ActionQueue._valid_draft(draft), "event cannot claim wrong payment")
+			check(not ActionEventValidator.valid_draft(draft), "event cannot claim wrong payment")
 			draft.bonus_cost = 1
 			draft.charge_after = 0
-			check(not ActionQueue._valid_draft(draft), "event cannot mix reserves")
+			check(not ActionEventValidator.valid_draft(draft), "event cannot mix reserves")
 	var receipt := parity(s, command(s), "empty bonus prevents reply")
 	check(events(receipt, &"counterattacked").is_empty() and defender.guard_stance, "no extra reply when additional actions spent; stance remains")
 	s.close()

@@ -240,7 +240,7 @@ func _test_faults() -> void:
 	check(receipt.status == ActionReceipt.APPLIED and nested == [&"BUSY"], "nested submit refused")
 	var event: Dictionary = receipt.get_events()[0]
 	for field: String in ["event_seq", "root_id", "command_seq", "parent_event_seq"]: event.erase(field)
-	check(ActionQueue._valid_draft(event), "strict item event valid")
+	check(ActionEventValidator.valid_draft(event), "strict item event valid")
 	event["charges_after"] = 99
-	check(not ActionQueue._valid_draft(event), "strict item event bad debit")
+	check(not ActionEventValidator.valid_draft(event), "strict item event bad debit")
 	s.close()

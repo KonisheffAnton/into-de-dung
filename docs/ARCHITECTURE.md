@@ -432,7 +432,7 @@ ArmorHitExecutor уменьшает прямой пакет первой ата�
 | Текущие ресурсы | `units/vitals.gd`, `actions/action_resources.gd` под `scripts/core/` | HP, накопленный impact до порога balance; остатки движения/main/bonus отдельно от maxima |
 | Предметы | `scripts/core/items/`, `scripts/core/inventory/` | Def/Instance/EffectRuntime, один ItemOwnerState и его фасады |
 | Применение предмета | `ItemUseAction`, две команды UseHealingItem/UseSummoningItem | Производное описание цели/параметров/цены и factory; окончательный допуск/оплата у команд, [M3](ITEM_USE_M3.md) |
-| Команды и последствия | `scripts/core/actions/action_queue.gd`, `action_context.gd` в той же папке | Submit, admission, оплата, обязательные последствия и реакции; подробности в контракте очереди |
+| Команды и последствия | `scripts/core/actions/action_queue.gd`, `action_context.gd` в той же папке | Submit, исполнение, checkpoints, последствия и публикация; `ActionAdmission` — допуск корня, `ActionEventValidator` — проверка draft, `ActionAttackPolicy` — политика одного каскада атаки. Границы и порядок — [контракт очереди](COMMAND_ACTION_QUEUE_CONTRACT.md#разделение-обязанностей-actionqueue) |
 | Расчёт прямого удара | `scripts/core/combat/attack_damage_calculation.gd` | Чистые числа и стадии нынешней формулы; AttackCommand владеет допуском и применением, контракт D1 |
 | Спина / крит / контроль | `AttackModifiers`, `ControlState`, `ControlRules`, `BattleControlSession` | Явные опции определения атаки, runtime состояния; контракт C1 |
 | Пробивание оружием | `StatTypes`, `AttackCommand`, `ArmorAttack` | Предметный stat → разделение физической базы по политикам D2; [M4](ARMOR_PIERCING_M4.md) |
