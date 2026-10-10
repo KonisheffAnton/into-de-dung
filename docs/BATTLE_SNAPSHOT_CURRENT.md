@@ -47,6 +47,30 @@ Item capture сохраняет свежий аудит live-графа, пол�
 Копии runtime, DTO, RNG и счётчиков остаются независимыми. Порядок команд,
 события/steps, FAULTED-префикс, summon checkpoint и worker lifecycle не меняются.
 
+## Общий runtime validator
+
+`BoardSnapshotValidator` владеет preflight и порядком code/reason/unsupported IDs
+для `SimulationSnapshot.capture_board` и opt-in audit. Проверки формы доски
+принадлежат `BattleBoard`, бойца/компонентов — `UnitState`, характеристик —
+`StatsBag`/`Stat`; эти же методы используют их snapshot producer. В harness
+больше нет отдельной ручной реализации допуска. Проверка статусных источников
+общая для runtime и внешнего DTO; preflight по-прежнему предшествует stale-cache.
+
+Аудит свежий и синхронный: не строит board/unit/stats/modifier DTO, сохраняет
+малые DTO компонентов и не прогревает кэш. `OK` с null snapshot означает только
+проверку текущего графа. Внутренние unchecked builders вызываются сразу после
+проверки в том же вызове; reusable token, кэш или worker-разрешение не создаются.
+Расчёт HP_MAX runtime чистый, в прежнем порядке операций; внешний DTO сохраняет
+полную проверку и restore через Stat codec. Структурные валидаторы внешних DTO
+сохранены: они отвечают за отдельную границу недоверенных данных.
+
+Admission и canonical fingerprint сверяются с 236 результатами исходного HEAD
+`84cb7b4830f59dafd78569d1895cd4df1f9e0483`, записанными до изменения production:
+`tools/demo/board_validator_baseline.json`. Это независимый эталон, поскольку
+сравнение capture и audit теперь использует общие правила. Полная матрица и
+clone lifecycle остаются opt-in; команды — TESTING, свидетельства —
+`test_reports/shared-validator-20261010/`. Clone в игру не подключён.
+
 ## Гипотезы производительности
 
 `revision` учитывает команды, `board_version` — изменения доски. Они не покрывают
@@ -86,9 +110,9 @@ clone 62.648–68.294мс, capture/restore 89.665–97.121мс; рост clone 2
 Сохраняются свежий обход, точные runtime-типы, порядок отказов, stale-cache,
 vitals/stats и action ownership, диапазоны, формула в исходном порядке,
 зависимости компонентов и ссылки источников. Production capture/restore,
-внешние DTO и проверки item/deck/worker не меняются. В эксперименте часть правил
-повторена вручную; перед production нужен общий владелец проверок без расхождения
-допуска. Проверки существующих вложенных форматов не сокращались.
+внешние DTO и проверки item/deck/worker не меняются. Ручные дубли исходного
+эксперимента заменены общими runtime-проверками по разделу выше; проверки
+существующих вложенных форматов не сокращались.
 
 В 224 сценариях (включая 128 сочетаний компонентов) совпали code/reason/IDs;
 проверены повторный свежий аудит, отсутствие live/cache/signal мутаций, DTO и
@@ -131,9 +155,9 @@ occupancy/height. Проверяются изоляция, source purity/cache/s
 с точным клоном под capture-аудитом и runtime-аудитом; проверки вне тайминга.
 Результаты — `test_reports/board-clone-20261010/`; команды — TESTING.
 
-Production capture/restore и допуск не меняются. Перед переносом clone в игру
-нужен единый владелец validation без вручную повторённых правил и parity полного
-затронутого графа/порядка команд. Item/deck/worker clone и кэш не реализованы;
+Допуск и результат production capture/restore сохранены общим validator.
+Перед переносом clone в игру остаётся parity полного затронутого графа/порядка
+команд. Item/deck/worker clone и кэш не реализованы;
 локальная parity доски не доказывает очередь, preview/live/worker или ускорение FPS.
 
 Команды — [TESTING](TESTING.md). Свидетельства и измерения с границами сравнения —

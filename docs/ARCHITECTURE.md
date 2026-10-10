@@ -529,8 +529,11 @@ GuardForecast K6 исполняет GuardCommand тем же executor и пок�
   полный DTO либо только id/faction/vitals.is_alive. Вложенные DTO компонентов
   остаются локальными; наружу короткого вида их ссылки не выходят. Повторный
   разбор созданного здесь envelope не нужен: его ключи/типы заданы producer.
-  Внешний raw DTO проверяется целиком текущим валидатором. HP_MAX обоих путей
-  восстанавливается тем же Stat codec после полной проверки StatsBag.
+  Внешний raw DTO проверяется целиком текущим валидатором. Runtime HP_MAX
+  вычисляется чистой формулой Stat после общей runtime-проверки StatsBag;
+  внешний DTO восстанавливает его через Stat codec. BoardSnapshotValidator
+  объединяет preflight capture/audit; правила producer остаются у Board/Unit/Stats,
+  экспериментальный harness их не дублирует. [Границы](BATTLE_SNAPSHOT_CURRENT.md#общий-runtime-validator).
   MageDeckRules.live_valid запрашивает свежий короткий вид всех бойцов на каждом
   вызове; проверки ссылок и capability сохраняются. Долгоживущего кэша нет.
   ItemSimulationSnapshot.capture использует локальный проверенный board DTO без

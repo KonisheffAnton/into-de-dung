@@ -1,5 +1,23 @@
 # История и свидетельства проверок
 
+## Общий runtime validator — 2026-10-10
+
+Base main `84cb7b4830f59dafd78569d1895cd4df1f9e0483`, U «приступай», без push.
+Preflight capture/audit общий; проверки producer принадлежат Board/Unit/Stats/Stat.
+Ручные дубли harness удалены; clone остаётся экспериментальным. Независимый
+эталон из 236 результатов прежнего capture сохраняет admission/reasons/IDs/DTO.
+[Контракт](BATTLE_SNAPSHOT_CURRENT.md), команды TESTING, отчёт/validation/comparison/
+review — `test_reports/shared-validator-20261010/`. Import/startup и audit2228/0 PASS;
+два текущих парных clone-прогона10023/0(239cases), review APPROVE.
+Core9440/0 с прежним выходом47 ObjectDB/18resources; full140PASS/8FAIL:
+все восемь shader diagnostics повторены на base, assertions без отказов.
+Render mage_deck_ui/battle_execution_ui PASS, PNG осмотрены. Общего full PASS нет.
+На96 runtime-audit+clone38.531–38.568→42.963–43.202мс, capture/restore
+180.445–180.631→169.230–169.499мс. Board-only CPU, не FPS; сдвиг абсолютных
+времён относительно прошлого этапа не объяснён. Полный clone/parity графа,
+кэш и ручная F5/Editor/DPI/GPU-приёмка остаются открытыми. Меню U сохранено.
+Прежний HANDOFF — точный [архив](CODEX_HANDOFF.history-20261010-24.md).
+
 ## Точный экспериментальный board clone — 2026-10-10
 
 Base main `5ad310f6b152ef088fe00b0aa7e4bc36dc8d8df5`, U «давай», без push.

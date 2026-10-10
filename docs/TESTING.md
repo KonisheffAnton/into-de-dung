@@ -120,6 +120,13 @@ Runner opt-in, вне full/render, с import/startup и `--verify-only`.
 `profile_snapshot_strategies.gd` сохраняет fixture-only `direct_board`.
 Это board-only CPU и локальные board events, не полный worker/queue/FPS.
 
+Для общего runtime validator заказать оба `--only board_audit_probe board_clone_probe`:
+они дополнительно проверяют admission/reason/IDs и canonical fingerprint по
+`tools/demo/board_validator_baseline.json` (236 capture-результатов HEAD `84cb7b48`,
+снятых до рефакторинга). Эталон не генерировать заново из проверяемого validator.
+Clone runner требует полный состав эталонной матрицы; audit использует её подмножество.
+Изменение общего production producer требует также core/full по таблице риска выше.
+
 Оба режима включают новые D2 runner (расчёт, snapshot, integration, recovery, UI).
 Первая команда включает import/startup, attack_calculation/attack_d1, forecast, guard, summon_snapshot,
 summon, healing, core и headless demo/battle. Вторая повторяет import/startup

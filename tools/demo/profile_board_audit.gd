@@ -21,6 +21,26 @@ class DerivedElemental extends ElementalState: pass
 var _passed: int = 0
 var _failed: int = 0
 var _cases_checked: int = 0
+var _baseline: Dictionary = {}
+
+func _check_baseline(result: BoardSnapshotResult, label: String) -> void:
+	# Эталон снят с production до общего validator; сравнение двух общих путей
+	# само по себе больше не ловит согласованное изменение допуска.
+	if label.begins_with("benchmark/"): return
+	if _baseline.is_empty():
+		var raw: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://tools/demo/board_validator_baseline.json"))
+		if not raw is Dictionary or not raw.get("cases") is Array:
+			_check(false, "baseline corpus readable")
+			return
+		for row: Dictionary in raw["cases"]: _baseline[row["case"]] = row
+	_check(_baseline.has(label), label + "/baseline exists")
+	if not _baseline.has(label): return
+	var expected: Dictionary = _baseline[label]
+	var expected_ids: Array[StringName] = []
+	for id: String in expected["unsupported_ids"]: expected_ids.append(StringName(id))
+	_check(result.code == int(expected["code"]) and result.reason == expected["reason"] and result.unsupported_ids == expected_ids, label + "/frozen admission")
+	var fingerprint := result.snapshot.fingerprint() if result.snapshot != null else ""
+	_check(fingerprint == expected["fingerprint"], label + "/frozen snapshot")
 
 func _initialize() -> void:
 	call_deferred("_run_audit")
@@ -101,6 +121,7 @@ func _compare(board: BattleBoard, label: String, ids: Array[StringName] = [], cl
 	var before := _bytes(board)
 	var counter := UnitId.get_counter()
 	var expected := SimulationSnapshot.capture_board(board, ids)
+	_check_baseline(expected, label)
 	_check(_bytes(board) == before, label + "/capture purity")
 	var actual := Audit.audit(board, ids)
 	_check(actual.code == expected.code and actual.reason == expected.reason and actual.unsupported_ids == expected.unsupported_ids, label + "/admission")

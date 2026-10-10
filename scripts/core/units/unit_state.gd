@@ -286,7 +286,8 @@ func to_reference_dict() -> Dictionary:
 	return _checked_snapshot_data(true)
 
 
-func _checked_snapshot_data(reference_only: bool) -> Dictionary:
+## Малые DTO компонентов живут только в вызове; большой stats DTO аудит не строит.
+func _validated_snapshot_components() -> Dictionary:
 	if get_script() != UnitState or stats == null or vitals == null or stats.get_script() != StatsBag or vitals.get_script() != Vitals or ai_profile != null:
 		return {}
 	if bleeding != null and (action_resources == null or armor == null):
@@ -305,8 +306,7 @@ func _checked_snapshot_data(reference_only: bool) -> Dictionary:
 		if not ControlState.valid(control_data): return {}
 	if vitals._stats != stats or id < UnitId.FIRST or int(faction) < 0 or int(faction) > 2 or not is_finite(move_points_left) or move_points_left < 0.0:
 		return {}
-	var bag := stats.to_snapshot_dict()
-	if bag.is_empty():
+	if not stats.snapshot_runtime_valid():
 		return {}
 	var vital_data := vitals.to_dict()
 	if typeof(vital_data["hp"]) != TYPE_FLOAT or typeof(vital_data["balance"]) != TYPE_FLOAT or typeof(vital_data["is_alive"]) != TYPE_BOOL or not is_finite(vital_data["hp"]) or not is_finite(vital_data["balance"]) or vital_data["hp"] < 0.0 or vital_data["balance"] < 0.0:
@@ -333,32 +333,34 @@ func _checked_snapshot_data(reference_only: bool) -> Dictionary:
 		if action_resources == null or armor == null or bleeding == null or not bleeding.stacked or bleeding_data.get("schema_version") != 3: return {}
 		if elemental_data["burning_stacks"] > 0 and bleeding_data["stacks"] > 0: return {}
 	elif bleeding_data.get("schema_version") == 3: return {}
-	if armor != null or control != null or combat_perks != null:
-		# Поля envelope ниже задаются типизированным producer. Проверки вложенных
-		# значений и связей общие для полного снимка и короткого вида ссылок.
-		# Внешний raw DTO по-прежнему проходит validate_snapshot_dict целиком.
-		if not StatsBag.validate_snapshot_dict(bag): return {}
-		if armor != null and not _snapshot_armor_hp_valid(vital_data["hp"], bag): return {}
+	if armor != null:
+		var maximum := 0.0
+		if stats._stats.has(StatTypes.StatType.HP_MAX):
+			var hp_stat := stats._stats[StatTypes.StatType.HP_MAX] as Stat
+			maximum = hp_stat.snapshot_value_unchecked()
+		if not _armor_hp_values_valid(vital_data["hp"], maximum): return {}
+	var components := {"vitals": vital_data}
+	if action_resources != null: components["action_resources"] = action_resources.to_snapshot_dict()
+	if armor != null: components["armor"] = armor_data
+	if bleeding != null: components["bleeding"] = bleeding_data
+	if control != null: components["control"] = control_data
+	if combat_perks != null: components["combat_perks"] = perks_data
+	if elemental != null: components["elemental"] = elemental_data
+	return components
+
+
+func _checked_snapshot_data(reference_only: bool) -> Dictionary:
+	var components := _validated_snapshot_components()
+	if components.is_empty(): return {}
 	if reference_only:
-		return {"id": id, "faction": int(faction), "vitals": {"is_alive": vital_data["is_alive"]}}
+		return {"id": id, "faction": int(faction), "vitals": {"is_alive": components["vitals"]["is_alive"]}}
+	# Stats уже проверены в этом синхронном вызове; данные не публикуются до сборки.
 	var result := {"schema_version": SNAPSHOT_SCHEMA_VERSION, "id": id, "faction": int(faction),
 		"cell_x": cell.x, "cell_y": cell.y, "height": height,
 		"debug_name": debug_name, "ai_profile_path": "",
 		"move_points_left": move_points_left, "has_attacked": has_attacked,
-		"stats": bag, "vitals": vital_data}
-	if action_resources != null:
-		result["action_resources"] = action_resources.to_snapshot_dict()
-	result["guard_stance"] = guard_stance
-	if armor != null:
-		result["armor"] = armor_data
-		if bleeding != null:
-			result["bleeding"] = bleeding_data
-	if control != null:
-		result["control"] = control_data
-	if combat_perks != null:
-		result["combat_perks"] = perks_data
-	if elemental != null:
-		result["elemental"] = elemental_data
+		"stats": stats._snapshot_data_unchecked(), "guard_stance": guard_stance}
+	result.merge(components)
 	return result
 
 
@@ -438,7 +440,6 @@ static func validate_snapshot_dict(data: Variant) -> bool:
 
 
 static func _snapshot_armor_hp_valid(hp: float, bag: Dictionary) -> bool:
-	if hp != floorf(hp) or hp > ArmorRuntime.MAX_EXACT_HP: return false
 	var maximum := 0.0
 	for entry: Dictionary in bag["stats"]:
 		if entry["stat_type"] == StatTypes.StatType.HP_MAX:
@@ -446,7 +447,11 @@ static func _snapshot_armor_hp_valid(hp: float, bag: Dictionary) -> bool:
 			if hp_stat == null: return false
 			maximum = hp_stat.get_value()
 			break
-	return is_finite(maximum) and maximum >= 0.0 and maximum <= ArmorRuntime.MAX_EXACT_HP and maximum == floorf(maximum) and hp <= maximum
+	return _armor_hp_values_valid(hp, maximum)
+
+
+static func _armor_hp_values_valid(hp: float, maximum: float) -> bool:
+	return hp == floorf(hp) and hp <= ArmorRuntime.MAX_EXACT_HP and is_finite(maximum) and maximum >= 0.0 and maximum <= ArmorRuntime.MAX_EXACT_HP and maximum == floorf(maximum) and hp <= maximum
 
 
 static func _has_exact_string_keys(value: Dictionary, required: Array) -> bool:

@@ -494,33 +494,51 @@ static func from_dict(data: Dictionary) -> BattleBoard:
 	return board
 
 
-func to_snapshot_dict() -> Dictionary:
+func snapshot_runtime_valid() -> bool:
+	if not _snapshot_shape_valid(): return false
+	for unit: UnitState in _units.values():
+		if unit._validated_snapshot_components().is_empty(): return false
+	return true
+
+
+## Общая форма для audit и producer; допустимую неполную occupancy не достраиваем.
+func _snapshot_shape_valid() -> bool:
 	if get_script() != BattleBoard or width < 0 or height < 0 or board_version < 0 or width > 1024 or height > 1024 or (width > 0 and height > 65536 / width) or _heights.size() != width * height or _terrain.size() != width * height or _height_half_steps.size() != width * height:
-		return {}
+		return false
 	for value in _heights:
-		if value < -2147483648 or value > 2147483647: return {}
+		if value < -2147483648 or value > 2147483647: return false
 	for value in _terrain:
-		if value < 0 or value > 3: return {}
-	var units: Array[Dictionary] = []
+		if value < 0 or value > 3: return false
 	var live_units: Dictionary = {}
 	for key in _units.keys():
-		if typeof(key) != TYPE_INT or not (_units[key] is UnitState): return {}
+		if typeof(key) != TYPE_INT or not (_units[key] is UnitState): return false
 		var unit: UnitState = _units[key]
-		if unit == null or unit.id != key or not is_in_bounds(unit.cell): return {}
+		if unit == null or unit.id != key or not is_in_bounds(unit.cell): return false
+		live_units[unit.id] = unit
+	for cell_variant in _occupancy.keys():
+		if typeof(cell_variant) != TYPE_VECTOR2I or typeof(_occupancy[cell_variant]) != TYPE_INT: return false
+		var cell: Vector2i = cell_variant
+		var owner_id: int = _occupancy[cell]
+		if not is_in_bounds(cell) or not live_units.has(owner_id): return false
+		var owner: UnitState = live_units[owner_id]
+		# Форма читается до unit-проверки: не вызываем методы возможного subtype.
+		if owner.vitals == null or not owner.vitals._is_alive or owner.cell != cell: return false
+	for bit: int in _height_half_steps:
+		if bit < 0 or bit > 1: return false
+	return true
+
+
+func to_snapshot_dict() -> Dictionary:
+	if not _snapshot_shape_valid(): return {}
+	var units: Array[Dictionary] = []
+	for unit: UnitState in _units.values():
 		var value := unit.to_snapshot_dict()
 		if value.is_empty(): return {}
 		units.append(value)
-		live_units[unit.id] = unit
 	units.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["id"] < b["id"])
 	var occupancy: Array[Dictionary] = []
-	for cell_variant in _occupancy.keys():
-		if typeof(cell_variant) != TYPE_VECTOR2I or typeof(_occupancy[cell_variant]) != TYPE_INT: return {}
-		var cell: Vector2i = cell_variant
-		var owner_id: int = _occupancy[cell]
-		if not is_in_bounds(cell) or not live_units.has(owner_id): return {}
-		var owner: UnitState = live_units[owner_id]
-		if not owner.is_alive() or owner.cell != cell: return {}
-		occupancy.append({"x": cell.x, "y": cell.y, "unit_id": owner_id})
+	for cell: Vector2i in _occupancy:
+		occupancy.append({"x": cell.x, "y": cell.y, "unit_id": _occupancy[cell]})
 	occupancy.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["y"] < b["y"] or (a["y"] == b["y"] and a["x"] < b["x"]))
 	var schema := 2 if has_half_heights() else 1
 	var result := {"schema_version": schema, "width": width, "height": height,

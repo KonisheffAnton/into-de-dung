@@ -12,49 +12,8 @@ func _init() -> void:
 	pass
 
 static func capture_board(board: BattleBoard, unsupported_runtime_ids: Array[StringName]) -> BoardSnapshotResult:
-	var ids := _sorted_ids(unsupported_runtime_ids)
-	if not ids.is_empty(): return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, "unsupported_runtime_ids", ids)
-	if board == null: return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, "board")
-	if board.get_script() != BattleBoard: return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, "board/subclass", [&"board/subclass"])
-	if typeof(board._units) != TYPE_DICTIONARY: return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, "board/units")
-	for id in board._units.keys():
-		if typeof(id) != TYPE_INT or not (board._units[id] is UnitState): return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, "board/units")
-		var unit := board._units[id] as UnitState
-		var path := "unit/%d" % id
-		if unit == null: return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, path)
-		if unit.get_script() != UnitState: return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, path + "/subclass", [StringName(path + "/subclass")])
-		if unit.ai_profile != null: return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, path + "/ai_profile", [StringName(path + "/ai_profile")])
-		if unit.stats == null or unit.vitals == null: return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, path + "/stats")
-		if unit.stats.get_script() != StatsBag: return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, path + "/stats/subclass", [StringName(path + "/stats/subclass")])
-		if unit.vitals.get_script() != Vitals: return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, path + "/vitals/subclass", [StringName(path + "/vitals/subclass")])
-		if unit.action_resources != null and unit.action_resources.get_script() != ActionResources:
-			return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, path + "/action_resources/subclass", [StringName(path + "/action_resources/subclass")])
-		if unit.control != null:
-			if unit.control.get_script() != ControlState:
-				return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, path + "/control/subclass", [StringName(path + "/control/subclass")])
-			if not ControlState.valid(unit.control.to_dict()): return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, path + "/control")
-		if unit.elemental != null:
-			if unit.elemental.get_script() != ElementalState: return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, path + "/elemental/subclass", [StringName(path + "/elemental/subclass")])
-			if not ElementalRules.valid_unit(unit): return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, path + "/elemental")
-		if unit.combat_perks != null:
-			if unit.combat_perks.get_script() != CombatPerksState or (unit.combat_perks.definition != null and unit.combat_perks.definition.get_script() != CombatPerksDefinition): return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, path + "/combat_perks/subclass", [StringName(path + "/combat_perks/subclass")])
-			if unit.combat_perks.to_dict().is_empty(): return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, path + "/combat_perks")
-		if typeof(unit.stats._stats) != TYPE_DICTIONARY: return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, path + "/stats")
-		for stat_key in unit.stats._stats.keys():
-			if not StatTypes.is_valid_id(stat_key): return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, path + "/stats")
-			if not (unit.stats._stats[stat_key] is Stat): return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, path + "/stat")
-			var stat := unit.stats._stats[stat_key] as Stat
-			if stat.get_script() != Stat: return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, path + "/stat/subclass", [StringName(path + "/stat/subclass")])
-			if stat._modifiers.size() != stat._modifier_slots.size(): return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, path + "/stat/modifiers")
-			for modifier in stat._modifiers:
-				if modifier == null: return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, path + "/stat/modifier")
-				if modifier.get_script() != StatModifier: return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, path + "/stat/modifier/subclass", [StringName(path + "/stat/modifier/subclass")])
-	# Кэш проверяется отдельным проходом: subtype обязан дать UNSUPPORTED даже со stale cache.
-	for id in board._units.keys():
-		var unit := board._units[id] as UnitState
-		for stat_key in unit.stats._stats.keys():
-			var stat := unit.stats._stats[stat_key] as Stat
-			if stat.snapshot_cache_is_stale(): return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, "unit/%d/stats/%d/cache" % [id, stat_key])
+	var admission := BoardSnapshotValidator.preflight(board, unsupported_runtime_ids)
+	if admission.code != BoardSnapshotResult.Code.OK: return admission
 	var raw := board.to_snapshot_dict()
 	if raw.is_empty(): return BoardSnapshotResult.failure(BoardSnapshotResult.Code.SNAPSHOT_INVALID, "board")
 	return from_dict({"schema_version": 1, "scope": SCOPE, "board": raw})
@@ -93,11 +52,7 @@ func fingerprint() -> String:
 	return context.finish().hex_encode()
 
 static func _sorted_ids(raw: Array[StringName]) -> Array[StringName]:
-	var result: Array[StringName] = []
-	for id in raw:
-		if not result.has(id): result.append(id)
-	result.sort_custom(func(a: StringName, b: StringName) -> bool: return String(a) < String(b))
-	return result
+	return BoardSnapshotValidator._sorted_ids(raw)
 
 static func _copy_value(value: Variant) -> Variant:
 	if value is Dictionary:
@@ -193,12 +148,8 @@ static func _validate_status_sources(units: Array) -> String:
 		unit_ids[unit["id"]] = true
 	for unit: Dictionary in units:
 		if not unit.has("elemental"): continue
-		var bleeding: Dictionary = unit["bleeding"]
-		if bleeding["ticks_left"] > 0 and bleeding["source"]["kind"] == &"attack":
-			if not unit_ids.has(bleeding["source"]["instigator_unit_id"]) or not unit_ids.has(bleeding["source"]["credit_unit_id"]): return "unit/%d/bleeding/source" % unit["id"]
-		var elemental: Dictionary = unit["elemental"]
-		if elemental["burning_stacks"] > 0 and elemental["burning_source"]["kind"] == &"attack":
-			if not unit_ids.has(elemental["burning_source"]["instigator_unit_id"]) or not unit_ids.has(elemental["burning_source"]["credit_unit_id"]): return "unit/%d/elemental/burning_source" % unit["id"]
+		var reason := BoardSnapshotValidator.status_source_reason(unit["id"], unit["bleeding"], unit["elemental"], unit_ids)
+		if not reason.is_empty(): return reason
 	return ""
 
 static func _find_unsupported(board_value: Dictionary) -> String:

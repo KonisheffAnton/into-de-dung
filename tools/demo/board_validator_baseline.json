@@ -1,0 +1,1686 @@
+{
+  "base_commit": "84cb7b4830f59dafd78569d1895cd4df1f9e0483",
+  "cases": [
+    {
+      "case": "null",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "unsupported-list-first",
+      "code": 1,
+      "fingerprint": "",
+      "reason": "unsupported_runtime_ids",
+      "unsupported_ids": [
+        "a",
+        "z"
+      ]
+    },
+    {
+      "case": "board subclass",
+      "code": 1,
+      "fingerprint": "",
+      "reason": "board/subclass",
+      "unsupported_ids": [
+        "board/subclass"
+      ]
+    },
+    {
+      "case": "empty",
+      "code": 0,
+      "fingerprint": "2131efbbb21524e70a9558c18f6010ac8c745d903ca6fd652a2bb44893dd7100",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "zero area boundary",
+      "code": 0,
+      "fingerprint": "601f00d4030243b9f0cf40dd4188d76e87b9637a6ab8a548cb9e2760ed811975",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "max cells",
+      "code": 0,
+      "fingerprint": "0e7c776d7a7ce1e979ee71d54d800f193178198d26da40c3ffeda0456ac03a0d",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/0",
+      "code": 0,
+      "fingerprint": "608ab4270ed3fb6bd51ce456e011db2d8437a3c1b085e1c97ec2ccf56e135007",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/1",
+      "code": 0,
+      "fingerprint": "f3af2fdb393ad61ec657d507a869cf00c2e7b0670351ad397f1d8a90693d96a7",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/2",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/3",
+      "code": 0,
+      "fingerprint": "319926bf4fda660c5d54ed51d569500c29d2a6971ae71ab3e69f1acd73c040ba",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/4",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/5",
+      "code": 0,
+      "fingerprint": "f6f49d4c64d708b2d32078ceb660a64ccb27a96cb2114e6ad93fe75c8313c9bd",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/6",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/7",
+      "code": 0,
+      "fingerprint": "fdac8f2f437bce67bb82c82184db022009c4f367557c0e26901c6e62e9af30fa",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/8",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/9",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/10",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/11",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/12",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/13",
+      "code": 0,
+      "fingerprint": "a03644ef42c62eea7bd8d48a62069d88dd5338de9f04cf3934527d9aa6845524",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/14",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/15",
+      "code": 0,
+      "fingerprint": "1b6900ae5200443d2ffa8630fc334a599ec8577e3f79f8492eff43bc4c506da3",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/16",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/17",
+      "code": 0,
+      "fingerprint": "3a336c004438445d6f3091d67f2e6b76adc22df9d04a2de48b26b9909c7f0553",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/18",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/19",
+      "code": 0,
+      "fingerprint": "63613263633acad1fcad39d6590f8d9565d3fa7fee4e1f95210c402ff8934a52",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/20",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/21",
+      "code": 0,
+      "fingerprint": "726f5860b1dd1d22983709b7cba9a5f90460c66d6612fbddd8aa8d7ad5c7c03b",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/22",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/23",
+      "code": 0,
+      "fingerprint": "8bfb211f8a57e2a001d33ecf5b97e9e3b4cba80f173e2c0879e1b1b68feeb5a2",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/24",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/25",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/26",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/27",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/28",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/29",
+      "code": 0,
+      "fingerprint": "fda5863f958aa62dd9e4e27b0937dbd242243a664983a6969f235b055871f556",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/30",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/31",
+      "code": 0,
+      "fingerprint": "1a445703f1520c6876ad54e9a4a171499289248574a004f0eb56f8ea01dc6298",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/32",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/33",
+      "code": 0,
+      "fingerprint": "28735e654ce6939055c3e17664aa9ae28c1865ffdca6de14585d3940bd6171f4",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/34",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/35",
+      "code": 0,
+      "fingerprint": "e82d67a823121add476cb576291d162411bbf18c042edba644ec80ce3322b4e2",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/36",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/37",
+      "code": 0,
+      "fingerprint": "c4dd43db4a3f6a742a77c3a287c7fd3dea7b1ac5020a73228a0c2127f38d9d35",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/38",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/39",
+      "code": 0,
+      "fingerprint": "6cf87c58efb54ec57d6bedb41fd553a174d3a3bd2b70278cb37cd9fc8a6ae826",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/40",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/41",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/42",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/43",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/44",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/45",
+      "code": 0,
+      "fingerprint": "a913a9e0b3e226418c9b9f2015ca733f7a4e747ae4ba67700c76bb0a2c54eb34",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/46",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/47",
+      "code": 0,
+      "fingerprint": "42683a5ed347152b4a1b43b58cd0093e2b9bda678a3fe690f7fc1ae436eaf6ec",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/48",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/49",
+      "code": 0,
+      "fingerprint": "473edd6ab8945a5e9b2bb744d5c75c79ea67004cc2c08c316f413dad429bf4f7",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/50",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/51",
+      "code": 0,
+      "fingerprint": "f633b1c4582712b1e18848265bcd1b251f5212571a2ef514d0dd2f58faa298b8",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/52",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/53",
+      "code": 0,
+      "fingerprint": "353c6c023496ada6cc7421d984d0dbb4ed34b61fcc73ba0e6841655c9b18b1e6",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/54",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/55",
+      "code": 0,
+      "fingerprint": "d8d8c67e88a5501ab9ac34c632809e84e6242a17416fc8bb6a383a4bce69b843",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/56",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/57",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/58",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/59",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/60",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/61",
+      "code": 0,
+      "fingerprint": "a9ea0a6141a80eea6bd0ad263c62e27843dd0dc36e273568503b523d31c88384",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/62",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/63",
+      "code": 0,
+      "fingerprint": "a2bb9b88db156dfd12978c79ab4fc3b7b6802975ab95b3a4e864d0af8cb844a5",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/64",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/65",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/66",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/67",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/68",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/69",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/70",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/71",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/72",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/73",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/74",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/75",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/76",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/77",
+      "code": 0,
+      "fingerprint": "ae0e035e8a1c356cb223562a23e3810f9d3b4322840c0018d25c2fce29fb6a91",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/78",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/79",
+      "code": 0,
+      "fingerprint": "e31c9792e59a97e30adde0c793ac313cd41cce0283da0818423245a307b90188",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/80",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/81",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/82",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/83",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/84",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/85",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/86",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/87",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/88",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/89",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/90",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/91",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/92",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/93",
+      "code": 0,
+      "fingerprint": "5926e3bedbccbf3c71596702629aa17b06e643b7a210bcc50874c2c634c4584e",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/94",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/95",
+      "code": 0,
+      "fingerprint": "1cbc44c49bc3c70e2c77b59ad0405641c7ca5f7e453e895141fc435d81f77014",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/96",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/97",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/98",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/99",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/100",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/101",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/102",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/103",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/104",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/105",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/106",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/107",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/108",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/109",
+      "code": 0,
+      "fingerprint": "909550690f41b5f46cc86046910c7b0868f4143f9eb7037ca0a5ff604e53a002",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/110",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/111",
+      "code": 0,
+      "fingerprint": "3e7e8f7028c2db921ca7f02132823f1d25c29773cd5fbd95b66862324749eebc",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/112",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/113",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/114",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/115",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/116",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/117",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/118",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/119",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/120",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/121",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/122",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/123",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/124",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/125",
+      "code": 0,
+      "fingerprint": "823efd6b526652915e5a31028b449b64feb7221fb85bba5b808e00c41f7cedc8",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/126",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "composition/127",
+      "code": 0,
+      "fingerprint": "c7b7d4355f3fd5cc6db0f7e13396744dd99d32ee2734db9f95a1cf75caf55300",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "key type",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board/units",
+      "unsupported_ids": []
+    },
+    {
+      "case": "value type",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board/units",
+      "unsupported_ids": []
+    },
+    {
+      "case": "null unit",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board/units",
+      "unsupported_ids": []
+    },
+    {
+      "case": "unit subclass",
+      "code": 1,
+      "fingerprint": "",
+      "reason": "unit/2/subclass",
+      "unsupported_ids": [
+        "unit/2/subclass"
+      ]
+    },
+    {
+      "case": "ai profile",
+      "code": 1,
+      "fingerprint": "",
+      "reason": "unit/1/ai_profile",
+      "unsupported_ids": [
+        "unit/1/ai_profile"
+      ]
+    },
+    {
+      "case": "null stats",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/stats",
+      "unsupported_ids": []
+    },
+    {
+      "case": "null vitals",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/stats",
+      "unsupported_ids": []
+    },
+    {
+      "case": "stats subclass",
+      "code": 1,
+      "fingerprint": "",
+      "reason": "unit/1/stats/subclass",
+      "unsupported_ids": [
+        "unit/1/stats/subclass"
+      ]
+    },
+    {
+      "case": "vitals subclass",
+      "code": 1,
+      "fingerprint": "",
+      "reason": "unit/1/vitals/subclass",
+      "unsupported_ids": [
+        "unit/1/vitals/subclass"
+      ]
+    },
+    {
+      "case": "vitals owner",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "actions subclass",
+      "code": 1,
+      "fingerprint": "",
+      "reason": "unit/1/action_resources/subclass",
+      "unsupported_ids": [
+        "unit/1/action_resources/subclass"
+      ]
+    },
+    {
+      "case": "armor subclass",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "bleeding subclass",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "control subclass",
+      "code": 1,
+      "fingerprint": "",
+      "reason": "unit/1/control/subclass",
+      "unsupported_ids": [
+        "unit/1/control/subclass"
+      ]
+    },
+    {
+      "case": "perks subclass",
+      "code": 1,
+      "fingerprint": "",
+      "reason": "unit/1/combat_perks/subclass",
+      "unsupported_ids": [
+        "unit/1/combat_perks/subclass"
+      ]
+    },
+    {
+      "case": "definition subclass",
+      "code": 1,
+      "fingerprint": "",
+      "reason": "unit/1/combat_perks/subclass",
+      "unsupported_ids": [
+        "unit/1/combat_perks/subclass"
+      ]
+    },
+    {
+      "case": "null definition",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/combat_perks",
+      "unsupported_ids": []
+    },
+    {
+      "case": "elemental subclass",
+      "code": 1,
+      "fingerprint": "",
+      "reason": "unit/1/elemental/subclass",
+      "unsupported_ids": [
+        "unit/1/elemental/subclass"
+      ]
+    },
+    {
+      "case": "stat key",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/stats",
+      "unsupported_ids": []
+    },
+    {
+      "case": "stat value",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/stat",
+      "unsupported_ids": []
+    },
+    {
+      "case": "stat null",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/stat",
+      "unsupported_ids": []
+    },
+    {
+      "case": "stat subclass",
+      "code": 1,
+      "fingerprint": "",
+      "reason": "unit/1/stat/subclass",
+      "unsupported_ids": [
+        "unit/1/stat/subclass"
+      ]
+    },
+    {
+      "case": "modifier subclass",
+      "code": 1,
+      "fingerprint": "",
+      "reason": "unit/1/stat/modifier/subclass",
+      "unsupported_ids": [
+        "unit/1/stat/modifier/subclass"
+      ]
+    },
+    {
+      "case": "modifier null",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/stat/modifier",
+      "unsupported_ids": []
+    },
+    {
+      "case": "slot count",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/stat/modifiers",
+      "unsupported_ids": []
+    },
+    {
+      "case": "slot negative",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "slot duplicate",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "slot beyond next",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "next negative",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "base inf",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "base nan",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "modifier inf",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/stats/0/cache",
+      "unsupported_ids": []
+    },
+    {
+      "case": "operation invalid",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/stats/0/cache",
+      "unsupported_ids": []
+    },
+    {
+      "case": "faction",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "id mismatch",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "negative id",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "cell",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "move inf",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "move negative",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "hp fractional",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "hp inf",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "hp negative",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "hp above max",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "hp exact limit",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "balance nan",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "balance negative",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "max fractional",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "max exact limit",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "actions owner",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "actions counter",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "control value",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/control",
+      "unsupported_ids": []
+    },
+    {
+      "case": "armor value",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "perks self cover",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/combat_perks",
+      "unsupported_ids": []
+    },
+    {
+      "case": "bleeding value",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "bleeding source missing",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/bleeding/source",
+      "unsupported_ids": []
+    },
+    {
+      "case": "elemental value",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "width negative",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "width limit",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "area limit",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "board version",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "heights size",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "terrain size",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "terrain value",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "half size",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "half value",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "half valid",
+      "code": 0,
+      "fingerprint": "fba4bad40f2adca61c701b1cce41fa63eac2758e8b553e3d31fc6d3510d5d464",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "occupancy key",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "occupancy value",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "occupancy outside",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "occupancy unknown",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "occupancy wrong cell",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "occupancy dead",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "missing occupancy accepted",
+      "code": 0,
+      "fingerprint": "923e30ff6b09da0ee084d68b6f6e5e79d15b7580b8b56888f63e1c1d0eb1604a",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "height mismatch accepted",
+      "code": 0,
+      "fingerprint": "1685267c12ea74efa514d088ae26ff52240c6340ff7590c3d60131ffce701a43",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "clean cache",
+      "code": 0,
+      "fingerprint": "c7b7d4355f3fd5cc6db0f7e13396744dd99d32ee2734db9f95a1cf75caf55300",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "stale cache",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/stats/0/cache",
+      "unsupported_ids": []
+    },
+    {
+      "case": "subtype before stale",
+      "code": 1,
+      "fingerprint": "",
+      "reason": "unit/2/subclass",
+      "unsupported_ids": [
+        "unit/2/subclass"
+      ]
+    },
+    {
+      "case": "absent HP max",
+      "code": 0,
+      "fingerprint": "fb70732dafc774db05fbee513853eee997ee59eb9d9e05779a8e2fc56b39846d",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "burning source missing",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental/burning_source",
+      "unsupported_ids": []
+    },
+    {
+      "case": "legacy bleeding absent source accepted",
+      "code": 0,
+      "fingerprint": "0efb303049cb2e8a9b3eeb1221dd3157a1291a1080303e51d747863ce2234607",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "burning plus bleeding",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/elemental",
+      "unsupported_ids": []
+    },
+    {
+      "case": "dead valid",
+      "code": 0,
+      "fingerprint": "074349a3f9dc0096654d8071e2a84c9c8df148a75cc353cacfd47865c27e748d",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "duplicate cell without occupancy",
+      "code": 0,
+      "fingerprint": "55580cad6a3c4da481d392d21e051188c78a111b9cb1ae472f3020edaa547823",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "fresh/before",
+      "code": 0,
+      "fingerprint": "c7b7d4355f3fd5cc6db0f7e13396744dd99d32ee2734db9f95a1cf75caf55300",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "fresh/invalid",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "fresh invalidation and repair",
+      "code": 0,
+      "fingerprint": "c7b7d4355f3fd5cc6db0f7e13396744dd99d32ee2734db9f95a1cf75caf55300",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "populated armor",
+      "code": 0,
+      "fingerprint": "c18446b13b3017630770d793b98e1f43c93c46cf1634491b37cd6f13437956aa",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "computed overflow",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "board",
+      "unsupported_ids": []
+    },
+    {
+      "case": "evaluation order cancellation",
+      "code": 0,
+      "fingerprint": "7197509688ba0085d9e58d5a9f44abef40adad8f438dec7c3be60bdc4d9be232",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "source errors sorted by id",
+      "code": 2,
+      "fingerprint": "",
+      "reason": "unit/1/bleeding/source",
+      "unsupported_ids": []
+    },
+    {
+      "case": "duplicate/0/dead=false",
+      "code": 0,
+      "fingerprint": "23231069699329bcf4d277a053eecafc3381337794f2c6426e491951e4993bf8",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "duplicate/0/dead=true",
+      "code": 0,
+      "fingerprint": "5a510fbc99fef3cdf7fb458d0aa0adfea56d5aa2aa4668c9e59d85e524382a33",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "duplicate/1/dead=false",
+      "code": 0,
+      "fingerprint": "885e79c48536753a81a52ab3a56ebe6a525da3583a2bd4811d98b9412628a68f",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "duplicate/1/dead=true",
+      "code": 0,
+      "fingerprint": "121baffd69eb36a07f1f4038e9b5f2c740c33f701207d2d918e63e9853ea8259",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "duplicate/2/dead=false",
+      "code": 0,
+      "fingerprint": "645852cdcb7c63017c4023086b00d45d06c27ad3a88af37d6d8c0c13f0f28ab2",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "partial occupancy different cells",
+      "code": 0,
+      "fingerprint": "45a2da6d555fe2fb978cdb3ea287511260fdb7d1d77bf09348bcb00f70a3bacc",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "slot gaps and non-slot evaluation order",
+      "code": 0,
+      "fingerprint": "d7879bea33637c4c13483a5745c424e2ffb9f0dbe994ccdd8b41e09044145f4d",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "external signal subscribers",
+      "code": 0,
+      "fingerprint": "c7b7d4355f3fd5cc6db0f7e13396744dd99d32ee2734db9f95a1cf75caf55300",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "unarmored fractional hp above max",
+      "code": 0,
+      "fingerprint": "c1f2994631a02b0401545a897e6a8a280330ee8f46064b649cfbab2596f971ba",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "dead positive hp admitted",
+      "code": 0,
+      "fingerprint": "1432631e77c2a1534f4e0b70589f0e197d776131e06201a00f7f9e7e80dd25c8",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "live zero hp admitted",
+      "code": 0,
+      "fingerprint": "aef23fa969ca3e8f076b58c38b8ded896422e97a7b2a9caae69eb335dda2bc3e",
+      "reason": "",
+      "unsupported_ids": []
+    },
+    {
+      "case": "shared runtime stats and components",
+      "code": 0,
+      "fingerprint": "2164d97d423836c8b9c330aa692cf9cf12df00e097370f62408056826800d7ee",
+      "reason": "",
+      "unsupported_ids": []
+    }
+  ]
+}

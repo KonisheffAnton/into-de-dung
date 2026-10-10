@@ -13,6 +13,7 @@ func _compare(board: BattleBoard, label: String, ids: Array[StringName] = [], _c
 	var before := _bytes(board)
 	var counter := UnitId.get_counter()
 	var expected := SimulationSnapshot.capture_board(board, ids)
+	_check_baseline(expected, label)
 	var actual := CloneProbe.clone_board(board, ids)
 	var parity := actual.admission.code == expected.code and actual.admission.reason == expected.reason and actual.admission.unsupported_ids == expected.unsupported_ids
 	_check(parity, label + "/admission and reasons")
@@ -197,6 +198,7 @@ func _run_exact() -> void:
 	var id_before := UnitId.get_counter()
 	_admission_cases()
 	_extra_cases()
+	_check(_cases_checked == _baseline.size(), "frozen matrix complete")
 	_check(UnitId.get_counter() == id_before, "matrix UnitId unchanged")
 	var args := OS.get_cmdline_user_args()
 	if _failed == 0 and not args.has("--verify-only"): _benchmark(args.has("--reverse"))

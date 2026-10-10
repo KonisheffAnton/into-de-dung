@@ -101,6 +101,13 @@ func get_value() -> float:
 
 
 func _recompute_value() -> void:
+	_cached_value = snapshot_value_unchecked()
+	_cache_dirty = false
+
+
+## Чисто считает формулу, чтобы аудит снимка не прогревал runtime-кэш.
+## Вызывать только после проверки графа модификаторов.
+func snapshot_value_unchecked() -> float:
 	var flat_sum := 0.0
 	var percent_sum := 0.0
 	var multiplier := 1.0
@@ -115,33 +122,37 @@ func _recompute_value() -> void:
 			StatModifier.Operation.MULTIPLY:
 				multiplier *= modifier.value
 
-	_cached_value = (base_value + flat_sum) * (1.0 + percent_sum) * multiplier
-	_cache_dirty = false
+	return (base_value + flat_sum) * (1.0 + percent_sum) * multiplier
+
+
+func snapshot_runtime_valid() -> bool:
+	if get_script() != Stat or _modifiers.size() != _modifier_slots.size() or _next_modifier_slot < 0 or not is_finite(base_value):
+		return false
+	for modifier in _modifiers:
+		if modifier == null or modifier.get_script() != StatModifier or not is_finite(modifier.value) or int(modifier.operation) < 0 or int(modifier.operation) > 2:
+			return false
+	var computed := snapshot_value_unchecked()
+	if not is_finite(computed) or (not _cache_dirty and (not is_finite(_cached_value) or computed != _cached_value)):
+		return false
+	var used_slots: Dictionary = {}
+	for i in _modifiers.size():
+		if _modifier_slots[i] < 0 or _modifier_slots[i] >= _next_modifier_slot or used_slots.has(_modifier_slots[i]):
+			return false
+		used_slots[_modifier_slots[i]] = true
+	return true
 
 
 func to_snapshot_dict() -> Dictionary:
-	if get_script() != Stat or _modifiers.size() != _modifier_slots.size() or _next_modifier_slot < 0 or not is_finite(base_value):
+	if not snapshot_runtime_valid():
 		return {}
-	var flat := 0.0
-	var percent := 0.0
-	var multiplier := 1.0
-	for modifier in _modifiers:
-		if modifier == null or modifier.get_script() != StatModifier or not is_finite(modifier.value) or int(modifier.operation) < 0 or int(modifier.operation) > 2:
-			return {}
-		match modifier.operation:
-			StatModifier.Operation.ADD_FLAT: flat += modifier.value
-			StatModifier.Operation.ADD_PERCENT: percent += modifier.value
-			StatModifier.Operation.MULTIPLY: multiplier *= modifier.value
-	var computed := (base_value + flat) * (1.0 + percent) * multiplier
-	if not is_finite(computed) or (not _cache_dirty and (not is_finite(_cached_value) or computed != _cached_value)):
-		return {}
+	return _snapshot_data_unchecked()
+
+
+## Создаёт DTO только после синхронной проверки того же графа.
+func _snapshot_data_unchecked() -> Dictionary:
 	var records: Array[Dictionary] = []
-	var used_slots: Dictionary = {}
 	for i in _modifiers.size():
 		var m: StatModifier = _modifiers[i]
-		if _modifier_slots[i] < 0 or _modifier_slots[i] >= _next_modifier_slot or used_slots.has(_modifier_slots[i]):
-			return {}
-		used_slots[_modifier_slots[i]] = true
 		records.append({"source_id": String(m.source_id), "instance_id": 0,
 			"local_slot": _modifier_slots[i], "evaluation_order": i,
 			"operation": int(m.operation), "value": m.value})
@@ -154,16 +165,9 @@ func to_snapshot_dict() -> Dictionary:
 
 func snapshot_cache_is_stale() -> bool:
 	if _cache_dirty or _modifiers.size() != _modifier_slots.size() or not is_finite(base_value): return false
-	var flat := 0.0
-	var percent := 0.0
-	var multiplier := 1.0
 	for modifier in _modifiers:
 		if modifier == null: return false
-		match modifier.operation:
-			StatModifier.Operation.ADD_FLAT: flat += modifier.value
-			StatModifier.Operation.ADD_PERCENT: percent += modifier.value
-			StatModifier.Operation.MULTIPLY: multiplier *= modifier.value
-	var computed := (base_value + flat) * (1.0 + percent) * multiplier
+	var computed := snapshot_value_unchecked()
 	return not is_finite(computed) or not is_finite(_cached_value) or computed != _cached_value
 
 

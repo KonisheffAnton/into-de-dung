@@ -155,23 +155,31 @@ static func from_dict(data: Dictionary) -> StatsBag:
 	return bag
 
 
-func to_snapshot_dict() -> Dictionary:
-	if get_script() != StatsBag: return {}
-	var entries: Array[Dictionary] = []
+func snapshot_runtime_valid() -> bool:
+	if get_script() != StatsBag: return false
 	for key in _stats.keys():
 		if not StatTypes.is_valid_id(key) or not (_stats[key] is Stat):
-			return {}
+			return false
+		var stat: Stat = _stats[key]
+		if stat == null or stat.get_script() != Stat or not stat.snapshot_runtime_valid():
+			return false
+	return true
+
+
+func to_snapshot_dict() -> Dictionary:
+	if not snapshot_runtime_valid(): return {}
+	return _snapshot_data_unchecked()
+
+
+## Сборка выполняется сразу после проверки тех же stat без сигналов и callbacks.
+func _snapshot_data_unchecked() -> Dictionary:
+	var entries: Array[Dictionary] = []
+	for key in _stats.keys():
 		var type: int = key
 		var stat: Stat = _stats[key]
-		if stat == null or stat.get_script() != Stat:
-			return {}
-		var record := stat.to_snapshot_dict()
-		if record.is_empty():
-			return {}
-		entries.append({"stat_type": type, "stat": record})
+		entries.append({"stat_type": type, "stat": stat._snapshot_data_unchecked()})
 	entries.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["stat_type"] < b["stat_type"])
 	return {"schema_version": 1, "stats": entries}
-
 
 static func from_snapshot_dict(data: Dictionary) -> StatsBag:
 	if not validate_snapshot_dict(data): return null
