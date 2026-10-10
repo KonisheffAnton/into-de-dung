@@ -159,6 +159,19 @@ unsafe graph fallback/refusal, отказ ОС, discard/join, live isolation и 
 проверяются identity исходника/пакета, clone и fallback, отказ до Thread и cleanup.
 Полная регрессия нужна при изменении общего ForecastSimulation по таблице выше.
 
+Изоляция каталога default restore:
+`python tools/demo/isolate.py --check --only forecast_definition_copy forecast_restore_isolation --screen 0`.
+Обе метки входят в обычный/full набор; требуют своего `... RESULTS: ... 0 failed`,
+exit0 и отсутствия warnings/errors. Первая проверяет metadata на всех Resource roots,
+ключи/значения, циклы/лимиты и повтор ID. Вторая проходит реальный default prepare,
+прямой instantiate и Action/Attack/Move/Turn worker с внешними `.tres`: после
+изменения live пакет сохраняет захваченное поведение; unsafe metadata не запускает
+поток. Полный command/publication/FAULTED parity и fallback остаются в clone probe.
+Для изменения общего копировщика также запускать штатные worker/Turn, click_attack,
+snapshot_value_copy/live_snapshot_capture, mage_deck_battle, full и затронутые UI render.
+CPU до/после сравнивать в отдельных копиях base/current приведённым ниже profiler;
+сохранять исходные samples и отдельно время prepare и admission/launch.
+
 CPU в уже импортированной изолированной копии:
 `<Godot> --headless --path <изолированный-project> --screen 0 --script tools/demo/profile_forecast_clone.gd`.
 Повтор с `-- --reverse`; последовательные процессы и отдельные APPDATA.

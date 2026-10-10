@@ -1,5 +1,22 @@
 # История и свидетельства проверок
 
+## Изоляция каталога штатного restore — 2026-10-10
+
+U «Приступай — заверши всё тут»; main, base `b8c4cdab4787e02103d3053e832f2767500c46a3`, без push.
+ForecastDefinitionCopy отделяет внешние `.tres` и отклоняет unsafe metadata до
+копирования/Thread у Attack/Move/Action/Turn. Capture summon DTO больше не копирует
+Resource до gate; цикл metadata воспроизведён и закрыт регрессией. Default restore,
+clone opt-in; fresh validation/shared builders/queue/RNG/save/frozen сохранены.
+Контракт — [BATTLE_SNAPSHOT_CURRENT](BATTLE_SNAPSHOT_CURRENT.md), команды — TESTING.
+Import/startup PASS; helper48/0, restore2073/0, clone49232/0, item-graph11275/0;
+Python15 OK, render5 PASS, review APPROVE после исправления capture-before-gate.
+Command fingerprints25 и worker fingerprints7 совпали с base.
+Full142/8FAIL: shader diagnostics повторены на base; core9440/0, exit47ObjectDB/18resources.
+Общего PASS нет. CPU restore/deck до→после: 46.87→46.97мс;42/путь. Это CPU fixtures, не FPS/F5/GPU.
+Отчёт: `test_reports/restore-isolation-20261010/REPORT.md`; ручная приёмка открыта.
+main_menu.tscn U сохранена, следующий срез не запущен. Предыдущая передача — точный
+[архив](CODEX_HANDOFF.history-20261010-28.md).
+
 ## Opt-in clone штатного прогноза — 2026-10-10
 
 U «Давай»; base `7002f6ca225bd14528b52b426cd4f07118ddd391`, main, без push.

@@ -56,6 +56,8 @@ class IsolateSelectionTests(unittest.TestCase):
                     "battle_execution_ui": "BATTLE EXECUTION UI RESULTS:",
                     "action_clone_worker": "ACTION FORECAST WORKER RESULTS:",
                     "action_clone_ui": "ACTION ASYNC UI RESULTS:",
+                    "forecast_definition_copy": "FORECAST DEFINITION COPY RESULTS:",
+                    "forecast_restore_isolation": "FORECAST RESTORE ISOLATION RESULTS:",
                 }
                 text = markers[label] + " 3 passed, 0 failed\n" if label in markers else "0 failed\n"
                 if label == "profile_board_clone":

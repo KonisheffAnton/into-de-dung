@@ -170,13 +170,12 @@ func lifecycle_cases() -> void:
 	var source_before := values(session.state)
 	for owner: ItemOwnerState in session.state.get_owners():
 		if owner._definitions.has(definition.id): owner._definitions[definition.id].set_meta(&"live_stat", live_stat)
-	prepared = prepare(session, command, true)
-	copy = prepared.cloned_state
-	check(prepared.definitions[definition.id].get_meta(&"live_stat", null) == live_stat, "Resource duplication retains live metadata alias")
-	check(not ForecastCloneGuard.is_safe([prepared], copy.get_board()), "known live metadata object fails clone gate")
-	joined.start(prepared)
-	check(joined._thread == null and collect(joined).reason == &"preview/unsupported_worker_graph", "live definition metadata refuses fallback before Thread")
-	check(copy.get_board().get_all_units().is_empty() and values(session.state) == source_before, "metadata refusal closes clone and preserves source")
+	for clone: bool in [false, true]:
+		prepared = prepare(session, command, clone)
+		check(prepared.reason == &"preview/unsupported_definition_metadata" and prepared.definitions.is_empty() and prepared.cloned_state == null, "live definition metadata refused before copying")
+		joined.start(prepared)
+		check(joined._thread == null and collect(joined).reason == &"preview/unsupported_definition_metadata", "live definition metadata never starts Thread")
+	check(values(session.state) == source_before, "metadata refusal preserves source")
 	for owner: ItemOwnerState in session.state.get_owners():
 		if owner._definitions.has(definition.id): owner._definitions[definition.id].remove_meta(&"live_stat")
 	prepared = prepare(session, command, true)

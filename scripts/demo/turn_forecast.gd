@@ -67,13 +67,11 @@ static func prepare(session: BattleCoreReactionsSession) -> Prepared:
 	var rng_copy := ActionRngPort.new() if live_rng.get_script() == ActionRngPort else live_rng.clone()
 	if rng_copy == null or rng_copy == live_rng or rng_copy.get_script() != live_rng.get_script() or rng_copy.to_dict() != live_rng.to_dict():
 		return Prepared.rejected(&"preview/rng_not_cloneable")
-	var definitions: Dictionary = {}
-	for owner: ItemOwnerState in session.state.get_owners():
-		for id: StringName in owner._definitions:
-			definitions[id] = (owner._definitions[id] as ItemDef).duplicate(true)
+	var catalogue := ForecastDefinitionCopy.copy_catalog(session.state)
+	if catalogue.reason != &"": return Prepared.rejected(catalogue.reason)
 	var prepared := Prepared.new()
 	prepared.snapshot = capture.snapshot
-	prepared.definitions = definitions
+	prepared.definitions = catalogue.definitions
 	prepared.context = session.context.copy_for_simulation(ItemSimulationState.new(null, [], [], []), rng_copy)
 	prepared.queue = session._queue.copy_for_simulation()
 	prepared.phase = session.phase

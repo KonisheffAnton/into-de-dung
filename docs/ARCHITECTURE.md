@@ -25,6 +25,9 @@ ActionForecastWorker имеет выключенный по умолчанию c
 свежий capture, сборка изолированного графа на main, одноразовая передача,
 проверка переносимого пакета и fallback к restore. Generation/cancel/join прежние;
 границы и стоимость подготовки — в контракте снимков. Остальные worker не меняются.
+Штатные Attack/Move/Action/Turn prepare отделяют каталог внешних Resource через
+`ForecastDefinitionCopy`; объектная metadata отклоняется до копирования/Thread.
+Граница `instantiate` и допустимые metadata — в текущем контракте снимков.
 SpatialRules охраняет новые ссылки и значения;
 ArmorHitExecutor и admission используют одинаковое добивание замороженного
 по gross HP damage. ElementalCastCommand/внутренние тики исполняются очередью,

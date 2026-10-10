@@ -47,6 +47,35 @@ Item capture сохраняет свежий аудит live-графа, пол�
 Копии runtime, DTO, RNG и счётчиков остаются независимыми. Порядок команд,
 события/steps, FAULTED-префикс, summon checkpoint и worker lifecycle не меняются.
 
+## Изоляция каталога штатного прогноза
+
+`ForecastSimulation.prepare` (Attack/Move/Action, restore и opt-in clone) и
+`TurnForecast.prepare` после успешного свежего capture используют общий
+`ForecastDefinitionCopy.copy_catalog`. Все определения копируются через
+`duplicate_deep(Resource.DEEP_DUPLICATE_ALL)`: внешние `.tres` эффектов и
+шаблонов призыва больше не остаются ссылками на live. Класс `Item` поддержан
+наравне с `ItemDef`; порядок обхода и выбор последнего определения одного ID прежние.
+
+Перед любым дублированием проверяется metadata каждого исходного ItemDef,
+его эффектов и ненулевого SummonDefinition, включая повторяющиеся ID владельцев.
+Допустимы значения и вложенные контейнеры с такими значениями. Object (также
+Resource/RefCounted/Node/Script), Callable, Signal и RID запрещены и в ключах,
+и в значениях. Циклы, глубина более 32 и более 50000 посещений metadata всего
+каталога дают `preview/unsupported_definition_metadata`; Prepared не содержит
+каталога/context/clone и не запускает Thread. Предшествующие guards сохраняют
+приоритет отказа, в частности `turn/unsupported_runtime` у TurnForecast.
+Value-only metadata сохраняется в независимых контейнерах; live не меняется.
+Capture/сверка каталога строят summon descriptor прямо из уже проверенных значений,
+без промежуточного `Resource.duplicate`: metadata не входит в DTO и до gate не копируется.
+
+Это граница копирования определений, а не повторный аудит всей доски или кэш.
+`instantiate(definitions)` по-прежнему полностью проверяет внешний DTO/каталог,
+а builder использует переданные определения. Он сам не обещает копию произвольного
+живого каталога: независимость от live обеспечивает prepare. Прямой потребитель
+Prepared (`battle_click_attack`) получает тот же отделённый каталог. Правила,
+очередь, RNG, worker lifecycle и live execution этим срезом не изменены.
+Свидетельства: `test_reports/restore-isolation-20261010/REPORT.md`; команды — TESTING.
+
 ## Общий runtime validator
 
 `BoardSnapshotValidator` владеет preflight и порядком code/reason/unsupported IDs
@@ -257,9 +286,8 @@ FAULTED, ownership, свежесть, refusal/fallback/discard/join. Подпи�
 проверки результата выполняются вне замера. Это CPU fixtures, не FPS/GPU/F5.
 Команды — TESTING; результаты — `test_reports/forecast-clone-20261010/REPORT.md`.
 Эксперимент выключен по умолчанию; измерения не разрешают включить его автоматически.
-Обычный restore сохраняет прежнее копирование каталога и не проходит этот gate.
-Выявленные aliases внешних Resource и metadata в его Prepared требуют отдельного
-разбора; общая изоляция legacy-пути для таких определений этим срезом не заявлена.
+Обычный restore не проходит этот полный clone gate. Оба пути используют общую
+границу копирования каталога, описанную в разделе «Изоляция каталога штатного прогноза».
 
 Команды — [TESTING](TESTING.md). Свидетельства и измерения с границами сравнения —
 `test_reports/snapshot-current-20261010/`. Производственная сцена с `_process`

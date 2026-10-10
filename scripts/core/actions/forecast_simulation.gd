@@ -60,13 +60,9 @@ static func prepare(context: ActionContext, queue: ActionQueue, command: Command
 	var rng_copy := ActionRngPort.new() if original_rng.get_script() == ActionRngPort else original_rng.clone()
 	if rng_copy == null or rng_copy == original_rng or rng_copy.get_script() != original_rng.get_script(): return Prepared.rejected(&"preview/rng_not_cloneable")
 	if rng_copy.to_dict() != original_rng.to_dict(): return Prepared.rejected(&"preview/rng_state_mismatch")
-	var definitions: Dictionary = {}
-	for owner in context.get_state().get_owners():
-		for id: StringName in owner._definitions:
-			var definition := owner._definitions[id] as ItemDef
-			# Обычный duplicate(true) сохраняет внешний вложенный .tres по ссылке.
-			# Opt-in пакет переносится в Thread целиком, включая эти определения.
-			definitions[id] = definition.duplicate_deep(Resource.DEEP_DUPLICATE_ALL) if use_clone else definition.duplicate(true)
+	var catalogue := ForecastDefinitionCopy.copy_catalog(context.get_state())
+	if catalogue.reason != &"": return Prepared.rejected(catalogue.reason)
+	var definitions := catalogue.definitions
 	var prepared := Prepared.new()
 	prepared.snapshot = capture.snapshot
 	prepared.definitions = definitions

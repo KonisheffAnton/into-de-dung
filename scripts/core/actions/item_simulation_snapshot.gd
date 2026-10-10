@@ -294,7 +294,9 @@ static func _definition_value(definition: ItemDef) -> Dictionary:
 		"use_heal_amount": definition.use_heal_amount, "max_charges": definition.max_charges,
 		"use_summon": definition.use_summon, "armor_max": definition.armor_max,
 		"armor_resistances": definition.armor_resistances.duplicate(true),
-		"summon_definition": definition.get_summon_definition().to_dict() if definition.use_summon else {}}
+		# DTO читает проверенные значения напрямую: Resource-копия здесь могла бы
+		# обойти последующий metadata gate прогноза и зациклиться на metadata.
+		"summon_definition": (definition.summon_definition.to_dict() if definition.summon_definition != null else SummonDefinition.default_values()) if definition.use_summon else {}}
 
 
 static func _definition_error(definition: ItemDef, path: String) -> String:
