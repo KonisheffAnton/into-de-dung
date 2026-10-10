@@ -1,5 +1,20 @@
 # История и свидетельства проверок
 
+## Opt-in clone полного item-графа — 2026-10-10
+
+U «Давай дальше»; base `6886caedfe46dfd375e7a1c125d92c1f8100300d`.
+Harness сохраняет полный fresh capture и строит отдельный ItemSimulationState:
+точный board clone, owners/items/effects/facades/summons и optional ветви.
+Production не подключён. Контракт — [BATTLE_SNAPSHOT_CURRENT](BATTLE_SNAPSHOT_CURRENT.md).
+Import/startup PASS; graph10253/0, board4274/0, worker58/0, deck313/0;
+Python12 OK, два paired10264/0 с чистым exit; независимое review APPROVE.
+На deck fixture capture/restore21.1–21.9→capture+clone13.6–13.9мс; не FPS/worker.
+Свидетельства, сырые CPU samples и остаток — `test_reports/item-graph-clone-20261010/`.
+Full/core/render не повторялись; общего full PASS и ручной F5/арт-приёмки нет.
+Ручной builder не переносить вторым codec в production; нужны единая сборка,
+ownership/worker parity. Форматы и пользовательская main_menu.tscn сохранены.
+Прежний HANDOFF — точный [архив](CODEX_HANDOFF.history-20261010-25.md).
+
 ## Общий runtime validator — 2026-10-10
 
 Base main `84cb7b4830f59dafd78569d1895cd4df1f9e0483`, U «приступай», без push.

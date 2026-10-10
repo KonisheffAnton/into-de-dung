@@ -52,6 +52,10 @@ class IsolateSelectionTests(unittest.TestCase):
                 text = markers[label] + " 3 passed, 0 failed\n" if label in markers else "0 failed\n"
                 if label == "profile_board_clone":
                     text = "BOARD CLONE PROBE RESULTS: 3 passed, 0 failed\nBOARD CLONE PROBE DONE\n"
+                if label == "profile_item_graph_clone":
+                    text = "ITEM GRAPH CLONE RESULTS: 3 passed, 0 failed\nITEM GRAPH CLONE DONE\n"
+                    if failure_kind == "done": text = text.replace("ITEM GRAPH CLONE DONE", "")
+                    if failure_kind == "diagnostic": text += "SCRIPT ERROR: probe failure\n"
                 if failure_kind == "marker" and label == failure_label: text = "no result\n"
                 kwargs["stdout"].write(text.encode())
                 return subprocess.CompletedProcess(command, 1 if failure_kind == "exit" and label == failure_label else 0)
@@ -111,6 +115,21 @@ class IsolateSelectionTests(unittest.TestCase):
                 code, _, timing, _ = self.exercise(["--check", "--only", "board_clone_probe"], failure + ":profile_board_clone")
                 self.assertEqual(code, 1)
                 self.assertNotEqual(timing["checks"]["board_clone_probe"]["status"], "PASS")
+
+    def test_item_graph_clone_probe_is_opt_in(self):
+        code, calls, timing, _ = self.exercise(["--check", "--only", "item_graph_clone_probe"])
+        self.assertEqual((code, calls), (0, ["import", "startup", "profile_item_graph_clone"]))
+        self.assertEqual(timing["checks"]["item_graph_clone_probe"]["status"], "PASS")
+        for mode in (["--check"], ["--check", "--full"], ["--render-check"]):
+            _, default_calls, _, _ = self.exercise(mode)
+            self.assertNotIn("profile_item_graph_clone", default_calls)
+
+    def test_item_graph_clone_probe_requires_complete_clean_run(self):
+        for failure in ("marker", "done", "diagnostic", "exit", "timeout"):
+            with self.subTest(failure=failure):
+                code, _, timing, _ = self.exercise(["--check", "--only", "item_graph_clone_probe"], failure + ":profile_item_graph_clone")
+                self.assertEqual(code, 1)
+                self.assertNotEqual(timing["checks"]["item_graph_clone_probe"]["status"], "PASS")
 
     def test_art_checks_automatically_include_all_visual_gates(self):
         code, calls, timing, _ = self.exercise(["--check", "--only", "art_trial_battle"])

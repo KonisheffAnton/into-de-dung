@@ -157,8 +157,38 @@ occupancy/height. Проверяются изоляция, source purity/cache/s
 
 Допуск и результат production capture/restore сохранены общим validator.
 Перед переносом clone в игру остаётся parity полного затронутого графа/порядка
-команд. Item/deck/worker clone и кэш не реализованы;
+команд и передачи worker. Производственные item/deck/worker clone и кэш не реализованы;
 локальная parity доски не доказывает очередь, preview/live/worker или ускорение FPS.
+
+## Эксперимент clone полного item-графа после capture
+
+`tools/demo/item_graph_clone_probe.gd` — opt-in эксперимент, без вызовов из игры.
+Каждый `clone_state` синхронно выполняет полный `ItemSimulationSnapshot.capture`:
+его свежий аудит, DTO, raw-лимиты и проверки межветвевых ссылок сохраняются.
+Отказ возвращает исходные code/reason/IDs, без state/snapshot. При успехе точный
+board clone читается сразу из того же live-графа, а owners/items/effects/facades,
+summons и опциональные ветви собираются по локальному проверенному DTO.
+Внешние DTO или каталоги этот вход не принимает; сохранённого допуска нет.
+Успешный результат содержит отдельный runtime state и `OK` с null snapshot.
+
+Каталог определений отделяется как при `ForecastSimulation.prepare`; определения
+призыва дополнительно разделяются по владельцам, как при instantiate. Новые
+владельцы ссылаются на новую доску, facades — на своих владельцев. Опциональные
+abilities/environment/artifacts/deck/card_effects используют действующие codecs.
+Это гибрид с полным capture, а не runtime-аудит всего графа без DTO. Ручная сборка
+item-ветви допустима только в harness; её нельзя переносить вторым codec в production.
+
+`profile_item_graph_clone.gd` сравнивает полный DTO/canonical bytes, вложенную
+изоляцию, свежесть без revision/version, lifecycle и cleanup с capture/restore.
+Исполнение команд на восстановленном и клонированном графах сравнивает before/after,
+receipt/events/steps/publications/RNG/counters/admission, включая отказ и FAULTED.
+Обычный preview/live служит дополнительным контролем. Это синхронная parity
+ограниченных fixtures; перенос нового clone через worker здесь не реализован.
+CPU сравнивает две стратегии с одинаковым fresh capture и detached catalogue,
+включает cleanup, сохраняет сырые samples; фазы вложены в total. Не FPS/hover.
+Перед production нужны одно место сборки, полный ownership/worker audit и проверки
+всего затронутого пути. Команды — TESTING; свидетельства —
+`test_reports/item-graph-clone-20261010/`.
 
 Команды — [TESTING](TESTING.md). Свидетельства и измерения с границами сравнения —
 `test_reports/snapshot-current-20261010/`. Производственная сцена с `_process`

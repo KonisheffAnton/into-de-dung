@@ -127,6 +127,20 @@ Runner opt-in, вне full/render, с import/startup и `--verify-only`.
 Clone runner требует полный состав эталонной матрицы; audit использует её подмножество.
 Изменение общего production producer требует также core/full по таблице риска выше.
 
+Эксперимент полного item-графа после capture:
+`python tools/demo/isolate.py --check --only item_graph_clone_probe --screen 0`.
+Opt-in вне default/full/render, с обязательными import/startup; success требует
+`ITEM GRAPH CLONE RESULTS: ... 0 failed`, `ITEM GRAPH CLONE DONE`, exit0 и чистых
+diagnostics. Полный capture сохранён; это не runtime-аудит всего графа без DTO.
+После импорта в изолированной копии:
+`<Godot> --headless --path <изолированный-project> --screen 0 --script tools/demo/profile_item_graph_clone.gd`.
+`-- --reverse` обращает первый порядок стратегий. По 3 прогрева и 21 sample на
+стратегию/fixture, чередование; `ITEM_GRAPH_SAMPLE` хранит capture/catalogue/build/
+cleanup/total в мкс. Отдельные APPDATA и последовательные процессы, как выше.
+Это tactical/artifacts/deck CPU fixtures, не рост 6/24/96, worker или FPS.
+При изменениях harness достаточно его runner; board clone и штатные
+`action_forecast_worker mage_deck_battle` проверяют соседние затронутые границы.
+
 Оба режима включают новые D2 runner (расчёт, snapshot, integration, recovery, UI).
 Первая команда включает import/startup, attack_calculation/attack_d1, forecast, guard, summon_snapshot,
 summon, healing, core и headless demo/battle. Вторая повторяет import/startup

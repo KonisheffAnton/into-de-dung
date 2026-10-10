@@ -186,6 +186,8 @@ def main():
             invalid = invalid or "BOARD AUDIT PROBE RESULTS:" not in output or ", 0 failed" not in output or "BOARD AUDIT PROBE DONE" not in output
         if label == "board_clone_probe":
             invalid = invalid or "BOARD CLONE PROBE RESULTS:" not in output or ", 0 failed" not in output or "BOARD CLONE PROBE DONE" not in output
+        if label == "item_graph_clone_probe":
+            invalid = invalid or "ITEM GRAPH CLONE RESULTS:" not in output or ", 0 failed" not in output or "ITEM GRAPH CLONE DONE" not in output
         if label in ("current_art_zoom", "art_trial_battle", "presentation_capture", "battle_presentation", "presentation_foundation", "presentation_contact", "presentation_attack_styles", "presentation_consequences", "presentation_environment", "presentation_ranged", "presentation_mage", "presentation_reactions", "presentation_status", "battle_board_camera", "battle_camera_ui", "battle_view_reuse", "four_slot_bar", "battle_panels", "environment_visual_contract", "unit_visual_contract", "visual_scene_contract"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -464,6 +466,8 @@ def main():
             run("board_audit_probe", ["--script", "tools/demo/profile_board_audit.gd", "--", "--verify-only"])
         if "board_clone_probe" in selected:
             run("board_clone_probe", ["--script", "tools/demo/profile_board_clone.gd", "--", "--verify-only"])
+        if "item_graph_clone_probe" in selected:
+            run("item_graph_clone_probe", ["--script", "tools/demo/profile_item_graph_clone.gd", "--", "--verify-only"])
         run("summon_checkpoint", ["--script", "tests/test_summon_checkpoint.gd"])
         run("armor_integration", ["--script", "tests/test_armor_integration.gd"])
         run("armor_recovery", ["--script", "tests/test_armor_recovery.gd"])
