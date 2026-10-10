@@ -1,9 +1,9 @@
-# Передача — 2026-10-11: тексты HUD-кадра
-D:\Games\into-de-dung; main; base 2ad04d11316e422b2389f06ef55fb98a314a178b; без push.
-U «Дальше»: технический срез §7.3, форматирование опубликованного DTO-кадра.
+# Передача — 2026-10-11: GitHub для web GPT
+D:\Games\into-de-dung; main; base d2e4c94ebe4f59e5d2808e77f2b0adbcaf5cf414; этот push разрешён U.
+U: обновить GitHub main для web GPT. Последний код — DTO-тексты §7.3.
 BattleFrameText — тексты; BattleDemo — узлы/порядок/roster/pager; live/DTO прежние.
 Контракт BATTLE_HUD_SCENES_V1. Остальной UI и игровые пути открыты; §7.3 не закрыт.
-Отчёт: test_reports/ui-frame-text-20261011/REPORT.md; команды TESTING.
+Для web: результаты в HISTORY, команды TESTING. test_reports локальные, вне Git.
 Base/current import/startup PASS; HUD262/0, execution28/0, status66/0; deck110/0→107/0.
 Четыре HUD PNG равны base; независимое ревью APPROVE.
 Full/core не повторялись: узкий UI-срез. Прежние 8shaderFAIL(base) не закрыты.
@@ -24,7 +24,7 @@ P-удар/тени/свет отложены; прочие клипы/бойц�
 ядра/покрытия/реакции/revision-only кэш/D4-save/финальный арт; direct_board fixture-only.
 Без sidebar/расписаний; --screen 0; инициатива вне full/render; DPAPI вне Git/логов/промптов.
 Внешние советы не контракты; книги/архивы/modules адресно.
-Этап: Conventional Commit без push; короткий HANDOFF, прежний точным архивом+HISTORY.
+Дальнейшие этапы: Conventional Commit без push; короткий HANDOFF, прежний точным архивом+HISTORY.
 В конце/при блокере предложить новый чат, кроме продолжения здесь; полный промпт:
 HEAD, результат, docs/artifacts, остаток, ограничения, проверки и это правило.
 Ссылка не заменяет текст; чат не создавать. Следующий срез автоматически не запускать.
