@@ -5,7 +5,11 @@ extends SceneTree
 const SAMPLES := 21
 
 func _initialize() -> void:
-	call_deferred("run")
+	var args := OS.get_cmdline_user_args()
+	if args.has("--clone-breakdown"):
+		call_deferred("run_breakdown", args.has("--reverse"))
+	else:
+		call_deferred("run")
 
 func summary(values: Array[float]) -> Dictionary:
 	values.sort()
@@ -122,4 +126,162 @@ func run() -> void:
 	assert(UnitId.get_counter() == unit_id_before)
 	session.close()
 	print("SNAPSHOT STRATEGIES DONE")
+	quit()
+
+func _make_fixture(session: BattleCoreReactionsSession, count: int) -> BattleBoard:
+	var board := BattleBoard.new(16, 8)
+	for i: int in count:
+		var unit := direct_unit(session.units[i % session.units.size()])
+		unit.id = i + 1
+		unit.action_resources._owner_unit_id = unit.id
+		unit.cell = Vector2i(i % 16, i / 16)
+		assert(board.add_unit(unit))
+	return board
+
+func _capture_restore_sample(board: BattleBoard) -> Dictionary:
+	var start := Time.get_ticks_usec()
+	var capture := SimulationSnapshot.capture_board(board, [])
+	var capture_us := Time.get_ticks_usec() - start
+	assert(capture.code == BoardSnapshotResult.Code.OK)
+	start = Time.get_ticks_usec()
+	var clone := capture.snapshot.instantiate_board()
+	assert(clone != null)
+	var build_us := Time.get_ticks_usec() - start
+	start = Time.get_ticks_usec()
+	clone.resize(0, 0)
+	var cleanup_us := Time.get_ticks_usec() - start
+	return {"capture_us": capture_us, "build_us": build_us, "cleanup_us": cleanup_us}
+
+func _audited_clone_sample(board: BattleBoard) -> Dictionary:
+	var start := Time.get_ticks_usec()
+	assert(SimulationSnapshot.capture_board(board, []).code == BoardSnapshotResult.Code.OK)
+	var capture_us := Time.get_ticks_usec() - start
+	start = Time.get_ticks_usec()
+	var clone := direct_board(board)
+	var build_us := Time.get_ticks_usec() - start
+	start = Time.get_ticks_usec()
+	clone.resize(0, 0)
+	var cleanup_us := Time.get_ticks_usec() - start
+	return {"capture_us": capture_us, "build_us": build_us, "cleanup_us": cleanup_us}
+
+func _verify_and_close_clone(clone: BattleBoard, source: BattleBoard, expected: Dictionary) -> void:
+	# Проверки удерживают ссылки и меняют стоимость освобождения: они вынесены из замера.
+	assert(SimulationSnapshot.capture_board(clone, []).snapshot.to_dict() == expected)
+	var units := clone.get_all_units()
+	assert(clone._death_callbacks.size() == units.size())
+	for unit: UnitState in units:
+		assert(unit != source.get_unit_by_id(unit.id))
+		assert(unit.vitals._stats == unit.stats)
+		assert(unit.vitals.died.get_connections().size() == 1)
+	var first := clone.get_unit_by_id(1)
+	first.stats.set_base_value(StatTypes.StatType.STRENGTH, 999.0)
+	first.vitals.set_hp(1.0)
+	assert(SimulationSnapshot.capture_board(source, []).snapshot.to_dict() == expected)
+	clone.resize(0, 0)
+	assert(clone._death_callbacks.is_empty())
+	for unit: UnitState in units:
+		assert(unit.vitals.died.get_connections().is_empty())
+
+func _direct_parts_sample(source: BattleBoard, verify: bool = false) -> Dictionary:
+	# Отдельная проба локализует build; её таймеры в цикле не входят в парное сравнение.
+	var start := Time.get_ticks_usec()
+	var board := BattleBoard.new(source.width, source.height)
+	board._heights = source._heights.duplicate()
+	board._height_half_steps = source._height_half_steps.duplicate()
+	board._terrain = source._terrain.duplicate()
+	var setup_us := Time.get_ticks_usec() - start
+	start = Time.get_ticks_usec()
+	var units := source.get_all_units()
+	var enumeration_us := Time.get_ticks_usec() - start
+	var units_us: int = 0
+	var add_us: int = 0
+	for unit: UnitState in units:
+		start = Time.get_ticks_usec()
+		var copied := direct_unit(unit)
+		units_us += Time.get_ticks_usec() - start
+		start = Time.get_ticks_usec()
+		assert(board.add_unit(copied))
+		add_us += Time.get_ticks_usec() - start
+	board.board_version = source.board_version
+	if verify:
+		_verify_and_close_clone(board, source, SimulationSnapshot.capture_board(source, []).snapshot.to_dict())
+	start = Time.get_ticks_usec()
+	board.resize(0, 0)
+	var cleanup_us := Time.get_ticks_usec() - start
+	return {"setup_us": setup_us, "enumeration_us": enumeration_us, "units_us": units_us, "add_us": add_us, "cleanup_us": cleanup_us}
+
+func _record_sample(label: String, count: int, order: int, sample: int, board: BattleBoard) -> Dictionary:
+	var start := Time.get_ticks_usec()
+	var phases := _capture_restore_sample(board) if label == "capture_restore" else _audited_clone_sample(board)
+	var total_us := Time.get_ticks_usec() - start
+	var record := {"label": label, "count": count, "order": order, "sample": sample, "total_us": total_us}
+	for key: String in phases:
+		record[key] = phases[key]
+	return record
+
+func _print_breakdown_summary(label: String, count: int, records: Array[Dictionary]) -> void:
+	var totals: Array[float] = []
+	for record: Dictionary in records:
+		totals.append(float(record["total_us"]) / 1000.0)
+	print(JSON.stringify({"label": label, "count": count, "timing": summary(totals)}))
+
+func run_breakdown(reverse: bool = false) -> void:
+	var hub := HeroHubState.create(73191, 2)
+	hub.enable_mage_deck()
+	hub = ExpeditionTransitions.apply(hub, "start").profile
+	var bundle := HeroHubBattleFactory.create(hub)
+	var session: BattleCoreReactionsSession = bundle.session
+	var state := session.state
+	var rng_before := session.context.get_rng().to_dict()
+	var counters_before := session.context.simulation_counters()
+	var unit_id_before := UnitId.get_counter()
+	var state_before := ItemSimulationSnapshot.capture(state, []).snapshot.to_dict()
+	var counts: Array[int] = [6, 24, 96]
+	if reverse: counts.reverse()
+	for count: int in counts:
+		var board := _make_fixture(session, count)
+		var expected := SimulationSnapshot.capture_board(board, []).snapshot
+		assert(expected != null)
+		_verify_and_close_clone(direct_board(board), board, expected.to_dict())
+		_verify_and_close_clone(expected.instantiate_board(), board, expected.to_dict())
+		_direct_parts_sample(board, true)
+		# Чередование пар ниже уменьшает связь стратегии с изменениями нагрузки процесса.
+		for label: String in ["capture_restore", "audited_direct_clone"]:
+			for warmup: int in 3:
+				if label == "capture_restore": _capture_restore_sample(board)
+				else: _audited_clone_sample(board)
+		var capture_records: Array[Dictionary] = []
+		var direct_records: Array[Dictionary] = []
+		for sample: int in SAMPLES:
+			var capture_first := (sample + int(reverse)) % 2 == 0
+			for order_index: int in 2:
+				var is_capture := (order_index == 0) == capture_first
+				var label := "capture_restore" if is_capture else "audited_direct_clone"
+				var record := _record_sample(label, count, order_index, sample, board)
+				if label == "capture_restore": capture_records.append(record)
+				else: direct_records.append(record)
+		for record: Dictionary in capture_records + direct_records:
+			print(JSON.stringify(record))
+		_print_breakdown_summary("capture_restore", count, capture_records)
+		_print_breakdown_summary("audited_direct_clone", count, direct_records)
+		for warmup: int in 3: _direct_parts_sample(board)
+		var parts_records: Array[Dictionary] = []
+		for sample: int in SAMPLES:
+			var start := Time.get_ticks_usec()
+			var parts := _direct_parts_sample(board)
+			parts["total_us"] = Time.get_ticks_usec() - start
+			parts["label"] = "direct_parts"
+			parts["count"] = count
+			parts["sample"] = sample
+			parts_records.append(parts)
+		for parts: Dictionary in parts_records: print(JSON.stringify(parts))
+		assert(SimulationSnapshot.capture_board(board, []).snapshot.to_dict() == expected.to_dict())
+		board.resize(0, 0)
+		assert(board._death_callbacks.is_empty())
+	assert(ItemSimulationSnapshot.capture(state, []).snapshot.to_dict() == state_before)
+	assert(session.context.get_rng().to_dict() == rng_before)
+	assert(session.context.simulation_counters() == counters_before)
+	assert(UnitId.get_counter() == unit_id_before)
+	session.close()
+	print("SNAPSHOT CLONE BREAKDOWN DONE")
 	quit()

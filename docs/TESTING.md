@@ -78,6 +78,18 @@ python tools/demo/isolate.py --render-check
 `tools/demo/profile_snapshot_preflight.py --godot <exe> --output <new-dir> --screen 0`;
 вложенные времена не складывать. Контракт — [BATTLE_SNAPSHOT_CURRENT](BATTLE_SNAPSHOT_CURRENT.md).
 
+После успешных import/startup в новой изолированной копии доступен парный режим:
+`<Godot> --headless --path <изолированный-project> --screen 0 --script tools/demo/profile_snapshot_strategies.gd -- --clone-breakdown`.
+Для второго порядка добавить `--reverse` после `--clone-breakdown`. Каждый процесс
+запускать последовательно с отдельным APPDATA внутри нового отчёта; основной
+checkout/профиль не использовать. Сохранять весь stdout, exit code и diagnostics,
+проверять маркер `SNAPSHOT CLONE BREAKDOWN DONE`. Режим выводит 21 сырой sample
+после трёх прогревов на каждую стратегию/размер, total/capture/build/cleanup в мкс,
+summary в мс. `direct_parts` — отдельная инструментированная проба без аудита,
+не самостоятельная безопасная альтернатива capture. Её времена не складывать
+с вложенным build. Тайминги не имеют машинозависимого порога PASS; допуск,
+DTO/изоляция, live/RNG/counters/UnitId и снятие death callbacks проверяются assert.
+
 Оба режима включают новые D2 runner (расчёт, snapshot, integration, recovery, UI).
 Первая команда включает import/startup, attack_calculation/attack_d1, forecast, guard, summon_snapshot,
 summon, healing, core и headless demo/battle. Вторая повторяет import/startup
