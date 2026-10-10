@@ -3,16 +3,8 @@ class_name ItemSimulationSnapshot
 
 ## Внешний снимок владеет только значениями. P02 остаётся codec проекции доски;
 ## проверка ссылок предметов выполняется до создания любого нового runtime.
-const SCOPE := "board_items_two_effects_v1"
-const SCOPE_V2 := "board_items_usable_v2"
-const SCOPE_V3 := "board_items_summons_v3"
-const SCOPE_V4 := "board_items_armor_v4"
-const SCOPE_V10 := "board_items_mage_deck_v10"
-const SCOPE_V7 := "board_items_abilities_v7"
-const SCOPE_V8 := "board_items_artifacts_v8"
-const SCOPE_V9 := "board_items_team_summons_v9"
-const SCOPE_V5 := "board_items_environment_v5"
-const SCOPE_V6 := "board_items_summon_definitions_v6"
+const SCHEMA_VERSION := 11
+const SCOPE := "battle_state_v11"
 const MAX_ID := 9223372036854775807
 const MAX_DEPTH := 32
 const MAX_STRING_BYTES := 4096
@@ -69,8 +61,8 @@ func fingerprint() -> String:
 	return context.finish().hex_encode()
 
 static func _normalize(data: Dictionary) -> Dictionary:
-	if data.get("schema_version") in [5, 6, 7, 8, 9, 10] and data.has("environment"): data["environment"] = CombatEnvironmentState.from_dict(data["environment"]).to_dict()
-	if data.get("schema_version") in [8, 9, 10] and data.has("artifacts"): data["artifacts"] = BattleArtifactState.from_dict(data["artifacts"]).to_dict()
+	if data.has("environment"): data["environment"] = CombatEnvironmentState.from_dict(data["environment"]).to_dict()
+	if data.has("artifacts"): data["artifacts"] = BattleArtifactState.from_dict(data["artifacts"]).to_dict()
 	data["board_snapshot"] = SimulationSnapshot._normalize(data["board_snapshot"])
 	data["owners"].sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["owner_unit_id"] < b["owner_unit_id"])
 	for owner: Dictionary in data["owners"]:
@@ -78,8 +70,7 @@ static func _normalize(data: Dictionary) -> Dictionary:
 		owner["items"].sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["item_instance_id"] < b["item_instance_id"])
 		for item: Dictionary in owner["items"]:
 			item["effects"].sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["effect_instance_id"] < b["effect_instance_id"])
-	if data.get("schema_version", 0) in [3, 4, 5, 6, 7, 8, 9, 10]:
-		data["summons"].sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["unit_id"] < b["unit_id"])
+	data["summons"].sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["unit_id"] < b["unit_id"])
 	return data
 
 static func _walk(value: Variant, depth: int, ancestors: Array, count: Array[int], path: String) -> String:
@@ -197,17 +188,16 @@ static func _effect_shape(effect: Variant, runtime: bool) -> bool:
 			if not _shape(link, {"stat_type": TYPE_INT, "source_id": TYPE_STRING, "instance_id": TYPE_INT, "local_slot": TYPE_INT}): return false
 	return true
 
-static func _structure(data: Dictionary) -> String:
-	var envelope_fields := {"schema_version": TYPE_INT, "scope": TYPE_STRING, "board_snapshot": TYPE_DICTIONARY, "owners": TYPE_ARRAY}
-	if data.get("schema_version") in [3, 4, 5, 6, 7, 8, 9, 10] or (data.get("schema_version") not in [1, 2] and data.has("summons")): envelope_fields["summons"] = TYPE_ARRAY
-	if data.get("schema_version") == 5 or (data.get("schema_version") in [6, 7, 8, 9, 10] and data.has("environment")): envelope_fields["environment"] = TYPE_DICTIONARY
-	if data.get("schema_version") == 7: envelope_fields["abilities"] = TYPE_DICTIONARY
-	if data.get("schema_version") in [8, 9, 10] and data.has("abilities"): envelope_fields["abilities"] = TYPE_DICTIONARY
-	if data.get("schema_version") == 8 or (data.get("schema_version") == 9 and data.has("artifacts")): envelope_fields["artifacts"] = TYPE_DICTIONARY
-	if data.get("schema_version") == 10: envelope_fields.merge({"abilities":TYPE_DICTIONARY,"deck":TYPE_DICTIONARY,"card_effects":TYPE_DICTIONARY})
+static func _structure(data: Dictionary, captured_board: SimulationSnapshot = null) -> String:
+	var envelope_fields := {"schema_version": TYPE_INT, "scope": TYPE_STRING, "board_snapshot": TYPE_DICTIONARY, "owners": TYPE_ARRAY, "summons": TYPE_ARRAY}
+	for key: String in ["environment", "abilities", "artifacts", "deck", "card_effects"]:
+		if data.has(key): envelope_fields[key] = TYPE_DICTIONARY
 	if not _shape(data, envelope_fields): return "envelope/schema"
-	var board_error := _board_structure(data["board_snapshot"])
-	if not board_error.is_empty(): return board_error
+	# Только свежий DTO из этого capture уже прошёл проверку формы и семантики.
+	# Импорт/instantiate не получают свидетельство и проверяют весь внешний граф.
+	if captured_board == null or not is_same(data["board_snapshot"], captured_board._data):
+		var board_error := _board_structure(data["board_snapshot"])
+		if not board_error.is_empty(): return board_error
 	if data["owners"].size() > MAX_OWNERS: return "owners/limit"
 	var items := 0
 	var effects := 0
@@ -223,39 +213,35 @@ static func _structure(data: Dictionary) -> String:
 			if typeof(id) != TYPE_INT: return "owners/inventory_order/type"
 		for definition: Variant in owner["definitions"]:
 			var definition_fields := {"id": TYPE_STRING, "effects": TYPE_ARRAY}
-			if data["schema_version"] in [2, 3, 4, 5, 6, 7, 8, 9, 10] or (data["schema_version"] != 1 and typeof(definition) == TYPE_DICTIONARY and definition.has("max_charges")): definition_fields.merge({"use_heal_amount": TYPE_FLOAT, "max_charges": TYPE_INT})
-			if data["schema_version"] in [3, 4, 5, 6, 7, 8, 9, 10] or (data["schema_version"] not in [1, 2] and typeof(definition) == TYPE_DICTIONARY and definition.has("use_summon")): definition_fields["use_summon"] = TYPE_BOOL
-			if data["schema_version"] in [4, 5, 6, 7, 8, 9, 10]:
-				definition_fields["armor_max"] = TYPE_INT
-				definition_fields["armor_resistances"] = TYPE_DICTIONARY
-			if data["schema_version"] in [6, 7, 8, 9, 10]: definition_fields["summon_definition"] = TYPE_DICTIONARY
+			definition_fields.merge({"use_heal_amount": TYPE_FLOAT, "max_charges": TYPE_INT})
+			definition_fields["use_summon"] = TYPE_BOOL
+			definition_fields["armor_max"] = TYPE_INT
+			definition_fields["armor_resistances"] = TYPE_DICTIONARY
+			definition_fields["summon_definition"] = TYPE_DICTIONARY
 			if not _shape(definition, definition_fields): return "owners/definitions/schema"
-			if data["schema_version"] in [6, 7, 8, 9, 10]:
-				if definition["use_summon"]:
-					if not SummonDefinition.valid_data(definition["summon_definition"]): return "owners/definitions/summon_definition"
-				elif not definition["summon_definition"].is_empty(): return "owners/definitions/summon_definition/unusable"
+			if definition["use_summon"]:
+				if not SummonDefinition.valid_data(definition["summon_definition"]): return "owners/definitions/summon_definition"
+			elif not definition["summon_definition"].is_empty(): return "owners/definitions/summon_definition/unusable"
 			definition_effects += definition["effects"].size()
 			if definition_effects > MAX_DEFINITION_EFFECTS_TOTAL: return "owners/definitions/effects/limit"
 			for effect: Variant in definition["effects"]:
 				if not _effect_shape(effect, false): return "owners/definitions/effects/schema"
 		for item: Variant in owner["items"]:
 			var item_fields := {"item_instance_id": TYPE_INT, "definition_id": TYPE_STRING, "placement": TYPE_INT, "active": TYPE_BOOL, "effects": TYPE_ARRAY}
-			if data["schema_version"] in [2, 3, 4, 5, 6, 7, 8, 9, 10] or (data["schema_version"] != 1 and typeof(item) == TYPE_DICTIONARY and item.has("charges_left")): item_fields["charges_left"] = TYPE_INT
-			if data["schema_version"] in [4, 5, 6, 7, 8, 9, 10]:
-				item_fields["armor_remaining"] = TYPE_INT
-				item_fields["armor_origin_owner"] = TYPE_INT
-				item_fields["armor_origin_item"] = TYPE_INT
+			item_fields["charges_left"] = TYPE_INT
+			item_fields["armor_remaining"] = TYPE_INT
+			item_fields["armor_origin_owner"] = TYPE_INT
+			item_fields["armor_origin_item"] = TYPE_INT
 			if not _shape(item, item_fields): return "owners/items/schema"
 			effects += item["effects"].size()
 			if effects > MAX_EFFECTS_TOTAL: return "owners/items/effects/limit"
 			for effect: Variant in item["effects"]:
 				if not _effect_shape(effect, true): return "owners/items/effects/schema"
-	if data["schema_version"] in [3, 4, 5, 6, 7, 8, 9, 10]:
-		if data["summons"].size() > MAX_OWNERS: return "summons/limit"
-		for summon: Variant in data["summons"]:
-			var fields := {"unit_id": TYPE_INT, "owner_unit_id": TYPE_INT, "pending": TYPE_BOOL}
-			if data["schema_version"] in [9,10] and typeof(summon) == TYPE_DICTIONARY and summon.has("source_kind"): fields["source_kind"] = TYPE_STRING
-			if not _shape(summon, fields): return "summons/schema"
+	if data["summons"].size() > MAX_OWNERS: return "summons/limit"
+	for summon: Variant in data["summons"]:
+		var fields := {"unit_id": TYPE_INT, "owner_unit_id": TYPE_INT, "pending": TYPE_BOOL}
+		if typeof(summon) == TYPE_DICTIONARY and summon.has("source_kind"): fields["source_kind"] = TYPE_STRING
+		if not _shape(summon, fields): return "summons/schema"
 	return ""
 
 static func _board_structure(envelope: Dictionary) -> String:
@@ -281,23 +267,11 @@ static func _board_structure(envelope: Dictionary) -> String:
 	for cell: Variant in board["occupancy"]:
 		if not _shape(cell, {"x": TYPE_INT, "y": TYPE_INT, "unit_id": TYPE_INT}): return "board/occupancy/schema"
 	for unit: Variant in board["units"]:
-		var unit_fields := {"schema_version": TYPE_INT, "id": TYPE_INT, "faction": TYPE_INT, "cell_x": TYPE_INT, "cell_y": TYPE_INT, "height": TYPE_INT, "debug_name": TYPE_STRING, "ai_profile_path": TYPE_STRING, "move_points_left": TYPE_FLOAT, "has_attacked": TYPE_BOOL, "stats": TYPE_DICTIONARY, "vitals": TYPE_DICTIONARY}
-		# Сохраняем форму v2 у новой версии Unit, чтобы P02 отличил неподдержанную
-		# схему от повреждённого DTO до восстановления runtime.
-		if typeof(unit) == TYPE_DICTIONARY and typeof(unit.get("schema_version")) == TYPE_INT and (unit.get("schema_version") == 2 or (unit.get("schema_version") != 1 and unit.has("action_resources"))): unit_fields["action_resources"] = TYPE_DICTIONARY
-		if typeof(unit) == TYPE_DICTIONARY and (unit.get("schema_version") == 3 or unit.has("guard_stance")): unit_fields["guard_stance"] = TYPE_BOOL
-		if typeof(unit) == TYPE_DICTIONARY and (unit.get("schema_version") == 4 or unit.has("armor")): unit_fields["armor"] = TYPE_DICTIONARY
-		if typeof(unit) == TYPE_DICTIONARY and (unit.get("schema_version") == 5 or unit.has("bleeding")): unit_fields["bleeding"] = TYPE_DICTIONARY
-		if typeof(unit) == TYPE_DICTIONARY and (unit.get("schema_version") == 6 or unit.has("control")): unit_fields["control"] = TYPE_DICTIONARY
-		if typeof(unit) == TYPE_DICTIONARY and (unit.get("schema_version") == 7 or unit.has("combat_perks")): unit_fields["combat_perks"] = TYPE_DICTIONARY
-		if typeof(unit) == TYPE_DICTIONARY and (unit.get("schema_version") == 8 or unit.has("elemental")): unit_fields["elemental"] = TYPE_DICTIONARY
+		var unit_fields := {"schema_version": TYPE_INT, "id": TYPE_INT, "faction": TYPE_INT, "cell_x": TYPE_INT, "cell_y": TYPE_INT, "height": TYPE_INT, "debug_name": TYPE_STRING, "ai_profile_path": TYPE_STRING, "move_points_left": TYPE_FLOAT, "has_attacked": TYPE_BOOL, "stats": TYPE_DICTIONARY, "vitals": TYPE_DICTIONARY, "guard_stance": TYPE_BOOL}
+		if typeof(unit) != TYPE_DICTIONARY: return "board/unit/schema"
+		for key: String in ["action_resources", "armor", "bleeding", "control", "combat_perks", "elemental"]:
+			if unit.has(key): unit_fields[key] = TYPE_DICTIONARY
 		if not _shape(unit, unit_fields): return "board/unit/schema"
-		if unit.get("schema_version") == 5:
-			if not unit.has("action_resources") or not unit.has("guard_stance") or not unit.has("armor") or not unit.has("bleeding"): return "board/unit/capability"
-			if not BleedingState.valid(unit["bleeding"]): return "board/unit/bleeding"
-		if unit.get("schema_version") == 6 and (not unit.has("action_resources") or not ControlState.valid(unit["control"])): return "board/unit/control"
-		if unit.get("schema_version") == 7 and (not unit.has("action_resources") or not CombatPerksState.valid(unit.get("combat_perks")) or (unit["combat_perks"].get("mode") == CombatPerksState.Mode.COVER and unit["combat_perks"].get("cover_target_id") == unit.get("id"))): return "board/unit/combat_perks"
-		if unit.get("schema_version") == 8 and (not unit.has("action_resources") or not unit.has("guard_stance") or not unit.has("armor") or not unit.has("bleeding") or not unit.has("elemental") or not ElementalState.valid(unit.get("elemental")) or not BleedingState.valid(unit.get("bleeding")) or unit["bleeding"].get("schema_version") != 3): return "board/unit/elemental"
 		if not _shape(unit["stats"], {"schema_version": TYPE_INT, "stats": TYPE_ARRAY}): return "board/unit/stats/schema"
 		if not _shape(unit["vitals"], {"hp": TYPE_FLOAT, "balance": TYPE_FLOAT, "is_alive": TYPE_BOOL}): return "board/unit/vitals/schema"
 		for entry: Variant in unit["stats"]["stats"]:
@@ -307,7 +281,7 @@ static func _board_structure(envelope: Dictionary) -> String:
 				if not _shape(modifier, {"source_id": TYPE_STRING, "instance_id": TYPE_INT, "local_slot": TYPE_INT, "evaluation_order": TYPE_INT, "operation": TYPE_INT, "value": TYPE_FLOAT}): return "board/unit/modifier/schema"
 	return ""
 
-static func _definition_value(definition: ItemDef, usable: bool = false, v3: bool = false, armor: bool = false, summon_definition: bool = false) -> Dictionary:
+static func _definition_value(definition: ItemDef) -> Dictionary:
 	var effects: Array = []
 	for effect: ItemEffect in definition.effects:
 		if effect.get_script() == StatModifierEffect:
@@ -316,17 +290,12 @@ static func _definition_value(definition: ItemDef, usable: bool = false, v3: boo
 		else:
 			var heal := effect as HealOnDamageEffect
 			effects.append({"kind": "heal_on_damage", "trigger_event": int(heal.trigger_event), "heal_amount": heal.heal_amount})
-	var value := {"id": String(definition.id), "effects": effects}
-	if usable:
-		value["use_heal_amount"] = definition.use_heal_amount
-		value["max_charges"] = definition.max_charges
-	if v3: value["use_summon"] = definition.use_summon
-	if armor:
-		value["armor_max"] = definition.armor_max
-		value["armor_resistances"] = definition.armor_resistances.duplicate(true)
-	if summon_definition:
-		value["summon_definition"] = definition.get_summon_definition().to_dict() if definition.use_summon else {}
-	return value
+	return {"id": String(definition.id), "effects": effects,
+		"use_heal_amount": definition.use_heal_amount, "max_charges": definition.max_charges,
+		"use_summon": definition.use_summon, "armor_max": definition.armor_max,
+		"armor_resistances": definition.armor_resistances.duplicate(true),
+		"summon_definition": definition.get_summon_definition().to_dict() if definition.use_summon else {}}
+
 
 static func _definition_error(definition: ItemDef, path: String) -> String:
 	if definition != null and definition.cooldown_turns != 0: return "UNSUPPORTED:" + path + "/cooldown"
@@ -389,28 +358,13 @@ static func capture(state: ItemSimulationState, unsupported_runtime_ids: Array[S
 	var records: Array = []
 	var owners := state.get_owners()
 	owners.sort_custom(func(a: ItemOwnerState, b: ItemOwnerState) -> bool: return a._owner.id < b._owner.id)
-	var use_v2 := false
-	var use_v3 := not state._summons.is_empty()
-	var use_v4 := state.environment != null
-	var use_v6 := state.abilities != null or state.artifacts != null
-	for unit: Dictionary in board_data["board"]["units"]:
-		if unit.get("schema_version", 1) >= 4 or unit.has("armor"): use_v4 = true
-	for owner: ItemOwnerState in owners:
-		for definition: ItemDef in owner._definitions.values():
-			if definition.use_heal_amount != 0.0 or definition.max_charges != 0: use_v2 = true
-			if definition.use_summon: use_v3 = true
-			if definition.has_custom_summon_definition(): use_v6 = true
-			if definition.armor_max != 0 or int(definition.armor_resistances.get("physical", 0)) != 0 or int(definition.armor_resistances.get("fire", 0)) != 0:
-				use_v4 = true
-				if owner._owner.armor == null: return _failure("UNSUPPORTED:capability_required")
-	if use_v6: use_v4 = true
-	if use_v4: use_v3 = true
-	if use_v3: use_v2 = true
 	for owner: ItemOwnerState in owners:
 		var id := owner._owner.id
 		var sources := _modifiers(units[id])
 		var definitions: Array = []
-		for definition: ItemDef in owner._definitions.values(): definitions.append(_definition_value(definition, use_v2, use_v3, use_v4, use_v6))
+		for definition: ItemDef in owner._definitions.values():
+			if owner._owner.armor == null and (definition.armor_max != 0 or definition.armor_resistances != {"physical": 0, "fire": 0}): return _failure("UNSUPPORTED:capability_required")
+			definitions.append(_definition_value(definition))
 		var items: Array = []
 		for item: ItemInstance in owner._items.values():
 			var effects: Array = []
@@ -429,19 +383,13 @@ static func capture(state: ItemSimulationState, unsupported_runtime_ids: Array[S
 					effect.merge({"kind": "heal_on_damage", "trigger_event": int(heal._trigger_event), "heal_amount": heal._heal_amount})
 				effects.append(effect)
 			var item_record := {"item_instance_id": item._item_id, "definition_id": String(item._definition_id), "placement": item._placement, "active": item._active, "effects": effects}
-			if use_v2: item_record["charges_left"] = item._charges_left
-			if use_v4:
-				item_record["armor_remaining"] = item.armor_remaining
-				item_record["armor_origin_owner"] = item.armor_origin_owner
-				item_record["armor_origin_item"] = item.armor_origin_item
+			item_record["charges_left"] = item._charges_left
+			item_record["armor_remaining"] = item.armor_remaining
+			item_record["armor_origin_owner"] = item.armor_origin_owner
+			item_record["armor_origin_item"] = item.armor_origin_item
 			items.append(item_record)
 		records.append({"schema_version": 1, "owner_unit_id": id, "next_item_id": owner._next_item_id, "next_effect_id": owner._next_effect_id, "closed": owner._closed, "inventory_lifecycle": _lifecycle(owner._inventory_registered, owner._inventory_retired), "equipment_lifecycle": _lifecycle(owner._equipment_registered, owner._equipment_retired), "inventory_order": Array(owner._inventory_order), "definitions": definitions, "items": items})
-	var version := 8 if state.artifacts != null else (7 if state.abilities != null else 6 if use_v6 else (5 if state.environment != null else (4 if use_v4 else (3 if use_v3 else (2 if use_v2 else 1)))))
-	if state.get_summons().any(func(record: Dictionary) -> bool: return record.has("source_kind")): version = 9
-	if state.deck != null: version = 10
-	var scope: String = SCOPE_V10 if version == 10 else SCOPE_V9 if version == 9 else SCOPE_V8 if version == 8 else SCOPE_V7 if version == 7 else SCOPE_V6 if use_v6 else (SCOPE_V5 if version == 5 else (SCOPE_V4 if version == 4 else (SCOPE_V3 if use_v3 else (SCOPE_V2 if use_v2 else SCOPE))))
-	var payload := {"schema_version": version, "scope": scope, "board_snapshot": board_data, "owners": records}
-	if version in [3, 4, 5, 6, 7, 8, 9, 10]: payload["summons"] = state.get_summons()
+	var payload := {"schema_version": SCHEMA_VERSION, "scope": SCOPE, "board_snapshot": board_data, "owners": records, "summons": state.get_summons()}
 	if state.abilities != null: payload["abilities"] = state.abilities.to_dict()
 	if state.environment != null: payload["environment"] = state.environment.to_dict()
 	if state.artifacts != null: payload["artifacts"] = state.artifacts.to_dict()
@@ -672,13 +620,11 @@ func instantiate(definitions: Dictionary) -> ItemSnapshotResult:
 			var definition: ItemDef = definitions[id]
 			error = _definition_error(definition, "definitions/" + String(id))
 			if not error.is_empty(): return _failure(error)
-			if _data["schema_version"] < 4 and (definition.armor_max != 0 or definition.armor_resistances != {"physical": 0, "fire": 0}): return _failure("definitions/" + String(id) + "/armor_content")
-			if _data["schema_version"] == 1 and (definition.max_charges != 0 or definition.use_summon or definition.armor_max != 0): return _failure("definitions/" + String(id) + "/content")
-			if _data["schema_version"] < 6 and definition.has_custom_summon_definition(): return _failure("definitions/" + String(id) + "/legacy_summon_content")
-			if definition.id != id or _definition_value(definition, _data["schema_version"] in [2, 3, 4, 5, 6, 7, 8, 9, 10], _data["schema_version"] in [3, 4, 5, 6, 7, 8, 9, 10], _data["schema_version"] in [4, 5, 6, 7, 8, 9, 10], _data["schema_version"] in [6, 7, 8, 9, 10]) != descriptor: return _failure("definitions/" + String(id) + "/content")
+			if definition.id != id or _definition_value(definition) != descriptor: return _failure("definitions/" + String(id) + "/content")
 			checked[id] = definition
-	var board_result := SimulationSnapshot.from_dict(_data["board_snapshot"])
-	var board := board_result.snapshot.instantiate_board()
+	# _validate выше уже проверил envelope. Повторный from_dict создавал ещё
+	# копию и нормализовал её, хотя BattleBoard сам проверяет DTO при восстановлении.
+	var board := BattleBoard.from_snapshot_dict(_data["board_snapshot"]["board"])
 	if board == null: return _failure("board/instantiate")
 	var owners: Array[ItemOwnerState] = []
 	var inventories: Array[InventoryState] = []
@@ -709,14 +655,13 @@ func instantiate(definitions: Dictionary) -> ItemSnapshotResult:
 					runtime = HealOnDamageEffectRuntime.new(record["owner_unit_id"], item_record["item_instance_id"], effect["effect_instance_id"], effect["effect_index"], effect["heal_amount"], effect["trigger_event"] as TriggeredEffect.TriggerEvent)
 				runtime._active = effect["active"]
 				effects[effect["effect_index"]] = runtime
-			var charges: int = item_record["charges_left"] if _data["schema_version"] in [2, 3, 4, 5, 6, 7, 8, 9, 10] else 0
+			var charges: int = item_record["charges_left"]
 			var item := ItemInstance.new(owner._definitions[StringName(item_record["definition_id"])], record["owner_unit_id"], item_record["item_instance_id"], effects, charges)
 			item._placement = item_record["placement"]
 			item._active = item_record["active"]
-			if _data["schema_version"] in [4, 5, 6, 7, 8, 9, 10]:
-				item.armor_remaining = item_record["armor_remaining"]
-				item.armor_origin_owner = item_record["armor_origin_owner"]
-				item.armor_origin_item = item_record["armor_origin_item"]
+			item.armor_remaining = item_record["armor_remaining"]
+			item.armor_origin_owner = item_record["armor_origin_owner"]
+			item.armor_origin_item = item_record["armor_origin_item"]
 			owner._items[item._item_id] = item
 			owner._placements[item._item_id] = item._placement
 		owners.append(owner)
@@ -725,13 +670,12 @@ func instantiate(definitions: Dictionary) -> ItemSnapshotResult:
 	var result := ItemSnapshotResult.new()
 	result.code = ItemSnapshotResult.Code.OK
 	result.state = ItemSimulationState.new(board, owners, inventories, equipment)
-	if _data["schema_version"] in [3, 4, 5, 6, 7, 8, 9, 10]:
-		for record: Dictionary in _data["summons"]:
-			(result.state as ItemSimulationState)._summons.append(record.duplicate(true))
-	if _data["schema_version"] == 7 or (_data["schema_version"] in [8, 9, 10] and _data.has("abilities")): result.state.abilities = BattleAbilityState.from_dict(_data["abilities"])
-	if _data["schema_version"] in [5, 6, 7, 8, 9, 10] and _data.has("environment"): result.state.environment = CombatEnvironmentState.from_dict(_data["environment"])
-	if _data["schema_version"] in [8, 9, 10] and _data.has("artifacts"): result.state.artifacts = BattleArtifactState.from_dict(_data["artifacts"])
-	if _data["schema_version"] == 10:
+	for record: Dictionary in _data["summons"]:
+		(result.state as ItemSimulationState)._summons.append(record.duplicate(true))
+	if _data.has("abilities"): result.state.abilities = BattleAbilityState.from_dict(_data["abilities"])
+	if _data.has("environment"): result.state.environment = CombatEnvironmentState.from_dict(_data["environment"])
+	if _data.has("artifacts"): result.state.artifacts = BattleArtifactState.from_dict(_data["artifacts"])
+	if _data.has("deck"):
 		result.state.deck = BattleDeckState.from_dict(_data.deck)
 		result.state.card_effects = BattleCardEffectState.from_dict(_data.card_effects)
 	return result
@@ -749,16 +693,14 @@ static func _validate(data: Dictionary, captured_board: SimulationSnapshot = nul
 		nodes[0] = 0
 		error = _walk(data, 0, [], nodes, "envelope")
 		if not error.is_empty(): return error
-	error = _structure(data)
+	error = _structure(data, captured_board)
 	if not error.is_empty(): return error
-	if data.get("schema_version") != 10 and data.has("abilities") and data.abilities.get("schema_version") != 1: return "abilities/legacy_schema"
-	if data.get("schema_version") == 7 and not BattleAbilityState.valid(data["abilities"]): return "abilities/invalid_state"
-	if data.get("schema_version") == 8 and (not BattleArtifactState.valid(data["artifacts"]) or (data.has("abilities") and not BattleAbilityState.valid(data["abilities"]))): return "artifacts/invalid_state"
-	if data.get("schema_version") == 9:
-		if not data.has("abilities") or not BattleAbilityState.valid(data.abilities): return "abilities/invalid_state"
-		if data.has("artifacts") and not BattleArtifactState.valid(data.artifacts): return "artifacts/invalid_state"
-	if data["schema_version"] not in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]: return "UNSUPPORTED:envelope/version"
-	if (data["schema_version"] == 1 and data["scope"] != SCOPE) or (data["schema_version"] == 2 and data["scope"] != SCOPE_V2) or (data["schema_version"] == 3 and data["scope"] != SCOPE_V3) or (data["schema_version"] == 4 and data["scope"] != SCOPE_V4) or (data["schema_version"] == 5 and data["scope"] != SCOPE_V5) or (data["schema_version"] == 6 and data["scope"] != SCOPE_V6) or (data["schema_version"] == 7 and data["scope"] != SCOPE_V7) or (data["schema_version"] == 8 and data["scope"] != SCOPE_V8) or (data["schema_version"] == 9 and data["scope"] != SCOPE_V9): return "UNSUPPORTED:envelope/scope"
+	if data["schema_version"] != SCHEMA_VERSION: return "UNSUPPORTED:envelope/version"
+	if data["scope"] != SCOPE: return "UNSUPPORTED:envelope/scope"
+	if data.has("abilities") and not BattleAbilityState.valid(data["abilities"]): return "abilities/invalid_state"
+	if not data.has("deck") and data.has("abilities") and data.abilities.get("schema_version") != 1: return "abilities/deck_required"
+	if data.has("artifacts") and not BattleArtifactState.valid(data["artifacts"]): return "artifacts/invalid_state"
+	if data.has("deck") != data.has("card_effects") or (data.has("deck") and not data.has("abilities")): return "deck/invalid_state"
 	# Числовой порядок делает диагностику независимой от перестановки records.
 	var owners: Array = data["owners"].duplicate()
 	owners.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["owner_unit_id"] < b["owner_unit_id"])
@@ -767,26 +709,21 @@ static func _validate(data: Dictionary, captured_board: SimulationSnapshot = nul
 		if owner["schema_version"] != 1: return "UNSUPPORTED:" + path + "/version"
 		var definitions: Array = owner["definitions"].duplicate()
 		definitions.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["id"] < b["id"])
+		var definition_map: Dictionary = {}
 		for definition: Dictionary in definitions:
-			if data["schema_version"] in [4, 5, 6, 7, 8, 9, 10]:
-				if definition["armor_max"] < 0 or not _armor_resistances_valid(definition["armor_resistances"]): return path + "/definition/armor"
+			definition_map[definition["id"]] = definition
+			if definition["armor_max"] < 0 or not _armor_resistances_valid(definition["armor_resistances"]): return path + "/definition/armor"
 			var summon_flag: bool = definition.get("use_summon", false)
-			if data["schema_version"] in [2, 3, 4, 5, 6, 7, 8, 9, 10] and ((definition["use_heal_amount"] == 0.0 and not summon_flag) != (definition["max_charges"] == 0) or definition["use_heal_amount"] < 0.0 or definition["max_charges"] < 0 or definition["max_charges"] > 4096 or (summon_flag and definition["use_heal_amount"] != 0.0)): return path + "/definition/usable_pair"
+			if ((definition["use_heal_amount"] == 0.0 and not summon_flag) != (definition["max_charges"] == 0) or definition["use_heal_amount"] < 0.0 or definition["max_charges"] < 0 or definition["max_charges"] > 4096 or (summon_flag and definition["use_heal_amount"] != 0.0)): return path + "/definition/usable_pair"
 			for effect: Dictionary in definition["effects"]:
 				if not _effect_capability(effect): return "UNSUPPORTED:" + path + "/definition/" + definition["id"] + "/effect"
 		var items: Array = owner["items"].duplicate()
 		items.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["item_instance_id"] < b["item_instance_id"])
 		for item: Dictionary in items:
-			if data["schema_version"] in [4, 5, 6, 7, 8, 9, 10]:
-				var definition_map_v4: Dictionary = {}
-				for definition: Dictionary in owner["definitions"]: definition_map_v4[definition["id"]] = definition
-				var max_armor: int = int(definition_map_v4.get(item["definition_id"], {}).get("armor_max", -1))
-				if item["armor_remaining"] < 0 or item["armor_remaining"] > max_armor or item["armor_origin_owner"] <= 0 or item["armor_origin_owner"] >= MAX_ID or item["armor_origin_item"] <= 0 or item["armor_origin_item"] >= MAX_ID: return path + "/item/armor"
-			if data["schema_version"] in [2, 3, 4, 5, 6, 7, 8, 9, 10]:
-				var definition_map: Dictionary = {}
-				for definition: Dictionary in owner["definitions"]: definition_map[definition["id"]] = definition
-				var item_definition: Dictionary = definition_map.get(item["definition_id"], {})
-				if item["charges_left"] < 0 or item["charges_left"] > int(item_definition.get("max_charges", 0)): return path + "/item/%d/charges" % item["item_instance_id"]
+			var item_definition: Dictionary = definition_map.get(item["definition_id"], {})
+			var max_armor: int = int(item_definition.get("armor_max", -1))
+			if item["armor_remaining"] < 0 or item["armor_remaining"] > max_armor or item["armor_origin_owner"] <= 0 or item["armor_origin_owner"] >= MAX_ID or item["armor_origin_item"] <= 0 or item["armor_origin_item"] >= MAX_ID: return path + "/item/armor"
+			if item["charges_left"] < 0 or item["charges_left"] > int(item_definition.get("max_charges", 0)): return path + "/item/%d/charges" % item["item_instance_id"]
 			var effects: Array = item["effects"].duplicate()
 			effects.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["effect_instance_id"] < b["effect_instance_id"])
 			for effect: Dictionary in effects:
@@ -796,28 +733,27 @@ static func _validate(data: Dictionary, captured_board: SimulationSnapshot = nul
 	if captured_board == null or not is_same(data["board_snapshot"], captured_board._data):
 		error = SimulationSnapshot._validate_envelope(data["board_snapshot"])
 		if not error.is_empty(): return error
-	if data.schema_version == 10:
-		if data.scope != SCOPE_V10 or not MageDeckRules.snapshot_valid(data): return "deck/invalid_state"
-	if data["schema_version"] in [5, 6, 7, 8, 9, 10] and data.has("environment"):
+	if data.has("deck"):
+		if not MageDeckRules.snapshot_valid(data): return "deck/invalid_state"
+	if data.has("environment"):
 		error = EnvironmentRules.snapshot_reason(data["environment"], data["board_snapshot"]["board"], data["summons"])
 		if not error.is_empty(): return error
 	var units: Array = data["board_snapshot"]["board"]["units"]
 	if units.size() != owners.size(): return "owners/count"
 	var unit_map: Dictionary = {}
 	for unit: Dictionary in units:
-		if data["schema_version"] < 4 and unit.has("armor"): return "armor/envelope_version"
 		unit_map[unit["id"]] = unit
 	for unit: Dictionary in units:
-		if data.schema_version != 10:
+		if not data.has("deck"):
 			for source: Dictionary in [unit.get("bleeding",{}).get("source",{}),unit.get("elemental",{}).get("burning_source",{})]:
 				if source.get("kind") == &"mage" and source.get("source_instance_id",0) >= 13: return "deck/source_capability"
 			if unit.get("armor",{}).get("shield",{}).get("spell_id") == "card.shield": return "deck/shield_capability"
-		if unit.get("schema_version", 1) in [5, 6, 7, 8] and unit.get("bleeding", {}).get("ticks_left", 0) > 0:
+		if unit.get("bleeding", {}).get("ticks_left", 0) > 0:
 			var bleeding: Dictionary = unit["bleeding"]
 			var source: Dictionary = bleeding["source"]
 			if source["kind"] == &"attack" and (not unit_map.has(source["instigator_unit_id"]) or not unit_map.has(source["credit_unit_id"])):
 				return "board/unit/bleeding/source"
-		if unit.get("schema_version", 1) == 8:
+		if unit.has("elemental"):
 			var elemental: Dictionary = unit["elemental"]
 			if elemental["burning_stacks"] > 0 and elemental["burning_source"]["kind"] == &"attack":
 				var burning_source: Dictionary = elemental["burning_source"]
@@ -831,14 +767,13 @@ static func _validate(data: Dictionary, captured_board: SimulationSnapshot = nul
 		seen[id] = true
 		error = _owner_graph(owner, unit_map[id], catalogue)
 		if not error.is_empty(): return "owner/%d/" % id + error
-		if data["schema_version"] in [4, 5, 6, 7, 8, 9, 10]:
-			for definition: Dictionary in owner["definitions"]:
-				if (definition["armor_max"] != 0 or definition["armor_resistances"] != {"physical": 0, "fire": 0}) and not unit_map[id].has("armor"): return "armor/capability_required"
-			for item: Dictionary in owner["items"]:
-				var armor_key := "%d:%d" % [item["armor_origin_owner"], item["armor_origin_item"]]
-				if armor_identities.has(armor_key): return "armor/identity"
-				armor_identities[armor_key] = true
-	if data["schema_version"] == 7 or (data["schema_version"] in [8, 9, 10] and data.has("abilities")):
+		for definition: Dictionary in owner["definitions"]:
+			if (definition["armor_max"] != 0 or definition["armor_resistances"] != {"physical": 0, "fire": 0}) and not unit_map[id].has("armor"): return "armor/capability_required"
+		for item: Dictionary in owner["items"]:
+			var armor_key := "%d:%d" % [item["armor_origin_owner"], item["armor_origin_item"]]
+			if armor_identities.has(armor_key): return "armor/identity"
+			armor_identities[armor_key] = true
+	if data.has("abilities"):
 		var expected_items: Dictionary = {}
 		for descriptor: Dictionary in catalogue.values():
 			var item_id: String = descriptor["id"]
@@ -851,32 +786,31 @@ static func _validate(data: Dictionary, captured_board: SimulationSnapshot = nul
 			if not expected_items.erase(id): return "abilities/item_catalog/reference"
 		if not expected_items.is_empty(): return "abilities/item_catalog/missing"
 	var snapshot_summon_ids: Dictionary = {}
-	if data["schema_version"] in [3, 4, 5, 6, 7, 8, 9, 10]:
-		var live_by_owner: Dictionary = {}
-		var owner_ids: Dictionary = {}
-		var metadata_units: Dictionary = {}
-		for owner: Dictionary in owners: owner_ids[owner["owner_unit_id"]] = true
-		for summon: Dictionary in data["summons"]: metadata_units[summon["unit_id"]] = true
-		for summon: Dictionary in data["summons"]:
-			var sid: int = summon["unit_id"]
-			var oid: int = summon["owner_unit_id"]
-			if sid <= 0 or snapshot_summon_ids.has(sid) or not unit_map.has(sid): return "summons/reference"
-			if summon.has("source_kind"):
-				if data.schema_version not in [9,10] or summon.source_kind != "mage" or oid != 0 or unit_map[sid].faction != Faction.Type.PLAYER: return "summons/mage_reference"
-			else:
-				if oid <= 0 or sid == oid or not unit_map.has(oid) or not owner_ids.has(oid) or metadata_units.has(oid): return "summons/reference"
-				if unit_map[sid]["faction"] != unit_map[oid]["faction"]: return "summons/faction"
-				if unit_map[sid]["vitals"]["is_alive"]:
-					if live_by_owner.has(oid): return "summons/owner_limit"
-					live_by_owner[oid] = true
-			if summon["pending"]:
-				var unit_data: Dictionary = unit_map[sid]
-				if unit_data.get("guard_stance", false): return "summons/pending/guard"
-				if not unit_data.has("action_resources") or typeof(unit_data["action_resources"]) != TYPE_DICTIONARY: return "summons/pending/resources"
-				var resources: Dictionary = unit_data["action_resources"]
-				if resources.get("main_left", -1) != 0 or resources.get("bonus_left", -1) != 0 or unit_data["move_points_left"] != 0.0: return "summons/pending/resources"
-			snapshot_summon_ids[sid] = true
-	if data["schema_version"] in [8, 9, 10] and data.has("artifacts"):
+	var live_by_owner: Dictionary = {}
+	var owner_ids: Dictionary = {}
+	var metadata_units: Dictionary = {}
+	for owner: Dictionary in owners: owner_ids[owner["owner_unit_id"]] = true
+	for summon: Dictionary in data["summons"]: metadata_units[summon["unit_id"]] = true
+	for summon: Dictionary in data["summons"]:
+		var sid: int = summon["unit_id"]
+		var oid: int = summon["owner_unit_id"]
+		if sid <= 0 or snapshot_summon_ids.has(sid) or not unit_map.has(sid): return "summons/reference"
+		if summon.has("source_kind"):
+			if summon.source_kind != "mage" or oid != 0 or unit_map[sid].faction != Faction.Type.PLAYER: return "summons/mage_reference"
+		else:
+			if oid <= 0 or sid == oid or not unit_map.has(oid) or not owner_ids.has(oid) or metadata_units.has(oid): return "summons/reference"
+			if unit_map[sid]["faction"] != unit_map[oid]["faction"]: return "summons/faction"
+			if unit_map[sid]["vitals"]["is_alive"]:
+				if live_by_owner.has(oid): return "summons/owner_limit"
+				live_by_owner[oid] = true
+		if summon["pending"]:
+			var unit_data: Dictionary = unit_map[sid]
+			if unit_data.get("guard_stance", false): return "summons/pending/guard"
+			if not unit_data.has("action_resources") or typeof(unit_data["action_resources"]) != TYPE_DICTIONARY: return "summons/pending/resources"
+			var resources: Dictionary = unit_data["action_resources"]
+			if resources.get("main_left", -1) != 0 or resources.get("bonus_left", -1) != 0 or unit_data["move_points_left"] != 0.0: return "summons/pending/resources"
+		snapshot_summon_ids[sid] = true
+	if data.has("artifacts"):
 		for hero_id: int in data["artifacts"]["heroes"]:
 			if not unit_map.has(hero_id) or unit_map[hero_id]["faction"] != Faction.Type.PLAYER or snapshot_summon_ids.has(hero_id): return "artifacts/hero_reference"
 	return ""

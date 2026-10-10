@@ -225,7 +225,7 @@ func _helpers() -> void:
 	var corpse: Dictionary = s.state.environment.corpses[0]
 	var command := RaiseCorpseCommand.new(actor.id, corpse["id"], s.context.get_revision())
 	var helper := command._new_helper(s.context, UseSummoningItemCommand.next_id(s.board), corpse)
-	_check(helper.elemental != null and helper.bleeding.stacked and helper.to_snapshot_dict().get("schema_version") == 8, "raised helper inherits new empty status capability")
+	_check(helper.elemental != null and helper.bleeding.stacked and helper.to_snapshot_dict().get("schema_version") == UnitState.SNAPSHOT_SCHEMA_VERSION, "raised helper inherits new empty status capability")
 	s.close()
 
 func _forced_chain_and_critical() -> void:

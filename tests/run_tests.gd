@@ -1021,14 +1021,14 @@ func _test_p06_a06_refill() -> void:
 func _test_p06_a09_snapshot_versions() -> void:
 	var legacy := _p06_unit()
 	var v1 := legacy.to_snapshot_dict()
-	_check(v1["schema_version"] == 1 and not v1.has("action_resources") and UnitState.validate_snapshot_dict(v1), "P06 A09 exact v1")
+	_check(v1["schema_version"] == UnitState.SNAPSHOT_SCHEMA_VERSION and not v1.has("action_resources") and UnitState.validate_snapshot_dict(v1), "current snapshot without action ledger")
 	var restored_v1 := UnitState.from_snapshot_dict(v1)
 	_check(restored_v1 != null and restored_v1.action_resources == null, "P06 A09 v1 restores legacy")
 	_check(legacy.enable_action_resources() == &"" and legacy.try_refill_turn_resources() == &"", "P06 A09 prepare v2")
 	legacy.action_resources.try_spend_main(2)
 	var v2 := legacy.to_snapshot_dict()
 	var restored_v2 := UnitState.from_snapshot_dict(v2)
-	_check(v2["schema_version"] == 2 and restored_v2 != null and restored_v2.action_resources.get_main_left() == 0, "P06 A09 v2 preserves ledger")
+	_check(v2["schema_version"] == UnitState.SNAPSHOT_SCHEMA_VERSION and restored_v2 != null and restored_v2.action_resources.get_main_left() == 0, "current snapshot preserves ledger")
 	v2["action_resources"]["bonus_left"] = 0
 	_check(restored_v2.action_resources.get_bonus_left() == 1, "P06 A09 DTO is isolated")
 	var board := BattleBoard.new(2, 1)
@@ -1041,7 +1041,7 @@ func _test_p06_a09_snapshot_versions() -> void:
 	var counter := UnitId.get_counter()
 	var mixed := SimulationSnapshot.capture_board(board, [])
 	var mixed_data := mixed.snapshot.to_dict() if mixed.snapshot != null else {}
-	_check(mixed.code == BoardSnapshotResult.Code.OK and mixed_data["board"]["units"][0]["schema_version"] == 1 and mixed_data["board"]["units"][1]["schema_version"] == 2, "P06 A09 mixed v1/v2 P02 board")
+	_check(mixed.code == BoardSnapshotResult.Code.OK and not mixed_data["board"]["units"][0].has("action_resources") and mixed_data["board"]["units"][1].has("action_resources"), "current board preserves mixed component composition")
 	var first := mixed.snapshot.instantiate_board()
 	var second := mixed.snapshot.instantiate_board()
 	_check(UnitId.get_counter() == counter and first.get_unit_by_id(v2_unit.id).action_resources != second.get_unit_by_id(v2_unit.id).action_resources, "P06 A09 P02 import does not allocate and copies ledgers")
@@ -1079,12 +1079,12 @@ func _test_p06_a10_rejections() -> void:
 	board.add_unit(first)
 	board.add_unit(second)
 	var snapshot := SimulationSnapshot.capture_board(board, []).snapshot
-	for unit_key: String in ["schema_version", "id", "faction", "cell_x", "cell_y", "height", "debug_name", "ai_profile_path", "move_points_left", "has_attacked", "stats", "vitals", "action_resources"]:
+	for unit_key: String in ["schema_version", "id", "faction", "cell_x", "cell_y", "height", "debug_name", "ai_profile_path", "move_points_left", "has_attacked", "stats", "vitals", "guard_stance"]:
 		var missing_unit_key := snapshot.to_dict()
 		missing_unit_key["board"]["units"][0].erase(unit_key)
 		_check(SimulationSnapshot.from_dict(missing_unit_key).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 missing v2 Unit key " + unit_key)
 		var wrong_unit_type := snapshot.to_dict()
-		wrong_unit_type["board"]["units"][0][unit_key] = 1 if unit_key == "has_attacked" else true
+		wrong_unit_type["board"]["units"][0][unit_key] = 1 if unit_key in ["has_attacked", "guard_stance"] else true
 		_check(SimulationSnapshot.from_dict(wrong_unit_type).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 wrong v2 Unit type " + unit_key)
 	var extra_unit_key := snapshot.to_dict()
 	extra_unit_key["board"]["units"][0]["extra"] = 1
@@ -4398,6 +4398,14 @@ func _p03b_minimal_dto() -> Dictionary:
 	board.add_unit(unit)
 	return ItemSimulationSnapshot.capture(ItemSimulationState.new(board, [ItemOwnerState.new(unit)], [], []), []).snapshot.to_dict()
 
+func _current_test_definition(id: String, effects: Array = []) -> Dictionary:
+	return {"id": id, "effects": effects, "use_heal_amount": 0.0, "max_charges": 0,
+		"use_summon": false, "armor_max": 0, "armor_resistances": {"physical": 0, "fire": 0}, "summon_definition": {}}
+
+func _current_test_item(id: int, definition: String, effects: Array = []) -> Dictionary:
+	return {"item_instance_id": id, "definition_id": definition, "placement": 0, "active": false,
+		"effects": effects, "charges_left": 0, "armor_remaining": 0, "armor_origin_owner": 1, "armor_origin_item": id}
+
 func _test_p03b_b11_codec() -> void:
 	var f := _p03b_fixture()
 	var snap := _p03b_capture(f).snapshot
@@ -4418,7 +4426,7 @@ func _test_p03b_b11_codec() -> void:
 	_check(ItemSimulationSnapshot.from_dict(data).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "B11 ordered definitions cannot drift from runtime")
 	# Фикстура целого envelope вычислена отдельно по спецификации тегов, не через codec Godot.
 	var empty := ItemSimulationSnapshot.capture(ItemSimulationState.new(BattleBoard.new(), [], [], []), []).snapshot
-	var literal := "5030334201050400000000000000050200000000000000040e00000000000000626f6172645f736e617073686f74050300000000000000050200000000000000040500000000000000626f617264050800000000000000050200000000000000040d00000000000000626f6172645f76657273696f6e020100000000000000050200000000000000040600000000000000686569676874020000000000000000050200000000000000040700000000000000686569676874730500000000000000000502000000000000000409000000000000006f63637570616e6379050000000000000000050200000000000000040e00000000000000736368656d615f76657273696f6e0201000000000000000502000000000000000407000000000000007465727261696e050000000000000000050200000000000000040500000000000000756e6974730500000000000000000502000000000000000405000000000000007769647468020000000000000000050200000000000000040e00000000000000736368656d615f76657273696f6e02010000000000000005020000000000000004050000000000000073636f7065041600000000000000626f6172645f6f6e6c795f6e6f5f6974656d735f76310502000000000000000406000000000000006f776e657273050000000000000000050200000000000000040e00000000000000736368656d615f76657273696f6e02010000000000000005020000000000000004050000000000000073636f7065041a00000000000000626f6172645f6974656d735f74776f5f656666656374735f7631".hex_decode()
+	var literal := "503033420b050500000000000000050200000000000000040e00000000000000626f6172645f736e617073686f74050300000000000000050200000000000000040500000000000000626f617264050800000000000000050200000000000000040d00000000000000626f6172645f76657273696f6e020100000000000000050200000000000000040600000000000000686569676874020000000000000000050200000000000000040700000000000000686569676874730500000000000000000502000000000000000409000000000000006f63637570616e6379050000000000000000050200000000000000040e00000000000000736368656d615f76657273696f6e0201000000000000000502000000000000000407000000000000007465727261696e050000000000000000050200000000000000040500000000000000756e6974730500000000000000000502000000000000000405000000000000007769647468020000000000000000050200000000000000040e00000000000000736368656d615f76657273696f6e02010000000000000005020000000000000004050000000000000073636f7065041600000000000000626f6172645f6f6e6c795f6e6f5f6974656d735f76310502000000000000000406000000000000006f776e657273050000000000000000050200000000000000040e00000000000000736368656d615f76657273696f6e020b0000000000000005020000000000000004050000000000000073636f7065041000000000000000626174746c655f73746174655f76313105020000000000000004070000000000000073756d6d6f6e73050000000000000000".hex_decode()
 	_check(empty.canonical_bytes() == literal, "B11 independent literal outer envelope")
 	data = _p03b_minimal_dto()
 	data["owners"][0]["next_item_id"] = 9223372036854775807
@@ -4471,18 +4479,19 @@ func _test_p03b_b12_ownership_limits() -> void:
 		data = _p03b_minimal_dto()
 		var owner: Dictionary = data["owners"][0]
 		var heal := {"kind": "heal_on_damage", "trigger_event": 0, "heal_amount": 0.0}
-		var definition := {"id": "cap", "effects": []}
+		var definition := _current_test_definition("cap")
 		owner["definitions"] = [definition]
-		var item := {"item_instance_id": 1, "definition_id": "cap", "placement": 0, "active": false, "effects": []}
+		var item := _current_test_item(1, "cap")
 		if cap == "items":
 			owner["next_item_id"] = 4098
 			for i in 4096:
 				var record: Dictionary = item.duplicate(true)
 				record["item_instance_id"] = i + 1
+				record["armor_origin_item"] = i + 1
 				owner["items"].append(record)
 		elif cap == "definitions":
 			owner["definitions"] = []
-			for i in 4096: owner["definitions"].append({"id": "d%d" % i, "effects": []})
+			for i in 4096: owner["definitions"].append(_current_test_definition("d%d" % i))
 		else:
 			for i in 16384: definition["effects"].append(heal)
 			if cap == "effects":
@@ -4493,14 +4502,14 @@ func _test_p03b_b12_ownership_limits() -> void:
 		var accepted := ItemSimulationSnapshot.from_dict(data)
 		_check(accepted.code == ItemSnapshotResult.Code.OK, "B12 exact cap " + cap, accepted.reason)
 		if cap == "items": owner["items"].append(item)
-		elif cap == "definitions": owner["definitions"].append({"id": "overflow", "effects": []})
+		elif cap == "definitions": owner["definitions"].append(_current_test_definition("overflow"))
 		elif cap == "effects": item["effects"].append(item["effects"][0])
 		else: definition["effects"].append(heal)
 		var rejected := ItemSimulationSnapshot.from_dict(data)
 		_check(rejected.code == ItemSnapshotResult.Code.SNAPSHOT_INVALID and rejected.reason.ends_with("/limit"), "B12 cap +1 " + cap, rejected.reason)
 	# Aliases разрешены: каждый occurrence считается, затем получает отдельную value-копию.
 	data = _p03b_minimal_dto()
-	data["owners"][0]["definitions"] = [{"id": "alias", "effects": [{"kind": "heal_on_damage", "trigger_event": 0, "heal_amount": 0.0}]}]
+	data["owners"][0]["definitions"] = [_current_test_definition("alias", [{"kind": "heal_on_damage", "trigger_event": 0, "heal_amount": 0.0}])]
 	var effect: Dictionary = data["owners"][0]["definitions"][0]["effects"][0]
 	data["owners"][0]["definitions"][0]["effects"].append(effect)
 	var alias_snapshot := ItemSimulationSnapshot.from_dict(data).snapshot
@@ -4653,8 +4662,8 @@ func _test_p03b_review_boundaries() -> void:
 	var record: Dictionary = data["owners"][0]
 	record["next_item_id"] = 11
 	record["next_effect_id"] = ItemOwnerState.MAX_ID
-	record["definitions"] = [{"id": String(definition.id), "effects": [{"kind": "heal_on_damage", "trigger_event": 0, "heal_amount": 1.0}]}]
-	record["items"] = [{"item_instance_id": 7, "definition_id": String(definition.id), "placement": 0, "active": false, "effects": [{"effect_instance_id": ItemOwnerState.MAX_ID - 1, "effect_index": 0, "active": false, "kind": "heal_on_damage", "trigger_event": 0, "heal_amount": 1.0}]}]
+	record["definitions"] = [_current_test_definition(String(definition.id), [{"kind": "heal_on_damage", "trigger_event": 0, "heal_amount": 1.0}])]
+	record["items"] = [_current_test_item(7, String(definition.id), [{"effect_instance_id": ItemOwnerState.MAX_ID - 1, "effect_index": 0, "active": false, "kind": "heal_on_damage", "trigger_event": 0, "heal_amount": 1.0}])]
 	var boundary := ItemSimulationSnapshot.from_dict(data)
 	_check(boundary.code == ItemSnapshotResult.Code.OK, "B03 MAX-1 effect accepted", boundary.reason)
 	var a := boundary.snapshot.instantiate({definition.id: definition}).state

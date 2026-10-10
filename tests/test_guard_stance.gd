@@ -128,20 +128,13 @@ func _test_command_and_flow() -> void:
 func _test_snapshots() -> void:
 	var s := fixture()
 	var unit := s.units[0]
-	var v2 := unit.to_snapshot_dict()
-	check(v2["schema_version"] == 2 and not v2.has("guard_stance"), "legacy v2 writer unchanged")
-	check(UnitState.from_snapshot_dict(v2).to_snapshot_dict() == v2, "v2 roundtrip")
-	var v1 := v2.duplicate(true)
-	v1["schema_version"] = 1
-	v1.erase("action_resources")
-	check(UnitState.from_snapshot_dict(v1).to_snapshot_dict() == v1, "v1 roundtrip")
+	var current := unit.to_snapshot_dict()
+	check(current["schema_version"] == UnitState.SNAPSHOT_SCHEMA_VERSION and current["guard_stance"] == false, "current schema includes inactive stance")
+	check(UnitState.from_snapshot_dict(current).to_snapshot_dict() == current, "current inactive stance roundtrip")
 	guard(s, unit)
-	var v3 := unit.to_snapshot_dict()
-	check(v3["schema_version"] == 3 and v3["guard_stance"] == true, "v3 stance")
-	check(UnitState.from_snapshot_dict(v3).to_snapshot_dict() == v3, "v3 unit roundtrip")
-	var inactive_v3 := v3.duplicate(true)
-	inactive_v3["guard_stance"] = false
-	check(not UnitState.from_snapshot_dict(inactive_v3).guard_stance and UnitState.from_snapshot_dict(inactive_v3).to_snapshot_dict()["schema_version"] == 2, "inactive v3 canonicalizes to v2")
+	var active := unit.to_snapshot_dict()
+	check(active["schema_version"] == UnitState.SNAPSHOT_SCHEMA_VERSION and active["guard_stance"] == true, "current schema records active stance")
+	check(UnitState.from_snapshot_dict(active).to_snapshot_dict() == active, "current active stance roundtrip")
 	var data := snapshot(s)
 	var parsed := ItemSimulationSnapshot.from_dict(data)
 	var restored := parsed.snapshot.instantiate(s.state.get_owner(s.units[1].id)._definitions)
@@ -151,21 +144,22 @@ func _test_snapshots() -> void:
 		check(ItemSimulationSnapshot.capture(restored.state, []).snapshot.to_dict() == data, "full roundtrip")
 		AttackForecast._close(restored.state)
 	for bad: Variant in [1, "true", null, 1.0]:
-		var broken := v3.duplicate(true)
+		var broken := active.duplicate(true)
 		broken["guard_stance"] = bad
 		check(not UnitState.validate_snapshot_dict(broken), "strict stance bool")
 		var broken_items := data.duplicate(true)
 		broken_items["board_snapshot"]["board"]["units"][0] = broken
 		check(ItemSimulationSnapshot.from_dict(broken_items).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "item envelope rejects corrupt stance")
-	var missing := v3.duplicate(true)
+	var missing := active.duplicate(true)
 	missing.erase("guard_stance")
 	check(not UnitState.validate_snapshot_dict(missing), "required stance")
-	missing = v3.duplicate(true)
+	missing = active.duplicate(true)
 	missing.erase("action_resources")
-	check(not UnitState.validate_snapshot_dict(missing), "required resources")
-	var old_with_stance := v3.duplicate(true)
-	old_with_stance["schema_version"] = 2
-	check(not UnitState.validate_snapshot_dict(old_with_stance), "old schema no extra stance")
+	check(not UnitState.validate_snapshot_dict(missing), "active guard requires resources")
+	for old_version: int in range(1, UnitState.SNAPSHOT_SCHEMA_VERSION):
+		var old_snapshot := active.duplicate(true)
+		old_snapshot["schema_version"] = old_version
+		check(not UnitState.validate_snapshot_dict(old_snapshot), "old unit schema rejected " + str(old_version))
 	var future := data.duplicate(true)
 	future["board_snapshot"]["board"]["units"][0]["schema_version"] = 99
 	check(ItemSimulationSnapshot.from_dict(future).code == ItemSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, "unknown version unsupported")

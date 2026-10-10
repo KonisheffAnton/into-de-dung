@@ -70,7 +70,7 @@ func catalogue(s: BattleTacticalSession) -> Dictionary:
 	return result
 
 func _run() -> void:
-	_test_legacy()
+	_test_current_envelopes()
 	_test_definition_validation()
 	_test_forged_definition()
 	_test_legacy_raw_precedence()
@@ -130,23 +130,27 @@ func _test_forged_definition() -> void:
 	check(snapshot(s).canonical_bytes() == before and UnitId.get_counter() == global_id, "forged rejection preserves full live state")
 	s.close()
 
-func _test_legacy() -> void:
-	# Отпечатки сняты с git archive 12e996f, до изменения фабрики и codec M1.
-	var hashes := ["f2524f05af1dc0b49962251be51b15c91c534641a550f56090e6740105551f09", "ea8636d98123dc9fd08882b20254274ff842bb1efb10be0129ac5dbfa0b0cb15", "4b7b6b6ecda0a269c758180ca37a50f479b66cf15d1a0b80a115c45deee1d22d"]
-	for version in [3, 4, 5]:
-		var s: BattleTacticalSession = BattleTacticalSession.new() if version == 3 else (BattleArmorSession.new() if version == 4 else BattleEnvironmentSession.new())
-		var snap := snapshot(s)
-		check(snap.to_dict()["schema_version"] == version and snap.fingerprint() == hashes[version - 3], "legacy v%d exact bytes" % version)
-		var defs := catalogue(s)
+func _test_current_envelopes() -> void:
+	for capability_fixture: int in range(3):
+		var capability_session: BattleTacticalSession = BattleTacticalSession.new() if capability_fixture == 0 else (BattleArmorSession.new() if capability_fixture == 1 else BattleEnvironmentSession.new())
+		var snap := snapshot(capability_session)
+		var data := snap.to_dict()
+		check(data["schema_version"] == ItemSimulationSnapshot.SCHEMA_VERSION and data["scope"] == ItemSimulationSnapshot.SCOPE, "capability fixture uses current schema eleven")
+		check(data.has("environment") == (capability_session.state.environment != null), "environment capability presence follows runtime")
+		for owner_data: Dictionary in data["owners"]:
+			for descriptor: Dictionary in owner_data["definitions"]:
+				for field: String in ["use_heal_amount", "max_charges", "use_summon", "armor_resistances", "summon_definition"]:
+					check(descriptor.has(field), "summon fixture descriptor always includes " + field)
+		var defs := catalogue(capability_session)
 		var restored := snap.instantiate(defs)
-		check(restored.code == ItemSnapshotResult.Code.OK, "legacy restore")
+		check(restored.code == ItemSnapshotResult.Code.OK, "current envelope restore")
 		if restored.state != null:
-			check(ItemSimulationSnapshot.capture(restored.state, []).snapshot.canonical_bytes() == snap.canonical_bytes(), "legacy recapture exact bytes")
+			check(ItemSimulationSnapshot.capture(restored.state, []).snapshot.canonical_bytes() == snap.canonical_bytes(), "current envelope canonical roundtrip")
 			AttackForecast._close(restored.state)
 		(defs[&"tactical_summoning_seal"] as ItemDef).summon_definition.hp_max = 25.0
 		var counter := UnitId.get_counter()
-		check(snap.instantiate(defs).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID and UnitId.get_counter() == counter, "legacy rejects changed default catalogue before allocation")
-		s.close()
+		check(snap.instantiate(defs).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID and UnitId.get_counter() == counter, "current envelope rejects changed catalogue before allocation")
+		capability_session.close()
 
 func _test_definition_validation() -> void:
 	var definition := SummonDefinition.new()
@@ -290,16 +294,16 @@ func _test_spawn_isolation() -> void:
 func _test_snapshot() -> void:
 	var s := VariantSession.new()
 	var snap := snapshot(s)
-	check(snap.to_dict()["schema_version"] == 6 and snap.to_dict()["scope"] == ItemSimulationSnapshot.SCOPE_V6 and not snap.to_dict().has("environment"), "v6 unused seal")
+	check(snap.to_dict()["schema_version"] == ItemSimulationSnapshot.SCHEMA_VERSION and snap.to_dict()["scope"] == ItemSimulationSnapshot.SCOPE and not snap.to_dict().has("environment"), "current schema omits absent environment capability")
 	for ready in [false, true]:
 		if not ready: s.use_summoning_item(Vector2i(0, 1))
 		else: s._refill(Faction.Type.PLAYER)
 		snap = snapshot(s)
 		var defs := catalogue(s)
 		var restored := ItemSimulationSnapshot.from_dict(snap.to_dict()).snapshot.instantiate(defs)
-		check(restored.code == ItemSnapshotResult.Code.OK, "v6 restore")
+		check(restored.code == ItemSnapshotResult.Code.OK, "current schema restore")
 		if restored.state != null:
-			check(ItemSimulationSnapshot.capture(restored.state, []).snapshot.canonical_bytes() == snap.canonical_bytes(), "v6 pending/ready no refill")
+			check(ItemSimulationSnapshot.capture(restored.state, []).snapshot.canonical_bytes() == snap.canonical_bytes(), "current pending/ready no refill")
 			(defs[&"tactical_summoning_seal"] as ItemDef).summon_definition.hp_max = 300.0
 			check(ItemSimulationSnapshot.capture(restored.state, []).snapshot.canonical_bytes() == snap.canonical_bytes(), "restore catalogue isolated")
 			AttackForecast._close(restored.state)
@@ -313,7 +317,7 @@ func _test_snapshot() -> void:
 			var bad := data.duplicate(true)
 			bad["owners"][0]["definitions"][index]["summon_definition"].merge(patch, true)
 			var global_id := UnitId.get_counter()
-			check(ItemSimulationSnapshot.from_dict(bad).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID and UnitId.get_counter() == global_id, "v6 raw rejection " + str(patch.keys()))
+			check(ItemSimulationSnapshot.from_dict(bad).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID and UnitId.get_counter() == global_id, "current raw rejection " + str(patch.keys()))
 		var defs := catalogue(s)
 		(defs[&"tactical_summoning_seal"] as ItemDef).summon_definition.name_prefix = "Другой · "
 		check(snap.instantiate(defs).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "catalogue full name mismatch")
@@ -375,12 +379,12 @@ func _test_faults() -> void:
 func _test_environment() -> void:
 	var s := VariantEnvironment.new()
 	var snap := snapshot(s)
-	check(snap.to_dict()["schema_version"] == 6 and snap.to_dict().has("environment"), "v6 carries environment plus unused variant")
+	check(snap.to_dict()["schema_version"] == ItemSimulationSnapshot.SCHEMA_VERSION and snap.to_dict()["scope"] == ItemSimulationSnapshot.SCOPE and snap.to_dict().has("environment"), "current schema carries present environment capability")
 	check(s.raise_corpse(Vector2i(0, 3)).status == ActionReceipt.APPLIED, "D5 raise with custom unused seal")
 	var helper := s.state.active_summon(s.units[0].id)
 	check(helper != null and helper.vitals.get_hp() == 16.0 and helper.armor != null and helper.bleeding != null, "D5 keeps fixed default and capabilities")
 	var restored := snapshot(s).instantiate(catalogue(s))
-	check(restored.code == ItemSnapshotResult.Code.OK and ItemSimulationSnapshot.capture(restored.state, []).snapshot.canonical_bytes() == snapshot(s).canonical_bytes(), "v6 environment restore")
+	check(restored.code == ItemSnapshotResult.Code.OK and ItemSimulationSnapshot.capture(restored.state, []).snapshot.canonical_bytes() == snapshot(s).canonical_bytes(), "current environment restore")
 	if restored.state != null: AttackForecast._close(restored.state)
 	var cmd := UseSummoningItemCommand.new(s.units[0].id, s.summoning_item().get_item_instance_id(), Vector2i(0, 1), s.context.get_revision())
 	check(cmd.validate(s.context) == &"item/insufficient_main", "raise spent the main action also required by the seal")

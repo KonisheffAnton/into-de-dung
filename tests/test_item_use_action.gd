@@ -123,7 +123,7 @@ func _test_legacy_heal_snapshot() -> void:
 	var restored_item: ItemInstance = restored.state.get_owner(session.selected_id)._items[item.get_item_instance_id()]
 	var original_action := ItemUseAction.from_definition(item.get_definition())
 	var restored_action := ItemUseAction.from_definition(restored_item.get_definition())
-	check(restored.code == ItemSnapshotResult.Code.OK and snapshot.to_dict()["schema_version"] == 2 and original_action != null and restored_action != null and original_action.get_kind() == restored_action.get_kind() and original_action.get_heal_amount() == restored_action.get_heal_amount() and original_action.get_max_charges() == restored_action.get_max_charges(), "legacy heal descriptor roundtrip")
+	check(restored.code == ItemSnapshotResult.Code.OK and snapshot.to_dict()["schema_version"] == ItemSimulationSnapshot.SCHEMA_VERSION and original_action != null and restored_action != null and original_action.get_kind() == restored_action.get_kind() and original_action.get_heal_amount() == restored_action.get_heal_amount() and original_action.get_max_charges() == restored_action.get_max_charges(), "heal descriptor roundtrip")
 	AttackForecast._close(restored.state)
 	session.close()
 
@@ -162,6 +162,6 @@ func _test_summoning() -> void:
 		return
 	var restored_item: ItemInstance = restored.state.get_owner(actor.id)._items[item.get_item_instance_id()]
 	var restored_action := ItemUseAction.from_definition(restored_item.get_definition())
-	check(restored.code == ItemSnapshotResult.Code.OK and snapshot.to_dict()["schema_version"] == 6 and restored_action != null and restored_action.get_kind() == action.get_kind() and restored_action.get_summon_definition().to_dict() == action.get_summon_definition().to_dict(), "v6 custom restored descriptor parity")
+	check(restored.code == ItemSnapshotResult.Code.OK and snapshot.to_dict()["schema_version"] == ItemSimulationSnapshot.SCHEMA_VERSION and restored_action != null and restored_action.get_kind() == action.get_kind() and restored_action.get_summon_definition().to_dict() == action.get_summon_definition().to_dict(), "custom restored descriptor parity")
 	AttackForecast._close(restored.state)
 	session.close()

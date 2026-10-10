@@ -71,6 +71,13 @@ python tools/demo/isolate.py --render-check
 На рабочем месте пользователя 2026-10-01 экран слева, не основной, имеет индекс 0;
 после изменения конфигурации экранов индекс следует перепроверить.
 
+Исследование текущих снимков: `python tools/demo/isolate.py --check --only snapshot_strategies --screen 0`.
+Этот opt-in benchmark не входит в full/render. Сравнивать последовательные прогоны
+одного fixture без других Godot-нагрузок; первые три вызова — прогрев, затем 21 sample.
+Рост 6/24/96 относится к доске, не ко всему походу. Производственный кадр измеряет
+`tools/demo/profile_snapshot_preflight.py --godot <exe> --output <new-dir> --screen 0`;
+вложенные времена не складывать. Контракт — [BATTLE_SNAPSHOT_CURRENT](BATTLE_SNAPSHOT_CURRENT.md).
+
 Оба режима включают новые D2 runner (расчёт, snapshot, integration, recovery, UI).
 Первая команда включает import/startup, attack_calculation/attack_d1, forecast, guard, summon_snapshot,
 summon, healing, core и headless demo/battle. Вторая повторяет import/startup

@@ -2,7 +2,8 @@
 
 Действующий прогноз нынешней атаки с её последствиями, стойкой и влияющими
 предметами. Стойка — [ACTION_PANEL_GUARD](ACTION_PANEL_GUARD.md); лечение/заряды —
-[HEALING_ITEM](HEALING_ITEM.md); helpers и item snapshot v3 — [SUMMON_ITEM](SUMMON_ITEM.md).
+[HEALING_ITEM](HEALING_ITEM.md); helpers — [SUMMON_ITEM](SUMMON_ITEM.md).
+Текущий формат Unit/Item и отказ старых envelopes — [BATTLE_SNAPSHOT_CURRENT](BATTLE_SNAPSHOT_CURRENT.md).
 Прогноз не расходует live-заряды. K3 добавляет отдельный прогноз двух применений
 M3 (ниже); K4 добавляет движение, K5 — поднятие одного тела, K6 — охранную стойку, K9 — восстановление брони.
 Перковый удар и иммунитеты [K11](CONTROL_PACKAGE_K11.md) используют тот же
@@ -30,7 +31,7 @@ K17 добавляет ElementalCastCommand в ForecastSimulation/ActionForecast
 `balance_max` (float), `cell` (Vector2i), `alive` (bool), `main`, `bonus` (int),
 `move` (float). Записи включают всех участников, UI выделяет изменившихся.
 Записи также содержат `guard_stance` (bool); полный snapshot
-переносит состояние в Unit schema v3 без refill. Снятие стойки атакующего совпадает
+переносит состояние Unit без refill. Снятие стойки атакующего совпадает
 с настоящим исполнением. Проценты защиты не применяются к столкновению/падению.
 `snapshot_before/after: Dictionary`, `rng_after: Dictionary`, `counters_after:
 Dictionary` сохраняются для проверки parity. DTO не является save-game/token.
@@ -144,17 +145,17 @@ runner; viewport hover/exit/selection/phase/reset и PNG, независимое
 
 ## Призванные участники (2026-09-15)
 
-[SUMMON_ITEM.md](SUMMON_ITEM.md) добавляет item snapshot v3 с use_summon,
+[SUMMON_ITEM.md](SUMMON_ITEM.md) задаёт перенос use_summon,
 зарядами и metadata владельца/ожидания первого хода. AttackForecast сохраняет
 полную доску с helpers, их предметных владельцев и admission rules копии контекста.
 Заряд печати не расходуется атакой. Совпадение полного snapshot, receipts,
 counters/RNG проверяется для атак с pending/готовым helper, включая атаку на
-него. Прогноз самого призыва добавлен отдельным API K3 ниже. Unit snapshot v3
-стойки не меняется.
+него. Прогноз самого призыва добавлен отдельным API K3 ниже; стойка переносится
+в текущем Unit snapshot.
 
 ## Новая броня D2
 
-Профиль armor_spatial_v1 исполняется тем же forecast. Unit/ItemSimulation v4
+Профиль armor_spatial_v1 исполняется тем же forecast. Unit/ItemSimulation
 переносят E, перки/сопротивления, a_i/ключи экземпляров; CombatRng клонируется.
 В units добавлены armor_state, armor_current, armor_max только для новой capability.
 События armor_changed/hit_resolved дают фактический расход и по типам D/защиты/

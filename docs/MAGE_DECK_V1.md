@@ -97,7 +97,7 @@ type_id, затем номера копии; находки — очередно
 | Ability runtime | `BattleAbilityState.schema_version=2`: поля schema1 плюс `ruleset_id="u14-deck-v1"`, `first_team:int`; legacy mage definitions/ledger отсутствуют, остаются descriptors прежних действий/предметов. Мана 0..maximum, maximum 2..9; часы поддерживают любой порядок команд |
 | Deck runtime | `BattleDeckState`: `{schema:1, catalog_id, catalog_version, cards, draw_ids, hand_ids, spent_ids, draw_rng, mulligan_done, replaced_serial}`; только активные копии текущего боя |
 | Эффект атаки | `BattleCardEffectState`: `{schema:1, ordinary_attacks, fire_imbues}`; карта unit→ID обычной атаки, плюс отсортированные записи эффекта из §6 |
-| Боевой envelope | ItemSimulation schema10, scope `board_items_mage_deck_v10`: прежние board/owners/summons и optional environment; обязательные `abilities` schema2, `deck`, `card_effects`. `artifacts` запрещён; summons допускает R14 `source_kind` |
+| Боевой envelope | [Текущий ItemSimulation schema11](BATTLE_SNAPSHOT_CURRENT.md), scope `battle_state_v11`. При наличии `deck` обязательны `abilities` schema2 и `card_effects`, `artifacts` запрещён; summons допускает R14 `source_kind` |
 
 `base_types` содержит ровно 10 записей, повтор type_id ≤2; сериализация
 лексикографическая. Постоянные множества типов сортируются, не содержат дублей.
@@ -136,8 +136,9 @@ Battle `cards` разбиты на draw/hand/spent без пересечений
 и состояние входят в snapshot. `mulligan_done=false` допустим лишь в setup;
 `replaced_serial=0` либо номер своего хода ≤ abilities.serials[player].
 Профиль не хранит изменяемую руку; run, checkpoint, session и preview не делят
-массивы/definitions/RNG. ItemSimulation без deck пишет прежние v1–v9 bytes.
-Гибрид schema10/abilities1 или legacy с card_effects — отказ, не best effort.
+массивы/definitions/RNG. ItemSimulation с deck и без него использует единый
+текущий envelope. Сочетание deck/abilities1 или card_effects без deck — отказ,
+не best effort. Старые item envelopes больше не принимаются.
 
 ## 4. Совместимость, checkpoint и барьеры
 

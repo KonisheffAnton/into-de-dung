@@ -47,7 +47,7 @@ func _catalogue(definition: ItemDef) -> Dictionary:
 	return {definition.id: definition.duplicate(true)}
 
 func _run() -> void:
-	_test_legacy_bytes()
+	_test_current_codec()
 	_test_roundtrip_and_isolation()
 	_test_malformed_and_catalogue()
 	_test_dead_helper_limit()
@@ -59,13 +59,17 @@ func _test_roundtrip_and_isolation() -> void:
 	var state: ItemSimulationState = fixture["state"]
 	var definition: ItemDef = fixture["definition"]
 	var captured := ItemSimulationSnapshot.capture(state, [])
-	check(captured.code == ItemSnapshotResult.Code.OK, "v3 capture")
-	check(captured.snapshot.to_dict()["scope"] == ItemSimulationSnapshot.SCOPE_V3, "v3 scope")
+	check(captured.code == ItemSnapshotResult.Code.OK, "current schema capture")
+	check(captured.snapshot.to_dict()["schema_version"] == ItemSimulationSnapshot.SCHEMA_VERSION and captured.snapshot.to_dict()["scope"] == ItemSimulationSnapshot.SCOPE, "current schema and scope")
 	check(captured.snapshot.to_dict()["summons"] == [{"unit_id": 2, "owner_unit_id": 1, "pending": true}], "metadata")
+	var descriptor: Dictionary = captured.snapshot.to_dict()["owners"][0]["definitions"][0]
+	for field: String in ["use_heal_amount", "max_charges", "use_summon", "armor_resistances", "summon_definition"]:
+		check(descriptor.has(field), "current descriptor always includes " + field)
+	check(descriptor["use_heal_amount"] == 0.0 and descriptor["max_charges"] == 2 and descriptor["use_summon"] == true and not descriptor["summon_definition"].is_empty(), "summon descriptor preserves active use values")
 	var restored := captured.snapshot.instantiate(_catalogue(definition))
-	check(restored.code == ItemSnapshotResult.Code.OK, "v3 restore")
+	check(restored.code == ItemSnapshotResult.Code.OK, "current schema restore")
 	check(restored.state.get_summons() == state.get_summons(), "metadata roundtrip")
-	check(ItemSimulationSnapshot.capture(restored.state, []).snapshot.canonical_bytes() == captured.snapshot.canonical_bytes(), "v3 canonical roundtrip charges")
+	check(ItemSimulationSnapshot.capture(restored.state, []).snapshot.canonical_bytes() == captured.snapshot.canonical_bytes(), "current canonical roundtrip charges")
 	var clone_definition: ItemDef = restored.state.get_owner(1)._definitions[definition.id]
 	clone_definition.max_charges = 7
 	check(definition.max_charges == 2, "catalogue definition isolation")
@@ -110,7 +114,6 @@ func _test_malformed_and_catalogue() -> void:
 	nested["summons"].append({"unit_id": 1, "owner_unit_id": 2, "pending": true})
 	check(ItemSimulationSnapshot.from_dict(nested).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "summoned owner cycle rejected")
 	var no_resources := data.duplicate(true)
-	no_resources["board_snapshot"]["board"]["units"][1]["schema_version"] = 1
 	no_resources["board_snapshot"]["board"]["units"][1].erase("action_resources")
 	check(ItemSimulationSnapshot.from_dict(no_resources).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "pending needs enabled ledger")
 	state._summons[0]["extra"] = 1
@@ -119,26 +122,18 @@ func _test_malformed_and_catalogue() -> void:
 	var substituted := _catalogue(definition)
 	(substituted[definition.id] as ItemDef).use_summon = false
 	check(ItemSimulationSnapshot.from_dict(data).snapshot.instantiate(substituted).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "catalogue summon mismatch")
-	var legacy_v2 := data.duplicate(true)
-	legacy_v2["schema_version"] = 2
-	legacy_v2["scope"] = ItemSimulationSnapshot.SCOPE_V2
-	legacy_v2.erase("summons")
-	legacy_v2["owners"][0]["definitions"][0].erase("use_summon")
-	legacy_v2["owners"][0]["definitions"][0]["use_heal_amount"] = 1.0
-	var v2_catalogue := _catalogue(definition)
-	(v2_catalogue[definition.id] as ItemDef).use_summon = false
-	(v2_catalogue[definition.id] as ItemDef).use_heal_amount = 1.0
-	check(ItemSimulationSnapshot.from_dict(legacy_v2).code == ItemSnapshotResult.Code.OK, "legacy v2 shape")
-	var legacy_v1 := legacy_v2.duplicate(true)
-	legacy_v1["schema_version"] = 1
-	legacy_v1["scope"] = ItemSimulationSnapshot.SCOPE
-	legacy_v1["owners"][0]["definitions"][0].erase("use_heal_amount")
-	legacy_v1["owners"][0]["definitions"][0].erase("max_charges")
-	legacy_v1["owners"][0]["items"][0].erase("charges_left")
-	check(ItemSimulationSnapshot.from_dict(legacy_v1).code == ItemSnapshotResult.Code.OK, "legacy v1 shape")
-	var legacy_bad := legacy_v1.duplicate(true)
-	legacy_bad["owners"][0]["definitions"][0]["use_summon"] = true
-	check(ItemSimulationSnapshot.from_dict(legacy_bad).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "legacy rejects summon field")
+	var old_scopes: Array[String] = ["board_items_two_effects_v1", "board_items_usable_v2", "board_items_summons_v3", "board_items_armor_v4", "board_items_environment_v5", "board_items_summon_definitions_v6", "board_items_abilities_v7", "board_items_artifacts_v8", "board_items_team_summons_v9", "board_items_mage_deck_v10"]
+	for old_version: int in range(1, ItemSimulationSnapshot.SCHEMA_VERSION):
+		var old_import := data.duplicate(true)
+		old_import["schema_version"] = old_version
+		old_import["scope"] = old_scopes[old_version - 1]
+		check(ItemSimulationSnapshot.from_dict(old_import).code != ItemSnapshotResult.Code.OK, "old schema import rejected " + str(old_version))
+	var missing_capability := data.duplicate(true)
+	missing_capability["owners"][0]["definitions"][0].erase("use_summon")
+	check(ItemSimulationSnapshot.from_dict(missing_capability).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "current descriptor requires summon flag")
+	var malformed_capability := data.duplicate(true)
+	malformed_capability["owners"][0]["definitions"][0]["use_summon"] = "false"
+	check(ItemSimulationSnapshot.from_dict(malformed_capability).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "current descriptor rejects wrong summon flag type")
 	var extra_metadata := data.duplicate(true)
 	extra_metadata["summons"][0]["extra"] = 1
 	check(ItemSimulationSnapshot.from_dict(extra_metadata).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "metadata extra field")
@@ -155,7 +150,7 @@ func _test_dead_helper_limit() -> void:
 	check(state.active_summon(1) == null, "dead helper inactive")
 	AttackForecast._close(state)
 
-static func legacy_fixture(version: int) -> ItemSimulationState:
+static func current_fixture(with_healing: bool) -> ItemSimulationState:
 	var board := BattleBoard.new(2, 1)
 	var unit := UnitState.new()
 	unit.id = 1
@@ -169,29 +164,30 @@ static func legacy_fixture(version: int) -> ItemSimulationState:
 	var inventory := InventoryState.new(owner)
 	var equipment := EquipmentState.new(owner)
 	var definition := ItemDef.new()
-	definition.id = &"legacy_compat"
-	if version == 2:
+	definition.id = &"current_codec"
+	if with_healing:
 		definition.use_heal_amount = 12.0
 		definition.max_charges = 2
 	var item := owner.create_item(definition)
 	inventory.add_item(item)
 	return ItemSimulationState.new(board, [owner], [inventory], [equipment])
 
-func _test_legacy_bytes() -> void:
-	# Отпечатки получены тем же fixture из чистого git archive исходного 458365a0.
-	var hashes := ["2c5ba9cc86049b95f688add0d691bbfebe54d7b8ac39bb908f14cb5a4fb45d03", "21da179bb41140f76d14ee0b3b72972d74cfa222786560aef541c6873b281739"]
-	for version in [1, 2]:
-		var state := legacy_fixture(version)
+func _test_current_codec() -> void:
+	for with_healing: bool in [false, true]:
+		var state := current_fixture(with_healing)
 		var snapshot := ItemSimulationSnapshot.capture(state, []).snapshot
-		check(snapshot.to_dict()["schema_version"] == version and snapshot.fingerprint() == hashes[version - 1], "baseline v%d canonical bytes unchanged" % version)
-		var definition: ItemDef = state.get_owner(1)._definitions[&"legacy_compat"]
+		check(snapshot.to_dict()["schema_version"] == ItemSimulationSnapshot.SCHEMA_VERSION and snapshot.to_dict()["scope"] == ItemSimulationSnapshot.SCOPE, "current fixture uses schema eleven")
+		var descriptor: Dictionary = snapshot.to_dict()["owners"][0]["definitions"][0]
+		for field: String in ["use_heal_amount", "max_charges", "use_summon", "armor_resistances", "summon_definition"]:
+			check(descriptor.has(field), "current fixture includes " + field)
+		var definition: ItemDef = state.get_owner(1)._definitions[&"current_codec"]
 		var restored := snapshot.instantiate({definition.id: definition.duplicate(true)})
-		check(restored.code == ItemSnapshotResult.Code.OK and ItemSimulationSnapshot.capture(restored.state, []).snapshot.canonical_bytes() == snapshot.canonical_bytes(), "legacy canonical roundtrip")
+		check(restored.code == ItemSnapshotResult.Code.OK and ItemSimulationSnapshot.capture(restored.state, []).snapshot.canonical_bytes() == snapshot.canonical_bytes(), "current canonical roundtrip")
 		AttackForecast._close(restored.state)
 		var bad := snapshot.to_dict()
-		bad["owners"][0]["definitions"][0]["use_summon"] = false
-		check(ItemSimulationSnapshot.from_dict(bad).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "legacy forbids even false summon flag")
+		bad["owners"][0]["definitions"][0].erase("use_summon")
+		check(ItemSimulationSnapshot.from_dict(bad).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "current descriptor requires summon flag")
 		var unknown := snapshot.to_dict()
 		unknown["schema_version"] = 99
-		check(ItemSimulationSnapshot.from_dict(unknown).code == ItemSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, "unknown legacy-shaped version stays unsupported")
+		check(ItemSimulationSnapshot.from_dict(unknown).code == ItemSnapshotResult.Code.SNAPSHOT_UNSUPPORTED, "unknown version stays unsupported")
 		AttackForecast._close(state)

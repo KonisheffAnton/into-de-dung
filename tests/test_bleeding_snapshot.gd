@@ -81,24 +81,27 @@ func _run() -> void:
 	_check(captured.code == ItemSnapshotResult.Code.OK, "item snapshot capture")
 	if captured.snapshot != null:
 		var dto := captured.snapshot.to_dict()
-		_check(dto["schema_version"] == 4, "item envelope remains v4")
+		_check(dto["schema_version"] == ItemSimulationSnapshot.SCHEMA_VERSION and dto["schema_version"] == 11, "item envelope uses schema eleven")
 		var unit_dto: Dictionary = dto["board_snapshot"]["board"]["units"][0]
-		_check(unit_dto["schema_version"] == 5 and unit_dto["bleeding"]["hit_id"] == "hit-1", "unit v5 retained")
+		_check(unit_dto["schema_version"] == UnitState.SNAPSHOT_SCHEMA_VERSION and unit_dto["guard_stance"] == false and unit_dto["bleeding"]["hit_id"] == "hit-1", "schema nine retains bleeding")
 		var legacy_unit: Dictionary = unit_dto.duplicate(true)
-		legacy_unit["schema_version"] = 4
 		legacy_unit.erase("bleeding")
-		_check(UnitState.validate_snapshot_dict(legacy_unit), "unit v4 remains valid")
+		_check(UnitState.validate_snapshot_dict(legacy_unit), "current schema allows absent bleeding")
 		var missing := unit_dto.duplicate(true)
 		missing.erase("bleeding")
-		_check(not UnitState.validate_snapshot_dict(missing), "unit v5 missing bleeding rejected")
+		_check(UnitState.validate_snapshot_dict(missing), "current schema allows absent bleeding when no elemental state depends on it")
 		_check(not unit.guard_stance and UnitState.validate_snapshot_dict(unit_dto), "inactive stance supported")
 		for field: String in ["armor","action_resources","guard_stance"]:
 			var missing_field := unit_dto.duplicate(true)
 			missing_field.erase(field)
-			_check(not UnitState.validate_snapshot_dict(missing_field), "required Unit5 field " + field)
+			_check(not UnitState.validate_snapshot_dict(missing_field), "required component field " + field)
 		var unknown_unit := unit_dto.duplicate(true)
-		unknown_unit["schema_version"] = 6
+		unknown_unit["schema_version"] = UnitState.SNAPSHOT_SCHEMA_VERSION + 1
 		_check(not UnitState.validate_snapshot_dict(unknown_unit), "unknown unit version")
+		for old_version: int in range(1, UnitState.SNAPSHOT_SCHEMA_VERSION):
+			var old_unit := unit_dto.duplicate(true)
+			old_unit["schema_version"] = old_version
+			_check(not UnitState.validate_snapshot_dict(old_unit), "old unit schema rejected " + str(old_version))
 		_check(not UnitState.validate_snapshot_dict(unit_dto.merged({"extra":1})), "unit extra rejected")
 		var lost_source := dto.duplicate(true)
 		lost_source["board_snapshot"]["board"]["units"][0]["bleeding"]["source"]["instigator_unit_id"] = 987654
@@ -106,7 +109,7 @@ func _run() -> void:
 		_check(ItemSimulationSnapshot.from_dict(lost_source).code != ItemSnapshotResult.Code.OK, "missing source unit rejected")
 		var old_envelope := dto.duplicate(true)
 		old_envelope["schema_version"] = 3
-		old_envelope["scope"] = ItemSimulationSnapshot.SCOPE_V3
+		old_envelope["scope"] = "board_items_summons_v3"
 		_check(ItemSimulationSnapshot.from_dict(old_envelope).code != ItemSnapshotResult.Code.OK, "old envelope cannot hide status")
 		var legacy_dto := dto.duplicate(true)
 		legacy_dto["board_snapshot"]["board"]["units"][0]["bleeding"] = raw.merged({"schema_version": 1, "ticks_left": 2, "source": state.source.duplicate(true)}, true)

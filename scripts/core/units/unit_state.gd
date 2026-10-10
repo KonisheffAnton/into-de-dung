@@ -1,6 +1,8 @@
 extends RefCounted
 class_name UnitState
 
+const SNAPSHOT_SCHEMA_VERSION := 9
+
 ## ЕДИНАЯ сущность юнита в игровой логике — фикс корневого дефекта C-1.
 ##
 ## ПРОБЛЕМА, КОТОРУЮ ЭТО РЕШАЕТ. До рефакторинга сущности "юнит" не
@@ -339,32 +341,23 @@ func _checked_snapshot_data(reference_only: bool) -> Dictionary:
 		if armor != null and not _snapshot_armor_hp_valid(vital_data["hp"], bag): return {}
 	if reference_only:
 		return {"id": id, "faction": int(faction), "vitals": {"is_alive": vital_data["is_alive"]}}
-	var result := {"schema_version": 1, "id": id, "faction": int(faction),
+	var result := {"schema_version": SNAPSHOT_SCHEMA_VERSION, "id": id, "faction": int(faction),
 		"cell_x": cell.x, "cell_y": cell.y, "height": height,
 		"debug_name": debug_name, "ai_profile_path": "",
 		"move_points_left": move_points_left, "has_attacked": has_attacked,
 		"stats": bag, "vitals": vital_data}
 	if action_resources != null:
-		result["schema_version"] = 2
 		result["action_resources"] = action_resources.to_snapshot_dict()
-	if guard_stance:
-		result["schema_version"] = 3
-		result["guard_stance"] = guard_stance
+	result["guard_stance"] = guard_stance
 	if armor != null:
-		result["schema_version"] = 4
-		result["guard_stance"] = guard_stance
 		result["armor"] = armor_data
 		if bleeding != null:
-			result["schema_version"] = 5
 			result["bleeding"] = bleeding_data
 	if control != null:
-		result["schema_version"] = 6
 		result["control"] = control_data
 	if combat_perks != null:
-		result["schema_version"] = 7
 		result["combat_perks"] = perks_data
 	if elemental != null:
-		result["schema_version"] = 8
 		result["elemental"] = elemental_data
 	return result
 
@@ -381,26 +374,23 @@ static func from_snapshot_dict(data: Dictionary) -> UnitState:
 	unit.has_attacked = data["has_attacked"]
 	unit.stats = StatsBag.from_snapshot_dict(data["stats"])
 	unit.vitals = Vitals.from_dict(data["vitals"], unit.stats)
-	if data["schema_version"] in [2, 3, 4, 5, 6, 7, 8]:
+	if data.has("action_resources"):
 		unit.action_resources = ActionResources.from_snapshot_dict(data["action_resources"], unit.id)
 		if unit.action_resources == null: return null
-	unit.guard_stance = data.get("guard_stance", false)
-	if data["schema_version"] in [4, 5] or (data["schema_version"] in [6, 7, 8] and data.has("armor")):
+	unit.guard_stance = data["guard_stance"]
+	if data.has("armor"):
 		unit.armor = ArmorState.from_dict(data["armor"])
 		if unit.armor == null: return null
-	if data["schema_version"] == 5 or (data["schema_version"] in [6, 7, 8] and data.has("bleeding")):
+	if data.has("bleeding"):
 		unit.bleeding = BleedingState.from_dict(data["bleeding"])
 		if unit.bleeding == null: return null
-	if data["schema_version"] in [6, 7, 8] and data.has("control"):
+	if data.has("control"):
 		unit.control = ControlState.from_dict(data["control"])
 		if unit.control == null: return null
-	if data["schema_version"] == 7:
+	if data.has("combat_perks"):
 		unit.combat_perks = CombatPerksState.from_dict(data["combat_perks"])
 		if unit.combat_perks == null or (unit.combat_perks.mode == CombatPerksState.Mode.COVER and unit.combat_perks.cover_target_id == unit.id): return null
-	if data["schema_version"] == 8:
-		if data.has("combat_perks"):
-			unit.combat_perks = CombatPerksState.from_dict(data["combat_perks"])
-			if unit.combat_perks == null or (unit.combat_perks.mode == CombatPerksState.Mode.COVER and unit.combat_perks.cover_target_id == unit.id): return null
+	if data.has("elemental"):
 		unit.elemental = ElementalState.from_dict(data["elemental"])
 		if unit.elemental == null: return null
 	return unit
@@ -409,60 +399,40 @@ static func from_snapshot_dict(data: Dictionary) -> UnitState:
 static func validate_snapshot_dict(data: Variant) -> bool:
 	if typeof(data) != TYPE_DICTIONARY: return false
 	var d: Dictionary = data
-	if typeof(d.get("schema_version")) == TYPE_INT and d["schema_version"] in [1, 2, 3, 4, 5, 6, 7] and typeof(d.get("bleeding")) == TYPE_DICTIONARY and d["bleeding"].get("schema_version") == 3:
-		return false
-	if typeof(d.get("schema_version")) == TYPE_INT and d["schema_version"] == 8:
-		if not d.has("elemental") or not ElementalState.valid(d["elemental"]): return false
-		if not d.has("bleeding") or typeof(d["bleeding"]) != TYPE_DICTIONARY or d["bleeding"].get("schema_version") != 3 or not BleedingState.valid(d["bleeding"]): return false
-		if d["elemental"]["burning_stacks"] > 0 and d["bleeding"]["stacks"] > 0: return false
-		if not d.has("action_resources") or not d.has("guard_stance") or not d.has("armor"): return false
-		var prior8 := d.duplicate(false)
-		prior8.erase("elemental")
-		# Новый bleed уже проверен выше; старый валидатор намеренно запрещает v3.
-		prior8.erase("bleeding")
-		prior8["schema_version"] = 7 if prior8.has("combat_perks") else (6 if prior8.has("control") else 4)
-		return validate_snapshot_dict(prior8)
-	if typeof(d.get("schema_version")) == TYPE_INT and d["schema_version"] == 7:
-		if not d.has("combat_perks") or not CombatPerksState.valid(d["combat_perks"]): return false
-		if d["combat_perks"].get("mode") == CombatPerksState.Mode.COVER and typeof(d.get("id")) == TYPE_INT and d["combat_perks"].get("cover_target_id") == d["id"]: return false
-		if not d.has("action_resources") or not ActionResources.validate_snapshot_dict(d["action_resources"], d.get("id", -1)): return false
-		var prior := d.duplicate(false)
-		prior.erase("combat_perks")
-		prior["schema_version"] = 6 if prior.has("control") else (5 if prior.has("bleeding") else (4 if prior.has("armor") else (3 if prior.has("guard_stance") else 2)))
-		return validate_snapshot_dict(prior)
-	if typeof(d.get("schema_version")) == TYPE_INT and d["schema_version"] == 6:
-		if not d.has("control") or not ControlState.valid(d["control"]): return false
-		# Ниже меняются только ключи корневого словаря; вложенные данные читаются.
-		var prior := d.duplicate(false)
-		prior.erase("control")
-		prior["schema_version"] = 5 if prior.has("bleeding") else (4 if prior.has("armor") else (3 if prior.has("guard_stance") else 2))
-		return validate_snapshot_dict(prior)
-	var base_required := ["schema_version", "id", "faction", "cell_x", "cell_y", "height", "debug_name", "ai_profile_path", "move_points_left", "has_attacked", "stats", "vitals"]
-	if typeof(data.get("schema_version")) != TYPE_INT or data["schema_version"] not in [1, 2, 3, 4, 5]: return false
-	var required := base_required if data["schema_version"] == 1 else base_required + ["action_resources"]
-	if data["schema_version"] == 4:
-		required.append("armor")
-	if data["schema_version"] == 5:
-		required.append("armor")
-		required.append("bleeding")
-	if data["schema_version"] in [3, 4, 5]:
-		required.append("guard_stance")
-		if typeof(data.get("guard_stance")) != TYPE_BOOL: return false
+	if typeof(d.get("schema_version")) != TYPE_INT or d["schema_version"] != SNAPSHOT_SCHEMA_VERSION: return false
+	var required := ["schema_version", "id", "faction", "cell_x", "cell_y", "height", "debug_name", "ai_profile_path", "move_points_left", "has_attacked", "stats", "vitals", "guard_stance"]
+	for optional_key in ["action_resources", "armor", "bleeding", "control", "combat_perks", "elemental"]:
+		if d.has(optional_key): required.append(optional_key)
 	if not _has_exact_string_keys(d, required): return false
 	for key in ["schema_version", "id", "faction", "cell_x", "cell_y", "height"]:
 		if typeof(d[key]) != TYPE_INT: return false
 	if d["id"] < UnitId.FIRST or d["faction"] < 0 or d["faction"] > 2 or d["cell_x"] < -2147483648 or d["cell_x"] > 2147483647 or d["cell_y"] < -2147483648 or d["cell_y"] > 2147483647: return false
 	if typeof(d["debug_name"]) != TYPE_STRING or typeof(d["ai_profile_path"]) != TYPE_STRING or not d["ai_profile_path"].is_empty() or typeof(d["move_points_left"]) != TYPE_FLOAT or not is_finite(d["move_points_left"]) or d["move_points_left"] < 0.0 or typeof(d["has_attacked"]) != TYPE_BOOL: return false
+	if typeof(d["guard_stance"]) != TYPE_BOOL: return false
 	if not StatsBag.validate_snapshot_dict(d["stats"]): return false
-	if d["schema_version"] in [2, 3, 4, 5] and not ActionResources.validate_snapshot_dict(d["action_resources"], d["id"]): return false
-	if d["schema_version"] in [4, 5] and not ArmorState.valid(d["armor"]): return false
-	if d["schema_version"] == 5 and not BleedingState.valid(d["bleeding"]): return false
+	if d.has("action_resources") and not ActionResources.validate_snapshot_dict(d["action_resources"], d["id"]): return false
+	if d.has("armor") and not ArmorState.valid(d["armor"]): return false
+	if d.has("bleeding") and not BleedingState.valid(d["bleeding"]): return false
+	if d.has("control") and not ControlState.valid(d["control"]): return false
+	if d.has("combat_perks"):
+		if not CombatPerksState.valid(d["combat_perks"]): return false
+		if d["combat_perks"].get("mode") == CombatPerksState.Mode.COVER and d["combat_perks"].get("cover_target_id") == d["id"]: return false
+	if d.has("elemental") and not ElementalState.valid(d["elemental"]): return false
+	var has_actions: bool = d.has("action_resources")
+	if (d["guard_stance"] or d.has("armor") or d.has("control") or d.has("combat_perks")) and not has_actions: return false
+	if d.has("bleeding") and (not has_actions or not d.has("armor")): return false
+	if d.has("elemental"):
+		if not has_actions or not d.has("armor") or not d.has("bleeding"): return false
+		if d["bleeding"].get("schema_version") != 3: return false
+		if d["elemental"]["burning_stacks"] > 0 and d["bleeding"]["stacks"] > 0: return false
+	elif d.has("bleeding") and d["bleeding"].get("schema_version") == 3:
+		return false
 	if typeof(d["vitals"]) != TYPE_DICTIONARY: return false
 	var v: Dictionary = d["vitals"]
 	if not _has_exact_string_keys(v, ["hp", "balance", "is_alive"]): return false
 	if typeof(v["hp"]) != TYPE_FLOAT or not is_finite(v["hp"]) or v["hp"] < 0.0: return false
 	if typeof(v["balance"]) != TYPE_FLOAT or not is_finite(v["balance"]) or v["balance"] < 0.0: return false
-	if d["schema_version"] in [4, 5]:
+	if d.has("armor"):
 		if not _snapshot_armor_hp_valid(v["hp"], d["stats"]): return false
 	return typeof(v["is_alive"]) == TYPE_BOOL
 

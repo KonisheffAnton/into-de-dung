@@ -26,21 +26,19 @@ make_helper принимает необязательное определени
 [SUMMON_ITEM §K9](SUMMON_ITEM.md#композиция-с-бронёй-и-средой-k9). Обычный исходный
 погибший D5 не становится зарегистрированным summon из-за общей фабрики.
 
-Writer сохраняет прежний минимальный envelope v1–v5 для default, включая
-явный default Resource. Для нестандартного определения (даже неиспользованной
-печати) пишет v6 `board_items_summon_definitions_v6`: payload v4 с summons,
-armor-полями предметов и `summon_definition` в каждом descriptor.
+Writer использует [текущий envelope](BATTLE_SNAPSHOT_CURRENT.md) с summons,
+armor-полями предметов и `summon_definition` в каждом descriptor, включая default
+и определение неиспользованной печати.
 У печати это полный DTO с schema_version=1 и всеми 12 полями; у других — {}.
 Environment добавляется только при включённой среде и имеет прежнюю форму D5.
-Наличие armor-полей v6 само по себе не включает armor capability у Unit;
+Наличие armor-полей само по себе не включает armor capability у Unit;
 capability нового помощника задаёт команда по правилам SUMMON_ITEM/D5.
-Board/Unit codecs не меняются. Старые формы сохраняют canonical bytes.
+Граница совместимости Unit/Item codecs задана текущим контрактом снимков.
 
 Raw preflight проверяет точные ключи/типы/границы/версию определения до allocation
 доски, владельцев, предметов, runtime эффектов и помощников. Catalogue обязан
-совпадать по всем влияющим значениям. Для v1–v5 legacy summon дополнительно
-сравнивается с default; нестандартный внешний каталог отклоняется. Для v6
-сравнивается полный DTO; несовпадение/отсутствие — отказ. После полной проверки
+совпадать по всем влияющим значениям: сравнивается полный DTO определения,
+несовпадение/отсутствие — отказ. После полной проверки
 restore изолирует определения от каталога, не вызывает equip/refill.
 Preview и callback preflight используют тот же codec и зафиксированные данные.
 
@@ -50,7 +48,7 @@ FAULTED prefix, смерть/cleanup/исход, правила D5 и профи
 
 Приёмка: default/вариант через настоящую команду; исходный Resource/getter,
 два владельца и повтор после смерти; invalid/stale без мутации; raw malformed
-и версии; legacy bytes; roundtrip pending/ready без refill; forecast/live
+и версии; текущие canonical bytes; roundtrip pending/ready без refill; forecast/live
 включая lethal и неиспользованную печать; callback guard, RNG/counters; D5.
 Import/startup, адресные тесты, full/render, PNG/input/scroll, затем независимое
 ревью фиксированного результата и логический commit по CODEX_WORKFLOW.

@@ -128,23 +128,23 @@ func _test_counterattack_codec() -> void:
 
 func _test_unit_schema_and_board() -> void:
 	var unit := _unit(20)
-	check(unit.to_snapshot_dict()["schema_version"] == 1, "legacy canonical schema preserved")
+	check(unit.to_snapshot_dict()["schema_version"] == UnitState.SNAPSHOT_SCHEMA_VERSION, "canonical unit schema is current")
 	unit.enable_action_resources()
 	unit.combat_perks = CombatPerksState.new()
 	unit.combat_perks.definition.sneak_attack = true
 	var packed := unit.to_snapshot_dict()
-	check(packed.get("schema_version") == 7 and UnitState.validate_snapshot_dict(packed), "schema seven with sneak perk")
+	check(packed.get("schema_version") == UnitState.SNAPSHOT_SCHEMA_VERSION and UnitState.validate_snapshot_dict(packed), "current schema with sneak perk")
 	var restored := UnitState.from_snapshot_dict(packed)
-	check(restored != null and restored.combat_perks.definition.sneak_attack, "schema seven roundtrip")
+	check(restored != null and restored.combat_perks.definition.sneak_attack, "current schema roundtrip")
 	unit.combat_perks.definition.counterattack = true
 	unit.combat_perks.reaction_left = 1
 	packed = unit.to_snapshot_dict()
-	check(packed.get("schema_version") == 7 and packed["combat_perks"]["schema_version"] == 3, "counterattack keeps unit schema seven envelope")
+	check(packed.get("schema_version") == UnitState.SNAPSHOT_SCHEMA_VERSION and packed["combat_perks"]["schema_version"] == 3, "counterattack keeps nested perk schema three")
 	var counter_restored := UnitState.from_snapshot_dict(packed)
-	check(counter_restored != null and counter_restored.combat_perks.definition.counterattack and counter_restored.combat_perks.reaction_left == 1, "unit seven restores counterattack and shared charge")
+	check(counter_restored != null and counter_restored.combat_perks.definition.counterattack and counter_restored.combat_perks.reaction_left == 1, "current unit schema restores counterattack and shared charge")
 	var missing := packed.duplicate(true)
 	missing.erase("action_resources")
-	check(not UnitState.validate_snapshot_dict(missing), "schema seven requires action resources")
+	check(not UnitState.validate_snapshot_dict(missing), "combat perks require action resources")
 	var high_id := CombatPerksState.new()
 	high_id.definition.tank_reactions = true
 	high_id.mode = CombatPerksState.Mode.COVER
@@ -160,15 +160,15 @@ func _test_unit_schema_and_board() -> void:
 	armored.combat_perks = CombatPerksState.new()
 	armored.combat_perks.definition.tank_reactions = true
 	var armored_data := armored.to_snapshot_dict()
-	check(armored_data.get("schema_version") == 7 and not armored_data.has("control"), "schema seven armor and bleeding without control")
-	check(UnitState.from_snapshot_dict(armored_data) != null, "schema seven armor and bleeding restore")
+	check(armored_data.get("schema_version") == UnitState.SNAPSHOT_SCHEMA_VERSION and armored_data.has("guard_stance") and not armored_data.has("control"), "current schema armor and bleeding without control")
+	check(UnitState.from_snapshot_dict(armored_data) != null, "current schema armor and bleeding restore")
 	var controlled := _unit(23)
 	controlled.enable_action_resources()
 	controlled.control = ControlState.new()
 	controlled.control.entangled_turns = 1
 	controlled.combat_perks = CombatPerksState.new()
 	var controlled_copy := UnitState.from_snapshot_dict(controlled.to_snapshot_dict())
-	check(controlled_copy != null and controlled_copy.control.entangled_turns == 1 and controlled_copy.armor == null, "schema seven preserves control without armor")
+	check(controlled_copy != null and controlled_copy.control.entangled_turns == 1 and controlled_copy.armor == null and not controlled_copy.to_snapshot_dict().has("armor"), "current schema preserves control without armor")
 	for version: int in range(1, 7):
 		var legacy := _unit(30 + version)
 		if version >= 2: legacy.enable_action_resources()
@@ -176,8 +176,11 @@ func _test_unit_schema_and_board() -> void:
 		if version >= 4: legacy.armor = ArmorState.new()
 		if version >= 5: legacy.bleeding = BleedingState.new()
 		if version >= 6: legacy.control = ControlState.new()
-		var legacy_data := legacy.to_snapshot_dict()
-		check(legacy_data.get("schema_version") == version and not legacy_data.has("combat_perks") and UnitState.from_snapshot_dict(legacy_data).to_snapshot_dict() == legacy_data, "legacy exact roundtrip v%d" % version)
+		var current_data := legacy.to_snapshot_dict()
+		var has_actions: bool = legacy.action_resources != null
+		check(current_data.get("schema_version") == UnitState.SNAPSHOT_SCHEMA_VERSION and current_data.has("guard_stance") and current_data.has("action_resources") == has_actions and not current_data.has("combat_perks"), "current optional fields for fixture %d" % version)
+		var current_copy := UnitState.from_snapshot_dict(current_data)
+		check(current_copy != null and current_copy.to_snapshot_dict() == current_data, "current optional fixture roundtrip %d" % version)
 	var bad := packed.duplicate(true)
 	bad["combat_perks"]["mode"] = 1
 	check(not UnitState.validate_snapshot_dict(bad), "reject opportunist without tank perk")

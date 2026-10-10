@@ -454,6 +454,8 @@ def main():
         run("click_attack", ["--script", "tests/test_click_attack.gd"], headless=not args.render_check)
         run("snapshot_value_copy", ["--script", "tests/test_snapshot_value_copy.gd"])
         run("live_snapshot_capture", ["--script", "tests/test_live_snapshot_capture.gd"])
+        if "snapshot_strategies" in selected:
+            run("snapshot_strategies", ["--script", "tools/demo/profile_snapshot_strategies.gd"])
         run("summon_checkpoint", ["--script", "tests/test_summon_checkpoint.gd"])
         run("armor_integration", ["--script", "tests/test_armor_integration.gd"])
         run("armor_recovery", ["--script", "tests/test_armor_recovery.gd"])

@@ -192,7 +192,7 @@ static func _validate_status_sources(units: Array) -> String:
 	for unit: Dictionary in units:
 		unit_ids[unit["id"]] = true
 	for unit: Dictionary in units:
-		if unit.get("schema_version") != 8: continue
+		if not unit.has("elemental"): continue
 		var bleeding: Dictionary = unit["bleeding"]
 		if bleeding["ticks_left"] > 0 and bleeding["source"]["kind"] == &"attack":
 			if not unit_ids.has(bleeding["source"]["instigator_unit_id"]) or not unit_ids.has(bleeding["source"]["credit_unit_id"]): return "unit/%d/bleeding/source" % unit["id"]
@@ -237,36 +237,11 @@ static func _find_unsupported(board_value: Dictionary) -> String:
 		if typeof(raw_unit) != TYPE_DICTIONARY: continue
 		var unit: Dictionary = raw_unit
 		var unit_version: Variant = unit.get("schema_version")
-		var unit_keys := ["schema_version", "id", "faction", "cell_x", "cell_y", "height", "debug_name", "ai_profile_path", "move_points_left", "has_attacked", "stats", "vitals"]
-		var has_resource_shape: bool = typeof(unit_version) == TYPE_INT and (unit_version == 2 or (unit_version != 1 and unit.has("action_resources")))
-		# Новую версию распознаём только после проверки полной формы и типов DTO:
-		# повреждённые данные не должны маскироваться под неподдержанную схему.
-		if has_resource_shape:
-			unit_keys.append("action_resources")
-		var has_stance_shape: bool = typeof(unit_version) == TYPE_INT and (unit_version == 3 or (unit_version not in [1, 2] and unit.has("guard_stance")))
-		if has_stance_shape:
-			unit_keys.append("guard_stance")
-			if typeof(unit.get("guard_stance")) != TYPE_BOOL: continue
-		var has_armor_shape: bool = typeof(unit_version) == TYPE_INT and (unit_version == 4 or (unit_version not in [1, 2, 3] and unit.has("armor")))
-		if has_armor_shape:
-			unit_keys.append("armor")
-			if typeof(unit.get("armor")) != TYPE_DICTIONARY or not ArmorState.valid(unit["armor"]): continue
-		var has_bleeding_shape: bool = typeof(unit_version) == TYPE_INT and (unit_version == 5 or (unit_version not in [1, 2, 3, 4] and unit.has("bleeding")))
-		if has_bleeding_shape:
-			unit_keys.append("bleeding")
-			if typeof(unit.get("bleeding")) != TYPE_DICTIONARY or not BleedingState.valid(unit["bleeding"]): continue
-		var has_control_shape: bool = typeof(unit_version) == TYPE_INT and (unit_version == 6 or unit.has("control"))
-		if has_control_shape:
-			unit_keys.append("control")
-			if not ControlState.valid(unit.get("control")): continue
-		var has_combat_perks_shape: bool = typeof(unit_version) == TYPE_INT and (unit_version == 7 or unit.has("combat_perks"))
-		if has_combat_perks_shape:
-			unit_keys.append("combat_perks")
-			if not CombatPerksState.valid(unit.get("combat_perks")): continue
-		var has_elemental_shape: bool = typeof(unit_version) == TYPE_INT and (unit_version == 8 or unit.has("elemental"))
-		if has_elemental_shape:
-			unit_keys.append("elemental")
-			if not ElementalState.valid(unit.get("elemental")): continue
+		var unit_keys := ["schema_version", "id", "faction", "cell_x", "cell_y", "height", "debug_name", "ai_profile_path", "move_points_left", "has_attacked", "stats", "vitals", "guard_stance"]
+		var has_resource_shape := unit.has("action_resources")
+		for key: String in ["action_resources", "armor", "bleeding", "control", "combat_perks", "elemental"]:
+			if unit.has(key): unit_keys.append(key)
+		if typeof(unit.get("guard_stance")) != TYPE_BOOL: continue
 		if not _has_exact_string_keys(unit, unit_keys): continue
 		var unit_types_valid := true
 		for key in ["schema_version", "id", "faction", "cell_x", "cell_y", "height"]:
@@ -284,15 +259,15 @@ static func _find_unsupported(board_value: Dictionary) -> String:
 					resources = {}
 					break
 			if resources.is_empty(): continue
-		if typeof(unit_version) == TYPE_INT and unit_version not in [1, 2, 3, 4, 5, 6, 7, 8]:
+		if typeof(unit_version) == TYPE_INT and unit_version != UnitState.SNAPSHOT_SCHEMA_VERSION:
+			# Номер старой/будущей схемы не должен скрывать повреждение данных.
+			var current_shape := unit.duplicate(false)
+			current_shape["schema_version"] = UnitState.SNAPSHOT_SCHEMA_VERSION
+			if not UnitState.validate_snapshot_dict(current_shape): continue
 			return ("unit/%d" % unit["id"] if typeof(unit.get("id")) == TYPE_INT else "unit") + "/version"
 		var unit_path := "unit/%d" % unit["id"] if typeof(unit.get("id")) == TYPE_INT else "unit"
 		if typeof(unit.get("ai_profile_path")) == TYPE_STRING and not unit["ai_profile_path"].is_empty(): return unit_path + "/ai_profile"
-		if unit["schema_version"] == 5 and (not unit.has("action_resources") or not unit.has("guard_stance") or not unit.has("armor") or not unit.has("bleeding")): return unit_path + "/capability"
-		if unit["schema_version"] == 6 and (not unit.has("action_resources") or not ControlState.valid(unit.get("control"))): return unit_path + "/control"
-		if unit["schema_version"] == 7 and (not unit.has("action_resources") or not CombatPerksState.valid(unit.get("combat_perks")) or (unit["combat_perks"].get("mode") == CombatPerksState.Mode.COVER and unit["combat_perks"].get("cover_target_id") == unit.get("id"))): return unit_path + "/combat_perks"
-		if unit["schema_version"] == 8 and (not unit.has("action_resources") or not unit.has("guard_stance") or not unit.has("armor") or not unit.has("bleeding") or not unit.has("elemental") or unit["bleeding"].get("schema_version") != 3 or not BleedingState.valid(unit["bleeding"])): return unit_path + "/elemental/capability"
-		if unit["schema_version"] in [2, 3, 4, 5, 6, 7, 8]:
+		if has_resource_shape:
 			if typeof(resources.get("schema_version")) == TYPE_INT and resources["schema_version"] != 1: return unit_path + "/action_resources/version"
 		if typeof(unit.get("stats")) != TYPE_DICTIONARY: continue
 		var bag: Dictionary = unit["stats"]

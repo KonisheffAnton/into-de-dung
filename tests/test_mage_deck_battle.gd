@@ -94,7 +94,7 @@ func run() -> void:
 	var bundle := HeroHubBattleFactory.create(hub)
 	check(not bundle.is_empty(),"production factory schema10")
 	if not bundle.is_empty():
-		check(snapshot(bundle.session).schema_version == 10,"production snapshot10")
+		check(snapshot(bundle.session).schema_version == ItemSimulationSnapshot.SCHEMA_VERSION,"production snapshot11")
 		check(BattleExecutionWorker.can_transfer(bundle.session),"detached worker capability")
 		bundle.session.close()
 	var invalid_session := fixture()

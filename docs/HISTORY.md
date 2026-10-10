@@ -1,5 +1,22 @@
 # История и свидетельства проверок
 
+## Единый боевой snapshot и проверка стоимости — 2026-10-10
+
+Base main `d18a45b9645eb410aab501ba9a3f9ec4f2f3107b`, без push.
+По «Приступай» реализованы [Unit9/Item11](BATTLE_SNAPSHOT_CURRENT.md), удалены
+старые runtime envelopes; свежий аудит сохранён, повторная работа restore сокращена.
+Профили/компоненты/board/D4 прежние. Полный runtime clone и кэш не внедрены.
+Последовательная медиана capture+restore 22.058→19.545мс; board clone быстрее на6/24,
+медленнее на96. Улучшение hover/кадров не подтверждено. Control/probe state parity PASS.
+Full136PASS/12FAIL: четыре ошибки переноса тестов исправлены и адресно перепроверены;
+восемь headless shader diagnostics воспроизведены на base. Общего full PASS нет.
+Core9440/0, прежние47 ObjectDB/18resources при выходе; import/startup+5render PASS.
+Unit1007/0, M1 487/0, D1 503/0; 57 исходных D1 trace hashes проверены до проекции
+только формата снимка. Независимые review APPROVE. Ручная F5/Editor/DPI/GPU открыта.
+Отчёт/измерения/полные результаты — `test_reports/snapshot-current-20261010/`.
+Пользовательская main_menu.tscn и ассеты не изменены. Прежняя передача — точный
+[архив](CODEX_HANDOFF.history-20261010-20.md). Остальные согласованные направления не начаты.
+
 ## Десктоп и обязательное исследование снимков — 2026-10-10
 
 Base main `9e7ff27e470954c42a4f372e2e3ce454618d88d8`, без push.

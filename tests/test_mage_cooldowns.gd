@@ -142,7 +142,7 @@ func _test_real_session_preview_live_worker() -> void:
 	var counters_before := session.context.simulation_counters()
 	var rng_before := session.context.get_rng().to_dict()
 	var live_before := _snapshot(session)
-	check(live_before.get("schema_version") == 7 and live_before.get("scope") == ItemSimulationSnapshot.SCOPE_V7, "battle snapshot uses schema 7")
+	check(live_before.get("schema_version") == ItemSimulationSnapshot.SCHEMA_VERSION and live_before.get("scope") == ItemSimulationSnapshot.SCOPE, "battle snapshot uses current schema eleven")
 	var captured := ItemSimulationSnapshot.from_dict(live_before)
 	var definitions := _definition_catalog(session)
 	var roundtrip := captured.snapshot.instantiate(definitions)

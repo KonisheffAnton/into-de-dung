@@ -52,10 +52,10 @@
 
 ## Снимки и исполнение
 
-Unit snapshot v3 добавляет строго boolean `guard_stance` и action_resources.
-При выключенной стойке writer сохраняет прежний v1/v2; reader принимает v1/v2/v3.
-v3 требует включённых action_resources. Старые canonical snapshots не меняются.
-SimulationSnapshot и ItemSimulationSnapshot принимают/проверяют новую форму.
+[Текущий Unit snapshot](BATTLE_SNAPSHOT_CURRENT.md) всегда содержит строго
+boolean `guard_stance`; включённая стойка требует action_resources.
+SimulationSnapshot и ItemSimulationSnapshot проверяют эту связь; старые
+Unit envelopes больше не читаются и не записываются.
 SpatialRules.Guard фиксирует стойку участников и ожидаемую добровольную отмену,
 чтобы callback не мог незаметно менять её между шагами. Это внутренний checkpoint,
 его имя Guard не обозначает игровую стойку. Preview переносит стойку через полный
@@ -98,7 +98,7 @@ API, DTO, изоляция и очистка — [ATTACK_FORECAST §K6](ATTACK_F
 Headless: цена/повтор/нет main при свободном bonus, stale/busy/fault/dead/closed,
 свободный выбор без refill, срок по командам, отказ движения/атаки, принудительный
 толчок/падение, guard attack forecast parity полных snapshots/receipt/RNG/counters,
-повторный preview без мутаций, snapshot v1/v2/v3 и повреждённые поля.
+повторный preview без мутаций, текущий snapshot, отказ старых версий и повреждённые поля.
 Viewport: реальные кнопки/цифры, 8 мест, страницы и постоянные действия,
 индикация/блокировка/выбор/осмотр/reset, отсутствие старого прогноза, PNG.
 Общие команды проверки — [TESTING](TESTING.md), сдача и передача —

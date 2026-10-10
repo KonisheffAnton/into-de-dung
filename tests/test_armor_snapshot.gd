@@ -18,14 +18,14 @@ func _run() -> void:
 	_check(not ArmorState.valid({"schema_version": 2}), "unknown armor version")
 	_check(UnitState.from_dict({"armor": {}}) == null, "legacy unit rejects armor")
 	var legacy := {"schema_version": 1, "id": 1, "faction": 0, "cell_x": 0, "cell_y": 0, "height": 0, "debug_name": "u", "ai_profile_path": "", "move_points_left": 0.0, "has_attacked": false, "stats": {}, "vitals": {}}
-	_check(not UnitState.validate_snapshot_dict(legacy.merged({"schema_version": 4})), "v4 missing fields")
+	_check(not UnitState.validate_snapshot_dict(legacy.merged({"schema_version": UnitState.SNAPSHOT_SCHEMA_VERSION})), "current schema missing fields")
 	var bad_hp := legacy.duplicate(true)
-	bad_hp["schema_version"] = 4
+	bad_hp["schema_version"] = UnitState.SNAPSHOT_SCHEMA_VERSION
 	bad_hp["action_resources"] = {}
 	bad_hp["guard_stance"] = false
 	bad_hp["armor"] = armor.to_dict()
 	bad_hp["vitals"] = {"hp": 1.5, "balance": 0.0, "is_alive": true}
-	_check(not UnitState.validate_snapshot_dict(bad_hp), "v4 fractional hp rejected")
+	_check(not UnitState.validate_snapshot_dict(bad_hp), "current fractional hp rejected")
 	print("ARMOR SNAPSHOT RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
 
@@ -41,12 +41,15 @@ func _test_full_graph() -> void:
 			item.armor_remaining = 0
 			depleted_id = item._item_id
 	var captured := ItemSimulationSnapshot.capture(session.state, [])
-	_check(captured.code == ItemSnapshotResult.Code.OK, "full v4 capture: " + captured.reason)
+	_check(captured.code == ItemSnapshotResult.Code.OK, "full schema eleven capture: " + captured.reason)
 	if captured.snapshot == null:
 		session.close()
 		return
 	var raw := captured.snapshot.to_dict()
-	_check(raw["schema_version"] == 4 and raw["board_snapshot"]["board"]["units"][0]["schema_version"] == 4, "outer and unit v4")
+	_check(raw["schema_version"] == ItemSimulationSnapshot.SCHEMA_VERSION and raw["scope"] == ItemSimulationSnapshot.SCOPE and raw["board_snapshot"]["board"]["units"][0]["schema_version"] == UnitState.SNAPSHOT_SCHEMA_VERSION, "current envelope and unit schema")
+	var saved_item: Dictionary = raw["owners"][0]["items"][0]
+	for field: String in ["armor_remaining", "armor_origin_owner", "armor_origin_item", "charges_left"]:
+		_check(saved_item.has(field), "current item retains " + field)
 	var definitions: Dictionary = {}
 	for owner: ItemOwnerState in session.state.get_owners():
 		for id: StringName in owner._definitions: definitions[id] = (owner._definitions[id] as ItemDef).duplicate(true)
@@ -91,29 +94,26 @@ func _test_full_graph() -> void:
 	definitions[&"armor_coat"].armor_max += 1
 	_check(captured.snapshot.instantiate(definitions).code != ItemSnapshotResult.Code.OK, "definition content mismatch")
 	session.close()
-	for version: int in [1, 2, 3]:
-		var legacy: BattleDemoSession = BattleTacticalSession.new() if version == 3 else BattleDemoSession.new()
-		if version == 2:
-			var definition := ItemDef.new()
-			definition.id = &"snapshot_flask"; definition.use_heal_amount = 1.0; definition.max_charges = 1
-			var owner := legacy.state.get_owner(legacy.units[0].id)
-			legacy.state.get_inventory(legacy.units[0].id).add_item(owner.create_item(definition))
-		var before := ItemSimulationSnapshot.capture(legacy.state, [])
-		_check(before.code == ItemSnapshotResult.Code.OK and before.snapshot.to_dict()["schema_version"] == version, "legacy envelope%d preserved" % version)
-		var hybrid := before.snapshot.to_dict()
-		legacy.units[0].enable_action_resources()
-		legacy.units[0].armor = ArmorState.new()
-		hybrid["board_snapshot"]["board"]["units"][0] = legacy.units[0].to_snapshot_dict()
-		var downgrade := ItemSimulationSnapshot.from_dict(hybrid)
-		_check(downgrade.code != ItemSnapshotResult.Code.OK and downgrade.reason == "armor/envelope_version", "legacy envelope%d refuses armor unit without mandatory item data" % version)
-		var catalogue: Dictionary = {}
-		for owner: ItemOwnerState in legacy.state.get_owners():
-			for id: StringName in owner._definitions: catalogue[id] = (owner._definitions[id] as ItemDef).duplicate(true)
-		for id: StringName in catalogue:
-			catalogue[id].armor_resistances["fire"] = 1
-			break
-		_check(before.snapshot.instantiate(catalogue).code != ItemSnapshotResult.Code.OK, "old envelope%d rejects new armor catalogue" % version)
-		legacy.close()
+	var hybrid_session := BattleTacticalSession.new()
+	var hybrid_capture := ItemSimulationSnapshot.capture(hybrid_session.state, [])
+	_check(hybrid_capture.code == ItemSnapshotResult.Code.OK, "current base envelope for armor hybrid")
+	if hybrid_capture.snapshot != null:
+		var hybrid := hybrid_capture.snapshot.to_dict()
+		var hybrid_unit: UnitState = hybrid_session.units[0]
+		if hybrid_unit.action_resources == null: hybrid_unit.enable_action_resources()
+		hybrid_unit.armor = ArmorState.new()
+		hybrid["board_snapshot"]["board"]["units"][0] = hybrid_unit.to_snapshot_dict()
+		var hybrid_decoded := ItemSimulationSnapshot.from_dict(hybrid)
+		_check(hybrid_decoded.code == ItemSnapshotResult.Code.OK, "current envelope accepts valid armor unit hybrid")
+		var hybrid_catalogue: Dictionary = {}
+		for owner: ItemOwnerState in hybrid_session.state.get_owners():
+			for id: StringName in owner._definitions: hybrid_catalogue[id] = (owner._definitions[id] as ItemDef).duplicate(true)
+		if hybrid_decoded.snapshot != null and not hybrid_catalogue.is_empty():
+			for id: StringName in hybrid_catalogue:
+				hybrid_catalogue[id].armor_resistances["fire"] = 1
+				break
+			_check(hybrid_decoded.snapshot.instantiate(hybrid_catalogue).code != ItemSnapshotResult.Code.OK, "current hybrid rejects changed catalogue")
+	hybrid_session.close()
 
 func _check(condition: bool, label: String) -> void:
 	if condition:

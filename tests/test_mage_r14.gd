@@ -453,17 +453,17 @@ func _team_summons_codec_and_zone() -> void:
 		receipt = session.cast_mage_cell(&"mage.test_summon", only_helper_cell)
 		check(receipt.status == ActionReceipt.APPLIED and receipt.get_events() == preview.events and snapshot(session) == preview.snapshot_after, "pending helper expands zone with complete preview parity")
 	var saved := snapshot(session)
-	check(saved.schema_version == 9 and saved.scope == ItemSimulationSnapshot.SCOPE_V9, "team summons use distinct v9 envelope")
+	check(saved.schema_version == ItemSimulationSnapshot.SCHEMA_VERSION and saved.scope == ItemSimulationSnapshot.SCOPE, "team summons use current envelope")
 	var definitions: Dictionary = {}
 	for owner: ItemOwnerState in session.state.get_owners():
 		for key: StringName in owner._definitions: definitions[key] = owner._definitions[key].duplicate(true)
 	var parsed := ItemSimulationSnapshot.from_dict(saved)
 	var restored := parsed.snapshot.instantiate(definitions) if parsed.snapshot != null else parsed
-	check(restored.code == ItemSnapshotResult.Code.OK and ItemSimulationSnapshot.capture(restored.state, []).snapshot.to_dict() == saved, "v9 restore preserves source pending and complete snapshot")
+	check(restored.code == ItemSnapshotResult.Code.OK and ItemSimulationSnapshot.capture(restored.state, []).snapshot.to_dict() == saved, "current restore preserves source pending and complete snapshot")
 	if restored.state != null:
 		for owner: ItemOwnerState in restored.state.get_owners(): owner.close()
 	var legacy := saved.duplicate(true)
-	legacy.schema_version = 7; legacy.scope = ItemSimulationSnapshot.SCOPE_V7
+	legacy.schema_version = 7; legacy.scope = "board_items_abilities_v7"
 	check(ItemSimulationSnapshot.from_dict(legacy).code != ItemSnapshotResult.Code.OK, "legacy envelope refuses ownerless source record")
 	var corrupted := saved.duplicate(true)
 	corrupted.summons[0].source_kind = "unknown"

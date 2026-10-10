@@ -70,9 +70,9 @@ Callbacks не становятся baseline; при нарушении оста
 и использует тот же резерв после его исчезновения; у парного столкновения
 учитываются обе цели. Без щитов прежняя граница sequence сохраняется.
 
-ItemSimulation schema9 (`board_items_team_summons_v9`) появляется при наличии
-помощников мага. Их запись содержит `owner_unit_id=0`, `source_kind="mage"`
-и прежние `unit_id/pending`; старые записи владельцев и readers 1–8 сохраняются.
+[Текущий ItemSimulation envelope](BATTLE_SNAPSHOT_CURRENT.md) переносит
+помощников мага с `owner_unit_id=0`, `source_kind="mage"` и `unit_id/pending`.
+Обычные помощники сохраняют предметного владельца; старые envelopes отклоняются.
 `is_summon` отделяет призванного от исходного бойца независимо от owner ID:
 это важно для тел, артефактов, запрета цепочки предметных владельцев и осмотра.
 Допуски команды строит SummonAdmission; сохраняются pending и порядок refill.

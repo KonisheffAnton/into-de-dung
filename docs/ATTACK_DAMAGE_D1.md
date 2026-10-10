@@ -67,6 +67,11 @@ Result для технического объяснения, но не доба�
 snapshot/receipt/forecast, RNG/counters/resources и отказы, включая fault-prefix.
 Эталон снят запуском настоящего base commit из git archive; hash считается по
 Variant bytes, а не округлённому JSON. Обновлять его новым кодом нельзя.
+При переходе на [Unit9/Item11](BATTLE_SNAPSHOT_CURRENT.md) все 57 исходных traces
+повторены на d18 и сверены с прежними хэшами; затем только форма снимка и порядок
+ключей приведены к текущим. Значения/actions/events не пересняты с нового executor.
+Доказательство проекции — `test_reports/snapshot-current-20261010/`; в Git остаётся
+текущий эталон без старого codec.
 Сценарии включают три профиля, дроби/знаки/высоту/стойку/minimum,
 collision→fall, lethal, лимиты очереди, hostile HP callback и отдельные legacy пути.
 Внешние hostile callbacks проверяются в live исполнении: forecast их не копирует.

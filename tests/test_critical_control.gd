@@ -65,7 +65,7 @@ func _test_session() -> void:
 	check(not AttackModifiers.is_backstab(session.units[0].cell, session.units[1].cell, session.units[1].faction), "front geometry")
 	check(AttackModifiers.is_backstab(session.units[2].cell, session.units[3].cell, session.units[3].faction), "rear geometry")
 	var snapshot := session.units[1].to_snapshot_dict()
-	check(snapshot.get("schema_version") == 6 and UnitState.validate_snapshot_dict(snapshot), "schema 6 valid")
+	check(snapshot.get("schema_version") == UnitState.SNAPSHOT_SCHEMA_VERSION and UnitState.validate_snapshot_dict(snapshot), "schema nine control valid")
 	var restored := UnitState.from_snapshot_dict(snapshot)
 	check(restored != null and restored.control != session.units[1].control and restored.control.to_dict() == session.units[1].control.to_dict(), "unit control isolated")
 	var invalid := snapshot.duplicate(true)
@@ -265,7 +265,7 @@ func _test_contract_edges() -> void:
 	var legacy_unit := legacy.units[0]
 	legacy_unit.control = ControlState.new()
 	legacy_unit.control.entangled_turns = 1
-	check(legacy_unit.armor == null and legacy_unit.to_snapshot_dict().get("schema_version") == 6, "control independent of armor")
+	check(legacy_unit.armor == null and legacy_unit.to_snapshot_dict().get("schema_version") == UnitState.SNAPSHOT_SCHEMA_VERSION, "control independent of armor")
 	var independent := ItemSimulationSnapshot.capture(legacy.state, [])
 	check(independent.code == ItemSnapshotResult.Code.OK, "item captures control without armor")
 	check(legacy_unit.to_dict().is_empty(), "legacy exporter refuses losing control")

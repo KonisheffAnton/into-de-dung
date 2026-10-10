@@ -95,7 +95,7 @@ func run() -> void:
 	check(not cells.is_empty(), "helper placement available")
 	var summon := s.use_summoning_item(cells[0])
 	var helper := s.state.active_summon(s.units[0].id)
-	check(summon.status == ActionReceipt.APPLIED and helper != null and snapshot(s).schema_version == 7, "M1 summon and projection support schema7")
+	check(summon.status == ActionReceipt.APPLIED and helper != null and snapshot(s).schema_version == ItemSimulationSnapshot.SCHEMA_VERSION, "summon projection supports current schema")
 	if helper != null:
 		helper.vitals.apply_damage(2.0)
 		var mana_before := s.state.abilities.mana

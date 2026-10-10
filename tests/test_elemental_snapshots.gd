@@ -7,27 +7,28 @@ func _initialize() -> void:
 	call_deferred("_run")
 
 func _run() -> void:
-	_test_legacy_roundtrip()
-	_test_schema_eight_restore()
+	_test_current_roundtrip()
+	_test_schema_nine_restore()
 	_test_rejections()
 	print("ELEMENTAL SNAPSHOT RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
 
-func _test_legacy_roundtrip() -> void:
+func _test_current_roundtrip() -> void:
 	var session := BattleTacticalSession.new()
 	var source_unit: UnitState = session.units[0]
 	var stats := StatsBag.from_snapshot_dict(source_unit.stats.to_snapshot_dict())
-	var legacy := UnitState.create(Faction.Type.PLAYER, Vector2i(1, 1), stats, "legacy")
-	var dto := legacy.to_snapshot_dict()
-	_check(dto["schema_version"] == 1 and UnitState.validate_snapshot_dict(dto), "legacy unit retains schema one form")
+	var current := UnitState.create(Faction.Type.PLAYER, Vector2i(1, 1), stats, "current")
+	var dto := current.to_snapshot_dict()
+	_check(dto["schema_version"] == UnitState.SNAPSHOT_SCHEMA_VERSION and dto["guard_stance"] == false and UnitState.validate_snapshot_dict(dto), "current unit uses schema nine with inactive stance")
 	var decoded := UnitState.from_snapshot_dict(dto)
-	_check(decoded != null and decoded.to_snapshot_dict() == dto, "legacy unit roundtrip")
-	var downgraded := dto.duplicate(true)
-	downgraded["elemental"] = ElementalState.new().to_dict()
-	_check(not UnitState.validate_snapshot_dict(downgraded), "legacy unit rejects elemental field")
+	_check(decoded != null and decoded.to_snapshot_dict() == dto, "current unit roundtrip")
+	for old_version: int in range(1, UnitState.SNAPSHOT_SCHEMA_VERSION):
+		var old_snapshot := dto.duplicate(true)
+		old_snapshot["schema_version"] = old_version
+		_check(not UnitState.validate_snapshot_dict(old_snapshot), "old unit schema rejected " + str(old_version))
 	session.close()
 
-func _test_schema_eight_restore() -> void:
+func _test_schema_nine_restore() -> void:
 	for state_kind: String in ["empty", "burning", "burning_cell", "wet", "frozen", "bleeding"]:
 		var session := _new_session()
 		if session == null:
@@ -54,7 +55,7 @@ func _test_schema_eight_restore() -> void:
 			bleed.hit_id = "snapshot-hit"
 		target.bleeding = bleed
 		var target_dto: Dictionary = target.to_snapshot_dict()
-		_check(target_dto.get("schema_version") == 8 and target_dto.has("elemental") and target_dto["bleeding"]["schema_version"] == 3, state_kind + " creates Unit8")
+		_check(target_dto.get("schema_version") == UnitState.SNAPSHOT_SCHEMA_VERSION and target_dto.has("guard_stance") and target_dto.has("elemental") and target_dto["bleeding"]["schema_version"] == 3, state_kind + " creates schema nine")
 		var item_snapshot := ItemSimulationSnapshot.capture(session.state, [])
 		_check(item_snapshot.code == ItemSnapshotResult.Code.OK, state_kind + " item capture")
 		if item_snapshot.code == ItemSnapshotResult.Code.OK:
@@ -70,7 +71,7 @@ func _test_schema_eight_restore() -> void:
 				_check(target.elemental.burning_source.get("origin_cell", Vector2i.ZERO) != Vector2i(88, 88) and target.bleeding.source.get("origin_cell", Vector2i.ZERO) != Vector2i(77, 77), state_kind + " restored DTO dictionaries detached")
 				_check(dto["board_snapshot"]["board"]["units"][1]["elemental"] == target.elemental.to_dict(), state_kind + " snapshot DTO detached from restored runtime")
 			var standalone := SimulationSnapshot.from_dict(dto["board_snapshot"])
-			_check(standalone.code == BoardSnapshotResult.Code.OK, state_kind + " board snapshot accepts Unit8")
+			_check(standalone.code == BoardSnapshotResult.Code.OK, state_kind + " board snapshot accepts schema nine")
 		session.close()
 
 func _test_rejections() -> void:
@@ -81,25 +82,25 @@ func _test_rejections() -> void:
 	target.bleeding = BleedingState.new()
 	target.bleeding.stacked = true
 	var dto: Dictionary = target.to_snapshot_dict()
-	_check(UnitState.validate_snapshot_dict(dto), "empty stacked bleeding and elemental are valid Unit8")
+	_check(UnitState.validate_snapshot_dict(dto), "empty stacked bleeding and elemental are valid schema nine")
 	var bad: Dictionary = dto.duplicate(true)
 	bad["elemental"]["unknown"] = 1
-	_check(not UnitState.validate_snapshot_dict(bad), "Unit8 rejects elemental extra key")
+	_check(not UnitState.validate_snapshot_dict(bad), "schema nine rejects elemental extra key")
 	bad = dto.duplicate(true)
 	bad["schema_version"] = 7
-	_check(not UnitState.validate_snapshot_dict(bad), "Unit8 cannot downgrade")
+	_check(not UnitState.validate_snapshot_dict(bad), "schema nine rejects old version")
 	bad = dto.duplicate(true)
 	bad.erase("elemental")
-	bad["schema_version"] = 5
-	_check(not UnitState.validate_snapshot_dict(bad), "legacy Unit version rejects stacked bleeding schema three")
+	bad["schema_version"] = 8
+	_check(not UnitState.validate_snapshot_dict(bad), "old Unit version rejects stacked bleeding schema three")
 	bad = dto.duplicate(true)
-	bad["schema_version"] = 9
-	_check(not UnitState.validate_snapshot_dict(bad), "unknown Unit version rejected")
+	bad["schema_version"] = UnitState.SNAPSHOT_SCHEMA_VERSION + 1
+	_check(not UnitState.validate_snapshot_dict(bad), "future Unit version rejected")
 	bad = dto.duplicate(true)
 	bad["bleeding"]["schema_version"] = 2
 	bad["bleeding"]["ticks_left"] = 0
 	bad["bleeding"].erase("stacks")
-	_check(not UnitState.validate_snapshot_dict(bad), "Unit8 requires bleeding schema three")
+	_check(not UnitState.validate_snapshot_dict(bad), "schema nine requires bleeding schema three")
 	var active := dto.duplicate(true)
 	active["elemental"]["burning_stacks"] = 1
 	active["elemental"]["burning_ticks"] = 1
@@ -117,7 +118,7 @@ func _test_rejections() -> void:
 		var capture := ItemSimulationSnapshot.capture(missing_source.state, [])
 		_check(capture.code != ItemSnapshotResult.Code.OK, "capture rejects attack source absent from unit map")
 		missing_source.close()
-	# Источники валидны по отдельности, но Unit8 запрещает одновременное
+	# Источники валидны по отдельности, но schema9 запрещает одновременное
 	# горение и активное кровотечение: горение всегда снимает кровотечение.
 	target.elemental.burning_stacks = 1
 	target.elemental.burning_ticks = 1
@@ -128,12 +129,12 @@ func _test_rejections() -> void:
 	target.bleeding.hit_id = "cross-status-hit"
 	_check(ElementalState.valid(target.elemental.to_dict()) and BleedingState.valid(target.bleeding.to_dict()), "cross-state fixture has valid individual sources and DTOs")
 	var live_dto: Dictionary = target.to_snapshot_dict()
-	_check(live_dto.is_empty(), "live Unit8 refuses to serialize active burning plus bleeding")
+	_check(live_dto.is_empty(), "live schema nine refuses active burning plus bleeding")
 	var cross_dto: Dictionary = dto.duplicate(true)
 	cross_dto["elemental"] = target.elemental.to_dict()
 	cross_dto["bleeding"] = target.bleeding.to_dict()
-	_check(cross_dto.get("schema_version") == 8 and not UnitState.validate_snapshot_dict(cross_dto), "Unit8 validation rejects active burning plus bleeding")
-	_check(UnitState.from_snapshot_dict(cross_dto) == null, "Unit8 restore rejects active burning plus bleeding")
+	_check(cross_dto.get("schema_version") == UnitState.SNAPSHOT_SCHEMA_VERSION and not UnitState.validate_snapshot_dict(cross_dto), "schema nine validation rejects active burning plus bleeding")
+	_check(UnitState.from_snapshot_dict(cross_dto) == null, "schema nine restore rejects active burning plus bleeding")
 	var cross_capture := ItemSimulationSnapshot.capture(session.state, [])
 	_check(cross_capture.code != ItemSnapshotResult.Code.OK, "live snapshot capture rejects active burning plus bleeding")
 	session.close()

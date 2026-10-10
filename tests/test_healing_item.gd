@@ -122,20 +122,27 @@ func _test_refusals() -> void:
 	s.close()
 
 func _test_snapshots() -> void:
-	var legacy := BattleDemoSession.new()
-	var old := ItemSimulationSnapshot.capture(legacy.state, []).snapshot
-	check(old.to_dict()["schema_version"] == 1 and old.canonical_bytes()[4] == 1, "legacy v1")
-	var definitions := catalogue(legacy)
+	var empty_capability_session := BattleDemoSession.new()
+	var empty_capability_snapshot := ItemSimulationSnapshot.capture(empty_capability_session.state, []).snapshot
+	check(empty_capability_snapshot.to_dict()["schema_version"] == ItemSimulationSnapshot.SCHEMA_VERSION and empty_capability_snapshot.to_dict()["scope"] == ItemSimulationSnapshot.SCOPE, "empty-capability fixture uses current schema eleven")
+	var definitions := catalogue(empty_capability_session)
 	var forged: ItemDef = definitions.values()[0]
 	forged.use_heal_amount = 1.0
 	forged.max_charges = 1
-	check(old.instantiate(definitions).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "v1 refuses injected usable catalogue")
-	legacy.close()
+	check(empty_capability_snapshot.instantiate(definitions).code == ItemSnapshotResult.Code.SNAPSHOT_INVALID, "current envelope refuses injected usable catalogue")
+	empty_capability_session.close()
 	var s := BattleTacticalSession.new()
 	s.healing_item()._charges_left = 0
 	var data := snapshot(s)
 	var saved := ItemSimulationSnapshot.from_dict(data).snapshot
-	check(data["schema_version"] == 3 and data["scope"] == ItemSimulationSnapshot.SCOPE_V3 and saved.canonical_bytes()[4] == 3, "v3 envelope includes separate seal")
+	check(data["schema_version"] == ItemSimulationSnapshot.SCHEMA_VERSION and data["scope"] == ItemSimulationSnapshot.SCOPE, "healing item uses current envelope")
+	var descriptor: Dictionary = data["owners"][0]["definitions"][0]
+	for field: String in ["use_heal_amount", "max_charges", "use_summon", "armor_resistances", "summon_definition"]:
+		check(descriptor.has(field), "current item descriptor includes " + field)
+	var heal_descriptor: Dictionary = {}
+	for candidate: Dictionary in data["owners"][0]["definitions"]:
+		if candidate["id"] == "tactical_healing_flask": heal_descriptor = candidate
+	check(heal_descriptor.get("use_heal_amount") == 12.0 and heal_descriptor.get("max_charges") == 2 and heal_descriptor.get("use_summon") == false and heal_descriptor.get("summon_definition", {}) == {}, "healing descriptor keeps exact current capabilities")
 	var restored := saved.instantiate(catalogue(s))
 	check(restored.code == ItemSnapshotResult.Code.OK, "restore")
 	check(ItemSimulationSnapshot.capture(restored.state, []).snapshot.fingerprint() == saved.fingerprint(), "canonical roundtrip")

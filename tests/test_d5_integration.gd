@@ -69,7 +69,7 @@ func run() -> void:
 	var s := BattleEnvironmentSession.new()
 	check(not s.context.is_faulted() and s.state.environment.corpses.size() == 1, "initial corpse through queue")
 	var seed := snapshot(s)
-	check(seed.get("schema_version") == 5, "new envelope only D5")
+	check(seed.get("schema_version") == ItemSimulationSnapshot.SCHEMA_VERSION and seed.has("environment"), "current envelope carries environment")
 	var definitions: Dictionary = {}
 	for owner: ItemOwnerState in s.state.get_owners():
 		for id: StringName in owner._definitions: definitions[id] = (owner._definitions[id] as ItemDef).duplicate(true)
@@ -81,10 +81,13 @@ func run() -> void:
 		restored.state.environment.consume_corpse(1)
 		check(snapshot(s) == seed, "restore environment isolation")
 		AttackForecast._close(restored.state)
-	for mode: String in ["missing", "extra", "live_source", "missing_source", "void_fire", "bad_kind_type", "duplicate", "counter", "processed_live"]:
+	var without_environment := seed.duplicate(true)
+	without_environment.erase("environment")
+	check(ItemSimulationSnapshot.from_dict(without_environment).code == ItemSnapshotResult.Code.OK, "environment capability is optional")
+	for mode: String in ["wrong_type", "extra", "live_source", "missing_source", "void_fire", "bad_kind_type", "duplicate", "counter", "processed_live"]:
 		var bad := seed.duplicate(true)
 		match mode:
-			"missing": bad.erase("environment")
+			"wrong_type": bad["environment"] = false
 			"extra": bad["environment"]["extra"] = 0
 			"live_source": bad["environment"]["corpses"][0]["source_unit_id"] = s.units[0].id
 			"missing_source": bad["environment"]["processed_deaths"].append(999)
@@ -95,7 +98,7 @@ func run() -> void:
 			"processed_live": bad["environment"]["processed_deaths"].append(s.units[0].id)
 		check(ItemSimulationSnapshot.from_dict(bad).code != ItemSnapshotResult.Code.OK, "reject " + mode)
 	var legacy := BattleBleedingSession.new()
-	check(ItemSimulationSnapshot.capture(legacy.state, []).snapshot.to_dict()["schema_version"] == 4, "D3 v4 preserved")
+	check(ItemSimulationSnapshot.capture(legacy.state, []).snapshot.to_dict()["schema_version"] == ItemSimulationSnapshot.SCHEMA_VERSION, "bleeding capability uses current envelope")
 	legacy.close()
 	var actor := s.units[0]
 	var original_dead := s.board.get_unit_by_id(s.state.environment.corpses[0]["source_unit_id"])

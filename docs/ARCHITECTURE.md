@@ -18,9 +18,10 @@
 барьеры исполнения прежние. Карта — [BATTLE_HUD_SCENES_V1](BATTLE_HUD_SCENES_V1.md).
 
 [K17](STATUS_EFFECTS_NEXT.md) включает конечные состояния bleeding/burning/wet/freeze
-в основном бою и у помощников. Unit8/ElementalState и bleeding3 изолируют новый
+в основном бою и у помощников. Nullable ElementalState и bleeding3 изолируют новый
 профиль от legacy; Environment3 задаёт физические шипы и горящие клетки.
-Схемы Board/Item/D4 прежние. SpatialRules охраняет новые ссылки и значения;
+Боевые снимки — [текущий контракт](BATTLE_SNAPSHOT_CURRENT.md), D4 прежний.
+SpatialRules охраняет новые ссылки и значения;
 ArmorHitExecutor и admission используют одинаковое добивание замороженного
 по gross HP damage. ElementalCastCommand/внутренние тики исполняются очередью,
 ForecastSimulation и оба worker сохраняют то же состояние/порядок.
@@ -61,13 +62,13 @@ Forecast и эксклюзивный live worker исполняют тот же 
 [K11](CONTROL_PACKAGE_K11.md) добавляет перковый оглушающий удар и независимые
 иммунитеты к путам/оглушению. ControlApplyCommand объединяет два конечных
 наложения: sealed gate прямого HP-hit → пространственные последствия → контроль
-→ реакции предметов. ControlState и Unit schema7 прежние; CombatPerksState
+→ реакции предметов. ControlState переносится текущим Unit snapshot; CombatPerksState
 в legacy пишет вложенную schema2 для флагов K11; текущая форма — schema5.
 BT передаёт ID выбранной атаки, команды проверяют владение и исполняют её.
 
 [K10](CORE_REACTIONS_K10.md) расширяет общий бой перками: скрытая атака,
 Оппортунист и Прикрытие. CombatPerksDefinition задаёт способности, nullable
-CombatPerksState хранит состояние участника в Unit schema7. MeleeThreat читает
+CombatPerksState хранит состояние участника в Unit snapshot. MeleeThreat читает
 общую AttackReachCheck; список участников скрытой атаки ограничен ближней
 геометрией с дальностью 1 и требует участия атакующего. Дальность обычных
 атак и реакций от этого фильтра не меняется. GuardCommand выбирает режим, AttackCommand/AttackHit
@@ -382,10 +383,10 @@ resize пересчитывает геометрию, публикация ка�
 `MageCastCommand` оплачивает отдельный ресурс и использует общую очередь/броню/HP.
 `AbilityBoundaryCommand` проводит часы через закрытый переход session;
 SpatialRules и queue проверяют значения и identity нового графа.
-Schema7, ForecastSimulation, TurnForecast и оба worker переносят capability;
+Текущий Item snapshot, ForecastSimulation, TurnForecast и оба worker переносят capability;
 панель мага находится отдельно от четырёх вертикальных кнопок персонажа main/H1.
 `AbilityCatalog.build(..., true)` добавляет только новым main/H1 шесть тестовых
-определений. Они необязательны в прежнем schema7; ledger K18 не расширяется,
+определений. Их наличие не обязательно в снимке; ledger K18 не расширяется,
 поскольку у тестовых заклинаний откат 0. `MageStatusEffect` готовит эффект до
 оплаты и записывает его под тем же SpatialRules.Guard с проверкой seal после
 callback, включая остановку перед второй записью ElementalRules.write.
@@ -510,10 +511,14 @@ GuardForecast K6 исполняет GuardCommand тем же executor и пок�
 - Vitals хранит HP/balance. Новая ArmorState хранит естественные защиты, перки и E; a_i и ключ создания принадлежат ItemInstance, A_i/сопротивления — ItemDef. Legacy ARMOR остаётся stat.
 - ItemDef имеет специальные use_heal_amount/use_summon и SummonDefinition:
   [M1](SUMMON_DEFINITION_M1.md) задаёт базовые stats/имя, фиксирует копию печати
-  в ItemOwnerState и переносит нестандартный шаблон в ItemSimulation v6.
+  в ItemOwnerState и переносит полный шаблон в текущем ItemSimulation.
   [M3](ITEM_USE_M3.md) даёт общее типизированное описание применения и factory
   двух прежних команд; use_* остаются сериализованным источником, schemas прежние.
-- Снимки проверяют точные схемы и поддерживаемые виды данных. Raw stat IDs
+- Текущие боевые снимки — [BATTLE_SNAPSHOT_CURRENT](BATTLE_SNAPSHOT_CURRENT.md):
+  единые unit9/item11 с optional-компонентами; прежние unit/item envelope не читаются.
+  Номера этих envelope в исторических разделах ниже описывают прежние пакеты.
+  Профили и версии вложенных компонентов имеют отдельный lifecycle.
+  Снимки проверяют точные схемы и поддерживаемые виды данных. Raw stat IDs
   проверяются через `StatTypes.is_valid_id` в StatsBag, ItemOwnerState и
   SimulationSnapshot; M4 добавил ID 11. Новому stat нужны правила потребителя
   и проверки runtime/снимков. Боевой snapshot не равен save-game.
@@ -524,16 +529,17 @@ GuardForecast K6 исполняет GuardCommand тем же executor и пок�
   полный DTO либо только id/faction/vitals.is_alive. Вложенные DTO компонентов
   остаются локальными; наружу короткого вида их ссылки не выходят. Повторный
   разбор созданного здесь envelope не нужен: его ключи/типы заданы producer.
-  Внешний raw DTO проверяется целиком прежним валидатором. HP_MAX обоих путей
+  Внешний raw DTO проверяется целиком текущим валидатором. HP_MAX обоих путей
   восстанавливается тем же Stat codec после полной проверки StatsBag.
   MageDeckRules.live_valid запрашивает свежий короткий вид всех бойцов на каждом
   вызове; проверки ссылок и capability сохраняются. Долгоживущего кэша нет.
   ItemSimulationSnapshot.capture использует локальный проверенный board DTO без
-  промежуточной копии и повторной проверки его envelope. После полной проверки
+  промежуточной копии и повторной проверки его формы/envelope. После полной проверки
   payload внешний снимок принимает эту уже отделённую доску во владение без
   второго копирования; остальные ветви payload копируются рекурсивно. DTO доски
   не выходит из текущего capture до передачи; между вызовами ничего не сохраняется.
-  Общие raw-лимиты/связи остаются; from_dict/instantiate проверяют доску заново. Копирование
+  Общие raw-лимиты/связи остаются; from_dict/instantiate проверяют доску заново.
+  Instantiate вызывает BattleBoard codec без промежуточной копии SimulationSnapshot. Копирование
   рекурсивно только для контейнеров и сохраняет прежние типы значений/изоляцию.
 - Мёртвый UnitState остаётся в реестре без живой occupancy. Это не готовый CorpseState.
 
@@ -551,20 +557,20 @@ commit → a_i → один HP через расширенный SpatialRules.Gu
 получают отдельные hit с будущими запасами; явная смерть не проходит через броню.
 RestoreArmorCommand и ArmorRecovery восстанавливают по недостаче; избыток в бою — E.
 ArmorEndBattleCommand удаляет временный E в общей очереди, поэтому terminal forecast
-совпадает с live. Unit v4/ItemSimulation v4 сохраняют новую capability; legacy bytes
-прежние. Призыв в новом сценарии отключён явно; хаб остаётся будущим.
+совпадает с live. Текущие Unit/ItemSimulation сохраняют capability по
+[контракту снимков](BATTLE_SNAPSHOT_CURRENT.md). Призыв в fixture D2 отключён явно.
 Точные DTO, checkpoints, совместимость и границы — [ARMOR_DAMAGE_D2](ARMOR_DAMAGE_D2.md).
 
 ## Одно состояние — D3
 
 BattleBleedingSession — основа D4/D5 и отдельного тестового fixture D3.
-BleedingState принадлежит UnitState; Unit v5 сохраняет его вместе с бронёй,
-ItemSimulation остаётся v4. AttackDefinition явно выбирает physical_hp или
+BleedingState принадлежит UnitState и сохраняется вместе с бронёй в текущем
+Unit snapshot. AttackDefinition явно выбирает physical_hp или
 bypass_hp_gate. AttackHit сохраняет допуск своего прямого hit до лечения;
 BleedingApplyCommand исполняется после spatial, перед отложенными item reactions.
 Повторное наложение накапливает срок; BleedingState использует прежний v1 для
 0..2 тиков и v2 для большего остатка, сохраняя legacy bytes. Очередь проверяет
-точное прибавление. Unit/ItemSimulation оболочки прежние.
+точное прибавление. Текущие Unit/ItemSimulation оболочки — BATTLE_SNAPSHOT_CURRENT.
 BleedingTurnCommand создаёт тики по ID в начале хода команды перед refill;
 BleedingTickCommand уменьшает срок и исполняет ArmorHitExecutor (physical,
 hp_only_natural). Guard проверяет значения и identity состояния; tick не рекурсивен.
@@ -592,9 +598,9 @@ HeroHubBattleFactory собирает изолированный бой комн
 Новые походы с колодой используют plan schema3 и `ExpeditionOpening`: один вход
 с существующими угрозами, атомарный старт сразу в checkpoint. Старые plan1/2
 сохраняются буквально; версия/значения стартовой комнаты входят в content manifest.
-BattleArtifactState — nullable capability ItemSimulationState; snapshot v8 переносит
-её значения, roster/ordinary-attack mapping и serial ремонта. Legacy без capability
-сохраняет прежний формат. Артефакты работают через команды общей очереди;
+BattleArtifactState — nullable capability ItemSimulationState; текущий snapshot переносит
+её значения, roster/ordinary-attack mapping и serial ремонта. Без capability поле
+отсутствует. Артефакты работают через команды общей очереди;
 SpatialRules и очередь защищают вложенные значения. F5 начинается с главного меню.
 
 Итоги боя — [POST_BATTLE_V1](POST_BATTLE_V1.md): HeroHubState schema3 владеет
@@ -605,7 +611,7 @@ PostBattlePanel вызывает прежнюю границу копия→за
 вместе с результатом; его показ не исполняет команды и не начисляет награды.
 
 Колода [MAGE_DECK_V1](MAGE_DECK_V1.md) добавляет profile4/run3/plan2 и
-ItemSimulation schema10; прежние codecs остаются отдельными режимами.
+боевые компоненты колоды (теперь общий ItemSimulation schema11).
 MainMenu включает upgrade до profile4 через тот же барьер записи; сохранённые
 H1 battle и весь U14 legacy-run сохраняют свои правила до завершения.
 ExpeditionRulesRegistry проверяет механические каталоги и порождает сохранённые
@@ -656,9 +662,9 @@ CombatEnvironmentState принадлежит ItemSimulationState: записи 
 ActionQueue преобразует moved/died в внутренние EnvironmentCommand после
 имеющихся обязательных потомков и до продолжения движения. Шипы вызывают
 ArmorHitExecutor; тело создаётся один раз, не занимает клетку. SpatialRules.Guard
-проверяет также identity и значения среды. ItemSimulation v5 переносит среду;
-v1–v4 сохраняют прежнюю форму. M1 использует v6 при нестандартном определении
-печати, сохраняя все поля среды. AttackForecast включает реальные последствия шипов.
+проверяет также identity и значения среды. Текущий ItemSimulation переносит среду
+и полные определения печати M1; старые envelopes отклоняются.
+AttackForecast включает реальные последствия шипов.
 С 2026-09-23 изменено только пользовательское название опасности; внутренние fire,
 тип урона и снимки прежние. Эффекта горения нет — [контракт D5](ENVIRONMENT_D5.md).
 RaiseCorpseCommand расходует тело и main, создаёт нового D2/D3-совместимого помощника

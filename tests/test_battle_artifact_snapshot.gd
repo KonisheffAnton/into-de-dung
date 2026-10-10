@@ -20,7 +20,7 @@ func _run() -> void:
 		quit(1)
 		return
 	var definitions := _definition_catalog(session)
-	_test_legacy(session, definitions)
+	_test_artifactless_current(session, definitions)
 	_test_artifact_snapshot(session, definitions)
 	_test_bad_values(session)
 	_test_guard(session)
@@ -28,17 +28,18 @@ func _run() -> void:
 	print("BATTLE ARTIFACT SNAPSHOT RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
 
-func _test_legacy(session: BattleCoreReactionsSession, definitions: Dictionary) -> void:
+func _test_artifactless_current(session: BattleCoreReactionsSession, definitions: Dictionary) -> void:
 	check(session.state.artifacts == null, "artifact capability is absent by default")
 	var captured := ItemSimulationSnapshot.capture(session.state, [])
-	check(captured.code == ItemSnapshotResult.Code.OK and captured.snapshot.to_dict().schema_version == 7 and captured.snapshot.to_dict().scope == ItemSimulationSnapshot.SCOPE_V7, "artifactless ability snapshot remains v7")
+	check(captured.code == ItemSnapshotResult.Code.OK and captured.snapshot.to_dict().schema_version == ItemSimulationSnapshot.SCHEMA_VERSION and captured.snapshot.to_dict().scope == ItemSimulationSnapshot.SCOPE, "artifactless fixture uses current schema eleven")
 	if captured.snapshot == null:
 		return
 	var raw := captured.snapshot.to_dict()
 	var decoded := ItemSimulationSnapshot.from_dict(raw)
-	check(decoded.code == ItemSnapshotResult.Code.OK and decoded.snapshot.canonical_values() == captured.snapshot.canonical_values(), "legacy v7 canonical form remains unchanged")
+	check(decoded.code == ItemSnapshotResult.Code.OK and decoded.snapshot.to_dict() == raw, "artifactless current canonical roundtrip")
+	check(not raw.has("artifacts"), "absent artifact capability remains absent")
 	var restored := decoded.snapshot.instantiate(definitions)
-	check(restored.code == ItemSnapshotResult.Code.OK and restored.state.artifacts == null, "legacy v7 restore has no artifact capability")
+	check(restored.code == ItemSnapshotResult.Code.OK and restored.state.artifacts == null, "current restore keeps absent artifact capability")
 	if restored.state != null: ForecastSimulation.close(restored.state)
 
 func _test_artifact_snapshot(session: BattleCoreReactionsSession, definitions: Dictionary) -> void:
@@ -57,21 +58,21 @@ func _test_artifact_snapshot(session: BattleCoreReactionsSession, definitions: D
 	check(artifacts != null and artifacts.references_valid(session.board) and artifacts.stacks(heroes[0], "spark") == 2 and artifacts.ordinary(heroes[1], &"demo_strike"), "strict runtime capability resolves hero references")
 	session.state.artifacts = artifacts
 	var captured := ItemSimulationSnapshot.capture(session.state, [])
-	check(captured.code == ItemSnapshotResult.Code.OK and captured.snapshot.to_dict().schema_version == 8 and captured.snapshot.to_dict().scope == ItemSimulationSnapshot.SCOPE_V8, "artifact capture emits v8")
+	check(captured.code == ItemSnapshotResult.Code.OK and captured.snapshot.to_dict().schema_version == ItemSimulationSnapshot.SCHEMA_VERSION and captured.snapshot.to_dict().scope == ItemSimulationSnapshot.SCOPE, "artifact capture uses current schema eleven")
 	if captured.snapshot == null:
 		return
 	var raw := captured.snapshot.to_dict()
-	check(raw.has("artifacts") and raw.has("summons") and raw.has("abilities") and raw.has("environment"), "v8 carries artifact DTO and v7 optional capabilities")
+	check(raw.has("artifacts") and raw.has("summons") and raw.has("abilities") and raw.has("environment"), "current envelope carries present artifact and other capabilities")
 	var saved_abilities := session.state.abilities
 	session.state.abilities = null
 	var without_abilities := ItemSimulationSnapshot.capture(session.state, [])
-	check(without_abilities.code == ItemSnapshotResult.Code.OK and not without_abilities.snapshot.to_dict().has("abilities"), "v8 permits absent abilities capability")
+	check(without_abilities.code == ItemSnapshotResult.Code.OK and without_abilities.snapshot.to_dict().schema_version == ItemSimulationSnapshot.SCHEMA_VERSION and not without_abilities.snapshot.to_dict().has("abilities"), "absent abilities do not change envelope schema")
 	session.state.abilities = saved_abilities
 	var decoded := ItemSimulationSnapshot.from_dict(raw)
-	check(decoded.code == ItemSnapshotResult.Code.OK and decoded.snapshot.canonical_values() == captured.snapshot.canonical_values(), "v8 capture, restore codec, and canonical form agree")
+	check(decoded.code == ItemSnapshotResult.Code.OK and decoded.snapshot.to_dict() == raw, "current capture and restore codec preserve canonical values")
 	var first := decoded.snapshot.instantiate(definitions)
 	var second := decoded.snapshot.instantiate(definitions)
-	check(first.code == ItemSnapshotResult.Code.OK and second.code == ItemSnapshotResult.Code.OK and first.state.artifacts.to_dict() == raw.artifacts, "v8 instantiates full artifact value state")
+	check(first.code == ItemSnapshotResult.Code.OK and second.code == ItemSnapshotResult.Code.OK and first.state.artifacts.to_dict() == raw.artifacts, "current schema instantiates full artifact value state")
 	if first.state == null or second.state == null:
 		return
 	first.state.artifacts.equipped[0]["stacks"] = 3

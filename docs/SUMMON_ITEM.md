@@ -46,13 +46,11 @@ UseHealingItemCommand не принимает печать. [M1](SUMMON_DEFINITI
 
 ItemSimulationState хранит value-only записи summons с unit_id, owner_unit_id,
 pending. Связь только с исходным бойцом той же фракции, один живой на владельца.
-Item snapshot v3 `board_items_summons_v3` содержит обязательный массив summons и
-use_summon у каждого definition, остальные поля v2 сохранены. Для стандартной
-печати writer выбирает прежний минимальный v1–v5 по capability; нестандартное
-определение требует v6, включая ещё не использованную печать (точная схема — M1).
-В v1/v2 новые
-поля запрещены, в v3 обязательны, типы/ссылки/лимит проверяются до allocation.
-Unit codecs v1–v5 не меняются в M1. Restore переносит metadata/заряды без refill.
+[Текущий Item snapshot](BATTLE_SNAPSHOT_CURRENT.md) содержит обязательный массив
+summons и use_summon/summon_definition у каждого definition, в том числе для
+ещё не использованной печати (правила определения — M1). Типы/ссылки/лимит
+проверяются до allocation. Старые Unit/Item envelopes отклоняются.
+Restore переносит metadata/заряды без refill.
 
 Команда призыва атомарно оплачивает main/charge и добавляет полный runtime;
 нет обрываемого дочернего spawn. Строгие события item_used и summoned, revision+1,

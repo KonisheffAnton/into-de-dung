@@ -1,9 +1,11 @@
 extends SceneTree
 
-## Эталон снят с настоящего кода до D1; hash сравнивает float и типы Variant без JSON-округления.
+## Эталон до D1 перенесён в текущую форму снимка независимо от нового executor.
+## Hash сравнивает float и типы Variant без JSON-округления и порядка ключей.
 const BASE_COMMIT: String = "f17b7d9bda9ccc5633bbca8650a57b564413fcb0"
 const BASELINE_PATH: String = "res://tests/fixtures/attack_damage_d1_baseline.json"
 const BASE_ATTACK_SHA256: String = "f76124bc55556277a6d3493d63447e0713aa23f84e86609c603c4554e0808e8d"
+const TRACE_FORMAT: String = "ordered_unit9_item11"
 var passed: int = 0
 var failed: int = 0
 var observations: Dictionary = {}
@@ -68,13 +70,27 @@ func receipt_values(r: ActionReceipt) -> Dictionary:
 
 func record(label: String, values: Dictionary) -> void:
 	var bytes := var_to_bytes(values)
-	observations[label] = bytes.hex_encode().sha256_text()
+	observations[label] = var_to_bytes(ordered_trace(values)).hex_encode().sha256_text()
 	for argument in OS.get_cmdline_user_args():
 		if argument.begins_with("--trace-dir="):
 			var path := argument.trim_prefix("--trace-dir=").path_join(label + ".bin")
 			var file := FileAccess.open(path, FileAccess.WRITE)
 			check(file != null, "trace file " + label)
 			if file != null: file.store_buffer(bytes)
+
+func ordered_trace(value: Variant) -> Variant:
+	if value is Dictionary:
+		var keys: Array = value.keys()
+		keys.sort_custom(func(a: Variant, b: Variant) -> bool:
+			return typeof(a) < typeof(b) if typeof(a) != typeof(b) else a < b)
+		var ordered: Dictionary = {}
+		for key: Variant in keys: ordered[key] = ordered_trace(value[key])
+		return ordered
+	if value is Array:
+		var ordered: Array = []
+		for item: Variant in value: ordered.append(ordered_trace(item))
+		return ordered
+	return value
 
 func attack_case(profile: StringName, scenario: String) -> void:
 	var s := fixture(profile)
@@ -177,13 +193,14 @@ func _run() -> void:
 		if failed == 0:
 			var file := FileAccess.open(record_path, FileAccess.WRITE)
 			check(file != null, "baseline writable")
-			if file != null: file.store_string(JSON.stringify({"base_commit": BASE_COMMIT, "observations": observations}, "\t", true) + "\n")
+			if file != null: file.store_string(JSON.stringify({"base_commit": BASE_COMMIT, "trace_format": TRACE_FORMAT, "observations": observations}, "\t", true) + "\n")
 	else:
 		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(BASELINE_PATH))
 		check(parsed is Dictionary, "baseline dictionary")
 		if parsed is Dictionary:
 			var baseline: Dictionary = parsed
 			check(baseline.get("base_commit") == BASE_COMMIT, "baseline commit")
+			check(baseline.get("trace_format") == TRACE_FORMAT, "baseline trace format")
 			var expected: Dictionary = baseline.get("observations", {})
 			check(expected.size() == observations.size(), "baseline scenario count")
 			for label: String in observations: check(expected.get(label) == observations[label], "pre-D1 exact trace " + label)

@@ -84,7 +84,7 @@ func _test_unit_and_board_roundtrip() -> void:
 	unit.combat_perks.definition.stunning_strike = true
 	unit.combat_perks.definition.stun_immune = true
 	var raw := unit.to_snapshot_dict()
-	check(raw["schema_version"] == 7 and raw["combat_perks"]["schema_version"] == 2 and UnitState.validate_snapshot_dict(raw), "unit schema seven carries perks v2")
+	check(raw["schema_version"] == UnitState.SNAPSHOT_SCHEMA_VERSION and raw["combat_perks"]["schema_version"] == 2 and UnitState.validate_snapshot_dict(raw), "unit schema nine carries perks v2")
 	var restored := UnitState.from_snapshot_dict(raw)
 	check(restored != null and restored.to_snapshot_dict() == raw, "unit v2 exact restore")
 	var malformed := raw.duplicate(true)

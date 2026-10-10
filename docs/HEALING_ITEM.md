@@ -27,14 +27,12 @@ max_charges в 1..4096. ItemInstance хранит `_charges_left: int`, getter
 `get_charges_left()`. Создание задаёт capacity; восстановление задаёт сохранённый
 остаток. Владельцы/экземпляры не разделяют заряды; дефиниции остаются Resource.
 
-ItemSimulationSnapshot writer сохраняет прежнюю v1/bytes при отсутствии usable
-definitions. Иначе envelope schema 2, scope `board_items_usable_v2`; owner schema
-остаётся 1 (его поля не меняются). В v2 ВСЕ definition records содержат
-use_heal_amount:float/max_charges:int, ВСЕ item records charges_left:int.
-В v1 эти поля запрещены. В v2 они обязательны, включая нули у старых предметов.
+ItemSimulationSnapshot использует [текущий envelope](BATTLE_SNAPSHOT_CURRENT.md).
+Все definition records содержат use_heal_amount:float/max_charges:int,
+все item records — charges_left:int, включая нули у неиспользуемых предметов.
 Проверяются пары параметров, диапазон 0..capacity, finite/type, live identity,
-catalogue equality до allocation. Reader принимает v1/v2; неизвестные версии
-сохраняют UNSUPPORTED. Canonical prefix P03B,1 у v1; P03B,2 у v2.
+catalogue equality до allocation. Старые envelopes отклоняются; owner schema1
+остаётся вложенной формой, а не старой версией корневого снимка.
 Instantiate не вызывает equip/refill и восстанавливает остаток, включая 0.
 AttackForecast копирует definitions и полный snapshot с зарядами; атака их
 не расходует. Legacy Inventory/Equipment resource-path DTO не является save-game
