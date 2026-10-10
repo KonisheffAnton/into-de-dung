@@ -65,6 +65,11 @@ live/after и барьер worker; последние две — настоящ�
 статусы, карты, worker и показ. Base-эталон не строится новым formatter;
 full/core не требуются при сохранении мест вызовов и отсутствии изменений ядра.
 
+Для подробного осмотра: `python tools/demo/isolate.py --render-check --only battle_inspection_text battle_hud_authoring battle_execution_ui presentation_status battle control_ui entangle_ui --screen 0`.
+Эталонные тексты получены до переноса builder; main/H1 hover и диагностика
+проверяются во время worker/показа, предметы — в обычном бою, контроль — реальным
+кликом осмотра врага. Full/core не нужны при неизменных guards и правилах ядра.
+
 Для границы старых форматов: `python tools/demo/isolate.py --check --only current_schema_boundary hero_hub expedition_transitions mage_deck_expedition --screen 0`.
 `current_schema_boundary` входит в обычный/full набор: отказ старых/будущих
 номеров и неверных типов, режимы компонентов, 512 сочетаний флагов/оплаты,

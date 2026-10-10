@@ -1438,97 +1438,22 @@ func _perk_status_text(unit: UnitState) -> String:
 	return " · " + " · ".join(parts) if not parts.is_empty() else ""
 
 func _inspection_text(unit: UnitState) -> String:
-	var balance_text := BattleBalanceDisplay.value_text(unit.vitals.get_balance(), ControlRules.balance_maximum(unit, unit.get_stat(StatTypes.StatType.BALANCE_MAX)))
-	var text := "%s · %s · высота %+.1f\nHP: %.1f / %.1f\nРавновесие: %s\nДвижение: %.1f / %.1f · Основное: %d · Бонус: %d\nБроня: %.1f · Оружие: %.1f урона\nСила: %.1f · Воздействие: %.1f\nАтака: 1 основное · Дальность: %.1f" % [unit.debug_name, _cell_name(unit.cell), float(session.board.get_height_steps(unit.cell)) / 2.0, unit.vitals.get_hp(), unit.get_stat(StatTypes.StatType.HP_MAX), balance_text, unit.move_points_left, unit.get_stat(StatTypes.StatType.MOVE_RANGE), unit.action_resources.get_main_left(), unit.action_resources.get_bonus_left(), unit.get_stat(StatTypes.StatType.ARMOR), unit.get_stat(StatTypes.StatType.WEAPON_DAMAGE), unit.get_stat(StatTypes.StatType.STRENGTH), unit.get_stat(StatTypes.StatType.IMPACT_POWER), unit.get_stat(StatTypes.StatType.ATTACK_RANGE)]
-	var control_text := ""
-	if session is BattleCoreReactionsSession and unit.combat_perks != null:
-		if unit.combat_perks.definition.sneak_attack: control_text += "Перк «Скрытая атака»: +50% физической базы, если цели угрожают минимум двое. Оружие ближнего боя любое.\n"
-		if unit.combat_perks.definition.stunning_strike: control_text += "Перк «Оглушающий удар»: накладывает оглушение после положительного физического урона HP. Без кровотечения.\n"
-		if unit.combat_perks.definition.burning_bypass_hp_gate: control_text += "Перк «Поджог»: горение накладывается без положительного огненного урона HP.\n"
-		if unit.combat_perks.definition.counterattack: control_text += "Перк «Контратака»: стойка отвечает одним ударом на прямую ближнюю атаку; без толчка, по замороженной цели — крит. Стойка сохраняется, тратится 1 дополнительное действие.\n"
-		if unit.combat_perks.definition.stun_immune: control_text += "Иммунитет к оглушению: полученный удар и толчок сохраняются.\n"
-		if unit.combat_perks.definition.entangle_immune: control_text += "Иммунитет к путам: полученный удар и толчок сохраняются.\n"
-		if MeleeThreat.has_reactions(unit):
-			var mode_text := "Оппортунист (пассивный)" if MeleeThreat.has_passive_opportunist(unit) else "нет"
-			if unit.combat_perks.mode == CombatPerksState.Mode.OPPORTUNIST: mode_text = "Оппортунист"
-			elif unit.combat_perks.mode == CombatPerksState.Mode.COVER: mode_text = "Прикрытие: " + _name_for(unit.combat_perks.cover_target_id)
-			elif unit.combat_perks.mode == CombatPerksState.Mode.COUNTERATTACK: mode_text = "Контратака"
-			control_text += "Режим реакции: %s · %s: %d. Восстановление в начале хода своей команды.\n" % [mode_text, "дополнительных действий" if unit.combat_perks.uses_bonus_actions else "общий заряд", MeleeThreat.reaction_points(unit)]
-			if MeleeThreat.has_passive_opportunist(unit): control_text += "Выход врага из ближней угрозы: удар и остановка за 1 дополнительное действие. Без включения стойки; безопасный отход и принудительное движение не вызывают реакцию.\n"
-		if unit.combat_perks.movement_stopped: control_text += "Движение остановлено Оппортунистом до следующего пополнения команды цели.\n"
-	var piercing := unit.get_stat(StatTypes.StatType.PHYSICAL_PIERCING_PERCENT)
-	if piercing > 0.0:
-		text += "\nПробивание %.0f%% физической базы: броня обходится, естественная защита действует." % piercing
-	if control_mode and not session is BattleCoreReactionsSession:
-		var rear := AttackModifiers.rear_offset(unit.faction)
-		if rear != Vector2i.ZERO: control_text += "Тыл: %s · соседняя клетка, +50%% базы\n" % _cell_name(unit.cell + rear)
-	if unit.control != null:
-		if unit.control.stunned_turns > 0: control_text += "Оглушён: добровольные действия недоступны; входящий крит ×2.\n"
-		if unit.control.entangled_turns > 0: control_text += "Опутан: движение недоступно; максимум равновесия ×2 = %.1f.\nФактический толчок снимает путы; входящий крит ×2.\n" % ControlRules.balance_maximum(unit, unit.get_stat(StatTypes.StatType.BALANCE_MAX))
-		if unit.control.stunned_turns > 0 or unit.control.entangled_turns > 0: control_text += "Срок: до конца ближайшего хода этой команды.\n"
-	if not control_text.is_empty(): text = text.insert(text.find("\n") + 1, control_text)
-	if session.state.is_summon(unit.id):
-		text += "\nПомощник верховного мага: до гибели / конца боя." if session.state.is_mage_summon(unit.id) else "\nПомощник: до гибели / конца боя; владелец " + _name_for(session.state.summon_owner_id(unit.id))
-		text += "\nДействия со следующего хода своей команды." if session.state.is_summon_pending(unit.id) else "\nГотов действовать."
-	if unit.armor != null and not unit.armor.raised_shield.is_empty():
-		text += "\nПоднять щиты: " + ("активно · −90% урона первой атаки" if unit.armor.raised_shield.active else "не активно")
-	if unit.armor != null and not unit.armor.shield.is_empty():
-		text += "\nЩит: %d HP · осталось попаданий: %d. Поглощает любой урон до защит и брони." % [int(unit.armor.shield.hp), int(unit.armor.shield.hits_left)]
-	var descriptions: Array[String] = []
-	if unit.bleeding != null:
-		var condition := "Кровотечение: тиков — %d · 4 до защиты" % unit.bleeding.ticks_left
-		if session is BattleBleedingSession and unit.faction == Faction.Type.PLAYER:
-			condition += "\nПерк: Кровавая руна · атака клавишей 5"
-		if unit.bleeding.stacked: condition = "Кровотечение: " + _bleeding_summary(unit.bleeding.to_dict())
-		if unit.bleeding.immune: condition += "\nИммунитет к кровотечению"
-		var first_line := text.find("\n")
-		text = text.insert(first_line + 1, condition + "\n")
-	if unit.elemental != null:
-		var effects: PackedStringArray = []
-		if unit.elemental.burning_stacks > 0: effects.append("Горение: %d ст. · %d тиков · %d огненного урона за тик" % [unit.elemental.burning_stacks, unit.elemental.burning_ticks, unit.elemental.burning_stacks])
-		if unit.elemental.wet_turns > 0: effects.append("Мокрый: %d своих ходов" % unit.elemental.wet_turns)
-		if unit.elemental.frozen_turns > 0: effects.append("Заморожен: %d своих ходов · входящий удар критический" % unit.elemental.frozen_turns)
-		if unit.elemental.freeze_immune: effects.append("Иммунитет к заморозке")
-		if effects.is_empty(): effects.append("Элементальные статусы отсутствуют")
-		var first_line := text.find("\n")
-		text = text.insert(first_line + 1, "\n".join(effects) + "\n")
-	if unit.armor != null:
-		var armor := ArmorRuntime.totals(ArmorRuntime.capture(session.state.get_owner(unit.id)))
-		if not armor.is_empty():
-			text = text.replace("Броня: %.1f" % unit.get_stat(StatTypes.StatType.ARMOR), "Броня: %d / %d (временная: %d)" % [armor["current"], armor["maximum"], armor["extra"]])
-	if session.state != null:
-		var owner := session.state.get_owner(unit.id)
-		if owner != null:
-			for item: ItemInstance in owner._items.values():
-				if not item.is_active(): continue
-				var action := item.get_use_action()
-				if action != null and action.get_target_mode() == ItemUseAction.TargetMode.ADJACENT_CELL:
-					if _battle != null and not _battle.supports_summoning():
-						descriptions.append("Печать: призыв недоступен в сценарии брони.")
-					else:
-						descriptions.append("Печать: помощник с %s HP за %s; осталось %d/%d. Один на владельца, действует со следующего хода команды, до гибели / конца боя." % [_summon_hp_text(item), _item_cost_text(action), item.get_charges_left(), action.get_max_charges()])
-				elif action != null:
-					descriptions.append("%s: лечение себя до +%.1f HP за %s; осталось %d/%d. Стойка сохраняется." % [item.get_definition().display_name, action.get_heal_amount(), _item_cost_text(action), item.get_charges_left(), action.get_max_charges()])
-				for effect in item.get_effects():
-					if not effect.is_active(): continue
-					if effect is HealOnDamageEffectRuntime:
-						descriptions.append("Лечение +%.1f HP после урона; пока предмет активен." % (effect as HealOnDamageEffectRuntime).get_heal_amount())
-					elif effect is StatModifierEffectRuntime:
-						var modifier := effect as StatModifierEffectRuntime
-						var amount := "%+.1f" % modifier.get_value()
-						if modifier.get_stat_type() == StatTypes.StatType.PHYSICAL_PIERCING_PERCENT: amount += " п.п."
-						if modifier.get_operation() == StatModifier.Operation.ADD_PERCENT: amount = "%+.1f%%" % (modifier.get_value() * 100.0)
-						elif modifier.get_operation() == StatModifier.Operation.MULTIPLY: amount = "×%.2f" % modifier.get_value()
-						descriptions.append("%s %s; пока предмет активен." % [_stat_name(modifier.get_stat_type()), amount])
-					else: descriptions.append("Неизвестный активный эффект; описание недоступно.")
-	if unit.guard_stance:
-		text += "\nОхранная стойка: прямой урон −30%, воздействие −50% до следующего хода команды; движение и атака снимают стойку."
-	text += "\nЭффекты: " + ("нет активных." if descriptions.is_empty() else "\n" + "\n".join(descriptions))
-	return text
+	var options := BattleInspectionText.Options.new()
+	options.height_steps = session.board.get_height_steps(unit.cell)
+	options.core_reactions = session is BattleCoreReactionsSession
+	options.control_mode = control_mode
+	options.bleeding_session = session is BattleBleedingSession
+	options.summoning_supported = _battle == null or _battle.supports_summoning()
+	if options.core_reactions and unit.combat_perks != null:
+		if MeleeThreat.has_reactions(unit) \
+		and unit.combat_perks.mode == CombatPerksState.Mode.COVER:
+			options.cover_target_name = _name_for(unit.combat_perks.cover_target_id)
+	if session.state.is_summon(unit.id) and not session.state.is_mage_summon(unit.id):
+		options.summon_owner_name = _name_for(session.state.summon_owner_id(unit.id))
+	return BattleInspectionText.build_live(unit, session.state, options)
 
 func _stat_name(type: StatTypes.StatType) -> String:
-	var names := ["Макс. HP", "Инициатива", "Макс. равновесие", "Сила", "Воздействие", "Движение", "Броня", "Основные действия", "Бонусные действия", "Урон оружия", "Дальность атаки", "Пробивание физической базы"]
-	return names[int(type)] if int(type) >= 0 and int(type) < names.size() else "Характеристика"
+	return BattleInspectionText.stat_name(type)
 
 func _refresh_inspection() -> void:
 	if is_execution_pending(): return
@@ -2657,7 +2582,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		set_attack_mode(false)
 
 func _item_cost_text(action: ItemUseAction) -> String:
-	return "%d основное и %d заряд" % [action.get_main_cost(), action.get_charge_cost()] if action != null else "применение недоступно"
+	return BattleInspectionText.item_cost_text(action)
 
 func _item_action_descriptor(item: ItemInstance, action_id: StringName, reason: StringName) -> Dictionary:
 	if item == null: return {"label": "—", "disabled": true}
@@ -2675,11 +2600,7 @@ func _item_action_descriptor(item: ItemInstance, action_id: StringName, reason: 
 	return {"action_id": action_id, "label": "%s %d/%d" % [item.get_definition().display_name, item.get_charges_left(), action.get_max_charges()], "cost": "%d основное" % action.get_main_cost(), "disabled": reason != &"", "tooltip": detail + (_reason_text(reason) if reason != &"" else ready)}
 
 func _summon_hp_text(item: ItemInstance) -> String:
-	# Подсказка читает тот же зафиксированный шаблон, что и команда призыва.
-	var action := item.get_use_action() if item != null else null
-	var definition := action.get_summon_definition() if action != null else null
-	var hp := definition.hp_max if definition != null else SummonDefinition.DEFAULT_HP_MAX
-	return String.num(hp).trim_suffix(".0")
+	return BattleInspectionText.summon_hp_text(item)
 
 func _choose_summoning() -> void:
 	if is_execution_pending(): return

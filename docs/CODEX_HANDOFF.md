@@ -1,13 +1,13 @@
-# Передача — 2026-10-11: тексты боевых событий
-D:\Games\into-de-dung; main; base ac5cfbc0267da6c6774d398f4d53d48453754c97; без push.
-U «Давай дальше»: следующий срез DESIGN_DIRECTION §7.3.
-BattleEventText — тексты событий/статусов; BattleDemo — live-данные и журнал.
-Roster/live/DTO/guards/дедупликация прежние; BATTLE_HUD_SCENES_V1.
+# Передача — 2026-10-11: подробный осмотр бойца
+D:\Games\into-de-dung; main; base 9c4cc1fa1002e594f99e87f85f138b578ba2097a; без push.
+U «Приступай»: пакет осмотра DESIGN_DIRECTION §7.3.
+BattleInspectionText — синхронный live-текст без удержания runtime.
+BattleDemo — guards/цели/публикация; displayed DTO прежние: BATTLE_HUD_SCENES_V1.
 Игровые пути прежние. Остальной UI и упорядочение путей открыты; §7.3 не закрыт.
-Отчёт: test_reports/ui-event-text-20261011/REPORT.md; команды TESTING.
-Import/startup PASS; text840/0, HUD240/0, execution28/0, battle298/0,
-attack113/0, status35/0, deck107/0; Python15 OK. 458 строк и 4 PNG равны base.
-Независимое ревью APPROVE.
+Отчёт: test_reports/ui-inspection-20261011/REPORT.md; команды TESTING.
+Import/startup PASS; inspect126/0, HUD240/0, execution28/0, presentation66/0,
+battle298/0, control40/0, entangle28/0; Python15 OK; review APPROVE.
+103 текста и 4 PNG равны base.
 Full/core не повторялись: узкий UI-срез. Прежние 8shaderFAIL(base) не закрыты.
 Exit47ObjectDB/18resources и сдвиг96 не перепроверены; общего PASS нет.
 F5/Editor/DPI/GPU/длинные кадры открыты; CPU fixtures не FPS.

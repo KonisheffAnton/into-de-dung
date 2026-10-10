@@ -19,7 +19,10 @@
 `BattleRosterPresenter`; сессия, формирование значений и guards клика остаются в
 `BattleDemo`. `BattleEventText` форматирует события журнала/прогноза из переданных
 значений; свежие имена и вид предмета разрешает `BattleDemo`, который также
-сохраняет журнал и дедупликацию показа. Карта и границы — [BATTLE_HUD_SCENES_V1](BATTLE_HUD_SCENES_V1.md).
+сохраняет журнал и дедупликацию показа. `BattleInspectionText` синхронно строит
+подробный live-осмотр из unit/state и параметров-значений без хранения ссылок;
+guards, выбор live/показанного кадра и публикация остаются у `BattleDemo`.
+Карта и границы — [BATTLE_HUD_SCENES_V1](BATTLE_HUD_SCENES_V1.md).
 
 [K17](STATUS_EFFECTS_NEXT.md) включает конечные состояния bleeding/burning/wet/freeze
 в основном бою и у помощников. Nullable ElementalState и явный режим bleeding.stacked разделяют правила

@@ -267,7 +267,10 @@ func ui_case(hub: bool) -> void:
 	var expected := demo.board_view.displayed_unit_details(id)
 	demo._displayed_unit_hovered(id)
 	check(demo._compact_inspection.tooltip_text == expected, "main/H1 inspection uses full published detail")
+	var live_details := demo._stats.text
 	demo._execute_live(&"move_to", [Vector2i(1, 2)])
+	demo._refresh_inspection()
+	check(demo._stats.text == live_details, "worker keeps detailed inspection without live reads")
 	demo._displayed_unit_hovered(id)
 	check(demo._compact_inspection.tooltip_text == expected, "worker inspection keeps published control durations")
 	var deadline := Time.get_ticks_msec() + 10000
@@ -278,6 +281,9 @@ func ui_case(hub: bool) -> void:
 	check(demo.is_presentation_pending(), "real movement starts presentation in main/H1")
 	if demo.is_presentation_pending(): demo._presentation_player._tween.pause()
 	var committed := snapshot(s)
+	var displayed_details := demo._stats.text
+	demo._refresh_inspection()
+	check(demo._stats.text == displayed_details, "presentation keeps its published diagnostic details")
 	demo._displayed_unit_hovered(id)
 	demo.handle_cell(target.cell)
 	check(snapshot(s) == committed and s.selected_unit() == actor, "inspection during presentation does not mutate battle or select actor")

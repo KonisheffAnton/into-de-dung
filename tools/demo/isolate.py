@@ -181,6 +181,8 @@ def main():
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "battle_event_text":
             invalid = invalid or "BATTLE EVENT TEXT RESULTS:" not in output or ", 0 failed" not in output
+        if label == "battle_inspection_text":
+            invalid = invalid or "BATTLE INSPECTION TEXT RESULTS:" not in output or ", 0 failed" not in output
         if label in ("battle_execution_worker", "battle_execution_ui"):
             marker = "BATTLE EXECUTION WORKER RESULTS:" if label == "battle_execution_worker" else "BATTLE EXECUTION UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -408,6 +410,7 @@ def main():
             hud_args += ["--", "--captures=" + str(out / "battle-hud-screenshots")]
         run("battle_hud_authoring", hud_args, headless=not args.render_check)
         run("battle_event_text", ["--script", "tests/test_battle_event_text.gd"])
+        run("battle_inspection_text", ["--script", "tests/test_battle_inspection_text.gd"])
         hero_ui_args = ["--script", "tests/test_hero_hub_ui.gd"]
         if args.render_check:
             hero_ui_args += ["--", "--captures=" + str(out / "captures")]

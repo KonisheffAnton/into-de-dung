@@ -1,5 +1,20 @@
 # История и свидетельства проверок
 
+## Подробный осмотр бойца — 2026-10-11
+
+U «Приступай»; main, base `9c4cc1fa1002e594f99e87f85f138b578ba2097a`, без push.
+Срез §7.3: `BattleInspectionText` синхронно строит live-текст из unit/state и
+параметров-значений, без удержания runtime. BattleDemo сохраняет guards,
+выбор цели и публикацию; displayed Board DTO и карточная приписка прежние.
+Контракт — [HUD](BATTLE_HUD_SCENES_V1.md); пути и остальной UI остаются открыты.
+Import/startup PASS; inspect126/0, HUD240/0, execution28/0, presentation66/0,
+battle298/0, control40/0, entangle28/0; Python15 OK; независимое ревью APPROVE.
+103 текста равны base; четыре HUD PNG пиксельно равны base. Full/core не
+повторялись; прежние baseline FAIL и ручная F5/Editor/DPI/GPU-приёмка не закрыты.
+Отчёт — `test_reports/ui-inspection-20261011/REPORT.md`; main_menu.tscn U сохранена.
+Следующий срез не запущен; прежняя передача побайтно в
+[архиве](CODEX_HANDOFF.history-20261011-4.md).
+
 ## Форматирование боевых событий — 2026-10-11
 
 U «Давай дальше»; main, base `ac5cfbc0267da6c6774d398f4d53d48453754c97`, без push.
