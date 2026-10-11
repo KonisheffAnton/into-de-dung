@@ -1509,10 +1509,13 @@ func _test_p05_m10_interrupted_receipt() -> void:
 	probe.copying = func() -> void: copies[0] += 1
 	var nested: Array[ActionReceipt] = []
 	var board := reentrant["board"] as BattleBoard
-	board.board_changed.connect(func() -> void: nested.append(queue.submit(probe, reentrant["context"])))
-	board.unit_position_changed.connect(func(_u: UnitState, _from: Vector2i, _to: Vector2i) -> void: nested.append(second_queue.submit(probe, reentrant["context"])))
+	var board_changed_callback := func() -> void: nested.append(queue.submit(probe, reentrant["context"]))
+	var unit_position_callback := func(_u: UnitState, _from: Vector2i, _to: Vector2i) -> void: nested.append(second_queue.submit(probe, reentrant["context"]))
+	board.board_changed.connect(board_changed_callback)
+	board.unit_position_changed.connect(unit_position_callback)
 	var hook_sink := P04HookSink.new()
-	hook_sink.hook = func(_event: Dictionary) -> void: nested.append(queue.submit(probe, reentrant["context"]))
+	var sink_callback := func(_event: Dictionary) -> void: nested.append(queue.submit(probe, reentrant["context"]))
+	hook_sink.hook = sink_callback
 	reentrant["context"] = ActionContext.new(reentrant["state"], P04TestRng.new(), hook_sink, [], MoveRules.new([201], 1))
 	var reentrant_result := queue.submit(MoveCommand.new(201, _p05_path(2), 0), reentrant["context"])
 	var all_busy := true
@@ -1558,6 +1561,12 @@ func _test_p05_m10_interrupted_receipt() -> void:
 			return result)
 		var malformed_receipt := ActionQueue.new().submit(malformed_step, malformed_fixture["context"])
 		_check(malformed_receipt.status == &"FAULTED" and malformed_receipt.reason == &"malformed_step", "M10 malformed interruption %s faults" % malformed_kind)
+	# Локальные тестовые callback замыкают фикстуру через сигналы доски; явно разрываем цикл после проверок.
+	board.board_changed.disconnect(board_changed_callback)
+	board.unit_position_changed.disconnect(unit_position_callback)
+	hook_sink.hook = Callable()
+	probe.copying = Callable()
+	ForecastSimulation.close(reentrant["state"] as ItemSimulationState)
 
 func _test_p05_m11_depth_and_limits() -> void:
 	var f := _p05_fixture(); var full := ActionQueue.new().submit(MoveCommand.new(201, _p05_path(33), 0), f["context"]); _check(full.status == &"APPLIED" and full.get_events().size() == 32 and full.get_steps().size() == 33, "M11 32 edges plus terminal fit default depth")
