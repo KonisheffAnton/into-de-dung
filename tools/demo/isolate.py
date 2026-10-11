@@ -5,11 +5,23 @@ import ast
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
 import time
 import uuid
+
+
+def has_engine_errors(label, output):
+    # Единственный подтверждённый ERROR — отказ занятой клетки в negative core test.
+    # Разрешение ограничено точной строкой и одним вхождением; leaks не исключаются.
+    expected = "ERROR: BattleBoard.add_unit: клетка (2, 2) уже занята"
+    lines = output.splitlines()
+    if label == "core" and lines.count(expected) == 1:
+        lines.remove(expected)
+    remaining = "\n".join(lines)
+    return "ERROR:" in remaining or re.search(r"WARNING:.*ObjectDB", remaining) is not None
 
 
 def available_check_labels():
@@ -90,6 +102,29 @@ def main():
         timing_path.write_text(json.dumps(timing, indent=2), encoding="utf-8")
     save_timing()
     atexit.register(save_timing)
+    def finish(blocked=None):
+        checks = timing["checks"]
+        failed = [label for label, check in checks.items() if check["status"] != "PASS"]
+        missing = sorted(selected - checks.keys())
+        timing["summary"] = {
+            "passed": sum(check["status"] == "PASS" for check in checks.values()),
+            "failed": sum(check["status"] == "FAIL" for check in checks.values()),
+            "timed_out": sum(check["status"] == "TIMEOUT" for check in checks.values()),
+            "failed_labels": failed,
+            "unexecuted_requested": missing,
+            "blocked": blocked,
+        }
+        save_timing()
+        summary = timing["summary"]
+        print("SUMMARY: {passed} passed, {failed} failed, {timed_out} timed out".format(**summary), flush=True)
+        if failed:
+            print("Failed checks: " + ", ".join(failed), flush=True)
+        if missing:
+            print("Requested checks were not executed: " + ", ".join(missing), flush=True)
+        if blocked:
+            print("Blocked: " + blocked, flush=True)
+        if failed or missing or blocked:
+            raise SystemExit(1)
     env = os.environ.copy()
     env["APPDATA"] = str(out / "profile")
     Path(env["APPDATA"]).mkdir()
@@ -113,21 +148,26 @@ def main():
             command += ["--screen", str(args.screen)]
         command += command_args
         timed_out = False
+        launch_error = None
         try:
             with (out / (label + ".log")).open("wb") as log:
                 result = subprocess.run(command, env=env, stdout=log, stderr=subprocess.STDOUT, timeout=600 if legacy else 120, **hidden)
         except subprocess.TimeoutExpired:
             timed_out = True
             result = None
+        except OSError as exc:
+            launch_error = str(exc)
+            result = None
         output = (out / (label + ".log")).read_text(encoding="utf-8", errors="replace")
-        invalid = timed_out or result.returncode != 0 or "SCRIPT ERROR" in output or "Parse Error" in output
-        if not legacy:
-            invalid = invalid or "ERROR:" in output or "WARNING: ObjectDB" in output
+        invalid = timed_out or launch_error is not None or result.returncode != 0 or "SCRIPT ERROR" in output or "Parse Error" in output
+        # Старый core получает лишь больший timeout, а не освобождение от diagnostics.
+        invalid = invalid or has_engine_errors(label, output)
+        invalid = invalid or any(int(count) > 0 for count in re.findall(r"\b(\d+) failed\b", output))
         if label in ("demo", "battle", "forecast", "guard", "healing", "summon", "summon_snapshot", "attack_calculation", "attack_d1", "armor_calculation", "armor_snapshot", "armor_integration", "armor_recovery", "armor_ui"):
             marker = {"demo": "DEMO RESULTS:", "battle": "BATTLE RESULTS:", "forecast": "FORECAST RESULTS:", "guard": "GUARD RESULTS:", "healing": "HEALING RESULTS:", "summon": "SUMMON RESULTS:", "summon_snapshot": "SUMMON SNAPSHOT RESULTS:", "attack_calculation": "D1 CALCULATION RESULTS:", "attack_d1": "D1 INTEGRATION RESULTS:", "armor_calculation": "ARMOR RESULTS:", "armor_snapshot": "ARMOR SNAPSHOT RESULTS:", "armor_integration": "ARMOR INTEGRATION RESULTS:", "armor_recovery": "ARMOR RECOVERY RESULTS:", "armor_ui": "ARMOR UI RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if legacy:
-            invalid = invalid or "0 failed" not in output
+            invalid = invalid or re.search(r"\b0 failed\b", output) is None
         if label == "hub_scene_authoring":
             invalid = invalid or "HUB SCENE AUTHORING RESULTS:" not in output or ", 0 failed" not in output
         if label == "battle_hud_authoring":
@@ -276,18 +316,23 @@ def main():
             invalid = invalid or marker not in output or ", 0 failed" not in output
         elapsed = time.perf_counter() - check_started
         timing["checks"][label] = {"elapsed_seconds": elapsed, "status": "TIMEOUT" if timed_out else ("FAIL" if invalid else "PASS")}
+        if launch_error:
+            timing["checks"][label]["launch_error"] = launch_error
         save_timing()
         print(label, "TIMEOUT" if timed_out else ("FAIL" if invalid else "PASS"), "({:.2f}s)".format(elapsed), flush=True)
         if invalid:
-            print(output[-4000:])
-            raise SystemExit(1)
+            print(launch_error or output[-4000:])
+        return not invalid
 
-    run("import", ["--import"])
-    cache = (project / ".godot/global_script_class_cache.cfg").read_text(encoding="utf-8")
-    if "test_reports" in cache:
-        raise RuntimeError("Archived scripts leaked into the class cache")
+    if not run("import", ["--import"]):
+        finish("import failed; dependent checks were not started")
+    cache_path = project / ".godot/global_script_class_cache.cfg"
+    if not cache_path.is_file() or "test_reports" in cache_path.read_text(encoding="utf-8"):
+        timing["checks"]["import"]["status"] = "FAIL"
+        finish("class cache missing or contains archived scripts")
     if args.check or args.render_check:
-        run("startup", ["--quit-after", "3"])
+        if not run("startup", ["--quit-after", "3"]):
+            finish("startup failed; dependent checks were not started")
         run("presentation_capture", ["--script", "tests/test_presentation_capture.gd"])
         run("battle_view_reuse", ["--script", "tests/test_battle_view_reuse.gd"], headless=not args.render_check)
         run("environment_visual_contract", ["--script", "tests/test_environment_visual_contract.gd"], headless=not args.render_check)
@@ -645,9 +690,7 @@ def main():
         if args.render_check:
             move_forecast_args += ["--", "--captures=" + str(captures)]
         run("move_forecast_ui", move_forecast_args, headless=not args.render_check)
-        missing = selected - timing["checks"].keys()
-        if missing:
-            raise SystemExit("Requested checks were not executed: " + ", ".join(sorted(missing)))
+        finish()
     else:
         # This is the user-requested interactive window, so it is intentionally visible.
         with (out / "play.log").open("wb") as log:

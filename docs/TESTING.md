@@ -1,6 +1,6 @@
 # Проверка проекта
 
-Актуальный порядок 2026-10-05, сверенный с `tools/demo/isolate.py`.
+Актуальный порядок 2026-10-11, сверенный с `tools/demo/isolate.py`.
 Это инструкции проверки; прежние прогоны не считаются результатом нового изменения.
 
 ## Среда
@@ -30,8 +30,16 @@ python -m unittest discover -s tools/demo -p test_isolate.py
 всегда выполняются; пропуск не считается PASS. `core` можно выбрать явно через
 `--only core`. Итог подтверждает исполнение всех заказанных меток. `timing.json`
 содержит время копирования, каждого выполненного runner, статус и общее время;
-ошибка/timeout сохраняет уже полученные результаты и логи. Таймаут runner — 120 с,
+Независимые suites продолжаются после ошибки/timeout; итоговая сводка в stdout
+и `timing.json.summary` перечисляет FAIL/TIMEOUT и невыполненные выбранные метки,
+итоговый exit ненулевой при любом провале. Ошибка import/startup или повреждение
+class cache блокирует зависимые проверки с явной причиной. Таймаут runner — 120 с,
 core — 600 с. Это предел ожидания, не разрешение обрезать проверки до PASS.
+
+Core подчиняется тем же ERROR/ObjectDB gates. Единственное подтверждённое
+исключение — ровно одна строка `ERROR: BattleBoard.add_unit: клетка (2, 2) уже занята`
+в negative core test; иная строка/повтор/другая suite не исключаются. Leaks,
+shader ошибки и ненулевые failed counts не маскируются success marker.
 
 Выбор `current_art_zoom`, `art_trial_battle` или `battle_view_reuse` автоматически
 добавляет `visual_scene_contract`, `environment_visual_contract`, `unit_visual_contract`,
@@ -54,64 +62,37 @@ core — 600 с. Это предел ожидания, не разрешение
 
 Обычная локальная правка: начать с 1–3 связанных runner (плюс import/startup).
 
-Для жизненного цикла списка бойцов: `python tools/demo/isolate.py --render-check --only battle_hud_authoring battle_panels battle_execution_ui control_ui entangle_ui --screen 0`.
-Первые три метки проверяют authored/legacy/H1, повторное связывание, строки
-live/after и барьер worker; последние две — настоящий клик осмотра врага через
-список. Сравнение base/current и PNG — в отчёте среза. Core/full не требуются,
-если изменены только узлы списка, а guards, данные и исполнение сохранены.
+### UI по обязанностям
 
-Для форматирования событий: `python tools/demo/isolate.py --render-check --only battle_event_text battle_hud_authoring battle_execution_ui battle attack_async_ui status_ui mage_deck_ui --screen 0`.
-Проверяются эталонные строки, изоляция значений, journal/forecast и предметы,
-статусы, карты, worker и показ. Base-эталон не строится новым formatter;
-full/core не требуются при сохранении мест вызовов и отсутствии изменений ядра.
+Команда для строки таблицы: `python tools/demo/isolate.py --render-check --only <метки> --screen 0`.
+Общий набор HUD — `battle_hud_authoring battle_execution_ui`; добавляйте его к
+меткам затронутой обязанности. Он проверяет authored/legacy/H1, binding/refresh,
+сигналы, worker/after-кадры и изоляцию snapshot/RNG. Программные `.new()`, overrides,
+сохранность узлов/стилей и одиночные обработчики входят в authoring.
 
-Для подробного осмотра: `python tools/demo/isolate.py --render-check --only battle_inspection_text battle_hud_authoring battle_execution_ui presentation_status battle control_ui entangle_ui --screen 0`.
-Эталонные тексты получены до переноса builder; main/H1 hover и диагностика
-проверяются во время worker/показа, предметы — в обычном бою, контроль — реальным
-кликом осмотра врага. Full/core не нужны при неизменных guards и правилах ядра.
+| Обязанность | Дополнительные метки | Особые границы |
+|---|---|---|
+| Список бойцов | `battle_panels control_ui entangle_ui` | Порядок/identity строк live/DTO, detached clicks, реальный осмотр врага |
+| Тексты событий | `battle_event_text battle attack_async_ui status_ui mage_deck_ui` | Journal/forecast, предметы, статусы, карты; эталон прежнего producer |
+| Подробный осмотр | `battle_inspection_text presentation_status battle control_ui entangle_ui` | Main/H1 hover, live-предметы, guard во время worker/показа |
+| Authored binding | `battle_panels mage_deck_ui` | Main/H1/.new/legacy, повторное связывание, карты/страницы |
+| DTO-кадр | `mage_deck_ui presentation_status` | Точные строки/порядок статусов, мана/карты без live-сессии |
+| Legacy HUD | `demo battle d4_ui battle_panels` | Настоящий ввод, восемь слотов, guards, отказ на чужом ходе |
+| Подробный прогноз/пути компонентов | `battle_forecast_text battle_event_text battle_inspection_text battle move_forecast_ui guard_forecast_ui item_forecast_ui raise_forecast_ui turn_forecast_ui armor_ui mage_ui mage_deck_ui core_reactions_ui entangle_ui d5_ui` | Golden280: строки/видимость/pending/отказы/fresh names/неверная мана, полный state/RNG |
+| Динамические действия | `battle_action_descriptors four_slot_bar battle_panels shieldbearer_ui core_reactions_ui entangle_ui item_forecast_ui guard_forecast_ui` | Golden324: descriptors/fixed slots/compact filter, formatter override, свежесть и worker guard |
+| Live-панель мага | `battle_mage_presenter mage_ui mage_deck_ui presentation_status` | Golden26: кнопки/страницы/callbacks, бесплатная замена/муллиган, pending guard |
 
-Для привязки authored HUD: `python tools/demo/isolate.py --render-check --only battle_hud_authoring battle_panels battle_execution_ui mage_deck_ui --screen 0`.
-Проверяются main/H1/.new/legacy, overrides и повторное связывание, сигналы,
-карты/страницы, worker и показ. При сохранении поведения full/core не требуются.
+Golden получен исходной реализацией; обычный тест не пересоздаёт его новым
+formatter. При изменении границы сопоставить base/current и PNG, разобрать каждое
+различие; seed/фаза анимации должны быть одинаковыми. При сохранении правил ядра,
+команд, guards и мест вызовов full/core не назначаются только из-за UI-выноса.
+Fixtures не подтверждают F5/Editor/DPI/GPU/FPS. Изменение launcher дополнительно
+проверяется `python tools/demo/test_isolate.py`.
 
-Для текстов DTO-кадра: `python tools/demo/isolate.py --render-check --only battle_hud_authoring battle_execution_ui mage_deck_ui presentation_status --screen 0`.
-Точные строки/порядок статусов, мана/карты и отсутствие live-сессии проверяются
-на исходном formatter и после переноса. Worker/показ и HUD PNG — тот же набор;
-full/core не требуются при неизменных узлах, guards и правилах ядра.
-
-Для сборки прежней оболочки HUD:
-`python tools/demo/isolate.py --render-check --only demo battle d4_ui battle_hud_authoring battle_execution_ui battle_panels --screen 0`.
-Проверяются настоящий ввод полигонов/D4, сигналы и guards, восемь слотов,
-узлы/стили после refresh, изоляция snapshot/RNG, authored main/H1 и worker/показ.
-Новые legacy-проверки HUD выполняются также на base; PNG base/current сравниваются
-для legacy и authored оболочек. Full/core не нужны при неизменном исполнении.
-
-Для подробных прогнозов и размещения UI-компонентов:
-`python tools/demo/isolate.py --render-check --only battle_forecast_text battle_event_text battle_inspection_text battle_hud_authoring battle_execution_ui battle move_forecast_ui guard_forecast_ui item_forecast_ui raise_forecast_ui turn_forecast_ui armor_ui mage_ui mage_deck_ui core_reactions_ui entangle_ui d5_ui --screen 0`.
-`battle_forecast_text` сравнивает 280 случаев с JSON-эталоном, полученным прежним
-адаптером в base: строки, заголовки/видимость, pending/отказы, причины в двух
-режимах, fresh names и повреждённые данные маны. Проверяет неизменность входа,
-полного live-состояния и RNG. Остальные метки проверяют реальные UI-маршруты,
-worker/показ и PNG. Изоляция runner: `python tools/demo/test_isolate.py`.
-Full/core не требуются при неизменном исполнении и местах вызовов.
-
-Для подготовки динамических действий героя:
-`python tools/demo/isolate.py --render-check --only battle_action_descriptors four_slot_bar battle_hud_authoring battle_panels battle_execution_ui shieldbearer_ui core_reactions_ui entangle_ui item_forecast_ui guard_forecast_ui --screen 0`.
-Эталон 324 случаев получен прежним `_refresh` и item/cover helpers на base;
-проверяются точные descriptors/fixed slots, отказы, compact-фильтр, snapshot/RNG,
-свежесть публикации, formatter оболочки и guard worker/показа. Остальные suites проверяют живые
-клики/hover, классовые действия, страницы и HUD PNG; сравнение base/current
-сохраняется в отчёте. Full/core не нужны при сохранении запросов/исполнения.
-При изменении launcher дополнительно `python tools/demo/test_isolate.py`.
-
-Для публикации live-панели мага:
-`python tools/demo/isolate.py --render-check --only battle_mage_presenter mage_ui mage_deck_ui battle_hud_authoring battle_execution_ui presentation_status --screen 0`.
-Эталон получен исходными `_refresh_mage`/`_refresh_deck_bar` на base; проверяются
-строки/состояния кнопок, страницы, formatter-вызовы, snapshot/RNG и pending guard.
-Остальные suites проверяют реальные клики/hover, карты/замену/муллиган,
-after-кадры, worker и authored/legacy HUD. PNG и base/current — в отчёте среза;
-это не ручная приёмка или FPS. Full/core не нужны при неизменных командах,
-live-допуске и местах вызовов. Для launcher: `python tools/demo/test_isolate.py`.
+Для восстановления HP и экипировки: `python tools/demo/isolate.py --check --only restore_vitals armor_snapshot unit_snapshot_performance --screen 0`.
+`restore_vitals` входит в обычный/full/render набор: equipped HP_MAX, точный
+полный/раненый/нулевой HP, alive, ledger, canonical parity, две независимые ветки
+и отсутствие событий на source. Порядок restore — [BATTLE_SNAPSHOT_CURRENT](BATTLE_SNAPSHOT_CURRENT.md#hp-и-экипировка-при-восстановлении).
 
 Для границы старых форматов: `python tools/demo/isolate.py --check --only current_schema_boundary hero_hub expedition_transitions mage_deck_expedition --screen 0`.
 `current_schema_boundary` входит в обычный/full набор: отказ старых/будущих

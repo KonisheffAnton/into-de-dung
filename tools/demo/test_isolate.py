@@ -12,6 +12,15 @@ import isolate
 
 
 class IsolateSelectionTests(unittest.TestCase):
+    def test_confirmed_diagnostic_is_exact_and_core_only(self):
+        expected = "ERROR: BattleBoard.add_unit: клетка (2, 2) уже занята"
+        self.assertFalse(isolate.has_engine_errors("core", expected))
+        self.assertTrue(isolate.has_engine_errors("battle", expected))
+        self.assertTrue(isolate.has_engine_errors("core", expected + "\n" + expected))
+        self.assertTrue(isolate.has_engine_errors("core", expected + " changed"))
+        self.assertTrue(isolate.has_engine_errors("core", expected + "\nERROR: unrelated"))
+        self.assertTrue(isolate.has_engine_errors("core", "WARNING: 47 ObjectDB instances were leaked"))
+
     def exercise(self, options, failure=None):
         calls = []
         commands = []
@@ -40,8 +49,14 @@ class IsolateSelectionTests(unittest.TestCase):
                 failure_kind, separator, failure_label = (failure or "").partition(":")
                 if not separator:
                     failure_kind, failure_label = failure_kind, "battle_hud_authoring"
+                if label == "import" and failure_label == label:
+                    cache = project / ".godot/global_script_class_cache.cfg"
+                    if failure_kind == "cache_missing": cache.unlink()
+                    if failure_kind == "cache_archived": cache.write_text("res://test_reports/old.gd", encoding="utf-8")
                 if failure_kind == "timeout" and label == failure_label:
                     raise subprocess.TimeoutExpired(command, kwargs["timeout"])
+                if failure_kind == "launch" and label == failure_label:
+                    raise OSError("cannot start test process")
                 markers = {
                     "battle_action_descriptors": "BATTLE ACTION DESCRIPTORS RESULTS:",
                     "battle_mage_presenter": "BATTLE MAGE PRESENTER RESULTS:",
@@ -75,6 +90,9 @@ class IsolateSelectionTests(unittest.TestCase):
                     if failure_kind == "diagnostic": text += "ERROR: probe failure\n"
                     if failure_kind == "warning": text += "WARNING: probe warning\n"
                 if failure_kind == "marker" and label == failure_label: text = "no result\n"
+                if failure_kind == "engine" and label == failure_label: text += "ERROR: unexpected engine error\n"
+                if failure_kind == "leak" and label == failure_label: text += "WARNING: ObjectDB instances leaked at exit\n"
+                if failure_kind == "count" and label == failure_label: text = "10 failed\n"
                 kwargs["stdout"].write(text.encode())
                 return subprocess.CompletedProcess(command, 1 if failure_kind == "exit" and label == failure_label else 0)
 
@@ -124,6 +142,55 @@ class IsolateSelectionTests(unittest.TestCase):
         code, calls, timing, _ = self.exercise(["--check", "--only", "core"])
         self.assertEqual((code, calls), (0, ["import", "startup", "core"]))
         self.assertEqual(timing["checks"]["core"]["status"], "PASS")
+
+    def test_independent_checks_continue_after_failure(self):
+        for failure in ("marker", "exit", "timeout", "launch", "engine"):
+            with self.subTest(failure=failure):
+                code, calls, timing, output = self.exercise(
+                    ["--check", "--only", "battle_hud_authoring", "battle_mage_presenter"], failure)
+                self.assertEqual(code, 1)
+                self.assertEqual(calls[-2:], ["battle_hud_authoring", "battle_mage_presenter"])
+                self.assertEqual(timing["checks"]["battle_mage_presenter"]["status"], "PASS")
+                self.assertEqual(timing["summary"]["failed_labels"], ["battle_hud_authoring"])
+                self.assertEqual(timing["summary"]["unexecuted_requested"], [])
+                self.assertIn("SUMMARY:", output)
+
+    def test_infrastructure_failure_blocks_dependents_with_summary(self):
+        for label in ("import", "startup"):
+            for failure in ("exit", "timeout", "launch", "engine"):
+                with self.subTest(label=label, failure=failure):
+                    code, calls, timing, _ = self.exercise(
+                        ["--check", "--only", "battle_hud_authoring"], failure + ":" + label)
+                    self.assertEqual(code, 1)
+                    self.assertNotIn("battle_hud_authoring", calls)
+                    self.assertEqual(timing["summary"]["failed_labels"], [label])
+                    self.assertEqual(timing["summary"]["unexecuted_requested"], ["battle_hud_authoring"])
+                    self.assertIn(label, timing["summary"]["blocked"])
+
+    def test_core_has_no_blanket_diagnostic_exemption(self):
+        for failure in ("engine", "leak", "count"):
+            with self.subTest(failure=failure):
+                code, _, timing, _ = self.exercise(["--check", "--only", "core"], failure + ":core")
+                self.assertEqual(code, 1)
+                self.assertEqual(timing["summary"]["failed_labels"], ["core"])
+
+    def test_invalid_import_cache_blocks_startup_and_requested_suite(self):
+        for failure in ("cache_missing", "cache_archived"):
+            with self.subTest(failure=failure):
+                code, calls, timing, _ = self.exercise(
+                    ["--check", "--only", "battle_hud_authoring"], failure + ":import")
+                self.assertEqual((code, calls), (1, ["import"]))
+                self.assertEqual(timing["summary"]["failed_labels"], ["import"])
+                self.assertEqual(timing["summary"]["unexecuted_requested"], ["battle_hud_authoring"])
+                self.assertIn("class cache", timing["summary"]["blocked"])
+
+    def test_success_summary_covers_every_executed_check(self):
+        code, calls, timing, _ = self.exercise(["--check", "--only", "battle_hud_authoring"])
+        self.assertEqual(code, 0)
+        self.assertEqual(timing["summary"], {
+            "passed": len(calls), "failed": 0, "timed_out": 0,
+            "failed_labels": [], "unexecuted_requested": [], "blocked": None,
+        })
 
     def test_list_does_not_copy_or_start_godot(self):
         code, calls, timing, output = self.exercise(["--list-checks"])
