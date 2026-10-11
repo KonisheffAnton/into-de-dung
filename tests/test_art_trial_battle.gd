@@ -77,7 +77,8 @@ func live_battle() -> void:
 	var enemy_id := session.units[3].id
 	var player := demo.board_view._presentation_visual(player_id).get_node("ArtRoot/PlayerWarriorSprite") as Sprite2D
 	var enemy := demo.board_view._presentation_visual(enemy_id).get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D
-	check(player.visible and (player.texture as AtlasTexture).atlas.resource_path.ends_with("defender_new.png"), "new player defender visible")
+	var idle := demo.board_view._presentation_visual(player_id).get_node("ArtRoot/DefenderIdleSprite") as Sprite2D
+	check(idle.visible and not player.visible and (player.texture as AtlasTexture).atlas.resource_path.ends_with("defender_new.png"), "idle defender visible with authored still retained")
 	check(enemy.visible and enemy.flip_h and enemy.texture.resource_path.ends_with("defender_reference_v1.png"), "approved enemy defender visible mirrored")
 	# Проверяем отражение относительно опоры, а не случайного центра bbox.
 	check(is_equal_approx(enemy.position.x + (312.0 - 180.0) * enemy.scale.x, 0.0), "enemy feet retain reference support after mirror")

@@ -199,6 +199,9 @@ canvas/stretch синхронизирует сохранённые trial-тай�
 Lifecycle, владение при смене сцены/доски, reset/restore поз и автоматический
 допуск пресетов — [BATTLE_VISUAL_SCENE_CONTRACT](BATTLE_VISUAL_SCENE_CONTRACT.md).
 Legacy-корни сохраняют создание заново. Runtime/готовность команд не кэшируются.
+Союзный Защитник использует производный `BattleDefenderIdleVisual` с локальными
+часами кадров; board/player приостанавливают декоративный idle на worker/playback.
+Условия допуска, сохранение фазы и cleanup — тот же контракт lifecycle.
 
 Сцена фигуры также задаёт `body_pick_rect` в координатах базового рисунка:
 увеличенный силуэт выбирается до головы, тогда как процедурный fallback сохраняет

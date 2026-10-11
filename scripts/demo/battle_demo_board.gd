@@ -12,7 +12,12 @@ const CYAN := Color("65dfcc")
 const GOLD := Color("f7c97d")
 const MUTED := Color("a5b3c5")
 var session: BattleDemoSession
-var execution_pending: bool = false
+var execution_pending: bool = false:
+	set(value):
+		if execution_pending == value: return
+		execution_pending = value
+		_sync_ambient_animation_pause()
+var _presentation_playback_active: bool = false
 @export var camera_controls_enabled: bool = false
 var forecast_wheel_handler: Callable
 var camera_view := BattleBoardCamera.new()
@@ -181,6 +186,14 @@ func show_presentation_state(value: Dictionary) -> void:
 	_rebuild_visuals()
 	queue_redraw()
 	if _overlay != null: _overlay.queue_redraw()
+
+func set_presentation_playback_active(value: bool) -> void:
+	_presentation_playback_active = value
+	_sync_ambient_animation_pause()
+
+func _sync_ambient_animation_pause() -> void:
+	for visual: BattleManagedUnitVisual in _unit_visuals.values():
+		visual.ambient_animation_paused = execution_pending or _presentation_playback_active
 
 static func presentation_status(row: Dictionary) -> String:
 	return BattleStatusPresentation.summary(BattleStatusPresentation.entries(row))
@@ -1381,6 +1394,7 @@ func _rebuild_visuals() -> void:
 		if visual is BattleManagedUnitVisual:
 			_attach_visual(visual)
 			var managed := visual as BattleManagedUnitVisual
+			managed.ambient_animation_paused = execution_pending or _presentation_playback_active
 			managed.reset_view_pose()
 			managed.apply_view(_unit_view_values(row), grid_config)
 			var offset := (_action_offsets.get(unit.id, Vector2.ZERO) as Vector2) * grid_config.tile_size.x / 128.0

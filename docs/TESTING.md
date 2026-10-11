@@ -43,10 +43,14 @@ shader ошибки и ненулевые failed counts не маскируют�
 
 Выбор `current_art_zoom`, `art_trial_battle` или `battle_view_reuse` автоматически
 добавляет `visual_scene_contract`, `environment_visual_contract`, `unit_visual_contract`,
+`defender_idle_clock`, `defender_idle`,
 `presentation_consequences`, `presentation_environment`, `battle_camera_ui`, `battle_execution_ui`:
 защита от пересоздания поля и сбоев поз, ловушек, камеры и worker/ИИ при смене пресета.
 Прямой запуск только lifecycle:
 `python tools/demo/isolate.py --render-check --only visual_scene_contract environment_visual_contract unit_visual_contract --screen 0`.
+Idle отдельно: `python tools/demo/isolate.py --render-check --only defender_idle_clock defender_idle --screen 0`.
+Проверяются редкая петля/возврат/локальные часы без RNG, допуск, pause на worker/playback,
+skip/cancel/finish, refresh/resize/retire, опора/якоря и state/RNG/counters настоящего похода.
 Счётчики/identity — hard gate, frame median/p95/max/>25ms — диагностика без
 машинозависимого порога PASS. [Контракт и границы](BATTLE_VISUAL_SCENE_CONTRACT.md).
 

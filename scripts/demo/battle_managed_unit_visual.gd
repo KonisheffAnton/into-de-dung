@@ -2,6 +2,12 @@ class_name BattleManagedUnitVisual
 extends BattleDemoIsoVisual
 
 var view_apply_count: int = 0
+## Показ и worker приостанавливают декоративные клипы, не меняя состояние боя.
+var ambient_animation_paused: bool = false:
+	set(value):
+		if ambient_animation_paused == value: return
+		ambient_animation_paused = value
+		sync_scene_art()
 var _view_initialized: bool = false
 var _view_tile_size: Vector2
 var _view_height_step: float

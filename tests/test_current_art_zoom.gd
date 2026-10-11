@@ -186,7 +186,7 @@ func _capture_source_sampling(size_label: String) -> void:
 	var before_state: Dictionary = snapshot(demo.session as BattleCoreReactionsSession)
 	# Парный кадр отделяет действие временного фильтра от исходной PNG.
 	for visual: BattleDemoIsoVisual in demo.board_view._entity_visuals:
-		for sprite_path: NodePath in [NodePath("ArtRoot/PlayerWarriorSprite"), NodePath("ArtRoot/EnemyWarriorSprite")]:
+		for sprite_path: NodePath in [NodePath("ArtRoot/PlayerWarriorSprite"), NodePath("ArtRoot/EnemyWarriorSprite"), NodePath("ArtRoot/DefenderIdleSprite")]:
 			var sprite := visual.get_node_or_null(sprite_path) as Sprite2D
 			if sprite == null or not sprite.visible or sprite.material == null:
 				continue
@@ -255,7 +255,9 @@ func _check_warrior_art() -> void:
 			player_count += 1
 			var player_sprite := visual.get_node_or_null("ArtRoot/PlayerWarriorSprite") as Sprite2D
 			var player_atlas: AtlasTexture = player_sprite.texture as AtlasTexture if player_sprite != null else null
-			check(player_sprite != null and player_sprite.visible and player_atlas != null and player_atlas.atlas.resource_path.ends_with("defender_new.png"), "current party warrior uses the assigned player artwork")
+			var idle_sprite := visual.get_node_or_null("ArtRoot/DefenderIdleSprite") as Sprite2D
+			check(player_sprite != null and not player_sprite.visible and idle_sprite != null and idle_sprite.visible
+				and player_atlas != null and player_atlas.atlas.resource_path.ends_with("defender_new.png"), "current party warrior uses idle with the assigned still retained")
 		elif visual.unit.faction == Faction.Type.ENEMY:
 			enemy_count += 1
 			var enemy_sprite := visual.get_node_or_null("ArtRoot/EnemyWarriorSprite") as Sprite2D

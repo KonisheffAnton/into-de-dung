@@ -85,9 +85,33 @@ values, затем получает текущий action offset доски и �
 
 ## Автоматическая защита
 
+### Idle союзного Защитника
+
+U2026-10-11: `art_trial_unit` использует `BattleDefenderIdleVisual`, производный
+от `BattleManagedUnitVisual`. Допуск: живой PLAYER/warrior с исходной текстурой
+и двумя полными idle-сериями. Enemy, прочие классы и отсутствие текстуры сохраняют fallback.
+`DefenderIdleSprite` меняет только кадр; transform ArtRoot, опора/пикинг/HUD/якоря
+остаются у прежних владельцев. Исходный PlayerWarriorSprite хранится для боевых поз.
+
+`ambient_animation_paused` — локальный флаг представления на managed visual,
+не часть snapshot/save. Board задаёт его как worker pending ИЛИ активный playback;
+новому визуалу — до apply. PresentationPlayer включает playback до публикации before,
+снимает после final/skip/cancel, включая выход. Все цели приостановлены уже в t=0.
+Заморозка, оглушение, pending-призыв, action/presentation offset, подъём/падение,
+сжатие и смерть также отключают idle. Остаток времени паузы не накапливается.
+
+Часы локальны, не читают session/очередь/RNG. Обычный reset/apply, неизменная
+публикация и resize сохраняют фазу; retire/exit и новый ID начинают новый цикл.
+Дочерние узлы/материалы не создаются на каждом кадре; источники/темп/частота —
+[пакет ассетов](../assets/art_presets/trials/defender_idle_v1/README.md).
+Ручная оценка непрерывности переходов и плавности остаётся художественной приёмкой.
+
+### Проверки
+
 Команды и состав проверок — [TESTING](TESTING.md). Выбор `current_art_zoom`,
 `art_trial_battle` или `battle_view_reuse` автоматически включает три lifecycle
 runner: `visual_scene_contract`, `environment_visual_contract`, `unit_visual_contract`,
+`defender_idle_clock`, `defender_idle`,
 а также `presentation_consequences`, `presentation_environment`, `battle_camera_ui`,
 `battle_execution_ui` для поз, ловушек, камеры, worker/ИИ и смены UI.
 Они также входят в full/render; инициатива этим не подключается.

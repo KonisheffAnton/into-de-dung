@@ -63,6 +63,8 @@ class IsolateSelectionTests(unittest.TestCase):
                     "battle_hud_authoring": "BATTLE HUD AUTHORING RESULTS:",
                     "environment_visual_contract": "ENVIRONMENT VISUAL CONTRACT RESULTS:",
                     "unit_visual_contract": "UNIT VISUAL CONTRACT RESULTS:",
+                    "defender_idle": "DEFENDER IDLE RESULTS:",
+                    "defender_idle_clock": "DEFENDER IDLE CLOCK RESULTS:",
                     "visual_scene_contract": "VISUAL SCENE CONTRACT RESULTS:",
                     "current_art_zoom": "CURRENT ART ZOOM RESULTS:",
                     "art_trial_battle": "ART TRIAL BATTLE RESULTS:",
@@ -268,6 +270,7 @@ class IsolateSelectionTests(unittest.TestCase):
         code, calls, timing, _ = self.exercise(["--check", "--only", "art_trial_battle"])
         self.assertEqual(code, 0)
         self.assertEqual(calls, ["import", "startup", "environment_visual_contract", "unit_visual_contract",
+                                 "defender_idle_clock", "defender_idle",
                                  "visual_scene_contract", "art_trial_battle", "presentation_consequences",
                                  "presentation_environment", "battle_camera_ui", "battle_execution_ui"])
         self.assertEqual(timing["checks"]["visual_scene_contract"]["status"], "PASS")
@@ -281,7 +284,7 @@ class IsolateSelectionTests(unittest.TestCase):
         self.assertNotIn("visual_scene_contract PASS", output)
 
     def test_all_visual_gates_propagate_process_failures(self):
-        for label in ("environment_visual_contract", "unit_visual_contract", "visual_scene_contract",
+        for label in ("environment_visual_contract", "unit_visual_contract", "visual_scene_contract", "defender_idle_clock", "defender_idle",
                       "presentation_consequences", "presentation_environment", "battle_camera_ui", "battle_execution_ui"):
             with self.subTest(label=label):
                 code, calls, timing, output = self.exercise(

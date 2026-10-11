@@ -24,6 +24,7 @@ func play(board: BattleDemoBoard, before: Dictionary, frames: Array[Dictionary],
 	_published = before.duplicate(true)
 	_index = 0
 	active = true
+	_board.set_presentation_playback_active(true)
 	_board.show_presentation_state(before)
 	_next()
 
@@ -122,6 +123,7 @@ func _finish(discard_feedback: bool) -> void:
 	frame_finished.emit(_final.duplicate(true))
 	active = false
 	_frames.clear()
+	_board.set_presentation_playback_active(false)
 	_final.clear()
 	_published = {}
 	finished.emit()
@@ -140,6 +142,7 @@ func cancel(discard_feedback: bool = true) -> void:
 		else:
 			_board.clear_presentation_effects()
 			_board.clear_strike_poses()
+		_board.set_presentation_playback_active(false)
 	_board = null
 
 func _exit_tree() -> void:
