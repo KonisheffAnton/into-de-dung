@@ -2,6 +2,7 @@ class_name BattleDefenderIdleVisual
 extends BattleManagedUnitVisual
 
 @export var idle_frames: SpriteFrames
+@export var buff_frames: SpriteFrames
 @export_range(1, 120, 1) var idle_normal_cycles_min: int = 24
 @export_range(1, 120, 1) var idle_normal_cycles_max: int = 36
 
@@ -11,6 +12,7 @@ var _idle_sprite: Sprite2D
 var _still_sprite: Sprite2D
 var _configured_min: int = -1
 var _configured_max: int = -1
+var _buff_elapsed: float = -1.0
 
 
 func _ready() -> void:
@@ -24,6 +26,13 @@ func _ready() -> void:
 func sync_scene_art() -> void:
 	super.sync_scene_art()
 	if _idle_sprite == null or _still_sprite == null: return
+	if _buff_elapsed >= 0.0 and can_play_buff():
+		_idle_sprite.visible = true
+		_still_sprite.visible = false
+		set_process(false)
+		_apply_buff_frame()
+		return
+	_buff_elapsed = -1.0
 	var available := _can_play_idle()
 	_idle_sprite.visible = available
 	set_process(available)
@@ -38,20 +47,66 @@ func sync_scene_art() -> void:
 
 
 func _can_play_idle() -> bool:
-	return is_inside_tree() and is_visible_in_tree() and role == Role.UNIT \
-		and unit != null and unit.alive and unit.faction == Faction.Type.PLAYER \
-		and visual_class_id == &"warrior" and _still_sprite.texture != null \
-		and not ambient_animation_paused and not frozen and not stunned and not summon_pending \
-		and action_offset == Vector2.ZERO and presentation_offset == Vector2.ZERO \
-		and presentation_lift == 0.0 and fall_drop == 0.0 \
-		and landing_compression == 0.0 and death_progress == 0.0 \
+	return _can_show_defender() and not ambient_animation_paused \
 		and idle_frames != null and idle_frames.has_animation(&"vertical") \
 		and idle_frames.has_animation(&"sway") \
 		and idle_frames.get_frame_count(&"vertical") == 12 \
 		and idle_frames.get_frame_count(&"sway") == 12
 
 
+func _can_show_defender() -> bool:
+	return _still_sprite != null and is_inside_tree() and is_visible_in_tree() and role == Role.UNIT \
+		and unit != null and unit.alive and unit.faction == Faction.Type.PLAYER \
+		and visual_class_id == &"warrior" and _still_sprite.texture != null \
+		and not frozen and not stunned and not summon_pending \
+		and action_offset == Vector2.ZERO and presentation_offset == Vector2.ZERO \
+		and presentation_lift == 0.0 and fall_drop == 0.0 \
+		and landing_compression == 0.0 and death_progress == 0.0
+
+
+func can_play_buff() -> bool:
+	return _can_show_defender() and buff_frames != null and buff_frames.has_animation(&"buff") \
+		and buff_frames.get_frame_count(&"buff") > 0
+
+
+func buff_duration() -> float:
+	if not can_play_buff(): return 0.0
+	var duration := 0.0
+	for frame: int in buff_frames.get_frame_count(&"buff"):
+		duration += buff_frames.get_frame_duration(&"buff", frame)
+	return duration / buff_frames.get_animation_speed(&"buff")
+
+
+func sample_buff(elapsed: float) -> void:
+	# Единственные часы действия — Tween доски: скорость, пропуск и пауза общие с playback.
+	_buff_elapsed = maxf(0.0, elapsed)
+	sync_scene_art()
+
+
+func clear_buff() -> void:
+	if _buff_elapsed < 0.0: return
+	_buff_elapsed = -1.0
+	sync_scene_art()
+
+
+func _apply_buff_frame() -> void:
+	var remaining := _buff_elapsed * buff_frames.get_animation_speed(&"buff")
+	var last := buff_frames.get_frame_count(&"buff") - 1
+	for frame: int in last + 1:
+		var duration := buff_frames.get_frame_duration(&"buff", frame)
+		if remaining < duration or frame == last:
+			_idle_sprite.texture = buff_frames.get_frame_texture(&"buff", frame)
+			return
+		remaining -= duration
+
+
+func reset_view_pose() -> void:
+	clear_buff()
+	super.reset_view_pose()
+
+
 func _process(delta: float) -> void:
+	if _buff_elapsed >= 0.0: return
 	if not _can_play_idle():
 		sync_scene_art()
 		return
@@ -74,6 +129,7 @@ func retire_view() -> void:
 
 
 func _exit_tree() -> void:
+	_buff_elapsed = -1.0
 	set_process(false)
 	_idle_owner = UnitId.NONE
 	idle_clock.reset()

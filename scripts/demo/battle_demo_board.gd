@@ -141,6 +141,8 @@ var _support_actor_id: int = UnitId.NONE
 var _support_target_cell: Vector2i = Vector2i(-1, -1)
 var _support_target_id: int = UnitId.NONE
 var _support_started: bool = false
+var _defender_buff_visual: BattleDefenderIdleVisual
+var _defender_buff_elapsed: float = 0.0
 
 func show_presentation_state(value: Dictionary) -> void:
 	clear_presentation_effects()
@@ -207,6 +209,7 @@ static func _presentation_resources(row: Dictionary) -> Dictionary:
 	return result
 
 func clear_presentation_effects() -> void:
+	_clear_defender_buff()
 	_clear_layer(_ghosts)
 	_reaction_cues.clear()
 	if _mage_target_id != UnitId.NONE: _set_action_offset(_mage_target_id, Vector2.ZERO)
@@ -648,9 +651,17 @@ static func _presentation_caption(event: Dictionary) -> String:
 		&"support_collapsed": return "ОБВАЛ"
 		&"fell": return "ПАДЕНИЕ"
 		&"guarded": return "ЗАЩИТА"
+		&"raised_shields": return "ПОДНЯТЬ ЩИТЫ"
 	return ""
 
 func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
+	var defender := _matching_defender_buff(events, step)
+	if defender != null:
+		_defender_buff_visual = defender
+		_sample_defender_buff(0.0)
+		var buff_tween := create_tween()
+		buff_tween.tween_method(_sample_defender_buff, 0.0, defender.buff_duration(), defender.buff_duration())
+		return buff_tween
 	var mage_frame := _matching_mage_cast(events, step)
 	if not mage_frame.is_empty(): return _animate_mage_frame(events, mage_frame)
 	var support_frame := _matching_support_action(events, step)
@@ -795,6 +806,32 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			visible_event = true
 	if not visible_event: tween.tween_interval(0.035)
 	return tween
+
+func _matching_defender_buff(events: Array, step: Dictionary) -> BattleDefenderIdleVisual:
+	if step.get("status") != &"APPLIED": return null
+	# Общий жест всех текущих защитных усилений; расход/срабатывание защиты не активация.
+	var expected: StringName = {&"guard": &"guarded", &"raise_shields": &"raised_shields"}.get(step.get("kind"), &"")
+	if expected == &"": return null
+	for event: Dictionary in events:
+		if event.get("kind") != expected or int(event.get("command_seq", -1)) != int(step.get("command_seq", -2)): continue
+		var actor_id := int(event.get("actor_unit_id", UnitId.NONE))
+		if actor_id <= 0 or actor_id != int(event.get("target_unit_id", UnitId.NONE)): continue
+		if _view_actor_classes.get(actor_id, &"") not in [&"warrior", &"shieldbearer"]: continue
+		var visual := _presentation_visual(actor_id) as BattleDefenderIdleVisual
+		if visual != null and visual.can_play_buff(): return visual
+	return null
+
+func _sample_defender_buff(elapsed: float) -> void:
+	_defender_buff_elapsed = elapsed
+	if not is_instance_valid(_defender_buff_visual): return
+	# После retire/смены сцены прежний Tween не получает нового бойца с тем же ID.
+	if _defender_buff_visual.unit == null or _presentation_visual(_defender_buff_visual.unit.id) != _defender_buff_visual: return
+	_defender_buff_visual.sample_buff(elapsed)
+
+func _clear_defender_buff() -> void:
+	if is_instance_valid(_defender_buff_visual): _defender_buff_visual.clear_buff()
+	_defender_buff_visual = null
+	_defender_buff_elapsed = 0.0
 
 func animate_trap_retraction(event: Dictionary) -> Tween:
 	var cell: Vector2i = event.cell
@@ -1428,6 +1465,7 @@ func _rebuild_visuals() -> void:
 		visual.action_offset = (_action_offsets.get(unit.id, Vector2.ZERO) as Vector2) * grid_config.tile_size.x / 128.0
 	_sort_visuals()
 	_field_presentation.restore(self)
+	_sample_defender_buff(_defender_buff_elapsed)
 
 func _unit_row_visible(row: Dictionary) -> bool:
 	var unit: BattleUnitView = row["unit"]

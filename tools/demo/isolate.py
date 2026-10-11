@@ -65,7 +65,7 @@ def main():
     selected = {label for group in (args.only or []) for label in group}
     visual_gate_triggers = {"current_art_zoom", "art_trial_battle", "battle_view_reuse"}
     if selected.intersection(visual_gate_triggers):
-        selected.update({"environment_visual_contract", "unit_visual_contract", "visual_scene_contract", "defender_idle", "defender_idle_clock",
+        selected.update({"environment_visual_contract", "unit_visual_contract", "visual_scene_contract", "defender_idle", "defender_idle_clock", "defender_buff",
                          "presentation_consequences", "presentation_environment", "battle_camera_ui", "battle_execution_ui"})
     unknown = sorted(selected - set(available_check_labels()))
     if unknown:
@@ -243,7 +243,7 @@ def main():
         if label in ("current_schema_boundary", "action_event_validator", "forecast_definition_copy", "forecast_restore_isolation", "restore_vitals"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output or "WARNING:" in output
-        if label in ("defender_idle", "defender_idle_clock", "current_art_zoom", "art_trial_battle", "presentation_capture", "battle_presentation", "presentation_foundation", "presentation_contact", "presentation_attack_styles", "presentation_consequences", "presentation_environment", "presentation_ranged", "presentation_mage", "presentation_reactions", "presentation_status", "battle_board_camera", "battle_camera_ui", "battle_view_reuse", "four_slot_bar", "battle_panels", "environment_visual_contract", "unit_visual_contract", "visual_scene_contract"):
+        if label in ("defender_buff", "defender_idle", "defender_idle_clock", "current_art_zoom", "art_trial_battle", "presentation_capture", "battle_presentation", "presentation_foundation", "presentation_contact", "presentation_attack_styles", "presentation_consequences", "presentation_environment", "presentation_ranged", "presentation_mage", "presentation_reactions", "presentation_status", "battle_board_camera", "battle_camera_ui", "battle_view_reuse", "four_slot_bar", "battle_panels", "environment_visual_contract", "unit_visual_contract", "visual_scene_contract"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("snapshot_value_copy", "live_snapshot_capture", "summon_checkpoint"):
@@ -344,6 +344,12 @@ def main():
             idle_captures.mkdir()
             idle_args += ["--", "--captures=" + str(idle_captures)]
         run("defender_idle", idle_args, headless=not args.render_check)
+        buff_args = ["--script", "tests/test_defender_buff.gd"]
+        if args.render_check:
+            buff_captures = out / "defender-buff-screenshots"
+            buff_captures.mkdir()
+            buff_args += ["--", "--captures=" + str(buff_captures)]
+        run("defender_buff", buff_args, headless=not args.render_check)
         run("visual_scene_contract", ["--script", "tests/test_visual_scene_contract.gd"], headless=not args.render_check)
         presentation_args = ["--script", "tests/test_battle_presentation.gd"]
         if args.render_check:

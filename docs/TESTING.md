@@ -43,7 +43,7 @@ shader ошибки и ненулевые failed counts не маскируют�
 
 Выбор `current_art_zoom`, `art_trial_battle` или `battle_view_reuse` автоматически
 добавляет `visual_scene_contract`, `environment_visual_contract`, `unit_visual_contract`,
-`defender_idle_clock`, `defender_idle`,
+`defender_idle_clock`, `defender_idle`, `defender_buff`,
 `presentation_consequences`, `presentation_environment`, `battle_camera_ui`, `battle_execution_ui`:
 защита от пересоздания поля и сбоев поз, ловушек, камеры и worker/ИИ при смене пресета.
 Прямой запуск только lifecycle:
@@ -53,6 +53,10 @@ Idle отдельно: `python tools/demo/isolate.py --render-check --only defen
 во время реального worker/движения ИИ и технических кадров, адресная пауза цели удара,
 skip/cancel/finish, refresh/resize/retire, опора/якоря и state/RNG/counters настоящего похода.
 `presentation_consequences` также проверяет паузу участников общей цепочки до конца Tween.
+Жест усиления: `python tools/demo/isolate.py --render-check --only defender_buff shieldbearer_ui defender_idle --screen 0`.
+`defender_buff` проверяет реальные успешные команды, 33 кадра/ритм, однократный
+показ до after, возврат idle, speed/skip/cancel/resize и отказы чужих событий/классов.
+`shieldbearer_ui` проверяет настоящий hover и click→worker→жест в HeroHub.
 Счётчики/identity — hard gate, frame median/p95/max/>25ms — диагностика без
 машинозависимого порога PASS. [Контракт и границы](BATTLE_VISUAL_SCENE_CONTRACT.md).
 

@@ -69,12 +69,12 @@ func run() -> void:
 	check(button(&"raise_shields")!=null,"class active is visible")
 	var actor_id := battle.selected_id
 	check(demo.board_view._view_actor_classes.get(actor_id)==&"shieldbearer" and demo.board_view._view_visual_classes.get(actor_id)==&"warrior","class identity retains explicit warrior visual")
-	var has_sprite := false
-	for visual: BattleDemoIsoVisual in demo.board_view._entity_visuals:
-		if visual.unit != null and visual.unit.id==actor_id:
-			var sprite := visual.get_node_or_null("ArtRoot/PlayerWarriorSprite") as Sprite2D
-			has_sprite=sprite!=null and sprite.visible
-	check(has_sprite,"accepted player sprite is visible for new class")
+	var visual := demo.board_view._presentation_visual(actor_id) as BattleDefenderIdleVisual
+	check(visual != null, "production Defender uses the animated art scene")
+	if visual == null:
+		demo.queue_free(); await process_frame; viewport.queue_free(); await process_frame; quit(1); return
+	var sprite := visual.get_node("ArtRoot/DefenderIdleSprite") as Sprite2D
+	check(sprite.visible and visual._buff_elapsed < 0.0, "accepted Defender idle is visible before activation")
 	check(button(&"opportunity_guard")==null and button(&"cover_guard")==null and button(&"stunning_strike")==null,"old manual perks absent")
 	var active_button := button(&"raise_shields")
 	if active_button==null: demo.queue_free(); await process_frame; quit(1); return
@@ -84,6 +84,7 @@ func run() -> void:
 	await mouse(center)
 	check(demo._guard_forecast!=null and demo._guard_forecast.status==ActionReceipt.APPLIED,"hover actual isolated ability preview")
 	check(snapshot()==before,"hover does not spend action/shield/RNG")
+	check(visual._buff_elapsed < 0.0 and demo.board_view._defender_buff_visual == null, "actual hover forecast never starts buff gesture")
 	check(demo._forecast_panel.text.contains("90%") and demo._forecast_panel.text.contains("Откат: 1"),"forecast describes class effect and cooldown")
 	check(demo.board_view.compact_forecast.label.text.contains("90%") and demo.board_view.compact_forecast.label.text.contains("откат 1"),"compact forecast explains class effect")
 	await capture("shieldbearer-ready")
@@ -94,10 +95,24 @@ func run() -> void:
 		event.button_index=MOUSE_BUTTON_LEFT; event.pressed=pressed
 		viewport.push_input(event,true)
 		await process_frame; await process_frame
+	var deadline := Time.get_ticks_msec() + 10000
+	while demo.is_execution_pending() and demo.board_view._defender_buff_visual == null and Time.get_ticks_msec() < deadline:
+		await process_frame
+	check(demo.is_presentation_pending() and demo.board_view._defender_buff_visual == visual,
+		"real button and execution worker start one Defender buff clip")
+	if demo.is_presentation_pending() and demo.board_view._defender_buff_visual == visual:
+		demo._presentation_player._tween.pause()
+		var committed := snapshot()
+		demo._presentation_player._tween.custom_step(0.82)
+		check(sprite.visible and not visual.is_processing() and visual._buff_elapsed > 0.8,
+			"worker playback displays shield-strike frames and suspends only actor idle")
+		await capture("shieldbearer-buff-contact")
+		check(snapshot() == committed, "paused visual playback preserves committed state")
 	for i: int in 500:
 		if not demo.is_execution_pending(): break
 		demo.skip_presentation(); await process_frame
 	check(not demo.is_execution_pending(),"live worker/playback completes")
+	check(visual._buff_elapsed < 0.0 and sprite.visible and visual.is_processing(), "skip returns production Defender to idle")
 	var actor := demo.session.selected_unit()
 	check(actor.armor.raised_shield.active and actor.action_resources.get_main_left()==0,"frame-separated click activates class shield")
 	check(actor.action_resources.get_bonus_left()==1 and not actor.guard_stance,"reaction resource preserved; no ordinary guard")
