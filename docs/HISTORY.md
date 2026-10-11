@@ -1,5 +1,27 @@
 # История и свидетельства проверок
 
+## Подробные прогнозы и расположение UI — 2026-10-11
+
+Base `2f3cebc3f3e26ff1d3fe651fcb82fb2533dc3dab`. `BattleForecastText` получил
+11 подробных прогнозов и причины отказа; Demo сохраняет guards/pending/dispatch,
+compact forecast, живые имена/предметы/события и публикацию. Мана/cooldown разбираются
+один раз, отказ повреждённых данных предшествует форматированию событий.
+Пять прежних UI helpers и UID перенесены без изменений в `scripts/ui/battle/`.
+Весь §7.3 не закрыт; следующие обязанности и игровые пути остаются открыты.
+
+Base/current import/startup PASS; current 17 suites PASS. Эталон 280 случаев из
+исходного Demo: 367/0, включая вход/live/RNG; event840/0, inspection126/0, HUD262/0,
+execution28/0, battle298/0, move80/0, guard46/0, item29/0, raise32/0, turn32/0,
+armor66/0, mage39/0, reactions51/0, entangle28/0, d5 27/0. Deck110/0→107/0
+(число assertions зависит от fixture-маршрута). Четыре HUD PNG равны base;
+Python runner15/0. Независимое ревью APPROVE. Команды — [TESTING](TESTING.md),
+контракт — [HUD](BATTLE_HUD_SCENES_V1.md); локальный отчёт/хеши/логи:
+`test_reports/ui-forecast-text-20261011/REPORT.md`.
+Full/core не повторялись; прежние shader FAIL, exit leaks, сдвиг96 и ручная
+F5/Editor/DPI/GPU/длинные кадры не закрыты. Пользовательская main_menu.tscn сохранена.
+Локальный Conventional Commit без push; следующий срез не запущен.
+Прежняя передача побайтно в [архиве](CODEX_HANDOFF.history-20261011-8.md).
+
 ## Передача GitHub для web GPT — 2026-10-11
 
 U «Обнови наш гит с ним будет работать веб джипити» разрешил публикацию main.

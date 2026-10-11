@@ -79,6 +79,15 @@ full/core не требуются при сохранении мест вызо�
 на исходном formatter и после переноса. Worker/показ и HUD PNG — тот же набор;
 full/core не требуются при неизменных узлах, guards и правилах ядра.
 
+Для подробных прогнозов и размещения UI-компонентов:
+`python tools/demo/isolate.py --render-check --only battle_forecast_text battle_event_text battle_inspection_text battle_hud_authoring battle_execution_ui battle move_forecast_ui guard_forecast_ui item_forecast_ui raise_forecast_ui turn_forecast_ui armor_ui mage_ui mage_deck_ui core_reactions_ui entangle_ui d5_ui --screen 0`.
+`battle_forecast_text` сравнивает 280 случаев с JSON-эталоном, полученным прежним
+адаптером в base: строки, заголовки/видимость, pending/отказы, причины в двух
+режимах, fresh names и повреждённые данные маны. Проверяет неизменность входа,
+полного live-состояния и RNG. Остальные метки проверяют реальные UI-маршруты,
+worker/показ и PNG. Изоляция runner: `python tools/demo/test_isolate.py`.
+Full/core не требуются при неизменном исполнении и местах вызовов.
+
 Для границы старых форматов: `python tools/demo/isolate.py --check --only current_schema_boundary hero_hub expedition_transitions mage_deck_expedition --screen 0`.
 `current_schema_boundary` входит в обычный/full набор: отказ старых/будущих
 номеров и неверных типов, режимы компонентов, 512 сочетаний флагов/оплаты,

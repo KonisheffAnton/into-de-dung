@@ -1,11 +1,12 @@
-# Передача — 2026-10-11: GitHub для web GPT
-D:\Games\into-de-dung; main; base d2e4c94ebe4f59e5d2808e77f2b0adbcaf5cf414; этот push разрешён U.
-U: обновить GitHub main для web GPT. Последний код — DTO-тексты §7.3.
-BattleFrameText — тексты; BattleDemo — узлы/порядок/roster/pager; live/DTO прежние.
-Контракт BATTLE_HUD_SCENES_V1. Остальной UI и игровые пути открыты; §7.3 не закрыт.
-Для web: результаты в HISTORY, команды TESTING. test_reports локальные, вне Git.
-Base/current import/startup PASS; HUD262/0, execution28/0, status66/0; deck110/0→107/0.
-Четыре HUD PNG равны base; независимое ревью APPROVE.
+# Передача — 2026-10-11: подробные прогнозы UI
+D:\Games\into-de-dung; main; base 2f3cebc3f3e26ff1d3fe651fcb82fb2533dc3dab; без push.
+U «Лимиты обновлиись - продолжай работу»: срез §7.3 технически проверен.
+BattleForecastText — 11 прогнозов/причины; Demo — guards/dispatch/live/UI.
+Пять прежних helpers+UID перенесены без изменений в scripts/ui/battle.
+Контракт BATTLE_HUD_SCENES_V1; остальной UI/общие пути открыты, §7.3 не закрыт.
+Отчёт test_reports/ui-forecast-text-20261011/REPORT.md; команды TESTING.
+Base/current import/startup PASS; current17 suites, golden280 случаев (367/0).
+4HUD PNG равны base; Python15/0. Независимое ревью APPROVE.
 Full/core не повторялись: узкий UI-срез. Прежние 8shaderFAIL(base) не закрыты.
 Exit47ObjectDB/18resources и сдвиг96 не перепроверены; общего PASS нет.
 F5/Editor/DPI/GPU/длинные кадры открыты; CPU fixtures не FPS.

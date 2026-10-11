@@ -1959,98 +1959,31 @@ func _render_forecast_panel() -> void:
 	if _forecast == null:
 		_forecast_panel.text = "Наведите курсор на врага в режиме A."
 		return
-	var status: StringName = _forecast.status
-	var reason: StringName = _forecast.reason
-	var text := "[font_size=16][color=#f7c97d]%s → %s[/color][/font_size]\n" % [_name_for(_attack_forecast_actor), _name_for(_forecast_target_id)]
-	if status != &"APPLIED":
-		_forecast_panel.text = text + "[color=#f29b9b]Прогноз недоступен[/color]\n" + _reason_text(reason)
-		return
-	# Краткий итог цепи виден до подробных строк брони и HP.
-	var chain_links: PackedStringArray = []
-	for event: Dictionary in _forecast.events:
-		if event.get("kind") == &"chain_link":
-			chain_links.append("%s: %s%s" % [_name_for(int(event.target_unit_id)), str(event.impulse), "" if event.broke else " (удержал)"])
-	if not chain_links.is_empty():
-		text += "[color=#f7c97d]Цепь · сила: %s[/color]\n" % " → ".join(chain_links)
-		text += "Пунктир — импульс; стрелка — сдвиг.\n"
-	var units: Dictionary = _forecast.units
-	var target_after: Dictionary = units.get(_forecast_target_id, {}).get("after", {})
-	for step: Dictionary in _forecast.steps:
-		if step["kind"] == &"stun_apply":
-			if step["status"] == &"APPLIED": text += "Оглушение: до конца ближайшего хода команды цели.\n"
-			elif step["status"] == &"SKIPPED": text += "Оглушение пропущено: " + _control_skip_text(step["reason"]) + ".\n"
-			continue
-		if step["kind"] != &"entangle_apply": continue
-		if step["status"] == &"APPLIED":
-			text += "Путы: до конца ближайшего хода команды цели. Движение запрещено; следующий толчок снимает путы.\n"
-		elif step["status"] == &"SKIPPED": text += "Путы не наложены: " + _control_skip_text(step["reason"]) + ".\n"
-	if target_after.has("bleeding"):
-		text += "Кровотечение после атаки: %s\n" % _bleeding_summary(target_after["bleeding"]) if bool(target_after["bleeding"].get("stacked", false)) else "Кровотечение: %d тика после атаки\n" % target_after["bleeding"]["ticks_left"]
-		for step: Dictionary in _forecast.steps:
-			if step["kind"] == &"bleeding_apply" and step["status"] == &"SKIPPED":
-				text += "Не наложено: " + _bleeding_skip_text(step["reason"]) + ".\n"
-	for id_variant in units:
-		var id := int(id_variant)
-		var entry: Dictionary = units[id]
-		var before: Dictionary = entry.get("before", {})
-		var after: Dictionary = entry.get("after", {})
-		if before == after: continue
-		var hp_before := float(before.get("hp", 0.0))
-		var hp_after := float(after.get("hp", 0.0))
-		var hp_color := "#f29b9b" if hp_after < hp_before else "#65dfcc"
-		if hp_before != hp_after or id == _forecast_target_id:
-			text += "%s: HP [color=%s]%.1f → %.1f%s[/color]\n" % [_name_for(id), hp_color, hp_before, hp_after, " · ГИБЕЛЬ" if not after["alive"] else ""]
-		if before["balance"] != after["balance"] or before.get("balance_max") != after.get("balance_max"):
-			text += "%s: равновесие %s → %s\n" % [_name_for(id), BattleBalanceDisplay.value_text(float(before["balance"]), float(before["balance_max"])), BattleBalanceDisplay.value_text(float(after["balance"]), float(after["balance_max"]))]
-		if before.has("armor_current"):
-			text += "%s: броня %d → %d / %d\n" % [_name_for(id), before["armor_current"], after["armor_current"], after["armor_max"]]
-		if before.has("bleeding") and (id == _forecast_target_id or before["bleeding"] != after["bleeding"]):
-			if bool(before["bleeding"].get("stacked", false)):
-				text += "%s: кровотечение %s → %s\n" % [_name_for(id), _bleeding_summary(before["bleeding"]), _bleeding_summary(after["bleeding"])]
-			else:
-				text += "%s: кровотечение %d → %d тика\n" % [_name_for(id), before["bleeding"]["ticks_left"], after["bleeding"]["ticks_left"]]
-		if before.get("elemental", {}) != after.get("elemental", {}):
-			text += "%s: %s → %s\n" % [_name_for(id), _elemental_summary(before.get("elemental", {})), _elemental_summary(after.get("elemental", {}))]
-		if before.has("control") and before["control"] != after["control"]:
-			if before["control"]["entangled_turns"] > after["control"]["entangled_turns"]: text += "%s: путы будут сняты.\n" % _name_for(id)
-			if after["control"]["stunned_turns"] > before["control"]["stunned_turns"]: text += "%s: оглушение будет наложено.\n" % _name_for(id)
-		if before["main"] != after["main"]:
-			text += "%s: основные действия %d → %d\n" % [_name_for(id), before["main"], after["main"]]
-	var events: Array[Dictionary] = _forecast.events
-	for event: Dictionary in events:
-		if event.get("kind") == &"attacked" and event.has("modifiers"):
-			var modifiers: Dictionary = event["modifiers"]
-			if modifiers.has("sneak_percent") and modifiers["sneak_percent"] == 50:
-				var names: PackedStringArray = []
-				for threat_id: int in modifiers.get("threat_ids", []): names.append(_name_for(threat_id))
-				text += "\n[color=#f7c97d]Скрытая атака +50%% физической базы[/color] · угрожают: %s\n" % ", ".join(names)
-			if modifiers["backstab_percent"] > 0 and not session is BattleCoreReactionsSession: text += "\n[color=#f7c97d]Удар в спину +%d%% базы[/color]\n" % modifiers["backstab_percent"]
-			if modifiers["critical"]: text += "[color=#f29b9b]Крит ×2: прямой урон и воздействие[/color]\n"
-	for event: Dictionary in events:
-		if event.get("kind") != &"hit_resolved": continue
-		var hit: Dictionary = event["hit"]
-		var hit_source: Dictionary = event.get("source", {})
-		if hit_source.get("kind", &"") == &"cell":
-			text += "[color=#f29b9b]Шипы на %s: 8 урона при входе[/color]\n" % _cell_name(hit_source.get("origin_cell", Vector2i.ZERO))
-		text += "\n[color=#f7c97d]%s · броня −%d[/color]\n" % [_name_for(event["target_unit_id"]), hit["armor_spent"]]
-		text += "В HP до защиты: %d/%d · урон %d · лечение %d\n" % [hit["p_num"], hit["p_den"], hit["total_damage"], hit["total_healing"]]
-		for row: Dictionary in hit["rows"]:
-			var damage_label := "Физический" if row["type"] == &"physical" else "Огонь"
-			if row["policy"] == &"hp_only_natural": damage_label += " · в обход брони"
-			elif row["policy"] == &"hp_only_unresisted": damage_label += " · без защит"
-			text += "%s: вход %d → броня %d / HP %d / лечение %d\n" % [damage_label, row["D"], row["armor_spent"], row["hp_damage"], row["healing"]]
-		if hit.has("bleeding"):
-			var gate: Dictionary = hit["bleeding"]
-			text += "Кровотечение: " + ("Перк «Кровавая руна» обходит требование физического HP-урона" if gate["policy"] == &"bypass_hp_gate" else ("есть физический HP-урон до лечения" if gate["eligible"] else "нет физического HP-урона")) + ".\n"
-	for step: Dictionary in _forecast.steps:
-		if step["kind"] != &"bleeding_apply" or step["status"] != &"SKIPPED": continue
-		text += "Кровотечение не наложено: " + _bleeding_skip_text(step["reason"]) + ".\n"
-	if events.is_empty(): text += "Событий последствий нет.\n"
-	else:
-		text += "\n[color=#a5b3c5]Последствия:[/color]\n"
-		for event_variant in events:
-			text += "• " + _event_text(event_variant as Dictionary) + "\n"
-	_forecast_panel.text = text
+	var actor_name := _name_for(_attack_forecast_actor)
+	var target_name := _name_for(_forecast_target_id)
+	var event_lines: PackedStringArray = []
+	var names: Dictionary[int, String] = {}
+	if _forecast.status == ActionReceipt.APPLIED:
+		for id_variant in _forecast.units:
+			var id := int(id_variant)
+			names[id] = _name_for(id)
+		for event: Dictionary in _forecast.events:
+			if event.get("kind") == &"chain_link":
+				var id := int(event.target_unit_id)
+				names[id] = _name_for(id)
+			if event.get("kind") == &"hit_resolved":
+				var id := int(event.target_unit_id)
+				names[id] = _name_for(id)
+			if event.get("kind") == &"attacked":
+				var modifiers: Dictionary = event.get("modifiers", {})
+				if modifiers.has("sneak_percent") and modifiers["sneak_percent"] == 50:
+					for threat_id: int in modifiers.get("threat_ids", []): names[threat_id] = _name_for(threat_id)
+			event_lines.append(_event_text(event))
+	_forecast_panel.text = BattleForecastText.attack(
+		_forecast, actor_name, target_name,
+		_forecast_target_id, names, event_lines, session is BattleCoreReactionsSession,
+		tactical_mode
+	)
 
 func _sync_sneak_threat_highlight() -> void:
 	if is_execution_pending(): return
@@ -2064,11 +1997,7 @@ func _sync_sneak_threat_highlight() -> void:
 			if typeof(raw_id) == TYPE_INT and not board_view.sneak_threat_ids.has(raw_id): board_view.sneak_threat_ids.append(raw_id)
 
 func _control_skip_text(reason: StringName) -> String:
-	match reason:
-		&"control/dead_target": return "цель погибла"
-		&"control/stun_immune": return "иммунитет к оглушению"
-		&"control/entangle_immune": return "иммунитет к путам"
-		_: return "нет положительного физического урона HP"
+	return BattleForecastText.control_skip_text(reason)
 
 func _render_move_forecast_panel() -> void:
 	BattleCompactForecastPresenter.publish(self)
@@ -2078,34 +2007,18 @@ func _render_move_forecast_panel() -> void:
 	_forecast_heading.text = "ПРОГНОЗ · КОЛЕСО НА ЦЕЛИ"
 	_log.visible = false
 	_log_heading.visible = false
-	var text := "[font_size=16][color=#f7c97d]%s к %s[/color][/font_size]\n" % ["Безопасный отход" if _move_forecast_retreat else "Движение", _cell_name(_move_forecast_cell)]
-	if _move_forecast_retreat: text += "Оппортунист не перехватывает этот маршрут. Опасности сохраняются.\n"
-	if _move_forecast_pending:
-		_forecast_panel.text = text + ("Пунктир — выбранный маршрут.\nРассчитываем последствия…" if not board_view.pending_move_path.is_empty() else "Расчёт прогноза…")
-		return
-	if _move_forecast.status not in [ActionReceipt.APPLIED, ActionReceipt.INTERRUPTED]:
-		_forecast_panel.text = text + "[color=#f29b9b]Прогноз недоступен[/color]\n" + _reason_text(_move_forecast.reason)
-		return
-	if _move_forecast.status == ActionReceipt.INTERRUPTED:
-		text += "[color=#f29b9b]Маршрут прервётся: %s[/color]\n" % _reason_text(_move_forecast.reason)
-		if _move_forecast.reason == &"perks/opportunist_stopped": text += "Оппортунист остановит движение до выхода на следующую клетку; будет потрачено 1 дополнительное действие.\n"
-	for id: int in _move_forecast.units:
-		var row: Dictionary = _move_forecast.units[id]
-		var before: Dictionary = row["before"]
-		var after: Dictionary = row["after"]
-		if id != _move_forecast.actor_id and before == after: continue
-		text += "%s: %s → %s\n" % [_name_for(id), _cell_name(before["cell"]), _cell_name(after["cell"])]
-		text += "HP %.1f → %.1f%s\n" % [before["hp"], after["hp"], " · ГИБЕЛЬ" if not after["alive"] else ""]
-		if id == _move_forecast.actor_id:
-			text += "Движение %.1f → %.1f · расход %.1f ОД\n" % [before["move"], after["move"], float(before["move"]) - float(after["move"])]
-			text += "Основные %d → %d · бонусные %d → %d\n" % [before["main"], after["main"], before["bonus"], after["bonus"]]
-		if before.has("armor_current") and before["armor_current"] != after["armor_current"]:
-			text += "Броня %d → %d / %d\n" % [before["armor_current"], after["armor_current"], after["armor_max"]]
-		if before["guard_stance"] and not after["guard_stance"]: text += "Стойка будет снята.\n"
-	text += "\n[color=#a5b3c5]Последствия:[/color]\n"
-	for event: Dictionary in _move_forecast.events:
-		text += "• " + _event_text(event) + "\n"
-	_forecast_panel.text = text
+	var event_lines: PackedStringArray = []
+	var names: Dictionary[int, String] = {}
+	if not _move_forecast_pending and _move_forecast.status in [ActionReceipt.APPLIED, ActionReceipt.INTERRUPTED]:
+		for id: int in _move_forecast.units:
+			var row: Dictionary = _move_forecast.units[id]
+			if id == _move_forecast.actor_id or row["before"] != row["after"]: names[id] = _name_for(id)
+		for event: Dictionary in _move_forecast.events: event_lines.append(_event_text(event))
+	var has_pending_path := not board_view.pending_move_path.is_empty() if _move_forecast_pending else false
+	_forecast_panel.text = BattleForecastText.move(
+		_move_forecast, _move_forecast_cell, _move_forecast_retreat,
+		_move_forecast_pending, has_pending_path, names, event_lines, tactical_mode
+	)
 
 func _action_bar_hovered(action_id: StringName) -> void:
 	if is_execution_pending(): return
@@ -2231,20 +2144,7 @@ func _render_guard_forecast_panel() -> void:
 	_forecast_heading.text = "ПРОГНОЗ · КОЛЕСО НА ПАНЕЛИ"
 	_log.visible = false
 	_log_heading.visible = false
-	var text := "[font_size=16][color=#f7c97d]%s · %s[/color][/font_size]\n" % ["Поднять щиты" if _action_forecast_kind == &"raise_shields" else "Охранная стойка", _name_for(_guard_forecast_actor)]
-	if _guard_forecast.status != ActionReceipt.APPLIED:
-		_forecast_panel.text = text + "[color=#f29b9b]Прогноз недоступен[/color]\n" + _reason_text(_guard_forecast.reason)
-		return
-	var row: Dictionary = _guard_forecast.units[_guard_forecast.actor_id]
-	var before: Dictionary = row["before"]
-	var after: Dictionary = row["after"]
-	text += "Основные: %d → %d (расход %d)\nБонусные: %d → %d\nДвижение: %.1f → %.1f\n" % [before["main"], after["main"], int(before["main"]) - int(after["main"]), before["bonus"], after["bonus"], before["move"], after["move"]]
-	if _action_forecast_kind == &"raise_shields":
-		_forecast_panel.text = text + "90% урона первой атаки до начала следующего своего хода.\nДвижение и Оппортунист сохраняются. Откат: 1 полный следующий свой ход."
-		return
-	text += "Стойка: %s → %s\n" % ["включена" if before["guard_stance"] else "выключена", "включена" if after["guard_stance"] else "выключена"]
-	text += "До следующего хода команды; добровольные движение и атака снимают стойку.\nКлик или клавиша 2 — занять стойку."
-	_forecast_panel.text = text
+	_forecast_panel.text = BattleForecastText.guard(_guard_forecast, _name_for(_guard_forecast_actor), _action_forecast_kind, tactical_mode)
 
 func _render_reaction_guard_forecast() -> void:
 	BattleCompactForecastPresenter.publish(self)
@@ -2254,23 +2154,12 @@ func _render_reaction_guard_forecast() -> void:
 	_forecast_heading.text = "ПРОГНОЗ · РЕАКЦИЯ"
 	_log.visible = false
 	_log_heading.visible = false
-	var mode_name := "Оппортунист" if _guard_forecast_mode == CombatPerksState.Mode.OPPORTUNIST else ("Контратака" if _guard_forecast_mode == CombatPerksState.Mode.COUNTERATTACK else "Прикрытие")
-	var text := "[font_size=16][color=#f7c97d]%s · %s[/color][/font_size]\n" % [mode_name, _name_for(_guard_forecast_actor)]
-	if _guard_forecast_mode == CombatPerksState.Mode.COVER: text += "Союзник: %s\n" % _name_for(_guard_forecast_target)
-	if _guard_forecast.status != ActionReceipt.APPLIED:
-		_forecast_panel.text = text + "[color=#f29b9b]Прогноз недоступен[/color]\n" + _reason_text(_guard_forecast.reason)
-		return
-	var row: Dictionary = _guard_forecast.units.get(_guard_forecast_actor, {})
-	var before: Dictionary = row.get("before", {})
-	var after: Dictionary = row.get("after", {})
-	text += "Основные: %d → %d (расход 1)\n" % [before.get("main", 0), after.get("main", 0)]
-	var perks: Dictionary = after.get("combat_perks", {})
-	if bool(perks.get("uses_bonus_actions", false)) and not bool(perks.get("definition", {}).get("passive_opportunist", false)):
-		text += "Дополнительные: %d → %d (реакция расходует 1)\n" % [before.get("bonus", 0), after.get("bonus", 0)]
-	else:
-		text += "Общий заряд реакции: %d → %d\n" % [before.get("combat_perks", {}).get("reaction_left", 0), perks.get("reaction_left", 0)]
-	text += "Клик — занять стойку за 1 основное действие. Реакция сработает при подходящем событии и наличии запаса для её оплаты."
-	_forecast_panel.text = text
+	var actor_name := _name_for(_guard_forecast_actor)
+	var target_name := _name_for(_guard_forecast_target) if _guard_forecast_mode == CombatPerksState.Mode.COVER else ""
+	_forecast_panel.text = BattleForecastText.reaction_guard(
+		_guard_forecast, _guard_forecast_actor, actor_name,
+		target_name, _guard_forecast_mode, tactical_mode
+	)
 
 func _resolve_item_hover_exit() -> void:
 	if is_execution_pending(): return
@@ -2290,43 +2179,7 @@ func _render_item_forecast_panel() -> void:
 	_forecast_heading.text = "ПРОГНОЗ · КОЛЕСО НА ПАНЕЛИ"
 	_log.visible = false
 	_log_heading.visible = false
-	var text := "[font_size=16][color=#f7c97d]"
-	if _item_forecast_kind == &"healing": text += "Прогноз лечения"
-	else: text += "Прогноз призыва · %s" % _cell_name(_item_forecast_cell)
-	text += "[/color][/font_size]\n"
-	var item_action: ItemUseAction = _item_action_for_forecast()
-	if _item_forecast.status != &"APPLIED":
-		text += "Цена: %s.\n[color=#f29b9b]Прогноз недоступен[/color]\n" % _item_cost_text(item_action) + _reason_text(_item_forecast.reason)
-		_forecast_panel.text = text
-		return
-	var item_actor_id: int = -1
-	for item_id_variant in _item_forecast.items:
-		var owner_row: Dictionary = _item_forecast.items[item_id_variant]
-		item_actor_id = int(owner_row.get("actor_id", -1))
-	for id_variant in _item_forecast.units:
-		var id := int(id_variant)
-		var entry: Dictionary = _item_forecast.units[id]
-		var before_value: Variant = entry.get("before")
-		var after: Dictionary = entry.get("after", {})
-		if _item_forecast_kind == &"healing" and id != item_actor_id: continue
-		if _item_forecast_kind == &"summon" and before_value != null: continue
-		var label := String(after.get("name", "Участник %d" % id))
-		if before_value == null:
-			# Призванный помощник не имеет состояния до появления и не считается погибшим.
-			var after_cell: Vector2i = after.get("cell", Vector2i.ZERO)
-			text += "%s · ID %d · помощник\nКлетка: %s · владелец: %d\nСтатус: %s\nHP: %.1f / %.1f\nДействия: %d основных, %d бонусных, %.1f движения\n" % [label, int(after.get("id", id)), _cell_name(after_cell), int(after.get("owner_unit_id", 0)), "ожидает следующего хода" if bool(after.get("pending", false)) else "готов", float(after.get("hp", 0.0)), float(after.get("hp_max", 0.0)), int(after.get("main", 0)), int(after.get("bonus", 0)), float(after.get("move", 0.0))]
-		else:
-			var before: Dictionary = before_value
-			text += "%s: HP %.1f → %.1f / %.1f\n" % [label, float(before.get("hp", 0.0)), float(after.get("hp", 0.0)), float(after.get("hp_max", 0.0))]
-			text += "Действия: основные %d → %d\n" % [int(before.get("main", 0)), int(after.get("main", 0))]
-	for item_id_variant in _item_forecast.items:
-		var item_row: Dictionary = _item_forecast.items[item_id_variant]
-		var item_before: Dictionary = item_row.get("before", {})
-		var item_after: Dictionary = item_row.get("after", {})
-		text += "Заряды: %d → %d\n" % [int(item_before.get("charges", 0)), int(item_after.get("charges", 0))]
-	text += "Цена: %s.\n" % _item_cost_text(item_action)
-	if _item_forecast_kind == &"summon": text += "Помощник не действует до следующего хода своей команды."
-	_forecast_panel.text = text
+	_forecast_panel.text = BattleForecastText.item(_item_forecast, _item_forecast_kind, _item_forecast_cell, _item_cost_text(_item_action_for_forecast()), tactical_mode)
 
 func _render_raise_forecast_panel() -> void:
 	BattleCompactForecastPresenter.publish(self)
@@ -2336,25 +2189,7 @@ func _render_raise_forecast_panel() -> void:
 	_forecast_heading.text = "ПРОГНОЗ · КОЛЕСО НА ЦЕЛИ"
 	_log.visible = false
 	_log_heading.visible = false
-	var text := "[font_size=16][color=#f7c97d]Поднятие тела · %s[/color][/font_size]\n" % _cell_name(_raise_forecast_cell)
-	if _raise_forecast.status != ActionReceipt.APPLIED:
-		_forecast_panel.text = text + "[color=#f29b9b]Прогноз недоступен[/color]\n" + _reason_text(_raise_forecast.reason)
-		return
-	for id: int in _raise_forecast.corpses:
-		var row: Dictionary = _raise_forecast.corpses[id]
-		if row["after"] == null:
-			var corpse: Dictionary = row["before"]
-			text += "Тело #%d на %s будет использовано.\n" % [id, _cell_name(corpse["cell"])]
-	for id: int in _raise_forecast.units:
-		var row: Dictionary = _raise_forecast.units[id]
-		var after: Dictionary = row["after"]
-		if row["before"] == null:
-			# Новый ID отличает помощника от погибшего, чьё тело расходуется.
-			text += "%s · ID %d · помощник\nКлетка: %s · владелец: %d\nHP: %.1f / %.1f\nДействия: %d основных, %d бонусных, %.1f движения\nСтатус: %s\n" % [after["name"], id, _cell_name(after["cell"]), after["owner_unit_id"], after["hp"], after["hp_max"], after["main"], after["bonus"], after["move"], "ожидает следующего хода" if after["pending"] else "готов"]
-		elif id == _raise_forecast.actor_id:
-			var before: Dictionary = row["before"]
-			text += "%s: основные %d → %d (расход %d)\nБонус: %d → %d · Движение: %.1f → %.1f\n" % [after["name"], before["main"], after["main"], before["main"] - after["main"], before["bonus"], after["bonus"], before["move"], after["move"]]
-	_forecast_panel.text = text
+	_forecast_panel.text = BattleForecastText.raise_corpse(_raise_forecast, _raise_forecast_cell, tactical_mode)
 
 func _item_action_for_forecast() -> ItemUseAction:
 	if _battle == null: return null
@@ -2449,89 +2284,7 @@ func _names_for_ids(ids: Array) -> PackedStringArray:
 func _cell_name(cell: Vector2i) -> String:
 	return BattleEventText.cell_name(cell)
 func _reason_text(reason: StringName) -> String:
-	match reason:
-		&"raise_shields/cooldown": return "Поднять щиты восстанавливается: следующий свой ход нужно пропустить."
-		&"raise_shields/already_active": return "Щиты уже подняты до первой атаки или следующего своего хода."
-		&"raise_shields/insufficient_main": return "Нужно 1 основное действие."
-		&"raise_shields/not_owned": return "У бойца нет способности Поднять щиты."
-		&"mage/cooldown": return "Заклинание восстанавливается до конца следующих своих ходов."
-		&"mage/insufficient_mana": return "Недостаточно маны мага."
-		&"mage/full_hp": return "Для лечения нужен раненый живой союзник."
-		&"mage/invalid_target": return "Огонь — по живому противнику; лечение — по живому союзнику."
-		&"mage/invalid_summon_owner": return "Для тестового призыва или поднятия выберите живого союзника."
-		&"mage/window_closed", &"mage/terminal": return "Маг действует между завершёнными действиями вашего хода."
-	match reason:
-		&"perks/stunning_strike_required": return "этот персонаж не владеет Оглушающим ударом."
-		&"perks/not_owned": return "этот персонаж не владеет выбранным режимом реакции."
-		&"guard/already_active": return "эта охранная стойка уже активна."
-		&"guard/insufficient_main": return "не хватает основного действия, чтобы включить режим реакции."
-		&"control/stun_immune": return "цель невосприимчива к оглушению; урон и толчок сохраняются."
-		&"control/entangle_immune": return "цель невосприимчива к путам; урон и толчок сохраняются."
-		&"control/stunned": return "персонаж оглушён и не может выполнять добровольные действия."
-		&"control/frozen": return "персонаж заморожен и не может выполнять добровольные действия."
-		&"status/insufficient_main": return "для этого действия нужно 1 основное действие."
-		&"status/dead_target": return "живой цели больше нет на поле."
-		&"status/not_admitted": return "сейчас этот персонаж не может действовать."
-		&"status/stale_revision": return "состояние боя изменилось; наведите курсор заново."
-		&"status/capability_required": return "эти эффекты доступны в основном бою."
-		&"control/entangled": return "персонаж опутан и не может двигаться; остальные действия доступны."
-		&"control/capability_required": return "эта цель не поддерживает состояния контроля."
-		&"armor/summon_unsupported": return "призыв недоступен в сценарии брони."
-		&"armor/zero_restore": return "нечего восстанавливать."
-		&"armor/full": return "обычная броня уже восстановлена."
-		&"attack/insufficient_main": return "основные действия закончились; выберите другого персонажа или завершите ход." if tactical_mode else "основные действия закончились; выберите другого персонажа или сбросьте бой."
-		&"battle/input_locked": return "сейчас нельзя действовать."
-		&"battle/friendly_target": return "выберите противника."
-		&"move/insufficient_move": return "не хватает очков движения."
-		&"move/insufficient_main": return "для безопасного отхода нужно 1 основное действие."
-		&"move/actor_dead": return "персонаж погибнет на пути."
-		&"move/actor_displaced": return "персонаж будет смещён с маршрута."
-		&"move/path_blocked": return "продолжение пути будет перекрыто."
-		&"move/budget_exhausted": return "очки движения закончатся на пути."
-		&"attack/out_of_reach", &"attack/not_aligned": return "цель вне досягаемости прямого удара."
-		&"move/unreachable": return "нет проходимого маршрута к этой клетке."
-		&"move/no_selected_unit", &"attack/no_selected_unit": return "выберите живого персонажа."
-		&"attack/self_target": return "нельзя атаковать самого себя."
-		&"attack/line_blocked": return "линию атаки перекрывает стена или противник."
-		&"attack/terrain_shape_unsupported": return "рельеф не допускает прямой удар."
-		&"attack/stale_revision": return "состояние боя изменилось; наведите курсор заново."
-		&"attack/missing_target", &"attack/invalid_target", &"attack/dead_target": return "живой цели больше нет на поле."
-		&"BUSY": return "дождитесь завершения действия."
-		&"CONTEXT_FAULTED": return "бой остановлен; выполните сброс."
-		&"guard/already_active": return "охранная стойка уже активна."
-		&"summon/active_helper": return "у этого владельца уже есть живой помощник."
-		&"summon/invalid_cell": return "нужна соседняя свободная безопасная клетка той же высоты."
-		&"environment/no_corpse": return "нет доступного гуманоида на соседней свободной клетке."
-		&"environment/invalid_raise_cell": return "тело нельзя поднять на клетке с шипами, занятой или другой высоты."
-		&"summon/helper_cannot_summon": return "помощник не может поднимать другие тела."
-		&"item/full_hp": return "здоровье уже полное."
-		&"item/no_charges": return "заряды предмета закончились."
-		&"item/insufficient_main": return "недостаточно основных действий."
-		&"item/not_owned": return "нет доступного предмета."
-		&"item/inactive": return "предмет не активен."
-		&"item/not_usable": return "этот предмет нельзя использовать."
-		&"item/no_selected_unit": return "выберите живого персонажа."
-		&"item/not_admitted": return "персонаж не может использовать предмет."
-		&"item/stale_revision": return "состояние боя изменилось; повторите попытку."
-		&"item/invalid_runtime", &"item/invalid_mutation": return "состояние боя повреждено; начните заново."
-		&"guard/insufficient_main": return "недостаточно основных действий."
-		&"guard/no_selected_unit": return "выберите живого персонажа."
-		&"guard/not_admitted": return "персонаж не может занять стойку."
-		&"guard/stale_revision": return "состояние боя изменилось; повторите попытку."
-		&"guard/invalid_runtime": return "состояние персонажа повреждено; сбросьте бой."
-		&"attack/no_reachable_position": return "не хватает движения или нет доступной позиции для обычной атаки."
-		&"perks/not_owned": return "этот персонаж не владеет преимуществом."
-		&"perks/invalid_cover_target": return "выберите допустимого соседнего союзника."
-		&"perks/movement_stopped": return "движение уже остановлено Оппортунистом до пополнения команды."
-		&"perks/opportunist_stopped": return "Оппортунист прервёт выход из зоны угрозы."
-		&"perks/invalid_mode": return "режим реакции недоступен."
-		&"preview/rng_not_cloneable", &"preview/rng_state_mismatch", &"preview/unsupported_worker_rng", &"preview/unsupported_rng": return "случайный эффект пока не поддерживает точный прогноз."
-		&"turn/unsupported_session", &"turn/unsupported_runtime": return "этот вариант боя пока не поддерживает точный прогноз перехода."
-		&"turn/unsupported_phase", &"turn/not_transitioned": return "завершение хода сейчас недоступно."
-		&"turn/faulted": return "переход хода не завершится; точный итог недоступен."
-		&"preview/worker_unavailable": return "расчёт временно недоступен; наведите курсор ещё раз."
-		&"command_limit", &"event_limit", &"depth_limit", &"sequence_exhausted": return "цепь последствий не завершилась; точный итог недоступен."
-	return "Эта комбинация пока не поддерживается: " + String(reason)
+	return BattleForecastText.reason_text(reason, tactical_mode)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if is_execution_pending():
@@ -2625,19 +2378,7 @@ func _render_armor_forecast_panel() -> void:
 	_forecast_heading.text = "ПРОГНОЗ · КОЛЕСО НА ПАНЕЛИ"
 	_log.visible = false
 	_log_heading.visible = false
-	var text := "[font_size=16][color=#f7c97d]Восстановление брони · %s[/color][/font_size]\n" % _name_for(_armor_forecast_actor)
-	if _armor_forecast.status != ActionReceipt.APPLIED:
-		_forecast_panel.text = text + "Прогноз недоступен: " + _reason_text(_armor_forecast.reason)
-		return
-	var before: Dictionary = _armor_forecast.units_before[_armor_forecast_actor]
-	var after: Dictionary = _armor_forecast.units_after[_armor_forecast_actor]
-	text += "Броня: %d → %d\nОсновные: %d → %d (расход 1)\n" % [before["armor_current"], after["armor_current"], before["main"], after["main"]]
-	for event: Dictionary in _armor_forecast.events:
-		if event["kind"] != &"armor_changed": continue
-		for item: Dictionary in event["items"]: text += "Вещь #%d: %d → %d\n" % [item["id"], item["before"], item["after"]]
-		for grant: Dictionary in event["grants"]: text += "Временная броня: +%d до конца боя\n" % [int(grant["after"]) - int(grant["before"])]
-	text += "Стойка сохраняется. Клик или клавиша 4 — восстановить броню."
-	_forecast_panel.text = text
+	_forecast_panel.text = BattleForecastText.armor(_armor_forecast, _armor_forecast_actor, _name_for(_armor_forecast_actor), tactical_mode)
 
 func _render_elemental_forecast_panel() -> void:
 	BattleCompactForecastPresenter.publish(self)
@@ -2650,37 +2391,20 @@ func _render_elemental_forecast_panel() -> void:
 	_forecast_heading.text = "ПРОГНОЗ · ЭЛЕМЕНТАЛЬНЫЙ ЭФФЕКТ"
 	_log.visible = false
 	_log_heading.visible = false
-	var text := "[font_size=16][color=#f7c97d]%s → %s · дальность 3[/color][/font_size]\n" % [_elemental_effect_label(_action_forecast_effect), _name_for(_action_forecast_target_id)]
-	if AbilityDefinition.mage_source_id(_action_forecast_effect) > 0:
-		text = "[font_size=16]%s → %s · вся доска[/font_size]\n" % [_elemental_effect_label(_action_forecast_effect), _name_for(_action_forecast_target_id)]
-		if AbilityDefinition.is_cell_spell(_action_forecast_effect): text = "[font_size=16]%s → %s · в зоне союзников[/font_size]\n" % [_elemental_effect_label(_action_forecast_effect), _cell_name(_action_forecast_cell)]
-	if _elemental_forecast.status != ActionReceipt.APPLIED:
-		_forecast_panel.text = text + "Прогноз недоступен: " + _reason_text(_elemental_forecast.reason)
-		return
-	if AbilityDefinition.mage_source_id(_action_forecast_effect) > 0:
-		var before_abilities := BattleAbilityState.from_dict(_elemental_forecast.snapshot_before.get("abilities", {}))
-		var after_abilities := BattleAbilityState.from_dict(_elemental_forecast.snapshot_after.get("abilities", {}))
-		var spell_definition: AbilityDefinition = before_abilities.definition(_action_forecast_effect) if before_abilities != null else null
-		if before_abilities == null or after_abilities == null or spell_definition == null:
-			_forecast_panel.text = text + "Прогноз недоступен: данные отката повреждены."
-			return
-		text += "Мана %d → %d · откат: длительность %d ходов, после действия осталось %d\n" % [before_abilities.mana, after_abilities.mana, spell_definition.cooldown_turns, after_abilities.remaining(_action_forecast_effect)]
-	var actor_before: Dictionary = _elemental_forecast.units_before.get(_action_forecast_actor, {})
-	var actor_after: Dictionary = _elemental_forecast.units_after.get(_action_forecast_actor, {})
-	if not actor_before.is_empty() and not actor_after.is_empty():
-		text += "Основные действия: %d → %d\n" % [actor_before.get("main", 0), actor_after.get("main", 0)]
-	var before: Dictionary = _elemental_forecast.units_before.get(_action_forecast_target_id, {})
-	var after: Dictionary = _elemental_forecast.units_after.get(_action_forecast_target_id, {})
-	if not before.is_empty() and not after.is_empty():
-		text += "%s: HP %.1f → %.1f\n" % [_name_for(_action_forecast_target_id), before.get("hp", 0.0), after.get("hp", 0.0)]
-		text += "Элементальные статусы: %s → %s\n" % [_elemental_summary(before.get("elemental", {})), _elemental_summary(after.get("elemental", {}))]
-		text += "Кровотечение: %s → %s\n" % [_bleeding_summary(before.get("bleeding", {})), _bleeding_summary(after.get("bleeding", {}))]
-	if _elemental_forecast.events.is_empty():
-		text += "Событий последствий нет.\n"
-	else:
-		text += "\n[color=#a5b3c5]Последствия:[/color]\n"
-		for event: Dictionary in _elemental_forecast.events: text += "• " + _event_text(event) + "\n"
-	_forecast_panel.text = text
+	var target_name := _name_for(_action_forecast_target_id)
+	var event_lines: PackedStringArray = []
+	var mana: BattleForecastText.ManaTextValues = null
+	if _elemental_forecast.status == ActionReceipt.APPLIED:
+		# Повреждённый откат останавливает вывод до строк событий.
+		if AbilityDefinition.mage_source_id(_action_forecast_effect) > 0:
+			mana = BattleForecastText.spell_mana_values(_elemental_forecast, _action_forecast_effect)
+		if mana == null or mana.valid:
+			for event: Dictionary in _elemental_forecast.events: event_lines.append(_event_text(event))
+	_forecast_panel.text = BattleForecastText.elemental(
+		_elemental_forecast, _action_forecast_effect, _action_forecast_target_id,
+		_action_forecast_actor, _action_forecast_cell, target_name,
+		mana, event_lines, tactical_mode
+	)
 
 func _render_card_forecast_panel() -> void:
 	var definition := MageCardCatalog.get_card(String(_action_forecast_effect))
@@ -2690,19 +2414,21 @@ func _render_card_forecast_panel() -> void:
 	_forecast_heading.text = "ПРОГНОЗ · КАРТА МАГА"
 	_log.visible = false
 	_log_heading.visible = false
-	var target_text := _cell_name(_action_forecast_cell) if definition.target_policy in ["valid_cell", "corpse_cell"] else _name_for(_action_forecast_target_id)
-	var text := "[font_size=16][color=#f7c97d]%s → %s[/color][/font_size]\n" % [definition.name, target_text]
-	if _elemental_forecast.status != ActionReceipt.APPLIED:
-		_forecast_panel.text = text + "Прогноз недоступен: " + _reason_text(_elemental_forecast.reason)
-		return
-	var before := BattleAbilityState.from_dict(_elemental_forecast.snapshot_before.get("abilities", {}))
-	var after := BattleAbilityState.from_dict(_elemental_forecast.snapshot_after.get("abilities", {}))
-	if before == null or after == null:
-		_forecast_panel.text = text + "Прогноз недоступен: данные маны повреждены."
-		return
-	text += "Мана %d → %d · карта #%d уйдёт в сыгранные.\n" % [before.mana, after.mana, _action_forecast_card_id]
-	for event: Dictionary in _elemental_forecast.events: text += "• " + _event_text(event) + "\n"
-	_forecast_panel.text = text
+	var target_text: String
+	if definition.target_policy in ["valid_cell", "corpse_cell"]:
+		target_text = _cell_name(_action_forecast_cell)
+	else:
+		target_text = _name_for(_action_forecast_target_id)
+	var event_lines: PackedStringArray = []
+	var mana: BattleForecastText.ManaTextValues = null
+	if _elemental_forecast.status == ActionReceipt.APPLIED:
+		mana = BattleForecastText.card_mana_values(_elemental_forecast)
+		if mana.valid:
+			for event: Dictionary in _elemental_forecast.events: event_lines.append(_event_text(event))
+	_forecast_panel.text = BattleForecastText.card(
+		_elemental_forecast, definition.name, target_text, _action_forecast_card_id,
+		mana, event_lines, tactical_mode
+	)
 
 func _elemental_effect_label(effect: StringName) -> String:
 	return BattleEventText.elemental_effect_label(effect)
@@ -2711,11 +2437,7 @@ func _elemental_summary(value: Variant) -> String:
 	return BattleEventText.elemental_summary(value)
 
 func _bleeding_skip_text(reason: StringName) -> String:
-	match reason:
-		&"bleeding/immune": return "иммунитет"
-		&"bleeding/dead_target": return "цель погибла"
-		&"bleeding/burning": return "горение блокирует кровотечение"
-	return "нет физического HP-урона"
+	return BattleForecastText.bleeding_skip_text(reason)
 
 func _bleeding_summary(value: Variant) -> String:
 	return BattleEventText.bleeding_summary(value)
@@ -2769,18 +2491,13 @@ func _render_environment_forecast() -> void:
 	_forecast_heading.text = "ПРОГНОЗ · ОКРУЖЕНИЕ"
 	_log.visible = false
 	_log_heading.visible = false
-	var text := "[font_size=16][color=#f7c97d]Фаза окружения[/color][/font_size]\nЕсли она начнётся при нынешней расстановке. Будущие действия могут изменить результат.\n\n"
-	if _environment_forecast_pending:
-		_forecast_panel.text = text + "Рассчитываем последствия…"
-		return
-	if _environment_forecast.status != ActionReceipt.APPLIED:
-		_forecast_panel.text = text + "Прогноз недоступен: " + _reason_text(_environment_forecast.reason)
-		return
-	for event: Dictionary in _environment_forecast.events: text += _event_text(event) + "\n"
-	for id: int in _environment_forecast.units_after:
-		if _environment_forecast.units_before[id].alive and not _environment_forecast.units_after[id].alive:
-			text += "[color=#f29b9b]%s: погибнет в пропасти.[/color]\n" % _name_for(id)
-	_forecast_panel.text = text
+	var event_lines: PackedStringArray = []
+	var names: Dictionary[int, String] = {}
+	if not _environment_forecast_pending and _environment_forecast.status == ActionReceipt.APPLIED:
+		for event: Dictionary in _environment_forecast.events: event_lines.append(_event_text(event))
+		for id: int in _environment_forecast.units_after:
+			if _environment_forecast.units_before[id].alive and not _environment_forecast.units_after[id].alive: names[id] = _name_for(id)
+	_forecast_panel.text = BattleForecastText.environment(_environment_forecast, _environment_forecast_pending, names, event_lines, tactical_mode)
 
 func _over_end_turn_button() -> bool:
 	return _end_turn_button != null and _end_turn_button.is_visible_in_tree() and _end_turn_button.get_global_rect().has_point(_pointer_position)
@@ -2828,37 +2545,10 @@ func _render_turn_forecast() -> void:
 	_forecast_heading.text = "ПРОГНОЗ · КОНЕЦ ХОДА"
 	_log.visible = false
 	_log_heading.visible = false
-	var text := "[font_size=16][color=#f7c97d]Завершение командного хода[/color][/font_size]\nДо первого действия противника.\n"
-	if _turn_forecast_pending:
-		_forecast_panel.text = text + "Рассчитываем последствия перехода…"
-		return
-	if _turn_forecast.status != ActionReceipt.APPLIED:
-		_forecast_panel.text = text + "[color=#f29b9b]Прогноз недоступен[/color]\n" + _reason_text(_turn_forecast.reason)
-		return
-	var phases := {BattleTacticalSession.Phase.ENEMY_TURN: "Начнётся ход противника.", BattleTacticalSession.Phase.VICTORY: "Победа до действий противника.", BattleTacticalSession.Phase.DEFEAT: "Поражение до действий противника.", BattleTacticalSession.Phase.MUTUAL_DESTRUCTION: "Обе команды погибнут. Бой завершится."}
-	text += "[color=#f7c97d]%s[/color]\n" % phases.get(_turn_forecast.phase_after, "Переход завершён.")
-	for event: Dictionary in _turn_forecast.events:
-		if event.get("kind", &"") in [&"environment_turn", &"support_collapsed"]:
-			text += _event_text(event) + "\n"
-	var ids: Array = _turn_forecast.units_before.keys()
-	ids.sort()
-	for id: int in ids:
-		var before: Dictionary = _turn_forecast.units_before[id]
-		var after: Dictionary = _turn_forecast.units_after.get(id, {})
-		if after.is_empty(): continue
-		var changes: PackedStringArray = []
-		for pair: Array in [["hp", "HP"], ["armor_current", "Броня"], ["main", "Основные"], ["bonus", "Бонусные"], ["move", "Движение"]]:
-			var key: String = pair[0]
-			if before.has(key) and after.has(key) and before[key] != after[key]: changes.append("%s: %s → %s" % [pair[1], str(before[key]), str(after[key])])
-		if before.get("alive", true) and not after.get("alive", true): changes.append("Погибнет")
-		if before.get("guard_stance", false) != after.get("guard_stance", false): changes.append("Охранная стойка снята" if not after.guard_stance else "Охранная стойка включена")
-		if before.get("pending", false) and not after.get("pending", false): changes.append("Помощник готов действовать")
-		if before.get("bleeding", {}) != after.get("bleeding", {}): changes.append("Кровотечение: %s → %s" % [_bleeding_summary(before.get("bleeding", {})), _bleeding_summary(after.get("bleeding", {}))])
-		if before.get("elemental", {}) != after.get("elemental", {}): changes.append("Статусы: %s → %s" % [_elemental_summary(before.get("elemental", {})), _elemental_summary(after.get("elemental", {}))])
-		for entry: Array in [["control", "stunned_turns", "Оглушение, ходов"], ["control", "entangled_turns", "Путы, ходов"], ["combat_perks", "reaction_left", "Общий заряд реакции"]]:
-			var old_value: int = before.get(entry[0], {}).get(entry[1], 0)
-			var new_value: int = after.get(entry[0], {}).get(entry[1], 0)
-			if old_value != new_value: changes.append("%s: %d → %d" % [entry[2], old_value, new_value])
-		if before.get("combat_perks", {}).get("movement_stopped", false) and not after.get("combat_perks", {}).get("movement_stopped", false): changes.append("Остановка движения снята")
-		if not changes.is_empty(): text += "\n[color=#f7c97d]%s[/color]\n%s\n" % [before.get("name", _name_for(id)), "\n".join(changes)]
-	_forecast_panel.text = text
+	var event_lines: PackedStringArray = []
+	var names: Dictionary[int, String] = {}
+	if not _turn_forecast_pending and _turn_forecast.status == ActionReceipt.APPLIED:
+		for event: Dictionary in _turn_forecast.events:
+			if event.get("kind", &"") in [&"environment_turn", &"support_collapsed"]: event_lines.append(_event_text(event))
+		for id: int in _turn_forecast.units_before: names[id] = _name_for(id)
+	_forecast_panel.text = BattleForecastText.turn(_turn_forecast, _turn_forecast_pending, names, event_lines, tactical_mode)

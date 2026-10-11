@@ -1,0 +1,1522 @@
+[
+	{
+		"heading": "unchanged heading",
+		"heading_visible": false,
+		"label": "attack none false",
+		"log_heading_visible": true,
+		"log_visible": true,
+		"panel_visible": false,
+		"text": "Наведите курсор на врага в режиме A."
+	},
+	{
+		"heading": "unchanged heading",
+		"heading_visible": false,
+		"label": "attack pending false",
+		"log_heading_visible": true,
+		"log_visible": true,
+		"panel_visible": false,
+		"text": "[font_size=16][color=#f7c97d]Астра → Страж[/color][/font_size]\nРассчитываем последствия удара…"
+	},
+	{
+		"heading": "unchanged heading",
+		"heading_visible": false,
+		"label": "attack rejected false",
+		"log_heading_visible": true,
+		"log_visible": true,
+		"panel_visible": false,
+		"text": "[font_size=16][color=#f7c97d]Астра → Страж[/color][/font_size]\n[color=#f29b9b]Прогноз недоступен[/color]\nЭта комбинация пока не поддерживается: attack/out_of_range"
+	},
+	{
+		"heading": "unchanged heading",
+		"heading_visible": false,
+		"label": "attack applied false",
+		"log_heading_visible": true,
+		"log_visible": true,
+		"panel_visible": false,
+		"text": "[font_size=16][color=#f7c97d]Астра → Страж[/color][/font_size]\n[color=#f7c97d]Цепь · сила: Страж: 4.5 (удержал)[/color]\nПунктир — импульс; стрелка — сдвиг.\nОглушение: до конца ближайшего хода команды цели.\nОглушение пропущено: иммунитет к оглушению.\nПуты: до конца ближайшего хода команды цели. Движение запрещено; следующий толчок снимает путы.\nПуты не наложены: цель погибла.\nКровотечение после атаки: 1 ст. · 1 т. · 1/тик · 2/клетку\nНе наложено: горение блокирует кровотечение.\nСтраж: HP [color=#f29b9b]12.0 → 0.0 · ГИБЕЛЬ[/color]\nСтраж: равновесие 4/12 → 10/10\nСтраж: броня 6 → 3 / 10\nСтраж: кровотечение 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\nСтраж: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nСтраж: путы будут сняты.\nСтраж: оглушение будет наложено.\nСтраж: основные действия 2 → 1\nАстра: HP [color=#f29b9b]12.0 → 0.0 · ГИБЕЛЬ[/color]\nАстра: равновесие 4/12 → 10/10\nАстра: броня 6 → 3 / 10\nАстра: кровотечение 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\nАстра: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nАстра: путы будут сняты.\nАстра: оглушение будет наложено.\nАстра: основные действия 2 → 1\n\n[color=#f7c97d]Скрытая атака +50% физической базы[/color] · угрожают: Страж, Астра\n\n[color=#f7c97d]Удар в спину +50% базы[/color]\n[color=#f29b9b]Крит ×2: прямой урон и воздействие[/color]\n[color=#f29b9b]Шипы на E4: 8 урона при входе[/color]\n\n[color=#f7c97d]Страж · броня −3[/color]\nВ HP до защиты: 1/2 · урон 8 · лечение 1\nФизический · в обход брони: вход 8 → броня 0 / HP 6 / лечение 0\nОгонь · без защит: вход 2 → броня 0 / HP 2 / лечение 1\nКровотечение: Перк «Кровавая руна» обходит требование физического HP-урона.\nКровотечение не наложено: горение блокирует кровотечение.\n\n[color=#a5b3c5]Последствия:[/color]\n• Цепь: Астра → Страж, сила 4.5 — цепь остановлена.\n• Астра атакует Страж. Скрытая атака +50% физической базы (угроза: Страж, Астра). Удар в спину +50%. Крит ×2.\n• Страж: попадание завершено, HP 12 → 0.\n• Окружение 3: E4 обрушится в следующую фазу окружения.\n• Обвал: E4 стала пропастью.\n"
+	},
+	{
+		"heading": "unchanged heading",
+		"heading_visible": false,
+		"label": "attack fresh name false",
+		"log_heading_visible": true,
+		"log_visible": true,
+		"panel_visible": false,
+		"text": "[font_size=16][color=#f7c97d]Свежий текст без revision → Страж[/color][/font_size]\n[color=#f7c97d]Цепь · сила: Страж: 4.5 (удержал)[/color]\nПунктир — импульс; стрелка — сдвиг.\nОглушение: до конца ближайшего хода команды цели.\nОглушение пропущено: иммунитет к оглушению.\nПуты: до конца ближайшего хода команды цели. Движение запрещено; следующий толчок снимает путы.\nПуты не наложены: цель погибла.\nКровотечение после атаки: 1 ст. · 1 т. · 1/тик · 2/клетку\nНе наложено: горение блокирует кровотечение.\nСтраж: HP [color=#f29b9b]12.0 → 0.0 · ГИБЕЛЬ[/color]\nСтраж: равновесие 4/12 → 10/10\nСтраж: броня 6 → 3 / 10\nСтраж: кровотечение 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\nСтраж: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nСтраж: путы будут сняты.\nСтраж: оглушение будет наложено.\nСтраж: основные действия 2 → 1\nСвежий текст без revision: HP [color=#f29b9b]12.0 → 0.0 · ГИБЕЛЬ[/color]\nСвежий текст без revision: равновесие 4/12 → 10/10\nСвежий текст без revision: броня 6 → 3 / 10\nСвежий текст без revision: кровотечение 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\nСвежий текст без revision: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nСвежий текст без revision: путы будут сняты.\nСвежий текст без revision: оглушение будет наложено.\nСвежий текст без revision: основные действия 2 → 1\n\n[color=#f7c97d]Скрытая атака +50% физической базы[/color] · угрожают: Страж, Свежий текст без revision\n\n[color=#f7c97d]Удар в спину +50% базы[/color]\n[color=#f29b9b]Крит ×2: прямой урон и воздействие[/color]\n[color=#f29b9b]Шипы на E4: 8 урона при входе[/color]\n\n[color=#f7c97d]Страж · броня −3[/color]\nВ HP до защиты: 1/2 · урон 8 · лечение 1\nФизический · в обход брони: вход 8 → броня 0 / HP 6 / лечение 0\nОгонь · без защит: вход 2 → броня 0 / HP 2 / лечение 1\nКровотечение: Перк «Кровавая руна» обходит требование физического HP-урона.\nКровотечение не наложено: горение блокирует кровотечение.\n\n[color=#a5b3c5]Последствия:[/color]\n• Цепь: Свежий текст без revision → Страж, сила 4.5 — цепь остановлена.\n• Свежий текст без revision атакует Страж. Скрытая атака +50% физической базы (угроза: Страж, Свежий текст без revision). Удар в спину +50%. Крит ×2.\n• Страж: попадание завершено, HP 12 → 0.\n• Окружение 3: E4 обрушится в следующую фазу окружения.\n• Обвал: E4 стала пропастью.\n"
+	},
+	{
+		"heading": "unchanged heading",
+		"heading_visible": false,
+		"label": "attack legacy bleeding no events false",
+		"log_heading_visible": true,
+		"log_visible": true,
+		"panel_visible": false,
+		"text": "[font_size=16][color=#f7c97d]Астра → Страж[/color][/font_size]\nОглушение: до конца ближайшего хода команды цели.\nОглушение пропущено: иммунитет к оглушению.\nПуты: до конца ближайшего хода команды цели. Движение запрещено; следующий толчок снимает путы.\nПуты не наложены: цель погибла.\nКровотечение: 1 тика после атаки\nНе наложено: горение блокирует кровотечение.\nСтраж: HP [color=#f29b9b]12.0 → 0.0 · ГИБЕЛЬ[/color]\nСтраж: равновесие 4/12 → 10/10\nСтраж: броня 6 → 3 / 10\nСтраж: кровотечение 3 → 1 тика\nСтраж: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nСтраж: путы будут сняты.\nСтраж: оглушение будет наложено.\nСтраж: основные действия 2 → 1\nАстра: HP [color=#f29b9b]12.0 → 0.0 · ГИБЕЛЬ[/color]\nАстра: равновесие 4/12 → 10/10\nАстра: броня 6 → 3 / 10\nАстра: кровотечение 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\nАстра: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nАстра: путы будут сняты.\nАстра: оглушение будет наложено.\nАстра: основные действия 2 → 1\nКровотечение не наложено: горение блокирует кровотечение.\nСобытий последствий нет.\n"
+	},
+	{
+		"label": "_reason_text false raise_shields/cooldown",
+		"text": "Поднять щиты восстанавливается: следующий свой ход нужно пропустить."
+	},
+	{
+		"label": "_reason_text false raise_shields/already_active",
+		"text": "Щиты уже подняты до первой атаки или следующего своего хода."
+	},
+	{
+		"label": "_reason_text false raise_shields/insufficient_main",
+		"text": "Нужно 1 основное действие."
+	},
+	{
+		"label": "_reason_text false raise_shields/not_owned",
+		"text": "У бойца нет способности Поднять щиты."
+	},
+	{
+		"label": "_reason_text false mage/cooldown",
+		"text": "Заклинание восстанавливается до конца следующих своих ходов."
+	},
+	{
+		"label": "_reason_text false mage/insufficient_mana",
+		"text": "Недостаточно маны мага."
+	},
+	{
+		"label": "_reason_text false mage/full_hp",
+		"text": "Для лечения нужен раненый живой союзник."
+	},
+	{
+		"label": "_reason_text false mage/invalid_target",
+		"text": "Огонь — по живому противнику; лечение — по живому союзнику."
+	},
+	{
+		"label": "_reason_text false mage/invalid_summon_owner",
+		"text": "Для тестового призыва или поднятия выберите живого союзника."
+	},
+	{
+		"label": "_reason_text false mage/window_closed",
+		"text": "Маг действует между завершёнными действиями вашего хода."
+	},
+	{
+		"label": "_reason_text false mage/terminal",
+		"text": "Маг действует между завершёнными действиями вашего хода."
+	},
+	{
+		"label": "_reason_text false perks/stunning_strike_required",
+		"text": "этот персонаж не владеет Оглушающим ударом."
+	},
+	{
+		"label": "_reason_text false perks/not_owned",
+		"text": "этот персонаж не владеет выбранным режимом реакции."
+	},
+	{
+		"label": "_reason_text false guard/already_active",
+		"text": "эта охранная стойка уже активна."
+	},
+	{
+		"label": "_reason_text false guard/insufficient_main",
+		"text": "не хватает основного действия, чтобы включить режим реакции."
+	},
+	{
+		"label": "_reason_text false control/stun_immune",
+		"text": "цель невосприимчива к оглушению; урон и толчок сохраняются."
+	},
+	{
+		"label": "_reason_text false control/entangle_immune",
+		"text": "цель невосприимчива к путам; урон и толчок сохраняются."
+	},
+	{
+		"label": "_reason_text false control/stunned",
+		"text": "персонаж оглушён и не может выполнять добровольные действия."
+	},
+	{
+		"label": "_reason_text false control/frozen",
+		"text": "персонаж заморожен и не может выполнять добровольные действия."
+	},
+	{
+		"label": "_reason_text false status/insufficient_main",
+		"text": "для этого действия нужно 1 основное действие."
+	},
+	{
+		"label": "_reason_text false status/dead_target",
+		"text": "живой цели больше нет на поле."
+	},
+	{
+		"label": "_reason_text false status/not_admitted",
+		"text": "сейчас этот персонаж не может действовать."
+	},
+	{
+		"label": "_reason_text false status/stale_revision",
+		"text": "состояние боя изменилось; наведите курсор заново."
+	},
+	{
+		"label": "_reason_text false status/capability_required",
+		"text": "эти эффекты доступны в основном бою."
+	},
+	{
+		"label": "_reason_text false control/entangled",
+		"text": "персонаж опутан и не может двигаться; остальные действия доступны."
+	},
+	{
+		"label": "_reason_text false control/capability_required",
+		"text": "эта цель не поддерживает состояния контроля."
+	},
+	{
+		"label": "_reason_text false armor/summon_unsupported",
+		"text": "призыв недоступен в сценарии брони."
+	},
+	{
+		"label": "_reason_text false armor/zero_restore",
+		"text": "нечего восстанавливать."
+	},
+	{
+		"label": "_reason_text false armor/full",
+		"text": "обычная броня уже восстановлена."
+	},
+	{
+		"label": "_reason_text false attack/insufficient_main",
+		"text": "основные действия закончились; выберите другого персонажа или сбросьте бой."
+	},
+	{
+		"label": "_reason_text false battle/input_locked",
+		"text": "сейчас нельзя действовать."
+	},
+	{
+		"label": "_reason_text false battle/friendly_target",
+		"text": "выберите противника."
+	},
+	{
+		"label": "_reason_text false move/insufficient_move",
+		"text": "не хватает очков движения."
+	},
+	{
+		"label": "_reason_text false move/insufficient_main",
+		"text": "для безопасного отхода нужно 1 основное действие."
+	},
+	{
+		"label": "_reason_text false move/actor_dead",
+		"text": "персонаж погибнет на пути."
+	},
+	{
+		"label": "_reason_text false move/actor_displaced",
+		"text": "персонаж будет смещён с маршрута."
+	},
+	{
+		"label": "_reason_text false move/path_blocked",
+		"text": "продолжение пути будет перекрыто."
+	},
+	{
+		"label": "_reason_text false move/budget_exhausted",
+		"text": "очки движения закончатся на пути."
+	},
+	{
+		"label": "_reason_text false attack/out_of_reach",
+		"text": "цель вне досягаемости прямого удара."
+	},
+	{
+		"label": "_reason_text false attack/not_aligned",
+		"text": "цель вне досягаемости прямого удара."
+	},
+	{
+		"label": "_reason_text false move/unreachable",
+		"text": "нет проходимого маршрута к этой клетке."
+	},
+	{
+		"label": "_reason_text false move/no_selected_unit",
+		"text": "выберите живого персонажа."
+	},
+	{
+		"label": "_reason_text false attack/no_selected_unit",
+		"text": "выберите живого персонажа."
+	},
+	{
+		"label": "_reason_text false attack/self_target",
+		"text": "нельзя атаковать самого себя."
+	},
+	{
+		"label": "_reason_text false attack/line_blocked",
+		"text": "линию атаки перекрывает стена или противник."
+	},
+	{
+		"label": "_reason_text false attack/terrain_shape_unsupported",
+		"text": "рельеф не допускает прямой удар."
+	},
+	{
+		"label": "_reason_text false attack/stale_revision",
+		"text": "состояние боя изменилось; наведите курсор заново."
+	},
+	{
+		"label": "_reason_text false attack/missing_target",
+		"text": "живой цели больше нет на поле."
+	},
+	{
+		"label": "_reason_text false attack/invalid_target",
+		"text": "живой цели больше нет на поле."
+	},
+	{
+		"label": "_reason_text false attack/dead_target",
+		"text": "живой цели больше нет на поле."
+	},
+	{
+		"label": "_reason_text false BUSY",
+		"text": "дождитесь завершения действия."
+	},
+	{
+		"label": "_reason_text false CONTEXT_FAULTED",
+		"text": "бой остановлен; выполните сброс."
+	},
+	{
+		"label": "_reason_text false summon/active_helper",
+		"text": "у этого владельца уже есть живой помощник."
+	},
+	{
+		"label": "_reason_text false summon/invalid_cell",
+		"text": "нужна соседняя свободная безопасная клетка той же высоты."
+	},
+	{
+		"label": "_reason_text false environment/no_corpse",
+		"text": "нет доступного гуманоида на соседней свободной клетке."
+	},
+	{
+		"label": "_reason_text false environment/invalid_raise_cell",
+		"text": "тело нельзя поднять на клетке с шипами, занятой или другой высоты."
+	},
+	{
+		"label": "_reason_text false summon/helper_cannot_summon",
+		"text": "помощник не может поднимать другие тела."
+	},
+	{
+		"label": "_reason_text false item/full_hp",
+		"text": "здоровье уже полное."
+	},
+	{
+		"label": "_reason_text false item/no_charges",
+		"text": "заряды предмета закончились."
+	},
+	{
+		"label": "_reason_text false item/insufficient_main",
+		"text": "недостаточно основных действий."
+	},
+	{
+		"label": "_reason_text false item/not_owned",
+		"text": "нет доступного предмета."
+	},
+	{
+		"label": "_reason_text false item/inactive",
+		"text": "предмет не активен."
+	},
+	{
+		"label": "_reason_text false item/not_usable",
+		"text": "этот предмет нельзя использовать."
+	},
+	{
+		"label": "_reason_text false item/no_selected_unit",
+		"text": "выберите живого персонажа."
+	},
+	{
+		"label": "_reason_text false item/not_admitted",
+		"text": "персонаж не может использовать предмет."
+	},
+	{
+		"label": "_reason_text false item/stale_revision",
+		"text": "состояние боя изменилось; повторите попытку."
+	},
+	{
+		"label": "_reason_text false item/invalid_runtime",
+		"text": "состояние боя повреждено; начните заново."
+	},
+	{
+		"label": "_reason_text false item/invalid_mutation",
+		"text": "состояние боя повреждено; начните заново."
+	},
+	{
+		"label": "_reason_text false guard/no_selected_unit",
+		"text": "выберите живого персонажа."
+	},
+	{
+		"label": "_reason_text false guard/not_admitted",
+		"text": "персонаж не может занять стойку."
+	},
+	{
+		"label": "_reason_text false guard/stale_revision",
+		"text": "состояние боя изменилось; повторите попытку."
+	},
+	{
+		"label": "_reason_text false guard/invalid_runtime",
+		"text": "состояние персонажа повреждено; сбросьте бой."
+	},
+	{
+		"label": "_reason_text false attack/no_reachable_position",
+		"text": "не хватает движения или нет доступной позиции для обычной атаки."
+	},
+	{
+		"label": "_reason_text false perks/invalid_cover_target",
+		"text": "выберите допустимого соседнего союзника."
+	},
+	{
+		"label": "_reason_text false perks/movement_stopped",
+		"text": "движение уже остановлено Оппортунистом до пополнения команды."
+	},
+	{
+		"label": "_reason_text false perks/opportunist_stopped",
+		"text": "Оппортунист прервёт выход из зоны угрозы."
+	},
+	{
+		"label": "_reason_text false perks/invalid_mode",
+		"text": "режим реакции недоступен."
+	},
+	{
+		"label": "_reason_text false preview/rng_not_cloneable",
+		"text": "случайный эффект пока не поддерживает точный прогноз."
+	},
+	{
+		"label": "_reason_text false preview/rng_state_mismatch",
+		"text": "случайный эффект пока не поддерживает точный прогноз."
+	},
+	{
+		"label": "_reason_text false preview/unsupported_worker_rng",
+		"text": "случайный эффект пока не поддерживает точный прогноз."
+	},
+	{
+		"label": "_reason_text false preview/unsupported_rng",
+		"text": "случайный эффект пока не поддерживает точный прогноз."
+	},
+	{
+		"label": "_reason_text false turn/unsupported_session",
+		"text": "этот вариант боя пока не поддерживает точный прогноз перехода."
+	},
+	{
+		"label": "_reason_text false turn/unsupported_runtime",
+		"text": "этот вариант боя пока не поддерживает точный прогноз перехода."
+	},
+	{
+		"label": "_reason_text false turn/unsupported_phase",
+		"text": "завершение хода сейчас недоступно."
+	},
+	{
+		"label": "_reason_text false turn/not_transitioned",
+		"text": "завершение хода сейчас недоступно."
+	},
+	{
+		"label": "_reason_text false turn/faulted",
+		"text": "переход хода не завершится; точный итог недоступен."
+	},
+	{
+		"label": "_reason_text false preview/worker_unavailable",
+		"text": "расчёт временно недоступен; наведите курсор ещё раз."
+	},
+	{
+		"label": "_reason_text false command_limit",
+		"text": "цепь последствий не завершилась; точный итог недоступен."
+	},
+	{
+		"label": "_reason_text false event_limit",
+		"text": "цепь последствий не завершилась; точный итог недоступен."
+	},
+	{
+		"label": "_reason_text false depth_limit",
+		"text": "цепь последствий не завершилась; точный итог недоступен."
+	},
+	{
+		"label": "_reason_text false sequence_exhausted",
+		"text": "цепь последствий не завершилась; точный итог недоступен."
+	},
+	{
+		"label": "_reason_text false unlisted/reason",
+		"text": "Эта комбинация пока не поддерживается: unlisted/reason"
+	},
+	{
+		"label": "_control_skip_text false control/dead_target",
+		"text": "цель погибла"
+	},
+	{
+		"label": "_control_skip_text false control/stun_immune",
+		"text": "иммунитет к оглушению"
+	},
+	{
+		"label": "_control_skip_text false control/entangle_immune",
+		"text": "иммунитет к путам"
+	},
+	{
+		"label": "_control_skip_text false unlisted/reason",
+		"text": "нет положительного физического урона HP"
+	},
+	{
+		"label": "_bleeding_skip_text false bleeding/immune",
+		"text": "иммунитет"
+	},
+	{
+		"label": "_bleeding_skip_text false bleeding/dead_target",
+		"text": "цель погибла"
+	},
+	{
+		"label": "_bleeding_skip_text false bleeding/burning",
+		"text": "горение блокирует кровотечение"
+	},
+	{
+		"label": "_bleeding_skip_text false unlisted/reason",
+		"text": "нет физического HP-урона"
+	},
+	{
+		"heading": "unchanged heading",
+		"heading_visible": false,
+		"label": "attack none true",
+		"log_heading_visible": true,
+		"log_visible": true,
+		"panel_visible": false,
+		"text": "Наведите курсор на врага в режиме A."
+	},
+	{
+		"heading": "unchanged heading",
+		"heading_visible": false,
+		"label": "attack pending true",
+		"log_heading_visible": true,
+		"log_visible": true,
+		"panel_visible": false,
+		"text": "[font_size=16][color=#f7c97d]Астра → Страж[/color][/font_size]\nРассчитываем последствия удара…"
+	},
+	{
+		"heading": "unchanged heading",
+		"heading_visible": false,
+		"label": "attack rejected true",
+		"log_heading_visible": true,
+		"log_visible": true,
+		"panel_visible": false,
+		"text": "[font_size=16][color=#f7c97d]Астра → Страж[/color][/font_size]\n[color=#f29b9b]Прогноз недоступен[/color]\nЭта комбинация пока не поддерживается: attack/out_of_range"
+	},
+	{
+		"heading": "unchanged heading",
+		"heading_visible": false,
+		"label": "attack applied true",
+		"log_heading_visible": true,
+		"log_visible": true,
+		"panel_visible": false,
+		"text": "[font_size=16][color=#f7c97d]Астра → Страж[/color][/font_size]\n[color=#f7c97d]Цепь · сила: Страж: 4.5 (удержал)[/color]\nПунктир — импульс; стрелка — сдвиг.\nОглушение: до конца ближайшего хода команды цели.\nОглушение пропущено: иммунитет к оглушению.\nПуты: до конца ближайшего хода команды цели. Движение запрещено; следующий толчок снимает путы.\nПуты не наложены: цель погибла.\nКровотечение после атаки: 1 ст. · 1 т. · 1/тик · 2/клетку\nНе наложено: горение блокирует кровотечение.\nСтраж: HP [color=#f29b9b]12.0 → 0.0 · ГИБЕЛЬ[/color]\nСтраж: равновесие 4/12 → 10/10\nСтраж: броня 6 → 3 / 10\nСтраж: кровотечение 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\nСтраж: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nСтраж: путы будут сняты.\nСтраж: оглушение будет наложено.\nСтраж: основные действия 2 → 1\nАстра: HP [color=#f29b9b]12.0 → 0.0 · ГИБЕЛЬ[/color]\nАстра: равновесие 4/12 → 10/10\nАстра: броня 6 → 3 / 10\nАстра: кровотечение 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\nАстра: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nАстра: путы будут сняты.\nАстра: оглушение будет наложено.\nАстра: основные действия 2 → 1\n\n[color=#f7c97d]Скрытая атака +50% физической базы[/color] · угрожают: Страж, Астра\n[color=#f29b9b]Крит ×2: прямой урон и воздействие[/color]\n[color=#f29b9b]Шипы на E4: 8 урона при входе[/color]\n\n[color=#f7c97d]Страж · броня −3[/color]\nВ HP до защиты: 1/2 · урон 8 · лечение 1\nФизический · в обход брони: вход 8 → броня 0 / HP 6 / лечение 0\nОгонь · без защит: вход 2 → броня 0 / HP 2 / лечение 1\nКровотечение: Перк «Кровавая руна» обходит требование физического HP-урона.\nКровотечение не наложено: горение блокирует кровотечение.\n\n[color=#a5b3c5]Последствия:[/color]\n• Цепь: Астра → Страж, сила 4.5 — цепь остановлена.\n• Астра атакует Страж. Скрытая атака +50% физической базы (угроза: Страж, Астра). Крит ×2.\n• Страж: попадание завершено, HP 12 → 0.\n• Окружение 3: E4 обрушится в следующую фазу окружения.\n• Обвал: E4 стала пропастью.\n"
+	},
+	{
+		"heading": "unchanged heading",
+		"heading_visible": false,
+		"label": "attack fresh name true",
+		"log_heading_visible": true,
+		"log_visible": true,
+		"panel_visible": false,
+		"text": "[font_size=16][color=#f7c97d]Свежий текст без revision → Страж[/color][/font_size]\n[color=#f7c97d]Цепь · сила: Страж: 4.5 (удержал)[/color]\nПунктир — импульс; стрелка — сдвиг.\nОглушение: до конца ближайшего хода команды цели.\nОглушение пропущено: иммунитет к оглушению.\nПуты: до конца ближайшего хода команды цели. Движение запрещено; следующий толчок снимает путы.\nПуты не наложены: цель погибла.\nКровотечение после атаки: 1 ст. · 1 т. · 1/тик · 2/клетку\nНе наложено: горение блокирует кровотечение.\nСтраж: HP [color=#f29b9b]12.0 → 0.0 · ГИБЕЛЬ[/color]\nСтраж: равновесие 4/12 → 10/10\nСтраж: броня 6 → 3 / 10\nСтраж: кровотечение 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\nСтраж: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nСтраж: путы будут сняты.\nСтраж: оглушение будет наложено.\nСтраж: основные действия 2 → 1\nСвежий текст без revision: HP [color=#f29b9b]12.0 → 0.0 · ГИБЕЛЬ[/color]\nСвежий текст без revision: равновесие 4/12 → 10/10\nСвежий текст без revision: броня 6 → 3 / 10\nСвежий текст без revision: кровотечение 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\nСвежий текст без revision: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nСвежий текст без revision: путы будут сняты.\nСвежий текст без revision: оглушение будет наложено.\nСвежий текст без revision: основные действия 2 → 1\n\n[color=#f7c97d]Скрытая атака +50% физической базы[/color] · угрожают: Страж, Свежий текст без revision\n[color=#f29b9b]Крит ×2: прямой урон и воздействие[/color]\n[color=#f29b9b]Шипы на E4: 8 урона при входе[/color]\n\n[color=#f7c97d]Страж · броня −3[/color]\nВ HP до защиты: 1/2 · урон 8 · лечение 1\nФизический · в обход брони: вход 8 → броня 0 / HP 6 / лечение 0\nОгонь · без защит: вход 2 → броня 0 / HP 2 / лечение 1\nКровотечение: Перк «Кровавая руна» обходит требование физического HP-урона.\nКровотечение не наложено: горение блокирует кровотечение.\n\n[color=#a5b3c5]Последствия:[/color]\n• Цепь: Свежий текст без revision → Страж, сила 4.5 — цепь остановлена.\n• Свежий текст без revision атакует Страж. Скрытая атака +50% физической базы (угроза: Страж, Свежий текст без revision). Крит ×2.\n• Страж: попадание завершено, HP 12 → 0.\n• Окружение 3: E4 обрушится в следующую фазу окружения.\n• Обвал: E4 стала пропастью.\n"
+	},
+	{
+		"heading": "unchanged heading",
+		"heading_visible": false,
+		"label": "attack legacy bleeding no events true",
+		"log_heading_visible": true,
+		"log_visible": true,
+		"panel_visible": false,
+		"text": "[font_size=16][color=#f7c97d]Астра → Страж[/color][/font_size]\nОглушение: до конца ближайшего хода команды цели.\nОглушение пропущено: иммунитет к оглушению.\nПуты: до конца ближайшего хода команды цели. Движение запрещено; следующий толчок снимает путы.\nПуты не наложены: цель погибла.\nКровотечение: 1 тика после атаки\nНе наложено: горение блокирует кровотечение.\nСтраж: HP [color=#f29b9b]12.0 → 0.0 · ГИБЕЛЬ[/color]\nСтраж: равновесие 4/12 → 10/10\nСтраж: броня 6 → 3 / 10\nСтраж: кровотечение 3 → 1 тика\nСтраж: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nСтраж: путы будут сняты.\nСтраж: оглушение будет наложено.\nСтраж: основные действия 2 → 1\nАстра: HP [color=#f29b9b]12.0 → 0.0 · ГИБЕЛЬ[/color]\nАстра: равновесие 4/12 → 10/10\nАстра: броня 6 → 3 / 10\nАстра: кровотечение 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\nАстра: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nАстра: путы будут сняты.\nАстра: оглушение будет наложено.\nАстра: основные действия 2 → 1\nКровотечение не наложено: горение блокирует кровотечение.\nСобытий последствий нет.\n"
+	},
+	{
+		"label": "_reason_text true raise_shields/cooldown",
+		"text": "Поднять щиты восстанавливается: следующий свой ход нужно пропустить."
+	},
+	{
+		"label": "_reason_text true raise_shields/already_active",
+		"text": "Щиты уже подняты до первой атаки или следующего своего хода."
+	},
+	{
+		"label": "_reason_text true raise_shields/insufficient_main",
+		"text": "Нужно 1 основное действие."
+	},
+	{
+		"label": "_reason_text true raise_shields/not_owned",
+		"text": "У бойца нет способности Поднять щиты."
+	},
+	{
+		"label": "_reason_text true mage/cooldown",
+		"text": "Заклинание восстанавливается до конца следующих своих ходов."
+	},
+	{
+		"label": "_reason_text true mage/insufficient_mana",
+		"text": "Недостаточно маны мага."
+	},
+	{
+		"label": "_reason_text true mage/full_hp",
+		"text": "Для лечения нужен раненый живой союзник."
+	},
+	{
+		"label": "_reason_text true mage/invalid_target",
+		"text": "Огонь — по живому противнику; лечение — по живому союзнику."
+	},
+	{
+		"label": "_reason_text true mage/invalid_summon_owner",
+		"text": "Для тестового призыва или поднятия выберите живого союзника."
+	},
+	{
+		"label": "_reason_text true mage/window_closed",
+		"text": "Маг действует между завершёнными действиями вашего хода."
+	},
+	{
+		"label": "_reason_text true mage/terminal",
+		"text": "Маг действует между завершёнными действиями вашего хода."
+	},
+	{
+		"label": "_reason_text true perks/stunning_strike_required",
+		"text": "этот персонаж не владеет Оглушающим ударом."
+	},
+	{
+		"label": "_reason_text true perks/not_owned",
+		"text": "этот персонаж не владеет выбранным режимом реакции."
+	},
+	{
+		"label": "_reason_text true guard/already_active",
+		"text": "эта охранная стойка уже активна."
+	},
+	{
+		"label": "_reason_text true guard/insufficient_main",
+		"text": "не хватает основного действия, чтобы включить режим реакции."
+	},
+	{
+		"label": "_reason_text true control/stun_immune",
+		"text": "цель невосприимчива к оглушению; урон и толчок сохраняются."
+	},
+	{
+		"label": "_reason_text true control/entangle_immune",
+		"text": "цель невосприимчива к путам; урон и толчок сохраняются."
+	},
+	{
+		"label": "_reason_text true control/stunned",
+		"text": "персонаж оглушён и не может выполнять добровольные действия."
+	},
+	{
+		"label": "_reason_text true control/frozen",
+		"text": "персонаж заморожен и не может выполнять добровольные действия."
+	},
+	{
+		"label": "_reason_text true status/insufficient_main",
+		"text": "для этого действия нужно 1 основное действие."
+	},
+	{
+		"label": "_reason_text true status/dead_target",
+		"text": "живой цели больше нет на поле."
+	},
+	{
+		"label": "_reason_text true status/not_admitted",
+		"text": "сейчас этот персонаж не может действовать."
+	},
+	{
+		"label": "_reason_text true status/stale_revision",
+		"text": "состояние боя изменилось; наведите курсор заново."
+	},
+	{
+		"label": "_reason_text true status/capability_required",
+		"text": "эти эффекты доступны в основном бою."
+	},
+	{
+		"label": "_reason_text true control/entangled",
+		"text": "персонаж опутан и не может двигаться; остальные действия доступны."
+	},
+	{
+		"label": "_reason_text true control/capability_required",
+		"text": "эта цель не поддерживает состояния контроля."
+	},
+	{
+		"label": "_reason_text true armor/summon_unsupported",
+		"text": "призыв недоступен в сценарии брони."
+	},
+	{
+		"label": "_reason_text true armor/zero_restore",
+		"text": "нечего восстанавливать."
+	},
+	{
+		"label": "_reason_text true armor/full",
+		"text": "обычная броня уже восстановлена."
+	},
+	{
+		"label": "_reason_text true attack/insufficient_main",
+		"text": "основные действия закончились; выберите другого персонажа или завершите ход."
+	},
+	{
+		"label": "_reason_text true battle/input_locked",
+		"text": "сейчас нельзя действовать."
+	},
+	{
+		"label": "_reason_text true battle/friendly_target",
+		"text": "выберите противника."
+	},
+	{
+		"label": "_reason_text true move/insufficient_move",
+		"text": "не хватает очков движения."
+	},
+	{
+		"label": "_reason_text true move/insufficient_main",
+		"text": "для безопасного отхода нужно 1 основное действие."
+	},
+	{
+		"label": "_reason_text true move/actor_dead",
+		"text": "персонаж погибнет на пути."
+	},
+	{
+		"label": "_reason_text true move/actor_displaced",
+		"text": "персонаж будет смещён с маршрута."
+	},
+	{
+		"label": "_reason_text true move/path_blocked",
+		"text": "продолжение пути будет перекрыто."
+	},
+	{
+		"label": "_reason_text true move/budget_exhausted",
+		"text": "очки движения закончатся на пути."
+	},
+	{
+		"label": "_reason_text true attack/out_of_reach",
+		"text": "цель вне досягаемости прямого удара."
+	},
+	{
+		"label": "_reason_text true attack/not_aligned",
+		"text": "цель вне досягаемости прямого удара."
+	},
+	{
+		"label": "_reason_text true move/unreachable",
+		"text": "нет проходимого маршрута к этой клетке."
+	},
+	{
+		"label": "_reason_text true move/no_selected_unit",
+		"text": "выберите живого персонажа."
+	},
+	{
+		"label": "_reason_text true attack/no_selected_unit",
+		"text": "выберите живого персонажа."
+	},
+	{
+		"label": "_reason_text true attack/self_target",
+		"text": "нельзя атаковать самого себя."
+	},
+	{
+		"label": "_reason_text true attack/line_blocked",
+		"text": "линию атаки перекрывает стена или противник."
+	},
+	{
+		"label": "_reason_text true attack/terrain_shape_unsupported",
+		"text": "рельеф не допускает прямой удар."
+	},
+	{
+		"label": "_reason_text true attack/stale_revision",
+		"text": "состояние боя изменилось; наведите курсор заново."
+	},
+	{
+		"label": "_reason_text true attack/missing_target",
+		"text": "живой цели больше нет на поле."
+	},
+	{
+		"label": "_reason_text true attack/invalid_target",
+		"text": "живой цели больше нет на поле."
+	},
+	{
+		"label": "_reason_text true attack/dead_target",
+		"text": "живой цели больше нет на поле."
+	},
+	{
+		"label": "_reason_text true BUSY",
+		"text": "дождитесь завершения действия."
+	},
+	{
+		"label": "_reason_text true CONTEXT_FAULTED",
+		"text": "бой остановлен; выполните сброс."
+	},
+	{
+		"label": "_reason_text true summon/active_helper",
+		"text": "у этого владельца уже есть живой помощник."
+	},
+	{
+		"label": "_reason_text true summon/invalid_cell",
+		"text": "нужна соседняя свободная безопасная клетка той же высоты."
+	},
+	{
+		"label": "_reason_text true environment/no_corpse",
+		"text": "нет доступного гуманоида на соседней свободной клетке."
+	},
+	{
+		"label": "_reason_text true environment/invalid_raise_cell",
+		"text": "тело нельзя поднять на клетке с шипами, занятой или другой высоты."
+	},
+	{
+		"label": "_reason_text true summon/helper_cannot_summon",
+		"text": "помощник не может поднимать другие тела."
+	},
+	{
+		"label": "_reason_text true item/full_hp",
+		"text": "здоровье уже полное."
+	},
+	{
+		"label": "_reason_text true item/no_charges",
+		"text": "заряды предмета закончились."
+	},
+	{
+		"label": "_reason_text true item/insufficient_main",
+		"text": "недостаточно основных действий."
+	},
+	{
+		"label": "_reason_text true item/not_owned",
+		"text": "нет доступного предмета."
+	},
+	{
+		"label": "_reason_text true item/inactive",
+		"text": "предмет не активен."
+	},
+	{
+		"label": "_reason_text true item/not_usable",
+		"text": "этот предмет нельзя использовать."
+	},
+	{
+		"label": "_reason_text true item/no_selected_unit",
+		"text": "выберите живого персонажа."
+	},
+	{
+		"label": "_reason_text true item/not_admitted",
+		"text": "персонаж не может использовать предмет."
+	},
+	{
+		"label": "_reason_text true item/stale_revision",
+		"text": "состояние боя изменилось; повторите попытку."
+	},
+	{
+		"label": "_reason_text true item/invalid_runtime",
+		"text": "состояние боя повреждено; начните заново."
+	},
+	{
+		"label": "_reason_text true item/invalid_mutation",
+		"text": "состояние боя повреждено; начните заново."
+	},
+	{
+		"label": "_reason_text true guard/no_selected_unit",
+		"text": "выберите живого персонажа."
+	},
+	{
+		"label": "_reason_text true guard/not_admitted",
+		"text": "персонаж не может занять стойку."
+	},
+	{
+		"label": "_reason_text true guard/stale_revision",
+		"text": "состояние боя изменилось; повторите попытку."
+	},
+	{
+		"label": "_reason_text true guard/invalid_runtime",
+		"text": "состояние персонажа повреждено; сбросьте бой."
+	},
+	{
+		"label": "_reason_text true attack/no_reachable_position",
+		"text": "не хватает движения или нет доступной позиции для обычной атаки."
+	},
+	{
+		"label": "_reason_text true perks/invalid_cover_target",
+		"text": "выберите допустимого соседнего союзника."
+	},
+	{
+		"label": "_reason_text true perks/movement_stopped",
+		"text": "движение уже остановлено Оппортунистом до пополнения команды."
+	},
+	{
+		"label": "_reason_text true perks/opportunist_stopped",
+		"text": "Оппортунист прервёт выход из зоны угрозы."
+	},
+	{
+		"label": "_reason_text true perks/invalid_mode",
+		"text": "режим реакции недоступен."
+	},
+	{
+		"label": "_reason_text true preview/rng_not_cloneable",
+		"text": "случайный эффект пока не поддерживает точный прогноз."
+	},
+	{
+		"label": "_reason_text true preview/rng_state_mismatch",
+		"text": "случайный эффект пока не поддерживает точный прогноз."
+	},
+	{
+		"label": "_reason_text true preview/unsupported_worker_rng",
+		"text": "случайный эффект пока не поддерживает точный прогноз."
+	},
+	{
+		"label": "_reason_text true preview/unsupported_rng",
+		"text": "случайный эффект пока не поддерживает точный прогноз."
+	},
+	{
+		"label": "_reason_text true turn/unsupported_session",
+		"text": "этот вариант боя пока не поддерживает точный прогноз перехода."
+	},
+	{
+		"label": "_reason_text true turn/unsupported_runtime",
+		"text": "этот вариант боя пока не поддерживает точный прогноз перехода."
+	},
+	{
+		"label": "_reason_text true turn/unsupported_phase",
+		"text": "завершение хода сейчас недоступно."
+	},
+	{
+		"label": "_reason_text true turn/not_transitioned",
+		"text": "завершение хода сейчас недоступно."
+	},
+	{
+		"label": "_reason_text true turn/faulted",
+		"text": "переход хода не завершится; точный итог недоступен."
+	},
+	{
+		"label": "_reason_text true preview/worker_unavailable",
+		"text": "расчёт временно недоступен; наведите курсор ещё раз."
+	},
+	{
+		"label": "_reason_text true command_limit",
+		"text": "цепь последствий не завершилась; точный итог недоступен."
+	},
+	{
+		"label": "_reason_text true event_limit",
+		"text": "цепь последствий не завершилась; точный итог недоступен."
+	},
+	{
+		"label": "_reason_text true depth_limit",
+		"text": "цепь последствий не завершилась; точный итог недоступен."
+	},
+	{
+		"label": "_reason_text true sequence_exhausted",
+		"text": "цепь последствий не завершилась; точный итог недоступен."
+	},
+	{
+		"label": "_reason_text true unlisted/reason",
+		"text": "Эта комбинация пока не поддерживается: unlisted/reason"
+	},
+	{
+		"label": "_control_skip_text true control/dead_target",
+		"text": "цель погибла"
+	},
+	{
+		"label": "_control_skip_text true control/stun_immune",
+		"text": "иммунитет к оглушению"
+	},
+	{
+		"label": "_control_skip_text true control/entangle_immune",
+		"text": "иммунитет к путам"
+	},
+	{
+		"label": "_control_skip_text true unlisted/reason",
+		"text": "нет положительного физического урона HP"
+	},
+	{
+		"label": "_bleeding_skip_text true bleeding/immune",
+		"text": "иммунитет"
+	},
+	{
+		"label": "_bleeding_skip_text true bleeding/dead_target",
+		"text": "цель погибла"
+	},
+	{
+		"label": "_bleeding_skip_text true bleeding/burning",
+		"text": "горение блокирует кровотечение"
+	},
+	{
+		"label": "_bleeding_skip_text true unlisted/reason",
+		"text": "нет физического HP-урона"
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ЦЕЛИ",
+		"heading_visible": true,
+		"label": "move pending false false",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Движение к D5[/color][/font_size]\nРасчёт прогноза…"
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ЦЕЛИ",
+		"heading_visible": true,
+		"label": "move pending false true",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Движение к D5[/color][/font_size]\nПунктир — выбранный маршрут.\nРассчитываем последствия…"
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ЦЕЛИ",
+		"heading_visible": true,
+		"label": "move false REJECTED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Движение к D5[/color][/font_size]\n[color=#f29b9b]Прогноз недоступен[/color]\nОппортунист прервёт выход из зоны угрозы."
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ЦЕЛИ",
+		"heading_visible": true,
+		"label": "move false APPLIED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Движение к D5[/color][/font_size]\nАстра: B3 → C4\nHP 12.0 → 0.0 · ГИБЕЛЬ\nДвижение 4.5 → 2.0 · расход 2.5 ОД\nОсновные 2 → 1 · бонусные 2 → 1\nБроня 6 → 3 / 10\nСтойка будет снята.\n\n[color=#a5b3c5]Последствия:[/color]\n• Цепь: Астра → Страж, сила 4.5 — цепь остановлена.\n• Астра атакует Страж. Скрытая атака +50% физической базы (угроза: Страж, Астра). Крит ×2.\n• Страж: попадание завершено, HP 12 → 0.\n• Окружение 3: E4 обрушится в следующую фазу окружения.\n• Обвал: E4 стала пропастью.\n"
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ЦЕЛИ",
+		"heading_visible": true,
+		"label": "move false INTERRUPTED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Движение к D5[/color][/font_size]\n[color=#f29b9b]Маршрут прервётся: Оппортунист прервёт выход из зоны угрозы.[/color]\nОппортунист остановит движение до выхода на следующую клетку; будет потрачено 1 дополнительное действие.\nАстра: B3 → C4\nHP 12.0 → 0.0 · ГИБЕЛЬ\nДвижение 4.5 → 2.0 · расход 2.5 ОД\nОсновные 2 → 1 · бонусные 2 → 1\nБроня 6 → 3 / 10\nСтойка будет снята.\n\n[color=#a5b3c5]Последствия:[/color]\n• Цепь: Астра → Страж, сила 4.5 — цепь остановлена.\n• Астра атакует Страж. Скрытая атака +50% физической базы (угроза: Страж, Астра). Крит ×2.\n• Страж: попадание завершено, HP 12 → 0.\n• Окружение 3: E4 обрушится в следующую фазу окружения.\n• Обвал: E4 стала пропастью.\n"
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ЦЕЛИ",
+		"heading_visible": true,
+		"label": "move pending true false",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Безопасный отход к D5[/color][/font_size]\nОппортунист не перехватывает этот маршрут. Опасности сохраняются.\nРасчёт прогноза…"
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ЦЕЛИ",
+		"heading_visible": true,
+		"label": "move pending true true",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Безопасный отход к D5[/color][/font_size]\nОппортунист не перехватывает этот маршрут. Опасности сохраняются.\nПунктир — выбранный маршрут.\nРассчитываем последствия…"
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ЦЕЛИ",
+		"heading_visible": true,
+		"label": "move true REJECTED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Безопасный отход к D5[/color][/font_size]\nОппортунист не перехватывает этот маршрут. Опасности сохраняются.\n[color=#f29b9b]Прогноз недоступен[/color]\nОппортунист прервёт выход из зоны угрозы."
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ЦЕЛИ",
+		"heading_visible": true,
+		"label": "move true APPLIED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Безопасный отход к D5[/color][/font_size]\nОппортунист не перехватывает этот маршрут. Опасности сохраняются.\nАстра: B3 → C4\nHP 12.0 → 0.0 · ГИБЕЛЬ\nДвижение 4.5 → 2.0 · расход 2.5 ОД\nОсновные 2 → 1 · бонусные 2 → 1\nБроня 6 → 3 / 10\nСтойка будет снята.\n\n[color=#a5b3c5]Последствия:[/color]\n• Цепь: Астра → Страж, сила 4.5 — цепь остановлена.\n• Астра атакует Страж. Скрытая атака +50% физической базы (угроза: Страж, Астра). Крит ×2.\n• Страж: попадание завершено, HP 12 → 0.\n• Окружение 3: E4 обрушится в следующую фазу окружения.\n• Обвал: E4 стала пропастью.\n"
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ЦЕЛИ",
+		"heading_visible": true,
+		"label": "move true INTERRUPTED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Безопасный отход к D5[/color][/font_size]\nОппортунист не перехватывает этот маршрут. Опасности сохраняются.\n[color=#f29b9b]Маршрут прервётся: Оппортунист прервёт выход из зоны угрозы.[/color]\nОппортунист остановит движение до выхода на следующую клетку; будет потрачено 1 дополнительное действие.\nАстра: B3 → C4\nHP 12.0 → 0.0 · ГИБЕЛЬ\nДвижение 4.5 → 2.0 · расход 2.5 ОД\nОсновные 2 → 1 · бонусные 2 → 1\nБроня 6 → 3 / 10\nСтойка будет снята.\n\n[color=#a5b3c5]Последствия:[/color]\n• Цепь: Астра → Страж, сила 4.5 — цепь остановлена.\n• Астра атакует Страж. Скрытая атака +50% физической базы (угроза: Страж, Астра). Крит ×2.\n• Страж: попадание завершено, HP 12 → 0.\n• Окружение 3: E4 обрушится в следующую фазу окружения.\n• Обвал: E4 стала пропастью.\n"
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ПАНЕЛИ",
+		"heading_visible": true,
+		"label": "guard guard REJECTED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Охранная стойка · Астра[/color][/font_size]\n[color=#f29b9b]Прогноз недоступен[/color]\nПоднять щиты восстанавливается: следующий свой ход нужно пропустить."
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ПАНЕЛИ",
+		"heading_visible": true,
+		"label": "guard guard APPLIED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Охранная стойка · Астра[/color][/font_size]\nОсновные: 2 → 1 (расход 1)\nБонусные: 2 → 1\nДвижение: 4.5 → 2.0\nСтойка: включена → выключена\nДо следующего хода команды; добровольные движение и атака снимают стойку.\nКлик или клавиша 2 — занять стойку."
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ПАНЕЛИ",
+		"heading_visible": true,
+		"label": "guard raise_shields REJECTED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Поднять щиты · Астра[/color][/font_size]\n[color=#f29b9b]Прогноз недоступен[/color]\nПоднять щиты восстанавливается: следующий свой ход нужно пропустить."
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ПАНЕЛИ",
+		"heading_visible": true,
+		"label": "guard raise_shields APPLIED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Поднять щиты · Астра[/color][/font_size]\nОсновные: 2 → 1 (расход 1)\nБонусные: 2 → 1\nДвижение: 4.5 → 2.0\n90% урона первой атаки до начала следующего своего хода.\nДвижение и Оппортунист сохраняются. Откат: 1 полный следующий свой ход."
+	},
+	{
+		"heading": "ПРОГНОЗ · РЕАКЦИЯ",
+		"heading_visible": true,
+		"label": "reaction 1 false false",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Оппортунист · Астра[/color][/font_size]\nОсновные: 2 → 1 (расход 1)\nОбщий заряд реакции: 1 → 0\nКлик — занять стойку за 1 основное действие. Реакция сработает при подходящем событии и наличии запаса для её оплаты."
+	},
+	{
+		"heading": "ПРОГНОЗ · РЕАКЦИЯ",
+		"heading_visible": true,
+		"label": "reaction 1 false true",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Оппортунист · Астра[/color][/font_size]\nОсновные: 2 → 1 (расход 1)\nОбщий заряд реакции: 1 → 0\nКлик — занять стойку за 1 основное действие. Реакция сработает при подходящем событии и наличии запаса для её оплаты."
+	},
+	{
+		"heading": "ПРОГНОЗ · РЕАКЦИЯ",
+		"heading_visible": true,
+		"label": "reaction 1 true false",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Оппортунист · Астра[/color][/font_size]\nОсновные: 2 → 1 (расход 1)\nДополнительные: 2 → 1 (реакция расходует 1)\nКлик — занять стойку за 1 основное действие. Реакция сработает при подходящем событии и наличии запаса для её оплаты."
+	},
+	{
+		"heading": "ПРОГНОЗ · РЕАКЦИЯ",
+		"heading_visible": true,
+		"label": "reaction 1 true true",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Оппортунист · Астра[/color][/font_size]\nОсновные: 2 → 1 (расход 1)\nОбщий заряд реакции: 1 → 0\nКлик — занять стойку за 1 основное действие. Реакция сработает при подходящем событии и наличии запаса для её оплаты."
+	},
+	{
+		"heading": "ПРОГНОЗ · РЕАКЦИЯ",
+		"heading_visible": true,
+		"label": "reaction rejected 1",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Оппортунист · Астра[/color][/font_size]\n[color=#f29b9b]Прогноз недоступен[/color]\nПоднять щиты восстанавливается: следующий свой ход нужно пропустить."
+	},
+	{
+		"heading": "ПРОГНОЗ · РЕАКЦИЯ",
+		"heading_visible": true,
+		"label": "reaction 2 false false",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Прикрытие · Астра[/color][/font_size]\nСоюзник: Страж\nОсновные: 2 → 1 (расход 1)\nОбщий заряд реакции: 1 → 0\nКлик — занять стойку за 1 основное действие. Реакция сработает при подходящем событии и наличии запаса для её оплаты."
+	},
+	{
+		"heading": "ПРОГНОЗ · РЕАКЦИЯ",
+		"heading_visible": true,
+		"label": "reaction 2 false true",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Прикрытие · Астра[/color][/font_size]\nСоюзник: Страж\nОсновные: 2 → 1 (расход 1)\nОбщий заряд реакции: 1 → 0\nКлик — занять стойку за 1 основное действие. Реакция сработает при подходящем событии и наличии запаса для её оплаты."
+	},
+	{
+		"heading": "ПРОГНОЗ · РЕАКЦИЯ",
+		"heading_visible": true,
+		"label": "reaction 2 true false",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Прикрытие · Астра[/color][/font_size]\nСоюзник: Страж\nОсновные: 2 → 1 (расход 1)\nДополнительные: 2 → 1 (реакция расходует 1)\nКлик — занять стойку за 1 основное действие. Реакция сработает при подходящем событии и наличии запаса для её оплаты."
+	},
+	{
+		"heading": "ПРОГНОЗ · РЕАКЦИЯ",
+		"heading_visible": true,
+		"label": "reaction 2 true true",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Прикрытие · Астра[/color][/font_size]\nСоюзник: Страж\nОсновные: 2 → 1 (расход 1)\nОбщий заряд реакции: 1 → 0\nКлик — занять стойку за 1 основное действие. Реакция сработает при подходящем событии и наличии запаса для её оплаты."
+	},
+	{
+		"heading": "ПРОГНОЗ · РЕАКЦИЯ",
+		"heading_visible": true,
+		"label": "reaction rejected 2",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Прикрытие · Астра[/color][/font_size]\nСоюзник: Страж\n[color=#f29b9b]Прогноз недоступен[/color]\nПоднять щиты восстанавливается: следующий свой ход нужно пропустить."
+	},
+	{
+		"heading": "ПРОГНОЗ · РЕАКЦИЯ",
+		"heading_visible": true,
+		"label": "reaction 3 false false",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Контратака · Астра[/color][/font_size]\nОсновные: 2 → 1 (расход 1)\nОбщий заряд реакции: 1 → 0\nКлик — занять стойку за 1 основное действие. Реакция сработает при подходящем событии и наличии запаса для её оплаты."
+	},
+	{
+		"heading": "ПРОГНОЗ · РЕАКЦИЯ",
+		"heading_visible": true,
+		"label": "reaction 3 false true",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Контратака · Астра[/color][/font_size]\nОсновные: 2 → 1 (расход 1)\nОбщий заряд реакции: 1 → 0\nКлик — занять стойку за 1 основное действие. Реакция сработает при подходящем событии и наличии запаса для её оплаты."
+	},
+	{
+		"heading": "ПРОГНОЗ · РЕАКЦИЯ",
+		"heading_visible": true,
+		"label": "reaction 3 true false",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Контратака · Астра[/color][/font_size]\nОсновные: 2 → 1 (расход 1)\nДополнительные: 2 → 1 (реакция расходует 1)\nКлик — занять стойку за 1 основное действие. Реакция сработает при подходящем событии и наличии запаса для её оплаты."
+	},
+	{
+		"heading": "ПРОГНОЗ · РЕАКЦИЯ",
+		"heading_visible": true,
+		"label": "reaction 3 true true",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Контратака · Астра[/color][/font_size]\nОсновные: 2 → 1 (расход 1)\nОбщий заряд реакции: 1 → 0\nКлик — занять стойку за 1 основное действие. Реакция сработает при подходящем событии и наличии запаса для её оплаты."
+	},
+	{
+		"heading": "ПРОГНОЗ · РЕАКЦИЯ",
+		"heading_visible": true,
+		"label": "reaction rejected 3",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Контратака · Астра[/color][/font_size]\n[color=#f29b9b]Прогноз недоступен[/color]\nПоднять щиты восстанавливается: следующий свой ход нужно пропустить."
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ПАНЕЛИ",
+		"heading_visible": true,
+		"label": "item healing REJECTED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Прогноз лечения[/color][/font_size]\nЦена: применение недоступно.\n[color=#f29b9b]Прогноз недоступен[/color]\nзаряды предмета закончились."
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ПАНЕЛИ",
+		"heading_visible": true,
+		"label": "item healing APPLIED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Прогноз лечения[/color][/font_size]\nDTO #7: HP 12.0 → 0.0 / 20.0\nДействия: основные 2 → 1\nЗаряды: 3 → 2\nЗаряды: 1 → 0\nЦена: применение недоступно.\n"
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ПАНЕЛИ",
+		"heading_visible": true,
+		"label": "item summon REJECTED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Прогноз призыва · D5[/color][/font_size]\nЦена: применение недоступно.\n[color=#f29b9b]Прогноз недоступен[/color]\nзаряды предмета закончились."
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ПАНЕЛИ",
+		"heading_visible": true,
+		"label": "item summon APPLIED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Прогноз призыва · D5[/color][/font_size]\nDTO #999 · ID 999 · помощник\nКлетка: B3 · владелец: 7\nСтатус: ожидает следующего хода\nHP: 12.0 / 20.0\nДействия: 2 основных, 2 бонусных, 4.5 движения\nЗаряды: 3 → 2\nЗаряды: 1 → 0\nЦена: применение недоступно.\nПомощник не действует до следующего хода своей команды."
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ЦЕЛИ",
+		"heading_visible": true,
+		"label": "raise REJECTED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Поднятие тела · C4[/color][/font_size]\n[color=#f29b9b]Прогноз недоступен[/color]\nЭта комбинация пока не поддерживается: raise/no_corpse"
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ЦЕЛИ",
+		"heading_visible": true,
+		"label": "raise APPLIED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Поднятие тела · C4[/color][/font_size]\nТело #42 на C4 будет использовано.\nDTO #999 · ID 999 · помощник\nКлетка: B3 · владелец: 7\nHP: 12.0 / 20.0\nДействия: 2 основных, 2 бонусных, 4.5 движения\nСтатус: ожидает следующего хода\nDTO #7: основные 2 → 1 (расход 1)\nБонус: 2 → 1 · Движение: 4.5 → 2.0\n"
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ПАНЕЛИ",
+		"heading_visible": true,
+		"label": "armor REJECTED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Восстановление брони · Астра[/color][/font_size]\nПрогноз недоступен: Эта комбинация пока не поддерживается: "
+	},
+	{
+		"heading": "ПРОГНОЗ · КОЛЕСО НА ПАНЕЛИ",
+		"heading_visible": true,
+		"label": "armor APPLIED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Восстановление брони · Астра[/color][/font_size]\nБроня: 6 → 3\nОсновные: 2 → 1 (расход 1)\nВещь #7: 2 → 5\nВременная броня: +4 до конца боя\nСтойка сохраняется. Клик или клавиша 4 — восстановить броню."
+	},
+	{
+		"heading": "ПРОГНОЗ · ЭЛЕМЕНТАЛЬНЫЙ ЭФФЕКТ",
+		"heading_visible": true,
+		"label": "elemental burning REJECTED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Поджечь → Страж · дальность 3[/color][/font_size]\nПрогноз недоступен: Заклинание восстанавливается до конца следующих своих ходов."
+	},
+	{
+		"heading": "ПРОГНОЗ · ЭЛЕМЕНТАЛЬНЫЙ ЭФФЕКТ",
+		"heading_visible": true,
+		"label": "elemental burning APPLIED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Поджечь → Страж · дальность 3[/color][/font_size]\nОсновные действия: 2 → 1\nСтраж: HP 12.0 → 0.0\nЭлементальные статусы: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nКровотечение: 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\n\n[color=#a5b3c5]Последствия:[/color]\n• Цепь: Астра → Страж, сила 4.5 — цепь остановлена.\n• Астра атакует Страж. Скрытая атака +50% физической базы (угроза: Страж, Астра). Крит ×2.\n• Страж: попадание завершено, HP 12 → 0.\n• Окружение 3: E4 обрушится в следующую фазу окружения.\n• Обвал: E4 стала пропастью.\n"
+	},
+	{
+		"heading": "ПРОГНОЗ · ЭЛЕМЕНТАЛЬНЫЙ ЭФФЕКТ",
+		"heading_visible": true,
+		"label": "elemental damaged abilities burning",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Поджечь → Страж · дальность 3[/color][/font_size]\nОсновные действия: 2 → 1\nСтраж: HP 12.0 → 0.0\nЭлементальные статусы: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nКровотечение: 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\n\n[color=#a5b3c5]Последствия:[/color]\n• Цепь: Астра → Страж, сила 4.5 — цепь остановлена.\n• Астра атакует Страж. Скрытая атака +50% физической базы (угроза: Страж, Астра). Крит ×2.\n• Страж: попадание завершено, HP 12 → 0.\n• Окружение 3: E4 обрушится в следующую фазу окружения.\n• Обвал: E4 стала пропастью.\n"
+	},
+	{
+		"heading": "ПРОГНОЗ · ЭЛЕМЕНТАЛЬНЫЙ ЭФФЕКТ",
+		"heading_visible": true,
+		"label": "elemental mage.fire REJECTED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16]Огненный импульс → Страж · вся доска[/font_size]\nПрогноз недоступен: Заклинание восстанавливается до конца следующих своих ходов."
+	},
+	{
+		"heading": "ПРОГНОЗ · ЭЛЕМЕНТАЛЬНЫЙ ЭФФЕКТ",
+		"heading_visible": true,
+		"label": "elemental mage.fire APPLIED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16]Огненный импульс → Страж · вся доска[/font_size]\nМана 6 → 6 · откат: длительность 2 ходов, после действия осталось 0\nОсновные действия: 2 → 1\nСтраж: HP 12.0 → 0.0\nЭлементальные статусы: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nКровотечение: 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\n\n[color=#a5b3c5]Последствия:[/color]\n• Цепь: Астра → Страж, сила 4.5 — цепь остановлена.\n• Астра атакует Страж. Скрытая атака +50% физической базы (угроза: Страж, Астра). Крит ×2.\n• Страж: попадание завершено, HP 12 → 0.\n• Окружение 3: E4 обрушится в следующую фазу окружения.\n• Обвал: E4 стала пропастью.\n"
+	},
+	{
+		"heading": "ПРОГНОЗ · ЭЛЕМЕНТАЛЬНЫЙ ЭФФЕКТ",
+		"heading_visible": true,
+		"label": "elemental damaged abilities mage.fire",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16]Огненный импульс → Страж · вся доска[/font_size]\nПрогноз недоступен: данные отката повреждены."
+	},
+	{
+		"heading": "ПРОГНОЗ · ЭЛЕМЕНТАЛЬНЫЙ ЭФФЕКТ",
+		"heading_visible": true,
+		"label": "elemental mage.test_summon REJECTED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16]Тест: призыв → C4 · в зоне союзников[/font_size]\nПрогноз недоступен: Заклинание восстанавливается до конца следующих своих ходов."
+	},
+	{
+		"heading": "ПРОГНОЗ · ЭЛЕМЕНТАЛЬНЫЙ ЭФФЕКТ",
+		"heading_visible": true,
+		"label": "elemental mage.test_summon APPLIED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16]Тест: призыв → C4 · в зоне союзников[/font_size]\nМана 6 → 6 · откат: длительность 0 ходов, после действия осталось 0\nОсновные действия: 2 → 1\nСтраж: HP 12.0 → 0.0\nЭлементальные статусы: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nКровотечение: 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\n\n[color=#a5b3c5]Последствия:[/color]\n• Цепь: Астра → Страж, сила 4.5 — цепь остановлена.\n• Астра атакует Страж. Скрытая атака +50% физической базы (угроза: Страж, Астра). Крит ×2.\n• Страж: попадание завершено, HP 12 → 0.\n• Окружение 3: E4 обрушится в следующую фазу окружения.\n• Обвал: E4 стала пропастью.\n"
+	},
+	{
+		"heading": "ПРОГНОЗ · ЭЛЕМЕНТАЛЬНЫЙ ЭФФЕКТ",
+		"heading_visible": true,
+		"label": "elemental damaged abilities mage.test_summon",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16]Тест: призыв → C4 · в зоне союзников[/font_size]\nПрогноз недоступен: данные отката повреждены."
+	},
+	{
+		"heading": "ПРОГНОЗ · КАРТА МАГА",
+		"heading_visible": true,
+		"label": "card card.fire REJECTED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Огненный импульс → Страж[/color][/font_size]\nПрогноз недоступен: Заклинание восстанавливается до конца следующих своих ходов."
+	},
+	{
+		"heading": "ПРОГНОЗ · КАРТА МАГА",
+		"heading_visible": true,
+		"label": "card card.fire APPLIED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Огненный импульс → Страж[/color][/font_size]\nМана 6 → 6 · карта #17 уйдёт в сыгранные.\n• Цепь: Астра → Страж, сила 4.5 — цепь остановлена.\n• Астра атакует Страж. Скрытая атака +50% физической базы (угроза: Страж, Астра). Крит ×2.\n• Страж: попадание завершено, HP 12 → 0.\n• Окружение 3: E4 обрушится в следующую фазу окружения.\n• Обвал: E4 стала пропастью.\n"
+	},
+	{
+		"heading": "ПРОГНОЗ · КАРТА МАГА",
+		"heading_visible": true,
+		"label": "card damaged abilities card.fire",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Огненный импульс → Страж[/color][/font_size]\nПрогноз недоступен: данные маны повреждены."
+	},
+	{
+		"heading": "ПРОГНОЗ · КАРТА МАГА",
+		"heading_visible": true,
+		"label": "card card.summon REJECTED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Призыв → C4[/color][/font_size]\nПрогноз недоступен: Заклинание восстанавливается до конца следующих своих ходов."
+	},
+	{
+		"heading": "ПРОГНОЗ · КАРТА МАГА",
+		"heading_visible": true,
+		"label": "card card.summon APPLIED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Призыв → C4[/color][/font_size]\nМана 6 → 6 · карта #17 уйдёт в сыгранные.\n• Цепь: Астра → Страж, сила 4.5 — цепь остановлена.\n• Астра атакует Страж. Скрытая атака +50% физической базы (угроза: Страж, Астра). Крит ×2.\n• Страж: попадание завершено, HP 12 → 0.\n• Окружение 3: E4 обрушится в следующую фазу окружения.\n• Обвал: E4 стала пропастью.\n"
+	},
+	{
+		"heading": "ПРОГНОЗ · КАРТА МАГА",
+		"heading_visible": true,
+		"label": "card damaged abilities card.summon",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Призыв → C4[/color][/font_size]\nПрогноз недоступен: данные маны повреждены."
+	},
+	{
+		"heading": "ПРОГНОЗ · КАРТА МАГА",
+		"heading_visible": true,
+		"label": "card card.raise REJECTED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Поднятие → C4[/color][/font_size]\nПрогноз недоступен: Заклинание восстанавливается до конца следующих своих ходов."
+	},
+	{
+		"heading": "ПРОГНОЗ · КАРТА МАГА",
+		"heading_visible": true,
+		"label": "card card.raise APPLIED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Поднятие → C4[/color][/font_size]\nМана 6 → 6 · карта #17 уйдёт в сыгранные.\n• Цепь: Астра → Страж, сила 4.5 — цепь остановлена.\n• Астра атакует Страж. Скрытая атака +50% физической базы (угроза: Страж, Астра). Крит ×2.\n• Страж: попадание завершено, HP 12 → 0.\n• Окружение 3: E4 обрушится в следующую фазу окружения.\n• Обвал: E4 стала пропастью.\n"
+	},
+	{
+		"heading": "ПРОГНОЗ · КАРТА МАГА",
+		"heading_visible": true,
+		"label": "card damaged abilities card.raise",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Поднятие → C4[/color][/font_size]\nПрогноз недоступен: данные маны повреждены."
+	},
+	{
+		"heading": "ПРОГНОЗ · КАРТА МАГА",
+		"heading_visible": true,
+		"label": "card unknown REJECTED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Поднятие → C4[/color][/font_size]\nПрогноз недоступен: данные маны повреждены."
+	},
+	{
+		"heading": "ПРОГНОЗ · КАРТА МАГА",
+		"heading_visible": true,
+		"label": "card unknown APPLIED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Поднятие → C4[/color][/font_size]\nПрогноз недоступен: данные маны повреждены."
+	},
+	{
+		"heading": "ПРОГНОЗ · КАРТА МАГА",
+		"heading_visible": true,
+		"label": "card damaged abilities unknown",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Поднятие → C4[/color][/font_size]\nПрогноз недоступен: данные маны повреждены."
+	},
+	{
+		"heading": "ПРОГНОЗ · ОКРУЖЕНИЕ",
+		"heading_visible": true,
+		"label": "environment pending",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Фаза окружения[/color][/font_size]\nЕсли она начнётся при нынешней расстановке. Будущие действия могут изменить результат.\n\nРассчитываем последствия…"
+	},
+	{
+		"heading": "ПРОГНОЗ · ОКРУЖЕНИЕ",
+		"heading_visible": true,
+		"label": "environment REJECTED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Фаза окружения[/color][/font_size]\nЕсли она начнётся при нынешней расстановке. Будущие действия могут изменить результат.\n\nПрогноз недоступен: Эта комбинация пока не поддерживается: "
+	},
+	{
+		"heading": "ПРОГНОЗ · ОКРУЖЕНИЕ",
+		"heading_visible": true,
+		"label": "environment APPLIED",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Фаза окружения[/color][/font_size]\nЕсли она начнётся при нынешней расстановке. Будущие действия могут изменить результат.\n\nЦепь: Астра → Страж, сила 4.5 — цепь остановлена.\nАстра атакует Страж. Скрытая атака +50% физической базы (угроза: Страж, Астра). Крит ×2.\nСтраж: попадание завершено, HP 12 → 0.\nОкружение 3: E4 обрушится в следующую фазу окружения.\nОбвал: E4 стала пропастью.\n[color=#f29b9b]Страж: погибнет в пропасти.[/color]\n[color=#f29b9b]Астра: погибнет в пропасти.[/color]\n"
+	},
+	{
+		"heading": "ПРОГНОЗ · КОНЕЦ ХОДА",
+		"heading_visible": true,
+		"label": "turn pending",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Завершение командного хода[/color][/font_size]\nДо первого действия противника.\nРассчитываем последствия перехода…"
+	},
+	{
+		"heading": "ПРОГНОЗ · КОНЕЦ ХОДА",
+		"heading_visible": true,
+		"label": "turn rejected",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Завершение командного хода[/color][/font_size]\nДо первого действия противника.\n[color=#f29b9b]Прогноз недоступен[/color]\nЭта комбинация пока не поддерживается: "
+	},
+	{
+		"heading": "ПРОГНОЗ · КОНЕЦ ХОДА",
+		"heading_visible": true,
+		"label": "turn phase -1",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Завершение командного хода[/color][/font_size]\nДо первого действия противника.\n[color=#f7c97d]Переход завершён.[/color]\nОкружение 3: E4 обрушится в следующую фазу окружения.\nОбвал: E4 стала пропастью.\n\n[color=#f7c97d]Астра[/color]\nHP: 12.0 → 0.0\nБроня: 6 → 3\nОсновные: 2 → 1\nБонусные: 2 → 1\nДвижение: 4.5 → 2.0\nПогибнет\nОхранная стойка снята\nПомощник готов действовать\nКровотечение: 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\nСтатусы: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nОглушение, ходов: 0 → 1\nПуты, ходов: 1 → 0\nОбщий заряд реакции: 1 → 0\nОстановка движения снята\n\n[color=#f7c97d]DTO #8[/color]\nHP: 12.0 → 0.0\nБроня: 6 → 3\nОсновные: 2 → 1\nБонусные: 2 → 1\nДвижение: 4.5 → 2.0\nПогибнет\nОхранная стойка снята\nПомощник готов действовать\nКровотечение: 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\nСтатусы: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nОглушение, ходов: 0 → 1\nПуты, ходов: 1 → 0\nОбщий заряд реакции: 1 → 0\nОстановка движения снята\n"
+	},
+	{
+		"heading": "ПРОГНОЗ · КОНЕЦ ХОДА",
+		"heading_visible": true,
+		"label": "turn phase 1",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Завершение командного хода[/color][/font_size]\nДо первого действия противника.\n[color=#f7c97d]Начнётся ход противника.[/color]\nОкружение 3: E4 обрушится в следующую фазу окружения.\nОбвал: E4 стала пропастью.\n\n[color=#f7c97d]Астра[/color]\nHP: 12.0 → 0.0\nБроня: 6 → 3\nОсновные: 2 → 1\nБонусные: 2 → 1\nДвижение: 4.5 → 2.0\nПогибнет\nОхранная стойка снята\nПомощник готов действовать\nКровотечение: 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\nСтатусы: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nОглушение, ходов: 0 → 1\nПуты, ходов: 1 → 0\nОбщий заряд реакции: 1 → 0\nОстановка движения снята\n\n[color=#f7c97d]DTO #8[/color]\nHP: 12.0 → 0.0\nБроня: 6 → 3\nОсновные: 2 → 1\nБонусные: 2 → 1\nДвижение: 4.5 → 2.0\nПогибнет\nОхранная стойка снята\nПомощник готов действовать\nКровотечение: 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\nСтатусы: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nОглушение, ходов: 0 → 1\nПуты, ходов: 1 → 0\nОбщий заряд реакции: 1 → 0\nОстановка движения снята\n"
+	},
+	{
+		"heading": "ПРОГНОЗ · КОНЕЦ ХОДА",
+		"heading_visible": true,
+		"label": "turn phase 2",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Завершение командного хода[/color][/font_size]\nДо первого действия противника.\n[color=#f7c97d]Победа до действий противника.[/color]\nОкружение 3: E4 обрушится в следующую фазу окружения.\nОбвал: E4 стала пропастью.\n\n[color=#f7c97d]Астра[/color]\nHP: 12.0 → 0.0\nБроня: 6 → 3\nОсновные: 2 → 1\nБонусные: 2 → 1\nДвижение: 4.5 → 2.0\nПогибнет\nОхранная стойка снята\nПомощник готов действовать\nКровотечение: 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\nСтатусы: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nОглушение, ходов: 0 → 1\nПуты, ходов: 1 → 0\nОбщий заряд реакции: 1 → 0\nОстановка движения снята\n\n[color=#f7c97d]DTO #8[/color]\nHP: 12.0 → 0.0\nБроня: 6 → 3\nОсновные: 2 → 1\nБонусные: 2 → 1\nДвижение: 4.5 → 2.0\nПогибнет\nОхранная стойка снята\nПомощник готов действовать\nКровотечение: 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\nСтатусы: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nОглушение, ходов: 0 → 1\nПуты, ходов: 1 → 0\nОбщий заряд реакции: 1 → 0\nОстановка движения снята\n"
+	},
+	{
+		"heading": "ПРОГНОЗ · КОНЕЦ ХОДА",
+		"heading_visible": true,
+		"label": "turn phase 3",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Завершение командного хода[/color][/font_size]\nДо первого действия противника.\n[color=#f7c97d]Поражение до действий противника.[/color]\nОкружение 3: E4 обрушится в следующую фазу окружения.\nОбвал: E4 стала пропастью.\n\n[color=#f7c97d]Астра[/color]\nHP: 12.0 → 0.0\nБроня: 6 → 3\nОсновные: 2 → 1\nБонусные: 2 → 1\nДвижение: 4.5 → 2.0\nПогибнет\nОхранная стойка снята\nПомощник готов действовать\nКровотечение: 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\nСтатусы: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nОглушение, ходов: 0 → 1\nПуты, ходов: 1 → 0\nОбщий заряд реакции: 1 → 0\nОстановка движения снята\n\n[color=#f7c97d]DTO #8[/color]\nHP: 12.0 → 0.0\nБроня: 6 → 3\nОсновные: 2 → 1\nБонусные: 2 → 1\nДвижение: 4.5 → 2.0\nПогибнет\nОхранная стойка снята\nПомощник готов действовать\nКровотечение: 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\nСтатусы: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nОглушение, ходов: 0 → 1\nПуты, ходов: 1 → 0\nОбщий заряд реакции: 1 → 0\nОстановка движения снята\n"
+	},
+	{
+		"heading": "ПРОГНОЗ · КОНЕЦ ХОДА",
+		"heading_visible": true,
+		"label": "turn phase 4",
+		"log_heading_visible": false,
+		"log_visible": false,
+		"panel_visible": true,
+		"text": "[font_size=16][color=#f7c97d]Завершение командного хода[/color][/font_size]\nДо первого действия противника.\n[color=#f7c97d]Обе команды погибнут. Бой завершится.[/color]\nОкружение 3: E4 обрушится в следующую фазу окружения.\nОбвал: E4 стала пропастью.\n\n[color=#f7c97d]Астра[/color]\nHP: 12.0 → 0.0\nБроня: 6 → 3\nОсновные: 2 → 1\nБонусные: 2 → 1\nДвижение: 4.5 → 2.0\nПогибнет\nОхранная стойка снята\nПомощник готов действовать\nКровотечение: 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\nСтатусы: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nОглушение, ходов: 0 → 1\nПуты, ходов: 1 → 0\nОбщий заряд реакции: 1 → 0\nОстановка движения снята\n\n[color=#f7c97d]DTO #8[/color]\nHP: 12.0 → 0.0\nБроня: 6 → 3\nОсновные: 2 → 1\nБонусные: 2 → 1\nДвижение: 4.5 → 2.0\nПогибнет\nОхранная стойка снята\nПомощник готов действовать\nКровотечение: 2 ст. · 3 т. · 2/тик · 4/клетку → 1 ст. · 1 т. · 1/тик · 2/клетку\nСтатусы: горение 1 ст. / 2 т., мокрый 1 х. → мокрый 2 х., заморозка 1 х.\nОглушение, ходов: 0 → 1\nПуты, ходов: 1 → 0\nОбщий заряд реакции: 1 → 0\nОстановка движения снята\n"
+	}
+]
