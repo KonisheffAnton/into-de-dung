@@ -1,0 +1,12 @@
+{
+  "endpoint": "https://api.pixellab.ai/v2/animate-with-text-v3",
+  "reference": "defender-idle-vertical-20261010/pixellab/reference-128.png",
+  "reference_sha256": "1f49c04b2747143a7ec2ae51822b43ec584daba2a66d2bd8940c921f9366c8af",
+  "frame_count": 16,
+  "first_last_same_reference": true,
+  "action": "Aggressive defiant COME AT ME taunt. This same helmeted defender forcefully bangs his sword against his OWN shield EXACTLY TWICE. 1-3: lean chest forward, thrust shield toward the enemy, draw sword well back on screen-left. 4: sharp first blade contact on shield front at screen-right. 5-7: recoil and pull sword far away, visibly separating blade from shield. 8: sharp second hard contact. 9-12: sword rebounds away; hold shield forward, chin raised, chest proud in a bold threatening challenge. 13-16: return to reference stance. Two strong separate swings, two brief contacts, no prolonged rubbing. Shield recoils at each hit; power shown by poses and timing only. Feet stay planted, no steps or spins. Preserve camera, scale, armor, olive palette, sword and shield shapes, simple broad pixel clusters. No white flashes, stars, sparks, impact symbols, glow, trails, particles, text, extra details or background.",
+  "seed": 20261012,
+  "no_background": true,
+  "enhance_prompt": false,
+  "note": "One user-requested more aggressive, challenging candidate. Preserve previous trial. No runtime integration."
+}
