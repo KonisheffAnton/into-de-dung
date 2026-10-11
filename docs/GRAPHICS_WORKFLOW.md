@@ -86,3 +86,14 @@ Retro Diffusion, вражеские — PixelLab. Файлы с происхож
 `GET /v2/background-jobs/{id}`, PNG — из last_response.image;
 списание генераций для правок — last_response.billing_usage, а не usage.seconds.
 Оригиналы сохранять; математическую точность камеры не выводить из флага isometric.
+
+## Связная анимация Защитника — 2026-10-11
+
+В отдельной [пробе](art/defender-shield-taunt-fluid-20261011/README.md) проверен
+`animate-pixminimax`: запрошено32, получено33 PNG через `last_response.images[].base64`,
+списаны5 генераций. Входной кадр совпадает по RGBA, PNG перекодирован.
+Переданы все четыре caption-поля, enhance_prompt=false; схема сверена перед POST.
+Для этого запуска progress95% и уже присутствующие images ещё не означали completed:
+следовал этап smoothing frames. Сохранять окончательный ответ после completed.
+Queue/ETA менялись резко; сроки из ответа не обещать как гарантированные.
+Это проверка одного запроса, не приёмка арта и не постоянный выбор нового режима.

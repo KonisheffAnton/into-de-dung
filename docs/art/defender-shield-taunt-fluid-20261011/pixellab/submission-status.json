@@ -1,0 +1,7 @@
+{
+  "status_code": 200,
+  "received_at": "2026-10-11T22:59:44.7529766+03:00",
+  "attempt_count": 1,
+  "background_job_id": "dc079ff9-c657-44cd-8eaa-3ca5fe4dbded",
+  "status": "processing"
+}

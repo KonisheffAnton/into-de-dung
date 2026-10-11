@@ -1,0 +1,17 @@
+{
+  "description": "One continuous aggressive COME AT ME challenge with EXACTLY TWO sword knocks on his OWN shield. First straighten the chest, lift the chin slightly and offer the shield forward toward the enemy. Draw the sword arm back, then swing the flat of the blade inward in a clear smooth arc to the shield front: first sharp contact and a small shield recoil. Immediately draw the blade fully away with a visible gap, then a second forceful inward arc, second brief contact and recoil. The blade must leave the shield between the TWO contacts. Lower the sword outward, hold the forward shield and lifted chin in a bold daring stare, then smoothly return to the initial stance. Natural connected shoulder, elbow and wrist motion, readable anticipation and follow-through, no pose jumps. Both feet stay planted. Bare matte shield and sword throughout: no flashes, stars, sparks, glows, trails, particles or text. No steps, turns, extra strikes or camera motion.",
+  "frame_count": 32,
+  "seed": 20261013,
+  "no_background": true,
+  "enhance_prompt": false,
+  "direction": "south-east",
+  "view": "high top-down",
+  "subject_description": "A compact helmeted human defender in simple steel armor and olive cloth, holding a short sword in his right hand on screen-left and a large olive shield in his left hand on screen-right; broad quiet pixel clusters, no added details.",
+  "initial_pose": "Standing in a wide braced stance with bent knees, sword lowered diagonally toward screen-left, shield raised in front on screen-right, leaning slightly forward, looking toward the lower-right.",
+  "endpoint": "https://api.pixellab.ai/v2/animate-pixminimax",
+  "reference": "defender-idle-vertical-20261010/pixellab/reference-128.png",
+  "reference_sha256": "1f49c04b2747143a7ec2ae51822b43ec584daba2a66d2bd8940c921f9366c8af",
+  "first_last_same_reference": true,
+  "reason": "User requests stronger challenge and smoother motion. Continuous 32 frames instead of repeated contact montage.",
+  "scope": "One offline candidate, retain previous trials; no game integration."
+}
