@@ -148,7 +148,7 @@ func run_real_action(catalog_version: int, action: StringName, mode: int, label:
 		visual.sample_buff(midpoint)
 		check(idle_sprite.texture == BUFF_FRAMES.get_frame_texture(&"buff", index), label + " samples authored frame %02d" % (index + 1))
 		ticks += duration
-	check(is_equal_approx(ticks / BUFF_FRAMES.get_animation_speed(&"buff"), 2.27), label + " selected timings total exactly 2.27s")
+	check(is_equal_approx(ticks / BUFF_FRAMES.get_animation_speed(&"buff"), 56.75 / 30.0), label + " faster clip preserves rhythm and lasts about 1.89s")
 	board._sample_defender_buff(0.8)
 	var identity := visual.get_instance_id()
 	var texture := idle_sprite.texture
@@ -273,8 +273,8 @@ func test_matcher_gates_and_cleanup() -> void:
 
 func test_exact_resource_timing() -> void:
 	check(BUFF_FRAMES.has_animation(&"buff") and not BUFF_FRAMES.get_animation_loop(&"buff"), "resource declares a non-looping buff animation")
-	check(BUFF_FRAMES.get_animation_speed(&"buff") == 25.0 and BUFF_FRAMES.get_frame_count(&"buff") == 33,
-		"resource has 33 frames at 25 fps")
+	check(BUFF_FRAMES.get_animation_speed(&"buff") == 30.0 and BUFF_FRAMES.get_frame_count(&"buff") == 33,
+		"resource has 33 frames at 30 fps")
 	for index: int in BUFF_FRAMES.get_frame_count(&"buff"):
 		var expected := 2.0 if index >= 8 and index <= 23 else (8.75 if index == 32 else 1.0)
 		check(BUFF_FRAMES.get_frame_duration(&"buff", index) == expected, "resource frame %02d has exact duration" % (index + 1))

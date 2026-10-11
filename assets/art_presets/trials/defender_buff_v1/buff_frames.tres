@@ -73,5 +73,5 @@ animations = [{
 ],
 "loop": false,
 "name": &"buff",
-"speed": 25.0
+"speed": 30.0
 }]

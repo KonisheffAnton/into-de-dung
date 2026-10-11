@@ -4,7 +4,13 @@
   "source_frames": 33,
   "source_frame_size": "128x128",
   "copied_byte_for_byte": true,
-  "timing": {
+  "runtime_timing": {
+    "fps": 30,
+    "speed_multiplier_vs_source": 1.2,
+    "total_duration_seconds": 1.8916666666666666,
+    "selection": "U2026-10-11 requested slightly faster playback; all frame duration ticks preserved"
+  },
+  "source_preview_timing": {
     "fps": 25,
     "frame_groups": [
       {
