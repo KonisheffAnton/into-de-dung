@@ -152,11 +152,6 @@ layout_mode = 2
 text = "Завершить ход · Enter"
 focus_mode = 0
 
-[node name="CompareTurnsButton" parent="Margin/Column/Content/Left/Toolbar" instance=ExtResource("button")]
-layout_mode = 2
-text = "Сравнить ходы"
-focus_mode = 0
-
 [node name="Combination" parent="Margin/Column/Content/Left/Toolbar" instance=ExtResource("button")]
 layout_mode = 2
 text = "Сочетания ядра"

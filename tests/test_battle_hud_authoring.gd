@@ -48,6 +48,8 @@ func _exercise(deck_mode: bool) -> void:
 	var card := mage.get_node("Buttons/MageCardSlot0") as Button
 	var forecast := board.get_node("CompactForecast") as BattleForecastCard
 	var end_turn := column.get_node("Content/Left/Toolbar/EndTurn") as Button
+	var toolbar := column.get_node("Content/Left/Toolbar") as HBoxContainer
+	check(toolbar.get_node_or_null("CompareTurnsButton") == null, "authored HUD has no initiative comparison button")
 	var status := column.get_node("Status") as Label
 	var roster := hud.get_node("BattleDiagnostics/Scroll/Side/RosterScroll/Roster") as VBoxContainer
 	var reset_button := column.get_node("Title/Reset") as Button
@@ -298,6 +300,8 @@ func _legacy(tactical: bool) -> void:
 	check(demo._mage_fire.pressed.is_connected(demo._choose_elemental.bind(&"mage.fire")) and demo._mage_heal.pressed.is_connected(demo._choose_elemental.bind(&"mage.heal")), "legacy spells retain distinct bound IDs")
 	check(demo._action_bar.action_requested.is_connected(demo._action_bar_requested) and demo._action_bar.action_hovered.is_connected(demo._action_bar_hovered) and demo._action_bar.action_hover_left.is_connected(demo._action_bar_hover_left), "legacy slots retain action and hover dispatch")
 	check(demo._environment_button.pressed.is_connected(demo._request_environment_forecast) and demo._forecast_panel.mouse_exited.is_connected(demo._leave_forecast_panel), "legacy environment and forecast panel remain connected")
+	var legacy_toolbar := demo._end_turn_button.get_parent() as HBoxContainer
+	check(legacy_toolbar != null and legacy_toolbar.get_node_or_null("CompareTurnsButton") == null, "legacy HUD has no initiative comparison button")
 	check(demo._end_turn_button.focus_mode == Control.FOCUS_NONE and demo._end_turn_button.pressed.get_connections().size() == 1, "legacy end turn has one handler without keyboard focus")
 	var before := ItemSimulationSnapshot.capture(demo.session.state, []).snapshot.to_dict()
 	var rng := demo.session.context.get_rng().to_dict()

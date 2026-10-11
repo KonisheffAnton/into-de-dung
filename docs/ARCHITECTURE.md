@@ -129,8 +129,9 @@ K10–K12 (BattleCoreReactionsSession, наследник K9/K2) — основ�
 `tests/fixtures/demo/`; их сессии сохранены как зависимости K2/D4 и регрессии.
 Старая сцена сетки и восемь debug-визуализаторов удалены; LegacyItemDemoSink
 остаётся зависимостью frozen-тестов. Уникальные игровые входы — [запуск](REPOSITORY_STATE.md).
-Отдельное [сравнение порядка ходов](INITIATIVE_COMPARISON.md) добавляет инициативу
-только в экспериментальную session; основной бой остаётся командным.
+Эксперимент инициативы удалён; основной бой остаётся командным.
+Удалён неиспользуемый Utility-выборщик; `AIAction`/`from_utility` сохраняют
+адаптер намерения, `AIBehaviorProfile` — типовую границу отказа старого профиля.
 Профиля мага с метахарактеристиками и общего движка статусов/клеток пока нет.
 
 ## Представление боя — V1
@@ -455,7 +456,7 @@ ArmorHitExecutor уменьшает прямой пакет первой ата�
 | Командный ход и исход | `scripts/demo/battle_tactical_session.gd`, `battle_demo_session.gd`, `battle_turn_refill.gd` | Управление игроком/врагом, refill, динамический состав, reset/cleanup |
 | Совместный сценарий C1/M4/D3/D5 | `BattleCoreCombinationSession`, `core_combination_battle.tscn` | Клинок через штатную экипировку; истечение контроля исходящей команды → унаследованный D3 tick входящей → исход → refill; терминальный результат останавливает переход |
 | Сравнение темпа ходов | `BattleInitiativeSession`, `BattleInitiativeDemo` | Одинаковый бой в двух режимах; собственный ход/очередь только в эксперименте |
-| Нынешний ИИ | `scripts/demo/battle_demo_bt.gd` | BT выбирает BattleAIIntent; исполнение через команды. Старый Utility AI остаётся в `scripts/core/ai/` |
+| Нынешний ИИ | `scripts/demo/battle_demo_bt.gd` | BT выбирает BattleAIIntent; исполнение через команды. Старый Utility-выборщик удалён; DTO-адаптер сохранён |
 | Представление | `scripts/demo/battle_demo.gd`, `battle_demo_iso_visual.gd`, `battle_action_bar.gd` | Ввод/UI; общий ENTITIES Y-sort реальных тайлов, стен и фигур |
 
 BattleDemo перенаправляет колесо над текущей целью видимого прогноза в прокрутку диагностической
@@ -516,8 +517,8 @@ GuardForecast K6 исполняет GuardCommand тем же executor и пок�
 Контракт — [ATTACK_FORECAST §K6](ATTACK_FORECAST.md#k6--прогноз-охранной-стойки).
 
 Отдельного готового `scripts/core/flow/BattleFlowStateMachine` нет: фактический
-владелец текущего flow — demo session. Из `core/initiative/` отдельный эксперимент
-использует SimpleInitiativeStrategy; InitiativeTimeline не управляет этим flow.
+владелец текущего flow — demo session. Код инициативы удалён; числовой слот
+`StatType.INITIATIVE` зарезервирован, чтобы не перенумеровать сериализуемые данные.
 
 ## Границы расширяемости
 

@@ -31,7 +31,7 @@ func _build_ui() -> void:
 	board_view.environment_mode = true
 	# Сценарные переходы и сброс обходили бы сохранённую контрольную точку отряда.
 	_mode_button.hide()
-	for node_path: String in ["Title/Expedition", "Title/Reset", "Content/Left/Toolbar/CompareTurnsButton", "Content/Left/Toolbar/Combination"]:
+	for node_path: String in ["Title/Expedition", "Title/Reset", "Content/Left/Toolbar/Combination"]:
 		(get_node("BattleHUD/Margin/Column/" + node_path) as Control).hide()
 	_return_button = _heading.get_parent().get_node("ReturnToHeroHubButton") as Button
 	_return_button.show()

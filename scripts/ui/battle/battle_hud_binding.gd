@@ -87,7 +87,6 @@ static func bind(hud: Control, handlers: Dictionary[StringName, Callable], deck_
 	binding.attack_button.pressed.connect(handlers[&"set_attack_mode"])
 	binding.end_turn_button = toolbar.get_node("EndTurn") as Button
 	binding.end_turn_button.pressed.connect(handlers[&"end_turn"])
-	(toolbar.get_node("CompareTurnsButton") as Button).pressed.connect(handlers[&"open_initiative"])
 	(toolbar.get_node("Combination") as Button).pressed.connect(handlers[&"open_core_combination"])
 	binding.board_view = left.get_node("Field/Board") as BattleDemoBoard
 	binding.board_view.forecast_wheel_handler = handlers[&"forecast_wheel"]

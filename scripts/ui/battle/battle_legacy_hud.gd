@@ -111,11 +111,6 @@ static func build(host: Control, board: BattleDemoBoard, handlers: Dictionary[St
 	hud.end_turn_button.focus_mode = Control.FOCUS_NONE
 	hud.end_turn_button.pressed.connect(handlers[&"end_turn"])
 	toolbar.add_child(hud.end_turn_button)
-	var compare_button := make_button("Сравнить ходы")
-	compare_button.name = "CompareTurnsButton"
-	compare_button.focus_mode = Control.FOCUS_NONE
-	compare_button.pressed.connect(handlers[&"open_initiative"])
-	toolbar.add_child(compare_button)
 	var combination_button := make_button("Сочетания ядра")
 	combination_button.focus_mode = Control.FOCUS_NONE
 	combination_button.pressed.connect(handlers[&"open_core_combination"])

@@ -20,7 +20,6 @@
 | Удар / иммунитеты контроля | [CONTROL_PACKAGE_K11](CONTROL_PACKAGE_K11.md) |
 | Показ | [UI](BATTLE_EXECUTION_UI.md) [V1](BATTLE_PRESENTATION_V1.md) [Пакеты](BATTLE_PRESENTATION_REWORK.md) [HUD](BATTLE_HUD_SCENES_V1.md) |
 | Бой, управление | [TACTICAL_BATTLE](TACTICAL_BATTLE.md) |
-| Эксперимент инициативы | [INITIATIVE_COMPARISON](INITIATIVE_COMPARISON.md) |
 | Проход через союзников | [ALLY_TRANSIT](ALLY_TRANSIT.md) |
 | Броня / формулы урона | [ARMOR_DAMAGE_D0](ARMOR_DAMAGE_D0.md) |
 | Выделенный расчёт атаки D1/M2a | [ATTACK_DAMAGE_D1](ATTACK_DAMAGE_D1.md) |

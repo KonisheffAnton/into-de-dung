@@ -66,21 +66,11 @@ func _initialize() -> void:
 	_test_push_down_ledge_records_fall_height()
 	_test_damage_info_exposes_collision_victim()
 
-	_suite("InitiativeTimeline (D-4.6, D-4.7)")
-	_test_death_does_not_restart_round()
-	_test_round_boundary_signals()
-
 	_suite("Grid math (D-1.x)")
 	_test_grid_screen_roundtrip()
 
 	_suite("Pathfinder consistency (module 3 invariant)")
 	_test_path_and_reachable_agree_on_height_rule()
-
-	_suite("AI scoring (S-3)")
-	_test_abstain_excluded_from_average()
-	_test_veto_zeroes_candidate()
-	_test_ai_decision_is_deterministic()
-	_test_ai_never_targets_occupied_cell()
 
 	_suite("Serialization (R-4, G-2)")
 	_test_board_roundtrip_serialization()
@@ -3422,74 +3412,6 @@ func _test_damage_info_exposes_collision_victim() -> void:
 	_check(info2.push_target_cell == Vector2i(2, 0), "target would move to the free cell")
 
 
-# --- InitiativeTimeline ----------------------------------------------------
-
-## РЕГРЕССИЯ D-4.6. Раньше unregister_participant() вызывал recompute_order(),
-## который сбрасывал _current_index = -1, из-за чего смерть юнита посреди
-## раунда ПЕРЕЗАПУСКАЛА раунд и все уже ходившие получали ход снова.
-func _test_death_does_not_restart_round() -> void:
-	var timeline := InitiativeTimeline.new()
-	var strategy := SimpleInitiativeStrategy.new()
-	timeline.set_strategy(strategy)
-
-	var units: Array[UnitState] = []
-	for i in 4:
-		var bag := _make_stats(10.0)
-		# Разная инициатива -> детерминированный порядок без тай-брейков.
-		bag.set_base_value(StatTypes.StatType.INITIATIVE, float(10 - i))
-		var unit := UnitState.create(Faction.Type.ENEMY, Vector2i(i, 0), bag, "U%d" % i)
-		units.append(unit)
-		timeline.register_participant(unit)
-
-	timeline.start_battle()
-	_check(timeline.get_round_number() == 1, "battle starts at round 1")
-
-	var first := timeline.advance_turn()
-	var second := timeline.advance_turn()
-	_check(first == units[0], "highest initiative goes first")
-	_check(second == units[1], "second by initiative")
-	_check(timeline.get_round_number() == 1, "still round 1")
-
-	# Убиваем ТЕКУЩЕГО — худший случай для курсора.
-	second.vitals.apply_damage(999.0)
-	timeline.unregister_participant(second)
-
-	_check(timeline.get_round_number() == 1, "round NOT restarted by death")
-
-	var third := timeline.advance_turn()
-	_check(third == units[2], "queue continues after the dead unit, not from start")
-	_check(timeline.count_alive_of_faction(Faction.Type.ENEMY) == 3, "3 alive left")
-
-
-## РЕГРЕССИЯ D-4.7: раньше границ раунда не существовало (advance_turn молча
-## оборачивался через %), и tick-based статусы были нереализуемы.
-func _test_round_boundary_signals() -> void:
-	var timeline := InitiativeTimeline.new()
-	timeline.set_strategy(SimpleInitiativeStrategy.new())
-
-	for i in 2:
-		var bag := _make_stats(10.0)
-		bag.set_base_value(StatTypes.StatType.INITIATIVE, float(10 - i))
-		timeline.register_participant(
-			UnitState.create(Faction.Type.ENEMY, Vector2i(i, 0), bag, "R%d" % i)
-		)
-
-	var started: Array[int] = []
-	var ended: Array[int] = []
-	timeline.round_started.connect(func(n: int) -> void: started.append(n))
-	timeline.round_ended.connect(func(n: int) -> void: ended.append(n))
-
-	timeline.start_battle()
-	timeline.advance_turn()
-	timeline.advance_turn()
-	# Третий вызов должен закрыть раунд 1 и открыть раунд 2.
-	timeline.advance_turn()
-
-	_check(timeline.get_round_number() == 2, "advanced to round 2")
-	_check(ended.has(1), "round_ended(1) fired")
-	_check(started.has(1) and started.has(2), "round_started fired for 1 and 2")
-
-
 # --- Grid math -------------------------------------------------------------
 
 ## Базовый инвариант изометрии: grid -> screen -> grid должен вернуть
@@ -3547,101 +3469,6 @@ func _test_path_and_reachable_agree_on_height_rule() -> void:
 	_check(all_consistent, "every reachable cell has a path")
 
 
-# --- AI scoring ------------------------------------------------------------
-
-## РЕГРЕССИЯ S-3в. Раньше фактор, не имеющий мнения, возвращал 0.0, что при
-## взвешенном среднем было голосом ПРОТИВ. Из-за этого в aggressor_profile
-## любая атака была заведомо выше любого перемещения.
-func _test_abstain_excluded_from_average() -> void:
-	var profile := AIBehaviorProfile.new()
-	profile.use_geometric_mean = false
-
-	var always_high := _StubConsideration.new()
-	always_high.fixed_score = 1.0
-	always_high.weight = 1.0
-
-	var always_abstain := _StubConsideration.new()
-	always_abstain.fixed_score = AIConsideration.ABSTAIN
-	always_abstain.weight = 1.0
-
-	profile.considerations = [always_high, always_abstain]
-	var action := AIAction.make_move(Vector2i(1, 1))
-	var context := AIDecisionContext.new()
-
-	# Если бы ABSTAIN считался как 0.0, было бы 0.5.
-	_check_eq(profile.evaluate(action, context), 1.0, "ABSTAIN excluded from denominator")
-
-
-func _test_veto_zeroes_candidate() -> void:
-	var profile := AIBehaviorProfile.new()
-	profile.use_geometric_mean = false
-
-	var high := _StubConsideration.new()
-	high.fixed_score = 1.0
-	var veto := _StubConsideration.new()
-	veto.fixed_score = AIConsideration.VETO
-
-	profile.considerations = [high, veto]
-	var score := profile.evaluate(AIAction.make_move(Vector2i(1, 1)), AIDecisionContext.new())
-	_check_eq(score, 0.0, "VETO zeroes the candidate regardless of other factors")
-
-
-## РЕГРЕССИЯ S-3г: решение ИИ обязано быть воспроизводимым, иначе реплеи и
-## сиды роглайка не работают, а баг-репорты невозможно повторить.
-func _test_ai_decision_is_deterministic() -> void:
-	var profile: AIBehaviorProfile = load("res://resources/ai/aggressor_profile.tres")
-
-	var first_cell := Vector2i.ZERO
-	var first_type := AIAction.Type.IDLE
-	var stable := true
-
-	for attempt in 5:
-		# Доска пересобирается заново каждый прогон — проверяем, что решение
-		# зависит только от ситуации, а не от порядка обхода Dictionary.
-		var board := _make_board(8, 8)
-		var enemy := _make_unit(Faction.Type.ENEMY, Vector2i(5, 5), 3.0)
-		var player := _make_unit(Faction.Type.PLAYER, Vector2i(3, 5), 0.0)
-		board.add_unit(enemy)
-		board.add_unit(player)
-
-		var context := AIDecisionContext.build_from_board(enemy, board, 1)
-		var pathfinder := GridPathfinder.new()
-		pathfinder.configure(board.get_bounds(), context.data_provider, 1)
-
-		var action := UtilityAIController.decide(enemy, profile, pathfinder, context, 1.0, 1)
-		if attempt == 0:
-			first_cell = action.final_cell
-			first_type = action.action_type
-		elif action.final_cell != first_cell or action.action_type != first_type:
-			stable = false
-
-	_check(stable, "same situation -> same decision across 5 runs")
-
-
-## ИИ не должен выбирать клетки, занятые другими юнитами. До шага 0.4 это
-## фильтровалось костылём в контроллере, который расходился с правилами
-## pathfinding; теперь occupancy учтён в самом правиле проходимости.
-func _test_ai_never_targets_occupied_cell() -> void:
-	var board := _make_board(6, 6)
-	var enemy := _make_unit(Faction.Type.ENEMY, Vector2i(0, 0), 3.0)
-	var player := _make_unit(Faction.Type.PLAYER, Vector2i(3, 0), 0.0)
-	var ally := _make_unit(Faction.Type.ENEMY, Vector2i(1, 0), 0.0)
-	board.add_unit(enemy)
-	board.add_unit(player)
-	board.add_unit(ally)
-
-	var context := AIDecisionContext.build_from_board(enemy, board, 1)
-	var pathfinder := GridPathfinder.new()
-	pathfinder.configure(board.get_bounds(), context.data_provider, 1)
-
-	var profile: AIBehaviorProfile = load("res://resources/ai/aggressor_profile.tres")
-	var action := UtilityAIController.decide(enemy, profile, pathfinder, context, 1.0, 1)
-
-	_check(action.final_cell != player.cell, "AI does not step onto the player")
-	_check(action.final_cell != ally.cell, "AI does not step onto its ally")
-	_check(board.can_enter(action.final_cell, enemy), "chosen cell is actually enterable")
-
-
 # --- Сериализация (R-4) ---------------------------------------------------
 
 ## Требование "Profile System + несколько слотов сохранений" невыполнимо, если
@@ -3686,15 +3513,6 @@ func _test_board_roundtrip_serialization() -> void:
 	# Счётчик id обязан обогнать загруженные значения, иначе новый юнит
 	# получит существующий id и перезапишет его в occupancy.
 	_check(UnitId.get_counter() > unit.id, "UnitId counter advanced past loaded ids")
-
-
-## Заглушка-фактор с фиксированной оценкой: позволяет тестировать САМУ
-## агрегацию профиля, не завязываясь на конкретные тактические факторы.
-class _StubConsideration extends AIConsideration:
-	var fixed_score: float = 0.0
-
-	func score(_action: AIAction, _context: AIDecisionContext) -> float:
-		return fixed_score
 
 
 class _NestedDamageSink extends RecordingEventSink:
