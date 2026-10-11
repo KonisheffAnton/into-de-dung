@@ -1,5 +1,25 @@
 # История и свидетельства проверок
 
+## Сборка прежнего HUD — 2026-10-11
+
+U «Давай дельше», base `0d1878405a95571554d0db22aacf07d4f977648e`.
+`BattleLegacyHud` выделяет программную сборку узлов/стилей/сигналов старых
+демонстраций и D4. Demo создаёт Board с сессией, передаёт callbacks, получает
+ссылки и связывает roster. Изменены три метода Demo; остальные125 совпадают
+с base. Authored binding, guards/worker/preview/live/queue/RNG/save прежние.
+Весь §7.3 остаётся открытым; общие игровые пути и остальные UI-обязанности впереди.
+
+Base/current import/startup и шесть выбранных suites PASS: HUD297/0, demo143/0,
+battle298/0, D4 UI66/0, execution28/0, panels81/0. Расширенный legacy runner
+сначала проверен на исходном Demo; шесть HUD PNG пиксельно равны base.
+Независимое ревью APPROVE. [Контракт HUD](BATTLE_HUD_SCENES_V1.md),
+команды — [TESTING](TESTING.md); отчёт/хеши/логи локально:
+`test_reports/ui-legacy-hud-20261011/REPORT.md`.
+Full/core не повторялись; старые shader FAIL, exit leaks, сдвиг96 и ручная
+F5/Editor/DPI/GPU/длинные кадры открыты. Пользовательская main_menu.tscn сохранена.
+Локальный Conventional Commit без push; следующий срез не запущен.
+Прежняя передача побайтно в [архиве](CODEX_HANDOFF.history-20261011-9.md).
+
 ## Подробные прогнозы и расположение UI — 2026-10-11
 
 Base `2f3cebc3f3e26ff1d3fe651fcb82fb2533dc3dab`. `BattleForecastText` получил

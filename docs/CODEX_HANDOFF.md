@@ -1,15 +1,14 @@
-# Передача — 2026-10-11: подробные прогнозы UI
-D:\Games\into-de-dung; main; base 2f3cebc3f3e26ff1d3fe651fcb82fb2533dc3dab; без push.
-U «Лимиты обновлиись - продолжай работу»: срез §7.3 технически проверен.
-BattleForecastText — 11 прогнозов/причины; Demo — guards/dispatch/live/UI.
-Пять прежних helpers+UID перенесены без изменений в scripts/ui/battle.
-Контракт BATTLE_HUD_SCENES_V1; остальной UI/общие пути открыты, §7.3 не закрыт.
-Отчёт test_reports/ui-forecast-text-20261011/REPORT.md; команды TESTING.
-Base/current import/startup PASS; current17 suites, golden280 случаев (367/0).
-4HUD PNG равны base; Python15/0. Независимое ревью APPROVE.
-Full/core не повторялись: узкий UI-срез. Прежние 8shaderFAIL(base) не закрыты.
-Exit47ObjectDB/18resources и сдвиг96 не перепроверены; общего PASS нет.
-F5/Editor/DPI/GPU/длинные кадры открыты; CPU fixtures не FPS.
+# Передача — 2026-10-11: сборка прежнего HUD
+D:\Games\into-de-dung; main; base 0d1878405a95571554d0db22aacf07d4f977648e; без push.
+U «Давай дельше»: срез §7.3 технически проверен.
+BattleLegacyHud — сборка узлов/стилей/сигналов старых демонстраций и D4.
+Demo — создание Board/session, callbacks, refs и roster; guards/исполнение прежние.
+Изменены три метода Demo, остальные125 совпадают с base. HUD/общие пути ещё открыты.
+Контракт BATTLE_HUD_SCENES_V1; отчёт test_reports/ui-legacy-hud-20261011/REPORT.md.
+Команды TESTING; base/current import/startup +6 suites PASS; HUD297/0 на обоих.
+6HUD PNG равны base; независимое ревью APPROVE. Python runner не менялся.
+Full/core не повторялись; старые8shaderFAIL, exit47ObjectDB/18resources и сдвиг96 открыты.
+F5/Editor/DPI/GPU/длинные кадры открыты; fixtures не FPS.
 Profile6/run4/plan4/report3 — SAVE_FORMAT_CURRENT; старые — отказ без миграции/удаления/записи.
 Unit9/Item11/board2, prepare-изоляция — BATTLE_SNAPSHOT_CURRENT; D4 прежний.
 Default capture/restore; --forecast-clone эксперимент, сам не включать; кэша нет.

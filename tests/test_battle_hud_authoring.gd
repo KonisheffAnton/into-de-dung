@@ -22,6 +22,8 @@ func _run() -> void:
 	await _exercise(false)
 	await _exercise(true)
 	await _fallbacks()
+	await _legacy(false)
+	await _legacy(true)
 	viewport.queue_free()
 	await process_frame
 	print("BATTLE HUD AUTHORING RESULTS: %d passed, %d failed" % [passed, failed])
@@ -277,6 +279,52 @@ func _fallbacks() -> void:
 	viewport.add_child(demo)
 	demo.set_process(false)
 	check(demo.has_node("BattleHUD") and demo.board_view != null and demo._return_button != null, "direct hub new loads same authored HUD")
+	demo.queue_free()
+	await process_frame
+
+func _legacy(tactical: bool) -> void:
+	var scene_path := "res://scenes/demo/tactical_battle.tscn" if tactical else "res://scenes/demo/battle_demo.tscn"
+	var demo := (load(scene_path) as PackedScene).instantiate() as BattleDemo
+	viewport.add_child(demo)
+	demo.set_process(false)
+	await process_frame
+	await process_frame
+	check(not demo.has_node("BattleHUD") and demo.board_view.session == demo.session, "legacy board enters tree with its caller session")
+	check(demo._action_bar._buttons.size() == 8 and not demo._action_bar.compact_vertical, "legacy keeps eight horizontal action slots")
+	check(demo._action_bar.visible == tactical, "legacy action bar follows tactical mode")
+	check(demo._mage_row is HBoxContainer and not demo._mage_row is BattleMageBar and demo._card_buttons.is_empty(), "legacy keeps spell row without deck pager")
+	check(demo.board_view.cell_clicked.is_connected(demo.handle_cell) and demo.board_view.cell_hovered.is_connected(demo._hover), "legacy board keeps click and hover handlers")
+	check(demo.board_view.cancel_requested.is_connected(demo.set_attack_mode.bind(false)) and demo.board_view.forecast_wheel_handler == demo._board_forecast_wheel_input, "legacy board keeps cancel and forecast wheel handlers")
+	check(demo._mage_fire.pressed.is_connected(demo._choose_elemental.bind(&"mage.fire")) and demo._mage_heal.pressed.is_connected(demo._choose_elemental.bind(&"mage.heal")), "legacy spells retain distinct bound IDs")
+	check(demo._action_bar.action_requested.is_connected(demo._action_bar_requested) and demo._action_bar.action_hovered.is_connected(demo._action_bar_hovered) and demo._action_bar.action_hover_left.is_connected(demo._action_bar_hover_left), "legacy slots retain action and hover dispatch")
+	check(demo._environment_button.pressed.is_connected(demo._request_environment_forecast) and demo._forecast_panel.mouse_exited.is_connected(demo._leave_forecast_panel), "legacy environment and forecast panel remain connected")
+	check(demo._end_turn_button.focus_mode == Control.FOCUS_NONE and demo._end_turn_button.pressed.get_connections().size() == 1, "legacy end turn has one handler without keyboard focus")
+	var before := ItemSimulationSnapshot.capture(demo.session.state, []).snapshot.to_dict()
+	var rng := demo.session.context.get_rng().to_dict()
+	var board_id := demo.board_view.get_instance_id()
+	var roster_id: int = demo.session.units[0].id
+	var row := _roster_button(demo, roster_id)
+	check(row != null and row.pressed.get_connections().size() == 1, "legacy roster factory produces a connected row")
+	var row_id: int = row.get_instance_id()
+	var move_style := demo._move_button.get_theme_stylebox("normal") as StyleBoxFlat
+	var attack_style := demo._attack_button.get_theme_stylebox("normal") as StyleBoxFlat
+	check(move_style != attack_style and move_style != row.get_theme_stylebox("normal"), "legacy buttons and roster own separate styles")
+	demo._move_button.custom_minimum_size.y = 41
+	for repeat: int in 3: demo._refresh()
+	check(demo._move_button.custom_minimum_size.y == 41 and demo.board_view.get_instance_id() == board_id and _roster_button(demo, roster_id).get_instance_id() == row_id, "legacy refresh preserves layout overrides and node identity")
+	demo._move_button.custom_minimum_size.y = 38
+	check(ItemSimulationSnapshot.capture(demo.session.state, []).snapshot.to_dict() == before and demo.session.context.get_rng().to_dict() == rng, "legacy refresh preserves full snapshot and RNG")
+	# Сигналы кнопок проходят прежние guards, включая отказ на ходе противника.
+	if tactical:
+		demo._battle.phase = BattleTacticalSession.Phase.ENEMY_TURN
+		demo._attack_button.pressed.emit()
+		check(not demo.attack_mode, "legacy attack signal respects enemy turn guard")
+		demo._battle.phase = BattleTacticalSession.Phase.PLAYER_TURN
+	demo._attack_button.pressed.emit()
+	check(demo.attack_mode, "legacy attack button selects attack")
+	demo._move_button.pressed.emit()
+	check(not demo.attack_mode, "legacy move button clears attack")
+	await _capture("legacy-tactical" if tactical else "legacy-sandbox")
 	demo.queue_free()
 	await process_frame
 

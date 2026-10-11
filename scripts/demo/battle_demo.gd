@@ -536,171 +536,62 @@ func _build_authored_hud() -> void:
 	_hud_bound = true
 
 func _build_legacy_ui() -> void:
-	var background := ColorRect.new()
-	background.color = Color("111a27")
-	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(background)
-	var margin := MarginContainer.new()
-	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	for side in ["left", "right", "top", "bottom"]: margin.add_theme_constant_override("margin_" + side, 24)
-	add_child(margin)
-	var root := VBoxContainer.new()
-	root.add_theme_constant_override("separation", 6)
-	margin.add_child(root)
-	var title := HBoxContainer.new()
-	root.add_child(title)
-	_heading = _label("", 28, Color("e6ecf4"))
-	_heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title.add_child(_heading)
-	_mode_button = _button("")
-	_mode_button.pressed.connect(toggle_scenario)
-	title.add_child(_mode_button)
-	var expedition_button := _button("Забег")
-	expedition_button.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://scenes/demo/expedition_d4.tscn"))
-	title.add_child(expedition_button)
-	var reset_button := _button("Сбросить бой  ·  R")
-	reset_button.pressed.connect(reset_demo)
-	title.add_child(reset_button)
-	_subtitle = _label("", 16, Color("a5b3c5"))
-	root.add_child(_subtitle)
-	_phase_label = _label("", 20, Color("f7c97d"))
-	_phase_row = HBoxContainer.new()
-	root.add_child(_phase_row)
-	_phase_row.add_child(_phase_label)
-	_skip_presentation_button = _button("Пропустить · Пробел")
-	_skip_presentation_button.name = "SkipPresentationButton"
-	_skip_presentation_button.pressed.connect(skip_presentation)
-	_phase_row.add_child(_skip_presentation_button)
-	_skip_presentation_button.hide()
-	_skip_presentation_button.disabled = true
-	_speed_presentation_button = _button("Скорость ×1")
-	_speed_presentation_button.pressed.connect(_toggle_presentation_speed)
-	_phase_row.add_child(_speed_presentation_button)
-	_speed_presentation_button.hide()
-	_environment_button = _button("Окружение · прогноз фазы")
-	_environment_button.focus_mode = Control.FOCUS_NONE
-	_environment_button.pressed.connect(_request_environment_forecast)
-	_phase_row.add_child(_environment_button)
-	_mage_row = HBoxContainer.new()
-	_mage_label = _label("", 14, Color("65dfcc"))
-	_phase_row.add_child(_mage_label)
-	_mage_fire = _button("Маг · Огонь 4 / 2 маны")
-	_mage_fire.name = "MageFireButton"
-	_mage_fire.pressed.connect(_choose_elemental.bind(&"mage.fire"))
-	_mage_row.add_child(_mage_fire)
-	_mage_heal = _button("Маг · Лечение 4 / 3 маны")
-	_mage_heal.name = "MageHealButton"
-	_mage_heal.pressed.connect(_choose_elemental.bind(&"mage.heal"))
-	_mage_row.add_child(_mage_heal)
-	_mage_buttons = {&"mage.fire": _mage_fire, &"mage.heal": _mage_heal}
-	var content := HBoxContainer.new()
-	content.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	content.add_theme_constant_override("separation", 24)
-	root.add_child(content)
-	var left := VBoxContainer.new()
-	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	content.add_child(left)
-	var toolbar := HBoxContainer.new()
-	left.add_child(toolbar)
-	_move_button = _button("Выбор / движение  ·  M")
-	_move_button.toggle_mode = true
-	_move_button.pressed.connect(set_attack_mode.bind(false))
-	toolbar.add_child(_move_button)
-	_attack_button = _button("Атака  ·  A")
-	_attack_button.toggle_mode = true
-	_attack_button.pressed.connect(set_attack_mode.bind(true))
-	toolbar.add_child(_attack_button)
-	_end_turn_button = _button("Завершить ход · Enter")
-	# Enter имеет один обработчик: фокус кнопки иначе повторяет старт на отпускании.
-	_end_turn_button.focus_mode = Control.FOCUS_NONE
-	_end_turn_button.pressed.connect(end_turn)
-	toolbar.add_child(_end_turn_button)
-	var compare_button := _button("Сравнить ходы")
-	compare_button.name = "CompareTurnsButton"
-	compare_button.focus_mode = Control.FOCUS_NONE
-	compare_button.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://scenes/demo/initiative_battle.tscn"))
-	toolbar.add_child(compare_button)
-	var combination_button := _button("Сочетания ядра")
-	combination_button.focus_mode = Control.FOCUS_NONE
-	combination_button.pressed.connect(_open_core_combination_scenario)
-	toolbar.add_child(combination_button)
-	left.add_child(_mage_row)
+	var handlers: Dictionary[StringName, Callable] = {
+		&"toggle_scenario": toggle_scenario,
+		&"open_expedition": func() -> void: get_tree().change_scene_to_file("res://scenes/demo/expedition_d4.tscn"),
+		&"reset_demo": reset_demo,
+		&"skip_presentation": skip_presentation,
+		&"toggle_presentation_speed": _toggle_presentation_speed,
+		&"request_environment_forecast": _request_environment_forecast,
+		&"choose_elemental": _choose_elemental,
+		&"set_move_mode": set_attack_mode.bind(false),
+		&"set_attack_mode": set_attack_mode.bind(true),
+		&"end_turn": end_turn,
+		&"open_initiative": func() -> void: get_tree().change_scene_to_file("res://scenes/demo/initiative_battle.tscn"),
+		&"open_core_combination": _open_core_combination_scenario,
+		&"forecast_wheel": _board_forecast_wheel_input,
+		&"handle_cell": handle_cell,
+		&"hover": _hover,
+		&"displayed_unit_hovered": _displayed_unit_hovered,
+		&"action_bar_requested": _action_bar_requested,
+		&"action_bar_hovered": _action_bar_hovered,
+		&"action_bar_hover_left": _action_bar_hover_left,
+		&"leave_forecast_panel": _leave_forecast_panel,
+	}
 	board_view = BattleDemoBoard.new()
-	board_view.forecast_wheel_handler = _board_forecast_wheel_input
 	board_view.session = session
-	board_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	board_view.cell_clicked.connect(handle_cell)
-	board_view.cell_hovered.connect(_hover)
-	board_view.displayed_unit_hovered.connect(_displayed_unit_hovered)
-	board_view.cancel_requested.connect(set_attack_mode.bind(false))
-	board_view.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	left.add_child(board_view)
-	_action_bar = BattleActionBar.new()
-	_action_bar.name = "BattleActionBar"
-	_action_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_action_bar.action_requested.connect(_action_bar_requested)
-	_action_bar.action_hovered.connect(_action_bar_hovered)
-	_action_bar.action_hover_left.connect(_action_bar_hover_left)
-	_action_bar.visible = tactical_mode
-	root.add_child(_action_bar)
-	_hint = _label("", 14, Color("a5b3c5"))
-	_hint.custom_minimum_size.y = 40
-	left.add_child(_hint)
-	var side := VBoxContainer.new()
-	side.custom_minimum_size.x = 340
-	side.add_theme_constant_override("separation", 10)
-	content.add_child(side)
-	side.add_child(_label("ПЕРСОНАЖИ", 13, Color("65dfcc")))
-	var roster_scroll := ScrollContainer.new()
-	roster_scroll.custom_minimum_size.y = 192
-	roster_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	side.add_child(roster_scroll)
-	_roster = VBoxContainer.new()
-	_roster.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	roster_scroll.add_child(_roster)
+	var hud := BattleLegacyHud.build(self, board_view, handlers, tactical_mode)
+	_heading = hud.heading
+	_mode_button = hud.mode_button
+	_subtitle = hud.subtitle
+	_phase_row = hud.phase_row
+	_phase_label = hud.phase_label
+	_skip_presentation_button = hud.skip_presentation_button
+	_speed_presentation_button = hud.speed_presentation_button
+	_environment_button = hud.environment_button
+	_mage_label = hud.mage_label
+	_mage_row = hud.mage_row
+	_mage_buttons = hud.mage_buttons
+	_mage_fire = hud.mage_fire
+	_mage_heal = hud.mage_heal
+	_move_button = hud.move_button
+	_attack_button = hud.attack_button
+	_end_turn_button = hud.end_turn_button
+	board_view = hud.board_view
+	_action_bar = hud.action_bar
+	_hint = hud.hint
+	_roster = hud.roster
 	_roster_presenter.bind(_roster, _on_roster_entry_pressed, _button)
-	_stats = _label("", 15, Color("e6ecf4"))
-	_stats.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_stats.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var inspection_scroll := ScrollContainer.new()
-	inspection_scroll.custom_minimum_size = Vector2(340, 144)
-	inspection_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	inspection_scroll.add_child(_stats)
-	side.add_child(inspection_scroll)
-	_log_heading = _label("ЖУРНАЛ ПОСЛЕДСТВИЙ", 13, Color("65dfcc"))
-	side.add_child(_log_heading)
-	_log = RichTextLabel.new()
-	_log.custom_minimum_size = Vector2(340, 130)
-	_log.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_log.scroll_following = true
-	_log.add_theme_font_size_override("normal_font_size", 14)
-	_log.add_theme_color_override("default_color", Color("c8d3e1"))
-	side.add_child(_log)
-	_forecast_heading = _label("ПРОГНОЗ · КОЛЕСО НА ЦЕЛИ", 13, Color("65dfcc"))
-	side.add_child(_forecast_heading)
-	_forecast_panel = RichTextLabel.new()
-	_forecast_panel.custom_minimum_size = Vector2(340, 130)
-	_forecast_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_forecast_panel.bbcode_enabled = true
-	_forecast_panel.fit_content = false
-	_forecast_panel.scroll_active = true
-	_forecast_panel.add_theme_font_size_override("normal_font_size", 14)
-	_forecast_panel.add_theme_color_override("default_color", Color("e6ecf4"))
-	_forecast_panel.mouse_exited.connect(_leave_forecast_panel)
-	side.add_child(_forecast_panel)
-	_status = _label("", 14, Color("f7c97d"))
-	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_status.custom_minimum_size.y = 46
-	root.add_child(_status)
-	_instructions = _label("", 14, Color("a5b3c5"))
-	root.add_child(_instructions)
+	_stats = hud.stats
+	_log_heading = hud.log_heading
+	_log = hud.log
+	_forecast_heading = hud.forecast_heading
+	_forecast_panel = hud.forecast_panel
+	_status = hud.status
+	_instructions = hud.instructions
+
 func _label(value: String, font_size: int, color: Color) -> Label:
-	var label := Label.new()
-	label.text = value
-	label.add_theme_font_size_override("font_size", font_size)
-	label.add_theme_color_override("font_color", color)
-	return label
+	return BattleLegacyHud.make_label(value, font_size, color)
 
 func _on_roster_entry_pressed(unit_id: int) -> void:
 	# Сигнал хранит ID, а выбранное действие определяется только по текущей сессии.
@@ -711,18 +602,7 @@ func _on_roster_entry_pressed(unit_id: int) -> void:
 	else: select_character(unit_id)
 
 func _button(value: String) -> Button:
-	var button := Button.new()
-	button.text = value
-	button.custom_minimum_size.y = 38
-	button.add_theme_font_size_override("font_size", 15)
-	for state_name in ["normal", "hover", "pressed"]:
-		var style := StyleBoxFlat.new()
-		style.bg_color = Color("304a56") if state_name == "pressed" else (Color("344559") if state_name == "hover" else Color("243345"))
-		style.set_corner_radius_all(6)
-		style.content_margin_left = 12
-		style.content_margin_right = 12
-		button.add_theme_stylebox_override(state_name, style)
-	return button
+	return BattleLegacyHud.make_button(value)
 
 func set_attack_mode(enabled: bool) -> void:
 	if is_execution_pending(): return

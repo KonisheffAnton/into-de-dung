@@ -79,6 +79,13 @@ full/core не требуются при сохранении мест вызо�
 на исходном formatter и после переноса. Worker/показ и HUD PNG — тот же набор;
 full/core не требуются при неизменных узлах, guards и правилах ядра.
 
+Для сборки прежней оболочки HUD:
+`python tools/demo/isolate.py --render-check --only demo battle d4_ui battle_hud_authoring battle_execution_ui battle_panels --screen 0`.
+Проверяются настоящий ввод полигонов/D4, сигналы и guards, восемь слотов,
+узлы/стили после refresh, изоляция snapshot/RNG, authored main/H1 и worker/показ.
+Новые legacy-проверки HUD выполняются также на base; PNG base/current сравниваются
+для legacy и authored оболочек. Full/core не нужны при неизменном исполнении.
+
 Для подробных прогнозов и размещения UI-компонентов:
 `python tools/demo/isolate.py --render-check --only battle_forecast_text battle_event_text battle_inspection_text battle_hud_authoring battle_execution_ui battle move_forecast_ui guard_forecast_ui item_forecast_ui raise_forecast_ui turn_forecast_ui armor_ui mage_ui mage_deck_ui core_reactions_ui entangle_ui d5_ui --screen 0`.
 `battle_forecast_text` сравнивает 280 случаев с JSON-эталоном, полученным прежним
