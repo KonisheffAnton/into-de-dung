@@ -1,16 +1,22 @@
 """Extract original PNGs from a saved completed PixelLab job; no API calls."""
 import base64
+import argparse
 import hashlib
 import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 TARGET = ROOT / "pixellab"
-job = json.loads((TARGET / "job-status.json").read_text(encoding="utf-8-sig"))
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument("job_response", type=Path, help="Saved raw completed job JSON, including last_response.images")
+job_path = parser.parse_args().job_response
+job = json.loads(job_path.read_text(encoding="utf-8-sig"))
 assert job["status"] == "completed", "The existing job has not completed yet. Do not resubmit."
 result = job["last_response"]
 images = result["images"]
-assert len(images) == 16, len(images)
+# API может включать исходную позу сверх запрошенных кадров: сохраняем весь ответ.
+assert images, "Completed job contains no images"
+requested = json.loads((TARGET / "request.json").read_text(encoding="utf-8-sig"))["frame_count"]
 files = []
 for index, entry in enumerate(images):
     encoded = entry["base64"]
@@ -22,6 +28,10 @@ for index, entry in enumerate(images):
     (TARGET / filename).write_bytes(image)
     files.append({"file": filename, "sha256": hashlib.sha256(image).hexdigest()})
 metadata = {key: value for key, value in result.items() if key not in ["images", "image"]}
-metadata.update({"job_id": job["id"], "status": job["status"], "frame_count": len(images), "files": files})
+metadata.update({"job_id": job["id"], "status": job["status"], "requested_frame_count": requested,
+                 "frame_count": len(images), "files": files})
 (TARGET / "result.json").write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
+summary = {key: value for key, value in job.items() if key != "last_response"}
+summary["last_response"] = {key: value for key, value in metadata.items() if key != "files"}
+(TARGET / "job-status.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
 print(json.dumps({"status": job["status"], "frame_count": len(images), "billing_usage": metadata.get("billing_usage")}))

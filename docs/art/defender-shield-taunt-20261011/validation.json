@@ -1,0 +1,368 @@
+{
+  "sources": [
+    {
+      "frame": 1,
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        25,
+        25,
+        102,
+        97
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "4f052ab2dc01f1498536a54ff6d272bb2f58c60a85ebce9c05a5234c0f3781fc"
+    },
+    {
+      "frame": 2,
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        25,
+        25,
+        102,
+        97
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "9da2a1f566ad4d72474e885969a26a1cb8f9b158f47925ee209ee6b69ba361bd"
+    },
+    {
+      "frame": 3,
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        33,
+        25,
+        101,
+        97
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "827356c965dac44f2bc239bd14defce1d81ac4a79f995c72490893bfd341dc12"
+    },
+    {
+      "frame": 4,
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        38,
+        25,
+        101,
+        97
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "4ba197bd238348d4253b87705a04c5849856baab832b0d2d0eb481421ed4145e"
+    },
+    {
+      "frame": 5,
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        40,
+        25,
+        100,
+        97
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "abb1acae5c9a5902e33274e9c56322eabe643aff528971d9d655ed64f2c56231"
+    },
+    {
+      "frame": 6,
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        43,
+        25,
+        100,
+        97
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "088ee65f25d15a1f5df8e9eff0863ec71f1fa9f5e849b34c648c355fd6bc8e87"
+    },
+    {
+      "frame": 7,
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        41,
+        25,
+        99,
+        97
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "d4d7ecfee2c7df42854f6c1fa41853a886ae3708494f900a01cf9d9fd4bd5caf"
+    },
+    {
+      "frame": 8,
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        43,
+        26,
+        99,
+        97
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "b359c687720761a77499da92d0cf542867ca25ec9a5a1faf49bf9f2bdac237d2"
+    },
+    {
+      "frame": 9,
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        41,
+        25,
+        99,
+        97
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "8bdad7aa216a141a46e83aaefc392ef01fe44b7583e56702324acf11c5e3078b"
+    },
+    {
+      "frame": 10,
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        43,
+        25,
+        100,
+        97
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "a9b5f52f9a3f5af55ac6e42538abe6ad870f5879e31b1be6b243993c46e752c8"
+    },
+    {
+      "frame": 11,
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        41,
+        25,
+        99,
+        97
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "476313dfe9ab2166dddef393dae806fb6f7506f2add5626fa99830f92ed37de6"
+    },
+    {
+      "frame": 12,
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        42,
+        25,
+        99,
+        97
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "048690934f3895749c6c08dcf7f430ce8597080c9acb29c3242f609f0d5834b9"
+    },
+    {
+      "frame": 13,
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        43,
+        25,
+        100,
+        97
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "2c99c2c199312c32a961c6f6af69ce82d4c949387de8ca421a5d07edc91917bf"
+    },
+    {
+      "frame": 14,
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        41,
+        25,
+        100,
+        97
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "20220368baee558100da114b1bfe7806268505a621f82d0f38f843465e5fe937"
+    },
+    {
+      "frame": 15,
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        38,
+        25,
+        101,
+        97
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "22a1fa5dec3f5d14f5a863c1b34788b2041dfb16fbffd64d6c96ba0f5f80ea6d"
+    },
+    {
+      "frame": 16,
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        36,
+        25,
+        102,
+        97
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "fdc374036996615bbfd02966d3da7efdcb6c3d2ddde8750097fc7ea4c23c7e43"
+    },
+    {
+      "frame": 17,
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        25,
+        25,
+        102,
+        97
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "c6e1c31249e89bdc6c424dac694c1b059e9f80dc32017907accef8205e236001"
+    }
+  ],
+  "previews": {
+    "taunt-native.gif": {
+      "frames": 17,
+      "size": [
+        128,
+        128
+      ],
+      "duration_ms": [
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150
+      ],
+      "total_ms": 2550
+    },
+    "preview.gif": {
+      "frames": 17,
+      "size": [
+        512,
+        512
+      ],
+      "duration_ms": [
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        600
+      ],
+      "total_ms": 3000
+    }
+  },
+  "transforms": "Original PNGs retained. Nearest-neighbor enlargement and background compositing only. No pose edits, registration or interpolation.",
+  "art_acceptance": "Open; visual review is separate from file validation."
+}

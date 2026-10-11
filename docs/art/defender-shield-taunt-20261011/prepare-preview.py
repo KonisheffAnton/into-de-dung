@@ -6,7 +6,8 @@ from PIL import Image, ImageDraw
 
 ROOT = Path(__file__).resolve().parent
 frames = [Image.open(path).convert("RGBA") for path in sorted((ROOT / "pixellab").glob("frame-*.png"))]
-assert len(frames) == 16, len(frames)
+expected = json.loads((ROOT / "pixellab/result.json").read_text(encoding="utf-8"))["frame_count"]
+assert len(frames) == expected and len(frames) > 1, len(frames)
 assert all(frame.size == (128, 128) for frame in frames)
 background = (39, 49, 43, 255)
 previews = []
@@ -17,8 +18,8 @@ for frame in frames:
 frames[0].save(ROOT / "taunt-native.gif", save_all=True, append_images=frames[1:],
                duration=150, loop=0, disposal=2, optimize=False)
 previews[0].save(ROOT / "preview.gif", save_all=True, append_images=previews[1:],
-                 duration=[150] * 15 + [600], loop=0, disposal=2, optimize=False)
-sheet = Image.new("RGBA", (4 * 384, 4 * 408), background)
+                 duration=[150] * (len(frames) - 1) + [600], loop=0, disposal=2, optimize=False)
+sheet = Image.new("RGBA", (4 * 384, ((len(frames) + 3) // 4) * 408), background)
 draw = ImageDraw.Draw(sheet)
 for index, frame in enumerate(frames):
     x, y = index % 4 * 384, index // 4 * 408
@@ -40,7 +41,7 @@ for name in ["taunt-native.gif", "preview.gif"]:
     for index in range(gif.n_frames):
         gif.seek(index)
         durations.append(gif.info["duration"])
-    assert gif.n_frames == 16
+    assert gif.n_frames == len(frames)
     gif_info[name] = {"frames": gif.n_frames, "size": gif.size, "duration_ms": durations, "total_ms": sum(durations)}
 (ROOT / "validation.json").write_text(json.dumps({"sources": validation, "previews": gif_info,
     "transforms": "Original PNGs retained. Nearest-neighbor enlargement and background compositing only. No pose edits, registration or interpolation.",
