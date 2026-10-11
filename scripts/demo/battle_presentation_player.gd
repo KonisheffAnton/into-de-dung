@@ -24,7 +24,7 @@ func play(board: BattleDemoBoard, before: Dictionary, frames: Array[Dictionary],
 	_published = before.duplicate(true)
 	_index = 0
 	active = true
-	_board.set_presentation_playback_active(true)
+	_board.set_presentation_animation_events([])
 	_board.show_presentation_state(before)
 	_next()
 
@@ -34,6 +34,7 @@ func set_speed(value: float) -> void:
 
 func _next() -> void:
 	if not active: return
+	_board.set_presentation_animation_events([])
 	if _index >= _frames.size():
 		_finish(false)
 		return
@@ -43,6 +44,12 @@ func _next() -> void:
 		var frame: Dictionary = _frames[_index]
 		var group := BattleChainTimeline.collect(_frames, _index)
 		if not group.is_empty():
+			var chain_events: Array = []
+			for item: Dictionary in group:
+				var chain_frame: Dictionary = item.frame
+				chain_events.append_array(chain_frame.events)
+			# Вся цепочка задаётся до первого callback: один общий tween держит её участников.
+			_board.set_presentation_animation_events(chain_events)
 			_chain = BattleChainTimeline.new()
 			var chain := _chain
 			var chain_tween := chain.animate(_board, group, _start_chain_frame, _publish_chain_frame)
@@ -53,6 +60,8 @@ func _next() -> void:
 			_tween.set_speed_scale(speed)
 			_tween.finished.connect(_complete_chain)
 			return
+		if _board.has_presentation_animation(frame.events):
+			_board.set_presentation_animation_events(frame.events)
 		_start_chain_frame(_index)
 		if _board.has_presentation_animation(frame.events):
 			_tween = _board.animate_presentation_frame(frame.events, frame.step)
@@ -100,6 +109,8 @@ func _complete_frame() -> void:
 	_board.show_presentation_state(state)
 	_board.finish_presentation_frame(frame.events, frame.step, _published, state)
 	_published = state
+	# Поза действия уже закончена, trap tween больше не управляет фигурой.
+	_board.set_presentation_animation_events([])
 	var trap := BattleFieldPresentation.trap_event(frame.events) if frame.step.get("kind") in [&"hazard_contact", &"hazard_trigger"] else {}
 	if not trap.is_empty():
 		_tween = _board.animate_trap_retraction(trap)
@@ -123,7 +134,7 @@ func _finish(discard_feedback: bool) -> void:
 	frame_finished.emit(_final.duplicate(true))
 	active = false
 	_frames.clear()
-	_board.set_presentation_playback_active(false)
+	_board.set_presentation_animation_events([])
 	_final.clear()
 	_published = {}
 	finished.emit()
@@ -142,7 +153,7 @@ func cancel(discard_feedback: bool = true) -> void:
 		else:
 			_board.clear_presentation_effects()
 			_board.clear_strike_poses()
-		_board.set_presentation_playback_active(false)
+		_board.set_presentation_animation_events([])
 	_board = null
 
 func _exit_tree() -> void:

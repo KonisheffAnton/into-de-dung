@@ -376,6 +376,9 @@ func chain_overlap() -> void:
 			var a: int = s.units[1].id
 			var b: int = s.units[2].id
 			var c: int = s.units[5].id
+			for id: int in [a, b, c]:
+				check((board._presentation_visual(id) as BattleManagedUnitVisual).ambient_animation_paused, label + " chain participant idle pauses before motion")
+			check(not (board._presentation_visual(s.units[4].id) as BattleManagedUnitVisual).ambient_animation_paused, label + " unrelated observer remains idle during chain")
 			var a_cell := board._view_unit_cell(a)
 			var b_cell := board._view_unit_cell(b)
 			var approach := BattleDemoBoard.OBSTACLE_APPROACH_SECONDS
@@ -394,6 +397,8 @@ func chain_overlap() -> void:
 			board.size += Vector2(12, 10)
 			board.zoom_camera(0.75, board.size * 0.5)
 			check(board._presentation_visual(a).action_offset.is_equal_approx(a_offset), label + " resize preserves overlapping poses")
+			check((board._presentation_visual(a) as BattleManagedUnitVisual).ambient_animation_paused
+				and (board._presentation_visual(b) as BattleManagedUnitVisual).ambient_animation_paused, label + " partial publication and resize retain chain idle pause")
 			if direction == Vector2i.RIGHT: await capture(label + "-handover")
 			advance(approach * 0.5 + hold + 0.025)
 			if mode in ["open", "middle-dead"]:
@@ -452,6 +457,8 @@ func chain_boundaries(data: Dictionary, first: int, a: int, b: int, axis: Vector
 				player._tween.pause()
 				finish()
 		check(not player.active and board._action_offsets.is_empty(), interruption + " clears all overlapping poses")
+		check(not (board._presentation_visual(a) as BattleManagedUnitVisual).ambient_animation_paused
+			and not (board._presentation_visual(b) as BattleManagedUnitVisual).ambient_animation_paused, interruption + " releases chain idle pause")
 		if interruption in ["skip", "cancel"]: check(board._impacts.get_child_count() == 0, interruption + " clears chain flashes")
 	player.set_speed(1.0)
 

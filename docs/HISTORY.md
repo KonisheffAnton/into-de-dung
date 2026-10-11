@@ -1,5 +1,19 @@
 # История и свидетельства проверок
 
+## Idle во время хода врага — 2026-10-11
+
+Исправлена сообщённая U остановка дыхания на всём ходе врага: worker и общий
+playback больше не выключают idle ожидающих фигур. Пауза адресуется участникам
+текущего анимируемого кадра/общей цепочки; [контракт](BATTLE_VISUAL_SCENE_CONTRACT.md#idle-союзного-защитника).
+Base `2230ce699cc006df2f4e2e1946b848172d2d483b`; main; без push.
+Import/startup PASS; выбранные render: idle102/0, consequences1990/0,
+contact149/0, executionUI28/0, environment323/0; независимое ревью APPROVE.
+Проверены настоящий worker/движение ИИ, адресная пауза цели удара, chain/resize,
+skip/cancel/finish и parity state/RNG/counters. Full/core и ручной F5 не запускались.
+Отчёт и промежуточные ошибки fixture: `test_reports/defender-idle-enemy-turn-20261011/REPORT.md`.
+main_menu.tscn пользователя сохранена; прежняя передача —
+[точный архив](CODEX_HANDOFF.history-20261011-16.md).
+
 ## Idle Защитника: №2 основной, №1 редкий — 2026-10-11
 
 U поручил подключить две сохранённые петли к текущему Защитнику.

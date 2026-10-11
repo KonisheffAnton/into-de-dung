@@ -2,7 +2,7 @@ class_name BattleManagedUnitVisual
 extends BattleDemoIsoVisual
 
 var view_apply_count: int = 0
-## Показ и worker приостанавливают декоративные клипы, не меняя состояние боя.
+## Останавливает idle только у фигур, чья поза сейчас принадлежит анимации действия.
 var ambient_animation_paused: bool = false:
 	set(value):
 		if ambient_animation_paused == value: return

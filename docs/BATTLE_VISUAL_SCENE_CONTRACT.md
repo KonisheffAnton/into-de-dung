@@ -94,9 +94,15 @@ U2026-10-11: `art_trial_unit` использует `BattleDefenderIdleVisual`, �
 остаются у прежних владельцев. Исходный PlayerWarriorSprite хранится для боевых поз.
 
 `ambient_animation_paused` — локальный флаг представления на managed visual,
-не часть snapshot/save. Board задаёт его как worker pending ИЛИ активный playback;
-новому визуалу — до apply. PresentationPlayer включает playback до публикации before,
-снимает после final/skip/cancel, включая выход. Все цели приостановлены уже в t=0.
+не часть snapshot/save. Worker и ход другой команды не останавливают локальные часы:
+ожидающая фигура продолжает idle по уже отделённому view без доступа к session.
+PresentationPlayer перед анимируемым кадром передаёт Board его события; пауза касается
+только положительных top-level actor/target/blocker_unit_id этого действия, не source.
+Board применяет набор до start callback и при rebuild до reset/apply: участник на
+статичном PNG уже в t=0, resize не снимает паузу. Технический кадр не ставит паузу.
+Для общей цепочки толчков используется объединение участников всей группы до конца
+общего Tween, включая промежуточные after. Завершение кадра, final/skip/cancel/exit
+снимают набор; отдельный хвост втягивания ловушки уже не удерживает фигуры.
 Заморозка, оглушение, pending-призыв, action/presentation offset, подъём/падение,
 сжатие и смерть также отключают idle. Остаток времени паузы не накапливается.
 

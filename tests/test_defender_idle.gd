@@ -2,6 +2,7 @@ extends SceneTree
 
 const CURRENT_BATTLE = preload("res://scenes/demo/battle/hero_hub_battle.tscn")
 const UNIT = preload("res://scenes/demo/visuals/art_trial_unit.tscn")
+const TRIAL = preload("res://scenes/demo/art_trial_battle.tscn")
 const PlayerTurnFixture = preload("res://tests/fixtures/player_turn_fixture.gd")
 var passed: int = 0
 var failed: int = 0
@@ -56,6 +57,7 @@ func _run() -> void:
 		await _check_playback(demo, visual, session)
 	demo.queue_free()
 	await process_frame
+	await _check_enemy_turn()
 	viewport.queue_free()
 	await process_frame
 	print("DEFENDER IDLE RESULTS: %d passed, %d failed" % [passed, failed])
@@ -165,21 +167,23 @@ func _check_playback(demo: HeroHubBattleView, visual: BattleDefenderIdleVisual, 
 	var idle := visual.get_node("ArtRoot/DefenderIdleSprite") as Sprite2D
 	var still := visual.get_node("ArtRoot/PlayerWarriorSprite") as Sprite2D
 	demo.board_view.execution_pending = true
-	check(not idle.visible and still.visible and not visual.is_processing(), "worker pending synchronously suspends idle")
+	check(idle.visible and not still.visible, "worker pending keeps detached idle visible")
+	var elapsed := visual.idle_clock.get_elapsed()
+	visual._process(0.4)
+	check(visual.idle_clock.get_elapsed() > elapsed, "worker pending allows local idle time to advance")
 	demo.board_view.execution_pending = false
-	check(idle.visible, "worker release resumes idle")
-	# Технический кадр проверяет паузу ещё до ненулевого offset и для всех целей.
+	# Техническая публикация не должна выглядеть действием каждого бойца.
 	var state := ActionPresentationState.capture(session.state)
 	var player := BattlePresentationPlayer.new()
 	viewport.add_child(player)
 	var frames: Array[Dictionary] = [{"events": [], "step": {}, "after": state}]
 	var baseline := _snapshot(session)
 	player.play(demo.board_view, state, frames, state)
-	check(player.active and not idle.visible and still.visible, "playback pauses idle at t=0 before any combat pose")
+	check(player.active and idle.visible and not still.visible, "technical playback keeps waiting Defender idle")
 	player._tween.pause()
-	var elapsed := visual.idle_clock.get_elapsed()
+	elapsed = visual.idle_clock.get_elapsed()
 	demo.board_view._rescale_layout()
-	check(not idle.visible and visual.idle_clock.get_elapsed() == elapsed, "resize during playback cannot resume idle")
+	check(idle.visible and visual.idle_clock.get_elapsed() == elapsed, "technical playback resize preserves idle phase")
 	player.set_speed(3.0)
 	player.skip()
 	check(not player.active and idle.visible and visual.idle_clock.get_elapsed() == elapsed, "skip releases pause without advancing idle")
@@ -191,6 +195,127 @@ func _check_playback(demo: HeroHubBattleView, visual: BattleDefenderIdleVisual, 
 	check(idle.visible, "normal playback completion releases idle pause")
 	check(_snapshot(session) == baseline, "presentation-only pause paths leave live state/RNG/counters unchanged")
 	player.queue_free()
+	await process_frame
+
+
+func _join_worker(demo: BattleDemo) -> void:
+	var deadline := Time.get_ticks_msec() + 10000
+	while demo._execution_worker.is_started() and Time.get_ticks_msec() < deadline:
+		demo._poll_execution()
+		if demo.is_presentation_pending(): demo._presentation_player._tween.pause()
+		await process_frame
+	check(not demo._execution_worker.is_started(), "real enemy worker joins within deadline")
+	if demo.is_presentation_pending(): demo._presentation_player._tween.pause()
+
+
+func _check_enemy_turn() -> void:
+	var demo := TRIAL.instantiate() as BattleDemo
+	viewport.add_child(demo)
+	demo.set_process(false)
+	await process_frame
+	PlayerTurnFixture.enter_player_turn(demo)
+	var session := demo.session as BattleCoreReactionsSession
+	# Разводим команды, чтобы первый шаг ИИ был движением без удара по Защитнику.
+	for y: int in session.board.height:
+		for x: int in session.board.width:
+			session.board.set_terrain(Vector2i(x, y), TerrainType.Type.FLOOR)
+			session.board.set_height_steps(Vector2i(x, y), 0)
+	session.state.environment.fires.clear()
+	for index: int in session.units.size():
+		if not session.units[index].is_alive(): continue
+		check(session.board.move_unit(session.units[index], Vector2i(index, 0)), "enemy fixture parks living unit")
+	for index: int in session.units.size():
+		var unit := session.units[index]
+		if not unit.is_alive(): continue
+		var row := 1 if unit.faction == Faction.Type.PLAYER else session.board.height - 2
+		check(session.board.move_unit(unit, Vector2i(index, row)), "enemy fixture separates living teams")
+		unit.control.stunned_turns = 0
+		unit.elemental.frozen_turns = 0
+		# Иначе BT сначала тратит печать призыва: здесь нужен именно клип движения.
+		if unit.faction == Faction.Type.ENEMY:
+			var seal := session.summoning_item(unit.id)
+			if seal != null: seal._charges_left = 0
+	check(ItemSimulationSnapshot.capture(session.state, []).code == ItemSnapshotResult.Code.OK, "enemy fixture preserves valid board and corpse occupancy")
+	demo._refresh()
+	var id := session.units[0].id
+	var visual := demo.board_view._presentation_visual(id) as BattleDefenderIdleVisual
+	var idle := visual.get_node("ArtRoot/DefenderIdleSprite") as Sprite2D
+	demo.end_turn()
+	check(demo._execution_worker.is_started() and demo.session == null and demo.board_view.session == null,
+		"enemy turn boundary uses real exclusive worker")
+	var elapsed := visual.idle_clock.get_elapsed()
+	await create_timer(0.25).timeout
+	check(idle.visible and visual.idle_clock.get_elapsed() > elapsed, "waiting Defender keeps breathing while session belongs to worker")
+	await _join_worker(demo)
+	demo.skip_presentation()
+	check(session.phase == BattleTacticalSession.Phase.ENEMY_TURN, "fixture enters actual enemy turn: phase=%s receipt=%s" % [session.phase, session.last_receipt.reason if session.last_receipt != null else &"none"])
+	if session.phase != BattleTacticalSession.Phase.ENEMY_TURN:
+		var captured := ItemSimulationSnapshot.capture(session.state, [])
+		printerr("Enemy fixture snapshot: " + String(captured.reason))
+		demo.queue_free()
+		await process_frame
+		return
+	demo._process(1.0)
+	check(demo._execution_worker.is_started(), "AI action launches real worker")
+	await _join_worker(demo)
+	check(demo.is_presentation_pending(), "enemy action enters actual presentation")
+	if demo.is_presentation_pending():
+		var frame: Dictionary = demo._presentation_player._frames[demo._presentation_player._index]
+		check(frame.events.any(func(event: Dictionary) -> bool: return event.get("kind") == &"moved"), "enemy fixture exercises movement")
+		var baseline := _snapshot(session)
+		elapsed = visual.idle_clock.get_elapsed()
+		var texture := idle.texture
+		demo.board_view.size += Vector2(13, 7)
+		demo.board_view._rescale_layout()
+		await create_timer(0.25).timeout
+		check(idle.visible and not visual.ambient_animation_paused and visual.idle_clock.get_elapsed() > elapsed and idle.texture != texture,
+			"unaffected Defender advances displayed frames during enemy motion and resize")
+		check(_snapshot(session) == baseline, "waiting idle during enemy playback leaves live state RNG and counters unchanged")
+		demo.skip_presentation()
+	# Реальный удар по Защитнику проверяет адресную паузу уже на замахе.
+	var enemy := session.units[1]
+	session.board.move_unit(session.units[0], Vector2i(2, 3))
+	session.board.move_unit(enemy, Vector2i(3, 3))
+	enemy.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, 0.0)
+	check(enemy.try_refill_turn_resources() == &"", "enemy attack fixture refills its action")
+	demo._refresh()
+	var before := ActionPresentationState.capture(session.state)
+	session._queue.capture_presentation = true
+	var receipt := session._queue.submit(AttackCommand.new(enemy.id, id, enemy.cell, session.units[0].cell, &"demo_strike", session.context.get_revision()), session.context)
+	session._queue.capture_presentation = false
+	check(receipt.status == ActionReceipt.APPLIED, "real enemy attack fixture applied")
+	if receipt.status != ActionReceipt.APPLIED:
+		printerr("Enemy attack fixture: " + String(receipt.reason))
+		demo.queue_free()
+		await process_frame
+		return
+	var after := ActionPresentationState.capture(session.state)
+	var player := BattlePresentationPlayer.new()
+	viewport.add_child(player)
+	var baseline := _snapshot(session)
+	for ending: String in ["skip", "cancel", "finish"]:
+		player.play(demo.board_view, before, receipt.get_presentation_frames(), after)
+		player._tween.pause()
+		elapsed = visual.idle_clock.get_elapsed()
+		check(visual.ambient_animation_paused and not idle.visible and visual.action_offset == Vector2.ZERO,
+			ending + " attack target pauses at t=0 before offset")
+		demo.board_view._rescale_layout()
+		visual._process(0.4)
+		check(not idle.visible and visual.idle_clock.get_elapsed() == elapsed, ending + " target pause survives resize without accumulating idle time")
+		if ending == "skip": player.skip()
+		elif ending == "cancel": player.cancel()
+		else:
+			player.set_speed(3.0)
+			var remaining := 100
+			while player.active and remaining > 0:
+				player._tween.custom_step(1.0)
+				if player.active: player._tween.pause()
+				remaining -= 1
+		check(not player.active and not visual.ambient_animation_paused and idle.visible,
+			ending + " releases only completed action pause")
+	check(_snapshot(session) == baseline, "attack playback and cleanup preserve live state RNG counters")
+	player.queue_free()
+	demo.queue_free()
 	await process_frame
 
 

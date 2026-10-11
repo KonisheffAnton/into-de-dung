@@ -49,8 +49,10 @@ shader ошибки и ненулевые failed counts не маскируют�
 Прямой запуск только lifecycle:
 `python tools/demo/isolate.py --render-check --only visual_scene_contract environment_visual_contract unit_visual_contract --screen 0`.
 Idle отдельно: `python tools/demo/isolate.py --render-check --only defender_idle_clock defender_idle --screen 0`.
-Проверяются редкая петля/возврат/локальные часы без RNG, допуск, pause на worker/playback,
+Проверяются редкая петля/возврат/локальные часы без RNG, допуск, непрерывность idle
+во время реального worker/движения ИИ и технических кадров, адресная пауза цели удара,
 skip/cancel/finish, refresh/resize/retire, опора/якоря и state/RNG/counters настоящего похода.
+`presentation_consequences` также проверяет паузу участников общей цепочки до конца Tween.
 Счётчики/identity — hard gate, frame median/p95/max/>25ms — диагностика без
 машинозависимого порога PASS. [Контракт и границы](BATTLE_VISUAL_SCENE_CONTRACT.md).
 

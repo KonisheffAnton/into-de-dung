@@ -12,12 +12,8 @@ const CYAN := Color("65dfcc")
 const GOLD := Color("f7c97d")
 const MUTED := Color("a5b3c5")
 var session: BattleDemoSession
-var execution_pending: bool = false:
-	set(value):
-		if execution_pending == value: return
-		execution_pending = value
-		_sync_ambient_animation_pause()
-var _presentation_playback_active: bool = false
+var execution_pending: bool = false
+var _presentation_animation_unit_ids: Dictionary[int, bool] = {}
 @export var camera_controls_enabled: bool = false
 var forecast_wheel_handler: Callable
 var camera_view := BattleBoardCamera.new()
@@ -187,13 +183,19 @@ func show_presentation_state(value: Dictionary) -> void:
 	queue_redraw()
 	if _overlay != null: _overlay.queue_redraw()
 
-func set_presentation_playback_active(value: bool) -> void:
-	_presentation_playback_active = value
+func set_presentation_animation_events(events: Array) -> void:
+	var active_ids: Dictionary[int, bool] = {}
+	for event: Dictionary in events:
+		for field: String in ["actor_unit_id", "target_unit_id", "blocker_unit_id"]:
+			var unit_id: int = int(event.get(field, UnitId.NONE))
+			if unit_id > 0: active_ids[unit_id] = true
+	_presentation_animation_unit_ids = active_ids
 	_sync_ambient_animation_pause()
 
 func _sync_ambient_animation_pause() -> void:
 	for visual: BattleManagedUnitVisual in _unit_visuals.values():
-		visual.ambient_animation_paused = execution_pending or _presentation_playback_active
+		if visual.unit != null:
+			visual.ambient_animation_paused = _presentation_animation_unit_ids.has(visual.unit.id)
 
 static func presentation_status(row: Dictionary) -> String:
 	return BattleStatusPresentation.summary(BattleStatusPresentation.entries(row))
@@ -1394,7 +1396,8 @@ func _rebuild_visuals() -> void:
 		if visual is BattleManagedUnitVisual:
 			_attach_visual(visual)
 			var managed := visual as BattleManagedUnitVisual
-			managed.ambient_animation_paused = execution_pending or _presentation_playback_active
+			# Участник действия замораживается до сброса позы, чтобы resize не показал idle поверх анимации.
+			managed.ambient_animation_paused = _presentation_animation_unit_ids.has(unit.id)
 			managed.reset_view_pose()
 			managed.apply_view(_unit_view_values(row), grid_config)
 			var offset := (_action_offsets.get(unit.id, Vector2.ZERO) as Vector2) * grid_config.tile_size.x / 128.0
