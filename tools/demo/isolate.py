@@ -187,6 +187,8 @@ def main():
             invalid = invalid or "BATTLE FORECAST TEXT RESULTS:" not in output or ", 0 failed" not in output
         if label == "battle_action_descriptors":
             invalid = invalid or "BATTLE ACTION DESCRIPTORS RESULTS:" not in output or ", 0 failed" not in output
+        if label == "battle_mage_presenter":
+            invalid = invalid or "BATTLE MAGE PRESENTER RESULTS:" not in output or ", 0 failed" not in output
         if label in ("battle_execution_worker", "battle_execution_ui"):
             marker = "BATTLE EXECUTION WORKER RESULTS:" if label == "battle_execution_worker" else "BATTLE EXECUTION UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -417,6 +419,7 @@ def main():
         run("battle_inspection_text", ["--script", "tests/test_battle_inspection_text.gd"])
         run("battle_forecast_text", ["--script", "tests/test_battle_forecast_text.gd"])
         run("battle_action_descriptors", ["--script", "tests/test_battle_action_descriptors.gd"])
+        run("battle_mage_presenter", ["--script", "tests/test_battle_mage_presenter.gd"])
         hero_ui_args = ["--script", "tests/test_hero_hub_ui.gd"]
         if args.render_check:
             hero_ui_args += ["--", "--captures=" + str(out / "captures")]

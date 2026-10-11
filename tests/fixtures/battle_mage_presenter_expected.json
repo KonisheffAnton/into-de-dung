@@ -1,0 +1,5649 @@
+[
+	{
+		"buttons": [
+			{
+				"disabled": true,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "Огненный импульс · 2 маны · откат 2, осталось 0\n4 огненного урона врагу, без поджога. Вся доска.\nсейчас нельзя действовать.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "Лечение мага · 3 маны · откат 2, осталось 0\nВосстановить союзнику 4 HP. Вся доска.\nсейчас нельзя действовать.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "Поджог · 1 маны · откат 0, осталось 0\nТест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nсейчас нельзя действовать.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "Вода · 1 маны · откат 0, осталось 0\nТест: вода на 3 хода цели, гасит горение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nсейчас нельзя действовать.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "Заморозка · 1 маны · откат 0, осталось 0\nТест: сухую цель сначала мочит; мокрую замораживает на 2 хода при броне ниже половины. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nсейчас нельзя действовать.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "Оглушение · 1 маны · откат 0, осталось 0\nТест: оглушение до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nсейчас нельзя действовать.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "Корни · 1 маны · откат 0, осталось 0\nТест: корни до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nсейчас нельзя действовать.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "Кровотечение · 1 маны · откат 0, осталось 0\nТест: +1 стак, срок 3 тика. Горение и иммунитет блокируют наложение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nсейчас нельзя действовать.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "Тест: лечение · 1 маны · откат 0, осталось 0\nТест: восстановить раненому союзнику 4 HP, без затрат действий и предметов героя.\nсейчас нельзя действовать.",
+				"visible": false
+			},
+			{
+				"disabled": true,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "Тест: призыв · 1 маны · откат 0, осталось 0\nПомощник рядом с любым союзником, включая помощников. Без владельца и лимита; готов со следующего своего хода. 1 мана.\nсейчас нельзя действовать.",
+				"visible": false
+			},
+			{
+				"disabled": true,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "Тест: поднятие · 1 маны · откат 0, осталось 0\nНовое создание из тела рядом с любым союзником. Без владельца и лимита; готов со следующего своего хода. 1 мана.\nсейчас нельзя действовать.",
+				"visible": false
+			},
+			{
+				"disabled": true,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "Щит · 6 HP · 1 маны · откат 0, осталось 0\nЩит: 6 HP, один удар любого урона. Остаток проходит защиты и броню; новый щит заменяет прежний. 1 мана, откат 0.\nсейчас нельзя действовать.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Подтвердить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			}
+		],
+		"calls": [
+			"effect:mage.fire",
+			"help:mage.fire",
+			"reason:battle/input_locked",
+			"effect:mage.heal",
+			"help:mage.heal",
+			"reason:battle/input_locked",
+			"effect:mage.test_burning",
+			"help:mage.test_burning",
+			"reason:battle/input_locked",
+			"effect:mage.test_wet",
+			"help:mage.test_wet",
+			"reason:battle/input_locked",
+			"effect:mage.test_freeze",
+			"help:mage.test_freeze",
+			"reason:battle/input_locked",
+			"effect:mage.test_stun",
+			"help:mage.test_stun",
+			"reason:battle/input_locked",
+			"effect:mage.test_roots",
+			"help:mage.test_roots",
+			"reason:battle/input_locked",
+			"effect:mage.test_bleeding",
+			"help:mage.test_bleeding",
+			"reason:battle/input_locked",
+			"effect:mage.test_heal",
+			"help:mage.test_heal",
+			"reason:battle/input_locked",
+			"effect:mage.test_summon",
+			"help:mage.test_summon",
+			"reason:battle/input_locked",
+			"effect:mage.test_raise",
+			"help:mage.test_raise",
+			"reason:battle/input_locked",
+			"effect:mage.shield",
+			"help:mage.shield",
+			"reason:battle/input_locked"
+		],
+		"height": 350.0,
+		"label": "spells/initial",
+		"label_visible": true,
+		"page": 0.0,
+		"page_count": 2.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageFireButton",
+			"MageHealButton",
+			"Burning",
+			"Wet",
+			"Freeze",
+			"Stun",
+			"Roots",
+			"Bleeding",
+			"HealTest",
+			"Summon",
+			"Raise",
+			"Shield"
+		],
+		"text": "Маг · мана 6/6",
+		"toggled_events": 0.0,
+		"tooltip": "Откаты: длительность: огонь 2, лечение 2 · осталось: огонь 0, лечение 0"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "Огненный импульс · 2 маны · откат 2, осталось 0\n4 огненного урона врагу, без поджога. Вся доска.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "Лечение мага · 3 маны · откат 2, осталось 0\nВосстановить союзнику 4 HP. Вся доска.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "Поджог · 1 маны · откат 0, осталось 0\nТест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "Вода · 1 маны · откат 0, осталось 0\nТест: вода на 3 хода цели, гасит горение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "Заморозка · 1 маны · откат 0, осталось 0\nТест: сухую цель сначала мочит; мокрую замораживает на 2 хода при броне ниже половины. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "Оглушение · 1 маны · откат 0, осталось 0\nТест: оглушение до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "Корни · 1 маны · откат 0, осталось 0\nТест: корни до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "Кровотечение · 1 маны · откат 0, осталось 0\nТест: +1 стак, срок 3 тика. Горение и иммунитет блокируют наложение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "Тест: лечение · 1 маны · откат 0, осталось 0\nТест: восстановить раненому союзнику 4 HP, без затрат действий и предметов героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "Тест: призыв · 1 маны · откат 0, осталось 0\nПомощник рядом с любым союзником, включая помощников. Без владельца и лимита; готов со следующего своего хода. 1 мана.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "Тест: поднятие · 1 маны · откат 0, осталось 0\nНовое создание из тела рядом с любым союзником. Без владельца и лимита; готов со следующего своего хода. 1 мана.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "Щит · 6 HP · 1 маны · откат 0, осталось 0\nЩит: 6 HP, один удар любого урона. Остаток проходит защиты и броню; новый щит заменяет прежний. 1 мана, откат 0.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Подтвердить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			}
+		],
+		"calls": [
+			"effect:mage.fire",
+			"help:mage.fire",
+			"effect:mage.heal",
+			"help:mage.heal",
+			"effect:mage.test_burning",
+			"help:mage.test_burning",
+			"effect:mage.test_wet",
+			"help:mage.test_wet",
+			"effect:mage.test_freeze",
+			"help:mage.test_freeze",
+			"effect:mage.test_stun",
+			"help:mage.test_stun",
+			"effect:mage.test_roots",
+			"help:mage.test_roots",
+			"effect:mage.test_bleeding",
+			"help:mage.test_bleeding",
+			"effect:mage.test_heal",
+			"help:mage.test_heal",
+			"effect:mage.test_summon",
+			"help:mage.test_summon",
+			"effect:mage.test_raise",
+			"help:mage.test_raise",
+			"effect:mage.shield",
+			"help:mage.shield"
+		],
+		"height": 350.0,
+		"label": "spells/player",
+		"label_visible": true,
+		"page": 0.0,
+		"page_count": 2.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageFireButton",
+			"MageHealButton",
+			"Burning",
+			"Wet",
+			"Freeze",
+			"Stun",
+			"Roots",
+			"Bleeding",
+			"HealTest",
+			"Summon",
+			"Raise",
+			"Shield"
+		],
+		"text": "Маг · мана 6/6",
+		"toggled_events": 0.0,
+		"tooltip": "Откаты: длительность: огонь 2, лечение 2 · осталось: огонь 0, лечение 0"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": true,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "Огненный импульс · 2 маны · откат 2, осталось 0\n4 огненного урона врагу, без поджога. Вся доска.\nНедостаточно маны мага.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "Лечение мага · 3 маны · откат 2, осталось 0\nВосстановить союзнику 4 HP. Вся доска.\nНедостаточно маны мага.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "Поджог · 1 маны · откат 0, осталось 0\nТест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nНедостаточно маны мага.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "Вода · 1 маны · откат 0, осталось 0\nТест: вода на 3 хода цели, гасит горение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nНедостаточно маны мага.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "Заморозка · 1 маны · откат 0, осталось 0\nТест: сухую цель сначала мочит; мокрую замораживает на 2 хода при броне ниже половины. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nНедостаточно маны мага.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "Оглушение · 1 маны · откат 0, осталось 0\nТест: оглушение до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nНедостаточно маны мага.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "Корни · 1 маны · откат 0, осталось 0\nТест: корни до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nНедостаточно маны мага.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "Кровотечение · 1 маны · откат 0, осталось 0\nТест: +1 стак, срок 3 тика. Горение и иммунитет блокируют наложение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nНедостаточно маны мага.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "Тест: лечение · 1 маны · откат 0, осталось 0\nТест: восстановить раненому союзнику 4 HP, без затрат действий и предметов героя.\nНедостаточно маны мага.",
+				"visible": false
+			},
+			{
+				"disabled": true,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "Тест: призыв · 1 маны · откат 0, осталось 0\nПомощник рядом с любым союзником, включая помощников. Без владельца и лимита; готов со следующего своего хода. 1 мана.\nНедостаточно маны мага.",
+				"visible": false
+			},
+			{
+				"disabled": true,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "Тест: поднятие · 1 маны · откат 0, осталось 0\nНовое создание из тела рядом с любым союзником. Без владельца и лимита; готов со следующего своего хода. 1 мана.\nНедостаточно маны мага.",
+				"visible": false
+			},
+			{
+				"disabled": true,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "Щит · 6 HP · 1 маны · откат 0, осталось 0\nЩит: 6 HP, один удар любого урона. Остаток проходит защиты и броню; новый щит заменяет прежний. 1 мана, откат 0.\nНедостаточно маны мага.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Подтвердить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			}
+		],
+		"calls": [
+			"effect:mage.fire",
+			"help:mage.fire",
+			"reason:mage/insufficient_mana",
+			"effect:mage.heal",
+			"help:mage.heal",
+			"reason:mage/insufficient_mana",
+			"effect:mage.test_burning",
+			"help:mage.test_burning",
+			"reason:mage/insufficient_mana",
+			"effect:mage.test_wet",
+			"help:mage.test_wet",
+			"reason:mage/insufficient_mana",
+			"effect:mage.test_freeze",
+			"help:mage.test_freeze",
+			"reason:mage/insufficient_mana",
+			"effect:mage.test_stun",
+			"help:mage.test_stun",
+			"reason:mage/insufficient_mana",
+			"effect:mage.test_roots",
+			"help:mage.test_roots",
+			"reason:mage/insufficient_mana",
+			"effect:mage.test_bleeding",
+			"help:mage.test_bleeding",
+			"reason:mage/insufficient_mana",
+			"effect:mage.test_heal",
+			"help:mage.test_heal",
+			"reason:mage/insufficient_mana",
+			"effect:mage.test_summon",
+			"help:mage.test_summon",
+			"reason:mage/insufficient_mana",
+			"effect:mage.test_raise",
+			"help:mage.test_raise",
+			"reason:mage/insufficient_mana",
+			"effect:mage.shield",
+			"help:mage.shield",
+			"reason:mage/insufficient_mana"
+		],
+		"height": 350.0,
+		"label": "spells/no-mana",
+		"label_visible": true,
+		"page": 0.0,
+		"page_count": 2.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageFireButton",
+			"MageHealButton",
+			"Burning",
+			"Wet",
+			"Freeze",
+			"Stun",
+			"Roots",
+			"Bleeding",
+			"HealTest",
+			"Summon",
+			"Raise",
+			"Shield"
+		],
+		"text": "Маг · мана 0/6",
+		"toggled_events": 0.0,
+		"tooltip": "Откаты: длительность: огонь 2, лечение 2 · осталось: огонь 0, лечение 0"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": true,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "E:Огненный импульс · 2 маны · откат 2, осталось 0\nH:4 огненного урона врагу, без поджога. Вся доска.\nR:Недостаточно маны мага.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "E:Лечение мага · 3 маны · откат 2, осталось 0\nH:Восстановить союзнику 4 HP. Вся доска.\nR:Недостаточно маны мага.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nR:Недостаточно маны мага.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Вода · 1 маны · откат 0, осталось 0\nH:Тест: вода на 3 хода цели, гасит горение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nR:Недостаточно маны мага.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Заморозка · 1 маны · откат 0, осталось 0\nH:Тест: сухую цель сначала мочит; мокрую замораживает на 2 хода при броне ниже половины. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nR:Недостаточно маны мага.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Оглушение · 1 маны · откат 0, осталось 0\nH:Тест: оглушение до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nR:Недостаточно маны мага.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Корни · 1 маны · откат 0, осталось 0\nH:Тест: корни до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nR:Недостаточно маны мага.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Кровотечение · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак, срок 3 тика. Горение и иммунитет блокируют наложение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nR:Недостаточно маны мага.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: лечение · 1 маны · откат 0, осталось 0\nH:Тест: восстановить раненому союзнику 4 HP, без затрат действий и предметов героя.\nR:Недостаточно маны мага.",
+				"visible": false
+			},
+			{
+				"disabled": true,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: призыв · 1 маны · откат 0, осталось 0\nH:Помощник рядом с любым союзником, включая помощников. Без владельца и лимита; готов со следующего своего хода. 1 мана.\nR:Недостаточно маны мага.",
+				"visible": false
+			},
+			{
+				"disabled": true,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: поднятие · 1 маны · откат 0, осталось 0\nH:Новое создание из тела рядом с любым союзником. Без владельца и лимита; готов со следующего своего хода. 1 мана.\nR:Недостаточно маны мага.",
+				"visible": false
+			},
+			{
+				"disabled": true,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Щит · 6 HP · 1 маны · откат 0, осталось 0\nH:Щит: 6 HP, один удар любого урона. Остаток проходит защиты и броню; новый щит заменяет прежний. 1 мана, откат 0.\nR:Недостаточно маны мага.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Подтвердить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			}
+		],
+		"calls": [
+			"effect:mage.fire",
+			"help:mage.fire",
+			"reason:mage/insufficient_mana",
+			"effect:mage.heal",
+			"help:mage.heal",
+			"reason:mage/insufficient_mana",
+			"effect:mage.test_burning",
+			"help:mage.test_burning",
+			"reason:mage/insufficient_mana",
+			"effect:mage.test_wet",
+			"help:mage.test_wet",
+			"reason:mage/insufficient_mana",
+			"effect:mage.test_freeze",
+			"help:mage.test_freeze",
+			"reason:mage/insufficient_mana",
+			"effect:mage.test_stun",
+			"help:mage.test_stun",
+			"reason:mage/insufficient_mana",
+			"effect:mage.test_roots",
+			"help:mage.test_roots",
+			"reason:mage/insufficient_mana",
+			"effect:mage.test_bleeding",
+			"help:mage.test_bleeding",
+			"reason:mage/insufficient_mana",
+			"effect:mage.test_heal",
+			"help:mage.test_heal",
+			"reason:mage/insufficient_mana",
+			"effect:mage.test_summon",
+			"help:mage.test_summon",
+			"reason:mage/insufficient_mana",
+			"effect:mage.test_raise",
+			"help:mage.test_raise",
+			"reason:mage/insufficient_mana",
+			"effect:mage.shield",
+			"help:mage.shield",
+			"reason:mage/insufficient_mana"
+		],
+		"height": 350.0,
+		"label": "spells/formatter-overrides",
+		"label_visible": true,
+		"page": 0.0,
+		"page_count": 2.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageFireButton",
+			"MageHealButton",
+			"Burning",
+			"Wet",
+			"Freeze",
+			"Stun",
+			"Roots",
+			"Bleeding",
+			"HealTest",
+			"Summon",
+			"Raise",
+			"Shield"
+		],
+		"text": "Маг · мана 0/6",
+		"toggled_events": 0.0,
+		"tooltip": "Откаты: длительность: огонь 2, лечение 2 · осталось: огонь 0, лечение 0"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "E:Огненный импульс · 2 маны · откат 1, осталось 0\nH:4 огненного урона врагу, без поджога. Вся доска.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "E:Лечение мага · 3 маны · откат 2, осталось 0\nH:Восстановить союзнику 4 HP. Вся доска.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Вода · 1 маны · откат 0, осталось 0\nH:Тест: вода на 3 хода цели, гасит горение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Заморозка · 1 маны · откат 0, осталось 0\nH:Тест: сухую цель сначала мочит; мокрую замораживает на 2 хода при броне ниже половины. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Оглушение · 1 маны · откат 0, осталось 0\nH:Тест: оглушение до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Корни · 1 маны · откат 0, осталось 0\nH:Тест: корни до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Кровотечение · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак, срок 3 тика. Горение и иммунитет блокируют наложение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: лечение · 1 маны · откат 0, осталось 0\nH:Тест: восстановить раненому союзнику 4 HP, без затрат действий и предметов героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: призыв · 1 маны · откат 0, осталось 0\nH:Помощник рядом с любым союзником, включая помощников. Без владельца и лимита; готов со следующего своего хода. 1 мана.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: поднятие · 1 маны · откат 0, осталось 0\nH:Новое создание из тела рядом с любым союзником. Без владельца и лимита; готов со следующего своего хода. 1 мана.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Щит · 6 HP · 1 маны · откат 0, осталось 0\nH:Щит: 6 HP, один удар любого урона. Остаток проходит защиты и броню; новый щит заменяет прежний. 1 мана, откат 0.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Подтвердить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			}
+		],
+		"calls": [
+			"effect:mage.fire",
+			"help:mage.fire",
+			"effect:mage.heal",
+			"help:mage.heal",
+			"effect:mage.test_burning",
+			"help:mage.test_burning",
+			"effect:mage.test_wet",
+			"help:mage.test_wet",
+			"effect:mage.test_freeze",
+			"help:mage.test_freeze",
+			"effect:mage.test_stun",
+			"help:mage.test_stun",
+			"effect:mage.test_roots",
+			"help:mage.test_roots",
+			"effect:mage.test_bleeding",
+			"help:mage.test_bleeding",
+			"effect:mage.test_heal",
+			"help:mage.test_heal",
+			"effect:mage.test_summon",
+			"help:mage.test_summon",
+			"effect:mage.test_raise",
+			"help:mage.test_raise",
+			"effect:mage.shield",
+			"help:mage.shield"
+		],
+		"height": 350.0,
+		"label": "spells/live-duration-without-revision",
+		"label_visible": true,
+		"page": 0.0,
+		"page_count": 2.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageFireButton",
+			"MageHealButton",
+			"Burning",
+			"Wet",
+			"Freeze",
+			"Stun",
+			"Roots",
+			"Bleeding",
+			"HealTest",
+			"Summon",
+			"Raise",
+			"Shield"
+		],
+		"text": "Маг · мана 6/6",
+		"toggled_events": 0.0,
+		"tooltip": "Откаты: длительность: огонь 1, лечение 2 · осталось: огонь 0, лечение 0"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "E:Огненный импульс · 2 маны · откат 1, осталось 0\nH:4 огненного урона врагу, без поджога. Вся доска.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "E:Лечение мага · 3 маны · откат 2, осталось 0\nH:Восстановить союзнику 4 HP. Вся доска.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Вода · 1 маны · откат 0, осталось 0\nH:Тест: вода на 3 хода цели, гасит горение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Заморозка · 1 маны · откат 0, осталось 0\nH:Тест: сухую цель сначала мочит; мокрую замораживает на 2 хода при броне ниже половины. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Оглушение · 1 маны · откат 0, осталось 0\nH:Тест: оглушение до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Корни · 1 маны · откат 0, осталось 0\nH:Тест: корни до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Кровотечение · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак, срок 3 тика. Горение и иммунитет блокируют наложение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: лечение · 1 маны · откат 0, осталось 0\nH:Тест: восстановить раненому союзнику 4 HP, без затрат действий и предметов героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: призыв · 1 маны · откат 0, осталось 0\nH:Помощник рядом с любым союзником, включая помощников. Без владельца и лимита; готов со следующего своего хода. 1 мана.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: поднятие · 1 маны · откат 0, осталось 0\nH:Новое создание из тела рядом с любым союзником. Без владельца и лимита; готов со следующего своего хода. 1 мана.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Щит · 6 HP · 1 маны · откат 0, осталось 0\nH:Щит: 6 HP, один удар любого урона. Остаток проходит защиты и броню; новый щит заменяет прежний. 1 мана, откат 0.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Подтвердить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			}
+		],
+		"calls": [
+			"effect:mage.fire",
+			"help:mage.fire",
+			"effect:mage.heal",
+			"help:mage.heal",
+			"effect:mage.test_burning",
+			"help:mage.test_burning",
+			"effect:mage.test_wet",
+			"help:mage.test_wet",
+			"effect:mage.test_freeze",
+			"help:mage.test_freeze",
+			"effect:mage.test_stun",
+			"help:mage.test_stun",
+			"effect:mage.test_roots",
+			"help:mage.test_roots",
+			"effect:mage.test_bleeding",
+			"help:mage.test_bleeding",
+			"effect:mage.test_heal",
+			"help:mage.test_heal",
+			"effect:mage.test_summon",
+			"help:mage.test_summon",
+			"effect:mage.test_raise",
+			"help:mage.test_raise",
+			"effect:mage.shield",
+			"help:mage.shield"
+		],
+		"height": 350.0,
+		"label": "spells/page-two",
+		"label_visible": true,
+		"page": 1.0,
+		"page_count": 2.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageFireButton",
+			"MageHealButton",
+			"Burning",
+			"Wet",
+			"Freeze",
+			"Stun",
+			"Roots",
+			"Bleeding",
+			"HealTest",
+			"Summon",
+			"Raise",
+			"Shield"
+		],
+		"text": "Маг · мана 6/6",
+		"toggled_events": 0.0,
+		"tooltip": "Откаты: длительность: огонь 1, лечение 2 · осталось: огонь 0, лечение 0"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "E:Огненный импульс · 2 маны · откат 1, осталось 0\nH:4 огненного урона врагу, без поджога. Вся доска.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "E:Лечение мага · 3 маны · откат 2, осталось 0\nH:Восстановить союзнику 4 HP. Вся доска.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Вода · 1 маны · откат 0, осталось 0\nH:Тест: вода на 3 хода цели, гасит горение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Заморозка · 1 маны · откат 0, осталось 0\nH:Тест: сухую цель сначала мочит; мокрую замораживает на 2 хода при броне ниже половины. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Оглушение · 1 маны · откат 0, осталось 0\nH:Тест: оглушение до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Корни · 1 маны · откат 0, осталось 0\nH:Тест: корни до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Кровотечение · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак, срок 3 тика. Горение и иммунитет блокируют наложение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: лечение · 1 маны · откат 0, осталось 0\nH:Тест: восстановить раненому союзнику 4 HP, без затрат действий и предметов героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: призыв · 1 маны · откат 0, осталось 0\nH:Помощник рядом с любым союзником, включая помощников. Без владельца и лимита; готов со следующего своего хода. 1 мана.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: поднятие · 1 маны · откат 0, осталось 0\nH:Новое создание из тела рядом с любым союзником. Без владельца и лимита; готов со следующего своего хода. 1 мана.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Щит · 6 HP · 1 маны · откат 0, осталось 0\nH:Щит: 6 HP, один удар любого урона. Остаток проходит защиты и броню; новый щит заменяет прежний. 1 мана, откат 0.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Подтвердить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			}
+		],
+		"calls": [
+			"effect:mage.fire",
+			"help:mage.fire",
+			"effect:mage.heal",
+			"help:mage.heal",
+			"effect:mage.test_burning",
+			"help:mage.test_burning",
+			"effect:mage.test_wet",
+			"help:mage.test_wet",
+			"effect:mage.test_freeze",
+			"help:mage.test_freeze",
+			"effect:mage.test_stun",
+			"help:mage.test_stun",
+			"effect:mage.test_roots",
+			"help:mage.test_roots",
+			"effect:mage.test_bleeding",
+			"help:mage.test_bleeding",
+			"effect:mage.test_heal",
+			"help:mage.test_heal",
+			"effect:mage.test_summon",
+			"help:mage.test_summon",
+			"effect:mage.test_raise",
+			"help:mage.test_raise",
+			"effect:mage.shield",
+			"help:mage.shield"
+		],
+		"height": 350.0,
+		"label": "spells/page-two-repeat",
+		"label_visible": true,
+		"page": 1.0,
+		"page_count": 2.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageFireButton",
+			"MageHealButton",
+			"Burning",
+			"Wet",
+			"Freeze",
+			"Stun",
+			"Roots",
+			"Bleeding",
+			"HealTest",
+			"Summon",
+			"Raise",
+			"Shield"
+		],
+		"text": "Маг · мана 6/6",
+		"toggled_events": 0.0,
+		"tooltip": "Откаты: длительность: огонь 1, лечение 2 · осталось: огонь 0, лечение 0"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "E:Огненный импульс · 2 маны · откат 1, осталось 0\nH:4 огненного урона врагу, без поджога. Вся доска.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "E:Лечение мага · 3 маны · откат 2, осталось 0\nH:Восстановить союзнику 4 HP. Вся доска.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Вода · 1 маны · откат 0, осталось 0\nH:Тест: вода на 3 хода цели, гасит горение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Заморозка · 1 маны · откат 0, осталось 0\nH:Тест: сухую цель сначала мочит; мокрую замораживает на 2 хода при броне ниже половины. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Оглушение · 1 маны · откат 0, осталось 0\nH:Тест: оглушение до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Корни · 1 маны · откат 0, осталось 0\nH:Тест: корни до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Кровотечение · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак, срок 3 тика. Горение и иммунитет блокируют наложение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: лечение · 1 маны · откат 0, осталось 0\nH:Тест: восстановить раненому союзнику 4 HP, без затрат действий и предметов героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: призыв · 1 маны · откат 0, осталось 0\nH:Помощник рядом с любым союзником, включая помощников. Без владельца и лимита; готов со следующего своего хода. 1 мана.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: поднятие · 1 маны · откат 0, осталось 0\nH:Новое создание из тела рядом с любым союзником. Без владельца и лимита; готов со следующего своего хода. 1 мана.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Щит · 6 HP · 1 маны · откат 0, осталось 0\nH:Щит: 6 HP, один удар любого урона. Остаток проходит защиты и броню; новый щит заменяет прежний. 1 мана, откат 0.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "UnknownSpell",
+				"pressed": false,
+				"text": "",
+				"toggle": false,
+				"tooltip": "Сохранённая подсказка",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Подтвердить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			}
+		],
+		"calls": [
+			"effect:mage.fire",
+			"help:mage.fire",
+			"effect:mage.heal",
+			"help:mage.heal",
+			"effect:mage.test_burning",
+			"help:mage.test_burning",
+			"effect:mage.test_wet",
+			"help:mage.test_wet",
+			"effect:mage.test_freeze",
+			"help:mage.test_freeze",
+			"effect:mage.test_stun",
+			"help:mage.test_stun",
+			"effect:mage.test_roots",
+			"help:mage.test_roots",
+			"effect:mage.test_bleeding",
+			"help:mage.test_bleeding",
+			"effect:mage.test_heal",
+			"help:mage.test_heal",
+			"effect:mage.test_summon",
+			"help:mage.test_summon",
+			"effect:mage.test_raise",
+			"help:mage.test_raise",
+			"effect:mage.shield",
+			"help:mage.shield"
+		],
+		"height": 350.0,
+		"label": "spells/unknown-button",
+		"label_visible": true,
+		"page": 1.0,
+		"page_count": 2.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageFireButton",
+			"MageHealButton",
+			"Burning",
+			"Wet",
+			"Freeze",
+			"Stun",
+			"Roots",
+			"Bleeding",
+			"HealTest",
+			"Summon",
+			"Raise",
+			"Shield"
+		],
+		"text": "Маг · мана 6/6",
+		"toggled_events": 0.0,
+		"tooltip": "Откаты: длительность: огонь 1, лечение 2 · осталось: огонь 0, лечение 0"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "E:Огненный импульс · 2 маны · откат 1, осталось 0\nH:4 огненного урона врагу, без поджога. Вся доска.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "E:Лечение мага · 3 маны · откат 2, осталось 0\nH:Восстановить союзнику 4 HP. Вся доска.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Вода · 1 маны · откат 0, осталось 0\nH:Тест: вода на 3 хода цели, гасит горение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Заморозка · 1 маны · откат 0, осталось 0\nH:Тест: сухую цель сначала мочит; мокрую замораживает на 2 хода при броне ниже половины. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Оглушение · 1 маны · откат 0, осталось 0\nH:Тест: оглушение до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Корни · 1 маны · откат 0, осталось 0\nH:Тест: корни до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Кровотечение · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак, срок 3 тика. Горение и иммунитет блокируют наложение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: лечение · 1 маны · откат 0, осталось 0\nH:Тест: восстановить раненому союзнику 4 HP, без затрат действий и предметов героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: призыв · 1 маны · откат 0, осталось 0\nH:Помощник рядом с любым союзником, включая помощников. Без владельца и лимита; готов со следующего своего хода. 1 мана.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: поднятие · 1 маны · откат 0, осталось 0\nH:Новое создание из тела рядом с любым союзником. Без владельца и лимита; готов со следующего своего хода. 1 мана.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Щит · 6 HP · 1 маны · откат 0, осталось 0\nH:Щит: 6 HP, один удар любого урона. Остаток проходит защиты и броню; новый щит заменяет прежний. 1 мана, откат 0.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "UnknownSpell",
+				"pressed": false,
+				"text": "",
+				"toggle": false,
+				"tooltip": "Сохранённая подсказка",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Подтвердить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			}
+		],
+		"calls": [
+			"effect:mage.fire",
+			"help:mage.fire",
+			"effect:mage.heal",
+			"help:mage.heal",
+			"effect:mage.test_burning",
+			"help:mage.test_burning",
+			"effect:mage.test_wet",
+			"help:mage.test_wet",
+			"effect:mage.test_freeze",
+			"help:mage.test_freeze",
+			"effect:mage.test_stun",
+			"help:mage.test_stun",
+			"effect:mage.test_roots",
+			"help:mage.test_roots",
+			"effect:mage.test_bleeding",
+			"help:mage.test_bleeding",
+			"effect:mage.test_heal",
+			"help:mage.test_heal",
+			"effect:mage.test_summon",
+			"help:mage.test_summon",
+			"effect:mage.test_raise",
+			"help:mage.test_raise",
+			"effect:mage.shield",
+			"help:mage.shield"
+		],
+		"height": 350.0,
+		"label": "spells/plain-row",
+		"label_visible": true,
+		"row_visible": true,
+		"text": "Маг · мана 6/6",
+		"toggled_events": 0.0,
+		"tooltip": "Откаты: длительность: огонь 1, лечение 2 · осталось: огонь 0, лечение 0"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "E:Огненный импульс · 2 маны · откат 1, осталось 0\nH:4 огненного урона врагу, без поджога. Вся доска.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "E:Лечение мага · 3 маны · откат 2, осталось 0\nH:Восстановить союзнику 4 HP. Вся доска.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Вода · 1 маны · откат 0, осталось 0\nH:Тест: вода на 3 хода цели, гасит горение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Заморозка · 1 маны · откат 0, осталось 0\nH:Тест: сухую цель сначала мочит; мокрую замораживает на 2 хода при броне ниже половины. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Оглушение · 1 маны · откат 0, осталось 0\nH:Тест: оглушение до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Корни · 1 маны · откат 0, осталось 0\nH:Тест: корни до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Кровотечение · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак, срок 3 тика. Горение и иммунитет блокируют наложение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: лечение · 1 маны · откат 0, осталось 0\nH:Тест: восстановить раненому союзнику 4 HP, без затрат действий и предметов героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: призыв · 1 маны · откат 0, осталось 0\nH:Помощник рядом с любым союзником, включая помощников. Без владельца и лимита; готов со следующего своего хода. 1 мана.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: поднятие · 1 маны · откат 0, осталось 0\nH:Новое создание из тела рядом с любым союзником. Без владельца и лимита; готов со следующего своего хода. 1 мана.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Щит · 6 HP · 1 маны · откат 0, осталось 0\nH:Щит: 6 HP, один удар любого урона. Остаток проходит защиты и броню; новый щит заменяет прежний. 1 мана, откат 0.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "UnknownSpell",
+				"pressed": false,
+				"text": "",
+				"toggle": false,
+				"tooltip": "Сохранённая подсказка",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Подтвердить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			}
+		],
+		"calls": [
+			"effect:mage.fire",
+			"help:mage.fire",
+			"effect:mage.heal",
+			"help:mage.heal",
+			"effect:mage.test_burning",
+			"help:mage.test_burning",
+			"effect:mage.test_wet",
+			"help:mage.test_wet",
+			"effect:mage.test_freeze",
+			"help:mage.test_freeze",
+			"effect:mage.test_stun",
+			"help:mage.test_stun",
+			"effect:mage.test_roots",
+			"help:mage.test_roots",
+			"effect:mage.test_bleeding",
+			"help:mage.test_bleeding",
+			"effect:mage.test_heal",
+			"help:mage.test_heal",
+			"effect:mage.test_summon",
+			"help:mage.test_summon",
+			"effect:mage.test_raise",
+			"help:mage.test_raise",
+			"effect:mage.shield",
+			"help:mage.shield"
+		],
+		"height": 476.0,
+		"label": "spells/plain-row-no-compact",
+		"label_visible": true,
+		"row_visible": true,
+		"text": "Маг · мана 6/6",
+		"toggled_events": 0.0,
+		"tooltip": "Откаты: длительность: огонь 1, лечение 2 · осталось: огонь 0, лечение 0"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "E:Огненный импульс · 2 маны · откат 1, осталось 0\nH:4 огненного урона врагу, без поджога. Вся доска.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "E:Лечение мага · 3 маны · откат 2, осталось 0\nH:Восстановить союзнику 4 HP. Вся доска.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Вода · 1 маны · откат 0, осталось 0\nH:Тест: вода на 3 хода цели, гасит горение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Заморозка · 1 маны · откат 0, осталось 0\nH:Тест: сухую цель сначала мочит; мокрую замораживает на 2 хода при броне ниже половины. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Оглушение · 1 маны · откат 0, осталось 0\nH:Тест: оглушение до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Корни · 1 маны · откат 0, осталось 0\nH:Тест: корни до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Кровотечение · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак, срок 3 тика. Горение и иммунитет блокируют наложение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: лечение · 1 маны · откат 0, осталось 0\nH:Тест: восстановить раненому союзнику 4 HP, без затрат действий и предметов героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: призыв · 1 маны · откат 0, осталось 0\nH:Помощник рядом с любым союзником, включая помощников. Без владельца и лимита; готов со следующего своего хода. 1 мана.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: поднятие · 1 маны · откат 0, осталось 0\nH:Новое создание из тела рядом с любым союзником. Без владельца и лимита; готов со следующего своего хода. 1 мана.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Щит · 6 HP · 1 маны · откат 0, осталось 0\nH:Щит: 6 HP, один удар любого урона. Остаток проходит защиты и броню; новый щит заменяет прежний. 1 мана, откат 0.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "UnknownSpell",
+				"pressed": false,
+				"text": "",
+				"toggle": false,
+				"tooltip": "Сохранённая подсказка",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Подтвердить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			}
+		],
+		"calls": [],
+		"height": 350.0,
+		"label": "spells/non-mage-session",
+		"label_visible": false,
+		"page": 1.0,
+		"page_count": 2.0,
+		"paging_enabled": true,
+		"row_visible": false,
+		"shown": [
+			"MageFireButton",
+			"MageHealButton",
+			"Burning",
+			"Wet",
+			"Freeze",
+			"Stun",
+			"Roots",
+			"Bleeding",
+			"HealTest",
+			"Summon",
+			"Raise",
+			"Shield"
+		],
+		"text": "Маг · мана 6/6",
+		"toggled_events": 0.0,
+		"tooltip": "Откаты: длительность: огонь 1, лечение 2 · осталось: огонь 0, лечение 0"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "E:Огненный импульс · 2 маны · откат 1, осталось 0\nH:4 огненного урона врагу, без поджога. Вся доска.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "E:Лечение мага · 3 маны · откат 2, осталось 0\nH:Восстановить союзнику 4 HP. Вся доска.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Вода · 1 маны · откат 0, осталось 0\nH:Тест: вода на 3 хода цели, гасит горение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Заморозка · 1 маны · откат 0, осталось 0\nH:Тест: сухую цель сначала мочит; мокрую замораживает на 2 хода при броне ниже половины. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Оглушение · 1 маны · откат 0, осталось 0\nH:Тест: оглушение до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Корни · 1 маны · откат 0, осталось 0\nH:Тест: корни до конца хода цели, без удара. Иммунитет сохраняется.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Кровотечение · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак, срок 3 тика. Горение и иммунитет блокируют наложение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: лечение · 1 маны · откат 0, осталось 0\nH:Тест: восстановить раненому союзнику 4 HP, без затрат действий и предметов героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: призыв · 1 маны · откат 0, осталось 0\nH:Помощник рядом с любым союзником, включая помощников. Без владельца и лимита; готов со следующего своего хода. 1 мана.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Тест: поднятие · 1 маны · откат 0, осталось 0\nH:Новое создание из тела рядом с любым союзником. Без владельца и лимита; готов со следующего своего хода. 1 мана.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Щит · 6 HP · 1 маны · откат 0, осталось 0\nH:Щит: 6 HP, один удар любого урона. Остаток проходит защиты и броню; новый щит заменяет прежний. 1 мана, откат 0.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "UnknownSpell",
+				"pressed": false,
+				"text": "",
+				"toggle": false,
+				"tooltip": "Сохранённая подсказка",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Подтвердить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			}
+		],
+		"calls": [],
+		"height": 350.0,
+		"label": "spells/no-abilities",
+		"label_visible": false,
+		"page": 1.0,
+		"page_count": 2.0,
+		"paging_enabled": true,
+		"row_visible": false,
+		"shown": [
+			"MageFireButton",
+			"MageHealButton",
+			"Burning",
+			"Wet",
+			"Freeze",
+			"Stun",
+			"Roots",
+			"Bleeding",
+			"HealTest",
+			"Summon",
+			"Raise",
+			"Shield"
+		],
+		"text": "Маг · мана 6/6",
+		"toggled_events": 0.0,
+		"tooltip": "Откаты: длительность: огонь 1, лечение 2 · осталось: огонь 0, лечение 0"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": true,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Мокрота\n1 маны",
+				"toggle": false,
+				"tooltip": "Мокрота\nСнимает горение и обновляет мокроту до 3 тиков. Мана: 1.\nКопия #10",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #3",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #4",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Призыв\n1 маны",
+				"toggle": false,
+				"tooltip": "Призыв\nПризывает помощника на допустимую свободную клетку. Мана: 1.\nКопия #8",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Огненный импульс\n2 маны",
+				"toggle": false,
+				"tooltip": "Огненный импульс\nНаносит 4 ед. огненного урона одной живой вражеской цели. Мана: 2.\nКопия #1",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Подтвердить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			}
+		],
+		"calls": [],
+		"height": 350.0,
+		"label": "deck/deploying",
+		"label_visible": true,
+		"page": 0.0,
+		"page_count": 1.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageCardSlot0",
+			"MageCardSlot1",
+			"MageCardSlot2",
+			"MageCardSlot3",
+			"MageCardSlot4"
+		],
+		"text": "Мана 2/2 · добор 5 · сыграно 0 · замена: до двух стартовых карт",
+		"toggled_events": 0.0,
+		"tooltip": "Рука 5/6"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Мокрота\n1 маны",
+				"toggle": true,
+				"tooltip": "Мокрота\nСнимает горение и обновляет мокроту до 3 тиков. Мана: 1.\nКопия #10",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": true,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #3",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": true,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #4",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Призыв\n1 маны",
+				"toggle": true,
+				"tooltip": "Призыв\nПризывает помощника на допустимую свободную клетку. Мана: 1.\nКопия #8",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Огненный импульс\n2 маны",
+				"toggle": true,
+				"tooltip": "Огненный импульс\nНаносит 4 ед. огненного урона одной живой вражеской цели. Мана: 2.\nКопия #1",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Пропустить · начать",
+				"toggle": false,
+				"tooltip": "",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			}
+		],
+		"calls": [],
+		"height": 350.0,
+		"label": "deck/mulligan-none",
+		"label_visible": true,
+		"page": 0.0,
+		"page_count": 1.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageCardSlot0",
+			"MageCardSlot1",
+			"MageCardSlot2",
+			"MageCardSlot3",
+			"MageCardSlot4",
+			"MageMulliganConfirmButton"
+		],
+		"text": "Мана 2/2 · добор 5 · сыграно 0 · замена: до двух стартовых карт",
+		"toggled_events": 0.0,
+		"tooltip": "Рука 5/6"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": true,
+				"text": "Мокрота\n1 маны",
+				"toggle": true,
+				"tooltip": "Мокрота\nСнимает горение и обновляет мокроту до 3 тиков. Мана: 1.\nКопия #10",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": true,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #3",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": true,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #4",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Призыв\n1 маны",
+				"toggle": true,
+				"tooltip": "Призыв\nПризывает помощника на допустимую свободную клетку. Мана: 1.\nКопия #8",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Огненный импульс\n2 маны",
+				"toggle": true,
+				"tooltip": "Огненный импульс\nНаносит 4 ед. огненного урона одной живой вражеской цели. Мана: 2.\nКопия #1",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Заменить 1/2 · начать",
+				"toggle": false,
+				"tooltip": "",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			}
+		],
+		"calls": [],
+		"height": 350.0,
+		"label": "deck/mulligan-one",
+		"label_visible": true,
+		"page": 0.0,
+		"page_count": 1.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageCardSlot0",
+			"MageCardSlot1",
+			"MageCardSlot2",
+			"MageCardSlot3",
+			"MageCardSlot4",
+			"MageMulliganConfirmButton"
+		],
+		"text": "Мана 2/2 · добор 5 · сыграно 0 · замена: до двух стартовых карт",
+		"toggled_events": 0.0,
+		"tooltip": "Рука 5/6"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": true,
+				"text": "Мокрота\n1 маны",
+				"toggle": true,
+				"tooltip": "Мокрота\nСнимает горение и обновляет мокроту до 3 тиков. Мана: 1.\nКопия #10",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": true,
+				"text": "Лечение\n1 маны",
+				"toggle": true,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #3",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": true,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #4",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Призыв\n1 маны",
+				"toggle": true,
+				"tooltip": "Призыв\nПризывает помощника на допустимую свободную клетку. Мана: 1.\nКопия #8",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Огненный импульс\n2 маны",
+				"toggle": true,
+				"tooltip": "Огненный импульс\nНаносит 4 ед. огненного урона одной живой вражеской цели. Мана: 2.\nКопия #1",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Заменить 2/2 · начать",
+				"toggle": false,
+				"tooltip": "",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			}
+		],
+		"calls": [],
+		"height": 350.0,
+		"label": "deck/mulligan-two",
+		"label_visible": true,
+		"page": 0.0,
+		"page_count": 1.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageCardSlot0",
+			"MageCardSlot1",
+			"MageCardSlot2",
+			"MageCardSlot3",
+			"MageCardSlot4",
+			"MageMulliganConfirmButton"
+		],
+		"text": "Мана 2/2 · добор 5 · сыграно 0 · замена: до двух стартовых карт",
+		"toggled_events": 0.0,
+		"tooltip": "Рука 5/6"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Мокрота\n1 маны",
+				"toggle": false,
+				"tooltip": "Мокрота\nСнимает горение и обновляет мокроту до 3 тиков. Мана: 1.\nКопия #10",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #3",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #4",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Призыв\n1 маны",
+				"toggle": false,
+				"tooltip": "Призыв\nПризывает помощника на допустимую свободную клетку. Мана: 1.\nКопия #8",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Огненный импульс\n2 маны",
+				"toggle": false,
+				"tooltip": "Огненный импульс\nНаносит 4 ед. огненного урона одной живой вражеской цели. Мана: 2.\nКопия #1",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Заменить 2/2 · начать",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			}
+		],
+		"calls": [],
+		"height": 350.0,
+		"label": "deck/mulligan-done",
+		"label_visible": true,
+		"page": 0.0,
+		"page_count": 1.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageCardSlot0",
+			"MageCardSlot1",
+			"MageCardSlot2",
+			"MageCardSlot3",
+			"MageCardSlot4"
+		],
+		"text": "Мана 2/2 · добор 5 · сыграно 0 · замена: стартовая подтверждена",
+		"toggled_events": 2.0,
+		"tooltip": "Рука 5/6"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Мокрота\n1 маны",
+				"toggle": false,
+				"tooltip": "Мокрота\nСнимает горение и обновляет мокроту до 3 тиков. Мана: 1.\nКопия #10",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #3",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #4",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Призыв\n1 маны",
+				"toggle": false,
+				"tooltip": "Призыв\nПризывает помощника на допустимую свободную клетку. Мана: 1.\nКопия #8",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Огненный импульс\n2 маны",
+				"toggle": false,
+				"tooltip": "Огненный импульс\nНаносит 4 ед. огненного урона одной живой вражеской цели. Мана: 2.\nКопия #1",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Заменить 2/2 · начать",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": true,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить карту",
+				"toggle": false,
+				"tooltip": "",
+				"visible": true
+			}
+		],
+		"calls": [],
+		"height": 350.0,
+		"label": "deck/player-no-selection",
+		"label_visible": true,
+		"page": 0.0,
+		"page_count": 1.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageCardSlot0",
+			"MageCardSlot1",
+			"MageCardSlot2",
+			"MageCardSlot3",
+			"MageCardSlot4",
+			"MageCardReplaceButton"
+		],
+		"text": "Мана 2/2 · добор 5 · сыграно 0 · замена: доступна",
+		"toggled_events": 0.0,
+		"tooltip": "Рука 5/6"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Мокрота\n1 маны",
+				"toggle": false,
+				"tooltip": "Мокрота\nСнимает горение и обновляет мокроту до 3 тиков. Мана: 1.\nКопия #10",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #3",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #4",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Призыв\n1 маны",
+				"toggle": false,
+				"tooltip": "Призыв\nПризывает помощника на допустимую свободную клетку. Мана: 1.\nКопия #8",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Огненный импульс\n2 маны",
+				"toggle": false,
+				"tooltip": "Огненный импульс\nНаносит 4 ед. огненного урона одной живой вражеской цели. Мана: 2.\nКопия #1",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Заменить 2/2 · начать",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить карту",
+				"toggle": false,
+				"tooltip": "",
+				"visible": true
+			}
+		],
+		"calls": [],
+		"height": 350.0,
+		"label": "deck/selected",
+		"label_visible": true,
+		"page": 0.0,
+		"page_count": 1.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageCardSlot0",
+			"MageCardSlot1",
+			"MageCardSlot2",
+			"MageCardSlot3",
+			"MageCardSlot4",
+			"MageCardReplaceButton"
+		],
+		"text": "Мана 2/2 · добор 5 · сыграно 0 · замена: доступна",
+		"toggled_events": 0.0,
+		"tooltip": "Рука 5/6"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Мокрота\n1 маны",
+				"toggle": false,
+				"tooltip": "Мокрота\nСнимает горение и обновляет мокроту до 3 тиков. Мана: 1.\nКопия #10\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #3\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #4\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Призыв\n1 маны",
+				"toggle": false,
+				"tooltip": "Призыв\nПризывает помощника на допустимую свободную клетку. Мана: 1.\nКопия #8\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Огненный импульс\n2 маны",
+				"toggle": false,
+				"tooltip": "Огненный импульс\nНаносит 4 ед. огненного урона одной живой вражеской цели. Мана: 2.\nКопия #1\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Заменить 2/2 · начать",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить карту",
+				"toggle": false,
+				"tooltip": "",
+				"visible": true
+			}
+		],
+		"calls": [],
+		"height": 350.0,
+		"label": "deck/no-mana-replace-allowed",
+		"label_visible": true,
+		"page": 0.0,
+		"page_count": 1.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageCardSlot0",
+			"MageCardSlot1",
+			"MageCardSlot2",
+			"MageCardSlot3",
+			"MageCardSlot4",
+			"MageCardReplaceButton"
+		],
+		"text": "Мана 0/2 · добор 5 · сыграно 0 · замена: доступна",
+		"toggled_events": 0.0,
+		"tooltip": "Рука 5/6"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": true,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Мокрота\n1 маны",
+				"toggle": false,
+				"tooltip": "Мокрота\nСнимает горение и обновляет мокроту до 3 тиков. Мана: 1.\nКопия #10\nR:сейчас нельзя действовать.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #3\nR:сейчас нельзя действовать.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #4\nR:сейчас нельзя действовать.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Призыв\n1 маны",
+				"toggle": false,
+				"tooltip": "Призыв\nПризывает помощника на допустимую свободную клетку. Мана: 1.\nКопия #8\nR:сейчас нельзя действовать.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Огненный импульс\n2 маны",
+				"toggle": false,
+				"tooltip": "Огненный импульс\nНаносит 4 ед. огненного урона одной живой вражеской цели. Мана: 2.\nКопия #1\nR:сейчас нельзя действовать.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Заменить 2/2 · начать",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": true,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить карту",
+				"toggle": false,
+				"tooltip": "",
+				"visible": true
+			}
+		],
+		"calls": [
+			"reason:battle/input_locked",
+			"reason:battle/input_locked",
+			"reason:battle/input_locked",
+			"reason:battle/input_locked",
+			"reason:battle/input_locked"
+		],
+		"height": 350.0,
+		"label": "deck/enemy-formatter-override",
+		"label_visible": true,
+		"page": 0.0,
+		"page_count": 1.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageCardSlot0",
+			"MageCardSlot1",
+			"MageCardSlot2",
+			"MageCardSlot3",
+			"MageCardSlot4",
+			"MageCardReplaceButton"
+		],
+		"text": "Мана 0/2 · добор 5 · сыграно 0 · замена: доступна",
+		"toggled_events": 0.0,
+		"tooltip": "Рука 5/6"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Мокрота\n1 маны",
+				"toggle": false,
+				"tooltip": "Мокрота\nСнимает горение и обновляет мокроту до 3 тиков. Мана: 1.\nКопия #10\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #3\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #4\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Призыв\n1 маны",
+				"toggle": false,
+				"tooltip": "Призыв\nПризывает помощника на допустимую свободную клетку. Мана: 1.\nКопия #8\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Огненный импульс\n2 маны",
+				"toggle": false,
+				"tooltip": "Огненный импульс\nНаносит 4 ед. огненного урона одной живой вражеской цели. Мана: 2.\nКопия #1\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Карта",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Заменить 2/2 · начать",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": true,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить карту",
+				"toggle": false,
+				"tooltip": "",
+				"visible": true
+			}
+		],
+		"calls": [],
+		"height": 350.0,
+		"label": "deck/replacement-used",
+		"label_visible": true,
+		"page": 0.0,
+		"page_count": 1.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageCardSlot0",
+			"MageCardSlot1",
+			"MageCardSlot2",
+			"MageCardSlot3",
+			"MageCardSlot4",
+			"MageCardReplaceButton"
+		],
+		"text": "Мана 0/2 · добор 5 · сыграно 0 · замена: использована или добор пуст",
+		"toggled_events": 0.0,
+		"tooltip": "Рука 5/6"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Мокрота\n1 маны",
+				"toggle": false,
+				"tooltip": "Мокрота\nСнимает горение и обновляет мокроту до 3 тиков. Мана: 1.\nКопия #10\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #3\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #4\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Призыв\n1 маны",
+				"toggle": false,
+				"tooltip": "Призыв\nПризывает помощника на допустимую свободную клетку. Мана: 1.\nКопия #8\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Огненный импульс\n2 маны",
+				"toggle": false,
+				"tooltip": "Огненный импульс\nНаносит 4 ед. огненного урона одной живой вражеской цели. Мана: 2.\nКопия #1\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Щит\n1 маны",
+				"toggle": false,
+				"tooltip": "Щит\nПоглощает один положительный пакет урона объёмом до 6 HP. Мана: 1.\nКопия #6\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Заменить 2/2 · начать",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить карту",
+				"toggle": false,
+				"tooltip": "",
+				"visible": true
+			}
+		],
+		"calls": [],
+		"height": 350.0,
+		"label": "deck/six-cards",
+		"label_visible": true,
+		"page": 0.0,
+		"page_count": 1.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageCardSlot0",
+			"MageCardSlot1",
+			"MageCardSlot2",
+			"MageCardSlot3",
+			"MageCardSlot4",
+			"MageCardSlot5",
+			"MageCardReplaceButton"
+		],
+		"text": "Мана 0/2 · добор 4 · сыграно 0 · замена: доступна",
+		"toggled_events": 0.0,
+		"tooltip": "Рука 6/6"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Мокрота\n1 маны",
+				"toggle": false,
+				"tooltip": "Мокрота\nСнимает горение и обновляет мокроту до 3 тиков. Мана: 1.\nКопия #10\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #3\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #4\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Призыв\n1 маны",
+				"toggle": false,
+				"tooltip": "Призыв\nПризывает помощника на допустимую свободную клетку. Мана: 1.\nКопия #8\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Огненный импульс\n2 маны",
+				"toggle": false,
+				"tooltip": "Огненный импульс\nНаносит 4 ед. огненного урона одной живой вражеской цели. Мана: 2.\nКопия #1\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Щит\n1 маны",
+				"toggle": false,
+				"tooltip": "Щит\nПоглощает один положительный пакет урона объёмом до 6 HP. Мана: 1.\nКопия #6\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Заменить 2/2 · начать",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить карту",
+				"toggle": false,
+				"tooltip": "",
+				"visible": true
+			}
+		],
+		"calls": [],
+		"height": 350.0,
+		"label": "deck/shrinking-hand",
+		"label_visible": true,
+		"page": 0.0,
+		"page_count": 1.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageCardSlot0",
+			"MageCardSlot1",
+			"MageCardSlot2",
+			"MageCardSlot3",
+			"MageCardSlot4",
+			"MageCardReplaceButton"
+		],
+		"text": "Мана 0/2 · добор 5 · сыграно 0 · замена: доступна",
+		"toggled_events": 0.0,
+		"tooltip": "Рука 5/6"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Мокрота\n1 маны",
+				"toggle": false,
+				"tooltip": "Мокрота\nСнимает горение и обновляет мокроту до 3 тиков. Мана: 1.\nКопия #10\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #3\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #4\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Призыв\n1 маны",
+				"toggle": false,
+				"tooltip": "Призыв\nПризывает помощника на допустимую свободную клетку. Мана: 1.\nКопия #8\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Огненный импульс\n2 маны",
+				"toggle": false,
+				"tooltip": "Огненный импульс\nНаносит 4 ед. огненного урона одной живой вражеской цели. Мана: 2.\nКопия #1\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Щит\n1 маны",
+				"toggle": false,
+				"tooltip": "Щит\nПоглощает один положительный пакет урона объёмом до 6 HP. Мана: 1.\nКопия #6\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Заменить 2/2 · начать",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": true,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить карту",
+				"toggle": false,
+				"tooltip": "",
+				"visible": true
+			}
+		],
+		"calls": [],
+		"height": 350.0,
+		"label": "deck/draw-empty",
+		"label_visible": true,
+		"page": 0.0,
+		"page_count": 1.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageCardSlot0",
+			"MageCardSlot1",
+			"MageCardSlot2",
+			"MageCardSlot3",
+			"MageCardSlot4",
+			"MageCardReplaceButton"
+		],
+		"text": "Мана 0/2 · добор 0 · сыграно 5 · замена: использована или добор пуст",
+		"toggled_events": 0.0,
+		"tooltip": "Рука 5/6"
+	},
+	{
+		"buttons": [
+			{
+				"disabled": false,
+				"name": "MageFireButton",
+				"pressed": false,
+				"text": "Огонь\n2 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageHealButton",
+				"pressed": false,
+				"text": "Лечение\n3 маны",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Burning",
+				"pressed": false,
+				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Wet",
+				"pressed": false,
+				"text": "Вода\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Freeze",
+				"pressed": false,
+				"text": "Заморозка\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Stun",
+				"pressed": false,
+				"text": "Оглушение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Roots",
+				"pressed": false,
+				"text": "Корни\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Bleeding",
+				"pressed": false,
+				"text": "Кровотечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "HealTest",
+				"pressed": false,
+				"text": "Тест: лечение\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Summon",
+				"pressed": false,
+				"text": "Тест: призыв\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Raise",
+				"pressed": false,
+				"text": "Тест: поднятие\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Shield",
+				"pressed": false,
+				"text": "Щит · 6 HP\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot0",
+				"pressed": false,
+				"text": "Мокрота\n1 маны",
+				"toggle": false,
+				"tooltip": "Мокрота\nСнимает горение и обновляет мокроту до 3 тиков. Мана: 1.\nКопия #10\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot1",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #3\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot2",
+				"pressed": false,
+				"text": "Лечение\n1 маны",
+				"toggle": false,
+				"tooltip": "Лечение\nВосстанавливает союзнику 4 HP, если он ранен. Мана: 1.\nКопия #4\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot3",
+				"pressed": false,
+				"text": "Призыв\n1 маны",
+				"toggle": false,
+				"tooltip": "Призыв\nПризывает помощника на допустимую свободную клетку. Мана: 1.\nКопия #8\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot4",
+				"pressed": false,
+				"text": "Огненный импульс\n2 маны",
+				"toggle": false,
+				"tooltip": "Огненный импульс\nНаносит 4 ед. огненного урона одной живой вражеской цели. Мана: 2.\nКопия #1\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageCardSlot5",
+				"pressed": false,
+				"text": "Щит\n1 маны",
+				"toggle": false,
+				"tooltip": "Щит\nПоглощает один положительный пакет урона объёмом до 6 HP. Мана: 1.\nКопия #6\nМаны для розыгрыша нет; заменить карту можно бесплатно.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "MageMulliganConfirmButton",
+				"pressed": false,
+				"text": "Заменить 2/2 · начать",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": true,
+				"name": "MageCardReplaceButton",
+				"pressed": false,
+				"text": "Заменить карту",
+				"toggle": false,
+				"tooltip": "",
+				"visible": true
+			}
+		],
+		"calls": [],
+		"height": 350.0,
+		"label": "deck/empty-hand",
+		"label_visible": true,
+		"page": 0.0,
+		"page_count": 1.0,
+		"paging_enabled": true,
+		"row_visible": true,
+		"shown": [
+			"MageCardReplaceButton"
+		],
+		"text": "Мана 0/2 · добор 0 · сыграно 10 · замена: использована или добор пуст",
+		"toggled_events": 0.0,
+		"tooltip": "Рука 0/6"
+	}
+]

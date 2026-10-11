@@ -910,73 +910,20 @@ func _refresh_mage() -> void:
 		if board_view != null and not board_view.authored_layout:
 			board_view.custom_minimum_size.y = 350.0 if _compact_inspection != null else (476.0 if _mage_row.visible else 520.0)
 		if _mage_row.visible:
-			var ability := mage_session.state.abilities
 			if mage_session.state.deck != null:
 				_refresh_deck_bar(mage_session)
 				return
-			_mage_label.text = "Маг · мана %d/%d" % [ability.mana, ability.maximum]
-			_mage_label.tooltip_text = "Откаты: длительность: огонь %d, лечение %d · осталось: огонь %d, лечение %d" % [ability.definition(&"mage.fire").cooldown_turns, ability.definition(&"mage.heal").cooldown_turns, ability.remaining(&"mage.fire"), ability.remaining(&"mage.heal")]
-			var available_buttons: Array[Button] = []
-			for id: StringName in _mage_buttons:
-				var button: Button = _mage_buttons[id]
-				var definition := ability.definition(id)
-				# В панели видимостью управляет pager только при смене фильтра или страницы,
-				# иначе сброс между кадрами отменит удерживаемое нажатие.
-				if not (_mage_row is BattleMageBar): button.visible = definition != null
-				var reason := mage_session.mage_reason(id)
-				button.disabled = reason != &""
-				if definition == null: continue
-				available_buttons.append(button)
-				button.tooltip_text = "%s · %d маны · откат %d, осталось %d\n%s" % [_elemental_effect_label(id), definition.mana_cost, definition.cooldown_turns, ability.remaining(id), _mage_spell_help(id)]
-				if AbilityDefinition.TEST_EFFECTS.has(id): button.tooltip_text += "\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя."
-				if reason != &"": button.tooltip_text += "\n" + _reason_text(reason)
-			if _mage_row is BattleMageBar:
-				var bar := _mage_row as BattleMageBar
-				bar.configure(available_buttons)
-				bar.set_paging_enabled(true)
+			BattleMagePresenter.refresh_spells(
+				mage_session, _mage_row, _mage_label, _mage_buttons,
+				_elemental_effect_label, _mage_spell_help, _reason_text
+			)
 
 func _refresh_deck_bar(mage_session: BattleCoreReactionsSession) -> void:
-	var deck := mage_session.state.deck
-	var ability := mage_session.state.abilities
-	if deck == null or ability == null: return
-	var setup: bool = mage_session.is_deploying()
-	var replacement: String = "доступна" if deck.replaced_serial != ability.serials[0] and not deck.draw_ids.is_empty() else "использована или добор пуст"
-	if setup: replacement = "до двух стартовых карт" if not deck.mulligan_done else "стартовая подтверждена"
-	_mage_label.text = "Мана %d/%d · добор %d · сыграно %d · замена: %s" % [ability.mana, ability.maximum, deck.draw_ids.size(), deck.spent_ids.size(), replacement]
-	_mage_label.tooltip_text = "Рука %d/6" % deck.hand_ids.size()
-	var shown: Array[Button] = []
-	var ids: Array[int] = deck.hand_ids.duplicate()
-	var reasons: Dictionary[int, StringName] = {}
-	if not setup: reasons = mage_session.mage_card_reasons(ids)
-	for slot: int in _card_buttons.size():
-		var button: Button = _card_buttons[slot]
-		if slot >= deck.hand_ids.size(): continue
-		var id: int = deck.hand_ids[slot]
-		var card := deck.card(id)
-		var definition := MageCardCatalog.get_card(String(card.get("type_id", "")))
-		if definition == null: continue
-		shown.append(button)
-		button.toggle_mode = setup and mage_session.mage_deployment_confirmed and not deck.mulligan_done
-		button.set_pressed_no_signal(_mulligan_ids.has(id) if button.toggle_mode else _card_selected_id == id)
-		button.text = "%s\n%d маны" % [definition.name, definition.mana_cost]
-		button.tooltip_text = "%s\n%s\nКопия #%d" % [definition.name, definition.description, id]
-		var reason: StringName = reasons.get(id, &"") if not setup else &""
-		button.disabled = not mage_session.mage_deployment_confirmed if setup else reason not in [&"", &"mage_card/insufficient_mana"]
-		if not setup and button.disabled: button.tooltip_text += "\n" + _reason_text(reason)
-		elif reason == &"mage_card/insufficient_mana": button.tooltip_text += "\nМаны для розыгрыша нет; заменить карту можно бесплатно."
-	if setup:
-		if mage_session.mage_deployment_confirmed and not deck.mulligan_done:
-			_card_confirm_button.text = "Заменить %d/2 · начать" % _mulligan_ids.size() if not _mulligan_ids.is_empty() else "Пропустить · начать"
-			_card_confirm_button.disabled = false
-			shown.append(_card_confirm_button)
-	else:
-		_card_replace_button.text = "Заменить карту"
-		_card_replace_button.disabled = _card_selected_id == 0 or deck.draw_ids.is_empty() or deck.replaced_serial == ability.serials[0] or not mage_session.can_player_act()
-		shown.append(_card_replace_button)
-	if _mage_row is BattleMageBar:
-		var bar := _mage_row as BattleMageBar
-		bar.configure(shown)
-		bar.set_paging_enabled(true)
+	BattleMagePresenter.refresh_deck(
+		mage_session, _mage_row, _mage_label, _card_buttons,
+		_card_confirm_button, _card_replace_button, _mulligan_ids,
+		_card_selected_id, _reason_text
+	)
 
 func _choose_card_slot(slot: int) -> void:
 	if is_execution_pending() or not session is BattleCoreReactionsSession or session.state.deck == null: return

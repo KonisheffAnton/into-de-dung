@@ -104,6 +104,15 @@ Full/core не требуются при неизменном исполнени
 сохраняется в отчёте. Full/core не нужны при сохранении запросов/исполнения.
 При изменении launcher дополнительно `python tools/demo/test_isolate.py`.
 
+Для публикации live-панели мага:
+`python tools/demo/isolate.py --render-check --only battle_mage_presenter mage_ui mage_deck_ui battle_hud_authoring battle_execution_ui presentation_status --screen 0`.
+Эталон получен исходными `_refresh_mage`/`_refresh_deck_bar` на base; проверяются
+строки/состояния кнопок, страницы, formatter-вызовы, snapshot/RNG и pending guard.
+Остальные suites проверяют реальные клики/hover, карты/замену/муллиган,
+after-кадры, worker и authored/legacy HUD. PNG и base/current — в отчёте среза;
+это не ручная приёмка или FPS. Full/core не нужны при неизменных командах,
+live-допуске и местах вызовов. Для launcher: `python tools/demo/test_isolate.py`.
+
 Для границы старых форматов: `python tools/demo/isolate.py --check --only current_schema_boundary hero_hub expedition_transitions mage_deck_expedition --screen 0`.
 `current_schema_boundary` входит в обычный/full набор: отказ старых/будущих
 номеров и неверных типов, режимы компонентов, 512 сочетаний флагов/оплаты,

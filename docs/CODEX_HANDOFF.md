@@ -1,12 +1,12 @@
-# Передача — 2026-10-11: дескрипторы действий HUD
-D:\Games\into-de-dung; main; base ed7c9a966acfd044af50abd5f8c165d9e286d5d9; без push.
-U «Давай дальше»: срез §7.3 технически проверен.
-BattleActionDescriptors — динамические действия/предмет/причина прикрытия.
-Demo — guards, formatter причин, compact-фильтр, публикация, страницы и live.
-Три метода Demo изменены; остальные125 прежние. Остальной §7.3 ещё открыт.
-Контракт BATTLE_HUD_SCENES_V1; отчёт test_reports/ui-action-descriptors-20261011/REPORT.md.
-Команды TESTING; import/startup +10 suites PASS; golden324 (715/0), Python16/0.
-8PNG равны base; независимое ревью APPROVE. Следующий срез не запущен.
+# Передача — 2026-10-11: live-панель мага
+D:\Games\into-de-dung; main; base 2082414f6670c785309575cf24e19eeca3e6d6d4; без push.
+U «продолжай»: срез §7.3 технически проверен.
+BattleMagePresenter — публикация заклинаний/колоды; Demo — guards/выбор/команды/DTO.
+Два метода Demo изменены; остальные126 прежние. Весь §7.3 ещё открыт.
+Контракт BATTLE_HUD_SCENES_V1; test_reports/ui-mage-presenter-20261011/REPORT.md.
+Команды TESTING; import/startup +6 suites PASS; golden26 (164/0), Python16/0.
+HUD6PNG равны base; stable13PNG равны. Ревью APPROVE.
+Остаток ревью: §7.3–7, затем графика/анимации. Следующий срез не запущен.
 Full/core не повторялись; старые8shaderFAIL, exit47ObjectDB/18resources и сдвиг96 открыты.
 F5/Editor/DPI/GPU/длинные кадры открыты; fixtures не FPS.
 Profile6/run4/plan4/report3 — SAVE_FORMAT_CURRENT; старые — отказ без миграции/удаления/записи.
