@@ -1,12 +1,12 @@
-# Передача — 2026-10-11: сборка прежнего HUD
-D:\Games\into-de-dung; main; base 0d1878405a95571554d0db22aacf07d4f977648e; без push.
-U «Давай дельше»: срез §7.3 технически проверен.
-BattleLegacyHud — сборка узлов/стилей/сигналов старых демонстраций и D4.
-Demo — создание Board/session, callbacks, refs и roster; guards/исполнение прежние.
-Изменены три метода Demo, остальные125 совпадают с base. HUD/общие пути ещё открыты.
-Контракт BATTLE_HUD_SCENES_V1; отчёт test_reports/ui-legacy-hud-20261011/REPORT.md.
-Команды TESTING; base/current import/startup +6 suites PASS; HUD297/0 на обоих.
-6HUD PNG равны base; независимое ревью APPROVE. Python runner не менялся.
+# Передача — 2026-10-11: дескрипторы действий HUD
+D:\Games\into-de-dung; main; base ed7c9a966acfd044af50abd5f8c165d9e286d5d9; без push.
+U «Давай дальше»: срез §7.3 технически проверен.
+BattleActionDescriptors — динамические действия/предмет/причина прикрытия.
+Demo — guards, formatter причин, compact-фильтр, публикация, страницы и live.
+Три метода Demo изменены; остальные125 прежние. Остальной §7.3 ещё открыт.
+Контракт BATTLE_HUD_SCENES_V1; отчёт test_reports/ui-action-descriptors-20261011/REPORT.md.
+Команды TESTING; import/startup +10 suites PASS; golden324 (715/0), Python16/0.
+8PNG равны base; независимое ревью APPROVE. Следующий срез не запущен.
 Full/core не повторялись; старые8shaderFAIL, exit47ObjectDB/18resources и сдвиг96 открыты.
 F5/Editor/DPI/GPU/длинные кадры открыты; fixtures не FPS.
 Profile6/run4/plan4/report3 — SAVE_FORMAT_CURRENT; старые — отказ без миграции/удаления/записи.

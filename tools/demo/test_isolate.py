@@ -43,6 +43,7 @@ class IsolateSelectionTests(unittest.TestCase):
                 if failure_kind == "timeout" and label == failure_label:
                     raise subprocess.TimeoutExpired(command, kwargs["timeout"])
                 markers = {
+                    "battle_action_descriptors": "BATTLE ACTION DESCRIPTORS RESULTS:",
                     "battle_hud_authoring": "BATTLE HUD AUTHORING RESULTS:",
                     "environment_visual_contract": "ENVIRONMENT VISUAL CONTRACT RESULTS:",
                     "unit_visual_contract": "UNIT VISUAL CONTRACT RESULTS:",
@@ -98,6 +99,14 @@ class IsolateSelectionTests(unittest.TestCase):
             with self.subTest(options=options):
                 code, calls, timing, _ = self.exercise(options)
                 self.assertEqual((code, calls, timing), (2, [], None))
+
+    def test_action_descriptors_requires_own_success_marker(self):
+        options = ["--check", "--only", "battle_action_descriptors"]
+        code, calls, _, _ = self.exercise(options)
+        self.assertEqual((code, calls), (0, ["import", "startup", "battle_action_descriptors"]))
+        code, _, timing, _ = self.exercise(options, "marker:battle_action_descriptors")
+        self.assertEqual(code, 1)
+        self.assertEqual(timing["checks"]["battle_action_descriptors"]["status"], "FAIL")
 
     def test_failures_record_status_and_never_pass(self):
         for failure in ("marker", "exit", "timeout"):

@@ -95,6 +95,15 @@ full/core не требуются при неизменных узлах, guards
 worker/показ и PNG. Изоляция runner: `python tools/demo/test_isolate.py`.
 Full/core не требуются при неизменном исполнении и местах вызовов.
 
+Для подготовки динамических действий героя:
+`python tools/demo/isolate.py --render-check --only battle_action_descriptors four_slot_bar battle_hud_authoring battle_panels battle_execution_ui shieldbearer_ui core_reactions_ui entangle_ui item_forecast_ui guard_forecast_ui --screen 0`.
+Эталон 324 случаев получен прежним `_refresh` и item/cover helpers на base;
+проверяются точные descriptors/fixed slots, отказы, compact-фильтр, snapshot/RNG,
+свежесть публикации, formatter оболочки и guard worker/показа. Остальные suites проверяют живые
+клики/hover, классовые действия, страницы и HUD PNG; сравнение base/current
+сохраняется в отчёте. Full/core не нужны при сохранении запросов/исполнения.
+При изменении launcher дополнительно `python tools/demo/test_isolate.py`.
+
 Для границы старых форматов: `python tools/demo/isolate.py --check --only current_schema_boundary hero_hub expedition_transitions mage_deck_expedition --screen 0`.
 `current_schema_boundary` входит в обычный/full набор: отказ старых/будущих
 номеров и неверных типов, режимы компонентов, 512 сочетаний флагов/оплаты,

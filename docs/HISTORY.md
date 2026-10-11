@@ -1,5 +1,26 @@
 # История и свидетельства проверок
 
+## Дескрипторы действий HUD — 2026-10-11
+
+U «Давай дальше», base `ed7c9a966acfd044af50abd5f8c165d9e286d5d9`.
+`BattleActionDescriptors` выделяет построение динамических действий, предмета
+и причины прикрытия. Синхронные runtime-запросы идут под прежним guard Demo;
+helper не хранит ссылки и не мутирует состояние. Formatter вызывающего Demo
+сохраняет переопределения оболочек. Compact-фильтр, публикация, страницы,
+фиксированные действия, ввод и live-проверки остаются Demo.
+Изменены три метода, остальные125 и поля совпадают с base; весь §7.3 открыт.
+
+Import/startup и десять выбранных suites PASS; девять общих с base имеют те же
+результаты. Golden324 из исходного Demo: base/current715/0, с pending guard,
+сохранностью snapshot/RNG/selection, свежей публикацией и formatter override.
+Python runner16/0; восемь HUD/щит PNG пиксельно равны base. Ревью APPROVE.
+[Контракт HUD](BATTLE_HUD_SCENES_V1.md), команды — [TESTING](TESTING.md);
+локальный отчёт/хеши/логи: `test_reports/ui-action-descriptors-20261011/REPORT.md`.
+Full/core не повторялись; прежние shader FAIL, exit leaks, сдвиг96 и ручная
+F5/Editor/DPI/GPU/длинные кадры открыты. Пользовательская main_menu.tscn сохранена.
+Локальный Conventional Commit без push; следующий срез не запущен.
+Прежняя передача побайтно в [архиве](CODEX_HANDOFF.history-20261011-10.md).
+
 ## Сборка прежнего HUD — 2026-10-11
 
 U «Давай дельше», base `0d1878405a95571554d0db22aacf07d4f977648e`.
