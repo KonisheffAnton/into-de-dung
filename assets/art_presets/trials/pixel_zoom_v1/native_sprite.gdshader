@@ -9,17 +9,6 @@ void vertex() {
 	sprite_modulate = COLOR;
 }
 
-vec4 native_pixel(sampler2D source, vec2 pixel_size, vec2 cell) {
-	if (any(lessThan(cell, vec2(0.0))) || any(greaterThanEqual(cell, native_size))) {
-		return vec4(0.0);
-	}
-	vec2 pixel = source_region.xy + (cell + vec2(0.5)) * source_region.zw / native_size;
-	vec4 color = texture(source, pixel * pixel_size);
-	// Покрытие границы считаем ниже, отдельно от ореола большого исходника.
-	color.a = step(0.5, color.a);
-	return vec4(color.rgb * color.a, color.a);
-}
-
 void fragment() {
 	vec2 source_pixel = UV / TEXTURE_PIXEL_SIZE;
 	vec2 local_uv = (source_pixel - source_region.xy) / source_region.zw;
@@ -36,7 +25,16 @@ void fragment() {
 			vec2 neighbor = cell + vec2(float(x), float(y));
 			vec2 overlap = max(vec2(0.0), min(high, neighbor + vec2(1.0)) - max(low, neighbor));
 			float weight = overlap.x * overlap.y / (footprint.x * footprint.y);
-			sum += native_pixel(TEXTURE, TEXTURE_PIXEL_SIZE, neighbor) * weight;
+			// Builtin TEXTURE читаем здесь: передача sampler в helper ломала headless codegen.
+			vec4 color = vec4(0.0);
+			if (all(greaterThanEqual(neighbor, vec2(0.0))) && all(lessThan(neighbor, native_size))) {
+				vec2 pixel = source_region.xy + (neighbor + vec2(0.5)) * source_region.zw / native_size;
+				color = texture(TEXTURE, pixel * TEXTURE_PIXEL_SIZE);
+				// Покрытие границы считаем отдельно от ореола большого исходника.
+				color.a = step(0.5, color.a);
+				color = vec4(color.rgb * color.a, color.a);
+			}
+			sum += color * weight;
 		}
 	}
 	vec3 rgb = sum.a > 0.0 ? sum.rgb / sum.a : vec3(0.0);
