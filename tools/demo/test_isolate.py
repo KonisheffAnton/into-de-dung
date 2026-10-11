@@ -60,6 +60,7 @@ class IsolateSelectionTests(unittest.TestCase):
                     "action_clone_ui": "ACTION ASYNC UI RESULTS:",
                     "forecast_definition_copy": "FORECAST DEFINITION COPY RESULTS:",
                     "forecast_restore_isolation": "FORECAST RESTORE ISOLATION RESULTS:",
+                    "restore_vitals": "RESTORE VITALS RESULTS:",
                 }
                 text = markers[label] + " 3 passed, 0 failed\n" if label in markers else "0 failed\n"
                 if label == "profile_board_clone":
@@ -102,7 +103,7 @@ class IsolateSelectionTests(unittest.TestCase):
                 self.assertEqual((code, calls, timing), (2, [], None))
 
     def test_ui_helpers_require_own_success_marker(self):
-        for label in ("battle_action_descriptors", "battle_mage_presenter"):
+        for label in ("battle_action_descriptors", "battle_mage_presenter", "restore_vitals"):
             with self.subTest(label=label):
                 options = ["--check", "--only", label]
                 code, calls, _, _ = self.exercise(options)

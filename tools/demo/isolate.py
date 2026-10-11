@@ -200,7 +200,7 @@ def main():
             invalid = invalid or "ITEM GRAPH CLONE RESULTS:" not in output or ", 0 failed" not in output or "ITEM GRAPH CLONE DONE" not in output
         if label == "forecast_clone_probe":
             invalid = invalid or "FORECAST CLONE RESULTS:" not in output or ", 0 failed" not in output or "FORECAST CLONE DONE" not in output or "WARNING:" in output
-        if label in ("current_schema_boundary", "action_event_validator", "forecast_definition_copy", "forecast_restore_isolation"):
+        if label in ("current_schema_boundary", "action_event_validator", "forecast_definition_copy", "forecast_restore_isolation", "restore_vitals"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output or "WARNING:" in output
         if label in ("current_art_zoom", "art_trial_battle", "presentation_capture", "battle_presentation", "presentation_foundation", "presentation_contact", "presentation_attack_styles", "presentation_consequences", "presentation_environment", "presentation_ranged", "presentation_mage", "presentation_reactions", "presentation_status", "battle_board_camera", "battle_camera_ui", "battle_view_reuse", "four_slot_bar", "battle_panels", "environment_visual_contract", "unit_visual_contract", "visual_scene_contract"):
@@ -477,6 +477,7 @@ def main():
         run("piercing_calculation", ["--script", "tests/test_armor_piercing_calculation.gd"])
         run("piercing", ["--script", "tests/test_armor_piercing.gd"])
         run("armor_snapshot", ["--script", "tests/test_armor_snapshot.gd"])
+        run("restore_vitals", ["--script", "tests/test_restore_vitals.gd"])
         run("snapshot_walk", ["--script", "tests/test_snapshot_walk_performance.gd"])
         run("unit_snapshot_performance", ["--script", "tests/test_unit_snapshot_performance.gd"])
         run("battle_execution_worker", ["--script", "tests/test_battle_execution_worker.gd"])
