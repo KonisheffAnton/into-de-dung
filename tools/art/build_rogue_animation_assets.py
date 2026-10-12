@@ -14,16 +14,16 @@ PACKAGE = ROOT / "assets/art_presets/trials/rogue_animations_v1"
 IDLE_SOURCE = ROOT / "docs/art/rogue-idle-layered-20261012/frames"
 IDLE_PREVIEW = ROOT / "docs/art/rogue-idle-layered-20261012/preview.gif"
 IDLE_VALIDATION = ROOT / "docs/art/rogue-idle-cadence-20261012/validation.json"
-FEEDBACK_ROOT = ROOT / "docs/art/rogue-game-feedback-20261012"
+FEEDBACK_ROOT = ROOT / "docs/art/rogue-timing-cleanup-20261012"
 BUFF_ROOT = FEEDBACK_ROOT / "buff-final"
 BUFF_MANIFEST = BUFF_ROOT / "manifest.json"
 DEATH_ROOT = FEEDBACK_ROOT / "death-final"
 DEATH_MANIFEST = DEATH_ROOT / "manifest.json"
 
 IDLE_NUMBERS = (1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45)
-BUFF_DURATIONS = (200, 350, 60, 120, 240)
+BUFF_DURATIONS = (120, 240, 60, 320, 120, 160)
 DEATH_COUNT = 13
-BASE_COMMIT = "d16bd004a5ab91a44e33965fc8515f16106f388b"
+BASE_COMMIT = "c464c03d99f316dcebe231dc00794c984e84f197"
 SCALE = 4
 BG = (63, 75, 67, 255)
 
@@ -149,7 +149,7 @@ def collect() -> tuple[dict[str, bytes], dict[str, Any]]:
         outputs[output_name] = upscale(data, relative(source))
         sources.append({"role": "buff_frame", "path": relative(source), "sha256": sha256(data), "output": output_name, "operation": "RGBA nearest-neighbor x4", "timing_ms": BUFF_DURATIONS[index - 1]})
 
-    death_durations = (100,) * DEATH_COUNT
+    death_durations = (50,) * DEATH_COUNT
     death_frames = collect_manifest_frames(FEEDBACK_ROOT, DEATH_MANIFEST, "death", death_durations)
     for index, (source, data) in enumerate(death_frames, 1):
         output_name = f"death/frame-{index:02d}.png"
@@ -166,8 +166,8 @@ def collect() -> tuple[dict[str, bytes], dict[str, Any]]:
     sources.append({"role": "corpse", "path": death_last["path"], "sha256": death_last["sha256"], "output": "corpse.png", "operation": "byte_copy of death frame 13", "timing_ms": None})
 
     outputs["idle_frames.tres"] = sprite_frames("idle", 5.0, True, [f"idle/frame-{i:02d}.png" for i in range(1, 13)], [10] * 12)
-    outputs["buff_frames.tres"] = sprite_frames("buff", 100.0, False, [f"buff/frame-{i:02d}.png" for i in range(1, 6)], list(BUFF_DURATIONS))
-    outputs["death_frames.tres"] = sprite_frames("death", 10.0, False, [f"death/frame-{i:02d}.png" for i in range(1, 14)], [10] * 13)
+    outputs["buff_frames.tres"] = sprite_frames("buff", 100.0, False, [f"buff/frame-{i:02d}.png" for i in range(1, len(BUFF_DURATIONS) + 1)], list(BUFF_DURATIONS))
+    outputs["death_frames.tres"] = sprite_frames("death", 20.0, False, [f"death/frame-{i:02d}.png" for i in range(1, 14)], [10] * 13)
     for item in idle:
         source_image = load_image(item[1], f"idle frame {item[0]}")
         if source_image.size != (512, 512):
@@ -179,7 +179,7 @@ def collect() -> tuple[dict[str, bytes], dict[str, Any]]:
         "sources": sources,
         "operations": {
             "idle": "выбранные cadence validation кадры побайтно; композиция с #3f4b43 совпадает с preview.gif по RGBA",
-            "buff": "5 кадров из buff-final/manifest.json; manifest base, порядок, длительности и SHA-256 входов проверены; RGBA nearest-neighbor x4",
+            "buff": "6 кадров из buff-final/manifest.json; manifest base, порядок, длительности и SHA-256 входов проверены; RGBA nearest-neighbor x4",
             "death": "13 кадров из death-final/manifest.json; manifest base, порядок, длительности и SHA-256 входов проверены; RGBA nearest-neighbor x4",
             "still": "точная копия B1 inputs/ready.png; RGBA nearest-neighbor x4",
             "corpse": "копия масштабированного death кадра 13"

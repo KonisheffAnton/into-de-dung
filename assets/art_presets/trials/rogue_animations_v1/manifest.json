@@ -1,5 +1,5 @@
 {
-  "base_commit": "d16bd004a5ab91a44e33965fc8515f16106f388b",
+  "base_commit": "c464c03d99f316dcebe231dc00794c984e84f197",
   "format": 1,
   "idle_preview_rgba_parity": {
     "background_rgba": [
@@ -86,20 +86,21 @@
     "preview_frame_count": 48
   },
   "operations": {
-    "buff": "5 кадров из buff-final/manifest.json; manifest base, порядок, длительности и SHA-256 входов проверены; RGBA nearest-neighbor x4",
+    "buff": "6 кадров из buff-final/manifest.json; manifest base, порядок, длительности и SHA-256 входов проверены; RGBA nearest-neighbor x4",
     "corpse": "копия масштабированного death кадра 13",
     "death": "13 кадров из death-final/manifest.json; manifest base, порядок, длительности и SHA-256 входов проверены; RGBA nearest-neighbor x4",
     "idle": "выбранные cadence validation кадры побайтно; композиция с #3f4b43 совпадает с preview.gif по RGBA",
     "still": "точная копия B1 inputs/ready.png; RGBA nearest-neighbor x4"
   },
-  "output_png_count": 32,
+  "output_png_count": 33,
   "outputs": {
     "buff/frame-01.png": "96b9dc10fbbc7ac324367270d847599001fab7a5e5ef9f2a335e73be1d5e778c",
     "buff/frame-02.png": "6f90028a3df9f96ae00eb47c55dde675d6aad442d5a2e45003814578b329c99b",
-    "buff/frame-03.png": "b0621797f23fb8fa731f5beecb3f4789e2602bf453c451e48e7262d6c1064261",
-    "buff/frame-04.png": "2dc355482ddaf064bfa7b88c02527357c487eab04a6f74f547ee8391a75646a1",
-    "buff/frame-05.png": "96b9dc10fbbc7ac324367270d847599001fab7a5e5ef9f2a335e73be1d5e778c",
-    "buff_frames.tres": "a475db1f353d5940160895927c8c2839a1a6dbd9943309e83b7a314fdedd1793",
+    "buff/frame-03.png": "64e9c34d8685247062260bde1f6fa8a296c89d7a9af57113b8a3ab62ea1b021d",
+    "buff/frame-04.png": "9b6604c267f9d0490458c082bf4c894b9d0c1a46bb604f6cea69c198ae2fdec1",
+    "buff/frame-05.png": "2dc355482ddaf064bfa7b88c02527357c487eab04a6f74f547ee8391a75646a1",
+    "buff/frame-06.png": "96b9dc10fbbc7ac324367270d847599001fab7a5e5ef9f2a335e73be1d5e778c",
+    "buff_frames.tres": "2985247e253493b57b3bf4112f1697b2422b418c45ae33d9c838012af8f5048e",
     "corpse.png": "4957262722294ce1515fefa21bd6201e9eaf31bcbe656fabbfc2aa41dc039a45",
     "death/frame-01.png": "96b9dc10fbbc7ac324367270d847599001fab7a5e5ef9f2a335e73be1d5e778c",
     "death/frame-02.png": "61a3afb1aad991e718d27c6167ee78e9cd2f6f3bc3e7983e6a7855fab55e2c01",
@@ -114,7 +115,7 @@
     "death/frame-11.png": "57db093c4335e5b5dc2b5fe2136da592337c1c971cb7c53c4ee251bfb97dec3f",
     "death/frame-12.png": "622cbaa92af2f6fbc6ed1cfd0443e9a94f4d7fb52c5587a010f9a58f975a312c",
     "death/frame-13.png": "4957262722294ce1515fefa21bd6201e9eaf31bcbe656fabbfc2aa41dc039a45",
-    "death_frames.tres": "5948cd61a317f211c674535f431ab52ce3fca3927b5d23c38a6d566e81b46114",
+    "death_frames.tres": "65d01ee37dd6851215c0c04593b0e527cebb9ec9d3e563441b1eab805c4ebd58",
     "idle/frame-01.png": "8174c576cdb8cca7c5d405ef5a1a91f662255f10cd27b734ecfd1a494d43ea76",
     "idle/frame-02.png": "8174c576cdb8cca7c5d405ef5a1a91f662255f10cd27b734ecfd1a494d43ea76",
     "idle/frame-03.png": "15839418704c61df5b20b1ddee26836e9732222a81406dea55a9c8e00ae94174",
@@ -230,151 +231,159 @@
     {
       "operation": "RGBA nearest-neighbor x4",
       "output": "buff/frame-01.png",
-      "path": "docs/art/rogue-game-feedback-20261012/inputs/ready.png",
+      "path": "docs/art/rogue-timing-cleanup-20261012/inputs/ready.png",
       "role": "buff_frame",
       "sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5",
-      "timing_ms": 200
+      "timing_ms": 120
     },
     {
       "operation": "RGBA nearest-neighbor x4",
       "output": "buff/frame-02.png",
-      "path": "docs/art/rogue-game-feedback-20261012/inputs/cross.png",
+      "path": "docs/art/rogue-timing-cleanup-20261012/inputs/cross.png",
       "role": "buff_frame",
       "sha256": "d7bb70600c605966451335a403f6d7dd8997a06c7a98e27cce1c9690db1c769b",
-      "timing_ms": 350
+      "timing_ms": 240
     },
     {
       "operation": "RGBA nearest-neighbor x4",
       "output": "buff/frame-03.png",
-      "path": "docs/art/rogue-game-feedback-20261012/buff-final/release.png",
+      "path": "docs/art/rogue-timing-cleanup-20261012/buff-final/release-80.png",
       "role": "buff_frame",
-      "sha256": "bdc1e3eef4e869a6855165d8433f46be5dfc9393a42effbd3f02f61e808fb930",
+      "sha256": "cb48cb0ca5f4ec39de2505a2a59453d497f753e74d02b1e397d86fcaf73ab2b4",
       "timing_ms": 60
     },
     {
       "operation": "RGBA nearest-neighbor x4",
       "output": "buff/frame-04.png",
-      "path": "docs/art/rogue-game-feedback-20261012/inputs/settle.png",
+      "path": "docs/art/rogue-timing-cleanup-20261012/buff-final/release-94.png",
+      "role": "buff_frame",
+      "sha256": "2751ebfae01e280aa4664a907eee33010024a131597e58ed18dfe7a4866dd388",
+      "timing_ms": 320
+    },
+    {
+      "operation": "RGBA nearest-neighbor x4",
+      "output": "buff/frame-05.png",
+      "path": "docs/art/rogue-timing-cleanup-20261012/inputs/settle.png",
       "role": "buff_frame",
       "sha256": "c2204a68a6505d98b086c709c9272ed36c47e63a198f8103a22aea2cc6802ac7",
       "timing_ms": 120
     },
     {
       "operation": "RGBA nearest-neighbor x4",
-      "output": "buff/frame-05.png",
-      "path": "docs/art/rogue-game-feedback-20261012/inputs/ready.png",
+      "output": "buff/frame-06.png",
+      "path": "docs/art/rogue-timing-cleanup-20261012/inputs/ready.png",
       "role": "buff_frame",
       "sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5",
-      "timing_ms": 240
+      "timing_ms": 160
     },
     {
       "operation": "RGBA nearest-neighbor x4",
       "output": "death/frame-01.png",
-      "path": "docs/art/rogue-game-feedback-20261012/inputs/ready.png",
+      "path": "docs/art/rogue-timing-cleanup-20261012/inputs/death/frame-01.png",
       "role": "death_frame",
       "sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5",
-      "timing_ms": 100
+      "timing_ms": 50
     },
     {
       "operation": "RGBA nearest-neighbor x4",
       "output": "death/frame-02.png",
-      "path": "docs/art/rogue-game-feedback-20261012/death-fast/pixellab/frame-02.png",
+      "path": "docs/art/rogue-timing-cleanup-20261012/inputs/death/frame-02.png",
       "role": "death_frame",
       "sha256": "6404699ea829fa235880109b45c9638cc3054a7aea8683e9cb825197867d1967",
-      "timing_ms": 100
+      "timing_ms": 50
     },
     {
       "operation": "RGBA nearest-neighbor x4",
       "output": "death/frame-03.png",
-      "path": "docs/art/rogue-game-feedback-20261012/death-fast/pixellab/frame-03.png",
+      "path": "docs/art/rogue-timing-cleanup-20261012/inputs/death/frame-03.png",
       "role": "death_frame",
       "sha256": "8b0512b6fa6b6c6607ab0758fc57faa1432a0beadc7c628ac186a0d374425f3c",
-      "timing_ms": 100
+      "timing_ms": 50
     },
     {
       "operation": "RGBA nearest-neighbor x4",
       "output": "death/frame-04.png",
-      "path": "docs/art/rogue-game-feedback-20261012/death-fast/pixellab/frame-04.png",
+      "path": "docs/art/rogue-timing-cleanup-20261012/inputs/death/frame-04.png",
       "role": "death_frame",
       "sha256": "f6769fa8af8965e46bc9d28d4c71859b7d2f524b36d8944ff113a7b8bba86a90",
-      "timing_ms": 100
+      "timing_ms": 50
     },
     {
       "operation": "RGBA nearest-neighbor x4",
       "output": "death/frame-05.png",
-      "path": "docs/art/rogue-game-feedback-20261012/death-fast/pixellab/frame-05.png",
+      "path": "docs/art/rogue-timing-cleanup-20261012/inputs/death/frame-05.png",
       "role": "death_frame",
       "sha256": "50e93a8b1b83ca63e2dd8ce7c2fd0057cfa441e8ffafac3101d5f205a2953412",
-      "timing_ms": 100
+      "timing_ms": 50
     },
     {
       "operation": "RGBA nearest-neighbor x4",
       "output": "death/frame-06.png",
-      "path": "docs/art/rogue-game-feedback-20261012/death-fast/pixellab/frame-06.png",
+      "path": "docs/art/rogue-timing-cleanup-20261012/inputs/death/frame-06.png",
       "role": "death_frame",
       "sha256": "8304fcfe34a80ee2c69260e0e732b15704fb083d978c3efa4a266c0a1a23e962",
-      "timing_ms": 100
+      "timing_ms": 50
     },
     {
       "operation": "RGBA nearest-neighbor x4",
       "output": "death/frame-07.png",
-      "path": "docs/art/rogue-game-feedback-20261012/death-fast/pixellab/frame-07.png",
+      "path": "docs/art/rogue-timing-cleanup-20261012/inputs/death/frame-07.png",
       "role": "death_frame",
       "sha256": "f97e0321e1be71d1471b5ab0cdeeeb95d2be87a5cca0444b002b9544f003695d",
-      "timing_ms": 100
+      "timing_ms": 50
     },
     {
       "operation": "RGBA nearest-neighbor x4",
       "output": "death/frame-08.png",
-      "path": "docs/art/rogue-game-feedback-20261012/death-fast/pixellab/frame-08.png",
+      "path": "docs/art/rogue-timing-cleanup-20261012/inputs/death/frame-08.png",
       "role": "death_frame",
       "sha256": "0e3986e64276d27cc884323c2ec3378b4000b51216baede525bb98d184eeea14",
-      "timing_ms": 100
+      "timing_ms": 50
     },
     {
       "operation": "RGBA nearest-neighbor x4",
       "output": "death/frame-09.png",
-      "path": "docs/art/rogue-game-feedback-20261012/death-fast/pixellab/frame-09.png",
+      "path": "docs/art/rogue-timing-cleanup-20261012/inputs/death/frame-09.png",
       "role": "death_frame",
       "sha256": "0e538477926bc86a38cf707422771ad58b72cc5f3ef9c6824085941a8c1bf898",
-      "timing_ms": 100
+      "timing_ms": 50
     },
     {
       "operation": "RGBA nearest-neighbor x4",
       "output": "death/frame-10.png",
-      "path": "docs/art/rogue-game-feedback-20261012/death-fast/pixellab/frame-10.png",
+      "path": "docs/art/rogue-timing-cleanup-20261012/inputs/death/frame-10.png",
       "role": "death_frame",
       "sha256": "aed0ab8dd95d59233b07a1d7e62d27862279bf5e2db1e37b5abd4f2ed04c233e",
-      "timing_ms": 100
+      "timing_ms": 50
     },
     {
       "operation": "RGBA nearest-neighbor x4",
       "output": "death/frame-11.png",
-      "path": "docs/art/rogue-game-feedback-20261012/death-fast/pixellab/frame-11.png",
+      "path": "docs/art/rogue-timing-cleanup-20261012/inputs/death/frame-11.png",
       "role": "death_frame",
       "sha256": "097dec0209c7fa603ed5a77653ae6a2e3f9995b5f6c43e5d29141321c8ac2a95",
-      "timing_ms": 100
+      "timing_ms": 50
     },
     {
       "operation": "RGBA nearest-neighbor x4",
       "output": "death/frame-12.png",
-      "path": "docs/art/rogue-game-feedback-20261012/death-fast/pixellab/frame-12.png",
+      "path": "docs/art/rogue-timing-cleanup-20261012/inputs/death/frame-12.png",
       "role": "death_frame",
       "sha256": "91723bda51591841dc896dc3cbda36bc2f5f47610590dd4d7181e63bf33e16b5",
-      "timing_ms": 100
+      "timing_ms": 50
     },
     {
       "operation": "RGBA nearest-neighbor x4",
       "output": "death/frame-13.png",
-      "path": "docs/art/rogue-game-feedback-20261012/death-fast/pixellab/frame-13.png",
+      "path": "docs/art/rogue-timing-cleanup-20261012/inputs/death/frame-13.png",
       "role": "death_frame",
       "sha256": "c9ccec63e631e98bef3b3d8cb766c62b1928275844fc5da6ab0589ae3a0ae5ba",
-      "timing_ms": 100
+      "timing_ms": 50
     },
     {
       "operation": "RGBA nearest-neighbor x4",
       "output": "still.png",
-      "path": "docs/art/rogue-game-feedback-20261012/inputs/ready.png",
+      "path": "docs/art/rogue-timing-cleanup-20261012/inputs/ready.png",
       "role": "still",
       "sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5",
       "timing_ms": null
@@ -382,7 +391,7 @@
     {
       "operation": "byte_copy of death frame 13",
       "output": "corpse.png",
-      "path": "docs/art/rogue-game-feedback-20261012/death-fast/pixellab/frame-13.png",
+      "path": "docs/art/rogue-timing-cleanup-20261012/inputs/death/frame-13.png",
       "role": "corpse",
       "sha256": "c9ccec63e631e98bef3b3d8cb766c62b1928275844fc5da6ab0589ae3a0ae5ba",
       "timing_ms": null
@@ -390,26 +399,27 @@
   ],
   "timings_ms": {
     "buff": [
-      200,
-      350,
-      60,
       120,
-      240
+      240,
+      60,
+      320,
+      120,
+      160
     ],
     "death": [
-      100,
-      100,
-      100,
-      100,
-      100,
-      100,
-      100,
-      100,
-      100,
-      100,
-      100,
-      100,
-      100
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50
     ],
     "idle": [
       200,

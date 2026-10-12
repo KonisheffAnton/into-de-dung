@@ -29,7 +29,7 @@ shader_parameter/native_size = Vector2(128, 128)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rogue"]
 shader = ExtResource("4_native")
 shader_parameter/source_region = Vector4(0, 0, 512, 512)
-shader_parameter/native_size = Vector2(512, 512)
+shader_parameter/native_size = Vector2(128, 128)
 
 [node name="PlaceholderUnit" instance=ExtResource("1_base")]
 script = ExtResource("5_idle_script")

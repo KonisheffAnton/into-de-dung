@@ -19,6 +19,8 @@ var _configured_min: int = -1
 var _configured_max: int = -1
 var _buff_elapsed: float = -1.0
 var _death_active: bool = false
+var _rogue_idle_authored_alpha: float = 1.0
+var _rogue_idle_alpha_captured: bool = false
 var cloth_palette: int = 0
 var _cloth_sprites: Array[Sprite2D] = []
 var _cloth_slots: Dictionary[int, int] = {}
@@ -42,14 +44,25 @@ func _ready() -> void:
 func sync_scene_art() -> void:
 	super.sync_scene_art()
 	var next_sprite := get_node_or_null("ArtRoot/RogueIdleSprite" if visual_class_id == &"rogue" else "ArtRoot/DefenderIdleSprite") as Sprite2D
-	if _idle_sprite != null and _idle_sprite != next_sprite: _idle_sprite.visible = false
+	var sprite_changed := _idle_sprite != null and _idle_sprite != next_sprite
+	if sprite_changed:
+		_restore_rogue_death_alpha(_idle_sprite)
+		_idle_sprite.visible = false
 	_idle_sprite = next_sprite
+	if sprite_changed:
+		_death_active = false
+		death_progress = 0.0
+	if visual_class_id == &"rogue" and _idle_sprite != null and not _rogue_idle_alpha_captured:
+		_rogue_idle_authored_alpha = _idle_sprite.self_modulate.a
+		_rogue_idle_alpha_captured = true
 	_still_sprite = class_still_sprite()
 	_sync_cloth_palette()
 	if _idle_sprite == null or _still_sprite == null:
+		_restore_rogue_death_alpha(_idle_sprite)
 		if _idle_sprite != null: _idle_sprite.visible = false
 		set_process(false)
 		return
+	_restore_rogue_death_alpha(_idle_sprite)
 	# Отражаем рисунок вокруг прежней опоры ног, не HUD и не всю фигуру доски.
 	var mirrored := unit != null and unit.faction == Faction.Type.ENEMY
 	var rogue := visual_class_id == &"rogue"
@@ -64,7 +77,15 @@ func sync_scene_art() -> void:
 		var art := get_node("ArtRoot") as Node2D
 		art.rotation = 0.0
 		art.scale.y = art.scale.x
-		_apply_clip_frame(_active_death_frames(), &"death", death_progress * death_duration())
+		var death_elapsed := death_progress * death_duration()
+		if rogue:
+			var clip_duration := _clip_duration(_active_death_frames(), &"death")
+			_apply_clip_frame(_active_death_frames(), &"death", minf(death_elapsed, clip_duration))
+			# Рисунок остаётся непрозрачным до конца авторского падения и короткой паузы.
+			var fade_elapsed := maxf(0.0, death_elapsed - clip_duration - ROGUE_DEATH_HOLD_SECONDS)
+			_idle_sprite.self_modulate.a = _rogue_idle_authored_alpha * (1.0 - clampf(fade_elapsed / ROGUE_DEATH_FADE_SECONDS, 0.0, 1.0))
+		else:
+			_apply_clip_frame(_active_death_frames(), &"death", death_elapsed)
 		return
 	if _buff_elapsed >= 0.0 and can_play_buff():
 		_idle_sprite.visible = true
@@ -131,7 +152,20 @@ func can_play_death() -> bool:
 
 
 func death_duration() -> float:
-	return _clip_duration(_active_death_frames(), &"death") if can_play_death() else 0.0
+	if not can_play_death(): return 0.0
+	var duration := _clip_duration(_active_death_frames(), &"death")
+	return duration + ROGUE_DEATH_HOLD_SECONDS + ROGUE_DEATH_FADE_SECONDS if visual_class_id == &"rogue" else duration
+
+
+const ROGUE_DEATH_HOLD_SECONDS: float = 0.25
+const ROGUE_DEATH_FADE_SECONDS: float = 0.80
+
+
+func _restore_rogue_death_alpha(sprite: Sprite2D) -> void:
+	if sprite == null or sprite.name != "RogueIdleSprite" or not _rogue_idle_alpha_captured: return
+	var modulation := sprite.self_modulate
+	modulation.a = _rogue_idle_authored_alpha
+	sprite.self_modulate = modulation
 
 
 func _active_buff_frames() -> SpriteFrames:
@@ -183,6 +217,7 @@ func _apply_clip_frame(frames: SpriteFrames, animation: StringName, elapsed: flo
 
 func reset_view_pose() -> void:
 	_death_active = false
+	_restore_rogue_death_alpha(_idle_sprite)
 	clear_buff()
 	super.reset_view_pose()
 
@@ -234,6 +269,7 @@ func _sync_cloth_frame(sprite: Sprite2D) -> void:
 
 
 func retire_view() -> void:
+	_restore_rogue_death_alpha(_idle_sprite)
 	super.retire_view()
 	_idle_owner = UnitId.NONE
 	idle_clock.reset()
@@ -241,6 +277,7 @@ func retire_view() -> void:
 
 
 func _exit_tree() -> void:
+	_restore_rogue_death_alpha(_idle_sprite)
 	_death_active = false
 	_buff_elapsed = -1.0
 	set_process(false)

@@ -13,7 +13,7 @@ var suite: String = "DEFENDER DEATH ROUTES"
 func _initialize() -> void:
 	if "--rogue" in OS.get_cmdline_user_args():
 		visual_class = &"rogue"
-		death_seconds = 1.3
+		death_seconds = 1.70
 		clip_property = &"rogue_death_frames"
 		sprite_path = "ArtRoot/RogueIdleSprite"
 		sprite_scale = 0.25
@@ -81,14 +81,34 @@ func route(kind: String) -> void:
 			kind + " holds before and follows the selected death clock")
 		check(not board._view_corpses.any(func(c: Dictionary) -> bool: return c.source_unit_id == victim.id), kind + " corpse waits for clip")
 		var sprite := visual.get_node(sprite_path) as Sprite2D
-		var texture := sprite.texture
 		var art := visual.get_node("ArtRoot") as Node2D
 		check(is_zero_approx(art.rotation) and is_equal_approx(art.scale.x, art.scale.y) and visual.modulate.a == 1.0, kind + " no synthetic rotation squash fade")
+		if visual_class == &"rogue":
+			check(is_equal_approx(sprite.self_modulate.a, 1.0), kind + " keeps rogue opaque during fall and hold")
+			var elapsed := visual.death_progress * death_seconds
+			var midpoint_target: float = 0.65 + 0.25 + 0.40
+			if elapsed < midpoint_target: advance(midpoint_target - elapsed)
+			elapsed = visual.death_progress * death_seconds
+			var expected_alpha := 1.0 - clampf((elapsed - 0.65 - 0.25) / 0.80, 0.0, 1.0)
+			check(player.active and visual._death_active and is_equal_approx(sprite.self_modulate.a, expected_alpha)
+				and sprite.self_modulate.a > 0.35 and sprite.self_modulate.a < 0.65,
+				kind + " follows the expected rogue fade alpha through the real Tween near midpoint")
 		check(sprite.scale.x == (-sprite_scale if victim.faction == Faction.Type.ENEMY else sprite_scale), kind + " faction mirror")
+		var texture := sprite.texture
+		var fade_alpha := sprite.self_modulate.a
 		board.size += Vector2(17, 11)
 		board.zoom_camera(0.95, board.size * 0.5)
-		check(sprite.texture == texture and visual._death_active, kind + " resize preserves frame")
+		check(sprite.texture == texture and visual._death_active
+			and (visual_class != &"rogue" or is_equal_approx(sprite.self_modulate.a, fade_alpha)), kind + " resize preserves frame and fade")
 		await capture(("rogue-" if visual_class == &"rogue" else "defender-") + kind)
+		if visual_class == &"rogue":
+			var elapsed := visual.death_progress * death_seconds
+			var end_target: float = death_seconds - 0.01
+			if elapsed < end_target: advance(end_target - elapsed)
+			elapsed = visual.death_progress * death_seconds
+			var expected_alpha := 1.0 - clampf((elapsed - 0.65 - 0.25) / 0.80, 0.0, 1.0)
+			check(player.active and sprite.self_modulate.a < 0.02 and is_equal_approx(sprite.self_modulate.a, expected_alpha),
+				kind + " reaches near-transparent at the end of rogue fade")
 	finish()
 	assert_playback_unchanged(s, saved, data, kind)
 	check(board._view_corpses.any(func(c: Dictionary) -> bool: return c.source_unit_id == victim.id), kind + " publishes real corpse")
@@ -97,6 +117,9 @@ func route(kind: String) -> void:
 	seek_pose(victim.id, [&"death"])
 	player.cancel()
 	check(board._field_presentation.poses.is_empty(), kind + " cancel clears poses")
+	if visual_class == &"rogue":
+		check(is_equal_approx(((board._presentation_visual(victim.id) as BattleDefenderIdleVisual).get_node(sprite_path) as Sprite2D).self_modulate.a, 1.0),
+			kind + " cancel restores authored rogue sprite alpha")
 	for node: Node in board._entities.get_children():
 		if node is BattleDefenderIdleVisual: check(not node._death_active, kind + " cancel clears clip")
 	start_packet(data, s, kind + " speed")
@@ -113,6 +136,9 @@ func route(kind: String) -> void:
 	stale.custom_step(2.0)
 	check(not player.active and board._field_presentation.poses.is_empty()
 		and not (board._presentation_visual(victim.id) as BattleDefenderIdleVisual)._death_active, kind + " skip clears clip and stale Tween")
+	if visual_class == &"rogue":
+		check(is_equal_approx(((board._presentation_visual(victim.id) as BattleDefenderIdleVisual).get_node(sprite_path) as Sprite2D).self_modulate.a, 1.0),
+			kind + " skip restores authored rogue sprite alpha")
 	board.session = null
 	s.close()
 	await process_frame

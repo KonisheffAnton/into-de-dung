@@ -83,20 +83,20 @@ func _test_resources(visual: BattleDefenderIdleVisual) -> void:
 	check(visual.rogue_buff_frames == ROGUE_BUFF and ROGUE_BUFF.get_animation_names().size() == 1
 		and ROGUE_BUFF.get_animation_names()[0] == "buff"
 		and not ROGUE_BUFF.get_animation_loop(&"buff") and ROGUE_BUFF.get_animation_speed(&"buff") == 100.0
-		and ROGUE_BUFF.get_frame_count(&"buff") == 5,
-		"buff resource has one finite five-frame clip at 100 fps")
+		and ROGUE_BUFF.get_frame_count(&"buff") == 6,
+		"buff resource has one finite six-frame clip at 100 fps")
 	check(visual.rogue_death_frames == ROGUE_DEATH and ROGUE_DEATH.get_animation_names().size() == 1
 		and ROGUE_DEATH.get_animation_names()[0] == "death"
-		and not ROGUE_DEATH.get_animation_loop(&"death") and ROGUE_DEATH.get_animation_speed(&"death") == 10.0
+		and not ROGUE_DEATH.get_animation_loop(&"death") and ROGUE_DEATH.get_animation_speed(&"death") == 20.0
 		and ROGUE_DEATH.get_frame_count(&"death") == 13,
-		"death resource has one finite 13-frame clip at 10 fps")
-	var buff_ticks: Array[float] = [20.0, 35.0, 6.0, 12.0, 24.0]
+		"death resource has one finite 13-frame clip at 20 fps")
+	var buff_ticks: Array[float] = [12.0, 24.0, 6.0, 32.0, 12.0, 16.0]
 	var buff_total: float = 0.0
-	for frame: int in 5:
+	for frame: int in 6:
 		var duration := ROGUE_BUFF.get_frame_duration(&"buff", frame)
 		check(duration == buff_ticks[frame], "buff frame %02d tick duration" % (frame + 1))
 		buff_total += duration / ROGUE_BUFF.get_animation_speed(&"buff")
-	check(is_equal_approx(buff_total, 0.97), "buff totals exactly 970 ms")
+	check(is_equal_approx(buff_total, 1.02), "buff totals exactly 1020 ms")
 	var idle_total: float = 0.0
 	for frame: int in 12:
 		check(ROGUE_IDLE.get_frame_duration(&"idle", frame) == 1.0, "idle frame %02d is one tick" % (frame + 1))
@@ -106,7 +106,8 @@ func _test_resources(visual: BattleDefenderIdleVisual) -> void:
 	for frame: int in 13:
 		check(ROGUE_DEATH.get_frame_duration(&"death", frame) == 1.0, "death frame %02d is one tick" % (frame + 1))
 		death_total += ROGUE_DEATH.get_frame_duration(&"death", frame) / ROGUE_DEATH.get_animation_speed(&"death")
-	check(is_equal_approx(death_total, 1.3), "death totals 1.3 seconds without a GIF hold")
+	check(is_equal_approx(death_total, 0.65), "death clip totals 0.65 seconds without a GIF hold")
+	check(is_equal_approx(visual.death_duration(), 1.70), "rogue death clock includes authored clip, hold, and fade")
 
 
 func _test_art_and_lifecycle(visual: BattleDefenderIdleVisual, values: Dictionary, config: IsoGridConfig) -> void:
@@ -121,6 +122,10 @@ func _test_art_and_lifecycle(visual: BattleDefenderIdleVisual, values: Dictionar
 	check(idle.position == Vector2(-64, -94) and idle.scale == Vector2(0.25, 0.25)
 		and still.position == Vector2(-64, -94) and still.scale == Vector2(0.25, 0.25),
 		"512px rogue sheets align on allied support at quarter scale")
+	var rogue_material := still.material as ShaderMaterial
+	check(rogue_material != null and rogue_material.get_shader_parameter("native_size") == Vector2(128, 128)
+		and rogue_material.get_shader_parameter("source_region") == Vector4(0, 0, 512, 512),
+		"rogue shader samples the 512px source region at 128px native size")
 	var elapsed_before := visual.idle_clock.get_elapsed()
 	visual._process(0.43)
 	var elapsed := visual.idle_clock.get_elapsed()
@@ -187,15 +192,24 @@ func _test_art_and_lifecycle(visual: BattleDefenderIdleVisual, values: Dictionar
 		if frame in [0, 5, 11]: await _capture("rogue-idle-%02d" % frame)
 	visual.sample_death(0.5)
 	for frame: int in 13:
-		var progress := (float(frame) + 0.5) / 13.0
+		var progress := ((float(frame) + 0.5) / 20.0) / visual.death_duration()
 		visual.sample_death(progress)
 		check(idle.texture == ROGUE_DEATH.get_frame_texture(&"death", frame) and idle.visible and not still.visible,
 			"death samples authored frame %02d" % (frame + 1))
+		check(is_equal_approx(idle.self_modulate.a, 1.0), "death remains opaque through authored clip")
 		if frame in [0, 6, 12]: await _capture("rogue-death-%02d" % frame)
+	visual.sample_death((0.65 + 0.25) / visual.death_duration())
+	check(idle.texture == ROGUE_DEATH.get_frame_texture(&"death", 12) and is_equal_approx(idle.self_modulate.a, 1.0),
+		"death holds the final authored frame through the opaque pause")
+	visual.sample_death((0.65 + 0.25 + 0.40) / visual.death_duration())
+	check(is_equal_approx(idle.self_modulate.a, 0.5), "rogue body fades linearly through the final 0.8 seconds")
+	visual.sample_death(1.0)
+	check(is_zero_approx(idle.self_modulate.a), "rogue body reaches transparent at death completion")
 	visual.frozen = true
 	visual.sync_scene_art()
 	check(visual.can_play_death(), "confirmed death presentation remains available while frozen")
 	visual.reset_view_pose()
+	check(is_equal_approx(idle.self_modulate.a, 1.0), "reset restores authored rogue sprite alpha")
 	visual.set_process(false)
 	values["unit"].faction = int(Faction.Type.ENEMY)
 	values["unit"].id = 42
@@ -221,11 +235,11 @@ func _test_playback(visual: BattleDefenderIdleVisual, values: Dictionary, config
 	visual.sample_buff(0.0)
 	var buff := visual.get_node("ArtRoot/RogueIdleSprite") as Sprite2D
 	var buff_elapsed: float = 0.0
-	for frame: int in 5:
+	for frame: int in 6:
 		var frame_duration := ROGUE_BUFF.get_frame_duration(&"buff", frame) / ROGUE_BUFF.get_animation_speed(&"buff")
 		visual.sample_buff(buff_elapsed + frame_duration * 0.5)
 		check(buff.texture == ROGUE_BUFF.get_frame_texture(&"buff", frame), "buff samples frame %02d" % (frame + 1))
-		if frame in [0, 2, 4]: await _capture("rogue-buff-%02d" % frame)
+		if frame in [0, 2, 3, 5]: await _capture("rogue-buff-%02d" % frame)
 		buff_elapsed += frame_duration
 	visual.clear_buff()
 	visual.set_process(false)
@@ -245,11 +259,16 @@ func _test_fallback_and_palette(visual: BattleDefenderIdleVisual, values: Dictio
 	var after_enabled: Variant = material.get_shader_parameter("cloth_enabled") if material != null else null
 	check(material == null or before_enabled == after_enabled,
 		"Defender cloth palette does not alter rogue sprite material")
+	visual.sample_death((0.65 + 0.25 + 0.40) / visual.death_duration())
+	check(is_equal_approx(idle.self_modulate.a, 0.5), "class reuse fixture first enters the rogue fade")
 	var mage_values := _values(&"mage", Faction.Type.PLAYER, 41)
 	check(visual.apply_view(mage_values, config) and not idle.visible and not rogue_still.visible,
 		"same living unit ID changes class without a stale rogue drawing")
+	check(is_equal_approx(idle.self_modulate.a, 1.0), "class change restores rogue sprite alpha")
 	check(visual.apply_view(values, config) and idle.visible and not rogue_still.visible,
 		"same unit ID returns to rogue and resumes its own resource")
+	check(not visual._death_active and is_equal_approx(idle.self_modulate.a, 1.0),
+		"same ID class reuse cannot resume a stale rogue death fade")
 	visual.rogue_idle_frames = null
 	visual.rogue_buff_frames = null
 	visual.rogue_death_frames = null
@@ -257,11 +276,17 @@ func _test_fallback_and_palette(visual: BattleDefenderIdleVisual, values: Dictio
 	check(not idle.visible and rogue_still.visible and not visual.is_processing()
 		and not visual.can_play_buff() and not visual.can_play_death(),
 		"missing rogue animation resources safely fall back to the authored still")
+	check(is_equal_approx(idle.self_modulate.a, 1.0), "animation fallback restores rogue sprite alpha")
+	visual.rogue_idle_frames = ROGUE_IDLE
+	visual.rogue_buff_frames = ROGUE_BUFF
+	visual.rogue_death_frames = ROGUE_DEATH
+	visual.sample_death((0.65 + 0.25 + 0.40) / visual.death_duration())
+	check(is_equal_approx(idle.self_modulate.a, 0.5), "missing-still fallback fixture first enters rogue fade")
 	var still_texture := rogue_still.texture
 	rogue_still.texture = null
 	visual.sync_scene_art()
 	var body := visual.get_node("ArtRoot/BodySprite") as Sprite2D
-	check(not idle.visible and body.visible and not visual.is_processing(),
+	check(not idle.visible and body.visible and not visual.is_processing() and is_equal_approx(idle.self_modulate.a, 1.0),
 		"missing rogue still and animation resources use the generic body fallback")
 	rogue_still.texture = still_texture
 	visual.sync_scene_art()

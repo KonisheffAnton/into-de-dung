@@ -1,0 +1,50 @@
+{
+  "usage": {
+    "type": "generations",
+    "generations": 10.0
+  },
+  "id": "cfb5168d-7db7-4ca7-88e8-4ef8a5e5f8db",
+  "status": "completed",
+  "created_at": "2026-10-12T21:14:23.149227+03:00",
+  "last_response": {
+    "seed": 2026101261,
+    "type": "message_done",
+    "action": "Touching up pixels",
+    "progress": 0.85,
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 10
+    },
+    "generation_id": "c4a305bf-c7a9-43aa-8a85-74a14b145270",
+    "queue_position": 0,
+    "usage_cost_usd": 0.08,
+    "billing_charged": true,
+    "generation_mode": "edit_images",
+    "generation_started_at": "2026-10-12T21:14:25.352102+03:00",
+    "estimated_wait_seconds": 0,
+    "original_image_n_colors": 101,
+    "quantized_image_n_colors": 19,
+    "files": [
+      {
+        "file": "frame-01.png",
+        "sha256": "b5afee2e4d1e7615d7f40b6bf4e6e88178af2d263b8eb729f88d50fc8c957e03"
+      },
+      {
+        "file": "frame-02.png",
+        "sha256": "c89638a920ab3653fcc0bd0c0a89eabad913f1374eafc32e71c1176c2aedb333"
+      }
+    ],
+    "frame_count": 2,
+    "quantized_files": [
+      {
+        "file": "quantized-frame-01.png",
+        "sha256": "b5afee2e4d1e7615d7f40b6bf4e6e88178af2d263b8eb729f88d50fc8c957e03"
+      },
+      {
+        "file": "quantized-frame-02.png",
+        "sha256": "c89638a920ab3653fcc0bd0c0a89eabad913f1374eafc32e71c1176c2aedb333"
+      }
+    ]
+  }
+}

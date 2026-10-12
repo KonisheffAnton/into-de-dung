@@ -1,0 +1,77 @@
+{
+  "authorization": "Prior explicit user permission: correct only colors locally for B1 outline; no pose edits.",
+  "records": [
+    {
+      "pose": "release-80",
+      "source": "buff-deceleration/pixellab/frame-01.png",
+      "source_sha256": "b5afee2e4d1e7615d7f40b6bf4e6e88178af2d263b8eb729f88d50fc8c957e03",
+      "output": "buff-final/release-80.png",
+      "output_sha256": "cb48cb0ca5f4ec39de2505a2a59453d497f753e74d02b1e397d86fcaf73ab2b4",
+      "changed_rgb_pixels": 891,
+      "alpha_mismatches": 0,
+      "unchanged_other_rgba": true,
+      "replacement_colors": [
+        {
+          "from": [
+            22,
+            20,
+            19
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ]
+        },
+        {
+          "from": [
+            32,
+            25,
+            24
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ]
+        }
+      ]
+    },
+    {
+      "pose": "release-94",
+      "source": "buff-deceleration/pixellab/frame-02.png",
+      "source_sha256": "c89638a920ab3653fcc0bd0c0a89eabad913f1374eafc32e71c1176c2aedb333",
+      "output": "buff-final/release-94.png",
+      "output_sha256": "2751ebfae01e280aa4664a907eee33010024a131597e58ed18dfe7a4866dd388",
+      "changed_rgb_pixels": 880,
+      "alpha_mismatches": 0,
+      "unchanged_other_rgba": true,
+      "replacement_colors": [
+        {
+          "from": [
+            22,
+            20,
+            19
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ]
+        },
+        {
+          "from": [
+            32,
+            25,
+            24
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ]
+        }
+      ]
+    }
+  ]
+}

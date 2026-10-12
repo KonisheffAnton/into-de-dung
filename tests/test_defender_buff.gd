@@ -158,7 +158,7 @@ func run_real_action(catalog_version: int, action: StringName, mode: int, label:
 		visual.sample_buff(midpoint)
 		check(idle_sprite.texture == frames_resource.get_frame_texture(&"buff", index), label + " samples authored frame %02d" % (index + 1))
 		ticks += duration
-	check(is_equal_approx(ticks / frames_resource.get_animation_speed(&"buff"), 0.97 if rogue else 56.75 / 30.0), label + " preserves selected clip timing")
+	check(is_equal_approx(ticks / frames_resource.get_animation_speed(&"buff"), 1.02 if rogue else 56.75 / 30.0), label + " preserves selected clip timing")
 	board._sample_defender_buff(0.8)
 	var identity := visual.get_instance_id()
 	var texture := idle_sprite.texture

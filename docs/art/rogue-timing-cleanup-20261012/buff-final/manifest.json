@@ -1,0 +1,38 @@
+{
+  "base": "c464c03d99f316dcebe231dc00794c984e84f197",
+  "frames": [
+    {
+      "source": "inputs/ready.png",
+      "sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5",
+      "duration_ms": 120
+    },
+    {
+      "source": "inputs/cross.png",
+      "sha256": "d7bb70600c605966451335a403f6d7dd8997a06c7a98e27cce1c9690db1c769b",
+      "duration_ms": 240
+    },
+    {
+      "source": "buff-final/release-80.png",
+      "sha256": "cb48cb0ca5f4ec39de2505a2a59453d497f753e74d02b1e397d86fcaf73ab2b4",
+      "duration_ms": 60
+    },
+    {
+      "source": "buff-final/release-94.png",
+      "sha256": "2751ebfae01e280aa4664a907eee33010024a131597e58ed18dfe7a4866dd388",
+      "duration_ms": 320
+    },
+    {
+      "source": "inputs/settle.png",
+      "sha256": "c2204a68a6505d98b086c709c9272ed36c47e63a198f8103a22aea2cc6802ac7",
+      "duration_ms": 120
+    },
+    {
+      "source": "inputs/ready.png",
+      "sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5",
+      "duration_ms": 160
+    }
+  ],
+  "provider_job": "cfb5168d-7db7-4ca7-88e8-4ef8a5e5f8db",
+  "timing_ms": 1020,
+  "pixelOperations": "Only already authorized B1 dark-color mapping to reference #211e21; provider geometry/alpha unchanged."
+}

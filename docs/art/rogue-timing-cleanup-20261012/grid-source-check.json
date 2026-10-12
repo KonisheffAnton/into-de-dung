@@ -1,0 +1,62 @@
+[
+  {
+    "frame": "frame-01.png",
+    "rgba_equal_128x4": true,
+    "pixels_different": 0
+  },
+  {
+    "frame": "frame-02.png",
+    "rgba_equal_128x4": true,
+    "pixels_different": 0
+  },
+  {
+    "frame": "frame-03.png",
+    "rgba_equal_128x4": false,
+    "pixels_different": 4116
+  },
+  {
+    "frame": "frame-04.png",
+    "rgba_equal_128x4": false,
+    "pixels_different": 5264
+  },
+  {
+    "frame": "frame-05.png",
+    "rgba_equal_128x4": true,
+    "pixels_different": 0
+  },
+  {
+    "frame": "frame-06.png",
+    "rgba_equal_128x4": false,
+    "pixels_different": 7116
+  },
+  {
+    "frame": "frame-07.png",
+    "rgba_equal_128x4": false,
+    "pixels_different": 8232
+  },
+  {
+    "frame": "frame-08.png",
+    "rgba_equal_128x4": false,
+    "pixels_different": 8232
+  },
+  {
+    "frame": "frame-09.png",
+    "rgba_equal_128x4": false,
+    "pixels_different": 4116
+  },
+  {
+    "frame": "frame-10.png",
+    "rgba_equal_128x4": false,
+    "pixels_different": 2980
+  },
+  {
+    "frame": "frame-11.png",
+    "rgba_equal_128x4": false,
+    "pixels_different": 5284
+  },
+  {
+    "frame": "frame-12.png",
+    "rgba_equal_128x4": false,
+    "pixels_different": 1152
+  }
+]

@@ -1,5 +1,22 @@
 # История и свидетельства проверок
 
+## Разбойник: быстрое падение, плавное исчезновение и затухающий развод — 2026-10-12
+
+По новому отзыву U [пакет](art/rogue-timing-cleanup-20261012/README.md) ускоряет
+D3 до0.65s и добавляет0.25s удержания+0.80s fade одним Tween. PNG смерти прежние;
+after/generic-тело, падения и core не менялись. Native-сетка Rogue128 вместо512
+снижает зернистость при уменьшении; PNG/scale0.73 прежние. PixelLab дал два этапа
+раскрытия B1 с меньшим шагом у максимума:6кадров/1.02s,10generations.
+Прежний пик исключён целиком из новой последовательности за сдвиг стоп.
+Godot import/startup и целевой render:19PASS+2syntaxFAIL в тесте; после scope-fix
+оба death routes PASS (Defender408/0,Rogue433/0), повтор4/4. Остальные19 проверок
+не менялись: Rogue136/0,B1 38/0,zoom396/0,Защитник/lifecycle/HUD/execution.
+Python22/22,сборка37/37,idleRGBA12/12,GIF6/6+13/13; capture-motion40/0.
+Независимое ревью APPROVE. Full/core/manual F5/editor/DPI/GPU-приёмка не проводились.
+Отчёт/GIF/A-B: `test_reports/rogue-timing-cleanup-20261012/REPORT.md`.
+Main/base `c464c03`; [побайтный архив передачи](CODEX_HANDOFF.history-20261012-19.md).
+Main_menu сохранена, push нет. Художественный отзыв U остаётся открытым.
+
 ## Разбойник: скорость смерти, изометрия, развод и размер — 2026-10-12
 
 По игровому отзыву U [PixelLab-пакет](art/rogue-game-feedback-20261012/README.md)
