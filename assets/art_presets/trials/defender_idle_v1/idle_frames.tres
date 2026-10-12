@@ -1,0 +1,61 @@
+[gd_resource type="SpriteFrames" load_steps=25 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/vertical/frame-01.png" id="vertical_1"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/vertical/frame-02.png" id="vertical_2"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/vertical/frame-03.png" id="vertical_3"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/vertical/frame-04.png" id="vertical_4"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/vertical/frame-05.png" id="vertical_5"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/vertical/frame-06.png" id="vertical_6"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/vertical/frame-07.png" id="vertical_7"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/vertical/frame-08.png" id="vertical_8"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/vertical/frame-09.png" id="vertical_9"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/vertical/frame-10.png" id="vertical_10"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/vertical/frame-11.png" id="vertical_11"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/vertical/frame-12.png" id="vertical_12"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/sway/frame-01.png" id="sway_1"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/sway/frame-02.png" id="sway_2"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/sway/frame-03.png" id="sway_3"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/sway/frame-04.png" id="sway_4"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/sway/frame-05.png" id="sway_5"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/sway/frame-06.png" id="sway_6"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/sway/frame-07.png" id="sway_7"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/sway/frame-08.png" id="sway_8"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/sway/frame-09.png" id="sway_9"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/sway/frame-10.png" id="sway_10"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/sway/frame-11.png" id="sway_11"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_idle_v1/sway/frame-12.png" id="sway_12"]
+
+[resource]
+animations = [{
+"frames": [{"duration": 1.0, "texture": ExtResource("vertical_1")},
+{"duration": 1.0, "texture": ExtResource("vertical_2")},
+{"duration": 1.0, "texture": ExtResource("vertical_3")},
+{"duration": 1.0, "texture": ExtResource("vertical_4")},
+{"duration": 1.0, "texture": ExtResource("vertical_5")},
+{"duration": 1.0, "texture": ExtResource("vertical_6")},
+{"duration": 1.0, "texture": ExtResource("vertical_7")},
+{"duration": 1.0, "texture": ExtResource("vertical_8")},
+{"duration": 1.0, "texture": ExtResource("vertical_9")},
+{"duration": 1.0, "texture": ExtResource("vertical_10")},
+{"duration": 1.0, "texture": ExtResource("vertical_11")},
+{"duration": 1.0, "texture": ExtResource("vertical_12")}],
+"loop": true,
+"name": &"vertical",
+"speed": 5.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("sway_1")},
+{"duration": 1.0, "texture": ExtResource("sway_2")},
+{"duration": 1.0, "texture": ExtResource("sway_3")},
+{"duration": 1.0, "texture": ExtResource("sway_4")},
+{"duration": 1.0, "texture": ExtResource("sway_5")},
+{"duration": 1.0, "texture": ExtResource("sway_6")},
+{"duration": 1.0, "texture": ExtResource("sway_7")},
+{"duration": 1.0, "texture": ExtResource("sway_8")},
+{"duration": 1.0, "texture": ExtResource("sway_9")},
+{"duration": 1.0, "texture": ExtResource("sway_10")},
+{"duration": 1.0, "texture": ExtResource("sway_11")},
+{"duration": 1.0, "texture": ExtResource("sway_12")}],
+"loop": true,
+"name": &"sway",
+"speed": 5.0
+}]

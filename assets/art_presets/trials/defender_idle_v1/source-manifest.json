@@ -1,0 +1,170 @@
+[
+  {
+    "animation": "vertical",
+    "frame": 1,
+    "source": "docs/art/defender-idle-vertical-20261010/pixellab/frame-01.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/vertical/frame-01.png",
+    "sha256": "8c1c709b24a610c5c443824dc11722cb8ceef3feff4114c32420b9796a792b02"
+  },
+  {
+    "animation": "vertical",
+    "frame": 2,
+    "source": "docs/art/defender-idle-vertical-20261010/pixellab/frame-02.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/vertical/frame-02.png",
+    "sha256": "7c9b1d9d0b362a690a7bcf90993eff3f910b5eb62919cac461610b1137cf05b2"
+  },
+  {
+    "animation": "vertical",
+    "frame": 3,
+    "source": "docs/art/defender-idle-vertical-20261010/pixellab/frame-03.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/vertical/frame-03.png",
+    "sha256": "3c09214e3447318a7e0e08da01fb010be73f396059b023f3adf0d2c932faa227"
+  },
+  {
+    "animation": "vertical",
+    "frame": 4,
+    "source": "docs/art/defender-idle-vertical-20261010/pixellab/frame-04.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/vertical/frame-04.png",
+    "sha256": "f4c5e61d2a13fdc266dd5fddbaf5f57c107b8476aceedf8fe0ba1a5bd592efc8"
+  },
+  {
+    "animation": "vertical",
+    "frame": 5,
+    "source": "docs/art/defender-idle-vertical-20261010/pixellab/frame-05.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/vertical/frame-05.png",
+    "sha256": "e33908ce2c7c32d607ed56ff78786e8d56f31c940d684fb0d1f10888c7a78b1e"
+  },
+  {
+    "animation": "vertical",
+    "frame": 6,
+    "source": "docs/art/defender-idle-vertical-20261010/pixellab/frame-06.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/vertical/frame-06.png",
+    "sha256": "dbba776031658ac5b4afdb926c7327d5dcf9a6e3ed8740ca332fcf830e287434"
+  },
+  {
+    "animation": "vertical",
+    "frame": 7,
+    "source": "docs/art/defender-idle-vertical-20261010/pixellab/frame-07.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/vertical/frame-07.png",
+    "sha256": "ffaf624584813c75d5e799cc29b2f5a32f8e60865aec518b6a0c81cf0c34563d"
+  },
+  {
+    "animation": "vertical",
+    "frame": 8,
+    "source": "docs/art/defender-idle-vertical-20261010/pixellab/frame-08.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/vertical/frame-08.png",
+    "sha256": "bede1d85018a70de95cba5c794ea685cf0523a65e7fd52c79a67f47a55996ccb"
+  },
+  {
+    "animation": "vertical",
+    "frame": 9,
+    "source": "docs/art/defender-idle-vertical-20261010/pixellab/frame-09.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/vertical/frame-09.png",
+    "sha256": "98d2a3efa445bb110a0a47e8469efa89421a28e787038342e76e588bd4f05ac6"
+  },
+  {
+    "animation": "vertical",
+    "frame": 10,
+    "source": "docs/art/defender-idle-vertical-20261010/pixellab/frame-10.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/vertical/frame-10.png",
+    "sha256": "39a43a37627493ff1828047d2f60678fbaff6fa514736fe570d28c5cf7c541e2"
+  },
+  {
+    "animation": "vertical",
+    "frame": 11,
+    "source": "docs/art/defender-idle-vertical-20261010/pixellab/frame-11.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/vertical/frame-11.png",
+    "sha256": "9c5032a0342e1ec20387dbd09530cc2fd54ef25b54cf679c3b780b07256a0e0d"
+  },
+  {
+    "animation": "vertical",
+    "frame": 12,
+    "source": "docs/art/defender-idle-vertical-20261010/pixellab/frame-12.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/vertical/frame-12.png",
+    "sha256": "3fb7b2e94096abe15342e6eb827844fa13558048cfe6e0fbca0675a0ef76e640"
+  },
+  {
+    "animation": "sway",
+    "frame": 1,
+    "source": "docs/art/defender-idle-sway-20261010/pixellab/frame-01.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/sway/frame-01.png",
+    "sha256": "d13ef0d5674dce675a9de7b7124826eaf15c7fb5fa4732c17304fbe29dc416d1"
+  },
+  {
+    "animation": "sway",
+    "frame": 2,
+    "source": "docs/art/defender-idle-sway-20261010/pixellab/frame-02.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/sway/frame-02.png",
+    "sha256": "f3f23c8d0ce7ce0e2191830e6bfa7c0fc002d11946c81dc4bad83ec477aa67f1"
+  },
+  {
+    "animation": "sway",
+    "frame": 3,
+    "source": "docs/art/defender-idle-sway-20261010/pixellab/frame-03.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/sway/frame-03.png",
+    "sha256": "cb2beea494bd65c0944c951030a5aca29e855f3bc080fad313758f26e8fabcc8"
+  },
+  {
+    "animation": "sway",
+    "frame": 4,
+    "source": "docs/art/defender-idle-sway-20261010/pixellab/frame-04.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/sway/frame-04.png",
+    "sha256": "6e5ee9ad97568633f6c8787e77caf741c75ed9354dbbcc5c133eccf7a0c3ad16"
+  },
+  {
+    "animation": "sway",
+    "frame": 5,
+    "source": "docs/art/defender-idle-sway-20261010/pixellab/frame-05.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/sway/frame-05.png",
+    "sha256": "dc9dd1da601ba802eb20434f0cd7cf660b89f0bb5c9d0d128f63c5cecb191d09"
+  },
+  {
+    "animation": "sway",
+    "frame": 6,
+    "source": "docs/art/defender-idle-sway-20261010/pixellab/frame-06.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/sway/frame-06.png",
+    "sha256": "8909cda13e27573f7fc3bfafddd27b0e1a0d336b767f3bc5807196ac82a2b175"
+  },
+  {
+    "animation": "sway",
+    "frame": 7,
+    "source": "docs/art/defender-idle-sway-20261010/pixellab/frame-07.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/sway/frame-07.png",
+    "sha256": "4985eeece69228789417769ac2834230dca4ee6d6284da2cf8c5ced74b48b579"
+  },
+  {
+    "animation": "sway",
+    "frame": 8,
+    "source": "docs/art/defender-idle-sway-20261010/pixellab/frame-08.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/sway/frame-08.png",
+    "sha256": "ecef4c5abf808c4519372dce327725dedb93abf9eee80ee848d921e4b9b8bba3"
+  },
+  {
+    "animation": "sway",
+    "frame": 9,
+    "source": "docs/art/defender-idle-sway-20261010/pixellab/frame-09.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/sway/frame-09.png",
+    "sha256": "838c0620013ac37eb420c606475ac08fb175dc6d5de90319e8d983d1994d9670"
+  },
+  {
+    "animation": "sway",
+    "frame": 10,
+    "source": "docs/art/defender-idle-sway-20261010/pixellab/frame-10.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/sway/frame-10.png",
+    "sha256": "7017f4b070586fd296c771c5a65d0f24289049d0b6d10342c73da1d000a59bc6"
+  },
+  {
+    "animation": "sway",
+    "frame": 11,
+    "source": "docs/art/defender-idle-sway-20261010/pixellab/frame-11.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/sway/frame-11.png",
+    "sha256": "f11f0650800efd0464bccca276256737b8cde4e368037ed0da197d8425a94559"
+  },
+  {
+    "animation": "sway",
+    "frame": 12,
+    "source": "docs/art/defender-idle-sway-20261010/pixellab/frame-12.png",
+    "target": "assets/art_presets/trials/defender_idle_v1/sway/frame-12.png",
+    "sha256": "a5922c182999ed0156849c93c50b46b0816930a4e4fc018d8d8e4dc0e6e64e83"
+  }
+]

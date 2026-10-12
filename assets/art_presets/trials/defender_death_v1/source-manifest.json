@@ -1,0 +1,418 @@
+{
+  "selection": "U12Oct approved the hand-repaired beard version for game integration.",
+  "source_preview": "docs/art/defender-death-beard-fix-20261012/preview.gif",
+  "source_preview_timing": {
+    "frames_01_32_ms": 60,
+    "frame_33_ms": 900,
+    "total_ms": 2820,
+    "loop": true
+  },
+  "game_timing": {
+    "animation": "death",
+    "speed_fps": 50.0,
+    "frame_duration_ticks": 3.0,
+    "frames_01_33_ms": 60,
+    "frame_count": 33,
+    "total_ms": 1980,
+    "loop": false
+  },
+  "viewer_pause_note": "The preview-only extra 900ms final pause is removed from game playback; all 33 source poses and their order remain unchanged.",
+  "source_frames": [
+    {
+      "frame": 1,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-01.png",
+      "source_sha256": "51044cdd6399065209e1a0c801672b8e7e27380ebb210dc81ce12bd5144fdde0",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-01.png",
+      "copied_sha256": "51044cdd6399065209e1a0c801672b8e7e27380ebb210dc81ce12bd5144fdde0",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 2,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-02.png",
+      "source_sha256": "30b4dfb16ead74eb571ab95598f3d273f31bb6882ebf05291ee817264a6f277c",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-02.png",
+      "copied_sha256": "30b4dfb16ead74eb571ab95598f3d273f31bb6882ebf05291ee817264a6f277c",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 3,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-03.png",
+      "source_sha256": "06bd86e094633fb3a0c954686bfbbdafa20f572359ce1b7cc61fb8c84381989d",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-03.png",
+      "copied_sha256": "06bd86e094633fb3a0c954686bfbbdafa20f572359ce1b7cc61fb8c84381989d",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 4,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-04.png",
+      "source_sha256": "b6263f956a27a407d00af23665a466ccad9bb2fc65d0d4ce28a259eef1ef4f30",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-04.png",
+      "copied_sha256": "b6263f956a27a407d00af23665a466ccad9bb2fc65d0d4ce28a259eef1ef4f30",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 5,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-05.png",
+      "source_sha256": "883c992af3486dc90a50f0fc263f5c78786d3b53b762d9f1d8db438be9618cae",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-05.png",
+      "copied_sha256": "883c992af3486dc90a50f0fc263f5c78786d3b53b762d9f1d8db438be9618cae",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 6,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-06.png",
+      "source_sha256": "1596a88930629dbe8324a13c672bf2259d0393db99570d197ecef146fb6059dd",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-06.png",
+      "copied_sha256": "1596a88930629dbe8324a13c672bf2259d0393db99570d197ecef146fb6059dd",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 7,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-07.png",
+      "source_sha256": "66bc01daa0e05f6f052ad1c5e6ce4ae4e58149dd4f3dfc71f3b72fda596fbfe6",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-07.png",
+      "copied_sha256": "66bc01daa0e05f6f052ad1c5e6ce4ae4e58149dd4f3dfc71f3b72fda596fbfe6",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 8,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-08.png",
+      "source_sha256": "768ae2dc137c46d710cf8cbcebc307cb4a6f030327dc23c9171cc0095399f09d",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-08.png",
+      "copied_sha256": "768ae2dc137c46d710cf8cbcebc307cb4a6f030327dc23c9171cc0095399f09d",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 9,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-09.png",
+      "source_sha256": "a9af895e710d2b78db619f81dc6ae6c301996f4b6a83e8c029d78711e89bbcb0",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-09.png",
+      "copied_sha256": "a9af895e710d2b78db619f81dc6ae6c301996f4b6a83e8c029d78711e89bbcb0",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 10,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-10.png",
+      "source_sha256": "4c0e8575e98047faf1e5969d0b635e473e972c43cac3f467870eec06ca18756f",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-10.png",
+      "copied_sha256": "4c0e8575e98047faf1e5969d0b635e473e972c43cac3f467870eec06ca18756f",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 11,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-11.png",
+      "source_sha256": "7848f26877a214ddd7051da744a947b808d80062886c1121a405449b85430c71",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-11.png",
+      "copied_sha256": "7848f26877a214ddd7051da744a947b808d80062886c1121a405449b85430c71",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 12,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-12.png",
+      "source_sha256": "2d88039ba2af570e5de908f86cbdb9194aa429e7c2306d244d7662e69d33dd95",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-12.png",
+      "copied_sha256": "2d88039ba2af570e5de908f86cbdb9194aa429e7c2306d244d7662e69d33dd95",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 13,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-13.png",
+      "source_sha256": "9d0be0c285210ead48af7a9788fad7d56dcafffc19c7d7c977baf14120d22eb8",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-13.png",
+      "copied_sha256": "9d0be0c285210ead48af7a9788fad7d56dcafffc19c7d7c977baf14120d22eb8",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 14,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-14.png",
+      "source_sha256": "a3ef30f475598f92d08ca40adfa32377c95c983a8e6ffa90e60b2979132ebc79",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-14.png",
+      "copied_sha256": "a3ef30f475598f92d08ca40adfa32377c95c983a8e6ffa90e60b2979132ebc79",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 15,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-15.png",
+      "source_sha256": "1bd55447feaa142d25681fd4af895bfe7fbe168dab2164ca70bdddbc1918e6b7",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-15.png",
+      "copied_sha256": "1bd55447feaa142d25681fd4af895bfe7fbe168dab2164ca70bdddbc1918e6b7",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 16,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-16.png",
+      "source_sha256": "ef8973c78f148491e7668c45406dd432c9a06f93fe26fd421d52a8cf5cdb3d42",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-16.png",
+      "copied_sha256": "ef8973c78f148491e7668c45406dd432c9a06f93fe26fd421d52a8cf5cdb3d42",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 17,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-17.png",
+      "source_sha256": "b6433f52377712af4b9af3389568f4dfca0c27a162ff7bbb9d745fb35e53ea9e",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-17.png",
+      "copied_sha256": "b6433f52377712af4b9af3389568f4dfca0c27a162ff7bbb9d745fb35e53ea9e",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 18,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-18.png",
+      "source_sha256": "d8d7a2502c977836e32899b75db056333e999182f4e90bd985c63519ee8a4904",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-18.png",
+      "copied_sha256": "d8d7a2502c977836e32899b75db056333e999182f4e90bd985c63519ee8a4904",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 19,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-19.png",
+      "source_sha256": "781e6d07765e4640d893ac5a21dea97e1035faf4f176b0ea24eb79b9a9a93fd8",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-19.png",
+      "copied_sha256": "781e6d07765e4640d893ac5a21dea97e1035faf4f176b0ea24eb79b9a9a93fd8",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 20,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-20.png",
+      "source_sha256": "171ab45ad4f6c19cf24962392dd29f9b2bc918a7fd2800fe3cc0099fd3200d67",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-20.png",
+      "copied_sha256": "171ab45ad4f6c19cf24962392dd29f9b2bc918a7fd2800fe3cc0099fd3200d67",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 21,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-21.png",
+      "source_sha256": "312573f4d2f430849cd4ba1ce1c56df95956db86b04630d9bace03251ab84fee",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-21.png",
+      "copied_sha256": "312573f4d2f430849cd4ba1ce1c56df95956db86b04630d9bace03251ab84fee",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 22,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-22.png",
+      "source_sha256": "a8962c3a6a06737909674575d5d2c41b0808e687bea29480cf79505cd7ad8a74",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-22.png",
+      "copied_sha256": "a8962c3a6a06737909674575d5d2c41b0808e687bea29480cf79505cd7ad8a74",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 23,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-23.png",
+      "source_sha256": "a7233167967f3e6624c793709ed9da277336ea522fcd6bb6e1bbd6cf2296e51b",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-23.png",
+      "copied_sha256": "a7233167967f3e6624c793709ed9da277336ea522fcd6bb6e1bbd6cf2296e51b",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 24,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-24.png",
+      "source_sha256": "169c9bb6252c8537ac948e0d0b08c3a8196993e7b8af89dd1f599bb610033308",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-24.png",
+      "copied_sha256": "169c9bb6252c8537ac948e0d0b08c3a8196993e7b8af89dd1f599bb610033308",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 25,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-25.png",
+      "source_sha256": "c581ea84dd3cbd1f87fc676d2c4f3c1f14c477cd5bdb5fd454b75cf47d4b74a5",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-25.png",
+      "copied_sha256": "c581ea84dd3cbd1f87fc676d2c4f3c1f14c477cd5bdb5fd454b75cf47d4b74a5",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 26,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-26.png",
+      "source_sha256": "c3e4fb10507ce14efe22d0b01a7351c15ff7dd2560f56551f89655b21176d4b4",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-26.png",
+      "copied_sha256": "c3e4fb10507ce14efe22d0b01a7351c15ff7dd2560f56551f89655b21176d4b4",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 27,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-27.png",
+      "source_sha256": "763ead66258daaa26af02774f6d5f1b0c5d116825ef918ead3f517c1c1a2c1a4",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-27.png",
+      "copied_sha256": "763ead66258daaa26af02774f6d5f1b0c5d116825ef918ead3f517c1c1a2c1a4",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 28,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-28.png",
+      "source_sha256": "8b8b09f8968868d1bb413b640ddcb4741aeb4e34cb3c7dea1fd28ab092fd2a7a",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-28.png",
+      "copied_sha256": "8b8b09f8968868d1bb413b640ddcb4741aeb4e34cb3c7dea1fd28ab092fd2a7a",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 29,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-29.png",
+      "source_sha256": "eb3d2224bfc649542f661abc98c52dadbd1262faf99fbe4d5acea526873b075f",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-29.png",
+      "copied_sha256": "eb3d2224bfc649542f661abc98c52dadbd1262faf99fbe4d5acea526873b075f",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 30,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-30.png",
+      "source_sha256": "d431db62230a00573f13babcf3184fc388717b4c12a1741873899a39516f2a27",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-30.png",
+      "copied_sha256": "d431db62230a00573f13babcf3184fc388717b4c12a1741873899a39516f2a27",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 31,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-31.png",
+      "source_sha256": "34b5d2c6d6b1fb8619d60eee17b0e48aa3819a490dd26167ace6682bdf079b2a",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-31.png",
+      "copied_sha256": "34b5d2c6d6b1fb8619d60eee17b0e48aa3819a490dd26167ace6682bdf079b2a",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 32,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-32.png",
+      "source_sha256": "5afd9082ba2a7bf5145915a487fb9b34c4196793ab98adbc755f1d1422809c08",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-32.png",
+      "copied_sha256": "5afd9082ba2a7bf5145915a487fb9b34c4196793ab98adbc755f1d1422809c08",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "frame": 33,
+      "source_path": "docs/art/defender-death-beard-fix-20261012/frames/frame-33.png",
+      "source_sha256": "cf471447add0c27a6c02736dda5e7730c72180a9f495847ad1d009c912d5a6e2",
+      "copied_path": "assets/art_presets/trials/defender_death_v1/frame-33.png",
+      "copied_sha256": "cf471447add0c27a6c02736dda5e7730c72180a9f495847ad1d009c912d5a6e2",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    }
+  ]
+}

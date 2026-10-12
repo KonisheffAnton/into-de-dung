@@ -1,0 +1,283 @@
+{
+  "source_preview": "docs/art/defender-shield-taunt-fluid-20261011/preview-compact.gif",
+  "selection": "U2026-10-11 selected for Defender buff ability animation",
+  "source_frames": 33,
+  "source_frame_size": "128x128",
+  "copied_byte_for_byte": true,
+  "runtime_timing": {
+    "fps": 30,
+    "speed_multiplier_vs_source": 1.2,
+    "total_duration_seconds": 1.8916666666666666,
+    "selection": "U2026-10-11 requested slightly faster playback; all frame duration ticks preserved"
+  },
+  "source_preview_timing": {
+    "fps": 25,
+    "frame_groups": [
+      {
+        "frames": "01-08",
+        "duration_ms": 40,
+        "duration_ticks": 1
+      },
+      {
+        "frames": "09-24",
+        "duration_ms": 80,
+        "duration_ticks": 2
+      },
+      {
+        "frames": "25-32",
+        "duration_ms": 40,
+        "duration_ticks": 1
+      },
+      {
+        "frames": "33",
+        "duration_ms": 350,
+        "duration_ticks": 8.75
+      }
+    ],
+    "total_duration_ms": 2270,
+    "looping": false
+  },
+  "anchor": {
+    "source_frame": "vertical idle",
+    "size": "128x128",
+    "sprite2d_position": [
+      -69.42,
+      -90.14
+    ],
+    "art_root_scale_percent": 80,
+    "note": "Сохраняется прежняя опора и позиция idle внутри ArtRoot с масштабом 80%."
+  },
+  "frames": [
+    {
+      "file": "frame-01.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-01.png",
+      "original_sha256": "51044cdd6399065209e1a0c801672b8e7e27380ebb210dc81ce12bd5144fdde0",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-01.png",
+      "copied_sha256": "51044cdd6399065209e1a0c801672b8e7e27380ebb210dc81ce12bd5144fdde0"
+    },
+    {
+      "file": "frame-02.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-02.png",
+      "original_sha256": "188fbab7ccfe99d80dd174973e3f6d881616f41464a4ebfd45a74af71983095f",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-02.png",
+      "copied_sha256": "188fbab7ccfe99d80dd174973e3f6d881616f41464a4ebfd45a74af71983095f"
+    },
+    {
+      "file": "frame-03.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-03.png",
+      "original_sha256": "b5e3f22d73c58ff38583d64d4e63fd1c47ded79561a2c10cc44e011211e2628e",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-03.png",
+      "copied_sha256": "b5e3f22d73c58ff38583d64d4e63fd1c47ded79561a2c10cc44e011211e2628e"
+    },
+    {
+      "file": "frame-04.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-04.png",
+      "original_sha256": "032e57a0fc614d40da5d3a88576b52a5a69696d1441cfe322b6109f115eba8f0",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-04.png",
+      "copied_sha256": "032e57a0fc614d40da5d3a88576b52a5a69696d1441cfe322b6109f115eba8f0"
+    },
+    {
+      "file": "frame-05.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-05.png",
+      "original_sha256": "32fb242275220875baa2b167a23b5fb43aacc93aed5fb02ac739002397157b62",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-05.png",
+      "copied_sha256": "32fb242275220875baa2b167a23b5fb43aacc93aed5fb02ac739002397157b62"
+    },
+    {
+      "file": "frame-06.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-06.png",
+      "original_sha256": "61dfba0afc1e05ff35c6e5a2155870eec28047a241038a444aaf88a8760ad0c8",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-06.png",
+      "copied_sha256": "61dfba0afc1e05ff35c6e5a2155870eec28047a241038a444aaf88a8760ad0c8"
+    },
+    {
+      "file": "frame-07.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-07.png",
+      "original_sha256": "19443706fdd78abf53fd1b2c92af977dd9a59fe06e43d200115629d5d5a33605",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-07.png",
+      "copied_sha256": "19443706fdd78abf53fd1b2c92af977dd9a59fe06e43d200115629d5d5a33605"
+    },
+    {
+      "file": "frame-08.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-08.png",
+      "original_sha256": "51a16fc1d396a6ff3995e39f3c2c72f948c2eea64d67e054d537c3ed22cb841d",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-08.png",
+      "copied_sha256": "51a16fc1d396a6ff3995e39f3c2c72f948c2eea64d67e054d537c3ed22cb841d"
+    },
+    {
+      "file": "frame-09.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-09.png",
+      "original_sha256": "0b44a4c808c023be49a1b79b47a936271f41991d47bf03abb4c4bcf07f6448a2",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-09.png",
+      "copied_sha256": "0b44a4c808c023be49a1b79b47a936271f41991d47bf03abb4c4bcf07f6448a2"
+    },
+    {
+      "file": "frame-10.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-10.png",
+      "original_sha256": "291b2a1937e9fe65d60dbb9f6c5cceebbdcb5888f0a8760881096757893af0c2",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-10.png",
+      "copied_sha256": "291b2a1937e9fe65d60dbb9f6c5cceebbdcb5888f0a8760881096757893af0c2"
+    },
+    {
+      "file": "frame-11.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-11.png",
+      "original_sha256": "5ae63a9d75e5bc5aea206769f689bc55844cb3198be2fbc857fb5bf6896c7c7c",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-11.png",
+      "copied_sha256": "5ae63a9d75e5bc5aea206769f689bc55844cb3198be2fbc857fb5bf6896c7c7c"
+    },
+    {
+      "file": "frame-12.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-12.png",
+      "original_sha256": "d16a0f210970a146680563d8c664ca277b837a139cc3e11a4c399b5c2b98b182",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-12.png",
+      "copied_sha256": "d16a0f210970a146680563d8c664ca277b837a139cc3e11a4c399b5c2b98b182"
+    },
+    {
+      "file": "frame-13.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-13.png",
+      "original_sha256": "ac899157a61ebae23302a9792f9505f2722a810048c961f8c4f98fd43eda978b",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-13.png",
+      "copied_sha256": "ac899157a61ebae23302a9792f9505f2722a810048c961f8c4f98fd43eda978b"
+    },
+    {
+      "file": "frame-14.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-14.png",
+      "original_sha256": "cbf0335723f8f8a524897f13b224ef84342adb02d38f926c293a331a70c2bd18",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-14.png",
+      "copied_sha256": "cbf0335723f8f8a524897f13b224ef84342adb02d38f926c293a331a70c2bd18"
+    },
+    {
+      "file": "frame-15.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-15.png",
+      "original_sha256": "de4e86a0ca6a97bc218579db3f3e99b7ee0059f5b5273c122d4c7ac0b685d391",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-15.png",
+      "copied_sha256": "de4e86a0ca6a97bc218579db3f3e99b7ee0059f5b5273c122d4c7ac0b685d391"
+    },
+    {
+      "file": "frame-16.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-16.png",
+      "original_sha256": "0265e612bc8298ab8ac62054ea4009fe44b41259cbffec582720020c712a8cf3",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-16.png",
+      "copied_sha256": "0265e612bc8298ab8ac62054ea4009fe44b41259cbffec582720020c712a8cf3"
+    },
+    {
+      "file": "frame-17.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-17.png",
+      "original_sha256": "d74c5985c08fe5527ace6d8bdc5a72e54ba17cf4fdd9a536b7a84741d3678580",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-17.png",
+      "copied_sha256": "d74c5985c08fe5527ace6d8bdc5a72e54ba17cf4fdd9a536b7a84741d3678580"
+    },
+    {
+      "file": "frame-18.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-18.png",
+      "original_sha256": "be93307362d2ab8363c24c391e2e97301c2f99bd1d2486adb8f8482b21cec667",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-18.png",
+      "copied_sha256": "be93307362d2ab8363c24c391e2e97301c2f99bd1d2486adb8f8482b21cec667"
+    },
+    {
+      "file": "frame-19.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-19.png",
+      "original_sha256": "49a628fdaac5152fa5729c5a3b90023ef0ca440a33d30b2211020a6ec04c288d",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-19.png",
+      "copied_sha256": "49a628fdaac5152fa5729c5a3b90023ef0ca440a33d30b2211020a6ec04c288d"
+    },
+    {
+      "file": "frame-20.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-20.png",
+      "original_sha256": "e9d74bff5818631e4f4b55d3c9bc093f79e639deaedde5e4efb7e914f49c92e2",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-20.png",
+      "copied_sha256": "e9d74bff5818631e4f4b55d3c9bc093f79e639deaedde5e4efb7e914f49c92e2"
+    },
+    {
+      "file": "frame-21.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-21.png",
+      "original_sha256": "de3f8569a17ee25f77914bd83c5e9bed823f46918bfbae987dc4de5ae69b3a54",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-21.png",
+      "copied_sha256": "de3f8569a17ee25f77914bd83c5e9bed823f46918bfbae987dc4de5ae69b3a54"
+    },
+    {
+      "file": "frame-22.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-22.png",
+      "original_sha256": "36d00135b8d9ee80cbaa68bffc899defbedb6c06a2b50ceeb77e1f219c9c4052",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-22.png",
+      "copied_sha256": "36d00135b8d9ee80cbaa68bffc899defbedb6c06a2b50ceeb77e1f219c9c4052"
+    },
+    {
+      "file": "frame-23.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-23.png",
+      "original_sha256": "2311b22f4807a947f1c1460ffc096d5f185681c759b182c9556f4f5116a19c45",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-23.png",
+      "copied_sha256": "2311b22f4807a947f1c1460ffc096d5f185681c759b182c9556f4f5116a19c45"
+    },
+    {
+      "file": "frame-24.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-24.png",
+      "original_sha256": "feb759aa9f380596cd7a706d6c512907f9bbdc4301c97bf2ace5eb612321fd18",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-24.png",
+      "copied_sha256": "feb759aa9f380596cd7a706d6c512907f9bbdc4301c97bf2ace5eb612321fd18"
+    },
+    {
+      "file": "frame-25.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-25.png",
+      "original_sha256": "4dae7577110fcafea5b03855ab9ee2d352b6d719b0cecdcbda80aa313940e6b4",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-25.png",
+      "copied_sha256": "4dae7577110fcafea5b03855ab9ee2d352b6d719b0cecdcbda80aa313940e6b4"
+    },
+    {
+      "file": "frame-26.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-26.png",
+      "original_sha256": "6d94fdff69cfa27c24f3e929085a675bdd061819402ade32a90f7ed5af9aa4d1",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-26.png",
+      "copied_sha256": "6d94fdff69cfa27c24f3e929085a675bdd061819402ade32a90f7ed5af9aa4d1"
+    },
+    {
+      "file": "frame-27.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-27.png",
+      "original_sha256": "5a6a791dd372b1bc2faa04987c683bca43245426728ad42dc968945208819cfd",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-27.png",
+      "copied_sha256": "5a6a791dd372b1bc2faa04987c683bca43245426728ad42dc968945208819cfd"
+    },
+    {
+      "file": "frame-28.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-28.png",
+      "original_sha256": "f8fb262ac2c4d6885015d224b79c98293201f5fb11aa22fa1463d5c4c63aac2b",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-28.png",
+      "copied_sha256": "f8fb262ac2c4d6885015d224b79c98293201f5fb11aa22fa1463d5c4c63aac2b"
+    },
+    {
+      "file": "frame-29.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-29.png",
+      "original_sha256": "9810d2987319ac042d4a0b53d698d7f50d9abfacf64652adbcd26f3dac2be0a4",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-29.png",
+      "copied_sha256": "9810d2987319ac042d4a0b53d698d7f50d9abfacf64652adbcd26f3dac2be0a4"
+    },
+    {
+      "file": "frame-30.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-30.png",
+      "original_sha256": "08e7bd4e175ef0a78a7a1ec2391dc9e2460ef0a54ab67301957150dd014ece88",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-30.png",
+      "copied_sha256": "08e7bd4e175ef0a78a7a1ec2391dc9e2460ef0a54ab67301957150dd014ece88"
+    },
+    {
+      "file": "frame-31.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-31.png",
+      "original_sha256": "8ba123249c3ec98a5d53fd136bb9c0810a7e49b7d0de0269217a9950f74f68ea",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-31.png",
+      "copied_sha256": "8ba123249c3ec98a5d53fd136bb9c0810a7e49b7d0de0269217a9950f74f68ea"
+    },
+    {
+      "file": "frame-32.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-32.png",
+      "original_sha256": "df8175990f062ae048480616d03e27e03bc1c53309dd6056fade2ed127849f45",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-32.png",
+      "copied_sha256": "df8175990f062ae048480616d03e27e03bc1c53309dd6056fade2ed127849f45"
+    },
+    {
+      "file": "frame-33.png",
+      "original_path": "docs/art/defender-shield-taunt-fluid-20261011/pixellab/frame-33.png",
+      "original_sha256": "a93d2901d17732cd5de44bb28442a04973b9c24d61bd17e8faee5e9ad43315dc",
+      "copied_path": "assets/art_presets/trials/defender_buff_v1/frame-33.png",
+      "copied_sha256": "a93d2901d17732cd5de44bb28442a04973b9c24d61bd17e8faee5e9ad43315dc"
+    }
+  ]
+}

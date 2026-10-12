@@ -1,0 +1,77 @@
+[gd_resource type="SpriteFrames" load_steps=34 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-01.png" id="death_1"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-02.png" id="death_2"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-03.png" id="death_3"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-04.png" id="death_4"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-05.png" id="death_5"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-06.png" id="death_6"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-07.png" id="death_7"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-08.png" id="death_8"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-09.png" id="death_9"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-10.png" id="death_10"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-11.png" id="death_11"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-12.png" id="death_12"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-13.png" id="death_13"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-14.png" id="death_14"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-15.png" id="death_15"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-16.png" id="death_16"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-17.png" id="death_17"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-18.png" id="death_18"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-19.png" id="death_19"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-20.png" id="death_20"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-21.png" id="death_21"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-22.png" id="death_22"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-23.png" id="death_23"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-24.png" id="death_24"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-25.png" id="death_25"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-26.png" id="death_26"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-27.png" id="death_27"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-28.png" id="death_28"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-29.png" id="death_29"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-30.png" id="death_30"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-31.png" id="death_31"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-32.png" id="death_32"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_death_v1/frame-33.png" id="death_33"]
+
+[resource]
+animations = [{
+"frames": [
+{"duration": 3.0, "texture": ExtResource("death_1")},
+{"duration": 3.0, "texture": ExtResource("death_2")},
+{"duration": 3.0, "texture": ExtResource("death_3")},
+{"duration": 3.0, "texture": ExtResource("death_4")},
+{"duration": 3.0, "texture": ExtResource("death_5")},
+{"duration": 3.0, "texture": ExtResource("death_6")},
+{"duration": 3.0, "texture": ExtResource("death_7")},
+{"duration": 3.0, "texture": ExtResource("death_8")},
+{"duration": 3.0, "texture": ExtResource("death_9")},
+{"duration": 3.0, "texture": ExtResource("death_10")},
+{"duration": 3.0, "texture": ExtResource("death_11")},
+{"duration": 3.0, "texture": ExtResource("death_12")},
+{"duration": 3.0, "texture": ExtResource("death_13")},
+{"duration": 3.0, "texture": ExtResource("death_14")},
+{"duration": 3.0, "texture": ExtResource("death_15")},
+{"duration": 3.0, "texture": ExtResource("death_16")},
+{"duration": 3.0, "texture": ExtResource("death_17")},
+{"duration": 3.0, "texture": ExtResource("death_18")},
+{"duration": 3.0, "texture": ExtResource("death_19")},
+{"duration": 3.0, "texture": ExtResource("death_20")},
+{"duration": 3.0, "texture": ExtResource("death_21")},
+{"duration": 3.0, "texture": ExtResource("death_22")},
+{"duration": 3.0, "texture": ExtResource("death_23")},
+{"duration": 3.0, "texture": ExtResource("death_24")},
+{"duration": 3.0, "texture": ExtResource("death_25")},
+{"duration": 3.0, "texture": ExtResource("death_26")},
+{"duration": 3.0, "texture": ExtResource("death_27")},
+{"duration": 3.0, "texture": ExtResource("death_28")},
+{"duration": 3.0, "texture": ExtResource("death_29")},
+{"duration": 3.0, "texture": ExtResource("death_30")},
+{"duration": 3.0, "texture": ExtResource("death_31")},
+{"duration": 3.0, "texture": ExtResource("death_32")},
+{"duration": 3.0, "texture": ExtResource("death_33")}
+],
+"loop": false,
+"name": &"death",
+"speed": 50.0
+}]

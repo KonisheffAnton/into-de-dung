@@ -1,0 +1,77 @@
+[gd_resource type="SpriteFrames" load_steps=34 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-01.png" id="buff_1"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-02.png" id="buff_2"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-03.png" id="buff_3"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-04.png" id="buff_4"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-05.png" id="buff_5"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-06.png" id="buff_6"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-07.png" id="buff_7"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-08.png" id="buff_8"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-09.png" id="buff_9"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-10.png" id="buff_10"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-11.png" id="buff_11"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-12.png" id="buff_12"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-13.png" id="buff_13"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-14.png" id="buff_14"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-15.png" id="buff_15"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-16.png" id="buff_16"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-17.png" id="buff_17"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-18.png" id="buff_18"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-19.png" id="buff_19"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-20.png" id="buff_20"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-21.png" id="buff_21"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-22.png" id="buff_22"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-23.png" id="buff_23"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-24.png" id="buff_24"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-25.png" id="buff_25"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-26.png" id="buff_26"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-27.png" id="buff_27"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-28.png" id="buff_28"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-29.png" id="buff_29"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-30.png" id="buff_30"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-31.png" id="buff_31"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-32.png" id="buff_32"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_buff_v1/frame-33.png" id="buff_33"]
+
+[resource]
+animations = [{
+"frames": [
+{"duration": 1.0, "texture": ExtResource("buff_1")},
+{"duration": 1.0, "texture": ExtResource("buff_2")},
+{"duration": 1.0, "texture": ExtResource("buff_3")},
+{"duration": 1.0, "texture": ExtResource("buff_4")},
+{"duration": 1.0, "texture": ExtResource("buff_5")},
+{"duration": 1.0, "texture": ExtResource("buff_6")},
+{"duration": 1.0, "texture": ExtResource("buff_7")},
+{"duration": 1.0, "texture": ExtResource("buff_8")},
+{"duration": 2.0, "texture": ExtResource("buff_9")},
+{"duration": 2.0, "texture": ExtResource("buff_10")},
+{"duration": 2.0, "texture": ExtResource("buff_11")},
+{"duration": 2.0, "texture": ExtResource("buff_12")},
+{"duration": 2.0, "texture": ExtResource("buff_13")},
+{"duration": 2.0, "texture": ExtResource("buff_14")},
+{"duration": 2.0, "texture": ExtResource("buff_15")},
+{"duration": 2.0, "texture": ExtResource("buff_16")},
+{"duration": 2.0, "texture": ExtResource("buff_17")},
+{"duration": 2.0, "texture": ExtResource("buff_18")},
+{"duration": 2.0, "texture": ExtResource("buff_19")},
+{"duration": 2.0, "texture": ExtResource("buff_20")},
+{"duration": 2.0, "texture": ExtResource("buff_21")},
+{"duration": 2.0, "texture": ExtResource("buff_22")},
+{"duration": 2.0, "texture": ExtResource("buff_23")},
+{"duration": 2.0, "texture": ExtResource("buff_24")},
+{"duration": 1.0, "texture": ExtResource("buff_25")},
+{"duration": 1.0, "texture": ExtResource("buff_26")},
+{"duration": 1.0, "texture": ExtResource("buff_27")},
+{"duration": 1.0, "texture": ExtResource("buff_28")},
+{"duration": 1.0, "texture": ExtResource("buff_29")},
+{"duration": 1.0, "texture": ExtResource("buff_30")},
+{"duration": 1.0, "texture": ExtResource("buff_31")},
+{"duration": 1.0, "texture": ExtResource("buff_32")},
+{"duration": 8.75, "texture": ExtResource("buff_33")}
+],
+"loop": false,
+"name": &"buff",
+"speed": 30.0
+}]
