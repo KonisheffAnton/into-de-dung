@@ -1,0 +1,39 @@
+"""Вернуть целые позы PixelLab на исходные целочисленные координаты холста."""
+from pathlib import Path
+from collections import Counter
+import hashlib
+import json
+from PIL import Image
+
+ROOT = Path(__file__).resolve().parent
+target = ROOT / 'final' / 'frames'
+target.mkdir(parents=True, exist_ok=True)
+records = []
+for index, pose in enumerate(('cross', 'release', 'settle'), 1):
+    original_path = ROOT / 'inputs' / f'{pose}.png'
+    provider_path = ROOT / 'release-only' / 'pixellab' / 'frame-01.png' if pose == 'release' else ROOT / 'refine' / 'pixellab' / f'frame-{index:02}.png'
+    original = Image.open(original_path).convert('RGBA')
+    provider = Image.open(provider_path).convert('RGBA')
+    assert original.size == provider.size == (128, 128)
+    before_bbox = original.getchannel('A').getbbox()
+    provider_bbox = provider.getchannel('A').getbbox()
+    assert before_bbox and provider_bbox
+    assert (before_bbox[2]-before_bbox[0], before_bbox[3]-before_bbox[1]) == (provider_bbox[2]-provider_bbox[0], provider_bbox[3]-provider_bbox[1]), 'Provider resized pose: review required'
+    dx, dy = before_bbox[0]-provider_bbox[0], before_bbox[1]-provider_bbox[1]
+    aligned = Image.new('RGBA', (128, 128))
+    # Сдвиг всего кадра без маски/интерполяции; ни один видимый пиксель не теряется.
+    aligned.paste(provider, (dx, dy))
+    assert aligned.getchannel('A').getbbox() == before_bbox
+    assert Counter(p for p in provider.getdata() if p[3]) == Counter(p for p in aligned.getdata() if p[3])
+    for y in range(128):
+        for x in range(128):
+            pixel = provider.getpixel((x, y))
+            if pixel[3]:
+                assert 0 <= x+dx < 128 and 0 <= y+dy < 128
+                assert aligned.getpixel((x+dx, y+dy)) == pixel
+    output = target / f'frame-{index:02}.png'
+    aligned.save(output)
+    a, b = list(original.getdata()), list(aligned.getdata())
+    records.append({'pose': pose, 'source': str(provider_path.relative_to(ROOT)), 'source_sha256': hashlib.sha256(provider_path.read_bytes()).hexdigest(), 'output': str(output.relative_to(ROOT)), 'output_sha256': hashlib.sha256(output.read_bytes()).hexdigest(), 'offset_xy': [dx, dy], 'rgba_translation_parity': True, 'alpha_difference_from_previous_pose': sum(x[3] != y[3] for x, y in zip(a, b)), 'nearblack_before': sum(p[3] > 0 and max(p[:3]) < 28 for p in a), 'nearblack_after': sum(p[3] > 0 and max(p[:3]) < 28 for p in b)})
+(ROOT / 'alignment.json').write_text(json.dumps(records, indent=2) + '\n', encoding='utf-8')
+print(json.dumps(records))

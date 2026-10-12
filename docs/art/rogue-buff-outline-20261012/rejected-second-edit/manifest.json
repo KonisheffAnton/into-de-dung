@@ -1,0 +1,38 @@
+{
+  "base": "6bca61de324fd07da7cfe06d8576d37b21c627ad",
+  "previous": "../rogue-buff-release-20261012/final/manifest.json",
+  "frames": [
+    {
+      "source": "reference-128.png",
+      "sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5",
+      "duration_ms": 200,
+      "provenance": "ready"
+    },
+    {
+      "source": "final/frames/frame-01.png",
+      "sha256": "cce8e90330e882e0393a035118f2454f05652c1284a3edbb924ca9dab235691d",
+      "duration_ms": 350,
+      "provenance": "cross-hold"
+    },
+    {
+      "source": "final/frames/frame-02.png",
+      "sha256": "c3162ca2b5a96c823b09040357e9a614cd9b3cf2ebe42df5104651b387ad7c7f",
+      "duration_ms": 60,
+      "provenance": "forceful-release"
+    },
+    {
+      "source": "final/frames/frame-03.png",
+      "sha256": "ef904eef39b34235460381eb9f043c91f361f9907e291aa4fa194fb405f70379",
+      "duration_ms": 120,
+      "provenance": "deceleration"
+    },
+    {
+      "source": "reference-128.png",
+      "sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5",
+      "duration_ms": 240,
+      "provenance": "exact-ready-end"
+    }
+  ],
+  "pixelOperations": "Whole-frame integer registration only (alignment.json); every visible provider RGBA pixel preserved, no redraw/interpolation. Original reference unchanged.",
+  "timing": "identical to prior B1: 5 frames,970ms"
+}

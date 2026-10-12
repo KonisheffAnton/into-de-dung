@@ -1,0 +1,18 @@
+// Экспортируем целые PNG PixelLab, сохраняя прежние пять показов и длительности.
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),assert=require('node:assert/strict');
+const root=__dirname;
+const hash=file=>crypto.createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex');
+for(const [stage,id,count] of [['refine','c6232829-a000-4507-9e93-9406da27ec67',3],['release-only','dc4c7f97-4e67-44ac-8177-3e94902c3716',1]]){
+ const job=JSON.parse(fs.readFileSync(path.join(root,stage,'job-status.json'),'utf8'));
+ assert.equal(job.id,id);assert.equal(job.status,'completed');assert.equal(job.last_response.frame_count,count);
+ for(const f of job.last_response.files)assert.equal(hash(stage+'/pixellab/'+f.file),f.sha256);
+}
+const alignment=JSON.parse(fs.readFileSync(path.join(root,'alignment.json'),'utf8'));
+assert.equal(alignment.length,3);
+for(const item of alignment){assert.equal(hash(item.source),item.source_sha256);assert.equal(hash(item.output),item.output_sha256);assert.equal(item.rgba_translation_parity,true);}
+const sources=['reference-128.png','final/frames/frame-01.png','final/frames/frame-02.png','final/frames/frame-03.png','reference-128.png'];
+const durations=[200,350,60,120,240],phases=['ready','cross-hold','forceful-release','deceleration','exact-ready-end'];
+assert.equal(hash('reference-128.png'),'ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5');
+fs.mkdirSync(path.join(root,'final'),{recursive:true});
+fs.writeFileSync(path.join(root,'final/manifest.json'),JSON.stringify({base:'6bca61de324fd07da7cfe06d8576d37b21c627ad',previous:'../rogue-buff-release-20261012/final/manifest.json',frames:sources.map((source,i)=>({source,sha256:hash(source),duration_ms:durations[i],provenance:phases[i]})),pixelOperations:'Whole-frame integer registration only (alignment.json); every visible provider RGBA pixel preserved, no redraw/interpolation. Original reference unchanged.',timing:'identical to prior B1: 5 frames,970ms'},null,2)+'\n');
+console.log(JSON.stringify({frames:5,totalMs:970}));

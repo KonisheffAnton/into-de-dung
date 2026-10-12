@@ -1,0 +1,203 @@
+{
+  "request": {
+    "properties": {
+      "method": {
+        "type": "string",
+        "enum": [
+          "edit_with_text",
+          "edit_with_reference"
+        ],
+        "title": "Method",
+        "description": "Edit method: 'edit_with_text' or 'edit_with_reference'",
+        "default": "edit_with_text"
+      },
+      "edit_images": {
+        "items": {
+          "$ref": "#/components/schemas/EditImage"
+        },
+        "type": "array",
+        "maxItems": 16,
+        "minItems": 1,
+        "title": "Edit Images",
+        "description": "Images to edit (1-16 images depending on size)"
+      },
+      "image_size": {
+        "$ref": "#/components/schemas/app__endpoints__external__v2__edit_images_v2__ImageSize",
+        "description": "Size of output images"
+      },
+      "description": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 1
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Description",
+        "description": "Edit description (required for edit_with_text method)"
+      },
+      "reference_image": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/app__endpoints__external__v2__edit_images_v2__ReferenceImage"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "description": "Reference image (required for edit_with_reference method)"
+      },
+      "seed": {
+        "anyOf": [
+          {
+            "type": "integer",
+            "minimum": 0.0
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Seed",
+        "description": "Seed for reproducible generation"
+      },
+      "no_background": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "No Background",
+        "description": "Remove background from edited images",
+        "default": false
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "edit_images",
+      "image_size"
+    ],
+    "title": "EditImagesV2Request",
+    "description": "Request model for edit-images endpoint",
+    "example": {
+      "description": "add a red hat",
+      "edit_images": [
+        {
+          "height": 64,
+          "image": {
+            "base64": "data:image/png;base64,..."
+          },
+          "width": 64
+        }
+      ],
+      "image_size": {
+        "height": 64,
+        "width": 64
+      },
+      "method": "edit_with_text",
+      "no_background": false,
+      "seed": 42
+    }
+  },
+  "editImage": {
+    "properties": {
+      "image": {
+        "$ref": "#/components/schemas/Base64Image",
+        "description": "Image to edit as base64 PNG/JPEG"
+      },
+      "width": {
+        "type": "integer",
+        "maximum": 512.0,
+        "minimum": 1.0,
+        "title": "Width",
+        "description": "Image width in pixels"
+      },
+      "height": {
+        "type": "integer",
+        "maximum": 512.0,
+        "minimum": 1.0,
+        "title": "Height",
+        "description": "Image height in pixels"
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "image",
+      "width",
+      "height"
+    ],
+    "title": "EditImage",
+    "description": "An image to edit with its dimensions.",
+    "example": {
+      "height": 64,
+      "image": {
+        "base64": "data:image/png;base64,..."
+      },
+      "width": 64
+    }
+  },
+  "endpoint": {
+    "post": {
+      "tags": [
+        "Edit"
+      ],
+      "summary": "Edit images (Pro)",
+      "description": "Edit pixel art images using text or reference image.\n\nThis endpoint supports two editing methods:\n1. **edit_with_text**: Apply edits based on a text description\n2. **edit_with_reference**: Match the style of a reference image\n\nReturns immediately with a background job ID. Poll `GET /v2/background-jobs/{job_id}`\nto check status and retrieve results.\n\n**Output sizes (image_size):**\n- **Range:** 32x32 to 512x512 pixels. Each returned image has the dimensions you set in `image_size`.\n- Input images (`edit_images`, `reference_image`) must be at most 512x512 each.\n\n**Key Features:**\n- Edit multiple images consistently\n- Text-guided or reference-guided editing\n- Preserves original structure and poses\n- Optional background removal\n- Non-blocking: returns job ID immediately\n\n**Frame limits by output size (image_size):**\n- 32-64px: Up to 16 frames (4x4 grid), 15 with reference\n- 65-80px: Up to 9 frames (3x3 grid), 8 with reference\n- 81-128px: Up to 4 frames (2x2 grid), 3 with reference\n- 129-512px: 1 frame (both methods)\n\n**Usage Pattern:**\n1. POST to this endpoint (returns `background_job_id`)\n2. Poll `GET /v2/background-jobs/{background_job_id}` every 5-10 seconds\n3. When `status` is `completed`, edited images are in `last_response`\n\n**edit_with_text Example:**\n```python\nresponse = client.edit_images_v2(\n    method=\"edit_with_text\",\n    edit_images=[{\"image\": img, \"width\": 64, \"height\": 64}],\n    image_size={\"width\": 64, \"height\": 64},\n    description=\"add a wizard hat\"\n)\n```\n\n**edit_with_reference Example:**\n```python\nresponse = client.edit_images_v2(\n    method=\"edit_with_reference\",\n    edit_images=[{\"image\": img, \"width\": 64, \"height\": 64}],\n    image_size={\"width\": 64, \"height\": 64},\n    reference_image={\"image\": ref_img, \"width\": 64, \"height\": 64}\n)\n```",
+      "operationId": "edit_images_v2_edit_images_v2_post",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/EditImagesV2Request"
+            }
+          }
+        },
+        "required": true
+      },
+      "responses": {
+        "202": {
+          "description": "Image edit job accepted and processing",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditImagesV2Response"
+              },
+              "example": {
+                "background_job_id": "123e4567-e89b-12d3-a456-426614174000",
+                "status": "processing",
+                "usage": {
+                  "type": "usd",
+                  "usd": 0.0
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Invalid API token"
+        },
+        "402": {
+          "description": "Insufficient credits"
+        },
+        "422": {
+          "description": "Validation error"
+        },
+        "429": {
+          "description": "Too many concurrent jobs"
+        }
+      },
+      "security": [
+        {
+          "HTTPBearer": []
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,364 @@
+{
+  "authorization": "U: Да, исправь только цвета локально",
+  "target_rgb": [
+    33,
+    30,
+    33
+  ],
+  "rule": "Visible non-reference RGB with integer Rec709 luminance below reference minimum -> reference #211e21; all remaining pixels exactly unchanged",
+  "records": [
+    {
+      "pose": "cross",
+      "source": "inputs\\cross.png",
+      "source_sha256": "9fa21dc61c0d20e9ce5da773a48c7aae23264fba327facc8b1583700eda545d1",
+      "output": "final\\frames\\frame-01.png",
+      "output_sha256": "d7bb70600c605966451335a403f6d7dd8997a06c7a98e27cce1c9690db1c769b",
+      "replacement_colors": [
+        {
+          "from": [
+            2,
+            2,
+            1
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 57
+        },
+        {
+          "from": [
+            4,
+            3,
+            2
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 210
+        },
+        {
+          "from": [
+            5,
+            1,
+            0
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 19
+        },
+        {
+          "from": [
+            5,
+            4,
+            4
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 108
+        },
+        {
+          "from": [
+            7,
+            5,
+            4
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 117
+        },
+        {
+          "from": [
+            8,
+            7,
+            5
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 55
+        },
+        {
+          "from": [
+            12,
+            10,
+            7
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 81
+        },
+        {
+          "from": [
+            26,
+            18,
+            14
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 15
+        },
+        {
+          "from": [
+            41,
+            26,
+            21
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 8
+        }
+      ],
+      "changed_color_pixels": 670,
+      "alpha_mismatches": 0,
+      "unchanged_other_pixels": true,
+      "bounding_box": [
+        35,
+        26,
+        90,
+        101
+      ]
+    },
+    {
+      "pose": "release",
+      "source": "inputs\\release.png",
+      "source_sha256": "2b5f9b5ab688748f88b7c9a29d1cfab18cc8295389ecf09c759a892f4ca1375f",
+      "output": "final\\frames\\frame-02.png",
+      "output_sha256": "00c317addb5206dd440a84d4f0fce63f9ab2d7c27040e228f8041712fad5792a",
+      "replacement_colors": [
+        {
+          "from": [
+            2,
+            2,
+            1
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 65
+        },
+        {
+          "from": [
+            4,
+            3,
+            2
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 235
+        },
+        {
+          "from": [
+            5,
+            1,
+            0
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 16
+        },
+        {
+          "from": [
+            5,
+            4,
+            4
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 179
+        },
+        {
+          "from": [
+            7,
+            5,
+            4
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 189
+        },
+        {
+          "from": [
+            8,
+            7,
+            5
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 80
+        },
+        {
+          "from": [
+            12,
+            10,
+            7
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 72
+        },
+        {
+          "from": [
+            26,
+            18,
+            14
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 40
+        },
+        {
+          "from": [
+            41,
+            26,
+            21
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 20
+        }
+      ],
+      "changed_color_pixels": 896,
+      "alpha_mismatches": 0,
+      "unchanged_other_pixels": true,
+      "bounding_box": [
+        26,
+        31,
+        120,
+        104
+      ]
+    },
+    {
+      "pose": "settle",
+      "source": "inputs\\settle.png",
+      "source_sha256": "68b81efabd3177b2332ed1c6a2d38c34c5c0cef66871c3c40ea9db69cd68e604",
+      "output": "final\\frames\\frame-03.png",
+      "output_sha256": "c2204a68a6505d98b086c709c9272ed36c47e63a198f8103a22aea2cc6802ac7",
+      "replacement_colors": [
+        {
+          "from": [
+            7,
+            6,
+            4
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 167
+        },
+        {
+          "from": [
+            12,
+            10,
+            7
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 25
+        },
+        {
+          "from": [
+            16,
+            13,
+            12
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 21
+        },
+        {
+          "from": [
+            22,
+            17,
+            14
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 1
+        },
+        {
+          "from": [
+            37,
+            26,
+            22
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ],
+          "pixels": 7
+        }
+      ],
+      "changed_color_pixels": 221,
+      "alpha_mismatches": 0,
+      "unchanged_other_pixels": true,
+      "bounding_box": [
+        24,
+        30,
+        104,
+        102
+      ]
+    }
+  ]
+}

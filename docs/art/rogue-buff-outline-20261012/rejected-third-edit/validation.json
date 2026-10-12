@@ -1,0 +1,202 @@
+{
+  "status": "ready",
+  "manifest": "final\\manifest.json",
+  "frame_count": 5,
+  "distinct_rgba_frames": 4,
+  "frames": [
+    {
+      "frame": 1,
+      "source": "reference-128.png",
+      "provenance": "ready",
+      "file_sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5",
+      "rgba_sha256": "7d5283d5e91daa22d0b6f869b5d2859ed4e2ed40326b31e9c7c281d16ea298a1",
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        24,
+        29,
+        104,
+        102
+      ],
+      "touches_canvas_edge": false,
+      "visible_pixels": 2767,
+      "transparent_pixels": 13617,
+      "partial_alpha_pixels": 0,
+      "alpha_levels": 2
+    },
+    {
+      "frame": 2,
+      "source": "final\\frames\\frame-01.png",
+      "provenance": "cross-hold",
+      "file_sha256": "cce8e90330e882e0393a035118f2454f05652c1284a3edbb924ca9dab235691d",
+      "rgba_sha256": "222ffb6d577d7f1ed067fea6e5ccfe8b34e359fecfd343037dc14089515a03bb",
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        35,
+        26,
+        90,
+        101
+      ],
+      "touches_canvas_edge": false,
+      "visible_pixels": 2322,
+      "transparent_pixels": 14062,
+      "partial_alpha_pixels": 0,
+      "alpha_levels": 2
+    },
+    {
+      "frame": 3,
+      "source": "final\\frames\\frame-02.png",
+      "provenance": "forceful-release",
+      "file_sha256": "266ff1030850eb32b305b31e67042bd565d486e04f5c43715893167a6cfbfe55",
+      "rgba_sha256": "082cf946f7163a7449d38dcc62410bf871cefaad9c2ccbf8693093f379a8ca30",
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        26,
+        31,
+        120,
+        104
+      ],
+      "touches_canvas_edge": false,
+      "visible_pixels": 2848,
+      "transparent_pixels": 13536,
+      "partial_alpha_pixels": 0,
+      "alpha_levels": 2
+    },
+    {
+      "frame": 4,
+      "source": "final\\frames\\frame-03.png",
+      "provenance": "deceleration",
+      "file_sha256": "ef904eef39b34235460381eb9f043c91f361f9907e291aa4fa194fb405f70379",
+      "rgba_sha256": "4d060dd83bf73895d04e1643144bec916e6cb6d3c68b5e864b7e8030bc3c450b",
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        24,
+        30,
+        104,
+        102
+      ],
+      "touches_canvas_edge": false,
+      "visible_pixels": 2757,
+      "transparent_pixels": 13627,
+      "partial_alpha_pixels": 0,
+      "alpha_levels": 2
+    },
+    {
+      "frame": 5,
+      "source": "reference-128.png",
+      "provenance": "exact-ready-end",
+      "file_sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5",
+      "rgba_sha256": "7d5283d5e91daa22d0b6f869b5d2859ed4e2ed40326b31e9c7c281d16ea298a1",
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        24,
+        29,
+        104,
+        102
+      ],
+      "touches_canvas_edge": false,
+      "visible_pixels": 2767,
+      "transparent_pixels": 13617,
+      "partial_alpha_pixels": 0,
+      "alpha_levels": 2
+    }
+  ],
+  "first_vs_last": {
+    "different_pixels": 0,
+    "visible_union_different_pixels": 0,
+    "alpha_mismatch_pixels": 0,
+    "first_rgba_sha256": "7d5283d5e91daa22d0b6f869b5d2859ed4e2ed40326b31e9c7c281d16ea298a1",
+    "last_rgba_sha256": "7d5283d5e91daa22d0b6f869b5d2859ed4e2ed40326b31e9c7c281d16ea298a1"
+  },
+  "requested_timing_ms": {
+    "primary": [
+      200,
+      350,
+      60,
+      120,
+      240
+    ],
+    "primary_total": 970,
+    "uniform_diagnostic": [
+      200,
+      200,
+      200,
+      200,
+      200
+    ],
+    "uniform_total": 1000
+  },
+  "previews": {
+    "preview.gif": {
+      "encoded_frame_count": 5,
+      "logical_frame_count": 5,
+      "size": [
+        512,
+        512
+      ],
+      "actual_frame_durations_ms": [
+        200,
+        350,
+        60,
+        120,
+        240
+      ],
+      "actual_total_duration_ms": 970,
+      "loop": 0,
+      "transparent_index": null
+    },
+    "native.gif": {
+      "encoded_frame_count": 5,
+      "logical_frame_count": 5,
+      "size": [
+        128,
+        128
+      ],
+      "actual_frame_durations_ms": [
+        200,
+        350,
+        60,
+        120,
+        240
+      ],
+      "actual_total_duration_ms": 970,
+      "loop": 0,
+      "transparent_index": 255
+    },
+    "uniform-preview.gif": {
+      "encoded_frame_count": 5,
+      "logical_frame_count": 5,
+      "size": [
+        512,
+        512
+      ],
+      "actual_frame_durations_ms": [
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "actual_total_duration_ms": 1000,
+      "loop": 0,
+      "transparent_index": null
+    }
+  },
+  "native_visible_rgba_parity": "verified for each logical frame",
+  "preview_composite": "128x128 RGBA source, nearest-neighbor 4x, RGB background #3f4b43",
+  "native_gif": "128x128 with transparent palette index 255"
+}

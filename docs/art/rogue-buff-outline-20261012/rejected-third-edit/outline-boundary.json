@@ -1,0 +1,336 @@
+{
+  "definition": "Visible silhouette boundary with at least one transparent four-neighbor; max(RGB)<28 is a diagnostic, not art acceptance.",
+  "reference": {
+    "source": "reference-128.png",
+    "boundary_pixels": 357,
+    "boundary_maxrgb_below_28": 0,
+    "darkest_boundary_colors": [
+      [
+        [
+          33,
+          30,
+          33
+        ],
+        281
+      ],
+      [
+        [
+          42,
+          34,
+          35
+        ],
+        18
+      ],
+      [
+        [
+          54,
+          39,
+          34
+        ],
+        2
+      ],
+      [
+        [
+          72,
+          47,
+          34
+        ],
+        2
+      ],
+      [
+        [
+          56,
+          50,
+          49
+        ],
+        4
+      ]
+    ]
+  },
+  "before": [
+    {
+      "source": "inputs/cross.png",
+      "boundary_pixels": 218,
+      "boundary_maxrgb_below_28": 208,
+      "darkest_boundary_colors": [
+        [
+          [
+            2,
+            2,
+            1
+          ],
+          7
+        ],
+        [
+          [
+            5,
+            1,
+            0
+          ],
+          5
+        ],
+        [
+          [
+            4,
+            3,
+            2
+          ],
+          80
+        ],
+        [
+          [
+            5,
+            4,
+            4
+          ],
+          55
+        ],
+        [
+          [
+            7,
+            5,
+            4
+          ],
+          44
+        ]
+      ]
+    },
+    {
+      "source": "inputs/release.png",
+      "boundary_pixels": 379,
+      "boundary_maxrgb_below_28": 366,
+      "darkest_boundary_colors": [
+        [
+          [
+            2,
+            2,
+            1
+          ],
+          7
+        ],
+        [
+          [
+            5,
+            1,
+            0
+          ],
+          3
+        ],
+        [
+          [
+            4,
+            3,
+            2
+          ],
+          80
+        ],
+        [
+          [
+            5,
+            4,
+            4
+          ],
+          106
+        ],
+        [
+          [
+            7,
+            5,
+            4
+          ],
+          111
+        ]
+      ]
+    },
+    {
+      "source": "inputs/settle.png",
+      "boundary_pixels": 357,
+      "boundary_maxrgb_below_28": 98,
+      "darkest_boundary_colors": [
+        [
+          [
+            7,
+            6,
+            4
+          ],
+          85
+        ],
+        [
+          [
+            12,
+            10,
+            7
+          ],
+          11
+        ],
+        [
+          [
+            16,
+            13,
+            12
+          ],
+          2
+        ],
+        [
+          [
+            37,
+            26,
+            22
+          ],
+          1
+        ],
+        [
+          [
+            33,
+            30,
+            33
+          ],
+          204
+        ]
+      ]
+    }
+  ],
+  "after": [
+    {
+      "source": "final/frames/frame-01.png",
+      "boundary_pixels": 222,
+      "boundary_maxrgb_below_28": 7,
+      "darkest_boundary_colors": [
+        [
+          [
+            15,
+            11,
+            7
+          ],
+          1
+        ],
+        [
+          [
+            20,
+            17,
+            13
+          ],
+          6
+        ],
+        [
+          [
+            32,
+            24,
+            20
+          ],
+          18
+        ],
+        [
+          [
+            43,
+            33,
+            27
+          ],
+          35
+        ],
+        [
+          [
+            61,
+            43,
+            36
+          ],
+          78
+        ]
+      ]
+    },
+    {
+      "source": "final/frames/frame-02.png",
+      "boundary_pixels": 386,
+      "boundary_maxrgb_below_28": 186,
+      "darkest_boundary_colors": [
+        [
+          [
+            12,
+            8,
+            6
+          ],
+          120
+        ],
+        [
+          [
+            20,
+            14,
+            10
+          ],
+          66
+        ],
+        [
+          [
+            28,
+            19,
+            13
+          ],
+          20
+        ],
+        [
+          [
+            36,
+            26,
+            19
+          ],
+          4
+        ],
+        [
+          [
+            41,
+            30,
+            22
+          ],
+          3
+        ]
+      ]
+    },
+    {
+      "source": "final/frames/frame-03.png",
+      "boundary_pixels": 357,
+      "boundary_maxrgb_below_28": 22,
+      "darkest_boundary_colors": [
+        [
+          [
+            15,
+            11,
+            7
+          ],
+          3
+        ],
+        [
+          [
+            20,
+            17,
+            13
+          ],
+          19
+        ],
+        [
+          [
+            32,
+            24,
+            20
+          ],
+          58
+        ],
+        [
+          [
+            43,
+            33,
+            27
+          ],
+          60
+        ],
+        [
+          [
+            61,
+            43,
+            36
+          ],
+          67
+        ]
+      ]
+    }
+  ]
+}

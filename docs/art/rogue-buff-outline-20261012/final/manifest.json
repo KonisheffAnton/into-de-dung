@@ -1,0 +1,38 @@
+{
+  "base": "6bca61de324fd07da7cfe06d8576d37b21c627ad",
+  "previous": "../rogue-buff-release-20261012/final/manifest.json",
+  "frames": [
+    {
+      "source": "reference-128.png",
+      "sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5",
+      "duration_ms": 200,
+      "provenance": "ready"
+    },
+    {
+      "source": "final/frames/frame-01.png",
+      "sha256": "d7bb70600c605966451335a403f6d7dd8997a06c7a98e27cce1c9690db1c769b",
+      "duration_ms": 350,
+      "provenance": "cross-hold"
+    },
+    {
+      "source": "final/frames/frame-02.png",
+      "sha256": "00c317addb5206dd440a84d4f0fce63f9ab2d7c27040e228f8041712fad5792a",
+      "duration_ms": 60,
+      "provenance": "forceful-release"
+    },
+    {
+      "source": "final/frames/frame-03.png",
+      "sha256": "c2204a68a6505d98b086c709c9272ed36c47e63a198f8103a22aea2cc6802ac7",
+      "duration_ms": 120,
+      "provenance": "deceleration"
+    },
+    {
+      "source": "reference-128.png",
+      "sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5",
+      "duration_ms": 240,
+      "provenance": "exact-ready-end"
+    }
+  ],
+  "pixelOperations": "User explicitly authorized local colors-only correction. Only new colors darker than the reference minimum are replaced by #211e21. Original pose coordinates/alpha/all other RGBA and timing preserved.",
+  "timing": "Identical to prior B1: 5 frames,970ms"
+}

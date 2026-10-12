@@ -1,0 +1,26 @@
+{
+  "base": "6bca61de324fd07da7cfe06d8576d37b21c627ad",
+  "endpoint": "/v2/edit-images-v2",
+  "method": "edit_with_reference",
+  "seed": 2026101245,
+  "description": "COLOR CORRECTION ONLY. Remove the newly added pitch-black outline from all THREE edit images. Use the separate reference image as the exact palette and soft contour-style reference. In the edit images, the black ink around the hood, shoulders, arms, gloves, boots, tunic, daggers and internal seams is too dark. Replace that black ink with the original reference muted dark gray-brown contour and nearby material shadow colors. The reference darkest outline color is RGB(33,30,33), hex #211e21, with brown shades #2a2223 and #362722. Do not use pure black or almost-black such as RGB(2,2,1), (4,3,2), or (7,6,4). No hard black border, no new outline thickness. Keep the native pixel silhouette and every contour pixel position intact; change contour COLORS, not geometry. Keep each input pose exactly: crossed daggers, wide open release, near-neutral settle. Do not replace poses with reference stance. Preserve face, hood shape, feet, hands, clothes, material highlights, camera, scale and placement. Preserve the existing two daggers, their length, width, tips, guards and correct crossing occlusion exactly; do not shorten, lengthen or duplicate them. Do not add motion, frames, glow, blur, smoothing, shadows or props. Maintain clean 128x128 transparent pixel art and crisp pixels. Make all three edited poses match the reference soft colored contour so black outlines do not flash during playback.",
+  "reference": {
+    "source": "reference-128.png",
+    "sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5"
+  },
+  "inputs": [
+    {
+      "source": "inputs/cross.png",
+      "sha256": "9fa21dc61c0d20e9ce5da773a48c7aae23264fba327facc8b1583700eda545d1"
+    },
+    {
+      "source": "inputs/release.png",
+      "sha256": "2b5f9b5ab688748f88b7c9a29d1cfab18cc8295389ecf09c759a892f4ca1375f"
+    },
+    {
+      "source": "inputs/settle.png",
+      "sha256": "68b81efabd3177b2332ed1c6a2d38c34c5c0cef66871c3c40ea9db69cd68e604"
+    }
+  ],
+  "scope": "Only remove introduced black contour from existing poses. Preserve motion/timing/weapon geometry."
+}

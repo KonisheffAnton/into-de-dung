@@ -1,0 +1,22 @@
+{
+  "base": "6bca61de324fd07da7cfe06d8576d37b21c627ad",
+  "endpoint": "/v2/edit-images-v2",
+  "method": "edit_with_text",
+  "seed": 2026101246,
+  "description": "REMOVE THE BLACK OUTLINE COMPLETELY. These same three poses already have correct movement and weapons. Only their remaining black/brown ink borders need fixing. Use a NO-OUTLINE pixel-art finish: outer edge pixels must be shaded with the adjacent MATERIAL COLOR, not a continuous dark ink contour. Olive cloth edges are muted olive, leather/glove/boot edges are brown, steel blade edges muted blue-gray, skin edges skin-shadow. Remove the black outer line especially around the hood, shoulders, arms, hands, thighs, knees, boots and daggers. Do NOT replace black with another almost-black line. Forbidden outline colors include RGB(15,13,13), RGB(22,20,18), RGB(28,24,22); replace these border pixels with substantially lighter material colors. No exterior edge color may be darker than RGB(33,30,33); prefer the adjoining brown/olive fill tone. Preserve subtle internal material shadows and the facial features, but do not draw black strokes around them. Keep every silhouette boundary pixel at the SAME POSITION and keep the entire three poses, camera, scale, canvas placement, boots, face, head and body geometry unchanged. Keep both daggers exactly as supplied: same length, width, grips, tips and the correct two-blade crossed X. Do not add blades or change weapon size. This is only removal/recoloring of ink lines, not a new animation or redesigned character. Keep crisp hard pixel edges and fully transparent background,128x128. No antialiasing, blur, halos, glow or extra objects.",
+  "inputs": [
+    {
+      "source": "refine/inputs/frame-01.png",
+      "sha256": "df6ddf9140b198c27ece55049f51030d386ee9cbc6e5a625f29a89dc153a0bb0"
+    },
+    {
+      "source": "refine/inputs/frame-02.png",
+      "sha256": "2d5d98ab31ce3145d80a64050bc0417736987800885e3e0566a65fc278fbca05"
+    },
+    {
+      "source": "refine/inputs/frame-03.png",
+      "sha256": "d3036f6f860d7328aa34238c4248b7dcb2264b889dd3a92f520d3aa10e35f73a"
+    }
+  ],
+  "reason": "Independent review found remaining almost-black pixels on silhouette boundary; target no-outline material edges explicitly."
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "pose": "cross",
+    "source": "edit\\pixellab\\frame-01.png",
+    "source_sha256": "6c605f769b9f95b0e47f06f6f3e82816c0d7610591b6bc177aec77bf03662e0a",
+    "output": "final\\frames\\frame-01.png",
+    "output_sha256": "df6ddf9140b198c27ece55049f51030d386ee9cbc6e5a625f29a89dc153a0bb0",
+    "offset_xy": [
+      8,
+      1
+    ],
+    "rgba_translation_parity": true,
+    "alpha_difference_from_previous_pose": 1,
+    "nearblack_before": 662,
+    "nearblack_after": 251
+  },
+  {
+    "pose": "release",
+    "source": "edit\\pixellab\\frame-02.png",
+    "source_sha256": "d631fe1a390f254ffcf30d84e3536fa8c9ac654686f474411bb9746280a436f2",
+    "output": "final\\frames\\frame-02.png",
+    "output_sha256": "2d5d98ab31ce3145d80a64050bc0417736987800885e3e0566a65fc278fbca05",
+    "offset_xy": [
+      -2,
+      -5
+    ],
+    "rgba_translation_parity": true,
+    "alpha_difference_from_previous_pose": 0,
+    "nearblack_before": 876,
+    "nearblack_after": 241
+  },
+  {
+    "pose": "settle",
+    "source": "edit\\pixellab\\frame-03.png",
+    "source_sha256": "81f04bcca2658adceccd84631438304e8f0427c080cb23fbe855ab30c72981e3",
+    "output": "final\\frames\\frame-03.png",
+    "output_sha256": "d3036f6f860d7328aa34238c4248b7dcb2264b889dd3a92f520d3aa10e35f73a",
+    "offset_xy": [
+      0,
+      -4
+    ],
+    "rgba_translation_parity": true,
+    "alpha_difference_from_previous_pose": 0,
+    "nearblack_before": 214,
+    "nearblack_after": 39
+  }
+]

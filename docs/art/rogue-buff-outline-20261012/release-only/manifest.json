@@ -1,0 +1,11 @@
+{
+  "endpoint": "/v2/edit-images-v2",
+  "method": "edit_with_text",
+  "seed": 2026101247,
+  "description": "Remove ALL BLACK OUTLINES from this single pixel-art sprite. Change the dark ink line around its entire silhouette and around each limb to the adjacent material color: olive cloth, brown leather, blue-gray metal. No black strokes around hood, hands, arms, boots or blades. Do not merely soften black: ERASE THE INK LINE BY RECOLORING ITS PIXELS with the adjoining material fill color. All outer edge colors must be lighter than RGB(33,30,33). Keep the silhouette shape and pixel positions exactly unchanged. Keep the same pose, face, two daggers, blade lengths, clothes and pixel-art detail. Color correction only. Transparent128x128, no blur, glow or added objects.",
+  "input": {
+    "source": "release-only/input.png",
+    "sha256": "c3162ca2b5a96c823b09040357e9a614cd9b3cf2ebe42df5104651b387ad7c7f"
+  },
+  "reason": "After two incomplete edits, checked pose-wise boundary evidence: grouped edit corrected cross but not open release; isolate the remaining pose."
+}
