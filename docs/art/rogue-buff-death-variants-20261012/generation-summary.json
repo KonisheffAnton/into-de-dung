@@ -1,0 +1,54 @@
+{
+  "totalGenerations": 18.0,
+  "jobs": [
+    {
+      "variant": "buff-01-cross",
+      "jobId": "81677d3a-8c9d-42b2-9176-c1bc04e82c70",
+      "status": "completed",
+      "requestedFrames": 12,
+      "returnedFrames": 13,
+      "generations": 3.0
+    },
+    {
+      "variant": "buff-02-grip",
+      "jobId": "45000d21-7d98-4875-a68d-7a0cf08581de",
+      "status": "completed",
+      "requestedFrames": 12,
+      "returnedFrames": 13,
+      "generations": 3.0
+    },
+    {
+      "variant": "buff-03-focus",
+      "jobId": "0593ebaa-6087-4cdc-a25b-57d5ca603a3a",
+      "status": "completed",
+      "requestedFrames": 12,
+      "returnedFrames": 13,
+      "generations": 3.0
+    },
+    {
+      "variant": "death-01-forward",
+      "jobId": "92780f93-b981-4b18-bd16-75a9cc40a2df",
+      "status": "completed",
+      "requestedFrames": 12,
+      "returnedFrames": 13,
+      "generations": 3.0
+    },
+    {
+      "variant": "death-02-back",
+      "jobId": "cb2c4f83-a167-402a-af8c-347fe71ff197",
+      "status": "completed",
+      "requestedFrames": 12,
+      "returnedFrames": 13,
+      "generations": 3.0
+    },
+    {
+      "variant": "death-03-side",
+      "jobId": "7623a2b1-1d9d-4572-be74-2f255bedf3ae",
+      "status": "completed",
+      "requestedFrames": 12,
+      "returnedFrames": 13,
+      "generations": 3.0
+    }
+  ],
+  "totalPng": 78.0
+}
