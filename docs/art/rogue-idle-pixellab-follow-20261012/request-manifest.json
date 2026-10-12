@@ -1,0 +1,13 @@
+{
+  "enhancePrompt": false,
+  "descriptionLength": 933,
+  "source": "docs/art/rogue-idle-face-stable-20261012/pixellab/frame-01.png",
+  "base": "56f99ce2cb2c944a81733e04446435ef19b52de4",
+  "firstEqualsLast": true,
+  "noBackground": true,
+  "framesRequested": 32,
+  "sourceSha256": "CCF04FBB0C7B73FCE0EBA232CE5E595C7C2D037B7A9A8EAA176309E6AD11DBB5",
+  "seed": 2026101213,
+  "motion": "One seamless, quiet breathing idle cycle: the chest slowly rises just 1-2 pixels, then slowly settles back to the exact starting pose. The head and its entire hood follow the chest as one coherent volume, with a very small natural delay of about 0.1 seconds on both the rise and fall. The face stays firmly attached inside the hood: keep the same eyes, nose, mouth, cheek shapes and expression throughout; no blinking, talking, facial redrawing or jitter. No independent head nodding or rotation. Arms and both daggers softly follow the breathing without changing their pose or shape. Boots stay planted on exactly the same pixels; hips and legs remain stable. Preserve the original low crouched stance and silhouette. The movement is restrained, continuous and smooth, without rubbery stretching, sideways sway, turns, steps or exaggerated bobbing. Fixed camera, framing and scale. Finish at the exact initial pose for a clean loop.",
+  "endpoint": "/v2/animate-pixminimax"
+}
