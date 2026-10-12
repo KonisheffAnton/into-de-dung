@@ -1,0 +1,1 @@
+{"detail":"Too many frames: got 12 but image_size 128x128 supports at most 4 frames. Frame limits by output size: <=64px up to 16, 65-80px up to 9, 81-256px up to 4. Reduce the frame count or use a smaller image_size."}

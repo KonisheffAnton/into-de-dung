@@ -1,0 +1,711 @@
+{
+  "rois": {
+    "face": {
+      "left": 69,
+      "top": 45,
+      "width": 11,
+      "height": 11
+    },
+    "head": {
+      "left": 58,
+      "top": 25,
+      "width": 31,
+      "height": 40
+    }
+  },
+  "sources": {
+    "old": "..\\rogue-idle-20261012\\pixellab",
+    "new": "pixellab",
+    "reference": "pixellab/reference-128.png"
+  },
+  "exactPixelEqualityFaces": {
+    "oldMatchingFirst": 4,
+    "newMatchingFirst": 12
+  },
+  "uniqueFaceHashes": {
+    "old": 7,
+    "new": 1
+  },
+  "frames": {
+    "old": [
+      {
+        "frame": 1,
+        "vsFirst": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": null,
+        "sha256": "baae151d00877cf2fba241ded7ed08f86779b5ae899e49846a580f87afa60143",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 2,
+        "vsFirst": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "baae151d00877cf2fba241ded7ed08f86779b5ae899e49846a580f87afa60143",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 3,
+        "vsFirst": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "baae151d00877cf2fba241ded7ed08f86779b5ae899e49846a580f87afa60143",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 4,
+        "vsFirst": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "baae151d00877cf2fba241ded7ed08f86779b5ae899e49846a580f87afa60143",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 5,
+        "vsFirst": {
+          "changedPixels": 74,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 74,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "deba2c5b5ca70bbb0ce4b1b4fa760ab384b3d4178ebaf9dab59cf26914d56a02",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 6,
+        "vsFirst": {
+          "changedPixels": 92,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 55,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "e9bf79f56b1f71a05e9eefe69837239e27cacbdeb4b92dfffacad86b5e125f9c",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 7,
+        "vsFirst": {
+          "changedPixels": 99,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 27,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "a3dffac5516eaca56175f0f98b9ff92af45d072b368203d70dadd0d91d8a79a6",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 8,
+        "vsFirst": {
+          "changedPixels": 99,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "a3dffac5516eaca56175f0f98b9ff92af45d072b368203d70dadd0d91d8a79a6",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 9,
+        "vsFirst": {
+          "changedPixels": 89,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 26,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "caa8a8c52f6a84ac400190fe2e28ae01ec70aa71fe248eb4da1903d85a675ce9",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 10,
+        "vsFirst": {
+          "changedPixels": 74,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 52,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "212db69a397d40bd3da96aba58278aa4dccf03449304f6ab89759f5f83b631d4",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 11,
+        "vsFirst": {
+          "changedPixels": 74,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "212db69a397d40bd3da96aba58278aa4dccf03449304f6ab89759f5f83b631d4",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 12,
+        "vsFirst": {
+          "changedPixels": 14,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 72,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "2bc6ea043501dc4abff0f5bd76eb9185ecd84c66da0b6a3f4b36ec4fd7f00bbe",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      }
+    ],
+    "new": [
+      {
+        "frame": 1,
+        "vsFirst": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": null,
+        "sha256": "e7d2f6cae87b5c4035338d4775faf7da8a94bba1becaa321074ea03d32095a16",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 2,
+        "vsFirst": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "e7d2f6cae87b5c4035338d4775faf7da8a94bba1becaa321074ea03d32095a16",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 3,
+        "vsFirst": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "e7d2f6cae87b5c4035338d4775faf7da8a94bba1becaa321074ea03d32095a16",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 4,
+        "vsFirst": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "e7d2f6cae87b5c4035338d4775faf7da8a94bba1becaa321074ea03d32095a16",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 5,
+        "vsFirst": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "e7d2f6cae87b5c4035338d4775faf7da8a94bba1becaa321074ea03d32095a16",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 6,
+        "vsFirst": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "e7d2f6cae87b5c4035338d4775faf7da8a94bba1becaa321074ea03d32095a16",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 7,
+        "vsFirst": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "e7d2f6cae87b5c4035338d4775faf7da8a94bba1becaa321074ea03d32095a16",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 8,
+        "vsFirst": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "e7d2f6cae87b5c4035338d4775faf7da8a94bba1becaa321074ea03d32095a16",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 9,
+        "vsFirst": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "e7d2f6cae87b5c4035338d4775faf7da8a94bba1becaa321074ea03d32095a16",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 10,
+        "vsFirst": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "e7d2f6cae87b5c4035338d4775faf7da8a94bba1becaa321074ea03d32095a16",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 11,
+        "vsFirst": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "e7d2f6cae87b5c4035338d4775faf7da8a94bba1becaa321074ea03d32095a16",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      },
+      {
+        "frame": 12,
+        "vsFirst": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "vsPrevious": {
+          "changedPixels": 0,
+          "alphaChangedPixels": 0,
+          "totalPixels": 121
+        },
+        "sha256": "e7d2f6cae87b5c4035338d4775faf7da8a94bba1becaa321074ea03d32095a16",
+        "alpha": {
+          "transparent": 0,
+          "partialAlpha": 0,
+          "opaque": 121
+        }
+      }
+    ]
+  },
+  "adjacentBestTranslation": {
+    "range": {
+      "dx": [
+        -2,
+        2
+      ],
+      "dy": [
+        -2,
+        2
+      ]
+    },
+    "comparisonSamples": 121,
+    "old": [
+      {
+        "from": 1,
+        "to": 2,
+        "dx": 0,
+        "dy": 0,
+        "changedPixels": 0,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      },
+      {
+        "from": 2,
+        "to": 3,
+        "dx": 0,
+        "dy": 0,
+        "changedPixels": 0,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      },
+      {
+        "from": 3,
+        "to": 4,
+        "dx": 0,
+        "dy": 0,
+        "changedPixels": 0,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      },
+      {
+        "from": 4,
+        "to": 5,
+        "dx": 0,
+        "dy": -1,
+        "changedPixels": 0,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      },
+      {
+        "from": 5,
+        "to": 6,
+        "dx": 0,
+        "dy": -1,
+        "changedPixels": 28,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      },
+      {
+        "from": 6,
+        "to": 7,
+        "dx": 0,
+        "dy": 0,
+        "changedPixels": 27,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      },
+      {
+        "from": 7,
+        "to": 8,
+        "dx": 0,
+        "dy": 0,
+        "changedPixels": 0,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      },
+      {
+        "from": 8,
+        "to": 9,
+        "dx": 0,
+        "dy": 0,
+        "changedPixels": 26,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      },
+      {
+        "from": 9,
+        "to": 10,
+        "dx": 0,
+        "dy": 1,
+        "changedPixels": 28,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      },
+      {
+        "from": 10,
+        "to": 11,
+        "dx": 0,
+        "dy": 0,
+        "changedPixels": 0,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      },
+      {
+        "from": 11,
+        "to": 12,
+        "dx": 0,
+        "dy": 1,
+        "changedPixels": 0,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      }
+    ],
+    "new": [
+      {
+        "from": 1,
+        "to": 2,
+        "dx": 0,
+        "dy": 0,
+        "changedPixels": 0,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      },
+      {
+        "from": 2,
+        "to": 3,
+        "dx": 0,
+        "dy": 0,
+        "changedPixels": 0,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      },
+      {
+        "from": 3,
+        "to": 4,
+        "dx": 0,
+        "dy": 0,
+        "changedPixels": 0,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      },
+      {
+        "from": 4,
+        "to": 5,
+        "dx": 0,
+        "dy": 0,
+        "changedPixels": 0,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      },
+      {
+        "from": 5,
+        "to": 6,
+        "dx": 0,
+        "dy": 0,
+        "changedPixels": 0,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      },
+      {
+        "from": 6,
+        "to": 7,
+        "dx": 0,
+        "dy": 0,
+        "changedPixels": 0,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      },
+      {
+        "from": 7,
+        "to": 8,
+        "dx": 0,
+        "dy": 0,
+        "changedPixels": 0,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      },
+      {
+        "from": 8,
+        "to": 9,
+        "dx": 0,
+        "dy": 0,
+        "changedPixels": 0,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      },
+      {
+        "from": 9,
+        "to": 10,
+        "dx": 0,
+        "dy": 0,
+        "changedPixels": 0,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      },
+      {
+        "from": 10,
+        "to": 11,
+        "dx": 0,
+        "dy": 0,
+        "changedPixels": 0,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      },
+      {
+        "from": 11,
+        "to": 12,
+        "dx": 0,
+        "dy": 0,
+        "changedPixels": 0,
+        "alphaChangedPixels": 0,
+        "comparedPixels": 121
+      }
+    ],
+    "note": "Сдвиг только для диагностики; исходные пиксели и ROI не меняются."
+  },
+  "referenceHeadROI": {
+    "opaquePixels": 877,
+    "lowerQuarterOpaquePixels": 307,
+    "lowerQuarterShareOfROIAlpha": 0.3500570125427594,
+    "note": "Проверка охвата ROI по reference, не художественная приёмка и не классификация пикселей как плеч."
+  },
+  "outputs": [
+    "face-filmstrip.png",
+    "head-filmstrip.png",
+    "face-validation.json"
+  ],
+  "acceptance": "Диагностические изображения и метрики не объявляют лицо fixed и не заменяют художественную приёмку."
+}

@@ -1,0 +1,10 @@
+// Только PixelLab правит движение; локально лишь кодируем исходные кадры в запрос.
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
+const source=path.join(__dirname,'../rogue-idle-20261012/pixellab');
+const target=path.join(__dirname,'rejected-edit');
+const names=Array.from({length:12},(_,i)=>`frame-${String(i+1).padStart(2,'0')}.png`);
+const description='Fix facial jitter in this breathing idle animation. The face currently changes and jumps between frames. Lock the entire head, olive hood and exposed face to the FIRST FRAME at the same exact screen position in every frame. Keep precisely the same facial expression, eye, eyebrow, nose, mouth, beard, skin tones and pixel shapes in all 12 frames. No blinking, no facial animation, no nodding, no moving or changing head or hood, no changing facial proportions. Only the chest, shoulders and arms perform very subtle quiet breathing beneath the fixed head. Preserve the existing rogue identity, low ready stance, brown leather, olive clothing, both straight daggers, legs and planted feet. Keep the original composition, camera, scale and equipment. No new details, no flicker, no color cycling, no effects, no ground shadow. Return a coherent transparent pixel art loop of the same 12 frames.';
+const request={description,frames:names.map(name=>({image:{base64:fs.readFileSync(path.join(source,name)).toString('base64')},size:{width:128,height:128}})),image_size:{width:128,height:128},no_background:true,seed:20261013};
+fs.writeFileSync(path.join(target,'request.json'),JSON.stringify(request,null,2)+'\n');
+fs.writeFileSync(path.join(__dirname,'rejected-edit-manifest.json'),JSON.stringify({endpoint:'https://api.pixellab.ai/v2/edit-animation-v2',description,source:'../rogue-idle-20261012/pixellab',inputs:names.map(name=>({file:name,sha256:crypto.createHash('sha256').update(fs.readFileSync(path.join(source,name))).digest('hex')})),note:'Rejected by API:128px supports at most4 frames. No job created. Preserved for provenance, not the current request.'},null,2)+'\n');
+console.log(JSON.stringify({frames:names.length,endpoint:'edit-animation-v2'}));

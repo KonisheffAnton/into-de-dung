@@ -1,30 +1,31 @@
-# Передача — 2026-10-12: первая idle-проба разбойника
-D:\Games\into-de-dung; main; base16cfd6d07877ca658112178c1c15c2ffd981efe6.
-U поручил сравнить рисунок разбойника с эталоном, поправить и начать idle.
-Статичная imagegen-правка смягчила обводку, убрала белый фон; исходник сохранён.
-U подтвердил: анимации только PixelLab. Все12 кадров этой пробы — PixelLab,
-без дорисовки/интерполяции; тихое дыхание,2.4s, руки слегка запаздывают.
-Пакет: docs/art/rogue-idle-20261012/README.md; preview.gif, idle-native.gif,
-filmstrip.png, исходник/правка/запросы/ответ/usage рядом. Отчёт:
-test_reports/rogue-idle-20261012/REPORT.md. Направление/приёмка — ART_DIRECTION.
-Статика/idle пока кандидаты. Следующий шаг — отзыв U о рисунке и дыхании;
-интеграция и игровая посадка не выполнены. Новые действия без поручения не начинать.
-Варианты одежды — заключительный этап утверждённого персонажа, ещё не начат.
-Проверены12PNG128×128, alpha0/255, пустая рамка16px, GIF12×200ms,
-исходные хеши/позы, Node parse; ревью APPROVE. Возможны RGB-мерцание/дискретность.
-Godot/full/core/F5/editor/GPU не запускались; runtime и игровые ассеты прежние.
-PixelLab job completed2a34bfdf-3b55-49bf-93a7-46db6b8ce8cd;
-usage3 generations +0.1 оценка18суставов. Повторной генерации нет.
-Защитник: гаммы/переходы приняты U; lifecycle — BATTLE_VISUAL_SCENE_CONTRACT.
-Арт опубликован отдельно codex/approved-defender-art-20261012,64ba319d;
-манифест test_reports/approved-art-publish-20261012/publication.json.
-Игровая интеграция/гаммы локальны; «Ветеран» не подключён. Здесь push нет.
+# Передача — 2026-10-12: исправлено лицо idle разбойника
+D:\Games\into-de-dung; main; base23f08e1d7efb98967090299db08bc872e120de30.
+U поручил рисунок/idle разбойника; анимации только PixelLab.
+Статичная imagegen-правка и исходник — docs/art/rogue-idle-20261012/README.md.
+Первую idle-пробу U отклонил: лицо скачет. Она сохранена; прежнее техническое
+APPROVE не означает художественную приёмку. Диагностика нашла сдвиг и смену черт.
+Новая цельная проба PixelLab закрепляет голову и двигает плечи/руки на1px.
+Пакет: docs/art/rogue-idle-face-stable-20261012/README.md; preview.gif,
+idle-native.gif, face-filmstrip.png, head-filmstrip.png и запросы/ответ рядом.
+Отчёт: test_reports/rogue-idle-face-stable-20261012/REPORT.md.
+Контрольная область лица11×11 одинакова во всех12 PNG (один хеш вместо7);
+глаз/нос/подбородок не меняются. Голова/кинжалы просмотрены на ленте.
+PNG128×128, alpha0/255, рамка16px, GIF12×200ms, Node PASS; ревью APPROVE.
+Край капюшона слегка меняется.
+Новая петля2.4s, все кадры PixelLab без дорисовки/интерполяции.
+Новый job completed, usage3generations. Отказ edit-animation — в пакете.
+Следующий шаг — отзыв U о новой петле. Статика/анимация ещё не утверждены;
+интеграция/игровая посадка не выполнены. Новые действия без поручения не начинать.
+Варианты одежды — в конце утверждённого персонажа; ART_DIRECTION владеет правилом.
+Godot/full/core/F5/editor/GPU не запускались; игровые ассеты/runtime прежние.
+Защитник: гаммы/переходы приняты; BATTLE_VISUAL_SCENE_CONTRACT — lifecycle.
+Опубликованный арт — codex/approved-defender-art-20261012,64ba319d; HISTORY.
+Игровая интеграция/гаммы локальны; «Ветеран» не подключён. Push нет.
 Незакоммиченное: пользовательская scenes/demo/main_menu.tscn;
 не трогать/сбрасывать/коммитить. Без поручения ничего не push.
 PROJECT_CONTEXT — маршруты; CODEX_WORKFLOW — процесс; DESIGN_DIRECTION §7 — порядок.
 Сохранять preview/live/worker/queue/RNG/save/frozen; инициативы нет, BT/адаптер прежние.
-SAVE_FORMAT_CURRENT — старые файлы не менять/мигрировать/удалять.
-BATTLE_SNAPSHOT_CURRENT — default capture/restore; --forecast-clone эксперимент.
+Старые save не менять/мигрировать/удалять; capture/restore default, clone эксперимент.
 P-удар/тени/свет/баланс/backlog не начинать. PixelLab — GRAPHICS_WORKFLOW;
 DPAPI только api.pixellab.ai, вне Git/логов. Без sidebar/расписаний.
 После этапа Conventional Commit; короткий HANDOFF, прежний побайтно архивом+HISTORY.

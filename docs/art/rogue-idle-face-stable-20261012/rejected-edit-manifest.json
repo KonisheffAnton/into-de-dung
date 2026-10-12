@@ -1,0 +1,56 @@
+{
+  "endpoint": "https://api.pixellab.ai/v2/edit-animation-v2",
+  "description": "Fix facial jitter in this breathing idle animation. The face currently changes and jumps between frames. Lock the entire head, olive hood and exposed face to the FIRST FRAME at the same exact screen position in every frame. Keep precisely the same facial expression, eye, eyebrow, nose, mouth, beard, skin tones and pixel shapes in all 12 frames. No blinking, no facial animation, no nodding, no moving or changing head or hood, no changing facial proportions. Only the chest, shoulders and arms perform very subtle quiet breathing beneath the fixed head. Preserve the existing rogue identity, low ready stance, brown leather, olive clothing, both straight daggers, legs and planted feet. Keep the original composition, camera, scale and equipment. No new details, no flicker, no color cycling, no effects, no ground shadow. Return a coherent transparent pixel art loop of the same 12 frames.",
+  "source": "../rogue-idle-20261012/pixellab",
+  "inputs": [
+    {
+      "file": "frame-01.png",
+      "sha256": "1892452557d67263f2a58296af6b5a4c5fcefd7b16874aaeaf1c0bc32ad37d0e"
+    },
+    {
+      "file": "frame-02.png",
+      "sha256": "cea2bc5ec528bda92131471ee09f2d6f099d629864a53829052ab3ac46376e6d"
+    },
+    {
+      "file": "frame-03.png",
+      "sha256": "ee89394440746447af291a8617619ddffded1127364ac220e8f4073f933ef3ae"
+    },
+    {
+      "file": "frame-04.png",
+      "sha256": "db61da4a94e5bb3fb21b3026093ca977a8aa4ace51a767c7fe723ec5b02deec2"
+    },
+    {
+      "file": "frame-05.png",
+      "sha256": "7b455cd0a2ca08cb1b45851dd0f9296bfbd39e60878a4f522e28ef46ef1a3c93"
+    },
+    {
+      "file": "frame-06.png",
+      "sha256": "16bdc4a20c121143ff695f17addb1e46e6f73cb7e6b48558d40debd8bc69b05f"
+    },
+    {
+      "file": "frame-07.png",
+      "sha256": "65530ed2634d3c2c9a70a87ebc53fdf2b533030073bfd5170292703e8c1b2d54"
+    },
+    {
+      "file": "frame-08.png",
+      "sha256": "a5c3fd6f5ac3c5fe552df66f19b4fed51f4c5ec9f0a5f0eec89df1cf7e824394"
+    },
+    {
+      "file": "frame-09.png",
+      "sha256": "507019446dc7346e4012e50712f089e808b56d7ceefadb86d960e5ef6815683e"
+    },
+    {
+      "file": "frame-10.png",
+      "sha256": "82f69d33b861d4b858ede28f2928ca9478a2480ff2a7cf3b4963937933931564"
+    },
+    {
+      "file": "frame-11.png",
+      "sha256": "f2895ef377bdb4f3d6d2affee09c0c84fd736dafdd7c4e67c1e63c6dae9f6b7d"
+    },
+    {
+      "file": "frame-12.png",
+      "sha256": "b247adf54f794bf3d4e0fc7f894b87815d55fb86e36c6f97a42055971c77f228"
+    }
+  ],
+  "note": "Rejected by API:128px supports at most4 frames. No job created. Preserved for provenance, not the current request."
+}

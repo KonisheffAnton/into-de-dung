@@ -1,0 +1,93 @@
+{
+  "source": "https://api.pixellab.ai/v2/openapi.json",
+  "checked_on": "2026-10-12",
+  "request": {
+    "properties": {
+      "description": {
+        "type": "string",
+        "maxLength": 2000,
+        "minLength": 1,
+        "title": "Description",
+        "description": "Description of the edit to apply (e.g., 'add a red cape', 'make it glow blue')"
+      },
+      "frames": {
+        "items": {
+          "$ref": "#/components/schemas/app__endpoints__external__v2__edit_animation_v2__FrameImage"
+        },
+        "type": "array",
+        "maxItems": 16,
+        "minItems": 2,
+        "title": "Frames",
+        "description": "Animation frames to edit (2-16 frames)"
+      },
+      "image_size": {
+        "$ref": "#/components/schemas/app__endpoints__external__v2__edit_animation_v2__ImageSize",
+        "description": "Size of the output frames"
+      },
+      "seed": {
+        "anyOf": [
+          {
+            "type": "integer",
+            "minimum": 0.0
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Seed",
+        "description": "Seed for reproducible generation"
+      },
+      "no_background": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "No Background",
+        "description": "Remove background from edited frames",
+        "default": false
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "description",
+      "frames",
+      "image_size"
+    ],
+    "title": "EditAnimationV2Request",
+    "description": "Request model for edit-animation-v2 endpoint",
+    "example": {
+      "description": "add a glowing red aura",
+      "frames": [
+        {
+          "image": {
+            "base64": "..."
+          },
+          "size": {
+            "height": 64,
+            "width": 64
+          }
+        },
+        {
+          "image": {
+            "base64": "..."
+          },
+          "size": {
+            "height": 64,
+            "width": 64
+          }
+        }
+      ],
+      "image_size": {
+        "height": 64,
+        "width": 64
+      },
+      "no_background": false,
+      "seed": 42
+    }
+  }
+}

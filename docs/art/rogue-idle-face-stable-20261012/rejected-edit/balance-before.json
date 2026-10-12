@@ -1,0 +1,13 @@
+{
+  "credits": {
+    "type": "usd",
+    "usd": 0.0
+  },
+  "subscription": {
+    "type": "generations",
+    "status": "active",
+    "plan": "Tier 2: Pixel Artisan",
+    "generations": 4892.8,
+    "total": 5000.0
+  }
+}
