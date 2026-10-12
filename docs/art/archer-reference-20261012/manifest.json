@@ -1,0 +1,35 @@
+{
+  "defender": {
+    "path": "assets/art_presets/trials/defender_field_v1/defender_new.png",
+    "size": [
+      1230,
+      1278
+    ],
+    "alpha_bbox_128": [
+      89,
+      206,
+      1123,
+      1172
+    ],
+    "sha256": "7cbd0358fe42264f8090b4d77da03274fcca1a4ebbe5984b960d77c9f5874082",
+    "display_height": 57.60002976
+  },
+  "archer": {
+    "path": "docs/art/archer-reference-20261012/archer-clean.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "alpha_bbox_128": [
+      244,
+      148,
+      1164,
+      1178
+    ],
+    "sha256": "457bb394bd124531273bd2345f1e2542fd054c02faf4475f77c7d13ace762dc0",
+    "display_height": 51.840026784
+  },
+  "ratio": 0.9,
+  "measurement": "full silhouette height including hair; alpha >= 128; uniform scaling",
+  "scope": "offline comparison only; no game integration; original RGBA preserved"
+}
