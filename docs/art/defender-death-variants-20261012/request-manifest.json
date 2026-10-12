@@ -1,0 +1,52 @@
+{
+  "scope": "Three offline death-animation alternatives requested by U2026-10-12; user selection and integration pending.",
+  "endpoint": "https://api.pixellab.ai/v2/animate-pixminimax",
+  "schema_verified": "2026-10-12 https://api.pixellab.ai/v2/openapi.json",
+  "reference": "defender-shield-taunt-fluid-20261011/pixellab/reference-128.png",
+  "reference_sha256": "1f49c04b2747143a7ec2ae51822b43ec584daba2a66d2bd8940c921f9366c8af",
+  "last_frame_omitted": "A death must end on the ground, not return to its living start pose.",
+  "variants": [
+    {
+      "id": "01-forward-shield",
+      "title": "Вперёд на щит",
+      "request_sha256": "b204a299810d6255292045438c8cb78bf688c6c30dc0c7ea879d3261dc4b7e16",
+      "description": "The defender reels briefly, his knees buckle and he drops his shield edge to the ground in front. He tries to support his weight on the shield, but his arms give out. He pitches forward heavily over the falling shield and settles face-down with his torso on the flat shield, helmet low, knees and boots behind. The sword hand falls beside his body; the sword remains close. A small natural settling movement ends the fall. One continuous grounded death, no loop. Clear weight, anticipation and connected limb motion. Keep the body and both weapons fully inside the canvas, near the original ground position. Same armor, helmet, sword and shield throughout. No spinning, leaping, flying weapons, blood, particles, dust, flashes, trails, text, fading or camera movement. Finish completely motionless on the ground and stay dead; never stand up or return to the starting pose.",
+      "frame_count": 32,
+      "seed": 20261020,
+      "no_background": true,
+      "enhance_prompt": false,
+      "direction": "south-east",
+      "view": "high top-down",
+      "subject_description": "A compact helmeted human defender in simple steel armor and olive cloth, a short sword in his right hand on screen-left and a broad olive shield in his left hand on screen-right; chunky quiet pixel clusters with minimal detail.",
+      "initial_pose": "Standing in a wide braced stance with bent knees, sword lowered diagonally on screen-left, shield raised on screen-right, leaning slightly forward and facing lower-right. Full body on a transparent 128 by 128 canvas."
+    },
+    {
+      "id": "02-backward",
+      "title": "Тяжёлое падение назад",
+      "request_sha256": "dec72d98255d787d22f706b8f508684ab9dccdbcfe97e8269b26553aad877d7e",
+      "description": "The defender takes an invisible fatal hit to the chest. His chest recoils, knees give way and he loses balance backward without jumping. Hips descend first, then his upper back and helmet settle on the ground behind his original feet. End lying fully on his back, legs relaxed toward the front, shield lowered beside his torso and short sword beside the right hand. One short heavy impact and minimal settling; no repeated bouncing. One continuous grounded death, no loop. Clear weight, anticipation and connected limb motion. Keep the body and both weapons fully inside the canvas, near the original ground position. Same armor, helmet, sword and shield throughout. No spinning, leaping, flying weapons, blood, particles, dust, flashes, trails, text, fading or camera movement. Finish completely motionless on the ground and stay dead; never stand up or return to the starting pose.",
+      "frame_count": 32,
+      "seed": 20261021,
+      "no_background": true,
+      "enhance_prompt": false,
+      "direction": "south-east",
+      "view": "high top-down",
+      "subject_description": "A compact helmeted human defender in simple steel armor and olive cloth, a short sword in his right hand on screen-left and a broad olive shield in his left hand on screen-right; chunky quiet pixel clusters with minimal detail.",
+      "initial_pose": "Standing in a wide braced stance with bent knees, sword lowered diagonally on screen-left, shield raised on screen-right, leaning slightly forward and facing lower-right. Full body on a transparent 128 by 128 canvas."
+    },
+    {
+      "id": "03-last-knee",
+      "title": "Последняя опора на меч",
+      "request_sha256": "b7b3e834169b3ecdbc94dd3409454c3ec0cb72254bf32a2341ad2099a2f61f7a",
+      "description": "The wounded defender sinks onto one knee and plants the sword tip on the ground to support himself. He holds this failing kneel for a brief beat, head bowed, shield drooping. His sword arm gives way, his torso tilts toward his shield side on screen-right and he collapses sideways into a compact curled body lying on its side, helmet and shoulder resting on the ground, shield beside the chest. The sword tilts down with the hand and stays close. Finish with a small heavy settling motion. One continuous grounded death, no loop. Clear weight, anticipation and connected limb motion. Keep the body and both weapons fully inside the canvas, near the original ground position. Same armor, helmet, sword and shield throughout. No spinning, leaping, flying weapons, blood, particles, dust, flashes, trails, text, fading or camera movement. Finish completely motionless on the ground and stay dead; never stand up or return to the starting pose.",
+      "frame_count": 32,
+      "seed": 20261022,
+      "no_background": true,
+      "enhance_prompt": false,
+      "direction": "south-east",
+      "view": "high top-down",
+      "subject_description": "A compact helmeted human defender in simple steel armor and olive cloth, a short sword in his right hand on screen-left and a broad olive shield in his left hand on screen-right; chunky quiet pixel clusters with minimal detail.",
+      "initial_pose": "Standing in a wide braced stance with bent knees, sword lowered diagonally on screen-left, shield raised on screen-right, leaning slightly forward and facing lower-right. Full body on a transparent 128 by 128 canvas."
+    }
+  ]
+}
