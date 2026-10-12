@@ -1,0 +1,87 @@
+{
+  "usage": {
+    "type": "generations",
+    "generations": 3.0
+  },
+  "id": "d6743634-9796-4c96-a5ae-b991bcc9872f",
+  "status": "completed",
+  "created_at": "2026-10-12T20:38:03.497302+03:00",
+  "last_response": {
+    "seed": 2026101254,
+    "type": "message_done",
+    "usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 3,
+      "cost_if_paid": 0.03623737384875615
+    },
+    "status": "completed",
+    "progress": 0.9473684210526315,
+    "flow_kind": "animation",
+    "billing_usage": {
+      "type": "generations",
+      "generations": 3.0
+    },
+    "generation_id": "adc0ce2e-68a3-46d3-861c-637956bd8a39",
+    "queue_position": 0,
+    "billing_charged": true,
+    "generation_started_at": "2026-10-12T20:38:30.770287+03:00",
+    "estimated_wait_seconds": 0,
+    "files": [
+      {
+        "file": "frame-01.png",
+        "sha256": "05ed01eed79a5723e747acf6d65aac115caf90f26e7f0ef2355915b966ac7025"
+      },
+      {
+        "file": "frame-02.png",
+        "sha256": "6404699ea829fa235880109b45c9638cc3054a7aea8683e9cb825197867d1967"
+      },
+      {
+        "file": "frame-03.png",
+        "sha256": "8b0512b6fa6b6c6607ab0758fc57faa1432a0beadc7c628ac186a0d374425f3c"
+      },
+      {
+        "file": "frame-04.png",
+        "sha256": "f6769fa8af8965e46bc9d28d4c71859b7d2f524b36d8944ff113a7b8bba86a90"
+      },
+      {
+        "file": "frame-05.png",
+        "sha256": "50e93a8b1b83ca63e2dd8ce7c2fd0057cfa441e8ffafac3101d5f205a2953412"
+      },
+      {
+        "file": "frame-06.png",
+        "sha256": "8304fcfe34a80ee2c69260e0e732b15704fb083d978c3efa4a266c0a1a23e962"
+      },
+      {
+        "file": "frame-07.png",
+        "sha256": "f97e0321e1be71d1471b5ab0cdeeeb95d2be87a5cca0444b002b9544f003695d"
+      },
+      {
+        "file": "frame-08.png",
+        "sha256": "0e3986e64276d27cc884323c2ec3378b4000b51216baede525bb98d184eeea14"
+      },
+      {
+        "file": "frame-09.png",
+        "sha256": "0e538477926bc86a38cf707422771ad58b72cc5f3ef9c6824085941a8c1bf898"
+      },
+      {
+        "file": "frame-10.png",
+        "sha256": "aed0ab8dd95d59233b07a1d7e62d27862279bf5e2db1e37b5abd4f2ed04c233e"
+      },
+      {
+        "file": "frame-11.png",
+        "sha256": "097dec0209c7fa603ed5a77653ae6a2e3f9995b5f6c43e5d29141321c8ac2a95"
+      },
+      {
+        "file": "frame-12.png",
+        "sha256": "91723bda51591841dc896dc3cbda36bc2f5f47610590dd4d7181e63bf33e16b5"
+      },
+      {
+        "file": "frame-13.png",
+        "sha256": "c9ccec63e631e98bef3b3d8cb766c62b1928275844fc5da6ab0589ae3a0ae5ba"
+      }
+    ],
+    "frame_count": 13,
+    "quantized_files": []
+  }
+}

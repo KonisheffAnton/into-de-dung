@@ -1,0 +1,6 @@
+{
+  "started_utc": "2026-10-12T17:38:02.1541593Z",
+  "request_sha256": "CB38710765CBC777B3BFC4FF3360659740A0B89EB691C410E25ACAF72BF72D3B",
+  "endpoint": "animate-with-text-v3",
+  "idempotency_key": "508986fe-4e5a-447b-aec0-7e47c0aa68fd"
+}

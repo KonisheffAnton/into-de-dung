@@ -1,0 +1,53 @@
+{
+  "authorization": "Prior explicit user permission: correct only colors locally for B1 outline; no pose edits.",
+  "records": [
+    {
+      "pose": "release",
+      "source": "buff-wide/pixellab/frame-01.png",
+      "source_sha256": "f4df376c57e492c3fd6ad50d3dc0aca58524bebfb639a0b604c8e4561fff6e99",
+      "output": "buff-final/release.png",
+      "output_sha256": "bdc1e3eef4e869a6855165d8433f46be5dfc9393a42effbd3f02f61e808fb930",
+      "changed_rgb_pixels": 752,
+      "alpha_mismatches": 0,
+      "unchanged_other_rgba": true,
+      "replacement_colors": [
+        {
+          "from": [
+            13,
+            12,
+            12
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ]
+        },
+        {
+          "from": [
+            20,
+            18,
+            18
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ]
+        },
+        {
+          "from": [
+            28,
+            23,
+            24
+          ],
+          "to": [
+            33,
+            30,
+            33
+          ]
+        }
+      ]
+    }
+  ]
+}

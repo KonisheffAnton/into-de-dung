@@ -33,5 +33,5 @@ animations = [{
 ],
 "loop": false,
 "name": &"death",
-"speed": 5.0
+"speed": 10.0
 }]

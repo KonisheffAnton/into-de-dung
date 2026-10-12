@@ -32,7 +32,7 @@ var action_resources_view: Dictionary = {}
 @export var warrior_pick_rect: Rect2 = Rect2(-45, -56, 78, 73)
 @export_range(0.25, 2.0, 0.05) var warrior_art_scale: float = 1.0
 @export var rogue_pick_rect: Rect2 = Rect2(-40, -65, 80, 73)
-@export_range(0.25, 2.0, 0.05) var rogue_art_scale: float = 0.8
+@export_range(0.25, 2.0, 0.01) var rogue_art_scale: float = 0.73
 @export var show_flat_height_labels: bool = false
 ## Демонстрационные состояния выбираются доской; сцена только отображает слои.
 var frozen: bool = false

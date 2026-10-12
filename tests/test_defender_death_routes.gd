@@ -13,7 +13,7 @@ var suite: String = "DEFENDER DEATH ROUTES"
 func _initialize() -> void:
 	if "--rogue" in OS.get_cmdline_user_args():
 		visual_class = &"rogue"
-		death_seconds = 2.6
+		death_seconds = 1.3
 		clip_property = &"rogue_death_frames"
 		sprite_path = "ArtRoot/RogueIdleSprite"
 		sprite_scale = 0.25

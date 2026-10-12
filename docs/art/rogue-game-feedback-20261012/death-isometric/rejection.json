@@ -1,0 +1,6 @@
+{
+  "http_status": null,
+  "job_created": false,
+  "message": "Too many frames: got 13 but image_size 128x128 supports at most 4 frames. Frame limits by output size: <=64px up to16,65-80px up to9,81-256px up to4.",
+  "next": "Request one corrected isometric final pose, then generate coherent whole death with first and last frame anchors."
+}

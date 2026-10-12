@@ -87,9 +87,9 @@ func _test_resources(visual: BattleDefenderIdleVisual) -> void:
 		"buff resource has one finite five-frame clip at 100 fps")
 	check(visual.rogue_death_frames == ROGUE_DEATH and ROGUE_DEATH.get_animation_names().size() == 1
 		and ROGUE_DEATH.get_animation_names()[0] == "death"
-		and not ROGUE_DEATH.get_animation_loop(&"death") and ROGUE_DEATH.get_animation_speed(&"death") == 5.0
+		and not ROGUE_DEATH.get_animation_loop(&"death") and ROGUE_DEATH.get_animation_speed(&"death") == 10.0
 		and ROGUE_DEATH.get_frame_count(&"death") == 13,
-		"death resource has one finite 13-frame clip at 5 fps")
+		"death resource has one finite 13-frame clip at 10 fps")
 	var buff_ticks: Array[float] = [20.0, 35.0, 6.0, 12.0, 24.0]
 	var buff_total: float = 0.0
 	for frame: int in 5:
@@ -106,7 +106,7 @@ func _test_resources(visual: BattleDefenderIdleVisual) -> void:
 	for frame: int in 13:
 		check(ROGUE_DEATH.get_frame_duration(&"death", frame) == 1.0, "death frame %02d is one tick" % (frame + 1))
 		death_total += ROGUE_DEATH.get_frame_duration(&"death", frame) / ROGUE_DEATH.get_animation_speed(&"death")
-	check(is_equal_approx(death_total, 2.6), "death totals 2.6 seconds without a GIF hold")
+	check(is_equal_approx(death_total, 1.3), "death totals 1.3 seconds without a GIF hold")
 
 
 func _test_art_and_lifecycle(visual: BattleDefenderIdleVisual, values: Dictionary, config: IsoGridConfig) -> void:
@@ -116,7 +116,7 @@ func _test_art_and_lifecycle(visual: BattleDefenderIdleVisual, values: Dictionar
 	var body := visual.get_node("ArtRoot/BodySprite") as Sprite2D
 	check(idle.visible and not still.visible and not body.visible and visual.is_processing(),
 		"allied rogue idle replaces only the class still")
-	check(visual.rogue_pick_rect == Rect2(-40, -65, 80, 73) and root_art.scale.is_equal_approx(Vector2(0.8, 0.8)),
+	check(visual.rogue_pick_rect == Rect2(-40, -65, 80, 73) and root_art.scale.is_equal_approx(Vector2(0.73, 0.73)),
 		"rogue keeps the authored picking rectangle and ArtRoot scale")
 	check(idle.position == Vector2(-64, -94) and idle.scale == Vector2(0.25, 0.25)
 		and still.position == Vector2(-64, -94) and still.scale == Vector2(0.25, 0.25),
