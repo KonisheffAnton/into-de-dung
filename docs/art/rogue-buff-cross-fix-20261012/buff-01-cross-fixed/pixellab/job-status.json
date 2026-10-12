@@ -1,0 +1,33 @@
+{
+  "usage": {
+    "type": "generations",
+    "generations": 2.0
+  },
+  "id": "ff7d4e3b-6973-4aff-98a8-f3261962fa78",
+  "status": "completed",
+  "created_at": "2026-10-12T16:44:58.387156+03:00",
+  "last_response": {
+    "seed": 2026101231,
+    "type": "message_done",
+    "usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 2,
+      "cost_if_paid": 0.027450677507453496
+    },
+    "status": "completed",
+    "progress": 1.0,
+    "flow_kind": "animation",
+    "billing_usage": {
+      "type": "generations",
+      "generations": 2.0
+    },
+    "generation_id": "72668987-009d-4fab-8c67-6d36bc308d4a",
+    "queue_position": 0,
+    "billing_charged": true,
+    "generation_started_at": "2026-10-12T16:45:19.360515+03:00",
+    "job_id": "ff7d4e3b-6973-4aff-98a8-f3261962fa78",
+    "requested_frame_count": 8,
+    "frame_count": 9
+  }
+}

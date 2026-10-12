@@ -1,0 +1,458 @@
+{
+  "variant": "corrected",
+  "kind": "buff",
+  "title": "B1 — резкий крест, два кинжала",
+  "old_b1_reference": {
+    "path": "../rogue-buff-death-variants-20261012/buff-01-cross",
+    "role": "metadata/reference only; no composite generated"
+  },
+  "source_frames": [
+    {
+      "frame": 1,
+      "file_sha256": "e094474440e63985a0e97449cafb2b125b46ff63ab8b0d9348adc181bd471b4e",
+      "rgba_sha256": "8ee2a35b7f6345f10379d28e900e31d985ccd48c705340d8d7c284c1d0a0de3a",
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        24,
+        30,
+        104,
+        102
+      ],
+      "touches_canvas_edge_possible_clipping": false,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "distinct_alpha_levels": 2,
+      "transparent_pixels": 13638,
+      "partial_alpha_pixels": 0,
+      "visible_pixels": 2746
+    },
+    {
+      "frame": 2,
+      "file_sha256": "dba9afc4ce1f78283c9e082440f14d52d6611b4db4293157e33599b5de802ad3",
+      "rgba_sha256": "7f429abfa159e3a9b0a729103e0495649707ad5fc3a41708b37abc454997d56f",
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        34,
+        29,
+        96,
+        102
+      ],
+      "touches_canvas_edge_possible_clipping": false,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "distinct_alpha_levels": 2,
+      "transparent_pixels": 13678,
+      "partial_alpha_pixels": 0,
+      "visible_pixels": 2706
+    },
+    {
+      "frame": 3,
+      "file_sha256": "0095c3dba6c91b240630d959450d1a406397e2053fb2c45abc8ab192108bf5eb",
+      "rgba_sha256": "abb46e730f30380475a33aad198005fd6cb81c709ac08fc8eaf8e054a32f3247",
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        39,
+        28,
+        93,
+        102
+      ],
+      "touches_canvas_edge_possible_clipping": false,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "distinct_alpha_levels": 2,
+      "transparent_pixels": 13874,
+      "partial_alpha_pixels": 0,
+      "visible_pixels": 2510
+    },
+    {
+      "frame": 4,
+      "file_sha256": "f516ffa3c4d8578a4de1d0e18fc3b4054b8782576c2875a7e65282211e7c7b11",
+      "rgba_sha256": "cfa181b6184adab124c34141e1ad841b0eb94949bdd1da2f2bd144d91850ba85",
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        39,
+        27,
+        93,
+        102
+      ],
+      "touches_canvas_edge_possible_clipping": false,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "distinct_alpha_levels": 2,
+      "transparent_pixels": 14024,
+      "partial_alpha_pixels": 0,
+      "visible_pixels": 2360
+    },
+    {
+      "frame": 5,
+      "file_sha256": "bf0a630c8b5107560162e7b55afcabee2a45e4679290874c84d359c5937889c9",
+      "rgba_sha256": "bc450b6f9c0bb778a54ceb19c2e33cf030e2f6d630d8c3d55d89ce1b0a4e2ebd",
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        38,
+        27,
+        93,
+        102
+      ],
+      "touches_canvas_edge_possible_clipping": false,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "distinct_alpha_levels": 2,
+      "transparent_pixels": 14059,
+      "partial_alpha_pixels": 0,
+      "visible_pixels": 2325
+    },
+    {
+      "frame": 6,
+      "file_sha256": "dc4221b7ae1f18a0be301def445c559a23c621377df1df30a5b81b90eefda4bf",
+      "rgba_sha256": "9acbb32a34b477ff80fb85b8cf3b856b002b7a4e8772a19e20578a6889a38e9c",
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        39,
+        27,
+        93,
+        102
+      ],
+      "touches_canvas_edge_possible_clipping": false,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "distinct_alpha_levels": 2,
+      "transparent_pixels": 14048,
+      "partial_alpha_pixels": 0,
+      "visible_pixels": 2336
+    },
+    {
+      "frame": 7,
+      "file_sha256": "646b6c26928e8b119df81257c93eedac687702d88b04ac44cc46682a61a4e968",
+      "rgba_sha256": "324e92b91bc1c767ef81375e6062aeecbb39f9228ce64b6dfefcccdc8b0384e6",
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        38,
+        27,
+        93,
+        102
+      ],
+      "touches_canvas_edge_possible_clipping": false,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "distinct_alpha_levels": 2,
+      "transparent_pixels": 13831,
+      "partial_alpha_pixels": 0,
+      "visible_pixels": 2553
+    },
+    {
+      "frame": 8,
+      "file_sha256": "6837bd926c7585904fc93afd5907aa27f9c3b0b2bd2c1ff28b22903f7892f875",
+      "rgba_sha256": "b67221388c32254b4827e467a99662d1cbc9860a4c46f673ad81e25316005f93",
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        35,
+        29,
+        93,
+        102
+      ],
+      "touches_canvas_edge_possible_clipping": false,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "distinct_alpha_levels": 2,
+      "transparent_pixels": 13720,
+      "partial_alpha_pixels": 0,
+      "visible_pixels": 2664
+    },
+    {
+      "frame": 9,
+      "file_sha256": "4b7312444093b2b57874bd3c413e99167a06f524887561202e36d0064130688e",
+      "rgba_sha256": "9e8d44cf25a6251cb634b2e38c917a2d91a3ca0a23469023571e89028722ec49",
+      "size": [
+        128,
+        128
+      ],
+      "alpha_bbox": [
+        24,
+        29,
+        104,
+        102
+      ],
+      "touches_canvas_edge_possible_clipping": false,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "distinct_alpha_levels": 2,
+      "transparent_pixels": 13619,
+      "partial_alpha_pixels": 0,
+      "visible_pixels": 2765
+    }
+  ],
+  "requested_frame_count": 8,
+  "actual_frame_count": 9,
+  "distinct_rgba_frames": 9,
+  "first_frame_vs_reference": {
+    "reference": "reference-128.png",
+    "exact_rgba_match": false,
+    "different_pixels": 13720,
+    "visible_union_different_pixels": 103,
+    "alpha_mismatch_pixels": 21,
+    "hidden_transparent_rgb_only_changes": 13617
+  },
+  "first_vs_last": {
+    "different_pixels": 87,
+    "visible_union_different_pixels": 87,
+    "alpha_mismatch_pixels": 19,
+    "hidden_transparent_rgb_only_changes": 0,
+    "first_rgba_sha256": "8ee2a35b7f6345f10379d28e900e31d985ccd48c705340d8d7c284c1d0a0de3a",
+    "last_rgba_sha256": "9e8d44cf25a6251cb634b2e38c917a2d91a3ca0a23469023571e89028722ec49"
+  },
+  "previews": {
+    "preview.gif": {
+      "encoded_frames": 9,
+      "logical_frames": 9,
+      "size": [
+        512,
+        512
+      ],
+      "duration_ms": [
+        200,
+        80,
+        80,
+        120,
+        240,
+        80,
+        80,
+        100,
+        200
+      ],
+      "total_ms": 1180,
+      "merged_adjacent_runs_ms": [
+        200,
+        80,
+        80,
+        120,
+        240,
+        80,
+        80,
+        100,
+        200
+      ],
+      "transparent_index": null
+    },
+    "native.gif": {
+      "encoded_frames": 9,
+      "logical_frames": 9,
+      "size": [
+        128,
+        128
+      ],
+      "duration_ms": [
+        200,
+        80,
+        80,
+        120,
+        240,
+        80,
+        80,
+        100,
+        200
+      ],
+      "total_ms": 1180,
+      "merged_adjacent_runs_ms": [
+        200,
+        80,
+        80,
+        120,
+        240,
+        80,
+        80,
+        100,
+        200
+      ],
+      "transparent_index": 255
+    },
+    "uniform-preview.gif": {
+      "encoded_frames": 9,
+      "logical_frames": 9,
+      "size": [
+        512,
+        512
+      ],
+      "duration_ms": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "total_ms": 1800,
+      "merged_adjacent_runs_ms": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "transparent_index": null
+    }
+  },
+  "native_visible_pixel_parity": [
+    {
+      "frame": 1,
+      "visible_pixels": 2746,
+      "exact_visible_rgba_match": true,
+      "hidden_transparent_rgb_pixel_differences": 13638
+    },
+    {
+      "frame": 2,
+      "visible_pixels": 2706,
+      "exact_visible_rgba_match": true,
+      "hidden_transparent_rgb_pixel_differences": 13676
+    },
+    {
+      "frame": 3,
+      "visible_pixels": 2510,
+      "exact_visible_rgba_match": true,
+      "hidden_transparent_rgb_pixel_differences": 13873
+    },
+    {
+      "frame": 4,
+      "visible_pixels": 2360,
+      "exact_visible_rgba_match": true,
+      "hidden_transparent_rgb_pixel_differences": 0
+    },
+    {
+      "frame": 5,
+      "visible_pixels": 2325,
+      "exact_visible_rgba_match": true,
+      "hidden_transparent_rgb_pixel_differences": 0
+    },
+    {
+      "frame": 6,
+      "visible_pixels": 2336,
+      "exact_visible_rgba_match": true,
+      "hidden_transparent_rgb_pixel_differences": 0
+    },
+    {
+      "frame": 7,
+      "visible_pixels": 2553,
+      "exact_visible_rgba_match": true,
+      "hidden_transparent_rgb_pixel_differences": 13827
+    },
+    {
+      "frame": 8,
+      "visible_pixels": 2664,
+      "exact_visible_rgba_match": true,
+      "hidden_transparent_rgb_pixel_differences": 13718
+    },
+    {
+      "frame": 9,
+      "visible_pixels": 2765,
+      "exact_visible_rgba_match": true,
+      "hidden_transparent_rgb_pixel_differences": 13619
+    }
+  ],
+  "timing_ms": {
+    "primary": [
+      200,
+      80,
+      80,
+      120,
+      240,
+      80,
+      80,
+      100,
+      200
+    ],
+    "uniform_diagnostic": [
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200
+    ],
+    "primary_total": 1180,
+    "uniform_total": 1800
+  },
+  "source_edits": "Frames 1-3 and 7-9 are unchanged original PNG bytes; frames 4-6 are complete replacement PNGs from the targeted edit.",
+  "provenance": [
+    {
+      "file": "frame-01.png",
+      "sha256": "e094474440e63985a0e97449cafb2b125b46ff63ab8b0d9348adc181bd471b4e",
+      "source": "buff-01-cross-fixed/pixellab/frame-01.png"
+    },
+    {
+      "file": "frame-02.png",
+      "sha256": "dba9afc4ce1f78283c9e082440f14d52d6611b4db4293157e33599b5de802ad3",
+      "source": "buff-01-cross-fixed/pixellab/frame-02.png"
+    },
+    {
+      "file": "frame-03.png",
+      "sha256": "0095c3dba6c91b240630d959450d1a406397e2053fb2c45abc8ab192108bf5eb",
+      "source": "buff-01-cross-fixed/pixellab/frame-03.png"
+    },
+    {
+      "file": "frame-04.png",
+      "sha256": "f516ffa3c4d8578a4de1d0e18fc3b4054b8782576c2875a7e65282211e7c7b11",
+      "source": "knife-edit/frame-01.png"
+    },
+    {
+      "file": "frame-05.png",
+      "sha256": "bf0a630c8b5107560162e7b55afcabee2a45e4679290874c84d359c5937889c9",
+      "source": "knife-edit/frame-02.png"
+    },
+    {
+      "file": "frame-06.png",
+      "sha256": "dc4221b7ae1f18a0be301def445c559a23c621377df1df30a5b81b90eefda4bf",
+      "source": "knife-edit/frame-03.png"
+    },
+    {
+      "file": "frame-07.png",
+      "sha256": "646b6c26928e8b119df81257c93eedac687702d88b04ac44cc46682a61a4e968",
+      "source": "buff-01-cross-fixed/pixellab/frame-07.png"
+    },
+    {
+      "file": "frame-08.png",
+      "sha256": "6837bd926c7585904fc93afd5907aa27f9c3b0b2bd2c1ff28b22903f7892f875",
+      "source": "buff-01-cross-fixed/pixellab/frame-08.png"
+    },
+    {
+      "file": "frame-09.png",
+      "sha256": "4b7312444093b2b57874bd3c413e99167a06f524887561202e36d0064130688e",
+      "source": "buff-01-cross-fixed/pixellab/frame-09.png"
+    }
+  ],
+  "preview_transform": "nearest-neighbor 4x RGB composite on #3f4b43",
+  "native_gif": "128x128 with transparent palette index; visible RGBA pixels checked against each source frame"
+}

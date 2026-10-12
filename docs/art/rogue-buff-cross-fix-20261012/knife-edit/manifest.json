@@ -1,0 +1,23 @@
+{
+  "endpoint": "/v2/edit-animation-v2",
+  "purpose": "Targeted correction after first new animation still showed malformed blades in frames4-6",
+  "sourceFrames": [
+    {
+      "index": 4,
+      "source": "buff-01-cross-fixed/pixellab/frame-04.png",
+      "sha256": "2f664b9ab6acd3810dd1da008efda7a22d3ab829b5d6982734a21bbad05c76e8"
+    },
+    {
+      "index": 5,
+      "source": "buff-01-cross-fixed/pixellab/frame-05.png",
+      "sha256": "778b7aed96c839da9386d770b16f7a353cced39e9c1df7ae92551fd04997e965"
+    },
+    {
+      "index": 6,
+      "source": "buff-01-cross-fixed/pixellab/frame-06.png",
+      "sha256": "3e85f193b48e1e0fcf10d87dab97a98282e79ed9cc0fd4765a2c83c315f44178"
+    }
+  ],
+  "description": "Fix ONLY the malformed daggers in these three consecutive animation frames. The crossed weapons wrongly look like four blades, a white propeller or double-ended swords. Replace that weapon tangle with exactly TWO ordinary short steel daggers, one held by each existing hand. Each dagger consists of a brown handle gripped in one fist, a small guard and ONE triangular pointed blade extending from the guard in ONE direction. Two daggers only, two blade tips only. Show the two solid blades crossing once into a clean readable X in front of the chest, with both hands/handles at the LOWER ends of the X and the two pointed tips at the UPPER ends. Nothing silver or pointed extends backwards through or below the fists. Keep correct front/back occlusion at the crossing, do not draw a star, scissors, extra blades or detached fragments. Preserve both hands and the intended crossed gesture. Make this correction consistent across all three frames. Preserve every other part of each input pose: identical face, hood, body, boots, olive cloth, brown leather, pixel shapes, palette, camera, size and position. Do not add or remove equipment except the erroneous extra blade shapes. Transparent 128x128 pixel art; no glow, motion trails or smoothing.",
+  "seed": 2026101232
+}

@@ -1,0 +1,177 @@
+{
+  "requestSchema": {
+    "properties": {
+      "description": {
+        "type": "string",
+        "maxLength": 2000,
+        "minLength": 1,
+        "title": "Description",
+        "description": "Description of the edit to apply (e.g., 'add a red cape', 'make it glow blue')"
+      },
+      "frames": {
+        "items": {
+          "$ref": "#/components/schemas/app__endpoints__external__v2__edit_animation_v2__FrameImage"
+        },
+        "type": "array",
+        "maxItems": 16,
+        "minItems": 2,
+        "title": "Frames",
+        "description": "Animation frames to edit (2-16 frames)"
+      },
+      "image_size": {
+        "$ref": "#/components/schemas/app__endpoints__external__v2__edit_animation_v2__ImageSize",
+        "description": "Size of the output frames"
+      },
+      "seed": {
+        "anyOf": [
+          {
+            "type": "integer",
+            "minimum": 0.0
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Seed",
+        "description": "Seed for reproducible generation"
+      },
+      "no_background": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "No Background",
+        "description": "Remove background from edited frames",
+        "default": false
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "description",
+      "frames",
+      "image_size"
+    ],
+    "title": "EditAnimationV2Request",
+    "description": "Request model for edit-animation-v2 endpoint",
+    "example": {
+      "description": "add a glowing red aura",
+      "frames": [
+        {
+          "image": {
+            "base64": "..."
+          },
+          "size": {
+            "height": 64,
+            "width": 64
+          }
+        },
+        {
+          "image": {
+            "base64": "..."
+          },
+          "size": {
+            "height": 64,
+            "width": 64
+          }
+        }
+      ],
+      "image_size": {
+        "height": 64,
+        "width": 64
+      },
+      "no_background": false,
+      "seed": 42
+    }
+  },
+  "frameSchema": {
+    "properties": {
+      "image": {
+        "$ref": "#/components/schemas/Base64Image",
+        "description": "Frame image as base64 PNG/JPEG"
+      },
+      "size": {
+        "$ref": "#/components/schemas/app__endpoints__external__v2__edit_animation_v2__FrameImageSize",
+        "description": "Size of the frame image"
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "image",
+      "size"
+    ],
+    "title": "FrameImage",
+    "description": "Animation frame image with size.\n\nNested `size` object matches the animation-frame v2 subfamily\n(transfer-outfit-v2, interpolation-v2), which share this backend family.",
+    "example": {
+      "image": {
+        "base64": "data:image/png;base64,..."
+      },
+      "size": {
+        "height": 64,
+        "width": 64
+      }
+    }
+  },
+  "endpoint": {
+    "post": {
+      "tags": [
+        "Animate"
+      ],
+      "summary": "Edit animation (Pro)",
+      "description": "Edit multiple animation frames with a text description.\n\nThis endpoint applies a consistent edit across all animation frames,\nmaintaining temporal coherence while transforming the animation.\nReturns immediately with a background job ID. Poll `GET /v2/background-jobs/{job_id}`\nto check status and retrieve results.\n\n**Key Features:**\n- Apply text-based edits to animation sequences\n- Maintains frame-to-frame consistency\n- Supports 2-16 frames per request (max depends on frame size, see below)\n- Optional background removal\n- Non-blocking: returns job ID immediately\n\n**Example Edits:**\n- \"add a red cape\"\n- \"make it glow blue\"\n- \"add armor plating\"\n- \"change to ice theme\"\n\n**Supported Sizes:**\n- Frame sizes from 16x16 to 256x256 pixels (model supports up to 256x256)\n\n**Frame limits by output size (image_size):**\n- 16-64px: Up to 16 frames (4x4 grid)\n- 65-80px: Up to 9 frames (3x3 grid)\n- 81-256px: Up to 4 frames (2x2 grid)\n\nAll frames are packed into a single grid image for editing, so larger frames\nfill the fixed generation canvas faster and fewer fit per request.\n\n**Usage Pattern:**\n1. POST to this endpoint (returns `background_job_id`)\n2. Poll `GET /v2/background-jobs/{background_job_id}` every 5-10 seconds\n3. When `status` is `completed`, edited frames are in `last_response`\n\nUsing the Python client:\n```python\nimport pixellab\n\nclient = pixellab.Client(secret=\"YOUR_API_TOKEN\")\n\n# Load your animation frames\nframes = [...]  # List of FrameImage objects\n\nresponse = client.edit_animation_v2(\n    description=\"add a glowing sword\",\n    frames=frames,\n    image_size=dict(width=64, height=64)\n)\n\n# Save edited frames\nfor i, image in enumerate(response.images):\n    image.pil_image().save(f\"frame_{i}.png\")\n```",
+      "operationId": "edit_animation_v2_edit_animation_v2_post",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/EditAnimationV2Request"
+            }
+          }
+        },
+        "required": true
+      },
+      "responses": {
+        "202": {
+          "description": "Animation edit job accepted and processing",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditAnimationV2Response"
+              },
+              "example": {
+                "background_job_id": "123e4567-e89b-12d3-a456-426614174000",
+                "status": "processing",
+                "usage": {
+                  "type": "usd",
+                  "usd": 0.0
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Invalid API token"
+        },
+        "402": {
+          "description": "Insufficient credits"
+        },
+        "422": {
+          "description": "Validation error"
+        },
+        "429": {
+          "description": "Too many concurrent jobs"
+        }
+      },
+      "security": [
+        {
+          "HTTPBearer": []
+        }
+      ]
+    }
+  }
+}

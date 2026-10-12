@@ -1,0 +1,62 @@
+{
+  "seed": 2026101231,
+  "type": "message_done",
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 2,
+    "cost_if_paid": 0.027450677507453496
+  },
+  "status": "completed",
+  "progress": 1.0,
+  "flow_kind": "animation",
+  "billing_usage": {
+    "type": "generations",
+    "generations": 2.0
+  },
+  "generation_id": "72668987-009d-4fab-8c67-6d36bc308d4a",
+  "queue_position": 0,
+  "billing_charged": true,
+  "generation_started_at": "2026-10-12T16:45:19.360515+03:00",
+  "job_id": "ff7d4e3b-6973-4aff-98a8-f3261962fa78",
+  "requested_frame_count": 8,
+  "frame_count": 9,
+  "files": [
+    {
+      "file": "frame-01.png",
+      "sha256": "e094474440e63985a0e97449cafb2b125b46ff63ab8b0d9348adc181bd471b4e"
+    },
+    {
+      "file": "frame-02.png",
+      "sha256": "dba9afc4ce1f78283c9e082440f14d52d6611b4db4293157e33599b5de802ad3"
+    },
+    {
+      "file": "frame-03.png",
+      "sha256": "0095c3dba6c91b240630d959450d1a406397e2053fb2c45abc8ab192108bf5eb"
+    },
+    {
+      "file": "frame-04.png",
+      "sha256": "2f664b9ab6acd3810dd1da008efda7a22d3ab829b5d6982734a21bbad05c76e8"
+    },
+    {
+      "file": "frame-05.png",
+      "sha256": "778b7aed96c839da9386d770b16f7a353cced39e9c1df7ae92551fd04997e965"
+    },
+    {
+      "file": "frame-06.png",
+      "sha256": "3e85f193b48e1e0fcf10d87dab97a98282e79ed9cc0fd4765a2c83c315f44178"
+    },
+    {
+      "file": "frame-07.png",
+      "sha256": "646b6c26928e8b119df81257c93eedac687702d88b04ac44cc46682a61a4e968"
+    },
+    {
+      "file": "frame-08.png",
+      "sha256": "6837bd926c7585904fc93afd5907aa27f9c3b0b2bd2c1ff28b22903f7892f875"
+    },
+    {
+      "file": "frame-09.png",
+      "sha256": "4b7312444093b2b57874bd3c413e99167a06f524887561202e36d0064130688e"
+    }
+  ]
+}
