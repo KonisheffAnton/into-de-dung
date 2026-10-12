@@ -4,11 +4,15 @@ extends BattleManagedUnitVisual
 @export var idle_frames: SpriteFrames
 @export var buff_frames: SpriteFrames
 @export var death_frames: SpriteFrames
+@export var rogue_idle_frames: SpriteFrames
+@export var rogue_buff_frames: SpriteFrames
+@export var rogue_death_frames: SpriteFrames
 @export_range(1, 120, 1) var idle_normal_cycles_min: int = 24
 @export_range(1, 120, 1) var idle_normal_cycles_max: int = 36
 
 var idle_clock := DefenderIdleClock.new()
 var _idle_owner: int = UnitId.NONE
+var _idle_class: StringName = &""
 var _idle_sprite: Sprite2D
 var _still_sprite: Sprite2D
 var _configured_min: int = -1
@@ -37,13 +41,22 @@ func _ready() -> void:
 
 func sync_scene_art() -> void:
 	super.sync_scene_art()
-	_still_sprite = get_node_or_null("ArtRoot/EnemyWarriorSprite" if unit != null and unit.faction == Faction.Type.ENEMY else "ArtRoot/PlayerWarriorSprite") as Sprite2D
+	var next_sprite := get_node_or_null("ArtRoot/RogueIdleSprite" if visual_class_id == &"rogue" else "ArtRoot/DefenderIdleSprite") as Sprite2D
+	if _idle_sprite != null and _idle_sprite != next_sprite: _idle_sprite.visible = false
+	_idle_sprite = next_sprite
+	_still_sprite = class_still_sprite()
 	_sync_cloth_palette()
-	if _idle_sprite == null or _still_sprite == null: return
+	if _idle_sprite == null or _still_sprite == null:
+		if _idle_sprite != null: _idle_sprite.visible = false
+		set_process(false)
+		return
 	# Отражаем рисунок вокруг прежней опоры ног, не HUD и не всю фигуру доски.
 	var mirrored := unit != null and unit.faction == Faction.Type.ENEMY
-	_idle_sprite.scale.x = -1.0 if mirrored else 1.0
-	_idle_sprite.position.x = 69.42 if mirrored else -69.42
+	var rogue := visual_class_id == &"rogue"
+	var texture_scale := 0.25 if rogue else 1.0
+	_idle_sprite.scale = Vector2(-texture_scale if mirrored else texture_scale, texture_scale)
+	var anchor := Vector2(64, 94) if rogue else Vector2(69.42, 90.14)
+	_idle_sprite.position = Vector2(anchor.x if mirrored else -anchor.x, -anchor.y)
 	if _death_active and can_play_death():
 		_idle_sprite.visible = true
 		_still_sprite.visible = false
@@ -51,21 +64,22 @@ func sync_scene_art() -> void:
 		var art := get_node("ArtRoot") as Node2D
 		art.rotation = 0.0
 		art.scale.y = art.scale.x
-		_apply_clip_frame(death_frames, &"death", death_progress * death_duration())
+		_apply_clip_frame(_active_death_frames(), &"death", death_progress * death_duration())
 		return
 	if _buff_elapsed >= 0.0 and can_play_buff():
 		_idle_sprite.visible = true
 		_still_sprite.visible = false
 		set_process(false)
-		_apply_clip_frame(buff_frames, &"buff", _buff_elapsed)
+		_apply_clip_frame(_active_buff_frames(), &"buff", _buff_elapsed)
 		return
 	_buff_elapsed = -1.0
 	var available := _can_play_idle()
 	_idle_sprite.visible = available
 	set_process(available)
 	if not available: return
-	if _idle_owner != unit.id or _configured_min != idle_normal_cycles_min or _configured_max != idle_normal_cycles_max:
+	if _idle_owner != unit.id or _idle_class != visual_class_id or _configured_min != idle_normal_cycles_min or _configured_max != idle_normal_cycles_max:
 		_idle_owner = unit.id
+		_idle_class = visual_class_id
 		_configured_min = idle_normal_cycles_min
 		_configured_max = idle_normal_cycles_max
 		idle_clock.configure(_idle_owner, _configured_min, _configured_max)
@@ -74,6 +88,9 @@ func sync_scene_art() -> void:
 
 
 func _can_play_idle() -> bool:
+	if visual_class_id == &"rogue":
+		return _can_show_defender() and not ambient_animation_paused and rogue_idle_frames != null \
+			and rogue_idle_frames.has_animation(&"idle") and rogue_idle_frames.get_frame_count(&"idle") == 12
 	return _can_show_defender() and not ambient_animation_paused \
 		and idle_frames != null and idle_frames.has_animation(&"vertical") \
 		and idle_frames.has_animation(&"sway") \
@@ -84,7 +101,7 @@ func _can_play_idle() -> bool:
 func _can_show_defender() -> bool:
 	return _still_sprite != null and is_inside_tree() and is_visible_in_tree() and role == Role.UNIT \
 		and unit != null and unit.alive and unit.faction in [Faction.Type.PLAYER, Faction.Type.ENEMY] \
-		and visual_class_id == &"warrior" and _still_sprite.texture != null \
+		and visual_class_id in [&"warrior", &"rogue"] and _still_sprite.texture != null \
 		and not frozen and not stunned and not summon_pending \
 		and action_offset == Vector2.ZERO and presentation_offset == Vector2.ZERO \
 		and presentation_lift == 0.0 and fall_drop == 0.0 \
@@ -92,27 +109,37 @@ func _can_show_defender() -> bool:
 
 
 func can_play_buff() -> bool:
-	return _can_show_defender() and buff_frames != null and buff_frames.has_animation(&"buff") \
-		and buff_frames.get_frame_count(&"buff") > 0
+	var frames := _active_buff_frames()
+	return _idle_sprite != null and _can_show_defender() and frames != null and frames.has_animation(&"buff") \
+		and frames.get_frame_count(&"buff") > 0
 
 
 func buff_duration() -> float:
 	if not can_play_buff(): return 0.0
-	return _clip_duration(buff_frames, &"buff")
+	return _clip_duration(_active_buff_frames(), &"buff")
 
 
 func can_play_death() -> bool:
+	var frames := _active_death_frames()
 	# Оглушение/заморозка не отменяют подтверждённую смерть; падениями владеет доска.
 	return _idle_sprite != null and _still_sprite != null and _still_sprite.texture != null \
 		and is_inside_tree() and is_visible_in_tree() and role == Role.UNIT \
 		and unit != null and unit.alive and unit.faction in [Faction.Type.PLAYER, Faction.Type.ENEMY] \
-		and visual_class_id == &"warrior" and death_frames != null \
-		and death_frames.has_animation(&"death") and death_frames.get_frame_count(&"death") > 0 \
-		and death_frames.get_animation_speed(&"death") > 0.0
+		and visual_class_id in [&"warrior", &"rogue"] and frames != null \
+		and frames.has_animation(&"death") and frames.get_frame_count(&"death") > 0 \
+		and frames.get_animation_speed(&"death") > 0.0
 
 
 func death_duration() -> float:
-	return _clip_duration(death_frames, &"death") if can_play_death() else 0.0
+	return _clip_duration(_active_death_frames(), &"death") if can_play_death() else 0.0
+
+
+func _active_buff_frames() -> SpriteFrames:
+	return rogue_buff_frames if visual_class_id == &"rogue" else buff_frames
+
+
+func _active_death_frames() -> SpriteFrames:
+	return rogue_death_frames if visual_class_id == &"rogue" else death_frames
 
 
 func sample_death(progress: float) -> void:
@@ -171,7 +198,11 @@ func _process(delta: float) -> void:
 
 func _apply_idle_frame() -> void:
 	var animation: StringName = &"sway" if idle_clock.is_rare() else &"vertical"
-	var texture := idle_frames.get_frame_texture(animation, idle_clock.get_frame_index())
+	var frames := idle_frames
+	if visual_class_id == &"rogue":
+		animation = &"idle"
+		frames = rogue_idle_frames
+	var texture := frames.get_frame_texture(animation, idle_clock.get_frame_index())
 	# Меняется только текстура дочернего рисунка; внешней позой и эффектами владеет доска.
 	if _idle_sprite.texture != texture:
 		_idle_sprite.texture = texture

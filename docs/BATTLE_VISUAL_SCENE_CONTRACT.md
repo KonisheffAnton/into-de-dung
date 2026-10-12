@@ -155,7 +155,7 @@ U2026-10-12 принял вариант №3 с гримасой и восста
 [пакета ассетов](../assets/art_presets/trials/defender_death_v1/README.md):
 33 кадра по 60 ms, 1.98 s при ×1, без повтора и паузы сравнения из GIF.
 `BattleFieldPresentation.sample_death` выбирает клип живого показанного
-Защитника; заморозка/оглушение его не запрещают. Другие классы и сцены без
+Защитника; заморозка/оглушение его не запрещают. Классы и сцены без
 клипа сохраняют общее вращение/сжатие/затухание. В клипе рисунок не получает
 дополнительный поворот, сжатие или полупрозрачность.
 
@@ -173,6 +173,34 @@ after и тело окружения. Это касается ближнего/�
 таймера или callback смерти нет. Runtime/queue/preview/RNG/save не меняются.
 Пользовательская приёмка текущих переходов —
 [ART_DIRECTION](ART_DIRECTION.md#завершение-утверждённого-персонажа--2026-10-12).
+
+### Анимации разбойника
+
+U2026-10-12 поручил интеграцию выбранных idle/B1/D3. `art_trial_unit` в походе
+и пробной сцене имеет отдельные Player/EnemyRogueSprite и RogueIdleSprite;
+`BattleDefenderIdleVisual` выбирает их только при visual_class_id `rogue`.
+[Пакет](../assets/art_presets/trials/rogue_animations_v1/README.md): idle12 кадров
+по200 ms/2.4 s, B1 200/350/60/120/240 ms=0.97 s, D3 13×200 ms=2.6 s.
+PNG512×512 показываются при scale0.25; ArtRoot0.8, опора(-64,-94),
+пикинг Rect2(-40,-65,80,73). Враг отражает только рисунок вокруг той же опоры.
+Субпиксельные положения выбранного idle сохранены; сборка не дорисовывает позы.
+
+Idle использует тот же локальный цикл/phase по ID, без редкого варианта sway
+и без RNG. Статусы, временная поза, playback, повторная публикация, reset/resize
+и retire имеют те же ограничения, что у Защитника. При смене класса на том же
+экземпляре старый рисунок скрывается, фаза нового класса настраивается заново.
+Отсутствие ресурса оставляет статичную позу; отсутствие позы — generic fallback.
+Палитра одежды Защитника не применяется к Rogue-материалу.
+
+B1 запускается только из APPLIED guard с подтверждённым guarded того же
+command_seq и actor=target разбойника. Пассивные реакции/чужие эффекты и
+raise_shields не запускают B1; новые способности не добавлены. Общий Tween
+владеет временем и speed/pause/skip/cancel, фаза idle на время B1 удерживается.
+D3 следует общему ground-death пути выше, с собственной длительностью2.6 s:
+before до конца, затем after и штатное generic-тело окружения. Падение за край,
+VOID/HAZARD/обвал сохраняют fall-путь. `corpse.png` не подключён к телам.
+Legacy-сцены, прочие классы, core/preview/worker/queue/RNG/save прежние.
+Ручная приёмка интеграции отдельно от технических проверок — ART_DIRECTION.
 
 ### Выбор цвета одежды Защитника
 
@@ -200,7 +228,7 @@ PackedScene не мутируют. При смене фракции/класса
 `art_trial_battle` или `battle_view_reuse` автоматически включает три lifecycle
 runner: `visual_scene_contract`, `environment_visual_contract`, `unit_visual_contract`,
 `defender_idle_clock`, `defender_idle`, `defender_buff`, `defender_death`, `defender_death_routes`,
-`defender_cloth_palette`,
+`defender_cloth_palette`, `rogue_animations`, `rogue_buff`, `rogue_death_routes`,
 а также `presentation_consequences`, `presentation_environment`, `battle_camera_ui`,
 `battle_execution_ui` для поз, ловушек, камеры, worker/ИИ и смены UI.
 Они также входят в full/render; инициатива этим не подключается.

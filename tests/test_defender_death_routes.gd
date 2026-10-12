@@ -2,9 +2,27 @@ extends "res://tests/test_presentation_environment.gd"
 
 const DEFENDER_SCENE: PackedScene = preload("res://scenes/demo/visuals/art_trial_unit.tscn")
 
+var visual_class: StringName = &"warrior"
+var death_seconds: float = 1.98
+var clip_property: StringName = &"death_frames"
+var sprite_path: String = "ArtRoot/DefenderIdleSprite"
+var sprite_scale: float = 1.0
+var suite: String = "DEFENDER DEATH ROUTES"
+
+
+func _initialize() -> void:
+	if "--rogue" in OS.get_cmdline_user_args():
+		visual_class = &"rogue"
+		death_seconds = 2.6
+		clip_property = &"rogue_death_frames"
+		sprite_path = "ArtRoot/RogueIdleSprite"
+		sprite_scale = 0.25
+		suite = "ROGUE DEATH ROUTES"
+	super._initialize()
+
 
 func start_packet(data: Dictionary, s: BattleCoreReactionsSession, label: String) -> Dictionary:
-	for unit: UnitState in s.units: s.unit_visual_classes[unit.id] = &"warrior"
+	for unit: UnitState in s.units: s.unit_visual_classes[unit.id] = visual_class
 	board.session = s
 	board.refresh()
 	return super.start_packet(data, s, label)
@@ -59,18 +77,18 @@ func route(kind: String) -> void:
 	check(visual != null and visual._death_active, kind + " selects authored death")
 	if visual != null and visual._death_active:
 		advance(0.5)
-		check(player.active and visual.unit.alive and visual.death_progress > 0.24 and visual.death_progress < 0.35,
-			kind + " holds before and follows 1.98 second clock")
+		check(player.active and visual.unit.alive and visual.death_progress > 0.48 / death_seconds and visual.death_progress < 0.7 / death_seconds,
+			kind + " holds before and follows the selected death clock")
 		check(not board._view_corpses.any(func(c: Dictionary) -> bool: return c.source_unit_id == victim.id), kind + " corpse waits for clip")
-		var sprite := visual.get_node("ArtRoot/DefenderIdleSprite") as Sprite2D
+		var sprite := visual.get_node(sprite_path) as Sprite2D
 		var texture := sprite.texture
 		var art := visual.get_node("ArtRoot") as Node2D
 		check(is_zero_approx(art.rotation) and is_equal_approx(art.scale.x, art.scale.y) and visual.modulate.a == 1.0, kind + " no synthetic rotation squash fade")
-		check(sprite.scale.x == (-1.0 if victim.faction == Faction.Type.ENEMY else 1.0), kind + " faction mirror")
+		check(sprite.scale.x == (-sprite_scale if victim.faction == Faction.Type.ENEMY else sprite_scale), kind + " faction mirror")
 		board.size += Vector2(17, 11)
 		board.zoom_camera(0.95, board.size * 0.5)
 		check(sprite.texture == texture and visual._death_active, kind + " resize preserves frame")
-		await capture("defender-" + kind)
+		await capture(("rogue-" if visual_class == &"rogue" else "defender-") + kind)
 	finish()
 	assert_playback_unchanged(s, saved, data, kind)
 	check(board._view_corpses.any(func(c: Dictionary) -> bool: return c.source_unit_id == victim.id), kind + " publishes real corpse")
@@ -84,8 +102,8 @@ func route(kind: String) -> void:
 	start_packet(data, s, kind + " speed")
 	seek_pose(victim.id, [&"death"])
 	player.set_speed(3.0)
-	advance(0.7)
-	check(not (board._presentation_visual(victim.id) as BattleDefenderIdleVisual)._death_active, kind + " x3 finishes victim within 0.7s")
+	advance(death_seconds / 3.0 + 0.04)
+	check(not (board._presentation_visual(victim.id) as BattleDefenderIdleVisual)._death_active, kind + " x3 finishes victim at the selected duration")
 	finish()
 	player.cancel()
 	start_packet(data, s, kind + " skip")
@@ -103,19 +121,19 @@ func route(kind: String) -> void:
 func fallbacks() -> void:
 	var s := field_fixture()
 	board.session = s
-	s.unit_visual_classes[s.units[1].id] = &"warrior"
+	s.unit_visual_classes[s.units[1].id] = visual_class
 	board.refresh()
 	var visual := board._presentation_visual(s.units[1].id) as BattleDefenderIdleVisual
-	var frames := visual.death_frames
-	visual.death_frames = null
+	var frames: SpriteFrames = visual.get(clip_property)
+	visual.set(clip_property, null)
 	check(is_equal_approx(board._death_seconds(visual.unit.id), 0.20), "missing clip keeps generic duration")
 	board._field_presentation.sample_death(0.5, board, visual.unit.id)
 	check(not visual._death_active and visual.get_node("ArtRoot").rotation > 0.0 and visual.modulate.a < 1.0, "missing clip keeps generic death pose")
 	visual.reset_view_pose()
-	visual.death_frames = frames
+	visual.set(clip_property, frames)
 	visual.visual_class_id = &"mage"
 	check(not visual.can_play_death(), "other visual class keeps its own death")
-	visual.visual_class_id = &"warrior"
+	visual.visual_class_id = visual_class
 	visual.sample_death(0.5)
 	visual.retire_view()
 	check(not visual._death_active and visual.unit == null, "retire clears authored death ownership")
@@ -138,7 +156,7 @@ func run() -> void:
 	player.frame_started.connect(func(frame: Dictionary) -> void: started.append(frame))
 	player.frame_finished.connect(func(state: Dictionary) -> void: published.append(state))
 	await process_frame
-	for kind: String in ["ranged", "mage", "collision", "collision_single"]: await route(kind)
+	for kind: String in ["melee", "ranged", "mage", "collision", "collision_single"]: await route(kind)
 	await out_of_bounds_chain()
 	await void_chain_same_frame()
 	await occupied_collapse()
@@ -147,5 +165,5 @@ func run() -> void:
 	board.session = null
 	viewport.queue_free()
 	await process_frame
-	print("DEFENDER DEATH ROUTES RESULTS: %d passed, %d failed" % [passed, failed])
+	print("%s RESULTS: %d passed, %d failed" % [suite, passed, failed])
 	quit(0 if failed == 0 else 1)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/placeholder_unit.tscn" id="1_base"]
 [ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_field_v1/defender_new.png" id="2_player"]
@@ -7,6 +7,10 @@
 [ext_resource type="Script" path="res://scripts/demo/battle_defender_idle_visual.gd" id="5_idle_script"]
 [ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/defender_idle_v1/idle_frames.tres" id="6_idle_frames"]
 [ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/defender_buff_v1/buff_frames.tres" id="7_buff_frames"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/still.png" id="8_rogue_still"]
+[ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/rogue_animations_v1/idle_frames.tres" id="9_rogue_idle"]
+[ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/rogue_animations_v1/buff_frames.tres" id="10_rogue_buff"]
+[ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/rogue_animations_v1/death_frames.tres" id="11_rogue_death"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_player"]
 atlas = ExtResource("2_player")
@@ -22,6 +26,11 @@ shader = ExtResource("4_native")
 shader_parameter/source_region = Vector4(0, 0, 128, 128)
 shader_parameter/native_size = Vector2(128, 128)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rogue"]
+shader = ExtResource("4_native")
+shader_parameter/source_region = Vector4(0, 0, 512, 512)
+shader_parameter/native_size = Vector2(512, 512)
+
 [node name="PlaceholderUnit" instance=ExtResource("1_base")]
 script = ExtResource("5_idle_script")
 warrior_pick_rect = Rect2(-45, -66, 90, 83)
@@ -29,6 +38,9 @@ warrior_art_scale = 0.8
 idle_frames = ExtResource("6_idle_frames")
 buff_frames = ExtResource("7_buff_frames")
 death_frames = ExtResource("3_death")
+rogue_idle_frames = ExtResource("9_rogue_idle")
+rogue_buff_frames = ExtResource("10_rogue_buff")
+rogue_death_frames = ExtResource("11_rogue_death")
 
 [node name="PlayerWarriorSprite" parent="ArtRoot" index="1"]
 material = SubResource("ShaderMaterial_player")
@@ -48,4 +60,30 @@ visible = false
 texture_filter = 1
 material = SubResource("ShaderMaterial_idle")
 position = Vector2(-69.42, -90.14)
+centered = false
+
+[node name="PlayerRogueSprite" type="Sprite2D" parent="ArtRoot" index="8"]
+visible = false
+texture_filter = 1
+material = SubResource("ShaderMaterial_rogue")
+position = Vector2(-64, -94)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("8_rogue_still")
+centered = false
+
+[node name="EnemyRogueSprite" type="Sprite2D" parent="ArtRoot" index="9"]
+visible = false
+texture_filter = 1
+material = SubResource("ShaderMaterial_rogue")
+position = Vector2(64, -94)
+scale = Vector2(-0.25, 0.25)
+texture = ExtResource("8_rogue_still")
+centered = false
+
+[node name="RogueIdleSprite" type="Sprite2D" parent="ArtRoot" index="10"]
+visible = false
+texture_filter = 1
+material = SubResource("ShaderMaterial_rogue")
+position = Vector2(-64, -94)
+scale = Vector2(0.25, 0.25)
 centered = false

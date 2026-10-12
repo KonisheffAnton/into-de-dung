@@ -1,0 +1,21 @@
+[gd_resource type="SpriteFrames" load_steps=6 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/buff/frame-01.png" id="buff_1"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/buff/frame-02.png" id="buff_2"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/buff/frame-03.png" id="buff_3"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/buff/frame-04.png" id="buff_4"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/buff/frame-05.png" id="buff_5"]
+
+[resource]
+animations = [{
+"frames": [
+{"duration": 20.0, "texture": ExtResource("buff_1")},
+{"duration": 35.0, "texture": ExtResource("buff_2")},
+{"duration": 6.0, "texture": ExtResource("buff_3")},
+{"duration": 12.0, "texture": ExtResource("buff_4")},
+{"duration": 24.0, "texture": ExtResource("buff_5")}
+],
+"loop": false,
+"name": &"buff",
+"speed": 100.0
+}]

@@ -44,7 +44,7 @@ shader ошибки и ненулевые failed counts не маскируют�
 Выбор `current_art_zoom`, `art_trial_battle` или `battle_view_reuse` автоматически
 добавляет `visual_scene_contract`, `environment_visual_contract`, `unit_visual_contract`,
 `defender_idle_clock`, `defender_idle`, `defender_buff`, `defender_death`, `defender_death_routes`,
-`defender_cloth_palette`,
+`defender_cloth_palette`, `rogue_animations`, `rogue_buff`, `rogue_death_routes`,
 `presentation_consequences`, `presentation_environment`, `battle_camera_ui`, `battle_execution_ui`:
 защита от пересоздания поля и сбоев поз, ловушек, камеры и worker/ИИ при смене пресета.
 Прямой запуск только lifecycle:
@@ -75,6 +75,17 @@ resize и публикацию after. `defender_death_routes` проверяет
 refresh/resize/reset, смену во время жеста/смерти и при отделённой сессии.
 Маски сверяются с исходниками через `python tools/art/build_defender_cloth_masks.py --check`
 (Pillow). PNG всех пар и семи гамм — техническое свидетельство, не F5-приёмка.
+
+Разбойник: `python tools/demo/isolate.py --render-check --only rogue_animations rogue_buff rogue_death_routes --screen 0`.
+Первый runner проверяет ресурсы/все кадры, опору/отражение, паузы/смену класса,
+reset/retire/fallback и изоляцию от гамм Защитника. `rogue_buff` использует общий
+`test_defender_buff.gd --rogue`: настоящая «Защита» фабричного разбойника,
+границы matcher, публикации, resize/speed/skip/cancel и неизменность core/RNG.
+`rogue_death_routes` использует `test_defender_death_routes.gd --rogue`:
+melee/ranged/mage, столкновения, after/тело, fall/VOID/обвал и cleanup.
+Все три входят в автоматические visual gates для art/zoom/reuse и full/render.
+`python tools/art/build_rogue_animation_assets.py --check` (Pillow) сверяет
+побайтную сборку/источники и12 кадров idle с выбранным GIF. F5-приёмка отдельно.
 
 | Изменение | Достаточная начальная область |
 |---|---|

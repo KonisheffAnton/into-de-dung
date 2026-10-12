@@ -1,0 +1,35 @@
+[gd_resource type="SpriteFrames" load_steps=13 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/idle/frame-01.png" id="idle_1"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/idle/frame-02.png" id="idle_2"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/idle/frame-03.png" id="idle_3"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/idle/frame-04.png" id="idle_4"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/idle/frame-05.png" id="idle_5"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/idle/frame-06.png" id="idle_6"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/idle/frame-07.png" id="idle_7"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/idle/frame-08.png" id="idle_8"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/idle/frame-09.png" id="idle_9"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/idle/frame-10.png" id="idle_10"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/idle/frame-11.png" id="idle_11"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/idle/frame-12.png" id="idle_12"]
+
+[resource]
+animations = [{
+"frames": [
+{"duration": 1.0, "texture": ExtResource("idle_1")},
+{"duration": 1.0, "texture": ExtResource("idle_2")},
+{"duration": 1.0, "texture": ExtResource("idle_3")},
+{"duration": 1.0, "texture": ExtResource("idle_4")},
+{"duration": 1.0, "texture": ExtResource("idle_5")},
+{"duration": 1.0, "texture": ExtResource("idle_6")},
+{"duration": 1.0, "texture": ExtResource("idle_7")},
+{"duration": 1.0, "texture": ExtResource("idle_8")},
+{"duration": 1.0, "texture": ExtResource("idle_9")},
+{"duration": 1.0, "texture": ExtResource("idle_10")},
+{"duration": 1.0, "texture": ExtResource("idle_11")},
+{"duration": 1.0, "texture": ExtResource("idle_12")}
+],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]

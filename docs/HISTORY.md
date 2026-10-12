@@ -1,5 +1,20 @@
 # История и свидетельства проверок
 
+## Разбойник: игровые idle, B1 и D3 — 2026-10-12
+
+По поручению U выбранные анимации подключены в поход и пробную сцену обеих
+сторон: idle12×200ms, B1 5кадров/0.97s для существующей «Защиты», D3 13×200ms.
+[Пакет и источники](../assets/art_presets/trials/rogue_animations_v1/README.md);
+поведение — BATTLE_VISUAL_SCENE_CONTRACT. Новых поз/генераций и механик нет.
+После смерти штатное generic-тело; падения, core/preview/RNG/save прежние.
+Godot import/startup/render21/21 PASS: Rogue109/0, B1 37/0, D3 routes408/0,
+zoom396/0, регрессия Защитника/lifecycle/HUD/execution/pounce; пробное поле410/0.
+Python22/22, сборка36/36+RGBA12/12; независимое ревью APPROVE.
+Full/core/manual F5/editor/DPI/GPU не запускались; посадка/швы/тело ждут U.
+Main/base `fe88f2b`; отчёт `test_reports/rogue-animation-integration-20261012/REPORT.md`.
+[Побайтный архив передачи](CODEX_HANDOFF.history-20261012-17.md).
+Пользовательская main_menu сохранена, push нет. Гаммы одежды — после приёмки.
+
 ## Разбойник: убрать появившийся чёрный контур B1 — 2026-10-12
 
 U попросил убрать обводку. Три пробы PixelLab (30 generations) не убрали её

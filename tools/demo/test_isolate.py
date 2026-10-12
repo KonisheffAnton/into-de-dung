@@ -42,6 +42,8 @@ class IsolateSelectionTests(unittest.TestCase):
                     if script == "tools/demo/profile_forecast_clone.gd": label = "forecast_clone_probe"
                     if "--forecast-clone" in command:
                         label = "action_clone_ui" if script.endswith("test_action_forecast_async_ui.gd") else "action_clone_worker"
+                    if "--rogue" in command:
+                        label = "rogue_buff" if script.endswith("test_defender_buff.gd") else "rogue_death_routes"
                 calls.append(label)
                 if label == "import":
                     (project / ".godot").mkdir()
@@ -69,6 +71,9 @@ class IsolateSelectionTests(unittest.TestCase):
                     "defender_death": "DEFENDER DEATH RESULTS:",
                     "defender_death_routes": "DEFENDER DEATH ROUTES RESULTS:",
                     "defender_cloth_palette": "DEFENDER CLOTH PALETTE RESULTS:",
+                    "rogue_animations": "ROGUE ANIMATIONS RESULTS:",
+                    "rogue_buff": "ROGUE BUFF RESULTS:",
+                    "rogue_death_routes": "ROGUE DEATH ROUTES RESULTS:",
                     "visual_scene_contract": "VISUAL SCENE CONTRACT RESULTS:",
                     "current_art_zoom": "CURRENT ART ZOOM RESULTS:",
                     "art_trial_battle": "ART TRIAL BATTLE RESULTS:",
@@ -276,6 +281,7 @@ class IsolateSelectionTests(unittest.TestCase):
         self.assertEqual(calls, ["import", "startup", "environment_visual_contract", "unit_visual_contract",
                                  "defender_idle_clock", "defender_idle", "defender_buff",
                                  "defender_death", "defender_death_routes", "defender_cloth_palette",
+                                 "rogue_animations", "rogue_buff", "rogue_death_routes",
                                  "visual_scene_contract", "art_trial_battle", "presentation_consequences",
                                  "presentation_environment", "battle_camera_ui", "battle_execution_ui"])
         self.assertEqual(timing["checks"]["visual_scene_contract"]["status"], "PASS")
@@ -296,7 +302,7 @@ class IsolateSelectionTests(unittest.TestCase):
         self.assertNotIn("defender_cloth_palette PASS", output)
 
     def test_all_visual_gates_propagate_process_failures(self):
-        for label in ("environment_visual_contract", "unit_visual_contract", "visual_scene_contract", "defender_idle_clock", "defender_idle", "defender_buff", "defender_death", "defender_death_routes", "defender_cloth_palette",
+        for label in ("environment_visual_contract", "unit_visual_contract", "visual_scene_contract", "defender_idle_clock", "defender_idle", "defender_buff", "defender_death", "defender_death_routes", "defender_cloth_palette", "rogue_animations", "rogue_buff", "rogue_death_routes",
                       "presentation_consequences", "presentation_environment", "battle_camera_ui", "battle_execution_ui"):
             with self.subTest(label=label):
                 code, calls, timing, output = self.exercise(

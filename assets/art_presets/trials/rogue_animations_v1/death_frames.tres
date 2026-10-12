@@ -1,0 +1,37 @@
+[gd_resource type="SpriteFrames" load_steps=14 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/death/frame-01.png" id="death_1"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/death/frame-02.png" id="death_2"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/death/frame-03.png" id="death_3"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/death/frame-04.png" id="death_4"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/death/frame-05.png" id="death_5"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/death/frame-06.png" id="death_6"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/death/frame-07.png" id="death_7"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/death/frame-08.png" id="death_8"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/death/frame-09.png" id="death_9"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/death/frame-10.png" id="death_10"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/death/frame-11.png" id="death_11"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/death/frame-12.png" id="death_12"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_animations_v1/death/frame-13.png" id="death_13"]
+
+[resource]
+animations = [{
+"frames": [
+{"duration": 1.0, "texture": ExtResource("death_1")},
+{"duration": 1.0, "texture": ExtResource("death_2")},
+{"duration": 1.0, "texture": ExtResource("death_3")},
+{"duration": 1.0, "texture": ExtResource("death_4")},
+{"duration": 1.0, "texture": ExtResource("death_5")},
+{"duration": 1.0, "texture": ExtResource("death_6")},
+{"duration": 1.0, "texture": ExtResource("death_7")},
+{"duration": 1.0, "texture": ExtResource("death_8")},
+{"duration": 1.0, "texture": ExtResource("death_9")},
+{"duration": 1.0, "texture": ExtResource("death_10")},
+{"duration": 1.0, "texture": ExtResource("death_11")},
+{"duration": 1.0, "texture": ExtResource("death_12")},
+{"duration": 1.0, "texture": ExtResource("death_13")}
+],
+"loop": false,
+"name": &"death",
+"speed": 5.0
+}]

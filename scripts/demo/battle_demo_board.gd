@@ -851,7 +851,11 @@ func _matching_defender_buff(events: Array, step: Dictionary) -> BattleDefenderI
 		if event.get("kind") != expected or int(event.get("command_seq", -1)) != int(step.get("command_seq", -2)): continue
 		var actor_id := int(event.get("actor_unit_id", UnitId.NONE))
 		if actor_id <= 0 or actor_id != int(event.get("target_unit_id", UnitId.NONE)): continue
-		if _view_actor_classes.get(actor_id, &"") not in [&"warrior", &"shieldbearer"]: continue
+		var actor_class: StringName = _view_actor_classes.get(actor_id, &"")
+		# У разбойника пока нет активного self-buff: жест обслуживает только обычную защиту.
+		if actor_class == &"rogue":
+			if expected != &"guarded": continue
+		elif actor_class not in [&"warrior", &"shieldbearer"]: continue
 		var visual := _presentation_visual(actor_id) as BattleDefenderIdleVisual
 		if visual != null and visual.can_play_buff(): return visual
 	return null

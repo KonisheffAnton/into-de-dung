@@ -3,6 +3,11 @@ extends SceneTree
 const BATTLE_SCENE: PackedScene = preload("res://scenes/demo/battle/hero_hub_battle.tscn")
 const UNIT_SCENE: PackedScene = preload("res://scenes/demo/visuals/art_trial_unit.tscn")
 const BUFF_FRAMES: SpriteFrames = preload("res://assets/art_presets/trials/defender_buff_v1/buff_frames.tres")
+const ROGUE_BUFF: SpriteFrames = preload("res://assets/art_presets/trials/rogue_animations_v1/buff_frames.tres")
+
+var rogue: bool = false
+var frames_resource: SpriteFrames = BUFF_FRAMES
+var suite: String = "DEFENDER BUFF"
 
 var passed: int = 0
 var failed: int = 0
@@ -13,6 +18,10 @@ var viewport: SubViewport
 func _initialize() -> void:
 	for argument: String in OS.get_cmdline_user_args():
 		if argument.begins_with("--captures="): captures = argument.trim_prefix("--captures=")
+		if argument == "--rogue":
+			rogue = true
+			frames_resource = ROGUE_BUFF
+			suite = "ROGUE BUFF"
 	call_deferred("run")
 
 
@@ -20,7 +29,7 @@ func check(value: bool, label: String) -> void:
 	if value: passed += 1
 	else:
 		failed += 1
-		printerr("FAIL DEFENDER BUFF: " + label)
+		printerr("FAIL " + suite + ": " + label)
 
 
 func snapshot(session: BattleCoreReactionsSession) -> Dictionary:
@@ -89,9 +98,9 @@ func run_real_action(catalog_version: int, action: StringName, mode: int, label:
 	var session := fixture.session as BattleCoreReactionsSession
 	var bundle: Dictionary = fixture.bundle
 	var actor_id := int(session.actor_loadouts.keys()[0])
-	# Factory keeps deterministic party order; select the actual Warrior/Shieldbearer loadout.
+	var expected_class: StringName = &"rogue" if rogue else (&"shieldbearer" if action == &"raise_shields" else &"warrior")
 	for candidate: Variant in session.actor_loadouts:
-		if session.actor_loadouts[candidate].class_id == (&"shieldbearer" if action == &"raise_shields" else &"warrior"):
+		if session.actor_loadouts[candidate].class_id == expected_class:
 			actor_id = int(candidate)
 			break
 	session.selected_id = actor_id
@@ -111,7 +120,8 @@ func run_real_action(catalog_version: int, action: StringName, mode: int, label:
 	fixture.demo.board_view.refresh()
 	var board := fixture.demo.board_view as BattleDemoBoard
 	var visual := find_ally_visual(board, actor_id)
-	check(visual != null and visual.buff_frames == BUFF_FRAMES, label + " uses the production art scene and buff resource")
+	check(visual != null and visual._active_buff_frames() == frames_resource and visual.visual_class_id == (&"rogue" if rogue else &"warrior"),
+		label + " uses the production art scene, class and buff resource")
 	if visual == null:
 		await close_battle(fixture)
 		return {}
@@ -138,17 +148,17 @@ func run_real_action(catalog_version: int, action: StringName, mode: int, label:
 	check(player.active and board._defender_buff_visual == visual and visual._buff_elapsed == 0.0,
 		label + " begins from before projection and starts the buff clip")
 	check(snapshot(session) == committed and publications.is_empty(), label + " playback does not write live state, RNG, counters, or publish early")
-	var idle_sprite := visual.get_node("ArtRoot/DefenderIdleSprite") as Sprite2D
-	var still_sprite := visual.get_node("ArtRoot/PlayerWarriorSprite") as Sprite2D
+	var idle_sprite := visual.get_node("ArtRoot/RogueIdleSprite" if rogue else "ArtRoot/DefenderIdleSprite") as Sprite2D
+	var still_sprite := visual.class_still_sprite()
 	check(idle_sprite.visible and not still_sprite.visible, label + " replaces only the idle drawing")
 	var ticks: float = 0.0
-	for index: int in BUFF_FRAMES.get_frame_count(&"buff"):
-		var duration := BUFF_FRAMES.get_frame_duration(&"buff", index)
-		var midpoint := (ticks + duration * 0.5) / BUFF_FRAMES.get_animation_speed(&"buff")
+	for index: int in frames_resource.get_frame_count(&"buff"):
+		var duration := frames_resource.get_frame_duration(&"buff", index)
+		var midpoint := (ticks + duration * 0.5) / frames_resource.get_animation_speed(&"buff")
 		visual.sample_buff(midpoint)
-		check(idle_sprite.texture == BUFF_FRAMES.get_frame_texture(&"buff", index), label + " samples authored frame %02d" % (index + 1))
+		check(idle_sprite.texture == frames_resource.get_frame_texture(&"buff", index), label + " samples authored frame %02d" % (index + 1))
 		ticks += duration
-	check(is_equal_approx(ticks / BUFF_FRAMES.get_animation_speed(&"buff"), 56.75 / 30.0), label + " faster clip preserves rhythm and lasts about 1.89s")
+	check(is_equal_approx(ticks / frames_resource.get_animation_speed(&"buff"), 0.97 if rogue else 56.75 / 30.0), label + " preserves selected clip timing")
 	board._sample_defender_buff(0.8)
 	var identity := visual.get_instance_id()
 	var texture := idle_sprite.texture
@@ -186,6 +196,9 @@ func run_real_action(catalog_version: int, action: StringName, mode: int, label:
 
 
 func test_receipt_families() -> void:
+	if rogue:
+		await run_real_action(1, &"guard", -1, "rogue-guard")
+		return
 	await run_real_action(2, &"raise_shields", -1, "raise-shields")
 	await run_real_action(1, &"guard", -1, "guard-ordinary")
 	await run_real_action(1, &"guard_mode", CombatPerksState.Mode.OPPORTUNIST, "guard-opportunist")
@@ -201,7 +214,7 @@ func test_matcher_gates_and_cleanup() -> void:
 	var board := fixture.demo.board_view as BattleDemoBoard
 	var actor_id := int(session.actor_loadouts.keys()[0])
 	for candidate: Variant in session.actor_loadouts:
-		if session.actor_loadouts[candidate].class_id == &"warrior": actor_id = int(candidate); break
+		if session.actor_loadouts[candidate].class_id == (&"rogue" if rogue else &"warrior"): actor_id = int(candidate); break
 	session.selected_id = actor_id
 	board.refresh()
 	var visual := find_ally_visual(board, actor_id)
@@ -219,6 +232,11 @@ func test_matcher_gates_and_cleanup() -> void:
 	var events: Array = frame.events
 	var step: Dictionary = frame.step
 	check(board._matching_defender_buff(events, step) == visual, "matching successful Guard is accepted")
+	if rogue:
+		check(board._matching_defender_buff([{ "kind": &"raised_shields", "command_seq": step.command_seq,
+			"actor_unit_id": actor_id, "target_unit_id": actor_id }],
+			{"kind": &"raise_shields", "status": &"APPLIED", "command_seq": step.command_seq}) == null,
+			"Rogue cannot borrow the Shieldbearer buff route")
 	var rejected_step := step.duplicate(true)
 	rejected_step["status"] = &"SKIPPED"
 	check(board._matching_defender_buff(events, rejected_step) == null, "skipped step is refused")
@@ -285,10 +303,10 @@ func run() -> void:
 	viewport.size = Vector2i(1280, 850)
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport)
-	test_exact_resource_timing()
+	if not rogue: test_exact_resource_timing()
 	await test_receipt_families()
 	await test_matcher_gates_and_cleanup()
 	viewport.queue_free()
 	await process_frame
-	print("DEFENDER BUFF RESULTS: %d passed, %d failed" % [passed, failed])
+	print("%s RESULTS: %d passed, %d failed" % [suite, passed, failed])
 	quit(1 if failed > 0 else 0)

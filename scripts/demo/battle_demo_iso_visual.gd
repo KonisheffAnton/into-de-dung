@@ -31,6 +31,8 @@ var action_resources_view: Dictionary = {}
 @export var body_pick_rect: Rect2 = Rect2(-17, -37, 34, 44)
 @export var warrior_pick_rect: Rect2 = Rect2(-45, -56, 78, 73)
 @export_range(0.25, 2.0, 0.05) var warrior_art_scale: float = 1.0
+@export var rogue_pick_rect: Rect2 = Rect2(-40, -65, 80, 73)
+@export_range(0.25, 2.0, 0.05) var rogue_art_scale: float = 0.8
 @export var show_flat_height_labels: bool = false
 ## Демонстрационные состояния выбираются доской; сцена только отображает слои.
 var frozen: bool = false
@@ -196,14 +198,11 @@ func sync_scene_art() -> void:
 	var body := get_node_or_null("ArtRoot/BodySprite") as Sprite2D
 	var player_warrior := get_node_or_null("ArtRoot/PlayerWarriorSprite") as Sprite2D
 	var enemy_warrior := get_node_or_null("ArtRoot/EnemyWarriorSprite") as Sprite2D
+	var player_rogue := get_node_or_null("ArtRoot/PlayerRogueSprite") as Sprite2D
+	var enemy_rogue := get_node_or_null("ArtRoot/EnemyRogueSprite") as Sprite2D
 	var enemy_presets := _enemy_preset_sprites()
 	var selected_enemy_preset: Sprite2D
-	var warrior_sprite: Sprite2D
-	if visual_class_id == &"warrior" and unit != null:
-		if unit.faction == Faction.Type.PLAYER:
-			warrior_sprite = player_warrior
-		elif unit.faction == Faction.Type.ENEMY:
-			warrior_sprite = enemy_warrior
+	var warrior_sprite := class_still_sprite()
 	# Отсутствующий рисунок считается отсутствующим классным слоем и позволяет fallback.
 	if warrior_sprite != null and warrior_sprite.texture == null:
 		warrior_sprite = null
@@ -219,6 +218,10 @@ func sync_scene_art() -> void:
 	if enemy_warrior != null:
 		enemy_warrior.visible = selected_enemy_preset == null and enemy_warrior == warrior_sprite and role == Role.UNIT and unit != null and unit.alive
 		enemy_warrior.modulate = Color.WHITE
+	for rogue_sprite: Sprite2D in [player_rogue, enemy_rogue]:
+		if rogue_sprite != null:
+			rogue_sprite.visible = rogue_sprite == warrior_sprite and role == Role.UNIT and unit != null and unit.alive
+			rogue_sprite.modulate = Color.WHITE
 	for preset: Sprite2D in enemy_presets:
 		preset.visible = preset == selected_enemy_preset and unit != null and unit.alive
 		preset.modulate = Color.WHITE
@@ -321,6 +324,7 @@ func surface_polygons() -> Array[PackedVector2Array]:
 		var offset := get_visual_offset()
 		var art_scale := get_unit_art_scale()
 		var pick_rect := warrior_pick_rect if _has_visible_warrior_sprite() else body_pick_rect
+		if _has_visible_warrior_sprite() and visual_class_id == &"rogue": pick_rect = rogue_pick_rect
 		return [PackedVector2Array([offset + pick_rect.position * factor * art_scale, offset + Vector2(pick_rect.end.x, pick_rect.position.y) * factor * art_scale, offset + pick_rect.end * factor * art_scale, offset + Vector2(pick_rect.position.x, pick_rect.end.y) * factor * art_scale])]
 	var top := top_polygon()
 	if is_void: return [top]
@@ -334,14 +338,22 @@ func surface_polygons() -> Array[PackedVector2Array]:
 	return [PackedVector2Array([top[3], top[2], bottom + Vector2(0, hh), bottom + Vector2(-hw, 0)]), PackedVector2Array([top[2], top[1], bottom + Vector2(hw, 0), bottom + Vector2(0, hh)]), top]
 
 func _has_visible_warrior_sprite() -> bool:
-	if visual_class_id != &"warrior" or unit == null or not unit.alive:
-		return false
-	var path := "ArtRoot/PlayerWarriorSprite" if unit.faction == Faction.Type.PLAYER else "ArtRoot/EnemyWarriorSprite"
-	var sprite := get_node_or_null(path) as Sprite2D
-	return sprite != null and sprite.texture != null and (sprite == get_node_or_null("ArtRoot/PlayerWarriorSprite") and unit.faction == Faction.Type.PLAYER or sprite == get_node_or_null("ArtRoot/EnemyWarriorSprite") and unit.faction == Faction.Type.ENEMY)
+	var sprite := class_still_sprite()
+	return unit != null and unit.alive and sprite != null and sprite.texture != null
+
+func class_still_sprite() -> Sprite2D:
+	if unit == null or unit.faction not in [Faction.Type.PLAYER, Faction.Type.ENEMY]: return null
+	var suffix: String
+	match visual_class_id:
+		&"warrior": suffix = "WarriorSprite"
+		&"rogue": suffix = "RogueSprite"
+		_: return null
+	var side := "Enemy" if unit.faction == Faction.Type.ENEMY else "Player"
+	return get_node_or_null("ArtRoot/" + side + suffix) as Sprite2D
 
 func get_unit_art_scale() -> float:
-	return warrior_art_scale if role == Role.UNIT and _has_visible_warrior_sprite() else 1.0
+	if role != Role.UNIT or not _has_visible_warrior_sprite(): return 1.0
+	return rogue_art_scale if visual_class_id == &"rogue" else warrior_art_scale
 
 ## Возвращает первые пять уникальных не воплощённых видов в порядке доски.
 func visible_status_entries() -> Array[Dictionary]:

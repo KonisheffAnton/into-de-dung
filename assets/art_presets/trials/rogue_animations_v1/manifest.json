@@ -1,0 +1,429 @@
+{
+  "base_commit": "fe88f2b10677ec688e0a9729f63d334ac2e0dbfe",
+  "format": 1,
+  "idle_preview_rgba_parity": {
+    "background_rgba": [
+      63,
+      75,
+      67,
+      255
+    ],
+    "checks": [
+      {
+        "preview_frame_index": 0,
+        "preview_time_ms": 0,
+        "rgba_parity": true,
+        "source_frame": 1
+      },
+      {
+        "preview_frame_index": 4,
+        "preview_time_ms": 200,
+        "rgba_parity": true,
+        "source_frame": 5
+      },
+      {
+        "preview_frame_index": 8,
+        "preview_time_ms": 400,
+        "rgba_parity": true,
+        "source_frame": 9
+      },
+      {
+        "preview_frame_index": 12,
+        "preview_time_ms": 600,
+        "rgba_parity": true,
+        "source_frame": 13
+      },
+      {
+        "preview_frame_index": 16,
+        "preview_time_ms": 800,
+        "rgba_parity": true,
+        "source_frame": 17
+      },
+      {
+        "preview_frame_index": 20,
+        "preview_time_ms": 1000,
+        "rgba_parity": true,
+        "source_frame": 21
+      },
+      {
+        "preview_frame_index": 24,
+        "preview_time_ms": 1200,
+        "rgba_parity": true,
+        "source_frame": 25
+      },
+      {
+        "preview_frame_index": 28,
+        "preview_time_ms": 1400,
+        "rgba_parity": true,
+        "source_frame": 29
+      },
+      {
+        "preview_frame_index": 32,
+        "preview_time_ms": 1600,
+        "rgba_parity": true,
+        "source_frame": 33
+      },
+      {
+        "preview_frame_index": 36,
+        "preview_time_ms": 1800,
+        "rgba_parity": true,
+        "source_frame": 37
+      },
+      {
+        "preview_frame_index": 40,
+        "preview_time_ms": 2000,
+        "rgba_parity": true,
+        "source_frame": 41
+      },
+      {
+        "preview_frame_index": 44,
+        "preview_time_ms": 2200,
+        "rgba_parity": true,
+        "source_frame": 45
+      }
+    ],
+    "duplicate_gif_frames_coalesced_by_pillow": true,
+    "preview_frame_count": 48
+  },
+  "operations": {
+    "buff": "5 кадров из final/manifest.json; RGBA nearest-neighbor x4",
+    "corpse": "копия масштабированного death кадра 13",
+    "death": "13 кадров PixelLab death-03-side; RGBA nearest-neighbor x4; без GIF-паузы 800ms",
+    "idle": "выбранные cadence validation кадры побайтно; композиция с #3f4b43 совпадает с preview.gif по RGBA",
+    "still": "B1 reference-128.png; RGBA nearest-neighbor x4"
+  },
+  "output_png_count": 32,
+  "outputs": {
+    "buff/frame-01.png": "96b9dc10fbbc7ac324367270d847599001fab7a5e5ef9f2a335e73be1d5e778c",
+    "buff/frame-02.png": "6f90028a3df9f96ae00eb47c55dde675d6aad442d5a2e45003814578b329c99b",
+    "buff/frame-03.png": "429819a146065695204727236b4f9424a3467ce7f7e5343dccaccd2ae5d4e86b",
+    "buff/frame-04.png": "2dc355482ddaf064bfa7b88c02527357c487eab04a6f74f547ee8391a75646a1",
+    "buff/frame-05.png": "96b9dc10fbbc7ac324367270d847599001fab7a5e5ef9f2a335e73be1d5e778c",
+    "buff_frames.tres": "a475db1f353d5940160895927c8c2839a1a6dbd9943309e83b7a314fdedd1793",
+    "corpse.png": "fd68a47147d96ea408af0978d139026e165e517812c1399d71c90da1bdef631c",
+    "death/frame-01.png": "e948c43b65de69bed87f27ca5aa95394523590cb1086d5d18b1a699695f619ca",
+    "death/frame-02.png": "d3fcf84fb9cd8575055008f5ff4b27fc0db77b462b13528b7cd6bbbfb5987541",
+    "death/frame-03.png": "1a9cdb6785546bdb0da2ed3be9f7d50925d690718d5e1bfb531065fed530193d",
+    "death/frame-04.png": "73c558cede94f411b1dc9bfdbad73757ac778a0e385e4288fd9f63545c894a9a",
+    "death/frame-05.png": "67407def8e4210f133d67fdb926b78ae581ff6195c65ea2e6240ca93fc7ea968",
+    "death/frame-06.png": "9d6785fbdb348f2a34b017ae7ea46f5bdffd47f874ce7d54ed0257617ec66d5b",
+    "death/frame-07.png": "df445255c970573c0a6b0be40a11b111c7a4c4f26804c6495554609121c8119d",
+    "death/frame-08.png": "17c56e919c3a9e3e8d5aa8b5ba4ec28fe0bbd8bcba9bc038883043a8c22131c4",
+    "death/frame-09.png": "b908741084f2c5df572446b8281776b65dd82dd719585893a95ec43beb0977e3",
+    "death/frame-10.png": "855bbc4a542052140d399e625d9ae7c04ca5cf8689a90a20916ca4864cb62c33",
+    "death/frame-11.png": "958c220aa582f2e62c645861da340a2ef06919fd2ecfae1b5d594b96462052b1",
+    "death/frame-12.png": "07d0412fdb6a0f6b23d94390fb5fd617470ad8f1a8ad444d253d9dc3bfdb71f4",
+    "death/frame-13.png": "fd68a47147d96ea408af0978d139026e165e517812c1399d71c90da1bdef631c",
+    "death_frames.tres": "4608724198f754a4180422769885724d40f46f20061137f1ddce03f93caf27d6",
+    "idle/frame-01.png": "8174c576cdb8cca7c5d405ef5a1a91f662255f10cd27b734ecfd1a494d43ea76",
+    "idle/frame-02.png": "8174c576cdb8cca7c5d405ef5a1a91f662255f10cd27b734ecfd1a494d43ea76",
+    "idle/frame-03.png": "15839418704c61df5b20b1ddee26836e9732222a81406dea55a9c8e00ae94174",
+    "idle/frame-04.png": "3ca597d7be6b05c0a0faeef7822ae5dea110dd238aa0d481adb4ad6cca509333",
+    "idle/frame-05.png": "5da44d2e027d893c37bb828945e0c4e34ea9563d696375acdbad07ab5ef886b0",
+    "idle/frame-06.png": "f3349c0bfab07935d08ba78c5f6633fe4f57ed58de9ce66fd8e7de00dcedd405",
+    "idle/frame-07.png": "86a630485e18023cb96c757e074f9df05f498122da387c0f65e8819541bb7c5d",
+    "idle/frame-08.png": "86a630485e18023cb96c757e074f9df05f498122da387c0f65e8819541bb7c5d",
+    "idle/frame-09.png": "68b3dd6edf54d861cd121aa7c86b193e3ff6345f32b3c648e6984b338fcbd94e",
+    "idle/frame-10.png": "9ff17a59599f92a0c74c5fcd74bf6127893eae6229b463687947e37ddbd3cfbf",
+    "idle/frame-11.png": "c193d39219617145b3813bac7abf15d77d04b562b0789fa01b3a4dd1275de24d",
+    "idle/frame-12.png": "6a9fe0ac26d578d0fbc304ce2f6add374aa5f0258d48f88d44f8f17d06dfff60",
+    "idle_frames.tres": "f50b3a0bc9e3ba530019cd1f914d42d5f161ac65858814d82a2d105203b5bff2",
+    "still.png": "96b9dc10fbbc7ac324367270d847599001fab7a5e5ef9f2a335e73be1d5e778c"
+  },
+  "sources": [
+    {
+      "operation": "byte_copy",
+      "output": "idle/frame-01.png",
+      "path": "docs/art/rogue-idle-layered-20261012/frames/frame-001.png",
+      "role": "idle_frame",
+      "sha256": "8174c576cdb8cca7c5d405ef5a1a91f662255f10cd27b734ecfd1a494d43ea76",
+      "timing_ms": 200
+    },
+    {
+      "operation": "byte_copy",
+      "output": "idle/frame-02.png",
+      "path": "docs/art/rogue-idle-layered-20261012/frames/frame-005.png",
+      "role": "idle_frame",
+      "sha256": "8174c576cdb8cca7c5d405ef5a1a91f662255f10cd27b734ecfd1a494d43ea76",
+      "timing_ms": 200
+    },
+    {
+      "operation": "byte_copy",
+      "output": "idle/frame-03.png",
+      "path": "docs/art/rogue-idle-layered-20261012/frames/frame-009.png",
+      "role": "idle_frame",
+      "sha256": "15839418704c61df5b20b1ddee26836e9732222a81406dea55a9c8e00ae94174",
+      "timing_ms": 200
+    },
+    {
+      "operation": "byte_copy",
+      "output": "idle/frame-04.png",
+      "path": "docs/art/rogue-idle-layered-20261012/frames/frame-013.png",
+      "role": "idle_frame",
+      "sha256": "3ca597d7be6b05c0a0faeef7822ae5dea110dd238aa0d481adb4ad6cca509333",
+      "timing_ms": 200
+    },
+    {
+      "operation": "byte_copy",
+      "output": "idle/frame-05.png",
+      "path": "docs/art/rogue-idle-layered-20261012/frames/frame-017.png",
+      "role": "idle_frame",
+      "sha256": "5da44d2e027d893c37bb828945e0c4e34ea9563d696375acdbad07ab5ef886b0",
+      "timing_ms": 200
+    },
+    {
+      "operation": "byte_copy",
+      "output": "idle/frame-06.png",
+      "path": "docs/art/rogue-idle-layered-20261012/frames/frame-021.png",
+      "role": "idle_frame",
+      "sha256": "f3349c0bfab07935d08ba78c5f6633fe4f57ed58de9ce66fd8e7de00dcedd405",
+      "timing_ms": 200
+    },
+    {
+      "operation": "byte_copy",
+      "output": "idle/frame-07.png",
+      "path": "docs/art/rogue-idle-layered-20261012/frames/frame-025.png",
+      "role": "idle_frame",
+      "sha256": "86a630485e18023cb96c757e074f9df05f498122da387c0f65e8819541bb7c5d",
+      "timing_ms": 200
+    },
+    {
+      "operation": "byte_copy",
+      "output": "idle/frame-08.png",
+      "path": "docs/art/rogue-idle-layered-20261012/frames/frame-029.png",
+      "role": "idle_frame",
+      "sha256": "86a630485e18023cb96c757e074f9df05f498122da387c0f65e8819541bb7c5d",
+      "timing_ms": 200
+    },
+    {
+      "operation": "byte_copy",
+      "output": "idle/frame-09.png",
+      "path": "docs/art/rogue-idle-layered-20261012/frames/frame-033.png",
+      "role": "idle_frame",
+      "sha256": "68b3dd6edf54d861cd121aa7c86b193e3ff6345f32b3c648e6984b338fcbd94e",
+      "timing_ms": 200
+    },
+    {
+      "operation": "byte_copy",
+      "output": "idle/frame-10.png",
+      "path": "docs/art/rogue-idle-layered-20261012/frames/frame-037.png",
+      "role": "idle_frame",
+      "sha256": "9ff17a59599f92a0c74c5fcd74bf6127893eae6229b463687947e37ddbd3cfbf",
+      "timing_ms": 200
+    },
+    {
+      "operation": "byte_copy",
+      "output": "idle/frame-11.png",
+      "path": "docs/art/rogue-idle-layered-20261012/frames/frame-041.png",
+      "role": "idle_frame",
+      "sha256": "c193d39219617145b3813bac7abf15d77d04b562b0789fa01b3a4dd1275de24d",
+      "timing_ms": 200
+    },
+    {
+      "operation": "byte_copy",
+      "output": "idle/frame-12.png",
+      "path": "docs/art/rogue-idle-layered-20261012/frames/frame-045.png",
+      "role": "idle_frame",
+      "sha256": "6a9fe0ac26d578d0fbc304ce2f6add374aa5f0258d48f88d44f8f17d06dfff60",
+      "timing_ms": 200
+    },
+    {
+      "operation": "RGBA nearest-neighbor x4",
+      "output": "buff/frame-01.png",
+      "path": "docs/art/rogue-buff-outline-20261012/reference-128.png",
+      "role": "buff_frame",
+      "sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5",
+      "timing_ms": 200
+    },
+    {
+      "operation": "RGBA nearest-neighbor x4",
+      "output": "buff/frame-02.png",
+      "path": "docs/art/rogue-buff-outline-20261012/final/frames/frame-01.png",
+      "role": "buff_frame",
+      "sha256": "d7bb70600c605966451335a403f6d7dd8997a06c7a98e27cce1c9690db1c769b",
+      "timing_ms": 350
+    },
+    {
+      "operation": "RGBA nearest-neighbor x4",
+      "output": "buff/frame-03.png",
+      "path": "docs/art/rogue-buff-outline-20261012/final/frames/frame-02.png",
+      "role": "buff_frame",
+      "sha256": "00c317addb5206dd440a84d4f0fce63f9ab2d7c27040e228f8041712fad5792a",
+      "timing_ms": 60
+    },
+    {
+      "operation": "RGBA nearest-neighbor x4",
+      "output": "buff/frame-04.png",
+      "path": "docs/art/rogue-buff-outline-20261012/final/frames/frame-03.png",
+      "role": "buff_frame",
+      "sha256": "c2204a68a6505d98b086c709c9272ed36c47e63a198f8103a22aea2cc6802ac7",
+      "timing_ms": 120
+    },
+    {
+      "operation": "RGBA nearest-neighbor x4",
+      "output": "buff/frame-05.png",
+      "path": "docs/art/rogue-buff-outline-20261012/reference-128.png",
+      "role": "buff_frame",
+      "sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5",
+      "timing_ms": 240
+    },
+    {
+      "operation": "RGBA nearest-neighbor x4",
+      "output": "death/frame-01.png",
+      "path": "docs/art/rogue-buff-death-variants-20261012/death-03-side/pixellab/frame-01.png",
+      "role": "death_frame",
+      "sha256": "01106942a4e644c8346502b2d62f9f9e0bbdad12ac4e43a363628f5028ca45f0",
+      "timing_ms": 200
+    },
+    {
+      "operation": "RGBA nearest-neighbor x4",
+      "output": "death/frame-02.png",
+      "path": "docs/art/rogue-buff-death-variants-20261012/death-03-side/pixellab/frame-02.png",
+      "role": "death_frame",
+      "sha256": "a6ca5f26c1e2d4dbaa4ec569169c72ad1d9491b13116f4959148801887f5775d",
+      "timing_ms": 200
+    },
+    {
+      "operation": "RGBA nearest-neighbor x4",
+      "output": "death/frame-03.png",
+      "path": "docs/art/rogue-buff-death-variants-20261012/death-03-side/pixellab/frame-03.png",
+      "role": "death_frame",
+      "sha256": "5a652e85d3aae9f3fcba1ae1382621b8d59cf16be9553574190e566a67f9d028",
+      "timing_ms": 200
+    },
+    {
+      "operation": "RGBA nearest-neighbor x4",
+      "output": "death/frame-04.png",
+      "path": "docs/art/rogue-buff-death-variants-20261012/death-03-side/pixellab/frame-04.png",
+      "role": "death_frame",
+      "sha256": "609c90c059cd2e4d3a2db93407304a55dae0c930b7dbdd4c27c472ac4f9ed23e",
+      "timing_ms": 200
+    },
+    {
+      "operation": "RGBA nearest-neighbor x4",
+      "output": "death/frame-05.png",
+      "path": "docs/art/rogue-buff-death-variants-20261012/death-03-side/pixellab/frame-05.png",
+      "role": "death_frame",
+      "sha256": "1805b62eb97a5eb8f3d1dbb09ce2d8ba6176007a595cb2bb34e801fc8bc29ca6",
+      "timing_ms": 200
+    },
+    {
+      "operation": "RGBA nearest-neighbor x4",
+      "output": "death/frame-06.png",
+      "path": "docs/art/rogue-buff-death-variants-20261012/death-03-side/pixellab/frame-06.png",
+      "role": "death_frame",
+      "sha256": "1324ce042b98e00cfc53e984151d77f028255044e5f12551fe324e9d072da3ed",
+      "timing_ms": 200
+    },
+    {
+      "operation": "RGBA nearest-neighbor x4",
+      "output": "death/frame-07.png",
+      "path": "docs/art/rogue-buff-death-variants-20261012/death-03-side/pixellab/frame-07.png",
+      "role": "death_frame",
+      "sha256": "2e752cfef67078a71d2dfc482b25595a119073fb21cd79e109509aeace487a07",
+      "timing_ms": 200
+    },
+    {
+      "operation": "RGBA nearest-neighbor x4",
+      "output": "death/frame-08.png",
+      "path": "docs/art/rogue-buff-death-variants-20261012/death-03-side/pixellab/frame-08.png",
+      "role": "death_frame",
+      "sha256": "eefbb013eb125d94ed09aca6367d82fe6fb99b2027fbc795199c2434d87cb0b7",
+      "timing_ms": 200
+    },
+    {
+      "operation": "RGBA nearest-neighbor x4",
+      "output": "death/frame-09.png",
+      "path": "docs/art/rogue-buff-death-variants-20261012/death-03-side/pixellab/frame-09.png",
+      "role": "death_frame",
+      "sha256": "ab0a5a76c4c753bf25b8ae36ca7b5f9ffaa831187164c083c18ec9473244a6c7",
+      "timing_ms": 200
+    },
+    {
+      "operation": "RGBA nearest-neighbor x4",
+      "output": "death/frame-10.png",
+      "path": "docs/art/rogue-buff-death-variants-20261012/death-03-side/pixellab/frame-10.png",
+      "role": "death_frame",
+      "sha256": "cd7b5aeccd78caa1367d539bff636b65107eac8b2aab5198d85b2e5006d70874",
+      "timing_ms": 200
+    },
+    {
+      "operation": "RGBA nearest-neighbor x4",
+      "output": "death/frame-11.png",
+      "path": "docs/art/rogue-buff-death-variants-20261012/death-03-side/pixellab/frame-11.png",
+      "role": "death_frame",
+      "sha256": "4cc3f340f8709e608a1474411b75864cfcf682abdb70387455ce618fc65fdabe",
+      "timing_ms": 200
+    },
+    {
+      "operation": "RGBA nearest-neighbor x4",
+      "output": "death/frame-12.png",
+      "path": "docs/art/rogue-buff-death-variants-20261012/death-03-side/pixellab/frame-12.png",
+      "role": "death_frame",
+      "sha256": "86ea6d376a4c3c2f34fdb85a5f1cc2b8524e693dfd0518832c537e9c5f5cf8ef",
+      "timing_ms": 200
+    },
+    {
+      "operation": "RGBA nearest-neighbor x4",
+      "output": "death/frame-13.png",
+      "path": "docs/art/rogue-buff-death-variants-20261012/death-03-side/pixellab/frame-13.png",
+      "role": "death_frame",
+      "sha256": "dffbcdd794ae741fa07f62797f99751942a3a797338057f1ad68f117f51b4f4b",
+      "timing_ms": 200
+    },
+    {
+      "operation": "RGBA nearest-neighbor x4",
+      "output": "still.png",
+      "path": "docs/art/rogue-buff-outline-20261012/reference-128.png",
+      "role": "still",
+      "sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5",
+      "timing_ms": null
+    },
+    {
+      "operation": "byte_copy of death frame 13",
+      "output": "corpse.png",
+      "path": "docs/art/rogue-buff-death-variants-20261012/death-03-side/pixellab/frame-13.png",
+      "role": "corpse",
+      "sha256": "dffbcdd794ae741fa07f62797f99751942a3a797338057f1ad68f117f51b4f4b",
+      "timing_ms": null
+    }
+  ],
+  "timings_ms": {
+    "buff": [
+      200,
+      350,
+      60,
+      120,
+      240
+    ],
+    "death": [
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200
+    ],
+    "idle": [
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200
+    ]
+  }
+}
