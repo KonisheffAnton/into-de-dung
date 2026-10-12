@@ -1,0 +1,297 @@
+{
+  "editRequest": {
+    "properties": {
+      "description": {
+        "type": "string",
+        "maxLength": 2000,
+        "minLength": 1,
+        "title": "Description",
+        "description": "Description of the edit to apply (e.g., 'add a red cape', 'make it glow blue')"
+      },
+      "frames": {
+        "items": {
+          "$ref": "#/components/schemas/app__endpoints__external__v2__edit_animation_v2__FrameImage"
+        },
+        "type": "array",
+        "maxItems": 16,
+        "minItems": 2,
+        "title": "Frames",
+        "description": "Animation frames to edit (2-16 frames)"
+      },
+      "image_size": {
+        "$ref": "#/components/schemas/app__endpoints__external__v2__edit_animation_v2__ImageSize",
+        "description": "Size of the output frames"
+      },
+      "seed": {
+        "anyOf": [
+          {
+            "type": "integer",
+            "minimum": 0.0
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Seed",
+        "description": "Seed for reproducible generation"
+      },
+      "no_background": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "No Background",
+        "description": "Remove background from edited frames",
+        "default": false
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "description",
+      "frames",
+      "image_size"
+    ],
+    "title": "EditAnimationV2Request",
+    "description": "Request model for edit-animation-v2 endpoint",
+    "example": {
+      "description": "add a glowing red aura",
+      "frames": [
+        {
+          "image": {
+            "base64": "..."
+          },
+          "size": {
+            "height": 64,
+            "width": 64
+          }
+        },
+        {
+          "image": {
+            "base64": "..."
+          },
+          "size": {
+            "height": 64,
+            "width": 64
+          }
+        }
+      ],
+      "image_size": {
+        "height": 64,
+        "width": 64
+      },
+      "no_background": false,
+      "seed": 42
+    }
+  },
+  "animateEndpoint": {
+    "post": {
+      "tags": [
+        "Animate"
+      ],
+      "summary": "Animate with text (v3)",
+      "description": "Generate an animation from a reference frame and a text action description.\n\nReturns immediately with a background job ID. Poll `GET /v2/background-jobs/{job_id}`\nto retrieve results when generation completes.\n\n**How it works:**\n1. Submit the first frame and action description; receive a `background_job_id` immediately.\n2. Poll `GET /v2/background-jobs/{background_job_id}` every 2-5 seconds.\n3. When `status` is `completed`, the generated frames are available at `last_response.images`.\n\n**Size Limits:**\n- Maximum image dimension: 256x256 pixels\n- Total pixel budget: width × height × frame_count ≤ 524,288\n\n**Frame Count Guidelines:**\n- 4 frames: Simple loops (idle, breathing)\n- 8 frames: Standard animations (walk, run)\n- 16 frames: Complex animations (attack combos)\n\nTypical generation time: 30-180 seconds.\n\nUsing the Python client:\n```python\nimport pixellab, time\n\nclient = pixellab.Client(secret=\"YOUR_API_TOKEN\")\n\njob = client.animate_with_text_v3(\n    first_frame=first_frame_image,\n    action=\"walking forward\",\n    frame_count=8,\n)\n\nwhile True:\n    result = client.get_background_job(job.background_job_id)\n    if result.status == \"completed\":\n        images = [img.pil_image() for img in result.last_response[\"images\"]]\n        break\n    if result.status == \"failed\":\n        raise RuntimeError(result.last_response[\"detail\"])\n    time.sleep(2)\n```",
+      "operationId": "animate_with_text_v3_animate_with_text_v3_post",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/AnimateWithTextV3Request"
+            }
+          }
+        },
+        "required": true
+      },
+      "responses": {
+        "200": {
+          "description": "Background job accepted",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnimateWithTextV3Response"
+              },
+              "example": {
+                "background_job_id": "123e4567-e89b-12d3-a456-426614174000",
+                "status": "processing"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Invalid API token"
+        },
+        "402": {
+          "description": "Insufficient credits"
+        },
+        "422": {
+          "description": "Validation error"
+        },
+        "429": {
+          "description": "Too many concurrent background jobs"
+        }
+      },
+      "security": [
+        {
+          "HTTPBearer": []
+        }
+      ]
+    }
+  },
+  "editEndpoint": {
+    "post": {
+      "tags": [
+        "Animate"
+      ],
+      "summary": "Edit animation (Pro)",
+      "description": "Edit multiple animation frames with a text description.\n\nThis endpoint applies a consistent edit across all animation frames,\nmaintaining temporal coherence while transforming the animation.\nReturns immediately with a background job ID. Poll `GET /v2/background-jobs/{job_id}`\nto check status and retrieve results.\n\n**Key Features:**\n- Apply text-based edits to animation sequences\n- Maintains frame-to-frame consistency\n- Supports 2-16 frames per request (max depends on frame size, see below)\n- Optional background removal\n- Non-blocking: returns job ID immediately\n\n**Example Edits:**\n- \"add a red cape\"\n- \"make it glow blue\"\n- \"add armor plating\"\n- \"change to ice theme\"\n\n**Supported Sizes:**\n- Frame sizes from 16x16 to 256x256 pixels (model supports up to 256x256)\n\n**Frame limits by output size (image_size):**\n- 16-64px: Up to 16 frames (4x4 grid)\n- 65-80px: Up to 9 frames (3x3 grid)\n- 81-256px: Up to 4 frames (2x2 grid)\n\nAll frames are packed into a single grid image for editing, so larger frames\nfill the fixed generation canvas faster and fewer fit per request.\n\n**Usage Pattern:**\n1. POST to this endpoint (returns `background_job_id`)\n2. Poll `GET /v2/background-jobs/{background_job_id}` every 5-10 seconds\n3. When `status` is `completed`, edited frames are in `last_response`\n\nUsing the Python client:\n```python\nimport pixellab\n\nclient = pixellab.Client(secret=\"YOUR_API_TOKEN\")\n\n# Load your animation frames\nframes = [...]  # List of FrameImage objects\n\nresponse = client.edit_animation_v2(\n    description=\"add a glowing sword\",\n    frames=frames,\n    image_size=dict(width=64, height=64)\n)\n\n# Save edited frames\nfor i, image in enumerate(response.images):\n    image.pil_image().save(f\"frame_{i}.png\")\n```",
+      "operationId": "edit_animation_v2_edit_animation_v2_post",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/EditAnimationV2Request"
+            }
+          }
+        },
+        "required": true
+      },
+      "responses": {
+        "202": {
+          "description": "Animation edit job accepted and processing",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditAnimationV2Response"
+              },
+              "example": {
+                "background_job_id": "123e4567-e89b-12d3-a456-426614174000",
+                "status": "processing",
+                "usage": {
+                  "type": "usd",
+                  "usd": 0.0
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Invalid API token"
+        },
+        "402": {
+          "description": "Insufficient credits"
+        },
+        "422": {
+          "description": "Validation error"
+        },
+        "429": {
+          "description": "Too many concurrent jobs"
+        }
+      },
+      "security": [
+        {
+          "HTTPBearer": []
+        }
+      ]
+    }
+  },
+  "animateRequest": {
+    "properties": {
+      "first_frame": {
+        "$ref": "#/components/schemas/Base64Image",
+        "description": "First frame to animate (PNG/JPEG base64, max 256x256 pixels)"
+      },
+      "last_frame": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/Base64Image"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "description": "Optional last frame to guide the animation endpoint (PNG/JPEG base64, max 256x256 pixels)"
+      },
+      "action": {
+        "type": "string",
+        "maxLength": 1000,
+        "minLength": 1,
+        "title": "Action",
+        "description": "Action description (e.g., 'walking', 'jumping', 'attacking')"
+      },
+      "frame_count": {
+        "type": "integer",
+        "maximum": 16.0,
+        "minimum": 4.0,
+        "title": "Frame Count",
+        "description": "Number of animation frames (4-16, must be even)",
+        "default": 8
+      },
+      "seed": {
+        "anyOf": [
+          {
+            "type": "integer",
+            "minimum": 0.0
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Seed",
+        "description": "Seed for reproducible generation (0 for random)",
+        "default": 0
+      },
+      "no_background": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "No Background",
+        "description": "Remove background from generated frames"
+      },
+      "drift_threshold": {
+        "anyOf": [
+          {
+            "type": "number",
+            "minimum": 0.0
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Drift Threshold",
+        "description": "Color de-flicker sensitivity. Frames whose foreground drifts from the first frame beyond this are corrected toward it; 0 corrects every frame, higher values correct fewer. Omit for the default."
+      },
+      "enhance_prompt": {
+        "type": "boolean",
+        "title": "Enhance Prompt",
+        "description": "If true, automatically expand `action` into a richer motion description before generating — equivalent to calling /v2/enhance-animation-v3-prompt with these frames first. Uses `first_frame` (and `last_frame` for interpolation) to ground the description. Costs an additional 0.05 generations (or equivalent credits). The expanded text is returned in `enhanced_prompt`.",
+        "default": false
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "first_frame",
+      "action"
+    ],
+    "title": "AnimateWithTextV3Request",
+    "description": "Request model for animate with text v3 endpoint",
+    "example": {
+      "action": "walking forward",
+      "first_frame": {
+        "base64": "data:image/png;base64,..."
+      },
+      "frame_count": 8,
+      "no_background": true,
+      "seed": 42
+    }
+  }
+}

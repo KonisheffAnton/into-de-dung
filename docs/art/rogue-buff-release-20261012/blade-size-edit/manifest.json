@@ -1,0 +1,30 @@
+{
+  "base": "7e13c96fb8b1b7169a89fda74fb21ca01598593e",
+  "endpoint": "/v2/edit-animation-v2",
+  "seed": 2026101241,
+  "description": "Correct the shrinking weapons in this rogue animation. Frame 1 is the original neutral stance and the EXACT WEAPON SIZE REFERENCE: keep it unchanged. Frames 2-4 are existing animation poses to repair. The two daggers become too small and thin, especially when crossed. In EACH of frames 2-4 restore BOTH daggers to the SAME physical blade length from guard to tip, same blade width/thickness, same handle size and same steel silhouette as frame 1. Enlarge the undersized blades to match frame 1; do not turn them into tiny pocket knives. Keep their full lengths readable even at the X overlap; hide only the actual tiny intersection, not half a blade. Preserve each hand position and each frame pose; rotate the rigid full-size weapons naturally with the hands, no telescoping or scaling. Frame 2 still brings the weapons inward; frames 3 and 4 keep the crossed X. Exactly TWO single-ended daggers, one in each fist, exactly two pointed tips. In crossed poses, two hilts/grips are below the intersection and two full-size pointed blades extend upward; no extra lower blades, double-ended swords, copies or fragments. Preserve all other pixels/details as closely as possible: same face/hood/expression, body proportions, olive cloth/brown leather palette, boots and foot positions, canvas position and camera. No trails, glow, smears, effects or new objects. Crisp transparent 128x128 pixel art. The goal is consistent original weapon size throughout the gesture, not new weapons.",
+  "inputs": [
+    {
+      "source": "reference-128.png",
+      "sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5"
+    },
+    {
+      "source": "../rogue-buff-cross-fix-20261012/corrected/pixellab/frame-02.png",
+      "sha256": "dba9afc4ce1f78283c9e082440f14d52d6611b4db4293157e33599b5de802ad3"
+    },
+    {
+      "source": "../rogue-buff-cross-fix-20261012/corrected/pixellab/frame-04.png",
+      "sha256": "f516ffa3c4d8578a4de1d0e18fc3b4054b8782576c2875a7e65282211e7c7b11"
+    },
+    {
+      "source": "../rogue-buff-cross-fix-20261012/corrected/pixellab/frame-05.png",
+      "sha256": "bf0a630c8b5107560162e7b55afcabee2a45e4679290874c84d359c5937889c9"
+    }
+  ],
+  "useOutputs": [
+    2,
+    3,
+    4
+  ],
+  "referenceOutputOnly": 1
+}

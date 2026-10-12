@@ -1,0 +1,25 @@
+{
+  "endpoint": "/v2/edit-images-v2",
+  "method": "edit_with_reference",
+  "seed": 2026101244,
+  "description": "Use the separately supplied REFERENCE IMAGE as the exact identity, palette and WEAPON SIZE source. Keep the three edit images in their distinct current poses (inward preparation, crossed X, open release). Correct their daggers to the SAME original short-dagger design and physical dimensions as the reference: one blade about 20 native pixels long from guard to tip, about 4 pixels maximum width, same brown grip. The crossed image currently has oversized 29-32px sword-like blades: shorten these to the reference length, around two thirds of the current blade length. The open-release image currently has too-short blades: restore them to the reference length. The incoming pose must use that same reference size too. Never scale weapons just because hands move together or apart. Preserve two rigid single-ended daggers, exactly two tips and two handles, correct occlusion where they cross, no backwards blades or duplicates. Match reference olive/brown pixel palette, outline and face. Do not replace the three poses with the reference stance; keep their hands/body/boots positions and camera/scale. No changes to facial expression or anatomy. No glow, trails, motion blur or added props. Return clean transparent 128x128 pixel art poses with consistent equipment.",
+  "reference": {
+    "source": "reference-128.png",
+    "sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5"
+  },
+  "inputs": [
+    {
+      "source": "blade-size-refine/pixellab/frame-02.png",
+      "sha256": "013b4ff0c3e2960376d6dd5362a9415b294c933c811ed66bf1d65473fdc98408"
+    },
+    {
+      "source": "blade-size-refine/pixellab/frame-04.png",
+      "sha256": "1d99b9eb7cd3fb1cc74a36301616061058fb07c9026ee57eb6b46e5c54b37837"
+    },
+    {
+      "source": "release/pixellab/frame-04.png",
+      "sha256": "de916385dc62cdd77f0d50518e0522a87eaa826dc542bfbf4a863f149715b92f"
+    }
+  ],
+  "reason": "Independent review found variable weapons after two text-only animation edits; switch to explicit reference input, respecting maximum3editedframesat128px"
+}

@@ -1,0 +1,66 @@
+{
+  "base": "7e13c96fb8b1b7169a89fda74fb21ca01598593e",
+  "frames": [
+    {
+      "source": "reference-128.png",
+      "sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5",
+      "duration_ms": 200,
+      "provenance": "ready"
+    },
+    {
+      "source": "blade-size-refine/pixellab/frame-02.png",
+      "sha256": "013b4ff0c3e2960376d6dd5362a9415b294c933c811ed66bf1d65473fdc98408",
+      "duration_ms": 90,
+      "provenance": "inward"
+    },
+    {
+      "source": "blade-size-refine/pixellab/frame-03.png",
+      "sha256": "c456cff4ba2254c31fb7d6cecf55978c5e20ddd4859aa86b4ea9341f6624fd11",
+      "duration_ms": 90,
+      "provenance": "cross-entry"
+    },
+    {
+      "source": "blade-size-refine/pixellab/frame-04.png",
+      "sha256": "1d99b9eb7cd3fb1cc74a36301616061058fb07c9026ee57eb6b46e5c54b37837",
+      "duration_ms": 260,
+      "provenance": "cross-hold"
+    },
+    {
+      "source": "release/pixellab/frame-04.png",
+      "sha256": "de916385dc62cdd77f0d50518e0522a87eaa826dc542bfbf4a863f149715b92f",
+      "duration_ms": 60,
+      "provenance": "forceful-release"
+    },
+    {
+      "source": "release/pixellab/frame-05.png",
+      "sha256": "68b81efabd3177b2332ed1c6a2d38c34c5c0cef66871c3c40ea9db69cd68e604",
+      "duration_ms": 120,
+      "provenance": "deceleration"
+    },
+    {
+      "source": "reference-128.png",
+      "sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5",
+      "duration_ms": 240,
+      "provenance": "exact-ready-end"
+    }
+  ],
+  "omitted": [
+    {
+      "source": "blade-size-refine/pixellab/frame-01.png",
+      "reason": "Provider edit of reference is diagnostic; preserve original reference instead."
+    },
+    {
+      "source": "release/pixellab/frame-01.png",
+      "reason": "Generated duplicate crossed start; retain exact preceding edited pose."
+    },
+    {
+      "source": "release/pixellab/frame-02.png",
+      "reason": "Gradual start omitted to place main uncrossing displacement in the first shown movement."
+    },
+    {
+      "source": "release/pixellab/frame-03.png",
+      "reason": "Slow intermediate horizontal overlap omitted; original retained for diagnostics."
+    }
+  ],
+  "pixelOperations": "none; full original/provider PNGs only, no redraw or interpolation"
+}

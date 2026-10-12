@@ -1,0 +1,10 @@
+{
+  "endpoint": "/v2/animate-with-text-v3",
+  "first": "blade-size-refine/pixellab/frame-04.png",
+  "last": "reference-128.png",
+  "firstSha256": "1d99b9eb7cd3fb1cc74a36301616061058fb07c9026ee57eb6b46e5c54b37837",
+  "lastSha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5",
+  "action": "From this crossed-dagger pose, FORCEFULLY SNAP both hands apart outward and downward into the supplied low ready end pose. Explosive start: the FIRST movement after the X hold covers most of the whole distance, driven by a brief strong chest and shoulder effort. Then decelerate: each later movement is much smaller, settling firmly with a tiny follow-through into the exact end pose. No slow initial opening, no extra windup, no reversal or bouncing. Exactly TWO rigid daggers keep the original neutral-reference blade length, width and hilt size in EVERY frame, even while turning. Never shrink, stretch, bend, split or duplicate either dagger; no backward blades, fragments or trails. Hands firmly grip the hilts. Head, face and hood stay rigid together; no expression change. Boots stay planted in the same positions. Preserve pixel style, palette, body proportions, camera and scale, transparent 128x128. No glow, smear, blur or target attack.",
+  "seed": 2026101243,
+  "requestedFrames": 4
+}

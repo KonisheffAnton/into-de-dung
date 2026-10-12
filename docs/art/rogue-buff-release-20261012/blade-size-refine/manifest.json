@@ -1,0 +1,30 @@
+{
+  "endpoint": "/v2/edit-animation-v2",
+  "description": "Precision correction of weapon size ONLY. Frame 1 is the original reference and must remain unchanged. In frames 2,3,4 the previous edit made both daggers TOO LONG, like swords. Shorten ONLY their steel blades by about one quarter so each matches the original dagger in frame 1: approximately 20-22 native pixels from guard to tip, about 4-5 pixels maximum blade width, same short brown handle. Treat these numbers as size guidance relative to the full 128x128 canvas; do NOT enlarge the original reference weapons. Do not keep the exaggerated long swords. Frame 2 retains its inward low ready pose; frames 3 and 4 retain the existing crossed X hand poses. Keep exactly TWO single-ended daggers, two handles below the crossing, two pointed tips above, no extra backward blades. Preserve full-size readable blades at the overlap with correct occlusion. The corrected crossed weapons should be normal daggers matching frame 1, neither tiny knives nor swords. Do not move hands, feet, body, face or hood, do not change stance, camera, outline thickness, palette or any clothing pixels. Preserve the supplied pixel art closely; adjust only the length of the steel blades. Transparent 128x128. No motion blur, glow, trails or new objects.",
+  "seed": 2026101242,
+  "reason": "First size edit overshot length; refine relative to unchanged original reference",
+  "inputs": [
+    {
+      "source": "reference-128.png",
+      "sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5"
+    },
+    {
+      "source": "blade-size-edit/pixellab/frame-02.png",
+      "sha256": "c21968399ea9aa1039e54605c3b065bf79ccb55851ebd10668bff884f4695af8"
+    },
+    {
+      "source": "blade-size-edit/pixellab/frame-03.png",
+      "sha256": "dc8d85245f455b30fb91886de9603e6444b6de9ae705a308c71bb035bf46f401"
+    },
+    {
+      "source": "blade-size-edit/pixellab/frame-04.png",
+      "sha256": "2bc514a0e497ce7ed38462f329df8f860d4a552b3a3fabc917feffabb2ad5f72"
+    }
+  ],
+  "useOutputs": [
+    2,
+    3,
+    4
+  ],
+  "referenceOutputOnly": 1
+}

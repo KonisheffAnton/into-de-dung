@@ -1,0 +1,66 @@
+{
+  "base": "7e13c96fb8b1b7169a89fda74fb21ca01598593e",
+  "frames": [
+    {
+      "source": "reference-128.png",
+      "sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5",
+      "duration_ms": 200,
+      "provenance": "ready"
+    },
+    {
+      "source": "weapon-reference-edit/pixellab/frame-02.png",
+      "sha256": "9fa21dc61c0d20e9ce5da773a48c7aae23264fba327facc8b1583700eda545d1",
+      "duration_ms": 350,
+      "provenance": "cross-hold"
+    },
+    {
+      "source": "weapon-reference-edit/pixellab/frame-03.png",
+      "sha256": "2b5f9b5ab688748f88b7c9a29d1cfab18cc8295389ecf09c759a892f4ca1375f",
+      "duration_ms": 60,
+      "provenance": "forceful-release"
+    },
+    {
+      "source": "release/pixellab/frame-05.png",
+      "sha256": "68b81efabd3177b2332ed1c6a2d38c34c5c0cef66871c3c40ea9db69cd68e604",
+      "duration_ms": 120,
+      "provenance": "deceleration"
+    },
+    {
+      "source": "reference-128.png",
+      "sha256": "ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5",
+      "duration_ms": 240,
+      "provenance": "exact-ready-end"
+    }
+  ],
+  "previousCandidates": [
+    "rejected-seven-frames/manifest.json",
+    "rejected-six-frames/manifest.json"
+  ],
+  "omitted": [
+    {
+      "source": "weapon-reference-edit/pixellab/frame-01.png",
+      "reason": "Independent review found shorter left dagger in preparation. Omit whole pose; entry into cross is deliberately more abrupt."
+    },
+    {
+      "source": "blade-size-refine/pixellab/frame-01.png",
+      "reason": "Provider edit of reference is diagnostic; preserve original reference instead."
+    },
+    {
+      "source": "release/pixellab/frame-01.png",
+      "reason": "Generated duplicate crossed start; reference-edited crossed pose replaces it."
+    },
+    {
+      "source": "release/pixellab/frame-02.png",
+      "reason": "Gradual start omitted to place main uncrossing displacement in the first shown movement."
+    },
+    {
+      "source": "release/pixellab/frame-03.png",
+      "reason": "Slow intermediate horizontal overlap omitted; original retained for diagnostics."
+    },
+    {
+      "source": "release/pixellab/frame-04.png",
+      "reason": "Small weapons corrected with explicit reference in weapon-reference-edit frame03."
+    }
+  ],
+  "pixelOperations": "none; full original/provider PNGs only, no redraw or interpolation"
+}

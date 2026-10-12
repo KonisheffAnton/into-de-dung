@@ -1,0 +1,13 @@
+// Собираем целые готовые PNG; новые позы и изменения пикселей здесь не создаются.
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),assert=require('node:assert/strict');
+const root=__dirname;
+const stages=[['weapon-reference-edit','e4e68a59-1c3c-4fef-b9d5-65c2c3b3733e',3],['release','cb5b79af-540d-40d8-8e99-9aed78674083',5]];
+for(const [folder,id,count] of stages){const j=JSON.parse(fs.readFileSync(path.join(root,folder,'job-status.json'),'utf8'));assert.equal(j.id,id);assert.equal(j.status,'completed');assert.equal(j.last_response.frame_count,count);for(const f of j.last_response.files){const raw=fs.readFileSync(path.join(root,folder,'pixellab',f.file));assert.equal(crypto.createHash('sha256').update(raw).digest('hex'),f.sha256);}}
+const sources=['reference-128.png','weapon-reference-edit/pixellab/frame-02.png','weapon-reference-edit/pixellab/frame-03.png','release/pixellab/frame-05.png','reference-128.png'];
+const durations=[200,350,60,120,240];
+const phases=['ready','cross-hold','forceful-release','deceleration','exact-ready-end'];
+const frames=sources.map((source,i)=>({source,sha256:crypto.createHash('sha256').update(fs.readFileSync(path.join(root,source))).digest('hex'),duration_ms:durations[i],provenance:phases[i]}));
+assert.equal(frames[0].sha256,'ccf04fbb0c7b73fce0eba232ce5e595c7c2d037b7a9a8eaa176309e6ad11dbb5');
+fs.mkdirSync(path.join(root,'final'),{recursive:true});
+fs.writeFileSync(path.join(root,'final','manifest.json'),JSON.stringify({base:'7e13c96fb8b1b7169a89fda74fb21ca01598593e',frames,previousCandidates:['rejected-seven-frames/manifest.json','rejected-six-frames/manifest.json'],omitted:[{source:'weapon-reference-edit/pixellab/frame-01.png',reason:'Independent review found shorter left dagger in preparation. Omit whole pose; entry into cross is deliberately more abrupt.'},{source:'blade-size-refine/pixellab/frame-01.png',reason:'Provider edit of reference is diagnostic; preserve original reference instead.'},{source:'release/pixellab/frame-01.png',reason:'Generated duplicate crossed start; reference-edited crossed pose replaces it.'},{source:'release/pixellab/frame-02.png',reason:'Gradual start omitted to place main uncrossing displacement in the first shown movement.'},{source:'release/pixellab/frame-03.png',reason:'Slow intermediate horizontal overlap omitted; original retained for diagnostics.'},{source:'release/pixellab/frame-04.png',reason:'Small weapons corrected with explicit reference in weapon-reference-edit frame03.'}],pixelOperations:'none; full original/provider PNGs only, no redraw or interpolation'},null,2)+'\n');
+console.log(JSON.stringify({frames:frames.length,totalMs:durations.reduce((a,b)=>a+b,0)}));

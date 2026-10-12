@@ -1,0 +1,55 @@
+{
+  "usage": {
+    "type": "generations",
+    "generations": 1.0
+  },
+  "id": "cb5b79af-540d-40d8-8e99-9aed78674083",
+  "status": "completed",
+  "created_at": "2026-10-12T18:24:32.750254+03:00",
+  "last_response": {
+    "seed": 2026101243,
+    "type": "message_done",
+    "usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 1,
+      "cost_if_paid": 0.02754765745666292
+    },
+    "status": "completed",
+    "progress": 0.9090909090909091,
+    "flow_kind": "animation",
+    "billing_usage": {
+      "type": "generations",
+      "generations": 1.0
+    },
+    "generation_id": "c2a73c22-e55d-40be-85a2-10d835d6c5c8",
+    "queue_position": 0,
+    "billing_charged": true,
+    "generation_started_at": "2026-10-12T18:24:57.042982+03:00",
+    "estimated_wait_seconds": 0,
+    "files": [
+      {
+        "file": "frame-01.png",
+        "sha256": "c2f4f2b04fb50c827eef668f969e0f1343fbd5035ae502e81872252f5f33f19e"
+      },
+      {
+        "file": "frame-02.png",
+        "sha256": "c485e5afc51f34e36ea620a88158f8f4d6906a1e34c1c2902eab271cb22c8494"
+      },
+      {
+        "file": "frame-03.png",
+        "sha256": "60ee8cb801486e8e66f0e072bac52b1dc7f8b360b70002ec55db621c0f53d0d3"
+      },
+      {
+        "file": "frame-04.png",
+        "sha256": "de916385dc62cdd77f0d50518e0522a87eaa826dc542bfbf4a863f149715b92f"
+      },
+      {
+        "file": "frame-05.png",
+        "sha256": "68b81efabd3177b2332ed1c6a2d38c34c5c0cef66871c3c40ea9db69cd68e604"
+      }
+    ],
+    "frame_count": 5,
+    "quantized_files": []
+  }
+}

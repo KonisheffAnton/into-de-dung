@@ -1,0 +1,62 @@
+{
+  "job_id": "01adab57-f705-44ee-b424-a9c072cd55e2",
+  "status": "completed",
+  "usage": {
+    "type": "generations",
+    "generations": 10.0
+  },
+  "last_response": {
+    "seed": 2026101242,
+    "type": "done",
+    "action": "Touching up pixels",
+    "progress": 0.85,
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 10
+    },
+    "generation_id": "b46c965e-a523-4e25-83bc-f8f269a74793",
+    "usage_cost_usd": 0.08,
+    "billing_charged": true,
+    "generation_started_at": "2026-10-12T18:20:37.218001+03:00",
+    "original_image_n_colors": 110,
+    "quantized_image_n_colors": 27,
+    "files": [
+      {
+        "file": "frame-01.png",
+        "sha256": "84815308da6ddbfa25af0115032f1308ed2444c3f0e2218ac731b9ad9fcbd215"
+      },
+      {
+        "file": "frame-02.png",
+        "sha256": "013b4ff0c3e2960376d6dd5362a9415b294c933c811ed66bf1d65473fdc98408"
+      },
+      {
+        "file": "frame-03.png",
+        "sha256": "c456cff4ba2254c31fb7d6cecf55978c5e20ddd4859aa86b4ea9341f6624fd11"
+      },
+      {
+        "file": "frame-04.png",
+        "sha256": "1d99b9eb7cd3fb1cc74a36301616061058fb07c9026ee57eb6b46e5c54b37837"
+      }
+    ],
+    "frame_count": 4,
+    "quantized_files": [
+      {
+        "file": "quantized-frame-01.png",
+        "sha256": "84815308da6ddbfa25af0115032f1308ed2444c3f0e2218ac731b9ad9fcbd215"
+      },
+      {
+        "file": "quantized-frame-02.png",
+        "sha256": "013b4ff0c3e2960376d6dd5362a9415b294c933c811ed66bf1d65473fdc98408"
+      },
+      {
+        "file": "quantized-frame-03.png",
+        "sha256": "c456cff4ba2254c31fb7d6cecf55978c5e20ddd4859aa86b4ea9341f6624fd11"
+      },
+      {
+        "file": "quantized-frame-04.png",
+        "sha256": "1d99b9eb7cd3fb1cc74a36301616061058fb07c9026ee57eb6b46e5c54b37837"
+      }
+    ]
+  }
+}

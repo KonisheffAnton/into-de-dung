@@ -1,0 +1,14 @@
+// Формируем правку PixelLab: эталон оружия + три позы, без локального рисования.
+const fs = require('node:fs');
+const path = require('node:path');
+const crypto = require('node:crypto');
+const assert = require('node:assert/strict');
+const root=__dirname, dir=path.join(root,'blade-size-edit');
+assert.ok(!fs.existsSync(path.join(dir,'submission-attempt.json')), 'Already submitted');
+const sources=['reference-128.png',...['02','04','05'].map(n=>`../rogue-buff-cross-fix-20261012/corrected/pixellab/frame-${n}.png`)];
+const inputs=sources.map(source=>{const png=fs.readFileSync(path.join(root,source));return {source,sha256:crypto.createHash('sha256').update(png).digest('hex'),frame:{image:{type:'base64',format:'png',base64:png.toString('base64')},size:{width:128,height:128}}};});
+const description='Correct the shrinking weapons in this rogue animation. Frame 1 is the original neutral stance and the EXACT WEAPON SIZE REFERENCE: keep it unchanged. Frames 2-4 are existing animation poses to repair. The two daggers become too small and thin, especially when crossed. In EACH of frames 2-4 restore BOTH daggers to the SAME physical blade length from guard to tip, same blade width/thickness, same handle size and same steel silhouette as frame 1. Enlarge the undersized blades to match frame 1; do not turn them into tiny pocket knives. Keep their full lengths readable even at the X overlap; hide only the actual tiny intersection, not half a blade. Preserve each hand position and each frame pose; rotate the rigid full-size weapons naturally with the hands, no telescoping or scaling. Frame 2 still brings the weapons inward; frames 3 and 4 keep the crossed X. Exactly TWO single-ended daggers, one in each fist, exactly two pointed tips. In crossed poses, two hilts/grips are below the intersection and two full-size pointed blades extend upward; no extra lower blades, double-ended swords, copies or fragments. Preserve all other pixels/details as closely as possible: same face/hood/expression, body proportions, olive cloth/brown leather palette, boots and foot positions, canvas position and camera. No trails, glow, smears, effects or new objects. Crisp transparent 128x128 pixel art. The goal is consistent original weapon size throughout the gesture, not new weapons.';
+assert.ok(description.length<=2000);
+fs.writeFileSync(path.join(dir,'request.json'),JSON.stringify({description,frames:inputs.map(i=>i.frame),image_size:{width:128,height:128},seed:2026101241,no_background:true},null,2)+'\n');
+fs.writeFileSync(path.join(dir,'manifest.json'),JSON.stringify({base:'7e13c96fb8b1b7169a89fda74fb21ca01598593e',endpoint:'/v2/edit-animation-v2',seed:2026101241,description,inputs:inputs.map(({frame,...i})=>i),useOutputs:[2,3,4],referenceOutputOnly:1},null,2)+'\n');
+console.log(JSON.stringify({inputs:inputs.length,descriptionLength:description.length}));
