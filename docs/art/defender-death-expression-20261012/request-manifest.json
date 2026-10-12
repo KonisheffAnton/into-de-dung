@@ -1,0 +1,393 @@
+{
+  "endpoint": "https://api.pixellab.ai/v2/inpaint-v3",
+  "schema_verified": "2026-10-12 https://api.pixellab.ai/v2/openapi.json",
+  "source_animation": "../defender-death-variants-20261012/03-last-knee/pixellab",
+  "scope": "Face-only expression revision of selected motion03; no integration into the game.",
+  "request_sha256": "148d8c9ca7d2d95ee24bdb73c31516d86a76613034e2f1432ed83a5752e6f73a",
+  "sheet_size": [
+    384,
+    192
+  ],
+  "entries": [
+    {
+      "frame": 2,
+      "cell": [
+        0,
+        0
+      ],
+      "crop": [
+        32,
+        24,
+        96,
+        88
+      ],
+      "face_box": [
+        64,
+        40,
+        74,
+        50
+      ],
+      "mask_pixels": 70,
+      "source_sha256": "fc41653a07e31b4d5aa438048406e3ec58e672c50f09e9e50d02152a6f7bf4d4"
+    },
+    {
+      "frame": 3,
+      "cell": [
+        64,
+        0
+      ],
+      "crop": [
+        32,
+        24,
+        96,
+        88
+      ],
+      "face_box": [
+        57,
+        46,
+        68,
+        56
+      ],
+      "mask_pixels": 73,
+      "source_sha256": "784ee2202bffe09b45538cb1e6db353c889aa5e14e51d58b2ee4e4fe7c4a832d"
+    },
+    {
+      "frame": 4,
+      "cell": [
+        128,
+        0
+      ],
+      "crop": [
+        32,
+        24,
+        96,
+        88
+      ],
+      "face_box": [
+        57,
+        51,
+        67,
+        61
+      ],
+      "mask_pixels": 70,
+      "source_sha256": "dca836b49ada6352daaafab3ccabb9201fe371ec19a38dc51131c09fd8fd3c70"
+    },
+    {
+      "frame": 5,
+      "cell": [
+        192,
+        0
+      ],
+      "crop": [
+        32,
+        24,
+        96,
+        88
+      ],
+      "face_box": [
+        57,
+        52,
+        67,
+        62
+      ],
+      "mask_pixels": 70,
+      "source_sha256": "921718ee4b04821d96d5a0171c5954e4a477cd5256bdd3bbfd099f21444c1667"
+    },
+    {
+      "frame": 6,
+      "cell": [
+        256,
+        0
+      ],
+      "crop": [
+        32,
+        24,
+        96,
+        88
+      ],
+      "face_box": [
+        57,
+        50,
+        67,
+        60
+      ],
+      "mask_pixels": 70,
+      "source_sha256": "42af56fb6975c29a075b88800da933c6c45c0e9ed823f1f301a8d91815420e34"
+    },
+    {
+      "frame": 7,
+      "cell": [
+        320,
+        0
+      ],
+      "crop": [
+        32,
+        24,
+        96,
+        88
+      ],
+      "face_box": [
+        56,
+        49,
+        67,
+        59
+      ],
+      "mask_pixels": 71,
+      "source_sha256": "13658ec419a48af224ff4660b7ea56c05aaf9c9435e7c3fa423291db953b73d1"
+    },
+    {
+      "frame": 8,
+      "cell": [
+        0,
+        64
+      ],
+      "crop": [
+        32,
+        24,
+        96,
+        88
+      ],
+      "face_box": [
+        56,
+        49,
+        67,
+        59
+      ],
+      "mask_pixels": 71,
+      "source_sha256": "5ca0a95465d1ffb2606c447fbbdde220091883fbe04160176105f461b9933fd6"
+    },
+    {
+      "frame": 9,
+      "cell": [
+        64,
+        64
+      ],
+      "crop": [
+        32,
+        24,
+        96,
+        88
+      ],
+      "face_box": [
+        56,
+        49,
+        67,
+        59
+      ],
+      "mask_pixels": 71,
+      "source_sha256": "7a4a321f23eff6e117cdb91803fba4a62abc9923bc844ffa2b0c7c499de4edcf"
+    },
+    {
+      "frame": 10,
+      "cell": [
+        128,
+        64
+      ],
+      "crop": [
+        32,
+        24,
+        96,
+        88
+      ],
+      "face_box": [
+        56,
+        49,
+        67,
+        59
+      ],
+      "mask_pixels": 71,
+      "source_sha256": "5f05c56d21ad09c7636c7eb2d4446529f493d4b2c610055a78f84f8701641e97"
+    },
+    {
+      "frame": 11,
+      "cell": [
+        192,
+        64
+      ],
+      "crop": [
+        32,
+        24,
+        96,
+        88
+      ],
+      "face_box": [
+        56,
+        49,
+        67,
+        59
+      ],
+      "mask_pixels": 71,
+      "source_sha256": "8e0198c67b73bb616923522766a8c5c639caa7032dd89fdcdfe66542887e5f3f"
+    },
+    {
+      "frame": 12,
+      "cell": [
+        256,
+        64
+      ],
+      "crop": [
+        32,
+        24,
+        96,
+        88
+      ],
+      "face_box": [
+        56,
+        49,
+        67,
+        59
+      ],
+      "mask_pixels": 71,
+      "source_sha256": "5a702b03e3bb5bc18a15ad30f6cbdad443ac8007dcca447b6053a14569213901"
+    },
+    {
+      "frame": 13,
+      "cell": [
+        320,
+        64
+      ],
+      "crop": [
+        32,
+        24,
+        96,
+        88
+      ],
+      "face_box": [
+        56,
+        49,
+        67,
+        59
+      ],
+      "mask_pixels": 71,
+      "source_sha256": "3a1dd18f1029618191a42e63334f4c1d940a181e600257a53238818157779df2"
+    },
+    {
+      "frame": 14,
+      "cell": [
+        0,
+        128
+      ],
+      "crop": [
+        32,
+        24,
+        96,
+        88
+      ],
+      "face_box": [
+        56,
+        49,
+        67,
+        59
+      ],
+      "mask_pixels": 71,
+      "source_sha256": "a307883bf7019c4bf4ebcb6bb18df2672e1440646489f5be2a831ea4585c5e71"
+    },
+    {
+      "frame": 15,
+      "cell": [
+        64,
+        128
+      ],
+      "crop": [
+        32,
+        24,
+        96,
+        88
+      ],
+      "face_box": [
+        56,
+        49,
+        67,
+        59
+      ],
+      "mask_pixels": 71,
+      "source_sha256": "f9c85bbf9c651d3d9ad1cf01140c04cb4e35f6d3b70c0df8769996ac1d16b67e"
+    },
+    {
+      "frame": 16,
+      "cell": [
+        128,
+        128
+      ],
+      "crop": [
+        32,
+        24,
+        96,
+        88
+      ],
+      "face_box": [
+        56,
+        51,
+        67,
+        61
+      ],
+      "mask_pixels": 71,
+      "source_sha256": "7359c5b6c1c1bf8518e49fb747522cfb8cbf43c5e60d97a25590aa11c474c0af"
+    },
+    {
+      "frame": 17,
+      "cell": [
+        192,
+        128
+      ],
+      "crop": [
+        32,
+        24,
+        96,
+        88
+      ],
+      "face_box": [
+        56,
+        55,
+        66,
+        65
+      ],
+      "mask_pixels": 70,
+      "source_sha256": "f4658f08ad6eb3dc62035e9aa15d974eb34764a8a96b316c530ead4964dc4cfd"
+    },
+    {
+      "frame": 18,
+      "cell": [
+        256,
+        128
+      ],
+      "crop": [
+        32,
+        24,
+        96,
+        88
+      ],
+      "face_box": [
+        56,
+        61,
+        66,
+        71
+      ],
+      "mask_pixels": 69,
+      "source_sha256": "6cf065277ff08566fcf1804edfe9cac5649de47d29ff8440782576a90c0356ec"
+    },
+    {
+      "frame": 19,
+      "cell": [
+        320,
+        128
+      ],
+      "crop": [
+        32,
+        24,
+        96,
+        88
+      ],
+      "face_box": [
+        55,
+        78,
+        65,
+        86
+      ],
+      "mask_pixels": 67,
+      "source_sha256": "1cb617e9c3fda8e70913e5f4a11f951380baff7b6a3fe2e23d82f5d4c08a7345"
+    }
+  ],
+  "composition": "Only provider RGB inside the saved skin mask; retain original alpha and every outside pixel.",
+  "description": "This image is a six-column, three-row sprite contact sheet showing 18 consecutive crops of the SAME helmeted defender dying. Edit ONLY the small masked exposed facial skin in every cell. Give him a clearly readable restrained grimace of PAIN AND EFFORT: eyes squeezed shut, brows tensed downward beneath the helmet, mouth tightly clenched into an asymmetric strained grimace with a tiny pale teeth line inside a dark mouth shape. The jaw is tense, never smiling. The face is only about ten pixels wide, so use a few LARGE simple pixel clusters; no added detail or tiny wrinkles. Preserve the existing skin palette and native pixel size exactly. Keep a coherent painful expression across the held kneeling poses, no mouth flicker or alternating expressions. Keep the identical head position, tilt, helmet, silhouette and all unmasked pixels of each cell. Do not move or rescale any frame or redraw the animation. No blood, tears, flashes, particles, text, added hair or new accessories. This is a serious death grimace, not a comic shouting face."
+}

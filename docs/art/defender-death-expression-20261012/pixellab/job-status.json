@@ -1,0 +1,24 @@
+{
+  "id": "2ddaa44b-8594-4535-8637-e6b11dd1b5c1",
+  "status": "completed",
+  "checked_at_utc": "2026-10-12T06:12:43.1605392Z",
+  "progress": 0.85,
+  "queue_position": null,
+  "estimated_wait_seconds": null,
+  "last_response_keys": [
+    "seed",
+    "type",
+    "image",
+    "action",
+    "progress",
+    "billing_usage",
+    "generation_id",
+    "usage_cost_usd",
+    "billing_charged",
+    "generation_mode",
+    "quantized_image",
+    "generation_started_at",
+    "original_image_n_colors",
+    "quantized_image_n_colors"
+  ]
+}
