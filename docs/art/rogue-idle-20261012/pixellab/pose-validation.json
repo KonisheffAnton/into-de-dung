@@ -1,0 +1,73 @@
+{
+  "endpoint": "https://api.pixellab.ai/v2/animate-with-skeleton-v3",
+  "frames": 12,
+  "frameMs": 200,
+  "amplitudePixels": 2,
+  "armLagFrames": 1,
+  "fixedXZ": true,
+  "lowerFixed": true,
+  "armsRigid": true,
+  "offsets": [
+    {
+      "frame": 1,
+      "bodyY": 0,
+      "armY": -0.1339745962155613
+    },
+    {
+      "frame": 2,
+      "bodyY": -0.1339745962155613,
+      "armY": 0
+    },
+    {
+      "frame": 3,
+      "bodyY": -0.4999999999999999,
+      "armY": -0.1339745962155613
+    },
+    {
+      "frame": 4,
+      "bodyY": -0.9999999999999999,
+      "armY": -0.5000000000000001
+    },
+    {
+      "frame": 5,
+      "bodyY": -1.4999999999999998,
+      "armY": -0.9999999999999999
+    },
+    {
+      "frame": 6,
+      "bodyY": -1.8660254037844388,
+      "armY": -1.5000000000000002
+    },
+    {
+      "frame": 7,
+      "bodyY": -2,
+      "armY": -1.8660254037844388
+    },
+    {
+      "frame": 8,
+      "bodyY": -1.8660254037844388,
+      "armY": -2
+    },
+    {
+      "frame": 9,
+      "bodyY": -1.5000000000000004,
+      "armY": -1.8660254037844388
+    },
+    {
+      "frame": 10,
+      "bodyY": -1.0000000000000002,
+      "armY": -1.5000000000000004
+    },
+    {
+      "frame": 11,
+      "bodyY": -0.4999999999999999,
+      "armY": -1.0000000000000002
+    },
+    {
+      "frame": 12,
+      "bodyY": -0.13397459621556163,
+      "armY": -0.5000000000000007
+    }
+  ],
+  "note": "These are requested skeleton constraints, not proof of generated PNG stability."
+}

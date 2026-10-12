@@ -1,0 +1,22 @@
+[
+  {
+    "path": "docs/art/rogue-idle-20261012/user-reference.png",
+    "sha256": "41A4059342314D167B7159108DD3FF5251696F5594A0F1A5894524218852E21A"
+  },
+  {
+    "path": "docs/art/rogue-idle-20261012/rogue-clean.png",
+    "sha256": "D6AEA66EF069D0D3053CF844B1ABC226D10F44A28B53AE77F8D3ED432146A382"
+  },
+  {
+    "path": "docs/art/rogue-idle-20261012/rogue-native.png",
+    "sha256": "5570199E8E75661F704B4336507845064C6BC54D011E6FE65A7C271C800CE549"
+  },
+  {
+    "path": "docs/art/rogue-idle-20261012/pixellab/reference-128.png",
+    "sha256": "1B514747B2B54D04F1E8F23CA0AA3DEFA356B376C4830BEE3DDAE914033AA065"
+  },
+  {
+    "path": "assets/art_presets/approved/grass_defender_v1/defender_reference_v1.png",
+    "sha256": "F6B4E66FB267C443C24F3913AF97B3220A7CA554EAE7A3C524B08D2BD83B6515"
+  }
+]

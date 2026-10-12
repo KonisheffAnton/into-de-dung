@@ -1,0 +1,292 @@
+{
+  "frames": [
+    {
+      "file": "frame-01.png",
+      "sha256": "1892452557d67263f2a58296af6b5a4c5fcefd7b16874aaeaf1c0bc32ad37d0e",
+      "bbox": {
+        "x": 24,
+        "y": 29,
+        "width": 80,
+        "height": 73
+      },
+      "uniqueColorsIncludingAlpha": 48,
+      "alphaPixels": {
+        "transparent": 13616,
+        "partialBelow128": 0,
+        "partialAtLeast128": 0,
+        "opaque": 2768
+      }
+    },
+    {
+      "file": "frame-02.png",
+      "sha256": "cea2bc5ec528bda92131471ee09f2d6f099d629864a53829052ab3ac46376e6d",
+      "bbox": {
+        "x": 24,
+        "y": 29,
+        "width": 80,
+        "height": 73
+      },
+      "uniqueColorsIncludingAlpha": 48,
+      "alphaPixels": {
+        "transparent": 13616,
+        "partialBelow128": 0,
+        "partialAtLeast128": 0,
+        "opaque": 2768
+      }
+    },
+    {
+      "file": "frame-03.png",
+      "sha256": "ee89394440746447af291a8617619ddffded1127364ac220e8f4073f933ef3ae",
+      "bbox": {
+        "x": 24,
+        "y": 29,
+        "width": 80,
+        "height": 73
+      },
+      "uniqueColorsIncludingAlpha": 49,
+      "alphaPixels": {
+        "transparent": 13615,
+        "partialBelow128": 0,
+        "partialAtLeast128": 0,
+        "opaque": 2769
+      }
+    },
+    {
+      "file": "frame-04.png",
+      "sha256": "db61da4a94e5bb3fb21b3026093ca977a8aa4ace51a767c7fe723ec5b02deec2",
+      "bbox": {
+        "x": 24,
+        "y": 29,
+        "width": 80,
+        "height": 73
+      },
+      "uniqueColorsIncludingAlpha": 50,
+      "alphaPixels": {
+        "transparent": 13615,
+        "partialBelow128": 0,
+        "partialAtLeast128": 0,
+        "opaque": 2769
+      }
+    },
+    {
+      "file": "frame-05.png",
+      "sha256": "7b455cd0a2ca08cb1b45851dd0f9296bfbd39e60878a4f522e28ef46ef1a3c93",
+      "bbox": {
+        "x": 24,
+        "y": 28,
+        "width": 80,
+        "height": 74
+      },
+      "uniqueColorsIncludingAlpha": 49,
+      "alphaPixels": {
+        "transparent": 13600,
+        "partialBelow128": 0,
+        "partialAtLeast128": 0,
+        "opaque": 2784
+      }
+    },
+    {
+      "file": "frame-06.png",
+      "sha256": "16bdc4a20c121143ff695f17addb1e46e6f73cb7e6b48558d40debd8bc69b05f",
+      "bbox": {
+        "x": 24,
+        "y": 28,
+        "width": 80,
+        "height": 74
+      },
+      "uniqueColorsIncludingAlpha": 49,
+      "alphaPixels": {
+        "transparent": 13600,
+        "partialBelow128": 0,
+        "partialAtLeast128": 0,
+        "opaque": 2784
+      }
+    },
+    {
+      "file": "frame-07.png",
+      "sha256": "65530ed2634d3c2c9a70a87ebc53fdf2b533030073bfd5170292703e8c1b2d54",
+      "bbox": {
+        "x": 24,
+        "y": 27,
+        "width": 80,
+        "height": 75
+      },
+      "uniqueColorsIncludingAlpha": 49,
+      "alphaPixels": {
+        "transparent": 13585,
+        "partialBelow128": 0,
+        "partialAtLeast128": 0,
+        "opaque": 2799
+      }
+    },
+    {
+      "file": "frame-08.png",
+      "sha256": "a5c3fd6f5ac3c5fe552df66f19b4fed51f4c5ec9f0a5f0eec89df1cf7e824394",
+      "bbox": {
+        "x": 24,
+        "y": 27,
+        "width": 80,
+        "height": 75
+      },
+      "uniqueColorsIncludingAlpha": 49,
+      "alphaPixels": {
+        "transparent": 13585,
+        "partialBelow128": 0,
+        "partialAtLeast128": 0,
+        "opaque": 2799
+      }
+    },
+    {
+      "file": "frame-09.png",
+      "sha256": "507019446dc7346e4012e50712f089e808b56d7ceefadb86d960e5ef6815683e",
+      "bbox": {
+        "x": 24,
+        "y": 28,
+        "width": 80,
+        "height": 74
+      },
+      "uniqueColorsIncludingAlpha": 50,
+      "alphaPixels": {
+        "transparent": 13603,
+        "partialBelow128": 0,
+        "partialAtLeast128": 0,
+        "opaque": 2781
+      }
+    },
+    {
+      "file": "frame-10.png",
+      "sha256": "82f69d33b861d4b858ede28f2928ca9478a2480ff2a7cf3b4963937933931564",
+      "bbox": {
+        "x": 24,
+        "y": 28,
+        "width": 80,
+        "height": 74
+      },
+      "uniqueColorsIncludingAlpha": 50,
+      "alphaPixels": {
+        "transparent": 13601,
+        "partialBelow128": 0,
+        "partialAtLeast128": 0,
+        "opaque": 2783
+      }
+    },
+    {
+      "file": "frame-11.png",
+      "sha256": "f2895ef377bdb4f3d6d2affee09c0c84fd736dafdd7c4e67c1e63c6dae9f6b7d",
+      "bbox": {
+        "x": 24,
+        "y": 28,
+        "width": 80,
+        "height": 74
+      },
+      "uniqueColorsIncludingAlpha": 49,
+      "alphaPixels": {
+        "transparent": 13598,
+        "partialBelow128": 0,
+        "partialAtLeast128": 0,
+        "opaque": 2786
+      }
+    },
+    {
+      "file": "frame-12.png",
+      "sha256": "b247adf54f794bf3d4e0fc7f894b87815d55fb86e36c6f97a42055971c77f228",
+      "bbox": {
+        "x": 24,
+        "y": 29,
+        "width": 80,
+        "height": 73
+      },
+      "uniqueColorsIncludingAlpha": 50,
+      "alphaPixels": {
+        "transparent": 13618,
+        "partialBelow128": 0,
+        "partialAtLeast128": 0,
+        "opaque": 2766
+      }
+    }
+  ],
+  "uniqueFrameCount": 12,
+  "reference": {
+    "file": "reference-128.png",
+    "dimensions": "128x128 RGBA",
+    "expectedPadding": "16px around native 96x96",
+    "validated": true
+  },
+  "delaysMs": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+  ],
+  "observations": {
+    "lastFirstPixelDifference": {
+      "meanAbsoluteChannelDifference": 0.1698947482638889,
+      "changedChannels": 729,
+      "totalChannels": 36864
+    },
+    "lowerRegionComparedWithFirst": {
+      "yFrom": 76,
+      "changedPixels": 14,
+      "totalPixels": 1920,
+      "note": "Наблюдение по пикселям, не вывод о гладкости или сохранности стоп."
+    }
+  },
+  "gif": {
+    "native": {
+      "pages": 12,
+      "delay": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "width": 96,
+      "pageHeight": 96,
+      "loop": 0
+    },
+    "preview": {
+      "pages": 12,
+      "delay": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "width": 640,
+      "pageHeight": 600,
+      "loop": 0
+    }
+  },
+  "outputs": [
+    "idle-native.gif",
+    "preview.gif",
+    "filmstrip.png",
+    "preview-still.png",
+    "preview.json"
+  ],
+  "previewDisplay": "×4 nearest on muted grey-green; size row is approximate and does not represent Godot rendering."
+}

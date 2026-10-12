@@ -1,0 +1,137 @@
+{
+  "source": "https://api.pixellab.ai/v2/openapi.json",
+  "checked_on": "2026-10-12",
+  "schemas": {
+    "AnimateWithSkeletonV3Request": {
+      "properties": {
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "title": "Description",
+          "description": "What the character LOOKS like, as a noun phrase: 'blonde vampire with a red cape'. Colours, clothing, held items. Not the pose, motion, style or background -- those belong in `action` or in the skeletons.",
+          "examples": [
+            "blonde vampire with a red cape"
+          ]
+        },
+        "action": {
+          "type": "string",
+          "minLength": 1,
+          "title": "Action",
+          "description": "The motion's short label: 'walk', 'run', 'attack'.",
+          "examples": [
+            "walk"
+          ]
+        },
+        "direction": {
+          "$ref": "#/components/schemas/Direction",
+          "description": "The direction the character faces."
+        },
+        "view": {
+          "$ref": "#/components/schemas/CameraView",
+          "description": "Camera angle.",
+          "default": "low top-down"
+        },
+        "first_frame": {
+          "$ref": "#/components/schemas/Base64Image",
+          "description": "The sprite to animate, PNG base64, up to 256x256. Frames come back at this size."
+        },
+        "first_frame_keypoints": {
+          "items": {
+            "$ref": "#/components/schemas/Keypoint-Input"
+          },
+          "type": "array",
+          "title": "First Frame Keypoints",
+          "description": "The skeleton of the pose `first_frame` is IN, all 18 joints. The model redraws this frame first and learns the background key and the colours from that redraw, so a skeleton that does not match the image quietly costs you transparency and colour accuracy. This frame is not returned."
+        },
+        "keypoints": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Keypoint-Input"
+            },
+            "type": "array"
+          },
+          "type": "array",
+          "title": "Keypoints",
+          "description": "The motion: one skeleton per frame you get back, all 18 joints each. 3 to 15 frames."
+        },
+        "template_id": {
+          "type": "string",
+          "enum": [
+            "mannequin",
+            "bear",
+            "cat",
+            "dog",
+            "horse",
+            "lion"
+          ],
+          "title": "Template Id",
+          "description": "The body a joint's missing `depth` is taken from: mannequin, bear, cat, dog, horse or lion. A quadruped posed with mannequin depth comes out flat.",
+          "default": "mannequin"
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0.0,
+          "title": "Seed",
+          "description": "0 for a random seed.",
+          "default": 0
+        },
+        "no_background": {
+          "type": "boolean",
+          "title": "No Background",
+          "description": "Return frames with a transparent background.",
+          "default": true
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "description",
+        "action",
+        "direction",
+        "first_frame",
+        "first_frame_keypoints",
+        "keypoints"
+      ],
+      "title": "AnimateWithSkeletonV3Request",
+      "example": {
+        "action": "walk",
+        "description": "blonde vampire with a red cape",
+        "direction": "east",
+        "first_frame": {
+          "base64": "iVBORw0KGgo..."
+        },
+        "first_frame_keypoints": [
+          {
+            "label": "NOSE",
+            "x": 0.5,
+            "y": 0.22,
+            "z_index": 17
+          }
+        ],
+        "keypoints": [
+          [
+            {
+              "label": "NOSE",
+              "x": 0.5,
+              "y": 0.22,
+              "z_index": 17
+            }
+          ]
+        ],
+        "view": "low top-down"
+      }
+    },
+    "EstimateSkeletonRequest": {
+      "properties": {
+        "image": {
+          "$ref": "#/components/schemas/Base64Image",
+          "description": "Image for which to estimate the skeleton"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "title": "EstimateSkeletonRequest",
+      "description": "Request model for estimate skeleton endpoint"
+    }
+  }
+}

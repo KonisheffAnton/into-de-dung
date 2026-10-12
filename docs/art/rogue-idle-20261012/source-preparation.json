@@ -1,0 +1,31 @@
+{
+  "source": "rogue-clean.png",
+  "sourceSize": [
+    1296,
+    1213
+  ],
+  "alphaBBox": [
+    76,
+    118,
+    1242,
+    1179
+  ],
+  "nativeSprite": [
+    80,
+    73
+  ],
+  "nativeCanvas": [
+    96,
+    96
+  ],
+  "nativeOffset": [
+    8,
+    13
+  ],
+  "inputCanvas": [
+    128,
+    128
+  ],
+  "padding": 16,
+  "method": "nearest, aspect preserved; no retouching"
+}
