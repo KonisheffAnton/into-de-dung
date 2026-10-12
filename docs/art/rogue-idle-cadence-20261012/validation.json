@@ -1,0 +1,106 @@
+{
+  "source": "user-reference.gif",
+  "sourceSha256": "9604a22eacb6c5ac4c9bf55b8d9db2ad6f0f33059149c1f96961c09308f39fa9",
+  "sourceMatches": "../rogue-idle-layered-20261012/preview.gif",
+  "sourceFrames": 48,
+  "sourceFrameMs": 50,
+  "sourceCycleMs": 2400,
+  "reference": "../../../assets/art_presets/trials/defender_idle_v1/README.md",
+  "referenceFrameCount": 12,
+  "referenceFrameMs": 200,
+  "referenceCycleMs": 2400,
+  "outputFrames": 12,
+  "outputFrameMs": 200,
+  "outputCycleMs": 2400,
+  "decodedRgbaParity": true,
+  "allSourcePixelsPreserved": true,
+  "selection": [
+    {
+      "outputFrame": 1,
+      "sourceFrame": 1,
+      "sourceTimeMs": 0,
+      "durationMs": 200,
+      "decodedRgbaSha256": "704f5d44f9aa41c3d3ba1124d2bceaa4fc5faab9ad48781f46d5e3ad5cf8e859"
+    },
+    {
+      "outputFrame": 2,
+      "sourceFrame": 5,
+      "sourceTimeMs": 200,
+      "durationMs": 200,
+      "decodedRgbaSha256": "704f5d44f9aa41c3d3ba1124d2bceaa4fc5faab9ad48781f46d5e3ad5cf8e859"
+    },
+    {
+      "outputFrame": 3,
+      "sourceFrame": 9,
+      "sourceTimeMs": 400,
+      "durationMs": 200,
+      "decodedRgbaSha256": "3b2ee7d159846c1e6f22d5e77f2b2f838892b8618cbacb60b3ef3d6db82d718f"
+    },
+    {
+      "outputFrame": 4,
+      "sourceFrame": 13,
+      "sourceTimeMs": 600,
+      "durationMs": 200,
+      "decodedRgbaSha256": "0e927c6952d61a6e1132507b788f766cf58164ba82bd8773f762fb3d95879776"
+    },
+    {
+      "outputFrame": 5,
+      "sourceFrame": 17,
+      "sourceTimeMs": 800,
+      "durationMs": 200,
+      "decodedRgbaSha256": "34b1ecfdc959580a05dd207fb5d0fc3d248d4b7ac86c10bda3ad206cb3d27c2a"
+    },
+    {
+      "outputFrame": 6,
+      "sourceFrame": 21,
+      "sourceTimeMs": 1000,
+      "durationMs": 200,
+      "decodedRgbaSha256": "6fdbbcb2d527257acfe7a35371e57a68a92d950e0474edb32d9d893c9f3824ec"
+    },
+    {
+      "outputFrame": 7,
+      "sourceFrame": 25,
+      "sourceTimeMs": 1200,
+      "durationMs": 200,
+      "decodedRgbaSha256": "d7f30ec639cf02b2dc448a327cb3148740ef0d8b1b72097388ef843756e21a35"
+    },
+    {
+      "outputFrame": 8,
+      "sourceFrame": 29,
+      "sourceTimeMs": 1400,
+      "durationMs": 200,
+      "decodedRgbaSha256": "d7f30ec639cf02b2dc448a327cb3148740ef0d8b1b72097388ef843756e21a35"
+    },
+    {
+      "outputFrame": 9,
+      "sourceFrame": 33,
+      "sourceTimeMs": 1600,
+      "durationMs": 200,
+      "decodedRgbaSha256": "4e55be22d45cacb549b700947d7e388cfe288ed96a457c33f7a733d4a4c04a19"
+    },
+    {
+      "outputFrame": 10,
+      "sourceFrame": 37,
+      "sourceTimeMs": 1800,
+      "durationMs": 200,
+      "decodedRgbaSha256": "5734eab5888cb5a2175cd3de221b88b8693aaa613af46ee67b903ffa1751ade7"
+    },
+    {
+      "outputFrame": 11,
+      "sourceFrame": 41,
+      "sourceTimeMs": 2000,
+      "durationMs": 200,
+      "decodedRgbaSha256": "c26250e0bb742a6488aa3db1510be797d15134afb46f2875345bf8f052011048"
+    },
+    {
+      "outputFrame": 12,
+      "sourceFrame": 45,
+      "sourceTimeMs": 2200,
+      "durationMs": 200,
+      "decodedRgbaSha256": "2a916d5332bc3f5a9936676318373604a9a48d49ab69d195776286fd8a813906"
+    }
+  ],
+  "outputSha256": "a0ca83094ed505645145d98d9d0b0971af7e254cb2ebf5bd01a32416543ee7f0",
+  "scope": "Only frame selection and duration. No pose drawing, blending, interpolation, provider calls or runtime changes.",
+  "acceptance": "User chose the supplied motion as the basis for cadence correction; final approval remains open."
+}
