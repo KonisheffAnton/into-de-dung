@@ -79,10 +79,14 @@ func live_battle() -> void:
 	var enemy := demo.board_view._presentation_visual(enemy_id).get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D
 	var idle := demo.board_view._presentation_visual(player_id).get_node("ArtRoot/DefenderIdleSprite") as Sprite2D
 	check(idle.visible and not player.visible and (player.texture as AtlasTexture).atlas.resource_path.ends_with("defender_new.png"), "idle defender visible with authored still retained")
-	check(enemy.visible and enemy.flip_h and enemy.texture.resource_path.ends_with("defender_reference_v1.png"), "approved enemy defender visible mirrored")
-	# Проверяем отражение относительно опоры, а не случайного центра bbox.
-	check(is_equal_approx(enemy.position.x + (312.0 - 180.0) * enemy.scale.x, 0.0), "enemy feet retain reference support after mirror")
-	var enemy_transform := enemy.transform
+	var enemy_idle := demo.board_view._presentation_visual(enemy_id).get_node("ArtRoot/DefenderIdleSprite") as Sprite2D
+	check(enemy_idle.visible and not enemy.visible and enemy.scale.x < 0.0
+		and enemy.texture is AtlasTexture and (enemy.texture as AtlasTexture).atlas.resource_path.ends_with("defender_new.png"),
+		"enemy uses the shared mirrored Defender idle and still")
+	check(enemy_idle.scale.x < 0.0 and is_equal_approx(enemy_idle.position.x, 69.42)
+		and is_equal_approx(enemy_idle.position.x, -idle.position.x),
+		"enemy idle mirrors the allied idle around the same foot support")
+	var enemy_idle_transform := enemy_idle.transform
 	var assignments: Dictionary = {}
 	for visual: BattleDemoIsoVisual in demo.board_view._entity_visuals:
 		if visual.role != BattleDemoIsoVisual.Role.FLOOR or visual.is_void: continue
@@ -106,8 +110,8 @@ func live_battle() -> void:
 	check(demo.is_presentation_pending(), "real movement enters presentation")
 	if demo.is_presentation_pending():
 		demo._presentation_player._tween.pause()
-		var detached := demo.board_view._presentation_visual(enemy_id).get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D
-		check(detached.visible and detached.flip_h and detached.transform == enemy_transform, "detached playback retains enemy sprite and mirror")
+		var detached := demo.board_view._presentation_visual(enemy_id).get_node("ArtRoot/DefenderIdleSprite") as Sprite2D
+		check(detached.visible and detached.transform == enemy_idle_transform, "detached playback retains enemy idle frame and mirror")
 		demo.skip_presentation()
 	check(not demo.is_execution_pending() and demo.board_view._view_unit_cell(player_id) == Vector2i(1, 2), "movement publishes its final cell")
 	await capture("battle-after-move")
@@ -176,7 +180,9 @@ func field_sample() -> void:
 	board.show_presentation_state(value)
 	value.units[2].alive = false
 	board.show_presentation_state(value)
-	check(not (board._presentation_visual(2).get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D).visible, "enemy death hides mirrored artwork")
+	check(not (board._presentation_visual(2).get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D).visible
+		and not (board._presentation_visual(2).get_node("ArtRoot/DefenderIdleSprite") as Sprite2D).visible,
+		"enemy death hides the shared mirrored artwork")
 	# Убираем клетку с крупным пучком, чтобы проверить исчезновение всей текстуры.
 	check(void_cell != Vector2i(-1, -1), "decorated support exists for void check")
 	terrain[void_cell.y * 6 + void_cell.x] = TerrainType.Type.VOID

@@ -43,7 +43,7 @@ shader ошибки и ненулевые failed counts не маскируют�
 
 Выбор `current_art_zoom`, `art_trial_battle` или `battle_view_reuse` автоматически
 добавляет `visual_scene_contract`, `environment_visual_contract`, `unit_visual_contract`,
-`defender_idle_clock`, `defender_idle`, `defender_buff`,
+`defender_idle_clock`, `defender_idle`, `defender_buff`, `defender_death`, `defender_death_routes`,
 `presentation_consequences`, `presentation_environment`, `battle_camera_ui`, `battle_execution_ui`:
 защита от пересоздания поля и сбоев поз, ловушек, камеры и worker/ИИ при смене пресета.
 Прямой запуск только lifecycle:
@@ -57,6 +57,14 @@ skip/cancel/finish, refresh/resize/retire, опора/якоря и state/RNG/co
 `defender_buff` проверяет реальные успешные команды, 33 кадра/ритм, однократный
 показ до after, возврат idle, speed/skip/cancel/resize и отказы чужих событий/классов.
 `shieldbearer_ui` проверяет настоящий hover и click→worker→жест в HeroHub.
+Смерть/отражение: `python tools/demo/isolate.py --render-check --only defender_death defender_death_routes defender_idle defender_buff --screen 0`.
+`defender_death` проверяет ресурс и все 33 кадра, настоящий melee receipt/Tween,
+resize и публикацию after. `defender_death_routes` проверяет ranged/mage и
+одно-/многозвенные столкновения, before/тело, speed/skip/cancel/retire, fallback,
+исключения падения/обвала и неизменность state/RNG/counters/пакета показа.
+Смежные пути смерти проверяются `presentation_contact`, `presentation_ranged`,
+`presentation_mage`, `presentation_consequences`, `presentation_environment`;
+общий lifecycle — `visual_scene_contract` и `unit_visual_contract`.
 Счётчики/identity — hard gate, frame median/p95/max/>25ms — диагностика без
 машинозависимого порога PASS. [Контракт и границы](BATTLE_VISUAL_SCENE_CONTRACT.md).
 

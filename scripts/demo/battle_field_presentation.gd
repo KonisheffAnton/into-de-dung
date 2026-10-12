@@ -60,6 +60,11 @@ func sample_death(progress: float, board: BattleDemoBoard, id: int) -> void:
 	poses[id] = {"kind": &"death", "progress": progress}
 	var visual := board._presentation_visual(id)
 	if visual == null: return
+	var defender := visual as BattleDefenderIdleVisual
+	if defender != null and defender.can_play_death():
+		defender.sample_death(progress)
+		visual.modulate.a = 1.0
+		return
 	visual.death_progress = progress
 	visual.modulate.a = 1.0 - progress * 0.25
 

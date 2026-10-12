@@ -3,6 +3,7 @@ extends BattleManagedUnitVisual
 
 @export var idle_frames: SpriteFrames
 @export var buff_frames: SpriteFrames
+@export var death_frames: SpriteFrames
 @export_range(1, 120, 1) var idle_normal_cycles_min: int = 24
 @export_range(1, 120, 1) var idle_normal_cycles_max: int = 36
 
@@ -13,6 +14,7 @@ var _still_sprite: Sprite2D
 var _configured_min: int = -1
 var _configured_max: int = -1
 var _buff_elapsed: float = -1.0
+var _death_active: bool = false
 
 
 func _ready() -> void:
@@ -25,12 +27,26 @@ func _ready() -> void:
 
 func sync_scene_art() -> void:
 	super.sync_scene_art()
+	_still_sprite = get_node_or_null("ArtRoot/EnemyWarriorSprite" if unit != null and unit.faction == Faction.Type.ENEMY else "ArtRoot/PlayerWarriorSprite") as Sprite2D
 	if _idle_sprite == null or _still_sprite == null: return
+	# Отражаем рисунок вокруг прежней опоры ног, не HUD и не всю фигуру доски.
+	var mirrored := unit != null and unit.faction == Faction.Type.ENEMY
+	_idle_sprite.scale.x = -1.0 if mirrored else 1.0
+	_idle_sprite.position.x = 69.42 if mirrored else -69.42
+	if _death_active and can_play_death():
+		_idle_sprite.visible = true
+		_still_sprite.visible = false
+		set_process(false)
+		var art := get_node("ArtRoot") as Node2D
+		art.rotation = 0.0
+		art.scale.y = art.scale.x
+		_apply_clip_frame(death_frames, &"death", death_progress * death_duration())
+		return
 	if _buff_elapsed >= 0.0 and can_play_buff():
 		_idle_sprite.visible = true
 		_still_sprite.visible = false
 		set_process(false)
-		_apply_buff_frame()
+		_apply_clip_frame(buff_frames, &"buff", _buff_elapsed)
 		return
 	_buff_elapsed = -1.0
 	var available := _can_play_idle()
@@ -56,7 +72,7 @@ func _can_play_idle() -> bool:
 
 func _can_show_defender() -> bool:
 	return _still_sprite != null and is_inside_tree() and is_visible_in_tree() and role == Role.UNIT \
-		and unit != null and unit.alive and unit.faction == Faction.Type.PLAYER \
+		and unit != null and unit.alive and unit.faction in [Faction.Type.PLAYER, Faction.Type.ENEMY] \
 		and visual_class_id == &"warrior" and _still_sprite.texture != null \
 		and not frozen and not stunned and not summon_pending \
 		and action_offset == Vector2.ZERO and presentation_offset == Vector2.ZERO \
@@ -71,10 +87,34 @@ func can_play_buff() -> bool:
 
 func buff_duration() -> float:
 	if not can_play_buff(): return 0.0
+	return _clip_duration(buff_frames, &"buff")
+
+
+func can_play_death() -> bool:
+	# Оглушение/заморозка не отменяют подтверждённую смерть; падениями владеет доска.
+	return _idle_sprite != null and _still_sprite != null and _still_sprite.texture != null \
+		and is_inside_tree() and is_visible_in_tree() and role == Role.UNIT \
+		and unit != null and unit.alive and unit.faction in [Faction.Type.PLAYER, Faction.Type.ENEMY] \
+		and visual_class_id == &"warrior" and death_frames != null \
+		and death_frames.has_animation(&"death") and death_frames.get_frame_count(&"death") > 0 \
+		and death_frames.get_animation_speed(&"death") > 0.0
+
+
+func death_duration() -> float:
+	return _clip_duration(death_frames, &"death") if can_play_death() else 0.0
+
+
+func sample_death(progress: float) -> void:
+	_death_active = true
+	_buff_elapsed = -1.0
+	death_progress = progress
+
+
+static func _clip_duration(frames: SpriteFrames, animation: StringName) -> float:
 	var duration := 0.0
-	for frame: int in buff_frames.get_frame_count(&"buff"):
-		duration += buff_frames.get_frame_duration(&"buff", frame)
-	return duration / buff_frames.get_animation_speed(&"buff")
+	for frame: int in frames.get_frame_count(animation):
+		duration += frames.get_frame_duration(animation, frame)
+	return duration / frames.get_animation_speed(animation)
 
 
 func sample_buff(elapsed: float) -> void:
@@ -89,24 +129,25 @@ func clear_buff() -> void:
 	sync_scene_art()
 
 
-func _apply_buff_frame() -> void:
-	var remaining := _buff_elapsed * buff_frames.get_animation_speed(&"buff")
-	var last := buff_frames.get_frame_count(&"buff") - 1
+func _apply_clip_frame(frames: SpriteFrames, animation: StringName, elapsed: float) -> void:
+	var remaining := elapsed * frames.get_animation_speed(animation)
+	var last := frames.get_frame_count(animation) - 1
 	for frame: int in last + 1:
-		var duration := buff_frames.get_frame_duration(&"buff", frame)
+		var duration := frames.get_frame_duration(animation, frame)
 		if remaining < duration or frame == last:
-			_idle_sprite.texture = buff_frames.get_frame_texture(&"buff", frame)
+			_idle_sprite.texture = frames.get_frame_texture(animation, frame)
 			return
 		remaining -= duration
 
 
 func reset_view_pose() -> void:
+	_death_active = false
 	clear_buff()
 	super.reset_view_pose()
 
 
 func _process(delta: float) -> void:
-	if _buff_elapsed >= 0.0: return
+	if _buff_elapsed >= 0.0 or _death_active: return
 	if not _can_play_idle():
 		sync_scene_art()
 		return
@@ -129,6 +170,7 @@ func retire_view() -> void:
 
 
 func _exit_tree() -> void:
+	_death_active = false
 	_buff_elapsed = -1.0
 	set_process(false)
 	_idle_owner = UnitId.NONE

@@ -117,7 +117,13 @@ func _check_visual(demo: HeroHubBattleView, visual: BattleDefenderIdleVisual, se
 	var faction := visual.unit.faction
 	visual.unit.faction = Faction.Type.ENEMY
 	visual.sync_scene_art()
-	check(not idle.visible and (visual.get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D).visible, "enemy retains original mirrored still")
+	var enemy_still := visual.get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D
+	check(idle.visible and not enemy_still.visible and enemy_still.scale.x < 0.0
+		and idle.scale.x < 0.0, "enemy uses the mirrored Defender idle over the shared still")
+	check(visual.can_play_buff(), "enemy Defender admits the same buff clip")
+	visual.sample_buff(0.6)
+	check(idle.visible and idle.scale.x < 0.0 and not enemy_still.visible and not visual.is_processing(), "enemy buff replaces idle and keeps its mirror")
+	visual.clear_buff()
 	visual.unit.faction = faction
 	visual.visual_class_id = &"rogue"
 	visual.sync_scene_art()

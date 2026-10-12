@@ -66,6 +66,8 @@ class IsolateSelectionTests(unittest.TestCase):
                     "defender_idle": "DEFENDER IDLE RESULTS:",
                     "defender_idle_clock": "DEFENDER IDLE CLOCK RESULTS:",
                     "defender_buff": "DEFENDER BUFF RESULTS:",
+                    "defender_death": "DEFENDER DEATH RESULTS:",
+                    "defender_death_routes": "DEFENDER DEATH ROUTES RESULTS:",
                     "visual_scene_contract": "VISUAL SCENE CONTRACT RESULTS:",
                     "current_art_zoom": "CURRENT ART ZOOM RESULTS:",
                     "art_trial_battle": "ART TRIAL BATTLE RESULTS:",
@@ -272,6 +274,7 @@ class IsolateSelectionTests(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertEqual(calls, ["import", "startup", "environment_visual_contract", "unit_visual_contract",
                                  "defender_idle_clock", "defender_idle", "defender_buff",
+                                 "defender_death", "defender_death_routes",
                                  "visual_scene_contract", "art_trial_battle", "presentation_consequences",
                                  "presentation_environment", "battle_camera_ui", "battle_execution_ui"])
         self.assertEqual(timing["checks"]["visual_scene_contract"]["status"], "PASS")
@@ -285,7 +288,7 @@ class IsolateSelectionTests(unittest.TestCase):
         self.assertNotIn("visual_scene_contract PASS", output)
 
     def test_all_visual_gates_propagate_process_failures(self):
-        for label in ("environment_visual_contract", "unit_visual_contract", "visual_scene_contract", "defender_idle_clock", "defender_idle", "defender_buff",
+        for label in ("environment_visual_contract", "unit_visual_contract", "visual_scene_contract", "defender_idle_clock", "defender_idle", "defender_buff", "defender_death", "defender_death_routes",
                       "presentation_consequences", "presentation_environment", "battle_camera_ui", "battle_execution_ui"):
             with self.subTest(label=label):
                 code, calls, timing, output = self.exercise(

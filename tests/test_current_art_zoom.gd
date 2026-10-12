@@ -261,7 +261,12 @@ func _check_warrior_art() -> void:
 		elif visual.unit.faction == Faction.Type.ENEMY:
 			enemy_count += 1
 			var enemy_sprite := visual.get_node_or_null("ArtRoot/EnemyWarriorSprite") as Sprite2D
-			check(enemy_sprite != null and enemy_sprite.visible and enemy_sprite.flip_h and enemy_sprite.texture.resource_path.ends_with("defender_reference_v1.png"), "current enemy warrior keeps its faction artwork and mirror")
+			var enemy_idle := visual.get_node_or_null("ArtRoot/DefenderIdleSprite") as Sprite2D
+			var enemy_atlas: AtlasTexture = enemy_sprite.texture as AtlasTexture if enemy_sprite != null else null
+			check(enemy_sprite != null and not enemy_sprite.visible and enemy_idle != null and enemy_idle.visible
+				and enemy_sprite.scale.x < 0.0 and enemy_atlas != null
+				and enemy_atlas.atlas.resource_path.ends_with("defender_new.png"),
+				"current enemy warrior uses the mirrored shared Defender preset")
 	check(player_count > 0 and enemy_count > 0, "current encounter contains both warrior artwork factions")
 	check(nonwarrior_count > 0, "current encounter provides a nonwarrior scale control")
 

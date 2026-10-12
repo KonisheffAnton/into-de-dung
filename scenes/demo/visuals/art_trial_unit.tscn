@@ -1,8 +1,8 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/placeholder_unit.tscn" id="1_base"]
 [ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_field_v1/defender_new.png" id="2_player"]
-[ext_resource type="Texture2D" path="res://assets/art_presets/approved/grass_defender_v1/defender_reference_v1.png" id="3_enemy"]
+[ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/defender_death_v1/death_frames.tres" id="3_death"]
 [ext_resource type="Shader" path="res://assets/art_presets/trials/pixel_zoom_v1/native_sprite.gdshader" id="4_native"]
 [ext_resource type="Script" path="res://scripts/demo/battle_defender_idle_visual.gd" id="5_idle_script"]
 [ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/defender_idle_v1/idle_frames.tres" id="6_idle_frames"]
@@ -17,11 +17,6 @@ shader = ExtResource("4_native")
 shader_parameter/source_region = Vector4(89, 206, 1034, 966)
 shader_parameter/native_size = Vector2(77, 72)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_enemy"]
-shader = ExtResource("4_native")
-shader_parameter/source_region = Vector4(0, 0, 312, 292)
-shader_parameter/native_size = Vector2(78, 73)
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_idle"]
 shader = ExtResource("4_native")
 shader_parameter/source_region = Vector4(0, 0, 128, 128)
@@ -33,6 +28,7 @@ warrior_pick_rect = Rect2(-45, -66, 90, 83)
 warrior_art_scale = 0.8
 idle_frames = ExtResource("6_idle_frames")
 buff_frames = ExtResource("7_buff_frames")
+death_frames = ExtResource("3_death")
 
 [node name="PlayerWarriorSprite" parent="ArtRoot" index="1"]
 material = SubResource("ShaderMaterial_player")
@@ -41,11 +37,11 @@ scale = Vector2(0.0745342, 0.0745342)
 texture = SubResource("AtlasTexture_player")
 
 [node name="EnemyWarriorSprite" parent="ArtRoot" index="2"]
-material = SubResource("ShaderMaterial_enemy")
-position = Vector2(-33, -56)
-scale = Vector2(0.25, 0.25)
-flip_h = true
-texture = ExtResource("3_enemy")
+material = SubResource("ShaderMaterial_player")
+position = Vector2(44.42, -65.14)
+scale = Vector2(-0.0745342, 0.0745342)
+flip_h = false
+texture = SubResource("AtlasTexture_player")
 
 [node name="DefenderIdleSprite" type="Sprite2D" parent="ArtRoot" index="7"]
 visible = false

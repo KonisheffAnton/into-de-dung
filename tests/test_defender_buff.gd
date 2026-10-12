@@ -239,7 +239,7 @@ func test_matcher_gates_and_cleanup() -> void:
 		"event without matching command sequence is refused")
 	check(board._matching_defender_buff([{ "kind": &"guarded", "command_seq": step.command_seq,
 		"actor_unit_id": enemy_id, "target_unit_id": enemy_id }], step) == null,
-		"enemy cannot receive the allied buff")
+		"enemy without matching Defender class cannot receive its buff")
 	check(board._matching_defender_buff([{ "kind": &"guarded", "command_seq": step.command_seq,
 		"actor_unit_id": mage_id, "target_unit_id": mage_id }], step) == null,
 		"Mage cannot receive the Defender buff")

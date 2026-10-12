@@ -336,8 +336,9 @@ static func _impact_recoil(progress: float) -> float:
 	var fade_progress := (progress - 0.2) / 0.8
 	return cos(fade_progress * TAU) * pow(1.0 - fade_progress, 2.0)
 
-func _hit_recovery(progress: float, strike: Dictionary, dying: bool) -> void:
-	var amount := clampf(progress, 0.0, 1.0)
+func _hit_recovery(progress: float, strike: Dictionary, dying: bool, seconds: float = STRIKE_RECOVERY_SECONDS) -> void:
+	# Длинный клип жертвы не растягивает возврат атакующего и отдачу попадания.
+	var amount := clampf(progress * seconds / STRIKE_RECOVERY_SECONDS, 0.0, 1.0)
 	_strike_pose((0.0 if strike.get("presentation_ranged", false) else STRIKE_LUNGE_DISTANCE) * pow(1.0 - amount, 3.0), strike)
 	var recoil := _strike_direction(strike) * _impact_recoil(amount) * NORMAL_RECOIL_DISTANCE
 	if bool(strike.get("modifiers", {}).get("critical", false)):
@@ -669,6 +670,7 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 	var tween := create_tween()
 	var visible_event := false
 	var strike := _matching_strike(events, step)
+	var obstacle_deaths := _matching_obstacle_deaths(events) if strike.is_empty() else {}
 	var consequence_pulses: Dictionary = {}
 	var reaction_cues := BattleReactionPresentation.cues(events, step)
 	# Исторический источник тика может указывать на прежнюю клетку: подсвечиваем
@@ -697,7 +699,8 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 		tween.tween_callback(_hit_impact.bind(strike, impact_tint))
 		tween.tween_interval(HIT_STOP_SECONDS)
 		var dying := events.any(func(e: Dictionary) -> bool: return e.get("kind") == &"died" and e.get("target_unit_id") == strike.target_unit_id)
-		tween.tween_method(_hit_recovery.bind(strike, dying), 0.0, 1.0, STRIKE_RECOVERY_SECONDS)
+		var recovery_seconds := _death_seconds(int(strike.target_unit_id)) if dying else STRIKE_RECOVERY_SECONDS
+		tween.tween_method(_hit_recovery.bind(strike, dying, recovery_seconds), 0.0, 1.0, recovery_seconds)
 		visible_event = true
 	for event: Dictionary in events:
 		var kind := StringName(event.get("kind", &""))
@@ -711,7 +714,7 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			visible_event = true
 			continue
 		if kind == &"died":
-			if id in falling_ids or not strike.is_empty(): continue
+			if id in falling_ids or not strike.is_empty() or obstacle_deaths.has(id): continue
 			var cell := _view_unit_cell(id)
 			var origin: Vector2i = event.get("source", {}).get("origin_cell", cell)
 			if event.get("source", {}).get("kind") in [&"fall", &"cell"] and _view_terrain_at(origin) in [TerrainType.Type.VOID, TerrainType.Type.HAZARD]:
@@ -722,7 +725,7 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 					if prior.get("kind") == &"moved" and int(prior.get("target_unit_id", 0)) == id: cell = prior.to_cell
 				tween.tween_method(_field_presentation.sample_fall.bind(self, id, cell, origin, true), 0.0, 1.0, BattleFieldPresentation.FALL_SECONDS)
 			else:
-				tween.tween_method(_field_presentation.sample_death.bind(self, id), 0.0, 1.0, BattleFieldPresentation.DEATH_SECONDS)
+				tween.tween_method(_field_presentation.sample_death.bind(self, id), 0.0, 1.0, _death_seconds(id))
 			visible_event = true
 			continue
 		# Расход уже объяснён единственным клипом действия; это не ещё одно попадание.
@@ -736,8 +739,21 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			var obstacle_event := event.duplicate(true)
 			tween.tween_method(_obstacle_approach.bind(obstacle_event), 0.0, 1.0, OBSTACLE_APPROACH_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 			tween.tween_callback(_obstacle_impact.bind(obstacle_event))
-			tween.tween_interval(OBSTACLE_HOLD_SECONDS)
-			tween.tween_method(_obstacle_recovery.bind(obstacle_event), 0.0, 1.0, OBSTACLE_RECOVERY_SECONDS)
+			var deaths: Dictionary = {}
+			var hold_seconds := OBSTACLE_HOLD_SECONDS
+			for participant: int in [id, int(event.get("blocker_unit_id", UnitId.NONE))]:
+				if obstacle_deaths.has(participant):
+					deaths[participant] = obstacle_deaths[participant]
+					hold_seconds = maxf(hold_seconds, float(deaths[participant]))
+			tween.tween_interval(hold_seconds)
+			if deaths.is_empty():
+				tween.tween_method(_obstacle_recovery.bind(obstacle_event), 0.0, 1.0, OBSTACLE_RECOVERY_SECONDS)
+			else:
+				# Одиночная пара начинает смерть от контакта, как общая цепочка;
+				# живые тела возвращаются в прежнем темпе параллельно клипу жертвы.
+				tween.parallel().tween_method(_obstacle_recovery.bind(obstacle_event), 0.0, 1.0, OBSTACLE_RECOVERY_SECONDS).set_delay(OBSTACLE_HOLD_SECONDS)
+				for victim: int in deaths:
+					tween.parallel().tween_method(_field_presentation.sample_death.bind(self, victim), 0.0, 1.0, float(deaths[victim]))
 			visible_event = true
 			continue
 		if kind in [&"balance_changed", &"balance_broken", &"chain_link"]:
@@ -780,6 +796,8 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			visible_event = true
 			continue
 		if kind in [&"damaged", &"healed", &"armor_changed", &"hit_resolved"]:
+			# Контакт уже показал эту пару: после смерти не запускаем новый импульс урона.
+			if not obstacle_deaths.is_empty() and event.get("source", {}).get("kind") == &"collision": continue
 			# Несколько технических записей попадания не создают повторную отдачу.
 			if strike.is_empty() and hazard.x < 0 and event.get("source", {}).get("kind") != &"fall" and kind in [&"damaged", &"healed"]:
 				tween.tween_method(_presentation_pulse.bind(id, false, false), 0.0, 1.0, 0.16)
@@ -806,6 +824,22 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			visible_event = true
 	if not visible_event: tween.tween_interval(0.035)
 	return tween
+
+func _death_seconds(id: int, fallback: float = BattleFieldPresentation.DEATH_SECONDS) -> float:
+	var visual := _presentation_visual(id) as BattleDefenderIdleVisual
+	return visual.death_duration() if visual != null and visual.can_play_death() else fallback
+
+func _matching_obstacle_deaths(events: Array) -> Dictionary:
+	var deaths: Dictionary = {}
+	for event: Dictionary in events:
+		if event.get("kind") not in [&"collision", &"push_blocked"]: continue
+		for result: Dictionary in events:
+			var id := int(result.get("target_unit_id", UnitId.NONE))
+			if result.get("kind") != &"died" or result.get("source", {}).get("kind") != &"collision": continue
+			if id not in [int(event.get("target_unit_id", UnitId.NONE)), int(event.get("blocker_unit_id", UnitId.NONE))]: continue
+			var seconds := _death_seconds(id, 0.0)
+			if seconds > 0.0: deaths[id] = seconds
+	return deaths
 
 func _matching_defender_buff(events: Array, step: Dictionary) -> BattleDefenderIdleVisual:
 	if step.get("status") != &"APPLIED": return null
@@ -947,13 +981,15 @@ func _animate_mage_frame(events: Array, cast: Dictionary) -> Tween:
 			tween.tween_callback(_begin_support_contact)
 			tween.tween_method(_sample_support.bind(&"contact"), 0.0, 1.0, 0.20)
 		tween.tween_callback(_mage_contact.bind(cast, spell))
-		tween.tween_method(_sample_mage.bind(&"contact"), 0.0, 1.0, 0.20)
+		var contact_seconds := _death_seconds(target_id) if _mage_dying else 0.20
+		tween.tween_method(_sample_mage.bind(&"contact", contact_seconds), 0.0, 1.0, contact_seconds)
 	return tween
 
-func _sample_mage(progress: float, phase: StringName) -> void:
-	if is_instance_valid(_mage_effect): _update_mage_geometry(phase, progress)
+func _sample_mage(progress: float, phase: StringName, seconds: float = 0.20) -> void:
+	var effect_progress := clampf(progress * seconds / 0.20, 0.0, 1.0) if phase == &"contact" else progress
+	if is_instance_valid(_mage_effect): _update_mage_geometry(phase, effect_progress)
 	if phase == &"contact" and _mage_spell_id == &"mage.fire":
-		_set_action_offset(_mage_target_id, _mage_recoil_direction * 7.0 * sin(progress * PI) * (1.0 - progress))
+		_set_action_offset(_mage_target_id, _mage_recoil_direction * 7.0 * sin(effect_progress * PI) * (1.0 - effect_progress))
 		if _mage_dying:
 			_field_presentation.sample_death(progress, self, _mage_target_id)
 

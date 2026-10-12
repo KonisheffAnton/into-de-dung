@@ -98,8 +98,12 @@ func animate(board: BattleDemoBoard, group: Array[Dictionary], started: Callable
 			var vanish := _vanishes(item.frame, event)
 			var falling: bool = vanish or (moving and board._is_presentation_drop(event.from_cell, event.to_cell))
 			var motion_seconds := BattleFieldPresentation.FALL_SECONDS + (0.0 if vanish else BattleFieldPresentation.LAND_SECONDS) if falling else BattleDemoBoard.FORCED_MOVE_SEGMENT_SECONDS
-			var end := cursor + (motion_seconds if moving else BattleDemoBoard.OBSTACLE_APPROACH_SECONDS + BattleDemoBoard.OBSTACLE_HOLD_SECONDS)
-			_clips.append({"event": event, "events": item.frame.events, "start": cursor, "end": end, "incoming": incoming, "falling": falling, "vanish": vanish})
+			var death_seconds := BattleDemoBoard.OBSTACLE_HOLD_SECONDS
+			if not moving:
+				for result: Dictionary in item.frame.events:
+					if result.kind == &"died": death_seconds = maxf(death_seconds, board._death_seconds(int(result.target_unit_id), BattleDemoBoard.OBSTACLE_HOLD_SECONDS))
+			var end := cursor + (motion_seconds if moving else BattleDemoBoard.OBSTACLE_APPROACH_SECONDS + death_seconds)
+			_clips.append({"event": event, "events": item.frame.events, "start": cursor, "end": end, "death_seconds": death_seconds, "incoming": incoming, "falling": falling, "vanish": vanish})
 			if not moving:
 				_cues.append({"time": cursor + BattleDemoBoard.OBSTACLE_APPROACH_SECONDS, "kind": &"contact", "event": event})
 				duration = maxf(duration, end + BattleDemoBoard.OBSTACLE_RECOVERY_SECONDS)
@@ -151,7 +155,7 @@ func _pose(time: float) -> void:
 		var direction := _board._obstacle_direction(event)
 		var contact := float(clip.start) + BattleDemoBoard.OBSTACLE_APPROACH_SECONDS
 		var approach := clampf((time - float(clip.start)) / BattleDemoBoard.OBSTACLE_APPROACH_SECONDS, 0.0, 1.0)
-		var amount := _decay(time, float(clip.end))
+		var amount := _decay(time, contact + BattleDemoBoard.OBSTACLE_HOLD_SECONDS)
 		# Более позднее звено владеет позой своего тела: хвост предыдущей пары
 		# не перетирает новый разгон и не сбрасывает полученные 10 px в ноль.
 		offsets[id] = (clip.incoming as Vector2).lerp(direction * 28.0, pow(approach, 3.0)) if time < contact else direction * 28.0 * amount
@@ -160,6 +164,7 @@ func _pose(time: float) -> void:
 		if time >= contact and time < float(clip.end):
 			for result: Dictionary in clip.events:
 				if result.kind != &"died": continue
-				_board._field_presentation.sample_death((time - contact) / BattleDemoBoard.OBSTACLE_HOLD_SECONDS, _board, int(result.target_unit_id))
+				var seconds := _board._death_seconds(int(result.target_unit_id), BattleDemoBoard.OBSTACLE_HOLD_SECONDS)
+				_board._field_presentation.sample_death(clampf((time - contact) / seconds, 0.0, 1.0), _board, int(result.target_unit_id))
 	for id: int in offsets:
 		_board._set_action_offset(id, offsets[id] if _board._obstacle_participant_alive(id) else Vector2.ZERO)
