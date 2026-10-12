@@ -1,0 +1,2463 @@
+{
+  "method": "Manual restoration from original PNG beard colors; preserve one-row mouth aperture and expression elsewhere.",
+  "provider_requests": 0,
+  "source_frames": 33,
+  "frames": [
+    {
+      "frame": 1,
+      "source_sha256": "51044cdd6399065209e1a0c801672b8e7e27380ebb210dc81ce12bd5144fdde0",
+      "previous_sha256": "51044cdd6399065209e1a0c801672b8e7e27380ebb210dc81ce12bd5144fdde0",
+      "output_sha256": "51044cdd6399065209e1a0c801672b8e7e27380ebb210dc81ce12bd5144fdde0",
+      "restored_beard_pixels": 0,
+      "changed_pixels": [],
+      "mouth_aperture": null,
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 2,
+      "source_sha256": "fc41653a07e31b4d5aa438048406e3ec58e672c50f09e9e50d02152a6f7bf4d4",
+      "previous_sha256": "0351e614b784bba829438b704e79c14476f12d9c883c1d46dab9dd0433777a0c",
+      "output_sha256": "30b4dfb16ead74eb571ab95598f3d273f31bb6882ebf05291ee817264a6f277c",
+      "restored_beard_pixels": 29,
+      "changed_pixels": [
+        [
+          72,
+          42
+        ],
+        [
+          73,
+          43
+        ],
+        [
+          73,
+          44
+        ],
+        [
+          64,
+          45
+        ],
+        [
+          70,
+          45
+        ],
+        [
+          71,
+          45
+        ],
+        [
+          72,
+          45
+        ],
+        [
+          73,
+          45
+        ],
+        [
+          69,
+          46
+        ],
+        [
+          70,
+          46
+        ],
+        [
+          66,
+          47
+        ],
+        [
+          68,
+          48
+        ],
+        [
+          70,
+          48
+        ],
+        [
+          71,
+          48
+        ],
+        [
+          69,
+          49
+        ],
+        [
+          70,
+          49
+        ],
+        [
+          71,
+          49
+        ]
+      ],
+      "mouth_aperture": [
+        68,
+        47,
+        73,
+        48
+      ],
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 3,
+      "source_sha256": "784ee2202bffe09b45538cb1e6db353c889aa5e14e51d58b2ee4e4fe7c4a832d",
+      "previous_sha256": "7aa94445991b8cae092292da8031122c9434707cd5e0b92c9237d74594088458",
+      "output_sha256": "06bd86e094633fb3a0c954686bfbbdafa20f572359ce1b7cc61fb8c84381989d",
+      "restored_beard_pixels": 31,
+      "changed_pixels": [
+        [
+          66,
+          48
+        ],
+        [
+          67,
+          49
+        ],
+        [
+          67,
+          50
+        ],
+        [
+          64,
+          51
+        ],
+        [
+          66,
+          51
+        ],
+        [
+          67,
+          51
+        ],
+        [
+          62,
+          52
+        ],
+        [
+          63,
+          52
+        ],
+        [
+          64,
+          52
+        ],
+        [
+          57,
+          53
+        ],
+        [
+          60,
+          53
+        ],
+        [
+          61,
+          54
+        ],
+        [
+          62,
+          54
+        ],
+        [
+          64,
+          54
+        ],
+        [
+          65,
+          54
+        ],
+        [
+          60,
+          55
+        ],
+        [
+          61,
+          55
+        ],
+        [
+          62,
+          55
+        ],
+        [
+          63,
+          55
+        ],
+        [
+          67,
+          55
+        ]
+      ],
+      "mouth_aperture": [
+        62,
+        53,
+        67,
+        54
+      ],
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 4,
+      "source_sha256": "dca836b49ada6352daaafab3ccabb9201fe371ec19a38dc51131c09fd8fd3c70",
+      "previous_sha256": "ed8d2b4e6921ac15a5d6f3c7bce5cd4c838ee15fc64fd5a72f3a75010e57db61",
+      "output_sha256": "b6263f956a27a407d00af23665a466ccad9bb2fc65d0d4ce28a259eef1ef4f30",
+      "restored_beard_pixels": 30,
+      "changed_pixels": [
+        [
+          65,
+          53
+        ],
+        [
+          66,
+          54
+        ],
+        [
+          66,
+          55
+        ],
+        [
+          63,
+          56
+        ],
+        [
+          64,
+          56
+        ],
+        [
+          65,
+          56
+        ],
+        [
+          66,
+          56
+        ],
+        [
+          61,
+          57
+        ],
+        [
+          62,
+          57
+        ],
+        [
+          63,
+          57
+        ],
+        [
+          59,
+          58
+        ],
+        [
+          60,
+          59
+        ],
+        [
+          61,
+          59
+        ],
+        [
+          63,
+          59
+        ],
+        [
+          64,
+          59
+        ],
+        [
+          61,
+          60
+        ]
+      ],
+      "mouth_aperture": [
+        61,
+        58,
+        65,
+        59
+      ],
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 5,
+      "source_sha256": "921718ee4b04821d96d5a0171c5954e4a477cd5256bdd3bbfd099f21444c1667",
+      "previous_sha256": "a361129cd46c82e030bda660da3c23336e474a75739540befea6c6ad6a5dda16",
+      "output_sha256": "883c992af3486dc90a50f0fc263f5c78786d3b53b762d9f1d8db438be9618cae",
+      "restored_beard_pixels": 30,
+      "changed_pixels": [
+        [
+          65,
+          54
+        ],
+        [
+          66,
+          55
+        ],
+        [
+          66,
+          56
+        ],
+        [
+          63,
+          57
+        ],
+        [
+          65,
+          57
+        ],
+        [
+          66,
+          57
+        ],
+        [
+          61,
+          58
+        ],
+        [
+          63,
+          58
+        ],
+        [
+          59,
+          59
+        ],
+        [
+          65,
+          59
+        ],
+        [
+          60,
+          60
+        ],
+        [
+          61,
+          60
+        ],
+        [
+          63,
+          60
+        ],
+        [
+          64,
+          60
+        ],
+        [
+          63,
+          61
+        ],
+        [
+          64,
+          61
+        ]
+      ],
+      "mouth_aperture": [
+        61,
+        59,
+        65,
+        60
+      ],
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 6,
+      "source_sha256": "42af56fb6975c29a075b88800da933c6c45c0e9ed823f1f301a8d91815420e34",
+      "previous_sha256": "71a8339e95c3fee28a704dfd0fb805d87a4fb40dfa7cac125979bfb2cac241c6",
+      "output_sha256": "1596a88930629dbe8324a13c672bf2259d0393db99570d197ecef146fb6059dd",
+      "restored_beard_pixels": 30,
+      "changed_pixels": [
+        [
+          65,
+          52
+        ],
+        [
+          66,
+          53
+        ],
+        [
+          66,
+          54
+        ],
+        [
+          57,
+          55
+        ],
+        [
+          64,
+          55
+        ],
+        [
+          65,
+          55
+        ],
+        [
+          66,
+          55
+        ],
+        [
+          61,
+          56
+        ],
+        [
+          62,
+          56
+        ],
+        [
+          63,
+          56
+        ],
+        [
+          59,
+          57
+        ],
+        [
+          60,
+          58
+        ],
+        [
+          61,
+          58
+        ],
+        [
+          63,
+          58
+        ],
+        [
+          64,
+          58
+        ],
+        [
+          60,
+          59
+        ],
+        [
+          64,
+          59
+        ]
+      ],
+      "mouth_aperture": [
+        61,
+        57,
+        65,
+        58
+      ],
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 7,
+      "source_sha256": "13658ec419a48af224ff4660b7ea56c05aaf9c9435e7c3fa423291db953b73d1",
+      "previous_sha256": "cf12dc78bbf1ec2beb3af26a2a2f6217dc1bb0aee54db0f7b87089340f4ab76d",
+      "output_sha256": "66bc01daa0e05f6f052ad1c5e6ce4ae4e58149dd4f3dfc71f3b72fda596fbfe6",
+      "restored_beard_pixels": 31,
+      "changed_pixels": [
+        [
+          65,
+          51
+        ],
+        [
+          66,
+          52
+        ],
+        [
+          66,
+          53
+        ],
+        [
+          64,
+          54
+        ],
+        [
+          65,
+          54
+        ],
+        [
+          66,
+          54
+        ],
+        [
+          58,
+          55
+        ],
+        [
+          61,
+          55
+        ],
+        [
+          62,
+          55
+        ],
+        [
+          63,
+          55
+        ],
+        [
+          57,
+          56
+        ],
+        [
+          58,
+          56
+        ],
+        [
+          59,
+          56
+        ],
+        [
+          65,
+          56
+        ],
+        [
+          57,
+          57
+        ],
+        [
+          58,
+          57
+        ],
+        [
+          59,
+          57
+        ],
+        [
+          60,
+          57
+        ],
+        [
+          61,
+          57
+        ],
+        [
+          63,
+          57
+        ],
+        [
+          64,
+          57
+        ],
+        [
+          59,
+          58
+        ],
+        [
+          60,
+          58
+        ],
+        [
+          61,
+          58
+        ],
+        [
+          62,
+          58
+        ],
+        [
+          63,
+          58
+        ],
+        [
+          64,
+          58
+        ]
+      ],
+      "mouth_aperture": [
+        60,
+        56,
+        65,
+        57
+      ],
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 8,
+      "source_sha256": "5ca0a95465d1ffb2606c447fbbdde220091883fbe04160176105f461b9933fd6",
+      "previous_sha256": "fe0e2f3bdb47a6e22e1bca1d4aefea2bd79675c8b9661a8bf15b7b6d5f9352d7",
+      "output_sha256": "768ae2dc137c46d710cf8cbcebc307cb4a6f030327dc23c9171cc0095399f09d",
+      "restored_beard_pixels": 31,
+      "changed_pixels": [
+        [
+          65,
+          51
+        ],
+        [
+          66,
+          52
+        ],
+        [
+          66,
+          53
+        ],
+        [
+          64,
+          54
+        ],
+        [
+          65,
+          54
+        ],
+        [
+          66,
+          54
+        ],
+        [
+          58,
+          55
+        ],
+        [
+          61,
+          55
+        ],
+        [
+          62,
+          55
+        ],
+        [
+          63,
+          55
+        ],
+        [
+          57,
+          56
+        ],
+        [
+          58,
+          56
+        ],
+        [
+          59,
+          56
+        ],
+        [
+          65,
+          56
+        ],
+        [
+          57,
+          57
+        ],
+        [
+          58,
+          57
+        ],
+        [
+          59,
+          57
+        ],
+        [
+          60,
+          57
+        ],
+        [
+          61,
+          57
+        ],
+        [
+          63,
+          57
+        ],
+        [
+          64,
+          57
+        ],
+        [
+          59,
+          58
+        ],
+        [
+          60,
+          58
+        ],
+        [
+          61,
+          58
+        ],
+        [
+          62,
+          58
+        ],
+        [
+          63,
+          58
+        ],
+        [
+          64,
+          58
+        ]
+      ],
+      "mouth_aperture": [
+        60,
+        56,
+        65,
+        57
+      ],
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 9,
+      "source_sha256": "7a4a321f23eff6e117cdb91803fba4a62abc9923bc844ffa2b0c7c499de4edcf",
+      "previous_sha256": "c2453bc9866a42f0aad4a6b03fbd8e44d89f4529b76a9f5daf7870b277a20118",
+      "output_sha256": "a9af895e710d2b78db619f81dc6ae6c301996f4b6a83e8c029d78711e89bbcb0",
+      "restored_beard_pixels": 31,
+      "changed_pixels": [
+        [
+          65,
+          51
+        ],
+        [
+          66,
+          52
+        ],
+        [
+          66,
+          53
+        ],
+        [
+          64,
+          54
+        ],
+        [
+          65,
+          54
+        ],
+        [
+          66,
+          54
+        ],
+        [
+          58,
+          55
+        ],
+        [
+          61,
+          55
+        ],
+        [
+          62,
+          55
+        ],
+        [
+          63,
+          55
+        ],
+        [
+          57,
+          56
+        ],
+        [
+          58,
+          56
+        ],
+        [
+          59,
+          56
+        ],
+        [
+          65,
+          56
+        ],
+        [
+          57,
+          57
+        ],
+        [
+          58,
+          57
+        ],
+        [
+          59,
+          57
+        ],
+        [
+          60,
+          57
+        ],
+        [
+          61,
+          57
+        ],
+        [
+          63,
+          57
+        ],
+        [
+          64,
+          57
+        ],
+        [
+          59,
+          58
+        ],
+        [
+          60,
+          58
+        ],
+        [
+          61,
+          58
+        ],
+        [
+          62,
+          58
+        ],
+        [
+          63,
+          58
+        ],
+        [
+          64,
+          58
+        ]
+      ],
+      "mouth_aperture": [
+        60,
+        56,
+        65,
+        57
+      ],
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 10,
+      "source_sha256": "5f05c56d21ad09c7636c7eb2d4446529f493d4b2c610055a78f84f8701641e97",
+      "previous_sha256": "0b7e429351afac9dc2276ddd870d8a481d92100e870d2b78dcaedba4b816f39d",
+      "output_sha256": "4c0e8575e98047faf1e5969d0b635e473e972c43cac3f467870eec06ca18756f",
+      "restored_beard_pixels": 31,
+      "changed_pixels": [
+        [
+          65,
+          51
+        ],
+        [
+          66,
+          52
+        ],
+        [
+          66,
+          53
+        ],
+        [
+          64,
+          54
+        ],
+        [
+          65,
+          54
+        ],
+        [
+          66,
+          54
+        ],
+        [
+          58,
+          55
+        ],
+        [
+          61,
+          55
+        ],
+        [
+          62,
+          55
+        ],
+        [
+          63,
+          55
+        ],
+        [
+          57,
+          56
+        ],
+        [
+          58,
+          56
+        ],
+        [
+          59,
+          56
+        ],
+        [
+          65,
+          56
+        ],
+        [
+          57,
+          57
+        ],
+        [
+          58,
+          57
+        ],
+        [
+          59,
+          57
+        ],
+        [
+          60,
+          57
+        ],
+        [
+          61,
+          57
+        ],
+        [
+          63,
+          57
+        ],
+        [
+          64,
+          57
+        ],
+        [
+          59,
+          58
+        ],
+        [
+          60,
+          58
+        ],
+        [
+          61,
+          58
+        ],
+        [
+          62,
+          58
+        ],
+        [
+          63,
+          58
+        ],
+        [
+          64,
+          58
+        ]
+      ],
+      "mouth_aperture": [
+        60,
+        56,
+        65,
+        57
+      ],
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 11,
+      "source_sha256": "8e0198c67b73bb616923522766a8c5c639caa7032dd89fdcdfe66542887e5f3f",
+      "previous_sha256": "160ffb5827c1bd6fd098a5d8f916752e832e92b1863ca6f6790bbc3401a998f0",
+      "output_sha256": "7848f26877a214ddd7051da744a947b808d80062886c1121a405449b85430c71",
+      "restored_beard_pixels": 31,
+      "changed_pixels": [
+        [
+          65,
+          51
+        ],
+        [
+          66,
+          52
+        ],
+        [
+          66,
+          53
+        ],
+        [
+          64,
+          54
+        ],
+        [
+          65,
+          54
+        ],
+        [
+          66,
+          54
+        ],
+        [
+          58,
+          55
+        ],
+        [
+          61,
+          55
+        ],
+        [
+          62,
+          55
+        ],
+        [
+          63,
+          55
+        ],
+        [
+          57,
+          56
+        ],
+        [
+          58,
+          56
+        ],
+        [
+          59,
+          56
+        ],
+        [
+          65,
+          56
+        ],
+        [
+          57,
+          57
+        ],
+        [
+          58,
+          57
+        ],
+        [
+          59,
+          57
+        ],
+        [
+          60,
+          57
+        ],
+        [
+          61,
+          57
+        ],
+        [
+          63,
+          57
+        ],
+        [
+          64,
+          57
+        ],
+        [
+          59,
+          58
+        ],
+        [
+          60,
+          58
+        ],
+        [
+          61,
+          58
+        ],
+        [
+          62,
+          58
+        ],
+        [
+          63,
+          58
+        ],
+        [
+          64,
+          58
+        ]
+      ],
+      "mouth_aperture": [
+        60,
+        56,
+        65,
+        57
+      ],
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 12,
+      "source_sha256": "5a702b03e3bb5bc18a15ad30f6cbdad443ac8007dcca447b6053a14569213901",
+      "previous_sha256": "b2bdb058df00aaab951dfee8fcb164625d463296f89ace3840cdccfb6bfe3dc1",
+      "output_sha256": "2d88039ba2af570e5de908f86cbdb9194aa429e7c2306d244d7662e69d33dd95",
+      "restored_beard_pixels": 31,
+      "changed_pixels": [
+        [
+          65,
+          51
+        ],
+        [
+          66,
+          52
+        ],
+        [
+          66,
+          53
+        ],
+        [
+          64,
+          54
+        ],
+        [
+          65,
+          54
+        ],
+        [
+          66,
+          54
+        ],
+        [
+          58,
+          55
+        ],
+        [
+          61,
+          55
+        ],
+        [
+          62,
+          55
+        ],
+        [
+          63,
+          55
+        ],
+        [
+          57,
+          56
+        ],
+        [
+          58,
+          56
+        ],
+        [
+          59,
+          56
+        ],
+        [
+          65,
+          56
+        ],
+        [
+          57,
+          57
+        ],
+        [
+          58,
+          57
+        ],
+        [
+          59,
+          57
+        ],
+        [
+          60,
+          57
+        ],
+        [
+          61,
+          57
+        ],
+        [
+          63,
+          57
+        ],
+        [
+          64,
+          57
+        ],
+        [
+          59,
+          58
+        ],
+        [
+          60,
+          58
+        ],
+        [
+          61,
+          58
+        ],
+        [
+          62,
+          58
+        ],
+        [
+          63,
+          58
+        ],
+        [
+          64,
+          58
+        ]
+      ],
+      "mouth_aperture": [
+        60,
+        56,
+        65,
+        57
+      ],
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 13,
+      "source_sha256": "3a1dd18f1029618191a42e63334f4c1d940a181e600257a53238818157779df2",
+      "previous_sha256": "348bdbaf648665cd096b29a08bbcbf501be6df421e2a2dfe0286ff6b507d0f5e",
+      "output_sha256": "9d0be0c285210ead48af7a9788fad7d56dcafffc19c7d7c977baf14120d22eb8",
+      "restored_beard_pixels": 31,
+      "changed_pixels": [
+        [
+          65,
+          51
+        ],
+        [
+          66,
+          52
+        ],
+        [
+          66,
+          53
+        ],
+        [
+          64,
+          54
+        ],
+        [
+          65,
+          54
+        ],
+        [
+          66,
+          54
+        ],
+        [
+          58,
+          55
+        ],
+        [
+          61,
+          55
+        ],
+        [
+          62,
+          55
+        ],
+        [
+          63,
+          55
+        ],
+        [
+          57,
+          56
+        ],
+        [
+          58,
+          56
+        ],
+        [
+          59,
+          56
+        ],
+        [
+          65,
+          56
+        ],
+        [
+          57,
+          57
+        ],
+        [
+          58,
+          57
+        ],
+        [
+          59,
+          57
+        ],
+        [
+          60,
+          57
+        ],
+        [
+          61,
+          57
+        ],
+        [
+          63,
+          57
+        ],
+        [
+          64,
+          57
+        ],
+        [
+          59,
+          58
+        ],
+        [
+          60,
+          58
+        ],
+        [
+          61,
+          58
+        ],
+        [
+          62,
+          58
+        ],
+        [
+          63,
+          58
+        ],
+        [
+          64,
+          58
+        ]
+      ],
+      "mouth_aperture": [
+        60,
+        56,
+        65,
+        57
+      ],
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 14,
+      "source_sha256": "a307883bf7019c4bf4ebcb6bb18df2672e1440646489f5be2a831ea4585c5e71",
+      "previous_sha256": "1cb143ec4be853dbf2c3c90d4806e6c2e400ba65dcaeaf619e96a130c39ee983",
+      "output_sha256": "a3ef30f475598f92d08ca40adfa32377c95c983a8e6ffa90e60b2979132ebc79",
+      "restored_beard_pixels": 31,
+      "changed_pixels": [
+        [
+          65,
+          51
+        ],
+        [
+          66,
+          52
+        ],
+        [
+          66,
+          53
+        ],
+        [
+          57,
+          54
+        ],
+        [
+          63,
+          54
+        ],
+        [
+          64,
+          54
+        ],
+        [
+          65,
+          54
+        ],
+        [
+          66,
+          54
+        ],
+        [
+          57,
+          55
+        ],
+        [
+          58,
+          55
+        ],
+        [
+          61,
+          55
+        ],
+        [
+          62,
+          55
+        ],
+        [
+          63,
+          55
+        ],
+        [
+          56,
+          56
+        ],
+        [
+          57,
+          56
+        ],
+        [
+          58,
+          56
+        ],
+        [
+          59,
+          56
+        ],
+        [
+          65,
+          56
+        ],
+        [
+          57,
+          57
+        ],
+        [
+          58,
+          57
+        ],
+        [
+          59,
+          57
+        ],
+        [
+          60,
+          57
+        ],
+        [
+          61,
+          57
+        ],
+        [
+          63,
+          57
+        ],
+        [
+          64,
+          57
+        ],
+        [
+          59,
+          58
+        ],
+        [
+          60,
+          58
+        ],
+        [
+          61,
+          58
+        ],
+        [
+          62,
+          58
+        ],
+        [
+          63,
+          58
+        ],
+        [
+          64,
+          58
+        ]
+      ],
+      "mouth_aperture": [
+        60,
+        56,
+        65,
+        57
+      ],
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 15,
+      "source_sha256": "f9c85bbf9c651d3d9ad1cf01140c04cb4e35f6d3b70c0df8769996ac1d16b67e",
+      "previous_sha256": "2ca237351cafc893ffba7bbb553de69c8eef1253715a11d368c73c7797d0d60a",
+      "output_sha256": "1bd55447feaa142d25681fd4af895bfe7fbe168dab2164ca70bdddbc1918e6b7",
+      "restored_beard_pixels": 31,
+      "changed_pixels": [
+        [
+          65,
+          51
+        ],
+        [
+          66,
+          52
+        ],
+        [
+          66,
+          53
+        ],
+        [
+          57,
+          54
+        ],
+        [
+          63,
+          54
+        ],
+        [
+          64,
+          54
+        ],
+        [
+          65,
+          54
+        ],
+        [
+          66,
+          54
+        ],
+        [
+          57,
+          55
+        ],
+        [
+          58,
+          55
+        ],
+        [
+          61,
+          55
+        ],
+        [
+          62,
+          55
+        ],
+        [
+          63,
+          55
+        ],
+        [
+          56,
+          56
+        ],
+        [
+          57,
+          56
+        ],
+        [
+          58,
+          56
+        ],
+        [
+          59,
+          56
+        ],
+        [
+          65,
+          56
+        ],
+        [
+          57,
+          57
+        ],
+        [
+          58,
+          57
+        ],
+        [
+          59,
+          57
+        ],
+        [
+          60,
+          57
+        ],
+        [
+          61,
+          57
+        ],
+        [
+          63,
+          57
+        ],
+        [
+          64,
+          57
+        ],
+        [
+          59,
+          58
+        ],
+        [
+          60,
+          58
+        ],
+        [
+          61,
+          58
+        ],
+        [
+          62,
+          58
+        ],
+        [
+          63,
+          58
+        ],
+        [
+          64,
+          58
+        ]
+      ],
+      "mouth_aperture": [
+        60,
+        56,
+        65,
+        57
+      ],
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 16,
+      "source_sha256": "7359c5b6c1c1bf8518e49fb747522cfb8cbf43c5e60d97a25590aa11c474c0af",
+      "previous_sha256": "d87d98efe50a3efad0487f31b5225bec4e7200b4bcbc2f5fb7f909f5884a4ac3",
+      "output_sha256": "ef8973c78f148491e7668c45406dd432c9a06f93fe26fd421d52a8cf5cdb3d42",
+      "restored_beard_pixels": 30,
+      "changed_pixels": [
+        [
+          65,
+          53
+        ],
+        [
+          66,
+          55
+        ],
+        [
+          57,
+          56
+        ],
+        [
+          63,
+          56
+        ],
+        [
+          64,
+          56
+        ],
+        [
+          65,
+          56
+        ],
+        [
+          66,
+          56
+        ],
+        [
+          57,
+          57
+        ],
+        [
+          58,
+          57
+        ],
+        [
+          61,
+          57
+        ],
+        [
+          62,
+          57
+        ],
+        [
+          63,
+          57
+        ],
+        [
+          56,
+          58
+        ],
+        [
+          58,
+          58
+        ],
+        [
+          59,
+          58
+        ],
+        [
+          65,
+          58
+        ],
+        [
+          60,
+          59
+        ],
+        [
+          61,
+          59
+        ],
+        [
+          63,
+          59
+        ],
+        [
+          64,
+          59
+        ],
+        [
+          59,
+          60
+        ],
+        [
+          61,
+          60
+        ],
+        [
+          62,
+          60
+        ],
+        [
+          63,
+          60
+        ],
+        [
+          64,
+          60
+        ]
+      ],
+      "mouth_aperture": [
+        60,
+        58,
+        65,
+        59
+      ],
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 17,
+      "source_sha256": "f4658f08ad6eb3dc62035e9aa15d974eb34764a8a96b316c530ead4964dc4cfd",
+      "previous_sha256": "b09f51d068e36d09f56c19df80f0959479c52cb634d6689598374ff2ad3b28d1",
+      "output_sha256": "b6433f52377712af4b9af3389568f4dfca0c27a162ff7bbb9d745fb35e53ea9e",
+      "restored_beard_pixels": 30,
+      "changed_pixels": [
+        [
+          64,
+          57
+        ],
+        [
+          65,
+          58
+        ],
+        [
+          65,
+          59
+        ],
+        [
+          56,
+          60
+        ],
+        [
+          62,
+          60
+        ],
+        [
+          63,
+          60
+        ],
+        [
+          64,
+          60
+        ],
+        [
+          65,
+          60
+        ],
+        [
+          57,
+          61
+        ],
+        [
+          60,
+          61
+        ],
+        [
+          61,
+          61
+        ],
+        [
+          62,
+          61
+        ],
+        [
+          56,
+          62
+        ],
+        [
+          58,
+          62
+        ],
+        [
+          64,
+          62
+        ],
+        [
+          57,
+          63
+        ],
+        [
+          58,
+          63
+        ],
+        [
+          59,
+          63
+        ],
+        [
+          60,
+          63
+        ],
+        [
+          62,
+          63
+        ],
+        [
+          63,
+          63
+        ],
+        [
+          58,
+          64
+        ],
+        [
+          63,
+          64
+        ]
+      ],
+      "mouth_aperture": [
+        59,
+        62,
+        64,
+        63
+      ],
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 18,
+      "source_sha256": "6cf065277ff08566fcf1804edfe9cac5649de47d29ff8440782576a90c0356ec",
+      "previous_sha256": "7f9a456db05ce46884e7da3124c762599fa1aaf4253b93206018b417ef668058",
+      "output_sha256": "d8d7a2502c977836e32899b75db056333e999182f4e90bd985c63519ee8a4904",
+      "restored_beard_pixels": 29,
+      "changed_pixels": [
+        [
+          65,
+          64
+        ],
+        [
+          65,
+          65
+        ],
+        [
+          56,
+          66
+        ],
+        [
+          62,
+          66
+        ],
+        [
+          63,
+          66
+        ],
+        [
+          64,
+          66
+        ],
+        [
+          65,
+          66
+        ],
+        [
+          56,
+          67
+        ],
+        [
+          57,
+          67
+        ],
+        [
+          60,
+          67
+        ],
+        [
+          61,
+          67
+        ],
+        [
+          62,
+          67
+        ],
+        [
+          56,
+          68
+        ],
+        [
+          58,
+          68
+        ],
+        [
+          64,
+          68
+        ],
+        [
+          58,
+          69
+        ],
+        [
+          59,
+          69
+        ],
+        [
+          60,
+          69
+        ],
+        [
+          62,
+          69
+        ],
+        [
+          63,
+          69
+        ],
+        [
+          58,
+          70
+        ],
+        [
+          59,
+          70
+        ],
+        [
+          60,
+          70
+        ],
+        [
+          61,
+          70
+        ],
+        [
+          62,
+          70
+        ],
+        [
+          63,
+          70
+        ]
+      ],
+      "mouth_aperture": [
+        59,
+        68,
+        64,
+        69
+      ],
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 19,
+      "source_sha256": "1cb617e9c3fda8e70913e5f4a11f951380baff7b6a3fe2e23d82f5d4c08a7345",
+      "previous_sha256": "1a7d4fcf558d459f45d9f24d678df85911bad9b34f790ef2737a950da6069530",
+      "output_sha256": "781e6d07765e4640d893ac5a21dea97e1035faf4f176b0ea24eb79b9a9a93fd8",
+      "restored_beard_pixels": 29,
+      "changed_pixels": [
+        [
+          63,
+          78
+        ],
+        [
+          64,
+          80
+        ],
+        [
+          55,
+          81
+        ],
+        [
+          62,
+          81
+        ],
+        [
+          63,
+          81
+        ],
+        [
+          64,
+          81
+        ],
+        [
+          56,
+          82
+        ],
+        [
+          59,
+          82
+        ],
+        [
+          60,
+          82
+        ],
+        [
+          61,
+          82
+        ],
+        [
+          56,
+          83
+        ],
+        [
+          57,
+          83
+        ],
+        [
+          63,
+          83
+        ],
+        [
+          55,
+          84
+        ],
+        [
+          56,
+          84
+        ],
+        [
+          58,
+          84
+        ],
+        [
+          59,
+          84
+        ],
+        [
+          61,
+          84
+        ],
+        [
+          62,
+          84
+        ],
+        [
+          57,
+          85
+        ],
+        [
+          58,
+          85
+        ],
+        [
+          59,
+          85
+        ],
+        [
+          60,
+          85
+        ],
+        [
+          61,
+          85
+        ],
+        [
+          62,
+          85
+        ]
+      ],
+      "mouth_aperture": [
+        58,
+        83,
+        63,
+        84
+      ],
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 20,
+      "source_sha256": "171ab45ad4f6c19cf24962392dd29f9b2bc918a7fd2800fe3cc0099fd3200d67",
+      "previous_sha256": "171ab45ad4f6c19cf24962392dd29f9b2bc918a7fd2800fe3cc0099fd3200d67",
+      "output_sha256": "171ab45ad4f6c19cf24962392dd29f9b2bc918a7fd2800fe3cc0099fd3200d67",
+      "restored_beard_pixels": 0,
+      "changed_pixels": [],
+      "mouth_aperture": null,
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 21,
+      "source_sha256": "312573f4d2f430849cd4ba1ce1c56df95956db86b04630d9bace03251ab84fee",
+      "previous_sha256": "312573f4d2f430849cd4ba1ce1c56df95956db86b04630d9bace03251ab84fee",
+      "output_sha256": "312573f4d2f430849cd4ba1ce1c56df95956db86b04630d9bace03251ab84fee",
+      "restored_beard_pixels": 0,
+      "changed_pixels": [],
+      "mouth_aperture": null,
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 22,
+      "source_sha256": "a8962c3a6a06737909674575d5d2c41b0808e687bea29480cf79505cd7ad8a74",
+      "previous_sha256": "a8962c3a6a06737909674575d5d2c41b0808e687bea29480cf79505cd7ad8a74",
+      "output_sha256": "a8962c3a6a06737909674575d5d2c41b0808e687bea29480cf79505cd7ad8a74",
+      "restored_beard_pixels": 0,
+      "changed_pixels": [],
+      "mouth_aperture": null,
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 23,
+      "source_sha256": "a7233167967f3e6624c793709ed9da277336ea522fcd6bb6e1bbd6cf2296e51b",
+      "previous_sha256": "a7233167967f3e6624c793709ed9da277336ea522fcd6bb6e1bbd6cf2296e51b",
+      "output_sha256": "a7233167967f3e6624c793709ed9da277336ea522fcd6bb6e1bbd6cf2296e51b",
+      "restored_beard_pixels": 0,
+      "changed_pixels": [],
+      "mouth_aperture": null,
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 24,
+      "source_sha256": "169c9bb6252c8537ac948e0d0b08c3a8196993e7b8af89dd1f599bb610033308",
+      "previous_sha256": "169c9bb6252c8537ac948e0d0b08c3a8196993e7b8af89dd1f599bb610033308",
+      "output_sha256": "169c9bb6252c8537ac948e0d0b08c3a8196993e7b8af89dd1f599bb610033308",
+      "restored_beard_pixels": 0,
+      "changed_pixels": [],
+      "mouth_aperture": null,
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 25,
+      "source_sha256": "c581ea84dd3cbd1f87fc676d2c4f3c1f14c477cd5bdb5fd454b75cf47d4b74a5",
+      "previous_sha256": "c581ea84dd3cbd1f87fc676d2c4f3c1f14c477cd5bdb5fd454b75cf47d4b74a5",
+      "output_sha256": "c581ea84dd3cbd1f87fc676d2c4f3c1f14c477cd5bdb5fd454b75cf47d4b74a5",
+      "restored_beard_pixels": 0,
+      "changed_pixels": [],
+      "mouth_aperture": null,
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 26,
+      "source_sha256": "c3e4fb10507ce14efe22d0b01a7351c15ff7dd2560f56551f89655b21176d4b4",
+      "previous_sha256": "c3e4fb10507ce14efe22d0b01a7351c15ff7dd2560f56551f89655b21176d4b4",
+      "output_sha256": "c3e4fb10507ce14efe22d0b01a7351c15ff7dd2560f56551f89655b21176d4b4",
+      "restored_beard_pixels": 0,
+      "changed_pixels": [],
+      "mouth_aperture": null,
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 27,
+      "source_sha256": "763ead66258daaa26af02774f6d5f1b0c5d116825ef918ead3f517c1c1a2c1a4",
+      "previous_sha256": "763ead66258daaa26af02774f6d5f1b0c5d116825ef918ead3f517c1c1a2c1a4",
+      "output_sha256": "763ead66258daaa26af02774f6d5f1b0c5d116825ef918ead3f517c1c1a2c1a4",
+      "restored_beard_pixels": 0,
+      "changed_pixels": [],
+      "mouth_aperture": null,
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 28,
+      "source_sha256": "8b8b09f8968868d1bb413b640ddcb4741aeb4e34cb3c7dea1fd28ab092fd2a7a",
+      "previous_sha256": "8b8b09f8968868d1bb413b640ddcb4741aeb4e34cb3c7dea1fd28ab092fd2a7a",
+      "output_sha256": "8b8b09f8968868d1bb413b640ddcb4741aeb4e34cb3c7dea1fd28ab092fd2a7a",
+      "restored_beard_pixels": 0,
+      "changed_pixels": [],
+      "mouth_aperture": null,
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 29,
+      "source_sha256": "eb3d2224bfc649542f661abc98c52dadbd1262faf99fbe4d5acea526873b075f",
+      "previous_sha256": "eb3d2224bfc649542f661abc98c52dadbd1262faf99fbe4d5acea526873b075f",
+      "output_sha256": "eb3d2224bfc649542f661abc98c52dadbd1262faf99fbe4d5acea526873b075f",
+      "restored_beard_pixels": 0,
+      "changed_pixels": [],
+      "mouth_aperture": null,
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 30,
+      "source_sha256": "d431db62230a00573f13babcf3184fc388717b4c12a1741873899a39516f2a27",
+      "previous_sha256": "d431db62230a00573f13babcf3184fc388717b4c12a1741873899a39516f2a27",
+      "output_sha256": "d431db62230a00573f13babcf3184fc388717b4c12a1741873899a39516f2a27",
+      "restored_beard_pixels": 0,
+      "changed_pixels": [],
+      "mouth_aperture": null,
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 31,
+      "source_sha256": "34b5d2c6d6b1fb8619d60eee17b0e48aa3819a490dd26167ace6682bdf079b2a",
+      "previous_sha256": "34b5d2c6d6b1fb8619d60eee17b0e48aa3819a490dd26167ace6682bdf079b2a",
+      "output_sha256": "34b5d2c6d6b1fb8619d60eee17b0e48aa3819a490dd26167ace6682bdf079b2a",
+      "restored_beard_pixels": 0,
+      "changed_pixels": [],
+      "mouth_aperture": null,
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 32,
+      "source_sha256": "5afd9082ba2a7bf5145915a487fb9b34c4196793ab98adbc755f1d1422809c08",
+      "previous_sha256": "5afd9082ba2a7bf5145915a487fb9b34c4196793ab98adbc755f1d1422809c08",
+      "output_sha256": "5afd9082ba2a7bf5145915a487fb9b34c4196793ab98adbc755f1d1422809c08",
+      "restored_beard_pixels": 0,
+      "changed_pixels": [],
+      "mouth_aperture": null,
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    },
+    {
+      "frame": 33,
+      "source_sha256": "cf471447add0c27a6c02736dda5e7730c72180a9f495847ad1d009c912d5a6e2",
+      "previous_sha256": "cf471447add0c27a6c02736dda5e7730c72180a9f495847ad1d009c912d5a6e2",
+      "output_sha256": "cf471447add0c27a6c02736dda5e7730c72180a9f495847ad1d009c912d5a6e2",
+      "restored_beard_pixels": 0,
+      "changed_pixels": [],
+      "mouth_aperture": null,
+      "alpha_unchanged": true,
+      "outside_restoration_unchanged": true
+    }
+  ],
+  "restored_beard_pixels": 547,
+  "total_changed_pixels": 436,
+  "gifs": {
+    "preview.gif": {
+      "frame_count": 33,
+      "size": [
+        512,
+        512
+      ],
+      "duration_ms": [
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        900
+      ],
+      "total_ms": 2820,
+      "loop": 0,
+      "merged_identical_run_durations_ms": [
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        900
+      ]
+    },
+    "native.gif": {
+      "frame_count": 33,
+      "size": [
+        128,
+        128
+      ],
+      "duration_ms": [
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        900
+      ],
+      "total_ms": 2820,
+      "loop": 0,
+      "merged_identical_run_durations_ms": [
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        900
+      ]
+    },
+    "before-after.gif": {
+      "frame_count": 33,
+      "size": [
+        768,
+        412
+      ],
+      "duration_ms": [
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        900
+      ],
+      "total_ms": 2820,
+      "loop": 0,
+      "merged_identical_run_durations_ms": [
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        900
+      ]
+    }
+  }
+}
