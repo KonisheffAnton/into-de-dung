@@ -1,0 +1,521 @@
+{
+  "format": 1,
+  "cell_size": 128,
+  "columns": 10,
+  "selection": "olive cloth only; current authored 32-frame source set",
+  "sampling": "full512; centers x*4+2,y*4+2; native128",
+  "frames": [
+    {
+      "slot": 0,
+      "clip": "still",
+      "frame": 0,
+      "source": "assets/art_presets/trials/rogue_animations_v1/still.png",
+      "sha256": "96b9dc10fbbc7ac324367270d847599001fab7a5e5ef9f2a335e73be1d5e778c",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 767
+    },
+    {
+      "slot": 1,
+      "clip": "idle",
+      "frame": 0,
+      "source": "assets/art_presets/trials/rogue_animations_v1/idle/frame-01.png",
+      "sha256": "8174c576cdb8cca7c5d405ef5a1a91f662255f10cd27b734ecfd1a494d43ea76",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 767
+    },
+    {
+      "slot": 2,
+      "clip": "idle",
+      "frame": 1,
+      "source": "assets/art_presets/trials/rogue_animations_v1/idle/frame-02.png",
+      "sha256": "8174c576cdb8cca7c5d405ef5a1a91f662255f10cd27b734ecfd1a494d43ea76",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 767
+    },
+    {
+      "slot": 3,
+      "clip": "idle",
+      "frame": 2,
+      "source": "assets/art_presets/trials/rogue_animations_v1/idle/frame-03.png",
+      "sha256": "15839418704c61df5b20b1ddee26836e9732222a81406dea55a9c8e00ae94174",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 767
+    },
+    {
+      "slot": 4,
+      "clip": "idle",
+      "frame": 3,
+      "source": "assets/art_presets/trials/rogue_animations_v1/idle/frame-04.png",
+      "sha256": "3ca597d7be6b05c0a0faeef7822ae5dea110dd238aa0d481adb4ad6cca509333",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 767
+    },
+    {
+      "slot": 5,
+      "clip": "idle",
+      "frame": 4,
+      "source": "assets/art_presets/trials/rogue_animations_v1/idle/frame-05.png",
+      "sha256": "5da44d2e027d893c37bb828945e0c4e34ea9563d696375acdbad07ab5ef886b0",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 767
+    },
+    {
+      "slot": 6,
+      "clip": "idle",
+      "frame": 5,
+      "source": "assets/art_presets/trials/rogue_animations_v1/idle/frame-06.png",
+      "sha256": "f3349c0bfab07935d08ba78c5f6633fe4f57ed58de9ce66fd8e7de00dcedd405",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 739
+    },
+    {
+      "slot": 7,
+      "clip": "idle",
+      "frame": 6,
+      "source": "assets/art_presets/trials/rogue_animations_v1/idle/frame-07.png",
+      "sha256": "86a630485e18023cb96c757e074f9df05f498122da387c0f65e8819541bb7c5d",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 767
+    },
+    {
+      "slot": 8,
+      "clip": "idle",
+      "frame": 7,
+      "source": "assets/art_presets/trials/rogue_animations_v1/idle/frame-08.png",
+      "sha256": "86a630485e18023cb96c757e074f9df05f498122da387c0f65e8819541bb7c5d",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 767
+    },
+    {
+      "slot": 9,
+      "clip": "idle",
+      "frame": 8,
+      "source": "assets/art_presets/trials/rogue_animations_v1/idle/frame-09.png",
+      "sha256": "68b3dd6edf54d861cd121aa7c86b193e3ff6345f32b3c648e6984b338fcbd94e",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 767
+    },
+    {
+      "slot": 10,
+      "clip": "idle",
+      "frame": 9,
+      "source": "assets/art_presets/trials/rogue_animations_v1/idle/frame-10.png",
+      "sha256": "9ff17a59599f92a0c74c5fcd74bf6127893eae6229b463687947e37ddbd3cfbf",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 767
+    },
+    {
+      "slot": 11,
+      "clip": "idle",
+      "frame": 10,
+      "source": "assets/art_presets/trials/rogue_animations_v1/idle/frame-11.png",
+      "sha256": "c193d39219617145b3813bac7abf15d77d04b562b0789fa01b3a4dd1275de24d",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 793
+    },
+    {
+      "slot": 12,
+      "clip": "idle",
+      "frame": 11,
+      "source": "assets/art_presets/trials/rogue_animations_v1/idle/frame-12.png",
+      "sha256": "6a9fe0ac26d578d0fbc304ce2f6add374aa5f0258d48f88d44f8f17d06dfff60",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 767
+    },
+    {
+      "slot": 13,
+      "clip": "buff",
+      "frame": 0,
+      "source": "assets/art_presets/trials/rogue_animations_v1/buff/frame-01.png",
+      "sha256": "96b9dc10fbbc7ac324367270d847599001fab7a5e5ef9f2a335e73be1d5e778c",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 767
+    },
+    {
+      "slot": 14,
+      "clip": "buff",
+      "frame": 1,
+      "source": "assets/art_presets/trials/rogue_animations_v1/buff/frame-02.png",
+      "sha256": "6f90028a3df9f96ae00eb47c55dde675d6aad442d5a2e45003814578b329c99b",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 490
+    },
+    {
+      "slot": 15,
+      "clip": "buff",
+      "frame": 2,
+      "source": "assets/art_presets/trials/rogue_animations_v1/buff/frame-03.png",
+      "sha256": "64e9c34d8685247062260bde1f6fa8a296c89d7a9af57113b8a3ab62ea1b021d",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 707
+    },
+    {
+      "slot": 16,
+      "clip": "buff",
+      "frame": 3,
+      "source": "assets/art_presets/trials/rogue_animations_v1/buff/frame-04.png",
+      "sha256": "9b6604c267f9d0490458c082bf4c894b9d0c1a46bb604f6cea69c198ae2fdec1",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 696
+    },
+    {
+      "slot": 17,
+      "clip": "buff",
+      "frame": 4,
+      "source": "assets/art_presets/trials/rogue_animations_v1/buff/frame-05.png",
+      "sha256": "2dc355482ddaf064bfa7b88c02527357c487eab04a6f74f547ee8391a75646a1",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 761
+    },
+    {
+      "slot": 18,
+      "clip": "buff",
+      "frame": 5,
+      "source": "assets/art_presets/trials/rogue_animations_v1/buff/frame-06.png",
+      "sha256": "96b9dc10fbbc7ac324367270d847599001fab7a5e5ef9f2a335e73be1d5e778c",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 767
+    },
+    {
+      "slot": 19,
+      "clip": "death",
+      "frame": 0,
+      "source": "assets/art_presets/trials/rogue_animations_v1/death/frame-01.png",
+      "sha256": "96b9dc10fbbc7ac324367270d847599001fab7a5e5ef9f2a335e73be1d5e778c",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 767
+    },
+    {
+      "slot": 20,
+      "clip": "death",
+      "frame": 1,
+      "source": "assets/art_presets/trials/rogue_animations_v1/death/frame-02.png",
+      "sha256": "61a3afb1aad991e718d27c6167ee78e9cd2f6f3bc3e7983e6a7855fab55e2c01",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 768
+    },
+    {
+      "slot": 21,
+      "clip": "death",
+      "frame": 2,
+      "source": "assets/art_presets/trials/rogue_animations_v1/death/frame-03.png",
+      "sha256": "7b1f50e54ef85004e323f2afc6f0b3367a2555c6f87201c6f0582ddd9dbfd503",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 769
+    },
+    {
+      "slot": 22,
+      "clip": "death",
+      "frame": 3,
+      "source": "assets/art_presets/trials/rogue_animations_v1/death/frame-04.png",
+      "sha256": "7aa861305c22bebecc6e1301c8a5b221d604ddacbd810aaf9ed956be4d783ee7",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 732
+    },
+    {
+      "slot": 23,
+      "clip": "death",
+      "frame": 4,
+      "source": "assets/art_presets/trials/rogue_animations_v1/death/frame-05.png",
+      "sha256": "f25141900384d75af8989bd7b3a55f2f8c71e0bd3344bf9747ebab38df64c715",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 758
+    },
+    {
+      "slot": 24,
+      "clip": "death",
+      "frame": 5,
+      "source": "assets/art_presets/trials/rogue_animations_v1/death/frame-06.png",
+      "sha256": "43f2478be720c0c9491260283ac7816c2ed4025bc801a2bbf1c1946236eeec9c",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 733
+    },
+    {
+      "slot": 25,
+      "clip": "death",
+      "frame": 6,
+      "source": "assets/art_presets/trials/rogue_animations_v1/death/frame-07.png",
+      "sha256": "3a1438214221b3110d642c53a5a943b8ffa75a7e4249aa08a9ec069aad3a2649",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 720
+    },
+    {
+      "slot": 26,
+      "clip": "death",
+      "frame": 7,
+      "source": "assets/art_presets/trials/rogue_animations_v1/death/frame-08.png",
+      "sha256": "ce93a760ad267fead73f2612ce471607d8db8dbdfb0e5ecf2bceec01f9590aa9",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 769
+    },
+    {
+      "slot": 27,
+      "clip": "death",
+      "frame": 8,
+      "source": "assets/art_presets/trials/rogue_animations_v1/death/frame-09.png",
+      "sha256": "95190ef6f1f73ea02166f89ccd10d6eface4fd9fbe4bc008e5c3acdde99d2300",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 752
+    },
+    {
+      "slot": 28,
+      "clip": "death",
+      "frame": 9,
+      "source": "assets/art_presets/trials/rogue_animations_v1/death/frame-10.png",
+      "sha256": "ffb652b9b7da8dc32aa092350ab6883fd55be813d52cde1cf065b070c939b199",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 757
+    },
+    {
+      "slot": 29,
+      "clip": "death",
+      "frame": 10,
+      "source": "assets/art_presets/trials/rogue_animations_v1/death/frame-11.png",
+      "sha256": "57db093c4335e5b5dc2b5fe2136da592337c1c971cb7c53c4ee251bfb97dec3f",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 774
+    },
+    {
+      "slot": 30,
+      "clip": "death",
+      "frame": 11,
+      "source": "assets/art_presets/trials/rogue_animations_v1/death/frame-12.png",
+      "sha256": "622cbaa92af2f6fbc6ed1cfd0443e9a94f4d7fb52c5587a010f9a58f975a312c",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 632
+    },
+    {
+      "slot": 31,
+      "clip": "death",
+      "frame": 12,
+      "source": "assets/art_presets/trials/rogue_animations_v1/death/frame-13.png",
+      "sha256": "4957262722294ce1515fefa21bd6201e9eaf31bcbe656fabbfc2aa41dc039a45",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        512,
+        512
+      ],
+      "cloth_pixels": 660
+    }
+  ]
+}

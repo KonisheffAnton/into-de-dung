@@ -254,11 +254,13 @@ func _test_fallback_and_palette(visual: BattleDefenderIdleVisual, values: Dictio
 	var idle := visual.get_node("ArtRoot/RogueIdleSprite") as Sprite2D
 	var rogue_still := visual.get_node("ArtRoot/PlayerRogueSprite") as Sprite2D
 	var material := rogue_still.material as ShaderMaterial
-	var before_enabled: Variant = material.get_shader_parameter("cloth_enabled") if material != null else null
 	visual.set_cloth_palette(2)
-	var after_enabled: Variant = material.get_shader_parameter("cloth_enabled") if material != null else null
-	check(material == null or before_enabled == after_enabled,
-		"Defender cloth palette does not alter rogue sprite material")
+	var still_slot := RogueClothPalette.mask_slot(rogue_still.texture)
+	check(material != null and still_slot >= 0
+		and bool(material.get_shader_parameter("cloth_enabled"))
+		and material.get_shader_parameter("cloth_mask_origin") == RogueClothPalette.mask_origin(still_slot),
+		"shared allied clothing palette applies the rogue still mask")
+	visual.set_cloth_palette(0)
 	visual.sample_death((0.65 + 0.25 + 0.40) / visual.death_duration())
 	check(is_equal_approx(idle.self_modulate.a, 0.5), "class reuse fixture first enters the rogue fade")
 	var mage_values := _values(&"mage", Faction.Type.PLAYER, 41)

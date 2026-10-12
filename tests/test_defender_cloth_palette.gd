@@ -112,7 +112,7 @@ func _check_real_reset() -> void:
 
 func _find_nonwarrior(demo: HeroHubBattleView) -> BattleManagedUnitVisual:
 	for item: BattleManagedUnitVisual in demo.board_view._unit_visuals.values():
-		if item.unit.alive and item.visual_class_id != &"warrior": return item
+		if item.unit.alive and item.visual_class_id not in [&"warrior", &"rogue"]: return item
 	return null
 
 

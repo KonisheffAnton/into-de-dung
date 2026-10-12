@@ -68,7 +68,7 @@ static func bind(hud: Control, handlers: Dictionary[StringName, Callable], deck_
 	for palette_index: int in DefenderClothPalette.count():
 		binding.cloth_palette.add_item("Одежда: " + DefenderClothPalette.label(palette_index))
 	binding.cloth_palette.select(DefenderClothPalette.valid_index(0))
-	binding.cloth_palette.tooltip_text = "Цвет одежды союзных Защитников в текущем бою."
+	binding.cloth_palette.tooltip_text = "Цвет одежды союзных Защитников и Разбойников в текущем бою."
 	deck_label.visible = deck_layout
 	legacy_label.visible = not deck_layout
 	binding.mage_label = deck_label if deck_layout else legacy_label

@@ -44,7 +44,7 @@ shader ошибки и ненулевые failed counts не маскируют�
 Выбор `current_art_zoom`, `art_trial_battle` или `battle_view_reuse` автоматически
 добавляет `visual_scene_contract`, `environment_visual_contract`, `unit_visual_contract`,
 `defender_idle_clock`, `defender_idle`, `defender_buff`, `defender_death`, `defender_death_routes`,
-`defender_cloth_palette`, `rogue_animations`, `rogue_buff`, `rogue_death_routes`,
+`defender_cloth_palette`, `rogue_cloth_palette`, `rogue_animations`, `rogue_buff`, `rogue_death_routes`,
 `presentation_consequences`, `presentation_environment`, `battle_camera_ui`, `battle_execution_ui`:
 защита от пересоздания поля и сбоев поз, ловушек, камеры и worker/ИИ при смене пресета.
 Прямой запуск только lifecycle:
@@ -69,16 +69,20 @@ resize и публикацию after. `defender_death_routes` проверяет
 Счётчики/identity — hard gate, frame median/p95/max/>25ms — диагностика без
 машинозависимого порога PASS. [Контракт и границы](BATTLE_VISUAL_SCENE_CONTRACT.md).
 
-Одежда: `python tools/demo/isolate.py --render-check --only defender_cloth_palette battle_hud_authoring --screen 0`.
+Одежда: `python tools/demo/isolate.py --render-check --only defender_cloth_palette rogue_cloth_palette battle_hud_authoring --screen 0`.
 Проверяет селектор/изоляцию материалов, все90 кадров и статичную позу,
 отсутствие изменений вне маски/альфы, точный возврат исходных пикселей,
 refresh/resize/reset, смену во время жеста/смерти и при отделённой сессии.
 Маски сверяются с исходниками через `python tools/art/build_defender_cloth_masks.py --check`
 (Pillow). PNG всех пар и семи гамм — техническое свидетельство, не F5-приёмка.
+`rogue_cloth_palette` проверяет общий селектор и отдельные32 маски разбойника,
+все кадры idle/B1/D3, границы RGB/alpha, точный возврат исходной гаммы,
+изоляцию материалов/классов/врага и сохранение D3 fade при смене цвета.
+Маски: `python tools/art/build_rogue_cloth_masks.py --check` (Pillow).
 
 Разбойник: `python tools/demo/isolate.py --render-check --only rogue_animations rogue_buff rogue_death_routes --screen 0`.
 Первый runner проверяет ресурсы/все кадры, опору/отражение, паузы/смену класса,
-reset/retire/fallback и изоляцию от гамм Защитника. `rogue_buff` использует общий
+reset/retire/fallback и отдельный маршрут масок общей гаммы одежды. `rogue_buff` использует общий
 `test_defender_buff.gd --rogue`: настоящая «Защита» фабричного разбойника,
 границы matcher, публикации, resize/speed/skip/cancel и неизменность core/RNG.
 `rogue_death_routes` использует `test_defender_death_routes.gd --rogue`:

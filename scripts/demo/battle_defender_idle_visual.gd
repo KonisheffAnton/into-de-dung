@@ -23,15 +23,15 @@ var _rogue_idle_authored_alpha: float = 1.0
 var _rogue_idle_alpha_captured: bool = false
 var cloth_palette: int = 0
 var _cloth_sprites: Array[Sprite2D] = []
-var _cloth_slots: Dictionary[int, int] = {}
-var _cloth_applied: int = -1
+var _cloth_states: Dictionary[int, String] = {}
 
 
 func _ready() -> void:
 	_idle_sprite = get_node_or_null("ArtRoot/DefenderIdleSprite") as Sprite2D
 	_still_sprite = get_node_or_null("ArtRoot/PlayerWarriorSprite") as Sprite2D
-	# Материалы сцены общие у союзников и врагов; параметры одежды принадлежат экземпляру.
-	for path: String in ["ArtRoot/PlayerWarriorSprite", "ArtRoot/EnemyWarriorSprite", "ArtRoot/DefenderIdleSprite"]:
+	# Материалы сцен общие между фракциями и классами, поэтому каждый рисунок получает свой экземпляр.
+	for path: String in ["ArtRoot/PlayerWarriorSprite", "ArtRoot/EnemyWarriorSprite", "ArtRoot/DefenderIdleSprite",
+			"ArtRoot/PlayerRogueSprite", "ArtRoot/EnemyRogueSprite", "ArtRoot/RogueIdleSprite"]:
 		var sprite := get_node_or_null(path) as Sprite2D
 		if sprite != null and sprite.material is ShaderMaterial:
 			sprite.material = sprite.material.duplicate() as ShaderMaterial
@@ -250,22 +250,29 @@ func set_cloth_palette(index: int) -> void:
 
 
 func _sync_cloth_palette() -> void:
-	var selected := cloth_palette if unit != null and unit.faction == Faction.Type.PLAYER \
-		and visual_class_id == &"warrior" and role == Role.UNIT else 0
-	if selected != _cloth_applied:
-		_cloth_applied = selected
-		_cloth_slots.clear()
+	# При смене класса/стороны/роли все слои пересчитываются даже при том же номере палитры.
 	for sprite: Sprite2D in _cloth_sprites:
 		_sync_cloth_frame(sprite)
 
 
 func _sync_cloth_frame(sprite: Sprite2D) -> void:
 	if sprite == null or sprite.material == null or not _cloth_sprites.has(sprite): return
-	var slot := DefenderClothPalette.mask_slot(sprite.texture)
+	var is_rogue := sprite.name in ["PlayerRogueSprite", "EnemyRogueSprite", "RogueIdleSprite"]
+	var expected_class: StringName = &"rogue" if is_rogue else &"warrior"
+	var eligible := unit != null and unit.faction == Faction.Type.PLAYER and visual_class_id == expected_class and role == Role.UNIT
+	var selected := cloth_palette if eligible else 0
+	var slot := -1
+	if selected > 0 and sprite.texture != null:
+		slot = RogueClothPalette.mask_slot(sprite.texture) if is_rogue else DefenderClothPalette.mask_slot(sprite.texture)
 	var id := sprite.get_instance_id()
-	if _cloth_slots.get(id, -2) == slot: return
-	_cloth_slots[id] = slot
-	DefenderClothPalette.apply(sprite.material as ShaderMaterial, maxi(0, _cloth_applied), slot)
+	var state := "%s:%d:%d" % ["rogue" if is_rogue else "warrior", selected if slot >= 0 else 0, slot]
+	if _cloth_states.get(id, "") == state: return
+	_cloth_states[id] = state
+	var material := sprite.material as ShaderMaterial
+	if is_rogue:
+		RogueClothPalette.apply(material, selected if slot >= 0 else 0, slot)
+	else:
+		DefenderClothPalette.apply(material, selected if slot >= 0 else 0, slot)
 
 
 func retire_view() -> void:

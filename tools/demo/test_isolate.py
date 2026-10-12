@@ -71,6 +71,7 @@ class IsolateSelectionTests(unittest.TestCase):
                     "defender_death": "DEFENDER DEATH RESULTS:",
                     "defender_death_routes": "DEFENDER DEATH ROUTES RESULTS:",
                     "defender_cloth_palette": "DEFENDER CLOTH PALETTE RESULTS:",
+                    "rogue_cloth_palette": "ROGUE CLOTH PALETTE RESULTS:",
                     "rogue_animations": "ROGUE ANIMATIONS RESULTS:",
                     "rogue_buff": "ROGUE BUFF RESULTS:",
                     "rogue_death_routes": "ROGUE DEATH ROUTES RESULTS:",
@@ -280,7 +281,7 @@ class IsolateSelectionTests(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertEqual(calls, ["import", "startup", "environment_visual_contract", "unit_visual_contract",
                                  "defender_idle_clock", "defender_idle", "defender_buff",
-                                 "defender_death", "defender_death_routes", "defender_cloth_palette",
+                                 "defender_death", "defender_death_routes", "defender_cloth_palette", "rogue_cloth_palette",
                                  "rogue_animations", "rogue_buff", "rogue_death_routes",
                                  "visual_scene_contract", "art_trial_battle", "presentation_consequences",
                                  "presentation_environment", "battle_camera_ui", "battle_execution_ui"])
@@ -301,8 +302,15 @@ class IsolateSelectionTests(unittest.TestCase):
         self.assertEqual(timing["checks"]["defender_cloth_palette"]["status"], "FAIL")
         self.assertNotIn("defender_cloth_palette PASS", output)
 
+        code, calls, timing, output = self.exercise(
+            ["--check", "--only", "rogue_cloth_palette"], "marker:rogue_cloth_palette")
+        self.assertEqual(code, 1)
+        self.assertIn("rogue_cloth_palette", calls)
+        self.assertEqual(timing["checks"]["rogue_cloth_palette"]["status"], "FAIL")
+        self.assertNotIn("rogue_cloth_palette PASS", output)
+
     def test_all_visual_gates_propagate_process_failures(self):
-        for label in ("environment_visual_contract", "unit_visual_contract", "visual_scene_contract", "defender_idle_clock", "defender_idle", "defender_buff", "defender_death", "defender_death_routes", "defender_cloth_palette", "rogue_animations", "rogue_buff", "rogue_death_routes",
+        for label in ("environment_visual_contract", "unit_visual_contract", "visual_scene_contract", "defender_idle_clock", "defender_idle", "defender_buff", "defender_death", "defender_death_routes", "defender_cloth_palette", "rogue_cloth_palette", "rogue_animations", "rogue_buff", "rogue_death_routes",
                       "presentation_consequences", "presentation_environment", "battle_camera_ui", "battle_execution_ui"):
             with self.subTest(label=label):
                 code, calls, timing, output = self.exercise(
