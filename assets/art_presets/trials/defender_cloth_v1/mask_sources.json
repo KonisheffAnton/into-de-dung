@@ -1,0 +1,5081 @@
+{
+  "format": 1,
+  "cell_size": 128,
+  "columns": 10,
+  "frames": [
+    {
+      "slot": 0,
+      "clip": "still",
+      "frame": 0,
+      "source": "assets/art_presets/trials/defender_field_v1/defender_new.png",
+      "sha256": "7cbd0358fe42264f8090b4d77da03274fcca1a4ebbe5984b960d77c9f5874082",
+      "native_size": [
+        77,
+        72
+      ],
+      "cloth_pixels": 285,
+      "shield_exclusion": [
+        [
+          56,
+          38
+        ],
+        [
+          72,
+          27
+        ],
+        [
+          73,
+          32
+        ],
+        [
+          73,
+          43
+        ],
+        [
+          72,
+          49
+        ],
+        [
+          71,
+          51
+        ],
+        [
+          67,
+          58
+        ],
+        [
+          64,
+          56
+        ],
+        [
+          59,
+          50
+        ],
+        [
+          56,
+          41
+        ]
+      ]
+    },
+    {
+      "slot": 1,
+      "clip": "vertical",
+      "frame": 0,
+      "source": "assets/art_presets/trials/defender_idle_v1/vertical/frame-01.png",
+      "sha256": "8c1c709b24a610c5c443824dc11722cb8ceef3feff4114c32420b9796a792b02",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 286,
+      "shield_exclusion": [
+        [
+          81,
+          63
+        ],
+        [
+          97,
+          52
+        ],
+        [
+          98,
+          57
+        ],
+        [
+          98,
+          68
+        ],
+        [
+          97,
+          74
+        ],
+        [
+          96,
+          76
+        ],
+        [
+          92,
+          83
+        ],
+        [
+          84,
+          75
+        ],
+        [
+          81,
+          66
+        ]
+      ]
+    },
+    {
+      "slot": 2,
+      "clip": "vertical",
+      "frame": 1,
+      "source": "assets/art_presets/trials/defender_idle_v1/vertical/frame-02.png",
+      "sha256": "7c9b1d9d0b362a690a7bcf90993eff3f910b5eb62919cac461610b1137cf05b2",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 286,
+      "shield_exclusion": [
+        [
+          81,
+          63
+        ],
+        [
+          97,
+          52
+        ],
+        [
+          98,
+          57
+        ],
+        [
+          98,
+          68
+        ],
+        [
+          97,
+          74
+        ],
+        [
+          96,
+          76
+        ],
+        [
+          92,
+          83
+        ],
+        [
+          84,
+          75
+        ],
+        [
+          81,
+          66
+        ]
+      ]
+    },
+    {
+      "slot": 3,
+      "clip": "vertical",
+      "frame": 2,
+      "source": "assets/art_presets/trials/defender_idle_v1/vertical/frame-03.png",
+      "sha256": "3c09214e3447318a7e0e08da01fb010be73f396059b023f3adf0d2c932faa227",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 289,
+      "shield_exclusion": [
+        [
+          81,
+          62
+        ],
+        [
+          97,
+          51
+        ],
+        [
+          98,
+          56
+        ],
+        [
+          98,
+          67
+        ],
+        [
+          97,
+          73
+        ],
+        [
+          96,
+          75
+        ],
+        [
+          92,
+          82
+        ],
+        [
+          84,
+          74
+        ],
+        [
+          81,
+          65
+        ]
+      ]
+    },
+    {
+      "slot": 4,
+      "clip": "vertical",
+      "frame": 3,
+      "source": "assets/art_presets/trials/defender_idle_v1/vertical/frame-04.png",
+      "sha256": "f4c5e61d2a13fdc266dd5fddbaf5f57c107b8476aceedf8fe0ba1a5bd592efc8",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 289,
+      "shield_exclusion": [
+        [
+          81,
+          62
+        ],
+        [
+          97,
+          51
+        ],
+        [
+          98,
+          56
+        ],
+        [
+          98,
+          67
+        ],
+        [
+          97,
+          73
+        ],
+        [
+          96,
+          75
+        ],
+        [
+          92,
+          82
+        ],
+        [
+          84,
+          74
+        ],
+        [
+          81,
+          65
+        ]
+      ]
+    },
+    {
+      "slot": 5,
+      "clip": "vertical",
+      "frame": 4,
+      "source": "assets/art_presets/trials/defender_idle_v1/vertical/frame-05.png",
+      "sha256": "e33908ce2c7c32d607ed56ff78786e8d56f31c940d684fb0d1f10888c7a78b1e",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 308,
+      "shield_exclusion": [
+        [
+          81,
+          61
+        ],
+        [
+          97,
+          50
+        ],
+        [
+          98,
+          55
+        ],
+        [
+          98,
+          66
+        ],
+        [
+          97,
+          72
+        ],
+        [
+          96,
+          74
+        ],
+        [
+          92,
+          81
+        ],
+        [
+          84,
+          73
+        ],
+        [
+          81,
+          64
+        ]
+      ]
+    },
+    {
+      "slot": 6,
+      "clip": "vertical",
+      "frame": 5,
+      "source": "assets/art_presets/trials/defender_idle_v1/vertical/frame-06.png",
+      "sha256": "dbba776031658ac5b4afdb926c7327d5dcf9a6e3ed8740ca332fcf830e287434",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 310,
+      "shield_exclusion": [
+        [
+          81,
+          60
+        ],
+        [
+          97,
+          49
+        ],
+        [
+          98,
+          54
+        ],
+        [
+          98,
+          65
+        ],
+        [
+          97,
+          72
+        ],
+        [
+          96,
+          74
+        ],
+        [
+          92,
+          81
+        ],
+        [
+          89,
+          79
+        ],
+        [
+          84,
+          72
+        ],
+        [
+          81,
+          63
+        ]
+      ]
+    },
+    {
+      "slot": 7,
+      "clip": "vertical",
+      "frame": 6,
+      "source": "assets/art_presets/trials/defender_idle_v1/vertical/frame-07.png",
+      "sha256": "ffaf624584813c75d5e799cc29b2f5a32f8e60865aec518b6a0c81cf0c34563d",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 310,
+      "shield_exclusion": [
+        [
+          81,
+          60
+        ],
+        [
+          97,
+          49
+        ],
+        [
+          98,
+          54
+        ],
+        [
+          98,
+          65
+        ],
+        [
+          97,
+          72
+        ],
+        [
+          96,
+          74
+        ],
+        [
+          92,
+          81
+        ],
+        [
+          89,
+          79
+        ],
+        [
+          84,
+          72
+        ],
+        [
+          81,
+          63
+        ]
+      ]
+    },
+    {
+      "slot": 8,
+      "clip": "vertical",
+      "frame": 7,
+      "source": "assets/art_presets/trials/defender_idle_v1/vertical/frame-08.png",
+      "sha256": "bede1d85018a70de95cba5c794ea685cf0523a65e7fd52c79a67f47a55996ccb",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 310,
+      "shield_exclusion": [
+        [
+          81,
+          60
+        ],
+        [
+          97,
+          49
+        ],
+        [
+          98,
+          54
+        ],
+        [
+          98,
+          65
+        ],
+        [
+          97,
+          72
+        ],
+        [
+          96,
+          74
+        ],
+        [
+          92,
+          81
+        ],
+        [
+          89,
+          79
+        ],
+        [
+          84,
+          72
+        ],
+        [
+          81,
+          63
+        ]
+      ]
+    },
+    {
+      "slot": 9,
+      "clip": "vertical",
+      "frame": 8,
+      "source": "assets/art_presets/trials/defender_idle_v1/vertical/frame-09.png",
+      "sha256": "98d2a3efa445bb110a0a47e8469efa89421a28e787038342e76e588bd4f05ac6",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 292,
+      "shield_exclusion": [
+        [
+          81,
+          60
+        ],
+        [
+          97,
+          49
+        ],
+        [
+          98,
+          54
+        ],
+        [
+          98,
+          65
+        ],
+        [
+          97,
+          72
+        ],
+        [
+          96,
+          74
+        ],
+        [
+          92,
+          81
+        ],
+        [
+          89,
+          79
+        ],
+        [
+          84,
+          73
+        ],
+        [
+          81,
+          64
+        ]
+      ]
+    },
+    {
+      "slot": 10,
+      "clip": "vertical",
+      "frame": 9,
+      "source": "assets/art_presets/trials/defender_idle_v1/vertical/frame-10.png",
+      "sha256": "39a43a37627493ff1828047d2f60678fbaff6fa514736fe570d28c5cf7c541e2",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 296,
+      "shield_exclusion": [
+        [
+          81,
+          61
+        ],
+        [
+          97,
+          50
+        ],
+        [
+          98,
+          55
+        ],
+        [
+          98,
+          65
+        ],
+        [
+          97,
+          72
+        ],
+        [
+          96,
+          74
+        ],
+        [
+          92,
+          81
+        ],
+        [
+          89,
+          79
+        ],
+        [
+          84,
+          73
+        ],
+        [
+          81,
+          64
+        ]
+      ]
+    },
+    {
+      "slot": 11,
+      "clip": "vertical",
+      "frame": 10,
+      "source": "assets/art_presets/trials/defender_idle_v1/vertical/frame-11.png",
+      "sha256": "9c5032a0342e1ec20387dbd09530cc2fd54ef25b54cf679c3b780b07256a0e0d",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 294,
+      "shield_exclusion": [
+        [
+          81,
+          61
+        ],
+        [
+          96,
+          51
+        ],
+        [
+          97,
+          51
+        ],
+        [
+          98,
+          55
+        ],
+        [
+          98,
+          65
+        ],
+        [
+          97,
+          72
+        ],
+        [
+          96,
+          74
+        ],
+        [
+          92,
+          81
+        ],
+        [
+          89,
+          79
+        ],
+        [
+          84,
+          73
+        ],
+        [
+          81,
+          64
+        ]
+      ]
+    },
+    {
+      "slot": 12,
+      "clip": "vertical",
+      "frame": 11,
+      "source": "assets/art_presets/trials/defender_idle_v1/vertical/frame-12.png",
+      "sha256": "3fb7b2e94096abe15342e6eb827844fa13558048cfe6e0fbca0675a0ef76e640",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 303,
+      "shield_exclusion": [
+        [
+          81,
+          62
+        ],
+        [
+          96,
+          52
+        ],
+        [
+          97,
+          52
+        ],
+        [
+          98,
+          56
+        ],
+        [
+          98,
+          67
+        ],
+        [
+          97,
+          73
+        ],
+        [
+          96,
+          75
+        ],
+        [
+          92,
+          82
+        ],
+        [
+          89,
+          80
+        ],
+        [
+          84,
+          74
+        ],
+        [
+          81,
+          65
+        ]
+      ]
+    },
+    {
+      "slot": 13,
+      "clip": "sway",
+      "frame": 0,
+      "source": "assets/art_presets/trials/defender_idle_v1/sway/frame-01.png",
+      "sha256": "d13ef0d5674dce675a9de7b7124826eaf15c7fb5fa4732c17304fbe29dc416d1",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 285,
+      "shield_exclusion": [
+        [
+          81,
+          63
+        ],
+        [
+          97,
+          52
+        ],
+        [
+          98,
+          57
+        ],
+        [
+          98,
+          68
+        ],
+        [
+          97,
+          74
+        ],
+        [
+          96,
+          76
+        ],
+        [
+          92,
+          83
+        ],
+        [
+          84,
+          75
+        ],
+        [
+          81,
+          66
+        ]
+      ]
+    },
+    {
+      "slot": 14,
+      "clip": "sway",
+      "frame": 1,
+      "source": "assets/art_presets/trials/defender_idle_v1/sway/frame-02.png",
+      "sha256": "f3f23c8d0ce7ce0e2191830e6bfa7c0fc002d11946c81dc4bad83ec477aa67f1",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 285,
+      "shield_exclusion": [
+        [
+          81,
+          63
+        ],
+        [
+          97,
+          52
+        ],
+        [
+          98,
+          57
+        ],
+        [
+          98,
+          68
+        ],
+        [
+          97,
+          74
+        ],
+        [
+          96,
+          76
+        ],
+        [
+          92,
+          83
+        ],
+        [
+          89,
+          81
+        ],
+        [
+          84,
+          75
+        ],
+        [
+          81,
+          66
+        ]
+      ]
+    },
+    {
+      "slot": 15,
+      "clip": "sway",
+      "frame": 2,
+      "source": "assets/art_presets/trials/defender_idle_v1/sway/frame-03.png",
+      "sha256": "cb2beea494bd65c0944c951030a5aca29e855f3bc080fad313758f26e8fabcc8",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 302,
+      "shield_exclusion": [
+        [
+          82,
+          62
+        ],
+        [
+          98,
+          51
+        ],
+        [
+          99,
+          56
+        ],
+        [
+          99,
+          68
+        ],
+        [
+          98,
+          73
+        ],
+        [
+          97,
+          75
+        ],
+        [
+          93,
+          82
+        ],
+        [
+          90,
+          80
+        ],
+        [
+          85,
+          75
+        ],
+        [
+          82,
+          66
+        ]
+      ]
+    },
+    {
+      "slot": 16,
+      "clip": "sway",
+      "frame": 3,
+      "source": "assets/art_presets/trials/defender_idle_v1/sway/frame-04.png",
+      "sha256": "6e5ee9ad97568633f6c8787e77caf741c75ed9354dbbcc5c133eccf7a0c3ad16",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 295,
+      "shield_exclusion": [
+        [
+          82,
+          62
+        ],
+        [
+          98,
+          51
+        ],
+        [
+          99,
+          56
+        ],
+        [
+          99,
+          67
+        ],
+        [
+          98,
+          73
+        ],
+        [
+          97,
+          75
+        ],
+        [
+          93,
+          82
+        ],
+        [
+          85,
+          74
+        ],
+        [
+          82,
+          65
+        ]
+      ]
+    },
+    {
+      "slot": 17,
+      "clip": "sway",
+      "frame": 4,
+      "source": "assets/art_presets/trials/defender_idle_v1/sway/frame-05.png",
+      "sha256": "dc9dd1da601ba802eb20434f0cd7cf660b89f0bb5c9d0d128f63c5cecb191d09",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 314,
+      "shield_exclusion": [
+        [
+          82,
+          62
+        ],
+        [
+          98,
+          51
+        ],
+        [
+          99,
+          56
+        ],
+        [
+          99,
+          67
+        ],
+        [
+          98,
+          73
+        ],
+        [
+          97,
+          75
+        ],
+        [
+          93,
+          82
+        ],
+        [
+          85,
+          74
+        ],
+        [
+          82,
+          64
+        ]
+      ]
+    },
+    {
+      "slot": 18,
+      "clip": "sway",
+      "frame": 5,
+      "source": "assets/art_presets/trials/defender_idle_v1/sway/frame-06.png",
+      "sha256": "8909cda13e27573f7fc3bfafddd27b0e1a0d336b767f3bc5807196ac82a2b175",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 313,
+      "shield_exclusion": [
+        [
+          82,
+          61
+        ],
+        [
+          98,
+          50
+        ],
+        [
+          99,
+          55
+        ],
+        [
+          99,
+          66
+        ],
+        [
+          98,
+          72
+        ],
+        [
+          97,
+          74
+        ],
+        [
+          93,
+          81
+        ],
+        [
+          91,
+          80
+        ],
+        [
+          85,
+          74
+        ],
+        [
+          82,
+          64
+        ]
+      ]
+    },
+    {
+      "slot": 19,
+      "clip": "sway",
+      "frame": 6,
+      "source": "assets/art_presets/trials/defender_idle_v1/sway/frame-07.png",
+      "sha256": "4985eeece69228789417769ac2834230dca4ee6d6284da2cf8c5ced74b48b579",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 302,
+      "shield_exclusion": [
+        [
+          81,
+          61
+        ],
+        [
+          97,
+          50
+        ],
+        [
+          98,
+          55
+        ],
+        [
+          98,
+          66
+        ],
+        [
+          97,
+          72
+        ],
+        [
+          96,
+          74
+        ],
+        [
+          92,
+          81
+        ],
+        [
+          84,
+          73
+        ],
+        [
+          81,
+          64
+        ]
+      ]
+    },
+    {
+      "slot": 20,
+      "clip": "sway",
+      "frame": 7,
+      "source": "assets/art_presets/trials/defender_idle_v1/sway/frame-08.png",
+      "sha256": "ecef4c5abf808c4519372dce327725dedb93abf9eee80ee848d921e4b9b8bba3",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 294,
+      "shield_exclusion": [
+        [
+          80,
+          61
+        ],
+        [
+          96,
+          50
+        ],
+        [
+          97,
+          55
+        ],
+        [
+          97,
+          66
+        ],
+        [
+          96,
+          72
+        ],
+        [
+          95,
+          74
+        ],
+        [
+          91,
+          81
+        ],
+        [
+          83,
+          73
+        ],
+        [
+          80,
+          64
+        ]
+      ]
+    },
+    {
+      "slot": 21,
+      "clip": "sway",
+      "frame": 8,
+      "source": "assets/art_presets/trials/defender_idle_v1/sway/frame-09.png",
+      "sha256": "838c0620013ac37eb420c606475ac08fb175dc6d5de90319e8d983d1994d9670",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 296,
+      "shield_exclusion": [
+        [
+          80,
+          61
+        ],
+        [
+          96,
+          50
+        ],
+        [
+          97,
+          55
+        ],
+        [
+          97,
+          66
+        ],
+        [
+          96,
+          72
+        ],
+        [
+          95,
+          74
+        ],
+        [
+          91,
+          81
+        ],
+        [
+          87,
+          78
+        ],
+        [
+          83,
+          73
+        ],
+        [
+          80,
+          64
+        ]
+      ]
+    },
+    {
+      "slot": 22,
+      "clip": "sway",
+      "frame": 9,
+      "source": "assets/art_presets/trials/defender_idle_v1/sway/frame-10.png",
+      "sha256": "7017f4b070586fd296c771c5a65d0f24289049d0b6d10342c73da1d000a59bc6",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 276,
+      "shield_exclusion": [
+        [
+          79,
+          62
+        ],
+        [
+          95,
+          51
+        ],
+        [
+          96,
+          56
+        ],
+        [
+          96,
+          67
+        ],
+        [
+          95,
+          73
+        ],
+        [
+          94,
+          75
+        ],
+        [
+          90,
+          82
+        ],
+        [
+          82,
+          74
+        ],
+        [
+          79,
+          65
+        ]
+      ]
+    },
+    {
+      "slot": 23,
+      "clip": "sway",
+      "frame": 10,
+      "source": "assets/art_presets/trials/defender_idle_v1/sway/frame-11.png",
+      "sha256": "f11f0650800efd0464bccca276256737b8cde4e368037ed0da197d8425a94559",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 282,
+      "shield_exclusion": [
+        [
+          79,
+          62
+        ],
+        [
+          95,
+          51
+        ],
+        [
+          96,
+          56
+        ],
+        [
+          96,
+          67
+        ],
+        [
+          95,
+          73
+        ],
+        [
+          94,
+          75
+        ],
+        [
+          90,
+          82
+        ],
+        [
+          82,
+          74
+        ],
+        [
+          79,
+          65
+        ]
+      ]
+    },
+    {
+      "slot": 24,
+      "clip": "sway",
+      "frame": 11,
+      "source": "assets/art_presets/trials/defender_idle_v1/sway/frame-12.png",
+      "sha256": "a5922c182999ed0156849c93c50b46b0816930a4e4fc018d8d8e4dc0e6e64e83",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 277,
+      "shield_exclusion": [
+        [
+          80,
+          62
+        ],
+        [
+          96,
+          51
+        ],
+        [
+          97,
+          57
+        ],
+        [
+          97,
+          67
+        ],
+        [
+          96,
+          74
+        ],
+        [
+          95,
+          76
+        ],
+        [
+          91,
+          83
+        ],
+        [
+          83,
+          75
+        ],
+        [
+          80,
+          66
+        ]
+      ]
+    },
+    {
+      "slot": 25,
+      "clip": "buff",
+      "frame": 0,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-01.png",
+      "sha256": "51044cdd6399065209e1a0c801672b8e7e27380ebb210dc81ce12bd5144fdde0",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 285,
+      "shield_exclusion": [
+        [
+          81,
+          63
+        ],
+        [
+          97,
+          52
+        ],
+        [
+          98,
+          57
+        ],
+        [
+          98,
+          68
+        ],
+        [
+          97,
+          74
+        ],
+        [
+          96,
+          76
+        ],
+        [
+          92,
+          83
+        ],
+        [
+          89,
+          81
+        ],
+        [
+          84,
+          75
+        ],
+        [
+          81,
+          66
+        ]
+      ]
+    },
+    {
+      "slot": 26,
+      "clip": "buff",
+      "frame": 1,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-02.png",
+      "sha256": "188fbab7ccfe99d80dd174973e3f6d881616f41464a4ebfd45a74af71983095f",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 281,
+      "shield_exclusion": [
+        [
+          81,
+          63
+        ],
+        [
+          97,
+          52
+        ],
+        [
+          98,
+          57
+        ],
+        [
+          98,
+          68
+        ],
+        [
+          97,
+          74
+        ],
+        [
+          96,
+          76
+        ],
+        [
+          92,
+          83
+        ],
+        [
+          84,
+          75
+        ],
+        [
+          81,
+          66
+        ]
+      ]
+    },
+    {
+      "slot": 27,
+      "clip": "buff",
+      "frame": 2,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-03.png",
+      "sha256": "b5e3f22d73c58ff38583d64d4e63fd1c47ded79561a2c10cc44e011211e2628e",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 283,
+      "shield_exclusion": [
+        [
+          81,
+          63
+        ],
+        [
+          97,
+          52
+        ],
+        [
+          98,
+          57
+        ],
+        [
+          98,
+          68
+        ],
+        [
+          97,
+          74
+        ],
+        [
+          96,
+          76
+        ],
+        [
+          92,
+          83
+        ],
+        [
+          84,
+          75
+        ],
+        [
+          81,
+          66
+        ]
+      ]
+    },
+    {
+      "slot": 28,
+      "clip": "buff",
+      "frame": 3,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-04.png",
+      "sha256": "032e57a0fc614d40da5d3a88576b52a5a69696d1441cfe322b6109f115eba8f0",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 283,
+      "shield_exclusion": [
+        [
+          81,
+          63
+        ],
+        [
+          97,
+          52
+        ],
+        [
+          98,
+          57
+        ],
+        [
+          98,
+          68
+        ],
+        [
+          97,
+          74
+        ],
+        [
+          96,
+          76
+        ],
+        [
+          92,
+          83
+        ],
+        [
+          84,
+          75
+        ],
+        [
+          81,
+          66
+        ]
+      ]
+    },
+    {
+      "slot": 29,
+      "clip": "buff",
+      "frame": 4,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-05.png",
+      "sha256": "32fb242275220875baa2b167a23b5fb43aacc93aed5fb02ac739002397157b62",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 283,
+      "shield_exclusion": [
+        [
+          81,
+          63
+        ],
+        [
+          97,
+          52
+        ],
+        [
+          98,
+          57
+        ],
+        [
+          98,
+          68
+        ],
+        [
+          97,
+          74
+        ],
+        [
+          96,
+          76
+        ],
+        [
+          92,
+          83
+        ],
+        [
+          84,
+          75
+        ],
+        [
+          81,
+          66
+        ]
+      ]
+    },
+    {
+      "slot": 30,
+      "clip": "buff",
+      "frame": 5,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-06.png",
+      "sha256": "61dfba0afc1e05ff35c6e5a2155870eec28047a241038a444aaf88a8760ad0c8",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 283,
+      "shield_exclusion": [
+        [
+          81,
+          63
+        ],
+        [
+          97,
+          52
+        ],
+        [
+          98,
+          57
+        ],
+        [
+          98,
+          68
+        ],
+        [
+          97,
+          74
+        ],
+        [
+          96,
+          76
+        ],
+        [
+          92,
+          83
+        ],
+        [
+          84,
+          75
+        ],
+        [
+          81,
+          66
+        ]
+      ]
+    },
+    {
+      "slot": 31,
+      "clip": "buff",
+      "frame": 6,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-07.png",
+      "sha256": "19443706fdd78abf53fd1b2c92af977dd9a59fe06e43d200115629d5d5a33605",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 283,
+      "shield_exclusion": [
+        [
+          81,
+          63
+        ],
+        [
+          97,
+          52
+        ],
+        [
+          98,
+          57
+        ],
+        [
+          98,
+          68
+        ],
+        [
+          97,
+          74
+        ],
+        [
+          96,
+          76
+        ],
+        [
+          92,
+          83
+        ],
+        [
+          84,
+          75
+        ],
+        [
+          81,
+          66
+        ]
+      ]
+    },
+    {
+      "slot": 32,
+      "clip": "buff",
+      "frame": 7,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-08.png",
+      "sha256": "51a16fc1d396a6ff3995e39f3c2c72f948c2eea64d67e054d537c3ed22cb841d",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 290,
+      "shield_exclusion": [
+        [
+          81,
+          63
+        ],
+        [
+          97,
+          52
+        ],
+        [
+          98,
+          57
+        ],
+        [
+          98,
+          68
+        ],
+        [
+          97,
+          74
+        ],
+        [
+          96,
+          76
+        ],
+        [
+          92,
+          83
+        ],
+        [
+          84,
+          75
+        ],
+        [
+          81,
+          66
+        ]
+      ]
+    },
+    {
+      "slot": 33,
+      "clip": "buff",
+      "frame": 8,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-09.png",
+      "sha256": "0b44a4c808c023be49a1b79b47a936271f41991d47bf03abb4c4bcf07f6448a2",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 249,
+      "shield_exclusion": [
+        [
+          73,
+          58
+        ],
+        [
+          93,
+          51
+        ],
+        [
+          94,
+          55
+        ],
+        [
+          94,
+          69
+        ],
+        [
+          92,
+          75
+        ],
+        [
+          88,
+          81
+        ],
+        [
+          87,
+          81
+        ],
+        [
+          85,
+          80
+        ],
+        [
+          82,
+          78
+        ],
+        [
+          78,
+          74
+        ],
+        [
+          76,
+          70
+        ],
+        [
+          73,
+          61
+        ]
+      ]
+    },
+    {
+      "slot": 34,
+      "clip": "buff",
+      "frame": 9,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-10.png",
+      "sha256": "291b2a1937e9fe65d60dbb9f6c5cceebbdcb5888f0a8760881096757893af0c2",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 120,
+      "shield_exclusion": [
+        [
+          71,
+          57
+        ],
+        [
+          91,
+          50
+        ],
+        [
+          92,
+          54
+        ],
+        [
+          92,
+          68
+        ],
+        [
+          90,
+          75
+        ],
+        [
+          88,
+          79
+        ],
+        [
+          87,
+          80
+        ],
+        [
+          86,
+          80
+        ],
+        [
+          83,
+          79
+        ],
+        [
+          79,
+          76
+        ],
+        [
+          75,
+          72
+        ],
+        [
+          71,
+          60
+        ]
+      ]
+    },
+    {
+      "slot": 35,
+      "clip": "buff",
+      "frame": 10,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-11.png",
+      "sha256": "5ae63a9d75e5bc5aea206769f689bc55844cb3198be2fbc857fb5bf6896c7c7c",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 106,
+      "shield_exclusion": [
+        [
+          75,
+          54
+        ],
+        [
+          95,
+          52
+        ],
+        [
+          97,
+          52
+        ],
+        [
+          101,
+          73
+        ],
+        [
+          88,
+          81
+        ],
+        [
+          87,
+          81
+        ],
+        [
+          82,
+          76
+        ],
+        [
+          79,
+          72
+        ],
+        [
+          78,
+          70
+        ],
+        [
+          75,
+          59
+        ]
+      ]
+    },
+    {
+      "slot": 36,
+      "clip": "buff",
+      "frame": 11,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-12.png",
+      "sha256": "d16a0f210970a146680563d8c664ca277b837a139cc3e11a4c399b5c2b98b182",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 130,
+      "shield_exclusion": [
+        [
+          79,
+          54
+        ],
+        [
+          100,
+          53
+        ],
+        [
+          101,
+          53
+        ],
+        [
+          101,
+          62
+        ],
+        [
+          99,
+          70
+        ],
+        [
+          96,
+          76
+        ],
+        [
+          91,
+          81
+        ],
+        [
+          89,
+          81
+        ],
+        [
+          86,
+          78
+        ],
+        [
+          82,
+          72
+        ],
+        [
+          79,
+          61
+        ]
+      ]
+    },
+    {
+      "slot": 37,
+      "clip": "buff",
+      "frame": 12,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-13.png",
+      "sha256": "ac899157a61ebae23302a9792f9505f2722a810048c961f8c4f98fd43eda978b",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 115,
+      "shield_exclusion": [
+        [
+          77,
+          54
+        ],
+        [
+          98,
+          53
+        ],
+        [
+          99,
+          53
+        ],
+        [
+          99,
+          62
+        ],
+        [
+          97,
+          70
+        ],
+        [
+          94,
+          76
+        ],
+        [
+          89,
+          81
+        ],
+        [
+          87,
+          81
+        ],
+        [
+          85,
+          79
+        ],
+        [
+          82,
+          75
+        ],
+        [
+          80,
+          72
+        ],
+        [
+          77,
+          61
+        ]
+      ]
+    },
+    {
+      "slot": 38,
+      "clip": "buff",
+      "frame": 13,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-14.png",
+      "sha256": "cbf0335723f8f8a524897f13b224ef84342adb02d38f926c293a331a70c2bd18",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 131,
+      "shield_exclusion": [
+        [
+          74,
+          56
+        ],
+        [
+          95,
+          52
+        ],
+        [
+          96,
+          52
+        ],
+        [
+          96,
+          66
+        ],
+        [
+          95,
+          70
+        ],
+        [
+          92,
+          76
+        ],
+        [
+          87,
+          81
+        ],
+        [
+          86,
+          81
+        ],
+        [
+          83,
+          79
+        ],
+        [
+          77,
+          70
+        ],
+        [
+          75,
+          65
+        ],
+        [
+          74,
+          60
+        ]
+      ]
+    },
+    {
+      "slot": 39,
+      "clip": "buff",
+      "frame": 14,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-15.png",
+      "sha256": "de4e86a0ca6a97bc218579db3f3e99b7ee0059f5b5273c122d4c7ac0b685d391",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 219,
+      "shield_exclusion": [
+        [
+          73,
+          57
+        ],
+        [
+          94,
+          52
+        ],
+        [
+          95,
+          56
+        ],
+        [
+          95,
+          66
+        ],
+        [
+          94,
+          70
+        ],
+        [
+          93,
+          73
+        ],
+        [
+          91,
+          77
+        ],
+        [
+          89,
+          80
+        ],
+        [
+          88,
+          81
+        ],
+        [
+          86,
+          81
+        ],
+        [
+          83,
+          79
+        ],
+        [
+          81,
+          77
+        ],
+        [
+          77,
+          72
+        ],
+        [
+          73,
+          60
+        ]
+      ]
+    },
+    {
+      "slot": 40,
+      "clip": "buff",
+      "frame": 15,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-16.png",
+      "sha256": "0265e612bc8298ab8ac62054ea4009fe44b41259cbffec582720020c712a8cf3",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 237,
+      "shield_exclusion": [
+        [
+          73,
+          58
+        ],
+        [
+          93,
+          51
+        ],
+        [
+          94,
+          55
+        ],
+        [
+          94,
+          69
+        ],
+        [
+          92,
+          75
+        ],
+        [
+          89,
+          80
+        ],
+        [
+          88,
+          81
+        ],
+        [
+          87,
+          81
+        ],
+        [
+          83,
+          79
+        ],
+        [
+          78,
+          74
+        ],
+        [
+          76,
+          70
+        ],
+        [
+          73,
+          61
+        ]
+      ]
+    },
+    {
+      "slot": 41,
+      "clip": "buff",
+      "frame": 16,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-17.png",
+      "sha256": "d74c5985c08fe5527ace6d8bdc5a72e54ba17cf4fdd9a536b7a84741d3678580",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 249,
+      "shield_exclusion": [
+        [
+          73,
+          58
+        ],
+        [
+          93,
+          51
+        ],
+        [
+          94,
+          55
+        ],
+        [
+          94,
+          69
+        ],
+        [
+          92,
+          75
+        ],
+        [
+          89,
+          80
+        ],
+        [
+          88,
+          81
+        ],
+        [
+          87,
+          81
+        ],
+        [
+          83,
+          79
+        ],
+        [
+          78,
+          74
+        ],
+        [
+          76,
+          70
+        ],
+        [
+          73,
+          61
+        ]
+      ]
+    },
+    {
+      "slot": 42,
+      "clip": "buff",
+      "frame": 17,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-18.png",
+      "sha256": "be93307362d2ab8363c24c391e2e97301c2f99bd1d2486adb8f8482b21cec667",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 247,
+      "shield_exclusion": [
+        [
+          73,
+          58
+        ],
+        [
+          93,
+          51
+        ],
+        [
+          94,
+          55
+        ],
+        [
+          94,
+          69
+        ],
+        [
+          92,
+          75
+        ],
+        [
+          89,
+          80
+        ],
+        [
+          88,
+          81
+        ],
+        [
+          87,
+          81
+        ],
+        [
+          83,
+          79
+        ],
+        [
+          78,
+          74
+        ],
+        [
+          76,
+          70
+        ],
+        [
+          73,
+          61
+        ]
+      ]
+    },
+    {
+      "slot": 43,
+      "clip": "buff",
+      "frame": 18,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-19.png",
+      "sha256": "49a628fdaac5152fa5729c5a3b90023ef0ca440a33d30b2211020a6ec04c288d",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 138,
+      "shield_exclusion": [
+        [
+          71,
+          57
+        ],
+        [
+          91,
+          50
+        ],
+        [
+          92,
+          54
+        ],
+        [
+          92,
+          68
+        ],
+        [
+          90,
+          91
+        ],
+        [
+          75,
+          72
+        ],
+        [
+          71,
+          60
+        ]
+      ]
+    },
+    {
+      "slot": 44,
+      "clip": "buff",
+      "frame": 19,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-20.png",
+      "sha256": "e9d74bff5818631e4f4b55d3c9bc093f79e639deaedde5e4efb7e914f49c92e2",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 146,
+      "shield_exclusion": [
+        [
+          75,
+          54
+        ],
+        [
+          95,
+          52
+        ],
+        [
+          97,
+          52
+        ],
+        [
+          97,
+          65
+        ],
+        [
+          95,
+          71
+        ],
+        [
+          94,
+          73
+        ],
+        [
+          90,
+          79
+        ],
+        [
+          88,
+          81
+        ],
+        [
+          87,
+          81
+        ],
+        [
+          82,
+          76
+        ],
+        [
+          79,
+          72
+        ],
+        [
+          78,
+          70
+        ],
+        [
+          75,
+          59
+        ]
+      ]
+    },
+    {
+      "slot": 45,
+      "clip": "buff",
+      "frame": 20,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-21.png",
+      "sha256": "de3f8569a17ee25f77914bd83c5e9bed823f46918bfbae987dc4de5ae69b3a54",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 150,
+      "shield_exclusion": [
+        [
+          79,
+          54
+        ],
+        [
+          100,
+          53
+        ],
+        [
+          101,
+          53
+        ],
+        [
+          101,
+          62
+        ],
+        [
+          99,
+          70
+        ],
+        [
+          96,
+          76
+        ],
+        [
+          91,
+          81
+        ],
+        [
+          89,
+          81
+        ],
+        [
+          86,
+          78
+        ],
+        [
+          82,
+          72
+        ],
+        [
+          79,
+          61
+        ]
+      ]
+    },
+    {
+      "slot": 46,
+      "clip": "buff",
+      "frame": 21,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-22.png",
+      "sha256": "36d00135b8d9ee80cbaa68bffc899defbedb6c06a2b50ceeb77e1f219c9c4052",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 134,
+      "shield_exclusion": [
+        [
+          77,
+          54
+        ],
+        [
+          98,
+          53
+        ],
+        [
+          99,
+          53
+        ],
+        [
+          99,
+          62
+        ],
+        [
+          97,
+          70
+        ],
+        [
+          94,
+          76
+        ],
+        [
+          89,
+          81
+        ],
+        [
+          87,
+          81
+        ],
+        [
+          85,
+          79
+        ],
+        [
+          82,
+          75
+        ],
+        [
+          80,
+          72
+        ],
+        [
+          77,
+          61
+        ]
+      ]
+    },
+    {
+      "slot": 47,
+      "clip": "buff",
+      "frame": 22,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-23.png",
+      "sha256": "2311b22f4807a947f1c1460ffc096d5f185681c759b182c9556f4f5116a19c45",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 132,
+      "shield_exclusion": [
+        [
+          74,
+          56
+        ],
+        [
+          79,
+          55
+        ],
+        [
+          95,
+          52
+        ],
+        [
+          96,
+          52
+        ],
+        [
+          96,
+          65
+        ],
+        [
+          95,
+          69
+        ],
+        [
+          94,
+          72
+        ],
+        [
+          92,
+          76
+        ],
+        [
+          87,
+          81
+        ],
+        [
+          85,
+          81
+        ],
+        [
+          83,
+          79
+        ],
+        [
+          77,
+          70
+        ],
+        [
+          76,
+          68
+        ],
+        [
+          75,
+          65
+        ],
+        [
+          74,
+          59
+        ]
+      ]
+    },
+    {
+      "slot": 48,
+      "clip": "buff",
+      "frame": 23,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-24.png",
+      "sha256": "feb759aa9f380596cd7a706d6c512907f9bbdc4301c97bf2ace5eb612321fd18",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 239,
+      "shield_exclusion": [
+        [
+          75,
+          58
+        ],
+        [
+          95,
+          51
+        ],
+        [
+          96,
+          56
+        ],
+        [
+          96,
+          69
+        ],
+        [
+          94,
+          75
+        ],
+        [
+          91,
+          80
+        ],
+        [
+          90,
+          81
+        ],
+        [
+          89,
+          81
+        ],
+        [
+          85,
+          79
+        ],
+        [
+          80,
+          74
+        ],
+        [
+          78,
+          70
+        ],
+        [
+          75,
+          61
+        ]
+      ]
+    },
+    {
+      "slot": 49,
+      "clip": "buff",
+      "frame": 24,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-25.png",
+      "sha256": "4dae7577110fcafea5b03855ab9ee2d352b6d719b0cecdcbda80aa313940e6b4",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 283,
+      "shield_exclusion": [
+        [
+          81,
+          63
+        ],
+        [
+          97,
+          52
+        ],
+        [
+          98,
+          57
+        ],
+        [
+          98,
+          68
+        ],
+        [
+          97,
+          74
+        ],
+        [
+          96,
+          76
+        ],
+        [
+          92,
+          83
+        ],
+        [
+          84,
+          75
+        ],
+        [
+          81,
+          66
+        ]
+      ]
+    },
+    {
+      "slot": 50,
+      "clip": "buff",
+      "frame": 25,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-26.png",
+      "sha256": "6d94fdff69cfa27c24f3e929085a675bdd061819402ade32a90f7ed5af9aa4d1",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 287,
+      "shield_exclusion": [
+        [
+          83,
+          64
+        ],
+        [
+          99,
+          53
+        ],
+        [
+          100,
+          58
+        ],
+        [
+          100,
+          69
+        ],
+        [
+          99,
+          75
+        ],
+        [
+          98,
+          77
+        ],
+        [
+          94,
+          84
+        ],
+        [
+          86,
+          76
+        ],
+        [
+          83,
+          67
+        ]
+      ]
+    },
+    {
+      "slot": 51,
+      "clip": "buff",
+      "frame": 26,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-27.png",
+      "sha256": "5a6a791dd372b1bc2faa04987c683bca43245426728ad42dc968945208819cfd",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 291,
+      "shield_exclusion": [
+        [
+          83,
+          64
+        ],
+        [
+          99,
+          53
+        ],
+        [
+          100,
+          58
+        ],
+        [
+          100,
+          69
+        ],
+        [
+          99,
+          75
+        ],
+        [
+          98,
+          77
+        ],
+        [
+          94,
+          84
+        ],
+        [
+          86,
+          76
+        ],
+        [
+          83,
+          67
+        ]
+      ]
+    },
+    {
+      "slot": 52,
+      "clip": "buff",
+      "frame": 27,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-28.png",
+      "sha256": "f8fb262ac2c4d6885015d224b79c98293201f5fb11aa22fa1463d5c4c63aac2b",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 294,
+      "shield_exclusion": [
+        [
+          83,
+          64
+        ],
+        [
+          99,
+          53
+        ],
+        [
+          100,
+          58
+        ],
+        [
+          100,
+          69
+        ],
+        [
+          99,
+          75
+        ],
+        [
+          98,
+          77
+        ],
+        [
+          94,
+          84
+        ],
+        [
+          86,
+          76
+        ],
+        [
+          83,
+          67
+        ]
+      ]
+    },
+    {
+      "slot": 53,
+      "clip": "buff",
+      "frame": 28,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-29.png",
+      "sha256": "9810d2987319ac042d4a0b53d698d7f50d9abfacf64652adbcd26f3dac2be0a4",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 304,
+      "shield_exclusion": [
+        [
+          83,
+          64
+        ],
+        [
+          99,
+          53
+        ],
+        [
+          100,
+          58
+        ],
+        [
+          100,
+          69
+        ],
+        [
+          99,
+          75
+        ],
+        [
+          98,
+          77
+        ],
+        [
+          94,
+          84
+        ],
+        [
+          86,
+          76
+        ],
+        [
+          83,
+          67
+        ]
+      ]
+    },
+    {
+      "slot": 54,
+      "clip": "buff",
+      "frame": 29,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-30.png",
+      "sha256": "08e7bd4e175ef0a78a7a1ec2391dc9e2460ef0a54ab67301957150dd014ece88",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 280,
+      "shield_exclusion": [
+        [
+          83,
+          64
+        ],
+        [
+          99,
+          53
+        ],
+        [
+          100,
+          58
+        ],
+        [
+          100,
+          69
+        ],
+        [
+          99,
+          75
+        ],
+        [
+          98,
+          77
+        ],
+        [
+          94,
+          84
+        ],
+        [
+          86,
+          76
+        ],
+        [
+          83,
+          67
+        ]
+      ]
+    },
+    {
+      "slot": 55,
+      "clip": "buff",
+      "frame": 30,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-31.png",
+      "sha256": "8ba123249c3ec98a5d53fd136bb9c0810a7e49b7d0de0269217a9950f74f68ea",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 295,
+      "shield_exclusion": [
+        [
+          83,
+          64
+        ],
+        [
+          99,
+          53
+        ],
+        [
+          100,
+          58
+        ],
+        [
+          100,
+          69
+        ],
+        [
+          99,
+          75
+        ],
+        [
+          98,
+          77
+        ],
+        [
+          94,
+          84
+        ],
+        [
+          86,
+          76
+        ],
+        [
+          83,
+          67
+        ]
+      ]
+    },
+    {
+      "slot": 56,
+      "clip": "buff",
+      "frame": 31,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-32.png",
+      "sha256": "df8175990f062ae048480616d03e27e03bc1c53309dd6056fade2ed127849f45",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 289,
+      "shield_exclusion": [
+        [
+          82,
+          63
+        ],
+        [
+          98,
+          52
+        ],
+        [
+          99,
+          57
+        ],
+        [
+          99,
+          68
+        ],
+        [
+          98,
+          74
+        ],
+        [
+          97,
+          76
+        ],
+        [
+          93,
+          83
+        ],
+        [
+          85,
+          75
+        ],
+        [
+          82,
+          66
+        ]
+      ]
+    },
+    {
+      "slot": 57,
+      "clip": "buff",
+      "frame": 32,
+      "source": "assets/art_presets/trials/defender_buff_v1/frame-33.png",
+      "sha256": "a93d2901d17732cd5de44bb28442a04973b9c24d61bd17e8faee5e9ad43315dc",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 283,
+      "shield_exclusion": [
+        [
+          81,
+          63
+        ],
+        [
+          97,
+          52
+        ],
+        [
+          98,
+          57
+        ],
+        [
+          98,
+          68
+        ],
+        [
+          97,
+          74
+        ],
+        [
+          96,
+          76
+        ],
+        [
+          92,
+          83
+        ],
+        [
+          84,
+          75
+        ],
+        [
+          81,
+          66
+        ]
+      ]
+    },
+    {
+      "slot": 58,
+      "clip": "death",
+      "frame": 0,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-01.png",
+      "sha256": "51044cdd6399065209e1a0c801672b8e7e27380ebb210dc81ce12bd5144fdde0",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 285,
+      "shield_exclusion": [
+        [
+          81,
+          63
+        ],
+        [
+          97,
+          52
+        ],
+        [
+          98,
+          57
+        ],
+        [
+          98,
+          68
+        ],
+        [
+          97,
+          74
+        ],
+        [
+          96,
+          76
+        ],
+        [
+          92,
+          83
+        ],
+        [
+          89,
+          81
+        ],
+        [
+          84,
+          75
+        ],
+        [
+          81,
+          66
+        ]
+      ]
+    },
+    {
+      "slot": 59,
+      "clip": "death",
+      "frame": 1,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-02.png",
+      "sha256": "30b4dfb16ead74eb571ab95598f3d273f31bb6882ebf05291ee817264a6f277c",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 306,
+      "shield_exclusion": [
+        [
+          79,
+          61
+        ],
+        [
+          95,
+          50
+        ],
+        [
+          96,
+          55
+        ],
+        [
+          96,
+          64
+        ],
+        [
+          95,
+          71
+        ],
+        [
+          94,
+          74
+        ],
+        [
+          90,
+          81
+        ],
+        [
+          82,
+          80
+        ],
+        [
+          79,
+          64
+        ]
+      ]
+    },
+    {
+      "slot": 60,
+      "clip": "death",
+      "frame": 2,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-03.png",
+      "sha256": "06bd86e094633fb3a0c954686bfbbdafa20f572359ce1b7cc61fb8c84381989d",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 279,
+      "shield_exclusion": [
+        [
+          75,
+          61
+        ],
+        [
+          92,
+          50
+        ],
+        [
+          93,
+          53
+        ],
+        [
+          94,
+          58
+        ],
+        [
+          94,
+          67
+        ],
+        [
+          93,
+          74
+        ],
+        [
+          92,
+          77
+        ],
+        [
+          90,
+          82
+        ],
+        [
+          87,
+          80
+        ],
+        [
+          79,
+          72
+        ],
+        [
+          75,
+          63
+        ]
+      ]
+    },
+    {
+      "slot": 61,
+      "clip": "death",
+      "frame": 3,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-04.png",
+      "sha256": "b6263f956a27a407d00af23665a466ccad9bb2fc65d0d4ce28a259eef1ef4f30",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 227,
+      "shield_exclusion": [
+        [
+          74,
+          67
+        ],
+        [
+          76,
+          65
+        ],
+        [
+          89,
+          54
+        ],
+        [
+          90,
+          56
+        ],
+        [
+          92,
+          61
+        ],
+        [
+          93,
+          64
+        ],
+        [
+          94,
+          69
+        ],
+        [
+          94,
+          79
+        ],
+        [
+          93,
+          86
+        ],
+        [
+          88,
+          84
+        ],
+        [
+          80,
+          78
+        ],
+        [
+          75,
+          70
+        ],
+        [
+          74,
+          68
+        ]
+      ]
+    },
+    {
+      "slot": 62,
+      "clip": "death",
+      "frame": 4,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-05.png",
+      "sha256": "883c992af3486dc90a50f0fc263f5c78786d3b53b762d9f1d8db438be9618cae",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 265,
+      "shield_exclusion": [
+        [
+          72,
+          67
+        ],
+        [
+          88,
+          55
+        ],
+        [
+          90,
+          59
+        ],
+        [
+          91,
+          62
+        ],
+        [
+          92,
+          67
+        ],
+        [
+          92,
+          81
+        ],
+        [
+          91,
+          86
+        ],
+        [
+          89,
+          86
+        ],
+        [
+          87,
+          85
+        ],
+        [
+          78,
+          79
+        ],
+        [
+          72,
+          68
+        ]
+      ]
+    },
+    {
+      "slot": 63,
+      "clip": "death",
+      "frame": 5,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-06.png",
+      "sha256": "1596a88930629dbe8324a13c672bf2259d0393db99570d197ecef146fb6059dd",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 293,
+      "shield_exclusion": [
+        [
+          73,
+          65
+        ],
+        [
+          90,
+          54
+        ],
+        [
+          92,
+          64
+        ],
+        [
+          92,
+          71
+        ],
+        [
+          91,
+          80
+        ],
+        [
+          90,
+          83
+        ],
+        [
+          89,
+          85
+        ],
+        [
+          88,
+          86
+        ],
+        [
+          85,
+          84
+        ],
+        [
+          81,
+          81
+        ],
+        [
+          80,
+          80
+        ],
+        [
+          77,
+          76
+        ],
+        [
+          73,
+          68
+        ]
+      ]
+    },
+    {
+      "slot": 64,
+      "clip": "death",
+      "frame": 6,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-07.png",
+      "sha256": "66bc01daa0e05f6f052ad1c5e6ce4ae4e58149dd4f3dfc71f3b72fda596fbfe6",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 293,
+      "shield_exclusion": [
+        [
+          75,
+          64
+        ],
+        [
+          92,
+          54
+        ],
+        [
+          93,
+          59
+        ],
+        [
+          93,
+          71
+        ],
+        [
+          92,
+          78
+        ],
+        [
+          90,
+          83
+        ],
+        [
+          89,
+          85
+        ],
+        [
+          88,
+          86
+        ],
+        [
+          80,
+          78
+        ],
+        [
+          78,
+          75
+        ],
+        [
+          76,
+          70
+        ],
+        [
+          75,
+          67
+        ]
+      ]
+    },
+    {
+      "slot": 65,
+      "clip": "death",
+      "frame": 7,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-08.png",
+      "sha256": "768ae2dc137c46d710cf8cbcebc307cb4a6f030327dc23c9171cc0095399f09d",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 294,
+      "shield_exclusion": [
+        [
+          75,
+          64
+        ],
+        [
+          92,
+          54
+        ],
+        [
+          93,
+          59
+        ],
+        [
+          93,
+          71
+        ],
+        [
+          92,
+          78
+        ],
+        [
+          90,
+          83
+        ],
+        [
+          89,
+          85
+        ],
+        [
+          88,
+          86
+        ],
+        [
+          80,
+          78
+        ],
+        [
+          78,
+          75
+        ],
+        [
+          76,
+          70
+        ],
+        [
+          75,
+          67
+        ]
+      ]
+    },
+    {
+      "slot": 66,
+      "clip": "death",
+      "frame": 8,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-09.png",
+      "sha256": "a9af895e710d2b78db619f81dc6ae6c301996f4b6a83e8c029d78711e89bbcb0",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 294,
+      "shield_exclusion": [
+        [
+          75,
+          64
+        ],
+        [
+          92,
+          54
+        ],
+        [
+          93,
+          59
+        ],
+        [
+          93,
+          71
+        ],
+        [
+          92,
+          78
+        ],
+        [
+          90,
+          83
+        ],
+        [
+          89,
+          85
+        ],
+        [
+          88,
+          86
+        ],
+        [
+          80,
+          78
+        ],
+        [
+          78,
+          75
+        ],
+        [
+          75,
+          67
+        ]
+      ]
+    },
+    {
+      "slot": 67,
+      "clip": "death",
+      "frame": 9,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-10.png",
+      "sha256": "4c0e8575e98047faf1e5969d0b635e473e972c43cac3f467870eec06ca18756f",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 294,
+      "shield_exclusion": [
+        [
+          75,
+          64
+        ],
+        [
+          92,
+          54
+        ],
+        [
+          93,
+          59
+        ],
+        [
+          93,
+          71
+        ],
+        [
+          92,
+          78
+        ],
+        [
+          90,
+          83
+        ],
+        [
+          89,
+          85
+        ],
+        [
+          88,
+          86
+        ],
+        [
+          80,
+          78
+        ],
+        [
+          78,
+          75
+        ],
+        [
+          75,
+          67
+        ]
+      ]
+    },
+    {
+      "slot": 68,
+      "clip": "death",
+      "frame": 10,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-11.png",
+      "sha256": "7848f26877a214ddd7051da744a947b808d80062886c1121a405449b85430c71",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 294,
+      "shield_exclusion": [
+        [
+          75,
+          64
+        ],
+        [
+          92,
+          54
+        ],
+        [
+          93,
+          59
+        ],
+        [
+          93,
+          71
+        ],
+        [
+          92,
+          78
+        ],
+        [
+          90,
+          83
+        ],
+        [
+          89,
+          85
+        ],
+        [
+          88,
+          86
+        ],
+        [
+          80,
+          78
+        ],
+        [
+          78,
+          75
+        ],
+        [
+          75,
+          67
+        ]
+      ]
+    },
+    {
+      "slot": 69,
+      "clip": "death",
+      "frame": 11,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-12.png",
+      "sha256": "2d88039ba2af570e5de908f86cbdb9194aa429e7c2306d244d7662e69d33dd95",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 294,
+      "shield_exclusion": [
+        [
+          75,
+          64
+        ],
+        [
+          92,
+          54
+        ],
+        [
+          93,
+          59
+        ],
+        [
+          93,
+          71
+        ],
+        [
+          92,
+          78
+        ],
+        [
+          90,
+          83
+        ],
+        [
+          89,
+          85
+        ],
+        [
+          88,
+          86
+        ],
+        [
+          80,
+          78
+        ],
+        [
+          78,
+          75
+        ],
+        [
+          75,
+          67
+        ]
+      ]
+    },
+    {
+      "slot": 70,
+      "clip": "death",
+      "frame": 12,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-13.png",
+      "sha256": "9d0be0c285210ead48af7a9788fad7d56dcafffc19c7d7c977baf14120d22eb8",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 294,
+      "shield_exclusion": [
+        [
+          75,
+          64
+        ],
+        [
+          92,
+          54
+        ],
+        [
+          93,
+          59
+        ],
+        [
+          93,
+          71
+        ],
+        [
+          92,
+          78
+        ],
+        [
+          90,
+          83
+        ],
+        [
+          89,
+          85
+        ],
+        [
+          88,
+          86
+        ],
+        [
+          80,
+          78
+        ],
+        [
+          78,
+          75
+        ],
+        [
+          75,
+          67
+        ]
+      ]
+    },
+    {
+      "slot": 71,
+      "clip": "death",
+      "frame": 13,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-14.png",
+      "sha256": "a3ef30f475598f92d08ca40adfa32377c95c983a8e6ffa90e60b2979132ebc79",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 294,
+      "shield_exclusion": [
+        [
+          75,
+          64
+        ],
+        [
+          92,
+          54
+        ],
+        [
+          93,
+          59
+        ],
+        [
+          93,
+          71
+        ],
+        [
+          92,
+          78
+        ],
+        [
+          90,
+          83
+        ],
+        [
+          89,
+          85
+        ],
+        [
+          88,
+          86
+        ],
+        [
+          80,
+          78
+        ],
+        [
+          78,
+          75
+        ],
+        [
+          75,
+          67
+        ]
+      ]
+    },
+    {
+      "slot": 72,
+      "clip": "death",
+      "frame": 14,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-15.png",
+      "sha256": "1bd55447feaa142d25681fd4af895bfe7fbe168dab2164ca70bdddbc1918e6b7",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 294,
+      "shield_exclusion": [
+        [
+          75,
+          64
+        ],
+        [
+          92,
+          54
+        ],
+        [
+          93,
+          59
+        ],
+        [
+          93,
+          71
+        ],
+        [
+          92,
+          78
+        ],
+        [
+          90,
+          83
+        ],
+        [
+          89,
+          85
+        ],
+        [
+          88,
+          86
+        ],
+        [
+          80,
+          78
+        ],
+        [
+          78,
+          75
+        ],
+        [
+          75,
+          67
+        ]
+      ]
+    },
+    {
+      "slot": 73,
+      "clip": "death",
+      "frame": 15,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-16.png",
+      "sha256": "ef8973c78f148491e7668c45406dd432c9a06f93fe26fd421d52a8cf5cdb3d42",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 282,
+      "shield_exclusion": [
+        [
+          74,
+          65
+        ],
+        [
+          91,
+          55
+        ],
+        [
+          92,
+          60
+        ],
+        [
+          92,
+          72
+        ],
+        [
+          91,
+          79
+        ],
+        [
+          89,
+          84
+        ],
+        [
+          88,
+          86
+        ],
+        [
+          87,
+          87
+        ],
+        [
+          77,
+          77
+        ],
+        [
+          74,
+          68
+        ]
+      ]
+    },
+    {
+      "slot": 74,
+      "clip": "death",
+      "frame": 16,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-17.png",
+      "sha256": "b6433f52377712af4b9af3389568f4dfca0c27a162ff7bbb9d745fb35e53ea9e",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 249,
+      "shield_exclusion": [
+        [
+          72,
+          67
+        ],
+        [
+          88,
+          57
+        ],
+        [
+          89,
+          57
+        ],
+        [
+          91,
+          61
+        ],
+        [
+          92,
+          65
+        ],
+        [
+          92,
+          73
+        ],
+        [
+          91,
+          80
+        ],
+        [
+          88,
+          88
+        ],
+        [
+          87,
+          89
+        ],
+        [
+          76,
+          79
+        ],
+        [
+          72,
+          70
+        ]
+      ]
+    },
+    {
+      "slot": 75,
+      "clip": "death",
+      "frame": 17,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-18.png",
+      "sha256": "d8d7a2502c977836e32899b75db056333e999182f4e90bd985c63519ee8a4904",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 174,
+      "shield_exclusion": [
+        [
+          71,
+          71
+        ],
+        [
+          73,
+          69
+        ],
+        [
+          86,
+          57
+        ],
+        [
+          89,
+          64
+        ],
+        [
+          90,
+          67
+        ],
+        [
+          91,
+          72
+        ],
+        [
+          92,
+          80
+        ],
+        [
+          91,
+          85
+        ],
+        [
+          90,
+          88
+        ],
+        [
+          89,
+          88
+        ],
+        [
+          86,
+          87
+        ],
+        [
+          77,
+          82
+        ],
+        [
+          71,
+          73
+        ]
+      ]
+    },
+    {
+      "slot": 76,
+      "clip": "death",
+      "frame": 18,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-19.png",
+      "sha256": "781e6d07765e4640d893ac5a21dea97e1035faf4f176b0ea24eb79b9a9a93fd8",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 3,
+      "shield_exclusion": [
+        [
+          71,
+          85
+        ],
+        [
+          77,
+          65
+        ],
+        [
+          78,
+          65
+        ],
+        [
+          81,
+          67
+        ],
+        [
+          85,
+          70
+        ],
+        [
+          89,
+          74
+        ],
+        [
+          93,
+          80
+        ],
+        [
+          94,
+          82
+        ],
+        [
+          96,
+          88
+        ],
+        [
+          93,
+          89
+        ],
+        [
+          87,
+          90
+        ],
+        [
+          82,
+          90
+        ],
+        [
+          73,
+          87
+        ]
+      ]
+    },
+    {
+      "slot": 77,
+      "clip": "death",
+      "frame": 19,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-20.png",
+      "sha256": "171ab45ad4f6c19cf24962392dd29f9b2bc918a7fd2800fe3cc0099fd3200d67",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 105,
+      "shield_exclusion": [
+        [
+          73,
+          74
+        ],
+        [
+          74,
+          74
+        ],
+        [
+          82,
+          75
+        ],
+        [
+          85,
+          76
+        ],
+        [
+          92,
+          79
+        ],
+        [
+          94,
+          80
+        ],
+        [
+          100,
+          86
+        ],
+        [
+          92,
+          92
+        ],
+        [
+          89,
+          94
+        ],
+        [
+          79,
+          96
+        ],
+        [
+          76,
+          96
+        ]
+      ]
+    },
+    {
+      "slot": 78,
+      "clip": "death",
+      "frame": 20,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-21.png",
+      "sha256": "312573f4d2f430849cd4ba1ce1c56df95956db86b04630d9bace03251ab84fee",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 146,
+      "shield_exclusion": [
+        [
+          74,
+          76
+        ],
+        [
+          75,
+          76
+        ],
+        [
+          84,
+          77
+        ],
+        [
+          93,
+          81
+        ],
+        [
+          95,
+          82
+        ],
+        [
+          101,
+          88
+        ],
+        [
+          93,
+          94
+        ],
+        [
+          90,
+          96
+        ],
+        [
+          80,
+          98
+        ],
+        [
+          77,
+          98
+        ]
+      ]
+    },
+    {
+      "slot": 79,
+      "clip": "death",
+      "frame": 21,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-22.png",
+      "sha256": "a8962c3a6a06737909674575d5d2c41b0808e687bea29480cf79505cd7ad8a74",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 148,
+      "shield_exclusion": [
+        [
+          74,
+          76
+        ],
+        [
+          75,
+          76
+        ],
+        [
+          81,
+          77
+        ],
+        [
+          86,
+          78
+        ],
+        [
+          93,
+          81
+        ],
+        [
+          95,
+          82
+        ],
+        [
+          101,
+          88
+        ],
+        [
+          93,
+          94
+        ],
+        [
+          90,
+          96
+        ],
+        [
+          80,
+          98
+        ],
+        [
+          77,
+          98
+        ]
+      ]
+    },
+    {
+      "slot": 80,
+      "clip": "death",
+      "frame": 22,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-23.png",
+      "sha256": "a7233167967f3e6624c793709ed9da277336ea522fcd6bb6e1bbd6cf2296e51b",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 143,
+      "shield_exclusion": [
+        [
+          74,
+          76
+        ],
+        [
+          75,
+          76
+        ],
+        [
+          81,
+          77
+        ],
+        [
+          86,
+          78
+        ],
+        [
+          93,
+          81
+        ],
+        [
+          95,
+          82
+        ],
+        [
+          101,
+          88
+        ],
+        [
+          93,
+          94
+        ],
+        [
+          90,
+          96
+        ],
+        [
+          80,
+          98
+        ],
+        [
+          77,
+          98
+        ]
+      ]
+    },
+    {
+      "slot": 81,
+      "clip": "death",
+      "frame": 23,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-24.png",
+      "sha256": "169c9bb6252c8537ac948e0d0b08c3a8196993e7b8af89dd1f599bb610033308",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 146,
+      "shield_exclusion": [
+        [
+          74,
+          76
+        ],
+        [
+          75,
+          76
+        ],
+        [
+          81,
+          77
+        ],
+        [
+          86,
+          78
+        ],
+        [
+          93,
+          81
+        ],
+        [
+          95,
+          82
+        ],
+        [
+          101,
+          88
+        ],
+        [
+          93,
+          94
+        ],
+        [
+          90,
+          96
+        ],
+        [
+          80,
+          98
+        ],
+        [
+          77,
+          98
+        ]
+      ]
+    },
+    {
+      "slot": 82,
+      "clip": "death",
+      "frame": 24,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-25.png",
+      "sha256": "c581ea84dd3cbd1f87fc676d2c4f3c1f14c477cd5bdb5fd454b75cf47d4b74a5",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 146,
+      "shield_exclusion": [
+        [
+          74,
+          76
+        ],
+        [
+          75,
+          76
+        ],
+        [
+          81,
+          77
+        ],
+        [
+          86,
+          78
+        ],
+        [
+          93,
+          81
+        ],
+        [
+          95,
+          82
+        ],
+        [
+          101,
+          88
+        ],
+        [
+          93,
+          94
+        ],
+        [
+          90,
+          96
+        ],
+        [
+          80,
+          98
+        ],
+        [
+          77,
+          98
+        ]
+      ]
+    },
+    {
+      "slot": 83,
+      "clip": "death",
+      "frame": 25,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-26.png",
+      "sha256": "c3e4fb10507ce14efe22d0b01a7351c15ff7dd2560f56551f89655b21176d4b4",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 146,
+      "shield_exclusion": [
+        [
+          74,
+          76
+        ],
+        [
+          75,
+          76
+        ],
+        [
+          81,
+          77
+        ],
+        [
+          86,
+          78
+        ],
+        [
+          93,
+          81
+        ],
+        [
+          95,
+          82
+        ],
+        [
+          101,
+          88
+        ],
+        [
+          93,
+          94
+        ],
+        [
+          90,
+          96
+        ],
+        [
+          80,
+          98
+        ],
+        [
+          77,
+          98
+        ]
+      ]
+    },
+    {
+      "slot": 84,
+      "clip": "death",
+      "frame": 26,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-27.png",
+      "sha256": "763ead66258daaa26af02774f6d5f1b0c5d116825ef918ead3f517c1c1a2c1a4",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 146,
+      "shield_exclusion": [
+        [
+          74,
+          76
+        ],
+        [
+          75,
+          76
+        ],
+        [
+          81,
+          77
+        ],
+        [
+          86,
+          78
+        ],
+        [
+          93,
+          81
+        ],
+        [
+          95,
+          82
+        ],
+        [
+          101,
+          88
+        ],
+        [
+          93,
+          94
+        ],
+        [
+          90,
+          96
+        ],
+        [
+          80,
+          98
+        ],
+        [
+          77,
+          98
+        ]
+      ]
+    },
+    {
+      "slot": 85,
+      "clip": "death",
+      "frame": 27,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-28.png",
+      "sha256": "8b8b09f8968868d1bb413b640ddcb4741aeb4e34cb3c7dea1fd28ab092fd2a7a",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 146,
+      "shield_exclusion": [
+        [
+          74,
+          76
+        ],
+        [
+          75,
+          76
+        ],
+        [
+          81,
+          77
+        ],
+        [
+          86,
+          78
+        ],
+        [
+          93,
+          81
+        ],
+        [
+          95,
+          82
+        ],
+        [
+          101,
+          88
+        ],
+        [
+          93,
+          94
+        ],
+        [
+          90,
+          96
+        ],
+        [
+          80,
+          98
+        ],
+        [
+          77,
+          98
+        ]
+      ]
+    },
+    {
+      "slot": 86,
+      "clip": "death",
+      "frame": 28,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-29.png",
+      "sha256": "eb3d2224bfc649542f661abc98c52dadbd1262faf99fbe4d5acea526873b075f",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 146,
+      "shield_exclusion": [
+        [
+          74,
+          76
+        ],
+        [
+          75,
+          76
+        ],
+        [
+          81,
+          77
+        ],
+        [
+          86,
+          78
+        ],
+        [
+          93,
+          81
+        ],
+        [
+          95,
+          82
+        ],
+        [
+          101,
+          88
+        ],
+        [
+          93,
+          94
+        ],
+        [
+          90,
+          96
+        ],
+        [
+          80,
+          98
+        ],
+        [
+          77,
+          98
+        ]
+      ]
+    },
+    {
+      "slot": 87,
+      "clip": "death",
+      "frame": 29,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-30.png",
+      "sha256": "d431db62230a00573f13babcf3184fc388717b4c12a1741873899a39516f2a27",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 146,
+      "shield_exclusion": [
+        [
+          74,
+          76
+        ],
+        [
+          75,
+          76
+        ],
+        [
+          81,
+          77
+        ],
+        [
+          86,
+          78
+        ],
+        [
+          93,
+          81
+        ],
+        [
+          95,
+          82
+        ],
+        [
+          101,
+          88
+        ],
+        [
+          93,
+          94
+        ],
+        [
+          90,
+          96
+        ],
+        [
+          80,
+          98
+        ],
+        [
+          77,
+          98
+        ]
+      ]
+    },
+    {
+      "slot": 88,
+      "clip": "death",
+      "frame": 30,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-31.png",
+      "sha256": "34b5d2c6d6b1fb8619d60eee17b0e48aa3819a490dd26167ace6682bdf079b2a",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 146,
+      "shield_exclusion": [
+        [
+          74,
+          76
+        ],
+        [
+          75,
+          76
+        ],
+        [
+          81,
+          77
+        ],
+        [
+          86,
+          78
+        ],
+        [
+          93,
+          81
+        ],
+        [
+          95,
+          82
+        ],
+        [
+          101,
+          88
+        ],
+        [
+          93,
+          94
+        ],
+        [
+          90,
+          96
+        ],
+        [
+          80,
+          98
+        ],
+        [
+          77,
+          98
+        ]
+      ]
+    },
+    {
+      "slot": 89,
+      "clip": "death",
+      "frame": 31,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-32.png",
+      "sha256": "5afd9082ba2a7bf5145915a487fb9b34c4196793ab98adbc755f1d1422809c08",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 146,
+      "shield_exclusion": [
+        [
+          74,
+          76
+        ],
+        [
+          75,
+          76
+        ],
+        [
+          81,
+          77
+        ],
+        [
+          86,
+          78
+        ],
+        [
+          93,
+          81
+        ],
+        [
+          95,
+          82
+        ],
+        [
+          101,
+          88
+        ],
+        [
+          93,
+          94
+        ],
+        [
+          90,
+          96
+        ],
+        [
+          80,
+          98
+        ],
+        [
+          77,
+          98
+        ]
+      ]
+    },
+    {
+      "slot": 90,
+      "clip": "death",
+      "frame": 32,
+      "source": "assets/art_presets/trials/defender_death_v1/frame-33.png",
+      "sha256": "cf471447add0c27a6c02736dda5e7730c72180a9f495847ad1d009c912d5a6e2",
+      "native_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 146,
+      "shield_exclusion": [
+        [
+          74,
+          76
+        ],
+        [
+          75,
+          76
+        ],
+        [
+          81,
+          77
+        ],
+        [
+          86,
+          78
+        ],
+        [
+          93,
+          81
+        ],
+        [
+          95,
+          82
+        ],
+        [
+          101,
+          88
+        ],
+        [
+          93,
+          94
+        ],
+        [
+          90,
+          96
+        ],
+        [
+          80,
+          98
+        ],
+        [
+          77,
+          98
+        ]
+      ]
+    }
+  ]
+}

@@ -9,6 +9,7 @@ var phase_label: Label
 var skip_presentation_button: Button
 var speed_presentation_button: Button
 var environment_button: Button
+var cloth_palette: OptionButton
 var mage_label: Label
 var mage_row: BattleMageBar
 var mage_buttons: Dictionary[StringName, Button] = {}
@@ -61,6 +62,13 @@ static func bind(hud: Control, handlers: Dictionary[StringName, Callable], deck_
 	binding.speed_presentation_button.pressed.connect(handlers[&"toggle_presentation_speed"])
 	binding.environment_button = phase.get_node("Environment") as Button
 	binding.environment_button.pressed.connect(handlers[&"request_environment_forecast"])
+	binding.cloth_palette = phase.get_node("ClothPalette") as OptionButton
+	binding.cloth_palette.item_selected.connect(handlers[&"cloth_palette_selected"])
+	binding.cloth_palette.clear()
+	for palette_index: int in DefenderClothPalette.count():
+		binding.cloth_palette.add_item("Одежда: " + DefenderClothPalette.label(palette_index))
+	binding.cloth_palette.select(DefenderClothPalette.valid_index(0))
+	binding.cloth_palette.tooltip_text = "Цвет одежды союзных Защитников в текущем бою."
 	deck_label.visible = deck_layout
 	legacy_label.visible = not deck_layout
 	binding.mage_label = deck_label if deck_layout else legacy_label

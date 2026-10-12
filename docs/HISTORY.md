@@ -1,5 +1,19 @@
 # История и свидетельства проверок
 
+## Выбор гаммы одежды Защитника — 2026-10-12
+
+По поручению U добавлены семь гамм ткани союзных Защитников и временный
+селектор «Одежда» в боевом HUD. Маски90 кадров и статичной позы исключают щит,
+кожу и металл; исходные PNG сохранены. Выбор локален текущей доске, без save.
+Контракт — [lifecycle](BATTLE_VISUAL_SCENE_CONTRACT.md#выбор-цвета-одежды-защитника);
+[ассеты/происхождение](../assets/art_presets/trials/defender_cloth_v1/README.md).
+Import/startup и cloth render321/0 PASS; idle/buff/death/routes, unit lifecycle,
+HUD/execution PASS; Python22/22, маски91/91 PASS; независимое ревью APPROVE.
+Full/core/F5 не запускались; ручной отзыв о гаммах и переходах остаётся открытым.
+Base `dfb0f9f2176374b407746e49f0ce1e02a5093c8d`; main; без push.
+Отчёт и PNG: `test_reports/defender-cloth-palette-20261012/REPORT.md`.
+main_menu пользователя сохранена; [точный архив передачи](CODEX_HANDOFF.history-20261012-6.md).
+
 ## Публикация утверждённых изображений — 2026-10-12
 
 По поручению U в [отдельную ветку](https://github.com/KonisheffAnton/into-de-dung/tree/codex/approved-defender-art-20261012)

@@ -173,12 +173,32 @@ after и тело окружения. Это касается ближнего/�
 таймера или callback смерти нет. Runtime/queue/preview/RNG/save не меняются.
 Художественная оценка перехода в тело и темпа в игре остаётся ручной F5-приёмкой.
 
+### Выбор цвета одежды Защитника
+
+U2026-10-12 поручил временный выбор гаммы ткани. Authored HUD содержит «Одежда»
+с семью гаммами из `DefenderClothPalette`; применяется только к PLAYER/warrior
+в `BattleDefenderIdleVisual`. Враг, другие классы, generic-тело и legacy HUD прежние.
+Board хранит индекс только в представлении: новая доска — исходная гамма,
+reset/resize/повторная публикация той же доски сохраняют выбор; в save/DTO его нет.
+Обработчик меняет материалы текущих фигур без refresh/capture и доступа к session,
+поэтому работает и во время worker. Фаза idle и общий Tween не сбрасываются.
+
+Три Sprite2D получают собственные ShaderMaterial один раз при ready; маска
+меняется вместе с текстурой idle/buff/death. Параметры чужих фигур и ресурсы
+PackedScene не мутируют. При смене фракции/класса область применения проверяется
+повторно, неизвестная текстура не перекрашивается. Исходная гамма отключает ветку
+шейдера и возвращает прежние пиксели. Маска покрывает90 кадров и статичную позу
+на сетке native_sprite; перекраска до покрытия сохраняет альфу и края.
+[Маски, палитры и происхождение](../assets/art_presets/trials/defender_cloth_v1/README.md).
+Художественная приёмка гамм и ручная F5-оценка переходов остаются открытыми.
+
 ### Проверки
 
 Команды и состав проверок — [TESTING](TESTING.md). Выбор `current_art_zoom`,
 `art_trial_battle` или `battle_view_reuse` автоматически включает три lifecycle
 runner: `visual_scene_contract`, `environment_visual_contract`, `unit_visual_contract`,
 `defender_idle_clock`, `defender_idle`, `defender_buff`, `defender_death`, `defender_death_routes`,
+`defender_cloth_palette`,
 а также `presentation_consequences`, `presentation_environment`, `battle_camera_ui`,
 `battle_execution_ui` для поз, ловушек, камеры, worker/ИИ и смены UI.
 Они также входят в full/render; инициатива этим не подключается.

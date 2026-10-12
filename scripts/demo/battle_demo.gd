@@ -134,6 +134,7 @@ var _turn_forecast_actor: int = UnitId.NONE
 var _turn_forecast_revision: int = -1
 var _turn_forecast_worker := TurnForecastWorker.new()
 var _environment_button: Button
+var _cloth_palette: OptionButton
 var _environment_forecast: ForecastSimulation
 var _environment_forecast_pending: bool = false
 var _environment_forecast_generation: int = 0
@@ -477,6 +478,7 @@ func _build_authored_hud() -> void:
 		&"skip_presentation": skip_presentation,
 		&"toggle_presentation_speed": _toggle_presentation_speed,
 		&"request_environment_forecast": _request_environment_forecast,
+		&"cloth_palette_selected": _on_cloth_palette_selected,
 		&"mage_page_changed": _mage_page_changed,
 		&"choose_elemental": _choose_elemental,
 		&"choose_card_slot": _choose_card_slot,
@@ -505,6 +507,7 @@ func _build_authored_hud() -> void:
 	_skip_presentation_button = binding.skip_presentation_button
 	_speed_presentation_button = binding.speed_presentation_button
 	_environment_button = binding.environment_button
+	_cloth_palette = binding.cloth_palette
 	_mage_label = binding.mage_label
 	_mage_row = binding.mage_row
 	_mage_buttons = binding.mage_buttons
@@ -518,6 +521,7 @@ func _build_authored_hud() -> void:
 	_end_turn_button = binding.end_turn_button
 	board_view = binding.board_view
 	board_view.session = session
+	_cloth_palette.select(DefenderClothPalette.valid_index(board_view.defender_cloth_palette))
 	_action_bar = binding.action_bar
 	_hint = binding.hint
 	_compact_inspection = binding.compact_inspection
@@ -832,6 +836,10 @@ func reset_demo() -> void:
 	_ai_delay = 0.0
 	_note("Бой сброшен: здоровье, действия и предметы восстановлены.")
 	_refresh()
+
+func _on_cloth_palette_selected(index: int) -> void:
+	if board_view == null: return
+	board_view.set_defender_cloth_palette(index)
 
 func toggle_scenario() -> void:
 	_join_execution()

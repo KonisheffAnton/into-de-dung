@@ -29,6 +29,7 @@ var retreat_mode: bool = false
 var summoning_mode: bool = false
 var raising_mode: bool = false
 var environment_mode: bool = false
+var defender_cloth_palette: int = 0
 var elemental_mode: bool = false
 var inspected_id: int = UnitId.NONE
 var displayed_selected_id: int = UnitId.NONE
@@ -1335,6 +1336,13 @@ func set_acting_unit(id: int) -> void:
 		visual.acting = visual.unit != null and visual.unit.alive and visual.unit.id == id
 		visual.queue_redraw()
 
+func set_defender_cloth_palette(index: int) -> void:
+	defender_cloth_palette = DefenderClothPalette.valid_index(index)
+	# Меняем только текущую фигуру: полный rebuild сбросил бы непрерывную idle-анимацию.
+	for visual: BattleManagedUnitVisual in _unit_visuals.values():
+		if visual is BattleDefenderIdleVisual:
+			(visual as BattleDefenderIdleVisual).set_cloth_palette(defender_cloth_palette)
+
 func set_hovered_unit(id: int) -> void:
 	hovered_unit_id = id
 	for visual: BattleDemoIsoVisual in _entity_visuals:
@@ -1473,6 +1481,8 @@ func _rebuild_visuals() -> void:
 			managed.ambient_animation_paused = _presentation_animation_unit_ids.has(unit.id)
 			managed.reset_view_pose()
 			managed.apply_view(_unit_view_values(row), grid_config)
+			if visual is BattleDefenderIdleVisual:
+				(visual as BattleDefenderIdleVisual).set_cloth_palette(defender_cloth_palette)
 			var offset := (_action_offsets.get(unit.id, Vector2.ZERO) as Vector2) * grid_config.tile_size.x / 128.0
 			if visual.action_offset != offset: visual.action_offset = offset
 			continue

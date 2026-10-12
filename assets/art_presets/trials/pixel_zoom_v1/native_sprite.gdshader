@@ -3,6 +3,11 @@ shader_type canvas_item;
 // Сетка задана в игровом размере: зум не выбирает новые детали большого исходника.
 uniform vec4 source_region = vec4(0.0, 0.0, 312.0, 292.0);
 uniform vec2 native_size = vec2(78.0, 73.0);
+uniform bool cloth_enabled = false;
+uniform sampler2D cloth_masks : filter_nearest, repeat_disable;
+uniform vec2 cloth_mask_origin = vec2(0.0);
+uniform vec4 cloth_shadow : source_color = vec4(0.35, 0.35, 0.18, 1.0);
+uniform vec4 cloth_light : source_color = vec4(0.52, 0.51, 0.25, 1.0);
 varying vec4 sprite_modulate;
 
 void vertex() {
@@ -30,6 +35,13 @@ void fragment() {
 			if (all(greaterThanEqual(neighbor, vec2(0.0))) && all(lessThan(neighbor, native_size))) {
 				vec2 pixel = source_region.xy + (neighbor + vec2(0.5)) * source_region.zw / native_size;
 				color = texture(TEXTURE, pixel * TEXTURE_PIXEL_SIZE);
+				// Маска выбрана вместе с кадром; перекрашиваем до покрытия, чтобы край не давал ореол.
+				if (cloth_enabled && texture(cloth_masks, (cloth_mask_origin + neighbor + vec2(0.5)) / vec2(1280.0)).r > 0.5) {
+					float luminance = dot(color.rgb, vec3(0.2126, 0.7152, 0.0722));
+					float shade = clamp((luminance - 0.34) / 0.15, 0.0, 1.0);
+					vec3 ramp = mix(cloth_shadow.rgb, cloth_light.rgb, shade);
+					color.rgb = ramp * min(1.0, luminance / 0.34);
+				}
 				// Покрытие границы считаем отдельно от ореола большого исходника.
 				color.a = step(0.5, color.a);
 				color = vec4(color.rgb * color.a, color.a);

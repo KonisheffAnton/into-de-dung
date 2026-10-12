@@ -44,6 +44,7 @@ shader ошибки и ненулевые failed counts не маскируют�
 Выбор `current_art_zoom`, `art_trial_battle` или `battle_view_reuse` автоматически
 добавляет `visual_scene_contract`, `environment_visual_contract`, `unit_visual_contract`,
 `defender_idle_clock`, `defender_idle`, `defender_buff`, `defender_death`, `defender_death_routes`,
+`defender_cloth_palette`,
 `presentation_consequences`, `presentation_environment`, `battle_camera_ui`, `battle_execution_ui`:
 защита от пересоздания поля и сбоев поз, ловушек, камеры и worker/ИИ при смене пресета.
 Прямой запуск только lifecycle:
@@ -67,6 +68,13 @@ resize и публикацию after. `defender_death_routes` проверяет
 общий lifecycle — `visual_scene_contract` и `unit_visual_contract`.
 Счётчики/identity — hard gate, frame median/p95/max/>25ms — диагностика без
 машинозависимого порога PASS. [Контракт и границы](BATTLE_VISUAL_SCENE_CONTRACT.md).
+
+Одежда: `python tools/demo/isolate.py --render-check --only defender_cloth_palette battle_hud_authoring --screen 0`.
+Проверяет селектор/изоляцию материалов, все90 кадров и статичную позу,
+отсутствие изменений вне маски/альфы, точный возврат исходных пикселей,
+refresh/resize/reset, смену во время жеста/смерти и при отделённой сессии.
+Маски сверяются с исходниками через `python tools/art/build_defender_cloth_masks.py --check`
+(Pillow). PNG всех пар и семи гамм — техническое свидетельство, не F5-приёмка.
 
 | Изменение | Достаточная начальная область |
 |---|---|
