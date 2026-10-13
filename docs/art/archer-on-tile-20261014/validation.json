@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "errors": [],
+  "source_checks": [
+    {
+      "key": "tile",
+      "unchanged": true
+    },
+    {
+      "key": "defender",
+      "unchanged": true
+    },
+    {
+      "key": "b1",
+      "unchanged": true
+    },
+    {
+      "key": "b2",
+      "unchanged": true
+    },
+    {
+      "key": "b3",
+      "unchanged": true
+    }
+  ],
+  "frames": [
+    {
+      "key": "b1",
+      "title": "Лучница · B1",
+      "canvas_sha256": "ae3298a7fbf1f267dfb079edfd16ef629bf741f940363adc2ad23b52235634bf"
+    },
+    {
+      "key": "b2",
+      "title": "Лучница · B2",
+      "canvas_sha256": "41ad9d786a2068552b444ac954f416c347d0360fcf8ae546b87b0b27f0a21559"
+    },
+    {
+      "key": "b3",
+      "title": "Лучница · B3",
+      "canvas_sha256": "a26b698ac4feface57cb5a0c1f09cfe7f28f0934c0b49eabdf4c400330bcf795"
+    }
+  ],
+  "axes_control": true,
+  "ratio_b1": 0.9,
+  "scope": "HTML loading, controls, source hashes; visual QA separate. Not Godot/F5/GPU or art acceptance."
+}

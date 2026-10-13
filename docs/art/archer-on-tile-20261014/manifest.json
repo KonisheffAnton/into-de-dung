@@ -1,0 +1,157 @@
+{
+  "base": "3321b359f5e687a532a84c958bf2ff367703cc80",
+  "sources": {
+    "tile": {
+      "path": "assets/art_presets/trials/grass_reference_v3/grass_a.png",
+      "sha256": "a76bae2880c836a262fd347b3cccc9525974928eb393ac810ffed7131f98a01f",
+      "size": [
+        1448,
+        1086
+      ],
+      "bbox_alpha128": [
+        61,
+        78,
+        1388,
+        1010
+      ]
+    },
+    "defender": {
+      "path": "assets/art_presets/trials/defender_field_v1/defender_new.png",
+      "sha256": "7cbd0358fe42264f8090b4d77da03274fcca1a4ebbe5984b960d77c9f5874082",
+      "size": [
+        1230,
+        1278
+      ],
+      "bbox_alpha128": [
+        89,
+        206,
+        1123,
+        1172
+      ]
+    },
+    "b1": {
+      "path": "docs/art/archer-idle-variants-20261014/variants/b-transfer-128/frame-01.png",
+      "sha256": "0adef3303ff306e73b533652a7180d8630ffb877bc028d2eccc3fb53b3d7af87",
+      "size": [
+        128,
+        128
+      ],
+      "bbox_alpha128": [
+        24,
+        17,
+        116,
+        117
+      ]
+    },
+    "b2": {
+      "path": "docs/art/archer-idle-variants-20261014/variants/b-transfer-128/frame-02.png",
+      "sha256": "73956c17e0959c027db71ca0c08027bde161c27beff2cfb02f8c2ce98325f042",
+      "size": [
+        128,
+        128
+      ],
+      "bbox_alpha128": [
+        22,
+        13,
+        114,
+        117
+      ]
+    },
+    "b3": {
+      "path": "docs/art/archer-idle-variants-20261014/variants/b-transfer-128/frame-03.png",
+      "sha256": "6dc11152beabe425edeba97f31cadc477018214d2edd0b97d8ceb92f27e78805",
+      "size": [
+        128,
+        128
+      ],
+      "bbox_alpha128": [
+        24,
+        17,
+        116,
+        117
+      ]
+    }
+  },
+  "geometry": {
+    "tile": {
+      "vertices": [
+        [
+          0,
+          -48
+        ],
+        [
+          64,
+          0
+        ],
+        [
+          0,
+          48
+        ],
+        [
+          -64,
+          0
+        ]
+      ],
+      "uv": [
+        [
+          724,
+          110
+        ],
+        [
+          1350,
+          543
+        ],
+        [
+          724,
+          975
+        ],
+        [
+          96,
+          543
+        ]
+      ],
+      "tint": [
+        0.79,
+        0.8,
+        0.75
+      ]
+    },
+    "defender": {
+      "crop": [
+        89,
+        206,
+        1034,
+        966
+      ],
+      "native": [
+        77,
+        72
+      ],
+      "position": [
+        -35.536,
+        -52.112
+      ],
+      "scale": 0.05962736,
+      "height": 57.60002976
+    },
+    "archer": {
+      "position": [
+        -38.17761714176,
+        -55.16480157728001
+      ],
+      "scale": 0.51840026784,
+      "height_b1": 51.840026784,
+      "ratio_b1": 0.9,
+      "source_anchor": [
+        64,
+        117
+      ],
+      "destination_anchor": [
+        -5,
+        5.488029759999995
+      ],
+      "note": "Provisional display placement: body axis x=64, lower edge y=117 of B1. Same transform for all frames; no pose, alpha or perspective correction."
+    }
+  },
+  "scope": "Offline Canvas fitting; current trial grass A and static Defender geometry. Not a Godot render or accepted game anchor. No generation or source PNG changes."
+}
