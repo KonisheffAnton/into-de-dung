@@ -1,0 +1,16 @@
+// Повторная проба берёт целый неизменённый кадр PixelLab; ретуши и resize нет.
+const fs=require('fs'),path=require('path'),crypto=require('crypto');
+const root=__dirname,sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+function save(name,bytes){const p=path.join(root,name);fs.mkdirSync(path.dirname(p),{recursive:true});if(fs.existsSync(p)&&!fs.readFileSync(p).equals(Buffer.from(bytes)))throw Error('Refuse overwrite: '+name);fs.writeFileSync(p,bytes)}
+const sourcePath='../archer-idle-pixellab-20261014/pixellab/frame-02.png';
+const source=fs.readFileSync(path.join(root,sourcePath));
+if(sha(source)!=='4eda3c58de2d1761f88528449bc74f7b15ad10c6e3477554321454b6ce0c06ec')throw Error('Source changed');
+save('pixellab/reference-128.png',source);
+const action='Nearly motionless idle. Keep the entire original braced pose frozen in place. Only a barely perceptible slow breath in the CENTER OF THE CHEST: at most ONE native pixel of vertical expansion in the central upper scarf, then return. NO translation of the torso or whole character in any direction. The pelvis, knees and legs remain exactly fixed: no straightening, leaning, weight shift, crouch or bob. BOTH FEET keep identical pixels and ground contacts. The BOW, STRING, GRIP, HANDS AND ARMS remain completely immobile, identical shape and position in every frame. Keep the head, face, eyes, hair and ponytail fixed too. No horizontal movement or sway anywhere. No change of framing, scale, perspective, lighting or colors. One tiny breath only, no secondary action. Begin and end in the exact reference pose. If breathing requires moving any locked part, omit that motion and keep it still. Preserve crisp pixel clusters; no blur, extra detail or effects.';
+if(action.length>1000)throw Error('Action too long: '+action.length);
+const image={type:'base64',base64:source.toString('base64'),format:'png'};
+const request={first_frame:image,last_frame:image,action,frame_count:4,seed:20261015,no_background:true,drift_threshold:0,enhance_prompt:false};
+save('pixellab/request.json',JSON.stringify(request,null,2)+'\n');save('prompt.txt',action+'\n');
+const {first_frame,last_frame,...settings}=request;
+save('request-manifest.json',JSON.stringify({base:'d621a733aa0c8edbd4fe466cb565fc2e65525b86',endpoint:'https://api.pixellab.ai/v2/animate-with-text-v3',...settings,source:sourcePath,source_sha256:sha(source),width:128,height:128,source_selection:'Agent selected the unchanged provider frame02 from the previous trial: original stance, clean binary alpha. This source selection is not user art acceptance.',source_transform:'None: exact PNG bytes, no resize/crop/recolor/alpha edits.',motion_reference:'User MP4 in ../archer-idle-pixellab-20261014/source/user-motion.mp4 inspected locally; movement specified in text, video is not an API input.',route_reason:'Official schema recommends 4 frames for simple idle/breathing. Neither this endpoint nor pixminimax provides region locks; drift_threshold corrects color, not geometry.',preview_total_ms:2600,scope:'One separate trial. Preserve all generated frames unchanged; no game integration.',openapi_sha256:sha(fs.readFileSync(path.join(root,'../../../test_reports/archer-idle-subtle-20261014/openapi.json')))},null,2)+'\n');
+console.log(JSON.stringify({action_chars:action.length,frame_count:4,source_sha256:sha(source)}));

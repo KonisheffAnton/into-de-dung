@@ -1,29 +1,30 @@
-# Передача — 2026-10-14: отдельная idle-проба лучницы
-D:\Games\into-de-dung; main; base e5efedb42a64817059b8e4063ce2ed45e0513846.
-U прислал пресет/MP4 и поручил воспроизвести через PixelLab в лучшем качестве.
-Исходных кадров внешней попытки нет. Одна новая animate-pixminimax-проба:
-clean PNG128 first=last, текст движения по ролику; видео напрямую не передано.
-13PNG128²,13×200ms/2.6s,seed20261014,usage2генерации; провайдерские PNG неизменны.
-Движение не удалось: корпус/голова/лук уходят до8–10px вместо1px; точная
-неподвижность стоп не подтверждена. Кадр01 partial-alpha,02–13 binary-alpha;
-шов требует оценки. Чёткие PNG не означают удачную анимацию. В игру не подключено.
-Пакет/сравнение/GIF/запрос/SHA: docs/art/archer-idle-pixellab-20261014/README.md.
-Отчёт: test_reports/archer-idle-pixellab-20261014/REPORT.md.
-Контракт ART_DIRECTION; API/секреты GRAPHICS_WORKFLOW.
-PNG13/13 совпадают с окончательным API-ответом; исходники3/3 совпадают.
-3превью13×200ms,alpha/поля,HTML pause/restart/end PASS.
-Независимое ревью: архив APPROVE; спокойный idle REQUEST_CHANGES, арт не принят.
-Godot/full/core/F5/editor/DPI/GPU не запускались: игровые файлы не менялись.
-Рисунок/сравнение90% Защитника и полный внешний промпт:
-docs/art/archer-reference-20261012/README.md. Размер остаётся целью показа.
-Остаток — отзыв U на пробу/рисунок/размер. Без новых генераций и интеграции
-до поручения. Прежний Rogue: гаммы внедрены e5efedb; F5-отзыв на гаммы,
-темп/fade/зернистость/B1/швы с телом открыт; прежние тесты в отчёте rogue-cloth.
-Защитник принят; арт codex/approved-defender-art-20261012,64ba319d.
-«Ветеран» не подключён. Анимации только PixelLab; все пробы сохранять.
-Позы/alpha вручную не менять; прежнее исключение — RGB Rogue B1.
-DPAPI вне Git/логов, только api.pixellab.ai. core/preview/live/worker/queue/RNG/save/frozen прежние.
-scenes/demo/main_menu.tscn — пользовательский dirty; не трогать/reset/stage/commit.
+# Передача — 2026-10-14: повтор idle лучницы
+D:\Games\into-de-dung; main; base d621a733aa0c8edbd4fe466cb565fc2e65525b86.
+U разрешил ещё одну отдельную PixelLab-пробу: едва заметное дыхание,
+без бокового переноса, неподвижные стопы/лук. Интеграция не поручена.
+Одна animate-with-text-v3,4requested/5returned128²,seed20261015,usage1генерация.
+Вход — неизменённый frame02 первой пробы, first=last. Видео напрямую не передано.
+Все5PNG сохранены без правок,5×520ms/2.6s. Нет прежнего partial→binaryперехода.
+Движение спокойнее, но требование не выполнено: границы силуэта до3px влево
+и5px вверх; голова/хвост/лук двигаются. Контур стоп в двухROI прежний,
+1–4видимыхRGBA-пикселя различаются. Шов05→01:96RGBA, точного возврата к входу нет.
+Пакет/GIF/сравнение/PNG/промпт/SHA: docs/art/archer-idle-subtle-20261014/README.md.
+Отчёт: test_reports/archer-idle-subtle-20261014/REPORT.md.
+Предыдущая проба: docs/art/archer-idle-pixellab-20261014/README.md, не изменена.
+PNG5/5/source/3превью/HTML PASS; ревью архива APPROVE, idle REQUEST_CHANGES.
+Техническое не арт-приёмка. Godot/full/core/F5/editor/DPI/GPU не запускались.
+После двух неудачных проб проверен запрос/API: все требования записаны,
+но пространственного lock в этих endpoints нет. Третья проба не запускалась.
+Контракты ART_DIRECTION/GRAPHICS_WORKFLOW. Статичный образ, размер90% Защитника,
+полный внешний промпт: docs/art/archer-reference-20261012/README.md.
+Остаток — отзыв U на пробу/образ/размер; без новых генераций/интеграции до поручения.
+Rogue: гаммы внедрены e5efedb; F5-отзыв на гаммы/темп/fade/зернистость/B1/швы
+с телом открыт. Прежние проверки — test_reports/rogue-cloth-20261012/REPORT.md.
+Защитник принят; арт codex/approved-defender-art-20261012,64ba319d; «Ветеран» не подключён.
+Анимации только PixelLab; пробы сохранять. Позы/alpha вручную не менять;
+прежнее исключение — RGB Rogue B1. DPAPI вне Git/логов, только api.pixellab.ai.
+Сохранять core/preview/live/worker/queue/RNG/save/frozen.
+scenes/demo/main_menu.tscn — единственный пользовательский dirty: не трогать/reset/stage/commit.
 Без push/sidebar/расписаний/P-удара/теней/света/баланса/самовольных гамм.
 После этапа Conventional Commit, короткий HANDOFF; прежний побайтно отдельным
 архивом+HISTORY. В финале/при блокере предложить новый чат и полный промпт:

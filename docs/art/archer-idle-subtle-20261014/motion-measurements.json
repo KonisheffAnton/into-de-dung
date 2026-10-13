@@ -1,0 +1,249 @@
+{
+  "basis": "Fixed, approximate rectangular regions in reference canvas, chosen before visual inspection of output. They include surrounding empty pixels/adjacent parts. Nonzero counts indicate a changed region, not a motion magnitude; zero is exact equality inside that box only.",
+  "reference": "pixellab/reference-128.png",
+  "regions_xyxy": {
+    "full_canvas": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "lower_legs_and_feet": [
+      0,
+      100,
+      128,
+      128
+    ],
+    "left_foot": [
+      24,
+      104,
+      53,
+      119
+    ],
+    "right_foot": [
+      81,
+      107,
+      108,
+      123
+    ],
+    "bow_and_right_hand": [
+      92,
+      42,
+      123,
+      99
+    ],
+    "head_and_ponytail": [
+      43,
+      10,
+      93,
+      51
+    ]
+  },
+  "frames": [
+    {
+      "file": "frame-01.png",
+      "bbox_alpha128": [
+        25,
+        15,
+        119,
+        121
+      ],
+      "regions_vs_reference": {
+        "full_canvas": {
+          "rgba_changed": 11450,
+          "visible_rgba_changed": 125,
+          "alpha128_changed": 2
+        },
+        "lower_legs_and_feet": {
+          "rgba_changed": 3040,
+          "visible_rgba_changed": 5,
+          "alpha128_changed": 1
+        },
+        "left_foot": {
+          "rgba_changed": 293,
+          "visible_rgba_changed": 1,
+          "alpha128_changed": 0
+        },
+        "right_foot": {
+          "rgba_changed": 235,
+          "visible_rgba_changed": 1,
+          "alpha128_changed": 0
+        },
+        "bow_and_right_hand": {
+          "rgba_changed": 1274,
+          "visible_rgba_changed": 31,
+          "alpha128_changed": 0
+        },
+        "head_and_ponytail": {
+          "rgba_changed": 804,
+          "visible_rgba_changed": 35,
+          "alpha128_changed": 0
+        }
+      }
+    },
+    {
+      "file": "frame-02.png",
+      "bbox_alpha128": [
+        23,
+        11,
+        118,
+        121
+      ],
+      "regions_vs_reference": {
+        "full_canvas": {
+          "rgba_changed": 13847,
+          "visible_rgba_changed": 2837,
+          "alpha128_changed": 664
+        },
+        "lower_legs_and_feet": {
+          "rgba_changed": 3112,
+          "visible_rgba_changed": 101,
+          "alpha128_changed": 37
+        },
+        "left_foot": {
+          "rgba_changed": 295,
+          "visible_rgba_changed": 3,
+          "alpha128_changed": 0
+        },
+        "right_foot": {
+          "rgba_changed": 236,
+          "visible_rgba_changed": 2,
+          "alpha128_changed": 0
+        },
+        "bow_and_right_hand": {
+          "rgba_changed": 1583,
+          "visible_rgba_changed": 393,
+          "alpha128_changed": 126
+        },
+        "head_and_ponytail": {
+          "rgba_changed": 1557,
+          "visible_rgba_changed": 916,
+          "alpha128_changed": 228
+        }
+      }
+    },
+    {
+      "file": "frame-03.png",
+      "bbox_alpha128": [
+        22,
+        10,
+        117,
+        121
+      ],
+      "regions_vs_reference": {
+        "full_canvas": {
+          "rgba_changed": 14143,
+          "visible_rgba_changed": 3287,
+          "alpha128_changed": 939
+        },
+        "lower_legs_and_feet": {
+          "rgba_changed": 3117,
+          "visible_rgba_changed": 119,
+          "alpha128_changed": 55
+        },
+        "left_foot": {
+          "rgba_changed": 295,
+          "visible_rgba_changed": 3,
+          "alpha128_changed": 0
+        },
+        "right_foot": {
+          "rgba_changed": 236,
+          "visible_rgba_changed": 2,
+          "alpha128_changed": 0
+        },
+        "bow_and_right_hand": {
+          "rgba_changed": 1688,
+          "visible_rgba_changed": 555,
+          "alpha128_changed": 247
+        },
+        "head_and_ponytail": {
+          "rgba_changed": 1653,
+          "visible_rgba_changed": 1042,
+          "alpha128_changed": 305
+        }
+      }
+    },
+    {
+      "file": "frame-04.png",
+      "bbox_alpha128": [
+        24,
+        15,
+        119,
+        121
+      ],
+      "regions_vs_reference": {
+        "full_canvas": {
+          "rgba_changed": 13097,
+          "visible_rgba_changed": 1924,
+          "alpha128_changed": 362
+        },
+        "lower_legs_and_feet": {
+          "rgba_changed": 3075,
+          "visible_rgba_changed": 51,
+          "alpha128_changed": 18
+        },
+        "left_foot": {
+          "rgba_changed": 293,
+          "visible_rgba_changed": 1,
+          "alpha128_changed": 0
+        },
+        "right_foot": {
+          "rgba_changed": 238,
+          "visible_rgba_changed": 4,
+          "alpha128_changed": 0
+        },
+        "bow_and_right_hand": {
+          "rgba_changed": 1487,
+          "visible_rgba_changed": 286,
+          "alpha128_changed": 89
+        },
+        "head_and_ponytail": {
+          "rgba_changed": 1443,
+          "visible_rgba_changed": 700,
+          "alpha128_changed": 128
+        }
+      }
+    },
+    {
+      "file": "frame-05.png",
+      "bbox_alpha128": [
+        25,
+        15,
+        119,
+        121
+      ],
+      "regions_vs_reference": {
+        "full_canvas": {
+          "rgba_changed": 11538,
+          "visible_rgba_changed": 213,
+          "alpha128_changed": 2
+        },
+        "lower_legs_and_feet": {
+          "rgba_changed": 3040,
+          "visible_rgba_changed": 5,
+          "alpha128_changed": 1
+        },
+        "left_foot": {
+          "rgba_changed": 293,
+          "visible_rgba_changed": 1,
+          "alpha128_changed": 0
+        },
+        "right_foot": {
+          "rgba_changed": 235,
+          "visible_rgba_changed": 1,
+          "alpha128_changed": 0
+        },
+        "bow_and_right_hand": {
+          "rgba_changed": 1278,
+          "visible_rgba_changed": 35,
+          "alpha128_changed": 0
+        },
+        "head_and_ponytail": {
+          "rgba_changed": 831,
+          "visible_rgba_changed": 62,
+          "alpha128_changed": 0
+        }
+      }
+    }
+  ]
+}
