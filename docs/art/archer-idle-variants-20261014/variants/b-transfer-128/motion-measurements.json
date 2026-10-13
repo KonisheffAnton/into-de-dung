@@ -1,0 +1,191 @@
+{
+  "id": "b-transfer-128",
+  "status": "measured",
+  "basis": "Фиксированные приблизительные прямоугольные области заданы в координатах 128x128 и равномерно уменьшены для 64x64. Они могут включать пустое место и соседние части. Счётчики показывают различие пикселей, а не величину или направление смещения; это не измерение переноса и не точное утверждение о движении.",
+  "regions_xyxy": {
+    "full_canvas": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "lower_legs": [
+      0,
+      100,
+      128,
+      128
+    ],
+    "left_foot": [
+      24,
+      104,
+      53,
+      119
+    ],
+    "right_foot": [
+      81,
+      107,
+      108,
+      123
+    ],
+    "bow_hand": [
+      92,
+      42,
+      123,
+      99
+    ],
+    "head": [
+      43,
+      10,
+      93,
+      51
+    ]
+  },
+  "frames": [
+    {
+      "file": "frame-01.png",
+      "sha256": "0adef3303ff306e73b533652a7180d8630ffb877bc028d2eccc3fb53b3d7af87",
+      "bbox_alpha128": [
+        24,
+        17,
+        116,
+        117
+      ],
+      "vs_first_rgba": {
+        "rgba_changed": 0,
+        "visible_rgba_changed": 0,
+        "alpha128_changed": 0
+      },
+      "regions_vs_first": {
+        "full_canvas": {
+          "rgba_changed": 0,
+          "visible_rgba_changed": 0,
+          "alpha128_changed": 0
+        },
+        "lower_legs": {
+          "rgba_changed": 0,
+          "visible_rgba_changed": 0,
+          "alpha128_changed": 0
+        },
+        "left_foot": {
+          "rgba_changed": 0,
+          "visible_rgba_changed": 0,
+          "alpha128_changed": 0
+        },
+        "right_foot": {
+          "rgba_changed": 0,
+          "visible_rgba_changed": 0,
+          "alpha128_changed": 0
+        },
+        "bow_hand": {
+          "rgba_changed": 0,
+          "visible_rgba_changed": 0,
+          "alpha128_changed": 0
+        },
+        "head": {
+          "rgba_changed": 0,
+          "visible_rgba_changed": 0,
+          "alpha128_changed": 0
+        }
+      }
+    },
+    {
+      "file": "frame-02.png",
+      "sha256": "73956c17e0959c027db71ca0c08027bde161c27beff2cfb02f8c2ce98325f042",
+      "bbox_alpha128": [
+        22,
+        13,
+        114,
+        117
+      ],
+      "vs_first_rgba": {
+        "rgba_changed": 4331,
+        "visible_rgba_changed": 4331,
+        "alpha128_changed": 1222
+      },
+      "regions_vs_first": {
+        "full_canvas": {
+          "rgba_changed": 4331,
+          "visible_rgba_changed": 4331,
+          "alpha128_changed": 1222
+        },
+        "lower_legs": {
+          "rgba_changed": 208,
+          "visible_rgba_changed": 208,
+          "alpha128_changed": 64
+        },
+        "left_foot": {
+          "rgba_changed": 24,
+          "visible_rgba_changed": 24,
+          "alpha128_changed": 2
+        },
+        "right_foot": {
+          "rgba_changed": 38,
+          "visible_rgba_changed": 38,
+          "alpha128_changed": 3
+        },
+        "bow_hand": {
+          "rgba_changed": 572,
+          "visible_rgba_changed": 572,
+          "alpha128_changed": 344
+        },
+        "head": {
+          "rgba_changed": 1026,
+          "visible_rgba_changed": 1026,
+          "alpha128_changed": 211
+        }
+      }
+    },
+    {
+      "file": "frame-03.png",
+      "sha256": "6dc11152beabe425edeba97f31cadc477018214d2edd0b97d8ceb92f27e78805",
+      "bbox_alpha128": [
+        24,
+        17,
+        116,
+        117
+      ],
+      "vs_first_rgba": {
+        "rgba_changed": 1327,
+        "visible_rgba_changed": 1327,
+        "alpha128_changed": 32
+      },
+      "regions_vs_first": {
+        "full_canvas": {
+          "rgba_changed": 1327,
+          "visible_rgba_changed": 1327,
+          "alpha128_changed": 32
+        },
+        "lower_legs": {
+          "rgba_changed": 128,
+          "visible_rgba_changed": 128,
+          "alpha128_changed": 4
+        },
+        "left_foot": {
+          "rgba_changed": 20,
+          "visible_rgba_changed": 20,
+          "alpha128_changed": 2
+        },
+        "right_foot": {
+          "rgba_changed": 43,
+          "visible_rgba_changed": 43,
+          "alpha128_changed": 0
+        },
+        "bow_hand": {
+          "rgba_changed": 118,
+          "visible_rgba_changed": 118,
+          "alpha128_changed": 5
+        },
+        "head": {
+          "rgba_changed": 241,
+          "visible_rgba_changed": 241,
+          "alpha128_changed": 7
+        }
+      }
+    }
+  ],
+  "seam_last_to_first": {
+    "rgba_changed": 1327,
+    "visible_rgba_changed": 1327,
+    "alpha128_changed": 32
+  }
+}

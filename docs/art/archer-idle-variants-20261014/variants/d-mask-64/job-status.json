@@ -1,0 +1,11 @@
+{
+  "transport": "synchronous",
+  "status": "completed",
+  "last_response": {
+    "usage": {
+      "type": "generations",
+      "generations": 1
+    },
+    "frame_count": 4
+  }
+}

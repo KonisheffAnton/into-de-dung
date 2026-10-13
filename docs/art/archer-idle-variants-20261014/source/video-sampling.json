@@ -1,0 +1,71 @@
+{
+  "video": "../../archer-idle-pixellab-20261014/source/user-motion.mp4",
+  "method": "Existing browser-decoded samples at centres of 13 source frames; PNGs preserved byte-exact. API inputs uniformly nearest-resized from 320 to 128 or 64. No crop, pose or alpha edit.",
+  "frames": [
+    {
+      "index": 1,
+      "sha256": "6bb354446e2c20555a38ec8ebe578a37ebf73c3a9bb6076e3e51b39526072ac2",
+      "time": 0.1
+    },
+    {
+      "index": 2,
+      "sha256": "e0d70411cee8499de4c3513565e78850999e0026aa38b5431dd67e13bd423eb8",
+      "time": 0.30000000000000004
+    },
+    {
+      "index": 3,
+      "sha256": "e7a29b6482f3a627b9ef6a5b35398c1b63dbb1a01a26fc4402f4d62c59131861",
+      "time": 0.5
+    },
+    {
+      "index": 4,
+      "sha256": "2a416cf193d48f267eb983f71e7181097fb2cecf3a92cef1092d54c1174398d1",
+      "time": 0.7000000000000001
+    },
+    {
+      "index": 5,
+      "sha256": "6523c553c5c035acc624848921dd976cf2b9cceecaf6f1340fbb3f2f7c6001c1",
+      "time": 0.9
+    },
+    {
+      "index": 6,
+      "sha256": "34ab59dff9c8f4b759a741ecb69a2dc939df21fc41c8bc5bd522bb2aa4c9302e",
+      "time": 1.1
+    },
+    {
+      "index": 7,
+      "sha256": "69cc3741d05d0c480c66f37db6d1ddb15f58d7bd5872058827b568947f697891",
+      "time": 1.3
+    },
+    {
+      "index": 8,
+      "sha256": "63287812de11d4376a673992d1a5c11896025b4536546afcb189663a8fbf177b",
+      "time": 1.5
+    },
+    {
+      "index": 9,
+      "sha256": "bb3eea388e913498ef5039dd44476fa9ab42385582263cf77ec3325b19c53a60",
+      "time": 1.7000000000000002
+    },
+    {
+      "index": 10,
+      "sha256": "c531cf53b8b671edcc8a76907e0dc84f0f93f911ebd85b48baa0d287fa456e61",
+      "time": 1.9000000000000001
+    },
+    {
+      "index": 11,
+      "sha256": "59f732f4f7236ab729829abffb0abeb9bacbf1c04effef7b2db93c597773a505",
+      "time": 2.1
+    },
+    {
+      "index": 12,
+      "sha256": "f580ceb7a92ec33487ace6e78d538703aac21e05d76d3c585aa25a97cc3d2e83",
+      "time": 2.3000000000000003
+    },
+    {
+      "index": 13,
+      "sha256": "023f578ebc4e9f71523ed7854fef056592f6fab7c8abc65c80ee2994610cf670",
+      "time": 2.5
+    }
+  ]
+}

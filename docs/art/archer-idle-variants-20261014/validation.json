@@ -1,0 +1,1435 @@
+{
+  "target_cycle_ms": 2600,
+  "variants": [
+    {
+      "id": "a-edit-128",
+      "status": "completed",
+      "frames": [
+        {
+          "file": "frame-01.png",
+          "sha256": "082849dac0d4146fd1ccb25a5ac8294ec67b3587e55e730f70081ac7990ff5f6",
+          "bbox_alpha128": [
+            24,
+            17,
+            116,
+            117
+          ],
+          "transparent": 11747,
+          "opaque": 4637,
+          "partial_alpha": 0,
+          "colors_alpha128": 8,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-02.png",
+          "sha256": "433900d16096363ab19362537d5f7082202e74a1f315ae9ea3ed2b279bc5cd96",
+          "bbox_alpha128": [
+            23,
+            15,
+            115,
+            117
+          ],
+          "transparent": 11739,
+          "opaque": 4645,
+          "partial_alpha": 0,
+          "colors_alpha128": 8,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-03.png",
+          "sha256": "818742cf819d8a4d925f4150b76302660bbee61269be2ff94a64f0cb76efaa13",
+          "bbox_alpha128": [
+            23,
+            14,
+            115,
+            117
+          ],
+          "transparent": 11762,
+          "opaque": 4622,
+          "partial_alpha": 0,
+          "colors_alpha128": 8,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-04.png",
+          "sha256": "c2f33bd5d7b38deab55b59bc92da84c398be9f0692e847a174a2afd3ef26199c",
+          "bbox_alpha128": [
+            24,
+            17,
+            116,
+            117
+          ],
+          "transparent": 11741,
+          "opaque": 4643,
+          "partial_alpha": 0,
+          "colors_alpha128": 8,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        }
+      ],
+      "reference": {
+        "file": "source.png",
+        "sha256": "0961917b49382534772a81a65efb154c6eda7c42585a2cc24d881e22d0931868",
+        "bbox_alpha128": [
+          0,
+          0,
+          128,
+          128
+        ],
+        "transparent": 0,
+        "opaque": 16384,
+        "partial_alpha": 0,
+        "colors_alpha128": 3422,
+        "art_flags": {
+          "no_transparent_pixels": true,
+          "touches_canvas_edge": true,
+          "empty_visible_image": false
+        }
+      },
+      "frame_count": 4,
+      "duration_ms": [
+        650,
+        650,
+        650,
+        650
+      ],
+      "gif": {
+        "512": {
+          "width": 512,
+          "height": 2048,
+          "encoded_pages": 4,
+          "encoded_delay_ms": [
+            650,
+            650,
+            650,
+            650
+          ],
+          "timing_summary": {
+            "source_frames": 4,
+            "source_total_ms": 2600,
+            "encoded_total_ms": 2600,
+            "total_duration_verified_by_sum_ms": 2600,
+            "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+            "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+            "duplicate_coalescing_allowed": true
+          }
+        },
+        "native": {
+          "width": 128,
+          "height": 512,
+          "encoded_pages": 4,
+          "encoded_delay_ms": [
+            650,
+            650,
+            650,
+            650
+          ],
+          "timing_summary": {
+            "source_frames": 4,
+            "source_total_ms": 2600,
+            "encoded_total_ms": 2600,
+            "total_duration_verified_by_sum_ms": 2600,
+            "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+            "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+            "duplicate_coalescing_allowed": true
+          }
+        }
+      }
+    },
+    {
+      "id": "b-transfer-128",
+      "status": "completed",
+      "frames": [
+        {
+          "file": "frame-01.png",
+          "sha256": "0adef3303ff306e73b533652a7180d8630ffb877bc028d2eccc3fb53b3d7af87",
+          "bbox_alpha128": [
+            24,
+            17,
+            116,
+            117
+          ],
+          "transparent": 11681,
+          "opaque": 4703,
+          "partial_alpha": 0,
+          "colors_alpha128": 34,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-02.png",
+          "sha256": "73956c17e0959c027db71ca0c08027bde161c27beff2cfb02f8c2ce98325f042",
+          "bbox_alpha128": [
+            22,
+            13,
+            114,
+            117
+          ],
+          "transparent": 11579,
+          "opaque": 4805,
+          "partial_alpha": 0,
+          "colors_alpha128": 34,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-03.png",
+          "sha256": "6dc11152beabe425edeba97f31cadc477018214d2edd0b97d8ceb92f27e78805",
+          "bbox_alpha128": [
+            24,
+            17,
+            116,
+            117
+          ],
+          "transparent": 11679,
+          "opaque": 4705,
+          "partial_alpha": 0,
+          "colors_alpha128": 34,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        }
+      ],
+      "reference": {
+        "file": "source.png",
+        "sha256": "4eda3c58de2d1761f88528449bc74f7b15ad10c6e3477554321454b6ce0c06ec",
+        "bbox_alpha128": [
+          25,
+          15,
+          119,
+          121
+        ],
+        "transparent": 11327,
+        "opaque": 5057,
+        "partial_alpha": 0,
+        "colors_alpha128": 46,
+        "art_flags": {
+          "no_transparent_pixels": false,
+          "touches_canvas_edge": false,
+          "empty_visible_image": false
+        }
+      },
+      "frame_count": 3,
+      "duration_ms": [
+        870,
+        860,
+        870
+      ],
+      "gif": {
+        "512": {
+          "width": 512,
+          "height": 1536,
+          "encoded_pages": 3,
+          "encoded_delay_ms": [
+            870,
+            860,
+            870
+          ],
+          "timing_summary": {
+            "source_frames": 3,
+            "source_total_ms": 2600,
+            "encoded_total_ms": 2600,
+            "total_duration_verified_by_sum_ms": 2600,
+            "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+            "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+            "duplicate_coalescing_allowed": true
+          }
+        },
+        "native": {
+          "width": 128,
+          "height": 384,
+          "encoded_pages": 3,
+          "encoded_delay_ms": [
+            870,
+            860,
+            870
+          ],
+          "timing_summary": {
+            "source_frames": 3,
+            "source_total_ms": 2600,
+            "encoded_total_ms": 2600,
+            "total_duration_verified_by_sum_ms": 2600,
+            "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+            "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+            "duplicate_coalescing_allowed": true
+          }
+        }
+      }
+    },
+    {
+      "id": "c-edit-64",
+      "status": "completed",
+      "frames": [
+        {
+          "file": "frame-01.png",
+          "sha256": "9e6d800633d0418fd8c09059eb5d3eea4b7b30fb20e529f4679ea9f9308ec298",
+          "bbox_alpha128": [
+            12,
+            9,
+            58,
+            59
+          ],
+          "transparent": 2926,
+          "opaque": 1170,
+          "partial_alpha": 0,
+          "colors_alpha128": 24,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-02.png",
+          "sha256": "41543c3779c3387a828ff1f03ce5026373473ebf95c2baac763aafbc70a90999",
+          "bbox_alpha128": [
+            12,
+            9,
+            58,
+            59
+          ],
+          "transparent": 2948,
+          "opaque": 1148,
+          "partial_alpha": 0,
+          "colors_alpha128": 24,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-03.png",
+          "sha256": "c24cdaa553a40e294e4e4780f235678b38f0e2139f095d3db6089984f8673d0c",
+          "bbox_alpha128": [
+            12,
+            9,
+            58,
+            59
+          ],
+          "transparent": 2892,
+          "opaque": 1204,
+          "partial_alpha": 0,
+          "colors_alpha128": 24,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-04.png",
+          "sha256": "e67d6de23987106b2210549090bfb537cf6acea8195878283d65923ecc9b5bd5",
+          "bbox_alpha128": [
+            12,
+            8,
+            58,
+            59
+          ],
+          "transparent": 2876,
+          "opaque": 1220,
+          "partial_alpha": 0,
+          "colors_alpha128": 24,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-05.png",
+          "sha256": "51409eba3e855d4a35ec7d9b370585de1869dbf31fa7c6195789740766fcade1",
+          "bbox_alpha128": [
+            12,
+            8,
+            58,
+            58
+          ],
+          "transparent": 2904,
+          "opaque": 1192,
+          "partial_alpha": 0,
+          "colors_alpha128": 24,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-06.png",
+          "sha256": "7a155464817e788436872a572076cf241a154582623d32b41e3edefbb39657a9",
+          "bbox_alpha128": [
+            12,
+            7,
+            58,
+            59
+          ],
+          "transparent": 2901,
+          "opaque": 1195,
+          "partial_alpha": 0,
+          "colors_alpha128": 24,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-07.png",
+          "sha256": "d2a9523fb12f6f935fc6dbeac5f4acca24ccfb7468f7b2e915a5a7dc20e376d2",
+          "bbox_alpha128": [
+            11,
+            6,
+            57,
+            59
+          ],
+          "transparent": 2879,
+          "opaque": 1217,
+          "partial_alpha": 0,
+          "colors_alpha128": 24,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-08.png",
+          "sha256": "0e4261e3c671c9e76ddb7bab705adf1959a953d4015736ef41bd5e312db32df1",
+          "bbox_alpha128": [
+            11,
+            6,
+            57,
+            58
+          ],
+          "transparent": 2908,
+          "opaque": 1188,
+          "partial_alpha": 0,
+          "colors_alpha128": 24,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-09.png",
+          "sha256": "60f3ed92ab487298dfa5de212157c69d39eca29000587156fb1fe9743827d47c",
+          "bbox_alpha128": [
+            12,
+            7,
+            58,
+            59
+          ],
+          "transparent": 2876,
+          "opaque": 1220,
+          "partial_alpha": 0,
+          "colors_alpha128": 24,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-10.png",
+          "sha256": "62ba31d5914adc1db6b9c3ed76ab779232045f37440ff209e7a6d654187cf034",
+          "bbox_alpha128": [
+            12,
+            8,
+            58,
+            59
+          ],
+          "transparent": 2897,
+          "opaque": 1199,
+          "partial_alpha": 0,
+          "colors_alpha128": 25,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-11.png",
+          "sha256": "5565813ac009400093ee2017f2e39c6548fd3e83343dd09d694855899c43fb9d",
+          "bbox_alpha128": [
+            12,
+            8,
+            58,
+            59
+          ],
+          "transparent": 2872,
+          "opaque": 1224,
+          "partial_alpha": 0,
+          "colors_alpha128": 25,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-12.png",
+          "sha256": "1b9cc38959956cda22b305701748579639fd45db9d1b437e65a39a1a6bee415f",
+          "bbox_alpha128": [
+            12,
+            9,
+            58,
+            59
+          ],
+          "transparent": 2919,
+          "opaque": 1177,
+          "partial_alpha": 0,
+          "colors_alpha128": 24,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-13.png",
+          "sha256": "5e55632fc4779c9d12fd02c3f0403ab703852728d6248a9f0a2f2960f1e46abc",
+          "bbox_alpha128": [
+            12,
+            9,
+            58,
+            59
+          ],
+          "transparent": 2894,
+          "opaque": 1202,
+          "partial_alpha": 0,
+          "colors_alpha128": 24,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        }
+      ],
+      "reference": {
+        "file": "source.png",
+        "sha256": "f0b3b6c78862591dc2bbd63d58e1fff289d2bd3b6eae4bb14465211a166d7425",
+        "bbox_alpha128": [
+          0,
+          0,
+          64,
+          64
+        ],
+        "transparent": 0,
+        "opaque": 4096,
+        "partial_alpha": 0,
+        "colors_alpha128": 1153,
+        "art_flags": {
+          "no_transparent_pixels": true,
+          "touches_canvas_edge": true,
+          "empty_visible_image": false
+        }
+      },
+      "frame_count": 13,
+      "duration_ms": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "gif": {
+        "512": {
+          "width": 512,
+          "height": 6656,
+          "encoded_pages": 13,
+          "encoded_delay_ms": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "timing_summary": {
+            "source_frames": 13,
+            "source_total_ms": 2600,
+            "encoded_total_ms": 2600,
+            "total_duration_verified_by_sum_ms": 2600,
+            "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+            "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+            "duplicate_coalescing_allowed": true
+          }
+        },
+        "native": {
+          "width": 64,
+          "height": 832,
+          "encoded_pages": 13,
+          "encoded_delay_ms": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "timing_summary": {
+            "source_frames": 13,
+            "source_total_ms": 2600,
+            "encoded_total_ms": 2600,
+            "total_duration_verified_by_sum_ms": 2600,
+            "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+            "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+            "duplicate_coalescing_allowed": true
+          }
+        }
+      }
+    },
+    {
+      "id": "d-mask-64",
+      "status": "completed",
+      "frames": [
+        {
+          "file": "frame-01.png",
+          "sha256": "451a3f46530920a1d1577fab6b5f66454a5e8dc1dc5354debc4fe43487564df5",
+          "bbox_alpha128": [
+            12,
+            7,
+            59,
+            60
+          ],
+          "transparent": 2830,
+          "opaque": 1266,
+          "partial_alpha": 0,
+          "colors_alpha128": 60,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-02.png",
+          "sha256": "2353fc4208cf0a79f63381d52b9eea1ff09d918ff8dea8d7b53ca6f7d590fde7",
+          "bbox_alpha128": [
+            12,
+            7,
+            59,
+            60
+          ],
+          "transparent": 2830,
+          "opaque": 1266,
+          "partial_alpha": 0,
+          "colors_alpha128": 61,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-03.png",
+          "sha256": "d377e308ca73ed0addf423338d35ef35a7061857f7fa6b669f343ae325fc53c6",
+          "bbox_alpha128": [
+            12,
+            7,
+            59,
+            60
+          ],
+          "transparent": 2830,
+          "opaque": 1266,
+          "partial_alpha": 0,
+          "colors_alpha128": 61,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-04.png",
+          "sha256": "b980c2b4f720290d1d1ce9abaf51b3636420caf38221b97c8ecc4deabd596e7c",
+          "bbox_alpha128": [
+            12,
+            7,
+            59,
+            60
+          ],
+          "transparent": 2830,
+          "opaque": 1266,
+          "partial_alpha": 0,
+          "colors_alpha128": 61,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        }
+      ],
+      "reference": {
+        "file": "source.png",
+        "sha256": "d4c74fd92d0922637b624d1282a35ffd551808e36eaecc2e9fb15c838c5e03af",
+        "bbox_alpha128": [
+          12,
+          7,
+          59,
+          60
+        ],
+        "transparent": 2830,
+        "opaque": 1266,
+        "partial_alpha": 0,
+        "colors_alpha128": 39,
+        "art_flags": {
+          "no_transparent_pixels": false,
+          "touches_canvas_edge": false,
+          "empty_visible_image": false
+        }
+      },
+      "frame_count": 4,
+      "duration_ms": [
+        650,
+        650,
+        650,
+        650
+      ],
+      "gif": {
+        "512": {
+          "width": 512,
+          "height": 2048,
+          "encoded_pages": 4,
+          "encoded_delay_ms": [
+            650,
+            650,
+            650,
+            650
+          ],
+          "timing_summary": {
+            "source_frames": 4,
+            "source_total_ms": 2600,
+            "encoded_total_ms": 2600,
+            "total_duration_verified_by_sum_ms": 2600,
+            "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+            "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+            "duplicate_coalescing_allowed": true
+          }
+        },
+        "native": {
+          "width": 64,
+          "height": 256,
+          "encoded_pages": 4,
+          "encoded_delay_ms": [
+            650,
+            650,
+            650,
+            650
+          ],
+          "timing_summary": {
+            "source_frames": 4,
+            "source_total_ms": 2600,
+            "encoded_total_ms": 2600,
+            "total_duration_verified_by_sum_ms": 2600,
+            "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+            "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+            "duplicate_coalescing_allowed": true
+          }
+        }
+      }
+    },
+    {
+      "id": "e-pixminimax-128",
+      "status": "completed",
+      "frames": [
+        {
+          "file": "frame-01.png",
+          "sha256": "4eda3c58de2d1761f88528449bc74f7b15ad10c6e3477554321454b6ce0c06ec",
+          "bbox_alpha128": [
+            25,
+            15,
+            119,
+            121
+          ],
+          "transparent": 11327,
+          "opaque": 5057,
+          "partial_alpha": 0,
+          "colors_alpha128": 46,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-02.png",
+          "sha256": "ab7b9c1a9137bfd88c19ca30e8c88388226bc90d27c8db279655ab64f0bdb1bf",
+          "bbox_alpha128": [
+            25,
+            15,
+            119,
+            121
+          ],
+          "transparent": 11327,
+          "opaque": 5057,
+          "partial_alpha": 0,
+          "colors_alpha128": 37,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-03.png",
+          "sha256": "379a0d3893924c3691eea89ad131995187105acc42069594649b7c27bf1a6279",
+          "bbox_alpha128": [
+            25,
+            13,
+            119,
+            121
+          ],
+          "transparent": 11267,
+          "opaque": 5117,
+          "partial_alpha": 0,
+          "colors_alpha128": 38,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-04.png",
+          "sha256": "8f066dc70f144b507d5c598df41821079a8da98f51e8aaae0a627d33a9379fdc",
+          "bbox_alpha128": [
+            25,
+            12,
+            118,
+            121
+          ],
+          "transparent": 11267,
+          "opaque": 5117,
+          "partial_alpha": 0,
+          "colors_alpha128": 38,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-05.png",
+          "sha256": "bec197ea27350f46bf18cff9039019ebc01da3245f9c824ca20d771ac177676c",
+          "bbox_alpha128": [
+            25,
+            11,
+            118,
+            121
+          ],
+          "transparent": 11241,
+          "opaque": 5143,
+          "partial_alpha": 0,
+          "colors_alpha128": 38,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-06.png",
+          "sha256": "52b16b64340a9def64ba7756f63eb497867e1c259e766397a2f1573138627d45",
+          "bbox_alpha128": [
+            25,
+            11,
+            118,
+            121
+          ],
+          "transparent": 11241,
+          "opaque": 5143,
+          "partial_alpha": 0,
+          "colors_alpha128": 38,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-07.png",
+          "sha256": "81b47751bdf092926192ee7c94c82bbcd56a9744653af76fcd72154dd960aed6",
+          "bbox_alpha128": [
+            25,
+            11,
+            118,
+            121
+          ],
+          "transparent": 11241,
+          "opaque": 5143,
+          "partial_alpha": 0,
+          "colors_alpha128": 38,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-08.png",
+          "sha256": "764944817a61e63e750f375ba294ece187bd6a16a83fa92ae5b6646b139b46c0",
+          "bbox_alpha128": [
+            25,
+            11,
+            118,
+            121
+          ],
+          "transparent": 11241,
+          "opaque": 5143,
+          "partial_alpha": 0,
+          "colors_alpha128": 38,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-09.png",
+          "sha256": "1802a9a8a2e49572eafdd8b0b540b50bd65688a1e3355adb8cfe9c2a5a07f92e",
+          "bbox_alpha128": [
+            25,
+            11,
+            118,
+            121
+          ],
+          "transparent": 11241,
+          "opaque": 5143,
+          "partial_alpha": 0,
+          "colors_alpha128": 38,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-10.png",
+          "sha256": "5500a4b4a0af3395d9999080b6f8a2e13a740e0066fe800364757cf3ed1aaba2",
+          "bbox_alpha128": [
+            25,
+            11,
+            118,
+            121
+          ],
+          "transparent": 11241,
+          "opaque": 5143,
+          "partial_alpha": 0,
+          "colors_alpha128": 38,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-11.png",
+          "sha256": "cb9e7a5bace812ffe2cf219eae309ef420781de75950e1ae127a13035d3d0653",
+          "bbox_alpha128": [
+            25,
+            12,
+            118,
+            121
+          ],
+          "transparent": 11265,
+          "opaque": 5119,
+          "partial_alpha": 0,
+          "colors_alpha128": 38,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-12.png",
+          "sha256": "f346d4e961dbe573b9fb414c43483a59a2178bebb064c61b666482e372d1bada",
+          "bbox_alpha128": [
+            25,
+            13,
+            119,
+            121
+          ],
+          "transparent": 11300,
+          "opaque": 5084,
+          "partial_alpha": 0,
+          "colors_alpha128": 37,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-13.png",
+          "sha256": "565a3aa4a98c9131addcb776828e66106787d69114e11e4f649636519c892381",
+          "bbox_alpha128": [
+            25,
+            15,
+            119,
+            121
+          ],
+          "transparent": 11327,
+          "opaque": 5057,
+          "partial_alpha": 0,
+          "colors_alpha128": 37,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        }
+      ],
+      "reference": {
+        "file": "source.png",
+        "sha256": "4eda3c58de2d1761f88528449bc74f7b15ad10c6e3477554321454b6ce0c06ec",
+        "bbox_alpha128": [
+          25,
+          15,
+          119,
+          121
+        ],
+        "transparent": 11327,
+        "opaque": 5057,
+        "partial_alpha": 0,
+        "colors_alpha128": 46,
+        "art_flags": {
+          "no_transparent_pixels": false,
+          "touches_canvas_edge": false,
+          "empty_visible_image": false
+        }
+      },
+      "frame_count": 13,
+      "duration_ms": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "gif": {
+        "512": {
+          "width": 512,
+          "height": 6656,
+          "encoded_pages": 13,
+          "encoded_delay_ms": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "timing_summary": {
+            "source_frames": 13,
+            "source_total_ms": 2600,
+            "encoded_total_ms": 2600,
+            "total_duration_verified_by_sum_ms": 2600,
+            "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+            "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+            "duplicate_coalescing_allowed": true
+          }
+        },
+        "native": {
+          "width": 128,
+          "height": 1664,
+          "encoded_pages": 13,
+          "encoded_delay_ms": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "timing_summary": {
+            "source_frames": 13,
+            "source_total_ms": 2600,
+            "encoded_total_ms": 2600,
+            "total_duration_verified_by_sum_ms": 2600,
+            "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+            "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+            "duplicate_coalescing_allowed": true
+          }
+        }
+      }
+    },
+    {
+      "id": "f-scarf-128",
+      "status": "completed",
+      "frames": [
+        {
+          "file": "frame-01.png",
+          "sha256": "bcecab5677ea4a180b46a9603bca45eac0833bd996f366950d57687d7ca85c5f",
+          "bbox_alpha128": [
+            25,
+            15,
+            119,
+            121
+          ],
+          "transparent": 11328,
+          "opaque": 5056,
+          "partial_alpha": 0,
+          "colors_alpha128": 45,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-02.png",
+          "sha256": "d9be6a3c64dcb5c0843f9e4fb30cc781d3486449c3feab435f6506fa1b1e812c",
+          "bbox_alpha128": [
+            25,
+            14,
+            119,
+            121
+          ],
+          "transparent": 11333,
+          "opaque": 5051,
+          "partial_alpha": 0,
+          "colors_alpha128": 44,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-03.png",
+          "sha256": "e6588c5f9bafa70bae5339e31c17c8d120442550d372dc2a55e9bd14e921af52",
+          "bbox_alpha128": [
+            25,
+            12,
+            119,
+            121
+          ],
+          "transparent": 11293,
+          "opaque": 5091,
+          "partial_alpha": 0,
+          "colors_alpha128": 44,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-04.png",
+          "sha256": "675624061fa3d29996422db70d8f5e1dee175c177577bf7bc0279ab841cf0fe7",
+          "bbox_alpha128": [
+            24,
+            10,
+            119,
+            121
+          ],
+          "transparent": 11309,
+          "opaque": 5075,
+          "partial_alpha": 0,
+          "colors_alpha128": 45,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-05.png",
+          "sha256": "e514e87c97b4044a437390a3c51c8c035124d9a0cf1fa23c2774e63c8c7633a2",
+          "bbox_alpha128": [
+            24,
+            8,
+            119,
+            121
+          ],
+          "transparent": 11265,
+          "opaque": 5119,
+          "partial_alpha": 0,
+          "colors_alpha128": 45,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-06.png",
+          "sha256": "11f17b190ce2d3176a97e5ee6a3eff5781f8c12546aa842f86c0cc7fafd07f04",
+          "bbox_alpha128": [
+            23,
+            10,
+            119,
+            121
+          ],
+          "transparent": 11273,
+          "opaque": 5111,
+          "partial_alpha": 0,
+          "colors_alpha128": 46,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-07.png",
+          "sha256": "e70c8b26ba1ac91c8e7886adbdd133b8a254969464199d2f9e1351fc71c1eac7",
+          "bbox_alpha128": [
+            24,
+            11,
+            119,
+            121
+          ],
+          "transparent": 11277,
+          "opaque": 5107,
+          "partial_alpha": 0,
+          "colors_alpha128": 46,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-08.png",
+          "sha256": "e5a7a154a741c80331963b3a31ee6890fdfa24f74023bdbcf07ddd826a98706f",
+          "bbox_alpha128": [
+            24,
+            14,
+            119,
+            121
+          ],
+          "transparent": 11338,
+          "opaque": 5046,
+          "partial_alpha": 0,
+          "colors_alpha128": 46,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        },
+        {
+          "file": "frame-09.png",
+          "sha256": "88f8e118955a5cad58f72ce012a86ad9a68eee829755bf7a767c9b0a8a26e32b",
+          "bbox_alpha128": [
+            25,
+            15,
+            119,
+            121
+          ],
+          "transparent": 11335,
+          "opaque": 5049,
+          "partial_alpha": 0,
+          "colors_alpha128": 45,
+          "art_flags": {
+            "no_transparent_pixels": false,
+            "touches_canvas_edge": false,
+            "empty_visible_image": false
+          }
+        }
+      ],
+      "reference": {
+        "file": "source.png",
+        "sha256": "4eda3c58de2d1761f88528449bc74f7b15ad10c6e3477554321454b6ce0c06ec",
+        "bbox_alpha128": [
+          25,
+          15,
+          119,
+          121
+        ],
+        "transparent": 11327,
+        "opaque": 5057,
+        "partial_alpha": 0,
+        "colors_alpha128": 46,
+        "art_flags": {
+          "no_transparent_pixels": false,
+          "touches_canvas_edge": false,
+          "empty_visible_image": false
+        }
+      },
+      "frame_count": 9,
+      "duration_ms": [
+        290,
+        290,
+        290,
+        290,
+        280,
+        290,
+        290,
+        290,
+        290
+      ],
+      "gif": {
+        "512": {
+          "width": 512,
+          "height": 4608,
+          "encoded_pages": 9,
+          "encoded_delay_ms": [
+            290,
+            290,
+            290,
+            290,
+            280,
+            290,
+            290,
+            290,
+            290
+          ],
+          "timing_summary": {
+            "source_frames": 9,
+            "source_total_ms": 2600,
+            "encoded_total_ms": 2600,
+            "total_duration_verified_by_sum_ms": 2600,
+            "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+            "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+            "duplicate_coalescing_allowed": true
+          }
+        },
+        "native": {
+          "width": 128,
+          "height": 1152,
+          "encoded_pages": 9,
+          "encoded_delay_ms": [
+            290,
+            290,
+            290,
+            290,
+            280,
+            290,
+            290,
+            290,
+            290
+          ],
+          "timing_summary": {
+            "source_frames": 9,
+            "source_total_ms": 2600,
+            "encoded_total_ms": 2600,
+            "total_duration_verified_by_sum_ms": 2600,
+            "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+            "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+            "duplicate_coalescing_allowed": true
+          }
+        }
+      }
+    }
+  ],
+  "comparison_grid": {
+    "status": "completed",
+    "width": 800,
+    "height": 14784,
+    "source_variants": [
+      "a-edit-128",
+      "b-transfer-128",
+      "c-edit-64",
+      "d-mask-64",
+      "e-pixminimax-128",
+      "f-scarf-128"
+    ],
+    "timeline_segments": 24,
+    "source_total_ms": 2600,
+    "encoded_pages": 24,
+    "encoded_delay_ms": [
+      200,
+      90,
+      110,
+      180,
+      20,
+      50,
+      150,
+      70,
+      130,
+      160,
+      40,
+      100,
+      100,
+      40,
+      160,
+      130,
+      70,
+      150,
+      50,
+      20,
+      180,
+      110,
+      90,
+      200
+    ],
+    "total_duration_verified_by_sum_ms": 2600,
+    "timing_description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+    "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+    "duplicate_coalescing_allowed": true
+  }
+}

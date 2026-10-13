@@ -1,0 +1,313 @@
+{
+  "variants": [
+    {
+      "id": "a-edit-128",
+      "frame_count": 4,
+      "native_gif": {
+        "width": 128,
+        "height": 512,
+        "encoded_pages": 4,
+        "encoded_delay_ms": [
+          650,
+          650,
+          650,
+          650
+        ],
+        "timing_summary": {
+          "source_frames": 4,
+          "source_total_ms": 2600,
+          "encoded_total_ms": 2600,
+          "total_duration_verified_by_sum_ms": 2600,
+          "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+          "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+          "duplicate_coalescing_allowed": true
+        }
+      },
+      "gif_512": {
+        "width": 512,
+        "height": 2048,
+        "encoded_pages": 4,
+        "encoded_delay_ms": [
+          650,
+          650,
+          650,
+          650
+        ],
+        "timing_summary": {
+          "source_frames": 4,
+          "source_total_ms": 2600,
+          "encoded_total_ms": 2600,
+          "total_duration_verified_by_sum_ms": 2600,
+          "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+          "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+          "duplicate_coalescing_allowed": true
+        }
+      }
+    },
+    {
+      "id": "b-transfer-128",
+      "frame_count": 3,
+      "native_gif": {
+        "width": 128,
+        "height": 384,
+        "encoded_pages": 3,
+        "encoded_delay_ms": [
+          870,
+          860,
+          870
+        ],
+        "timing_summary": {
+          "source_frames": 3,
+          "source_total_ms": 2600,
+          "encoded_total_ms": 2600,
+          "total_duration_verified_by_sum_ms": 2600,
+          "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+          "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+          "duplicate_coalescing_allowed": true
+        }
+      },
+      "gif_512": {
+        "width": 512,
+        "height": 1536,
+        "encoded_pages": 3,
+        "encoded_delay_ms": [
+          870,
+          860,
+          870
+        ],
+        "timing_summary": {
+          "source_frames": 3,
+          "source_total_ms": 2600,
+          "encoded_total_ms": 2600,
+          "total_duration_verified_by_sum_ms": 2600,
+          "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+          "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+          "duplicate_coalescing_allowed": true
+        }
+      }
+    },
+    {
+      "id": "c-edit-64",
+      "frame_count": 13,
+      "native_gif": {
+        "width": 64,
+        "height": 832,
+        "encoded_pages": 13,
+        "encoded_delay_ms": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ],
+        "timing_summary": {
+          "source_frames": 13,
+          "source_total_ms": 2600,
+          "encoded_total_ms": 2600,
+          "total_duration_verified_by_sum_ms": 2600,
+          "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+          "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+          "duplicate_coalescing_allowed": true
+        }
+      },
+      "gif_512": {
+        "width": 512,
+        "height": 6656,
+        "encoded_pages": 13,
+        "encoded_delay_ms": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ],
+        "timing_summary": {
+          "source_frames": 13,
+          "source_total_ms": 2600,
+          "encoded_total_ms": 2600,
+          "total_duration_verified_by_sum_ms": 2600,
+          "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+          "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+          "duplicate_coalescing_allowed": true
+        }
+      }
+    },
+    {
+      "id": "d-mask-64",
+      "frame_count": 4,
+      "native_gif": {
+        "width": 64,
+        "height": 256,
+        "encoded_pages": 4,
+        "encoded_delay_ms": [
+          650,
+          650,
+          650,
+          650
+        ],
+        "timing_summary": {
+          "source_frames": 4,
+          "source_total_ms": 2600,
+          "encoded_total_ms": 2600,
+          "total_duration_verified_by_sum_ms": 2600,
+          "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+          "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+          "duplicate_coalescing_allowed": true
+        }
+      },
+      "gif_512": {
+        "width": 512,
+        "height": 2048,
+        "encoded_pages": 4,
+        "encoded_delay_ms": [
+          650,
+          650,
+          650,
+          650
+        ],
+        "timing_summary": {
+          "source_frames": 4,
+          "source_total_ms": 2600,
+          "encoded_total_ms": 2600,
+          "total_duration_verified_by_sum_ms": 2600,
+          "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+          "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+          "duplicate_coalescing_allowed": true
+        }
+      }
+    },
+    {
+      "id": "e-pixminimax-128",
+      "frame_count": 13,
+      "native_gif": {
+        "width": 128,
+        "height": 1664,
+        "encoded_pages": 13,
+        "encoded_delay_ms": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ],
+        "timing_summary": {
+          "source_frames": 13,
+          "source_total_ms": 2600,
+          "encoded_total_ms": 2600,
+          "total_duration_verified_by_sum_ms": 2600,
+          "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+          "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+          "duplicate_coalescing_allowed": true
+        }
+      },
+      "gif_512": {
+        "width": 512,
+        "height": 6656,
+        "encoded_pages": 13,
+        "encoded_delay_ms": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ],
+        "timing_summary": {
+          "source_frames": 13,
+          "source_total_ms": 2600,
+          "encoded_total_ms": 2600,
+          "total_duration_verified_by_sum_ms": 2600,
+          "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+          "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+          "duplicate_coalescing_allowed": true
+        }
+      }
+    },
+    {
+      "id": "f-scarf-128",
+      "frame_count": 9,
+      "native_gif": {
+        "width": 128,
+        "height": 1152,
+        "encoded_pages": 9,
+        "encoded_delay_ms": [
+          290,
+          290,
+          290,
+          290,
+          280,
+          290,
+          290,
+          290,
+          290
+        ],
+        "timing_summary": {
+          "source_frames": 9,
+          "source_total_ms": 2600,
+          "encoded_total_ms": 2600,
+          "total_duration_verified_by_sum_ms": 2600,
+          "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+          "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+          "duplicate_coalescing_allowed": true
+        }
+      },
+      "gif_512": {
+        "width": 512,
+        "height": 4608,
+        "encoded_pages": 9,
+        "encoded_delay_ms": [
+          290,
+          290,
+          290,
+          290,
+          280,
+          290,
+          290,
+          290,
+          290
+        ],
+        "timing_summary": {
+          "source_frames": 9,
+          "source_total_ms": 2600,
+          "encoded_total_ms": 2600,
+          "total_duration_verified_by_sum_ms": 2600,
+          "description": "Проверена только общая длительность суммой задержек GIF; сама по себе эта сумма не доказывает покадровый временной паритет. Порядок исходных кадров сохранён кодом сборки.",
+          "total_duration_check_does_not_prove_frame_by_frame_temporal_parity": true,
+          "duplicate_coalescing_allowed": true
+        }
+      }
+    }
+  ],
+  "missing": []
+}

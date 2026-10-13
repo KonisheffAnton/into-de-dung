@@ -1,0 +1,25 @@
+{
+  "basis": "All RGBA pixels outside white API control mask vs unchanged clean64 input, not merely bounding-box regions. No local editing applied.",
+  "frames": [
+    {
+      "frame": "frame-01.png",
+      "outside_mask_rgba_changes_vs_input": 0,
+      "inside_mask_rgba_changes_vs_input": 82
+    },
+    {
+      "frame": "frame-02.png",
+      "outside_mask_rgba_changes_vs_input": 0,
+      "inside_mask_rgba_changes_vs_input": 85
+    },
+    {
+      "frame": "frame-03.png",
+      "outside_mask_rgba_changes_vs_input": 0,
+      "inside_mask_rgba_changes_vs_input": 85
+    },
+    {
+      "frame": "frame-04.png",
+      "outside_mask_rgba_changes_vs_input": 0,
+      "inside_mask_rgba_changes_vs_input": 84
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "base": "d84bb2ba980591e600496feaa466af450f604e4a",
+  "target_cycle_ms": 2600,
+  "scope": "Six explicitly requested separate PixelLab trials; no game integration. Preserve all attempts and original returned PNGs.",
+  "openapi_sha256": "8cb24ecdd26e9fe48639dc789e44f32b3c78c29e8da8c3121f23ab360ade5dad",
+  "variants": [
+    {
+      "id": "a-edit-128",
+      "title": "A · По ролику, 4 позы",
+      "description": "Прямая очистка кадров ролика, 128×128",
+      "endpoint": "edit-animation-v2",
+      "schema": "EditAnimationV2Request",
+      "width": 128,
+      "source_frame_indices": [
+        1,
+        5,
+        9,
+        13
+      ],
+      "path": "variants/a-edit-128",
+      "height": 128,
+      "source_sha256": "0961917b49382534772a81a65efb154c6eda7c42585a2cc24d881e22d0931868",
+      "requested_frame_count": 4,
+      "request_sha256": "9e940eb8c72ac865a311f4fffc70dfbc26c4aa836bff6c12f40868264813fe1e"
+    },
+    {
+      "id": "b-transfer-128",
+      "title": "B · Чистый образ и 3 позы",
+      "description": "Рисунок и три фазы движения из ролика, 128×128",
+      "endpoint": "transfer-outfit-v2",
+      "schema": "TransferOutfitV2Request",
+      "width": 128,
+      "source_frame_indices": [
+        1,
+        7,
+        13
+      ],
+      "path": "variants/b-transfer-128",
+      "height": 128,
+      "source_sha256": "4eda3c58de2d1761f88528449bc74f7b15ad10c6e3477554321454b6ce0c06ec",
+      "requested_frame_count": 3,
+      "request_sha256": "19827cb42e219f347fe02de10d0201398800af949e4d1e94694e02e5548e7511"
+    },
+    {
+      "id": "c-edit-64",
+      "title": "C · Весь цикл из ролика",
+      "description": "Все 13 фаз движения; API ограничивает размер до 64×64",
+      "endpoint": "edit-animation-v2",
+      "schema": "EditAnimationV2Request",
+      "width": 64,
+      "source_frame_indices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "path": "variants/c-edit-64",
+      "height": 64,
+      "source_sha256": "f0b3b6c78862591dc2bbd63d58e1fff289d2bd3b6eae4bb14465211a166d7425",
+      "requested_frame_count": 13,
+      "request_sha256": "ae7edbdad859315d882fd650d2e5a59e62089ab9ee93d204d5205b0de5907f5e"
+    },
+    {
+      "id": "d-mask-64",
+      "title": "D · Только область груди",
+      "description": "Маска дорисовки складок, неподвижные входные кадры, 64×64",
+      "endpoint": "animate-with-text",
+      "schema": "AnimateWithTextRequest",
+      "sync": true,
+      "width": 64,
+      "source_frame_indices": [],
+      "path": "variants/d-mask-64",
+      "height": 64,
+      "source_sha256": "d4c74fd92d0922637b624d1282a35ffd551808e36eaecc2e9fb15c838c5e03af",
+      "requested_frame_count": 4,
+      "request_sha256": "fa6853e871077ec99d5d620b43239e0677a29807468b22a5942f44e38621ec3a"
+    },
+    {
+      "id": "e-pixminimax-128",
+      "title": "E · Микродыхание груди",
+      "description": "Текстовая проба микродыхания, 128×128",
+      "endpoint": "animate-pixminimax",
+      "schema": "AnimatePixminimaxRequest",
+      "width": 128,
+      "source_frame_indices": [],
+      "path": "variants/e-pixminimax-128",
+      "height": 128,
+      "source_sha256": "4eda3c58de2d1761f88528449bc74f7b15ad10c6e3477554321454b6ce0c06ec",
+      "requested_frame_count": 12,
+      "request_sha256": "bf3fc51701989fcc633b7937afd1525f485a853015b214de4aba6154fef2bd91"
+    },
+    {
+      "id": "f-scarf-128",
+      "title": "F · Едва заметные складки",
+      "description": "Текстовая проба складок шарфа, 128×128",
+      "endpoint": "animate-with-text-v3",
+      "schema": "AnimateWithTextV3Request",
+      "width": 128,
+      "source_frame_indices": [],
+      "path": "variants/f-scarf-128",
+      "height": 128,
+      "source_sha256": "4eda3c58de2d1761f88528449bc74f7b15ad10c6e3477554321454b6ce0c06ec",
+      "requested_frame_count": 8,
+      "request_sha256": "e859c90f8c599067f855ab976a3a24bbd8686a1293f2ea57f551e85885297d00"
+    }
+  ]
+}

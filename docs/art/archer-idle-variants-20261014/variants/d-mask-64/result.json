@@ -1,0 +1,29 @@
+{
+  "usage": {
+    "type": "generations",
+    "generations": 1
+  },
+  "status": "completed",
+  "job_id": null,
+  "transport": "synchronous",
+  "requested_frame_count": 4,
+  "frame_count": 4,
+  "files": [
+    {
+      "file": "frame-01.png",
+      "sha256": "451a3f46530920a1d1577fab6b5f66454a5e8dc1dc5354debc4fe43487564df5"
+    },
+    {
+      "file": "frame-02.png",
+      "sha256": "2353fc4208cf0a79f63381d52b9eea1ff09d918ff8dea8d7b53ca6f7d590fde7"
+    },
+    {
+      "file": "frame-03.png",
+      "sha256": "d377e308ca73ed0addf423338d35ef35a7061857f7fa6b669f343ae325fc53c6"
+    },
+    {
+      "file": "frame-04.png",
+      "sha256": "b980c2b4f720290d1d1ce9abaf51b3636420caf38221b97c8ecc4deabd596e7c"
+    }
+  ]
+}

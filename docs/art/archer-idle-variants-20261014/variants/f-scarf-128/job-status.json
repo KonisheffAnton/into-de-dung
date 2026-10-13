@@ -1,0 +1,32 @@
+{
+  "usage": {
+    "type": "generations",
+    "generations": 2
+  },
+  "id": "c1770bcd-5eef-4ce5-b814-2078728a9bc8",
+  "status": "completed",
+  "created_at": "2026-10-14T00:50:20.772613+03:00",
+  "last_response": {
+    "seed": 202610146,
+    "type": "message_done",
+    "usage": {
+      "usd": 0,
+      "type": "generations",
+      "generations": 2,
+      "cost_if_paid": 0.024399310476250116
+    },
+    "status": "completed",
+    "progress": 0.8666666666666667,
+    "flow_kind": "animation",
+    "billing_usage": {
+      "type": "generations",
+      "generations": 2
+    },
+    "generation_id": "314461bc-7a68-45ca-aa37-e99360e26873",
+    "queue_position": 0,
+    "billing_charged": true,
+    "generation_started_at": "2026-10-14T00:50:46.765429+03:00",
+    "estimated_wait_seconds": 0,
+    "frame_count": 9
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "variants": [
+    {
+      "id": "a-edit-128",
+      "frames": 4,
+      "size": 128,
+      "generations": 10,
+      "all_binary_alpha": true,
+      "all_have_transparency": true,
+      "edge_touch": false
+    },
+    {
+      "id": "b-transfer-128",
+      "frames": 3,
+      "size": 128,
+      "generations": 10,
+      "all_binary_alpha": true,
+      "all_have_transparency": true,
+      "edge_touch": false
+    },
+    {
+      "id": "c-edit-64",
+      "frames": 13,
+      "size": 64,
+      "generations": 10,
+      "all_binary_alpha": true,
+      "all_have_transparency": true,
+      "edge_touch": false
+    },
+    {
+      "id": "d-mask-64",
+      "frames": 4,
+      "size": 64,
+      "generations": 1,
+      "all_binary_alpha": true,
+      "all_have_transparency": true,
+      "edge_touch": false
+    },
+    {
+      "id": "e-pixminimax-128",
+      "frames": 13,
+      "size": 128,
+      "generations": 2,
+      "all_binary_alpha": true,
+      "all_have_transparency": true,
+      "edge_touch": false
+    },
+    {
+      "id": "f-scarf-128",
+      "frames": 9,
+      "size": 128,
+      "generations": 2,
+      "all_binary_alpha": true,
+      "all_have_transparency": true,
+      "edge_touch": false
+    }
+  ],
+  "frames_total": 46,
+  "generations_total": 35,
+  "billing_rule": "Use billing_usage when present, otherwise usage; do not add both. Cost_if_paid is not an extra charge."
+}

@@ -1,0 +1,238 @@
+{
+  "id": "a-edit-128",
+  "status": "measured",
+  "basis": "Фиксированные приблизительные прямоугольные области заданы в координатах 128x128 и равномерно уменьшены для 64x64. Они могут включать пустое место и соседние части. Счётчики показывают различие пикселей, а не величину или направление смещения; это не измерение переноса и не точное утверждение о движении.",
+  "regions_xyxy": {
+    "full_canvas": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "lower_legs": [
+      0,
+      100,
+      128,
+      128
+    ],
+    "left_foot": [
+      24,
+      104,
+      53,
+      119
+    ],
+    "right_foot": [
+      81,
+      107,
+      108,
+      123
+    ],
+    "bow_hand": [
+      92,
+      42,
+      123,
+      99
+    ],
+    "head": [
+      43,
+      10,
+      93,
+      51
+    ]
+  },
+  "frames": [
+    {
+      "file": "frame-01.png",
+      "sha256": "082849dac0d4146fd1ccb25a5ac8294ec67b3587e55e730f70081ac7990ff5f6",
+      "bbox_alpha128": [
+        24,
+        17,
+        116,
+        117
+      ],
+      "vs_first_rgba": {
+        "rgba_changed": 0,
+        "visible_rgba_changed": 0,
+        "alpha128_changed": 0
+      },
+      "regions_vs_first": {
+        "full_canvas": {
+          "rgba_changed": 0,
+          "visible_rgba_changed": 0,
+          "alpha128_changed": 0
+        },
+        "lower_legs": {
+          "rgba_changed": 0,
+          "visible_rgba_changed": 0,
+          "alpha128_changed": 0
+        },
+        "left_foot": {
+          "rgba_changed": 0,
+          "visible_rgba_changed": 0,
+          "alpha128_changed": 0
+        },
+        "right_foot": {
+          "rgba_changed": 0,
+          "visible_rgba_changed": 0,
+          "alpha128_changed": 0
+        },
+        "bow_hand": {
+          "rgba_changed": 0,
+          "visible_rgba_changed": 0,
+          "alpha128_changed": 0
+        },
+        "head": {
+          "rgba_changed": 0,
+          "visible_rgba_changed": 0,
+          "alpha128_changed": 0
+        }
+      }
+    },
+    {
+      "file": "frame-02.png",
+      "sha256": "433900d16096363ab19362537d5f7082202e74a1f315ae9ea3ed2b279bc5cd96",
+      "bbox_alpha128": [
+        23,
+        15,
+        115,
+        117
+      ],
+      "vs_first_rgba": {
+        "rgba_changed": 2754,
+        "visible_rgba_changed": 2754,
+        "alpha128_changed": 720
+      },
+      "regions_vs_first": {
+        "full_canvas": {
+          "rgba_changed": 2754,
+          "visible_rgba_changed": 2754,
+          "alpha128_changed": 720
+        },
+        "lower_legs": {
+          "rgba_changed": 120,
+          "visible_rgba_changed": 120,
+          "alpha128_changed": 47
+        },
+        "left_foot": {
+          "rgba_changed": 0,
+          "visible_rgba_changed": 0,
+          "alpha128_changed": 0
+        },
+        "right_foot": {
+          "rgba_changed": 15,
+          "visible_rgba_changed": 15,
+          "alpha128_changed": 2
+        },
+        "bow_hand": {
+          "rgba_changed": 397,
+          "visible_rgba_changed": 397,
+          "alpha128_changed": 193
+        },
+        "head": {
+          "rgba_changed": 631,
+          "visible_rgba_changed": 631,
+          "alpha128_changed": 118
+        }
+      }
+    },
+    {
+      "file": "frame-03.png",
+      "sha256": "818742cf819d8a4d925f4150b76302660bbee61269be2ff94a64f0cb76efaa13",
+      "bbox_alpha128": [
+        23,
+        14,
+        115,
+        117
+      ],
+      "vs_first_rgba": {
+        "rgba_changed": 3115,
+        "visible_rgba_changed": 3115,
+        "alpha128_changed": 911
+      },
+      "regions_vs_first": {
+        "full_canvas": {
+          "rgba_changed": 3115,
+          "visible_rgba_changed": 3115,
+          "alpha128_changed": 911
+        },
+        "lower_legs": {
+          "rgba_changed": 108,
+          "visible_rgba_changed": 108,
+          "alpha128_changed": 51
+        },
+        "left_foot": {
+          "rgba_changed": 0,
+          "visible_rgba_changed": 0,
+          "alpha128_changed": 0
+        },
+        "right_foot": {
+          "rgba_changed": 15,
+          "visible_rgba_changed": 15,
+          "alpha128_changed": 2
+        },
+        "bow_hand": {
+          "rgba_changed": 436,
+          "visible_rgba_changed": 436,
+          "alpha128_changed": 241
+        },
+        "head": {
+          "rgba_changed": 773,
+          "visible_rgba_changed": 773,
+          "alpha128_changed": 188
+        }
+      }
+    },
+    {
+      "file": "frame-04.png",
+      "sha256": "c2f33bd5d7b38deab55b59bc92da84c398be9f0692e847a174a2afd3ef26199c",
+      "bbox_alpha128": [
+        24,
+        17,
+        116,
+        117
+      ],
+      "vs_first_rgba": {
+        "rgba_changed": 126,
+        "visible_rgba_changed": 126,
+        "alpha128_changed": 78
+      },
+      "regions_vs_first": {
+        "full_canvas": {
+          "rgba_changed": 126,
+          "visible_rgba_changed": 126,
+          "alpha128_changed": 78
+        },
+        "lower_legs": {
+          "rgba_changed": 15,
+          "visible_rgba_changed": 15,
+          "alpha128_changed": 9
+        },
+        "left_foot": {
+          "rgba_changed": 0,
+          "visible_rgba_changed": 0,
+          "alpha128_changed": 0
+        },
+        "right_foot": {
+          "rgba_changed": 1,
+          "visible_rgba_changed": 1,
+          "alpha128_changed": 0
+        },
+        "bow_hand": {
+          "rgba_changed": 16,
+          "visible_rgba_changed": 16,
+          "alpha128_changed": 12
+        },
+        "head": {
+          "rgba_changed": 17,
+          "visible_rgba_changed": 17,
+          "alpha128_changed": 16
+        }
+      }
+    }
+  ],
+  "seam_last_to_first": {
+    "rgba_changed": 126,
+    "visible_rgba_changed": 126,
+    "alpha128_changed": 78
+  }
+}

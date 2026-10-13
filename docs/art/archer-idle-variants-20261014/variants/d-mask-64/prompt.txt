@@ -1,0 +1,5 @@
+Adult female archer, dark ponytail, olive scarf, leather armor, quiver, one lowered wooden bow; the identical reference sprite, fixed three-quarter overhead camera, muted earthy pixel art.
+
+Barely perceptible breathing expressed ONLY by a tiny change of the folds inside the masked chest scarf. Keep all contours and all unmasked pixels still. No body displacement. The feet, legs, head, ponytail, arms, hands, bow and string never move. Return the tiny scarf folds to the starting appearance.
+
+body motion, swaying, head bobbing, stepping, moving bow, changing grip, new pose, stretching, camera motion, new details, background, shadows

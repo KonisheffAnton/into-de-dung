@@ -1,0 +1,9 @@
+{
+  "transport": "synchronous",
+  "status": "completed",
+  "image_count": 4,
+  "usage": {
+    "type": "generations",
+    "generations": 1.0
+  }
+}
