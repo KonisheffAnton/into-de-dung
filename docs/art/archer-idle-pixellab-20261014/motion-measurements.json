@@ -1,0 +1,148 @@
+{
+  "basis": "RGBA frame02 vs all; binary alpha threshold128 for bottom28rows; not a proof of exact feet stability",
+  "frames": [
+    {
+      "frame": 1,
+      "alpha_bbox": [
+        25,
+        15,
+        119,
+        121
+      ],
+      "changed_from_frame2": 5386,
+      "bottom28_alpha_changes_from_frame2": 3
+    },
+    {
+      "frame": 2,
+      "alpha_bbox": [
+        25,
+        15,
+        119,
+        121
+      ],
+      "changed_from_frame2": 0,
+      "bottom28_alpha_changes_from_frame2": 0
+    },
+    {
+      "frame": 3,
+      "alpha_bbox": [
+        22,
+        12,
+        116,
+        121
+      ],
+      "changed_from_frame2": 4171,
+      "bottom28_alpha_changes_from_frame2": 86
+    },
+    {
+      "frame": 4,
+      "alpha_bbox": [
+        19,
+        9,
+        113,
+        121
+      ],
+      "changed_from_frame2": 5267,
+      "bottom28_alpha_changes_from_frame2": 92
+    },
+    {
+      "frame": 5,
+      "alpha_bbox": [
+        17,
+        8,
+        111,
+        121
+      ],
+      "changed_from_frame2": 5532,
+      "bottom28_alpha_changes_from_frame2": 88
+    },
+    {
+      "frame": 6,
+      "alpha_bbox": [
+        16,
+        7,
+        110,
+        121
+      ],
+      "changed_from_frame2": 5775,
+      "bottom28_alpha_changes_from_frame2": 103
+    },
+    {
+      "frame": 7,
+      "alpha_bbox": [
+        15,
+        7,
+        109,
+        121
+      ],
+      "changed_from_frame2": 5889,
+      "bottom28_alpha_changes_from_frame2": 104
+    },
+    {
+      "frame": 8,
+      "alpha_bbox": [
+        15,
+        8,
+        109,
+        121
+      ],
+      "changed_from_frame2": 5863,
+      "bottom28_alpha_changes_from_frame2": 113
+    },
+    {
+      "frame": 9,
+      "alpha_bbox": [
+        17,
+        8,
+        111,
+        121
+      ],
+      "changed_from_frame2": 5570,
+      "bottom28_alpha_changes_from_frame2": 91
+    },
+    {
+      "frame": 10,
+      "alpha_bbox": [
+        20,
+        10,
+        114,
+        121
+      ],
+      "changed_from_frame2": 4964,
+      "bottom28_alpha_changes_from_frame2": 82
+    },
+    {
+      "frame": 11,
+      "alpha_bbox": [
+        24,
+        13,
+        118,
+        121
+      ],
+      "changed_from_frame2": 3108,
+      "bottom28_alpha_changes_from_frame2": 39
+    },
+    {
+      "frame": 12,
+      "alpha_bbox": [
+        25,
+        15,
+        119,
+        121
+      ],
+      "changed_from_frame2": 532,
+      "bottom28_alpha_changes_from_frame2": 16
+    },
+    {
+      "frame": 13,
+      "alpha_bbox": [
+        25,
+        15,
+        119,
+        121
+      ],
+      "changed_from_frame2": 382,
+      "bottom28_alpha_changes_from_frame2": 1
+    }
+  ]
+}

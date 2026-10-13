@@ -1,30 +1,30 @@
-# Передача — 2026-10-12: гаммы одежды разбойника
-D:\Games\into-de-dung; main; basec5d755052abdc5dc6df77988d4d6031b0042112b.
-U поручил смену цветов разбойника по образцу Защитника.
-Общий HUD «Одежда»: исходная+6гамм для союзных warrior/rogue текущей доски.
-RogueClothPalette:32маски still/12idle/6B1/13D3; PNG и alpha исходников прежние.
-Капюшон/накидка/ткань пояса меняют RGB; лицо/кожа/кинжалы/контур сохраняются.
-Материалы изолированы; неизвестная текстура/класс/враг не перекрашиваются.
-Выбор не трогает session/worker/RNG/время/кадр/fade; в save не сохраняется.
-Пакет: assets/art_presets/trials/rogue_cloth_v1/README.md; превью/отчёт:
-docs/art/rogue-cloth-20261012/README.md, test_reports/rogue-cloth-20261012/REPORT.md.
-Контракты ART_DIRECTION,BATTLE_VISUAL_SCENE_CONTRACT; команды TESTING.
-Python22/22,маски Rogue32+Defender91,сборка37/37,idleRGBA12/12 PASS.
-Первый Godot targeted11PASS+1parseFAIL нового теста. После preload-fix
-повтор import/startup+roguecloth3/3 PASS,Rogue163/0. Остальные11 актуальны:
-Defendercloth321/0,Rogue136/0,B1 38/0,death433/0,HUD301/0,execution28/0,
-Defenderidle104/0,unit18/0,visual52/0. PNG32пар/7гамм просмотрены.
-Финальный повтор3/3,Rogue163/0; независимое ревью APPROVE.
-Full/core/manual F5/editor/DPI/GPU-приёмка не проводились. Техническое не арт-приёмка.
-Остаток — F5-отзыв U на гаммы, прежние темп/fade/зернистость/B1 и швы с телом.
-Лучница только отдельный рисунок90% Защитника: docs/art/archer-reference-20261012;
-ждёт отзыва/внешней idle-пробы U, в игру не подключена. Нового не начинать.
+# Передача — 2026-10-14: отдельная idle-проба лучницы
+D:\Games\into-de-dung; main; base e5efedb42a64817059b8e4063ce2ed45e0513846.
+U прислал пресет/MP4 и поручил воспроизвести через PixelLab в лучшем качестве.
+Исходных кадров внешней попытки нет. Одна новая animate-pixminimax-проба:
+clean PNG128 first=last, текст движения по ролику; видео напрямую не передано.
+13PNG128²,13×200ms/2.6s,seed20261014,usage2генерации; провайдерские PNG неизменны.
+Движение не удалось: корпус/голова/лук уходят до8–10px вместо1px; точная
+неподвижность стоп не подтверждена. Кадр01 partial-alpha,02–13 binary-alpha;
+шов требует оценки. Чёткие PNG не означают удачную анимацию. В игру не подключено.
+Пакет/сравнение/GIF/запрос/SHA: docs/art/archer-idle-pixellab-20261014/README.md.
+Отчёт: test_reports/archer-idle-pixellab-20261014/REPORT.md.
+Контракт ART_DIRECTION; API/секреты GRAPHICS_WORKFLOW.
+PNG13/13 совпадают с окончательным API-ответом; исходники3/3 совпадают.
+3превью13×200ms,alpha/поля,HTML pause/restart/end PASS.
+Независимое ревью: архив APPROVE; спокойный idle REQUEST_CHANGES, арт не принят.
+Godot/full/core/F5/editor/DPI/GPU не запускались: игровые файлы не менялись.
+Рисунок/сравнение90% Защитника и полный внешний промпт:
+docs/art/archer-reference-20261012/README.md. Размер остаётся целью показа.
+Остаток — отзыв U на пробу/рисунок/размер. Без новых генераций и интеграции
+до поручения. Прежний Rogue: гаммы внедрены e5efedb; F5-отзыв на гаммы,
+темп/fade/зернистость/B1/швы с телом открыт; прежние тесты в отчёте rogue-cloth.
 Защитник принят; арт codex/approved-defender-art-20261012,64ba319d.
-«Ветеран» не подключён. Анимации агентом только PixelLab; пробы сохранять.
+«Ветеран» не подключён. Анимации только PixelLab; все пробы сохранять.
 Позы/alpha вручную не менять; прежнее исключение — RGB Rogue B1.
-DPAPI вне Git/логов, только api.pixellab.ai. Core/preview/live/worker/queue/RNG/save/frozen прежние.
-Пользовательская scenes/demo/main_menu.tscn dirty: не трогать/reset/stage/commit.
-Без push/sidebar/расписаний/P-удара/теней/света/баланса.
+DPAPI вне Git/логов, только api.pixellab.ai. core/preview/live/worker/queue/RNG/save/frozen прежние.
+scenes/demo/main_menu.tscn — пользовательский dirty; не трогать/reset/stage/commit.
+Без push/sidebar/расписаний/P-удара/теней/света/баланса/самовольных гамм.
 После этапа Conventional Commit, короткий HANDOFF; прежний побайтно отдельным
 архивом+HISTORY. В финале/при блокере предложить новый чат и полный промпт:
 HEAD/результат/docs/artifacts/остаток/ограничения/проверки и это же правило передачи.

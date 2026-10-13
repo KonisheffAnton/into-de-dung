@@ -1,0 +1,8 @@
+DESCRIPTION
+Extremely subtle idle breathing, barely visible: the chest and shoulders lift by a single pixel and settle back, the head follows one frame later by a single pixel. Everything else holds perfectly still: feet, legs, hips, bow, string and hands keep their exact pixels; the face, eyes, hair outline and ponytail keep their exact shape. No bobbing of the whole body, no swaying, no stepping, no blinking. One complete seamless breath, return exactly to the starting stance. Preserve the reference palette and broad clean pixel clusters; crisp stepped edges, no dithering, grain, gradients, extra details, motion blur, lighting changes or camera movement.
+
+SUBJECT
+An adult female archer with a high dark brown ponytail, olive scarf, brown leather pauldrons, bracers and boots, quiver with white-fletched arrows on her back, holding one wooden bow; muted earthy colors, charcoal brown outlines, matte broad pixel clusters.
+
+INITIAL POSE
+Standing in a wide ready stance with knees slightly bent, bow lowered in the hand on the right side of the image, the other arm hanging down. Both feet firmly planted, same full-body framing and fixed three-quarter overhead camera as the reference.

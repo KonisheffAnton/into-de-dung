@@ -1,0 +1,75 @@
+{
+  "seed": 20261014,
+  "type": "done",
+  "action": "smoothing frames",
+  "status": "completed",
+  "progress": 1,
+  "flow_kind": "animation",
+  "billing_usage": {
+    "usd": 0,
+    "type": "generations",
+    "generations": 2
+  },
+  "generation_id": "fa8ef6a2-d52b-4db7-a04c-363e8f7c5c92",
+  "queue_position": 0,
+  "billing_charged": true,
+  "generation_started_at": "2026-10-14T00:20:20.223637+03:00",
+  "estimated_wait_seconds": 0,
+  "job_id": "5c629c12-e56f-4ba6-abf6-340ac7637ef5",
+  "requested_frame_count": 12,
+  "frame_count": 13,
+  "files": [
+    {
+      "file": "frame-01.png",
+      "sha256": "df18c39dbffc8255e95db369734264cda4901e2cb9b417b70a1dd3a70180f211"
+    },
+    {
+      "file": "frame-02.png",
+      "sha256": "4eda3c58de2d1761f88528449bc74f7b15ad10c6e3477554321454b6ce0c06ec"
+    },
+    {
+      "file": "frame-03.png",
+      "sha256": "61570a8bb9ac3321957f48f5763855f3908a904f77a391fc028abd2cce5169dd"
+    },
+    {
+      "file": "frame-04.png",
+      "sha256": "48b299932f8f67e022c17950a63b9986fd714a677b9d05f3c3ac5bf6b8e4e036"
+    },
+    {
+      "file": "frame-05.png",
+      "sha256": "399dced3e20aa2a76207d46c37d8db709f5afb7344feeb6df8e2da96dee9dd47"
+    },
+    {
+      "file": "frame-06.png",
+      "sha256": "96c55cceb135cec6c5832a2d8c459849b2c80963e542008249c71055ad21efc0"
+    },
+    {
+      "file": "frame-07.png",
+      "sha256": "e00750928e7615f66bc07f2577682e4fbf3830e731115f93ec97aedf4facd969"
+    },
+    {
+      "file": "frame-08.png",
+      "sha256": "8733201a33499dc5cc7dd3cf3bcd58a1d176cfe38a85892e3965bf3406bd611b"
+    },
+    {
+      "file": "frame-09.png",
+      "sha256": "948cf2fceec22c2396d89713bb933ee09ca7a9b0a1d5fb5473d919de01381823"
+    },
+    {
+      "file": "frame-10.png",
+      "sha256": "55d6f93c6c9f753c809cf11ae9e6679e6584d5a3a0c19fa62caa6ccb9c75717e"
+    },
+    {
+      "file": "frame-11.png",
+      "sha256": "6a65ca1c65b12dd0997df38d61c41c45c64768ce238ded690960666f666b79b3"
+    },
+    {
+      "file": "frame-12.png",
+      "sha256": "c51fce80a85e39656b988a478f1f1189f775c1f4d1190495e98892ca9329003b"
+    },
+    {
+      "file": "frame-13.png",
+      "sha256": "ea674cae838b54d53b3cad0ccb21b11409d5580416f7c8f476404323c0a77cc3"
+    }
+  ]
+}

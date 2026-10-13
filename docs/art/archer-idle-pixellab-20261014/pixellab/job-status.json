@@ -1,0 +1,28 @@
+{
+  "usage": {
+    "type": "generations",
+    "generations": 2
+  },
+  "id": "5c629c12-e56f-4ba6-abf6-340ac7637ef5",
+  "status": "completed",
+  "created_at": "2026-10-14T00:20:19.910902+03:00",
+  "last_response": {
+    "seed": 20261014,
+    "type": "done",
+    "action": "smoothing frames",
+    "status": "initializing",
+    "progress": 1,
+    "flow_kind": "animation",
+    "billing_usage": {
+      "usd": 0,
+      "type": "generations",
+      "generations": 2
+    },
+    "generation_id": "fa8ef6a2-d52b-4db7-a04c-363e8f7c5c92",
+    "queue_position": 0,
+    "billing_charged": true,
+    "generation_started_at": "2026-10-14T00:20:20.223637+03:00",
+    "estimated_wait_seconds": 0,
+    "frame_count": 13
+  }
+}

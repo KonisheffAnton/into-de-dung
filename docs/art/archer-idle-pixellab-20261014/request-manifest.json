@@ -1,0 +1,33 @@
+{
+  "base": "e5efedb42a64817059b8e4063ce2ed45e0513846",
+  "endpoint": "https://api.pixellab.ai/v2/animate-pixminimax",
+  "description": "Extremely subtle idle breathing, barely visible: the chest and shoulders lift by a single pixel and settle back, the head follows one frame later by a single pixel. Everything else holds perfectly still: feet, legs, hips, bow, string and hands keep their exact pixels; the face, eyes, hair outline and ponytail keep their exact shape. No bobbing of the whole body, no swaying, no stepping, no blinking. One complete seamless breath, return exactly to the starting stance. Preserve the reference palette and broad clean pixel clusters; crisp stepped edges, no dithering, grain, gradients, extra details, motion blur, lighting changes or camera movement.",
+  "frame_count": 12,
+  "seed": 20261014,
+  "no_background": true,
+  "drift_threshold": 0,
+  "enhance_prompt": false,
+  "direction": "east",
+  "view": "high top-down",
+  "subject_description": "An adult female archer with a high dark brown ponytail, olive scarf, brown leather pauldrons, bracers and boots, quiver with white-fletched arrows on her back, holding one wooden bow; muted earthy colors, charcoal brown outlines, matte broad pixel clusters.",
+  "initial_pose": "Standing in a wide ready stance with knees slightly bent, bow lowered in the hand on the right side of the image, the other arm hanging down. Both feet firmly planted, same full-body framing and fixed three-quarter overhead camera as the reference.",
+  "width": 128,
+  "height": 128,
+  "first_last_same_reference": true,
+  "source_sha256": {
+    "clean": "457bb394bd124531273bd2345f1e2542fd054c02faf4475f77c7d13ace762dc0",
+    "video": "ea6a27c44774fd181877a83216dcf86879a7eb4004c88315f10262962fd539f7",
+    "preset": "e0609fb0b6b2456a6304c91a6b66093b4b8905b207343eb4153e19252afc2516"
+  },
+  "input_sha256": "b3d5a46cae7eeb9534a8287b4e201151ef95050e8c730a9834aa27488d5251d4",
+  "openapi_sha256": "8cb24ecdd26e9fe48639dc789e44f32b3c78c29e8da8c3121f23ab360ade5dad",
+  "transformation": "Whole 1254x1254 RGBA source resized uniformly to 128x128 with nearest-neighbor; no crop, recoloring, alpha cleanup or pose edits.",
+  "motion_reference": "The MP4 and user preset were inspected. Only the clean PNG plus textual motion instructions are sent; this endpoint has no video/motion-frame input.",
+  "choice": "transfer-outfit-v2 accepts 13 guides only at <=64 output. Use one new 128px generation with the supplied subtle preset instead of reducing native detail or batching motion.",
+  "timing": {
+    "expected_frames": 13,
+    "milliseconds_per_frame": 200,
+    "expected_total_ms": 2600
+  },
+  "scope": "One isolated candidate. Preserve all provider PNGs. No game integration or acceptance; 90% Defender height remains a display-size target."
+}
