@@ -49,9 +49,9 @@ static func format_event(event: Dictionary, names: Dictionary[int, String], core
 			return "%s применяет «%s» к %s; основные действия %d → %d." % [
 				actor, elemental_effect_label(event.get("effect", &"")), target,
 				int(event.get("main_before", 0)), int(event.get("main_after", 0)),
-			]
+			] + surround_suffix(event, names)
 		&"attacked":
-			var suffix := ""
+			var suffix := surround_suffix(event, names)
 			var modifiers: Dictionary = event.get("modifiers", {})
 			if int(modifiers.get("sneak_percent", 0)) == 50:
 				var threats := ", ".join(names_for_ids(names, modifiers.get("threat_ids", [])))
@@ -75,8 +75,8 @@ static func format_event(event: Dictionary, names: Dictionary[int, String], core
 				int(event.get("charge_after", 0)),
 			]
 		&"opportunity_attacked":
-			return "%s прерывает движение %s атакой Оппортуниста без основного действия." % [actor, target]
-		&"counterattacked": return "%s контратакует %s без толчка." % [actor, target]
+			return "%s прерывает движение %s атакой Оппортуниста без основного действия." % [actor, target] + surround_suffix(event, names)
+		&"counterattacked": return "%s контратакует %s без толчка." % [actor, target] + surround_suffix(event, names)
 		&"control_changed":
 			if event["reason"] == &"entangled":
 				return "%s: наложены путы до конца ближайшего хода команды цели." % target
@@ -168,6 +168,12 @@ static func format_event(event: Dictionary, names: Dictionary[int, String], core
 		&"fell": return "%s падает с уступа." % target
 		&"died": return "%s погиб. Клетка свободна." % target
 	return "%s: %s" % [target, String(event.get("kind", "событие"))]
+
+static func surround_suffix(event: Dictionary, names: Dictionary[int, String]) -> String:
+	var modifiers: Dictionary = event.get("modifiers", {})
+	var percent: int = int(modifiers.get("surround_percent", 0))
+	if percent <= 0: return ""
+	return " Окружение +%d%% всего прямого урона (союзники: %s)." % [percent, ", ".join(names_for_ids(names, modifiers.get("surround_ally_ids", [])))]
 
 static func _name_for(names: Dictionary[int, String], id: int) -> String:
 	return names.get(id, "Окружение")

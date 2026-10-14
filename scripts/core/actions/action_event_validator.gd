@@ -40,9 +40,31 @@ static func valid_draft(draft: Dictionary, context: ActionContext = null) -> boo
 	if draft.get("kind") == &"bleeding_changed": return _valid_bleeding_draft(draft)
 	if draft.get("kind") == &"control_changed": return _valid_control_draft(draft)
 	if draft.get("kind") in [&"trap_armed", &"trap_fired"]: return BattleHazards.valid_event(draft)
+	if draft.get("kind") in [&"attacked", &"opportunity_attacked", &"counterattacked", &"elemental_cast"] and draft.has("modifiers"):
+		if typeof(draft["modifiers"]) != TYPE_DICTIONARY: return false
+		if draft["modifiers"].has("surround_percent") or draft["modifiers"].has("surround_ally_ids"):
+			var surround: Dictionary = draft["modifiers"]
+			if typeof(surround.get("surround_percent")) != TYPE_INT or typeof(surround.get("surround_ally_ids")) != TYPE_ARRAY: return false
+			var allies: Array = surround["surround_ally_ids"]
+			if allies.size() < 1 or allies.size() > 3 or surround["surround_percent"] != 10 * allies.size(): return false
+			var previous: int = 0
+			for id: Variant in allies:
+				if typeof(id) != TYPE_INT or id <= previous or id >= MAX_ID or id in [draft.get("actor_unit_id"), draft.get("target_unit_id")]: return false
+				previous = id
+			if context == null or context.get_attack_rules() == null: return false
+			if draft.get("kind") == &"elemental_cast":
+				if draft.get("effect") != &"burning": return false
+			else:
+				var surround_def := context.get_attack_rules().get_definition(draft.get("attack_definition_id", &""))
+				if surround_def == null or surround_def.profile != AttackRules.ARMOR_PROFILE: return false
+			# Производные данные удара не добавляют состояние в снимки или новые поля старым событиям.
+			var reduced_surround := draft.duplicate(true)
+			reduced_surround["modifiers"].erase("surround_percent")
+			reduced_surround["modifiers"].erase("surround_ally_ids")
+			if reduced_surround["modifiers"].is_empty(): reduced_surround.erase("modifiers")
+			return valid_draft(reduced_surround, context)
 	if draft.get("kind") in [&"elemental_changed", &"elemental_cast"]: return _valid_elemental_draft(draft)
 	if draft.get("kind") in [&"attacked", &"opportunity_attacked", &"counterattacked"] and draft.has("modifiers"):
-		if typeof(draft["modifiers"]) != TYPE_DICTIONARY: return false
 		if draft["modifiers"].has("sneak_percent"):
 			var modifiers: Dictionary = draft["modifiers"]
 			if not ItemSimulationSnapshot._shape(modifiers, {"backstab_percent": TYPE_INT, "critical": TYPE_BOOL, "sneak_percent": TYPE_INT, "threat_ids": TYPE_ARRAY}): return false

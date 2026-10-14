@@ -1755,6 +1755,7 @@ func _render_forecast_panel() -> void:
 				names[id] = _name_for(id)
 			if event.get("kind") == &"attacked":
 				var modifiers: Dictionary = event.get("modifiers", {})
+				for ally_id: int in modifiers.get("surround_ally_ids", []): names[ally_id] = _name_for(ally_id)
 				if modifiers.has("sneak_percent") and modifiers["sneak_percent"] == 50:
 					for threat_id: int in modifiers.get("threat_ids", []): names[threat_id] = _name_for(threat_id)
 			event_lines.append(_event_text(event))
@@ -2022,8 +2023,9 @@ func _event_text(event: Dictionary) -> String:
 	for id: int in [int(event.get("actor_unit_id", 0)), int(event.get("target_unit_id", 0))]:
 		names[id] = _name_for(id)
 	var kind: StringName = StringName(event.get("kind", &""))
-	if kind == &"attacked":
+	if kind in [&"attacked", &"opportunity_attacked", &"counterattacked", &"elemental_cast"]:
 		var modifiers: Dictionary = event.get("modifiers", {})
+		for ally_id: int in modifiers.get("surround_ally_ids", []): names[ally_id] = _name_for(ally_id)
 		var threat_ids: Variant = modifiers.get("threat_ids", [])
 		if int(modifiers.get("sneak_percent", 0)) == 50 and typeof(threat_ids) == TYPE_ARRAY:
 			for id: Variant in threat_ids:

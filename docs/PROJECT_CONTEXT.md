@@ -32,6 +32,7 @@
 | Профиль / загрузка | [SAVE_FORMAT_CURRENT](SAVE_FORMAT_CURRENT.md) |
 | Помощник / снимки | [M1](SUMMON_DEFINITION_M1.md) / [Снимки](BATTLE_SNAPSHOT_CURRENT.md) |
 | Крит, спина, оглушение/путы C1 | [CRITICAL_BACKSTAB_C1](CRITICAL_BACKSTAB_C1.md) |
+| Общий бонус окружения | [SURROUND_DAMAGE](SURROUND_DAMAGE.md) |
 | Наложение пут опутывающим ударом K8 | [ENTANGLE_ATTACK_K8](ENTANGLE_ATTACK_K8.md) |
 | Прогноз / стойка | [ATTACK_FORECAST](ATTACK_FORECAST.md) / [ACTION_PANEL_GUARD](ACTION_PANEL_GUARD.md) |
 | Флакон / призыв предметом | [HEALING_ITEM](HEALING_ITEM.md) / [SUMMON_ITEM](SUMMON_ITEM.md) |

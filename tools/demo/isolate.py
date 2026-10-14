@@ -221,6 +221,9 @@ def main():
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "battle_event_text":
             invalid = invalid or "BATTLE EVENT TEXT RESULTS:" not in output or ", 0 failed" not in output
+        if label in ("surround_damage", "surround_damage_calculation"):
+            marker = "SURROUND DAMAGE RESULTS:" if label == "surround_damage" else "SURROUND DAMAGE CALCULATION RESULTS:"
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "battle_inspection_text":
             invalid = invalid or "BATTLE INSPECTION TEXT RESULTS:" not in output or ", 0 failed" not in output
         if label == "battle_forecast_text":
@@ -619,6 +622,8 @@ def main():
         run("core_batch", ["--script", "tests/test_core_batch.gd"])
         run("combat_perks_state", ["--script", "tests/test_combat_perks_state.gd"])
         run("core_reactions", ["--script", "tests/test_core_reactions.gd"])
+        run("surround_damage_calculation", ["--script", "tests/test_surround_damage_calculation.gd"])
+        run("surround_damage", ["--script", "tests/test_surround_damage.gd"])
         run("counterattack", ["--script", "tests/test_counterattack.gd"])
         run("entangle_attack", ["--script", "tests/test_entangle_attack.gd"])
         run("forecast", ["--script", "tests/test_attack_forecast.gd"])

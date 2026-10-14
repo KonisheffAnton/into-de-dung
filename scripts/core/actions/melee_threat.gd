@@ -47,6 +47,20 @@ static func participants(context: ActionContext, target: UnitState) -> Array[int
 	result.sort()
 	return result
 
+static func surrounding_allies(context: ActionContext, actor: UnitState, target: UnitState) -> Array[int]:
+	if context == null or actor == null or target == null: return []
+	if context.get_state() == null or context.get_state().get_board() == null: return []
+	# Общий бонус доступен лишь участнику той же ближней группы; самого себя не считаем.
+	var all_participants := participants(context, target)
+	if not all_participants.has(actor.id): return []
+	var result: Array[int] = []
+	for unit_id: int in all_participants:
+		if unit_id == actor.id: continue
+		var unit := context.get_state().get_board().get_unit_by_id(unit_id)
+		if unit != null and unit.is_friendly_to(actor): result.append(unit_id)
+	result.sort()
+	return result
+
 static func reaction_ready(context: ActionContext, unit: UnitState, mode: int) -> bool:
 	return reaction_ready_state(context.get_state(), unit, mode)
 

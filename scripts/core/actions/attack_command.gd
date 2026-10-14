@@ -256,6 +256,11 @@ func _prepare(context: ActionContext) -> Dictionary:
 			result["modifiers"]["sneak_percent"] = sneak_percent
 			result["modifiers"]["threat_ids"] = threats
 	if armor_profile:
+		var surrounding_allies := MeleeThreat.surrounding_allies(context, actor, target)
+		if not surrounding_allies.is_empty():
+			if not result.has("modifiers"): result["modifiers"] = {}
+			result["modifiers"]["surround_percent"] = 10 * surrounding_allies.size()
+			result["modifiers"]["surround_ally_ids"] = surrounding_allies
 		var cover := MeleeThreat.cover_for(context, target)
 		var extras: Array[Dictionary] = definition.damage_components.duplicate(true)
 		if state.deck != null:
@@ -269,7 +274,7 @@ func _prepare(context: ActionContext) -> Dictionary:
 				result["artifact_freeze_gate"] = ElementalRules.freeze_gate(ArmorRuntime.capture(state.get_owner(target.id)))
 				var stacks := state.artifacts.stacks(actor.id, "spark")
 				if stacks > 0 and state.artifacts.effect_allowed(actor.id, "spark"): extras.append({"type":"fire","policy":"standard","numerator":ExpeditionCatalog.SPARK_DAMAGE * stacks,"denominator":1,"source":"artifact:spark","factor_num":1,"factor_den":1})
-		var raw := ArmorAttack.components(strength, weapon, signed_height_steps, target.guard_stance, extras, backstab_percent + sneak_percent, critical_multiplier, int(piercing), 30 if cover != null else 0)
+		var raw := ArmorAttack.components(strength, weapon, signed_height_steps, target.guard_stance, extras, backstab_percent + sneak_percent, critical_multiplier, int(piercing), 30 if cover != null else 0, surrounding_allies.size())
 		var request := ArmorAttack.request(target.id, raw, DamageSource.new(&"attack", 0, actor.cell, actor.id, actor.id))
 		request.attack_group_id = context.damage_attack_group()
 		var plan := ArmorHitExecutor.prepare(request, ArmorRuntime.capture(state.get_owner(target.id)), target.vitals.get_hp(), target_copy.get_value(StatTypes.StatType.HP_MAX), context.get_rng(), ElementalRules.is_frozen(target), context)

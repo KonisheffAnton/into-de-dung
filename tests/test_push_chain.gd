@@ -159,9 +159,15 @@ func _deaths() -> void:
 	s.close()
 	for victim: int in [1, 2, 5]:
 		s = fixture()
-		s.units[victim].vitals.set_hp(12.0 if victim == 1 else 1.0)
+		# Соседний союзник даёт окружение: прямой hit теперь 1 физического + 11 огня.
+		# Первая цель должна пережить его и погибнуть именно от столкновения.
+		s.units[victim].vitals.set_hp(13.0 if victim == 1 else 1.0)
 		receipt = parity(s, "collision death " + str(victim))
 		check(receipt.status == ActionReceipt.APPLIED and not s.units[victim].is_alive(), "collision kills selected body " + str(victim))
+		var collision_death := false
+		for death: Dictionary in events(receipt, &"died"):
+			if death.get("target_unit_id") == s.units[victim].id and death.get("source", {}).get("kind") == &"collision": collision_death = true
+		check(collision_death, "selected body dies from collision, not the direct hit " + str(victim))
 		check(events(receipt, &"chain_link").size() == 2 and s.units[1].cell == Vector2i(2, 3) and s.units[2].cell == Vector2i(3, 3) and s.units[5].cell == (Vector2i(4, 3) if victim == 5 else Vector2i(5, 3)), "death does not fill intermediate vacancy " + str(victim))
 		var dead_cell: Vector2i = s.units[victim].cell
 		check(s.board.occupant_at(dead_cell) == null, "dead occupancy cleared " + str(victim))

@@ -1,31 +1,30 @@
-# Передача — 2026-10-14: idle лучницы подключена
-D:\Games\into-de-dung; main; base bd77eb7f7fcabf5d99f1b8b943619246bc1a7ca3.
-U: «Отлично, внедри эту анимацию лунице» — выбран исправленный ракурс/idle.
-В текущем походном бою и art_trial_unit обе стороны используют12PNG128²,
-цикл2.6s; статичная поза — первый выбранный кадр, враг зеркален.
-Runtime/источники/SHA/сборка: assets/art_presets/trials/archer_idle_v1/README.md.
-Исходный показ02–13/промпты/GIF/HTML: docs/art/archer-perspective-20261014/README.md.
-PNG скопированы побайтно; новых генераций, ретуши и гамм нет.
-Масштаб/посадка из показанной примерки, общий idle lifecycle сохранён.
-Авторских buff/death у лучницы нет; действия/смерть используют общий путь.
-Контракты: BATTLE_VISUAL_SCENE_CONTRACT, ART_DIRECTION, GRAPHICS_WORKFLOW.
-Новый клип выбран U для интеграции; F5-отзыв о показе в бою открыт.
-Движение головы/корпуса/лука/стоп сохраняется; прежний строгий motion-критерий
-не объявлен достигнутым. B/A–F и все источники сохранены.
-Серия B/A–F: docs/art/archer-idle-variants-20261014/README.md.
-Godot import/startup/render: archer_idle64/0, current_art_zoom460/0;
-смежные visual gates PASS, Python22/22,12PNG SHA/сборка PASS, review APPROVE.
-Три дефекта нового теста исправлены, focused rerun PASS; production-регрессий нет.
-Отчёт/скриншоты/точные запуски: test_reports/archer-integration-20261014/REPORT.md.
-Full/core/F5/ручной editor/DPI не запускались; render не ручная арт-приёмка.
-Rogue: F5-отзыв на гаммы/темп/fade/зернистость/B1/швы открыт.
-Защитник принят; Ветеран не подключён. Ждать следующего поручения U.
-Анимации только PixelLab, пробы сохранять. Позы/alpha вручную не менять;
+# Передача — 2026-10-14: общий бонус окружения
+D:\Games\into-de-dung; main; base6f76c82ba5878f4f927e57b2705ce976e86be6bf.
+U: +10% всего прямого урона за каждого другого союзника у цели; себя не считать.
+Двое/трое/четверо участников получают ×1.10/1.20/1.30; обе команды, без перка.
+Контракт/границы: [SURROUND_DAMAGE](SURROUND_DAMAGE.md).
+Участники — текущая ближняя угроза; attacker обязан участвовать, ID отсортированы.
+Множитель до D0 действует на физический/огненный удар, реакции и initial Поджечь.
+Скрытая атака вора +50% физической базы сохранена отдельно; тики не усиливаются.
+Прогноз/журнал объясняют общий бонус; snapshot/save/оплата/очередь прежние.
+Godot import/startup PASS; окружение423/0, расчёт20/0, смежные suites PASS.
+Full:169 PASS/2 FAIL (тестовые fixtures), core9424/0 без новых diagnostics.
+FAIL исправлены и закрыты адресно: окружение423/0, push_chain518/0.
+После добавления Поджечь/UI затронутые status/worker/UI проверки повторены.
+Единый full финального кода не повторялся. Python22/22; review APPROVE.
+Render: reactions_ui54/0, status_ui35/0, formatters PASS; PNG просмотрен.
+Отчёт/запуски/SHA/validation: test_reports/surround-damage-20261014/REPORT.md.
+Ручные F5/editor/DPI/GPU-матрица и пользовательская приёмка механики открыты.
+Лучница: выбранная idle подключена; U «пока ок, но потом поправим цвет».
+Runtime: assets/art_presets/trials/archer_idle_v1/README.md; арт сейчас не менялся.
+Источники: docs/art/archer-perspective-20261014/README.md; A–F/B сохранены.
+Rogue: отзыв на гаммы/темп/fade/зернистость/B1/швы открыт; Защитник принят.
+Ветеран не подключён. Новые генерации/цвета/клипы только по поручению U.
+Анимации только PixelLab, пробы сохранять; позы/alpha вручную не менять,
 исключение — RGB Rogue B1. DPAPI вне Git/логов, только api.pixellab.ai.
-Сохранять core/preview/live/worker/queue/RNG/save/frozen.
-scenes/demo/main_menu.tscn — пользовательский dirty: не трогать/reset/stage/commit.
-Без push/sidebar/расписаний/P-удара/теней/света/баланса.
-Новые генерации/гаммы/следующие клипы только по поручению.
+scenes/demo/main_menu.tscn — единственный пользовательский dirty: не трогать/reset/stage/commit.
+Сохранять core/preview/live/worker/queue/RNG/save/frozen; без push/sidebar/расписаний,
+P-удара/теней/света/дальнейшего баланса. Ждать U, следующий этап не начинать.
 После этапа Conventional Commit, короткий HANDOFF; прежний побайтно отдельным
 архивом+HISTORY. В финале/при блокере предложить новый чат и полный промпт:
 HEAD/результат/docs/artifacts/остаток/ограничения/проверки и это же правило передачи.

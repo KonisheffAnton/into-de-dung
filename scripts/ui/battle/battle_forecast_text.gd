@@ -204,12 +204,14 @@ static func attack(
 	for event: Dictionary in events:
 		if event.get("kind") == &"attacked" and event.has("modifiers"):
 			var modifiers: Dictionary = event["modifiers"]
+			if int(modifiers.get("surround_percent", 0)) > 0:
+				text += "\n[color=#f7c97d]Окружение +%d%% всего прямого урона[/color] · союзники: %s\n" % [modifiers["surround_percent"], ", ".join(BattleEventText.names_for_ids(names, modifiers.get("surround_ally_ids", [])))]
 			if modifiers.has("sneak_percent") and modifiers["sneak_percent"] == 50:
 				var threat_names: PackedStringArray = []
 				for threat_id: int in modifiers.get("threat_ids", []): threat_names.append(_name_for(names, threat_id))
 				text += "\n[color=#f7c97d]Скрытая атака +50%% физической базы[/color] · угрожают: %s\n" % ", ".join(threat_names)
-			if modifiers["backstab_percent"] > 0 and not core_reactions: text += "\n[color=#f7c97d]Удар в спину +%d%% базы[/color]\n" % modifiers["backstab_percent"]
-			if modifiers["critical"]: text += "[color=#f29b9b]Крит ×2: прямой урон и воздействие[/color]\n"
+			if int(modifiers.get("backstab_percent", 0)) > 0 and not core_reactions: text += "\n[color=#f7c97d]Удар в спину +%d%% базы[/color]\n" % modifiers["backstab_percent"]
+			if modifiers.get("critical", false): text += "[color=#f29b9b]Крит ×2: прямой урон и воздействие[/color]\n"
 	for event: Dictionary in events:
 		if event.get("kind") != &"hit_resolved": continue
 		var hit: Dictionary = event["hit"]
