@@ -7,6 +7,7 @@ extends BattleManagedUnitVisual
 @export var rogue_idle_frames: SpriteFrames
 @export var rogue_buff_frames: SpriteFrames
 @export var rogue_death_frames: SpriteFrames
+@export var archer_idle_frames: SpriteFrames
 @export_range(1, 120, 1) var idle_normal_cycles_min: int = 24
 @export_range(1, 120, 1) var idle_normal_cycles_max: int = 36
 
@@ -43,7 +44,10 @@ func _ready() -> void:
 
 func sync_scene_art() -> void:
 	super.sync_scene_art()
-	var next_sprite := get_node_or_null("ArtRoot/RogueIdleSprite" if visual_class_id == &"rogue" else "ArtRoot/DefenderIdleSprite") as Sprite2D
+	var idle_path := "ArtRoot/DefenderIdleSprite"
+	if visual_class_id == &"rogue": idle_path = "ArtRoot/RogueIdleSprite"
+	elif visual_class_id == &"archer": idle_path = "ArtRoot/ArcherIdleSprite"
+	var next_sprite := get_node_or_null(idle_path) as Sprite2D
 	var sprite_changed := _idle_sprite != null and _idle_sprite != next_sprite
 	if sprite_changed:
 		_restore_rogue_death_alpha(_idle_sprite)
@@ -69,6 +73,7 @@ func sync_scene_art() -> void:
 	var texture_scale := 0.25 if rogue else 1.0
 	_idle_sprite.scale = Vector2(-texture_scale if mirrored else texture_scale, texture_scale)
 	var anchor := Vector2(64, 94) if rogue else Vector2(69.42, 90.14)
+	if visual_class_id == &"archer": anchor = Vector2(78.9576315297, 97.3771110405)
 	_idle_sprite.position = Vector2(anchor.x if mirrored else -anchor.x, -anchor.y)
 	if _death_active and can_play_death():
 		_idle_sprite.visible = true
@@ -109,6 +114,10 @@ func sync_scene_art() -> void:
 
 
 func _can_play_idle() -> bool:
+	if visual_class_id == &"archer":
+		return _can_show_defender() and not ambient_animation_paused and archer_idle_frames != null \
+			and archer_idle_frames.has_animation(&"idle") and archer_idle_frames.get_frame_count(&"idle") == 12 \
+			and archer_idle_frames.get_animation_speed(&"idle") > 0.0
 	if visual_class_id == &"rogue":
 		return _can_show_defender() and not ambient_animation_paused and rogue_idle_frames != null \
 			and rogue_idle_frames.has_animation(&"idle") and rogue_idle_frames.get_frame_count(&"idle") == 12
@@ -122,7 +131,7 @@ func _can_play_idle() -> bool:
 func _can_show_defender() -> bool:
 	return _still_sprite != null and is_inside_tree() and is_visible_in_tree() and role == Role.UNIT \
 		and unit != null and unit.alive and unit.faction in [Faction.Type.PLAYER, Faction.Type.ENEMY] \
-		and visual_class_id in [&"warrior", &"rogue"] and _still_sprite.texture != null \
+		and visual_class_id in [&"warrior", &"rogue", &"archer"] and _still_sprite.texture != null \
 		and not frozen and not stunned and not summon_pending \
 		and action_offset == Vector2.ZERO and presentation_offset == Vector2.ZERO \
 		and presentation_lift == 0.0 and fall_drop == 0.0 \
@@ -169,10 +178,12 @@ func _restore_rogue_death_alpha(sprite: Sprite2D) -> void:
 
 
 func _active_buff_frames() -> SpriteFrames:
+	if visual_class_id == &"archer": return null
 	return rogue_buff_frames if visual_class_id == &"rogue" else buff_frames
 
 
 func _active_death_frames() -> SpriteFrames:
+	if visual_class_id == &"archer": return null
 	return rogue_death_frames if visual_class_id == &"rogue" else death_frames
 
 
@@ -227,7 +238,11 @@ func _process(delta: float) -> void:
 	if not _can_play_idle():
 		sync_scene_art()
 		return
-	idle_clock.advance(delta)
+	# Общие часы сохраняют фазу по ID; у лучницы выбран более длинный цикл 2.6 с.
+	var clock_delta := delta
+	if visual_class_id == &"archer":
+		clock_delta *= DefenderIdleClock.CYCLE_DURATION / _clip_duration(archer_idle_frames, &"idle")
+	idle_clock.advance(clock_delta)
 	_apply_idle_frame()
 
 
@@ -237,6 +252,9 @@ func _apply_idle_frame() -> void:
 	if visual_class_id == &"rogue":
 		animation = &"idle"
 		frames = rogue_idle_frames
+	elif visual_class_id == &"archer":
+		animation = &"idle"
+		frames = archer_idle_frames
 	var texture := frames.get_frame_texture(animation, idle_clock.get_frame_index())
 	# Меняется только текстура дочернего рисунка; внешней позой и эффектами владеет доска.
 	if _idle_sprite.texture != texture:

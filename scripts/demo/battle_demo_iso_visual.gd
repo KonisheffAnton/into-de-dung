@@ -33,6 +33,8 @@ var action_resources_view: Dictionary = {}
 @export_range(0.25, 2.0, 0.05) var warrior_art_scale: float = 1.0
 @export var rogue_pick_rect: Rect2 = Rect2(-40, -65, 80, 73)
 @export_range(0.25, 2.0, 0.01) var rogue_art_scale: float = 0.73
+@export var archer_pick_rect: Rect2 = Rect2(-49, -81, 98, 92)
+@export_range(0.25, 2.0, 0.01) var archer_art_scale: float = 0.64
 @export var show_flat_height_labels: bool = false
 ## Демонстрационные состояния выбираются доской; сцена только отображает слои.
 var frozen: bool = false
@@ -200,6 +202,8 @@ func sync_scene_art() -> void:
 	var enemy_warrior := get_node_or_null("ArtRoot/EnemyWarriorSprite") as Sprite2D
 	var player_rogue := get_node_or_null("ArtRoot/PlayerRogueSprite") as Sprite2D
 	var enemy_rogue := get_node_or_null("ArtRoot/EnemyRogueSprite") as Sprite2D
+	var player_archer := get_node_or_null("ArtRoot/PlayerArcherSprite") as Sprite2D
+	var enemy_archer := get_node_or_null("ArtRoot/EnemyArcherSprite") as Sprite2D
 	var enemy_presets := _enemy_preset_sprites()
 	var selected_enemy_preset: Sprite2D
 	var warrior_sprite := class_still_sprite()
@@ -218,10 +222,10 @@ func sync_scene_art() -> void:
 	if enemy_warrior != null:
 		enemy_warrior.visible = selected_enemy_preset == null and enemy_warrior == warrior_sprite and role == Role.UNIT and unit != null and unit.alive
 		enemy_warrior.modulate = Color.WHITE
-	for rogue_sprite: Sprite2D in [player_rogue, enemy_rogue]:
-		if rogue_sprite != null:
-			rogue_sprite.visible = rogue_sprite == warrior_sprite and role == Role.UNIT and unit != null and unit.alive
-			rogue_sprite.modulate = Color.WHITE
+	for class_sprite: Sprite2D in [player_rogue, enemy_rogue, player_archer, enemy_archer]:
+		if class_sprite != null:
+			class_sprite.visible = class_sprite == warrior_sprite and role == Role.UNIT and unit != null and unit.alive
+			class_sprite.modulate = Color.WHITE
 	for preset: Sprite2D in enemy_presets:
 		preset.visible = preset == selected_enemy_preset and unit != null and unit.alive
 		preset.modulate = Color.WHITE
@@ -325,6 +329,7 @@ func surface_polygons() -> Array[PackedVector2Array]:
 		var art_scale := get_unit_art_scale()
 		var pick_rect := warrior_pick_rect if _has_visible_warrior_sprite() else body_pick_rect
 		if _has_visible_warrior_sprite() and visual_class_id == &"rogue": pick_rect = rogue_pick_rect
+		if _has_visible_warrior_sprite() and visual_class_id == &"archer": pick_rect = archer_pick_rect
 		return [PackedVector2Array([offset + pick_rect.position * factor * art_scale, offset + Vector2(pick_rect.end.x, pick_rect.position.y) * factor * art_scale, offset + pick_rect.end * factor * art_scale, offset + Vector2(pick_rect.position.x, pick_rect.end.y) * factor * art_scale])]
 	var top := top_polygon()
 	if is_void: return [top]
@@ -347,12 +352,14 @@ func class_still_sprite() -> Sprite2D:
 	match visual_class_id:
 		&"warrior": suffix = "WarriorSprite"
 		&"rogue": suffix = "RogueSprite"
+		&"archer": suffix = "ArcherSprite"
 		_: return null
 	var side := "Enemy" if unit.faction == Faction.Type.ENEMY else "Player"
 	return get_node_or_null("ArtRoot/" + side + suffix) as Sprite2D
 
 func get_unit_art_scale() -> float:
 	if role != Role.UNIT or not _has_visible_warrior_sprite(): return 1.0
+	if visual_class_id == &"archer": return archer_art_scale
 	return rogue_art_scale if visual_class_id == &"rogue" else warrior_art_scale
 
 ## Возвращает первые пять уникальных не воплощённых видов в порядке доски.

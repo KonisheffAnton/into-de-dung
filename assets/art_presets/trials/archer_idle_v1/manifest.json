@@ -1,0 +1,87 @@
+{
+  "format": 1,
+  "base_commit": "bd77eb7f7fcabf5d99f1b8b943619246bc1a7ca3",
+  "selection": "User explicitly approved integration of corrected Archer idle; source frames 02-13 in order; input echo frame 01 excluded.",
+  "animation": {
+    "name": "idle",
+    "loop": true,
+    "speed_fps": 60,
+    "frame_duration_ticks": 13,
+    "cycle_seconds": 2.6
+  },
+  "frames": [
+    {
+      "source": "docs/art/archer-perspective-20261014/pixellab/frame-02.png",
+      "runtime": "assets/art_presets/trials/archer_idle_v1/idle/frame-01.png",
+      "sha256": "b3425f2b15c2aaecc0b254dac5220d2ccac02f2f648c7fc189e284c06631dfa4",
+      "duration_ticks": 13
+    },
+    {
+      "source": "docs/art/archer-perspective-20261014/pixellab/frame-03.png",
+      "runtime": "assets/art_presets/trials/archer_idle_v1/idle/frame-02.png",
+      "sha256": "cf4960299f7ae457ea9bf3cc63dcb660c05443b8db2807b5269e0a262641a214",
+      "duration_ticks": 13
+    },
+    {
+      "source": "docs/art/archer-perspective-20261014/pixellab/frame-04.png",
+      "runtime": "assets/art_presets/trials/archer_idle_v1/idle/frame-03.png",
+      "sha256": "137bcc6f533821660831f28fe679bcc80683d86831523641e481b03e84d7800a",
+      "duration_ticks": 13
+    },
+    {
+      "source": "docs/art/archer-perspective-20261014/pixellab/frame-05.png",
+      "runtime": "assets/art_presets/trials/archer_idle_v1/idle/frame-04.png",
+      "sha256": "6c875fb4e083d76ec5610a79676efbf34aaaedb32281dbe904589aadb0f4521f",
+      "duration_ticks": 13
+    },
+    {
+      "source": "docs/art/archer-perspective-20261014/pixellab/frame-06.png",
+      "runtime": "assets/art_presets/trials/archer_idle_v1/idle/frame-05.png",
+      "sha256": "5708e286730e0f7d819428d7a30043c07fb777202e308b553432b333a7a30256",
+      "duration_ticks": 13
+    },
+    {
+      "source": "docs/art/archer-perspective-20261014/pixellab/frame-07.png",
+      "runtime": "assets/art_presets/trials/archer_idle_v1/idle/frame-06.png",
+      "sha256": "692bd512a59e793e67a632f8ed9f5cfa5f2125904a5c5ce3091692b2dc911aa4",
+      "duration_ticks": 13
+    },
+    {
+      "source": "docs/art/archer-perspective-20261014/pixellab/frame-08.png",
+      "runtime": "assets/art_presets/trials/archer_idle_v1/idle/frame-07.png",
+      "sha256": "204c5ef4456e0774c06e1f42fc1af5fd5d5570a2db785627fb6bfa3764b48427",
+      "duration_ticks": 13
+    },
+    {
+      "source": "docs/art/archer-perspective-20261014/pixellab/frame-09.png",
+      "runtime": "assets/art_presets/trials/archer_idle_v1/idle/frame-08.png",
+      "sha256": "7762613824a4c33b95f02638e12f9de13d610c13882ad439e6a91ef322d9eab2",
+      "duration_ticks": 13
+    },
+    {
+      "source": "docs/art/archer-perspective-20261014/pixellab/frame-10.png",
+      "runtime": "assets/art_presets/trials/archer_idle_v1/idle/frame-09.png",
+      "sha256": "094d23601e8c549ee9f8ffcd1e55de762748294d3330327eb1ab942cdafdc67a",
+      "duration_ticks": 13
+    },
+    {
+      "source": "docs/art/archer-perspective-20261014/pixellab/frame-11.png",
+      "runtime": "assets/art_presets/trials/archer_idle_v1/idle/frame-10.png",
+      "sha256": "231a9d5b4056e4867fe0f7d7003db6cf1e6d15dc33790d0e554fc385a10b3ea6",
+      "duration_ticks": 13
+    },
+    {
+      "source": "docs/art/archer-perspective-20261014/pixellab/frame-12.png",
+      "runtime": "assets/art_presets/trials/archer_idle_v1/idle/frame-11.png",
+      "sha256": "22154a1120abec36219bcec60c560e9a50423b641f284e81cd584cbd7f0829e1",
+      "duration_ticks": 13
+    },
+    {
+      "source": "docs/art/archer-perspective-20261014/pixellab/frame-13.png",
+      "runtime": "assets/art_presets/trials/archer_idle_v1/idle/frame-12.png",
+      "sha256": "b61b8df614218ad45d420887449035862f78a5373f6fd4fb3a557b34992af7f7",
+      "duration_ticks": 13
+    }
+  ],
+  "resource_sha256": "06c6c6af7aad068cfa17658ebf9e266015e469fe99932ccf0d847269545186c9"
+}

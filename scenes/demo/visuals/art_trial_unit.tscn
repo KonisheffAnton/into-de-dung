@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3]
+[gd_scene load_steps=19 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/placeholder_unit.tscn" id="1_base"]
 [ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_field_v1/defender_new.png" id="2_player"]
@@ -11,6 +11,8 @@
 [ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/rogue_animations_v1/idle_frames.tres" id="9_rogue_idle"]
 [ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/rogue_animations_v1/buff_frames.tres" id="10_rogue_buff"]
 [ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/rogue_animations_v1/death_frames.tres" id="11_rogue_death"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/archer_idle_v1/idle/frame-01.png" id="12_archer_still"]
+[ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/archer_idle_v1/idle_frames.tres" id="13_archer_idle"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_player"]
 atlas = ExtResource("2_player")
@@ -31,16 +33,24 @@ shader = ExtResource("4_native")
 shader_parameter/source_region = Vector4(0, 0, 512, 512)
 shader_parameter/native_size = Vector2(128, 128)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_archer"]
+shader = ExtResource("4_native")
+shader_parameter/source_region = Vector4(0, 0, 128, 128)
+shader_parameter/native_size = Vector2(128, 128)
+shader_parameter/cloth_enabled = false
+
 [node name="PlaceholderUnit" instance=ExtResource("1_base")]
 script = ExtResource("5_idle_script")
 warrior_pick_rect = Rect2(-45, -66, 90, 83)
 warrior_art_scale = 0.8
+archer_art_scale = 0.6400003306666667
 idle_frames = ExtResource("6_idle_frames")
 buff_frames = ExtResource("7_buff_frames")
 death_frames = ExtResource("3_death")
 rogue_idle_frames = ExtResource("9_rogue_idle")
 rogue_buff_frames = ExtResource("10_rogue_buff")
 rogue_death_frames = ExtResource("11_rogue_death")
+archer_idle_frames = ExtResource("13_archer_idle")
 
 [node name="PlayerWarriorSprite" parent="ArtRoot" index="1"]
 material = SubResource("ShaderMaterial_player")
@@ -86,4 +96,28 @@ texture_filter = 1
 material = SubResource("ShaderMaterial_rogue")
 position = Vector2(-64, -94)
 scale = Vector2(0.25, 0.25)
+centered = false
+
+[node name="PlayerArcherSprite" type="Sprite2D" parent="ArtRoot" index="11"]
+visible = false
+texture_filter = 1
+material = SubResource("ShaderMaterial_archer")
+position = Vector2(-78.9576315297, -97.3771110405)
+texture = ExtResource("12_archer_still")
+centered = false
+
+[node name="EnemyArcherSprite" type="Sprite2D" parent="ArtRoot" index="12"]
+visible = false
+texture_filter = 1
+material = SubResource("ShaderMaterial_archer")
+position = Vector2(78.9576315297, -97.3771110405)
+scale = Vector2(-1, 1)
+texture = ExtResource("12_archer_still")
+centered = false
+
+[node name="ArcherIdleSprite" type="Sprite2D" parent="ArtRoot" index="13"]
+visible = false
+texture_filter = 1
+material = SubResource("ShaderMaterial_archer")
+position = Vector2(-78.9576315297, -97.3771110405)
 centered = false

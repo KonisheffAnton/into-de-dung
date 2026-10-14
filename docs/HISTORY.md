@@ -1,5 +1,22 @@
 # История и свидетельства проверок
 
+## Лучница: выбранная idle в походном бою — 2026-10-14
+
+U: «Отлично, внедри эту анимацию лунице». Из [исправленной пробы](art/archer-perspective-20261014/README.md)
+подключены12 кадров02–13/2.6s в текущий HeroHubBattleView через art_trial_unit.
+[Runtime-пакет](../assets/art_presets/trials/archer_idle_v1/README.md): PNG побайтны,
+статичная поза из первого кадра, общий idle lifecycle, отражение врага и пикинг.
+Баффы/смерть используют общий путь; новые генерации/гаммы отсутствуют.
+Import/startup/render PASS: archer_idle64/0, current_art_zoom460/0 и смежные
+visual gates; Python22/22,12PNG SHA/сборка PASS, независимое ревью APPROVE.
+Первый общий запуск имел сбой нового теста; синтаксис, typed fixture и явный
+cloth_enabled=false исправлены, повторный focused run PASS. Production-дефектов
+не обнаружено. Точные запуски: `test_reports/archer-integration-20261014/REPORT.md`.
+Full/core/F5/ручной editor/DPI не запускались; отзыв на показ в бою открыт.
+Клип выбран U для игры, прежний строгий motion-критерий не объявлен выполненным.
+Base/main bd77eb7. [Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261014-7.md).
+Пользовательская main_menu сохранена; push нет. Следующий шаг — поручение U.
+
 ## Лучница: новый ракурс и idle-проба — 2026-10-14
 
 U поручил попробовать исправить изометрию, затем анимацию.

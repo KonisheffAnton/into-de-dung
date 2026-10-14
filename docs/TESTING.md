@@ -44,11 +44,16 @@ shader ошибки и ненулевые failed counts не маскируют�
 Выбор `current_art_zoom`, `art_trial_battle` или `battle_view_reuse` автоматически
 добавляет `visual_scene_contract`, `environment_visual_contract`, `unit_visual_contract`,
 `defender_idle_clock`, `defender_idle`, `defender_buff`, `defender_death`, `defender_death_routes`,
-`defender_cloth_palette`, `rogue_cloth_palette`, `rogue_animations`, `rogue_buff`, `rogue_death_routes`,
+`defender_cloth_palette`, `rogue_cloth_palette`, `rogue_animations`, `rogue_buff`, `rogue_death_routes`, `archer_idle`,
 `presentation_consequences`, `presentation_environment`, `battle_camera_ui`, `battle_execution_ui`:
 защита от пересоздания поля и сбоев поз, ловушек, камеры и worker/ИИ при смене пресета.
 Прямой запуск только lifecycle:
 `python tools/demo/isolate.py --render-check --only visual_scene_contract environment_visual_contract unit_visual_contract --screen 0`.
+Лучница: `python tools/demo/isolate.py --render-check --only archer_idle --screen 0` —
+12 кадров/2.6s, паузы/фаза/повторное использование, отражение/пикинг/fallback.
+`current_art_zoom` проверяет её в текущем походном бою и сохраняет render-кадры;
+PNG/resource/manifest: `python tools/art/build_archer_idle.py --check`.
+
 Idle отдельно: `python tools/demo/isolate.py --render-check --only defender_idle_clock defender_idle --screen 0`.
 Проверяются редкая петля/возврат/локальные часы без RNG, допуск, непрерывность idle
 во время реального worker/движения ИИ и технических кадров, адресная пауза цели удара,

@@ -212,6 +212,7 @@ func _check_warrior_art() -> void:
 	var player_count: int = 0
 	var enemy_count: int = 0
 	var rogue_count: int = 0
+	var archer_count: int = 0
 	var nonwarrior_count: int = 0
 	var tile_factor: float = demo.board_view.grid_config.tile_size.x / 128.0
 	var number_checks: int = 0
@@ -233,6 +234,39 @@ func _check_warrior_art() -> void:
 			var center := visual.position + visual.get_visual_offset() + visual.rogue_pick_rect.get_center() * tile_factor * 0.73
 			var outside := center + Vector2(visual.rogue_pick_rect.size.x * 0.51 * tile_factor * 0.73, 0)
 			check(visual.contains_point(center) and not visual.contains_point(outside), "rogue picking excludes points beyond its scaled boundary")
+			continue
+		if visual.visual_class_id == &"archer":
+			archer_count += 1
+			var archer := visual as BattleDefenderIdleVisual
+			var archer_idle := archer.get_node("ArtRoot/ArcherIdleSprite") as Sprite2D
+			var archer_still := archer.class_still_sprite()
+			var archer_scale := 0.6400003306666667
+			check(is_equal_approx(archer.get_unit_art_scale(), archer_scale)
+				and (archer.get_node("ArtRoot") as Node2D).scale.is_equal_approx(Vector2.ONE * tile_factor * archer_scale),
+				"current archer retains the selected tile placement scale")
+			check(archer_idle.visible and not archer_still.visible and archer_idle.texture.get_size() == Vector2(128, 128)
+				and archer_still.texture == archer.archer_idle_frames.get_frame_texture(&"idle", 0),
+				"current expedition archer uses the selected idle and first opaque frame fallback")
+			check(not archer.can_play_buff() and not archer.can_play_death(), "archer keeps generic action and death presentation")
+			var center := visual.position + visual.get_visual_offset() + visual.archer_pick_rect.get_center() * tile_factor * archer_scale
+			var outside := center + Vector2(visual.archer_pick_rect.size.x * 0.51 * tile_factor * archer_scale, 0)
+			check(visual.contains_point(center) and not visual.contains_point(outside), "archer picking follows the reduced silhouette")
+			var archer_effect := archer.get_node("ArtRoot/EffectAnchor") as Node2D
+			var archer_label := archer.get_node("ArtRoot/LabelAnchor") as Node2D
+			check(demo.board_view._effect_anchor(visual.unit.id).is_equal_approx(archer_effect.position * archer_scale),
+				"archer projectile anchor follows its body scale")
+			var result_number := demo.board_view._add_result_number(visual.unit.id, "12", Color.WHITE)
+			check(result_number != null and (result_number.get_meta("anchor") as Vector2).is_equal_approx(archer_label.position * archer_scale),
+				"archer result number follows the body anchor")
+			if result_number != null: result_number.queue_free()
+			var phase := archer.idle_clock.get_elapsed()
+			archer.ambient_animation_paused = true
+			archer._process(1.0)
+			check(not archer_idle.visible and archer_still.visible and archer.idle_clock.get_elapsed() == phase,
+				"current archer action pause keeps the authored still and suspended phase")
+			archer.ambient_animation_paused = false
+			archer.reset_view_pose()
+			check(archer_idle.visible and archer.idle_clock.get_elapsed() == phase, "current archer resumes the same idle phase")
 			continue
 		if visual.visual_class_id != &"warrior":
 			nonwarrior_count += 1
@@ -287,6 +321,7 @@ func _check_warrior_art() -> void:
 	check(player_count > 0 and enemy_count > 0, "current encounter contains both warrior artwork factions")
 	check(nonwarrior_count > 0, "current encounter provides a nonwarrior scale control")
 	check(rogue_count > 0, "current encounter exercises the integrated rogue alongside generic art")
+	check(archer_count > 0, "current expedition contains the integrated archer")
 
 func _check_picking_roundtrip() -> void:
 	var board := demo.board_view
