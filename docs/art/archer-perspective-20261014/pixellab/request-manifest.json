@@ -1,0 +1,17 @@
+{
+  "endpoint": "https://api.pixellab.ai/v2/animate-pixminimax",
+  "schema": "AnimatePixminimaxRequest",
+  "source": "archer-corrected.png",
+  "source_sha256": "a4923dee43b2a6905bb68616e9e0a7a3b7e36ee7e69f4c61cd873408a93b3d16",
+  "reference_sha256": "dfa38ffda2fe9aa60f0eca9243dec79af47d6ac176780be1ed557d8a2147ae73",
+  "reference_size": [
+    128,
+    128
+  ],
+  "preparation": "uniform nearest resize of complete RGBA source; no threshold, paint, pose edit or background removal",
+  "first_equals_last": true,
+  "requested_frames": 12,
+  "cycle_ms": 2600,
+  "request_sha256": "c24413d83f36e76b7e0f6fb3cc182cd00b7cde0b821d1cb8a0a4644a3043360b",
+  "scope": "One separate idle trial. Preserve all returned PNGs unchanged; no game integration."
+}

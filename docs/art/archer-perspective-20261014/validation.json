@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "errors": [],
+  "source_checks": [
+    {
+      "key": "tile",
+      "unchanged": true
+    },
+    {
+      "key": "defender",
+      "unchanged": true
+    },
+    {
+      "key": "original",
+      "unchanged": true
+    },
+    {
+      "key": "corrected",
+      "unchanged": true
+    }
+  ],
+  "axes_control": true,
+  "canvas_dimensions": {
+    "defender": [
+      544,
+      448
+    ],
+    "original": [
+      544,
+      448
+    ],
+    "corrected": [
+      544,
+      448
+    ]
+  },
+  "corrected_alpha_height": 793,
+  "corrected_display_height": 51.840026784,
+  "scope": "HTML/source loading, controls, unchanged source hashes; visual QA separate. Not Godot/F5/GPU or art acceptance."
+}

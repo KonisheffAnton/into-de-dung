@@ -1,0 +1,150 @@
+{
+  "base": "15b0ece63f7679a450f79aad27896d1aab3516d3",
+  "sources": {
+    "tile": {
+      "path": "assets/art_presets/trials/grass_reference_v3/grass_a.png",
+      "sha256": "a76bae2880c836a262fd347b3cccc9525974928eb393ac810ffed7131f98a01f",
+      "size": [
+        1448,
+        1086
+      ],
+      "bbox_alpha128": [
+        61,
+        78,
+        1388,
+        1010
+      ]
+    },
+    "defender": {
+      "path": "assets/art_presets/trials/defender_field_v1/defender_new.png",
+      "sha256": "7cbd0358fe42264f8090b4d77da03274fcca1a4ebbe5984b960d77c9f5874082",
+      "size": [
+        1230,
+        1278
+      ],
+      "bbox_alpha128": [
+        89,
+        206,
+        1123,
+        1172
+      ]
+    },
+    "original": {
+      "path": "docs/art/archer-idle-variants-20261014/variants/b-transfer-128/frame-01.png",
+      "sha256": "0adef3303ff306e73b533652a7180d8630ffb877bc028d2eccc3fb53b3d7af87",
+      "size": [
+        128,
+        128
+      ],
+      "bbox_alpha128": [
+        24,
+        17,
+        116,
+        117
+      ]
+    },
+    "corrected": {
+      "path": "docs/art/archer-perspective-20261014/archer-corrected.png",
+      "sha256": "a4923dee43b2a6905bb68616e9e0a7a3b7e36ee7e69f4c61cd873408a93b3d16",
+      "size": [
+        1254,
+        1254
+      ],
+      "bbox_alpha128": [
+        323,
+        245,
+        1071,
+        1038
+      ]
+    }
+  },
+  "geometry": {
+    "tile": {
+      "vertices": [
+        [
+          0,
+          -48
+        ],
+        [
+          64,
+          0
+        ],
+        [
+          0,
+          48
+        ],
+        [
+          -64,
+          0
+        ]
+      ],
+      "uv": [
+        [
+          724,
+          110
+        ],
+        [
+          1350,
+          543
+        ],
+        [
+          724,
+          975
+        ],
+        [
+          96,
+          543
+        ]
+      ],
+      "tint": [
+        0.79,
+        0.8,
+        0.75
+      ]
+    },
+    "defender": {
+      "crop": [
+        89,
+        206,
+        1034,
+        966
+      ],
+      "native": [
+        77,
+        72
+      ],
+      "position": [
+        -35.536,
+        -52.112
+      ],
+      "scale": 0.05962736,
+      "height": 57.60002976
+    },
+    "original": {
+      "position": [
+        -38.17761714176,
+        -55.16480157728001
+      ],
+      "scale": 0.51840026784,
+      "height": 51.840026784
+    },
+    "corrected": {
+      "position": [
+        -50.56431105731147,
+        -62.368146534819665
+      ],
+      "scale": 0.06537203881967213,
+      "height": 51.840026784,
+      "source_anchor_percent": [
+        55.58213716108453,
+        82.77511961722487
+      ],
+      "destination_anchor": [
+        -5,
+        5.488029759999995
+      ],
+      "anchor_method": "provisional alpha>=128 bbox lower center"
+    }
+  },
+  "scope": "Three-column offline Canvas comparison at x4 and x1. Full RGBA source PNGs shown without alpha cutoff; alpha>=128 is measurement only. No source edits, warp, stabilization, animation or game acceptance."
+}

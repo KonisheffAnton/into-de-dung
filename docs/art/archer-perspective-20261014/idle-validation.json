@@ -1,0 +1,338 @@
+{
+  "status": "PASS",
+  "source_checks": [
+    {
+      "path": "assets/art_presets/trials/grass_reference_v3/grass_a.png",
+      "sha256": "a76bae2880c836a262fd347b3cccc9525974928eb393ac810ffed7131f98a01f",
+      "size": [
+        1448,
+        1086
+      ],
+      "bbox_alpha128": [
+        61,
+        78,
+        1388,
+        1010
+      ]
+    },
+    {
+      "path": "assets/art_presets/trials/defender_field_v1/defender_new.png",
+      "sha256": "7cbd0358fe42264f8090b4d77da03274fcca1a4ebbe5984b960d77c9f5874082",
+      "size": [
+        1230,
+        1278
+      ],
+      "bbox_alpha128": [
+        89,
+        206,
+        1123,
+        1172
+      ]
+    },
+    {
+      "path": "docs/art/archer-idle-variants-20261014/variants/b-transfer-128/frame-01.png",
+      "sha256": "0adef3303ff306e73b533652a7180d8630ffb877bc028d2eccc3fb53b3d7af87",
+      "size": [
+        128,
+        128
+      ],
+      "bbox_alpha128": [
+        24,
+        17,
+        116,
+        117
+      ]
+    },
+    {
+      "path": "docs/art/archer-idle-variants-20261014/variants/b-transfer-128/frame-02.png",
+      "sha256": "73956c17e0959c027db71ca0c08027bde161c27beff2cfb02f8c2ce98325f042",
+      "size": [
+        128,
+        128
+      ],
+      "bbox_alpha128": [
+        22,
+        13,
+        114,
+        117
+      ]
+    },
+    {
+      "path": "docs/art/archer-idle-variants-20261014/variants/b-transfer-128/frame-03.png",
+      "sha256": "6dc11152beabe425edeba97f31cadc477018214d2edd0b97d8ceb92f27e78805",
+      "size": [
+        128,
+        128
+      ],
+      "bbox_alpha128": [
+        24,
+        17,
+        116,
+        117
+      ]
+    },
+    {
+      "path": "docs/art/archer-perspective-20261014/pixellab/reference-128.png",
+      "sha256": "dfa38ffda2fe9aa60f0eca9243dec79af47d6ac176780be1ed557d8a2147ae73",
+      "size": [
+        128,
+        128
+      ],
+      "bbox_alpha128": [
+        33,
+        25,
+        110,
+        106
+      ]
+    },
+    {
+      "path": "docs/art/archer-perspective-20261014/pixellab/frame-01.png",
+      "sha256": "d4994e24065d6e3c2ec6f8c092a3c51836447632d3fe359a66ec9966423e1aec",
+      "size": [
+        128,
+        128
+      ],
+      "bbox_alpha128": [
+        33,
+        25,
+        110,
+        106
+      ]
+    },
+    {
+      "path": "docs/art/archer-perspective-20261014/pixellab/frame-02.png",
+      "sha256": "b3425f2b15c2aaecc0b254dac5220d2ccac02f2f648c7fc189e284c06631dfa4",
+      "size": [
+        128,
+        128
+      ],
+      "bbox_alpha128": [
+        33,
+        25,
+        110,
+        106
+      ]
+    },
+    {
+      "path": "docs/art/archer-perspective-20261014/pixellab/frame-03.png",
+      "sha256": "cf4960299f7ae457ea9bf3cc63dcb660c05443b8db2807b5269e0a262641a214",
+      "size": [
+        128,
+        128
+      ],
+      "bbox_alpha128": [
+        33,
+        24,
+        110,
+        106
+      ]
+    },
+    {
+      "path": "docs/art/archer-perspective-20261014/pixellab/frame-04.png",
+      "sha256": "137bcc6f533821660831f28fe679bcc80683d86831523641e481b03e84d7800a",
+      "size": [
+        128,
+        128
+      ],
+      "bbox_alpha128": [
+        33,
+        24,
+        110,
+        106
+      ]
+    },
+    {
+      "path": "docs/art/archer-perspective-20261014/pixellab/frame-05.png",
+      "sha256": "6c875fb4e083d76ec5610a79676efbf34aaaedb32281dbe904589aadb0f4521f",
+      "size": [
+        128,
+        128
+      ],
+      "bbox_alpha128": [
+        33,
+        23,
+        109,
+        106
+      ]
+    },
+    {
+      "path": "docs/art/archer-perspective-20261014/pixellab/frame-06.png",
+      "sha256": "5708e286730e0f7d819428d7a30043c07fb777202e308b553432b333a7a30256",
+      "size": [
+        128,
+        128
+      ],
+      "bbox_alpha128": [
+        33,
+        22,
+        109,
+        106
+      ]
+    },
+    {
+      "path": "docs/art/archer-perspective-20261014/pixellab/frame-07.png",
+      "sha256": "692bd512a59e793e67a632f8ed9f5cfa5f2125904a5c5ce3091692b2dc911aa4",
+      "size": [
+        128,
+        128
+      ],
+      "bbox_alpha128": [
+        33,
+        21,
+        109,
+        106
+      ]
+    },
+    {
+      "path": "docs/art/archer-perspective-20261014/pixellab/frame-08.png",
+      "sha256": "204c5ef4456e0774c06e1f42fc1af5fd5d5570a2db785627fb6bfa3764b48427",
+      "size": [
+        128,
+        128
+      ],
+      "bbox_alpha128": [
+        33,
+        21,
+        109,
+        106
+      ]
+    },
+    {
+      "path": "docs/art/archer-perspective-20261014/pixellab/frame-09.png",
+      "sha256": "7762613824a4c33b95f02638e12f9de13d610c13882ad439e6a91ef322d9eab2",
+      "size": [
+        128,
+        128
+      ],
+      "bbox_alpha128": [
+        33,
+        22,
+        109,
+        106
+      ]
+    },
+    {
+      "path": "docs/art/archer-perspective-20261014/pixellab/frame-10.png",
+      "sha256": "094d23601e8c549ee9f8ffcd1e55de762748294d3330327eb1ab942cdafdc67a",
+      "size": [
+        128,
+        128
+      ],
+      "bbox_alpha128": [
+        33,
+        23,
+        109,
+        106
+      ]
+    },
+    {
+      "path": "docs/art/archer-perspective-20261014/pixellab/frame-11.png",
+      "sha256": "231a9d5b4056e4867fe0f7d7003db6cf1e6d15dc33790d0e554fc385a10b3ea6",
+      "size": [
+        128,
+        128
+      ],
+      "bbox_alpha128": [
+        33,
+        24,
+        110,
+        106
+      ]
+    },
+    {
+      "path": "docs/art/archer-perspective-20261014/pixellab/frame-12.png",
+      "sha256": "22154a1120abec36219bcec60c560e9a50423b641f284e81cd584cbd7f0829e1",
+      "size": [
+        128,
+        128
+      ],
+      "bbox_alpha128": [
+        33,
+        25,
+        110,
+        106
+      ]
+    },
+    {
+      "path": "docs/art/archer-perspective-20261014/pixellab/frame-13.png",
+      "sha256": "b61b8df614218ad45d420887449035862f78a5373f6fd4fb3a557b34992af7f7",
+      "size": [
+        128,
+        128
+      ],
+      "bbox_alpha128": [
+        33,
+        25,
+        110,
+        106
+      ]
+    }
+  ],
+  "javascript_errors": [],
+  "controls": {
+    "paused": true,
+    "seekIndex": 6,
+    "restartAtZero": true,
+    "played": true
+  },
+  "old_frame_count": 3,
+  "idle_frame_count": 12,
+  "source_frame_count": 13,
+  "reference_endpoints_in_source": false,
+  "playback_files": [
+    "docs/art/archer-perspective-20261014/pixellab/frame-02.png",
+    "docs/art/archer-perspective-20261014/pixellab/frame-03.png",
+    "docs/art/archer-perspective-20261014/pixellab/frame-04.png",
+    "docs/art/archer-perspective-20261014/pixellab/frame-05.png",
+    "docs/art/archer-perspective-20261014/pixellab/frame-06.png",
+    "docs/art/archer-perspective-20261014/pixellab/frame-07.png",
+    "docs/art/archer-perspective-20261014/pixellab/frame-08.png",
+    "docs/art/archer-perspective-20261014/pixellab/frame-09.png",
+    "docs/art/archer-perspective-20261014/pixellab/frame-10.png",
+    "docs/art/archer-perspective-20261014/pixellab/frame-11.png",
+    "docs/art/archer-perspective-20261014/pixellab/frame-12.png",
+    "docs/art/archer-perspective-20261014/pixellab/frame-13.png"
+  ],
+  "excluded_from_playback": [
+    {
+      "path": "docs/art/archer-perspective-20261014/pixellab/frame-01.png",
+      "reason": "partial-alpha reference endpoint differs in opacity from the remaining binary-alpha frames; original PNG retained"
+    }
+  ],
+  "reference_size": [
+    128,
+    128
+  ],
+  "anchor_percent": [
+    55.58213716108453,
+    82.77511961722487
+  ],
+  "display_scale": 0.6400003306666667,
+  "display_alpha_height": 51.840026784,
+  "gif": {
+    "path": "idle-source.gif",
+    "frames": 12,
+    "duration_ms": 2600,
+    "delays_ms": [
+      220,
+      220,
+      220,
+      220,
+      220,
+      220,
+      220,
+      220,
+      210,
+      210,
+      210,
+      210
+    ],
+    "note": "GIF задержки квантованы по 10 мс; отдельные интервалы распределены максимально равномерно, общая длительность ровно 2600 мс."
+  },
+  "tile_gif": {
+    "path": "idle-on-tile.gif",
+    "duration_ms": 2600,
+    "frames": 12
+  },
+  "scope": "Offline Canvas visualizer and GIF previews; source PNGs unchanged. GIF may quantize palette/alpha and coalesce duplicate frames; HTML uses original PNGs. No art/game acceptance."
+}
