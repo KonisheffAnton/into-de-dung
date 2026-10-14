@@ -11,6 +11,7 @@
 | Графика | [ART](ART_DIRECTION.md) / [Пресеты](../assets/art_presets/approved/README.md) / [API](GRAPHICS_WORKFLOW.md) |
 | Запуск / проверки | [REPOSITORY_STATE](REPOSITORY_STATE.md) / [TESTING](TESTING.md) |
 | Хаб / итоги / сцены | [H1](HERO_HUB_H1.md) / [Итоги](POST_BATTLE_V1.md) / [Сцены](HUB_SCENES_V1.md) |
+| Характеристики / развитие | [Дизайн V1](CHARACTER_ATTRIBUTES_V1.md) |
 | Боевой пакет K9 | [CORE_BATTLE_BATCH_K9](CORE_BATTLE_BATCH_K9.md) |
 | Перки / Щитоносец | [K10](CORE_REACTIONS_K10.md) / [V1](SHIELDBEARER_V1.md) |
 | Контратака | [K12](COUNTERATTACK_K12.md) |
@@ -22,18 +23,18 @@
 | Бой, управление | [TACTICAL_BATTLE](TACTICAL_BATTLE.md) |
 | Проход через союзников | [ALLY_TRANSIT](ALLY_TRANSIT.md) |
 | Броня / формулы урона | [ARMOR_DAMAGE_D0](ARMOR_DAMAGE_D0.md) |
-| Выделенный расчёт атаки D1/M2a | [ATTACK_DAMAGE_D1](ATTACK_DAMAGE_D1.md) |
-| Реализованная броня и типы D2 | [ARMOR_DAMAGE_D2](ARMOR_DAMAGE_D2.md) |
+| Расчёт атаки D1/M2a | [ATTACK_DAMAGE_D1](ATTACK_DAMAGE_D1.md) |
+| Броня / типы D2 | [ARMOR_DAMAGE_D2](ARMOR_DAMAGE_D2.md) |
 | Эффекты K17 / legacy D3 | [K17](STATUS_EFFECTS_NEXT.md) / [D3](BLEEDING_D3.md) |
 | Маг, откаты / щит, призыв | [K18](MAGE_COOLDOWNS_K18.md) / [R14](MAGE_SUPPORT_R14.md) |
 | Колода мага, рука / награды / костёр | [MAGE_DECK_V1](MAGE_DECK_V1.md) |
 | Полный цикл / legacy D4 | [U14](EXPEDITION_U14.md) / [D4](EXPEDITION_D4.md) |
 | Среда | [D5](ENVIRONMENT_D5.md) / [Ловушки](ENVIRONMENT_HAZARDS_V1.md) |
 | Профиль / загрузка | [SAVE_FORMAT_CURRENT](SAVE_FORMAT_CURRENT.md) |
-| Помощник / снимки | [M1](SUMMON_DEFINITION_M1.md) / [Снимки](BATTLE_SNAPSHOT_CURRENT.md) |
+| Призыв / снимки | [M1](SUMMON_DEFINITION_M1.md) / [Снимки](BATTLE_SNAPSHOT_CURRENT.md) |
 | Крит, спина, оглушение/путы C1 | [CRITICAL_BACKSTAB_C1](CRITICAL_BACKSTAB_C1.md) |
-| Общий бонус окружения | [SURROUND_DAMAGE](SURROUND_DAMAGE.md) |
-| Наложение пут опутывающим ударом K8 | [ENTANGLE_ATTACK_K8](ENTANGLE_ATTACK_K8.md) |
+| Окружение | [SURROUND_DAMAGE](SURROUND_DAMAGE.md) |
+| Опутывающий удар K8 | [ENTANGLE_ATTACK_K8](ENTANGLE_ATTACK_K8.md) |
 | Прогноз / стойка | [ATTACK_FORECAST](ATTACK_FORECAST.md) / [ACTION_PANEL_GUARD](ACTION_PANEL_GUARD.md) |
 | Флакон / призыв предметом | [HEALING_ITEM](HEALING_ITEM.md) / [SUMMON_ITEM](SUMMON_ITEM.md) |
 | Предметы M3 | [ITEM_USE_M3](ITEM_USE_M3.md) |
