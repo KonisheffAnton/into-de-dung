@@ -54,6 +54,7 @@ func _run() -> void:
 	await process_frame; await process_frame
 	check(host.battle_view != null and host.run.expedition.phase == "battle", "saved checkpoint opens battle")
 	if host.battle_view == null: _finish(); return
+	await _level_restart(path)
 	var demo := host.battle_view
 	var session := host._battle_bundle.session as BattleCoreReactionsSession
 	check(demo.size.x <= viewport.size.x and demo.size.y <= viewport.size.y and demo._instructions.get_global_rect().end.y <= float(viewport.size.y), "deck UI fits 1280x850")
@@ -174,6 +175,79 @@ func _open(path: String) -> void:
 	host.save_path = path; host.expedition_mode = true; host.mage_deck_mode = true
 	viewport.add_child(host)
 	await process_frame; await process_frame
+
+func _restart_values(session: BattleCoreReactionsSession) -> Dictionary:
+	var units: Array[Dictionary] = []
+	for unit: UnitState in session.units:
+		units.append({"name": unit.debug_name, "cell": unit.cell, "hp": unit.vitals.get_hp(),
+			"armor": ArmorRuntime.totals(ArmorRuntime.capture(session.state.get_owner(unit.id))),
+			"main": unit.action_resources.get_main_left(), "bonus": unit.action_resources.get_bonus_left(),
+			"guard": unit.guard_stance, "balance": unit.vitals.get_balance()})
+	return {"units": units, "deck": session.state.deck.to_dict(), "rng": session.context.get_rng().to_dict(),
+		"mana": session.state.abilities.mana, "environment": session.state.environment.to_dict()}
+
+func _level_restart(path: String) -> void:
+	# Проверяем настоящий checkpoint, не новый поход и не reset демонстрационного fixture.
+	var demo := host.battle_view
+	var session: BattleCoreReactionsSession = host._battle_bundle.session
+	var checkpoint := host.run.to_dict()
+	var disk := FileAccess.get_file_as_bytes(path)
+	var beginning := _restart_values(session)
+	var initial_journal := demo._journal.duplicate()
+	check(demo._restart_button.is_visible_in_tree() and not demo._restart_button.disabled, "restart visible during deployment")
+	check(viewport.get_visible_rect().encloses(demo._restart_button.get_global_rect()), "restart button fits viewport")
+	await _capture("deck-level-restart")
+	host.set_process(false); demo.set_process(false)
+	demo.end_turn()
+	demo._mulligan_ids = [session.state.deck.hand_ids[0]]
+	demo._confirm_selected_mulligan()
+	check(session.phase == BattleTacticalSession.Phase.ENEMY_TURN and demo.can_restart_checkpoint(), "restart allowed between enemy actions")
+	session._enemy_index = session._enemy_ids.size(); session.step_enemy()
+	session.selected_id = session.living_ids(Faction.Type.PLAYER)[0]
+	var actor := session.selected_unit()
+	actor.vitals.set_hp(actor.vitals.get_hp() - 3.0)
+	for item: ItemInstance in session.state.get_owner(actor.id)._items.values():
+		if item.armor_remaining > 0: item.armor_remaining -= 1
+	session.context.get_rng().next_int(&"combat", 11)
+	demo._refresh()
+	demo._use_guard()
+	check(demo._execution_worker.is_started() and demo.session == null, "restart fixture dispatches real worker")
+	demo._sync_restart_button()
+	check(demo._restart_button.disabled and not demo.can_restart_checkpoint(), "restart disabled before reading detached runtime")
+	demo.reset_demo(); host._restart_checkpoint()
+	check(host.battle_view == demo, "view and owner reject restart while worker owns session")
+	var deadline := Time.get_ticks_msec() + 5000
+	while demo._execution_worker.is_started() and Time.get_ticks_msec() < deadline:
+		demo._poll_execution()
+		if demo._execution_worker.is_started(): await process_frame
+	check(not demo._execution_worker.is_started() and demo.is_presentation_pending(), "guard result enters presentation")
+	demo.reset_demo(); host._restart_checkpoint()
+	check(host.battle_view == demo and not demo.can_restart_checkpoint(), "restart also blocked while presentation pending")
+	demo.skip_presentation()
+	check(not demo.is_execution_pending() and _restart_values(session) != beginning, "battle progress differs before restart")
+	for phase: int in [BattleTacticalSession.Phase.VICTORY, BattleTacticalSession.Phase.DEFEAT, BattleTacticalSession.Phase.MUTUAL_DESTRUCTION]:
+		session.phase = phase as BattleTacticalSession.Phase
+		demo.reset_demo(); host._restart_checkpoint()
+		check(host.battle_view == demo and not demo.can_restart_checkpoint(), "terminal outcome cannot be discarded by restart")
+	session.phase = BattleTacticalSession.Phase.PLAYER_TURN
+	host._pending_save = HeroHubState.from_dict(checkpoint)
+	demo.reset_demo()
+	check(host.battle_view == demo, "pending save blocks restart")
+	host._pending_save = null
+	host._storage_error = "test storage error"
+	demo.reset_demo()
+	check(host.battle_view == demo, "storage error blocks restart")
+	host._storage_error = ""
+	demo._refresh()
+	await _press("Reset")
+	var fresh: BattleCoreReactionsSession = host._battle_bundle.session
+	check(fresh != session and fresh.is_deploying() and not fresh.mage_deployment_confirmed, "real restart click returns to fresh deployment")
+	check(_restart_values(fresh) == beginning, "restart restores HP armor actions deck draw RNG and environment")
+	check(host.run.to_dict() == checkpoint and FileAccess.get_file_as_bytes(path) == disk, "restart does not write save advance serial or award rewards")
+	check(host.battle_view._card_selected_id == 0 and host.battle_view._mulligan_ids.is_empty() and host.battle_view._journal == initial_journal, "restart clears obsolete UI selections and journal")
+	await _press("Reset")
+	check(_restart_values(host._battle_bundle.session) == beginning and FileAccess.get_file_as_bytes(path) == disk, "repeated restart retains exact opening state")
+	host.set_process(true)
 
 func _outcome_for(profile: HeroHubState) -> Dictionary:
 	var hp: Dictionary = {}; var gear: Dictionary = {}

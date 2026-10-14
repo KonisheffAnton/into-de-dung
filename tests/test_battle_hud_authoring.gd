@@ -194,7 +194,8 @@ func _exercise(deck_mode: bool) -> void:
 	check(forecast.get_theme_stylebox("panel") == forecast_style and forecast_style.content_margin_left == 17, "forecast style override survives")
 	check(demo._instructions.get_global_rect().end.y <= viewport.size.y, "authored override fixture fits viewport")
 	if deck_mode:
-		check(not reset_button.visible, "hub hides scenario controls by identity after author edits caption")
+		check(reset_button.visible and reset_button.text == "Рестарт уровня", "hub binds checkpoint restart to authored reset control")
+		check(not (column.get_node("Title/Expedition") as Button).visible and not demo._mode_button.visible, "hub keeps scenario switches hidden")
 		check((demo as HeroHubBattleView)._return_button.pressed.get_connections().size() == 1, "hub return has one handler")
 		check(demo._mage_label == column.get_node("DeckSummary"), "deck selects authored deck summary")
 	else:

@@ -70,6 +70,10 @@ func _run() -> void:
 	await press("retry_save")
 	check(hub.run.to_dict() == pending and hub.battle_view != null,"retry writes exact candidate then starts battle")
 	check(HeroHubStore.read_run(path).run.to_dict() == pending,"disk checkpoint matches")
+	var old_session: BattleCoreReactionsSession = hub._battle_bundle.session
+	await press("Reset")
+	check(hub._battle_bundle.session != old_session and (hub._battle_bundle.session as BattleCoreReactionsSession).is_deploying(), "legacy U14 restart opens current room deployment")
+	check(hub.run.to_dict() == pending and HeroHubStore.read_run(path).run.to_dict() == pending, "legacy U14 restart preserves node serial and damaged equipment checkpoint")
 	await capture("u14-03-deployment")
 	# Только fixture для проверки UI исхода; полный поход без DeathCommand покрыт playthrough runner.
 	await terminal_fixture()

@@ -152,11 +152,11 @@ func _on_battle_return() -> void:
 		_process(0.0)
 
 func _restart_checkpoint() -> void:
-	if battle_view == null or battle_view.is_execution_pending() or _pending_save != null:
+	if _pending_save != null or not _storage_error.is_empty() or run == null or battle_view == null:
 		return
-	if battle_view._battle.phase != BattleTacticalSession.Phase.FAULTED:
-		return
-	# Только явное действие игрока повторяет начало; prefix ошибочного боя не даёт наград.
+	var current_battle := run.phase == "battle" or (run.phase == "expedition" and run.expedition != null and run.expedition.phase == "battle")
+	if not current_battle or not battle_view.can_restart_checkpoint(): return
+	# Run остаётся неизменной контрольной точкой начала этой комнаты; runtime создастся заново из неё.
 	_clear_battle()
 	_render()
 

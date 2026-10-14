@@ -7,6 +7,7 @@ signal restart_requested
 var supplied_session: BattleCoreReactionsSession
 var expedition_battle: bool = false
 var _return_button: Button
+var _restart_button: Button
 
 func _allows_execution_worker() -> bool:
 	# Экран хаба также прекращает чтение сессии до возвращения владения из worker.
@@ -26,18 +27,32 @@ func _create_session() -> void:
 	_ai_delay = 0.0
 	_flow_cursor = 0
 
+func can_restart_checkpoint() -> bool:
+	# Worker и показ держат владение runtime, поэтому фазу читаем только после их завершения.
+	if is_execution_pending() or _battle == null or session == null: return false
+	return _battle.phase in [BattleTacticalSession.Phase.DEPLOYMENT, BattleTacticalSession.Phase.PLAYER_TURN, BattleTacticalSession.Phase.ENEMY_TURN, BattleTacticalSession.Phase.FAULTED]
+
+func _process(delta: float) -> void:
+	super._process(delta)
+	_sync_restart_button()
+
 func _build_ui() -> void:
 	super._build_ui()
 	board_view.environment_mode = true
-	# Сценарные переходы и сброс обходили бы сохранённую контрольную точку отряда.
+	# Сценарный переход обходит сохранённую контрольную точку отряда.
 	_mode_button.hide()
-	for node_path: String in ["Title/Expedition", "Title/Reset", "Content/Left/Toolbar/Combination"]:
+	for node_path: String in ["Title/Expedition", "Content/Left/Toolbar/Combination"]:
 		(get_node("BattleHUD/Margin/Column/" + node_path) as Control).hide()
+	_restart_button = get_node("BattleHUD/Margin/Column/Title/Reset") as Button
+	_restart_button.text = "Рестарт уровня"
+	_restart_button.tooltip_text = "Вернуться к расстановке текущего боя из сохранённой контрольной точки."
+	_restart_button.show()
 	_return_button = _heading.get_parent().get_node("ReturnToHeroHubButton") as Button
 	_return_button.show()
 	if not _return_button.pressed.is_connected(_request_return): _return_button.pressed.connect(_request_return)
 
 func _refresh() -> void:
+	_sync_restart_button()
 	if is_execution_pending(): return
 	super._refresh()
 	if _heading == null or session == null:
@@ -69,8 +84,11 @@ func _refresh() -> void:
 		_instructions.text = "Используйте действия и прогнозы боевого интерфейса. После терминального исхода результат сохранится в профиле."
 
 func reset_demo() -> void:
-	# Сброс создал бы новый бой вне сохранённого run_serial.
-	return
+	if can_restart_checkpoint(): restart_requested.emit()
+
+func _sync_restart_button() -> void:
+	if _restart_button != null:
+		_restart_button.disabled = not can_restart_checkpoint()
 
 func toggle_scenario() -> void:
 	return

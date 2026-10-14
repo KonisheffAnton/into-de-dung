@@ -79,9 +79,12 @@ func _run() -> void:
 		var session: BattleCoreReactionsSession = demo._battle_bundle.session
 		check(session.is_deploying(), "deployment precedes enemy team")
 		await capture("h1-03-deployment")
-		var original_board := session.board
+		var original_session := session
+		var start_profile := demo.run.to_dict()
 		demo.battle_view.reset_demo()
-		check(session.board == original_board, "R cannot reset checkpoint")
+		session = demo._battle_bundle.session
+		check(session != original_session and session.is_deploying(), "R recreates H1 battle from checkpoint")
+		check(demo.run.to_dict() == start_profile and HeroHubStore.read_run(path).run.to_dict() == start_profile, "H1 restart preserves profile and saved serial")
 		demo.battle_view.end_turn()
 		var ticks: int = 0
 		while demo.battle_view != null and (demo.battle_view.is_execution_pending() or session.phase == BattleTacticalSession.Phase.ENEMY_TURN) and ticks < 180:

@@ -1,28 +1,26 @@
-# Передача — 2026-10-14: общий бонус окружения
-D:\Games\into-de-dung; main; base6f76c82ba5878f4f927e57b2705ce976e86be6bf.
-U: +10% всего прямого урона за каждого другого союзника у цели; себя не считать.
-Двое/трое/четверо участников получают ×1.10/1.20/1.30; обе команды, без перка.
-Контракт/границы: [SURROUND_DAMAGE](SURROUND_DAMAGE.md).
-Участники — текущая ближняя угроза; attacker обязан участвовать, ID отсортированы.
-Множитель до D0 действует на физический/огненный удар, реакции и initial Поджечь.
-Скрытая атака вора +50% физической базы сохранена отдельно; тики не усиливаются.
-Прогноз/журнал объясняют общий бонус; snapshot/save/оплата/очередь прежние.
-Godot import/startup PASS; окружение423/0, расчёт20/0, смежные suites PASS.
-Full:169 PASS/2 FAIL (тестовые fixtures), core9424/0 без новых diagnostics.
-FAIL исправлены и закрыты адресно: окружение423/0, push_chain518/0.
-После добавления Поджечь/UI затронутые status/worker/UI проверки повторены.
-Единый full финального кода не повторялся. Python22/22; review APPROVE.
-Render: reactions_ui54/0, status_ui35/0, formatters PASS; PNG просмотрен.
-Отчёт/запуски/SHA/validation: test_reports/surround-damage-20261014/REPORT.md.
-Ручные F5/editor/DPI/GPU-матрица и пользовательская приёмка механики открыты.
-Лучница: выбранная idle подключена; U «пока ок, но потом поправим цвет».
-Runtime: assets/art_presets/trials/archer_idle_v1/README.md; арт сейчас не менялся.
-Источники: docs/art/archer-perspective-20261014/README.md; A–F/B сохранены.
-Rogue: отзыв на гаммы/темп/fade/зернистость/B1/швы открыт; Защитник принят.
+# Передача — 2026-10-14: рестарт текущего уровня
+D:\Games\into-de-dung; main; base23d526fae4279cfe97d815ef32f82a8f18bef97f.
+U: «Отбой сейчас ок» по жалобе 9/8; затем кнопка рестарта без перезапуска игры.
+HeroHubBattleView: «Рестарт уровня» в верхней строке и R повторяют текущий бой
+с расстановки из того же run. Состав/вещи/seed/стартовая рука прежние;
+прогресс попытки сбрасывается, профиль/файл/serial/награды не меняются.
+Worker/показ, terminal и ошибка/pending save блокируют запрос.
+Владение/границы: [боевой HUD](BATTLE_HUD_SCENES_V1.md#рестарт-текущего-уровня).
+Godot import/startup/render PASS: H1 UI36/0, U14 UI56/0, deck UI128/0,
+HUD302/0, execution UI28/0. PNG кнопки просмотрен; независимое ревью APPROVE.
+Отчёт/запуск/validation: test_reports/level-restart-20261014/REPORT.md.
+Full/core и ручные F5/editor/DPI/GPU-матрица не запускались; плейтест кнопки открыт.
+Окружение: [SURROUND_DAMAGE](SURROUND_DAMAGE.md); жалоба снята без правок механики.
+Прежние проверки/расследование: test_reports/surround-damage-20261014/REPORT.md
+и damage-comparison-investigation.md там же. Причина частного 9/8 не установлена.
+Лучница idle подключена; U «пока ок, но потом поправим цвет».
+Runtime: assets/art_presets/trials/archer_idle_v1/README.md;
+источники: docs/art/archer-perspective-20261014/README.md; A–F/B сохранены.
+Rogue: гаммы/темп/fade/зернистость/B1/швы открыты; Защитник принят,
 Ветеран не подключён. Новые генерации/цвета/клипы только по поручению U.
 Анимации только PixelLab, пробы сохранять; позы/alpha вручную не менять,
 исключение — RGB Rogue B1. DPAPI вне Git/логов, только api.pixellab.ai.
-scenes/demo/main_menu.tscn — единственный пользовательский dirty: не трогать/reset/stage/commit.
+scenes/demo/main_menu.tscn — пользовательский dirty: не трогать/reset/stage/commit.
 Сохранять core/preview/live/worker/queue/RNG/save/frozen; без push/sidebar/расписаний,
 P-удара/теней/света/дальнейшего баланса. Ждать U, следующий этап не начинать.
 После этапа Conventional Commit, короткий HANDOFF; прежний побайтно отдельным
