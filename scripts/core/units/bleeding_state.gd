@@ -16,17 +16,25 @@ var source: Dictionary = {}
 var hit_id: String = ""
 var stacked: bool = false
 var stacks: int = 0
+var authored: bool = false
+var contributions: Array[Dictionary] = []
 
 signal changed()
 
 func to_dict() -> Dictionary:
-	return {"schema_version": 4, "immune": immune, "ticks_left": ticks_left,
+	var result := {"schema_version": 4, "immune": immune, "ticks_left": ticks_left,
 		"source": _copy_source(source), "hit_id": hit_id, "stacked": stacked, "stacks": stacks}
+	if authored: result["contributions"] = contributions.duplicate(true)
+	return result
 
 static func valid(data: Variant) -> bool:
-	if not ItemSimulationSnapshot._shape(data, {"schema_version": TYPE_INT, "immune": TYPE_BOOL,
+	var shape := {"schema_version": TYPE_INT, "immune": TYPE_BOOL,
 		"ticks_left": TYPE_INT, "source": TYPE_DICTIONARY, "hit_id": TYPE_STRING,
-		"stacked": TYPE_BOOL, "stacks": TYPE_INT}): return false
+		"stacked": TYPE_BOOL, "stacks": TYPE_INT}
+	if typeof(data) == TYPE_DICTIONARY and data.has("contributions"):
+		shape["contributions"] = TYPE_ARRAY
+	if not ItemSimulationSnapshot._shape(data, shape): return false
+	if data.has("contributions") and (not data.stacked or not StatusContributions.valid(data.contributions, data.stacks)): return false
 	if data.schema_version != 4 or data.ticks_left < 0 or data.stacks < 0: return false
 	if data.hit_id.to_utf8_buffer().size() > 128: return false
 	if data.stacked:
@@ -47,6 +55,8 @@ static func from_dict(data: Dictionary) -> BleedingState:
 	result.hit_id = data.hit_id
 	result.stacked = data.stacked
 	result.stacks = data.stacks
+	result.authored = data.has("contributions")
+	if result.authored: result.contributions.assign(data.contributions.duplicate(true))
 	return result
 
 static func _valid_source(value: Dictionary) -> bool:

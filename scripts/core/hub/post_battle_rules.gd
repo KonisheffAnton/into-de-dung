@@ -49,11 +49,13 @@ static func repair_quote(hub: HeroHubState, hero_id: int) -> Dictionary:
 	var armor := hub.equipped(hero_id,"armor")
 	if armor.is_empty(): return {}
 	var definition := HeroGearCatalog.definition(armor.definition)
-	var amount := mini(REPAIR_AMOUNT, definition.armor_max - int(armor.remaining))
+	if not CombatAmount.valid(armor.remaining): return {}
+	var amount := minf(float(REPAIR_AMOUNT), float(definition.armor_max) - float(armor.remaining))
 	if amount <= 0: return {}
+	var cost := ceili(amount * GOLD_PER_ARMOR)
 	var gold := hub.expedition.gold if hub.phase == "expedition" else hub.gold
-	return {"hero_id":hero_id,"item_id":int(armor.id),"name":definition.display_name,"before":int(armor.remaining),"after":int(armor.remaining) + amount,
-		"amount":amount,"cost":amount * GOLD_PER_ARMOR,"affordable":gold >= amount * GOLD_PER_ARMOR}
+	return {"hero_id":hero_id,"item_id":int(armor.id),"name":definition.display_name,"before":float(armor.remaining),"after":float(armor.remaining) + amount,
+		"amount":amount,"cost":cost,"affordable":gold >= cost}
 
 static func repair(hub: HeroHubState, hero_id: int) -> bool:
 	var quote := repair_quote(hub,hero_id)
@@ -61,8 +63,8 @@ static func repair(hub: HeroHubState, hero_id: int) -> bool:
 	if hub.phase == "expedition":
 		hub.expedition.gold -= int(quote.cost); hub.expedition.repair_spent += int(quote.cost)
 	else: hub.gold -= int(quote.cost)
-	hub.items[quote.item_id].remaining = int(quote.after)
-	hub.battle_report.repairs.append({"hero_id":hero_id,"item_id":int(quote.item_id),"name":String(quote.name),"amount":int(quote.amount),"cost":int(quote.cost)})
+	hub.items[quote.item_id].remaining = float(quote.after)
+	hub.battle_report.repairs.append({"hero_id":hero_id,"item_id":int(quote.item_id),"name":String(quote.name),"amount":float(quote.amount),"cost":int(quote.cost)})
 	return true
 
 static func valid_report(data: Dictionary, hub: HeroHubState) -> bool:
@@ -87,10 +89,10 @@ static func _valid_legacy_report(data: Dictionary, hub: HeroHubState, early: boo
 			if typeof(value) != TYPE_STRING or value.length() > 128: return false
 	var ids: Dictionary = {}; var participants: int = 0; var living: int = 0
 	for row: Variant in data.heroes:
-		if not ItemSimulationSnapshot._shape(row,{"id":TYPE_INT,"name":TYPE_STRING,"participated":TYPE_BOOL,"alive":TYPE_BOOL,"xp_before":TYPE_INT,"xp_after":TYPE_INT,"level_before":TYPE_INT,"level_after":TYPE_INT,"hp_after_battle":TYPE_FLOAT,"hp_restored":TYPE_FLOAT,"hp_after_recovery":TYPE_FLOAT,"hp_max":TYPE_INT}): return false
+		if not CombatAmount.shape(row,{"id":TYPE_INT,"name":TYPE_STRING,"participated":TYPE_BOOL,"alive":TYPE_BOOL,"xp_before":TYPE_INT,"xp_after":TYPE_INT,"level_before":TYPE_INT,"level_after":TYPE_INT,"hp_after_battle":TYPE_FLOAT,"hp_restored":TYPE_FLOAT,"hp_after_recovery":TYPE_FLOAT},["hp_max"]): return false
 		if row.id < 1 or row.id >= hub.next_id or ids.has(row.id) or row.name.length() > 128 or row.hp_max < 1 or row.hp_max > ExpeditionRunState.MAX_VALUE: return false
 		ids[row.id] = true
-		if row.xp_before < 0 or row.xp_after < row.xp_before or row.xp_after > HeroProgression.MAX_XP_TENTHS or row.level_before < 1 or row.level_after < row.level_before or row.level_after > 10: return false
+		if row.xp_before < 0 or row.xp_after < row.xp_before or row.xp_after > HeroProgression.MAX_XP_TENTHS or row.level_before != _level_for_xp(row.xp_before) or row.level_after != _level_for_xp(row.xp_after): return false
 		for key: String in ["hp_after_battle","hp_restored","hp_after_recovery"]:
 			if not is_finite(row[key]) or row[key] < 0.0 or row[key] > row.hp_max: return false
 		if not is_equal_approx(row.hp_after_battle + row.hp_restored,row.hp_after_recovery): return false
@@ -108,11 +110,19 @@ static func _valid_legacy_report(data: Dictionary, hub: HeroHubState, early: boo
 			if definition.id == id: gained += definition.points
 	if gained != data.points_awarded: return false
 	for row: Variant in data.repairs:
-		if not ItemSimulationSnapshot._shape(row,{"hero_id":TYPE_INT,"item_id":TYPE_INT,"name":TYPE_STRING,"amount":TYPE_INT,"cost":TYPE_INT}): return false
-		if not ids.has(row.hero_id) or row.item_id < 1 or row.item_id >= hub.next_item_id or row.name.length() > 128 or row.amount < 1 or row.amount > REPAIR_AMOUNT or row.cost != row.amount * GOLD_PER_ARMOR: return false
+		if not CombatAmount.shape(row,{"hero_id":TYPE_INT,"item_id":TYPE_INT,"name":TYPE_STRING,"cost":TYPE_INT},["amount"]): return false
+		if not ids.has(row.hero_id) or row.item_id < 1 or row.item_id >= hub.next_item_id or row.name.length() > 128 or row.amount <= 0.0 or row.amount > REPAIR_AMOUNT or row.cost != ceili(row.amount * GOLD_PER_ARMOR): return false
 	if data.open:
 		if data.run_id != hub.run_serial or hub.phase == "battle": return false
 		if hub.phase == "expedition":
 			if data.source != "expedition" or data.gold_scope != "run" or data.serial != hub.expedition.battle_serial or data.node_id != hub.expedition.current_node().id or hub.expedition.phase not in ["reward","route"]: return false
 		elif data.gold_scope != "hub" or (data.source == "expedition" and data.victory and not data.completed and not early): return false
 	return true
+
+static func _level_for_xp(xp_tenths: int) -> int:
+	var remaining := xp_tenths
+	var level := 1
+	while remaining >= level * 1000:
+		remaining -= level * 1000
+		level += 1
+	return level

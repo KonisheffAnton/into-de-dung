@@ -1,7 +1,7 @@
 extends RefCounted
 class_name DamageSource
 
-const KINDS: Array[StringName] = [&"attack", &"collision", &"fall", &"cell", &"status", &"item", &"test", &"mage"]
+const KINDS: Array[StringName] = [&"attack", &"collision", &"fall", &"cell", &"status", &"item", &"test", &"mage", &"status_snapshot"]
 var kind: StringName
 var source_instance_id: int
 var origin_cell: Vector2i
@@ -21,6 +21,8 @@ func validate(context: ActionContext) -> StringName:
 	if kind == &"mage" and not valid_mage(to_dict()): return &"source/mage"
 	if kind == &"mage" and source_instance_id >= 13 and context.get_state().deck == null: return &"source/deck_required"
 	if kind != &"mage" and origin_cell == Vector2i(-1, -1): return &"source/origin"
+	# Автор уже проверен при наложении; его уход не отменяет зафиксированный вклад.
+	if kind == &"status_snapshot": return &"" if source_instance_id == 0 and instigator_unit_id == credit_unit_id else &"source/status_snapshot"
 	var board := context.get_state().get_board()
 	if instigator_unit_id != 0 and board.get_unit_by_id(instigator_unit_id) == null: return &"source/instigator_unit_id"
 	if credit_unit_id != 0 and board.get_unit_by_id(credit_unit_id) == null: return &"source/credit_unit_id"

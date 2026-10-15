@@ -13,7 +13,7 @@ static func class_definition(id: StringName) -> HeroClassDefinition:
 	match id:
 		&"warrior":
 			definition.display_name = "Воин"
-			definition.base_attributes = [3, 2, 3, 1]
+			definition.base_attributes = [10, 10, 10, 10, 10]
 			definition.attack_range = 1
 			definition.weapon_damage = 4
 			definition.armor_max = 40
@@ -21,7 +21,7 @@ static func class_definition(id: StringName) -> HeroClassDefinition:
 			definition.equipment_text = "Броня воина и оружие ближнего боя."
 		&"shieldbearer":
 			definition.display_name = "Щитоносец"
-			definition.base_attributes = [3, 2, 3, 1]
+			definition.base_attributes = [10, 10, 10, 10, 10]
 			definition.attack_range = 1
 			definition.weapon_damage = 4
 			definition.armor_max = 40
@@ -29,7 +29,7 @@ static func class_definition(id: StringName) -> HeroClassDefinition:
 			definition.equipment_text = "Броня Щитоносца и оружие ближнего боя."
 		&"archer":
 			definition.display_name = "Стрелок"
-			definition.base_attributes = [3, 3, 2, 1]
+			definition.base_attributes = [10, 10, 10, 10, 10]
 			definition.attack_range = 4
 			definition.weapon_damage = 4
 			definition.armor_max = 20
@@ -37,7 +37,7 @@ static func class_definition(id: StringName) -> HeroClassDefinition:
 			definition.equipment_text = "Лёгкая броня и дальнобойное оружие."
 		&"rogue":
 			definition.display_name = "Разбойник"
-			definition.base_attributes = [3, 3, 2, 1]
+			definition.base_attributes = [10, 10, 10, 10, 10]
 			definition.attack_range = 1
 			definition.weapon_damage = 3
 			definition.armor_max = 25
@@ -45,7 +45,7 @@ static func class_definition(id: StringName) -> HeroClassDefinition:
 			definition.equipment_text = "Лёгкая броня и оружие для быстрых атак."
 		&"mage":
 			definition.display_name = "Маг"
-			definition.base_attributes = [3, 2, 2, 2]
+			definition.base_attributes = [10, 10, 10, 10, 10]
 			definition.attack_range = 3
 			definition.weapon_damage = 4
 			definition.armor_max = 15
@@ -74,12 +74,11 @@ static func make_hero(id: int, class_id: StringName, rng: RandomNumberGenerator)
 	hero.id = id
 	hero.class_id = class_id
 	hero.name = "%s %d" % [definition.display_name, id]
-	hero.base_attributes = definition.base_attributes.duplicate()
-	hero.allocated = [0, 0, 0, 0]
+	hero.base_attributes = [3, 3, 3, 3, 3]
+	hero.allocated = [0, 0, 0, 0, 0]
 	hero.perk = perk_ids()[rng.randi_range(0, 3)]
-	# Число стартовых очков и их раскладка задаются одним внедрённым RNG для повторяемости профиля.
-	var bonus_points := rng.randi_range(0, 2)
-	for index: int in bonus_points:
-		hero.base_attributes[rng.randi_range(0, 3)] += 1
+	# Равновероятные прибавки сохраняют выбранное суммарное значение найма 50.
+	for index: int in 35:
+		hero.base_attributes[rng.randi_range(0, 4)] += 1
 	hero.hp_current = float(hero.max_hp())
 	return hero

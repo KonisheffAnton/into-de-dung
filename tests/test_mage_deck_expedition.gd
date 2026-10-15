@@ -34,7 +34,7 @@ func run() -> void:
 	var hub := HeroHubState.create(443)
 	var old := hub.to_dict()
 	hub.enable_mage_deck()
-	check(hub.to_dict().schema == 6 and HeroHubState.from_dict(hub.to_dict()) != null,"profile6")
+	check(hub.to_dict().schema == 7 and HeroHubState.from_dict(hub.to_dict()) != null,"profile7")
 	check(hub.rng_state == old.rng_state and hub.expedition_rng_state == old.expedition_rng_state,"upgrade preserves streams")
 	check(hub.mage_deck.base_types.count("card.wet") == 2 and not hub.mage_deck.base_types.has("card.burning"),"D13 exact default")
 	hub = step(hub,"start")

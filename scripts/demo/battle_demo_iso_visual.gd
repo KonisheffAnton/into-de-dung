@@ -451,7 +451,7 @@ func _draw_unit() -> void:
 			outline.append(center + Vector2(cos(angle) * 26, sin(angle) * 39) * body_factor)
 		draw_colored_polygon(outline, Color(0.3, 0.75, 1.0, 0.10))
 		draw_polyline(outline, Color("71cefa"), 1.7 * factor, true)
-		draw_string(ThemeDB.fallback_font, center + Vector2(-25, -43) * factor, "Щ %d · %d" % [int(shield_view.hp), int(shield_view.hits_left)], HORIZONTAL_ALIGNMENT_CENTER, 50 * factor, int(11 * factor), Color("aee7ff"))
+		draw_string(ThemeDB.fallback_font, center + Vector2(-25, -43) * factor, "Щ %s · %d" % [BattleEventText.amount_text(shield_view.hp), int(shield_view.hits_left)], HORIZONTAL_ALIGNMENT_CENTER, 50 * factor, int(11 * factor), Color("aee7ff"))
 	if summon_pending:
 		draw_string(ThemeDB.fallback_font, foot + Vector2(-29, 30) * factor, "ЖДЁТ ХОДА", HORIZONTAL_ALIGNMENT_CENTER, 58 * factor, int(9 * factor), Color("b6d5ec"))
 	if stunned and not _scene_art_enabled:

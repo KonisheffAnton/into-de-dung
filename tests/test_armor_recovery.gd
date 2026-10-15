@@ -78,6 +78,25 @@ func _run() -> void:
 	repair = ArmorRecovery.repair(view, selection, 20, 2)
 	check(repair["cost"] == 2, "repair limited by squad materials")
 	check(ArmorRecovery.repair(view, selection, 0, 100)["cost"] == 0, "zero repair no payment")
+	var fractional_view := ArmorRuntime.capture(s.state.get_owner(unit.id))
+	fractional_view["state"]["fractional"] = true
+	fractional_view["state"]["in_battle"] = true
+	var fractional_item_id: int = items[0].get_item_instance_id()
+	for fractional_item: Dictionary in fractional_view["items"]:
+		if fractional_item["item_id"] == fractional_item_id:
+			fractional_item["remaining"] = float(fractional_item["maximum"]) - 0.25
+	var fractional_before := fractional_view.duplicate(true)
+	var fractional_restore := ArmorRecovery.restore(fractional_view, 1, "fractional-test")
+	check(fractional_restore["reason"] == &"" and is_equal_approx(fractional_restore["restored"], 0.25) and is_equal_approx(fractional_restore["extra"], 0.75), "fractional recovery preserves quarter point and grants exact excess")
+	check(is_equal_approx(fractional_restore["items"][0]["after"], float(items[0].get_definition().armor_max)) and is_equal_approx(fractional_restore["grant"]["remaining"], 0.75), "fractional recovery updates item and grant amounts")
+	check(fractional_view == fractional_before, "fractional restore leaves its input view unchanged")
+	var fractional_repair := ArmorRecovery.repair(fractional_view, [fractional_item_id], 1, 1)
+	check(fractional_repair["reason"] == &"" and is_equal_approx(fractional_repair["cost"], 0.25) and is_equal_approx(fractional_repair["items"][0]["after"], float(items[0].get_definition().armor_max)), "fractional partial repair charges actual repaired amount")
+	for invalid_item: Dictionary in fractional_view["items"]:
+		if invalid_item["item_id"] == fractional_item_id: invalid_item["remaining"] = NAN
+	var invalid_before := var_to_bytes(fractional_view)
+	var invalid_restore := ArmorRecovery.restore(fractional_view, 1, "fractional-invalid")
+	check(invalid_restore["reason"] == &"armor/overflow" and var_to_bytes(fractional_view) == invalid_before, "non-finite fractional armor refuses without mutation")
 	s.close()
 
 	s = BattleArmorSession.new()

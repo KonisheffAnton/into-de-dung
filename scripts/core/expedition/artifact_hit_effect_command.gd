@@ -47,7 +47,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	if not ElementalRules.valid_unit(target): return CommandStepResult.faulted(&"artifact/invalid_target")
 	if _effect == "ice" and target.elemental.wet_turns == 0 and target.elemental.frozen_turns == 0: return CommandStepResult.skipped(&"artifact/dry_target")
 	var effect: StringName = &"burning" if _effect == "ember" else &"freeze"
-	var transition := ElementalRules.transition(target.elemental.to_dict(), effect, 1, _source.to_dict(), _eligible)
+	var transition := ElementalRules.transition(target.elemental.to_dict(), effect, 1, _source.to_dict(), _eligible, StatusContributions.intelligence(actor))
 	if transition.reason != &"": return CommandStepResult.faulted(transition.reason)
 	var guard := SpatialRules.capture_guard(context, [target], [target.cell], {})
 	if guard == null: return CommandStepResult.faulted(&"artifact/invalid_state")

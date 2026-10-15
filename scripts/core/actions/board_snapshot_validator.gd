@@ -22,9 +22,9 @@ static func audit(board: BattleBoard, unsupported_runtime_ids: Array[StringName]
 
 ## Внешний DTO и runtime используют одну проверку ссылок после проверки формы.
 static func status_source_reason(id: int, bleeding: Dictionary, elemental: Dictionary, ids: Dictionary) -> String:
-	if bleeding["ticks_left"] > 0 and bleeding["source"]["kind"] == &"attack":
+	if bleeding["ticks_left"] > 0 and bleeding["source"]["kind"] == &"attack" and not bleeding.has("contributions"):
 		if not ids.has(bleeding["source"]["instigator_unit_id"]) or not ids.has(bleeding["source"]["credit_unit_id"]): return "unit/%d/bleeding/source" % id
-	if elemental["burning_stacks"] > 0 and elemental["burning_source"]["kind"] == &"attack":
+	if elemental["burning_stacks"] > 0 and elemental["burning_source"]["kind"] == &"attack" and not elemental.has("burning_contributions"):
 		if not ids.has(elemental["burning_source"]["instigator_unit_id"]) or not ids.has(elemental["burning_source"]["credit_unit_id"]): return "unit/%d/elemental/burning_source" % id
 	return ""
 

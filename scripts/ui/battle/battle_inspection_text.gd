@@ -28,7 +28,7 @@ static func build_live(unit: UnitState, state: ItemSimulationState, options: Opt
 	if unit.armor != null and not unit.armor.raised_shield.is_empty():
 		text += "\nПоднять щиты: " + ("активно · −90% урона первой атаки" if unit.armor.raised_shield.active else "не активно")
 	if unit.armor != null and not unit.armor.shield.is_empty():
-		text += "\nЩит: %d HP · осталось попаданий: %d. Поглощает любой урон до защит и брони." % [int(unit.armor.shield.hp), int(unit.armor.shield.hits_left)]
+		text += "\nЩит: %s HP · осталось попаданий: %d. Поглощает любой урон до защит и брони." % [BattleEventText.amount_text(unit.armor.shield.hp), int(unit.armor.shield.hits_left)]
 	text = _append_status_and_armor(text, unit, state, options)
 	var descriptions := _item_descriptions(unit, state, options)
 	if unit.guard_stance:
@@ -120,9 +120,14 @@ static func _append_status_and_armor(text: String, unit: UnitState, state: ItemS
 	if unit.elemental != null:
 		var effects: PackedStringArray = []
 		if unit.elemental.burning_stacks > 0:
-			effects.append("Горение: %d ст. · %d тиков · %d огненного урона за тик" % [
+			var burning_damage: float = float(unit.elemental.burning_stacks)
+			if unit.elemental.authored:
+				var contribution_total := StatusContributions.total(unit.elemental.burning_contributions)
+				if contribution_total.valid:
+					burning_damage = float(contribution_total.numerator) / float(contribution_total.denominator)
+			effects.append("Горение: %d ст. · %d тиков · %s огненного урона за тик" % [
 				unit.elemental.burning_stacks, unit.elemental.burning_ticks,
-				unit.elemental.burning_stacks,
+				BattleEventText.amount_text(burning_damage),
 			])
 		if unit.elemental.wet_turns > 0: effects.append("Мокрый: %d своих ходов" % unit.elemental.wet_turns)
 		if unit.elemental.frozen_turns > 0: effects.append("Заморожен: %d своих ходов · входящий удар критический" % unit.elemental.frozen_turns)
@@ -135,8 +140,10 @@ static func _append_status_and_armor(text: String, unit: UnitState, state: ItemS
 		if not armor.is_empty():
 			text = text.replace(
 				"Броня: %.1f" % unit.get_stat(StatTypes.StatType.ARMOR),
-				"Броня: %d / %d (временная: %d)" % [
-					armor["current"], armor["maximum"], armor["extra"],
+				"Броня: %s / %s (временная: %s)" % [
+					BattleEventText.amount_text(armor["current"]),
+					BattleEventText.amount_text(armor["maximum"]),
+					BattleEventText.amount_text(armor["extra"]),
 				],
 			)
 	return text

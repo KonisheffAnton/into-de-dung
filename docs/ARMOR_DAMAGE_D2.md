@@ -19,6 +19,13 @@ defenses, multiplier)` — чистый расчёт: группировка typ
 Компоненты сохраняют provenance. Первый реестр: physical/fire; политики
 standard/hp_only_natural/hp_only_unresisted. Неизвестные значения — отказ.
 
+Для production-сценариев V1 `armor.fractional` выбирает непрерывный float64
+расчёт без floor и округления; HP, максимум HP и остатки брони в DTO сохраняют
+дроби. Целочисленный solver выше остаётся для legacy capability и fixtures.
+Формы snapshot/worker и ограничения чисел описаны в
+[BATTLE_SNAPSHOT_CURRENT](BATTLE_SNAPSHOT_CURRENT.md); формулы V1 — в
+[CHARACTER_ATTRIBUTES_V1](CHARACTER_ATTRIBUTES_V1.md).
+
 `ArmorState` хранит естественные защиты, перки лимитов, записи E и следующий
 grant ID. `ItemInstance` владеет остатком a_i и неизменным ключом создания;
 `ItemDef` — A_i и броневыми сопротивлениями. Надетые вещи дают сумму максимума

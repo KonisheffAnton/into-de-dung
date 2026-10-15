@@ -97,7 +97,7 @@ static func _show_repairs(host: HeroHubScreen, report: Dictionary) -> void:
 				if hero_value is Dictionary and int((hero_value as Dictionary).get("id", 0)) == int(repair.get("hero_id", 0)):
 					hero_name = String((hero_value as Dictionary).get("name", hero_name))
 					break
-			_host_text(host, "%s · %s: восстановлено %d брони за %d золота" % [hero_name, String(repair.get("name", "Доспех")), int(repair.get("amount", 0)), int(repair.get("cost", 0))], 14)
+			_host_text(host, "%s · %s: восстановлено %s брони за %d золота" % [hero_name, String(repair.get("name", "Доспех")), String.num(float(repair.get("amount", 0)), 1), int(repair.get("cost", 0))], 14)
 	if not bool(report.get("victory", false)): return
 	for value: Variant in report.get("heroes", []):
 		if not value is Dictionary: continue
@@ -107,7 +107,7 @@ static func _show_repairs(host: HeroHubScreen, report: Dictionary) -> void:
 		var quote := PostBattleRules.repair_quote(host.run, hero_id)
 		if quote.is_empty(): continue
 		repairs_slot.visible = true
-		var button_text := "Починить %s · %s: %d→%d (+%d) · %d золота" % [String(quote.get("name", "доспех")), String(hero.get("name", "герой")), int(quote.get("before", 0)), int(quote.get("after", 0)), int(quote.get("amount", 0)), int(quote.get("cost", 0))]
+		var button_text := "Починить %s · %s: %s→%s (+%s) · %d золота" % [String(quote.get("name", "доспех")), String(hero.get("name", "герой")), BattleEventText.amount_text(quote.get("before", 0)), BattleEventText.amount_text(quote.get("after", 0)), BattleEventText.amount_text(quote.get("amount", 0)), int(quote.get("cost", 0))]
 		var button := host._button_for(host._content, button_text, "repair_%d" % hero_id, host._mutate.bind(&"repair_after_battle", [hero_id]))
 		button.disabled = not bool(quote.get("affordable", false)) or host._pending_save != null
 

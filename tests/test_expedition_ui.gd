@@ -53,9 +53,9 @@ func _run() -> void:
 	var repair_hero_id: int = hub.run.party[0]
 	var damaged_armor := battle_setup.equipped(repair_hero_id,"armor")
 	var armor_definition := HeroGearCatalog.definition(damaged_armor.definition)
-	battle_setup.items[damaged_armor.id].remaining = armor_definition.armor_max - 3
+	battle_setup.items[damaged_armor.id].remaining = float(armor_definition.armor_max) - 0.25
 	hub._commit(battle_setup)
-	var armor_fixture_valid := hub.run != null and hub.run.expedition != null and hub._pending_save == null and hub._storage_error.is_empty() and int(hub.run.items[damaged_armor.id].remaining) == armor_definition.armor_max - 3 and hub.run.expedition.gold == 0
+	var armor_fixture_valid: bool = hub.run != null and hub.run.expedition != null and hub._pending_save == null and hub._storage_error.is_empty() and hub.run.items[damaged_armor.id].remaining == float(armor_definition.armor_max) - 0.25 and hub.run.expedition.gold == 0
 	check(armor_fixture_valid,"damaged armor fixture preserves the earned expedition-gold ledger")
 	if not armor_fixture_valid:
 		quit(1); return
@@ -83,12 +83,12 @@ func _run() -> void:
 	var repair_button := hub.find_child("repair_%d" % repair_hero_id,true,false) as Button
 	check(repair_button != null and not repair_button.disabled,"damaged participating hero has an affordable repair quote")
 	var repair_hero: HeroProgression = hub.run.heroes[repair_hero_id]
-	var quote_text := "%s: %d→%d" % [repair_hero.name, armor_definition.armor_max - 3, armor_definition.armor_max]
+	var quote_text := "%s: %.1f→%d (+0.3) · 1 золота" % [repair_hero.name, float(armor_definition.armor_max) - 0.25, armor_definition.armor_max]
 	var wallet_label := hub.find_child("HubWallet",true,false) as Label
 	check(repair_button != null and repair_button.text.contains(quote_text) and wallet_label != null and wallet_label.text.contains("Золото похода: %d" % hub.run.expedition.gold),"repair preview names the hero and shows before/after alongside available run gold")
 	var gold_before_repair: int = hub.run.expedition.gold
 	await press("repair_%d" % repair_hero_id)
-	check(hub.run.expedition.gold == gold_before_repair - 6 and hub.run.battle_report.repairs.size() == 1 and int(hub.run.items[damaged_armor.id].remaining) == armor_definition.armor_max,"repair applies quoted amount and saves run gold and report receipt")
+	check(hub.run.expedition.gold == gold_before_repair - 1 and hub.run.battle_report.repairs.size() == 1 and hub.run.battle_report.repairs[0].amount == 0.25 and hub.run.items[damaged_armor.id].remaining == armor_definition.armor_max,"fractional repair applies displayed offer and saves exact amount, rounded fee and report receipt")
 	check(HeroHubStore.read_run(path).run.to_dict() == hub.run.to_dict(),"paid repair and its report row are persisted together")
 	var continue_during_reward := hub.find_child("continue_battle_report",true,false) as Button
 	check(continue_during_reward != null and continue_during_reward.disabled,"report cannot continue while artifact reward is pending")

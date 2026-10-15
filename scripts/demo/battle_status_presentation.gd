@@ -6,7 +6,7 @@ class_name BattleStatusPresentation
 static func entries(row: Dictionary) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	var shield: Dictionary = row.get("shield", {})
-	if not shield.is_empty(): _add(result, "shield", "Щит %d HP" % int(shield.hp), 0, int(shield.hits_left), "попаданий", true)
+	if not shield.is_empty(): _add(result, "shield", "Щит %s HP" % BattleEventText.amount_text(shield.hp), 0, int(shield.hits_left), "попаданий", true)
 	var control: Dictionary = row.get("control", {})
 	var elemental: Dictionary = row.get("elemental", {})
 	var bleeding: Dictionary = row.get("bleeding", {})

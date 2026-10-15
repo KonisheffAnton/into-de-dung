@@ -55,9 +55,13 @@ func _new_helper(context: ActionContext, id: int, corpse: Dictionary) -> UnitSta
 	var unit := UseSummoningItemCommand.make_helper(id, actor.faction, corpse["cell"], actor.debug_name)
 	unit.armor = ArmorState.new()
 	unit.armor.in_battle = true
+	unit.armor.fractional = actor.armor != null and actor.armor.fractional
 	unit.bleeding = BleedingState.new()
+	unit.bleeding.authored = actor.bleeding != null and actor.bleeding.authored
+	unit.bleeding.stacked = actor.bleeding != null and actor.bleeding.stacked
 	if actor.elemental != null:
 		unit.elemental = ElementalState.new()
+		unit.elemental.authored = actor.elemental.authored
 		unit.bleeding.stacked = true
 	return unit
 

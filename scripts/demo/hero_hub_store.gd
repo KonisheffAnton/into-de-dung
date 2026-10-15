@@ -19,7 +19,7 @@ static func read_run(path: String, deck_mode: bool = false) -> Dictionary:
 	var bytes := file.get_buffer(file.get_length())
 	file.close()
 	var envelope: Variant = bytes_to_var(bytes)
-	if not envelope is Dictionary or envelope.keys().size() != 3 or envelope.get("format") != "hero-hub-v6" or not envelope.get("payload") is PackedByteArray or not envelope.get("sha256") is String:
+	if not envelope is Dictionary or envelope.keys().size() != 3 or envelope.get("format") != "hero-hub-v7" or not envelope.get("payload") is PackedByteArray or not envelope.get("sha256") is String:
 		return {"run":null, "error":"Неизвестный формат сохранения. Файл сохранён без изменений."}
 	var payload: PackedByteArray = envelope.payload
 	if _digest(payload) != envelope.sha256: return {"run":null, "error":"Сохранение повреждено; контрольная сумма не совпала."}
@@ -40,7 +40,7 @@ static func write_run(path: String, run: HeroHubState) -> String:
 	var absolute := ProjectSettings.globalize_path(path)
 	if DirAccess.make_dir_recursive_absolute(absolute.get_base_dir()) != OK: return "Не удалось создать папку сохранения."
 	var payload := var_to_bytes(run.to_dict())
-	var bytes := var_to_bytes({"format":"hero-hub-v6", "payload":payload, "sha256":_digest(payload)})
+	var bytes := var_to_bytes({"format":"hero-hub-v7", "payload":payload, "sha256":_digest(payload)})
 	if bytes.size() > MAX_BYTES: return "Превышен размер сохранения."
 	var temp := absolute + ".tmp"
 	var file := FileAccess.open(temp, FileAccess.WRITE)

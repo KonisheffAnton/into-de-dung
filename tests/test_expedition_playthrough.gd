@@ -32,11 +32,13 @@ func _run() -> void:
 func _journey(leave: bool) -> void:
 	profile = HeroHubState.create(4280)
 	if deck_mode: profile.enable_mage_deck()
-	# Оба успешных маршрута Mage Deck проверяют цикл, а не баланс новичков против новых
-	# летальных ловушек. Отдельное пассивное поражение ниже сохраняет новичков.
+	# Успешный маршрут проверяет полный цикл, а не баланс: V1 усиливает удар на 2%
+	# за Мощь вместо старого +1 к базе. Технический отряд получает явный запас роста;
+	# стартовая генерация отдельно проверяется на обычных героях, поражение — ниже.
 	if deck_mode or not leave:
 		for hero: HeroProgression in profile.heroes.values():
-			hero.award_experience_tenths(45000); hero.apply_allocation([9,0,0,0])
+				hero.award_experience_tenths(4950000)
+				check(hero.apply_allocation([70,0,29,0,0]), "V1 technical journey allocates earned level 100 budget")
 		if deck_mode:
 			# Для полного маршрута полигон с бронёй проходит допустимый смешанный отряд.
 			check(profile.toggle_party(2) and profile.toggle_party(4), "veteran party includes mage against opening armor")
@@ -91,7 +93,7 @@ func _journey(leave: bool) -> void:
 func _prepare_party() -> void:
 	for id: int in profile.party:
 		var hero: HeroProgression = profile.heroes[id]
-		if hero.available_points() > 0: transition("allocate",{"hero":id,"delta":[0,0,hero.available_points(),0]})
+		if hero.available_points() > 0: transition("allocate",{"hero":id,"delta":[0,0,hero.available_points(),0,0]})
 	var ids: Array[int] = []
 	for item: Dictionary in profile.expedition.artifacts: ids.append(item.id)
 	for id: int in ids:

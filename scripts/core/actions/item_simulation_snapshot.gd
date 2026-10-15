@@ -232,7 +232,7 @@ static func _structure(data: Dictionary, captured_board: SimulationSnapshot = nu
 			item_fields["armor_remaining"] = TYPE_INT
 			item_fields["armor_origin_owner"] = TYPE_INT
 			item_fields["armor_origin_item"] = TYPE_INT
-			if not _shape(item, item_fields): return "owners/items/schema"
+			if not CombatAmount.shape(item, item_fields, ["armor_remaining"]): return "owners/items/schema"
 			effects += item["effects"].size()
 			if effects > MAX_EFFECTS_TOTAL: return "owners/items/effects/limit"
 			for effect: Variant in item["effects"]:
@@ -467,7 +467,8 @@ static func _live_shape_error(state: ItemSimulationState) -> String:
 			if typeof(key) != TYPE_INT or not (owner._items[key] is ItemInstance): return "owners/items/type"
 			var item: ItemInstance = owner._items[key]
 			if item._definition == null: return "owners/items/definition"
-			if item.armor_remaining < 0 or item.armor_remaining > item._definition.armor_max or item.armor_origin_owner < 1 or item.armor_origin_item < 1 or item.armor_origin_owner >= MAX_ID or item.armor_origin_item >= MAX_ID: return "owners/items/armor"
+			if not CombatAmount.valid(item.armor_remaining) or item.armor_remaining > item._definition.armor_max or item.armor_origin_owner < 1 or item.armor_origin_item < 1 or item.armor_origin_owner >= MAX_ID or item.armor_origin_item >= MAX_ID: return "owners/items/armor"
+			if typeof(item.armor_remaining) != TYPE_INT and (owner._owner.armor == null or not owner._owner.armor.fractional): return "owners/items/armor"
 			var armor_key := [item.armor_origin_owner, item.armor_origin_item]
 			if live_armor_keys.has(armor_key): return "armor/identity"
 			live_armor_keys[armor_key] = true
@@ -706,9 +707,13 @@ static func _validate(data: Dictionary, captured_board: SimulationSnapshot = nul
 	# Числовой порядок делает диагностику независимой от перестановки records.
 	var owners: Array = data["owners"].duplicate()
 	owners.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["owner_unit_id"] < b["owner_unit_id"])
+	var fractional_units: Dictionary = {}
+	for unit_data: Dictionary in data.board_snapshot.board.units:
+		fractional_units[unit_data.id] = unit_data.get("armor", {}).get("fractional", false)
 	for owner: Dictionary in owners:
 		var path := "owner/%d" % owner["owner_unit_id"]
 		if owner["schema_version"] != 1: return "UNSUPPORTED:" + path + "/version"
+		var fractional: bool = fractional_units.get(owner.owner_unit_id, false)
 		var definitions: Array = owner["definitions"].duplicate()
 		definitions.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["id"] < b["id"])
 		var definition_map: Dictionary = {}
@@ -722,6 +727,7 @@ static func _validate(data: Dictionary, captured_board: SimulationSnapshot = nul
 		var items: Array = owner["items"].duplicate()
 		items.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["item_instance_id"] < b["item_instance_id"])
 		for item: Dictionary in items:
+			if not fractional and typeof(item.armor_remaining) != TYPE_INT: return path + "/item/armor"
 			var item_definition: Dictionary = definition_map.get(item["definition_id"], {})
 			var max_armor: int = int(item_definition.get("armor_max", -1))
 			if item["armor_remaining"] < 0 or item["armor_remaining"] > max_armor or item["armor_origin_owner"] <= 0 or item["armor_origin_owner"] >= MAX_ID or item["armor_origin_item"] <= 0 or item["armor_origin_item"] >= MAX_ID: return path + "/item/armor"
@@ -747,17 +753,20 @@ static func _validate(data: Dictionary, captured_board: SimulationSnapshot = nul
 		unit_map[unit["id"]] = unit
 	for unit: Dictionary in units:
 		if not data.has("deck"):
-			for source: Dictionary in [unit.get("bleeding",{}).get("source",{}),unit.get("elemental",{}).get("burning_source",{})]:
+			var status_sources: Array = [unit.get("bleeding",{}).get("source",{}),unit.get("elemental",{}).get("burning_source",{})]
+			for records: Array in [unit.get("bleeding", {}).get("contributions", []), unit.get("elemental", {}).get("burning_contributions", [])]:
+				for contribution: Dictionary in records: status_sources.append(contribution.source)
+			for source: Dictionary in status_sources:
 				if source.get("kind") == &"mage" and source.get("source_instance_id",0) >= 13: return "deck/source_capability"
 			if unit.get("armor",{}).get("shield",{}).get("spell_id") == "card.shield": return "deck/shield_capability"
 		if unit.get("bleeding", {}).get("ticks_left", 0) > 0:
 			var bleeding: Dictionary = unit["bleeding"]
 			var source: Dictionary = bleeding["source"]
-			if source["kind"] == &"attack" and (not unit_map.has(source["instigator_unit_id"]) or not unit_map.has(source["credit_unit_id"])):
+			if not bleeding.has("contributions") and source["kind"] == &"attack" and (not unit_map.has(source["instigator_unit_id"]) or not unit_map.has(source["credit_unit_id"])):
 				return "board/unit/bleeding/source"
 		if unit.has("elemental"):
 			var elemental: Dictionary = unit["elemental"]
-			if elemental["burning_stacks"] > 0 and elemental["burning_source"]["kind"] == &"attack":
+			if elemental["burning_stacks"] > 0 and elemental["burning_source"]["kind"] == &"attack" and not elemental.has("burning_contributions"):
 				var burning_source: Dictionary = elemental["burning_source"]
 				if not unit_map.has(burning_source["instigator_unit_id"]) or not unit_map.has(burning_source["credit_unit_id"]): return "board/unit/elemental/burning_source"
 	var seen: Dictionary = {}

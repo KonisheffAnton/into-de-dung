@@ -2699,7 +2699,7 @@ func _test_p02_a10_rejections() -> void:
 		[["board", "units", 0, "move_points_left"], -1.0], [["board", "units", 0, "vitals", "hp"], NAN],
 		[["board", "units", 0, "vitals", "balance"], INF], [["board", "units", 0, "vitals", "is_alive"], 1],
 		[["board", "units", 0, "stats"], null], [["board", "units", 0, "vitals"], {}],
-		[["board", "units", 0, "stats", "stats"], {}], [["board", "units", 0, "stats", "stats", 0, "stat_type"], 12],
+		[["board", "units", 0, "stats", "stats"], {}], [["board", "units", 0, "stats", "stats", 0, "stat_type"], StatTypes.StatType.MASTERY + 1],
 		[["board", "units", 0, "stats", "stats", 3, "stat", "base_value"], 1],
 		[["board", "units", 0, "stats", "stats", 3, "stat", "base_value"], INF],
 		[["board", "units", 0, "stats", "stats", 3, "stat", "modifiers"], {}],

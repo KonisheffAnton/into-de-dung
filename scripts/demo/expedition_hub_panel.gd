@@ -9,7 +9,7 @@ static func render(host: HeroHubScreen) -> void:
 	for id: int in host.run.party:
 		var hero: HeroProgression = host.run.heroes[id]
 		var armor := host.run.equipped(id,"armor")
-		var armor_text := "%d/%d" % [armor.remaining,HeroGearCatalog.definition(armor.definition).armor_max] if not armor.is_empty() else "0/0"
+		var armor_text := "%.1f/%d" % [float(armor.remaining),HeroGearCatalog.definition(armor.definition).armor_max] if not armor.is_empty() else "0/0"
 		host._text_for_box(page.get_node("Party"), "%s · HP %.1f/%d · броня %s · свободные очки %d" % [hero.name,hero.hp_current,hero.max_hp(),armor_text,hero.available_points()],16)
 	(page.get_node("LegacyRewards") as Control).visible = run.phase == "reward"
 	(page.get_node("Service") as Control).visible = run.phase == "service"
@@ -75,7 +75,7 @@ static func render(host: HeroHubScreen) -> void:
 		var definition := HeroGearCatalog.definition(item.definition)
 		var owner := "рюкзак" if item.hero_id == 0 else (host.run.heroes[item.hero_id] as HeroProgression).name
 		var entry := HubUI.instance("expedition_item", page.get_node("Preparation/Equipment"))
-		HubUI.text(entry, ^"Title", "%s #%d · %s%s" % [definition.display_name,id,owner," · броня %d/%d" % [item.remaining,definition.armor_max] if definition.armor_max > 0 else ""])
+		HubUI.text(entry, ^"Title", "%s #%d · %s%s" % [definition.display_name,id,owner," · броня %.1f/%d" % [float(item.remaining),definition.armor_max] if definition.armor_max > 0 else ""])
 		(entry.get_node("Description") as Control).hide()
 		var row := entry.get_node("Actions")
 		if item.hero_id != 0: _action(host,row,"Снять","gear_off_%d" % id,"unequip",{"item":id,"hero":0})

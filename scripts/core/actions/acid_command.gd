@@ -76,7 +76,9 @@ func execute(context: ActionContext) -> CommandStepResult:
 	if totals.is_empty():
 		step.status = &"FAULTED"; step.reason = &"acid/invalid_armor"
 		return step
-	var remaining: int = mini(ARMOR_DAMAGE, int(totals["current"]))
+	var fractional: bool = original_armor["state"].get("fractional", false)
+	# Дробный запас списывается без int-приведения, legacy продолжает выдавать целые значения.
+	var remaining: Variant = minf(float(ARMOR_DAMAGE), float(totals["current"])) if fractional else mini(ARMOR_DAMAGE, int(totals["current"]))
 	if remaining <= 0: return step
 	var changed_grants: Array[Dictionary] = []
 	var changed_items: Array[Dictionary] = []
@@ -88,10 +90,11 @@ func execute(context: ActionContext) -> CommandStepResult:
 		if a["battle_id"] != b["battle_id"]: return a["battle_id"] < b["battle_id"]
 		return a["grant_id"] < b["grant_id"])
 	for grant: Dictionary in grant_order:
-		if remaining == 0: break
-		var spent: int = mini(remaining, int(grant["remaining"]))
+		if remaining <= 0: break
+		var spent: Variant = minf(float(remaining), float(grant["remaining"])) if fractional else mini(int(remaining), int(grant["remaining"]))
 		if spent <= 0: continue
-		var after_amount: int = int(grant["remaining"]) - spent
+		var before_amount: Variant = grant["remaining"]
+		var after_amount: Variant = maxf(0.0, float(before_amount) - float(spent)) if fractional else int(before_amount) - int(spent)
 		var next_view: Dictionary = guard.values["participants"][unit.id]["armor"].duplicate(true)
 		var next_grants: Array = next_view["state"]["grants"]
 		for index: int in next_grants.size():
@@ -104,7 +107,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 				state.grants[index]["remaining"] = after_amount
 				break
 		changed_grants.append({"id": grant["grant_id"], "before": grant["remaining"], "after": after_amount})
-		remaining -= spent
+		remaining = maxf(0.0, float(remaining) - float(spent)) if fractional else int(remaining) - int(spent)
 		step.state_changed = true
 		if not armor_event_added:
 			step.events.append(armor_event)
@@ -112,16 +115,17 @@ func execute(context: ActionContext) -> CommandStepResult:
 		if not guard.check(context) or not binding_check.call():
 			step.status = &"FAULTED"; step.reason = &"acid/checkpoint"
 			return step
-		state.changed.emit(&"extra", grant["grant_id"], int(grant["remaining"]), after_amount)
+		state.changed.emit(&"extra", grant["grant_id"], before_amount, after_amount)
 		if not guard.check(context) or not binding_check.call():
 			step.status = &"FAULTED"; step.reason = &"acid/checkpoint"
 			return step
 	for item: Dictionary in original_armor["items"]:
-		if remaining == 0: break
-		if int(item["placement"]) < ItemOwnerState.EQUIPMENT_BASE or int(item["remaining"]) <= 0: continue
-		var spent: int = mini(remaining, int(item["remaining"]))
+		if remaining <= 0: break
+		if int(item["placement"]) < ItemOwnerState.EQUIPMENT_BASE or float(item["remaining"]) <= 0.0: continue
+		var spent: Variant = minf(float(remaining), float(item["remaining"])) if fractional else mini(int(remaining), int(item["remaining"]))
 		if spent <= 0: continue
-		var after_amount: int = int(item["remaining"]) - spent
+		var before_amount: Variant = item["remaining"]
+		var after_amount: Variant = maxf(0.0, float(before_amount) - float(spent)) if fractional else int(before_amount) - int(spent)
 		var next_view: Dictionary = guard.values["participants"][unit.id]["armor"].duplicate(true)
 		for view_item: Dictionary in next_view["items"]:
 			if view_item["item_id"] == item["item_id"]:
@@ -130,7 +134,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 		guard = guard.armor_phase(unit.id, next_view)
 		(owner._items[item["item_id"]] as ItemInstance).armor_remaining = after_amount
 		changed_items.append({"id": item["item_id"], "before": item["remaining"], "after": after_amount})
-		remaining -= spent
+		remaining = maxf(0.0, float(remaining) - float(spent)) if fractional else int(remaining) - int(spent)
 		step.state_changed = true
 		if not armor_event_added:
 			step.events.append(armor_event)
@@ -138,7 +142,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 		if not guard.check(context) or not binding_check.call():
 			step.status = &"FAULTED"; step.reason = &"acid/checkpoint"
 			return step
-		state.changed.emit(&"item", item["item_id"], int(item["remaining"]), after_amount)
+		state.changed.emit(&"item", item["item_id"], before_amount, after_amount)
 		if not guard.check(context) or not binding_check.call():
 			step.status = &"FAULTED"; step.reason = &"acid/checkpoint"
 			return step

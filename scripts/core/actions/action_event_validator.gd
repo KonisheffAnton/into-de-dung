@@ -42,6 +42,15 @@ static func valid_draft(draft: Dictionary, context: ActionContext = null) -> boo
 	if draft.get("kind") in [&"trap_armed", &"trap_fired"]: return BattleHazards.valid_event(draft)
 	if draft.get("kind") in [&"attacked", &"opportunity_attacked", &"counterattacked", &"elemental_cast"] and draft.has("modifiers"):
 		if typeof(draft["modifiers"]) != TYPE_DICTIONARY: return false
+		if draft.modifiers.has("character_attributes"):
+			var attributes: Variant = draft.modifiers.character_attributes
+			if not ItemSimulationSnapshot._shape(attributes, {"power": TYPE_FLOAT, "mastery": TYPE_FLOAT}): return false
+			if not CombatAmount.valid(attributes.power) or not CombatAmount.valid(attributes.mastery): return false
+			if draft.kind == &"elemental_cast" and draft.get("effect") != &"burning": return false
+			var reduced_attributes := draft.duplicate(true)
+			reduced_attributes.modifiers.erase("character_attributes")
+			if reduced_attributes.modifiers.is_empty(): reduced_attributes.erase("modifiers")
+			return valid_draft(reduced_attributes, context)
 		if draft["modifiers"].has("surround_percent") or draft["modifiers"].has("surround_ally_ids"):
 			var surround: Dictionary = draft["modifiers"]
 			if typeof(surround.get("surround_percent")) != TYPE_INT or typeof(surround.get("surround_ally_ids")) != TYPE_ARRAY: return false
@@ -214,10 +223,18 @@ static func _valid_stacked_bleeding(draft: Dictionary) -> bool:
 	var before: Dictionary = draft["before"]
 	var after: Dictionary = draft["after"]
 	if not before["stacked"] or not after["stacked"]: return false
+	if before.has("contributions") != after.has("contributions"): return false
+	var tick_actor: int = before.get("source", {}).get("instigator_unit_id", 0)
+	if before.has("contributions"):
+		if draft.reason in [&"applied", &"refreshed"]:
+			if after.contributions.size() != before.contributions.size() + 1 or after.contributions.slice(0, before.contributions.size()) != before.contributions: return false
+			if after.contributions[-1].source != after.source: return false
+		elif after.ticks_left > 0 and after.contributions != before.contributions: return false
+		if before.ticks_left > 0: tick_actor = StatusContributions.credited_source(before.contributions).get("instigator_unit_id", -1)
 	if draft["reason"] == &"burned":
 		return before["ticks_left"] > 0 and after["ticks_left"] == 0
 	if draft["reason"] == &"tick":
-		if before["ticks_left"] < 1 or after["ticks_left"] != before["ticks_left"] - 1 or before["source"]["instigator_unit_id"] != draft["actor_unit_id"]: return false
+		if before["ticks_left"] < 1 or after["ticks_left"] != before["ticks_left"] - 1 or tick_actor != draft["actor_unit_id"]: return false
 		return after["ticks_left"] == 0 or (after["stacks"] == before["stacks"] and after["source"] == before["source"] and after["hit_id"] == before["hit_id"])
 	if before["stacks"] == BleedingState.MAX_STACKS or after["immune"]: return false
 	return after["ticks_left"] == 3 and after["stacks"] == before["stacks"] + 1 and after["source"]["instigator_unit_id"] == draft["actor_unit_id"] and ((draft["reason"] == &"applied" and before["ticks_left"] == 0) or (draft["reason"] == &"refreshed" and before["ticks_left"] > 0))
@@ -237,6 +254,11 @@ static func _valid_elemental_draft(draft: Dictionary) -> bool:
 	# Источник нужен лишь для ветки действительного горения; отмена его не хранит.
 	var source: Dictionary = after["burning_source"] if after["burning_stacks"] > 0 else DamageSource.new(&"cell", 1, Vector2i.ZERO).to_dict()
 	var expected := ElementalRules.transition(before, draft["reason"], ticks, source, true)
+	if before.has("burning_contributions") != after.has("burning_contributions"): return false
+	if before.has("burning_contributions") and draft.reason == &"burning" and after.burning_stacks == before.burning_stacks + 1:
+		if after.burning_contributions.size() != before.burning_contributions.size() + 1 or after.burning_contributions.slice(0, before.burning_contributions.size()) != before.burning_contributions: return false
+		if after.burning_contributions[-1].source != source or expected.get("reason", &"") != &"": return false
+		expected.after.burning_contributions[-1] = after.burning_contributions[-1].duplicate(true)
 	return expected.get("reason", &"") == &"" and expected.get("after") == after
 
 static func _valid_armor_draft(draft: Dictionary) -> bool:
@@ -253,7 +275,7 @@ static func _valid_armor_draft(draft: Dictionary) -> bool:
 		if draft["grants"].is_empty() and draft["items"].is_empty(): return false
 		for changes: Array in [draft["grants"], draft["items"]]:
 			for delta: Variant in changes:
-				if not ItemSimulationSnapshot._shape(delta, {"id": TYPE_INT, "before": TYPE_INT, "after": TYPE_INT}) or delta["id"] < 1 or delta["before"] < 0 or delta["after"] < 0 or delta["before"] == delta["after"]: return false
+				if not CombatAmount.shape(delta, {"id": TYPE_INT, "before": TYPE_INT, "after": TYPE_INT}, ["before", "after"]) or delta["id"] < 1 or delta["before"] == delta["after"]: return false
 		return true
 	var hit: Dictionary = draft["hit"]
-	return not draft["hit_id"].is_empty() and typeof(hit.get("rows")) == TYPE_ARRAY and typeof(hit.get("hp_before")) == TYPE_INT and typeof(hit.get("hp_after")) == TYPE_INT and typeof(hit.get("total_damage")) == TYPE_INT and typeof(hit.get("total_healing")) == TYPE_INT
+	return not draft["hit_id"].is_empty() and typeof(hit.get("rows")) == TYPE_ARRAY and CombatAmount.valid(hit.get("hp_before")) and CombatAmount.valid(hit.get("hp_after")) and CombatAmount.valid(hit.get("total_damage")) and CombatAmount.valid(hit.get("total_healing"))

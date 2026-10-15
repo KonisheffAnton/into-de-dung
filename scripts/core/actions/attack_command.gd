@@ -275,6 +275,12 @@ func _prepare(context: ActionContext) -> Dictionary:
 				var stacks := state.artifacts.stacks(actor.id, "spark")
 				if stacks > 0 and state.artifacts.effect_allowed(actor.id, "spark"): extras.append({"type":"fire","policy":"standard","numerator":ExpeditionCatalog.SPARK_DAMAGE * stacks,"denominator":1,"source":"artifact:spark","factor_num":1,"factor_den":1})
 		var raw := ArmorAttack.components(strength, weapon, signed_height_steps, target.guard_stance, extras, backstab_percent + sneak_percent, critical_multiplier, int(piercing), 30 if cover != null else 0, surrounding_allies.size())
+		if actor.armor != null and actor.armor.fractional:
+			var attribute_values := CharacterAttack.values(actor_copy)
+			if attribute_values.is_empty(): result["reason"] = &"attack/invalid_stat"; return result
+			if not result.has("modifiers"): result["modifiers"] = {}
+			result.modifiers["character_attributes"] = attribute_values.duplicate()
+			raw = CharacterAttack.components(strength, weapon, signed_height_steps, target.guard_stance, extras, backstab_percent + sneak_percent, critical, int(piercing), 30 if cover != null else 0, surrounding_allies.size(), attribute_values)
 		var request := ArmorAttack.request(target.id, raw, DamageSource.new(&"attack", 0, actor.cell, actor.id, actor.id))
 		request.attack_group_id = context.damage_attack_group()
 		var plan := ArmorHitExecutor.prepare(request, ArmorRuntime.capture(state.get_owner(target.id)), target.vitals.get_hp(), target_copy.get_value(StatTypes.StatType.HP_MAX), context.get_rng(), ElementalRules.is_frozen(target), context)

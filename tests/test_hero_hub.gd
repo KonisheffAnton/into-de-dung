@@ -23,6 +23,9 @@ func _roster() -> void:
 	var hub := HeroHubState.create()
 	check(HeroHubState.from_dict(hub.to_dict()) != null, "initial valid profile")
 	var candidate := hub.candidates[0].to_dict()
+	var candidate_total := 0
+	for value: int in candidate.base_attributes: candidate_total += value
+	check(candidate.base_attributes.size() == 5 and candidate_total == 50 and candidate.base_attributes.min() >= 3, "generated candidate has five attributes with minimum three and sum fifty")
 	var gold := hub.gold
 	check(hub.hire(0), "free hire")
 	check((hub.heroes[candidate.id] as HeroProgression).to_dict() == candidate and hub.gold == gold, "displayed candidate unchanged and free")
@@ -31,14 +34,14 @@ func _roster() -> void:
 	var hero: HeroProgression = hub.heroes[id]
 	hero.award_experience_tenths(1000)
 	hero.hp_current = 10.0
-	check(hub.allocate(id, [0,0,1,0]) and hero.hp_current == 12.0, "allocated endurance grows current health")
+	check(hub.allocate(id, [0,0,1,0,0]) and hero.hp_current == 11.0, "allocated endurance adds one current HP")
 	check(hub.respec(id) and hero.available_points() == 1 and hub.gold == gold - HeroHubState.RESPEC_PRICE, "paid respec returns earned points")
 	var before := hub.to_dict()
 	check(not hub.respec(id) and hub.to_dict() == before, "empty respec cannot charge")
 	var reserve_id: int = hub.heroes.keys().filter(func(value: int) -> bool: return not hub.party.has(value))[0]
 	check(hub.start_battle() and hero.hp_current == hero.max_hp(), "start heals living and creates checkpoint")
 	var checkpoint := hub.to_dict()
-	check(not hub.hire(0) and not hub.respec(id) and not hub.allocate(id,[1,0,0,0]) and hub.to_dict() == checkpoint, "hub mutations locked during battle")
+	check(not hub.hire(0) and not hub.respec(id) and not hub.allocate(id,[1,0,0,0,0]) and hub.to_dict() == checkpoint, "hub mutations locked during battle")
 	var hp: Dictionary = {}; var gear: Dictionary = {}
 	for actor_id: int in hub.party: hp[actor_id] = float((hub.heroes[actor_id] as HeroProgression).max_hp())
 	var dead_id: int = hub.party[1]
@@ -94,28 +97,31 @@ func _saving() -> void:
 		for with_deck: bool in [false, true]:
 			var profile := HeroHubState.create(8120 + catalog, catalog)
 			if with_deck: profile.enable_mage_deck()
-			var roundtrip_path := "user://hero-hub-v6-%d-%s.save" % [catalog, str(with_deck)]
-			check(HeroHubStore.write_run(roundtrip_path, profile).is_empty(), "schema6 saves catalog/deck combination")
+			var roundtrip_path := "user://hero-hub-v7-%d-%s.save" % [catalog, str(with_deck)]
+			check(HeroHubStore.write_run(roundtrip_path, profile).is_empty(), "schema7 saves catalog/deck combination")
 			var envelope_file := FileAccess.open(roundtrip_path, FileAccess.READ)
 			var envelope: Variant = bytes_to_var(envelope_file.get_buffer(envelope_file.get_length()))
 			envelope_file.close()
-			check(envelope.format == "hero-hub-v6" and envelope.payload is PackedByteArray and envelope.sha256 == HeroHubStore._digest(envelope.payload), "schema6 envelope and checksum")
+			check(envelope.format == "hero-hub-v7" and envelope.payload is PackedByteArray and envelope.sha256 == HeroHubStore._digest(envelope.payload), "schema7 envelope and checksum")
 			var profile_loaded := HeroHubStore.read_run(roundtrip_path, not with_deck)
-			check(profile_loaded.error.is_empty() and not profile_loaded.migrated and profile_loaded.run.to_dict() == profile.to_dict(), "schema6 roundtrip ignores read deck mode")
+			check(profile_loaded.error.is_empty() and not profile_loaded.migrated and profile_loaded.run.to_dict() == profile.to_dict(), "schema7 roundtrip ignores read deck mode")
 			DirAccess.remove_absolute(ProjectSettings.globalize_path(roundtrip_path))
 
 func _rejected_files_are_untouched() -> void:
 	var path := "user://hero-hub-reject-%d.save" % Time.get_ticks_usec()
-	var schema6 := HeroHubState.create(991).to_dict()
-	var old_payload := var_to_bytes({"schema":5})
+	var schema7 := HeroHubState.create(991).to_dict()
+	var old_profile := schema7.duplicate(true); old_profile.schema = 6
+	var old_payload := var_to_bytes(old_profile)
 	var cases: Array[Dictionary] = []
-	for version: int in range(1, 6):
+	for version: int in range(1, 7):
 		cases.append({"format":"hero-hub-v%d" % version,"payload":old_payload,"sha256":HeroHubStore._digest(old_payload)})
-	cases.append({"format":"hero-hub-v7","payload":var_to_bytes(schema6),"sha256":HeroHubStore._digest(var_to_bytes(schema6))})
-	var mismatch := var_to_bytes(schema6); schema6.schema = 5
-	cases.append({"format":"hero-hub-v6","payload":var_to_bytes(schema6),"sha256":HeroHubStore._digest(var_to_bytes(schema6))})
+	var future_profile := schema7.duplicate(true); future_profile.schema = 8
+	var future_payload := var_to_bytes(future_profile)
+	cases.append({"format":"hero-hub-v8","payload":future_payload,"sha256":HeroHubStore._digest(future_payload)})
+	var mismatch := schema7.duplicate(true); mismatch.schema = 6
+	cases.append({"format":"hero-hub-v7","payload":var_to_bytes(mismatch),"sha256":HeroHubStore._digest(var_to_bytes(mismatch))})
 	var valid_payload := var_to_bytes(HeroHubState.create(992).to_dict())
-	cases.append({"format":"hero-hub-v6","payload":valid_payload,"sha256":"bad-checksum"})
+	cases.append({"format":"hero-hub-v7","payload":valid_payload,"sha256":"bad-checksum"})
 	for index: int in cases.size():
 		var bytes := var_to_bytes(cases[index])
 		var file := FileAccess.open(path, FileAccess.WRITE); file.store_buffer(bytes); file.close()
@@ -162,7 +168,7 @@ func _battle() -> void:
 	check(session.can_player_act(), "real enemy phase reaches player")
 	if session.can_player_act():
 		session.select_unit(mage_id)
-		check(session.healing_item() != null, "hero-specific might-scaled healing item")
+		check(session.healing_item() != null, "hero-specific Power-scaled healing item")
 		check(session.cast_reason(&"wet") == &"", "mage elemental ability available")
 		var target := session.board.get_unit_by_id(session.living_ids(Faction.Type.ENEMY)[0])
 		# Test setup only: put a real target within range before comparing real commands.

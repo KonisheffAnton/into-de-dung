@@ -7,7 +7,7 @@ const RESPEC_PRICE: int = 50
 const VICTORY_XP: int = 100
 const VICTORY_GOLD: int = 40
 const MAX_ITEMS: int = 2048
-const SCHEMA_VERSION: int = 6
+const SCHEMA_VERSION: int = 7
 var heroes: Dictionary = {}
 var party: Array[int] = []
 var candidates: Array[HeroProgression] = []
@@ -167,7 +167,7 @@ func finish_battle(serial: int, victory: bool, hp: Dictionary, gear: Dictionary)
 		if value > 0: living += 1
 	if victory != (living > 0): return false
 	for id: Variant in gear:
-		if typeof(id) != TYPE_INT or not battle_items().has(id) or typeof(gear[id]) != TYPE_INT: return false
+		if typeof(id) != TYPE_INT or not battle_items().has(id) or not CombatAmount.valid(gear[id]): return false
 		if gear[id] < 0 or gear[id] > HeroGearCatalog.definition(items[id].definition).armor_max: return false
 	if victory:
 		for id: int in heroes:
@@ -251,7 +251,7 @@ static func from_dict(data: Variant) -> HeroHubState:
 	if data.phase == "battle" and (result.party.is_empty() or data.run_serial == 0): return null
 	var slots: Dictionary = {}
 	for row: Variant in data.items:
-		if not ItemSimulationSnapshot._shape(row, {"id":TYPE_INT,"definition":TYPE_STRING,"hero_id":TYPE_INT,"remaining":TYPE_INT}): return null
+		if not CombatAmount.shape(row, {"id":TYPE_INT,"definition":TYPE_STRING,"hero_id":TYPE_INT,"remaining":TYPE_INT}, ["remaining"]): return null
 		var definition := HeroGearCatalog.definition(row.definition)
 		if definition == null or row.id < 1 or row.id >= data.next_item_id or result.items.has(row.id) or row.remaining < 0 or row.remaining > definition.armor_max: return null
 		if row.hero_id != 0:

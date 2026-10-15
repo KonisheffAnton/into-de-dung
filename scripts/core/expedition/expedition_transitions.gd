@@ -69,7 +69,7 @@ static func _apply(hub: HeroHubState, action: String, args: Dictionary) -> Strin
 				var armor := hub.equipped(id,"armor")
 				if not armor.is_empty():
 					var maximum: int = HeroGearCatalog.definition(armor.definition).armor_max
-					armor.remaining = mini(maximum, int(armor.remaining) + floori(maximum * percent / 100.0))
+					armor.remaining = minf(float(maximum), float(armor.remaining) + floorf(maximum * percent / 100.0))
 		if run.current_node().kind == "camp": run.phase = "camp_departure"
 		else: _resolve(run)
 		return ""
@@ -158,8 +158,8 @@ static func _outcome(hub: HeroHubState, receipt: Dictionary) -> String:
 	var expected_gear: Array[int] = []
 	for row: Dictionary in inputs.items: expected_gear.append(row.id)
 	for id: Variant in receipt.gear:
-		if typeof(id) != TYPE_INT or not expected_gear.has(id) or typeof(receipt.gear[id]) != TYPE_INT: return "expedition/invalid_gear"
-		if receipt.gear[id] < 0 or receipt.gear[id] > HeroGearCatalog.definition(hub.items[id].definition).armor_max: return "expedition/invalid_gear"
+		if typeof(id) != TYPE_INT or not expected_gear.has(id) or not CombatAmount.valid(receipt.gear[id]): return "expedition/invalid_gear"
+		if receipt.gear[id] > HeroGearCatalog.definition(hub.items[id].definition).armor_max: return "expedition/invalid_gear"
 	var report := PostBattleRules.begin(hub,"expedition",run.current_node().id,run.battle_serial,ExpeditionCatalog.room_name(run.current_node().kind),receipt.victory,receipt.victory and run.current_node().kind == "final")
 	if not receipt.victory:
 		for id: int in run.ordinary_item_ids: report.lost_items.append(String(HeroGearCatalog.definition(hub.items[id].definition).display_name))

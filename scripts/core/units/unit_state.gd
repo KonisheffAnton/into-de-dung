@@ -333,12 +333,13 @@ func _validated_snapshot_components() -> Dictionary:
 		if action_resources == null or armor == null or bleeding == null or not bleeding.stacked or not bleeding_data.get("stacked", false): return {}
 		if elemental_data["burning_stacks"] > 0 and bleeding_data["stacks"] > 0: return {}
 	elif bleeding_data.get("stacked", false): return {}
+	if (bleeding_data.has("contributions") or elemental_data.has("burning_contributions")) and not armor_data.get("fractional", false): return {}
 	if armor != null:
 		var maximum := 0.0
 		if stats._stats.has(StatTypes.StatType.HP_MAX):
 			var hp_stat := stats._stats[StatTypes.StatType.HP_MAX] as Stat
 			maximum = hp_stat.snapshot_value_unchecked()
-		if not _armor_hp_values_valid(vital_data["hp"], maximum): return {}
+		if not _armor_hp_values_valid(vital_data["hp"], maximum, armor.fractional): return {}
 	var components := {"vitals": vital_data}
 	if action_resources != null: components["action_resources"] = action_resources.to_snapshot_dict()
 	if armor != null: components["armor"] = armor_data
@@ -420,6 +421,7 @@ static func validate_snapshot_dict(data: Variant) -> bool:
 		if not CombatPerksState.valid(d["combat_perks"]): return false
 		if d["combat_perks"].get("mode") == CombatPerksState.Mode.COVER and d["combat_perks"].get("cover_target_id") == d["id"]: return false
 	if d.has("elemental") and not ElementalState.valid(d["elemental"]): return false
+	if (d.get("bleeding", {}).has("contributions") or d.get("elemental", {}).has("burning_contributions")) and not d.get("armor", {}).get("fractional", false): return false
 	var has_actions: bool = d.has("action_resources")
 	if (d["guard_stance"] or d.has("armor") or d.has("control") or d.has("combat_perks")) and not has_actions: return false
 	if d.has("bleeding") and (not has_actions or not d.has("armor")): return false
@@ -435,11 +437,11 @@ static func validate_snapshot_dict(data: Variant) -> bool:
 	if typeof(v["hp"]) != TYPE_FLOAT or not is_finite(v["hp"]) or v["hp"] < 0.0: return false
 	if typeof(v["balance"]) != TYPE_FLOAT or not is_finite(v["balance"]) or v["balance"] < 0.0: return false
 	if d.has("armor"):
-		if not _snapshot_armor_hp_valid(v["hp"], d["stats"]): return false
+		if not _snapshot_armor_hp_valid(v["hp"], d["stats"], d.armor.get("fractional", false)): return false
 	return typeof(v["is_alive"]) == TYPE_BOOL
 
 
-static func _snapshot_armor_hp_valid(hp: float, bag: Dictionary) -> bool:
+static func _snapshot_armor_hp_valid(hp: float, bag: Dictionary, fractional: bool = false) -> bool:
 	var maximum := 0.0
 	for entry: Dictionary in bag["stats"]:
 		if entry["stat_type"] == StatTypes.StatType.HP_MAX:
@@ -447,11 +449,11 @@ static func _snapshot_armor_hp_valid(hp: float, bag: Dictionary) -> bool:
 			if hp_stat == null: return false
 			maximum = hp_stat.get_value()
 			break
-	return _armor_hp_values_valid(hp, maximum)
+	return _armor_hp_values_valid(hp, maximum, fractional)
 
 
-static func _armor_hp_values_valid(hp: float, maximum: float) -> bool:
-	return hp == floorf(hp) and hp <= ArmorRuntime.MAX_EXACT_HP and is_finite(maximum) and maximum >= 0.0 and maximum <= ArmorRuntime.MAX_EXACT_HP and maximum == floorf(maximum) and hp <= maximum
+static func _armor_hp_values_valid(hp: float, maximum: float, fractional: bool = false) -> bool:
+	return CombatAmount.valid(hp) and CombatAmount.valid(maximum) and hp <= maximum and (fractional or (hp == floorf(hp) and maximum == floorf(maximum)))
 
 
 static func _has_exact_string_keys(value: Dictionary, required: Array) -> bool:

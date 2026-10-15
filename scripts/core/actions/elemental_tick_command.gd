@@ -29,6 +29,13 @@ func execute(context: ActionContext) -> CommandStepResult:
 		var source := DamageSource.new(&"status", 0, _unit.cell, before["burning_source"]["instigator_unit_id"], before["burning_source"]["credit_unit_id"])
 		actor = source.instigator_unit_id
 		var raw: Array[Dictionary] = [{"type": "fire", "policy": "standard", "source": "burning", "numerator": before["burning_stacks"], "denominator": 1}]
+		if _unit.elemental.authored:
+			var amount := StatusContributions.total(before.burning_contributions)
+			if not amount.valid: return CommandStepResult.faulted(&"status/damage_exhausted")
+			source = StatusContributions.damage_source(before.burning_contributions, _unit.cell)
+			if source == null: return CommandStepResult.faulted(&"status/invalid_source")
+			actor = source.instigator_unit_id
+			raw[0].numerator = amount.numerator; raw[0].denominator = amount.denominator
 		request = ArmorAttack.request(_unit.id, raw, source)
 		var plan := ArmorHitExecutor.prepare(request, guard.values["participants"][_unit.id]["armor"], _unit.vitals.get_hp(), ActionHpExecutor._stat_value(_unit, StatTypes.StatType.HP_MAX), context.get_rng())
 		if source.validate(context) != &"" or plan.get("reason", &"") != &"": return CommandStepResult.faulted(&"status/invalid_tick")

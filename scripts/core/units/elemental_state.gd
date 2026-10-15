@@ -11,6 +11,8 @@ var wet_turns: int = 0
 var frozen_turns: int = 0
 var freeze_immune: bool = false
 var acid_ticks: int = 0
+var authored: bool = false
+var burning_contributions: Array[Dictionary] = []
 
 signal changed()
 
@@ -25,6 +27,7 @@ func to_dict() -> Dictionary:
 		"frozen_turns": frozen_turns,
 		"freeze_immune": freeze_immune,
 	}
+	if authored: result["burning_contributions"] = burning_contributions.duplicate(true)
 	return result
 
 static func valid(data: Variant) -> bool:
@@ -35,11 +38,13 @@ static func valid(data: Variant) -> bool:
 	if typeof(schema) != TYPE_INT or schema != 3: return false
 	var schema_one_keys: Array[String] = ["schema_version", "burning_stacks", "burning_ticks", "burning_source", "wet_turns", "frozen_turns", "freeze_immune", "acid_ticks"]
 	var expected_keys: Array[String] = schema_one_keys.duplicate()
+	if value.has("burning_contributions"): expected_keys.append("burning_contributions")
 	if not _has_exact_keys(value, expected_keys):
 		return false
 	for key: String in ["schema_version", "burning_stacks", "burning_ticks", "wet_turns", "frozen_turns"]:
 		if typeof(value[key]) != TYPE_INT:
 			return false
+	if value.has("burning_contributions") and not StatusContributions.valid(value["burning_contributions"], value["burning_stacks"]): return false
 	if typeof(value["freeze_immune"]) != TYPE_BOOL or typeof(value["burning_source"]) != TYPE_DICTIONARY:
 		return false
 	if typeof(value["acid_ticks"]) != TYPE_INT: return false
@@ -73,6 +78,8 @@ static func from_dict(data: Dictionary) -> ElementalState:
 	result.frozen_turns = data["frozen_turns"]
 	result.freeze_immune = data["freeze_immune"]
 	result.acid_ticks = int(data["acid_ticks"])
+	result.authored = data.has("burning_contributions")
+	if result.authored: result.burning_contributions.assign(data["burning_contributions"].duplicate(true))
 	return result
 
 static func valid_effect_source(value: Variant) -> bool:

@@ -41,11 +41,16 @@ func _prepare(context: ActionContext) -> Dictionary:
 	var request: DamageRequest
 	var eligible := true
 	var surrounding_allies: Array[int] = []
+	var attribute_values: Dictionary = {}
 	if _effect == &"burning":
 		surrounding_allies = MeleeThreat.surrounding_allies(context, actor, target)
 		var extras: Array[Dictionary] = [{"type": "fire", "policy": "standard", "source": "ignite", "numerator": FIRE_DAMAGE, "denominator": 1, "factor_num": 1, "factor_den": 1}]
 		var height := board.get_height_steps(actor.cell) - board.get_height_steps(target.cell)
 		var raw := ArmorAttack.components(0.0, 0.0, height, target.guard_stance, extras, 0, 2 if ElementalRules.is_frozen(target) else 1, 0, 0, surrounding_allies.size())
+		if actor.armor.fractional:
+			attribute_values = CharacterAttack.values(StatsBag.from_snapshot_dict(actor.stats.to_snapshot_dict()))
+			if attribute_values.is_empty(): return {"reason": &"status/invalid_runtime"}
+			raw = CharacterAttack.components(0.0, 0.0, height, target.guard_stance, extras, 0, ElementalRules.is_frozen(target), 0, 0, surrounding_allies.size(), attribute_values)
 		# Нулевую оружейную базу не переносим в объяснение чисто огненной способности.
 		if not raw.is_empty(): raw.remove_at(0)
 		request = ArmorAttack.request(target.id, raw, source)
@@ -58,9 +63,9 @@ func _prepare(context: ActionContext) -> Dictionary:
 			if row["type"] == &"fire" and row["hp_damage"] > 0: eligible = true
 		# Мёртвую цель уже не меняем; overflow её статуса не запрещает летальный hit.
 		if plan["hp_after"] == 0: eligible = false
-	var transition := ElementalRules.transition(target.elemental.to_dict(), _effect, _ticks, source.to_dict(), ElementalRules.freeze_gate(view)) if eligible else {"reason": &"", "after": target.elemental.to_dict()}
+	var transition := ElementalRules.transition(target.elemental.to_dict(), _effect, _ticks, source.to_dict(), ElementalRules.freeze_gate(view), StatusContributions.intelligence(actor)) if eligible else {"reason": &"", "after": target.elemental.to_dict()}
 	if transition["reason"] != &"": return transition
-	return {"reason": &"", "actor": actor, "target": target, "guard": guard, "source": source, "request": request, "after": transition["after"], "eligible": eligible, "surrounding_allies": surrounding_allies}
+	return {"reason": &"", "actor": actor, "target": target, "guard": guard, "source": source, "request": request, "after": transition["after"], "eligible": eligible, "surrounding_allies": surrounding_allies, "attribute_values": attribute_values}
 
 func execute(context: ActionContext) -> CommandStepResult:
 	var planned := _prepare(context)
@@ -76,6 +81,9 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var event := {"kind": &"elemental_cast", "actor_unit_id": actor.id, "target_unit_id": target.id, "effect": _effect, "main_before": before, "main_after": before - 1}
 	var surrounding_allies: Array[int] = planned["surrounding_allies"]
 	if not surrounding_allies.is_empty(): event["modifiers"] = {"surround_percent": 10 * surrounding_allies.size(), "surround_ally_ids": surrounding_allies}
+	if not planned.attribute_values.is_empty():
+		if not event.has("modifiers"): event["modifiers"] = {}
+		event.modifiers["character_attributes"] = planned.attribute_values.duplicate(true)
 	result.events.append(event)
 	if not spent or _values() != seal or not guard.check(context):
 		result.status = &"FAULTED"; result.reason = &"status/checkpoint"

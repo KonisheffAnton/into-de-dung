@@ -453,7 +453,7 @@ func finish_presentation_frame(events: Array, step: Dictionary = {}, before: Dic
 			if kind == &"healed": tint = Color("65dfcc")
 			elif not strike.is_empty() and bool(strike.get("modifiers", {}).get("critical", false)): text = "КРИТ · " + text
 		elif kind == &"shield_changed":
-			text = "Щит −%d" % int(event.absorbed) if int(event.absorbed) > 0 else "Щит %d" % int(event.after.get("hp", 0))
+			text = "Щит −%s" % String.num(float(event.absorbed), 1) if float(event.absorbed) > 0.0 else "Щит %s" % String.num(float(event.after.get("hp", 0)), 1)
 			tint = Color("71cefa")
 		elif kind == &"armor_changed":
 			var delta := 0.0

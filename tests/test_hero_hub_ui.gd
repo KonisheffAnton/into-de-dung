@@ -39,7 +39,8 @@ func _run() -> void:
 	await capture("h1-01-hub")
 	var fixture := HeroHubState.from_dict(demo.run.to_dict())
 	var id: int = fixture.party[0]
-	(fixture.heroes[id] as HeroProgression).award_experience_tenths(1000)
+	(fixture.heroes[id] as HeroProgression).base_attributes = [3, 3, 3, 3, 38]
+	(fixture.heroes[id] as HeroProgression).award_experience_tenths(6000)
 	(fixture.heroes[id] as HeroProgression).hp_current = 10.0
 	demo._commit(fixture)
 	await process_frame; await process_frame
@@ -50,9 +51,14 @@ func _run() -> void:
 	await process_frame; await process_frame
 	await capture("h1-02-allocation")
 	await press("apply_allocation")
-	check((demo.run.heroes[id] as HeroProgression).hp_current == 12.0 and (demo.run.heroes[id] as HeroProgression).allocated[2] == 1, "Apply commits HP growth and point")
+	check((demo.run.heroes[id] as HeroProgression).hp_current == 11.0 and (demo.run.heroes[id] as HeroProgression).allocated[2] == 1, "Apply commits HP growth and point")
 	await press("respec")
-	check(demo.run.gold == 50 and (demo.run.heroes[id] as HeroProgression).available_points() == 1, "paid reset through UI")
+	check(demo.run.gold == 50 and (demo.run.heroes[id] as HeroProgression).available_points() == 3, "paid reset through UI")
+	await press("alloc_plus_4")
+	await press("alloc_plus_4")
+	await press("alloc_plus_4")
+	check(demo.pending_delta[4] == 3 and has_label_text(demo, "Мастерство 38→41"), "Mastery preview accepts allocation above forty")
+	await press("cancel_allocation")
 	var count := demo.run.heroes.size()
 	var candidate := demo.run.candidates[0].to_dict()
 	await press("hire_0")

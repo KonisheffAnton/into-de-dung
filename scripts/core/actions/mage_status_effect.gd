@@ -18,6 +18,10 @@ static func prepare(target: UnitState, effect: StringName, source: DamageSource,
 	var after := target.bleeding.to_dict()
 	after.stacks += 1; after.ticks_left = BleedingState.STACK_DURATION
 	after.source = source.to_dict(); after.hit_id = hit_id
+	if target.bleeding.authored:
+		var contribution := StatusContributions.make(source.to_dict())
+		if contribution.is_empty() or after.contributions.size() >= StatusContributions.MAX_RECORDS: return {"reason": &"status/contribution_limit"}
+		after.contributions.append(contribution)
 	return {"reason": &"", "after": after} if BleedingState.valid(after) else {"reason": &"bleeding/invalid_state"}
 
 static func apply(target: UnitState, effect: StringName, after: Dictionary, guard: SpatialRules.Guard, context: ActionContext, seal_check: Callable) -> CommandStepResult:
@@ -40,6 +44,7 @@ static func apply(target: UnitState, effect: StringName, after: Dictionary, guar
 		guard = guard.bleeding_phase(target.id, after)
 		target.bleeding.stacks = after.stacks; target.bleeding.ticks_left = after.ticks_left
 		target.bleeding.source = after.source.duplicate(true); target.bleeding.hit_id = after.hit_id
+		if target.bleeding.authored: target.bleeding.contributions.assign(after.contributions.duplicate(true))
 		result.events.append({"kind": &"bleeding_changed", "actor_unit_id": 0, "target_unit_id": target.id, "before": before, "after": after, "reason": &"applied" if before.ticks_left == 0 else &"refreshed"})
 		if guard.check(context) and seal_check.call(): target.bleeding.changed.emit()
 	if not guard.check(context) or not seal_check.call(): result.status = &"FAULTED"; result.reason = &"mage/checkpoint"

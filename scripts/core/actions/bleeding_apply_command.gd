@@ -69,12 +69,17 @@ func execute(context: ActionContext) -> CommandStepResult:
 		after["ticks_left"] += BleedingState.DURATION
 	after["source"] = _source.to_dict()
 	after["hit_id"] = _hit_id
+	if state.authored:
+		var contribution := StatusContributions.make(_source.to_dict(), StatusContributions.intelligence(_actor))
+		if contribution.is_empty() or after.contributions.size() >= StatusContributions.MAX_RECORDS: return CommandStepResult.faulted(&"status/contribution_limit")
+		after.contributions.append(contribution)
 	if not BleedingState.valid(after): return CommandStepResult.faulted(&"bleeding/invalid_source")
 	guard = guard.bleeding_phase(_target.id, after)
 	state.ticks_left = after["ticks_left"]
 	state.source = _source.to_dict()
 	state.hit_id = _hit_id
 	if state.stacked: state.stacks = after["stacks"]
+	if state.authored: state.contributions.assign(after.contributions.duplicate(true))
 	var event := {"kind": &"bleeding_changed", "actor_unit_id": _source.instigator_unit_id, "target_unit_id": _target.id, "reason": &"applied" if before["ticks_left"] == 0 else &"refreshed", "before": before, "after": after}
 	var result := CommandStepResult.applied([event], [], [], null, true)
 	if not guard.check(context) or validate(context) != &"":

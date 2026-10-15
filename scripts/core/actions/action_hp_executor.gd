@@ -50,7 +50,8 @@ static func validate_heal(target_id: int, amount: float, source: DamageSource, c
 	reason = _target(target_id, context)
 	if reason != &"": return reason
 	var maximum := _stat_value(context.get_state().get_board().get_unit_by_id(target_id), StatTypes.StatType.HP_MAX)
-	if context.get_state().get_board().get_unit_by_id(target_id).armor != null and (amount != floorf(amount) or amount > ArmorRuntime.MAX_EXACT_HP): return &"armor/fractional_heal"
+	var armor := context.get_state().get_board().get_unit_by_id(target_id).armor
+	if armor != null and ((not armor.fractional and amount != floorf(amount)) or amount > ArmorRuntime.MAX_EXACT_HP): return &"armor/fractional_heal"
 	return &"invalid_hp_max" if not is_finite(maximum) else &""
 
 static func validate_death(target_id: int, source: DamageSource, context: ActionContext) -> StringName:

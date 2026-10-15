@@ -91,7 +91,7 @@ func _content_restore() -> void:
 	check(HeroHubState.from_dict(raw) == null,"profile refuses different saved content")
 	var path := "user://u14-content-%d.save" % Time.get_ticks_usec()
 	var payload := var_to_bytes(raw)
-	var bytes := var_to_bytes({"format":"hero-hub-v6","payload":payload,"sha256":HeroHubStore._digest(payload)})
+	var bytes := var_to_bytes({"format":"hero-hub-v7","payload":payload,"sha256":HeroHubStore._digest(payload)})
 	var file := FileAccess.open(path,FileAccess.WRITE); file.store_buffer(bytes); file.close()
 	var restored := HeroHubStore.read_run(path)
 	check(restored.run == null and restored.error.contains("каталога"),"store returns explicit content refusal")
@@ -106,7 +106,20 @@ func _walk_to_camp() -> void:
 			"battle": step("outcome",receipt())
 			"reward": step("reward",{"index":0})
 			"service":
+				var fractional_item: Dictionary = {}
+				for id: int in profile.party:
+					var equipped := profile.equipped(id,"armor")
+					if not equipped.is_empty() and HeroGearCatalog.definition(equipped.definition).armor_max >= 1:
+						fractional_item = equipped
+						break
+				var expected_remaining: float = -1.0
+				if not fractional_item.is_empty():
+					var maximum: int = HeroGearCatalog.definition(fractional_item.definition).armor_max
+					fractional_item.remaining = float(maximum) - 0.25
+					var percent := ExpeditionCatalog.BOOSTED_SERVICE_PERCENT if profile.expedition.current_node().modifier == "repair" else ExpeditionCatalog.SERVICE_PERCENT
+					expected_remaining = minf(float(maximum),float(fractional_item.remaining) + floorf(maximum * percent / 100.0))
 				step("service",{"kind":"repair"})
+				if expected_remaining >= 0.0: check(profile.items[fractional_item.id].remaining == expected_remaining,"camp repair preserves fractional armor remainder")
 				reject("service",{"kind":"repair"})
 	check(false,"reach camp")
 

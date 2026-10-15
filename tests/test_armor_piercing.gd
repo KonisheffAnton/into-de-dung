@@ -3,6 +3,7 @@ extends SceneTree
 var passed: int = 0
 var failed: int = 0
 const PIERCING: int = StatTypes.StatType.PHYSICAL_PIERCING_PERCENT
+const FIRST_INVALID_STAT_ID: int = StatTypes.StatType.MASTERY + 1
 
 func _initialize() -> void:
 	call_deferred("_run")
@@ -25,7 +26,7 @@ func _run() -> void:
 
 func _ids_and_legacy() -> void:
 	check(PIERCING == 11 and StatTypes.StatType.ATTACK_RANGE == 10, "append only IDs")
-	for bad: Variant in [-1, 12, 11.0, "11", true, null]:
+	for bad: Variant in [-1, FIRST_INVALID_STAT_ID, 11.0, "11", true, null]:
 		check(not StatTypes.is_valid_id(bad), "strict raw stat ID " + str(bad))
 	var old := D4RunState.new().to_dict()
 	(old["items"] as Array).pop_back()
@@ -35,7 +36,7 @@ func _ids_and_legacy() -> void:
 	var bag := StatsBag.from_base_values({PIERCING: 50.0})
 	var raw := bag.to_snapshot_dict()
 	check(StatsBag.from_snapshot_dict(raw).get_value(PIERCING) == 50.0, "new ID in existing stats schema")
-	for bad: Variant in [12, 11.0, "11", true]:
+	for bad: Variant in [FIRST_INVALID_STAT_ID, 11.0, "11", true]:
 		var invalid := raw.duplicate(true)
 		invalid["stats"][0]["stat_type"] = bad
 		check(not StatsBag.validate_snapshot_dict(invalid), "raw stats reject invalid ID " + str(bad))
@@ -72,7 +73,7 @@ func _equipment_and_save() -> void:
 		var changed: ItemDef = definitions[&"d4_piercing_sword"]
 		(changed.effects[0] as StatModifierEffect).value = 25.0
 		check(captured.snapshot.instantiate(definitions).code != ItemSnapshotResult.Code.OK, "catalogue mismatch rejected")
-		for bad: Variant in [12, 11.0, "11", true]:
+		for bad: Variant in [FIRST_INVALID_STAT_ID, 11.0, "11", true]:
 			var invalid := captured.snapshot.to_dict()
 			for owner: Dictionary in invalid["owners"]:
 				for definition: Dictionary in owner["definitions"]:

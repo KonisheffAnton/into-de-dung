@@ -43,7 +43,7 @@ static func create(run: HeroHubState) -> Dictionary:
 		var stats := StatsBag.from_base_values({
 			StatTypes.StatType.HP_MAX: float(hero.max_hp() if hero != null else enemy_hp),
 			StatTypes.StatType.ARMOR: 0.0,
-			StatTypes.StatType.STRENGTH: float(hero.attributes()[0] if hero != null and hero.class_id != &"mage" else 0 if hero != null else enemy_strength),
+			StatTypes.StatType.STRENGTH: float(3 if hero != null and hero.class_id != &"mage" else 0 if hero != null else enemy_strength),
 			StatTypes.StatType.WEAPON_DAMAGE: 0.0 if hero != null else float(encounter.enemy_weapon_damage),
 			StatTypes.StatType.IMPACT_POWER: 4.0 if hero != null else float(encounter.enemy_impact),
 			StatTypes.StatType.BALANCE_MAX: float(hero.balance_max() if hero != null else encounter.enemy_balance),
@@ -53,12 +53,19 @@ static func create(run: HeroHubState) -> Dictionary:
 			StatTypes.StatType.ATTACK_RANGE: float(hero_class.attack_range if hero != null else encounter.enemy_range),
 			StatTypes.StatType.PHYSICAL_PIERCING_PERCENT: 0.0,
 		})
+		if hero != null:
+			var attributes := hero.attributes()
+			var attribute_types := [StatTypes.StatType.POWER, StatTypes.StatType.DEXTERITY, StatTypes.StatType.ENDURANCE, StatTypes.StatType.INTELLECT, StatTypes.StatType.MASTERY]
+			for attribute_index: int in attribute_types.size(): stats.set_base_value(attribute_types[attribute_index], float(attributes[attribute_index]))
 		var cell := Vector2i(1, 2 + index) if hero != null else encounter.enemy_cells[index - run.party.size()]
 		if not enemy_data.is_empty(): cell = ExpeditionOpening.cell(enemy_data.cell)
 		var unit := UnitState.create(Faction.Type.PLAYER if hero != null else Faction.Type.ENEMY, cell, stats, hero.name if hero != null else "Дозорный %d" % (index - run.party.size() + 1))
 		unit.armor = ArmorState.new(); unit.armor.in_battle = false
+		unit.armor.fractional = true
 		unit.bleeding = BleedingState.new(); unit.bleeding.stacked = true
+		unit.bleeding.authored = true
 		unit.control = ControlState.new(); unit.elemental = ElementalState.new()
+		unit.elemental.authored = true
 		unit.combat_perks = CombatPerksState.new()
 		if not enemy_data.is_empty():
 			unit.debug_name = enemy_data.name
@@ -70,7 +77,8 @@ static func create(run: HeroHubState) -> Dictionary:
 			unit.bleeding.immune = enemy_data.role == "shield"
 		if hero != null:
 			unit.vitals.set_hp(hero.hp_current)
-			unit.armor.natural.fire = hero.fire_resistance()
+			unit.armor.natural.fire = int(hero.fire_resistance() * 100.0)
+			unit.armor.natural.physical = int(hero.physical_resistance() * 100.0)
 			unit.combat_perks.definition.tank_reactions = hero.class_id == &"warrior"
 			unit.combat_perks.definition.counterattack = hero.class_id == &"warrior"
 			unit.combat_perks.definition.stunning_strike = hero.class_id == &"warrior"
@@ -82,7 +90,7 @@ static func create(run: HeroHubState) -> Dictionary:
 			var attack := _attack(MageDeckRules.hero_attack_id(unit.id))
 			if hero.class_id == &"mage":
 				var weapon := run.equipped(hero.id, "weapon")
-				attack.damage_components.append(_fire(hero.attributes()[0] + (hero_class.weapon_damage if not weapon.is_empty() else 0)))
+				attack.damage_components.append(_fire(3 + (hero_class.weapon_damage if not weapon.is_empty() else 0)))
 			definitions.append(attack)
 			session.actor_loadouts[unit.id] = {"class_id":hero.class_id,"attack_id":attack.id}
 			if hero.class_id == &"shieldbearer": session.unit_visual_classes[unit.id] = &"warrior"

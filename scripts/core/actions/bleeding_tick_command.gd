@@ -27,6 +27,12 @@ func execute(context: ActionContext) -> CommandStepResult:
 	if guard == null: return CommandStepResult.faulted(&"bleeding/invalid_tick")
 	var source := DamageSource.new(&"status", 0, _target.cell, _expected["source"]["instigator_unit_id"], _expected["source"]["credit_unit_id"])
 	var raw: Array[Dictionary] = [{"type": "physical", "policy": "hp_only_natural", "source": "bleeding", "numerator": _target.bleeding.stacks if _target.bleeding.stacked else BleedingState.DAMAGE, "denominator": 1}]
+	if _target.bleeding.authored:
+		var amount := StatusContributions.total(_expected.contributions)
+		if not amount.valid: return CommandStepResult.faulted(&"bleeding/damage_exhausted")
+		source = StatusContributions.damage_source(_expected.contributions, _target.cell)
+		if source == null: return CommandStepResult.faulted(&"bleeding/invalid_source")
+		raw[0].numerator = amount.numerator; raw[0].denominator = amount.denominator
 	var request := ArmorAttack.request(_target.id, raw, source)
 	var plan := ArmorHitExecutor.prepare(request, guard.values["participants"][_target.id]["armor"], _target.vitals.get_hp(), ActionHpExecutor._stat_value(_target, StatTypes.StatType.HP_MAX), context.get_rng(), ElementalRules.is_frozen(_target))
 	if source.validate(context) != &"" or plan.get("reason", &"") != &"": return CommandStepResult.faulted(&"bleeding/invalid_tick")
@@ -39,11 +45,13 @@ func execute(context: ActionContext) -> CommandStepResult:
 		if state.stacked: after["stacks"] = 0
 		after["source"] = {}
 		after["hit_id"] = ""
+		if state.authored: after.contributions.clear()
 	guard = guard.bleeding_phase(_target.id, after)
 	state.ticks_left = after["ticks_left"]
 	state.source = after["source"].duplicate(true)
 	state.hit_id = after["hit_id"]
 	if state.stacked: state.stacks = after["stacks"]
+	if state.authored: state.contributions.assign(after.contributions.duplicate(true))
 	var event := {"kind": &"bleeding_changed", "actor_unit_id": source.instigator_unit_id, "target_unit_id": _target.id, "reason": &"tick", "before": _expected.duplicate(true), "after": after}
 	var result := CommandStepResult.applied([event], [], [], null, true)
 	if not guard.check(context):

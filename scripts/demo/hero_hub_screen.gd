@@ -9,7 +9,7 @@ var deck_draft: Array = []
 
 var run: HeroHubState
 var selected_hero_id: int = 0
-var pending_delta: Array[int] = [0, 0, 0, 0]
+var pending_delta: Array[int] = [0, 0, 0, 0, 0]
 var battle_view: HeroHubBattleView
 var _battle_bundle: Dictionary = {}
 var _pending_save: HeroHubState
@@ -296,8 +296,8 @@ func _hero_detail(hero: HeroProgression) -> String:
 	var equipped_weapon := run.equipped(hero.id, "weapon") if not is_candidate else {}
 	var weapon_damage := float(definition.weapon_damage) if is_candidate else (0.0 if equipped_weapon.is_empty() else _weapon_damage(String(equipped_weapon.definition), definition.weapon_damage))
 	var equipped_armor := run.equipped(hero.id, "armor") if not is_candidate else {}
-	var armor_text := "%d/%d" % [definition.armor_max, definition.armor_max] if is_candidate else ("%d/%d" % [equipped_armor.remaining, HeroGearCatalog.definition(String(equipped_armor.definition)).armor_max] if not equipped_armor.is_empty() else "0/0")
-	var base_stats := "Мощь %d · Ловкость %d · Выносливость %d · Интеллект %d" % [stats[0], stats[1], stats[2], stats[3]]
+	var armor_text := "%d/%d" % [definition.armor_max, definition.armor_max] if is_candidate else ("%.1f/%d" % [float(equipped_armor.remaining), HeroGearCatalog.definition(String(equipped_armor.definition)).armor_max] if not equipped_armor.is_empty() else "0.0/0")
+	var base_stats := "Мощь %d · Ловкость %d · Выносливость %d · Интеллект %d · Мастерство %d" % [stats[0], stats[1], stats[2], stats[3], stats[4]]
 	var xp_text := "%d.%d опыта всего" % [hero.xp_tenths / 10, hero.xp_tenths % 10]
 	var perk := HeroCatalog.perk_text(hero.perk)
 	var weapon_name: String = {"warrior":"меч", "shieldbearer":"меч", "archer":"лук", "rogue":"кинжал", "mage":"посох"}.get(String(hero.class_id), "оружие класса")
@@ -305,7 +305,7 @@ func _hero_detail(hero: HeroProgression) -> String:
 	if hero.class_id == &"mage": abilities += " Броня +20."
 	abilities += " Общие действия: походный флакон (4 + Мощь), стойка." if hero.class_id == &"shieldbearer" else " Общие действия: походный флакон (4 + Мощь), общий отход и стойка."
 	var allowed := "Оружие: только %s своего класса · доспехи: любое обычное имеющееся" % weapon_name
-	return "%s\n%s\nУровень %d · %s · свободно очков: %d\nПерк: %s\nБазовые атрибуты: Мощь %d / Ловкость %d / Выносливость %d / Интеллект %d\nHP %.1f/%d · равновесие %d · движение %.0f · сопротивление огню %d%%\nБроня надетого доспеха: %s · базовый урон оружия: %s\nСпособности: %s\nДопуски: %s" % [hero.name, base_stats, hero.level(), xp_text, hero.available_points(), perk, hero.base_attributes[0], hero.base_attributes[1], hero.base_attributes[2], hero.base_attributes[3], hero.hp_current, hero.max_hp(), hero.balance_max(), hero.move_max(), hero.fire_resistance(), armor_text, String.num(weapon_damage).trim_suffix(".0"), abilities, allowed]
+	return "%s\n%s\nУровень %d · %s · свободно очков: %d\nПерк: %s\nБазовые атрибуты: Мощь %d / Ловкость %d / Выносливость %d / Интеллект %d / Мастерство %d\nHP %.1f/%.1f · равновесие %d · движение %.0f · естественное сопротивление: физ. %.1f%% / огонь %.1f%%\n%s\nБроня надетого доспеха: %s · базовый урон оружия: %s\nСпособности: %s\nДопуски: %s" % [hero.name, base_stats, hero.level(), xp_text, hero.available_points(), perk, hero.base_attributes[0], hero.base_attributes[1], hero.base_attributes[2], hero.base_attributes[3], hero.base_attributes[4], hero.hp_current, hero.max_hp(), hero.balance_max(), hero.move_max(), hero.physical_resistance(), hero.fire_resistance(), _attribute_effects_text(hero), armor_text, String.num(weapon_damage).trim_suffix(".0"), abilities, allowed]
 
 func _weapon_damage(key: String, fallback: int) -> float:
 	var definition := HeroGearCatalog.definition(key)
@@ -321,11 +321,11 @@ func _allocation_controls() -> void:
 	if hero == null:
 		_text("Выберите героя для изменения характеристик.")
 		return
-	var attributes := ["Мощь", "Ловкость", "Выносливость", "Интеллект"]
+	var attributes := ["Мощь", "Ловкость", "Выносливость", "Интеллект", "Мастерство"]
 	var preview := HeroProgression.from_dict(hero.to_dict())
 	var preview_ok := preview != null and _delta_sum() > 0 and preview.apply_allocation(pending_delta)
 	var panel := HubUI.instance("allocation_panel", _content)
-	for index: int in 4:
+	for index: int in 5:
 		var cell := HubUI.instance("attribute_entry", panel.get_node("Attributes"))
 		HubUI.text(cell, ^"Title", attributes[index])
 		HubUI.text(cell, ^"Controls/Value", "%d" % pending_delta[index])
@@ -345,20 +345,25 @@ func _allocation_controls() -> void:
 
 func _stat_preview(hero: HeroProgression) -> String:
 	var attrs := hero.attributes()
-	return "Мощь %d · Ловкость %d · Выносливость %d · Интеллект %d · HP %.1f/%d · HP макс. %d · равновесие %d · движение %.0f · огонь %d%% · %s · флакон %d HP" % [attrs[0], attrs[1], attrs[2], attrs[3], hero.hp_current, hero.max_hp(), hero.max_hp(), hero.balance_max(), hero.move_max(), hero.fire_resistance(), _attack_base_text(hero), 4 + attrs[0]]
+	return "Мощь %d · Ловкость %d · Выносливость %d · Интеллект %d · Мастерство %d · HP %.1f/%.1f · HP макс. %.1f · равновесие %d · движение %.0f · физ. %.1f%% / огонь %.1f%% · %s · %s · флакон %d HP" % [attrs[0], attrs[1], attrs[2], attrs[3], attrs[4], hero.hp_current, hero.max_hp(), hero.max_hp(), hero.balance_max(), hero.move_max(), hero.physical_resistance(), hero.fire_resistance(), _attribute_effects_text(hero), _attack_base_text(hero), 4 + attrs[0]]
+
+func _attribute_effects_text(hero: HeroProgression) -> String:
+	var attrs := hero.attributes()
+	return "Прямой урон ×%.2f · урон состояний ×%.2f · бонус позиции ×%.2f · крит ×%.2f" % [CharacterAttributeRules.power_multiplier(float(attrs[0])), CharacterAttributeRules.status_multiplier(float(attrs[3])), CharacterAttributeRules.position_bonus_multiplier(float(attrs[4])), CharacterAttributeRules.critical_multiplier(float(attrs[4]))]
 
 func _allocation_delta_text(before: HeroProgression, after: HeroProgression) -> String:
 	var old_stats := before.attributes()
 	var new_stats := after.attributes()
-	var labels: Array[String] = ["Мощь", "Ловкость", "Выносливость", "Интеллект"]
+	var labels: Array[String] = ["Мощь", "Ловкость", "Выносливость", "Интеллект", "Мастерство"]
 	var parts: PackedStringArray = []
-	for index: int in 4:
+	for index: int in 5:
 		parts.append("%s %d→%d (%+d)" % [labels[index], old_stats[index], new_stats[index], new_stats[index] - old_stats[index]])
 	parts.append("HP %.1f→%.1f (%+.1f)" % [before.hp_current, after.hp_current, after.hp_current - before.hp_current])
-	parts.append("макс. HP %d→%d (%+d)" % [before.max_hp(), after.max_hp(), after.max_hp() - before.max_hp()])
+	parts.append("макс. HP %.1f→%.1f (%+.1f)" % [before.max_hp(), after.max_hp(), after.max_hp() - before.max_hp()])
 	parts.append("равновесие %d→%d (%+d)" % [before.balance_max(), after.balance_max(), after.balance_max() - before.balance_max()])
 	parts.append("движение %.0f→%.0f (%+.0f)" % [before.move_max(), after.move_max(), after.move_max() - before.move_max()])
-	parts.append("сопротивление огню %d→%d (%+d%%)" % [before.fire_resistance(), after.fire_resistance(), after.fire_resistance() - before.fire_resistance()])
+	parts.append("естественное сопротивление физ. %.1f→%.1f%% / огню %.1f→%.1f%%" % [before.physical_resistance(), after.physical_resistance(), before.fire_resistance(), after.fire_resistance()])
+	parts.append("Прямой урон ×%.2f→%.2f · состояния ×%.2f→%.2f · бонус позиции ×%.2f→%.2f · крит ×%.2f→%.2f" % [CharacterAttributeRules.power_multiplier(float(old_stats[0])), CharacterAttributeRules.power_multiplier(float(new_stats[0])), CharacterAttributeRules.status_multiplier(float(old_stats[3])), CharacterAttributeRules.status_multiplier(float(new_stats[3])), CharacterAttributeRules.position_bonus_multiplier(float(old_stats[4])), CharacterAttributeRules.position_bonus_multiplier(float(new_stats[4])), CharacterAttributeRules.critical_multiplier(float(old_stats[4])), CharacterAttributeRules.critical_multiplier(float(new_stats[4]))])
 	parts.append("%s→%s" % [_attack_base_text(before), _attack_base_text(after)])
 	parts.append("флакон %d→%d HP" % [4 + before.attributes()[0], 4 + after.attributes()[0]])
 	return " · ".join(parts)
@@ -367,9 +372,10 @@ func _attack_base_text(hero: HeroProgression) -> String:
 	var class_definition := HeroCatalog.class_definition(hero.class_id)
 	var weapon: Dictionary = run.equipped(hero.id, "weapon") if run != null and run.heroes.has(hero.id) else {}
 	var weapon_value := 0.0 if weapon.is_empty() else _weapon_damage(String(weapon.definition), class_definition.weapon_damage)
+	var attack_base := (3.0 + weapon_value) * CharacterAttributeRules.power_multiplier(float(hero.attributes()[0]))
 	if hero.class_id == &"mage":
-		return "огненная база %d (не урон по цели)" % (hero.attributes()[0] + int(weapon_value))
-	return "база основной атаки %d (не урон по цели)" % (hero.attributes()[0] + int(weapon_value))
+		return "огненная база %.1f (не урон по цели)" % attack_base
+	return "база основной атаки %.1f (не урон по цели)" % attack_base
 
 func _equipment_controls() -> void:
 	var page := _page("BasePage")
@@ -383,7 +389,7 @@ func _equipment_controls() -> void:
 		var definition := HeroGearCatalog.definition(String(item.definition))
 		if definition == null: continue
 		var owner := "на складе" if int(item.hero_id) == 0 else "надето на " + String((run.heroes[item.hero_id] as HeroProgression).name)
-		var detail := " · броня %d/%d" % [item.remaining, definition.armor_max] if definition.armor_max > 0 else ""
+		var detail := " · броня %.1f/%d" % [float(item.remaining), definition.armor_max] if definition.armor_max > 0 else ""
 		var row := HubUI.instance("equipment_entry", page.get_node("Equipment"))
 		HubUI.text(row, ^"Detail", "%s #%d · %s%s" % [definition.display_name, item_id, owner, detail])
 		var unequip := HubUI.bind(row, ^"Unequip", _unequip.bind(item_id))
@@ -406,14 +412,14 @@ func _hire(index: int) -> void:
 func _apply_allocation() -> void:
 	if _delta_sum() <= 0: return
 	var delta: Array[int] = pending_delta.duplicate()
-	pending_delta = [0, 0, 0, 0]
+	pending_delta = [0, 0, 0, 0, 0]
 	if run.phase == "expedition":
 		_expedition_action("allocate", {"hero":selected_hero_id,"delta":delta})
 		return
 	_mutate(&"allocate", [selected_hero_id, delta])
 
 func _respec() -> void:
-	pending_delta = [0, 0, 0, 0]
+	pending_delta = [0, 0, 0, 0, 0]
 	_mutate(&"respec", [selected_hero_id])
 
 func _equip(item_id: int, hero_id: int) -> void:
@@ -432,15 +438,12 @@ func _change_delta(index: int, amount: int) -> void:
 	if next < 0 or _delta_sum() + amount > hero.available_points(): return
 	var projected := HeroProgression.from_dict(hero.to_dict())
 	if amount > 0:
-		var trial := pending_delta.duplicate()
-		trial[index] += 1
-		var projected_alloc: Array[int] = [trial[0], trial[1], trial[2], trial[3]]
-		if projected.available_points() < _delta_sum() + 1 or projected.attributes()[index] + projected_alloc[index] > 40: return
+		if projected.available_points() < _delta_sum() + 1: return
 	pending_delta[index] = next
 	_render()
 
 func _cancel_allocation() -> void:
-	pending_delta = [0, 0, 0, 0]
+	pending_delta = [0, 0, 0, 0, 0]
 	_render()
 
 func _delta_sum() -> int:
@@ -450,7 +453,7 @@ func _delta_sum() -> int:
 
 func _select_hero(id: int) -> void:
 	selected_hero_id = id
-	pending_delta = [0, 0, 0, 0]
+	pending_delta = [0, 0, 0, 0, 0]
 	_render()
 
 func _selected_name() -> String:

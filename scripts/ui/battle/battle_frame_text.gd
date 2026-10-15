@@ -17,12 +17,12 @@ static func roster(row: Dictionary) -> String:
 	return text
 
 static func details(row: Dictionary) -> String:
-	return "%s · основное %d · движение %.1f · броня %d + %d" % [
+	return "%s · основное %d · движение %.1f · броня %s + %s" % [
 		row.name,
 		row.main,
 		row.move,
-		int(row.armor.get("current", 0)) - int(row.armor.get("extra", 0)),
-		int(row.armor.get("extra", 0))
+		BattleEventText.amount_text(float(row.armor.get("current", 0)) - float(row.armor.get("extra", 0))),
+		BattleEventText.amount_text(float(row.armor.get("extra", 0)))
 	]
 
 static func mage(abilities: Dictionary, deck: Dictionary) -> String:

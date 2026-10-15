@@ -337,10 +337,16 @@ static func capture_guard(context: ActionContext, units: Array[UnitState], cells
 		var stats_copy := StatsBag.from_snapshot_dict(stats_snapshot)
 		if stats_copy == null: return null
 		var stats_values: Dictionary = {}
-		for type: int in stat_types.get(unit.id, []):
+		var requested_types: Array = stat_types.get(unit.id, []).duplicate()
+		var attribute_types := [StatTypes.StatType.POWER, StatTypes.StatType.DEXTERITY, StatTypes.StatType.ENDURANCE, StatTypes.StatType.INTELLECT, StatTypes.StatType.MASTERY]
+		if unit.armor != null and unit.armor.fractional:
+			# Новые коэффициенты участвуют в подготовке удара и не могут измениться в callback оплаты.
+			for type: int in attribute_types:
+				if not requested_types.has(type): requested_types.append(type)
+		for type: int in requested_types:
 			# Старые юниты не объявляют пробивание: фиксируем отсутствие, чтобы callback
 			# не мог добавить его между оплатой и попаданием незамеченным.
-			if type == StatTypes.StatType.PHYSICAL_PIERCING_PERCENT and not stats_copy.has_stat(type):
+			if (type == StatTypes.StatType.PHYSICAL_PIERCING_PERCENT or attribute_types.has(type)) and not stats_copy.has_stat(type):
 				stats_values[type] = null
 				continue
 			if not stats_copy.has_stat(type): return null

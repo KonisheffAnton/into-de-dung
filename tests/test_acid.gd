@@ -28,6 +28,7 @@ func _run() -> void:
 	_zero_armor_and_unrelated_statuses()
 	_queue_simulation_parity()
 	_overflow_and_invalid_runtime()
+	_fractional_armor_wear()
 	_root_rejection()
 	_signal_guard()
 	print("ACID RESULTS: %d passed, %d failed" % [passed, failed])
@@ -212,6 +213,42 @@ func _overflow_and_invalid_runtime() -> void:
 	_check(not ElementalRules.valid_unit(unit), "negative runtime acid is not silently normalized")
 	var invalid := _submit(session, unit)
 	_check(invalid.status == ActionReceipt.REJECTED, "invalid runtime acid refuses command")
+	session.close()
+
+func _fractional_armor_wear() -> void:
+	var session := _fixture()
+	var unit := session.units[1]
+	unit.armor.fractional = true
+	unit.armor.grants = [
+		{"grant_id": 1, "source": "persistent", "remaining": 0.25, "expires": "persistent", "battle_id": unit.armor.battle_id},
+		{"grant_id": 2, "source": "battle", "remaining": 0.25, "expires": "battle", "battle_id": unit.armor.battle_id},
+	]
+	unit.armor.next_grant_id = 3
+	var owner := session.state.get_owner(unit.id)
+	var equipped: ItemInstance
+	for id: int in owner._items:
+		var candidate: ItemInstance = owner._items[id]
+		if candidate._placement >= ItemOwnerState.EQUIPMENT_BASE and candidate.get_definition().armor_max > 0:
+			equipped = candidate
+			candidate.armor_remaining = 0.5
+			break
+	var hp_before: float = unit.vitals.get_hp()
+	_check(equipped != null and _submit(session, unit).status == ActionReceipt.APPLIED, "fractional armor fixture admits acid")
+	var receipt := _submit(session, unit, true, false)
+	_check(receipt.status == ActionReceipt.APPLIED, "acid tick resolves with fractional armor")
+	_check(unit.armor.grants[1]["remaining"] == 0.0 and unit.armor.grants[0]["remaining"] == 0.0 and equipped.armor_remaining == 0.0, "acid exactly exhausts fractional grants then equipped item")
+	_check(ArmorRuntime.totals(ArmorRuntime.capture(owner))["current"] == 0.0 and unit.vitals.get_hp() == hp_before, "fractional acid preserves exact exhaustion without hp damage")
+	session.close()
+
+	session = _fixture()
+	unit = session.units[1]
+	unit.armor.fractional = true
+	for item: ItemInstance in session.state.get_owner(unit.id)._items.values():
+		if item._placement >= ItemOwnerState.EQUIPMENT_BASE and item.get_definition().armor_max > 0:
+			item.armor_remaining = NAN
+			break
+	var invalid_receipt := _submit(session, unit)
+	_check(invalid_receipt.status == ActionReceipt.REJECTED and unit.elemental.acid_ticks == 0, "non-finite armor refuses acid before mutation")
 	session.close()
 
 func _root_rejection() -> void:

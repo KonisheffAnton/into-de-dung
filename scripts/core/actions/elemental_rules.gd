@@ -26,7 +26,7 @@ static func shatter(plan: Dictionary, frozen: bool) -> Dictionary:
 		plan["hp_gain"] = 0
 	return plan
 
-static func transition(before: Dictionary, effect: StringName, ticks: int, source: Dictionary, freeze_allowed: bool = false) -> Dictionary:
+static func transition(before: Dictionary, effect: StringName, ticks: int, source: Dictionary, freeze_allowed: bool = false, intelligence: float = 10.0) -> Dictionary:
 	if not ElementalState.valid(before) or ticks < 1: return {"reason": &"status/invalid_state"}
 	var after := before.duplicate(true)
 	match effect:
@@ -42,6 +42,10 @@ static func transition(before: Dictionary, effect: StringName, ticks: int, sourc
 				after["burning_stacks"] += 1
 				after["burning_ticks"] += ticks
 				after["burning_source"] = source.duplicate(true)
+				if after.has("burning_contributions"):
+					var contribution := StatusContributions.make(source, intelligence)
+					if contribution.is_empty() or after.burning_contributions.size() >= StatusContributions.MAX_RECORDS: return {"reason": &"status/contribution_limit"}
+					after.burning_contributions.append(contribution)
 		&"wet":
 			_clear_burning(after)
 			after["wet_turns"] = 3
@@ -75,6 +79,7 @@ static func _clear_burning(value: Dictionary) -> void:
 	value["burning_stacks"] = 0
 	value["burning_ticks"] = 0
 	value["burning_source"] = {}
+	if value.has("burning_contributions"): value.burning_contributions.clear()
 
 ## Обе записи защищены тем же guard; сигнал не может подменить второй статус.
 static func write(unit: UnitState, after: Dictionary, guard: SpatialRules.Guard, context: ActionContext, effect: StringName, actor: int = 0, command_check: Callable = Callable()) -> Dictionary:
@@ -90,6 +95,7 @@ static func write(unit: UnitState, after: Dictionary, guard: SpatialRules.Guard,
 		state.burning_stacks = after["burning_stacks"]
 		state.burning_ticks = after["burning_ticks"]
 		state.burning_source = after["burning_source"].duplicate(true)
+		if state.authored: state.burning_contributions.assign(after.burning_contributions.duplicate(true))
 		state.wet_turns = after["wet_turns"]
 		state.frozen_turns = after["frozen_turns"]
 		state.acid_ticks = int(after.get("acid_ticks", 0))
@@ -103,11 +109,13 @@ static func write(unit: UnitState, after: Dictionary, guard: SpatialRules.Guard,
 		var bleed_before := unit.bleeding.to_dict()
 		var bleed_after := bleed_before.duplicate(true)
 		bleed_after.merge({"ticks_left": 0, "stacks": 0, "source": {}, "hit_id": ""}, true)
+		if bleed_after.has("contributions"): bleed_after.contributions.clear()
 		guard = guard.bleeding_phase(unit.id, bleed_after)
 		unit.bleeding.ticks_left = 0
 		unit.bleeding.stacks = 0
 		unit.bleeding.source = {}
 		unit.bleeding.hit_id = ""
+		if unit.bleeding.authored: unit.bleeding.contributions.clear()
 		result.state_changed = true
 		result.events.append({"kind": &"bleeding_changed", "actor_unit_id": actor, "target_unit_id": unit.id, "reason": &"burned", "before": bleed_before, "after": bleed_after})
 		if guard.check(context): unit.bleeding.changed.emit()

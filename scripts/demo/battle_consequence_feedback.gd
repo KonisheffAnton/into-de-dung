@@ -33,7 +33,7 @@ static func entries(events: Array, before: Dictionary, after: Dictionary) -> Arr
 						if typeof(row_value) != TYPE_DICTIONARY:
 							continue
 						var row: Dictionary = row_value
-						if StringName(row.get("policy", &"")) == &"hp_only_natural" and int(row.get("hp_damage", 0)) > 0:
+						if StringName(row.get("policy", &"")) == &"hp_only_natural" and float(row.get("hp_damage", 0)) > 0.0:
 							_add(result, seen, target_id, "Сквозь броню", &"armor")
 							break
 			&"balance_broken":
@@ -94,11 +94,11 @@ static func _unit(snapshot: Dictionary, unit_id: int) -> Dictionary:
 	var value: Variant = (units as Dictionary).get(unit_id, {})
 	return value if typeof(value) == TYPE_DICTIONARY else {}
 
-static func _armor_current(unit: Dictionary) -> int:
+static func _armor_current(unit: Dictionary) -> float:
 	var armor: Variant = unit.get("armor", {})
 	if typeof(armor) != TYPE_DICTIONARY:
 		return 0
-	return int((armor as Dictionary).get("current", 0))
+	return float((armor as Dictionary).get("current", 0))
 
 static func _has_negative_armor_delta(events: Array, target_id: int) -> bool:
 	var total_delta := 0.0

@@ -3,7 +3,7 @@ class_name SpellShield
 
 ## Один щит на фигуру. ID задаёт обновление/замену, а не дополнительный слой.
 static func valid(value: Variant) -> bool:
-	return ItemSimulationSnapshot._shape(value, {"spell_id": TYPE_STRING, "hp": TYPE_INT, "hits_left": TYPE_INT}) and not value.spell_id.is_empty() and value.spell_id.to_utf8_buffer().size() <= 128 and value.hp > 0 and value.hp <= ArmorRuntime.MAX_EXACT_HP and value.hits_left > 0 and value.hits_left <= 4096
+	return CombatAmount.shape(value, {"spell_id": TYPE_STRING, "hp": TYPE_INT, "hits_left": TYPE_INT}, ["hp"]) and not value.spell_id.is_empty() and value.spell_id.to_utf8_buffer().size() <= 128 and value.hp > 0 and value.hits_left > 0 and value.hits_left <= 4096
 
 static func make(id: StringName, hp: int, hits: int) -> Dictionary:
 	var value := {"spell_id": String(id), "hp": hp, "hits_left": hits}
@@ -59,7 +59,7 @@ static func intercept(raw: Array[Dictionary], shield: Dictionary) -> Dictionary:
 	return {"reason": &"", "raw": adjusted, "before": shield.duplicate(true), "after": after, "absorbed": absorbed}
 
 static func valid_event(event: Dictionary) -> bool:
-	if not ItemSimulationSnapshot._shape(event, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "source": TYPE_DICTIONARY, "before": TYPE_DICTIONARY, "after": TYPE_DICTIONARY, "absorbed": TYPE_INT, "reason": TYPE_STRING}): return false
+	if not CombatAmount.shape(event, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "source": TYPE_DICTIONARY, "before": TYPE_DICTIONARY, "after": TYPE_DICTIONARY, "absorbed": TYPE_INT, "reason": TYPE_STRING}, ["absorbed"]): return false
 	if event.kind != &"shield_changed" or event.target_unit_id <= 0 or event.target_unit_id >= ActionContext.MAX_ID or event.actor_unit_id < 0 or event.actor_unit_id >= ActionContext.MAX_ID or not ItemSimulationSnapshot._shape(event.source, {"kind": TYPE_STRING_NAME, "source_instance_id": TYPE_INT, "origin_cell": TYPE_VECTOR2I, "instigator_unit_id": TYPE_INT, "credit_unit_id": TYPE_INT}): return false
 	var source: Dictionary = event.source
 	if source.kind not in DamageSource.KINDS or source.instigator_unit_id != event.actor_unit_id: return false

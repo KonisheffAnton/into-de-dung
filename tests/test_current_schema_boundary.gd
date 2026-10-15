@@ -26,6 +26,13 @@ func codec(raw: Dictionary, version: int, valid: Callable, restore: Callable, la
 	check(var_to_bytes(raw) == before, label + " validation does not mutate source")
 
 func run() -> void:
+	var hub := HeroHubState.create(1091)
+	var hub_data := hub.to_dict()
+	check(hub_data.schema == 7 and HeroHubState.from_dict(hub_data) != null, "hero hub schema seven accepted")
+	for unsupported: int in [6, 8]:
+		var changed_hub := hub_data.duplicate(true)
+		changed_hub.schema = unsupported
+		check(HeroHubState.from_dict(changed_hub) == null, "hero hub rejects unsupported schema " + str(unsupported))
 	codec(ArmorState.new().to_dict(), 4, ArmorState.valid, ArmorState.from_dict, "armor")
 	codec(BleedingState.new().to_dict(), 4, BleedingState.valid, BleedingState.from_dict, "bleeding")
 	codec(ElementalState.new().to_dict(), 3, ElementalState.valid, ElementalState.from_dict, "elemental")

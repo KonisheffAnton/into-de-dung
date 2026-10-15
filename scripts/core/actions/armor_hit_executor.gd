@@ -55,15 +55,15 @@ static func execute(request: DamageRequest, guard: SpatialRules.Guard, context: 
 		step.events.append({"kind": &"raised_shield_used", "actor_unit_id": pinned_source.instigator_unit_id, "target_unit_id": id, "before": plan.raised_shield.before, "after": plan.raised_shield.after})
 		step.state_changed = true
 		if not check.call(): return out
-	if plan.has("shield") and int(plan.shield.absorbed) > 0:
+	if plan.has("shield") and plan.shield.absorbed > 0:
 		var next_view: Dictionary = current[0].values["participants"][id]["armor"].duplicate(true)
 		SpellShield.write_state(next_view.state, plan.shield.after)
 		current[0] = current[0].armor_phase(id, next_view)
 		state.shield = plan.shield.after.duplicate(true)
-		step.events.append({"kind": &"shield_changed", "actor_unit_id": pinned_source.instigator_unit_id, "target_unit_id": id, "source": pinned_source.to_dict(), "before": plan.shield.before, "after": plan.shield.after, "absorbed": int(plan.shield.absorbed), "reason": "absorbed"})
+		step.events.append({"kind": &"shield_changed", "actor_unit_id": pinned_source.instigator_unit_id, "target_unit_id": id, "source": pinned_source.to_dict(), "before": plan.shield.before, "after": plan.shield.after, "absorbed": plan.shield.absorbed, "reason": "absorbed"})
 		step.state_changed = true
 		if not check.call(): return out
-		state.changed.emit(&"shield", 0, int(plan.shield.before.hp), int(plan.shield.after.get("hp", 0)))
+		state.changed.emit(&"shield", 0, plan.shield.before.hp, plan.shield.after.get("hp", 0))
 		if not check.call(): return out
 	var changed_grants: Array[Dictionary] = []
 	var changed_items: Array[Dictionary] = []

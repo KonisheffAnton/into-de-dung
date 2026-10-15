@@ -11,7 +11,7 @@
 | Графика | [ART](ART_DIRECTION.md) / [Пресеты](../assets/art_presets/approved/README.md) / [API](GRAPHICS_WORKFLOW.md) |
 | Запуск / проверки | [REPOSITORY_STATE](REPOSITORY_STATE.md) / [TESTING](TESTING.md) |
 | Хаб / итоги / сцены | [H1](HERO_HUB_H1.md) / [Итоги](POST_BATTLE_V1.md) / [Сцены](HUB_SCENES_V1.md) |
-| Характеристики / развитие | [Дизайн V1](CHARACTER_ATTRIBUTES_V1.md) |
+| Характеристики / развитие / дроби | [V1](CHARACTER_ATTRIBUTES_V1.md) |
 | Боевой пакет K9 | [CORE_BATTLE_BATCH_K9](CORE_BATTLE_BATCH_K9.md) |
 | Перки / Щитоносец | [K10](CORE_REACTIONS_K10.md) / [V1](SHIELDBEARER_V1.md) |
 | Контратака | [K12](COUNTERATTACK_K12.md) |

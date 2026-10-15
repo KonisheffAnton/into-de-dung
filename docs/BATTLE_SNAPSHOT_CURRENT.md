@@ -33,9 +33,9 @@
 | Владелец | Форма / признаки режима |
 |---|---|
 | BattleBoard | board2, `height_half_steps` обязателен, включая все нули и пустую доску; board1 отклоняется |
-| ArmorState | armor4; `shield` / `raised_shield` опциональны, отсутствие не включает capability |
-| BleedingState | bleeding4; обязательны `stacked:bool` и `stacks:int`; в режиме срока stacks=0, пределы/источники каждого режима прежние |
-| ElementalState | elemental3; обязательный `acid_ticks:int`, включая ноль |
+| ArmorState | armor4; `shield` / `raised_shield` опциональны; опциональный `fractional:true` включает дробный расчёт V1 |
+| BleedingState | bleeding4; обязательны `stacked:bool` и `stacks:int`; опциональный `contributions:Array` включает авторский режим только при stacked |
+| ElementalState | elemental3; обязательный `acid_ticks:int`; опциональный `burning_contributions:Array` включает авторский режим |
 | CombatPerksState | perks7; все восемь флагов, `uses_bonus_actions:bool` и `reaction_left:int`; при оплате из bonus старый запас строго 0 |
 | CombatEnvironmentState | environment5; `status_effects:bool`, опциональные collapse/hazards; status требует collapse, hazards требует status |
 | BattleAbilityState | abilities3; `ruleset_id` пустой для прежней маны либо `u14-deck-v1`, обязательный `first_team`; прежний режим требует first_team=1 |
@@ -52,9 +52,31 @@ environment1–4/abilities1–2 отклоняются. Game modes и их чи�
 
 Точные runtime-типы, stats/vitals ownership, action owner, диапазоны и связи
 компонентов проверяются при каждом capture. Unit validator не копирует DTO и
-не спускается рекурсивно через предыдущие схемы. Броня сохраняет проверку целого
-HP и effective HP_MAX; наличие elemental требует stacked bleeding4,
+не спускается рекурсивно через предыдущие схемы. Без fractional броня требует
+целые HP и effective HP_MAX; с fractional допускает конечные дроби;
+наличие elemental требует stacked bleeding4,
 а одновременно активные burning/bleeding недопустимы.
+
+### Режим V1 с 2026-10-15
+
+Отсутствие новых полей сохраняет legacy-режим, а `fractional:false` не является
+канонической формой. При fractional HP/щит/остатки grants/items и их дельты
+принимают конечные int/float от 0 до `2^53−1`; числа переносятся без усечения.
+Пять ID характеристик дописаны в StatTypes, прежние ID не изменены.
+
+Запись вклада — `{source:Dictionary,numerator:int,denominator:int}`; дробь
+положительна, сокращена, источник имеет прежнюю форму attack/mage/cell.
+Порядок записей — порядок ещё действующих наложений, число равно stacks,
+максимум 4096. Даже пустой массив сохраняет authored capability.
+Авторский режим требует fractional armor; последний source не заменяет
+массив. Источники прошлых наложений не требуют живого/присутствующего автора.
+`status_snapshot` в результате тика переносит выбранный credit ID после
+проверки вкладов; текущие источники атак продолжают требовать ссылку на юнита.
+Семантика суммы/срока/кредита — [V1](CHARACTER_ATTRIBUTES_V1.md).
+
+Unit9/Item11 и вложенные номера сохраняются: это явные режимы действующей
+формы, а постоянный профиль отдельно переходит на save v7. Все полные копии,
+clone/restore, foreground/worker и presentation DTO несут одинаковые значения.
 
 Item capture сохраняет свежий аудит live-графа, полный обход raw-значений с
 лимитами и проверки owner/item/effect/source/deck связей. Только созданный внутри

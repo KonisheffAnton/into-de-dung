@@ -33,6 +33,11 @@ enum StatType {
 	WEAPON_DAMAGE,
 	ATTACK_RANGE,
 	PHYSICAL_PIERCING_PERCENT, ## Доля физической базы, обходящая броню; ID 11.
+	POWER,
+	DEXTERITY,
+	ENDURANCE,
+	INTELLECT,
+	MASTERY,
 }
 
 ## Одна проверка raw ID для runtime и снимков; float/bool не приводим к enum.
@@ -56,4 +61,9 @@ static func to_display_name(type: StatType) -> String:
 		StatType.WEAPON_DAMAGE: return "Weapon Damage"
 		StatType.ATTACK_RANGE: return "Attack Range"
 		StatType.PHYSICAL_PIERCING_PERCENT: return "Physical Piercing Percent"
+		StatType.POWER: return "Мощь"
+		StatType.DEXTERITY: return "Ловкость"
+		StatType.ENDURANCE: return "Выносливость"
+		StatType.INTELLECT: return "Интеллект"
+		StatType.MASTERY: return "Мастерство"
 	return "Unknown"

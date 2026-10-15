@@ -46,9 +46,14 @@ static func _prepare(context: ActionContext, owner_id: int, cell: Vector2i, spel
 	var helper := UseSummoningItemCommand.make_helper(id, owner.faction, cell, owner.debug_name if owned else "Верховный маг")
 	if helper == null: return {"reason": &"environment/invalid_helper_name"}
 	helper.armor = ArmorState.new(); helper.armor.in_battle = true
+	# Опора передаёт только формат боя, а не характеристики или силу внешнего мага.
+	helper.armor.fractional = owner.armor != null and owner.armor.fractional
 	helper.bleeding = BleedingState.new()
+	helper.bleeding.authored = owner.bleeding != null and owner.bleeding.authored
+	helper.bleeding.stacked = owner.bleeding != null and owner.bleeding.stacked
 	if not owned or owner.elemental != null:
 		helper.elemental = ElementalState.new(); helper.bleeding.stacked = true
+		helper.elemental.authored = owner.elemental != null and owner.elemental.authored
 	if state.deck != null:
 		if effects_after.is_empty() or context.get_attack_rules().get_definition(&"demo_strike") == null: return {"reason": &"summon/invalid_admission"}
 		if BattleCardEffectState.from_dict(effects_after) == null: return {"reason": &"summon/invalid_admission"}

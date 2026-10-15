@@ -74,7 +74,7 @@ static func apply(context: ActionContext, plan: Dictionary, guard: SpatialRules.
 		var expected := guard.armor_phase(target_id, view)
 		target.armor.shield = after_shield.duplicate(true)
 		result.events.append({"kind": &"shield_changed", "actor_unit_id": 0, "target_unit_id": target_id, "source": source.to_dict(), "before": before_shield, "after": after_shield, "absorbed": 0, "reason": "applied" if before_shield.is_empty() else "refreshed" if before_shield.spell_id == after_shield.spell_id else "replaced"})
-		target.armor.changed.emit(&"shield", 0, int(before_shield.get("hp", 0)), int(after_shield.hp))
+		target.armor.changed.emit(&"shield", 0, before_shield.get("hp", 0), after_shield.hp)
 		if not expected.check(context) or not seal_check.call():
 			result.status = &"FAULTED"; result.reason = &"mage/shield_checkpoint"
 	elif not plan.status_plan.is_empty():

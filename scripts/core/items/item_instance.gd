@@ -11,7 +11,7 @@ var _effects: Array[ItemEffectRuntime] = []
 var _active := false
 var _placement := 0
 var _charges_left: int
-var armor_remaining: int = 0
+var armor_remaining: Variant = 0
 var armor_origin_owner: int = 0
 var armor_origin_item: int = 0
 

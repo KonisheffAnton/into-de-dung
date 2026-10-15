@@ -1,9 +1,8 @@
 extends RefCounted
 class_name HeroProgression
 
-const MAX_LEVEL: int = 10
 const MAX_XP_TENTHS: int = 1000000000
-const ATTRIBUTE_COUNT: int = 4
+const ATTRIBUTE_COUNT: int = 5
 
 var id: int = 0
 var class_id: StringName = &""
@@ -17,10 +16,8 @@ var hp_current: float = 0.0
 func level() -> int:
 	var remaining := xp_tenths
 	var result := 1
-	while result < MAX_LEVEL:
+	while remaining >= result * 1000:
 		var cost := result * 1000
-		if remaining < cost:
-			break
 		remaining -= cost
 		result += 1
 	return result
@@ -36,20 +33,24 @@ func attributes() -> Array[int]:
 		result[0] += 1
 	return result
 
-func max_hp() -> int:
+func max_hp() -> float:
 	var values := attributes()
-	return 20 + 2 * values[2] + (4 if perk == &"hardy" else 0)
+	return CharacterAttributeRules.max_hp(float(values[2])) + (4.0 if perk == &"hardy" else 0.0)
 
 func balance_max() -> int:
 	var values := attributes()
-	return 10 + 2 * values[2] + (2 if perk == &"steady" else 0)
+	return int(CharacterAttributeRules.balance_max(float(values[2]))) + (2 if perk == &"steady" else 0)
 
 func move_max() -> float:
 	var values := attributes()
-	return float(3 + floori(float(values[1]) / 3.0) + (1 if perk == &"fleet" else 0))
+	return CharacterAttributeRules.move_max(float(values[1])) + (1.0 if perk == &"fleet" else 0.0)
 
-func fire_resistance() -> int:
-	return mini(50, 3 * attributes()[3])
+func physical_resistance() -> float:
+	# Лимит применяется к ветви попадания после перков, а не к самому вкладу.
+	return CharacterAttributeRules.resistance_contribution(float(attributes()[1]))
+
+func fire_resistance() -> float:
+	return CharacterAttributeRules.resistance_contribution(float(attributes()[3]))
 
 func award_experience_tenths(amount: int) -> bool:
 	if amount < 0 or xp_tenths > MAX_XP_TENTHS - amount:
@@ -58,22 +59,24 @@ func award_experience_tenths(amount: int) -> bool:
 	return true
 
 func apply_allocation(delta: Array[int]) -> bool:
-	if delta.size() != ATTRIBUTE_COUNT or hp_current <= 0.0 or _sum(delta) <= 0 or _sum(delta) > available_points():
+	if delta.size() != ATTRIBUTE_COUNT or hp_current <= 0.0:
 		return false
-	var current := attributes()
-	for index: int in ATTRIBUTE_COUNT:
-		if delta[index] < 0 or current[index] + delta[index] > 40:
-			return false
+	var budget := available_points()
+	var total := 0
+	for value: int in delta:
+		if value < 0 or value > budget - total: return false
+		total += value
+	if total <= 0: return false
 	for index: int in ATTRIBUTE_COUNT:
 		allocated[index] += delta[index]
 	# HP прибавляется только за реально вложенную Выносливость и не лечит сверх максимума.
-	hp_current = minf(float(max_hp()), hp_current + 2.0 * float(delta[2]))
+	hp_current = minf(max_hp(), hp_current + float(delta[2]))
 	return true
 
 func reset_allocations() -> bool:
 	if _sum(allocated) <= 0 or hp_current <= 0.0:
 		return false
-	allocated = [0, 0, 0, 0]
+	allocated = [0, 0, 0, 0, 0]
 	hp_current = minf(hp_current, float(max_hp()))
 	return true
 
@@ -111,12 +114,17 @@ static func from_dict(value: Variant) -> HeroProgression:
 	var raw_alloc: Array = data["allocated"]
 	if raw_base.size() != ATTRIBUTE_COUNT or raw_alloc.size() != ATTRIBUTE_COUNT:
 		return null
+	var base_total := 0
 	for entry: Variant in raw_base:
-		if typeof(entry) != TYPE_INT or entry < 1 or entry > 20:
+		if typeof(entry) != TYPE_INT or entry < 3 or entry > 38:
 			return null
 		base.append(entry)
+		base_total += entry
+	if base_total != 50:
+		return null
 	for entry: Variant in raw_alloc:
-		if typeof(entry) != TYPE_INT or entry < 0 or entry > 9:
+		# Верхняя техническая граница исключает переполнение суммы до проверки уровня.
+		if typeof(entry) != TYPE_INT or entry < 0 or entry > MAX_XP_TENTHS:
 			return null
 		alloc.append(entry)
 	var parsed_id: int = data["id"]
@@ -134,7 +142,7 @@ static func from_dict(value: Variant) -> HeroProgression:
 	result.perk = parsed_perk
 	result.xp_tenths = parsed_xp
 	result.hp_current = parsed_hp
-	if _sum(alloc) > result.level() - 1 or result.attributes().any(func(attribute: int) -> bool: return attribute > 40) or parsed_hp <= 0.0 or parsed_hp > float(result.max_hp()):
+	if _sum(alloc) > result.level() - 1 or parsed_hp <= 0.0 or parsed_hp > result.max_hp():
 		return null
 	return result
 

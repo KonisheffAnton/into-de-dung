@@ -141,7 +141,7 @@ func _reactions_and_armor() -> void:
 	var coat := s.state.get_equipment(middle.id).get_equipped(EquipmentState.EquipSlot.ARMOR)
 	check(coat != null, "fixture owns real equipped armor")
 	if coat != null: coat.armor_remaining = 4
-	var armor_before := coat.armor_remaining if coat != null else -1
+	var armor_before: Variant = coat.armor_remaining if coat != null else -1
 	target.combat_perks.mode = CombatPerksState.Mode.COUNTERATTACK
 	target.action_resources._set_for_refill(target.action_resources.get_main_left(), 1)
 	target.guard_stance = true

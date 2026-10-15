@@ -83,6 +83,7 @@ func run() -> void:
 	check(not HeroHubStore.write_run("user://postbattle/roundtrip.save/blocked",hub).is_empty(),"failed save reports failure")
 	check(HeroHubStore.read_run(disk).run.to_dict() == hub.to_dict(),"failed write leaves committed result intact")
 	_migration(battle_start)
+	_fractional_persistence()
 	_losses_and_final()
 	_legacy()
 	print("EXPEDITION POSTBATTLE RESULTS: %d passed, %d failed" % [passed,failed])
@@ -151,3 +152,54 @@ func _legacy() -> void:
 	check(hub.achievements.total_points == 10 and hub.battle_report.source == "legacy","same profile achievement subsystem in legacy H1")
 	check(hub.repair_after_battle(hub.party[0]) and hub.gold == 136,"legacy repair pays bank gold")
 	check(HeroHubState.from_dict(hub.to_dict()) != null,"legacy postbattle profile validates")
+
+func _fractional_persistence() -> void:
+	var hub := HeroHubState.create(88127)
+	var armored_id: int = 0
+	for item: Dictionary in hub.items.values():
+		if item.hero_id > 0 and HeroGearCatalog.definition(item.definition).armor_max >= 20:
+			armored_id = item.id
+			item.remaining = 19.75
+			break
+	check(armored_id > 0,"fractional fixture has gear with sufficient armor capacity")
+	var started := ExpeditionTransitions.apply(hub,"start")
+	check(started.is_ok(),"fractional profile starts an expedition")
+	if not started.is_ok(): return
+	hub = started.profile
+	var chosen := ExpeditionTransitions.apply(hub,"choose",{"node":hub.expedition.available_nodes()[0]})
+	check(chosen.is_ok(),"fractional profile enters battle")
+	if not chosen.is_ok(): return
+	hub = chosen.profile
+	var checkpoint_item: Dictionary = {}
+	for item: Dictionary in hub.expedition.checkpoint.items:
+		if item.id == armored_id: checkpoint_item = item
+	check(checkpoint_item.get("remaining") == 19.75,"checkpoint preserves fractional armor")
+	var battle_receipt := receipt(hub)
+	battle_receipt.gear[armored_id] = 19.75
+	var result := ExpeditionTransitions.apply(hub,"outcome",battle_receipt)
+	check(result.is_ok(),"fractional armor receipt is accepted")
+	if not result.is_ok(): return
+	hub = result.profile
+	check(hub.items[armored_id].remaining == 19.75,"outcome preserves fractional armor")
+	var quote := PostBattleRules.repair_quote(hub,hub.items[armored_id].hero_id)
+	var expected_amount := minf(10.0,float(HeroGearCatalog.definition(hub.items[armored_id].definition).armor_max) - 19.75)
+	check(quote.get("amount") == expected_amount and quote.get("cost") == ceili(expected_amount * 2.0),"partial repair keeps fractional amount and rounds fee up")
+	if not quote.is_empty() and quote.affordable:
+		check(hub.repair_after_battle(hub.items[armored_id].hero_id),"fractional repair succeeds")
+		check(hub.items[armored_id].remaining == quote.after and hub.battle_report.repairs.back().amount == expected_amount,"repair and report preserve fractional amount")
+	var high_level := HeroHubState.create(88128)
+	(high_level.heroes[high_level.party[0]] as HeroProgression).xp_tenths = 210000
+	var high_start := ExpeditionTransitions.apply(high_level,"start")
+	if high_start.is_ok():
+		high_level = high_start.profile
+		var high_choose := ExpeditionTransitions.apply(high_level,"choose",{"node":high_level.expedition.available_nodes()[0]})
+		if high_choose.is_ok():
+			high_level = high_choose.profile
+			var high_outcome := ExpeditionTransitions.apply(high_level,"outcome",receipt(high_level))
+			var high_row: Dictionary = {}
+			if high_outcome.is_ok():
+				for row: Dictionary in high_outcome.profile.battle_report.heroes:
+					if row.id == high_level.party[0]: high_row = row
+			check(high_outcome.is_ok() and high_row.get("level_before",0) > 20 and PostBattleRules.valid_report(high_outcome.profile.battle_report,high_outcome.profile),"report accepts correctly derived hero levels above 20")
+		else: check(false,"high-level profile enters battle")
+	else: check(false,"high-level profile starts an expedition")

@@ -90,12 +90,12 @@ func execute(context: ActionContext) -> CommandStepResult:
 		if spatial_result.status == &"APPLIED" and (_bleeding_policy != &"" or _entangle_on_physical_hp or _stun_on_physical_hp):
 			for event: Dictionary in spatial_result.events:
 				if event["kind"] != &"hit_resolved": continue
-				var physical_hp: int = 0
+				var physical_hp: Variant = 0
 				for row: Dictionary in event["hit"]["rows"]:
-					if row["type"] == &"physical": physical_hp += int(row["hp_damage"])
+					if row["type"] == &"physical": physical_hp += row["hp_damage"]
 				# Sibling после Balance завершает всё mandatory spatial-поддерево.
 				if _bleeding_policy != &"":
-					var eligible := physical_hp > 0 or _bleeding_policy == &"bypass_hp_gate"
+					var eligible: bool = physical_hp > 0 or _bleeding_policy == &"bypass_hp_gate"
 					event["hit"]["bleeding"] = {"policy": _bleeding_policy, "physical_hp_damage": physical_hp, "eligible": eligible}
 					spatial_result.mandatory.append(BleedingApplyCommand.new(_actor, _target, request.source, event["hit_id"], _definition_id, _bleeding_policy, eligible))
 				if _entangle_on_physical_hp:
@@ -105,10 +105,10 @@ func execute(context: ActionContext) -> CommandStepResult:
 		if spatial_result.status == &"APPLIED" and not _artifact_values.is_empty():
 			for event: Dictionary in spatial_result.events:
 				if event.kind != &"hit_resolved": continue
-				var physical_hp: int = 0; var fire_hp: int = 0
+				var physical_hp: Variant = 0; var fire_hp: Variant = 0
 				for row: Dictionary in event.hit.rows:
-					if row.type == &"physical": physical_hp += int(row.hp_damage)
-					if row.type == &"fire": fire_hp += int(row.hp_damage)
+					if row.type == &"physical": physical_hp += row.hp_damage
+					if row.type == &"fire": fire_hp += row.hp_damage
 				var artifacts := context.get_state().artifacts
 				if artifacts.stacks(_actor.id, "blood") > 0:
 					spatial_result.mandatory.append(BleedingApplyCommand.new(_actor, _target, request.source, event.hit_id, _definition_id, &"artifact", physical_hp > 0))

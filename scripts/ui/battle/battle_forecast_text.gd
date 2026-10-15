@@ -187,7 +187,7 @@ static func attack(
 			var after_balance := BattleBalanceDisplay.value_text(float(after["balance"]), float(after["balance_max"]))
 			text += "%s: равновесие %s → %s\n" % [_name_for(names, id), before_balance, after_balance]
 		if before.has("armor_current"):
-			text += "%s: броня %d → %d / %d\n" % [_name_for(names, id), before["armor_current"], after["armor_current"], after["armor_max"]]
+			text += "%s: броня %s → %s / %s\n" % [_name_for(names, id), BattleEventText.amount_text(before["armor_current"]), BattleEventText.amount_text(after["armor_current"]), BattleEventText.amount_text(after["armor_max"])]
 		if before.has("bleeding") and (id == target_id or before["bleeding"] != after["bleeding"]):
 			if bool(before["bleeding"].get("stacked", false)):
 				text += "%s: кровотечение %s → %s\n" % [_name_for(names, id), BattleEventText.bleeding_summary(before["bleeding"]), BattleEventText.bleeding_summary(after["bleeding"])]
@@ -205,26 +205,37 @@ static func attack(
 		if event.get("kind") == &"attacked" and event.has("modifiers"):
 			var modifiers: Dictionary = event["modifiers"]
 			if int(modifiers.get("surround_percent", 0)) > 0:
-				text += "\n[color=#f7c97d]Окружение +%d%% всего прямого урона[/color] · союзники: %s\n" % [modifiers["surround_percent"], ", ".join(BattleEventText.names_for_ids(names, modifiers.get("surround_ally_ids", [])))]
+				var attributes: Dictionary = modifiers.get("character_attributes", {})
+				if attributes.is_empty():
+					text += "\n[color=#f7c97d]Окружение +%d%% всего прямого урона[/color] · союзники: %s\n" % [modifiers["surround_percent"], ", ".join(BattleEventText.names_for_ids(names, modifiers.get("surround_ally_ids", [])))]
+				else:
+					var base_percent := float(modifiers["surround_percent"])
+					var scaled_percent := base_percent * CharacterAttributeRules.position_bonus_multiplier(float(attributes.get("mastery", 10.0)))
+					text += "\n[color=#f7c97d]Окружение +%s%% к сумме бонусов[/color] (база %s%%) · союзники: %s\n" % [BattleEventText.amount_text(scaled_percent), BattleEventText.amount_text(base_percent), ", ".join(BattleEventText.names_for_ids(names, modifiers.get("surround_ally_ids", [])))]
 			if modifiers.has("sneak_percent") and modifiers["sneak_percent"] == 50:
 				var threat_names: PackedStringArray = []
 				for threat_id: int in modifiers.get("threat_ids", []): threat_names.append(_name_for(names, threat_id))
 				text += "\n[color=#f7c97d]Скрытая атака +50%% физической базы[/color] · угрожают: %s\n" % ", ".join(threat_names)
 			if int(modifiers.get("backstab_percent", 0)) > 0 and not core_reactions: text += "\n[color=#f7c97d]Удар в спину +%d%% базы[/color]\n" % modifiers["backstab_percent"]
-			if modifiers.get("critical", false): text += "[color=#f29b9b]Крит ×2: прямой урон и воздействие[/color]\n"
+			if modifiers.get("critical", false):
+				var attributes: Dictionary = modifiers.get("character_attributes", {})
+				if attributes.is_empty():
+					text += "[color=#f29b9b]Крит ×2: прямой урон и воздействие[/color]\n"
+				else:
+					text += "[color=#f29b9b]%s[/color]\n" % BattleEventText.critical_detail(event)
 	for event: Dictionary in events:
 		if event.get("kind") != &"hit_resolved": continue
 		var hit: Dictionary = event["hit"]
 		var hit_source: Dictionary = event.get("source", {})
 		if hit_source.get("kind", &"") == &"cell":
 			text += "[color=#f29b9b]Шипы на %s: 8 урона при входе[/color]\n" % BattleEventText.cell_name(hit_source.get("origin_cell", Vector2i.ZERO))
-		text += "\n[color=#f7c97d]%s · броня −%d[/color]\n" % [_name_for(names, event["target_unit_id"]), hit["armor_spent"]]
-		text += "В HP до защиты: %d/%d · урон %d · лечение %d\n" % [hit["p_num"], hit["p_den"], hit["total_damage"], hit["total_healing"]]
+		text += "\n[color=#f7c97d]%s · броня −%s[/color]\n" % [_name_for(names, event["target_unit_id"]), BattleEventText.amount_text(hit["armor_spent"])]
+		text += "В HP до защиты: %s/%s · урон %s · лечение %s\n" % [BattleEventText.amount_text(hit["p_num"]), BattleEventText.amount_text(hit["p_den"]), BattleEventText.amount_text(hit["total_damage"]), BattleEventText.amount_text(hit["total_healing"])]
 		for row: Dictionary in hit["rows"]:
 			var damage_label := "Физический" if row["type"] == &"physical" else "Огонь"
 			if row["policy"] == &"hp_only_natural": damage_label += " · в обход брони"
 			elif row["policy"] == &"hp_only_unresisted": damage_label += " · без защит"
-			text += "%s: вход %d → броня %d / HP %d / лечение %d\n" % [damage_label, row["D"], row["armor_spent"], row["hp_damage"], row["healing"]]
+			text += "%s: вход %s → броня %s / HP %s / лечение %s\n" % [damage_label, BattleEventText.amount_text(row["D"]), BattleEventText.amount_text(row["armor_spent"]), BattleEventText.amount_text(row["hp_damage"]), BattleEventText.amount_text(row["healing"])]
 		if hit.has("bleeding"):
 			var gate: Dictionary = hit["bleeding"]
 			var gate_text := "есть физический HP-урон до лечения" if gate["eligible"] else "нет физического HP-урона"
@@ -266,7 +277,7 @@ static func move(
 			text += "Движение %.1f → %.1f · расход %.1f ОД\n" % [before["move"], after["move"], float(before["move"]) - float(after["move"])]
 			text += "Основные %d → %d · бонусные %d → %d\n" % [before["main"], after["main"], before["bonus"], after["bonus"]]
 		if before.has("armor_current") and before["armor_current"] != after["armor_current"]:
-			text += "Броня %d → %d / %d\n" % [before["armor_current"], after["armor_current"], after["armor_max"]]
+			text += "Броня %s → %s / %s\n" % [BattleEventText.amount_text(before["armor_current"]), BattleEventText.amount_text(after["armor_current"]), BattleEventText.amount_text(after["armor_max"])]
 		if before["guard_stance"] and not after["guard_stance"]: text += "Стойка будет снята.\n"
 	text += "\n[color=#a5b3c5]Последствия:[/color]\n"
 	for event_index in event_lines.size():
@@ -388,11 +399,11 @@ static func armor(forecast: ForecastSimulation, actor_id: int, actor_name: Strin
 		return text + "Прогноз недоступен: " + reason_text(forecast.reason, tactical_mode)
 	var before: Dictionary = forecast.units_before[actor_id]
 	var after: Dictionary = forecast.units_after[actor_id]
-	text += "Броня: %d → %d\nОсновные: %d → %d (расход 1)\n" % [before["armor_current"], after["armor_current"], before["main"], after["main"]]
+	text += "Броня: %s → %s\nОсновные: %d → %d (расход 1)\n" % [BattleEventText.amount_text(before["armor_current"]), BattleEventText.amount_text(after["armor_current"]), before["main"], after["main"]]
 	for event: Dictionary in forecast.events:
 		if event["kind"] != &"armor_changed": continue
-		for item: Dictionary in event["items"]: text += "Вещь #%d: %d → %d\n" % [item["id"], item["before"], item["after"]]
-		for grant: Dictionary in event["grants"]: text += "Временная броня: +%d до конца боя\n" % [int(grant["after"]) - int(grant["before"])]
+		for item: Dictionary in event["items"]: text += "Вещь #%d: %s → %s\n" % [item["id"], BattleEventText.amount_text(item["before"]), BattleEventText.amount_text(item["after"])]
+		for grant: Dictionary in event["grants"]: text += "Временная броня: +%s до конца боя\n" % BattleEventText.amount_text(float(grant["after"]) - float(grant["before"]))
 	text += "Стойка сохраняется. Клик или клавиша 4 — восстановить броню."
 	return text
 

@@ -2,7 +2,7 @@ extends RefCounted
 class_name ArmorState
 
 ## Capability включается явно; пустой запас не выключает свойства экипировки.
-signal changed(kind: StringName, key: int, before: int, after: int)
+signal changed(kind: StringName, key: int, before: Variant, after: Variant)
 
 var natural: Dictionary = {"physical": 0, "fire": 0}
 var perks: Array[Dictionary] = []
@@ -12,9 +12,11 @@ var battle_id: int = 1
 var in_battle: bool = true
 var shield: Dictionary = {}
 var raised_shield: Dictionary = {}
+var fractional: bool = false
 
 func to_dict() -> Dictionary:
 	var result := {"schema_version": 4, "natural": natural.duplicate(true), "perks": perks.duplicate(true), "grants": grants.duplicate(true), "next_grant_id": next_grant_id, "battle_id": battle_id, "in_battle": in_battle}
+	if fractional: result["fractional"] = true
 	RaisedShield.write_state(result, raised_shield)
 	SpellShield.write_state(result, shield)
 	return result
@@ -30,17 +32,22 @@ static func from_dict(data: Dictionary) -> ArmorState:
 	result.in_battle = data["in_battle"]
 	result.shield = data.get("shield", {}).duplicate(true)
 	result.raised_shield = data.get("raised_shield", {}).duplicate(true)
+	result.fractional = data.get("fractional", false)
 	return result
 
 static func valid(data: Variant) -> bool:
 	var shape := {"schema_version": TYPE_INT, "natural": TYPE_DICTIONARY, "perks": TYPE_ARRAY,
 		"grants": TYPE_ARRAY, "next_grant_id": TYPE_INT, "battle_id": TYPE_INT, "in_battle": TYPE_BOOL}
 	if typeof(data) != TYPE_DICTIONARY: return false
+	if data.has("fractional"):
+		shape["fractional"] = TYPE_BOOL
+		if data.fractional != true: return false
 	for key: String in ["shield", "raised_shield"]:
 		if data.has(key): shape[key] = TYPE_DICTIONARY
 	if not ItemSimulationSnapshot._shape(data, shape): return false
 	if data.schema_version != 4 or data.next_grant_id < 1 or data.next_grant_id >= ActionContext.MAX_ID or data.battle_id < 1: return false
 	if data.has("shield") and (not data.in_battle or not SpellShield.valid(data.shield)): return false
+	if data.has("shield") and not data.get("fractional", false) and typeof(data.shield.hp) != TYPE_INT: return false
 	if data.has("raised_shield") and not RaisedShield.valid(data.raised_shield): return false
 	if not valid_resistances(data["natural"]) or data["perks"].size() > 4096 or data["grants"].size() > 4096: return false
 	var ids: Dictionary = {}
@@ -56,7 +63,8 @@ static func valid(data: Variant) -> bool:
 		ids[perk["id"]] = perk
 	ids.clear()
 	for grant: Variant in data["grants"]:
-		if not ItemSimulationSnapshot._shape(grant, {"grant_id": TYPE_INT, "source": TYPE_STRING, "remaining": TYPE_INT, "expires": TYPE_STRING, "battle_id": TYPE_INT}): return false
+		if not CombatAmount.shape(grant, {"grant_id": TYPE_INT, "source": TYPE_STRING, "remaining": TYPE_INT, "expires": TYPE_STRING, "battle_id": TYPE_INT}, ["remaining"]): return false
+		if not data.get("fractional", false) and typeof(grant.remaining) != TYPE_INT: return false
 		if grant["grant_id"] < 1 or grant["grant_id"] >= data["next_grant_id"] or ids.has(grant["grant_id"]) or grant["source"].is_empty() or grant["remaining"] < 0 or grant["expires"] not in ["battle", "persistent"] or grant["battle_id"] < 1: return false
 		if grant["expires"] == "battle" and (not data["in_battle"] or grant["battle_id"] != data["battle_id"]): return false
 		ids[grant["grant_id"]] = true

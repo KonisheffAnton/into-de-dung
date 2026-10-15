@@ -89,11 +89,15 @@ func _new_helper(context: ActionContext, id: int) -> UnitState:
 		# Пустая боевая броня сохраняет capability, не выдавая помощнику бонусов.
 		unit.armor = ArmorState.new()
 		unit.armor.in_battle = true
+		unit.armor.fractional = actor.armor.fractional
 	if actor.bleeding != null:
 		# Пустое состояние нужно для единообразного боевого runtime без переноса эффекта.
 		unit.bleeding = BleedingState.new()
+		unit.bleeding.authored = actor.bleeding.authored
+		unit.bleeding.stacked = actor.bleeding.stacked
 	if actor.elemental != null:
 		unit.elemental = ElementalState.new()
+		unit.elemental.authored = actor.elemental.authored
 		unit.bleeding.stacked = true
 	return unit
 

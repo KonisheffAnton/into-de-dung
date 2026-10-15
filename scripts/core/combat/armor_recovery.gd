@@ -4,6 +4,7 @@ class_name ArmorRecovery
 ## Восстановление распределяется по недостаче, а не случайным весам расхода.
 static func restore(view: Dictionary, volume: int, source: String, persistent: bool = false) -> Dictionary:
 	if volume <= 0 or source.is_empty() or view.is_empty(): return {"reason": &"armor/zero_restore"}
+	if view.get("state", {}).get("fractional", false): return _restore_fractional(view, volume, source, persistent)
 	var after := view.duplicate(true)
 	var indices: Array[int] = []
 	var weights: Array[int] = []
@@ -37,6 +38,75 @@ static func restore(view: Dictionary, volume: int, source: String, persistent: b
 		state["grants"].append(grant)
 	if ArmorRuntime.totals(after).is_empty(): return {"reason": &"armor/overflow"}
 	return {"reason": &"", "after": after, "items": changes, "grant": grant, "restored": restored, "extra": extra}
+
+static func _restore_fractional(view: Dictionary, volume: int, source: String, persistent: bool) -> Dictionary:
+	if not CombatAmount.valid(volume): return {"reason": &"armor/overflow"}
+	# Отдельный путь сохраняет дробные остатки и не меняет integer-распределение legacy.
+	var after := view.duplicate(true)
+	var indices: Array[int] = []
+	var weights: Array[float] = []
+	var missing := 0.0
+	for index: int in after["items"].size():
+		var item: Dictionary = after["items"][index]
+		if item["placement"] < ItemOwnerState.EQUIPMENT_BASE: continue
+		var maximum := float(item["maximum"])
+		var current := float(item["remaining"])
+		if not CombatAmount.valid(maximum) or not CombatAmount.valid(current) or current > maximum: return {"reason": &"armor/overflow"}
+		var gap := maximum - current
+		missing += gap
+		if not CombatAmount.valid(missing): return {"reason": &"armor/overflow"}
+		indices.append(index)
+		weights.append(gap)
+	var restored := minf(float(volume), missing)
+	var in_battle: bool = after["state"]["in_battle"]
+	if not in_battle and restored == 0.0: return {"reason": &"armor/full"}
+	var allocations: Array[float] = []
+	if restored > 0.0:
+		allocations = _distribute_fractional(restored, weights)
+		if allocations.size() != indices.size(): return {"reason": &"armor/overflow"}
+	var changes: Array[Dictionary] = []
+	for offset: int in allocations.size():
+		var allocation := allocations[offset]
+		if allocation <= 0.0: continue
+		var item: Dictionary = after["items"][indices[offset]]
+		var before := float(item["remaining"])
+		var next := before + allocation
+		if not CombatAmount.valid(next) or next > float(item["maximum"]): return {"reason": &"armor/overflow"}
+		changes.append({"id": item["item_id"], "before": item["remaining"], "after": next})
+		item["remaining"] = next
+	var extra := maxf(0.0, float(volume) - restored) if in_battle else 0.0
+	var grant: Dictionary = {}
+	if extra > 0.0:
+		var state: Dictionary = after["state"]
+		if state["next_grant_id"] >= ActionContext.MAX_ID - 1 or state["grants"].size() >= 4096: return {"reason": &"armor/overflow"}
+		grant = {"grant_id": state["next_grant_id"], "source": source, "remaining": extra, "expires": "persistent" if persistent else "battle", "battle_id": state["battle_id"]}
+		state["next_grant_id"] += 1
+		state["grants"].append(grant)
+	if ArmorRuntime.totals(after).is_empty(): return {"reason": &"armor/overflow"}
+	return {"reason": &"", "after": after, "items": changes, "grant": grant, "restored": restored, "extra": extra}
+
+static func _distribute_fractional(total: float, weights: Array[float]) -> Array[float]:
+	var result: Array[float] = []
+	var sum := 0.0
+	var last_nonzero := -1
+	for index: int in weights.size():
+		var weight := weights[index]
+		if not CombatAmount.valid(weight): return []
+		sum += weight
+		if not CombatAmount.valid(sum): return []
+		result.append(0.0)
+		if weight > 0.0: last_nonzero = index
+	if total <= 0.0: return result
+	if sum <= 0.0 or last_nonzero < 0: return []
+	var assigned := 0.0
+	for index: int in weights.size():
+		var weight := weights[index]
+		if weight <= 0.0: continue
+		var share := clampf(total - assigned, 0.0, weight) if index == last_nonzero else clampf(total * (weight / sum), 0.0, weight)
+		result[index] = share
+		assigned += share
+	if not CombatAmount.valid(assigned): return []
+	return result
 
 ## Экономика хаба появится в D4; этот план задаёт оплату по факту для выбранных вещей.
 static func repair(view: Dictionary, selected: Array[int], budget: int, materials: int) -> Dictionary:

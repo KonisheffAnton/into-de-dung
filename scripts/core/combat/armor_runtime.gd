@@ -15,7 +15,8 @@ static func capture(owner: ItemOwnerState) -> Dictionary:
 		if item == null or item.get_script() != ItemInstance or item._item_id != id or item._owner_id != owner._owner.id: return {}
 		var definition := item.get_definition()
 		if definition == null or definition.armor_max < 0 or not ArmorState.valid_resistances(definition.armor_resistances): return {}
-		if item.armor_remaining < 0 or item.armor_remaining > definition.armor_max or item.armor_origin_owner < 1 or item.armor_origin_item < 1: return {}
+		if not CombatAmount.valid(item.armor_remaining) or item.armor_remaining > definition.armor_max or item.armor_origin_owner < 1 or item.armor_origin_item < 1: return {}
+		if not state.fractional and typeof(item.armor_remaining) != TYPE_INT: return {}
 		var key := [item.armor_origin_owner, item.armor_origin_item]
 		if keys.has(key): return {}
 		keys[key] = true
@@ -39,22 +40,22 @@ static func same_references(owner: ItemOwnerState, refs: Dictionary) -> bool:
 static func totals(view: Dictionary) -> Dictionary:
 	if view.is_empty(): return {}
 	var maximum := 0
-	var current := 0
-	var extra := 0
+	var current: Variant = 0
+	var extra: Variant = 0
 	var defenses: Dictionary = {}
 	for type: String in ["physical", "fire"]:
 		defenses[StringName(type)] = {"armor": 0, "natural": view["state"]["natural"][type], "limit_armor": 7500, "limit_natural": 7500}
 	for item: Dictionary in view["items"]:
 		if item["placement"] < ItemOwnerState.EQUIPMENT_BASE: continue
 		if maximum > ActionContext.MAX_ID - item["maximum"] or current > ActionContext.MAX_ID - item["remaining"]: return {}
-		maximum += int(item["maximum"]); current += int(item["remaining"])
+		maximum += int(item["maximum"]); current += item["remaining"]
 		for type: String in ["physical", "fire"]:
 			var sum := ArmorFraction.make(defenses[StringName(type)]["armor"]).add(ArmorFraction.make(item["resistances"][type]))
 			if not sum.valid: return {}
 			defenses[StringName(type)]["armor"] = sum.numerator
 	for grant: Dictionary in view["state"]["grants"]:
 		if extra > ActionContext.MAX_ID - grant["remaining"]: return {}
-		extra += int(grant["remaining"])
+		extra += grant["remaining"]
 	if current > ActionContext.MAX_ID - extra: return {}
 	current += extra
 	var seen: Dictionary = {}
@@ -85,6 +86,7 @@ static func physical(amount: ArmorFraction, source: String = "physical") -> Arra
 
 ## Клон портов принадлежит плану; live RNG до commit не вызывается.
 static func plan(view: Dictionary, raw: Array[Dictionary], hp: float, hp_max: float, rng: ActionRngPort) -> Dictionary:
+	if view.get("state", {}).get("fractional", false): return FractionalArmorRuntime.plan(view, raw, hp, hp_max, rng)
 	var failed := {"reason": &"armor/invalid_hit"}
 	if not is_finite(hp) or not is_finite(hp_max) or hp != floorf(hp) or hp_max != floorf(hp_max) or hp < 0.0 or hp_max < 0.0 or hp > MAX_EXACT_HP or hp_max > MAX_EXACT_HP: return failed
 	var values := totals(view)

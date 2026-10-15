@@ -49,7 +49,7 @@ static func format_event(event: Dictionary, names: Dictionary[int, String], core
 			return "%s применяет «%s» к %s; основные действия %d → %d." % [
 				actor, elemental_effect_label(event.get("effect", &"")), target,
 				int(event.get("main_before", 0)), int(event.get("main_after", 0)),
-			] + surround_suffix(event, names)
+			] + surround_suffix(event, names) + critical_suffix(event)
 		&"attacked":
 			var suffix := surround_suffix(event, names)
 			var modifiers: Dictionary = event.get("modifiers", {})
@@ -57,7 +57,7 @@ static func format_event(event: Dictionary, names: Dictionary[int, String], core
 				var threats := ", ".join(names_for_ids(names, modifiers.get("threat_ids", [])))
 				suffix += " Скрытая атака +50%% физической базы (угроза: %s)." % threats
 			if int(modifiers.get("backstab_percent", 0)) > 0 and not core_reactions: suffix += " Удар в спину +%d%%." % modifiers["backstab_percent"]
-			if modifiers.get("critical", false): suffix += " Крит ×2."
+			suffix += critical_suffix(event)
 			return "%s атакует %s.%s" % [actor, target, suffix]
 		&"reaction_used":
 			var used_mode: int = int(event.get("mode", 0))
@@ -75,8 +75,8 @@ static func format_event(event: Dictionary, names: Dictionary[int, String], core
 				int(event.get("charge_after", 0)),
 			]
 		&"opportunity_attacked":
-			return "%s прерывает движение %s атакой Оппортуниста без основного действия." % [actor, target] + surround_suffix(event, names)
-		&"counterattacked": return "%s контратакует %s без толчка." % [actor, target] + surround_suffix(event, names)
+			return "%s прерывает движение %s атакой Оппортуниста без основного действия." % [actor, target] + surround_suffix(event, names) + critical_suffix(event)
+		&"counterattacked": return "%s контратакует %s без толчка." % [actor, target] + surround_suffix(event, names) + critical_suffix(event)
 		&"control_changed":
 			if event["reason"] == &"entangled":
 				return "%s: наложены путы до конца ближайшего хода команды цели." % target
@@ -139,8 +139,8 @@ static func format_event(event: Dictionary, names: Dictionary[int, String], core
 		&"armor_changed": return "%s: запас брони изменился." % target
 		&"hit_resolved":
 			var shattered := " · добивание замороженной цели" if event["hit"].get("shattered", false) else ""
-			return "%s: попадание завершено, HP %d → %d%s." % [
-				target, event["hit"]["hp_before"], event["hit"]["hp_after"], shattered,
+			return "%s: попадание завершено, HP %s → %s%s." % [
+				target, amount_text(event["hit"]["hp_before"]), amount_text(event["hit"]["hp_after"]), shattered,
 			]
 		&"balance_changed":
 			var balance_text := BattleBalanceDisplay.value_text(
@@ -173,7 +173,36 @@ static func surround_suffix(event: Dictionary, names: Dictionary[int, String]) -
 	var modifiers: Dictionary = event.get("modifiers", {})
 	var percent: int = int(modifiers.get("surround_percent", 0))
 	if percent <= 0: return ""
+	var attributes: Dictionary = modifiers.get("character_attributes", {})
+	if not attributes.is_empty():
+		var mastery := float(attributes.get("mastery", 10.0))
+		var scaled := float(percent) * CharacterAttributeRules.position_bonus_multiplier(mastery)
+		return " Окружение +%s%% к сумме бонусов (база %s%%; союзники: %s)." % [amount_text(scaled), amount_text(float(percent)), ", ".join(names_for_ids(names, modifiers.get("surround_ally_ids", [])))]
 	return " Окружение +%d%% всего прямого урона (союзники: %s)." % [percent, ", ".join(names_for_ids(names, modifiers.get("surround_ally_ids", [])))]
+
+static func critical_detail(event: Dictionary) -> String:
+	var modifiers: Dictionary = event.get("modifiers", {})
+	if not modifiers.get("critical", false): return ""
+	var attributes: Dictionary = modifiers.get("character_attributes", {})
+	if attributes.is_empty(): return "Крит ×2: прямой урон и воздействие"
+	var multiplier := CharacterAttributeRules.critical_multiplier(float(attributes.get("mastery", 10.0)))
+	var total_bonus := (multiplier - 1.0) * 100.0
+	return "Крит ×%s к прямому урону (+%s%% к сумме); воздействие ×2" % [amount_text(multiplier), amount_text(total_bonus)]
+
+static func critical_suffix(event: Dictionary) -> String:
+	var detail := critical_detail(event)
+	if detail.is_empty(): return ""
+	var modifiers: Dictionary = event.get("modifiers", {})
+	if modifiers.get("character_attributes", {}).is_empty():
+		# Legacy attacked-событие сохраняет прежнюю короткую подпись byte-for-byte.
+		return " Крит ×2." if event.get("kind", &"") == &"attacked" else ""
+	return " " + detail + "."
+
+static func amount_text(value: Variant) -> String:
+	var amount := float(value)
+	if is_finite(amount) and absf(amount - roundf(amount)) <= 0.000000001 and absf(amount) < 9007199254740992.0:
+		return str(int(roundf(amount)))
+	return String.num(amount, 1)
 
 static func _name_for(names: Dictionary[int, String], id: int) -> String:
 	return names.get(id, "Окружение")
@@ -225,6 +254,11 @@ static func bleeding_summary(value: Variant) -> String:
 	if ticks <= 0: return "нет"
 	if bool(data.get("stacked", false)):
 		var stacks: int = int(data.get("stacks", 0))
+		if data.has("contributions"):
+			var total := StatusContributions.total(data["contributions"])
+			if total.valid:
+				var per_tick := float(total.numerator) / float(total.denominator)
+				return "%d ст. · %d т. · %s/тик · %s/клетку" % [stacks, ticks, amount_text(per_tick), amount_text(per_tick * 2.0)]
 		var movement_damage := str(stacks * BleedingState.MOVE_DAMAGE) if stacks <= 4611686018427387903 else "за пределом расчёта"
 		return "%d ст. · %d т. · %d/тик · %s/клетку" % [stacks, ticks, stacks, movement_damage]
 	return "%d т. · 4/тик" % ticks
