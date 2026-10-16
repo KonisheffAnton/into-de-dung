@@ -1,0 +1,11 @@
+{
+  "id": 88,
+  "title": "Верёвочные полки 3",
+  "family": "ropeshelf",
+  "family_title": "Верёвочные полки",
+  "variation": "Broad foreground rock fin hides half the lower shelf; the inhabited upper shelf peeks around it.",
+  "palette": "Грозовой вечер",
+  "palette_description": "storm blue, muted mauve, brown-black timber, low straw-yellow lamps",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

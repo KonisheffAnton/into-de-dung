@@ -1,0 +1,11 @@
+{
+  "id": 26,
+  "title": "Остывшая купальня 1",
+  "family": "bath",
+  "family_title": "Остывшая купальня",
+  "variation": "High oblique cutaway; rectangular empty basin lies diagonally, groups crowd one end and mage another.",
+  "palette": "Пепельная роза",
+  "palette_description": "dusty rose stone, desaturated bottle green, ink-gray shadow, faint straw lights",
+  "endpoint": "/generate-image-v2",
+  "pilot": false
+}

@@ -1,0 +1,11 @@
+{
+  "id": 49,
+  "title": "Перекрёсток подвалов 4",
+  "family": "cellarcross",
+  "family_title": "Перекрёсток подвалов",
+  "variation": "Steep overhead diagonal composition with two blind corners and one unlit descending stair.",
+  "palette": "Грозовой вечер",
+  "palette_description": "storm blue, muted mauve, brown-black timber, low straw-yellow lamps",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

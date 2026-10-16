@@ -1,0 +1,11 @@
+{
+  "id": 68,
+  "title": "Зерновой подъёмник 3",
+  "family": "grainlift",
+  "family_title": "Зерновой подъёмник",
+  "variation": "High oblique view over three staggered shelves connected by one short crooked ladder.",
+  "palette": "Петроль и охра",
+  "palette_description": "dark petrol teal, faded ochre fabric, cold gray metal, soft old amber",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

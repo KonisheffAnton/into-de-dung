@@ -1,0 +1,11 @@
+{
+  "id": 35,
+  "title": "Каменные ступени 5",
+  "family": "quarry",
+  "family_title": "Каменные ступени",
+  "variation": "Overhead U-shaped cut in rock with one side much shorter; a patched canopy bridges the narrow neck.",
+  "palette": "Пыльный шафран",
+  "palette_description": "dusty saffron cloth, slate violet shadows, brown-gray stone, dark olive",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

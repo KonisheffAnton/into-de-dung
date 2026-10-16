@@ -1,0 +1,11 @@
+{
+  "id": 41,
+  "title": "Сломанные фургоны 1",
+  "family": "wagons",
+  "family_title": "Сломанные фургоны",
+  "variation": "High oblique view: two wagon bodies make a bent L, a third is a raised sleeping nook.",
+  "palette": "Сумеречный индиго",
+  "palette_description": "muted indigo, cool gray stone, dusty rose cloth, small honey lights",
+  "endpoint": "/generate-image-v2",
+  "pilot": false
+}

@@ -1,0 +1,11 @@
+{
+  "id": 17,
+  "title": "Сухой шлюз 2",
+  "family": "drylock",
+  "family_title": "Сухой шлюз",
+  "variation": "Side cutaway with the huge gate at one edge and tiny living pockets stepped down the opposite wall.",
+  "palette": "Чёрная вода",
+  "palette_description": "blue-black water, pale weathered timber, restrained turquoise, warm ivory light",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

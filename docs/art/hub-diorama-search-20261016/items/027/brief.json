@@ -1,0 +1,11 @@
+{
+  "id": 27,
+  "title": "Остывшая купальня 2",
+  "family": "bath",
+  "family_title": "Остывшая купальня",
+  "variation": "Side view across the sunken basin; people on low far benches, a foreground pillar hides the mage niche.",
+  "palette": "Грозовой вечер",
+  "palette_description": "storm blue, muted mauve, brown-black timber, low straw-yellow lamps",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

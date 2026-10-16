@@ -1,0 +1,11 @@
+{
+  "id": 92,
+  "title": "Соляные ниши 2",
+  "family": "salt",
+  "family_title": "Соляные ниши",
+  "variation": "Thin mineral pillar divides sleeping pockets from social shelf, high oblique view.",
+  "palette": "Уголь и крем",
+  "palette_description": "charcoal, cream limestone, subdued sienna wood, sparse dull blue fabric",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

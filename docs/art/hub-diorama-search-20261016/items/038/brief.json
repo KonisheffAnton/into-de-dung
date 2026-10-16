@@ -1,0 +1,11 @@
+{
+  "id": 38,
+  "title": "Рёбра цистерны 3",
+  "family": "cistern",
+  "family_title": "Рёбра цистерны",
+  "variation": "Low view along one water channel, foreground masonry hides a third of the scene, people beyond.",
+  "palette": "Холодный рассвет",
+  "palette_description": "fog blue, pale warm gray, muted sage, sparse apricot lanterns",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

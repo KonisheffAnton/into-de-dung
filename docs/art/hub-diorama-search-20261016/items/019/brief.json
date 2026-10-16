@@ -1,0 +1,11 @@
+{
+  "id": 19,
+  "title": "Сухой шлюз 4",
+  "family": "drylock",
+  "family_title": "Сухой шлюз",
+  "variation": "Almost top-down rectangular trench interrupted by a crooked grounded boat; tents cluster at its prow.",
+  "palette": "Слива и глина",
+  "palette_description": "deep plum shadows, dusty terracotta stone, parchment fabric, restrained copper lights",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

@@ -1,0 +1,11 @@
+{
+  "id": 25,
+  "title": "Два чердака 5",
+  "family": "splitloft",
+  "family_title": "Два чердака",
+  "variation": "Three-quarter corner cutaway; broad open floor at left and stacked inhabited shelves only at right.",
+  "palette": "Зола и бордо",
+  "palette_description": "ash gray, near-black aubergine shadows, oxblood fabric, low warm lamps",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

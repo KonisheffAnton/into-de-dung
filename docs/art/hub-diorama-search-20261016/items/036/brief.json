@@ -1,0 +1,11 @@
+{
+  "id": 36,
+  "title": "Рёбра цистерны 1",
+  "family": "cistern",
+  "family_title": "Рёбра цистерны",
+  "variation": "Long horizontal section through squat vaults; repeating ribs interrupted by one diagonal wooden shelf.",
+  "palette": "Слива и глина",
+  "palette_description": "deep plum shadows, dusty terracotta stone, parchment fabric, restrained copper lights",
+  "endpoint": "/generate-image-v2",
+  "pilot": false
+}

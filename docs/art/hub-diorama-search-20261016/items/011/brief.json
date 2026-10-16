@@ -1,0 +1,11 @@
+{
+  "id": 11,
+  "title": "Разорванный колодец 1",
+  "family": "well",
+  "family_title": "Разорванный колодец",
+  "variation": "Steep isometric cutaway, broken C-shaped rim, staggered wooden platforms and an off-center black opening.",
+  "palette": "Пилотная палитра",
+  "palette_description": "See exact pilot request.",
+  "endpoint": "/create-image-pixflux",
+  "pilot": true
+}

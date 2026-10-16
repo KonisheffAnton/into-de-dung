@@ -1,0 +1,11 @@
+{
+  "id": 77,
+  "title": "Сломанная лестница 2",
+  "family": "brokenstairs",
+  "family_title": "Сломанная лестница",
+  "variation": "Small timber bridge supports cooking nook across two stair sections, low side view.",
+  "palette": "Холодный рассвет",
+  "palette_description": "fog blue, pale warm gray, muted sage, sparse apricot lanterns",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

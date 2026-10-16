@@ -1,0 +1,15 @@
+{
+  "endpoint": "/create-image-pixen",
+  "body": {
+    "description": "Pixel-art diorama: an intimate lived-in refuge at a dungeon entrance. Broad connected color clusters, compact heroic silhouettes, matte planes, crisp stepped edges, quiet shadow masses and selective details. 8-12 varied mercenaries talk in pairs, share bowls and mend equipment, amid bedrolls, patched cloth and sacks. Exactly ONE small mage stands apart, STRICTLY BACK TO CAMERA, entirely in deep architectural shadow. Opaque black hood and cloak conceal face, skin, hands, hair, age and gender; no rim light. Nobody notices, looks toward or reacts to the mage. Social warmth belongs to others; the mage is excluded from their connections. No war, army, battlefield, ruined city, monsters, epic scale, magic glow, grain, dithering, text, icons or HUD. PLACE: A tiny abandoned underground bathhouse reused as shelter. Empty shallow basin, low divider walls, folded blankets, a cracked water spout and warm communal repair nook. A dry drainage passage leads into the dungeon. COMPOSITION: Almost overhead: three unequal basins make an irregular zigzag floor plan with cloth partitions. COLOR SCRIPT: smoky jade, black-green water, rust orange cloth, cream highlights. Restrained saturation, a legible dark mage silhouette. One complete scene with a quiet dark surrounding field, no decorative frame.",
+    "image_size": {
+      "width": 512,
+      "height": 384
+    },
+    "no_background": false,
+    "seed": 2026101628,
+    "detail": "low detail",
+    "outline": "selective outline",
+    "enhance_prompt": false
+  }
+}

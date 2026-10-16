@@ -1,0 +1,11 @@
+{
+  "id": 32,
+  "title": "Каменные ступени 2",
+  "family": "quarry",
+  "family_title": "Каменные ступени",
+  "variation": "Frontal stepped silhouette with three asymmetrical terraces; mage in a shadow crack on the bottom.",
+  "palette": "Мох и железо",
+  "palette_description": "moss olive, iron gray, worn leather brown, a few pale warm lamps",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

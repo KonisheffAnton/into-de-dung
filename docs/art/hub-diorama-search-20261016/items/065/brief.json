@@ -1,0 +1,11 @@
+{
+  "id": 65,
+  "title": "Среди корней 5",
+  "family": "roots",
+  "family_title": "Среди корней",
+  "variation": "Roots descend in a slanted fan from upper right, dividing the scene into unequal triangular pockets.",
+  "palette": "Лиловый известняк",
+  "palette_description": "lavender-gray limestone, soft charcoal, faded ochre cloth, dim pink-orange lamps",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

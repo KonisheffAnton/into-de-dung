@@ -1,0 +1,11 @@
+{
+  "id": 43,
+  "title": "Сломанные фургоны 3",
+  "family": "wagons",
+  "family_title": "Сломанные фургоны",
+  "variation": "Overhead triangular arrangement around an empty rain puddle, one wagon cut away to show bedding.",
+  "palette": "Лиловый известняк",
+  "palette_description": "lavender-gray limestone, soft charcoal, faded ochre cloth, dim pink-orange lamps",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

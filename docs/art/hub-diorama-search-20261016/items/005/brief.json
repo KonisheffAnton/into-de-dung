@@ -1,0 +1,11 @@
+{
+  "id": 5,
+  "title": "Под мостом 5",
+  "family": "bridge",
+  "family_title": "Под мостом",
+  "variation": "Low water-level view from beside the near abutment; timber loft and hanging laundry obscure the upper half.",
+  "palette": "Зимний сумрак",
+  "palette_description": "frost gray, subdued navy, cold lavender, one small dull red ember",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

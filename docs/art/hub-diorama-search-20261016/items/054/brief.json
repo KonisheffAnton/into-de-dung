@@ -1,0 +1,11 @@
+{
+  "id": 54,
+  "title": "Приливная платформа 4",
+  "family": "tidal",
+  "family_title": "Приливная платформа",
+  "variation": "Three tiny decks joined by a zigzag of planks at different heights.",
+  "palette": "Мох и железо",
+  "palette_description": "moss olive, iron gray, worn leather brown, a few pale warm lamps",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

@@ -1,0 +1,11 @@
+{
+  "id": 18,
+  "title": "Сухой шлюз 3",
+  "family": "drylock",
+  "family_title": "Сухой шлюз",
+  "variation": "Low view from the empty lock bed; raised social deck crosses above and mage stands under it.",
+  "palette": "Болотная бронза",
+  "palette_description": "muted swamp green, oxidized bronze, deep cool brown, pale linen",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

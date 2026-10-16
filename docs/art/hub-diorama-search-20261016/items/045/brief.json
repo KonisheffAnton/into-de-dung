@@ -1,0 +1,11 @@
+{
+  "id": 45,
+  "title": "Сломанные фургоны 5",
+  "family": "wagons",
+  "family_title": "Сломанные фургоны",
+  "variation": "Long narrow cutaway with wagon shells staggered on a slope, short stairs joining roofs and decks.",
+  "palette": "Сланец и янтарь",
+  "palette_description": "cold slate blue, desaturated olive cloth, tiny amber lanterns, charcoal shadows",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

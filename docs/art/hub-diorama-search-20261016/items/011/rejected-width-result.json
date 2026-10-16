@@ -1,0 +1,4 @@
+{
+  "status": "submission_error",
+  "error": "HTTP 422 {\"detail\":[{\"type\":\"less_than_equal\",\"loc\":[\"body\",\"image_size\",\"width\"],\"msg\":\"Input should be less than or equal to 400\",\"input\":448,\"ctx\":{\"le\":400}}]}"
+}

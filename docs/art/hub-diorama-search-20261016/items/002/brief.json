@@ -1,0 +1,11 @@
+{
+  "id": 2,
+  "title": "Под мостом 2",
+  "family": "bridge",
+  "family_title": "Под мостом",
+  "variation": "Frontal cross-section beneath a flat bridge deck; one large pier at left, the inhabited shelf stretches sideways.",
+  "palette": "Сумеречный индиго",
+  "palette_description": "muted indigo, cool gray stone, dusty rose cloth, small honey lights",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

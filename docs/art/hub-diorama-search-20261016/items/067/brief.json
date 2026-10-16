@@ -1,0 +1,11 @@
+{
+  "id": 67,
+  "title": "Зерновой подъёмник 2",
+  "family": "grainlift",
+  "family_title": "Зерновой подъёмник",
+  "variation": "Long diagonal counterweight beam extends across a cropped frame; people below its far end.",
+  "palette": "Нефрит и ржавчина",
+  "palette_description": "smoky jade, black-green water, rust orange cloth, cream highlights",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

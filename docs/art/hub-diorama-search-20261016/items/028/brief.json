@@ -1,0 +1,11 @@
+{
+  "id": 28,
+  "title": "Остывшая купальня 3",
+  "family": "bath",
+  "family_title": "Остывшая купальня",
+  "variation": "Almost overhead: three unequal basins make an irregular zigzag floor plan with cloth partitions.",
+  "palette": "Нефрит и ржавчина",
+  "palette_description": "smoky jade, black-green water, rust orange cloth, cream highlights",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

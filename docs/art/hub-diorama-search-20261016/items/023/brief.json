@@ -1,0 +1,11 @@
+{
+  "id": 23,
+  "title": "Два чердака 3",
+  "family": "splitloft",
+  "family_title": "Два чердака",
+  "variation": "Low camera under one loft; floor above dominates upper frame, living groups glimpsed beyond supports.",
+  "palette": "Сланец и янтарь",
+  "palette_description": "cold slate blue, desaturated olive cloth, tiny amber lanterns, charcoal shadows",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

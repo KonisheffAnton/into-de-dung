@@ -1,0 +1,11 @@
+{
+  "id": 86,
+  "title": "Верёвочные полки 1",
+  "family": "ropeshelf",
+  "family_title": "Верёвочные полки",
+  "variation": "Three-quarter view, shelves offset vertically with a short rope ladder and dark narrow middle gap.",
+  "palette": "Серебро и хвоя",
+  "palette_description": "silver gray, deep pine green, dark umber, very small golden light",
+  "endpoint": "/generate-image-v2",
+  "pilot": false
+}

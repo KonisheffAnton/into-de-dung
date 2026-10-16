@@ -1,0 +1,11 @@
+{
+  "id": 74,
+  "title": "Пещерная сушильня 4",
+  "family": "drying",
+  "family_title": "Пещерная сушильня",
+  "variation": "One dense cloth curtain dominates half the composition, cooking nook left open.",
+  "palette": "Пыльный шафран",
+  "palette_description": "dusty saffron cloth, slate violet shadows, brown-gray stone, dark olive",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

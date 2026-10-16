@@ -1,0 +1,12 @@
+{
+  "id": 73,
+  "title": "Пещерная сушильня 3",
+  "family": "drying",
+  "family_title": "Пещерная сушильня",
+  "variation": "A very low sloping ceiling and long diagonal drying curtains; narrow side cutaway with three depth layers and an isolated near recess.",
+  "palette": "Осенняя медь",
+  "palette_description": "desaturated burnt sienna, dark blue-green shadows, taupe cloth, copper light",
+  "endpoint": "/generate-image-v2",
+  "pilot": false,
+  "replacement_note": "New Pro composition after uncertain synchronous Pixen timeout; original POST not repeated. Original attempt preserved separately."
+}

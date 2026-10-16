@@ -1,0 +1,11 @@
+{
+  "id": 94,
+  "title": "Соляные ниши 4",
+  "family": "salt",
+  "family_title": "Соляные ниши",
+  "variation": "Narrow ledge crosses in front at mid-height with lower storage nook, side section.",
+  "palette": "Торф и вереск",
+  "palette_description": "peat brown, dusty heather purple, gray-green cloth, dim peach lights",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

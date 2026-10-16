@@ -1,0 +1,11 @@
+{
+  "id": 53,
+  "title": "Приливная платформа 3",
+  "family": "tidal",
+  "family_title": "Приливная платформа",
+  "variation": "Low wedge-shaped shelter roof almost touches cavern wall, people gathered in a thin band underneath.",
+  "palette": "Уголь и крем",
+  "palette_description": "charcoal, cream limestone, subdued sienna wood, sparse dull blue fabric",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

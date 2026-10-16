@@ -1,0 +1,11 @@
+{
+  "id": 31,
+  "title": "Каменные ступени 1",
+  "family": "quarry",
+  "family_title": "Каменные ступени",
+  "variation": "Steep oblique view over large diagonal stone steps, tiny warm social pockets at different heights.",
+  "palette": "Уголь и крем",
+  "palette_description": "charcoal, cream limestone, subdued sienna wood, sparse dull blue fabric",
+  "endpoint": "/generate-image-v2",
+  "pilot": false
+}

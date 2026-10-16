@@ -1,0 +1,11 @@
+{
+  "id": 51,
+  "title": "Приливная платформа 1",
+  "family": "tidal",
+  "family_title": "Приливная платформа",
+  "variation": "High oblique view, landing in foreground partly obscures sleeping deck behind stacked salvage.",
+  "palette": "Осенняя медь",
+  "palette_description": "desaturated burnt sienna, dark blue-green shadows, taupe cloth, copper light",
+  "endpoint": "/generate-image-v2",
+  "pilot": false
+}

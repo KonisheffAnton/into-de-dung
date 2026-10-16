@@ -1,0 +1,11 @@
+{
+  "id": 60,
+  "title": "Скальный серпантин 5",
+  "family": "switchback",
+  "family_title": "Скальный серпантин",
+  "variation": "One landing cantilevers over a short deep drop, rough beams define a strong triangular silhouette.",
+  "palette": "Холодный рассвет",
+  "palette_description": "fog blue, pale warm gray, muted sage, sparse apricot lanterns",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

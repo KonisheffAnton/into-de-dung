@@ -1,0 +1,11 @@
+{
+  "id": 73,
+  "title": "Пещерная сушильня 3",
+  "family": "drying",
+  "family_title": "Пещерная сушильня",
+  "variation": "Low roof slopes sharply down over sleeping shelf, open repair area on the wider end.",
+  "palette": "Осенняя медь",
+  "palette_description": "desaturated burnt sienna, dark blue-green shadows, taupe cloth, copper light",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

@@ -1,0 +1,11 @@
+{
+  "id": 98,
+  "title": "Старая угольная печь 3",
+  "family": "kiln",
+  "family_title": "Старая угольная печь",
+  "variation": "Overhead roof cutaway, curved dome dominates and tiny bed pockets hug its asymmetrical base.",
+  "palette": "Кость и чернила",
+  "palette_description": "chalk bone stone, ink blue shadows, ash brown wood, tiny dull gold accents",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

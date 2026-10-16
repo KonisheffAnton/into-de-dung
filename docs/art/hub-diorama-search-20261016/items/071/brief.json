@@ -1,0 +1,11 @@
+{
+  "id": 71,
+  "title": "Пещерная сушильня 1",
+  "family": "drying",
+  "family_title": "Пещерная сушильня",
+  "variation": "Deep side-on slice through two close drying lines; refuge visible through narrow unequal gaps.",
+  "palette": "Мох и железо",
+  "palette_description": "moss olive, iron gray, worn leather brown, a few pale warm lamps",
+  "endpoint": "/generate-image-v2",
+  "pilot": false
+}

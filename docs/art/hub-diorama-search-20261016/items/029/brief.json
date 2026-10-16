@@ -1,0 +1,11 @@
+{
+  "id": 29,
+  "title": "Остывшая купальня 4",
+  "family": "bath",
+  "family_title": "Остывшая купальня",
+  "variation": "Low view along a narrow channel; broad domed ceiling cropped close and a small stair curls away.",
+  "palette": "Петроль и охра",
+  "palette_description": "dark petrol teal, faded ochre fabric, cold gray metal, soft old amber",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

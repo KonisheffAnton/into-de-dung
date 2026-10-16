@@ -1,0 +1,16 @@
+{
+  "endpoint": "/create-image-pixflux",
+  "body": {
+    "description": "Pixel art diorama of a small lived-in refuge at a dungeon entrance, intimate and uneasy. Compact heroic figures, broad connected color clusters, matte materials, crisp stepped edges, selective details, large quiet shadows. 8-12 mismatched mercenaries share bowls, repair equipment and talk in small groups. Bedrolls, patched cloth, a notice board and an unattended ledger show everyday life. Exactly one small mage, STRICTLY SEEN FROM BEHIND, stands apart in deep architectural shadow. Opaque near-black hood and cloak conceal face, skin, hair, hands, age and gender. No one notices, looks at or reacts to the mage. Social warmth belongs to the others; the mage remains outside it. No war, army, ruined city, battle, monsters, magic glow, heroic spotlight, grain, dithering, text or UI. An intimate old service shaft seen as a steep isometric cutaway. The central oval well is an opaque black absence. Mercenaries cluster along the far rim on staggered small wooden platforms, sharing food and tending a hand winch. The back-facing mage stands in the nearest dark recess across the void. Bed nooks are sunk into rough walls; no grand architecture. A broken C-shaped rim rather than a complete symmetric ring. Moss olive, earth brown, charcoal blue and restrained amber.",
+    "image_size": {
+      "width": 400,
+      "height": 320
+    },
+    "no_background": false,
+    "seed": 2026101611,
+    "detail": "medium detail",
+    "outline": "selective outline",
+    "isometric": true,
+    "text_guidance_scale": 10
+  }
+}

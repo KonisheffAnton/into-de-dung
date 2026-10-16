@@ -1,0 +1,11 @@
+{
+  "id": 81,
+  "title": "Расколотый ручей 1",
+  "family": "splitstream",
+  "family_title": "Расколотый ручей",
+  "variation": "Water-level view with bridge near foreground and people beyond, still reflections below.",
+  "palette": "Зола и бордо",
+  "palette_description": "ash gray, near-black aubergine shadows, oxblood fabric, low warm lamps",
+  "endpoint": "/generate-image-v2",
+  "pilot": false
+}

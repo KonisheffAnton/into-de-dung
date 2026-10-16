@@ -1,0 +1,11 @@
+{
+  "id": 99,
+  "title": "Старая угольная печь 4",
+  "family": "kiln",
+  "family_title": "Старая угольная печь",
+  "variation": "Low timber awning extends sideways from dome forming a long thin inhabited band.",
+  "palette": "Холодный рассвет",
+  "palette_description": "fog blue, pale warm gray, muted sage, sparse apricot lanterns",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

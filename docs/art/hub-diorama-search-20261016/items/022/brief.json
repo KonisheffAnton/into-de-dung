@@ -1,0 +1,11 @@
+{
+  "id": 22,
+  "title": "Два чердака 2",
+  "family": "splitloft",
+  "family_title": "Два чердака",
+  "variation": "High oblique view of two offset balconies around a long narrow dark gap; crooked beam cuts overhead.",
+  "palette": "Зимний сумрак",
+  "palette_description": "frost gray, subdued navy, cold lavender, one small dull red ember",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

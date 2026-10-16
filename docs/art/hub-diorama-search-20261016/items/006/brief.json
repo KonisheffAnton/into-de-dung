@@ -1,0 +1,7 @@
+{
+  "id": 6,
+  "title": "Между стенами",
+  "family": "wedge",
+  "pilot": true,
+  "endpoint": "/create-image-pixen"
+}

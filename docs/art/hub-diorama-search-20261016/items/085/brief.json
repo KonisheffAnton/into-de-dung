@@ -1,0 +1,11 @@
+{
+  "id": 85,
+  "title": "Расколотый ручей 5",
+  "family": "splitstream",
+  "family_title": "Расколотый ручей",
+  "variation": "Overhead view, diagonal bridge intersects a narrow winding stream, broad quiet stone on one side.",
+  "palette": "Сумеречный индиго",
+  "palette_description": "muted indigo, cool gray stone, dusty rose cloth, small honey lights",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

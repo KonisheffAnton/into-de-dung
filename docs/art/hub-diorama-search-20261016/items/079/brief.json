@@ -1,0 +1,11 @@
+{
+  "id": 79,
+  "title": "Сломанная лестница 4",
+  "family": "brokenstairs",
+  "family_title": "Сломанная лестница",
+  "variation": "Upper steps fill foreground and refuge recedes steeply into depth beneath cropped rock.",
+  "palette": "Болотная бронза",
+  "palette_description": "muted swamp green, oxidized bronze, deep cool brown, pale linen",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

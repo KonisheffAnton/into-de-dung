@@ -1,0 +1,11 @@
+{
+  "id": 4,
+  "title": "Под мостом 4",
+  "family": "bridge",
+  "family_title": "Под мостом",
+  "variation": "Steep overhead view of a crooked bridge, removable roof cutaway revealing a triangular shelter underneath.",
+  "palette": "Лиловый известняк",
+  "palette_description": "lavender-gray limestone, soft charcoal, faded ochre cloth, dim pink-orange lamps",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

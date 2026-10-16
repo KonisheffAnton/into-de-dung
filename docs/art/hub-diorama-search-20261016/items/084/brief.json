@@ -1,0 +1,11 @@
+{
+  "id": 84,
+  "title": "Расколотый ручей 4",
+  "family": "splitstream",
+  "family_title": "Расколотый ручей",
+  "variation": "Broad overhang hides mage niche and dominates top half; thin warm inhabited strip at bottom.",
+  "palette": "Сланец и янтарь",
+  "palette_description": "cold slate blue, desaturated olive cloth, tiny amber lanterns, charcoal shadows",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

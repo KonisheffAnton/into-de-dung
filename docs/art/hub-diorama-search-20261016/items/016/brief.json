@@ -1,0 +1,11 @@
+{
+  "id": 16,
+  "title": "Сухой шлюз 1",
+  "family": "drylock",
+  "family_title": "Сухой шлюз",
+  "variation": "High oblique view lengthwise down the narrow lock, a diagonal gangplank and separate groups at each end.",
+  "palette": "Холодный рассвет",
+  "palette_description": "fog blue, pale warm gray, muted sage, sparse apricot lanterns",
+  "endpoint": "/generate-image-v2",
+  "pilot": false
+}

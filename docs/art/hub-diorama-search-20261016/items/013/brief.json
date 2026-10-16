@@ -1,0 +1,11 @@
+{
+  "id": 13,
+  "title": "Разорванный колодец 3",
+  "family": "well",
+  "family_title": "Разорванный колодец",
+  "variation": "A wedge cut through the shaft wall exposes two shallow levels, people above and mage below in shadow.",
+  "palette": "Пыльный шафран",
+  "palette_description": "dusty saffron cloth, slate violet shadows, brown-gray stone, dark olive",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

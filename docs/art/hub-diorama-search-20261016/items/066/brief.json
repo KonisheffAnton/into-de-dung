@@ -1,0 +1,11 @@
+{
+  "id": 66,
+  "title": "Зерновой подъёмник 1",
+  "family": "grainlift",
+  "family_title": "Зерновой подъёмник",
+  "variation": "Side section, suspended platform off-center partly hides an upper sleeping shelf.",
+  "palette": "Грозовой вечер",
+  "palette_description": "storm blue, muted mauve, brown-black timber, low straw-yellow lamps",
+  "endpoint": "/generate-image-v2",
+  "pilot": false
+}

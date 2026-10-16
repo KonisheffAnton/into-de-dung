@@ -1,0 +1,11 @@
+{
+  "id": 33,
+  "title": "Каменные ступени 3",
+  "family": "quarry",
+  "family_title": "Каменные ступени",
+  "variation": "A huge slanted slab fills the near half; people occupy a thin horizontal strip behind its upper edge.",
+  "palette": "Торф и вереск",
+  "palette_description": "peat brown, dusty heather purple, gray-green cloth, dim peach lights",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

@@ -1,0 +1,328 @@
+{
+  "families": [
+    [
+      "bridge",
+      "Под мостом",
+      "One cropped stone bridge diagonally crosses a small cavern stream. Its thick pier divides a crowded dry storage alcove from a narrow unlit stair for the mage. A low culvert descends into the dungeon.",
+      [
+        "High oblique cutaway: a diagonal bridge overhead, unequal halves and open water in the near corner.",
+        "Frontal cross-section beneath a flat bridge deck; one large pier at left, the inhabited shelf stretches sideways.",
+        "Look lengthwise under the bridge through two overlapping dark arches; people occupy the middle depth.",
+        "Steep overhead view of a crooked bridge, removable roof cutaway revealing a triangular shelter underneath.",
+        "Low water-level view from beside the near abutment; timber loft and hanging laundry obscure the upper half."
+      ]
+    ],
+    [
+      "wedge",
+      "Между стенами",
+      "A tiny triangular courtyard squeezed between three blank stone walls. Patched awnings cover a pair of communal work niches. Empty wet paving separates these groups from the mage in a dark corner. Dungeon steps tuck below an awning.",
+      [
+        "Steep overhead dollhouse cutaway; narrow triangular negative space, diagonal awning, tall thin enclosure.",
+        "Low oblique view from the narrow end of the triangle; walls converge and only a sliver of sky shows.",
+        "Cutaway from above the broad end; two unequal roofs almost meet over a bent route through the courtyard.",
+        "The narrow tip is on the left, broad occupied edge on the right; a blank near wall frames half the scene.",
+        "L-shaped terraces rise around the triangle; a slanted washing line divides foreground from a far group."
+      ]
+    ],
+    [
+      "well",
+      "Разорванный колодец",
+      "A modest old service shaft, a dark oval opening with a hand winch, bed niches and patched timber around its rim. People gather beyond the void; the mage is on its near dark edge. No monumental architecture.",
+      [
+        "Steep isometric cutaway, broken C-shaped rim, staggered wooden platforms and an off-center black opening.",
+        "A square well offset to the left; broad inhabited deck on the right, low camera under a timber overhang.",
+        "A wedge cut through the shaft wall exposes two shallow levels, people above and mage below in shadow.",
+        "The opening is almost cropped off the right edge; the main composition is a diagonal inhabited strip.",
+        "Overhead view with half the well hidden by a broad roof; a small winding stair links unequal ledges."
+      ]
+    ],
+    [
+      "drylock",
+      "Сухой шлюз",
+      "A disused small canal lock converted into a refuge: thick closed timber gate, sunken dry lock floor, stone ledges and a boat reused for sleeping. The dungeon is reached through an unlit maintenance tunnel.",
+      [
+        "High oblique view lengthwise down the narrow lock, a diagonal gangplank and separate groups at each end.",
+        "Side cutaway with the huge gate at one edge and tiny living pockets stepped down the opposite wall.",
+        "Low view from the empty lock bed; raised social deck crosses above and mage stands under it.",
+        "Almost top-down rectangular trench interrupted by a crooked grounded boat; tents cluster at its prow.",
+        "The gate leaves form an open V framing the far shelter; foreground stays nearly empty and dark."
+      ]
+    ],
+    [
+      "splitloft",
+      "Два чердака",
+      "A compact underground storeroom with two mismatched timber lofts separated by a narrow void. Domestic life occupies one bright shelf; the mage is under the other in opaque shadow. A trapdoor at the back is the dungeon route.",
+      [
+        "Frontal dollhouse section: upper-left sleeping loft, lower-right repair nook, diagonal ladder between.",
+        "High oblique view of two offset balconies around a long narrow dark gap; crooked beam cuts overhead.",
+        "Low camera under one loft; floor above dominates upper frame, living groups glimpsed beyond supports.",
+        "Side section of a sloping attic: one wide shelf over three shallow niches with mismatched fabric doors.",
+        "Three-quarter corner cutaway; broad open floor at left and stacked inhabited shelves only at right."
+      ]
+    ],
+    [
+      "bath",
+      "Остывшая купальня",
+      "A tiny abandoned underground bathhouse reused as shelter. Empty shallow basin, low divider walls, folded blankets, a cracked water spout and warm communal repair nook. A dry drainage passage leads into the dungeon.",
+      [
+        "High oblique cutaway; rectangular empty basin lies diagonally, groups crowd one end and mage another.",
+        "Side view across the sunken basin; people on low far benches, a foreground pillar hides the mage niche.",
+        "Almost overhead: three unequal basins make an irregular zigzag floor plan with cloth partitions.",
+        "Low view along a narrow channel; broad domed ceiling cropped close and a small stair curls away.",
+        "Corner cutaway with one collapsed dividing wall; blank pale floor separates two patches of habitation."
+      ]
+    ],
+    [
+      "quarry",
+      "Каменные ступени",
+      "A small exhausted quarry pocket at a dungeon entrance, stone cutting steps repurposed as beds and work ledges. A plain timber roof protects one corner; tools and sacks show sustained habitation.",
+      [
+        "Steep oblique view over large diagonal stone steps, tiny warm social pockets at different heights.",
+        "Frontal stepped silhouette with three asymmetrical terraces; mage in a shadow crack on the bottom.",
+        "A huge slanted slab fills the near half; people occupy a thin horizontal strip behind its upper edge.",
+        "Low camera inside the quarry corner looking at a zigzag stair; no wide vista, roof presses down.",
+        "Overhead U-shaped cut in rock with one side much shorter; a patched canopy bridges the narrow neck."
+      ]
+    ],
+    [
+      "cistern",
+      "Рёбра цистерны",
+      "A low decommissioned cistern has dry raised walkways between narrow water channels. Two squat ribs of masonry form distinct domestic pockets. A black inspection passage is the dungeon threshold.",
+      [
+        "Long horizontal section through squat vaults; repeating ribs interrupted by one diagonal wooden shelf.",
+        "High oblique view with a Y-shaped dry walkway dividing shallow black water into unequal shapes.",
+        "Low view along one water channel, foreground masonry hides a third of the scene, people beyond.",
+        "Cutaway corner with one short broad vault and two narrow side niches; no symmetrical arcade.",
+        "Nearly overhead cross of channels with an offset communal deck; mage concealed under near masonry."
+      ]
+    ],
+    [
+      "wagons",
+      "Сломанные фургоны",
+      "Three abandoned small freight wagons form a patched refuge just inside a rock shelter. Removed wheels, stitched tarp roofs and a low cooking hearth. A dark narrow cleft behind them leads down. No war or travelling army.",
+      [
+        "High oblique view: two wagon bodies make a bent L, a third is a raised sleeping nook.",
+        "Low side view through the gap between two wheels; the wagons create a thin inhabited horizon.",
+        "Overhead triangular arrangement around an empty rain puddle, one wagon cut away to show bedding.",
+        "A tipped wagon roof creates a strong diagonal lean-to, people beneath and mage in the rear pocket.",
+        "Long narrow cutaway with wagon shells staggered on a slope, short stairs joining roofs and decks."
+      ]
+    ],
+    [
+      "cellarcross",
+      "Перекрёсток подвалов",
+      "Four short cellar passages meet at a cramped junction. Unequal arches, makeshift curtains and low shelves form a small refuge. Mercenaries socialize in two side passages; the mage remains at the dark threshold nearest the viewer.",
+      [
+        "High dollhouse view revealing a skewed cross plan; one arm is wide and inhabited, the other nearly black.",
+        "Low oblique view through a side doorway; a massive central pier blocks the direct route and divides groups.",
+        "Frontal section of unequal rooms connected through narrow openings; one warm pocket behind another.",
+        "Steep overhead diagonal composition with two blind corners and one unlit descending stair.",
+        "A broken corner exposes a zigzag corridor; only three small light pools explain the inhabited path."
+      ]
+    ],
+    [
+      "tidal",
+      "Приливная платформа",
+      "A small refuge clings to a flooded cavern wall on narrow crooked timber platforms. One dry sleeping deck and a low repair shelter are linked by planks. A dungeon fissure opens above the water. Keep shelter compact.",
+      [
+        "High oblique view, landing in foreground partly obscures sleeping deck behind stacked salvage.",
+        "Platforms run diagonally; open black water fills most of the right half.",
+        "Low wedge-shaped shelter roof almost touches cavern wall, people gathered in a thin band underneath.",
+        "Three tiny decks joined by a zigzag of planks at different heights.",
+        "Low framed view through a close mooring post and hanging nets, crowded far deck beyond."
+      ]
+    ],
+    [
+      "switchback",
+      "Скальный серпантин",
+      "Shallow rooms carved into a cavern face connect by a cramped switchback stair. Cloth screens and timber doors are patched. Mercenaries talk on separate ledges; mage sheltered in an unlit stair recess. No monumental cliff city.",
+      [
+        "Low three-quarter view, stair rises left to right behind a broad rock buttress.",
+        "Largest inhabited ledge at bottom, smaller rooms step upward, high oblique view.",
+        "Narrow vertical cleft cuts between two occupied ledges; short bridge at an unexpected angle.",
+        "View partly behind a close dark rock edge; cropped staircase zigzags into depth.",
+        "One landing cantilevers over a short deep drop, rough beams define a strong triangular silhouette."
+      ]
+    ],
+    [
+      "roots",
+      "Среди корней",
+      "A dry hollow beneath exposed old roots at a dungeon mouth. Roots bend into natural partitions around patched beds and tiny repair areas. A low black opening behind a root leads down. Organic shelter, not a rectangular room.",
+      [
+        "Low upward-looking view; one massive root sweeps across foreground and frames small living pockets.",
+        "High cutaway: sleeping nooks under a low root canopy, work area outside it around an empty patch.",
+        "Thin hanging roots act as uneven curtains; people seen through two staggered gaps.",
+        "Narrow stream threads between roots, bridge of a fallen root separates people from a dark niche.",
+        "Roots descend in a slanted fan from upper right, dividing the scene into unequal triangular pockets."
+      ]
+    ],
+    [
+      "grainlift",
+      "Зерновой подъёмник",
+      "A hand-operated grain lift adapted into a compact refuge near a dungeon shaft. Lopsided timber frame, suspended empty platform, small work and sleeping shelves. Quiet reused machinery, no industrial scale.",
+      [
+        "Side section, suspended platform off-center partly hides an upper sleeping shelf.",
+        "Long diagonal counterweight beam extends across a cropped frame; people below its far end.",
+        "High oblique view over three staggered shelves connected by one short crooked ladder.",
+        "Steep overhead view of a narrow rectangular shaft, occupied ledges only on two adjacent sides.",
+        "Patched cloth closes half the tall frame, dark mage niche underneath and bright domestic band above."
+      ]
+    ],
+    [
+      "drying",
+      "Пещерная сушильня",
+      "A former drying cave beside a dungeon, sloping ceiling, narrow drainage channel and patched clothes lines. Sleeping shelf and cooking nook are partly hidden by laundry. Casual human chores, no barracks.",
+      [
+        "Deep side-on slice through two close drying lines; refuge visible through narrow unequal gaps.",
+        "Drainage channel occupies foreground diagonal, social group on raised far shelf.",
+        "Low roof slopes sharply down over sleeping shelf, open repair area on the wider end.",
+        "One dense cloth curtain dominates half the composition, cooking nook left open.",
+        "Oblique view from behind a tilted drying rack with empty pegs; narrow depth and layered silhouettes."
+      ]
+    ],
+    [
+      "brokenstairs",
+      "Сломанная лестница",
+      "Several broken flights of a modest dungeon stair adapted into shelter. Timber landings bridge missing steps; bedrolls and cooking pots fit its irregular geometry. People sit at different heights, mage at the unlit near turn.",
+      [
+        "Steep overhead view, missing central flight creates a zigzag gap between occupied landings.",
+        "Small timber bridge supports cooking nook across two stair sections, low side view.",
+        "Stair turns sharply behind a thick support, people appear in two separated horizontal bands.",
+        "Upper steps fill foreground and refuge recedes steeply into depth beneath cropped rock.",
+        "Bedrolls on a broad broken step behind a cloth screen; open stair void occupies the other half."
+      ]
+    ],
+    [
+      "splitstream",
+      "Расколотый ручей",
+      "A narrow underground stream separates sleeping bank and cooking bank, joined by a tiny homemade bridge. People share chores on the far bank. Water is a nuisance, not an epic hazard. Dungeon passage hidden behind an overhang.",
+      [
+        "Water-level view with bridge near foreground and people beyond, still reflections below.",
+        "Stream bends sharply around a rock fin, separating the living area into a broken S.",
+        "Sleeping bank higher by two uneven steps; high oblique cutaway showing unequal levels.",
+        "Broad overhang hides mage niche and dominates top half; thin warm inhabited strip at bottom.",
+        "Overhead view, diagonal bridge intersects a narrow winding stream, broad quiet stone on one side."
+      ]
+    ],
+    [
+      "ropeshelf",
+      "Верёвочные полки",
+      "Two maintained rope-suspended timber shelves in a narrow cavern cleft above rubble. Wider shelf supports people sharing food, smaller one blankets and tools. Dungeon crack behind lower anchor. Human-sized patched refuge.",
+      [
+        "Three-quarter view, shelves offset vertically with a short rope ladder and dark narrow middle gap.",
+        "A taut diagonal line divides high open dark space from the small cluster of people below.",
+        "Broad foreground rock fin hides half the lower shelf; the inhabited upper shelf peeks around it.",
+        "Low view showing undersides of suspended platforms as two strong skewed planes.",
+        "One shelf long and thin, other short and broad, joined at an angle; almost overhead cutaway."
+      ]
+    ],
+    [
+      "salt",
+      "Соляные ниши",
+      "A few shallow alcoves cut in pale mineral rock, linked by a narrow ledge. Unequal sleeping pockets, deep unlit mage recess, shared work shelf. Dry plain worn surfaces, no ornate arches or glittering crystals.",
+      [
+        "Frontal uneven cutout arrangement descending diagonally across the wall.",
+        "Thin mineral pillar divides sleeping pockets from social shelf, high oblique view.",
+        "One deep dark niche swallows the left third of frame; small people gather at far-right edge.",
+        "Narrow ledge crosses in front at mid-height with lower storage nook, side section.",
+        "Oblique view makes alcoves form a shallow zigzag, one near wall cropped to frame depth."
+      ]
+    ],
+    [
+      "kiln",
+      "Старая угольная печь",
+      "A dormant small charcoal kiln with low stone dome, timber lean-to and ash chute reused as a refuge. People share a pot and clean gear; bedding under dry eaves. Dark maintenance tunnel reaches dungeon. No forge or factory.",
+      [
+        "High side angle, diagonal ash chute screens part of angular lean-to against a squat round dome.",
+        "Kiln pressed against slanted rock, group on the open side, mage hidden behind the chute.",
+        "Overhead roof cutaway, curved dome dominates and tiny bed pockets hug its asymmetrical base.",
+        "Low timber awning extends sideways from dome forming a long thin inhabited band.",
+        "Two separate social pockets around kiln curve, view through a close broken timber doorway."
+      ]
+    ]
+  ],
+  "palettes": [
+    [
+      "Сланец и янтарь",
+      "cold slate blue, desaturated olive cloth, tiny amber lanterns, charcoal shadows"
+    ],
+    [
+      "Слива и глина",
+      "deep plum shadows, dusty terracotta stone, parchment fabric, restrained copper lights"
+    ],
+    [
+      "Мох и железо",
+      "moss olive, iron gray, worn leather brown, a few pale warm lamps"
+    ],
+    [
+      "Нефрит и ржавчина",
+      "smoky jade, black-green water, rust orange cloth, cream highlights"
+    ],
+    [
+      "Сумеречный индиго",
+      "muted indigo, cool gray stone, dusty rose cloth, small honey lights"
+    ],
+    [
+      "Кость и чернила",
+      "chalk bone stone, ink blue shadows, ash brown wood, tiny dull gold accents"
+    ],
+    [
+      "Торф и вереск",
+      "peat brown, dusty heather purple, gray-green cloth, dim peach lights"
+    ],
+    [
+      "Петроль и охра",
+      "dark petrol teal, faded ochre fabric, cold gray metal, soft old amber"
+    ],
+    [
+      "Зола и бордо",
+      "ash gray, near-black aubergine shadows, oxblood fabric, low warm lamps"
+    ],
+    [
+      "Холодный рассвет",
+      "fog blue, pale warm gray, muted sage, sparse apricot lanterns"
+    ],
+    [
+      "Осенняя медь",
+      "desaturated burnt sienna, dark blue-green shadows, taupe cloth, copper light"
+    ],
+    [
+      "Серебро и хвоя",
+      "silver gray, deep pine green, dark umber, very small golden light"
+    ],
+    [
+      "Лиловый известняк",
+      "lavender-gray limestone, soft charcoal, faded ochre cloth, dim pink-orange lamps"
+    ],
+    [
+      "Чёрная вода",
+      "blue-black water, pale weathered timber, restrained turquoise, warm ivory light"
+    ],
+    [
+      "Пыльный шафран",
+      "dusty saffron cloth, slate violet shadows, brown-gray stone, dark olive"
+    ],
+    [
+      "Пепельная роза",
+      "dusty rose stone, desaturated bottle green, ink-gray shadow, faint straw lights"
+    ],
+    [
+      "Зимний сумрак",
+      "frost gray, subdued navy, cold lavender, one small dull red ember"
+    ],
+    [
+      "Болотная бронза",
+      "muted swamp green, oxidized bronze, deep cool brown, pale linen"
+    ],
+    [
+      "Уголь и крем",
+      "charcoal, cream limestone, subdued sienna wood, sparse dull blue fabric"
+    ],
+    [
+      "Грозовой вечер",
+      "storm blue, muted mauve, brown-black timber, low straw-yellow lamps"
+    ]
+  ],
+  "common": "Pixel-art diorama: an intimate lived-in refuge at a dungeon entrance. Broad connected color clusters, compact heroic silhouettes, matte planes, crisp stepped edges, quiet shadow masses and selective details. 8-12 varied mercenaries talk in pairs, share bowls and mend equipment, amid bedrolls, patched cloth and sacks. Exactly ONE small mage stands apart, STRICTLY BACK TO CAMERA, entirely in deep architectural shadow. Opaque black hood and cloak conceal face, skin, hands, hair, age and gender; no rim light. Nobody notices, looks toward or reacts to the mage. Social warmth belongs to others; the mage is excluded from their connections. No war, army, battlefield, ruined city, monsters, epic scale, magic glow, grain, dithering, text, icons or HUD. ",
+  "target_count": 100
+}

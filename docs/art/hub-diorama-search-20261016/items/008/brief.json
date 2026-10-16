@@ -1,0 +1,11 @@
+{
+  "id": 8,
+  "title": "Между стенами 3",
+  "family": "wedge",
+  "family_title": "Между стенами",
+  "variation": "Cutaway from above the broad end; two unequal roofs almost meet over a bent route through the courtyard.",
+  "palette": "Серебро и хвоя",
+  "palette_description": "silver gray, deep pine green, dark umber, very small golden light",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

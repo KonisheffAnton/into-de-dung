@@ -1,0 +1,11 @@
+{
+  "id": 75,
+  "title": "Пещерная сушильня 5",
+  "family": "drying",
+  "family_title": "Пещерная сушильня",
+  "variation": "Oblique view from behind a tilted drying rack with empty pegs; narrow depth and layered silhouettes.",
+  "palette": "Уголь и крем",
+  "palette_description": "charcoal, cream limestone, subdued sienna wood, sparse dull blue fabric",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

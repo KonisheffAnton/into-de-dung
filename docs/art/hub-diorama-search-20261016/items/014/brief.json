@@ -1,0 +1,11 @@
+{
+  "id": 14,
+  "title": "Разорванный колодец 4",
+  "family": "well",
+  "family_title": "Разорванный колодец",
+  "variation": "The opening is almost cropped off the right edge; the main composition is a diagonal inhabited strip.",
+  "palette": "Уголь и крем",
+  "palette_description": "charcoal, cream limestone, subdued sienna wood, sparse dull blue fabric",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

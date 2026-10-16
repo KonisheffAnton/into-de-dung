@@ -1,0 +1,11 @@
+{
+  "id": 100,
+  "title": "Старая угольная печь 5",
+  "family": "kiln",
+  "family_title": "Старая угольная печь",
+  "variation": "Two separate social pockets around kiln curve, view through a close broken timber doorway.",
+  "palette": "Чёрная вода",
+  "palette_description": "blue-black water, pale weathered timber, restrained turquoise, warm ivory light",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

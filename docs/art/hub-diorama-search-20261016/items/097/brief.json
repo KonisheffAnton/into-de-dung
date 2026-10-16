@@ -1,0 +1,11 @@
+{
+  "id": 97,
+  "title": "Старая угольная печь 2",
+  "family": "kiln",
+  "family_title": "Старая угольная печь",
+  "variation": "Kiln pressed against slanted rock, group on the open side, mage hidden behind the chute.",
+  "palette": "Слива и глина",
+  "palette_description": "deep plum shadows, dusty terracotta stone, parchment fabric, restrained copper lights",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

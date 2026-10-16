@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "checks": [
+    "concurrent same-ID one POST",
+    "corrupt PNG restored from saved response without POST",
+    "changed plan cannot overwrite provenance",
+    "reserved ID only matching owner may submit",
+    "unreserved ID refused in reserved mode",
+    "async PNG restored locally when remote job expired",
+    "completed hash verified"
+  ],
+  "provider_calls": 0,
+  "crash_lock_policy": "Report lock and skip; manually verify dead owner, preserve POST marker and release lock only after inspection."
+}

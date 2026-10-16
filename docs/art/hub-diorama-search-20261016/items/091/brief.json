@@ -1,0 +1,11 @@
+{
+  "id": 91,
+  "title": "Соляные ниши 1",
+  "family": "salt",
+  "family_title": "Соляные ниши",
+  "variation": "Frontal uneven cutout arrangement descending diagonally across the wall.",
+  "palette": "Пыльный шафран",
+  "palette_description": "dusty saffron cloth, slate violet shadows, brown-gray stone, dark olive",
+  "endpoint": "/generate-image-v2",
+  "pilot": false
+}

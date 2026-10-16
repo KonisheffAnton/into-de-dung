@@ -1,0 +1,11 @@
+{
+  "id": 48,
+  "title": "Перекрёсток подвалов 3",
+  "family": "cellarcross",
+  "family_title": "Перекрёсток подвалов",
+  "variation": "Frontal section of unequal rooms connected through narrow openings; one warm pocket behind another.",
+  "palette": "Пепельная роза",
+  "palette_description": "dusty rose stone, desaturated bottle green, ink-gray shadow, faint straw lights",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

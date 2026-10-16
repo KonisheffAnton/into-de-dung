@@ -1,0 +1,11 @@
+{
+  "id": 15,
+  "title": "Разорванный колодец 5",
+  "family": "well",
+  "family_title": "Разорванный колодец",
+  "variation": "Overhead view with half the well hidden by a broad roof; a small winding stair links unequal ledges.",
+  "palette": "Мох и железо",
+  "palette_description": "moss olive, iron gray, worn leather brown, a few pale warm lamps",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

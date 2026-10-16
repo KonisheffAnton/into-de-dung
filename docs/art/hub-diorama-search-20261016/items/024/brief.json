@@ -1,0 +1,11 @@
+{
+  "id": 24,
+  "title": "Два чердака 4",
+  "family": "splitloft",
+  "family_title": "Два чердака",
+  "variation": "Side section of a sloping attic: one wide shelf over three shallow niches with mismatched fabric doors.",
+  "palette": "Сумеречный индиго",
+  "palette_description": "muted indigo, cool gray stone, dusty rose cloth, small honey lights",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

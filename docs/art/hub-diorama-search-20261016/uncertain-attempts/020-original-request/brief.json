@@ -1,0 +1,11 @@
+{
+  "id": 20,
+  "title": "Сухой шлюз 5",
+  "family": "drylock",
+  "family_title": "Сухой шлюз",
+  "variation": "The gate leaves form an open V framing the far shelter; foreground stays nearly empty and dark.",
+  "palette": "Кость и чернила",
+  "palette_description": "chalk bone stone, ink blue shadows, ash brown wood, tiny dull gold accents",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

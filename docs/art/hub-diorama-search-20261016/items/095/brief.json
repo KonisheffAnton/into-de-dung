@@ -1,0 +1,11 @@
+{
+  "id": 95,
+  "title": "Соляные ниши 5",
+  "family": "salt",
+  "family_title": "Соляные ниши",
+  "variation": "Oblique view makes alcoves form a shallow zigzag, one near wall cropped to frame depth.",
+  "palette": "Осенняя медь",
+  "palette_description": "desaturated burnt sienna, dark blue-green shadows, taupe cloth, copper light",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

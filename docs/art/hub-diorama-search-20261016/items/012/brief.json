@@ -1,0 +1,11 @@
+{
+  "id": 12,
+  "title": "Разорванный колодец 2",
+  "family": "well",
+  "family_title": "Разорванный колодец",
+  "variation": "A square well offset to the left; broad inhabited deck on the right, low camera under a timber overhang.",
+  "palette": "Осенняя медь",
+  "palette_description": "desaturated burnt sienna, dark blue-green shadows, taupe cloth, copper light",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

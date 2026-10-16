@@ -1,0 +1,11 @@
+{
+  "id": 70,
+  "title": "Зерновой подъёмник 5",
+  "family": "grainlift",
+  "family_title": "Зерновой подъёмник",
+  "variation": "Patched cloth closes half the tall frame, dark mage niche underneath and bright domestic band above.",
+  "palette": "Пепельная роза",
+  "palette_description": "dusty rose stone, desaturated bottle green, ink-gray shadow, faint straw lights",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

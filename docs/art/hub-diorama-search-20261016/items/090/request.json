@@ -1,0 +1,15 @@
+{
+  "endpoint": "/create-image-pixen",
+  "body": {
+    "description": "Pixel-art diorama: an intimate lived-in refuge at a dungeon entrance. Broad connected color clusters, compact heroic silhouettes, matte planes, crisp stepped edges, quiet shadow masses and selective details. 8-12 varied mercenaries talk in pairs, share bowls and mend equipment, amid bedrolls, patched cloth and sacks. Exactly ONE small mage stands apart, STRICTLY BACK TO CAMERA, entirely in deep architectural shadow. Opaque black hood and cloak conceal face, skin, hands, hair, age and gender; no rim light. Nobody notices, looks toward or reacts to the mage. Social warmth belongs to others; the mage is excluded from their connections. No war, army, battlefield, ruined city, monsters, epic scale, magic glow, grain, dithering, text, icons or HUD. PLACE: Two maintained rope-suspended timber shelves in a narrow cavern cleft above rubble. Wider shelf supports people sharing food, smaller one blankets and tools. Dungeon crack behind lower anchor. Human-sized patched refuge. COMPOSITION: One shelf long and thin, other short and broad, joined at an angle; almost overhead cutaway. COLOR SCRIPT: dark petrol teal, faded ochre fabric, cold gray metal, soft old amber. Restrained saturation, a legible dark mage silhouette. One complete scene with a quiet dark surrounding field, no decorative frame.",
+    "image_size": {
+      "width": 512,
+      "height": 384
+    },
+    "no_background": false,
+    "seed": 2026101690,
+    "detail": "low detail",
+    "outline": "lineless",
+    "enhance_prompt": false
+  }
+}

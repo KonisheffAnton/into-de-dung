@@ -1,0 +1,11 @@
+{
+  "id": 10,
+  "title": "Между стенами 5",
+  "family": "wedge",
+  "family_title": "Между стенами",
+  "variation": "L-shaped terraces rise around the triangle; a slanted washing line divides foreground from a far group.",
+  "palette": "Грозовой вечер",
+  "palette_description": "storm blue, muted mauve, brown-black timber, low straw-yellow lamps",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

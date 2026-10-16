@@ -1,0 +1,12 @@
+{
+  "endpoint": "/generate-image-v2",
+  "body": {
+    "description": "A side-cutaway pixel-art diorama of a tiny cave refuge. A low descending rock slab fills the upper half. Three diagonal lines of laundry split the lower half into unequal layers: foreground hanging blankets, a middle narrow walkway, and rear warm sleeping pockets. Six compact weary mercenaries talk in pairs, share bowls and mend gear in the far pockets, with patched bedding and travel bags. On the nearest lower-right dark edge, a SINGLE small mage faces AWAY from the viewer toward the back wall. We see only the BACK of an opaque black hood and the BACK of a long cloak, entirely hidden in architectural shadow. The hood shows rear fabric, no face opening. Skin, hair, hands, age and gender invisible. Nobody looks toward, notices or reacts to the mage. A dark narrow fissure behind drying racks leads into the dungeon. Large quiet dark masses, crisp pixel clusters, matte planes, restrained rust cloth, cold blue-green rock, pale gray laundry, sparse dim amber light. Intimate, uneasy and lived-in. No war, army, epic buildings, monsters, magic, text, UI, shiny glow, grain or dithering.",
+    "image_size": {
+      "width": 512,
+      "height": 384
+    },
+    "no_background": false,
+    "seed": 2026111673
+  }
+}

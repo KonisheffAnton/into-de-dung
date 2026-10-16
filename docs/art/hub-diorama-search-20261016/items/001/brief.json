@@ -1,0 +1,7 @@
+{
+  "id": 1,
+  "title": "Склад под мостом",
+  "family": "bridge",
+  "pilot": true,
+  "endpoint": "/generate-image-v2"
+}

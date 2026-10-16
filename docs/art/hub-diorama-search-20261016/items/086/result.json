@@ -1,0 +1,22 @@
+{
+  "status": "completed",
+  "job_id": "7a1e6c31-eb1e-4f4b-86b1-733b7a372171",
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 25
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\Aston\\.codex\\generated_images\\hub-pixellab-100-20261016\\items\\086\\original.png",
+      "sha256": "5bf208a1cc8710454d18dc88821479e9f7231aff98baf962f1772cb2fdbc7100",
+      "width": 512,
+      "height": 384,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ]
+    }
+  ]
+}

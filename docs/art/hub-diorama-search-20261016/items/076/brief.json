@@ -1,0 +1,11 @@
+{
+  "id": 76,
+  "title": "Сломанная лестница 1",
+  "family": "brokenstairs",
+  "family_title": "Сломанная лестница",
+  "variation": "Steep overhead view, missing central flight creates a zigzag gap between occupied landings.",
+  "palette": "Кость и чернила",
+  "palette_description": "chalk bone stone, ink blue shadows, ash brown wood, tiny dull gold accents",
+  "endpoint": "/generate-image-v2",
+  "pilot": false
+}

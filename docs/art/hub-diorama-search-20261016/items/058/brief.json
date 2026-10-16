@@ -1,0 +1,11 @@
+{
+  "id": 58,
+  "title": "Скальный серпантин 3",
+  "family": "switchback",
+  "family_title": "Скальный серпантин",
+  "variation": "Narrow vertical cleft cuts between two occupied ledges; short bridge at an unexpected angle.",
+  "palette": "Слива и глина",
+  "palette_description": "deep plum shadows, dusty terracotta stone, parchment fabric, restrained copper lights",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

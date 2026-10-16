@@ -1,0 +1,11 @@
+{
+  "id": 87,
+  "title": "Верёвочные полки 2",
+  "family": "ropeshelf",
+  "family_title": "Верёвочные полки",
+  "variation": "A taut diagonal line divides high open dark space from the small cluster of people below.",
+  "palette": "Пепельная роза",
+  "palette_description": "dusty rose stone, desaturated bottle green, ink-gray shadow, faint straw lights",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

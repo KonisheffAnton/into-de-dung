@@ -1,0 +1,11 @@
+{
+  "id": 46,
+  "title": "Перекрёсток подвалов 1",
+  "family": "cellarcross",
+  "family_title": "Перекрёсток подвалов",
+  "variation": "High dollhouse view revealing a skewed cross plan; one arm is wide and inhabited, the other nearly black.",
+  "palette": "Петроль и охра",
+  "palette_description": "dark petrol teal, faded ochre fabric, cold gray metal, soft old amber",
+  "endpoint": "/generate-image-v2",
+  "pilot": false
+}

@@ -1,0 +1,11 @@
+{
+  "id": 69,
+  "title": "Зерновой подъёмник 4",
+  "family": "grainlift",
+  "family_title": "Зерновой подъёмник",
+  "variation": "Steep overhead view of a narrow rectangular shaft, occupied ledges only on two adjacent sides.",
+  "palette": "Серебро и хвоя",
+  "palette_description": "silver gray, deep pine green, dark umber, very small golden light",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

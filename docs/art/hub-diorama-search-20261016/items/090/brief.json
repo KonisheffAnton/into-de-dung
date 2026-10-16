@@ -1,0 +1,11 @@
+{
+  "id": 90,
+  "title": "Верёвочные полки 5",
+  "family": "ropeshelf",
+  "family_title": "Верёвочные полки",
+  "variation": "One shelf long and thin, other short and broad, joined at an angle; almost overhead cutaway.",
+  "palette": "Петроль и охра",
+  "palette_description": "dark petrol teal, faded ochre fabric, cold gray metal, soft old amber",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

@@ -1,0 +1,11 @@
+{
+  "id": 34,
+  "title": "Каменные ступени 4",
+  "family": "quarry",
+  "family_title": "Каменные ступени",
+  "variation": "Low camera inside the quarry corner looking at a zigzag stair; no wide vista, roof presses down.",
+  "palette": "Осенняя медь",
+  "palette_description": "desaturated burnt sienna, dark blue-green shadows, taupe cloth, copper light",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

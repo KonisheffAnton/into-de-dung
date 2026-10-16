@@ -1,0 +1,11 @@
+{
+  "id": 21,
+  "title": "Два чердака 1",
+  "family": "splitloft",
+  "family_title": "Два чердака",
+  "variation": "Frontal dollhouse section: upper-left sleeping loft, lower-right repair nook, diagonal ladder between.",
+  "palette": "Лиловый известняк",
+  "palette_description": "lavender-gray limestone, soft charcoal, faded ochre cloth, dim pink-orange lamps",
+  "endpoint": "/generate-image-v2",
+  "pilot": false
+}

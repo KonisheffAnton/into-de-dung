@@ -1,0 +1,11 @@
+{
+  "id": 39,
+  "title": "Рёбра цистерны 4",
+  "family": "cistern",
+  "family_title": "Рёбра цистерны",
+  "variation": "Cutaway corner with one short broad vault and two narrow side niches; no symmetrical arcade.",
+  "palette": "Чёрная вода",
+  "palette_description": "blue-black water, pale weathered timber, restrained turquoise, warm ivory light",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

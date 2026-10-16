@@ -1,0 +1,11 @@
+{
+  "id": 30,
+  "title": "Остывшая купальня 5",
+  "family": "bath",
+  "family_title": "Остывшая купальня",
+  "variation": "Corner cutaway with one collapsed dividing wall; blank pale floor separates two patches of habitation.",
+  "palette": "Серебро и хвоя",
+  "palette_description": "silver gray, deep pine green, dark umber, very small golden light",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

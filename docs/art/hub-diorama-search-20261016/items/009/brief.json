@@ -1,0 +1,11 @@
+{
+  "id": 9,
+  "title": "Между стенами 4",
+  "family": "wedge",
+  "family_title": "Между стенами",
+  "variation": "The narrow tip is on the left, broad occupied edge on the right; a blank near wall frames half the scene.",
+  "palette": "Пепельная роза",
+  "palette_description": "dusty rose stone, desaturated bottle green, ink-gray shadow, faint straw lights",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

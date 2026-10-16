@@ -1,0 +1,11 @@
+{
+  "id": 47,
+  "title": "Перекрёсток подвалов 2",
+  "family": "cellarcross",
+  "family_title": "Перекрёсток подвалов",
+  "variation": "Low oblique view through a side doorway; a massive central pier blocks the direct route and divides groups.",
+  "palette": "Серебро и хвоя",
+  "palette_description": "silver gray, deep pine green, dark umber, very small golden light",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

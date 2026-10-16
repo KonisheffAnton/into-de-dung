@@ -1,0 +1,11 @@
+{
+  "id": 80,
+  "title": "Сломанная лестница 5",
+  "family": "brokenstairs",
+  "family_title": "Сломанная лестница",
+  "variation": "Bedrolls on a broad broken step behind a cloth screen; open stair void occupies the other half.",
+  "palette": "Слива и глина",
+  "palette_description": "deep plum shadows, dusty terracotta stone, parchment fabric, restrained copper lights",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

@@ -1,0 +1,11 @@
+{
+  "id": 61,
+  "title": "Среди корней 1",
+  "family": "roots",
+  "family_title": "Среди корней",
+  "variation": "Low upward-looking view; one massive root sweeps across foreground and frames small living pockets.",
+  "palette": "Зимний сумрак",
+  "palette_description": "frost gray, subdued navy, cold lavender, one small dull red ember",
+  "endpoint": "/generate-image-v2",
+  "pilot": false
+}

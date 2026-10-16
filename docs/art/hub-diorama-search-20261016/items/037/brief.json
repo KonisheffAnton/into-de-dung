@@ -1,0 +1,11 @@
+{
+  "id": 37,
+  "title": "Рёбра цистерны 2",
+  "family": "cistern",
+  "family_title": "Рёбра цистерны",
+  "variation": "High oblique view with a Y-shaped dry walkway dividing shallow black water into unequal shapes.",
+  "palette": "Кость и чернила",
+  "palette_description": "chalk bone stone, ink blue shadows, ash brown wood, tiny dull gold accents",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

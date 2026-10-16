@@ -1,0 +1,11 @@
+{
+  "id": 62,
+  "title": "Среди корней 2",
+  "family": "roots",
+  "family_title": "Среди корней",
+  "variation": "High cutaway: sleeping nooks under a low root canopy, work area outside it around an empty patch.",
+  "palette": "Сланец и янтарь",
+  "palette_description": "cold slate blue, desaturated olive cloth, tiny amber lanterns, charcoal shadows",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

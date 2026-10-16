@@ -1,0 +1,11 @@
+{
+  "id": 3,
+  "title": "Под мостом 3",
+  "family": "bridge",
+  "family_title": "Под мостом",
+  "variation": "Look lengthwise under the bridge through two overlapping dark arches; people occupy the middle depth.",
+  "palette": "Зола и бордо",
+  "palette_description": "ash gray, near-black aubergine shadows, oxblood fabric, low warm lamps",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

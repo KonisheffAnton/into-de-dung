@@ -1,0 +1,11 @@
+{
+  "id": 40,
+  "title": "Рёбра цистерны 5",
+  "family": "cistern",
+  "family_title": "Рёбра цистерны",
+  "variation": "Nearly overhead cross of channels with an offset communal deck; mage concealed under near masonry.",
+  "palette": "Болотная бронза",
+  "palette_description": "muted swamp green, oxidized bronze, deep cool brown, pale linen",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

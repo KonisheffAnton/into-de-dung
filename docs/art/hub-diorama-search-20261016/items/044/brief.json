@@ -1,0 +1,11 @@
+{
+  "id": 44,
+  "title": "Сломанные фургоны 4",
+  "family": "wagons",
+  "family_title": "Сломанные фургоны",
+  "variation": "A tipped wagon roof creates a strong diagonal lean-to, people beneath and mage in the rear pocket.",
+  "palette": "Зимний сумрак",
+  "palette_description": "frost gray, subdued navy, cold lavender, one small dull red ember",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

@@ -1,0 +1,11 @@
+{
+  "id": 50,
+  "title": "Перекрёсток подвалов 5",
+  "family": "cellarcross",
+  "family_title": "Перекрёсток подвалов",
+  "variation": "A broken corner exposes a zigzag corridor; only three small light pools explain the inhabited path.",
+  "palette": "Нефрит и ржавчина",
+  "palette_description": "smoky jade, black-green water, rust orange cloth, cream highlights",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

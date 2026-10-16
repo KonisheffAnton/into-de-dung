@@ -1,0 +1,12 @@
+{
+  "id": 20,
+  "title": "Сухой шлюз 5",
+  "family": "drylock",
+  "family_title": "Сухой шлюз",
+  "variation": "Strict side cutaway: closed V-shaped canal gate dominates the left, raised sleeping boat at right, narrow shelter below an angled gangplank.",
+  "palette": "Кость и чернила",
+  "palette_description": "chalk bone stone, ink blue shadows, ash brown wood, tiny dull gold accents",
+  "endpoint": "/create-image-pixen",
+  "pilot": false,
+  "replacement_note": "One new composition after uncertain network timeout; original POST not repeated, uncertain request retained separately. Billing reconciled from balance at completion."
+}

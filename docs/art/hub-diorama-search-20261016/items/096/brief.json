@@ -1,0 +1,11 @@
+{
+  "id": 96,
+  "title": "Старая угольная печь 1",
+  "family": "kiln",
+  "family_title": "Старая угольная печь",
+  "variation": "High side angle, diagonal ash chute screens part of angular lean-to against a squat round dome.",
+  "palette": "Болотная бронза",
+  "palette_description": "muted swamp green, oxidized bronze, deep cool brown, pale linen",
+  "endpoint": "/generate-image-v2",
+  "pilot": false
+}

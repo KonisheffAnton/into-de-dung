@@ -1,0 +1,11 @@
+{
+  "id": 52,
+  "title": "Приливная платформа 2",
+  "family": "tidal",
+  "family_title": "Приливная платформа",
+  "variation": "Platforms run diagonally; open black water fills most of the right half.",
+  "palette": "Пыльный шафран",
+  "palette_description": "dusty saffron cloth, slate violet shadows, brown-gray stone, dark olive",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

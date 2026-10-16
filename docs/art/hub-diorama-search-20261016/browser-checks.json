@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "surface": "Codex in-app browser, http://127.0.0.1:8769/gallery.html",
+  "checks": {
+    "numeric_1": 1,
+    "padded_numeric_001": 1,
+    "text_between_walls": 5,
+    "nonexistent_text": 0,
+    "empty_search": 100,
+    "modal_001": "items/001/original.png and matching title",
+    "modal_next": "items/002/original.png and matching title",
+    "favorites": "006 persisted across reload, then test selection removed",
+    "visual_contrast": "Viewed screenshot; dark background and light labels legible",
+    "final_cards": 100,
+    "final_pending": 0,
+    "final_numeric_100": "one matching completed card",
+    "final_mode_pro": 19,
+    "final_family_grainlift": 5,
+    "final_family_and_pro": 1,
+    "final_reset_all": 100
+  },
+  "notes": "Final refresh after all 100 PNGs completed: 100 cards and zero pending. Earlier interaction checks remain applicable; no gallery implementation changed since review. No gameplay or art acceptance."
+}

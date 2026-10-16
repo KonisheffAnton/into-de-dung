@@ -1,0 +1,11 @@
+{
+  "id": 83,
+  "title": "Расколотый ручей 3",
+  "family": "splitstream",
+  "family_title": "Расколотый ручей",
+  "variation": "Sleeping bank higher by two uneven steps; high oblique cutaway showing unequal levels.",
+  "palette": "Зимний сумрак",
+  "palette_description": "frost gray, subdued navy, cold lavender, one small dull red ember",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

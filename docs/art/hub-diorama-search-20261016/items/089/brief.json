@@ -1,0 +1,11 @@
+{
+  "id": 89,
+  "title": "Верёвочные полки 4",
+  "family": "ropeshelf",
+  "family_title": "Верёвочные полки",
+  "variation": "Low view showing undersides of suspended platforms as two strong skewed planes.",
+  "palette": "Нефрит и ржавчина",
+  "palette_description": "smoky jade, black-green water, rust orange cloth, cream highlights",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

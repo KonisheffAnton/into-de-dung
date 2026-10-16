@@ -1,0 +1,11 @@
+{
+  "id": 42,
+  "title": "Сломанные фургоны 2",
+  "family": "wagons",
+  "family_title": "Сломанные фургоны",
+  "variation": "Low side view through the gap between two wheels; the wagons create a thin inhabited horizon.",
+  "palette": "Зола и бордо",
+  "palette_description": "ash gray, near-black aubergine shadows, oxblood fabric, low warm lamps",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

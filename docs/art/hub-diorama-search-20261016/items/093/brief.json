@@ -1,0 +1,11 @@
+{
+  "id": 93,
+  "title": "Соляные ниши 3",
+  "family": "salt",
+  "family_title": "Соляные ниши",
+  "variation": "One deep dark niche swallows the left third of frame; small people gather at far-right edge.",
+  "palette": "Мох и железо",
+  "palette_description": "moss olive, iron gray, worn leather brown, a few pale warm lamps",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

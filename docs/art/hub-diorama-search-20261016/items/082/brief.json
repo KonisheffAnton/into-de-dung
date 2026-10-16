@@ -1,0 +1,11 @@
+{
+  "id": 82,
+  "title": "Расколотый ручей 2",
+  "family": "splitstream",
+  "family_title": "Расколотый ручей",
+  "variation": "Stream bends sharply around a rock fin, separating the living area into a broken S.",
+  "palette": "Лиловый известняк",
+  "palette_description": "lavender-gray limestone, soft charcoal, faded ochre cloth, dim pink-orange lamps",
+  "endpoint": "/create-image-pixen",
+  "pilot": false
+}

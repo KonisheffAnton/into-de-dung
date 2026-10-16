@@ -1,0 +1,16 @@
+{
+  "endpoint": "/create-image-pixen",
+  "body": {
+    "description": "STRICT SIDE CUTAWAY diorama, no overhead room. A small dry canal lock converted into shelter. Closed V-shaped timber gate fills the left half; a grounded narrow boat used for sleeping hangs on a raised right ledge. An angled gangplank bridges the empty lock floor. Two groups of three mercenaries repair gear and share bowls under low patched awnings at the far right. One SINGLE tiny mage stands strictly BACK TO CAMERA beneath the nearest gangplank in opaque deep shadow; cloak hides face, hands, skin, age, gender. Nobody sees, looks toward or reacts to the mage. The mage is outside the others social connections. A low black maintenance tunnel leads to the dungeon. Strong unequal dark and light masses, cropped architecture and intimate domestic scale. Pixel art, crisp edges, broad flat connected color clusters, compact figures, quiet matte shading, bone limestone, ink-blue shadow, ash wood and dim gold lights. No other hooded mage, no face on mage, no magic, no army, no battle, no ruined city, no epic architecture, no text or HUD. Large empty negative space beneath the gangplank.",
+    "image_size": {
+      "width": 512,
+      "height": 384
+    },
+    "no_background": false,
+    "seed": 2026111620,
+    "detail": "low detail",
+    "outline": "lineless",
+    "enhance_prompt": false,
+    "view": "side"
+  }
+}
