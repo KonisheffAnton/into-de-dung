@@ -1,0 +1,1 @@
+Superseded frontal attempts: PixelLab retained back/three-quarter orientations from the I input. Preserved before targeted provider inpainting. Not counted among the main 20 images.

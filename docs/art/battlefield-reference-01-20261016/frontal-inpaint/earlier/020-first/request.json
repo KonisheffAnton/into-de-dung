@@ -1,0 +1,37 @@
+{
+  "endpoint": "/inpaint-v3",
+  "body": {
+    "description": "Replace the SIX masked characters with unmistakably FRONT-FACING, STRAIGHT-ON 2D pixel-art sprites. All faces and chests look directly at the viewer. Use flat front-elevation character drawing, horizontal shoulders, symmetrical eyes visible and two front-facing feet. ZERO back views, ZERO side profiles, ZERO three-quarter body turns. The hooded wizard MUST show a face with two eyes inside the hood and the FRONT opening and clasp of the robe, never the back of the hood. The archer faces the viewer with the bow to one side. The shield warrior faces the viewer with shield and weapon at the sides. Goblins, armored monsters and spiders also face toward the bottom center of the screen. Preserve each character identity, compact scale, colors and equipment. Keep every pair of soles at its EXISTING support point inside ONE diamond tile; no feet on tile seams. No pedestals, discs, plinths, rings or selection circles; only tiny contact shadows. Match the existing coarse pixel clusters and muted dungeon palette. Preserve the ISOMETRIC ROOM, exact camera, floor grid, walls and props outside the white mask. The architecture remains isometric while only the sprites use flat frontal presentation.",
+    "inpainting_image": {
+      "image": {
+        "image_file": {
+          "relative_path": "frontal-inpaint/inputs/020/source.png",
+          "sha256": "a8d9ece23498cf842cf7c1ebbb9f5ae9437aecc4d6ce8f593993ec160471af96",
+          "size_bytes": 72889
+        }
+      },
+      "size": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    "mask_image": {
+      "image": {
+        "image_file": {
+          "relative_path": "frontal-inpaint/inputs/020/mask.png",
+          "sha256": "205b272b452979cbe87797d8c5b70f9a862f71236a06514ec3d05abc1018e09e",
+          "size_bytes": 1020
+        }
+      },
+      "size": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    "no_background": false,
+    "crop_to_mask": false
+  },
+  "_provenance": {
+    "original_request_sha256": "32eb40097e969021569c8b3c9ae56ed0a24cac0e6e4f2a0263cf938437cc5048"
+  }
+}

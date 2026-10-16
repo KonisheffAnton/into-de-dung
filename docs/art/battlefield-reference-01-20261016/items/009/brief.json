@@ -1,0 +1,10 @@
+{
+  "id": 9,
+  "label": "G05-I",
+  "pair": 9,
+  "composition": 5,
+  "character_view": "isometric",
+  "engine": "ImageGen",
+  "title": "Две стороны разлома · персонажи изо",
+  "endpoint": "image_gen"
+}

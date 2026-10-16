@@ -1,0 +1,26 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "/inpaint-v3",
+  "job_id": "c95cae0d-04be-4758-a37e-2052080af223",
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 25
+  },
+  "request_sha256": "32eb40097e969021569c8b3c9ae56ed0a24cac0e6e4f2a0263cf938437cc5048",
+  "source_image": {
+    "relative_path": "frontal-inpaint/inputs/020/source.png",
+    "sha256": "a8d9ece23498cf842cf7c1ebbb9f5ae9437aecc4d6ce8f593993ec160471af96",
+    "size_bytes": 72889
+  },
+  "mask_image": {
+    "relative_path": "frontal-inpaint/inputs/020/mask.png",
+    "sha256": "205b272b452979cbe87797d8c5b70f9a862f71236a06514ec3d05abc1018e09e",
+    "size_bytes": 1020
+  },
+  "output": {
+    "relative_path": "frontal-inpaint/earlier/020-first/original.png",
+    "sha256": "4aa6883dcd1b5c3774cd8c6455feeb4cbe65470178619bd6c72382f288702527",
+    "size_bytes": 70520
+  }
+}

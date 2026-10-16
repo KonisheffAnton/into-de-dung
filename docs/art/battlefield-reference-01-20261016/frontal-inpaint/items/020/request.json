@@ -1,0 +1,37 @@
+{
+  "endpoint": "/inpaint-v3",
+  "body": {
+    "description": "Redesign all SIX masked characters as flat FRONT-ELEVATION pixel-art sprites. They must stare STRAIGHT OUT OF THE SCREEN toward the viewer, as symmetrical paper-doll game sprites. THIS IS A POSE REPLACEMENT, do not retain the old three-quarter pose. Highest priority: the UPPER LEFT GREEN ARCHER must have a centered FULL FRONT FACE with BOTH EYES and BOTH EARS visible equally, a horizontal shoulder line and a front-facing chest. Put the bow upright at one OUTER SIDE, away from the face; show both front-facing boots. The LOWER LEFT GRAY SHIELD WARRIOR needs a new perfectly frontal pose: symmetrical square helmet and T-shaped visor centered above the breastplate, both shoulder plates equally visible, shield on one outer side and upright sword on the other, both boot toes facing the viewer. The PURPLE WIZARD between them and the chasm faces the viewer with two glowing eyes inside the FRONT opening of the hood and a visible robe clasp. Do not show any character's back. All three monsters on the right also face the viewer symmetrically. Keep compact sizes and the same floor-cell support points, both soles inside ONE tile, no bases, discs, rings or pedestals. Match coarse dark pixel-art clusters and muted dungeon colors. Keep the isometric room, tile floor, chasm and bridge composition. The ROOM is isometric; the characters are FLAT FRONTAL SPRITES, never isometric, never profile.",
+    "inpainting_image": {
+      "image": {
+        "image_file": {
+          "relative_path": "frontal-inpaint/inputs/020/source.png",
+          "sha256": "a8d9ece23498cf842cf7c1ebbb9f5ae9437aecc4d6ce8f593993ec160471af96",
+          "size_bytes": 72889
+        }
+      },
+      "size": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    "mask_image": {
+      "image": {
+        "image_file": {
+          "relative_path": "frontal-inpaint/inputs/020/mask.png",
+          "sha256": "205b272b452979cbe87797d8c5b70f9a862f71236a06514ec3d05abc1018e09e",
+          "size_bytes": 1020
+        }
+      },
+      "size": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    "no_background": false,
+    "crop_to_mask": false
+  },
+  "_provenance": {
+    "original_request_sha256": "ed23d17d77ff29c5eb6df8552b5dfcf9a47cb353f25739958833d9949f5edddc"
+  }
+}

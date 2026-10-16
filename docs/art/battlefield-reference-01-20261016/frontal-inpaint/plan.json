@@ -1,0 +1,437 @@
+[
+  {
+    "id": 12,
+    "label": "P01-F",
+    "pair": 2,
+    "composition": 1,
+    "character_view": "frontal",
+    "engine": "PixelLab",
+    "title": "Караульная · персонажи фронтально",
+    "prompt": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: flat front-facing 2D sprites like the style reference, with horizontal shoulders and face/chest looking toward the viewer; do NOT rotate their bodies to isometric. The ROOM AND FLOOR remain fully isometric. Both feet still touch the center of one diamond tile.\nROOM: Square guard chamber: rear entrance arch, low broken pillar in one central tile, two clay jars against the back wall, crates at the far corner; broad quiet walking space.",
+    "endpoint": "/inpaint-v3",
+    "request": {
+      "description": "Replace the SIX masked characters with unmistakably FRONT-FACING, STRAIGHT-ON 2D pixel-art sprites. All faces and chests look directly at the viewer. Use flat front-elevation character drawing, horizontal shoulders, symmetrical eyes visible and two front-facing feet. ZERO back views, ZERO side profiles, ZERO three-quarter body turns. The hooded wizard MUST show a face with two eyes inside the hood and the FRONT opening and clasp of the robe, never the back of the hood. The archer faces the viewer with the bow to one side. The shield warrior faces the viewer with shield and weapon at the sides. Goblins, armored monsters and spiders also face toward the bottom center of the screen. Preserve each character identity, compact scale, colors and equipment. Keep every pair of soles at its EXISTING support point inside ONE diamond tile; no feet on tile seams. No pedestals, discs, plinths, rings or selection circles; only tiny contact shadows. Match the existing coarse pixel clusters and muted dungeon palette. Preserve the ISOMETRIC ROOM, exact camera, floor grid, walls and props outside the white mask. The architecture remains isometric while only the sprites use flat frontal presentation.",
+      "inpainting_image": {
+        "image": {
+          "image_file": {
+            "relative_path": "frontal-inpaint/inputs/012/source.png",
+            "sha256": "2c32c76a87e211fe12f2d9f43eb6e36599c2a8a5c2defabd9227b258bbe50050",
+            "size_bytes": 65419
+          }
+        },
+        "size": {
+          "width": 512,
+          "height": 384
+        }
+      },
+      "mask_image": {
+        "image": {
+          "image_file": {
+            "relative_path": "frontal-inpaint/inputs/012/mask.png",
+            "sha256": "97773c63c02f911d1d9d51baa559a534770b215bdefe4f8bd18cc84f9f26757f",
+            "size_bytes": 1084
+          }
+        },
+        "size": {
+          "width": 512,
+          "height": 384
+        }
+      },
+      "no_background": false,
+      "crop_to_mask": false
+    },
+    "input_source": {
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\items\\011\\original.png",
+      "relative_path": "items/011/original.png",
+      "sha256": "2c32c76a87e211fe12f2d9f43eb6e36599c2a8a5c2defabd9227b258bbe50050",
+      "size_bytes": 65419
+    },
+    "mask_rectangles": [
+      [
+        89,
+        161,
+        147,
+        222
+      ],
+      [
+        135,
+        184,
+        186,
+        250
+      ],
+      [
+        181,
+        205,
+        234,
+        275
+      ],
+      [
+        284,
+        117,
+        351,
+        183
+      ],
+      [
+        359,
+        160,
+        424,
+        223
+      ],
+      [
+        299,
+        216,
+        355,
+        261
+      ]
+    ],
+    "iteration_reason": "Initial frontal Pro generation copied isometric orientations; targeted provider inpainting, no manual pose or alpha edits."
+  },
+  {
+    "id": 14,
+    "label": "P02-F",
+    "pair": 4,
+    "composition": 2,
+    "character_view": "frontal",
+    "engine": "PixelLab",
+    "title": "Водяной проход · персонажи фронтально",
+    "prompt": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: flat front-facing 2D sprites like the style reference, with horizontal shoulders and face/chest looking toward the viewer; do NOT rotate their bodies to isometric. The ROOM AND FLOOR remain fully isometric. Both feet still touch the center of one diamond tile.\nROOM: L-shaped stone chamber around a narrow dark-teal drainage canal; one short bridge links two tiled walking areas, low curbs and a doorway at each end. Six figures stand on dry tiles only.",
+    "endpoint": "/inpaint-v3",
+    "request": {
+      "description": "Replace the SIX masked characters with unmistakably FRONT-FACING, STRAIGHT-ON 2D pixel-art sprites. All faces and chests look directly at the viewer. Use flat front-elevation character drawing, horizontal shoulders, symmetrical eyes visible and two front-facing feet. ZERO back views, ZERO side profiles, ZERO three-quarter body turns. The hooded wizard MUST show a face with two eyes inside the hood and the FRONT opening and clasp of the robe, never the back of the hood. The archer faces the viewer with the bow to one side. The shield warrior faces the viewer with shield and weapon at the sides. Goblins, armored monsters and spiders also face toward the bottom center of the screen. Preserve each character identity, compact scale, colors and equipment. Keep every pair of soles at its EXISTING support point inside ONE diamond tile; no feet on tile seams. No pedestals, discs, plinths, rings or selection circles; only tiny contact shadows. Match the existing coarse pixel clusters and muted dungeon palette. Preserve the ISOMETRIC ROOM, exact camera, floor grid, walls and props outside the white mask. The architecture remains isometric while only the sprites use flat frontal presentation.",
+      "inpainting_image": {
+        "image": {
+          "image_file": {
+            "relative_path": "frontal-inpaint/inputs/014/source.png",
+            "sha256": "d99e3cf0bec938e1d47df3f788577039c9a3c6854bc52f7536dd86983c9c51dc",
+            "size_bytes": 65286
+          }
+        },
+        "size": {
+          "width": 512,
+          "height": 384
+        }
+      },
+      "mask_image": {
+        "image": {
+          "image_file": {
+            "relative_path": "frontal-inpaint/inputs/014/mask.png",
+            "sha256": "b8dacd204624344dc25177f8153194788572bdc68f77587bf4f7c3c04bceeb26",
+            "size_bytes": 1057
+          }
+        },
+        "size": {
+          "width": 512,
+          "height": 384
+        }
+      },
+      "no_background": false,
+      "crop_to_mask": false
+    },
+    "input_source": {
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\items\\013\\original.png",
+      "relative_path": "items/013/original.png",
+      "sha256": "d99e3cf0bec938e1d47df3f788577039c9a3c6854bc52f7536dd86983c9c51dc",
+      "size_bytes": 65286
+    },
+    "mask_rectangles": [
+      [
+        117,
+        132,
+        161,
+        184
+      ],
+      [
+        198,
+        102,
+        241,
+        153
+      ],
+      [
+        145,
+        172,
+        199,
+        226
+      ],
+      [
+        283,
+        190,
+        338,
+        249
+      ],
+      [
+        343,
+        165,
+        403,
+        213
+      ],
+      [
+        418,
+        156,
+        464,
+        209
+      ]
+    ],
+    "iteration_reason": "Initial frontal Pro generation copied isometric orientations; targeted provider inpainting, no manual pose or alpha edits."
+  },
+  {
+    "id": 16,
+    "label": "P03-F",
+    "pair": 6,
+    "composition": 3,
+    "character_view": "frontal",
+    "engine": "PixelLab",
+    "title": "Забытая часовня · персонажи фронтально",
+    "prompt": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: flat front-facing 2D sprites like the style reference, with horizontal shoulders and face/chest looking toward the viewer; do NOT rotate their bodies to isometric. The ROOM AND FLOOR remain fully isometric. Both feet still touch the center of one diamond tile.\nROOM: T-shaped chapel: recessed altar at the far end, low broken benches against side walls, muted red hanging cloth, quiet central tiled aisle. Six figures separated across the aisle.",
+    "endpoint": "/inpaint-v3",
+    "request": {
+      "description": "Replace the SIX masked characters with unmistakably FRONT-FACING, STRAIGHT-ON 2D pixel-art sprites. All faces and chests look directly at the viewer. Use flat front-elevation character drawing, horizontal shoulders, symmetrical eyes visible and two front-facing feet. ZERO back views, ZERO side profiles, ZERO three-quarter body turns. The hooded wizard MUST show a face with two eyes inside the hood and the FRONT opening and clasp of the robe, never the back of the hood. The archer faces the viewer with the bow to one side. The shield warrior faces the viewer with shield and weapon at the sides. Goblins, armored monsters and spiders also face toward the bottom center of the screen. Preserve each character identity, compact scale, colors and equipment. Keep every pair of soles at its EXISTING support point inside ONE diamond tile; no feet on tile seams. No pedestals, discs, plinths, rings or selection circles; only tiny contact shadows. Match the existing coarse pixel clusters and muted dungeon palette. Preserve the ISOMETRIC ROOM, exact camera, floor grid, walls and props outside the white mask. The architecture remains isometric while only the sprites use flat frontal presentation.",
+      "inpainting_image": {
+        "image": {
+          "image_file": {
+            "relative_path": "frontal-inpaint/inputs/016/source.png",
+            "sha256": "e6ecda80ada066c25dfa54ba3bb8bbe7ee5b3f0bf33296d3c707a6d320519c2f",
+            "size_bytes": 48744
+          }
+        },
+        "size": {
+          "width": 512,
+          "height": 384
+        }
+      },
+      "mask_image": {
+        "image": {
+          "image_file": {
+            "relative_path": "frontal-inpaint/inputs/016/mask.png",
+            "sha256": "7a3b93e3767dc9a3a5fe0726ada1dab978cf4bc266d2ad9aaf8a6dc06fead351",
+            "size_bytes": 980
+          }
+        },
+        "size": {
+          "width": 512,
+          "height": 384
+        }
+      },
+      "no_background": false,
+      "crop_to_mask": false
+    },
+    "input_source": {
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\items\\015\\original.png",
+      "relative_path": "items/015/original.png",
+      "sha256": "e6ecda80ada066c25dfa54ba3bb8bbe7ee5b3f0bf33296d3c707a6d320519c2f",
+      "size_bytes": 48744
+    },
+    "mask_rectangles": [
+      [
+        172,
+        150,
+        222,
+        203
+      ],
+      [
+        121,
+        188,
+        165,
+        232
+      ],
+      [
+        176,
+        215,
+        217,
+        264
+      ],
+      [
+        287,
+        157,
+        335,
+        202
+      ],
+      [
+        287,
+        215,
+        337,
+        265
+      ],
+      [
+        342,
+        195,
+        392,
+        236
+      ]
+    ],
+    "iteration_reason": "Initial frontal Pro generation copied isometric orientations; targeted provider inpainting, no manual pose or alpha edits."
+  },
+  {
+    "id": 18,
+    "label": "P04-F",
+    "pair": 8,
+    "composition": 4,
+    "character_view": "frontal",
+    "engine": "PixelLab",
+    "title": "Остывающая кузница · персонажи фронтально",
+    "prompt": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: flat front-facing 2D sprites like the style reference, with horizontal shoulders and face/chest looking toward the viewer; do NOT rotate their bodies to isometric. The ROOM AND FLOOR remain fully isometric. Both feet still touch the center of one diamond tile.\nROOM: Asymmetric forge room: a squat furnace in the far-left corner, anvil and wood stack against one wall, tool rack on the opposite wall, offset doorways and a broad empty tiled center.",
+    "endpoint": "/inpaint-v3",
+    "request": {
+      "description": "Replace the SIX masked characters with unmistakably FRONT-FACING, STRAIGHT-ON 2D pixel-art sprites. All faces and chests look directly at the viewer. Use flat front-elevation character drawing, horizontal shoulders, symmetrical eyes visible and two front-facing feet. ZERO back views, ZERO side profiles, ZERO three-quarter body turns. The hooded wizard MUST show a face with two eyes inside the hood and the FRONT opening and clasp of the robe, never the back of the hood. The archer faces the viewer with the bow to one side. The shield warrior faces the viewer with shield and weapon at the sides. Goblins, armored monsters and spiders also face toward the bottom center of the screen. Preserve each character identity, compact scale, colors and equipment. Keep every pair of soles at its EXISTING support point inside ONE diamond tile; no feet on tile seams. No pedestals, discs, plinths, rings or selection circles; only tiny contact shadows. Match the existing coarse pixel clusters and muted dungeon palette. Preserve the ISOMETRIC ROOM, exact camera, floor grid, walls and props outside the white mask. The architecture remains isometric while only the sprites use flat frontal presentation.",
+      "inpainting_image": {
+        "image": {
+          "image_file": {
+            "relative_path": "frontal-inpaint/inputs/018/source.png",
+            "sha256": "b0d3a41947bc795411f2fe16b2bcd663de7ef4f7a4202b36aee9d4d0d2b4323b",
+            "size_bytes": 65808
+          }
+        },
+        "size": {
+          "width": 512,
+          "height": 384
+        }
+      },
+      "mask_image": {
+        "image": {
+          "image_file": {
+            "relative_path": "frontal-inpaint/inputs/018/mask.png",
+            "sha256": "0337d402b905332957360bf53b266d4a47f3f1f4d5e09344e2bbee8c560e00a5",
+            "size_bytes": 1122
+          }
+        },
+        "size": {
+          "width": 512,
+          "height": 384
+        }
+      },
+      "no_background": false,
+      "crop_to_mask": false
+    },
+    "input_source": {
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\items\\017\\original.png",
+      "relative_path": "items/017/original.png",
+      "sha256": "b0d3a41947bc795411f2fe16b2bcd663de7ef4f7a4202b36aee9d4d0d2b4323b",
+      "size_bytes": 65808
+    },
+    "mask_rectangles": [
+      [
+        103,
+        174,
+        171,
+        247
+      ],
+      [
+        172,
+        153,
+        228,
+        217
+      ],
+      [
+        300,
+        137,
+        365,
+        212
+      ],
+      [
+        187,
+        223,
+        252,
+        302
+      ],
+      [
+        395,
+        196,
+        448,
+        271
+      ],
+      [
+        321,
+        252,
+        403,
+        317
+      ]
+    ],
+    "iteration_reason": "Initial frontal Pro generation copied isometric orientations; targeted provider inpainting, no manual pose or alpha edits."
+  },
+  {
+    "id": 20,
+    "label": "P05-F",
+    "pair": 10,
+    "composition": 5,
+    "character_view": "frontal",
+    "engine": "PixelLab",
+    "title": "Две стороны разлома · персонажи фронтально",
+    "prompt": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: flat front-facing 2D sprites like the style reference, with horizontal shoulders and face/chest looking toward the viewer; do NOT rotate their bodies to isometric. The ROOM AND FLOOR remain fully isometric. Both feet still touch the center of one diamond tile.\nROOM: Two unequal tiled stone floor areas separated by a narrow fissure; one short wide stone bridge near the front, rear route blocked by a fallen slab. Three figures on each side, each on one dry tile.",
+    "endpoint": "/inpaint-v3",
+    "request": {
+      "description": "Redesign all SIX masked characters as flat FRONT-ELEVATION pixel-art sprites. They must stare STRAIGHT OUT OF THE SCREEN toward the viewer, as symmetrical paper-doll game sprites. THIS IS A POSE REPLACEMENT, do not retain the old three-quarter pose. Highest priority: the UPPER LEFT GREEN ARCHER must have a centered FULL FRONT FACE with BOTH EYES and BOTH EARS visible equally, a horizontal shoulder line and a front-facing chest. Put the bow upright at one OUTER SIDE, away from the face; show both front-facing boots. The LOWER LEFT GRAY SHIELD WARRIOR needs a new perfectly frontal pose: symmetrical square helmet and T-shaped visor centered above the breastplate, both shoulder plates equally visible, shield on one outer side and upright sword on the other, both boot toes facing the viewer. The PURPLE WIZARD between them and the chasm faces the viewer with two glowing eyes inside the FRONT opening of the hood and a visible robe clasp. Do not show any character's back. All three monsters on the right also face the viewer symmetrically. Keep compact sizes and the same floor-cell support points, both soles inside ONE tile, no bases, discs, rings or pedestals. Match coarse dark pixel-art clusters and muted dungeon colors. Keep the isometric room, tile floor, chasm and bridge composition. The ROOM is isometric; the characters are FLAT FRONTAL SPRITES, never isometric, never profile.",
+      "inpainting_image": {
+        "image": {
+          "image_file": {
+            "relative_path": "frontal-inpaint/inputs/020/source.png",
+            "sha256": "a8d9ece23498cf842cf7c1ebbb9f5ae9437aecc4d6ce8f593993ec160471af96",
+            "size_bytes": 72889
+          }
+        },
+        "size": {
+          "width": 512,
+          "height": 384
+        }
+      },
+      "mask_image": {
+        "image": {
+          "image_file": {
+            "relative_path": "frontal-inpaint/inputs/020/mask.png",
+            "sha256": "205b272b452979cbe87797d8c5b70f9a862f71236a06514ec3d05abc1018e09e",
+            "size_bytes": 1020
+          }
+        },
+        "size": {
+          "width": 512,
+          "height": 384
+        }
+      },
+      "no_background": false,
+      "crop_to_mask": false
+    },
+    "input_source": {
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\items\\019\\original.png",
+      "relative_path": "items/019/original.png",
+      "sha256": "a8d9ece23498cf842cf7c1ebbb9f5ae9437aecc4d6ce8f593993ec160471af96",
+      "size_bytes": 72889
+    },
+    "mask_rectangles": [
+      [
+        58,
+        167,
+        111,
+        234
+      ],
+      [
+        104,
+        126,
+        164,
+        189
+      ],
+      [
+        167,
+        161,
+        228,
+        227
+      ],
+      [
+        301,
+        171,
+        353,
+        220
+      ],
+      [
+        356,
+        145,
+        423,
+        222
+      ],
+      [
+        415,
+        186,
+        486,
+        257
+      ]
+    ],
+    "iteration_reason": "Second targeted P05-F repair: archer remained three-quarter; explicitly replace left two silhouettes with flat frontal poses."
+  }
+]

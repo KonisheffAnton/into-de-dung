@@ -1,0 +1,10 @@
+{
+  "id": 4,
+  "label": "G02-F",
+  "pair": 4,
+  "composition": 2,
+  "character_view": "frontal",
+  "engine": "ImageGen",
+  "title": "Водяной проход · персонажи фронтально",
+  "endpoint": "image_gen"
+}

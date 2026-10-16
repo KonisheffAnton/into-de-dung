@@ -1,0 +1,10 @@
+{
+  "id": 5,
+  "label": "G03-I",
+  "pair": 5,
+  "composition": 3,
+  "character_view": "isometric",
+  "engine": "ImageGen",
+  "title": "Забытая часовня · персонажи изо",
+  "endpoint": "image_gen"
+}

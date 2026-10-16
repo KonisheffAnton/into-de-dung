@@ -1,0 +1,10 @@
+{
+  "id": 2,
+  "label": "G01-F",
+  "pair": 2,
+  "composition": 1,
+  "character_view": "frontal",
+  "engine": "ImageGen",
+  "title": "Караульная · персонажи фронтально",
+  "endpoint": "image_gen"
+}

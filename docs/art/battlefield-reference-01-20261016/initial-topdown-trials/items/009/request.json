@@ -1,0 +1,35 @@
+{
+  "endpoint": "/generate-image-v2",
+  "body": {
+    "description": "Use the supplied style_image as the primary visual style reference. Create a NEW small dungeon battle scene, not a collage. Match its coarse low-resolution pixel clusters, muted gray-green slab floors, dusty brown and mauve stone walls, deep purple-black void outside the rooms, dark understated outlines, tiny compact adventurer/monster sprites with oversized readable heads and short bodies, restrained cyan and warm ochre accents. Top-down three-quarter dungeon videogame view exactly in the spirit of the reference: square floor tiles, vertical back-wall faces, no floating isometric diamond board. Aim for the apparent chunky pixel scale of a 192x144 scene enlarged cleanly to a 4:3 image. No painterly brushwork, no smooth gradients, no antialiasing, no tiny texture noise, no modern vector symbols. Readable silhouettes and quiet walking space matter more than ornament. Props have broad simple shapes and stay mainly against walls. Six to eight tiny figures are spatially separated and readable, with a shield, bow, dagger, robed caster and monster silhouettes. No title, lettering, interface panels, health bars or decorative frame. Keep the reference's level of simplification and subdued contrast. Use a 4:3 composition.\n\nVARIATION 4: An asymmetrical compact dungeon forge room with a wide rectangular combat floor. A simple squat furnace glows faintly orange in the upper-left corner, an anvil and wood pile hug the left wall, one giant clay jar and tool rack hug the right. Upper-right doorway and broad bottom exit form offset routes. Six compact figures face one another across quiet gray floor. Warm dull copper and charcoal palette with sparse cool teal clothing accents; no dramatic lighting effects.",
+    "image_size": {
+      "width": 512,
+      "height": 384
+    },
+    "no_background": false,
+    "seed": 6101609,
+    "style_image": {
+      "image": {
+        "image_file": {
+          "relative_path": "initial-topdown-trials/reference-unzoomed.png",
+          "sha256": "812faa4aa2e84b391b98bec8833f3430601cf03d1e1971abff1cc5f566aa9eda",
+          "size_bytes": 28375
+        }
+      },
+      "size": {
+        "width": 164,
+        "height": 123
+      },
+      "usage_description": "Transfer pixel scale, muted palette, coarse clusters, outlines, simple shading and tiny compact dungeon characters. Create the new room layout described in the prompt."
+    },
+    "style_options": {
+      "color_palette": true,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  },
+  "_provenance": {
+    "original_request_sha256": "02ef6b7772b4d351f52ae909c7d9d4119a9ad17835798ff1796e2ba30bfa3fea"
+  }
+}

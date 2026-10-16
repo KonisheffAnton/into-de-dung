@@ -1,0 +1,10 @@
+{
+  "id": 7,
+  "label": "G04-I",
+  "pair": 7,
+  "composition": 4,
+  "character_view": "isometric",
+  "engine": "ImageGen",
+  "title": "Остывающая кузница · персонажи изо",
+  "endpoint": "image_gen"
+}

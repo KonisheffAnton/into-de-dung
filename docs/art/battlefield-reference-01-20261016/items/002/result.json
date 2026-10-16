@@ -1,0 +1,23 @@
+{
+  "status": "completed",
+  "provider": "built-in image_gen",
+  "usage": null,
+  "outputs": [
+    {
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "602248bf93bbb5cccd24f2781f55980ee3f77caaac57cba6334d51c025d1c09e",
+      "relative_path": "original.png"
+    }
+  ],
+  "native_source": {
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1438d-6f36-7271-adc5-8784b0d63777\\exec-0b762058-3571-448f-8109-a546513ca4b6.png",
+    "sha256": "602248bf93bbb5cccd24f2781f55980ee3f77caaac57cba6334d51c025d1c09e",
+    "size_bytes": 1632368
+  }
+}

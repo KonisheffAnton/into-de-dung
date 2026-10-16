@@ -1,0 +1,1357 @@
+{
+  "status": "PACKAGED_FOR_REVIEW",
+  "art_acceptance": "not claimed; package preserves source images and provenance only",
+  "source_plan_sha256": "12d3235a6a4fb7329c6d1e1a60168fc003f48ace2f6571497eb05c70f67527e5",
+  "reference_assets": [
+    {
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\reference.png",
+      "package_path": "reference.png",
+      "sha256": "5f0dc445a7973497ac7dd9a0e3537ffaeda02c2c2fe4f305c123449329f7d9ee",
+      "size_bytes": 214830
+    },
+    {
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\reference-unzoomed.png",
+      "package_path": "reference-unzoomed.png",
+      "sha256": "812faa4aa2e84b391b98bec8833f3430601cf03d1e1971abff1cc5f566aa9eda",
+      "size_bytes": 28375
+    },
+    {
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\tile-geometry-guide.png",
+      "package_path": "tile-geometry-guide.png",
+      "sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d",
+      "size_bytes": 530
+    },
+    {
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\projection-reference.png",
+      "package_path": "projection-reference.png",
+      "sha256": "3a444db1efbf7dd949d123ffd724f1a7e0a6eeb069066f320d84e707798f7dbb",
+      "size_bytes": 39298
+    }
+  ],
+  "items": [
+    {
+      "label": "G01-I",
+      "provider": "ImageGen",
+      "relative_path": "items/001/original.png",
+      "sha256": "27fa620c1747573e820351dc82802b75130d933b0b9a3330a4fd4a4b75308605",
+      "size_bytes": 1527686,
+      "request_sha256": "429e8e5bc8367af00b8f3a49a7d45c0d86bc904c7dc90568f78380f5a0880775",
+      "provenance": {
+        "provider": "built-in image_gen",
+        "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1438d-6f36-7271-adc5-8784b0d63777\\exec-2f632641-5d01-4f98-af5f-98b90cd340f6.png",
+        "source_sha256": "27fa620c1747573e820351dc82802b75130d933b0b9a3330a4fd4a4b75308605",
+        "source_size_bytes": 1527686,
+        "references": [
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\reference.png",
+            "relative_path": "reference.png",
+            "sha256": "5f0dc445a7973497ac7dd9a0e3537ffaeda02c2c2fe4f305c123449329f7d9ee",
+            "size_bytes": 214830
+          },
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\tile-geometry-guide.png",
+            "relative_path": "tile-geometry-guide.png",
+            "sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d",
+            "size_bytes": 530
+          },
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\projection-reference.png",
+            "relative_path": "projection-reference.png",
+            "sha256": "3a444db1efbf7dd949d123ffd724f1a7e0a6eeb069066f320d84e707798f7dbb",
+            "size_bytes": 39298
+          }
+        ],
+        "request_sha256": "429e8e5bc8367af00b8f3a49a7d45c0d86bc904c7dc90568f78380f5a0880775"
+      }
+    },
+    {
+      "label": "G01-F",
+      "provider": "ImageGen",
+      "relative_path": "items/002/original.png",
+      "sha256": "602248bf93bbb5cccd24f2781f55980ee3f77caaac57cba6334d51c025d1c09e",
+      "size_bytes": 1632368,
+      "request_sha256": "315a557f400aca32400bc7dae51b61b265d023737499360abeb986d718ed705d",
+      "provenance": {
+        "provider": "built-in image_gen",
+        "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1438d-6f36-7271-adc5-8784b0d63777\\exec-0b762058-3571-448f-8109-a546513ca4b6.png",
+        "source_sha256": "602248bf93bbb5cccd24f2781f55980ee3f77caaac57cba6334d51c025d1c09e",
+        "source_size_bytes": 1632368,
+        "references": [
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\reference.png",
+            "relative_path": "reference.png",
+            "sha256": "5f0dc445a7973497ac7dd9a0e3537ffaeda02c2c2fe4f305c123449329f7d9ee",
+            "size_bytes": 214830
+          },
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\tile-geometry-guide.png",
+            "relative_path": "tile-geometry-guide.png",
+            "sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d",
+            "size_bytes": 530
+          },
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\items\\001\\original.png",
+            "relative_path": "items/001/original.png",
+            "sha256": "27fa620c1747573e820351dc82802b75130d933b0b9a3330a4fd4a4b75308605",
+            "size_bytes": 1527686
+          }
+        ],
+        "request_sha256": "315a557f400aca32400bc7dae51b61b265d023737499360abeb986d718ed705d"
+      }
+    },
+    {
+      "label": "G02-I",
+      "provider": "ImageGen",
+      "relative_path": "items/003/original.png",
+      "sha256": "e959dbc9ab18864a3ba5435badbf39e8e1d97bb448951c9fd71b00092f57a613",
+      "size_bytes": 1581299,
+      "request_sha256": "97258f4c74ec747a28f4563850399cdfed3ae0baf3c519deb260fbfbb7523b8a",
+      "provenance": {
+        "provider": "built-in image_gen",
+        "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1438d-6f36-7271-adc5-8784b0d63777\\exec-0b547a89-b002-4592-a7c5-dd3cd860ca5e.png",
+        "source_sha256": "e959dbc9ab18864a3ba5435badbf39e8e1d97bb448951c9fd71b00092f57a613",
+        "source_size_bytes": 1581299,
+        "references": [
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\reference.png",
+            "relative_path": "reference.png",
+            "sha256": "5f0dc445a7973497ac7dd9a0e3537ffaeda02c2c2fe4f305c123449329f7d9ee",
+            "size_bytes": 214830
+          },
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\tile-geometry-guide.png",
+            "relative_path": "tile-geometry-guide.png",
+            "sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d",
+            "size_bytes": 530
+          },
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\projection-reference.png",
+            "relative_path": "projection-reference.png",
+            "sha256": "3a444db1efbf7dd949d123ffd724f1a7e0a6eeb069066f320d84e707798f7dbb",
+            "size_bytes": 39298
+          }
+        ],
+        "request_sha256": "97258f4c74ec747a28f4563850399cdfed3ae0baf3c519deb260fbfbb7523b8a"
+      }
+    },
+    {
+      "label": "G02-F",
+      "provider": "ImageGen",
+      "relative_path": "items/004/original.png",
+      "sha256": "c57854ce447233c7ba37d27cbcbc958c1186ab01f68d9d3c3c1bcd78f134155a",
+      "size_bytes": 1625085,
+      "request_sha256": "a292efbb46c514dab21aefc9745e431b71bcf3e21e85f4ea77a4a18daf22364c",
+      "provenance": {
+        "provider": "built-in image_gen",
+        "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1438d-6f36-7271-adc5-8784b0d63777\\exec-726f6e54-6d99-49b9-9b98-97399162414b.png",
+        "source_sha256": "c57854ce447233c7ba37d27cbcbc958c1186ab01f68d9d3c3c1bcd78f134155a",
+        "source_size_bytes": 1625085,
+        "references": [
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\reference.png",
+            "relative_path": "reference.png",
+            "sha256": "5f0dc445a7973497ac7dd9a0e3537ffaeda02c2c2fe4f305c123449329f7d9ee",
+            "size_bytes": 214830
+          },
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\tile-geometry-guide.png",
+            "relative_path": "tile-geometry-guide.png",
+            "sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d",
+            "size_bytes": 530
+          },
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\items\\003\\original.png",
+            "relative_path": "items/003/original.png",
+            "sha256": "e959dbc9ab18864a3ba5435badbf39e8e1d97bb448951c9fd71b00092f57a613",
+            "size_bytes": 1581299
+          }
+        ],
+        "request_sha256": "a292efbb46c514dab21aefc9745e431b71bcf3e21e85f4ea77a4a18daf22364c"
+      }
+    },
+    {
+      "label": "G03-I",
+      "provider": "ImageGen",
+      "relative_path": "items/005/original.png",
+      "sha256": "33610bafe7ba908c8de4975bf6ca8292dbc01dd54fd9d51db71951c234e1ac9f",
+      "size_bytes": 1646395,
+      "request_sha256": "208540ced2d65c4197a2169b58f414b3a78b9a4f1ce4471ac0a2eefe0faca190",
+      "provenance": {
+        "provider": "built-in image_gen",
+        "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1438d-6f36-7271-adc5-8784b0d63777\\exec-269ddb1a-a970-466a-9161-bb1d303324dd.png",
+        "source_sha256": "33610bafe7ba908c8de4975bf6ca8292dbc01dd54fd9d51db71951c234e1ac9f",
+        "source_size_bytes": 1646395,
+        "references": [
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\reference.png",
+            "relative_path": "reference.png",
+            "sha256": "5f0dc445a7973497ac7dd9a0e3537ffaeda02c2c2fe4f305c123449329f7d9ee",
+            "size_bytes": 214830
+          },
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\tile-geometry-guide.png",
+            "relative_path": "tile-geometry-guide.png",
+            "sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d",
+            "size_bytes": 530
+          },
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\projection-reference.png",
+            "relative_path": "projection-reference.png",
+            "sha256": "3a444db1efbf7dd949d123ffd724f1a7e0a6eeb069066f320d84e707798f7dbb",
+            "size_bytes": 39298
+          }
+        ],
+        "request_sha256": "208540ced2d65c4197a2169b58f414b3a78b9a4f1ce4471ac0a2eefe0faca190"
+      }
+    },
+    {
+      "label": "G03-F",
+      "provider": "ImageGen",
+      "relative_path": "items/006/original.png",
+      "sha256": "3decf64c941c91f9d5ed696750707e5c0b2d93bda9a28ef1a4bfe209df35759c",
+      "size_bytes": 1701195,
+      "request_sha256": "eedabdb3729b3e783f2e31738fd87eaa66149b10c19fad9185f54c8643894c5b",
+      "provenance": {
+        "provider": "built-in image_gen",
+        "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1438d-6f36-7271-adc5-8784b0d63777\\exec-85e8a9db-f141-4014-be0d-f785e2d7bfba.png",
+        "source_sha256": "3decf64c941c91f9d5ed696750707e5c0b2d93bda9a28ef1a4bfe209df35759c",
+        "source_size_bytes": 1701195,
+        "references": [
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\reference.png",
+            "relative_path": "reference.png",
+            "sha256": "5f0dc445a7973497ac7dd9a0e3537ffaeda02c2c2fe4f305c123449329f7d9ee",
+            "size_bytes": 214830
+          },
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\tile-geometry-guide.png",
+            "relative_path": "tile-geometry-guide.png",
+            "sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d",
+            "size_bytes": 530
+          },
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\items\\005\\original.png",
+            "relative_path": "items/005/original.png",
+            "sha256": "33610bafe7ba908c8de4975bf6ca8292dbc01dd54fd9d51db71951c234e1ac9f",
+            "size_bytes": 1646395
+          }
+        ],
+        "request_sha256": "eedabdb3729b3e783f2e31738fd87eaa66149b10c19fad9185f54c8643894c5b"
+      }
+    },
+    {
+      "label": "G04-I",
+      "provider": "ImageGen",
+      "relative_path": "items/007/original.png",
+      "sha256": "2af64f1ad490c72f33ca2281bdeb1c8b9e8a4244a26bcb43ac48af385c2c7c6c",
+      "size_bytes": 1712931,
+      "request_sha256": "3735762a819f00eb70601a53c4dc8554d9af308282e310f35b0985d5b1568faf",
+      "provenance": {
+        "provider": "built-in image_gen",
+        "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1438d-6f36-7271-adc5-8784b0d63777\\exec-59805815-d869-4c89-aa8f-476d172b362a.png",
+        "source_sha256": "2af64f1ad490c72f33ca2281bdeb1c8b9e8a4244a26bcb43ac48af385c2c7c6c",
+        "source_size_bytes": 1712931,
+        "references": [
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\reference.png",
+            "relative_path": "reference.png",
+            "sha256": "5f0dc445a7973497ac7dd9a0e3537ffaeda02c2c2fe4f305c123449329f7d9ee",
+            "size_bytes": 214830
+          },
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\tile-geometry-guide.png",
+            "relative_path": "tile-geometry-guide.png",
+            "sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d",
+            "size_bytes": 530
+          },
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\projection-reference.png",
+            "relative_path": "projection-reference.png",
+            "sha256": "3a444db1efbf7dd949d123ffd724f1a7e0a6eeb069066f320d84e707798f7dbb",
+            "size_bytes": 39298
+          }
+        ],
+        "request_sha256": "3735762a819f00eb70601a53c4dc8554d9af308282e310f35b0985d5b1568faf"
+      }
+    },
+    {
+      "label": "G04-F",
+      "provider": "ImageGen",
+      "relative_path": "items/008/original.png",
+      "sha256": "c3180d2973dcf5668a909f91d7518eec89995c709dda0db57aa300bc715e1a92",
+      "size_bytes": 1773146,
+      "request_sha256": "caae0d6482db5bcfcbfa0f6fb8b172b88c95e199312fdd3f9007253fc3b7cecc",
+      "provenance": {
+        "provider": "built-in image_gen",
+        "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1438d-6f36-7271-adc5-8784b0d63777\\exec-8362cb78-04ba-4d7e-b013-b66d0987c2d3.png",
+        "source_sha256": "c3180d2973dcf5668a909f91d7518eec89995c709dda0db57aa300bc715e1a92",
+        "source_size_bytes": 1773146,
+        "references": [
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\reference.png",
+            "relative_path": "reference.png",
+            "sha256": "5f0dc445a7973497ac7dd9a0e3537ffaeda02c2c2fe4f305c123449329f7d9ee",
+            "size_bytes": 214830
+          },
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\tile-geometry-guide.png",
+            "relative_path": "tile-geometry-guide.png",
+            "sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d",
+            "size_bytes": 530
+          },
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\items\\007\\original.png",
+            "relative_path": "items/007/original.png",
+            "sha256": "2af64f1ad490c72f33ca2281bdeb1c8b9e8a4244a26bcb43ac48af385c2c7c6c",
+            "size_bytes": 1712931
+          }
+        ],
+        "request_sha256": "caae0d6482db5bcfcbfa0f6fb8b172b88c95e199312fdd3f9007253fc3b7cecc"
+      }
+    },
+    {
+      "label": "G05-I",
+      "provider": "ImageGen",
+      "relative_path": "items/009/original.png",
+      "sha256": "38657ad0a7bae26c4f227a0dd57a7041327f67b93b7f896a9f01c2da7bd15bdc",
+      "size_bytes": 1535437,
+      "request_sha256": "4afef46c9166ddec4d0707ed7e15d1c89c02cf97df31d1efd46fd14057024879",
+      "provenance": {
+        "provider": "built-in image_gen",
+        "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1438d-6f36-7271-adc5-8784b0d63777\\exec-1dc7a998-402d-4cc0-a74d-ba5a620b1fcf.png",
+        "source_sha256": "38657ad0a7bae26c4f227a0dd57a7041327f67b93b7f896a9f01c2da7bd15bdc",
+        "source_size_bytes": 1535437,
+        "references": [
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\reference.png",
+            "relative_path": "reference.png",
+            "sha256": "5f0dc445a7973497ac7dd9a0e3537ffaeda02c2c2fe4f305c123449329f7d9ee",
+            "size_bytes": 214830
+          },
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\tile-geometry-guide.png",
+            "relative_path": "tile-geometry-guide.png",
+            "sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d",
+            "size_bytes": 530
+          },
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\projection-reference.png",
+            "relative_path": "projection-reference.png",
+            "sha256": "3a444db1efbf7dd949d123ffd724f1a7e0a6eeb069066f320d84e707798f7dbb",
+            "size_bytes": 39298
+          }
+        ],
+        "request_sha256": "4afef46c9166ddec4d0707ed7e15d1c89c02cf97df31d1efd46fd14057024879"
+      }
+    },
+    {
+      "label": "G05-F",
+      "provider": "ImageGen",
+      "relative_path": "items/010/original.png",
+      "sha256": "b40be0b94a996692f6767e18f35ee167c35ecdfd3d1d94e43b66b21b6fd6a857",
+      "size_bytes": 1605259,
+      "request_sha256": "387a6cdbfba17adb8278ab1f9246f36b731cc3b982383a077482f38eb2b09de3",
+      "provenance": {
+        "provider": "built-in image_gen",
+        "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1438d-6f36-7271-adc5-8784b0d63777\\exec-204133b4-bb47-43e0-b3d5-10dc17af41ac.png",
+        "source_sha256": "b40be0b94a996692f6767e18f35ee167c35ecdfd3d1d94e43b66b21b6fd6a857",
+        "source_size_bytes": 1605259,
+        "references": [
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\reference.png",
+            "relative_path": "reference.png",
+            "sha256": "5f0dc445a7973497ac7dd9a0e3537ffaeda02c2c2fe4f305c123449329f7d9ee",
+            "size_bytes": 214830
+          },
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\tile-geometry-guide.png",
+            "relative_path": "tile-geometry-guide.png",
+            "sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d",
+            "size_bytes": 530
+          },
+          {
+            "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\items\\009\\original.png",
+            "relative_path": "items/009/original.png",
+            "sha256": "38657ad0a7bae26c4f227a0dd57a7041327f67b93b7f896a9f01c2da7bd15bdc",
+            "size_bytes": 1535437
+          }
+        ],
+        "request_sha256": "387a6cdbfba17adb8278ab1f9246f36b731cc3b982383a077482f38eb2b09de3"
+      }
+    },
+    {
+      "label": "P01-I",
+      "provider": "PixelLab",
+      "relative_path": "items/011/original.png",
+      "sha256": "2c32c76a87e211fe12f2d9f43eb6e36599c2a8a5c2defabd9227b258bbe50050",
+      "size_bytes": 65419,
+      "request_sha256": "2b94b3a3ca973d85cbc638409848e8f3017794179c8f4b9209abe4e9b08af3a3",
+      "provenance": {
+        "provider": "PixelLab",
+        "endpoint": "/generate-image-v2",
+        "request_sha256": "2b94b3a3ca973d85cbc638409848e8f3017794179c8f4b9209abe4e9b08af3a3",
+        "response_sha256_external": "aa81179b5c5a2a0f46648120567cb075e123c3a249e822dde3a91e2ad121927a",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 25
+        },
+        "planned_description": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: genuine isometric three-quarter sprites seen from the same elevated camera as the floor; visible top/side planes, oblique shoulders and bodies aligned to diagonal floor directions.\nROOM: Square guard chamber: rear entrance arch, low broken pillar in one central tile, two clay jars against the back wall, crates at the far corner; broad quiet walking space.",
+        "brief": {
+          "id": 11,
+          "label": "P01-I",
+          "pair": 1,
+          "composition": 1,
+          "character_view": "isometric",
+          "engine": "PixelLab",
+          "title": "Караульная · персонажи изо",
+          "prompt": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: genuine isometric three-quarter sprites seen from the same elevated camera as the floor; visible top/side planes, oblique shoulders and bodies aligned to diagonal floor directions.\nROOM: Square guard chamber: rear entrance arch, low broken pillar in one central tile, two clay jars against the back wall, crates at the far corner; broad quiet walking space.",
+          "endpoint": "/generate-image-v2"
+        }
+      }
+    },
+    {
+      "label": "P01-F",
+      "provider": "PixelLab",
+      "relative_path": "items/012/original.png",
+      "sha256": "33fcc637556d869709ea07d80f28bc43fc09ce684ae9abee7b47654f483755b3",
+      "size_bytes": 72230,
+      "request_sha256": "a356fa6f989795c73c166866346b138c9e054b109d5169a56f29eb3be6035cb9",
+      "provenance": {
+        "provider": "PixelLab",
+        "endpoint": "/inpaint-v3",
+        "request_sha256": "a356fa6f989795c73c166866346b138c9e054b109d5169a56f29eb3be6035cb9",
+        "response_sha256_external": "5d85be7be8da33d36dc15dcc036d909fc2266d9fcc3ad66164cd93ec0d53a5e2",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 25
+        },
+        "planned_description": "Replace the SIX masked characters with unmistakably FRONT-FACING, STRAIGHT-ON 2D pixel-art sprites. All faces and chests look directly at the viewer. Use flat front-elevation character drawing, horizontal shoulders, symmetrical eyes visible and two front-facing feet. ZERO back views, ZERO side profiles, ZERO three-quarter body turns. The hooded wizard MUST show a face with two eyes inside the hood and the FRONT opening and clasp of the robe, never the back of the hood. The archer faces the viewer with the bow to one side. The shield warrior faces the viewer with shield and weapon at the sides. Goblins, armored monsters and spiders also face toward the bottom center of the screen. Preserve each character identity, compact scale, colors and equipment. Keep every pair of soles at its EXISTING support point inside ONE diamond tile; no feet on tile seams. No pedestals, discs, plinths, rings or selection circles; only tiny contact shadows. Match the existing coarse pixel clusters and muted dungeon palette. Preserve the ISOMETRIC ROOM, exact camera, floor grid, walls and props outside the white mask. The architecture remains isometric while only the sprites use flat frontal presentation.",
+        "brief": {
+          "id": 12,
+          "label": "P01-F",
+          "pair": 2,
+          "composition": 1,
+          "character_view": "frontal",
+          "engine": "PixelLab",
+          "title": "Караульная · персонажи фронтально",
+          "prompt": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: flat front-facing 2D sprites like the style reference, with horizontal shoulders and face/chest looking toward the viewer; do NOT rotate their bodies to isometric. The ROOM AND FLOOR remain fully isometric. Both feet still touch the center of one diamond tile.\nROOM: Square guard chamber: rear entrance arch, low broken pillar in one central tile, two clay jars against the back wall, crates at the far corner; broad quiet walking space.",
+          "endpoint": "/inpaint-v3",
+          "input_source": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\items\\011\\original.png",
+          "mask_rectangles": [
+            [
+              89,
+              161,
+              147,
+              222
+            ],
+            [
+              135,
+              184,
+              186,
+              250
+            ],
+            [
+              181,
+              205,
+              234,
+              275
+            ],
+            [
+              284,
+              117,
+              351,
+              183
+            ],
+            [
+              359,
+              160,
+              424,
+              223
+            ],
+            [
+              299,
+              216,
+              355,
+              261
+            ]
+          ],
+          "iteration_reason": "Initial frontal Pro generation copied isometric orientations; targeted provider inpainting, no manual pose or alpha edits."
+        }
+      }
+    },
+    {
+      "label": "P02-I",
+      "provider": "PixelLab",
+      "relative_path": "items/013/original.png",
+      "sha256": "d99e3cf0bec938e1d47df3f788577039c9a3c6854bc52f7536dd86983c9c51dc",
+      "size_bytes": 65286,
+      "request_sha256": "1238ccca5327d81e32dbcc98cef30c71e8a79fedcc45d22c677d212a9cadcda0",
+      "provenance": {
+        "provider": "PixelLab",
+        "endpoint": "/generate-image-v2",
+        "request_sha256": "1238ccca5327d81e32dbcc98cef30c71e8a79fedcc45d22c677d212a9cadcda0",
+        "response_sha256_external": "a16236accfbc052a90b7edd180469398e63f2062270dd650fd702bee9713c3e0",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 25
+        },
+        "planned_description": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: genuine isometric three-quarter sprites seen from the same elevated camera as the floor; visible top/side planes, oblique shoulders and bodies aligned to diagonal floor directions.\nROOM: L-shaped stone chamber around a narrow dark-teal drainage canal; one short bridge links two tiled walking areas, low curbs and a doorway at each end. Six figures stand on dry tiles only.",
+        "brief": {
+          "id": 13,
+          "label": "P02-I",
+          "pair": 3,
+          "composition": 2,
+          "character_view": "isometric",
+          "engine": "PixelLab",
+          "title": "Водяной проход · персонажи изо",
+          "prompt": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: genuine isometric three-quarter sprites seen from the same elevated camera as the floor; visible top/side planes, oblique shoulders and bodies aligned to diagonal floor directions.\nROOM: L-shaped stone chamber around a narrow dark-teal drainage canal; one short bridge links two tiled walking areas, low curbs and a doorway at each end. Six figures stand on dry tiles only.",
+          "endpoint": "/generate-image-v2"
+        }
+      }
+    },
+    {
+      "label": "P02-F",
+      "provider": "PixelLab",
+      "relative_path": "items/014/original.png",
+      "sha256": "71c8c653de470a51ccfd82bbdc5780a093403443c1fd77313553b09f53f82a5b",
+      "size_bytes": 67086,
+      "request_sha256": "fb678bad529667f1da5a5e6c53b1a2b388566839af566c343f43d3c66784b8ce",
+      "provenance": {
+        "provider": "PixelLab",
+        "endpoint": "/inpaint-v3",
+        "request_sha256": "fb678bad529667f1da5a5e6c53b1a2b388566839af566c343f43d3c66784b8ce",
+        "response_sha256_external": "c9672090ca10134e7cd18b696a16eb94a6d16184c1e9d05447fc9fe6f6db6d0f",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 25
+        },
+        "planned_description": "Replace the SIX masked characters with unmistakably FRONT-FACING, STRAIGHT-ON 2D pixel-art sprites. All faces and chests look directly at the viewer. Use flat front-elevation character drawing, horizontal shoulders, symmetrical eyes visible and two front-facing feet. ZERO back views, ZERO side profiles, ZERO three-quarter body turns. The hooded wizard MUST show a face with two eyes inside the hood and the FRONT opening and clasp of the robe, never the back of the hood. The archer faces the viewer with the bow to one side. The shield warrior faces the viewer with shield and weapon at the sides. Goblins, armored monsters and spiders also face toward the bottom center of the screen. Preserve each character identity, compact scale, colors and equipment. Keep every pair of soles at its EXISTING support point inside ONE diamond tile; no feet on tile seams. No pedestals, discs, plinths, rings or selection circles; only tiny contact shadows. Match the existing coarse pixel clusters and muted dungeon palette. Preserve the ISOMETRIC ROOM, exact camera, floor grid, walls and props outside the white mask. The architecture remains isometric while only the sprites use flat frontal presentation.",
+        "brief": {
+          "id": 14,
+          "label": "P02-F",
+          "pair": 4,
+          "composition": 2,
+          "character_view": "frontal",
+          "engine": "PixelLab",
+          "title": "Водяной проход · персонажи фронтально",
+          "prompt": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: flat front-facing 2D sprites like the style reference, with horizontal shoulders and face/chest looking toward the viewer; do NOT rotate their bodies to isometric. The ROOM AND FLOOR remain fully isometric. Both feet still touch the center of one diamond tile.\nROOM: L-shaped stone chamber around a narrow dark-teal drainage canal; one short bridge links two tiled walking areas, low curbs and a doorway at each end. Six figures stand on dry tiles only.",
+          "endpoint": "/inpaint-v3",
+          "input_source": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\items\\013\\original.png",
+          "mask_rectangles": [
+            [
+              117,
+              132,
+              161,
+              184
+            ],
+            [
+              198,
+              102,
+              241,
+              153
+            ],
+            [
+              145,
+              172,
+              199,
+              226
+            ],
+            [
+              283,
+              190,
+              338,
+              249
+            ],
+            [
+              343,
+              165,
+              403,
+              213
+            ],
+            [
+              418,
+              156,
+              464,
+              209
+            ]
+          ],
+          "iteration_reason": "Initial frontal Pro generation copied isometric orientations; targeted provider inpainting, no manual pose or alpha edits."
+        }
+      }
+    },
+    {
+      "label": "P03-I",
+      "provider": "PixelLab",
+      "relative_path": "items/015/original.png",
+      "sha256": "e6ecda80ada066c25dfa54ba3bb8bbe7ee5b3f0bf33296d3c707a6d320519c2f",
+      "size_bytes": 48744,
+      "request_sha256": "98977620f4d566245e401160c79ccb5e804a90c88a9a4dcc1f34d36d5a35215b",
+      "provenance": {
+        "provider": "PixelLab",
+        "endpoint": "/generate-image-v2",
+        "request_sha256": "98977620f4d566245e401160c79ccb5e804a90c88a9a4dcc1f34d36d5a35215b",
+        "response_sha256_external": "29bcc64a0762153ec28bd7a43bd00d0f3a9c3b4458d8c81808cc3480a76a8e55",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 25
+        },
+        "planned_description": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: genuine isometric three-quarter sprites seen from the same elevated camera as the floor; visible top/side planes, oblique shoulders and bodies aligned to diagonal floor directions.\nROOM: T-shaped chapel: recessed altar at the far end, low broken benches against side walls, muted red hanging cloth, quiet central tiled aisle. Six figures separated across the aisle.",
+        "brief": {
+          "id": 15,
+          "label": "P03-I",
+          "pair": 5,
+          "composition": 3,
+          "character_view": "isometric",
+          "engine": "PixelLab",
+          "title": "Забытая часовня · персонажи изо",
+          "prompt": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: genuine isometric three-quarter sprites seen from the same elevated camera as the floor; visible top/side planes, oblique shoulders and bodies aligned to diagonal floor directions.\nROOM: T-shaped chapel: recessed altar at the far end, low broken benches against side walls, muted red hanging cloth, quiet central tiled aisle. Six figures separated across the aisle.",
+          "endpoint": "/generate-image-v2"
+        }
+      }
+    },
+    {
+      "label": "P03-F",
+      "provider": "PixelLab",
+      "relative_path": "items/016/original.png",
+      "sha256": "e3688e125ea6f1baa158eb24e281230d549be97eabed2137011176a27955002d",
+      "size_bytes": 52475,
+      "request_sha256": "6be2e5e8bc400991e148c12e94e0702837e69da4c9c7c98bb68ab4188aee154e",
+      "provenance": {
+        "provider": "PixelLab",
+        "endpoint": "/inpaint-v3",
+        "request_sha256": "6be2e5e8bc400991e148c12e94e0702837e69da4c9c7c98bb68ab4188aee154e",
+        "response_sha256_external": "12eef68fff0e7472de73feb50ebf16c57a6418b623fb6e39c0108fe62bf63cf3",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 25
+        },
+        "planned_description": "Replace the SIX masked characters with unmistakably FRONT-FACING, STRAIGHT-ON 2D pixel-art sprites. All faces and chests look directly at the viewer. Use flat front-elevation character drawing, horizontal shoulders, symmetrical eyes visible and two front-facing feet. ZERO back views, ZERO side profiles, ZERO three-quarter body turns. The hooded wizard MUST show a face with two eyes inside the hood and the FRONT opening and clasp of the robe, never the back of the hood. The archer faces the viewer with the bow to one side. The shield warrior faces the viewer with shield and weapon at the sides. Goblins, armored monsters and spiders also face toward the bottom center of the screen. Preserve each character identity, compact scale, colors and equipment. Keep every pair of soles at its EXISTING support point inside ONE diamond tile; no feet on tile seams. No pedestals, discs, plinths, rings or selection circles; only tiny contact shadows. Match the existing coarse pixel clusters and muted dungeon palette. Preserve the ISOMETRIC ROOM, exact camera, floor grid, walls and props outside the white mask. The architecture remains isometric while only the sprites use flat frontal presentation.",
+        "brief": {
+          "id": 16,
+          "label": "P03-F",
+          "pair": 6,
+          "composition": 3,
+          "character_view": "frontal",
+          "engine": "PixelLab",
+          "title": "Забытая часовня · персонажи фронтально",
+          "prompt": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: flat front-facing 2D sprites like the style reference, with horizontal shoulders and face/chest looking toward the viewer; do NOT rotate their bodies to isometric. The ROOM AND FLOOR remain fully isometric. Both feet still touch the center of one diamond tile.\nROOM: T-shaped chapel: recessed altar at the far end, low broken benches against side walls, muted red hanging cloth, quiet central tiled aisle. Six figures separated across the aisle.",
+          "endpoint": "/inpaint-v3",
+          "input_source": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\items\\015\\original.png",
+          "mask_rectangles": [
+            [
+              172,
+              150,
+              222,
+              203
+            ],
+            [
+              121,
+              188,
+              165,
+              232
+            ],
+            [
+              176,
+              215,
+              217,
+              264
+            ],
+            [
+              287,
+              157,
+              335,
+              202
+            ],
+            [
+              287,
+              215,
+              337,
+              265
+            ],
+            [
+              342,
+              195,
+              392,
+              236
+            ]
+          ],
+          "iteration_reason": "Initial frontal Pro generation copied isometric orientations; targeted provider inpainting, no manual pose or alpha edits."
+        }
+      }
+    },
+    {
+      "label": "P04-I",
+      "provider": "PixelLab",
+      "relative_path": "items/017/original.png",
+      "sha256": "b0d3a41947bc795411f2fe16b2bcd663de7ef4f7a4202b36aee9d4d0d2b4323b",
+      "size_bytes": 65808,
+      "request_sha256": "f7276baf736f6edd5b72e2d6b39a6124dbe500fce00ee42a6163ca82f2bda315",
+      "provenance": {
+        "provider": "PixelLab",
+        "endpoint": "/generate-image-v2",
+        "request_sha256": "f7276baf736f6edd5b72e2d6b39a6124dbe500fce00ee42a6163ca82f2bda315",
+        "response_sha256_external": "5bfcf99fadf6ef4b09e472b0d09e61211a6934efa2f6103f79ec1c1ae867f6e0",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 25
+        },
+        "planned_description": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: genuine isometric three-quarter sprites seen from the same elevated camera as the floor; visible top/side planes, oblique shoulders and bodies aligned to diagonal floor directions.\nROOM: Asymmetric forge room: a squat furnace in the far-left corner, anvil and wood stack against one wall, tool rack on the opposite wall, offset doorways and a broad empty tiled center.",
+        "brief": {
+          "id": 17,
+          "label": "P04-I",
+          "pair": 7,
+          "composition": 4,
+          "character_view": "isometric",
+          "engine": "PixelLab",
+          "title": "Остывающая кузница · персонажи изо",
+          "prompt": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: genuine isometric three-quarter sprites seen from the same elevated camera as the floor; visible top/side planes, oblique shoulders and bodies aligned to diagonal floor directions.\nROOM: Asymmetric forge room: a squat furnace in the far-left corner, anvil and wood stack against one wall, tool rack on the opposite wall, offset doorways and a broad empty tiled center.",
+          "endpoint": "/generate-image-v2"
+        }
+      }
+    },
+    {
+      "label": "P04-F",
+      "provider": "PixelLab",
+      "relative_path": "items/018/original.png",
+      "sha256": "60cc3657b846ebf2ece4ba046e4bfc95099398d9db76d461557460547c28d70c",
+      "size_bytes": 65318,
+      "request_sha256": "77b5e2646b3660913e86ed51a2e50169c12570668d44ad3a71d745f0d0b640a6",
+      "provenance": {
+        "provider": "PixelLab",
+        "endpoint": "/inpaint-v3",
+        "request_sha256": "77b5e2646b3660913e86ed51a2e50169c12570668d44ad3a71d745f0d0b640a6",
+        "response_sha256_external": "9c4c47e26bef474f6d17e0ce443ac2801f696052355cdd61e425c5a0b3364f1f",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 25
+        },
+        "planned_description": "Replace the SIX masked characters with unmistakably FRONT-FACING, STRAIGHT-ON 2D pixel-art sprites. All faces and chests look directly at the viewer. Use flat front-elevation character drawing, horizontal shoulders, symmetrical eyes visible and two front-facing feet. ZERO back views, ZERO side profiles, ZERO three-quarter body turns. The hooded wizard MUST show a face with two eyes inside the hood and the FRONT opening and clasp of the robe, never the back of the hood. The archer faces the viewer with the bow to one side. The shield warrior faces the viewer with shield and weapon at the sides. Goblins, armored monsters and spiders also face toward the bottom center of the screen. Preserve each character identity, compact scale, colors and equipment. Keep every pair of soles at its EXISTING support point inside ONE diamond tile; no feet on tile seams. No pedestals, discs, plinths, rings or selection circles; only tiny contact shadows. Match the existing coarse pixel clusters and muted dungeon palette. Preserve the ISOMETRIC ROOM, exact camera, floor grid, walls and props outside the white mask. The architecture remains isometric while only the sprites use flat frontal presentation.",
+        "brief": {
+          "id": 18,
+          "label": "P04-F",
+          "pair": 8,
+          "composition": 4,
+          "character_view": "frontal",
+          "engine": "PixelLab",
+          "title": "Остывающая кузница · персонажи фронтально",
+          "prompt": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: flat front-facing 2D sprites like the style reference, with horizontal shoulders and face/chest looking toward the viewer; do NOT rotate their bodies to isometric. The ROOM AND FLOOR remain fully isometric. Both feet still touch the center of one diamond tile.\nROOM: Asymmetric forge room: a squat furnace in the far-left corner, anvil and wood stack against one wall, tool rack on the opposite wall, offset doorways and a broad empty tiled center.",
+          "endpoint": "/inpaint-v3",
+          "input_source": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\items\\017\\original.png",
+          "mask_rectangles": [
+            [
+              103,
+              174,
+              171,
+              247
+            ],
+            [
+              172,
+              153,
+              228,
+              217
+            ],
+            [
+              300,
+              137,
+              365,
+              212
+            ],
+            [
+              187,
+              223,
+              252,
+              302
+            ],
+            [
+              395,
+              196,
+              448,
+              271
+            ],
+            [
+              321,
+              252,
+              403,
+              317
+            ]
+          ],
+          "iteration_reason": "Initial frontal Pro generation copied isometric orientations; targeted provider inpainting, no manual pose or alpha edits."
+        }
+      }
+    },
+    {
+      "label": "P05-I",
+      "provider": "PixelLab",
+      "relative_path": "items/019/original.png",
+      "sha256": "a8d9ece23498cf842cf7c1ebbb9f5ae9437aecc4d6ce8f593993ec160471af96",
+      "size_bytes": 72889,
+      "request_sha256": "c8d265aa3c08ad267fddb07b9ca34437bd663741201d937acad7f9194ebbb1b6",
+      "provenance": {
+        "provider": "PixelLab",
+        "endpoint": "/generate-image-v2",
+        "request_sha256": "c8d265aa3c08ad267fddb07b9ca34437bd663741201d937acad7f9194ebbb1b6",
+        "response_sha256_external": "e59c17d132d570441bcb008e915fd0cacce81f9b6d6952fb3db405ecf591bac3",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 25
+        },
+        "planned_description": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: genuine isometric three-quarter sprites seen from the same elevated camera as the floor; visible top/side planes, oblique shoulders and bodies aligned to diagonal floor directions.\nROOM: Two unequal tiled stone floor areas separated by a narrow fissure; one short wide stone bridge near the front, rear route blocked by a fallen slab. Three figures on each side, each on one dry tile.",
+        "brief": {
+          "id": 19,
+          "label": "P05-I",
+          "pair": 9,
+          "composition": 5,
+          "character_view": "isometric",
+          "engine": "PixelLab",
+          "title": "Две стороны разлома · персонажи изо",
+          "prompt": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: genuine isometric three-quarter sprites seen from the same elevated camera as the floor; visible top/side planes, oblique shoulders and bodies aligned to diagonal floor directions.\nROOM: Two unequal tiled stone floor areas separated by a narrow fissure; one short wide stone bridge near the front, rear route blocked by a fallen slab. Three figures on each side, each on one dry tile.",
+          "endpoint": "/generate-image-v2"
+        }
+      }
+    },
+    {
+      "label": "P05-F",
+      "provider": "PixelLab",
+      "relative_path": "items/020/original.png",
+      "sha256": "2b06607cda248d8b8ccfcdad1956929a33302c4018f81273b13f565db0017df8",
+      "size_bytes": 75745,
+      "request_sha256": "ed23d17d77ff29c5eb6df8552b5dfcf9a47cb353f25739958833d9949f5edddc",
+      "provenance": {
+        "provider": "PixelLab",
+        "endpoint": "/inpaint-v3",
+        "request_sha256": "ed23d17d77ff29c5eb6df8552b5dfcf9a47cb353f25739958833d9949f5edddc",
+        "response_sha256_external": "158fd7391da903ced583e1214951e9649e4cc02b6eff5ad220f89f6bcf68bc7a",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 25
+        },
+        "planned_description": "Redesign all SIX masked characters as flat FRONT-ELEVATION pixel-art sprites. They must stare STRAIGHT OUT OF THE SCREEN toward the viewer, as symmetrical paper-doll game sprites. THIS IS A POSE REPLACEMENT, do not retain the old three-quarter pose. Highest priority: the UPPER LEFT GREEN ARCHER must have a centered FULL FRONT FACE with BOTH EYES and BOTH EARS visible equally, a horizontal shoulder line and a front-facing chest. Put the bow upright at one OUTER SIDE, away from the face; show both front-facing boots. The LOWER LEFT GRAY SHIELD WARRIOR needs a new perfectly frontal pose: symmetrical square helmet and T-shaped visor centered above the breastplate, both shoulder plates equally visible, shield on one outer side and upright sword on the other, both boot toes facing the viewer. The PURPLE WIZARD between them and the chasm faces the viewer with two glowing eyes inside the FRONT opening of the hood and a visible robe clasp. Do not show any character's back. All three monsters on the right also face the viewer symmetrically. Keep compact sizes and the same floor-cell support points, both soles inside ONE tile, no bases, discs, rings or pedestals. Match coarse dark pixel-art clusters and muted dungeon colors. Keep the isometric room, tile floor, chasm and bridge composition. The ROOM is isometric; the characters are FLAT FRONTAL SPRITES, never isometric, never profile.",
+        "brief": {
+          "id": 20,
+          "label": "P05-F",
+          "pair": 10,
+          "composition": 5,
+          "character_view": "frontal",
+          "engine": "PixelLab",
+          "title": "Две стороны разлома · персонажи фронтально",
+          "prompt": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: flat front-facing 2D sprites like the style reference, with horizontal shoulders and face/chest looking toward the viewer; do NOT rotate their bodies to isometric. The ROOM AND FLOOR remain fully isometric. Both feet still touch the center of one diamond tile.\nROOM: Two unequal tiled stone floor areas separated by a narrow fissure; one short wide stone bridge near the front, rear route blocked by a fallen slab. Three figures on each side, each on one dry tile.",
+          "endpoint": "/inpaint-v3",
+          "input_source": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\items\\019\\original.png",
+          "mask_rectangles": [
+            [
+              58,
+              167,
+              111,
+              234
+            ],
+            [
+              104,
+              126,
+              164,
+              189
+            ],
+            [
+              167,
+              161,
+              228,
+              227
+            ],
+            [
+              301,
+              171,
+              353,
+              220
+            ],
+            [
+              356,
+              145,
+              423,
+              222
+            ],
+            [
+              415,
+              186,
+              486,
+              257
+            ]
+          ],
+          "iteration_reason": "Second targeted P05-F repair: archer remained three-quarter; explicitly replace left two silhouettes with flat frontal poses."
+        }
+      }
+    }
+  ],
+  "initial_topdown_trials": [
+    {
+      "label": "G01",
+      "provider": "ImageGen",
+      "relative_path": "initial-topdown-trials/items/001/original.png",
+      "sha256": "3802cae4edfaa1e4d1fa406cefe3b22c7b70b477d0b8887d0bd4e626a0038498",
+      "size_bytes": 1405076,
+      "request_sha256": "b6e5b86a0b027d8376ef5f4c9efec5e5bd9c48cbb4c40eb232f892ea109e886a"
+    },
+    {
+      "label": "G02",
+      "provider": "ImageGen",
+      "relative_path": "initial-topdown-trials/items/002/original.png",
+      "sha256": "a558315747185f6feece13ad8a285efbdfb6087abd197a54b6af99ae168af61e",
+      "size_bytes": 1457962,
+      "request_sha256": "b2adea876a83543a6cc8eadc3fc362efcdbaf1907c3ccde231617b0cb6611cba"
+    },
+    {
+      "label": "G03",
+      "provider": "ImageGen",
+      "relative_path": "initial-topdown-trials/items/003/original.png",
+      "sha256": "0fb8e094205a026f9e6c004ebcf2c1362a1a6db9da310bcb61c119c2a6ce6eed",
+      "size_bytes": 1476888,
+      "request_sha256": "9c7de56145862ce0be7347b031230b120afdd002d0a6c180f35606f43e05cf18"
+    },
+    {
+      "label": "G04",
+      "provider": "ImageGen",
+      "relative_path": "initial-topdown-trials/items/004/original.png",
+      "sha256": "1d2be619ce671c3d87f26111c41121fce7734309dea411efb8d890bf475f3bb5",
+      "size_bytes": 1423219,
+      "request_sha256": "e6dc9c2df284c55c54aa56c0bfcae77fb2e3dd6fddcccb332455626504805724"
+    },
+    {
+      "label": "G05",
+      "provider": "ImageGen",
+      "relative_path": "initial-topdown-trials/items/005/original.png",
+      "sha256": "c7d54afb101b3ffa6d4cf22ffb7efe1d9f0dd2496a8d30aa9d4e2cfbd0f491bc",
+      "size_bytes": 1486850,
+      "request_sha256": "3a0601835aeb58434d9963b8b8b6d7fefcac9e76540af6ac796d9e95a874becc"
+    },
+    {
+      "label": "P01",
+      "provider": "PixelLab",
+      "relative_path": "initial-topdown-trials/items/006/original.png",
+      "sha256": "6145fcafce421ad018e1e8b39a69b9101d0429aba97347582da062c8a35d0b23",
+      "size_bytes": 55177,
+      "request_sha256": "bbf13b8c84961390a1b517d25976c0dbe3a172505f9d71c5a7d1b2de89783a74"
+    },
+    {
+      "label": "P02",
+      "provider": "PixelLab",
+      "relative_path": "initial-topdown-trials/items/007/original.png",
+      "sha256": "bd5dba0ca82f6e5ce07ea808707a774026cee4641b41b756f7207961751d976c",
+      "size_bytes": 43846,
+      "request_sha256": "99656af3799f4ad1b200d9db29484319d1beca651b2526f8fd9c90eefc2c305a"
+    },
+    {
+      "label": "P03",
+      "provider": "PixelLab",
+      "relative_path": "initial-topdown-trials/items/008/original.png",
+      "sha256": "1d5706fe1947ea4ac8b87c3739300adaaeda509ac3239bbc3180a40748b69241",
+      "size_bytes": 37218,
+      "request_sha256": "efee9acb52685e5544f43e4e79fc6078e2784c474994635b1b796de04a9a3360"
+    },
+    {
+      "label": "P04",
+      "provider": "PixelLab",
+      "relative_path": "initial-topdown-trials/items/009/original.png",
+      "sha256": "e21b75c3247b6b4d8c9067a78495508048de3a17e8bb2b4e9ed895cbfceb213b",
+      "size_bytes": 62755,
+      "request_sha256": "02ef6b7772b4d351f52ae909c7d9d4119a9ad17835798ff1796e2ba30bfa3fea"
+    },
+    {
+      "label": "P05",
+      "provider": "PixelLab",
+      "relative_path": "initial-topdown-trials/items/010/original.png",
+      "sha256": "de2f6b38212b1f11d54acd302d064d0b347e08bb9fb52cfa3afe615c5b9f5ce3",
+      "size_bytes": 36320,
+      "request_sha256": "4a2806e36c323dbb3e4bee7b527dcdafb3ef968729001ae811b3b7e0ca546d2a"
+    }
+  ],
+  "pixellab_frontal_first_iterations": [
+    {
+      "label": "P01-F",
+      "relative_path": "iterations/pixellab-frontal-first/items/012/original.png",
+      "sha256": "03ee3658ec117ba1995dd8b142bb4501daf9582aa5876750ab718a6142634c40",
+      "size_bytes": 71304,
+      "request_sha256": "5b241183ea194d3ae1a1005c5d6a2effba6b0b599f8dbc5b47ede68c0e26fc31",
+      "provenance": {
+        "provider": "PixelLab",
+        "endpoint": "/generate-image-v2",
+        "request_sha256": "5b241183ea194d3ae1a1005c5d6a2effba6b0b599f8dbc5b47ede68c0e26fc31",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 25
+        },
+        "job_id": "adf86ca4-0364-49c6-aa96-1ca2eaced372",
+        "status": "completed",
+        "reason": null
+      }
+    },
+    {
+      "label": "P02-F",
+      "relative_path": "iterations/pixellab-frontal-first/items/014/original.png",
+      "sha256": "40831d32e800453b18ed60473d431af45d68fa6d1d32e1336cb1671dd07c06ae",
+      "size_bytes": 69316,
+      "request_sha256": "0ef03e14102de63f7a939bcd9224882c004d0defbcc552e8bf644ecec8a1d840",
+      "provenance": {
+        "provider": "PixelLab",
+        "endpoint": "/generate-image-v2",
+        "request_sha256": "0ef03e14102de63f7a939bcd9224882c004d0defbcc552e8bf644ecec8a1d840",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 25
+        },
+        "job_id": "88556cc1-3e8a-4dbb-ab9b-7331e0044e95",
+        "status": "completed",
+        "reason": null
+      }
+    },
+    {
+      "label": "P03-F",
+      "relative_path": "iterations/pixellab-frontal-first/items/016/original.png",
+      "sha256": "af5929cc481b616f5916cb0007f9a077ce66662589ace7216f94e18657aeeacc",
+      "size_bytes": 53746,
+      "request_sha256": "2aa735faf70cbdfce7a1e355572f859b59a7097f67f4139feab7cfac30dc1b3e",
+      "provenance": {
+        "provider": "PixelLab",
+        "endpoint": "/generate-image-v2",
+        "request_sha256": "2aa735faf70cbdfce7a1e355572f859b59a7097f67f4139feab7cfac30dc1b3e",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 25
+        },
+        "job_id": "417fb6bd-3a61-431e-898a-3c7b2a677121",
+        "status": "completed",
+        "reason": null
+      }
+    },
+    {
+      "label": "P04-F",
+      "relative_path": "iterations/pixellab-frontal-first/items/018/original.png",
+      "sha256": "0413f9815827e5937c46cb7b18e0c26ae86a95ca3056ea2395be52c258680dee",
+      "size_bytes": 76182,
+      "request_sha256": "42c5a227a7bc35441dca0b35c82b8879766fd00facc4e4c2b43c4ec4cf3ad199",
+      "provenance": {
+        "provider": "PixelLab",
+        "endpoint": "/generate-image-v2",
+        "request_sha256": "42c5a227a7bc35441dca0b35c82b8879766fd00facc4e4c2b43c4ec4cf3ad199",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 25
+        },
+        "job_id": "c1d11669-333f-4140-985f-4ba5eeeb529e",
+        "status": "completed",
+        "reason": null
+      }
+    },
+    {
+      "label": "P05-F",
+      "relative_path": "iterations/pixellab-frontal-first/items/020/original.png",
+      "sha256": "3d81c35c2185bcdc737a9d09f9281fd316b5814ba4dbe205c350368b9b5f4582",
+      "size_bytes": 86643,
+      "request_sha256": "72af993b109d18ecc2ddf64e4b48b030751e6e9089df54b59bcf65774b3d0796",
+      "provenance": {
+        "provider": "PixelLab",
+        "endpoint": "/generate-image-v2",
+        "request_sha256": "72af993b109d18ecc2ddf64e4b48b030751e6e9089df54b59bcf65774b3d0796",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 25
+        },
+        "job_id": "208c3f15-1e9c-4e42-8451-982893ecfb41",
+        "status": "completed",
+        "reason": null
+      }
+    }
+  ],
+  "pixellab_inpaint_trials": [
+    {
+      "label": "P01-F",
+      "relative_path": "frontal-inpaint/items/012/original.png",
+      "request_sha256": "a356fa6f989795c73c166866346b138c9e054b109d5169a56f29eb3be6035cb9",
+      "source_image": {
+        "relative_path": "frontal-inpaint/inputs/012/source.png",
+        "sha256": "2c32c76a87e211fe12f2d9f43eb6e36599c2a8a5c2defabd9227b258bbe50050",
+        "size_bytes": 65419
+      },
+      "mask_image": {
+        "relative_path": "frontal-inpaint/inputs/012/mask.png",
+        "sha256": "97773c63c02f911d1d9d51baa559a534770b215bdefe4f8bd18cc84f9f26757f",
+        "size_bytes": 1084
+      },
+      "output": {
+        "relative_path": "frontal-inpaint/items/012/original.png",
+        "sha256": "33fcc637556d869709ea07d80f28bc43fc09ce684ae9abee7b47654f483755b3",
+        "size_bytes": 72230
+      },
+      "provenance": {
+        "provider": "PixelLab",
+        "endpoint": "/inpaint-v3",
+        "description": "Replace the SIX masked characters with unmistakably FRONT-FACING, STRAIGHT-ON 2D pixel-art sprites. All faces and chests look directly at the viewer. Use flat front-elevation character drawing, horizontal shoulders, symmetrical eyes visible and two front-facing feet. ZERO back views, ZERO side profiles, ZERO three-quarter body turns. The hooded wizard MUST show a face with two eyes inside the hood and the FRONT opening and clasp of the robe, never the back of the hood. The archer faces the viewer with the bow to one side. The shield warrior faces the viewer with shield and weapon at the sides. Goblins, armored monsters and spiders also face toward the bottom center of the screen. Preserve each character identity, compact scale, colors and equipment. Keep every pair of soles at its EXISTING support point inside ONE diamond tile; no feet on tile seams. No pedestals, discs, plinths, rings or selection circles; only tiny contact shadows. Match the existing coarse pixel clusters and muted dungeon palette. Preserve the ISOMETRIC ROOM, exact camera, floor grid, walls and props outside the white mask. The architecture remains isometric while only the sprites use flat frontal presentation.",
+        "request_sha256": "a356fa6f989795c73c166866346b138c9e054b109d5169a56f29eb3be6035cb9",
+        "source_image": {
+          "relative_path": "frontal-inpaint/inputs/012/source.png",
+          "sha256": "2c32c76a87e211fe12f2d9f43eb6e36599c2a8a5c2defabd9227b258bbe50050",
+          "size_bytes": 65419
+        },
+        "mask_image": {
+          "relative_path": "frontal-inpaint/inputs/012/mask.png",
+          "sha256": "97773c63c02f911d1d9d51baa559a534770b215bdefe4f8bd18cc84f9f26757f",
+          "size_bytes": 1084
+        },
+        "job_id": "d636b9f0-c4fd-4c02-9d28-83d0b3b5e98f",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 25
+        },
+        "output": {
+          "relative_path": "frontal-inpaint/items/012/original.png",
+          "sha256": "33fcc637556d869709ea07d80f28bc43fc09ce684ae9abee7b47654f483755b3",
+          "size_bytes": 72230
+        }
+      }
+    },
+    {
+      "label": "P02-F",
+      "relative_path": "frontal-inpaint/items/014/original.png",
+      "request_sha256": "fb678bad529667f1da5a5e6c53b1a2b388566839af566c343f43d3c66784b8ce",
+      "source_image": {
+        "relative_path": "frontal-inpaint/inputs/014/source.png",
+        "sha256": "d99e3cf0bec938e1d47df3f788577039c9a3c6854bc52f7536dd86983c9c51dc",
+        "size_bytes": 65286
+      },
+      "mask_image": {
+        "relative_path": "frontal-inpaint/inputs/014/mask.png",
+        "sha256": "b8dacd204624344dc25177f8153194788572bdc68f77587bf4f7c3c04bceeb26",
+        "size_bytes": 1057
+      },
+      "output": {
+        "relative_path": "frontal-inpaint/items/014/original.png",
+        "sha256": "71c8c653de470a51ccfd82bbdc5780a093403443c1fd77313553b09f53f82a5b",
+        "size_bytes": 67086
+      },
+      "provenance": {
+        "provider": "PixelLab",
+        "endpoint": "/inpaint-v3",
+        "description": "Replace the SIX masked characters with unmistakably FRONT-FACING, STRAIGHT-ON 2D pixel-art sprites. All faces and chests look directly at the viewer. Use flat front-elevation character drawing, horizontal shoulders, symmetrical eyes visible and two front-facing feet. ZERO back views, ZERO side profiles, ZERO three-quarter body turns. The hooded wizard MUST show a face with two eyes inside the hood and the FRONT opening and clasp of the robe, never the back of the hood. The archer faces the viewer with the bow to one side. The shield warrior faces the viewer with shield and weapon at the sides. Goblins, armored monsters and spiders also face toward the bottom center of the screen. Preserve each character identity, compact scale, colors and equipment. Keep every pair of soles at its EXISTING support point inside ONE diamond tile; no feet on tile seams. No pedestals, discs, plinths, rings or selection circles; only tiny contact shadows. Match the existing coarse pixel clusters and muted dungeon palette. Preserve the ISOMETRIC ROOM, exact camera, floor grid, walls and props outside the white mask. The architecture remains isometric while only the sprites use flat frontal presentation.",
+        "request_sha256": "fb678bad529667f1da5a5e6c53b1a2b388566839af566c343f43d3c66784b8ce",
+        "source_image": {
+          "relative_path": "frontal-inpaint/inputs/014/source.png",
+          "sha256": "d99e3cf0bec938e1d47df3f788577039c9a3c6854bc52f7536dd86983c9c51dc",
+          "size_bytes": 65286
+        },
+        "mask_image": {
+          "relative_path": "frontal-inpaint/inputs/014/mask.png",
+          "sha256": "b8dacd204624344dc25177f8153194788572bdc68f77587bf4f7c3c04bceeb26",
+          "size_bytes": 1057
+        },
+        "job_id": "b5aad646-d0f2-4c9f-9263-2c76583c9ef4",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 25
+        },
+        "output": {
+          "relative_path": "frontal-inpaint/items/014/original.png",
+          "sha256": "71c8c653de470a51ccfd82bbdc5780a093403443c1fd77313553b09f53f82a5b",
+          "size_bytes": 67086
+        }
+      }
+    },
+    {
+      "label": "P03-F",
+      "relative_path": "frontal-inpaint/items/016/original.png",
+      "request_sha256": "6be2e5e8bc400991e148c12e94e0702837e69da4c9c7c98bb68ab4188aee154e",
+      "source_image": {
+        "relative_path": "frontal-inpaint/inputs/016/source.png",
+        "sha256": "e6ecda80ada066c25dfa54ba3bb8bbe7ee5b3f0bf33296d3c707a6d320519c2f",
+        "size_bytes": 48744
+      },
+      "mask_image": {
+        "relative_path": "frontal-inpaint/inputs/016/mask.png",
+        "sha256": "7a3b93e3767dc9a3a5fe0726ada1dab978cf4bc266d2ad9aaf8a6dc06fead351",
+        "size_bytes": 980
+      },
+      "output": {
+        "relative_path": "frontal-inpaint/items/016/original.png",
+        "sha256": "e3688e125ea6f1baa158eb24e281230d549be97eabed2137011176a27955002d",
+        "size_bytes": 52475
+      },
+      "provenance": {
+        "provider": "PixelLab",
+        "endpoint": "/inpaint-v3",
+        "description": "Replace the SIX masked characters with unmistakably FRONT-FACING, STRAIGHT-ON 2D pixel-art sprites. All faces and chests look directly at the viewer. Use flat front-elevation character drawing, horizontal shoulders, symmetrical eyes visible and two front-facing feet. ZERO back views, ZERO side profiles, ZERO three-quarter body turns. The hooded wizard MUST show a face with two eyes inside the hood and the FRONT opening and clasp of the robe, never the back of the hood. The archer faces the viewer with the bow to one side. The shield warrior faces the viewer with shield and weapon at the sides. Goblins, armored monsters and spiders also face toward the bottom center of the screen. Preserve each character identity, compact scale, colors and equipment. Keep every pair of soles at its EXISTING support point inside ONE diamond tile; no feet on tile seams. No pedestals, discs, plinths, rings or selection circles; only tiny contact shadows. Match the existing coarse pixel clusters and muted dungeon palette. Preserve the ISOMETRIC ROOM, exact camera, floor grid, walls and props outside the white mask. The architecture remains isometric while only the sprites use flat frontal presentation.",
+        "request_sha256": "6be2e5e8bc400991e148c12e94e0702837e69da4c9c7c98bb68ab4188aee154e",
+        "source_image": {
+          "relative_path": "frontal-inpaint/inputs/016/source.png",
+          "sha256": "e6ecda80ada066c25dfa54ba3bb8bbe7ee5b3f0bf33296d3c707a6d320519c2f",
+          "size_bytes": 48744
+        },
+        "mask_image": {
+          "relative_path": "frontal-inpaint/inputs/016/mask.png",
+          "sha256": "7a3b93e3767dc9a3a5fe0726ada1dab978cf4bc266d2ad9aaf8a6dc06fead351",
+          "size_bytes": 980
+        },
+        "job_id": "30cb92de-3707-4a01-8b81-5f6c7efd1fd2",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 25
+        },
+        "output": {
+          "relative_path": "frontal-inpaint/items/016/original.png",
+          "sha256": "e3688e125ea6f1baa158eb24e281230d549be97eabed2137011176a27955002d",
+          "size_bytes": 52475
+        }
+      }
+    },
+    {
+      "label": "P04-F",
+      "relative_path": "frontal-inpaint/items/018/original.png",
+      "request_sha256": "77b5e2646b3660913e86ed51a2e50169c12570668d44ad3a71d745f0d0b640a6",
+      "source_image": {
+        "relative_path": "frontal-inpaint/inputs/018/source.png",
+        "sha256": "b0d3a41947bc795411f2fe16b2bcd663de7ef4f7a4202b36aee9d4d0d2b4323b",
+        "size_bytes": 65808
+      },
+      "mask_image": {
+        "relative_path": "frontal-inpaint/inputs/018/mask.png",
+        "sha256": "0337d402b905332957360bf53b266d4a47f3f1f4d5e09344e2bbee8c560e00a5",
+        "size_bytes": 1122
+      },
+      "output": {
+        "relative_path": "frontal-inpaint/items/018/original.png",
+        "sha256": "60cc3657b846ebf2ece4ba046e4bfc95099398d9db76d461557460547c28d70c",
+        "size_bytes": 65318
+      },
+      "provenance": {
+        "provider": "PixelLab",
+        "endpoint": "/inpaint-v3",
+        "description": "Replace the SIX masked characters with unmistakably FRONT-FACING, STRAIGHT-ON 2D pixel-art sprites. All faces and chests look directly at the viewer. Use flat front-elevation character drawing, horizontal shoulders, symmetrical eyes visible and two front-facing feet. ZERO back views, ZERO side profiles, ZERO three-quarter body turns. The hooded wizard MUST show a face with two eyes inside the hood and the FRONT opening and clasp of the robe, never the back of the hood. The archer faces the viewer with the bow to one side. The shield warrior faces the viewer with shield and weapon at the sides. Goblins, armored monsters and spiders also face toward the bottom center of the screen. Preserve each character identity, compact scale, colors and equipment. Keep every pair of soles at its EXISTING support point inside ONE diamond tile; no feet on tile seams. No pedestals, discs, plinths, rings or selection circles; only tiny contact shadows. Match the existing coarse pixel clusters and muted dungeon palette. Preserve the ISOMETRIC ROOM, exact camera, floor grid, walls and props outside the white mask. The architecture remains isometric while only the sprites use flat frontal presentation.",
+        "request_sha256": "77b5e2646b3660913e86ed51a2e50169c12570668d44ad3a71d745f0d0b640a6",
+        "source_image": {
+          "relative_path": "frontal-inpaint/inputs/018/source.png",
+          "sha256": "b0d3a41947bc795411f2fe16b2bcd663de7ef4f7a4202b36aee9d4d0d2b4323b",
+          "size_bytes": 65808
+        },
+        "mask_image": {
+          "relative_path": "frontal-inpaint/inputs/018/mask.png",
+          "sha256": "0337d402b905332957360bf53b266d4a47f3f1f4d5e09344e2bbee8c560e00a5",
+          "size_bytes": 1122
+        },
+        "job_id": "7bead7f6-e68f-459f-8591-9b63ea6fd90e",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 25
+        },
+        "output": {
+          "relative_path": "frontal-inpaint/items/018/original.png",
+          "sha256": "60cc3657b846ebf2ece4ba046e4bfc95099398d9db76d461557460547c28d70c",
+          "size_bytes": 65318
+        }
+      }
+    },
+    {
+      "label": "P05-F",
+      "relative_path": "frontal-inpaint/items/020/original.png",
+      "request_sha256": "ed23d17d77ff29c5eb6df8552b5dfcf9a47cb353f25739958833d9949f5edddc",
+      "source_image": {
+        "relative_path": "frontal-inpaint/inputs/020/source.png",
+        "sha256": "a8d9ece23498cf842cf7c1ebbb9f5ae9437aecc4d6ce8f593993ec160471af96",
+        "size_bytes": 72889
+      },
+      "mask_image": {
+        "relative_path": "frontal-inpaint/inputs/020/mask.png",
+        "sha256": "205b272b452979cbe87797d8c5b70f9a862f71236a06514ec3d05abc1018e09e",
+        "size_bytes": 1020
+      },
+      "output": {
+        "relative_path": "frontal-inpaint/items/020/original.png",
+        "sha256": "2b06607cda248d8b8ccfcdad1956929a33302c4018f81273b13f565db0017df8",
+        "size_bytes": 75745
+      },
+      "provenance": {
+        "provider": "PixelLab",
+        "endpoint": "/inpaint-v3",
+        "description": "Redesign all SIX masked characters as flat FRONT-ELEVATION pixel-art sprites. They must stare STRAIGHT OUT OF THE SCREEN toward the viewer, as symmetrical paper-doll game sprites. THIS IS A POSE REPLACEMENT, do not retain the old three-quarter pose. Highest priority: the UPPER LEFT GREEN ARCHER must have a centered FULL FRONT FACE with BOTH EYES and BOTH EARS visible equally, a horizontal shoulder line and a front-facing chest. Put the bow upright at one OUTER SIDE, away from the face; show both front-facing boots. The LOWER LEFT GRAY SHIELD WARRIOR needs a new perfectly frontal pose: symmetrical square helmet and T-shaped visor centered above the breastplate, both shoulder plates equally visible, shield on one outer side and upright sword on the other, both boot toes facing the viewer. The PURPLE WIZARD between them and the chasm faces the viewer with two glowing eyes inside the FRONT opening of the hood and a visible robe clasp. Do not show any character's back. All three monsters on the right also face the viewer symmetrically. Keep compact sizes and the same floor-cell support points, both soles inside ONE tile, no bases, discs, rings or pedestals. Match coarse dark pixel-art clusters and muted dungeon colors. Keep the isometric room, tile floor, chasm and bridge composition. The ROOM is isometric; the characters are FLAT FRONTAL SPRITES, never isometric, never profile.",
+        "request_sha256": "ed23d17d77ff29c5eb6df8552b5dfcf9a47cb353f25739958833d9949f5edddc",
+        "source_image": {
+          "relative_path": "frontal-inpaint/inputs/020/source.png",
+          "sha256": "a8d9ece23498cf842cf7c1ebbb9f5ae9437aecc4d6ce8f593993ec160471af96",
+          "size_bytes": 72889
+        },
+        "mask_image": {
+          "relative_path": "frontal-inpaint/inputs/020/mask.png",
+          "sha256": "205b272b452979cbe87797d8c5b70f9a862f71236a06514ec3d05abc1018e09e",
+          "size_bytes": 1020
+        },
+        "job_id": "73f3fd5e-df67-4a05-b559-7aa874be1263",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 25
+        },
+        "output": {
+          "relative_path": "frontal-inpaint/items/020/original.png",
+          "sha256": "2b06607cda248d8b8ccfcdad1956929a33302c4018f81273b13f565db0017df8",
+          "size_bytes": 75745
+        }
+      }
+    }
+  ],
+  "pixellab_inpaint_earlier_trials": [
+    {
+      "label": "P05-F",
+      "relative_path": "frontal-inpaint/earlier/020-first/original.png",
+      "sha256": "4aa6883dcd1b5c3774cd8c6455feeb4cbe65470178619bd6c72382f288702527",
+      "size_bytes": 70520,
+      "request_sha256": "32eb40097e969021569c8b3c9ae56ed0a24cac0e6e4f2a0263cf938437cc5048",
+      "provenance": {
+        "provider": "PixelLab",
+        "endpoint": "/inpaint-v3",
+        "job_id": "c95cae0d-04be-4758-a37e-2052080af223",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 25
+        },
+        "request_sha256": "32eb40097e969021569c8b3c9ae56ed0a24cac0e6e4f2a0263cf938437cc5048",
+        "source_image": {
+          "relative_path": "frontal-inpaint/inputs/020/source.png",
+          "sha256": "a8d9ece23498cf842cf7c1ebbb9f5ae9437aecc4d6ce8f593993ec160471af96",
+          "size_bytes": 72889
+        },
+        "mask_image": {
+          "relative_path": "frontal-inpaint/inputs/020/mask.png",
+          "sha256": "205b272b452979cbe87797d8c5b70f9a862f71236a06514ec3d05abc1018e09e",
+          "size_bytes": 1020
+        },
+        "output": {
+          "relative_path": "frontal-inpaint/earlier/020-first/original.png",
+          "sha256": "4aa6883dcd1b5c3774cd8c6455feeb4cbe65470178619bd6c72382f288702527",
+          "size_bytes": 70520
+        }
+      }
+    }
+  ],
+  "additional_provider_input_assets": [],
+  "excluded": [
+    "raw PixelLab request/response JSON",
+    "runner scripts",
+    "API helpers",
+    "credentials",
+    "unverified art acceptance"
+  ]
+}

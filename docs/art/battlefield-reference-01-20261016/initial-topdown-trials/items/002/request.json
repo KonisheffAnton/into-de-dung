@@ -1,0 +1,15 @@
+{
+  "provider": "built-in image_gen",
+  "prompt": "Use the attached image as the primary visual style reference. Create a NEW small dungeon battle scene, not a collage. Match its coarse low-resolution pixel clusters, muted gray-green slab floors, dusty brown and mauve stone walls, deep purple-black void outside the rooms, dark understated outlines, tiny compact adventurer/monster sprites with oversized readable heads and short bodies, restrained cyan and warm ochre accents. Top-down three-quarter dungeon videogame view exactly in the spirit of the reference: square floor tiles, vertical back-wall faces, no floating isometric diamond board. Aim for the apparent chunky pixel scale of a 192x144 scene enlarged cleanly to a 4:3 image. No painterly brushwork, no smooth gradients, no antialiasing, no tiny texture noise, no modern vector symbols. Readable silhouettes and quiet walking space matter more than ornament. Props have broad simple shapes and stay mainly against walls. Six to eight tiny figures are spatially separated and readable, with a shield, bow, dagger, robed caster and monster silhouettes. No title, lettering, interface panels, health bars or decorative frame. Keep the reference's level of simplification and subdued contrast. Use a 4:3 composition.\n\nVARIATION 2: A bent L-shaped dungeon passage around a shallow dark-teal drainage pool. One short wooden crossing links the two clear walking areas; damp stone slabs and low rectangular curbs. Thick stone wall frames the upper and right edges; one arch at left and stairs at bottom-right. Adventurers occupy the near-left dry patch, monsters beyond the crossing. Large calm dark water shapes, very few reeds, two jars. Muted moss and blue-gray, warm ochre props.",
+  "referenced_image_paths": [
+    {
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-20261016\\reference.png",
+      "relative_path": "initial-topdown-trials/reference.png",
+      "sha256": "5f0dc445a7973497ac7dd9a0e3537ffaeda02c2c2fe4f305c123449329f7d9ee",
+      "size_bytes": 214830
+    }
+  ],
+  "_provenance": {
+    "original_request_sha256": "b2adea876a83543a6cc8eadc3fc362efcdbaf1907c3ccde231617b0cb6611cba"
+  }
+}

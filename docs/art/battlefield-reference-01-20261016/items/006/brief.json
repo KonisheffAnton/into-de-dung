@@ -1,0 +1,10 @@
+{
+  "id": 6,
+  "label": "G03-F",
+  "pair": 6,
+  "composition": 3,
+  "character_view": "frontal",
+  "engine": "ImageGen",
+  "title": "Забытая часовня · персонажи фронтально",
+  "endpoint": "image_gen"
+}

@@ -1,0 +1,17 @@
+{
+  "total": 20,
+  "engines": {
+    "ImageGen": {
+      "complete": 10,
+      "pending": 0,
+      "failed": 0,
+      "invalid": 0
+    },
+    "PixelLab": {
+      "complete": 10,
+      "pending": 0,
+      "failed": 0,
+      "invalid": 0
+    }
+  }
+}

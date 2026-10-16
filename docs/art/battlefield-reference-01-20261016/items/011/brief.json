@@ -1,0 +1,11 @@
+{
+  "id": 11,
+  "label": "P01-I",
+  "pair": 1,
+  "composition": 1,
+  "character_view": "isometric",
+  "engine": "PixelLab",
+  "title": "Караульная · персонажи изо",
+  "prompt": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: genuine isometric three-quarter sprites seen from the same elevated camera as the floor; visible top/side planes, oblique shoulders and bodies aligned to diagonal floor directions.\nROOM: Square guard chamber: rear entrance arch, low broken pillar in one central tile, two clay jars against the back wall, crates at the far corner; broad quiet walking space.",
+  "endpoint": "/generate-image-v2"
+}

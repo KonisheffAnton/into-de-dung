@@ -1,0 +1,20 @@
+{
+  "source_file": "reference.png",
+  "source_sha256": "5f0dc445a7973497ac7dd9a0e3537ffaeda02c2c2fe4f305c123449329f7d9ee",
+  "original_size": [
+    576,
+    432
+  ],
+  "provider_preparation": "PixelLab /unzoom quantize=-1; no manual recoloring, alpha or pose edits",
+  "style_image_file": "reference-unzoomed.png",
+  "style_image_sha256": "812faa4aa2e84b391b98bec8833f3430601cf03d1e1971abff1cc5f566aa9eda",
+  "style_image_size": {
+    "width": 164,
+    "height": 123
+  },
+  "zoom_factor_detected": 3.5,
+  "usage": {
+    "type": "generations",
+    "generations": 0.1
+  }
+}

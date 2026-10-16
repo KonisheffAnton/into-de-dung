@@ -1,0 +1,79 @@
+{
+  "endpoint": "/generate-image-v2",
+  "body": {
+    "description": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: flat front-facing 2D sprites like the style reference, with horizontal shoulders and face/chest looking toward the viewer; do NOT rotate their bodies to isometric. The ROOM AND FLOOR remain fully isometric. Both feet still touch the center of one diamond tile.\nROOM: Two unequal tiled stone floor areas separated by a narrow fissure; one short wide stone bridge near the front, rear route blocked by a fallen slab. Three figures on each side, each on one dry tile. Preserve the room and foot positions of the supplied generated scene; change only character presentation to frontal.",
+    "image_size": {
+      "width": 512,
+      "height": 384
+    },
+    "no_background": false,
+    "seed": 616020,
+    "style_image": {
+      "image": {
+        "image_file": {
+          "relative_path": "initial-topdown-trials/reference-unzoomed.png",
+          "sha256": "812faa4aa2e84b391b98bec8833f3430601cf03d1e1971abff1cc5f566aa9eda",
+          "size_bytes": 28375
+        }
+      },
+      "size": {
+        "width": 164,
+        "height": 123
+      },
+      "usage_description": "Style ONLY: compact dungeon characters, coarse clusters, muted stone and brown walls. Ignore the camera of this style sample; room geometry must follow our 4:3 isometric references."
+    },
+    "reference_images": [
+      {
+        "image": {
+          "image_file": {
+            "relative_path": "tile-geometry-guide.png",
+            "sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d",
+            "size_bytes": 530
+          }
+        },
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "usage_description": "Exact symmetric 4:3 diamond TOP shape, excluding side faces. Every floor tile uses this ratio. Each figure stands with feet centered inside one such diamond, no base or pedestal."
+      },
+      {
+        "image": {
+          "image_file": {
+            "relative_path": "projection-reference.png",
+            "sha256": "3a444db1efbf7dd949d123ffd724f1a7e0a6eeb069066f320d84e707798f7dbb",
+            "size_bytes": 39298
+          }
+        },
+        "size": {
+          "width": 1100,
+          "height": 850
+        },
+        "usage_description": "Camera and continuous 4:3 isometric grid ONLY. Ignore grass, background, sample tiles and all annotations. Render a dungeon room in this projection."
+      },
+      {
+        "image": {
+          "image_file": {
+            "relative_path": "frontal-inpaint/inputs/020/source.png",
+            "sha256": "a8d9ece23498cf842cf7c1ebbb9f5ae9437aecc4d6ce8f593993ec160471af96",
+            "size_bytes": 72889
+          }
+        },
+        "size": {
+          "width": 512,
+          "height": 384
+        },
+        "usage_description": "Keep this exact isometric room layout, tile grid, camera, props, colors and six foot positions. Change ONLY the characters into flat front-facing sprites. No bases."
+      }
+    ],
+    "style_options": {
+      "color_palette": true,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  },
+  "_provenance": {
+    "original_request_sha256": "72af993b109d18ecc2ddf64e4b48b030751e6e9089df54b59bcf65774b3d0796"
+  }
+}

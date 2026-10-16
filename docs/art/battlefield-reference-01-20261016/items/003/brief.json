@@ -1,0 +1,10 @@
+{
+  "id": 3,
+  "label": "G02-I",
+  "pair": 3,
+  "composition": 2,
+  "character_view": "isometric",
+  "engine": "ImageGen",
+  "title": "Водяной проход · персонажи изо",
+  "endpoint": "image_gen"
+}

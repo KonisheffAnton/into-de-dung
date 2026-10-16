@@ -1,0 +1,22 @@
+{
+  "status": "completed",
+  "job_id": "c95cae0d-04be-4758-a37e-2052080af223",
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 25
+  },
+  "outputs": [
+    {
+      "sha256": "4aa6883dcd1b5c3774cd8c6455feeb4cbe65470178619bd6c72382f288702527",
+      "width": 512,
+      "height": 384,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "relative_path": "original.png"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "provider": "PixelLab",
+  "request_sha256": "4a2806e36c323dbb3e4bee7b527dcdafb3ef968729001ae811b3b7e0ca546d2a",
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 25
+  }
+}

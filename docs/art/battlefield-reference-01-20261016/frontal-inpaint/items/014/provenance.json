@@ -1,0 +1,27 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "/inpaint-v3",
+  "description": "Replace the SIX masked characters with unmistakably FRONT-FACING, STRAIGHT-ON 2D pixel-art sprites. All faces and chests look directly at the viewer. Use flat front-elevation character drawing, horizontal shoulders, symmetrical eyes visible and two front-facing feet. ZERO back views, ZERO side profiles, ZERO three-quarter body turns. The hooded wizard MUST show a face with two eyes inside the hood and the FRONT opening and clasp of the robe, never the back of the hood. The archer faces the viewer with the bow to one side. The shield warrior faces the viewer with shield and weapon at the sides. Goblins, armored monsters and spiders also face toward the bottom center of the screen. Preserve each character identity, compact scale, colors and equipment. Keep every pair of soles at its EXISTING support point inside ONE diamond tile; no feet on tile seams. No pedestals, discs, plinths, rings or selection circles; only tiny contact shadows. Match the existing coarse pixel clusters and muted dungeon palette. Preserve the ISOMETRIC ROOM, exact camera, floor grid, walls and props outside the white mask. The architecture remains isometric while only the sprites use flat frontal presentation.",
+  "request_sha256": "fb678bad529667f1da5a5e6c53b1a2b388566839af566c343f43d3c66784b8ce",
+  "source_image": {
+    "relative_path": "frontal-inpaint/inputs/014/source.png",
+    "sha256": "d99e3cf0bec938e1d47df3f788577039c9a3c6854bc52f7536dd86983c9c51dc",
+    "size_bytes": 65286
+  },
+  "mask_image": {
+    "relative_path": "frontal-inpaint/inputs/014/mask.png",
+    "sha256": "b8dacd204624344dc25177f8153194788572bdc68f77587bf4f7c3c04bceeb26",
+    "size_bytes": 1057
+  },
+  "job_id": "b5aad646-d0f2-4c9f-9263-2c76583c9ef4",
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 25
+  },
+  "output": {
+    "relative_path": "frontal-inpaint/items/014/original.png",
+    "sha256": "71c8c653de470a51ccfd82bbdc5780a093403443c1fd77313553b09f53f82a5b",
+    "size_bytes": 67086
+  }
+}

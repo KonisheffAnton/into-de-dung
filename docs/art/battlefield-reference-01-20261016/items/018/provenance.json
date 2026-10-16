@@ -1,0 +1,63 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "/inpaint-v3",
+  "request_sha256": "77b5e2646b3660913e86ed51a2e50169c12570668d44ad3a71d745f0d0b640a6",
+  "response_sha256_external": "9c4c47e26bef474f6d17e0ce443ac2801f696052355cdd61e425c5a0b3364f1f",
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 25
+  },
+  "planned_description": "Replace the SIX masked characters with unmistakably FRONT-FACING, STRAIGHT-ON 2D pixel-art sprites. All faces and chests look directly at the viewer. Use flat front-elevation character drawing, horizontal shoulders, symmetrical eyes visible and two front-facing feet. ZERO back views, ZERO side profiles, ZERO three-quarter body turns. The hooded wizard MUST show a face with two eyes inside the hood and the FRONT opening and clasp of the robe, never the back of the hood. The archer faces the viewer with the bow to one side. The shield warrior faces the viewer with shield and weapon at the sides. Goblins, armored monsters and spiders also face toward the bottom center of the screen. Preserve each character identity, compact scale, colors and equipment. Keep every pair of soles at its EXISTING support point inside ONE diamond tile; no feet on tile seams. No pedestals, discs, plinths, rings or selection circles; only tiny contact shadows. Match the existing coarse pixel clusters and muted dungeon palette. Preserve the ISOMETRIC ROOM, exact camera, floor grid, walls and props outside the white mask. The architecture remains isometric while only the sprites use flat frontal presentation.",
+  "brief": {
+    "id": 18,
+    "label": "P04-F",
+    "pair": 8,
+    "composition": 4,
+    "character_view": "frontal",
+    "engine": "PixelLab",
+    "title": "Остывающая кузница · персонажи фронтально",
+    "prompt": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: flat front-facing 2D sprites like the style reference, with horizontal shoulders and face/chest looking toward the viewer; do NOT rotate their bodies to isometric. The ROOM AND FLOOR remain fully isometric. Both feet still touch the center of one diamond tile.\nROOM: Asymmetric forge room: a squat furnace in the far-left corner, anvil and wood stack against one wall, tool rack on the opposite wall, offset doorways and a broad empty tiled center.",
+    "endpoint": "/inpaint-v3",
+    "input_source": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\items\\017\\original.png",
+    "mask_rectangles": [
+      [
+        103,
+        174,
+        171,
+        247
+      ],
+      [
+        172,
+        153,
+        228,
+        217
+      ],
+      [
+        300,
+        137,
+        365,
+        212
+      ],
+      [
+        187,
+        223,
+        252,
+        302
+      ],
+      [
+        395,
+        196,
+        448,
+        271
+      ],
+      [
+        321,
+        252,
+        403,
+        317
+      ]
+    ],
+    "iteration_reason": "Initial frontal Pro generation copied isometric orientations; targeted provider inpainting, no manual pose or alpha edits."
+  }
+}

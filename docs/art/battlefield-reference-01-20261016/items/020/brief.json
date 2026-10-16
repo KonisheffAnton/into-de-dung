@@ -1,0 +1,51 @@
+{
+  "id": 20,
+  "label": "P05-F",
+  "pair": 10,
+  "composition": 5,
+  "character_view": "frontal",
+  "engine": "PixelLab",
+  "title": "Две стороны разлома · персонажи фронтально",
+  "prompt": "Create one coarse pixel-art dungeon battle scene. First attached dungeon image is STYLE ONLY: copy muted gray-green stone, dusty brown/mauve walls, purple-black void, restrained cyan/ochre accents, compact large-headed sprites, coarse clusters and sparse detail. DO NOT copy its top-down camera. The tile geometry reference defines our ISOMETRIC floor: symmetric diamond tile tops with width:height EXACTLY 4:3, not thin 2:1 diamonds. Floor directions slope down-right and down-left; every seam follows those two axes. Low walls follow the isometric grid. Show the whole small room with margin, no text or panels. STRICT PLACEMENT: six small combatants, three adventurers and three monsters, each alone on one clearly visible floor tile. Midpoint between both soles at the center of that tile; both feet inside that diamond, never on a seam. Characters short enough to leave floor visible around feet. Boots touch the floor directly: NO pedestals, bases, discs, plinths, circular platforms, rings or selection circles. Only a tiny contact shadow, no broad oval shadow resembling a base. Separate readable shield, bow, dagger, caster and monster silhouettes. Crisp stepped pixels, simple shading, no smoothing or noisy texture. 4:3 image format.\nCHARACTERS: flat front-facing 2D sprites like the style reference, with horizontal shoulders and face/chest looking toward the viewer; do NOT rotate their bodies to isometric. The ROOM AND FLOOR remain fully isometric. Both feet still touch the center of one diamond tile.\nROOM: Two unequal tiled stone floor areas separated by a narrow fissure; one short wide stone bridge near the front, rear route blocked by a fallen slab. Three figures on each side, each on one dry tile.",
+  "endpoint": "/inpaint-v3",
+  "input_source": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-01-isometric-20261016\\items\\019\\original.png",
+  "mask_rectangles": [
+    [
+      58,
+      167,
+      111,
+      234
+    ],
+    [
+      104,
+      126,
+      164,
+      189
+    ],
+    [
+      167,
+      161,
+      228,
+      227
+    ],
+    [
+      301,
+      171,
+      353,
+      220
+    ],
+    [
+      356,
+      145,
+      423,
+      222
+    ],
+    [
+      415,
+      186,
+      486,
+      257
+    ]
+  ],
+  "iteration_reason": "Second targeted P05-F repair: archer remained three-quarter; explicitly replace left two silhouettes with flat frontal poses."
+}

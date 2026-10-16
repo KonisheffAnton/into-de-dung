@@ -1,0 +1,10 @@
+{
+  "id": 1,
+  "label": "G01-I",
+  "pair": 1,
+  "composition": 1,
+  "character_view": "isometric",
+  "engine": "ImageGen",
+  "title": "Караульная · персонажи изо",
+  "endpoint": "image_gen"
+}

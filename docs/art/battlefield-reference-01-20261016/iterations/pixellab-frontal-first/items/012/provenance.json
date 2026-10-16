@@ -1,0 +1,13 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "/generate-image-v2",
+  "request_sha256": "5b241183ea194d3ae1a1005c5d6a2effba6b0b599f8dbc5b47ede68c0e26fc31",
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 25
+  },
+  "job_id": "adf86ca4-0364-49c6-aa96-1ca2eaced372",
+  "status": "completed",
+  "reason": null
+}

@@ -1,0 +1,10 @@
+{
+  "id": 10,
+  "label": "G05-F",
+  "pair": 10,
+  "composition": 5,
+  "character_view": "frontal",
+  "engine": "ImageGen",
+  "title": "Две стороны разлома · персонажи фронтально",
+  "endpoint": "image_gen"
+}
