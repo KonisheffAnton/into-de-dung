@@ -1,0 +1,12 @@
+{
+  "id": 11,
+  "label": "P01",
+  "engine": "PixelLab",
+  "title": "Синий тактический чертёж",
+  "family": "p01",
+  "family_title": "Синий тактический чертёж",
+  "palette_title": "8-bit",
+  "era": "8-bit",
+  "endpoint": "/generate-image-v2",
+  "objective": "Maximum tactical information with minimum marks. Style target only, not hardware-accurate palette or gameplay implementation."
+}

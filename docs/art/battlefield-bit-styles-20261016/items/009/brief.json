@@ -1,0 +1,12 @@
+{
+  "id": 9,
+  "label": "G09",
+  "engine": "ImageGen",
+  "title": "Тактические пиктограммы",
+  "family": "g09",
+  "family_title": "Тактические пиктограммы",
+  "palette_title": "16-bit",
+  "era": "16-bit",
+  "endpoint": "image_gen",
+  "objective": "Maximum tactical information with minimum marks. Style target only, not hardware-accurate palette or gameplay implementation."
+}

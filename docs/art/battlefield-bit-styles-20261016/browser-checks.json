@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "url": "http://127.0.0.1:8770/gallery.html",
+  "method": "Live Codex in-app browser via cua_repl",
+  "checks": {
+    "final_summary": "ImageGen 10 complete, PixelLab 10 complete, zero pending/failed/invalid",
+    "exact_search_G01": 1,
+    "exact_search_G09": 1,
+    "text_search_fabric": 1,
+    "unmatched_search": 0,
+    "engine_PixelLab": 10,
+    "era_8_to_16_bit": 2,
+    "engine_PixelLab_and_era_8_to_16_bit": 1,
+    "all_cards": 20,
+    "G09_modal": "matching title and items/009/original.png",
+    "next_from_G09": "G10 matching title and items/010/original.png",
+    "final_P09_replacement": "Exact search finds new fabric map; modal matches title and items/019/original.png",
+    "favorite_persistence": "G09 initially empty, selected, persisted across reload, then restored to empty",
+    "visual_layout": "Screenshot inspected; cards, images, headings and filters legible"
+  },
+  "scope": "Local gallery UI only; no gameplay, F5, editor, DPI/GPU matrix or art acceptance. Clipboard copy not exercised live."
+}

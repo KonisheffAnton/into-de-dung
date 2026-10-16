@@ -1,0 +1,12 @@
+{
+  "id": 17,
+  "label": "P07",
+  "engine": "PixelLab",
+  "title": "Грани самоцвета",
+  "family": "p07",
+  "family_title": "Грани самоцвета",
+  "palette_title": "16-bit",
+  "era": "16-bit",
+  "endpoint": "/generate-image-v2",
+  "objective": "Maximum tactical information with minimum marks. Style target only, not hardware-accurate palette or gameplay implementation."
+}

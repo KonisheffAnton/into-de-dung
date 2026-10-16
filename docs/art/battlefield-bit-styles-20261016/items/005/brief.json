@@ -1,0 +1,12 @@
+{
+  "id": 5,
+  "label": "G05",
+  "engine": "ImageGen",
+  "title": "Мозаика из блоков",
+  "family": "g05",
+  "family_title": "Мозаика из блоков",
+  "palette_title": "8-bit",
+  "era": "8-bit",
+  "endpoint": "image_gen",
+  "objective": "Maximum tactical information with minimum marks. Style target only, not hardware-accurate palette or gameplay implementation."
+}

@@ -1,0 +1,12 @@
+{
+  "id": 7,
+  "label": "G07",
+  "engine": "ImageGen",
+  "title": "Компактная ролевая классика",
+  "family": "g07",
+  "family_title": "Компактная ролевая классика",
+  "palette_title": "16-bit",
+  "era": "16-bit",
+  "endpoint": "image_gen",
+  "objective": "Maximum tactical information with minimum marks. Style target only, not hardware-accurate palette or gameplay implementation."
+}

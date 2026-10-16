@@ -1,0 +1,12 @@
+{
+  "id": 2,
+  "label": "G02",
+  "engine": "ImageGen",
+  "title": "Карманная четырёхцветная",
+  "family": "g02",
+  "family_title": "Карманная четырёхцветная",
+  "palette_title": "8-bit",
+  "era": "8-bit",
+  "endpoint": "image_gen",
+  "objective": "Maximum tactical information with minimum marks. Style target only, not hardware-accurate palette or gameplay implementation."
+}

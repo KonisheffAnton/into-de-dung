@@ -1,0 +1,12 @@
+{
+  "id": 12,
+  "label": "P02",
+  "engine": "PixelLab",
+  "title": "Янтарный терминал",
+  "family": "p02",
+  "family_title": "Янтарный терминал",
+  "palette_title": "8-bit",
+  "era": "8-bit",
+  "endpoint": "/generate-image-v2",
+  "objective": "Maximum tactical information with minimum marks. Style target only, not hardware-accurate palette or gameplay implementation."
+}

@@ -1,0 +1,12 @@
+{
+  "endpoint": "/generate-image-v2",
+  "body": {
+    "description": "Pixel art tactical battlefield in radical 16-bit ABSTRACT CRYSTAL BOARD GAME style, 512x384. The SIX combatants are literal large faceted gemstones, NOT people. No human bodies, no heads, no humanoid limbs, no clothing, no armor, no character sprites. Three upright cyan rhombic crystal pieces on the near side, three amber triangular crystal pieces on the far side. On each crystal is one large opaque dark inset symbol: allied shield, bow, crossed daggers; enemy club, spear, bow. The weapon symbols are plain graphic signs ON the gemstones, not weapons held by a person. Flat triangular facets with only two solid tones per crystal, strong geometric silhouettes, no glitter, no glow, no microtexture. Large quiet navy 8 by 8 diamond-tile tactical board with broad 4:3 tile tops, sparse low contrast grid. Two solid slate cube obstacles, one light spike cell and one green acid cell, all spatially separated and readable. One cyan corner selection marker, three path dots, one short 3-segment health bar with a missing segment. Comfortable margin around the whole board. Six chunky abstract jewel tokens are the main visual identity. Clean nearest-neighbor pixel clusters, no smooth shading, no thin ornamental lines, no typography, no interface panels. This is a full battlefield scene with only abstract crystal tokens.",
+    "image_size": {
+      "width": 512,
+      "height": 384
+    },
+    "no_background": false,
+    "seed": 2026112616
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": 16,
+  "label": "P06",
+  "engine": "PixelLab",
+  "title": "Пергамент и условные знаки",
+  "family": "p06",
+  "family_title": "Пергамент и условные знаки",
+  "palette_title": "8-to-16-bit",
+  "era": "8-to-16-bit",
+  "endpoint": "/generate-image-v2",
+  "objective": "Maximum tactical information with minimum marks. Style target only, not hardware-accurate palette or gameplay implementation."
+}

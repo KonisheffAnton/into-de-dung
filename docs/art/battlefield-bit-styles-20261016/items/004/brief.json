@@ -1,0 +1,12 @@
+{
+  "id": 4,
+  "label": "G04",
+  "engine": "ImageGen",
+  "title": "Сегментный дисплей",
+  "family": "g04",
+  "family_title": "Сегментный дисплей",
+  "palette_title": "8-bit",
+  "era": "8-bit",
+  "endpoint": "image_gen",
+  "objective": "Maximum tactical information with minimum marks. Style target only, not hardware-accurate palette or gameplay implementation."
+}

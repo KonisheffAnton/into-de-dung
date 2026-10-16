@@ -1,0 +1,19 @@
+{
+  "status": "completed",
+  "provider": "built-in image_gen",
+  "usage": null,
+  "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1438d-6f36-7271-adc5-8784b0d63777\\exec-be565c25-c2f9-462c-af5b-ecb179c703f1.png",
+  "outputs": [
+    {
+      "path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-bit-styles-20-20261016\\items\\001\\original.png",
+      "sha256": "934f3656674fefa6afd105a70ce59e596c0c7ab9ed4821fecc575ea226f7d23d",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ]
+    }
+  ]
+}

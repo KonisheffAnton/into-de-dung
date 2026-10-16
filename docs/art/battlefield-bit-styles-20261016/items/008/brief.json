@@ -1,0 +1,12 @@
+{
+  "id": 8,
+  "label": "G08",
+  "engine": "ImageGen",
+  "title": "Кубические миниатюры",
+  "family": "g08",
+  "family_title": "Кубические миниатюры",
+  "palette_title": "16-bit",
+  "era": "16-bit",
+  "endpoint": "image_gen",
+  "objective": "Maximum tactical information with minimum marks. Style target only, not hardware-accurate palette or gameplay implementation."
+}

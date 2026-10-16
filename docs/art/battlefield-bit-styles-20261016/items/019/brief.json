@@ -1,0 +1,12 @@
+{
+  "id": 19,
+  "label": "P09",
+  "engine": "PixelLab",
+  "title": "Карта из тканевых нашивок",
+  "family": "pixel-textile-map",
+  "family_title": "Плоские пиксельные тканевые аппликации",
+  "palette_title": "Индиго, кремовая нить, коралловые и зелёные нашивки",
+  "era": "16-bit",
+  "endpoint": "/generate-image-v2",
+  "objective": "Maximum tactical information with minimum marks. Style target only, not hardware-accurate palette or gameplay implementation."
+}

@@ -1,0 +1,22 @@
+{
+  "status": "completed",
+  "job_id": "76d7c97d-4fa1-4f01-b916-c601dcc7db00",
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 25
+  },
+  "outputs": [
+    {
+      "path": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-bit-styles-20-20261016\\items\\019\\original.png",
+      "sha256": "1900545ad4f42b97380d3f5ec1d471d2a538e8932d1fc1de2c1993d08275e930",
+      "width": 512,
+      "height": 384,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ]
+    }
+  ]
+}

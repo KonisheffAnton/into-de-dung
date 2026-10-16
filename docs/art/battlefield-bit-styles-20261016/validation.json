@@ -1,0 +1,355 @@
+{
+  "status": "PASS",
+  "completed": 20,
+  "target": 20,
+  "unique_selected_pngs": 20,
+  "unique_prompts": 20,
+  "pixel_lab_selected_generations": 250,
+  "pixel_lab_preserved_first_attempt_generations": 50,
+  "pixel_lab_total_known_generations": 300,
+  "imagegen_usage": "not provided by built-in tool",
+  "preserved_extra_attempts": 7,
+  "items": [
+    {
+      "id": 1,
+      "label": "G01",
+      "engine": "ImageGen",
+      "status": "completed",
+      "size": [
+        1448,
+        1086
+      ],
+      "sha256": "934f3656674fefa6afd105a70ce59e596c0c7ab9ed4821fecc575ea226f7d23d",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "actual_rgb_colors": 43538,
+      "provider_bytes_exact": true
+    },
+    {
+      "id": 2,
+      "label": "G02",
+      "engine": "ImageGen",
+      "status": "completed",
+      "size": [
+        1448,
+        1086
+      ],
+      "sha256": "677b7b836b91e83de318b65f41ab1eaa02b4985ffc6bca09db1e7b2d9255816d",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "actual_rgb_colors": 41919,
+      "provider_bytes_exact": true
+    },
+    {
+      "id": 3,
+      "label": "G03",
+      "engine": "ImageGen",
+      "status": "completed",
+      "size": [
+        1448,
+        1086
+      ],
+      "sha256": "e1d069af60031910c67c03e6b26a3aed12056e05ddf51dbed3a060908f746cc5",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "actual_rgb_colors": 80038,
+      "provider_bytes_exact": true
+    },
+    {
+      "id": 4,
+      "label": "G04",
+      "engine": "ImageGen",
+      "status": "completed",
+      "size": [
+        1448,
+        1086
+      ],
+      "sha256": "802582c29ad428bbba5dea4bc9d68d11acb77f9465c4ec38ed2b4aaa64831594",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "actual_rgb_colors": 22273,
+      "provider_bytes_exact": true
+    },
+    {
+      "id": 5,
+      "label": "G05",
+      "engine": "ImageGen",
+      "status": "completed",
+      "size": [
+        1448,
+        1086
+      ],
+      "sha256": "5a133543f2a5f460908b33d14a1bb47266425891b99c29180308c2b1b72ef17b",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "actual_rgb_colors": 68815,
+      "provider_bytes_exact": true
+    },
+    {
+      "id": 6,
+      "label": "G06",
+      "engine": "ImageGen",
+      "status": "completed",
+      "size": [
+        1448,
+        1086
+      ],
+      "sha256": "4d92bb4ffcc077a1326e3858ba9a5dcb5e052965ed6bb75024805c803f68609c",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "actual_rgb_colors": 84432,
+      "provider_bytes_exact": true
+    },
+    {
+      "id": 7,
+      "label": "G07",
+      "engine": "ImageGen",
+      "status": "completed",
+      "size": [
+        1448,
+        1086
+      ],
+      "sha256": "0d56e07bacf5615d080181cf5f2b12a41863bdbfc5cfa663ae8d5793122b4ad6",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "actual_rgb_colors": 106518,
+      "provider_bytes_exact": true
+    },
+    {
+      "id": 8,
+      "label": "G08",
+      "engine": "ImageGen",
+      "status": "completed",
+      "size": [
+        1448,
+        1086
+      ],
+      "sha256": "62ab1a3dc5ff80645a7400785e2df7526c786c16909b0169238f2e59e384b4a1",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "actual_rgb_colors": 91669,
+      "provider_bytes_exact": true
+    },
+    {
+      "id": 9,
+      "label": "G09",
+      "engine": "ImageGen",
+      "status": "completed",
+      "size": [
+        1448,
+        1086
+      ],
+      "sha256": "993f43204e6a934b0c92ef47abee9643f6beeb0cce9023ce1dce031bf37f1962",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "actual_rgb_colors": 67536,
+      "provider_bytes_exact": true
+    },
+    {
+      "id": 10,
+      "label": "G10",
+      "engine": "ImageGen",
+      "status": "completed",
+      "size": [
+        1448,
+        1086
+      ],
+      "sha256": "9def1f4f6cad22fde1032c3eb4b29f8d787a0706774ca0004db3b6d49f59510f",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "actual_rgb_colors": 61751,
+      "provider_bytes_exact": true
+    },
+    {
+      "id": 11,
+      "label": "P01",
+      "engine": "PixelLab",
+      "status": "completed",
+      "size": [
+        512,
+        384
+      ],
+      "sha256": "4accd706399c9a6de58e742f1349945903488a7782f81ca1098e9582292d777a",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "actual_rgb_colors": 32,
+      "provider_bytes_exact": true
+    },
+    {
+      "id": 12,
+      "label": "P02",
+      "engine": "PixelLab",
+      "status": "completed",
+      "size": [
+        512,
+        384
+      ],
+      "sha256": "58224a9d3e94153c0d1841479862d7138fdb9c37e7ce2abfab63c88f283a5715",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "actual_rgb_colors": 25,
+      "provider_bytes_exact": true
+    },
+    {
+      "id": 13,
+      "label": "P03",
+      "engine": "PixelLab",
+      "status": "completed",
+      "size": [
+        512,
+        384
+      ],
+      "sha256": "f4c10384e82c3f8e47f2defee20a3bafbd1e425297c126b6a139c55dbe0db9b4",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "actual_rgb_colors": 30,
+      "provider_bytes_exact": true
+    },
+    {
+      "id": 14,
+      "label": "P04",
+      "engine": "PixelLab",
+      "status": "completed",
+      "size": [
+        512,
+        384
+      ],
+      "sha256": "e106d6b849e2627afb1623f486cb2cd6b71b86584481ecdd0f6940cfc3f9372b",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "actual_rgb_colors": 31,
+      "provider_bytes_exact": true
+    },
+    {
+      "id": 15,
+      "label": "P05",
+      "engine": "PixelLab",
+      "status": "completed",
+      "size": [
+        512,
+        384
+      ],
+      "sha256": "4dc5e049de40a8e92b2c6123145942ac0173df4f4faf57a5ce666c9eefe44c52",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "actual_rgb_colors": 32,
+      "provider_bytes_exact": true
+    },
+    {
+      "id": 16,
+      "label": "P06",
+      "engine": "PixelLab",
+      "status": "completed",
+      "size": [
+        512,
+        384
+      ],
+      "sha256": "c16fe97710b1c87518a0fc734da70e99166b1c61cf651d3bac2e740c91621587",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "actual_rgb_colors": 32,
+      "provider_bytes_exact": true
+    },
+    {
+      "id": 17,
+      "label": "P07",
+      "engine": "PixelLab",
+      "status": "completed",
+      "size": [
+        512,
+        384
+      ],
+      "sha256": "8da33ca5d8307815e64560dd2e77a88d53e7464e779ba8fa41dc3b6e0f2ed532",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "actual_rgb_colors": 29,
+      "provider_bytes_exact": true
+    },
+    {
+      "id": 18,
+      "label": "P08",
+      "engine": "PixelLab",
+      "status": "completed",
+      "size": [
+        512,
+        384
+      ],
+      "sha256": "a1d45c442e1c899d3e12c23743dbde10e60a467fad855ec26e1b5016af5c6082",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "actual_rgb_colors": 28,
+      "provider_bytes_exact": true
+    },
+    {
+      "id": 19,
+      "label": "P09",
+      "engine": "PixelLab",
+      "status": "completed",
+      "size": [
+        512,
+        384
+      ],
+      "sha256": "1900545ad4f42b97380d3f5ec1d471d2a538e8932d1fc1de2c1993d08275e930",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "actual_rgb_colors": 32,
+      "provider_bytes_exact": true
+    },
+    {
+      "id": 20,
+      "label": "P10",
+      "engine": "PixelLab",
+      "status": "completed",
+      "size": [
+        512,
+        384
+      ],
+      "sha256": "5a29753f09eb728fba22eb05ace54d1ca95b70671591805500622835cc46046f",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "actual_rgb_colors": 32,
+      "provider_bytes_exact": true
+    }
+  ],
+  "scope": "Original PNG decoding, dimensions, SHA, alpha, exact provider bytes and saved prompt provenance. RGB counts are measured, not hardware bit-depth acceptance. No gameplay or art acceptance."
+}

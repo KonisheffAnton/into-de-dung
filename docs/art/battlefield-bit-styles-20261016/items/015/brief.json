@@ -1,0 +1,12 @@
+{
+  "id": 15,
+  "label": "P05",
+  "engine": "PixelLab",
+  "title": "Каменный рельеф",
+  "family": "p05",
+  "family_title": "Каменный рельеф",
+  "palette_title": "8-bit",
+  "era": "8-bit",
+  "endpoint": "/generate-image-v2",
+  "objective": "Maximum tactical information with minimum marks. Style target only, not hardware-accurate palette or gameplay implementation."
+}

@@ -1,0 +1,12 @@
+{
+  "id": 19,
+  "label": "P09",
+  "engine": "PixelLab",
+  "title": "Холодная прозрачная геометрия",
+  "family": "p09",
+  "family_title": "Холодная прозрачная геометрия",
+  "palette_title": "16-bit",
+  "era": "16-bit",
+  "endpoint": "/generate-image-v2",
+  "objective": "Maximum tactical information with minimum marks. Style target only, not hardware-accurate palette or gameplay implementation."
+}

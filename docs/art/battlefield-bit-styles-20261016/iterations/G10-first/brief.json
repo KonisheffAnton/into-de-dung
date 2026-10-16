@@ -1,0 +1,12 @@
+{
+  "id": 10,
+  "label": "G10",
+  "engine": "ImageGen",
+  "title": "Ночной контраст",
+  "family": "g10",
+  "family_title": "Ночной контраст",
+  "palette_title": "16-bit",
+  "era": "16-bit",
+  "endpoint": "image_gen",
+  "objective": "Maximum tactical information with minimum marks. Style target only, not hardware-accurate palette or gameplay implementation."
+}

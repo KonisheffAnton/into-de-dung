@@ -1,0 +1,12 @@
+{
+  "id": 1,
+  "label": "G01",
+  "engine": "ImageGen",
+  "title": "Два цвета — силуэт",
+  "family": "g01",
+  "family_title": "Два цвета — силуэт",
+  "palette_title": "8-bit",
+  "era": "8-bit",
+  "endpoint": "image_gen",
+  "objective": "Maximum tactical information with minimum marks. Style target only, not hardware-accurate palette or gameplay implementation."
+}

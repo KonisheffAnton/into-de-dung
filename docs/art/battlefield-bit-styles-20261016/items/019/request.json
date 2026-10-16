@@ -1,0 +1,12 @@
+{
+  "endpoint": "/generate-image-v2",
+  "body": {
+    "description": "A whole tactical battlefield drawn as a flat 16-bit PIXEL ART PATCHWORK CLOTH MAP. Everything consists of big flat stitched fabric patches on dark indigo cloth. No realistic people, no metal armor, no conventional RPG sprites, no stone platform. Camera nearly overhead, broad diamond grid outlined with a few cream dashed stitches, no perspective depth. SIX flat cloth emblems occupy separate cells: three cream patches outlined teal at the near left, three coral patches outlined cream at the far right. Each emblem is simply the large recognizable shape of one weapon: shield, bow, crossed daggers versus club, spear, bow. No bodies behind the weapon patches. Two square ochre cloth obstacle patches; one triangle cluster for spikes and one irregular green acid patch. Keep hazards separate. A single corner selection frame, exactly three route dots, and a small 2-of-3 filled health strip, all made of square pixel stitches. Large empty indigo areas and restrained eight-color palette. Only a few stitches around each large patch edge, not a carpet of tiny texture. Pixel-perfect stepped contours, chunky 8-bit inspired symbols with 16-bit color accents. Entire map visible with cloth margin. Aim for maximum tactical information with minimal visual marks. Flat graphic fabric applique, crisp pixel clusters, no shading, no smooth anti-aliasing, no gradients, no text, no panels, no humanoid miniatures.",
+    "image_size": {
+      "width": 512,
+      "height": 384
+    },
+    "no_background": false,
+    "seed": 2026112618
+  }
+}

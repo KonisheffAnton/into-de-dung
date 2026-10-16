@@ -1,0 +1,12 @@
+{
+  "id": 3,
+  "label": "G03",
+  "engine": "ImageGen",
+  "title": "Циан и маджента",
+  "family": "g03",
+  "family_title": "Циан и маджента",
+  "palette_title": "8-bit",
+  "era": "8-bit",
+  "endpoint": "image_gen",
+  "objective": "Maximum tactical information with minimum marks. Style target only, not hardware-accurate palette or gameplay implementation."
+}

@@ -1,0 +1,12 @@
+{
+  "id": 13,
+  "label": "P03",
+  "engine": "PixelLab",
+  "title": "Яркие цветовые ячейки",
+  "family": "p03",
+  "family_title": "Яркие цветовые ячейки",
+  "palette_title": "8-bit",
+  "era": "8-bit",
+  "endpoint": "/generate-image-v2",
+  "objective": "Maximum tactical information with minimum marks. Style target only, not hardware-accurate palette or gameplay implementation."
+}

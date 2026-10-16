@@ -1,0 +1,12 @@
+{
+  "id": 14,
+  "label": "P04",
+  "engine": "PixelLab",
+  "title": "Мягкие игрушечные формы",
+  "family": "p04",
+  "family_title": "Мягкие игрушечные формы",
+  "palette_title": "8-bit",
+  "era": "8-bit",
+  "endpoint": "/generate-image-v2",
+  "objective": "Maximum tactical information with minimum marks. Style target only, not hardware-accurate palette or gameplay implementation."
+}

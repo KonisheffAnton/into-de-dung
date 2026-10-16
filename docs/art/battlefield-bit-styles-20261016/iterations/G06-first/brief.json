@@ -1,0 +1,12 @@
+{
+  "id": 6,
+  "label": "G06",
+  "engine": "ImageGen",
+  "title": "Пиксельная гравюра",
+  "family": "g06",
+  "family_title": "Пиксельная гравюра",
+  "palette_title": "8-to-16-bit",
+  "era": "8-to-16-bit",
+  "endpoint": "image_gen",
+  "objective": "Maximum tactical information with minimum marks. Style target only, not hardware-accurate palette or gameplay implementation."
+}

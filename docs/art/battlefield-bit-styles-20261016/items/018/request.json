@@ -1,0 +1,12 @@
+{
+  "endpoint": "/generate-image-v2",
+  "body": {
+    "description": "Use case: stylized-concept. Create ONE complete readable tactical fantasy battlefield image, not a sprite sheet or collage. Common comparison scene: an isolated square 8-by-8 board (64 visible cells), shallow isometric view with broad 4:3 diamond tile tops, all edges visible, no perspective vanishing. Three small allied mercenaries occupy the near-left third: shield fighter, longbow archer, dual-dagger rogue. Three hostile fighters occupy the far-right third: broad club wielder, narrow spear wielder, jagged bow wielder. Each figure stands inside ONE cell; weapons and gaps separate silhouettes. Two solid stone blocks interrupt the middle; leave a clear route around them. A single raised floor-spike tile and a separate acid-puddle tile must differ by SHAPE, not only color. One ally has a double-corner selected-cell marker; three empty cells have tiny path dots; one short three-segment health bar is partly empty. Team identity uses round allied bases versus notched hostile bases as well as color. Keep floor calm, characters and hazards highest contrast. No extra actors, mage, scenery, text, numbers, logo, HUD panel, blur, bloom or random pixel noise. STYLE: Sunlit cut-paper pixel silhouette style: warm cream board, terracotta obstacle masses, almost-black compact figures with a single cyan ally patch or orange hostile patch. Angular connected cutouts, hard rectangular short shadows, 12 colors. Minimal interior anatomy, equipment and stance do the work. No paper grain.",
+    "image_size": {
+      "width": 512,
+      "height": 384
+    },
+    "no_background": false,
+    "seed": 2026101617
+  }
+}

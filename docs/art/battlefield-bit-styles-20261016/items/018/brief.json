@@ -1,0 +1,12 @@
+{
+  "id": 18,
+  "label": "P08",
+  "engine": "PixelLab",
+  "title": "Солнечный силуэт",
+  "family": "p08",
+  "family_title": "Солнечный силуэт",
+  "palette_title": "16-bit",
+  "era": "16-bit",
+  "endpoint": "/generate-image-v2",
+  "objective": "Maximum tactical information with minimum marks. Style target only, not hardware-accurate palette or gameplay implementation."
+}
