@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "label": "A-G01",
+    "engine": "ImageGen",
+    "title": "Двор у ворот",
+    "prompt": "Edit this STATIC pixel-art concept to fix character camera ONLY. Keep the four SIMPLE chunky character identities, few flat color groups, room layout and their four tile positions. Rotate every character's HEAD and WHOLE BODY 45 degrees onto diagonal board axes: knight and mage toward upper-left, archer and horned enemy toward lower-right. Show substantial SIDE planes of helmets, faces and torsos, TOP of every head, uneven near/far shoulder height, foreshortened staggered boots. Absolutely no centered symmetrical front-facing visor, chest or eyes. Keep large solid connected shapes and clean gaps between arms and torso, plain short clothing, NO added ornament, texture, tiny buckles, fingers, particles or filigree. These simplified designs are intended for stable future sprite animation. All feet directly touch the middle of one clearly bounded ordinary tile, no personal platforms/pads, pedestals/discs/rings or broad ground patches. Keep continuous flat isometric4:3 tile floor and crisp pixel clusters; whole room in landscape4:3. No labels or UI.",
+    "endpoint": "image_gen",
+    "intent": "static animation-oriented simplification; animation stability untested"
+  },
+  {
+    "id": 2,
+    "label": "A-G02",
+    "engine": "ImageGen",
+    "title": "Затопленный переход",
+    "prompt": "Edit this STATIC pixel-art concept to fix character camera ONLY. Keep the four SIMPLE chunky character identities, few flat color groups, room layout and their four tile positions. Rotate every character's HEAD and WHOLE BODY 45 degrees onto diagonal board axes: knight and mage toward upper-left, archer and horned enemy toward lower-right. Show substantial SIDE planes of helmets, faces and torsos, TOP of every head, uneven near/far shoulder height, foreshortened staggered boots. Absolutely no centered symmetrical front-facing visor, chest or eyes. Keep large solid connected shapes and clean gaps between arms and torso, plain short clothing, NO added ornament, texture, tiny buckles, fingers, particles or filigree. These simplified designs are intended for stable future sprite animation. All feet directly touch the middle of one clearly bounded ordinary tile, no personal platforms/pads, pedestals/discs/rings or broad ground patches. Keep continuous flat isometric4:3 tile floor and crisp pixel clusters; whole room in landscape4:3. No labels or UI.",
+    "endpoint": "image_gen",
+    "intent": "static animation-oriented simplification; animation stability untested"
+  },
+  {
+    "id": 3,
+    "label": "A-G03",
+    "engine": "ImageGen",
+    "title": "Забытый архив",
+    "prompt": "Edit this STATIC pixel-art concept to fix character camera ONLY. Keep the four SIMPLE chunky character identities, few flat color groups, room layout and their four tile positions. Rotate every character's HEAD and WHOLE BODY 45 degrees onto diagonal board axes: knight and mage toward upper-left, archer and horned enemy toward lower-right. Show substantial SIDE planes of helmets, faces and torsos, TOP of every head, uneven near/far shoulder height, foreshortened staggered boots. Absolutely no centered symmetrical front-facing visor, chest or eyes. Keep large solid connected shapes and clean gaps between arms and torso, plain short clothing, NO added ornament, texture, tiny buckles, fingers, particles or filigree. These simplified designs are intended for stable future sprite animation. All feet directly touch the middle of one clearly bounded ordinary tile, no personal platforms/pads, pedestals/discs/rings or broad ground patches. Keep continuous flat isometric4:3 tile floor and crisp pixel clusters; whole room in landscape4:3. No labels or UI.",
+    "endpoint": "image_gen",
+    "intent": "static animation-oriented simplification; animation stability untested"
+  },
+  {
+    "id": 4,
+    "label": "A-G04",
+    "engine": "ImageGen",
+    "title": "Заросшие руины",
+    "prompt": "Edit this STATIC pixel-art concept to fix character camera ONLY. Keep the four SIMPLE chunky character identities, few flat color groups, room layout and their four tile positions. Rotate every character's HEAD and WHOLE BODY 45 degrees onto diagonal board axes: knight and mage toward upper-left, archer and horned enemy toward lower-right. Show substantial SIDE planes of helmets, faces and torsos, TOP of every head, uneven near/far shoulder height, foreshortened staggered boots. Absolutely no centered symmetrical front-facing visor, chest or eyes. Keep large solid connected shapes and clean gaps between arms and torso, plain short clothing, NO added ornament, texture, tiny buckles, fingers, particles or filigree. These simplified designs are intended for stable future sprite animation. All feet directly touch the middle of one clearly bounded ordinary tile, no personal platforms/pads, pedestals/discs/rings or broad ground patches. Keep continuous flat isometric4:3 tile floor and crisp pixel clusters; whole room in landscape4:3. No labels or UI.",
+    "endpoint": "image_gen",
+    "intent": "static animation-oriented simplification; animation stability untested"
+  },
+  {
+    "id": 5,
+    "label": "A-G05",
+    "engine": "ImageGen",
+    "title": "Медная кузница",
+    "prompt": "Edit this STATIC pixel-art concept to fix character camera ONLY. Keep the four SIMPLE chunky character identities, few flat color groups, room layout and their four tile positions. Rotate every character's HEAD and WHOLE BODY 45 degrees onto diagonal board axes: knight and mage toward upper-left, archer and horned enemy toward lower-right. Show substantial SIDE planes of helmets, faces and torsos, TOP of every head, uneven near/far shoulder height, foreshortened staggered boots. Absolutely no centered symmetrical front-facing visor, chest or eyes. Keep large solid connected shapes and clean gaps between arms and torso, plain short clothing, NO added ornament, texture, tiny buckles, fingers, particles or filigree. These simplified designs are intended for stable future sprite animation. All feet directly touch the middle of one clearly bounded ordinary tile, no personal platforms/pads, pedestals/discs/rings or broad ground patches. Keep continuous flat isometric4:3 tile floor and crisp pixel clusters; whole room in landscape4:3. No labels or UI.",
+    "endpoint": "image_gen",
+    "intent": "static animation-oriented simplification; animation stability untested"
+  },
+  {
+    "id": 6,
+    "label": "A-G06",
+    "engine": "ImageGen",
+    "title": "Кристальная шахта",
+    "prompt": "Create a STATIC pixel-art tactical battle concept with character designs intentionally simplified for future AI sprite animation. Image 1 is the user fantasy character sheet, use its compact charm and muted sage-green, violet, copper and steel-blue palette, but REDESIGN into bold, exceptionally simple consistent silhouettes. Images 2 and 3 are our exact floor camera and diamond geometry references only. Four small separated characters: shield knight, hooded archer, short-robed mage, horned enemy. Each body is built from 5-7 large solid masses: head, torso, two arms, two legs, one solid accessory. Dark charcoal contour of consistent thickness, clean connected pixel clusters, each material only base/shadow/highlight. Plain armor and short tunics; NO decorative armor filigree, belts with tiny buckles, loose straps, fringe, flowing long cloth, individual hair strands, sparkles or floating particles. Strong readable negative space between limbs; chunky boots clearly separated; hands and held weapon clearly readable and offset from torso, stable proportions, simple asymmetric ready stance. Visible upper AND side planes on every figure; true elevated ISOMETRIC three-quarter view, diagonally facing along the board axes, never flat frontal. All feet DIRECTLY on tile floors, both soles inside the middle of ONE tile per character, every footprint unambiguously readable. No pedestals, rings, discs, personal platforms, selection circles or broad oval ground patches. Floor diamond tops width:height EXACTLY 4:3, as 128x96; continuous grid. Give plenty of clear tile area around each figure. Environment uses similarly large quiet shapes and sparse details, not dense textures. Entire compact room within dark neutral margin, landscape 4:3. Crisp deliberate pixel art, no painterly smoothing, no gradient, no text or UI. This is a visually polished game concept, not a labeled design sheet. COMPOSITION: Zigzag mine gallery with two small tiled chambers connected by a two-tile-wide bend, crystals confined to rock walls, abandoned cart in a corner.  CRITICAL CAMERA: ALL four figures turn their heads AND bodies diagonally toward the left or right edge of the image, never directly toward the viewer. Clearly show one side of each face/helmet, one shoulder nearer than the other, and the TOP of every head. Never use symmetric frontal faces or horizontal shoulders. Keep both boots at the center of a single tile.",
+    "endpoint": "image_gen",
+    "intent": "static animation-oriented simplification; animation stability untested"
+  },
+  {
+    "id": 7,
+    "label": "A-G07",
+    "engine": "ImageGen",
+    "title": "Тюремный блок",
+    "prompt": "Edit this static pixel-art scene with ONE local correction: rotate the horned enemy's HEAD AND WHOLE TORSO into a clear elevated isometric three-quarter view, facing diagonally upper-left. Show the SIDE of face/muzzle/helmet and body, TOP of skull, asymmetrical nearer/farther horns and shoulders, foreshortened staggered boots. No symmetric frontal face or chest. Keep all four characters, their styles and positions, the knight/archer/mage unchanged as much as possible, and preserve the room. The horned enemy must KEEP its same compact SIZE, bold simple silhouette, few flat colors and no added fine detail. Feet directly centered inside the same ordinary single floor tile; no stands, discs, raised pads or rings. Floor continuous flat4:3 isometric grid. Same landscape4:3 canvas, no text/UI. Preserve clean simple connected pixel clusters designed for future animation.",
+    "endpoint": "image_gen",
+    "intent": "static animation-oriented simplification; animation stability untested"
+  },
+  {
+    "id": 8,
+    "label": "A-G08",
+    "engine": "ImageGen",
+    "title": "Крипта с нишами",
+    "prompt": "Edit this static pixel-art scene with ONE local correction: rotate the horned enemy's HEAD AND WHOLE TORSO into a clear elevated isometric three-quarter view, facing diagonally upper-left. Show the SIDE of face/muzzle/helmet and body, TOP of skull, asymmetrical nearer/farther horns and shoulders, foreshortened staggered boots. No symmetric frontal face or chest. Keep all four characters, their styles and positions, the knight/archer/mage unchanged as much as possible, and preserve the room. The horned enemy must KEEP its same compact SIZE, bold simple silhouette, few flat colors and no added fine detail. Feet directly centered inside the same ordinary single floor tile; no stands, discs, raised pads or rings. Floor continuous flat4:3 isometric grid. Same landscape4:3 canvas, no text/UI. Preserve clean simple connected pixel clusters designed for future animation.",
+    "endpoint": "image_gen",
+    "intent": "static animation-oriented simplification; animation stability untested"
+  },
+  {
+    "id": 9,
+    "label": "A-G09",
+    "engine": "ImageGen",
+    "title": "Грибной сад",
+    "prompt": "Edit this static pixel-art scene with ONE local correction: rotate the horned enemy's HEAD AND WHOLE TORSO into a clear elevated isometric three-quarter view, facing diagonally upper-left. Show the SIDE of face/muzzle/helmet and body, TOP of skull, asymmetrical nearer/farther horns and shoulders, foreshortened staggered boots. No symmetric frontal face or chest. Keep all four characters, their styles and positions, the knight/archer/mage unchanged as much as possible, and preserve the room. The horned enemy must KEEP its same compact SIZE, bold simple silhouette, few flat colors and no added fine detail. Feet directly centered inside the same ordinary single floor tile; no stands, discs, raised pads or rings. Floor continuous flat4:3 isometric grid. Same landscape4:3 canvas, no text/UI. Preserve clean simple connected pixel clusters designed for future animation.",
+    "endpoint": "image_gen",
+    "intent": "static animation-oriented simplification; animation stability untested"
+  },
+  {
+    "id": 10,
+    "label": "A-G10",
+    "engine": "ImageGen",
+    "title": "Мост над разломом",
+    "prompt": "Edit this static pixel-art scene with ONE local correction: rotate the horned enemy's HEAD AND WHOLE TORSO into a clear elevated isometric three-quarter view, facing diagonally upper-left. Show the SIDE of face/muzzle/helmet and body, TOP of skull, asymmetrical nearer/farther horns and shoulders, foreshortened staggered boots. No symmetric frontal face or chest. Keep all four characters, their styles and positions, the knight/archer/mage unchanged as much as possible, and preserve the room. The horned enemy must KEEP its same compact SIZE, bold simple silhouette, few flat colors and no added fine detail. Feet directly centered inside the same ordinary single floor tile; no stands, discs, raised pads or rings. Floor continuous flat4:3 isometric grid. Same landscape4:3 canvas, no text/UI. Preserve clean simple connected pixel clusters designed for future animation.",
+    "endpoint": "image_gen",
+    "intent": "static animation-oriented simplification; animation stability untested"
+  }
+]

@@ -1,0 +1,58 @@
+{
+  "endpoint": "/generate-image-v2",
+  "body": {
+    "description": "Create one pixel-art tactical dungeon scene in the exact visual language of the supplied CHARACTER SHEET: chunky dark charcoal outlines, compact large-headed tiny fantasy figures, restrained sage/olive greens, dusty mauve/violet, blue steel and copper accents, simple 2-3 tone pixel clusters. Reinterpret these character designs into volume; do not copy the sheet layout or white backdrop. SAME ELEVATED ISOMETRIC CAMERA for FLOOR AND ALL CHARACTERS. Symmetric diamond tile TOPS width:height 4:3 (like 128x96), NOT flat 2:1. Oblique shoulders, visible top of heads/helmets and side of torsos/shields, bodies facing diagonal grid axes; NO flat front-facing sprites. Six small figures, separated, each occupies ONE clearly bounded tile. Both soles directly touch the middle of that tile, feet wholly inside its edges, never straddling seams. Leave ample visible floor around feet; no hidden foot positions behind props. NO pedestals, discs, plinths, little personal platforms, rings or selection markers. Only tiny contact shadows. Continuous floor, simple matching environment, crisp stepped pixels, no smooth painting, no blur, no text, no UI. Show entire room with dark neutral margin. Landscape 4:3 canvas. SCENE: Two unequal rectangular tiled landings linked by a broad short diagonal causeway over dark teal water; reeds at distant edge, low water gate. Six figures on dry tiles: blue wizard, bronze spearman, green ranger, fish warrior, crab monster and goblin. CORRECTION TO FIRST RESULT: Keep the two unequal landings and water crossing, but redraw the ENTIRE bridge walking surface as the SAME continuous full-size symmetric 4:3 diamond tactical cell grid as both landings. No small bricks. Each of the two central figures must stand with BOTH complete soles inside its OWN clearly outlined bridge cell, away from seams. Turn every head, torso and shoulders visibly 45 degrees toward a diagonal grid axis, showing substantial top and side planes; no frontal sprite faces.",
+    "image_size": {
+      "width": 512,
+      "height": 384
+    },
+    "no_background": false,
+    "seed": 618012,
+    "style_options": {
+      "color_palette": true,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    },
+    "style_image": {
+      "path": "reference.png",
+      "sha256": "e8fe9bb7fa4babe3a5bc46582a48632a746e32e6d34e312c81641b1040a12cd3",
+      "size": {
+        "width": 506,
+        "height": 224
+      },
+      "usage_description": "Character sheet is STYLE and character design reference only. Use its chunky outlines, compact large-headed fantasy proportions, muted colors and few-tone pixel clusters. Reinterpret each character in true elevated isometric view, with visible top and side surfaces. Do not copy white background or frontal sprites."
+    },
+    "reference_images": [
+      {
+        "path": "tile-geometry-guide.png",
+        "sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "usage_description": "Use the exact symmetric 4:3 diamond TILE TOP geometry; characters stand with both feet centered on a single tile, without pedestal or selection disk."
+      },
+      {
+        "path": "projection-reference.png",
+        "sha256": "3a444db1efbf7dd949d123ffd724f1a7e0a6eeb069066f320d84e707798f7dbb",
+        "size": {
+          "width": 1100,
+          "height": 850
+        },
+        "usage_description": "Use this continuous 4:3 isometric board projection and common elevated camera for both room and characters. Ignore annotations, isolated example tiles, grass colors and UI lettering."
+      },
+      {
+        "path": "iterations\\P02-first\\original.png",
+        "sha256": "e24c248f35c4c0052aaab1aebaf503a83195fe88138d13431a818bc42a8e1924",
+        "size": {
+          "width": 512,
+          "height": 384
+        },
+        "usage_description": "FIRST GENERATED SCENE is a layout and color reference ONLY. Preserve recognizable room composition. Apply all correction instructions to characters or bridge; do not repeat the first result flaws."
+      }
+    ]
+  },
+  "submitted_reference_bytes_verified": true,
+  "correction_of": "iterations\\P02-first"
+}

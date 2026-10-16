@@ -1,0 +1,27 @@
+{
+  "endpoint": "/inpaint-v3",
+  "body": {
+    "description": "Edit ONLY the four white masked figures: blue shield knight at upper left, purple mage at upper right, green hooded archer at lower left and horned monster at lower right. Rotate each WHOLE HEAD, FACE, SHOULDERS, TORSO, EQUIPMENT, ARMS and BOOTS toward a diagonal grid axis at 45 degrees. Make a substantial side of each face/torso/shield and top of each head or helmet visible, matching the elevated isometric floor camera. No front-facing face or chest. Preserve their clear oversized compact silhouettes, simple solid shapes, two-pixel dark outlines, three flat tone groups per material, short plain clothes and clean gaps around held gear. Keep all four original scale and foot anchor positions, each with both soles inside its own complete tile. Preserve room, palette, continuous grid and every black-mask pixel exactly. No new figures, platforms, discs, pedestals, highlights, particles or UI.",
+    "seed": 619034,
+    "no_background": false,
+    "crop_to_mask": true,
+    "inpainting_image": {
+      "path": "inpaint-inputs\\A01\\source.png",
+      "sha256": "68f2d0e11374af47ca024cab50647cb85359e02615840a9dae44abdd558fdd49",
+      "size": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    "mask_image": {
+      "path": "inpaint-inputs\\A01\\mask.png",
+      "sha256": "38e1eb84bd9444162c2cecf86272908dc8f2682489bad1e5ebfd48ef2cf453dd",
+      "size": {
+        "width": 512,
+        "height": 384
+      }
+    }
+  },
+  "submitted_input_bytes_verified": true,
+  "correction_of": "iterations/A01-first"
+}

@@ -1,0 +1,23 @@
+{
+  "provider": "built-in image_gen",
+  "prompt": "Edit this pixel-art crypt scene. Keep its cross-shaped room, six character identities, palette and props. FIX TWO ERRORS: (1) Remove the raised individual square pads beneath the middle-left spear knight and middle-right green archer. Their tiles MUST become flush with the surrounding floor, a single continuous plane with ordinary seams and NO raised lip, step, border, pedestal, ring, disc or personal platform. Both feet stay wholly inside one ordinary floor tile. (2) Rotate ALL six characters' entire bodies and heads into unmistakable elevated ISOMETRIC three-quarter views. Turn each figure 45 degrees toward a diagonal floor axis, some toward upper-left and others lower-right. Clearly display TOP of every head/helmet, substantial SIDE planes of torsos, asymmetrical near/far shoulders and staggered foreshortened feet. Do not keep any symmetric straight-on face or chest; do not just rotate the weapon. Maintain compact proportions and thick crisp dark pixel outlines of this scene. Preserve six distinct occupied tiles, all feet directly on floor. Floor tile top target width:height4:3 from references2/3. No labels/UI. Deliver one corrected complete landscape4:3 scene.",
+  "referenced_image_paths": [
+    {
+      "relative_path": "iterations/G08-first/original.png",
+      "sha256": "34341d04703fe1a7f1963f15eaf580219d840d2eae684c4620e336c1967ea3e2",
+      "size_bytes": 1910975
+    },
+    {
+      "relative_path": "tile-geometry-guide.png",
+      "sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d",
+      "size_bytes": 530
+    },
+    {
+      "relative_path": "projection-reference.png",
+      "sha256": "3a444db1efbf7dd949d123ffd724f1a7e0a6eeb069066f320d84e707798f7dbb",
+      "size_bytes": 39298
+    }
+  ],
+  "transparent_background": false,
+  "references_relative_to": "package root"
+}

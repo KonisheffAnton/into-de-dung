@@ -1,0 +1,27 @@
+{
+  "endpoint": "/inpaint-v3",
+  "body": {
+    "description": "Edit ONLY the white mask containing the single blue shield knight on the prison hall left. Repose this ONE figure into a strong BACK-THREE-QUARTER elevated isometric view facing the upper-right diagonal tile axis. Show the broad BACK of the helmet and torso plus one SIDE plane of the helmet, shield and body; visor, face and front chest must NOT be visible. Align both shoulders, hips, arms, equipment, boots and both soles along that same diagonal. Preserve the identity and equipment: blue steel helmet, round shield and short weapon. Preserve the exact compact scale and same foot anchor, with both soles inside its one full original diamond tile; no widening into neighboring cells. Keep crisp stepped pixels, palette, dark outlines, contact shadow and the original continuous room grid. Preserve every black-mask pixel exactly. Do not add a character, base, pedestal, platform, ring, glow or UI.",
+    "seed": 620036,
+    "no_background": false,
+    "crop_to_mask": true,
+    "inpainting_image": {
+      "path": "inpaint-inputs\\P07-knight\\source.png",
+      "sha256": "d0aaf260a04b215b6e67748b3db4d87e31b9678579a74d5cd217f5c062d1ee58",
+      "size": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    "mask_image": {
+      "path": "inpaint-inputs\\P07-knight\\mask.png",
+      "sha256": "fa2a5904022ecf43842a21deb1fd62248ab88b99cb98ddf728d984ceeacde790",
+      "size": {
+        "width": 512,
+        "height": 384
+      }
+    }
+  },
+  "submitted_input_bytes_verified": true,
+  "correction_of": "iterations/P07-knight-before-single-inpaint"
+}

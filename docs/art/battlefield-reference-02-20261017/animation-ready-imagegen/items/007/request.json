@@ -1,0 +1,23 @@
+{
+  "provider": "built-in image_gen",
+  "prompt": "Edit this static pixel-art scene with ONE local correction: rotate the horned enemy's HEAD AND WHOLE TORSO into a clear elevated isometric three-quarter view, facing diagonally upper-left. Show the SIDE of face/muzzle/helmet and body, TOP of skull, asymmetrical nearer/farther horns and shoulders, foreshortened staggered boots. No symmetric frontal face or chest. Keep all four characters, their styles and positions, the knight/archer/mage unchanged as much as possible, and preserve the room. The horned enemy must KEEP its same compact SIZE, bold simple silhouette, few flat colors and no added fine detail. Feet directly centered inside the same ordinary single floor tile; no stands, discs, raised pads or rings. Floor continuous flat4:3 isometric grid. Same landscape4:3 canvas, no text/UI. Preserve clean simple connected pixel clusters designed for future animation.",
+  "referenced_image_paths": [
+    {
+      "relative_path": "iterations/A-G07-first/original.png",
+      "sha256": "41c85e4c86f10a0fca2e8f261fd04b51e1e636c9e636ebe32b2522ae8fe8b6ed",
+      "size_bytes": 1724456
+    },
+    {
+      "relative_path": "tile-geometry-guide.png",
+      "sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d",
+      "size_bytes": 530
+    },
+    {
+      "relative_path": "projection-reference.png",
+      "sha256": "3a444db1efbf7dd949d123ffd724f1a7e0a6eeb069066f320d84e707798f7dbb",
+      "size_bytes": 39298
+    }
+  ],
+  "transparent_background": false,
+  "references_relative_to": "package root"
+}

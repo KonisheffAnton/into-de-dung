@@ -1,0 +1,23 @@
+{
+  "provider": "built-in image_gen",
+  "prompt": "Edit the first image, retaining its room layout, six character identities, their six occupied tiles and muted pixel-art style. Correct ONLY the character projection: rotate ALL six heads AND torsos about 45 degrees along diagonal floor axes. Some should look toward upper-left, others toward lower-right. Every humanoid must show a substantial SIDE of head and body, TOP of helmet or hood, unequal near/far shoulders and foreshortened staggered feet. No symmetric straight-on faces/chests, no flat frontal sprites; changing only a weapon is insufficient. Keep chunky dark outlines and compact expressive silhouettes. All boots directly touch the middle of ONE ordinary floor tile, both feet fully inside its seams. Continuous flat floor with NO individual raised slabs, plinths, discs, rings, bases or broad oval patches. Same elevated isometric camera for room and characters, tile top target4:3 from images2/3. Preserve full composition and landscape4:3 format; no labels/UI.",
+  "referenced_image_paths": [
+    {
+      "relative_path": "iterations/G01-first/original.png",
+      "sha256": "3b61debf0d4cc5377b7f8f1a462a51a10ad9aec346baf9d3f2b33ef8eab3d755",
+      "size_bytes": 1677886
+    },
+    {
+      "relative_path": "tile-geometry-guide.png",
+      "sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d",
+      "size_bytes": 530
+    },
+    {
+      "relative_path": "projection-reference.png",
+      "sha256": "3a444db1efbf7dd949d123ffd724f1a7e0a6eeb069066f320d84e707798f7dbb",
+      "size_bytes": 39298
+    }
+  ],
+  "transparent_background": false,
+  "references_relative_to": "package root"
+}

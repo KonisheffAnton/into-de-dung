@@ -1,0 +1,27 @@
+{
+  "status": "completed",
+  "provider": "PixelLab",
+  "job_id": "d37046de-8514-469c-96dd-c4f24f8cc75a",
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 25
+  },
+  "original": {
+    "path": "original.png",
+    "sha256": "3a51ec0af30f9e738124663e090436cd69f07ad94f2af01a3fd03f535bf25cf5",
+    "width": 512,
+    "height": 384,
+    "mode": "RGBA",
+    "alpha_extrema": [
+      255,
+      255
+    ]
+  },
+  "provider_response_status": "completed",
+  "native_source": {
+    "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\031"
+  },
+  "outside_mask_changed_pixels": 0,
+  "adopted": true
+}

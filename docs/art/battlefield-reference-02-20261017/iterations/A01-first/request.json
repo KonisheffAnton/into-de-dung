@@ -1,0 +1,48 @@
+{
+  "endpoint": "/generate-image-v2",
+  "body": {
+    "description": "Create one static pixel-art tactical courtyard scene in the visual identity of the supplied CHARACTER SHEET: compact large-headed fantasy units, charcoal outlines, muted sage/olive, dusty violet, blue steel and copper. This is an animation-friendly simplification trial, not an animation. SAME ELEVATED ISOMETRIC CAMERA for FLOOR AND ALL CHARACTERS. Use a continuous symmetric diamond tile grid with 4:3 tile TOP width:height, an open square stone courtyard, rear gate, short broken walls and minimal crates at the perimeter. Four well-spaced figures: shield knight, green hooded archer, purple mage and horned monster. Each figure occupies ONE distinct fully visible tile; both boots directly touch its center, fully inside its edges. NO pedestals, discs, plinths, personal platforms, rings or markers; only tiny contact shadows. Make silhouettes oversized and unmistakable within their own tiles while preserving floor around the feet. Use simple solid body masses, consistent two-pixel dark outlines at native 512x384 scale, three flat tone groups per material, short plain clothing, compact solid hands and boots. Separate each held weapon or shield clearly from the torso silhouette, and leave clean gaps between arms and body where possible. Avoid loose straps, fringe, tiny buckles, filigree, busy patterns, subpixel highlights, particles, gradients, blur, text and UI. Crisp stepped pixel clusters and stable, reusable shapes. Oblique shoulders, visible tops of heads/helmets and sides of torsos/shields; all bodies face diagonal grid axes, no frontal sprites. Entire room visible with dark neutral margin on a landscape 4:3 canvas. Critical camera check: rotate each whole HEAD and BODY 45 degrees toward a grid diagonal, showing a substantial visible side of the face, torso and shield plus top of head; front-facing eyes-on-one-plane characters are invalid.",
+    "image_size": {
+      "width": 512,
+      "height": 384
+    },
+    "no_background": false,
+    "seed": 617021,
+    "style_options": {
+      "color_palette": true,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    },
+    "style_image": {
+      "path": "reference.png",
+      "sha256": "e8fe9bb7fa4babe3a5bc46582a48632a746e32e6d34e312c81641b1040a12cd3",
+      "size": {
+        "width": 506,
+        "height": 224
+      },
+      "usage_description": "Character sheet is STYLE and character design reference only. Use its chunky outlines, compact large-headed fantasy proportions, muted colors and few-tone pixel clusters. Reinterpret each character in true elevated isometric view, with visible top and side surfaces. Do not copy white background or frontal sprites."
+    },
+    "reference_images": [
+      {
+        "path": "tile-geometry-guide.png",
+        "sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "usage_description": "Use the exact symmetric 4:3 diamond TILE TOP geometry; characters stand with both feet centered on a single tile, without pedestal or selection disk."
+      },
+      {
+        "path": "projection-reference.png",
+        "sha256": "3a444db1efbf7dd949d123ffd724f1a7e0a6eeb069066f320d84e707798f7dbb",
+        "size": {
+          "width": 1100,
+          "height": 850
+        },
+        "usage_description": "Use this continuous 4:3 isometric board projection and common elevated camera for both room and characters. Ignore annotations, isolated example tiles, grass colors and UI lettering."
+      }
+    ]
+  },
+  "submitted_reference_bytes_verified": true
+}

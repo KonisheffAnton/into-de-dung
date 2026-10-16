@@ -1,0 +1,27 @@
+{
+  "endpoint": "/inpaint-v3",
+  "body": {
+    "description": "Edit ONLY the white masked regions containing the upper spear knight, lower skeletal swordsman and lower-right red horned warrior. Repose each entire HEAD, FACE, SHOULDERS, TORSO, ARMS, held equipment and BOOTS to face a diagonal grid axis at 45 degrees. Make a substantial side of face and torso plus top of head or helmet clearly visible, matching the elevated isometric camera of the room; no flat front-facing face. Keep each figure the same compact scale and preserve its foot anchor on its original full 4:3 diamond tile; both soles must stay inside that tile. Keep spear, skeletal sword and red horned armor identities. Preserve the original palette, clear silhouettes, continuous tile lines, contact shadows and room. Preserve all black-mask areas pixel for pixel. Add no figures, stands, discs, pedestals, platforms or props.",
+    "seed": 619033,
+    "no_background": false,
+    "crop_to_mask": true,
+    "inpainting_image": {
+      "path": "inpaint-inputs\\P08\\source.png",
+      "sha256": "c580d24da52d7efacd5de51ea4991631fe25fcf3ce12115e77cc6e2ab63e31bc",
+      "size": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    "mask_image": {
+      "path": "inpaint-inputs\\P08\\mask.png",
+      "sha256": "6524710a0fde01bcf887cb1447251a3dd6f35dda0f9b4d46c6bd743d31073939",
+      "size": {
+        "width": 512,
+        "height": 384
+      }
+    }
+  },
+  "submitted_input_bytes_verified": true,
+  "correction_of": "iterations/P08-first"
+}

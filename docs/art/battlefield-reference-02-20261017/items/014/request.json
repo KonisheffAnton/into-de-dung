@@ -1,0 +1,27 @@
+{
+  "endpoint": "/inpaint-v3",
+  "body": {
+    "description": "Repair ONLY the pale cream masked floor void surrounding the central blue shield knight. Replace that pale area with the same muted olive/sage and dusty brown stone diamond tile tops and charcoal grout lines as adjacent courtyard cells, continuing the existing isometric grid seamlessly through the hole. Preserve exact local perspective, tile scale, shadows and palette. The knight is already back-three-quarter: keep EVERY pixel of the knight, helmet, shield, weapon, arms, boots, silhouette and feet completely unchanged. Preserve the foot anchors with only a tiny contact shadow on ordinary continuous floor. No pale outline, halo, personal disc, pedestal, platform, ring, altered character, new prop or text. Every black-mask pixel must remain unchanged.",
+    "seed": 620040,
+    "no_background": false,
+    "crop_to_mask": false,
+    "inpainting_image": {
+      "path": "inpaint-inputs\\P04-floor-repair\\source.png",
+      "sha256": "e98817e723d2cf81dd9003393da5815533f0413b66b16124a377cb1539e0d225",
+      "size": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    "mask_image": {
+      "path": "inpaint-inputs\\P04-floor-repair\\mask.png",
+      "sha256": "0dd104fab3763816db4c331f43d97911599f49b076402d95642bb8eab9d965dd",
+      "size": {
+        "width": 512,
+        "height": 384
+      }
+    }
+  },
+  "submitted_input_bytes_verified": true,
+  "correction_of": "iterations/P04-knight-inpaint-trial"
+}

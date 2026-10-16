@@ -1,0 +1,22 @@
+{
+  "provider": "built-in image_gen",
+  "prompt": "Create one pixel-art tactical dungeon scene in the exact visual language of the supplied CHARACTER SHEET: chunky dark charcoal outlines, compact large-headed tiny fantasy figures, restrained sage/olive greens, dusty mauve/violet, blue steel and copper accents, simple 2-3 tone pixel clusters. Reinterpret these character designs into volume; do not copy the sheet layout or white backdrop. SAME ELEVATED ISOMETRIC CAMERA for FLOOR AND ALL CHARACTERS. Symmetric diamond tile TOPS width:height 4:3 (like 128x96), NOT flat 2:1. Oblique shoulders, visible top of heads/helmets and side of torsos/shields, bodies facing diagonal grid axes; NO flat front-facing sprites. Six small figures, separated, each occupies ONE clearly bounded tile. Both soles directly touch the middle of that tile, feet wholly inside its edges, never straddling seams. Leave ample visible floor around feet; no hidden foot positions behind props. NO pedestals, discs, plinths, little personal platforms, rings or selection markers. Only tiny contact shadows. Continuous floor, simple matching environment, crisp stepped pixels, no smooth painting, no blur, no text, no UI. Show entire room with dark neutral margin. Landscape 4:3 canvas. SCENE: Long tiled hall with three shallow barred cells along the back and one offset side entrance; low cutaway walls, doorways readable. Six figures: shield knight, purple rogue, blue wizard, skeleton guard, goblin and heavy horned jailer. Image 1 is STYLE ONLY; images 2 and 3 specify tile shape and board camera ONLY. Ignore their grass and text.",
+  "referenced_image_paths": [
+    {
+      "relative_path": "reference.png",
+      "sha256": "e8fe9bb7fa4babe3a5bc46582a48632a746e32e6d34e312c81641b1040a12cd3",
+      "size_bytes": 166193
+    },
+    {
+      "relative_path": "tile-geometry-guide.png",
+      "sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d",
+      "size_bytes": 530
+    },
+    {
+      "relative_path": "projection-reference.png",
+      "sha256": "3a444db1efbf7dd949d123ffd724f1a7e0a6eeb069066f320d84e707798f7dbb",
+      "size_bytes": 39298
+    }
+  ],
+  "transparent_background": false
+}

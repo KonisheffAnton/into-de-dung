@@ -1,0 +1,12 @@
+{
+  "id": 21,
+  "label": "A01",
+  "engine": "PixelLab",
+  "title": "Анимационно-удобный двор",
+  "scene": "Open square stone courtyard, rear gate, short broken walls; four figures: shield knight, green hooded archer, purple mage, horned monster.",
+  "prompt": "Edit ONLY the four white masked figures: blue shield knight at upper left, purple mage at upper right, green hooded archer at lower left and horned monster at lower right. Rotate each WHOLE HEAD, FACE, SHOULDERS, TORSO, EQUIPMENT, ARMS and BOOTS toward a diagonal grid axis at 45 degrees. Make a substantial side of each face/torso/shield and top of each head or helmet visible, matching the elevated isometric floor camera. No front-facing face or chest. Preserve their clear oversized compact silhouettes, simple solid shapes, two-pixel dark outlines, three flat tone groups per material, short plain clothes and clean gaps around held gear. Keep all four original scale and foot anchor positions, each with both soles inside its own complete tile. Preserve room, palette, continuous grid and every black-mask pixel exactly. No new figures, platforms, discs, pedestals, highlights, particles or UI.",
+  "hypothesis": "Simplified large solid forms and clean separation might reduce future animation artifacts. Static art alone cannot establish motion stability.",
+  "endpoint": "/inpaint-v3",
+  "first_version": "iterations/A01-first",
+  "animation_artifact_reduction": "Hypothesis only; no motion generation or stability test was performed."
+}

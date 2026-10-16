@@ -1,0 +1,27 @@
+{
+  "endpoint": "/inpaint-v3",
+  "body": {
+    "description": "Edit ONLY the white mask containing the single pale skeleton at crypt right center. Repose this ONE figure into a strong BACK-THREE-QUARTER elevated isometric view facing the upper-right diagonal tile axis. Show the REAR and SIDE of the cranium, not two frontal eye sockets; jaw seen from one side. Align both shoulders, hips, arms, equipment, boots and both soles along that same diagonal. Preserve the identity and equipment: pale skull, spear and compact bones. Preserve the exact compact scale and same foot anchor, with both soles inside its one full original diamond tile; no widening into neighboring cells. Keep crisp stepped pixels, palette, dark outlines, contact shadow and the original continuous room grid. Preserve every black-mask pixel exactly. Do not add a character, base, pedestal, platform, ring, glow or UI.",
+    "seed": 620038,
+    "no_background": false,
+    "crop_to_mask": true,
+    "inpainting_image": {
+      "path": "inpaint-inputs\\P08-skeleton\\source.png",
+      "sha256": "562f509f176bbf9fd947b5bb2cdf4fae07ed58ff752493d7306f2451f0fdbd72",
+      "size": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    "mask_image": {
+      "path": "inpaint-inputs\\P08-skeleton\\mask.png",
+      "sha256": "418eee75cca9f7ad1fb1ebc25d6e5af2b94c431625a649204fa7801de6546e2a",
+      "size": {
+        "width": 512,
+        "height": 384
+      }
+    }
+  },
+  "submitted_input_bytes_verified": true,
+  "correction_of": "iterations/P08-skeleton-before-single-inpaint"
+}

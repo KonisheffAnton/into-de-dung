@@ -1,0 +1,27 @@
+{
+  "endpoint": "/inpaint-v3",
+  "body": {
+    "description": "Edit ONLY the white mask containing the single simplified blue shield knight at courtyard upper left. Repose this ONE figure into a strong BACK-THREE-QUARTER elevated isometric view facing the upper-right diagonal tile axis. Show the broad BACK of the helmet and torso plus one SIDE plane of the helmet, shield and body; visor, face and front chest must NOT be visible. Align both shoulders, hips, arms, equipment, boots and both soles along that same diagonal. Preserve the identity and equipment: simple blue helmet, round shield, compact solid hands and boots. Preserve the exact compact scale and same foot anchor, with both soles inside its one full original diamond tile; no widening into neighboring cells. Keep crisp stepped pixels, palette, dark outlines, contact shadow and the original continuous room grid. Preserve every black-mask pixel exactly. Do not add a character, base, pedestal, platform, ring, glow or UI.",
+    "seed": 620037,
+    "no_background": false,
+    "crop_to_mask": true,
+    "inpainting_image": {
+      "path": "inpaint-inputs\\A01-knight\\source.png",
+      "sha256": "ccf766b78128e12350603eeac2e21756da7fc94483cdc942ec761ca323d09442",
+      "size": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    "mask_image": {
+      "path": "inpaint-inputs\\A01-knight\\mask.png",
+      "sha256": "26ea95eb34c361974377777cdeed9b8256a33a3675e9f71212ef86c7ad642d72",
+      "size": {
+        "width": 512,
+        "height": 384
+      }
+    }
+  },
+  "submitted_input_bytes_verified": true,
+  "correction_of": "iterations/A01-knight-before-single-inpaint"
+}

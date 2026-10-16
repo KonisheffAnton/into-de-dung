@@ -1,0 +1,13 @@
+{
+  "id": 21,
+  "label": "A01",
+  "engine": "PixelLab",
+  "title": "Анимационно-удобный двор",
+  "scene": "Open square stone courtyard, rear gate, short broken walls; four figures: shield knight, green hooded archer, purple mage, horned monster.",
+  "prompt": "Edit ONLY the white mask containing the single simplified blue shield knight at courtyard upper left. Repose this ONE figure into a strong BACK-THREE-QUARTER elevated isometric view facing the upper-right diagonal tile axis. Show the broad BACK of the helmet and torso plus one SIDE plane of the helmet, shield and body; visor, face and front chest must NOT be visible. Align both shoulders, hips, arms, equipment, boots and both soles along that same diagonal. Preserve the identity and equipment: simple blue helmet, round shield, compact solid hands and boots. Preserve the exact compact scale and same foot anchor, with both soles inside its one full original diamond tile; no widening into neighboring cells. Keep crisp stepped pixels, palette, dark outlines, contact shadow and the original continuous room grid. Preserve every black-mask pixel exactly. Do not add a character, base, pedestal, platform, ring, glow or UI.",
+  "hypothesis": "Simplified large solid forms and clean separation might reduce future animation artifacts. Static art alone cannot establish motion stability.",
+  "endpoint": "/inpaint-v3",
+  "first_version": "iterations/A01-first",
+  "animation_artifact_reduction": "Hypothesis only; no motion generation or stability test was performed.",
+  "single_figure_revision": "iterations\\A01-knight-before-single-inpaint"
+}

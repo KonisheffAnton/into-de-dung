@@ -1,0 +1,27 @@
+{
+  "endpoint": "/inpaint-v3",
+  "body": {
+    "description": "Edit ONLY the white masked regions containing the left blue shield knight, central blue wizard and right pale skeleton. Repose each entire HEAD, FACE, SHOULDERS, TORSO, ARMS, held equipment and BOOTS to face a diagonal grid axis at 45 degrees. Make a substantial side of face and torso plus top of head or helmet clearly visible, matching the elevated isometric camera of the room; no flat front-facing face. Keep each figure the same compact scale and preserve its foot anchor on its original full 4:3 diamond tile; both soles must stay inside that tile. Keep shield, blue hat and skeleton spear identities. Preserve the original palette, clear silhouettes, continuous tile lines, contact shadows and room. Preserve all black-mask areas pixel for pixel. Add no figures, stands, discs, pedestals, platforms or props.",
+    "seed": 619032,
+    "no_background": false,
+    "crop_to_mask": true,
+    "inpainting_image": {
+      "path": "inpaint-inputs\\P07\\source.png",
+      "sha256": "099de881955cacb8dc74969033fb8663e478c5263f962d2881bf5c3dfc6f9551",
+      "size": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    "mask_image": {
+      "path": "inpaint-inputs\\P07\\mask.png",
+      "sha256": "d3088b97363e7069f58ae809f4f460709476b29b69bbcc50f385b3afe4987c77",
+      "size": {
+        "width": 512,
+        "height": 384
+      }
+    }
+  },
+  "submitted_input_bytes_verified": true,
+  "correction_of": "iterations/P07-first"
+}

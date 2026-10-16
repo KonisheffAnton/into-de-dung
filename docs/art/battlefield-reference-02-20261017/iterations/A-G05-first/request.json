@@ -1,0 +1,23 @@
+{
+  "provider": "built-in image_gen",
+  "prompt": "Create a STATIC pixel-art tactical battle concept with character designs intentionally simplified for future AI sprite animation. Image 1 is the user fantasy character sheet, use its compact charm and muted sage-green, violet, copper and steel-blue palette, but REDESIGN into bold, exceptionally simple consistent silhouettes. Images 2 and 3 are our exact floor camera and diamond geometry references only. Four small separated characters: shield knight, hooded archer, short-robed mage, horned enemy. Each body is built from 5-7 large solid masses: head, torso, two arms, two legs, one solid accessory. Dark charcoal contour of consistent thickness, clean connected pixel clusters, each material only base/shadow/highlight. Plain armor and short tunics; NO decorative armor filigree, belts with tiny buckles, loose straps, fringe, flowing long cloth, individual hair strands, sparkles or floating particles. Strong readable negative space between limbs; chunky boots clearly separated; hands and held weapon clearly readable and offset from torso, stable proportions, simple asymmetric ready stance. Visible upper AND side planes on every figure; true elevated ISOMETRIC three-quarter view, diagonally facing along the board axes, never flat frontal. All feet DIRECTLY on tile floors, both soles inside the middle of ONE tile per character, every footprint unambiguously readable. No pedestals, rings, discs, personal platforms, selection circles or broad oval ground patches. Floor diamond tops width:height EXACTLY 4:3, as 128x96; continuous grid. Give plenty of clear tile area around each figure. Environment uses similarly large quiet shapes and sparse details, not dense textures. Entire compact room within dark neutral margin, landscape 4:3. Crisp deliberate pixel art, no painterly smoothing, no gradient, no text or UI. This is a visually polished game concept, not a labeled design sheet. COMPOSITION: Asymmetric rectangular forge with a squat cold furnace rear left, anvil at rear right, narrow wood stack along a wall; spacious central tile grid.  CRITICAL CAMERA: ALL four figures turn their heads AND bodies diagonally toward the left or right edge of the image, never directly toward the viewer. Clearly show one side of each face/helmet, one shoulder nearer than the other, and the TOP of every head. Never use symmetric frontal faces or horizontal shoulders. Keep both boots at the center of a single tile.",
+  "referenced_image_paths": [
+    {
+      "relative_path": "reference.png",
+      "sha256": "e8fe9bb7fa4babe3a5bc46582a48632a746e32e6d34e312c81641b1040a12cd3",
+      "size_bytes": 166193
+    },
+    {
+      "relative_path": "tile-geometry-guide.png",
+      "sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d",
+      "size_bytes": 530
+    },
+    {
+      "relative_path": "projection-reference.png",
+      "sha256": "3a444db1efbf7dd949d123ffd724f1a7e0a6eeb069066f320d84e707798f7dbb",
+      "size_bytes": 39298
+    }
+  ],
+  "transparent_background": false,
+  "references_relative_to": "package root"
+}

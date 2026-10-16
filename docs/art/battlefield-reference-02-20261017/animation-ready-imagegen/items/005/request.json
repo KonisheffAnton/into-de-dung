@@ -1,0 +1,23 @@
+{
+  "provider": "built-in image_gen",
+  "prompt": "Edit this STATIC pixel-art concept to fix character camera ONLY. Keep the four SIMPLE chunky character identities, few flat color groups, room layout and their four tile positions. Rotate every character's HEAD and WHOLE BODY 45 degrees onto diagonal board axes: knight and mage toward upper-left, archer and horned enemy toward lower-right. Show substantial SIDE planes of helmets, faces and torsos, TOP of every head, uneven near/far shoulder height, foreshortened staggered boots. Absolutely no centered symmetrical front-facing visor, chest or eyes. Keep large solid connected shapes and clean gaps between arms and torso, plain short clothing, NO added ornament, texture, tiny buckles, fingers, particles or filigree. These simplified designs are intended for stable future sprite animation. All feet directly touch the middle of one clearly bounded ordinary tile, no personal platforms/pads, pedestals/discs/rings or broad ground patches. Keep continuous flat isometric4:3 tile floor and crisp pixel clusters; whole room in landscape4:3. No labels or UI.",
+  "referenced_image_paths": [
+    {
+      "relative_path": "iterations/A-G05-first/original.png",
+      "sha256": "afc4b7f9226a461bbc9f0631fffaece574b7630d115079d9d5fbf2be52db36c5",
+      "size_bytes": 1631807
+    },
+    {
+      "relative_path": "tile-geometry-guide.png",
+      "sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d",
+      "size_bytes": 530
+    },
+    {
+      "relative_path": "projection-reference.png",
+      "sha256": "3a444db1efbf7dd949d123ffd724f1a7e0a6eeb069066f320d84e707798f7dbb",
+      "size_bytes": 39298
+    }
+  ],
+  "transparent_background": false,
+  "references_relative_to": "package root"
+}

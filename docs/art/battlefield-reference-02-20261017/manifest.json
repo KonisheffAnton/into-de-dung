@@ -1,0 +1,864 @@
+{
+  "selected": [
+    {
+      "label": "G01",
+      "provider": "ImageGen",
+      "path": "items/001/original.png",
+      "sha256": "bf9d5dbe586848dc50b57a484a4c640eee3a83ee57b77842eb8edd396c457f8c",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "items/001/request.json",
+      "usage": null,
+      "mask_preservation": null
+    },
+    {
+      "label": "G02",
+      "provider": "ImageGen",
+      "path": "items/002/original.png",
+      "sha256": "371badf696009d69272b90e4ddd8222053818f10c370bc6ab3bf1ef986741281",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "items/002/request.json",
+      "usage": null,
+      "mask_preservation": null
+    },
+    {
+      "label": "G03",
+      "provider": "ImageGen",
+      "path": "items/003/original.png",
+      "sha256": "806499877f918179866482d9e11aabd3537de53cbeba3628c5eab7b9220d19f5",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "items/003/request.json",
+      "usage": null,
+      "mask_preservation": null
+    },
+    {
+      "label": "G04",
+      "provider": "ImageGen",
+      "path": "items/004/original.png",
+      "sha256": "a1a482c72cc3a034038c25ba46dd0814f44b3c97042e49b5f53a81ba854d80fb",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "items/004/request.json",
+      "usage": null,
+      "mask_preservation": null
+    },
+    {
+      "label": "G05",
+      "provider": "ImageGen",
+      "path": "items/005/original.png",
+      "sha256": "f92d89e5823b314a4d108301cbad0c6ef947d03492175e4975157ba3dbbb0c97",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "items/005/request.json",
+      "usage": null,
+      "mask_preservation": null
+    },
+    {
+      "label": "G06",
+      "provider": "ImageGen",
+      "path": "items/006/original.png",
+      "sha256": "caed15828006d4a3fb939274b43dcad8f9355436fa309649a07c0ef2f7963be6",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "items/006/request.json",
+      "usage": null,
+      "mask_preservation": null
+    },
+    {
+      "label": "G07",
+      "provider": "ImageGen",
+      "path": "items/007/original.png",
+      "sha256": "99acb405a8bad39a43f93ef071d5da8bb94931cb0458c098b334e1db84dd9266",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "items/007/request.json",
+      "usage": null,
+      "mask_preservation": null
+    },
+    {
+      "label": "G08",
+      "provider": "ImageGen",
+      "path": "items/008/original.png",
+      "sha256": "dd4521887eba57f2bc3b513706ce1ba49d015da1fa6e4ce36fea2cefb74838da",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "items/008/request.json",
+      "usage": null,
+      "mask_preservation": null
+    },
+    {
+      "label": "G09",
+      "provider": "ImageGen",
+      "path": "items/009/original.png",
+      "sha256": "f31baae4a7baddbc08efd2c131e8dddc4d482c837b724b2549b657f72b56e5ec",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "items/009/request.json",
+      "usage": null,
+      "mask_preservation": null
+    },
+    {
+      "label": "G10",
+      "provider": "ImageGen",
+      "path": "items/010/original.png",
+      "sha256": "30d9e73894483feaa4a9ca57d8e1a21ed273d5f3b85ec919b6f2401d60ffa465",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "items/010/request.json",
+      "usage": null,
+      "mask_preservation": null
+    },
+    {
+      "label": "P01",
+      "provider": "PixelLab",
+      "path": "items/011/original.png",
+      "sha256": "73661c3b114b99b301a48e792d771cfa287411537404b6b85384eda59954cb19",
+      "width": 512,
+      "height": 384,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "items/011/request.json",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 25
+      },
+      "mask_preservation": null
+    },
+    {
+      "label": "P02",
+      "provider": "PixelLab",
+      "path": "items/012/original.png",
+      "sha256": "f1148ba680e08b5962fd728ee9b79d875416e649c61b37e9415f5bd6e102f01b",
+      "width": 512,
+      "height": 384,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "items/012/request.json",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 25
+      },
+      "mask_preservation": null
+    },
+    {
+      "label": "P03",
+      "provider": "PixelLab",
+      "path": "items/013/original.png",
+      "sha256": "203faeb4d0936ac13813260646529f54b20845a8dbb1656bb2050aa3b794f213",
+      "width": 512,
+      "height": 384,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "items/013/request.json",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 25
+      },
+      "mask_preservation": null
+    },
+    {
+      "label": "P04",
+      "provider": "PixelLab",
+      "path": "items/014/original.png",
+      "sha256": "3d3cb84823fd78bbdb74c2c336af198130dcb7bb6be5c32f3536450982cda05f",
+      "width": 512,
+      "height": 384,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "items/014/request.json",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 25
+      },
+      "mask_preservation": {
+        "status": "FAIL",
+        "outside_mask_changed_pixels": 174,
+        "outside_mask_bbox": [
+          178,
+          166,
+          238,
+          225
+        ],
+        "max_rgba_delta": 103,
+        "outside_mask_alpha_changes": 0
+      }
+    },
+    {
+      "label": "P05",
+      "provider": "PixelLab",
+      "path": "items/015/original.png",
+      "sha256": "3a51ec0af30f9e738124663e090436cd69f07ad94f2af01a3fd03f535bf25cf5",
+      "width": 512,
+      "height": 384,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "items/015/request.json",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 25
+      },
+      "mask_preservation": {
+        "status": "PASS",
+        "outside_mask_changed_pixels": 0,
+        "outside_mask_bbox": null,
+        "max_rgba_delta": 0,
+        "outside_mask_alpha_changes": 0
+      }
+    },
+    {
+      "label": "P06",
+      "provider": "PixelLab",
+      "path": "items/016/original.png",
+      "sha256": "0ee84d100c6f33feea6f0873a26749240b1576e99d2650bc46086e21deabc01d",
+      "width": 512,
+      "height": 384,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "items/016/request.json",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 25
+      },
+      "mask_preservation": null
+    },
+    {
+      "label": "P07",
+      "provider": "PixelLab",
+      "path": "items/017/original.png",
+      "sha256": "451a8bfbe18011cc19d7fe7542f732ea9b89e4dc08cba03689b67b695c050d30",
+      "width": 512,
+      "height": 384,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "items/017/request.json",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 25
+      },
+      "mask_preservation": {
+        "status": "FAIL",
+        "outside_mask_changed_pixels": 688,
+        "outside_mask_bbox": [
+          123,
+          127,
+          197,
+          218
+        ],
+        "max_rgba_delta": 251,
+        "outside_mask_alpha_changes": 0
+      }
+    },
+    {
+      "label": "P08",
+      "provider": "PixelLab",
+      "path": "items/018/original.png",
+      "sha256": "fde3047a02dcae418f439dac4b8b1f618beefb7dbcb9009cd5687c7ed5e65fd9",
+      "width": 512,
+      "height": 384,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "items/018/request.json",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 25
+      },
+      "mask_preservation": {
+        "status": "PASS",
+        "outside_mask_changed_pixels": 0,
+        "outside_mask_bbox": null,
+        "max_rgba_delta": 0,
+        "outside_mask_alpha_changes": 0
+      }
+    },
+    {
+      "label": "P09",
+      "provider": "PixelLab",
+      "path": "items/019/original.png",
+      "sha256": "52c96ef12f5d3de655d398bcf1296d9f29540d8d9d1a8ae53672b35f56f889e8",
+      "width": 512,
+      "height": 384,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "items/019/request.json",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 25
+      },
+      "mask_preservation": null
+    },
+    {
+      "label": "P10",
+      "provider": "PixelLab",
+      "path": "items/020/original.png",
+      "sha256": "38c2aff9b58f57bdf876987dfccd7454e1d0d6f8b1bdf525d8475170bbb11729",
+      "width": 512,
+      "height": 384,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "items/020/request.json",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 25
+      },
+      "mask_preservation": null
+    },
+    {
+      "label": "A-G01",
+      "provider": "ImageGen",
+      "path": "animation-ready-imagegen/items/001/original.png",
+      "sha256": "c211fcfdb9b32bf94c60c6679543281f1e4e099294c0f633167b2072f8b5c628",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "animation-ready-imagegen/items/001/request.json",
+      "usage": null,
+      "mask_preservation": null
+    },
+    {
+      "label": "A-G02",
+      "provider": "ImageGen",
+      "path": "animation-ready-imagegen/items/002/original.png",
+      "sha256": "67516d652fa134a4a7d4bbf674945bbd6d892b7732455936c5aeca25d58808c2",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "animation-ready-imagegen/items/002/request.json",
+      "usage": null,
+      "mask_preservation": null
+    },
+    {
+      "label": "A-G03",
+      "provider": "ImageGen",
+      "path": "animation-ready-imagegen/items/003/original.png",
+      "sha256": "6e74879aa5294e3e253d5c44a53dd2198bbc9b66cd96fa3787dfca33faabd8ba",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "animation-ready-imagegen/items/003/request.json",
+      "usage": null,
+      "mask_preservation": null
+    },
+    {
+      "label": "A-G04",
+      "provider": "ImageGen",
+      "path": "animation-ready-imagegen/items/004/original.png",
+      "sha256": "3e8f4bfca2a918d1007a965365d6ebc40afee66f5e2b7631872ecbce12e0c50f",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "animation-ready-imagegen/items/004/request.json",
+      "usage": null,
+      "mask_preservation": null
+    },
+    {
+      "label": "A-G05",
+      "provider": "ImageGen",
+      "path": "animation-ready-imagegen/items/005/original.png",
+      "sha256": "913332e42cc6ad8bbcc7b0e2de13e3449d27ee4d21ee0e330e5de637217e7983",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "animation-ready-imagegen/items/005/request.json",
+      "usage": null,
+      "mask_preservation": null
+    },
+    {
+      "label": "A-G06",
+      "provider": "ImageGen",
+      "path": "animation-ready-imagegen/items/006/original.png",
+      "sha256": "2fecc65318bb96f511eae35d3ee0d1a25c7de5b6b9faff500eb18b91f6c28085",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "animation-ready-imagegen/items/006/request.json",
+      "usage": null,
+      "mask_preservation": null
+    },
+    {
+      "label": "A-G07",
+      "provider": "ImageGen",
+      "path": "animation-ready-imagegen/items/007/original.png",
+      "sha256": "1abe480ffebfab2cbb4e2dcaff0500d29336e2b62d2e5d14b6839a9d2ee4d19b",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "animation-ready-imagegen/items/007/request.json",
+      "usage": null,
+      "mask_preservation": null
+    },
+    {
+      "label": "A-G08",
+      "provider": "ImageGen",
+      "path": "animation-ready-imagegen/items/008/original.png",
+      "sha256": "0220a2e098097d78d8f28769c4e6db48e0adca9d346c3194b0ac60be1bd80332",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "animation-ready-imagegen/items/008/request.json",
+      "usage": null,
+      "mask_preservation": null
+    },
+    {
+      "label": "A-G09",
+      "provider": "ImageGen",
+      "path": "animation-ready-imagegen/items/009/original.png",
+      "sha256": "0165988e998ea2af9c12577d5de85ff735885e5954a33277d935df5792f5407d",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "animation-ready-imagegen/items/009/request.json",
+      "usage": null,
+      "mask_preservation": null
+    },
+    {
+      "label": "A-G10",
+      "provider": "ImageGen",
+      "path": "animation-ready-imagegen/items/010/original.png",
+      "sha256": "bfbcfc0d8352d3721aa7affe5ec8002b84c1e6570be1327573ecbf07a2efc465",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "animation-ready-imagegen/items/010/request.json",
+      "usage": null,
+      "mask_preservation": null
+    },
+    {
+      "label": "A01",
+      "provider": "PixelLab",
+      "path": "animation-friendly/original.png",
+      "sha256": "78f875061897567351a2876d57cfbc587d2c0f1175be1783076198feb6ec869d",
+      "width": 512,
+      "height": 384,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "request": "animation-friendly/request.json",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 25
+      },
+      "mask_preservation": {
+        "status": "PASS",
+        "outside_mask_changed_pixels": 0,
+        "outside_mask_bbox": null,
+        "max_rgba_delta": 0,
+        "outside_mask_alpha_changes": 0
+      }
+    }
+  ],
+  "iterations": [
+    {
+      "path": "iterations/A-G01-first",
+      "sha256": "428b491a8807e89fa63b06cc3fb12293f7ba5e1502e2c37775429166fb9db156",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/A-G02-first",
+      "sha256": "1b5c15d2555c3c3909e210c47e87bfdf474837c30a743a23c606656472796f10",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/A-G03-first",
+      "sha256": "e7c0390eb14506c8046af5fd004ee6ef56a6b5e9328c7485a776e1804c1a5d76",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/A-G04-first",
+      "sha256": "74ee6e9e2686db9424299f284f79a250e957f4f5500d09ae94ea943acf92bab4",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/A-G05-first",
+      "sha256": "afc4b7f9226a461bbc9f0631fffaece574b7630d115079d9d5fbf2be52db36c5",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/A-G07-first",
+      "sha256": "41c85e4c86f10a0fca2e8f261fd04b51e1e636c9e636ebe32b2522ae8fe8b6ed",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/A-G08-first",
+      "sha256": "5d792bbf32515d0fecadb885844b53b6cb074ed80c1e5b39ee50977899020d0c",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/A-G09-first",
+      "sha256": "d7e4727372270457bc24840121d1d66e6720cfbc19c7f76b42aaeb1fcb228411",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/A-G10-first",
+      "sha256": "40a7036f660e72a9d206f8e4c6b1d212f0004d6d0e113b7a490b65d35fe5177e",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/A01-first",
+      "sha256": "68f2d0e11374af47ca024cab50647cb85359e02615840a9dae44abdd558fdd49",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/A01-inpaint-trial",
+      "sha256": "ccf766b78128e12350603eeac2e21756da7fc94483cdc942ec761ca323d09442",
+      "mask_preservation": {
+        "status": "PASS",
+        "outside_mask_changed_pixels": 0,
+        "outside_mask_bbox": null,
+        "max_rgba_delta": 0,
+        "outside_mask_alpha_changes": 0
+      }
+    },
+    {
+      "path": "iterations/A01-knight-before-single-inpaint",
+      "sha256": "ccf766b78128e12350603eeac2e21756da7fc94483cdc942ec761ca323d09442",
+      "mask_preservation": {
+        "status": "PASS",
+        "outside_mask_changed_pixels": 0,
+        "outside_mask_bbox": null,
+        "max_rgba_delta": 0,
+        "outside_mask_alpha_changes": 0
+      }
+    },
+    {
+      "path": "iterations/A01-knight-inpaint-trial",
+      "sha256": "78f875061897567351a2876d57cfbc587d2c0f1175be1783076198feb6ec869d",
+      "mask_preservation": {
+        "status": "PASS",
+        "outside_mask_changed_pixels": 0,
+        "outside_mask_bbox": null,
+        "max_rgba_delta": 0,
+        "outside_mask_alpha_changes": 0
+      }
+    },
+    {
+      "path": "iterations/G01-first",
+      "sha256": "3b61debf0d4cc5377b7f8f1a462a51a10ad9aec346baf9d3f2b33ef8eab3d755",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/G05-first",
+      "sha256": "4ffc4e522e67d4b22a2a502e3c9e0d66e492f14d96373e30f9c441b970c74f94",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/G07-first",
+      "sha256": "7ba6edb9a0c733ea1551e5af9e295e8ab643e323f55c3e66d71638eb7f71f187",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/G08-first",
+      "sha256": "34341d04703fe1a7f1963f15eaf580219d840d2eae684c4620e336c1967ea3e2",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/G10-first",
+      "sha256": "76f44d1b183f3294c8a6de0cea94e9fbf4eb2aa52d2e8d1438f1a06010114304",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/P02-first",
+      "sha256": "e24c248f35c4c0052aaab1aebaf503a83195fe88138d13431a818bc42a8e1924",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/P04-first",
+      "sha256": "3cfabf7b7fd3e68bb7aa6ddf68849dbc13d36e3c4e860e56ab11f71593307024",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/P04-floor-repair-inpaint-trial",
+      "sha256": "3d3cb84823fd78bbdb74c2c336af198130dcb7bb6be5c32f3536450982cda05f",
+      "mask_preservation": {
+        "status": "FAIL",
+        "outside_mask_changed_pixels": 174,
+        "outside_mask_bbox": [
+          178,
+          166,
+          238,
+          225
+        ],
+        "max_rgba_delta": 103,
+        "outside_mask_alpha_changes": 0
+      }
+    },
+    {
+      "path": "iterations/P04-knight-before-single-inpaint",
+      "sha256": "b66ef22ee2edf5f1e23cde35ef13b5c77052a28f0fe8f271157b8b451407f8a5",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/P04-knight-inpaint-trial",
+      "sha256": "e98817e723d2cf81dd9003393da5815533f0413b66b16124a377cb1539e0d225",
+      "mask_preservation": {
+        "status": "PASS",
+        "outside_mask_changed_pixels": 0,
+        "outside_mask_bbox": null,
+        "max_rgba_delta": 0,
+        "outside_mask_alpha_changes": 0
+      }
+    },
+    {
+      "path": "iterations/P05-correction-trial",
+      "sha256": "58f81fed7f65efd352de9f51666094fca5df2c0447751bf468bca8a22dace603",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/P05-first",
+      "sha256": "11f0bb5b7f9271c7050b5e0a77e801d05231cb1da9d41a8cfe6dd48654b20402",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/P05-inpaint-trial",
+      "sha256": "3a51ec0af30f9e738124663e090436cd69f07ad94f2af01a3fd03f535bf25cf5",
+      "mask_preservation": {
+        "status": "PASS",
+        "outside_mask_changed_pixels": 0,
+        "outside_mask_bbox": null,
+        "max_rgba_delta": 0,
+        "outside_mask_alpha_changes": 0
+      }
+    },
+    {
+      "path": "iterations/P07-correction-trial",
+      "sha256": "9d08b83c7032c0d8eb34c8bd0eddabf08e46d4c3554ab3003bda81b30a320f46",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/P07-first",
+      "sha256": "099de881955cacb8dc74969033fb8663e478c5263f962d2881bf5c3dfc6f9551",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/P07-floor-repair-inpaint-trial",
+      "sha256": "451a8bfbe18011cc19d7fe7542f732ea9b89e4dc08cba03689b67b695c050d30",
+      "mask_preservation": {
+        "status": "FAIL",
+        "outside_mask_changed_pixels": 688,
+        "outside_mask_bbox": [
+          123,
+          127,
+          197,
+          218
+        ],
+        "max_rgba_delta": 251,
+        "outside_mask_alpha_changes": 0
+      }
+    },
+    {
+      "path": "iterations/P07-inpaint-trial",
+      "sha256": "d0aaf260a04b215b6e67748b3db4d87e31b9678579a74d5cd217f5c062d1ee58",
+      "mask_preservation": {
+        "status": "PASS",
+        "outside_mask_changed_pixels": 0,
+        "outside_mask_bbox": null,
+        "max_rgba_delta": 0,
+        "outside_mask_alpha_changes": 0
+      }
+    },
+    {
+      "path": "iterations/P07-knight-before-single-inpaint",
+      "sha256": "d0aaf260a04b215b6e67748b3db4d87e31b9678579a74d5cd217f5c062d1ee58",
+      "mask_preservation": {
+        "status": "PASS",
+        "outside_mask_changed_pixels": 0,
+        "outside_mask_bbox": null,
+        "max_rgba_delta": 0,
+        "outside_mask_alpha_changes": 0
+      }
+    },
+    {
+      "path": "iterations/P07-knight-inpaint-trial",
+      "sha256": "ea6e2243ee75586e877ba8482231659e02ef8783ed359a4b831e0318e4acae30",
+      "mask_preservation": {
+        "status": "PASS",
+        "outside_mask_changed_pixels": 0,
+        "outside_mask_bbox": null,
+        "max_rgba_delta": 0,
+        "outside_mask_alpha_changes": 0
+      }
+    },
+    {
+      "path": "iterations/P08-correction-trial",
+      "sha256": "9cc1a4afece7a33f44ef4eb88883803d468930cf5329a0a77e691f990a33170e",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/P08-first",
+      "sha256": "c580d24da52d7efacd5de51ea4991631fe25fcf3ce12115e77cc6e2ab63e31bc",
+      "mask_preservation": null
+    },
+    {
+      "path": "iterations/P08-inpaint-trial",
+      "sha256": "562f509f176bbf9fd947b5bb2cdf4fae07ed58ff752493d7306f2451f0fdbd72",
+      "mask_preservation": {
+        "status": "PASS",
+        "outside_mask_changed_pixels": 0,
+        "outside_mask_bbox": null,
+        "max_rgba_delta": 0,
+        "outside_mask_alpha_changes": 0
+      }
+    },
+    {
+      "path": "iterations/P08-skeleton-before-single-inpaint",
+      "sha256": "562f509f176bbf9fd947b5bb2cdf4fae07ed58ff752493d7306f2451f0fdbd72",
+      "mask_preservation": {
+        "status": "PASS",
+        "outside_mask_changed_pixels": 0,
+        "outside_mask_bbox": null,
+        "max_rgba_delta": 0,
+        "outside_mask_alpha_changes": 0
+      }
+    },
+    {
+      "path": "iterations/P08-skeleton-inpaint-trial",
+      "sha256": "fde3047a02dcae418f439dac4b8b1f618beefb7dbcb9009cd5687c7ed5e65fd9",
+      "mask_preservation": {
+        "status": "PASS",
+        "outside_mask_changed_pixels": 0,
+        "outside_mask_bbox": null,
+        "max_rgba_delta": 0,
+        "outside_mask_alpha_changes": 0
+      }
+    },
+    {
+      "path": "iterations/P10-first",
+      "sha256": "9049b4b391a4b9188fec2df2ea47413a1906aae968358142686bb10230a9a3b5",
+      "mask_preservation": null
+    }
+  ]
+}

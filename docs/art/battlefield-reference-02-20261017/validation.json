@@ -1,0 +1,71 @@
+{
+  "status": "PASS_WITH_RECORDED_MASK_FAILURES",
+  "selected_pngs": 31,
+  "unique_pngs": 31,
+  "gallery_cards": 31,
+  "archived_iterations": 38,
+  "provider_bytes_and_actual_requests": "PASS",
+  "dimensions_alpha_hashes_references": "PASS",
+  "inpaint_mask_preservation": {
+    "status": "FAIL",
+    "selected_exceptions": [
+      {
+        "label": "P04",
+        "status": "FAIL",
+        "outside_mask_changed_pixels": 174,
+        "outside_mask_bbox": [
+          178,
+          166,
+          238,
+          225
+        ],
+        "max_rgba_delta": 103,
+        "outside_mask_alpha_changes": 0
+      },
+      {
+        "label": "P07",
+        "status": "FAIL",
+        "outside_mask_changed_pixels": 688,
+        "outside_mask_bbox": [
+          123,
+          127,
+          197,
+          218
+        ],
+        "max_rgba_delta": 251,
+        "outside_mask_alpha_changes": 0
+      }
+    ],
+    "archived_exceptions": [
+      {
+        "path": "iterations/P04-floor-repair-inpaint-trial",
+        "status": "FAIL",
+        "outside_mask_changed_pixels": 174,
+        "outside_mask_bbox": [
+          178,
+          166,
+          238,
+          225
+        ],
+        "max_rgba_delta": 103,
+        "outside_mask_alpha_changes": 0
+      },
+      {
+        "path": "iterations/P07-floor-repair-inpaint-trial",
+        "status": "FAIL",
+        "outside_mask_changed_pixels": 688,
+        "outside_mask_bbox": [
+          123,
+          127,
+          197,
+          218
+        ],
+        "max_rgba_delta": 251,
+        "outside_mask_alpha_changes": 0
+      }
+    ]
+  },
+  "exact_tile_ratio": "not measured",
+  "animation_stability": "not tested",
+  "runtime_integration": "none"
+}

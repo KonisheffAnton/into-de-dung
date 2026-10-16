@@ -1,0 +1,420 @@
+{
+  "provider": "PixelLab",
+  "api_base": "https://api.pixellab.ai/v2",
+  "openapi_checked": "https://api.pixellab.ai/v2/openapi.json",
+  "status": "selected_png_provenance_pass_with_mask_exceptions",
+  "reference_sha256": "e8fe9bb7fa4babe3a5bc46582a48632a746e32e6d34e312c81641b1040a12cd3",
+  "tile_guide_sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d",
+  "projection_guide_sha256": "3a444db1efbf7dd949d123ffd724f1a7e0a6eeb069066f320d84e707798f7dbb",
+  "attempt_count": 27,
+  "selected_count": 11,
+  "usage_generations": 675,
+  "subscription_balance_before": 3324.6,
+  "subscription_balance_after": 2649.6,
+  "attempts": [
+    {
+      "id": 11,
+      "label": "P01",
+      "endpoint": "/generate-image-v2",
+      "job_id": "0d035130-a442-437e-b92b-ccbaaa3496ba",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "73661c3b114b99b301a48e792d771cfa287411537404b6b85384eda59954cb19",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\011"
+    },
+    {
+      "id": 12,
+      "label": "P02",
+      "endpoint": "/generate-image-v2",
+      "job_id": "379e75f0-2a9a-4d4b-9409-196c9a304b97",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "e24c248f35c4c0052aaab1aebaf503a83195fe88138d13431a818bc42a8e1924",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\012"
+    },
+    {
+      "id": 13,
+      "label": "P03",
+      "endpoint": "/generate-image-v2",
+      "job_id": "b1ddb235-2ada-457f-aba0-32bcc0039c56",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "203faeb4d0936ac13813260646529f54b20845a8dbb1656bb2050aa3b794f213",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\013"
+    },
+    {
+      "id": 14,
+      "label": "P04",
+      "endpoint": "/generate-image-v2",
+      "job_id": "636beff3-7004-4c9d-9dc2-8ef367f5cec6",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "3cfabf7b7fd3e68bb7aa6ddf68849dbc13d36e3c4e860e56ab11f71593307024",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\014"
+    },
+    {
+      "id": 15,
+      "label": "P05",
+      "endpoint": "/generate-image-v2",
+      "job_id": "d6adac00-531c-43d4-b3a3-c7b32e9ed7df",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "11f0bb5b7f9271c7050b5e0a77e801d05231cb1da9d41a8cfe6dd48654b20402",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\015"
+    },
+    {
+      "id": 16,
+      "label": "P06",
+      "endpoint": "/generate-image-v2",
+      "job_id": "8495df5a-944b-4543-8232-ff6be0f9d5f0",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "0ee84d100c6f33feea6f0873a26749240b1576e99d2650bc46086e21deabc01d",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\016"
+    },
+    {
+      "id": 17,
+      "label": "P07",
+      "endpoint": "/generate-image-v2",
+      "job_id": "d3680462-5652-4f3b-9e67-536fc0b000d5",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "099de881955cacb8dc74969033fb8663e478c5263f962d2881bf5c3dfc6f9551",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\017"
+    },
+    {
+      "id": 18,
+      "label": "P08",
+      "endpoint": "/generate-image-v2",
+      "job_id": "febe7273-b29c-4223-8618-9c9a5fd64e11",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "c580d24da52d7efacd5de51ea4991631fe25fcf3ce12115e77cc6e2ab63e31bc",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\018"
+    },
+    {
+      "id": 19,
+      "label": "P09",
+      "endpoint": "/generate-image-v2",
+      "job_id": "81f77c39-cd53-40eb-b987-91a0206ce8fc",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "52c96ef12f5d3de655d398bcf1296d9f29540d8d9d1a8ae53672b35f56f889e8",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\019"
+    },
+    {
+      "id": 20,
+      "label": "P10",
+      "endpoint": "/generate-image-v2",
+      "job_id": "0b7bd419-e273-472e-9615-4ef900587db9",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "9049b4b391a4b9188fec2df2ea47413a1906aae968358142686bb10230a9a3b5",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\020"
+    },
+    {
+      "id": 21,
+      "label": "A01",
+      "endpoint": "/generate-image-v2",
+      "job_id": "f11e3b2f-9bf5-4042-a69d-69ec2bf400ba",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "68f2d0e11374af47ca024cab50647cb85359e02615840a9dae44abdd558fdd49",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\021"
+    },
+    {
+      "id": 22,
+      "label": "P02-correction",
+      "endpoint": "/generate-image-v2",
+      "job_id": "8b0a5c8f-e1a9-4ff9-9e0b-e9511338b197",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "f1148ba680e08b5962fd728ee9b79d875416e649c61b37e9415f5bd6e102f01b",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\022"
+    },
+    {
+      "id": 24,
+      "label": "P04-correction",
+      "endpoint": "/generate-image-v2",
+      "job_id": "78f85af2-9e83-4631-8ce5-5418c8a2c1b3",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "b66ef22ee2edf5f1e23cde35ef13b5c77052a28f0fe8f271157b8b451407f8a5",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\024"
+    },
+    {
+      "id": 25,
+      "label": "P05-correction",
+      "endpoint": "/generate-image-v2",
+      "job_id": "b81d7c60-15ed-4e6c-af18-8110b8360c8a",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "58f81fed7f65efd352de9f51666094fca5df2c0447751bf468bca8a22dace603",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\025"
+    },
+    {
+      "id": 27,
+      "label": "P07-correction",
+      "endpoint": "/generate-image-v2",
+      "job_id": "ba3ac0f0-d40f-4e76-b084-efd3fb28e25b",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "9d08b83c7032c0d8eb34c8bd0eddabf08e46d4c3554ab3003bda81b30a320f46",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\027"
+    },
+    {
+      "id": 28,
+      "label": "P08-correction",
+      "endpoint": "/generate-image-v2",
+      "job_id": "f4f096b2-6669-4583-bec7-0efc90f629f7",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "9cc1a4afece7a33f44ef4eb88883803d468930cf5329a0a77e691f990a33170e",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\028"
+    },
+    {
+      "id": 30,
+      "label": "P10-correction",
+      "endpoint": "/generate-image-v2",
+      "job_id": "4bd15754-3d3a-4d11-99bf-e4a47add412c",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "38c2aff9b58f57bdf876987dfccd7454e1d0d6f8b1bdf525d8475170bbb11729",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\030"
+    },
+    {
+      "id": 31,
+      "label": "P05-inpaint",
+      "endpoint": "/inpaint-v3",
+      "job_id": "d37046de-8514-469c-96dd-c4f24f8cc75a",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "3a51ec0af30f9e738124663e090436cd69f07ad94f2af01a3fd03f535bf25cf5",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\031"
+    },
+    {
+      "id": 32,
+      "label": "P07-inpaint",
+      "endpoint": "/inpaint-v3",
+      "job_id": "fb079dac-10ac-41e2-9a66-b4cbc4b803ff",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "d0aaf260a04b215b6e67748b3db4d87e31b9678579a74d5cd217f5c062d1ee58",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\032"
+    },
+    {
+      "id": 33,
+      "label": "P08-inpaint",
+      "endpoint": "/inpaint-v3",
+      "job_id": "e6b2c86b-1750-4dc1-90cc-705a124c0f5c",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "562f509f176bbf9fd947b5bb2cdf4fae07ed58ff752493d7306f2451f0fdbd72",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\033"
+    },
+    {
+      "id": 34,
+      "label": "A01-inpaint",
+      "endpoint": "/inpaint-v3",
+      "job_id": "599052ca-e12a-46a6-a563-4ff93bff580c",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "ccf766b78128e12350603eeac2e21756da7fc94483cdc942ec761ca323d09442",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\034"
+    },
+    {
+      "id": 35,
+      "label": "P04-knight-single-inpaint",
+      "endpoint": "/inpaint-v3",
+      "job_id": "76349515-3f95-4946-95f5-218f98d420c3",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "e98817e723d2cf81dd9003393da5815533f0413b66b16124a377cb1539e0d225",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\035"
+    },
+    {
+      "id": 36,
+      "label": "P07-knight-single-inpaint",
+      "endpoint": "/inpaint-v3",
+      "job_id": "42d71eb6-48e8-44fd-946d-c3f822aa0807",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "ea6e2243ee75586e877ba8482231659e02ef8783ed359a4b831e0318e4acae30",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\036"
+    },
+    {
+      "id": 37,
+      "label": "A01-knight-single-inpaint",
+      "endpoint": "/inpaint-v3",
+      "job_id": "ed80651e-f5ae-41a9-800d-3f9ad5f917dc",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "78f875061897567351a2876d57cfbc587d2c0f1175be1783076198feb6ec869d",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\037"
+    },
+    {
+      "id": 38,
+      "label": "P08-skeleton-single-inpaint",
+      "endpoint": "/inpaint-v3",
+      "job_id": "5edd818b-a0b5-4db0-872d-04c3d25e4bf5",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "fde3047a02dcae418f439dac4b8b1f618beefb7dbcb9009cd5687c7ed5e65fd9",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\038"
+    },
+    {
+      "id": 39,
+      "label": "P07-floor-repair",
+      "endpoint": "/inpaint-v3",
+      "job_id": "642aea63-e8d7-428b-a794-2d8cae0a8b0c",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "451a8bfbe18011cc19d7fe7542f732ea9b89e4dc08cba03689b67b695c050d30",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\039"
+    },
+    {
+      "id": 40,
+      "label": "P04-floor-repair",
+      "endpoint": "/inpaint-v3",
+      "job_id": "c23ef24e-a8ff-4155-b07b-72e4b929dbb2",
+      "status": "completed",
+      "usage_generations": 25,
+      "png_sha256": "3d3cb84823fd78bbdb74c2c336af198130dcb7bb6be5c32f3536450982cda05f",
+      "raw_folder": "C:\\Users\\Aston\\.codex\\generated_images\\battlefield-reference-02-20261017\\items\\040"
+    }
+  ],
+  "selected": [
+    {
+      "label": "P01",
+      "source_id": 11,
+      "attempt_id": 11,
+      "path": "items\\011\\original.png",
+      "job_id": "0d035130-a442-437e-b92b-ccbaaa3496ba",
+      "sha256": "73661c3b114b99b301a48e792d771cfa287411537404b6b85384eda59954cb19",
+      "usage_generations": 25
+    },
+    {
+      "label": "P02",
+      "source_id": 12,
+      "attempt_id": 22,
+      "path": "items\\012\\original.png",
+      "job_id": "8b0a5c8f-e1a9-4ff9-9e0b-e9511338b197",
+      "sha256": "f1148ba680e08b5962fd728ee9b79d875416e649c61b37e9415f5bd6e102f01b",
+      "usage_generations": 25
+    },
+    {
+      "label": "P03",
+      "source_id": 13,
+      "attempt_id": 13,
+      "path": "items\\013\\original.png",
+      "job_id": "b1ddb235-2ada-457f-aba0-32bcc0039c56",
+      "sha256": "203faeb4d0936ac13813260646529f54b20845a8dbb1656bb2050aa3b794f213",
+      "usage_generations": 25
+    },
+    {
+      "label": "P04",
+      "source_id": 14,
+      "attempt_id": 40,
+      "path": "items\\014\\original.png",
+      "job_id": "c23ef24e-a8ff-4155-b07b-72e4b929dbb2",
+      "sha256": "3d3cb84823fd78bbdb74c2c336af198130dcb7bb6be5c32f3536450982cda05f",
+      "usage_generations": 25
+    },
+    {
+      "label": "P05",
+      "source_id": 15,
+      "attempt_id": 31,
+      "path": "items\\015\\original.png",
+      "job_id": "d37046de-8514-469c-96dd-c4f24f8cc75a",
+      "sha256": "3a51ec0af30f9e738124663e090436cd69f07ad94f2af01a3fd03f535bf25cf5",
+      "usage_generations": 25
+    },
+    {
+      "label": "P06",
+      "source_id": 16,
+      "attempt_id": 16,
+      "path": "items\\016\\original.png",
+      "job_id": "8495df5a-944b-4543-8232-ff6be0f9d5f0",
+      "sha256": "0ee84d100c6f33feea6f0873a26749240b1576e99d2650bc46086e21deabc01d",
+      "usage_generations": 25
+    },
+    {
+      "label": "P07",
+      "source_id": 17,
+      "attempt_id": 39,
+      "path": "items\\017\\original.png",
+      "job_id": "642aea63-e8d7-428b-a794-2d8cae0a8b0c",
+      "sha256": "451a8bfbe18011cc19d7fe7542f732ea9b89e4dc08cba03689b67b695c050d30",
+      "usage_generations": 25
+    },
+    {
+      "label": "P08",
+      "source_id": 18,
+      "attempt_id": 38,
+      "path": "items\\018\\original.png",
+      "job_id": "5edd818b-a0b5-4db0-872d-04c3d25e4bf5",
+      "sha256": "fde3047a02dcae418f439dac4b8b1f618beefb7dbcb9009cd5687c7ed5e65fd9",
+      "usage_generations": 25
+    },
+    {
+      "label": "P09",
+      "source_id": 19,
+      "attempt_id": 19,
+      "path": "items\\019\\original.png",
+      "job_id": "81f77c39-cd53-40eb-b987-91a0206ce8fc",
+      "sha256": "52c96ef12f5d3de655d398bcf1296d9f29540d8d9d1a8ae53672b35f56f889e8",
+      "usage_generations": 25
+    },
+    {
+      "label": "P10",
+      "source_id": 20,
+      "attempt_id": 30,
+      "path": "items\\020\\original.png",
+      "job_id": "4bd15754-3d3a-4d11-99bf-e4a47add412c",
+      "sha256": "38c2aff9b58f57bdf876987dfccd7454e1d0d6f8b1bdf525d8475170bbb11729",
+      "usage_generations": 25
+    },
+    {
+      "label": "A01",
+      "source_id": 21,
+      "attempt_id": 37,
+      "path": "animation-friendly\\original.png",
+      "job_id": "ed80651e-f5ae-41a9-800d-3f9ad5f917dc",
+      "sha256": "78f875061897567351a2876d57cfbc587d2c0f1175be1783076198feb6ec869d",
+      "usage_generations": 25
+    }
+  ],
+  "mask_preservation": {
+    "status": "FAIL for P04 and P07 final floor-only inpaints; accepted visually as concepts, not pixel-preserved edits",
+    "exceptions": [
+      {
+        "label": "P04",
+        "attempt_id": 40,
+        "outside_mask_changed_pixels": 174
+      },
+      {
+        "label": "P07",
+        "attempt_id": 39,
+        "outside_mask_changed_pixels": 688
+      }
+    ]
+  },
+  "visual_notes": {
+    "P01": "One isometric room and six figures; exact 4:3 tile tops and every foot position require human measurement.",
+    "P02": "Corrected bridge has large marked cells; central foot placement looks improved; exact cell aspect remains unmeasured.",
+    "P03": "Archive scene is readable; some figures still look close to frontal.",
+    "P04": "Final floor repair visually restores continuous green-brown ruins floor and a back-three-quarter shield knight; provider changed 174 pixels outside the floor mask, so mask preservation failed.",
+    "P05": "Masked edit turns the two targeted figures; a small figure-like shape remains at far-right props.",
+    "P06": "Six figures and linked mining floor are readable; exact per-foot cell placement remains unmeasured.",
+    "P07": "Final floor repair visually restores continuous blue-gray/olive prison floor and a back-three-quarter shield knight; provider changed 688 pixels outside the floor mask, so mask preservation failed.",
+    "P08": "Two masked edits turn the targeted figures and right skeleton back/side.",
+    "P09": "Six figures and continuous garden floor are readable; exact geometry remains unmeasured.",
+    "P10": "Imp stands on ordinary far-platform cell after correction; bridge appears narrower than own three-cell prompt.",
+    "A01": "Four simpler figures, no pedestal; single-figure masked edit turns blue knight back-three-quarter. Motion stability is untested."
+  },
+  "limits": [
+    "Some floor diamonds look flatter than the 128x96 guide; strict 4:3 tile-top geometry is not confirmed.",
+    "Static A01 does not establish future animation artifact frequency.",
+    "No gameplay integration or manual Godot/editor acceptance was performed."
+  ]
+}

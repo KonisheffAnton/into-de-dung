@@ -1,0 +1,27 @@
+{
+  "endpoint": "/inpaint-v3",
+  "body": {
+    "description": "Edit ONLY the white masked regions containing the lower-left bronze axe warrior and the central pale skeleton. Repose each entire HEAD, FACE, SHOULDERS, TORSO, ARMS, held equipment and BOOTS to face a diagonal grid axis at 45 degrees. Make a substantial side of face and torso plus top of head or helmet clearly visible, matching the elevated isometric camera of the room; no flat front-facing face. Keep each figure the same compact scale and preserve its foot anchor on its original full 4:3 diamond tile; both soles must stay inside that tile. Keep the bronze axe and the skeleton sword/shield identities. Preserve the original palette, clear silhouettes, continuous tile lines, contact shadows and room. Preserve all black-mask areas pixel for pixel. Add no figures, stands, discs, pedestals, platforms or props.",
+    "seed": 619031,
+    "no_background": false,
+    "crop_to_mask": true,
+    "inpainting_image": {
+      "path": "inpaint-inputs\\P05\\source.png",
+      "sha256": "11f0bb5b7f9271c7050b5e0a77e801d05231cb1da9d41a8cfe6dd48654b20402",
+      "size": {
+        "width": 512,
+        "height": 384
+      }
+    },
+    "mask_image": {
+      "path": "inpaint-inputs\\P05\\mask.png",
+      "sha256": "6e12f3446b045d3a267598e6d671e8b11d5be9b80a145cfcf2e88b103300ffc4",
+      "size": {
+        "width": 512,
+        "height": 384
+      }
+    }
+  },
+  "submitted_input_bytes_verified": true,
+  "correction_of": "iterations/P05-first"
+}

@@ -1,0 +1,50 @@
+{
+  "base": "3ebc97558381838b933f66960c8fda536c2bbef0",
+  "branch": "main",
+  "archive_sha256": "120f008e8eaf544fccb1e36e9f1ed3e4960916f6c213f73ee7c461f547135c75",
+  "archive_byte_exact_to_original_worktree": true,
+  "archive_matches_base_git_with_normalized_newlines": true,
+  "main_menu_sha256_unchanged": "a64c270256ebf2ea073081200be23028f792f42c3ca98f83a6499c1300a68668",
+  "entry_document_sizes": [
+    {
+      "path": "AGENTS.md",
+      "before_lf_chars": 4565,
+      "after_lf_chars": 4565,
+      "limit": 5000
+    },
+    {
+      "path": "docs/CODEX_HANDOFF.md",
+      "before_lf_chars": 2338,
+      "after_lf_chars": 2418,
+      "limit": 2500
+    },
+    {
+      "path": "docs/PROJECT_CONTEXT.md",
+      "before_lf_chars": 3491,
+      "after_lf_chars": 3491,
+      "limit": 3500
+    },
+    {
+      "path": "docs/CODEX_WORKFLOW.md",
+      "before_lf_chars": 4482,
+      "after_lf_chars": 4482,
+      "limit": 4500
+    }
+  ],
+  "local_links_checked": 24,
+  "json_payload_hygiene": "PASS",
+  "unique_provider_pngs_in_selected_and_archive": 61,
+  "selected_pngs": 31,
+  "archived_folders": 38,
+  "gallery_browser": {
+    "loaded_pngs": 31,
+    "series_and_provider_filters": "PASS",
+    "search_and_original_prompt": "PASS",
+    "reference_modal": "PASS",
+    "favorites_persist_and_test_star_removed": "PASS"
+  },
+  "visual_review": "APPROVE static visual scope",
+  "mask_preservation": "FAIL P04=174, P07=688 outside-mask pixels; accepted native concepts with explicit exceptions",
+  "runtime_tests": "not run: art/docs only",
+  "user_latest": "Stop PixelLab work and leave results as they are; no further generation or editing."
+}
