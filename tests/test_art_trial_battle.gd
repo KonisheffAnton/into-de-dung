@@ -45,6 +45,7 @@ func run() -> void:
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport)
 	await live_battle()
+	await tile_side_sample()
 	await field_sample()
 	viewport.queue_free()
 	await process_frame
@@ -60,6 +61,74 @@ func visible_grass(tile: BattleDemoIsoVisual) -> Node2D:
 			chosen = child as Node2D
 	check(count == 1, "one authored grass variant selected")
 	return chosen
+
+func tile_side_sample() -> void:
+	var tile := TILE.instantiate() as BattleTerrainVisual
+	viewport.add_child(tile)
+	await process_frame
+	var config := IsoGridConfig.new()
+	config.tile_size = Vector2(128.0, 96.0)
+	config.height_step = 32.0
+	config.origin_offset = Vector2(320.0, 240.0)
+	var left := tile.get_node("ArtRoot/SideLeft") as Polygon2D
+	var right := tile.get_node("ArtRoot/SideRight") as Polygon2D
+	var left_id := left.get_instance_id()
+	var right_id := right.get_instance_id()
+	for role: BattleDemoIsoVisual.Role in [BattleDemoIsoVisual.Role.FLOOR, BattleDemoIsoVisual.Role.PLATFORM]:
+		for steps: int in [0, 4, -4]:
+			check(tile.apply_view(_tile_values(role, steps), config), "trial side sample applies %s half-step %d" % [str(role), steps])
+			var surfaces := tile.surface_polygons()
+			var base: Color = tile.ground_base_tint
+			check(left.visible and right.visible and left.color == Color.WHITE and right.color == Color.WHITE
+				and left.vertex_colors == PackedColorArray([base.darkened(tile.left_top_darkening), base.darkened(tile.left_top_darkening), tile.left_bottom_color, tile.left_bottom_color])
+				and right.vertex_colors == PackedColorArray([base.darkened(tile.right_top_darkening), base.darkened(tile.right_top_darkening), tile.right_bottom_color, tile.right_bottom_color]),
+				"side faces retain distinct top shades and cool bottom colors")
+			check(_side_top_matches(left, surfaces[0], tile) and _side_top_matches(right, surfaces[1], tile),
+				"elevation side treatment leaves original top edges unchanged")
+			var depth_ok: bool = left.polygon[2].y - left.polygon[1].y >= tile.side_depth_pixels \
+				and left.polygon[3].y - left.polygon[0].y >= tile.side_depth_pixels \
+				and right.polygon[2].y - right.polygon[1].y >= tile.side_depth_pixels \
+				and right.polygon[3].y - right.polygon[0].y >= tile.side_depth_pixels
+			if steps == 0:
+				depth_ok = depth_ok and is_equal_approx(left.polygon[2].y - left.polygon[1].y, tile.side_depth_pixels) \
+					and is_equal_approx(left.polygon[3].y - left.polygon[0].y, tile.side_depth_pixels) \
+					and is_equal_approx(right.polygon[2].y - right.polygon[1].y, tile.side_depth_pixels) \
+					and is_equal_approx(right.polygon[3].y - right.polygon[0].y, tile.side_depth_pixels)
+			check(depth_ok, "floor and platform use authored minimum depth without collapsing at negative elevation")
+			var saved_left := left.polygon.duplicate()
+			var saved_right := right.polygon.duplicate()
+			var saved_surfaces := surfaces.duplicate()
+			tile.sync_scene_art()
+			tile.sync_scene_art()
+			check(left.polygon == saved_left and right.polygon == saved_right
+				and tile.surface_polygons() == saved_surfaces,
+				"repeated sync does not accumulate depth or alter picking geometry")
+			check(left.get_instance_id() == left_id and right.get_instance_id() == right_id,
+				"side-face nodes are reused across terrain publication")
+	check(tile.apply_view(_tile_values(BattleDemoIsoVisual.Role.WALL, -4), config), "wall side sample applies")
+	var wall_surfaces := tile.surface_polygons()
+	check(left.polygon == tile._to_art_points(wall_surfaces[0], tile.get_visual_offset(), 1.0)
+		and right.polygon == tile._to_art_points(wall_surfaces[1], tile.get_visual_offset(), 1.0),
+		"wall receives gradient without authored ground thickness")
+	var wall_base := tile._surface_tint()
+	check(left.vertex_colors[0] == wall_base.darkened(tile.left_top_darkening)
+		and right.vertex_colors[0] == wall_base.darkened(tile.right_top_darkening),
+		"wall gradient remains related to its surface palette")
+	check(tile.apply_view(_tile_values(BattleDemoIsoVisual.Role.FLOOR, 3, true), config)
+		and not left.visible and not right.visible,
+		"void remains hidden by the base side visibility contract")
+	tile.queue_free()
+	await process_frame
+
+func _tile_values(role: BattleDemoIsoVisual.Role, steps: int, void_surface: bool = false) -> Dictionary:
+	return {"cell": Vector2i(2, 3), "role": role, "half_steps": steps, "is_void": void_surface,
+		"reachable": false, "enemy_range": false, "burning": false}
+
+func _side_top_matches(side: Polygon2D, surface: PackedVector2Array, tile: BattleDemoIsoVisual) -> bool:
+	var factor: float = tile.grid_config.tile_size.x / 128.0
+	var offset := tile.get_visual_offset()
+	return side.polygon[0].is_equal_approx((surface[0] - offset) / factor) \
+		and side.polygon[1].is_equal_approx((surface[1] - offset) / factor)
 
 func live_battle() -> void:
 	var demo := TRIAL.instantiate() as BattleDemo

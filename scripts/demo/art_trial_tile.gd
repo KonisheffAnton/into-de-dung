@@ -1,6 +1,11 @@
 extends BattleTerrainVisual
 
 @export_range(0.0, 3.0, 0.05) var minimum_seam_pixels: float = 1.15
+@export_range(6.0, 48.0, 1.0) var side_depth_pixels: float = 18.0
+@export_range(0.0, 1.0, 0.01) var left_top_darkening: float = 0.25
+@export_range(0.0, 1.0, 0.01) var right_top_darkening: float = 0.12
+@export var left_bottom_color: Color = Color("1d2326")
+@export var right_bottom_color: Color = Color("20272a")
 @onready var _seam: Line2D = $ArtRoot/GroundSurface/QuietSeam
 @onready var _authored_seam_width: float = _seam.width
 
@@ -23,6 +28,39 @@ func _sync_seam_width() -> void:
 	if scale_factor <= 0.0: return
 	# Геометрия остаётся авторской; тонкий стык не исчезает при уменьшении камеры/окна.
 	_seam.width = maxf(_authored_seam_width, minimum_seam_pixels / scale_factor)
+
+
+func _sync_scene_sides(factor: float) -> void:
+	super._sync_scene_sides(factor)
+	var left := get_node_or_null("ArtRoot/SideLeft") as Polygon2D
+	var right := get_node_or_null("ArtRoot/SideRight") as Polygon2D
+	if left == null or right == null or not left.visible or not right.visible: return
+	var ground_art_active := _uses_ground_art()
+	var base_tint := ground_base_tint if ground_art_active else _surface_tint()
+	left.color = Color.WHITE
+	right.color = Color.WHITE
+	left.vertex_colors = PackedColorArray([
+		base_tint.darkened(left_top_darkening), base_tint.darkened(left_top_darkening),
+		left_bottom_color, left_bottom_color,
+	])
+	right.vertex_colors = PackedColorArray([
+		base_tint.darkened(right_top_darkening), base_tint.darkened(right_top_darkening),
+		right_bottom_color, right_bottom_color,
+	])
+	if not ground_art_active: return
+	# Работаем после super в координатах ArtRoot; верх и его UV остаются авторскими.
+	var left_points := left.polygon
+	left_points[2].y = maxf(left_points[2].y + side_depth_pixels - 6.0,
+		left_points[1].y + side_depth_pixels)
+	left_points[3].y = maxf(left_points[3].y + side_depth_pixels - 6.0,
+		left_points[0].y + side_depth_pixels)
+	left.polygon = left_points
+	var right_points := right.polygon
+	right_points[2].y = maxf(right_points[2].y + side_depth_pixels - 6.0,
+		right_points[1].y + side_depth_pixels)
+	right_points[3].y = maxf(right_points[3].y + side_depth_pixels - 6.0,
+		right_points[0].y + side_depth_pixels)
+	right.polygon = right_points
 
 # Разнообразная постоянная раскладка держит эталонные пучки вне игрового RNG.
 const VARIANT_GRID: Array[int] = [
