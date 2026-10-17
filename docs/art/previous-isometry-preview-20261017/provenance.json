@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-17",
+  "base_head": "e42decc583bf022a742688e4ad4af01205869be9",
+  "mode": "preview-only",
+  "provider": "built-in image_gen.imagegen",
+  "prompt": "prompt.txt",
+  "provider_original": "C:\\Users\\Aston\\.codex\\generated_images\\01a149c2-2ee9-7181-af73-7bf2f2c9d22e\\exec-1aebef30-5c5e-4219-bb33-7f367e59ba20.png",
+  "output_copied_byte_exact": true,
+  "images": [
+    {
+      "path": "docs/art/battlefield-shadows-preview-20261017/battle-original.png",
+      "size": [
+        1600,
+        1200
+      ],
+      "sha256": "a050b4e9cd3e270c41bb855767c089a61a76d7f85618ec003eeb7920d28d14c9"
+    },
+    {
+      "path": "docs/art/projection-4x3-20261009/previous-art-64.png",
+      "size": [
+        1000,
+        820
+      ],
+      "sha256": "70aba9f1a3014169e7c27643aee3d95fad65901494e75dbd999a04c1758c5a98"
+    },
+    {
+      "path": "docs/art/previous-isometry-preview-20261017/previous-isometry.png",
+      "size": [
+        1448,
+        1086
+      ],
+      "sha256": "72de23b0fde054cee676194699ba9c61aa0c624fb08cdeee23db13cd69ec9fc4"
+    }
+  ],
+  "historical_transition": "b2ebc34fca824b03d518169e5bce5d5582d09ee1",
+  "historical_parent": "f15c4fdb2f1634e0b157600fdf5239a0f547034a",
+  "old_tile_size": [
+    128,
+    64
+  ],
+  "current_tile_size": [
+    128,
+    96
+  ]
+}
