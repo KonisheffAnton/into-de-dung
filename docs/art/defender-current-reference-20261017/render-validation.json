@@ -1,0 +1,14 @@
+{
+  "alpha_changed": 0,
+  "scope": "Current character color/style reference requested by U; source gameplay PNGs unchanged.",
+  "size": [
+    352,
+    320
+  ],
+  "source_node": "ArtRoot/PlayerWarriorSprite",
+  "source_scene": "scenes/demo/visuals/art_trial_unit.tscn",
+  "status": "PASS",
+  "strength": 1.0,
+  "view_scale": 4.0,
+  "visible_rgb_changed": 38876
+}

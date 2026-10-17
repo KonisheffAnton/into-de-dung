@@ -75,5 +75,8 @@
       "alpha128_height": 72,
       "placement_applies_to_this_pose_only": true
     }
-  }
+  },
+  "current_character_reference": "assets/art_presets/approved/defender_brighter_v1/defender-reference.png",
+  "current_character_reference_selected_on": "2026-10-17",
+  "reference_scope": "Original composition and placement; current character color and Defender reference are specified separately."
 }

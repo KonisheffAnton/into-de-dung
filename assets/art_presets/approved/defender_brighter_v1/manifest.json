@@ -1,0 +1,42 @@
+{
+  "id": "defender_brighter_v1",
+  "selected_on": "2026-10-17",
+  "approval_scope": "User requested the already implemented brighter character palette as the current static reference in Defender form. This does not accept all animations, F5 or final game art.",
+  "style_owner": "docs/ART_DIRECTION.md",
+  "reference": "assets/art_presets/approved/defender_brighter_v1/defender-reference.png",
+  "source_scene": "scenes/demo/visuals/art_trial_unit.tscn",
+  "source_node": "ArtRoot/PlayerWarriorSprite",
+  "render_only": true,
+  "runtime_texture_replacement": false,
+  "palette_strength": 1.0,
+  "cloth_palette": 0,
+  "view_scale_relative_to_authored_sprite": 4.0,
+  "image_size": [
+    352,
+    320
+  ],
+  "alpha_changed_vs_same_render_with_strength_zero": 0,
+  "recipe": "docs/art/defender-current-reference-20261017/render_reference.gd",
+  "files": [
+    {
+      "path": "scenes/demo/visuals/art_trial_unit.tscn",
+      "sha256": "e5be84ae87a19b83753332522344f301f418e459a199a81973e5ff08077ff373"
+    },
+    {
+      "path": "assets/art_presets/trials/defender_field_v1/defender_new.png",
+      "sha256": "7cbd0358fe42264f8090b4d77da03274fcca1a4ebbe5984b960d77c9f5874082"
+    },
+    {
+      "path": "assets/art_presets/trials/pixel_zoom_v1/native_sprite.gdshader",
+      "sha256": "5579fab7b808ff979ad7c0a44da2844618669e2256f67ce6cb70937db327375e"
+    },
+    {
+      "path": "assets/art_presets/trials/pixel_zoom_v1/character_palette.gdshaderinc",
+      "sha256": "3e6e1f5ca830c2bd9548a7d15c2a0cfe7329544346580657888e7b784abda5d9"
+    },
+    {
+      "path": "assets/art_presets/approved/defender_brighter_v1/defender-reference.png",
+      "sha256": "a4e5c1ed380b6288587c0866b9cd0e9b8252e97fdc183aaefa246290815fc46b"
+    }
+  ]
+}
