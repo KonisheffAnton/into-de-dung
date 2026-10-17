@@ -1,0 +1,7 @@
+{
+  "prompt": "Edit this cutout sprite atlas with ONLY ONE targeted correction: in BOTH head depictions (the assembled full knight in top-left and detached head in top-right), make the face DIRECTLY FRONT-FACING TOWARD VIEWER. Show TWO equal small dark square eyes on the same horizontal row and a small centered face. REMOVE the side-profile projecting nose; no side profile. Match the two heads. Keep red plume, pale cream helmet, coarse broad square pixel clusters and simple design. Keep the entire existing four-cell layout, all three detached parts, all armor, sword, shield, legs and transparent background unchanged. Do not add details or additional pieces. Genuine transparency, no shadows, no floor or labels.",
+  "referenced_image_paths": [
+    "D:/Games/into-de-dung/docs/art/cutout-idle-20261017/atlas-b.png"
+  ],
+  "transparent_background": true
+}

@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "archive_byte_exact_to_start": true,
+  "archive_matches_head_after_line_endings": true,
+  "main_menu_unchanged": true,
+  "input_document_sizes_lf": [
+    {
+      "file": "AGENTS.md",
+      "before": 4565,
+      "after": 4565
+    },
+    {
+      "file": "docs/CODEX_HANDOFF.md",
+      "before": 2288,
+      "after": 2226
+    },
+    {
+      "file": "docs/PROJECT_CONTEXT.md",
+      "before": 3491,
+      "after": 3491
+    },
+    {
+      "file": "docs/CODEX_WORKFLOW.md",
+      "before": 4482,
+      "after": 4482
+    }
+  ],
+  "missing_links": [],
+  "scope": "Changed entry documents and package links; binary source/capture checks separate. No Godot or art acceptance."
+}

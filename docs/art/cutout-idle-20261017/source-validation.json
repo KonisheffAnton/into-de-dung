@@ -1,0 +1,108 @@
+{
+  "status": "PASS",
+  "records": [
+    {
+      "file": "iterations/atlas-a-frontal.png",
+      "sha256": "6531bbb295d9054eabab2706bbd90823087507848012da065f2cf91f45d1cb02",
+      "size": [
+        1254,
+        1254
+      ],
+      "hasAlpha": true,
+      "provider_bytes_equal": true
+    },
+    {
+      "file": "atlas-b-initial.png",
+      "sha256": "ea73111f048654dbe2e95fb3afa3ed7dec258aa2795da75ac49f70c40adcb8c1",
+      "size": [
+        1254,
+        1254
+      ],
+      "hasAlpha": true,
+      "provider_bytes_equal": true
+    },
+    {
+      "file": "iterations/atlas-b-frontal.png",
+      "sha256": "21d08741002231a7111cb4d4cb4414a6cc6431c7896fb41d72ddd648803bb0ec",
+      "size": [
+        1254,
+        1254
+      ],
+      "hasAlpha": true,
+      "provider_bytes_equal": true
+    },
+    {
+      "file": "iterations/atlas-a-iso-first.png",
+      "sha256": "6e6beff0731b4761c7073fbde5d122ac9d8c88a8833f5981b01b461155a83290",
+      "size": [
+        1254,
+        1254
+      ],
+      "hasAlpha": true,
+      "provider_bytes_equal": true
+    },
+    {
+      "file": "iterations/atlas-a-yaw-correction.png",
+      "sha256": "4aa36ef7ea4e267aca14256a11469ba77b4fb9a2eed46aec8ac0921d9c5c974e",
+      "size": [
+        1254,
+        1254
+      ],
+      "hasAlpha": true,
+      "provider_bytes_equal": true
+    },
+    {
+      "file": "iterations/atlas-b-low-camera.png",
+      "sha256": "3920b615e409c72833525b1330396fcd2beefa4c7b586d46f46a6970b1d6e040",
+      "size": [
+        1254,
+        1254
+      ],
+      "hasAlpha": true,
+      "provider_bytes_equal": true
+    },
+    {
+      "file": "atlas-a.png",
+      "sha256": "0236db4124a16e9c53963d9d22d63908a4ae8587cc594a73bd95c59b11f888ed",
+      "size": [
+        1254,
+        1254
+      ],
+      "hasAlpha": true,
+      "provider_bytes_equal": true
+    },
+    {
+      "file": "atlas-b.png",
+      "sha256": "f6d01f8b172fe04e2d49b7a594198c1e389a340cfa72d7434327bc0554afb160",
+      "size": [
+        1254,
+        1254
+      ],
+      "hasAlpha": true,
+      "provider_bytes_equal": true
+    },
+    {
+      "file": "reference-a.png",
+      "sha256": "e51e99c4afffaa8df03829382adb8e0156f75fd87c904c7b3a2e3f2af2af56f1",
+      "size": [
+        1280,
+        960
+      ],
+      "hasAlpha": false,
+      "provider_bytes_equal": true
+    },
+    {
+      "file": "reference-b.png",
+      "sha256": "9d8027c71e8610f92eb64d03a4c50ad166ad41bfc185c639c1b51a132cfb968d",
+      "size": [
+        1254,
+        1254
+      ],
+      "hasAlpha": false,
+      "provider_bytes_equal": true
+    }
+  ],
+  "main_menu_unchanged": true,
+  "imagegen_calls": 8,
+  "pixellab_calls": 0
+}

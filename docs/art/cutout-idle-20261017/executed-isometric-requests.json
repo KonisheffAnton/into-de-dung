@@ -1,0 +1,18 @@
+[
+  {
+    "prompt": "Correct the CAMERA/ORIENTATION of the character and every detached part in image1. Image2 is the exact required approved ISOMETRIC pose reference, NOT a replacement costume. The new knight must face screen LOWER RIGHT in a strong FRONT THREE-QUARTER ISOMETRIC view, matching the Defender in image2: top of helmet and shoulders clearly visible, front and side planes of torso and helmet visible, face/visor angled diagonally down-right, nearer shoulder and boot lower on screen than farther ones, feet staggered diagonally. The viewer still sees the face/front, never the back. NOT symmetric frontal, NOT flat side profile. Preserve the bronze horned helmet, orange bronze armor, dark underarmor, reddish round shield and upright spear of image1, and its crisp pixel-art style. Do NOT copy image2's helmet/costume/colors. Keep the SAME 2x2 atlas arrangement: top-left COMPLETE assembled knight in corrected isometric pose; top-right detached head; bottom-left torso WITH both arms, spear, hands, shield, neck and waist overlap tabs; bottom-right pelvis/two legs/boots in matching staggered isometric stance. Each detached part matches the corresponding full knight at the SAME PIXEL SCALE. Exactly four objects in four separate equal cells, ample transparent margins. Genuine transparent background. No tile/floor/shadow/pedestal/borders/text. Preserve coherent attachment points for layering. All parts use the same camera and diagonal orientation.",
+    "referenced_image_paths": [
+      "D:/Games/into-de-dung/docs/art/cutout-idle-20261017/atlas-a.png",
+      "D:/Games/into-de-dung/assets/art_presets/approved/grass_defender_v1/defender_reference_v1.png"
+    ],
+    "transparent_background": true
+  },
+  {
+    "prompt": "Correct the CAMERA/ORIENTATION of the character and every detached part in image1. Image2 is the exact required approved ISOMETRIC pose reference, NOT a replacement costume. The new knight must face screen LOWER RIGHT in a strong FRONT THREE-QUARTER ISOMETRIC view, matching the Defender in image2: top of helmet and shoulders clearly visible, front and side planes of torso and helmet visible, face/visor angled diagonally down-right, nearer shoulder and boot lower on screen than farther ones, feet staggered diagonally. The viewer still sees the face/front, never the back. NOT symmetric frontal, NOT flat side profile. Preserve the cream helmet with RED PLUME, very simple cream armor, tiny visible face, red SQUARE shield on screen-left and short silver sword on screen-right of image1, and its EXTREMELY SIMPLE coarse pixel-art style, with few broad square blocks and no additional detail. Do NOT copy image2's helmet/costume/colors. Keep the SAME 2x2 atlas arrangement: top-left COMPLETE assembled knight in corrected isometric pose; top-right detached head; bottom-left torso WITH both arms, sword, hands, shield, neck and waist overlap tabs; bottom-right pelvis/two legs/boots in matching staggered isometric stance. Each detached part matches the corresponding full knight at the SAME PIXEL SCALE. Exactly four objects in four separate equal cells, ample transparent margins. Genuine transparent background. No tile/floor/shadow/pedestal/borders/text. Preserve coherent attachment points for layering. All parts use the same camera and diagonal orientation.",
+    "referenced_image_paths": [
+      "D:/Games/into-de-dung/docs/art/cutout-idle-20261017/atlas-b.png",
+      "D:/Games/into-de-dung/assets/art_presets/approved/grass_defender_v1/defender_reference_v1.png"
+    ],
+    "transparent_background": true
+  }
+]

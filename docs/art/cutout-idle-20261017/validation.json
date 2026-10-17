@@ -1,0 +1,102 @@
+{
+  "status": "PASS",
+  "checks": {
+    "loop_pixel_identity": true,
+    "frame_difference_pixel_count": 70151,
+    "feet_anchor_checks": [
+      {
+        "variant": "a",
+        "sampled_opaque_pixels": 2115,
+        "frames": 32,
+        "unchanged": true
+      },
+      {
+        "variant": "b",
+        "sampled_opaque_pixels": 1675,
+        "frames": 32,
+        "unchanged": true
+      }
+    ],
+    "ground_tile_checks": [
+      {
+        "variant": "a",
+        "region": {
+          "x": 592,
+          "y": 364,
+          "width": 350,
+          "height": 132
+        },
+        "unchanged": true
+      },
+      {
+        "variant": "b",
+        "region": {
+          "x": 1104,
+          "y": 364,
+          "width": 350,
+          "height": 132
+        },
+        "unchanged": true
+      }
+    ],
+    "controls": {
+      "restart": true,
+      "speed": true,
+      "exploded": true,
+      "phase": true,
+      "pausePlay": true
+    },
+    "frame_count": 32,
+    "frame_interval_ms": 100,
+    "gif": {
+      "pages": 19,
+      "pageHeight": 652,
+      "loop": 0,
+      "delay": [
+        200,
+        100,
+        100,
+        300,
+        100,
+        100,
+        100,
+        200,
+        100,
+        400,
+        300,
+        200,
+        100,
+        100,
+        100,
+        100,
+        100,
+        200,
+        300
+      ]
+    },
+    "source_hashes": [
+      {
+        "file": "../../../assets/art_presets/approved/grass_defender_v1/grass_reference_v1.png",
+        "unchanged": true,
+        "sha256": "3441f4ad7e02d3a5cfdba22f75741f6a4eb8f42bfa1adf6ef5f18c2d39b9af02"
+      },
+      {
+        "file": "../../../assets/art_presets/approved/grass_defender_v1/defender_reference_v1.png",
+        "unchanged": true,
+        "sha256": "f6b4e66fb267c443c24f3913af97b3220a7ca554eae7a3c524b08d2bd83b6515"
+      },
+      {
+        "file": "atlas-a.png",
+        "unchanged": true,
+        "sha256": "0236db4124a16e9c53963d9d22d63908a4ae8587cc594a73bd95c59b11f888ed"
+      },
+      {
+        "file": "atlas-b.png",
+        "unchanged": true,
+        "sha256": "f6d01f8b172fe04e2d49b7a594198c1e389a340cfa72d7434327bc0554afb160"
+      }
+    ],
+    "javascript_errors": []
+  },
+  "scope": "Offline HTML/Canvas renderer, deterministic cycle, visible frame changes, controls and source-byte integrity. No Godot/runtime, F5, DPI/GPU or art acceptance claim."
+}

@@ -1,0 +1,27 @@
+{
+  "base_commit": "d0bc96b6b308c6419c3418b01ed5429286191dbe",
+  "provider": "built-in image_gen",
+  "pixellab_calls": 0,
+  "imagegen_calls": 8,
+  "animation": "Offline rigid cutout translations, not generated animation frames",
+  "originals": {
+    "iterations/atlas-a-frontal.png": "C:/Users/Aston/.codex/generated_images/01a1496b-68a4-73e1-8f21-e78ecdfd8b04/exec-0369e84b-9c34-42af-90da-7a42fbc07683.png",
+    "atlas-b-initial.png": "C:/Users/Aston/.codex/generated_images/01a1496b-68a4-73e1-8f21-e78ecdfd8b04/exec-062cdb42-5c64-48b4-89c7-4a82ffae9d0e.png",
+    "iterations/atlas-b-frontal.png": "C:/Users/Aston/.codex/generated_images/01a1496b-68a4-73e1-8f21-e78ecdfd8b04/exec-ebcf0ca5-cc8e-4b3e-9bd7-5105a91ecc20.png",
+    "iterations/atlas-a-iso-first.png": "C:/Users/Aston/.codex/generated_images/01a1496b-68a4-73e1-8f21-e78ecdfd8b04/exec-c09f4612-94c5-4a64-87ab-af8f521a481c.png",
+    "iterations/atlas-a-yaw-correction.png": "C:/Users/Aston/.codex/generated_images/01a1496b-68a4-73e1-8f21-e78ecdfd8b04/exec-59d6fed6-9069-47d0-a3bf-108760925438.png",
+    "iterations/atlas-b-low-camera.png": "C:/Users/Aston/.codex/generated_images/01a1496b-68a4-73e1-8f21-e78ecdfd8b04/exec-a2c0def4-6a51-44f4-9a6d-c1e279757c61.png",
+    "atlas-a.png": "C:/Users/Aston/.codex/generated_images/01a1496b-68a4-73e1-8f21-e78ecdfd8b04/exec-cefcb051-0819-4e98-9846-6fb32aa6c23c.png",
+    "atlas-b.png": "C:/Users/Aston/.codex/generated_images/01a1496b-68a4-73e1-8f21-e78ecdfd8b04/exec-6882abb6-3535-4386-b1b1-d638af4a0d9f.png"
+  },
+  "input_snapshots": {
+    "correction-b.json": {"atlas-b.png": "atlas-b-initial.png"},
+    "executed-isometric-requests.json[0]": {"atlas-a.png": "iterations/atlas-a-frontal.png"},
+    "executed-isometric-requests.json[1]": {"atlas-b.png": "iterations/atlas-b-frontal.png"}
+  },
+  "references": {
+    "reference-a.png": "C:/Users/Aston/AppData/Local/Temp/codex-clipboard-f70c7f6a-1050-4f66-a8ae-b8a3b5e36b97.png",
+    "reference-b.png": "C:/Users/Aston/AppData/Local/Temp/codex-clipboard-668baad5-12a3-4473-a31e-f27ab3331e51.png"
+  },
+  "main_menu_sha256": "a64c270256ebf2ea073081200be23028f792f42c3ca98f83a6499c1300a68668"
+}

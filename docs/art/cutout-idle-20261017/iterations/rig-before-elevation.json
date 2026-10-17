@@ -1,0 +1,116 @@
+{
+  "period_ms": 3200,
+  "placement_note": "Approved 128x96 tile and Defender pose preserved. New figures face down-right in front three-quarter view. Trial 72px full-height envelope, body axis x=-2 and nearer boot lower edge y=17. Pose-specific fitting, not approved game anchors. Uniform scaling of each rigid part only.",
+  "variants": [
+    {
+      "id": "a",
+      "title": "A · Бронзовый рыцарь",
+      "atlas": "atlas-a.png",
+      "layers": [
+        {
+          "id": "legs",
+          "crop": [
+            793,
+            903,
+            372,
+            295
+          ],
+          "position": [
+            -24.089552238805968,
+            -18.223880597014926
+          ],
+          "scale": 0.11940298507462686,
+          "amplitude_y": 0,
+          "phase": 0
+        },
+        {
+          "id": "torso",
+          "crop": [
+            144,
+            670,
+            505,
+            491
+          ],
+          "position": [
+            -34.11940298507463,
+            -55
+          ],
+          "scale": 0.11940298507462686,
+          "amplitude_y": 1,
+          "phase": 0
+        },
+        {
+          "id": "head",
+          "crop": [
+            894,
+            320,
+            211,
+            261
+          ],
+          "position": [
+            -12.707462686567165,
+            -54.02686567164179
+          ],
+          "scale": 0.10149253731343283,
+          "amplitude_y": 0.6,
+          "phase": 0.35
+        }
+      ]
+    },
+    {
+      "id": "b",
+      "title": "B · Светлый минирыцарь",
+      "atlas": "atlas-b.png",
+      "layers": [
+        {
+          "id": "legs",
+          "crop": [
+            802,
+            948,
+            304,
+            196
+          ],
+          "position": [
+            -21.74876768961679,
+            -11.048974399745585
+          ],
+          "scale": 0.14310701224359992,
+          "amplitude_y": 0,
+          "phase": 0
+        },
+        {
+          "id": "torso",
+          "crop": [
+            145,
+            886,
+            464,
+            233
+          ],
+          "position": [
+            -29.905867387501985,
+            -28.22181586897758
+          ],
+          "scale": 0.14310701224359992,
+          "amplitude_y": 1,
+          "phase": 0
+        },
+        {
+          "id": "head",
+          "crop": [
+            818,
+            328,
+            271,
+            286
+          ],
+          "position": [
+            -21.891874701860388,
+            -55
+          ],
+          "scale": 0.13165845126411194,
+          "amplitude_y": 0.65,
+          "phase": 0.35
+        }
+      ]
+    }
+  ]
+}
