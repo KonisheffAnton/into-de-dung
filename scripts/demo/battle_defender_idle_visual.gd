@@ -74,7 +74,7 @@ func sync_scene_art() -> void:
 	var texture_scale := 0.25 if rogue else 1.0
 	_idle_sprite.scale = Vector2(-texture_scale if mirrored else texture_scale, texture_scale)
 	var anchor := Vector2(64, 94) if rogue else Vector2(69.42, 90.14)
-	if visual_class_id == &"archer": anchor = Vector2(78.9576315297, 97.3771110405)
+	if visual_class_id == &"archer": anchor = Vector2(68.0, 95.0)
 	_idle_sprite.position = Vector2(anchor.x if mirrored else -anchor.x, -anchor.y)
 	if _death_active and can_play_death():
 		_idle_sprite.visible = true

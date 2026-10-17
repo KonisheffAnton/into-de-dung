@@ -49,6 +49,8 @@ func _run() -> void:
 	if visual == null:
 		quit(1)
 		return
+	# Производственная доска назначает роль до входа в дерево, чтобы UNIT-слои создались в _ready.
+	visual.role = BattleDemoIsoVisual.Role.UNIT
 	viewport.add_child(visual)
 	await process_frame
 	_test_resource(visual)
@@ -63,12 +65,18 @@ func _run() -> void:
 	var still := visual.get_node("ArtRoot/PlayerArcherSprite") as Sprite2D
 	var enemy_still := visual.get_node("ArtRoot/EnemyArcherSprite") as Sprite2D
 	var art := visual.get_node("ArtRoot") as Node2D
+	var ground_shadow := visual.get_node("GroundShadow") as Node2D
+	var root_position := visual.position
+	var shadow_position := ground_shadow.position
 	check(idle.visible and not still.visible and not enemy_still.visible,
 		"idle replaces the allied Archer still and leaves enemy art hidden")
 	check(art.scale.is_equal_approx(Vector2(0.6400003306666667, 0.6400003306666667))
 		and idle.scale == Vector2.ONE and still.scale == Vector2.ONE
-		and idle.position.is_equal_approx(Vector2(-78.9576315297, -97.3771110405)),
+		and idle.position.is_equal_approx(Vector2(-68.0, -95.0))
+		and still.position.is_equal_approx(Vector2(-68.0, -95.0)),
 		"allied Archer keeps authored scale, anchor, and native sprite scale")
+	check(visual.position == root_position and ground_shadow.position == shadow_position,
+		"centering the allied still and idle art does not move its root or ground shadow")
 	var allied_pick: PackedVector2Array = visual.surface_polygons()[0]
 	var pick_scale: float = 0.64
 	check(allied_pick.size() == 4
@@ -161,10 +169,15 @@ func _run() -> void:
 	visual.sync_scene_art()
 	check(not visual.can_play_buff() and not visual.can_play_death(),
 		"Archer does not borrow another class's buff or death clip")
+	root_position = visual.position
+	shadow_position = ground_shadow.position
 	visual.archer_idle_frames = null
 	visual.sync_scene_art()
 	check(not idle.visible and still.visible and not visual.is_processing(),
 		"missing Archer animation falls back to the authored still")
+	check(still.position == idle.position and visual.position == root_position
+		and ground_shadow.position == shadow_position,
+		"still fallback stays centered without shifting the root or ground shadow")
 	visual.archer_idle_frames = ARCHER_IDLE
 	visual.sync_scene_art()
 	check(idle.visible and not still.visible, "restored Archer animation resumes its owned resource")
@@ -182,14 +195,20 @@ func _run() -> void:
 		"same-unit switch to warrior hides stale Archer animation")
 	check(visual.apply_view(_values(Faction.Type.PLAYER, 73), config) and idle.visible and not still.visible,
 		"same-unit return to Archer selects its idle resource without stale action art")
+	root_position = visual.position
+	shadow_position = ground_shadow.position
 	values["unit"]["faction"] = int(Faction.Type.ENEMY)
 	values["unit"]["id"] = 74
 	check(visual.apply_view(values, config), "enemy Archer DTO applies to reused visual")
 	visual.set_process(false)
 	check(idle.visible and idle.scale == Vector2(-1, 1)
-		and idle.position.is_equal_approx(Vector2(78.9576315297, -97.3771110405))
+		and idle.position.is_equal_approx(Vector2(68.0, -95.0))
+		and enemy_still.position.is_equal_approx(Vector2(68.0, -95.0))
+		and enemy_still.scale == Vector2(-1, 1)
 		and not enemy_still.visible and not still.visible,
 		"enemy idle mirrors around the Archer anchor and hides both still sprites")
+	check(visual.position == root_position and ground_shadow.position == shadow_position,
+		"enemy mirror changes art only while root and ground shadow remain fixed")
 	await _capture(viewport, "archer-idle-enemy")
 	visual.frozen = true
 	visual.sync_scene_art()
