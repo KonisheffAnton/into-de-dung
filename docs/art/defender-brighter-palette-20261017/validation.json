@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "provider": "built-in image_gen",
+  "imagegen_calls": 1,
+  "provider_file": "C:/Users/Aston/.codex/generated_images/01a1496b-68a4-73e1-8f21-e78ecdfd8b04/exec-b0882178-6a80-4567-bffd-9fcf1f0bdd33.png",
+  "records": {
+    "reference": {
+      "file": "docs/art/defender-brighter-palette-20261017/reference.png",
+      "size": [
+        312,
+        292
+      ],
+      "hasAlpha": true,
+      "sha256": "f6b4e66fb267c443c24f3913af97b3220a7ca554eae7a3c524b08d2bd83b6515"
+    },
+    "brighter": {
+      "file": "docs/art/defender-brighter-palette-20261017/defender-brighter.png",
+      "size": [
+        1296,
+        1213
+      ],
+      "hasAlpha": true,
+      "sha256": "70f29ad3f8715de44b989d221b9ee5d8800ec909af107eb638aa703a8c3c993d"
+    },
+    "tile": {
+      "file": "assets/art_presets/approved/grass_defender_v1/grass_reference_v1.png",
+      "size": [
+        512,
+        408
+      ],
+      "hasAlpha": true,
+      "sha256": "3441f4ad7e02d3a5cfdba22f75741f6a4eb8f42bfa1adf6ef5f18c2d39b9af02"
+    }
+  },
+  "checks": {
+    "provider_bytes": true,
+    "approved_source_unchanged": true,
+    "reference_copy_exact": true,
+    "main_menu_unchanged": true,
+    "page_errors": []
+  },
+  "note": "Generated color study. Source/output pixel grid and alpha are not asserted identical; provider export has different resolution. Uniform display scaling only. No game integration or artistic acceptance."
+}

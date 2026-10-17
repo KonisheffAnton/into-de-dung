@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "archiveExact": true,
+  "archive_matches_head_normalized": true,
+  "document_sizes_lf": [
+    {
+      "file": "AGENTS.md",
+      "before": 4565,
+      "after": 4565
+    },
+    {
+      "file": "docs/CODEX_HANDOFF.md",
+      "before": 2226,
+      "after": 2087
+    },
+    {
+      "file": "docs/PROJECT_CONTEXT.md",
+      "before": 3491,
+      "after": 3491
+    },
+    {
+      "file": "docs/CODEX_WORKFLOW.md",
+      "before": 4482,
+      "after": 4482
+    }
+  ],
+  "missing_links": []
+}

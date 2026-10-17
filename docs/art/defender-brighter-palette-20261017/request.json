@@ -1,0 +1,7 @@
+{
+  "prompt": "Palette-only edit of the supplied EXACT approved Defender sprite. The user wants this SAME guard with a SLIGHTLY BRIGHTER palette. Keep the identical character, pixel clusters, silhouette, all armor shapes, helmet shape, face, shield, sword, boots, pose, proportions, diagonal facing, steep elevated isometric camera, cropping and transparency. Do not redraw, reinterpret, redesign, add details, change viewpoint, rotate or move anything. Preserve the original pixel-grid appearance and every edge. Change ONLY RGB colors: modestly increase midtone brightness and color saturation, roughly 10 percent, keeping the darkest shadows deep and preserving contrast. Steel becomes a little brighter clean blue-gray, olive cloth and olive shield become a little fresher and more saturated while remaining OLIVE green, brown leather slightly warmer, skin slightly brighter. Still subdued tactical-game art; NOT neon, not orange/gold armor, not glossy, no glow, no additional highlights, no smoothing. Retain original transparent alpha and same placement on canvas. No background, ground, tile, pedestal, text, outline changes or extra objects. Output only the same full-body Defender with this restrained palette adjustment.",
+  "referenced_image_paths": [
+    "D:/Games/into-de-dung/assets/art_presets/approved/grass_defender_v1/defender_reference_v1.png"
+  ],
+  "transparent_background": true
+}
