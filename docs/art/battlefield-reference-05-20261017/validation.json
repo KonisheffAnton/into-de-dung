@@ -1,0 +1,278 @@
+{
+  "status": "PASS",
+  "output_count": 10,
+  "outputs": [
+    {
+      "id": "G01",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "794064db66fd6701fd09154ef6cc449b8e71af90b42c44877268bb38f73b0c10",
+      "source_byte_exact": true,
+      "heroes_score": 3,
+      "max_figure_score": 4,
+      "monsters": [
+        {
+          "name": "Панцирный жук",
+          "size": "large",
+          "score": 4
+        },
+        {
+          "name": "Зелёная слизь",
+          "size": "small",
+          "score": 2
+        }
+      ]
+    },
+    {
+      "id": "G02",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "75db13dc579239db16b41c1007b258c705a86efabf4a57fb39efc400f526b74c",
+      "source_byte_exact": true,
+      "heroes_score": 3,
+      "max_figure_score": 5,
+      "monsters": [
+        {
+          "name": "Щупальцевый монстр",
+          "size": "large",
+          "score": 5
+        },
+        {
+          "name": "Панцирный жук",
+          "size": "small",
+          "score": 4
+        }
+      ]
+    },
+    {
+      "id": "G03",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "efb71780e7fff339091a078878cb984fa8d61d07943b1ff9c0c69bf4bc871cec",
+      "source_byte_exact": true,
+      "heroes_score": 3,
+      "max_figure_score": 6,
+      "monsters": [
+        {
+          "name": "Скелетный страж",
+          "size": "large",
+          "score": 6
+        },
+        {
+          "name": "Зелёная слизь",
+          "size": "small",
+          "score": 2
+        }
+      ]
+    },
+    {
+      "id": "G04",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "bc2c0784bad33ee6d3e07fbda6f0c3b0938d4a0c3079d8bb7568fa5f63b07093",
+      "source_byte_exact": true,
+      "heroes_score": 3,
+      "max_figure_score": 5,
+      "monsters": [
+        {
+          "name": "Розовый глаз",
+          "size": "large",
+          "score": 5
+        },
+        {
+          "name": "Панцирный жук",
+          "size": "small",
+          "score": 4
+        }
+      ]
+    },
+    {
+      "id": "G05",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "320eba6f293a1de76cb2d22ec1024e0dd4ff38c1f2d4c3d98461feccb45084b7",
+      "source_byte_exact": true,
+      "heroes_score": 3,
+      "max_figure_score": 4,
+      "monsters": [
+        {
+          "name": "Панцирный жук",
+          "size": "large",
+          "score": 4
+        },
+        {
+          "name": "Щупальцевый монстр",
+          "size": "small",
+          "score": 4
+        }
+      ]
+    },
+    {
+      "id": "G06",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "316e1ef55c6d7f0c9f5a02e395f83e6b19d0e6d0a589b1a724e9d0412e279933",
+      "source_byte_exact": true,
+      "heroes_score": 3,
+      "max_figure_score": 5,
+      "monsters": [
+        {
+          "name": "Щупальцевый монстр",
+          "size": "large",
+          "score": 5
+        },
+        {
+          "name": "Зелёная слизь",
+          "size": "small",
+          "score": 2
+        }
+      ]
+    },
+    {
+      "id": "G07",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "f60bd9fa57165a438de9bedf55e326844072c1b3bbf2d86bf81181b21709452a",
+      "source_byte_exact": true,
+      "heroes_score": 3,
+      "max_figure_score": 6,
+      "monsters": [
+        {
+          "name": "Скелетный страж",
+          "size": "large",
+          "score": 6
+        },
+        {
+          "name": "Розовый глаз",
+          "size": "small",
+          "score": 4
+        }
+      ]
+    },
+    {
+      "id": "G08",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "e21539a56587f03e8a77a11226f5e7972014c1332a2ce7c15fc089618f53be39",
+      "source_byte_exact": true,
+      "heroes_score": 3,
+      "max_figure_score": 5,
+      "monsters": [
+        {
+          "name": "Розовый глаз",
+          "size": "large",
+          "score": 5
+        },
+        {
+          "name": "Панцирный жук",
+          "size": "small",
+          "score": 4
+        }
+      ]
+    },
+    {
+      "id": "G09",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "564dfd9419f4ff06e40a3ff3b58342b339d7a8b20d40a011f15fa48940b38fd0",
+      "source_byte_exact": true,
+      "heroes_score": 3,
+      "max_figure_score": 5,
+      "monsters": [
+        {
+          "name": "Щупальцевый монстр",
+          "size": "large",
+          "score": 5
+        },
+        {
+          "name": "Зелёная слизь",
+          "size": "small",
+          "score": 2
+        }
+      ]
+    },
+    {
+      "id": "G10",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "7256410e56a151ecdf6e72a8373a6a15fa0e4fdb79448b54d5c333f15d430c63",
+      "source_byte_exact": true,
+      "heroes_score": 3,
+      "max_figure_score": 4,
+      "monsters": [
+        {
+          "name": "Панцирный жук",
+          "size": "large",
+          "score": 4
+        },
+        {
+          "name": "Розовый глаз",
+          "size": "small",
+          "score": 4
+        }
+      ]
+    }
+  ],
+  "input_reference_sha256": {
+    "reference.png": "b0a99681e24040629f3b212e88101782e906f32702a3bc98116b09754b95aa9a",
+    "palette-reference.png": "ecbbefee3ae510bde86984b1d6f16cdc4e46e96ae5dfc4c477c79c7636b07e4d",
+    "projection-reference.png": "3a444db1efbf7dd949d123ffd724f1a7e0a6eeb069066f320d84e707798f7dbb",
+    "monster-reference.png": "e8fe9bb7fa4babe3a5bc46582a48632a746e32e6d34e312c81641b1040a12cd3",
+    "defender-benchmark.png": "af95a196244b133a7d11933475fc9d6847241068c402c7220406b28b1499d7cb"
+  },
+  "request_input_image_sha256": {
+    "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/reference.png": {
+      "used_path": "D:\\Games\\into-de-dung\\docs\\art\\battlefield-reference-05-20261017\\reference.png",
+      "sha256": "b0a99681e24040629f3b212e88101782e906f32702a3bc98116b09754b95aa9a",
+      "snapshot_used": false
+    },
+    "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/palette-reference.png": {
+      "used_path": "D:\\Games\\into-de-dung\\docs\\art\\battlefield-reference-05-20261017\\palette-reference.png",
+      "sha256": "ecbbefee3ae510bde86984b1d6f16cdc4e46e96ae5dfc4c477c79c7636b07e4d",
+      "snapshot_used": false
+    },
+    "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/projection-reference.png": {
+      "used_path": "D:\\Games\\into-de-dung\\docs\\art\\battlefield-reference-05-20261017\\projection-reference.png",
+      "sha256": "3a444db1efbf7dd949d123ffd724f1a7e0a6eeb069066f320d84e707798f7dbb",
+      "snapshot_used": false
+    },
+    "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/monster-reference.png": {
+      "used_path": "D:\\Games\\into-de-dung\\docs\\art\\battlefield-reference-05-20261017\\monster-reference.png",
+      "sha256": "e8fe9bb7fa4babe3a5bc46582a48632a746e32e6d34e312c81641b1040a12cd3",
+      "snapshot_used": false
+    },
+    "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/G03.png": {
+      "used_path": "D:\\Games\\into-de-dung\\docs\\art\\battlefield-reference-05-20261017\\iterations\\G03-before-review.png",
+      "sha256": "57181ed85878081b3a6e874e3e82e5d2cca7a08334306f26ec5f5cb1a551d850",
+      "snapshot_used": true
+    },
+    "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/G05.png": {
+      "used_path": "D:\\Games\\into-de-dung\\docs\\art\\battlefield-reference-05-20261017\\iterations\\G05-before-review.png",
+      "sha256": "8dad8619e7dd2f9978fd6602aa542bd225ae6a71689c841072b60bcb43fb949c",
+      "snapshot_used": true
+    },
+    "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/G07.png": {
+      "used_path": "D:\\Games\\into-de-dung\\docs\\art\\battlefield-reference-05-20261017\\iterations\\G07-before-review.png",
+      "sha256": "af5fa54600c6497fd885353eca20953c7de01fdcd2d166901966d8bb193ecf99",
+      "snapshot_used": true
+    },
+    "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/G09.png": {
+      "used_path": "D:\\Games\\into-de-dung\\docs\\art\\battlefield-reference-05-20261017\\iterations\\G09-before-review.png",
+      "sha256": "bbd6152785b7233bb8ff9cc4907683076c7861f4faab32a863bef66961a6955f",
+      "snapshot_used": true
+    }
+  },
+  "main_menu_sha256": "a64c270256ebf2ea073081200be23028f792f42c3ca98f83a6499c1300a68668",
+  "main_menu_unchanged": true,
+  "scope": "PNG chunk CRC and dimensions, byte equality to manifest sources, reference SHA-256, per-figure and maximum-complexity scores, local gallery links; geometry and game anchors are not measured; monster sizes are visual suggestions, not game footprints"
+}

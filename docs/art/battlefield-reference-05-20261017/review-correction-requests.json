@@ -1,0 +1,42 @@
+[
+  {
+    "id": "G09",
+    "request": {
+      "prompt": "Edit ONLY the small brown-haired teal-scarf rogue at the BOTTOM CENTER of this scene. It must be unmistakably STRAIGHT-ON FRONT VIEW. Give it a clearly visible pale cream FACE with TWO black pixel eyes under a short brown fringe, a visible chest and belt, two front-facing boots, short dagger held visibly at the SIDE. No back of head, no cape/back view, no turned-away head. Keep it tiny, economical pixel-art and identical scale and its feet at the exact same tile position. Do not alter any other five figures or any floor/environment pixels. No new figures, props, text or base.",
+      "referenced_image_paths": [
+        "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/G09.png"
+      ],
+      "transparent_background": false
+    }
+  },
+  {
+    "id": "G03",
+    "request": {
+      "prompt": "Edit ONLY the very tall grey skeletal armored monster. Rotate the whole monster head, torso, pelvis, hands and feet 45 degrees toward SCREEN LOWER RIGHT, a clear FRONT THREE-QUARTER view matching the heroes. Show the near side and head top, face points down-right, shoulders and feet stagger diagonally. Keep its visible face, same tall thin size (twice hero height), same grey and pink pixel palette, same number of limbs, feet centered inside the same single tile with margin. Do not add anything below feet. Keep the other five figures and entire snowy field unchanged. No rear view, no frontal symmetry, no pedestals/text.",
+      "referenced_image_paths": [
+        "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/G03.png"
+      ],
+      "transparent_background": false
+    }
+  },
+  {
+    "id": "G07",
+    "request": {
+      "prompt": "Edit ONLY the very tall grey skeletal armored monster at the rear center. Rotate the whole monster head, torso, pelvis, hands and feet 45 degrees toward SCREEN LOWER RIGHT, a clear FRONT THREE-QUARTER view matching the heroes. Show the near side and head top, face points down-right, shoulders and feet stagger diagonally. Keep its visible face, same tall thin size (twice hero height), same grey and pink pixel palette, same number of limbs, feet centered inside the same single tile with margin. Do not add anything below feet. Keep the other five figures and entire ruined field unchanged. No rear view, no frontal symmetry, no pedestals/text.",
+      "referenced_image_paths": [
+        "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/G07.png"
+      ],
+      "transparent_background": false
+    }
+  },
+  {
+    "id": "G05",
+    "request": {
+      "prompt": "Edit ONLY the large dark armored beetle near the FRONT CENTER. Its foot contact footprint currently sprawls across tile seams. Pull all its legs inward, shorten their spread and slightly reduce its width until ALL foot contact points and mandibles sit clearly inside ONE dusty-blue floor tile, with visible clean floor margin between feet and EVERY seam. Center the beetle on that existing single tile. Retain a bulky high shell so it still looks more massive than a hero, about1.6 times hero body mass, but short tucked legs. Keep front-three-quarter facing lower right, visible red eye, thick outlines, compact pixel silhouette. No plinth or separate tile under it. Preserve the other five figures and floor grid/environment unchanged, no text or new objects.",
+      "referenced_image_paths": [
+        "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/G05.png"
+      ],
+      "transparent_background": false
+    }
+  }
+]

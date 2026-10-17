@@ -1,0 +1,210 @@
+{
+  "provider": "built-in image_gen",
+  "pixellab_calls": 0,
+  "imagegen_calls": 18,
+  "base_commit": "e768ac920e9b9c0c263fc5769f9204dd9cc9ef16",
+  "scope": "Preview concepts only; visual size does not define gameplay footprint.",
+  "iterations": "iterations/initial-manifest.json preserves four images before monsters; iterations/before-review-manifest.json records the first ten scenes with monsters before four review corrections.",
+  "items": [
+    {
+      "id": "G01",
+      "title": "У ворот луга",
+      "view": "iso",
+      "request": {
+        "prompt": "SIX FIGURES TOTAL: four small heroes PLUS two monsters of visibly DIFFERENT SIZES. Image4 is the MONSTER SPECIES reference; simplify those species to the pixel style of image1. Add a LARGE dark segmented armored beetle, 1.6 times hero body mass, from image4 third row fifth creature and a TINY squat green slime/blob, half hero height, from image4 first row third creature. Each of all SIX figures occupies its own clearly separate grid tile, with no overlapping figures. Large monster can be taller/wider than heroes but all its feet/contact points fit its own tile; keep neighbor cells empty around it. Both monsters also face LOWER RIGHT in front three-quarter view, like the heroes. Create ONE original low-resolution PIXEL ART tactical scene. Image1 is the CHARACTER STYLE reference: extremely economical 12-16-pixel-like fantasy heroes, thick dark outlines, tiny simple eyes, few large color blocks, no textured armor or realistic anatomy. Image2 is the user's liked PALETTE/MOOD reference: muted sage olive ground, dusty blue stone/water, warm sand and earth, ivory, charcoal-plum background and small coral/red accents. Image3 is FLOOR GEOMETRY only: square grid cells projected as steep 4:3 diamonds, edge rise3/run4, not conventional shallow2:1. Use a flat connected roughly5x5 field, each character occupies one cell with feet well inside boundaries, generous empty space, NO plinths/discs/stands/rocks beneath feet. Scene: A small meadow field of quiet olive tiles, tiny broken stone gate at the back, sparse edge grass. Four heroes on separate cells. Four recognizable simple heroes inspired by image1: a cream-armored small knight with red shield and short sword, a green hooded archer with compact bow, a purple/blue short-robed mage with short plain staff, and a brown/teal rogue with short dagger. These are independent visual studies, no game role/canon changes. ALL FOUR heads, torsos, pelvises, feet and weapons are turned45 degrees toward screen LOWER RIGHT in a clear front-three-quarter isometric view. Show helmet/head tops and side planes. Faces point down-right; nearer shoulder and boot are lower on screen, far ones higher. Never symmetric frontal poses, never backs, never mixed facing. Make the diagonal turn obvious even at tiny resolution. Keep sprites truly tiny and economical with short limbs and clear silhouette; minimal stable colors for easy AI animation. Hard pixel edges, no smoothing, no texture noise, no gradients except very subtle background, no particles/glow, no text/UI/labels/watermark. Square canvas, whole small field visible with margins.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/palette-reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/projection-reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/monster-reference.png"
+        ],
+        "transparent_background": false
+      },
+      "monsters": [
+        "a LARGE dark segmented armored beetle, 1.6 times hero body mass, from image4 third row fifth creature",
+        "a TINY squat green slime/blob, half hero height, from image4 first row third creature"
+      ],
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-b4e34744-0893-473d-a19c-8a9ac2e697ed.png"
+    },
+    {
+      "id": "G02",
+      "title": "У речного брода",
+      "view": "iso",
+      "request": {
+        "prompt": "SIX FIGURES TOTAL: four small heroes PLUS two monsters of visibly DIFFERENT SIZES. Image4 is the MONSTER SPECIES reference; simplify those species to the pixel style of image1. Add a LARGE green tentacled creature in ochre robe, 1.8 times hero height, from image4 third row third creature and a SMALL dark armored beetle, half hero height, from image4 third row fifth creature. Each of all SIX figures occupies its own clearly separate grid tile, with no overlapping figures. Large monster can be taller/wider than heroes but all its feet/contact points fit its own tile; keep neighbor cells empty around it. Both monsters also face LOWER RIGHT in front three-quarter view, like the heroes. Create ONE original low-resolution PIXEL ART tactical scene. Image1 is the CHARACTER STYLE reference: extremely economical 12-16-pixel-like fantasy heroes, thick dark outlines, tiny simple eyes, few large color blocks, no textured armor or realistic anatomy. Image2 is the user's liked PALETTE/MOOD reference: muted sage olive ground, dusty blue stone/water, warm sand and earth, ivory, charcoal-plum background and small coral/red accents. Image3 is FLOOR GEOMETRY only: square grid cells projected as steep 4:3 diamonds, edge rise3/run4, not conventional shallow2:1. Use a flat connected roughly5x5 field, each character occupies one cell with feet well inside boundaries, generous empty space, NO plinths/discs/stands/rocks beneath feet. Scene: An olive field with a narrow dusty-blue stream in the rear tile row, four heroes on four distinct dry land cells, no bridges or raised islands. Four recognizable simple heroes inspired by image1: a cream-armored small knight with red shield and short sword, a green hooded archer with compact bow, a purple/blue short-robed mage with short plain staff, and a brown/teal rogue with short dagger. These are independent visual studies, no game role/canon changes. ALL FOUR heads, torsos, pelvises, feet and weapons are turned45 degrees toward screen LOWER RIGHT in a clear front-three-quarter isometric view. Show helmet/head tops and side planes. Faces point down-right; nearer shoulder and boot are lower on screen, far ones higher. Never symmetric frontal poses, never backs, never mixed facing. Make the diagonal turn obvious even at tiny resolution. Keep sprites truly tiny and economical with short limbs and clear silhouette; minimal stable colors for easy AI animation. Hard pixel edges, no smoothing, no texture noise, no gradients except very subtle background, no particles/glow, no text/UI/labels/watermark. Square canvas, whole small field visible with margins.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/palette-reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/projection-reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/monster-reference.png"
+        ],
+        "transparent_background": false
+      },
+      "monsters": [
+        "a LARGE green tentacled creature in ochre robe, 1.8 times hero height, from image4 third row third creature",
+        "a SMALL dark armored beetle, half hero height, from image4 third row fifth creature"
+      ],
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-dd9b779d-8077-457a-a714-1bef8d2f488b.png"
+    },
+    {
+      "id": "G03",
+      "title": "Снежный проход",
+      "view": "iso",
+      "request": {
+        "prompt": "Edit ONLY the very tall grey skeletal armored monster. Rotate the whole monster head, torso, pelvis, hands and feet 45 degrees toward SCREEN LOWER RIGHT, a clear FRONT THREE-QUARTER view matching the heroes. Show the near side and head top, face points down-right, shoulders and feet stagger diagonally. Keep its visible face, same tall thin size (twice hero height), same grey and pink pixel palette, same number of limbs, feet centered inside the same single tile with margin. Do not add anything below feet. Keep the other five figures and entire snowy field unchanged. No rear view, no frontal symmetry, no pedestals/text.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/G03.png"
+        ],
+        "transparent_background": false
+      },
+      "monsters": [
+        "a TALL grey skeletal armored creature, twice hero height but narrow, from image4 top-left creature",
+        "a TINY green slime/blob, half hero height, from image4 first row third creature"
+      ],
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-fd2a3770-4ca0-42ff-8d74-72fdd1bfc26a.png",
+      "input_snapshots": {
+        "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/G03.png": "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/iterations/G03-before-review.png"
+      }
+    },
+    {
+      "id": "G04",
+      "title": "Песчаный пост",
+      "view": "iso",
+      "request": {
+        "prompt": "SIX FIGURES TOTAL: four small heroes PLUS two monsters of visibly DIFFERENT SIZES. Image4 is the MONSTER SPECIES reference; simplify those species to the pixel style of image1. Add a LARGE pink cyclopean jellyfish/eye monster with short tentacles, 1.6 times hero height, from image4 second row sixth creature and a SMALL dark armored beetle, half hero height, from image4 third row fifth creature. Each of all SIX figures occupies its own clearly separate grid tile, with no overlapping figures. Large monster can be taller/wider than heroes but all its feet/contact points fit its own tile; keep neighbor cells empty around it. Both monsters also face LOWER RIGHT in front three-quarter view, like the heroes. Create ONE original low-resolution PIXEL ART tactical scene. Image1 is the CHARACTER STYLE reference: extremely economical 12-16-pixel-like fantasy heroes, thick dark outlines, tiny simple eyes, few large color blocks, no textured armor or realistic anatomy. Image2 is the user's liked PALETTE/MOOD reference: muted sage olive ground, dusty blue stone/water, warm sand and earth, ivory, charcoal-plum background and small coral/red accents. Image3 is FLOOR GEOMETRY only: square grid cells projected as steep 4:3 diamonds, edge rise3/run4, not conventional shallow2:1. Use a flat connected roughly5x5 field, each character occupies one cell with feet well inside boundaries, generous empty space, NO plinths/discs/stands/rocks beneath feet. Scene: Warm pale-sand flat tile field, two tiny adobe wall fragments at rear edge, quiet muted ochre accents. Four heroes stand on separate flat cells. Four recognizable simple heroes inspired by image1: a cream-armored small knight with red shield and short sword, a green hooded archer with compact bow, a purple/blue short-robed mage with short plain staff, and a brown/teal rogue with short dagger. These are independent visual studies, no game role/canon changes. ALL FOUR heads, torsos, pelvises, feet and weapons are turned45 degrees toward screen LOWER RIGHT in a clear front-three-quarter isometric view. Show helmet/head tops and side planes. Faces point down-right; nearer shoulder and boot are lower on screen, far ones higher. Never symmetric frontal poses, never backs, never mixed facing. Make the diagonal turn obvious even at tiny resolution. Keep sprites truly tiny and economical with short limbs and clear silhouette; minimal stable colors for easy AI animation. Hard pixel edges, no smoothing, no texture noise, no gradients except very subtle background, no particles/glow, no text/UI/labels/watermark. Square canvas, whole small field visible with margins.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/palette-reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/projection-reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/monster-reference.png"
+        ],
+        "transparent_background": false
+      },
+      "monsters": [
+        "a LARGE pink cyclopean jellyfish/eye monster with short tentacles, 1.6 times hero height, from image4 second row sixth creature",
+        "a SMALL dark armored beetle, half hero height, from image4 third row fifth creature"
+      ],
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-77097beb-8ee6-479f-9624-36e944eb3c2e.png"
+    },
+    {
+      "id": "G05",
+      "title": "У шахты",
+      "view": "iso",
+      "request": {
+        "prompt": "Edit ONLY the large dark armored beetle near the FRONT CENTER. Its foot contact footprint currently sprawls across tile seams. Pull all its legs inward, shorten their spread and slightly reduce its width until ALL foot contact points and mandibles sit clearly inside ONE dusty-blue floor tile, with visible clean floor margin between feet and EVERY seam. Center the beetle on that existing single tile. Retain a bulky high shell so it still looks more massive than a hero, about1.6 times hero body mass, but short tucked legs. Keep front-three-quarter facing lower right, visible red eye, thick outlines, compact pixel silhouette. No plinth or separate tile under it. Preserve the other five figures and floor grid/environment unchanged, no text or new objects.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/G05.png"
+        ],
+        "transparent_background": false
+      },
+      "monsters": [
+        "a LARGE segmented dark armored beetle, 1.6 times hero body mass, from image4 third row fifth creature",
+        "a SMALL green hooded tentacle monster, 0.65 hero height, from image4 third row third creature"
+      ],
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-dc39a789-b66d-4cfb-9934-ceeb9a5ff730.png",
+      "input_snapshots": {
+        "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/G05.png": "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/iterations/G05-before-review.png"
+      }
+    },
+    {
+      "id": "G06",
+      "title": "Лесная развилка",
+      "view": "iso",
+      "request": {
+        "prompt": "SIX FIGURES TOTAL: four small heroes PLUS two monsters of visibly DIFFERENT SIZES. Image4 is the MONSTER SPECIES reference; simplify those species to the pixel style of image1. Add a LARGE green hooded tentacle creature in ochre robe, 1.8 times hero height, from image4 third row third creature and a TINY squat green slime, half hero height, from image4 first row third creature. Each of all SIX figures occupies its own clearly separate grid tile, with no overlapping figures. Large monster can be taller/wider than heroes but all its feet/contact points fit its own tile; keep neighbor cells empty around it. Both monsters also face LOWER RIGHT in front three-quarter view, like the heroes. Create ONE original low-resolution PIXEL ART tactical scene. Image1 is the CHARACTER STYLE reference: extremely economical 12-16-pixel-like fantasy heroes, thick dark outlines, tiny simple eyes, few large color blocks, no textured armor or realistic anatomy. Image2 is the user's liked PALETTE/MOOD reference: muted sage olive ground, dusty blue stone/water, warm sand and earth, ivory, charcoal-plum background and small coral/red accents. Image3 is FLOOR GEOMETRY only: square grid cells projected as steep 4:3 diamonds, edge rise3/run4, not conventional shallow2:1. Use a flat connected roughly5x5 field, each character occupies one cell with feet well inside boundaries, generous empty space, NO plinths/discs/stands/rocks beneath feet. Scene: Muted sage-olive tiled forest path, two compact trees confined to the distant edge, sparse large grass clusters. Four heroes on distinct path cells. Four recognizable simple heroes inspired by image1: a cream-armored small knight with red shield and short sword, a green hooded archer with compact bow, a purple/blue short-robed mage with short plain staff, and a brown/teal rogue with short dagger. These are independent visual studies, no game role/canon changes. ALL FOUR heads, torsos, pelvises, feet and weapons are turned45 degrees toward screen LOWER RIGHT in a clear front-three-quarter isometric view. Show helmet/head tops and side planes. Faces point down-right; nearer shoulder and boot are lower on screen, far ones higher. Never symmetric frontal poses, never backs, never mixed facing. Make the diagonal turn obvious even at tiny resolution. Keep sprites truly tiny and economical with short limbs and clear silhouette; minimal stable colors for easy AI animation. Hard pixel edges, no smoothing, no texture noise, no gradients except very subtle background, no particles/glow, no text/UI/labels/watermark. Square canvas, whole small field visible with margins.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/palette-reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/projection-reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/monster-reference.png"
+        ],
+        "transparent_background": false
+      },
+      "monsters": [
+        "a LARGE green hooded tentacle creature in ochre robe, 1.8 times hero height, from image4 third row third creature",
+        "a TINY squat green slime, half hero height, from image4 first row third creature"
+      ],
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-10f64f1a-f2c2-4986-9103-0e6080afb0d1.png"
+    },
+    {
+      "id": "G07",
+      "title": "Площадь руин",
+      "view": "iso",
+      "request": {
+        "prompt": "Edit ONLY the very tall grey skeletal armored monster at the rear center. Rotate the whole monster head, torso, pelvis, hands and feet 45 degrees toward SCREEN LOWER RIGHT, a clear FRONT THREE-QUARTER view matching the heroes. Show the near side and head top, face points down-right, shoulders and feet stagger diagonally. Keep its visible face, same tall thin size (twice hero height), same grey and pink pixel palette, same number of limbs, feet centered inside the same single tile with margin. Do not add anything below feet. Keep the other five figures and entire ruined field unchanged. No rear view, no frontal symmetry, no pedestals/text.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/G07.png"
+        ],
+        "transparent_background": false
+      },
+      "monsters": [
+        "a TALL grey skeleton armored creature, twice hero height but narrow, from image4 top-left creature",
+        "a SMALL pink cyclopean tentacle creature, 0.6 hero height, from image4 second row sixth creature"
+      ],
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-422027fa-8fb0-43a4-b496-e00a5c40b65a.png",
+      "input_snapshots": {
+        "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/G07.png": "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/iterations/G07-before-review.png"
+      }
+    },
+    {
+      "id": "G08",
+      "title": "Тихая крипта",
+      "view": "iso",
+      "request": {
+        "prompt": "SIX FIGURES TOTAL: four small heroes PLUS two monsters of visibly DIFFERENT SIZES. Image4 is the MONSTER SPECIES reference; simplify those species to the pixel style of image1. Add a LARGE pink cyclopean tentacle monster, 1.7 times hero height, from image4 second row sixth creature and a SMALL dark armored beetle, half hero height, from image4 third row fifth creature. Each of all SIX figures occupies its own clearly separate grid tile, with no overlapping figures. Large monster can be taller/wider than heroes but all its feet/contact points fit its own tile; keep neighbor cells empty around it. Both monsters also face LOWER RIGHT in front three-quarter view, like the heroes. Create ONE original low-resolution PIXEL ART tactical scene. Image1 is the CHARACTER STYLE reference: extremely economical 12-16-pixel-like fantasy heroes, thick dark outlines, tiny simple eyes, few large color blocks, no textured armor or realistic anatomy. Image2 is the user's liked PALETTE/MOOD reference: muted sage olive ground, dusty blue stone/water, warm sand and earth, ivory, charcoal-plum background and small coral/red accents. Image3 is FLOOR GEOMETRY only: square grid cells projected as steep 4:3 diamonds, edge rise3/run4, not conventional shallow2:1. Use a flat connected roughly5x5 field, each character occupies one cell with feet well inside boundaries, generous empty space, NO plinths/discs/stands/rocks beneath feet. Scene: Small pale-grey and muted lilac stone tiled crypt with a low simple rear wall and tiny amber lantern. Four heroes stand on distinct clear tiles. Four recognizable simple heroes inspired by image1: a cream-armored small knight with red shield and short sword, a green hooded archer with compact bow, a purple/blue short-robed mage with short plain staff, and a brown/teal rogue with short dagger. These are independent visual studies, no game role/canon changes. ALL FOUR heads, torsos, pelvises, feet and weapons are turned45 degrees toward screen LOWER RIGHT in a clear front-three-quarter isometric view. Show helmet/head tops and side planes. Faces point down-right; nearer shoulder and boot are lower on screen, far ones higher. Never symmetric frontal poses, never backs, never mixed facing. Make the diagonal turn obvious even at tiny resolution. Keep sprites truly tiny and economical with short limbs and clear silhouette; minimal stable colors for easy AI animation. Hard pixel edges, no smoothing, no texture noise, no gradients except very subtle background, no particles/glow, no text/UI/labels/watermark. Square canvas, whole small field visible with margins.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/palette-reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/projection-reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/monster-reference.png"
+        ],
+        "transparent_background": false
+      },
+      "monsters": [
+        "a LARGE pink cyclopean tentacle monster, 1.7 times hero height, from image4 second row sixth creature",
+        "a SMALL dark armored beetle, half hero height, from image4 third row fifth creature"
+      ],
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-c80fddb7-02d4-4098-9292-dd6294be77c3.png"
+    },
+    {
+      "id": "G09",
+      "title": "Луг · фронтальные фигуры",
+      "view": "front",
+      "request": {
+        "prompt": "Edit ONLY the small brown-haired teal-scarf rogue at the BOTTOM CENTER of this scene. It must be unmistakably STRAIGHT-ON FRONT VIEW. Give it a clearly visible pale cream FACE with TWO black pixel eyes under a short brown fringe, a visible chest and belt, two front-facing boots, short dagger held visibly at the SIDE. No back of head, no cape/back view, no turned-away head. Keep it tiny, economical pixel-art and identical scale and its feet at the exact same tile position. Do not alter any other five figures or any floor/environment pixels. No new figures, props, text or base.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/G09.png"
+        ],
+        "transparent_background": false
+      },
+      "monsters": [
+        "a LARGE green tentacle creature, 1.8 times hero height, from image4 third row third creature",
+        "a TINY squat green slime, half hero height, from image4 first row third creature"
+      ],
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-6a8e09f0-173d-4405-98cb-071b3a9fed9c.png",
+      "input_snapshots": {
+        "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/G09.png": "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/iterations/G09-before-review.png"
+      }
+    },
+    {
+      "id": "G10",
+      "title": "Крипта · фронтальные фигуры",
+      "view": "front",
+      "request": {
+        "prompt": "SIX FIGURES TOTAL: four small heroes PLUS two monsters of visibly DIFFERENT SIZES. Image4 is the MONSTER SPECIES reference; simplify those species to the pixel style of image1. Add a LARGE dark armored beetle, 1.6 times hero body mass, from image4 third row fifth creature and a SMALL pink cyclopean creature with short tentacles, 0.6 hero height, from image4 second row sixth creature. Each of all SIX figures occupies its own clearly separate grid tile, with no overlapping figures. Large monster can be taller/wider than heroes but all its feet/contact points fit its own tile; keep neighbor cells empty around it. Both monsters also face straight FRONT, like the four heroes. Create ONE original low-resolution PIXEL ART tactical scene. Image1 is the CHARACTER STYLE reference: extremely economical 12-16-pixel-like fantasy heroes, thick dark outlines, tiny simple eyes, few large color blocks, no textured armor or realistic anatomy. Image2 is the user's liked PALETTE/MOOD reference: muted sage olive ground, dusty blue stone/water, warm sand and earth, ivory, charcoal-plum background and small coral/red accents. Image3 is FLOOR GEOMETRY only: square grid cells projected as steep 4:3 diamonds, edge rise3/run4, not conventional shallow2:1. Use a flat connected roughly5x5 field, each character occupies one cell with feet well inside boundaries, generous empty space, NO plinths/discs/stands/rocks beneath feet. Scene: Small pale-grey and muted lilac crypt floor with low rear wall and a tiny amber lantern. Four heroes on separate clear tiles. Four recognizable simple heroes inspired by image1: a cream-armored small knight with red shield and short sword, a green hooded archer with compact bow, a purple/blue short-robed mage with short plain staff, and a brown/teal rogue with short dagger. These are independent visual studies, no game role/canon changes. EXCEPTION FOR THE FIGURES ONLY: all four are straight-on frontal2D sprites, faces/chests directly toward viewer, no rotation or isometric tops; similar frontal bodies as image1. Floor and environment remain steep4:3 ISOMETRIC. Feet still plant directly in individual cells. Keep sprites truly tiny and economical with short limbs and clear silhouette; minimal stable colors for easy AI animation. Hard pixel edges, no smoothing, no texture noise, no gradients except very subtle background, no particles/glow, no text/UI/labels/watermark. Square canvas, whole small field visible with margins.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/palette-reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/projection-reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-05-20261017/monster-reference.png"
+        ],
+        "transparent_background": false
+      },
+      "monsters": [
+        "a LARGE dark armored beetle, 1.6 times hero body mass, from image4 third row fifth creature",
+        "a SMALL pink cyclopean creature with short tentacles, 0.6 hero height, from image4 second row sixth creature"
+      ],
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-7f085327-8748-4c5f-930a-2221099ae656.png"
+    }
+  ]
+}
