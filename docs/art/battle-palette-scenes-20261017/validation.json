@@ -1,0 +1,54 @@
+{
+  "date": "2026-10-17",
+  "base": "aaf50da8e31d7de88c5cd6748020a842dfda57aa",
+  "scope": "Preview artwork and documentation only",
+  "outputs": [
+    {
+      "file": "scene-01-grassland-ford.png",
+      "sha256": "61CBB4ECE30DB81C7B071C52C51B49156FFDA1105BAA7B63C7A53C38ED58678C",
+      "width": 1448,
+      "height": 1086,
+      "provider_copy_exact": true
+    },
+    {
+      "file": "scene-02-flooded-ruins.png",
+      "sha256": "F126CDA609A522BD4B00DA754289F8B3AE76A25864669F9F878F466C136A16E0",
+      "width": 1448,
+      "height": 1086,
+      "provider_copy_exact": true
+    }
+  ],
+  "reference_sha256": "E4323A11E4C49C778E085AE845DD57E7C14BE47168B636A469D805ED74B7DD10",
+  "prior_handoff_archive": "docs/CODEX_HANDOFF.history-20261017-15.md",
+  "archive_sha256": "1054EB8EE0634266EBE453E93791C2C29E58FC664BE0C0E593FFE7C806FA4EA6",
+  "matches_prior_head_blob_bytes": true,
+  "archive_method": "Copy-Item of unchanged working-tree HANDOFF before replacement",
+  "protected_scene_sha256": "A64C270256EBF2EA073081200BE23028F792F42C3CA98F83A6499C1300A68668",
+  "protected_scene_unchanged": true,
+  "local_links_checked": 678,
+  "input_document_sizes": [
+    {
+      "file": "AGENTS.md",
+      "lf_characters": 4565
+    },
+    {
+      "file": "docs/CODEX_HANDOFF.md",
+      "lf_characters": 2346
+    },
+    {
+      "file": "docs/PROJECT_CONTEXT.md",
+      "lf_characters": 3491
+    },
+    {
+      "file": "docs/CODEX_WORKFLOW.md",
+      "lf_characters": 4482
+    }
+  ],
+  "review": "APPROVE for illustrative previews by lead and independent game_reviewer",
+  "limitations": [
+    "Exact output hex, grid geometry, anchors and UI not validated",
+    "Ruins contain more small stone/moss detail; acid closer in tone to vegetation",
+    "No runtime, full/core, F5/editor/DPI/GPU or final user art acceptance"
+  ],
+  "document_growth": "Only HANDOFF changed among entry documents; 2346 LF characters, below 2500. Rules, unresolved items and acceptance limits retained."
+}
