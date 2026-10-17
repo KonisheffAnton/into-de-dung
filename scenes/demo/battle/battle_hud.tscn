@@ -232,6 +232,15 @@ size_flags_horizontal = 3
 clip_text = true
 metadata/spell_id = &"mage.test_burning"
 
+[node name="Poison" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("button")]
+layout_mode = 2
+text = "Яд\n1 мана"
+visible = false
+custom_minimum_size = Vector2(96, 64)
+size_flags_horizontal = 3
+clip_text = true
+metadata/spell_id = &"mage.test_poison"
+
 [node name="Wet" parent="Margin/Column/MageBar/Buttons" instance=ExtResource("button")]
 layout_mode = 2
 text = "Вода\n1 мана"

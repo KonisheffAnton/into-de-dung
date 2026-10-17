@@ -64,6 +64,9 @@ func has_balance_pixel(image: Image, point: Vector2) -> bool:
 	return false
 
 func run() -> void:
+	var poison_entries := BattleStatusPresentation.entries({"elemental": {"poison_stacks": 2, "poison_ticks": 3}})
+	check(poison_entries.size() == 1 and poison_entries[0].id == "poison" and poison_entries[0].stacks == 2 and poison_entries[0].remaining == 3, "poison HUD entry carries actual stacks and ticks")
+	check(BattleStatusPresentation.event_feedback({"kind": &"elemental_changed", "reason": &"poison_tick", "before": {"poison_stacks": 1, "poison_ticks": 1}, "after": {"poison_stacks": 0, "poison_ticks": 0}}) == "Тик: Яд · снято", "poison tick feedback reports final expiry")
 	viewport = SubViewport.new()
 	viewport.size = Vector2i(1280, 850)
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS

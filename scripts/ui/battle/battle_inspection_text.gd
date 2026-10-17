@@ -129,6 +129,16 @@ static func _append_status_and_armor(text: String, unit: UnitState, state: ItemS
 				unit.elemental.burning_stacks, unit.elemental.burning_ticks,
 				BattleEventText.amount_text(burning_damage),
 			])
+		if unit.elemental.poison_stacks > 0:
+			var poison_damage: float = float(unit.elemental.poison_stacks)
+			if unit.elemental.authored:
+				var poison_total := StatusContributions.total(unit.elemental.poison_contributions)
+				if poison_total.valid:
+					poison_damage = float(poison_total.numerator) / float(poison_total.denominator)
+			effects.append("Яд: %d ст. · %d тиков · %s урона только HP за тик" % [
+				unit.elemental.poison_stacks, unit.elemental.poison_ticks,
+				BattleEventText.amount_text(poison_damage),
+			])
 		if unit.elemental.wet_turns > 0: effects.append("Мокрый: %d своих ходов" % unit.elemental.wet_turns)
 		if unit.elemental.frozen_turns > 0: effects.append("Заморожен: %d своих ходов · входящий удар критический" % unit.elemental.frozen_turns)
 		if unit.elemental.freeze_immune: effects.append("Иммунитет к заморозке")

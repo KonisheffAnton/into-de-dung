@@ -35,7 +35,7 @@ func run() -> void:
 		check(HeroHubState.from_dict(changed_hub) == null, "hero hub rejects unsupported schema " + str(unsupported))
 	codec(ArmorState.new().to_dict(), 4, ArmorState.valid, ArmorState.from_dict, "armor")
 	codec(BleedingState.new().to_dict(), 4, BleedingState.valid, BleedingState.from_dict, "bleeding")
-	codec(ElementalState.new().to_dict(), 3, ElementalState.valid, ElementalState.from_dict, "elemental")
+	codec(ElementalState.new().to_dict(), 4, ElementalState.valid, ElementalState.from_dict, "elemental")
 	codec(CombatPerksState.new().to_dict(), 7, CombatPerksState.valid, CombatPerksState.from_dict, "perks")
 	codec(CombatEnvironmentState.new().to_dict(), 5, CombatEnvironmentState.valid, CombatEnvironmentState.from_dict, "environment")
 	codec(BattleAbilityState.create(AbilityCatalog.defaults()).to_dict(), 3, BattleAbilityState.valid, BattleAbilityState.from_dict, "abilities")

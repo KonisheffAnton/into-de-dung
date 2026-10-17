@@ -15,6 +15,7 @@ static func entries(row: Dictionary) -> Array[Dictionary]:
 	_add(result, "entangled", "Путы", 0, int(control.get("entangled_turns", 0)), "до конца ближайшего хода своей команды", true)
 	_add(result, "bleeding", "Кровотечение", int(bleeding.get("stacks", 0)), int(bleeding.get("ticks_left", 0)), "тиков в начале своего хода", false)
 	_add(result, "burning", "Горение", int(elemental.get("burning_stacks", 0)), int(elemental.get("burning_ticks", 0)), "тиков в начале своего хода", false)
+	_add(result, "poison", "Яд", int(elemental.get("poison_stacks", 0)), int(elemental.get("poison_ticks", 0)), "тиков в начале своего хода", false)
 	_add(result, "acid", "В кислоте", 0, int(elemental.get("acid_ticks", 0)), "ход., 10 брони/ход", false)
 	_add(result, "wet", "Мокрый", 0, int(elemental.get("wet_turns", 0)), "концов хода своей команды", false)
 	return result
@@ -60,9 +61,10 @@ static func event_feedback(event: Dictionary) -> String:
 		if previous.is_empty(): parts.append("+ " + String(current.title))
 		elif int(current.stacks) != int(previous.stacks): parts.append("%s ×%d" % [current.title, int(current.stacks)])
 		elif int(current.remaining) != int(previous.remaining):
-			parts.append("%s · %d %s" % [current.title, int(current.remaining), "тиков" if current.id in ["bleeding", "burning"] else "своих ходов"])
+			parts.append("%s · %d %s" % [current.title, int(current.remaining), "тиков" if current.id in ["bleeding", "burning", "poison"] else "своих ходов"])
 		elif String(event.get("reason", "")) in ["refreshed", "stun_refreshed"]: parts.append(String(current.title) + " · обновлено")
 	# Тик — факт события, а не выдуманное изменение HP или новый стак.
-	if String(event.get("reason", "")) in ["tick", "burn_tick"]:
-		return "Тик: " + ("Кровотечение" if field == "bleeding" else "Горение") + (" · снято" if after.is_empty() else "")
+	if String(event.get("reason", "")) in ["tick", "burn_tick", "poison_tick"]:
+		var name := "Кровотечение" if field == "bleeding" else ("Яд" if String(event.get("reason", "")) == "poison_tick" else "Горение")
+		return "Тик: " + name + (" · снято" if after.is_empty() else "")
 	return " · ".join(parts)

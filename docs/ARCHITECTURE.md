@@ -34,7 +34,7 @@ callbacks и флаг колоды. Session у Board и lifecycle остаютс
 публикация остаются у `BattleDemo`. Выделенные компоненты собраны в `scripts/ui/battle/`.
 Карта и границы — [BATTLE_HUD_SCENES_V1](BATTLE_HUD_SCENES_V1.md).
 
-[K17](STATUS_EFFECTS_NEXT.md) включает конечные состояния bleeding/burning/wet/freeze
+[K17](STATUS_EFFECTS_NEXT.md) включает конечные состояния bleeding/burning/wet/freeze/poison
 в основном бою и у помощников. Nullable ElementalState и явный режим bleeding.stacked разделяют правила
 статусов; environment.status_effects задаёт эффекты постоянных шипов и горящих клеток.
 Выдвижные напольные/настенные шипы и кислота принадлежат отдельной capability hazards.
@@ -50,11 +50,15 @@ SpatialRules охраняет новые ссылки и значения;
 ArmorHitExecutor и admission используют одинаковое добивание замороженного
 по gross HP damage. ElementalCastCommand/внутренние тики исполняются очередью,
 ForecastSimulation и оба worker сохраняют то же состояние/порядок.
+Поджог обновляет срок до двух тиков; яд накапливает силу и срок отдельно.
+MageEffectExecutor допускает яд только после своего прямого HP-hit;
+ElementalRules пишет статус под guard возвращённого hit. ElementalTickCommand
+исполняет HP-only яд в конце прежней цепочки StatusTurnUnitCommand.
 ControlRules блокирует действия/угрозы замороженного; крит frozen распространяется
 и на реакции K12, сохраняя исключения обычного контроля у реакций.
 
 [Выдвижные ловушки и кислота](ENVIRONMENT_HAZARDS_V1.md) добавляют optional hazards
-в единую environment5 и acid_ticks в elemental3; правила — в контракте снимков.
+в единую environment5 и acid_ticks в elemental4; правила — в контракте снимков.
 HazardCommand/HazardTurnCommand разрешают контакты/отложенные срабатывания через
 ту же очередь; AcidCommand пишет только статус и броню под SpatialRules.Guard.
 Состояние взвода/защёлки входит в snapshot, а показ — в detached публикации.

@@ -20,7 +20,7 @@ static func prepare(context: ActionContext, target_id: int, target_cell: Vector2
 	var target := board.get_unit_by_id(target_id)
 	if target == null or not target.is_alive() or not board.is_in_bounds(target.cell) or state.is_summon_pending(target_id): return {"reason": &"mage/invalid_target"}
 	if target.faction not in [Faction.Type.PLAYER, Faction.Type.ENEMY]: return {"reason": &"mage/invalid_target"}
-	if effect == &"mage.fire" and target.faction != Faction.Type.ENEMY: return {"reason": &"mage/invalid_target"}
+	if effect in [&"mage.fire", &"poison"] and target.faction != Faction.Type.ENEMY: return {"reason": &"mage/invalid_target"}
 	if effect in [&"mage.heal", &"mage.test_heal", &"mage.shield", &"fire_imbue"] and target.faction != Faction.Type.PLAYER: return {"reason": &"mage/invalid_target"}
 	var guard := SpatialRules.capture_guard(context, [target], [target.cell], {target_id: [StatTypes.StatType.HP_MAX]})
 	if guard == null or target.armor == null: return {"reason": &"mage/invalid_runtime"}
@@ -34,8 +34,9 @@ static func prepare(context: ActionContext, target_id: int, target_cell: Vector2
 		if not target.armor.in_battle: return {"reason": &"mage/invalid_runtime"}
 		status_plan = {"shield_after": SpellShield.make(spell_id, amount, shield_hits)}
 		if status_plan.shield_after.is_empty(): return {"reason": &"mage/invalid_runtime"}
-	elif effect == &"mage.fire":
-		var extras: Array[Dictionary] = [{"type": "fire", "policy": "standard", "source": String(spell_id), "numerator": amount, "denominator": 1, "factor_num": 1, "factor_den": 1}]
+	elif effect in [&"mage.fire", &"poison"]:
+		if effect == &"poison" and not ElementalRules.valid_unit(target): return {"reason": &"status/invalid_state"}
+		var extras: Array[Dictionary] = [{"type": "physical" if effect == &"poison" else "fire", "policy": "standard", "source": String(spell_id), "numerator": amount, "denominator": 1, "factor_num": 1, "factor_den": 1}]
 		var raw := ArmorAttack.components(0.0, 0.0, 0, target.guard_stance, extras, 0, 2 if ElementalRules.is_frozen(target) else 1)
 		if not raw.is_empty(): raw.remove_at(0)
 		request = ArmorAttack.request(target_id, raw, source)
@@ -43,6 +44,10 @@ static func prepare(context: ActionContext, target_id: int, target_cell: Vector2
 		var plan := ArmorHitExecutor.prepare(request, guard.values["participants"][target_id]["armor"], target.vitals.get_hp(), maximum, context.get_rng(), ElementalRules.is_frozen(target), context)
 		if plan.get("reason", &"") != &"": return plan
 		if plan["hp_after"] == 0 and board.board_version >= ActionContext.MAX_ID: return {"reason": &"push/board_version_exhausted"}
+		# Допуск берётся только из прямого hit до лечения; летальный hit не создаёт статус.
+		if effect == &"poison" and float(plan.total_damage) > 0.0 and plan.hp_after > 0:
+			status_plan = ElementalRules.transition(target.elemental.to_dict(), &"poison", 1, source.to_dict())
+			if status_plan.get("reason", &"") != &"": return status_plan
 	elif effect == &"fire_imbue":
 		if state.card_effects == null or card_instance_id <= 0: return {"reason": &"mage/invalid_runtime"}
 		var imbue := state.card_effects.imbue(target.id, card_instance_id, state.abilities.serials[target.faction])
@@ -66,6 +71,10 @@ static func apply(context: ActionContext, plan: Dictionary, guard: SpatialRules.
 		var hit := ArmorHitExecutor.execute(plan.request, guard, context, seal_check)
 		var hit_result: CommandStepResult = hit.result
 		result.events.append_array(hit_result.events); result.status = hit_result.status; result.reason = hit_result.reason
+		if result.status == &"APPLIED" and plan.effect == &"poison" and not plan.status_plan.is_empty():
+			var written := ElementalRules.write(target, plan.status_plan.after, hit.guard, context, &"poison", 0, seal_check)
+			var status_result: CommandStepResult = written.result
+			result.events.append_array(status_result.events); result.status = status_result.status; result.reason = status_result.reason
 	elif plan.status_plan.has("shield_after"):
 		var before_shield := target.armor.shield.duplicate(true)
 		var after_shield: Dictionary = plan.status_plan.shield_after

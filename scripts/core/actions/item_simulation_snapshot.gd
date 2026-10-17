@@ -753,11 +753,11 @@ static func _validate(data: Dictionary, captured_board: SimulationSnapshot = nul
 		unit_map[unit["id"]] = unit
 	for unit: Dictionary in units:
 		if not data.has("deck"):
-			var status_sources: Array = [unit.get("bleeding",{}).get("source",{}),unit.get("elemental",{}).get("burning_source",{})]
-			for records: Array in [unit.get("bleeding", {}).get("contributions", []), unit.get("elemental", {}).get("burning_contributions", [])]:
+			var status_sources: Array = [unit.get("bleeding",{}).get("source",{}),unit.get("elemental",{}).get("burning_source",{}),unit.get("elemental",{}).get("poison_source",{})]
+			for records: Array in [unit.get("bleeding", {}).get("contributions", []), unit.get("elemental", {}).get("burning_contributions", []), unit.get("elemental", {}).get("poison_contributions", [])]:
 				for contribution: Dictionary in records: status_sources.append(contribution.source)
 			for source: Dictionary in status_sources:
-				if source.get("kind") == &"mage" and source.get("source_instance_id",0) >= 13: return "deck/source_capability"
+				if source.get("kind") == &"mage" and DamageSource.is_card_source(int(source.get("source_instance_id",0))): return "deck/source_capability"
 			if unit.get("armor",{}).get("shield",{}).get("spell_id") == "card.shield": return "deck/shield_capability"
 		if unit.get("bleeding", {}).get("ticks_left", 0) > 0:
 			var bleeding: Dictionary = unit["bleeding"]
@@ -769,6 +769,9 @@ static func _validate(data: Dictionary, captured_board: SimulationSnapshot = nul
 			if elemental["burning_stacks"] > 0 and elemental["burning_source"]["kind"] == &"attack" and not elemental.has("burning_contributions"):
 				var burning_source: Dictionary = elemental["burning_source"]
 				if not unit_map.has(burning_source["instigator_unit_id"]) or not unit_map.has(burning_source["credit_unit_id"]): return "board/unit/elemental/burning_source"
+			if elemental["poison_stacks"] > 0 and elemental["poison_source"]["kind"] == &"attack" and not elemental.has("poison_contributions"):
+				var poison_source: Dictionary = elemental["poison_source"]
+				if not unit_map.has(poison_source["instigator_unit_id"]) or not unit_map.has(poison_source["credit_unit_id"]): return "board/unit/elemental/poison_source"
 	var seen: Dictionary = {}
 	var armor_identities: Dictionary = {}
 	var catalogue: Dictionary = {}

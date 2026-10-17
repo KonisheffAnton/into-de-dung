@@ -13,6 +13,14 @@ Launcher создаёт отдельную копию текущих исход�
 
 ## Изменение игрового кода
 
+Поджог/яд (2026-10-17): `--check --only poison status_effects status_models
+status_snapshots mage_deck_battle current_schema_boundary`. `poison` проверяет
+обновление поджога до двух тиков, HP-gate яда/щит/лечебную реакцию, накопление,
+HP-only тик/истечение/смерть, точные дроби, source/deck, FAULTED и оба worker.
+Из-за Elemental4 дополнительно полный headless набор; UI/render:
+`--render-check --only battle_hud_authoring battle_mage_presenter mage_deck_ui
+presentation_status --screen 0`. Ручная F5/балансная приёмка отдельно.
+
 Характеристики V1: `--check --only hero_progression fractional_armor_hit
 status_contributions character_attributes_v1 hero_hub_ui expedition_postbattle
 current_schema_boundary`. Многострочный список меток передавать одной командой.

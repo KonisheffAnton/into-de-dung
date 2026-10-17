@@ -26,6 +26,8 @@ static func status_source_reason(id: int, bleeding: Dictionary, elemental: Dicti
 		if not ids.has(bleeding["source"]["instigator_unit_id"]) or not ids.has(bleeding["source"]["credit_unit_id"]): return "unit/%d/bleeding/source" % id
 	if elemental["burning_stacks"] > 0 and elemental["burning_source"]["kind"] == &"attack" and not elemental.has("burning_contributions"):
 		if not ids.has(elemental["burning_source"]["instigator_unit_id"]) or not ids.has(elemental["burning_source"]["credit_unit_id"]): return "unit/%d/elemental/burning_source" % id
+	if elemental["poison_stacks"] > 0 and elemental["poison_source"]["kind"] == &"attack" and not elemental.has("poison_contributions"):
+		if not ids.has(elemental["poison_source"]["instigator_unit_id"]) or not ids.has(elemental["poison_source"]["credit_unit_id"]): return "unit/%d/elemental/poison_source" % id
 	return ""
 
 static func preflight(board: BattleBoard, unsupported_runtime_ids: Array[StringName]) -> BoardSnapshotResult:

@@ -43,7 +43,9 @@ static func refresh_spells(
 				spell_help.call(id)
 			]
 		)
-		if AbilityDefinition.TEST_EFFECTS.has(id):
+		if id == &"mage.test_poison":
+			button.tooltip_text += "\nЖивой враг на доске, кроме ожидающего вступления помощника. Без затрат действий героя."
+		elif AbilityDefinition.TEST_EFFECTS.has(id):
 			button.tooltip_text += "\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя."
 		if reason != &"": button.tooltip_text += "\n" + reason_text.call(reason)
 	if row is BattleMageBar:

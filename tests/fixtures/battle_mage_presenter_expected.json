@@ -25,7 +25,16 @@
 				"pressed": false,
 				"text": "Поджог\n1 мана",
 				"toggle": false,
-				"tooltip": "Поджог · 1 маны · откат 0, осталось 0\nТест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nсейчас нельзя действовать.",
+				"tooltip": "Поджог · 1 маны · откат 0, осталось 0\nТест: +1 стак горения; повторное наложение обновляет срок до 2 тиков. Вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nсейчас нельзя действовать.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
+				"toggle": false,
+				"tooltip": "Яд · 1 маны · откат 0, осталось 0\nТест: 4 прямого физического урона врагу; при положительном уроне HP накладывает +1 урон и +1 тик яда. Тики наносят урон только HP, броню не меняют.\nЖивой враг на доске, кроме ожидающего вступления помощника. Без затрат действий героя.\nсейчас нельзя действовать.",
 				"visible": true
 			},
 			{
@@ -71,7 +80,7 @@
 				"text": "Кровотечение\n1 мана",
 				"toggle": false,
 				"tooltip": "Кровотечение · 1 маны · откат 0, осталось 0\nТест: +1 стак, срок 3 тика. Горение и иммунитет блокируют наложение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nсейчас нельзя действовать.",
-				"visible": true
+				"visible": false
 			},
 			{
 				"disabled": true,
@@ -192,6 +201,9 @@
 			"effect:mage.test_burning",
 			"help:mage.test_burning",
 			"reason:battle/input_locked",
+			"effect:mage.test_poison",
+			"help:mage.test_poison",
+			"reason:battle/input_locked",
 			"effect:mage.test_wet",
 			"help:mage.test_wet",
 			"reason:battle/input_locked",
@@ -231,6 +243,7 @@
 			"MageFireButton",
 			"MageHealButton",
 			"Burning",
+			"Poison",
 			"Wet",
 			"Freeze",
 			"Stun",
@@ -271,7 +284,16 @@
 				"pressed": false,
 				"text": "Поджог\n1 мана",
 				"toggle": false,
-				"tooltip": "Поджог · 1 маны · откат 0, осталось 0\nТест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"tooltip": "Поджог · 1 маны · откат 0, осталось 0\nТест: +1 стак горения; повторное наложение обновляет срок до 2 тиков. Вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
+				"toggle": false,
+				"tooltip": "Яд · 1 маны · откат 0, осталось 0\nТест: 4 прямого физического урона врагу; при положительном уроне HP накладывает +1 урон и +1 тик яда. Тики наносят урон только HP, броню не меняют.\nЖивой враг на доске, кроме ожидающего вступления помощника. Без затрат действий героя.",
 				"visible": true
 			},
 			{
@@ -317,7 +339,7 @@
 				"text": "Кровотечение\n1 мана",
 				"toggle": false,
 				"tooltip": "Кровотечение · 1 маны · откат 0, осталось 0\nТест: +1 стак, срок 3 тика. Горение и иммунитет блокируют наложение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
-				"visible": true
+				"visible": false
 			},
 			{
 				"disabled": false,
@@ -435,6 +457,8 @@
 			"help:mage.heal",
 			"effect:mage.test_burning",
 			"help:mage.test_burning",
+			"effect:mage.test_poison",
+			"help:mage.test_poison",
 			"effect:mage.test_wet",
 			"help:mage.test_wet",
 			"effect:mage.test_freeze",
@@ -465,6 +489,7 @@
 			"MageFireButton",
 			"MageHealButton",
 			"Burning",
+			"Poison",
 			"Wet",
 			"Freeze",
 			"Stun",
@@ -505,7 +530,16 @@
 				"pressed": false,
 				"text": "Поджог\n1 мана",
 				"toggle": false,
-				"tooltip": "Поджог · 1 маны · откат 0, осталось 0\nТест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nНедостаточно маны мага.",
+				"tooltip": "Поджог · 1 маны · откат 0, осталось 0\nТест: +1 стак горения; повторное наложение обновляет срок до 2 тиков. Вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nНедостаточно маны мага.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
+				"toggle": false,
+				"tooltip": "Яд · 1 маны · откат 0, осталось 0\nТест: 4 прямого физического урона врагу; при положительном уроне HP накладывает +1 урон и +1 тик яда. Тики наносят урон только HP, броню не меняют.\nЖивой враг на доске, кроме ожидающего вступления помощника. Без затрат действий героя.\nНедостаточно маны мага.",
 				"visible": true
 			},
 			{
@@ -551,7 +585,7 @@
 				"text": "Кровотечение\n1 мана",
 				"toggle": false,
 				"tooltip": "Кровотечение · 1 маны · откат 0, осталось 0\nТест: +1 стак, срок 3 тика. Горение и иммунитет блокируют наложение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nНедостаточно маны мага.",
-				"visible": true
+				"visible": false
 			},
 			{
 				"disabled": true,
@@ -672,6 +706,9 @@
 			"effect:mage.test_burning",
 			"help:mage.test_burning",
 			"reason:mage/insufficient_mana",
+			"effect:mage.test_poison",
+			"help:mage.test_poison",
+			"reason:mage/insufficient_mana",
 			"effect:mage.test_wet",
 			"help:mage.test_wet",
 			"reason:mage/insufficient_mana",
@@ -711,6 +748,7 @@
 			"MageFireButton",
 			"MageHealButton",
 			"Burning",
+			"Poison",
 			"Wet",
 			"Freeze",
 			"Stun",
@@ -751,7 +789,16 @@
 				"pressed": false,
 				"text": "Поджог\n1 мана",
 				"toggle": false,
-				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nR:Недостаточно маны мага.",
+				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения; повторное наложение обновляет срок до 2 тиков. Вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nR:Недостаточно маны мага.",
+				"visible": true
+			},
+			{
+				"disabled": true,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Яд · 1 маны · откат 0, осталось 0\nH:Тест: 4 прямого физического урона врагу; при положительном уроне HP накладывает +1 урон и +1 тик яда. Тики наносят урон только HP, броню не меняют.\nЖивой враг на доске, кроме ожидающего вступления помощника. Без затрат действий героя.\nR:Недостаточно маны мага.",
 				"visible": true
 			},
 			{
@@ -797,7 +844,7 @@
 				"text": "Кровотечение\n1 мана",
 				"toggle": false,
 				"tooltip": "E:Кровотечение · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак, срок 3 тика. Горение и иммунитет блокируют наложение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.\nR:Недостаточно маны мага.",
-				"visible": true
+				"visible": false
 			},
 			{
 				"disabled": true,
@@ -918,6 +965,9 @@
 			"effect:mage.test_burning",
 			"help:mage.test_burning",
 			"reason:mage/insufficient_mana",
+			"effect:mage.test_poison",
+			"help:mage.test_poison",
+			"reason:mage/insufficient_mana",
 			"effect:mage.test_wet",
 			"help:mage.test_wet",
 			"reason:mage/insufficient_mana",
@@ -957,6 +1007,7 @@
 			"MageFireButton",
 			"MageHealButton",
 			"Burning",
+			"Poison",
 			"Wet",
 			"Freeze",
 			"Stun",
@@ -997,7 +1048,16 @@
 				"pressed": false,
 				"text": "Поджог\n1 мана",
 				"toggle": false,
-				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения; повторное наложение обновляет срок до 2 тиков. Вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Яд · 1 маны · откат 0, осталось 0\nH:Тест: 4 прямого физического урона врагу; при положительном уроне HP накладывает +1 урон и +1 тик яда. Тики наносят урон только HP, броню не меняют.\nЖивой враг на доске, кроме ожидающего вступления помощника. Без затрат действий героя.",
 				"visible": true
 			},
 			{
@@ -1043,7 +1103,7 @@
 				"text": "Кровотечение\n1 мана",
 				"toggle": false,
 				"tooltip": "E:Кровотечение · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак, срок 3 тика. Горение и иммунитет блокируют наложение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
-				"visible": true
+				"visible": false
 			},
 			{
 				"disabled": false,
@@ -1161,6 +1221,8 @@
 			"help:mage.heal",
 			"effect:mage.test_burning",
 			"help:mage.test_burning",
+			"effect:mage.test_poison",
+			"help:mage.test_poison",
 			"effect:mage.test_wet",
 			"help:mage.test_wet",
 			"effect:mage.test_freeze",
@@ -1191,6 +1253,7 @@
 			"MageFireButton",
 			"MageHealButton",
 			"Burning",
+			"Poison",
 			"Wet",
 			"Freeze",
 			"Stun",
@@ -1231,7 +1294,16 @@
 				"pressed": false,
 				"text": "Поджог\n1 мана",
 				"toggle": false,
-				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения; повторное наложение обновляет срок до 2 тиков. Вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Яд · 1 маны · откат 0, осталось 0\nH:Тест: 4 прямого физического урона врагу; при положительном уроне HP накладывает +1 урон и +1 тик яда. Тики наносят урон только HP, броню не меняют.\nЖивой враг на доске, кроме ожидающего вступления помощника. Без затрат действий героя.",
 				"visible": false
 			},
 			{
@@ -1277,7 +1349,7 @@
 				"text": "Кровотечение\n1 мана",
 				"toggle": false,
 				"tooltip": "E:Кровотечение · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак, срок 3 тика. Горение и иммунитет блокируют наложение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
-				"visible": false
+				"visible": true
 			},
 			{
 				"disabled": false,
@@ -1395,6 +1467,8 @@
 			"help:mage.heal",
 			"effect:mage.test_burning",
 			"help:mage.test_burning",
+			"effect:mage.test_poison",
+			"help:mage.test_poison",
 			"effect:mage.test_wet",
 			"help:mage.test_wet",
 			"effect:mage.test_freeze",
@@ -1425,6 +1499,7 @@
 			"MageFireButton",
 			"MageHealButton",
 			"Burning",
+			"Poison",
 			"Wet",
 			"Freeze",
 			"Stun",
@@ -1465,7 +1540,16 @@
 				"pressed": false,
 				"text": "Поджог\n1 мана",
 				"toggle": false,
-				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения; повторное наложение обновляет срок до 2 тиков. Вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Яд · 1 маны · откат 0, осталось 0\nH:Тест: 4 прямого физического урона врагу; при положительном уроне HP накладывает +1 урон и +1 тик яда. Тики наносят урон только HP, броню не меняют.\nЖивой враг на доске, кроме ожидающего вступления помощника. Без затрат действий героя.",
 				"visible": false
 			},
 			{
@@ -1511,7 +1595,7 @@
 				"text": "Кровотечение\n1 мана",
 				"toggle": false,
 				"tooltip": "E:Кровотечение · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак, срок 3 тика. Горение и иммунитет блокируют наложение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
-				"visible": false
+				"visible": true
 			},
 			{
 				"disabled": false,
@@ -1629,6 +1713,8 @@
 			"help:mage.heal",
 			"effect:mage.test_burning",
 			"help:mage.test_burning",
+			"effect:mage.test_poison",
+			"help:mage.test_poison",
 			"effect:mage.test_wet",
 			"help:mage.test_wet",
 			"effect:mage.test_freeze",
@@ -1659,6 +1745,7 @@
 			"MageFireButton",
 			"MageHealButton",
 			"Burning",
+			"Poison",
 			"Wet",
 			"Freeze",
 			"Stun",
@@ -1699,7 +1786,16 @@
 				"pressed": false,
 				"text": "Поджог\n1 мана",
 				"toggle": false,
-				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения; повторное наложение обновляет срок до 2 тиков. Вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Яд · 1 маны · откат 0, осталось 0\nH:Тест: 4 прямого физического урона врагу; при положительном уроне HP накладывает +1 урон и +1 тик яда. Тики наносят урон только HP, броню не меняют.\nЖивой враг на доске, кроме ожидающего вступления помощника. Без затрат действий героя.",
 				"visible": false
 			},
 			{
@@ -1745,7 +1841,7 @@
 				"text": "Кровотечение\n1 мана",
 				"toggle": false,
 				"tooltip": "E:Кровотечение · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак, срок 3 тика. Горение и иммунитет блокируют наложение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
-				"visible": false
+				"visible": true
 			},
 			{
 				"disabled": false,
@@ -1872,6 +1968,8 @@
 			"help:mage.heal",
 			"effect:mage.test_burning",
 			"help:mage.test_burning",
+			"effect:mage.test_poison",
+			"help:mage.test_poison",
 			"effect:mage.test_wet",
 			"help:mage.test_wet",
 			"effect:mage.test_freeze",
@@ -1902,6 +2000,7 @@
 			"MageFireButton",
 			"MageHealButton",
 			"Burning",
+			"Poison",
 			"Wet",
 			"Freeze",
 			"Stun",
@@ -1942,7 +2041,16 @@
 				"pressed": false,
 				"text": "Поджог\n1 мана",
 				"toggle": false,
-				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения; повторное наложение обновляет срок до 2 тиков. Вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Яд · 1 маны · откат 0, осталось 0\nH:Тест: 4 прямого физического урона врагу; при положительном уроне HP накладывает +1 урон и +1 тик яда. Тики наносят урон только HP, броню не меняют.\nЖивой враг на доске, кроме ожидающего вступления помощника. Без затрат действий героя.",
 				"visible": true
 			},
 			{
@@ -2115,6 +2223,8 @@
 			"help:mage.heal",
 			"effect:mage.test_burning",
 			"help:mage.test_burning",
+			"effect:mage.test_poison",
+			"help:mage.test_poison",
 			"effect:mage.test_wet",
 			"help:mage.test_wet",
 			"effect:mage.test_freeze",
@@ -2168,7 +2278,16 @@
 				"pressed": false,
 				"text": "Поджог\n1 мана",
 				"toggle": false,
-				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения; повторное наложение обновляет срок до 2 тиков. Вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Яд · 1 маны · откат 0, осталось 0\nH:Тест: 4 прямого физического урона врагу; при положительном уроне HP накладывает +1 урон и +1 тик яда. Тики наносят урон только HP, броню не меняют.\nЖивой враг на доске, кроме ожидающего вступления помощника. Без затрат действий героя.",
 				"visible": true
 			},
 			{
@@ -2341,6 +2460,8 @@
 			"help:mage.heal",
 			"effect:mage.test_burning",
 			"help:mage.test_burning",
+			"effect:mage.test_poison",
+			"help:mage.test_poison",
 			"effect:mage.test_wet",
 			"help:mage.test_wet",
 			"effect:mage.test_freeze",
@@ -2394,7 +2515,16 @@
 				"pressed": false,
 				"text": "Поджог\n1 мана",
 				"toggle": false,
-				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения; повторное наложение обновляет срок до 2 тиков. Вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Яд · 1 маны · откат 0, осталось 0\nH:Тест: 4 прямого физического урона врагу; при положительном уроне HP накладывает +1 урон и +1 тик яда. Тики наносят урон только HP, броню не меняют.\nЖивой враг на доске, кроме ожидающего вступления помощника. Без затрат действий героя.",
 				"visible": true
 			},
 			{
@@ -2572,6 +2702,7 @@
 			"MageFireButton",
 			"MageHealButton",
 			"Burning",
+			"Poison",
 			"Wet",
 			"Freeze",
 			"Stun",
@@ -2612,7 +2743,16 @@
 				"pressed": false,
 				"text": "Поджог\n1 мана",
 				"toggle": false,
-				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения и 3 тика; вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"tooltip": "E:Поджог · 1 маны · откат 0, осталось 0\nH:Тест: +1 стак горения; повторное наложение обновляет срок до 2 тиков. Вода гасит, лёд тает. Снимает кровотечение.\nТестовое заклинание: любая живая цель на доске, включая союзников. Без затрат действий героя.",
+				"visible": true
+			},
+			{
+				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
+				"toggle": false,
+				"tooltip": "E:Яд · 1 маны · откат 0, осталось 0\nH:Тест: 4 прямого физического урона врагу; при положительном уроне HP накладывает +1 урон и +1 тик яда. Тики наносят урон только HP, броню не меняют.\nЖивой враг на доске, кроме ожидающего вступления помощника. Без затрат действий героя.",
 				"visible": true
 			},
 			{
@@ -2790,6 +2930,7 @@
 			"MageFireButton",
 			"MageHealButton",
 			"Burning",
+			"Poison",
 			"Wet",
 			"Freeze",
 			"Stun",
@@ -2829,6 +2970,15 @@
 				"name": "Burning",
 				"pressed": false,
 				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
 				"toggle": false,
 				"tooltip": "",
 				"visible": false
@@ -3031,6 +3181,15 @@
 				"name": "Burning",
 				"pressed": false,
 				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
 				"toggle": false,
 				"tooltip": "",
 				"visible": false
@@ -3240,6 +3399,15 @@
 			},
 			{
 				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
 				"name": "Wet",
 				"pressed": false,
 				"text": "Вода\n1 мана",
@@ -3437,6 +3605,15 @@
 				"name": "Burning",
 				"pressed": false,
 				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
 				"toggle": false,
 				"tooltip": "",
 				"visible": false
@@ -3646,6 +3823,15 @@
 			},
 			{
 				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
 				"name": "Wet",
 				"pressed": false,
 				"text": "Вода\n1 мана",
@@ -3842,6 +4028,15 @@
 				"name": "Burning",
 				"pressed": false,
 				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
 				"toggle": false,
 				"tooltip": "",
 				"visible": false
@@ -4051,6 +4246,15 @@
 			},
 			{
 				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
 				"name": "Wet",
 				"pressed": false,
 				"text": "Вода\n1 мана",
@@ -4254,6 +4458,15 @@
 			},
 			{
 				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
 				"name": "Wet",
 				"pressed": false,
 				"text": "Вода\n1 мана",
@@ -4451,6 +4664,15 @@
 				"name": "Burning",
 				"pressed": false,
 				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
 				"toggle": false,
 				"tooltip": "",
 				"visible": false
@@ -4666,6 +4888,15 @@
 			},
 			{
 				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
 				"name": "Wet",
 				"pressed": false,
 				"text": "Вода\n1 мана",
@@ -4863,6 +5094,15 @@
 				"name": "Burning",
 				"pressed": false,
 				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
 				"toggle": false,
 				"tooltip": "",
 				"visible": false
@@ -5073,6 +5313,15 @@
 			},
 			{
 				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
 				"name": "Wet",
 				"pressed": false,
 				"text": "Вода\n1 мана",
@@ -5276,6 +5525,15 @@
 			},
 			{
 				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
 				"name": "Wet",
 				"pressed": false,
 				"text": "Вода\n1 мана",
@@ -5473,6 +5731,15 @@
 				"name": "Burning",
 				"pressed": false,
 				"text": "Поджог\n1 мана",
+				"toggle": false,
+				"tooltip": "",
+				"visible": false
+			},
+			{
+				"disabled": false,
+				"name": "Poison",
+				"pressed": false,
+				"text": "Яд\n1 мана",
 				"toggle": false,
 				"tooltip": "",
 				"visible": false

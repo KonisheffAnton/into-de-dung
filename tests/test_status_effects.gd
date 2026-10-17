@@ -77,7 +77,7 @@ func _transitions() -> void:
 	_bleed(s, u, 2)
 	_check(_cast(s, &"burning").status == ActionReceipt.APPLIED and u.elemental.wet_turns == 0 and u.elemental.burning_ticks == 0 and u.bleeding.stacks == 2, "second fire consumes wet and preserves bleed")
 	_check(_cast(s, &"burning", 2).status == ActionReceipt.APPLIED and u.elemental.burning_ticks == 2 and u.elemental.burning_stacks == 1 and u.bleeding.stacks == 0, "third fire ignites and clears all bleed")
-	_check(_cast(s, &"burning", 3).status == ActionReceipt.APPLIED and u.elemental.burning_ticks == 5 and u.elemental.burning_stacks == 2, "burning adds stacks and source duration")
+	_check(_cast(s, &"burning", 3).status == ActionReceipt.APPLIED and u.elemental.burning_ticks == 2 and u.elemental.burning_stacks == 2, "burning adds potency and refreshes exactly two ticks regardless of source duration")
 	_check(_cast(s, &"wet").status == ActionReceipt.APPLIED and u.elemental.burning_ticks == 0 and u.elemental.wet_turns == 3, "wet extinguishes")
 	u.elemental.wet_turns = 1
 	_check(_cast(s, &"wet").status == ActionReceipt.APPLIED and u.elemental.wet_turns == 3, "wet refreshes")
@@ -171,7 +171,8 @@ func _turn_order() -> void:
 	_bleed(s, u, 3, 1)
 	s.state.environment.ignite(u.cell, "burning")
 	var receipt := s._queue.submit(BleedingTurnCommand.new(u.faction, s.context.get_revision()), s.context)
-	_check(receipt.status == ActionReceipt.APPLIED and u.bleeding.stacks == 0 and u.elemental.burning_ticks == 0 and _raw_damage(receipt) == 1, "turn cell applies then one burn tick, no cured bleed tick: " + String(receipt.reason))
+	_check(receipt.status == ActionReceipt.APPLIED and u.bleeding.stacks == 0 and u.elemental.burning_ticks == 1 and _raw_damage(receipt) == 1, "turn cell applies then one burn tick, no cured bleed tick: " + String(receipt.reason))
+	_check(_cast(s, &"wet").status == ActionReceipt.APPLIED, "wet clears the remaining burn before next floor scenario")
 	_bleed(s, u, 2, 3)
 	u.elemental.wet_turns = 3
 	receipt = s._queue.submit(BleedingTurnCommand.new(u.faction, s.context.get_revision()), s.context)
@@ -212,7 +213,7 @@ func _parity_and_faults() -> void:
 	u.elemental.changed.disconnect(mutate)
 	s.close()
 	s = _fixture(); u = s.units[1]
-	u.elemental.burning_ticks = ElementalState.MAX_VALUE; u.elemental.burning_stacks = 1
+	u.elemental.burning_ticks = 2; u.elemental.burning_stacks = ElementalState.MAX_VALUE
 	u.elemental.burning_source = DamageSource.new(&"attack", 0, s.units[0].cell, s.units[0].id, s.units[0].id).to_dict()
 	before = ItemSimulationSnapshot.capture(s.state, []).snapshot.to_dict()
 	receipt = _cast(s, &"burning")

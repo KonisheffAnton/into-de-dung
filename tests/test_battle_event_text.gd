@@ -60,6 +60,8 @@ func _run() -> void:
 	quit(0 if failed == 0 else 1)
 
 func _detached_values() -> void:
+	check(BattleEventText.elemental_effect_label(&"poison") == "Отравить" and BattleEventText.elemental_effect_label(&"mage.test_poison") == "Яд", "poison labels are coherent across card and legacy spell")
+	check(BattleEventText.elemental_summary({"poison_stacks": 2, "poison_ticks": 3}) == "яд 2 ст. / 3 т. · 2/тик", "poison journal summary reports remaining damage per tick")
 	# Сессии и UI здесь нет: подписи должны зависеть только от переданных значений.
 	var names: Dictionary[int, String] = {11: "Первый", 12: "Второй"}
 	var event := {"kind": &"attacked", "actor_unit_id": 11, "target_unit_id": 12,

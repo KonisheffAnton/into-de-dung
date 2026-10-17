@@ -20,7 +20,7 @@ func _run() -> void:
 	quit(0 if failed == 0 else 1)
 
 func _test_catalog() -> void:
-	check(MageCardCatalog.all().size() == 12 and MageCardCatalog.default_base_types().size() == 10, "catalog and default counts")
+	check(MageCardCatalog.all().size() == 13 and MageCardCatalog.default_base_types().size() == 10, "catalog adds poison without changing the ten-card default")
 	check(MageCardCatalog.valid_base(MageCardCatalog.default_base_types()), "default base validates")
 	check(not MageCardCatalog.valid_base(["card.fire"]), "base rejects wrong count")
 	check(not MageCardCatalog.valid_base(["card.fire","card.fire","card.fire","card.heal","card.heal","card.shield","card.shield","card.summon","card.summon","card.wet"]), "base rejects more than two copies")
@@ -28,6 +28,12 @@ func _test_catalog() -> void:
 	check(fire != null and fire.source_id() == 13 and MageCardDefinition.from_dict(fire.to_dict()) != null, "card definition roundtrip and source id")
 	var bad := fire.to_dict(); bad["mana_cost"] = 1
 	check(MageCardDefinition.from_dict(bad) == null, "card codec rejects changed price")
+	var poison := MageCardCatalog.get_card("card.poison")
+	check(poison != null and poison.source_id() == 25 and poison.effect == "poison" and poison.parameters == {"damage": 4} and poison.target_policy == "enemy_unit" and MageCardDefinition.from_dict(poison.to_dict()) != null, "poison card has stable source, direct damage and enemy target")
+	var legacy_poison := AbilityDefinition.new()
+	legacy_poison.ability_id = &"mage.test_poison"; legacy_poison.effect = &"poison"
+	legacy_poison.amount = 4; legacy_poison.mana_cost = 1
+	check(legacy_poison.validate() == &"" and AbilityDefinition.mage_source_id(legacy_poison.ability_id) == 26, "standalone legacy poison keeps source 26 and validated four damage")
 
 func _cards() -> Array:
 	var result: Array = []

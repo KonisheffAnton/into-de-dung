@@ -59,6 +59,10 @@ func run() -> void:
 		if session.phase != BattleTacticalSession.Phase.PLAYER_TURN: session.close(); continue
 		var id := card_in_hand(session,card.id)
 		var target := session.board.get_unit_by_id(session.living_ids(Faction.Type.ENEMY)[0] if card.target_policy in ["enemy_unit","living_unit"] else session.selected_id)
+		if card.id == "card.poison":
+			for item: ItemInstance in session.state.get_owner(target.id)._items.values(): item.armor_remaining = 0
+			target.armor.fractional = true
+			target.elemental.authored = true
 		var cell := Vector2i(-1,-1)
 		if card.target_policy in ["valid_cell","corpse_cell"]:
 			cell = safe_cell(session,session.selected_unit())
@@ -84,6 +88,8 @@ func run() -> void:
 		check(transferred,"detached execution worker " + card.id)
 		var receipt: ActionReceipt = live_worker.take_finished(true).result if transferred else session._queue.submit(command,session.context)
 		check(receipt.status == ActionReceipt.APPLIED,card.id + " live " + String(receipt.reason))
+		if card.id == "card.poison":
+			check(target.elemental.poison_stacks == 1 and target.elemental.poison_ticks == 1 and target.elemental.poison_contributions.size() == 1, "card poison applies authored stack after direct HP hit")
 		check(preview.events == receipt.get_events() and preview.steps == receipt.get_steps() and preview.snapshot_after == snapshot(session) and preview.rng_after == session.context.get_rng().to_dict() and preview.counters_after == session.context.simulation_counters() and preview.admission_after == SummonAdmission.values(session.context),"full parity " + card.id)
 		check(session.state.deck.spent_ids.has(id) and session.state.abilities.mana == 2-card.mana_cost,"one card and mana cost " + card.id)
 		var saved := snapshot(session)

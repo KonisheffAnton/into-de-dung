@@ -19,7 +19,7 @@ static func build(attack_rules: AttackRules, item_definitions: Dictionary, inclu
 		for id: StringName in AbilityDefinition.TEST_EFFECTS:
 			var spell := _definition(id)
 			spell.effect = AbilityDefinition.TEST_EFFECTS[id]
-			spell.amount = 1; spell.mana_cost = 1
+			spell.amount = 4 if id == &"mage.test_poison" else 1; spell.mana_cost = 1
 			result.append(spell)
 		for id: StringName in AbilityDefinition.TEST_SUPPORT_EFFECTS:
 			var spell := _definition(id)

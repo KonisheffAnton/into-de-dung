@@ -21,7 +21,7 @@ static func format_event(event: Dictionary, names: Dictionary[int, String], core
 		&"elemental_changed":
 			var after: Dictionary = event.get("after", {})
 			var reason: StringName = event.get("reason", &"")
-			var label := "Тик горения" if reason == &"burn_tick" else ("Истечение статусов" if reason == &"turn_end" else elemental_effect_label(reason))
+			var label := "Тик горения" if reason == &"burn_tick" else ("Тик яда" if reason == &"poison_tick" else ("Истечение статусов" if reason == &"turn_end" else elemental_effect_label(reason)))
 			return "%s: %s — %s." % [target, label, elemental_summary(after)]
 		&"trap_armed":
 			return "Ловушка-шипы подготовлена на %s." % cell_name(event.get("cell", Vector2i(-1, -1)))
@@ -224,6 +224,7 @@ static func elemental_effect_label(effect: StringName) -> String:
 		&"mage.test_stun": return "Оглушение"
 		&"mage.test_roots": return "Корни"
 		&"mage.test_bleeding": return "Кровотечение"
+		&"mage.test_poison": return "Яд"
 		&"mage.test_heal": return "Тест: лечение"
 		&"mage.test_summon": return "Тест: призыв"
 		&"mage.shield": return "Щит · 6 HP"
@@ -233,6 +234,7 @@ static func elemental_effect_label(effect: StringName) -> String:
 	match effect:
 		&"burning": return "Поджечь"
 		&"wet": return "Облить"
+		&"poison": return "Отравить"
 		&"freeze": return "Заморозить"
 	return "Элементальное действие"
 
@@ -241,6 +243,12 @@ static func elemental_summary(value: Variant) -> String:
 	var data: Dictionary = value
 	var parts: PackedStringArray = []
 	if int(data.get("burning_stacks", 0)) > 0: parts.append("горение %d ст. / %d т." % [data["burning_stacks"], data["burning_ticks"]])
+	if int(data.get("poison_stacks", 0)) > 0:
+		var damage := float(data["poison_stacks"])
+		if data.has("poison_contributions"):
+			var total := StatusContributions.total(data["poison_contributions"])
+			if total.valid: damage = float(total.numerator) / float(total.denominator)
+		parts.append("яд %d ст. / %d т. · %s/тик" % [int(data["poison_stacks"]), int(data.get("poison_ticks", 0)), amount_text(damage)])
 	if int(data.get("wet_turns", 0)) > 0: parts.append("мокрый %d х." % data["wet_turns"])
 	if int(data.get("frozen_turns", 0)) > 0: parts.append("заморозка %d х." % data["frozen_turns"])
 	if int(data.get("acid_ticks", 0)) > 0: parts.append("В кислоте · %d ход." % int(data["acid_ticks"]))

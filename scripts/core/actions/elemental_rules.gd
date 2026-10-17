@@ -38,14 +38,32 @@ static func transition(before: Dictionary, effect: StringName, ticks: int, sourc
 			elif before["wet_turns"] > 0:
 				after["wet_turns"] = 0
 			else:
-				if before["burning_stacks"] == ElementalState.MAX_VALUE or before["burning_ticks"] > ElementalState.MAX_VALUE - ticks: return {"reason": &"status/duration_exhausted"}
+				if before["burning_stacks"] == ElementalState.MAX_VALUE: return {"reason": &"status/duration_exhausted"}
 				after["burning_stacks"] += 1
-				after["burning_ticks"] += ticks
+				# Повторный поджог усиливает урон, но всегда оставляет ровно два тика.
+				after["burning_ticks"] = 2
 				after["burning_source"] = source.duplicate(true)
 				if after.has("burning_contributions"):
 					var contribution := StatusContributions.make(source, intelligence)
 					if contribution.is_empty() or after.burning_contributions.size() >= StatusContributions.MAX_RECORDS: return {"reason": &"status/contribution_limit"}
 					after.burning_contributions.append(contribution)
+		&"poison":
+			if not ElementalState.valid_effect_source(source): return {"reason": &"status/invalid_source"}
+			if before.poison_stacks == ElementalState.MAX_VALUE or before.poison_ticks == ElementalState.MAX_VALUE: return {"reason": &"status/duration_exhausted"}
+			after.poison_stacks += 1
+			after.poison_ticks += 1
+			after.poison_source = source.duplicate(true)
+			if after.has("poison_contributions"):
+				var contribution := StatusContributions.make(source, intelligence)
+				if contribution.is_empty() or after.poison_contributions.size() >= StatusContributions.MAX_RECORDS: return {"reason": &"status/contribution_limit"}
+				after.poison_contributions.append(contribution)
+		&"poison_tick":
+			if before.poison_ticks > 0:
+				after.poison_ticks -= 1
+				if after.poison_ticks == 0:
+					after.poison_stacks = 0
+					after.poison_source = {}
+					if after.has("poison_contributions"): after.poison_contributions.clear()
 		&"wet":
 			_clear_burning(after)
 			after["wet_turns"] = 3
@@ -96,6 +114,10 @@ static func write(unit: UnitState, after: Dictionary, guard: SpatialRules.Guard,
 		state.burning_ticks = after["burning_ticks"]
 		state.burning_source = after["burning_source"].duplicate(true)
 		if state.authored: state.burning_contributions.assign(after.burning_contributions.duplicate(true))
+		state.poison_stacks = after.poison_stacks
+		state.poison_ticks = after.poison_ticks
+		state.poison_source = after.poison_source.duplicate(true)
+		if state.authored: state.poison_contributions.assign(after.poison_contributions.duplicate(true))
 		state.wet_turns = after["wet_turns"]
 		state.frozen_turns = after["frozen_turns"]
 		state.acid_ticks = int(after.get("acid_ticks", 0))

@@ -249,16 +249,21 @@ static func _valid_elemental_draft(draft: Dictionary) -> bool:
 	var after: Dictionary = draft["after"]
 	if not ElementalState.valid(before) or not ElementalState.valid(after) or before == after or before["freeze_immune"] != after["freeze_immune"]: return false
 	var ticks := 1
-	if draft["reason"] == &"burning" and after["burning_ticks"] > before["burning_ticks"]: ticks = after["burning_ticks"] - before["burning_ticks"]
 	if draft["reason"] == &"freeze" and after["frozen_turns"] > before["frozen_turns"]: ticks = after["frozen_turns"] - before["frozen_turns"]
 	# Источник нужен лишь для ветки действительного горения; отмена его не хранит.
 	var source: Dictionary = after["burning_source"] if after["burning_stacks"] > 0 else DamageSource.new(&"cell", 1, Vector2i.ZERO).to_dict()
+	if draft.reason == &"poison": source = after.poison_source
 	var expected := ElementalRules.transition(before, draft["reason"], ticks, source, true)
 	if before.has("burning_contributions") != after.has("burning_contributions"): return false
 	if before.has("burning_contributions") and draft.reason == &"burning" and after.burning_stacks == before.burning_stacks + 1:
 		if after.burning_contributions.size() != before.burning_contributions.size() + 1 or after.burning_contributions.slice(0, before.burning_contributions.size()) != before.burning_contributions: return false
 		if after.burning_contributions[-1].source != source or expected.get("reason", &"") != &"": return false
 		expected.after.burning_contributions[-1] = after.burning_contributions[-1].duplicate(true)
+	if before.has("poison_contributions") != after.has("poison_contributions"): return false
+	if before.has("poison_contributions") and draft.reason == &"poison" and before.poison_stacks < ElementalState.MAX_VALUE and after.poison_stacks == before.poison_stacks + 1:
+		if after.poison_contributions.size() != before.poison_contributions.size() + 1 or after.poison_contributions.slice(0, before.poison_contributions.size()) != before.poison_contributions: return false
+		if after.poison_contributions[-1].source != source or expected.get("reason", &"") != &"": return false
+		expected.after.poison_contributions[-1] = after.poison_contributions[-1].duplicate(true)
 	return expected.get("reason", &"") == &"" and expected.get("after") == after
 
 static func _valid_armor_draft(draft: Dictionary) -> bool:

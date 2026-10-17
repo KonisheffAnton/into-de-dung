@@ -105,7 +105,7 @@ func ui_and_areas() -> void:
 	check(demo._action_bar._buttons.size() == 4 and demo._action_bar._page == 0, "main four slots no pages")
 	check(demo._action_bar.get_global_rect().end.x <= demo.board_view.global_position.x, "character slots left of field")
 	check(demo._action_bar._buttons[3].global_position.y > demo._action_bar._buttons[0].get_global_rect().end.y, "slots vertical")
-	check(demo._mage_row.global_position.y >= demo.board_view.get_global_rect().end.y and demo._mage_buttons.size() == 12, "twelve mage spells including shield below field across pages")
+	check(demo._mage_row.global_position.y >= demo.board_view.get_global_rect().end.y and demo._mage_buttons.size() == 13, "thirteen mage spells including poison below field across pages")
 	check(demo._mage_row.get_global_rect().end.x <= viewport.size.x and demo._instructions.get_global_rect().end.y <= viewport.size.y, "panels fit 1280x850")
 	check(demo.board_view.grid_config.tile_size == Vector2(128,96), "panels preserve fixed 4:3 tiles")
 	var areas := demo.board_view.action_areas
@@ -137,11 +137,19 @@ func ui_and_areas() -> void:
 		if spell == &"mage.test_freeze": enemy.elemental.wet_turns = 3
 		demo._refresh()
 		var button: Button = demo._mage_buttons[spell]
+		var mage_bar := demo._mage_row as BattleMageBar
+		# Новый слот может сдвинуть способность на следующую страницу панели.
+		mage_bar.set_page(mage_bar._buttons.find(button) / BattleMageBar.PAGE_SIZE)
+		await process_frame
 		await click(button.global_position + button.size * 0.5)
 		check(s.elemental_selected == spell, "UI selects " + String(spell))
 		await click(demo.board_view.global_position + demo.board_view.cell_center(enemy.cell))
 		check(s.state.abilities.mana == 5 and not demo.board_view.displayed_unit_summary(enemy.id).is_empty(), "UI applies " + String(spell))
-	await capture("test-bleeding-panel")
+		if spell == &"mage.test_poison":
+			check(enemy.elemental.poison_stacks == 1 and enemy.elemental.poison_ticks == 1, "mage UI applies real poison state")
+			await capture("mage-poison")
+		elif spell == &"mage.test_bleeding":
+			await capture("test-bleeding-panel")
 	demo.queue_free(); await process_frame; viewport.queue_free(); await process_frame
 
 func click(position: Vector2) -> void:

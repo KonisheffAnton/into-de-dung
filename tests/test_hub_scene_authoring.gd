@@ -107,12 +107,12 @@ func _run() -> void:
 		deck_edit.pressed.emit()
 		check(hub.deck_editing, "deck edit enters editor once in cycle %d" % cycle)
 		check_authored(hub, authored_ids, true)
-		check(base_deck.get_node("Editor/Cards").get_child_count() == 12, "edit cycle %d creates 12 card rows" % cycle)
+		check(base_deck.get_node("Editor/Cards").get_child_count() == 13, "edit cycle %d creates 13 card rows including poison" % cycle)
 		check(JSON.stringify(hub.run.to_dict()) == baseline_run, "editing leaves profile data unchanged in cycle %d" % cycle)
 		for render_index: int in 3:
 			hub._render()
 			check_authored(hub, authored_ids, true)
-			check(base_deck.get_node("Editor/Cards").get_child_count() == 12, "editing rerender %d:%d has no duplicate rows" % [cycle, render_index])
+			check(base_deck.get_node("Editor/Cards").get_child_count() == 13, "editing rerender %d:%d has no duplicate rows" % [cycle, render_index])
 		var deck_cancel := base_deck.get_node("Editor/deck_cancel") as Button
 		check(deck_cancel.get_signal_connection_list(&"pressed").size() == 1, "deck cancel has one handler before cycle %d" % cycle)
 		deck_cancel.pressed.emit()
@@ -134,7 +134,7 @@ func _run() -> void:
 	hub._render()
 	(base_deck.get_node("deck_edit") as Button).pressed.emit()
 	check_authored(hub, authored_ids, true)
-	check(base_deck.get_node("Editor/Cards").get_child_count() == 12, "error-page detach preserves 12 unique rows after edit")
+	check(base_deck.get_node("Editor/Cards").get_child_count() == 13, "error-page detach preserves 13 unique rows after edit")
 	check(JSON.stringify(hub.run.to_dict()) == baseline_run, "error detach and deck edit leave profile data unchanged")
 	(base_deck.get_node("Editor/deck_cancel") as Button).pressed.emit()
 	check_authored(hub, authored_ids, false)

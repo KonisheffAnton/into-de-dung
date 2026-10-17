@@ -287,6 +287,8 @@ def main():
         if label in ("mage_deck_models", "deck_ability_state", "mage_deck_expedition", "mage_deck_battle", "mage_deck_playthrough", "mage_deck_ui"):
             marker = "MAGE DECK MODEL RESULTS:" if label == "mage_deck_models" else label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label == "poison":
+            invalid = invalid or "POISON RESULTS:" not in output or ", 0 failed" not in output
         if label in ("acid", "hazards", "hazards_ui"):
             invalid = invalid or label.replace("_", " ").upper() + " RESULTS:" not in output or ", 0 failed" not in output
         if label in ("status_models", "status_snapshots", "status_effects", "status_ui"):
@@ -560,6 +562,7 @@ def main():
         run("status_snapshots", ["--script", "tests/test_elemental_snapshots.gd"])
         run("status_effects", ["--script", "tests/test_status_effects.gd"])
         run("acid", ["--script", "tests/test_acid.gd"])
+        run("poison", ["--script", "tests/test_poison.gd"])
         run("hazards", ["--script", "tests/test_hazards.gd"])
         hazards_ui_args = ["--script", "tests/test_hazards_ui.gd"]
         if args.render_check:

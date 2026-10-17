@@ -35,7 +35,7 @@
 | BattleBoard | board2, `height_half_steps` обязателен, включая все нули и пустую доску; board1 отклоняется |
 | ArmorState | armor4; `shield` / `raised_shield` опциональны; опциональный `fractional:true` включает дробный расчёт V1 |
 | BleedingState | bleeding4; обязательны `stacked:bool` и `stacks:int`; опциональный `contributions:Array` включает авторский режим только при stacked |
-| ElementalState | elemental3; обязательный `acid_ticks:int`; опциональный `burning_contributions:Array` включает авторский режим |
+| ElementalState | elemental4; обязательны `acid_ticks:int`, `poison_stacks:int`, `poison_ticks:int`, `poison_source:Dictionary`; авторский режим содержит оба массива `burning_contributions` и `poison_contributions` |
 | CombatPerksState | perks7; все восемь флагов, `uses_bonus_actions:bool` и `reaction_left:int`; при оплате из bonus старый запас строго 0 |
 | CombatEnvironmentState | environment5; `status_effects:bool`, опциональные collapse/hazards; status требует collapse, hazards требует status |
 | BattleAbilityState | abilities3; `ruleset_id` пустой для прежней маны либо `u14-deck-v1`, обязательный `first_team`; прежний режим требует first_team=1 |
@@ -91,6 +91,17 @@ Item capture сохраняет свежий аудит live-графа, пол�
 
 Копии runtime, DTO, RNG и счётчиков остаются независимыми. Порядок команд,
 события/steps, FAULTED-префикс, summon checkpoint и worker lifecycle не меняются.
+
+### Яд — 2026-10-17
+
+Elemental4 принимает только текущую точную форму; elemental3 отклоняется.
+Нулевые poison_stacks/ticks требуют пустой source; активные — положительных
+обоих счётчиков и проверенного source. В authored-режиме число записей равно
+силе, оба массива обязательны даже пустыми. Copy/restore/guard включают весь
+DTO; старые Unit9/Item11/envelope и постоянный save v7 не меняются.
+Исторические авторы разрешены только у authored-вкладов; обычный attack-source
+требует существующего юнита. Карточный mage source25 требует deck, legacy26 — нет.
+Старые source ID сохраняются. Правила — [K17](STATUS_EFFECTS_NEXT.md).
 
 ### HP и экипировка при восстановлении
 

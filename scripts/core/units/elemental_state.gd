@@ -7,6 +7,10 @@ const MAX_ID: int = 9223372036854775807
 var burning_stacks: int = 0
 var burning_ticks: int = 0
 var burning_source: Dictionary = {}
+var poison_stacks: int = 0
+var poison_ticks: int = 0
+var poison_source: Dictionary = {}
+var poison_contributions: Array[Dictionary] = []
 var wet_turns: int = 0
 var frozen_turns: int = 0
 var freeze_immune: bool = false
@@ -18,7 +22,10 @@ signal changed()
 
 func to_dict() -> Dictionary:
 	var result := {
-		"schema_version": 3,
+		"schema_version": 4,
+		"poison_stacks": poison_stacks,
+		"poison_ticks": poison_ticks,
+		"poison_source": _copy_source(poison_source),
 		"acid_ticks": acid_ticks,
 		"burning_stacks": burning_stacks,
 		"burning_ticks": burning_ticks,
@@ -27,7 +34,9 @@ func to_dict() -> Dictionary:
 		"frozen_turns": frozen_turns,
 		"freeze_immune": freeze_immune,
 	}
-	if authored: result["burning_contributions"] = burning_contributions.duplicate(true)
+	if authored:
+		result["burning_contributions"] = burning_contributions.duplicate(true)
+		result["poison_contributions"] = poison_contributions.duplicate(true)
 	return result
 
 static func valid(data: Variant) -> bool:
@@ -35,16 +44,23 @@ static func valid(data: Variant) -> bool:
 		return false
 	var value: Dictionary = data
 	var schema: Variant = value.get("schema_version")
-	if typeof(schema) != TYPE_INT or schema != 3: return false
-	var schema_one_keys: Array[String] = ["schema_version", "burning_stacks", "burning_ticks", "burning_source", "wet_turns", "frozen_turns", "freeze_immune", "acid_ticks"]
+	if typeof(schema) != TYPE_INT or schema != 4: return false
+	var schema_one_keys: Array[String] = ["schema_version", "burning_stacks", "burning_ticks", "burning_source", "wet_turns", "frozen_turns", "freeze_immune", "acid_ticks", "poison_stacks", "poison_ticks", "poison_source"]
 	var expected_keys: Array[String] = schema_one_keys.duplicate()
-	if value.has("burning_contributions"): expected_keys.append("burning_contributions")
+	if value.has("burning_contributions"):
+		expected_keys.append_array(["burning_contributions", "poison_contributions"])
 	if not _has_exact_keys(value, expected_keys):
 		return false
 	for key: String in ["schema_version", "burning_stacks", "burning_ticks", "wet_turns", "frozen_turns"]:
 		if typeof(value[key]) != TYPE_INT:
 			return false
 	if value.has("burning_contributions") and not StatusContributions.valid(value["burning_contributions"], value["burning_stacks"]): return false
+	if typeof(value["poison_stacks"]) != TYPE_INT or typeof(value["poison_ticks"]) != TYPE_INT or typeof(value["poison_source"]) != TYPE_DICTIONARY: return false
+	if value["poison_stacks"] < 0 or value["poison_ticks"] < 0 or (value["poison_stacks"] == 0) != (value["poison_ticks"] == 0): return false
+	if value["poison_stacks"] == 0:
+		if not value["poison_source"].is_empty(): return false
+	elif not valid_effect_source(value["poison_source"]): return false
+	if value.has("poison_contributions") and not StatusContributions.valid(value["poison_contributions"], value["poison_stacks"]): return false
 	if typeof(value["freeze_immune"]) != TYPE_BOOL or typeof(value["burning_source"]) != TYPE_DICTIONARY:
 		return false
 	if typeof(value["acid_ticks"]) != TYPE_INT: return false
@@ -74,12 +90,17 @@ static func from_dict(data: Dictionary) -> ElementalState:
 	result.burning_stacks = data["burning_stacks"]
 	result.burning_ticks = data["burning_ticks"]
 	result.burning_source = _copy_source(data["burning_source"])
+	result.poison_stacks = data["poison_stacks"]
+	result.poison_ticks = data["poison_ticks"]
+	result.poison_source = _copy_source(data["poison_source"])
 	result.wet_turns = data["wet_turns"]
 	result.frozen_turns = data["frozen_turns"]
 	result.freeze_immune = data["freeze_immune"]
 	result.acid_ticks = int(data["acid_ticks"])
 	result.authored = data.has("burning_contributions")
-	if result.authored: result.burning_contributions.assign(data["burning_contributions"].duplicate(true))
+	if result.authored:
+		result.burning_contributions.assign(data["burning_contributions"].duplicate(true))
+		result.poison_contributions.assign(data["poison_contributions"].duplicate(true))
 	return result
 
 static func valid_effect_source(value: Variant) -> bool:
@@ -96,7 +117,7 @@ static func valid_effect_source(value: Variant) -> bool:
 	var instigator: int = source["instigator_unit_id"]
 	var credit: int = source["credit_unit_id"]
 	if source["kind"] == &"mage":
-		return source_id in [3, 8, 18, 23] and DamageSource.valid_mage(source)
+		return source_id in [3, 8, 18, 23, 25, 26] and DamageSource.valid_mage(source)
 	if source["kind"] == &"attack":
 		return source_id == 0 and instigator == credit and credit > 0 and credit < MAX_ID
 	if source["kind"] == &"cell":

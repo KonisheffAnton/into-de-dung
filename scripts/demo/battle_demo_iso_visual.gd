@@ -567,12 +567,16 @@ func _draw_status_icons(canvas: Node2D) -> void:
 			canvas.draw_circle(rect.get_center(), 6.0, Color("57dd72"))
 			canvas.draw_circle(rect.get_center() + Vector2(2.0, -2.0), 1.4, Color("d0ff9d"))
 			canvas.draw_circle(rect.get_center() + Vector2(-2.0, 2.0), 1.0, Color("d0ff9d"))
+		elif id == "poison":
+			# Яд получает собственный оттенок, чтобы его счётчик не читался как вода.
+			canvas.draw_circle(rect.get_center(), 6.0, Color("8acb55"))
+			canvas.draw_circle(rect.get_center() + Vector2(1.0, -2.0), 2.0, Color("d8ff9d"))
 		else:
 			# Неизвестные виды получают одинаковую геометрию для проверки переполнения.
 			var center := rect.position + rect.size * 0.5
 			canvas.draw_colored_polygon(PackedVector2Array([center + Vector2(0, -4), center + Vector2(4, 0), center + Vector2(0, 4), center + Vector2(-4, 0)]), Color("c7d4e2"))
 		var stacks := int(entry.get("stacks", 0))
-		if id in ["bleeding", "burning"] and stacks > 0:
+		if id in ["bleeding", "burning", "poison"] and stacks > 0:
 			var badge := "99+" if stacks > 99 else "×%d" % stacks
 			# Стаки сверху и срок снизу не смешиваются; срок остаётся числом, единица есть в подсказке.
 			canvas.draw_rect(Rect2(x - 1, -29, STATUS_ICON_SIZE + 2, 10), Color("101d27", 0.92))

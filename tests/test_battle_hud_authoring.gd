@@ -45,11 +45,13 @@ func _exercise(deck_mode: bool) -> void:
 	var action := column.get_node("Content/Left/Field/BattleActionBar") as BattleActionBar
 	var board := column.get_node("Content/Left/Field/Board") as BattleDemoBoard
 	var mage := column.get_node("MageBar") as BattleMageBar
+	var poison_button := mage.get_node("Buttons/Poison") as Button
 	var card := mage.get_node("Buttons/MageCardSlot0") as Button
 	var forecast := board.get_node("CompactForecast") as BattleForecastCard
 	var end_turn := column.get_node("Content/Left/Toolbar/EndTurn") as Button
 	var toolbar := column.get_node("Content/Left/Toolbar") as HBoxContainer
 	check(toolbar.get_node_or_null("CompareTurnsButton") == null, "authored HUD has no initiative comparison button")
+	check(poison_button.get_meta("spell_id", &"") == &"mage.test_poison" and poison_button.text == "Яд\n1 мана", "authored legacy mage HUD exposes the poison spell")
 	var status := column.get_node("Status") as Label
 	var roster := hud.get_node("BattleDiagnostics/Scroll/Side/RosterScroll/Roster") as VBoxContainer
 	var reset_button := column.get_node("Title/Reset") as Button
