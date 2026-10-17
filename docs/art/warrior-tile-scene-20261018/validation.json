@@ -1,0 +1,91 @@
+{
+  "date": "2026-10-18",
+  "base": "e07b4f7b18a0d4aac86d9738c6dd0ed20c548bd7",
+  "scope": "Preview PNGs and documentation only",
+  "outputs": [
+    {
+      "file": "sheet-01-calm-colors.png",
+      "source": "C:/Users/Aston/.codex/generated_images/01a14b2e-2d72-7d30-9118-276baaa3de72/exec-bf76e904-f8c5-4b93-81a3-543430b43fcc.png",
+      "sha256": "3705A93FD18AAC71FEDC3236072310B65707FC03AB89C6EE863A6F4EB0E7CF7C",
+      "width": 1448,
+      "height": 1086,
+      "source_copy_exact": true
+    },
+    {
+      "file": "sheet-02-larger-scale.png",
+      "source": "C:/Users/Aston/.codex/generated_images/01a14b2e-2d72-7d30-9118-276baaa3de72/exec-ede0d239-cd4f-47ef-93a2-bbeb330c35af.png",
+      "sha256": "DC7215C843A3CE7E4B5DE56FAF6AFB0EAF142FCC2ABF1F6285C52DE15D46AC21",
+      "width": 1448,
+      "height": 1086,
+      "source_copy_exact": true
+    },
+    {
+      "file": "user-preferred-colors.png",
+      "source": "C:/Users/Aston/AppData/Local/Temp/codex-clipboard-9dc60ff1-e3b1-47dc-a3cd-7ea2c7262813.png",
+      "sha256": "47CFF1BE166118181534B293D505D75F49C60FA3700B2F919674906F416914BD",
+      "width": 1448,
+      "height": 1086,
+      "source_copy_exact": true
+    },
+    {
+      "file": "scene-draft-01-oversized.png",
+      "source": "C:/Users/Aston/.codex/generated_images/01a14b2e-2d72-7d30-9118-276baaa3de72/exec-17f8d6f1-5437-4261-889b-dffbe3e66948.png",
+      "sha256": "9C5F442B01B9D905FA1E3637A2D516DCAB890D9CBF8039554BE4D1909CE6E951",
+      "width": 1448,
+      "height": 1086,
+      "source_copy_exact": true
+    },
+    {
+      "file": "scene-draft-02-calm.png",
+      "source": "C:/Users/Aston/.codex/generated_images/01a14b2e-2d72-7d30-9118-276baaa3de72/exec-2264ff8b-7544-42a8-8e2c-bdd83a7c1f2e.png",
+      "sha256": "2FB573814D9F16DF8361A956331222F6A9422D5BCEB555CC07AE6C8600147AFB",
+      "width": 1448,
+      "height": 1086,
+      "source_copy_exact": true
+    },
+    {
+      "file": "scene-final.png",
+      "source": "C:/Users/Aston/.codex/generated_images/01a14b2e-2d72-7d30-9118-276baaa3de72/exec-8d31f1e3-f993-472b-9aeb-b3e4a74487c9.png",
+      "sha256": "DBA3AD7B89F9462CC0C68C1268BE8AA4A8F537BA4BBE9055F677F56523639D12",
+      "width": 1448,
+      "height": 1086,
+      "source_copy_exact": true
+    }
+  ],
+  "previous_art_package_unchanged": true,
+  "protected_scene_sha256": "A64C270256EBF2EA073081200BE23028F792F42C3CA98F83A6499C1300A68668",
+  "protected_scene_unchanged": true,
+  "protected_series03_file_count": 32,
+  "protected_series03_hashes_unchanged": true,
+  "archive": "docs/CODEX_HANDOFF.history-20261018.md",
+  "archive_sha256": "D40B70485A552F5C30CC64C14C14EFB681920A9D7F783A60EA660D1835A41418",
+  "archive_matches_previous_head_blob_bytes": true,
+  "input_document_sizes": [
+    {
+      "file": "AGENTS.md",
+      "lf_characters": 4565
+    },
+    {
+      "file": "docs/CODEX_HANDOFF.md",
+      "lf_characters": 2169
+    },
+    {
+      "file": "docs/PROJECT_CONTEXT.md",
+      "lf_characters": 3491
+    },
+    {
+      "file": "docs/CODEX_WORKFLOW.md",
+      "lf_characters": 4482
+    }
+  ],
+  "entry_document_growth": "HANDOFF2169 LF characters vs2394 at base; below2500. Unique rules, prior unresolved items and handoff requirement retained. ART current palette section rewritten; prior evidence remains in packages/HISTORY.",
+  "lead_review": "APPROVE for illustrative concept",
+  "independent_review": "game_reviewer APPROVE; see review.md",
+  "limitations": [
+    "Approximate visual scale only; exact grid/RGB/source pixels/anchors unverified",
+    "No runtime/assets/water mechanics or balance changes",
+    "No new Godot/full/core/F5/editor/DPI/GPU or final user art acceptance"
+  ],
+  "local_links_checked": 702,
+  "diff_check": "PASS"
+}
