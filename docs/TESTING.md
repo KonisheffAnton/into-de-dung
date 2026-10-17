@@ -59,7 +59,7 @@ shader ошибки и ненулевые failed counts не маскируют�
 Выбор `current_art_zoom`, `art_trial_battle` или `battle_view_reuse` автоматически
 добавляет `visual_scene_contract`, `environment_visual_contract`, `unit_visual_contract`,
 `defender_idle_clock`, `defender_idle`, `defender_buff`, `defender_death`, `defender_death_routes`,
-`defender_cloth_palette`, `rogue_cloth_palette`, `rogue_animations`, `rogue_buff`, `rogue_death_routes`, `archer_idle`,
+`defender_cloth_palette`, `rogue_cloth_palette`, `archer_cloth_palette`, `rogue_animations`, `rogue_buff`, `rogue_death_routes`, `archer_idle`,
 `presentation_consequences`, `presentation_environment`, `battle_camera_ui`, `battle_execution_ui`:
 защита от пересоздания поля и сбоев поз, ловушек, камеры и worker/ИИ при смене пресета.
 Прямой запуск только lifecycle:
@@ -89,7 +89,7 @@ resize и публикацию after. `defender_death_routes` проверяет
 Счётчики/identity — hard gate, frame median/p95/max/>25ms — диагностика без
 машинозависимого порога PASS. [Контракт и границы](BATTLE_VISUAL_SCENE_CONTRACT.md).
 
-Одежда: `python tools/demo/isolate.py --render-check --only defender_cloth_palette rogue_cloth_palette battle_hud_authoring --screen 0`.
+Одежда: `python tools/demo/isolate.py --render-check --only defender_cloth_palette rogue_cloth_palette archer_cloth_palette battle_hud_authoring --screen 0`.
 Проверяет селектор/изоляцию материалов, все90 кадров и статичную позу,
 отсутствие изменений вне маски/альфы, точный возврат исходных пикселей,
 refresh/resize/reset, смену во время жеста/смерти и при отделённой сессии.
@@ -99,6 +99,10 @@ refresh/resize/reset, смену во время жеста/смерти и пр
 все кадры idle/B1/D3, границы RGB/alpha, точный возврат исходной гаммы,
 изоляцию материалов/классов/врага и сохранение D3 fade при смене цвета.
 Маски: `python tools/art/build_rogue_cloth_masks.py --check` (Pillow).
+`archer_cloth_palette` проверяет тот же HUD, изоляцию экземпляров/фракций,
+12 кадров, still/fallback, сохранение фазы и state/RNG/counters. Render проверяет
+все12×6 гамм с текущей brighter-коррекцией: RGB только внутри маски, alpha прежняя,
+возврат0 побайтный. Маски: `python tools/art/build_archer_cloth_masks.py --check` (Pillow).
 
 Разбойник: `python tools/demo/isolate.py --render-check --only rogue_animations rogue_buff rogue_death_routes --screen 0`.
 Первый runner проверяет ресурсы/все кадры, опору/отражение, паузы/смену класса,

@@ -242,13 +242,14 @@ Rect2(-49,-81,98,92) получает тот же масштаб и покрыв
 PNG, alpha, позы и прежние пробы сохранены. Выбор клипа не утверждает достижение
 прежнего требования неподвижных стоп/лука; ручной отзыв о показе в бою открыт.
 
-### Выбор цвета одежды Защитника
+### Выбор цвета одежды персонажей
 
 U2026-10-12 поручил временный выбор гаммы ткани. Authored HUD содержит «Одежда»
 с семью гаммами из `DefenderClothPalette`. По поручению U2026-10-12 тот же выбор
-применяется к PLAYER/warrior и PLAYER/rogue в `BattleDefenderIdleVisual`:
-одна выбранная гамма для обоих классов. Враг, прочие классы, generic-тело и
-legacy HUD прежние. `RogueClothPalette` выбирает отдельные маски разбойника.
+применяется к PLAYER/warrior и PLAYER/rogue, по U2026-10-17 также к PLAYER/archer
+в `BattleDefenderIdleVisual`: одна выбранная гамма для трёх классов. Враг,
+прочие классы, generic-тело и legacy HUD прежние. `RogueClothPalette` и
+`ArcherClothPalette` выбирают отдельные маски своих кадров.
 Board хранит индекс только в представлении: новая доска — исходная гамма,
 reset/resize/повторная публикация той же доски сохраняют выбор; в save/DTO его нет.
 Обработчик меняет материалы текущих фигур без refresh/capture и доступа к session,
@@ -261,11 +262,14 @@ PackedScene не мутируют. При смене фракции/класса
 повторно, неизвестная текстура не перекрашивается. Исходная гамма отключает ветку
 шейдера и возвращает прежние пиксели. Маска покрывает90 кадров и статичную позу
 на сетке native_sprite. Разбойник имеет32 маски:still+12idle+6B1+13D3,
-на сетке128 из полного исходника512. Перекраска до покрытия сохраняет альфу
+на сетке128 из полного исходника512. Лучница имеет12 масок idle на исходной
+сетке128, still использует slot0; авторских buff/death у неё пока нет.
+Перекраска до покрытия сохраняет альфу
 и края; alpha D3 fade не меняется при выборе гаммы. Смена класса отключает
 маски прежнего класса даже при том же индексе гаммы.
 [Маски, палитры и происхождение](../assets/art_presets/trials/defender_cloth_v1/README.md).
-[Маски разбойника](../assets/art_presets/trials/rogue_cloth_v1/README.md).
+[Маски разбойника](../assets/art_presets/trials/rogue_cloth_v1/README.md),
+[маски Лучницы](../assets/art_presets/trials/archer_cloth_v1/README.md).
 Приёмка текущего пакета и правило для следующих персонажей —
 [ART_DIRECTION](ART_DIRECTION.md#завершение-утверждённого-персонажа--2026-10-12).
 
@@ -275,7 +279,8 @@ PackedScene не мутируют. При смене фракции/класса
 `art_trial_battle` или `battle_view_reuse` автоматически включает три lifecycle
 runner: `visual_scene_contract`, `environment_visual_contract`, `unit_visual_contract`,
 `defender_idle_clock`, `defender_idle`, `defender_buff`, `defender_death`, `defender_death_routes`,
-`defender_cloth_palette`, `rogue_animations`, `rogue_buff`, `rogue_death_routes`,
+`defender_cloth_palette`, `rogue_cloth_palette`, `archer_cloth_palette`,
+`rogue_animations`, `rogue_buff`, `rogue_death_routes`, `archer_idle`,
 а также `presentation_consequences`, `presentation_environment`, `battle_camera_ui`,
 `battle_execution_ui` для поз, ловушек, камеры, worker/ИИ и смены UI.
 Они также входят в full/render; инициатива этим не подключается.

@@ -32,7 +32,8 @@ func _ready() -> void:
 	_still_sprite = get_node_or_null("ArtRoot/PlayerWarriorSprite") as Sprite2D
 	# Материалы сцен общие между фракциями и классами, поэтому каждый рисунок получает свой экземпляр.
 	for path: String in ["ArtRoot/PlayerWarriorSprite", "ArtRoot/EnemyWarriorSprite", "ArtRoot/DefenderIdleSprite",
-			"ArtRoot/PlayerRogueSprite", "ArtRoot/EnemyRogueSprite", "ArtRoot/RogueIdleSprite"]:
+			"ArtRoot/PlayerRogueSprite", "ArtRoot/EnemyRogueSprite", "ArtRoot/RogueIdleSprite",
+			"ArtRoot/PlayerArcherSprite", "ArtRoot/EnemyArcherSprite", "ArtRoot/ArcherIdleSprite"]:
 		var sprite := get_node_or_null(path) as Sprite2D
 		if sprite != null and sprite.material is ShaderMaterial:
 			sprite.material = sprite.material.duplicate() as ShaderMaterial
@@ -276,19 +277,28 @@ func _sync_cloth_palette() -> void:
 func _sync_cloth_frame(sprite: Sprite2D) -> void:
 	if sprite == null or sprite.material == null or not _cloth_sprites.has(sprite): return
 	var is_rogue := sprite.name in ["PlayerRogueSprite", "EnemyRogueSprite", "RogueIdleSprite"]
-	var expected_class: StringName = &"rogue" if is_rogue else &"warrior"
+	var is_archer := sprite.name in ["PlayerArcherSprite", "EnemyArcherSprite", "ArcherIdleSprite"]
+	var expected_class: StringName = &"rogue" if is_rogue else (&"archer" if is_archer else &"warrior")
 	var eligible := unit != null and unit.faction == Faction.Type.PLAYER and visual_class_id == expected_class and role == Role.UNIT
 	var selected := cloth_palette if eligible else 0
 	var slot := -1
 	if selected > 0 and sprite.texture != null:
-		slot = RogueClothPalette.mask_slot(sprite.texture) if is_rogue else DefenderClothPalette.mask_slot(sprite.texture)
+		if is_rogue:
+			slot = RogueClothPalette.mask_slot(sprite.texture)
+		elif is_archer:
+			slot = ArcherClothPalette.mask_slot(sprite.texture)
+		else:
+			slot = DefenderClothPalette.mask_slot(sprite.texture)
 	var id := sprite.get_instance_id()
-	var state := "%s:%d:%d" % ["rogue" if is_rogue else "warrior", selected if slot >= 0 else 0, slot]
+	var class_key := "rogue" if is_rogue else ("archer" if is_archer else "warrior")
+	var state := "%s:%d:%d" % [class_key, selected if slot >= 0 else 0, slot]
 	if _cloth_states.get(id, "") == state: return
 	_cloth_states[id] = state
 	var material := sprite.material as ShaderMaterial
 	if is_rogue:
 		RogueClothPalette.apply(material, selected if slot >= 0 else 0, slot)
+	elif is_archer:
+		ArcherClothPalette.apply(material, selected if slot >= 0 else 0, slot)
 	else:
 		DefenderClothPalette.apply(material, selected if slot >= 0 else 0, slot)
 

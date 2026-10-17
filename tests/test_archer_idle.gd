@@ -80,9 +80,14 @@ func _run() -> void:
 		and material.get_shader_parameter("cloth_enabled") == false,
 		"Archer keeps native-size sampling and does not inherit a cloth palette")
 	visual.set_cloth_palette(2)
+	check(bool((still.material as ShaderMaterial).get_shader_parameter("cloth_enabled"))
+		and bool((idle.material as ShaderMaterial).get_shader_parameter("cloth_enabled"))
+		and bool((enemy_still.material as ShaderMaterial).get_shader_parameter("cloth_enabled")),
+		"shared clothing choice updates every hidden and visible layer of the allied Archer")
+	visual.set_cloth_palette(0)
 	for sprite: Sprite2D in [still, enemy_still, idle]:
 		check(not bool((sprite.material as ShaderMaterial).get_shader_parameter("cloth_enabled")),
-			"shared clothing choice leaves Archer source colors intact: " + String(sprite.name))
+			"original palette disables Archer recoloring: " + String(sprite.name))
 	visual.idle_clock.configure(0, 24, 24)
 	visual._process(0.0)
 	check(idle.texture == ARCHER_IDLE.get_frame_texture(&"idle", 0), "idle starts on its first authored frame")

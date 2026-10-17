@@ -76,6 +76,7 @@ class IsolateSelectionTests(unittest.TestCase):
                     "rogue_buff": "ROGUE BUFF RESULTS:",
                     "rogue_death_routes": "ROGUE DEATH ROUTES RESULTS:",
                     "archer_idle": "ARCHER IDLE RESULTS:",
+                    "archer_cloth_palette": "ARCHER CLOTH PALETTE RESULTS:",
                     "visual_scene_contract": "VISUAL SCENE CONTRACT RESULTS:",
                     "current_art_zoom": "CURRENT ART ZOOM RESULTS:",
                     "art_trial_battle": "ART TRIAL BATTLE RESULTS:",
@@ -283,10 +284,22 @@ class IsolateSelectionTests(unittest.TestCase):
         self.assertEqual(calls, ["import", "startup", "environment_visual_contract", "unit_visual_contract",
                                  "defender_idle_clock", "defender_idle", "defender_buff",
                                  "defender_death", "defender_death_routes", "defender_cloth_palette", "rogue_cloth_palette",
-                                 "rogue_animations", "rogue_buff", "rogue_death_routes", "archer_idle",
+                                 "rogue_animations", "rogue_buff", "rogue_death_routes", "archer_idle", "archer_cloth_palette",
                                  "visual_scene_contract", "art_trial_battle", "presentation_consequences",
                                  "presentation_environment", "battle_camera_ui", "battle_execution_ui"])
         self.assertEqual(timing["checks"]["visual_scene_contract"]["status"], "PASS")
+
+    def test_archer_cloth_palette_is_an_independent_check(self):
+        code, calls, timing, _ = self.exercise(["--check", "--only", "archer_cloth_palette"])
+        self.assertEqual(code, 0)
+        self.assertEqual(calls, ["import", "startup", "archer_cloth_palette"])
+        self.assertEqual(timing["checks"]["archer_cloth_palette"]["status"], "PASS")
+        _, render_calls, _, _ = self.exercise(["--render-check", "--only", "archer_cloth_palette"])
+        self.assertEqual(render_calls, ["import", "startup", "archer_cloth_palette"])
+        command, _, headless = self.last_commands[-1]
+        self.assertFalse(headless)
+        self.assertEqual(command[-2], "--")
+        self.assertTrue(command[-1].startswith("--captures="))
 
     def test_visual_gate_requires_its_result_marker(self):
         code, calls, timing, output = self.exercise(
@@ -310,8 +323,15 @@ class IsolateSelectionTests(unittest.TestCase):
         self.assertEqual(timing["checks"]["rogue_cloth_palette"]["status"], "FAIL")
         self.assertNotIn("rogue_cloth_palette PASS", output)
 
+        code, calls, timing, output = self.exercise(
+            ["--check", "--only", "archer_cloth_palette"], "marker:archer_cloth_palette")
+        self.assertEqual(code, 1)
+        self.assertIn("archer_cloth_palette", calls)
+        self.assertEqual(timing["checks"]["archer_cloth_palette"]["status"], "FAIL")
+        self.assertNotIn("archer_cloth_palette PASS", output)
+
     def test_all_visual_gates_propagate_process_failures(self):
-        for label in ("environment_visual_contract", "unit_visual_contract", "visual_scene_contract", "defender_idle_clock", "defender_idle", "defender_buff", "defender_death", "defender_death_routes", "defender_cloth_palette", "rogue_cloth_palette", "rogue_animations", "rogue_buff", "rogue_death_routes", "archer_idle",
+        for label in ("environment_visual_contract", "unit_visual_contract", "visual_scene_contract", "defender_idle_clock", "defender_idle", "defender_buff", "defender_death", "defender_death_routes", "defender_cloth_palette", "rogue_cloth_palette", "rogue_animations", "rogue_buff", "rogue_death_routes", "archer_idle", "archer_cloth_palette",
                       "presentation_consequences", "presentation_environment", "battle_camera_ui", "battle_execution_ui"):
             with self.subTest(label=label):
                 code, calls, timing, output = self.exercise(

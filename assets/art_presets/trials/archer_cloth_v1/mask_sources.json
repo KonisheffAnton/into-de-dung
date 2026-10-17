@@ -1,0 +1,201 @@
+{
+  "format": 1,
+  "cell_size": 128,
+  "columns": 10,
+  "selection": "olive cloth only; current authored 12-frame source set; tunic and hanging front cloth; excludes hair, skin, leather, bow",
+  "sampling": "direct native128; no resampling; still shares idle frame-01",
+  "frames": [
+    {
+      "slot": 0,
+      "clip": "idle",
+      "frame": 0,
+      "source": "assets/art_presets/trials/archer_idle_v1/idle/frame-01.png",
+      "sha256": "b3425f2b15c2aaecc0b254dac5220d2ccac02f2f648c7fc189e284c06631dfa4",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 276
+    },
+    {
+      "slot": 1,
+      "clip": "idle",
+      "frame": 1,
+      "source": "assets/art_presets/trials/archer_idle_v1/idle/frame-02.png",
+      "sha256": "cf4960299f7ae457ea9bf3cc63dcb660c05443b8db2807b5269e0a262641a214",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 279
+    },
+    {
+      "slot": 2,
+      "clip": "idle",
+      "frame": 2,
+      "source": "assets/art_presets/trials/archer_idle_v1/idle/frame-03.png",
+      "sha256": "137bcc6f533821660831f28fe679bcc80683d86831523641e481b03e84d7800a",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 276
+    },
+    {
+      "slot": 3,
+      "clip": "idle",
+      "frame": 3,
+      "source": "assets/art_presets/trials/archer_idle_v1/idle/frame-04.png",
+      "sha256": "6c875fb4e083d76ec5610a79676efbf34aaaedb32281dbe904589aadb0f4521f",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 281
+    },
+    {
+      "slot": 4,
+      "clip": "idle",
+      "frame": 4,
+      "source": "assets/art_presets/trials/archer_idle_v1/idle/frame-05.png",
+      "sha256": "5708e286730e0f7d819428d7a30043c07fb777202e308b553432b333a7a30256",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 292
+    },
+    {
+      "slot": 5,
+      "clip": "idle",
+      "frame": 5,
+      "source": "assets/art_presets/trials/archer_idle_v1/idle/frame-06.png",
+      "sha256": "692bd512a59e793e67a632f8ed9f5cfa5f2125904a5c5ce3091692b2dc911aa4",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 299
+    },
+    {
+      "slot": 6,
+      "clip": "idle",
+      "frame": 6,
+      "source": "assets/art_presets/trials/archer_idle_v1/idle/frame-07.png",
+      "sha256": "204c5ef4456e0774c06e1f42fc1af5fd5d5570a2db785627fb6bfa3764b48427",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 299
+    },
+    {
+      "slot": 7,
+      "clip": "idle",
+      "frame": 7,
+      "source": "assets/art_presets/trials/archer_idle_v1/idle/frame-08.png",
+      "sha256": "7762613824a4c33b95f02638e12f9de13d610c13882ad439e6a91ef322d9eab2",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 292
+    },
+    {
+      "slot": 8,
+      "clip": "idle",
+      "frame": 8,
+      "source": "assets/art_presets/trials/archer_idle_v1/idle/frame-09.png",
+      "sha256": "094d23601e8c549ee9f8ffcd1e55de762748294d3330327eb1ab942cdafdc67a",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 280
+    },
+    {
+      "slot": 9,
+      "clip": "idle",
+      "frame": 9,
+      "source": "assets/art_presets/trials/archer_idle_v1/idle/frame-10.png",
+      "sha256": "231a9d5b4056e4867fe0f7d7003db6cf1e6d15dc33790d0e554fc385a10b3ea6",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 274
+    },
+    {
+      "slot": 10,
+      "clip": "idle",
+      "frame": 10,
+      "source": "assets/art_presets/trials/archer_idle_v1/idle/frame-11.png",
+      "sha256": "22154a1120abec36219bcec60c560e9a50423b641f284e81cd584cbd7f0829e1",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 276
+    },
+    {
+      "slot": 11,
+      "clip": "idle",
+      "frame": 11,
+      "source": "assets/art_presets/trials/archer_idle_v1/idle/frame-12.png",
+      "sha256": "b61b8df614218ad45d420887449035862f78a5373f6fd4fb3a557b34992af7f7",
+      "native_size": [
+        128,
+        128
+      ],
+      "source_size": [
+        128,
+        128
+      ],
+      "cloth_pixels": 276
+    }
+  ]
+}
