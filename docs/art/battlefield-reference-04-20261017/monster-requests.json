@@ -1,0 +1,34 @@
+{
+  "items": [
+    {
+      "id": "M01",
+      "title": "Щупальцевый монстр",
+      "view": "iso",
+      "species": "the GREEN TENTACLED CTHULHU-LIKE CREATURE in the THIRD ROW, THIRD POSITION from left in image1. Green rounded hood-like head, dark simple face, short clustered green face tentacles, compact brown/ochre body or robe, planted short feet. Preserve its recognizable silhouette and colors but simplify all tiny detail. Do not substitute an eye monster or a human.",
+      "request": {
+        "prompt": "Create ONE new pixel art monster study, square canvas. Image1 is the SPECIES REFERENCE only: take the GREEN TENTACLED CTHULHU-LIKE CREATURE in the THIRD ROW, THIRD POSITION from left in image1. Green rounded hood-like head, dark simple face, short clustered green face tentacles, compact brown/ochre body or robe, planted short feet. Preserve its recognizable silhouette and colors but simplify all tiny detail. Do not substitute an eye monster or a human. Image2 is the TARGET STYLE and environment: tiny economical pixel sprite with very simple large color clusters, thick charcoal outline, few colors, short chunky shapes, no tiny texture, no realistic anatomy, no smooth 3D. Match its compact heroes' pixel density and simplicity. Image3 gives the authoritative 4:3 diamond floor projection. Draw this SINGLE monster clearly, in front three-quarter isometric view facing screen LOWER RIGHT, face/eyes visible, never back view. It stands squarely centered on the middle cell of a connected 3x3 green stone floor, all feet/leg tips entirely within that one middle tile with margin to each seam. Modest creature size relative to a tile; show its face and top planes. NO pedestal, NO separate raised tile, NO base disc, NO rock under it. Floor is continuous flat grid, tile diamond top width:height 4:3, deep/steep angle. Surrounding eight cells empty for placement clarity. Dark charcoal background, muted green floor, small quiet cracks only, no room props or other monsters. Animation-friendly separate clear body parts and stable broad color shapes. No UI/text/labels/watermark, no particles/glow, no blur.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/monster-reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/G01.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/projection-reference.png"
+        ],
+        "transparent_background": false
+      }
+    },
+    {
+      "id": "M02",
+      "title": "Панцирный жук",
+      "view": "iso",
+      "species": "the DARK ARMORED BEETLE / ROLY-POLY MONSTER in the THIRD ROW, FIFTH POSITION from left in image1. Low rounded segmented blue-grey armored shell, short spikes along upper silhouette, tiny red eyes near front, short thick dark legs and mandibles. Preserve recognizable compact beetle silhouette, not a humanoid, not a turtle. Simplify shell into 3 large plates.",
+      "request": {
+        "prompt": "Create ONE new pixel art monster study, square canvas. Image1 is the SPECIES REFERENCE only: take the DARK ARMORED BEETLE / ROLY-POLY MONSTER in the THIRD ROW, FIFTH POSITION from left in image1. Low rounded segmented blue-grey armored shell, short spikes along upper silhouette, tiny red eyes near front, short thick dark legs and mandibles. Preserve recognizable compact beetle silhouette, not a humanoid, not a turtle. Simplify shell into 3 large plates. Image2 is the TARGET STYLE and environment: tiny economical pixel sprite with very simple large color clusters, thick charcoal outline, few colors, short chunky shapes, no tiny texture, no realistic anatomy, no smooth 3D. Match its compact heroes' pixel density and simplicity. Image3 gives the authoritative 4:3 diamond floor projection. Draw this SINGLE monster clearly, in front three-quarter isometric view facing screen LOWER RIGHT, face/eyes visible, never back view. It stands squarely centered on the middle cell of a connected 3x3 green stone floor, all feet/leg tips entirely within that one middle tile with margin to each seam. Modest creature size relative to a tile; show its face and top planes. NO pedestal, NO separate raised tile, NO base disc, NO rock under it. Floor is continuous flat grid, tile diamond top width:height 4:3, deep/steep angle. Surrounding eight cells empty for placement clarity. Dark charcoal background, muted green floor, small quiet cracks only, no room props or other monsters. Animation-friendly separate clear body parts and stable broad color shapes. No UI/text/labels/watermark, no particles/glow, no blur.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/monster-reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/G01.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/projection-reference.png"
+        ],
+        "transparent_background": false
+      }
+    }
+  ]
+}

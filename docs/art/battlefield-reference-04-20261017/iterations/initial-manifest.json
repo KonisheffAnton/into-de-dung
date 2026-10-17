@@ -1,0 +1,180 @@
+{
+  "provider": "built-in image_gen",
+  "pixellab_calls": 0,
+  "imagegen_calls": 12,
+  "base_commit": "e768ac920e9b9c0c263fc5769f9204dd9cc9ef16",
+  "items": [
+    {
+      "id": "G01",
+      "title": "У ворот",
+      "view": "iso",
+      "request": {
+        "prompt": "Use case: stylized-concept. Create ONE pixel-art tactical dungeon scene. Image 1 is the NEW STYLE reference: very small economical sprites, thick dark pixel outlines, tiny orange/gold helmets, charcoal clothing, grey simple weapons, low-detail muted green square stone, tiny warm torchlight accents. Stay as simple and low-resolution-looking as this reference; no realistic anatomy, no detailed armor, no microtexture. Image 2 is ONLY our FLOOR PROJECTION reference: copy the steep diamond angles of its large field (tile top width:height 4:3, edge rise 3 for run4). Do not use the reference1 top-down FLOOR camera. Scene: A small square guardroom with one closed chest at the back and two wall torches. Four guards stand on four well-separated cells. Quiet green square stone floor, low back walls only.. Characters: four small orange-helmet dungeon guards, with a short sword+shield, a small axe, a compact crossbow, and another plain shield. Chunky compact silhouettes, arms and boots clearly separate, short garments, no hanging trinkets; animation-friendly stable color blocks. Each character's feet stand directly inside ONE clearly identifiable floor tile, centered with generous space to every tile seam. Each sprite is modest in scale relative to a tile. Flat connected floor only, NO circular discs, NO plinths, NO raised single tile under feet, NO display stands. Characters MUST use the same front three-quarter ISOMETRIC angle as the floor camera, looking down enough to see helmet tops and shoulders. ALL four face toward screen LOWER RIGHT, faces visible; no rear views, no mixed facings. Square canvas, entire room visible with margins, dark neutral charcoal background, calm floor colors. Few large color clusters per object, hard pixel edges, no blur, no smooth 3D gradients, no particle effects, no motion blur, no glowing weapons. No UI, no text, no watermark, no labels. These are fresh designs in the reference's visual language.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/projection-reference.png"
+        ],
+        "transparent_background": false
+      },
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-71a7fea4-aa99-46a2-8dd2-3a924ea89084.png"
+    },
+    {
+      "id": "G02",
+      "title": "Зал рычагов",
+      "view": "iso",
+      "request": {
+        "prompt": "Use case: stylized-concept. Create ONE pixel-art tactical dungeon scene. Image 1 is the NEW STYLE reference: very small economical sprites, thick dark pixel outlines, tiny orange/gold helmets, charcoal clothing, grey simple weapons, low-detail muted green square stone, tiny warm torchlight accents. Stay as simple and low-resolution-looking as this reference; no realistic anatomy, no detailed armor, no microtexture. Image 2 is ONLY our FLOOR PROJECTION reference: copy the steep diamond angles of its large field (tile top width:height 4:3, edge rise 3 for run4). Do not use the reference1 top-down FLOOR camera. Scene: A square green stone chamber with one simple lever on an empty rear tile and a closed wooden door. Four guards on distinct floor cells, slightly staggered. Keep the whole geometry and feet unobscured.. Characters: four small orange-helmet dungeon guards, with a short sword+shield, a small axe, a compact crossbow, and another plain shield. Chunky compact silhouettes, arms and boots clearly separate, short garments, no hanging trinkets; animation-friendly stable color blocks. Each character's feet stand directly inside ONE clearly identifiable floor tile, centered with generous space to every tile seam. Each sprite is modest in scale relative to a tile. Flat connected floor only, NO circular discs, NO plinths, NO raised single tile under feet, NO display stands. Characters MUST use the same front three-quarter ISOMETRIC angle as the floor camera, looking down enough to see helmet tops and shoulders. ALL four face toward screen LOWER RIGHT, faces visible; no rear views, no mixed facings. Square canvas, entire room visible with margins, dark neutral charcoal background, calm floor colors. Few large color clusters per object, hard pixel edges, no blur, no smooth 3D gradients, no particle effects, no motion blur, no glowing weapons. No UI, no text, no watermark, no labels. These are fresh designs in the reference's visual language.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/projection-reference.png"
+        ],
+        "transparent_background": false
+      },
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-9fbbe84f-46b4-4445-b7db-08c05503664c.png"
+    },
+    {
+      "id": "G03",
+      "title": "Оружейная",
+      "view": "iso",
+      "request": {
+        "prompt": "Use case: stylized-concept. Create ONE pixel-art tactical dungeon scene. Image 1 is the NEW STYLE reference: very small economical sprites, thick dark pixel outlines, tiny orange/gold helmets, charcoal clothing, grey simple weapons, low-detail muted green square stone, tiny warm torchlight accents. Stay as simple and low-resolution-looking as this reference; no realistic anatomy, no detailed armor, no microtexture. Image 2 is ONLY our FLOOR PROJECTION reference: copy the steep diamond angles of its large field (tile top width:height 4:3, edge rise 3 for run4). Do not use the reference1 top-down FLOOR camera. Scene: A compact green stone armory with a minimal wall weapon rack and a single chest against a rear wall. Four guards arranged on distinct grid cells in the foreground. Quiet floor.. Characters: four small orange-helmet dungeon guards, with a short sword+shield, a small axe, a compact crossbow, and another plain shield. Chunky compact silhouettes, arms and boots clearly separate, short garments, no hanging trinkets; animation-friendly stable color blocks. Each character's feet stand directly inside ONE clearly identifiable floor tile, centered with generous space to every tile seam. Each sprite is modest in scale relative to a tile. Flat connected floor only, NO circular discs, NO plinths, NO raised single tile under feet, NO display stands. Characters MUST use the same front three-quarter ISOMETRIC angle as the floor camera, looking down enough to see helmet tops and shoulders. ALL four face toward screen LOWER RIGHT, faces visible; no rear views, no mixed facings. Square canvas, entire room visible with margins, dark neutral charcoal background, calm floor colors. Few large color clusters per object, hard pixel edges, no blur, no smooth 3D gradients, no particle effects, no motion blur, no glowing weapons. No UI, no text, no watermark, no labels. These are fresh designs in the reference's visual language.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/projection-reference.png"
+        ],
+        "transparent_background": false
+      },
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-90dd5f99-01e2-4ec8-9a77-7be42556c81b.png"
+    },
+    {
+      "id": "G04",
+      "title": "Тюремный пост",
+      "view": "iso",
+      "request": {
+        "prompt": "Use case: stylized-concept. Create ONE pixel-art tactical dungeon scene. Image 1 is the NEW STYLE reference: very small economical sprites, thick dark pixel outlines, tiny orange/gold helmets, charcoal clothing, grey simple weapons, low-detail muted green square stone, tiny warm torchlight accents. Stay as simple and low-resolution-looking as this reference; no realistic anatomy, no detailed armor, no microtexture. Image 2 is ONLY our FLOOR PROJECTION reference: copy the steep diamond angles of its large field (tile top width:height 4:3, edge rise 3 for run4). Do not use the reference1 top-down FLOOR camera. Scene: A compact guard post in front of two dark barred niches on low rear walls. Four guards on separate green floor cells, one rear tile holds an orange lantern. Tiny readable environment props.. Characters: four small orange-helmet dungeon guards, with a short sword+shield, a small axe, a compact crossbow, and another plain shield. Chunky compact silhouettes, arms and boots clearly separate, short garments, no hanging trinkets; animation-friendly stable color blocks. Each character's feet stand directly inside ONE clearly identifiable floor tile, centered with generous space to every tile seam. Each sprite is modest in scale relative to a tile. Flat connected floor only, NO circular discs, NO plinths, NO raised single tile under feet, NO display stands. Characters MUST use the same front three-quarter ISOMETRIC angle as the floor camera, looking down enough to see helmet tops and shoulders. ALL four face toward screen LOWER RIGHT, faces visible; no rear views, no mixed facings. Square canvas, entire room visible with margins, dark neutral charcoal background, calm floor colors. Few large color clusters per object, hard pixel edges, no blur, no smooth 3D gradients, no particle effects, no motion blur, no glowing weapons. No UI, no text, no watermark, no labels. These are fresh designs in the reference's visual language.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/projection-reference.png"
+        ],
+        "transparent_background": false
+      },
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-8e2be48c-13ce-454f-bb81-5eef5a19d170.png"
+    },
+    {
+      "id": "G05",
+      "title": "Перекрёсток",
+      "view": "iso",
+      "request": {
+        "prompt": "Use case: stylized-concept. Create ONE pixel-art tactical dungeon scene. Image 1 is the NEW STYLE reference: very small economical sprites, thick dark pixel outlines, tiny orange/gold helmets, charcoal clothing, grey simple weapons, low-detail muted green square stone, tiny warm torchlight accents. Stay as simple and low-resolution-looking as this reference; no realistic anatomy, no detailed armor, no microtexture. Image 2 is ONLY our FLOOR PROJECTION reference: copy the steep diamond angles of its large field (tile top width:height 4:3, edge rise 3 for run4). Do not use the reference1 top-down FLOOR camera. Scene: A cross-shaped dungeon floor walkway built from the same 4:3 green square tiles, four guards on separate cells around the open middle. Small low wall fragments at two rear corners, two torches. No bridges or raised steps.. Characters: four small orange-helmet dungeon guards, with a short sword+shield, a small axe, a compact crossbow, and another plain shield. Chunky compact silhouettes, arms and boots clearly separate, short garments, no hanging trinkets; animation-friendly stable color blocks. Each character's feet stand directly inside ONE clearly identifiable floor tile, centered with generous space to every tile seam. Each sprite is modest in scale relative to a tile. Flat connected floor only, NO circular discs, NO plinths, NO raised single tile under feet, NO display stands. Characters MUST use the same front three-quarter ISOMETRIC angle as the floor camera, looking down enough to see helmet tops and shoulders. ALL four face toward screen LOWER RIGHT, faces visible; no rear views, no mixed facings. Square canvas, entire room visible with margins, dark neutral charcoal background, calm floor colors. Few large color clusters per object, hard pixel edges, no blur, no smooth 3D gradients, no particle effects, no motion blur, no glowing weapons. No UI, no text, no watermark, no labels. These are fresh designs in the reference's visual language.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/projection-reference.png"
+        ],
+        "transparent_background": false
+      },
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-55b34514-9e1c-41dc-a377-05a8ce2ed483.png"
+    },
+    {
+      "id": "G06",
+      "title": "Каменный двор",
+      "view": "iso",
+      "request": {
+        "prompt": "Use case: stylized-concept. Create ONE pixel-art tactical dungeon scene. Image 1 is the NEW STYLE reference: very small economical sprites, thick dark pixel outlines, tiny orange/gold helmets, charcoal clothing, grey simple weapons, low-detail muted green square stone, tiny warm torchlight accents. Stay as simple and low-resolution-looking as this reference; no realistic anatomy, no detailed armor, no microtexture. Image 2 is ONLY our FLOOR PROJECTION reference: copy the steep diamond angles of its large field (tile top width:height 4:3, edge rise 3 for run4). Do not use the reference1 top-down FLOOR camera. Scene: An open compact green stone tiled court, moss confined to rear edges, a chest on one empty back tile, four tiny guards spaced over separate front and middle cells. All tiles at one height.. Characters: four small orange-helmet dungeon guards, with a short sword+shield, a small axe, a compact crossbow, and another plain shield. Chunky compact silhouettes, arms and boots clearly separate, short garments, no hanging trinkets; animation-friendly stable color blocks. Each character's feet stand directly inside ONE clearly identifiable floor tile, centered with generous space to every tile seam. Each sprite is modest in scale relative to a tile. Flat connected floor only, NO circular discs, NO plinths, NO raised single tile under feet, NO display stands. Characters MUST use the same front three-quarter ISOMETRIC angle as the floor camera, looking down enough to see helmet tops and shoulders. ALL four face toward screen LOWER RIGHT, faces visible; no rear views, no mixed facings. Square canvas, entire room visible with margins, dark neutral charcoal background, calm floor colors. Few large color clusters per object, hard pixel edges, no blur, no smooth 3D gradients, no particle effects, no motion blur, no glowing weapons. No UI, no text, no watermark, no labels. These are fresh designs in the reference's visual language.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/projection-reference.png"
+        ],
+        "transparent_background": false
+      },
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-c885a94b-4cd3-4345-9831-ddadc06fe6ba.png"
+    },
+    {
+      "id": "G07",
+      "title": "Пост у люка",
+      "view": "iso",
+      "request": {
+        "prompt": "Use case: stylized-concept. Create ONE pixel-art tactical dungeon scene. Image 1 is the NEW STYLE reference: very small economical sprites, thick dark pixel outlines, tiny orange/gold helmets, charcoal clothing, grey simple weapons, low-detail muted green square stone, tiny warm torchlight accents. Stay as simple and low-resolution-looking as this reference; no realistic anatomy, no detailed armor, no microtexture. Image 2 is ONLY our FLOOR PROJECTION reference: copy the steep diamond angles of its large field (tile top width:height 4:3, edge rise 3 for run4). Do not use the reference1 top-down FLOOR camera. Scene: A square chamber with a dark square floor hatch on one unoccupied rear tile and a small wall torch. Four guards stand on four different ordinary tiles. No spikes or effects intersecting figures.. Characters: four small orange-helmet dungeon guards, with a short sword+shield, a small axe, a compact crossbow, and another plain shield. Chunky compact silhouettes, arms and boots clearly separate, short garments, no hanging trinkets; animation-friendly stable color blocks. Each character's feet stand directly inside ONE clearly identifiable floor tile, centered with generous space to every tile seam. Each sprite is modest in scale relative to a tile. Flat connected floor only, NO circular discs, NO plinths, NO raised single tile under feet, NO display stands. Characters MUST use the same front three-quarter ISOMETRIC angle as the floor camera, looking down enough to see helmet tops and shoulders. ALL four face toward screen LOWER RIGHT, faces visible; no rear views, no mixed facings. Square canvas, entire room visible with margins, dark neutral charcoal background, calm floor colors. Few large color clusters per object, hard pixel edges, no blur, no smooth 3D gradients, no particle effects, no motion blur, no glowing weapons. No UI, no text, no watermark, no labels. These are fresh designs in the reference's visual language.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/projection-reference.png"
+        ],
+        "transparent_background": false
+      },
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-075a8d12-0c0e-4fa0-bf08-3ea8ac2fee9e.png"
+    },
+    {
+      "id": "G08",
+      "title": "Перед аркой",
+      "view": "iso",
+      "request": {
+        "prompt": "Use case: stylized-concept. Create ONE pixel-art tactical dungeon scene. Image 1 is the NEW STYLE reference: very small economical sprites, thick dark pixel outlines, tiny orange/gold helmets, charcoal clothing, grey simple weapons, low-detail muted green square stone, tiny warm torchlight accents. Stay as simple and low-resolution-looking as this reference; no realistic anatomy, no detailed armor, no microtexture. Image 2 is ONLY our FLOOR PROJECTION reference: copy the steep diamond angles of its large field (tile top width:height 4:3, edge rise 3 for run4). Do not use the reference1 top-down FLOOR camera. Scene: A small green stone antechamber, a simple chunky stone doorway at the back and a closed chest on a spare tile. Four guards on separate cells in front, no overlapping silhouettes.. Characters: four small orange-helmet dungeon guards, with a short sword+shield, a small axe, a compact crossbow, and another plain shield. Chunky compact silhouettes, arms and boots clearly separate, short garments, no hanging trinkets; animation-friendly stable color blocks. Each character's feet stand directly inside ONE clearly identifiable floor tile, centered with generous space to every tile seam. Each sprite is modest in scale relative to a tile. Flat connected floor only, NO circular discs, NO plinths, NO raised single tile under feet, NO display stands. Characters MUST use the same front three-quarter ISOMETRIC angle as the floor camera, looking down enough to see helmet tops and shoulders. ALL four face toward screen LOWER RIGHT, faces visible; no rear views, no mixed facings. Square canvas, entire room visible with margins, dark neutral charcoal background, calm floor colors. Few large color clusters per object, hard pixel edges, no blur, no smooth 3D gradients, no particle effects, no motion blur, no glowing weapons. No UI, no text, no watermark, no labels. These are fresh designs in the reference's visual language.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/projection-reference.png"
+        ],
+        "transparent_background": false
+      },
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-a8a79256-e1b6-48d1-acf1-f737909b9123.png"
+    },
+    {
+      "id": "G09",
+      "title": "У ворот · фронтальные фигуры",
+      "view": "front",
+      "request": {
+        "prompt": "Use case: stylized-concept. Create ONE pixel-art tactical dungeon scene. Image 1 is the NEW STYLE reference: very small economical sprites, thick dark pixel outlines, tiny orange/gold helmets, charcoal clothing, grey simple weapons, low-detail muted green square stone, tiny warm torchlight accents. Stay as simple and low-resolution-looking as this reference; no realistic anatomy, no detailed armor, no microtexture. Image 2 is ONLY our FLOOR PROJECTION reference: copy the steep diamond angles of its large field (tile top width:height 4:3, edge rise 3 for run4). Do not use the reference1 top-down FLOOR camera. Scene: Match the small square guardroom idea of variant 01: closed chest at back, two wall torches, four guards on four well-separated cells. Quiet green stone floor and low back walls.. Characters: four small orange-helmet dungeon guards, with a short sword+shield, a small axe, a compact crossbow, and another plain shield. Chunky compact silhouettes, arms and boots clearly separate, short garments, no hanging trinkets; animation-friendly stable color blocks. Each character's feet stand directly inside ONE clearly identifiable floor tile, centered with generous space to every tile seam. Each sprite is modest in scale relative to a tile. Flat connected floor only, NO circular discs, NO plinths, NO raised single tile under feet, NO display stands. EXPLICIT EXCEPTION FOR CHARACTERS ONLY: draw ALL FOUR as straight-on FRONTAL 2D sprites, faces and chests directly toward the viewer, no top surface of heads, no isometric or side rotation of their bodies. Their feet still rest convincingly on individual cells of the ISOMETRIC 4:3 floor. Keep the floor isometric; only the characters are non-isometric. Square canvas, entire room visible with margins, dark neutral charcoal background, calm floor colors. Few large color clusters per object, hard pixel edges, no blur, no smooth 3D gradients, no particle effects, no motion blur, no glowing weapons. No UI, no text, no watermark, no labels. These are fresh designs in the reference's visual language.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/projection-reference.png"
+        ],
+        "transparent_background": false
+      },
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-2209ef8c-57d5-4d19-861c-fd8171e87582.png"
+    },
+    {
+      "id": "G10",
+      "title": "Перед аркой · фронтальные фигуры",
+      "view": "front",
+      "request": {
+        "prompt": "Use case: stylized-concept. Create ONE pixel-art tactical dungeon scene. Image 1 is the NEW STYLE reference: very small economical sprites, thick dark pixel outlines, tiny orange/gold helmets, charcoal clothing, grey simple weapons, low-detail muted green square stone, tiny warm torchlight accents. Stay as simple and low-resolution-looking as this reference; no realistic anatomy, no detailed armor, no microtexture. Image 2 is ONLY our FLOOR PROJECTION reference: copy the steep diamond angles of its large field (tile top width:height 4:3, edge rise 3 for run4). Do not use the reference1 top-down FLOOR camera. Scene: Match the antechamber idea of variant 08: simple chunky doorway behind, a closed chest on a spare tile, four guards on separate cells in front, no overlapping silhouettes.. Characters: four small orange-helmet dungeon guards, with a short sword+shield, a small axe, a compact crossbow, and another plain shield. Chunky compact silhouettes, arms and boots clearly separate, short garments, no hanging trinkets; animation-friendly stable color blocks. Each character's feet stand directly inside ONE clearly identifiable floor tile, centered with generous space to every tile seam. Each sprite is modest in scale relative to a tile. Flat connected floor only, NO circular discs, NO plinths, NO raised single tile under feet, NO display stands. EXPLICIT EXCEPTION FOR CHARACTERS ONLY: draw ALL FOUR as straight-on FRONTAL 2D sprites, faces and chests directly toward the viewer, no top surface of heads, no isometric or side rotation of their bodies. Their feet still rest convincingly on individual cells of the ISOMETRIC 4:3 floor. Keep the floor isometric; only the characters are non-isometric. Square canvas, entire room visible with margins, dark neutral charcoal background, calm floor colors. Few large color clusters per object, hard pixel edges, no blur, no smooth 3D gradients, no particle effects, no motion blur, no glowing weapons. No UI, no text, no watermark, no labels. These are fresh designs in the reference's visual language.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/projection-reference.png"
+        ],
+        "transparent_background": false
+      },
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-f3eb2a9d-363b-437a-bfe9-b5e127ed59ec.png"
+    },
+    {
+      "id": "M01",
+      "title": "Щупальцевый монстр",
+      "view": "iso",
+      "species": "the GREEN TENTACLED CTHULHU-LIKE CREATURE in the THIRD ROW, THIRD POSITION from left in image1. Green rounded hood-like head, dark simple face, short clustered green face tentacles, compact brown/ochre body or robe, planted short feet. Preserve its recognizable silhouette and colors but simplify all tiny detail. Do not substitute an eye monster or a human.",
+      "request": {
+        "prompt": "Create ONE new pixel art monster study, square canvas. Image1 is the SPECIES REFERENCE only: take the GREEN TENTACLED CTHULHU-LIKE CREATURE in the THIRD ROW, THIRD POSITION from left in image1. Green rounded hood-like head, dark simple face, short clustered green face tentacles, compact brown/ochre body or robe, planted short feet. Preserve its recognizable silhouette and colors but simplify all tiny detail. Do not substitute an eye monster or a human. Image2 is the TARGET STYLE and environment: tiny economical pixel sprite with very simple large color clusters, thick charcoal outline, few colors, short chunky shapes, no tiny texture, no realistic anatomy, no smooth 3D. Match its compact heroes' pixel density and simplicity. Image3 gives the authoritative 4:3 diamond floor projection. Draw this SINGLE monster clearly, in front three-quarter isometric view facing screen LOWER RIGHT, face/eyes visible, never back view. It stands squarely centered on the middle cell of a connected 3x3 green stone floor, all feet/leg tips entirely within that one middle tile with margin to each seam. Modest creature size relative to a tile; show its face and top planes. NO pedestal, NO separate raised tile, NO base disc, NO rock under it. Floor is continuous flat grid, tile diamond top width:height 4:3, deep/steep angle. Surrounding eight cells empty for placement clarity. Dark charcoal background, muted green floor, small quiet cracks only, no room props or other monsters. Animation-friendly separate clear body parts and stable broad color shapes. No UI/text/labels/watermark, no particles/glow, no blur.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/monster-reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/G01.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/projection-reference.png"
+        ],
+        "transparent_background": false
+      },
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-3d47bec3-eb0b-4f20-bf1a-9a7507e8a011.png"
+    },
+    {
+      "id": "M02",
+      "title": "Панцирный жук",
+      "view": "iso",
+      "species": "the DARK ARMORED BEETLE / ROLY-POLY MONSTER in the THIRD ROW, FIFTH POSITION from left in image1. Low rounded segmented blue-grey armored shell, short spikes along upper silhouette, tiny red eyes near front, short thick dark legs and mandibles. Preserve recognizable compact beetle silhouette, not a humanoid, not a turtle. Simplify shell into 3 large plates.",
+      "request": {
+        "prompt": "Create ONE new pixel art monster study, square canvas. Image1 is the SPECIES REFERENCE only: take the DARK ARMORED BEETLE / ROLY-POLY MONSTER in the THIRD ROW, FIFTH POSITION from left in image1. Low rounded segmented blue-grey armored shell, short spikes along upper silhouette, tiny red eyes near front, short thick dark legs and mandibles. Preserve recognizable compact beetle silhouette, not a humanoid, not a turtle. Simplify shell into 3 large plates. Image2 is the TARGET STYLE and environment: tiny economical pixel sprite with very simple large color clusters, thick charcoal outline, few colors, short chunky shapes, no tiny texture, no realistic anatomy, no smooth 3D. Match its compact heroes' pixel density and simplicity. Image3 gives the authoritative 4:3 diamond floor projection. Draw this SINGLE monster clearly, in front three-quarter isometric view facing screen LOWER RIGHT, face/eyes visible, never back view. It stands squarely centered on the middle cell of a connected 3x3 green stone floor, all feet/leg tips entirely within that one middle tile with margin to each seam. Modest creature size relative to a tile; show its face and top planes. NO pedestal, NO separate raised tile, NO base disc, NO rock under it. Floor is continuous flat grid, tile diamond top width:height 4:3, deep/steep angle. Surrounding eight cells empty for placement clarity. Dark charcoal background, muted green floor, small quiet cracks only, no room props or other monsters. Animation-friendly separate clear body parts and stable broad color shapes. No UI/text/labels/watermark, no particles/glow, no blur.",
+        "referenced_image_paths": [
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/monster-reference.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/G01.png",
+          "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/projection-reference.png"
+        ],
+        "transparent_background": false
+      },
+      "source": "C:/Users/Aston/.codex/generated_images/01a147e6-0811-7b02-97ac-d350e7e7ee02/exec-ee8a6522-a07c-46aa-b97c-0a6b02d6d964.png"
+    }
+  ]
+}

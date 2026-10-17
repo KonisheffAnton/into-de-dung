@@ -1,0 +1,121 @@
+{
+  "status": "PASS",
+  "output_count": 12,
+  "imagegen_calls": 20,
+  "pixellab_calls": 0,
+  "references_byte_exact": true,
+  "main_menu_unchanged": true,
+  "inputs": {
+    "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/iterations/G01-initial.png": "003aa492202fb5c0f0c3c74b1bfa6c70942045d8b843bf13a3a2f29ddd560b04",
+    "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/defender-benchmark.png": "af95a196244b133a7d11933475fc9d6847241068c402c7220406b28b1499d7cb",
+    "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/iterations/G02-initial.png": "a32423ffa73e4da94d733701f11540e9311f4283893012b783cfded2d51a47f1",
+    "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/iterations/G03-initial.png": "50a6d7be34c8de44e894aca2b3c212ced844b0fbfbbe865b8193d430a177a9b6",
+    "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/iterations/G04-initial.png": "f1f84e4f49bc5ba794337b88eaedec5e52a3a75403633547e0f799958eef2553",
+    "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/iterations/G05-initial.png": "69c6b1b43abc932e545fe01d35162fa551dea67262bbbd9d127df65a751a7ffe",
+    "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/iterations/G06-initial.png": "084177ced634e640363d942e73c1b4334312dc994a6f02cb4bbba2f9ac9fefe8",
+    "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/iterations/G07-initial.png": "48c61b531085cecad3896ab3c6f00804675c67682ab2e3154295fbcb24b8d97f",
+    "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/iterations/G08-initial.png": "711d680677ed057a9ccadfac8991fc6c4ff6a6d4699908b540f91e1d37bf2188",
+    "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/reference.png": "d0a558da370fdc006f310690c6d2430dc4176d850aa6552b6e12612fe742d4e1",
+    "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/projection-reference.png": "3a444db1efbf7dd949d123ffd724f1a7e0a6eeb069066f320d84e707798f7dbb",
+    "D:/Games/into-de-dung/docs/art/battlefield-reference-04-20261017/monster-reference.png": "e8fe9bb7fa4babe3a5bc46582a48632a746e32e6d34e312c81641b1040a12cd3"
+  },
+  "outputs": [
+    {
+      "id": "G01",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "0f3f47a1208c0d52557cc11c35b38316de8bf400efb9e87f28be5ddd3a18661d",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G02",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "25ec1163dc380ac2dac8f0c95c7e8872ed0806a8e62b76daf92b221b4372c84e",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G03",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "2206220678463590b64422ab635bd5877804e259b085aaa30766e2649639a62b",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G04",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "846217dd741b806cda75c161ff3e26191b17994693a06327c5c191a95c19ac29",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G05",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "8dc61d0b88045a072232db68016b2cee6923d3df7f8bedd6578ac5fadcc3aa27",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G06",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "ade6950f416f3f372ca570026f53b9fd561df4e9bf5e236a75e0f8702ae911df",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G07",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "6a9427935af65482ce25c6d694bc0a585f5e2d6e5090200673aaf1a3445e96eb",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G08",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "5780481ab32d94e27eb9184418bc812600024ca67c9ddf0a9f09691d77eaf867",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G09",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "c53dc55048e05fcb2a4a38cc87f7b96f2f115a2c33d03beaf1dd566b1c5c2fe8",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G10",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "6805e5ef2cdc2406fd5e4577dfb09cc5c6487eeddc58e33cb61bdeef331e4cc7",
+      "source_byte_exact": true
+    },
+    {
+      "id": "M01",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "440947d4973d61b7b00432b7ae7c306f7ba0b7059492877ef4889f323177e14f",
+      "source_byte_exact": true
+    },
+    {
+      "id": "M02",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "ded7e17f55b60aeb28e1ae148b36bfc149bb31d7889f5d8ad39633f71dbe3e7b",
+      "source_byte_exact": true
+    }
+  ],
+  "scope": "PNG dimensions/chunk CRC/SHA/source bytes, reference bytes, gallery links, rating coverage; excludes geometry, anchors and animation tests"
+}
