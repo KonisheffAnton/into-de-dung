@@ -1,11 +1,14 @@
 extends BattleTerrainVisual
 
 @export_range(0.0, 3.0, 0.05) var minimum_seam_pixels: float = 1.15
-@export_range(6.0, 48.0, 1.0) var side_depth_pixels: float = 18.0
+@export_range(6.0, 48.0, 1.0) var side_depth_pixels: float = 30.0
 @export_range(0.0, 1.0, 0.01) var left_top_darkening: float = 0.25
 @export_range(0.0, 1.0, 0.01) var right_top_darkening: float = 0.12
+@export var side_base_tint: Color = Color("8b6345")
 @export var left_bottom_color: Color = Color("1d2326")
 @export var right_bottom_color: Color = Color("20272a")
+@export var left_ground_bottom_color: Color = Color("30251f")
+@export var right_ground_bottom_color: Color = Color("3b2b22")
 @onready var _seam: Line2D = $ArtRoot/GroundSurface/QuietSeam
 @onready var _authored_seam_width: float = _seam.width
 
@@ -36,16 +39,18 @@ func _sync_scene_sides(factor: float) -> void:
 	var right := get_node_or_null("ArtRoot/SideRight") as Polygon2D
 	if left == null or right == null or not left.visible or not right.visible: return
 	var ground_art_active := _uses_ground_art()
-	var base_tint := ground_base_tint if ground_art_active else _surface_tint()
+	var base_tint: Color = side_base_tint if ground_art_active else _surface_tint()
+	var left_bottom: Color = left_ground_bottom_color if ground_art_active else left_bottom_color
+	var right_bottom: Color = right_ground_bottom_color if ground_art_active else right_bottom_color
 	left.color = Color.WHITE
 	right.color = Color.WHITE
 	left.vertex_colors = PackedColorArray([
 		base_tint.darkened(left_top_darkening), base_tint.darkened(left_top_darkening),
-		left_bottom_color, left_bottom_color,
+		left_bottom, left_bottom,
 	])
 	right.vertex_colors = PackedColorArray([
 		base_tint.darkened(right_top_darkening), base_tint.darkened(right_top_darkening),
-		right_bottom_color, right_bottom_color,
+		right_bottom, right_bottom,
 	])
 	if not ground_art_active: return
 	# Работаем после super в координатах ArtRoot; верх и его UV остаются авторскими.

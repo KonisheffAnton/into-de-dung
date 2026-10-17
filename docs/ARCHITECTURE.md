@@ -204,9 +204,10 @@ reset/exit убивают Tween и отбрасывают старые данн�
 canvas/stretch синхронизирует сохранённые trial-тайлы, даже если Godot
 не прислал им transform notification. При неизменном transform обхода тайлов нет.
 Правила и границы пробы — [представление](BATTLE_PRESENTATION_REWORK.md).
-Trial-тайл отдельно оформляет SideLeft/SideRight: толщина вниз18px и градиент
-по вершинам. Верх/UV и surface_polygons для picking прежние; новый объём
-не является логической высотой. [Контракт](BATTLE_VISUAL_SCENE_CONTRACT.md#толщина-и-градиент-боковин-тайла).
+Trial-тайл отдельно оформляет SideLeft/SideRight: толщина вниз30px и коричневый
+градиент по вершинам независимо от травы. Верх/UV и surface_polygons для picking
+прежние; новый объём не является логической высотой.
+[Контракт](BATTLE_VISUAL_SCENE_CONTRACT.md#толщина-и-градиент-боковин-тайла).
 
 `BattleDemoBoard` сохраняет опоры, окружение и фигуры по явному контракту корней
 `BattleTerrainVisual` / `BattleManagedEnvironmentVisual` / `BattleManagedUnitVisual`,

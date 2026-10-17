@@ -78,11 +78,11 @@ func tile_side_sample() -> void:
 		for steps: int in [0, 4, -4]:
 			check(tile.apply_view(_tile_values(role, steps), config), "trial side sample applies %s half-step %d" % [str(role), steps])
 			var surfaces := tile.surface_polygons()
-			var base: Color = tile.ground_base_tint
+			var base: Color = tile.side_base_tint
 			check(left.visible and right.visible and left.color == Color.WHITE and right.color == Color.WHITE
-				and left.vertex_colors == PackedColorArray([base.darkened(tile.left_top_darkening), base.darkened(tile.left_top_darkening), tile.left_bottom_color, tile.left_bottom_color])
-				and right.vertex_colors == PackedColorArray([base.darkened(tile.right_top_darkening), base.darkened(tile.right_top_darkening), tile.right_bottom_color, tile.right_bottom_color]),
-				"side faces retain distinct top shades and cool bottom colors")
+				and left.vertex_colors == PackedColorArray([base.darkened(tile.left_top_darkening), base.darkened(tile.left_top_darkening), tile.left_ground_bottom_color, tile.left_ground_bottom_color])
+				and right.vertex_colors == PackedColorArray([base.darkened(tile.right_top_darkening), base.darkened(tile.right_top_darkening), tile.right_ground_bottom_color, tile.right_ground_bottom_color]),
+				"ground sides use separate warm-brown shading from top to bottom")
 			check(_side_top_matches(left, surfaces[0], tile) and _side_top_matches(right, surfaces[1], tile),
 				"elevation side treatment leaves original top edges unchanged")
 			var depth_ok: bool = left.polygon[2].y - left.polygon[1].y >= tile.side_depth_pixels \
@@ -112,7 +112,9 @@ func tile_side_sample() -> void:
 		"wall receives gradient without authored ground thickness")
 	var wall_base := tile._surface_tint()
 	check(left.vertex_colors[0] == wall_base.darkened(tile.left_top_darkening)
-		and right.vertex_colors[0] == wall_base.darkened(tile.right_top_darkening),
+		and right.vertex_colors[0] == wall_base.darkened(tile.right_top_darkening)
+		and left.vertex_colors[2] == tile.left_bottom_color
+		and right.vertex_colors[2] == tile.right_bottom_color,
 		"wall gradient remains related to its surface palette")
 	check(tile.apply_view(_tile_values(BattleDemoIsoVisual.Role.FLOOR, 3, true), config)
 		and not left.visible and not right.visible,

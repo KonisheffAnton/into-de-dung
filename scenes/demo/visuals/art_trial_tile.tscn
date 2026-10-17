@@ -10,7 +10,7 @@
 [node name="PlaceholderTile" instance=ExtResource("1_base")]
 script = ExtResource("2_script")
 ground_base_tint = Color(0.32549, 0.368627, 0.243137, 1)
-side_depth_pixels = 18.0
+side_depth_pixels = 30.0
 
 [node name="GroundSurface" parent="ArtRoot" index="4"]
 texture = null
