@@ -1,0 +1,56 @@
+{
+  "date": "2026-10-17",
+  "base": "b0b348b1c69a5237b691ec3b74e756ad0941c557",
+  "scope": "Two simplified pixel-terrain previews and documentation",
+  "outputs": [
+    {
+      "file": "scene-01-grassland-ford.png",
+      "sha256": "4EE3006781FFBF7FB132CB53C9657FEFE341BE66C1A483211D9E8B288648246E",
+      "width": 1448,
+      "height": 1086,
+      "provider_copy_exact": true
+    },
+    {
+      "file": "scene-02-flooded-ruins.png",
+      "sha256": "A40F9CB39897A212B3CFFB1E38A3A3906D660CC194DECE44FF589D7B2C7064E1",
+      "width": 1448,
+      "height": 1086,
+      "provider_copy_exact": true
+    }
+  ],
+  "previous_pngs_unchanged": true,
+  "archive": "docs/CODEX_HANDOFF.history-20261017-16.md",
+  "archive_sha256": "2EE63D40584102F124003F05F1CDC655C583DAF25D4B0A0B57CF1AFE2CF63CD8",
+  "archive_matches_previous_head_blob_bytes": true,
+  "archive_method": "Copy-Item before replacement",
+  "protected_scene_sha256": "A64C270256EBF2EA073081200BE23028F792F42C3CA98F83A6499C1300A68668",
+  "protected_scene_unchanged": true,
+  "local_links_checked": 691,
+  "input_document_sizes": [
+    {
+      "file": "AGENTS.md",
+      "lf_characters": 4565
+    },
+    {
+      "file": "docs/CODEX_HANDOFF.md",
+      "lf_characters": 2295
+    },
+    {
+      "file": "docs/PROJECT_CONTEXT.md",
+      "lf_characters": 3491
+    },
+    {
+      "file": "docs/CODEX_WORKFLOW.md",
+      "lf_characters": 4482
+    }
+  ],
+  "entry_document_growth": "HANDOFF is 2295 LF characters, within 2500 and shorter than previous. Rules and unresolved items retained.",
+  "lead_review": "APPROVE for illustrative previews",
+  "independent_review": "game_reviewer APPROVE: visibly simplified pixel terrain, water/acid/grass separated, six units and feet visible",
+  "limitations": [
+    "Ruins acid bubbles and fire are softer than floor",
+    "Exact hex, uniform pixel step, grid, anchors and UI are unverified",
+    "No runtime, full/core, F5/editor/DPI/GPU or final user art acceptance"
+  ],
+  "diff_check": "PASS"
+}
