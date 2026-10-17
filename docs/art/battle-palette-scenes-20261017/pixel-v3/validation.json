@@ -1,0 +1,59 @@
+{
+  "date": "2026-10-17",
+  "base": "2d0dc1d7118f4c54155ac93cda41d1cc83f04a4e",
+  "scope": "Small terrain-detail pass and two water depths, preview and documentation only",
+  "outputs": [
+    {
+      "file": "scene-01-grassland-ford.png",
+      "sha256": "910219F6EA98B7BEA5ED51B0403161B1B233282C9B9EBFB99634E7501559EE83",
+      "width": 1448,
+      "height": 1086,
+      "provider_copy_exact": true
+    },
+    {
+      "file": "scene-02-flooded-ruins.png",
+      "sha256": "80891252FE4B17E04F5E4D3FA3D44E093ABF97EC6583DF74890B52FF24904B2C",
+      "width": 1448,
+      "height": 1086,
+      "provider_copy_exact": true
+    }
+  ],
+  "v1_v2_pngs_unchanged": true,
+  "reference_sha256": "F6B4E66FB267C443C24F3913AF97B3220A7CA554EAE7A3C524B08D2BD83B6515",
+  "reference_copy_exact": true,
+  "archive": "docs/CODEX_HANDOFF.history-20261017-17.md",
+  "archive_sha256": "107C7F2B1A556C23DB94848FDD15AD3F9D613329050949111417D6D880D27F19",
+  "archive_matches_previous_head_blob_bytes": true,
+  "archive_method": "Copy-Item before replacement",
+  "protected_scene_sha256": "A64C270256EBF2EA073081200BE23028F792F42C3CA98F83A6499C1300A68668",
+  "protected_scene_unchanged": true,
+  "local_links_checked": 697,
+  "input_document_sizes": [
+    {
+      "file": "AGENTS.md",
+      "lf_characters": 4565
+    },
+    {
+      "file": "docs/CODEX_HANDOFF.md",
+      "lf_characters": 2408
+    },
+    {
+      "file": "docs/PROJECT_CONTEXT.md",
+      "lf_characters": 3491
+    },
+    {
+      "file": "docs/CODEX_WORKFLOW.md",
+      "lf_characters": 4482
+    }
+  ],
+  "entry_document_growth": "HANDOFF 2408 LF characters vs 2295 at base, within 2500 and below 10% growth. Rules and unresolved items retained.",
+  "lead_review": "APPROVE for illustrative previews",
+  "independent_review": "game_reviewer APPROVE: modest coherent detail; shallow bottom/deep water distinct; six figures and broad layout retained",
+  "limitations": [
+    "Submerged bottom in ruins is subtler at small display scale",
+    "Exact hex, uniform pixel step, grid, anchors and UI unverified",
+    "Visual water depth only, no new mechanics",
+    "No runtime, full/core, F5/editor/DPI/GPU or final user art acceptance"
+  ],
+  "diff_check": "PASS"
+}
