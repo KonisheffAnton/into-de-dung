@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-17",
+  "base_head": "ecac50c6ebb5f2ac66b561327ec4155967425083",
+  "mode": "preview-only; not integrated",
+  "capture": {
+    "scene": "scenes/demo/battle/hero_hub_battle.tscn",
+    "seed": 9404,
+    "viewport": [
+      1600,
+      1200
+    ],
+    "zoom": 0.9,
+    "pan": [
+      0,
+      -50
+    ],
+    "cloth_palette": 2,
+    "state_rng_counters_unchanged": true,
+    "isolated_project": "test_reports/demo-2a9b2603cd944ae1bebd10f2dd802659/project"
+  },
+  "provider": "built-in image_gen.imagegen",
+  "prompt": "prompt.txt",
+  "provider_original": "C:/Users/Aston/.codex/generated_images/01a149c2-2ee9-7181-af73-7bf2f2c9d22e/exec-1ffab9e2-6f81-4073-aa8e-7a9bf2feed5d.png",
+  "output_copied_byte_exact": true,
+  "images": [
+    {
+      "file": "battle-original.png",
+      "size": [
+        1600,
+        1200
+      ],
+      "sha256": "a050b4e9cd3e270c41bb855767c089a61a76d7f85618ec003eeb7920d28d14c9"
+    },
+    {
+      "file": "shadow-preview.png",
+      "size": [
+        1448,
+        1086
+      ],
+      "sha256": "19a63c4bdedda76d8f03fad93bd10fe919af8918bf095d0b255b8c3aeac16361"
+    }
+  ]
+}
