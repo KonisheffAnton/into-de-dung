@@ -1,0 +1,56 @@
+{
+  "date": "2026-10-17",
+  "base": "25f5f33a8fb136997034b42f3a31e5b5409ec7d8",
+  "scope": "Shallow-water whole-cell appearance in two previews; artwork/documentation only",
+  "outputs": [
+    {
+      "file": "scene-01-grassland-ford.png",
+      "sha256": "4431639E038BBB529D19A88C690D05F46D6A1D8F78F43F94DD1529F6823C5F93",
+      "width": 1448,
+      "height": 1086,
+      "provider_copy_exact": true
+    },
+    {
+      "file": "scene-02-flooded-ruins.png",
+      "sha256": "AFF92E9A8C43F2049F0CFF9A149F267796F1CD8E0AE2496160B97B88F4A18EB7",
+      "width": 1448,
+      "height": 1086,
+      "provider_copy_exact": true
+    }
+  ],
+  "v1_v2_v3_pngs_unchanged": true,
+  "archive": "docs/CODEX_HANDOFF.history-20261017-18.md",
+  "archive_sha256": "EE65D707E114473926C1E215BB527F678D4CAEAECAFC9C1AFAE789A383A0DCDF",
+  "archive_matches_previous_head_blob_bytes": true,
+  "archive_method": "Copy-Item before replacement",
+  "protected_scene_sha256": "A64C270256EBF2EA073081200BE23028F792F42C3CA98F83A6499C1300A68668",
+  "protected_scene_unchanged": true,
+  "local_links_checked": 702,
+  "input_document_sizes": [
+    {
+      "file": "AGENTS.md",
+      "lf_characters": 4565
+    },
+    {
+      "file": "docs/CODEX_HANDOFF.md",
+      "lf_characters": 2394
+    },
+    {
+      "file": "docs/PROJECT_CONTEXT.md",
+      "lf_characters": 3491
+    },
+    {
+      "file": "docs/CODEX_WORKFLOW.md",
+      "lf_characters": 4482
+    }
+  ],
+  "entry_document_growth": "HANDOFF 2394 LF characters vs 2408 at base, within 2500. Rules and unresolved items retained. ART palette section rewritten as current requirements; older evidence kept in artifact packages and HISTORY.",
+  "lead_review": "APPROVE for illustrative previews",
+  "independent_review": "game_reviewer APPROVE: visible whole shallow/deep diamond cells, material boundary on grid seams; shallow bed visible; six figures and broad scene retained",
+  "limitations": [
+    "Visual cell alignment only; exact mathematical grid, hex, anchors and UI unverified",
+    "Whole shallow tile is a user visual requirement; no passability/move-cost/water mechanics changes",
+    "No runtime, full/core, F5/editor/DPI/GPU or final user art acceptance"
+  ],
+  "diff_check": "PASS"
+}
