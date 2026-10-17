@@ -258,14 +258,19 @@ func dense_statuses() -> void:
 	var s := fixture()
 	var a := s.units[0]
 	s._queue.submit(GuardCommand.new(a.id, s.context.get_revision(), 1), s.context)
-	board.show_presentation_state(ActionPresentationState.capture(s.state))
+	var projected := ActionPresentationState.capture(s.state)
+	board.show_presentation_state(projected)
 	var visual := board._presentation_visual(a.id)
+	var projected_resources: Dictionary = {}
+	for row: Dictionary in board._view_units:
+		if (row["unit"] as BattleUnitView).id == a.id: projected_resources = row["resources"]
 	# Синтетическое переполнение представления, без новых игровых состояний.
 	for i: int in 7:
 		visual.status_entries.append({"id": "synthetic-%d" % i, "title": "Fixture", "stacks": 0, "remaining": 2, "embodied": false})
 	visual.sync_scene_art()
 	check(visual.visible_status_entries().size() == 5 and visual.status_overflow_count() == 2, "dense fixture exercises full row and overflow")
-	check(not visual.status_hud_bounds().intersects(visual.reaction_hud_bounds()), "reaction indicator leaves every status and overflow unobscured")
+	check(not visual.show_resource_badges and visual.reaction_hud_bounds().size == Vector2.ZERO, "resource and reaction plates are hidden")
+	check(visual.reaction_view == projected.units[a.id].reaction_view and visual.action_resources_view == projected_resources, "hidden plates retain published reaction and action-resource values")
 	await capture("reaction-dense-statuses")
 	s.close()
 

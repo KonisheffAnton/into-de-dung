@@ -43,8 +43,6 @@ var inspection_cells: Dictionary = {}
 var reaction_zone_cells: Array[Vector2i] = []
 var action_areas: Array[Dictionary] = []
 var area_preview_owner: int = UnitId.NONE
-const ALLY_AREA := Color("64cb8c")
-const ENEMY_AREA := Color("e97979")
 var cover_target_ids: Array[int] = []
 var sneak_threat_ids: Array[int] = []
 var forecast: AttackForecast
@@ -1110,6 +1108,8 @@ func _ready() -> void:
 	_numbers = _layer("ResultNumbers", RenderLayers.Layer.VFX_OVERLAY)
 	_overlay = _layer("PathOverlay", RenderLayers.Layer.UI_PREVIEW)
 	_overlay.draw.connect(_draw_overlay)
+	# Слой клеток синхронизируется с теми же invalidation, оставаясь в terrain Y-sort.
+	_overlay.draw.connect(_sync_ground_overlays)
 	compact_forecast = get_node_or_null("CompactForecast") as BattleForecastCard
 	if compact_forecast == null:
 		compact_forecast = BattleForecastCard.new()
@@ -1852,73 +1852,32 @@ func area_details(cell: Vector2i) -> String:
 		lines.append("%s · %s · реакция готова" % [area.name, mode])
 	return "\n".join(lines)
 
-func _draw_action_areas() -> void:
-	for area: Dictionary in action_areas:
-		var preview: bool = area.owner_id == area_preview_owner
-		if not area.ready and not preview: continue
-		var color := ALLY_AREA if area.faction == Faction.Type.PLAYER else ENEMY_AREA
-		for cell: Vector2i in area.cells:
-			var center := _world_cell_center(cell)
-			# Два вложенных контура оставляют различимыми перекрытия разных сторон.
-			var inset := 0.42 if area.faction == Faction.Type.PLAYER else 0.48
-			var half := grid_config.tile_size * inset
-			var points := PackedVector2Array([center + Vector2(0, -half.y), center + Vector2(half.x, 0), center + Vector2(0, half.y), center + Vector2(-half.x, 0), center + Vector2(0, -half.y)])
-			if area.ready: _overlay.draw_colored_polygon(points, Color(color, 0.12))
-			_overlay.draw_polyline(points, Color(color, 0.85 if preview else 0.6), 2.0 if preview else 1.5, true)
-		var origin := _world_cell_center(area.origin)
-		_overlay.draw_arc(origin, grid_config.tile_size.x * 0.27, 0, TAU, 32, color, 3.0, true)
-		if area.cells.has(hover_cell):
-			_overlay.draw_dashed_line(origin, _world_cell_center(hover_cell), color, 1.5, 5.0)
-
 func _draw_cover_links() -> void:
 	for row: Dictionary in _view_units:
 		var view: Dictionary = row.get("reaction_view", {})
 		if not row.unit.alive or int(view.get("mode", 0)) != CombatPerksState.Mode.COVER or not bool(view.get("ready", false)): continue
 		var source := _reaction_anchor(int(row.unit.id))
 		var target := _reaction_anchor(int(view.get("cover_target_id", 0)))
-		_overlay.draw_line(source, target, Color("76d9f2", 0.45), 1.5, true)
-		_overlay.draw_arc(target, 9.0, 0.0, TAU, 16, Color("76d9f2", 0.65), 1.5, true)
+		_overlay.draw_line(source, target, Color("83a4ae", 0.24), 1.2, true)
+		_overlay.draw_arc(target, 9.0, 0.0, TAU, 16, Color("83a4ae", 0.28), 1.2, true)
 
 func _draw_overlay() -> void:
 	_draw_cover_links()
 	if _view_width <= 0 or _view_height <= 0: return
-	var hw := grid_config.tile_size.x * 0.5
-	var highlight_hh := grid_config.tile_size.y * 0.48
-	var highlight_hw := grid_config.tile_size.x * 0.48
-	_draw_action_areas()
-	for cell: Vector2i in reaction_zone_cells:
-		var center := _world_cell_center(cell)
-		_overlay.draw_polyline(PackedVector2Array([center + Vector2(0, -highlight_hh), center + Vector2(highlight_hw, 0), center + Vector2(0, highlight_hh), center + Vector2(-highlight_hw, 0), center + Vector2(0, -highlight_hh)]), Color("a5b3c5", 0.35), 1.0, true)
-	for id: int in cover_target_ids:
-		var ally_cell := _view_unit_cell(id)
-		if ally_cell.x < 0: continue
-		var center := _world_cell_center(ally_cell)
-		_overlay.draw_polyline(PackedVector2Array([center + Vector2(0, -highlight_hh), center + Vector2(highlight_hw, 0), center + Vector2(0, highlight_hh), center + Vector2(-highlight_hw, 0), center + Vector2(0, -highlight_hh)]), CYAN, 2.5, true)
-	for id: int in sneak_threat_ids:
-		var threat_cell := _view_unit_cell(id)
-		if threat_cell.x < 0: continue
-		var center := _world_cell_center(threat_cell)
-		_overlay.draw_arc(center, grid_config.tile_size.x * 0.25, 0, TAU, 24, GOLD, 2.5, true)
+	# Пунктир связывает две клетки и потому остаётся в общем UI preview слое.
+	for area: Dictionary in action_areas:
+		var preview: bool = area.owner_id == area_preview_owner
+		if (not area.ready and not preview) or not area.cells.has(hover_cell): continue
+		var link_color := Color("829985", 0.24) if area.faction == Faction.Type.PLAYER else Color("9b8181", 0.24)
+		_overlay.draw_dashed_line(_world_cell_center(area.origin), _world_cell_center(hover_cell), link_color, 1.0, 5.0)
 	if _path.size() > 1:
 		var points := PackedVector2Array()
 		for cell in _path: points.append(_world_cell_center(cell))
 		if move_forecast_pending:
 			for i: int in range(1, points.size()):
-				_overlay.draw_dashed_line(points[i - 1], points[i], MUTED, 2, 6)
+				_overlay.draw_dashed_line(points[i - 1], points[i], Color("89959e", 0.28), 1.5, 6)
 		else:
-			_overlay.draw_polyline(points, CYAN, 2, true)
-	if _view_index(hover_cell) >= 0:
-		var center := _world_cell_center(hover_cell)
-		if _view_terrain_at(hover_cell) == TerrainType.Type.WALL: center.y -= grid_config.height_step
-		var cell_hw := grid_config.tile_size.x * 0.48
-		var hh := grid_config.tile_size.y * 0.48
-		_overlay.draw_polyline(PackedVector2Array([center + Vector2(0, -hh), center + Vector2(cell_hw, 0), center + Vector2(0, hh), center + Vector2(-cell_hw, 0), center + Vector2(0, -hh)]), GOLD if attack_mode or elemental_mode or inspected_id != UnitId.NONE else (Color("f29b9b") if raising_mode else CYAN), 2, true)
-	if move_forecast != null and move_forecast.status in [ActionReceipt.APPLIED, ActionReceipt.INTERRUPTED]:
-		var after: Dictionary = move_forecast.units.get(move_forecast.actor_id, {}).get("after", {})
-		if not after.is_empty():
-			var endpoint := _world_cell_center(after["cell"])
-			var color := CYAN if after["alive"] else Color("f29b9b")
-			_overlay.draw_arc(endpoint, 10.0, 0, TAU, 24, color, 2.5, true)
+			_overlay.draw_polyline(points, Color("829fa5", 0.34), 1.5, true)
 	if forecast != null and forecast.status == &"APPLIED":
 		var chain_preview := forecast.events.any(func(value: Dictionary) -> bool: return value.get("kind") == &"chain_link")
 		for event_variant in forecast.events:
@@ -1935,19 +1894,55 @@ func _draw_overlay() -> void:
 			var finish := _world_cell_center(to_cell) if _view_index(to_cell) >= 0 else start + IsoGridUtils.grid_to_screen(to_cell, grid_config, 0) - IsoGridUtils.grid_to_screen(from_cell, grid_config, 0)
 			# Переданный импульс не означает движения промежуточного тела.
 			if chain_preview and kind != &"moved":
-				_overlay.draw_dashed_line(start, finish, Color("f7c97d"), 2.0, 5.0, true)
+				_overlay.draw_dashed_line(start, finish, Color("b1a17f", 0.30), 1.5, 5.0, true)
 				if kind in [&"push_blocked", &"fell"]:
-					_overlay.draw_line(finish - Vector2(5, 5), finish + Vector2(5, 5), Color("f29b9b"), 2, true)
-					_overlay.draw_line(finish - Vector2(5, -5), finish + Vector2(5, -5), Color("f29b9b"), 2, true)
+					_overlay.draw_line(finish - Vector2(5, 5), finish + Vector2(5, 5), Color("b58a8a", 0.38), 1.5, true)
+					_overlay.draw_line(finish - Vector2(5, -5), finish + Vector2(5, -5), Color("b58a8a", 0.38), 1.5, true)
 				continue
-			_overlay.draw_line(start, finish, Color("f29b9b"), 3.0, true)
+			_overlay.draw_line(start, finish, Color("b58a8a", 0.34), 2.0, true)
 			var direction := (finish - start).normalized()
-			_overlay.draw_line(finish, finish - direction.rotated(0.5) * 10.0, Color("f29b9b"), 3.0, true)
-			_overlay.draw_line(finish, finish - direction.rotated(-0.5) * 10.0, Color("f29b9b"), 3.0, true)
-			_overlay.draw_arc(finish, 6.0, 0, TAU, 16, Color("f29b9b"), 1.5, true)
+			_overlay.draw_line(finish, finish - direction.rotated(0.5) * 10.0, Color("b58a8a", 0.34), 2.0, true)
+			_overlay.draw_line(finish, finish - direction.rotated(-0.5) * 10.0, Color("b58a8a", 0.34), 2.0, true)
+			_overlay.draw_arc(finish, 6.0, 0, TAU, 16, Color("b58a8a", 0.34), 1.3, true)
 			if kind in [&"push_blocked", &"collision"]:
-				_overlay.draw_line(finish - Vector2(4, 4), finish + Vector2(4, 4), Color.WHITE, 2, true)
-				_overlay.draw_line(finish - Vector2(4, -4), finish + Vector2(4, -4), Color.WHITE, 2, true)
+				_overlay.draw_line(finish - Vector2(4, 4), finish + Vector2(4, 4), Color(0.82, 0.86, 0.88, 0.38), 1.5, true)
+				_overlay.draw_line(finish - Vector2(4, -4), finish + Vector2(4, -4), Color(0.82, 0.86, 0.88, 0.38), 1.5, true)
+
+func _sync_ground_overlays() -> void:
+	for visual: BattleDemoIsoVisual in _entity_visuals:
+		if visual.role == BattleDemoIsoVisual.Role.UNIT: continue
+		var cell := visual.grid_anchor
+		# У стены контур принадлежит верхней стеновой поверхности, а не полу под ней.
+		var is_top := (_view_terrain_at(cell) == TerrainType.Type.WALL) == (visual.role == BattleDemoIsoVisual.Role.WALL)
+		visual.ground_overlay_enabled = is_top
+		visual.ground_marks.clear()
+		if is_top: visual.ground_marks = _ground_marks_for(cell)
+		visual.reachable = is_top and (not attack_mode and not elemental_mode and _reachable.has(cell))
+		visual.enemy_range = is_top and inspected_id != UnitId.NONE and inspection_cells.has(cell)
+		visual.queue_ground_overlay_redraw()
+
+func _ground_marks_for(cell: Vector2i) -> Array[Dictionary]:
+	var marks: Array[Dictionary] = []
+	if reaction_zone_cells.has(cell): marks.append({"kind": "reaction_zone"})
+	for id: int in cover_target_ids:
+		if _view_unit_cell(id) == cell: marks.append({"kind": "cover_target"})
+	for id: int in sneak_threat_ids:
+		if _view_unit_cell(id) == cell: marks.append({"kind": "sneak"})
+	for area: Dictionary in action_areas:
+		var preview: bool = area.owner_id == area_preview_owner
+		if not area.ready and not preview: continue
+		var color := Color("64cb8c") if area.faction == Faction.Type.PLAYER else Color("e97979")
+		var inset := 0.42 if area.faction == Faction.Type.PLAYER else 0.48
+		if area.cells.has(cell): marks.append({"kind": "action_area", "fill": bool(area.ready), "preview": preview, "inset": inset, "color": color})
+		if area.origin == cell:
+			marks.append({"kind": "action_origin", "color": color})
+	if cell == hover_cell:
+		var hover_color := Color("a99b79") if attack_mode or elemental_mode or inspected_id != UnitId.NONE else (Color("b58a8a") if raising_mode else Color("829fa5"))
+		marks.append({"kind": "hover", "color": hover_color})
+	if move_forecast != null and move_forecast.status in [ActionReceipt.APPLIED, ActionReceipt.INTERRUPTED]:
+		var after: Dictionary = move_forecast.units.get(move_forecast.actor_id, {}).get("after", {})
+		if not after.is_empty() and after.get("cell", Vector2i(-1, -1)) == cell: marks.append({"kind": "move_endpoint", "alive": bool(after.get("alive", true))})
+	return marks
 
 func _forecast_entry(unit_id: int) -> Dictionary:
 	if move_forecast != null and move_forecast.status in [ActionReceipt.APPLIED, ActionReceipt.INTERRUPTED]:

@@ -28,6 +28,10 @@ var status_entries: Array[Dictionary] = []
 var reaction_view: Dictionary = {}
 ## Доска публикует только видимые остатки ресурсов; HUD не обращается к runtime.
 var action_resources_view: Dictionary = {}
+## Клеточные отметки рисуются после поверхности, но в её Y-sort.
+var ground_marks: Array[Dictionary] = []
+var ground_overlay_enabled: bool = true
+@export var show_resource_badges: bool = false
 @export var body_pick_rect: Rect2 = Rect2(-17, -37, 34, 44)
 @export var warrior_pick_rect: Rect2 = Rect2(-45, -56, 78, 73)
 @export_range(0.25, 2.0, 0.05) var warrior_art_scale: float = 1.0
@@ -50,6 +54,8 @@ const BURNING_ICON: Texture2D = preload("res://assets/placeholder_battle/burning
 const WET_ICON: Texture2D = preload("res://assets/placeholder_battle/wet_icon.svg")
 var _scene_art_enabled: bool = false
 var _status_hud: Node2D
+var _ground_overlay: Node2D
+var _unit_highlights: Node2D
 var landing_compression: float = 0.0:
 	set(value):
 		landing_compression = clampf(value, 0.0, 0.4)
@@ -85,7 +91,18 @@ var presentation_offset: Vector2 = Vector2.ZERO:
 
 func _ready() -> void:
 	super._ready()
+	if role != Role.UNIT:
+		_ground_overlay = Node2D.new()
+		_ground_overlay.name = "GroundOverlay"
+		add_child(_ground_overlay)
+		_ground_overlay.draw.connect(_draw_ground_overlay.bind(_ground_overlay))
 	if role != Role.UNIT: return
+	_unit_highlights = Node2D.new()
+	_unit_highlights.name = "UnitHighlights"
+	_unit_highlights.show_behind_parent = true
+	add_child(_unit_highlights)
+	move_child(_unit_highlights, 0)
+	_unit_highlights.draw.connect(_draw_unit_highlights.bind(_unit_highlights))
 	_status_hud = Node2D.new()
 	_status_hud.name = "StatusHud"
 	# HUD остаётся в локальной сортировке, чтобы передние фигуры и тайлы могли его закрыть.
@@ -103,8 +120,9 @@ func _sync_status_hud() -> void:
 
 func _draw_status_hud() -> void:
 	_draw_status_icons(_status_hud)
-	_draw_action_resources(_status_hud)
-	_draw_reaction_view(_status_hud)
+	if show_resource_badges:
+		_draw_action_resources(_status_hud)
+		_draw_reaction_view(_status_hud)
 	if bool(raised_shield_view.get("active", false)):
 		# Рядом с реакцией: выше поверхности тайла и внутри видимой высоты фигуры.
 		_status_hud.draw_rect(Rect2(29, -31, 64, 15), Color("172230"))
@@ -160,7 +178,11 @@ func _draw_reaction_view(canvas: Node2D) -> void:
 	canvas.draw_set_transform(Vector2.ZERO)
 
 func reaction_hud_bounds() -> Rect2:
+	if not show_resource_badges: return Rect2()
 	return Rect2(29, -59, 18, 26)
+
+func queue_ground_overlay_redraw() -> void:
+	if _ground_overlay != null: _ground_overlay.queue_redraw()
 
 func status_hud_bounds() -> Rect2:
 	var entries := visible_status_entries().size()
@@ -183,6 +205,7 @@ func get_visual_offset() -> Vector2:
 
 func sync_scene_art() -> void:
 	_sync_status_hud()
+	if _unit_highlights != null: _unit_highlights.queue_redraw()
 	var art := get_node_or_null("ArtRoot") as Node2D
 	if art == null: return
 	_scene_art_enabled = true
@@ -403,6 +426,8 @@ func contains_point(point: Vector2) -> bool:
 func _draw() -> void:
 	if grid_config == null: return
 	if role == Role.UNIT:
+		# Родительский draw обновляет маркеры перед отрисовкой child-слоя за спрайтом.
+		if _unit_highlights != null: _unit_highlights.queue_redraw()
 		_draw_unit()
 		return
 	var color := Color("344858") if (grid_anchor.x + grid_anchor.y) % 2 == 0 else Color("3d5361")
@@ -419,10 +444,6 @@ func _draw() -> void:
 	var ground_surface := get_node_or_null("ArtRoot/GroundSurface") as Sprite2D
 	var ground_art_active := ground_surface != null and _uses_ground_art()
 	if not ground_art_active: draw_polyline(top + PackedVector2Array([top[0]]), Color("14232e"), 1.2, true)
-	if enemy_range:
-		# Зона осмотра лежит на самой поверхности, чтобы не закрывать native Y-sort сущностей.
-		draw_colored_polygon(top, Color(0.96, 0.68, 0.20, 0.22))
-		draw_polyline(top + PackedVector2Array([top[0]]), Color(0.98, 0.76, 0.28, 0.78), 1.5, true)
 	var center := _top_offset()
 	var hw := grid_config.tile_size.x * 0.5
 	var hh := grid_config.tile_size.y * 0.5
@@ -433,7 +454,49 @@ func _draw() -> void:
 	else:
 		if half_steps != 0 or show_flat_height_labels:
 			draw_string(ThemeDB.fallback_font, center + Vector2(-22, -hh * 0.37), "%+.1f" % (float(half_steps) / 2.0), HORIZONTAL_ALIGNMENT_CENTER, 44, 10, Color("b7c9ce"))
-		if reachable: draw_circle(center + Vector2(hw * 0.62, 0), 2, Color("65dfcc"))
+	if _ground_overlay != null: _ground_overlay.queue_redraw()
+
+func _draw_ground_overlay(canvas: Node2D) -> void:
+	if grid_config == null or not ground_overlay_enabled: return
+	var center := get_visual_offset() + Vector2(0, 0.5)
+	if role == Role.WALL: center.y -= grid_config.height_step
+	var half := grid_config.tile_size * 0.48
+	var diamond := PackedVector2Array([center + Vector2(0, -half.y), center + Vector2(half.x, 0), center + Vector2(0, half.y), center + Vector2(-half.x, 0), center + Vector2(0, -half.y)])
+	if enemy_range:
+		canvas.draw_colored_polygon(top_polygon(), Color(0.78, 0.64, 0.40, 0.09))
+		canvas.draw_polyline(top_polygon() + PackedVector2Array([top_polygon()[0]]), Color("ad9b78", 0.28), 1.0, true)
+	if reachable:
+		canvas.draw_circle(center + Vector2(grid_config.tile_size.x * 0.31, 0), 1.5, Color("8eaaa7", 0.42))
+	for mark: Dictionary in ground_marks:
+		var kind := String(mark.get("kind", ""))
+		match kind:
+			"hover":
+				var hover_color: Color = mark.get("color", Color("829fa5"))
+				hover_color.a = 0.24
+				canvas.draw_polyline(diamond, hover_color, 1.2, true)
+			"reaction_zone":
+				canvas.draw_polyline(diamond, Color("9daab5", 0.20), 1.0, true)
+			"cover_target":
+				canvas.draw_polyline(diamond, Color("83a9b5", 0.26), 1.4, true)
+			"sneak":
+				canvas.draw_arc(center, grid_config.tile_size.x * 0.25, 0, TAU, 24, Color("a99b79", 0.26), 1.3, true)
+			"action_area":
+				var color: Color = mark.get("color", Color("9daab5"))
+				var area_half := grid_config.tile_size * float(mark.get("inset", 0.48))
+				var area_diamond := PackedVector2Array([center + Vector2(0, -area_half.y), center + Vector2(area_half.x, 0), center + Vector2(0, area_half.y), center + Vector2(-area_half.x, 0), center + Vector2(0, -area_half.y)])
+				if bool(mark.get("fill", false)):
+					var fill_color := color
+					fill_color.a = 0.035
+					canvas.draw_colored_polygon(PackedVector2Array([center + Vector2(0, -area_half.y), center + Vector2(area_half.x, 0), center + Vector2(0, area_half.y), center + Vector2(-area_half.x, 0)]), fill_color)
+				color.a = 0.30 if bool(mark.get("preview", false)) else 0.20
+				canvas.draw_polyline(area_diamond, color, 1.3 if bool(mark.get("preview", false)) else 1.0, true)
+			"action_origin":
+				var origin_color: Color = mark.get("color", Color("9daab5"))
+				origin_color.a = 0.24
+				canvas.draw_arc(center, grid_config.tile_size.x * 0.27, 0, TAU, 32, origin_color, 1.4, true)
+			"move_endpoint":
+				var endpoint_color := Color("829fa5", 0.28) if bool(mark.get("alive", true)) else Color("a77f7f", 0.30)
+				canvas.draw_arc(center, 7.0, 0, TAU, 24, endpoint_color, 1.2, true)
 
 func _draw_unit() -> void:
 	var factor := grid_config.tile_size.x / 128.0
@@ -485,22 +548,6 @@ func _draw_unit() -> void:
 			var side := Vector2(-direction.y, direction.x) * 4.0 * factor
 			draw_line(foot + direction * 18.0 * factor, tip, Color("f29b9b"), 2.0)
 			draw_polyline(PackedVector2Array([tip - direction * 7.0 * factor + side, tip, tip - direction * 7.0 * factor - side]), Color("f29b9b"), 2.0)
-	if selected:
-		var hw := grid_config.tile_size.x * 0.38
-		var hh := grid_config.tile_size.y * 0.38
-		draw_polyline(PackedVector2Array([foot + Vector2(0, -hh), foot + Vector2(hw, 0), foot + Vector2(0, hh), foot + Vector2(-hw, 0), foot + Vector2(0, -hh)]), tint, 2, true)
-	if inspected:
-		var ring_hw := grid_config.tile_size.x * 0.42
-		var ring_hh := grid_config.tile_size.y * 0.42
-		draw_polyline(PackedVector2Array([foot + Vector2(0, -ring_hh), foot + Vector2(ring_hw, 0), foot + Vector2(0, ring_hh), foot + Vector2(-ring_hw, 0), foot + Vector2(0, -ring_hh)]), Color("f7c97d"), 3, true)
-	if hovered:
-		# Уголки осмотра не подменяют замкнутый ромб выбранного бойца.
-		for side: float in [-1.0, 1.0]:
-			var corner := foot + Vector2(side * 31, -18) * factor
-			draw_polyline(PackedVector2Array([corner + Vector2(-side * 8, -12) * factor, corner + Vector2(0, -12) * factor, corner + Vector2(0, 10) * factor]), Color("eef4fa"), 2, true)
-	if acting:
-		var tip := foot + Vector2(0, 20) * factor
-		draw_colored_polygon(PackedVector2Array([tip, tip + Vector2(-8, 10) * factor, tip + Vector2(8, 10) * factor]), Color("f7c97d"))
 	# Высота силуэта отделена от его наземной опоры для общей Y-сортировки.
 	draw_set_transform(foot, 0, Vector2.ONE * factor)
 	if not _scene_art_enabled:
@@ -547,6 +594,30 @@ func _draw_unit() -> void:
 				var mark := -19 + 38 * clampf(expected / maximum, 0.0, 1.0)
 				draw_line(Vector2(mark, 0), Vector2(mark, 6), Color.WHITE, 1)
 	draw_set_transform(Vector2.ZERO)
+
+func _draw_unit_highlights(canvas: Node2D) -> void:
+	if grid_config == null or role != Role.UNIT or (unit != null and not unit.alive): return
+	var factor := grid_config.tile_size.x / 128.0
+	var foot := get_visual_offset()
+	var tint := transient_tint if unit == null else (Color("65dfcc") if unit.faction == Faction.Type.PLAYER else Color("f7c97d"))
+	if selected:
+		var hw := grid_config.tile_size.x * 0.38
+		var hh := grid_config.tile_size.y * 0.38
+		var selected_color := tint.darkened(0.22)
+		selected_color.a = 0.42
+		canvas.draw_polyline(PackedVector2Array([foot + Vector2(0, -hh), foot + Vector2(hw, 0), foot + Vector2(0, hh), foot + Vector2(-hw, 0), foot + Vector2(0, -hh)]), selected_color, 1.5, true)
+	if inspected:
+		var ring_hw := grid_config.tile_size.x * 0.42
+		var ring_hh := grid_config.tile_size.y * 0.42
+		canvas.draw_polyline(PackedVector2Array([foot + Vector2(0, -ring_hh), foot + Vector2(ring_hw, 0), foot + Vector2(0, ring_hh), foot + Vector2(-ring_hw, 0), foot + Vector2(0, -ring_hh)]), Color("b3a687", 0.42), 1.5, true)
+	if hovered:
+		# Уголки осмотра остаются различимы, не заливая фигуру непрозрачным цветом.
+		for side: float in [-1.0, 1.0]:
+			var corner := foot + Vector2(side * 31, -18) * factor
+			canvas.draw_polyline(PackedVector2Array([corner + Vector2(-side * 8, -12) * factor, corner + Vector2(0, -12) * factor, corner + Vector2(0, 10) * factor]), Color("b8c1c8", 0.32), 1.3, true)
+	if acting:
+		var tip := foot + Vector2(0, 20) * factor
+		canvas.draw_colored_polygon(PackedVector2Array([tip, tip + Vector2(-8, 10) * factor, tip + Vector2(8, 10) * factor]), Color("b5a37e", 0.38))
 
 func _draw_status_icons(canvas: Node2D) -> void:
 	var entries := visible_status_entries()
