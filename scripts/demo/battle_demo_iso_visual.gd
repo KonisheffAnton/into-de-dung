@@ -32,6 +32,10 @@ var action_resources_view: Dictionary = {}
 var ground_marks: Array[Dictionary] = []
 var ground_overlay_enabled: bool = true
 @export var show_resource_badges: bool = false
+@export var show_ground_shadow: bool = true
+@export var ground_shadow_color: Color = Color(0.045, 0.055, 0.065, 0.28)
+@export_range(1.0, 64.0, 1.0) var ground_shadow_radius: float = 28.0
+@export_range(0.1, 1.0, 0.05) var ground_shadow_flattening: float = 0.5
 @export var body_pick_rect: Rect2 = Rect2(-17, -37, 34, 44)
 @export var warrior_pick_rect: Rect2 = Rect2(-45, -56, 78, 73)
 @export_range(0.25, 2.0, 0.05) var warrior_art_scale: float = 1.0
@@ -56,6 +60,7 @@ var _scene_art_enabled: bool = false
 var _status_hud: Node2D
 var _ground_overlay: Node2D
 var _unit_highlights: Node2D
+var _ground_shadow: Node2D
 var landing_compression: float = 0.0:
 	set(value):
 		landing_compression = clampf(value, 0.0, 0.4)
@@ -103,6 +108,13 @@ func _ready() -> void:
 	add_child(_unit_highlights)
 	move_child(_unit_highlights, 0)
 	_unit_highlights.draw.connect(_draw_unit_highlights.bind(_unit_highlights))
+	_ground_shadow = Node2D.new()
+	_ground_shadow.name = "GroundShadow"
+	_ground_shadow.show_behind_parent = true
+	_ground_shadow.visible = false
+	add_child(_ground_shadow)
+	move_child(_ground_shadow, 0)
+	_ground_shadow.draw.connect(_draw_ground_shadow.bind(_ground_shadow))
 	_status_hud = Node2D.new()
 	_status_hud.name = "StatusHud"
 	# HUD остаётся в локальной сортировке, чтобы передние фигуры и тайлы могли его закрыть.
@@ -203,9 +215,27 @@ func get_visual_offset() -> Vector2:
 	if grid_config == null: return Vector2.ZERO
 	return Vector2(0, -0.5 * float(half_steps) * grid_config.height_step + fall_drop + presentation_lift) + presentation_offset
 
+func _sync_ground_shadow() -> void:
+	if _ground_shadow == null: return
+	var visible_shadow := show_ground_shadow and role == Role.UNIT and unit != null \
+		and unit.alive and grid_config != null
+	_ground_shadow.visible = visible_shadow
+	if not visible_shadow: return
+	# Тень следует опоре и высотной интерполяции, но не анимации тела и не его смерти.
+	_ground_shadow.position = get_visual_offset()
+	_ground_shadow.scale = Vector2(1.0, ground_shadow_flattening) \
+		* (grid_config.tile_size.x / 128.0) * get_unit_art_scale()
+	_ground_shadow.rotation = 0.0
+	_ground_shadow.queue_redraw()
+
+func _draw_ground_shadow(canvas: Node2D) -> void:
+	if not canvas.visible: return
+	canvas.draw_circle(Vector2.ZERO, ground_shadow_radius, ground_shadow_color, true, -1.0, true)
+
 func sync_scene_art() -> void:
 	_sync_status_hud()
 	if _unit_highlights != null: _unit_highlights.queue_redraw()
+	_sync_ground_shadow()
 	var art := get_node_or_null("ArtRoot") as Node2D
 	if art == null: return
 	_scene_art_enabled = true
@@ -552,7 +582,7 @@ func _draw_unit() -> void:
 	draw_set_transform(foot, 0, Vector2.ONE * factor)
 	if not _scene_art_enabled:
 		draw_set_transform(foot + action_offset, death_progress * PI * 0.5, Vector2(1.0, (1.0 - death_progress * 0.25) * (1.0 - landing_compression)) * factor)
-		draw_colored_polygon(PackedVector2Array([Vector2(-18, 0), Vector2(0, -7), Vector2(18, 0), Vector2(0, 7)]), Color(0.03, 0.07, 0.10, 0.65))
+		# Отдельный круглый GroundShadow заменяет старый ромб и исключает двойную тень.
 		draw_rect(Rect2(-10, -10, 7, 12), tint.darkened(0.5))
 		draw_rect(Rect2(3, -10, 7, 12), tint.darkened(0.5))
 		draw_colored_polygon(PackedVector2Array([Vector2(-14, -26), Vector2(10, -26), Vector2(14, -9), Vector2(-12, -9)]), tint)
