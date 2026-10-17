@@ -1,0 +1,1192 @@
+{
+  "status": "PASS",
+  "base": "821e12a9f76657740be150ee639da1b9feb6ace0",
+  "command": "python tools/demo/isolate.py --render-check --only current_art_zoom --screen 0",
+  "report": "test_reports/demo-ca10bb0d177e4e78b349c4543c312508",
+  "summary": {
+    "passed": 21,
+    "failed": 0,
+    "timed_out": 0,
+    "failed_labels": [],
+    "unexecuted_requested": [],
+    "blocked": null
+  },
+  "checks": [
+    {
+      "label": "import",
+      "status": "PASS",
+      "elapsed_seconds": 35.700886499951594,
+      "assertions": null
+    },
+    {
+      "label": "startup",
+      "status": "PASS",
+      "elapsed_seconds": 2.6204311999026686,
+      "assertions": null
+    },
+    {
+      "label": "environment_visual_contract",
+      "status": "PASS",
+      "elapsed_seconds": 1.9478327999822795,
+      "assertions": {
+        "passed": 15,
+        "failed": 0
+      }
+    },
+    {
+      "label": "unit_visual_contract",
+      "status": "PASS",
+      "elapsed_seconds": 2.0965799000114202,
+      "assertions": {
+        "passed": 18,
+        "failed": 0
+      }
+    },
+    {
+      "label": "defender_idle_clock",
+      "status": "PASS",
+      "elapsed_seconds": 1.4460498000262305,
+      "assertions": {
+        "passed": 24,
+        "failed": 0
+      }
+    },
+    {
+      "label": "defender_idle",
+      "status": "PASS",
+      "elapsed_seconds": 5.089148900005966,
+      "assertions": {
+        "passed": 104,
+        "failed": 0
+      }
+    },
+    {
+      "label": "defender_buff",
+      "status": "PASS",
+      "elapsed_seconds": 5.236631000065245,
+      "assertions": {
+        "passed": 298,
+        "failed": 0
+      }
+    },
+    {
+      "label": "defender_death",
+      "status": "PASS",
+      "elapsed_seconds": 3.1407757999841124,
+      "assertions": {
+        "passed": 115,
+        "failed": 0
+      }
+    },
+    {
+      "label": "defender_death_routes",
+      "status": "PASS",
+      "elapsed_seconds": 7.641007500002161,
+      "assertions": {
+        "passed": 408,
+        "failed": 0
+      }
+    },
+    {
+      "label": "defender_cloth_palette",
+      "status": "PASS",
+      "elapsed_seconds": 8.749462899984792,
+      "assertions": {
+        "passed": 321,
+        "failed": 0
+      }
+    },
+    {
+      "label": "rogue_cloth_palette",
+      "status": "PASS",
+      "elapsed_seconds": 5.2885834000771865,
+      "assertions": {
+        "passed": 163,
+        "failed": 0
+      }
+    },
+    {
+      "label": "rogue_animations",
+      "status": "PASS",
+      "elapsed_seconds": 2.2542873999336734,
+      "assertions": {
+        "passed": 136,
+        "failed": 0
+      }
+    },
+    {
+      "label": "rogue_buff",
+      "status": "PASS",
+      "elapsed_seconds": 3.505735700018704,
+      "assertions": {
+        "passed": 38,
+        "failed": 0
+      }
+    },
+    {
+      "label": "rogue_death_routes",
+      "status": "PASS",
+      "elapsed_seconds": 7.120830100029707,
+      "assertions": {
+        "passed": 433,
+        "failed": 0
+      }
+    },
+    {
+      "label": "archer_idle",
+      "status": "PASS",
+      "elapsed_seconds": 2.1001979000866413,
+      "assertions": {
+        "passed": 64,
+        "failed": 0
+      }
+    },
+    {
+      "label": "visual_scene_contract",
+      "status": "PASS",
+      "elapsed_seconds": 4.820379200042225,
+      "assertions": {
+        "passed": 52,
+        "failed": 0
+      }
+    },
+    {
+      "label": "current_art_zoom",
+      "status": "PASS",
+      "elapsed_seconds": 5.656642000074498,
+      "assertions": {
+        "passed": 460,
+        "failed": 0
+      }
+    },
+    {
+      "label": "presentation_consequences",
+      "status": "PASS",
+      "elapsed_seconds": 21.423217299976386,
+      "assertions": {
+        "passed": 1990,
+        "failed": 0
+      }
+    },
+    {
+      "label": "presentation_environment",
+      "status": "PASS",
+      "elapsed_seconds": 6.582610800047405,
+      "assertions": {
+        "passed": 323,
+        "failed": 0
+      }
+    },
+    {
+      "label": "battle_camera_ui",
+      "status": "PASS",
+      "elapsed_seconds": 4.070530800032429,
+      "assertions": {
+        "passed": 110,
+        "failed": 0
+      }
+    },
+    {
+      "label": "battle_execution_ui",
+      "status": "PASS",
+      "elapsed_seconds": 8.133936000056565,
+      "assertions": {
+        "passed": 28,
+        "failed": 0
+      }
+    }
+  ],
+  "render_audit": {
+    "cases": 160,
+    "status": "PASS",
+    "alpha_changed_total": 0
+  },
+  "runtimeHashes": [
+    {
+      "file": "assets/art_presets/trials/pixel_zoom_v1/native_sprite.gdshader",
+      "sha256": "5579fab7b808ff979ad7c0a44da2844618669e2256f67ce6cb70937db327375e",
+      "tested_sha256": "5579fab7b808ff979ad7c0a44da2844618669e2256f67ce6cb70937db327375e"
+    },
+    {
+      "file": "assets/art_presets/trials/pixel_zoom_v1/character_palette.gdshader",
+      "sha256": "a3f82dc4afe1e7acfab9ff32ebe256d7603411ef6476b64dae4533279e0e9bc2",
+      "tested_sha256": "a3f82dc4afe1e7acfab9ff32ebe256d7603411ef6476b64dae4533279e0e9bc2"
+    },
+    {
+      "file": "assets/art_presets/trials/pixel_zoom_v1/character_palette.gdshaderinc",
+      "sha256": "3e6e1f5ca830c2bd9548a7d15c2a0cfe7329544346580657888e7b784abda5d9",
+      "tested_sha256": "3e6e1f5ca830c2bd9548a7d15c2a0cfe7329544346580657888e7b784abda5d9"
+    },
+    {
+      "file": "scenes/demo/visuals/art_trial_unit.tscn",
+      "sha256": "d2fc382cae40667db19745296ac2597bfb6b913055c4ce719e8d18fdf5bbded4",
+      "tested_sha256": "d2fc382cae40667db19745296ac2597bfb6b913055c4ce719e8d18fdf5bbded4"
+    }
+  ],
+  "sources": [
+    {
+      "file": "assets/art_presets/approved/grass_defender_v1/defender_reference_v1.png",
+      "sha256": "f6b4e66fb267c443c24f3913af97b3220a7ca554eae7a3c524b08d2bd83b6515",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/approved/grass_defender_v1/grass_reference_v1.png",
+      "sha256": "3441f4ad7e02d3a5cfdba22f75741f6a4eb8f42bfa1adf6ef5f18c2d39b9af02",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/archer_idle_v1/idle/frame-01.png",
+      "sha256": "b3425f2b15c2aaecc0b254dac5220d2ccac02f2f648c7fc189e284c06631dfa4",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/archer_idle_v1/idle/frame-02.png",
+      "sha256": "cf4960299f7ae457ea9bf3cc63dcb660c05443b8db2807b5269e0a262641a214",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/archer_idle_v1/idle/frame-03.png",
+      "sha256": "137bcc6f533821660831f28fe679bcc80683d86831523641e481b03e84d7800a",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/archer_idle_v1/idle/frame-04.png",
+      "sha256": "6c875fb4e083d76ec5610a79676efbf34aaaedb32281dbe904589aadb0f4521f",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/archer_idle_v1/idle/frame-05.png",
+      "sha256": "5708e286730e0f7d819428d7a30043c07fb777202e308b553432b333a7a30256",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/archer_idle_v1/idle/frame-06.png",
+      "sha256": "692bd512a59e793e67a632f8ed9f5cfa5f2125904a5c5ce3091692b2dc911aa4",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/archer_idle_v1/idle/frame-07.png",
+      "sha256": "204c5ef4456e0774c06e1f42fc1af5fd5d5570a2db785627fb6bfa3764b48427",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/archer_idle_v1/idle/frame-08.png",
+      "sha256": "7762613824a4c33b95f02638e12f9de13d610c13882ad439e6a91ef322d9eab2",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/archer_idle_v1/idle/frame-09.png",
+      "sha256": "094d23601e8c549ee9f8ffcd1e55de762748294d3330327eb1ab942cdafdc67a",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/archer_idle_v1/idle/frame-10.png",
+      "sha256": "231a9d5b4056e4867fe0f7d7003db6cf1e6d15dc33790d0e554fc385a10b3ea6",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/archer_idle_v1/idle/frame-11.png",
+      "sha256": "22154a1120abec36219bcec60c560e9a50423b641f284e81cd584cbd7f0829e1",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/archer_idle_v1/idle/frame-12.png",
+      "sha256": "b61b8df614218ad45d420887449035862f78a5373f6fd4fb3a557b34992af7f7",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/archer_idle_v1/idle_frames.tres",
+      "sha256": "06c6c6af7aad068cfa17658ebf9e266015e469fe99932ccf0d847269545186c9",
+      "matches_base": true,
+      "comparison": "Git content with LF normalization"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/buff_frames.tres",
+      "sha256": "e5b004ca9ef353645bef6c6d8d4e65fd95b07fb42cd9e69a3aafeb2dca8f6b49",
+      "matches_base": true,
+      "comparison": "Git content with LF normalization"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-01.png",
+      "sha256": "51044cdd6399065209e1a0c801672b8e7e27380ebb210dc81ce12bd5144fdde0",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-02.png",
+      "sha256": "188fbab7ccfe99d80dd174973e3f6d881616f41464a4ebfd45a74af71983095f",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-03.png",
+      "sha256": "b5e3f22d73c58ff38583d64d4e63fd1c47ded79561a2c10cc44e011211e2628e",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-04.png",
+      "sha256": "032e57a0fc614d40da5d3a88576b52a5a69696d1441cfe322b6109f115eba8f0",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-05.png",
+      "sha256": "32fb242275220875baa2b167a23b5fb43aacc93aed5fb02ac739002397157b62",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-06.png",
+      "sha256": "61dfba0afc1e05ff35c6e5a2155870eec28047a241038a444aaf88a8760ad0c8",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-07.png",
+      "sha256": "19443706fdd78abf53fd1b2c92af977dd9a59fe06e43d200115629d5d5a33605",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-08.png",
+      "sha256": "51a16fc1d396a6ff3995e39f3c2c72f948c2eea64d67e054d537c3ed22cb841d",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-09.png",
+      "sha256": "0b44a4c808c023be49a1b79b47a936271f41991d47bf03abb4c4bcf07f6448a2",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-10.png",
+      "sha256": "291b2a1937e9fe65d60dbb9f6c5cceebbdcb5888f0a8760881096757893af0c2",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-11.png",
+      "sha256": "5ae63a9d75e5bc5aea206769f689bc55844cb3198be2fbc857fb5bf6896c7c7c",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-12.png",
+      "sha256": "d16a0f210970a146680563d8c664ca277b837a139cc3e11a4c399b5c2b98b182",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-13.png",
+      "sha256": "ac899157a61ebae23302a9792f9505f2722a810048c961f8c4f98fd43eda978b",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-14.png",
+      "sha256": "cbf0335723f8f8a524897f13b224ef84342adb02d38f926c293a331a70c2bd18",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-15.png",
+      "sha256": "de4e86a0ca6a97bc218579db3f3e99b7ee0059f5b5273c122d4c7ac0b685d391",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-16.png",
+      "sha256": "0265e612bc8298ab8ac62054ea4009fe44b41259cbffec582720020c712a8cf3",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-17.png",
+      "sha256": "d74c5985c08fe5527ace6d8bdc5a72e54ba17cf4fdd9a536b7a84741d3678580",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-18.png",
+      "sha256": "be93307362d2ab8363c24c391e2e97301c2f99bd1d2486adb8f8482b21cec667",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-19.png",
+      "sha256": "49a628fdaac5152fa5729c5a3b90023ef0ca440a33d30b2211020a6ec04c288d",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-20.png",
+      "sha256": "e9d74bff5818631e4f4b55d3c9bc093f79e639deaedde5e4efb7e914f49c92e2",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-21.png",
+      "sha256": "de3f8569a17ee25f77914bd83c5e9bed823f46918bfbae987dc4de5ae69b3a54",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-22.png",
+      "sha256": "36d00135b8d9ee80cbaa68bffc899defbedb6c06a2b50ceeb77e1f219c9c4052",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-23.png",
+      "sha256": "2311b22f4807a947f1c1460ffc096d5f185681c759b182c9556f4f5116a19c45",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-24.png",
+      "sha256": "feb759aa9f380596cd7a706d6c512907f9bbdc4301c97bf2ace5eb612321fd18",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-25.png",
+      "sha256": "4dae7577110fcafea5b03855ab9ee2d352b6d719b0cecdcbda80aa313940e6b4",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-26.png",
+      "sha256": "6d94fdff69cfa27c24f3e929085a675bdd061819402ade32a90f7ed5af9aa4d1",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-27.png",
+      "sha256": "5a6a791dd372b1bc2faa04987c683bca43245426728ad42dc968945208819cfd",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-28.png",
+      "sha256": "f8fb262ac2c4d6885015d224b79c98293201f5fb11aa22fa1463d5c4c63aac2b",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-29.png",
+      "sha256": "9810d2987319ac042d4a0b53d698d7f50d9abfacf64652adbcd26f3dac2be0a4",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-30.png",
+      "sha256": "08e7bd4e175ef0a78a7a1ec2391dc9e2460ef0a54ab67301957150dd014ece88",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-31.png",
+      "sha256": "8ba123249c3ec98a5d53fd136bb9c0810a7e49b7d0de0269217a9950f74f68ea",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-32.png",
+      "sha256": "df8175990f062ae048480616d03e27e03bc1c53309dd6056fade2ed127849f45",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_buff_v1/frame-33.png",
+      "sha256": "a93d2901d17732cd5de44bb28442a04973b9c24d61bd17e8faee5e9ad43315dc",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_cloth_v1/cloth_masks.svg",
+      "sha256": "f5ec15ecc5c01d843723a3cd81833e696222ea934cf6f8812453b007f24b275a",
+      "matches_base": true,
+      "comparison": "Git content with LF normalization"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/death_frames.tres",
+      "sha256": "be9c07736e96b8f4fb5c911eed37d44a607106edf4425b7ced4764deb0d2d43d",
+      "matches_base": true,
+      "comparison": "Git content with LF normalization"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-01.png",
+      "sha256": "51044cdd6399065209e1a0c801672b8e7e27380ebb210dc81ce12bd5144fdde0",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-02.png",
+      "sha256": "30b4dfb16ead74eb571ab95598f3d273f31bb6882ebf05291ee817264a6f277c",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-03.png",
+      "sha256": "06bd86e094633fb3a0c954686bfbbdafa20f572359ce1b7cc61fb8c84381989d",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-04.png",
+      "sha256": "b6263f956a27a407d00af23665a466ccad9bb2fc65d0d4ce28a259eef1ef4f30",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-05.png",
+      "sha256": "883c992af3486dc90a50f0fc263f5c78786d3b53b762d9f1d8db438be9618cae",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-06.png",
+      "sha256": "1596a88930629dbe8324a13c672bf2259d0393db99570d197ecef146fb6059dd",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-07.png",
+      "sha256": "66bc01daa0e05f6f052ad1c5e6ce4ae4e58149dd4f3dfc71f3b72fda596fbfe6",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-08.png",
+      "sha256": "768ae2dc137c46d710cf8cbcebc307cb4a6f030327dc23c9171cc0095399f09d",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-09.png",
+      "sha256": "a9af895e710d2b78db619f81dc6ae6c301996f4b6a83e8c029d78711e89bbcb0",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-10.png",
+      "sha256": "4c0e8575e98047faf1e5969d0b635e473e972c43cac3f467870eec06ca18756f",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-11.png",
+      "sha256": "7848f26877a214ddd7051da744a947b808d80062886c1121a405449b85430c71",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-12.png",
+      "sha256": "2d88039ba2af570e5de908f86cbdb9194aa429e7c2306d244d7662e69d33dd95",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-13.png",
+      "sha256": "9d0be0c285210ead48af7a9788fad7d56dcafffc19c7d7c977baf14120d22eb8",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-14.png",
+      "sha256": "a3ef30f475598f92d08ca40adfa32377c95c983a8e6ffa90e60b2979132ebc79",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-15.png",
+      "sha256": "1bd55447feaa142d25681fd4af895bfe7fbe168dab2164ca70bdddbc1918e6b7",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-16.png",
+      "sha256": "ef8973c78f148491e7668c45406dd432c9a06f93fe26fd421d52a8cf5cdb3d42",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-17.png",
+      "sha256": "b6433f52377712af4b9af3389568f4dfca0c27a162ff7bbb9d745fb35e53ea9e",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-18.png",
+      "sha256": "d8d7a2502c977836e32899b75db056333e999182f4e90bd985c63519ee8a4904",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-19.png",
+      "sha256": "781e6d07765e4640d893ac5a21dea97e1035faf4f176b0ea24eb79b9a9a93fd8",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-20.png",
+      "sha256": "171ab45ad4f6c19cf24962392dd29f9b2bc918a7fd2800fe3cc0099fd3200d67",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-21.png",
+      "sha256": "312573f4d2f430849cd4ba1ce1c56df95956db86b04630d9bace03251ab84fee",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-22.png",
+      "sha256": "a8962c3a6a06737909674575d5d2c41b0808e687bea29480cf79505cd7ad8a74",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-23.png",
+      "sha256": "a7233167967f3e6624c793709ed9da277336ea522fcd6bb6e1bbd6cf2296e51b",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-24.png",
+      "sha256": "169c9bb6252c8537ac948e0d0b08c3a8196993e7b8af89dd1f599bb610033308",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-25.png",
+      "sha256": "c581ea84dd3cbd1f87fc676d2c4f3c1f14c477cd5bdb5fd454b75cf47d4b74a5",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-26.png",
+      "sha256": "c3e4fb10507ce14efe22d0b01a7351c15ff7dd2560f56551f89655b21176d4b4",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-27.png",
+      "sha256": "763ead66258daaa26af02774f6d5f1b0c5d116825ef918ead3f517c1c1a2c1a4",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-28.png",
+      "sha256": "8b8b09f8968868d1bb413b640ddcb4741aeb4e34cb3c7dea1fd28ab092fd2a7a",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-29.png",
+      "sha256": "eb3d2224bfc649542f661abc98c52dadbd1262faf99fbe4d5acea526873b075f",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-30.png",
+      "sha256": "d431db62230a00573f13babcf3184fc388717b4c12a1741873899a39516f2a27",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-31.png",
+      "sha256": "34b5d2c6d6b1fb8619d60eee17b0e48aa3819a490dd26167ace6682bdf079b2a",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-32.png",
+      "sha256": "5afd9082ba2a7bf5145915a487fb9b34c4196793ab98adbc755f1d1422809c08",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_death_v1/frame-33.png",
+      "sha256": "cf471447add0c27a6c02736dda5e7730c72180a9f495847ad1d009c912d5a6e2",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_field_v1/defender_new.png",
+      "sha256": "7cbd0358fe42264f8090b4d77da03274fcca1a4ebbe5984b960d77c9f5874082",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_field_v1/grass_a.png",
+      "sha256": "8a2f0be125cfffd7db76785040f5204fca44b13213ba8ba9ce85ae22149f4962",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_field_v1/grass_b.png",
+      "sha256": "81fa61fea0fcc6dc1f639879006ac47310e5f3a710048fc15c27052a9174fb99",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_field_v1/grass_c.png",
+      "sha256": "ab65bd0e88ccde3b55ba7a9ca7190d849805ad710c4c5566b51994dbade477f8",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/idle_frames.tres",
+      "sha256": "97c2ef1b332eb569032f498d4e80477107ff43a2adf6a678032b49271663342e",
+      "matches_base": true,
+      "comparison": "Git content with LF normalization"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/sway/frame-01.png",
+      "sha256": "d13ef0d5674dce675a9de7b7124826eaf15c7fb5fa4732c17304fbe29dc416d1",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/sway/frame-02.png",
+      "sha256": "f3f23c8d0ce7ce0e2191830e6bfa7c0fc002d11946c81dc4bad83ec477aa67f1",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/sway/frame-03.png",
+      "sha256": "cb2beea494bd65c0944c951030a5aca29e855f3bc080fad313758f26e8fabcc8",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/sway/frame-04.png",
+      "sha256": "6e5ee9ad97568633f6c8787e77caf741c75ed9354dbbcc5c133eccf7a0c3ad16",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/sway/frame-05.png",
+      "sha256": "dc9dd1da601ba802eb20434f0cd7cf660b89f0bb5c9d0d128f63c5cecb191d09",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/sway/frame-06.png",
+      "sha256": "8909cda13e27573f7fc3bfafddd27b0e1a0d336b767f3bc5807196ac82a2b175",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/sway/frame-07.png",
+      "sha256": "4985eeece69228789417769ac2834230dca4ee6d6284da2cf8c5ced74b48b579",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/sway/frame-08.png",
+      "sha256": "ecef4c5abf808c4519372dce327725dedb93abf9eee80ee848d921e4b9b8bba3",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/sway/frame-09.png",
+      "sha256": "838c0620013ac37eb420c606475ac08fb175dc6d5de90319e8d983d1994d9670",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/sway/frame-10.png",
+      "sha256": "7017f4b070586fd296c771c5a65d0f24289049d0b6d10342c73da1d000a59bc6",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/sway/frame-11.png",
+      "sha256": "f11f0650800efd0464bccca276256737b8cde4e368037ed0da197d8425a94559",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/sway/frame-12.png",
+      "sha256": "a5922c182999ed0156849c93c50b46b0816930a4e4fc018d8d8e4dc0e6e64e83",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/vertical/frame-01.png",
+      "sha256": "8c1c709b24a610c5c443824dc11722cb8ceef3feff4114c32420b9796a792b02",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/vertical/frame-02.png",
+      "sha256": "7c9b1d9d0b362a690a7bcf90993eff3f910b5eb62919cac461610b1137cf05b2",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/vertical/frame-03.png",
+      "sha256": "3c09214e3447318a7e0e08da01fb010be73f396059b023f3adf0d2c932faa227",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/vertical/frame-04.png",
+      "sha256": "f4c5e61d2a13fdc266dd5fddbaf5f57c107b8476aceedf8fe0ba1a5bd592efc8",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/vertical/frame-05.png",
+      "sha256": "e33908ce2c7c32d607ed56ff78786e8d56f31c940d684fb0d1f10888c7a78b1e",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/vertical/frame-06.png",
+      "sha256": "dbba776031658ac5b4afdb926c7327d5dcf9a6e3ed8740ca332fcf830e287434",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/vertical/frame-07.png",
+      "sha256": "ffaf624584813c75d5e799cc29b2f5a32f8e60865aec518b6a0c81cf0c34563d",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/vertical/frame-08.png",
+      "sha256": "bede1d85018a70de95cba5c794ea685cf0523a65e7fd52c79a67f47a55996ccb",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/vertical/frame-09.png",
+      "sha256": "98d2a3efa445bb110a0a47e8469efa89421a28e787038342e76e588bd4f05ac6",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/vertical/frame-10.png",
+      "sha256": "39a43a37627493ff1828047d2f60678fbaff6fa514736fe570d28c5cf7c541e2",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/vertical/frame-11.png",
+      "sha256": "9c5032a0342e1ec20387dbd09530cc2fd54ef25b54cf679c3b780b07256a0e0d",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/defender_idle_v1/vertical/frame-12.png",
+      "sha256": "3fb7b2e94096abe15342e6eb827844fa13558048cfe6e0fbca0675a0ef76e640",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/buff/frame-01.png",
+      "sha256": "96b9dc10fbbc7ac324367270d847599001fab7a5e5ef9f2a335e73be1d5e778c",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/buff/frame-02.png",
+      "sha256": "6f90028a3df9f96ae00eb47c55dde675d6aad442d5a2e45003814578b329c99b",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/buff/frame-03.png",
+      "sha256": "64e9c34d8685247062260bde1f6fa8a296c89d7a9af57113b8a3ab62ea1b021d",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/buff/frame-04.png",
+      "sha256": "9b6604c267f9d0490458c082bf4c894b9d0c1a46bb604f6cea69c198ae2fdec1",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/buff/frame-05.png",
+      "sha256": "2dc355482ddaf064bfa7b88c02527357c487eab04a6f74f547ee8391a75646a1",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/buff/frame-06.png",
+      "sha256": "96b9dc10fbbc7ac324367270d847599001fab7a5e5ef9f2a335e73be1d5e778c",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/buff_frames.tres",
+      "sha256": "2985247e253493b57b3bf4112f1697b2422b418c45ae33d9c838012af8f5048e",
+      "matches_base": true,
+      "comparison": "Git content with LF normalization"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/corpse.png",
+      "sha256": "4957262722294ce1515fefa21bd6201e9eaf31bcbe656fabbfc2aa41dc039a45",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/death/frame-01.png",
+      "sha256": "96b9dc10fbbc7ac324367270d847599001fab7a5e5ef9f2a335e73be1d5e778c",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/death/frame-02.png",
+      "sha256": "61a3afb1aad991e718d27c6167ee78e9cd2f6f3bc3e7983e6a7855fab55e2c01",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/death/frame-03.png",
+      "sha256": "7b1f50e54ef85004e323f2afc6f0b3367a2555c6f87201c6f0582ddd9dbfd503",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/death/frame-04.png",
+      "sha256": "7aa861305c22bebecc6e1301c8a5b221d604ddacbd810aaf9ed956be4d783ee7",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/death/frame-05.png",
+      "sha256": "f25141900384d75af8989bd7b3a55f2f8c71e0bd3344bf9747ebab38df64c715",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/death/frame-06.png",
+      "sha256": "43f2478be720c0c9491260283ac7816c2ed4025bc801a2bbf1c1946236eeec9c",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/death/frame-07.png",
+      "sha256": "3a1438214221b3110d642c53a5a943b8ffa75a7e4249aa08a9ec069aad3a2649",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/death/frame-08.png",
+      "sha256": "ce93a760ad267fead73f2612ce471607d8db8dbdfb0e5ecf2bceec01f9590aa9",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/death/frame-09.png",
+      "sha256": "95190ef6f1f73ea02166f89ccd10d6eface4fd9fbe4bc008e5c3acdde99d2300",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/death/frame-10.png",
+      "sha256": "ffb652b9b7da8dc32aa092350ab6883fd55be813d52cde1cf065b070c939b199",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/death/frame-11.png",
+      "sha256": "57db093c4335e5b5dc2b5fe2136da592337c1c971cb7c53c4ee251bfb97dec3f",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/death/frame-12.png",
+      "sha256": "622cbaa92af2f6fbc6ed1cfd0443e9a94f4d7fb52c5587a010f9a58f975a312c",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/death/frame-13.png",
+      "sha256": "4957262722294ce1515fefa21bd6201e9eaf31bcbe656fabbfc2aa41dc039a45",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/death_frames.tres",
+      "sha256": "65d01ee37dd6851215c0c04593b0e527cebb9ec9d3e563441b1eab805c4ebd58",
+      "matches_base": true,
+      "comparison": "Git content with LF normalization"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/idle/frame-01.png",
+      "sha256": "8174c576cdb8cca7c5d405ef5a1a91f662255f10cd27b734ecfd1a494d43ea76",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/idle/frame-02.png",
+      "sha256": "8174c576cdb8cca7c5d405ef5a1a91f662255f10cd27b734ecfd1a494d43ea76",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/idle/frame-03.png",
+      "sha256": "15839418704c61df5b20b1ddee26836e9732222a81406dea55a9c8e00ae94174",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/idle/frame-04.png",
+      "sha256": "3ca597d7be6b05c0a0faeef7822ae5dea110dd238aa0d481adb4ad6cca509333",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/idle/frame-05.png",
+      "sha256": "5da44d2e027d893c37bb828945e0c4e34ea9563d696375acdbad07ab5ef886b0",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/idle/frame-06.png",
+      "sha256": "f3349c0bfab07935d08ba78c5f6633fe4f57ed58de9ce66fd8e7de00dcedd405",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/idle/frame-07.png",
+      "sha256": "86a630485e18023cb96c757e074f9df05f498122da387c0f65e8819541bb7c5d",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/idle/frame-08.png",
+      "sha256": "86a630485e18023cb96c757e074f9df05f498122da387c0f65e8819541bb7c5d",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/idle/frame-09.png",
+      "sha256": "68b3dd6edf54d861cd121aa7c86b193e3ff6345f32b3c648e6984b338fcbd94e",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/idle/frame-10.png",
+      "sha256": "9ff17a59599f92a0c74c5fcd74bf6127893eae6229b463687947e37ddbd3cfbf",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/idle/frame-11.png",
+      "sha256": "c193d39219617145b3813bac7abf15d77d04b562b0789fa01b3a4dd1275de24d",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/idle/frame-12.png",
+      "sha256": "6a9fe0ac26d578d0fbc304ce2f6add374aa5f0258d48f88d44f8f17d06dfff60",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/idle_frames.tres",
+      "sha256": "f50b3a0bc9e3ba530019cd1f914d42d5f161ac65858814d82a2d105203b5bff2",
+      "matches_base": true,
+      "comparison": "Git content with LF normalization"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_animations_v1/still.png",
+      "sha256": "96b9dc10fbbc7ac324367270d847599001fab7a5e5ef9f2a335e73be1d5e778c",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/art_presets/trials/rogue_cloth_v1/cloth_masks.svg",
+      "sha256": "9eefb39125e4190397565843138f7135663693670dde2358aeba6061ffa45b33",
+      "matches_base": true,
+      "comparison": "Git content with LF normalization"
+    },
+    {
+      "file": "assets/battle_units/enemy_iso_bearded_v1.png",
+      "sha256": "60898d796f1a0fdf3627eb8e24117145e55f6b633c64de8e6c47183e1f911229",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/battle_units/enemy_iso_helmet_v1.png",
+      "sha256": "b35c722674d52a66f8a38e4b29949a698d7443cc7ed2a6a9f9ce938696cd716d",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/battle_units/enemy_iso_redhair_v1.png",
+      "sha256": "504bef42b25d67e0359e9943a564ad1b45c9eb3678389e7b6d0c61cf959b6fd7",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/battle_units/sources/enemy_iso_bearded_v1.png",
+      "sha256": "d210a83078efd1226ffcb81669e78c8b29e1ee75e76edcb284733eb1cb14d494",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/battle_units/sources/enemy_iso_helmet_v1.png",
+      "sha256": "f02bfaf0ef4b3b96cdb9d19f11b2c12c3d328621b6620789869153a369858c8d",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/battle_units/sources/enemy_iso_redhair_v1.png",
+      "sha256": "b78f85f4d551f54ea793f4cc42d1990df4bcede65fda0421c7688dc06de2361f",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/battle_units/warrior_ally_retro_v1.png",
+      "sha256": "267e93cc22d39cdf05e611342314c44c4d09d441e4c15ca3cdefa6bf95e7caae",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/battle_units/warrior_enemy_pixellab_v1.png",
+      "sha256": "be2f36099b4932f13a95ac91c9780fdf6a0d5bf778f0e9aaaa6cc8255e3eeac2",
+      "matches_base": true,
+      "comparison": "byte-exact"
+    },
+    {
+      "file": "assets/placeholder_battle/unit.svg",
+      "sha256": "cd206474bf486ca51d8097bea9131268b3414146290ae89b272d03f7ac0b0414",
+      "matches_base": true,
+      "comparison": "Git content with LF normalization"
+    }
+  ],
+  "main_menu_sha256": "a64c270256ebf2ea073081200be23028f792f42c3ca98f83a6499c1300a68668",
+  "reference_comparison_sha256": "76b3ec95e521b47172eefda22e55ab5a22ebb962941e11b86ac7fe37d33d0961",
+  "battle_sha256": "c04679cccad27aa72f533ef0fd7cb398d9d1e07718d55ef29c8b4c9a3ef2f136",
+  "independent_runtime_review": "APPROVE",
+  "limitations": [
+    "Not exact ImageGen RGB LUT",
+    "No manual F5/editor/DPI/full GPU matrix",
+    "No full/core suite",
+    "Final art acceptance pending"
+  ]
+}

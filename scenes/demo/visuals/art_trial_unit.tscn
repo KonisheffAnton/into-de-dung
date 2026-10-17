@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3]
+[gd_scene load_steps=21 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/placeholder_unit.tscn" id="1_base"]
 [ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_field_v1/defender_new.png" id="2_player"]
@@ -13,6 +13,7 @@
 [ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/rogue_animations_v1/death_frames.tres" id="11_rogue_death"]
 [ext_resource type="Texture2D" path="res://assets/art_presets/trials/archer_idle_v1/idle/frame-01.png" id="12_archer_still"]
 [ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/archer_idle_v1/idle_frames.tres" id="13_archer_idle"]
+[ext_resource type="Shader" path="res://assets/art_presets/trials/pixel_zoom_v1/character_palette.gdshader" id="14_palette"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_player"]
 atlas = ExtResource("2_player")
@@ -22,22 +23,30 @@ region = Rect2(89, 206, 1034, 966)
 shader = ExtResource("4_native")
 shader_parameter/source_region = Vector4(89, 206, 1034, 966)
 shader_parameter/native_size = Vector2(77, 72)
+shader_parameter/brighter_palette_strength = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_idle"]
 shader = ExtResource("4_native")
 shader_parameter/source_region = Vector4(0, 0, 128, 128)
 shader_parameter/native_size = Vector2(128, 128)
+shader_parameter/brighter_palette_strength = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rogue"]
 shader = ExtResource("4_native")
 shader_parameter/source_region = Vector4(0, 0, 512, 512)
 shader_parameter/native_size = Vector2(128, 128)
+shader_parameter/brighter_palette_strength = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_archer"]
 shader = ExtResource("4_native")
 shader_parameter/source_region = Vector4(0, 0, 128, 128)
 shader_parameter/native_size = Vector2(128, 128)
 shader_parameter/cloth_enabled = false
+shader_parameter/brighter_palette_strength = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fallback_palette"]
+shader = ExtResource("14_palette")
+shader_parameter/brighter_palette_strength = 1.0
 
 [node name="PlaceholderUnit" instance=ExtResource("1_base")]
 script = ExtResource("5_idle_script")
@@ -52,6 +61,9 @@ rogue_buff_frames = ExtResource("10_rogue_buff")
 rogue_death_frames = ExtResource("11_rogue_death")
 archer_idle_frames = ExtResource("13_archer_idle")
 
+[node name="BodySprite" parent="ArtRoot" index="0"]
+material = SubResource("ShaderMaterial_fallback_palette")
+
 [node name="PlayerWarriorSprite" parent="ArtRoot" index="1"]
 material = SubResource("ShaderMaterial_player")
 position = Vector2(-44.42, -65.14)
@@ -64,6 +76,15 @@ position = Vector2(44.42, -65.14)
 scale = Vector2(-0.0745342, 0.0745342)
 flip_h = false
 texture = SubResource("AtlasTexture_player")
+
+[node name="Bearded" parent="ArtRoot/EnemyPresets" index="0"]
+material = SubResource("ShaderMaterial_fallback_palette")
+
+[node name="Helmet" parent="ArtRoot/EnemyPresets" index="1"]
+material = SubResource("ShaderMaterial_fallback_palette")
+
+[node name="Redhair" parent="ArtRoot/EnemyPresets" index="2"]
+material = SubResource("ShaderMaterial_fallback_palette")
 
 [node name="DefenderIdleSprite" type="Sprite2D" parent="ArtRoot" index="7"]
 visible = false

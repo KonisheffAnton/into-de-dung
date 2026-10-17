@@ -1,5 +1,7 @@
 shader_type canvas_item;
 
+#include "character_palette.gdshaderinc"
+
 // Сетка задана в игровом размере: зум не выбирает новые детали большого исходника.
 uniform vec4 source_region = vec4(0.0, 0.0, 312.0, 292.0);
 uniform vec2 native_size = vec2(78.0, 73.0);
@@ -42,6 +44,7 @@ void fragment() {
 					vec3 ramp = mix(cloth_shadow.rgb, cloth_light.rgb, shade);
 					color.rgb = ramp * min(1.0, luminance / 0.34);
 				}
+				color.rgb = brighter_character_palette(color.rgb);
 				// Покрытие границы считаем отдельно от ореола большого исходника.
 				color.a = step(0.5, color.a);
 				color = vec4(color.rgb * color.a, color.a);
