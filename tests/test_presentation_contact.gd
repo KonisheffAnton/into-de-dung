@@ -289,9 +289,9 @@ func movement_timing() -> void:
 	var forced_quarter := (visual.position + visual.get_visual_offset()).distance_to(origin) / length
 	check(forced_quarter > 0.25 and forced_quarter < 1.0, "forced push starts with an impulse and decelerates")
 	tween.custom_step(0.055)
-	check(board._view_unit_cell(actor_id) == start, "forced displacement retains 0.10s segment")
-	tween.custom_step(0.021)
-	check(board._view_unit_cell(actor_id) == middle, "forced segment completes after prior 0.10s timing")
+	check(board._view_unit_cell(actor_id) == start, "grounded slide does not publish the cell before completion")
+	tween.custom_step(BattleDemoBoard.FORCED_MOVE_SEGMENT_SECONDS - 0.08 + 0.001)
+	check(board._view_unit_cell(actor_id) == middle, "grounded slide completes at its own segment duration")
 	tween.kill()
 	board.clear_strike_poses()
 	s.close()

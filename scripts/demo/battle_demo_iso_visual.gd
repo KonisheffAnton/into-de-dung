@@ -93,6 +93,12 @@ var presentation_offset: Vector2 = Vector2.ZERO:
 		presentation_offset = value
 		sync_scene_art()
 		queue_redraw()
+## Экранное направление толчка с интенсивностью, которую задаёт доска.
+var push_lean: Vector2 = Vector2.ZERO:
+	set(value):
+		push_lean = value.limit_length(1.0)
+		sync_scene_art()
+		queue_redraw()
 
 func _ready() -> void:
 	super._ready()
@@ -231,6 +237,24 @@ func _sync_ground_shadow() -> void:
 func _draw_ground_shadow(canvas: Node2D) -> void:
 	if not canvas.visible: return
 	canvas.draw_circle(Vector2.ZERO, ground_shadow_radius, ground_shadow_color, true, -1.0, true)
+	if push_lean.length_squared() > 0.0001:
+		# Короткие следы показывают скольжение по опоре, не поднимая тень вместе с телом.
+		# Canvas тени сжат по Y; компенсируем это, чтобы след шёл вдоль сдвига.
+		var direction := Vector2(push_lean.x, push_lean.y / ground_shadow_flattening).normalized()
+		var across := Vector2(-direction.y, direction.x)
+		for index: int in range(3):
+			var start := -direction * (ground_shadow_radius * (0.55 + float(index) * 0.18)) + across * (float(index - 1) * 4.0)
+			canvas.draw_line(start, start - direction * (5.0 + push_lean.length() * 4.0), Color(ground_shadow_color, 0.22 * push_lean.length()), 1.2, true)
+
+func body_pose_transform(factor: float) -> Transform2D:
+	var pose_scale := Vector2(factor, factor * (1.0 - death_progress * 0.25) * (1.0 - landing_compression))
+	var pose_rotation := death_progress * PI * 0.5
+	var base := Transform2D(pose_rotation, pose_scale, 0.0, Vector2.ZERO)
+	# Наклон меняет силуэт вокруг стоп, сохраняя точку опоры на исходной высоте.
+	var lean := Transform2D(Vector2.RIGHT, Vector2(-push_lean.x * 0.32, 1.0 - push_lean.y * 0.12), Vector2.ZERO)
+	base = base * lean
+	base.origin = get_visual_offset() + action_offset
+	return base
 
 func sync_scene_art() -> void:
 	_sync_status_hud()
@@ -240,10 +264,7 @@ func sync_scene_art() -> void:
 	if art == null: return
 	_scene_art_enabled = true
 	var factor := grid_config.tile_size.x / 128.0 if grid_config != null else 1.0
-	art.scale = Vector2.ONE * factor * get_unit_art_scale()
-	art.scale.y *= (1.0 - death_progress * 0.25) * (1.0 - landing_compression)
-	art.rotation = death_progress * PI * 0.5
-	art.position = get_visual_offset() + action_offset
+	art.transform = body_pose_transform(factor * get_unit_art_scale())
 	art.show_behind_parent = true
 	var surface_position := (_top_offset() - get_visual_offset()) / factor
 	var surface := get_node_or_null("ArtRoot/SurfaceSprite") as Sprite2D
@@ -548,28 +569,32 @@ func _draw_unit() -> void:
 		draw_string(ThemeDB.fallback_font, center + Vector2(-25, -43) * factor, "Щ %s · %d" % [BattleEventText.amount_text(shield_view.hp), int(shield_view.hits_left)], HORIZONTAL_ALIGNMENT_CENTER, 50 * factor, int(11 * factor), Color("aee7ff"))
 	if summon_pending:
 		draw_string(ThemeDB.fallback_font, foot + Vector2(-29, 30) * factor, "ЖДЁТ ХОДА", HORIZONTAL_ALIGNMENT_CENTER, 58 * factor, int(9 * factor), Color("b6d5ec"))
+	if not _scene_art_enabled:
+		# Fallback-накладки используют ту же позу, что EffectRoot у сценического тела.
+		draw_set_transform_matrix(body_pose_transform(factor))
 	if stunned and not _scene_art_enabled:
 		# Знак рисуется вместе с фигурой, поэтому движется синхронно с ArtRoot.
-		var stun_center := foot + action_offset + Vector2(0, -73) * factor
+		var stun_center := Vector2(0, -73)
 		var ring := PackedVector2Array()
 		for point_index: int in range(17):
 			var angle := TAU * float(point_index) / 16.0
-			ring.append(stun_center + Vector2(cos(angle) * 18.0, sin(angle) * 8.0) * factor)
-		draw_polyline(ring, Color("9dd9ed"), 1.5 * factor, true)
+			ring.append(stun_center + Vector2(cos(angle) * 18.0, sin(angle) * 8.0))
+		draw_polyline(ring, Color("9dd9ed"), 1.5, true)
 		for index: int in range(3):
-			var star_center := stun_center + Vector2(float(index - 1) * 8.0, -3.0) * factor
-			draw_circle(star_center, 2.8 * factor, Color("ffd85e"))
+			var star_center := stun_center + Vector2(float(index - 1) * 8.0, -3.0)
+			draw_circle(star_center, 2.8, Color("ffd85e"))
 	if entangled and not _scene_art_enabled:
 		# Корни оплетают опору и следуют за временным сдвигом рисунка.
-		var root_center := foot + action_offset + Vector2(0, 4) * factor
+		var root_center := Vector2(0, 4)
 		for root_index: int in range(3):
 			var side := float(root_index - 1)
 			var root_points := PackedVector2Array([
-				root_center + Vector2(side * 8.0, 9.0) * factor,
-				root_center + Vector2(side * 5.0, 3.0) * factor,
-				root_center + Vector2(side * 12.0, -3.0) * factor,
+				root_center + Vector2(side * 8.0, 9.0),
+				root_center + Vector2(side * 5.0, 3.0),
+				root_center + Vector2(side * 12.0, -3.0),
 			])
-			draw_polyline(root_points, Color("9bb86b"), 2.0 * factor, true)
+			draw_polyline(root_points, Color("9bb86b"), 2.0, true)
+	draw_set_transform(Vector2.ZERO)
 	if show_rear and unit != null:
 		var rear := AttackModifiers.rear_offset(unit.faction)
 		if rear != Vector2i.ZERO:
@@ -582,7 +607,7 @@ func _draw_unit() -> void:
 	# Высота силуэта отделена от его наземной опоры для общей Y-сортировки.
 	draw_set_transform(foot, 0, Vector2.ONE * factor)
 	if not _scene_art_enabled:
-		draw_set_transform(foot + action_offset, death_progress * PI * 0.5, Vector2(1.0, (1.0 - death_progress * 0.25) * (1.0 - landing_compression)) * factor)
+		draw_set_transform_matrix(body_pose_transform(factor))
 		# Отдельный круглый GroundShadow заменяет старый ромб и исключает двойную тень.
 		draw_rect(Rect2(-10, -10, 7, 12), tint.darkened(0.5))
 		draw_rect(Rect2(3, -10, 7, 12), tint.darkened(0.5))

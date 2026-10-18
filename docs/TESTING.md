@@ -22,6 +22,16 @@ current_schema_boundary core`. Метки передавать одной ком
 Серия/цена/цель/сумма по слотам проверяются runtime-тестом, ручная F5/балансная
 приёмка остаётся отдельной.
 
+Скольжение при толчке (2026-10-18): `--render-check --only presentation_push_slide
+presentation_contact presentation_consequences presentation_environment
+presentation_attack_styles unit_visual_contract visual_scene_contract
+defender_death_routes rogue_death_routes --screen 0` (одна команда).
+Проверяются реальные receipts, четыре направления, native/fallback, наклон вокруг
+стоп, торможение, resize/zoom, ×3/skip/cancel/replay и изоляция runtime/RNG.
+Цепной сдвиг, упор и нижняя опора покрываются соседними presentation-метками;
+маршруты смерти и visual-контракты защищают общую трансформацию тела.
+PNG нового runner — `push-slide-screenshots/`; ощущение в ручном бою оценивает U.
+
 Глубина настенной ловушки: `--render-check --only hazards_ui environment_visual_contract
 presentation_foundation --screen 0` (одна команда). `hazards_ui` сравнивает пиксели
 стоящего нативного enemy-warrior до/после панели во всех четырёх направлениях,

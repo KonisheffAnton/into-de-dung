@@ -58,6 +58,7 @@ var _numbers: Node2D
 var _impacts: Node2D
 var _pending_strikes: Dictionary = {}
 var _action_offsets: Dictionary = {}
+var _slide_poses: Dictionary[int, Dictionary] = {}
 var _falling: Dictionary = {}
 var _fallen_ids: Dictionary = {}
 var _shown_board: BattleBoard
@@ -100,7 +101,7 @@ var _warning_phase: float = 0.0
 @export var unit_visual_scene: PackedScene = preload("res://scenes/demo/visuals/placeholder_unit.tscn")
 @export var tile_visual_scene: PackedScene = DEFAULT_TILE_SCENE
 const MOVE_SEGMENT_SECONDS: float = 0.08
-const FORCED_MOVE_SEGMENT_SECONDS: float = 0.10
+const FORCED_MOVE_SEGMENT_SECONDS: float = 0.18
 const STRIKE_WINDUP_SECONDS: float = 0.10
 const STRIKE_LUNGE_SECONDS: float = 0.025
 const STRIKE_LUNGE_DISTANCE: float = 32.0
@@ -146,6 +147,7 @@ var _defender_buff_elapsed: float = 0.0
 func show_presentation_state(value: Dictionary) -> void:
 	clear_presentation_effects()
 	_field_presentation.clear()
+	_clear_slide_poses()
 	action_areas.assign(value.get("action_areas", []).duplicate(true))
 	area_preview_owner = UnitId.NONE
 	_view_width = int(value.get("width", 0))
@@ -234,7 +236,13 @@ func clear_presentation_effects() -> void:
 func clear_strike_poses() -> void:
 	_pending_strikes.clear()
 	_action_offsets.clear()
+	_clear_slide_poses()
 	for visual: BattleDemoIsoVisual in _entity_visuals: visual.action_offset = Vector2.ZERO
+
+func _clear_slide_poses() -> void:
+	_slide_poses.clear()
+	for visual: BattleDemoIsoVisual in _entity_visuals:
+		if visual.push_lean != Vector2.ZERO: visual.push_lean = Vector2.ZERO
 
 func clear_presentation_feedback() -> void:
 	clear_presentation_effects()
@@ -602,6 +610,22 @@ func _presentation_motion(progress: float, id: int, from: Vector2i, to: Vector2i
 		for row: Dictionary in _view_units:
 			if row.unit.id == id: row.cell = to
 
+func _presentation_slide(progress: float, id: int, from: Vector2i, to: Vector2i) -> void:
+	var amount := clampf(progress, 0.0, 1.0)
+	# Общий линейный clock позволяет отдельно тормозить опору и выпрямлять тело.
+	# Опора не прыгает: наклон применяется только к ArtRoot вокруг стоп.
+	_presentation_motion(1.0 - pow(1.0 - amount, 2.0), id, from, to)
+	var visual := _presentation_visual(id)
+	if visual == null: return
+	if amount >= 1.0:
+		visual.push_lean = Vector2.ZERO
+		_slide_poses.erase(id)
+		return
+	_slide_poses[id] = {"progress": amount, "from": from, "to": to}
+	var rise := smoothstep(0.0, 0.15, amount)
+	var settle := 1.0 - smoothstep(0.55, 1.0, amount)
+	visual.push_lean = IsoGridUtils.grid_direction_to_screen(to - from, grid_config.tile_size) * rise * settle
+
 func _presentation_pulse(progress: float, id: int, dying: bool, falling: bool) -> void:
 	var visual := _presentation_visual(id)
 	if visual == null: return
@@ -804,7 +828,7 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			continue
 		if kind == &"moved":
 			var path: Array = event.get("transit_path", [event.from_cell, event.get("to_cell", event.get("attempted_cell", event.from_cell))])
-			# Добровольный путь ощущается отзывчивее; толчки и падения сохраняют прежний темп.
+			# Толчок имеет собственную позу скольжения, падение сохраняет отдельный клип.
 			var segment_seconds: float = MOVE_SEGMENT_SECONDS if event.get("movement_kind", &"") in [&"voluntary", &"safe_retreat"] else FORCED_MOVE_SEGMENT_SECONDS
 			for index in range(1, path.size()):
 				if _is_presentation_drop(path[index - 1], path[index]):
@@ -813,7 +837,7 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 				elif event.get("movement_kind", &"") in [&"voluntary", &"safe_retreat"]:
 					tween.tween_method(_presentation_motion.bind(id, path[index - 1], path[index]), 0.0, 1.0, segment_seconds).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 				else:
-					tween.tween_method(_presentation_motion.bind(id, path[index - 1], path[index]), 0.0, 1.0, segment_seconds).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+					tween.tween_method(_presentation_slide.bind(id, path[index - 1], path[index]), 0.0, 1.0, segment_seconds)
 			visible_event = true
 		elif not _presentation_caption(event).is_empty():
 			tween.tween_callback(_presentation_badge.bind(event.duplicate(true)))
@@ -1516,6 +1540,9 @@ func _rebuild_visuals() -> void:
 		visual.action_offset = (_action_offsets.get(unit.id, Vector2.ZERO) as Vector2) * grid_config.tile_size.x / 128.0
 	_sort_visuals()
 	_field_presentation.restore(self)
+	for id: int in _slide_poses.keys():
+		var pose: Dictionary = _slide_poses[id]
+		_presentation_slide(pose.progress, id, pose.from, pose.to)
 	_sample_defender_buff(_defender_buff_elapsed)
 
 func _unit_row_visible(row: Dictionary) -> bool:

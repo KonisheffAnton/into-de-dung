@@ -373,7 +373,7 @@ def main():
         if label in ("current_schema_boundary", "action_event_validator", "forecast_definition_copy", "forecast_restore_isolation", "restore_vitals"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output or "WARNING:" in output
-        if label in ("archer_idle", "archer_cloth_palette", "rogue_animations", "rogue_buff", "rogue_death_routes", "defender_buff", "defender_death", "defender_death_routes", "defender_idle", "defender_idle_clock", "defender_cloth_palette", "rogue_cloth_palette", "current_art_zoom", "art_trial_battle", "presentation_capture", "battle_presentation", "presentation_foundation", "presentation_contact", "presentation_attack_styles", "presentation_consequences", "presentation_environment", "presentation_ranged", "presentation_mage", "presentation_reactions", "presentation_status", "battle_board_camera", "battle_camera_ui", "battle_view_reuse", "four_slot_bar", "battle_panels", "environment_visual_contract", "unit_visual_contract", "visual_scene_contract"):
+        if label in ("archer_idle", "archer_cloth_palette", "rogue_animations", "rogue_buff", "rogue_death_routes", "defender_buff", "defender_death", "defender_death_routes", "defender_idle", "defender_idle_clock", "defender_cloth_palette", "rogue_cloth_palette", "current_art_zoom", "art_trial_battle", "presentation_capture", "battle_presentation", "presentation_foundation", "presentation_contact", "presentation_attack_styles", "presentation_consequences", "presentation_push_slide", "presentation_environment", "presentation_ranged", "presentation_mage", "presentation_reactions", "presentation_status", "battle_board_camera", "battle_camera_ui", "battle_view_reuse", "four_slot_bar", "battle_panels", "environment_visual_contract", "unit_visual_contract", "visual_scene_contract"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("snapshot_value_copy", "live_snapshot_capture", "summon_checkpoint"):
@@ -613,6 +613,12 @@ def main():
             consequence_captures.mkdir()
             consequence_args += ["--", "--captures=" + str(consequence_captures)]
         run("presentation_consequences", consequence_args, headless=not args.render_check)
+        push_slide_args = ["--script", "tests/test_presentation_push_slide.gd"]
+        if args.render_check:
+            push_slide_captures = out / "push-slide-screenshots"
+            push_slide_captures.mkdir()
+            push_slide_args += ["--", "--captures=" + str(push_slide_captures)]
+        run("presentation_push_slide", push_slide_args, headless=not args.render_check)
         environment_args = ["--script", "tests/test_presentation_environment.gd"]
         if args.render_check:
             environment_captures = out / "environment-presentation-screenshots"

@@ -97,6 +97,7 @@ func apply_view(values: Dictionary, config: IsoGridConfig) -> bool:
 
 func reset_view_pose() -> void:
 	# Обычный кадр снимает только временные позы; авторский цвет нужен для повторного использования сцены.
+	if push_lean != Vector2.ZERO: push_lean = Vector2.ZERO
 	if action_offset != Vector2.ZERO: action_offset = Vector2.ZERO
 	if presentation_lift != 0.0: presentation_lift = 0.0
 	if presentation_offset != Vector2.ZERO: presentation_offset = Vector2.ZERO

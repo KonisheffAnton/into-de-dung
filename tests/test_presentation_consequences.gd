@@ -405,6 +405,11 @@ func chain_overlap() -> void:
 				var last := board._presentation_visual(c)
 				check(last.presentation_offset.length() > 0.0 and absf(board._action_offsets[a].dot(axis)) > 0.1, label + " terminal movement overlaps remaining return")
 				check(board._action_offsets[c].dot(axis) > 0.0 and board._action_offsets[c].dot(axis) < 10.0, label + " incoming offset decays continuously during terminal movement")
+				check(last.push_lean.dot(axis) > 0.5 and is_zero_approx(last.fall_drop), label + " terminal push leans with the impulse while staying grounded")
+				var lean_before := last.push_lean
+				board.size += Vector2(8, 6)
+				check(board._presentation_visual(c).push_lean.is_equal_approx(lean_before), label + " resize restores active terminal slide pose")
+				if mode == "open" and direction == Vector2i.RIGHT: await capture("chain-grounded-slide")
 			elif mode == "last-dead": check(not board._presentation_visual(c).unit.alive and board._action_offsets[c] == Vector2.ZERO, label + " dead terminal never moves")
 			finish()
 			check(started == data.frames, label + " every frame starts once in receipt order")
@@ -413,7 +418,7 @@ func chain_overlap() -> void:
 			expected.append(data.after)
 			check(published == expected, label + " all after snapshots including empty steps publish in exact order")
 			for id: int in [a, b, c]:
-				check(board._presentation_visual(id).action_offset == Vector2.ZERO and board._view_unit_cell(id) == data.after.units[id].cell, label + " final poses zero and cells authoritative")
+				check(board._presentation_visual(id).action_offset == Vector2.ZERO and board._presentation_visual(id).push_lean == Vector2.ZERO and board._view_unit_cell(id) == data.after.units[id].cell, label + " final poses zero and cells authoritative")
 			check(snapshot(s) == state and s.context.get_rng().to_dict() == rng and s.context.simulation_counters() == counters and data == immutable, label + " overlap is isolated from runtime RNG counters and receipt")
 			player.frame_started.disconnect(on_start)
 			player.frame_finished.disconnect(on_finish)
