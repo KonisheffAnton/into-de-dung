@@ -1,5 +1,21 @@
 # История и свидетельства проверок
 
+## Контрастный маршрут движения — 2026-10-18
+
+По поручению U путь выделен золотой линией с тёмным контуром: pending пунктир,
+готовый маршрут со статичными указателями направления. Кольцо конечной клетки
+золотое для живого / красно-коричневое для прогнозируемой гибели.
+Спокойные выделения солдат, hover, остальные зоны и UI сохранены.
+Изменены только draw-блоки BattleDemoBoard/BattleDemoIsoVisual; состояние боя,
+маршрут, pending/ready/interrupted/rejected и исполнение прежние.
+[Контракт](BATTLE_HUD_SCENES_V1.md), [захваты и отчёт](../test_reports/movement-route-20261018/README.md).
+Base main9a4f98e2170bc357bf0439154387b9f697eed419. Чистый import/startup PASS,
+move_forecast_ui80/0, launcher3PASS/0FAIL/0timeout. H1/deck: парные кадры до/после,
+масштабы75/100/140%, state/RNG неизменны. game_reviewer APPROVE.
+Чужая main_menu.tscn и серия03 сохранены; core/preview/live/worker/queue/RNG/save/frozen
+не менялись. Без push; full/core/ручная F5/editor/DPI и финальная приёмка не выполнены.
+[Прежний HANDOFF — побайтный архив](CODEX_HANDOFF.history-20261018-5.md).
+
 ## Интерактивный кэш Python launcher — 2026-10-18
 
 По поручению U tools/demo/isolate.py сохраняет интерактивную копию и импортированные

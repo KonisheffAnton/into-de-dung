@@ -1874,11 +1874,30 @@ func _draw_overlay() -> void:
 	if _path.size() > 1:
 		var points := PackedVector2Array()
 		for cell in _path: points.append(_world_cell_center(cell))
+		var path_shadow := Color("202C31", 0.94)
+		var path_gold := Color("D3AD6A", 0.96)
 		if move_forecast_pending:
 			for i: int in range(1, points.size()):
-				_overlay.draw_dashed_line(points[i - 1], points[i], Color("89959e", 0.28), 1.5, 6)
+				# Одинаковый шаг двух штрихов сохраняет ясный пунктир ожидания.
+				_overlay.draw_dashed_line(points[i - 1], points[i], path_shadow, 5.0, 6.0)
+				_overlay.draw_dashed_line(points[i - 1], points[i], path_gold, 3.0, 6.0)
 		else:
-			_overlay.draw_polyline(points, Color("829fa5", 0.34), 1.5, true)
+			_overlay.draw_polyline(points, path_shadow, 5.0, true)
+			_overlay.draw_polyline(points, path_gold, 3.0, true)
+			for i: int in range(1, points.size()):
+				var segment := points[i] - points[i - 1]
+				if segment.length_squared() <= 0.001: continue
+				var direction := segment.normalized()
+				var side := Vector2(-direction.y, direction.x) * 2.0
+				var middle := (points[i - 1] + points[i]) * 0.5
+				var tip := middle + direction * 3.0
+				var left_tail := middle - direction * 4.0 + side
+				var right_tail := middle - direction * 4.0 - side
+				# Статичные шевроны поясняют направление без анимации и подсветки.
+				_overlay.draw_line(left_tail, tip, path_shadow, 3.0, true)
+				_overlay.draw_line(tip, right_tail, path_shadow, 3.0, true)
+				_overlay.draw_line(left_tail, tip, Color("ECC577"), 1.5, true)
+				_overlay.draw_line(tip, right_tail, Color("ECC577"), 1.5, true)
 	if forecast != null and forecast.status == &"APPLIED":
 		var chain_preview := forecast.events.any(func(value: Dictionary) -> bool: return value.get("kind") == &"chain_link")
 		for event_variant in forecast.events:

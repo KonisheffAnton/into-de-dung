@@ -525,8 +525,9 @@ func _draw_ground_overlay(canvas: Node2D) -> void:
 				origin_color.a = 0.24
 				canvas.draw_arc(center, grid_config.tile_size.x * 0.27, 0, TAU, 32, origin_color, 1.4, true)
 			"move_endpoint":
-				var endpoint_color := Color("829fa5", 0.28) if bool(mark.get("alive", true)) else Color("a77f7f", 0.30)
-				canvas.draw_arc(center, 7.0, 0, TAU, 24, endpoint_color, 1.2, true)
+				var endpoint_color := Color("D3AD6A") if bool(mark.get("alive", true)) else Color("B9604E")
+				canvas.draw_arc(center, 9.0, 0, TAU, 24, Color("202C31"), 4.0, true)
+				canvas.draw_arc(center, 9.0, 0, TAU, 24, endpoint_color, 2.0, true)
 
 func _draw_unit() -> void:
 	var factor := grid_config.tile_size.x / 128.0
