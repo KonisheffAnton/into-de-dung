@@ -1,0 +1,131 @@
+{
+  "pngs": [
+    {
+      "file": "diorama-bright-v2.png",
+      "width": 1672,
+      "height": 941,
+      "bit_depth": 8,
+      "png_color_type": 2,
+      "sha256": "b2abaf8052c99b0521e08cb5c347ace88ef3aafd02a405e5c7f730d406282332",
+      "png_crc_and_idat_inflate": "PASS"
+    },
+    {
+      "file": "diorama-bright-v3.png",
+      "width": 1672,
+      "height": 941,
+      "bit_depth": 8,
+      "png_color_type": 2,
+      "sha256": "5aed0ca2ca4ee97f24e8522f93ffe0ce87d29600dc13fc32b10b50b4574afc2b",
+      "png_crc_and_idat_inflate": "PASS"
+    },
+    {
+      "file": "diorama-bright-v4.png",
+      "width": 1672,
+      "height": 941,
+      "bit_depth": 8,
+      "png_color_type": 2,
+      "sha256": "917f081b9a595a769f970735247d2c59979a0c7d61a5f10f1a67661378b0f734",
+      "png_crc_and_idat_inflate": "PASS"
+    },
+    {
+      "file": "diorama-bright.png",
+      "width": 1672,
+      "height": 941,
+      "bit_depth": 8,
+      "png_color_type": 2,
+      "sha256": "82bfa3573bdceb547eb2e6597d7cb9501a035db96432cfc428e80bbf118df6c6",
+      "png_crc_and_idat_inflate": "PASS"
+    },
+    {
+      "file": "diorama-muted-v2.png",
+      "width": 1672,
+      "height": 941,
+      "bit_depth": 8,
+      "png_color_type": 2,
+      "sha256": "8503569ad227be2ef8fc4e0910a1b959455bab5cfdbb79eb5de042bb7207815f",
+      "png_crc_and_idat_inflate": "PASS"
+    },
+    {
+      "file": "diorama-muted-v3.png",
+      "width": 1672,
+      "height": 941,
+      "bit_depth": 8,
+      "png_color_type": 2,
+      "sha256": "126a32192e4198f865e8773bf2a9c9c00536c5bf6556397bfd0c46fda86307a9",
+      "png_crc_and_idat_inflate": "PASS"
+    },
+    {
+      "file": "diorama-muted-v4.png",
+      "width": 1672,
+      "height": 941,
+      "bit_depth": 8,
+      "png_color_type": 2,
+      "sha256": "f79b95510c24304037d3442bee4efcbf8312187ad30e7d6461fd4f362c368d0b",
+      "png_crc_and_idat_inflate": "PASS"
+    },
+    {
+      "file": "diorama-muted.png",
+      "width": 1672,
+      "height": 941,
+      "bit_depth": 8,
+      "png_color_type": 2,
+      "sha256": "6c0b22af123492696a842389783cd2b0b5324ef8f53fb70d58800eed23cd6560",
+      "png_crc_and_idat_inflate": "PASS"
+    },
+    {
+      "file": "source-bright.png",
+      "width": 1024,
+      "height": 1536,
+      "bit_depth": 8,
+      "png_color_type": 2,
+      "sha256": "93f4b0e2fb6041e74986c10217148f5229c3fcacb21af44e9091a9ed95070686",
+      "png_crc_and_idat_inflate": "PASS"
+    },
+    {
+      "file": "source-muted.png",
+      "width": 1024,
+      "height": 1536,
+      "bit_depth": 8,
+      "png_color_type": 2,
+      "sha256": "8d689f0835f0adc50bb1b3928f0d23e297a51c771dc036cac60eb5a35da24876",
+      "png_crc_and_idat_inflate": "PASS"
+    }
+  ],
+  "sources_byte_exact": true,
+  "generated_copies_byte_exact": true,
+  "provider_calls": 8,
+  "runtime_integration": false,
+  "manual_acceptance": "open",
+  "limits": [
+    "not pixel-exact palette transfer",
+    "actual 1672x941 rather than requested 2560x1440",
+    "some incidental details redrawn",
+    "lower cave stone path remains"
+  ],
+  "previous_handoff_sha256": "ad289fd6b8ee63c5b3e1662e11db2f36771e9bda7d8ba609814baaa9549ce806",
+  "independent_review": "APPROVE for preview; user art acceptance open",
+  "local_links": "PASS",
+  "prompt_references": "PASS",
+  "protected_scene_sha256": "a64c270256ebf2ea073081200be23028f792f42c3ca98f83a6499c1300a68668",
+  "protected_series_unchanged": true,
+  "handoff_archive_byte_exact": true,
+  "input_sizes": {
+    "AGENTS.md": {
+      "before_chars_lf": 4565,
+      "after_chars_lf": 4565
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before_chars_lf": 2334,
+      "after_chars_lf": 2485
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before_chars_lf": 3491,
+      "after_chars_lf": 3491
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before_chars_lf": 4482,
+      "after_chars_lf": 4482
+    }
+  },
+  "package_godot_imports": false
+}

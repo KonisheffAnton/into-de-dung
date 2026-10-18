@@ -1,0 +1,124 @@
+{
+  "date": "2026-10-18",
+  "timezone": "Europe/Moscow",
+  "base": "48d99d64496574f0ae11dc6626c63145dc4e474f",
+  "status": "preview-only, awaiting user feedback",
+  "current": [
+    "diorama-bright-v4.png",
+    "diorama-muted-v4.png"
+  ],
+  "sources": {
+    "source-bright.png": "C:/Users/Aston/AppData/Local/Temp/codex-clipboard-f4d177b4-7d00-4cde-bb91-456ad5d44a04.png",
+    "source-muted.png": "C:/Users/Aston/AppData/Local/Temp/codex-clipboard-85ad463c-6e5f-43e8-92e2-99e56d537677.png"
+  },
+  "calls": [
+    {
+      "output": "diorama-bright.png",
+      "provider_original": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-0807e269-fe6c-42fe-8b4e-8202a4350669.png",
+      "provider": "built-in image_gen",
+      "references": [
+        "source-bright.png"
+      ],
+      "prompt_file": "prompt-bright.txt",
+      "transparent_background": false,
+      "sha256": "82bfa3573bdceb547eb2e6597d7cb9501a035db96432cfc428e80bbf118df6c6",
+      "usage": null,
+      "cost": null
+    },
+    {
+      "output": "diorama-muted.png",
+      "provider_original": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-dcf33481-872f-4122-9e9e-8fbc0dda0093.png",
+      "provider": "built-in image_gen",
+      "references": [
+        "diorama-bright.png",
+        "source-muted.png"
+      ],
+      "prompt_file": "prompt-muted.txt",
+      "transparent_background": false,
+      "sha256": "6c0b22af123492696a842389783cd2b0b5324ef8f53fb70d58800eed23cd6560",
+      "usage": null,
+      "cost": null
+    },
+    {
+      "output": "diorama-bright-v2.png",
+      "provider_original": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-d51531be-ce17-45d2-8ae2-4f8d54dc337f.png",
+      "provider": "built-in image_gen",
+      "references": [
+        "diorama-bright.png"
+      ],
+      "prompt_file": "prompt-bright-v2.txt",
+      "transparent_background": false,
+      "sha256": "b2abaf8052c99b0521e08cb5c347ace88ef3aafd02a405e5c7f730d406282332",
+      "usage": null,
+      "cost": null
+    },
+    {
+      "output": "diorama-muted-v2.png",
+      "provider_original": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-fbc70db4-9f98-4591-8bd2-217180128fb7.png",
+      "provider": "built-in image_gen",
+      "references": [
+        "diorama-bright-v2.png",
+        "source-muted.png"
+      ],
+      "prompt_file": "prompt-muted-v2.txt",
+      "transparent_background": false,
+      "sha256": "8503569ad227be2ef8fc4e0910a1b959455bab5cfdbb79eb5de042bb7207815f",
+      "usage": null,
+      "cost": null
+    },
+    {
+      "output": "diorama-bright-v3.png",
+      "provider_original": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-38b38d95-d9d8-4f6c-9afd-c65235d692ed.png",
+      "provider": "built-in image_gen",
+      "references": [
+        "diorama-bright-v2.png"
+      ],
+      "prompt_file": "prompt-bright-v3.txt",
+      "transparent_background": false,
+      "sha256": "5aed0ca2ca4ee97f24e8522f93ffe0ce87d29600dc13fc32b10b50b4574afc2b",
+      "usage": null,
+      "cost": null
+    },
+    {
+      "output": "diorama-muted-v3.png",
+      "provider_original": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-0062611e-0100-488f-9412-8884cfaa2e9b.png",
+      "provider": "built-in image_gen",
+      "references": [
+        "diorama-bright-v3.png",
+        "source-muted.png"
+      ],
+      "prompt_file": "prompt-muted-v3.txt",
+      "transparent_background": false,
+      "sha256": "126a32192e4198f865e8773bf2a9c9c00536c5bf6556397bfd0c46fda86307a9",
+      "usage": null,
+      "cost": null
+    },
+    {
+      "output": "diorama-bright-v4.png",
+      "provider_original": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-4d7b2c58-1a7e-4b52-a800-0fcc8cd03b0a.png",
+      "provider": "built-in image_gen",
+      "references": [
+        "diorama-bright-v3.png"
+      ],
+      "prompt_file": "prompt-bright-v4.txt",
+      "transparent_background": false,
+      "sha256": "917f081b9a595a769f970735247d2c59979a0c7d61a5f10f1a67661378b0f734",
+      "usage": null,
+      "cost": null
+    },
+    {
+      "output": "diorama-muted-v4.png",
+      "provider_original": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-536e5a5d-01a1-46a7-b480-3c8e7dcf51b4.png",
+      "provider": "built-in image_gen",
+      "references": [
+        "diorama-bright-v4.png",
+        "source-muted.png"
+      ],
+      "prompt_file": "prompt-muted-v4.txt",
+      "transparent_background": false,
+      "sha256": "f79b95510c24304037d3442bee4efcbf8312187ad30e7d6461fd4f362c368d0b",
+      "usage": null,
+      "cost": null
+    }
+  ]
+}

@@ -1,16 +1,18 @@
-# Передача — 2026-10-18: конечная стрелка
-D:\Games\into-de-dung; main; base48d99d64496574f0ae11dc6626c63145dc4e474f.
+# Передача — 2026-10-18: две палитры диорамы V4
+D:\Games\into-de-dung; main; basec981fb05bbf2d54146cfdcae091579dbb060084f.
 U принял прежние запуск/маршрут с поправкой: стрелка только на конце.
-В draw оставлена одна конечная стрелка; pending/кольцо/расчёт прежние.
+c981fb0: одна конечная стрелка; pending/кольцо/расчёт прежние.
 [Контракт](BATTLE_HUD_SCENES_V1.md), [проверки](../test_reports/movement-route-endpoint-20261018/README.md).
 Чистый import/startup PASS; move_forecast_ui80/0. Review APPROVE.
 Новый вид стрелки ждёт отзыва U; новых full/core/H1 zoom/ручных проверок нет.
 Launcher9a4f98e: interactive кэш/SHA256 sync, --fresh чистая копия;
 check/render прежние. Cold55.3с/warm7.8с подготовки, не до меню.
 [Запуск](REPOSITORY_STATE.md), [замеры](../test_reports/interactive-launcher-20261018/README.md).
-В работе отдельная арт-проба: [две палитры диорамы](art/hub-diorama-wide-20261018/README.md).
+Сохранена отдельная арт-проба: [две палитры диорамы](art/hub-diorama-wide-20261018/README.md).
 U: широкий остров, заброшенные дома, башня в скале; без наружных лестниц,
-башня монументальнее, без входа и полуразрушенная. V4 подготовлены; commit отдельно.
+башня монументальнее, без входа и полуразрушенная. V4: bright/muted,1672×941.
+ImageGen8 вызовов; оригиналы/V1–V4/промпты/хеши сохранены. Review preview APPROVE.
+Финальный арт ждёт U; мелкие детали перерисованы, точной RGB/геометрии нет.
 Внедрение арта не разрешено. Остальные HUD/art-пробы не приняты автоматически:
 [поле без clipping](../test_reports/hud-unclipped-20261018/README.md),
 [воин/тайлы](art/warrior-tile-scene-20261018/README.md): цвета первого листа/размер второго.
@@ -23,7 +25,7 @@ U: широкий остров, заброшенные дома, башня в �
 не reset/stage/commit; manifest03 устарел. SHA сцены проверять при сдаче.
 Core/preview/live/worker/queue/RNG/save/frozen сохранять; без нового баланса.
 Без push/sidebar/расписаний; новый этап только после выбора U.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261018-6.md), [HISTORY](HISTORY.md).
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261018-7.md), [HISTORY](HISTORY.md).
 После этапа — Conventional Commit, короткий HANDOFF; прежний побайтно в отдельный
 архив+HISTORY. В финале/при блокере предложить новый чат и полный промпт блоком:
 HEAD, результат, docs/artifacts, остаток, ограничения, проверки и это же правило.
