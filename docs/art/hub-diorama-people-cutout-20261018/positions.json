@@ -1,0 +1,126 @@
+{
+  "coordinate_system": {
+    "canvas": [
+      1672,
+      941
+    ],
+    "origin": "top-left",
+    "x": "right",
+    "y": "down",
+    "bbox": "[left, top, right, bottom]; approximate visible extents, not exact masks",
+    "applies_to": [
+      "source-bright-v4.png",
+      "source-muted-v4.png"
+    ],
+    "not_applicable_to": [
+      "people-bright.png",
+      "people-muted.png"
+    ]
+  },
+  "source_sha256": {
+    "source-bright-v4.png": "917f081b9a595a769f970735247d2c59979a0c7d61a5f10f1a67661378b0f734",
+    "source-muted-v4.png": "f79b95510c24304037d3442bee4efcbf8312187ad30e7d6461fd4f362c368d0b"
+  },
+  "groups": [
+    {
+      "id": "crowd",
+      "count": 8,
+      "bbox": [
+        770,
+        535,
+        961,
+        633
+      ],
+      "feet_anchors": [
+        [
+          785,
+          607
+        ],
+        [
+          799,
+          591
+        ],
+        [
+          819,
+          584
+        ],
+        [
+          850,
+          596
+        ],
+        [
+          883,
+          602
+        ],
+        [
+          847,
+          628
+        ],
+        [
+          912,
+          630
+        ],
+        [
+          946,
+          616
+        ]
+      ],
+      "note": "Visible silhouettes overlap; carried equipment belongs to each figure."
+    },
+    {
+      "id": "blacksmith",
+      "count": 1,
+      "bbox": [
+        1028,
+        557,
+        1079,
+        620
+      ],
+      "feet_anchors": [
+        [
+          1048,
+          618
+        ]
+      ],
+      "note": "Hand tool belongs to figure; anvil, workpiece and furnace remain."
+    },
+    {
+      "id": "seller",
+      "count": 1,
+      "bbox": [
+        1129,
+        632,
+        1163,
+        678
+      ],
+      "approximate_hidden_anchor": [
+        1146,
+        678
+      ],
+      "note": "Feet hidden by counter; anchor inferred rather than observed."
+    },
+    {
+      "id": "customer",
+      "count": 1,
+      "bbox": [
+        1117,
+        646,
+        1148,
+        703
+      ],
+      "feet_anchors": [
+        [
+          1131,
+          700
+        ]
+      ]
+    }
+  ],
+  "retained_mage": {
+    "approximate_position": [
+      1048,
+      440
+    ]
+  },
+  "precision": "Visual estimates shared by the two compositionally close source palettes; exact originals are retained separately."
+}

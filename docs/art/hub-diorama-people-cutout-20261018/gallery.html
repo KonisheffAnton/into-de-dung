@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Диорама — удалённые фигуры и исходные позиции</title>
+<style>
+:root { color-scheme: dark; font: 16px/1.5 system-ui,sans-serif; background:#18202b; color:#edf1f6 }
+body { margin:24px auto; max-width:1672px; padding:0 20px }
+h1 { font-size:24px; margin-bottom:8px } p { max-width:1000px }
+button { font:inherit; background:#303f53; color:inherit; border:1px solid #718198; border-radius:5px; padding:8px 14px; margin:0 8px 10px 0; cursor:pointer }
+button[aria-pressed="true"] { background:#506846; border-color:#b4d39d }
+svg { width:100%; height:auto; display:block; border:1px solid #596474; background:#111 }
+.regions { fill:#ffcb4022; stroke:#ffe17c; stroke-width:2 }
+.anchor { fill:#ffe17c; stroke:#111; stroke-width:1 }
+text { font: bold 19px system-ui,sans-serif; fill:#fff; stroke:#111; stroke-width:4; paint-order:stroke }
+a { color:#abd3ff } .note { color:#becada }
+</style>
+<h1>Диорама без группы, кузнеца и посетителей лавки</h1>
+<p>Обе палитры сохранены. Переключение на исходник показывает примерные границы фигур и ориентиры стоп до удаления. Маг у пещеры остаётся.</p>
+<div id="palettes"><button data-palette="bright" aria-pressed="true">Яркая</button><button data-palette="muted" aria-pressed="false">Приглушённая</button></div>
+<div id="modes"><button data-mode="background" aria-pressed="true">Фон без фигур</button><button data-mode="source" aria-pressed="false">Исходные позиции</button><button data-mode="people" aria-pressed="false">Фигуры на прозрачном фоне</button></div>
+<p class="note" id="note">Фон после удаления 11 фигур; в игру не внедрён.</p>
+<svg viewBox="0 0 1672 941" role="img" aria-label="Диорама и исходные позиции удалённых фигур">
+<defs><pattern id="checks" width="24" height="24" patternUnits="userSpaceOnUse"><rect width="24" height="24" fill="#454954"/><path d="M0,0H12V12H0ZM12,12H24V24H12Z" fill="#313640"/></pattern></defs>
+<rect width="1672" height="941" fill="url(#checks)"/>
+<image id="scene" href="background-bright.png" width="1672" height="941"/>
+<g id="positions" style="display:none">
+<g class="regions"><rect x="770" y="535" width="191" height="98"/><rect x="1028" y="557" width="51" height="63"/><rect x="1129" y="632" width="34" height="46"/><rect x="1117" y="646" width="31" height="57"/></g>
+<g class="anchor"><circle cx="785" cy="607" r="4"/><circle cx="799" cy="591" r="4"/><circle cx="819" cy="584" r="4"/><circle cx="850" cy="596" r="4"/><circle cx="883" cy="602" r="4"/><circle cx="847" cy="628" r="4"/><circle cx="912" cy="630" r="4"/><circle cx="946" cy="616" r="4"/><circle cx="1048" cy="618" r="4"/><circle cx="1146" cy="678" r="4"/><circle cx="1131" cy="700" r="4"/></g>
+<text x="770" y="527">Группа ×8</text><text x="1028" y="550">Кузнец</text><text x="1168" y="647">Продавец</text><text x="1168" y="702">Покупатель</text>
+</g>
+</svg>
+<p class="note">Прозрачные фигуры перерисованы и смещены генератором. Они не являются точными вырезанными слоями. Оригиналы V4 сохранены побайтно; для возврата исходного вида используйте их.</p>
+<p><a href="README.md">Описание</a> · <a href="positions.json">Координаты</a> · <a href="provenance.json">Происхождение</a></p>
+<script>
+let palette='bright', mode='background';
+function update() {
+ const file = mode==='source' ? `source-${palette}-v4.png` : mode==='people' ? `people-${palette}.png` : palette==='muted' ? 'background-muted-v5.png' : 'background-bright.png';
+ document.querySelector('#scene').setAttribute('href',file);
+ document.querySelector('#positions').style.display=mode==='source'?'':'none';
+ document.querySelector('#note').textContent=mode==='source'?'Координаты относятся к оригиналу 1672×941. Границы приблизительные; ноги продавца скрыты прилавком.':mode==='people'?'Вспомогательные прозрачные варианты: размер и положение фигур изменены генератором.':'Фон после удаления 11 фигур; в игру не внедрён.';
+ document.querySelectorAll('[data-palette]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.palette===palette)));
+ document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));
+}
+document.querySelectorAll('[data-palette]').forEach(b=>b.onclick=()=>{palette=b.dataset.palette;update()});
+document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;update()});
+</script>
+</html>

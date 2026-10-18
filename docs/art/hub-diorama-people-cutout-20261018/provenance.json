@@ -1,0 +1,167 @@
+{
+  "date": "2026-10-18",
+  "base": "c44d3ad018b34284520934b2a457ea2c7298a6cc",
+  "status": "preview-only; awaiting user art acceptance",
+  "current_backgrounds": [
+    "background-bright.png",
+    "background-muted-v5.png"
+  ],
+  "auxiliary_redrawn_people": [
+    "people-bright.png",
+    "people-muted.png"
+  ],
+  "rejected_trials": {
+    "background-muted.png": "Residual green customer silhouette; retained for provenance, superseded by v5.",
+    "background-muted-v2.png": "Lower ghost removed, upper green garment fragment remained beside left stall post; superseded by v5.",
+    "background-muted-v3.png": "Green upright remnant beside left stall post persisted; superseded by v5, generated from clean bright shapes with muted palette reference.",
+    "background-muted-v4.png": "Green remnant persisted after palette transfer; superseded by v5 reconstructing brown stall backboard."
+  },
+  "sources": {
+    "source-bright-v4.png": {
+      "path": "../hub-diorama-wide-20261018/diorama-bright-v4.png",
+      "sha256": "917f081b9a595a769f970735247d2c59979a0c7d61a5f10f1a67661378b0f734"
+    },
+    "source-muted-v4.png": {
+      "path": "../hub-diorama-wide-20261018/diorama-muted-v4.png",
+      "sha256": "f79b95510c24304037d3442bee4efcbf8312187ad30e7d6461fd4f362c368d0b"
+    }
+  },
+  "calls": [
+    {
+      "output": "background-bright.png",
+      "provider_original": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-6d73fcb5-e18a-4544-a5e8-63e028089d0f.png",
+      "provider": "built-in image_gen",
+      "references": [
+        "source-bright-v4.png"
+      ],
+      "prompt_file": "prompt-clean-bright.txt",
+      "transparent_background": false,
+      "sha256": "64283873b8cb86224777e61fb23b19f8595d0d3275ae08fcbea29bb246f628e0",
+      "usage": null,
+      "cost": null
+    },
+    {
+      "output": "background-muted.png",
+      "provider_original": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-734614c1-ffec-4033-985b-213158d38bfe.png",
+      "provider": "built-in image_gen",
+      "references": [
+        "source-muted-v4.png"
+      ],
+      "prompt_file": "prompt-clean-muted.txt",
+      "transparent_background": false,
+      "sha256": "98a98221109b2e3c8e9cee4a1c7fe577b3e53d148be8e39038336ee40204fc5b",
+      "usage": null,
+      "cost": null
+    },
+    {
+      "output": "people-bright.png",
+      "provider_original": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-1ef734b7-d9ed-43cd-b5de-37846317d703.png",
+      "provider": "built-in image_gen",
+      "references": [
+        "source-bright-v4.png"
+      ],
+      "prompt_file": "prompt-layer-bright.txt",
+      "transparent_background": true,
+      "sha256": "f319242e6b7b26ca41b99c559d6e827a62701e8c5d256b01dc07e531de7017e6",
+      "usage": null,
+      "cost": null
+    },
+    {
+      "output": "people-muted.png",
+      "provider_original": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-3e2e6d1a-886c-4189-a155-b4876d51f6a4.png",
+      "provider": "built-in image_gen",
+      "references": [
+        "source-muted-v4.png"
+      ],
+      "prompt_file": "prompt-layer-muted.txt",
+      "transparent_background": true,
+      "sha256": "593d84339ab7e1200049440c47435f5c2543cca50340db5d420ba429be3d60c2",
+      "usage": null,
+      "cost": null
+    },
+    {
+      "output": "background-muted-v2.png",
+      "provider_original": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-856957eb-9bcb-4ff0-8ecd-b1a2326cd1cd.png",
+      "provider": "built-in image_gen",
+      "references": [
+        "background-muted.png"
+      ],
+      "prompt_file": "prompt-clean-muted-v2.txt",
+      "transparent_background": false,
+      "sha256": "aeb0d8af179c98425b0aa12fdf81cb0b56a24fe4a2c92c11d7f5d9d9a9aa1e3c",
+      "usage": null,
+      "cost": null
+    },
+    {
+      "output": "background-muted-v3.png",
+      "provider_original": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-b1f75d98-c8da-4588-98d4-94d8017051c9.png",
+      "provider": "built-in image_gen",
+      "references": [
+        "background-muted-v2.png",
+        "background-bright.png"
+      ],
+      "prompt_file": "prompt-clean-muted-v3.txt",
+      "transparent_background": false,
+      "sha256": "5eb85563a87d3fe5787ccb0b0df6ac838c1ed3d8ff21510c8ea880d5b4c092de",
+      "usage": null,
+      "cost": null
+    },
+    {
+      "output": "background-muted-v4.png",
+      "provider_original": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-4f2ff8b4-72bf-442a-83f5-238437ed6d39.png",
+      "provider": "built-in image_gen",
+      "references": [
+        "background-bright.png",
+        "background-muted-v3.png"
+      ],
+      "reference_roles": [
+        "authoritative empty composition",
+        "palette only"
+      ],
+      "prompt_file": "prompt-clean-muted-v4.txt",
+      "transparent_background": false,
+      "sha256": "dc427c86e4736e723879b2d13ab278235e9d156fe17e35eb470883ff3ad9e416",
+      "usage": null,
+      "cost": null
+    },
+    {
+      "output": "background-muted-v5.png",
+      "provider_original": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-b61e2b80-af77-42d5-a498-cc198c36e08c.png",
+      "provider": "built-in image_gen",
+      "references": [
+        "background-muted-v4.png",
+        "reference-muted-stall-v4-detail.png"
+      ],
+      "reference_roles": [
+        "full-frame edit target",
+        "magnified location guide"
+      ],
+      "prompt_file": "prompt-clean-muted-v5.txt",
+      "transparent_background": false,
+      "sha256": "bec069749df5314ee966b6f4d8c53770bd5e42170fa5e0af2c7203f306623ee5",
+      "usage": null,
+      "cost": null
+    }
+  ],
+  "limitations": [
+    "Generated backgrounds are not pixel-identical outside removed areas.",
+    "Generated transparent figures have changed placement and shape; not drop-in layers.",
+    "Original V4 snapshots preserve exact source pixels.",
+    "No runtime integration."
+  ],
+  "derived_references": [
+    {
+      "path": "reference-muted-stall-v4-detail.png",
+      "source": "background-muted-v4.png",
+      "crop": [
+        1080,
+        600,
+        1280,
+        720
+      ],
+      "nearest_scale": 5,
+      "sha256": "ed46992da5ee6e5cb7be22c3da2f8111393197c608f3a4445945b2b63da43dd8",
+      "purpose": "Read-only diagnostic region enlarged to guide final ImageGen edit; no manual editing of deliverables."
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+Use case: background-extraction / transparent sprite layer.
+Input is the ORIGINAL bright V4 diorama, canvas 1672x941. Extract ONLY the following visible people into one genuinely TRANSPARENT PNG LAYER with the SAME FULL CANVAS 1672x941 and the SAME EXACT POSITIONS AND SCALE. Do not pack, center, rearrange, enlarge or crop the people.
+Keep:
+A) All EIGHT people in the central traveler crowd at source bbox x770..961,y535..633, with clothing and worn/carried packs/equipment, unchanged poses and overlap.
+B) The blacksmith at bbox x1028..1079,y557..620, including the handheld tool but NOT the anvil or glowing workpiece.
+C) The seller visible behind the counter at bbox x1129..1163,y632..678, AND the green-cloaked customer in front at bbox x1117..1148,y646..703.
+Make EVERYTHING ELSE transparent: all island terrain, sky, sea, buildings, forge, furnace fire/smoke, anvil, workpiece, boxes, canopy, counter, stall poles, goods, barrels, ground shadows, and the solitary hooded mage at the cave. Do not include the mage.
+Extract the VISIBLE people only. Areas of the seller occluded by the counter/canopy must remain transparent; DO NOT invent hidden legs or reconstruct missing bodies. No scenery patches around feet. Preserve their original silhouettes, pixel clusters, colors, clothes, faces, direction, relative placement and size as closely as possible. Crisp existing pixel-art contours, not newly designed sprites.
+Most of the canvas is empty alpha; that is intentional so the layer can be placed at origin(0,0) over the original. Do not trim the transparent margins. One transparent RGBA image, no checkerboard baked into pixels, no labels, no border, no text.
