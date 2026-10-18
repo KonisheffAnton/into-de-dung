@@ -1,0 +1,424 @@
+{
+  "width": 1672,
+  "height": 941,
+  "frameMs": 160,
+  "backgrounds": [
+    {
+      "id": "original-bright",
+      "title": "Исходная · яркая",
+      "file": "backgrounds/original-bright.png",
+      "source": "docs/art/hub-diorama-16bit-20261018/sources/bright.png",
+      "sha256": "06f4aa685f978a11d57d789712d01136c0857adcff81db076455c3c53be17191",
+      "foreground": "foregrounds/original-bright-market.png"
+    },
+    {
+      "id": "original-muted",
+      "title": "Исходная · приглушённая",
+      "file": "backgrounds/original-muted.png",
+      "source": "docs/art/hub-diorama-16bit-20261018/sources/muted.png",
+      "sha256": "5dcd5f58fa34fe0c35439859fc5130ee377063d58745336b3fde45470cd6a745",
+      "foreground": "foregrounds/original-muted-market.png"
+    },
+    {
+      "id": "16bit-bright",
+      "title": "16 бит · яркая",
+      "file": "backgrounds/16bit-bright.png",
+      "source": "docs/art/hub-diorama-16bit-20261018/imagegen/bright.png",
+      "sha256": "482e4ef467bb11fa155e37500c6bb5abd3ecc796a3420746d9c3ff7aa3cbc596",
+      "foreground": "foregrounds/16bit-bright-market.png"
+    },
+    {
+      "id": "16bit-muted",
+      "title": "16 бит · приглушённая",
+      "file": "backgrounds/16bit-muted.png",
+      "source": "docs/art/hub-diorama-16bit-20261018/imagegen/muted.png",
+      "sha256": "fd5dd50bae3a5c5aa94d8a911a188d157a7e5f35bf5d474a0277bc397e2f1829",
+      "foreground": "foregrounds/16bit-muted-market.png"
+    }
+  ],
+  "clips": [
+    {
+      "id": "crowd",
+      "title": "Толпа · проба 2",
+      "frameMs": 160,
+      "frames": [
+        {
+          "file": "layers/crowd-02/frame-01.png",
+          "source": "docs/art/hub-pixellab-redraw-animation-20261018/animations/crowd-02/frame-01.png",
+          "sha256": "6a4d8382a3daaad9c0c94edc71c351545c4c4abb2b414c95886101f55f784a3f"
+        },
+        {
+          "file": "layers/crowd-02/frame-02.png",
+          "source": "docs/art/hub-pixellab-redraw-animation-20261018/animations/crowd-02/frame-02.png",
+          "sha256": "19825c28ebd5bbe6cde137b69e3fa4024c01243376705d91b46bd37627f3eb62"
+        },
+        {
+          "file": "layers/crowd-02/frame-03.png",
+          "source": "docs/art/hub-pixellab-redraw-animation-20261018/animations/crowd-02/frame-03.png",
+          "sha256": "718e0b43515a0f9e0e6583f33546831136d8268d49d3b5730c0761a2a55932fd"
+        },
+        {
+          "file": "layers/crowd-02/frame-04.png",
+          "source": "docs/art/hub-pixellab-redraw-animation-20261018/animations/crowd-02/frame-04.png",
+          "sha256": "a732966236263ab1008fcb9b2088aa2f655efd85811f5163ed3146318c5d9546"
+        },
+        {
+          "file": "layers/crowd-02/frame-05.png",
+          "source": "docs/art/hub-pixellab-redraw-animation-20261018/animations/crowd-02/frame-05.png",
+          "sha256": "0ac0916fcc27e618d04a44befcabc6a84745c8100edbbc87104c7e6134cd2295"
+        },
+        {
+          "file": "layers/crowd-02/frame-06.png",
+          "source": "docs/art/hub-pixellab-redraw-animation-20261018/animations/crowd-02/frame-06.png",
+          "sha256": "5082faae61be38e2c1116d4bbcad4a7acf328514dcb6f5430d922738acfcfea4"
+        },
+        {
+          "file": "layers/crowd-02/frame-07.png",
+          "source": "docs/art/hub-pixellab-redraw-animation-20261018/animations/crowd-02/frame-07.png",
+          "sha256": "36d8d03e6ca4b3768931a42d617ececeed55853c775a472748e2df7f13228134"
+        },
+        {
+          "file": "layers/crowd-02/frame-08.png",
+          "source": "docs/art/hub-pixellab-redraw-animation-20261018/animations/crowd-02/frame-08.png",
+          "sha256": "54b73e25f62f96cc8b9ca64eeb330527e02f2a000f47a04d07fe30afa42a20ed"
+        },
+        {
+          "file": "layers/crowd-02/frame-09.png",
+          "source": "docs/art/hub-pixellab-redraw-animation-20261018/animations/crowd-02/frame-09.png",
+          "sha256": "8303cc56613c0215fef0794eb29c82fe8f4e82b67db0f0337c555168c6f1ce3b"
+        }
+      ],
+      "gif": "../hub-pixellab-redraw-animation-20261018/animations/crowd-02/loop.gif"
+    },
+    {
+      "id": "smith",
+      "title": "Кузнец · последняя серия, проба 3",
+      "frameMs": 160,
+      "frames": [
+        {
+          "file": "layers/smith-03/frame-01.png",
+          "source": "docs/art/hub-smith-plate-animation-20261018/animations/smith-03/frame-01.png",
+          "sha256": "a3a53c54848d772ff9fd469915144b4dca64a0be5a6803f14e9c8e14d877a808"
+        },
+        {
+          "file": "layers/smith-03/frame-02.png",
+          "source": "docs/art/hub-smith-plate-animation-20261018/animations/smith-03/frame-02.png",
+          "sha256": "786bb4641bc71543940bbcd91b715c2364d27ca136641cd975a50025629a7aa2"
+        },
+        {
+          "file": "layers/smith-03/frame-03.png",
+          "source": "docs/art/hub-smith-plate-animation-20261018/animations/smith-03/frame-03.png",
+          "sha256": "de8ebf6936b78421b96ab41c977946211635add82b714fcaa27f6d9142200555"
+        },
+        {
+          "file": "layers/smith-03/frame-04.png",
+          "source": "docs/art/hub-smith-plate-animation-20261018/animations/smith-03/frame-04.png",
+          "sha256": "a5e5b59ba7353031d1d181efb902dd574719b349a9f84d90ffe5ff37902614d6"
+        },
+        {
+          "file": "layers/smith-03/frame-05.png",
+          "source": "docs/art/hub-smith-plate-animation-20261018/animations/smith-03/frame-05.png",
+          "sha256": "2a8f0076ceab6067d43e020ff51e0d9a94b689a0d8fd4bf03cd8010cc13f774a"
+        },
+        {
+          "file": "layers/smith-03/frame-06.png",
+          "source": "docs/art/hub-smith-plate-animation-20261018/animations/smith-03/frame-06.png",
+          "sha256": "3c716026dfe9f09c35617dd2177994e73454a323d8b45d37e0cb48cf6e0c63a8"
+        },
+        {
+          "file": "layers/smith-03/frame-07.png",
+          "source": "docs/art/hub-smith-plate-animation-20261018/animations/smith-03/frame-07.png",
+          "sha256": "ecf63375eb487e02e23c84a946c0442d4f70479978207eca8eff631d402f1aa7"
+        },
+        {
+          "file": "layers/smith-03/frame-08.png",
+          "source": "docs/art/hub-smith-plate-animation-20261018/animations/smith-03/frame-08.png",
+          "sha256": "c66271efa6c38586be00fe8e1e500aa54557a94a325ed5ba2021cbc260489129"
+        },
+        {
+          "file": "layers/smith-03/frame-09.png",
+          "source": "docs/art/hub-smith-plate-animation-20261018/animations/smith-03/frame-09.png",
+          "sha256": "20c53485e83525f5dc6ccfbec5ae80b57caa3f3c996f2e1e6df1f424e74fbb28"
+        }
+      ],
+      "gif": "../hub-smith-plate-animation-20261018/animations/smith-03/loop.gif"
+    },
+    {
+      "id": "market",
+      "title": "Торговец с покупателем · проба 5",
+      "frameMs": 160,
+      "frames": [
+        {
+          "file": "layers/market-05/frame-01.png",
+          "source": "docs/art/hub-pixellab-redraw-animation-20261018/animations/market-05/frame-01.png",
+          "sha256": "4d761a9cebdd0ab82078e378ab16e70779ec0a9841981583eb2f83f027473a1f"
+        },
+        {
+          "file": "layers/market-05/frame-02.png",
+          "source": "docs/art/hub-pixellab-redraw-animation-20261018/animations/market-05/frame-02.png",
+          "sha256": "728fc7eb8de552ac2b2f1950f11c6748b48403ae6ea989dda5556a854d149220"
+        },
+        {
+          "file": "layers/market-05/frame-03.png",
+          "source": "docs/art/hub-pixellab-redraw-animation-20261018/animations/market-05/frame-03.png",
+          "sha256": "e9eea42387426a417e5c004fc3c181ebc6804206c2100cb17bc4a8639453d15c"
+        },
+        {
+          "file": "layers/market-05/frame-04.png",
+          "source": "docs/art/hub-pixellab-redraw-animation-20261018/animations/market-05/frame-04.png",
+          "sha256": "8e4b9cc500e889b98f60ac98288f291e82dcb86406b1ee2cc971e4ce46969108"
+        },
+        {
+          "file": "layers/market-05/frame-05.png",
+          "source": "docs/art/hub-pixellab-redraw-animation-20261018/animations/market-05/frame-05.png",
+          "sha256": "825526c27d6722725023ccca3edc2f7434579669739ce3d8a6d2b7a555a0bed1"
+        },
+        {
+          "file": "layers/market-05/frame-06.png",
+          "source": "docs/art/hub-pixellab-redraw-animation-20261018/animations/market-05/frame-06.png",
+          "sha256": "c3ce46fad6bfbcd2b0210786faa19a95e25ec9817683e369f18e5e190fe52449"
+        },
+        {
+          "file": "layers/market-05/frame-07.png",
+          "source": "docs/art/hub-pixellab-redraw-animation-20261018/animations/market-05/frame-07.png",
+          "sha256": "4394cb6c11fe012afb9a6b314dfe483cd8f623c31743a6279405af2d74beb88f"
+        },
+        {
+          "file": "layers/market-05/frame-08.png",
+          "source": "docs/art/hub-pixellab-redraw-animation-20261018/animations/market-05/frame-08.png",
+          "sha256": "53a7e71ed02aed797c8e946abe7890e3f81f4f14aaf2fcd56c01c239eaf5ec04"
+        },
+        {
+          "file": "layers/market-05/frame-09.png",
+          "source": "docs/art/hub-pixellab-redraw-animation-20261018/animations/market-05/frame-09.png",
+          "sha256": "229638e8770443118a4bccd190cab963ac622b41fed5b7c46c82ce4ce6337e2d"
+        }
+      ],
+      "gif": "../hub-pixellab-redraw-animation-20261018/animations/market-05/loop.gif"
+    }
+  ],
+  "actors": [
+    {
+      "id": "crowd",
+      "group": "crowd",
+      "label": "Толпа",
+      "source": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "destination": [
+        760,
+        480,
+        210,
+        210
+      ],
+      "flipX": false,
+      "z": 10
+    },
+    {
+      "id": "smith",
+      "group": "smith",
+      "label": "Кузнец",
+      "source": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "destination": [
+        1023,
+        550,
+        77,
+        77
+      ],
+      "flipX": false,
+      "z": 10
+    },
+    {
+      "id": "merchant",
+      "group": "market",
+      "label": "Торговец",
+      "source": [
+        0,
+        0,
+        144,
+        256
+      ],
+      "destination": [
+        1148,
+        634,
+        43,
+        77
+      ],
+      "flipX": true,
+      "z": 20
+    },
+    {
+      "id": "buyer",
+      "group": "market",
+      "label": "Покупатель",
+      "source": [
+        144,
+        0,
+        112,
+        256
+      ],
+      "destination": [
+        1115,
+        633,
+        34,
+        77
+      ],
+      "flipX": true,
+      "z": 40
+    }
+  ],
+  "foregroundZ": 30,
+  "occlusionPolygons": [
+    [
+      [
+        1110,
+        621
+      ],
+      [
+        1146,
+        608
+      ],
+      [
+        1220,
+        632
+      ],
+      [
+        1219,
+        638
+      ],
+      [
+        1208,
+        643
+      ],
+      [
+        1190,
+        649
+      ],
+      [
+        1174,
+        646
+      ],
+      [
+        1158,
+        642
+      ],
+      [
+        1147,
+        639
+      ],
+      [
+        1130,
+        635
+      ],
+      [
+        1115,
+        630
+      ]
+    ],
+    [
+      [
+        1110,
+        622
+      ],
+      [
+        1118,
+        623
+      ],
+      [
+        1117,
+        680
+      ],
+      [
+        1110,
+        677
+      ]
+    ],
+    [
+      [
+        1187,
+        645
+      ],
+      [
+        1193,
+        643
+      ],
+      [
+        1193,
+        683
+      ],
+      [
+        1187,
+        683
+      ]
+    ],
+    [
+      [
+        1120,
+        662
+      ],
+      [
+        1135,
+        660
+      ],
+      [
+        1141,
+        648
+      ],
+      [
+        1153,
+        651
+      ],
+      [
+        1153,
+        660
+      ],
+      [
+        1164,
+        662
+      ],
+      [
+        1166,
+        669
+      ],
+      [
+        1174,
+        668
+      ],
+      [
+        1177,
+        677
+      ],
+      [
+        1191,
+        681
+      ],
+      [
+        1191,
+        708
+      ],
+      [
+        1177,
+        717
+      ],
+      [
+        1120,
+        698
+      ]
+    ]
+  ],
+  "selection": {
+    "crowd": 2,
+    "market": 5,
+    "smith_latest": 3
+  },
+  "rendering": "nearest; same assets on all four backgrounds; merchant/buyer source crops split only at fully transparent gap and mirrored to face each other across the stall",
+  "defaultAnimationMode": "always"
+}
