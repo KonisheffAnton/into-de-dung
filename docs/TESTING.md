@@ -14,6 +14,13 @@
 
 ## Изменение игрового кода
 
+Глубина настенной ловушки: `--render-check --only hazards_ui environment_visual_contract
+presentation_foundation --screen 0` (одна команда). `hazards_ui` сравнивает пиксели
+стоящего нативного enemy-warrior до/после панели во всех четырёх направлениях,
+проверяет видимость панели и активных шипов. Headless эту пиксельную часть пропускает.
+`presentation_foundation` сохраняет порядок настоящей стены переднего плана;
+при проверке слоя отдельно подтвердить, что старая ошибка ломает image assertion.
+
 Поджог/яд (2026-10-17): `--check --only poison status_effects status_models
 status_snapshots mage_deck_battle current_schema_boundary`. `poison` проверяет
 обновление поджога до двух тиков, HP-gate яда/щит/лечебную реакцию, накопление,

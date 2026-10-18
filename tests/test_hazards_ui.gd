@@ -32,6 +32,8 @@ func run() -> void:
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport)
 	await authored_presets()
+	if DisplayServer.get_name() != "headless":
+		await wall_trap_occlusion()
 	board = BattleDemoBoard.new()
 	board.size = Vector2(1280, 800)
 	viewport.add_child(board)
@@ -112,6 +114,113 @@ func run() -> void:
 	await process_frame
 	print("HAZARDS UI RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
+
+func wall_trap_occlusion() -> void:
+	var probe := BattleDemoBoard.new()
+	probe.size = Vector2(1280, 800)
+	probe.unit_visual_scene = preload("res://scenes/demo/visuals/art_trial_unit.tscn")
+	probe.tile_visual_scene = preload("res://scenes/demo/visuals/art_trial_tile.tscn")
+	probe.environment_visual_scene = preload("res://scenes/demo/visuals/environment_overlay.tscn")
+	viewport.add_child(probe)
+	await process_frame
+	var contact := Vector2i(3, 3)
+	for direction: Vector2i in [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT]:
+		var wall_cell := contact + direction
+		var heights := PackedInt32Array()
+		heights.resize(64)
+		var terrain := PackedByteArray()
+		terrain.resize(64)
+		terrain.fill(TerrainType.Type.FLOOR)
+		terrain[wall_cell.y * 8 + wall_cell.x] = TerrainType.Type.WALL
+		var state := {"width": 8, "height": 8, "heights": heights, "terrain": terrain,
+			"units": {1: {"id": 1, "name": "Защитник", "faction": Faction.Type.ENEMY,
+				"cell": contact, "alive": true, "hp": 20.0, "hp_max": 32.0,
+				"balance": 0.0, "balance_max": 12.0,
+				"armor": {"current": 8.0, "maximum": 16.0, "extra": 0.0},
+				"elemental": {}, "bleeding": {}, "control": {}}},
+			"hazards": {"traps": []}, "fires": [], "corpses": [], "collapse": {}}
+		probe.show_presentation_state(state)
+		var unit := probe._presentation_visual(1) as BattleDefenderIdleVisual
+		unit.visual_class_id = &"warrior"
+		unit.ambient_animation_paused = true
+		unit.sync_scene_art()
+		var without_trap := await _viewport_image()
+		var art_root := unit.get_node("ArtRoot") as Node2D
+		art_root.visible = false
+		var without_art := await _viewport_image()
+		art_root.visible = true
+		var active_state: Dictionary = state.duplicate(true)
+		active_state.hazards.traps = [{"cell": contact, "kind": "wall", "direction": direction, "armed_team": -1}]
+		probe.show_presentation_state(active_state)
+		unit = probe._presentation_visual(1) as BattleDefenderIdleVisual
+		unit.visual_class_id = &"warrior"
+		unit.ambient_animation_paused = true
+		unit.sync_scene_art()
+		var overlay := probe._environment_visuals[contact] as BattleEnvironmentVisual
+		var preset_name := "WallTrapUp" if direction == Vector2i.UP else "WallTrapRight" if direction == Vector2i.RIGHT else "WallTrapDown" if direction == Vector2i.DOWN else "WallTrapLeft"
+		var preset := overlay.get_node(NodePath(preset_name)) as Node2D
+		var spikes := preset.get_node("Spikes") as Node2D
+		spikes.visible = false
+		var rendered_panel := await _viewport_image()
+		if not captures.is_empty():
+			check(rendered_panel.save_png(captures.path_join("static-wall-trap-panel-" + preset_name.to_snake_case() + ".png")) == OK,
+				"PNG static wall trap panel " + preset_name)
+		var sprite := unit.get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D
+		var bounds := sprite.get_global_transform_with_canvas() * sprite.get_rect()
+		var counts := _wall_trap_pixel_differences(without_trap, without_art, rendered_panel, bounds)
+		print("WALL TRAP PANEL PIXELS %s sprite=%d changed=%d visible_outside=%d strongly_changed_body=%d" % [preset_name, counts.x, counts.y, counts.z, counts.w])
+		check(int(counts.x) > 100, preset_name + " native sprite mask contains rendered pixels")
+		# Сильное изменение вклада спрайта отличает перекрытие тела от сглаженных краёв и теней.
+		check(counts.w == 0, preset_name + " flat panel does not strongly change visible hero pixels")
+		check(counts.z > 50, preset_name + " flat panel still renders outside hero")
+		check(preset.z_index == 0, preset_name + " follows the contact tile depth")
+		spikes.visible = true
+		overlay.trap_progress = 1.0
+		var rendered_spikes := await _viewport_image()
+		if not captures.is_empty():
+			check(rendered_spikes.save_png(captures.path_join("static-wall-trap-active-" + preset_name.to_snake_case() + ".png")) == OK,
+				"PNG active wall trap " + preset_name)
+		var spike_counts := _wall_trap_pixel_differences(rendered_panel, without_art, rendered_spikes, bounds)
+		check(spike_counts.z > 100, preset_name + " active spikes remain visible outside hero")
+	probe.queue_free()
+	await process_frame
+
+func _viewport_image() -> Image:
+	await process_frame
+	await process_frame
+	return viewport.get_texture().get_image()
+
+func _wall_trap_pixel_differences(base: Image, no_art: Image, trap: Image, sprite_bounds: Rect2) -> Vector4i:
+	var start_x := maxi(0, floori(sprite_bounds.position.x))
+	var start_y := maxi(0, floori(sprite_bounds.position.y))
+	var end_x := mini(viewport.size.x, ceili(sprite_bounds.end.x))
+	var end_y := mini(viewport.size.y, ceili(sprite_bounds.end.y))
+	var sprite_pixels: int = 0
+	var covered_pixels: int = 0
+	var strongly_changed_body_pixels: int = 0
+	for y: int in range(start_y, end_y):
+		for x: int in range(start_x, end_x):
+			var base_color := base.get_pixel(x, y)
+			if not base_color.is_equal_approx(no_art.get_pixel(x, y)):
+				sprite_pixels += 1
+				var trap_difference := _max_rgb_delta(base_color, trap.get_pixel(x, y))
+				if not base_color.is_equal_approx(trap.get_pixel(x, y)):
+					covered_pixels += 1
+				var no_art_color := no_art.get_pixel(x, y)
+				var unit_contribution := _max_rgb_delta(base_color, no_art_color)
+				if unit_contribution > 0.12 and trap_difference > 0.2:
+					strongly_changed_body_pixels += 1
+	var visible_trap_pixels: int = 0
+	for y: int in viewport.size.y:
+		for x: int in viewport.size.x:
+			if x >= start_x and x < end_x and y >= start_y and y < end_y:
+				continue
+			if not base.get_pixel(x, y).is_equal_approx(trap.get_pixel(x, y)):
+				visible_trap_pixels += 1
+	return Vector4i(sprite_pixels, covered_pixels, visible_trap_pixels, strongly_changed_body_pixels)
+
+func _max_rgb_delta(left: Color, right: Color) -> float:
+	return maxf(maxf(absf(left.r - right.r), absf(left.g - right.g)), absf(left.b - right.b))
 
 func authored_presets() -> void:
 	var scene := preload("res://scenes/demo/visuals/environment_overlay.tscn")

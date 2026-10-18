@@ -1,7 +1,7 @@
 [gd_scene load_steps=2 format=3]
 
 [node name="WallTrap" type="Node2D"]
-z_index = 1
+z_index = 0
 
 [node name="Panel" type="Polygon2D" parent="."]
 polygon = PackedVector2Array(0, -48, 64, 0, 64, -32, 0, -80)
