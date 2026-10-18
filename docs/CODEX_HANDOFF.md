@@ -1,5 +1,5 @@
-# Передача — 2026-10-18: четыре диорамы с анимированными слоями
-D:\Games\into-de-dung; main; base ebe0df2d1c006bd4ddbca110bdeff906f7eecaca.
+# Передача — 2026-10-18: четыре диорамы сохранены до возврата U
+D:\Games\into-de-dung; main; base 7c8581a2cfb9333dfb9aa44903a02b6840202f36.
 По U толпа02, торговец/покупатель05 и последний кузнец03 с пластиной вставлены
 в2исходных+2ImageGen16-битных фона. [Владелец: ART](ART_DIRECTION.md).
 [Галерея/слои/координаты](art/hub-diorama-layered-20261018/README.md):4слоя,
@@ -9,7 +9,7 @@ Hover/focus — золотистая подсветка и pointer; клик о�
 Всегда/hover, пауза/шаг, fullscreen. Это HTML-проба, не игровая интеграция.
 31SHA/alpha1769472/153hit/12композиций/DOM-модель/JS/AST/links/diff PASS.
 Review слоёв/UI APPROVE; [отчёт](../test_reports/hub-diorama-layered-20261018/README.md).
-Ждём U: размещение, подсветка,4фона; торговец мал и частично скрыт прилавком.
+U: сохранить4варианта с персонажами, вернуться позже; приёмка остаётся открытой.
 Browser playback не проверен; новых Godot/full/core/F5/editor/DPI/GPU нет.
 Эталоны/16-битные пробы — [пакет](art/hub-diorama-16bit-20261018/README.md).
 Cleanup676d718 отклонён; прежние фоны/позиции и все серии сохранены у ART.
@@ -24,9 +24,10 @@ Import/startup PASS, move_forecast_ui80/0; review APPROVE; новый вид ж�
 Поджог/яд/скрытые плашки/одежда сохранены; детали и отменённые серии у ART.
 Чужие scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
 не трогать/reset/stage/commit; SHA сцены проверить при сдаче; manifest03 устарел.
+Параллельные чужие core/docs/tests/tools правки не включать в арт-этап.
 Core/preview/live/worker/queue/RNG/save/frozen сохранять; без нового баланса.
 Без push/sidebar/расписаний; следующий этап только по выбору U.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261018-15.md), [HISTORY](HISTORY.md).
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261018-16.md), [HISTORY](HISTORY.md).
 После этапа — Conventional Commit, короткий HANDOFF; прежний побайтно в отдельный
 архив+HISTORY. В финале/при блокере предложить новый чат и полный промпт блоком:
 HEAD, результат, docs/artifacts, остаток, ограничения, проверки и это же правило.
