@@ -52,6 +52,7 @@ layout_mode = 2
 theme_override_constants/separation = 6
 
 [node name="Title" type="HBoxContainer" parent="Margin/Column"]
+z_index = 600
 layout_mode = 2
 
 [node name="Heading" type="Label" parent="Margin/Column/Title"]
@@ -86,12 +87,14 @@ visible = false
 custom_minimum_size = Vector2(190, 38)
 
 [node name="Subtitle" type="Label" parent="Margin/Column"]
+z_index = 600
 layout_mode = 2
 text = ""
 theme_override_font_sizes/font_size = 16
 theme_override_colors/font_color = Color(0.6470588, 0.7019608, 0.772549, 1)
 
 [node name="Phase" type="HBoxContainer" parent="Margin/Column"]
+z_index = 600
 layout_mode = 2
 
 [node name="PhaseLabel" type="Label" parent="Margin/Column/Phase"]
@@ -140,6 +143,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Toolbar" type="HBoxContainer" parent="Margin/Column/Content/Left"]
+z_index = 600
 layout_mode = 2
 
 [node name="Move" parent="Margin/Column/Content/Left/Toolbar" instance=ExtResource("button")]
@@ -168,6 +172,7 @@ size_flags_vertical = 3
 theme_override_constants/separation = 12
 
 [node name="BattleActionBar" parent="Margin/Column/Content/Left/Field" instance=ExtResource("action")]
+z_index = 600
 script = ExtResource("action_script")
 compact_vertical = true
 layout_mode = 2
@@ -178,6 +183,7 @@ size_flags_vertical = 4
 layout_mode = 2
 
 [node name="Hint" type="Label" parent="Margin/Column/Content/Left"]
+z_index = 600
 layout_mode = 2
 text = ""
 theme_override_font_sizes/font_size = 14
@@ -187,6 +193,7 @@ max_lines_visible = 2
 custom_minimum_size = Vector2(0, 40)
 
 [node name="Inspection" type="Label" parent="Margin/Column/Content/Left"]
+z_index = 600
 layout_mode = 2
 text = "Наведите на фигуру для осмотра."
 theme_override_font_sizes/font_size = 14
@@ -196,12 +203,14 @@ max_lines_visible = 2
 custom_minimum_size = Vector2(0, 44)
 
 [node name="DeckSummary" type="Label" parent="Margin/Column"]
+z_index = 600
 layout_mode = 2
 text = "Мана · добор · сыграно"
 theme_override_font_sizes/font_size = 14
 theme_override_colors/font_color = Color(0.3960784, 0.8745098, 0.8, 1)
 
 [node name="MageBar" parent="Margin/Column" instance=ExtResource("mage")]
+z_index = 600
 script = ExtResource("mage_script")
 layout_mode = 2
 
@@ -357,6 +366,7 @@ text = "Подтвердить"
 visible = false
 
 [node name="Status" type="Label" parent="Margin/Column"]
+z_index = 600
 layout_mode = 2
 text = ""
 theme_override_font_sizes/font_size = 14
@@ -367,6 +377,7 @@ max_lines_visible = 2
 custom_minimum_size = Vector2(0, 42)
 
 [node name="Instructions" type="Label" parent="Margin/Column"]
+z_index = 600
 layout_mode = 2
 text = ""
 theme_override_font_sizes/font_size = 14

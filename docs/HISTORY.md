@@ -1,5 +1,19 @@
 # История и свидетельства проверок
 
+## Поле без прямоугольной обрезки HUD — 2026-10-18
+
+По просьбе U отключён clipping Board в authored/fallback-разметке.
+Строки/кнопки/карты HUD подняты выше слоёв поля; размеры и привязки прежние.
+Это визуальная правка: GUI-ввод за прямоугольником Board не расширен.
+[Контракт](BATTLE_HUD_SCENES_V1.md), [кадры и отчёт](../test_reports/hud-unclipped-20261018/README.md).
+Base main621048d9e26e124d6b310e2b60cff864d11968c1.
+Import/startup PASS; camera110/0, HUD306/0, execution28/0, launcher5PASS/0FAIL.
+Парные H1/deck capture100%+pan и140% PASS; state/RNG неизменны.
+game_reviewer APPROVE. Full/core/ручная F5/editor/DPI и финальная приёмка не выполнялись.
+Core/preview/live/worker/queue/RNG/save/frozen, баланс и арт-палитра прежние.
+Чужая сцена и серия03 сохранены, без push.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261018-2.md).
+
 ## Сцена с воином: первая палитра, второй масштаб — 2026-10-18
 
 U поручил примерить эталон к тайлам и собрать сцену, затем выбрал спокойные

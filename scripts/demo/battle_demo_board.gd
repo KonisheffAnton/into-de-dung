@@ -1099,7 +1099,8 @@ func _ready() -> void:
 	if not authored_layout:
 		custom_minimum_size = Vector2(520, 520)
 		mouse_filter = Control.MOUSE_FILTER_STOP
-		clip_contents = true
+		# Край области ввода не должен отрезать видимые тайлы и фигуры под HUD.
+		clip_contents = false
 	_tiles = _layer("TilesLayer", RenderLayers.Layer.TILES)
 	_entities = _layer("EntitiesLayer", RenderLayers.Layer.ENTITIES)
 	_entities.y_sort_enabled = true

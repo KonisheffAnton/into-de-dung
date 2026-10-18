@@ -32,7 +32,8 @@ callbacks и флаг колоды. Session у Board и lifecycle остаютс
 `BattleForecastText` форматирует подробные прогнозы и причины отказа из detached
 результатов и значений. Dispatch, guards, compact forecast, живые имена/события и
 публикация остаются у `BattleDemo`. Выделенные компоненты собраны в `scripts/ui/battle/`.
-Карта и границы — [BATTLE_HUD_SCENES_V1](BATTLE_HUD_SCENES_V1.md).
+Карта, временный показ поля за границами HUD и ограничения ввода —
+[BATTLE_HUD_SCENES_V1](BATTLE_HUD_SCENES_V1.md).
 
 [K17](STATUS_EFFECTS_NEXT.md) включает конечные состояния bleeding/burning/wet/freeze/poison
 в основном бою и у помощников. Nullable ElementalState и явный режим bleeding.stacked разделяют правила
