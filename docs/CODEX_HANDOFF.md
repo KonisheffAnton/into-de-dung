@@ -1,16 +1,17 @@
-# Передача — 2026-10-18: очистка диорам
-D:\Games\into-de-dung; main; base d4397afe2887a9dc28a4029833e9ec52d90334c1.
-[Фоны/сравнение](art/hub-diorama-cleanup-20261018/README.md): bright/muted,1672×941.
-По U исправлены кровли/опоры, лодка, мост, предметы кузницы/лавки, шум воды/листвы.
-Башня разрушена, без входа/наружных лестниц; маг сохранён, удалённые11людей не вернулись.
-ImageGen6 вызовов, исходники/промпты сохранены; 16PNG/копии PASS,
-review семи зон APPROVE для preview. В игру не внедрено; нужен отзыв U.
+# Передача — 2026-10-18: пять наборов людей
+D:\Games\into-de-dung; main; base676d7180184db09a79b7d390db399e64ef5ff101.
+U предпочёл фоны ДО cleanup; очистка676d718 не принята, в новых пробах не используется.
+[Новые люди/галерея](art/hub-diorama-repopulation-20261018/README.md): отдельно
+5 толп по8,5 кузнецов,5 пар торговец/покупатель, затем10 сцен в двух палитрах.
+28 ImageGen-вызовов; исходники/промпты/попытки сохранены.32PNG/копии PASS;
+review15 активов+10 сцен APPROVE preview. В яркой03 восстановлены пропавшие фигуры;
+её размер1670×942, остальные1672×941. Генеративная вставка — не точные слои.
+Арт не внедрён. Дальше выбор U по номерам.
 [Прежние фоны/позиции](art/hub-diorama-people-cutout-20261018/README.md),70a80fe:
-координаты приблизительные; прозрачные наборы перерисованы/смещены, не точные слои.
-[Прежние V4](art/hub-diorama-wide-20261018/README.md), [арт-направление](ART_DIRECTION.md).
-WallTrap d4397af: 4пресета z1→0, панель не закрывает стоящего героя.
-Import/startup PASS; hazards_ui107/0, environment_visual_contract15/0,
-presentation_foundation143/0; отрицательный контроль старого z1 FAIL; review APPROVE.
+координаты приблизительные; старые прозрачные наборы перерисованы/смещены.
+[Арт-направление](ART_DIRECTION.md).
+WallTrap d4397af:4 пресета z1→0, панель не закрывает стоящего героя.
+Import/startup PASS; hazards107/0, environment15/0, foundation143/0; review APPROVE.
 [Контракт](ENVIRONMENT_HAZARDS_V1.md), [кадры](../test_reports/wall-unit-occlusion-20261018/README.md).
 U принял прежний запуск/маршрут с поправкой: c981fb0 оставил конечную стрелку.
 Import/startup PASS, move_forecast_ui80/0; review APPROVE; новый вид ждёт U.
@@ -25,7 +26,7 @@ Import/startup PASS, move_forecast_ui80/0; review APPROVE; новый вид ж�
 Core/preview/live/worker/queue/RNG/save/frozen сохранять; без нового баланса.
 Без push/sidebar/расписаний. Следующий этап только по выбору U.
 Новых full/core/ручных F5/editor/DPI/GPU/финальной приёмки нет.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261018-10.md), [HISTORY](HISTORY.md).
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261018-11.md), [HISTORY](HISTORY.md).
 После этапа — Conventional Commit, короткий HANDOFF; прежний побайтно в отдельный
 архив+HISTORY. В финале/при блокере предложить новый чат и полный промпт блоком:
 HEAD, результат, docs/artifacts, остаток, ограничения, проверки и это же правило.

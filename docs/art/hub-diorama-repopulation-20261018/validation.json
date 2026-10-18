@@ -1,0 +1,544 @@
+{
+  "date": "2026-10-18",
+  "technical_result": "PASS",
+  "png_count": 32,
+  "active_assets": 15,
+  "composites": 10,
+  "source_byte_copies": "PASS 3/3",
+  "provider_byte_copies": "PASS 28/28",
+  "files": [
+    {
+      "file": "crowd-01.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "fully_transparent_pixels": 1048061,
+      "fully_opaque_pixels": 0,
+      "sha256": "2413b4d5b1c76645f3dc57396d194420a86315587b40dc66612a45bd55a7e039",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "crowd-02.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "fully_transparent_pixels": 951963,
+      "fully_opaque_pixels": 0,
+      "sha256": "0a8a23b9f5b8c61223f56e43f91a89b80349996fbe95b84bf0ade936f12ce0a4",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "crowd-03.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "fully_transparent_pixels": 1092784,
+      "fully_opaque_pixels": 0,
+      "sha256": "cb580f10c8a915491a3ba1848c087fe60f85225c4655c7fce8725c2fb9925446",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "crowd-04.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "fully_transparent_pixels": 848565,
+      "fully_opaque_pixels": 0,
+      "sha256": "4939724247d9029008d69918a453ccb78487c5e8c8a7440beba48ab07ed77cac",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "crowd-05-v1.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "fully_transparent_pixels": 999676,
+      "fully_opaque_pixels": 0,
+      "sha256": "4e4a9360e606907a51d3bded95e21a55f8baf78898e1fcd250b1131bba89028d",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "crowd-05.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "fully_transparent_pixels": 963425,
+      "fully_opaque_pixels": 0,
+      "sha256": "75bd4aaf962d4c60df325bb0b8bc7bdc7d435ee528646f88184c7c3e292425d3",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "diorama-bright-01.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "fully_opaque_pixels": 1573352,
+      "sha256": "5075f6cdbd3345db3bd58b952a4bb2683f6f748b9cd19eb95bf177c78d7c18e4",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "diorama-bright-02.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "fully_opaque_pixels": 1573352,
+      "sha256": "e6f674a8bc12012a944c0bcf31ffb7649dc4b75327f6da9b72a1e9c1f4d06eca",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "diorama-bright-03-v1.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "fully_opaque_pixels": 1573352,
+      "sha256": "7cd8e5dddd46be7ba24e486700a69c733a2d93f203c63d08f797dd716fde022f",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "diorama-bright-03-v2.png",
+      "size": [
+        1670,
+        941
+      ],
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "fully_opaque_pixels": 1571470,
+      "sha256": "2293b587672f15e75ce30e5d633e76c2aea60b17736e347ca6c2e690aa6804eb",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "diorama-bright-03.png",
+      "size": [
+        1670,
+        942
+      ],
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "fully_opaque_pixels": 1573140,
+      "sha256": "6557acb24b8136348908b553bd7f5f5e68a8f61141212fe61d900550b6118ae7",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "diorama-bright-04.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "fully_opaque_pixels": 1573352,
+      "sha256": "6b8b8f7e670eb723fde22a2473c53b553421dcfbb52bb2c0824adffe30e66c13",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "diorama-bright-05.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "fully_opaque_pixels": 1573352,
+      "sha256": "3b2d7c9f52b07479ab1b8851185fe3f62c9b9f835c73544ef866f8b842e36d39",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "diorama-muted-01.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "fully_opaque_pixels": 1573352,
+      "sha256": "bd59e55699a98195257a1e8891cd9848ad3b9b880950195f8748dfc0d336352a",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "diorama-muted-02.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "fully_opaque_pixels": 1573352,
+      "sha256": "f273d74026d2e933061bb3543c57abda9b6fb76b3831ca5d40cfc39eb790b118",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "diorama-muted-03.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "fully_opaque_pixels": 1573352,
+      "sha256": "c81128fafff2dc60f4c1702252ae75dfb3e990a17eb07e59b45ec5e0e33b7dfc",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "diorama-muted-04.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "fully_opaque_pixels": 1573352,
+      "sha256": "71c3d6278bcbe3886a3711858fdc368d92b456b0514f690213c3c63c63d23521",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "diorama-muted-05.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "fully_opaque_pixels": 1573352,
+      "sha256": "fef5a0de5f6e1bbb89802beb29921eb5e099ad23f4d0db58aa92a4254a57f551",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "market-01.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "fully_transparent_pixels": 1128555,
+      "fully_opaque_pixels": 0,
+      "sha256": "950c038a4881d876b4313fc3f11ac67b03c05f7689ed49f52b5e174f316c0e92",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "market-02.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "fully_transparent_pixels": 1158851,
+      "fully_opaque_pixels": 0,
+      "sha256": "8234fdb5b07cac4c0e29424d0791337ce1a552da164e2e4a8e92364524a3fb1b",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "market-03.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "fully_transparent_pixels": 1125910,
+      "fully_opaque_pixels": 0,
+      "sha256": "7f6432e8afd1d892737471fb49c6c14ada2c4b61b87099099bd523617a7e2ded",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "market-04.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "fully_transparent_pixels": 949188,
+      "fully_opaque_pixels": 0,
+      "sha256": "e0eed9e28fa6b28a2c3f6b9c60a007cf4fb9cd10d8eac735c0aa45facb9237ca",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "market-05.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "fully_transparent_pixels": 1168682,
+      "fully_opaque_pixels": 0,
+      "sha256": "6e02a4b66d4d88825b89e79ff19d65b1740a89547a2ba8f368ab106074bb0569",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "reference-bright-03-v2-market.png",
+      "size": [
+        680,
+        620
+      ],
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "fully_opaque_pixels": 421600,
+      "sha256": "18b6f0fc141aa965e09b1ff207c55ce913e836f548392a049fdac583b9f7c08e",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "reference-original-people.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "fully_opaque_pixels": 1573352,
+      "sha256": "f79b95510c24304037d3442bee4efcbf8312187ad30e7d6461fd4f362c368d0b",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "smith-01.png",
+      "size": [
+        1333,
+        1180
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "fully_transparent_pixels": 1085010,
+      "fully_opaque_pixels": 1503,
+      "sha256": "30f5e1e95c250222f8b6bb6ffb2cf5b037940cf503b9b6ff036e8984fa0f4ebd",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "smith-02.png",
+      "size": [
+        1295,
+        1215
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "fully_transparent_pixels": 1147321,
+      "fully_opaque_pixels": 2054,
+      "sha256": "134f18ade0efc71e99d2b25d34336f03d5ff6594ce96d0862e2b9f1265480e4d",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "smith-03.png",
+      "size": [
+        1312,
+        1199
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "fully_transparent_pixels": 1102414,
+      "fully_opaque_pixels": 779,
+      "sha256": "6b1e716b0843d572ae70217f4b22ac49a017455878c596e5214a32c1ca07ad71",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "smith-04.png",
+      "size": [
+        1310,
+        1200
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "fully_transparent_pixels": 1154790,
+      "fully_opaque_pixels": 963,
+      "sha256": "749cda0b1e6fc1b2d46f9e8f0fd0d74123410e60a5e418dbaeb834596c9e21e0",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "smith-05.png",
+      "size": [
+        1271,
+        1237
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "fully_transparent_pixels": 1092470,
+      "fully_opaque_pixels": 2194,
+      "sha256": "374b7a422313caaafb8707f209d2d44fad0130ab895ba32b5a7594304c92b95c",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "source-bright.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "fully_opaque_pixels": 1573352,
+      "sha256": "64283873b8cb86224777e61fb23b19f8595d0d3275ae08fcbea29bb246f628e0",
+      "crc_decode": "PASS"
+    },
+    {
+      "file": "source-muted.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "fully_opaque_pixels": 1573352,
+      "sha256": "bec069749df5314ee966b6f4d8c53770bd5e42170fa5e0af2c7203f306623ee5",
+      "crc_decode": "PASS"
+    }
+  ],
+  "dimension_note": {
+    "nine_composites": [
+      1672,
+      941
+    ],
+    "diorama-bright-03.png": [
+      1670,
+      942
+    ],
+    "postprocessing": "No resize applied; gallery fits image to shared comparison coordinates"
+  },
+  "visual_review": "APPROVE preview:15 standalone assets and10 final dioramas; final bright03 hash verified, see review.md",
+  "runtime_checks": "Not run: static art preview only",
+  "gallery_browser_check": "Not performed: file:// browsing denied by tool policy in this session; no workaround attempted",
+  "local_links": {
+    "checked": 74,
+    "missing": [],
+    "result": "PASS"
+  },
+  "gallery_script_syntax": "PASS node --check",
+  "dynamic_asset_names": "PASS all25 active PNG references"
+}

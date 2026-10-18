@@ -1,0 +1,459 @@
+{
+  "base_commit": "676d7180184db09a79b7d390db399e64ef5ff101",
+  "date": "2026-10-18",
+  "provider": "built-in image_gen.imagegen",
+  "calls": 28,
+  "mode": "Separate character generation then multi-image generative compositing",
+  "sources": [
+    {
+      "file": "source-bright.png",
+      "copied_from": "../hub-diorama-people-cutout-20261018/background-bright.png",
+      "sha256": "64283873b8cb86224777e61fb23b19f8595d0d3275ae08fcbea29bb246f628e0"
+    },
+    {
+      "file": "source-muted.png",
+      "copied_from": "../hub-diorama-people-cutout-20261018/background-muted-v5.png",
+      "sha256": "bec069749df5314ee966b6f4d8c53770bd5e42170fa5e0af2c7203f306623ee5"
+    },
+    {
+      "file": "reference-original-people.png",
+      "copied_from": "../hub-diorama-people-cutout-20261018/source-muted-v4.png",
+      "sha256": "f79b95510c24304037d3442bee4efcbf8312187ad30e7d6461fd4f362c368d0b"
+    }
+  ],
+  "generation": [
+    {
+      "key": "crowd",
+      "id": "01",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-c38878f5-46df-455e-8010-d3dab2d0afde.png",
+      "output": "crowd-01.png",
+      "prompt": "prompt-crowd-01.txt",
+      "sha256": "2413b4d5b1c76645f3dc57396d194420a86315587b40dc66612a45bd55a7e039",
+      "prompt_sha256": "565f344eace37f591ba6261dd56f5fa3352312f57eb895f40134eec4b5ec660a",
+      "transparent_background": true,
+      "refs": [
+        "reference-original-people.png"
+      ]
+    },
+    {
+      "key": "smith",
+      "id": "01",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-a105bfd1-4a61-438c-bd06-360e023426f5.png",
+      "output": "smith-01.png",
+      "prompt": "prompt-smith-01.txt",
+      "sha256": "30f5e1e95c250222f8b6bb6ffb2cf5b037940cf503b9b6ff036e8984fa0f4ebd",
+      "prompt_sha256": "ab58f133ba3cd1500998aa4fd08b84368ff8054e2a14663c45948dfda8eaef5d",
+      "transparent_background": true,
+      "refs": [
+        "reference-original-people.png"
+      ]
+    },
+    {
+      "key": "market",
+      "id": "01",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-9741ec30-8649-409d-9cc6-8e655fac54cc.png",
+      "output": "market-01.png",
+      "prompt": "prompt-market-01.txt",
+      "sha256": "950c038a4881d876b4313fc3f11ac67b03c05f7689ed49f52b5e174f316c0e92",
+      "prompt_sha256": "6e27c63883b1586c6dd55630ff348f45a0be38c9661a88593d105cc4a47b682e",
+      "transparent_background": true,
+      "refs": [
+        "reference-original-people.png"
+      ]
+    },
+    {
+      "key": "market",
+      "id": "02",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-0af0c18d-8b12-4143-9462-2731f826eaa0.png",
+      "output": "market-02.png",
+      "prompt": "prompt-market-02.txt",
+      "sha256": "8234fdb5b07cac4c0e29424d0791337ce1a552da164e2e4a8e92364524a3fb1b",
+      "prompt_sha256": "9be56eb2b4476fed108c2cf377773ba9694f0ea9e3c69456282217a8438738d7",
+      "transparent_background": true,
+      "refs": [
+        "reference-original-people.png"
+      ]
+    },
+    {
+      "key": "crowd",
+      "id": "02",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-7f432301-bc74-4707-a941-74bf4b0b1168.png",
+      "output": "crowd-02.png",
+      "prompt": "prompt-crowd-02.txt",
+      "sha256": "0a8a23b9f5b8c61223f56e43f91a89b80349996fbe95b84bf0ade936f12ce0a4",
+      "prompt_sha256": "92891859761cb9c1296876d047446a7816ca3e3e7cecbf490c58f144d186ef86",
+      "transparent_background": true,
+      "refs": [
+        "reference-original-people.png"
+      ]
+    },
+    {
+      "key": "smith",
+      "id": "02",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-01c452fe-e3e4-43bc-b27e-d9833af6a170.png",
+      "output": "smith-02.png",
+      "prompt": "prompt-smith-02.txt",
+      "sha256": "134f18ade0efc71e99d2b25d34336f03d5ff6594ce96d0862e2b9f1265480e4d",
+      "prompt_sha256": "8fa125bd5332acb62111295c2204766ba80deb7201c01b935255e96eea1e2f98",
+      "transparent_background": true,
+      "refs": [
+        "reference-original-people.png"
+      ]
+    },
+    {
+      "key": "market",
+      "id": "03",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-2995a97a-eeb1-4b56-a06f-db580d60290b.png",
+      "output": "market-03.png",
+      "prompt": "prompt-market-03.txt",
+      "sha256": "7f6432e8afd1d892737471fb49c6c14ada2c4b61b87099099bd523617a7e2ded",
+      "prompt_sha256": "aee78d7c3ad5180f3f4ac23812724f2e8f3ea881ec47b65473205a98d393ab99",
+      "transparent_background": true,
+      "refs": [
+        "reference-original-people.png"
+      ]
+    },
+    {
+      "key": "crowd",
+      "id": "03",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-9c76e7a5-832d-4cda-b651-7aad5efb6343.png",
+      "output": "crowd-03.png",
+      "prompt": "prompt-crowd-03.txt",
+      "sha256": "cb580f10c8a915491a3ba1848c087fe60f85225c4655c7fce8725c2fb9925446",
+      "prompt_sha256": "ded34f76296f3c4a58ceaf3c51d85f5e67bf32bd4140fe94a8378c4373501c6d",
+      "transparent_background": true,
+      "refs": [
+        "reference-original-people.png"
+      ]
+    },
+    {
+      "key": "market",
+      "id": "04",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-6498ad6b-51b2-4855-a55e-dd46fee0d00c.png",
+      "output": "market-04.png",
+      "prompt": "prompt-market-04.txt",
+      "sha256": "e0eed9e28fa6b28a2c3f6b9c60a007cf4fb9cd10d8eac735c0aa45facb9237ca",
+      "prompt_sha256": "41e08cdb61311a9cc4df0903880e8fd593c8a6992e4fa34ef91c015703f9b59e",
+      "transparent_background": true,
+      "refs": [
+        "reference-original-people.png"
+      ]
+    },
+    {
+      "key": "market",
+      "id": "05",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-7771cd53-dd21-4195-ab15-2215be8ae678.png",
+      "output": "market-05.png",
+      "prompt": "prompt-market-05.txt",
+      "sha256": "6e02a4b66d4d88825b89e79ff19d65b1740a89547a2ba8f368ab106074bb0569",
+      "prompt_sha256": "ce8d3727a5611f0885a4769aa4a6f77cc507190905a06a2ece605467e81b02d2",
+      "transparent_background": true,
+      "refs": [
+        "reference-original-people.png"
+      ]
+    },
+    {
+      "key": "crowd",
+      "id": "04",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-9906c9e1-1566-46b3-ac66-2dfcd0f95399.png",
+      "output": "crowd-04.png",
+      "prompt": "prompt-crowd-04.txt",
+      "sha256": "4939724247d9029008d69918a453ccb78487c5e8c8a7440beba48ab07ed77cac",
+      "prompt_sha256": "18a98a46bfdc4de4054edaaeeeb2b5dbd803379fc5c8b6201bbcdb4aa41d0e17",
+      "transparent_background": true,
+      "refs": [
+        "reference-original-people.png"
+      ]
+    },
+    {
+      "key": "smith",
+      "id": "03",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-f8856867-b4c4-4e38-9586-5d12cd0041c9.png",
+      "output": "smith-03.png",
+      "prompt": "prompt-smith-03.txt",
+      "sha256": "6b1e716b0843d572ae70217f4b22ac49a017455878c596e5214a32c1ca07ad71",
+      "prompt_sha256": "06f83a94888d58f0a0db00e76688f03835e9596e96ebe9e5c73455fcb8619fc4",
+      "transparent_background": true,
+      "refs": [
+        "reference-original-people.png"
+      ]
+    },
+    {
+      "key": "crowd",
+      "id": "05",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-5d635dd0-7007-4c14-9938-1e5ee138c128.png",
+      "output": "crowd-05-v1.png",
+      "prompt": "prompt-crowd-05.txt",
+      "sha256": "4e4a9360e606907a51d3bded95e21a55f8baf78898e1fcd250b1131bba89028d",
+      "prompt_sha256": "c322d0ec318af2400c567c1725614f0ae10f122134e7f09bda4a1e6d610200f7",
+      "transparent_background": true,
+      "refs": [
+        "reference-original-people.png"
+      ]
+    },
+    {
+      "key": "smith",
+      "id": "04",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-bf457f37-6614-4064-9cdb-dc94b4d1367e.png",
+      "output": "smith-04.png",
+      "prompt": "prompt-smith-04.txt",
+      "sha256": "749cda0b1e6fc1b2d46f9e8f0fd0d74123410e60a5e418dbaeb834596c9e21e0",
+      "prompt_sha256": "9e00ef2c28bcd1c0b6579fe5645b2e53e010efd2dd303bdbf1eafac3af4072d0",
+      "transparent_background": true,
+      "refs": [
+        "reference-original-people.png"
+      ]
+    },
+    {
+      "key": "smith",
+      "id": "05",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-f9b39857-8aa4-4e80-975d-b0a4e2ce5f60.png",
+      "output": "smith-05.png",
+      "prompt": "prompt-smith-05.txt",
+      "sha256": "374b7a422313caaafb8707f209d2d44fad0130ab895ba32b5a7594304c92b95c",
+      "prompt_sha256": "77e7a62a30212f9b17b58b3920d1caf2061a077b3ccdddd52081ba7b3e5caedc",
+      "transparent_background": true,
+      "refs": [
+        "reference-original-people.png"
+      ]
+    },
+    {
+      "key": "crowd",
+      "id": "05-v2",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-1cb1f720-7802-4fc8-96d7-62dfc7dca36c.png",
+      "output": "crowd-05.png",
+      "prompt": "prompt-crowd-05-v2.txt",
+      "refs": [
+        "crowd-05-v1.png"
+      ],
+      "sha256": "75bd4aaf962d4c60df325bb0b8bc7bdc7d435ee528646f88184c7c3e292425d3",
+      "prompt_sha256": "18cd9cffddd207d8c3873848894a88e9fcd4ae8f0aa84308fb828f7a995650b1",
+      "transparent_background": true
+    }
+  ],
+  "compositing": [
+    {
+      "palette": "muted",
+      "id": "01",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-aff4b0cb-76e3-4d42-bead-95988f4692a2.png",
+      "output": "diorama-muted-01.png",
+      "prompt": "prompt-composite-muted-01.txt",
+      "refs": [
+        "source-muted.png",
+        "crowd-01.png",
+        "smith-01.png",
+        "market-01.png"
+      ],
+      "sha256": "bd59e55699a98195257a1e8891cd9848ad3b9b880950195f8748dfc0d336352a",
+      "prompt_sha256": "63d2817daf176cfb5c207aa921c67f3e203531cf65489322cb4474e3d04c551c",
+      "transparent_background": false
+    },
+    {
+      "id": "02",
+      "palette": "muted",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-730d8beb-0c96-4808-97f7-512ba181bc88.png",
+      "output": "diorama-muted-02.png",
+      "prompt": "prompt-composite-muted-02.txt",
+      "refs": [
+        "source-muted.png",
+        "crowd-02.png",
+        "smith-02.png",
+        "market-02.png"
+      ],
+      "sha256": "f273d74026d2e933061bb3543c57abda9b6fb76b3831ca5d40cfc39eb790b118",
+      "prompt_sha256": "9de1a5a2554d4b482757b2b3ed43cf4c6d10a5614c17ec83b3af20cd1863e860",
+      "transparent_background": false
+    },
+    {
+      "id": "01",
+      "palette": "bright",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-a7daba24-5292-4e1e-8d2f-e82cef841a2c.png",
+      "output": "diorama-bright-01.png",
+      "prompt": "prompt-composite-bright-01.txt",
+      "refs": [
+        "source-bright.png",
+        "crowd-01.png",
+        "smith-01.png",
+        "market-01.png"
+      ],
+      "sha256": "5075f6cdbd3345db3bd58b952a4bb2683f6f748b9cd19eb95bf177c78d7c18e4",
+      "prompt_sha256": "df7b42b79aaa8ca13e950b9351ee5badc95ef56a11af1f8ecd6c99907c15ad61",
+      "transparent_background": false
+    },
+    {
+      "id": "02",
+      "palette": "bright",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-92fd46f3-d525-404a-8e35-dda5de24d811.png",
+      "output": "diorama-bright-02.png",
+      "prompt": "prompt-composite-bright-02.txt",
+      "refs": [
+        "source-bright.png",
+        "crowd-02.png",
+        "smith-02.png",
+        "market-02.png"
+      ],
+      "sha256": "e6f674a8bc12012a944c0bcf31ffb7649dc4b75327f6da9b72a1e9c1f4d06eca",
+      "prompt_sha256": "d8b5d7a2d881ad96789c7fef3e0609ec5e7ac8ee83fa8975a4e966f9926742ad",
+      "transparent_background": false
+    },
+    {
+      "id": "03",
+      "palette": "muted",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-bcbce3f5-480c-4d5f-b1a1-66d6a8359219.png",
+      "output": "diorama-muted-03.png",
+      "prompt": "prompt-composite-muted-03.txt",
+      "refs": [
+        "source-muted.png",
+        "crowd-03.png",
+        "smith-03.png",
+        "market-03.png"
+      ],
+      "sha256": "c81128fafff2dc60f4c1702252ae75dfb3e990a17eb07e59b45ec5e0e33b7dfc",
+      "prompt_sha256": "08a6d49c77076456c59b5e5d2c654b3fefd3674e4d0283efc828ef42f5dbb33d",
+      "transparent_background": false
+    },
+    {
+      "id": "04",
+      "palette": "bright",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-533b50e2-2968-4416-bad5-97e37e8ff9e5.png",
+      "output": "diorama-bright-04.png",
+      "prompt": "prompt-composite-bright-04.txt",
+      "refs": [
+        "source-bright.png",
+        "crowd-04.png",
+        "smith-04.png",
+        "market-04.png"
+      ],
+      "sha256": "6b8b8f7e670eb723fde22a2473c53b553421dcfbb52bb2c0824adffe30e66c13",
+      "prompt_sha256": "f52290773c4afc5716a13f40221bbe466e8d12853ed2b09d62fff1f03492c3f2",
+      "transparent_background": false
+    },
+    {
+      "id": "03",
+      "palette": "bright",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-361b5ff4-b921-45cf-bfd8-24b5f844aa65.png",
+      "output": "diorama-bright-03-v1.png",
+      "prompt": "prompt-composite-bright-03.txt",
+      "refs": [
+        "source-bright.png",
+        "crowd-03.png",
+        "smith-03.png",
+        "market-03.png"
+      ],
+      "sha256": "7cd8e5dddd46be7ba24e486700a69c733a2d93f203c63d08f797dd716fde022f",
+      "prompt_sha256": "490c2f101f3f339f0433ca081d23eacc85541b4c97e11a81c55a7f0e72159309",
+      "transparent_background": false
+    },
+    {
+      "id": "04",
+      "palette": "muted",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-39b3e7d6-80c7-4526-9bea-772b29e0e22d.png",
+      "output": "diorama-muted-04.png",
+      "prompt": "prompt-composite-muted-04.txt",
+      "refs": [
+        "source-muted.png",
+        "crowd-04.png",
+        "smith-04.png",
+        "market-04.png"
+      ],
+      "sha256": "71c3d6278bcbe3886a3711858fdc368d92b456b0514f690213c3c63c63d23521",
+      "prompt_sha256": "d4bdfb2cd1eb859263d59acbe2fcb38aa4f6d89edf2a16f55af1b282d976cbe5",
+      "transparent_background": false
+    },
+    {
+      "id": "05",
+      "palette": "muted",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-6858e2d2-3834-40f9-b90a-e30371f0ad9a.png",
+      "output": "diorama-muted-05.png",
+      "prompt": "prompt-composite-muted-05.txt",
+      "refs": [
+        "source-muted.png",
+        "crowd-05.png",
+        "smith-05.png",
+        "market-05.png"
+      ],
+      "sha256": "fef5a0de5f6e1bbb89802beb29921eb5e099ad23f4d0db58aa92a4254a57f551",
+      "prompt_sha256": "3975419fb1cca92ec8350467cfda16a4ab2f586ae9f75af7001dcadf91d059d7",
+      "transparent_background": false
+    },
+    {
+      "id": "05",
+      "palette": "bright",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-368afcb9-6785-4b13-b5ea-9ba7a3556798.png",
+      "output": "diorama-bright-05.png",
+      "prompt": "prompt-composite-bright-05.txt",
+      "refs": [
+        "source-bright.png",
+        "crowd-05.png",
+        "smith-05.png",
+        "market-05.png"
+      ],
+      "sha256": "3b2d7c9f52b07479ab1b8851185fe3f62c9b9f835c73544ef866f8b842e36d39",
+      "prompt_sha256": "b19dd0dafbaaf2518312932229dfa3fe6b9e149b34a64533a3730110eb6ad196",
+      "transparent_background": false
+    },
+    {
+      "palette": "bright",
+      "id": "03-v2",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-1aba1917-13ea-4f67-9c9a-bd9029f291b3.png",
+      "output": "diorama-bright-03-v2.png",
+      "prompt": "prompt-composite-bright-03-v2.txt",
+      "refs": [
+        "diorama-bright-03-v1.png",
+        "crowd-03.png",
+        "diorama-muted-03.png"
+      ],
+      "sha256": "2293b587672f15e75ce30e5d633e76c2aea60b17736e347ca6c2e690aa6804eb",
+      "prompt_sha256": "918c9082fab2ddc55ec38994062eee541a03fb4919d8368ef8ee042927a22dd6",
+      "transparent_background": false
+    },
+    {
+      "palette": "bright",
+      "id": "03-v3",
+      "provider": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-aec052da-4cfe-45d0-8cd7-129657ab35a8.png",
+      "output": "diorama-bright-03.png",
+      "prompt": "prompt-composite-bright-03-v3.txt",
+      "refs": [
+        "diorama-bright-03-v2.png",
+        "reference-bright-03-v2-market.png",
+        "market-03.png"
+      ],
+      "sha256": "6557acb24b8136348908b553bd7f5f5e68a8f61141212fe61d900550b6118ae7",
+      "prompt_sha256": "2f2568fba9dcde2659a99a2e0019e291cc848fa75af6dd7ff197f81b0b3c55ee",
+      "transparent_background": false
+    }
+  ],
+  "rejected": [
+    {
+      "file": "crowd-05-v1.png",
+      "reason": "Seven figures; active crowd-05.png adds eighth"
+    },
+    {
+      "file": "diorama-bright-03-v1.png",
+      "reason": "Six mercenaries; two missing"
+    },
+    {
+      "file": "diorama-bright-03-v2.png",
+      "reason": "Eight mercenaries restored, but customer disappeared"
+    }
+  ],
+  "usage": null,
+  "cost": null,
+  "postprocessing": "None: all provider PNGs copied byte-exact. Alpha preserved. Text prompt files may include a terminal newline.",
+  "derived_references": [
+    {
+      "file": "reference-bright-03-v2-market.png",
+      "source": "diorama-bright-03-v2.png",
+      "crop_ltrb": [
+        1080,
+        595,
+        1250,
+        750
+      ],
+      "nearest_scale": 4,
+      "sha256": "18b6f0fc141aa965e09b1ff207c55ce913e836f548392a049fdac583b9f7c08e",
+      "purpose": "Diagnostic edit-location reference only"
+    }
+  ],
+  "prompt_encoding": "UTF-8 with LF; terminal newline in text files may be cosmetic"
+}

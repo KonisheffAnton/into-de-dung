@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Люди торгового двора — галерея проб</title>
+  <style>
+    :root { color-scheme: light; --ink:#202a30; --muted:#68747a; --paper:#f5f4ef; --card:#fffefa; --line:#d9ddd8; --accent:#315f58; --gold:#d5a552; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--paper); font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; }
+    main { width:min(1180px, calc(100% - 36px)); margin:0 auto; padding:38px 0 64px; }
+    .eyebrow { color:var(--accent); font-size:.78rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
+    h1,h2,h3,p { margin-top:0; }
+    h1 { max-width:800px; margin-bottom:12px; font:500 clamp(2rem,5vw,3.6rem)/1.06 Georgia,serif; letter-spacing:-.035em; }
+    h2 { margin-bottom:8px; font:500 clamp(1.45rem,3vw,2rem)/1.2 Georgia,serif; }
+    h3 { margin-bottom:5px; font-size:1rem; }
+    .lede { max-width:760px; color:var(--muted); font-size:1.05rem; }
+    .notice { padding:15px 18px; border-left:4px solid var(--gold); background:#fff9e9; border-radius:0 9px 9px 0; }
+    .notice p { margin:0; }
+    .links { display:flex; flex-wrap:wrap; gap:10px 22px; margin:20px 0 34px; }
+    a { color:var(--accent); font-weight:700; text-underline-offset:3px; }
+    section { margin-top:36px; }
+    .controls { display:flex; flex-wrap:wrap; align-items:end; gap:12px; margin:18px 0 14px; }
+    label { display:grid; gap:5px; color:var(--muted); font-size:.82rem; font-weight:750; }
+    select { min-width:150px; padding:10px 34px 10px 12px; border:1px solid var(--line); border-radius:8px; background:#fffefa; color:var(--ink); font:inherit; }
+    .switch { display:flex; align-items:center; gap:9px; min-height:42px; padding:0 8px; color:var(--ink); font-size:.9rem; }
+    .switch input { width:18px; height:18px; accent-color:var(--accent); }
+    .stage { overflow:hidden; border:1px solid var(--line); border-radius:14px; background:#e8e6dc; box-shadow:0 12px 30px #26352b12; }
+    .stage svg { display:block; width:100%; height:auto; max-height:68vh; }
+    .stage image { image-rendering:pixelated; }
+    .compare { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); }
+    .compare[hidden] { display:none; }
+    .compare figure { position:relative; min-width:0; margin:0; background:#e8e6dc; }
+    .compare figcaption { position:absolute; z-index:1; top:10px; left:12px; padding:4px 9px; border-radius:99px; background:#fffefaed; font-size:.78rem; font-weight:800; }
+    .compare svg { width:100%; max-height:45vh; }
+    .caption { padding:10px 14px; color:var(--muted); font-size:.88rem; }
+    .pieces { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin-top:16px; }
+    .piece { min-width:0; padding:12px; border:1px solid var(--line); border-radius:11px; background:var(--card); }
+    .piece img { display:block; width:100%; height:205px; object-fit:contain; image-rendering:pixelated; border-radius:6px; }
+    .checker { background-color:#f5f5f2; background-image:linear-gradient(45deg,#dfe2df 25%,transparent 25%),linear-gradient(-45deg,#dfe2df 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#dfe2df 75%),linear-gradient(-45deg,transparent 75%,#dfe2df 75%); background-size:20px 20px; background-position:0 0,0 10px,10px -10px,-10px 0; }
+    .piece p { margin:8px 0 0; font-size:.9rem; }
+    .sets { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; margin-top:16px; }
+    .set-card { overflow:hidden; padding:0; text-align:left; color:var(--ink); border:1px solid var(--line); border-radius:10px; background:var(--card); cursor:pointer; }
+    .set-card[aria-pressed="true"] { outline:3px solid var(--accent); outline-offset:1px; }
+    .set-card img { display:block; width:100%; aspect-ratio:16/9; object-fit:cover; image-rendering:pixelated; background:#e8e6dc; }
+    .set-card span { display:block; padding:8px 10px; font-weight:800; }
+    .facts { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin:14px 0; }
+    .fact { padding:14px; border:1px solid var(--line); border-radius:10px; background:var(--card); }
+    .fact strong { display:block; color:var(--accent); font-size:1.3rem; }
+    .small { color:var(--muted); font-size:.87rem; }
+    footer { margin-top:36px; padding-top:18px; border-top:1px solid var(--line); color:var(--muted); font-size:.86rem; }
+    @media (max-width:720px) { main { width:min(100% - 24px,1180px); padding-top:25px; } .pieces,.facts { grid-template-columns:1fr; } .piece img { height:240px; } .sets { grid-template-columns:repeat(2,minmax(0,1fr)); } .compare { grid-template-columns:1fr; } .compare svg { max-height:32vh; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">Hub diorama · art study</div>
+    <h1>Люди торгового двора</h1>
+    <p class="lede">Отдельная генерация персонажей → пробное размещение на исходном фоне в двух палитрах. Выберите набор, палитру и участок, чтобы рассмотреть составную сцену.</p>
+    <div class="notice"><p><strong>Это визуальная проба.</strong> Генеративная композиция не гарантирует точные слои и неизменность фона. Арт не внедрён в игру.</p></div>
+    <nav class="links" aria-label="Материалы и отчёты">
+      <a href="README.md">README</a><a href="provenance.json">Provenance</a><a href="validation.json">Validation</a><a href="review.md">Review</a>
+    </nav>
+  </header>
+
+  <section aria-labelledby="composition-title">
+    <div class="eyebrow">01 / Размещение</div>
+    <h2 id="composition-title">Сцена целиком или крупным планом</h2>
+    <div class="controls">
+      <label>Набор<select id="set-select" aria-label="Набор персонажей"></select></label>
+      <label>Палитра<select id="palette-select" aria-label="Палитра сцены"><option value="muted">Приглушённая</option><option value="bright">Яркая</option></select></label>
+      <label>Участок<select id="region-select" aria-label="Участок сцены"><option value="whole">Весь двор</option><option value="crowd">Толпа</option><option value="smith">Кузнец</option><option value="market">Лавка</option></select></label>
+      <label class="switch"><input id="compare-toggle" type="checkbox"> Сравнить исходник и пробу</label>
+    </div>
+    <div class="stage" id="single-stage">
+      <svg id="main-view" viewBox="0 0 1672 941" role="img" aria-label="Составная диорама с выбранными людьми" preserveAspectRatio="xMidYMid meet">
+        <image id="main-image" x="0" y="0" width="1672" height="941" href="diorama-muted-01.png" />
+      </svg>
+    </div>
+    <div class="stage compare" id="compare-stage" hidden>
+      <figure><figcaption>Исходный фон</figcaption><svg id="source-view" viewBox="0 0 1672 941" role="img" aria-label="Пустой исходный фон"><image id="source-image" x="0" y="0" width="1672" height="941" href="source-muted.png" /></svg></figure>
+      <figure><figcaption>Пробное размещение</figcaption><svg id="diorama-view" viewBox="0 0 1672 941" role="img" aria-label="Составная диорама"><image id="diorama-image" x="0" y="0" width="1672" height="941" href="diorama-muted-01.png" /></svg></figure>
+    </div>
+    <div class="caption"><a id="scene-full" href="diorama-muted-01.png">Открыть диораму в полном размере</a> · Все участки задаются в координатах исходного холста 1672 × 941. Увеличенный фрагмент показывает композицию, а не точную маску персонажа.</div>
+  </section>
+
+  <section aria-labelledby="pieces-title">
+    <div class="eyebrow">02 / Исходные варианты</div>
+    <h2 id="pieces-title">Три отдельно сгенерированных изображения</h2>
+    <p class="small">Прозрачные PNG выбранного набора на шахматном фоне. Ссылки открывают файлы в полном размере.</p>
+    <div class="pieces">
+      <article class="piece"><h3>Толпа — 8 человек</h3><a id="crowd-link" href="crowd-01.png"><img id="crowd-image" class="checker" src="crowd-01.png" alt="Восемь людей для двора"></a><p><a id="crowd-full" href="crowd-01.png">Открыть PNG</a></p></article>
+      <article class="piece"><h3>Кузнец</h3><a id="smith-link" href="smith-01.png"><img id="smith-image" class="checker" src="smith-01.png" alt="Кузнец с ручным инструментом"></a><p><a id="smith-full" href="smith-01.png">Открыть PNG</a></p></article>
+      <article class="piece"><h3>Торговец и покупатель</h3><a id="market-link" href="market-01.png"><img id="market-image" class="checker" src="market-01.png" alt="Торговец и покупатель у прилавка"></a><p><a id="market-full" href="market-01.png">Открыть PNG</a></p></article>
+    </div>
+  </section>
+
+  <section aria-labelledby="sets-title">
+    <div class="eyebrow">03 / Все варианты</div>
+    <h2 id="sets-title">Пять пробных размещений</h2>
+    <p class="small">Миниатюры показывают выбранную палитру. Нажмите карточку, чтобы переключить набор.</p>
+    <div class="sets" id="set-cards"></div>
+  </section>
+
+  <section aria-labelledby="people-title">
+    <div class="eyebrow">Состав</div>
+    <h2 id="people-title">Три категории персонажей</h2>
+    <div class="facts">
+      <div class="fact"><strong>8 фигур</strong>Группа наёмников с переносимым снаряжением.</div>
+      <div class="fact"><strong>1 фигура</strong>Кузнец; наковальня, заготовка и горн остаются частью окружения.</div>
+      <div class="fact"><strong>2 фигуры</strong>Торговец и покупатель у лавки.</div>
+    </div>
+  </section>
+
+  <footer>Статическая HTML-галерея без внешних библиотек и сетевых запросов. Исходные PNG используются только как изображения страницы; файлы не редактируются.</footer>
+</main>
+<script>
+(() => {
+  "use strict";
+  const setSelect = document.getElementById("set-select");
+  const paletteSelect = document.getElementById("palette-select");
+  const regionSelect = document.getElementById("region-select");
+  const toggle = document.getElementById("compare-toggle");
+  const singleStage = document.getElementById("single-stage");
+  const compareStage = document.getElementById("compare-stage");
+  const regions = {
+    whole: [0, 0, 1672, 941],
+    crowd: [720, 490, 280, 205],
+    smith: [1000, 530, 110, 110],
+    market: [1080, 595, 170, 155]
+  };
+  const asset = (prefix, number, palette = "") => `${prefix}${palette ? `-${palette}` : ""}-${String(number).padStart(2, "0")}.png`;
+  const sourceAsset = palette => `source-${palette}.png`;
+  const selectedNumber = () => Number(setSelect.value);
+  const selectedPalette = () => paletteSelect.value;
+  const updateViewBoxes = () => {
+    const [x, y, width, height] = regions[regionSelect.value];
+    ["main-view", "source-view", "diorama-view"].forEach(id => document.getElementById(id).setAttribute("viewBox", `${x} ${y} ${width} ${height}`));
+  };
+  const updateAssets = () => {
+    const number = selectedNumber();
+    const palette = selectedPalette();
+    const scene = asset("diorama", number, palette);
+    document.getElementById("scene-full").href = scene;
+    document.getElementById("main-image").setAttribute("href", scene);
+    document.getElementById("diorama-image").setAttribute("href", scene);
+    document.getElementById("source-image").setAttribute("href", sourceAsset(palette));
+    [["crowd", "crowd"], ["smith", "smith"], ["market", "market"]].forEach(([id, prefix]) => {
+      const path = asset(prefix, number);
+      document.getElementById(`${id}-image`).src = path;
+      document.getElementById(`${id}-link`).href = path;
+      document.getElementById(`${id}-full`).href = path;
+    });
+    document.querySelectorAll(".set-card").forEach((card, index) => {
+      card.setAttribute("aria-pressed", String(index + 1 === number));
+      card.querySelector("img").src = asset("diorama", index + 1, palette);
+    });
+  };
+  for (let number = 1; number <= 5; number += 1) {
+    const option = document.createElement("option");
+    option.value = String(number);
+    option.textContent = `Набор ${String(number).padStart(2, "0")}`;
+    setSelect.append(option);
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "set-card";
+    card.setAttribute("aria-pressed", String(number === 1));
+    card.innerHTML = `<img src="${asset("diorama", number, "muted")}" alt="Миниатюра диорамы, набор ${String(number).padStart(2, "0")}"><span>Набор ${String(number).padStart(2, "0")}</span>`;
+    card.addEventListener("click", () => { setSelect.value = String(number); updateAssets(); });
+    document.getElementById("set-cards").append(card);
+  }
+  setSelect.addEventListener("change", updateAssets);
+  paletteSelect.addEventListener("change", updateAssets);
+  regionSelect.addEventListener("change", updateViewBoxes);
+  toggle.addEventListener("change", () => {
+    singleStage.hidden = toggle.checked;
+    compareStage.hidden = !toggle.checked;
+  });
+  updateViewBoxes();
+  updateAssets();
+})();
+</script>
+</body>
+</html>

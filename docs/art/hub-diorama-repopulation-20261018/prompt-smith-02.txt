@@ -1,0 +1,8 @@
+Use case: stylized-concept
+Asset type: separate transparent blacksmith character sprite for later compositing.
+Input image 1 is STYLE AND CAMERA reference only; generate just the new character, no island or background.
+One adult stocky medieval blacksmith, same chibi pixel-art style and elevated three-quarter isometric perspective as the small people in the diorama. Dark hair, short beard, rolled off-white sleeves, dark leather apron, sturdy brown trousers and boots. Full body, 3-head-tall proportions, compact readable silhouette, clean dark pixel contours and clustered pixel shading. Muted warm brown/olive/steel palette, upper-left daylight.
+Pose: facing down-right in the image, leaning slightly toward a waist-high anvil that will be added later by the compositor. His right hand holds a small forging hammer poised over that implied anvil, his left holds short tongs horizontally toward image-right. Feet planted and both arms anatomically clear. No anvil, no glowing workpiece, no furnace or tools other than held hammer/tongs, no ground plane or shadow disk. Match the diorama view, not a frontal portrait or side profile.
+Transparent alpha background, whole head/hands/boots visible, modest transparent margin; no text, no watermark, no extra people.
+VARIATION 02 OVERRIDES hair/design: bald stocky middle-aged blacksmith with a short reddish beard, charcoal rolled-sleeve shirt and weathered tan leather apron. Hammer raised a little higher in right hand, tongs held toward image-right at waist height. Three-quarter facing down-right. No extra body parts, no anvil or workpiece.
+Critical: actual transparent alpha outside figures. No glow halos, no dark painted backdrop. Flat readable pixel clusters; keep art consistent with the reference.
