@@ -1,0 +1,375 @@
+[
+  {
+    "id": 1,
+    "kind": "diorama",
+    "label": "bright",
+    "endpoint": "/image-to-pixelart-pro",
+    "request": {
+      "image": {
+        "file": "sources/bright.png",
+        "sha256": "06f4aa685f978a11d57d789712d01136c0857adcff81db076455c3c53be17191"
+      },
+      "description": "Redraw this exact wide island diorama as deliberate, clean native-resolution pixel art: consistent square pixel grid, coherent clusters of light and shadow, crisp stepped edges, limited well-organized colors, no blur or painterly microtexture. Preserve the entire composition and aspect ratio: island shoreline, ruined abandoned houses, waterfall and stream, bridge, vegetable garden, forge with anvil and market stall, shipwreck, hooded figure by the lower cave. The monumental tower on top of the mountain stays half-ruined, without a visible entrance or exterior stairs. Do not add people, crowd, smith, seller or buyer. Preserve object positions and the source palette mood. Keep the vivid sunny blue sea, emerald greenery and warm ochre paths.",
+      "seed": 2026101801
+    }
+  },
+  {
+    "id": 2,
+    "kind": "diorama",
+    "label": "muted",
+    "endpoint": "/image-to-pixelart-pro",
+    "request": {
+      "image": {
+        "file": "sources/muted.png",
+        "sha256": "5dcd5f58fa34fe0c35439859fc5130ee377063d58745336b3fde45470cd6a745"
+      },
+      "description": "Redraw this exact wide island diorama as deliberate, clean native-resolution pixel art: consistent square pixel grid, coherent clusters of light and shadow, crisp stepped edges, limited well-organized colors, no blur or painterly microtexture. Preserve the entire composition and aspect ratio: island shoreline, ruined abandoned houses, waterfall and stream, bridge, vegetable garden, forge with anvil and market stall, shipwreck, hooded figure by the lower cave. The monumental tower on top of the mountain stays half-ruined, without a visible entrance or exterior stairs. Do not add people, crowd, smith, seller or buyer. Preserve object positions and the source palette mood. Keep the restrained olive greens, muted blue sea, earthy browns and cool stone.",
+      "seed": 2026101802
+    }
+  },
+  {
+    "id": 3,
+    "kind": "animation",
+    "label": "crowd",
+    "variant": 1,
+    "title": "Короткие реплики",
+    "endpoint": "/animate-with-text-v3",
+    "request": {
+      "first_frame": {
+        "file": "inputs/crowd-256.png",
+        "sha256": "c575f0971ba8a19f04287a07ede13f11ae51a9e97a9d5c978e4e2d2b1c0801e6"
+      },
+      "last_frame": {
+        "file": "inputs/crowd-256.png",
+        "sha256": "c575f0971ba8a19f04287a07ede13f11ae51a9e97a9d5c978e4e2d2b1c0801e6"
+      },
+      "action": "The silver-haired veteran makes one small open-hand conversational gesture toward the red-haired archer, who nods once. The blue-clad map reader briefly glances at them. Everyone else only breathes subtly. Keep all eight people present, in the exact same formation, with identical faces, equipment and colors. Simple seamless pixel-art loop. Fixed camera, scale and feet positions; no walking, sliding, hopping, zoom or rotation of the whole sprite. Preserve transparent background and clean pixel clusters. Gentle motion, stable silhouettes, return to the starting pose.",
+      "frame_count": 8,
+      "seed": 2026101803,
+      "no_background": true,
+      "enhance_prompt": false
+    }
+  },
+  {
+    "id": 4,
+    "kind": "animation",
+    "label": "crowd",
+    "variant": 2,
+    "title": "Оглянуться",
+    "endpoint": "/animate-with-text-v3",
+    "request": {
+      "first_frame": {
+        "file": "inputs/crowd-256.png",
+        "sha256": "c575f0971ba8a19f04287a07ede13f11ae51a9e97a9d5c978e4e2d2b1c0801e6"
+      },
+      "last_frame": {
+        "file": "inputs/crowd-256.png",
+        "sha256": "c575f0971ba8a19f04287a07ede13f11ae51a9e97a9d5c978e4e2d2b1c0801e6"
+      },
+      "action": "The hooded traveler slowly glances left then back to the group. The two front armored companions slightly turn their heads in opposite directions, listening, then return. The others remain nearly still. Keep all eight people present, in the exact same formation, with identical faces, equipment and colors. Simple seamless pixel-art loop. Fixed camera, scale and feet positions; no walking, sliding, hopping, zoom or rotation of the whole sprite. Preserve transparent background and clean pixel clusters. Gentle motion, stable silhouettes, return to the starting pose.",
+      "frame_count": 8,
+      "seed": 2026101804,
+      "no_background": true,
+      "enhance_prompt": false
+    }
+  },
+  {
+    "id": 5,
+    "kind": "animation",
+    "label": "crowd",
+    "variant": 3,
+    "title": "Обсуждение карты",
+    "endpoint": "/animate-with-text-v3",
+    "request": {
+      "first_frame": {
+        "file": "inputs/crowd-256.png",
+        "sha256": "c575f0971ba8a19f04287a07ede13f11ae51a9e97a9d5c978e4e2d2b1c0801e6"
+      },
+      "last_frame": {
+        "file": "inputs/crowd-256.png",
+        "sha256": "c575f0971ba8a19f04287a07ede13f11ae51a9e97a9d5c978e4e2d2b1c0801e6"
+      },
+      "action": "The blue-clad traveler tilts the existing map a little and nods; the veteran and archer glance down toward it, exchange tiny head nods, then return. One very small hand gesture, no large arm motions. Keep all eight people present, in the exact same formation, with identical faces, equipment and colors. Simple seamless pixel-art loop. Fixed camera, scale and feet positions; no walking, sliding, hopping, zoom or rotation of the whole sprite. Preserve transparent background and clean pixel clusters. Gentle motion, stable silhouettes, return to the starting pose.",
+      "frame_count": 8,
+      "seed": 2026101805,
+      "no_background": true,
+      "enhance_prompt": false
+    }
+  },
+  {
+    "id": 6,
+    "kind": "animation",
+    "label": "crowd",
+    "variant": 4,
+    "title": "Тихий разговор",
+    "endpoint": "/animate-with-text-v3",
+    "request": {
+      "first_frame": {
+        "file": "inputs/crowd-256.png",
+        "sha256": "c575f0971ba8a19f04287a07ede13f11ae51a9e97a9d5c978e4e2d2b1c0801e6"
+      },
+      "last_frame": {
+        "file": "inputs/crowd-256.png",
+        "sha256": "c575f0971ba8a19f04287a07ede13f11ae51a9e97a9d5c978e4e2d2b1c0801e6"
+      },
+      "action": "The red-haired archer gives a small nod and slight shoulder movement while speaking to the veteran. The front blue soldier makes a tiny head turn to the green soldier. Movements are staggered, never in unison. Keep all eight people present, in the exact same formation, with identical faces, equipment and colors. Simple seamless pixel-art loop. Fixed camera, scale and feet positions; no walking, sliding, hopping, zoom or rotation of the whole sprite. Preserve transparent background and clean pixel clusters. Gentle motion, stable silhouettes, return to the starting pose.",
+      "frame_count": 8,
+      "seed": 2026101806,
+      "no_background": true,
+      "enhance_prompt": false
+    }
+  },
+  {
+    "id": 7,
+    "kind": "animation",
+    "label": "crowd",
+    "variant": 5,
+    "title": "Слушатели",
+    "endpoint": "/animate-with-text-v3",
+    "request": {
+      "first_frame": {
+        "file": "inputs/crowd-256.png",
+        "sha256": "c575f0971ba8a19f04287a07ede13f11ae51a9e97a9d5c978e4e2d2b1c0801e6"
+      },
+      "last_frame": {
+        "file": "inputs/crowd-256.png",
+        "sha256": "c575f0971ba8a19f04287a07ede13f11ae51a9e97a9d5c978e4e2d2b1c0801e6"
+      },
+      "action": "The rightmost backpacked traveler briefly turns his head toward the hooded traveler, who answers with a small nod. The veteran makes one restrained short palm gesture. Other heads make only tiny asynchronous listening movements. Keep all eight people present, in the exact same formation, with identical faces, equipment and colors. Simple seamless pixel-art loop. Fixed camera, scale and feet positions; no walking, sliding, hopping, zoom or rotation of the whole sprite. Preserve transparent background and clean pixel clusters. Gentle motion, stable silhouettes, return to the starting pose.",
+      "frame_count": 8,
+      "seed": 2026101807,
+      "no_background": true,
+      "enhance_prompt": false
+    }
+  },
+  {
+    "id": 8,
+    "kind": "animation",
+    "label": "smith",
+    "variant": 1,
+    "title": "Один удар",
+    "endpoint": "/animate-with-text-v3",
+    "request": {
+      "first_frame": {
+        "file": "inputs/smith-256.png",
+        "sha256": "8dc65928053e5b037132a42bf4166cb8a623206c96d52c641577383cad5b0b45"
+      },
+      "last_frame": {
+        "file": "inputs/smith-256.png",
+        "sha256": "8dc65928053e5b037132a42bf4166cb8a623206c96d52c641577383cad5b0b45"
+      },
+      "action": "One clear forging strike: raise the existing hammer slightly, swing it down firmly toward the fixed working point just in front of the waist beside the tongs, briefly settle, then lift it back to the initial raised pose. Keep exactly the same one bald red-bearded smith, apron, hammer and tongs. Do not invent extra tools, anvil, fire or sparks; the anvil is a separate scene object. Simple seamless pixel-art loop. Fixed camera, scale and feet positions; no walking, sliding, hopping, zoom or rotation of the whole sprite. Preserve transparent background and clean pixel clusters. Gentle motion, stable silhouettes, return to the starting pose.",
+      "frame_count": 8,
+      "seed": 2026101808,
+      "no_background": true,
+      "enhance_prompt": false
+    }
+  },
+  {
+    "id": 9,
+    "kind": "animation",
+    "label": "smith",
+    "variant": 2,
+    "title": "Два лёгких удара",
+    "endpoint": "/animate-with-text-v3",
+    "request": {
+      "first_frame": {
+        "file": "inputs/smith-256.png",
+        "sha256": "8dc65928053e5b037132a42bf4166cb8a623206c96d52c641577383cad5b0b45"
+      },
+      "last_frame": {
+        "file": "inputs/smith-256.png",
+        "sha256": "8dc65928053e5b037132a42bf4166cb8a623206c96d52c641577383cad5b0b45"
+      },
+      "action": "Two short light forging taps with the existing hammer toward the same fixed working point in front of the waist beside the tongs, with a small rebound after each tap; return to the initial raised pose. Keep exactly the same one bald red-bearded smith, apron, hammer and tongs. Do not invent extra tools, anvil, fire or sparks; the anvil is a separate scene object. Simple seamless pixel-art loop. Fixed camera, scale and feet positions; no walking, sliding, hopping, zoom or rotation of the whole sprite. Preserve transparent background and clean pixel clusters. Gentle motion, stable silhouettes, return to the starting pose.",
+      "frame_count": 8,
+      "seed": 2026101809,
+      "no_background": true,
+      "enhance_prompt": false
+    }
+  },
+  {
+    "id": 10,
+    "kind": "animation",
+    "label": "smith",
+    "variant": 3,
+    "title": "Размеренный удар",
+    "endpoint": "/animate-with-text-v3",
+    "request": {
+      "first_frame": {
+        "file": "inputs/smith-256.png",
+        "sha256": "8dc65928053e5b037132a42bf4166cb8a623206c96d52c641577383cad5b0b45"
+      },
+      "last_frame": {
+        "file": "inputs/smith-256.png",
+        "sha256": "8dc65928053e5b037132a42bf4166cb8a623206c96d52c641577383cad5b0b45"
+      },
+      "action": "A slower weighty forging motion: slight torso anticipation, one deliberate downward hammer stroke toward the fixed working point beside the tongs, brief impact pause, controlled recovery to the raised starting pose. Keep exactly the same one bald red-bearded smith, apron, hammer and tongs. Do not invent extra tools, anvil, fire or sparks; the anvil is a separate scene object. Simple seamless pixel-art loop. Fixed camera, scale and feet positions; no walking, sliding, hopping, zoom or rotation of the whole sprite. Preserve transparent background and clean pixel clusters. Gentle motion, stable silhouettes, return to the starting pose.",
+      "frame_count": 8,
+      "seed": 2026101810,
+      "no_background": true,
+      "enhance_prompt": false
+    }
+  },
+  {
+    "id": 11,
+    "kind": "animation",
+    "label": "smith",
+    "variant": 4,
+    "title": "Короткий рабочий ритм",
+    "endpoint": "/animate-with-text-v3",
+    "request": {
+      "first_frame": {
+        "file": "inputs/smith-256.png",
+        "sha256": "8dc65928053e5b037132a42bf4166cb8a623206c96d52c641577383cad5b0b45"
+      },
+      "last_frame": {
+        "file": "inputs/smith-256.png",
+        "sha256": "8dc65928053e5b037132a42bf4166cb8a623206c96d52c641577383cad5b0b45"
+      },
+      "action": "A compact practical forging cycle: lower the existing hammer to make one short precise tap at the fixed working point beside the tongs, lift it halfway, make a second tap, then restore the initial raised pose. Keep exactly the same one bald red-bearded smith, apron, hammer and tongs. Do not invent extra tools, anvil, fire or sparks; the anvil is a separate scene object. Simple seamless pixel-art loop. Fixed camera, scale and feet positions; no walking, sliding, hopping, zoom or rotation of the whole sprite. Preserve transparent background and clean pixel clusters. Gentle motion, stable silhouettes, return to the starting pose.",
+      "frame_count": 8,
+      "seed": 2026101811,
+      "no_background": true,
+      "enhance_prompt": false
+    }
+  },
+  {
+    "id": 12,
+    "kind": "animation",
+    "label": "smith",
+    "variant": 5,
+    "title": "Проверка и удар",
+    "endpoint": "/animate-with-text-v3",
+    "request": {
+      "first_frame": {
+        "file": "inputs/smith-256.png",
+        "sha256": "8dc65928053e5b037132a42bf4166cb8a623206c96d52c641577383cad5b0b45"
+      },
+      "last_frame": {
+        "file": "inputs/smith-256.png",
+        "sha256": "8dc65928053e5b037132a42bf4166cb8a623206c96d52c641577383cad5b0b45"
+      },
+      "action": "Briefly glance at the existing tongs, make a small adjustment of their angle without moving their working point, give one clean downward hammer strike beside them, and return to the original raised-hammer pose. Keep exactly the same one bald red-bearded smith, apron, hammer and tongs. Do not invent extra tools, anvil, fire or sparks; the anvil is a separate scene object. Simple seamless pixel-art loop. Fixed camera, scale and feet positions; no walking, sliding, hopping, zoom or rotation of the whole sprite. Preserve transparent background and clean pixel clusters. Gentle motion, stable silhouettes, return to the starting pose.",
+      "frame_count": 8,
+      "seed": 2026101812,
+      "no_background": true,
+      "enhance_prompt": false
+    }
+  },
+  {
+    "id": 13,
+    "kind": "animation",
+    "label": "market",
+    "variant": 1,
+    "title": "Открытая ладонь",
+    "endpoint": "/animate-with-text-v3",
+    "request": {
+      "first_frame": {
+        "file": "inputs/market-256.png",
+        "sha256": "8cbb10e0718dd84f5d8b4d3828f9a5e1f10db10ee2f9f8604dbde1d1337d837c"
+      },
+      "last_frame": {
+        "file": "inputs/market-256.png",
+        "sha256": "8cbb10e0718dd84f5d8b4d3828f9a5e1f10db10ee2f9f8604dbde1d1337d837c"
+      },
+      "action": "The red-hatted merchant enthusiastically explains something with one clear outward open-palm gesture and a small nod; the green-cloaked buyer gives a restrained listening nod. Return to the initial poses. Keep exactly these two people: the red-hatted merchant on the left and the green-cloaked buyer on the right, with their same clothing and colors. Simple seamless pixel-art loop. Fixed camera, scale and feet positions; no walking, sliding, hopping, zoom or rotation of the whole sprite. Preserve transparent background and clean pixel clusters. Gentle motion, stable silhouettes, return to the starting pose.",
+      "frame_count": 8,
+      "seed": 2026101813,
+      "no_background": true,
+      "enhance_prompt": false
+    }
+  },
+  {
+    "id": 14,
+    "kind": "animation",
+    "label": "market",
+    "variant": 2,
+    "title": "Перечисляет доводы",
+    "endpoint": "/animate-with-text-v3",
+    "request": {
+      "first_frame": {
+        "file": "inputs/market-256.png",
+        "sha256": "8cbb10e0718dd84f5d8b4d3828f9a5e1f10db10ee2f9f8604dbde1d1337d837c"
+      },
+      "last_frame": {
+        "file": "inputs/market-256.png",
+        "sha256": "8cbb10e0718dd84f5d8b4d3828f9a5e1f10db10ee2f9f8604dbde1d1337d837c"
+      },
+      "action": "The merchant makes two small rhythmic hand beats while talking, with a slight forward head tilt, then relaxes to the initial pose. The buyer subtly tilts his head in response. Keep exactly these two people: the red-hatted merchant on the left and the green-cloaked buyer on the right, with their same clothing and colors. Simple seamless pixel-art loop. Fixed camera, scale and feet positions; no walking, sliding, hopping, zoom or rotation of the whole sprite. Preserve transparent background and clean pixel clusters. Gentle motion, stable silhouettes, return to the starting pose.",
+      "frame_count": 8,
+      "seed": 2026101814,
+      "no_background": true,
+      "enhance_prompt": false
+    }
+  },
+  {
+    "id": 15,
+    "kind": "animation",
+    "label": "market",
+    "variant": 3,
+    "title": "Показывает товар",
+    "endpoint": "/animate-with-text-v3",
+    "request": {
+      "first_frame": {
+        "file": "inputs/market-256.png",
+        "sha256": "8cbb10e0718dd84f5d8b4d3828f9a5e1f10db10ee2f9f8604dbde1d1337d837c"
+      },
+      "last_frame": {
+        "file": "inputs/market-256.png",
+        "sha256": "8cbb10e0718dd84f5d8b4d3828f9a5e1f10db10ee2f9f8604dbde1d1337d837c"
+      },
+      "action": "The merchant briefly gestures to his side as if indicating wares outside this sprite, turns his gaze back to the buyer, and opens the palm again. The buyer follows the gesture with a tiny head turn then returns. Keep exactly these two people: the red-hatted merchant on the left and the green-cloaked buyer on the right, with their same clothing and colors. Simple seamless pixel-art loop. Fixed camera, scale and feet positions; no walking, sliding, hopping, zoom or rotation of the whole sprite. Preserve transparent background and clean pixel clusters. Gentle motion, stable silhouettes, return to the starting pose.",
+      "frame_count": 8,
+      "seed": 2026101815,
+      "no_background": true,
+      "enhance_prompt": false
+    }
+  },
+  {
+    "id": 16,
+    "kind": "animation",
+    "label": "market",
+    "variant": 4,
+    "title": "Убеждает покупателя",
+    "endpoint": "/animate-with-text-v3",
+    "request": {
+      "first_frame": {
+        "file": "inputs/market-256.png",
+        "sha256": "8cbb10e0718dd84f5d8b4d3828f9a5e1f10db10ee2f9f8604dbde1d1337d837c"
+      },
+      "last_frame": {
+        "file": "inputs/market-256.png",
+        "sha256": "8cbb10e0718dd84f5d8b4d3828f9a5e1f10db10ee2f9f8604dbde1d1337d837c"
+      },
+      "action": "The merchant leans forward just slightly, raises the gesturing hand in a persuasive arc, nods once and returns upright. The buyer gives one small answering nod, remaining mostly still. Keep exactly these two people: the red-hatted merchant on the left and the green-cloaked buyer on the right, with their same clothing and colors. Simple seamless pixel-art loop. Fixed camera, scale and feet positions; no walking, sliding, hopping, zoom or rotation of the whole sprite. Preserve transparent background and clean pixel clusters. Gentle motion, stable silhouettes, return to the starting pose.",
+      "frame_count": 8,
+      "seed": 2026101816,
+      "no_background": true,
+      "enhance_prompt": false
+    }
+  },
+  {
+    "id": 17,
+    "kind": "animation",
+    "label": "market",
+    "variant": 5,
+    "title": "Весёлая история",
+    "endpoint": "/animate-with-text-v3",
+    "request": {
+      "first_frame": {
+        "file": "inputs/market-256.png",
+        "sha256": "8cbb10e0718dd84f5d8b4d3828f9a5e1f10db10ee2f9f8604dbde1d1337d837c"
+      },
+      "last_frame": {
+        "file": "inputs/market-256.png",
+        "sha256": "8cbb10e0718dd84f5d8b4d3828f9a5e1f10db10ee2f9f8604dbde1d1337d837c"
+      },
+      "action": "The merchant gives a small cheerful shoulder lift and two restrained expressive gestures of the same open hand, with slight mouth movement. The buyer listens and nods once. End in the exact starting arrangement. Keep exactly these two people: the red-hatted merchant on the left and the green-cloaked buyer on the right, with their same clothing and colors. Simple seamless pixel-art loop. Fixed camera, scale and feet positions; no walking, sliding, hopping, zoom or rotation of the whole sprite. Preserve transparent background and clean pixel clusters. Gentle motion, stable silhouettes, return to the starting pose.",
+      "frame_count": 8,
+      "seed": 2026101817,
+      "no_background": true,
+      "enhance_prompt": false
+    }
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "id": 17,
+  "kind": "animation",
+  "label": "market",
+  "variant": 5,
+  "title": "Весёлая история",
+  "endpoint": "/animate-with-text-v3",
+  "request": {
+    "first_frame": {
+      "file": "inputs/market-256.png",
+      "sha256": "8cbb10e0718dd84f5d8b4d3828f9a5e1f10db10ee2f9f8604dbde1d1337d837c"
+    },
+    "last_frame": {
+      "file": "inputs/market-256.png",
+      "sha256": "8cbb10e0718dd84f5d8b4d3828f9a5e1f10db10ee2f9f8604dbde1d1337d837c"
+    },
+    "action": "The merchant gives a small cheerful shoulder lift and two restrained expressive gestures of the same open hand, with slight mouth movement. The buyer listens and nods once. End in the exact starting arrangement. Keep exactly these two people: the red-hatted merchant on the left and the green-cloaked buyer on the right, with their same clothing and colors. Simple seamless pixel-art loop. Fixed camera, scale and feet positions; no walking, sliding, hopping, zoom or rotation of the whole sprite. Preserve transparent background and clean pixel clusters. Gentle motion, stable silhouettes, return to the starting pose.",
+    "frame_count": 8,
+    "seed": 2026101817,
+    "no_background": true,
+    "enhance_prompt": false
+  }
+}

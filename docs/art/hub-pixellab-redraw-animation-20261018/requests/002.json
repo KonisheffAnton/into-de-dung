@@ -1,0 +1,14 @@
+{
+  "id": 2,
+  "kind": "diorama",
+  "label": "muted",
+  "endpoint": "/image-to-pixelart-pro",
+  "request": {
+    "image": {
+      "file": "sources/muted.png",
+      "sha256": "5dcd5f58fa34fe0c35439859fc5130ee377063d58745336b3fde45470cd6a745"
+    },
+    "description": "Redraw this exact wide island diorama as deliberate, clean native-resolution pixel art: consistent square pixel grid, coherent clusters of light and shadow, crisp stepped edges, limited well-organized colors, no blur or painterly microtexture. Preserve the entire composition and aspect ratio: island shoreline, ruined abandoned houses, waterfall and stream, bridge, vegetable garden, forge with anvil and market stall, shipwreck, hooded figure by the lower cave. The monumental tower on top of the mountain stays half-ruined, without a visible entrance or exterior stairs. Do not add people, crowd, smith, seller or buyer. Preserve object positions and the source palette mood. Keep the restrained olive greens, muted blue sea, earthy browns and cool stone.",
+    "seed": 2026101802
+  }
+}

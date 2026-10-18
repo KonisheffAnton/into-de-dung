@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>PixelLab — пробы диорамы и анимации</title>
+  <style>
+    :root{font:16px/1.5 system-ui,"Segoe UI",sans-serif;color:#e9e5d6;background:#121713;--panel:#1c241e;--line:#354239;--muted:#a8b09d;--accent:#b7d286}*{box-sizing:border-box}body{margin:0 auto;max-width:1480px;padding:28px clamp(16px,4vw,56px) 36px}.page-head,.section-heading,.card-heading,footer{display:flex;align-items:center;justify-content:space-between;gap:20px}.page-head{padding:18px 0 28px;border-bottom:1px solid var(--line)}h1{font-size:clamp(30px,4vw,48px);line-height:1.08;letter-spacing:-.04em;margin:5px 0 12px}h2{font-size:clamp(24px,3vw,34px);margin:0}h3{font-size:20px;margin:3px 0 0}.intro,.section-note{max-width:700px;color:var(--muted);margin:0}.eyebrow{color:var(--accent);font-size:11px;font-weight:750;letter-spacing:.14em;text-transform:uppercase}.badge{border:1px solid #657b4f;border-radius:12px;padding:12px 16px;color:#d8e8b8;text-align:center;white-space:nowrap;font-size:13px}.section{padding:32px 0;border-bottom:1px solid var(--line)}.section-heading{align-items:flex-end;margin-bottom:18px}.toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:9px}.toolbar label{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:13px}.toolbar .check{white-space:nowrap}button,select{font:inherit;color:#e9e5d6;background:#29332b;border:1px solid #49594a;border-radius:7px;padding:8px 11px}button{cursor:pointer}button:hover{border-color:var(--accent)}.quiet{font-size:12px;padding:6px 9px}.diorama-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.diorama-card,.variant-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0}.diorama-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:12px 0}.diorama-pair figure{margin:0;min-width:0}.diorama-pair img{image-rendering:pixelated;width:100%;aspect-ratio:1672/941;object-fit:contain;display:block;border-radius:6px}.diorama-pair figcaption{font-size:12px;color:var(--muted);padding-top:5px}.source-focus{grid-template-columns:1fr}.source-focus figure:last-child{display:none}.asset-link,.frame-links a,footer a{color:#c8df9d;text-decoration:none}.asset-link:hover,.frame-links a:hover,footer a:hover{text-decoration:underline}.tabs{display:flex;gap:8px;border-bottom:1px solid var(--line);margin:16px 0}.tabs button{background:transparent;border:0;border-bottom:2px solid transparent;border-radius:0;color:var(--muted);padding:11px 14px}.tabs button[aria-selected=true]{color:#e9e5d6;border-color:var(--accent)}.variant-panel{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}.variant-card{padding:11px}.variant-card .card-heading{align-items:flex-start;min-height:49px}.variant-card h3{font-size:15px;line-height:1.3}.variant-card .eyebrow{font-size:10px}.animation-stage{position:relative;display:grid;place-items:center;min-height:210px;overflow:hidden;border-radius:7px}.animation-stage canvas,.source-preview{width:min(100%,256px);height:auto;aspect-ratio:1;object-fit:contain;image-rendering:pixelated}.source-preview{width:100%;padding:0}.missing{position:absolute;background:#171c18dd;color:#efca90;padding:7px 10px;border-radius:5px;font-size:12px}.frame-links{display:flex;flex-wrap:wrap;gap:5px 9px;font-size:11px;margin:9px 0 5px}.variant-note{font-size:12px;line-height:1.4;color:var(--muted);margin:9px 0}.variant-card details{font-size:12px;color:var(--muted)}.rawframes{display:flex;flex-wrap:wrap;gap:7px;padding:7px 0}.rawframes a{color:#c8df9d}.background-checker{background-color:#252b27;background-image:linear-gradient(45deg,#343b36 25%,transparent 25%),linear-gradient(-45deg,#343b36 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#343b36 75%),linear-gradient(-45deg,transparent 75%,#343b36 75%);background-size:20px 20px;background-position:0 0,0 10px,10px -10px,-10px 0}.background-dark{background:#121713}.background-grass{background:#475643}.smooth-pixels img,.smooth-pixels canvas{image-rendering:auto!important}footer{padding-top:18px;color:var(--muted);font-size:13px}[hidden]{display:none!important}@media(max-width:1050px){.variant-panel{grid-template-columns:repeat(3,minmax(0,1fr))}.section-heading{align-items:flex-start;flex-direction:column}.toolbar{justify-content:flex-start}}@media(max-width:700px){body{padding:18px 14px}.page-head{align-items:flex-start;flex-direction:column}.diorama-grid{grid-template-columns:1fr}.variant-panel{grid-template-columns:repeat(2,minmax(0,1fr))}.tabs{overflow-x:auto}.tabs button{white-space:nowrap}footer{align-items:flex-start;flex-direction:column}}@media(max-width:420px){.variant-panel{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="page-head">
+    <div>
+      <p class="eyebrow">Хаб · локальная галерея</p>
+      <h1>PixelLab: диорама и живые персонажи</h1>
+      <p class="intro">Сравнение двух перерисовок и просмотр анимационных проб. Это исследовательские материалы; в игру они не внедрены.</p>
+    </div>
+    <div class="badge">PixelLab · пробы<br>Анимации: 9 кадров · 256×256</div>
+  </header>
+
+  <main>
+    <section class="section" aria-labelledby="diorama-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">01 · Перерисовка</p><h2 id="diorama-title">Один остров, два настроения</h2></div>
+        <div class="toolbar">
+          <label>Фон <select data-background-select aria-label="Фон изображений"><option value="checker">Шахматный</option><option value="dark">Тёмный</option><option value="grass">Трава</option></select></label>
+          <label class="check"><input type="checkbox" data-nearest checked> Без сглаживания</label>
+        </div>
+      </div>
+      <div class="diorama-grid">
+        <article class="diorama-card">
+          <div class="card-heading"><div><span class="eyebrow">Вариант A</span><h3>Яркая</h3></div><button type="button" class="quiet" data-diorama-toggle="bright">Показать источник</button></div>
+          <div class="diorama-pair" data-diorama="bright">
+            <figure><img src="sources/bright.png" alt="Исходная яркая диорама"><figcaption>Источник</figcaption></figure>
+            <figure><img src="dioramas/bright.png" alt="Яркая перерисовка диорамы" data-output><figcaption>PixelLab · 479×307</figcaption></figure>
+          </div>
+          <a class="asset-link" href="dioramas/bright.png">Открыть результат ↗</a> · <a class="asset-link" href="sources/bright.png">Источник ↗</a>
+        </article>
+        <article class="diorama-card">
+          <div class="card-heading"><div><span class="eyebrow">Вариант B</span><h3>Приглушённая</h3></div><button type="button" class="quiet" data-diorama-toggle="muted">Показать источник</button></div>
+          <div class="diorama-pair" data-diorama="muted">
+            <figure><img src="sources/muted.png" alt="Исходная приглушённая диорама"><figcaption>Источник</figcaption></figure>
+            <figure><img src="dioramas/muted.png" alt="Приглушённая перерисовка диорамы" data-output><figcaption>PixelLab · 816×439</figcaption></figure>
+          </div>
+          <a class="asset-link" href="dioramas/muted.png">Открыть результат ↗</a> · <a class="asset-link" href="sources/muted.png">Источник ↗</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="animation-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">02 · Анимация</p><h2 id="animation-title">Пятнадцать вариантов поведения</h2><p class="section-note">Все пять проб выбранной группы проигрываются одновременно. Названия описывают задание; результат может отличаться. В карточках есть исходники и все кадры.</p></div>
+        <div class="toolbar">
+          <button type="button" data-play-all aria-pressed="true">Пауза</button>
+          <label>Скорость <select data-speed><option value="6">6 кадр/с</option><option value="3">3 кадр/с</option><option value="9">9 кадр/с</option><option value="12">12 кадр/с</option></select></label>
+          <label>Фон <select data-background-select aria-label="Фон анимаций"><option value="checker">Шахматный</option><option value="dark">Тёмный</option><option value="grass">Трава</option></select></label>
+          <label class="check"><input type="checkbox" data-nearest checked> Без сглаживания</label>
+        </div>
+      </div>
+      <nav class="tabs" role="tablist" aria-label="Категория анимации">
+        <button type="button" role="tab" id="tab-crowd" aria-controls="panel-crowd" aria-selected="true" data-category="crowd">Толпа · 8 персонажей</button>
+        <button type="button" role="tab" id="tab-smith" aria-controls="panel-smith" aria-selected="false" data-category="smith">Кузнец</button>
+        <button type="button" role="tab" id="tab-market" aria-controls="panel-market" aria-selected="false" data-category="market">Торговец и покупатель</button>
+      </nav>
+      <div class="panels">
+        <section id="panel-crowd" class="variant-panel" role="tabpanel" aria-labelledby="tab-crowd" data-panel="crowd"></section>
+        <section id="panel-smith" class="variant-panel" role="tabpanel" aria-labelledby="tab-smith" data-panel="smith" hidden></section>
+        <section id="panel-market" class="variant-panel" role="tabpanel" aria-labelledby="tab-market" data-panel="market" hidden></section>
+      </div>
+    </section>
+  </main>
+  <footer><span>Источники: <a href="sources/crowd.png">толпа</a> · <a href="sources/smith.png">кузнец</a> · <a href="sources/market.png">торговец и покупатель</a></span><a href="plan.json">План и названия проб ↗</a></footer>
+  <script src="gallery.js"></script>
+</body>
+</html>

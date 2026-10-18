@@ -1,0 +1,23 @@
+{
+  "id": 16,
+  "kind": "animation",
+  "label": "market",
+  "variant": 4,
+  "title": "Убеждает покупателя",
+  "endpoint": "/animate-with-text-v3",
+  "request": {
+    "first_frame": {
+      "file": "inputs/market-256.png",
+      "sha256": "8cbb10e0718dd84f5d8b4d3828f9a5e1f10db10ee2f9f8604dbde1d1337d837c"
+    },
+    "last_frame": {
+      "file": "inputs/market-256.png",
+      "sha256": "8cbb10e0718dd84f5d8b4d3828f9a5e1f10db10ee2f9f8604dbde1d1337d837c"
+    },
+    "action": "The merchant leans forward just slightly, raises the gesturing hand in a persuasive arc, nods once and returns upright. The buyer gives one small answering nod, remaining mostly still. Keep exactly these two people: the red-hatted merchant on the left and the green-cloaked buyer on the right, with their same clothing and colors. Simple seamless pixel-art loop. Fixed camera, scale and feet positions; no walking, sliding, hopping, zoom or rotation of the whole sprite. Preserve transparent background and clean pixel clusters. Gentle motion, stable silhouettes, return to the starting pose.",
+    "frame_count": 8,
+    "seed": 2026101816,
+    "no_background": true,
+    "enhance_prompt": false
+  }
+}

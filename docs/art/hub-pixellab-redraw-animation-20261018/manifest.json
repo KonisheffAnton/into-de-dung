@@ -1,0 +1,1966 @@
+{
+  "provider": "PixelLab.ai API v2",
+  "preview_only": true,
+  "provider_workspace": "C:\\Users\\Aston\\.codex\\generated_images\\hub-pixellab-redraw-animation-20261018",
+  "outputs": [
+    {
+      "id": 1,
+      "kind": "diorama",
+      "label": "bright",
+      "endpoint": "/image-to-pixelart-pro",
+      "job_id": "bd97cc6f-c396-49c6-b09a-10cbceb2df73",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 20
+      },
+      "frames": [
+        {
+          "file": "dioramas/bright.png",
+          "sha256": "a8a8c8f8245159f77e5db649680bb2680d55e1991f17e7819e809d7b6fb2df94",
+          "size": [
+            479,
+            307
+          ],
+          "alpha_extrema": [
+            255,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "kind": "diorama",
+      "label": "muted",
+      "endpoint": "/image-to-pixelart-pro",
+      "job_id": "7ee9908f-874c-4220-aea5-6f6789d8fb3d",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 20
+      },
+      "frames": [
+        {
+          "file": "dioramas/muted.png",
+          "sha256": "e41e408619372a902a5b0004e8b9d98ecf9ceb5bb6595560df448c9468395d55",
+          "size": [
+            816,
+            439
+          ],
+          "alpha_extrema": [
+            255,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "kind": "animation",
+      "label": "crowd",
+      "variant": 1,
+      "title": "Короткие реплики",
+      "endpoint": "/animate-with-text-v3",
+      "job_id": "f05f24ba-35ac-4421-9c89-3290d47c25f1",
+      "usage": {
+        "type": "generations",
+        "generations": 8.0
+      },
+      "frames": [
+        {
+          "file": "animations/crowd-01/frame-01.png",
+          "sha256": "30d4dc879b43d8b81f961bd3f47673d0d045fae0fc1937e8008d901ea1f9ec01",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-01/frame-02.png",
+          "sha256": "47932a03eca0d4d6281e9c316272c6005b4d29c9f9d965cce0ec8e8965169c92",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-01/frame-03.png",
+          "sha256": "4bbc1f4d34b4a07e236fcd5087617fe88e185141fc844a86641968ce09109de4",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-01/frame-04.png",
+          "sha256": "19c5f358254ed0022606a6e8031fc19d4bde4aa65dd8affa1fc2a3079ebf7b94",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-01/frame-05.png",
+          "sha256": "7cf85d4545a76495239a8a05cf94f1c1f8b2cf09321bae37f01e493aa4a12a0a",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-01/frame-06.png",
+          "sha256": "0791711455bc7d40c95685782b17e313f7bad89790677564a029df85567c4355",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-01/frame-07.png",
+          "sha256": "255564466e34492d7433e019c2a591b977df1f7e13d28704bccce2e3bb1351f7",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-01/frame-08.png",
+          "sha256": "3f9738aa33bac2cfd038b07fc7623ecd151d1a218e06746733650dd492b0fe71",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-01/frame-09.png",
+          "sha256": "15c5e81780df96c4096922243dd1bded9fa27ec73c34aa7b32f3027882f05815",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ],
+      "preview_frame_ms": 160,
+      "preview_duration_ms": 1440,
+      "unique_frames": 9,
+      "first_last_identical": false
+    },
+    {
+      "id": 4,
+      "kind": "animation",
+      "label": "crowd",
+      "variant": 2,
+      "title": "Оглянуться",
+      "endpoint": "/animate-with-text-v3",
+      "job_id": "d2d150c2-0f92-4a12-813e-b2105e0890e3",
+      "usage": {
+        "type": "generations",
+        "generations": 8.0
+      },
+      "frames": [
+        {
+          "file": "animations/crowd-02/frame-01.png",
+          "sha256": "6a4d8382a3daaad9c0c94edc71c351545c4c4abb2b414c95886101f55f784a3f",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-02/frame-02.png",
+          "sha256": "19825c28ebd5bbe6cde137b69e3fa4024c01243376705d91b46bd37627f3eb62",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-02/frame-03.png",
+          "sha256": "718e0b43515a0f9e0e6583f33546831136d8268d49d3b5730c0761a2a55932fd",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-02/frame-04.png",
+          "sha256": "a732966236263ab1008fcb9b2088aa2f655efd85811f5163ed3146318c5d9546",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-02/frame-05.png",
+          "sha256": "0ac0916fcc27e618d04a44befcabc6a84745c8100edbbc87104c7e6134cd2295",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-02/frame-06.png",
+          "sha256": "5082faae61be38e2c1116d4bbcad4a7acf328514dcb6f5430d922738acfcfea4",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-02/frame-07.png",
+          "sha256": "36d8d03e6ca4b3768931a42d617ececeed55853c775a472748e2df7f13228134",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-02/frame-08.png",
+          "sha256": "54b73e25f62f96cc8b9ca64eeb330527e02f2a000f47a04d07fe30afa42a20ed",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-02/frame-09.png",
+          "sha256": "8303cc56613c0215fef0794eb29c82fe8f4e82b67db0f0337c555168c6f1ce3b",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ],
+      "preview_frame_ms": 160,
+      "preview_duration_ms": 1440,
+      "unique_frames": 9,
+      "first_last_identical": false
+    },
+    {
+      "id": 5,
+      "kind": "animation",
+      "label": "crowd",
+      "variant": 3,
+      "title": "Обсуждение карты",
+      "endpoint": "/animate-with-text-v3",
+      "job_id": "875b436e-e6e5-4e8f-8c17-ab4decc85c11",
+      "usage": {
+        "type": "generations",
+        "generations": 8.0
+      },
+      "frames": [
+        {
+          "file": "animations/crowd-03/frame-01.png",
+          "sha256": "814297c7f45f697486c4ed02b85dc92207a7aaf8ec85f0b9f6d5ac07d917bbdd",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-03/frame-02.png",
+          "sha256": "3a8543c1bdd69f6a487ecb1a11f3e837d3efd12339276b09360578e17366c34b",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-03/frame-03.png",
+          "sha256": "de97971a4bc2a7c819fe754e9ad54286e2ead419a396439e6f6ecad85efbd0ed",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-03/frame-04.png",
+          "sha256": "2a88f3f38ac306be2728f9b5b0703cb75e568af365b2eb375270ee1ef6690f58",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-03/frame-05.png",
+          "sha256": "a56e644d45220abb04c55bec34c6f6ee1748258a71053c8a6297811b56b695a8",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-03/frame-06.png",
+          "sha256": "f65b464b89b6c89609fd3e4b8d35953705aea01bd5bff30792a9c97f7070e236",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-03/frame-07.png",
+          "sha256": "f86cb41b646e163d5bea5dfd772aa23dac1cf2f5e94626bf2fe38eb3f3838ef3",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-03/frame-08.png",
+          "sha256": "df9bfe05479e214497bbc73854a39fdbbf0ae19de72196763706a9ff7f67529f",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-03/frame-09.png",
+          "sha256": "d80b25edf6f366c2efa4454b4586e8988210749f2da33bcf26fd5f443c0cc68c",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ],
+      "preview_frame_ms": 160,
+      "preview_duration_ms": 1440,
+      "unique_frames": 9,
+      "first_last_identical": false
+    },
+    {
+      "id": 6,
+      "kind": "animation",
+      "label": "crowd",
+      "variant": 4,
+      "title": "Тихий разговор",
+      "endpoint": "/animate-with-text-v3",
+      "job_id": "5692987c-ab40-4074-9de1-600006c7f550",
+      "usage": {
+        "type": "generations",
+        "generations": 8.0
+      },
+      "frames": [
+        {
+          "file": "animations/crowd-04/frame-01.png",
+          "sha256": "537b78f5ffb2e6f52e4f88e911ec862f58229f7f588819163aca23336d5caf45",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-04/frame-02.png",
+          "sha256": "297b44731468091feacf52b7edb60fe8c4e238fad9bfd8751b7101e47c03774d",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-04/frame-03.png",
+          "sha256": "62da3826e962b8a7075ddbf84b909781b3bf8a362bf594c6b51d828084aafccd",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-04/frame-04.png",
+          "sha256": "b6aff483172ae63c440c97c6d5f2e0c0ae5aff52b40328abd8bddc331c7ad770",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-04/frame-05.png",
+          "sha256": "26537b6b10194ce81e8e300189c9bc024086440cf1c9439b132fc07e3f3f376b",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-04/frame-06.png",
+          "sha256": "db0252f7afde99c387903f90ef8b7b79fdaee9903dbff3c31292d006b1befd0f",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-04/frame-07.png",
+          "sha256": "1e4cb772d037b6f68de867553e690dde146cbbdd888dc8640dd7a80de7fc812f",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-04/frame-08.png",
+          "sha256": "dfb64b1dd72c375cff5be62788c98477bca538222a6bd320e307884671d3241d",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-04/frame-09.png",
+          "sha256": "a4b11d7553668477a73de5d22f7f3aa8e147c5d19d930ce548e31170028d5136",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ],
+      "preview_frame_ms": 160,
+      "preview_duration_ms": 1440,
+      "unique_frames": 9,
+      "first_last_identical": false
+    },
+    {
+      "id": 7,
+      "kind": "animation",
+      "label": "crowd",
+      "variant": 5,
+      "title": "Слушатели",
+      "endpoint": "/animate-with-text-v3",
+      "job_id": "3fd89733-8079-4a0e-988e-6ada6f4adbc7",
+      "usage": {
+        "type": "generations",
+        "generations": 8.0
+      },
+      "frames": [
+        {
+          "file": "animations/crowd-05/frame-01.png",
+          "sha256": "a3c920a92456248ac045020632650e463c987f6d38133ecb87a8b6017aed8ffe",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-05/frame-02.png",
+          "sha256": "47e862ec27310768402963d36481e715f78fa5464a1fb88cdb409314c278dfac",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-05/frame-03.png",
+          "sha256": "8ab8ef197ac72965c92d946a78867e818a73adaae29b9aa692471f367a37c27b",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-05/frame-04.png",
+          "sha256": "0c2de1081c41c2cb2afbe73fea7e96e0f255f25c1b66bc3a65ab311e35b599a0",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-05/frame-05.png",
+          "sha256": "3498c4fd8aa953c9dff548937349bb58e6adfc596d7156e73fa546e09b3e11a5",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-05/frame-06.png",
+          "sha256": "e610b0dba6a9e43950e49ecc94abd1ef62524dae01c623229d7a7723a7439dda",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-05/frame-07.png",
+          "sha256": "fe2332e681915b836bdbd616442f1ec7a3dfea04df0be36f5053d6cac70d1605",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-05/frame-08.png",
+          "sha256": "1827db8393b20d68961562478c3ae2ae9a00738321e64ecf5657d95e9471611a",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/crowd-05/frame-09.png",
+          "sha256": "d440d34fc2e31be6e7a32fe6a9ceaaf9baeddcc2cb1ecaeb96f42d0d32c2a0b0",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ],
+      "preview_frame_ms": 160,
+      "preview_duration_ms": 1440,
+      "unique_frames": 9,
+      "first_last_identical": false
+    },
+    {
+      "id": 8,
+      "kind": "animation",
+      "label": "smith",
+      "variant": 1,
+      "title": "Один удар",
+      "endpoint": "/animate-with-text-v3",
+      "job_id": "cd8960ca-7026-4f49-ac3f-7714684e9d05",
+      "usage": {
+        "type": "generations",
+        "generations": 8.0
+      },
+      "frames": [
+        {
+          "file": "animations/smith-01/frame-01.png",
+          "sha256": "597cb910ea6cb3cc095922cf1d8f5f35435194d7f8dc625920b2692fceb406d0",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-01/frame-02.png",
+          "sha256": "cf7d2454b3b0435de8195e2406adb52715060ec36fba894bdfca76a0d65249ac",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-01/frame-03.png",
+          "sha256": "d657a7c421f91f44a375e027cecbbf35542d9b7d142cff528d48f8bb7214d84c",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-01/frame-04.png",
+          "sha256": "35f417da7528866ce736bde315d709063f1cd7e3c65c52f5e45348a29f675fd7",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-01/frame-05.png",
+          "sha256": "d24ef569a241eba4c4049b3e871db005f559493be99004b52ff8f124ebf61dfd",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-01/frame-06.png",
+          "sha256": "87cb5744bb5968fea369e2e88667f8454eb1a9a8fea974d5ba254b15096d72c5",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-01/frame-07.png",
+          "sha256": "2b74309b8c5bfd55ba043941f0a61b4cfdba6b7fc3cf3349cebd3974db3aea97",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-01/frame-08.png",
+          "sha256": "8f7030893186ebe87043c1f1395f66c4b159f2d498f7440406cc9d432f376868",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-01/frame-09.png",
+          "sha256": "e7a27c43097f8d45ca6dbaf77eb217db5d62f94b3c40ad1568fedda877602350",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ],
+      "preview_frame_ms": 160,
+      "preview_duration_ms": 1440,
+      "unique_frames": 9,
+      "first_last_identical": false
+    },
+    {
+      "id": 9,
+      "kind": "animation",
+      "label": "smith",
+      "variant": 2,
+      "title": "Два лёгких удара",
+      "endpoint": "/animate-with-text-v3",
+      "job_id": "2baeef82-1899-4f85-94c5-2ee4d666a781",
+      "usage": {
+        "type": "generations",
+        "generations": 8.0
+      },
+      "frames": [
+        {
+          "file": "animations/smith-02/frame-01.png",
+          "sha256": "692b4ee2fbe2522f25301a18af96085ddce80dab8a3d9532b68ff11162e5f6fc",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-02/frame-02.png",
+          "sha256": "4391e72e206020c09f763c201f288f51c6514c802a4ccb3dc73674a684f11fff",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-02/frame-03.png",
+          "sha256": "7fb5b1914ecd2e6a50878fe9599ccf38b912f435345b94024b1a85099666ba75",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-02/frame-04.png",
+          "sha256": "3a147f49f8c5b0f06c19c860ff1b7874cc7bd051d5feae0311eb5d0a0dd8e444",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-02/frame-05.png",
+          "sha256": "c054cd91f46a212a1a95a21b8a3fea5b4307bd00f000dff83efea122b8fc593a",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-02/frame-06.png",
+          "sha256": "4d205111749d44a5912a9ba1153b7149f7b89a8860ef333bbb329c709a92e7ff",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-02/frame-07.png",
+          "sha256": "f9e20a6e9015bb5dade35b54f0ae1205d8a7c99d66741f64b0c156279a6efb46",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-02/frame-08.png",
+          "sha256": "c64c0fe0632acd79574ac026af0215aa67f8c148c429c36b52758e117fc750e3",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-02/frame-09.png",
+          "sha256": "94e7b90ff367b70310081471bac2d9d3e0cc9689f5abd0a91e714e2fae1c30fe",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ],
+      "preview_frame_ms": 160,
+      "preview_duration_ms": 1440,
+      "unique_frames": 9,
+      "first_last_identical": false
+    },
+    {
+      "id": 10,
+      "kind": "animation",
+      "label": "smith",
+      "variant": 3,
+      "title": "Размеренный удар",
+      "endpoint": "/animate-with-text-v3",
+      "job_id": "8440e24b-d1d3-4e3c-86c4-fd4c97021997",
+      "usage": {
+        "type": "generations",
+        "generations": 8.0
+      },
+      "frames": [
+        {
+          "file": "animations/smith-03/frame-01.png",
+          "sha256": "09761e8005e4d2c62e2f8cd5c07dd14c35c18fd89d924b3379245bc9f2080b57",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-03/frame-02.png",
+          "sha256": "aceb232364676e7ec1a0bd47c9e09006b13f1d517d164c106f5822cc313577f8",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-03/frame-03.png",
+          "sha256": "7c0e46af508443f44e65989f102be334e4f63447c397cdc43b3e60621e2e7ae0",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-03/frame-04.png",
+          "sha256": "febdc8dfc2db8f7a1948bd8d8ffd6407d1dddf3db3c53fae56f452cc526399bb",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-03/frame-05.png",
+          "sha256": "27890a13474a5baa3da93c34e9c6f5dcff4b9bc3ec5e8de1be767de1cd2a6d34",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-03/frame-06.png",
+          "sha256": "62f8086f4f396a058492430b6fca67ea31db25da220a7e444e9a4dce8cc6d105",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-03/frame-07.png",
+          "sha256": "b12b8dca6fe3d63e771f0c2e94cf96a072b75f028ef7e9422b07179c7a31e61e",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-03/frame-08.png",
+          "sha256": "fc8a880aed8bf9cb274e5d2d5686bf18ace800d40974b4a34a162129562e9ce1",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-03/frame-09.png",
+          "sha256": "76af6aefb294eac5fb9c38f650611ca7037dd113b908d40cef53019e84569c69",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ],
+      "preview_frame_ms": 160,
+      "preview_duration_ms": 1440,
+      "unique_frames": 9,
+      "first_last_identical": false
+    },
+    {
+      "id": 11,
+      "kind": "animation",
+      "label": "smith",
+      "variant": 4,
+      "title": "Короткий рабочий ритм",
+      "endpoint": "/animate-with-text-v3",
+      "job_id": "a10847f6-64dc-48d8-aa7c-c1b640e70bd3",
+      "usage": {
+        "type": "generations",
+        "generations": 8.0
+      },
+      "frames": [
+        {
+          "file": "animations/smith-04/frame-01.png",
+          "sha256": "6676a38371fdc456d103ec73eaa3985158579de08b24c373915e220f0ac8fba4",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-04/frame-02.png",
+          "sha256": "b2d1bce69799c01209577386e2facfa4e292007b0d54df19d965e551df62687b",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-04/frame-03.png",
+          "sha256": "74c81a9b34c351464de2e00f819df9d1e56f5d19c12c93aee164ce8e169b3045",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-04/frame-04.png",
+          "sha256": "34f5a9437af9700275be1bc2074ee9e5424176b1a4b3cd18205b2d28e7aa87ae",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-04/frame-05.png",
+          "sha256": "eef9d1b5272f774ab5e98bd259eacf0297624cfbc15505591dfce9dedcc7c0d4",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-04/frame-06.png",
+          "sha256": "acbfa654a2c383320ef32899ff951272d4966179d5743504bdfb875817f70321",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-04/frame-07.png",
+          "sha256": "21d2dc0fbd3ddf805209fa9e74de5c03c0dfe7aec1b43fc49bd84c782bc2fafd",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-04/frame-08.png",
+          "sha256": "f243532a5d4bdfa822d5216092a16bbe4cb8e4d882b081dc4d5f06758379c094",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-04/frame-09.png",
+          "sha256": "4fc07b007f40f98fd4a5b7cbd3739b03e71358e482b7975f3f63887196eda711",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ],
+      "preview_frame_ms": 160,
+      "preview_duration_ms": 1440,
+      "unique_frames": 9,
+      "first_last_identical": false
+    },
+    {
+      "id": 12,
+      "kind": "animation",
+      "label": "smith",
+      "variant": 5,
+      "title": "Проверка и удар",
+      "endpoint": "/animate-with-text-v3",
+      "job_id": "236d10d4-895b-4584-81a0-5a1ff75d1b9c",
+      "usage": {
+        "type": "generations",
+        "generations": 8.0
+      },
+      "frames": [
+        {
+          "file": "animations/smith-05/frame-01.png",
+          "sha256": "c5b70693606b785c453d798096241947eb2de44e180051a1a62a3770d38376f2",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-05/frame-02.png",
+          "sha256": "4a8cbed5dd7735b4ee6bd36a039c3efebbf33b73e6e6d2da2b4119fface6d99e",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-05/frame-03.png",
+          "sha256": "a4ef9aab8b0f6907021c22d77ac49846083346511a1531a70bfa0250295932ca",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-05/frame-04.png",
+          "sha256": "49eb7db355080ef0d30f9e7fcdb372ad1b637c934e514ac67f667ac2c3b2ff41",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-05/frame-05.png",
+          "sha256": "fdaca8c7873e8aa975b43275f9631ae590982e684560fbebe4ac9f4b74a0961a",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-05/frame-06.png",
+          "sha256": "c4b329ace4f130dd1fb682eed3f2643c6435ba0d436ddd249781c89baf13c9ef",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-05/frame-07.png",
+          "sha256": "5e74f255c5d6ef739b41c045b6cc20cbcbdceba017f7915c3e06f730328c9ba7",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-05/frame-08.png",
+          "sha256": "de4a7de9499986cf8e1dbd73a560fe5b9cd12510c6158096888446989c198ca8",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/smith-05/frame-09.png",
+          "sha256": "5985d6b5be427dd91180247e186b6393047999c9d43b81580c2ecc7249cbc54b",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ],
+      "preview_frame_ms": 160,
+      "preview_duration_ms": 1440,
+      "unique_frames": 9,
+      "first_last_identical": false
+    },
+    {
+      "id": 13,
+      "kind": "animation",
+      "label": "market",
+      "variant": 1,
+      "title": "Открытая ладонь",
+      "endpoint": "/animate-with-text-v3",
+      "job_id": "634b8dc7-8010-428c-9799-aad3ae9a713e",
+      "usage": {
+        "type": "generations",
+        "generations": 8.0
+      },
+      "frames": [
+        {
+          "file": "animations/market-01/frame-01.png",
+          "sha256": "22ef408c746f2761b619300038f1aa7ffd5eb4c2341dd1e3193314c55ea9a901",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-01/frame-02.png",
+          "sha256": "556db4d014e7f8e64ee9b9752a05578f3299d753e7726fd4e1e4365e55ccfda4",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-01/frame-03.png",
+          "sha256": "51d2380548b499a47385ccfa8edf8e82dc2f3922760b4bfef413277ef30b30c8",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-01/frame-04.png",
+          "sha256": "2e04ef40410edde3726a0a3fdcec7efcc1eb7678af9dda9a48c704366ec493bc",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-01/frame-05.png",
+          "sha256": "6a463bbb1782761266f585781d45cabba300f1bc5d6ea5a7fd427710e6d3a610",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-01/frame-06.png",
+          "sha256": "e8cc7b3dafde05a7af245fd5ff944051134ccd5cbff8bc786da1592b7e52ac91",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-01/frame-07.png",
+          "sha256": "f706944847e194fcd12e87462ada6cf780b4375acd32b4b8ecbd0ca42e7d5452",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-01/frame-08.png",
+          "sha256": "a204192501d88080beae13821df13310a329be4dbc0ecbbe97f464de3b54e28e",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-01/frame-09.png",
+          "sha256": "9416b292cc1b55159afb95a4965698e042989b7517457965a3e394e2e12dac22",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ],
+      "preview_frame_ms": 160,
+      "preview_duration_ms": 1440,
+      "unique_frames": 9,
+      "first_last_identical": false
+    },
+    {
+      "id": 14,
+      "kind": "animation",
+      "label": "market",
+      "variant": 2,
+      "title": "Перечисляет доводы",
+      "endpoint": "/animate-with-text-v3",
+      "job_id": "063a187d-b082-455b-b059-acb9ac10e707",
+      "usage": {
+        "type": "generations",
+        "generations": 8.0
+      },
+      "frames": [
+        {
+          "file": "animations/market-02/frame-01.png",
+          "sha256": "2bc8c1783c2dafac07df32134a9484054baefc9a19b6eb607f72212980225b99",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-02/frame-02.png",
+          "sha256": "d0e3b32f6161b107b549471f058785800098b67f325f13daf03824c6db37f2af",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-02/frame-03.png",
+          "sha256": "accac5383566beacb2b976a57664c2c7b0a3a8817535b3aebef2bc5fcc4155c7",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-02/frame-04.png",
+          "sha256": "9e7e5c1d926e3540f9a763e37ac998693b0326d19d5ac75ec1f7b6bcfa995f16",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-02/frame-05.png",
+          "sha256": "ae2e06bf4c07eb2fb5aa5ed6ad2ceb04d2b19aed3330c931617756dcb1d0afbb",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-02/frame-06.png",
+          "sha256": "dcce49d3e5edb2c9cfa2855229c8aa13dda68859188c35a52085acfe50c71674",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-02/frame-07.png",
+          "sha256": "f6fd1e86c78179aed15159a950cd585b0f3fc1cd2a6d62355787308e6e6ff6f6",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-02/frame-08.png",
+          "sha256": "6ea6fc1dd7274b454150f3e59e09e0e2421031090b91e5b56634f420a04c14f3",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-02/frame-09.png",
+          "sha256": "53fe15567fbaf21d58a7e5ed755bf72574ee2f632b5e4b777d2b3516e58a17a2",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ],
+      "preview_frame_ms": 160,
+      "preview_duration_ms": 1440,
+      "unique_frames": 9,
+      "first_last_identical": false
+    },
+    {
+      "id": 15,
+      "kind": "animation",
+      "label": "market",
+      "variant": 3,
+      "title": "Показывает товар",
+      "endpoint": "/animate-with-text-v3",
+      "job_id": "edd4baee-00f2-4de5-9c60-6447bced2e7e",
+      "usage": {
+        "type": "generations",
+        "generations": 8.0
+      },
+      "frames": [
+        {
+          "file": "animations/market-03/frame-01.png",
+          "sha256": "3cf568a6dbd29ac54a9722e6e789172491adb15cce8e69450987723ca7e93a6f",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-03/frame-02.png",
+          "sha256": "114b3a8fcad775b4c66ba5a0658c85279295ba20116405eaf3645afe7bccd9e6",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-03/frame-03.png",
+          "sha256": "50256475e93ff5b6311d3b032e12f93f3a66c5d66548d67c8ff385e9cf5439ce",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-03/frame-04.png",
+          "sha256": "e31cb1d9a84728dd17f9ef659cefc0992848fe8a32205e9816f75f35075bad5c",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-03/frame-05.png",
+          "sha256": "cb51217ec283e0b1d625b528cf08221cbdf4b7a7d083306fea1cf13a78d18287",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-03/frame-06.png",
+          "sha256": "607deb994ef356220c57adfc426a13d9da06ca67b0dc507aaa9a034dd522dc44",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-03/frame-07.png",
+          "sha256": "86152e0c4c314b2c4a9440644e805bd8dfffcdc7e0cc2a805e0ebb3eb34c8a12",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-03/frame-08.png",
+          "sha256": "d0d2b90b515b97465a2fd3688a50f1c9803745ae2dc194ee17cd5d21fde896bd",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-03/frame-09.png",
+          "sha256": "5cdf330295e80331149b694ba22de6ce30a8ab3e10949623cba9fa8acda39e14",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ],
+      "preview_frame_ms": 160,
+      "preview_duration_ms": 1440,
+      "unique_frames": 9,
+      "first_last_identical": false
+    },
+    {
+      "id": 16,
+      "kind": "animation",
+      "label": "market",
+      "variant": 4,
+      "title": "Убеждает покупателя",
+      "endpoint": "/animate-with-text-v3",
+      "job_id": "1fbc155f-bb77-4617-a435-6c980b45a454",
+      "usage": {
+        "type": "generations",
+        "generations": 8.0
+      },
+      "frames": [
+        {
+          "file": "animations/market-04/frame-01.png",
+          "sha256": "872de02c6ad9678bce204b3dd557acf9d1f4e264b04d6902f88c62f6fac27eb2",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-04/frame-02.png",
+          "sha256": "fb0f66a327d96b1680ea3494ed0d8adf88badf2d44f34d77835334fc1ac0419e",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-04/frame-03.png",
+          "sha256": "992cc2ba874147e70c656f020b74e0a4071b106abf08234a40df04501eeeea53",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-04/frame-04.png",
+          "sha256": "8d63f53d8b0b1efd95c4ef49e0388a58b6a84065d9b1a43ae07498bb96bb635c",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-04/frame-05.png",
+          "sha256": "d545e748c713934de041b5aa848db0cfd26b57a0589b3e5bbe69de4e1ad86533",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-04/frame-06.png",
+          "sha256": "29013f3267cbae142aef845602c929751ead653c74c607ea6be62d688bd605a3",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-04/frame-07.png",
+          "sha256": "268086fb5f2a8187bc4df5b466b8e550b1806607e97a6b4a4449a6eeece6d628",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-04/frame-08.png",
+          "sha256": "c5b06f3b01d4e46bede77db12d419ca1170521dec59a613b17492601d795ef30",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-04/frame-09.png",
+          "sha256": "24e1cb43d7194da6cf265e532a92748c962403cc9bdc4cbc632c5db4dee4d330",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ],
+      "preview_frame_ms": 160,
+      "preview_duration_ms": 1440,
+      "unique_frames": 9,
+      "first_last_identical": false
+    },
+    {
+      "id": 17,
+      "kind": "animation",
+      "label": "market",
+      "variant": 5,
+      "title": "Весёлая история",
+      "endpoint": "/animate-with-text-v3",
+      "job_id": "72a00a7e-bf2f-4371-add6-f7befdd42dda",
+      "usage": {
+        "type": "generations",
+        "generations": 8.0
+      },
+      "frames": [
+        {
+          "file": "animations/market-05/frame-01.png",
+          "sha256": "4d761a9cebdd0ab82078e378ab16e70779ec0a9841981583eb2f83f027473a1f",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-05/frame-02.png",
+          "sha256": "728fc7eb8de552ac2b2f1950f11c6748b48403ae6ea989dda5556a854d149220",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-05/frame-03.png",
+          "sha256": "e9eea42387426a417e5c004fc3c181ebc6804206c2100cb17bc4a8639453d15c",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-05/frame-04.png",
+          "sha256": "8e4b9cc500e889b98f60ac98288f291e82dcb86406b1ee2cc971e4ce46969108",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-05/frame-05.png",
+          "sha256": "825526c27d6722725023ccca3edc2f7434579669739ce3d8a6d2b7a555a0bed1",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-05/frame-06.png",
+          "sha256": "c3ce46fad6bfbcd2b0210786faa19a95e25ec9817683e369f18e5e190fe52449",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-05/frame-07.png",
+          "sha256": "4394cb6c11fe012afb9a6b314dfe483cd8f623c31743a6279405af2d74beb88f",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-05/frame-08.png",
+          "sha256": "53a7e71ed02aed797c8e946abe7890e3f81f4f14aaf2fcd56c01c239eaf5ec04",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "animations/market-05/frame-09.png",
+          "sha256": "229638e8770443118a4bccd190cab963ac622b41fed5b7c46c82ce4ce6337e2d",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ],
+      "preview_frame_ms": 160,
+      "preview_duration_ms": 1440,
+      "unique_frames": 9,
+      "first_last_identical": false
+    }
+  ],
+  "pending": [],
+  "gif_note": "GIF uses a shared preview palette and binary alpha; PNG frames preserve provider bytes."
+}

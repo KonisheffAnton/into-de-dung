@@ -1,0 +1,23 @@
+{
+  "id": 5,
+  "kind": "animation",
+  "label": "crowd",
+  "variant": 3,
+  "title": "Обсуждение карты",
+  "endpoint": "/animate-with-text-v3",
+  "request": {
+    "first_frame": {
+      "file": "inputs/crowd-256.png",
+      "sha256": "c575f0971ba8a19f04287a07ede13f11ae51a9e97a9d5c978e4e2d2b1c0801e6"
+    },
+    "last_frame": {
+      "file": "inputs/crowd-256.png",
+      "sha256": "c575f0971ba8a19f04287a07ede13f11ae51a9e97a9d5c978e4e2d2b1c0801e6"
+    },
+    "action": "The blue-clad traveler tilts the existing map a little and nods; the veteran and archer glance down toward it, exchange tiny head nods, then return. One very small hand gesture, no large arm motions. Keep all eight people present, in the exact same formation, with identical faces, equipment and colors. Simple seamless pixel-art loop. Fixed camera, scale and feet positions; no walking, sliding, hopping, zoom or rotation of the whole sprite. Preserve transparent background and clean pixel clusters. Gentle motion, stable silhouettes, return to the starting pose.",
+    "frame_count": 8,
+    "seed": 2026101805,
+    "no_background": true,
+    "enhance_prompt": false
+  }
+}

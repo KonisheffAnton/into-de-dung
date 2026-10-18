@@ -1,0 +1,442 @@
+{
+  "fetched_utc": "2026-10-18",
+  "source": "https://api.pixellab.ai/v2/openapi.json",
+  "paths": {
+    "/image-to-pixelart-pro": {
+      "post": {
+        "tags": [
+          "Image to Pixel Art"
+        ],
+        "summary": "Convert image to pixel art (Pro)",
+        "description": "Convert an arbitrary image into high-quality pixel art.\n\nUnlike `image-to-pixelart`, the output size is decided automatically — the\nnative pixel scale is detected and the result is downscaled and cleaned up for\nyou, so you don't pass an output size. Provide an optional `description` to nudge\nthe style (palette, dithering, mood).\n\nReturns immediately with a background job ID. Poll\n`GET /v2/background-jobs/{job_id}` to check status and retrieve the result.\n\n**Input:** any PNG/JPEG. Images larger than 2048px on the longest side are scaled\ndown before conversion.\n\n**Usage Pattern:**\n1. POST to this endpoint (returns `background_job_id`)\n2. Poll `GET /v2/background-jobs/{background_job_id}` every 5-10 seconds\n3. When `status` is `completed`, the pixel art image is in `last_response`\n\nUsing the Python client:\n```python\nimport pixellab\nfrom PIL import Image\n\nclient = pixellab.Client(secret=\"YOUR_API_TOKEN\")\n\nsource_img = Image.open(\"photo.png\")\n\nresponse = client.image_to_pixelart_pro(\n    image=source_img,\n    description=\"retro vibes with light dithering\",\n)\n```",
+        "operationId": "image_to_pixelart_pro_image_to_pixelart_pro_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImageToPixelartProRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Conversion job accepted and processing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImageToPixelartProResponse"
+                },
+                "example": {
+                  "background_job_id": "123e4567-e89b-12d3-a456-426614174000",
+                  "status": "processing",
+                  "usage": {
+                    "type": "usd",
+                    "usd": 0.0
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid API token"
+          },
+          "402": {
+            "description": "Insufficient credits"
+          },
+          "422": {
+            "description": "Validation error"
+          },
+          "429": {
+            "description": "Too many concurrent jobs"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/animate-with-text-v3": {
+      "post": {
+        "tags": [
+          "Animate"
+        ],
+        "summary": "Animate with text (v3)",
+        "description": "Generate an animation from a reference frame and a text action description.\n\nReturns immediately with a background job ID. Poll `GET /v2/background-jobs/{job_id}`\nto retrieve results when generation completes.\n\n**How it works:**\n1. Submit the first frame and action description; receive a `background_job_id` immediately.\n2. Poll `GET /v2/background-jobs/{background_job_id}` every 2-5 seconds.\n3. When `status` is `completed`, the generated frames are available at `last_response.images`.\n\n**Size Limits:**\n- Maximum image dimension: 256x256 pixels\n- Total pixel budget: width × height × frame_count ≤ 524,288\n\n**Frame Count Guidelines:**\n- 4 frames: Simple loops (idle, breathing)\n- 8 frames: Standard animations (walk, run)\n- 16 frames: Complex animations (attack combos)\n\nTypical generation time: 30-180 seconds.\n\nUsing the Python client:\n```python\nimport pixellab, time\n\nclient = pixellab.Client(secret=\"YOUR_API_TOKEN\")\n\njob = client.animate_with_text_v3(\n    first_frame=first_frame_image,\n    action=\"walking forward\",\n    frame_count=8,\n)\n\nwhile True:\n    result = client.get_background_job(job.background_job_id)\n    if result.status == \"completed\":\n        images = [img.pil_image() for img in result.last_response[\"images\"]]\n        break\n    if result.status == \"failed\":\n        raise RuntimeError(result.last_response[\"detail\"])\n    time.sleep(2)\n```",
+        "operationId": "animate_with_text_v3_animate_with_text_v3_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnimateWithTextV3Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Background job accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnimateWithTextV3Response"
+                },
+                "example": {
+                  "background_job_id": "123e4567-e89b-12d3-a456-426614174000",
+                  "status": "processing"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid API token"
+          },
+          "402": {
+            "description": "Insufficient credits"
+          },
+          "422": {
+            "description": "Validation error"
+          },
+          "429": {
+            "description": "Too many concurrent background jobs"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/background-jobs/{job_id}": {
+      "get": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "Get background job status",
+        "description": "Check the status and results of a background job.\n\nThis endpoint allows you to monitor the progress of background operations like\ncharacter creation and animation generation. Background jobs are used for \nexpensive operations that take time to complete.\n\n**Job Statuses:**\n- `processing` - Job is currently running\n- `completed` - Job finished successfully \n- `failed` - Job encountered an error\n\n**Usage Pattern:**\n1. Create a character or animation (returns `background_job_id`)\n2. Poll this endpoint periodically to check status\n3. When status is `completed`, access results in `last_response`\n\n**Response Data:**\n- For character creation: `character_id`, `directions_count`, character info\n- For animations: `animation_id`, `frame_count`, animation details\n- Storage information and file organization details\n\n**Authentication:**\nRequires a valid API token. You can only access jobs you created.\n\n**Error Handling:**\n- 404: Job not found or doesn't belong to you\n- Jobs are automatically cleaned up after completion\n\n**Polling Recommendations:**\n- Poll every 5-10 seconds while status is `processing`\n- Stop polling once status is `completed` or `failed`\n- While `processing`, `last_response.queue_position` and\n  `last_response.estimated_wait_seconds` show a job waiting for a GPU\n- To stop a job, `DELETE /v2/background-jobs/{job_id}`\n- Character creation typically takes 30-60 seconds\n- Animations may take longer depending on frame count and directions",
+        "operationId": "get_background_job_status_background_jobs__job_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved job status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BackgroundJobResponse"
+                },
+                "example": {
+                  "id": "123e4567-e89b-12d3-a456-426614174000",
+                  "status": "completed",
+                  "created_at": "2024-01-15T10:30:00Z",
+                  "last_response": {
+                    "character_id": "456e7890-e89b-12d3-a456-426614174001",
+                    "saved_to_storage": true,
+                    "uploaded_directions": [
+                      "south",
+                      "east",
+                      "north",
+                      "west"
+                    ],
+                    "directions_count": 4
+                  },
+                  "usage": {
+                    "type": "usd",
+                    "usd": 0.0
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid API token"
+          },
+          "404": {
+            "description": "Job not found or doesn't belong to user"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "Cancel a background job",
+        "description": "Cancel a background job that is still `processing`.\n\n- Frees your concurrency slot immediately, so you can submit new work.\n- A job still waiting in the queue is removed and not charged. Billing only\n  covers work a GPU actually did, so a generation that is already running may\n  still finish and be charged.\n- A job you resubmit starts at the back of the queue. While a job is\n  `processing`, `last_response.queue_position` and\n  `last_response.estimated_wait_seconds` (from GET\n  `/v2/background-jobs/{job_id}`) show that it is waiting for a GPU. A waiting\n  job is not stuck, and cancelling it to resubmit makes the wait longer.",
+        "operationId": "cancel_background_job_background_jobs__job_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Job cancelled",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CancelBackgroundJobResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Job already completed or failed; nothing to cancel"
+          },
+          "409": {
+            "description": "Job completed while the cancel was being applied"
+          },
+          "401": {
+            "description": "Invalid API token"
+          },
+          "404": {
+            "description": "Job not found or doesn't belong to user"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "schemas": {
+    "ImageToPixelartProRequest": {
+      "properties": {
+        "image": {
+          "$ref": "#/components/schemas/Base64Image",
+          "description": "Image to convert to pixel art (base64 PNG/JPEG)"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 2000,
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Description",
+          "description": "Optional extra style instructions",
+          "examples": [
+            "retro vibes with light dithering",
+            "anime styled with sharp edges"
+          ]
+        },
+        "target_palette": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/TargetPalette"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Colours the result must use and/or a colour cap: {\"colors\": [\"#081820\", \"#346856\", \"#88c070\", \"#e0f8d0\"], \"name\": \"Game Boy\", \"max_colors\": 4}. With colors every pixel of the image is one of them; max_colors (2-64) caps the colours of the image."
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0.0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Seed",
+          "description": "Seed for reproducible generation"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "image"
+      ],
+      "title": "ImageToPixelartProRequest",
+      "description": "Request model for image to pixel art (pro) endpoint",
+      "example": {
+        "description": "retro vibes with light dithering",
+        "image": {
+          "base64": "data:image/png;base64,..."
+        },
+        "seed": 42
+      }
+    },
+    "AnimateWithTextV3Request": {
+      "properties": {
+        "first_frame": {
+          "$ref": "#/components/schemas/Base64Image",
+          "description": "First frame to animate (PNG/JPEG base64, max 256x256 pixels)"
+        },
+        "last_frame": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Base64Image"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Optional last frame to guide the animation endpoint (PNG/JPEG base64, max 256x256 pixels)"
+        },
+        "action": {
+          "type": "string",
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Action",
+          "description": "Action description (e.g., 'walking', 'jumping', 'attacking')"
+        },
+        "frame_count": {
+          "type": "integer",
+          "maximum": 16.0,
+          "minimum": 4.0,
+          "title": "Frame Count",
+          "description": "Number of animation frames (4-16, must be even)",
+          "default": 8
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0.0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Seed",
+          "description": "Seed for reproducible generation (0 for random)",
+          "default": 0
+        },
+        "no_background": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "No Background",
+          "description": "Remove background from generated frames"
+        },
+        "drift_threshold": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0.0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Drift Threshold",
+          "description": "Color de-flicker sensitivity. Frames whose foreground drifts from the first frame beyond this are corrected toward it; 0 corrects every frame, higher values correct fewer. Omit for the default."
+        },
+        "enhance_prompt": {
+          "type": "boolean",
+          "title": "Enhance Prompt",
+          "description": "If true, automatically expand `action` into a richer motion description before generating — equivalent to calling /v2/enhance-animation-v3-prompt with these frames first. Uses `first_frame` (and `last_frame` for interpolation) to ground the description. Costs an additional 0.05 generations (or equivalent credits). The expanded text is returned in `enhanced_prompt`.",
+          "default": false
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "first_frame",
+        "action"
+      ],
+      "title": "AnimateWithTextV3Request",
+      "description": "Request model for animate with text v3 endpoint",
+      "example": {
+        "action": "walking forward",
+        "first_frame": {
+          "base64": "data:image/png;base64,..."
+        },
+        "frame_count": 8,
+        "no_background": true,
+        "seed": 42
+      }
+    },
+    "Base64Image": {
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "base64",
+          "title": "Type",
+          "description": "Image data type",
+          "default": "base64"
+        },
+        "base64": {
+          "type": "string",
+          "title": "Base64",
+          "description": "Base64 encoded image data"
+        },
+        "format": {
+          "type": "string",
+          "title": "Format",
+          "description": "Image format",
+          "default": "png"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "base64"
+      ],
+      "title": "Base64Image",
+      "description": "A base64 encoded image.\n\nAttributes:\n    type (Literal[\"base64\"]): Always \"base64\" to indicate the image encoding type\n    base64 (str): The base64 encoded image data\n    format (str): The image format (e.g., \"png\", \"jpeg\")"
+    }
+  }
+}

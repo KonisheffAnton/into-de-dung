@@ -1,0 +1,23 @@
+{
+  "id": 8,
+  "kind": "animation",
+  "label": "smith",
+  "variant": 1,
+  "title": "Один удар",
+  "endpoint": "/animate-with-text-v3",
+  "request": {
+    "first_frame": {
+      "file": "inputs/smith-256.png",
+      "sha256": "8dc65928053e5b037132a42bf4166cb8a623206c96d52c641577383cad5b0b45"
+    },
+    "last_frame": {
+      "file": "inputs/smith-256.png",
+      "sha256": "8dc65928053e5b037132a42bf4166cb8a623206c96d52c641577383cad5b0b45"
+    },
+    "action": "One clear forging strike: raise the existing hammer slightly, swing it down firmly toward the fixed working point just in front of the waist beside the tongs, briefly settle, then lift it back to the initial raised pose. Keep exactly the same one bald red-bearded smith, apron, hammer and tongs. Do not invent extra tools, anvil, fire or sparks; the anvil is a separate scene object. Simple seamless pixel-art loop. Fixed camera, scale and feet positions; no walking, sliding, hopping, zoom or rotation of the whole sprite. Preserve transparent background and clean pixel clusters. Gentle motion, stable silhouettes, return to the starting pose.",
+    "frame_count": 8,
+    "seed": 2026101808,
+    "no_background": true,
+    "enhance_prompt": false
+  }
+}
