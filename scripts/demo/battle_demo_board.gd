@@ -1884,20 +1884,22 @@ func _draw_overlay() -> void:
 		else:
 			_overlay.draw_polyline(points, path_shadow, 5.0, true)
 			_overlay.draw_polyline(points, path_gold, 3.0, true)
-			for i: int in range(1, points.size()):
+			var final_direction := Vector2.ZERO
+			for i: int in range(points.size() - 1, 0, -1):
 				var segment := points[i] - points[i - 1]
 				if segment.length_squared() <= 0.001: continue
-				var direction := segment.normalized()
-				var side := Vector2(-direction.y, direction.x) * 2.0
-				var middle := (points[i - 1] + points[i]) * 0.5
-				var tip := middle + direction * 3.0
-				var left_tail := middle - direction * 4.0 + side
-				var right_tail := middle - direction * 4.0 - side
-				# Статичные шевроны поясняют направление без анимации и подсветки.
-				_overlay.draw_line(left_tail, tip, path_shadow, 3.0, true)
-				_overlay.draw_line(tip, right_tail, path_shadow, 3.0, true)
-				_overlay.draw_line(left_tail, tip, Color("ECC577"), 1.5, true)
-				_overlay.draw_line(tip, right_tail, Color("ECC577"), 1.5, true)
+				final_direction = segment.normalized()
+				break
+			if final_direction != Vector2.ZERO:
+				var endpoint := points[points.size() - 1]
+				var side := Vector2(-final_direction.y, final_direction.x) * 2.0
+				var left_tail := endpoint - final_direction * 7.0 + side
+				var right_tail := endpoint - final_direction * 7.0 - side
+				# Конечный шеврон отмечает только фактически опубликованную конечную точку.
+				_overlay.draw_line(left_tail, endpoint, path_shadow, 3.0, true)
+				_overlay.draw_line(endpoint, right_tail, path_shadow, 3.0, true)
+				_overlay.draw_line(left_tail, endpoint, Color("ECC577"), 1.5, true)
+				_overlay.draw_line(endpoint, right_tail, Color("ECC577"), 1.5, true)
 	if forecast != null and forecast.status == &"APPLIED":
 		var chain_preview := forecast.events.any(func(value: Dictionary) -> bool: return value.get("kind") == &"chain_link")
 		for event_variant in forecast.events:
