@@ -1,0 +1,264 @@
+{
+  "source": "https://api.pixellab.ai/v2/openapi.json",
+  "date": "2026-10-18",
+  "endpoint": {
+    "post": {
+      "tags": [
+        "Image to Pixel Art"
+      ],
+      "summary": "Convert image to pixel art",
+      "description": "Convert regular images to pixel art style.\n\nSupported image sizes:\n- Input: Minimum 16x16, maximum 2048x2048\n- Output: Minimum 16x16, maximum 512x512\n\n**Best practices:**\n- Recommended output sizes is 1/4 of the input size\n- Keep the same aspect ratio as the input image\n\n**Staying close to the source:** by default the model reinterprets the image as\npixel art. To reproduce it faithfully instead, set `fixer=true` (faithful mode)\nand raise `init_image_strength` (0-999), which starts the diffusion from the\nsource image rather than from noise.\n\nUsing the Python client:\n```python\nimport pixellab\nfrom PIL import Image\n\nclient = pixellab.Client(secret=\"YOUR_API_TOKEN\")\n\nsource_img = Image.open(\"photo.png\")\n\nresult = client.image_to_pixelart(\n    image=source_img,\n    image_size=dict(width=256, height=256),\n    output_size=dict(width=64, height=64),\n)\nresult.image.pil_image().save(\"pixelart.png\")\n```",
+      "operationId": "image_to_pixelart_image_to_pixelart_post",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ImageToPixelartRequest"
+            }
+          }
+        },
+        "required": true
+      },
+      "responses": {
+        "200": {
+          "description": "Successfully converted image",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImageToPixelartResponse"
+              },
+              "example": {
+                "image": {
+                  "type": "base64",
+                  "base64": "data:image/png;base64,..."
+                },
+                "usage": {
+                  "type": "usd",
+                  "usd": 0.02
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid image size constraints"
+        },
+        "401": {
+          "description": "Invalid API token"
+        },
+        "402": {
+          "description": "Insufficient credits"
+        },
+        "422": {
+          "description": "Validation error"
+        },
+        "429": {
+          "description": "Too many requests"
+        }
+      },
+      "security": [
+        {
+          "HTTPBearer": []
+        }
+      ]
+    }
+  },
+  "schemas": {
+    "ImageToPixelartRequest": {
+      "properties": {
+        "image": {
+          "$ref": "#/components/schemas/Base64Image",
+          "description": "Image to convert to pixel art"
+        },
+        "image_size": {
+          "$ref": "#/components/schemas/app__endpoints__external__v2__image_to_pixelart__ImageSize",
+          "description": "Size of the input image"
+        },
+        "output_size": {
+          "$ref": "#/components/schemas/OutputSize",
+          "description": "Desired output size"
+        },
+        "text_guidance_scale": {
+          "anyOf": [
+            {
+              "type": "number",
+              "maximum": 20.0,
+              "minimum": 1.0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Text Guidance Scale",
+          "description": "How closely to follow pixel art style",
+          "default": 8.0
+        },
+        "init_image_strength": {
+          "type": "integer",
+          "maximum": 999.0,
+          "minimum": 0.0,
+          "title": "Init Image Strength",
+          "description": "How strongly to start from the source image (img2img). 0 redraws from scratch using the source only as guidance; higher values keep more of the source. 100-300 is the useful range. Beyond that the model barely transforms the input at all — measured on the same mechanism, mean per-pixel change falls from 50 at strength 100 to 14 at 500, so a high value returns your source image rather than pixel art.",
+          "default": 0
+        },
+        "fixer": {
+          "type": "boolean",
+          "title": "Fixer",
+          "description": "Faithful mode. Stays true to the source image instead of re-interpreting it as pixel art. Best combined with a high init_image_strength when converting artwork you want reproduced rather than reimagined.",
+          "default": false
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0.0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Seed",
+          "description": "Seed for reproducible generation"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "image",
+        "image_size",
+        "output_size"
+      ],
+      "title": "ImageToPixelartRequest",
+      "description": "Request model for image to pixel art endpoint",
+      "example": {
+        "image": {
+          "base64": "iVBORw0KGgoAAAANS..."
+        },
+        "image_size": {
+          "height": 256,
+          "width": 256
+        },
+        "output_size": {
+          "height": 64,
+          "width": 64
+        }
+      }
+    },
+    "ImageToPixelartResponse": {
+      "properties": {
+        "usage": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Usage"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "example": {
+            "type": "usd",
+            "usd": 0.02
+          }
+        },
+        "image": {
+          "$ref": "#/components/schemas/Base64Image"
+        }
+      },
+      "type": "object",
+      "required": [
+        "image"
+      ],
+      "title": "ImageToPixelartResponse",
+      "description": "Response for completed image to pixel art conversion"
+    },
+    "OutputSize": {
+      "properties": {
+        "width": {
+          "type": "integer",
+          "maximum": 512.0,
+          "minimum": 16.0,
+          "title": "Width",
+          "description": "Width in pixels"
+        },
+        "height": {
+          "type": "integer",
+          "maximum": 512.0,
+          "minimum": 16.0,
+          "title": "Height",
+          "description": "Height in pixels"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "width",
+        "height"
+      ],
+      "title": "OutputSize",
+      "description": "Output dimensions",
+      "example": {
+        "height": 64,
+        "width": 64
+      }
+    },
+    "app__endpoints__external__v2__image_to_pixelart__ImageSize": {
+      "properties": {
+        "width": {
+          "type": "integer",
+          "maximum": 2048.0,
+          "minimum": 16.0,
+          "title": "Width",
+          "description": "Width in pixels"
+        },
+        "height": {
+          "type": "integer",
+          "maximum": 2048.0,
+          "minimum": 16.0,
+          "title": "Height",
+          "description": "Height in pixels"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "width",
+        "height"
+      ],
+      "title": "ImageSize",
+      "description": "Image dimensions",
+      "example": {
+        "height": 256,
+        "width": 256
+      }
+    },
+    "Base64Image": {
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "base64",
+          "title": "Type",
+          "description": "Image data type",
+          "default": "base64"
+        },
+        "base64": {
+          "type": "string",
+          "title": "Base64",
+          "description": "Base64 encoded image data"
+        },
+        "format": {
+          "type": "string",
+          "title": "Format",
+          "description": "Image format",
+          "default": "png"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "base64"
+      ],
+      "title": "Base64Image",
+      "description": "A base64 encoded image.\n\nAttributes:\n    type (Literal[\"base64\"]): Always \"base64\" to indicate the image encoding type\n    base64 (str): The base64 encoded image data\n    format (str): The image format (e.g., \"png\", \"jpeg\")"
+    }
+  }
+}

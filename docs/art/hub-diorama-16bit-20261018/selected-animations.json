@@ -1,0 +1,26 @@
+[
+  {
+    "role": "crowd",
+    "variant": 2,
+    "title": "Оглянуться",
+    "path": "docs/art/hub-pixellab-redraw-animation-20261018/animations/crowd-02/loop.gif",
+    "sha256": "36e5c5938c3a312cdd5f8fdc5017f05d0e79f69e2e6aeeef52f237f88f0a01df",
+    "user_selected_on": "2026-10-18"
+  },
+  {
+    "role": "market",
+    "variant": 5,
+    "title": "Весёлая история",
+    "path": "docs/art/hub-pixellab-redraw-animation-20261018/animations/market-05/loop.gif",
+    "sha256": "a59001741275a1542c1a0e0740aedd281e2f0b0c3689da942591bc68a10299c5",
+    "user_selected_on": "2026-10-18"
+  },
+  {
+    "role": "smith",
+    "variant": 3,
+    "title": "Короткий удар — с пластиной",
+    "path": "docs/art/hub-smith-plate-animation-20261018/animations/smith-03/loop.gif",
+    "sha256": "d33a3f9c855c0587142ec26e5a4ba87df061d8162d4d0bcee33114362008abc1",
+    "user_selected_on": "2026-10-18"
+  }
+]

@@ -1,0 +1,47 @@
+{
+  "provider": "PixelLab API v2",
+  "preview_only": true,
+  "outputs": [
+    {
+      "label": "bright",
+      "file": "outputs/bright.png",
+      "sha256": "e1c616a4f91b6643d9df7059d99384d63761d8f4a11a0071ad7f1ac67cf04550",
+      "size": [
+        480,
+        270
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "nonopaque_pixel_count": 960,
+      "unique_rgb_colors": 151,
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "label": "muted",
+      "file": "outputs/muted.png",
+      "sha256": "7c3530c4b7c2fb5c7e894aec2d2b29e6988b77a09b2d86c085ca5fbaaecaad94",
+      "size": [
+        480,
+        270
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "nonopaque_pixel_count": 960,
+      "unique_rgb_colors": 79,
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    }
+  ],
+  "pending": [],
+  "source_copies_verified": 2,
+  "selected_animation_hashes_verified": 3
+}

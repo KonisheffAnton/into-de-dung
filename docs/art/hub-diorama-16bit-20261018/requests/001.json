@@ -1,0 +1,24 @@
+{
+  "id": 1,
+  "kind": "diorama",
+  "label": "bright",
+  "endpoint": "/image-to-pixelart",
+  "request": {
+    "image": {
+      "file": "sources/bright.png",
+      "sha256": "06f4aa685f978a11d57d789712d01136c0857adcff81db076455c3c53be17191"
+    },
+    "image_size": {
+      "width": 1672,
+      "height": 941
+    },
+    "output_size": {
+      "width": 480,
+      "height": 270
+    },
+    "text_guidance_scale": 10,
+    "init_image_strength": 180,
+    "fixer": true,
+    "seed": 2026101891
+  }
+}

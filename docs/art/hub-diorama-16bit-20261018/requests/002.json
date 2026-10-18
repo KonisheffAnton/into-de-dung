@@ -1,0 +1,24 @@
+{
+  "id": 2,
+  "kind": "diorama",
+  "label": "muted",
+  "endpoint": "/image-to-pixelart",
+  "request": {
+    "image": {
+      "file": "sources/muted.png",
+      "sha256": "5dcd5f58fa34fe0c35439859fc5130ee377063d58745336b3fde45470cd6a745"
+    },
+    "image_size": {
+      "width": 1672,
+      "height": 941
+    },
+    "output_size": {
+      "width": 480,
+      "height": 270
+    },
+    "text_guidance_scale": 10,
+    "init_image_strength": 180,
+    "fixer": true,
+    "seed": 2026101892
+  }
+}

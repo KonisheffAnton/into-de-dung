@@ -1,0 +1,22 @@
+[
+  {
+    "label": "bright",
+    "file": "sources/bright.png",
+    "sha256": "06f4aa685f978a11d57d789712d01136c0857adcff81db076455c3c53be17191",
+    "source": "docs/art/hub-pixellab-redraw-animation-20261018/sources/bright.png",
+    "size": [
+      1672,
+      941
+    ]
+  },
+  {
+    "label": "muted",
+    "file": "sources/muted.png",
+    "sha256": "5dcd5f58fa34fe0c35439859fc5130ee377063d58745336b3fde45470cd6a745",
+    "source": "docs/art/hub-pixellab-redraw-animation-20261018/sources/muted.png",
+    "size": [
+      1672,
+      941
+    ]
+  }
+]

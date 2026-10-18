@@ -1,0 +1,42 @@
+{
+  "status": "completed",
+  "preview_only": true,
+  "outputs": [
+    {
+      "label": "bright",
+      "file": "imagegen/bright.png",
+      "tool": "built-in image_gen",
+      "original_output_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-3201b7fb-45d8-4908-a79a-4e7f27e11a97.png",
+      "sha256": "482e4ef467bb11fa155e37500c6bb5abd3ecc796a3420746d9c3ff7aa3cbc596",
+      "size": [
+        1672,
+        941
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "reference": "sources/bright.png",
+      "prompt_file": "imagegen-prompts.json"
+    },
+    {
+      "label": "muted",
+      "file": "imagegen/muted.png",
+      "tool": "built-in image_gen",
+      "original_output_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-95655c07-068f-42ea-bfe6-4b8409da7ec9.png",
+      "sha256": "fd5dd50bae3a5c5aa94d8a911a188d157a7e5f35bf5d474a0277bc397e2f1829",
+      "size": [
+        1672,
+        941
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "reference": "sources/muted.png",
+      "prompt_file": "imagegen-prompts.json"
+    }
+  ],
+  "calls": 2,
+  "note": "User requested built-in generation instead of PixelLab after two small PixelLab trials; those trials are retained only as provenance."
+}
