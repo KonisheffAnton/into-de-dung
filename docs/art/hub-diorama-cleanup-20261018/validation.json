@@ -1,0 +1,199 @@
+{
+  "date": "2026-10-18",
+  "result": "PASS",
+  "png_count": 16,
+  "source_byte_copies": "PASS 2/2",
+  "provider_byte_copies": "PASS 6/6",
+  "diagnostic_crop_pixels": "PASS 8/8",
+  "files": [
+    {
+      "file": "diorama-bright-clean.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "sha256": "71439f4f6134a2cbc286293623161f847516b045906d9c78ab5855e677fe6626",
+      "crc_decode": "PASS",
+      "opaque": true
+    },
+    {
+      "file": "diorama-muted-clean.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "sha256": "d9f9ca8ef350ade63206fa364de0e65c414be67e4577a4bc3a165a7ffdbbd711",
+      "crc_decode": "PASS",
+      "opaque": true
+    },
+    {
+      "file": "muted-01-mountain.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "sha256": "cb169151ca02073be2aeb02cee3c8abdb6c2f2c3a43e1ae26b78a6f13814ea39",
+      "crc_decode": "PASS",
+      "opaque": true
+    },
+    {
+      "file": "muted-02-west.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "sha256": "8b4ff5d1ec3729c2eabe7f991284cdf6a1bec3c1ea3430b83adcb4acab37c5b8",
+      "crc_decode": "PASS",
+      "opaque": true
+    },
+    {
+      "file": "muted-03-houses.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "sha256": "ba0775c6e5dc5b5751c1e3b28743e3283568495ae02f9dd7353caf01b140b690",
+      "crc_decode": "PASS",
+      "opaque": true
+    },
+    {
+      "file": "muted-04-workshop.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "sha256": "9fad5daa75cc1dbe6cb5b4671f184bc44098094d81540cfa1f55c96940ac8449",
+      "crc_decode": "PASS",
+      "opaque": true
+    },
+    {
+      "file": "reference-01-mountain.png",
+      "size": [
+        1290,
+        1010
+      ],
+      "mode": "RGB",
+      "sha256": "3219e37e4110b58bab26faf422a99a2e4624bac8531df03e62b0995341c8f84f",
+      "crc_decode": "PASS",
+      "opaque": true
+    },
+    {
+      "file": "reference-02-west.png",
+      "size": [
+        960,
+        790
+      ],
+      "mode": "RGB",
+      "sha256": "316af1c0bad0e2d22b8baa0254d2a86931df0df63e057a454358c5a03537412d",
+      "crc_decode": "PASS",
+      "opaque": true
+    },
+    {
+      "file": "reference-02-wreck.png",
+      "size": [
+        960,
+        520
+      ],
+      "mode": "RGB",
+      "sha256": "994456258d23821a54e07c082f49b4dbeb3a19c31f32128e913cfb2f08f00851",
+      "crc_decode": "PASS",
+      "opaque": true
+    },
+    {
+      "file": "reference-03-east.png",
+      "size": [
+        800,
+        1090
+      ],
+      "mode": "RGB",
+      "sha256": "e1e170bd305ec3695ab57e62d327a13a484d0cc1673717076f8ad84912648cb3",
+      "crc_decode": "PASS",
+      "opaque": true
+    },
+    {
+      "file": "reference-03-foreground.png",
+      "size": [
+        940,
+        490
+      ],
+      "mode": "RGB",
+      "sha256": "35049130437e747fa329e5369a3c7f1cb51f6dd99350c0d9f9c7c7573df54b11",
+      "crc_decode": "PASS",
+      "opaque": true
+    },
+    {
+      "file": "reference-04-bridge.png",
+      "size": [
+        690,
+        330
+      ],
+      "mode": "RGB",
+      "sha256": "4ef83a306dc928385c0cbb231015a3312a7b593bb2adf0d66e03c3dbc99174c2",
+      "crc_decode": "PASS",
+      "opaque": true
+    },
+    {
+      "file": "reference-04-workshop.png",
+      "size": [
+        1035,
+        735
+      ],
+      "mode": "RGB",
+      "sha256": "8565cbd63dac33686e58c79bd9ecf66db53a93caa74659642d7b2cbcfd7cd35a",
+      "crc_decode": "PASS",
+      "opaque": true
+    },
+    {
+      "file": "reference-06-bright-colors.png",
+      "size": [
+        800,
+        240
+      ],
+      "mode": "RGB",
+      "sha256": "aeec62b74bc4548be4ae8cac3afbfcd58d980eeda2c2d345940a0a6063c2d26e",
+      "crc_decode": "PASS",
+      "opaque": true
+    },
+    {
+      "file": "source-bright.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "sha256": "64283873b8cb86224777e61fb23b19f8595d0d3275ae08fcbea29bb246f628e0",
+      "crc_decode": "PASS",
+      "opaque": true
+    },
+    {
+      "file": "source-muted.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "sha256": "bec069749df5314ee966b6f4d8c53770bd5e42170fa5e0af2c7203f306623ee5",
+      "crc_decode": "PASS",
+      "opaque": true
+    }
+  ],
+  "independent_review": "APPROVE for preview, seven regions in both palettes; see review.md",
+  "runtime_checks": "Not run: static preview-only art, no game changes",
+  "limitations": [
+    "No pixel-exact correspondence or production layer readiness claimed",
+    "Final artistic acceptance remains with user"
+  ],
+  "local_links": {
+    "checked": 47,
+    "missing": [],
+    "result": "PASS"
+  },
+  "gallery_browser_check": "Not performed: CUA denied file:// protocol; no workaround attempted. Static links and script syntax checked separately.",
+  "gallery_script_syntax": "PASS: node --check"
+}

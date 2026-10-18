@@ -1,0 +1,201 @@
+{
+  "date": "2026-10-18",
+  "base_commit": "d4397afe2887a9dc28a4029833e9ec52d90334c1",
+  "provider": "built-in image_gen.imagegen",
+  "purpose": "Preview-only regional cleanup of paired dioramas",
+  "usage": null,
+  "cost": null,
+  "output_postprocessing": "None. Provider PNGs copied byte-exact. PIL used only for diagnostic crop/nearest references and validation.",
+  "sources": [
+    {
+      "file": "source-bright.png",
+      "copied_from": "../hub-diorama-people-cutout-20261018/background-bright.png",
+      "sha256": "64283873b8cb86224777e61fb23b19f8595d0d3275ae08fcbea29bb246f628e0"
+    },
+    {
+      "file": "source-muted.png",
+      "copied_from": "../hub-diorama-people-cutout-20261018/background-muted-v5.png",
+      "sha256": "bec069749df5314ee966b6f4d8c53770bd5e42170fa5e0af2c7203f306623ee5"
+    }
+  ],
+  "calls": [
+    {
+      "pass": 1,
+      "output": "muted-01-mountain.png",
+      "output_sha256": "cb169151ca02073be2aeb02cee3c8abdb6c2f2c3a43e1ae26b78a6f13814ea39",
+      "provider_file": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-4d24ed92-5bd1-4eee-8048-0f7c4714a0a1.png",
+      "prompt_file": "prompt-01-mountain.txt",
+      "prompt_sha256": "63148afe4547b787e64246a954b77365febd2c38c3fa14ca9d07c082b740e937",
+      "referenced_image_paths": [
+        "source-muted.png",
+        "reference-01-mountain.png"
+      ],
+      "transparent_background": false
+    },
+    {
+      "pass": 2,
+      "output": "muted-02-west.png",
+      "output_sha256": "8b4ff5d1ec3729c2eabe7f991284cdf6a1bec3c1ea3430b83adcb4acab37c5b8",
+      "provider_file": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-8e2c1a5f-a642-4ecf-9929-561e09cbecc6.png",
+      "prompt_file": "prompt-02-west.txt",
+      "prompt_sha256": "7f142e3f7af8486c109dd6f7b73a140eea5edf431723fc72033c5d33f64ebf6f",
+      "referenced_image_paths": [
+        "muted-01-mountain.png",
+        "reference-02-west.png",
+        "reference-02-wreck.png"
+      ],
+      "transparent_background": false
+    },
+    {
+      "pass": 3,
+      "output": "muted-03-houses.png",
+      "output_sha256": "ba0775c6e5dc5b5751c1e3b28743e3283568495ae02f9dd7353caf01b140b690",
+      "provider_file": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-2b5d0c42-9733-418a-b460-615a6c6ed300.png",
+      "prompt_file": "prompt-03-east-foreground.txt",
+      "prompt_sha256": "774f5e6ee99a57627b7d32b0845c2fe2518a63cb3b56d78703c9d555a31c84eb",
+      "referenced_image_paths": [
+        "muted-02-west.png",
+        "reference-03-east.png",
+        "reference-03-foreground.png"
+      ],
+      "transparent_background": false
+    },
+    {
+      "pass": 4,
+      "output": "muted-04-workshop.png",
+      "output_sha256": "9fad5daa75cc1dbe6cb5b4671f184bc44098094d81540cfa1f55c96940ac8449",
+      "provider_file": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-652c5fa5-dcb5-40e7-b7c8-bcbcd4467bc6.png",
+      "prompt_file": "prompt-04-bridge-workshop.txt",
+      "prompt_sha256": "e02c4191b544666c44d049674c8b66316d3730d22d8120dbf74b5b976e86ac25",
+      "referenced_image_paths": [
+        "muted-03-houses.png",
+        "reference-04-workshop.png",
+        "reference-04-bridge.png"
+      ],
+      "transparent_background": false
+    },
+    {
+      "pass": 5,
+      "output": "diorama-muted-clean.png",
+      "output_sha256": "d9f9ca8ef350ade63206fa364de0e65c414be67e4577a4bc3a165a7ffdbbd711",
+      "provider_file": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-cc8c92ba-7b95-4db5-8564-a933545b1f58.png",
+      "prompt_file": "prompt-05-natural-surfaces.txt",
+      "prompt_sha256": "2839e9a05d0c60828474889dcd97819486885add2169496ed0883ff5a48fc394",
+      "referenced_image_paths": [
+        "muted-04-workshop.png"
+      ],
+      "transparent_background": false
+    },
+    {
+      "pass": 6,
+      "output": "diorama-bright-clean.png",
+      "output_sha256": "71439f4f6134a2cbc286293623161f847516b045906d9c78ab5855e677fe6626",
+      "provider_file": "C:\\Users\\Aston\\.codex\\generated_images\\01a14e77-97a2-7b31-9a04-997b62cbfbf1\\exec-05ef83f0-9b0d-426a-bf3f-13b4a505881d.png",
+      "prompt_file": "prompt-06-bright-palette.txt",
+      "prompt_sha256": "79717dced3eeea8a729a6d3fe918e2071b31fc97c34651f25847860ba0ab3080",
+      "referenced_image_paths": [
+        "diorama-muted-clean.png",
+        "reference-06-bright-colors.png"
+      ],
+      "transparent_background": false
+    }
+  ],
+  "derived_references": [
+    {
+      "file": "reference-01-mountain.png",
+      "source": "source-muted.png",
+      "crop_ltrb": [
+        490,
+        0,
+        1135,
+        505
+      ],
+      "nearest_scale": 2,
+      "sha256": "3219e37e4110b58bab26faf422a99a2e4624bac8531df03e62b0995341c8f84f"
+    },
+    {
+      "file": "reference-02-west.png",
+      "source": "source-muted.png",
+      "crop_ltrb": [
+        90,
+        215,
+        570,
+        610
+      ],
+      "nearest_scale": 2,
+      "sha256": "316af1c0bad0e2d22b8baa0254d2a86931df0df63e057a454358c5a03537412d"
+    },
+    {
+      "file": "reference-02-wreck.png",
+      "source": "source-muted.png",
+      "crop_ltrb": [
+        20,
+        590,
+        500,
+        850
+      ],
+      "nearest_scale": 2,
+      "sha256": "994456258d23821a54e07c082f49b4dbeb3a19c31f32128e913cfb2f08f00851"
+    },
+    {
+      "file": "reference-03-east.png",
+      "source": "muted-02-west.png",
+      "crop_ltrb": [
+        1235,
+        210,
+        1635,
+        755
+      ],
+      "nearest_scale": 2,
+      "sha256": "e1e170bd305ec3695ab57e62d327a13a484d0cc1673717076f8ad84912648cb3"
+    },
+    {
+      "file": "reference-03-foreground.png",
+      "source": "muted-02-west.png",
+      "crop_ltrb": [
+        650,
+        625,
+        1120,
+        870
+      ],
+      "nearest_scale": 2,
+      "sha256": "35049130437e747fa329e5369a3c7f1cb51f6dd99350c0d9f9c7c7573df54b11"
+    },
+    {
+      "file": "reference-04-workshop.png",
+      "source": "muted-03-houses.png",
+      "crop_ltrb": [
+        935,
+        480,
+        1280,
+        725
+      ],
+      "nearest_scale": 3,
+      "sha256": "8565cbd63dac33686e58c79bd9ecf66db53a93caa74659642d7b2cbcfd7cd35a"
+    },
+    {
+      "file": "reference-04-bridge.png",
+      "source": "muted-03-houses.png",
+      "crop_ltrb": [
+        560,
+        510,
+        790,
+        620
+      ],
+      "nearest_scale": 3,
+      "sha256": "4ef83a306dc928385c0cbb231015a3312a7b593bb2adf0d66e03c3dbc99174c2"
+    },
+    {
+      "file": "reference-06-bright-colors.png",
+      "source": "source-bright.png",
+      "crop_ltrb": [
+        0,
+        0,
+        800,
+        240
+      ],
+      "nearest_scale": 1,
+      "sha256": "aeec62b74bc4548be4ae8cac3afbfcd58d980eeda2c2d345940a0a6063c2d26e"
+    }
+  ]
+}

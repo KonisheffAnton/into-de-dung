@@ -1,0 +1,51 @@
+{
+  "canvas": [
+    1672,
+    941
+  ],
+  "regions": {
+    "mountain": [
+      490,
+      0,
+      1135,
+      505
+    ],
+    "west_village": [
+      90,
+      215,
+      570,
+      610
+    ],
+    "bridge_water": [
+      410,
+      405,
+      935,
+      795
+    ],
+    "workshop": [
+      935,
+      480,
+      1280,
+      725
+    ],
+    "east_village": [
+      1235,
+      210,
+      1635,
+      755
+    ],
+    "foreground_farm": [
+      650,
+      625,
+      1120,
+      870
+    ],
+    "wreck_shore": [
+      20,
+      590,
+      500,
+      850
+    ]
+  },
+  "coordinates": "left,top,right,bottom; visual inspection/edit guide, not exact masks"
+}
