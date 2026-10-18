@@ -7,9 +7,10 @@
 
 Нужны Python 3 и Godot; путь к Godot передаётся в GODOT_BIN либо `--godot`.
 Запуск проекта — [REPOSITORY_STATE](REPOSITORY_STATE.md). Команды выполняются из корня.
-Launcher создаёт отдельную копию текущих исходников и профиль, исключая
+В режимах `--check`/`--render-check` launcher создаёт отдельную чистую копию текущих исходников и профиль, исключая
 `test_reports/` и `.godot/`; пишет manifest, логи и при render — PNG в новый
 `test_reports/demo-<id>/`. Старые отчёты не импортируются и не перезаписываются.
+Интерактивный кэш из [REPOSITORY_STATE](REPOSITORY_STATE.md) в проверках не используется.
 
 ## Изменение игрового кода
 
@@ -152,7 +153,10 @@ formatter. При изменении границы сопоставить base/
 различие; seed/фаза анимации должны быть одинаковыми. При сохранении правил ядра,
 команд, guards и мест вызовов full/core не назначаются только из-за UI-выноса.
 Fixtures не подтверждают F5/Editor/DPI/GPU/FPS. Изменение launcher дополнительно
-проверяется `python tools/demo/test_isolate.py`.
+проверяется `python tools/demo/test_isolate.py` и `python tools/demo/test_interactive_cache.py`.
+Для изменения интерактивного кэша дополнительно проверить реальный cold/warm запуск,
+обновление импортированного ресурса при прежнем размере/mtime и чистый targeted check.
+Cached import `SKIPPED` не является PASS проверки проекта.
 
 Для восстановления HP и экипировки: `python tools/demo/isolate.py --check --only restore_vitals armor_snapshot unit_snapshot_performance --screen 0`.
 `restore_vitals` входит в обычный/full/render набор: equipped HP_MAX, точный

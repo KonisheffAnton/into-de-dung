@@ -12,6 +12,117 @@ import subprocess
 import time
 import uuid
 
+from interactive_cache import CacheBusyError, InteractiveCache
+
+
+def run_cached_interactive(repo, godot, screen=None):
+    started = time.perf_counter()
+    executable = Path(shutil.which(godot) or godot).resolve()
+    executable_stat = executable.stat()
+    engine = {"path": str(executable), "size": executable_stat.st_size,
+              "mtime_ns": executable_stat.st_mtime_ns}
+    # Windows console.exe — оболочка. Запускаем сам движок, чтобы PID/ожидание принадлежали игре.
+    if os.name == "nt" and executable.name.lower().endswith("_console.exe"):
+        runtime = executable.with_name(executable.name[:-len("_console.exe")] + ".exe")
+        if runtime.is_file():
+            runtime_stat = runtime.stat()
+            engine["runtime"] = {"path": str(runtime), "size": runtime_stat.st_size,
+                                 "mtime_ns": runtime_stat.st_mtime_ns}
+            godot = str(runtime)
+    with InteractiveCache(repo, engine) as cache:
+        out = repo / "test_reports" / ("demo-" + uuid.uuid4().hex)
+        out.mkdir()
+        env = os.environ.copy()
+        env["APPDATA"] = str(out / "profile")
+        Path(env["APPDATA"]).mkdir()
+        print(out, flush=True)
+        print("Synchronizing interactive project...", flush=True)
+        snapshot_started = time.perf_counter()
+        names = subprocess.check_output(["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"], cwd=repo).decode().split("\0")
+        manifest = cache.sync(names)
+        (out / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+        timing = {"mode": "interactive_cached", "project": str(cache.project),
+                  "snapshot_seconds": time.perf_counter() - snapshot_started,
+                  "source_sync": cache.stats, "checks": {}, "total_seconds": None}
+
+        def save_timing():
+            (out / "timing.json").write_text(json.dumps(timing, indent=2), encoding="utf-8")
+
+        if cache.needs_import:
+            print("Importing new or changed resources...", flush=True)
+            import_started = time.perf_counter()
+            hidden = {}
+            if os.name == "nt":
+                startup = subprocess.STARTUPINFO()
+                startup.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+                startup.wShowWindow = 0
+                hidden = {"startupinfo": startup, "creationflags": subprocess.CREATE_NO_WINDOW}
+            try:
+                cache.begin_import()
+                with (out / "import.log").open("wb") as log:
+                    result = subprocess.run([godot, "--path", str(cache.project), "--headless", "--import"],
+                                            env=env, stdout=log, stderr=subprocess.STDOUT, timeout=120, **hidden)
+                cache.end_import()
+                output = (out / "import.log").read_text(encoding="utf-8", errors="replace")
+                failed = (result.returncode != 0 or "SCRIPT ERROR" in output or "Parse Error" in output
+                          or has_engine_errors("import", output)
+                          or any(int(count) > 0 for count in re.findall(r"\b(\d+) failed\b", output)))
+                status = "FAIL" if failed else "PASS"
+            except (OSError, subprocess.TimeoutExpired) as exc:
+                output = str(exc)
+                status = "TIMEOUT" if isinstance(exc, subprocess.TimeoutExpired) else "FAIL"
+            timing["checks"]["import"] = {"status": status, "elapsed_seconds": time.perf_counter() - import_started}
+            save_timing()
+            if status != "PASS":
+                print("Import failed; game was not started.\n" + output[-4000:], flush=True)
+                return 1
+        else:
+            timing["checks"]["import"] = {"status": "SKIPPED", "elapsed_seconds": 0,
+                                          "reason": "Unchanged source mirror and valid cached resources"}
+            print("Import cache reused; no import needed.", flush=True)
+        class_cache = cache.project / ".godot/global_script_class_cache.cfg"
+        if not class_cache.is_file() or "test_reports" in class_cache.read_text(encoding="utf-8"):
+            timing["checks"]["import"]["status"] = "FAIL"
+            timing["blocked"] = "class cache missing or contains archived scripts"
+            save_timing()
+            print(timing["blocked"], flush=True)
+            return 1
+        cache.imported(manifest)
+        command = [godot, "--path", str(cache.project)]
+        if screen is not None:
+            command += ["--screen", str(screen)]
+        process = None
+        cache.begin_play()
+        try:
+            # Lease живёт до закрытия игры: следующий запуск не переписывает её исходники.
+            with (out / "play.log").open("wb") as log:
+                process = subprocess.Popen(command, env=env, stdout=log, stderr=subprocess.STDOUT)
+            timing["total_seconds"] = time.perf_counter() - started
+            timing["pid"] = process.pid
+            save_timing()
+            print("Demo window launched, PID", process.pid, "({:.2f}s preparation)".format(timing["total_seconds"]), flush=True)
+            exit_code = process.wait()
+            if exit_code == 0:
+                cache.end_play()
+            timing["play_exit_code"] = exit_code
+            save_timing()
+            return exit_code
+        finally:
+            # Неизвестный результат Popen оставляет playing: новая попытка не тронет возможную игру.
+            if process is not None and process.poll() is None:
+                # При Ctrl+C закрываем только дочернюю игру, которую запустил этот launcher.
+                if os.name == "nt":
+                    subprocess.run(["taskkill", "/PID", str(process.pid), "/T", "/F"],
+                                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                                   timeout=10, creationflags=subprocess.CREATE_NO_WINDOW)
+                else:
+                    process.terminate()
+                try:
+                    process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    process.kill()
+                    process.wait(timeout=5)
+
 
 def has_engine_errors(label, output):
     # Единственный подтверждённый ERROR — отказ занятой клетки в negative core test.
@@ -52,6 +163,7 @@ def main():
     parser.add_argument("--full", action="store_true", help="also run the existing core regression")
     parser.add_argument("--only", nargs="+", action="append", metavar="LABEL", help="run only these scheduled checks (requires --check or --render-check; import/startup still run)")
     parser.add_argument("--list-checks", action="store_true", help="print scheduled check labels and exit")
+    parser.add_argument("--fresh", action="store_true", help="interactive only: launch a fresh isolated copy without using the play cache")
     parser.add_argument("--godot", default=os.environ.get("GODOT_BIN"))
     parser.add_argument("--screen", type=int, default=os.environ.get("GODOT_TEST_SCREEN"), help="Godot screen index for windowed runs (or GODOT_TEST_SCREEN)")
     args = parser.parse_args()
@@ -60,6 +172,8 @@ def main():
         return
     if args.only and not (args.check or args.render_check):
         parser.error("--only requires --check or --render-check")
+    if args.fresh and (args.check or args.render_check):
+        parser.error("--fresh is interactive only; checks already use fresh copies")
     if args.only and args.full:
         parser.error("--only cannot be combined with --full")
     selected = {label for group in (args.only or []) for label in group}
@@ -77,6 +191,16 @@ def main():
         godot = str(local)
     if not godot:
         parser.error("Set GODOT_BIN or pass --godot with the Godot 4.7 executable path.")
+    if not (args.check or args.render_check or args.fresh):
+        try:
+            code = run_cached_interactive(repo, godot, args.screen)
+        except (CacheBusyError, OSError, ValueError, RuntimeError) as exc:
+            parser.exit(1, str(exc) + "\n")
+        except KeyboardInterrupt:
+            parser.exit(130, "Interactive launch interrupted.\n")
+        if code:
+            raise SystemExit(code)
+        return
     out = repo / "test_reports" / ("demo-" + uuid.uuid4().hex)
     total_started = time.perf_counter()
     snapshot_started = total_started

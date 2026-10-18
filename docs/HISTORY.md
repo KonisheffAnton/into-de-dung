@@ -1,5 +1,24 @@
 # История и свидетельства проверок
 
+## Интерактивный кэш Python launcher — 2026-10-18
+
+По поручению U tools/demo/isolate.py сохраняет интерактивную копию и импортированные
+ресурсы, сверяет source/mirror SHA256, обновляет изменения и удаляет исчезнувшие пути.
+Unchanged здоровый кэш пропускает import (SKIPPED); --fresh даёт прежний чистый запуск.
+Профили/логи отдельные, OS lease до выхода игры; неизвестный исход импорта/игры
+выбирает новое поколение. Windows console companion учитывается и запускается напрямую.
+Check/render используют прежние чистые копии и обязательные gates.
+[Правила запуска](REPOSITORY_STATE.md), [проверки](TESTING.md),
+[отчёт/замеры](../test_reports/interactive-launcher-20261018/README.md).
+Base main516dc1069d3dd279f4f228ed764afb68934d5a91. Python28/28+15/15 PASS;
+реальные changed SVG/class, cancellation/lease и cached startup PASS.
+Финальная пара: cold55.345с, warm7.827с подготовки, не key-to-menu; одиночные замеры.
+Чистый targeted check: import/startup PASS, camera10/0; launcher3PASS/0FAIL/0timeout.
+game_reviewer APPROVE после исправления Python compatibility и orphan lifecycle.
+Чужая main_menu.tscn/серия03, core/preview/live/worker/queue/RNG/save/frozen прежние.
+Без push; новых full/core/ручных GUI/F5/DPI/GPU, игровой/арт-приёмки нет.
+[Прежний HANDOFF — побайтный архив](CODEX_HANDOFF.history-20261018-4.md).
+
 ## Диагностика медленного Python-запуска — 2026-10-18
 
 U уточнил путь tools/demo/isolate.py. Проверены создание новой копии без .godot,

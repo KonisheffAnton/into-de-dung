@@ -12,6 +12,21 @@ import isolate
 
 
 class IsolateSelectionTests(unittest.TestCase):
+    def test_fresh_interactive_bypasses_cache_and_runs_import(self):
+        with patch.object(isolate, "run_cached_interactive", side_effect=AssertionError("fresh reused cache")), patch.object(isolate.subprocess, "Popen") as game:
+            code, calls, timing, _ = self.exercise(["--fresh"])
+            self.assertEqual((code, calls), (0, ["import"]))
+            self.assertEqual(timing["checks"]["import"]["status"], "PASS")
+            self.assertEqual(game.call_count, 1)
+
+    def test_validation_modes_never_enter_interactive_cache(self):
+        with patch.object(isolate, "run_cached_interactive", side_effect=AssertionError("validation reused play cache")):
+            for mode in ("--check", "--render-check"):
+                with self.subTest(mode=mode):
+                    code, calls, timing, _ = self.exercise([mode, "--only", "battle_hud_authoring"])
+                    self.assertEqual((code, calls), (0, ["import", "startup", "battle_hud_authoring"]))
+                    self.assertEqual(timing["summary"]["passed"], 3)
+
     def test_confirmed_diagnostic_is_exact_and_core_only(self):
         expected = "ERROR: BattleBoard.add_unit: клетка (2, 2) уже занята"
         self.assertFalse(isolate.has_engine_errors("core", expected))
@@ -340,6 +355,90 @@ class IsolateSelectionTests(unittest.TestCase):
                 self.assertIn(label, calls)
                 self.assertEqual(timing["checks"][label]["status"], "FAIL")
                 self.assertNotIn(label + " PASS", output)
+
+
+class InteractiveLaunchTests(unittest.TestCase):
+    def test_unknown_spawn_result_never_reuses_possibly_running_generation(self):
+        with tempfile.TemporaryDirectory(prefix="into-dedung-play-orphan-") as directory:
+            repo = Path(directory)
+            engine = repo / "godot.exe"
+            engine.write_bytes(b"fake engine")
+            (repo / "project.godot").write_text("config_version=5\n", encoding="utf-8")
+
+            def fake_import(command, **kwargs):
+                project = Path(command[command.index("--path") + 1])
+                (project / ".godot").mkdir(exist_ok=True)
+                (project / ".godot/global_script_class_cache.cfg").write_text("", encoding="utf-8")
+                return subprocess.CompletedProcess(command, 0)
+
+            with patch.object(isolate.subprocess, "check_output", return_value=b"project.godot\0"), patch.object(isolate.subprocess, "run", side_effect=fake_import), patch.object(isolate.subprocess, "Popen", side_effect=KeyboardInterrupt), contextlib.redirect_stdout(io.StringIO()):
+                with self.assertRaises(KeyboardInterrupt):
+                    isolate.run_cached_interactive(repo, str(engine))
+            state = json.loads((repo / "test_reports/interactive-cache/state.json").read_text(encoding="utf-8"))
+            self.assertEqual(state["phase"], "playing")
+            with isolate.InteractiveCache(repo, state["engine"]) as cache:
+                self.assertNotEqual(cache.generation.name, state["generation"])
+                self.assertTrue((cache.root / state["generation"] / "project/project.godot").is_file())
+
+    def test_cached_launch_reuses_import_updates_sources_and_isolates_profiles(self):
+        with tempfile.TemporaryDirectory(prefix="into-dedung-play-cli-") as directory:
+            repo = Path(directory)
+            engine = repo / "godot.exe"
+            engine.write_bytes(b"fake engine")
+            source = repo / "tools/demo/isolate.py"
+            source.parent.mkdir(parents=True)
+            source.write_text("", encoding="utf-8")
+            (repo / "project.godot").write_text("config_version=5\n", encoding="utf-8")
+            imports, games = [], []
+
+            def fake_import(command, **kwargs):
+                project = Path(command[command.index("--path") + 1])
+                imports.append(project)
+                (project / ".godot").mkdir(exist_ok=True)
+                (project / ".godot/global_script_class_cache.cfg").write_text("", encoding="utf-8")
+                return subprocess.CompletedProcess(command, 0)
+
+            class Game:
+                pid = 123
+                def wait(self, **_): return 0
+                def poll(self): return 0
+
+            def fake_game(command, **kwargs):
+                games.append((command, kwargs["env"]["APPDATA"]))
+                return Game()
+
+            with patch.object(isolate, "__file__", str(source)), patch.object(isolate.subprocess, "check_output", return_value=b"project.godot\0"), patch.object(isolate.subprocess, "run", side_effect=fake_import), patch.object(isolate.subprocess, "Popen", side_effect=fake_game), patch("sys.argv", ["isolate", "--godot", str(engine), "--screen", "2"]), contextlib.redirect_stdout(io.StringIO()):
+                isolate.main()
+                isolate.main()
+                self.assertEqual(len(imports), 1)
+                (repo / "project.godot").write_text("config_version=5\n; changed\n", encoding="utf-8")
+                isolate.main()
+                self.assertEqual(len(imports), 2)
+            self.assertEqual(imports[0], imports[1])
+            self.assertEqual(len({profile for _, profile in games}), 3)
+            self.assertTrue(all(command[-2:] == ["--screen", "2"] for command, _ in games))
+            timings = [json.loads(p.read_text(encoding="utf-8")) for p in (repo / "test_reports").glob("demo-*/timing.json")]
+            self.assertEqual(sorted(t["checks"]["import"]["status"] for t in timings), ["PASS", "PASS", "SKIPPED"])
+            self.assertEqual((imports[0] / "project.godot").read_bytes(), (repo / "project.godot").read_bytes())
+
+    def test_failed_import_or_cache_never_starts_game(self):
+        for failure in ("exit", "diagnostic", "cache", "timeout"):
+            with self.subTest(failure=failure), tempfile.TemporaryDirectory(prefix="into-dedung-play-failure-") as directory:
+                repo = Path(directory)
+                engine = repo / "godot.exe"
+                engine.write_bytes(b"fake engine")
+                (repo / "project.godot").write_text("config_version=5\n", encoding="utf-8")
+
+                def fail_import(command, **kwargs):
+                    if failure == "timeout":
+                        raise subprocess.TimeoutExpired(command, 120)
+                    if failure == "diagnostic":
+                        kwargs["stdout"].write(b"SCRIPT ERROR: test\n")
+                    return subprocess.CompletedProcess(command, 1 if failure == "exit" else 0)
+
+                with patch.object(isolate.subprocess, "check_output", return_value=b"project.godot\0"), patch.object(isolate.subprocess, "run", side_effect=fail_import), patch.object(isolate.subprocess, "Popen") as game, contextlib.redirect_stdout(io.StringIO()):
+                    self.assertEqual(isolate.run_cached_interactive(repo, str(engine)), 1)
+                    game.assert_not_called()
 
 
 if __name__ == "__main__":
