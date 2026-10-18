@@ -1,0 +1,18 @@
+{
+  "id": 14,
+  "label": "smith-05-approach",
+  "variant": 5,
+  "kind": "cleanup-edit",
+  "endpoint": "/edit-image-pixen",
+  "request": {
+    "image": {
+      "file": "provider-animations/smith-05/frame-04.png",
+      "sha256": "98afe51525f52c4098f02683081054fa73c0303d054dbba9b5ca5996b9417453"
+    },
+    "description": "Remove the white-orange glowing spot on the iron plate and every trace of fire, sparks or coloured glow. Restore a cold opaque steel-grey plate. Keep the hammer lifted EXACTLY at its current height: this frame is BEFORE impact. Preserve exact smith pose, feet, hands, face, clothing, hammer, tongs, plate outline, lighting, scale, transparency and pixel style. No other changes.",
+    "width": 256,
+    "height": 256,
+    "seed": 2026101884,
+    "no_background": true
+  }
+}

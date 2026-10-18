@@ -1,0 +1,18 @@
+{
+  "id": 11,
+  "label": "smith-02-sparks",
+  "variant": 2,
+  "kind": "cleanup-edit",
+  "endpoint": "/edit-image-pixen",
+  "request": {
+    "image": {
+      "file": "provider-animations/smith-02/frame-05.png",
+      "sha256": "90a9a727d33b3082c348d284d1c7104796a391d56566b6e40bb2e1e701a32d20"
+    },
+    "description": "Replace the large orange fire ring and every glowing patch with just 3 tiny short orange spark streaks rising directly from the hammer contact point. Cold opaque steel-grey plate everywhere else. No fire, flame, halo, hot spot, splash or body glow. Keep the hammer in its current impact pose and preserve exact smith, hands, feet, face, outfit, tongs grip, plate outline, camera, size, transparency and pixel style.",
+    "width": 256,
+    "height": 256,
+    "seed": 2026101881,
+    "no_background": true
+  }
+}

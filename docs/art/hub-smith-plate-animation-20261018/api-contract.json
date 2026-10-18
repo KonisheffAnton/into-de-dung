@@ -1,0 +1,319 @@
+{
+  "source": "https://api.pixellab.ai/v2/openapi.json",
+  "verified_date": "2026-10-18",
+  "paths": {
+    "/edit-image-pixen": {
+      "post": {
+        "tags": [
+          "Edit"
+        ],
+        "summary": "Edit image (pixen)",
+        "description": "Edit an existing pixel art image with a text instruction, on the Pixen model.\n\nReturns YOUR image edited \u2014 pose, composition and pixel style are preserved and\nonly what you asked for changes. Returns immediately with a background job ID;\npoll `GET /v2/background-jobs/{job_id}` to check status and retrieve the result.\n\n### Sizes\nThe two canvases are bounded differently, both enforced here so an oversized\nrequest costs nothing instead of failing on a worker.\n- **Source image**: max **256px per side** (a hard model limit) and area at\n  least 16x16. Crop an oversized source \u2014 do not rescale pixel art, it destroys\n  the pixel grid.\n- **Target canvas**: area **16x16 to 256x256** (65,536px). This is an area, so a\n  wide-but-short canvas like 128x512 is fine. Defaults to the source image's\n  size. The model re-renders at the target size rather than rescaling, so the\n  source and the result may legitimately differ in size.\n- **Both canvases**: every side a **multiple of 4**. A 63x222 sprite is rejected\n  with the aligned size to use (64x224) \u2014 pad it with transparent pixels, never\n  rescale pixel art.\n\n### Cost\n1 generation.\n\n### Usage Pattern\n1. POST to this endpoint (returns `background_job_id`)\n2. Poll `GET /v2/background-jobs/{background_job_id}` every 5-10 seconds\n3. When `status` is `completed`, the edited image is in `last_response`",
+        "operationId": "edit_image_pixen_edit_image_pixen_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditImagePixenRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Edit job accepted and processing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditImagePixenResponse"
+                },
+                "example": {
+                  "background_job_id": "123e4567-e89b-12d3-a456-426614174000",
+                  "status": "processing"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Image or canvas outside the supported sizes"
+          },
+          "401": {
+            "description": "Invalid API token"
+          },
+          "402": {
+            "description": "Insufficient credits"
+          },
+          "422": {
+            "description": "Validation error"
+          },
+          "429": {
+            "description": "Too many concurrent jobs"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/animate-with-text-v3": {
+      "post": {
+        "tags": [
+          "Animate"
+        ],
+        "summary": "Animate with text (v3)",
+        "description": "Generate an animation from a reference frame and a text action description.\n\nReturns immediately with a background job ID. Poll `GET /v2/background-jobs/{job_id}`\nto retrieve results when generation completes.\n\n**How it works:**\n1. Submit the first frame and action description; receive a `background_job_id` immediately.\n2. Poll `GET /v2/background-jobs/{background_job_id}` every 2-5 seconds.\n3. When `status` is `completed`, the generated frames are available at `last_response.images`.\n\n**Size Limits:**\n- Maximum image dimension: 256x256 pixels\n- Total pixel budget: width \u00d7 height \u00d7 frame_count \u2264 524,288\n\n**Frame Count Guidelines:**\n- 4 frames: Simple loops (idle, breathing)\n- 8 frames: Standard animations (walk, run)\n- 16 frames: Complex animations (attack combos)\n\nTypical generation time: 30-180 seconds.\n\nUsing the Python client:\n```python\nimport pixellab, time\n\nclient = pixellab.Client(secret=\"YOUR_API_TOKEN\")\n\njob = client.animate_with_text_v3(\n    first_frame=first_frame_image,\n    action=\"walking forward\",\n    frame_count=8,\n)\n\nwhile True:\n    result = client.get_background_job(job.background_job_id)\n    if result.status == \"completed\":\n        images = [img.pil_image() for img in result.last_response[\"images\"]]\n        break\n    if result.status == \"failed\":\n        raise RuntimeError(result.last_response[\"detail\"])\n    time.sleep(2)\n```",
+        "operationId": "animate_with_text_v3_animate_with_text_v3_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnimateWithTextV3Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Background job accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnimateWithTextV3Response"
+                },
+                "example": {
+                  "background_job_id": "123e4567-e89b-12d3-a456-426614174000",
+                  "status": "processing"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid API token"
+          },
+          "402": {
+            "description": "Insufficient credits"
+          },
+          "422": {
+            "description": "Validation error"
+          },
+          "429": {
+            "description": "Too many concurrent background jobs"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    }
+  },
+  "schemas": {
+    "EditImagePixenRequest": {
+      "properties": {
+        "image": {
+          "$ref": "#/components/schemas/Base64Image",
+          "description": "The image to edit, as base64 PNG. Each side must be 256px or smaller and a multiple of 4, and the area at least 16x16. Pad with transparent pixels to align \u2014 never rescale pixel art."
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Description",
+          "description": "What to change (e.g. 'give him a red cape', 'make the armor gold')"
+        },
+        "width": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1.0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Width",
+          "description": "Target canvas width, a multiple of 4. Area must be at most 256x256. Defaults to the source image's width. The model re-renders at this size \u2014 it does not rescale."
+        },
+        "height": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1.0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Height",
+          "description": "Target canvas height, a multiple of 4. Defaults to the source image's height."
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0.0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Seed",
+          "description": "Seed for reproducible generation"
+        },
+        "no_background": {
+          "type": "boolean",
+          "title": "No Background",
+          "description": "Return the result on a transparent background",
+          "default": true
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "image",
+        "description"
+      ],
+      "title": "EditImagePixenRequest",
+      "description": "Request model for the Pixen image edit endpoint",
+      "example": {
+        "description": "give him a red cape",
+        "height": 64,
+        "image": {
+          "base64": "data:image/png;base64,..."
+        },
+        "no_background": true,
+        "width": 64
+      }
+    },
+    "AnimateWithTextV3Request": {
+      "properties": {
+        "first_frame": {
+          "$ref": "#/components/schemas/Base64Image",
+          "description": "First frame to animate (PNG/JPEG base64, max 256x256 pixels)"
+        },
+        "last_frame": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Base64Image"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Optional last frame to guide the animation endpoint (PNG/JPEG base64, max 256x256 pixels)"
+        },
+        "action": {
+          "type": "string",
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Action",
+          "description": "Action description (e.g., 'walking', 'jumping', 'attacking')"
+        },
+        "frame_count": {
+          "type": "integer",
+          "maximum": 16.0,
+          "minimum": 4.0,
+          "title": "Frame Count",
+          "description": "Number of animation frames (4-16, must be even)",
+          "default": 8
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0.0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Seed",
+          "description": "Seed for reproducible generation (0 for random)",
+          "default": 0
+        },
+        "no_background": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "No Background",
+          "description": "Remove background from generated frames"
+        },
+        "drift_threshold": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0.0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Drift Threshold",
+          "description": "Color de-flicker sensitivity. Frames whose foreground drifts from the first frame beyond this are corrected toward it; 0 corrects every frame, higher values correct fewer. Omit for the default."
+        },
+        "enhance_prompt": {
+          "type": "boolean",
+          "title": "Enhance Prompt",
+          "description": "If true, automatically expand `action` into a richer motion description before generating \u2014 equivalent to calling /v2/enhance-animation-v3-prompt with these frames first. Uses `first_frame` (and `last_frame` for interpolation) to ground the description. Costs an additional 0.05 generations (or equivalent credits). The expanded text is returned in `enhanced_prompt`.",
+          "default": false
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "first_frame",
+        "action"
+      ],
+      "title": "AnimateWithTextV3Request",
+      "description": "Request model for animate with text v3 endpoint",
+      "example": {
+        "action": "walking forward",
+        "first_frame": {
+          "base64": "data:image/png;base64,..."
+        },
+        "frame_count": 8,
+        "no_background": true,
+        "seed": 42
+      }
+    },
+    "Base64Image": {
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "base64",
+          "title": "Type",
+          "description": "Image data type",
+          "default": "base64"
+        },
+        "base64": {
+          "type": "string",
+          "title": "Base64",
+          "description": "Base64 encoded image data"
+        },
+        "format": {
+          "type": "string",
+          "title": "Format",
+          "description": "Image format",
+          "default": "png"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "base64"
+      ],
+      "title": "Base64Image",
+      "description": "A base64 encoded image.\n\nAttributes:\n    type (Literal[\"base64\"]): Always \"base64\" to indicate the image encoding type\n    base64 (str): The base64 encoded image data\n    format (str): The image format (e.g., \"png\", \"jpeg\")"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": 1,
+  "label": "plate-reference",
+  "kind": "reference-edit",
+  "endpoint": "/edit-image-pixen",
+  "request": {
+    "image": {
+      "file": "sources/smith-256.png",
+      "sha256": "8dc65928053e5b037132a42bf4166cb8a623206c96d52c641577383cad5b0b45"
+    },
+    "description": "Add one solid rectangular steel-grey iron plate firmly clamped in the tong jaws. The plate is nearly horizontal, its broad flat upper face visible at waist height; extend it LEFT from the jaws into the hammer strike zone, fully inside the canvas. Cold opaque grey metal, no glow, fire, sparks or new anvil. Preserve this exact smith, face, outfit, hammer, tongs, feet positions, scale, pose and pixel style. Transparent background.",
+    "width": 256,
+    "height": 256,
+    "seed": 2026101851,
+    "no_background": true
+  }
+}

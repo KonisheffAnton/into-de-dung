@@ -1,0 +1,267 @@
+{
+  "preview_frame_ms": 160,
+  "variants": [
+    {
+      "variant": 1,
+      "contact_frame": 5,
+      "first_sparks_frame": 6,
+      "frames": [
+        {
+          "file": "animations/smith-01/frame-01.png",
+          "source": "provider-animations/smith-01/frame-01.png",
+          "sha256": "6fadffe90c754aac7723d37206dc1f45632a7aa890f68c920d29fd69c45909c9"
+        },
+        {
+          "file": "animations/smith-01/frame-02.png",
+          "source": "provider-animations/smith-01/frame-02.png",
+          "sha256": "ef58a04b89b54583c2220c0e08d58889f14ae14789994798b44c5bdc63e5f6a3"
+        },
+        {
+          "file": "animations/smith-01/frame-03.png",
+          "source": "provider-animations/smith-01/frame-03.png",
+          "sha256": "feb5cd7f2dc0bb1fa911cc084bf1f90d7d12dd6f44d839592b6e9f7f92f27f1c"
+        },
+        {
+          "file": "animations/smith-01/frame-04.png",
+          "source": "provider-animations/smith-01/frame-04.png",
+          "sha256": "017063c1f0c3759ce5bdb4422bde20def49e877a8ba59017165da0181eca0b88"
+        },
+        {
+          "file": "animations/smith-01/frame-05.png",
+          "source": "repairs/smith-01-contact.png",
+          "sha256": "bc88c8b39e7378d8e300088853173cba7edd98a9ba12b6f51f98471376535bf0"
+        },
+        {
+          "file": "animations/smith-01/frame-06.png",
+          "source": "provider-animations/smith-01/frame-06.png",
+          "sha256": "d1d4f1d0300b091e275a9c34b7d6c056774d70c73d2e8f46f1d623bbd70e4f80"
+        },
+        {
+          "file": "animations/smith-01/frame-07.png",
+          "source": "provider-animations/smith-01/frame-07.png",
+          "sha256": "f609febcc0964f3d906c590f5926d25a70990af5aa619aca1a2bb4f951badacc"
+        },
+        {
+          "file": "animations/smith-01/frame-08.png",
+          "source": "provider-animations/smith-01/frame-08.png",
+          "sha256": "4f6f33aba974fc1e1ef88b5f124c5209d40faaffeed2b2cda47d6dd6a463374c"
+        },
+        {
+          "file": "animations/smith-01/frame-09.png",
+          "source": "provider-animations/smith-01/frame-09.png",
+          "sha256": "97a271b1d2caed421f8c3aa765cd9aeb0fd15d9e82cd8c0d913103a86747112b"
+        }
+      ]
+    },
+    {
+      "variant": 2,
+      "contact_frame": 5,
+      "first_sparks_frame": 6,
+      "frames": [
+        {
+          "file": "animations/smith-02/frame-01.png",
+          "source": "provider-animations/smith-02/frame-01.png",
+          "sha256": "83eb8d17eb048e96dd635b4004f4cfdc954bda11066df998cf2925cc3e3f48e4"
+        },
+        {
+          "file": "animations/smith-02/frame-02.png",
+          "source": "provider-animations/smith-02/frame-02.png",
+          "sha256": "f958011f6a1a1d7596648aebc4cbdaab6dd66d307a1e8c2f63715ddb9f6c900c"
+        },
+        {
+          "file": "animations/smith-02/frame-03.png",
+          "source": "provider-animations/smith-02/frame-03.png",
+          "sha256": "373871ecc702da47980782f67e26a32931038e6243005bc8e85cf5abef74ef11"
+        },
+        {
+          "file": "animations/smith-02/frame-04.png",
+          "source": "repairs/smith-02-approach.png",
+          "sha256": "d5f5eb0921e3f545e295de1806941015b9953273c3bf06d55db08c757a9fb6b2"
+        },
+        {
+          "file": "animations/smith-02/frame-05.png",
+          "source": "repairs/smith-02-contact.png",
+          "sha256": "c3dd37499e1a64f660a93ed11f3f594f6c55d105b734892178bb4282d7811ee5"
+        },
+        {
+          "file": "animations/smith-02/frame-06.png",
+          "source": "repairs/smith-02-sparks.png",
+          "sha256": "28891ab00824de5a621e9e857be4db25a44fdf954bc1b4fe3cd3ee24a6a28783"
+        },
+        {
+          "file": "animations/smith-02/frame-07.png",
+          "source": "repairs/smith-02-approach.png",
+          "sha256": "d5f5eb0921e3f545e295de1806941015b9953273c3bf06d55db08c757a9fb6b2"
+        },
+        {
+          "file": "animations/smith-02/frame-08.png",
+          "source": "provider-animations/smith-02/frame-03.png",
+          "sha256": "373871ecc702da47980782f67e26a32931038e6243005bc8e85cf5abef74ef11"
+        },
+        {
+          "file": "animations/smith-02/frame-09.png",
+          "source": "provider-animations/smith-02/frame-09.png",
+          "sha256": "3cd8e964ea6fe5222472fb62fbc73b5dce551c5142e595955b169f57b2a41a3e"
+        }
+      ]
+    },
+    {
+      "variant": 3,
+      "contact_frame": 4,
+      "first_sparks_frame": 5,
+      "frames": [
+        {
+          "file": "animations/smith-03/frame-01.png",
+          "source": "provider-animations/smith-03/frame-01.png",
+          "sha256": "a3a53c54848d772ff9fd469915144b4dca64a0be5a6803f14e9c8e14d877a808"
+        },
+        {
+          "file": "animations/smith-03/frame-02.png",
+          "source": "provider-animations/smith-03/frame-03.png",
+          "sha256": "786bb4641bc71543940bbcd91b715c2364d27ca136641cd975a50025629a7aa2"
+        },
+        {
+          "file": "animations/smith-03/frame-03.png",
+          "source": "provider-animations/smith-03/frame-04.png",
+          "sha256": "de8ebf6936b78421b96ab41c977946211635add82b714fcaa27f6d9142200555"
+        },
+        {
+          "file": "animations/smith-03/frame-04.png",
+          "source": "repairs/smith-03-contact.png",
+          "sha256": "a5e5b59ba7353031d1d181efb902dd574719b349a9f84d90ffe5ff37902614d6"
+        },
+        {
+          "file": "animations/smith-03/frame-05.png",
+          "source": "provider-animations/smith-03/frame-05.png",
+          "sha256": "2a8f0076ceab6067d43e020ff51e0d9a94b689a0d8fd4bf03cd8010cc13f774a"
+        },
+        {
+          "file": "animations/smith-03/frame-06.png",
+          "source": "provider-animations/smith-03/frame-06.png",
+          "sha256": "3c716026dfe9f09c35617dd2177994e73454a323d8b45d37e0cb48cf6e0c63a8"
+        },
+        {
+          "file": "animations/smith-03/frame-07.png",
+          "source": "provider-animations/smith-03/frame-07.png",
+          "sha256": "ecf63375eb487e02e23c84a946c0442d4f70479978207eca8eff631d402f1aa7"
+        },
+        {
+          "file": "animations/smith-03/frame-08.png",
+          "source": "provider-animations/smith-03/frame-08.png",
+          "sha256": "c66271efa6c38586be00fe8e1e500aa54557a94a325ed5ba2021cbc260489129"
+        },
+        {
+          "file": "animations/smith-03/frame-09.png",
+          "source": "provider-animations/smith-03/frame-09.png",
+          "sha256": "20c53485e83525f5dc6ccfbec5ae80b57caa3f3c996f2e1e6df1f424e74fbb28"
+        }
+      ]
+    },
+    {
+      "variant": 4,
+      "contact_frame": 5,
+      "first_sparks_frame": 6,
+      "frames": [
+        {
+          "file": "animations/smith-04/frame-01.png",
+          "source": "provider-animations/smith-04/frame-01.png",
+          "sha256": "3852b83e074d38ee41d1ee8c2a0887946b4868514415d77d62dcbe7615604737"
+        },
+        {
+          "file": "animations/smith-04/frame-02.png",
+          "source": "provider-animations/smith-04/frame-02.png",
+          "sha256": "5bd6b99459449992b2133951b978d9f5fb39fb147361b51460906330a5e07f7d"
+        },
+        {
+          "file": "animations/smith-04/frame-03.png",
+          "source": "provider-animations/smith-04/frame-03.png",
+          "sha256": "0f791a973dd4300a4a3cc058996f8cf5d70c00039791b37b8777630e4d19f45b"
+        },
+        {
+          "file": "animations/smith-04/frame-04.png",
+          "source": "provider-animations/smith-04/frame-04.png",
+          "sha256": "a65041214ca0df470e5e0a27c14c4d745c9cde27835e2ef650cce4f80afe6f0e"
+        },
+        {
+          "file": "animations/smith-04/frame-05.png",
+          "source": "repairs/smith-04-contact.png",
+          "sha256": "66e08bdc4f084e3f806bd2efc9f9193a43cfbc1b1997248c7b793fa29a831e43"
+        },
+        {
+          "file": "animations/smith-04/frame-06.png",
+          "source": "repairs/smith-04-sparks.png",
+          "sha256": "d230047832e12f466355f5f24285b34f76a404c065fff52c7c74e6deea42604e"
+        },
+        {
+          "file": "animations/smith-04/frame-07.png",
+          "source": "provider-animations/smith-04/frame-07.png",
+          "sha256": "ea9bbcce95ed85c3b09c1c956dcdb5d3617670a93e03783b21614312da513976"
+        },
+        {
+          "file": "animations/smith-04/frame-08.png",
+          "source": "provider-animations/smith-04/frame-08.png",
+          "sha256": "f65a71e3a30506e9910352e3883ba0c8560794d1721f028e0b0fc0eb3d75d49e"
+        },
+        {
+          "file": "animations/smith-04/frame-09.png",
+          "source": "provider-animations/smith-04/frame-09.png",
+          "sha256": "03c0a0be4c064f5174dc6f197b1cacafc2fa21b03ee6c3a8f395af45cf301ca7"
+        }
+      ]
+    },
+    {
+      "variant": 5,
+      "contact_frame": 5,
+      "first_sparks_frame": 6,
+      "frames": [
+        {
+          "file": "animations/smith-05/frame-01.png",
+          "source": "provider-animations/smith-05/frame-01.png",
+          "sha256": "0050f652161c41fc5a82b6a2a6ff82c21f59a741b568da1d5d8ca4a8e7411b8d"
+        },
+        {
+          "file": "animations/smith-05/frame-02.png",
+          "source": "provider-animations/smith-05/frame-02.png",
+          "sha256": "0e709602df568f7bf4db2c3e6e58b033e1ac2c817b30b6a062bf9f1440319968"
+        },
+        {
+          "file": "animations/smith-05/frame-03.png",
+          "source": "provider-animations/smith-05/frame-03.png",
+          "sha256": "db39a8b356e73561790ccec8531e9617768131cee52c40b6a0c0af1f96a070a1"
+        },
+        {
+          "file": "animations/smith-05/frame-04.png",
+          "source": "repairs/smith-05-approach.png",
+          "sha256": "ebe401b7b83e6058eb4845c4eb97165d8b1b2b7150284b3d89ca234240758362"
+        },
+        {
+          "file": "animations/smith-05/frame-05.png",
+          "source": "repairs/smith-05-contact.png",
+          "sha256": "bf381b1317deb4e713dc49817310b9411db4a1e52c756e0b7e9894d8590f274d"
+        },
+        {
+          "file": "animations/smith-05/frame-06.png",
+          "source": "repairs/smith-05-sparks.png",
+          "sha256": "4098390af511f2a515eba5a273b831fbf869b6d1b1dd532d4205c9a06e2dd77c"
+        },
+        {
+          "file": "animations/smith-05/frame-07.png",
+          "source": "provider-animations/smith-05/frame-07.png",
+          "sha256": "3832fab42c5bb34bc84a5d548bf33dc0d750279e1731f7e0754ca3153bada30a"
+        },
+        {
+          "file": "animations/smith-05/frame-08.png",
+          "source": "provider-animations/smith-05/frame-08.png",
+          "sha256": "b5c9a91b2281907f39395c78f4ca4ef84290083cd7d5aaf559752c3477b27c6f"
+        },
+        {
+          "file": "animations/smith-05/frame-09.png",
+          "source": "provider-animations/smith-05/frame-09.png",
+          "sha256": "6b7abc33de3a0e159960b5e78f82dcf205b173a7777854255f74e5f7feb40194"
+        }
+      ]
+    }
+  ],
+  "method": "Byte copies of selected PixelLab frames and PixelLab edit-image-pixen repairs; no hand-painted pixels or interpolation.",
+  "timing_note": "Contact/spark indices are visual review annotations, not automated detection."
+}

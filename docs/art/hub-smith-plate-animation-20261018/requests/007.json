@@ -1,0 +1,18 @@
+{
+  "id": 7,
+  "label": "smith-01-contact",
+  "variant": 1,
+  "kind": "impact-repair",
+  "endpoint": "/edit-image-pixen",
+  "request": {
+    "image": {
+      "file": "provider-animations/smith-01/frame-05.png",
+      "sha256": "c05ccce87f8cf3190aa188d17ee782de693960f735c0bca172bfb5e830ec7d0e"
+    },
+    "description": "Make a clean IMPACT keyframe. Remove every spark, orange/red glow, flare and hot spot. Restore the entire plate as cold opaque steel-grey. Place the flat bottom striking face of the hammer firmly touching the plate upper surface at the impact point: no visible air gap. Keep tongs gripping its right edge. Preserve exact smith pose, feet, face, hands, clothes, plate outline, camera, scale, transparency and pixel style. No other changes.",
+    "width": 256,
+    "height": 256,
+    "seed": 2026101871,
+    "no_background": true
+  }
+}

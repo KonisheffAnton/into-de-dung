@@ -1,0 +1,940 @@
+{
+  "provider": "PixelLab.ai API v2",
+  "preview_only": true,
+  "provider_workspace": "C:\\Users\\Aston\\.codex\\generated_images\\hub-smith-plate-animation-20261018",
+  "outputs": [
+    {
+      "id": 1,
+      "label": "plate-reference",
+      "kind": "reference-edit",
+      "endpoint": "/edit-image-pixen",
+      "job_id": "18f82764-24d9-4cac-af57-e7a6b9ebc2bf",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "frames": [
+        {
+          "file": "plate-reference.png",
+          "sha256": "f329a239454b64303c55cc162682dfe91bbc7a49018e4b470cfaeb67d2659f29",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "label": "smith",
+      "variant": 1,
+      "title": "Ровный удар",
+      "kind": "animation",
+      "endpoint": "/animate-with-text-v3",
+      "job_id": "168b908b-f3f6-43ac-bae0-3c1336b21443",
+      "usage": {
+        "type": "generations",
+        "generations": 8.0
+      },
+      "frames": [
+        {
+          "file": "provider-animations/smith-01/frame-01.png",
+          "sha256": "6fadffe90c754aac7723d37206dc1f45632a7aa890f68c920d29fd69c45909c9",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-01/frame-02.png",
+          "sha256": "ef58a04b89b54583c2220c0e08d58889f14ae14789994798b44c5bdc63e5f6a3",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-01/frame-03.png",
+          "sha256": "feb5cd7f2dc0bb1fa911cc084bf1f90d7d12dd6f44d839592b6e9f7f92f27f1c",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-01/frame-04.png",
+          "sha256": "017063c1f0c3759ce5bdb4422bde20def49e877a8ba59017165da0181eca0b88",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-01/frame-05.png",
+          "sha256": "c05ccce87f8cf3190aa188d17ee782de693960f735c0bca172bfb5e830ec7d0e",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-01/frame-06.png",
+          "sha256": "d1d4f1d0300b091e275a9c34b7d6c056774d70c73d2e8f46f1d623bbd70e4f80",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-01/frame-07.png",
+          "sha256": "f609febcc0964f3d906c590f5926d25a70990af5aa619aca1a2bb4f951badacc",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-01/frame-08.png",
+          "sha256": "4f6f33aba974fc1e1ef88b5f124c5209d40faaffeed2b2cda47d6dd6a463374c",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-01/frame-09.png",
+          "sha256": "97a271b1d2caed421f8c3aa765cd9aeb0fd15d9e82cd8c0d913103a86747112b",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ],
+      "preview_frame_ms": 160,
+      "preview_duration_ms": 1440,
+      "unique_frames": 9,
+      "first_last_identical": false
+    },
+    {
+      "id": 3,
+      "label": "smith",
+      "variant": 2,
+      "title": "Тяжёлый удар",
+      "kind": "animation",
+      "endpoint": "/animate-with-text-v3",
+      "job_id": "47e7cacf-429b-4acc-b15e-fc1dc44905a3",
+      "usage": {
+        "type": "generations",
+        "generations": 8.0
+      },
+      "frames": [
+        {
+          "file": "provider-animations/smith-02/frame-01.png",
+          "sha256": "83eb8d17eb048e96dd635b4004f4cfdc954bda11066df998cf2925cc3e3f48e4",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-02/frame-02.png",
+          "sha256": "f958011f6a1a1d7596648aebc4cbdaab6dd66d307a1e8c2f63715ddb9f6c900c",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-02/frame-03.png",
+          "sha256": "373871ecc702da47980782f67e26a32931038e6243005bc8e85cf5abef74ef11",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-02/frame-04.png",
+          "sha256": "8b42607e7c50491ab68b8a393253d2d9559b092d52b0109be4ce856dd0621828",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-02/frame-05.png",
+          "sha256": "90a9a727d33b3082c348d284d1c7104796a391d56566b6e40bb2e1e701a32d20",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-02/frame-06.png",
+          "sha256": "e5254f167e2ddf02d2602ce508a10663e19ecc48373375c6e68f31867599361c",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-02/frame-07.png",
+          "sha256": "3fff5b6b72913b0acb7d8c4a37843d9ac4fb40724f91476e3659453615b4b43c",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-02/frame-08.png",
+          "sha256": "b05eaf05e1999ff9ec820a868edbed6cd673c3bacdc3f9540be37ff6026317a7",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-02/frame-09.png",
+          "sha256": "3cd8e964ea6fe5222472fb62fbc73b5dce551c5142e595955b169f57b2a41a3e",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ],
+      "preview_frame_ms": 160,
+      "preview_duration_ms": 1440,
+      "unique_frames": 9,
+      "first_last_identical": false
+    },
+    {
+      "id": 4,
+      "label": "smith",
+      "variant": 3,
+      "title": "Короткий удар",
+      "kind": "animation",
+      "endpoint": "/animate-with-text-v3",
+      "job_id": "0ad3fb2e-747e-4636-b505-d2d5c09070e8",
+      "usage": {
+        "type": "generations",
+        "generations": 8.0
+      },
+      "frames": [
+        {
+          "file": "provider-animations/smith-03/frame-01.png",
+          "sha256": "a3a53c54848d772ff9fd469915144b4dca64a0be5a6803f14e9c8e14d877a808",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-03/frame-02.png",
+          "sha256": "f030ed5796c404d3236580e52ab624430ef7d3df8ee5e2705f427574ba16ca46",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-03/frame-03.png",
+          "sha256": "786bb4641bc71543940bbcd91b715c2364d27ca136641cd975a50025629a7aa2",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-03/frame-04.png",
+          "sha256": "de8ebf6936b78421b96ab41c977946211635add82b714fcaa27f6d9142200555",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-03/frame-05.png",
+          "sha256": "2a8f0076ceab6067d43e020ff51e0d9a94b689a0d8fd4bf03cd8010cc13f774a",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-03/frame-06.png",
+          "sha256": "3c716026dfe9f09c35617dd2177994e73454a323d8b45d37e0cb48cf6e0c63a8",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-03/frame-07.png",
+          "sha256": "ecf63375eb487e02e23c84a946c0442d4f70479978207eca8eff631d402f1aa7",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-03/frame-08.png",
+          "sha256": "c66271efa6c38586be00fe8e1e500aa54557a94a325ed5ba2021cbc260489129",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-03/frame-09.png",
+          "sha256": "20c53485e83525f5dc6ccfbec5ae80b57caa3f3c996f2e1e6df1f424e74fbb28",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ],
+      "preview_frame_ms": 160,
+      "preview_duration_ms": 1440,
+      "unique_frames": 9,
+      "first_last_identical": false
+    },
+    {
+      "id": 5,
+      "label": "smith",
+      "variant": 4,
+      "title": "Плавный возврат",
+      "kind": "animation",
+      "endpoint": "/animate-with-text-v3",
+      "job_id": "adb76769-63c2-4a03-9549-63261200204e",
+      "usage": {
+        "type": "generations",
+        "generations": 8.0
+      },
+      "frames": [
+        {
+          "file": "provider-animations/smith-04/frame-01.png",
+          "sha256": "3852b83e074d38ee41d1ee8c2a0887946b4868514415d77d62dcbe7615604737",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-04/frame-02.png",
+          "sha256": "5bd6b99459449992b2133951b978d9f5fb39fb147361b51460906330a5e07f7d",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-04/frame-03.png",
+          "sha256": "0f791a973dd4300a4a3cc058996f8cf5d70c00039791b37b8777630e4d19f45b",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-04/frame-04.png",
+          "sha256": "a65041214ca0df470e5e0a27c14c4d745c9cde27835e2ef650cce4f80afe6f0e",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-04/frame-05.png",
+          "sha256": "6ed1e02ab8bfb86807a49f6747bb0507bcc00a9522b976a0e6c2fd18f8d7273f",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-04/frame-06.png",
+          "sha256": "31e4e0c22aaf22b4f498bf768a04e56f6f928a7d7d1892446123c7491cc11864",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-04/frame-07.png",
+          "sha256": "ea9bbcce95ed85c3b09c1c956dcdb5d3617670a93e03783b21614312da513976",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-04/frame-08.png",
+          "sha256": "f65a71e3a30506e9910352e3883ba0c8560794d1721f028e0b0fc0eb3d75d49e",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-04/frame-09.png",
+          "sha256": "03c0a0be4c064f5174dc6f197b1cacafc2fa21b03ee6c3a8f395af45cf301ca7",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ],
+      "preview_frame_ms": 160,
+      "preview_duration_ms": 1440,
+      "unique_frames": 9,
+      "first_last_identical": false
+    },
+    {
+      "id": 6,
+      "label": "smith",
+      "variant": 5,
+      "title": "Точный удар",
+      "kind": "animation",
+      "endpoint": "/animate-with-text-v3",
+      "job_id": "ec61661a-e035-4edc-974d-600b1abb8f92",
+      "usage": {
+        "type": "generations",
+        "generations": 8.0
+      },
+      "frames": [
+        {
+          "file": "provider-animations/smith-05/frame-01.png",
+          "sha256": "0050f652161c41fc5a82b6a2a6ff82c21f59a741b568da1d5d8ca4a8e7411b8d",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-05/frame-02.png",
+          "sha256": "0e709602df568f7bf4db2c3e6e58b033e1ac2c817b30b6a062bf9f1440319968",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-05/frame-03.png",
+          "sha256": "db39a8b356e73561790ccec8531e9617768131cee52c40b6a0c0af1f96a070a1",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-05/frame-04.png",
+          "sha256": "98afe51525f52c4098f02683081054fa73c0303d054dbba9b5ca5996b9417453",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-05/frame-05.png",
+          "sha256": "2dd40e05f9deb0c06530bd84ed78e464c0e9226c54f0ecb736afbe4d8137146c",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-05/frame-06.png",
+          "sha256": "441ba5ed63347fb5723197315e07c3f2dd1cc34fb020038143648c9737bcdef4",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-05/frame-07.png",
+          "sha256": "3832fab42c5bb34bc84a5d548bf33dc0d750279e1731f7e0754ca3153bada30a",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-05/frame-08.png",
+          "sha256": "b5c9a91b2281907f39395c78f4ca4ef84290083cd7d5aaf559752c3477b27c6f",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "file": "provider-animations/smith-05/frame-09.png",
+          "sha256": "6b7abc33de3a0e159960b5e78f82dcf205b173a7777854255f74e5f7feb40194",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ],
+      "preview_frame_ms": 160,
+      "preview_duration_ms": 1440,
+      "unique_frames": 9,
+      "first_last_identical": false
+    },
+    {
+      "id": 7,
+      "label": "smith-01-contact",
+      "variant": 1,
+      "kind": "impact-repair",
+      "endpoint": "/edit-image-pixen",
+      "job_id": "bc72fa0f-009d-406c-9db0-8113b6b44be4",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "frames": [
+        {
+          "file": "repairs/smith-01-contact.png",
+          "sha256": "bc88c8b39e7378d8e300088853173cba7edd98a9ba12b6f51f98471376535bf0",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "label": "smith-02-contact",
+      "variant": 2,
+      "kind": "impact-repair",
+      "endpoint": "/edit-image-pixen",
+      "job_id": "8b42c590-1163-41e0-b0b8-15de820fb29a",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "frames": [
+        {
+          "file": "repairs/smith-02-contact.png",
+          "sha256": "c3dd37499e1a64f660a93ed11f3f594f6c55d105b734892178bb4282d7811ee5",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "label": "smith-03-contact",
+      "variant": 3,
+      "kind": "impact-repair",
+      "endpoint": "/edit-image-pixen",
+      "job_id": "c82e148c-8b05-43f9-88c8-1fce0eab958f",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "frames": [
+        {
+          "file": "repairs/smith-03-contact.png",
+          "sha256": "a5e5b59ba7353031d1d181efb902dd574719b349a9f84d90ffe5ff37902614d6",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "label": "smith-02-approach",
+      "variant": 2,
+      "kind": "cleanup-edit",
+      "endpoint": "/edit-image-pixen",
+      "job_id": "3dd510ce-6d49-4234-bf53-b7622c6fb525",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "frames": [
+        {
+          "file": "repairs/smith-02-approach.png",
+          "sha256": "d5f5eb0921e3f545e295de1806941015b9953273c3bf06d55db08c757a9fb6b2",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "label": "smith-02-sparks",
+      "variant": 2,
+      "kind": "cleanup-edit",
+      "endpoint": "/edit-image-pixen",
+      "job_id": "914bfe1c-a369-4530-b0d0-c6ece7ede8ef",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "frames": [
+        {
+          "file": "repairs/smith-02-sparks.png",
+          "sha256": "28891ab00824de5a621e9e857be4db25a44fdf954bc1b4fe3cd3ee24a6a28783",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "label": "smith-04-contact",
+      "variant": 4,
+      "kind": "impact-repair",
+      "endpoint": "/edit-image-pixen",
+      "job_id": "e14c7d82-55a9-4757-a8b6-c88180dfec3b",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "frames": [
+        {
+          "file": "repairs/smith-04-contact.png",
+          "sha256": "66e08bdc4f084e3f806bd2efc9f9193a43cfbc1b1997248c7b793fa29a831e43",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "label": "smith-05-contact",
+      "variant": 5,
+      "kind": "impact-repair",
+      "endpoint": "/edit-image-pixen",
+      "job_id": "50149150-a22e-4db6-a9c1-ceb18fbae46b",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "frames": [
+        {
+          "file": "repairs/smith-05-contact.png",
+          "sha256": "bf381b1317deb4e713dc49817310b9411db4a1e52c756e0b7e9894d8590f274d",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "label": "smith-05-approach",
+      "variant": 5,
+      "kind": "cleanup-edit",
+      "endpoint": "/edit-image-pixen",
+      "job_id": "696adac4-b8c8-494f-bb45-b858b67a2c58",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "frames": [
+        {
+          "file": "repairs/smith-05-approach.png",
+          "sha256": "ebe401b7b83e6058eb4845c4eb97165d8b1b2b7150284b3d89ca234240758362",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "label": "smith-04-sparks",
+      "variant": 4,
+      "kind": "cleanup-edit",
+      "endpoint": "/edit-image-pixen",
+      "job_id": "523c289c-2e8c-4304-9dd0-a6d9ba9fa3e8",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "frames": [
+        {
+          "file": "repairs/smith-04-sparks.png",
+          "sha256": "d230047832e12f466355f5f24285b34f76a404c065fff52c7c74e6deea42604e",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "label": "smith-05-sparks",
+      "variant": 5,
+      "kind": "cleanup-edit",
+      "endpoint": "/edit-image-pixen",
+      "job_id": "f6b9430b-5b9d-4dc3-b2e9-f2a4988d93ac",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "frames": [
+        {
+          "file": "repairs/smith-05-sparks.png",
+          "sha256": "4098390af511f2a515eba5a273b831fbf869b6d1b1dd532d4205c9a06e2dd77c",
+          "size": [
+            256,
+            256
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    }
+  ],
+  "pending": [],
+  "gif_note": "GIF uses a shared preview palette and binary alpha; PNG frames preserve provider bytes."
+}

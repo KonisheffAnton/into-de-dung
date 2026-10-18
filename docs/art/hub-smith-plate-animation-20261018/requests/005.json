@@ -1,0 +1,23 @@
+{
+  "id": 5,
+  "label": "smith",
+  "variant": 4,
+  "title": "Плавный возврат",
+  "kind": "animation",
+  "endpoint": "/animate-with-text-v3",
+  "request": {
+    "first_frame": {
+      "file": "plate-reference.png",
+      "sha256": "f329a239454b64303c55cc162682dfe91bbc7a49018e4b470cfaeb67d2659f29"
+    },
+    "last_frame": {
+      "file": "plate-reference.png",
+      "sha256": "f329a239454b64303c55cc162682dfe91bbc7a49018e4b470cfaeb67d2659f29"
+    },
+    "action": "Animate only this same smith forging the visible grey iron PLATE clamped in his tongs. Keep the plate solid, rectangular, opaque grey and fixed at waist height in EVERY frame; keep the tongs gripping its right edge. The hammer head must visibly CONTACT the broad upper surface of the plate before ANY sparks. Ordered phases: 1 wind-up, grey unlit plate, no sparks; 2 hammer touches plate, NO sparks yet; 3 hammer rebounds off the plate and only THEN a tiny brief burst of orange sparks appears at the contact point; 4 sparks disappear, hammer returns. Never hit empty air or the tong jaws. No flames, glowing plate, body lighting or pre-impact effects. Fixed feet, camera, size, face, clothing, transparency and pixel style. Seamless loop. One deliberate strike, followed by an unhurried smooth recovery of the hammer.",
+    "frame_count": 8,
+    "seed": 2026101864,
+    "no_background": true,
+    "enhance_prompt": false
+  }
+}

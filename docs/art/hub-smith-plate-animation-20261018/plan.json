@@ -1,0 +1,314 @@
+[
+  {
+    "id": 1,
+    "label": "plate-reference",
+    "kind": "reference-edit",
+    "endpoint": "/edit-image-pixen",
+    "request": {
+      "image": {
+        "file": "sources/smith-256.png",
+        "sha256": "8dc65928053e5b037132a42bf4166cb8a623206c96d52c641577383cad5b0b45"
+      },
+      "description": "Add one solid rectangular steel-grey iron plate firmly clamped in the tong jaws. The plate is nearly horizontal, its broad flat upper face visible at waist height; extend it LEFT from the jaws into the hammer strike zone, fully inside the canvas. Cold opaque grey metal, no glow, fire, sparks or new anvil. Preserve this exact smith, face, outfit, hammer, tongs, feet positions, scale, pose and pixel style. Transparent background.",
+      "width": 256,
+      "height": 256,
+      "seed": 2026101851,
+      "no_background": true
+    }
+  },
+  {
+    "id": 2,
+    "label": "smith",
+    "variant": 1,
+    "title": "Ровный удар",
+    "kind": "animation",
+    "endpoint": "/animate-with-text-v3",
+    "request": {
+      "first_frame": {
+        "file": "plate-reference.png",
+        "sha256": "f329a239454b64303c55cc162682dfe91bbc7a49018e4b470cfaeb67d2659f29"
+      },
+      "last_frame": {
+        "file": "plate-reference.png",
+        "sha256": "f329a239454b64303c55cc162682dfe91bbc7a49018e4b470cfaeb67d2659f29"
+      },
+      "action": "Animate only this same smith forging the visible grey iron PLATE clamped in his tongs. Keep the plate solid, rectangular, opaque grey and fixed at waist height in EVERY frame; keep the tongs gripping its right edge. The hammer head must visibly CONTACT the broad upper surface of the plate before ANY sparks. Ordered phases: 1 wind-up, grey unlit plate, no sparks; 2 hammer touches plate, NO sparks yet; 3 hammer rebounds off the plate and only THEN a tiny brief burst of orange sparks appears at the contact point; 4 sparks disappear, hammer returns. Never hit empty air or the tong jaws. No flames, glowing plate, body lighting or pre-impact effects. Fixed feet, camera, size, face, clothing, transparency and pixel style. Seamless loop. One steady measured downward stroke and a controlled return.",
+      "frame_count": 8,
+      "seed": 2026101861,
+      "no_background": true,
+      "enhance_prompt": false
+    }
+  },
+  {
+    "id": 3,
+    "label": "smith",
+    "variant": 2,
+    "title": "Тяжёлый удар",
+    "kind": "animation",
+    "endpoint": "/animate-with-text-v3",
+    "request": {
+      "first_frame": {
+        "file": "plate-reference.png",
+        "sha256": "f329a239454b64303c55cc162682dfe91bbc7a49018e4b470cfaeb67d2659f29"
+      },
+      "last_frame": {
+        "file": "plate-reference.png",
+        "sha256": "f329a239454b64303c55cc162682dfe91bbc7a49018e4b470cfaeb67d2659f29"
+      },
+      "action": "Animate only this same smith forging the visible grey iron PLATE clamped in his tongs. Keep the plate solid, rectangular, opaque grey and fixed at waist height in EVERY frame; keep the tongs gripping its right edge. The hammer head must visibly CONTACT the broad upper surface of the plate before ANY sparks. Ordered phases: 1 wind-up, grey unlit plate, no sparks; 2 hammer touches plate, NO sparks yet; 3 hammer rebounds off the plate and only THEN a tiny brief burst of orange sparks appears at the contact point; 4 sparks disappear, hammer returns. Never hit empty air or the tong jaws. No flames, glowing plate, body lighting or pre-impact effects. Fixed feet, camera, size, face, clothing, transparency and pixel style. Seamless loop. One slightly slower, heavier downward stroke with a brief impact pause and a small recoil.",
+      "frame_count": 8,
+      "seed": 2026101862,
+      "no_background": true,
+      "enhance_prompt": false
+    }
+  },
+  {
+    "id": 4,
+    "label": "smith",
+    "variant": 3,
+    "title": "Короткий удар",
+    "kind": "animation",
+    "endpoint": "/animate-with-text-v3",
+    "request": {
+      "first_frame": {
+        "file": "plate-reference.png",
+        "sha256": "f329a239454b64303c55cc162682dfe91bbc7a49018e4b470cfaeb67d2659f29"
+      },
+      "last_frame": {
+        "file": "plate-reference.png",
+        "sha256": "f329a239454b64303c55cc162682dfe91bbc7a49018e4b470cfaeb67d2659f29"
+      },
+      "action": "Animate only this same smith forging the visible grey iron PLATE clamped in his tongs. Keep the plate solid, rectangular, opaque grey and fixed at waist height in EVERY frame; keep the tongs gripping its right edge. The hammer head must visibly CONTACT the broad upper surface of the plate before ANY sparks. Ordered phases: 1 wind-up, grey unlit plate, no sparks; 2 hammer touches plate, NO sparks yet; 3 hammer rebounds off the plate and only THEN a tiny brief burst of orange sparks appears at the contact point; 4 sparks disappear, hammer returns. Never hit empty air or the tong jaws. No flames, glowing plate, body lighting or pre-impact effects. Fixed feet, camera, size, face, clothing, transparency and pixel style. Seamless loop. One compact precise tap, a small rebound, then recover to the starting pose.",
+      "frame_count": 8,
+      "seed": 2026101863,
+      "no_background": true,
+      "enhance_prompt": false
+    }
+  },
+  {
+    "id": 5,
+    "label": "smith",
+    "variant": 4,
+    "title": "Плавный возврат",
+    "kind": "animation",
+    "endpoint": "/animate-with-text-v3",
+    "request": {
+      "first_frame": {
+        "file": "plate-reference.png",
+        "sha256": "f329a239454b64303c55cc162682dfe91bbc7a49018e4b470cfaeb67d2659f29"
+      },
+      "last_frame": {
+        "file": "plate-reference.png",
+        "sha256": "f329a239454b64303c55cc162682dfe91bbc7a49018e4b470cfaeb67d2659f29"
+      },
+      "action": "Animate only this same smith forging the visible grey iron PLATE clamped in his tongs. Keep the plate solid, rectangular, opaque grey and fixed at waist height in EVERY frame; keep the tongs gripping its right edge. The hammer head must visibly CONTACT the broad upper surface of the plate before ANY sparks. Ordered phases: 1 wind-up, grey unlit plate, no sparks; 2 hammer touches plate, NO sparks yet; 3 hammer rebounds off the plate and only THEN a tiny brief burst of orange sparks appears at the contact point; 4 sparks disappear, hammer returns. Never hit empty air or the tong jaws. No flames, glowing plate, body lighting or pre-impact effects. Fixed feet, camera, size, face, clothing, transparency and pixel style. Seamless loop. One deliberate strike, followed by an unhurried smooth recovery of the hammer.",
+      "frame_count": 8,
+      "seed": 2026101864,
+      "no_background": true,
+      "enhance_prompt": false
+    }
+  },
+  {
+    "id": 6,
+    "label": "smith",
+    "variant": 5,
+    "title": "Точный удар",
+    "kind": "animation",
+    "endpoint": "/animate-with-text-v3",
+    "request": {
+      "first_frame": {
+        "file": "plate-reference.png",
+        "sha256": "f329a239454b64303c55cc162682dfe91bbc7a49018e4b470cfaeb67d2659f29"
+      },
+      "last_frame": {
+        "file": "plate-reference.png",
+        "sha256": "f329a239454b64303c55cc162682dfe91bbc7a49018e4b470cfaeb67d2659f29"
+      },
+      "action": "Animate only this same smith forging the visible grey iron PLATE clamped in his tongs. Keep the plate solid, rectangular, opaque grey and fixed at waist height in EVERY frame; keep the tongs gripping its right edge. The hammer head must visibly CONTACT the broad upper surface of the plate before ANY sparks. Ordered phases: 1 wind-up, grey unlit plate, no sparks; 2 hammer touches plate, NO sparks yet; 3 hammer rebounds off the plate and only THEN a tiny brief burst of orange sparks appears at the contact point; 4 sparks disappear, hammer returns. Never hit empty air or the tong jaws. No flames, glowing plate, body lighting or pre-impact effects. Fixed feet, camera, size, face, clothing, transparency and pixel style. Seamless loop. A tiny aiming adjustment of the hammer only, one clean precise stroke, then return.",
+      "frame_count": 8,
+      "seed": 2026101865,
+      "no_background": true,
+      "enhance_prompt": false
+    }
+  },
+  {
+    "id": 7,
+    "label": "smith-01-contact",
+    "variant": 1,
+    "kind": "impact-repair",
+    "endpoint": "/edit-image-pixen",
+    "request": {
+      "image": {
+        "file": "provider-animations/smith-01/frame-05.png",
+        "sha256": "c05ccce87f8cf3190aa188d17ee782de693960f735c0bca172bfb5e830ec7d0e"
+      },
+      "description": "Make a clean IMPACT keyframe. Remove every spark, orange/red glow, flare and hot spot. Restore the entire plate as cold opaque steel-grey. Place the flat bottom striking face of the hammer firmly touching the plate upper surface at the impact point: no visible air gap. Keep tongs gripping its right edge. Preserve exact smith pose, feet, face, hands, clothes, plate outline, camera, scale, transparency and pixel style. No other changes.",
+      "width": 256,
+      "height": 256,
+      "seed": 2026101871,
+      "no_background": true
+    }
+  },
+  {
+    "id": 8,
+    "label": "smith-02-contact",
+    "variant": 2,
+    "kind": "impact-repair",
+    "endpoint": "/edit-image-pixen",
+    "request": {
+      "image": {
+        "file": "provider-animations/smith-02/frame-05.png",
+        "sha256": "90a9a727d33b3082c348d284d1c7104796a391d56566b6e40bb2e1e701a32d20"
+      },
+      "description": "Make a clean IMPACT keyframe. Remove every spark, orange/red glow, flare and hot spot. Restore the entire plate as cold opaque steel-grey. Place the flat bottom striking face of the hammer firmly touching the plate upper surface at the impact point: no visible air gap. Keep tongs gripping its right edge. Preserve exact smith pose, feet, face, hands, clothes, plate outline, camera, scale, transparency and pixel style. No other changes.",
+      "width": 256,
+      "height": 256,
+      "seed": 2026101872,
+      "no_background": true
+    }
+  },
+  {
+    "id": 9,
+    "label": "smith-03-contact",
+    "variant": 3,
+    "kind": "impact-repair",
+    "endpoint": "/edit-image-pixen",
+    "request": {
+      "image": {
+        "file": "provider-animations/smith-03/frame-05.png",
+        "sha256": "2a8f0076ceab6067d43e020ff51e0d9a94b689a0d8fd4bf03cd8010cc13f774a"
+      },
+      "description": "Make a clean IMPACT keyframe. Remove every spark, orange/red glow, flare and hot spot. Restore the entire plate as cold opaque steel-grey. Place the flat bottom striking face of the hammer firmly touching the plate upper surface at the impact point: no visible air gap. Keep tongs gripping its right edge. Preserve exact smith pose, feet, face, hands, clothes, plate outline, camera, scale, transparency and pixel style. No other changes.",
+      "width": 256,
+      "height": 256,
+      "seed": 2026101873,
+      "no_background": true
+    }
+  },
+  {
+    "id": 10,
+    "label": "smith-02-approach",
+    "variant": 2,
+    "kind": "cleanup-edit",
+    "endpoint": "/edit-image-pixen",
+    "request": {
+      "image": {
+        "file": "provider-animations/smith-02/frame-04.png",
+        "sha256": "8b42607e7c50491ab68b8a393253d2d9559b092d52b0109be4ce856dd0621828"
+      },
+      "description": "Remove the white-orange glowing spot on the iron plate and every trace of fire, sparks or coloured glow. Restore a cold opaque steel-grey plate. Keep the hammer lifted EXACTLY at its current height: this frame is BEFORE impact. Preserve exact smith pose, feet, hands, face, clothing, hammer, tongs, plate outline, lighting, scale, transparency and pixel style. No other changes.",
+      "width": 256,
+      "height": 256,
+      "seed": 2026101880,
+      "no_background": true
+    }
+  },
+  {
+    "id": 11,
+    "label": "smith-02-sparks",
+    "variant": 2,
+    "kind": "cleanup-edit",
+    "endpoint": "/edit-image-pixen",
+    "request": {
+      "image": {
+        "file": "provider-animations/smith-02/frame-05.png",
+        "sha256": "90a9a727d33b3082c348d284d1c7104796a391d56566b6e40bb2e1e701a32d20"
+      },
+      "description": "Replace the large orange fire ring and every glowing patch with just 3 tiny short orange spark streaks rising directly from the hammer contact point. Cold opaque steel-grey plate everywhere else. No fire, flame, halo, hot spot, splash or body glow. Keep the hammer in its current impact pose and preserve exact smith, hands, feet, face, outfit, tongs grip, plate outline, camera, size, transparency and pixel style.",
+      "width": 256,
+      "height": 256,
+      "seed": 2026101881,
+      "no_background": true
+    }
+  },
+  {
+    "id": 12,
+    "label": "smith-04-contact",
+    "variant": 4,
+    "kind": "impact-repair",
+    "endpoint": "/edit-image-pixen",
+    "request": {
+      "image": {
+        "file": "provider-animations/smith-04/frame-05.png",
+        "sha256": "6ed1e02ab8bfb86807a49f6747bb0507bcc00a9522b976a0e6c2fd18f8d7273f"
+      },
+      "description": "Make a clean IMPACT keyframe. Remove every spark, orange/red glow, flare and hot spot. Restore the entire plate as cold opaque steel-grey. Place the flat bottom striking face of the hammer firmly touching the plate upper surface at the impact point: no visible air gap. Keep tongs gripping its right edge. Preserve exact smith pose, feet, face, hands, clothes, plate outline, camera, scale, transparency and pixel style. No other changes.",
+      "width": 256,
+      "height": 256,
+      "seed": 2026101882,
+      "no_background": true
+    }
+  },
+  {
+    "id": 13,
+    "label": "smith-05-contact",
+    "variant": 5,
+    "kind": "impact-repair",
+    "endpoint": "/edit-image-pixen",
+    "request": {
+      "image": {
+        "file": "provider-animations/smith-05/frame-05.png",
+        "sha256": "2dd40e05f9deb0c06530bd84ed78e464c0e9226c54f0ecb736afbe4d8137146c"
+      },
+      "description": "Make a clean IMPACT keyframe. Remove every spark, orange/red glow, flare and hot spot. Restore the entire plate as cold opaque steel-grey. Place the flat bottom striking face of the hammer firmly touching the plate upper surface at the impact point: no visible air gap. Keep tongs gripping its right edge. Preserve exact smith pose, feet, face, hands, clothes, plate outline, camera, scale, transparency and pixel style. No other changes.",
+      "width": 256,
+      "height": 256,
+      "seed": 2026101883,
+      "no_background": true
+    }
+  },
+  {
+    "id": 14,
+    "label": "smith-05-approach",
+    "variant": 5,
+    "kind": "cleanup-edit",
+    "endpoint": "/edit-image-pixen",
+    "request": {
+      "image": {
+        "file": "provider-animations/smith-05/frame-04.png",
+        "sha256": "98afe51525f52c4098f02683081054fa73c0303d054dbba9b5ca5996b9417453"
+      },
+      "description": "Remove the white-orange glowing spot on the iron plate and every trace of fire, sparks or coloured glow. Restore a cold opaque steel-grey plate. Keep the hammer lifted EXACTLY at its current height: this frame is BEFORE impact. Preserve exact smith pose, feet, hands, face, clothing, hammer, tongs, plate outline, lighting, scale, transparency and pixel style. No other changes.",
+      "width": 256,
+      "height": 256,
+      "seed": 2026101884,
+      "no_background": true
+    }
+  },
+  {
+    "id": 15,
+    "label": "smith-04-sparks",
+    "variant": 4,
+    "kind": "cleanup-edit",
+    "endpoint": "/edit-image-pixen",
+    "request": {
+      "image": {
+        "file": "provider-animations/smith-04/frame-05.png",
+        "sha256": "6ed1e02ab8bfb86807a49f6747bb0507bcc00a9522b976a0e6c2fd18f8d7273f"
+      },
+      "description": "Replace the large orange fire ring and every glowing patch with just 3 tiny short orange spark streaks rising directly from the hammer contact point. Cold opaque steel-grey plate everywhere else. No fire, flame, halo, hot spot, splash or body glow. Keep the hammer in its current impact pose and preserve exact smith, hands, feet, face, outfit, tongs grip, plate outline, camera, size, transparency and pixel style.",
+      "width": 256,
+      "height": 256,
+      "seed": 2026101885,
+      "no_background": true
+    }
+  },
+  {
+    "id": 16,
+    "label": "smith-05-sparks",
+    "variant": 5,
+    "kind": "cleanup-edit",
+    "endpoint": "/edit-image-pixen",
+    "request": {
+      "image": {
+        "file": "provider-animations/smith-05/frame-05.png",
+        "sha256": "2dd40e05f9deb0c06530bd84ed78e464c0e9226c54f0ecb736afbe4d8137146c"
+      },
+      "description": "Replace the large orange fire ring and every glowing patch with just 3 tiny short orange spark streaks rising directly from the hammer contact point. Cold opaque steel-grey plate everywhere else. No fire, flame, halo, hot spot, splash or body glow. Keep the hammer in its current impact pose and preserve exact smith, hands, feet, face, outfit, tongs grip, plate outline, camera, size, transparency and pixel style.",
+      "width": 256,
+      "height": 256,
+      "seed": 2026101886,
+      "no_background": true
+    }
+  }
+]
