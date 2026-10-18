@@ -14,6 +14,7 @@
 | Характеристики / развитие / дроби | [V1](CHARACTER_ATTRIBUTES_V1.md) |
 | Боевой пакет K9 | [CORE_BATTLE_BATCH_K9](CORE_BATTLE_BATCH_K9.md) |
 | Перки / Щитоносец | [K10](CORE_REACTIONS_K10.md) / [V1](SHIELDBEARER_V1.md) |
+| Перки вещей / серия атак | [Экипировка](EQUIPMENT_ATTACKS.md) |
 | Контратака | [K12](COUNTERATTACK_K12.md) |
 | Доп. действие и реакции | [Запас](REACTION_BONUS_ACTIONS.md) |
 | Отход / цепной толчок | [K14](SAFE_RETREAT_K14.md) / [K16](PUSH_CHAIN_K16.md) |

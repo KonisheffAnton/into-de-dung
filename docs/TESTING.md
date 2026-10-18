@@ -14,6 +14,14 @@
 
 ## Изменение игрового кода
 
+Перки экипировки/ножи (2026-10-18): `--check --only equipment_attacks hero_hub
+hero_hub_playthrough counterattack action_event_validator forecast_definition_copy
+forecast_restore_isolation attack_forecast_worker battle_execution_worker
+current_schema_boundary core`. Метки передавать одной командой. Отдельно
+`--render-check --only hero_hub_ui presentation_attack_styles presentation_contact rogue_animations --screen 0`.
+Серия/цена/цель/сумма по слотам проверяются runtime-тестом, ручная F5/балансная
+приёмка остаётся отдельной.
+
 Глубина настенной ловушки: `--render-check --only hazards_ui environment_visual_contract
 presentation_foundation --screen 0` (одна команда). `hazards_ui` сравнивает пиксели
 стоящего нативного enemy-warrior до/после панели во всех четырёх направлениях,

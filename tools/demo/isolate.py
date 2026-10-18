@@ -385,6 +385,8 @@ def main():
         if label in ("counterattack", "counterattack_ui"):
             marker = "COUNTERATTACK RESULTS:" if label == "counterattack" else "COUNTERATTACK UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label == "equipment_attacks":
+            invalid = invalid or "EQUIPMENT ATTACKS RESULTS:" not in output or ", 0 failed" not in output
         if label in ("combat_perks_state", "core_reactions", "core_reactions_ui"):
             marker = {"combat_perks_state": "COMBAT PERKS STATE RESULTS:", "core_reactions": "CORE REACTIONS RESULTS:", "core_reactions_ui": "CORE REACTIONS UI RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -764,6 +766,7 @@ def main():
         run("surround_damage_calculation", ["--script", "tests/test_surround_damage_calculation.gd"])
         run("surround_damage", ["--script", "tests/test_surround_damage.gd"])
         run("counterattack", ["--script", "tests/test_counterattack.gd"])
+        run("equipment_attacks", ["--script", "tests/test_equipment_attacks.gd"])
         run("entangle_attack", ["--script", "tests/test_entangle_attack.gd"])
         run("forecast", ["--script", "tests/test_attack_forecast.gd"])
         run("attack_forecast_worker", ["--script", "tests/test_attack_forecast_worker.gd"])

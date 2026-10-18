@@ -5,6 +5,7 @@ class_name ItemDef
 @export var display_name: String = ""
 @export var description: String = ""
 @export var effects: Array[ItemEffect] = []
+@export var equipment_perks: Array[StringName] = []
 @export var use_heal_amount: float = 0.0
 @export var use_summon: bool = false
 @export var summon_definition: SummonDefinition = null
@@ -12,6 +13,10 @@ class_name ItemDef
 @export var armor_max: int = 0
 @export var armor_resistances: Dictionary = {"physical": 0, "fire": 0}
 @export var cooldown_turns: int = 0
+
+static func valid_equipment_perks(perks: Array[StringName]) -> bool:
+	# Один предмет даёт один экземпляр перка; складываются разные надетые вещи.
+	return perks.is_empty() or perks == [&"extra_attack"]
 
 func get_ability_definition(kind: StringName) -> AbilityDefinition:
 	if cooldown_turns != 0 or id == &"": return null

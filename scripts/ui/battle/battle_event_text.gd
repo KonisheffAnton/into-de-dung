@@ -58,6 +58,7 @@ static func format_event(event: Dictionary, names: Dictionary[int, String], core
 				suffix += " Скрытая атака +50%% физической базы (угроза: %s)." % threats
 			if int(modifiers.get("backstab_percent", 0)) > 0 and not core_reactions: suffix += " Удар в спину +%d%%." % modifiers["backstab_percent"]
 			suffix += critical_suffix(event)
+			if event.get("extra_attack", false): return "%s: дополнительная атака по %s (перк экипировки).%s" % [actor, target, suffix]
 			return "%s атакует %s.%s" % [actor, target, suffix]
 		&"reaction_used":
 			var used_mode: int = int(event.get("mode", 0))

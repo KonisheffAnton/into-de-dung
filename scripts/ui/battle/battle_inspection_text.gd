@@ -163,6 +163,9 @@ static func _item_descriptions(unit: UnitState, state: ItemSimulationState, opti
 	if state != null:
 		var owner := state.get_owner(unit.id)
 		if owner != null:
+			var extra_attacks := owner.equipment_perk_count(&"extra_attack")
+			if extra_attacks > 0:
+				descriptions.append("Последовательные атаки от экипировки: +%d; всего %d по одной цели за 1 основное действие." % [extra_attacks, extra_attacks + 1])
 			for item: ItemInstance in owner._items.values():
 				if not item.is_active(): continue
 				var action := item.get_use_action()

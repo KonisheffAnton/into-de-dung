@@ -27,6 +27,17 @@ func _init(owner: UnitState) -> void:
 func get_owner() -> UnitState: return _owner
 func is_closed() -> bool: return _closed
 
+func equipment_perk_count(perk: StringName) -> int:
+	if _closed: return 0
+	var count: int = 0
+	for item_id: int in _placements:
+		if not _is_valid_equipment_placement(_placements[item_id]): continue
+		var item: ItemInstance = _items[item_id]
+		var definition: ItemDef = _definitions[item.get_definition_id()]
+		# Inventory тоже активирует старые эффекты, но перки выдаёт только экипировка.
+		if item.is_active() and definition.equipment_perks.has(perk): count += 1
+	return count
+
 func register_inventory() -> bool:
 	if _guard or _closed or _inventory_registered or _inventory_retired: return false
 	_inventory_registered = true
@@ -157,6 +168,7 @@ func _validate_definition(definition: ItemDef) -> bool:
 	if definition == null or definition.id == &"" or _next_item_id >= MAX_ID: return false
 	if definition.use_summon and definition.get_script() != ItemDef and definition.get_script() != Item: return false
 	if not definition.summon_definition_valid(): return false
+	if not ItemDef.valid_equipment_perks(definition.equipment_perks): return false
 	if definition.armor_max < 0 or not ArmorState.valid_resistances(definition.armor_resistances): return false
 	if (definition.armor_max != 0 or definition.armor_resistances != {"physical": 0, "fire": 0}) and _owner.armor == null: return false
 	# Параметры лечения валидируются вместе: нули сохраняют старые предметы,
@@ -190,6 +202,7 @@ func _validate_definition(definition: ItemDef) -> bool:
 	return true
 
 func _same_summon_input(incoming: ItemDef, stored: ItemDef) -> bool:
+	if incoming.equipment_perks != stored.equipment_perks: return false
 	if incoming.id != stored.id or incoming.display_name != stored.display_name or incoming.description != stored.description or incoming.use_heal_amount != stored.use_heal_amount or incoming.use_summon != stored.use_summon or incoming.max_charges != stored.max_charges or incoming.armor_max != stored.armor_max or incoming.armor_resistances != stored.armor_resistances or incoming.get_summon_definition().to_dict() != stored.get_summon_definition().to_dict() or incoming.effects.size() != stored.effects.size():
 		return false
 	for index in incoming.effects.size():

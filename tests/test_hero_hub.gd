@@ -13,11 +13,44 @@ func check(value: bool, label: String) -> void:
 
 func _run() -> void:
 	_roster()
+	_rogue_weapon_perk()
 	_full_warehouse()
 	_saving()
 	_battle()
 	print("HERO HUB RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
+
+func _rogue_weapon_perk() -> void:
+	var definition := HeroGearCatalog.definition("weapon:rogue")
+	check(definition != null and definition.id == &"weapon:rogue" and definition.display_name == "Парные кухонные ножи", "Rogue weapon keeps its stable key and receives the paired kitchen knives name")
+	check(definition != null and definition.description.contains("+1 последовательная атака по той же цели") and definition.description.contains("1 основное действие") and definition.description.contains("Не действует на реакции и особые атаки"), "Rogue weapon description states the ordinary same-target attack limits")
+	check(definition != null and definition.equipment_perks == [&"extra_attack"] and definition.effects.size() == 2 and (definition.effects[0] as StatModifierEffect).value == 3.0 and (definition.effects[1] as StatModifierEffect).value == 35.0, "Rogue weapon keeps damage and piercing while adding one equipment perk")
+	var hub := HeroHubState.create(73191)
+	var rogue_gear_id := -1
+	for item_id: int in hub.items:
+		var item: Dictionary = hub.items[item_id]
+		if item.hero_id == 3 and item.definition == "weapon:rogue": rogue_gear_id = item_id
+	check(rogue_gear_id > 0 and HeroHubState.from_dict(hub.to_dict()) != null, "new profile equips the Rogue with the compatible weapon key and profile roundtrips")
+	var loaded_hub := HeroHubState.from_dict(hub.to_dict())
+	var loaded_weapon := HeroGearCatalog.definition(String(loaded_hub.items[rogue_gear_id].definition)) if loaded_hub != null and rogue_gear_id > 0 else null
+	check(loaded_weapon != null and loaded_weapon.display_name == "Парные кухонные ножи" and loaded_weapon.equipment_perks == [&"extra_attack"], "existing profile resolves its stored Rogue weapon key to the updated catalogue definition")
+	check(hub.start_battle(), "Rogue starter profile starts production battle")
+	if rogue_gear_id <= 0 or hub.phase != "battle": return
+	var bundle := HeroHubBattleFactory.create(hub)
+	check(not bundle.is_empty(), "Rogue profile builds production battle")
+	if bundle.is_empty(): return
+	var session: BattleCoreReactionsSession = bundle.session
+	var rogue_unit_id: int = bundle.hero_units[3]
+	var owner := session.state.get_owner(rogue_unit_id)
+	var equipment := session.state.get_equipment(rogue_unit_id)
+	var equipped_weapon := equipment.get_equipped(EquipmentState.EquipSlot.WEAPON) if equipment != null else null
+	check(owner != null and equipped_weapon != null and equipped_weapon.get_definition_id() == &"weapon:rogue" and owner.equipment_perk_count(&"extra_attack") == 1, "production factory activates the equipped Rogue weapon perk once")
+	if owner != null and equipment != null and equipped_weapon != null:
+		# Боевой тест временно снимает runtime-защиту слота, чтобы проверить пересчёт перка при снятии.
+		session.board.get_unit_by_id(rogue_unit_id).armor.in_battle = false
+		equipment.unequip(EquipmentState.EquipSlot.WEAPON)
+		check(owner.equipment_perk_count(&"extra_attack") == 0, "unequipping the Rogue weapon disables its equipment perk")
+	session.close()
 
 func _roster() -> void:
 	var hub := HeroHubState.create()

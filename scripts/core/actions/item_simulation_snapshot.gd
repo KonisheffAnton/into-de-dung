@@ -218,7 +218,10 @@ static func _structure(data: Dictionary, captured_board: SimulationSnapshot = nu
 			definition_fields["armor_max"] = TYPE_INT
 			definition_fields["armor_resistances"] = TYPE_DICTIONARY
 			definition_fields["summon_definition"] = TYPE_DICTIONARY
+			if typeof(definition) == TYPE_DICTIONARY and definition.has("equipment_perks"):
+				definition_fields["equipment_perks"] = TYPE_ARRAY
 			if not _shape(definition, definition_fields): return "owners/definitions/schema"
+			if definition.has("equipment_perks") and (definition.equipment_perks != ["extra_attack"] or typeof(definition.equipment_perks[0]) != TYPE_STRING): return "owners/definitions/equipment_perks"
 			if definition["use_summon"]:
 				if not SummonDefinition.valid_data(definition["summon_definition"]): return "owners/definitions/summon_definition"
 			elif not definition["summon_definition"].is_empty(): return "owners/definitions/summon_definition/unusable"
@@ -284,16 +287,23 @@ static func _definition_value(definition: ItemDef) -> Dictionary:
 		else:
 			var heal := effect as HealOnDamageEffect
 			effects.append({"kind": "heal_on_damage", "trigger_event": int(heal.trigger_event), "heal_amount": heal.heal_amount})
-	return {"id": String(definition.id), "effects": effects,
+	var value := {"id": String(definition.id), "effects": effects,
 		"use_heal_amount": definition.use_heal_amount, "max_charges": definition.max_charges,
 		"use_summon": definition.use_summon, "armor_max": definition.armor_max,
 		"armor_resistances": definition.armor_resistances.duplicate(true),
 		# DTO читает проверенные значения напрямую: Resource-копия здесь могла бы
 		# обойти последующий metadata gate прогноза и зациклиться на metadata.
 		"summon_definition": (definition.summon_definition.to_dict() if definition.summon_definition != null else SummonDefinition.default_values()) if definition.use_summon else {}}
+	# Пустой набор отсутствует в DTO: прежние определения и frozen-снимки неизменны.
+	if not definition.equipment_perks.is_empty():
+		var perks: Array[String] = []
+		for perk: StringName in definition.equipment_perks: perks.append(String(perk))
+		value["equipment_perks"] = perks
+	return value
 
 
 static func _definition_error(definition: ItemDef, path: String) -> String:
+	if definition != null and not ItemDef.valid_equipment_perks(definition.equipment_perks): return path + "/equipment_perks"
 	if definition != null and definition.cooldown_turns != 0: return "UNSUPPORTED:" + path + "/cooldown"
 	if definition != null:
 		for effect: ItemEffect in definition.effects:
@@ -451,6 +461,7 @@ static func _live_shape_error(state: ItemSimulationState) -> String:
 		for key: Variant in owner._definitions:
 			if typeof(key) != TYPE_STRING_NAME or not (owner._definitions[key] is ItemDef): return "owners/definitions/type"
 			var definition: ItemDef = owner._definitions[key]
+			if not ItemDef.valid_equipment_perks(definition.equipment_perks): return "owners/definitions/equipment_perks"
 			var summon_definition := definition.summon_definition
 			if summon_definition != null and (not definition.use_summon or not SummonDefinition.valid_definition(summon_definition)): return "owners/definitions/summon_definition"
 			if definition.armor_max < 0 or not ArmorState.valid_resistances(definition.armor_resistances): return "owners/definitions/armor"
@@ -719,6 +730,7 @@ static func _validate(data: Dictionary, captured_board: SimulationSnapshot = nul
 		var definition_map: Dictionary = {}
 		for definition: Dictionary in definitions:
 			definition_map[definition["id"]] = definition
+			if definition.has("equipment_perks") and definition.equipment_perks != ["extra_attack"]: return path + "/definition/equipment_perks"
 			if definition["armor_max"] < 0 or not _armor_resistances_valid(definition["armor_resistances"]): return path + "/definition/armor"
 			var summon_flag: bool = definition.get("use_summon", false)
 			if ((definition["use_heal_amount"] == 0.0 and not summon_flag) != (definition["max_charges"] == 0) or definition["use_heal_amount"] < 0.0 or definition["max_charges"] < 0 or definition["max_charges"] > 4096 or (summon_flag and definition["use_heal_amount"] != 0.0)): return path + "/definition/usable_pair"

@@ -123,6 +123,10 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 			for i in range(_deferred_item_reactions.size() - 1, -1, -1): _pending.append(_deferred_item_reactions[i])
 			_deferred_item_reactions.clear()
 		if _pending.is_empty() and receipt.status == &"APPLIED":
+			var extra := _attack_policy.take_equipment_attack(context)
+			if extra != null:
+				_pending.append({"command": extra, "parent_event_seq": int(receipt._events[0]["event_seq"]), "depth": 1})
+		if _pending.is_empty() and receipt.status == &"APPLIED":
 			var counter := _attack_policy.take_counterattack(context)
 			if counter != null:
 				_pending.append({"command": counter, "parent_event_seq": int(receipt._events[0]["event_seq"]), "depth": 1})
@@ -232,6 +236,12 @@ func _execute_entry(entry: Dictionary, receipt: ActionReceipt, context: ActionCo
 		step["status"] = &"FAULTED"
 		step["reason"] = &"attack/invalid_stance"
 		_fault(receipt, context, &"attack/invalid_stance")
+		return
+	if not _attack_policy.equipment_valid():
+		if not result.state_changed: context._bump_revision()
+		step["status"] = &"FAULTED"
+		step["reason"] = &"attack/equipment_checkpoint"
+		_fault(receipt, context, &"attack/equipment_checkpoint")
 		return
 	# Атомарный шаг целиком остаётся в prefix, даже когда он пересёк event limit.
 	if receipt._events.size() > _max_events:

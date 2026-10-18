@@ -11,6 +11,24 @@ var _attack_definition_id: StringName
 var _expected_revision: int
 var _reaction: bool = false
 var _counter: bool = false
+var _extra_attack: bool = false
+
+static func equipment_followup(actor: UnitState, target: UnitState, definition_id: StringName, revision: int) -> AttackCommand:
+	var result := AttackCommand.new(actor.id, target.id, actor.cell, target.cell, definition_id, revision)
+	result._extra_attack = true
+	return result
+
+func is_equipment_followup() -> bool: return _extra_attack
+
+static func equipment_attack_count(context: ActionContext, actor_id: int, definition_id: StringName) -> int:
+	if context == null or context.get_state() == null or context.get_attack_rules() == null: return 0
+	var state := context.get_state()
+	var owner := state.get_owner(actor_id)
+	var definition := context.get_attack_rules().get_definition(definition_id)
+	if owner == null or definition == null or definition.profile != AttackRules.ARMOR_PROFILE or definition.reaction_strike: return 0
+	var catalog: Dictionary = state.abilities.to_dict() if state.abilities != null else {"catalog": []}
+	if String(definition_id) != MageDeckRules.default_attack_id(actor_id, catalog): return 0
+	return owner.equipment_perk_count(&"extra_attack")
 
 static func opportunity(actor: UnitState, target: UnitState, revision: int) -> AttackCommand:
 	var result := AttackCommand.new(actor.id, target.id, actor.cell, target.cell, &"opportunity_strike", revision)
@@ -41,6 +59,7 @@ func copy_for_queue() -> Command:
 	var result := AttackCommand.new(_actor_unit_id, _target_unit_id, _expected_actor_cell, _expected_target_cell, _attack_definition_id, _expected_revision)
 	result._reaction = _reaction
 	result._counter = _counter
+	result._extra_attack = _extra_attack
 	return result
 
 func get_actor_unit_id() -> int: return _actor_unit_id
@@ -60,7 +79,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var actor: UnitState = prepared["actor"]
 	var resources: ActionResources = prepared["resources"]
 	var main_before := resources.get_main_left()
-	var main_cost := 0 if _reaction else 1
+	var main_cost := 0 if _reaction or _extra_attack else 1
 	var main_after := main_before - main_cost
 	var target: UnitState = prepared["target"]
 	var cover: UnitState = prepared.get("cover")
@@ -82,6 +101,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	# Готовим весь child до единственной мутации: между оплатой и Hit новых данных уже нет.
 	var attack_kind: StringName = &"counterattacked" if _counter else (&"opportunity_attacked" if _reaction else &"attacked")
 	var event := {"kind": attack_kind, "actor_unit_id": actor.id, "target_unit_id": target.id, "attack_definition_id": _attack_definition_id, "actor_cell": actor.cell, "target_cell": target.cell, "main_cost": main_cost, "main_before": main_before, "main_after": main_after}
+	if _extra_attack: event["extra_attack"] = true
 	if prepared.has("modifiers"): event["modifiers"] = prepared["modifiers"]
 	var hit := AttackHitCommand.new(prepared["request"] as DamageRequest, actor, target, resources, actor.cell, target.cell, main_after, binding)
 	hit.bind_bleeding(prepared.get("bleeding_policy", &""), _attack_definition_id)
@@ -155,6 +175,8 @@ func _prepare(context: ActionContext) -> Dictionary:
 		result["reason"] = &"attack/unknown_definition"; return result
 	if definition.reaction_strike != _reaction or (_counter and not _reaction):
 		result["reason"] = &"reaction/internal_definition"; return result
+	if _extra_attack and (_reaction or equipment_attack_count(context, _actor_unit_id, _attack_definition_id) == 0):
+		result["reason"] = &"attack/equipment_perk_required"; return result
 	var state := context.get_state()
 	var board := state.get_board()
 	var armor_profile := definition.profile == AttackRules.ARMOR_PROFILE
@@ -237,7 +259,7 @@ func _prepare(context: ActionContext) -> Dictionary:
 	var reach_reason := AttackReachCheck.inspect_spatial(board, actor, target, reach) if spatial else AttackReachCheck.inspect(board, actor, target, reach)
 	if reach_reason != &"":
 		result["reason"] = reach_reason; return result
-	if not _reaction and resources.get_main_left() < 1:
+	if not _reaction and not _extra_attack and resources.get_main_left() < 1:
 		result["reason"] = &"attack/insufficient_main"; return result
 	var strength := actor_copy.get_value(StatTypes.StatType.STRENGTH)
 	var armor := target_copy.get_value(StatTypes.StatType.ARMOR)
@@ -286,7 +308,7 @@ func _prepare(context: ActionContext) -> Dictionary:
 		var plan := ArmorHitExecutor.prepare(request, ArmorRuntime.capture(state.get_owner(target.id)), target.vitals.get_hp(), target_copy.get_value(StatTypes.StatType.HP_MAX), context.get_rng(), ElementalRules.is_frozen(target), context)
 		if plan.get("reason", &"") != &"": result["reason"] = plan["reason"]; return result
 		request.amount = float(plan["hp_before"] - plan["hp_after"])
-		var binding_result := BalancePushRules.prepare_attack(context, actor, target, strength + weapon, request.amount, resources.get_main_left() - (0 if _reaction else 1), true, request, critical_multiplier, _reaction, cover, definition.chain_push)
+		var binding_result := BalancePushRules.prepare_attack(context, actor, target, strength + weapon, request.amount, resources.get_main_left() - (0 if _reaction or _extra_attack else 1), true, request, critical_multiplier, _reaction, cover, definition.chain_push, _extra_attack)
 		if binding_result.get("reason", &"") != &"": return binding_result
 		var binding: BalancePushRules.Binding = binding_result["binding"]
 		var touches: int = int(binding.values.get("admission_board_touches", 0)) + (1 if plan["hp_after"] == 0 else 0)

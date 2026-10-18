@@ -5,6 +5,18 @@ const MAX_ID: int = 9223372036854775807
 
 # Статический валидатор не удерживает состояние очереди и проверяет только DTO события.
 static func valid_draft(draft: Dictionary, context: ActionContext = null) -> bool:
+	if draft.has("extra_attack"):
+		if typeof(draft.extra_attack) != TYPE_BOOL or not draft.extra_attack or draft.get("kind") != &"attacked" or typeof(draft.get("main_cost")) != TYPE_INT or draft.get("main_cost") != 0: return false
+		if typeof(draft.get("actor_unit_id")) != TYPE_INT or typeof(draft.get("attack_definition_id")) != TYPE_STRING_NAME or typeof(draft.get("main_before")) != TYPE_INT or typeof(draft.get("main_after")) != TYPE_INT: return false
+		if draft.main_before < 0 or draft.main_before > 4096 or draft.main_after != draft.main_before: return false
+		if context == null or AttackCommand.equipment_attack_count(context, draft.actor_unit_id, draft.attack_definition_id) == 0: return false
+		# Остальные поля/модификаторы проходят тот же строгий валидатор прямой атаки.
+		var paid := draft.duplicate(true)
+		paid.erase("extra_attack")
+		paid.main_cost = 1
+		paid.main_before = 1
+		paid.main_after = 0
+		return valid_draft(paid, context)
 	if draft.get("kind") in [&"raised_shields", &"raised_shield_used"]:
 		var fields := {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "before": TYPE_DICTIONARY, "after": TYPE_DICTIONARY}
 		if draft.kind == &"raised_shields": fields.merge({"main_before": TYPE_INT, "main_after": TYPE_INT})

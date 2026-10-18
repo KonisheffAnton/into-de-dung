@@ -121,6 +121,12 @@ CombatPerksState хранит состояние участника в Unit snap
 проверяют SpatialRules и малый CombatPerkGuard очереди; preview переносит их
 штатным ForecastSimulation. Общего runtime произвольных статусов не добавлено.
 
+[Перки экипировки](EQUIPMENT_ATTACKS.md) принадлежат `ItemDef`, а их сумма
+выводится из активных надетых экземпляров `ItemOwnerState`. `ActionAttackPolicy`
+планирует дополнительные обычные удары в той же очереди перед одной контратакой;
+они используют `AttackCommand`/hit без повторной оплаты main. Preview/worker
+переносят определения и исполняют тот же каскад; личные perks7 не меняются.
+
 [K9](CORE_BATTLE_BATCH_K9.md) включает расстановку в K2 до командного боя,
 печать в составе брони/среды и прогноз RestoreArmorCommand общим ForecastSimulation.
 Session владеет фазой подготовки и включением призыва в конкретный сценарий;

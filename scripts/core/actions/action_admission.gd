@@ -24,6 +24,8 @@ static func check(command: Command, context: ActionContext, max_commands: int, m
 				result.reason = &"BUSY" if capture.code == ItemSnapshotResult.Code.SNAPSHOT_BUSY else StringName(capture.reason)
 			elif result.accepted is AttackCommand and (result.accepted as AttackCommand).is_reaction():
 				result.reason = &"reaction/internal_attack"
+			elif result.accepted is AttackCommand and (result.accepted as AttackCommand).is_equipment_followup():
+				result.reason = &"attack/internal_followup"
 			elif result.accepted is ReactionStopCommand:
 				result.reason = &"reaction/internal_stop"
 			elif result.accepted is AttackHitCommand:
