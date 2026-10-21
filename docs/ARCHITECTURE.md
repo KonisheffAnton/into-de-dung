@@ -407,8 +407,10 @@ Guard/Raise/ForecastSimulation/Turn DTO; `BattleCompactForecast` чисто фо
 
 Для успешного ровного толчка `BattleDemoBoard` хранит только прогресс и клетки
 отделённого события в `_slide_poses`. Одиночный и цепной сдвиг используют общую
-длительность `BattleDemoBoard.FORCED_MOVE_SEGMENT_SECONDS`; общий семплер
-тормозит опору через прежнюю Y-sort-интерполяцию и задаёт `push_lean` рисунку.
+длительность `BattleDemoBoard.FORCED_MOVE_SEGMENT_SECONDS`. Чистые семплеры
+`push_slide_distance`/`push_slide_speed_ratio` задают затухающий импульс:
+общий путь опоры через прежнюю Y-sort-интерполяцию и спад `push_lean` рисунка.
+Терминальный сдвиг `BattleChainTimeline` гасит входящее смещение по тому же пути.
 `BattleDemoIsoVisual` строит позу тела вокруг стоп; HUD/тень не получают наклон.
 Rebuild восстанавливает позу, публикация after и штатная очистка снимают её;
 пул managed-визуалов также обнуляет наклон перед применением нового view.

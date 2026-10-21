@@ -30,7 +30,7 @@ func _check_slide_pose(id: int, start: Vector2i, destination: Vector2i, directio
 	var visual := board._presentation_visual(id)
 	var expected := expected_screen_direction(direction)
 	var progress := float(board._slide_poses[id].progress)
-	var eased := 1.0 - pow(1.0 - progress, 2.0)
+	var eased := BattleDemoBoard.push_slide_distance(progress)
 	var start_screen := IsoGridUtils.grid_to_screen(start, board.grid_config, 0)
 	var end_screen := IsoGridUtils.grid_to_screen(destination, board.grid_config, 0)
 	var expected_support := start_screen.lerp(end_screen, eased)
@@ -48,6 +48,30 @@ func _check_slide_pose(id: int, start: Vector2i, destination: Vector2i, directio
 		check(is_zero_approx(visual._ground_shadow.rotation) and visual._ground_shadow.position == visual.get_visual_offset(), label + " shadow stays at support without lean")
 	if visual._status_hud != null:
 		check(visual._status_hud.position == visual.get_visual_offset(), label + " HUD stays at support without lean")
+
+func _check_damping_curve() -> void:
+	var prior_distance := -1.0
+	var prior_increment := INF
+	var prior_speed := 2.0
+	for index: int in range(101):
+		var u := float(index) / 100.0
+		var distance := BattleDemoBoard.push_slide_distance(u)
+		var speed := BattleDemoBoard.push_slide_speed_ratio(u)
+		check(is_finite(distance) and distance >= 0.0 and distance <= 1.0, "damping distance stays finite and bounded at %.2f" % u)
+		check(distance >= prior_distance, "damping distance is monotonic at %.2f" % u)
+		check(speed >= 0.0 and speed <= 1.0 and speed <= prior_speed, "damping speed decreases from one to zero at %.2f" % u)
+		if index > 0:
+			var increment := distance - prior_distance
+			check(increment <= prior_increment + 0.000001, "damping increments decrease at %.2f" % u)
+			prior_increment = increment
+		prior_distance = distance
+		prior_speed = speed
+	check(is_equal_approx(BattleDemoBoard.push_slide_distance(-1.0), 0.0) and is_equal_approx(BattleDemoBoard.push_slide_distance(2.0), 1.0), "damping distance clamps out-of-range input")
+	check(is_equal_approx(BattleDemoBoard.push_slide_speed_ratio(-1.0), 1.0) and is_equal_approx(BattleDemoBoard.push_slide_speed_ratio(2.0), 0.0), "damping speed clamps out-of-range input")
+	check(BattleDemoBoard.push_slide_distance(0.25) >= 0.60 and BattleDemoBoard.push_slide_distance(0.25) <= 0.63, "damping travels about 61 percent at quarter time")
+	check(BattleDemoBoard.push_slide_distance(0.5) >= 0.87 and BattleDemoBoard.push_slide_distance(0.5) <= 0.89, "damping travels about 88 percent at half time")
+	check(BattleDemoBoard.push_slide_distance(0.9) < 1.0, "damping approaches but does not reach destination early")
+	check(1.0 - BattleDemoBoard.push_slide_distance(0.99) < 0.0001, "damping covers less than 0.01 percent in final percent")
 
 func _run_direction(direction: Vector2i, native_scene: bool, save_captures: bool) -> void:
 	player.cancel()
@@ -77,16 +101,21 @@ func _run_direction(direction: Vector2i, native_scene: bool, save_captures: bool
 		check(native_sprite != null and native_sprite.texture != null and native_sprite.visible, "native slide uses visible authored sprite")
 	if save_captures: await capture("push-slide-start")
 	var distances: Array[float] = []
+	var lean_amounts: Array[float] = []
 	for sample: float in [0.25, 0.5, 0.9]:
 		var pose: Dictionary = board._slide_poses[id]
 		var remaining := (sample - float(pose.progress)) * BattleDemoBoard.FORCED_MOVE_SEGMENT_SECONDS
 		if remaining > 0.0: advance(remaining)
 		_check_slide_pose(id, start, destination, direction, "slide %.2f" % sample)
 		var travelled := (visual.position + visual.get_visual_offset() - IsoGridUtils.grid_to_screen(start, board.grid_config, 0)).length()
-		distances.append(travelled)
+		var segment_length := (IsoGridUtils.grid_to_screen(destination, board.grid_config, 0) - IsoGridUtils.grid_to_screen(start, board.grid_config, 0)).length()
+		distances.append(travelled / segment_length)
+		lean_amounts.append(visual.push_lean.length())
 		if save_captures and is_equal_approx(sample, 0.5): await capture("push-slide-mid")
 	check(distances[0] > 0.0 and distances[1] > distances[0] and distances[2] > distances[1], "slide never moves backward")
+	check(distances[0] >= 0.60 and distances[0] <= 0.63 and distances[1] >= 0.87 and distances[1] <= 0.89, "real receipt follows damped quarter and half distances")
 	check(distances[0] / 0.25 > (distances[1] - distances[0]) / 0.25 and (distances[1] - distances[0]) / 0.25 > (distances[2] - distances[1]) / 0.4, "slide speed decreases toward destination")
+	check(lean_amounts[1] < lean_amounts[0] and lean_amounts[2] < lean_amounts[0], "real receipt lean fades after its early peak")
 	board.size += Vector2(12, 10)
 	board.zoom_camera(0.8, board.size * 0.5)
 	if board._slide_poses.has(id): _check_slide_pose(id, start, destination, direction, "resized slide")
@@ -140,6 +169,7 @@ func _interruptions() -> void:
 	s.close()
 
 func run() -> void:
+	_check_damping_curve()
 	viewport = SubViewport.new()
 	viewport.size = Vector2i(1280, 850)
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS

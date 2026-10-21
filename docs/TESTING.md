@@ -32,6 +32,12 @@ defender_death_routes rogue_death_routes --screen 0` (одна команда).
 маршруты смерти и visual-контракты защищают общую трансформацию тела.
 PNG нового runner — `push-slide-screenshots/`; ощущение в ручном бою оценивает U.
 
+Затухание импульса (2026-10-21): `--render-check --only presentation_push_slide
+presentation_consequences presentation_environment presentation_contact --screen 0`.
+Runner скольжения проверяет монотонный путь и падение скорости до нуля,
+быстрый старт/мягкий конец, спад наклона и реальный путь на четверти/половине
+сегмента. Прежние native/fallback/resize/zoom/прерывания и изоляция сохранены.
+
 Глубина настенной ловушки: `--render-check --only hazards_ui environment_visual_contract
 presentation_foundation --screen 0` (одна команда). `hazards_ui` сравнивает пиксели
 стоящего нативного enemy-warrior до/после панели во всех четырёх направлениях,

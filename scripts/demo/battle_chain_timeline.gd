@@ -148,7 +148,7 @@ func _pose(time: float) -> void:
 				offsets[id] = (clip.incoming as Vector2) * (1.0 - fall_progress)
 				continue
 			var p := clampf((time - float(clip.start)) / BattleDemoBoard.FORCED_MOVE_SEGMENT_SECONDS, 0.0, 1.0)
-			var eased := 1.0 - pow(1.0 - p, 2.0)
+			var eased := BattleDemoBoard.push_slide_distance(p)
 			_board._presentation_slide(p, id, event.from_cell, event.to_cell)
 			offsets[id] = (clip.incoming as Vector2) * (1.0 - eased)
 			continue

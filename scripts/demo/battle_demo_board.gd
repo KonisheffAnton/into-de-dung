@@ -102,6 +102,7 @@ var _warning_phase: float = 0.0
 @export var tile_visual_scene: PackedScene = DEFAULT_TILE_SCENE
 const MOVE_SEGMENT_SECONDS: float = 0.08
 const FORCED_MOVE_SEGMENT_SECONDS: float = 0.24
+const PUSH_SLIDE_DAMPING: float = 3.0
 const STRIKE_WINDUP_SECONDS: float = 0.10
 const STRIKE_LUNGE_SECONDS: float = 0.025
 const STRIKE_LUNGE_DISTANCE: float = 32.0
@@ -614,7 +615,7 @@ func _presentation_slide(progress: float, id: int, from: Vector2i, to: Vector2i)
 	var amount := clampf(progress, 0.0, 1.0)
 	# Общий линейный clock позволяет отдельно тормозить опору и выпрямлять тело.
 	# Опора не прыгает: наклон применяется только к ArtRoot вокруг стоп.
-	_presentation_motion(1.0 - pow(1.0 - amount, 2.0), id, from, to)
+	_presentation_motion(push_slide_distance(amount), id, from, to)
 	var visual := _presentation_visual(id)
 	if visual == null: return
 	if amount >= 1.0:
@@ -622,9 +623,27 @@ func _presentation_slide(progress: float, id: int, from: Vector2i, to: Vector2i)
 		_slide_poses.erase(id)
 		return
 	_slide_poses[id] = {"progress": amount, "from": from, "to": to}
-	var rise := smoothstep(0.0, 0.15, amount)
-	var settle := 1.0 - smoothstep(0.55, 1.0, amount)
-	visual.push_lean = IsoGridUtils.grid_direction_to_screen(to - from, grid_config.tile_size) * rise * settle
+	var rise := smoothstep(0.0, 0.1, amount)
+	var early_speed := push_slide_speed_ratio(0.1)
+	var settle := push_slide_speed_ratio(amount) / early_speed if early_speed > 0.0 else 0.0
+	visual.push_lean = IsoGridUtils.grid_direction_to_screen(to - from, grid_config.tile_size) * clampf(rise * settle, 0.0, 1.0)
+
+static func push_slide_distance(progress: float) -> float:
+	var u := clampf(progress, 0.0, 1.0)
+	if u <= 0.0: return 0.0
+	if u >= 1.0: return 1.0
+	var damping := PUSH_SLIDE_DAMPING
+	var rest_speed := exp(-damping)
+	# Поправка на остаточную скорость гасит импульс ровно в конце отрезка.
+	return (1.0 - exp(-damping * u) - damping * u * rest_speed) / (1.0 - (1.0 + damping) * rest_speed)
+
+static func push_slide_speed_ratio(progress: float) -> float:
+	var u := clampf(progress, 0.0, 1.0)
+	if u <= 0.0: return 1.0
+	if u >= 1.0: return 0.0
+	var rest_speed := exp(-PUSH_SLIDE_DAMPING)
+	# Отношение скорости синхронизирует выпрямление тела с торможением опоры.
+	return (exp(-PUSH_SLIDE_DAMPING * u) - rest_speed) / (1.0 - rest_speed)
 
 func _presentation_pulse(progress: float, id: int, dying: bool, falling: bool) -> void:
 	var visual := _presentation_visual(id)
