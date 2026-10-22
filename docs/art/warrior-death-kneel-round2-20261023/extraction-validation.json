@@ -1,0 +1,113 @@
+{
+  "items": [
+    {
+      "provider": "pixellab2",
+      "id": "death-1",
+      "title": "Колено, затем на плечо",
+      "frame_count": 17,
+      "delays": [],
+      "durationMs": null,
+      "sourceStatus": "completed",
+      "originalBytesVerified": true,
+      "cost": null,
+      "usage": {
+        "type": "generations",
+        "generations": 4.0
+      },
+      "taskId": "2fbd9a53-901e-4453-9e4e-df3e55cecfac",
+      "fileSha256": [
+        "e93daeee4edec7fee5031e8aa91b5a729a2ecd7e269b17abf94558b6e4604057",
+        "8d439bb587ea1d94a1506161f3d1489f06a1df4eab60f3738b74a8a54fc97571",
+        "544da88a1dca0407e2488f4b10e69074742b52c897f64c670cb2c3f6a3a72c4f",
+        "8ed145679f57d1a3455ac0203d43dfe1636935abab76888814d381ce90954d34",
+        "645c4a554b434acbd0a921fad35a71a1d69a6c3c335a27871ffce0a4a928af92",
+        "86e2945c5d00c4364750ae514113f30d9cf08526a1a7b26c1f7b9b6a9e104115",
+        "57f32eecdfa0cac606827ea0109a4952f48ed18028811185a2dc6b0f0a25ffc5",
+        "0a9bc8566083474d02c53e7a4fe40b1198471da61846a5590413617b8dd125cd",
+        "b2185a6a0f0fa19fe5c5ef3410f2f2a10e2d938f4b362409d4a34e77304fe9b9",
+        "15a2a8a308dbd78084fe4c9da98226da011d23396c900f9ce9e2748603a5a93f",
+        "e3e059e97cfe317400746f28bafaef35594a9c208890755705e26729426cd76f",
+        "f6066a540884f62e69ffd48be945ffda16873ee2da4ef185dcb3f838e9fb4d27",
+        "a06581cadfea7db72e180aa0fb0b0be6d192d7ed84edda7d67ea67dd5233b925",
+        "b8aed00c22c0251b75bb4b654ca9cd20f2400015cc478539349c56321817f13c",
+        "2096d4a2bcff50f86980ad5883915f607ef510d5dcde3a665991298f2ed7ef57",
+        "f1ce0f8601b05ae6663a026ef78e8913ee9d1401da049faee8924cc64bdc7612",
+        "3083403ef4f7a2043e830784e1484aae80a2eb63b801fb4ad4f2cefb1eb860ca"
+      ],
+      "firstFrameRgbaEqualsInput": true
+    },
+    {
+      "provider": "pixellab2",
+      "id": "death-2",
+      "title": "Колено, затем вперёд",
+      "frame_count": 17,
+      "delays": [],
+      "durationMs": null,
+      "sourceStatus": "completed",
+      "originalBytesVerified": true,
+      "cost": null,
+      "usage": {
+        "type": "generations",
+        "generations": 4.0
+      },
+      "taskId": "6c1f9328-8311-4a7d-b01d-48570a5426f8",
+      "fileSha256": [
+        "e93daeee4edec7fee5031e8aa91b5a729a2ecd7e269b17abf94558b6e4604057",
+        "1ebcb934b75c50868be0d106248601e91a294cdad210e43b45247991bb1af912",
+        "69c13892d53d1586b484a52a744e5b4f05472c16ecc1f64484551cfccf3b74cb",
+        "226c0769184e5acddbb338bf8db927dbd0b415e14c4e01693fd0cc2ed6007dd8",
+        "756a157e78d9f42ee54c917b630e5a238219a3a5fe06df859dfedef74a37ecc5",
+        "15c9163bad915d06b0484f339694aa519c571791ae5984d45dbc0e38218653d5",
+        "d23a184af6627fa0a3336f0a2aab8b78421b4d60fa1798e08519bd20f89ab97b",
+        "b80c85634ea36a0a3b97f198968058b29874fd363b522614c945d9e5b2b34f44",
+        "7d5bb67e743f20adf5a905c789afdb4a77368e184fe5efbb31fcc5ae14c5b118",
+        "244e5bf95d9a97f9e1c3d585755f23b90b305205a9b9b6ff091af6ff1f437c24",
+        "581cefbf57cc1f147c1bde4ef296e142287beef59fa9eb0ada6a6935e70a1176",
+        "c155880a0fddc552da8c82fea3fc087f6cb96f07e4b374edf7d7986ab8404ab8",
+        "e9dea8a7dad021846659dc05bb718677cf997bc257777dff05a60e8d8435385b",
+        "11afa32e1959201c525f714d7ebd12993372f1666e589d8623d13a0802a7999f",
+        "e947582fd227a32d35b08feb575a151af31c221162ae9cbf7eb4d6320ffffa1a",
+        "d90d9754dead83d6eda137e042dfd97466159a4b1e9f576ff19aeee37e880335",
+        "6cb968c065dc0c56415e6bca503a684703971e4150f04904345c8b0eae8e13fd"
+      ],
+      "firstFrameRgbaEqualsInput": true
+    },
+    {
+      "provider": "pixellab2",
+      "id": "death-3",
+      "title": "Колено, затем на бок",
+      "frame_count": 17,
+      "delays": [],
+      "durationMs": null,
+      "sourceStatus": "completed",
+      "originalBytesVerified": true,
+      "cost": null,
+      "usage": {
+        "type": "generations",
+        "generations": 4.0
+      },
+      "taskId": "46a39326-597c-4265-8434-aa4765933671",
+      "fileSha256": [
+        "e93daeee4edec7fee5031e8aa91b5a729a2ecd7e269b17abf94558b6e4604057",
+        "da5b6f88857db82f05d3e465b6d5a6cdae2296ea4fcac029a29f1a5eae9367a2",
+        "3c54bd3f66f64ca7d48bea49e3068b2f43722808a148c85689688c4e4b856438",
+        "05aef4c9e566efa1a96a4a97e7d8e8f5d24a8a2ad3f1be0b53db6d26c0af687a",
+        "545fd34cdaf670acc7127aee5e99d6a6beeef8eb03bdb27637a6c2aa7b632388",
+        "84ca0753d1e9ece29f7399c49ac7d3a471206f2186fb91af0ff157c3f37d9933",
+        "b5508e2bfc8b2e04a1fb6776b978c3ad62df217847e491945ec9dde47d9391ba",
+        "3c51a0204ac5756b299632a1cd62b752d9033edf58f49a7d7e70b3d26c46db8e",
+        "61018c7fb4cf5abc0205fe37490f3dbc161efca8d1779f2c994903e5da8f7b06",
+        "ee2da53cdfc7fd02562a5c60ffe94f859d38c20616cf2bd49f9eadbb989030eb",
+        "eafd8d522d8b9c5aa0c664ede937f8c82448345c02fc895b78551425be95a0b5",
+        "ccb226ef94a3339c288c94d3b79ba0e30c3550f48c2fc85382272f20ea3cc6a6",
+        "d6c1740aa6788d34f798fb2f4d8ede6fb72ff18392aaf91de3de7a5cf5c0448a",
+        "912c0bce57202064798ca8c21785ff466114fdaf5490db7b2d2a473f6298072d",
+        "b7ca93837a24578b5ef279c2f6b999bb7dab70c32ef04daeb9c054732df8d9e6",
+        "b9d1b0ce059d83b1584d6ee2bb2dabfa02807db98499dbfc5537fe89e639fe14",
+        "041d1cb2935733fbb4d78644a256436bee07ddf32c1f3db2c06d0a5820c64df6"
+      ],
+      "firstFrameRgbaEqualsInput": true
+    }
+  ],
+  "complete": true
+}

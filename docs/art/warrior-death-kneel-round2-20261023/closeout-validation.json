@@ -1,0 +1,23 @@
+{
+  "localLinks": 785,
+  "archiveExact": true,
+  "protectedSceneUnchanged": true,
+  "entryDocumentCharsBeforeAfter": {
+    "AGENTS.md": [
+      4565,
+      4565
+    ],
+    "docs/CODEX_HANDOFF.md": [
+      2234,
+      2295
+    ],
+    "docs/PROJECT_CONTEXT.md": [
+      3557,
+      3557
+    ],
+    "docs/CODEX_WORKFLOW.md": [
+      4482,
+      4482
+    ]
+  }
+}

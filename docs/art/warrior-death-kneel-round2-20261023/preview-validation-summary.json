@@ -1,0 +1,187 @@
+{
+  "status": "PASS",
+  "placement": {
+    "anchor": [
+      71,
+      83
+    ],
+    "art_scale": 0.8,
+    "mirrored": true,
+    "sprite_scale_capture": [
+      -3.2,
+      3.2
+    ],
+    "sprite_position_capture": [
+      547.2,
+      -9.6
+    ]
+  },
+  "timing_note": "150ms per frame and 1200ms final hold are preview choices, not provider timing.",
+  "variants": {
+    "death-1": {
+      "title": "Колено, затем на плечо",
+      "source_frame_count": 17,
+      "rendered_frame_count": 17,
+      "rendered_size": [
+        640,
+        640
+      ],
+      "gif": {
+        "path": "previews/death-1.gif",
+        "frames": 17,
+        "durations_ms": [
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          1200
+        ],
+        "total_ms": 3600,
+        "loop": 0,
+        "merged_adjacent_runs_ms": [
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          1200
+        ]
+      },
+      "contact_sheet": "contact-sheets/death-1.png"
+    },
+    "death-2": {
+      "title": "Колено, затем вперёд",
+      "source_frame_count": 17,
+      "rendered_frame_count": 17,
+      "rendered_size": [
+        640,
+        640
+      ],
+      "gif": {
+        "path": "previews/death-2.gif",
+        "frames": 17,
+        "durations_ms": [
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          1200
+        ],
+        "total_ms": 3600,
+        "loop": 0,
+        "merged_adjacent_runs_ms": [
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          1200
+        ]
+      },
+      "contact_sheet": "contact-sheets/death-2.png"
+    },
+    "death-3": {
+      "title": "Колено, затем на бок",
+      "source_frame_count": 17,
+      "rendered_frame_count": 17,
+      "rendered_size": [
+        640,
+        640
+      ],
+      "gif": {
+        "path": "previews/death-3.gif",
+        "frames": 17,
+        "durations_ms": [
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          1200
+        ],
+        "total_ms": 3600,
+        "loop": 0,
+        "merged_adjacent_runs_ms": [
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          1200
+        ]
+      },
+      "contact_sheet": "contact-sheets/death-3.png"
+    }
+  },
+  "review": "APPROVE for external preview only",
+  "runtimeIntegration": false,
+  "distinctRequestedDirectionsConfirmed": false
+}

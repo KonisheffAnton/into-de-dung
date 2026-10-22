@@ -1,0 +1,50 @@
+{
+  "base": "33d26844dcfc0f8b815c7f8251c0e6b27913f6b2",
+  "providers": [
+    "pixellab2"
+  ],
+  "variants": [
+    {
+      "id": "death-1",
+      "title": "Колено, затем на плечо"
+    },
+    {
+      "id": "death-2",
+      "title": "Колено, затем вперёд"
+    },
+    {
+      "id": "death-3",
+      "title": "Колено, затем на бок"
+    }
+  ],
+  "integration": false,
+  "tile": {
+    "top": [
+      128,
+      96
+    ],
+    "origin": [
+      0,
+      16
+    ],
+    "neighborSteps": [
+      [
+        64,
+        48
+      ],
+      [
+        -64,
+        48
+      ]
+    ]
+  },
+  "gamePlacement": {
+    "anchor": [
+      71,
+      83
+    ],
+    "artScale": 0.8,
+    "mirrored": true
+  },
+  "pixellabTiming": "150ms per frame authored for preview; no provider timing"
+}
