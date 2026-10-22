@@ -1,5 +1,7 @@
 # Сравнение воина: PixelLab и два раунда RD — 2026-10-22
 
+Следующая порученная серия: [ещё шесть PixelLab](../warrior-pixellab-round2-20261023/README.md).
+
 U попросил ту же серию PixelLab и ещё раз RetroDiffusion: 12 новых проб,
 по три idle и смерти от каждого. В галерею включены шесть [прежних RD](../warrior-animation-20261022/README.md).
 Base `4a42627027a6bed88219be5414d7898bcb326883`, ветка main; runtime не менялся.
