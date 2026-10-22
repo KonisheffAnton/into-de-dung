@@ -401,9 +401,7 @@ func surface_polygons() -> Array[PackedVector2Array]:
 		var factor := grid_config.tile_size.x / 128.0
 		var offset := get_visual_offset()
 		var art_scale := get_unit_art_scale()
-		var pick_rect := warrior_pick_rect if _has_visible_warrior_sprite() else body_pick_rect
-		if _has_visible_warrior_sprite() and visual_class_id == &"rogue": pick_rect = rogue_pick_rect
-		if _has_visible_warrior_sprite() and visual_class_id == &"archer": pick_rect = archer_pick_rect
+		var pick_rect := get_unit_pick_rect()
 		return [PackedVector2Array([offset + pick_rect.position * factor * art_scale, offset + Vector2(pick_rect.end.x, pick_rect.position.y) * factor * art_scale, offset + pick_rect.end * factor * art_scale, offset + Vector2(pick_rect.position.x, pick_rect.end.y) * factor * art_scale])]
 	var top := top_polygon()
 	if is_void: return [top]
@@ -419,6 +417,15 @@ func surface_polygons() -> Array[PackedVector2Array]:
 func _has_visible_warrior_sprite() -> bool:
 	var sprite := class_still_sprite()
 	return unit != null and unit.alive and sprite != null and sprite.texture != null
+
+func get_unit_pick_rect() -> Rect2:
+	var pick_rect := warrior_pick_rect if _has_visible_warrior_sprite() else body_pick_rect
+	if _has_visible_warrior_sprite() and visual_class_id == &"rogue": pick_rect = rogue_pick_rect
+	if _has_visible_warrior_sprite() and visual_class_id == &"archer": pick_rect = archer_pick_rect
+	return pick_rect
+
+func get_unit_bars_offset() -> Vector2:
+	return Vector2.ZERO
 
 func class_still_sprite() -> Sprite2D:
 	if unit == null or unit.faction not in [Faction.Type.PLAYER, Faction.Type.ENEMY]: return null
@@ -619,6 +626,8 @@ func _draw_unit() -> void:
 	var label := transient_label if unit == null else unit.debug_name
 	draw_string(ThemeDB.fallback_font, Vector2(-10, -12), label.left(1), HORIZONTAL_ALIGNMENT_CENTER, 20, 13, Color("172230"))
 	if unit != null:
+		# Посадка нового рисунка ниже требует места полосам, не сдвигая опору клетки.
+		draw_set_transform(foot + get_unit_bars_offset() * factor, 0, Vector2.ONE * factor)
 		var hp_max := unit.hp_max
 		var balance_max := unit.balance_max
 		var hp := clampf(unit.hp / hp_max if hp_max > 0 else 0, 0, 1)

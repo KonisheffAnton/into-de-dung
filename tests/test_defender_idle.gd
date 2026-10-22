@@ -118,13 +118,102 @@ func _check_visual(demo: HeroHubBattleView, visual: BattleDefenderIdleVisual, se
 	visual.unit.faction = Faction.Type.ENEMY
 	visual.sync_scene_art()
 	var enemy_still := visual.get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D
-	check(idle.visible and not enemy_still.visible and enemy_still.scale.x < 0.0
-		and idle.scale.x < 0.0, "enemy uses the mirrored Defender idle over the shared still")
-	check(visual.can_play_buff(), "enemy Defender admits the same buff clip")
-	visual.sample_buff(0.6)
-	check(idle.visible and idle.scale.x < 0.0 and not enemy_still.visible and not visual.is_processing(), "enemy buff replaces idle and keeps its mirror")
-	visual.clear_buff()
+	var enemy_idle := visual.get_node("ArtRoot/EnemyWarriorIdleSprite") as Sprite2D
+	var still_material := enemy_still.material as ShaderMaterial
+	var idle_material := enemy_idle.material as ShaderMaterial
+	check(enemy_idle.visible and not enemy_still.visible and enemy_still.scale == Vector2(-1, 1)
+		and enemy_idle.scale == Vector2(-1, 1) and enemy_idle.position.is_equal_approx(Vector2(68, -64))
+		and visual.get_unit_pick_rect() == Rect2(-32, -48, 64, 80)
+		and visual.get_unit_bars_offset() == Vector2(0, 26)
+		and enemy_still.texture == visual.enemy_warrior_idle_frames.get_frame_texture(&"idle", 0),
+		"enemy uses its mirrored PixelLab still and idle at the approved anchor")
+	check(still_material != null and idle_material != null and still_material != idle_material
+		and not bool(still_material.get_shader_parameter("cloth_enabled"))
+		and is_zero_approx(float(still_material.get_shader_parameter("brighter_palette_strength")))
+		and not bool(idle_material.get_shader_parameter("cloth_enabled"))
+		and is_zero_approx(float(idle_material.get_shader_parameter("brighter_palette_strength"))),
+		"enemy still and idle keep isolated native materials without cloth or brightening")
+	check(not visual.can_play_buff() and not visual.can_play_death()
+		and visual._active_buff_frames() == null and visual._active_death_frames() == null,
+		"enemy warrior does not inherit unapproved Defender buff or death clips")
+	visual.idle_clock.configure(0, 24, 24)
+	for frame: int in range(17):
+		visual.idle_clock.configure(0, 24, 24)
+		visual.idle_clock.advance(float(frame) * 0.15 * 2.4 / 2.55)
+		visual._process(0.0)
+		check(enemy_idle.texture == visual.enemy_warrior_idle_frames.get_frame_texture(&"idle", frame),
+			"enemy idle samples ordered 150 ms frame " + str(frame + 1))
+	visual.idle_clock.configure(0, 24, 24)
+	visual._process(0.0)
+	visual._process(2.55)
+	check(enemy_idle.texture == visual.enemy_warrior_idle_frames.get_frame_texture(&"idle", 0),
+		"enemy idle loops at its authored 2.55 second duration without a rare sway")
+	var enemy_frames := visual.enemy_warrior_idle_frames
+	visual.enemy_warrior_idle_frames = null
+	visual.sync_scene_art()
+	check(not enemy_idle.visible and enemy_still.visible and enemy_still.texture.resource_path.ends_with("frame-01.png"),
+		"missing enemy clip falls back to its own new still")
+	visual.enemy_warrior_idle_frames = SpriteFrames.new()
+	visual.sync_scene_art()
+	check(not enemy_idle.visible and enemy_still.visible, "invalid enemy idle resource keeps its own still")
+	var partial_frames := SpriteFrames.new()
+	partial_frames.add_animation(&"idle")
+	for frame: int in range(16):
+		partial_frames.add_frame(&"idle", enemy_frames.get_frame_texture(&"idle", frame))
+	partial_frames.set_animation_speed(&"idle", 60.0)
+	visual.enemy_warrior_idle_frames = partial_frames
+	visual.sync_scene_art()
+	check(not enemy_idle.visible and enemy_still.visible, "incomplete 16-frame enemy idle keeps its own still")
+	var zero_speed := SpriteFrames.new()
+	zero_speed.add_animation(&"idle")
+	zero_speed.add_frame(&"idle", enemy_frames.get_frame_texture(&"idle", 0))
+	zero_speed.set_animation_speed(&"idle", 0.0)
+	visual.enemy_warrior_idle_frames = zero_speed
+	visual.sync_scene_art()
+	check(not enemy_idle.visible and enemy_still.visible, "zero-speed enemy idle keeps its own still")
+	visual.enemy_warrior_idle_frames = enemy_frames
+	visual.sync_scene_art()
+	var enemy_texture := enemy_still.texture
+	enemy_still.texture = null
+	visual.sync_scene_art()
+	check(visual.get_unit_bars_offset() == Vector2.ZERO, "missing enemy still falls back to neutral bars offset")
+	enemy_still.texture = enemy_texture
+	visual.sync_scene_art()
+	visual.visual_class_id = &"rogue"
+	visual.sync_scene_art()
+	check(visual.get_unit_bars_offset() == Vector2.ZERO, "reused enemy rogue keeps neutral bars offset")
+	visual.visual_class_id = &"warrior"
+	visual.sync_scene_art()
 	visual.unit.faction = faction
+	visual.sync_scene_art()
+	check(visual.get_unit_bars_offset() == Vector2.ZERO, "reused allied warrior keeps neutral bars offset")
+	visual.unit.faction = Faction.Type.ENEMY
+	visual.sync_scene_art()
+	visual.set_process(false)
+	visual.ambient_animation_paused = true
+	visual.sync_scene_art()
+	check(not enemy_idle.visible and enemy_still.visible, "ambient pause suspends enemy idle at its still")
+	visual.ambient_animation_paused = false
+	visual.sync_scene_art()
+	visual.set_process(false)
+	check(enemy_idle.visible and not enemy_still.visible, "ambient release restores the enemy idle")
+	visual.action_offset = Vector2(8, -3)
+	check(not enemy_idle.visible and enemy_still.visible, "enemy action pose immediately suspends idle")
+	visual.reset_view_pose()
+	visual.set_process(false)
+	check(enemy_idle.visible, "enemy pose reset resumes idle")
+	var idle_texture_before_buff := enemy_idle.texture
+	visual.sample_buff(0.6)
+	check(not visual.can_play_buff() and enemy_idle.visible and enemy_idle.texture == idle_texture_before_buff,
+		"unapproved enemy buff is not painted over PixelLab art")
+	visual.clear_buff()
+	visual.death_progress = 0.5
+	check(not visual._death_active and enemy_still.visible and not enemy_idle.visible,
+		"enemy death keeps the generic pose and hides the selected idle")
+	visual.reset_view_pose()
+	visual.set_process(false)
+	visual.unit.faction = faction
+	visual.sync_scene_art()
 	visual.visual_class_id = &"rogue"
 	visual.sync_scene_art()
 	check(not idle.visible, "other classes never inherit Defender idle")

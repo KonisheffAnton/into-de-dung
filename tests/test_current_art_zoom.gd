@@ -186,7 +186,7 @@ func _capture_source_sampling(size_label: String) -> void:
 	var before_state: Dictionary = snapshot(demo.session as BattleCoreReactionsSession)
 	# Парный кадр отделяет действие временного фильтра от исходной PNG.
 	for visual: BattleDemoIsoVisual in demo.board_view._entity_visuals:
-		for sprite_path: NodePath in [NodePath("ArtRoot/PlayerWarriorSprite"), NodePath("ArtRoot/EnemyWarriorSprite"), NodePath("ArtRoot/DefenderIdleSprite"), NodePath("ArtRoot/PlayerRogueSprite"), NodePath("ArtRoot/EnemyRogueSprite"), NodePath("ArtRoot/RogueIdleSprite")]:
+		for sprite_path: NodePath in [NodePath("ArtRoot/PlayerWarriorSprite"), NodePath("ArtRoot/EnemyWarriorSprite"), NodePath("ArtRoot/DefenderIdleSprite"), NodePath("ArtRoot/EnemyWarriorIdleSprite"), NodePath("ArtRoot/PlayerRogueSprite"), NodePath("ArtRoot/EnemyRogueSprite"), NodePath("ArtRoot/RogueIdleSprite")]:
 			var sprite := visual.get_node_or_null(sprite_path) as Sprite2D
 			if sprite == null or not sprite.visible or sprite.material == null:
 				continue
@@ -275,11 +275,12 @@ func _check_warrior_art() -> void:
 		var art_root := visual.get_node("ArtRoot") as Node2D
 		var expected_scale := Vector2.ONE * tile_factor * 0.8
 		check(is_equal_approx(visual.get_unit_art_scale(), 0.8) and is_equal_approx(art_root.scale.x, expected_scale.x), "warrior art uses the authored 80 percent scale")
+		var unit_pick_rect := visual.get_unit_pick_rect()
 		var pick_bounds := visual.surface_polygons()[0]
 		var pick_width: float = pick_bounds[1].x - pick_bounds[0].x
-		check(is_equal_approx(pick_width, visual.warrior_pick_rect.size.x * tile_factor * 0.8), "warrior picking footprint follows the reduced body")
-		var inner_pick_point := visual.position + visual.get_visual_offset() + Vector2(visual.warrior_pick_rect.position.x + visual.warrior_pick_rect.size.x * 0.5, visual.warrior_pick_rect.position.y + visual.warrior_pick_rect.size.y * 0.5) * tile_factor * 0.8
-		var outside_pick_point := visual.position + visual.get_visual_offset() + Vector2(visual.warrior_pick_rect.end.x * tile_factor * 0.9, (visual.warrior_pick_rect.position.y + visual.warrior_pick_rect.size.y * 0.5) * tile_factor * 0.8)
+		check(is_equal_approx(pick_width, unit_pick_rect.size.x * tile_factor * 0.8), "warrior picking footprint follows the reduced body")
+		var inner_pick_point := visual.position + visual.get_visual_offset() + unit_pick_rect.get_center() * tile_factor * 0.8
+		var outside_pick_point := visual.position + visual.get_visual_offset() + Vector2(unit_pick_rect.end.x * tile_factor * 0.9, unit_pick_rect.get_center().y * tile_factor * 0.8)
 		check(visual.contains_point(inner_pick_point) and not visual.contains_point(outside_pick_point), "warrior picking hit region ends at its scaled boundary")
 		var effect_anchor := visual.get_node("ArtRoot/EffectAnchor") as Node2D
 		check(demo.board_view._effect_anchor(visual.unit.id).is_equal_approx(effect_anchor.position * 0.8), "projectile and impact anchor follows the reduced body")
@@ -304,6 +305,7 @@ func _check_warrior_art() -> void:
 		number_checks += 1
 		if visual.unit.faction == Faction.Type.PLAYER:
 			player_count += 1
+			check(visual.get_unit_bars_offset() == Vector2.ZERO, "ally bars keep their existing placement")
 			var player_sprite := visual.get_node_or_null("ArtRoot/PlayerWarriorSprite") as Sprite2D
 			var player_atlas: AtlasTexture = player_sprite.texture as AtlasTexture if player_sprite != null else null
 			var idle_sprite := visual.get_node_or_null("ArtRoot/DefenderIdleSprite") as Sprite2D
@@ -311,13 +313,23 @@ func _check_warrior_art() -> void:
 				and player_atlas != null and player_atlas.atlas.resource_path.ends_with("defender_new.png"), "current party warrior uses idle with the assigned still retained")
 		elif visual.unit.faction == Faction.Type.ENEMY:
 			enemy_count += 1
+			check(visual.get_unit_bars_offset() == Vector2(0, 26), "new enemy bars clear its lower feet without moving the tile pivot")
+			var enemy_visual := visual as BattleDefenderIdleVisual
 			var enemy_sprite := visual.get_node_or_null("ArtRoot/EnemyWarriorSprite") as Sprite2D
-			var enemy_idle := visual.get_node_or_null("ArtRoot/DefenderIdleSprite") as Sprite2D
-			var enemy_atlas: AtlasTexture = enemy_sprite.texture as AtlasTexture if enemy_sprite != null else null
-			check(enemy_sprite != null and not enemy_sprite.visible and enemy_idle != null and enemy_idle.visible
-				and enemy_sprite.scale.x < 0.0 and enemy_atlas != null
-				and enemy_atlas.atlas.resource_path.ends_with("defender_new.png"),
-				"current enemy warrior uses the mirrored shared Defender preset")
+			var enemy_idle := visual.get_node_or_null("ArtRoot/EnemyWarriorIdleSprite") as Sprite2D
+			check(enemy_visual != null and enemy_visual.enemy_warrior_art_enabled and enemy_sprite != null
+				and not enemy_sprite.visible and enemy_idle != null and enemy_idle.visible
+				and enemy_sprite.scale == Vector2(-1, 1)
+				and enemy_sprite.texture.resource_path.ends_with("enemy_warrior_idle_v1/frames/frame-01.png"),
+				"enemy warrior uses the first mirrored PixelLab still while its class is reassigned")
+			if enemy_visual != null:
+				var is_authored_idle_frame := false
+				for frame_index: int in enemy_visual.enemy_warrior_idle_frames.get_frame_count(&"idle"):
+					is_authored_idle_frame = is_authored_idle_frame or enemy_idle.texture == enemy_visual.enemy_warrior_idle_frames.get_frame_texture(&"idle", frame_index)
+				check(enemy_idle.visible and enemy_idle.scale == Vector2(-1, 1)
+					and enemy_idle.position.is_equal_approx(Vector2(68, -64))
+					and is_authored_idle_frame,
+					"enemy warrior displays one of its isolated mirrored idle frames")
 	check(player_count > 0 and enemy_count > 0, "current encounter contains both warrior artwork factions")
 	check(nonwarrior_count > 0, "current encounter provides a nonwarrior scale control")
 	check(rogue_count > 0, "current encounter exercises the integrated rogue alongside generic art")

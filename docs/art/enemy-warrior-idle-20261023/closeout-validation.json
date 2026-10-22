@@ -1,0 +1,29 @@
+{
+  "local_links_checked": 932,
+  "archive_byte_exact": true,
+  "archive_sha256": "69061f33903171bac42bea3ccab4fcb392d7f33e44171a838d4949cfb986d0e9",
+  "protected_scene_sha256": "A64C270256EBF2EA073081200BE23028F792F42C3CA98F83A6499C1300A68668",
+  "source_png_count": 17,
+  "source_png_bytes_exact": true,
+  "final_code_hashes_match": true,
+  "entry_document_chars": {
+    "AGENTS.md": {
+      "before_chars": 4565,
+      "after_chars": 4565
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before_chars": 2369,
+      "after_chars": 2192
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before_chars": 3557,
+      "after_chars": 3557
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before_chars": 4482,
+      "after_chars": 4482
+    }
+  },
+  "review": "APPROVE",
+  "manual_art_acceptance": false
+}

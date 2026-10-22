@@ -24,9 +24,9 @@ static func capture_comparison(tree: SceneTree, captures: String) -> bool:
 				tree.root.add_child(sample)
 				samples.append(sample)
 				var sprite := original.duplicate() as Sprite2D
-				sprite.position = Vector2(12, 12)
 				sprite.scale = original.scale * zoom * prototype_art_scale
 				sprite.visible = true
+				_center_sprite_in_viewport(sprite, sample.size)
 				if row == 0:
 					sprite.material = null
 				sample.add_child(sprite)
@@ -63,7 +63,7 @@ static func _check_fade(tree: SceneTree, original: Sprite2D) -> bool:
 	target.add_child(parent)
 	var sprite := original.duplicate() as Sprite2D
 	sprite.visible = true
-	sprite.position = Vector2(12, 12)
+	_center_sprite_in_viewport(sprite, target.size)
 	parent.add_child(sprite)
 	await tree.process_frame
 	await RenderingServer.frame_post_draw
@@ -87,3 +87,16 @@ static func _check_fade(tree: SceneTree, original: Sprite2D) -> bool:
 	target.queue_free()
 	await tree.process_frame
 	return success
+
+
+static func _center_sprite_in_viewport(sprite: Sprite2D, viewport_size: Vector2i) -> void:
+	if sprite.texture == null:
+		return
+	var extent: Vector2 = sprite.texture.get_size() * sprite.scale.abs()
+	var top_left := (Vector2(viewport_size) - extent) * 0.5
+	if sprite.centered:
+		sprite.position = Vector2(viewport_size) * 0.5
+	else:
+		sprite.position = Vector2(
+			top_left.x + (extent.x if sprite.scale.x < 0.0 else 0.0),
+			top_left.y + (extent.y if sprite.scale.y < 0.0 else 0.0))

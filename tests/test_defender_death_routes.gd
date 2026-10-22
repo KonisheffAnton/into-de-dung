@@ -8,6 +8,7 @@ var clip_property: StringName = &"death_frames"
 var sprite_path: String = "ArtRoot/DefenderIdleSprite"
 var sprite_scale: float = 1.0
 var suite: String = "DEFENDER DEATH ROUTES"
+var production_enemy_art_for_packet: bool = false
 
 
 func _initialize() -> void:
@@ -25,6 +26,18 @@ func start_packet(data: Dictionary, s: BattleCoreReactionsSession, label: String
 	for unit: UnitState in s.units: s.unit_visual_classes[unit.id] = visual_class
 	board.session = s
 	board.refresh()
+	for unit: UnitState in s.units:
+		if unit.faction != Faction.Type.ENEMY or visual_class != &"warrior": continue
+		var visual := board._presentation_visual(unit.id) as BattleDefenderIdleVisual
+		if visual == null: continue
+		visual.enemy_warrior_art_enabled = production_enemy_art_for_packet
+		var enemy_still := visual.get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D
+		if production_enemy_art_for_packet:
+			enemy_still.texture = visual.enemy_warrior_idle_frames.get_frame_texture(&"idle", 0)
+		else:
+			var player_still := visual.get_node("ArtRoot/PlayerWarriorSprite") as Sprite2D
+			enemy_still.texture = player_still.texture
+		visual.sync_scene_art()
 	return super.start_packet(data, s, label)
 
 
@@ -139,6 +152,26 @@ func route(kind: String) -> void:
 	if visual_class == &"rogue":
 		check(is_equal_approx(((board._presentation_visual(victim.id) as BattleDefenderIdleVisual).get_node(sprite_path) as Sprite2D).self_modulate.a, 1.0),
 			kind + " skip restores authored rogue sprite alpha")
+	if visual_class == &"warrior" and victim.faction == Faction.Type.ENEMY and kind in ["melee", "ranged", "mage"]:
+		production_enemy_art_for_packet = true
+		start_packet(data, s, kind + " production enemy fallback")
+		var enemy_pose := seek_pose(victim.id, [&"death"])
+		var enemy_visual := board._presentation_visual(victim.id) as BattleDefenderIdleVisual
+		if enemy_visual != null:
+			var enemy_still := enemy_visual.get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D
+			check(not enemy_pose.is_empty() and enemy_visual._uses_enemy_warrior_art()
+				and enemy_visual._active_death_frames() == null and not enemy_visual.can_play_death()
+				and is_equal_approx(board._death_seconds(victim.id), 0.20),
+				kind + " production enemy keeps generic death routing")
+			advance(0.10)
+			check(not enemy_visual._death_active and enemy_visual.death_progress > 0.0
+				and enemy_still.texture.resource_path.ends_with("enemy_warrior_idle_v1/frames/frame-01.png")
+				and not (enemy_visual.get_node("ArtRoot/EnemyWarriorIdleSprite") as Sprite2D).visible,
+				kind + " production enemy death uses generic pose without old Defender art")
+			finish()
+		else:
+			check(false, kind + " production enemy visual exists")
+		production_enemy_art_for_packet = false
 	board.session = null
 	s.close()
 	await process_frame
@@ -163,6 +196,30 @@ func fallbacks() -> void:
 	visual.sample_death(0.5)
 	visual.retire_view()
 	check(not visual._death_active and visual.unit == null, "retire clears authored death ownership")
+	if visual_class == &"warrior":
+		var enemy_unit: UnitState
+		for candidate: UnitState in s.units:
+			if candidate.faction == Faction.Type.ENEMY:
+				enemy_unit = candidate
+				break
+		if enemy_unit != null:
+			s.unit_visual_classes[enemy_unit.id] = &"warrior"
+			board.refresh()
+			var enemy_visual := board._presentation_visual(enemy_unit.id) as BattleDefenderIdleVisual
+			if enemy_visual != null:
+				enemy_visual.enemy_warrior_art_enabled = true
+				var enemy_still := enemy_visual.get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D
+				enemy_still.texture = enemy_visual.enemy_warrior_idle_frames.get_frame_texture(&"idle", 0)
+				enemy_visual.sync_scene_art()
+				check(enemy_visual._uses_enemy_warrior_art() and enemy_visual._active_death_frames() == null
+					and not enemy_visual.can_play_death() and is_equal_approx(board._death_seconds(enemy_unit.id), 0.20),
+					"enemy PixelLab idle keeps the generic death duration")
+				board._field_presentation.sample_death(0.5, board, enemy_unit.id)
+				check(not enemy_visual._death_active and enemy_visual.get_node("ArtRoot").rotation > 0.0
+					and enemy_visual.modulate.a < 1.0,
+					"enemy death uses the generic pose without old Defender frames")
+			else:
+				check(false, "enemy visual exists for generic death coverage")
 	board.session = null
 	s.close()
 	await process_frame

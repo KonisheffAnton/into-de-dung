@@ -1,0 +1,326 @@
+{
+  "sourcePackage": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-animation-comparison-20261022\\pixellab\\idle-1",
+  "sourceJob": "68a0f1dd-a819-4ed8-b910-18cd6f601226",
+  "selection": "PixelLab first round idle-1 Quiet breathing",
+  "firstFrameStatic": true,
+  "frameCount": 17,
+  "frameDurationSeconds": 0.15,
+  "durationSeconds": 2.55,
+  "timingAuthored": true,
+  "anchorSourcePixels": [
+    68,
+    64
+  ],
+  "anchorMeaning": "below belt at tile center",
+  "mirrored": true,
+  "warriorArtScale": 0.8,
+  "pixelEdits": false,
+  "frames": [
+    {
+      "frame": 1,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-animation-comparison-20261022\\pixellab\\idle-1\\frames\\00.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_idle_v1/frames/frame-01.png",
+      "sha256": "e93daeee4edec7fee5031e8aa91b5a729a2ecd7e269b17abf94558b6e4604057",
+      "bounds": [
+        41,
+        20,
+        95,
+        92
+      ],
+      "mirroredBoundsAboutAnchor": [
+        -27,
+        -44,
+        27,
+        28
+      ]
+    },
+    {
+      "frame": 2,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-animation-comparison-20261022\\pixellab\\idle-1\\frames\\01.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_idle_v1/frames/frame-02.png",
+      "sha256": "7e23cdd02ae65e6be4cfdd63b52ccc67f035252dd067de9091bc18d90a8446f8",
+      "bounds": [
+        41,
+        20,
+        95,
+        92
+      ],
+      "mirroredBoundsAboutAnchor": [
+        -27,
+        -44,
+        27,
+        28
+      ]
+    },
+    {
+      "frame": 3,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-animation-comparison-20261022\\pixellab\\idle-1\\frames\\02.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_idle_v1/frames/frame-03.png",
+      "sha256": "6c1a0db166851bf27a880dc6e06231802c9ac4f359dccb6fbfb4a0aafd53946d",
+      "bounds": [
+        41,
+        20,
+        95,
+        92
+      ],
+      "mirroredBoundsAboutAnchor": [
+        -27,
+        -44,
+        27,
+        28
+      ]
+    },
+    {
+      "frame": 4,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-animation-comparison-20261022\\pixellab\\idle-1\\frames\\03.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_idle_v1/frames/frame-04.png",
+      "sha256": "cf81f8956d30abc4d785ee04cd1bf4ff4f438aabad42ce24d944c89fcfbde161",
+      "bounds": [
+        41,
+        19,
+        95,
+        92
+      ],
+      "mirroredBoundsAboutAnchor": [
+        -27,
+        -45,
+        27,
+        28
+      ]
+    },
+    {
+      "frame": 5,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-animation-comparison-20261022\\pixellab\\idle-1\\frames\\04.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_idle_v1/frames/frame-05.png",
+      "sha256": "d257183e3f88775602ac5cea4a12d052abfdf243c27440c18580ea248c93ca5d",
+      "bounds": [
+        41,
+        19,
+        95,
+        92
+      ],
+      "mirroredBoundsAboutAnchor": [
+        -27,
+        -45,
+        27,
+        28
+      ]
+    },
+    {
+      "frame": 6,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-animation-comparison-20261022\\pixellab\\idle-1\\frames\\05.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_idle_v1/frames/frame-06.png",
+      "sha256": "8ab3d83fbb466287f5b3d7bd096fafb9c1f5824786133ea652e54b9587a7d4b5",
+      "bounds": [
+        41,
+        19,
+        95,
+        92
+      ],
+      "mirroredBoundsAboutAnchor": [
+        -27,
+        -45,
+        27,
+        28
+      ]
+    },
+    {
+      "frame": 7,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-animation-comparison-20261022\\pixellab\\idle-1\\frames\\06.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_idle_v1/frames/frame-07.png",
+      "sha256": "ab65e581eb6a3c6d052738227fe0579503d879157ba6c5157e955595bb3cf902",
+      "bounds": [
+        40,
+        19,
+        97,
+        92
+      ],
+      "mirroredBoundsAboutAnchor": [
+        -29,
+        -45,
+        28,
+        28
+      ]
+    },
+    {
+      "frame": 8,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-animation-comparison-20261022\\pixellab\\idle-1\\frames\\07.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_idle_v1/frames/frame-08.png",
+      "sha256": "e95f07ae64c8024826c6f873df40affbb7fcafd40c75e12ac4ed071e68b93b4a",
+      "bounds": [
+        40,
+        20,
+        97,
+        92
+      ],
+      "mirroredBoundsAboutAnchor": [
+        -29,
+        -44,
+        28,
+        28
+      ]
+    },
+    {
+      "frame": 9,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-animation-comparison-20261022\\pixellab\\idle-1\\frames\\08.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_idle_v1/frames/frame-09.png",
+      "sha256": "3abd42de4f7bb69e7d4f151ab88311c023d692bacdaabfbc24822f9dbbf73199",
+      "bounds": [
+        41,
+        20,
+        98,
+        92
+      ],
+      "mirroredBoundsAboutAnchor": [
+        -30,
+        -44,
+        27,
+        28
+      ]
+    },
+    {
+      "frame": 10,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-animation-comparison-20261022\\pixellab\\idle-1\\frames\\09.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_idle_v1/frames/frame-10.png",
+      "sha256": "3f6a7a9b66bcf86169720e2ca349ac71288ffd3492c9520c36366e46edadac58",
+      "bounds": [
+        41,
+        18,
+        98,
+        92
+      ],
+      "mirroredBoundsAboutAnchor": [
+        -30,
+        -46,
+        27,
+        28
+      ]
+    },
+    {
+      "frame": 11,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-animation-comparison-20261022\\pixellab\\idle-1\\frames\\10.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_idle_v1/frames/frame-11.png",
+      "sha256": "4f5510087939c9c51a36ed2603378edfa2b2b571c781f17ef03494b44cf49937",
+      "bounds": [
+        41,
+        18,
+        98,
+        92
+      ],
+      "mirroredBoundsAboutAnchor": [
+        -30,
+        -46,
+        27,
+        28
+      ]
+    },
+    {
+      "frame": 12,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-animation-comparison-20261022\\pixellab\\idle-1\\frames\\11.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_idle_v1/frames/frame-12.png",
+      "sha256": "96457167f1f79e7c68be4670e4de0bb6a5cd4b884fc26c29f4d8118c7b7f861a",
+      "bounds": [
+        40,
+        18,
+        98,
+        92
+      ],
+      "mirroredBoundsAboutAnchor": [
+        -30,
+        -46,
+        28,
+        28
+      ]
+    },
+    {
+      "frame": 13,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-animation-comparison-20261022\\pixellab\\idle-1\\frames\\12.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_idle_v1/frames/frame-13.png",
+      "sha256": "d3fc40a347c9342344c3646bff7d73f42acb3b71bf1ab12c3553ed2a4d9dd19f",
+      "bounds": [
+        40,
+        19,
+        97,
+        92
+      ],
+      "mirroredBoundsAboutAnchor": [
+        -29,
+        -45,
+        28,
+        28
+      ]
+    },
+    {
+      "frame": 14,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-animation-comparison-20261022\\pixellab\\idle-1\\frames\\13.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_idle_v1/frames/frame-14.png",
+      "sha256": "db5e190a8527591f6679f5672cb9a0a43f8841a2b2be7ea16d471f203f80506d",
+      "bounds": [
+        41,
+        21,
+        95,
+        92
+      ],
+      "mirroredBoundsAboutAnchor": [
+        -27,
+        -43,
+        27,
+        28
+      ]
+    },
+    {
+      "frame": 15,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-animation-comparison-20261022\\pixellab\\idle-1\\frames\\14.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_idle_v1/frames/frame-15.png",
+      "sha256": "57400337a70959216bb746ac179fe1f27d63314c7d9b895c562b275f1c9f6f5a",
+      "bounds": [
+        41,
+        21,
+        94,
+        92
+      ],
+      "mirroredBoundsAboutAnchor": [
+        -26,
+        -43,
+        27,
+        28
+      ]
+    },
+    {
+      "frame": 16,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-animation-comparison-20261022\\pixellab\\idle-1\\frames\\15.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_idle_v1/frames/frame-16.png",
+      "sha256": "5694d622dd899cec36ddfbbf3b36e3720d9a0c3b5c65a6b906406c8dec1835d5",
+      "bounds": [
+        41,
+        20,
+        94,
+        92
+      ],
+      "mirroredBoundsAboutAnchor": [
+        -26,
+        -44,
+        27,
+        28
+      ]
+    },
+    {
+      "frame": 17,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-animation-comparison-20261022\\pixellab\\idle-1\\frames\\16.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_idle_v1/frames/frame-17.png",
+      "sha256": "a36a87af4b7e76ee3f37cf199a100e658656b952c7cced0db709e175a0cb8ac7",
+      "bounds": [
+        41,
+        20,
+        95,
+        92
+      ],
+      "mirroredBoundsAboutAnchor": [
+        -27,
+        -44,
+        27,
+        28
+      ]
+    }
+  ]
+}

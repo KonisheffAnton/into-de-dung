@@ -1,0 +1,22 @@
+[
+  {
+    "path": "scripts/demo/battle_demo_iso_visual.gd",
+    "sha256": "866e4a3cc26a493483e7bbe0ba376fe6ee526d133cc298ed9dad4793190ddb2e"
+  },
+  {
+    "path": "scripts/demo/battle_defender_idle_visual.gd",
+    "sha256": "15a20f059c6ccd15789816e1f400f1488b792870693fc4afa619db7518177b13"
+  },
+  {
+    "path": "tests/test_defender_idle.gd",
+    "sha256": "8708e6f0da4ea3fc2102862b6e696ac87d734ddc375d562bb23ff902ff05ddda"
+  },
+  {
+    "path": "tests/test_current_art_zoom.gd",
+    "sha256": "0f616ccf735b4626c2946029841a15321b4a5f316790550118035d9084581fb2"
+  },
+  {
+    "path": "docs/art/enemy-warrior-idle-20261023/render_audit.gd",
+    "sha256": "56fc5485dfb4938c28c2c10aecb2a0d5e16f886b6d0cc5389ed23fec3928303a"
+  }
+]

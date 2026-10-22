@@ -258,6 +258,15 @@ func test_matcher_gates_and_cleanup() -> void:
 	check(board._matching_defender_buff([{ "kind": &"guarded", "command_seq": step.command_seq,
 		"actor_unit_id": enemy_id, "target_unit_id": enemy_id }], step) == null,
 		"enemy without matching Defender class cannot receive its buff")
+	if not rogue:
+		board._view_visual_classes[enemy_id] = &"warrior"
+		board.refresh()
+		var enemy_visual := board._presentation_visual(enemy_id) as BattleDefenderIdleVisual
+		check(enemy_visual != null and enemy_visual._uses_enemy_warrior_art()
+			and enemy_visual._active_buff_frames() == null and not enemy_visual.can_play_buff()
+			and board._matching_defender_buff([{ "kind": &"guarded", "command_seq": step.command_seq,
+			"actor_unit_id": enemy_id, "target_unit_id": enemy_id }], step) == null,
+			"enemy warrior idle art does not opt into the shared Defender buff route")
 	check(board._matching_defender_buff([{ "kind": &"guarded", "command_seq": step.command_seq,
 		"actor_unit_id": mage_id, "target_unit_id": mage_id }], step) == null,
 		"Mage cannot receive the Defender buff")

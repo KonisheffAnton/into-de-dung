@@ -1,0 +1,32 @@
+{
+  "import": {
+    "status": "PASS",
+    "seconds": 6.55,
+    "exit": 0
+  },
+  "unit_visual_contract": {
+    "status": "PASS",
+    "seconds": 2.75,
+    "exit": 0
+  },
+  "defender_idle": {
+    "status": "PASS",
+    "seconds": 6.18,
+    "exit": 0
+  },
+  "current_art_zoom": {
+    "status": "PASS",
+    "seconds": 7.23,
+    "exit": 0
+  },
+  "art_trial_battle": {
+    "status": "PASS",
+    "seconds": 4.07,
+    "exit": 0
+  },
+  "art_audit": {
+    "status": "PASS",
+    "seconds": 5.03,
+    "exit": 0
+  }
+}

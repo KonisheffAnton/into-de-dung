@@ -8,6 +8,10 @@ extends BattleManagedUnitVisual
 @export var rogue_buff_frames: SpriteFrames
 @export var rogue_death_frames: SpriteFrames
 @export var archer_idle_frames: SpriteFrames
+@export var enemy_warrior_art_enabled: bool = false
+@export var enemy_warrior_idle_frames: SpriteFrames
+@export var enemy_warrior_idle_anchor: Vector2 = Vector2(68.0, 64.0)
+@export var enemy_warrior_pick_rect: Rect2 = Rect2(-32.0, -48.0, 64.0, 80.0)
 @export_range(1, 120, 1) var idle_normal_cycles_min: int = 24
 @export_range(1, 120, 1) var idle_normal_cycles_max: int = 36
 
@@ -33,7 +37,8 @@ func _ready() -> void:
 	# Материалы сцен общие между фракциями и классами, поэтому каждый рисунок получает свой экземпляр.
 	for path: String in ["ArtRoot/PlayerWarriorSprite", "ArtRoot/EnemyWarriorSprite", "ArtRoot/DefenderIdleSprite",
 			"ArtRoot/PlayerRogueSprite", "ArtRoot/EnemyRogueSprite", "ArtRoot/RogueIdleSprite",
-			"ArtRoot/PlayerArcherSprite", "ArtRoot/EnemyArcherSprite", "ArtRoot/ArcherIdleSprite"]:
+			"ArtRoot/PlayerArcherSprite", "ArtRoot/EnemyArcherSprite", "ArtRoot/ArcherIdleSprite",
+			"ArtRoot/EnemyWarriorIdleSprite"]:
 		var sprite := get_node_or_null(path) as Sprite2D
 		if sprite != null and sprite.material is ShaderMaterial:
 			sprite.material = sprite.material.duplicate() as ShaderMaterial
@@ -46,7 +51,8 @@ func _ready() -> void:
 func sync_scene_art() -> void:
 	super.sync_scene_art()
 	var idle_path := "ArtRoot/DefenderIdleSprite"
-	if visual_class_id == &"rogue": idle_path = "ArtRoot/RogueIdleSprite"
+	if _uses_enemy_warrior_art(): idle_path = "ArtRoot/EnemyWarriorIdleSprite"
+	elif visual_class_id == &"rogue": idle_path = "ArtRoot/RogueIdleSprite"
 	elif visual_class_id == &"archer": idle_path = "ArtRoot/ArcherIdleSprite"
 	var next_sprite := get_node_or_null(idle_path) as Sprite2D
 	var sprite_changed := _idle_sprite != null and _idle_sprite != next_sprite
@@ -68,13 +74,14 @@ func sync_scene_art() -> void:
 		set_process(false)
 		return
 	_restore_rogue_death_alpha(_idle_sprite)
-	# Отражаем рисунок вокруг прежней опоры ног, не HUD и не всю фигуру доски.
+	# Отражаем только рисунок вокруг выбранной точки посадки, не HUD или опору доски.
 	var mirrored := unit != null and unit.faction == Faction.Type.ENEMY
 	var rogue := visual_class_id == &"rogue"
 	var texture_scale := 0.25 if rogue else 1.0
 	_idle_sprite.scale = Vector2(-texture_scale if mirrored else texture_scale, texture_scale)
 	var anchor := Vector2(64, 94) if rogue else Vector2(69.42, 90.14)
-	if visual_class_id == &"archer": anchor = Vector2(68.0, 95.0)
+	if _uses_enemy_warrior_art(): anchor = enemy_warrior_idle_anchor
+	elif visual_class_id == &"archer": anchor = Vector2(68.0, 95.0)
 	_idle_sprite.position = Vector2(anchor.x if mirrored else -anchor.x, -anchor.y)
 	if _death_active and can_play_death():
 		_idle_sprite.visible = true
@@ -115,6 +122,8 @@ func sync_scene_art() -> void:
 
 
 func _can_play_idle() -> bool:
+	if _uses_enemy_warrior_art():
+		return _can_show_defender() and not ambient_animation_paused and _enemy_warrior_idle_is_valid()
 	if visual_class_id == &"archer":
 		return _can_show_defender() and not ambient_animation_paused and archer_idle_frames != null \
 			and archer_idle_frames.has_animation(&"idle") and archer_idle_frames.get_frame_count(&"idle") == 12 \
@@ -127,6 +136,23 @@ func _can_play_idle() -> bool:
 		and idle_frames.has_animation(&"sway") \
 		and idle_frames.get_frame_count(&"vertical") == 12 \
 		and idle_frames.get_frame_count(&"sway") == 12
+
+
+func _uses_enemy_warrior_art() -> bool:
+	return enemy_warrior_art_enabled and unit != null and unit.faction == Faction.Type.ENEMY \
+		and visual_class_id == &"warrior"
+
+
+func _enemy_warrior_idle_is_valid() -> bool:
+	if enemy_warrior_idle_frames == null or not enemy_warrior_idle_frames.has_animation(&"idle"):
+		return false
+	var frame_count := enemy_warrior_idle_frames.get_frame_count(&"idle")
+	if frame_count != 17 or enemy_warrior_idle_frames.get_animation_speed(&"idle") <= 0.0:
+		return false
+	for frame: int in frame_count:
+		if enemy_warrior_idle_frames.get_frame_texture(&"idle", frame) == null:
+			return false
+	return true
 
 
 func _can_show_defender() -> bool:
@@ -179,11 +205,13 @@ func _restore_rogue_death_alpha(sprite: Sprite2D) -> void:
 
 
 func _active_buff_frames() -> SpriteFrames:
+	if _uses_enemy_warrior_art(): return null
 	if visual_class_id == &"archer": return null
 	return rogue_buff_frames if visual_class_id == &"rogue" else buff_frames
 
 
 func _active_death_frames() -> SpriteFrames:
+	if _uses_enemy_warrior_art(): return null
 	if visual_class_id == &"archer": return null
 	return rogue_death_frames if visual_class_id == &"rogue" else death_frames
 
@@ -241,13 +269,20 @@ func _process(delta: float) -> void:
 		return
 	# Общие часы сохраняют фазу по ID; у лучницы выбран более длинный цикл 2.6 с.
 	var clock_delta := delta
-	if visual_class_id == &"archer":
+	if _uses_enemy_warrior_art():
+		clock_delta *= DefenderIdleClock.CYCLE_DURATION / _clip_duration(enemy_warrior_idle_frames, &"idle")
+	elif visual_class_id == &"archer":
 		clock_delta *= DefenderIdleClock.CYCLE_DURATION / _clip_duration(archer_idle_frames, &"idle")
 	idle_clock.advance(clock_delta)
 	_apply_idle_frame()
 
 
 func _apply_idle_frame() -> void:
+	if _uses_enemy_warrior_art():
+		var duration := _clip_duration(enemy_warrior_idle_frames, &"idle")
+		var phase := fposmod(idle_clock.get_elapsed(), DefenderIdleClock.CYCLE_DURATION) / DefenderIdleClock.CYCLE_DURATION
+		_apply_clip_frame(enemy_warrior_idle_frames, &"idle", phase * duration + DefenderIdleClock.TIME_EPSILON)
+		return
 	var animation: StringName = &"sway" if idle_clock.is_rare() else &"vertical"
 	var frames := idle_frames
 	if visual_class_id == &"rogue":
@@ -266,6 +301,20 @@ func _apply_idle_frame() -> void:
 func set_cloth_palette(index: int) -> void:
 	cloth_palette = DefenderClothPalette.valid_index(index)
 	_sync_cloth_palette()
+
+
+func get_unit_pick_rect() -> Rect2:
+	var still := class_still_sprite()
+	if _uses_enemy_warrior_art() and still != null and still.texture != null:
+		return enemy_warrior_pick_rect
+	return super.get_unit_pick_rect()
+
+
+func get_unit_bars_offset() -> Vector2:
+	var still := class_still_sprite()
+	if _uses_enemy_warrior_art() and still != null and still.texture != null:
+		return Vector2(0, 26)
+	return super.get_unit_bars_offset()
 
 
 func _sync_cloth_palette() -> void:

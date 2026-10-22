@@ -106,8 +106,16 @@ func _test_real_receipt_clip() -> void:
 	board.refresh()
 	board.show_presentation_state(before)
 	var visual := board._presentation_visual(target.id) as BattleDefenderIdleVisual
+	# Старая authored-смерть остаётся покрыта отдельным legacy-fixture режимом.
+	# В боевой сцене новый enemy-режим пока намеренно использует generic death.
+	if visual != null and target.faction == Faction.Type.ENEMY:
+		visual.enemy_warrior_art_enabled = false
+		var legacy_still := visual.get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D
+		var ally_still := visual.get_node("ArtRoot/PlayerWarriorSprite") as Sprite2D
+		legacy_still.texture = ally_still.texture
+		visual.sync_scene_art()
 	check(visual != null and visual.death_frames == DEATH_FRAMES and visual.can_play_death(),
-		"real receipt target uses the packaged Defender death clip")
+		"legacy fixture explicitly retains the packaged Defender death clip")
 	if visual != null:
 		var sprite := visual.get_node("ArtRoot/DefenderIdleSprite") as Sprite2D
 		var still := visual.get_node("ArtRoot/PlayerWarriorSprite") as Sprite2D

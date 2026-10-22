@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3]
+[gd_scene load_steps=24 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/placeholder_unit.tscn" id="1_base"]
 [ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_field_v1/defender_new.png" id="2_player"]
@@ -14,6 +14,8 @@
 [ext_resource type="Texture2D" path="res://assets/art_presets/trials/archer_idle_v1/idle/frame-01.png" id="12_archer_still"]
 [ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/archer_idle_v1/idle_frames.tres" id="13_archer_idle"]
 [ext_resource type="Shader" path="res://assets/art_presets/trials/pixel_zoom_v1/character_palette.gdshader" id="14_palette"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/enemy_warrior_idle_v1/frames/frame-01.png" id="15_enemy_warrior"]
+[ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/enemy_warrior_idle_v1/idle_frames.tres" id="16_enemy_warrior_idle"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_player"]
 atlas = ExtResource("2_player")
@@ -48,11 +50,19 @@ shader_parameter/brighter_palette_strength = 1.0
 shader = ExtResource("14_palette")
 shader_parameter/brighter_palette_strength = 1.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_enemy_warrior"]
+shader = ExtResource("4_native")
+shader_parameter/source_region = Vector4(0, 0, 128, 128)
+shader_parameter/native_size = Vector2(128, 128)
+shader_parameter/cloth_enabled = false
+shader_parameter/brighter_palette_strength = 0.0
+
 [node name="PlaceholderUnit" instance=ExtResource("1_base")]
 script = ExtResource("5_idle_script")
 warrior_pick_rect = Rect2(-45, -66, 90, 83)
 warrior_art_scale = 0.8
 archer_art_scale = 0.6400003306666667
+enemy_warrior_art_enabled = true
 idle_frames = ExtResource("6_idle_frames")
 buff_frames = ExtResource("7_buff_frames")
 death_frames = ExtResource("3_death")
@@ -60,6 +70,9 @@ rogue_idle_frames = ExtResource("9_rogue_idle")
 rogue_buff_frames = ExtResource("10_rogue_buff")
 rogue_death_frames = ExtResource("11_rogue_death")
 archer_idle_frames = ExtResource("13_archer_idle")
+enemy_warrior_idle_frames = ExtResource("16_enemy_warrior_idle")
+enemy_warrior_idle_anchor = Vector2(68, 64)
+enemy_warrior_pick_rect = Rect2(-32, -48, 64, 80)
 
 [node name="BodySprite" parent="ArtRoot" index="0"]
 material = SubResource("ShaderMaterial_fallback_palette")
@@ -71,11 +84,13 @@ scale = Vector2(0.0745342, 0.0745342)
 texture = SubResource("AtlasTexture_player")
 
 [node name="EnemyWarriorSprite" parent="ArtRoot" index="2"]
-material = SubResource("ShaderMaterial_player")
-position = Vector2(44.42, -65.14)
-scale = Vector2(-0.0745342, 0.0745342)
+texture_filter = 1
+material = SubResource("ShaderMaterial_enemy_warrior")
+position = Vector2(68, -64)
+scale = Vector2(-1, 1)
 flip_h = false
-texture = SubResource("AtlasTexture_player")
+texture = ExtResource("15_enemy_warrior")
+centered = false
 
 [node name="Bearded" parent="ArtRoot/EnemyPresets" index="0"]
 material = SubResource("ShaderMaterial_fallback_palette")
@@ -141,4 +156,13 @@ visible = false
 texture_filter = 1
 material = SubResource("ShaderMaterial_archer")
 position = Vector2(-68, -95)
+centered = false
+
+[node name="EnemyWarriorIdleSprite" type="Sprite2D" parent="ArtRoot" index="14"]
+visible = false
+texture_filter = 1
+material = SubResource("ShaderMaterial_enemy_warrior")
+position = Vector2(68, -64)
+scale = Vector2(-1, 1)
+texture = ExtResource("15_enemy_warrior")
 centered = false
