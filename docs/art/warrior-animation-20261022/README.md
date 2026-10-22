@@ -1,5 +1,7 @@
 # Воин: три idle и три смерти — 2026-10-22
 
+Следующая отдельно порученная серия — [PixelLab и второй RD](../warrior-animation-comparison-20261022/README.md).
+
 Внешний пакет, без игровой интеграции. Выбор образа принадлежит
 [ART_DIRECTION](../../ART_DIRECTION.md); API — [GRAPHICS_WORKFLOW](../../GRAPHICS_WORKFLOW.md).
 Base: `fa6cbd8ebcc51f47d392e3e621ca20d3e14c410a`, ветка `main`.
