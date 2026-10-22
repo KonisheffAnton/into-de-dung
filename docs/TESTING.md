@@ -122,6 +122,9 @@ skip/cancel/finish, refresh/resize/retire, опора/якоря и state/RNG/co
 resize и публикацию after. `defender_death_routes` проверяет ranged/mage и
 одно-/многозвенные столкновения, before/тело, speed/skip/cancel/retire, fallback,
 исключения падения/обвала и неизменность state/RNG/counters/пакета показа.
+В той же проверке отдельный production enemy-warrior путь покрывает выбранную
+death-2:17 кадров/2,55с, зеркальную опору, lifecycle и невалидный ресурс/fallback;
+legacy-смерть союзного Защитника сохраняет своё покрытие.
 Смежные пути смерти проверяются `presentation_contact`, `presentation_ranged`,
 `presentation_mage`, `presentation_consequences`, `presentation_environment`;
 общий lifecycle — `visual_scene_contract` и `unit_visual_contract`.

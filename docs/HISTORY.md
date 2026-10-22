@@ -1,5 +1,18 @@
 # История и свидетельства проверок
 
+## Death-2 и новый эталон персонажей — 2026-10-23
+
+U выбрал смерть через колено №2 и нового воина эталоном всех следующих персонажей.
+Enemy-warrior получил17 исходных кадров/2,55с на прежнем зеркальном sprite/anchor;
+общий lifecycle и fallback сохраняются. [Отчёт](art/enemy-warrior-death-20261023/README.md),
+[эталон](../assets/art_presets/approved/warrior_format_v1/README.md).
+Начальный scoped render13PASS/1FAIL потребовал исправления assertions;
+финальные death_routes889/0 и rogue_routes622/0, render audit107/0.
+14 итоговых зелёных gates собраны по совпадающим runtime-исходникам; full/core
+и ручная F5/editor/DPI/GPU не заявлены. Независимое ревью APPROVE — в отчёте.
+Остальные классы не перерисовывались. Base b2d78510f7c3216f01ebf9bbc32d3c4f4a878e7f.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261023-5.md). Без push.
+
 ## Ещё три смерти PixelLab через колено — 2026-10-23
 
 Параллельное поручение U выполнено:3 completed jobs,51 PNG128²,12 генераций,

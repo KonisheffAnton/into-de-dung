@@ -10,6 +10,7 @@ extends BattleManagedUnitVisual
 @export var archer_idle_frames: SpriteFrames
 @export var enemy_warrior_art_enabled: bool = false
 @export var enemy_warrior_idle_frames: SpriteFrames
+@export var enemy_warrior_death_frames: SpriteFrames
 @export var enemy_warrior_idle_anchor: Vector2 = Vector2(71.0, 83.0)
 @export var enemy_warrior_pick_rect: Rect2 = Rect2(-29.0, -67.0, 64.0, 80.0)
 @export_range(1, 120, 1) var idle_normal_cycles_min: int = 24
@@ -211,9 +212,23 @@ func _active_buff_frames() -> SpriteFrames:
 
 
 func _active_death_frames() -> SpriteFrames:
-	if _uses_enemy_warrior_art(): return null
+	if _uses_enemy_warrior_art(): return enemy_warrior_death_frames if _enemy_warrior_death_is_valid() else null
 	if visual_class_id == &"archer": return null
 	return rogue_death_frames if visual_class_id == &"rogue" else death_frames
+
+
+func _enemy_warrior_death_is_valid() -> bool:
+	return _death_frames_are_valid(enemy_warrior_death_frames) \
+		and enemy_warrior_death_frames.get_frame_count(&"death") == 17
+
+
+func _death_frames_are_valid(frames: SpriteFrames) -> bool:
+	if frames == null or not frames.has_animation(&"death") \
+		or frames.get_frame_count(&"death") <= 0 or frames.get_animation_speed(&"death") <= 0.0:
+		return false
+	for frame: int in frames.get_frame_count(&"death"):
+		if frames.get_frame_texture(&"death", frame) == null: return false
+	return true
 
 
 func sample_death(progress: float) -> void:

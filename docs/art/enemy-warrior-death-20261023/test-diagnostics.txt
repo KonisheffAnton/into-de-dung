@@ -1,0 +1,23 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 566.07 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 Laptop GPU
+
+DIAG melee art before=[X: (0.753, 0.0), Y: (0.0, 0.753), O: (7.5302, 5.647649)] after=[X: (0.753, 0.0), Y: (0.0, 0.753), O: (-3.751797, -2.813847)] root=(588.26, 340.14) savedroot=(588.26, 340.14) action=(-3.751797, -2.813847)
+FAIL PUSH CHAIN: melee death keeps the board root and artwork transform fixed
+FAIL PUSH CHAIN: melee resize restores the same death frame and preserves root, HUD and anchor transforms
+DIAG X3 melee deathactive=false active=true corpse=false
+FAIL PUSH CHAIN: melee enemy x3 speed completes the selected death duration
+DIAG ranged art before=[X: (0.775, 0.0), Y: (0.0, 0.775), O: (7.750205, 5.812654)] after=[X: (0.775, 0.0), Y: (0.0, 0.775), O: (-3.861411, -2.896058)] root=(727.5, 441.5) savedroot=(727.5, 441.5) action=(-3.861411, -2.896058)
+FAIL PUSH CHAIN: ranged death keeps the board root and artwork transform fixed
+FAIL PUSH CHAIN: ranged resize restores the same death frame and preserves root, HUD and anchor transforms
+DIAG X3 ranged deathactive=false active=true corpse=false
+FAIL PUSH CHAIN: ranged enemy x3 speed completes the selected death duration
+DIAG mage art before=[X: (0.797, 0.0), Y: (0.0, 0.797), O: (0.496604, 0.194885)] after=[X: (0.797, 0.0), Y: (0.0, 0.797), O: (3.07408, 1.206378)] root=(937.54, 404.68) savedroot=(937.54, 404.68) action=(3.07408, 1.206378)
+FAIL PUSH CHAIN: mage death keeps the board root and artwork transform fixed
+FAIL PUSH CHAIN: mage resize restores the same death frame and preserves root, HUD and anchor transforms
+DIAG X3 mage deathactive=false active=true corpse=true
+DIAG collision_enemy art before=[X: (0.841, 0.0), Y: (0.0, 0.841), O: (8.41, 6.3075)] after=[X: (0.841, 0.0), Y: (0.0, 0.841), O: (-1.273429, -0.955072)] root=(783.78, 474.5) savedroot=(783.78, 474.5) action=(-1.273429, -0.955072)
+FAIL PUSH CHAIN: collision_enemy death keeps the board root and artwork transform fixed
+FAIL PUSH CHAIN: collision_enemy resize restores the same death frame and preserves root, HUD and anchor transforms
+DIAG X3 collision_enemy deathactive=false active=true corpse=false
+FAIL PUSH CHAIN: collision_enemy enemy x3 speed completes the selected death duration
+DEFENDER DEATH ROUTES RESULTS: 870 passed, 11 failed

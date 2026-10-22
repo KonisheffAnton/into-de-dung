@@ -1,0 +1,8 @@
+{
+  "sourceJob": "6c1f9328-8311-4a7d-b01d-48570a5426f8",
+  "framesVerified": 17,
+  "byteExact": true,
+  "firstFrameEqualsIdleStill": true,
+  "alphaBoundsWithinCanvas": true,
+  "referenceCopiesByteExact": true
+}

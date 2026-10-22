@@ -1,0 +1,72 @@
+{
+  "snapshot_seconds": 8.213595499983057,
+  "checks": {
+    "import": {
+      "elapsed_seconds": 51.84044070006348,
+      "status": "PASS"
+    },
+    "startup": {
+      "elapsed_seconds": 3.495959899853915,
+      "status": "PASS"
+    },
+    "unit_visual_contract": {
+      "elapsed_seconds": 3.0890310001559556,
+      "status": "PASS"
+    },
+    "defender_idle": {
+      "elapsed_seconds": 7.009755800012499,
+      "status": "PASS"
+    },
+    "defender_buff": {
+      "elapsed_seconds": 6.881732799811289,
+      "status": "PASS"
+    },
+    "defender_death": {
+      "elapsed_seconds": 4.06838500010781,
+      "status": "PASS"
+    },
+    "defender_death_routes": {
+      "elapsed_seconds": 10.361105000134557,
+      "status": "FAIL"
+    },
+    "rogue_death_routes": {
+      "elapsed_seconds": 10.29522529989481,
+      "status": "PASS"
+    },
+    "visual_scene_contract": {
+      "elapsed_seconds": 7.248033599928021,
+      "status": "PASS"
+    },
+    "presentation_contact": {
+      "elapsed_seconds": 6.016651500016451,
+      "status": "PASS"
+    },
+    "presentation_consequences": {
+      "elapsed_seconds": 24.59668660000898,
+      "status": "PASS"
+    },
+    "presentation_environment": {
+      "elapsed_seconds": 9.000646599801257,
+      "status": "PASS"
+    },
+    "presentation_ranged": {
+      "elapsed_seconds": 6.924758700188249,
+      "status": "PASS"
+    },
+    "presentation_mage": {
+      "elapsed_seconds": 14.518839000025764,
+      "status": "PASS"
+    }
+  },
+  "total_seconds": 173.58002940006554,
+  "summary": {
+    "passed": 13,
+    "failed": 1,
+    "timed_out": 0,
+    "failed_labels": [
+      "defender_death_routes"
+    ],
+    "unexecuted_requested": [],
+    "blocked": null
+  }
+}

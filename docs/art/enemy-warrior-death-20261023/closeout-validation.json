@@ -1,0 +1,130 @@
+{
+  "base": "b2d78510f7c3216f01ebf9bbc32d3c4f4a878e7f",
+  "scope": "enemy warrior death-2 + character format reference",
+  "finalChecks": {
+    "import": {
+      "status": "PASS",
+      "log": "D:\\Games\\into-de-dung\\test_reports\\demo-57aa0f420dd046aab691a26327e6165f\\import.log",
+      "result": []
+    },
+    "startup": {
+      "status": "PASS",
+      "log": "D:\\Games\\into-de-dung\\test_reports\\demo-57aa0f420dd046aab691a26327e6165f\\startup.log",
+      "result": []
+    },
+    "unit_visual_contract": {
+      "status": "PASS",
+      "log": "D:\\Games\\into-de-dung\\test_reports\\demo-57aa0f420dd046aab691a26327e6165f\\unit_visual_contract.log",
+      "result": [
+        "UNIT VISUAL CONTRACT RESULTS: 33 passed, 0 failed"
+      ]
+    },
+    "defender_idle": {
+      "status": "PASS",
+      "log": "D:\\Games\\into-de-dung\\test_reports\\demo-57aa0f420dd046aab691a26327e6165f\\defender_idle.log",
+      "result": [
+        "DEFENDER IDLE RESULTS: 140 passed, 0 failed"
+      ]
+    },
+    "defender_buff": {
+      "status": "PASS",
+      "log": "D:\\Games\\into-de-dung\\test_reports\\demo-57aa0f420dd046aab691a26327e6165f\\defender_buff.log",
+      "result": [
+        "DEFENDER BUFF RESULTS: 299 passed, 0 failed"
+      ]
+    },
+    "defender_death": {
+      "status": "PASS",
+      "log": "D:\\Games\\into-de-dung\\test_reports\\demo-57aa0f420dd046aab691a26327e6165f\\defender_death.log",
+      "result": [
+        "DEFENDER DEATH RESULTS: 115 passed, 0 failed"
+      ]
+    },
+    "rogue_death_routes": {
+      "status": "PASS",
+      "seconds": 11.531999999890104,
+      "result": [
+        "ROGUE DEATH ROUTES RESULTS: 622 passed, 0 failed"
+      ],
+      "log": "D:\\Games\\into-de-dung\\test_reports\\demo-e511e79f6aac438f898cf2830fb52d90\\rogue_death_routes-corrected.log"
+    },
+    "visual_scene_contract": {
+      "status": "PASS",
+      "log": "D:\\Games\\into-de-dung\\test_reports\\demo-57aa0f420dd046aab691a26327e6165f\\visual_scene_contract.log",
+      "result": [
+        "VISUAL SCENE CONTRACT RESULTS: 52 passed, 0 failed"
+      ]
+    },
+    "presentation_contact": {
+      "status": "PASS",
+      "log": "D:\\Games\\into-de-dung\\test_reports\\demo-57aa0f420dd046aab691a26327e6165f\\presentation_contact.log",
+      "result": [
+        "PRESENTATION CONTACT RESULTS: 160 passed, 0 failed"
+      ]
+    },
+    "presentation_consequences": {
+      "status": "PASS",
+      "log": "D:\\Games\\into-de-dung\\test_reports\\demo-57aa0f420dd046aab691a26327e6165f\\presentation_consequences.log",
+      "result": [
+        "PRESENTATION CONSEQUENCES RESULTS: 2007 passed, 0 failed"
+      ]
+    },
+    "presentation_environment": {
+      "status": "PASS",
+      "log": "D:\\Games\\into-de-dung\\test_reports\\demo-57aa0f420dd046aab691a26327e6165f\\presentation_environment.log",
+      "result": [
+        "PRESENTATION ENVIRONMENT RESULTS: 323 passed, 0 failed"
+      ]
+    },
+    "presentation_ranged": {
+      "status": "PASS",
+      "log": "D:\\Games\\into-de-dung\\test_reports\\demo-57aa0f420dd046aab691a26327e6165f\\presentation_ranged.log",
+      "result": [
+        "PRESENTATION RANGED RESULTS: 250 passed, 0 failed"
+      ]
+    },
+    "presentation_mage": {
+      "status": "PASS",
+      "log": "D:\\Games\\into-de-dung\\test_reports\\demo-57aa0f420dd046aab691a26327e6165f\\presentation_mage.log",
+      "result": [
+        "PRESENTATION MAGE RESULTS: 326 passed, 0 failed"
+      ]
+    },
+    "defender_death_routes": {
+      "status": "PASS",
+      "seconds": 12.468000000109896,
+      "result": [
+        "DEFENDER DEATH ROUTES RESULTS: 889 passed, 0 failed"
+      ],
+      "log": "D:\\Games\\into-de-dung\\test_reports\\demo-e511e79f6aac438f898cf2830fb52d90\\defender_death_routes-corrected.log"
+    }
+  },
+  "validatedRuntimeFiles": 649,
+  "changedRouteTestSha256": "940d324649e213619343426478d9435b7df314dec9905578d59d5e58675ed467",
+  "renderAudit": "107 passed, 0 failed",
+  "archiveExactWorkingBytes": true,
+  "archiveMatchesPriorGitNormalizedBytes": true,
+  "protectedSceneSha256": "a64c270256ebf2ea073081200be23028f792f42c3ca98f83a6499c1300a68668",
+  "links": 994,
+  "entryDocumentCharsBeforeAfter": {
+    "AGENTS.md": [
+      4565,
+      4565
+    ],
+    "docs/CODEX_HANDOFF.md": [
+      2295,
+      2073
+    ],
+    "docs/PROJECT_CONTEXT.md": [
+      3557,
+      3557
+    ],
+    "docs/CODEX_WORKFLOW.md": [
+      4482,
+      4482
+    ]
+  },
+  "entryDocumentDeviation": "PROJECT_CONTEXT remains at its pre-existing 3557 chars; no change",
+  "manualF5EditorDpiGpu": "not run",
+  "fullCore": "not run"
+}

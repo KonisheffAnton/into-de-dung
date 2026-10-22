@@ -1,0 +1,77 @@
+{
+  "renderResult": "ENEMY DEATH ART AUDIT RESULTS: 107 passed, 0 failed",
+  "renderedFrames": 17,
+  "gifPreviewRepeats": true,
+  "gameResourceLoops": false,
+  "frameDurationMs": 150,
+  "files": [
+    {
+      "path": "frames/frame-01.png",
+      "sha256": "adf5d306d37358af09c5985902df7e1dd4b6a10b57e6d34fb1d5d6c5b67a2f3d"
+    },
+    {
+      "path": "frames/frame-02.png",
+      "sha256": "9fb6104429b09b39dc3aec02b7a0ea4c733129bbb2d45e29e2cf446ba176bf26"
+    },
+    {
+      "path": "frames/frame-03.png",
+      "sha256": "222a535457757ba7316267b595ac44dd57698ae3cc6860e472c72a19f2e0c727"
+    },
+    {
+      "path": "frames/frame-04.png",
+      "sha256": "d943792d36d5ac5ffb55997970cd53e4de32be86fa102c170bcc5a73c00392f8"
+    },
+    {
+      "path": "frames/frame-05.png",
+      "sha256": "187167338663cbd9bd917c85864f427cbdc86615617872ae14259526cbb52e6a"
+    },
+    {
+      "path": "frames/frame-06.png",
+      "sha256": "9dd20f6d5640766bf57e864fab7201ef393e8f6400e79d6947abf48fae489cae"
+    },
+    {
+      "path": "frames/frame-07.png",
+      "sha256": "8dec12d0f4bba725883f7306b807c7034a7239d1f729cab6719c69b1fbe246df"
+    },
+    {
+      "path": "frames/frame-08.png",
+      "sha256": "39cf8224f3aff498c8252bcb147dbf39bf29fb51e0900ff32a5e883517f12eb8"
+    },
+    {
+      "path": "frames/frame-09.png",
+      "sha256": "be63b0fa99b4dc2e01f0f50b87119a46ddc6afe6580fa8b125eee83f4e387654"
+    },
+    {
+      "path": "frames/frame-10.png",
+      "sha256": "a40c0a00092cb0a1c5832f3ee03f962051476fed1154e03ee9b3c13a9b622192"
+    },
+    {
+      "path": "frames/frame-11.png",
+      "sha256": "c50bd2bdb2b47e950634b585b21037387de828d0a9acea62485f76eee08063be"
+    },
+    {
+      "path": "frames/frame-12.png",
+      "sha256": "5968396ebf934c96a62ee41fa4d259456b954d794655476facb2af4a45178f1f"
+    },
+    {
+      "path": "frames/frame-13.png",
+      "sha256": "063b0eddb3702306f17d229b1c0281ec79d544e24fb0dce2d390f6db53c87d19"
+    },
+    {
+      "path": "frames/frame-14.png",
+      "sha256": "e9d6d36005cd2602dbac9da4b6f55be7bb89f5f579878c3e081f95032f9462a6"
+    },
+    {
+      "path": "frames/frame-15.png",
+      "sha256": "ea96b63031ae89f3a1de2d4aafac3ebbb56b2cea3d082b171c41dde285f63ada"
+    },
+    {
+      "path": "frames/frame-16.png",
+      "sha256": "d11583528c2e7e15f84f39a65ec5c558b7fc877addc9f39b38919c294feadbfa"
+    },
+    {
+      "path": "frames/frame-17.png",
+      "sha256": "adc57e7140e50cea61acfdb0e4011b6993797b86c5edb2756ce94fbdb1660826"
+    }
+  ]
+}

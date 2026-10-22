@@ -1,0 +1,225 @@
+{
+  "selectionDate": "2026-10-23",
+  "selection": "death-2 — Колено, затем вперёд",
+  "sourceJob": "6c1f9328-8311-4a7d-b01d-48570a5426f8",
+  "sourcePackage": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-death-kneel-round2-20261023\\pixellab2\\death-2",
+  "frameCount": 17,
+  "frameDurationSeconds": 0.15,
+  "durationSeconds": 2.55,
+  "timingAuthored": true,
+  "previewFinalHoldUsedInGame": false,
+  "loop": false,
+  "anchorSourcePixels": [
+    71,
+    83
+  ],
+  "mirrored": true,
+  "warriorArtScale": 0.8,
+  "pixelEdits": false,
+  "frames": [
+    {
+      "frame": 1,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-death-kneel-round2-20261023\\pixellab2\\death-2\\frames\\00.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-01.png",
+      "sha256": "e93daeee4edec7fee5031e8aa91b5a729a2ecd7e269b17abf94558b6e4604057",
+      "alphaBounds": [
+        41,
+        20,
+        95,
+        92
+      ]
+    },
+    {
+      "frame": 2,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-death-kneel-round2-20261023\\pixellab2\\death-2\\frames\\01.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-02.png",
+      "sha256": "1ebcb934b75c50868be0d106248601e91a294cdad210e43b45247991bb1af912",
+      "alphaBounds": [
+        41,
+        20,
+        100,
+        92
+      ]
+    },
+    {
+      "frame": 3,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-death-kneel-round2-20261023\\pixellab2\\death-2\\frames\\02.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-03.png",
+      "sha256": "69c13892d53d1586b484a52a744e5b4f05472c16ecc1f64484551cfccf3b74cb",
+      "alphaBounds": [
+        38,
+        23,
+        98,
+        92
+      ]
+    },
+    {
+      "frame": 4,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-death-kneel-round2-20261023\\pixellab2\\death-2\\frames\\03.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-04.png",
+      "sha256": "226c0769184e5acddbb338bf8db927dbd0b415e14c4e01693fd0cc2ed6007dd8",
+      "alphaBounds": [
+        37,
+        26,
+        96,
+        92
+      ]
+    },
+    {
+      "frame": 5,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-death-kneel-round2-20261023\\pixellab2\\death-2\\frames\\04.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-05.png",
+      "sha256": "756a157e78d9f42ee54c917b630e5a238219a3a5fe06df859dfedef74a37ecc5",
+      "alphaBounds": [
+        34,
+        27,
+        92,
+        95
+      ]
+    },
+    {
+      "frame": 6,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-death-kneel-round2-20261023\\pixellab2\\death-2\\frames\\05.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-06.png",
+      "sha256": "15c9163bad915d06b0484f339694aa519c571791ae5984d45dbc0e38218653d5",
+      "alphaBounds": [
+        34,
+        29,
+        92,
+        94
+      ]
+    },
+    {
+      "frame": 7,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-death-kneel-round2-20261023\\pixellab2\\death-2\\frames\\06.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-07.png",
+      "sha256": "d23a184af6627fa0a3336f0a2aab8b78421b4d60fa1798e08519bd20f89ab97b",
+      "alphaBounds": [
+        36,
+        28,
+        92,
+        92
+      ]
+    },
+    {
+      "frame": 8,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-death-kneel-round2-20261023\\pixellab2\\death-2\\frames\\07.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-08.png",
+      "sha256": "b80c85634ea36a0a3b97f198968058b29874fd363b522614c945d9e5b2b34f44",
+      "alphaBounds": [
+        35,
+        27,
+        92,
+        92
+      ]
+    },
+    {
+      "frame": 9,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-death-kneel-round2-20261023\\pixellab2\\death-2\\frames\\08.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-09.png",
+      "sha256": "7d5bb67e743f20adf5a905c789afdb4a77368e184fe5efbb31fcc5ae14c5b118",
+      "alphaBounds": [
+        34,
+        27,
+        92,
+        94
+      ]
+    },
+    {
+      "frame": 10,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-death-kneel-round2-20261023\\pixellab2\\death-2\\frames\\09.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-10.png",
+      "sha256": "244e5bf95d9a97f9e1c3d585755f23b90b305205a9b9b6ff091af6ff1f437c24",
+      "alphaBounds": [
+        34,
+        28,
+        92,
+        95
+      ]
+    },
+    {
+      "frame": 11,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-death-kneel-round2-20261023\\pixellab2\\death-2\\frames\\10.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-11.png",
+      "sha256": "581cefbf57cc1f147c1bde4ef296e142287beef59fa9eb0ada6a6935e70a1176",
+      "alphaBounds": [
+        34,
+        29,
+        92,
+        94
+      ]
+    },
+    {
+      "frame": 12,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-death-kneel-round2-20261023\\pixellab2\\death-2\\frames\\11.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-12.png",
+      "sha256": "c155880a0fddc552da8c82fea3fc087f6cb96f07e4b374edf7d7986ab8404ab8",
+      "alphaBounds": [
+        36,
+        29,
+        92,
+        92
+      ]
+    },
+    {
+      "frame": 13,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-death-kneel-round2-20261023\\pixellab2\\death-2\\frames\\12.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-13.png",
+      "sha256": "e9dea8a7dad021846659dc05bb718677cf997bc257777dff05a60e8d8435385b",
+      "alphaBounds": [
+        38,
+        29,
+        92,
+        93
+      ]
+    },
+    {
+      "frame": 14,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-death-kneel-round2-20261023\\pixellab2\\death-2\\frames\\13.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-14.png",
+      "sha256": "11afa32e1959201c525f714d7ebd12993372f1666e589d8623d13a0802a7999f",
+      "alphaBounds": [
+        39,
+        34,
+        93,
+        101
+      ]
+    },
+    {
+      "frame": 15,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-death-kneel-round2-20261023\\pixellab2\\death-2\\frames\\14.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-15.png",
+      "sha256": "e947582fd227a32d35b08feb575a151af31c221162ae9cbf7eb4d6320ffffa1a",
+      "alphaBounds": [
+        30,
+        40,
+        101,
+        104
+      ]
+    },
+    {
+      "frame": 16,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-death-kneel-round2-20261023\\pixellab2\\death-2\\frames\\15.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-16.png",
+      "sha256": "d90d9754dead83d6eda137e042dfd97466159a4b1e9f576ff19aeee37e880335",
+      "alphaBounds": [
+        24,
+        60,
+        109,
+        102
+      ]
+    },
+    {
+      "frame": 17,
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-death-kneel-round2-20261023\\pixellab2\\death-2\\frames\\16.png",
+      "destination": "assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-17.png",
+      "sha256": "6cb968c065dc0c56415e6bca503a684703971e4150f04904345c8b0eae8e13fd",
+      "alphaBounds": [
+        19,
+        66,
+        113,
+        106
+      ]
+    }
+  ]
+}

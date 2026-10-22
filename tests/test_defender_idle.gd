@@ -133,9 +133,10 @@ func _check_visual(demo: HeroHubBattleView, visual: BattleDefenderIdleVisual, se
 		and not bool(idle_material.get_shader_parameter("cloth_enabled"))
 		and is_zero_approx(float(idle_material.get_shader_parameter("brighter_palette_strength"))),
 		"enemy still and idle keep isolated native materials without cloth or brightening")
-	check(not visual.can_play_buff() and not visual.can_play_death()
-		and visual._active_buff_frames() == null and visual._active_death_frames() == null,
-		"enemy warrior does not inherit unapproved Defender buff or death clips")
+	check(not visual.can_play_buff() and visual.can_play_death()
+		and visual._active_buff_frames() == null
+		and visual._active_death_frames() == visual.enemy_warrior_death_frames,
+		"enemy warrior keeps buff generic and selects its dedicated death clip")
 	visual.idle_clock.configure(0, 24, 24)
 	for frame: int in range(17):
 		visual.idle_clock.configure(0, 24, 24)
@@ -209,9 +210,36 @@ func _check_visual(demo: HeroHubBattleView, visual: BattleDefenderIdleVisual, se
 	visual.clear_buff()
 	visual.death_progress = 0.5
 	check(not visual._death_active and enemy_still.visible and not enemy_idle.visible,
-		"enemy death keeps the generic pose and hides the selected idle")
+		"enemy death pose hides the selected idle")
 	visual.reset_view_pose()
 	visual.set_process(false)
+	var enemy_death_frames := visual.enemy_warrior_death_frames
+	visual.enemy_warrior_death_frames = SpriteFrames.new()
+	check(not visual.can_play_death() and visual._active_death_frames() == null,
+		"missing enemy death animation selects generic fallback")
+	var invalid_enemy_death := SpriteFrames.new()
+	invalid_enemy_death.add_animation(&"death")
+	for frame: int in 16:
+		invalid_enemy_death.add_frame(&"death", enemy_death_frames.get_frame_texture(&"death", frame))
+	invalid_enemy_death.set_animation_speed(&"death", 60.0)
+	visual.enemy_warrior_death_frames = invalid_enemy_death
+	check(not visual.can_play_death() and visual._active_death_frames() == null,
+		"short enemy death animation selects generic fallback")
+	invalid_enemy_death = SpriteFrames.new()
+	invalid_enemy_death.add_animation(&"death")
+	for frame: int in 17:
+		invalid_enemy_death.add_frame(&"death", enemy_death_frames.get_frame_texture(&"death", frame))
+	invalid_enemy_death.set_animation_speed(&"death", 0.0)
+	visual.enemy_warrior_death_frames = invalid_enemy_death
+	check(not visual.can_play_death() and visual._active_death_frames() == null,
+		"zero-speed enemy death animation selects generic fallback")
+	invalid_enemy_death.set_animation_speed(&"death", 60.0)
+	invalid_enemy_death.set_frame(&"death", 8, null)
+	visual.enemy_warrior_death_frames = invalid_enemy_death
+	check(not visual.can_play_death() and visual._active_death_frames() == null,
+		"missing enemy death texture selects generic fallback")
+	visual.enemy_warrior_death_frames = enemy_death_frames
+	check(visual.can_play_death(), "valid enemy death resource restores authored clip")
 	visual.unit.faction = faction
 	visual.sync_scene_art()
 	visual.visual_class_id = &"rogue"

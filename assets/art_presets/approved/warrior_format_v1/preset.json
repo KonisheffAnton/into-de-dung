@@ -1,0 +1,47 @@
+{
+  "selectedByUser": "2026-10-23",
+  "scope": "New format reference for all future character art",
+  "supersedesCharacterReference": "defender_brighter_v1",
+  "canvas": [
+    128,
+    128
+  ],
+  "still": "character.png",
+  "stillSha256": "e93daeee4edec7fee5031e8aa91b5a729a2ecd7e269b17abf94558b6e4604057",
+  "onTile": "on-tile.png",
+  "onTileSha256": "adf5d306d37358af09c5985902df7e1dd4b6a10b57e6d34fb1d5d6c5b67a2f3d",
+  "idleResource": "res://assets/art_presets/trials/enemy_warrior_idle_v1/idle_frames.tres",
+  "deathResource": "res://assets/art_presets/trials/enemy_warrior_death_v1/death_frames.tres",
+  "placementReference": "docs/art/enemy-warrior-placement-20261023/user-reference.png",
+  "tileTop": [
+    128,
+    96
+  ],
+  "neighborSteps": [
+    [
+      64,
+      48
+    ],
+    [
+      -64,
+      48
+    ]
+  ],
+  "currentWarriorAnchor": [
+    71,
+    83
+  ],
+  "currentWarriorArtScale": 0.8,
+  "firstFrameVisibleSize": [
+    54,
+    72
+  ],
+  "firstFrameVisibleSizeOnTile": [
+    43.2,
+    57.6
+  ],
+  "brighterPaletteStrength": 0,
+  "sourcePixelsUnchanged": true,
+  "newCharactersNeedOwnPlacementVerification": true,
+  "massRuntimeReplacement": false
+}

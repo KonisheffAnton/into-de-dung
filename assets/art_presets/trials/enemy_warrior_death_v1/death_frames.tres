@@ -1,0 +1,45 @@
+[gd_resource type="SpriteFrames" load_steps=18 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-01.png" id="death_1"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-02.png" id="death_2"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-03.png" id="death_3"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-04.png" id="death_4"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-05.png" id="death_5"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-06.png" id="death_6"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-07.png" id="death_7"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-08.png" id="death_8"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-09.png" id="death_9"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-10.png" id="death_10"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-11.png" id="death_11"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-12.png" id="death_12"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-13.png" id="death_13"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-14.png" id="death_14"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-15.png" id="death_15"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-16.png" id="death_16"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/enemy_warrior_death_v1/frames/frame-17.png" id="death_17"]
+
+[resource]
+animations = [{
+"frames": [
+{"duration": 9.0, "texture": ExtResource("death_1")},
+{"duration": 9.0, "texture": ExtResource("death_2")},
+{"duration": 9.0, "texture": ExtResource("death_3")},
+{"duration": 9.0, "texture": ExtResource("death_4")},
+{"duration": 9.0, "texture": ExtResource("death_5")},
+{"duration": 9.0, "texture": ExtResource("death_6")},
+{"duration": 9.0, "texture": ExtResource("death_7")},
+{"duration": 9.0, "texture": ExtResource("death_8")},
+{"duration": 9.0, "texture": ExtResource("death_9")},
+{"duration": 9.0, "texture": ExtResource("death_10")},
+{"duration": 9.0, "texture": ExtResource("death_11")},
+{"duration": 9.0, "texture": ExtResource("death_12")},
+{"duration": 9.0, "texture": ExtResource("death_13")},
+{"duration": 9.0, "texture": ExtResource("death_14")},
+{"duration": 9.0, "texture": ExtResource("death_15")},
+{"duration": 9.0, "texture": ExtResource("death_16")},
+{"duration": 9.0, "texture": ExtResource("death_17")}
+],
+"loop": false,
+"name": &"death",
+"speed": 60.0
+}]

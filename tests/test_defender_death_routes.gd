@@ -1,6 +1,7 @@
 extends "res://tests/test_presentation_environment.gd"
 
 const DEFENDER_SCENE: PackedScene = preload("res://scenes/demo/visuals/art_trial_unit.tscn")
+const ENEMY_WARRIOR_DEATH: SpriteFrames = preload("res://assets/art_presets/trials/enemy_warrior_death_v1/death_frames.tres")
 
 var visual_class: StringName = &"warrior"
 var death_seconds: float = 1.98
@@ -46,7 +47,21 @@ func seek_pose(id: int, kinds: Array[StringName]) -> Dictionary:
 	var visual := board._presentation_visual(id) as BattleDefenderIdleVisual
 	if pose.get("kind") == &"fall" and visual != null:
 		check(not visual._death_active, "fall never starts the ground death clip")
+		if visual._uses_enemy_warrior_art():
+			check(visual._active_death_frames() == ENEMY_WARRIOR_DEATH,
+				"enemy fall retains selected death resource without playing it")
 	return pose
+
+
+func _check_enemy_generic_death_fallback(visual: BattleDefenderIdleVisual, id: int, label: String) -> void:
+	check(visual._active_death_frames() == null and not visual.can_play_death()
+		and is_equal_approx(board._death_seconds(id), 0.20),
+		label + " selects generic death duration")
+	board._field_presentation.sample_death(0.5, board, id)
+	check(not visual._death_active and visual.get_node("ArtRoot").rotation > 0.0
+		and visual.modulate.a < 1.0,
+		label + " samples generic death pose")
+	visual.reset_view_pose()
 
 
 func route(kind: String) -> void:
@@ -56,7 +71,7 @@ func route(kind: String) -> void:
 		s.step_enemy()
 		for unit: UnitState in s.units:
 			for item: ItemInstance in s.state.get_owner(unit.id)._items.values(): item.armor_remaining = 0
-	var victim := s.units[2] if kind.begins_with("collision") else s.units[1]
+	var victim := s.units[5] if kind == "collision_enemy" else (s.units[2] if kind.begins_with("collision") else s.units[1])
 	victim.vitals.set_hp(1.0)
 	if kind == "collision_single": victim.stats.set_base_value(StatTypes.StatType.BALANCE_MAX, 0.0)
 	if not kind.begins_with("collision"):
@@ -76,6 +91,11 @@ func route(kind: String) -> void:
 	else:
 		data = packet_attack(s, "Defender " + kind)
 	check(data.events.any(func(e: Dictionary) -> bool: return e.kind == &"died" and int(e.target_unit_id) == victim.id), kind + " has confirmed death")
+	if kind == "collision_enemy":
+		check(data.events.any(func(event: Dictionary) -> bool:
+			return event.kind == &"died" and int(event.target_unit_id) == victim.id \
+				and event.get("source", {}).get("kind") == &"collision"),
+			"enemy collision death is carried by the collision receipt")
 	var saved := start_packet(data, s, kind)
 	var pose := seek_pose(victim.id, [&"death"])
 	if kind == "collision_single":
@@ -152,25 +172,129 @@ func route(kind: String) -> void:
 	if visual_class == &"rogue":
 		check(is_equal_approx(((board._presentation_visual(victim.id) as BattleDefenderIdleVisual).get_node(sprite_path) as Sprite2D).self_modulate.a, 1.0),
 			kind + " skip restores authored rogue sprite alpha")
-	if visual_class == &"warrior" and victim.faction == Faction.Type.ENEMY and kind in ["melee", "ranged", "mage"]:
+	if visual_class == &"warrior" and victim.faction == Faction.Type.ENEMY and kind in ["melee", "ranged", "mage", "collision", "collision_single", "collision_enemy"]:
 		production_enemy_art_for_packet = true
-		start_packet(data, s, kind + " production enemy fallback")
+		var enemy_saved := start_packet(data, s, kind + " enemy death2")
 		var enemy_pose := seek_pose(victim.id, [&"death"])
 		var enemy_visual := board._presentation_visual(victim.id) as BattleDefenderIdleVisual
 		if enemy_visual != null:
 			var enemy_still := enemy_visual.get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D
+			var death_sprite := enemy_visual.get_node("ArtRoot/EnemyWarriorIdleSprite") as Sprite2D
+			var art_root := enemy_visual.get_node("ArtRoot") as Node2D
+			var unit_root_position := enemy_visual.position
+			var art_root_transform := art_root.transform
+			var label_anchor := (enemy_visual.get_node("ArtRoot/LabelAnchor") as Node2D).transform
+			var effect_anchor := (enemy_visual.get_node("ArtRoot/EffectAnchor") as Node2D).transform
+			var pick_rect := enemy_visual.get_unit_pick_rect()
+			var bars_offset := enemy_visual.get_unit_bars_offset()
 			check(not enemy_pose.is_empty() and enemy_visual._uses_enemy_warrior_art()
-				and enemy_visual._active_death_frames() == null and not enemy_visual.can_play_death()
-				and is_equal_approx(board._death_seconds(victim.id), 0.20),
-				kind + " production enemy keeps generic death routing")
+				and enemy_visual._active_death_frames() == ENEMY_WARRIOR_DEATH and enemy_visual.can_play_death()
+				and is_equal_approx(board._death_seconds(victim.id), 2.55)
+				and death_sprite.scale == Vector2(-1, 1)
+				and death_sprite.position.is_equal_approx(Vector2(71, -83)),
+				kind + " enemy selects dedicated death at mirrored anchor for 2.55 seconds")
 			advance(0.10)
-			check(not enemy_visual._death_active and enemy_visual.death_progress > 0.0
-				and enemy_still.texture.resource_path.ends_with("enemy_warrior_idle_v1/frames/frame-01.png")
-				and not (enemy_visual.get_node("ArtRoot/EnemyWarriorIdleSprite") as Sprite2D).visible,
-				kind + " production enemy death uses generic pose without old Defender art")
+			check(enemy_visual._death_active and enemy_visual.death_progress > 0.0
+				and death_sprite.texture == ENEMY_WARRIOR_DEATH.get_frame_texture(&"death", 0)
+				and death_sprite.visible and not enemy_still.visible
+				and is_zero_approx(art_root.rotation) and is_equal_approx(art_root.scale.x, art_root.scale.y)
+				and enemy_visual.modulate.a == 1.0 and enemy_visual.unit.alive
+				and not board._view_corpses.any(func(c: Dictionary) -> bool: return c.source_unit_id == victim.id),
+				kind + " enemy death samples the first selected frame without synthetic pose")
+			var tween_progress := enemy_visual.death_progress
+			var elapsed := 0.0
+			check(not ENEMY_WARRIOR_DEATH.get_animation_loop(&"death")
+				and ENEMY_WARRIOR_DEATH.get_animation_speed(&"death") == 60.0,
+				kind + " enemy death is non-looping at 60 fps")
+			for frame_index: int in 17:
+				check(ENEMY_WARRIOR_DEATH.get_frame_duration(&"death", frame_index) == 9.0,
+					kind + " enemy death frame %02d has authored 150 ms duration" % (frame_index + 1))
+				var frame_duration := ENEMY_WARRIOR_DEATH.get_frame_duration(&"death", frame_index) / ENEMY_WARRIOR_DEATH.get_animation_speed(&"death")
+				board._field_presentation.sample_death((elapsed + frame_duration * 0.5) / 2.55, board, victim.id)
+				check(death_sprite.texture == ENEMY_WARRIOR_DEATH.get_frame_texture(&"death", frame_index),
+					kind + " enemy selects ordered death frame %02d" % (frame_index + 1))
+				elapsed += frame_duration
+			check(is_equal_approx(elapsed, 2.55), kind + " enemy selected death totals 2.55 seconds")
+			board._field_presentation.sample_death(tween_progress, board, victim.id)
+			# Отдача удара меняет action_offset независимо от кадров смерти; её движение не запрещаем.
+			check(enemy_visual.position.is_equal_approx(unit_root_position)
+				and art_root.transform.x.is_equal_approx(art_root_transform.x)
+				and art_root.transform.y.is_equal_approx(art_root_transform.y)
+				and art_root.position.is_equal_approx(enemy_visual.get_visual_offset() + enemy_visual.action_offset),
+				kind + " death keeps root and scale while preserving the existing recoil offset")
+			var resize_progress := enemy_visual.death_progress
+			var resize_texture := death_sprite.texture
+			var resize_transform := art_root.transform
+			var resize_tile_width := board.grid_config.tile_size.x
+			board.size += Vector2(17, 11)
+			board.zoom_camera(0.95, board.size * 0.5)
+			var resize_ratio := board.grid_config.tile_size.x / resize_tile_width
+			check(enemy_visual._death_active and is_equal_approx(enemy_visual.death_progress, resize_progress)
+				and death_sprite.texture == resize_texture
+				and art_root.transform.x.is_equal_approx(resize_transform.x * resize_ratio)
+				and art_root.transform.y.is_equal_approx(resize_transform.y * resize_ratio)
+				and art_root.position.is_equal_approx(enemy_visual.get_visual_offset() + enemy_visual.action_offset)
+				and death_sprite.position.is_equal_approx(Vector2(71, -83))
+				and death_sprite.scale == Vector2(-1, 1)
+				and (enemy_visual.get_node("ArtRoot/LabelAnchor") as Node2D).transform.is_equal_approx(label_anchor)
+				and (enemy_visual.get_node("ArtRoot/EffectAnchor") as Node2D).transform.is_equal_approx(effect_anchor)
+				and enemy_visual.get_unit_pick_rect() == pick_rect
+				and enemy_visual.get_unit_bars_offset() == bars_offset,
+				kind + " resize restores the same death frame and preserves root, HUD and anchor transforms")
+			# Единственные часы клипа принадлежат общему Tween; состояние боя остаётся before до его завершения.
+			var remaining_until_2_54 := maxf(0.0, 2.54 - tween_progress * 2.55)
+			advance(remaining_until_2_54)
+			check(player.active and enemy_visual.unit.alive
+				and enemy_visual.death_progress < 1.0
+				and not board._view_corpses.any(func(c: Dictionary) -> bool: return c.source_unit_id == victim.id),
+				kind + " enemy holds before state and withholds corpse through 2.54 seconds")
 			finish()
+			check(not enemy_visual.unit.alive
+				and board._view_corpses.any(func(c: Dictionary) -> bool: return c.source_unit_id == victim.id)
+				and not published.is_empty() and published.back() == data.after,
+				kind + " enemy publishes after and body only when the death Tween completes")
+			assert_playback_unchanged(s, enemy_saved, data, kind + " enemy death2")
+			start_packet(data, s, kind + " enemy death2 x3")
+			seek_pose(victim.id, [&"death"])
+			player.set_speed(3.0)
+			advance(2.55 / 3.0 + 0.04)
+			check(not (board._presentation_visual(victim.id) as BattleDefenderIdleVisual)._death_active,
+				kind + " enemy x3 speed completes the selected death duration")
+			# Тело относится к последующей публикации receipt; общий пакет может содержать ещё кадры.
+			finish()
+			check(board._view_corpses.any(func(c: Dictionary) -> bool: return c.source_unit_id == victim.id)
+				and published.back() == data.after, kind + " enemy x3 publishes final body at packet completion")
+			player.cancel()
+			var playback_snapshot := snapshot(s)
+			var playback_rng := s.context.get_rng().to_dict().duplicate(true)
+			var playback_counters := s.context.simulation_counters()
+			start_packet(data, s, kind + " enemy death2 cancel")
+			seek_pose(victim.id, [&"death"])
+			player.cancel()
+			var canceled_visual := board._presentation_visual(victim.id) as BattleDefenderIdleVisual
+			check(not player.active and board._field_presentation.poses.is_empty()
+				and canceled_visual != null and not canceled_visual._death_active
+				and snapshot(s) == playback_snapshot and s.context.get_rng().to_dict() == playback_rng
+				and s.context.simulation_counters() == playback_counters,
+				kind + " enemy cancel clears death and preserves state/RNG")
+			start_packet(data, s, kind + " enemy death2 skip")
+			seek_pose(victim.id, [&"death"])
+			var enemy_stale_tween := player._tween
+			player.skip()
+			enemy_stale_tween.custom_step(2.6)
+			check(not player.active and board._field_presentation.poses.is_empty()
+				and not (board._presentation_visual(victim.id) as BattleDefenderIdleVisual)._death_active
+				and snapshot(s) == playback_snapshot and s.context.get_rng().to_dict() == playback_rng
+				and s.context.simulation_counters() == playback_counters,
+				kind + " enemy skip clears death and stale Tween without state/RNG changes")
+			start_packet(data, s, kind + " enemy death2 retire")
+			seek_pose(victim.id, [&"death"])
+			var retiring_visual := board._presentation_visual(victim.id) as BattleDefenderIdleVisual
+			retiring_visual.retire_view()
+			check(not retiring_visual._death_active and retiring_visual.unit == null,
+				kind + " enemy retire clears death ownership")
 		else:
-			check(false, kind + " production enemy visual exists")
+			check(false, kind + " enemy death2 visual exists")
 		production_enemy_art_for_packet = false
 	board.session = null
 	s.close()
@@ -183,6 +307,12 @@ func fallbacks() -> void:
 	s.unit_visual_classes[s.units[1].id] = visual_class
 	board.refresh()
 	var visual := board._presentation_visual(s.units[1].id) as BattleDefenderIdleVisual
+	if visual_class == &"warrior" and visual._uses_enemy_warrior_art():
+		visual.enemy_warrior_art_enabled = false
+		var enemy_still := visual.get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D
+		var player_still := visual.get_node("ArtRoot/PlayerWarriorSprite") as Sprite2D
+		enemy_still.texture = player_still.texture
+		visual.sync_scene_art()
 	var frames: SpriteFrames = visual.get(clip_property)
 	visual.set(clip_property, null)
 	check(is_equal_approx(board._death_seconds(visual.unit.id), 0.20), "missing clip keeps generic duration")
@@ -211,13 +341,34 @@ func fallbacks() -> void:
 				var enemy_still := enemy_visual.get_node("ArtRoot/EnemyWarriorSprite") as Sprite2D
 				enemy_still.texture = enemy_visual.enemy_warrior_idle_frames.get_frame_texture(&"idle", 0)
 				enemy_visual.sync_scene_art()
-				check(enemy_visual._uses_enemy_warrior_art() and enemy_visual._active_death_frames() == null
-					and not enemy_visual.can_play_death() and is_equal_approx(board._death_seconds(enemy_unit.id), 0.20),
-					"enemy PixelLab idle keeps the generic death duration")
+				check(enemy_visual._uses_enemy_warrior_art() and enemy_visual._active_death_frames() == ENEMY_WARRIOR_DEATH
+					and enemy_visual.can_play_death() and is_equal_approx(board._death_seconds(enemy_unit.id), 2.55),
+					"enemy PixelLab idle selects its dedicated 2.55-second death")
 				board._field_presentation.sample_death(0.5, board, enemy_unit.id)
-				check(not enemy_visual._death_active and enemy_visual.get_node("ArtRoot").rotation > 0.0
-					and enemy_visual.modulate.a < 1.0,
-					"enemy death uses the generic pose without old Defender frames")
+				check(enemy_visual._death_active and is_zero_approx(enemy_visual.get_node("ArtRoot").rotation)
+					and enemy_visual.modulate.a == 1.0,
+					"enemy death uses authored frames without synthetic pose")
+				enemy_visual.reset_view_pose()
+				var enemy_frames := enemy_visual.enemy_warrior_death_frames
+				enemy_visual.enemy_warrior_death_frames = null
+				_check_enemy_generic_death_fallback(enemy_visual, enemy_unit.id, "missing enemy death resource")
+				var invalid := SpriteFrames.new()
+				invalid.add_animation(&"death")
+				for frame: int in 16: invalid.add_frame(&"death", enemy_frames.get_frame_texture(&"death", frame))
+				invalid.set_animation_speed(&"death", 60.0)
+				enemy_visual.enemy_warrior_death_frames = invalid
+				_check_enemy_generic_death_fallback(enemy_visual, enemy_unit.id, "short enemy death resource")
+				invalid = SpriteFrames.new()
+				invalid.add_animation(&"death")
+				for frame: int in 17: invalid.add_frame(&"death", enemy_frames.get_frame_texture(&"death", frame))
+				invalid.set_animation_speed(&"death", 0.0)
+				enemy_visual.enemy_warrior_death_frames = invalid
+				_check_enemy_generic_death_fallback(enemy_visual, enemy_unit.id, "zero-speed enemy death resource")
+				invalid.set_animation_speed(&"death", 60.0)
+				invalid.set_frame(&"death", 8, null)
+				enemy_visual.enemy_warrior_death_frames = invalid
+				_check_enemy_generic_death_fallback(enemy_visual, enemy_unit.id, "enemy death resource with missing texture")
+				enemy_visual.enemy_warrior_death_frames = enemy_frames
 			else:
 				check(false, "enemy visual exists for generic death coverage")
 	board.session = null
@@ -243,6 +394,12 @@ func run() -> void:
 	await out_of_bounds_chain()
 	await void_chain_same_frame()
 	await occupied_collapse()
+	production_enemy_art_for_packet = true
+	await out_of_bounds_chain()
+	await void_chain_same_frame()
+	await occupied_collapse()
+	production_enemy_art_for_packet = false
+	await route("collision_enemy")
 	await fallbacks()
 	player.queue_free()
 	board.session = null

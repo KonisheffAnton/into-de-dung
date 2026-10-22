@@ -76,7 +76,7 @@
       "placement_applies_to_this_pose_only": true
     }
   },
-  "current_character_reference": "assets/art_presets/approved/defender_brighter_v1/defender-reference.png",
-  "current_character_reference_selected_on": "2026-10-17",
-  "reference_scope": "Original composition and placement; current character color and Defender reference are specified separately."
+  "current_character_reference": "assets/art_presets/approved/warrior_format_v1/character.png",
+  "current_character_reference_selected_on": "2026-10-23",
+  "reference_scope": "Original tile geometry and historical Defender 4 placement; current character format and warrior placement are specified in warrior_format_v1."
 }

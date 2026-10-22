@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3]
+[gd_scene load_steps=25 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/placeholder_unit.tscn" id="1_base"]
 [ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_field_v1/defender_new.png" id="2_player"]
@@ -16,6 +16,7 @@
 [ext_resource type="Shader" path="res://assets/art_presets/trials/pixel_zoom_v1/character_palette.gdshader" id="14_palette"]
 [ext_resource type="Texture2D" path="res://assets/art_presets/trials/enemy_warrior_idle_v1/frames/frame-01.png" id="15_enemy_warrior"]
 [ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/enemy_warrior_idle_v1/idle_frames.tres" id="16_enemy_warrior_idle"]
+[ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/enemy_warrior_death_v1/death_frames.tres" id="17_enemy_warrior_death"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_player"]
 atlas = ExtResource("2_player")
@@ -71,6 +72,7 @@ rogue_buff_frames = ExtResource("10_rogue_buff")
 rogue_death_frames = ExtResource("11_rogue_death")
 archer_idle_frames = ExtResource("13_archer_idle")
 enemy_warrior_idle_frames = ExtResource("16_enemy_warrior_idle")
+enemy_warrior_death_frames = ExtResource("17_enemy_warrior_death")
 enemy_warrior_idle_anchor = Vector2(71, 83)
 enemy_warrior_pick_rect = Rect2(-29, -67, 64, 80)
 
