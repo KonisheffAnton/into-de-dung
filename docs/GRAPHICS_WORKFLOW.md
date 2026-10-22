@@ -58,6 +58,12 @@ usage 1 generation из подписки. Исходник/запрос/отве
 
 ## Retro Diffusion
 
+U2026-10-22 явно выбрал RetroDiffusion для шести проб выбранного воина:
+три idle и три смерти. Это локальное исключение из прежнего выбора PixelLab;
+общую политику будущих анимаций не меняет. [Пакет](art/warrior-animation-20261022/README.md).
+Актуальный selector допускает idle/custom_action32–256 px с input_image,
+но без reference_images: параметры тайла переданы текстом, тайл в кадры не включён.
+
 Поручение 2026-10-06: сравнить одного воина через PixelLab и Retro Diffusion.
 Это проба провайдеров; выбор финального стиля и интеграция в игру не поручены.
 Ключ Retro Diffusion — `C:\Users\Aston\.codex\secrets\retrodiffusion.dpapi`,
