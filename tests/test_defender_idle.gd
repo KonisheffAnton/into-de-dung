@@ -122,9 +122,9 @@ func _check_visual(demo: HeroHubBattleView, visual: BattleDefenderIdleVisual, se
 	var still_material := enemy_still.material as ShaderMaterial
 	var idle_material := enemy_idle.material as ShaderMaterial
 	check(enemy_idle.visible and not enemy_still.visible and enemy_still.scale == Vector2(-1, 1)
-		and enemy_idle.scale == Vector2(-1, 1) and enemy_idle.position.is_equal_approx(Vector2(68, -64))
-		and visual.get_unit_pick_rect() == Rect2(-32, -48, 64, 80)
-		and visual.get_unit_bars_offset() == Vector2(0, 26)
+		and enemy_idle.scale == Vector2(-1, 1) and enemy_idle.position.is_equal_approx(Vector2(71, -83))
+		and visual.get_unit_pick_rect() == Rect2(-29, -67, 64, 80)
+		and visual.get_unit_bars_offset() == Vector2(0, 11)
 		and enemy_still.texture == visual.enemy_warrior_idle_frames.get_frame_texture(&"idle", 0),
 		"enemy uses its mirrored PixelLab still and idle at the approved anchor")
 	check(still_material != null and idle_material != null and still_material != idle_material

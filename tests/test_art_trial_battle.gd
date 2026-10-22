@@ -156,7 +156,7 @@ func live_battle() -> void:
 		and enemy.texture.resource_path.ends_with("enemy_warrior_idle_v1/frames/frame-01.png"),
 		"enemy idle replaces the first PixelLab still")
 	check(enemy_idle.visible and not enemy.visible and enemy_idle.scale == Vector2(-1, 1)
-		and enemy_idle.position.is_equal_approx(Vector2(68, -64))
+		and enemy_idle.position.is_equal_approx(Vector2(71, -83))
 		and enemy_idle.texture == enemy_visual.enemy_warrior_idle_frames.get_frame_texture(&"idle", 0),
 		"enemy idle uses all authored frames with the approved mirrored anchor")
 	var enemy_idle_transform := enemy_idle.transform

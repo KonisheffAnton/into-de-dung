@@ -8,10 +8,10 @@
   "durationSeconds": 2.55,
   "timingAuthored": true,
   "anchorSourcePixels": [
-    68,
-    64
+    71,
+    83
   ],
-  "anchorMeaning": "below belt at tile center",
+  "anchorMeaning": "user placement reference: feet near tile center",
   "mirrored": true,
   "warriorArtScale": 0.8,
   "pixelEdits": false,
@@ -28,10 +28,10 @@
         92
       ],
       "mirroredBoundsAboutAnchor": [
-        -27,
-        -44,
-        27,
-        28
+        -24,
+        -63,
+        30,
+        9
       ]
     },
     {
@@ -46,10 +46,10 @@
         92
       ],
       "mirroredBoundsAboutAnchor": [
-        -27,
-        -44,
-        27,
-        28
+        -24,
+        -63,
+        30,
+        9
       ]
     },
     {
@@ -64,10 +64,10 @@
         92
       ],
       "mirroredBoundsAboutAnchor": [
-        -27,
-        -44,
-        27,
-        28
+        -24,
+        -63,
+        30,
+        9
       ]
     },
     {
@@ -82,10 +82,10 @@
         92
       ],
       "mirroredBoundsAboutAnchor": [
-        -27,
-        -45,
-        27,
-        28
+        -24,
+        -64,
+        30,
+        9
       ]
     },
     {
@@ -100,10 +100,10 @@
         92
       ],
       "mirroredBoundsAboutAnchor": [
-        -27,
-        -45,
-        27,
-        28
+        -24,
+        -64,
+        30,
+        9
       ]
     },
     {
@@ -118,10 +118,10 @@
         92
       ],
       "mirroredBoundsAboutAnchor": [
-        -27,
-        -45,
-        27,
-        28
+        -24,
+        -64,
+        30,
+        9
       ]
     },
     {
@@ -136,10 +136,10 @@
         92
       ],
       "mirroredBoundsAboutAnchor": [
-        -29,
-        -45,
-        28,
-        28
+        -26,
+        -64,
+        31,
+        9
       ]
     },
     {
@@ -154,10 +154,10 @@
         92
       ],
       "mirroredBoundsAboutAnchor": [
-        -29,
-        -44,
-        28,
-        28
+        -26,
+        -63,
+        31,
+        9
       ]
     },
     {
@@ -172,10 +172,10 @@
         92
       ],
       "mirroredBoundsAboutAnchor": [
-        -30,
-        -44,
-        27,
-        28
+        -27,
+        -63,
+        30,
+        9
       ]
     },
     {
@@ -190,10 +190,10 @@
         92
       ],
       "mirroredBoundsAboutAnchor": [
-        -30,
-        -46,
-        27,
-        28
+        -27,
+        -65,
+        30,
+        9
       ]
     },
     {
@@ -208,10 +208,10 @@
         92
       ],
       "mirroredBoundsAboutAnchor": [
-        -30,
-        -46,
-        27,
-        28
+        -27,
+        -65,
+        30,
+        9
       ]
     },
     {
@@ -226,10 +226,10 @@
         92
       ],
       "mirroredBoundsAboutAnchor": [
-        -30,
-        -46,
-        28,
-        28
+        -27,
+        -65,
+        31,
+        9
       ]
     },
     {
@@ -244,10 +244,10 @@
         92
       ],
       "mirroredBoundsAboutAnchor": [
-        -29,
-        -45,
-        28,
-        28
+        -26,
+        -64,
+        31,
+        9
       ]
     },
     {
@@ -262,10 +262,10 @@
         92
       ],
       "mirroredBoundsAboutAnchor": [
-        -27,
-        -43,
-        27,
-        28
+        -24,
+        -62,
+        30,
+        9
       ]
     },
     {
@@ -280,10 +280,10 @@
         92
       ],
       "mirroredBoundsAboutAnchor": [
-        -26,
-        -43,
-        27,
-        28
+        -23,
+        -62,
+        30,
+        9
       ]
     },
     {
@@ -298,10 +298,10 @@
         92
       ],
       "mirroredBoundsAboutAnchor": [
-        -26,
-        -44,
-        27,
-        28
+        -23,
+        -63,
+        30,
+        9
       ]
     },
     {
@@ -316,11 +316,12 @@
         92
       ],
       "mirroredBoundsAboutAnchor": [
-        -27,
-        -44,
-        27,
-        28
+        -24,
+        -63,
+        30,
+        9
       ]
     }
-  ]
+  ],
+  "placementReference": "docs/art/enemy-warrior-placement-20261023/user-reference.png"
 }

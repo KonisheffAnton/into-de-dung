@@ -1,28 +1,29 @@
-# Передача — 2026-10-23: вражеский Защитник PixelLab
-D:\Games\into-de-dung; main; base c60106260c94976c7c116a6010a915ad45ea460a.
-U разрешил модель + первый PixelLab idle-1 «Тихое дыхание» только врагу-warrior.
-Внедрены17 исходных PNG128²,2,55с; still=кадр1. Зеркало и pivot(68,64)
-чуть ниже ремня совмещены с центром тайла; полосы опущены под ноги нового арта.
-Союзники/прочие классы прежние. Новому врагу общий buff/death с новым still;
-старые клипы его не подменяют. Неполный idle возвращает still.
-[Отчёт/рендеры](art/enemy-warrior-idle-20261023/README.md),
+# Передача — 2026-10-23: посадка воина по примеру U
+D:\Games\into-de-dung; main; base33d26844dcfc0f8b815c7f8251c0e6b27913f6b2.
+U уточнил посадку изображением: размер прежний, стопы возле центра тайла.
+Новый anchor(71,83), mirror прежний; сдвиг(+9,6;-60,8)px при4× почти совпадает
+с измеренными(+10;-61). Still/idle одинаковы; picking/полосы следуют рисунку.
+PNG,ArtRoot0.8,17×150мс, прочие классы/союзники/механики не изменены.
+[Пример/рендеры/измерения](art/enemy-warrior-placement-20261023/README.md),
 [контракт](BATTLE_VISUAL_SCENE_CONTRACT.md#новый-вражеский-воин--2026-10-23),
 [ассеты](../assets/art_presets/trials/enemy_warrior_idle_v1/README.md).
-Targeted render-gate22 PASS/0 FAIL; финальный повтор на актуальных файлах:
-import PASS, unit_visual_contract33/0, defender_idle135/0, current_art_zoom500/0,
-art_trial_battle446/0, render audit116/0. SHA/результаты в отчёте; reviewer APPROVE.
-Ручная F5/editor/DPI/арт-приёмка и full/core не заявлены.
-Новая смерть PixelLab «колено, затем земля»:17 кадров completed,4 генерации,
-баланс2234.6. Внешний пакет C:/Users/Aston/.codex/generated_images/warrior-death-kneel-20261023/;
-job b5e1a930-7078-41d4-bcfb-ee1d347aa4ee. В игру не подключена; ждёт выбора U.
-Прежние6 проб/галереи сохранены: [раунд2](art/warrior-pixellab-round2-20261023/README.md).
-Preview/live/worker/queue/RNG/save/frozen не менялись. Прежние вопросы задержки
-числа0,05с, импульса/серии атак, стиля/диорам остаются в архивной передаче.
+Fresh render-gate23 PASS/0 FAIL/0 timeout, import/startup PASS;
+idle135/0, zoom500/0, art_trial450/0, отдельный render audit133/0.
+Независимое ревью APPROVE; source PNG и проверенные SHA сохранены.
+Полный core и ручная F5/editor/DPI/арт-приёмка не заявлены.
+Параллельное поручение U: ещё3 смерти PixelLab с коленом перед падением.
+Запросы запущены в C:/Users/Aston/.codex/generated_images/warrior-death-kneel-round2-20261023/;
+job id в pixellab2/death-{1,2,3}/admission.json. Не повторять Submit;
+Poll только существующих jobs, потом extract.py и просмотр. В игру не внедрять.
+Прежняя одиночная смерть: C:/Users/Aston/.codex/generated_images/warrior-death-kneel-20261023/.
+Её выбор открыт. Новый враг пока использует общий buff/death с новым still.
+Preview/live/worker/queue/RNG/save/frozen прежние. Прежние вопросы0,05с,
+импульса/серии атак, стиля/диорам сохранены в архивных передачах.
 Чужие scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
-не трогать/reset/stage/commit; SHA сцены сохранён в отчёте.
-Следующий шаг — F5/арт-отзыв U и выбор смерти; новые серии/интеграцию не начинать
-автоматически. Без push/sidebar/расписаний.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261023-2.md), [HISTORY](HISTORY.md).
+не трогать/reset/stage/commit; SHA сцены в отчёте.
+Следующий шаг — завершить3 уже заказанные пробы и получить отзыв U.
+Новые серии/интеграцию автоматически не начинать; без push/sidebar/расписаний.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261023-3.md), [HISTORY](HISTORY.md).
 После этапа — проверки и локальный Conventional Commit; короткий HANDOFF,
 прежний побайтно в отдельный архив+HISTORY. В финале/при блокере предложить новый
 чат и полный промпт блоком: HEAD, результат, docs/artifacts, остаток, ограничения,

@@ -1,0 +1,30 @@
+[
+  {
+    "path": "scripts/demo/battle_defender_idle_visual.gd",
+    "sha256": "cecf1ab0851e39aa128917bb06731ef3978517bc772477cd65baae9e5b8d4f46"
+  },
+  {
+    "path": "scenes/demo/visuals/art_trial_unit.tscn",
+    "sha256": "bc88a1f343afeca1fe12ab69df6b786a4d9637253d7737c6d99c0fce3a1a516f"
+  },
+  {
+    "path": "tests/test_defender_idle.gd",
+    "sha256": "0dad18bdec03e115448c51609a79f713ed12d8e03d1915351444bd5537ba3269"
+  },
+  {
+    "path": "tests/test_current_art_zoom.gd",
+    "sha256": "ee04268a41633f016de593300f8c65447fd7a4b5e8bdd66b11d108c8a67b89d9"
+  },
+  {
+    "path": "tests/test_art_trial_battle.gd",
+    "sha256": "061563e922f0f87d4e3bf554a86c05d4e213a245d35fe7e6a44d481f17b305fb"
+  },
+  {
+    "path": "assets/art_presets/trials/enemy_warrior_idle_v1/source-manifest.json",
+    "sha256": "b79c923a63d1f2ac8d4b6444c3d1cbb449719876b05a536553b4b875025ce3d0"
+  },
+  {
+    "path": "docs/art/enemy-warrior-placement-20261023/render_audit.gd",
+    "sha256": "d3e72c27807f88231287a5d4ad1c029a9333f9e0f8dcff5cbce394e946fc3c3e"
+  }
+]

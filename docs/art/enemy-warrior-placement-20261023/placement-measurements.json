@@ -1,0 +1,42 @@
+{
+  "tileTranslationPixels": [
+    -33,
+    -11
+  ],
+  "tileMatchMSE": 0,
+  "warriorTranslationPixels": [
+    -23,
+    -72
+  ],
+  "warriorMatchMSE": 34.237716763,
+  "relativeReferenceShiftAt4x": [
+    10,
+    -61
+  ],
+  "chosenShiftAt4x": [
+    9.6,
+    -60.8
+  ],
+  "maxRoundingErrorPixels": 0.4,
+  "oldAnchor": [
+    68,
+    64
+  ],
+  "newAnchor": [
+    71,
+    83
+  ],
+  "artScaleUnchanged": 0.8,
+  "pickRect": [
+    -29,
+    -67,
+    64,
+    80
+  ],
+  "barsOffset": [
+    0,
+    11
+  ],
+  "sourcePixelsUnchanged": true,
+  "selectionBoxAndBlackRectangleExcluded": true
+}

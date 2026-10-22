@@ -10,8 +10,8 @@ extends BattleManagedUnitVisual
 @export var archer_idle_frames: SpriteFrames
 @export var enemy_warrior_art_enabled: bool = false
 @export var enemy_warrior_idle_frames: SpriteFrames
-@export var enemy_warrior_idle_anchor: Vector2 = Vector2(68.0, 64.0)
-@export var enemy_warrior_pick_rect: Rect2 = Rect2(-32.0, -48.0, 64.0, 80.0)
+@export var enemy_warrior_idle_anchor: Vector2 = Vector2(71.0, 83.0)
+@export var enemy_warrior_pick_rect: Rect2 = Rect2(-29.0, -67.0, 64.0, 80.0)
 @export_range(1, 120, 1) var idle_normal_cycles_min: int = 24
 @export_range(1, 120, 1) var idle_normal_cycles_max: int = 36
 
@@ -313,7 +313,7 @@ func get_unit_pick_rect() -> Rect2:
 func get_unit_bars_offset() -> Vector2:
 	var still := class_still_sprite()
 	if _uses_enemy_warrior_art() and still != null and still.texture != null:
-		return Vector2(0, 26)
+		return Vector2(0, 11)
 	return super.get_unit_bars_offset()
 
 

@@ -1,0 +1,106 @@
+{
+  "snapshot_seconds": 16.822843599831685,
+  "checks": {
+    "import": {
+      "elapsed_seconds": 73.07239659992047,
+      "status": "PASS"
+    },
+    "startup": {
+      "elapsed_seconds": 3.7577370000071824,
+      "status": "PASS"
+    },
+    "environment_visual_contract": {
+      "elapsed_seconds": 2.621990100014955,
+      "status": "PASS"
+    },
+    "unit_visual_contract": {
+      "elapsed_seconds": 3.021132699912414,
+      "status": "PASS"
+    },
+    "defender_idle_clock": {
+      "elapsed_seconds": 2.2277103001251817,
+      "status": "PASS"
+    },
+    "defender_idle": {
+      "elapsed_seconds": 6.841581699904054,
+      "status": "PASS"
+    },
+    "defender_buff": {
+      "elapsed_seconds": 6.730722300009802,
+      "status": "PASS"
+    },
+    "defender_death": {
+      "elapsed_seconds": 4.193974000168964,
+      "status": "PASS"
+    },
+    "defender_death_routes": {
+      "elapsed_seconds": 10.996473500039428,
+      "status": "PASS"
+    },
+    "defender_cloth_palette": {
+      "elapsed_seconds": 9.865731300087646,
+      "status": "PASS"
+    },
+    "rogue_cloth_palette": {
+      "elapsed_seconds": 6.611166800139472,
+      "status": "PASS"
+    },
+    "rogue_animations": {
+      "elapsed_seconds": 3.0162169001996517,
+      "status": "PASS"
+    },
+    "rogue_buff": {
+      "elapsed_seconds": 4.724313599988818,
+      "status": "PASS"
+    },
+    "rogue_death_routes": {
+      "elapsed_seconds": 8.824921699939296,
+      "status": "PASS"
+    },
+    "archer_idle": {
+      "elapsed_seconds": 2.928085699910298,
+      "status": "PASS"
+    },
+    "archer_cloth_palette": {
+      "elapsed_seconds": 7.807045499794185,
+      "status": "PASS"
+    },
+    "visual_scene_contract": {
+      "elapsed_seconds": 6.062023499980569,
+      "status": "PASS"
+    },
+    "art_trial_battle": {
+      "elapsed_seconds": 4.784662399906665,
+      "status": "PASS"
+    },
+    "current_art_zoom": {
+      "elapsed_seconds": 7.810087699908763,
+      "status": "PASS"
+    },
+    "presentation_consequences": {
+      "elapsed_seconds": 25.06569019984454,
+      "status": "PASS"
+    },
+    "presentation_environment": {
+      "elapsed_seconds": 7.87787239998579,
+      "status": "PASS"
+    },
+    "battle_camera_ui": {
+      "elapsed_seconds": 5.203335099853575,
+      "status": "PASS"
+    },
+    "battle_execution_ui": {
+      "elapsed_seconds": 9.495089699979872,
+      "status": "PASS"
+    }
+  },
+  "total_seconds": 240.39129759999923,
+  "summary": {
+    "passed": 23,
+    "failed": 0,
+    "timed_out": 0,
+    "failed_labels": [],
+    "unexecuted_requested": [],
+    "blocked": null
+  }
+}

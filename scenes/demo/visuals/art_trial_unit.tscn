@@ -71,8 +71,8 @@ rogue_buff_frames = ExtResource("10_rogue_buff")
 rogue_death_frames = ExtResource("11_rogue_death")
 archer_idle_frames = ExtResource("13_archer_idle")
 enemy_warrior_idle_frames = ExtResource("16_enemy_warrior_idle")
-enemy_warrior_idle_anchor = Vector2(68, 64)
-enemy_warrior_pick_rect = Rect2(-32, -48, 64, 80)
+enemy_warrior_idle_anchor = Vector2(71, 83)
+enemy_warrior_pick_rect = Rect2(-29, -67, 64, 80)
 
 [node name="BodySprite" parent="ArtRoot" index="0"]
 material = SubResource("ShaderMaterial_fallback_palette")
@@ -86,7 +86,7 @@ texture = SubResource("AtlasTexture_player")
 [node name="EnemyWarriorSprite" parent="ArtRoot" index="2"]
 texture_filter = 1
 material = SubResource("ShaderMaterial_enemy_warrior")
-position = Vector2(68, -64)
+position = Vector2(71, -83)
 scale = Vector2(-1, 1)
 flip_h = false
 texture = ExtResource("15_enemy_warrior")
@@ -162,7 +162,7 @@ centered = false
 visible = false
 texture_filter = 1
 material = SubResource("ShaderMaterial_enemy_warrior")
-position = Vector2(68, -64)
+position = Vector2(71, -83)
 scale = Vector2(-1, 1)
 texture = ExtResource("15_enemy_warrior")
 centered = false

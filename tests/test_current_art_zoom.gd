@@ -313,7 +313,7 @@ func _check_warrior_art() -> void:
 				and player_atlas != null and player_atlas.atlas.resource_path.ends_with("defender_new.png"), "current party warrior uses idle with the assigned still retained")
 		elif visual.unit.faction == Faction.Type.ENEMY:
 			enemy_count += 1
-			check(visual.get_unit_bars_offset() == Vector2(0, 26), "new enemy bars clear its lower feet without moving the tile pivot")
+			check(visual.get_unit_bars_offset() == Vector2(0, 11), "new enemy bars clear its feet without moving the tile pivot")
 			var enemy_visual := visual as BattleDefenderIdleVisual
 			var enemy_sprite := visual.get_node_or_null("ArtRoot/EnemyWarriorSprite") as Sprite2D
 			var enemy_idle := visual.get_node_or_null("ArtRoot/EnemyWarriorIdleSprite") as Sprite2D
@@ -327,7 +327,7 @@ func _check_warrior_art() -> void:
 				for frame_index: int in enemy_visual.enemy_warrior_idle_frames.get_frame_count(&"idle"):
 					is_authored_idle_frame = is_authored_idle_frame or enemy_idle.texture == enemy_visual.enemy_warrior_idle_frames.get_frame_texture(&"idle", frame_index)
 				check(enemy_idle.visible and enemy_idle.scale == Vector2(-1, 1)
-					and enemy_idle.position.is_equal_approx(Vector2(68, -64))
+					and enemy_idle.position.is_equal_approx(Vector2(71, -83))
 					and is_authored_idle_frame,
 					"enemy warrior displays one of its isolated mirrored idle frames")
 	check(player_count > 0 and enemy_count > 0, "current encounter contains both warrior artwork factions")
