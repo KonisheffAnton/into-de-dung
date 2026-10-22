@@ -2056,13 +2056,6 @@ func _name_for(id: int) -> String:
 	var unit := session.board.get_unit_by_id(id)
 	return unit.debug_name if unit != null else "Окружение"
 
-func _names_for_ids(ids: Array) -> PackedStringArray:
-	var names: Dictionary[int, String] = {}
-	for id: Variant in ids:
-		if typeof(id) != TYPE_INT: continue
-		names[id] = _name_for(id)
-	return BattleEventText.names_for_ids(names, ids)
-
 func _cell_name(cell: Vector2i) -> String:
 	return BattleEventText.cell_name(cell)
 func _reason_text(reason: StringName) -> String:

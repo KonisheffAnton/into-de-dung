@@ -1,7 +1,8 @@
 # Текущая архитектура intoDeDung
 
-Согласованный будущий дизайн характеристик — [V1](CHARACTER_ATTRIBUTES_V1.md),
-**не реализован**. Архитектура ниже описывает действующий код.
+Характеристики [V1](CHARACTER_ATTRIBUTES_V1.md) включены в H1 и поход через
+`HeroHubBattleFactory`; контракт описывает формулы и границы legacy-сценариев.
+Игровой баланс ещё не принят. Архитектура ниже описывает действующий код.
 
 Базовая сверка: `dcac6da4afb0d3583db79409c8f2fe1f06593968`, 2026-09-20;
 расчёт прямого удара обновлён этапом [D1](ATTACK_DAMAGE_D1.md), новый отдельный профиль брони — [D2](ARMOR_DAMAGE_D2.md), 2026-09-21. Этот файл описывает реализацию;
@@ -535,7 +536,6 @@ ArmorHitExecutor уменьшает прямой пакет первой ата�
 | Прогноз | `AttackForecast`, `ItemUseForecast`, `MoveForecast`, `RaiseCorpseForecast`, `GuardForecast`, `ForecastSimulation` в `scripts/core/actions/` | Атака, две M3, движение, поднятие и стойка на изолированных state/context/queue/RNG; только движение выдаёт готовый INTERRUPTED и фактический путь. Отдельные DTO, закрытый список команд; [контракт](ATTACK_FORECAST.md) |
 | Командный ход и исход | `scripts/demo/battle_tactical_session.gd`, `battle_demo_session.gd`, `battle_turn_refill.gd` | Управление игроком/врагом, refill, динамический состав, reset/cleanup |
 | Совместный сценарий C1/M4/D3/D5 | `BattleCoreCombinationSession`, `core_combination_battle.tscn` | Клинок через штатную экипировку; истечение контроля исходящей команды → унаследованный D3 tick входящей → исход → refill; терминальный результат останавливает переход |
-| Сравнение темпа ходов | `BattleInitiativeSession`, `BattleInitiativeDemo` | Одинаковый бой в двух режимах; собственный ход/очередь только в эксперименте |
 | Нынешний ИИ | `scripts/demo/battle_demo_bt.gd` | BT выбирает BattleAIIntent; исполнение через команды. Старый Utility-выборщик удалён; DTO-адаптер сохранён |
 | Представление | `scripts/demo/battle_demo.gd`, `battle_demo_iso_visual.gd`, `battle_action_bar.gd` | Ввод/UI; общий ENTITIES Y-sort реальных тайлов, стен и фигур |
 

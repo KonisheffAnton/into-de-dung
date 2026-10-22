@@ -46,8 +46,5 @@ static func _from_simulation(simulation: ForecastSimulation) -> AttackForecast:
 			result.units[id] = {"before": simulation.units_before[id], "after": simulation.units_after[id]}
 	return result
 
-static func _unit_values(board: BattleBoard, state: ItemSimulationState = null) -> Dictionary:
-	return ForecastSimulation.unit_values(board, state)
-
 static func _close(state: ItemSimulationState) -> void:
 	ForecastSimulation.close(state)

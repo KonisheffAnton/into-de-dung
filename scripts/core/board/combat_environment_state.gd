@@ -221,12 +221,6 @@ static func _sorted_records(records: Array) -> Array[Dictionary]:
 	result.sort_custom(_sort_by_id)
 	return result
 
-static func _copy_records(records: Array[Dictionary]) -> Array[Dictionary]:
-	var result: Array[Dictionary] = []
-	for record: Dictionary in records:
-		result.append(record.duplicate(true))
-	return result
-
 static func _has_exact_keys(value: Dictionary, required: Array[String]) -> bool:
 	if value.size() != required.size():
 		return false

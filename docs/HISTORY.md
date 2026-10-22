@@ -1,5 +1,21 @@
 # История и свидетельства проверок
 
+## Очистка неиспользуемого кода — 2026-10-22
+
+По U проверены ссылки в коде, сценах, ресурсах и инструментах. Удалены четыре
+невызванных внутренних helper и осиротевшие ElevatedTileVisual/IsoCameraController
+с UID: 174 строки. Действующие пути, проверки AttackRules, сохранения,
+preview/live/worker/queue/RNG, поддерживаемые legacy-сценарии и frozen прежние.
+ARCHITECTURE исправляет статус V1 и остаточную запись инициативы;
+TESTING уточняет общий gate core и команду обоих Python-наборов.
+Headless 13 PASS/0 FAIL/0 timeout, core 9424/0; render 5 PASS/0 FAIL/0 timeout
+(visual contract 52/0, camera 110/0, HUD 306/0); Python 43/0.
+Оба import/startup PASS, PNG хаба осмотрен; независимый review APPROVE.
+Полного набора всех меток и ручных F5/editor/DPI/GPU, арт/балансной приёмки нет.
+Base aaf2d95cf02646a5eaf553b5244cc092a4d3f6e1;
+[отчёт](../test_reports/project-cleanup-20261022/README.md),
+[прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261022.md).
+
 ## Затухающий импульс отталкивания — 2026-10-21
 
 По U ровное скольжение получило начальный рывок и аналитическое затухание

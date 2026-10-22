@@ -69,7 +69,7 @@ preview/live; полный набор отдельно покрывает worker
 python tools/demo/isolate.py --list-checks
 python tools/demo/isolate.py --check --only battle_camera_ui
 python tools/demo/isolate.py --render-check --only battle_camera_ui --screen 0
-python -m unittest discover -s tools/demo -p test_isolate.py
+python -m unittest discover -s tools/demo -p "test_*.py"
 ```
 
 `--only` принимает несколько меток через пробел и повторяется. Неизвестная метка,
@@ -514,9 +514,9 @@ K2 UI runner проверяет основной вход F5 и отсутств
 демонстраций не удаляет механическую регрессию или их проверки ввода.
 
 Проверять exit code, summary и отсутствие ошибок/неожиданных leaks. Launcher
-проверяет маркеры результатов, `0 failed`, Parse/SCRIPT ERROR; для non-legacy
-runner также ERROR/ObjectDB. Известные diagnostics старого core не разрешают
-новые leaks в изменённом коде. Результаты записывать с commit/составом исходников.
+проверяет маркеры результатов, `0 failed`, Parse/SCRIPT ERROR и ERROR/ObjectDB
+для всех runner, включая core. Единственное точное исключение для core описано
+выше в разделе «Изменение игрового кода». Результаты записывать с commit/составом исходников.
 Preview сравнивать с настоящим исполнением, включая события, последствия,
 предметы, resources, RNG и counters; отдельно проверять неизменность live.
 UI проверять настоящими событиями ввода/кликами/scrolling в отдельном SubViewport

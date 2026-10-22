@@ -87,35 +87,6 @@ func get_definitions() -> Array[AttackDefinition]:
 	for definition: AttackDefinition in _definitions: result.append(_copy_definition(definition))
 	return result
 
-func _validate_structure() -> void:
-	var actors: Dictionary = {}
-	for id in _actors:
-		if id <= 0 or id >= MAX_ID or actors.has(id):
-			_invalid = true
-			return
-		actors[id] = true
-	var pairs: Dictionary = {}
-	for pair in _pairs:
-		if not _exact_pair(pair):
-			_invalid = true
-			return
-		var actor: int = pair["actor_unit_id"]
-		var target: int = pair["target_unit_id"]
-		var pair_key := "%d:%d" % [actor, target]
-		if actor <= 0 or actor >= MAX_ID or target <= 0 or target >= MAX_ID or actor == target or not actors.has(actor) or pairs.has(pair_key):
-			_invalid = true
-			return
-		pairs[pair_key] = true
-	var ids: Dictionary = {}
-	for definition in _definitions:
-		if definition == null or definition.get_script() != AttackDefinition or definition.cooldown_turns != 0 or definition.id == &"" or String(definition.id).to_utf8_buffer().size() > MAX_DEFINITION_ID_BYTES or (definition.profile != PROFILE and definition.profile != BALANCE_PROFILE and definition.profile != SPATIAL_PROFILE and definition.profile != ARMOR_PROFILE) or ids.has(definition.id):
-			_invalid = true
-			return
-		ids[definition.id] = true
-		if not _valid_components(definition):
-			_invalid = true
-			return
-
 static func _valid_components(definition: AttackDefinition) -> bool:
 	if definition.chain_push and (definition.profile != ARMOR_PROFILE or definition.reaction_strike): return false
 	if (definition.sneak_attack_enabled or definition.reaction_strike) and definition.profile != ARMOR_PROFILE: return false
