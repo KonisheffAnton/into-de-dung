@@ -149,8 +149,14 @@ func scenario(target: Vector2i, mode: String) -> void:
 	check(board._presentation_visual(victim).unit.hp == data.before.units[victim].hp and board._numbers.get_child_count() == 0, "ranged hit stop delays HP and HUD publication")
 	advance(0.01)
 	check(board._presentation_visual(victim).unit.hp == data.before.units[victim].hp, "HP stays unpublished through hit stop")
-	advance(0.04)
-	check(board._presentation_visual(victim).action_offset.length() > 1.0, "delivery becomes exactly one contact and victim recoil")
+	advance(0.014)
+	check(board._presentation_visual(victim).action_offset.length() > 1.0 and board._numbers.get_child_count() == 0,
+		"ranged contact at 0.049s begins recoil while result remains hidden")
+	advance(0.002)
+	check(board._numbers.get_child_count() > 0 and board._presentation_visual(victim).unit.hp == data.before.units[victim].hp,
+		"ranged result appears by 0.051s while HP publication waits for clip end")
+	var early_results: Array[BattlePresentationNumber] = []
+	for number: BattlePresentationNumber in board._numbers.get_children(): early_results.append(number)
 	var recoil_peak := board._presentation_visual(victim).action_offset.length()
 	check(board._presentation_visual(actor).action_offset.is_zero_approx(), "shooter recovery does not invent melee lunge")
 	if mode in ["hp", "armor"]: await capture("contact-" + mode)
@@ -162,6 +168,9 @@ func scenario(target: Vector2i, mode: String) -> void:
 	for number: BattlePresentationNumber in board._numbers.get_children():
 		# Изменение состояния имеет отдельный вид обратной связи и не дублирует HP.
 		if number.feedback_kind == &"result": texts.append(number._label.text)
+	check(early_results.all(func(number: BattlePresentationNumber) -> bool:
+		return is_instance_valid(number) and number.get_parent() == board._numbers and board._numbers.get_children().count(number) == 1),
+		"ranged clip completion retains each early result node exactly once")
 	if mode == "armor": check(texts.size() == 1 and texts[0].contains("броня"), "armor absorption has one armor result")
 	elif mode == "zero": check(texts == ["0 · без урона"], "zero has one honest result")
 	elif mode == "critical": check(texts[0].begins_with("КРИТ"), "critical shot tagged")

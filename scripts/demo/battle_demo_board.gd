@@ -57,6 +57,7 @@ var _ghosts: Node2D
 var _numbers: Node2D
 var _impacts: Node2D
 var _pending_strikes: Dictionary = {}
+var _early_result_frames: Dictionary[String, bool] = {}
 var _action_offsets: Dictionary = {}
 var _slide_poses: Dictionary[int, Dictionary] = {}
 var _falling: Dictionary = {}
@@ -113,6 +114,7 @@ const POUNCE_CONTACT_DISTANCE: float = 32.0
 const POUNCE_PREPARE_LIFT: float = 3.0
 const POUNCE_JUMP_ARC_HEIGHT: float = 18.0
 const HIT_STOP_SECONDS: float = 0.035
+const HIT_NUMBER_DELAY_SECONDS: float = 0.05
 const STRIKE_RECOVERY_SECONDS: float = 0.20
 const NORMAL_RECOIL_DISTANCE: float = 18.0
 const CRITICAL_RECOIL_DISTANCE: float = 24.0
@@ -236,6 +238,7 @@ func clear_presentation_effects() -> void:
 
 func clear_strike_poses() -> void:
 	_pending_strikes.clear()
+	_early_result_frames.clear()
 	_action_offsets.clear()
 	_clear_slide_poses()
 	for visual: BattleDemoIsoVisual in _entity_visuals: visual.action_offset = Vector2.ZERO
@@ -442,15 +445,38 @@ func _matching_strike(events: Array, step: Dictionary) -> Dictionary:
 				return strike
 	return {}
 
-## Числа создаются на той же атомарной границе, что HP/броня поля и HUD.
+## Полный after и статусы ждут конца клипа; число попадания уже может быть показано.
 func finish_presentation_frame(events: Array, step: Dictionary = {}, before: Dictionary = {}, after: Dictionary = {}) -> void:
 	var strike := _matching_strike(events, step)
 	for feedback: Dictionary in BattleReactionPresentation.feedback(events, step, before, after):
 		_add_result_number(int(feedback.id), String(feedback.text), Color("93dce9"), &"reaction")
+	var results_shown := _early_result_frames.erase(_result_frame_key(events))
+	_show_event_feedback(events, strike, not results_shown, true)
+	_show_consequence_feedback(BattleConsequenceFeedback.entries(events, before, after), int(events[0].get("root_id", 0)) if not events.is_empty() else 0)
+	# Командный refill остаётся кадром значений без боевого импакта/HP-события.
+	if step.get("kind") == &"battle_turn_refill" and step.get("status") == &"APPLIED":
+		_show_consequence_feedback(BattleConsequenceFeedback.recovery_entries(before, after), 0)
+	# FAULTED attack_hit без результата снимает замах без выдуманного попадания.
+	if step.get("kind") == &"attack_hit": clear_strike_poses()
+
+static func _result_frame_key(events: Array) -> String:
+	if events.is_empty(): return ""
+	return "%d:%d" % [int(events[0].get("root_id", 0)), int(events[0].get("command_seq", 0))]
+
+func _show_contact_result(events: Array, strike: Dictionary = {}) -> void:
+	var key := _result_frame_key(events)
+	if key.is_empty() or _early_result_frames.has(key): return
+	_early_result_frames[key] = true
+	# Это только числа из подтверждённого кадра: состояние/HUD и очередь не опережаем.
+	_show_event_feedback(events, strike, true, false)
+
+func _show_event_feedback(events: Array, strike: Dictionary, show_results: bool, show_statuses: bool) -> void:
 	var numbered: Dictionary = {}
 	for event: Dictionary in events:
-		var status_feedback := BattleStatusPresentation.event_feedback(event)
-		if not status_feedback.is_empty(): _add_result_number(int(event.get("target_unit_id", 0)), status_feedback, Color("ffd08a"), &"status")
+		if show_statuses:
+			var status_feedback := BattleStatusPresentation.event_feedback(event)
+			if not status_feedback.is_empty(): _add_result_number(int(event.get("target_unit_id", 0)), status_feedback, Color("ffd08a"), &"status")
+		if not show_results: continue
 		var kind := StringName(event.get("kind", &""))
 		var target := int(event.get("target_unit_id", 0))
 		var text := ""
@@ -471,16 +497,11 @@ func finish_presentation_frame(events: Array, step: Dictionary = {}, before: Dic
 		if not text.is_empty():
 			_add_result_number(target, text, tint)
 			numbered[target] = true
+	if not show_results: return
 	for event: Dictionary in events:
 		if event.get("kind") == &"hit_resolved" and not numbered.has(int(event.target_unit_id)):
 			_add_result_number(int(event.target_unit_id), "0 · без урона", Color("d6dfeb"))
 			numbered[int(event.target_unit_id)] = true
-	_show_consequence_feedback(BattleConsequenceFeedback.entries(events, before, after), int(events[0].get("root_id", 0)) if not events.is_empty() else 0)
-	# Командный refill остаётся кадром значений без боевого импакта/HP-события.
-	if step.get("kind") == &"battle_turn_refill" and step.get("status") == &"APPLIED":
-		_show_consequence_feedback(BattleConsequenceFeedback.recovery_entries(before, after), 0)
-	# FAULTED attack_hit без результата снимает замах без выдуманного попадания.
-	if step.get("kind") == &"attack_hit": clear_strike_poses()
 
 func _show_consequence_feedback(entries: Array[Dictionary], root_id: int) -> void:
 	var grouped: Dictionary = {}
@@ -743,6 +764,8 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 		var dying := events.any(func(e: Dictionary) -> bool: return e.get("kind") == &"died" and e.get("target_unit_id") == strike.target_unit_id)
 		var recovery_seconds := _death_seconds(int(strike.target_unit_id)) if dying else STRIKE_RECOVERY_SECONDS
 		tween.tween_method(_hit_recovery.bind(strike, dying, recovery_seconds), 0.0, 1.0, recovery_seconds)
+		# Callback идёт параллельно отдаче в том же Tween: не добавляет паузу и отменяется с клипом.
+		tween.parallel().tween_callback(_show_contact_result.bind(events, strike)).set_delay(HIT_NUMBER_DELAY_SECONDS - HIT_STOP_SECONDS)
 		visible_event = true
 	for event: Dictionary in events:
 		var kind := StringName(event.get("kind", &""))
@@ -1029,6 +1052,8 @@ func _animate_mage_frame(events: Array, cast: Dictionary) -> Tween:
 		tween.tween_callback(_mage_contact.bind(cast, spell))
 		var contact_seconds := _death_seconds(target_id) if _mage_dying else 0.20
 		tween.tween_method(_sample_mage.bind(&"contact", contact_seconds), 0.0, 1.0, contact_seconds)
+		if spell == &"mage.fire":
+			tween.parallel().tween_callback(_show_contact_result.bind(events)).set_delay(HIT_NUMBER_DELAY_SECONDS)
 	return tween
 
 func _sample_mage(progress: float, phase: StringName, seconds: float = 0.20) -> void:

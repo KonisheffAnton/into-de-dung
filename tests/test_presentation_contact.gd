@@ -123,8 +123,12 @@ func scenario(mode: String) -> void:
 	advance(0.025)
 	check(is_equal_approx(board._presentation_visual(a).action_offset.length(), lunge_end_distance), mode + " hit stop holds attacker at reach")
 	check(board._presentation_visual(b).unit.hp == data.before.units[b].hp and board._numbers.get_child_count() == 0, mode + " hit stop delays HP and HUD publication")
-	advance(0.10)
-	check(board._presentation_visual(b).action_offset.length() > 1.0 and board._impacts.get_child_count() == 1, mode + " one contact and recoil")
+	advance(0.024)
+	check(board._impacts.get_child_count() == 1 and board._numbers.get_child_count() == 0, mode + " contact at 0.049s remains before result delay")
+	advance(0.002)
+	check(board._presentation_visual(b).action_offset.length() > 1.0 and not number_texts().is_empty()
+		and board._presentation_visual(b).unit.hp == data.before.units[b].hp,
+		mode + " contact recoil and result appear by 0.051s while after-state stays unpublished")
 	if mode == "hp":
 		var strike: Dictionary = board._pending_strikes.values()[0]
 		var target_support := board._presentation_visual(b).position
@@ -222,7 +226,7 @@ func scenario(mode: String) -> void:
 		await process_frame
 		check(not is_instance_valid(number), "number expires independently after clip")
 	player.cancel()
-	check(board._numbers.get_child_count() == 0 and board._impacts.get_child_count() == 0, mode + " reset cleanup")
+	check(board._numbers.get_child_count() == 0 and board._impacts.get_child_count() == 0, mode + " cancel after early result clears feedback")
 	s.close()
 	await process_frame
 
@@ -302,12 +306,32 @@ func abort_cases() -> void:
 	var data := packet(s)
 	player.set_speed(3.0)
 	player.play(board, data.before, data.frames, data.after)
-	advance(0.068)
-	advance(0.025)
-	check(board._impacts.get_child_count() == 1, "x3 contact has independent flash")
+	advance(0.126 / 3.0)
+	advance(0.049 / 3.0)
+	check(board._impacts.get_child_count() == 1 and board._numbers.get_child_count() == 0, "x3 result remains hidden at 0.049s clip time")
+	advance(0.002 / 3.0)
+	check(board._numbers.get_child_count() > 0, "x3 result appears by 0.051s clip time")
 	player.skip()
-	check(board._impacts.get_child_count() == 0 and board._numbers.get_child_count() == 0 and board._action_offsets.is_empty(), "skip at contact cancels all effects")
+	check(board._impacts.get_child_count() == 0 and board._numbers.get_child_count() == 0 and board._action_offsets.is_empty(), "skip after early x3 result cancels all effects")
 	check(ActionPresentationState.capture(s.state) == data.after, "contact skip cannot change actual result")
+	player.set_speed(1.0)
+	player.play(board, data.before, data.frames, data.after)
+	player._tween.pause()
+	advance(0.126)
+	advance(0.049)
+	check(board._impacts.get_child_count() == 1 and board._numbers.get_child_count() == 0, "replay setup has contact but has not reached result deadline")
+	var cancelled_tween := player._tween
+	player.cancel()
+	check(board._numbers.get_child_count() == 0 and board._impacts.get_child_count() == 0, "cancel removes pending delayed result")
+	player.play(board, data.before, data.frames, data.after)
+	player._tween.pause()
+	advance(0.126)
+	advance(0.051)
+	var replay_count: int = board._numbers.get_child_count()
+	await process_frame
+	check(not cancelled_tween.is_valid() and replay_count > 0 and board._numbers.get_child_count() == replay_count,
+		"killed prior tween cannot spawn or duplicate feedback during same-packet replay")
+	player.cancel()
 	s.close()
 	s = fixture("hp")
 	s._queue = ActionQueue.new(1, 512)

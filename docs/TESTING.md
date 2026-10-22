@@ -14,6 +14,13 @@
 
 ## Изменение игрового кода
 
+Цифры вскоре после контакта (2026-10-22): `--render-check --only presentation_contact
+presentation_ranged presentation_attack_styles presentation_mage presentation_reactions
+presentation_consequences presentation_environment defender_death_routes rogue_death_routes
+battle_presentation --screen 0` (одна команда). Проверяются отсутствие цифры до
+0,05 с после касания, появление в начале отдачи/смерти, однократность результата,
+×3/skip/cancel/replay и прежний порядок after/HUD. Плейтест ощущения отдельно.
+
 Перки экипировки/ножи (2026-10-18): `--check --only equipment_attacks hero_hub
 hero_hub_playthrough counterattack action_event_validator forecast_definition_copy
 forecast_restore_isolation attack_forecast_worker battle_execution_worker
