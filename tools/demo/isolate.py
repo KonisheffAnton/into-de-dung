@@ -39,6 +39,9 @@ def run_cached_interactive(repo, godot, screen=None):
         print("Synchronizing interactive project...", flush=True)
         snapshot_started = time.perf_counter()
         names = subprocess.check_output(["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"], cwd=repo).decode().split("\0")
+        # Документы и арт-эксперименты не нужны игре, поэтому не замедляют её кэшированный запуск.
+        names = [name for name in names if not name.startswith("docs/")]
+        print("Skipping docs/ in cached interactive project.", flush=True)
         manifest = cache.sync(names)
         (out / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
         timing = {"mode": "interactive_cached", "project": str(cache.project),

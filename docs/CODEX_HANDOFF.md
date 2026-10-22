@@ -1,27 +1,28 @@
-# Передача — 2026-10-23: death-2 и новый эталон персонажей
-D:\Games\into-de-dung; main; base b2d78510f7c3216f01ebf9bbc32d3c4f4a878e7f.
-U выбрал death-2 «Колено, затем вперёд» и назначил нового воина эталоном
-формата всех следующих персонажей. [Правила/выбор](ART_DIRECTION.md#новый-эталон-формата-всех-персонажей--2026-10-23),
-[эталон](../assets/art_presets/approved/warrior_format_v1/README.md).
-В игре death-2 получает только enemy-warrior/Защитник:17 PNG128² по150мс,
-2,55с без повтора/паузы галереи. Общий Tween, прежние mirror/anchor71,83/scale0.8,
-idle-1; invalid resource→generic. Fall/VOID/обвал и прочие классы прежние.
-[Ассеты](../assets/art_presets/trials/enemy_warrior_death_v1/README.md),
-[контракт](BATTLE_VISUAL_SCENE_CONTRACT.md#новый-вражеский-воин--2026-10-23),
-[отчёт/рендер/GIF](art/enemy-warrior-death-20261023/README.md).
-Проверки: initial13PASS/1FAIL; исправлены новые assertions, runtime неизменен.
-Повторный parse PASS, death_routes889/0, rogue_routes622/0; вместе со смежными
-проверками14 зелёных итоговых gates. Render audit107/0,17 исходников byte-exact.
-Итоговое независимое ревью APPROVE. Full/core и ручная F5/editor/DPI/GPU
-не заявлены. Выбор формата/клипа U принят; игровые переходы ждут ручной оценки.
-Новых генераций/расхода нет. Массовой замены остальных классов не было.
-Следующий шаг — отзыв U о смерти или отдельное поручение следующего персонажа;
-автоматически не начинать. Core/preview/live/worker/queue/RNG/save/frozen прежние.
-Остальные прежние вопросы/пробы — в архивных передачах, не новый backlog этапа.
+# Передача — 2026-10-23: быстрый запуск isolate
+D:\Games\into-de-dung; main; base2cec58fd287baea17658817f7f9cb898d82a061f.
+U сообщил о медленном открытии игры через tools/demo/isolate.py.
+Обычный cached interactive теперь исключает docs/ с отчётами/арт-пробами.
+Полные --fresh/--check/--render-check, SHA содержимого, lease, отдельные профили
+и обработка отказов прежние. [Контракт запуска](REPOSITORY_STATE.md),
+[проверки](TESTING.md), [отчёт и замеры](../test_reports/isolate-startup-20261023/report.md).
+Парный warm-замер подготовки до Popen:22,49→4,29с (5,24×); cold27,44с.
+Миграция прежней копии29,78с уже выполнена; источники документов сохранены.
+Исторические89,50с включали импорт и не являются парной базой сравнения.
+Python launcher30 tests OK, cache15 tests OK. Реальный Godot cold/warm и
+same-size/mtime SVG red→green PASS; игры завершились exit0 без diagnostics.
+Чистый check:import/startup PASS, defender_idle_clock24/0; итого3PASS/0FAIL.
+Независимое ревью APPROVE. Свидетельства и границы — в отчёте.
+Full/core и ручные F5/editor/DPI/GPU не заявлены; пользовательская оценка скорости
+ожидается. Core/preview/live/worker/queue/RNG/save/frozen не менялись.
+Прежний выбор воина как [эталона](../assets/art_presets/approved/warrior_format_v1/README.md)
+сохраняется; [ART_DIRECTION](ART_DIRECTION.md) владеет правилами.
+Death-2/idle-1 enemy-warrior прежние; [результат и открытая ручная приёмка](art/enemy-warrior-death-20261023/README.md).
+Остальные классы не заменялись. Нового персонажа автоматически не начинать.
+Следующий шаг — отзыв U о скорости или отдельно выбранное им поручение.
 Чужие scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
-не трогать/reset/stage/commit. Без push/sidebar/расписаний.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261023-5.md), [HISTORY](HISTORY.md).
+не трогать/reset/stage/commit. Без push/sidebar tasks/расписаний.
+[Предыдущий HANDOFF побайтно](CODEX_HANDOFF.history-20261023-6.md), [HISTORY](HISTORY.md).
 После этапа — проверки и локальный Conventional Commit; короткий HANDOFF,
 прежний побайтно в отдельный архив+HISTORY. В финале/при блокере предложить
-новый чат и полный промпт: HEAD,результат,docs/artifacts,остаток,ограничения,
-проверки и это же правило передачи. Чат автоматически не создавать.
+новый чат и полный самодостаточный промпт:HEAD,результат,docs/artifacts,остаток,
+ограничения,проверки и это же правило передачи. Чат автоматически не создавать.

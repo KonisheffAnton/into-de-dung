@@ -27,6 +27,11 @@ class IsolateSelectionTests(unittest.TestCase):
                     self.assertEqual((code, calls), (0, ["import", "startup", "battle_hud_authoring"]))
                     self.assertEqual(timing["summary"]["passed"], 3)
 
+    def test_clean_validation_copy_keeps_docs(self):
+        code, _, _, _ = self.exercise(["--check", "--only", "battle_hud_authoring"])
+        self.assertEqual(code, 0)
+        self.assertTrue(self.validation_docs_present)
+
     def test_confirmed_diagnostic_is_exact_and_core_only(self):
         expected = "ERROR: BattleBoard.add_unit: клетка (2, 2) уже занята"
         self.assertFalse(isolate.has_engine_errors("core", expected))
@@ -42,6 +47,9 @@ class IsolateSelectionTests(unittest.TestCase):
         self.last_commands = commands
         with tempfile.TemporaryDirectory(prefix="into-dedung-launcher-") as directory:
             repo = Path(directory)
+            (repo / "docs").mkdir()
+            (repo / "docs/tracked.md").write_text("tracked docs\n", encoding="utf-8")
+            (repo / "docs/untracked.md").write_text("untracked docs\n", encoding="utf-8")
             source = repo / "tools/demo/isolate.py"
             source.parent.mkdir(parents=True)
             source.write_text(Path(isolate.__file__).read_text(encoding="utf-8"), encoding="utf-8")
@@ -51,6 +59,8 @@ class IsolateSelectionTests(unittest.TestCase):
                 commands.append((list(command), kwargs.get("timeout"), "--headless" in command))
                 project = Path(command[command.index("--path") + 1])
                 label = "import" if "--import" in command else "startup"
+                if label == "import":
+                    self.validation_docs_present = (project / "docs/tracked.md").is_file() and (project / "docs/untracked.md").is_file()
                 if "--script" in command:
                     script = command[command.index("--script") + 1]
                     label = "core" if script == "tests/run_tests.gd" else Path(script).stem.removeprefix("test_")
@@ -127,7 +137,7 @@ class IsolateSelectionTests(unittest.TestCase):
 
             output = io.StringIO()
             code = 0
-            with patch.object(isolate, "__file__", str(source)), patch.object(isolate.subprocess, "check_output", return_value=b"project.godot\0"), patch.object(isolate.subprocess, "run", side_effect=fake_run), patch.object(isolate.atexit, "register"), patch("sys.argv", ["isolate", "--godot", "fake-godot", *options]), contextlib.redirect_stdout(output), contextlib.redirect_stderr(output):
+            with patch.object(isolate, "__file__", str(source)), patch.object(isolate.subprocess, "check_output", return_value=b"project.godot\0docs/tracked.md\0docs/untracked.md\0"), patch.object(isolate.subprocess, "run", side_effect=fake_run), patch.object(isolate.atexit, "register"), patch("sys.argv", ["isolate", "--godot", "fake-godot", *options]), contextlib.redirect_stdout(output), contextlib.redirect_stderr(output):
                 try:
                     isolate.main()
                 except SystemExit as exc:
@@ -389,6 +399,9 @@ class InteractiveLaunchTests(unittest.TestCase):
             source.parent.mkdir(parents=True)
             source.write_text("", encoding="utf-8")
             (repo / "project.godot").write_text("config_version=5\n", encoding="utf-8")
+            (repo / "docs").mkdir()
+            (repo / "docs/tracked.md").write_text("tracked one\n", encoding="utf-8")
+            (repo / "docs/untracked.md").write_text("untracked one\n", encoding="utf-8")
             imports, games = [], []
 
             def fake_import(command, **kwargs):
@@ -407,19 +420,61 @@ class InteractiveLaunchTests(unittest.TestCase):
                 games.append((command, kwargs["env"]["APPDATA"]))
                 return Game()
 
-            with patch.object(isolate, "__file__", str(source)), patch.object(isolate.subprocess, "check_output", return_value=b"project.godot\0"), patch.object(isolate.subprocess, "run", side_effect=fake_import), patch.object(isolate.subprocess, "Popen", side_effect=fake_game), patch("sys.argv", ["isolate", "--godot", str(engine), "--screen", "2"]), contextlib.redirect_stdout(io.StringIO()):
+            with patch.object(isolate, "__file__", str(source)), patch.object(isolate.subprocess, "check_output", return_value=b"project.godot\0tools/demo/isolate.py\0docs/tracked.md\0docs/untracked.md\0docs/added.md\0"), patch.object(isolate.subprocess, "run", side_effect=fake_import), patch.object(isolate.subprocess, "Popen", side_effect=fake_game), patch("sys.argv", ["isolate", "--godot", str(engine), "--screen", "2"]), contextlib.redirect_stdout(io.StringIO()):
                 isolate.main()
+                cached_project = imports[0]
+                self.assertFalse((cached_project / "docs").exists())
                 isolate.main()
                 self.assertEqual(len(imports), 1)
+                (repo / "docs/tracked.md").write_text("tracked changed\n", encoding="utf-8")
+                (repo / "docs/added.md").write_text("new untracked doc\n", encoding="utf-8")
+                isolate.main()
+                self.assertEqual(len(imports), 1)
+                self.assertFalse((cached_project / "docs").exists())
                 (repo / "project.godot").write_text("config_version=5\n; changed\n", encoding="utf-8")
                 isolate.main()
                 self.assertEqual(len(imports), 2)
             self.assertEqual(imports[0], imports[1])
-            self.assertEqual(len({profile for _, profile in games}), 3)
+            self.assertEqual(len({profile for _, profile in games}), 4)
             self.assertTrue(all(command[-2:] == ["--screen", "2"] for command, _ in games))
             timings = [json.loads(p.read_text(encoding="utf-8")) for p in (repo / "test_reports").glob("demo-*/timing.json")]
-            self.assertEqual(sorted(t["checks"]["import"]["status"] for t in timings), ["PASS", "PASS", "SKIPPED"])
+            self.assertEqual(sorted(t["checks"]["import"]["status"] for t in timings), ["PASS", "PASS", "SKIPPED", "SKIPPED"])
             self.assertEqual((imports[0] / "project.godot").read_bytes(), (repo / "project.godot").read_bytes())
+
+    def test_cached_launch_migrates_legacy_docs_out_of_managed_cache(self):
+        with tempfile.TemporaryDirectory(prefix="into-dedung-play-migrate-") as directory:
+            repo = Path(directory)
+            engine = repo / "godot.exe"
+            engine.write_bytes(b"fake engine")
+            (repo / "project.godot").write_text("config_version=5\n", encoding="utf-8")
+            (repo / "docs").mkdir()
+            (repo / "docs/old.md").write_text("old report\n", encoding="utf-8")
+            with isolate.InteractiveCache(repo, {"path": str(engine), "size": engine.stat().st_size, "mtime_ns": engine.stat().st_mtime_ns}) as cache:
+                manifest = cache.sync(["project.godot", "docs/old.md"])
+                (cache.project / ".godot/global_script_class_cache.cfg").parent.mkdir(parents=True, exist_ok=True)
+                (cache.project / ".godot/global_script_class_cache.cfg").write_text("", encoding="utf-8")
+                (cache.project / "docs/old.md.import").write_text("legacy sidecar", encoding="utf-8")
+                cache.imported(manifest)
+                cache.end_play()
+
+            def fake_import(command, **kwargs):
+                project = Path(command[command.index("--path") + 1])
+                (project / ".godot/global_script_class_cache.cfg").write_text("", encoding="utf-8")
+                return subprocess.CompletedProcess(command, 0)
+
+            class Game:
+                pid = 123
+                def wait(self, **_): return 0
+                def poll(self): return 0
+
+            with patch.object(isolate.subprocess, "check_output", return_value=b"project.godot\0docs/old.md\0"), patch.object(isolate.subprocess, "run", side_effect=fake_import) as imported, patch.object(isolate.subprocess, "Popen", return_value=Game()), contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(isolate.run_cached_interactive(repo, str(engine)), 0)
+            imported.assert_called_once()
+            with isolate.InteractiveCache(repo, {"path": str(engine), "size": engine.stat().st_size, "mtime_ns": engine.stat().st_mtime_ns}) as cache:
+                self.assertFalse((cache.project / "docs").exists())
+                self.assertFalse((cache.project / "docs/old.md.import").exists())
+                cache.sync(["project.godot"])
+                self.assertFalse(cache.needs_import)
 
     def test_failed_import_or_cache_never_starts_game(self):
         for failure in ("exit", "diagnostic", "cache", "timeout"):

@@ -198,6 +198,10 @@ Fixtures не подтверждают F5/Editor/DPI/GPU/FPS. Изменение
 Для изменения интерактивного кэша дополнительно проверить реальный cold/warm запуск,
 обновление импортированного ресурса при прежнем размере/mtime и чистый targeted check.
 Cached import `SKIPPED` не является PASS проверки проекта.
+Обычный cached-запуск исключает `docs/`: изменения отчётов не должны вызывать
+импорт; игровые исходники по-прежнему сверяются по содержимому. Регрессии launcher
+проверяют также удаление документов из старой копии и их наличие в чистом check.
+`--fresh`/`--check`/`--render-check` сохраняют документацию для проверочных fixtures.
 
 Для восстановления HP и экипировки: `python tools/demo/isolate.py --check --only restore_vitals armor_snapshot unit_snapshot_performance --screen 0`.
 `restore_vitals` входит в обычный/full/render набор: equipped HP_MAX, точный

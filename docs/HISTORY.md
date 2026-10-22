@@ -1,5 +1,16 @@
 # История и свидетельства проверок
 
+## Ускорение интерактивного isolate — 2026-10-23
+
+Обычная cached-копия исключает docs/ с отчётами/арт-пробами; runtime-источники
+сверяются прежним SHA, полные fresh/check/render копии сохраняются.
+Парный warm-замер подготовки22,49→4,29с; cold27,44с. Миграция кэша выполнена.
+Python launcher30/cache15 tests OK, реальные cold/warm и same-size/mtime texture
+проверены. Независимое ревью APPROVE; full/core и ручная F5/editor/DPI/GPU не заявлены.
+[Контракт](REPOSITORY_STATE.md), [отчёт и итог целевых проверок](../test_reports/isolate-startup-20261023/report.md).
+Base2cec58fd287baea17658817f7f9cb898d82a061f; без push.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261023-6.md).
+
 ## Death-2 и новый эталон персонажей — 2026-10-23
 
 U выбрал смерть через колено №2 и нового воина эталоном всех следующих персонажей.
