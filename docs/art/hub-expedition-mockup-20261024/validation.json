@@ -1,0 +1,94 @@
+{
+  "base_commit": "92f53cc2cd36144bd37bf8577a7102f1c5fe248e",
+  "provider": "built-in image_gen",
+  "calls": 1,
+  "integration": false,
+  "assets": [
+    {
+      "path": "references/user-menu-reference.png",
+      "source": "C:/Users/Aston/AppData/Local/Temp/codex-clipboard-ac0210cb-5d10-40e2-8edd-f9aaa7084a97.png",
+      "sha256": "2aa80af64297b60c097a59062674f01d1dfd6148c05997fd8937e397253a0418",
+      "bytes": 3206536,
+      "dimensions": [
+        1672,
+        941
+      ],
+      "source_byte_equal": true,
+      "png_crc_and_inflate": "PASS"
+    },
+    {
+      "path": "references/shieldbearer-current.png",
+      "source": "D:\\Games\\into-de-dung\\assets\\art_presets\\approved\\defender_brighter_v1\\defender-reference.png",
+      "sha256": "a4e5c1ed380b6288587c0866b9cd0e9b8252e97fdc183aaefa246290815fc46b",
+      "bytes": 18216,
+      "dimensions": [
+        352,
+        320
+      ],
+      "source_byte_equal": true,
+      "png_crc_and_inflate": "PASS"
+    },
+    {
+      "path": "references/archer-idle-frame-01.png",
+      "source": "D:\\Games\\into-de-dung\\assets\\art_presets\\trials\\archer_idle_v1\\idle\\frame-01.png",
+      "sha256": "b3425f2b15c2aaecc0b254dac5220d2ccac02f2f648c7fc189e284c06631dfa4",
+      "bytes": 6191,
+      "dimensions": [
+        128,
+        128
+      ],
+      "source_byte_equal": true,
+      "png_crc_and_inflate": "PASS"
+    },
+    {
+      "path": "references/rogue-selected-v1.png",
+      "source": "D:\\Games\\into-de-dung\\assets\\art_presets\\trials\\rogue_selected_v1\\still.png",
+      "sha256": "c774002e01412bbf82adcd30a8d636bf1b891b67623a0b5fb49b0ea8ccd996ff",
+      "bytes": 4712,
+      "dimensions": [
+        128,
+        128
+      ],
+      "source_byte_equal": true,
+      "png_crc_and_inflate": "PASS"
+    },
+    {
+      "path": "references/warrior-format-v1.png",
+      "source": "D:\\Games\\into-de-dung\\assets\\art_presets\\approved\\warrior_format_v1\\character.png",
+      "sha256": "e93daeee4edec7fee5031e8aa91b5a729a2ecd7e269b17abf94558b6e4604057",
+      "bytes": 8398,
+      "dimensions": [
+        128,
+        128
+      ],
+      "source_byte_equal": true,
+      "png_crc_and_inflate": "PASS"
+    },
+    {
+      "path": "expedition-mockup-v1.png",
+      "source": "C:/Users/Aston/.codex/generated_images/01a16b2d-1684-7e71-b237-7d32f0a66e99/exec-bdcdd88d-1ef2-4a87-982a-05d25bd93e61.png",
+      "sha256": "8b507b06a9498e2ac130b9a8fae0b0689336e23148fa6de9e3869e2c6d81c18e",
+      "bytes": 2653573,
+      "dimensions": [
+        1672,
+        941
+      ],
+      "source_byte_equal": true,
+      "png_crc_and_inflate": "PASS"
+    }
+  ],
+  "protected_files_unchanged": 33,
+  "runtime_changes_excluding_preexisting_user_scene": [],
+  "checks": {
+    "png_crc_and_inflate": "PASS",
+    "source_byte_equality": "PASS",
+    "protected_hashes": "PASS",
+    "runtime_diff_scope": "PASS"
+  },
+  "limitations": [
+    "Generative concept; character source pixels and background geometry are not preserved in the generated screen.",
+    "No Godot import, full/core, F5, editor, DPI or GPU checks were run.",
+    "User visual acceptance remains open."
+  ],
+  "initial_check_note": "The first PNG verification attempt with system Python could not import PIL. This successful check uses only the Python standard library."
+}
