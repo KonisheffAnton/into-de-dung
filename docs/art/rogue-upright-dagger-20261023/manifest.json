@@ -1,0 +1,337 @@
+{
+  "schema": 1,
+  "date": "2026-10-23",
+  "base_commit": "79f015d00ac71a64f71f133d33ad1c81d29aa5e1",
+  "provider": "OpenAI ImageGen",
+  "integration": false,
+  "animation_requested_this_stage": false,
+  "stages": [
+    {
+      "outputs": [
+        "intermediate/compact-small-eye.png"
+      ],
+      "input": "../rogue-compact-pixellab-20261023/source.png",
+      "prompt": "intermediate/compact-small-eye-prompt.txt",
+      "status": "superseded_by_user_attached_design"
+    },
+    {
+      "outputs": [
+        "intermediate/upright-01.png",
+        "intermediate/upright-02.png",
+        "intermediate/upright-03.png"
+      ],
+      "input": "user-source.png",
+      "prompts": [
+        "prompt-01.txt",
+        "prompt-02.txt",
+        "prompt-03.txt"
+      ],
+      "status": "intermediate_before_near_far_clarification"
+    },
+    {
+      "outputs": [
+        "variant-01.png",
+        "variant-02.png",
+        "variant-03.png"
+      ],
+      "inputs": [
+        "intermediate/upright-01.png",
+        "intermediate/upright-02.png",
+        "intermediate/upright-03.png"
+      ],
+      "prompts": [
+        "depth-prompt-01.txt",
+        "depth-prompt-02.txt",
+        "depth-prompt-03.txt"
+      ],
+      "status": "three_static_proposals_for_user_choice"
+    }
+  ],
+  "images": [
+    {
+      "path": "user-source.png",
+      "original_path": "C:\\Users\\Aston\\AppData\\Local\\Temp\\codex-clipboard-e612bff9-d0f2-41a2-b290-2f2f2be7cb5b.png",
+      "sha256": "b3ce3770a0fc931d093fc5dd71f4bbe1e6a37dfd132570df53aa5bd83aa161bb",
+      "bytes": 545281,
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        21,
+        1202,
+        1228
+      ],
+      "display_bbox_alpha_ge_8": [
+        298,
+        297,
+        989,
+        1042
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "matches_original_bytes": true,
+      "alpha_nonzero_edge_contact": true,
+      "alpha_ge_8_edge_contact": false
+    },
+    {
+      "path": "intermediate/compact-small-eye.png",
+      "original_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a167f6-3c5c-7ef2-b731-c15f33e09583\\exec-8b9020c1-027e-46b9-a224-057fff686971.png",
+      "sha256": "93f41f888e1e95bda7368d8c7e36e5a1657cb7d38b00778f7d2308ec7cef8a8b",
+      "bytes": 437273,
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        33,
+        55,
+        1208,
+        1224
+      ],
+      "display_bbox_alpha_ge_8": [
+        260,
+        251,
+        1010,
+        1050
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "matches_original_bytes": true,
+      "alpha_nonzero_edge_contact": false,
+      "alpha_ge_8_edge_contact": false
+    },
+    {
+      "path": "intermediate/upright-01.png",
+      "original_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a167f6-3c5c-7ef2-b731-c15f33e09583\\exec-93087eba-7856-40ff-b2c3-4adf59c5fcd1.png",
+      "sha256": "9efdb27f066621b338d1a9d14ecf152dec4722776991d47bccb5b378bed1ac6e",
+      "bytes": 406931,
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        33,
+        23,
+        1162,
+        1230
+      ],
+      "display_bbox_alpha_ge_8": [
+        299,
+        296,
+        928,
+        1042
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "matches_original_bytes": true,
+      "alpha_nonzero_edge_contact": false,
+      "alpha_ge_8_edge_contact": false
+    },
+    {
+      "path": "intermediate/upright-02.png",
+      "original_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a167f6-3c5c-7ef2-b731-c15f33e09583\\exec-7a78c24a-ff88-4af9-bffb-dcde01650e7b.png",
+      "sha256": "90112bc2a8ba75d6655dfacb7d7afcff3c7e85d225583607c9ac655f673187b5",
+      "bytes": 418976,
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        33,
+        35,
+        1208,
+        1208
+      ],
+      "display_bbox_alpha_ge_8": [
+        297,
+        296,
+        1018,
+        1043
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "matches_original_bytes": true,
+      "alpha_nonzero_edge_contact": false,
+      "alpha_ge_8_edge_contact": false
+    },
+    {
+      "path": "intermediate/upright-03.png",
+      "original_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a167f6-3c5c-7ef2-b731-c15f33e09583\\exec-fc6b80d0-5c1f-43e4-863a-7c2d4b0f7159.png",
+      "sha256": "3d3b7c9803e272107af6518799982dffcc4fa2448a5b8228f039040c65cf52a1",
+      "bytes": 409441,
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        65,
+        23,
+        1240,
+        1206
+      ],
+      "display_bbox_alpha_ge_8": [
+        298,
+        296,
+        913,
+        1042
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "matches_original_bytes": true,
+      "alpha_nonzero_edge_contact": false,
+      "alpha_ge_8_edge_contact": false
+    },
+    {
+      "path": "variant-01.png",
+      "original_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a167f6-3c5c-7ef2-b731-c15f33e09583\\exec-13c20620-d2ae-4ba3-9408-863d872ba6fd.png",
+      "sha256": "f90cabe147b17265596fdd040144fc9c3b7229654bedc680cb746e55b560746c",
+      "bytes": 426510,
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        51,
+        29,
+        1216,
+        1246
+      ],
+      "display_bbox_alpha_ge_8": [
+        299,
+        298,
+        931,
+        1062
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "matches_original_bytes": true,
+      "alpha_nonzero_edge_contact": false,
+      "alpha_ge_8_edge_contact": false
+    },
+    {
+      "path": "variant-02.png",
+      "original_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a167f6-3c5c-7ef2-b731-c15f33e09583\\exec-40e9249f-7fa0-4419-b476-a8d1193d2fb8.png",
+      "sha256": "17d1afc47f92493b744fa4170ecb10be7d00cba6c4527319c21a8712eac33bb0",
+      "bytes": 533325,
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        33,
+        29,
+        1200,
+        1254
+      ],
+      "display_bbox_alpha_ge_8": [
+        239,
+        236,
+        1064,
+        1141
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "matches_original_bytes": true,
+      "alpha_nonzero_edge_contact": true,
+      "alpha_ge_8_edge_contact": false
+    },
+    {
+      "path": "variant-03.png",
+      "original_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a167f6-3c5c-7ef2-b731-c15f33e09583\\exec-b044a6ab-e5db-49a9-a424-84fb3ead868d.png",
+      "sha256": "5ed04dce098993300fdde0528a19221ffe0c3e429cf21067754954004d9717a1",
+      "bytes": 500344,
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        39,
+        1226,
+        1254
+      ],
+      "display_bbox_alpha_ge_8": [
+        290,
+        217,
+        937,
+        1110
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "matches_original_bytes": true,
+      "alpha_nonzero_edge_contact": true,
+      "alpha_ge_8_edge_contact": false
+    }
+  ],
+  "prompts": [
+    {
+      "path": "depth-prompt-01.txt",
+      "sha256": "b29d8a95997d16e46972734bda77541c5fbe1307510c66013a1e987f6fd23502"
+    },
+    {
+      "path": "depth-prompt-02.txt",
+      "sha256": "352e1f5bd5305c8e99a029f00054d85c2f2fbef20a7b38ad19ae3e10b6b46773"
+    },
+    {
+      "path": "depth-prompt-03.txt",
+      "sha256": "5eca0551abdefc79adc29f17ca69f5406ae4fd0eeb7518bad33bfa203e8fe6c5"
+    },
+    {
+      "path": "intermediate/compact-small-eye-prompt.txt",
+      "sha256": "0915f194a50dc0ba957a8b1f9e3771221675b57196d6b96ef57fbae85db9032d"
+    },
+    {
+      "path": "prompt-01.txt",
+      "sha256": "f8e3070c7b7b22172ed65b5d9ed03d3414a2ad696848388cf4929d0a40597de2"
+    },
+    {
+      "path": "prompt-02.txt",
+      "sha256": "8918297460a0d759b2594ce8515276324c4b3deb3a264c521bb4e97020667ac9"
+    },
+    {
+      "path": "prompt-03.txt",
+      "sha256": "275ae4b538891ce4d2fa33522fc051a7ff5a3c4efe12e4ac1e7361246bc67c37"
+    }
+  ],
+  "limitations": [
+    "Generative edits, no outside-mask pixel identity claim.",
+    "Canvas figure sizes vary; gallery normalizes the alpha>=8 bounding height only for comparison.",
+    "Low-alpha specks (1..7) exist outside the visible character, including image borders in source and variants 2/3; preserved without cleanup.",
+    "No native 128x128 asset, placement, animations or runtime integration for these final variants.",
+    "User artistic acceptance remains open."
+  ],
+  "derived_preview": {
+    "path": "comparison.png",
+    "source": "gallery.html",
+    "renderer": "Chrome screenshot via Playwright",
+    "sha256": "72eff0d96faa13648d3a14d693c8b449f5c2308102b13f47f6e9cceb311692b6",
+    "html_sha256": "6184414ab1457f9e30012c5e069e43a503f73d2799ee066d77029b7af3c83d6c",
+    "normalization": "CSS bounding height alpha>=8, 360px; original PNG unchanged"
+  }
+}

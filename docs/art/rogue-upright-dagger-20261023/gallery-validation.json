@@ -1,0 +1,23 @@
+{
+  "result": "PASS",
+  "engine": "Chrome via Playwright",
+  "images": [
+    {
+      "src": "variant-01.png",
+      "loaded": true,
+      "height": 360
+    },
+    {
+      "src": "variant-02.png",
+      "loaded": true,
+      "height": 360
+    },
+    {
+      "src": "variant-03.png",
+      "loaded": true,
+      "height": 360
+    }
+  ],
+  "horizontalOverflow": false,
+  "errors": []
+}

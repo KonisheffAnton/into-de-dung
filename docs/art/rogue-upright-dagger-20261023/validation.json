@@ -1,0 +1,20 @@
+{
+  "result": "PASS",
+  "scope": "PNG preservation and metadata only; not game-ready alpha validation",
+  "images": 8,
+  "prompts": 7,
+  "checks": {
+    "original_bytes": true,
+    "RGBA": true,
+    "transparency": true,
+    "no_alpha_ge_8_edge_contact": true
+  },
+  "limitation": "Low-alpha 1..7 border specks remain in source and variants 2/3; no cleanup performed.",
+  "not_run": [
+    "Godot",
+    "full/core",
+    "F5/editor/DPI/GPU",
+    "runtime placement",
+    "animation validation"
+  ]
+}
