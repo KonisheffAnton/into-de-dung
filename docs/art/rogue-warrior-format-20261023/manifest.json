@@ -1,0 +1,78 @@
+{
+  "base": "c5efa027c9c760b897c744b4c3bcc0a27352a910",
+  "provider": "built-in image_gen",
+  "date": "2026-10-23",
+  "integration": false,
+  "userAccepted": false,
+  "referenceImages": [
+    {
+      "path": "docs/art/rogue-idle-20261012/rogue-clean.png",
+      "sha256": "d6aea66ef069d0d3053cf844b1abc226d10f44a28b53ae77f8d3ed432146a382"
+    },
+    {
+      "path": "assets/art_presets/approved/warrior_format_v1/character.png",
+      "sha256": "e93daeee4edec7fee5031e8aa91b5a729a2ecd7e269b17abf94558b6e4604057"
+    }
+  ],
+  "outputs": [
+    {
+      "file": "rogue-candidate-01.png",
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a167f6-3c5c-7ef2-b731-c15f33e09583\\exec-d27675f7-3c12-4600-9b24-7ae70407a04e.png",
+      "sha256": "d3e93fc453624bd1caa253f14e02a3e66fbdd2ec734d7a57fed41871f8419c13",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alphaValues": 256,
+      "alphaBBox": [
+        49,
+        32,
+        1232,
+        1194
+      ],
+      "alpha128BBox": [
+        200,
+        223,
+        1106,
+        1142
+      ],
+      "sourceByteExact": true
+    },
+    {
+      "file": "rogue-candidate-02.png",
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a167f6-3c5c-7ef2-b731-c15f33e09583\\exec-bfa9dee2-e74d-49f3-a36f-e9c180ff0970.png",
+      "sha256": "31614ad4454a5df5e9da9a08259c3c16bebe1081ef224e33c8bfe6a5ec740e7a",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alphaValues": 256,
+      "alphaBBox": [
+        55,
+        45,
+        1160,
+        1214
+      ],
+      "alpha128BBox": [
+        392,
+        296,
+        920,
+        1014
+      ],
+      "sourceByteExact": true
+    }
+  ],
+  "preferredCandidate": "rogue-candidate-02.png",
+  "native128Prepared": false,
+  "note": "Original generated RGBA images; preview only. Semi-transparent pixels exist. No raster postprocessing, no animation generation, no game replacement."
+}
