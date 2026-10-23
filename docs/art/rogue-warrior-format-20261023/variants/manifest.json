@@ -1,0 +1,186 @@
+{
+  "base": "9a4f45888caa2f3c245540f46e19b9e6e76c020c",
+  "provider": "built-in image_gen",
+  "integration": false,
+  "userAccepted": false,
+  "correctHand": "viewer-left blade points up-left/back; viewer-right blade points down-right",
+  "outputs": [
+    {
+      "file": "03-scout/character.png",
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a167f6-3c5c-7ef2-b731-c15f33e09583\\exec-13557cf3-e23a-418a-9be6-31afc602c2bc.png",
+      "status": "rejected-wrong-hand",
+      "sha256": "1c284779016c191d1ece53b38aae1d97daa30cd6e504866f42da6b4bb68f2f0d",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alpha128BBox": [
+        382,
+        295,
+        956,
+        1059
+      ],
+      "sourceByteExact": true
+    },
+    {
+      "file": "03-scout/corrected.png",
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a167f6-3c5c-7ef2-b731-c15f33e09583\\exec-65bab244-92fa-4195-b50c-c94481b06b55.png",
+      "status": "final",
+      "sha256": "1e24a28007b84c801325637f611cc8b6dba45bb49fbb1874798287e14dc66c8a",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alpha128BBox": [
+        280,
+        295,
+        998,
+        1059
+      ],
+      "sourceByteExact": true
+    },
+    {
+      "file": "04-veteran/initial.png",
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a167f6-3c5c-7ef2-b731-c15f33e09583\\exec-e66a0663-5620-4716-ac3b-fa90bcbfc713.png",
+      "status": "rejected-wrong-hand",
+      "sha256": "e28a5b67879cc7fe8703441de87322931ba6e68e43cf1c6834ca5a3c2e23cd12",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alpha128BBox": [
+        358,
+        241,
+        1044,
+        1109
+      ],
+      "sourceByteExact": true
+    },
+    {
+      "file": "04-veteran/wrong-hand.png",
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a167f6-3c5c-7ef2-b731-c15f33e09583\\exec-ba5fd870-3d53-4b91-a959-2389359a0a9c.png",
+      "status": "rejected-wrong-hand",
+      "sha256": "0fc21f4fabeb2b712e8b300eb9370f5efebef5c289da77c8fcca73829643ac23",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alpha128BBox": [
+        356,
+        241,
+        960,
+        1110
+      ],
+      "sourceByteExact": true
+    },
+    {
+      "file": "04-veteran/extra-blade.png",
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a167f6-3c5c-7ef2-b731-c15f33e09583\\exec-8a364f4d-798d-4c90-bea4-e1cabd6e287e.png",
+      "status": "rejected-three-blades",
+      "sha256": "ef033382f6aaac5e71ef60bc9aba721088cf2342f89d1246f1a04c87daac9f52",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alpha128BBox": [
+        262,
+        240,
+        1000,
+        1111
+      ],
+      "sourceByteExact": true
+    },
+    {
+      "file": "04-veteran/corrected.png",
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a167f6-3c5c-7ef2-b731-c15f33e09583\\exec-a0bb7d17-0856-46f8-bc75-d60691511b91.png",
+      "status": "final",
+      "sha256": "0244a7c4db6d6547c508ee4efea1356a6a857a6ea84ee34a626bfca983b3ff2d",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alpha128BBox": [
+        261,
+        241,
+        1000,
+        1111
+      ],
+      "sourceByteExact": true
+    },
+    {
+      "file": "05-shadow/character.png",
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a167f6-3c5c-7ef2-b731-c15f33e09583\\exec-d09b8c9a-a9f7-4bf3-8d03-5904642f257c.png",
+      "status": "rejected-wrong-hand",
+      "sha256": "f97723d28fca8e9781aacd157367aa611b9e1f8c36b93e7836ae0f351743376b",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alpha128BBox": [
+        387,
+        299,
+        950,
+        1038
+      ],
+      "sourceByteExact": true
+    },
+    {
+      "file": "05-shadow/corrected.png",
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a167f6-3c5c-7ef2-b731-c15f33e09583\\exec-bd561fd5-1f4b-4874-8775-329780780f41.png",
+      "status": "final",
+      "sha256": "2705a1d27b24f84b21c09ad73fdb9a16c24b456561bb148431bb68e2ff7cff62",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alpha128BBox": [
+        319,
+        299,
+        973,
+        1039
+      ],
+      "sourceByteExact": true
+    }
+  ],
+  "native128Prepared": false
+}
