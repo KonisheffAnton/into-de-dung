@@ -1,0 +1,17 @@
+Use case: precise-object-edit.
+Refine ONLY the TWO DAGGERS and their immediate grips in this exact attached rogue sprite. The user chose this hood-and-short-cloak version; keep the rest of the character unchanged.
+
+Make the daggers a clean matching pair of practical fantasy steel daggers, easy to read at small pixel-art game size:
+- straight, compact, pointed blades, smoothly tapering in deliberate stepped pixel clusters; no bent/wavy edges, serrations, bulbous white shapes or uneven broken tip;
+- each blade has one clear center ridge, two restrained steel-gray planes and a thin light edge, rather than a flat white blob;
+- small straight muted-brass crossguards perpendicular to the blade, symmetrical and understated; remove the current bright-yellow crooked L-shaped guards;
+- dark brown leather handles aligned with each blade, fully and convincingly gripped by the existing brown-gloved hands; a small steel pommel where visible. No floating handles, extra fingers or weapons.
+Keep them short daggers, NOT swords. Similar practical blade length and thickness for both, allowing the existing perspective. Preserve exactly TWO weapons.
+
+ABSOLUTE ORIENTATION LOCK — use viewer/image sides, never anatomical sides:
+LEFT SIDE OF IMAGE: reverse-grip dagger, tip pointing diagonally UP-LEFT/backward from the left-picture fist. Keep this side reversed.
+RIGHT SIDE OF IMAGE: normal downward dagger, tip pointing diagonally DOWN-RIGHT from the right-picture fist.
+Do not swap these directions, mirror the character, add an upward blade on the right, or create a double-ended knife.
+
+Preserve the hood, face, hair, cloak, torso, belts, pouches, clothing, knee guards, legs, boots, stance, body size, pixel grid, camera, colors outside the daggers, canvas dimensions, transparent padding and whole-character framing. Change only the daggers/guards/handles and the minimum nearby glove pixels needed for a believable grip. Crisp low-resolution pixel art, no tiny high-resolution detail, no blur, no grain or smooth gradients.
+Output the complete same character as a transparent RGBA PNG. True transparency; no backdrop, floor, shadow, tile, text or extra props.

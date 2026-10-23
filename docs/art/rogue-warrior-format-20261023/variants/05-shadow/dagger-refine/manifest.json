@@ -1,0 +1,58 @@
+{
+  "base": "c74d56b6f41358c36d998b0e60a9fd2bdcdc2674",
+  "provider": "built-in image_gen",
+  "userInputMatchesPrevious05Bytes": false,
+  "input": "user-source.png",
+  "output": "refined.png",
+  "prompt": "prompt.txt",
+  "integration": false,
+  "userAccepted": false,
+  "native128Prepared": false,
+  "outputs": [
+    {
+      "file": "user-source.png",
+      "source": "C:/Users/Aston/AppData/Local/Temp/codex-clipboard-39fc8970-46cd-4ff0-ba33-ab427c2794b7.png",
+      "sha256": "42aa408eb13e8cec8a3c3ce8a0043321faf993fb6d2e6e08cc5e545218e76904",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alphaValues": 256,
+      "alpha128BBox": [
+        319,
+        299,
+        973,
+        1039
+      ],
+      "sourceByteExact": true
+    },
+    {
+      "file": "refined.png",
+      "source": "C:/Users/Aston/.codex/generated_images/01a167f6-3c5c-7ef2-b731-c15f33e09583/exec-076cb056-69c3-49dd-95ec-a2ea18dde2d9.png",
+      "sha256": "556c482e605e182f0b750dfac397adc0676ed547ae00cd060aa99fc2bf4a5176",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alphaValues": 256,
+      "alpha128BBox": [
+        301,
+        299,
+        986,
+        1040
+      ],
+      "sourceByteExact": true
+    }
+  ],
+  "note": "Generative dagger-and-grip refinement, exact unchanged pixels elsewhere not claimed."
+}
