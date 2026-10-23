@@ -1,0 +1,58 @@
+{
+  "result": "PASS",
+  "scope": "external animation package; no runtime or artistic acceptance",
+  "jobsCompleted": 6,
+  "framesOriginalBytesVerified": 102,
+  "rgba128": true,
+  "alphaAndEdges": true,
+  "firstFramesEqualInput": 6,
+  "browser": {
+    "status": "PASS",
+    "canvasCount": 6,
+    "frameCountPerClip": 17,
+    "pauseFreezesPixels": true,
+    "replayWhilePaused": true,
+    "resumeAfterReplay": true,
+    "speedControl": true,
+    "finalFrameRgbaMatches": true,
+    "localLinksChecked": 12,
+    "comparisonImageLoaded": true,
+    "errors": [],
+    "failures": []
+  },
+  "independentReview": "APPROVE external delivery",
+  "protectedSceneAnd32ArtFiles": "unchanged SHA256",
+  "archiveMatchesPreviousWorktreeBytes": true,
+  "archiveSha256": "ffe31160e3526d5069d681feb76c847281f472c0566674f2542fa736a8724cba",
+  "checkedLocalLinks": 155,
+  "inputDocumentSizes": {
+    "AGENTS.md": {
+      "beforeChars": 4565,
+      "afterChars": 4565,
+      "changed": false
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "beforeChars": 2130,
+      "afterChars": 2188,
+      "changed": true
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "beforeChars": 3557,
+      "afterChars": 3557,
+      "changed": false
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "beforeChars": 4482,
+      "afterChars": 4482,
+      "changed": false
+    }
+  },
+  "sizeNote": "PROJECT_CONTEXT existing over guideline, unchanged; changed HANDOFF below2500; open acceptance and all transfer constraints retained.",
+  "notRun": [
+    "Godot",
+    "full/core",
+    "F5/editor/DPI/GPU",
+    "manual real-time animation acceptance",
+    "game placement/transitions"
+  ]
+}

@@ -1,0 +1,378 @@
+{
+  "baseCommit": "b44ad76995c67f15ce34972552311406e9042b9a",
+  "integration": false,
+  "sourceChosenForAnimationByUser": true,
+  "clipsAcceptedByUser": false,
+  "source": {
+    "path": "source.png",
+    "sha256": "f57d34e7ad128a72d109159b3a1b1635c03bde268893b0758d95c867dd5feeab",
+    "origin": "User attachment codex-clipboard-15edf77c-0fb4-45dd-964d-0fcb36b2f2fe.png"
+  },
+  "input": {
+    "path": "input-transparent.png",
+    "sha256": "c774002e01412bbf82adcd30a8d636bf1b891b67623a0b5fb49b0ea8ccd996ff",
+    "canvas": [
+      128,
+      128
+    ],
+    "figure": [
+      66,
+      72
+    ]
+  },
+  "externalPackage": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-selected-pixellab-20261023",
+  "endpoint": "https://api.pixellab.ai/v2/animate-with-text-v3",
+  "jobs": {
+    "idle-1": "f5a75034-1da6-4a20-8eb4-7e7458354a60",
+    "idle-2": "a4d1ca8a-c673-41db-afb5-d7fac442931e",
+    "idle-3": "c2740a4b-9bf0-4485-b782-a9c5c4bafa6c",
+    "death-1": "23935c69-54a5-44d5-a583-c2049a27a58d",
+    "death-2": "803fa471-d65c-492b-930c-a836d3316c92",
+    "death-3": "3d86081f-9a2c-4a33-9c7e-fceea5f1cd5b"
+  },
+  "variants": [
+    {
+      "id": "idle-1",
+      "title": "Idle 1",
+      "kind": "idle",
+      "provider": "pixellab",
+      "seed": 2026102390,
+      "requestedFrameCount": 16,
+      "actionChars": 954,
+      "requestedTitle": "Тихое дыхание"
+    },
+    {
+      "id": "idle-2",
+      "title": "Idle 2",
+      "kind": "idle",
+      "provider": "pixellab",
+      "seed": 2026102391,
+      "requestedFrameCount": 16,
+      "actionChars": 972,
+      "requestedTitle": "Перенос веса"
+    },
+    {
+      "id": "idle-3",
+      "title": "Idle 3",
+      "kind": "idle",
+      "provider": "pixellab",
+      "seed": 2026102392,
+      "requestedFrameCount": 16,
+      "actionChars": 968,
+      "requestedTitle": "Лёгкое движение плаща"
+    },
+    {
+      "id": "death-1",
+      "title": "Смерть 1",
+      "kind": "death",
+      "provider": "pixellab",
+      "seed": 2026102393,
+      "requestedFrameCount": 16,
+      "actionChars": 975,
+      "requestedTitle": "Колено, затем вперёд"
+    },
+    {
+      "id": "death-2",
+      "title": "Смерть 2",
+      "kind": "death",
+      "provider": "pixellab",
+      "seed": 2026102394,
+      "requestedFrameCount": 16,
+      "actionChars": 983,
+      "requestedTitle": "Падение на ближний бок"
+    },
+    {
+      "id": "death-3",
+      "title": "Смерть 3",
+      "kind": "death",
+      "provider": "pixellab",
+      "seed": 2026102395,
+      "requestedFrameCount": 16,
+      "actionChars": 983,
+      "requestedTitle": "Падение назад"
+    }
+  ],
+  "originalFrameRecords": [
+    {
+      "provider": "pixellab",
+      "id": "idle-1",
+      "title": "Тихое дыхание",
+      "frame_count": 17,
+      "delays": [],
+      "durationMs": null,
+      "sourceStatus": "completed",
+      "originalBytesVerified": true,
+      "usage": {
+        "type": "generations",
+        "generations": 4.0
+      },
+      "taskId": "f5a75034-1da6-4a20-8eb4-7e7458354a60",
+      "fileSha256": [
+        "3467e4ad09e5c23f55918bf5a14b3ce0f8152da0c951277be7f7476982f00057",
+        "6bc1d2ffbf55e6ec433298986f49c48c424abfe15687eba4f34ab77f817fb96a",
+        "943937a487e94cfe9fbe019b93ecc6b9d9dcbcfde2137de5628469c9b0260f8d",
+        "3ddaeaab94125de1a06a06d4510c94a60fe8616cc5f0ec1531d652a71de5bfb4",
+        "86b68ca789e2ce4db3f52ec691159716817230b5999ce0c1f4b5755eafdb85a9",
+        "362868113ca86d242f1471306ddf93f40b211e93fc16352956519b52153d39b8",
+        "3efcd13a327162db5a9b139e4f7492f2aeb3e2bcbaab177860a005afef3b9aca",
+        "9d687ee57f0444b5f8062216d3bc8712441a747e28c9b43163dd766525dd49e7",
+        "d4a60a19f824c356a0dd5b92e90f84a43f16d73c60030379b24fab8142c68fb4",
+        "b781d95fbdbba3d6f116b5d2197b8ac1ce046153c958c133aabef22af0dffb29",
+        "449d1811d82f2ae5c911ebd92ce9bb2f402c43f9b3f73fb42a5e5c4441c1699d",
+        "d97bb0d03c9fc086e9befac0ad07b67c7975f8c8c633c859ff7fe029521333f8",
+        "c6681c0fffa19af66c40044488944cc1bdfbdaabc2bdb56743db9e5c36a5768e",
+        "0f4a0a48e95735a02275e5d0445f97a05d51f8a803a6575fa9dffc8f10752de8",
+        "7d2cdf1e3e86e661729493d279d9f039f38b2ab25bfa4393d946cceea4e9e9ef",
+        "7867318470ad6b9c3316590a54c7d6f2dbecf6898d8242d44a3207d24877432b",
+        "99af4fa48929d5db19b56b9b4ec0361fe0a71b5503b5a4079d139dea4d4d6355"
+      ],
+      "firstFrameRgbaEqualsInput": true
+    },
+    {
+      "provider": "pixellab",
+      "id": "idle-2",
+      "title": "Перенос веса",
+      "frame_count": 17,
+      "delays": [],
+      "durationMs": null,
+      "sourceStatus": "completed",
+      "originalBytesVerified": true,
+      "usage": {
+        "type": "generations",
+        "generations": 4.0
+      },
+      "taskId": "a4d1ca8a-c673-41db-afb5-d7fac442931e",
+      "fileSha256": [
+        "3467e4ad09e5c23f55918bf5a14b3ce0f8152da0c951277be7f7476982f00057",
+        "761afca14667404058b656522849314862a5ef9c2c9e56903b97c71f4973420a",
+        "8ae388d0ec01e5381a3275279519aeb8211bc37c21d25e653ba9c23109077d7a",
+        "70244cab1bf532644cdbf0a99d0e94c941ed152cdc45befc258db5dd0e515f9c",
+        "474e5b92170e5d7e87ade1f661c26c15b5d5f124b0788cdbfc92104c72e77d59",
+        "e9f9b7a63596de8338078a265efd9518d00a97da067e45f93a0c7c49b10f320c",
+        "c1e6bb9e1f3ee2199ca3178e7b6c7a3e48e2be9cedd345b7f3519eaf1dcf7723",
+        "d37383765f1b54a85548918d0e905f4c2b70fedb09ff6de85bb20de9d54e8bd9",
+        "87482db942d5684846b805550731950159076f4858e7b7055a8c9cb5f0445d83",
+        "a7519df1d32fb47ffd18deed563abd4680f05cfdd666be792216754c58bf8aa5",
+        "f89e5027ecef172347c9752d50cfed9b1e7dbc344c93267fb0626b54c1b11301",
+        "db2ac649472907f27b2f82e1184b3b9e7175b5a3bef4a4aae2c9a9992d20631d",
+        "7f4510920d9ff304a4afea50724274e88ea552c774bfb0aca44fc17a055c76cb",
+        "a3ec426c52b70460ab6fa35b9b3c579db1dda1d33d86851aa91d776ba0172304",
+        "083c4812d858a28e37638d7dc97ecdd18080d6b3133ed7167b13e94e37345379",
+        "758a5680a33b1f7a25e78053f32c02a1874b63cd7f2c439f7f518334005295ae",
+        "3e67f663311a07eaec131a24ecdab6caf6aa5012a9a99e67dd3b05b3235a6361"
+      ],
+      "firstFrameRgbaEqualsInput": true
+    },
+    {
+      "provider": "pixellab",
+      "id": "idle-3",
+      "title": "Лёгкое движение плаща",
+      "frame_count": 17,
+      "delays": [],
+      "durationMs": null,
+      "sourceStatus": "completed",
+      "originalBytesVerified": true,
+      "usage": {
+        "type": "generations",
+        "generations": 4.0
+      },
+      "taskId": "c2740a4b-9bf0-4485-b782-a9c5c4bafa6c",
+      "fileSha256": [
+        "3467e4ad09e5c23f55918bf5a14b3ce0f8152da0c951277be7f7476982f00057",
+        "aa5e568c1363982851fcaf308dafb9c7e6a54075552e233cd4fa56643a05294d",
+        "05964f1c473eaeeeaec219274fc37c756b0fd3724805cbc3593491c6ac4ef24f",
+        "f837e68617ded215c5c88830ea0623f050667949ca24397131223363e16da4da",
+        "1af4205b9fd2398de0c2bbb107d62d7a44ad956038816b41bbb4134f526b622c",
+        "92e91b593fb3a4909564c2fc6ef5149151735053bd598981f319d1756f0aa1ae",
+        "a182d2934dbbab1d94581d87fbb64bf2e4fe03ab5bbb145735ab9566926b0e72",
+        "98dab8b0c63d13d035d00747b2c305bbcc1397eb35fcbb32e5252a9413292f13",
+        "9289209e1c2015ad03cb71324924d456d4e44faf00dd2770626285d327ffea73",
+        "1734ae174625840b36bf80918f2c3d55b4a49b1e05183aed2b0e04d79fbd004f",
+        "66232a4eaf5bab85b5a95e00faef2a95d1383b46c4feab76ec446062c5283f43",
+        "1e01a3500c7d74732f46afe9c4615ab7be72d6b1ba60a4ba8dbb9d157fb63f57",
+        "4397bdd489bf92bc7297b35ff3994f9099d93e1a1817d4bc10d8df64348365af",
+        "9c96fe527fb153a404b915f83e3e84c627d5f96e8a70ebb495882889bc0ebd0f",
+        "b99c1a700525a0d1fadf40a365282d0f8b337c60a569335b157b3312447ff808",
+        "acd1fb944fb419507e84c95a4a57e471340d368d57a2b0b5f625c4ba726e4073",
+        "f63800250183939bbc5329aed49c9ead60f74e3fb08abcab7d3def35fe09a8f4"
+      ],
+      "firstFrameRgbaEqualsInput": true
+    },
+    {
+      "provider": "pixellab",
+      "id": "death-1",
+      "title": "Колено, затем вперёд",
+      "frame_count": 17,
+      "delays": [],
+      "durationMs": null,
+      "sourceStatus": "completed",
+      "originalBytesVerified": true,
+      "usage": {
+        "type": "generations",
+        "generations": 4.0
+      },
+      "taskId": "23935c69-54a5-44d5-a583-c2049a27a58d",
+      "fileSha256": [
+        "3467e4ad09e5c23f55918bf5a14b3ce0f8152da0c951277be7f7476982f00057",
+        "54563d2e87cc8af5931d7932f6ce01870b685f75338909701c8e4c66fc7f42ce",
+        "ca0dd9fdaffb5ec49c6c698e8b5c481412cfc865242eb8c4ee8b75c75e0fe763",
+        "44cfcb77a3b822f4696bf3fdcbe2bdd9c3916863b761189e33856067d6607253",
+        "a1eea390c799d5f601912f00bc19d047cbfd70751d0dc30baafa99d6a59e6725",
+        "2f0899c7d8ef6b800ba32db393aab860c9295f4342f5b8f2c91a30c5324324d0",
+        "90870785060f91226ca4bac6be4181abd3e0922642558fd16353616e16a51ed6",
+        "8a751210e40a3e1dddedc9f9a519306af210fe69faedfd54d67ffc0fccccacc2",
+        "0aef80673f19eb9f1fce840cb7148b790fcc494d78ec2b5e8f5a2292109b0b8f",
+        "6d1f5b1f8778cbac86579b076b27883f07f2b100d8296170c81f4f288e7818c8",
+        "0319fee5d03c5ed97964f1e2157800834e583e3752158d4ed430da8c95cf8de3",
+        "b31fef883fba47d60ffd4aada5a66296b02268deb3936a014db8ec849a5a909a",
+        "c203dab4188edcb78791d8eb5e9c20a8364a22a20eb9e44a99c52167adf8ffe9",
+        "7ede8a37663d847fd10bd446901d4f5562d5b98dcf214be2fb5e8fa5bfc5aa96",
+        "e70c7acd0cf0df725b3235388fe19c7a061d9c497fa66ce8a981c787bff906ba",
+        "ff8613a6e3ae7268cdc2a670fdafb23c2624b1dd481ae73873e6daa09ac050ff",
+        "185c2bc3087281d1af3cd4dd98bf04966c0e43120d091c9366631fdff3f37c8e"
+      ],
+      "firstFrameRgbaEqualsInput": true
+    },
+    {
+      "provider": "pixellab",
+      "id": "death-2",
+      "title": "Падение на ближний бок",
+      "frame_count": 17,
+      "delays": [],
+      "durationMs": null,
+      "sourceStatus": "completed",
+      "originalBytesVerified": true,
+      "usage": {
+        "type": "generations",
+        "generations": 4.0
+      },
+      "taskId": "803fa471-d65c-492b-930c-a836d3316c92",
+      "fileSha256": [
+        "3467e4ad09e5c23f55918bf5a14b3ce0f8152da0c951277be7f7476982f00057",
+        "141b47162a582a4aee27e56f4cd36064ec3ff3f4556036e9fc5dede97bb78ccc",
+        "93b861dc70f5a5bbb7a91056cd2a053e35096605d0e313ee96ff499bc602c6e1",
+        "d62513caba6a2f4ae6ac894e89cfd82a61b17bf53dcb4915b03d2206b3feca1d",
+        "f0b59913c2e90bf0395877626ff36d1de27d31a21302a02bac33964bc2d3691a",
+        "5f7d6e2d701397add7dfc7983fe6bf932f50a7d4e9765639a8dac0f7b89581b1",
+        "b076d4751604dfa87895efdcacd94e21e34e6892c8aa75f4d787c4c20e4f1699",
+        "e7c285f0293f5b653b9fd7b3b40c09545c2e3754649d3f1b5850e7d94c0d1468",
+        "0306bcb6d47d3567fe92d0212d69b409345bb5c8093b5d683a243b032834c1c5",
+        "0b21f056f09d4a70f6e173b95d58a0c70ffac012749b82cb4f103b6dbb6bfce4",
+        "ebd319c5070f15d388bb5d3069767974f80572d119795fa0019fdb3e0f67eaf1",
+        "6637baffa0660ff9ea63de8051037228e046adfdd0035df5a9effa4abdfcf7e7",
+        "3459be37499edfda4ee7c84ddaa5eb158f30992f953be2a1af93bfb0b0b9be53",
+        "f4cbacc1b9e62928506e209dd0114a1e63db79267405cd17c0fc6fbfba591753",
+        "363c58c7a1994d710ea31bcd62a9baff83255b1023320785758e6a29c5048e0a",
+        "b21723316506822963671a15a1da53b706f6e676753e3bdaf9993ed9c14c5382",
+        "20a2174902ca0384f39c1842ea411db824183bfdac3845e938df4d601dfbe31e"
+      ],
+      "firstFrameRgbaEqualsInput": true
+    },
+    {
+      "provider": "pixellab",
+      "id": "death-3",
+      "title": "Падение назад",
+      "frame_count": 17,
+      "delays": [],
+      "durationMs": null,
+      "sourceStatus": "completed",
+      "originalBytesVerified": true,
+      "usage": {
+        "type": "generations",
+        "generations": 4.0
+      },
+      "taskId": "3d86081f-9a2c-4a33-9c7e-fceea5f1cd5b",
+      "fileSha256": [
+        "3467e4ad09e5c23f55918bf5a14b3ce0f8152da0c951277be7f7476982f00057",
+        "ed676c98b91a7e9adf22d978f953e2ca2288939e049dba38165603f2ad3894c7",
+        "26feca85c9f3b96d558387316efd042d18561900f4b9a0cb595e9aea89914d6d",
+        "cc5d36c43d3a7a2566a2a21116282ee733510bfa4cbd018bdc394094dfdee89d",
+        "2db4cd4beb67c918501cc3ab746dca572b40a3fcf25cf442ecc6fb862202e38a",
+        "76fb18994820966919d6e912a1bdc90bf886814b670151a14cd2f8919f90b36d",
+        "84d9f0727e3eaeaa3a6a8464d19cfb0c643d547f200dfda6a1390f199bcf56d8",
+        "151211442c71df0414d63931c468b70a2f21b1d2c519a2c4000e6547d3909c68",
+        "eb3018065b683a57e36ef696d35dd419d48b37d5e86d8b0f3ae8748058d1d2b9",
+        "2b92913a2593385be85c20d339a57ee623456a98838e5d09c7f965cf6c439bb0",
+        "7cca2af19a6e84c7369c4cd8b9bd868aa8d5473505e90191eb8534b01633307e",
+        "2eb06eea7289aeb78feb41a7bb2ee96ae5b303947a1e2f4bc5032a3318289ebb",
+        "6e3e101c506aa5e2e1cde1df4760dffd561f167b65203294c6ac0046654274fd",
+        "13ea07428faf747402beb24b42fdaa26c57f2d3c591bf098fcdf018b0bedb224",
+        "4e6fd7279fb75e1a1386c4d6fc42a1696106d40260f74920e731b9f6abbd2e4e",
+        "278934356396a922fed03ccc9e966d8e0b41ffb26f923723518f7f3c41b672a1",
+        "6758acaef55e375f49b8d2e7642e795cb7e32e0def7e707c4c7f59434f759a78"
+      ],
+      "firstFrameRgbaEqualsInput": true
+    }
+  ],
+  "externalEvidence": [
+    {
+      "path": "manifest.json",
+      "sha256": "b4eece95d54a8e548e9f698523e3044a95f255076e6d32dc8e11de67cea09fb5"
+    },
+    {
+      "path": "source-preparation.json",
+      "sha256": "79ac0f9d765550d0476e28ab3ec478e02fb62113a6a2b02ea4ddf00f4253c2e4"
+    },
+    {
+      "path": "pixellab-openapi.json",
+      "sha256": "e322e725493611c6bd5c96ea05b8020c5e7859750f4ac588955ae311e5a92fdc"
+    },
+    {
+      "path": "request-validation.json",
+      "sha256": "7489a3a487cbd39940445824198239016187a85bff229c8729c60adb0e0f5c9f"
+    },
+    {
+      "path": "extraction-validation.json",
+      "sha256": "d023258a1a34eaf81bdc2c6ea1cce13fb936aea1ca90910de6aeb4e31b970d5c"
+    },
+    {
+      "path": "validation-derived.json",
+      "sha256": "16846027a68e7edb99e63a374143c28dcb0e170708a979e8b43fbfd8d03bfd2d"
+    },
+    {
+      "path": "browser-validation.json",
+      "sha256": "772aa719973c250440629b008402120bcb1873b945fb6b2c437ee87f8fc6ad1e"
+    },
+    {
+      "path": "visual-review.json",
+      "sha256": "2dc886894b4ed6677681afb444845ccef22a0a203bbd3577baf7f4de0b3755e4"
+    },
+    {
+      "path": "costs.json",
+      "sha256": "e8e30a837316a132a61dbd0e0273178d295004415440a841ef4fe8a35e805194"
+    },
+    {
+      "path": "build_previews.py",
+      "sha256": "adeb50751122f9d02e5908845f936f21b72cb723a30de7ed4ff32bab812995b7"
+    },
+    {
+      "path": "verify_gallery.cjs",
+      "sha256": "834bbe4bf705fc432e0ff18025d623b87b348ec3b7afd61035d0443e61521452"
+    },
+    {
+      "path": "prepare_requests.py",
+      "sha256": "972a154a7185643d2a1222d93feef87c0467200ddb1eb55cf4f414c16911e5f6"
+    },
+    {
+      "path": "extract.py",
+      "sha256": "dc42922356538d2d911093e536a2f60c5a8f3961b0fdb4fc48a50a894b327fc9"
+    },
+    {
+      "path": "build_style_comparison.py",
+      "sha256": "ce07c3d22747a449cc465a6347437327fd3ad21f7d48817be874554fbdb0b874"
+    },
+    {
+      "path": "style-comparison.json",
+      "sha256": "314ab72941fbc43d4a430bdfb80ed43034b21bc21ee3252be45b81cc7587fb72"
+    },
+    {
+      "path": "gallery.html",
+      "sha256": "d5c4dccd7b40ebc0a334b4d93241a4ec11e16db61fa7f90a08b4b63130dc9951"
+    }
+  ],
+  "acceptedByUser": false,
+  "authoredPreviewTiming": {
+    "frameMs": 150,
+    "deathFinalHoldMs": 900
+  }
+}

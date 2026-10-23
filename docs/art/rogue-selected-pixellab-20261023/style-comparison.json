@@ -1,0 +1,65 @@
+{
+  "integration": false,
+  "method": "Механический монтаж исходных RGBA crop; персонажи не ретушировались и не перерисовывались.",
+  "output": "style-comparison.png",
+  "outputSize": [
+    744,
+    416
+  ],
+  "backgroundRgba": [
+    218,
+    216,
+    208,
+    255
+  ],
+  "scale": 4,
+  "resampling": "nearest",
+  "subjects": [
+    {
+      "label": "Воин",
+      "source": "D:/Games/into-de-dung/assets/art_presets/approved/warrior_format_v1/character.png",
+      "sha256": "e93daeee4edec7fee5031e8aa91b5a729a2ecd7e269b17abf94558b6e4604057",
+      "sourceSize": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        41,
+        20,
+        95,
+        92
+      ],
+      "visibleSize": [
+        54,
+        72
+      ],
+      "displaySize": [
+        216,
+        288
+      ]
+    },
+    {
+      "label": "Выбранный разбойник",
+      "source": "input-transparent.png",
+      "sha256": "c774002e01412bbf82adcd30a8d636bf1b891b67623a0b5fb49b0ea8ccd996ff",
+      "sourceSize": [
+        128,
+        128
+      ],
+      "alphaBounds": [
+        31,
+        20,
+        97,
+        92
+      ],
+      "visibleSize": [
+        66,
+        72
+      ],
+      "displaySize": [
+        264,
+        288
+      ]
+    }
+  ]
+}

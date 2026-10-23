@@ -1,0 +1,37 @@
+{
+  "preparation": {
+    "unzoom": 0.1,
+    "removeBackground": 1.0
+  },
+  "clips": [
+    {
+      "id": "idle-1",
+      "generations": 4.0
+    },
+    {
+      "id": "idle-2",
+      "generations": 4.0
+    },
+    {
+      "id": "idle-3",
+      "generations": 4.0
+    },
+    {
+      "id": "death-1",
+      "generations": 4.0
+    },
+    {
+      "id": "death-2",
+      "generations": 4.0
+    },
+    {
+      "id": "death-3",
+      "generations": 4.0
+    }
+  ],
+  "totalGenerations": 25.1,
+  "balanceBefore": 2172.4,
+  "balanceAfter": 2147.3,
+  "usd": 0,
+  "uncertainPosts": 0
+}

@@ -1,0 +1,38 @@
+{
+  "source": "references/user-source.png",
+  "sourceSha256": "f57d34e7ad128a72d109159b3a1b1635c03bde268893b0758d95c867dd5feeab",
+  "sourceOrigin": "User attachment codex-clipboard-15edf77c-0fb4-45dd-964d-0fcb36b2f2fe.png; visually selected upright variant, not byte/RGBA identical to previous variant-02.png.",
+  "provider": "PixelLab unzoom and remove-background; no new design generation",
+  "unzoom": "source-prep/unzoom/unzoomed.png",
+  "backgroundRemoval": "source-prep/remove-bg-v2/transparent.png",
+  "providerCanvas": [
+    318,
+    317
+  ],
+  "cropAlpha128": [
+    60,
+    60,
+    270,
+    289
+  ],
+  "resizeMethod": "nearest; uniform aspect rounded to whole pixel width; no repaint",
+  "figureSize": [
+    66,
+    72
+  ],
+  "canvas": [
+    128,
+    128
+  ],
+  "topLeft": [
+    31,
+    20
+  ],
+  "groundAnchorApprox": [
+    64,
+    92
+  ],
+  "outputSha256": "c774002e01412bbf82adcd30a8d636bf1b891b67623a0b5fb49b0ea8ccd996ff",
+  "note": "External animation input preparation; not approved game placement.",
+  "relativePathsBase": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-selected-pixellab-20261023"
+}
