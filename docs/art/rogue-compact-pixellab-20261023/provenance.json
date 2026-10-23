@@ -1,0 +1,66 @@
+{
+  "baseCommit": "61c1adba675e1c0981fcf53cb71e9b2292094895",
+  "integration": false,
+  "sourceEditProvider": "built-in ImageGen",
+  "userDirection": "Keep green hood and two daggers; make compact and simpler like warrior",
+  "externalPackage": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-compact-pixellab-20261023",
+  "previousPackage": "C:/Users/Aston/.codex/generated_images/rogue-pixellab-20261023",
+  "files": [
+    {
+      "file": "source.png",
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-compact-pixellab-20261023\\references\\rogue-compact-original.png",
+      "sha256": "21610ee30a59951ee9ae6cee2d51db27df91a1eeef75c138d96d76d7b2f334ed",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "file": "input-transparent.png",
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-compact-pixellab-20261023\\input-transparent.png",
+      "sha256": "c58ce8d41c7adc4a82a151301adfd402f883eca115ce77de0a5db54690809a3f",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "file": "style-comparison.png",
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-compact-pixellab-20261023\\style-comparison.png",
+      "sha256": "4c84971788a1b87cdbcad9faef5db3e7b9da02b8890724bb3123cf0a4b079c15",
+      "size": [
+        1024,
+        610
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "source-edit-prompt.txt",
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-compact-pixellab-20261023\\source-edit-prompt.txt",
+      "sha256": "8870f76f2156fb016d819a2e18cce202ea51da297e68ada2a3e5ce252c5422ff"
+    },
+    {
+      "file": "source-preparation.json",
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-compact-pixellab-20261023\\source-preparation.json",
+      "sha256": "760e1870ff91a5e5aa579b23067ed7230e8f5a0b6049304197d65eed3b4c759e",
+      "sourceSha256": "9fa7ec6af83236d7a4a196df10b104354d684f36dfdc42fba75a62c89f965036",
+      "copyNote": "Repository copy adds relativePathsBase; external original retained unchanged."
+    }
+  ],
+  "status": "completed; external previews, not accepted or integrated",
+  "animationResult": {
+    "completed": 6,
+    "framesPerClip": 17,
+    "totalFrames": 102,
+    "originalBytesVerified": true,
+    "firstFrameRgbaEqualsInput": true
+  },
+  "costs": {
+    "currentPackageGenerations": 25.1,
+    "intermediatePackageGenerations": 25.1,
+    "totalGenerations": 50.2,
+    "usd": 0
+  }
+}

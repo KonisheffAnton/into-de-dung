@@ -1,0 +1,47 @@
+{
+  "baseCommit": "61c1adba675e1c0981fcf53cb71e9b2292094895",
+  "priorHandoffArchive": "docs/CODEX_HANDOFF.history-20261023-10.md",
+  "priorHandoffDiskSha256": "917b71c7fbb76960e52e18085fc4dc41d0e6f2ae5bd891320a8fb7b9d4f23e04",
+  "priorHandoffByteExact": true,
+  "protectedSceneSha256": "A64C270256EBF2EA073081200BE23028F792F42C3CA98F83A6499C1300A68668",
+  "protectedArtFileCount": 32,
+  "runtimeChanged": false,
+  "godotTestsRun": false,
+  "protectedArtUnchanged": true,
+  "protectedSceneUnchanged": true,
+  "localLinksChecked": 16,
+  "inputDocumentSizes": [
+    {
+      "path": "AGENTS.md",
+      "beforeChars": 4565,
+      "afterChars": 4565,
+      "changed": false
+    },
+    {
+      "path": "docs/CODEX_HANDOFF.md",
+      "beforeChars": 2247,
+      "afterChars": 2152,
+      "changed": true
+    },
+    {
+      "path": "docs/PROJECT_CONTEXT.md",
+      "beforeChars": 3557,
+      "afterChars": 3557,
+      "changed": false
+    },
+    {
+      "path": "docs/CODEX_WORKFLOW.md",
+      "beforeChars": 4482,
+      "afterChars": 4482,
+      "changed": false
+    }
+  ],
+  "sizeNote": "PROJECT_CONTEXT exceeds its 3500-character guide before and after this stage; file is unchanged. HANDOFF remains below2500 and preserves constraints/open acceptance.",
+  "externalReview": "APPROVE for preview delivery only",
+  "browserChecks": "Both packages PASS:6 canvases,12 links,pause,replay,resume,speed,death final RGBA",
+  "gameTests": "not run; game code/assets unchanged",
+  "pngResult": "Both packages6 completed/102 PNG each; original API bytes and first-frame RGBA verified",
+  "priorHandoffGitBlobEqualsPreviousHead": true,
+  "stagedPathsScoped": true,
+  "stagedFileCount": 13
+}

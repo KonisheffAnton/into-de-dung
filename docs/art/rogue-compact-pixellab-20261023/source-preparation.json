@@ -1,0 +1,37 @@
+{
+  "source": "references/rogue-compact-original.png",
+  "sourceSha256": "21610ee30a59951ee9ae6cee2d51db27df91a1eeef75c138d96d76d7b2f334ed",
+  "provider": "ImageGen edit followed by PixelLab unzoom and remove-background",
+  "unzoom": "source-prep/unzoom/unzoomed.png",
+  "backgroundRemoval": "source-prep/remove-bg-v2/transparent.png",
+  "providerCanvas": [
+    96,
+    96
+  ],
+  "cropAlpha128": [
+    25,
+    23,
+    73,
+    75
+  ],
+  "resizeMethod": "nearest; uniform aspect rounded to whole pixel width",
+  "figureSize": [
+    66,
+    72
+  ],
+  "canvas": [
+    128,
+    128
+  ],
+  "topLeft": [
+    31,
+    20
+  ],
+  "groundAnchorApprox": [
+    64,
+    92
+  ],
+  "outputSha256": "c58ce8d41c7adc4a82a151301adfd402f883eca115ce77de0a5db54690809a3f",
+  "note": "External preparation, not approved game placement. Rejected 422 request with extra task field retained in source-prep/remove-bg; corrected request uses a separate attempt folder.",
+  "relativePathsBase": "C:/Users/Aston/.codex/generated_images/rogue-compact-pixellab-20261023"
+}
