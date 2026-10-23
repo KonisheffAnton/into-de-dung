@@ -1,0 +1,15 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 566.07 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 Laptop GPU
+
+ERROR: Node not found: "StatusHud" (relative to "/root/@SubViewport@2/PlaceholderUnit").
+   at: get_node (scene/main/node.cpp:1975)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://docs/art/rogue-model-death3-20261023/render_audit.gd:64)
+ERROR: Node not found: "GroundShadow" (relative to "/root/@SubViewport@2/PlaceholderUnit").
+   at: get_node (scene/main/node.cpp:1975)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://docs/art/rogue-model-death3-20261023/render_audit.gd:65)
+SCRIPT ERROR: Invalid access to property or key 'transform' on a base object of type 'null instance'.
+   at: _run (res://docs/art/rogue-model-death3-20261023/render_audit.gd:67)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://docs/art/rogue-model-death3-20261023/render_audit.gd:67)

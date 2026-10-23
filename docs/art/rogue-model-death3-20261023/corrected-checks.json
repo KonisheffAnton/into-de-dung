@@ -1,0 +1,27 @@
+{
+  "snapshot": "D:\\Games\\into-de-dung\\test_reports\\demo-8bcaab2e70644192a4a5f6c922189d26\\project",
+  "runtime_asset_scene_files_verified": 919,
+  "runtime_changes_since_first_gate": false,
+  "fixtures": [
+    {
+      "path": "tests/test_defender_buff.gd",
+      "sha256": "a714d91a153ff1e8b5d1f92ab7bf40fb26c1241f8fb8ebd17d6845a421947d9f"
+    },
+    {
+      "path": "docs/art/rogue-model-death3-20261023/render_audit.gd",
+      "sha256": "fdcd3e4e3e82d0bae24fff9e500f95b4c040b9b0c10893c144214ceff1bc41dc"
+    }
+  ],
+  "checks": {
+    "rogue_buff": {
+      "exit_code": 0,
+      "status": "PASS",
+      "output": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\nOpenGL API 3.3.0 NVIDIA 566.07 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 Laptop GPU\n\nROGUE BUFF RESULTS: 31 passed, 0 failed\n"
+    },
+    "defender_buff": {
+      "exit_code": 0,
+      "status": "PASS",
+      "output": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\nOpenGL API 3.3.0 NVIDIA 566.07 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 Laptop GPU\n\nDEFENDER BUFF RESULTS: 299 passed, 0 failed\n"
+    }
+  }
+}

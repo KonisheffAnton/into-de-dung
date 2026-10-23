@@ -3,7 +3,6 @@ extends SceneTree
 const BATTLE_SCENE: PackedScene = preload("res://scenes/demo/battle/hero_hub_battle.tscn")
 const UNIT_SCENE: PackedScene = preload("res://scenes/demo/visuals/art_trial_unit.tscn")
 const BUFF_FRAMES: SpriteFrames = preload("res://assets/art_presets/trials/defender_buff_v1/buff_frames.tres")
-const ROGUE_BUFF: SpriteFrames = preload("res://assets/art_presets/trials/rogue_animations_v1/buff_frames.tres")
 
 var rogue: bool = false
 var frames_resource: SpriteFrames = BUFF_FRAMES
@@ -20,7 +19,6 @@ func _initialize() -> void:
 		if argument.begins_with("--captures="): captures = argument.trim_prefix("--captures=")
 		if argument == "--rogue":
 			rogue = true
-			frames_resource = ROGUE_BUFF
 			suite = "ROGUE BUFF"
 	call_deferred("run")
 
@@ -120,7 +118,7 @@ func run_real_action(catalog_version: int, action: StringName, mode: int, label:
 	fixture.demo.board_view.refresh()
 	var board := fixture.demo.board_view as BattleDemoBoard
 	var visual := find_ally_visual(board, actor_id)
-	check(visual != null and visual._active_buff_frames() == frames_resource and visual.visual_class_id == (&"rogue" if rogue else &"warrior"),
+	check(visual != null and visual._active_buff_frames() == (null if rogue else frames_resource) and visual.visual_class_id == (&"rogue" if rogue else &"warrior"),
 		label + " uses the production art scene, class and buff resource")
 	if visual == null:
 		await close_battle(fixture)
@@ -137,8 +135,12 @@ func run_real_action(catalog_version: int, action: StringName, mode: int, label:
 	var expected_kind: StringName = &"raise_shields" if action == &"raise_shields" else &"guard"
 	check(frame.step.get("status") == &"APPLIED" and frame.step.get("kind") == expected_kind,
 		label + " frame identifies the successful command")
-	check(board._matching_defender_buff(frame.events, frame.step) == visual, label + " receipt confirms the visual actor")
+	check(board._matching_defender_buff(frame.events, frame.step) == (null if rogue else visual), label + " receipt selects only an available buff clip")
 	var after := ActionPresentationState.capture(session.state)
+	if rogue:
+		await check_rogue_generic_guard(fixture, visual, before, frames, after, committed, label)
+		await close_battle(fixture)
+		return {}
 	var player := BattlePresentationPlayer.new()
 	fixture.demo.add_child(player)
 	var publications: Array[Dictionary] = []
@@ -195,6 +197,57 @@ func run_real_action(catalog_version: int, action: StringName, mode: int, label:
 	return {"fixture": fixture}
 
 
+func check_rogue_generic_guard(fixture: Dictionary, visual: BattleDefenderIdleVisual,
+		before: Dictionary, frames: Array, after: Dictionary, committed: Dictionary, label: String) -> void:
+	var board := fixture.demo.board_view as BattleDemoBoard
+	var session := fixture.session as BattleCoreReactionsSession
+	var player := BattlePresentationPlayer.new()
+	fixture.demo.add_child(player)
+	# Ручные часы теста должны держать тот же запрет refresh/hover, что и реальный показ.
+	var idle_player: BattlePresentationPlayer = fixture.demo._presentation_player
+	fixture.demo._presentation_player = player
+	board.execution_pending = true
+	var publications: Array[Dictionary] = []
+	player.frame_finished.connect(func(state: Dictionary) -> void: publications.append(state))
+	player.play(board, before, frames, after)
+	player._tween.pause()
+	var still := visual.class_still_sprite()
+	var clip := visual.get_node("ArtRoot/RogueIdleSprite") as Sprite2D
+	check(player.active and board._defender_buff_visual == null and not visual.can_play_buff()
+		and still.visible and not clip.visible and still.texture.resource_path.contains("rogue_selected_v1"),
+		label + " uses generic guard while retaining the selected model")
+	check(snapshot(session) == committed and publications.is_empty(), label + " before projection never changes committed core")
+	player._tween.custom_step(0.05)
+	check(board._reaction_cues.size() == 1, label + " generic guard has one reaction cue")
+	var cue: BattlePresentationReaction = board._reaction_cues[0] if not board._reaction_cues.is_empty() else null
+	check(still.visible and not clip.visible and visual._buff_elapsed < 0.0,
+		label + " generic cue never reveals old B1")
+	board.size += Vector2(11, 7)
+	board._rescale_layout()
+	await capture(label + "-generic")
+	check(is_instance_valid(cue) and cue.visible and board._reaction_cues.has(cue),
+		label + " resize and rendered pause retain the generic cue")
+	player.set_speed(3.0)
+	player._tween.custom_step(1.0)
+	check(not player.active and publications.size() == 2 and publications[0] == frames[0].after
+		and publications[1] == after,
+		label + " generic guard publishes frame after and final snapshot")
+	check(snapshot(session) == committed, label + " generic guard preserves state RNG counters")
+	for skip: bool in [true, false]:
+		player.play(board, before, frames, after)
+		player._tween.pause()
+		var stale := player._tween
+		if skip: player.skip()
+		else: player.cancel()
+		stale.custom_step(1.0)
+		check(not player.active and board._defender_buff_visual == null and visual._buff_elapsed < 0.0
+			and visual.class_still_sprite().visible and not clip.visible,
+			label + " skip/cancel and stale callback keep new static pose")
+	board.execution_pending = false
+	fixture.demo._presentation_player = idle_player
+	player.queue_free()
+
+
 func test_receipt_families() -> void:
 	if rogue:
 		await run_real_action(1, &"guard", -1, "rogue-guard")
@@ -231,7 +284,8 @@ func test_matcher_gates_and_cleanup() -> void:
 	var frame: Dictionary = frames[0]
 	var events: Array = frame.events
 	var step: Dictionary = frame.step
-	check(board._matching_defender_buff(events, step) == visual, "matching successful Guard is accepted")
+	check(board._matching_defender_buff(events, step) == (null if rogue else visual),
+		"matching successful Guard uses a specialized clip only when assigned")
 	if rogue:
 		check(board._matching_defender_buff([{ "kind": &"raised_shields", "command_seq": step.command_seq,
 			"actor_unit_id": actor_id, "target_unit_id": actor_id }],

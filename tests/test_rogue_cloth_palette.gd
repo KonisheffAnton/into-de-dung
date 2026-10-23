@@ -112,36 +112,29 @@ func _check_selector_and_resources(demo: HeroHubBattleView, rogue: BattleDefende
 	var still := rogue.get_node("ArtRoot/PlayerRogueSprite") as Sprite2D
 	var slot := RogueClothPalette.mask_slot(still.texture)
 	check(demo.board_view.defender_cloth_palette == 3 and rogue.cloth_palette == 3
-		and slot == 0 and _mask_matches(still), "shared selection applies the rogue still palette")
+		and slot == -1 and _original_palette(still), "selection is stored but new rogue retains original colors")
 	var idle := rogue.get_node("ArtRoot/RogueIdleSprite") as Sprite2D
-	check(_mask_matches(idle), "shared selection applies the rogue idle palette")
+	check(_original_palette(idle), "unselected idle has no old clothing mask")
 	check(not _any_cloth_enabled(enemy), "enemy rogue remains original under allied selection")
 
 
 func _check_animation_slots(visual: BattleDefenderIdleVisual) -> void:
-	var still := visual.get_node("ArtRoot/PlayerRogueSprite") as Sprite2D
-	check(RogueClothPalette.mask_slot(still.texture) == 0 and _mask_matches(still),
-		"rogue still uses mask slot zero")
-	var seen: Dictionary = {}
-	var idle := visual.get_node("ArtRoot/RogueIdleSprite") as Sprite2D
-	visual.set_cloth_palette(3)
-	var expected_slot: int = 1
+	# Архивные маски сохраняют таблицу; новая геометрия не заимствует их координаты.
+	var expected_slot := 1
 	for animation: StringName in [&"idle", &"buff", &"death"]:
 		var frames := ROGUE_IDLE if animation == &"idle" else (ROGUE_BUFF if animation == &"buff" else ROGUE_DEATH)
-		var elapsed: float = 0.0
 		for frame: int in frames.get_frame_count(animation):
-			var texture := frames.get_frame_texture(animation, frame)
-			var slot := RogueClothPalette.mask_slot(texture)
-			check(slot == expected_slot, "rogue atlas mask maps texture to slot " + str(expected_slot))
-			seen[slot] = true
-			var duration := frames.get_frame_duration(animation, frame) / frames.get_animation_speed(animation)
-			visual._apply_clip_frame(frames, animation, elapsed + duration * 0.5)
-			check(idle.texture == texture and _mask_matches(idle),
-				"runtime sampler follows rogue frame " + str(expected_slot))
-			elapsed += duration
+			check(RogueClothPalette.mask_slot(frames.get_frame_texture(animation, frame)) == expected_slot,
+				"legacy rogue atlas retains slot " + str(expected_slot))
 			expected_slot += 1
-	check(expected_slot == 32 and seen.size() == 31, "all 31 animation textures use unique mask slots")
-	visual.sync_scene_art()
+	check(expected_slot == 32, "all 31 legacy animation slots retained")
+	var idle := visual.get_node("ArtRoot/RogueIdleSprite") as Sprite2D
+	for frame: int in 17:
+		visual.sample_death((float(frame) * 0.15 + 0.075) / 3.60)
+		check(idle.texture == visual.rogue_death_frames.get_frame_texture(&"death", frame)
+			and RogueClothPalette.mask_slot(idle.texture) == -1 and _original_palette(idle),
+			"new death frame is shown without old mask " + str(frame))
+	visual.reset_view_pose()
 
 
 func _check_runtime_switches(demo: HeroHubBattleView, visual: BattleDefenderIdleVisual,
@@ -154,8 +147,8 @@ func _check_runtime_switches(demo: HeroHubBattleView, visual: BattleDefenderIdle
 	var buff_texture := idle.texture
 	var buff_elapsed := visual._buff_elapsed
 	demo.board_view.set_defender_cloth_palette(4)
-	check(idle.texture == buff_texture and visual._buff_elapsed == buff_elapsed and _mask_matches(idle),
-		"selection during buff preserves texture and elapsed time")
+	check(idle.texture == buff_texture and visual._buff_elapsed == buff_elapsed and _original_palette(idle),
+		"selection during generic guard preserves texture and elapsed time")
 	visual.clear_buff()
 	visual.sample_death(0.8)
 	visual.sync_scene_art()
@@ -164,7 +157,7 @@ func _check_runtime_switches(demo: HeroHubBattleView, visual: BattleDefenderIdle
 	var progress := visual.death_progress
 	demo.board_view.set_defender_cloth_palette(5)
 	check(idle.texture == death_texture and visual.death_progress == progress
-		and idle.self_modulate.a == death_alpha and _mask_matches(idle),
+		and idle.self_modulate.a == death_alpha and _original_palette(idle),
 		"selection at death progress 0.8 preserves frame, progress, and fade alpha")
 	visual.death_progress = 0.0
 	visual.reset_view_pose()
@@ -172,7 +165,7 @@ func _check_runtime_switches(demo: HeroHubBattleView, visual: BattleDefenderIdle
 	demo.board_view.refresh()
 	demo.board_view.size = size + Vector2(11.0, 7.0)
 	demo.board_view._rescale_layout()
-	check(demo.board_view.defender_cloth_palette == 5 and _mask_matches(still),
+	check(demo.board_view.defender_cloth_palette == 5 and _original_palette(still),
 		"reset, resize, and republish preserve allied rogue selection")
 	demo.board_view.size = size
 	demo.board_view._rescale_layout()
@@ -183,7 +176,7 @@ func _check_runtime_switches(demo: HeroHubBattleView, visual: BattleDefenderIdle
 		"unknown rogue texture safely disables mask")
 	still.texture = old_texture
 	visual.set_cloth_palette(5)
-	check(_mask_matches(still), "known rogue still restores the selected mask")
+	check(_original_palette(still), "new rogue still keeps original colors after unknown texture")
 	var mage_values := _view_values(&"mage", 41)
 	check(visual.apply_view(mage_values, visual.grid_config) and not idle.visible
 		and not _any_cloth_enabled_for_rogue(visual), "class switch hides and disables obsolete rogue artwork")
@@ -192,13 +185,13 @@ func _check_runtime_switches(demo: HeroHubBattleView, visual: BattleDefenderIdle
 		and _defender_mask_matches(visual.get_node("ArtRoot/DefenderIdleSprite") as Sprite2D),
 		"warrior class receives its own mask and leaves every Rogue layer disabled")
 	var rogue_values := _view_values(&"rogue", 41)
-	check(visual.apply_view(rogue_values, visual.grid_config) and idle.visible and _mask_matches(still),
-		"return to rogue reapplies the selected mask")
+	check(visual.apply_view(rogue_values, visual.grid_config) and not idle.visible and still.visible and _original_palette(still),
+		"return to rogue keeps selected colors and static model")
 	var enemy_values := _view_values(&"rogue", 41, Faction.Type.ENEMY)
 	check(visual.apply_view(enemy_values, visual.grid_config) and not _any_cloth_enabled_for_rogue(visual),
 		"faction change disables every Rogue clothing mask")
-	check(visual.apply_view(rogue_values, visual.grid_config) and _mask_matches(still),
-		"allied faction restores the Rogue mask after a faction change")
+	check(visual.apply_view(rogue_values, visual.grid_config) and _original_palette(still),
+		"allied faction retains original new Rogue colors")
 	visual.role = BattleDemoIsoVisual.Role.FLOOR
 	visual.sync_scene_art()
 	check(not _any_cloth_enabled_for_rogue(visual), "non-unit role disables every Rogue clothing mask")
@@ -238,11 +231,10 @@ func _snapshot(session: BattleCoreReactionsSession) -> Dictionary:
 		"revision": session.context.get_revision(), "phase": session.phase}
 
 
-func _mask_matches(sprite: Sprite2D) -> bool:
-	var slot := RogueClothPalette.mask_slot(sprite.texture)
+func _original_palette(sprite: Sprite2D) -> bool:
 	var material := sprite.material as ShaderMaterial
-	return slot >= 0 and material != null and bool(material.get_shader_parameter("cloth_enabled")) \
-		and material.get_shader_parameter("cloth_mask_origin") == RogueClothPalette.mask_origin(slot)
+	return material != null and not bool(material.get_shader_parameter("cloth_enabled")) \
+		and is_zero_approx(float(material.get_shader_parameter("brighter_palette_strength")))
 
 
 func _defender_mask_matches(sprite: Sprite2D) -> bool:

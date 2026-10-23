@@ -1,0 +1,111 @@
+{
+  "aggregate_not_full_rerun": true,
+  "passed": 25,
+  "failed": 0,
+  "timed_out": 0,
+  "separate_render_audit": "333/0",
+  "original_run": "24 PASS / 1 FAIL / 0 timeout",
+  "original_render_fixture": "error, terminated by 90s timeout",
+  "checks": {
+    "import": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "startup": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "environment_visual_contract": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "unit_visual_contract": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "defender_idle_clock": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "defender_idle": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "defender_buff": {
+      "status": "PASS",
+      "evidence": "corrected-checks.json"
+    },
+    "defender_death": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "defender_death_routes": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "defender_cloth_palette": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "rogue_cloth_palette": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "rogue_animations": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "rogue_buff": {
+      "status": "PASS",
+      "evidence": "corrected-checks.json"
+    },
+    "rogue_death_routes": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "archer_idle": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "archer_cloth_palette": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "visual_scene_contract": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "current_art_zoom": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "presentation_contact": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "presentation_consequences": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "presentation_environment": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "presentation_ranged": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "presentation_mage": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "battle_camera_ui": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    },
+    "battle_execution_ui": {
+      "status": "PASS",
+      "evidence": "initial-gates.json"
+    }
+  }
+}

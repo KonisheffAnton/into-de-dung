@@ -221,18 +221,18 @@ func _check_warrior_art() -> void:
 			continue
 		if visual.visual_class_id == &"rogue":
 			rogue_count += 1
-			check(is_equal_approx(visual.get_unit_art_scale(), 0.73)
-				and (visual.get_node("ArtRoot") as Node2D).scale.is_equal_approx(Vector2.ONE * tile_factor * 0.73),
+			check(is_equal_approx(visual.get_unit_art_scale(), 0.8)
+				and (visual.get_node("ArtRoot") as Node2D).scale.is_equal_approx(Vector2.ONE * tile_factor * 0.8),
 				"rogue art follows its authored scale through camera and refresh")
 			var rogue_idle := visual.get_node("ArtRoot/RogueIdleSprite") as Sprite2D
 			var rogue_still := visual.class_still_sprite()
-			check(rogue_idle.visible and not rogue_still.visible and rogue_still.texture.get_size() == Vector2(512, 512),
-				"current expedition rogue uses selected idle with the authored still retained")
+			check(not rogue_idle.visible and rogue_still.visible and rogue_still.texture.get_size() == Vector2(128, 128),
+				"current expedition rogue uses the selected static model until idle is chosen")
 			var rogue_pick := visual.surface_polygons()[0]
-			check(is_equal_approx(rogue_pick[1].x - rogue_pick[0].x, visual.rogue_pick_rect.size.x * tile_factor * 0.73),
+			check(is_equal_approx(rogue_pick[1].x - rogue_pick[0].x, visual.rogue_pick_rect.size.x * tile_factor * 0.8),
 				"rogue picking width tracks art scale")
-			var center := visual.position + visual.get_visual_offset() + visual.rogue_pick_rect.get_center() * tile_factor * 0.73
-			var outside := center + Vector2(visual.rogue_pick_rect.size.x * 0.51 * tile_factor * 0.73, 0)
+			var center := visual.position + visual.get_visual_offset() + visual.rogue_pick_rect.get_center() * tile_factor * 0.8
+			var outside := center + Vector2(visual.rogue_pick_rect.size.x * 0.51 * tile_factor * 0.8, 0)
 			check(visual.contains_point(center) and not visual.contains_point(outside), "rogue picking excludes points beyond its scaled boundary")
 			continue
 		if visual.visual_class_id == &"archer":

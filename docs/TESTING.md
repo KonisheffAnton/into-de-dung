@@ -137,9 +137,10 @@ legacy-смерть союзного Защитника сохраняет св�
 refresh/resize/reset, смену во время жеста/смерти и при отделённой сессии.
 Маски сверяются с исходниками через `python tools/art/build_defender_cloth_masks.py --check`
 (Pillow). PNG всех пар и семи гамм — техническое свидетельство, не F5-приёмка.
-`rogue_cloth_palette` проверяет общий селектор и отдельные32 маски разбойника,
-все кадры idle/B1/D3, границы RGB/alpha, точный возврат исходной гаммы,
-изоляцию материалов/классов/врага и сохранение D3 fade при смене цвета.
+`rogue_cloth_palette` проверяет общий селектор и отдельные32 исторические маски
+разбойника (idle/B1/D3, границы RGB/alpha, возврат исходной гаммы), изоляцию
+материалов/классов/врага. Новый rogue_selected_v1 не получает старые маски:
+сохраняются выбранный индекс, исходные цвета и Death3 fade при смене гаммы.
 Маски: `python tools/art/build_rogue_cloth_masks.py --check` (Pillow).
 `archer_cloth_palette` проверяет тот же HUD, изоляцию экземпляров/фракций,
 12 кадров, still/fallback, сохранение фазы и state/RNG/counters. Render проверяет
@@ -147,15 +148,18 @@ refresh/resize/reset, смену во время жеста/смерти и пр
 возврат0 побайтный. Маски: `python tools/art/build_archer_cloth_masks.py --check` (Pillow).
 
 Разбойник: `python tools/demo/isolate.py --render-check --only rogue_animations rogue_buff rogue_death_routes --screen 0`.
-Первый runner проверяет ресурсы/все кадры, опору/отражение, паузы/смену класса,
-reset/retire/fallback и отдельный маршрут масок общей гаммы одежды. `rogue_buff` использует общий
+Первый runner проверяет новую статичную позу, все17 кадров смерти, опору/отражение,
+hold/fade, смену класса, reset/retire и повреждённые ресурсы. `rogue_buff` использует общий
 `test_defender_buff.gd --rogue`: настоящая «Защита» фабричного разбойника,
-границы matcher, публикации, resize/speed/skip/cancel и неизменность core/RNG.
+общий cue без старой B1, границы matcher, публикации, resize/speed/skip/cancel
+и неизменность core/RNG; fixture удерживает production execution_pending.
 `rogue_death_routes` использует `test_defender_death_routes.gd --rogue`:
 melee/ranged/mage, столкновения, after/тело, fall/VOID/обвал и cleanup.
 Все три входят в автоматические visual gates для art/zoom/reuse и full/render.
 `python tools/art/build_rogue_animation_assets.py --check` (Pillow) сверяет
-побайтную сборку/источники и12 кадров idle с выбранным GIF. F5-приёмка отдельно.
+историческую сборку и12 кадров прежнего idle. Текущие PNG/SHA и отдельный
+render audit — [пакет интеграции](art/rogue-model-death3-20261023/README.md).
+Новый idle не выбран. F5-приёмка отдельно.
 
 | Изменение | Достаточная начальная область |
 |---|---|

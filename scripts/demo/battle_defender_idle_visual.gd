@@ -7,6 +7,9 @@ extends BattleManagedUnitVisual
 @export var rogue_idle_frames: SpriteFrames
 @export var rogue_buff_frames: SpriteFrames
 @export var rogue_death_frames: SpriteFrames
+@export var rogue_animation_anchor: Vector2 = Vector2(64.0, 94.0)
+@export var rogue_texture_scale: float = 0.25
+@export_range(1, 120, 1) var rogue_death_frame_count: int = 13
 @export var archer_idle_frames: SpriteFrames
 @export var enemy_warrior_art_enabled: bool = false
 @export var enemy_warrior_idle_frames: SpriteFrames
@@ -78,9 +81,9 @@ func sync_scene_art() -> void:
 	# Отражаем только рисунок вокруг выбранной точки посадки, не HUD или опору доски.
 	var mirrored := unit != null and unit.faction == Faction.Type.ENEMY
 	var rogue := visual_class_id == &"rogue"
-	var texture_scale := 0.25 if rogue else 1.0
+	var texture_scale := rogue_texture_scale if rogue else 1.0
 	_idle_sprite.scale = Vector2(-texture_scale if mirrored else texture_scale, texture_scale)
-	var anchor := Vector2(64, 94) if rogue else Vector2(69.42, 90.14)
+	var anchor := rogue_animation_anchor if rogue else Vector2(69.42, 90.14)
 	if _uses_enemy_warrior_art(): anchor = enemy_warrior_idle_anchor
 	elif visual_class_id == &"archer": anchor = Vector2(68.0, 95.0)
 	_idle_sprite.position = Vector2(anchor.x if mirrored else -anchor.x, -anchor.y)
@@ -214,7 +217,11 @@ func _active_buff_frames() -> SpriteFrames:
 func _active_death_frames() -> SpriteFrames:
 	if _uses_enemy_warrior_art(): return enemy_warrior_death_frames if _enemy_warrior_death_is_valid() else null
 	if visual_class_id == &"archer": return null
-	return rogue_death_frames if visual_class_id == &"rogue" else death_frames
+	if visual_class_id == &"rogue":
+		# Неполный или чужой по длине клип не должен маскировать штатную смерть.
+		return rogue_death_frames if _death_frames_are_valid(rogue_death_frames) \
+			and rogue_death_frames.get_frame_count(&"death") == rogue_death_frame_count else null
+	return death_frames
 
 
 func _enemy_warrior_death_is_valid() -> bool:

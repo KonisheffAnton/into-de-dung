@@ -1,0 +1,188 @@
+{
+  "result": "ROGUE ART AUDIT RESULTS: 333 passed, 0 failed",
+  "runtime_frames": 34,
+  "preview_repeats_only_for_review": true,
+  "preview_lifecycle_ms": 3600,
+  "files": [
+    {
+      "path": "player/frame-01.png",
+      "sha256": "ad0b5507d00fefdc68145c9813da57d4a306948143f7224254bec0f0006f7d2d"
+    },
+    {
+      "path": "player/frame-02.png",
+      "sha256": "6c25d7cbb1a5b0d05b4cd43a45f892f23aa2099773193bf0b324678285e404d0"
+    },
+    {
+      "path": "player/frame-03.png",
+      "sha256": "c0a5fe83735e1e2e26645b728f6b75a5755d4a2190e862b56d4f840ce85b07a6"
+    },
+    {
+      "path": "player/frame-04.png",
+      "sha256": "c05e1af2e2e2c4fcb36a5e0ce99a9169550958ac9da49a6593d77b82b6fad905"
+    },
+    {
+      "path": "player/frame-05.png",
+      "sha256": "e9dc653d26788b69072d0a35f36b303668a9077a41ba759399fdf9fa2778fac9"
+    },
+    {
+      "path": "player/frame-06.png",
+      "sha256": "b929a46402d1995301eacbc52cdad547991b6167ec72d823eeb23d009a25e552"
+    },
+    {
+      "path": "player/frame-07.png",
+      "sha256": "b62e6c712bd5f31d8d758b084319ef092978bbf2dab29105d5274db37668f4f9"
+    },
+    {
+      "path": "player/frame-08.png",
+      "sha256": "cedb017886de7ffd40151950e77f96dc4509da3a9e3627be5f0a744f3a200cc2"
+    },
+    {
+      "path": "player/frame-09.png",
+      "sha256": "e0e4926d6f0b5bc473182ccf12110abe3af89b152aadb502b2e6d044368cfbcf"
+    },
+    {
+      "path": "player/frame-10.png",
+      "sha256": "45ae8ea2d9e3e36c2d567e50850a316880660ad60043b5cdbe6c209b9e441ccc"
+    },
+    {
+      "path": "player/frame-11.png",
+      "sha256": "dbf86cadda9ff8d83ff1edf6640e80c921f7904b03fff5534a2dd02f14099149"
+    },
+    {
+      "path": "player/frame-12.png",
+      "sha256": "16145548c206bdfa47dafa8dba3f85207c1e816c5172522ff4962fd007d12abb"
+    },
+    {
+      "path": "player/frame-13.png",
+      "sha256": "347b2f1726892eba052a2745eee87fe4f96c77ba8c3ae92c379ca141d388e132"
+    },
+    {
+      "path": "player/frame-14.png",
+      "sha256": "35c8f9754d18e6a4dfe4cb1bb1b62737fc1cbe5747b0672d8e5c55d51c4cd8af"
+    },
+    {
+      "path": "player/frame-15.png",
+      "sha256": "466101ac188c4877d5788e6c2202c15c7bad7842f023b52fe429132a1b6c7e69"
+    },
+    {
+      "path": "player/frame-16.png",
+      "sha256": "9db1b6b4cbf86042505735c108b7eb8c067164f9e53b102b44950dedf99cbd77"
+    },
+    {
+      "path": "player/frame-17.png",
+      "sha256": "1a245a356a3667675c7c8597a73bcc904aec1f4300bfc9888a2e40a626c95084"
+    },
+    {
+      "path": "player/fade-01.png",
+      "sha256": "77e2ece7726aad550c6b77fbd6d55879b3a86bb282385d05cd9f5c62a2d736ab"
+    },
+    {
+      "path": "player/fade-02.png",
+      "sha256": "1eac511486bbac0d4ad17e97dc644048fc2e0b3e7e2a3a1278ef87a0488115e0"
+    },
+    {
+      "path": "player/fade-03.png",
+      "sha256": "f95db244926159bdc47dc941782f1a78dc8d3224b15ef081942f5e9fc1411343"
+    },
+    {
+      "path": "player/fade-04.png",
+      "sha256": "bd5db1d3e9ee7308f76385b92c32fd8780ed2047a3bc9f5705c026a801acddc9"
+    },
+    {
+      "path": "player/still.png",
+      "sha256": "ad0b5507d00fefdc68145c9813da57d4a306948143f7224254bec0f0006f7d2d"
+    },
+    {
+      "path": "enemy/frame-01.png",
+      "sha256": "eedce93eca40abf157bde8e2ea9ebdd3a2ddacc4bcf49816739c93b59ba1c1cb"
+    },
+    {
+      "path": "enemy/frame-02.png",
+      "sha256": "6090bcac138dd43575ac777ee3c5326aa24a61adf68f5d36ffd403a8400215af"
+    },
+    {
+      "path": "enemy/frame-03.png",
+      "sha256": "eabf4f6c11c8dd71e0a0d244254624299a042e27ec6b381a38504460669a3a62"
+    },
+    {
+      "path": "enemy/frame-04.png",
+      "sha256": "5103b64bc45fe04917373e88d285474b89a4ac24f64e5d926290e69e25f9c94f"
+    },
+    {
+      "path": "enemy/frame-05.png",
+      "sha256": "05dd6c5f360c4d3fe96112401dd61611bee3f3fb5f738fd49f93ad687ed720e3"
+    },
+    {
+      "path": "enemy/frame-06.png",
+      "sha256": "a62b9b3d203eb7d2061042605092e54b18e511bf6c74ae15a820cad3adfca014"
+    },
+    {
+      "path": "enemy/frame-07.png",
+      "sha256": "cf1ed28e093b5f75b9a17d142d4b69dea48c8674ae041f908bdb88cd4e9dc752"
+    },
+    {
+      "path": "enemy/frame-08.png",
+      "sha256": "d06eb68aeba8bfdd7e939ca961c29d783381f27345eb261acecd6d3fe2274824"
+    },
+    {
+      "path": "enemy/frame-09.png",
+      "sha256": "3c338ee7491d3c9bf4fa4f190ac3875e76460debd8f32e1464369edf837a0216"
+    },
+    {
+      "path": "enemy/frame-10.png",
+      "sha256": "f3d61334500f0be7f4142f49d2aab7d69396d6c7c5c12176631633a00e9384d8"
+    },
+    {
+      "path": "enemy/frame-11.png",
+      "sha256": "073a13e049fb928f61743dee35d9f7a4ea72049501b867746e1ed490f84b9a27"
+    },
+    {
+      "path": "enemy/frame-12.png",
+      "sha256": "1d379fedd2b68435aea970ff82dcbf7f90c2ab20ee9c72eb28ca896a6dab5b50"
+    },
+    {
+      "path": "enemy/frame-13.png",
+      "sha256": "edc65750032659a668d93b8d545cc04f9a082db7bb2266a119df7e7f61238e3c"
+    },
+    {
+      "path": "enemy/frame-14.png",
+      "sha256": "fbcc2178e99a544ca0e1e5e01bf9d34fee32c1990ef43db83c43c5c641a62700"
+    },
+    {
+      "path": "enemy/frame-15.png",
+      "sha256": "f7b9e38794899dba0bbaa23b1930ee70c91ecb796e9df8a4db22d124f3d4569b"
+    },
+    {
+      "path": "enemy/frame-16.png",
+      "sha256": "51f07244b26493fd1fcb94923e0df549bf4d7178c657d2fef01fc6c609297dbb"
+    },
+    {
+      "path": "enemy/frame-17.png",
+      "sha256": "98d8b75c96907182cee6c7e36dbd4afa2c43315b2ba12eb75a38fefbfe0f7d58"
+    },
+    {
+      "path": "enemy/fade-01.png",
+      "sha256": "bf8d54f8d88b96b8121e5f52910d744eee272afe5c0c9458b279616adf15340c"
+    },
+    {
+      "path": "enemy/fade-02.png",
+      "sha256": "383c8ca42c63e9e6ea15e495da9475c8aed41f0ee60fa6755cc5018f58c73bb6"
+    },
+    {
+      "path": "enemy/fade-03.png",
+      "sha256": "d3c1715046359573f3c64f79ab2278a411d6fb522b51568a101c1adc2e6ff4c7"
+    },
+    {
+      "path": "enemy/fade-04.png",
+      "sha256": "bd5db1d3e9ee7308f76385b92c32fd8780ed2047a3bc9f5705c026a801acddc9"
+    },
+    {
+      "path": "enemy/still.png",
+      "sha256": "eedce93eca40abf157bde8e2ea9ebdd3a2ddacc4bcf49816739c93b59ba1c1cb"
+    },
+    {
+      "path": "rogue-warrior-in-game.png",
+      "sha256": "163c652297e5afa3105e20834a17467fb59cefb31c8acffb648031a9da60755c"
+    }
+  ]
+}

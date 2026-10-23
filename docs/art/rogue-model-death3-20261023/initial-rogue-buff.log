@@ -1,0 +1,10 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 566.07 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 Laptop GPU
+
+ERROR: Error calling method from MethodTweener: 'Control(battle_demo_board.gd)::_sample_reaction_cue': Cannot convert argument 2 from Object to Object.
+   at: step (scene/animation/tween.cpp:848)
+   GDScript backtrace (most recent call first):
+       [0] check_rogue_generic_guard (res://tests/test_defender_buff.gd:221)
+       [1] capture (res://tests/test_defender_buff.gd:78)
+FAIL ROGUE BUFF: rogue-guard generic guard publishes committed after once
+ROGUE BUFF RESULTS: 28 passed, 1 failed

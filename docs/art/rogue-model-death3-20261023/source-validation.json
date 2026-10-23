@@ -1,0 +1,231 @@
+{
+  "source_job": "3d86081f-9a2c-4a33-9c7e-fceea5f1cd5b",
+  "selected": "death-3",
+  "integration": true,
+  "original_rgba_and_png_bytes": true,
+  "records": [
+    {
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-selected-pixellab-20261023\\input-transparent.png",
+      "target": "assets/art_presets/trials/rogue_selected_v1/still.png",
+      "sha256": "c774002e01412bbf82adcd30a8d636bf1b891b67623a0b5fb49b0ea8ccd996ff",
+      "alpha_bbox": [
+        31,
+        20,
+        97,
+        92
+      ],
+      "byte_equal": true
+    },
+    {
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-selected-pixellab-20261023\\pixellab\\death-3\\frames\\00.png",
+      "target": "assets/art_presets/trials/rogue_selected_v1/death/frame-01.png",
+      "sha256": "3467e4ad09e5c23f55918bf5a14b3ce0f8152da0c951277be7f7476982f00057",
+      "alpha_bbox": [
+        31,
+        20,
+        97,
+        92
+      ],
+      "byte_equal": true
+    },
+    {
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-selected-pixellab-20261023\\pixellab\\death-3\\frames\\01.png",
+      "target": "assets/art_presets/trials/rogue_selected_v1/death/frame-02.png",
+      "sha256": "ed676c98b91a7e9adf22d978f953e2ca2288939e049dba38165603f2ad3894c7",
+      "alpha_bbox": [
+        30,
+        19,
+        97,
+        92
+      ],
+      "byte_equal": true
+    },
+    {
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-selected-pixellab-20261023\\pixellab\\death-3\\frames\\02.png",
+      "target": "assets/art_presets/trials/rogue_selected_v1/death/frame-03.png",
+      "sha256": "26feca85c9f3b96d558387316efd042d18561900f4b9a0cb595e9aea89914d6d",
+      "alpha_bbox": [
+        26,
+        19,
+        99,
+        92
+      ],
+      "byte_equal": true
+    },
+    {
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-selected-pixellab-20261023\\pixellab\\death-3\\frames\\03.png",
+      "target": "assets/art_presets/trials/rogue_selected_v1/death/frame-04.png",
+      "sha256": "cc5d36c43d3a7a2566a2a21116282ee733510bfa4cbd018bdc394094dfdee89d",
+      "alpha_bbox": [
+        23,
+        19,
+        102,
+        92
+      ],
+      "byte_equal": true
+    },
+    {
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-selected-pixellab-20261023\\pixellab\\death-3\\frames\\04.png",
+      "target": "assets/art_presets/trials/rogue_selected_v1/death/frame-05.png",
+      "sha256": "2db4cd4beb67c918501cc3ab746dca572b40a3fcf25cf442ecc6fb862202e38a",
+      "alpha_bbox": [
+        29,
+        20,
+        103,
+        92
+      ],
+      "byte_equal": true
+    },
+    {
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-selected-pixellab-20261023\\pixellab\\death-3\\frames\\05.png",
+      "target": "assets/art_presets/trials/rogue_selected_v1/death/frame-06.png",
+      "sha256": "76fb18994820966919d6e912a1bdc90bf886814b670151a14cd2f8919f90b36d",
+      "alpha_bbox": [
+        24,
+        21,
+        102,
+        92
+      ],
+      "byte_equal": true
+    },
+    {
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-selected-pixellab-20261023\\pixellab\\death-3\\frames\\06.png",
+      "target": "assets/art_presets/trials/rogue_selected_v1/death/frame-07.png",
+      "sha256": "84d9f0727e3eaeaa3a6a8464d19cfb0c643d547f200dfda6a1390f199bcf56d8",
+      "alpha_bbox": [
+        30,
+        21,
+        97,
+        92
+      ],
+      "byte_equal": true
+    },
+    {
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-selected-pixellab-20261023\\pixellab\\death-3\\frames\\07.png",
+      "target": "assets/art_presets/trials/rogue_selected_v1/death/frame-08.png",
+      "sha256": "151211442c71df0414d63931c468b70a2f21b1d2c519a2c4000e6547d3909c68",
+      "alpha_bbox": [
+        30,
+        20,
+        94,
+        92
+      ],
+      "byte_equal": true
+    },
+    {
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-selected-pixellab-20261023\\pixellab\\death-3\\frames\\08.png",
+      "target": "assets/art_presets/trials/rogue_selected_v1/death/frame-09.png",
+      "sha256": "eb3018065b683a57e36ef696d35dd419d48b37d5e86d8b0f3ae8748058d1d2b9",
+      "alpha_bbox": [
+        22,
+        20,
+        94,
+        92
+      ],
+      "byte_equal": true
+    },
+    {
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-selected-pixellab-20261023\\pixellab\\death-3\\frames\\09.png",
+      "target": "assets/art_presets/trials/rogue_selected_v1/death/frame-10.png",
+      "sha256": "2b92913a2593385be85c20d339a57ee623456a98838e5d09c7f965cf6c439bb0",
+      "alpha_bbox": [
+        23,
+        20,
+        94,
+        92
+      ],
+      "byte_equal": true
+    },
+    {
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-selected-pixellab-20261023\\pixellab\\death-3\\frames\\10.png",
+      "target": "assets/art_presets/trials/rogue_selected_v1/death/frame-11.png",
+      "sha256": "7cca2af19a6e84c7369c4cd8b9bd868aa8d5473505e90191eb8534b01633307e",
+      "alpha_bbox": [
+        24,
+        20,
+        94,
+        92
+      ],
+      "byte_equal": true
+    },
+    {
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-selected-pixellab-20261023\\pixellab\\death-3\\frames\\11.png",
+      "target": "assets/art_presets/trials/rogue_selected_v1/death/frame-12.png",
+      "sha256": "2eb06eea7289aeb78feb41a7bb2ee96ae5b303947a1e2f4bc5032a3318289ebb",
+      "alpha_bbox": [
+        24,
+        23,
+        98,
+        92
+      ],
+      "byte_equal": true
+    },
+    {
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-selected-pixellab-20261023\\pixellab\\death-3\\frames\\12.png",
+      "target": "assets/art_presets/trials/rogue_selected_v1/death/frame-13.png",
+      "sha256": "6e3e101c506aa5e2e1cde1df4760dffd561f167b65203294c6ac0046654274fd",
+      "alpha_bbox": [
+        37,
+        30,
+        101,
+        91
+      ],
+      "byte_equal": true
+    },
+    {
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-selected-pixellab-20261023\\pixellab\\death-3\\frames\\13.png",
+      "target": "assets/art_presets/trials/rogue_selected_v1/death/frame-14.png",
+      "sha256": "13ea07428faf747402beb24b42fdaa26c57f2d3c591bf098fcdf018b0bedb224",
+      "alpha_bbox": [
+        32,
+        44,
+        105,
+        91
+      ],
+      "byte_equal": true
+    },
+    {
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-selected-pixellab-20261023\\pixellab\\death-3\\frames\\14.png",
+      "target": "assets/art_presets/trials/rogue_selected_v1/death/frame-15.png",
+      "sha256": "4e6fd7279fb75e1a1386c4d6fc42a1696106d40260f74920e731b9f6abbd2e4e",
+      "alpha_bbox": [
+        24,
+        64,
+        107,
+        93
+      ],
+      "byte_equal": true
+    },
+    {
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-selected-pixellab-20261023\\pixellab\\death-3\\frames\\15.png",
+      "target": "assets/art_presets/trials/rogue_selected_v1/death/frame-16.png",
+      "sha256": "278934356396a922fed03ccc9e966d8e0b41ffb26f923723518f7f3c41b672a1",
+      "alpha_bbox": [
+        22,
+        64,
+        107,
+        93
+      ],
+      "byte_equal": true
+    },
+    {
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\rogue-selected-pixellab-20261023\\pixellab\\death-3\\frames\\16.png",
+      "target": "assets/art_presets/trials/rogue_selected_v1/death/frame-17.png",
+      "sha256": "6758acaef55e375f49b8d2e7642e795cb7e32e0def7e707c4c7f59434f759a78",
+      "alpha_bbox": [
+        22,
+        65,
+        107,
+        93
+      ],
+      "byte_equal": true
+    }
+  ],
+  "first_frame_rgba_equals_still": true,
+  "frame_seconds": 0.15,
+  "clip_seconds": 2.55,
+  "hold_seconds": 0.25,
+  "fade_seconds": 0.8,
+  "total_seconds": 3.6,
+  "sprite_frames_sha256": "1394020936a69ee31561d10a1204984ca7ed387a86f27ae893d30f8cdbc17287"
+}

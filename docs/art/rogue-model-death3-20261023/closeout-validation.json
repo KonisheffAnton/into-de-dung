@@ -1,0 +1,43 @@
+{
+  "protected_scene_sha256": "a64c270256ebf2ea073081200be23028f792f42c3ca98f83a6499c1300a68668",
+  "protected_art_files": 32,
+  "protected_unchanged": true,
+  "archive_exact_to_previous_git_blob": true,
+  "archive_sha256": "d4874ba70d4d44fcc07295ed509f4c14df8e279069c5f760e4bb79f18e7f85bc",
+  "source_png_byte_matches": 18,
+  "local_markdown_links_checked": 277,
+  "broken_links": [],
+  "sizes": {
+    "AGENTS.md": {
+      "before_chars": 4565,
+      "after_chars": 4565,
+      "guideline": 5000,
+      "changed": false
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before_chars": 2188,
+      "after_chars": 2036,
+      "guideline": 2500,
+      "changed": true
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before_chars": 3557,
+      "after_chars": 3557,
+      "guideline": 3500,
+      "changed": false
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before_chars": 4482,
+      "after_chars": 4482,
+      "guideline": 4500,
+      "changed": false
+    }
+  },
+  "size_note": "PROJECT_CONTEXT pre-existing3557 over3500 unchanged; no entrypoint growth.",
+  "targeted_final_checks": 25,
+  "render_audit": "333/0",
+  "review": "APPROVE",
+  "diff_check": "PASS",
+  "python_scripts_compile": "PASS",
+  "full_core_manual_f5_editor_dpi_gpu": false
+}

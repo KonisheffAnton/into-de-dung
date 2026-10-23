@@ -15,10 +15,10 @@ var production_enemy_art_for_packet: bool = false
 func _initialize() -> void:
 	if "--rogue" in OS.get_cmdline_user_args():
 		visual_class = &"rogue"
-		death_seconds = 1.70
+		death_seconds = 3.60
 		clip_property = &"rogue_death_frames"
 		sprite_path = "ArtRoot/RogueIdleSprite"
-		sprite_scale = 0.25
+		sprite_scale = 1.0
 		suite = "ROGUE DEATH ROUTES"
 	super._initialize()
 
@@ -117,12 +117,24 @@ func route(kind: String) -> void:
 		var art := visual.get_node("ArtRoot") as Node2D
 		check(is_zero_approx(art.rotation) and is_equal_approx(art.scale.x, art.scale.y) and visual.modulate.a == 1.0, kind + " no synthetic rotation squash fade")
 		if visual_class == &"rogue":
+			var actual_progress := visual.death_progress
+			check(is_equal_approx(board._death_seconds(victim.id), 3.60), kind + " selected death duration")
+			for frame_index: int in 17:
+				board._field_presentation.sample_death((float(frame_index) * 0.15 + 0.075) / 3.60, board, victim.id)
+				check(sprite.texture == visual.rogue_death_frames.get_frame_texture(&"death", frame_index)
+					and sprite.visible and not visual.class_still_sprite().visible,
+					kind + " new rogue death ordered frame " + str(frame_index))
+				check(sprite.position == Vector2(64 if victim.faction == Faction.Type.ENEMY else -64, -83)
+					and is_equal_approx(sprite.self_modulate.a, 1.0) and visual.unit.alive
+					and not board._view_corpses.any(func(c: Dictionary) -> bool: return c.source_unit_id == victim.id),
+					kind + " fixed anchor, opaque clip and delayed corpse " + str(frame_index))
+			board._field_presentation.sample_death(actual_progress, board, victim.id)
 			check(is_equal_approx(sprite.self_modulate.a, 1.0), kind + " keeps rogue opaque during fall and hold")
 			var elapsed := visual.death_progress * death_seconds
-			var midpoint_target: float = 0.65 + 0.25 + 0.40
+			var midpoint_target: float = 2.55 + 0.25 + 0.40
 			if elapsed < midpoint_target: advance(midpoint_target - elapsed)
 			elapsed = visual.death_progress * death_seconds
-			var expected_alpha := 1.0 - clampf((elapsed - 0.65 - 0.25) / 0.80, 0.0, 1.0)
+			var expected_alpha := 1.0 - clampf((elapsed - 2.55 - 0.25) / 0.80, 0.0, 1.0)
 			check(player.active and visual._death_active and is_equal_approx(sprite.self_modulate.a, expected_alpha)
 				and sprite.self_modulate.a > 0.35 and sprite.self_modulate.a < 0.65,
 				kind + " follows the expected rogue fade alpha through the real Tween near midpoint")
@@ -139,7 +151,7 @@ func route(kind: String) -> void:
 			var end_target: float = death_seconds - 0.01
 			if elapsed < end_target: advance(end_target - elapsed)
 			elapsed = visual.death_progress * death_seconds
-			var expected_alpha := 1.0 - clampf((elapsed - 0.65 - 0.25) / 0.80, 0.0, 1.0)
+			var expected_alpha := 1.0 - clampf((elapsed - 2.55 - 0.25) / 0.80, 0.0, 1.0)
 			check(player.active and sprite.self_modulate.a < 0.02 and is_equal_approx(sprite.self_modulate.a, expected_alpha),
 				kind + " reaches near-transparent at the end of rogue fade")
 	finish()
