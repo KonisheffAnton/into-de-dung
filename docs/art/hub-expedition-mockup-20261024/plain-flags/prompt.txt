@@ -1,0 +1,9 @@
+Use case: precise-object-edit.
+Edit target: the supplied single game menu screenshot, 1672x941. Make ONE very narrow change: REMOVE EVERY SYMBOL, EMBLEM, HERALDIC MARK AND PRINTED DECORATION FROM EVERY FLAG, BANNER, PENNANT AND HANGING CLOTH in the scene.
+Specifically:
+- The large red hanging banner at the upper left must become completely plain red fabric: remove the yellow crescent/horseshoe emblem, stars, crosses, dots and small printed marks.
+- All red vertical banners on the fortress walls near the entrance, including partly hidden banners behind the right information panel, must become plain red fabric with no yellow/gold symbols or little printed marks.
+- The large blue vertical flag beside the wagon, in the lower central-left courtyard, must become plain blue fabric: remove its gold crescent/horseshoe emblem AND every scattered small cross/star/line/dot printed on the cloth.
+- Inspect the entire scene and remove any remaining heraldic/printed signs from other small flags/pennants or hanging banners.
+Keep the original red and blue fabric colors, folds, lighting, shadows, wear, hanging positions, silhouettes, fringe and plain edge seams. Flagpoles, gold pole finials, ropes, brackets and hardware must remain.
+Everything else must remain unchanged: exact UI layout and panel dimensions, all Russian text and numbers, four top tab icons and labels, all buttons and resource icons, three portraits, people, fire, wagon, architecture, sky, paving and decorations on non-flag objects. DO NOT remove functional UI symbols or change any characters. Do not redraw/recompose the screen, do not alter the palette, crop, scale, perspective, text or resolution. Preserve the crisp pixel-art style. The result should look like the exact same chosen screenshot, with only blank undecorated cloth instead of marked flags. No new logos, marks, symbols, text or watermarks.

@@ -1,0 +1,42 @@
+{
+  "base_commit": "bf7736a0283e0152d0c613f3febe65cdfd70270b",
+  "provider": "built-in image_gen",
+  "calls": 1,
+  "integration": false,
+  "files": [
+    {
+      "path": "user-selected-v1.png",
+      "source": "C:/Users/Aston/AppData/Local/Temp/codex-clipboard-257332eb-6c14-4ffc-8ee5-1107b258f98d.png",
+      "sha256": "40f6589249c95a17c40194c37d5cc89805071bb474ba8c88799560ff24e55f43",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "source_byte_equal": true,
+      "png_crc_and_inflate": "PASS"
+    },
+    {
+      "path": "expedition-v1-plain-flags.png",
+      "source": "C:/Users/Aston/.codex/generated_images/01a16b2d-1684-7e71-b237-7d32f0a66e99/exec-97dff94d-b5f2-408e-b333-3e4f4d5c88d6.png",
+      "sha256": "b5532ac537388c4c3fe6fe6b8bdec1550ce1baa596e51a0485354a70b2901bac",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "source_byte_equal": true,
+      "png_crc_and_inflate": "PASS"
+    }
+  ],
+  "protected_files_unchanged": 33,
+  "previous_png_unchanged": 8,
+  "checks": {
+    "source_byte_equality": "PASS",
+    "png_crc_and_inflate": "PASS",
+    "protected_hashes_and_set": "PASS",
+    "old_artifact_hashes": "PASS"
+  },
+  "limitations": [
+    "Generative edit; no pixel-exact outside-region claim.",
+    "No Godot/import/full/core/F5/editor/DPI/GPU. User acceptance open."
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "base_commit": "bf7736a0283e0152d0c613f3febe65cdfd70270b",
+  "archive_path": "docs/CODEX_HANDOFF.history-20261024-3.md",
+  "archive_sha256": "dc840710b87455e9f9518ca5f3aacbc8495fdcabff868805889a6270e015af85",
+  "archive_worktree_byte_equality": "PASS",
+  "archive_base_git_normalized_equality": "PASS",
+  "local_links_checked": 59,
+  "local_links": "PASS",
+  "entry_document_sizes": [
+    {
+      "path": "AGENTS.md",
+      "before_lf_chars": 4565,
+      "after_lf_chars": 4565,
+      "changed": false
+    },
+    {
+      "path": "docs/CODEX_HANDOFF.md",
+      "before_lf_chars": 2202,
+      "after_lf_chars": 2308,
+      "changed": true
+    },
+    {
+      "path": "docs/PROJECT_CONTEXT.md",
+      "before_lf_chars": 3557,
+      "after_lf_chars": 3557,
+      "changed": false
+    },
+    {
+      "path": "docs/CODEX_WORKFLOW.md",
+      "before_lf_chars": 4482,
+      "after_lf_chars": 4482,
+      "changed": false
+    }
+  ],
+  "handoff_size_and_growth": "PASS",
+  "entry_rules_preserved": "PASS: AGENTS, PROJECT_CONTEXT, CODEX_WORKFLOW unchanged; HANDOFF retains protected paths, open acceptance, rogue follow-up and handoff rule",
+  "git_diff_check": "PASS",
+  "protected_files_unchanged": 33,
+  "independent_review": "APPROVE",
+  "scope": "Static generated mockup and documentation only",
+  "godot_checks": "NOT RUN",
+  "user_acceptance": "OPEN"
+}
