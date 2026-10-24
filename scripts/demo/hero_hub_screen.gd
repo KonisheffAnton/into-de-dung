@@ -30,6 +30,8 @@ func _ready() -> void:
 	_dashboard.start_requested.connect(_start_battle)
 	_dashboard.manage_requested.connect(_open_hub_management)
 	_dashboard.tab_requested.connect(_on_hub_tab_requested)
+	_dashboard.hire_requested.connect(_on_mercenary_hire_requested)
+	_dashboard.party_requested.connect(_on_mercenary_party_requested)
 	($Panel/Column/Header/DashboardBack as Button).pressed.connect(_return_hub_dashboard)
 	_page_host = $Panel/Column/HeroHubScroll/Content/Pages
 	for child: Node in _page_host.get_children():
@@ -282,6 +284,24 @@ func _on_hub_tab_requested(tab_id: StringName) -> void:
 	_hub_tab = tab_id
 	_hub_management = false
 	_render()
+
+func _can_change_mercenaries() -> bool:
+	return _can_navigate_hub() and not _hub_management and _hub_tab == &"mercenaries" and _dashboard.is_visible_in_tree() and battle_view == null
+
+func _on_mercenary_hire_requested(candidate_id: int) -> void:
+	if not _can_change_mercenaries(): return
+	# Индекс вычисляется по опубликованному профилю: старый ID не наймёт замену кандидата.
+	for index: int in run.candidates.size():
+		if run.candidates[index].id == candidate_id:
+			_hire(index)
+			return
+
+func _on_mercenary_party_requested(hero_id: int, join_party: bool) -> void:
+	if not _can_change_mercenaries() or not run.heroes.has(hero_id): return
+	var hero: HeroProgression = run.heroes[hero_id]
+	if hero.hp_current <= 0.0 or run.party.has(hero_id) == join_party: return
+	if join_party and run.party.size() >= HeroHubState.MAX_PARTY: return
+	_toggle_party(hero_id)
 
 func _hub_content() -> void:
 	var page := _page("BasePage")

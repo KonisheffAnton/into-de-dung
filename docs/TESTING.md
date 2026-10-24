@@ -14,6 +14,14 @@
 
 ## Изменение игрового кода
 
+Действия Наёмников (2026-10-24): `--render-check --only hub_mercenaries hub_sections
+hub_dashboard hub_scene_authoring hero_hub_ui expedition_ui mage_deck_ui hero_hub --screen 0`.
+Новый runner проверяет реальные клики найма/состава, полный/пустой отряд, лимиты
+героев/склада/ID, сохранение/retry/reload, старые сигналы, черновик колоды и
+metadata-редактирование. Снимки трёх размеров — `hub-mercenaries-screenshots/`.
+Отдельно `python tools/demo/test_isolate.py` проверяет gate нового runner.
+Full/core и ручная приёмка остаются отдельными проверками.
+
 Цифры вскоре после контакта (2026-10-22): `--render-check --only presentation_contact
 presentation_ranged presentation_attack_styles presentation_mage presentation_reactions
 presentation_consequences presentation_environment defender_death_routes rogue_death_routes

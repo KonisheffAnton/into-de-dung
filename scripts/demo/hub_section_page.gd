@@ -2,6 +2,8 @@ extends Control
 class_name HubSectionPage
 
 signal manage_requested
+signal hire_requested(candidate_id: int)
+signal party_requested(hero_id: int, join_party: bool)
 
 @export var section_id: StringName = &"mercenaries"
 
@@ -56,6 +58,11 @@ func _action_enabled(action: String, enabled: bool) -> void:
 	for child: Node in find_children("*", "Button", true, false):
 		if String(child.get_meta(&"hub_action", "")) == action: (child as Button).disabled = not enabled
 
+func _action_button(action: String) -> Button:
+	for child: Node in find_children("*", "Button", true, false):
+		if String(child.get_meta(&"hub_action", "")) == action: return child as Button
+	return null
+
 func _render_hero_slot(slot: String, hero: HeroProgression, candidate: bool = false) -> void:
 	var card := _slot(slot) as HubSkeletonCard
 	if card == null: return
@@ -81,6 +88,10 @@ func _selected_hero() -> HeroProgression:
 	return null
 
 func _render_mercenaries() -> void:
+	# После успешной публикации найма прежний ID переходит из списка кандидатов в героев.
+	var hired_selection := _selected_candidate and _profile.heroes.has(_selected_hero_id)
+	if hired_selection:
+		_selected_candidate = false
 	_text("candidate_count", "Доступные наёмники · %d" % _profile.candidates.size())
 	for index: int in 4:
 		_render_hero_slot("candidate_%d" % index, _profile.candidates[index] if index < _profile.candidates.size() else null, true)
@@ -88,6 +99,9 @@ func _render_mercenaries() -> void:
 	for index: int in HeroHubState.MAX_PARTY:
 		_render_hero_slot("party_%d" % index, _profile.heroes.get(_profile.party[index]) if index < _profile.party.size() else null)
 	var reserve := _reserve_ids()
+	if hired_selection:
+		var hired_reserve_index := reserve.find(_selected_hero_id)
+		if hired_reserve_index >= 0: _reserve_page = floori(float(hired_reserve_index) / float(RESERVE_PAGE_SIZE))
 	_reserve_page = clampi(_reserve_page, 0, maxi(0, (reserve.size() - 1) / RESERVE_PAGE_SIZE))
 	_text("reserve_count", "Резерв · %d" % reserve.size())
 	_text("reserve_page", "%d / %d" % [_reserve_page + 1, maxi(1, ceili(float(reserve.size()) / RESERVE_PAGE_SIZE))])
@@ -106,12 +120,45 @@ func _render_mercenaries() -> void:
 		_text("hero_title", "Выберите героя")
 		_text("hero_detail", "Нет доступных героев")
 		_portrait("hero_portrait", null)
+		_update_mercenary_action(null)
 		return
 	_text("hero_title", hero.name)
 	_portrait("hero_portrait", HubSkeletonCard.hero_texture(hero.class_id))
 	var attrs := hero.attributes()
 	var location := "Кандидат" if _selected_candidate else ("В отряде" if _profile.party.has(hero.id) else "В резерве")
-	_text("hero_detail", "%s · ур. %d\nHP %.0f/%.0f\nМощь %d · Ловкость %d\nВыносливость %d · Интеллект %d\nМастерство %d" % [location, hero.level(), hero.hp_current, hero.max_hp(), attrs[0], attrs[1], attrs[2], attrs[3], attrs[4]])
+	_text("hero_detail", "%s · ур. %d\nHP %.0f/%.0f\nМощь %d · Ловкость %d\nВыносливость %d\nИнтеллект %d · Мастерство %d" % [location, hero.level(), hero.hp_current, hero.max_hp(), attrs[0], attrs[1], attrs[2], attrs[3], attrs[4]])
+	_update_mercenary_action(hero)
+
+func _update_mercenary_action(hero: HeroProgression) -> void:
+	var action_button := _action_button("mercenary_action")
+	# Кнопка и подпись независимы: удаление одной не останавливает обновление другой.
+	var action_text := "Нанять бесплатно" if _selected_candidate else "В отряд"
+	var available := false
+	var hint := ""
+	if _profile.phase != "hub":
+		hint = "Действие доступно только в хабе"
+	elif _selected_candidate:
+		if hero == null or not _profile.candidates.has(hero): hint = "Выберите доступного кандидата"
+		elif _profile.heroes.size() >= HeroHubState.MAX_ROSTER: hint = "Достигнут предел состава: %d героев" % HeroHubState.MAX_ROSTER
+		elif _profile.items.size() + 2 > HeroHubState.MAX_ITEMS: hint = "На складе нужны 2 свободных места для комплекта новичка"
+		elif _profile.next_id >= 1000000000: hint = "Достигнут предел найма в этом профиле"
+		else: available = true
+	else:
+		var current: HeroProgression = _profile.heroes.get(_selected_hero_id) as HeroProgression
+		if current == null or current.hp_current <= 0.0:
+			hint = "Выберите живого героя"
+		elif _profile.party.has(current.id):
+			action_text = "В резерв"
+			available = true
+		else:
+			if _profile.party.size() >= HeroHubState.MAX_PARTY: hint = "Отряд заполнен: максимум %d героя" % HeroHubState.MAX_PARTY
+			else: available = true
+	if action_button != null:
+		action_button.text = action_text
+		action_button.disabled = not available
+	if hint.is_empty():
+		hint = "Бесплатно · новый герой появится в резерве" if _selected_candidate else "Перевод без стоимости"
+	_text("mercenary_hint", hint)
 
 func _item_ids() -> Array[int]:
 	var ids: Array[int] = []
@@ -179,6 +226,22 @@ func _on_selected(key: String) -> void:
 func _on_action(action: String) -> void:
 	if action == "manage":
 		manage_requested.emit()
+		return
+	if action == "mercenary_action":
+		var action_button := _action_button(action)
+		# Скрытая страница/кнопка не должна запускать действие через устаревший callback.
+		if section_id != &"mercenaries" or not is_visible_in_tree() or action_button == null or not action_button.is_visible_in_tree() or _profile == null: return
+		if _profile.phase != "hub": return
+		if _selected_candidate:
+			var candidate: HeroProgression = _selected_hero()
+			if candidate == null or not _profile.candidates.has(candidate) or _profile.heroes.size() >= HeroHubState.MAX_ROSTER or _profile.items.size() + 2 > HeroHubState.MAX_ITEMS or _profile.next_id >= 1000000000: return
+			hire_requested.emit(candidate.id)
+		else:
+			var current: HeroProgression = _profile.heroes.get(_selected_hero_id) as HeroProgression
+			if current == null or current.hp_current <= 0.0 or not _profile.heroes.has(current.id): return
+			var join_party := not _profile.party.has(current.id)
+			if join_party and _profile.party.size() >= HeroHubState.MAX_PARTY: return
+			party_requested.emit(current.id, join_party)
 		return
 	match action:
 		"items_prev": _items_page -= 1

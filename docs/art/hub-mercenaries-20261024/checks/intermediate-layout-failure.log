@@ -1,0 +1,6 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 566.07 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 Laptop GPU
+
+FAIL HUB MERCENARIES: MercenaryAction/HeroDetail do not overlap at (1024, 720)
+FAIL HUB MERCENARIES: MercenaryAction/HeroDetail do not overlap at (1024, 720)
+HUB MERCENARIES RESULTS: 210 passed, 2 failed
