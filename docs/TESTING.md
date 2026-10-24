@@ -14,6 +14,13 @@
 
 ## Изменение игрового кода
 
+Отдельная Колода (2026-10-24): `--render-check --only hub_deck hub_development
+hub_mercenaries hub_smith hub_sections hub_dashboard hub_scene_authoring hero_hub_ui
+expedition_ui mage_deck_ui hero_hub mage_deck_models mage_deck_expedition --screen 0`.
+Проверяются общий черновик двух UI, лимиты, запись/retry/reload, legacy,
+запуск с выбранной базой и metadata/геометрия; снимки `hub-deck-screenshots/`.
+Отдельно `python tools/demo/test_isolate.py`; full/core и ручная приёмка отдельно.
+
 Развитие в Наёмниках (2026-10-24): `--render-check --only hub_development hub_mercenaries
 hub_smith hub_sections hub_dashboard hub_scene_authoring hero_hub_ui expedition_ui mage_deck_ui
 hero_hub hero_progression --screen 0`. Проверяются черновик/пороги/HP, повторное

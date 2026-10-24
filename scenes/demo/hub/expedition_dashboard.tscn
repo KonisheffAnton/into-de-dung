@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/ui/hub/fortress_plain.png" id="2_background"]
 
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/mercenaries_page.tscn" id="section_mercenaries"]
 [ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/smith_page.tscn" id="section_smith"]
 [ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/schools_page.tscn" id="section_schools"]
+[ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/deck_page.tscn" id="section_deck"]
 
 [sub_resource type="ButtonGroup" id="HubTabGroup"]
 resource_local_to_scene = true
@@ -189,7 +190,7 @@ mouse_filter = 2
 metadata/hub_tab = &"expedition"
 layout_mode = 1
 anchor_left = 0.0
-anchor_right = 0.25
+anchor_right = 0.2
 anchor_bottom = 1.0
 offset_left = 0.0
 offset_right = -4.0
@@ -208,8 +209,8 @@ text = "⚔  Поход"
 [node name="TabMercenaries" type="Button" parent="Layout/Tabs"]
 metadata/hub_tab = &"mercenaries"
 layout_mode = 1
-anchor_left = 0.25
-anchor_right = 0.5
+anchor_left = 0.2
+anchor_right = 0.4
 anchor_bottom = 1.0
 offset_left = 4.0
 offset_right = -4.0
@@ -228,8 +229,8 @@ text = "Наёмники"
 [node name="TabSmith" type="Button" parent="Layout/Tabs"]
 metadata/hub_tab = &"smith"
 layout_mode = 1
-anchor_left = 0.5
-anchor_right = 0.75
+anchor_left = 0.4
+anchor_right = 0.6
 anchor_bottom = 1.0
 offset_left = 4.0
 offset_right = -4.0
@@ -248,7 +249,27 @@ text = "Кузнец"
 [node name="TabSchools" type="Button" parent="Layout/Tabs"]
 metadata/hub_tab = &"schools"
 layout_mode = 1
-anchor_left = 0.75
+anchor_left = 0.6
+anchor_right = 0.8
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_right = -4.0
+custom_minimum_size = Vector2(0, 58)
+size_flags_horizontal = 3
+toggle_mode = true
+button_group = SubResource("HubTabGroup")
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.86, 0.82, 0.77, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.94, 0.81, 1)
+theme_override_styles/normal = SubResource("TabNormal")
+theme_override_styles/hover = SubResource("TabNormal")
+theme_override_styles/pressed = SubResource("TabPressed")
+text = "Школы"
+
+[node name="TabDeck" type="Button" parent="Layout/Tabs"]
+metadata/hub_tab = &"deck"
+layout_mode = 1
+anchor_left = 0.8
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
@@ -263,7 +284,7 @@ theme_override_colors/font_pressed_color = Color(1, 0.94, 0.81, 1)
 theme_override_styles/normal = SubResource("TabNormal")
 theme_override_styles/hover = SubResource("TabNormal")
 theme_override_styles/pressed = SubResource("TabPressed")
-text = "Школы"
+text = "Колода"
 
 [node name="Content" type="HBoxContainer" parent="Layout"]
 layout_mode = 1
@@ -457,3 +478,12 @@ layout_mode = 1
 [node name="SchoolsPage" parent="SectionPages" instance=ExtResource("section_schools")]
 visible = false
 layout_mode = 1
+
+[node name="DeckPage" parent="SectionPages" instance=ExtResource("section_deck")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false

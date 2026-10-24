@@ -1,0 +1,89 @@
+{
+  "base": "53c8987cbf289febc9e855c3a32b67c148f1f5cb",
+  "final_run": "demo-41682e85112a494fa64fe73e50668f3b",
+  "gate": "15 PASS / 0 FAIL / 0 timeout",
+  "counts": {
+    "expedition_ui": {
+      "passed": 58,
+      "failed": 0
+    },
+    "hero_hub": {
+      "passed": 98,
+      "failed": 0
+    },
+    "hero_hub_ui": {
+      "passed": 44,
+      "failed": 0
+    },
+    "hub_dashboard": {
+      "passed": 82,
+      "failed": 0
+    },
+    "hub_deck": {
+      "passed": 2527,
+      "failed": 0
+    },
+    "hub_development": {
+      "passed": 2601,
+      "failed": 0
+    },
+    "hub_mercenaries": {
+      "passed": 215,
+      "failed": 0
+    },
+    "hub_scene_authoring": {
+      "passed": 307,
+      "failed": 0
+    },
+    "hub_sections": {
+      "passed": 599,
+      "failed": 0
+    },
+    "hub_smith": {
+      "passed": 1344,
+      "failed": 0
+    },
+    "mage_deck_expedition": {
+      "passed": 507,
+      "failed": 0
+    },
+    "mage_deck_models": {
+      "passed": 36,
+      "failed": 0
+    },
+    "mage_deck_ui": {
+      "passed": 131,
+      "failed": 0
+    }
+  },
+  "source_sha256": {
+    "scripts/demo/hub_deck_page.gd": "174147612f5d0b3c56886cfd5ed28b0f5b4e1e423071888d017c1ee2a6835292",
+    "scripts/demo/hub_deck_type_card.gd": "ddc6ccd62e228e0685ec009c91c99476a98c2481795ecee0321422128ae0c02c",
+    "scripts/demo/expedition_dashboard.gd": "8b09c0a3b7afbc2c09b854c520925c7bdb8ff7becc133779fb6fd94b395b4ba2",
+    "scripts/demo/hero_hub_screen.gd": "7734c1638c19af8b800c70c6911548c229afe875d726a7f45e61430b2b522bac",
+    "scripts/demo/mage_deck_panel.gd": "94d1e9e003baa36246e72606fd1b47e41acf6e398f0e22ea26be03631cb87c20",
+    "scenes/demo/hub/expedition_dashboard.tscn": "4dcb96bd8f80707530017d4a4e7964c07534727c9bdff7457a2d3246406d993b",
+    "scenes/demo/hub/sections/deck_page.tscn": "2ffc0dca6c91c12da15133f471d38c31f4114d873112a4101c76c8dcd2b45a18",
+    "scenes/demo/hub/sections/deck_type_card.tscn": "696eb9b3111a7339054406c13da047e9c44e95b61b96fa4ea3d86a475e0642f2",
+    "tests/test_hub_deck.gd": "168af3d8dd6e5656f53abbb7b7867315a72fa606ab0d081a6fc4c990703d60a2",
+    "tools/demo/isolate.py": "debfdb6df34390d060d0b9652f77fdeee029d412ef31c742b767022d8bad176a",
+    "tools/demo/test_isolate.py": "80ca51df7fc4bc22176e71034e98bae4979e1ae23a0e10989f63faf688035f52"
+  },
+  "screenshots_sha256": {
+    "draft-1024x720.png": "efd543ffce94d9393cf5609ba305525333423f21bc01d037e9f5d4b40c74ccbe",
+    "draft-1280x850.png": "215f1193db2382e1235e202a0592ee635eeae046d83b053c0042ba8f999ac432",
+    "draft-1920x1080.png": "e1e1b7f63ab3d3445e7d3946417b74815ec6529c67c64694c6055e3bfae994f4",
+    "overview-1024x720.png": "87a3af08e4de18d15a49c97c1ed0f2f932353b83384dd508861a6efe3d982bc7",
+    "overview-1280x850.png": "342e5a22bb5cb1826541c09f2529ec8ba8dc13a1f7074eccf125dd704a1f9ef5",
+    "overview-1920x1080.png": "fce41d1d8493a88bdc884cc6181fac46d006d667bb081230c6b7e92fdbed3bec",
+    "saved-1024x720.png": "131d59d054bfb650216778b7e36e86c506c96f87b94af5e26c755d81046a270e",
+    "saved-1280x850.png": "eaa9d436abbaebee6c052fad4cfeda4982e4bf3e4e464a8c1215e51904551ff4",
+    "saved-1920x1080.png": "471ae1245c5b8195dfc2496bf028143476ecf8a5d74c203cb1e0eab8177b4492"
+  },
+  "protected_file_count": 33,
+  "protected_unchanged": true,
+  "python_launcher": "30 tests, OK",
+  "full_core_run": false,
+  "manual_F5_editor_DPI_GPU_acceptance": false,
+  "final_art_balance_acceptance": false
+}

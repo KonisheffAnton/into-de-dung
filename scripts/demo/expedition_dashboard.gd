@@ -8,9 +8,10 @@ signal hire_requested(candidate_id: int)
 signal party_requested(hero_id: int, join_party: bool)
 signal equipment_requested(item_id: int, hero_id: int, equip_item: bool)
 signal allocation_requested(hero_id: int, expected: Dictionary, delta: Array[int])
+signal deck_action_requested(action: String, type_id: String)
 
 const HERO_CARD: PackedScene = preload("res://scenes/demo/hub/dashboard_hero_card.tscn")
-const TAB_IDS: Array[StringName] = [&"expedition", &"mercenaries", &"smith", &"schools"]
+const TAB_IDS: Array[StringName] = [&"expedition", &"mercenaries", &"smith", &"schools", &"deck"]
 const CLASS_TEXTURES: Dictionary = {
 	&"warrior": "res://assets/ui/hub/warrior_portrait.tres",
 	&"shieldbearer": "res://assets/ui/hub/shieldbearer_portrait.tres",
@@ -36,6 +37,7 @@ var _tabs: Array[Button] = []
 
 var _active_tab: StringName = &"expedition"
 var _section_pages: Dictionary[StringName, HubSectionPage] = {}
+var _deck_page: HubDeckPage
 
 func _ready() -> void:
 	for tab_id: StringName in TAB_IDS:
@@ -49,6 +51,10 @@ func _ready() -> void:
 		if is_instance_valid(_tabs[index]): _tabs[index].pressed.connect(_on_tab_pressed.bind(TAB_IDS[index]))
 	_start_button.pressed.connect(_on_start_pressed)
 	_manage_button.pressed.connect(_on_manage_pressed)
+	for node: Node in find_children("*", "HubDeckPage", true, false):
+		_deck_page = node as HubDeckPage
+		_deck_page.action_requested.connect(_on_deck_action_requested)
+		break
 	for child: Node in find_children("*", "HubSectionPage", true, false):
 		if child is HubSectionPage:
 			var page := child as HubSectionPage
@@ -61,12 +67,15 @@ func _ready() -> void:
 			elif page.section_id == &"smith":
 				page.equipment_requested.connect(_on_equipment_requested)
 
-func render_profile(profile: HeroHubState, expedition: bool, tab: StringName, launch_enabled: bool, launch_hint: String) -> void:
+func render_profile(profile: HeroHubState, expedition: bool, tab: StringName, launch_enabled: bool, launch_hint: String, editing: bool = false, draft: Array = []) -> void:
 	if profile == null:
 		return
 	_active_tab = tab if TAB_IDS.has(tab) else &"expedition"
 	_render_tabs()
 	($Layout/Content as Control).visible = _active_tab == &"expedition"
+	if is_instance_valid(_deck_page) and is_ancestor_of(_deck_page):
+		_deck_page.visible = _active_tab == &"deck"
+		if _deck_page.visible: _deck_page.render_profile(profile, editing, draft)
 	for key: StringName in _section_pages:
 		if not is_instance_valid(_section_pages[key]): continue
 		var page := _section_pages[key]
@@ -155,6 +164,9 @@ func _render_tabs() -> void:
 		if is_instance_valid(_tabs[index]): _tabs[index].set_pressed_no_signal(TAB_IDS[index] == _active_tab)
 
 func _on_tab_pressed(tab_id: StringName) -> void:
+	if tab_id == &"deck":
+		var button := _tabs[TAB_IDS.find(tab_id)]
+		if not is_instance_valid(button) or not button.is_visible_in_tree(): return
 	tab_requested.emit(tab_id)
 
 func _on_start_pressed() -> void:
@@ -176,3 +188,9 @@ func _on_equipment_requested(item_id: int, hero_id: int, equip_item: bool) -> vo
 
 func _on_allocation_requested(hero_id: int, expected: Dictionary, delta: Array[int]) -> void:
 	if _active_tab == &"mercenaries" and is_visible_in_tree(): allocation_requested.emit(hero_id, expected, delta)
+
+func deck_page_visible() -> bool:
+	return is_instance_valid(_deck_page) and is_ancestor_of(_deck_page) and _deck_page.is_visible_in_tree()
+
+func _on_deck_action_requested(action: String, type_id: String) -> void:
+	if _active_tab == &"deck" and deck_page_visible(): deck_action_requested.emit(action, type_id)

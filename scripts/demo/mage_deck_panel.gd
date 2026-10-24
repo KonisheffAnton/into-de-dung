@@ -8,10 +8,7 @@ static func base_editor(host: HeroHubScreen) -> void:
 	(panel.get_node("Summary") as Control).visible = not host.deck_editing
 	(panel.get_node("deck_edit") as Control).visible = not host.deck_editing
 	(panel.get_node("Editor") as Control).visible = host.deck_editing
-	HubUI.bind(panel, ^"deck_edit", func() -> void:
-		host.deck_editing = true
-		host.deck_draft = host.run.mage_deck.base_types.duplicate()
-		host._render())
+	HubUI.bind(panel, ^"deck_edit", host._base_deck_action.bind("edit", "", &"management"))
 	if not host.deck_editing:
 		var names: PackedStringArray = []
 		for card: MageCardDefinition in MageCardCatalog.all():
@@ -32,22 +29,12 @@ static func base_editor(host: HeroHubScreen) -> void:
 		plus.name = "deck_more_" + key
 		minus.disabled = host.deck_draft.count(card.id) == 0
 		plus.disabled = host.deck_draft.count(card.id) == 2
-	var save := HubUI.bind(panel, ^"Editor/deck_save", func() -> void:
-		var values := host.deck_draft.duplicate()
-		host.deck_editing = false
-		host.deck_draft.clear()
-		host._mutate(&"set_mage_base",[values]))
+	var save := HubUI.bind(panel, ^"Editor/deck_save", host._base_deck_action.bind("save", "", &"management"))
 	save.disabled = not MageCardCatalog.valid_base(host.deck_draft)
-	HubUI.bind(panel, ^"Editor/deck_cancel", func() -> void:
-		host.deck_editing = false
-		host.deck_draft.clear()
-		host._render())
+	HubUI.bind(panel, ^"Editor/deck_cancel", host._base_deck_action.bind("cancel", "", &"management"))
 
 static func _change_base(host: HeroHubScreen, type_id: String, change: int) -> void:
-	if not host.deck_editing or host._pending_save != null: return
-	if change < 0: host.deck_draft.erase(type_id)
-	elif host.deck_draft.count(type_id) < 2: host.deck_draft.append(type_id)
-	host._render()
+	host._base_deck_action("minus" if change < 0 else "plus", type_id, &"management")
 
 static func camp_editor(host: HeroHubScreen) -> void:
 	var run := host.run.expedition

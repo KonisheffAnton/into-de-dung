@@ -1,0 +1,232 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/demo/hub_deck_page.gd" id="1_page"]
+[ext_resource type="Theme" path="res://assets/ui/hub/skeleton_theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/deck_type_card.tscn" id="3_card"]
+
+[sub_resource type="StyleBoxFlat" id="OpaquePanel"]
+bg_color = Color(0.91, 0.82, 0.66, 0.98)
+border_color = Color(0.56, 0.39, 0.23, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="DeckPage" type="Control"]
+theme = ExtResource("2_theme")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_page")
+
+[node name="CatalogPanel" type="Panel" parent="."]
+theme = ExtResource("2_theme")
+theme_override_styles/panel = SubResource("OpaquePanel")
+layout_mode = 1
+anchor_left = 0.02
+anchor_top = 0.025
+anchor_right = 0.575
+anchor_bottom = 0.975
+
+[node name="CatalogTitle" type="Label" parent="CatalogPanel"]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.025
+anchor_right = 0.96
+anchor_bottom = 0.105
+text = "КАТАЛОГ КАРТ"
+theme_override_font_sizes/font_size = 18
+metadata/hub_slot = "deck_catalog_title"
+
+[node name="Card0" parent="CatalogPanel" instance=ExtResource("3_card")]
+layout_mode = 1
+anchor_left = 0.035
+anchor_top = 0.14
+anchor_right = 0.485
+anchor_bottom = 0.345
+metadata/hub_slot = "deck_card_0"
+[node name="Card1" parent="CatalogPanel" instance=ExtResource("3_card")]
+layout_mode = 1
+anchor_left = 0.515
+anchor_top = 0.14
+anchor_right = 0.965
+anchor_bottom = 0.345
+metadata/hub_slot = "deck_card_1"
+[node name="Card2" parent="CatalogPanel" instance=ExtResource("3_card")]
+layout_mode = 1
+anchor_left = 0.035
+anchor_top = 0.39
+anchor_right = 0.485
+anchor_bottom = 0.595
+metadata/hub_slot = "deck_card_2"
+[node name="Card3" parent="CatalogPanel" instance=ExtResource("3_card")]
+layout_mode = 1
+anchor_left = 0.515
+anchor_top = 0.39
+anchor_right = 0.965
+anchor_bottom = 0.595
+metadata/hub_slot = "deck_card_3"
+[node name="Card4" parent="CatalogPanel" instance=ExtResource("3_card")]
+layout_mode = 1
+anchor_left = 0.035
+anchor_top = 0.64
+anchor_right = 0.485
+anchor_bottom = 0.845
+metadata/hub_slot = "deck_card_4"
+[node name="Card5" parent="CatalogPanel" instance=ExtResource("3_card")]
+layout_mode = 1
+anchor_left = 0.515
+anchor_top = 0.64
+anchor_right = 0.965
+anchor_bottom = 0.845
+metadata/hub_slot = "deck_card_5"
+
+[node name="Previous" type="Button" parent="CatalogPanel"]
+layout_mode = 1
+anchor_left = 0.035
+anchor_top = 0.88
+anchor_right = 0.17
+anchor_bottom = 0.96
+text = "◀"
+metadata/hub_action = "deck_page_prev"
+[node name="PageNumber" type="Label" parent="CatalogPanel"]
+layout_mode = 1
+anchor_left = 0.30
+anchor_top = 0.88
+anchor_right = 0.70
+anchor_bottom = 0.96
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "Каталог 1/3"
+metadata/hub_slot = "deck_page_number"
+[node name="Next" type="Button" parent="CatalogPanel"]
+layout_mode = 1
+anchor_left = 0.83
+anchor_top = 0.88
+anchor_right = 0.965
+anchor_bottom = 0.96
+text = "▶"
+metadata/hub_action = "deck_page_next"
+
+[node name="DetailsPanel" type="Panel" parent="."]
+theme = ExtResource("2_theme")
+theme_override_styles/panel = SubResource("OpaquePanel")
+layout_mode = 1
+anchor_left = 0.595
+anchor_top = 0.025
+anchor_right = 0.98
+anchor_bottom = 0.975
+
+[node name="SelectedTitle" type="Label" parent="DetailsPanel"]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.025
+anchor_right = 0.96
+anchor_bottom = 0.10
+autowrap_mode = 3
+text = "Выберите карту"
+theme_override_font_sizes/font_size = 18
+metadata/hub_slot = "deck_selected_title"
+[node name="SelectedMana" type="Label" parent="DetailsPanel"]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.105
+anchor_right = 0.96
+anchor_bottom = 0.16
+text = ""
+metadata/hub_slot = "deck_selected_mana"
+[node name="SelectedDescription" type="Label" parent="DetailsPanel"]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.17
+anchor_right = 0.96
+anchor_bottom = 0.34
+autowrap_mode = 2
+vertical_alignment = 1
+text = ""
+theme_override_font_sizes/font_size = 14
+metadata/hub_slot = "deck_selected_description"
+[node name="Minus" type="Button" parent="DetailsPanel"]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.35
+anchor_right = 0.46
+anchor_bottom = 0.43
+text = "− Убрать"
+metadata/hub_action = "minus"
+[node name="Plus" type="Button" parent="DetailsPanel"]
+layout_mode = 1
+anchor_left = 0.54
+anchor_top = 0.35
+anchor_right = 0.96
+anchor_bottom = 0.43
+text = "+ Добавить"
+metadata/hub_action = "plus"
+[node name="LegacyHint" type="Label" parent="DetailsPanel"]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.45
+anchor_right = 0.96
+anchor_bottom = 0.51
+autowrap_mode = 2
+text = "Ровно 10 карт · не более 2 копий одного типа"
+theme_override_font_sizes/font_size = 13
+metadata/hub_slot = "deck_legacy_hint"
+[node name="DeckSummary" type="Label" parent="DetailsPanel"]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.53
+anchor_right = 0.96
+anchor_bottom = 0.77
+autowrap_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 14
+metadata/hub_slot = "deck_summary"
+[node name="DeckCount" type="Label" parent="DetailsPanel"]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.78
+anchor_right = 0.96
+anchor_bottom = 0.825
+text = "Карт в составе: 0/10"
+metadata/hub_slot = "deck_count"
+
+[node name="Edit" type="Button" parent="DetailsPanel"]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.835
+anchor_right = 0.46
+anchor_bottom = 0.91
+text = "Изменить"
+metadata/hub_action = "edit"
+[node name="Save" type="Button" parent="DetailsPanel"]
+layout_mode = 1
+anchor_left = 0.54
+anchor_top = 0.835
+anchor_right = 0.96
+anchor_bottom = 0.91
+text = "Сохранить"
+metadata/hub_action = "save"
+[node name="Cancel" type="Button" parent="DetailsPanel"]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.92
+anchor_right = 0.46
+anchor_bottom = 0.995
+text = "Отменить"
+metadata/hub_action = "cancel"
+[node name="Close" type="Button" parent="DetailsPanel"]
+layout_mode = 1
+anchor_left = 0.54
+anchor_top = 0.92
+anchor_right = 0.96
+anchor_bottom = 0.995
+text = "В хаб"
+metadata/hub_action = "close"

@@ -88,6 +88,7 @@ class IsolateSelectionTests(unittest.TestCase):
                     "hub_mercenaries": "HUB MERCENARIES RESULTS:",
                     "hub_smith": "HUB SMITH RESULTS:",
                     "hub_development": "HUB DEVELOPMENT RESULTS:",
+                    "hub_deck": "HUB DECK RESULTS:",
                     "battle_action_descriptors": "BATTLE ACTION DESCRIPTORS RESULTS:",
                     "battle_mage_presenter": "BATTLE MAGE PRESENTER RESULTS:",
                     "battle_hud_authoring": "BATTLE HUD AUTHORING RESULTS:",
@@ -163,7 +164,7 @@ class IsolateSelectionTests(unittest.TestCase):
                 self.assertEqual((code, calls, timing), (2, [], None))
 
     def test_ui_helpers_require_own_success_marker(self):
-        for label in ("battle_action_descriptors", "battle_mage_presenter", "restore_vitals", "hub_mercenaries", "hub_smith", "hub_development"):
+        for label in ("battle_action_descriptors", "battle_mage_presenter", "restore_vitals", "hub_mercenaries", "hub_smith", "hub_development", "hub_deck"):
             with self.subTest(label=label):
                 options = ["--check", "--only", label]
                 code, calls, _, _ = self.exercise(options)

@@ -6,6 +6,8 @@ class_name HeroHubScreen
 @export var mage_deck_mode: bool = false
 var deck_editing: bool = false
 var deck_draft: Array = []
+var _base_deck_expected: Dictionary = {}
+var _base_deck_candidate: HeroHubState
 
 var run: HeroHubState
 var selected_hero_id: int = 0
@@ -34,6 +36,7 @@ func _ready() -> void:
 	_dashboard.party_requested.connect(_on_mercenary_party_requested)
 	_dashboard.equipment_requested.connect(_on_smith_equipment_requested)
 	_dashboard.allocation_requested.connect(_on_mercenary_allocation_requested)
+	_dashboard.deck_action_requested.connect(_base_deck_action.bind(&"deck"))
 	($Panel/Column/Header/DashboardBack as Button).pressed.connect(_return_hub_dashboard)
 	_page_host = $Panel/Column/HeroHubScroll/Content/Pages
 	for child: Node in _page_host.get_children():
@@ -104,6 +107,12 @@ func _commit(candidate: HeroHubState) -> void:
 		var updated: HeroProgression = candidate.heroes[selected_hero_id]
 		# Второе представление не должно применить старый черновик поверх уже сохранённого развития.
 		if previous.allocated != updated.allocated: pending_delta = [0, 0, 0, 0, 0]
+	if candidate == _base_deck_candidate:
+		# Оба редактора используют один черновик; отказ записи оставляет его до retry.
+		deck_editing = false
+		deck_draft.clear()
+		_base_deck_expected.clear()
+		_base_deck_candidate = null
 	run = candidate
 	_pending_save = null
 	_storage_error = ""
@@ -132,6 +141,7 @@ func _mutate(method: StringName, args: Array = []) -> void:
 		_commit(candidate)
 		return
 	_message = "Изменения сохранены."
+	if method == &"set_mage_base": _base_deck_candidate = candidate
 	_commit(candidate)
 
 func _start_battle() -> void:
@@ -207,6 +217,7 @@ func _show_page(key: String) -> VBoxContainer:
 	return page
 
 func _render() -> void:
+	_sync_base_deck_draft()
 	_dashboard.hide()
 	_root_panel.show()
 	($Panel/Column/Header/DashboardBack as Button).hide()
@@ -262,8 +273,8 @@ func _render() -> void:
 	if not _hub_management:
 		var launch_hint := "Состав готов. Можно отправляться."
 		if run.party.is_empty(): launch_hint = "Добавьте хотя бы одного героя в отряд."
-		elif deck_editing: launch_hint = "Сохраните или отмените состав колоды в управлении отрядом."
-		_dashboard.render_profile(run, expedition_mode, _hub_tab, not run.party.is_empty() and not deck_editing, launch_hint)
+		elif deck_editing: launch_hint = "Сохраните или отмените изменения в разделе «Колода»."
+		_dashboard.render_profile(run, expedition_mode, _hub_tab, not run.party.is_empty() and not deck_editing, launch_hint, deck_editing, deck_draft)
 		_root_panel.hide()
 		_dashboard.show()
 		return
@@ -288,12 +299,63 @@ func _return_hub_dashboard() -> void:
 
 func _on_hub_tab_requested(tab_id: StringName) -> void:
 	if not _can_navigate_hub() or not ExpeditionDashboard.TAB_IDS.has(tab_id): return
+	if tab_id == &"deck" and (_hub_management or not _dashboard.is_visible_in_tree()): return
 	_hub_tab = tab_id
 	_hub_management = false
 	_render()
 
 func _can_change_mercenaries() -> bool:
 	return _can_navigate_hub() and not _hub_management and _hub_tab == &"mercenaries" and _dashboard.is_visible_in_tree() and battle_view == null
+
+func _sync_base_deck_draft() -> void:
+	if run == null or run.phase != "hub": return
+	if not deck_editing:
+		_base_deck_expected.clear()
+		return
+	if _base_deck_expected.is_empty() and not run.mage_deck.is_empty():
+		_base_deck_expected = run.mage_deck.duplicate(true)
+	elif _base_deck_expected != run.mage_deck:
+		# Публикация другого состава делает прежний черновик устаревшим для обоих представлений.
+		deck_editing = false
+		deck_draft.clear()
+		_base_deck_expected.clear()
+
+func _base_deck_action(action: String, type_id: String, surface: StringName) -> void:
+	if not _can_navigate_hub() or battle_view != null or not is_visible_in_tree(): return
+	if surface == &"deck":
+		if _hub_management or _hub_tab != &"deck" or not _dashboard.is_visible_in_tree() or not _dashboard.deck_page_visible(): return
+	elif surface == &"management":
+		if not _hub_management or not _root_panel.is_visible_in_tree() or not _page("BasePage").is_visible_in_tree(): return
+	else: return
+	if action == "close":
+		if surface == &"deck": _return_hub_dashboard()
+		return
+	if run.mage_deck.is_empty(): return
+	var was_editing := deck_editing
+	_sync_base_deck_draft()
+	if was_editing and not deck_editing:
+		_render()
+		return
+	if action == "edit":
+		if deck_editing: return
+		deck_editing = true
+		deck_draft = run.mage_deck.base_types.duplicate()
+		_base_deck_expected = run.mage_deck.duplicate(true)
+	elif not deck_editing: return
+	elif action == "cancel":
+		deck_editing = false
+		deck_draft.clear()
+		_base_deck_expected.clear()
+	elif action == "save":
+		if not MageCardCatalog.valid_base(deck_draft): return
+		_mutate(&"set_mage_base", [deck_draft.duplicate()])
+		return
+	elif action in ["plus", "minus"]:
+		if MageCardCatalog.get_card(type_id) == null: return
+		if action == "minus": deck_draft.erase(type_id)
+		elif deck_draft.count(type_id) < 2: deck_draft.append(type_id)
+	else: return
+	_render()
 
 func _on_mercenary_hire_requested(candidate_id: int) -> void:
 	if not _can_change_mercenaries(): return
