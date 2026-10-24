@@ -1,0 +1,68 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Theme" path="res://assets/ui/hub/skeleton_theme.tres" id="module_theme"]
+
+[sub_resource type="ButtonGroup" id="SchoolChoiceGroup"]
+resource_local_to_scene = true
+allow_unpress = true
+
+[node name="SchoolsListPanel" type="Panel"]
+theme = ExtResource("module_theme")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="SchoolsHeading" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.06
+anchor_top = 0.03
+anchor_right = 0.94
+anchor_bottom = 0.13
+autowrap_mode = 2
+text = "Школы"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 20
+[node name="School0" type="Button" parent="."]
+toggle_mode = true
+button_group = SubResource("SchoolChoiceGroup")
+layout_mode = 1
+anchor_left = 0.06
+anchor_top = 0.18
+anchor_right = 0.94
+anchor_bottom = 0.34
+text = "Школа 1"
+metadata/hub_action = "school_0"
+[node name="School1" type="Button" parent="."]
+toggle_mode = true
+button_group = SubResource("SchoolChoiceGroup")
+layout_mode = 1
+anchor_left = 0.06
+anchor_top = 0.38
+anchor_right = 0.94
+anchor_bottom = 0.54
+text = "Школа 2"
+metadata/hub_action = "school_1"
+[node name="School2" type="Button" parent="."]
+toggle_mode = true
+button_group = SubResource("SchoolChoiceGroup")
+layout_mode = 1
+anchor_left = 0.06
+anchor_top = 0.58
+anchor_right = 0.94
+anchor_bottom = 0.74
+text = "Школа 3"
+metadata/hub_action = "school_2"
+[node name="School3" type="Button" parent="."]
+toggle_mode = true
+button_group = SubResource("SchoolChoiceGroup")
+layout_mode = 1
+anchor_left = 0.06
+anchor_top = 0.78
+anchor_right = 0.94
+anchor_bottom = 0.94
+text = "Школа 4"
+metadata/hub_action = "school_3"

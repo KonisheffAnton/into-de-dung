@@ -70,7 +70,7 @@ func _run() -> void:
 		check((dashboard.find_child(key, true, false) as Button).button_pressed, key + " remains selected")
 		await _capture(key)
 	await _press("TabMercenaries")
-	await _press("ManageParty")
+	await _press("ManageMercenaries")
 	var base_page := hub._page("BasePage")
 	check(base_page.is_visible_in_tree() and not dashboard.is_visible_in_tree(), "management opens existing page")
 	var base_id := base_page.get_instance_id()

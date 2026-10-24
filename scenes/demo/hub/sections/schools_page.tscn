@@ -1,0 +1,64 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/demo/hub_section_page.gd" id="1_page_script"]
+[ext_resource type="Theme" path="res://assets/ui/hub/skeleton_theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/schools_list_panel.tscn" id="3_panel"]
+[ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/school_tree_panel.tscn" id="4_panel"]
+[ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/school_detail_panel.tscn" id="5_panel"]
+[ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/school_note_panel.tscn" id="6_panel"]
+
+[node name="SchoolsPage" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_page_script")
+section_id = &"schools"
+
+[node name="SchoolsList" parent="." instance=ExtResource("3_panel")]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.21
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+
+[node name="SchoolTree" parent="." instance=ExtResource("4_panel")]
+layout_mode = 1
+anchor_left = 0.24
+anchor_top = 0.0
+anchor_right = 0.67
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+
+[node name="SchoolDetail" parent="." instance=ExtResource("5_panel")]
+layout_mode = 1
+anchor_left = 0.7
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.7
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+
+[node name="SchoolNote" parent="." instance=ExtResource("6_panel")]
+layout_mode = 1
+anchor_left = 0.7
+anchor_top = 0.74
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0

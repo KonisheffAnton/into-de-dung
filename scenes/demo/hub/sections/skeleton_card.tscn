@@ -1,0 +1,133 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Theme" path="res://assets/ui/hub/skeleton_theme.tres" id="module_theme"]
+
+[ext_resource type="Script" path="res://scripts/demo/hub_skeleton_card.gd" id="1_card_script"]
+
+[sub_resource type="StyleBoxFlat" id="CardNormal"]
+bg_color = Color(0.91, 0.82, 0.66, 0.98)
+border_color = Color(0.56, 0.39, 0.23, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="CardHover"]
+bg_color = Color(0.96, 0.87, 0.7, 1)
+border_color = Color(0.72, 0.49, 0.25, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="CardPressed"]
+bg_color = Color(0.83, 0.71, 0.55, 1)
+border_color = Color(0.56, 0.39, 0.23, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+
+[node name="HubSkeletonCard" type="Button"]
+theme = ExtResource("module_theme")
+custom_minimum_size = Vector2(120, 148)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_card_script")
+theme_override_colors/font_color = Color(0.2, 0.15, 0.11, 1)
+theme_override_colors/font_hover_color = Color(0.2, 0.15, 0.11, 1)
+theme_override_colors/font_pressed_color = Color(0.2, 0.15, 0.11, 1)
+theme_override_styles/normal = SubResource("CardNormal")
+theme_override_styles/hover = SubResource("CardHover")
+theme_override_styles/pressed = SubResource("CardPressed")
+theme_override_styles/disabled = SubResource("CardNormal")
+metadata/hub_slot = ""
+
+[node name="Portrait" type="TextureRect" parent="."]
+layout_mode = 1
+anchor_left = 0.34
+anchor_top = 0.07
+anchor_right = 0.66
+anchor_bottom = 0.45
+offset_left = -2.0
+offset_right = 2.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+texture_filter = 1
+metadata/hub_field = "portrait"
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.05
+anchor_top = 0.44
+anchor_right = 0.95
+anchor_bottom = 0.73
+offset_left = 2.0
+offset_right = -2.0
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "—"
+mouse_filter = 2
+metadata/hub_field = "title"
+
+[node name="Subtitle" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.05
+anchor_top = 0.75
+anchor_right = 0.95
+anchor_bottom = 0.95
+offset_left = 2.0
+offset_right = -2.0
+autowrap_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "—"
+mouse_filter = 2
+metadata/hub_field = "subtitle"
+
+[node name="Detail" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.05
+anchor_top = 0.07
+anchor_right = 0.95
+anchor_bottom = 0.40
+offset_left = 2.0
+offset_right = -2.0
+autowrap_mode = 2
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "—"
+mouse_filter = 2
+metadata/hub_field = "detail"

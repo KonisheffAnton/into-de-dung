@@ -1,0 +1,385 @@
+{
+  "base": "42dddb9e1e976905193e48c42668ef77ebae4788",
+  "final_run": "test_reports/demo-9615cc76be784c50a09f881607c05425",
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "timed_out": 0,
+    "failed_labels": [],
+    "unexecuted_requested": [],
+    "blocked": null
+  },
+  "assertions": {
+    "hub_sections": {
+      "passed": 556,
+      "failed": 0
+    },
+    "hub_scene_authoring": {
+      "passed": 307,
+      "failed": 0
+    },
+    "hub_dashboard": {
+      "passed": 82,
+      "failed": 0
+    },
+    "hero_hub_ui": {
+      "passed": 44,
+      "failed": 0
+    },
+    "expedition_ui": {
+      "passed": 58,
+      "failed": 0
+    },
+    "mage_deck_ui": {
+      "passed": 131,
+      "failed": 0
+    }
+  },
+  "python_launcher_tests": 30,
+  "runtime_and_tests": [
+    {
+      "path": "assets/ui/hub/skeleton_theme.tres",
+      "sha256": "5c45eb7abded3d6e1b679e3fab0f48ad814df911e347945f5e12d0b5310cd2ee",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "scenes/demo/hub/expedition_dashboard.tscn",
+      "sha256": "9fe1f7d465362d785046386ddfcaf7b192f513f2e7279cf9a635e1a42fa08a1f",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "scenes/demo/hub/sections/candidates_panel.tscn",
+      "sha256": "b67756300fee5bc1e5aeaac9c50d02ea031b938dba1d46b9e4593a832abf6333",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "scenes/demo/hub/sections/compact_hero_card.tscn",
+      "sha256": "299f1512a4591f1fa63965dc9012fdf847a29b4c2bed22847b0b1e4f7b466fb8",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "scenes/demo/hub/sections/hero_detail_panel.tscn",
+      "sha256": "c0929a9e805060d55023714f8ffe68456b16d3433b17d8ce076cb6f1b45ef92f",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "scenes/demo/hub/sections/inventory_panel.tscn",
+      "sha256": "775dbc2b6cf6731337892814fe298eb59b34a583f9bfebcd84b9eb826b9db376",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "scenes/demo/hub/sections/item_detail_panel.tscn",
+      "sha256": "b8e0df74a86638f2dca99cd15fd185565326bda2e78ca682f2b8b079fa30e9a6",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "scenes/demo/hub/sections/materials_panel.tscn",
+      "sha256": "5932b0becb1c2560cac56ccc4d8d2c91f197d8b4251f3913171b946ac7fe59c4",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "scenes/demo/hub/sections/mercenaries_page.tscn",
+      "sha256": "6afeced7eed9e8a1ce19cc039c6e3823062c23fd05b567c2906547f553d5f17b",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "scenes/demo/hub/sections/salvage_panel.tscn",
+      "sha256": "9d6feb1dcd6b7d6992a391b5b50cd5d9ab1196c3849b57a506b2598e9110fc83",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "scenes/demo/hub/sections/school_detail_panel.tscn",
+      "sha256": "c2b213f36330cc7b756518766c884d713e5bdc34c0a9929a206e2c5e760c052f",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "scenes/demo/hub/sections/school_note_panel.tscn",
+      "sha256": "b117f1ce2526f88cd607ce8747d71ab504383f13b3ccb5bdf53043ef49141ca2",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "scenes/demo/hub/sections/school_tree_panel.tscn",
+      "sha256": "e7b47c756721f3e417c92090edb0b260fbc66f16b5acb3d49608a338a89c6382",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "scenes/demo/hub/sections/schools_list_panel.tscn",
+      "sha256": "9daa9cf92da0ad84bce74ba000922824cf868203334115324585673d93a17279",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "scenes/demo/hub/sections/schools_page.tscn",
+      "sha256": "0aba4689bb3efd34a2800f0238dfed32c3026fc7610179163b22475b4a74db7f",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "scenes/demo/hub/sections/skeleton_card.tscn",
+      "sha256": "bfd86c4a3324b1e3b95751943e535139fa9e202554e69b2a82e61ffdb0c1b934",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "scenes/demo/hub/sections/smith_page.tscn",
+      "sha256": "7db5bdb4adb65d363bd1946077b8049a9d3b85c492e5d661ee0fe33c0e16df29",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "scenes/demo/hub/sections/squad_panel.tscn",
+      "sha256": "aca6b69419e5e25ba839a007e218f9a61b06d1ff4b2970b57d55855ab3e92e68",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "scripts/demo/expedition_dashboard.gd",
+      "sha256": "7e38f4f041a56e27fa778d672eaed4332ef4b7170bf4625adaa233a25a25853b",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "scripts/demo/hub_section_page.gd",
+      "sha256": "01be922dab51ebc0a9709a10752ca83271ea127de07377ccb580a7ce0ce32422",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "scripts/demo/hub_skeleton_card.gd",
+      "sha256": "00445cb8c1ba99f1e96d4242b0543c801e9ff78f2af881506fd78b2ab6cb8bc2",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "scripts/demo/hub_skeleton_link.gd",
+      "sha256": "45c7d6d66176284f13cc2f0f244417e870b6bf21259cb90be6790731b05881fb",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "tests/test_hub_dashboard.gd",
+      "sha256": "2dacf54eb43531bd01fc53526644f26fba8a1a49c58ab2480eafe3bbe2b68244",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "tests/test_hub_sections.gd",
+      "sha256": "f1bb6ed413cdbd7caca53cf156963fd0ea907d3c0ddce40e7ababe7b3526d835",
+      "matches_final_isolate": true
+    },
+    {
+      "path": "tools/demo/isolate.py",
+      "sha256": "1ca04ccd11aff860807dc43bda63f9d42d4eb794febfdf5de9186d67ddc8f8e3",
+      "matches_final_isolate": true
+    }
+  ],
+  "retained_art": [
+    {
+      "path": "assets/art_presets/approved/defender_brighter_v1/defender-reference.png",
+      "sha256": "a4e5c1ed380b6288587c0866b9cd0e9b8252e97fdc183aaefa246290815fc46b",
+      "unchanged_from_initial_snapshot": true
+    },
+    {
+      "path": "assets/art_presets/approved/warrior_format_v1/character.png",
+      "sha256": "e93daeee4edec7fee5031e8aa91b5a729a2ecd7e269b17abf94558b6e4604057",
+      "unchanged_from_initial_snapshot": true
+    },
+    {
+      "path": "assets/art_presets/trials/archer_idle_v1/idle/frame-01.png",
+      "sha256": "b3425f2b15c2aaecc0b254dac5220d2ccac02f2f648c7fc189e284c06631dfa4",
+      "unchanged_from_initial_snapshot": true
+    },
+    {
+      "path": "assets/art_presets/trials/rogue_selected_v1/still.png",
+      "sha256": "c774002e01412bbf82adcd30a8d636bf1b891b67623a0b5fb49b0ea8ccd996ff",
+      "unchanged_from_initial_snapshot": true
+    },
+    {
+      "path": "assets/ui/hub/archer_portrait.tres",
+      "sha256": "84c9d4b556884cea101f604e0018ea67ce33cdd093621310800e52a2b573de1a",
+      "unchanged_from_initial_snapshot": true
+    },
+    {
+      "path": "assets/ui/hub/fortress_plain.png",
+      "sha256": "627d62686839862662c509beae173900f1321dbcee276664f52b316fafe2d204",
+      "unchanged_from_initial_snapshot": true
+    },
+    {
+      "path": "assets/ui/hub/rogue_portrait.tres",
+      "sha256": "3cac85eb13e0c603fb8ca078a09caa6abcedb7dc79de61120be154317a3861d7",
+      "unchanged_from_initial_snapshot": true
+    },
+    {
+      "path": "assets/ui/hub/shieldbearer_portrait.tres",
+      "sha256": "4e9b9c3c66c8d5e2b7a2628193af5e13479c9263ee136f338cf0da09d0ffad90",
+      "unchanged_from_initial_snapshot": true
+    },
+    {
+      "path": "assets/ui/hub/warrior_portrait.tres",
+      "sha256": "17594da4c25628754d853de99f11b84fcf43cac9d3d02b1abbe0107a6c4d50e7",
+      "unchanged_from_initial_snapshot": true
+    }
+  ],
+  "protected": [
+    {
+      "path": "scenes/demo/main_menu.tscn",
+      "sha256": "a64c270256ebf2ea073081200be23028f792f42c3ca98f83a6499c1300a68668"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/defender-benchmark.png",
+      "sha256": "af95a196244b133a7d11933475fc9d6847241068c402c7220406b28b1499d7cb"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G01.png",
+      "sha256": "8569563ef926d1ee5a44c153c57f11a424cfa2fb348033e598260c23168551ae"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G02.png",
+      "sha256": "973fd5aa8586957e46e3f6884382f7dc3a8203db04d2bb4a5ad95c466d3c283a"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G03.png",
+      "sha256": "df3c8f2e3810200c823041a1f52a9622e6d97b47b795553ddb3c5746a7bba079"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G04.png",
+      "sha256": "c3a7dbec12f363b2a6b05cc2fb6414774289df7950671979dccb582848efaa05"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G05.png",
+      "sha256": "fc4276f3e82a21c25d9fb81b6e6822be20c1b6bd76106e133373b22c881c5adb"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G06.png",
+      "sha256": "c755757606d5d79e680046cb88da0de2187663d6223afa84b838e99dadaab0d6"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G07.png",
+      "sha256": "7df4bcd244f21c05ab8ffe3777e695dcd6ee22fc657a3545dd1def27b072f303"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G08.png",
+      "sha256": "16ba8313dfbc06394d5f23ed14a41d10ed612891fa1a484aae5aae070e29b885"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G09.png",
+      "sha256": "11a1c98d918856dfd5b1d4e2d5e103a49e46c33e8aaf3c5948c20e83762d0180"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G10.png",
+      "sha256": "69a4165ee5c2af97f7b2fbe134820e7bfde47cc4ec255f8f3b709f8439cdc036"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G11.png",
+      "sha256": "ae4d953e93c0a104034704e037d6d7252fdb130a6ed8732aff5282b9bc04d6e1"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G12.png",
+      "sha256": "31ce94b30541c1f80004cc99bc6648a468745a390a3498d9689cdcaee6a16bc3"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G13.png",
+      "sha256": "fde46b328048e9b46694ce65188bfc00a74054afb77cc978a3c134d75fd97575"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G14.png",
+      "sha256": "9dcb5b57e0d51755e0492d1e970500babb7e57c8d5c6abec5bdeeccfffd0e2a2"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G15.png",
+      "sha256": "73bba3c9a06c3b3fed7c87405398fd797bbc29177d42e1040705b5997e486551"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/gallery.html",
+      "sha256": "7177ce2332160674d6337e791fa36ecddc3dfa07c36a2b0d321af768bd744466"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/iterations/G01-first.png",
+      "sha256": "805bcb6fe205042b4d0102ccafad74bf1f429df40487adf87946cf6e82b32bde"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/iterations/G13-before-projection.png",
+      "sha256": "26f190de0f56da94f65076706bef11d266248eb632f76965ef62454cd709f704"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/iterations/G13-projection-attempt.png",
+      "sha256": "d028beeb28d57feb1f51e0b400a112ef6c294b9664cb2f0effab0710c5a15a9f"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/iterations/G13-projection-request.json",
+      "sha256": "ec5096df22ee3d3c76d8e8dccf5cca46e27241fc37348f1eae728b0d5ae0cc7e"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/iterations/manifest-before-projection.json",
+      "sha256": "b592f83d2551bc9fb2ddf6aed822d33b5ef2788b2709a981a2fd0b2d289576ad"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/manifest.json",
+      "sha256": "b592f83d2551bc9fb2ddf6aed822d33b5ef2788b2709a981a2fd0b2d289576ad"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/projection-reference.png",
+      "sha256": "3a444db1efbf7dd949d123ffd724f1a7e0a6eeb069066f320d84e707798f7dbb"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/prompts-final.json",
+      "sha256": "5c473e2c1bdb9f9963e3b402eb10a3c421f7bbc005e2185297918efb5e4ad2d6"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/prompts.json",
+      "sha256": "2c5c1656986f3dfdc419f2a7dc5b0ebbe2b24a0daa8af2f659a41cdcf5e479c8"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/ratings.json",
+      "sha256": "7bb6c5aed87b30ba375a1f2da183c05f5296ae13c9ba152054705f42558a04d1"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/README.md",
+      "sha256": "537bbedb636ca4f5c4441c94f687663d9215a6774ed248afc0984f4f473b1351"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/reference.png",
+      "sha256": "72364175d086c18a1d469e3e0af3aa3d71755bc5ea6bb9039bd646b3ddd01aaf"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/tile-geometry-guide.png",
+      "sha256": "d4444226d25b8da9d951a155f84e1c5c0168f23ca4fe6b247310b387f57b997d"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/validate.py",
+      "sha256": "456068e7b97e88e31f3c35e8c5b9c31f1be75deb6dd6b8344ad1697a2c86760f"
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/validation.json",
+      "sha256": "f3c00c4e007e33938b476be9256d382dfc287a292c8b82412352e8edde138cbe"
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "screenshots/mercenaries-1024x720.png",
+      "sha256": "e2baa4f6eb9a80022234087a40330583595f6e2fb93e8dc63448ce3249e898fd"
+    },
+    {
+      "path": "screenshots/mercenaries-1280x850.png",
+      "sha256": "922ebc6ac6bce54eca24c2702b40625ce3e2d28f369a9514d5aae471ca9c28b6"
+    },
+    {
+      "path": "screenshots/mercenaries-1920x1080.png",
+      "sha256": "7c5e4c172165e700de38cb398b4f2c14e702b4c5a5859820eeea7fb4aa81fe3c"
+    },
+    {
+      "path": "screenshots/schools-1024x720.png",
+      "sha256": "0f0fdbb0f5d8e649d8aab802695180b9b94274ee0ed81d572e4b3fe2d6b35ccf"
+    },
+    {
+      "path": "screenshots/schools-1280x850.png",
+      "sha256": "320da842ec89726ebe004235e6793b94a75635bc36e79ba296b4cec97956a573"
+    },
+    {
+      "path": "screenshots/schools-1920x1080.png",
+      "sha256": "d5501a92978fb7ba6b887383a10653dc4394fdc57a7b03521d2dfec09b256438"
+    },
+    {
+      "path": "screenshots/smith-1024x720.png",
+      "sha256": "8e904c84d4e9f1c95a66bff6d675dc086d865e20105a1f39884d530739328794"
+    },
+    {
+      "path": "screenshots/smith-1280x850.png",
+      "sha256": "ac55cb6edfc88974c6aabf4c1abae7d26a473f63731ea75819d8ab5766c19e9d"
+    },
+    {
+      "path": "screenshots/smith-1920x1080.png",
+      "sha256": "fc5dec21e297ad5e6a9c184c56b725bcfa1d34a7320bd974b082167ba76c3305"
+    }
+  ]
+}

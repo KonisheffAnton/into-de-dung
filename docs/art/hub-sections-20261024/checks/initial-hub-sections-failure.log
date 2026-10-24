@@ -1,0 +1,18 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 566.07 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 Laptop GPU
+
+ERROR: Node not found: "Tree" (relative to "/root/@SubViewport@2/HeroHub/ExpeditionDashboard/SectionPages/SchoolsPage").
+   at: get_node (scene/main/node.cpp:1975)
+   GDScript backtrace (most recent call first):
+       [0] _test_independence (res://tests/test_hub_sections.gd:152)
+       [1] _press_name (res://tests/test_hub_sections.gd:179)
+       [2] _click (res://tests/test_hub_sections.gd:197)
+       [3] _settle (res://tests/test_hub_sections.gd:200)
+SCRIPT ERROR: Cannot call method 'get_node' on a null value.
+   at: _test_independence (res://tests/test_hub_sections.gd:154)
+   GDScript backtrace (most recent call first):
+       [0] _test_independence (res://tests/test_hub_sections.gd:154)
+       [1] _press_name (res://tests/test_hub_sections.gd:179)
+       [2] _click (res://tests/test_hub_sections.gd:197)
+       [3] _settle (res://tests/test_hub_sections.gd:200)
+HUB SECTIONS RESULTS: 534 passed, 0 failed

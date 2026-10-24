@@ -1,8 +1,12 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/ui/hub/fortress_plain.png" id="2_background"]
 
 [ext_resource type="Script" path="res://scripts/demo/expedition_dashboard.gd" id="1_script"]
+
+[ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/mercenaries_page.tscn" id="section_mercenaries"]
+[ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/smith_page.tscn" id="section_smith"]
+[ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/schools_page.tscn" id="section_schools"]
 
 [sub_resource type="ButtonGroup" id="HubTabGroup"]
 resource_local_to_scene = true
@@ -162,7 +166,7 @@ texture = ExtResource("2_background")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Layout" type="VBoxContainer" parent="."]
+[node name="Layout" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -173,14 +177,22 @@ offset_right = -18.0
 offset_bottom = -18.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 14
+mouse_filter = 2
 
-[node name="Tabs" type="HBoxContainer" parent="Layout"]
-layout_mode = 2
-theme_override_constants/separation = 8
+[node name="Tabs" type="Control" parent="Layout"]
+layout_mode = 1
+anchor_right = 1.0
+offset_bottom = 58.0
+mouse_filter = 2
 
 [node name="TabExpedition" type="Button" parent="Layout/Tabs"]
-layout_mode = 2
+metadata/hub_tab = &"expedition"
+layout_mode = 1
+anchor_left = 0.0
+anchor_right = 0.25
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_right = -4.0
 custom_minimum_size = Vector2(0, 58)
 size_flags_horizontal = 3
 toggle_mode = true
@@ -194,7 +206,13 @@ theme_override_styles/pressed = SubResource("TabPressed")
 text = "⚔  Поход"
 
 [node name="TabMercenaries" type="Button" parent="Layout/Tabs"]
-layout_mode = 2
+metadata/hub_tab = &"mercenaries"
+layout_mode = 1
+anchor_left = 0.25
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_right = -4.0
 custom_minimum_size = Vector2(0, 58)
 size_flags_horizontal = 3
 toggle_mode = true
@@ -208,7 +226,13 @@ theme_override_styles/pressed = SubResource("TabPressed")
 text = "Наёмники"
 
 [node name="TabSmith" type="Button" parent="Layout/Tabs"]
-layout_mode = 2
+metadata/hub_tab = &"smith"
+layout_mode = 1
+anchor_left = 0.5
+anchor_right = 0.75
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_right = -4.0
 custom_minimum_size = Vector2(0, 58)
 size_flags_horizontal = 3
 toggle_mode = true
@@ -222,7 +246,13 @@ theme_override_styles/pressed = SubResource("TabPressed")
 text = "Кузнец"
 
 [node name="TabSchools" type="Button" parent="Layout/Tabs"]
-layout_mode = 2
+metadata/hub_tab = &"schools"
+layout_mode = 1
+anchor_left = 0.75
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_right = 0.0
 custom_minimum_size = Vector2(0, 58)
 size_flags_horizontal = 3
 toggle_mode = true
@@ -236,7 +266,10 @@ theme_override_styles/pressed = SubResource("TabPressed")
 text = "Школы"
 
 [node name="Content" type="HBoxContainer" parent="Layout"]
-layout_mode = 2
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 72.0
 size_flags_vertical = 3
 theme_override_constants/separation = 16
 
@@ -402,3 +435,25 @@ theme_override_styles/normal = SubResource("ButtonBurgundy")
 theme_override_styles/hover = SubResource("ButtonBurgundyHover")
 theme_override_styles/disabled = SubResource("ButtonDisabled")
 text = "В путь"
+
+[node name="SectionPages" type="Control" parent="."]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = 90.0
+offset_right = -18.0
+offset_bottom = -18.0
+mouse_filter = 2
+
+[node name="MercenariesPage" parent="SectionPages" instance=ExtResource("section_mercenaries")]
+visible = false
+layout_mode = 1
+
+[node name="SmithPage" parent="SectionPages" instance=ExtResource("section_smith")]
+visible = false
+layout_mode = 1
+
+[node name="SchoolsPage" parent="SectionPages" instance=ExtResource("section_schools")]
+visible = false
+layout_mode = 1

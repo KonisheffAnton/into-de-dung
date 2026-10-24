@@ -1,0 +1,70 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Theme" path="res://assets/ui/hub/skeleton_theme.tres" id="module_theme"]
+
+[ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/skeleton_card.tscn" id="card"]
+[node name="CandidatesPanel" type="Panel"]
+theme = ExtResource("module_theme")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CandidateCount" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.025
+anchor_right = 0.96
+anchor_bottom = 0.13
+autowrap_mode = 2
+text = "Кандидаты"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 20
+metadata/hub_slot = "candidate_count"
+[node name="Candidate0" parent="." instance=ExtResource("card")]
+layout_mode = 1
+anchor_left = 0.03
+anchor_top = 0.16
+anchor_right = 0.49
+anchor_bottom = 0.56
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+metadata/hub_slot = "candidate_0"
+[node name="Candidate1" parent="." instance=ExtResource("card")]
+layout_mode = 1
+anchor_left = 0.51
+anchor_top = 0.16
+anchor_right = 0.97
+anchor_bottom = 0.56
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+metadata/hub_slot = "candidate_1"
+[node name="Candidate2" parent="." instance=ExtResource("card")]
+layout_mode = 1
+anchor_left = 0.03
+anchor_top = 0.59
+anchor_right = 0.49
+anchor_bottom = 0.98
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+metadata/hub_slot = "candidate_2"
+[node name="Candidate3" parent="." instance=ExtResource("card")]
+layout_mode = 1
+anchor_left = 0.51
+anchor_top = 0.59
+anchor_right = 0.97
+anchor_bottom = 0.98
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+metadata/hub_slot = "candidate_3"

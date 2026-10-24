@@ -1,0 +1,118 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Theme" path="res://assets/ui/hub/skeleton_theme.tres" id="module_theme"]
+
+[ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/skeleton_card.tscn" id="card"]
+[node name="InventoryPanel" type="Panel"]
+theme = ExtResource("module_theme")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ItemCount" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.03
+anchor_top = 0.02
+anchor_right = 0.97
+anchor_bottom = 0.11
+autowrap_mode = 2
+text = "Предметы"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 20
+metadata/hub_slot = "item_count"
+[node name="Item0" parent="." instance=ExtResource("card")]
+layout_mode = 1
+anchor_left = 0.02
+anchor_top = 0.13
+anchor_right = 0.32
+anchor_bottom = 0.5
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+metadata/hub_slot = "item_0"
+[node name="Item1" parent="." instance=ExtResource("card")]
+layout_mode = 1
+anchor_left = 0.35
+anchor_top = 0.13
+anchor_right = 0.65
+anchor_bottom = 0.5
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+metadata/hub_slot = "item_1"
+[node name="Item2" parent="." instance=ExtResource("card")]
+layout_mode = 1
+anchor_left = 0.68
+anchor_top = 0.13
+anchor_right = 0.98
+anchor_bottom = 0.5
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+metadata/hub_slot = "item_2"
+[node name="Item3" parent="." instance=ExtResource("card")]
+layout_mode = 1
+anchor_left = 0.02
+anchor_top = 0.52
+anchor_right = 0.32
+anchor_bottom = 0.88
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+metadata/hub_slot = "item_3"
+[node name="Item4" parent="." instance=ExtResource("card")]
+layout_mode = 1
+anchor_left = 0.35
+anchor_top = 0.52
+anchor_right = 0.65
+anchor_bottom = 0.88
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+metadata/hub_slot = "item_4"
+[node name="Item5" parent="." instance=ExtResource("card")]
+layout_mode = 1
+anchor_left = 0.68
+anchor_top = 0.52
+anchor_right = 0.98
+anchor_bottom = 0.88
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+metadata/hub_slot = "item_5"
+[node name="ItemsPrev" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.64
+anchor_top = 0.9
+anchor_right = 0.76
+anchor_bottom = 0.99
+text = "‹"
+metadata/hub_action = "items_prev"
+[node name="ItemPage" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.78
+anchor_top = 0.9
+anchor_right = 0.91
+anchor_bottom = 0.99
+autowrap_mode = 2
+text = "—/—"
+mouse_filter = 2
+metadata/hub_slot = "item_page"
+[node name="ItemsNext" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.92
+anchor_top = 0.9
+anchor_right = 0.99
+anchor_bottom = 0.99
+text = "›"
+metadata/hub_action = "items_next"

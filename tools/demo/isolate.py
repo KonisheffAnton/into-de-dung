@@ -298,7 +298,7 @@ def main():
         if label in ("fractional_armor_hit", "status_contributions", "character_attributes_v1"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
-        if label in ("hub_scene_authoring", "hub_dashboard"):
+        if label in ("hub_scene_authoring", "hub_dashboard", "hub_sections"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "battle_hud_authoring":
@@ -669,6 +669,10 @@ def main():
         if args.render_check:
             dashboard_args += ["--", "--captures=" + str(out / "hub-dashboard-screenshots")]
         run("hub_dashboard", dashboard_args, headless=not args.render_check)
+        sections_args = ["--script", "tests/test_hub_sections.gd"]
+        if args.render_check:
+            sections_args += ["--", "--captures=" + str(out / "hub-sections-screenshots")]
+        run("hub_sections", sections_args, headless=not args.render_check)
         hud_args = ["--script", "tests/test_battle_hud_authoring.gd"]
         if args.render_check:
             hud_args += ["--", "--captures=" + str(out / "battle-hud-screenshots")]

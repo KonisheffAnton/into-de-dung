@@ -1,0 +1,132 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Theme" path="res://assets/ui/hub/skeleton_theme.tres" id="module_theme"]
+
+[ext_resource type="Script" path="res://scripts/demo/hub_skeleton_link.gd" id="link"]
+
+[sub_resource type="ButtonGroup" id="SkillChoiceGroup"]
+resource_local_to_scene = true
+allow_unpress = true
+
+[node name="SchoolTreePanel" type="Panel"]
+theme = ExtResource("module_theme")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Link0" type="Line2D" parent="."]
+width = 3.0
+default_color = Color(0.48, 0.32, 0.20, 1)
+script = ExtResource("link")
+from_action = &"skill_0"
+to_action = &"skill_3"
+
+[node name="Link1" type="Line2D" parent="."]
+width = 3.0
+default_color = Color(0.48, 0.32, 0.20, 1)
+script = ExtResource("link")
+from_action = &"skill_1"
+to_action = &"skill_3"
+
+[node name="Link2" type="Line2D" parent="."]
+width = 3.0
+default_color = Color(0.48, 0.32, 0.20, 1)
+script = ExtResource("link")
+from_action = &"skill_1"
+to_action = &"skill_4"
+
+[node name="Link3" type="Line2D" parent="."]
+width = 3.0
+default_color = Color(0.48, 0.32, 0.20, 1)
+script = ExtResource("link")
+from_action = &"skill_2"
+to_action = &"skill_4"
+
+[node name="Link4" type="Line2D" parent="."]
+width = 3.0
+default_color = Color(0.48, 0.32, 0.20, 1)
+script = ExtResource("link")
+from_action = &"skill_3"
+to_action = &"skill_5"
+
+[node name="Link5" type="Line2D" parent="."]
+width = 3.0
+default_color = Color(0.48, 0.32, 0.20, 1)
+script = ExtResource("link")
+from_action = &"skill_4"
+to_action = &"skill_5"
+
+[node name="TreeHeading" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.03
+anchor_top = 0.02
+anchor_right = 0.97
+anchor_bottom = 0.1
+autowrap_mode = 2
+text = "Развитие"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 20
+[node name="Skill0" type="Button" parent="."]
+toggle_mode = true
+button_group = SubResource("SkillChoiceGroup")
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.16
+anchor_right = 0.3
+anchor_bottom = 0.31
+text = "Узел 1"
+metadata/hub_action = "skill_0"
+[node name="Skill1" type="Button" parent="."]
+toggle_mode = true
+button_group = SubResource("SkillChoiceGroup")
+layout_mode = 1
+anchor_left = 0.38
+anchor_top = 0.16
+anchor_right = 0.64
+anchor_bottom = 0.31
+text = "Узел 2"
+metadata/hub_action = "skill_1"
+[node name="Skill2" type="Button" parent="."]
+toggle_mode = true
+button_group = SubResource("SkillChoiceGroup")
+layout_mode = 1
+anchor_left = 0.7
+anchor_top = 0.16
+anchor_right = 0.96
+anchor_bottom = 0.31
+text = "Узел 3"
+metadata/hub_action = "skill_2"
+[node name="Skill3" type="Button" parent="."]
+toggle_mode = true
+button_group = SubResource("SkillChoiceGroup")
+layout_mode = 1
+anchor_left = 0.19
+anchor_top = 0.5
+anchor_right = 0.45
+anchor_bottom = 0.65
+text = "Узел 4"
+metadata/hub_action = "skill_3"
+[node name="Skill4" type="Button" parent="."]
+toggle_mode = true
+button_group = SubResource("SkillChoiceGroup")
+layout_mode = 1
+anchor_left = 0.55
+anchor_top = 0.5
+anchor_right = 0.81
+anchor_bottom = 0.65
+text = "Узел 5"
+metadata/hub_action = "skill_4"
+[node name="Skill5" type="Button" parent="."]
+toggle_mode = true
+button_group = SubResource("SkillChoiceGroup")
+layout_mode = 1
+anchor_left = 0.38
+anchor_top = 0.82
+anchor_right = 0.64
+anchor_bottom = 0.97
+text = "Узел 6"
+metadata/hub_action = "skill_5"

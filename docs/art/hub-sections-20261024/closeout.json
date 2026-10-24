@@ -1,0 +1,36 @@
+{
+  "branch": "main",
+  "base": "42dddb9e1e976905193e48c42668ef77ebae4788",
+  "protected_count": 33,
+  "protected_hashes_inventory": "PASS",
+  "archive": "docs/CODEX_HANDOFF.history-20261024-5.md",
+  "archive_working_and_git_base_byte_exact": true,
+  "archive_sha256": "eb46471d0ca934eaed91ee9e2556b09bcaa096df77aaac7f1474e05de26dbc1d",
+  "input_sizes": {
+    "AGENTS.md": {
+      "before_chars_lf": 4565,
+      "after_chars_lf": 4565
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before_chars_lf": 2247,
+      "after_chars_lf": 2164
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before_chars_lf": 3557,
+      "after_chars_lf": 3557
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before_chars_lf": 4482,
+      "after_chars_lf": 4482
+    }
+  },
+  "size_notes": "HANDOFF shortened; other entry documents unchanged. Existing PROJECT_CONTEXT >3500 remains unchanged. Contract growth records new modules and editing guarantees without copying them into HANDOFF.",
+  "changed_document_links": "PASS",
+  "runtime_and_test_files_match_final_manifest": 25,
+  "review": "APPROVE including final delta",
+  "not_claimed": [
+    "full/core",
+    "manual F5/editor/DPI/GPU",
+    "final art/balance acceptance"
+  ]
+}

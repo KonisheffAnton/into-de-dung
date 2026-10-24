@@ -1,0 +1,146 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Theme" path="res://assets/ui/hub/skeleton_theme.tres" id="module_theme"]
+
+[ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/compact_hero_card.tscn" id="card"]
+
+[node name="SquadPanel" type="Panel"]
+theme = ExtResource("module_theme")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PartyHeading" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.02
+anchor_right = 0.66
+anchor_bottom = 0.13
+autowrap_mode = 2
+text = "Отряд"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 20
+[node name="PartyCount" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.69
+anchor_top = 0.02
+anchor_right = 0.96
+anchor_bottom = 0.13
+autowrap_mode = 2
+text = "—/3"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 18
+metadata/hub_slot = "party_count"
+[node name="Party0" parent="." instance=ExtResource("card")]
+layout_mode = 1
+anchor_left = 0.02
+anchor_top = 0.13
+anchor_right = 0.32
+anchor_bottom = 0.53
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+custom_minimum_size = Vector2(0, 0)
+metadata/hub_slot = "party_0"
+[node name="Party1" parent="." instance=ExtResource("card")]
+layout_mode = 1
+anchor_left = 0.35
+anchor_top = 0.13
+anchor_right = 0.65
+anchor_bottom = 0.53
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+custom_minimum_size = Vector2(0, 0)
+metadata/hub_slot = "party_1"
+[node name="Party2" parent="." instance=ExtResource("card")]
+layout_mode = 1
+anchor_left = 0.68
+anchor_top = 0.13
+anchor_right = 0.98
+anchor_bottom = 0.53
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+custom_minimum_size = Vector2(0, 0)
+metadata/hub_slot = "party_2"
+[node name="ReserveCount" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.55
+anchor_right = 0.49
+anchor_bottom = 0.68
+autowrap_mode = 2
+text = "Резерв: —"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 18
+metadata/hub_slot = "reserve_count"
+[node name="ReservePage" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.72
+anchor_top = 0.55
+anchor_right = 0.84
+anchor_bottom = 0.68
+autowrap_mode = 2
+text = "—/—"
+mouse_filter = 2
+metadata/hub_slot = "reserve_page"
+[node name="Reserve0" parent="." instance=ExtResource("card")]
+layout_mode = 1
+anchor_left = 0.02
+anchor_top = 0.70
+anchor_right = 0.32
+anchor_bottom = 0.98
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+custom_minimum_size = Vector2(0, 0)
+metadata/hub_slot = "reserve_0"
+[node name="Reserve1" parent="." instance=ExtResource("card")]
+layout_mode = 1
+anchor_left = 0.35
+anchor_top = 0.70
+anchor_right = 0.65
+anchor_bottom = 0.98
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+custom_minimum_size = Vector2(0, 0)
+metadata/hub_slot = "reserve_1"
+[node name="Reserve2" parent="." instance=ExtResource("card")]
+layout_mode = 1
+anchor_left = 0.68
+anchor_top = 0.70
+anchor_right = 0.98
+anchor_bottom = 0.98
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+custom_minimum_size = Vector2(0, 0)
+metadata/hub_slot = "reserve_2"
+[node name="ReservePrev" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.57
+anchor_top = 0.55
+anchor_right = 0.69
+anchor_bottom = 0.68
+text = "‹"
+metadata/hub_action = "reserve_prev"
+[node name="ReserveNext" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.86
+anchor_top = 0.55
+anchor_right = 0.98
+anchor_bottom = 0.68
+text = "›"
+metadata/hub_action = "reserve_next"

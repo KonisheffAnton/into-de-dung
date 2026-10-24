@@ -1,0 +1,72 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Theme" path="res://assets/ui/hub/skeleton_theme.tres" id="module_theme"]
+
+[node name="ItemDetailPanel" type="Panel"]
+theme = ExtResource("module_theme")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ItemTitle" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.03
+anchor_right = 0.96
+anchor_bottom = 0.13
+autowrap_mode = 2
+text = "Предмет"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 20
+metadata/hub_slot = "item_title"
+[node name="ItemSymbol" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.05
+anchor_top = 0.18
+anchor_right = 0.3
+anchor_bottom = 0.54
+autowrap_mode = 2
+text = "◇"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 32
+metadata/hub_slot = "item_symbol"
+[node name="ItemDetail" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.34
+anchor_top = 0.17
+anchor_right = 0.96
+anchor_bottom = 0.6
+autowrap_mode = 2
+text = "Описание предмета"
+mouse_filter = 2
+metadata/hub_slot = "item_detail"
+[node name="Required" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.05
+anchor_top = 0.62
+anchor_right = 0.95
+anchor_bottom = 0.75
+autowrap_mode = 2
+text = "Требуется: —"
+mouse_filter = 2
+[node name="Upgrade" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.05
+anchor_top = 0.78
+anchor_right = 0.52
+anchor_bottom = 0.9
+text = "Улучшить"
+disabled = true
+tooltip_text = "Действие пока недоступно"
+[node name="ManageEquipment" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.05
+anchor_top = 0.91
+anchor_right = 0.95
+anchor_bottom = 0.99
+text = "Управление экипировкой"
+metadata/hub_action = "manage"

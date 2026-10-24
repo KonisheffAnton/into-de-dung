@@ -1,0 +1,4 @@
+Command: python tools/demo/test_isolate.py
+Recorded result from exec session 29304: exit_code=0
+Ran 30 tests in 10.263s
+OK

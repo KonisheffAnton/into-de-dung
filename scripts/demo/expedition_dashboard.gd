@@ -15,12 +15,7 @@ const CLASS_TEXTURES: Dictionary = {
 	&"mage": "res://assets/placeholder_battle/mage_card.svg",
 }
 
-@onready var _tabs: Array[Button] = [
-	$Layout/Tabs/TabExpedition,
-	$Layout/Tabs/TabMercenaries,
-	$Layout/Tabs/TabSmith,
-	$Layout/Tabs/TabSchools,
-]
+var _tabs: Array[Button] = []
 @onready var _hero_cards: HBoxContainer = $Layout/Content/LeftColumn/PartyPanel/PartyContent/HeroCards
 @onready var _party_count: Label = $Layout/Content/LeftColumn/PartyPanel/PartyContent/PartyHeader/PartyCount
 @onready var _gold: Label = $Layout/Content/LeftColumn/ResourcesPanel/ResourcesContent/Gold
@@ -36,18 +31,39 @@ const CLASS_TEXTURES: Dictionary = {
 @onready var _manage_button: Button = $Layout/Content/LeftColumn/PartyPanel/PartyContent/ManageParty
 
 var _active_tab: StringName = &"expedition"
+var _section_pages: Dictionary[StringName, HubSectionPage] = {}
 
 func _ready() -> void:
+	for tab_id: StringName in TAB_IDS:
+		var tab_button: Button
+		for node: Node in find_children("*", "Button", true, false):
+			if StringName(node.get_meta(&"hub_tab", &"")) == tab_id:
+				tab_button = node as Button
+				break
+		_tabs.append(tab_button)
 	for index: int in _tabs.size():
-		_tabs[index].pressed.connect(_on_tab_pressed.bind(TAB_IDS[index]))
+		if is_instance_valid(_tabs[index]): _tabs[index].pressed.connect(_on_tab_pressed.bind(TAB_IDS[index]))
 	_start_button.pressed.connect(_on_start_pressed)
 	_manage_button.pressed.connect(_on_manage_pressed)
+	for child: Node in find_children("*", "HubSectionPage", true, false):
+		if child is HubSectionPage:
+			var page := child as HubSectionPage
+			_section_pages[page.section_id] = page
+			page.manage_requested.connect(_on_manage_pressed)
 
 func render_profile(profile: HeroHubState, expedition: bool, tab: StringName, launch_enabled: bool, launch_hint: String) -> void:
 	if profile == null:
 		return
 	_active_tab = tab if TAB_IDS.has(tab) else &"expedition"
 	_render_tabs()
+	($Layout/Content as Control).visible = _active_tab == &"expedition"
+	for key: StringName in _section_pages:
+		if not is_instance_valid(_section_pages[key]): continue
+		var page := _section_pages[key]
+		if not is_ancestor_of(page): continue
+		page.visible = key == _active_tab
+		if page.visible: page.render_profile(profile)
+	if _active_tab != &"expedition": return
 	_render_party(profile)
 	_gold.text = "Золото   %d" % profile.gold
 	_essence.text = "Эссенция   %d" % profile.essence
@@ -68,8 +84,6 @@ func render_profile(profile: HeroHubState, expedition: bool, tab: StringName, la
 		_launch_hint.visible = true
 		_start_button.visible = true
 		_manage_button.visible = true
-	else:
-		_render_placeholder_tab()
 
 func _render_party(profile: HeroHubState) -> void:
 	# Постоянные три слота не позволяют повторному render накапливать карточки и обработчики.
@@ -128,31 +142,7 @@ func _deck_summary_text(profile: HeroHubState) -> String:
 
 func _render_tabs() -> void:
 	for index: int in _tabs.size():
-		_tabs[index].button_pressed = TAB_IDS[index] == _active_tab
-
-func _render_placeholder_tab() -> void:
-	_preparation_title.text = _tab_title(_active_tab)
-	_route.visible = false
-	_party_summary.visible = false
-	_deck_summary.visible = false
-	_launch_hint.visible = true
-	_launch_hint.text = "Содержание этого раздела готовится."
-	_start_button.visible = false
-	_manage_button.visible = _active_tab == &"mercenaries"
-	if _active_tab == &"mercenaries":
-		_preparation_title.text = "Наёмники"
-		_launch_hint.text = "Здесь можно управлять составом отряда."
-	elif _active_tab == &"smith":
-		_preparation_title.text = "Кузнец"
-	elif _active_tab == &"schools":
-		_preparation_title.text = "Школы"
-
-func _tab_title(tab: StringName) -> String:
-	match tab:
-		&"mercenaries": return "Наёмники"
-		&"smith": return "Кузнец"
-		&"schools": return "Школы"
-		_: return "Подготовка к походу"
+		if is_instance_valid(_tabs[index]): _tabs[index].set_pressed_no_signal(TAB_IDS[index] == _active_tab)
 
 func _on_tab_pressed(tab_id: StringName) -> void:
 	tab_requested.emit(tab_id)

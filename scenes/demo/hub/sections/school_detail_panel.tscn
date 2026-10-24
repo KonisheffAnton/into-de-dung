@@ -1,0 +1,73 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Theme" path="res://assets/ui/hub/skeleton_theme.tres" id="module_theme"]
+
+[node name="SchoolDetailPanel" type="Panel"]
+theme = ExtResource("module_theme")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="SchoolTitle" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.03
+anchor_right = 0.96
+anchor_bottom = 0.13
+autowrap_mode = 2
+text = "Школа"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 20
+metadata/hub_slot = "school_title"
+[node name="SkillTitle" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.16
+anchor_right = 0.96
+anchor_bottom = 0.26
+autowrap_mode = 2
+text = "Умение"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 18
+metadata/hub_slot = "skill_title"
+[node name="SkillDetail" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.29
+anchor_right = 0.96
+anchor_bottom = 0.58
+autowrap_mode = 2
+text = "Описание умения"
+mouse_filter = 2
+metadata/hub_slot = "skill_detail"
+[node name="Rank" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.62
+anchor_right = 0.48
+anchor_bottom = 0.72
+autowrap_mode = 2
+text = "Уровень: —"
+mouse_filter = 2
+[node name="Cost" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.52
+anchor_top = 0.62
+anchor_right = 0.96
+anchor_bottom = 0.72
+autowrap_mode = 2
+text = "Стоимость: —"
+mouse_filter = 2
+[node name="Learn" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.8
+anchor_right = 0.96
+anchor_bottom = 0.96
+text = "Изучить"
+disabled = true
+tooltip_text = "Умения и стоимость ещё не определены"

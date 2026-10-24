@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Theme" path="res://assets/ui/hub/skeleton_theme.tres" id="module_theme"]
+
+[node name="SchoolNotePanel" type="Panel"]
+theme = ExtResource("module_theme")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="SchoolNote" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.08
+anchor_right = 0.96
+anchor_bottom = 0.92
+autowrap_mode = 2
+text = "Названия школ и состав умений ещё не выбраны."
+mouse_filter = 2

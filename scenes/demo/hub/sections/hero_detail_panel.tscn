@@ -1,0 +1,54 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Theme" path="res://assets/ui/hub/skeleton_theme.tres" id="module_theme"]
+
+[node name="HeroDetailPanel" type="Panel"]
+theme = ExtResource("module_theme")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="HeroTitle" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.03
+anchor_right = 0.96
+anchor_bottom = 0.13
+autowrap_mode = 2
+text = "Герой"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 20
+metadata/hub_slot = "hero_title"
+[node name="HeroPortrait" type="TextureRect" parent="."]
+layout_mode = 1
+anchor_left = 0.06
+anchor_top = 0.18
+anchor_right = 0.40
+anchor_bottom = 0.72
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+texture_filter = 1
+metadata/hub_slot = "hero_portrait"
+[node name="HeroDetail" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.44
+anchor_top = 0.17
+anchor_right = 0.96
+anchor_bottom = 0.8
+autowrap_mode = 2
+text = "Описание героя"
+mouse_filter = 2
+metadata/hub_slot = "hero_detail"
+[node name="ManageMercenaries" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.84
+anchor_right = 0.96
+anchor_bottom = 0.97
+text = "Управление отрядом"
+metadata/hub_action = "manage"

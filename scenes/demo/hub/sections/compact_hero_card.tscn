@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Theme" path="res://assets/ui/hub/skeleton_theme.tres" id="module_theme"]
+[ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/skeleton_card.tscn" id="card"]
+[node name="CompactHeroCard" instance=ExtResource("card")]
+theme = ExtResource("module_theme")
+custom_minimum_size = Vector2(0, 0)
+[node name="Portrait" parent="." index="0"]
+anchor_left = 0.20
+anchor_top = 0.04
+anchor_right = 0.80
+anchor_bottom = 0.55
+[node name="Title" parent="." index="1"]
+anchor_left = 0.04
+anchor_top = 0.56
+anchor_right = 0.96
+anchor_bottom = 0.77
+theme_override_font_sizes/font_size = 12
+[node name="Subtitle" parent="." index="2"]
+anchor_left = 0.04
+anchor_top = 0.79
+anchor_right = 0.96
+anchor_bottom = 0.98
+theme_override_font_sizes/font_size = 11
+[node name="Detail" parent="." index="3"]
+visible = false
