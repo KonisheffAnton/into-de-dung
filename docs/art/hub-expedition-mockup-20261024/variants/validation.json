@@ -1,0 +1,70 @@
+{
+  "base_commit": "7bbadc959c99ded47030fbf11671cc8ebb0b7baa",
+  "provider": "built-in image_gen",
+  "calls": 2,
+  "integration": false,
+  "inputs_in_order": [
+    {
+      "path": "../expedition-mockup-v1.png",
+      "sha256": "8b507b06a9498e2ac130b9a8fae0b0689336e23148fa6de9e3869e2c6d81c18e"
+    },
+    {
+      "path": "../references/user-menu-reference.png",
+      "sha256": "2aa80af64297b60c097a59062674f01d1dfd6148c05997fd8937e397253a0418"
+    },
+    {
+      "path": "../references/shieldbearer-current.png",
+      "sha256": "a4e5c1ed380b6288587c0866b9cd0e9b8252e97fdc183aaefa246290815fc46b"
+    },
+    {
+      "path": "../references/archer-idle-frame-01.png",
+      "sha256": "b3425f2b15c2aaecc0b254dac5220d2ccac02f2f648c7fc189e284c06631dfa4"
+    },
+    {
+      "path": "../references/rogue-selected-v1.png",
+      "sha256": "c774002e01412bbf82adcd30a8d636bf1b891b67623a0b5fb49b0ea8ccd996ff"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "expedition-mockup-v2.png",
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a16b2d-1684-7e71-b237-7d32f0a66e99\\exec-bb80d0cb-c4bb-4ef8-b08a-91d2ea08514c.png",
+      "sha256": "158738b64008258e5ff84de4fb35af8bb986ac8351eff671e5e768fc1398cc5c",
+      "bytes": 2858849,
+      "dimensions": [
+        1672,
+        941
+      ],
+      "source_byte_equal": true,
+      "png_crc_and_inflate": "PASS"
+    },
+    {
+      "path": "expedition-mockup-v3.png",
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a16b2d-1684-7e71-b237-7d32f0a66e99\\exec-99e6acb3-dfd6-4d00-8c75-7c1a609a981b.png",
+      "sha256": "af20cedaf56b16810b8df1799a4fc7b37c1fffcf28a64b6d39e0b6be503b71e5",
+      "bytes": 2661199,
+      "dimensions": [
+        1672,
+        941
+      ],
+      "source_byte_equal": true,
+      "png_crc_and_inflate": "PASS"
+    }
+  ],
+  "baseline_counts": {
+    "protected-before.json": 33,
+    "prior-png-before.json": 6
+  },
+  "checks": {
+    "source_byte_equality": "PASS",
+    "png_crc_and_inflate": "PASS",
+    "protected_hashes_and_file_set": "PASS",
+    "prior_6_png_unchanged": "PASS"
+  },
+  "visual_review": "APPROVE for static previews",
+  "limitations": [
+    "Generative reinterpretation, not exact sprites or UI layers.",
+    "V3 palette remains warm and some foreground edges are softened.",
+    "No Godot/import/full/core/F5/editor/DPI/GPU checks. User art acceptance open."
+  ]
+}
