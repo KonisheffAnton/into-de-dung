@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/demo/hub_section_page.gd" id="1_page_script"]
 [ext_resource type="Theme" path="res://assets/ui/hub/skeleton_theme.tres" id="2_theme"]
 [ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/candidates_panel.tscn" id="3_panel"]
 [ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/squad_panel.tscn" id="4_panel"]
 [ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/hero_detail_panel.tscn" id="5_panel"]
+[ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/hero_development_panel.tscn" id="6_development"]
 
 [node name="MercenariesPage" type="Control"]
 layout_mode = 3
@@ -50,3 +51,15 @@ offset_left = 0.0
 offset_top = 0.0
 offset_right = 0.0
 offset_bottom = 0.0
+
+[node name="Development" parent="." instance=ExtResource("6_development")]
+layout_mode = 1
+anchor_left = 0.03
+anchor_top = 0.03
+anchor_right = 0.97
+anchor_bottom = 0.97
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+metadata/hub_slot = "development_panel"

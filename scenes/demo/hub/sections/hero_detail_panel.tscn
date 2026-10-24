@@ -49,12 +49,23 @@ metadata/hub_slot = "hero_detail"
 layout_mode = 1
 anchor_left = 0.04
 anchor_top = 1.0
+anchor_right = 0.49
+anchor_bottom = 1.0
+offset_top = -42.0
+offset_bottom = -4.0
+text = "Управление"
+tooltip_text = "Управление отрядом, развитием, колодой, экипировкой и достижениями"
+metadata/hub_action = "manage"
+[node name="DevelopmentOpen" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.51
+anchor_top = 1.0
 anchor_right = 0.96
 anchor_bottom = 1.0
 offset_top = -42.0
 offset_bottom = -4.0
-text = "Управление отрядом"
-metadata/hub_action = "manage"
+text = "Развитие"
+metadata/hub_action = "development_open"
 [node name="MercenaryAction" type="Button" parent="."]
 layout_mode = 1
 anchor_left = 0.04

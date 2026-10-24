@@ -33,6 +33,7 @@ func _ready() -> void:
 	_dashboard.hire_requested.connect(_on_mercenary_hire_requested)
 	_dashboard.party_requested.connect(_on_mercenary_party_requested)
 	_dashboard.equipment_requested.connect(_on_smith_equipment_requested)
+	_dashboard.allocation_requested.connect(_on_mercenary_allocation_requested)
 	($Panel/Column/Header/DashboardBack as Button).pressed.connect(_return_hub_dashboard)
 	_page_host = $Panel/Column/HeroHubScroll/Content/Pages
 	for child: Node in _page_host.get_children():
@@ -98,6 +99,11 @@ func _commit(candidate: HeroHubState) -> void:
 		# Новый выход завершён: после отчёта встречаем игрока на главной странице хаба.
 		_hub_management = false
 		_hub_tab = &"expedition"
+	if run != null and run.heroes.has(selected_hero_id) and candidate.heroes.has(selected_hero_id):
+		var previous: HeroProgression = run.heroes[selected_hero_id]
+		var updated: HeroProgression = candidate.heroes[selected_hero_id]
+		# Второе представление не должно применить старый черновик поверх уже сохранённого развития.
+		if previous.allocated != updated.allocated: pending_delta = [0, 0, 0, 0, 0]
 	run = candidate
 	_pending_save = null
 	_storage_error = ""
@@ -317,6 +323,13 @@ func _on_smith_equipment_requested(item_id: int, hero_id: int, equip_item: bool)
 	else:
 		if int(item.hero_id) != hero_id: return
 		_unequip(item_id)
+
+func _on_mercenary_allocation_requested(hero_id: int, expected: Dictionary, delta: Array[int]) -> void:
+	if not _can_change_mercenaries() or not run.heroes.has(hero_id): return
+	var hero: HeroProgression = run.heroes[hero_id]
+	# Предпросмотр относится к точному герою; повторный или устаревший запрос не тратит очки снова.
+	if hero.hp_current <= 0.0 or hero.to_dict() != expected: return
+	_mutate(&"allocate", [hero_id, delta.duplicate()])
 
 func _hub_content() -> void:
 	var page := _page("BasePage")

@@ -1,0 +1,27 @@
+{
+  "archive_sha256": "5ac617f66b36a4ae0c1911ad87ce6a44bbb6bcc764c7825c2ed4d32143ab956a",
+  "archive_byte_equal": true,
+  "local_links_checked": 819,
+  "input_document_sizes": {
+    "AGENTS.md": {
+      "before_chars_LF": 4565,
+      "after_chars_LF": 4565
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before_chars_LF": 2122,
+      "after_chars_LF": 2317
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before_chars_LF": 3557,
+      "after_chars_LF": 3557
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before_chars_LF": 4482,
+      "after_chars_LF": 4482
+    }
+  },
+  "review": "APPROVE",
+  "screenshots_visually_inspected": 9,
+  "protected_files_unchanged": 33,
+  "no_push": true
+}

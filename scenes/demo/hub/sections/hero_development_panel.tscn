@@ -1,0 +1,230 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Theme" path="res://assets/ui/hub/skeleton_theme.tres" id="module_theme"]
+
+[sub_resource type="StyleBoxFlat" id="OpaquePanel"]
+bg_color = Color(0.91, 0.82, 0.66, 1)
+border_color = Color(0.56, 0.39, 0.23, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="HeroDevelopmentPanel" type="Panel"]
+theme = ExtResource("module_theme")
+theme_override_styles/panel = SubResource("OpaquePanel")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+mouse_filter = 0
+metadata/hub_slot = "development_panel"
+
+[node name="DevelopmentTitle" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.035
+anchor_right = 0.96
+anchor_bottom = 0.105
+autowrap_mode = 2
+text = "Герой"
+theme_override_font_sizes/font_size = 20
+metadata/hub_slot = "development_title"
+[node name="DevelopmentProgress" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.11
+anchor_right = 0.96
+anchor_bottom = 0.16
+autowrap_mode = 2
+text = "Уровень 1 · XP 0.0 всего"
+theme_override_font_sizes/font_size = 14
+metadata/hub_slot = "development_progress"
+[node name="DevelopmentPoints" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.165
+anchor_right = 0.96
+anchor_bottom = 0.215
+autowrap_mode = 2
+text = "Свободно: 0 · в черновике: 0"
+theme_override_font_sizes/font_size = 14
+metadata/hub_slot = "development_points"
+
+[node name="Value0" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.265
+anchor_right = 0.32
+anchor_bottom = 0.355
+autowrap_mode = 2
+text = "Мощь  10 → 10  (+0)"
+theme_override_font_sizes/font_size = 14
+metadata/hub_slot = "development_value_0"
+[node name="Minus0" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.335
+anchor_top = 0.265
+anchor_right = 0.415
+anchor_bottom = 0.355
+text = "−"
+metadata/hub_action = "development_minus_0"
+[node name="Plus0" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.43
+anchor_top = 0.265
+anchor_right = 0.51
+anchor_bottom = 0.355
+text = "+"
+metadata/hub_action = "development_plus_0"
+
+[node name="Value1" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.375
+anchor_right = 0.32
+anchor_bottom = 0.465
+autowrap_mode = 2
+text = "Ловкость  10 → 10  (+0)"
+theme_override_font_sizes/font_size = 14
+metadata/hub_slot = "development_value_1"
+[node name="Minus1" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.335
+anchor_top = 0.375
+anchor_right = 0.415
+anchor_bottom = 0.465
+text = "−"
+metadata/hub_action = "development_minus_1"
+[node name="Plus1" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.43
+anchor_top = 0.375
+anchor_right = 0.51
+anchor_bottom = 0.465
+text = "+"
+metadata/hub_action = "development_plus_1"
+
+[node name="Value2" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.485
+anchor_right = 0.32
+anchor_bottom = 0.575
+autowrap_mode = 2
+text = "Выносливость  10 → 10  (+0)"
+theme_override_font_sizes/font_size = 14
+metadata/hub_slot = "development_value_2"
+[node name="Minus2" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.335
+anchor_top = 0.485
+anchor_right = 0.415
+anchor_bottom = 0.575
+text = "−"
+metadata/hub_action = "development_minus_2"
+[node name="Plus2" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.43
+anchor_top = 0.485
+anchor_right = 0.51
+anchor_bottom = 0.575
+text = "+"
+metadata/hub_action = "development_plus_2"
+
+[node name="Value3" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.595
+anchor_right = 0.32
+anchor_bottom = 0.685
+autowrap_mode = 2
+text = "Интеллект  10 → 10  (+0)"
+theme_override_font_sizes/font_size = 14
+metadata/hub_slot = "development_value_3"
+[node name="Minus3" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.335
+anchor_top = 0.595
+anchor_right = 0.415
+anchor_bottom = 0.685
+text = "−"
+metadata/hub_action = "development_minus_3"
+[node name="Plus3" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.43
+anchor_top = 0.595
+anchor_right = 0.51
+anchor_bottom = 0.685
+text = "+"
+metadata/hub_action = "development_plus_3"
+
+[node name="Value4" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.705
+anchor_right = 0.32
+anchor_bottom = 0.795
+autowrap_mode = 2
+text = "Мастерство  10 → 10  (+0)"
+theme_override_font_sizes/font_size = 14
+metadata/hub_slot = "development_value_4"
+[node name="Minus4" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.335
+anchor_top = 0.705
+anchor_right = 0.415
+anchor_bottom = 0.795
+text = "−"
+metadata/hub_action = "development_minus_4"
+[node name="Plus4" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.43
+anchor_top = 0.705
+anchor_right = 0.51
+anchor_bottom = 0.795
+text = "+"
+metadata/hub_action = "development_plus_4"
+
+[node name="DevelopmentPreview" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.55
+anchor_top = 0.265
+anchor_right = 0.96
+anchor_bottom = 0.82
+autowrap_mode = 2
+text = "Предпросмотр характеристик"
+theme_override_font_sizes/font_size = 14
+metadata/hub_slot = "development_preview"
+
+[node name="DevelopmentApply" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.9
+anchor_right = 0.32
+anchor_bottom = 0.98
+text = "Подтвердить"
+metadata/hub_action = "development_apply"
+[node name="DevelopmentCancel" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.36
+anchor_top = 0.9
+anchor_right = 0.64
+anchor_bottom = 0.98
+text = "Сбросить черновик"
+metadata/hub_action = "development_cancel"
+[node name="DevelopmentClose" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.68
+anchor_top = 0.9
+anchor_right = 0.96
+anchor_bottom = 0.98
+text = "Закрыть"
+metadata/hub_action = "development_close"

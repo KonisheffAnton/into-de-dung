@@ -5,6 +5,7 @@ signal manage_requested
 signal hire_requested(candidate_id: int)
 signal party_requested(hero_id: int, join_party: bool)
 signal equipment_requested(item_id: int, hero_id: int, equip_item: bool)
+signal allocation_requested(hero_id: int, expected: Dictionary, delta: Array[int])
 
 @export var section_id: StringName = &"mercenaries"
 
@@ -18,6 +19,7 @@ var _reserve_page: int = 0
 var _items_page: int = 0
 var _school_index: int = 0
 var _skill_index: int = -1
+var _development: HubHeroDevelopment = HubHeroDevelopment.new()
 
 func _ready() -> void:
 	_connect_controls()
@@ -27,7 +29,9 @@ func render_profile(profile: HeroHubState) -> void:
 	if profile == null: return
 	_connect_controls()
 	match section_id:
-		&"mercenaries": _render_mercenaries()
+		&"mercenaries":
+			_render_mercenaries()
+			_development.render(self, profile)
 		&"smith": HubSmithPresenter.render(self, profile)
 		&"schools": _render_schools()
 
@@ -179,14 +183,21 @@ func _render_schools() -> void:
 func _on_selected(key: String) -> void:
 	var parts := key.split(":")
 	if _profile == null or parts.size() != 2: return
+	var previous_id := _selected_hero_id
+	var previous_candidate := _selected_candidate
 	match parts[0]:
 		"hero", "candidate":
 			_selected_candidate = parts[0] == "candidate"
 			_selected_hero_id = int(parts[1])
 		"item": _selected_item_id = int(parts[1])
+	if section_id == &"mercenaries" and (previous_id != _selected_hero_id or previous_candidate != _selected_candidate):
+		_development.close(self)
 	render_profile(_profile)
 
 func _on_action(action: String) -> void:
+	if section_id == &"mercenaries" and _development.handle_action(self, _profile, action):
+		if _profile != null: render_profile(_profile)
+		return
 	if action == "manage":
 		manage_requested.emit()
 		return

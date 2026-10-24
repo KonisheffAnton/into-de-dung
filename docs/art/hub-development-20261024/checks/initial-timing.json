@@ -1,0 +1,68 @@
+{
+  "snapshot_seconds": 7.125607599969953,
+  "checks": {
+    "import": {
+      "elapsed_seconds": 54.55406340002082,
+      "status": "PASS"
+    },
+    "startup": {
+      "elapsed_seconds": 4.062645999947563,
+      "status": "PASS"
+    },
+    "hero_progression": {
+      "elapsed_seconds": 2.1520285001024604,
+      "status": "PASS"
+    },
+    "hero_hub": {
+      "elapsed_seconds": 4.503596199909225,
+      "status": "PASS"
+    },
+    "hub_scene_authoring": {
+      "elapsed_seconds": 6.467531500151381,
+      "status": "PASS"
+    },
+    "hub_dashboard": {
+      "elapsed_seconds": 8.834478999953717,
+      "status": "PASS"
+    },
+    "hub_sections": {
+      "elapsed_seconds": 11.423963299952447,
+      "status": "PASS"
+    },
+    "hub_mercenaries": {
+      "elapsed_seconds": 13.533874599961564,
+      "status": "PASS"
+    },
+    "hub_smith": {
+      "elapsed_seconds": 16.897667800076306,
+      "status": "PASS"
+    },
+    "hub_development": {
+      "elapsed_seconds": 20.547955400077626,
+      "status": "FAIL"
+    },
+    "hero_hub_ui": {
+      "elapsed_seconds": 11.407737599918619,
+      "status": "PASS"
+    },
+    "expedition_ui": {
+      "elapsed_seconds": 8.777838699985296,
+      "status": "PASS"
+    },
+    "mage_deck_ui": {
+      "elapsed_seconds": 12.354292799951509,
+      "status": "PASS"
+    }
+  },
+  "total_seconds": 182.67166230012663,
+  "summary": {
+    "passed": 12,
+    "failed": 1,
+    "timed_out": 0,
+    "failed_labels": [
+      "hub_development"
+    ],
+    "unexecuted_requested": [],
+    "blocked": null
+  }
+}

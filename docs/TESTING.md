@@ -14,6 +14,13 @@
 
 ## Изменение игрового кода
 
+Развитие в Наёмниках (2026-10-24): `--render-check --only hub_development hub_mercenaries
+hub_smith hub_sections hub_dashboard hub_scene_authoring hero_hub_ui expedition_ui mage_deck_ui
+hero_hub hero_progression --screen 0`. Проверяются черновик/пороги/HP, повторное
+подтверждение и устаревший снимок, запись/retry/reload, старое управление и оба
+каталога, независимость элементов и три размера; снимки `hub-development-screenshots/`.
+Отдельно `python tools/demo/test_isolate.py`; full/core и ручная приёмка отдельно.
+
 Экипировка Кузнеца (2026-10-24): `--render-check --only hub_smith hub_mercenaries
 hub_sections hub_dashboard hub_scene_authoring hero_hub_ui expedition_ui mage_deck_ui hero_hub --screen 0`.
 Проверяются совместимость, замена без потери вещи/прочности, оба направления

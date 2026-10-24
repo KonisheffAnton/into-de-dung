@@ -1,0 +1,87 @@
+{
+  "base": "4285e34d01fcdb3767032cfdea8a50d43b24c647",
+  "final_run": "demo-10a4a52779e34c3daeac240751fbd0db",
+  "gate": "13 PASS / 0 FAIL / 0 timeout",
+  "counts": {
+    "expedition_ui": {
+      "passed": 58,
+      "failed": 0
+    },
+    "hero_hub": {
+      "passed": 98,
+      "failed": 0
+    },
+    "hero_hub_ui": {
+      "passed": 44,
+      "failed": 0
+    },
+    "hero_progression": {
+      "passed": 248,
+      "failed": 0
+    },
+    "hub_dashboard": {
+      "passed": 82,
+      "failed": 0
+    },
+    "hub_development": {
+      "passed": 2601,
+      "failed": 0
+    },
+    "hub_mercenaries": {
+      "passed": 215,
+      "failed": 0
+    },
+    "hub_scene_authoring": {
+      "passed": 307,
+      "failed": 0
+    },
+    "hub_sections": {
+      "passed": 599,
+      "failed": 0
+    },
+    "hub_smith": {
+      "passed": 1344,
+      "failed": 0
+    },
+    "mage_deck_ui": {
+      "passed": 130,
+      "failed": 0
+    }
+  },
+  "source_sha256": {
+    "scripts/demo/hub_hero_development.gd": "85e9862edbfb06c6f8636909cf7a095e49a3927f27670046fbaa23dfb94be329",
+    "scripts/demo/hub_section_page.gd": "adb6a56ca30989ab7a28d87508465b9d27806c59cde8d20369b4c7d5e7a5e041",
+    "scripts/demo/expedition_dashboard.gd": "7ec038c3d9eb0cdabc0ab773bb9f4ec15ea6d395b91b0a6faae213ce93624ac5",
+    "scripts/demo/hero_hub_screen.gd": "3cb654bd1832f10429a96e722f69116c2dfc61f27960de28e85618690dd1ff29",
+    "scenes/demo/hub/sections/hero_detail_panel.tscn": "8dae4abdb2e5bf9168a12380c889e759ee5dfada497fd595118730a1f98821e6",
+    "scenes/demo/hub/sections/mercenaries_page.tscn": "d9775fd7f184f2f3de4f505bf42b5effe92adb0caaa4457d06290fb574ece2f5",
+    "scenes/demo/hub/sections/hero_development_panel.tscn": "fe324660560f542ba21040a07e4e9ef992c0029af152e30060068eddfd084a57",
+    "tests/test_hub_development.gd": "385accb318c820a9a7b395fd74a6cc9d87f25fa2206b6922bcfdc124f95e0d84",
+    "tools/demo/isolate.py": "40909bfa6eece6db7c06de55a0e267d202fcdd50e3ff53ede79b761a3e1d8294",
+    "tools/demo/test_isolate.py": "64f94adee8c8ef9fec28318adf1b0f9ca67aa474add1991c5a0312f50aca3c87"
+  },
+  "screenshots_sha256": {
+    "overview-1024x720.png": "3ff75cd4e5ba3e87f9c5cebd042e5666ce63600727bff7be4ecd1979aca477b4",
+    "overview-1280x850.png": "dd86f76b93dbd87a68de5275e1368bc2c49b206264e14f2cc2bba32196f7d234",
+    "overview-1920x1080.png": "ba8ff68d324943ab25695ff47b0971eebead4afb3ba3fec3805193673b1583ad",
+    "preview-1024x720.png": "ab1779d23e142f6ab9a5bed75654250aa9eb50aa16ad7370c799bbffefa4bd6a",
+    "preview-1280x850.png": "a38da159e70add07666f04b41d1b1d67a1b3b7f4b1d702eaeb1d252a0d1ed6d6",
+    "preview-1920x1080.png": "8edcdeef758628b0a2c4eb994e13bad3542a06b9afd47065a43f8496884338c5",
+    "spent-1024x720.png": "4db7b5ed2d9fab7e7f940b7ec1efe6711d780e1d23c0cd32012ad4eefa09ae03",
+    "spent-1280x850.png": "f7e022f259fd4963a434d2c3632dfda2b3ce185ba15c742271c638c18255e22e",
+    "spent-1920x1080.png": "a16612ed87d9255a706b73238ce45b788d33c9ecbb180b5be10f94d0f7fbdf9d"
+  },
+  "protected_file_count": 33,
+  "protected_unchanged": true,
+  "python_launcher": "30 tests, OK",
+  "full_core_run": false,
+  "manual_F5_editor_DPI_GPU_acceptance": false,
+  "final_art_balance_acceptance": false,
+  "post_validation_whitespace": {
+    "scripts/demo/hub_hero_development.gd": {
+      "tested_sha256": "7fa4064b0102fef153c5e6337890380ed67265eb9e3489949b91967477ce9f56",
+      "committed_sha256": "85e9862edbfb06c6f8636909cf7a095e49a3927f27670046fbaa23dfb94be329",
+      "change": "Removed one empty line at EOF; all other bytes unchanged."
+    }
+  }
+}
