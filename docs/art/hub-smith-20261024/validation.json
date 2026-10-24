@@ -1,0 +1,71 @@
+{
+  "base": "76a4ca4338df7f7095783deea7366627707b2800",
+  "final_run": "demo-ce7219d535b14f8d8f8d81028584c298",
+  "gate": "11 PASS / 0 FAIL / 0 timeout",
+  "counts": {
+    "expedition_ui": {
+      "passed": 58,
+      "failed": 0
+    },
+    "hero_hub": {
+      "passed": 98,
+      "failed": 0
+    },
+    "hero_hub_ui": {
+      "passed": 44,
+      "failed": 0
+    },
+    "hub_dashboard": {
+      "passed": 82,
+      "failed": 0
+    },
+    "hub_mercenaries": {
+      "passed": 215,
+      "failed": 0
+    },
+    "hub_scene_authoring": {
+      "passed": 307,
+      "failed": 0
+    },
+    "hub_sections": {
+      "passed": 581,
+      "failed": 0
+    },
+    "hub_smith": {
+      "passed": 1344,
+      "failed": 0
+    },
+    "mage_deck_ui": {
+      "passed": 131,
+      "failed": 0
+    }
+  },
+  "source_sha256": {
+    "scripts/demo/hub_smith_presenter.gd": "a81335f208dfa61db3e960a8264fe445c794fb135ab40c9028e5b00e99034732",
+    "scripts/demo/hub_section_page.gd": "f52646dd26c84f58be6b0698f2210bf97a9dd1f5f8562c7bdd1428dd08e7d23d",
+    "scripts/demo/expedition_dashboard.gd": "3267099d18c9ce2ce8ae1b5a0e71795b5955524e30aedff4048f48a4f8623c8b",
+    "scripts/demo/hero_hub_screen.gd": "8d82dc888c40beef35a736091bbb44f44bef1428eee3b0e59d68f57bea860a55",
+    "scenes/demo/hub/sections/inventory_panel.tscn": "90fc7ab576b04842c2867e4ccc96595a3f13d505707f3121044b1c6ef5f30ca7",
+    "scenes/demo/hub/sections/item_detail_panel.tscn": "311baae5ca38d27af940ab2e134d3ce11043c09c30ea6b2ec17b142de97e1e32",
+    "tests/test_hub_smith.gd": "acfe8c9c49ece27b2661dad6aa320a0a344d4e7408ab8d500bc664a3993041c5",
+    "tools/demo/isolate.py": "1f711ffd42b9719075563b67bc3ca2de993f9673fa71dfb6b47aa2bb4066e483",
+    "tools/demo/test_isolate.py": "fbac8dfa57bfc7f474054042eb5748b929b92736cbae8fc0a855d58a7e89b17e"
+  },
+  "screenshots_sha256": {
+    "armor-replacement-1024x720.png": "2fc77cbb6176b3db8f5cbf66ab0dc68469206ce30c3b01f50cbf8897816b614e",
+    "armor-replacement-1280x850.png": "c3dd0a2e73895e2b50db50efdc0a399b1edfbb83024d987b308042be2bc2e7c3",
+    "armor-replacement-1920x1080.png": "35028eeb6b2e1e651ff064d4ee4e1c32ed4a6f1bb990144d17b07642938e5fa6",
+    "rogue-knives-1024x720.png": "5117fc80e7ece8ae5e22d5441cc05ffa8d053ff09815e8836a3ac4c9b635c7a1",
+    "rogue-knives-1280x850.png": "600ba6d9c98ac4c8de228eace7d6d9124d92d0a3239959ed46b96a5169aa9c79",
+    "rogue-knives-1920x1080.png": "f912e2b70234f8a75edd67345f501543df7383f863170f7e0b57f399c43fa1ef",
+    "weapon-1024x720.png": "ec9f270c814ce77b84d1a3b90ca31b499dd29e3a93270b221d97ef60d9cdd23e",
+    "weapon-1280x850.png": "c70d614d828f0ced8fa13b6d15120767163d8b4d4c05a43b61abee0b3aabb6a7",
+    "weapon-1920x1080.png": "6a2b4660458bac7ab01f28e8b4d41bfde15514d9dcf4e77d435631f6db271533"
+  },
+  "protected_file_count": 33,
+  "protected_unchanged": true,
+  "python_launcher": "30 tests, OK",
+  "full_core_run": false,
+  "manual_F5_editor_DPI_GPU_acceptance": false,
+  "final_art_balance_acceptance": false
+}

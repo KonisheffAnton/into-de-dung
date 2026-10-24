@@ -32,6 +32,7 @@ func _ready() -> void:
 	_dashboard.tab_requested.connect(_on_hub_tab_requested)
 	_dashboard.hire_requested.connect(_on_mercenary_hire_requested)
 	_dashboard.party_requested.connect(_on_mercenary_party_requested)
+	_dashboard.equipment_requested.connect(_on_smith_equipment_requested)
 	($Panel/Column/Header/DashboardBack as Button).pressed.connect(_return_hub_dashboard)
 	_page_host = $Panel/Column/HeroHubScroll/Content/Pages
 	for child: Node in _page_host.get_children():
@@ -302,6 +303,20 @@ func _on_mercenary_party_requested(hero_id: int, join_party: bool) -> void:
 	if hero.hp_current <= 0.0 or run.party.has(hero_id) == join_party: return
 	if join_party and run.party.size() >= HeroHubState.MAX_PARTY: return
 	_toggle_party(hero_id)
+
+func _on_smith_equipment_requested(item_id: int, hero_id: int, equip_item: bool) -> void:
+	if not _can_navigate_hub() or _hub_management or _hub_tab != &"smith" or not _dashboard.is_visible_in_tree() or battle_view != null: return
+	if not run.items.has(item_id) or not run.heroes.has(hero_id): return
+	var hero: HeroProgression = run.heroes[hero_id]
+	if hero.hp_current <= 0.0: return
+	var item: Dictionary = run.items[item_id]
+	# Проверяем текущего владельца: старый запрос не снимет вещь с другого героя.
+	if equip_item:
+		if int(item.hero_id) != 0 or not HeroGearCatalog.allowed(String(item.definition), hero.class_id): return
+		_equip(item_id, hero_id)
+	else:
+		if int(item.hero_id) != hero_id: return
+		_unequip(item_id)
 
 func _hub_content() -> void:
 	var page := _page("BasePage")

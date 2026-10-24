@@ -6,6 +6,7 @@ signal start_requested
 signal manage_requested
 signal hire_requested(candidate_id: int)
 signal party_requested(hero_id: int, join_party: bool)
+signal equipment_requested(item_id: int, hero_id: int, equip_item: bool)
 
 const HERO_CARD: PackedScene = preload("res://scenes/demo/hub/dashboard_hero_card.tscn")
 const TAB_IDS: Array[StringName] = [&"expedition", &"mercenaries", &"smith", &"schools"]
@@ -55,6 +56,8 @@ func _ready() -> void:
 			if page.section_id == &"mercenaries":
 				page.hire_requested.connect(_on_hire_requested)
 				page.party_requested.connect(_on_party_requested)
+			elif page.section_id == &"smith":
+				page.equipment_requested.connect(_on_equipment_requested)
 
 func render_profile(profile: HeroHubState, expedition: bool, tab: StringName, launch_enabled: bool, launch_hint: String) -> void:
 	if profile == null:
@@ -165,3 +168,6 @@ func _on_hire_requested(candidate_id: int) -> void:
 
 func _on_party_requested(hero_id: int, join_party: bool) -> void:
 	if _active_tab == &"mercenaries" and is_visible_in_tree(): party_requested.emit(hero_id, join_party)
+
+func _on_equipment_requested(item_id: int, hero_id: int, equip_item: bool) -> void:
+	if _active_tab == &"smith" and is_visible_in_tree(): equipment_requested.emit(item_id, hero_id, equip_item)

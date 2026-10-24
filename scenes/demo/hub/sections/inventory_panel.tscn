@@ -24,86 +24,162 @@ text = "Предметы"
 mouse_filter = 2
 theme_override_font_sizes/font_size = 20
 metadata/hub_slot = "item_count"
+[node name="SmithHeroPrev" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.03
+anchor_top = 0.115
+anchor_right = 0.15
+anchor_bottom = 0.205
+text = "‹"
+metadata/hub_action = "smith_hero_prev"
+[node name="SmithHero" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.17
+anchor_top = 0.115
+anchor_right = 0.83
+anchor_bottom = 0.205
+autowrap_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "Выберите героя"
+theme_override_font_sizes/font_size = 14
+metadata/hub_slot = "smith_hero"
+[node name="SmithHeroNext" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.85
+anchor_top = 0.115
+anchor_right = 0.97
+anchor_bottom = 0.205
+text = "›"
+metadata/hub_action = "smith_hero_next"
 [node name="Item0" parent="." instance=ExtResource("card")]
 layout_mode = 1
 anchor_left = 0.02
-anchor_top = 0.13
+anchor_top = 0.22
 anchor_right = 0.32
-anchor_bottom = 0.5
+anchor_bottom = 0.52
 offset_left = 3.0
 offset_top = 3.0
 offset_right = -3.0
-offset_bottom = -3.0
+offset_bottom = 12.0
+custom_minimum_size = Vector2(0, 0)
 metadata/hub_slot = "item_0"
 [node name="Item1" parent="." instance=ExtResource("card")]
 layout_mode = 1
 anchor_left = 0.35
-anchor_top = 0.13
+anchor_top = 0.22
 anchor_right = 0.65
-anchor_bottom = 0.5
+anchor_bottom = 0.52
 offset_left = 3.0
 offset_top = 3.0
 offset_right = -3.0
-offset_bottom = -3.0
+offset_bottom = 12.0
+custom_minimum_size = Vector2(0, 0)
 metadata/hub_slot = "item_1"
 [node name="Item2" parent="." instance=ExtResource("card")]
 layout_mode = 1
 anchor_left = 0.68
-anchor_top = 0.13
+anchor_top = 0.22
 anchor_right = 0.98
-anchor_bottom = 0.5
+anchor_bottom = 0.52
 offset_left = 3.0
 offset_top = 3.0
 offset_right = -3.0
-offset_bottom = -3.0
+offset_bottom = 12.0
+custom_minimum_size = Vector2(0, 0)
 metadata/hub_slot = "item_2"
 [node name="Item3" parent="." instance=ExtResource("card")]
 layout_mode = 1
 anchor_left = 0.02
-anchor_top = 0.52
+anchor_top = 0.55
 anchor_right = 0.32
-anchor_bottom = 0.88
+anchor_bottom = 0.85
 offset_left = 3.0
 offset_top = 3.0
 offset_right = -3.0
-offset_bottom = -3.0
+offset_bottom = 12.0
+custom_minimum_size = Vector2(0, 0)
 metadata/hub_slot = "item_3"
 [node name="Item4" parent="." instance=ExtResource("card")]
 layout_mode = 1
 anchor_left = 0.35
-anchor_top = 0.52
+anchor_top = 0.55
 anchor_right = 0.65
-anchor_bottom = 0.88
+anchor_bottom = 0.85
 offset_left = 3.0
 offset_top = 3.0
 offset_right = -3.0
-offset_bottom = -3.0
+offset_bottom = 12.0
+custom_minimum_size = Vector2(0, 0)
 metadata/hub_slot = "item_4"
 [node name="Item5" parent="." instance=ExtResource("card")]
 layout_mode = 1
 anchor_left = 0.68
-anchor_top = 0.52
+anchor_top = 0.55
 anchor_right = 0.98
-anchor_bottom = 0.88
+anchor_bottom = 0.85
 offset_left = 3.0
 offset_top = 3.0
 offset_right = -3.0
-offset_bottom = -3.0
+offset_bottom = 12.0
+custom_minimum_size = Vector2(0, 0)
 metadata/hub_slot = "item_5"
+[editable path="Item0"]
+[editable path="Item1"]
+[editable path="Item2"]
+[editable path="Item3"]
+[editable path="Item4"]
+[editable path="Item5"]
+[node name="Title" parent="Item0" index="1"]
+anchor_top = 0.4
+anchor_bottom = 0.84
+[node name="Subtitle" parent="Item0" index="2"]
+anchor_top = 0.85
+anchor_bottom = 0.99
+[node name="Title" parent="Item1" index="1"]
+anchor_top = 0.4
+anchor_bottom = 0.84
+[node name="Subtitle" parent="Item1" index="2"]
+anchor_top = 0.85
+anchor_bottom = 0.99
+[node name="Title" parent="Item2" index="1"]
+anchor_top = 0.4
+anchor_bottom = 0.84
+[node name="Subtitle" parent="Item2" index="2"]
+anchor_top = 0.85
+anchor_bottom = 0.99
+[node name="Title" parent="Item3" index="1"]
+anchor_top = 0.4
+anchor_bottom = 0.84
+[node name="Subtitle" parent="Item3" index="2"]
+anchor_top = 0.85
+anchor_bottom = 0.99
+[node name="Title" parent="Item4" index="1"]
+anchor_top = 0.4
+anchor_bottom = 0.84
+[node name="Subtitle" parent="Item4" index="2"]
+anchor_top = 0.85
+anchor_bottom = 0.99
+[node name="Title" parent="Item5" index="1"]
+anchor_top = 0.4
+anchor_bottom = 0.84
+[node name="Subtitle" parent="Item5" index="2"]
+anchor_top = 0.85
+anchor_bottom = 0.99
 [node name="ItemsPrev" type="Button" parent="."]
 layout_mode = 1
 anchor_left = 0.64
-anchor_top = 0.9
+anchor_top = 0.89
 anchor_right = 0.76
-anchor_bottom = 0.99
+anchor_bottom = 0.98
 text = "‹"
 metadata/hub_action = "items_prev"
 [node name="ItemPage" type="Label" parent="."]
 layout_mode = 1
 anchor_left = 0.78
-anchor_top = 0.9
+anchor_top = 0.89
 anchor_right = 0.91
-anchor_bottom = 0.99
+anchor_bottom = 0.98
 autowrap_mode = 2
 text = "—/—"
 mouse_filter = 2
@@ -111,8 +187,8 @@ metadata/hub_slot = "item_page"
 [node name="ItemsNext" type="Button" parent="."]
 layout_mode = 1
 anchor_left = 0.92
-anchor_top = 0.9
+anchor_top = 0.89
 anchor_right = 0.99
-anchor_bottom = 0.99
+anchor_bottom = 0.98
 text = "›"
 metadata/hub_action = "items_next"

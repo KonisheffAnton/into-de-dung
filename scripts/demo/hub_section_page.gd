@@ -4,6 +4,7 @@ class_name HubSectionPage
 signal manage_requested
 signal hire_requested(candidate_id: int)
 signal party_requested(hero_id: int, join_party: bool)
+signal equipment_requested(item_id: int, hero_id: int, equip_item: bool)
 
 @export var section_id: StringName = &"mercenaries"
 
@@ -27,7 +28,7 @@ func render_profile(profile: HeroHubState) -> void:
 	_connect_controls()
 	match section_id:
 		&"mercenaries": _render_mercenaries()
-		&"smith": _render_smith()
+		&"smith": HubSmithPresenter.render(self, profile)
 		&"schools": _render_schools()
 
 func _connect_controls() -> void:
@@ -166,44 +167,6 @@ func _item_ids() -> Array[int]:
 	ids.sort()
 	return ids
 
-func _render_smith() -> void:
-	var ids := _item_ids()
-	_items_page = clampi(_items_page, 0, maxi(0, (ids.size() - 1) / ITEMS_PAGE_SIZE))
-	_text("item_count", "Экипировка · %d" % ids.size())
-	_text("item_page", "%d / %d" % [_items_page + 1, maxi(1, ceili(float(ids.size()) / ITEMS_PAGE_SIZE))])
-	_action_enabled("items_prev", _items_page > 0)
-	_action_enabled("items_next", (_items_page + 1) * ITEMS_PAGE_SIZE < ids.size())
-	for slot: int in ITEMS_PAGE_SIZE:
-		var card := _slot("item_%d" % slot) as HubSkeletonCard
-		if card == null: continue
-		var index := _items_page * ITEMS_PAGE_SIZE + slot
-		if index >= ids.size():
-			card.render_card("", "—")
-			continue
-		var item: Dictionary = _profile.items[ids[index]]
-		var definition := HeroGearCatalog.definition(String(item.definition))
-		if definition == null:
-			card.render_card("", "—")
-			continue
-		var armor := HeroGearCatalog.slot(String(item.definition)) == "armor"
-		card.render_card("item:%d" % ids[index], definition.display_name, "Надето" if int(item.hero_id) != 0 else "Склад", "◆" if armor else "⚔")
-	if not _profile.items.has(_selected_item_id): _selected_item_id = ids[0] if not ids.is_empty() else 0
-	if _selected_item_id == 0:
-		_text("item_title", "Выберите предмет")
-		_text("item_symbol", "—")
-		_text("item_detail", "Склад пуст")
-		return
-	var item: Dictionary = _profile.items[_selected_item_id]
-	var definition := HeroGearCatalog.definition(String(item.definition))
-	if definition == null: return
-	var armor := HeroGearCatalog.slot(String(item.definition)) == "armor"
-	_text("item_title", definition.display_name)
-	_text("item_symbol", "◆" if armor else "⚔")
-	var wearer: HeroProgression = _profile.heroes.get(int(item.hero_id))
-	var owner_text := "На складе" if wearer == null else "Надето: " + wearer.name
-	var condition := "Прочность: %.1f/%d" % [float(item.remaining), definition.armor_max] if armor else "Оружие"
-	_text("item_detail", "%s\n%s\n%s" % ["Доспех" if armor else "Снаряжение", owner_text, condition])
-
 func _render_schools() -> void:
 	_text("school_title", "Школа %d" % (_school_index + 1))
 	_text("skill_title", "Выберите узел" if _skill_index < 0 else "Узел %d" % (_skill_index + 1))
@@ -242,6 +205,9 @@ func _on_action(action: String) -> void:
 			var join_party := not _profile.party.has(current.id)
 			if join_party and _profile.party.size() >= HeroHubState.MAX_PARTY: return
 			party_requested.emit(current.id, join_party)
+		return
+	if section_id == &"smith" and HubSmithPresenter.handle_action(self, _profile, action):
+		if _profile != null: render_profile(_profile)
 		return
 	match action:
 		"items_prev": _items_page -= 1

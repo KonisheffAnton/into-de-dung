@@ -14,6 +14,13 @@
 
 ## Изменение игрового кода
 
+Экипировка Кузнеца (2026-10-24): `--render-check --only hub_smith hub_mercenaries
+hub_sections hub_dashboard hub_scene_authoring hero_hub_ui expedition_ui mage_deck_ui hero_hub --screen 0`.
+Проверяются совместимость, замена без потери вещи/прочности, оба направления
+записи/retry/reload, устаревший владелец, все 12 героев, пустой склад/состав,
+черновик колоды и независимые controls. Снимки — `hub-smith-screenshots/`.
+Отдельно `python tools/demo/test_isolate.py`; full/core и ручная приёмка отдельно.
+
 Действия Наёмников (2026-10-24): `--render-check --only hub_mercenaries hub_sections
 hub_dashboard hub_scene_authoring hero_hub_ui expedition_ui mage_deck_ui hero_hub --screen 0`.
 Новый runner проверяет реальные клики найма/состава, полный/пустой отряд, лимиты
