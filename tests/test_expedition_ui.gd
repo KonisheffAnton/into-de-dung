@@ -36,7 +36,7 @@ func _run() -> void:
 	check(hub != null and hub.run != null and hub.expedition_mode,"menu opens persistent expedition hub")
 	if hub == null: quit(1); return
 	hub._commit(HeroHubState.create(4280))
-	await press("start_expedition")
+	await press("StartJourney")
 	check(hub.run.phase == "expedition" and hub.run.expedition.phase == "route","start through real input")
 	if hub.run.expedition == null:
 		printerr("UI start state: " + hub._message + " / " + hub._storage_error)
@@ -118,6 +118,8 @@ func _run() -> void:
 	check(hub.run.expedition.phase == "camp_departure","service before camp choice")
 	await press("camp_leave")
 	check(hub.run.phase == "hub" and hub.run.gold > 100 and hub.run.essence >= 20,"exit through input banks loot")
+	await capture("u14-06-dashboard-return")
+	await press("ManageParty")
 	check(hub.run.achievements.total_points > 0 and hub.run.achievements.available_points == hub.run.achievements.total_points and has_label_text(hub,"ДОСТИЖЕНИЯ ·"),"completed profile displays persistent achievement progress and points")
 	(hub.find_child("HeroHubScroll",true,false) as ScrollContainer).scroll_vertical = 0
 	await capture("u14-06-result")

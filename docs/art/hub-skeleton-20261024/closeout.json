@@ -1,0 +1,44 @@
+{
+  "branch": "main",
+  "base": "9c7ad7d885ef473bdd0a3e84089a032b76da6061",
+  "protected_count": 33,
+  "protected_hashes_inventory": "PASS",
+  "archive": "docs/CODEX_HANDOFF.history-20261024-4.md",
+  "archive_working_and_git_base_byte_exact": true,
+  "archive_sha256": "d259b45d6cd0a09c7871651743a14357232f3ee088ee1c26a07f82037b2a47ff",
+  "input_sizes": {
+    "AGENTS.md": {
+      "before_chars_lf": 4565,
+      "after_chars_lf": 4565
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before_chars_lf": 2308,
+      "after_chars_lf": 2247
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before_chars_lf": 3557,
+      "after_chars_lf": 3557
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before_chars_lf": 4482,
+      "after_chars_lf": 4482
+    }
+  },
+  "growth_note": "HANDOFF replaces the completed concept stage with the authorized working skeleton; unique restrictions, unresolved rogue feedback and transfer rule retained. Other entry docs unchanged.",
+  "local_links_checked": 956,
+  "missing_local_links": [],
+  "scope": "hub presentation, focused UI tests, launcher schedule, owned docs/artifacts only; protected user paths excluded",
+  "gate": {
+    "passed": 7,
+    "failed": 0,
+    "timed_out": 0,
+    "failed_labels": [],
+    "unexecuted_requested": [],
+    "blocked": null
+  },
+  "review": "APPROVE",
+  "push": false,
+  "staged_scope_files": 46,
+  "staged_diff_check": "PASS",
+  "staged_archive_byte_exact": "PASS"
+}

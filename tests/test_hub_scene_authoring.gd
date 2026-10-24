@@ -94,6 +94,8 @@ func _run() -> void:
 		await _finish()
 		return
 	var baseline_run := JSON.stringify(hub.run.to_dict())
+	check(hub.get_node("ExpeditionDashboard").is_visible_in_tree(), "fresh hub opens expedition dashboard")
+	(hub.find_child("ManageParty", true, false) as Button).pressed.emit()
 	check_authored(hub, authored_ids, false)
 	check(hub.run.mage_deck.is_empty() == false, "deck mode enables the authored base deck")
 

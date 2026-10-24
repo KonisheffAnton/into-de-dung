@@ -298,8 +298,9 @@ def main():
         if label in ("fractional_armor_hit", "status_contributions", "character_attributes_v1"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
-        if label == "hub_scene_authoring":
-            invalid = invalid or "HUB SCENE AUTHORING RESULTS:" not in output or ", 0 failed" not in output
+        if label in ("hub_scene_authoring", "hub_dashboard"):
+            marker = label.replace("_", " ").upper() + " RESULTS:"
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "battle_hud_authoring":
             invalid = invalid or "BATTLE HUD AUTHORING RESULTS:" not in output or ", 0 failed" not in output
         if label in ("passive_opportunist", "raised_shield", "raise_shields", "shieldbearer_profile", "shieldbearer_ui"):
@@ -664,6 +665,10 @@ def main():
         if args.render_check:
             hub_scene_args += ["--", "--captures=" + str(out / "hub-scene-screenshots")]
         run("hub_scene_authoring", hub_scene_args, headless=not args.render_check)
+        dashboard_args = ["--script", "tests/test_hub_dashboard.gd"]
+        if args.render_check:
+            dashboard_args += ["--", "--captures=" + str(out / "hub-dashboard-screenshots")]
+        run("hub_dashboard", dashboard_args, headless=not args.render_check)
         hud_args = ["--script", "tests/test_battle_hud_authoring.gd"]
         if args.render_check:
             hud_args += ["--", "--captures=" + str(out / "battle-hud-screenshots")]

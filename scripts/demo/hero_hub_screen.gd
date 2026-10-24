@@ -20,9 +20,17 @@ var _content: VBoxContainer
 var _pages: Dictionary[String, VBoxContainer] = {}
 var _page_host: VBoxContainer
 var _start_button: Button
+var _dashboard: ExpeditionDashboard
+var _hub_management: bool = false
+var _hub_tab: StringName = &"expedition"
 
 func _ready() -> void:
 	_root_panel = $Panel
+	_dashboard = $ExpeditionDashboard
+	_dashboard.start_requested.connect(_start_battle)
+	_dashboard.manage_requested.connect(_open_hub_management)
+	_dashboard.tab_requested.connect(_on_hub_tab_requested)
+	($Panel/Column/Header/DashboardBack as Button).pressed.connect(_return_hub_dashboard)
 	_page_host = $Panel/Column/HeroHubScroll/Content/Pages
 	for child: Node in _page_host.get_children():
 		_pages[String(child.name)] = child as VBoxContainer
@@ -83,6 +91,10 @@ func _commit(candidate: HeroHubState) -> void:
 			battle_view.hide()
 		_render()
 		return
+	if run != null and run.phase != "hub" and candidate.phase == "hub":
+		# Новый выход завершён: после отчёта встречаем игрока на главной странице хаба.
+		_hub_management = false
+		_hub_tab = &"expedition"
 	run = candidate
 	_pending_save = null
 	_storage_error = ""
@@ -186,6 +198,9 @@ func _show_page(key: String) -> VBoxContainer:
 	return page
 
 func _render() -> void:
+	_dashboard.hide()
+	_root_panel.show()
+	($Panel/Column/Header/DashboardBack as Button).hide()
 	var scroll := $Panel/Column/HeroHubScroll as ScrollContainer
 	var scroll_offset := scroll.scroll_vertical
 	if battle_view != null:
@@ -235,8 +250,38 @@ func _render() -> void:
 		return
 	message.text = _message
 	message.visible = not _message.is_empty()
+	if not _hub_management:
+		var launch_hint := "Состав готов. Можно отправляться."
+		if run.party.is_empty(): launch_hint = "Добавьте хотя бы одного героя в отряд."
+		elif deck_editing: launch_hint = "Сохраните или отмените состав колоды в управлении отрядом."
+		_dashboard.render_profile(run, expedition_mode, _hub_tab, not run.party.is_empty() and not deck_editing, launch_hint)
+		_root_panel.hide()
+		_dashboard.show()
+		return
+	($Panel/Column/Header/DashboardBack as Button).show()
 	_show_page("BasePage")
 	_hub_content()
+
+func _can_navigate_hub() -> bool:
+	return run != null and run.phase == "hub" and not run.battle_report.get("open", false) and _pending_save == null and _storage_error.is_empty()
+
+func _open_hub_management() -> void:
+	if not _can_navigate_hub(): return
+	_hub_management = true
+	_render()
+
+func _return_hub_dashboard() -> void:
+	if not _can_navigate_hub(): return
+	# Возврат меняет только представление: черновик колоды остаётся у владельца хаба.
+	_hub_management = false
+	_hub_tab = &"expedition"
+	_render()
+
+func _on_hub_tab_requested(tab_id: StringName) -> void:
+	if not _can_navigate_hub() or not ExpeditionDashboard.TAB_IDS.has(tab_id): return
+	_hub_tab = tab_id
+	_hub_management = false
+	_render()
 
 func _hub_content() -> void:
 	var page := _page("BasePage")

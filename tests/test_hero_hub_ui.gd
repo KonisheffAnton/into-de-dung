@@ -37,6 +37,7 @@ func _run() -> void:
 		quit(1); return
 	check(FileAccess.file_exists(path), "initial roster persisted before interaction")
 	await capture("h1-01-hub")
+	await press("ManageParty")
 	var fixture := HeroHubState.from_dict(demo.run.to_dict())
 	var id: int = fixture.party[0]
 	(fixture.heroes[id] as HeroProgression).base_attributes = [3, 3, 3, 3, 38]
@@ -105,6 +106,8 @@ func _run() -> void:
 		check(HeroHubStore.read_run(path).run.to_dict() == demo.run.to_dict(), "on-disk outcome matches visible roster")
 		await capture("h1-04-result")
 		await press("continue_battle_report")
+		check(demo.get_node("ExpeditionDashboard").is_visible_in_tree() and not demo.get_node("Panel").is_visible_in_tree(), "H1 started in management returns to expedition dashboard after report")
+		await press("ManageParty")
 		check(not bool(demo.run.battle_report.get("open", true)) and has_label_text(demo, "ДОСТИЖЕНИЯ ·"), "Continue clears the barrier and hub exposes saved achievements")
 	# Аварийный prefix не коммитится; явная кнопка повторяет сохранённый старт.
 	demo._start_battle()

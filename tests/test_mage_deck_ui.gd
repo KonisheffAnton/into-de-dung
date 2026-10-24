@@ -25,6 +25,7 @@ func _run() -> void:
 	check(host.run != null and not host.run.mage_deck.is_empty() and host.run.phase == "hub", "fresh deck profile")
 	if host.run == null: quit(1); return
 	var original: Array = host.run.mage_deck.base_types.duplicate()
+	await _press("ManageParty")
 	await _press("deck_edit")
 	await _press("deck_less_card_wet")
 	await _press("deck_more_card_burning")
@@ -40,8 +41,9 @@ func _run() -> void:
 	await _press("deck_save")
 	check(not host.deck_editing and host.run.mage_deck.base_types.count("card.burning") == 1 and HeroHubStore.read_run(path).run.to_dict() == host.run.to_dict(), "save publishes exact base")
 	var before_checkpoint := host.run.to_dict()
+	await _press("DashboardBack")
 	host.save_path = path + "/cannot-write"
-	await _press("start_expedition")
+	await _press("StartJourney")
 	check(host._pending_save != null and host.run.to_dict() == before_checkpoint and host.battle_view == null, "failed checkpoint write blocks battle")
 	var pending_checkpoint: Dictionary = host._pending_save.to_dict() if host._pending_save != null else {}
 	host._expedition_action("start")

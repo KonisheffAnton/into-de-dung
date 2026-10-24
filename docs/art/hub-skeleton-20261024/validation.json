@@ -1,0 +1,128 @@
+{
+  "base": "9c7ad7d885ef473bdd0a3e84089a032b76da6061",
+  "background": {
+    "path": "assets/ui/hub/fortress_plain.png",
+    "input": "docs/art/hub-expedition-mockup-20261024/plain-flags/expedition-v1-plain-flags.png",
+    "tool": "image_gen edit",
+    "generated_original": "C:\\Users\\Aston\\.codex\\generated_images\\01a16b2d-1684-7e71-b237-7d32f0a66e99\\exec-7e6dfcda-b9c3-49d0-8254-0410c3d00c9d.png",
+    "original_byte_exact": true,
+    "width": 1672,
+    "height": 941,
+    "bit_depth": 8,
+    "color_type": 2,
+    "decoded_bytes": 4720997,
+    "sha256": "627d62686839862662c509beae173900f1321dbcee276664f52b316fafe2d204",
+    "crc_idat": "PASS"
+  },
+  "prompt_sha256": "76ce5c26e0587e73f525c42b9124d5812997bddbcc5b46ad9ef37c7ed9019312",
+  "unchanged_reused_assets": {
+    "assets/art_presets/approved/warrior_format_v1/character.png": "e93daeee4edec7fee5031e8aa91b5a729a2ecd7e269b17abf94558b6e4604057",
+    "assets/art_presets/approved/defender_brighter_v1/defender-reference.png": "a4e5c1ed380b6288587c0866b9cd0e9b8252e97fdc183aaefa246290815fc46b",
+    "assets/art_presets/trials/archer_idle_v1/idle/frame-01.png": "b3425f2b15c2aaecc0b254dac5220d2ccac02f2f648c7fc189e284c06631dfa4",
+    "assets/art_presets/trials/rogue_selected_v1/still.png": "c774002e01412bbf82adcd30a8d636bf1b891b67623a0b5fb49b0ea8ccd996ff",
+    "assets/placeholder_battle/mage_card.svg": "3b724d058a70bc19f6ca53b87ed25f7bc5b4372fe6866840a36e75fd1457de52",
+    "docs/art/hub-expedition-mockup-20261024/plain-flags/expedition-v1-plain-flags.png": "b5532ac537388c4c3fe6fe6b8bdec1550ce1baa596e51a0485354a70b2901bac"
+  },
+  "protected_paths": {
+    "count": 33,
+    "hashes_and_inventory": "PASS"
+  },
+  "final_snapshot": "test_reports\\demo-e2c659315f454a7c8e2769e5df8b3afd",
+  "tested_working_bytes_unchanged": {
+    "scripts/demo/hero_hub_screen.gd": "c1debbe2bc7afdff1f3b3b86168697fac1f294ea60009e47ff2980a90c05241d",
+    "scripts/demo/expedition_dashboard.gd": "8050c4168ecb8652197fbfdbe3f9431d345e056142f119815716c5503efc02d8",
+    "scenes/demo/hero_hub.tscn": "bf8d38bfa726202a37cbc6677c7171c912abd30372fb1f43eb4a4c79b33ba225",
+    "scenes/demo/hub/expedition_dashboard.tscn": "9a0879bf5384575fe32173bd0644040c5c2353aeac9a497feebecb791bbca27e",
+    "scenes/demo/hub/dashboard_hero_card.tscn": "df2e455d08a02e7bba9264619efb9fa57cb222d53e68420e6d5840b3340434b8",
+    "tests/test_hub_dashboard.gd": "8f1e33f89a32196d2c4ed70d0ee63082a0a0d0ef2ea7ca8db9634cfd2d1d4ae0",
+    "tests/test_hub_scene_authoring.gd": "5abe8db3265205b3f0d069e7f41c6ee01d4549364c5c79379ea69d322287ba29",
+    "tests/test_hero_hub_ui.gd": "99b48a35c2a587c2a55f61056f06c82605670742b9ce698f367a6997eb0f78d1",
+    "tests/test_expedition_ui.gd": "1a6f49147615d6e01e7be43e40cf43438ff85bc87dc5a34d18e3d4791c59298a",
+    "tests/test_mage_deck_ui.gd": "7a4bd2f301379a5e191d8d781ad60a0759eb00e4c4bf04447a8eb1218d1137c0",
+    "tools/demo/isolate.py": "2dab2e18259ccd025a7533ea020429acae3de693ad9d6dbcc8efbce76ace272d",
+    "assets/ui/hub/archer_portrait.tres": "84c9d4b556884cea101f604e0018ea67ce33cdd093621310800e52a2b573de1a",
+    "assets/ui/hub/fortress_plain.png": "627d62686839862662c509beae173900f1321dbcee276664f52b316fafe2d204",
+    "assets/ui/hub/rogue_portrait.tres": "3cac85eb13e0c603fb8ca078a09caa6abcedb7dc79de61120be154317a3861d7",
+    "assets/ui/hub/shieldbearer_portrait.tres": "4e9b9c3c66c8d5e2b7a2628193af5e13479c9263ee136f338cf0da09d0ffad90",
+    "assets/ui/hub/warrior_portrait.tres": "17594da4c25628754d853de99f11b84fcf43cac9d3d02b1abbe0107a6c4d50e7"
+  },
+  "screenshots": {
+    "dashboard-1024x720.png": {
+      "width": 1024,
+      "height": 720,
+      "bit_depth": 8,
+      "color_type": 6,
+      "decoded_bytes": 2949840,
+      "sha256": "37ffe030738c11884e4aa37ff17174c346c43416d823b0b7aa2ad69d7c0c3a59",
+      "crc_idat": "PASS"
+    },
+    "dashboard-1280x850.png": {
+      "width": 1280,
+      "height": 850,
+      "bit_depth": 8,
+      "color_type": 6,
+      "decoded_bytes": 4352850,
+      "sha256": "a5367251e699cce89a13f25f2afffbf3d268c5f95999a57423df8f5ee9fb180e",
+      "crc_idat": "PASS"
+    },
+    "dashboard-1920x1080.png": {
+      "width": 1920,
+      "height": 1080,
+      "bit_depth": 8,
+      "color_type": 6,
+      "decoded_bytes": 8295480,
+      "sha256": "a6219c889f7698eafdcf9a37eedb921968d77530fd109bf73461d3a1e4b09201",
+      "crc_idat": "PASS"
+    },
+    "partial-party.png": {
+      "width": 1280,
+      "height": 850,
+      "bit_depth": 8,
+      "color_type": 6,
+      "decoded_bytes": 4352850,
+      "sha256": "1d8dfc48f7633b8eeeeab5a8f0d1af2568e66c1d5d07df2ec0e742145dceb873",
+      "crc_idat": "PASS"
+    },
+    "TabMercenaries.png": {
+      "width": 1280,
+      "height": 850,
+      "bit_depth": 8,
+      "color_type": 6,
+      "decoded_bytes": 4352850,
+      "sha256": "6f5f0762d70ebc24ecec7c19630600ee222abb4b34e8b48fb5e5c1e5bd732762",
+      "crc_idat": "PASS"
+    },
+    "TabSchools.png": {
+      "width": 1280,
+      "height": 850,
+      "bit_depth": 8,
+      "color_type": 6,
+      "decoded_bytes": 4352850,
+      "sha256": "3b6460adbc7938daeb981070ad05bf698c16f407f4267bc2c43cd6310719d2ac",
+      "crc_idat": "PASS"
+    },
+    "TabSmith.png": {
+      "width": 1280,
+      "height": 850,
+      "bit_depth": 8,
+      "color_type": 6,
+      "decoded_bytes": 4352850,
+      "sha256": "cd033a057672971ed535a45c550adda96b018a9e475484d1c4e0d2534a9289a2",
+      "crc_idat": "PASS"
+    }
+  },
+  "gate": {
+    "passed": 7,
+    "failed": 0,
+    "timed_out": 0,
+    "failed_labels": [],
+    "unexecuted_requested": [],
+    "blocked": null
+  },
+  "launcher_unit_tests": {
+    "passed": 30,
+    "failed": 0
+  },
+  "review": "APPROVE after navigation fix",
+  "manual_acceptance": false
+}
