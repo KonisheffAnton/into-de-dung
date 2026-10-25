@@ -1,26 +1,29 @@
-# Передача — 2026-10-24: отдельная Колода
-D:\Games\into-de-dung; main; base 53c8987cbf289febc9e855c3a32b67c148f1f5cb.
-U выбрал отдельную кнопку «Колода» в хабе, не в Наёмниках/прокачке героя.
-Готовы каталог из 13 типов по 6 на страницу, описание/мана, состав,
-плюс/минус, сохранение/отмена. Прежние правила: ровно 10 карт, до 2 копий типа;
-временный неполный/избыточный черновик не сохраняется. Legacy не включает колоду.
-Новая страница и BasePage используют один черновик. Навигация его сохраняет,
-выход требует save/cancel; failed write сохраняет профиль/черновик до retry.
-Другой опубликованный состав отменяет устаревший черновик; несвязанные записи сохраняют.
-Metadata-независимость, найм/отряд/резерв, развитие и экипировка сохранены.
-Школы нейтральны; улучшение/разборка/изучение отключены. Новых правил нет.
-[Контракт/сцены](HUB_SCENES_V1.md), [9 снимков/проверки/ревью](art/hub-deck-20261024/README.md).
-Финальный gate15 PASS/0 FAIL/0 timeout: deck2527/0, development2601/0, mercenaries215/0, smith1344/0, sections599/0, authoring307/0, dashboard82/0, H1 UI44/0, expedition UI58/0, mage UI131/0, hero_hub98/0, deck models36/0, deck expedition507/0.
-Python launcher 30/0; Reviewer APPROVE.
-Full/core, ручные F5/editor/DPI/GPU и финальная арт-/баланс-приёмка не заявлены.
-Остаток: отзыв U о Колоде; школы, улучшение/разборка и отделка — отдельный выбор.
-Новый этап автоматически не начинать.
-Фон/портреты, Rogue/Смерть3 и warrior_format_v1 сохранены;
-прежний [остаток Rogue](art/rogue-model-death3-20261023/README.md).
-Только чужие scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
-dirty; не трогать/reset/stage/commit, SHA33 сохранены.
-Сохранять core/preview/live/worker/queue/RNG/save/frozen; без push/sidebar tasks/расписаний.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261024-9.md), [HISTORY](HISTORY.md).
+# Передача — 2026-10-25: одиночный упор без урона оружия
+
+D:\Games\into-de-dung; main; base 5dd8ed0f9f55c3ed67c2d96d164d6aa7dd6fd64a.
+U поручил убрать WEAPON_DAMAGE из урона одиночной цели о стену/высокий уступ.
+В ARMOR_PROFILE база этого последствия теперь max(0, STRENGTH).
+Прямой удар, цепь/её конечный упор, падение и legacy-профили сохранены.
+Правила и границы — [K16](PUSH_CHAIN_K16.md#одиночный-упор--u-2026-10-25).
+BalancePushRules фиксирует базу до оплаты; общая очередь исполняет её
+в admission, preview и live с прежней защитой. Save/snapshot не расширены.
+
+Проверки: import/startup и 8 адресных suites — 10 PASS, 0 FAIL, 0 timeout.
+Команда и область — [TESTING](TESTING.md); новые случаи в test_push_chain.gd.
+Стена/уступ, дроби, сопротивление, нулевая сила, прямой удар и конец цепи;
+preview/live, forecast/execution workers и sealed guards прошли.
+Независимый game_reviewer: APPROVE; ведущий проверил критические границы.
+Логи: test_reports/demo-0d9a305bc8154785b75cb68dd89853b9/.
+Отчёт/ревью/SHA: test_reports/solo-wall-damage-20261025/.
+Full/core, render и ручные F5/editor/DPI/GPU/баланс не запускались.
+
+Остаток: ручной отзыв о новом уроне и прежней Колоде.
+Школы, улучшение/разборка, отделка — только отдельный выбор U; не начинать автоматически.
+Хаб/арт и прежний [остаток Rogue](art/rogue-model-death3-20261023/README.md) сохранены.
+Чужие scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
+остаются dirty; SHA33 сохранены. Не трогать/reset/stage/commit.
+Сохранять preview/live/worker/queue/RNG/save/frozen; без push/sidebar tasks/расписаний.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261025.md), [HISTORY](HISTORY.md).
 Завершение: проверки, локальный Conventional Commit, короткий HANDOFF;
 прежний побайтно отдельным архивом+HISTORY. В финале/при блокере предложить
 новый чат и полный самодостаточный промпт: HEAD, результат, docs/artifacts,

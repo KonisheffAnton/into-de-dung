@@ -14,6 +14,13 @@
 
 ## Изменение игрового кода
 
+Одиночный упор без урона оружия (2026-10-25): `--check --only push_chain
+push_chain_reactions armor_integration fractional_armor_hit character_attributes_v1
+spatial_guard_stats attack_forecast_worker battle_execution_worker`.
+Проверяются стена/высокий уступ, дробная и нулевая база, независимость collision
+от оружия при сохранении прямого удара, защита и прежняя сила конца цепочки.
+Прогноз/live и workers проверяются адресно; full/core и ручная приёмка отдельно.
+
 Отдельная Колода (2026-10-24): `--render-check --only hub_deck hub_development
 hub_mercenaries hub_smith hub_sections hub_dashboard hub_scene_authoring hero_hub_ui
 expedition_ui mage_deck_ui hero_hub mage_deck_models mage_deck_expedition --screen 0`.

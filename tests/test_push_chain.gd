@@ -84,6 +84,7 @@ func parity(s: BattleCoreReactionsSession, label: String) -> ActionReceipt:
 
 func run() -> void:
 	_normal_and_fraction()
+	_solo_blocked_damage_uses_strength()
 	_stops_and_stance()
 	_deaths()
 	_shielded_collision_capacity()
@@ -92,6 +93,71 @@ func run() -> void:
 	await _workers_and_restore()
 	print("PUSH CHAIN RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
+
+func _raw_total(event: Dictionary) -> float:
+	var total := 0.0
+	for row: Dictionary in event["hit"]["raw"]:
+		total += float(row["numerator"]) / float(row["denominator"])
+	return total
+
+func _hit_raw_totals(receipt: ActionReceipt, target_id: int, source_kind: StringName) -> Array[float]:
+	var totals: Array[float] = []
+	for event: Dictionary in events(receipt, &"hit_resolved"):
+		if event["target_unit_id"] == target_id and event["source"]["kind"] == source_kind:
+			totals.append(_raw_total(event))
+	return totals
+
+func _prepare_solo_target(s: BattleCoreReactionsSession) -> void:
+	check(s.board.move_unit(s.units[2], Vector2i(2, 0)) and s.board.move_unit(s.units[5], Vector2i(5, 0)), "solo case parks chain bodies")
+	var rules := s.context.get_attack_rules()
+	var definitions: Array[AttackDefinition] = []
+	for source: AttackDefinition in rules._definitions:
+		var definition := AttackRules._copy_definition(source)
+		# Убираем руну и удар в спину из fixture: сравниваем оружие и упор отдельно.
+		definition.damage_components.clear()
+		definition.backstab_bonus_percent = 0
+		definitions.append(definition)
+	s.context._attack_rules = AttackRules.new(rules._actors, rules._pairs, definitions)
+	s.units[0].armor.fractional = true
+	s.units[1].armor.fractional = true
+
+func _solo_blocked_damage_uses_strength() -> void:
+	for scenario: Dictionary in [{"weapon": 0.0, "ledge": false, "resistance": 0}, {"weapon": 8.0, "ledge": false, "resistance": 0}, {"weapon": 8.0, "ledge": true, "resistance": 5000}]:
+		var s := fixture()
+		var actor: UnitState = s.units[0]
+		var target: UnitState = s.units[1]
+		_prepare_solo_target(s)
+		var weapon_damage: float = scenario.weapon
+		actor.stats.set_base_value(StatTypes.StatType.STRENGTH, 3.5)
+		actor.stats.set_base_value(StatTypes.StatType.WEAPON_DAMAGE, weapon_damage)
+		target.armor.natural["physical"] = scenario.resistance
+		if scenario.ledge: s.board.set_height_steps(Vector2i(3, 3), 2)
+		else: s.board.set_terrain(Vector2i(3, 3), TerrainType.Type.WALL)
+		var receipt := parity(s, "solo blocked " + str(scenario))
+		check(receipt.status == ActionReceipt.APPLIED and events(receipt, &"push_blocked").size() == 1 and events(receipt, &"chain_link").is_empty(), "solo wall collision blocks without starting chain")
+		check(target.cell == Vector2i(2, 3) and events(receipt, &"moved").is_empty(), "blocked target stays put")
+		var collision_raw := _hit_raw_totals(receipt, target.id, &"collision")
+		var attack_raw := _hit_raw_totals(receipt, target.id, &"attack")
+		check(collision_raw.size() == 1 and is_equal_approx(collision_raw[0], 3.5), "solo wall collision raw damage is strength only for weapon " + str(weapon_damage))
+		check(attack_raw.size() == 1 and is_equal_approx(attack_raw[0], 3.5 + weapon_damage), "direct weapon raw damage remains unchanged for weapon " + str(weapon_damage))
+		for event: Dictionary in events(receipt, &"hit_resolved"):
+			if event["source"]["kind"] == &"collision":
+				var expected := 3.5 * (1.0 - float(scenario.resistance) / 10000.0)
+				check(is_equal_approx(float(event["hit"]["hp_before"]) - float(event["hit"]["hp_after"]), expected), "solo collision preserves fractional HP and physical resistance")
+		s.close()
+	var s := fixture()
+	var actor: UnitState = s.units[0]
+	var target: UnitState = s.units[1]
+	_prepare_solo_target(s)
+	actor.stats.set_base_value(StatTypes.StatType.STRENGTH, 0.0)
+	actor.stats.set_base_value(StatTypes.StatType.WEAPON_DAMAGE, 8.0)
+	s.board.set_height_steps(Vector2i(3, 3), 2)
+	var receipt := parity(s, "zero strength blocked ledge")
+	var collision_raw := _hit_raw_totals(receipt, target.id, &"collision")
+	var attack_raw := _hit_raw_totals(receipt, target.id, &"attack")
+	check(receipt.status == ActionReceipt.APPLIED and events(receipt, &"push_blocked").size() == 1 and collision_raw.size() == 1 and is_equal_approx(collision_raw[0], 0.0), "zero strength means no solo ledge collision damage despite weapon")
+	check(attack_raw.size() == 1 and is_equal_approx(attack_raw[0], 8.0), "zero strength does not remove direct weapon damage")
+	s.close()
 
 func _normal_and_fraction() -> void:
 	var s := fixture()
@@ -223,6 +289,9 @@ func _geometry() -> void:
 	for shape: String in ["wall", "ledge", "void", "hazard", "fall", "fire"]:
 		var s := fixture()
 		var destination := Vector2i(5, 3)
+		if shape in ["wall", "ledge"]:
+			# Финальная collision пара получает переданную силу, а не силу актёра.
+			s.units[0].stats.set_base_value(StatTypes.StatType.WEAPON_DAMAGE, 8.0)
 		match shape:
 			"wall": s.board.set_terrain(destination, TerrainType.Type.WALL)
 			"ledge": s.board.set_height_steps(destination, 2)
@@ -234,6 +303,8 @@ func _geometry() -> void:
 		check(receipt.status == ActionReceipt.APPLIED and events(receipt, &"chain_link").size() == 2, "terminal geometry keeps chain " + shape)
 		if shape in ["wall", "ledge"]:
 			check(s.units[5].cell == Vector2i(4, 3) and events(receipt, &"push_blocked").size() == 1, "wall or ledge blocks terminal " + shape)
+			var terminal_collision_raw := _hit_raw_totals(receipt, s.units[5].id, &"collision")
+			check(terminal_collision_raw.size() == 2 and is_equal_approx(terminal_collision_raw[0], 9.0) and is_equal_approx(terminal_collision_raw[1], 9.0), "terminal receives transmitted impulse and wall hit " + shape)
 		elif shape in ["void", "hazard"]:
 			check(not s.units[5].is_alive() and s.units[1].cell == Vector2i(2, 3) and s.units[2].cell == Vector2i(3, 3), "lethal terrain kills only terminal movement " + shape)
 		else:

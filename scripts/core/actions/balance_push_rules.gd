@@ -431,8 +431,11 @@ static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, ta
 	if reaction: binding.values["reaction"] = true
 	if equipment_followup: binding.values["equipment_followup"] = true
 	if armor_request != null:
-		# Collision получает ту же точную базу до высоты/стойки, без сложения через float.
-		var armor_raw := ArmorFraction.from_decimal(_stat(actor, StatTypes.StatType.STRENGTH)).add(ArmorFraction.from_decimal(_stat(actor, StatTypes.StatType.WEAPON_DAMAGE)))
+		# Одиночный упор не переносит урон оружия; столкновение тел сохраняет
+		# прежнюю базу, а K16 позднее подставляет дошедшую силу через retarget.
+		var armor_raw := ArmorFraction.from_decimal(_stat(actor, StatTypes.StatType.STRENGTH))
+		if blocker != null:
+			armor_raw = armor_raw.add(ArmorFraction.from_decimal(_stat(actor, StatTypes.StatType.WEAPON_DAMAGE)))
 		if not armor_raw.valid: out["reason"] = &"armor/invalid_component"; return out
 		binding.values["armor_raw"] = {"numerator": maxi(0, armor_raw.numerator), "denominator": armor_raw.denominator}
 		var plan := ArmorHitExecutor.prepare(armor_request, guard.values["participants"][target.id]["armor"], target.vitals.get_hp(), _stat(target, StatTypes.StatType.HP_MAX), context.get_rng(), ElementalRules.is_frozen(target), context)
