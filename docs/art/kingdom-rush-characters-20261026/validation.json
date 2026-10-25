@@ -1,0 +1,215 @@
+{
+  "status": "PASS",
+  "integration": false,
+  "image_count": 8,
+  "reference_count": 4,
+  "outputs": [
+    {
+      "provider": "imagegen",
+      "character": "warrior",
+      "file": "imagegen/warrior.png",
+      "width": 1225,
+      "height": 1284,
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        27,
+        1193,
+        1284
+      ],
+      "visible_alpha_gt8_bbox": [
+        140,
+        100,
+        1130,
+        1185
+      ],
+      "border_max_alpha": 1,
+      "sha256": "518f15e524878dc274364212e84b5871964858bf2ac54accde70ca29fa2e1a6a",
+      "prompt_sha256": "a582e4fd6be05df6a0710bdbd7d4653933b58c16d54ecdf43e3bcda1bc564362"
+    },
+    {
+      "provider": "pixellab",
+      "character": "warrior",
+      "file": "pixellab/warrior.png",
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA",
+      "alpha_bbox": [
+        68,
+        30,
+        442,
+        506
+      ],
+      "visible_alpha_gt8_bbox": [
+        68,
+        30,
+        442,
+        506
+      ],
+      "border_max_alpha": 0,
+      "sha256": "aa2bc6475ef914014d7404e4d93d9155df759749f31a22b44ffc94488bc03bb0",
+      "prompt_sha256": "a582e4fd6be05df6a0710bdbd7d4653933b58c16d54ecdf43e3bcda1bc564362"
+    },
+    {
+      "provider": "imagegen",
+      "character": "archer",
+      "file": "imagegen/archer.png",
+      "width": 1295,
+      "height": 1214,
+      "mode": "RGBA",
+      "alpha_bbox": [
+        47,
+        23,
+        1265,
+        1214
+      ],
+      "visible_alpha_gt8_bbox": [
+        186,
+        121,
+        1208,
+        1115
+      ],
+      "border_max_alpha": 1,
+      "sha256": "c9868848344f888740d1200ef9b16756274a45deacfb0d78ea95388584c1701a",
+      "prompt_sha256": "9aa06b0f7c1e123ce5aa6fbf962b178eca9fd639db6f6865f4af1f96bbf401a4"
+    },
+    {
+      "provider": "pixellab",
+      "character": "archer",
+      "file": "pixellab/archer.png",
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA",
+      "alpha_bbox": [
+        92,
+        68,
+        468,
+        452
+      ],
+      "visible_alpha_gt8_bbox": [
+        92,
+        68,
+        468,
+        452
+      ],
+      "border_max_alpha": 0,
+      "sha256": "5085ed6d7ca6e7853ba6f839cfb5ef05cf80bb26d34bef33540edc3b96cc6cee",
+      "prompt_sha256": "9aa06b0f7c1e123ce5aa6fbf962b178eca9fd639db6f6865f4af1f96bbf401a4"
+    },
+    {
+      "provider": "imagegen",
+      "character": "mage",
+      "file": "imagegen/mage.png",
+      "width": 1210,
+      "height": 1300,
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        17,
+        1209,
+        1300
+      ],
+      "visible_alpha_gt8_bbox": [
+        172,
+        109,
+        1052,
+        1191
+      ],
+      "border_max_alpha": 1,
+      "sha256": "31438d4ab180261aceda26c97ead0fe3ff9e757336130e73effb354222122b8c",
+      "prompt_sha256": "c6b8acb9de766fd034b01c05543dc669c0177a65e74110c506dc15eb75b45b92"
+    },
+    {
+      "provider": "pixellab",
+      "character": "mage",
+      "file": "pixellab/mage.png",
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA",
+      "alpha_bbox": [
+        89,
+        61,
+        414,
+        468
+      ],
+      "visible_alpha_gt8_bbox": [
+        89,
+        61,
+        414,
+        468
+      ],
+      "border_max_alpha": 0,
+      "sha256": "f2197fd831c87a6a370f90a4b03b4760c75a55ba79f94c2e2f7226e4e51fe8a9",
+      "prompt_sha256": "c6b8acb9de766fd034b01c05543dc669c0177a65e74110c506dc15eb75b45b92"
+    },
+    {
+      "provider": "imagegen",
+      "character": "rogue",
+      "file": "imagegen/rogue.png",
+      "width": 1218,
+      "height": 1291,
+      "mode": "RGBA",
+      "alpha_bbox": [
+        31,
+        33,
+        1166,
+        1291
+      ],
+      "visible_alpha_gt8_bbox": [
+        188,
+        197,
+        1164,
+        1132
+      ],
+      "border_max_alpha": 1,
+      "sha256": "0a57f327b6fade8c586226d2aacd07809c1562c65e146a7e163a5a9f4f3a73cf",
+      "prompt_sha256": "20125059f7de2f62c7ee5f54e72c6c9216287dfda4aedc58862fe76e4e334c7f"
+    },
+    {
+      "provider": "pixellab",
+      "character": "rogue",
+      "file": "pixellab/rogue.png",
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA",
+      "alpha_bbox": [
+        50,
+        38,
+        462,
+        470
+      ],
+      "visible_alpha_gt8_bbox": [
+        50,
+        38,
+        462,
+        470
+      ],
+      "border_max_alpha": 0,
+      "sha256": "10aec79ac17b42ff6a216f32b3b5eb572d8021985c71ebbd53e601755061e3f6",
+      "prompt_sha256": "20125059f7de2f62c7ee5f54e72c6c9216287dfda4aedc58862fe76e4e334c7f"
+    }
+  ],
+  "references": [
+    {
+      "file": "references/kr-gerald.png",
+      "sha256": "2b54307180cdeef6ed2b7e2569a6c03af650628e74ed8d3b7ee0131955e77f42"
+    },
+    {
+      "file": "references/kr-hero2.png",
+      "sha256": "e12ac65a9b09dfad781ab99b49514c8f061013d44ec1fbdddc8f35a0e7ba9343"
+    },
+    {
+      "file": "references/kr-hero3.png",
+      "sha256": "5ca3055b54e46b63de69de40249b2d1b4e3a83653301a59663ef92243014ed2a"
+    },
+    {
+      "file": "references/user-party.png",
+      "sha256": "32783c10b0036192549b8b7d64bc47e23a481f11b8527dec2fc5914a12eafea8"
+    }
+  ],
+  "limits": [
+    "Static file validation only; not animation/runtime acceptance.",
+    "Visible silhouette clipping check uses alpha>8; original faint alpha fringe is preserved and separately reported.",
+    "Visual comparison and provider consistency require human review."
+  ]
+}

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Четыре героя · Kingdom Rush</title>
+<style>
+:root { --sprite:256px; color-scheme:dark; font-family:Segoe UI,Arial,sans-serif; background:#141b26; color:#e9edf3 }
+body { max-width:1400px; margin:0 auto; padding:28px }
+h1 { font-size:28px; margin:0 0 8px } p { color:#bdc7d6; line-height:1.5; margin:8px 0 }
+a { color:#9ecbff } header { margin-bottom:20px } nav { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:18px 0 }
+button { border:1px solid #465670; border-radius:7px; padding:8px 12px; background:#253145; color:inherit; cursor:pointer }
+button[aria-pressed=true] { background:#426ca1; border-color:#b4d6ff }
+.grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px }
+.card { background:#202c3c; border:1px solid #37445a; border-radius:12px; overflow:hidden }
+.label { padding:12px 16px; display:flex; justify-content:space-between; gap:8px; font-size:15px }
+.label span { font-size:12px; color:#bec9da }
+.frame { height:350px; display:flex; align-items:center; justify-content:center; overflow:auto; background-color:#e0e4e9; background-image:linear-gradient(45deg,#c8ced7 25%,transparent 25%),linear-gradient(-45deg,#c8ced7 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#c8ced7 75%),linear-gradient(-45deg,transparent 75%,#c8ced7 75%); background-size:24px 24px; background-position:0 0,0 12px,12px -12px,-12px 0 }
+.frame img { width:var(--sprite); height:var(--sprite); object-fit:contain; display:block }
+.dark .frame { background:#182333 } .nearest img { image-rendering:pixelated }
+h2 { font-size:20px; margin:28px 0 12px } .refs { display:flex; gap:20px; flex-wrap:wrap; align-items:center; margin-top:16px }
+.refs img { max-height:200px; max-width:100%; object-fit:contain }
+footer { margin-top:28px; font-size:13px; color:#aeb9c8 }
+.capture nav,.capture #references,.capture footer { display:none } .capture .frame { height:280px } .capture h2 { margin-top:18px } .compact .frame { height:160px }
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}} @media(max-width:520px){body{padding:15px}.grid{grid-template-columns:1fr}}
+</style>
+<header>
+<h1>Четыре героя · проба Kingdom Rush</h1>
+<p>Один бриф и одни референсы для двух генераторов. Исходные PNG сохранены без правки пикселей; в игру не подключены.</p>
+<nav aria-label="Параметры просмотра">
+<span>Размер холста:</span><button class="zoom" data-size="128">128 px</button><button class="zoom" data-size="256" aria-pressed="true">256 px</button><button class="zoom" data-size="384">384 px</button>
+<button id="bg" aria-pressed="false">Тёмный фон</button><button id="sampling" aria-pressed="false">Без сглаживания</button>
+<a href="brief.json">Общий бриф</a>
+</nav>
+</header>
+<main id="gallery"></main>
+<section id="references"><h2>Референсы</h2>
+<p>Твоё изображение задаёт героев, снаряжение и ракурс. Геральд и Аллерия с <a href="https://www.kingdomrush.com/kingdom-rush">официального сайта Ironhide</a> задают рисунок контура, крупные формы и тени.</p>
+<div class="refs"><a href="references/user-party.png"><img src="references/user-party.png" alt="Исходный отряд пользователя"></a><a href="references/kr-gerald.png"><img src="references/kr-gerald.png" alt="Sir Gerald Lightseeker, Ironhide"></a><a href="references/kr-hero2.png"><img src="references/kr-hero2.png" alt="Alleria Swiftwind, Ironhide"></a></div>
+</section>
+<footer>26 октября 2026 · intoDeDung · Статические концепты. Выбор модели, анимации и внедрение требуют отдельного решения.</footer>
+<script>
+const heroes=[['warrior','Воин'],['archer','Лучник'],['mage','Маг'],['rogue','Разбойник']];
+const query=new URLSearchParams(location.search);
+if(query.has('capture'))document.body.classList.add('capture');
+if(query.get('size')==='128'){document.body.classList.add('compact');document.documentElement.style.setProperty('--sprite','128px');}
+const gallery=document.getElementById('gallery');
+for(const [provider,title] of [['imagegen','ImageGen · 2D'],['pixellab','PixelLab · тот же бриф']]){
+ const section=document.createElement('section'); section.innerHTML=`<h2>${title}</h2><div class="grid"></div>`;
+ for(const [id,name] of heroes){
+  const card=document.createElement('article');card.className='card';
+  const path=`${provider}/${id}.png`;
+  card.innerHTML=`<div class="label"><b>${name}</b><span>${provider}</span></div><a class="frame" href="${path}" target="_blank"><img src="${path}" alt="${name}, ${title}"></a>`;
+  section.lastChild.append(card);
+ } gallery.append(section);
+}
+for(const button of document.querySelectorAll('.zoom')) button.addEventListener('click',()=>{
+ document.documentElement.style.setProperty('--sprite',button.dataset.size+'px');
+ for(const other of document.querySelectorAll('.zoom'))other.setAttribute('aria-pressed',String(other===button));
+});
+for(const [id,cls] of [['bg','dark'],['sampling','nearest']])document.getElementById(id).addEventListener('click',event=>{
+ const enabled=document.body.classList.toggle(cls);event.currentTarget.setAttribute('aria-pressed',String(enabled));
+});
+</script>
+</html>

@@ -1,0 +1,86 @@
+{
+  "date": "2026-10-26",
+  "integration": false,
+  "outputs": [
+    {
+      "character": "warrior",
+      "provider": "built-in image_gen",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a16f2c-c6fa-7e32-937a-629e6dcb6a23\\exec-010b34e3-79e5-4b91-852a-6855b0058cdc.png",
+      "file": "warrior.png",
+      "prompt": "../prompts/warrior.txt",
+      "referenced_images": [
+        "../references/user-party.png",
+        "../references/kr-gerald.png",
+        "../references/kr-hero2.png"
+      ],
+      "transparent_background": true,
+      "sha256": "518f15e524878dc274364212e84b5871964858bf2ac54accde70ca29fa2e1a6a",
+      "prompt_sha256": "a582e4fd6be05df6a0710bdbd7d4653933b58c16d54ecdf43e3bcda1bc564362",
+      "reference_sha256": {
+        "../references/user-party.png": "32783c10b0036192549b8b7d64bc47e23a481f11b8527dec2fc5914a12eafea8",
+        "../references/kr-gerald.png": "2b54307180cdeef6ed2b7e2569a6c03af650628e74ed8d3b7ee0131955e77f42",
+        "../references/kr-hero2.png": "e12ac65a9b09dfad781ab99b49514c8f061013d44ec1fbdddc8f35a0e7ba9343"
+      }
+    },
+    {
+      "character": "archer",
+      "provider": "built-in image_gen",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a16f2c-c6fa-7e32-937a-629e6dcb6a23\\exec-bd9a04c4-adf4-4ba9-ae15-ff8534127a9d.png",
+      "file": "archer.png",
+      "prompt": "../prompts/archer.txt",
+      "referenced_images": [
+        "../references/user-party.png",
+        "../references/kr-gerald.png",
+        "../references/kr-hero2.png"
+      ],
+      "transparent_background": true,
+      "sha256": "c9868848344f888740d1200ef9b16756274a45deacfb0d78ea95388584c1701a",
+      "prompt_sha256": "9aa06b0f7c1e123ce5aa6fbf962b178eca9fd639db6f6865f4af1f96bbf401a4",
+      "reference_sha256": {
+        "../references/user-party.png": "32783c10b0036192549b8b7d64bc47e23a481f11b8527dec2fc5914a12eafea8",
+        "../references/kr-gerald.png": "2b54307180cdeef6ed2b7e2569a6c03af650628e74ed8d3b7ee0131955e77f42",
+        "../references/kr-hero2.png": "e12ac65a9b09dfad781ab99b49514c8f061013d44ec1fbdddc8f35a0e7ba9343"
+      }
+    },
+    {
+      "character": "mage",
+      "provider": "built-in image_gen",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a16f2c-c6fa-7e32-937a-629e6dcb6a23\\exec-babeca44-831e-4c01-a6be-6d76606a877d.png",
+      "file": "mage.png",
+      "prompt": "../prompts/mage.txt",
+      "referenced_images": [
+        "../references/user-party.png",
+        "../references/kr-gerald.png",
+        "../references/kr-hero2.png"
+      ],
+      "transparent_background": true,
+      "sha256": "31438d4ab180261aceda26c97ead0fe3ff9e757336130e73effb354222122b8c",
+      "prompt_sha256": "c6b8acb9de766fd034b01c05543dc669c0177a65e74110c506dc15eb75b45b92",
+      "reference_sha256": {
+        "../references/user-party.png": "32783c10b0036192549b8b7d64bc47e23a481f11b8527dec2fc5914a12eafea8",
+        "../references/kr-gerald.png": "2b54307180cdeef6ed2b7e2569a6c03af650628e74ed8d3b7ee0131955e77f42",
+        "../references/kr-hero2.png": "e12ac65a9b09dfad781ab99b49514c8f061013d44ec1fbdddc8f35a0e7ba9343"
+      }
+    },
+    {
+      "character": "rogue",
+      "provider": "built-in image_gen",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a16f2c-c6fa-7e32-937a-629e6dcb6a23\\exec-47fec1d3-2295-43d1-a9ed-5b18d10ff3ee.png",
+      "file": "rogue.png",
+      "prompt": "../prompts/rogue.txt",
+      "referenced_images": [
+        "../references/user-party.png",
+        "../references/kr-gerald.png",
+        "../references/kr-hero2.png"
+      ],
+      "transparent_background": true,
+      "sha256": "0a57f327b6fade8c586226d2aacd07809c1562c65e146a7e163a5a9f4f3a73cf",
+      "prompt_sha256": "20125059f7de2f62c7ee5f54e72c6c9216287dfda4aedc58862fe76e4e334c7f",
+      "reference_sha256": {
+        "../references/user-party.png": "32783c10b0036192549b8b7d64bc47e23a481f11b8527dec2fc5914a12eafea8",
+        "../references/kr-gerald.png": "2b54307180cdeef6ed2b7e2569a6c03af650628e74ed8d3b7ee0131955e77f42",
+        "../references/kr-hero2.png": "e12ac65a9b09dfad781ab99b49514c8f061013d44ec1fbdddc8f35a0e7ba9343"
+      }
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "provider": "PixelLab.ai",
+  "endpoint": "POST https://api.pixellab.ai/v2/generate-image-v2",
+  "api_schema": "https://api.pixellab.ai/v2/openapi.json",
+  "schema_checked_utc": "2026-10-26",
+  "request_fields": {
+    "image_size": {
+      "width": 512,
+      "height": 512
+    },
+    "no_background": true,
+    "style_image": "references/kr-gerald.png; dark outline and cel-shading style only",
+    "reference_images": [
+      "references/user-party.png",
+      "references/kr-hero2.png"
+    ],
+    "reference_usage_descriptions": "Exact role descriptions from brief.json reference_roles",
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    },
+    "description": "Exact full prompt text from prompts/<character>.txt; request bodies without secrets are stored outside Git under test_reports/kingdom-rush-characters-20261026/pixellab/jobs/"
+  },
+  "shared_prompt_sha256": "f217ec74b6117472a800e4adefe8663556618a313e04179844feda6db2a2b1f9",
+  "reference_images": {
+    "references/user-party.png": {
+      "sha256": "32783c10b0036192549b8b7d64bc47e23a481f11b8527dec2fc5914a12eafea8"
+    },
+    "references/kr-gerald.png": {
+      "sha256": "2b54307180cdeef6ed2b7e2569a6c03af650628e74ed8d3b7ee0131955e77f42"
+    },
+    "references/kr-hero2.png": {
+      "sha256": "e12ac65a9b09dfad781ab99b49514c8f061013d44ec1fbdddc8f35a0e7ba9343"
+    }
+  },
+  "jobs": {
+    "warrior": {
+      "prompt_path": "prompts/warrior.txt",
+      "prompt_sha256": "a582e4fd6be05df6a0710bdbd7d4653933b58c16d54ecdf43e3bcda1bc564362",
+      "job_id": "46f17353-79c7-4118-9145-501572eb67b8",
+      "submission_started_utc": "2026-10-25T22:02:20.4835944Z",
+      "job_created_at": "2026-10-25T22:02:22.232986+00:00",
+      "generation_started_at": "2026-10-25T22:02:28.612334+00:00",
+      "status": "completed",
+      "progress": 0.85,
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 25
+      },
+      "output_path": "pixellab/warrior.png",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "output_sha256": "aa2bc6475ef914014d7404e4d93d9155df759749f31a22b44ffc94488bc03bb0"
+    },
+    "archer": {
+      "prompt_path": "prompts/archer.txt",
+      "prompt_sha256": "9aa06b0f7c1e123ce5aa6fbf962b178eca9fd639db6f6865f4af1f96bbf401a4",
+      "job_id": "74b51ded-7794-4b87-b95e-72e27b35a3a8",
+      "submission_started_utc": "2026-10-25T22:02:27.0541109Z",
+      "job_created_at": "2026-10-25T22:02:28.534510+00:00",
+      "generation_started_at": "2026-10-25T22:02:34.757769+00:00",
+      "status": "completed",
+      "progress": 0.85,
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 25
+      },
+      "output_path": "pixellab/archer.png",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "output_sha256": "5085ed6d7ca6e7853ba6f839cfb5ef05cf80bb26d34bef33540edc3b96cc6cee"
+    },
+    "mage": {
+      "prompt_path": "prompts/mage.txt",
+      "prompt_sha256": "c6b8acb9de766fd034b01c05543dc669c0177a65e74110c506dc15eb75b45b92",
+      "job_id": "80c08f1c-74ef-4982-8d86-3a9beffb8562",
+      "submission_started_utc": "2026-10-25T22:02:29.8178873Z",
+      "job_created_at": "2026-10-25T22:02:31.305408+00:00",
+      "generation_started_at": "2026-10-25T22:02:37.854349+00:00",
+      "status": "completed",
+      "progress": 0.85,
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 25
+      },
+      "output_path": "pixellab/mage.png",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "output_sha256": "f2197fd831c87a6a370f90a4b03b4760c75a55ba79f94c2e2f7226e4e51fe8a9"
+    },
+    "rogue": {
+      "prompt_path": "prompts/rogue.txt",
+      "prompt_sha256": "20125059f7de2f62c7ee5f54e72c6c9216287dfda4aedc58862fe76e4e334c7f",
+      "job_id": "3a9c4f6a-70cd-4a6a-8c8c-d257da6312ce",
+      "submission_started_utc": "2026-10-25T22:02:32.6068914Z",
+      "job_created_at": "2026-10-25T22:02:34.153865+00:00",
+      "generation_started_at": "2026-10-25T22:02:40.39736+00:00",
+      "status": "completed",
+      "progress": 0.85,
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 25
+      },
+      "output_path": "pixellab/rogue.png",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "output_sha256": "10aec79ac17b42ff6a216f32b3b5eb572d8021985c71ebbd53e601755061e3f6"
+    }
+  }
+}

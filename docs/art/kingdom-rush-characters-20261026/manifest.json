@@ -1,0 +1,135 @@
+{
+  "integration": false,
+  "files": [
+    {
+      "path": "brief.json",
+      "sha256": "b688252ff8d14d795f9dcfdb76a2778c3057224b431585252cd6bbc3fb23b950",
+      "bytes": 3499
+    },
+    {
+      "path": "comparison-128.png",
+      "sha256": "7c60bf545c3ba3227c92f03c1460281bede91368c53a4151c74492e80d5e4c73",
+      "bytes": 153314
+    },
+    {
+      "path": "comparison-256.png",
+      "sha256": "12f179e7994c2cd90b8cdf3464a51ec01f2439918910675d60fcd39553584ae9",
+      "bytes": 340468
+    },
+    {
+      "path": "gallery.html",
+      "sha256": "9a10d56c085d166e05e62049a7b4f5aa8eaca7649283f04fa91be7be1520dcc3",
+      "bytes": 5629
+    },
+    {
+      "path": "imagegen/archer.png",
+      "sha256": "c9868848344f888740d1200ef9b16756274a45deacfb0d78ea95388584c1701a",
+      "bytes": 875157
+    },
+    {
+      "path": "imagegen/mage.png",
+      "sha256": "31438d4ab180261aceda26c97ead0fe3ff9e757336130e73effb354222122b8c",
+      "bytes": 992484
+    },
+    {
+      "path": "imagegen/provenance.json",
+      "sha256": "dad5008a41a470cbdee0dbd312bec71bb0fd7b07d4ec55587f7ebaea153fcb81",
+      "bytes": 4168
+    },
+    {
+      "path": "imagegen/rogue.png",
+      "sha256": "0a57f327b6fade8c586226d2aacd07809c1562c65e146a7e163a5a9f4f3a73cf",
+      "bytes": 745344
+    },
+    {
+      "path": "imagegen/warrior.png",
+      "sha256": "518f15e524878dc274364212e84b5871964858bf2ac54accde70ca29fa2e1a6a",
+      "bytes": 984083
+    },
+    {
+      "path": "pixellab/archer.png",
+      "sha256": "5085ed6d7ca6e7853ba6f839cfb5ef05cf80bb26d34bef33540edc3b96cc6cee",
+      "bytes": 18380
+    },
+    {
+      "path": "pixellab/mage.png",
+      "sha256": "f2197fd831c87a6a370f90a4b03b4760c75a55ba79f94c2e2f7226e4e51fe8a9",
+      "bytes": 49208
+    },
+    {
+      "path": "pixellab/provenance.json",
+      "sha256": "fc8ea690965c74594c6b1691cc31004f3fffa6620ec32d6c0aa4fe23973b6dd1",
+      "bytes": 4533
+    },
+    {
+      "path": "pixellab/rogue.png",
+      "sha256": "10aec79ac17b42ff6a216f32b3b5eb572d8021985c71ebbd53e601755061e3f6",
+      "bytes": 21390
+    },
+    {
+      "path": "pixellab/warrior.png",
+      "sha256": "aa2bc6475ef914014d7404e4d93d9155df759749f31a22b44ffc94488bc03bb0",
+      "bytes": 24703
+    },
+    {
+      "path": "prompts/archer.txt",
+      "sha256": "9aa06b0f7c1e123ce5aa6fbf962b178eca9fd639db6f6865f4af1f96bbf401a4",
+      "bytes": 1467
+    },
+    {
+      "path": "prompts/mage.txt",
+      "sha256": "c6b8acb9de766fd034b01c05543dc669c0177a65e74110c506dc15eb75b45b92",
+      "bytes": 1492
+    },
+    {
+      "path": "prompts/rogue.txt",
+      "sha256": "20125059f7de2f62c7ee5f54e72c6c9216287dfda4aedc58862fe76e4e334c7f",
+      "bytes": 1476
+    },
+    {
+      "path": "prompts/warrior.txt",
+      "sha256": "a582e4fd6be05df6a0710bdbd7d4653933b58c16d54ecdf43e3bcda1bc564362",
+      "bytes": 1511
+    },
+    {
+      "path": "README.md",
+      "sha256": "e13205e432f45f70d5f426fcf5c60dbcfa85ec0f4df7d9936f958e3b64b6f124",
+      "bytes": 7176
+    },
+    {
+      "path": "references/kr-gerald.png",
+      "sha256": "2b54307180cdeef6ed2b7e2569a6c03af650628e74ed8d3b7ee0131955e77f42",
+      "bytes": 71071
+    },
+    {
+      "path": "references/kr-hero2.png",
+      "sha256": "e12ac65a9b09dfad781ab99b49514c8f061013d44ec1fbdddc8f35a0e7ba9343",
+      "bytes": 74120
+    },
+    {
+      "path": "references/kr-hero3.png",
+      "sha256": "5ca3055b54e46b63de69de40249b2d1b4e3a83653301a59663ef92243014ed2a",
+      "bytes": 77407
+    },
+    {
+      "path": "references/sources.json",
+      "sha256": "04855e05811fb09c45178a9a47bc750b17fdab0bee78c559edef4b83f74e7110",
+      "bytes": 971
+    },
+    {
+      "path": "references/user-party.png",
+      "sha256": "32783c10b0036192549b8b7d64bc47e23a481f11b8527dec2fc5914a12eafea8",
+      "bytes": 2073143
+    },
+    {
+      "path": "validate.py",
+      "sha256": "5481d351ab78bda969793d0eef25669695068d1f5265a827fbfa7a9c0482d48c",
+      "bytes": 3116
+    },
+    {
+      "path": "validation.json",
+      "sha256": "ca92fa22ae130d98923ae8307aec6762b3054eee08123864f425f54a80c6b945",
+      "bytes": 5362
+    }
+  ]
+}

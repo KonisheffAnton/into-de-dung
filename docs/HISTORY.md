@@ -1,5 +1,18 @@
 # История и свидетельства проверок
 
+## Четыре героя Kingdom Rush: ImageGen и PixelLab — 2026-10-26
+
+По U найдены официальные 2D-референсы, исходный отряд U переработан в четыре
+класса обоими генераторами. [8 PNG, бриф, референсы, сравнение и проверки](art/kingdom-rush-characters-20261026/README.md).
+Тексты/байты входов совпали; 4 PixelLab jobs completed, всего100 генераций/USD0.
+PNG/alpha/поля и браузерная галерея 8/8 PASS, снимки128/256; reviewer APPROVE.
+ImageGen ближе к гладкому 2D; PixelLab дал пиксельную интерпретацию.
+Это концепты, integration=false; runtime/warrior_format_v1 не менялись.
+Godot/F5, анимации и художественная приёмка отдельно. Raw API/ревью/closeout:
+test_reports/kingdom-rush-characters-20261026/.
+Base 1a9bb842ffc1aa89da041e26ed9c64be0ef12771; main, локально, без push.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261026.md).
+
 ## Одиночный упор без урона оружия — 2026-10-25
 
 По U из одиночного удара о стену/высокий уступ исключён WEAPON_DAMAGE.

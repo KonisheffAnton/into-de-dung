@@ -1,0 +1,31 @@
+{
+  "integration": false,
+  "reference_roles": {
+    "references/user-party.png": "User-provided character identity, equipment, palette, compact proportions and elevated three-quarter viewing angle. Extract only the requested human hero, no battlefield or monsters.",
+    "references/kr-gerald.png": "Official Kingdom Rush reference: confident dark outlines, bold simplified armor planes and clean two-tone cartoon shading. Style only, not costume or identity.",
+    "references/kr-hero2.png": "Official Alleria Swiftwind reference: compact cartoon anatomy, clear face, clean cloth shapes and limited shading. Style only. Do not reproduce the nameplate, circular badge or backdrop."
+  },
+  "common_prompt": "Use case: style-transfer. Asset type: one full-body 2D tactical-game character on genuine transparent background. Reinterpret the specified hero from user-party.png in the clean hand-drawn cartoon style of Kingdom Rush. Use kr-gerald.png and kr-hero2.png as visual style references only: bold dark brown outlines, expressive oversized head, sturdy hands and boots, broad color areas, two or three flat cel-shaded values per material, crisp smooth edges. Retain the user's hero identity, clothing colors, equipment and compact approximately three-heads-tall proportions. Elevated front three-quarter camera, facing screen-right with face visible, both feet visible; relaxed ready-to-fight idle stance. One centered character, whole figure and all equipment fully inside frame, about 80% canvas height with generous clear margin. Same camera, scale and line weight across the four-character set. No text, labels, logos, badges, circles, borders, ground, tile, platform, cast shadow, scenery or other figures. No pixel blocks, dithering, grain, photorealism or 3D-rendered material. Keep silhouette readable when shown at 128 pixels tall. Deliver one isolated transparent PNG.",
+  "characters": [
+    {
+      "id": "warrior",
+      "title_ru": "Воин",
+      "prompt": "Subject: the brown-haired bearded human warrior at the lower-left of user-party.png. Steel shoulder plates and gauntlets, dark leather underlayers, off-white tabard, burgundy scarf, brown boots; broad silver straight sword held low on viewer-left and compact steel forearm shield on viewer-right. Brave determined expression. No helmet."
+    },
+    {
+      "id": "archer",
+      "title_ru": "Лучник",
+      "prompt": "Subject: the green-hooded human archer at the middle-left of user-party.png. Forest-green hood and short cloak, brown leather vest, belt and boots, quiver with white-feathered arrows above shoulder, simple curved wooden bow held low on viewer-right. Face visible under hood, alert expression."
+    },
+    {
+      "id": "mage",
+      "title_ru": "Маг",
+      "prompt": "Subject: the elderly silver-haired human mage at the middle-right of user-party.png. Deep blue hoodless robe and cape, pale blue tabard with restrained gold trim, brown belt and boots; upright wooden staff on viewer-left crowned by one bright blue orb in a small gold setting. Visible lined face and short pale beard."
+    },
+    {
+      "id": "rogue",
+      "title_ru": "Разбойник",
+      "prompt": "Subject: the black-hooded human rogue at the lower-right of user-party.png. Charcoal hood and dark leather outfit, deep burgundy scarf and short trailing cloth, brown belt and boots, two silver daggers held low to the sides. Visible face under the hood, nimble compact stance and confident expression."
+    }
+  ]
+}
