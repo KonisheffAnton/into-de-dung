@@ -226,6 +226,12 @@ reset/exit убивают Tween и отбрасывают старые данн�
 накладки огня/льда — отдельные сцены с нулевым относительным Z; ArtRoot рисуется
 перед родительским HUD. Это заглушки, не финальный формат image set.
 
+Во время атаки общий visual отражает только рисунок к экранной стороне цели;
+после клипа возвращает authored transform. Board восстанавливает позу из detached
+pending strike при resize/публикации; core-facing, RNG/save/preview не меняются.
+Направление исходника — настройка арт-сцены, не фракции. API и lifecycle —
+[разворот к цели](BATTLE_VISUAL_SCENE_CONTRACT.md#разворот-живого-бойца-к-цели-атаки--2026-10-26).
+
 `BattleDemoBoard.unit_visual_scene` и `tile_visual_scene` экспортированы для
 сохранения подмены в Inspector. Отдельная `art_trial_battle.tscn` наследует штатный
 бой без подмены скриптов контроллера/сессии: exact-script guards worker сохраняются.

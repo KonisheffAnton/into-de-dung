@@ -1,6 +1,7 @@
 extends SceneTree
 
 const UNIT_SCENE: PackedScene = preload("res://scenes/demo/visuals/placeholder_unit.tscn")
+const FACING_UNIT_SCENE: PackedScene = preload("res://scenes/demo/visuals/art_trial_unit.tscn")
 
 var passed: int = 0
 var failed: int = 0
@@ -59,6 +60,11 @@ func _run() -> void:
 	var ground_shadow := visual.get_node_or_null("GroundShadow") as Node2D
 	var highlights := visual.get_node_or_null("UnitHighlights") as Node2D
 	var art_root := visual.get_node_or_null("ArtRoot") as Node2D
+	var body_sprite := visual.get_node_or_null("ArtRoot/PlayerWarriorSprite") as Sprite2D
+	var effect_anchor := visual.get_node_or_null("ArtRoot/EffectAnchor") as Marker2D
+	var effect_root := visual.get_node_or_null("ArtRoot/EffectRoot") as Node2D
+	var status_hud := visual.get_node_or_null("StatusHud") as Node2D
+	var authored_body_transform := body_sprite.transform if body_sprite != null else Transform2D.IDENTITY
 	var shadow_id := ground_shadow.get_instance_id() if ground_shadow != null else 0
 	check(ground_shadow != null and highlights != null and art_root != null
 		and ground_shadow.get_index() == 0 and ground_shadow.get_index() < highlights.get_index()
@@ -157,12 +163,80 @@ func _run() -> void:
 		"body action offset, compression and death rotation do not transform the ground shadow")
 	visual.transient_label = "временная подпись"
 	visual.modulate = Color.RED
+	visual.action_offset = Vector2.ZERO
+	var authored_art_transform := art_root.transform if art_root != null else Transform2D.IDENTITY
+	var authored_anchor_position := effect_anchor.position if effect_anchor != null else Vector2.ZERO
+	var authored_effect_transform := effect_root.transform if effect_root != null else Transform2D.IDENTITY
+	var authored_hud_position := status_hud.position if status_hud != null else Vector2.ZERO
+	var authored_flip_h := body_sprite.flip_h if body_sprite != null else false
+	if body_sprite != null:
+		body_sprite.scale.x = -absf(body_sprite.scale.x)
+		body_sprite.flip_h = not authored_flip_h
+		check(visual.get_authored_facing_x() == -1,
+			"sprite metadata combines authored negative local scale and flip_h")
+		body_sprite.transform = authored_body_transform
+		body_sprite.flip_h = authored_flip_h
+		visual.sync_scene_art()
+	var custom_branch := Node2D.new()
+	custom_branch.name = "CustomBodyBranch"
+	custom_branch.position = Vector2(13.0, 4.0)
+	art_root.add_child(custom_branch)
+	var animated_child := AnimatedSprite2D.new()
+	animated_child.name = "AnimatedChild"
+	animated_child.position = Vector2(2.0, -3.0)
+	custom_branch.add_child(animated_child)
+	var authored_custom_transform := custom_branch.transform
+	var authored_animated_transform := animated_child.transform
+	var authored_direction := visual.get_authored_facing_x()
+	visual.presentation_facing_x = -1
+	var left_transform := body_sprite.transform if body_sprite != null else Transform2D.IDENTITY
+	check(authored_direction == -1 and visual.get_attack_mirror_x() == 1.0
+		and body_sprite != null and left_transform == authored_body_transform,
+		"attack facing to authored left keeps the source silhouette orientation")
+	visual.presentation_facing_x = 1
+	var right_transform := body_sprite.transform if body_sprite != null else Transform2D.IDENTITY
+	var mirrored_custom_transform := custom_branch.transform
+	check(visual.get_attack_mirror_x() == -1.0 and body_sprite != null
+		and is_equal_approx(right_transform.determinant(), -authored_body_transform.determinant())
+		and is_equal_approx(mirrored_custom_transform.origin.x, -authored_custom_transform.origin.x)
+		and animated_child.transform == authored_animated_transform,
+		"attack facing mirrors arbitrary drawing branches and animated descendants around support")
+	var fallback_pose := visual.body_pose_transform(1.0)
+	visual.action_offset = Vector2(7.0, -2.0)
+	var offset_pose := visual.body_pose_transform(1.0)
+	visual.presentation_facing_x = 1
+	check(visual.body_drawing_transform(1.0).origin == offset_pose.origin
+		and offset_pose.origin == fallback_pose.origin + Vector2(7.0, -2.0),
+		"procedural fallback mirroring preserves the pose origin and action offset")
+	visual.presentation_facing_x = 1
+	visual.action_offset = Vector2.ZERO
+	visual.sync_scene_art()
+	check(body_sprite != null and body_sprite.transform == right_transform,
+		"repeated art synchronization does not accumulate the temporary body mirror")
+	visual.presentation_facing_x = 0
+	check(body_sprite != null and body_sprite.transform == authored_body_transform
+		and art_root != null and art_root.transform == authored_art_transform
+		and effect_anchor != null and effect_anchor.position == authored_anchor_position
+		and effect_root != null and effect_root.transform == authored_effect_transform
+		and status_hud != null and status_hud.position == authored_hud_position
+		and custom_branch.transform == authored_custom_transform,
+		"clearing attack facing restores drawing, ArtRoot, marker, HUD, effects, and custom branch")
+	custom_branch.queue_free()
+	visual.presentation_facing_x = 1
+	visual.unit.alive = false
+	visual.sync_scene_art()
+	check(visual.presentation_facing_x == 1 and body_sprite != null
+		and body_sprite.transform == authored_body_transform,
+		"dead units ignore attack mirroring and restore authored transforms")
+	visual.unit.alive = true
+	visual.presentation_facing_x = 0
 	visual.reset_view_pose()
 	check(visual.action_offset == Vector2.ZERO and visual.presentation_lift == 0.0
 		and visual.presentation_offset == Vector2.ZERO and visual.fall_drop == 0.0
 		and visual.landing_compression == 0.0 and visual.death_progress == 0.0
+		and visual.presentation_facing_x == 0
 		and visual.transient_label.is_empty() and visual.modulate == authored_modulate,
-		"pose reset clears scene-owned animation and restores authored modulation")
+		"pose reset clears scene-owned animation and attack facing, restoring authored modulation")
 	check(ground_shadow != null and ground_shadow.get_instance_id() == shadow_id
 		and ground_shadow.visible and ground_shadow.position == visual.get_visual_offset(),
 		"pose reset preserves and resynchronizes the same ground shadow")
@@ -199,6 +273,7 @@ func _run() -> void:
 	visual.retire_view()
 	check(visual.unit == null and visual.forecast_entry.is_empty() and visual.status_entries.is_empty()
 		and not visual._view_initialized and is_instance_valid(visual) and visual.get_parent() == viewport
+		and visual.presentation_facing_x == 0
 		and ground_shadow != null and not ground_shadow.visible and ground_shadow.get_instance_id() == shadow_id,
 		"retirement clears detached values without freeing the visual")
 	check(visual.apply_view(pristine_values, config) and ground_shadow != null
@@ -208,6 +283,73 @@ func _run() -> void:
 	visual.unit = null
 	visual.sync_scene_art()
 	check(ground_shadow != null and not ground_shadow.visible, "missing unit data hides the ground shadow")
+	var animated_visual := BattleManagedUnitVisual.new()
+	animated_visual.role = BattleDemoIsoVisual.Role.UNIT
+	animated_visual.visual_class_id = &"warrior"
+	var animated_art := Node2D.new()
+	animated_art.name = "ArtRoot"
+	animated_visual.add_child(animated_art)
+	var animated_body := AnimatedSprite2D.new()
+	animated_body.name = "BodySprite"
+	animated_body.animation = &"default"
+	animated_body.set_meta(&"source_facing_x", -1)
+	animated_body.scale.x = -1.0
+	animated_body.flip_h = true
+	var animated_frames := SpriteFrames.new()
+	if not animated_frames.has_animation(&"default"):
+		animated_frames.add_animation(&"default")
+	if body_sprite != null and body_sprite.texture != null:
+		animated_frames.add_frame(&"default", body_sprite.texture)
+	animated_body.sprite_frames = animated_frames
+	animated_art.add_child(animated_body)
+	animated_visual.unit = BattleUnitView.new()
+	animated_visual.unit.faction = Faction.Type.PLAYER
+	animated_visual.unit.alive = true
+	viewport.add_child(animated_visual)
+	await process_frame
+	animated_visual.presentation_facing_x = -1
+	check(animated_visual.get_authored_facing_x() == -1
+		and animated_visual.get_attack_mirror_x() == 1.0,
+		"AnimatedSprite2D fallback honors metadata, negative scale, and flip_h")
+	animated_visual.presentation_facing_x = 1
+	check(animated_visual.get_attack_mirror_x() == -1.0,
+		"AnimatedSprite2D fallback mirrors toward the opposite screen direction")
+	animated_visual.presentation_facing_x = 0
+	animated_visual.retire_view()
+	var facing_visual := FACING_UNIT_SCENE.instantiate() as BattleDefenderIdleVisual
+	facing_visual.role = BattleDemoIsoVisual.Role.UNIT
+	facing_visual.ambient_animation_paused = true
+	viewport.add_child(facing_visual)
+	await process_frame
+	for class_id: StringName in [&"warrior", &"rogue", &"archer"]:
+		var facing_values: Dictionary = _values()
+		facing_values.unit.faction = int(Faction.Type.ENEMY)
+		facing_values.visual_class_id = class_id
+		facing_visual.apply_view(facing_values, config)
+		facing_visual.ambient_animation_paused = true
+		facing_visual.sync_scene_art()
+		var branches: Array[Node2D] = facing_visual._body_branches()
+		var component_snapshots: Array[Dictionary] = []
+		for branch: Node2D in branches:
+			component_snapshots.append({"node": branch, "transform": branch.transform,
+				"position": branch.position, "rotation": branch.rotation,
+				"scale": branch.scale, "skew": branch.skew})
+		facing_visual.presentation_facing_x = 1
+		facing_visual.sync_scene_art()
+		facing_visual.sync_scene_art()
+		facing_visual.reset_view_pose()
+		facing_visual.sync_scene_art()
+		var restored := true
+		for snapshot: Dictionary in component_snapshots:
+			var branch := snapshot["node"] as Node2D
+			restored = restored and branch.transform == snapshot["transform"] \
+				and branch.position == snapshot["position"] and branch.rotation == snapshot["rotation"] \
+				and branch.scale == snapshot["scale"] and branch.skew == snapshot["skew"]
+		check(restored and facing_visual.presentation_facing_x == 0,
+			"%s enemy layers restore authored Node2D components after repeated mirror and reset" % class_id)
+		facing_visual.ambient_animation_paused = false
+		facing_visual.sync_scene_art()
+	facing_visual.retire_view()
 	viewport.queue_free()
 	await process_frame
 	print("UNIT VISUAL CONTRACT RESULTS: %d passed, %d failed" % [passed, failed])

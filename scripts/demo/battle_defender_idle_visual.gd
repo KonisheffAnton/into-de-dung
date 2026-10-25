@@ -52,8 +52,8 @@ func _ready() -> void:
 	sync_scene_art()
 
 
-func sync_scene_art() -> void:
-	super.sync_scene_art()
+func _sync_scene_art_layers() -> void:
+	super._sync_scene_art_layers()
 	var idle_path := "ArtRoot/DefenderIdleSprite"
 	if _uses_enemy_warrior_art(): idle_path = "ArtRoot/EnemyWarriorIdleSprite"
 	elif visual_class_id == &"rogue": idle_path = "ArtRoot/RogueIdleSprite"

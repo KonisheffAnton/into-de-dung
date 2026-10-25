@@ -204,11 +204,16 @@ func reactions(kind: String, condition: String = "normal") -> void:
 				check(player._tween == tween and cue.progress == progress and is_instance_valid(cue), "resize and camera preserve cue and clock")
 				check(cue.source_point == board._reaction_anchor(reactor.id), "resize follows shown anchor")
 				check(board._presentation_visual(reactor.id).reaction_view.charge == 1, "charge is not revealed before attack after")
+				if kind in ["opportunist", "counterattack"]:
+					check(board._presentation_visual(reactor.id).presentation_facing_x == -1,
+						"reaction attacker faces its screen-left target during cue and resize")
 				await capture(kind + "-" + condition + "-cue")
 	check(seen == should_react, kind + " no invented reaction " + condition)
 	finish()
 	frame_order(data)
 	check(board._reaction_cues.is_empty(), "natural end removes cues")
+	for visual: BattleDemoIsoVisual in board._entity_visuals:
+		check(visual.presentation_facing_x == 0, "reaction completion restores authored directions")
 	check(snapshot(s) == committed, "playback never mutates committed runtime")
 	if condition == "covered":
 		check(s.units[2].action_resources.get_bonus_left() == 0 and reactor.action_resources.get_bonus_left() == 0, "reaction and cover consume their distinct shared charges")

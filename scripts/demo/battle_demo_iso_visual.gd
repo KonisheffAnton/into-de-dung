@@ -6,6 +6,17 @@ var role: Role = Role.FLOOR
 var half_steps: int = 0
 var unit: BattleUnitView
 var visual_class_id: StringName = &""
+## Направление текстуры задаёт автор сцены: фракция не описывает рисунок.
+@export_enum("Left:-1", "Right:1") var source_facing_x: int = 1
+## Временная сторона атаки не попадает в UnitState и не меняет механическую спину.
+var presentation_facing_x: int = 0:
+	set(value):
+		presentation_facing_x = clampi(value, -1, 1)
+		sync_scene_art()
+		queue_redraw()
+var _body_authored_transforms: Dictionary = {}
+var _body_authored_components: Dictionary = {}
+var _scene_sync_depth: int = 0
 var is_void: bool = false
 var selected: bool = false
 var reachable: bool = false
@@ -257,6 +268,17 @@ func body_pose_transform(factor: float) -> Transform2D:
 	return base
 
 func sync_scene_art() -> void:
+	# Вложенный sync возможен у смены idle/death; отражение накладывается один раз после всех слоёв.
+	var outermost := _scene_sync_depth == 0
+	if outermost:
+		_restore_body_branch_transforms()
+	_scene_sync_depth += 1
+	_sync_scene_art_layers()
+	_scene_sync_depth -= 1
+	if outermost:
+		_apply_attack_facing()
+
+func _sync_scene_art_layers() -> void:
 	_sync_status_hud()
 	if _unit_highlights != null: _unit_highlights.queue_redraw()
 	_sync_ground_shadow()
@@ -333,6 +355,95 @@ func sync_scene_art() -> void:
 	if stun_mark != null: stun_mark.visible = role == Role.UNIT and stunned and (unit == null or unit.alive)
 	if entangle_mark != null: entangle_mark.visible = role == Role.UNIT and entangled and (unit == null or unit.alive)
 	# Якоря наследуют ArtRoot; их локальные позиции задаёт заменяемая сцена.
+
+func _body_branches() -> Array[Node2D]:
+	var result: Array[Node2D] = []
+	var art := get_node_or_null("ArtRoot") as Node2D
+	if art == null: return result
+	for child: Node in art.get_children():
+		if child is not Node2D or child is Marker2D: continue
+		if child.name in [&"SurfaceSprite", &"GroundBase", &"GroundSurface", &"SideLeft", &"SideRight", &"EffectRoot"]: continue
+		result.append(child as Node2D)
+	return result
+
+func _restore_body_branch_transforms() -> void:
+	for node: Variant in _body_authored_transforms.keys():
+		if is_instance_valid(node):
+			var branch := node as Node2D
+			var components: Dictionary = _body_authored_components.get(node, {}) as Dictionary
+			# Присваивание отражённой матрицы меняет разложение scale/rotation; возвращаем авторские компоненты до idle-sync.
+			branch.position = components.get("position", branch.position) as Vector2
+			branch.rotation = float(components.get("rotation", branch.rotation))
+			branch.scale = components.get("scale", branch.scale) as Vector2
+			branch.skew = float(components.get("skew", branch.skew))
+	_body_authored_transforms.clear()
+	_body_authored_components.clear()
+
+func _apply_attack_facing() -> void:
+	if role != Role.UNIT or unit == null or not unit.alive or presentation_facing_x == 0: return
+	var mirror := get_attack_mirror_x()
+	if mirror > 0.0: return
+	for branch: Node2D in _body_branches():
+		_body_authored_transforms[branch] = branch.transform
+		_body_authored_components[branch] = {
+			"position": branch.position,
+			"rotation": branch.rotation,
+			"scale": branch.scale,
+			"skew": branch.skew,
+		}
+		var reflected := Transform2D(Vector2(mirror, 0.0), Vector2(0.0, 1.0), Vector2.ZERO) * branch.transform
+		branch.transform = reflected
+
+func _selected_body_node() -> Node2D:
+	var sprite := class_still_sprite()
+	if sprite != null and sprite.texture != null: return sprite
+	var presets := _enemy_preset_sprites()
+	var ready := presets.size() == 3
+	for preset: Sprite2D in presets:
+		ready = ready and preset.texture != null
+	if role == Role.UNIT and unit != null and unit.faction == Faction.Type.ENEMY and ready:
+		return presets[posmod(unit.id, presets.size())]
+	var fallback := get_node_or_null("ArtRoot/BodySprite") as Node2D
+	if fallback is Sprite2D and (fallback as Sprite2D).texture != null: return fallback
+	if fallback is AnimatedSprite2D:
+		var animated := fallback as AnimatedSprite2D
+		var frames := animated.sprite_frames
+		if frames != null and frames.has_animation(animated.animation) \
+			and frames.get_frame_count(animated.animation) > animated.frame \
+			and frames.get_frame_texture(animated.animation, animated.frame) != null:
+			return animated
+	return null
+
+func get_authored_facing_x() -> int:
+	var authored := -1 if source_facing_x < 0 else 1
+	var sprite := _selected_body_node()
+	if sprite == null: return authored
+	var sprite_direction := int(sprite.get_meta(&"source_facing_x", authored))
+	if sprite_direction == 0: sprite_direction = authored
+	var relative_sign := 1.0
+	var node: Node = sprite
+	while node != null and node != get_node_or_null("ArtRoot"):
+		if node is Node2D:
+			var authored_transform: Transform2D = _body_authored_transforms.get(node, (node as Node2D).transform)
+			var x_sign := signf(authored_transform.x.x)
+			if is_zero_approx(x_sign): x_sign = signf(authored_transform.determinant())
+			relative_sign *= x_sign
+		node = node.get_parent()
+	if sprite is Sprite2D and (sprite as Sprite2D).flip_h: relative_sign *= -1.0
+	if sprite is AnimatedSprite2D and (sprite as AnimatedSprite2D).flip_h: relative_sign *= -1.0
+	return -1 if float(sprite_direction) * relative_sign < 0.0 else 1
+
+func get_attack_mirror_x() -> float:
+	if role != Role.UNIT or unit == null or not unit.alive or presentation_facing_x == 0: return 1.0
+	return float(presentation_facing_x * get_authored_facing_x())
+
+func body_drawing_transform(factor: float) -> Transform2D:
+	var pose := body_pose_transform(factor)
+	if role == Role.UNIT and unit != null and unit.alive and presentation_facing_x != 0:
+		var mirror := get_attack_mirror_x()
+		# Локальное отражение не сдвигает origin выпадов и экранную опору тела.
+		pose = pose * Transform2D(Vector2(mirror, 0.0), Vector2(0.0, 1.0), Vector2.ZERO)
+	return pose
 
 func _enemy_preset_sprites() -> Array[Sprite2D]:
 	var result: Array[Sprite2D] = []
@@ -614,7 +725,7 @@ func _draw_unit() -> void:
 	# Высота силуэта отделена от его наземной опоры для общей Y-сортировки.
 	draw_set_transform(foot, 0, Vector2.ONE * factor)
 	if not _scene_art_enabled:
-		draw_set_transform_matrix(body_pose_transform(factor))
+		draw_set_transform_matrix(body_drawing_transform(factor))
 		# Отдельный круглый GroundShadow заменяет старый ромб и исключает двойную тень.
 		draw_rect(Rect2(-10, -10, 7, 12), tint.darkened(0.5))
 		draw_rect(Rect2(3, -10, 7, 12), tint.darkened(0.5))

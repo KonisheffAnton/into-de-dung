@@ -241,7 +241,9 @@ func clear_strike_poses() -> void:
 	_early_result_frames.clear()
 	_action_offsets.clear()
 	_clear_slide_poses()
-	for visual: BattleDemoIsoVisual in _entity_visuals: visual.action_offset = Vector2.ZERO
+	for visual: BattleDemoIsoVisual in _entity_visuals:
+		visual.presentation_facing_x = 0
+		visual.action_offset = Vector2.ZERO
 
 func _clear_slide_poses() -> void:
 	_slide_poses.clear()
@@ -263,6 +265,19 @@ func _strike_direction(event: Dictionary) -> Vector2:
 	var from: Vector2i = event.actor_cell
 	var to: Vector2i = event.target_cell
 	return IsoGridUtils.grid_direction_to_screen(to - from, grid_config.tile_size)
+
+func _face_strike_target(event: Dictionary) -> void:
+	var visual := _presentation_visual(int(event.actor_unit_id))
+	if visual == null or visual.unit == null or not visual.unit.alive: return
+	# Изометрические оси клетки не совпадают с экранным лево/право. Вертикальная
+	# цель сохраняет авторский разворот; к механической «спине» эта поза не относится.
+	var horizontal := _strike_direction(event).x
+	visual.presentation_facing_x = 0 if is_zero_approx(horizontal) else (1 if horizontal > 0.0 else -1)
+
+func _restore_attack_facings() -> void:
+	# Кадры замаха/контакта и resize пересобирают вид, но ещё не заканчивают атаку.
+	for strike: Dictionary in _pending_strikes.values():
+		_face_strike_target(strike)
 
 func _set_action_offset(id: int, offset: Vector2) -> void:
 	_action_offsets[id] = offset
@@ -843,6 +858,7 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			start["presentation_pounce"] = not bool(start.presentation_ranged) and _view_actor_classes.get(int(event.actor_unit_id), &"") == &"rogue"
 			start["presentation_cues"] = reaction_cues.duplicate(true)
 			_pending_strikes[_strike_key(event)] = start
+			_face_strike_target(start)
 			for cue: Dictionary in reaction_cues:
 				if cue.kind in [&"opportunist", &"counterattack"]: _append_reaction_cue(tween, cue)
 			for cue: Dictionary in reaction_cues:
@@ -1588,6 +1604,7 @@ func _rebuild_visuals() -> void:
 		var pose: Dictionary = _slide_poses[id]
 		_presentation_slide(pose.progress, id, pose.from, pose.to)
 	_sample_defender_buff(_defender_buff_elapsed)
+	_restore_attack_facings()
 
 func _unit_row_visible(row: Dictionary) -> bool:
 	var unit: BattleUnitView = row["unit"]

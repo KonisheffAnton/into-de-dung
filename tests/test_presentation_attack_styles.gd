@@ -2,6 +2,105 @@ extends "res://tests/test_presentation_contact.gd"
 
 var started: Array[Dictionary] = []
 var published: Array[Dictionary] = []
+const FACING_SCENE: PackedScene = preload("res://scenes/demo/visuals/art_trial_unit.tscn")
+
+
+func facing_layers(visual: BattleDemoIsoVisual) -> Dictionary:
+	var result: Dictionary = {}
+	var art := visual.get_node_or_null("ArtRoot")
+	if art == null: return result
+	for child: Node in art.get_children():
+		if child is Node2D: result[child.name] = (child as Node2D).transform
+	return result
+
+
+func no_attack_facing() -> bool:
+	for visual: BattleDemoIsoVisual in board._entity_visuals:
+		if visual.presentation_facing_x != 0 or visual.get_attack_mirror_x() != 1.0: return false
+	return true
+
+
+func vertical_facing_boundary() -> void:
+	var s := fixture("hp")
+	prepare_board(s)
+	var actor := s.units[0]
+	var visual := board._presentation_visual(actor.id)
+	var original_layers := facing_layers(visual)
+	# Ядро сейчас запрещает диагональную атаку. Здесь проверяется только
+	# защитная граница визуального API, без выдуманного успешного receipt.
+	board._face_strike_target({"actor_unit_id": actor.id, "actor_cell": actor.cell,
+		"target_cell": actor.cell + Vector2i(1, 1)})
+	check(visual.presentation_facing_x == 0 and facing_layers(visual) == original_layers,
+		"same screen X keeps authored facing without inventing a legal attack")
+	player.cancel()
+	s.close()
+	await process_frame
+
+
+func facing_case(class_id: StringName, enemy: bool, direction: Vector2i, fallback: bool = false) -> void:
+	var case_label := "%s/%s/%s" % [String(class_id), "enemy" if enemy else "player", direction]
+	var s := fixture("hp")
+	var actor := s.units[1 if enemy else 0]
+	var target := s.units[0 if enemy else 1]
+	s.board.move_unit(target, Vector2i(6, 1))
+	s.board.move_unit(actor, Vector2i(3, 3))
+	s.board.move_unit(target, actor.cell + direction)
+	s.actor_loadouts[actor.id] = {"class_id": class_id}
+	s.unit_visual_classes[actor.id] = class_id
+	if class_id == &"archer": actor.stats.set_base_value(StatTypes.StatType.ATTACK_RANGE, 4.0)
+	var data := style_packet(s, AttackCommand.new(actor.id, target.id, actor.cell, target.cell, &"demo_strike", s.context.get_revision()))
+	check(data.status == ActionReceipt.APPLIED, "facing fixture executes real attack: " + case_label)
+	var saved := full_state(s)
+	var immutable := data.duplicate(true)
+	var previous_scene := board.unit_visual_scene
+	board.unit_visual_scene = null if fallback else FACING_SCENE
+	prepare_board(s)
+	board.show_presentation_state(data.before)
+	var visual := board._presentation_visual(actor.id)
+	var original_layers := facing_layers(visual)
+	var support := visual.position
+	var original_pick := visual.get_unit_pick_rect()
+	var authored_direction := visual.get_authored_facing_x()
+	# Ожидание задано по экранной геометрии клетки независимо от метода Board.
+	var expected_direction := 0 if direction.x == direction.y else (1 if direction.x > direction.y else -1)
+	start_style(data)
+	visual = board._presentation_visual(actor.id)
+	check(visual.presentation_facing_x == expected_direction, "facing is set at t=0 for " + String(class_id))
+	if expected_direction != 0:
+		check(int(visual.get_attack_mirror_x()) * authored_direction == expected_direction, "native and fallback pose points toward target")
+	else:
+		check(visual.get_attack_mirror_x() == 1.0, "vertical target preserves authored direction")
+	if not fallback:
+		var sprite := visual.class_still_sprite()
+		if sprite == null:
+			sprite = visual._enemy_preset_sprites()[posmod(actor.id, 3)] if enemy else visual.get_node("ArtRoot/BodySprite") as Sprite2D
+		# Это проверка фактической матрицы рисования, не только управляющего флага.
+		var native_direction := -1 if (class_id == &"warrior" and not enemy) or (class_id not in [&"warrior", &"rogue", &"archer"] and enemy) else 1
+		var actual_direction := native_direction * (1 if sprite.global_transform.x.x > 0.0 else -1) * (-1 if sprite.flip_h else 1)
+		check(actual_direction == (authored_direction if expected_direction == 0 else expected_direction), "visible sprite actually faces target: " + String(class_id))
+	advance(0.04)
+	check(visual.position == support and visual.get_unit_pick_rect() == original_pick, "attack facing preserves support and picking")
+	check(board._presentation_visual(target.id).presentation_facing_x == 0, "attacking does not rotate its victim")
+	if class_id == &"warrior" and not fallback:
+		var offset := visual.action_offset
+		board.size = Vector2(1180, 780)
+		board.zoom_camera(0.75, board.size * 0.5)
+		board.pan_camera(Vector2(12, -8))
+		visual = board._presentation_visual(actor.id)
+		check(visual.presentation_facing_x == expected_direction and not is_zero_approx(visual.action_offset.length()), "resize zoom pan preserve attack facing and pose")
+		check(not is_zero_approx(offset.length()), "camera fixture samples a live windup")
+		board.zoom_camera(2.0, board.size * 0.5)
+		await capture("facing-warrior-%s-%d" % ["enemy" if enemy else "player", expected_direction])
+	finish()
+	visual = board._presentation_visual(actor.id)
+	check(no_attack_facing() and facing_layers(visual) == original_layers, "attack restores exact original body transforms: " + case_label)
+	check(full_state(s) == saved and data == immutable, "facing cannot mutate combat RNG counters or playback package")
+	player.cancel()
+	board.unit_visual_scene = previous_scene
+	board.size = viewport.size
+	board.reset_camera()
+	s.close()
+	await process_frame
 
 
 func full_state(s: BattleCoreReactionsSession) -> Dictionary:
@@ -140,6 +239,7 @@ func rogue_case(direction: Vector2i, fallback: bool = false) -> void:
 	check(started == data.frames and published == expected, "hop preserves all frame and after publication order")
 	check(full_state(s) == saved and data == immutable, "hop leaves live state RNG resources and source packet unchanged")
 	check(board._action_offsets.is_empty() and board._presentation_visual(actor.id).action_offset == Vector2.ZERO, "rogue settles to exact idle")
+	check(no_attack_facing(), "rogue normal completion restores authored facing")
 	player.cancel()
 	board.unit_visual_scene = scene
 	board.size = viewport.size
@@ -201,6 +301,12 @@ func abort_hop(mode: String) -> void:
 		finish()
 	check(board._action_offsets.is_empty() and board._impacts.get_child_count() == 0 and number_texts().is_empty(),
 		mode + " clears airborne pose without invented hit")
+	check(no_attack_facing(), mode + " restores authored facing at x3")
+	if mode == "cancel":
+		start_style(data)
+		check(board._presentation_visual(actor.id).presentation_facing_x == 1, "replay sets facing again without accumulated reflection")
+		player.cancel()
+		check(no_attack_facing(), "replay cancellation restores all facings")
 	check(full_state(s) == saved, mode + " cannot mutate actual outcome")
 	player.cancel()
 	s.close()
@@ -221,7 +327,11 @@ func reaction_style() -> void:
 		guard += 1
 	var strike: Dictionary = board._pending_strikes.values()[0] if not board._pending_strikes.is_empty() else {}
 	check(strike.get("actor_unit_id") == s.units[1].id and strike.get("presentation_pounce", false), "reaction selects actual attacker class, not selected unit")
+	check(board._presentation_visual(s.units[1].id).presentation_facing_x == -1
+		and board._presentation_visual(s.units[0].id).presentation_facing_x == 0,
+		"counterattack faces its own target while the previous attacker has reset")
 	finish()
+	check(no_attack_facing(), "reaction completion resets its attacker")
 	player.cancel()
 	s.close()
 	await process_frame
@@ -239,6 +349,13 @@ func run() -> void:
 	viewport.add_child(player)
 	player.frame_started.connect(func(frame: Dictionary) -> void: started.append(frame))
 	player.frame_finished.connect(func(state: Dictionary) -> void: published.append(state))
+	for class_id: StringName in [&"warrior", &"rogue", &"archer", &"mage", &"future_class"]:
+		for enemy: bool in [false, true]:
+			for direction: Vector2i in [Vector2i.RIGHT, Vector2i.DOWN]:
+				await facing_case(class_id, enemy, direction)
+	await vertical_facing_boundary()
+	await facing_case(&"future_class", false, Vector2i.LEFT, true)
+	await facing_case(&"future_class", true, Vector2i.UP, true)
 	for direction: Vector2i in [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP]: await rogue_case(direction)
 	await rogue_case(Vector2i.RIGHT, true)
 	await ranged_and_reset()

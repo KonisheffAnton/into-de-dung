@@ -14,6 +14,15 @@
 
 ## Изменение игрового кода
 
+Разворот всех живых атакующих к цели (2026-10-26): `--render-check --only
+unit_visual_contract visual_scene_contract presentation_attack_styles presentation_contact
+presentation_ranged presentation_reactions defender_idle defender_death_routes
+rogue_death_routes --screen 0` (одна команда).
+Проверяются обе стороны экрана/фракции, текущие и неизвестные классы, native/fallback,
+вертикальная цель, authored flip/scale, замах/попадание/возврат, resize/zoom/pan,
+реакции, ×3/skip/cancel/replay/FAULTED и неизменность runtime/пакета показа.
+Снимки разворота — attack-style-screenshots/facing-*.png; ручная F5-приёмка отдельно.
+
 Одиночный упор без урона оружия (2026-10-25): `--check --only push_chain
 push_chain_reactions armor_integration fractional_armor_hit character_attributes_v1
 spatial_guard_stats attack_forecast_worker battle_execution_worker`.

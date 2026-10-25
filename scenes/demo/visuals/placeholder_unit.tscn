@@ -31,11 +31,13 @@ warrior_pick_rect = Rect2(-45, -56, 78, 73)
 [node name="ArtRoot" type="Node2D" parent="."]
 
 [node name="BodySprite" type="Sprite2D" parent="ArtRoot"]
+metadata/source_facing_x = 1
 position = Vector2(0, -26)
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("2_unit")
 
 [node name="PlayerWarriorSprite" type="Sprite2D" parent="ArtRoot"]
+metadata/source_facing_x = -1
 visible = false
 texture_filter = 1
 centered = false
@@ -44,6 +46,7 @@ scale = Vector2(0.25, 0.25)
 texture = ExtResource("6_warrior")
 
 [node name="EnemyWarriorSprite" type="Sprite2D" parent="ArtRoot"]
+metadata/source_facing_x = -1
 visible = false
 texture_filter = 1
 centered = false
@@ -54,6 +57,7 @@ texture = ExtResource("6_warrior")
 [node name="EnemyPresets" type="Node2D" parent="ArtRoot"]
 
 [node name="Bearded" type="Sprite2D" parent="ArtRoot/EnemyPresets"]
+metadata/source_facing_x = -1
 visible = false
 texture_filter = 1
 position = Vector2(0, -26)
@@ -61,6 +65,7 @@ scale = Vector2(0.08931, 0.08931)
 texture = SubResource("AtlasTexture_enemy_bearded")
 
 [node name="Helmet" type="Sprite2D" parent="ArtRoot/EnemyPresets"]
+metadata/source_facing_x = -1
 visible = false
 texture_filter = 1
 position = Vector2(0, -26)
@@ -68,6 +73,7 @@ scale = Vector2(0.07612, 0.07612)
 texture = SubResource("AtlasTexture_enemy_helmet")
 
 [node name="Redhair" type="Sprite2D" parent="ArtRoot/EnemyPresets"]
+metadata/source_facing_x = -1
 visible = false
 texture_filter = 1
 position = Vector2(0, -26)

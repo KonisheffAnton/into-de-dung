@@ -82,12 +82,14 @@ enemy_warrior_pick_rect = Rect2(-29, -67, 64, 80)
 material = SubResource("ShaderMaterial_fallback_palette")
 
 [node name="PlayerWarriorSprite" parent="ArtRoot" index="1"]
+metadata/source_facing_x = -1
 material = SubResource("ShaderMaterial_player")
 position = Vector2(-44.42, -65.14)
 scale = Vector2(0.0745342, 0.0745342)
 texture = SubResource("AtlasTexture_player")
 
 [node name="EnemyWarriorSprite" parent="ArtRoot" index="2"]
+metadata/source_facing_x = 1
 texture_filter = 1
 material = SubResource("ShaderMaterial_enemy_warrior")
 position = Vector2(71, -83)
@@ -106,6 +108,7 @@ material = SubResource("ShaderMaterial_fallback_palette")
 material = SubResource("ShaderMaterial_fallback_palette")
 
 [node name="DefenderIdleSprite" type="Sprite2D" parent="ArtRoot" index="7"]
+metadata/source_facing_x = -1
 visible = false
 texture_filter = 1
 material = SubResource("ShaderMaterial_idle")
@@ -113,6 +116,7 @@ position = Vector2(-69.42, -90.14)
 centered = false
 
 [node name="PlayerRogueSprite" type="Sprite2D" parent="ArtRoot" index="8"]
+metadata/source_facing_x = 1
 visible = false
 texture_filter = 1
 material = SubResource("ShaderMaterial_rogue")
@@ -122,6 +126,7 @@ texture = ExtResource("8_rogue_still")
 centered = false
 
 [node name="EnemyRogueSprite" type="Sprite2D" parent="ArtRoot" index="9"]
+metadata/source_facing_x = 1
 visible = false
 texture_filter = 1
 material = SubResource("ShaderMaterial_rogue")
@@ -131,6 +136,7 @@ texture = ExtResource("8_rogue_still")
 centered = false
 
 [node name="RogueIdleSprite" type="Sprite2D" parent="ArtRoot" index="10"]
+metadata/source_facing_x = 1
 visible = false
 texture_filter = 1
 material = SubResource("ShaderMaterial_rogue")
@@ -139,6 +145,7 @@ scale = Vector2(1, 1)
 centered = false
 
 [node name="PlayerArcherSprite" type="Sprite2D" parent="ArtRoot" index="11"]
+metadata/source_facing_x = 1
 visible = false
 texture_filter = 1
 material = SubResource("ShaderMaterial_archer")
@@ -147,6 +154,7 @@ texture = ExtResource("12_archer_still")
 centered = false
 
 [node name="EnemyArcherSprite" type="Sprite2D" parent="ArtRoot" index="12"]
+metadata/source_facing_x = 1
 visible = false
 texture_filter = 1
 material = SubResource("ShaderMaterial_archer")
@@ -156,6 +164,7 @@ texture = ExtResource("12_archer_still")
 centered = false
 
 [node name="ArcherIdleSprite" type="Sprite2D" parent="ArtRoot" index="13"]
+metadata/source_facing_x = 1
 visible = false
 texture_filter = 1
 material = SubResource("ShaderMaterial_archer")
@@ -163,6 +172,7 @@ position = Vector2(-68, -95)
 centered = false
 
 [node name="EnemyWarriorIdleSprite" type="Sprite2D" parent="ArtRoot" index="14"]
+metadata/source_facing_x = 1
 visible = false
 texture_filter = 1
 material = SubResource("ShaderMaterial_enemy_warrior")
