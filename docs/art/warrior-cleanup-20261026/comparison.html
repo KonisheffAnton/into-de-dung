@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Воин — очистка фактуры</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#20242c;color:#f2f1ed;font:16px system-ui,sans-serif;padding:32px}main{max-width:900px;margin:auto}h1{font-size:24px;margin:0 0 12px}p{color:#b9c0ca;line-height:1.5}.controls{display:flex;gap:24px;flex-wrap:wrap;align-items:center;margin:24px 0}select{font:inherit;padding:6px;background:#303742;color:inherit;border:1px solid #5a6474;border-radius:6px}.pair{display:flex;gap:20px;flex-wrap:wrap}figure{margin:0;background:#343944;border:1px solid #48515f;border-radius:12px;padding:16px;flex:1;min-width:310px}figcaption{font-weight:600;margin-bottom:12px}.stage{position:relative;overflow:hidden;margin:auto}.stage img{position:absolute;max-width:none;image-rendering:pixelated}.stage.mirror{transform:scaleX(-1)}a{color:#a7ccff}footer{margin-top:24px}
+</style>
+<main>
+<h1>Воин — очистка фактуры</h1>
+<p>Сравнение при одинаковой высоте персонажа. Статичная проба, в игру не подключена.</p>
+<div class="controls"><label>Высота: <select id="size"><option value="72">72 px</option><option value="144">144 px</option><option value="288" selected>288 px</option></select></label><label><input id="mirror" type="checkbox" checked> Разворот как на игровом превью</label></div>
+<div class="pair">
+<figure><figcaption>До — утверждённый эталон</figcaption><div class="stage"><img src="original.png" alt="Исходный воин"></div></figure>
+<figure><figcaption>После — более чистая фактура</figcaption><div class="stage"><img src="cleaned.png" alt="Вариант с очищенной фактурой"></div></figure>
+</div>
+<footer><a href="cleaned.png">Открыть новый PNG</a> · <a href="original.png">Открыть исходник</a></footer>
+</main>
+<script>
+const specs=[{size:128,box:[41,20,95,92]},{size:1254,box:[404,234,995,989]}];
+function render(){const height=Number(document.querySelector('#size').value);document.querySelectorAll('.stage').forEach((stage,i)=>{const spec=specs[i],b=spec.box,s=height/(b[3]-b[1]),width=Math.max(280,height);stage.style.width=width+'px';stage.style.height=(height+32)+'px';stage.classList.toggle('mirror',document.querySelector('#mirror').checked);const img=stage.querySelector('img');img.style.width=(spec.size*s)+'px';img.style.height=(spec.size*s)+'px';img.style.left=((width-(b[2]-b[0])*s)/2-b[0]*s)+'px';img.style.top=(16-b[1]*s)+'px';});}
+document.querySelector('#size').addEventListener('change',render);document.querySelector('#mirror').addEventListener('change',render);render();
+</script>
+</html>

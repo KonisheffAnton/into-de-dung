@@ -1,0 +1,105 @@
+{
+  "date": "2026-10-26",
+  "provider": "built-in image_gen",
+  "calls": 2,
+  "integration": false,
+  "selected_preview": "cleaned.png",
+  "base_commit": "5f1defb127b05bc9b8cde4fdbe376b33005f5080",
+  "files": [
+    {
+      "path": "original.png",
+      "sha256": "e93daeee4edec7fee5031e8aa91b5a729a2ecd7e269b17abf94558b6e4604057",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "nonzero_alpha_bbox": [
+        41,
+        20,
+        95,
+        92
+      ],
+      "visible_bbox_alpha_above_8": [
+        41,
+        20,
+        95,
+        92
+      ],
+      "pixels_with_alpha_1_to_15": 43
+    },
+    {
+      "path": "cleaned.png",
+      "sha256": "25892556d1baaefb6bdfde144ffb2bb6ea96a385aeecc155e1e7d2d320e67565",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "nonzero_alpha_bbox": [
+        0,
+        41,
+        1224,
+        1228
+      ],
+      "visible_bbox_alpha_above_8": [
+        404,
+        234,
+        995,
+        989
+      ],
+      "pixels_with_alpha_1_to_15": 8351
+    },
+    {
+      "path": "alpha-attempt.png",
+      "sha256": "ce66c5d1378d5b7eb28207f81a9f3206d821ac1734efd342a6f46678f891a1ff",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "nonzero_alpha_bbox": [
+        65,
+        117,
+        1232,
+        1222
+      ],
+      "visible_bbox_alpha_above_8": [
+        404,
+        234,
+        996,
+        990
+      ],
+      "pixels_with_alpha_1_to_15": 7777
+    }
+  ],
+  "checks": {
+    "byte_exact_copies": true,
+    "approved_source_unchanged": true,
+    "approved_on_tile_unchanged": true,
+    "fully_transparent_empty_margins": false,
+    "independent_review": "REQUEST_CHANGES: faint alpha speckles remain; visual cleanup and identity retention confirmed. Preview only.",
+    "alpha_attempt": "Residual alpha remains and artwork changed; retain first cleanup as preview."
+  },
+  "sources": {
+    "original.png": "assets\\art_presets\\approved\\warrior_format_v1\\character.png",
+    "cleaned.png": "C:\\Users\\Aston\\.codex\\generated_images\\01a16f2c-c6fa-7e32-937a-629e6dcb6a23\\exec-6e3ddce4-ea98-4717-a5a8-4a897ef4a827.png",
+    "alpha-attempt.png": "C:\\Users\\Aston\\.codex\\generated_images\\01a16f2c-c6fa-7e32-937a-629e6dcb6a23\\exec-80dceb3c-b1b2-4cb1-8057-ca9d42324da0.png"
+  },
+  "prompts": [
+    "prompt.txt",
+    "alpha-attempt-prompt.txt"
+  ]
+}
