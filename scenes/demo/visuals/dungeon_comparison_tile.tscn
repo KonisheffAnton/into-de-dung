@@ -1,13 +1,18 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/placeholder_tile.tscn" id="1_base"]
 [ext_resource type="Script" path="res://scripts/demo/dungeon_comparison_tile.gd" id="2_script"]
-[ext_resource type="Texture2D" path="res://assets/art_presets/trials/dungeon_comparison_v1/atlas_a.png" id="3_a"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/dungeon_room_v2/floor.png" id="3_floor"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/dungeon_room_v2/masonry.png" id="4_masonry"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/dungeon_room_v2/column.png" id="5_column"]
+
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/dungeon_room_v2/fire.png" id="6_fire"]
 
 [node name="PlaceholderTile" instance=ExtResource("1_base")]
 script = ExtResource("2_script")
-ground_base_tint = Color(0.337255, 0.376471, 0.415686, 1)
+ground_base_tint = Color(0.35, 0.38, 0.42, 1)
 side_depth_pixels = 30.0
+minimum_seam_pixels = 0.35
 
 [node name="GroundSurface" parent="ArtRoot" index="4"]
 texture = null
@@ -15,65 +20,31 @@ offset = Vector2(0, 0)
 scale = Vector2(1, 1)
 
 [node name="SideLeft" parent="ArtRoot" index="1"]
+texture = ExtResource("4_masonry")
 texture_filter = 1
-uv = PackedVector2Array(31, 595, 140, 664, 140, 703, 31, 635)
+texture_repeat = 1
+color = Color(0.78, 0.78, 0.78, 1)
+uv = PackedVector2Array(0, 0, 313.5, 0, 313.5, 147, 0, 147)
 
 [node name="SideRight" parent="ArtRoot" index="2"]
+texture = ExtResource("4_masonry")
 texture_filter = 1
-uv = PackedVector2Array(140, 664, 251, 595, 251, 635, 140, 703)
+texture_repeat = 1
+color = Color(0.95, 0.95, 0.95, 1)
+uv = PackedVector2Array(0, 0, 313.5, 0, 313.5, 147, 0, 147)
 
-[node name="DungeonFloor0" type="Polygon2D" parent="ArtRoot/GroundSurface"]
+[node name="DungeonFloor" type="Polygon2D" parent="ArtRoot/GroundSurface"]
 texture_filter = 1
 color = Color(1, 1, 1, 1)
 polygon = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
-uv = PackedVector2Array(140, 65, 249, 136, 140, 202, 31, 136)
-texture = ExtResource("3_a")
-
-[node name="DungeonFloor1" type="Polygon2D" parent="ArtRoot/GroundSurface"]
-visible = false
-texture_filter = 1
-color = Color(1, 1, 1, 1)
-polygon = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
-uv = PackedVector2Array(392, 65, 501, 136, 392, 202, 283, 136)
-texture = ExtResource("3_a")
-
-[node name="DungeonFloor2" type="Polygon2D" parent="ArtRoot/GroundSurface"]
-visible = false
-texture_filter = 1
-color = Color(1, 1, 1, 1)
-polygon = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
-uv = PackedVector2Array(642, 65, 751, 136, 642, 202, 533, 136)
-texture = ExtResource("3_a")
-
-[node name="DungeonFloor3" type="Polygon2D" parent="ArtRoot/GroundSurface"]
-visible = false
-texture_filter = 1
-color = Color(1, 1, 1, 1)
-polygon = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
-uv = PackedVector2Array(899, 65, 1008, 136, 899, 202, 790, 136)
-texture = ExtResource("3_a")
-
-[node name="DungeonFloor4" type="Polygon2D" parent="ArtRoot/GroundSurface"]
-visible = false
-texture_filter = 1
-color = Color(1, 1, 1, 1)
-polygon = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
-uv = PackedVector2Array(1148, 65, 1257, 136, 1148, 202, 1039, 136)
-texture = ExtResource("3_a")
-
-[node name="DungeonFloor5" type="Polygon2D" parent="ArtRoot/GroundSurface"]
-visible = false
-texture_filter = 1
-color = Color(1, 1, 1, 1)
-polygon = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
-uv = PackedVector2Array(1399, 65, 1508, 136, 1399, 202, 1290, 136)
-texture = ExtResource("3_a")
+uv = PackedVector2Array(0, 0, 156.75, 0, 156.75, 156.75, 0, 156.75)
+texture = ExtResource("3_floor")
 
 [node name="QuietSeam" type="Line2D" parent="ArtRoot/GroundSurface"]
 points = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
 closed = true
 width = 0.7
-default_color = Color(0.1, 0.13, 0.17, 0.36)
+default_color = Color(0.1, 0.13, 0.17, 0.2)
 antialiased = true
 
 [node name="DungeonWallTop" type="Polygon2D" parent="ArtRoot" index="5"]
@@ -81,5 +52,22 @@ visible = false
 texture_filter = 1
 color = Color(1, 1, 1, 1)
 polygon = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
-uv = PackedVector2Array(140, 522, 251, 593, 140, 660, 31, 593)
-texture = ExtResource("3_a")
+uv = PackedVector2Array(0, 0, 156.75, 0, 156.75, 156.75, 0, 156.75)
+texture = ExtResource("3_floor")
+
+[node name="BrokenColumn" type="Sprite2D" parent="ArtRoot" index="6"]
+visible = false
+texture_filter = 1
+position = Vector2(0, -33)
+scale = Vector2(0.115384615, 0.115384615)
+texture = ExtResource("5_column")
+region_enabled = true
+region_rect = Rect2(216, 374, 624, 780)
+
+[node name="BurningSprite" parent="ArtRoot/EffectRoot" index="0"]
+texture = ExtResource("6_fire")
+texture_filter = 1
+position = Vector2(0, -10)
+scale = Vector2(0.095, 0.095)
+region_enabled = true
+region_rect = Rect2(390, 250, 680, 580)

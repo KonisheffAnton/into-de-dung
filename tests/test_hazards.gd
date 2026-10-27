@@ -24,6 +24,7 @@ func _run() -> void:
 	_leave_reenter()
 	_falls()
 	_push_and_wall()
+	_ledge_traps_and_obstacle()
 	_acid_turns()
 	_collapse_and_fault()
 	_prior_death_and_admission()
@@ -168,6 +169,9 @@ func _push_and_wall() -> void:
 		var target := victim.cell + Vector2i.RIGHT
 		if wall:
 			s.board.set_terrain(target, TerrainType.Type.WALL)
+			var legacy_hazards := BattleHazards.empty()
+			legacy_hazards.erase("wall_mount")
+			s.state.environment.hazards = legacy_hazards
 			check(BattleHazards.add_trap(s.state.environment.hazards, victim.cell, "wall", Vector2i.RIGHT), "wall face authored")
 		else: plate(s, target)
 		var forecast := s.preview_attack(victim.id)
@@ -178,6 +182,9 @@ func _push_and_wall() -> void:
 		s.close()
 	var s := fixture(); var u := s.units[0]
 	s.board.set_terrain(Vector2i(3, 4), TerrainType.Type.WALL)
+	var legacy_hazards := BattleHazards.empty()
+	legacy_hazards.erase("wall_mount")
+	s.state.environment.hazards = legacy_hazards
 	BattleHazards.add_trap(s.state.environment.hazards, Vector2i(2, 4), "wall", Vector2i.RIGHT)
 	var entry := move(s, u, Vector2i(2, 4))
 	check(u.is_alive() and count(entry, &"trap_fired") == 0 and count(turn(s, u.faction), &"trap_fired") == 0, "walking beside wall and standing do not activate wall spikes")
@@ -293,6 +300,206 @@ func _opening() -> void:
 	if bundle.is_empty(): return
 	var s: BattleCoreReactionsSession = bundle.session
 	check(s.state.environment.hazards.traps.size() == 3 and s.state.environment.hazards.acid == [Vector2i(2, 6)], "first room contains two floor plates, wall spikes and acid")
-	check(s.board.get_height_steps(Vector2i(4, 3)) - s.board.get_height_steps(Vector2i(4, 2)) == 2, "opening ledge provides one-tile fall onto floor plate")
-	check(started.profile.to_dict() == profile_before, "battle authoring preserves profile4 and persisted plan")
+	var ledge_face_count: int = 0
+	for trap: Dictionary in s.state.environment.hazards.traps:
+		if trap.kind == "wall" and trap.cell == Vector2i(5, 3) and trap.direction == Vector2i.LEFT: ledge_face_count += 1
+	var column_face_traps: int = 0
+	for trap: Dictionary in s.state.environment.hazards.traps:
+		if trap.kind == "wall" and trap.cell + trap.direction == Vector2i(3, 0): column_face_traps += 1
+	check(ledge_face_count == 1 and column_face_traps == 0
+		and s.board.get_terrain(Vector2i(3, 0)) == TerrainType.Type.WALL,
+		"production opening places the trap only on the (5,3) left ledge face, not column (3,0)")
+	check(s.board.get_height_steps(Vector2i(4, 3)) - s.board.get_height_steps(Vector2i(5, 3)) == 2, "opening ledge has a two-half-step support-to-contact height difference")
+	check(started.profile.to_dict() == profile_before, "battle authoring preserves profile manifest and persisted plan")
 	snap(s); s.close()
+func _ledge_fixture() -> BattleCoreReactionsSession:
+	var s := fixture()
+	var actor := s.units[0]
+	var victim := s.units[1]
+	s.board.set_height_steps(Vector2i(4, 3), 2)
+	s.board.move_unit(actor, Vector2i(6, 3))
+	s.board.move_unit(victim, Vector2i(5, 3))
+	actor.height = s.board.get_height(actor.cell)
+	victim.height = s.board.get_height(victim.cell)
+	s.selected_id = actor.id
+	check(BattleHazards.add_trap(s.state.environment.hazards, Vector2i(5, 3), "wall", Vector2i.LEFT),
+		"schema1 ledge-mode trap added on contact floor")
+	return s
+
+func _snapshot_accepts(state: BattleCoreReactionsSession) -> bool:
+	return ItemSimulationSnapshot.capture(state.state, []).code == ItemSnapshotResult.Code.OK
+
+func _ledge_traps_and_obstacle() -> void:
+	var empty_hazards := BattleHazards.empty()
+	check(empty_hazards.schema_version == 1 and empty_hazards.get("wall_mount") == "ledge"
+		and BattleHazards.valid(empty_hazards), "new empty hazard records explicitly select ledge mounts")
+	var unknown_mount := empty_hazards.duplicate(true)
+	unknown_mount.wall_mount = "unknown"
+	check(not BattleHazards.valid(unknown_mount), "unknown wall mount mode is rejected")
+	var wrong_mount_type := empty_hazards.duplicate(true)
+	wrong_mount_type.wall_mount = 1
+	check(not BattleHazards.valid(wrong_mount_type), "non-string wall mount mode is rejected")
+	var extra_mount_field := empty_hazards.duplicate(true)
+	extra_mount_field.extra = true
+	check(not BattleHazards.valid(extra_mount_field), "unrecognized hazard fields are rejected")
+	var legacy_empty := empty_hazards.duplicate(true)
+	legacy_empty.erase("wall_mount")
+	check(BattleHazards.valid(legacy_empty), "schema1 without wall_mount retains strict legacy wall semantics")
+	var valid_ledge := _ledge_fixture()
+	check(_snapshot_accepts(valid_ledge), "ledge wall trap accepts a raised floor support two half-steps above contact")
+	valid_ledge.close()
+	var legacy := fixture()
+	legacy.board.set_terrain(Vector2i(6, 3), TerrainType.Type.WALL)
+	var legacy_hazards := BattleHazards.empty()
+	legacy_hazards.erase("wall_mount")
+	legacy.state.environment.hazards = legacy_hazards
+	check(BattleHazards.add_trap(legacy.state.environment.hazards, Vector2i(5, 3), "wall", Vector2i.RIGHT),
+		"legacy schema1 wall-anchor fixture remains writable")
+	var legacy_raw := snap(legacy)
+	var wrong_legacy := legacy_raw.duplicate(true)
+	wrong_legacy.environment.hazards.traps[0].cell = Vector2i(6, 3)
+	wrong_legacy.environment.hazards.traps[0].direction = Vector2i.LEFT
+	check(ItemSimulationSnapshot.from_dict(wrong_legacy).code != ItemSnapshotResult.Code.OK,
+		"schema1 still requires a floor contact anchor adjacent to its WALL")
+	var restored_legacy := ItemSimulationSnapshot.from_dict(legacy_raw)
+	var legacy_roundtrip: Dictionary = restored_legacy.snapshot.to_dict() if restored_legacy.snapshot != null else {}
+	var legacy_environment: Dictionary = legacy_roundtrip.get("environment", {})
+	var legacy_roundtrip_hazards: Dictionary = legacy_environment.get("hazards", {})
+	check(restored_legacy.code == ItemSnapshotResult.Code.OK
+		and legacy_roundtrip_hazards.get("schema_version", 0) == 1
+		and not legacy_roundtrip_hazards.has("wall_mount"),
+		"schema1 wall-anchor snapshot roundtrips without implicit mount migration")
+	legacy.close()
+	var invalid_cases: Array[Dictionary] = [
+		{"name": "WALL cannot be a ledge contact", "contact_wall": true},
+		{"name": "WALL cannot support a ledge trap", "support_wall": true},
+		{"name": "flat contact is not a ledge", "height": 0},
+		{"name": "one half-step is below threshold", "height": 1},
+		{"name": "downward support is invalid", "direction": Vector2i.DOWN},
+		{"name": "VOID cannot support a wall trap", "support_void": true},
+	]
+	for test_case: Dictionary in invalid_cases:
+		var invalid := _ledge_fixture()
+		var row: Dictionary = invalid.state.environment.hazards.traps[0]
+		if test_case.get("contact_wall", false): invalid.board.set_terrain(row.cell, TerrainType.Type.WALL)
+		if test_case.get("support_wall", false):
+			row.cell = Vector2i(3, 1)
+			row.direction = Vector2i.UP
+			invalid.board.set_terrain(Vector2i(3, 0), TerrainType.Type.WALL)
+		if test_case.has("height"): invalid.board.set_height_steps(row.cell + row.direction, int(test_case.height))
+		if test_case.get("direction", Vector2i.LEFT) == Vector2i.DOWN:
+			row.direction = Vector2i.DOWN
+			invalid.board.set_height_steps(row.cell, 2)
+			invalid.board.set_height_steps(row.cell + row.direction, 0)
+		if test_case.get("support_void", false): invalid.board.set_terrain(row.cell + row.direction, TerrainType.Type.VOID)
+		check(not _snapshot_accepts(invalid), "snapshot rejects invalid ledge face: " + String(test_case.name))
+		invalid.close()
+	var column := _ledge_fixture()
+	var column_trap: Dictionary = column.state.environment.hazards.traps[0]
+	column_trap.cell = Vector2i(3, 0)
+	column_trap.direction = Vector2i.DOWN
+	column.board.set_terrain(column_trap.cell, TerrainType.Type.WALL)
+	check(not _snapshot_accepts(column), "ledge trap cannot attach to the authored WALL column")
+	column.close()
+	var collapse := _ledge_fixture()
+	var collapsing_cells: Array[Vector2i] = [Vector2i(4, 3)]
+	collapse.state.environment.collapse = {"turn": 1, "marked": collapsing_cells}
+	var collapse_command := CollapsePhaseCommand.new(collapse.context.get_revision())
+	var collapse_receipt := collapse._queue.submit(collapse_command, collapse.context)
+	var collapse_valid := _snapshot_accepts(collapse)
+	check(collapse_receipt.status == ActionReceipt.APPLIED and collapse.state.environment.hazards.traps.is_empty()
+		and collapse_valid, "collapsing a wall-face support removes its adjacent trap and restores a valid snapshot")
+	collapse.close()
+	var no_contact := _ledge_fixture()
+	var mover := no_contact.units[1]
+	var contact_hp := mover.vitals.get_hp()
+	var pass_through := move(no_contact, no_contact.units[1], Vector2i(5, 4))
+	check(pass_through.status == ActionReceipt.APPLIED and count(pass_through, &"trap_fired") == 0
+		and mover.vitals.get_hp() == contact_hp,
+		"wall-face trap does not fire during movement without a blocked collision")
+	no_contact.close()
+	var wrong_face := fixture()
+	var wrong_actor := wrong_face.units[0]
+	var wrong_victim := wrong_face.units[1]
+	wrong_face.board.set_height_steps(Vector2i(5, 2), 2)
+	wrong_face.board.set_height_steps(Vector2i(6, 3), 2)
+	check(wrong_face.board.move_unit(wrong_actor, Vector2i(4, 3))
+		and wrong_face.board.move_unit(wrong_victim, Vector2i(5, 3)), "wrong-face fixture places adjacent units")
+	wrong_face.selected_id = wrong_actor.id
+	check(BattleHazards.add_trap(wrong_face.state.environment.hazards, Vector2i(5, 3), "wall", Vector2i.UP),
+		"mismatched face fixture remains a valid ledge trap")
+	var wrong_direction := wrong_face.attack_unit(wrong_victim.id)
+	var wrong_height_blocked := false
+	for event: Dictionary in wrong_direction.get_events():
+		wrong_height_blocked = wrong_height_blocked or (event.kind == &"push_blocked" and event.reason == &"height")
+	check(wrong_height_blocked and count(wrong_direction, &"trap_fired") == 0
+		and wrong_victim.cell == Vector2i(5, 3),
+		"a real height collision on the opposite face does not activate a directionally mismatched trap")
+	wrong_face.close()
+	var live := _ledge_fixture()
+	var live_victim := live.units[1]
+	var baseline_rng := live.context.get_rng().to_dict()
+	var baseline_counters := live.context.simulation_counters()
+	var live_before := snap(live)
+	var forecast := live.preview_attack(live_victim.id)
+	check(snap(live) == live_before and live.context.get_rng().to_dict() == baseline_rng
+		and live.context.simulation_counters() == baseline_counters, "ledge preview leaves live state untouched")
+	var receipt := live.attack_unit(live_victim.id)
+	var height_blocked := false
+	var blocked_index: int = -1
+	var fired_index: int = -1
+	var events := receipt.get_events()
+	for index: int in range(events.size()):
+		var event: Dictionary = events[index]
+		if event.kind == &"push_blocked" and event.reason == &"height":
+			height_blocked = true
+			blocked_index = index
+		if event.kind == &"trap_fired": fired_index = index
+	check(receipt.status == ActionReceipt.APPLIED and height_blocked and fired_index > blocked_index
+		and count(receipt, &"trap_fired") == 1,
+		"real attack triggers the matching high-ledge trap after the height-blocked push")
+	var final_snapshot := snap(live)
+	var live_rng := live.context.get_rng().to_dict()
+	var live_counters := live.context.simulation_counters()
+	check(forecast.status == receipt.status and forecast.events == events and forecast.steps == receipt.get_steps()
+		and forecast.snapshot_after == final_snapshot and forecast.rng_after == live_rng
+		and forecast.counters_after == live_counters,
+		"ledge preview/live match events, steps, snapshot and RNG")
+	check(live.context.simulation_counters() == forecast.counters_after,
+		"live ledge attack records only its ordinary command counters")
+	live.close()
+	var obstacle := fixture()
+	var walker := obstacle.units[0]
+	var other := obstacle.units[1]
+	check(obstacle.board.move_unit(other, Vector2i(4, 4)), "move the second fixture unit clear of the column test")
+	var cell_blocker := obstacle.board.occupant_at(Vector2i(2, 0))
+	check(cell_blocker != null and obstacle.board.move_unit(cell_blocker, Vector2i(4, 5)),
+		"move the original unit at (2,0) clear of the relocation route")
+	obstacle.board.set_terrain(Vector2i(3, 0), TerrainType.Type.WALL)
+	var wall_hp := walker.vitals.get_hp()
+	var relocation_path: Array[Vector2i] = [Vector2i(2, 3), Vector2i(2, 2), Vector2i(2, 1), Vector2i(2, 0)]
+	var relocation := obstacle._queue.submit(MoveCommand.new(walker.id, relocation_path, obstacle.context.get_revision()), obstacle.context)
+	check(relocation.status == ActionReceipt.APPLIED and walker.cell == Vector2i(2, 0),
+		"voluntary-movement fixture relocates the walker through the command boundary")
+	var blocked_move := move(obstacle, walker, Vector2i(3, 0))
+	check(blocked_move.status != ActionReceipt.APPLIED and walker.cell == Vector2i(2, 0)
+		and obstacle.board.get_terrain(Vector2i(3, 0)) == TerrainType.Type.WALL
+		and walker.vitals.get_hp() == wall_hp,
+		"column WALL blocks voluntary movement and has no destructible HP state")
+	var pusher := fixture()
+	var attacker := pusher.units[0]
+	var target := pusher.units[1]
+	for unit: UnitState in pusher.units: pusher.board.clear_occupancy(unit)
+	pusher.board.move_unit(attacker, Vector2i(1, 0))
+	pusher.board.move_unit(target, Vector2i(2, 0))
+	pusher.selected_id = attacker.id
+	pusher.board.set_terrain(Vector2i(3, 0), TerrainType.Type.WALL)
+	var column_push := pusher.attack_unit(target.id)
+	var wall_blocked := false
+	for event: Dictionary in column_push.get_events():
+		wall_blocked = wall_blocked or (event.kind == &"push_blocked" and event.reason == &"wall")
+	check(wall_blocked and target.cell == Vector2i(2, 0) and pusher.board.get_terrain(Vector2i(3, 0)) == TerrainType.Type.WALL
+		and pusher.board.occupant_at(Vector2i(3, 0)) == null and count(column_push, &"trap_fired") == 0,
+		"column WALL blocks push without a health-bearing target or wall trap")
+	pusher.close()
+	obstacle.close()

@@ -170,7 +170,8 @@ func _configure_first_room_art(target_battle: HeroHubBattleView, candidate: Hero
 	var board := target_battle.get_node_or_null("BattleHUD/Margin/Column/Content/Left/Field/Board") as BattleDemoBoard
 	if board == null: return false
 	board.tile_visual_scene = load("res://scenes/demo/visuals/dungeon_comparison_tile.tscn") as PackedScene
-	return board.tile_visual_scene != null
+	board.environment_visual_scene = load("res://scenes/demo/visuals/dungeon_room_environment.tscn") as PackedScene
+	return board.tile_visual_scene != null and board.environment_visual_scene != null
 
 func _begin_battle() -> void:
 	if run == null or (run.phase != "battle" and (run.expedition == null or run.expedition.phase != "battle")):

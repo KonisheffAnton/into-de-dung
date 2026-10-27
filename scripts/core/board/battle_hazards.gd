@@ -6,10 +6,14 @@ const SPIKE_DAMAGE: int = 1000000
 const MAX_RECORDS: int = 1024
 
 static func empty() -> Dictionary:
-	return {"schema_version": 1, "next_id": 1, "traps": [], "acid": []}
+	return {"schema_version": 1, "wall_mount": "ledge", "next_id": 1, "traps": [], "acid": []}
 
 static func valid(value: Variant) -> bool:
-	if not ItemSimulationSnapshot._shape(value, {"schema_version": TYPE_INT, "next_id": TYPE_INT, "traps": TYPE_ARRAY, "acid": TYPE_ARRAY}): return false
+	if typeof(value) != TYPE_DICTIONARY: return false
+	var fields := {"schema_version": TYPE_INT, "next_id": TYPE_INT, "traps": TYPE_ARRAY, "acid": TYPE_ARRAY}
+	if value.has("wall_mount"): fields["wall_mount"] = TYPE_STRING
+	if not ItemSimulationSnapshot._shape(value, fields): return false
+	if value.has("wall_mount") and value.wall_mount != "ledge": return false
 	if value.schema_version != 1 or value.next_id < 1 or value.next_id >= ActionContext.MAX_ID or value.traps.size() > MAX_RECORDS or value.acid.size() > MAX_RECORDS: return false
 	var ids: Dictionary = {}
 	var locations: Dictionary = {}
@@ -60,13 +64,24 @@ static func snapshot_reason(value: Dictionary, board: Dictionary) -> String:
 		if trap.occupant_id != 0 and not units.has(trap.occupant_id): return "environment/trap_occupant"
 		if trap.kind == "wall":
 			var wall: Vector2i = trap.cell + trap.direction
-			if wall.x < 0 or wall.y < 0 or wall.x >= board.width or wall.y >= board.height or board.terrain[wall.y * board.width + wall.x] != TerrainType.Type.WALL: return "environment/trap_wall"
+			if wall.x < 0 or wall.y < 0 or wall.x >= board.width or wall.y >= board.height: return "environment/trap_wall"
+			var support_index: int = wall.y * board.width + wall.x
+			if not value.has("wall_mount"):
+				# Старые снимки читаются по прежним правилам без переписывания их геометрии.
+				if board.terrain[support_index] != TerrainType.Type.WALL: return "environment/trap_wall"
+			else:
+				var contact_index: int = trap.cell.y * board.width + trap.cell.x
+				var rise: int = (int(board.heights[support_index]) - int(board.heights[contact_index])) * 2 \
+					+ int(board.height_half_steps[support_index]) - int(board.height_half_steps[contact_index])
+				# Панель высотой в один тайл крепится к уступу, а не к отдельному препятствию.
+				if board.terrain[support_index] != TerrainType.Type.FLOOR or rise < 2: return "environment/trap_ledge"
 	return ""
 
 static func remove_support(value: Dictionary, cell: Vector2i) -> Dictionary:
 	var result := value.duplicate(true)
 	result.acid.erase(cell)
-	result.traps = result.traps.filter(func(t: Dictionary) -> bool: return t.cell != cell)
+	result.traps = result.traps.filter(func(t: Dictionary) -> bool:
+		return t.cell != cell and not (t.kind == "wall" and t.cell + t.direction == cell))
 	return result
 
 static func valid_event(event: Dictionary) -> bool:

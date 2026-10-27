@@ -180,7 +180,7 @@ func wall_trap_occlusion() -> void:
 		if not captures.is_empty():
 			check(rendered_spikes.save_png(captures.path_join("static-wall-trap-active-" + preset_name.to_snake_case() + ".png")) == OK,
 				"PNG active wall trap " + preset_name)
-		var spike_counts := _wall_trap_pixel_differences(rendered_panel, without_art, rendered_spikes, bounds)
+		var spike_counts := _wall_trap_pixel_differences(rendered_panel, without_art, rendered_spikes, bounds, without_trap)
 		check(spike_counts.z > 100, preset_name + " active spikes remain visible outside hero")
 	probe.queue_free()
 	await process_frame
@@ -188,9 +188,11 @@ func wall_trap_occlusion() -> void:
 func _viewport_image() -> Image:
 	await process_frame
 	await process_frame
+	await RenderingServer.frame_post_draw
 	return viewport.get_texture().get_image()
 
-func _wall_trap_pixel_differences(base: Image, no_art: Image, trap: Image, sprite_bounds: Rect2) -> Vector4i:
+func _wall_trap_pixel_differences(base: Image, no_art: Image, trap: Image, sprite_bounds: Rect2, unit_reference: Image = null) -> Vector4i:
+	var mask_image := unit_reference if unit_reference != null else base
 	var start_x := maxi(0, floori(sprite_bounds.position.x))
 	var start_y := maxi(0, floori(sprite_bounds.position.y))
 	var end_x := mini(viewport.size.x, ceili(sprite_bounds.end.x))
@@ -201,19 +203,22 @@ func _wall_trap_pixel_differences(base: Image, no_art: Image, trap: Image, sprit
 	for y: int in range(start_y, end_y):
 		for x: int in range(start_x, end_x):
 			var base_color := base.get_pixel(x, y)
-			if not base_color.is_equal_approx(no_art.get_pixel(x, y)):
+			if not mask_image.get_pixel(x, y).is_equal_approx(no_art.get_pixel(x, y)):
 				sprite_pixels += 1
 				var trap_difference := _max_rgb_delta(base_color, trap.get_pixel(x, y))
 				if not base_color.is_equal_approx(trap.get_pixel(x, y)):
 					covered_pixels += 1
 				var no_art_color := no_art.get_pixel(x, y)
-				var unit_contribution := _max_rgb_delta(base_color, no_art_color)
+				var unit_contribution := _max_rgb_delta(mask_image.get_pixel(x, y), no_art_color)
 				if unit_contribution > 0.12 and trap_difference > 0.2:
 					strongly_changed_body_pixels += 1
 	var visible_trap_pixels: int = 0
 	for y: int in viewport.size.y:
 		for x: int in viewport.size.x:
-			if x >= start_x and x < end_x and y >= start_y and y < end_y:
+			# Прозрачные поля PNG не являются телом: проверяем маску видимых пикселей,
+			# иначе крупный авторский rect ошибочно скрывает свободные промежутки вокруг героя.
+			if x >= start_x and x < end_x and y >= start_y and y < end_y \
+				and not mask_image.get_pixel(x, y).is_equal_approx(no_art.get_pixel(x, y)):
 				continue
 			if not base.get_pixel(x, y).is_equal_approx(trap.get_pixel(x, y)):
 				visible_trap_pixels += 1

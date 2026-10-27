@@ -14,13 +14,19 @@
 
 ## Изменение игрового кода
 
-Два каменных набора в первой комнате (2026-10-27): `python tools/demo/isolate.py
---render-check --only dungeon_room_comparison visual_scene_contract battle_camera_ui
---screen 0` (одна команда). Runner проверяет маршрут первой/следующей комнаты
-и legacy, стабильность после рестарта/refresh, разделение8×8 на две половины,
-FLOOR/PLATFORM/WALL/VOID, высоты/геометрию/picking, snapshot/RNG/counters и PNG
-при75/100/125%. Дополнительно `python tools/demo/test_isolate.py` для регистрации.
-Побайтные источники и ручная F5/zoom/DPI-приёмка — [пакет](art/dungeon-room-comparison-20261027/README.md).
+Каменное подземелье и крепление ловушки к уступу (2026-10-27):
+~~~powershell
+python tools/demo/isolate.py --render-check --only dungeon_room_comparison
+hazards hazards_ui mage_deck_expedition visual_scene_contract
+environment_visual_contract presentation_environment battle_camera_ui --screen 0
+~~~
+(одна команда; переносы в блоке соединить пробелами). Историческое имя dungeon_room_comparison сохранено:
+runner проверяет непрерывность пола, постоянный размер кладки по высоте/zoom,
+колонну и ловушку на разных клетках, огонь, managed lifecycle, geometry/picking,
+маршрут первой/следующей комнаты/legacy, restart и snapshot/RNG/counters.
+hazards проверяет новый и прежний режимы крепления, запрет крепления к препятствию, столкновение с
+уступом, потерю опоры и preview/live parity. Кадры75/100/125%, побайтные источники
+и ручная F5/zoom/DPI-приёмка — [пакет](art/dungeon-room-refinement-20261027/README.md).
 
 Jersey 20 для чисел и Play Bold для букв (2026-10-27): `--render-check --only
 presentation_contact presentation_consequences battle_presentation battle_camera_ui

@@ -9,11 +9,12 @@ static func opening(session: BattleCoreReactionsSession) -> void:
 		if _free_floor(session, cell): BattleHazards.add_trap(environment.hazards, cell)
 	var acid := Vector2i(2, 6)
 	if _free_floor(session, acid): environment.hazards.acid.append(acid)
-	# Лицевая клетка находится южнее существующей стены; высота уступа E4
-	# на один тайл выше пластины E3 и позволяет проверить падение на неё.
-	var face := Vector2i(3, 1)
-	if _free_floor(session, face) and session.board.get_terrain(face + Vector2i.UP) == TerrainType.Type.WALL:
-		BattleHazards.add_trap(environment.hazards, face, "wall", Vector2i.UP)
+	# Ловушка смотрит с боковой грани E4 в F4; отдельная колонна D1 не служит креплением.
+	var face := Vector2i(5, 3)
+	var support := face + Vector2i.LEFT
+	if _free_floor(session, face) and session.board.get_terrain(support) == TerrainType.Type.FLOOR \
+		and session.board.get_height_steps(support) - session.board.get_height_steps(face) >= 2:
+		BattleHazards.add_trap(environment.hazards, face, "wall", Vector2i.LEFT)
 
 static func _free_floor(session: BattleCoreReactionsSession, cell: Vector2i) -> bool:
 	return session.board.is_in_bounds(cell) and session.board.get_terrain(cell) == TerrainType.Type.FLOOR and session.board.occupant_at(cell) == null and session.state.environment.fire_at(cell).is_empty()

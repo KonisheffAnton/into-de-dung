@@ -53,9 +53,13 @@ static func consequences(event: Dictionary, context: ActionContext) -> Array[Com
 				result.append(HazardCommand.new(state.environment, unit, cell, immediate))
 			if state.environment != null and not state.environment.fire_at(cell).is_empty(): result.append(EnvironmentCommand.for_entry(event["target_unit_id"], cell, context))
 			from = cell
-	elif event["kind"] == &"push_blocked" and event.get("reason") == &"wall" and state.environment != null and not state.environment.hazards.is_empty():
+	elif event["kind"] == &"push_blocked" and event.get("reason") in [&"wall", &"height"] and state.environment != null and not state.environment.hazards.is_empty():
+		var direction: Vector2i = event["attempted_cell"] - event["from_cell"]
+		# Уступ без ловушки не добавляет команд; старый путь столкновения со стеной сохраняется.
+		if event["reason"] == &"height" and BattleHazards.at(state.environment.hazards, event["from_cell"], "wall", direction).is_empty():
+			return result
 		var unit := state.get_board().get_unit_by_id(event["target_unit_id"])
-		result.append(HazardCommand.new(state.environment, unit, event["from_cell"], true, true, event["attempted_cell"] - event["from_cell"]))
+		result.append(HazardCommand.new(state.environment, unit, event["from_cell"], true, true, direction))
 	return result
 
 static func valid_draft(event: Dictionary) -> bool:

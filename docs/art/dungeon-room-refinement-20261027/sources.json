@@ -1,0 +1,42 @@
+[
+  {
+    "name": "floor",
+    "source": "C:/Users/Aston/.codex/generated_images/01a17e2c-456b-7ca0-ac3a-275fc9737270/exec-2e318cd6-0655-459f-abfa-23f6c6067649.png",
+    "path": "assets\\art_presets\\trials\\dungeon_room_v2\\floor.png",
+    "sha256": "2767414bd92f53d87839b2bdeb7d1e6d73d16d4c363876b50b3f658f8f5b6a7b",
+    "size": [
+      1254,
+      1254
+    ]
+  },
+  {
+    "name": "masonry",
+    "source": "C:/Users/Aston/.codex/generated_images/01a17e2c-456b-7ca0-ac3a-275fc9737270/exec-61074ac1-e1ac-457f-84bf-fe18fbb96720.png",
+    "path": "assets\\art_presets\\trials\\dungeon_room_v2\\masonry.png",
+    "sha256": "eeaebc5dce213cb55156a81ac50f2f697db5b00e55f5d2ad3e28b6bf47aea0c0",
+    "size": [
+      1254,
+      1254
+    ]
+  },
+  {
+    "name": "column",
+    "source": "C:/Users/Aston/.codex/generated_images/01a17e2c-456b-7ca0-ac3a-275fc9737270/exec-68450a1f-d46b-4eee-a7de-ed4f86d7e3db.png",
+    "path": "assets\\art_presets\\trials\\dungeon_room_v2\\column.png",
+    "sha256": "176b56691a9f3a8c2e48319d120b143daee056af26cc96261eab05cd6c7e5f3a",
+    "size": [
+      1086,
+      1448
+    ]
+  },
+  {
+    "name": "fire",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-982616bd-c21b-427d-a938-48d2eb4cad22.png",
+    "path": "assets\\art_presets\\trials\\dungeon_room_v2\\fire.png",
+    "sha256": "14c842222939f48a5c00f0fe7264837d01602ffc70d85c39644dfad9efff509c",
+    "size": [
+      1448,
+      1086
+    ]
+  }
+]
