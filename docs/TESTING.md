@@ -14,7 +14,7 @@
 
 ## Изменение игрового кода
 
-Шрифты боевых подписей Monogram + Jersey 10 (2026-10-27): `--render-check --only
+Шрифты боевых подписей Pixeloid Sans Bold + Jersey 10 (2026-10-27): `--render-check --only
 presentation_contact presentation_consequences battle_presentation battle_camera_ui
 --screen 0` (одна команда). При изменении генерации событий/подписей дополнительно
 выбирать presentation_ranged, presentation_mage и presentation_reactions.

@@ -1,5 +1,22 @@
 # История и свидетельства проверок
 
+## Pixeloid Sans Bold для букв + Jersey 10 для цифр — 2026-10-27
+
+По уточнению U внедрён вариант 03 последнего сравнения. Статический Pixeloid Bold
+заменил Monogram в общем Label, включая кириллицу и HP; числовой Jersey побайтно
+сохранён. Em Pixeloid 1836→2448 даёт заглавные 14px и сетку 2px при кегле24;
+контуры, hmtx и метрики строки прежние. Кегли 24/20, строки, цвета, outline,
+runtime-сцены/скрипты, контактная задержка и lifecycle не менялись.
+[Контракт](BATTLE_PRESENTATION_REWORK.md), [ресурсы/OFL/сборка](../assets/ui/combat_fonts/README.md).
+Финальный render-check: 6 PASS, 0 FAIL, 0 TIMEOUT;
+test_reports/demo-3bc5380f544b4662b0b8682843dcb242/.
+17 проверок ресурсов/контуров/лицензий/побайтной пересборки PASS;
+ревью APPROVE, PNG и SHA: test_reports/combat-fonts-pixeloid-jersey-20261027/.
+142 baseline SHA совпали, включая прежние превью, Jersey и пользовательские файлы.
+Full/core/F5 не запускались; ручная читаемость в движении/zoom/DPI открыта.
+Base 502e2e6; main, локально, без push. Monogram удалён только из runtime.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261027-8.md).
+
 ## Кириллица рядом с Jersey 10, только превью — 2026-10-27
 
 У исходного Jersey 10 нет кириллицы. По уточнению U сравнили Font Island C Improved,

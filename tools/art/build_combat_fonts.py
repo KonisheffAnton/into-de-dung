@@ -10,7 +10,7 @@ from fontTools.ttLib import TTFont
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT / "docs/art/combat-font-pairs-preview-20261027/fonts"
+SOURCE = ROOT / "docs/art/jersey-cyrillic-preview-20261027/fonts"
 OUTPUT = ROOT / "assets/ui/combat_fonts"
 NUMERIC = "0123456789.,+-%\u2212"
 
@@ -23,22 +23,24 @@ def main() -> None:
     # Сверка с выбранным превью не позволяет незаметно заменить исходный рисунок.
     provenance = json.loads((SOURCE.parent / "provenance.json").read_text(encoding="utf-8"))
     for entry in provenance["fonts"]:
-        if entry["id"] in ("monogram", "jersey"):
+        if entry["id"] in ("pixeloid", "jersey"):
             for source in entry["sources"]:
                 path = SOURCE.parent / source["file"]
                 if sha256(path) != source["sha256"]:
                     raise ValueError(f"Source hash mismatch: {path}")
 
     OUTPUT.mkdir(parents=True, exist_ok=True)
-    for name in ("monogram-CC0.txt", "monogram-license-source.txt", "jersey-OFL.txt"):
-        shutil.copyfile(SOURCE / name, OUTPUT / name)
+    for source_name, output_name in (("pixeloid-LICENSE.txt", "pixeloid-OFL.txt"), ("jersey-OFL.txt", "jersey-OFL.txt")):
+        shutil.copyfile(SOURCE / source_name, OUTPUT / output_name)
 
-    letters = TTFont(SOURCE / "monogram.ttf", recalcTimestamp=False)
-    # У Monogram низкая видимая высота: 4/3 масштаба через em сохраняет рисунок и интервалы.
-    # При кегле 24 его исходная сетка 64 units становится ровно 2 px.
-    letters["head"].unitsPerEm = 768
-    rename_font(letters, "Combat Monogram Letters", "Regular", "CombatMonogramLetters-Regular")
-    letters.save(OUTPUT / "monogram_letters.ttf")
+    letters = TTFont(SOURCE / "pixeloid.ttf", recalcTimestamp=False)
+    if letters["OS/2"].usWeightClass != 700 or "fvar" in letters:
+        raise ValueError("Expected the selected static Pixeloid Sans Bold")
+    # Em 2448 вместо 1836 сохраняет высоту заглавных 14 px при кегле 24.
+    # Исходная сетка 204 units становится ровно 2 px без изменения контуров/интервалов.
+    letters["head"].unitsPerEm = 2448
+    rename_font(letters, "Combat Pixeloid Letters", "Bold", "CombatPixeloidLetters-Bold")
+    letters.save(OUTPUT / "pixeloid_letters.ttf")
     letters.close()
 
     font = TTFont(SOURCE / "jersey.ttf", recalcTimestamp=False)
@@ -58,7 +60,7 @@ def main() -> None:
     font["hhea"].descent = -280
     font["OS/2"].sTypoDescender = -280
     font["OS/2"].usWinDescent = 280
-    # Подмножество без букв заставляет Label выбирать Monogram и для латинского HP.
+    # Подмножество без букв заставляет Label выбирать Pixeloid и для латинского HP.
     # Семейство сохраняет прежнее имя, чтобы проверить реальный выбор glyph в Godot.
     names = {1: "Combat Jersey Numbers", 2: "Regular", 3: "CombatJerseyNumbers-1",
              4: "Combat Jersey Numbers", 6: "CombatJerseyNumbers-Regular"}

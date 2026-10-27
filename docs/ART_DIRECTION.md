@@ -19,8 +19,9 @@ U понравились буквы Tiny5 и цифры Pixelify. Следующ
 После запроса букв Jersey 10 подтверждено отсутствие кириллицы в исходном TTF.
 По уточнению U [новое сравнение кириллицы рядом с Jersey](art/jersey-cyrillic-preview-20261027/README.md)
 показывает Font Island C Improved, Chetyre, Pixeloid Sans Bold и Handjet Black;
-цифры во всех вариантах Jersey 10. Это только превью, выбора/внедрения нет.
-Сцены/runtime и утверждённый арт этим сравнением не менялись.
+цифры во всех вариантах Jersey 10. Само сравнение не меняло игру.
+Следующим уточнением U выбрал буквы Pixeloid Sans Bold (03); внедрение пары
+с Jersey описано в [контракте показа](BATTLE_PRESENTATION_REWORK.md).
 
 ## Четыре героя в стилистике Kingdom Rush — 2026-10-26
 
