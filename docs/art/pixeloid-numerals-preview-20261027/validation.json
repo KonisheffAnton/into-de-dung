@@ -1,0 +1,1855 @@
+{
+  "status": "PASS",
+  "renderer": "Edge Chromium/CSS; not Godot",
+  "sourceDimensions": {
+    "width": 1280,
+    "height": 850
+  },
+  "fonts": [
+    {
+      "family": "Jersey",
+      "status": "loaded"
+    },
+    {
+      "family": "Jersey15",
+      "status": "loaded"
+    },
+    {
+      "family": "Jersey20",
+      "status": "loaded"
+    },
+    {
+      "family": "Jersey25",
+      "status": "loaded"
+    },
+    {
+      "family": "Oxanium",
+      "status": "loaded"
+    },
+    {
+      "family": "Pixeloid",
+      "status": "loaded"
+    }
+  ],
+  "metrics": [
+    {
+      "id": "jersey",
+      "letters": "Pixeloid",
+      "numbers": "Jersey",
+      "name": "Jersey 10",
+      "numberWeight": 400,
+      "letterWeight": 700,
+      "detail": "Прежние цифры · точка отсчёта",
+      "digitHeightAt100": 54,
+      "letterHeightAt100": 78,
+      "numberSize": 74.07407407407408,
+      "statusSize": 41.02564102564102
+    },
+    {
+      "id": "jersey15",
+      "letters": "Pixeloid",
+      "numbers": "Jersey15",
+      "name": "Jersey 15",
+      "numberWeight": 400,
+      "letterWeight": 700,
+      "detail": "Новый вариант из семейства Jersey",
+      "digitHeightAt100": 56,
+      "letterHeightAt100": 78,
+      "numberSize": 71.42857142857143,
+      "statusSize": 41.02564102564102
+    },
+    {
+      "id": "jersey20",
+      "letters": "Pixeloid",
+      "numbers": "Jersey20",
+      "name": "Jersey 20",
+      "numberWeight": 400,
+      "letterWeight": 700,
+      "detail": "Новый вариант из семейства Jersey",
+      "digitHeightAt100": 59,
+      "letterHeightAt100": 78,
+      "numberSize": 67.79661016949152,
+      "statusSize": 41.02564102564102
+    },
+    {
+      "id": "jersey25",
+      "letters": "Pixeloid",
+      "numbers": "Jersey25",
+      "name": "Jersey 25",
+      "numberWeight": 400,
+      "letterWeight": 700,
+      "detail": "Новый вариант из семейства Jersey",
+      "digitHeightAt100": 61,
+      "letterHeightAt100": 78,
+      "numberSize": 65.57377049180327,
+      "statusSize": 41.02564102564102
+    },
+    {
+      "id": "oxanium",
+      "letters": "Pixeloid",
+      "numbers": "Oxanium",
+      "name": "Oxanium Bold",
+      "numberWeight": 700,
+      "letterWeight": 700,
+      "detail": "Новый вариант · геометрические формы",
+      "digitHeightAt100": 69,
+      "letterHeightAt100": 78,
+      "numberSize": 57.971014492753625,
+      "statusSize": 41.02564102564102
+    },
+    {
+      "id": "pixeloid",
+      "letters": "Pixeloid",
+      "numbers": "Pixeloid",
+      "name": "Pixeloid Sans Bold",
+      "numberWeight": 700,
+      "letterWeight": 700,
+      "detail": "Нынешняя единая гарнитура · для сравнения",
+      "digitHeightAt100": 78,
+      "letterHeightAt100": 78,
+      "numberSize": 51.28205128205128,
+      "statusSize": 41.02564102564102
+    }
+  ],
+  "glyphs": {
+    "pixeloid": {
+      "0": 17,
+      "1": 18,
+      "2": 19,
+      "3": 20,
+      "4": 21,
+      "5": 22,
+      "6": 23,
+      "7": 24,
+      "8": 25,
+      "9": 26,
+      "А": 215,
+      "Б": 216,
+      "В": 217,
+      "Г": 218,
+      "Д": 219,
+      "Е": 220,
+      "Ж": 221,
+      "З": 222,
+      "И": 223,
+      "Й": 224,
+      "К": 225,
+      "Л": 226,
+      "М": 227,
+      "Н": 228,
+      "О": 229,
+      "П": 230,
+      "Р": 231,
+      "С": 232,
+      "Т": 233,
+      "У": 234,
+      "Ф": 235,
+      "Х": 236,
+      "Ц": 237,
+      "Ч": 238,
+      "Ш": 239,
+      "Щ": 240,
+      "Ъ": 241,
+      "Ы": 242,
+      "Ь": 243,
+      "Э": 244,
+      "Ю": 245,
+      "Я": 246,
+      "а": 247,
+      "б": 248,
+      "в": 249,
+      "г": 250,
+      "д": 251,
+      "е": 252,
+      "ж": 253,
+      "з": 254,
+      "и": 255,
+      "й": 256,
+      "к": 257,
+      "л": 258,
+      "м": 259,
+      "н": 260,
+      "о": 261,
+      "п": 262,
+      "р": 263,
+      "с": 264,
+      "т": 265,
+      "у": 266,
+      "ф": 267,
+      "х": 268,
+      "ц": 269,
+      "ч": 270,
+      "ш": 271,
+      "щ": 272,
+      "ъ": 273,
+      "ы": 274,
+      "ь": 275,
+      "э": 276,
+      "ю": 277,
+      "я": 278,
+      "Ё": 279,
+      "ё": 280,
+      " ": 1,
+      "H": 41,
+      "P": 49,
+      "·": 117,
+      ".": 15,
+      ",": 13,
+      "+": 12,
+      "-": 14,
+      "%": 6,
+      "−": 187
+    },
+    "jersey": {
+      "0": 235,
+      "1": 236,
+      "2": 237,
+      "3": 238,
+      "4": 239,
+      "5": 240,
+      "6": 241,
+      "7": 242,
+      "8": 243,
+      "9": 244,
+      ".": 258,
+      ",": 259,
+      "+": 312,
+      "-": 275,
+      "%": 321,
+      "−": 313,
+      " ": 256
+    },
+    "jersey15": {
+      "0": 234,
+      "1": 235,
+      "2": 236,
+      "3": 237,
+      "4": 238,
+      "5": 239,
+      "6": 240,
+      "7": 241,
+      "8": 242,
+      "9": 243,
+      ".": 257,
+      ",": 258,
+      "+": 311,
+      "-": 274,
+      "%": 320,
+      "−": 312,
+      " ": 255
+    },
+    "jersey20": {
+      "0": 234,
+      "1": 235,
+      "2": 236,
+      "3": 237,
+      "4": 238,
+      "5": 239,
+      "6": 240,
+      "7": 241,
+      "8": 242,
+      "9": 243,
+      ".": 257,
+      ",": 258,
+      "+": 311,
+      "-": 274,
+      "%": 320,
+      "−": 312,
+      " ": 255
+    },
+    "jersey25": {
+      "0": 234,
+      "1": 235,
+      "2": 236,
+      "3": 237,
+      "4": 238,
+      "5": 239,
+      "6": 240,
+      "7": 241,
+      "8": 242,
+      "9": 243,
+      ".": 257,
+      ",": 258,
+      "+": 311,
+      "-": 274,
+      "%": 320,
+      "−": 312,
+      " ": 255
+    },
+    "oxanium": {
+      "0": 245,
+      "1": 246,
+      "2": 247,
+      "3": 248,
+      "4": 249,
+      "5": 250,
+      "6": 251,
+      "7": 252,
+      "8": 253,
+      "9": 254,
+      ".": 300,
+      ",": 299,
+      "+": 317,
+      "-": 273,
+      "%": 295,
+      "−": 332,
+      " ": 369
+    }
+  },
+  "layout": [
+    {
+      "labels": [
+        {
+          "text": "−12.5",
+          "inside": true,
+          "bounds": {
+            "x": 136.23046875,
+            "y": 114.5,
+            "width": 57.5390625,
+            "height": 37.0390625
+          },
+          "faces": [
+            {
+              "text": "−12.5",
+              "family": "Jersey",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ−28.0",
+          "inside": true,
+          "bounds": {
+            "x": 309.078125,
+            "y": 160,
+            "width": 81.84375,
+            "height": 64.296875
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "Pixeloid",
+              "weight": "700"
+            },
+            {
+              "text": "−28.0",
+              "family": "Jersey",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 85.19921875,
+            "y": 65,
+            "width": 49.6015625,
+            "height": 37.0390625
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Jersey",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ−6.0",
+          "inside": true,
+          "bounds": {
+            "x": 286.19921875,
+            "y": 91,
+            "width": 49.6015625,
+            "height": 55.0390625
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "Pixeloid",
+              "weight": "700"
+            },
+            {
+              "text": "−6.0",
+              "family": "Jersey",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 38.09375,
+            "y": 210,
+            "width": 63.8125,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 139.86328125,
+            "y": 230,
+            "width": 100.2734375,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 53.14453125,
+            "y": 295,
+            "width": 193.7109375,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    },
+    {
+      "labels": [
+        {
+          "text": "−12.5",
+          "inside": true,
+          "bounds": {
+            "x": 133.25390625,
+            "y": 114.5,
+            "width": 63.4921875,
+            "height": 35.7109375
+          },
+          "faces": [
+            {
+              "text": "−12.5",
+              "family": "Jersey15",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ−28.0",
+          "inside": true,
+          "bounds": {
+            "x": 306.18359375,
+            "y": 160,
+            "width": 87.6328125,
+            "height": 62.640625
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "Pixeloid",
+              "weight": "700"
+            },
+            {
+              "text": "−28.0",
+              "family": "Jersey15",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 82.88671875,
+            "y": 65,
+            "width": 54.2265625,
+            "height": 35.7109375
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Jersey15",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ−6.0",
+          "inside": true,
+          "bounds": {
+            "x": 283.88671875,
+            "y": 91,
+            "width": 54.2265625,
+            "height": 53.7109375
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "Pixeloid",
+              "weight": "700"
+            },
+            {
+              "text": "−6.0",
+              "family": "Jersey15",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 38.09375,
+            "y": 210,
+            "width": 63.8125,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 139.86328125,
+            "y": 230,
+            "width": 100.2734375,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 53.14453125,
+            "y": 295,
+            "width": 193.7109375,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    },
+    {
+      "labels": [
+        {
+          "text": "−12.5",
+          "inside": true,
+          "bounds": {
+            "x": 132.59765625,
+            "y": 114.5,
+            "width": 64.8046875,
+            "height": 33.8984375
+          },
+          "faces": [
+            {
+              "text": "−12.5",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ−28.0",
+          "inside": true,
+          "bounds": {
+            "x": 306.3828125,
+            "y": 160,
+            "width": 87.234375,
+            "height": 60.375
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "Pixeloid",
+              "weight": "700"
+            },
+            {
+              "text": "−28.0",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 83.08203125,
+            "y": 65,
+            "width": 53.8359375,
+            "height": 33.8984375
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ−6.0",
+          "inside": true,
+          "bounds": {
+            "x": 284.08203125,
+            "y": 91,
+            "width": 53.8359375,
+            "height": 51.8984375
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "Pixeloid",
+              "weight": "700"
+            },
+            {
+              "text": "−6.0",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 38.09375,
+            "y": 210,
+            "width": 63.8125,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 139.86328125,
+            "y": 230,
+            "width": 100.2734375,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 53.14453125,
+            "y": 295,
+            "width": 193.7109375,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    },
+    {
+      "labels": [
+        {
+          "text": "−12.5",
+          "inside": true,
+          "bounds": {
+            "x": 132.21484375,
+            "y": 114.5,
+            "width": 65.5703125,
+            "height": 32.7890625
+          },
+          "faces": [
+            {
+              "text": "−12.5",
+              "family": "Jersey25",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ−28.0",
+          "inside": true,
+          "bounds": {
+            "x": 306.01953125,
+            "y": 160,
+            "width": 87.9609375,
+            "height": 58.984375
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "Pixeloid",
+              "weight": "700"
+            },
+            {
+              "text": "−28.0",
+              "family": "Jersey25",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 82.80859375,
+            "y": 65,
+            "width": 54.3828125,
+            "height": 32.7890625
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Jersey25",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ−6.0",
+          "inside": true,
+          "bounds": {
+            "x": 283.80859375,
+            "y": 91,
+            "width": 54.3828125,
+            "height": 50.7890625
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "Pixeloid",
+              "weight": "700"
+            },
+            {
+              "text": "−6.0",
+              "family": "Jersey25",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 38.09375,
+            "y": 210,
+            "width": 63.8125,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 139.86328125,
+            "y": 230,
+            "width": 100.2734375,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 53.14453125,
+            "y": 295,
+            "width": 193.7109375,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    },
+    {
+      "labels": [
+        {
+          "text": "−12.5",
+          "inside": true,
+          "bounds": {
+            "x": 127.4609375,
+            "y": 114.5,
+            "width": 75.078125,
+            "height": 28.984375
+          },
+          "faces": [
+            {
+              "text": "−12.5",
+              "family": "Oxanium",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ−28.0",
+          "inside": true,
+          "bounds": {
+            "x": 303.08203125,
+            "y": 160,
+            "width": 93.8359375,
+            "height": 54.234375
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "Pixeloid",
+              "weight": "700"
+            },
+            {
+              "text": "−28.0",
+              "family": "Oxanium",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 80.83984375,
+            "y": 65,
+            "width": 58.3203125,
+            "height": 28.984375
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Oxanium",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ−6.0",
+          "inside": true,
+          "bounds": {
+            "x": 281.83984375,
+            "y": 91,
+            "width": 58.3203125,
+            "height": 46.984375
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "Pixeloid",
+              "weight": "700"
+            },
+            {
+              "text": "−6.0",
+              "family": "Oxanium",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 38.09375,
+            "y": 210,
+            "width": 63.8125,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 139.86328125,
+            "y": 230,
+            "width": 100.2734375,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 53.14453125,
+            "y": 295,
+            "width": 193.7109375,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    },
+    {
+      "labels": [
+        {
+          "text": "−12.5",
+          "inside": true,
+          "bounds": {
+            "x": 123.6875,
+            "y": 114.5,
+            "width": 82.625,
+            "height": 25.640625
+          },
+          "faces": [
+            {
+              "text": "−12.5",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ−28.0",
+          "inside": true,
+          "bounds": {
+            "x": 298.36328125,
+            "y": 160,
+            "width": 103.2734375,
+            "height": 50.0546875
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "Pixeloid",
+              "weight": "700"
+            },
+            {
+              "text": "−28.0",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 78.66015625,
+            "y": 65,
+            "width": 62.6796875,
+            "height": 25.640625
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ−6.0",
+          "inside": true,
+          "bounds": {
+            "x": 279.66015625,
+            "y": 91,
+            "width": 62.6796875,
+            "height": 43.640625
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "Pixeloid",
+              "weight": "700"
+            },
+            {
+              "text": "−6.0",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 38.09375,
+            "y": 210,
+            "width": 63.8125,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 139.86328125,
+            "y": 230,
+            "width": 100.2734375,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 53.14453125,
+            "y": 295,
+            "width": 193.7109375,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    }
+  ],
+  "specimenRowsWithinBounds": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "platformFonts": [
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 6
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 16
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 10
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 7
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 15",
+        "postScriptName": "Jersey15-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 15",
+        "postScriptName": "Jersey15-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 15",
+        "postScriptName": "Jersey15-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 15",
+        "postScriptName": "Jersey15-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 6
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 15",
+        "postScriptName": "Jersey15-Regular",
+        "isCustomFont": true,
+        "glyphCount": 16
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 10
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 7
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 15",
+        "postScriptName": "Jersey15-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 6
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 16
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 10
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 7
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 25",
+        "postScriptName": "Jersey25-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 25",
+        "postScriptName": "Jersey25-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 25",
+        "postScriptName": "Jersey25-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 25",
+        "postScriptName": "Jersey25-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 6
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 25",
+        "postScriptName": "Jersey25-Regular",
+        "isCustomFont": true,
+        "glyphCount": 16
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 10
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 7
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 25",
+        "postScriptName": "Jersey25-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Oxanium ExtraLight",
+        "postScriptName": "OxaniumRoman-Bold",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Oxanium ExtraLight",
+        "postScriptName": "OxaniumRoman-Bold",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Oxanium ExtraLight",
+        "postScriptName": "OxaniumRoman-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Oxanium ExtraLight",
+        "postScriptName": "OxaniumRoman-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 6
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Oxanium ExtraLight",
+        "postScriptName": "OxaniumRoman-Bold",
+        "isCustomFont": true,
+        "glyphCount": 16
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 10
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 7
+      }
+    ],
+    [
+      {
+        "familyName": "Oxanium ExtraLight",
+        "postScriptName": "OxaniumRoman-Bold",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 6
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 16
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 10
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 7
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ]
+  ],
+  "browserErrors": [],
+  "previewOnly": true
+}

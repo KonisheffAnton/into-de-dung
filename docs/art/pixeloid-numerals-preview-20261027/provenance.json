@@ -1,0 +1,168 @@
+{
+  "date": "2026-10-27",
+  "base": "faa13e70e7d4073f6aa315ee3ef448b534bf881e",
+  "integration": false,
+  "source": {
+    "path": "docs/art/jersey-cyrillic-preview-20261027/source-battle.png",
+    "copy": "source-battle.png",
+    "sha256": "3fb37657b82442d772c6344dce9180e59b2aa06e4c1e7d4b0b0acf7a53ea6fd7",
+    "byte_exact": true
+  },
+  "fonts": [
+    {
+      "id": "pixeloid",
+      "name": "Pixeloid Sans Bold",
+      "weight": 700,
+      "author_page": "https://ggbot.itch.io/pixeloid-font",
+      "download": {
+        "upload_id": "15999942",
+        "archive_sha256": "07fec6e78e3d51b5912c5d01beb455b334395cbde5fdade21e545f059e2e5beb",
+        "archive_bytes": 381335,
+        "retrieved": "2026-10-27"
+      },
+      "sources": [
+        {
+          "url": "https://ggbot.itch.io/pixeloid-font",
+          "archive_member": "TrueType (.ttf)/PixeloidSans-Bold.ttf",
+          "file": "fonts/pixeloid.ttf",
+          "bytes": 109964,
+          "sha256": "d8bc38413101440e2d68b8d886f82dae298e3d4550728b5c99f717377ed8a195"
+        },
+        {
+          "url": "https://ggbot.itch.io/pixeloid-font",
+          "archive_member": "License.txt",
+          "file": "fonts/pixeloid-LICENSE.txt",
+          "bytes": 4493,
+          "sha256": "de7a71bd2d330c09aaadb38cd09eda3c62693a55350e288b43dac73f4a5e67a8"
+        }
+      ]
+    },
+    {
+      "id": "jersey",
+      "name": "Jersey 10",
+      "directory": "jersey10",
+      "filename": "Jersey10-Regular.ttf",
+      "weight": 400,
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/jersey10/Jersey10-Regular.ttf",
+          "file": "fonts/jersey.ttf",
+          "bytes": 77732,
+          "sha256": "db9cbd091617048a145d249daa2b815fe7083be6ab66ac26626e21a4e01c3e82"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/jersey10/OFL.txt",
+          "file": "fonts/jersey-OFL.txt",
+          "bytes": 4395,
+          "sha256": "436d5836064cec796c7ddde6fb4faeabdb6f2f17443a24a30d0c38b75d13f922"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/jersey10/METADATA.pb",
+          "file": "fonts/jersey-METADATA.pb",
+          "bytes": 846,
+          "sha256": "baf58ca15808154e596f89d0e76ac8feaf0a204098e7db95f43d4ec8492222ea"
+        }
+      ]
+    },
+    {
+      "id": "jersey15",
+      "name": "Jersey 15",
+      "weight": 400,
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/jersey15/Jersey15-Regular.ttf",
+          "file": "fonts/jersey15.ttf",
+          "sha256": "dbe00479d62bb3b9fcf0d28f88a021ffc4bd7b01d6ad5c6f74b5fa371bb210ed",
+          "bytes": 104236
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/jersey15/OFL.txt",
+          "file": "fonts/jersey15-OFL.txt",
+          "sha256": "436d5836064cec796c7ddde6fb4faeabdb6f2f17443a24a30d0c38b75d13f922",
+          "bytes": 4395
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/jersey15/METADATA.pb",
+          "file": "fonts/jersey15-METADATA.pb",
+          "sha256": "6a4c85b4dcdaa3a7c95a543563c913e7e3813b3d77c135184d0ed62d3e65b1fc",
+          "bytes": 846
+        }
+      ]
+    },
+    {
+      "id": "jersey20",
+      "name": "Jersey 20",
+      "weight": 400,
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/jersey20/Jersey20-Regular.ttf",
+          "file": "fonts/jersey20.ttf",
+          "sha256": "76670d7e8826860e3d2f2846b88bc1652135b8d54b6adfa5a87649b9fa4bd3b4",
+          "bytes": 128576
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/jersey20/OFL.txt",
+          "file": "fonts/jersey20-OFL.txt",
+          "sha256": "436d5836064cec796c7ddde6fb4faeabdb6f2f17443a24a30d0c38b75d13f922",
+          "bytes": 4395
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/jersey20/METADATA.pb",
+          "file": "fonts/jersey20-METADATA.pb",
+          "sha256": "9652d141ed3e8ff98388c80096193c2776260327d78b5ad1b9559f8d9775f07c",
+          "bytes": 846
+        }
+      ]
+    },
+    {
+      "id": "jersey25",
+      "name": "Jersey 25",
+      "weight": 400,
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/jersey25/Jersey25-Regular.ttf",
+          "file": "fonts/jersey25.ttf",
+          "sha256": "4d4acdd89a748e9548041a3046d95536c500e1a7be9197c6aeef7d980f79d370",
+          "bytes": 142372
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/jersey25/OFL.txt",
+          "file": "fonts/jersey25-OFL.txt",
+          "sha256": "436d5836064cec796c7ddde6fb4faeabdb6f2f17443a24a30d0c38b75d13f922",
+          "bytes": 4395
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/jersey25/METADATA.pb",
+          "file": "fonts/jersey25-METADATA.pb",
+          "sha256": "a7e4bde0690277634ea6622aa5e695fed240fae6b26da232b25e5598778bd20a",
+          "bytes": 846
+        }
+      ]
+    },
+    {
+      "id": "oxanium",
+      "name": "Oxanium",
+      "weight": 700,
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/oxanium/Oxanium%5Bwght%5D.ttf",
+          "file": "fonts/oxanium.ttf",
+          "sha256": "2ce01d946e1e1ffc8d7eecfffbda8623bedd63eaf811a20488c4b69af45babb0",
+          "bytes": 43536
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/oxanium/OFL.txt",
+          "file": "fonts/oxanium-OFL.txt",
+          "sha256": "fe17c0f2581d71b4e1ea7e636e7f4877c29223e11bb1dd1a871e8c3f2a86336b",
+          "bytes": 4384
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/oxanium/METADATA.pb",
+          "file": "fonts/oxanium-METADATA.pb",
+          "sha256": "adf6faeb4238003d1d5eb8d15f59c940e145672e3f78bcf82b1802afe9f7c4d2",
+          "bytes": 1583
+        }
+      ]
+    }
+  ]
+}
