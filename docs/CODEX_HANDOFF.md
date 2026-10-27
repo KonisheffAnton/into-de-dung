@@ -1,17 +1,18 @@
-# Передача — 2026-10-27: превью шрифтов боевых чисел
+# Передача — 2026-10-27: четыре сочетания шрифтов
 
-D:\Games\into-de-dung; main; base 46201bd58538b66b076ade0453ca30a7482cbcbf.
-U разрешил только сравнение Pixelify Sans Bold, Russo One и Tiny5 на одном
-снимке боя: урон, крит, лечение и щит. Внедрение в игру не разрешено.
-[Пакет и метод](art/combat-font-preview-20261027/README.md): comparison.png,
-галерея comparison.html, 3 полных кадра, побайтный исходник, TTF/OFL и SHA.
-Это статический браузерный макет с демонстрационными значениями. Высота цифр
-выровнена; шрифт не выбран. В Pixelify нет U+2212: везде U+002D, без fallback.
-Пакет исключён через .gdignore; сцены/assets/runtime не менялись.
+D:\Games\into-de-dung; main; base 907b3a9cd4b51034191d23a45a73ebd638987407.
+U понравились буквы Tiny5 и цифры Pixelify; разрешено только превью четырёх
+пар с Monogram/Jersey 10/Press Start 2P и словами БЛОК/ПРОМАХ/КРОВОТЕЧЕНИЕ.
+[Пакет и метод](art/combat-font-pairs-preview-20261027/README.md): comparison.png,
+comparison.html, 4 полных кадра, прежний исходник, TTF/лицензии и SHA.
+Высота знаков выровнена; значения демонстрационные. Первый пакет сохранён.
+Везде U+002D вместо отсутствующего у Pixelify U+2212, без подмены шрифта.
+Выбор открыт, внедрение не разрешено. .gdignore исключает пакет из Godot;
+сцены/assets/runtime не менялись.
 
-Проверки макета: загрузка 3/3 шрифтов, cmap символов, границы 12/12 подписей,
-размер исходника, отсутствие ошибок браузера; визуальное ревью APPROVE.
-Отчёт: test_reports/combat-font-preview-20261027/.
+Проверки: 5/5 шрифтов, cmap знаков, 28/28 подписей без обрезаний/пересечений,
+8 строк образцов; фон вне надписей побиксельно прежний. Ошибок браузера нет.
+Независимое ревью APPROVE; test_reports/combat-font-pairs-preview-20261027/.
 Godot/full/core/F5 для этой пробы не запускались; движение/DPI не проверены.
 Следующий шаг — отзыв U о шрифтах. Интеграцию/новый срез не начинать автоматически.
 
@@ -25,7 +26,7 @@ Godot/full/core/F5 для этой пробы не запускались; дв�
 Чужие scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
 сохранены dirty; не трогать/reset/stage/commit. Core/preview/queue/RNG/save/frozen
 сохранять. Без push/sidebar tasks/расписаний.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261027.md), [HISTORY](HISTORY.md).
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261027-2.md), [HISTORY](HISTORY.md).
 Завершение: проверки, локальный Conventional Commit, короткий HANDOFF;
 прежний побайтно отдельным архивом+HISTORY. В финале/при блокере предложить
 новый чат и полный самодостаточный промпт: HEAD, результат, docs/artifacts,

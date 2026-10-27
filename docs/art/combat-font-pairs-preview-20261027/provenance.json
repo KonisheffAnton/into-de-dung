@@ -1,0 +1,147 @@
+{
+  "date": "2026-10-27",
+  "base": "907b3a9cd4b51034191d23a45a73ebd638987407",
+  "integration": false,
+  "source": {
+    "path": "docs/art/combat-font-preview-20261027/source-battle.png",
+    "copy": "source-battle.png",
+    "sha256": "3fb37657b82442d772c6344dce9180e59b2aa06e4c1e7d4b0b0acf7a53ea6fd7",
+    "byte_exact": true
+  },
+  "google_fonts_commit": "e7db6ca603fd4862010383ff17ffd6cc4ffac1c0",
+  "fonts": [
+    {
+      "id": "pixelify",
+      "name": "Pixelify Sans",
+      "directory": "pixelifysans",
+      "filename": "PixelifySans[wght].ttf",
+      "weight": 700,
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/pixelifysans/PixelifySans%5Bwght%5D.ttf",
+          "file": "fonts/pixelify.ttf",
+          "bytes": 79160,
+          "sha256": "9ba86cd010a4de309d263ceff8e8044092c9db7efda869620cb9ff1c4389e8a5"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/pixelifysans/OFL.txt",
+          "file": "fonts/pixelify-OFL.txt",
+          "bytes": 4488,
+          "sha256": "b66ba46f511a851ab09998b5a5a9fdbb102545a3864cb993095e1745996873a7"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/pixelifysans/METADATA.pb",
+          "file": "fonts/pixelify-METADATA.pb",
+          "bytes": 939,
+          "sha256": "adac079f2f599996ffa5952f8fdc66e643db2cdcd9a0bc84ad8ad4b8387567d4"
+        }
+      ]
+    },
+    {
+      "id": "tiny5",
+      "name": "Tiny5",
+      "directory": "tiny5",
+      "filename": "Tiny5[BLED,JITT,ROND,wdth,wght].ttf",
+      "weight": 400,
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/tiny5/Tiny5%5BBLED%2CJITT%2CROND%2Cwdth%2Cwght%5D.ttf",
+          "file": "fonts/tiny5.ttf",
+          "bytes": 433432,
+          "sha256": "588626f2c1b164f55927c0d8123f4bc134651aad7d257da68fc19b0824b0d8fa"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/tiny5/OFL.txt",
+          "file": "fonts/tiny5-OFL.txt",
+          "bytes": 4389,
+          "sha256": "690fda321d0ebce403249c8d61dadddcee09dc8813424cc5a8f982efcff9a9a3"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/tiny5/METADATA.pb",
+          "file": "fonts/tiny5-METADATA.pb",
+          "bytes": 1797,
+          "sha256": "b58a562bf64de0dab8cc9d55ecd48cc8b6471eea1f996cf0d8f894e3eb1d4ae6"
+        }
+      ]
+    },
+    {
+      "id": "jersey",
+      "name": "Jersey 10",
+      "directory": "jersey10",
+      "filename": "Jersey10-Regular.ttf",
+      "weight": 400,
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/jersey10/Jersey10-Regular.ttf",
+          "file": "fonts/jersey.ttf",
+          "bytes": 77732,
+          "sha256": "db9cbd091617048a145d249daa2b815fe7083be6ab66ac26626e21a4e01c3e82"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/jersey10/OFL.txt",
+          "file": "fonts/jersey-OFL.txt",
+          "bytes": 4395,
+          "sha256": "436d5836064cec796c7ddde6fb4faeabdb6f2f17443a24a30d0c38b75d13f922"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/jersey10/METADATA.pb",
+          "file": "fonts/jersey-METADATA.pb",
+          "bytes": 846,
+          "sha256": "baf58ca15808154e596f89d0e76ac8feaf0a204098e7db95f43d4ec8492222ea"
+        }
+      ]
+    },
+    {
+      "id": "press",
+      "name": "Press Start 2P",
+      "directory": "pressstart2p",
+      "filename": "PressStart2P-Regular.ttf",
+      "weight": 400,
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/pressstart2p/PressStart2P-Regular.ttf",
+          "file": "fonts/press.ttf",
+          "bytes": 118204,
+          "sha256": "034c77f1f05ec89421e4a63f0e3a4ca1ecf852cc6d2bf611f126f275728e017d"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/pressstart2p/OFL.txt",
+          "file": "fonts/press-OFL.txt",
+          "bytes": 4413,
+          "sha256": "705960c3281a5765ecc0b59bd4ed7ca59eed165748076bc2fc3e8fdbfeb944b0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/pressstart2p/METADATA.pb",
+          "file": "fonts/press-METADATA.pb",
+          "bytes": 672,
+          "sha256": "a8bd7db72790187aaabca90e81d8cd4549d9dce9058b5725d007f1a08bc2b12c"
+        }
+      ]
+    },
+    {
+      "id": "monogram",
+      "name": "Monogram Extended",
+      "weight": 400,
+      "author_page": "https://datagoblin.itch.io/monogram",
+      "author_repository": "https://gitlab.com/datagoblin/monogram",
+      "source_commit": "19fde16e15d229f69e55520bec093d05aee5eca7",
+      "source_path": "source/itch/html-tester/monogram-extended.ttf",
+      "source_blob": "5fc104be753be6cbf5a6898f74318ec853d9247d",
+      "license": "CC0 1.0; declared by author on itch.io; repository code license is separate",
+      "sources": [
+        {
+          "url": "https://gitlab.com/api/v4/projects/datagoblin%2Fmonogram/repository/blobs/5fc104be753be6cbf5a6898f74318ec853d9247d/raw",
+          "file": "fonts/monogram.ttf",
+          "bytes": 55364,
+          "sha256": "0a9b4ec97046e0297bc9f40a12338bfaac0695c95349b6a15514f86618ef8e0a"
+        },
+        {
+          "url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt",
+          "file": "fonts/monogram-CC0.txt",
+          "bytes": 7048,
+          "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+        }
+      ]
+    }
+  ]
+}

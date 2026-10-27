@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Буквы и цифры — четыре сочетания</title>
+  <style>
+    @font-face { font-family: Pixelify; src: url('fonts/pixelify.ttf'); font-weight: 400 700; }
+    @font-face { font-family: Tiny5; src: url('fonts/tiny5.ttf'); font-weight: 100 900; }
+    @font-face { font-family: Monogram; src: url('fonts/monogram.ttf'); font-weight: 400; }
+    @font-face { font-family: Jersey; src: url('fonts/jersey.ttf'); font-weight: 400; }
+    @font-face { font-family: Press; src: url('fonts/press.ttf'); font-weight: 400; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #14191d; color: #eeeae0; font-family: 'Segoe UI', sans-serif; }
+    main { width: 1368px; margin: auto; padding: 32px; }
+    .eyebrow { color: #b4baad; letter-spacing: .16em; font-size: 12px; font-weight: 600; }
+    h1 { margin: 8px 0; font-size: 32px; font-weight: 650; }
+    .intro { margin: 0; color: #bbc1bd; font-size: 15px; }
+    .columns { display: grid; grid-template-columns: repeat(2, 640px); gap: 24px; margin-top: 24px; }
+    .column { background: #20272a; border-radius: 8px; overflow: hidden; }
+    .heading { height: 76px; padding: 15px 20px; }
+    h2 { font-size: 21px; font-weight: 600; margin: 0 0 5px; }
+    .index { color: #a9b7ae; margin-right: 12px; }
+    .sub { color: #adb7b2; font-size: 12px; }
+    .viewport { width: 640px; height: 425px; overflow: hidden; position: relative; }
+    .world { width: 1280px; height: 850px; position: absolute; left: 0; top: 0; transform: scale(.5); transform-origin: top left; }
+    .battle { width: 1280px; height: 850px; position: absolute; inset: 0; }
+    .number-font { font-family: var(--number-family); font-weight: var(--number-weight); font-synthesis: none; }
+    .tag-font { font-family: var(--tag-family); font-weight: 400; font-synthesis: none; }
+    .feedback { position: absolute; transform: translateX(-50%); text-align: center; white-space: nowrap; line-height: 1; }
+    .feedback > span { display: block; paint-order: stroke fill; -webkit-text-stroke: 8px #19121f; text-shadow: 0 3px 0 #19121f; }
+    .value { font-size: var(--number-size); }
+    .tag { font-size: var(--tag-size); height: 36px; line-height: 36px; }
+    .damage { color: #ffe6ce; }
+    .critical { color: #ffd06d; }
+    .critical .value { font-size: var(--crit-size); }
+    .heal { color: #79edba; }
+    .shield { color: #85d9ff; }
+    .block { color: #b7dcec; }
+    .miss { color: #ebe5d7; }
+    .bleed { color: #ffa6a1; }
+    .damage.feedback { left: 730px; top: 229px; }
+    .critical.feedback { left: 1100px; top: 320px; }
+    .heal.feedback { left: 620px; top: 130px; }
+    .shield.feedback { left: 1022px; top: 182px; }
+    .block.feedback { left: 440px; top: 420px; }
+    .miss.feedback { left: 780px; top: 460px; }
+    .bleed.feedback { left: 700px; top: 590px; }
+    .status > span { font-size: var(--status-size); }
+    .specimen { padding: 14px 20px 16px; height: 111px; }
+    .specimen-row { display: flex; gap: 16px; align-items: center; height: 39px; }
+    .specimen-label { font-size: 12px; color: #b7c0ba; width: 55px; flex-shrink: 0; }
+    .specimen .number-font { font-size: var(--digit-strip-size); white-space: nowrap; line-height: 1; }
+    .words { display: flex; gap: 16px; font-size: var(--word-strip-size); white-space: nowrap; line-height: 1; }
+    footer { margin-top: 22px; font-size: 13px; color: #adb7b2; line-height: 1.6; }
+    footer strong { color: #e2e4d8; font-weight: 500; }
+    .exports { margin-top: 10px; display: flex; gap: 24px; }
+    a { color: #b9d9cf; }
+    body[data-capture] main { padding: 0; }
+    body[data-capture] .eyebrow, body[data-capture] h1, body[data-capture] .intro,
+    body[data-capture] .heading, body[data-capture] .specimen, body[data-capture] footer { display: none; }
+    body[data-capture] .columns { display: block; margin: 0; }
+    body[data-capture] .column { display: none; border-radius: 0; }
+    body[data-capture="tiny-pixelify"] .tiny-pixelify,
+    body[data-capture="monogram-pixelify"] .monogram-pixelify,
+    body[data-capture="tiny-jersey"] .tiny-jersey,
+    body[data-capture="tiny-press"] .tiny-press { display: block; }
+    body[data-capture] .viewport { width: 1280px; height: 850px; }
+    body[data-capture] .world { transform: none; }
+  </style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">INTODEDUNG · ПРЕВЬЮ / 27.10.2026</div>
+  <h1>Буквы + цифры</h1>
+  <p class="intro">Четыре сочетания на одном кадре. Первым указан шрифт букв, вторым — цифр.</p>
+  <div class="columns" id="columns"></div>
+  <footer>
+    <strong>Одинаковые значения, цвета и высота знаков.</strong> Цифры: 20 px, крит: 25 px; новые подписи: 16 px.<br>
+    Полный исходный кадр показан в масштабе 50%. Числа и статусы — примеры оформления, не события записанного боя.<br>
+    Только статическое превью. Внедрение в игру не выполнено.
+    <div class="exports"><a href="tiny-pixelify-battle.png">01 · полный кадр</a><a href="monogram-pixelify-battle.png">02 · полный кадр</a><a href="tiny-jersey-battle.png">03 · полный кадр</a><a href="tiny-press-battle.png">04 · полный кадр</a></div>
+  </footer>
+</main>
+<script>
+  const pairs = [
+    {id:'tiny-pixelify', letters:'Tiny5', numbers:'Pixelify', name:'Tiny5 + Pixelify Sans', numberWeight:700, detail:'Буквы Tiny5 · цифры Pixelify Bold · исходное сочетание'},
+    {id:'monogram-pixelify', letters:'Monogram', numbers:'Pixelify', name:'Monogram + Pixelify Sans', numberWeight:700, detail:'Буквы Monogram Extended · цифры Pixelify Bold'},
+    {id:'tiny-jersey', letters:'Tiny5', numbers:'Jersey', name:'Tiny5 + Jersey 10', numberWeight:400, detail:'Буквы Tiny5 · цифры Jersey 10 Regular'},
+    {id:'tiny-press', letters:'Tiny5', numbers:'Press', name:'Tiny5 + Press Start 2P', numberWeight:400, detail:'Буквы Tiny5 · цифры Press Start 2P Regular'}
+  ];
+  window.previewPairs = pairs;
+  for (const [i,pair] of pairs.entries()) {
+    const section = document.createElement('section');
+    section.className = 'column ' + pair.id;
+    section.style.setProperty('--tag-family',pair.letters);
+    section.style.setProperty('--number-family',pair.numbers);
+    section.style.setProperty('--number-weight',pair.numberWeight);
+    section.innerHTML = `<div class="heading"><h2><span class="index">0${i+1}</span>${pair.name}</h2><div class="sub">${pair.detail}</div></div>
+      <div class="viewport"><div class="world"><img class="battle" src="source-battle.png" alt="Один и тот же исходный кадр боя">
+        <div class="feedback damage"><span class="value number-font">-12.5</span></div>
+        <div class="feedback critical"><span class="tag tag-font">КРИТ</span><span class="value number-font">-28.0</span></div>
+        <div class="feedback heal"><span class="value number-font">+8.0</span></div>
+        <div class="feedback shield"><span class="tag tag-font">ЩИТ</span><span class="value number-font">-6.0</span></div>
+        <div class="feedback status block"><span class="tag-font">БЛОК</span></div>
+        <div class="feedback status miss"><span class="tag-font">ПРОМАХ</span></div>
+        <div class="feedback status bleed"><span class="tag-font">КРОВОТЕЧЕНИЕ</span></div>
+      </div></div>
+      <div class="specimen">
+        <div class="specimen-row"><span class="specimen-label">Цифры</span><span class="number-font">0123456789 - + .</span></div>
+        <div class="specimen-row"><span class="specimen-label">Буквы</span><div class="words tag-font"><span>БЛОК</span><span>ПРОМАХ</span><span>КРОВОТЕЧЕНИЕ</span></div></div>
+      </div>`;
+    document.getElementById('columns').appendChild(section);
+  }
+  window.previewReady = (async () => {
+    await Promise.all(pairs.flatMap(p=>[document.fonts.load(`${p.numberWeight} 100px ${p.numbers}`),document.fonts.load(`400 100px ${p.letters}`)]));
+    await document.fonts.ready;
+    const context = document.createElement('canvas').getContext('2d');
+    const metrics = [];
+    for (const pair of pairs) {
+      context.font = `${pair.numberWeight} 100px ${pair.numbers}`;
+      const numbers = context.measureText('0123456789');
+      const digitHeight = numbers.actualBoundingBoxAscent + numbers.actualBoundingBoxDescent;
+      const section = document.querySelector('.' + pair.id);
+      for(const [property,height] of [['--number-size',40],['--crit-size',50],['--digit-strip-size',18]]) {
+        section.style.setProperty(property, `${height / digitHeight * 100}px`);
+      }
+      context.font = `400 100px ${pair.letters}`;
+      const letters = context.measureText('БЛОКПРОМАХКРОВОТЕЧЕНИЕ');
+      const letterHeight = letters.actualBoundingBoxAscent + letters.actualBoundingBoxDescent;
+      for(const [property,height] of [['--status-size',32],['--word-strip-size',16]]) {
+        section.style.setProperty(property, `${height / letterHeight * 100}px`);
+      }
+      const tags = context.measureText('КРИТЩ');
+      section.style.setProperty('--tag-size', `${24/(tags.actualBoundingBoxAscent+tags.actualBoundingBoxDescent)*100}px`);
+      metrics.push({...pair,digitHeightAt100:digitHeight,letterHeightAt100:letterHeight,numberSize:40/digitHeight*100,statusSize:32/letterHeight*100});
+    }
+    await Promise.all([...document.images].map(img=>img.decode()));
+    window.fontMetrics = metrics;
+    return metrics;
+  })();
+</script>
+</body>
+</html>
