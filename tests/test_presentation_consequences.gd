@@ -69,7 +69,21 @@ func capture(label: String) -> void:
 	for impact: BattlePresentationImpact in board._impacts.get_children(): impact._tween.pause()
 	await process_frame
 	await process_frame
-	check(viewport.get_texture().get_image().save_png(captures.path_join(label + ".png")) == OK, "PNG " + label)
+	var image := viewport.get_texture().get_image()
+	if label == "chain-wall":
+		# В этой цепочке верхнее видимое лечение почти у края; рамка Label включает пустые поля.
+		# Проверяем пиксели бирюзовых букв, чтобы рост метрик не обрезал именно видимую подпись.
+		var heal_pixels: int = 0
+		var edge_pixels: int = 0
+		for y: int in 32:
+			for x: int in image.get_width():
+				var pixel := image.get_pixel(x, y)
+				if pixel.r < 0.5 and pixel.g > 0.6 and pixel.b > 0.55:
+					heal_pixels += 1
+					if y < 3: edge_pixels += 1
+		check(heal_pixels > 20, "chain-wall top heal is present in rendered pixels")
+		check(edge_pixels == 0, "chain-wall top heal glyphs retain margin above viewport edge")
+	check(image.save_png(captures.path_join(label + ".png")) == OK, "PNG " + label)
 
 func play_checked(s: BattleCoreReactionsSession, data: Dictionary, expected: String, label: String) -> void:
 	player.cancel()

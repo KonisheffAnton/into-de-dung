@@ -1,5 +1,23 @@
 # История и свидетельства проверок
 
+## Tiny5 + Jersey 10 для боевых подписей — 2026-10-27
+
+По U внедрён вариант 03 из сравнения пар: буквы Tiny5, числа/знаки Jersey 10.
+Общий Label получает FontVariation, кегль 24; последствия 20. Строки, цвета,
+контактная задержка и lifecycle прежние; core/preview/queue/RNG/save не менялись.
+[Контракт](BATTLE_PRESENTATION_REWORK.md), [исходники/OFL/сборка](../assets/ui/combat_fonts/README.md).
+Реальный glyph shaping проверен для HP, кириллицы, чисел, знаков и многострочности.
+Кегль 26 отклонён по сравнению с прежним рендером: обрезал верхнее видимое лечение
+в chain-wall. Кегль 24 и пиксельная регрессия устраняют этот эффект.
+7 render-наборов PASS на runtime 24/20: 6 в test_reports/demo-7c92aec1752b48768d80f6f0965ed48e/,
+последствия окончательно в test_reports/demo-ab13b938e940425f9ccadd4a7cad64e3/
+(import/startup/последствия: 3 PASS). Ранний assert рамок Label заменён проверкой glyph-пикселей.
+20 проверок исходников/рисунков/метрик/OFL/побайтной пересборки PASS; ревью APPROVE.
+Отчёт и PNG: test_reports/combat-fonts-integration-20261027/.
+Full/core/F5 не запускались; ручная читаемость в движении/DPI открыта.
+114 защищённых файлов/прежних превью побайтно сохранены. Base 8da9e9c; main, без push.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261027-4.md).
+
 ## Ещё пять шрифтов с примерами — 2026-10-27
 
 По U найдены Pixeloid Sans Bold, Kaph, Chetyre, Pixel Ultima Bold и Quest Square.

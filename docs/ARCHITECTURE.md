@@ -226,6 +226,12 @@ reset/exit убивают Tween и отбрасывают старые данн�
 накладки огня/льда — отдельные сцены с нулевым относительным Z; ArtRoot рисуется
 перед родительским HUD. Это заглушки, не финальный формат image set.
 
+Общая сцена `result_number.tscn` использует ресурс `combat_feedback.tres`:
+цифры Jersey 10 и буквы Tiny5 выбираются шрифтовым fallback внутри прежнего Label.
+Ресурсы находятся в assets, не зависят от docs при запуске. Правила подписей —
+[BATTLE_PRESENTATION_REWORK](BATTLE_PRESENTATION_REWORK.md), источники и пересборка —
+[combat_fonts](../assets/ui/combat_fonts/README.md).
+
 Во время атаки общий visual отражает только рисунок к экранной стороне цели;
 после клипа возвращает authored transform. Board восстанавливает позу из detached
 pending strike при resize/публикации; core-facing, RNG/save/preview не меняются.

@@ -241,6 +241,7 @@ func run() -> void:
 	board.execution_pending = true
 	player = BattlePresentationPlayer.new()
 	viewport.add_child(player)
+	await combat_font_pair()
 	for mode: String in ["hp", "mixed", "armor", "zero", "lethal", "critical", "counter"]: await scenario(mode)
 	await movement_timing()
 	await abort_cases()
@@ -248,6 +249,42 @@ func run() -> void:
 	await process_frame
 	print("PRESENTATION CONTACT RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
+
+func combat_font_pair() -> void:
+	var scene := preload("res://scenes/demo/visuals/result_number.tscn")
+	var samples: Array[String] = ["−12.5 HP", "КРИТ · −28.0 HP", "+8.0 HP", "Щит −6.0",
+		"БЛОК", "ПРОМАХ", "КРОВОТЕЧЕНИЕ", "0 · без урона", "−3.5 броня\nРавновесие −2.0"]
+	var server := TextServerManager.get_primary_interface()
+	var colors: Array[Color] = [Color("f29b9b"), Color("f29b9b"), Color("65dfcc"), Color("71cefa")]
+	var numbers: Array[BattlePresentationNumber] = []
+	for i: int in samples.size():
+		var number := scene.instantiate() as BattlePresentationNumber
+		viewport.add_child(number)
+		number.position = Vector2(640, 100 + i * 75)
+		if i == samples.size() - 1:
+			number._label.add_theme_font_size_override("font_size", 20)
+		number.start(samples[i], colors[i] if i < colors.size() else Color("ffd08a"))
+		number._tween.pause()
+		numbers.append(number)
+		check(number._label.text == samples[i], "font selection preserves original feedback text")
+		var font := number._label.get_theme_font("font")
+		# Проверяем шейпинг всей смешанной строки: наличие glyph в TTF не доказывает выбор fallback.
+		for text_line: String in samples[i].split("\n"):
+			var line := TextLine.new()
+			check(line.add_string(text_line, font, number._label.get_theme_font_size("font_size")), "combat font shapes line")
+			for glyph: Dictionary in server.shaped_text_get_glyphs(line.get_rid()):
+				var character := text_line.substr(int(glyph.start), 1)
+				if character == " ": continue
+				var expected := "Combat Jersey Numbers" if "0123456789.,+-%−".contains(character) else "Tiny5"
+				check(int(glyph.index) != 0 and server.font_get_name(glyph.font_rid) == expected,
+					"combat glyph %s uses %s" % [character, expected])
+		check(number._label.size.x > 0 and number._label.size.y > 0 and not number._label.clip_text, "feedback has measured unclipped bounds")
+	await process_frame
+	await process_frame
+	if not captures.is_empty():
+		check(viewport.get_texture().get_image().save_png(captures.path_join("combat-font-pair.png")) == OK, "PNG selected combat font pair")
+	for number: BattlePresentationNumber in numbers: number.queue_free()
+	await process_frame
 
 func movement_timing() -> void:
 	var s := fixture("hp")

@@ -576,7 +576,7 @@ func _add_result_number(id: int, text: String, tint: Color, feedback_kind: Strin
 	number.set_meta("anchor", (anchor.position if anchor != null else Vector2(0, -48)) * (visual.get_unit_art_scale() if visual != null else 1.0))
 	if feedback_kind == &"consequence":
 		number.rise = 0.0
-		number._label.add_theme_font_size_override("font_size", 16)
+		number._label.add_theme_font_size_override("font_size", 20)
 		number.set_meta("anchor", Vector2(0, 35))
 		var leader := Line2D.new()
 		leader.name = "Leader"

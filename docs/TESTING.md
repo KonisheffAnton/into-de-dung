@@ -14,6 +14,17 @@
 
 ## Изменение игрового кода
 
+Шрифты боевых подписей Tiny5 + Jersey 10 (2026-10-27): `--render-check --only
+presentation_contact presentation_consequences battle_presentation presentation_ranged
+presentation_mage presentation_reactions battle_camera_ui --screen 0` (одна команда).
+`presentation_contact` проверяет действительные шрифты glyph в смешанных строках
+урона/крита/лечения/щита, латинском HP, кириллических статусах и многострочных
+последствиях; сохраняет `combat-font-pair.png`. Прежние проверки покрывают
+размещение, задержку контакта, lifetime/fade, ×3, zoom/resize, skip/cancel и RNG;
+`presentation_consequences` также проверяет пиксели верхнего видимого лечения
+в плотной цепочке chain-wall: подпись присутствует и сохраняет отступ от края.
+Ручная F5/DPI-приёмка читаемости в движении остаётся отдельной.
+
 Разворот всех живых атакующих к цели (2026-10-26): `--render-check --only
 unit_visual_contract visual_scene_contract presentation_attack_styles presentation_contact
 presentation_ranged presentation_reactions defender_idle defender_death_routes
