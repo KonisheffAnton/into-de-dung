@@ -1,0 +1,95 @@
+{
+  "date": "2026-10-27",
+  "base": "46201bd58538b66b076ade0453ca30a7482cbcbf",
+  "integration": false,
+  "google_fonts_commit": "e7db6ca603fd4862010383ff17ffd6cc4ffac1c0",
+  "source": {
+    "path": "test_reports/demo-f452badf203a427999337faf2ba45996/attack-style-screenshots/facing-warrior-player-1.png",
+    "copy": "source-battle.png",
+    "sha256": "3fb37657b82442d772c6344dce9180e59b2aa06e4c1e7d4b0b0acf7a53ea6fd7",
+    "byte_exact": true
+  },
+  "fonts": [
+    {
+      "id": "pixelify",
+      "name": "Pixelify Sans",
+      "directory": "pixelifysans",
+      "filename": "PixelifySans[wght].ttf",
+      "weight": 700,
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/pixelifysans/PixelifySans%5Bwght%5D.ttf",
+          "file": "fonts/pixelify.ttf",
+          "bytes": 79160,
+          "sha256": "9ba86cd010a4de309d263ceff8e8044092c9db7efda869620cb9ff1c4389e8a5"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/pixelifysans/OFL.txt",
+          "file": "fonts/pixelify-OFL.txt",
+          "bytes": 4488,
+          "sha256": "b66ba46f511a851ab09998b5a5a9fdbb102545a3864cb993095e1745996873a7"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/pixelifysans/METADATA.pb",
+          "file": "fonts/pixelify-METADATA.pb",
+          "bytes": 939,
+          "sha256": "adac079f2f599996ffa5952f8fdc66e643db2cdcd9a0bc84ad8ad4b8387567d4"
+        }
+      ]
+    },
+    {
+      "id": "russo",
+      "name": "Russo One",
+      "directory": "russoone",
+      "filename": "RussoOne-Regular.ttf",
+      "weight": 400,
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/russoone/RussoOne-Regular.ttf",
+          "file": "fonts/russo.ttf",
+          "bytes": 39124,
+          "sha256": "bc0abcc660bd8b7ad3000ecb2898a27c58a29a50f7ec81652fa12e75148d09df"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/russoone/OFL.txt",
+          "file": "fonts/russo-OFL.txt",
+          "bytes": 4390,
+          "sha256": "3ac1301549523d9861fedca12871f24e575fbd26d520632fc00ba849b471d275"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/russoone/METADATA.pb",
+          "file": "fonts/russo-METADATA.pb",
+          "bytes": 850,
+          "sha256": "5a78f574cb664eae7b85a87402a2d73739a89ce383eb21dc8512444e3fb51a57"
+        }
+      ]
+    },
+    {
+      "id": "tiny5",
+      "name": "Tiny5",
+      "directory": "tiny5",
+      "filename": "Tiny5[BLED,JITT,ROND,wdth,wght].ttf",
+      "weight": 400,
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/tiny5/Tiny5%5BBLED%2CJITT%2CROND%2Cwdth%2Cwght%5D.ttf",
+          "file": "fonts/tiny5.ttf",
+          "bytes": 433432,
+          "sha256": "588626f2c1b164f55927c0d8123f4bc134651aad7d257da68fc19b0824b0d8fa"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/tiny5/OFL.txt",
+          "file": "fonts/tiny5-OFL.txt",
+          "bytes": 4389,
+          "sha256": "690fda321d0ebce403249c8d61dadddcee09dc8813424cc5a8f982efcff9a9a3"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/tiny5/METADATA.pb",
+          "file": "fonts/tiny5-METADATA.pb",
+          "bytes": 1797,
+          "sha256": "b58a562bf64de0dab8cc9d55ecd48cc8b6471eea1f996cf0d8f894e3eb1d4ae6"
+        }
+      ]
+    }
+  ]
+}

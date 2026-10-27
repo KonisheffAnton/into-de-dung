@@ -1,0 +1,171 @@
+{
+  "status": "PASS",
+  "renderer": "Chromium/CSS; not Godot",
+  "sourceDimensions": {
+    "width": 1280,
+    "height": 850
+  },
+  "fonts": [
+    {
+      "family": "Pixelify",
+      "status": "loaded"
+    },
+    {
+      "family": "Russo",
+      "status": "loaded"
+    },
+    {
+      "family": "Tiny5",
+      "status": "loaded"
+    }
+  ],
+  "metrics": [
+    {
+      "id": "pixelify",
+      "family": "Pixelify",
+      "name": "Pixelify Sans",
+      "detail": "Bold · 700",
+      "weight": 700,
+      "digitHeightAt100": 65,
+      "normalSize": 61.53846153846154
+    },
+    {
+      "id": "russo",
+      "family": "Russo",
+      "name": "Russo One",
+      "detail": "Regular · 400",
+      "weight": 400,
+      "digitHeightAt100": 72,
+      "normalSize": 55.55555555555556
+    },
+    {
+      "id": "tiny5",
+      "family": "Tiny5",
+      "name": "Tiny5",
+      "detail": "Regular · 400",
+      "weight": 400,
+      "digitHeightAt100": 63,
+      "normalSize": 63.49206349206349
+    }
+  ],
+  "glyphs": {
+    "pixelify": {
+      "0": 419,
+      "1": 420,
+      "2": 421,
+      "3": 422,
+      "4": 423,
+      "5": 424,
+      "6": 425,
+      "7": 426,
+      "8": 427,
+      "9": 428,
+      "-": 478,
+      "+": 523,
+      ".": 460,
+      "К": 281,
+      "Р": 286,
+      "И": 279,
+      "Т": 288,
+      "Щ": 296
+    },
+    "russo": {
+      "0": 19,
+      "1": 20,
+      "2": 21,
+      "3": 22,
+      "4": 23,
+      "5": 24,
+      "6": 25,
+      "7": 26,
+      "8": 27,
+      "9": 28,
+      "-": 16,
+      "+": 14,
+      ".": 17,
+      "К": 321,
+      "Р": 327,
+      "И": 319,
+      "Т": 329,
+      "Щ": 336
+    },
+    "tiny5": {
+      "0": 1940,
+      "1": 379,
+      "2": 469,
+      "3": 458,
+      "4": 283,
+      "5": 280,
+      "6": 443,
+      "7": 439,
+      "8": 255,
+      "9": 358,
+      "-": 307,
+      "+": 406,
+      ".": 398,
+      "К": 809,
+      "Р": 815,
+      "И": 807,
+      "Т": 817,
+      "Щ": 824
+    }
+  },
+  "layout": [
+    [
+      {
+        "text": "-12.5",
+        "inside": true
+      },
+      {
+        "text": "КРИТ-28.0",
+        "inside": true
+      },
+      {
+        "text": "+8.0",
+        "inside": true
+      },
+      {
+        "text": "ЩИТ-6.0",
+        "inside": true
+      }
+    ],
+    [
+      {
+        "text": "-12.5",
+        "inside": true
+      },
+      {
+        "text": "КРИТ-28.0",
+        "inside": true
+      },
+      {
+        "text": "+8.0",
+        "inside": true
+      },
+      {
+        "text": "ЩИТ-6.0",
+        "inside": true
+      }
+    ],
+    [
+      {
+        "text": "-12.5",
+        "inside": true
+      },
+      {
+        "text": "КРИТ-28.0",
+        "inside": true
+      },
+      {
+        "text": "+8.0",
+        "inside": true
+      },
+      {
+        "text": "ЩИТ-6.0",
+        "inside": true
+      }
+    ]
+  ],
+  "browserErrors": [],
+  "previewOnly": true
+}

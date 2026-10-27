@@ -1,30 +1,31 @@
-# Передача — 2026-10-26: разворот к цели атаки
+# Передача — 2026-10-27: превью шрифтов боевых чисел
 
-D:\Games\into-de-dung; main; base 1c6dc626657cd547e8ed99dd7c29f6b86fc944e9.
-U поручил общий разворот всех живых бойцов к цели и уточнил: после атаки
-возвращать исходную сторону. Реализовано для обеих фракций, классов и fallback.
-Board задаёт сторону по экранной проекции detached события; visual отражает
-рисунок вокруг опоры. Замах, выстрел, прыжок и реакции используют общий путь.
-Исходные position/rotation/scale/skew восстанавливаются без накопления.
-HUD/эффекты/маркеры/опора, PNG/UV, core-facing/preview/queue/RNG/save прежние.
-[API и границы](BATTLE_VISUAL_SCENE_CONTRACT.md#разворот-живого-бойца-к-цели-атаки--2026-10-26),
-[проверки](TESTING.md), [архитектура](ARCHITECTURE.md#представление-боя--v1).
+D:\Games\into-de-dung; main; base 46201bd58538b66b076ade0453ca30a7482cbcbf.
+U разрешил только сравнение Pixelify Sans Bold, Russo One и Tiny5 на одном
+снимке боя: урон, крит, лечение и щит. Внедрение в игру не разрешено.
+[Пакет и метод](art/combat-font-preview-20261027/README.md): comparison.png,
+галерея comparison.html, 3 полных кадра, побайтный исходник, TTF/OFL и SHA.
+Это статический браузерный макет с демонстрационными значениями. Высота цифр
+выровнена; шрифт не выбран. В Pixelify нет U+2212: везде U+002D, без fallback.
+Пакет исключён через .gdignore; сцены/assets/runtime не менялись.
 
-Финальный render-check: import/startup +9 suites, 11 PASS/0 FAIL/0 TIMEOUT.
-Все направления, обе стороны, неизвестный класс, Sprite2D/AnimatedSprite2D,
-negative scale/flip, повторный sync, возврат/skip/cancel/replay/FAULTED,
-resize/zoom/pan и изоляция runtime/пакета проверены. Независимое ревью APPROVE.
-Логи/4 снимка разворота: test_reports/demo-f452badf203a427999337faf2ba45996/.
-SHA/closeout: test_reports/attack-facing-20261026/.
-Ранние ошибки тестовых фикстур и возврата отрицательного масштаба исправлены;
-последний прогон проверяет исправленный код. Full/core и ручная F5-приёмка не заявлены.
+Проверки макета: загрузка 3/3 шрифтов, cmap символов, границы 12/12 подписей,
+размер исходника, отсутствие ошибок браузера; визуальное ревью APPROVE.
+Отчёт: test_reports/combat-font-preview-20261027/.
+Godot/full/core/F5 для этой пробы не запускались; движение/DPI не проверены.
+Следующий шаг — отзыв U о шрифтах. Интеграцию/новый срез не начинать автоматически.
 
-Остаток: ручной бой/F5 — оценить разворот и возврат моделей.
-Очистка фактуры воина отложена U; превью сохранено, эталон не заменён.
-Отзывы о Колоде/одиночном упоре остаются открыты. Новый срез автоматически не начинать.
+Предыдущий разворот атакующего реализован; ручная F5-приёмка остаётся открытой.
+[Контракт](BATTLE_VISUAL_SCENE_CONTRACT.md), [проверки](TESTING.md).
+Прежние 11 PASS и APPROVE относятся к 46201bd, не к этой пробе.
+Артефакты: test_reports/demo-f452badf203a427999337faf2ba45996/
+и test_reports/attack-facing-20261026/. Full/core тогда не запускались.
+Очистка фактуры воина отложена U. Отзывы о Колоде/одиночном упоре открыты.
+
 Чужие scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
-сохранены dirty; не трогать/reset/stage/commit. Без push/sidebar tasks/расписаний.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261026-3.md), [HISTORY](HISTORY.md).
+сохранены dirty; не трогать/reset/stage/commit. Core/preview/queue/RNG/save/frozen
+сохранять. Без push/sidebar tasks/расписаний.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261027.md), [HISTORY](HISTORY.md).
 Завершение: проверки, локальный Conventional Commit, короткий HANDOFF;
 прежний побайтно отдельным архивом+HISTORY. В финале/при блокере предложить
 новый чат и полный самодостаточный промпт: HEAD, результат, docs/artifacts,

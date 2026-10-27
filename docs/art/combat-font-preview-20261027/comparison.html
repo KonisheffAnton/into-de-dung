@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Боевые числа — три шрифта</title>
+  <style>
+    @font-face { font-family: Pixelify; src: url('fonts/pixelify.ttf'); font-weight: 400 700; }
+    @font-face { font-family: Russo; src: url('fonts/russo.ttf'); font-weight: 400; }
+    @font-face { font-family: Tiny5; src: url('fonts/tiny5.ttf'); font-weight: 100 900; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #14191d; color: #eeeae0; font-family: 'Segoe UI', sans-serif; }
+    main { width: 1440px; margin: auto; padding: 32px; }
+    .eyebrow { color: #b4baad; letter-spacing: .16em; font-size: 12px; font-weight: 600; }
+    h1 { margin: 8px 0 8px; font-size: 34px; line-height: 1.15; font-weight: 650; }
+    .intro { margin: 0; color: #bbc1bd; font-size: 15px; }
+    .columns { display: grid; grid-template-columns: repeat(3, 440px); gap: 24px; margin-top: 26px; }
+    .column { background: #20272a; border-radius: 8px; overflow: hidden; }
+    .heading { height: 77px; padding: 15px 18px; }
+    h2 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
+    .sub { color: #adb7b2; font-size: 12px; }
+    .viewport { width: 440px; height: 240px; overflow: hidden; position: relative; }
+    .world { width: 1280px; height: 850px; position: absolute; left: -200px; top: 0; transform: scale(.5); transform-origin: top left; }
+    .battle { width: 1280px; height: 850px; position: absolute; inset: 0; }
+    .font-sample { font-synthesis: none; font-kerning: normal; }
+    .pixelify .font-sample { font-family: Pixelify; font-weight: 700; }
+    .russo .font-sample { font-family: Russo; font-weight: 400; }
+    .tiny5 .font-sample { font-family: Tiny5; font-weight: 400; }
+    .feedback { position: absolute; transform: translateX(-50%); text-align: center; white-space: nowrap; line-height: 1; }
+    .feedback > span { display: block; paint-order: stroke fill; -webkit-text-stroke: 8px #19121f; text-shadow: 0 3px 0 #19121f; }
+    .feedback .value { font-size: var(--number-size); }
+    .feedback .tag { font-size: var(--tag-size); margin-bottom: 0; }
+    .damage { color: #ffe6ce; }
+    .critical { color: #ffd06d; }
+    .critical .value { font-size: var(--crit-size); }
+    .heal { color: #79edba; }
+    .shield { color: #85d9ff; }
+    .damage.feedback { left: 730px; top: 229px; }
+    .critical.feedback { left: 1165px; top: 18px; }
+    .heal.feedback { left: 620px; top: 130px; }
+    .shield.feedback { left: 1022px; top: 182px; }
+    .samples { display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 74px; gap: 20px 16px; padding: 24px 24px 22px; }
+    .sample-title { font-size: 12px; color: #bbc3bd; margin-bottom: 10px; }
+    .sample-value { display: inline-block; font-size: var(--sample-size); line-height: 1.1; white-space: nowrap; }
+    .sample-value.critical { font-size: var(--sample-crit-size); }
+    .alphabet { border-top: 1px solid #39413f; padding: 16px 24px 21px; height: 96px; }
+    .alphabet .font-sample { font-size: var(--alphabet-size); letter-spacing: 1px; white-space: nowrap; }
+    footer { margin-top: 20px; font-size: 13px; color: #adb7b2; line-height: 1.6; }
+    footer strong { color: #e2e4d8; font-weight: 500; }
+    .exports { margin-top: 12px; display: flex; gap: 24px; }
+    a { color: #b9d9cf; }
+    body[data-capture] main { padding: 0; }
+    body[data-capture] .eyebrow, body[data-capture] h1, body[data-capture] .intro,
+    body[data-capture] .heading, body[data-capture] .samples, body[data-capture] .alphabet,
+    body[data-capture] footer { display: none; }
+    body[data-capture] .columns { display: block; margin: 0; }
+    body[data-capture] .column { display: none; border-radius: 0; }
+    body[data-capture="pixelify"] .pixelify, body[data-capture="russo"] .russo, body[data-capture="tiny5"] .tiny5 { display: block; }
+    body[data-capture] .viewport { width: 1280px; height: 850px; }
+    body[data-capture] .world { left: 0; transform: none; }
+    @media (max-width: 1439px) { body:not([data-capture]) main { margin: 0; } }
+  </style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">INTODEDUNG · ПРЕВЬЮ / 27.10.2026</div>
+  <h1>Боевые числа</h1>
+  <p class="intro">Один кадр боя. Одинаковые значения, цвета и видимая высота цифр.</p>
+  <div class="columns" id="columns"></div>
+  <footer>
+    <strong>Урон · крит · лечение · щит</strong> — примеры оформления, не события записанного боя.<br>
+    В кадрах высота цифр: 20 px, крит: 25 px. Тёмный контур: 2 px наружу. Источник показан в масштабе 50%.<br>
+    Статическое сравнение; выбор шрифта и внедрение в игру остаются открытыми.
+    <div class="exports"><a href="pixelify-battle.png">Pixelify · полный кадр</a><a href="russo-battle.png">Russo · полный кадр</a><a href="tiny5-battle.png">Tiny5 · полный кадр</a></div>
+  </footer>
+</main>
+<script>
+  const candidates = [
+    {id:'pixelify', family:'Pixelify', name:'Pixelify Sans', detail:'Bold · 700', weight:700},
+    {id:'russo', family:'Russo', name:'Russo One', detail:'Regular · 400', weight:400},
+    {id:'tiny5', family:'Tiny5', name:'Tiny5', detail:'Regular · 400', weight:400}
+  ];
+  const columns = document.getElementById('columns');
+  for (const font of candidates) {
+    const section = document.createElement('section');
+    section.className = 'column ' + font.id;
+    section.innerHTML = `<div class="heading"><h2>${font.name}</h2><div class="sub">${font.detail}</div></div>
+      <div class="viewport"><div class="world"><img class="battle" src="source-battle.png" alt="Один и тот же исходный кадр боя">
+        <div class="feedback font-sample damage"><span class="value">-12.5</span></div>
+        <div class="feedback font-sample critical"><span class="tag">КРИТ</span><span class="value">-28.0</span></div>
+        <div class="feedback font-sample heal"><span class="value">+8.0</span></div>
+        <div class="feedback font-sample shield"><span class="tag">ЩИТ</span><span class="value">-6.0</span></div>
+      </div></div>
+      <div class="samples">
+        <div><div class="sample-title">Обычный урон</div><div class="font-sample sample-value damage">-12.5</div></div>
+        <div><div class="sample-title">Крит</div><div class="font-sample sample-value critical">-28.0</div></div>
+        <div><div class="sample-title">Лечение</div><div class="font-sample sample-value heal">+8.0</div></div>
+        <div><div class="sample-title">Щит · поглощено</div><div class="font-sample sample-value shield">-6.0</div></div>
+      </div><div class="alphabet"><div class="sample-title">Цифры и знаки</div><div class="font-sample">0123456789 - + .</div></div>`;
+    columns.appendChild(section);
+  }
+  window.previewReady = (async () => {
+    await Promise.all(candidates.map(f=>document.fonts.load(`${f.weight} 100px ${f.family}`)));
+    await document.fonts.ready;
+    const context = document.createElement('canvas').getContext('2d');
+    const metrics = [];
+    for (const font of candidates) {
+      context.font = `${font.weight} 100px ${font.family}`;
+      const measure = context.measureText('0123456789');
+      const digitHeight = measure.actualBoundingBoxAscent + measure.actualBoundingBoxDescent;
+      const section = document.querySelector('.' + font.id);
+      for(const [property,height] of [['--number-size',40],['--crit-size',50],['--sample-size',24],['--sample-crit-size',30],['--alphabet-size',18]]) {
+        section.style.setProperty(property, `${height / digitHeight * 100}px`);
+      }
+      const tag = context.measureText('КРИТЩ');
+      section.style.setProperty('--tag-size', `${24 / (tag.actualBoundingBoxAscent + tag.actualBoundingBoxDescent) * 100}px`);
+      metrics.push({...font, digitHeightAt100:digitHeight, normalSize:40 / digitHeight * 100});
+    }
+    await Promise.all([...document.images].map(img=>img.decode()));
+    window.fontMetrics = metrics;
+    return metrics;
+  })();
+</script>
+</body>
+</html>
