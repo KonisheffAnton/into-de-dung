@@ -1,0 +1,162 @@
+{
+  "date": "2026-10-27",
+  "base": "21d7690612df87b84ad0bd5befd7dd84a10bad60",
+  "integration": false,
+  "source": {
+    "path": "docs/art/combat-font-pairs-preview-20261027/source-battle.png",
+    "copy": "source-battle.png",
+    "sha256": "3fb37657b82442d772c6344dce9180e59b2aa06e4c1e7d4b0b0acf7a53ea6fd7",
+    "byte_exact": true
+  },
+  "fonts": [
+    {
+      "id": "pixeloid",
+      "name": "Pixeloid Sans Bold",
+      "weight": 400,
+      "author_page": "https://ggbot.itch.io/pixeloid-font",
+      "download": {
+        "upload_id": "15999942",
+        "archive_sha256": "07fec6e78e3d51b5912c5d01beb455b334395cbde5fdade21e545f059e2e5beb",
+        "archive_bytes": 381335,
+        "retrieved": "2026-10-27"
+      },
+      "sources": [
+        {
+          "url": "https://ggbot.itch.io/pixeloid-font",
+          "archive_member": "TrueType (.ttf)/PixeloidSans-Bold.ttf",
+          "file": "fonts/pixeloid.ttf",
+          "bytes": 109964,
+          "sha256": "d8bc38413101440e2d68b8d886f82dae298e3d4550728b5c99f717377ed8a195"
+        },
+        {
+          "url": "https://ggbot.itch.io/pixeloid-font",
+          "archive_member": "License.txt",
+          "file": "fonts/pixeloid-LICENSE.txt",
+          "bytes": 4493,
+          "sha256": "de7a71bd2d330c09aaadb38cd09eda3c62693a55350e288b43dac73f4a5e67a8"
+        }
+      ]
+    },
+    {
+      "id": "chetyre",
+      "name": "Chetyre",
+      "weight": 400,
+      "author_page": "https://hanshuyuri.itch.io/chetyre",
+      "download": {
+        "upload_id": "12575179",
+        "archive_sha256": "2b393c428b12335abdeae06bd9275b2643d00a96cc86d29b2864976c1f2a056d",
+        "archive_bytes": 55108,
+        "retrieved": "2026-10-27"
+      },
+      "sources": [
+        {
+          "url": "https://hanshuyuri.itch.io/chetyre",
+          "archive_member": "Chetyre-Regular.ttf",
+          "file": "fonts/chetyre.ttf",
+          "bytes": 53624,
+          "sha256": "eed9a8109fa9b3318e099b5dc4108c3b3b1c477b0f01fdc744099770a15e7166"
+        },
+        {
+          "url": "https://hanshuyuri.itch.io/chetyre",
+          "archive_member": "LICENSE.txt",
+          "file": "fonts/chetyre-LICENSE.txt",
+          "bytes": 4463,
+          "sha256": "e9ffdb697f573d528c36b0775b6ab43fcc829940a465ad284e0226ba006d7ad4"
+        }
+      ]
+    },
+    {
+      "id": "jersey",
+      "name": "Jersey 10",
+      "directory": "jersey10",
+      "filename": "Jersey10-Regular.ttf",
+      "weight": 400,
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/jersey10/Jersey10-Regular.ttf",
+          "file": "fonts/jersey.ttf",
+          "bytes": 77732,
+          "sha256": "db9cbd091617048a145d249daa2b815fe7083be6ab66ac26626e21a4e01c3e82"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/jersey10/OFL.txt",
+          "file": "fonts/jersey-OFL.txt",
+          "bytes": 4395,
+          "sha256": "436d5836064cec796c7ddde6fb4faeabdb6f2f17443a24a30d0c38b75d13f922"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/jersey10/METADATA.pb",
+          "file": "fonts/jersey-METADATA.pb",
+          "bytes": 846,
+          "sha256": "baf58ca15808154e596f89d0e76ac8feaf0a204098e7db95f43d4ec8492222ea"
+        }
+      ]
+    },
+    {
+      "id": "handjet",
+      "name": "Handjet Black Square",
+      "author_page": "https://github.com/rosettatype/Handjet",
+      "weight": 900,
+      "axes": {
+        "ELGR": 1,
+        "ELSH": 2,
+        "wght": 900
+      },
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/handjet/Handjet%5BELGR%2CELSH%2Cwght%5D.ttf",
+          "file": "fonts/handjet.ttf",
+          "bytes": 283912,
+          "sha256": "9262749e8bb0b73ebcae0e20428689c3c59576eebeb6c4e1020300d2d41bdf4d"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/handjet/OFL.txt",
+          "file": "fonts/handjet-OFL.txt",
+          "bytes": 4389,
+          "sha256": "934a45d3b43276e1f857301e9cb07e00b829cca3d0c13e8e6f8c6790dd6c8a2c"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/handjet/METADATA.pb",
+          "file": "fonts/handjet-METADATA.pb",
+          "bytes": 1178,
+          "sha256": "7f311930abd99315b43d135991ad5dbb16fed3ff3aff245fe68466563808ecd6"
+        }
+      ]
+    },
+    {
+      "id": "island",
+      "name": "Font Island C Improved",
+      "weight": 400,
+      "author_page": "https://www.fontstruct.com/fontstructions/show/2692709/font-island-1-1",
+      "description": "Unofficial FontStruct approximation related to Jersey 10, with Cyrillic. Not Jersey 10 itself.",
+      "download": {
+        "url": "https://www.fontstruct.com/font_archives/download/2692709?wrapperFormat=0",
+        "archive_sha256": "0fb7d2c653eb82794ba307728776e7884555d0b733c2b479cd179018a035fd91",
+        "retrieved": "2026-10-27"
+      },
+      "sources": [
+        {
+          "url": "https://www.fontstruct.com/fontstructions/show/2692709/font-island-1-1",
+          "archive_member": "font-island-c-improved.ttf",
+          "file": "fonts/island.ttf",
+          "bytes": 24920,
+          "sha256": "0628559b514871bc8ee77eab8f3b607f92608c35e28795928720ccaba4d99566"
+        },
+        {
+          "url": "https://www.fontstruct.com/fontstructions/show/2692709/font-island-1-1",
+          "archive_member": "license.txt",
+          "file": "fonts/island-LICENSE.txt",
+          "bytes": 4494,
+          "sha256": "df17c66dcc42836549394906a90fcca116a258a262cf82ed4b0c4f1b6a436cdb"
+        },
+        {
+          "url": "https://www.fontstruct.com/fontstructions/show/2692709/font-island-1-1",
+          "archive_member": "readme.txt",
+          "file": "fonts/island-README.txt",
+          "bytes": 1248,
+          "sha256": "e1c281032875ff5e17c6e8ce13c69a3f3f4f13af0cbb35874e7a78b68b2b1a6a"
+        }
+      ]
+    }
+  ]
+}

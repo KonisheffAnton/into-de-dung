@@ -1,0 +1,1387 @@
+{
+  "status": "PASS",
+  "renderer": "Edge Chromium/CSS; not Godot",
+  "sourceDimensions": {
+    "width": 1280,
+    "height": 850
+  },
+  "fonts": [
+    {
+      "family": "Jersey",
+      "status": "loaded"
+    },
+    {
+      "family": "Island",
+      "status": "loaded"
+    },
+    {
+      "family": "Chetyre",
+      "status": "loaded"
+    },
+    {
+      "family": "Pixeloid",
+      "status": "loaded"
+    },
+    {
+      "family": "Handjet",
+      "status": "loaded"
+    }
+  ],
+  "metrics": [
+    {
+      "id": "island",
+      "letters": "Island",
+      "numbers": "Jersey",
+      "name": "Font Island C Improved",
+      "numberWeight": 400,
+      "letterWeight": 400,
+      "detail": "Неофициальная переработка в духе Jersey",
+      "digitHeightAt100": 54,
+      "letterHeightAt100": 84,
+      "numberSize": 74.07407407407408,
+      "statusSize": 38.095238095238095
+    },
+    {
+      "id": "chetyre",
+      "letters": "Chetyre",
+      "numbers": "Jersey",
+      "name": "Chetyre",
+      "numberWeight": 400,
+      "letterWeight": 400,
+      "detail": "Плотный рисунок · выразительные короткие слова",
+      "digitHeightAt100": 54,
+      "letterHeightAt100": 80,
+      "numberSize": 74.07407407407408,
+      "statusSize": 40
+    },
+    {
+      "id": "pixeloid",
+      "letters": "Pixeloid",
+      "numbers": "Jersey",
+      "name": "Pixeloid Sans Bold",
+      "numberWeight": 400,
+      "letterWeight": 400,
+      "detail": "Шире и спокойнее · крупные просветы",
+      "digitHeightAt100": 54,
+      "letterHeightAt100": 78,
+      "numberSize": 74.07407407407408,
+      "statusSize": 41.02564102564102
+    },
+    {
+      "id": "handjet",
+      "letters": "Handjet",
+      "numbers": "Jersey",
+      "name": "Handjet Black",
+      "numberWeight": 400,
+      "letterWeight": 900,
+      "detail": "Узкий рисунок · квадратные элементы",
+      "axes": "\"ELSH\" 2, \"ELGR\" 1",
+      "digitHeightAt100": 54,
+      "letterHeightAt100": 71,
+      "numberSize": 74.07407407407408,
+      "statusSize": 45.07042253521127
+    }
+  ],
+  "glyphs": {
+    "jersey": {
+      "0": 235,
+      "1": 236,
+      "2": 237,
+      "3": 238,
+      "4": 239,
+      "5": 240,
+      "6": 241,
+      "7": 242,
+      "8": 243,
+      "9": 244,
+      "-": 275,
+      "+": 312,
+      ".": 258,
+      " ": 256,
+      "C": 13,
+      "R": 76,
+      "I": 38,
+      "T": 86,
+      "S": 80,
+      "H": 36,
+      "E": 22,
+      "L": 51,
+      "D": 18,
+      "B": 12,
+      "O": 63,
+      "K": 49,
+      "M": 56,
+      "N": 57,
+      "G": 32,
+      "·": 267
+    },
+    "island": {
+      "А": 76,
+      "Б": 77,
+      "В": 78,
+      "Г": 79,
+      "Д": 80,
+      "Е": 81,
+      "Ж": 82,
+      "З": 83,
+      "И": 84,
+      "Й": 85,
+      "К": 86,
+      "Л": 87,
+      "М": 88,
+      "Н": 89,
+      "О": 90,
+      "П": 91,
+      "Р": 92,
+      "С": 93,
+      "Т": 94,
+      "У": 95,
+      "Ф": 96,
+      "Х": 97,
+      "Ц": 98,
+      "Ч": 99,
+      "Ш": 100,
+      "Щ": 101,
+      "Ъ": 102,
+      "Ы": 103,
+      "Ь": 104,
+      "Э": 105,
+      "Ю": 106,
+      "Я": 107,
+      "а": 108,
+      "б": 109,
+      "в": 110,
+      "г": 111,
+      "д": 112,
+      "е": 113,
+      "ж": 114,
+      "з": 115,
+      "и": 116,
+      "й": 117,
+      "к": 118,
+      "л": 119,
+      "м": 120,
+      "н": 121,
+      "о": 122,
+      "п": 123,
+      "р": 124,
+      "с": 125,
+      "т": 126,
+      "у": 127,
+      "ф": 128,
+      "х": 129,
+      "ц": 130,
+      "ч": 131,
+      "ш": 132,
+      "щ": 133,
+      "ъ": 134,
+      "ы": 135,
+      "ь": 136,
+      "э": 137,
+      "ю": 138,
+      "я": 139,
+      "Ё": 75,
+      "ё": 140,
+      " ": 1,
+      "H": 29,
+      "P": 37
+    },
+    "chetyre": {
+      "А": 406,
+      "Б": 407,
+      "В": 408,
+      "Г": 409,
+      "Д": 410,
+      "Е": 411,
+      "Ж": 412,
+      "З": 413,
+      "И": 414,
+      "Й": 415,
+      "К": 416,
+      "Л": 417,
+      "М": 418,
+      "Н": 419,
+      "О": 420,
+      "П": 421,
+      "Р": 422,
+      "С": 423,
+      "Т": 424,
+      "У": 425,
+      "Ф": 426,
+      "Х": 427,
+      "Ц": 428,
+      "Ч": 429,
+      "Ш": 430,
+      "Щ": 431,
+      "Ъ": 432,
+      "Ы": 433,
+      "Ь": 434,
+      "Э": 435,
+      "Ю": 436,
+      "Я": 437,
+      "а": 438,
+      "б": 439,
+      "в": 440,
+      "г": 441,
+      "д": 442,
+      "е": 443,
+      "ж": 444,
+      "з": 445,
+      "и": 446,
+      "й": 447,
+      "к": 448,
+      "л": 449,
+      "м": 450,
+      "н": 451,
+      "о": 452,
+      "п": 453,
+      "р": 454,
+      "с": 455,
+      "т": 456,
+      "у": 457,
+      "ф": 458,
+      "х": 459,
+      "ц": 460,
+      "ч": 461,
+      "ш": 462,
+      "щ": 463,
+      "ъ": 464,
+      "ы": 465,
+      "ь": 466,
+      "э": 467,
+      "ю": 468,
+      "я": 469,
+      "Ё": 391,
+      "ё": 471,
+      " ": 1,
+      "H": 41,
+      "P": 49
+    },
+    "pixeloid": {
+      "А": 215,
+      "Б": 216,
+      "В": 217,
+      "Г": 218,
+      "Д": 219,
+      "Е": 220,
+      "Ж": 221,
+      "З": 222,
+      "И": 223,
+      "Й": 224,
+      "К": 225,
+      "Л": 226,
+      "М": 227,
+      "Н": 228,
+      "О": 229,
+      "П": 230,
+      "Р": 231,
+      "С": 232,
+      "Т": 233,
+      "У": 234,
+      "Ф": 235,
+      "Х": 236,
+      "Ц": 237,
+      "Ч": 238,
+      "Ш": 239,
+      "Щ": 240,
+      "Ъ": 241,
+      "Ы": 242,
+      "Ь": 243,
+      "Э": 244,
+      "Ю": 245,
+      "Я": 246,
+      "а": 247,
+      "б": 248,
+      "в": 249,
+      "г": 250,
+      "д": 251,
+      "е": 252,
+      "ж": 253,
+      "з": 254,
+      "и": 255,
+      "й": 256,
+      "к": 257,
+      "л": 258,
+      "м": 259,
+      "н": 260,
+      "о": 261,
+      "п": 262,
+      "р": 263,
+      "с": 264,
+      "т": 265,
+      "у": 266,
+      "ф": 267,
+      "х": 268,
+      "ц": 269,
+      "ч": 270,
+      "ш": 271,
+      "щ": 272,
+      "ъ": 273,
+      "ы": 274,
+      "ь": 275,
+      "э": 276,
+      "ю": 277,
+      "я": 278,
+      "Ё": 279,
+      "ё": 280,
+      " ": 1,
+      "H": 41,
+      "P": 49
+    },
+    "handjet": {
+      "А": 686,
+      "Б": 687,
+      "В": 688,
+      "Г": 689,
+      "Д": 690,
+      "Е": 691,
+      "Ж": 692,
+      "З": 693,
+      "И": 694,
+      "Й": 695,
+      "К": 696,
+      "Л": 697,
+      "М": 698,
+      "Н": 699,
+      "О": 700,
+      "П": 701,
+      "Р": 702,
+      "С": 703,
+      "Т": 704,
+      "У": 705,
+      "Ф": 706,
+      "Х": 707,
+      "Ц": 708,
+      "Ч": 709,
+      "Ш": 710,
+      "Щ": 711,
+      "Ъ": 712,
+      "Ы": 713,
+      "Ь": 714,
+      "Э": 715,
+      "Ю": 716,
+      "Я": 717,
+      "а": 779,
+      "б": 780,
+      "в": 781,
+      "г": 782,
+      "д": 783,
+      "е": 784,
+      "ж": 785,
+      "з": 786,
+      "и": 787,
+      "й": 788,
+      "к": 789,
+      "л": 790,
+      "м": 791,
+      "н": 792,
+      "о": 793,
+      "п": 794,
+      "р": 795,
+      "с": 796,
+      "т": 797,
+      "у": 798,
+      "ф": 799,
+      "х": 800,
+      "ц": 801,
+      "ч": 802,
+      "ш": 803,
+      "щ": 804,
+      "ъ": 805,
+      "ы": 806,
+      "ь": 807,
+      "э": 808,
+      "ю": 809,
+      "я": 810,
+      "Ё": 724,
+      "ё": 817,
+      " ": 3,
+      "H": 16,
+      "P": 24
+    }
+  },
+  "layout": [
+    {
+      "labels": [
+        {
+          "text": "-12.5",
+          "inside": true,
+          "bounds": {
+            "x": 136.23046875,
+            "y": 114.5,
+            "width": 57.5390625,
+            "height": 37.0390625
+          },
+          "faces": [
+            {
+              "text": "-12.5",
+              "family": "Jersey",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ-28.0",
+          "inside": true,
+          "bounds": {
+            "x": 309.078125,
+            "y": 160,
+            "width": 81.84375,
+            "height": 64.296875
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "Island",
+              "weight": "400"
+            },
+            {
+              "text": "-28.0",
+              "family": "Jersey",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 85.19921875,
+            "y": 65,
+            "width": 49.6015625,
+            "height": 37.0390625
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Jersey",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ-6.0",
+          "inside": true,
+          "bounds": {
+            "x": 286.19921875,
+            "y": 91,
+            "width": 49.6015625,
+            "height": 55.0390625
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "Island",
+              "weight": "400"
+            },
+            {
+              "text": "-6.0",
+              "family": "Jersey",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 43.81640625,
+            "y": 210,
+            "width": 52.3671875,
+            "height": 19.046875
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "Island",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 151.12109375,
+            "y": 230,
+            "width": 77.7578125,
+            "height": 19.046875
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "Island",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 73.8359375,
+            "y": 295,
+            "width": 152.328125,
+            "height": 19.046875
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "Island",
+              "weight": "400"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    },
+    {
+      "labels": [
+        {
+          "text": "-12.5",
+          "inside": true,
+          "bounds": {
+            "x": 136.23046875,
+            "y": 114.5,
+            "width": 57.5390625,
+            "height": 37.0390625
+          },
+          "faces": [
+            {
+              "text": "-12.5",
+              "family": "Jersey",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ-28.0",
+          "inside": true,
+          "bounds": {
+            "x": 309.078125,
+            "y": 160,
+            "width": 81.84375,
+            "height": 64.296875
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "Chetyre",
+              "weight": "400"
+            },
+            {
+              "text": "-28.0",
+              "family": "Jersey",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 85.19921875,
+            "y": 65,
+            "width": 49.6015625,
+            "height": 37.0390625
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Jersey",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ-6.0",
+          "inside": true,
+          "bounds": {
+            "x": 286.19921875,
+            "y": 91,
+            "width": 49.6015625,
+            "height": 55.0390625
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "Chetyre",
+              "weight": "400"
+            },
+            {
+              "text": "-6.0",
+              "family": "Jersey",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 38,
+            "y": 210,
+            "width": 64,
+            "height": 20
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "Chetyre",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 142,
+            "y": 230,
+            "width": 96,
+            "height": 20
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "Chetyre",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 54,
+            "y": 295,
+            "width": 192,
+            "height": 20
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "Chetyre",
+              "weight": "400"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    },
+    {
+      "labels": [
+        {
+          "text": "-12.5",
+          "inside": true,
+          "bounds": {
+            "x": 136.23046875,
+            "y": 114.5,
+            "width": 57.5390625,
+            "height": 37.0390625
+          },
+          "faces": [
+            {
+              "text": "-12.5",
+              "family": "Jersey",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ-28.0",
+          "inside": true,
+          "bounds": {
+            "x": 309.078125,
+            "y": 160,
+            "width": 81.84375,
+            "height": 64.296875
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "Pixeloid",
+              "weight": "400"
+            },
+            {
+              "text": "-28.0",
+              "family": "Jersey",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 85.19921875,
+            "y": 65,
+            "width": 49.6015625,
+            "height": 37.0390625
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Jersey",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ-6.0",
+          "inside": true,
+          "bounds": {
+            "x": 286.19921875,
+            "y": 91,
+            "width": 49.6015625,
+            "height": 55.0390625
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "Pixeloid",
+              "weight": "400"
+            },
+            {
+              "text": "-6.0",
+              "family": "Jersey",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 38.09375,
+            "y": 210,
+            "width": 63.8125,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "Pixeloid",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 139.86328125,
+            "y": 230,
+            "width": 100.2734375,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "Pixeloid",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 53.14453125,
+            "y": 295,
+            "width": 193.7109375,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "Pixeloid",
+              "weight": "400"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    },
+    {
+      "labels": [
+        {
+          "text": "-12.5",
+          "inside": true,
+          "bounds": {
+            "x": 136.23046875,
+            "y": 114.5,
+            "width": 57.5390625,
+            "height": 37.0390625
+          },
+          "faces": [
+            {
+              "text": "-12.5",
+              "family": "Jersey",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ-28.0",
+          "inside": true,
+          "bounds": {
+            "x": 309.078125,
+            "y": 160,
+            "width": 81.84375,
+            "height": 64.296875
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "Handjet",
+              "weight": "900"
+            },
+            {
+              "text": "-28.0",
+              "family": "Jersey",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 85.19921875,
+            "y": 65,
+            "width": 49.6015625,
+            "height": 37.0390625
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Jersey",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ-6.0",
+          "inside": true,
+          "bounds": {
+            "x": 286.19921875,
+            "y": 91,
+            "width": 49.6015625,
+            "height": 55.0390625
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "Handjet",
+              "weight": "900"
+            },
+            {
+              "text": "-6.0",
+              "family": "Jersey",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 50.77734375,
+            "y": 210,
+            "width": 38.4453125,
+            "height": 22.5390625
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "Handjet",
+              "weight": "900"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 161.16796875,
+            "y": 230,
+            "width": 57.6640625,
+            "height": 22.5390625
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "Handjet",
+              "weight": "900"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 98.6328125,
+            "y": 295,
+            "width": 102.734375,
+            "height": 22.5390625
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "Handjet",
+              "weight": "900"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    }
+  ],
+  "specimenRowsWithinBounds": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "platformFonts": [
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 39
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Font Island C Improved",
+        "postScriptName": "FontIslandCImproved",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Font Island C Improved",
+        "postScriptName": "FontIslandCImproved",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Font Island C Improved",
+        "postScriptName": "FontIslandCImproved",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Font Island C Improved",
+        "postScriptName": "FontIslandCImproved",
+        "isCustomFont": true,
+        "glyphCount": 6
+      }
+    ],
+    [
+      {
+        "familyName": "Font Island C Improved",
+        "postScriptName": "FontIslandCImproved",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 16
+      }
+    ],
+    [
+      {
+        "familyName": "Font Island C Improved",
+        "postScriptName": "FontIslandCImproved",
+        "isCustomFont": true,
+        "glyphCount": 10
+      }
+    ],
+    [
+      {
+        "familyName": "Font Island C Improved",
+        "postScriptName": "FontIslandCImproved",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Font Island C Improved",
+        "postScriptName": "FontIslandCImproved",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Chetyre",
+        "postScriptName": "Chetyre",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Chetyre",
+        "postScriptName": "Chetyre",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Chetyre",
+        "postScriptName": "Chetyre",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Chetyre",
+        "postScriptName": "Chetyre",
+        "isCustomFont": true,
+        "glyphCount": 6
+      }
+    ],
+    [
+      {
+        "familyName": "Chetyre",
+        "postScriptName": "Chetyre",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 16
+      }
+    ],
+    [
+      {
+        "familyName": "Chetyre",
+        "postScriptName": "Chetyre",
+        "isCustomFont": true,
+        "glyphCount": 10
+      }
+    ],
+    [
+      {
+        "familyName": "Chetyre",
+        "postScriptName": "Chetyre",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Chetyre",
+        "postScriptName": "Chetyre",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 6
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 16
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 10
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Handjet",
+        "postScriptName": "Handjet-Black-Square-Single",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Handjet",
+        "postScriptName": "Handjet-Black-Square-Single",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Handjet",
+        "postScriptName": "Handjet-Black-Square-Single",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Handjet",
+        "postScriptName": "Handjet-Black-Square-Single",
+        "isCustomFont": true,
+        "glyphCount": 6
+      }
+    ],
+    [
+      {
+        "familyName": "Handjet",
+        "postScriptName": "Handjet-Black-Square-Single",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 10",
+        "postScriptName": "Jersey10-Regular",
+        "isCustomFont": true,
+        "glyphCount": 16
+      }
+    ],
+    [
+      {
+        "familyName": "Handjet",
+        "postScriptName": "Handjet-Black-Square-Single",
+        "isCustomFont": true,
+        "glyphCount": 10
+      }
+    ],
+    [
+      {
+        "familyName": "Handjet",
+        "postScriptName": "Handjet-Black-Square-Single",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Handjet",
+        "postScriptName": "Handjet-Black-Square-Single",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ]
+  ],
+  "browserErrors": [],
+  "previewOnly": true
+}
