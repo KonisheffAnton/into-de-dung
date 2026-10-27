@@ -1,32 +1,31 @@
-# Передача — 2026-10-27: Tiny5 + Jersey 10 в бою
+# Передача — 2026-10-27: Monogram + Pixelify Sans в бою
 
-D:\Games\into-de-dung; main; base 8da9e9c4e3d03c5111564c659b558c6f95832d9c.
-По U внедрён вариант 03 прежнего сравнения пар: Tiny5 Regular для букв
-(включая HP), Jersey 10 Regular для цифр/числовых знаков. Общий result_number
-использует FontVariation; кегль 24, последствия 20. Тексты, цвета и lifecycle
-прежние. Новых боевых событий/статусов нет; остальные элементы UI не менялись.
-[Контракт](BATTLE_PRESENTATION_REWORK.md), [ресурсы/OFL/сборка](../assets/ui/combat_fonts/README.md),
-[проверки](TESTING.md). Три прежних preview-пакета сохранены побайтно.
+D:\Games\into-de-dung; main; base 2b0cc6a1ff0436da97fd9d782f37b49ac6b3bf60.
+По уточнению U заменена пара боевых подписей: буквы Monogram Extended,
+цифры/числовые знаки Pixelify Sans Bold (700), вариант 02 прежнего сравнения.
+Шейпинг включает кириллицу и Latin HP. Кегли 24/20 прежние; em букв и высота
+числовой строки согласованы без изменения рисунка знаков. Runtime-сцены/скрипты,
+строки, цвета и lifecycle не менялись. Прежние preview-пакеты побайтно сохранены.
+[Контракт](BATTLE_PRESENTATION_REWORK.md), [ресурсы/лицензии/сборка](../assets/ui/combat_fonts/README.md),
+[проверки](TESTING.md). Monogram — CC0, Pixelify — OFL; исходники в preview.
 
-Все 7 выбранных render-наборов PASS на окончательном runtime 24/20:
-6 в test_reports/demo-7c92aec1752b48768d80f6f0965ed48e/;
-presentation_consequences окончательно в test_reports/demo-ab13b938e940425f9ccadd4a7cad64e3/
-(вместе с import/startup: 3 PASS). Ранний неверный тест рамок Label заменён
-пиксельным; кегль 26 отклонён из-за обрезки у края. Полный отчёт/PNG/SHA:
-test_reports/combat-fonts-integration-20261027/. Шейпинг, исходники и пересборка PASS.
-Независимое ревью APPROVE. Full/core и ручной F5 не запускались.
-Следующий шаг — ручная F5-приёмка читаемости в движении, zoom/DPI.
-Новый этап автоматически не начинать.
+Финальный render-check: 6 PASS, 0 FAIL, 0 TIMEOUT — import/startup,
+battle_presentation, presentation_contact, presentation_consequences, battle_camera_ui.
+Артефакты: test_reports/demo-3285b4dcb9b34d5f850d64a0c6f25edd/.
+24 проверки исходников/контуров/метрик/пересборки PASS; ревью APPROVE.
+Отчёт, PNG, SHA: test_reports/combat-fonts-monogram-pixelify-20261027/.
+Full/core и ручной F5 не запускались. Следующий шаг — ручная F5-приёмка
+читаемости в движении/zoom/DPI. Новый этап автоматически не начинать.
 
 Разворот атакующих 46201bd реализован; прежняя ручная F5-приёмка открыта.
 Контракт: BATTLE_VISUAL_SCENE_CONTRACT.md; прежние 11 PASS/APPROVE:
 test_reports/demo-f452badf203a427999337faf2ba45996/ и test_reports/attack-facing-20261026/.
 Full/core тогда не запускались. Очистка арта отложена U;
-отзывы о Колоде/одиночном упоре остаются открытыми.
+отзывы о Колоде/одиночном упоре открыты.
 
 Чужие scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
 сохранены dirty; не трогать/reset/stage/commit. Сохранять core/preview/queue/RNG/save/frozen.
-Без push/sidebar tasks/расписаний. [Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261027-4.md),
+Без push/sidebar tasks/расписаний. [Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261027-5.md),
 [HISTORY](HISTORY.md). Завершение: проверки, локальный Conventional Commit,
 короткая передача; прежнюю побайтно отдельным архивом+HISTORY. В финале/при блокере
 предложить новый чат и полный самодостаточный промпт: HEAD, результат, docs/artifacts,

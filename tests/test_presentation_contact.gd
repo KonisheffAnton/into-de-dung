@@ -275,7 +275,7 @@ func combat_font_pair() -> void:
 			for glyph: Dictionary in server.shaped_text_get_glyphs(line.get_rid()):
 				var character := text_line.substr(int(glyph.start), 1)
 				if character == " ": continue
-				var expected := "Combat Jersey Numbers" if "0123456789.,+-%−".contains(character) else "Tiny5"
+				var expected := "Combat Pixelify Numbers" if "0123456789.,+-%−".contains(character) else "Combat Monogram Letters"
 				check(int(glyph.index) != 0 and server.font_get_name(glyph.font_rid) == expected,
 					"combat glyph %s uses %s" % [character, expected])
 		check(number._label.size.x > 0 and number._label.size.y > 0 and not number._label.clip_text, "feedback has measured unclipped bounds")

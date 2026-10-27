@@ -1,5 +1,21 @@
 # История и свидетельства проверок
 
+## Monogram + Pixelify Sans по уточнению U — 2026-10-27
+
+Буквы боевых подписей заменены на Monogram Extended, цифры/знаки — Pixelify Sans
+Bold 700, вариант 02 прежнего сравнения. Кегли 24/20 сохранены; согласованы em букв
+и вертикальные метрики числового подмножества. Контуры и интервалы в font units
+не менялись. Runtime-сцены/скрипты, строки, цвета и lifecycle прежние.
+[Контракт](BATTLE_PRESENTATION_REWORK.md), [ресурсы/CC0/OFL/сборка](../assets/ui/combat_fonts/README.md).
+Финальный render-check: 6 PASS, 0 FAIL, 0 TIMEOUT, ревью APPROVE;
+test_reports/demo-3285b4dcb9b34d5f850d64a0c6f25edd/.
+24 проверки ресурсов/побайтной пересборки PASS. Отчёт и PNG:
+test_reports/combat-fonts-monogram-pixelify-20261027/.
+114 защищённых файлов и прежних превью побайтно сохранены.
+Full/core/F5 не запускались; ручная приёмка движения/zoom/DPI открыта.
+Base 2b0cc6a; main, локально, без push.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261027-5.md).
+
 ## Tiny5 + Jersey 10 для боевых подписей — 2026-10-27
 
 По U внедрён вариант 03 из сравнения пар: буквы Tiny5, числа/знаки Jersey 10.

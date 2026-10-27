@@ -14,9 +14,10 @@
 
 ## Изменение игрового кода
 
-Шрифты боевых подписей Tiny5 + Jersey 10 (2026-10-27): `--render-check --only
-presentation_contact presentation_consequences battle_presentation presentation_ranged
-presentation_mage presentation_reactions battle_camera_ui --screen 0` (одна команда).
+Шрифты боевых подписей Monogram + Pixelify Sans Bold (2026-10-27): `--render-check --only
+presentation_contact presentation_consequences battle_presentation battle_camera_ui
+--screen 0` (одна команда). При изменении генерации событий/подписей дополнительно
+выбирать presentation_ranged, presentation_mage и presentation_reactions.
 `presentation_contact` проверяет действительные шрифты glyph в смешанных строках
 урона/крита/лечения/щита, латинском HP, кириллических статусах и многострочных
 последствиях; сохраняет `combat-font-pair.png`. Прежние проверки покрывают
