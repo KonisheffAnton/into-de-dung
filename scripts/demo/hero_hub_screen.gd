@@ -160,6 +160,18 @@ func _start_battle() -> void:
 		return
 	_commit(candidate)
 
+static func _is_first_expedition_run(candidate: HeroHubState) -> bool:
+	if candidate == null or candidate.phase != "expedition" or candidate.expedition == null or candidate.expedition.phase != "battle": return false
+	var node := candidate.expedition.current_node()
+	return not node.is_empty() and int(node.get("layer", -1)) == 0
+
+func _configure_first_room_art(target_battle: HeroHubBattleView, candidate: HeroHubState) -> bool:
+	if target_battle == null or not _is_first_expedition_run(candidate): return false
+	var board := target_battle.get_node_or_null("BattleHUD/Margin/Column/Content/Left/Field/Board") as BattleDemoBoard
+	if board == null: return false
+	board.tile_visual_scene = load("res://scenes/demo/visuals/dungeon_comparison_tile.tscn") as PackedScene
+	return board.tile_visual_scene != null
+
 func _begin_battle() -> void:
 	if run == null or (run.phase != "battle" and (run.expedition == null or run.expedition.phase != "battle")):
 		_render()
@@ -171,6 +183,7 @@ func _begin_battle() -> void:
 		return
 	battle_view = (load("res://scenes/demo/battle/hero_hub_battle.tscn") as PackedScene).instantiate() as HeroHubBattleView
 	battle_view.expedition_battle = run.phase == "expedition"
+	_configure_first_room_art(battle_view, run)
 	battle_view.supplied_session = _battle_bundle["session"]
 	battle_view.return_requested.connect(_on_battle_return)
 	battle_view.restart_requested.connect(_restart_checkpoint)

@@ -1,31 +1,32 @@
-# Передача — 2026-10-27: Play Bold + Jersey 20
+# Передача — 2026-10-27: два каменных набора в первой комнате
 
-D:\Games\into-de-dung; main; base453a5fcf0e93e32509d8aba76ac457778ff072f4.
-По U внедрён вариант02: буквы Play Bold, цифры/числовые знаки Jersey 20.
-Jersey TTF/OFL побайтно прежние. Полный Play — fallback общего Label,
-em=1113, контуры/интервалы/метрики исходные; имя Combat Lettering по RFN.
-Размеры24/20, тексты, цвета, outline/lifecycle, сцены и механики прежние.
-[Контракт](BATTLE_PRESENTATION_REWORK.md), [ресурсы/OFL/сборка](../assets/ui/combat_fonts/README.md),
-[проверки](TESTING.md). [Исходное превью](art/jersey20-letters-preview-20261027/README.md)
-и пять более ранних пакетов сохранены; Pixeloid удалён только из runtime.
+D:\Games\into-de-dung; main; base9fa99063ed96efbfa8dbeff95dbd6dd05d2d730a.
+По U внедрены два полных листа по24 элемента, а не два отдельных тайла пола:
+первая комната похода, layer0, колонки0–3 — первый/темнее, 4–7 — второй/светлее.
+Парные половины имеют одинаковую раскладку пола. PNG побайтно сохранены;
+UV читают пол и кладку. Геометрия128×96/4:3, высоты, picking, расстановка,
+ядро и остальные комнаты прежние. Новых игровых предметов из листов нет.
+[Контракт](BATTLE_VISUAL_SCENE_CONTRACT.md#сравнение-каменных-наборов-в-первой-комнате),
+[исходники/промпты/снимки](art/dungeon-room-comparison-20261027/README.md),
+[ресурсы](../assets/art_presets/trials/dungeon_comparison_v1/README.md).
 
-Финальный render-check: 6 PASS, 0 FAIL, 0 TIMEOUT — import/startup,
-battle_presentation, presentation_contact, presentation_consequences, battle_camera_ui.
-Артефакты: test_reports/demo-38a678928f1940ce916d1d8649788adb/.
-19 проверок font assets PASS; 209 защищённых SHA совпали.
-Отчёт/PNG/SHA: test_reports/combat-fonts-play-jersey20-20261027/.
-Независимое ревью APPROVE; смешанные строки и верхнее лечение проверены на PNG.
-Full/core/F5 не запускались. Остаток — ручная F5-приёмка движения/zoom/DPI.
+Финальный render-check:5 PASS,0 FAIL,0 TIMEOUT — import/startup,
+dungeon_room_comparison532/0, visual_scene_contract52/0, battle_camera_ui110/0.
+Прогон:test_reports/demo-c35b12f70f3c49f9b4eaea7cfeab2e93/.
+Launcher30testsOK; оба PNG byte-exact. Отчёт и SHA:
+test_reports/dungeon-room-comparison-20261027/. Независимое ревью APPROVE; 19 SHA патча совпали.
+Полный/core/F5, отдельная DPI/GPU-приёмка не запускались.
+Остаток: отзыв U о двух половинах, ручная F5/движение/zoom/DPI и выбор набора.
 
-Разворот атакующих 46201bd: [контракт](BATTLE_VISUAL_SCENE_CONTRACT.md),
-test_reports/attack-facing-20261026/ и test_reports/demo-f452badf203a427999337faf2ba45996/
-(прежние 11 PASS/APPROVE). F5 открыт; full/core не запускались.
+Прежние Play Bold+Jersey20 и разворот атакующих не менялись;
+их ручная F5-приёмка открыта. Подробности — [прежняя передача](CODEX_HANDOFF.history-20261027-14.md).
 Очистка арта отложена U; отзывы о Колоде/одиночном упоре открыты.
 
 Чужие scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
-сохранены dirty; не трогать/reset/stage/commit. Core/preview/queue/RNG/save/frozen
-сохранять; без push/sidebar tasks/расписаний. Новый этап автоматически не начинать.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261027-13.md), [HISTORY](HISTORY.md).
+сохранены dirty; не трогать/reset/stage/commit. 33 защищённых SHA совпали.
+Старый reference01 не удалён: sandbox ошибочно показывал D из-за отказа чтения.
+Core/preview/queue/RNG/save/frozen сохранять; без push/sidebar tasks/расписаний.
+Новый этап автоматически не начинать. [HISTORY](HISTORY.md).
 Завершение: проверки, локальный Conventional Commit, короткая передача;
 прежнюю побайтно отдельным архивом+HISTORY. В финале/при блокере предложить новый
 чат и полный самодостаточный промпт: HEAD, результат, docs/artifacts, остаток,

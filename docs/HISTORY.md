@@ -1,5 +1,20 @@
 # История и свидетельства проверок
 
+## Два каменных набора в первой комнате — 2026-10-27
+
+По U первая комната похода разделена между двумя полными листами подземелья:
+колонки0–3 — первый/темнее, 4–7 — второй/светлее, с одинаковой раскладкой пола.
+Оригинальные PNG сохранены побайтно; внутренние UV читаются сценой.
+Геометрия4:3/128×96, высоты, picking, игровые препятствия/расстановка и остальные
+комнаты прежние. [Контракт](BATTLE_VISUAL_SCENE_CONTRACT.md#сравнение-каменных-наборов-в-первой-комнате),
+[пакет и PNG](art/dungeon-room-comparison-20261027/README.md).
+Финальный render-check:5 PASS/0 FAIL/0 TIMEOUT — import/startup,
+dungeon_room_comparison532/0, visual_scene_contract52/0, battle_camera_ui110/0;
+test_reports/demo-c35b12f70f3c49f9b4eaea7cfeab2e93/. Launcher30testsOK.
+Независимое ревью APPROVE; 19 SHA патча совпали. Full/core/F5 не запускались; выбор арта и ручные zoom/DPI открыты.
+Base9fa9906, main, без push. [Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261027-14.md).
+Отчёт:test_reports/dungeon-room-comparison-20261027/.
+
 ## Play Bold для букв с цифрами Jersey 20 — 2026-10-27
 
 По U внедрён вариант 02 [последнего сравнения](art/jersey20-letters-preview-20261027/README.md).

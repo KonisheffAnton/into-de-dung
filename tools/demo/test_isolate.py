@@ -109,6 +109,7 @@ class IsolateSelectionTests(unittest.TestCase):
                     "visual_scene_contract": "VISUAL SCENE CONTRACT RESULTS:",
                     "current_art_zoom": "CURRENT ART ZOOM RESULTS:",
                     "art_trial_battle": "ART TRIAL BATTLE RESULTS:",
+                    "dungeon_room_comparison": "DUNGEON ROOM COMPARISON RESULTS:",
                     "battle_view_reuse": "BATTLE VIEW REUSE RESULTS:",
                     "presentation_consequences": "PRESENTATION CONSEQUENCES RESULTS:",
                     "presentation_environment": "PRESENTATION ENVIRONMENT RESULTS:",
