@@ -1,6 +1,6 @@
 [gd_resource type="FontVariation" load_steps=3 format=3]
 
-[ext_resource type="FontFile" path="res://assets/ui/combat_fonts/pixelify_numbers.ttf" id="1_numbers"]
+[ext_resource type="FontFile" path="res://assets/ui/combat_fonts/jersey_numbers.ttf" id="1_numbers"]
 [ext_resource type="FontFile" path="res://assets/ui/combat_fonts/monogram_letters.ttf" id="2_letters"]
 
 [resource]

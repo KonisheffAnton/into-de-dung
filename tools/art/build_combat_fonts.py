@@ -7,7 +7,6 @@ import shutil
 
 from fontTools import subset
 from fontTools.ttLib import TTFont
-from fontTools.varLib.instancer import instantiateVariableFont
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -24,14 +23,14 @@ def main() -> None:
     # Сверка с выбранным превью не позволяет незаметно заменить исходный рисунок.
     provenance = json.loads((SOURCE.parent / "provenance.json").read_text(encoding="utf-8"))
     for entry in provenance["fonts"]:
-        if entry["id"] in ("monogram", "pixelify"):
+        if entry["id"] in ("monogram", "jersey"):
             for source in entry["sources"]:
                 path = SOURCE.parent / source["file"]
                 if sha256(path) != source["sha256"]:
                     raise ValueError(f"Source hash mismatch: {path}")
 
     OUTPUT.mkdir(parents=True, exist_ok=True)
-    for name in ("monogram-CC0.txt", "monogram-license-source.txt", "pixelify-OFL.txt"):
+    for name in ("monogram-CC0.txt", "monogram-license-source.txt", "jersey-OFL.txt"):
         shutil.copyfile(SOURCE / name, OUTPUT / name)
 
     letters = TTFont(SOURCE / "monogram.ttf", recalcTimestamp=False)
@@ -42,9 +41,7 @@ def main() -> None:
     letters.save(OUTPUT / "monogram_letters.ttf")
     letters.close()
 
-    font = TTFont(SOURCE / "pixelify.ttf", recalcTimestamp=False)
-    # В выбранном превью цифры Bold, а исходный variable TTF по умолчанию Regular.
-    instantiateVariableFont(font, {"wght": 700}, inplace=True)
+    font = TTFont(SOURCE / "jersey.ttf", recalcTimestamp=False)
     missing = set(map(ord, NUMERIC)) - set(font.getBestCmap())
     if missing:
         raise ValueError(f"Missing numeric glyphs: {sorted(missing)}")
@@ -56,19 +53,19 @@ def main() -> None:
     subsetter = subset.Subsetter(options=options)
     subsetter.populate(text=NUMERIC)
     subsetter.subset(font)
-    # Числовому подмножеству не нужны поля полного алфавита: они вытесняли подписи за кадр.
-    # Диапазон контуров -85..638 помещается в метрики -200..800 без обрезки.
-    font["hhea"].ascent = 800
-    font["hhea"].descent = -200
-    font["hhea"].lineGap = 0
-    font["OS/2"].sTypoAscender = 800
-    font["OS/2"].sTypoDescender = -200
-    font["OS/2"].sTypoLineGap = 0
-    font["OS/2"].usWinAscent = 800
-    font["OS/2"].usWinDescent = 200
+    # В числовом наборе нижнее поле полного шрифта лишнее: оно вытесняло верхнюю подпись.
+    # Сохраняем рисунок, em и горизонтальные интервалы; меняем только метрики строки.
+    font["hhea"].descent = -280
+    font["OS/2"].sTypoDescender = -280
+    font["OS/2"].usWinDescent = 280
     # Подмножество без букв заставляет Label выбирать Monogram и для латинского HP.
-    rename_font(font, "Combat Pixelify Numbers", "Bold", "CombatPixelifyNumbers-Bold")
-    font.save(OUTPUT / "pixelify_numbers.ttf")
+    # Семейство сохраняет прежнее имя, чтобы проверить реальный выбор glyph в Godot.
+    names = {1: "Combat Jersey Numbers", 2: "Regular", 3: "CombatJerseyNumbers-1",
+             4: "Combat Jersey Numbers", 6: "CombatJerseyNumbers-Regular"}
+    for record in font["name"].names:
+        if record.nameID in names:
+            record.string = names[record.nameID].encode(record.getEncoding())
+    font.save(OUTPUT / "jersey_numbers.ttf")
     font.close()
     print(json.dumps({p.name: sha256(p) for p in sorted(OUTPUT.glob("*.ttf"))}, indent=2))
 

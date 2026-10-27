@@ -1,5 +1,20 @@
 # История и свидетельства проверок
 
+## Возврат Jersey 10 для цифр — 2026-10-27
+
+По U цифры боевых подписей снова Jersey 10 Regular; Monogram сохранён побайтно.
+Рисунок, em и интервалы Jersey исходные; нижнее поле строки сокращено до 280 units
+для сохранения верхней подписи в плотной цепочке. Кегли 24/20, тексты, цвета,
+runtime-сцены/скрипты и lifecycle прежние.
+[Контракт](BATTLE_PRESENTATION_REWORK.md), [ресурсы/сборка](../assets/ui/combat_fonts/README.md).
+Финальный render-check: 6 PASS, 0 FAIL, 0 TIMEOUT; ревью APPROVE;
+test_reports/demo-c1e0844894eb43a792c99283c6aace71/.
+24 проверки ресурсов/пересборки PASS; отчёт и PNG:
+test_reports/combat-fonts-monogram-jersey-20261027/.
+Full/core/F5 не запускались; ручная читаемость в движении/zoom/DPI открыта.
+Защищённые файлы и прежние превью сохранены. Base a4beebe; main, без push.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261027-6.md).
+
 ## Monogram + Pixelify Sans по уточнению U — 2026-10-27
 
 Буквы боевых подписей заменены на Monogram Extended, цифры/знаки — Pixelify Sans

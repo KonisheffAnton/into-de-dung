@@ -1,19 +1,18 @@
-# Передача — 2026-10-27: Monogram + Pixelify Sans в бою
+# Передача — 2026-10-27: Monogram + Jersey 10 в бою
 
-D:\Games\into-de-dung; main; base 2b0cc6a1ff0436da97fd9d782f37b49ac6b3bf60.
-По уточнению U заменена пара боевых подписей: буквы Monogram Extended,
-цифры/числовые знаки Pixelify Sans Bold (700), вариант 02 прежнего сравнения.
-Шейпинг включает кириллицу и Latin HP. Кегли 24/20 прежние; em букв и высота
-числовой строки согласованы без изменения рисунка знаков. Runtime-сцены/скрипты,
-строки, цвета и lifecycle не менялись. Прежние preview-пакеты побайтно сохранены.
-[Контракт](BATTLE_PRESENTATION_REWORK.md), [ресурсы/лицензии/сборка](../assets/ui/combat_fonts/README.md),
-[проверки](TESTING.md). Monogram — CC0, Pixelify — OFL; исходники в preview.
+D:\Games\into-de-dung; main; base a4beebee6315c902616515a1f5665a20ea8d42dc.
+По U возвращён Jersey 10 Regular для цифр/числовых знаков; буквы Monogram
+сохранены побайтно. Кегли 24/20 прежние. У Jersey исходные рисунок, em и интервалы;
+нижнее поле строки уменьшено с 375 до 280 units, чтобы верхнее лечение не обрезалось.
+Runtime-сцены/скрипты, тексты, цвета и lifecycle не менялись.
+[Контракт](BATTLE_PRESENTATION_REWORK.md), [ресурсы/CC0/OFL/сборка](../assets/ui/combat_fonts/README.md),
+[проверки](TESTING.md). Прежние preview-пакеты побайтно сохранены.
 
 Финальный render-check: 6 PASS, 0 FAIL, 0 TIMEOUT — import/startup,
 battle_presentation, presentation_contact, presentation_consequences, battle_camera_ui.
-Артефакты: test_reports/demo-3285b4dcb9b34d5f850d64a0c6f25edd/.
-24 проверки исходников/контуров/метрик/пересборки PASS; ревью APPROVE.
-Отчёт, PNG, SHA: test_reports/combat-fonts-monogram-pixelify-20261027/.
+Артефакты: test_reports/demo-c1e0844894eb43a792c99283c6aace71/.
+24 проверки ресурсов/контуров/пересборки PASS; независимое ревью APPROVE.
+Отчёт, PNG, SHA: test_reports/combat-fonts-monogram-jersey-20261027/.
 Full/core и ручной F5 не запускались. Следующий шаг — ручная F5-приёмка
 читаемости в движении/zoom/DPI. Новый этап автоматически не начинать.
 
@@ -25,7 +24,7 @@ Full/core тогда не запускались. Очистка арта отл
 
 Чужие scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
 сохранены dirty; не трогать/reset/stage/commit. Сохранять core/preview/queue/RNG/save/frozen.
-Без push/sidebar tasks/расписаний. [Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261027-5.md),
+Без push/sidebar tasks/расписаний. [Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261027-6.md),
 [HISTORY](HISTORY.md). Завершение: проверки, локальный Conventional Commit,
 короткая передача; прежнюю побайтно отдельным архивом+HISTORY. В финале/при блокере
 предложить новый чат и полный самодостаточный промпт: HEAD, результат, docs/artifacts,
