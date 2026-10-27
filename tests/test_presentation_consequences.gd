@@ -72,10 +72,11 @@ func capture(label: String) -> void:
 	var image := viewport.get_texture().get_image()
 	if label == "chain-wall":
 		# В этой цепочке верхнее видимое лечение почти у края; рамка Label включает пустые поля.
-		# Проверяем пиксели бирюзовых букв, чтобы рост метрик не обрезал именно видимую подпись.
+		# Метрики шрифта могут безопасно опустить подпись ниже y=32; ищем её в верхней полосе 64 px.
+		# Первые 3 строки по-прежнему должны быть свободны от бирюзовых glyph: это проверка отступа.
 		var heal_pixels: int = 0
 		var edge_pixels: int = 0
-		for y: int in 32:
+		for y: int in 64:
 			for x: int in image.get_width():
 				var pixel := image.get_pixel(x, y)
 				if pixel.r < 0.5 and pixel.g > 0.6 and pixel.b > 0.55:

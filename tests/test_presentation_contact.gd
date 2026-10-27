@@ -268,14 +268,14 @@ func combat_font_pair() -> void:
 		numbers.append(number)
 		check(number._label.text == samples[i], "font selection preserves original feedback text")
 		var font := number._label.get_theme_font("font")
-		# Проверяем шейпинг всей смешанной строки: наличие glyph в TTF не доказывает выбор fallback.
+		# Проверяем всю строку: наличие glyph в TTF не доказывает отсутствие системной подмены.
 		for text_line: String in samples[i].split("\n"):
 			var line := TextLine.new()
 			check(line.add_string(text_line, font, number._label.get_theme_font_size("font_size")), "combat font shapes line")
 			for glyph: Dictionary in server.shaped_text_get_glyphs(line.get_rid()):
 				var character := text_line.substr(int(glyph.start), 1)
 				if character == " ": continue
-				var expected := "Combat Jersey Numbers" if "0123456789.,+-%−".contains(character) else "Combat Pixeloid Letters"
+				var expected := "Combat Pixeloid"
 				check(int(glyph.index) != 0 and server.font_get_name(glyph.font_rid) == expected,
 					"combat glyph %s uses %s" % [character, expected])
 		check(number._label.size.x > 0 and number._label.size.y > 0 and not number._label.clip_text, "feedback has measured unclipped bounds")

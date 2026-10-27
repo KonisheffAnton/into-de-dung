@@ -1,32 +1,22 @@
-# Боевые подписи: Pixeloid Sans Bold + Jersey 10
+# Боевые подписи: единый Pixeloid Sans Bold
 
-По U 2026-10-27 внедрены буквы Pixeloid Sans Bold, вариант 03 из
-[сравнения кириллицы](../../../docs/art/jersey-cyrillic-preview-20261027/README.md).
-Числовой файл Jersey сохранён побайтно.
-`combat_feedback.tres` назначен только Label в `result_number.tscn`.
-Числа и знаки `0123456789.,+-%−` — Jersey 10 Regular; остальные
-символы, включая кириллицу и латинский HP, — Pixeloid Sans Bold.
-Размер Label 24, подписи последствий 20: мелкие знаки выбранных гарнитур
-компенсированы размером кегля. Содержание, цвета, outline и lifecycle прежние.
+По уточнению U 2026-10-27 цифры приведены к выбранным буквам Pixeloid Sans Bold.
+`combat_feedback.tres` назначен только Label в `result_number.tscn` и использует
+один полный `pixeloid.ttf`, без отдельного числового шрифта/fallback-гарнитуры.
+Кириллица, латинский HP, цифры и знаки `0123456789.,+-%−` имеют один рисунок.
+Размер Label 24, подписи последствий 20; содержание, цвета, outline и lifecycle прежние.
 
-`pixeloid_letters.ttf` — статический Bold (usWeightClass=700), без синтетической
-жирности. Контуры и интервалы в font units сохранены; em=2448 вместо 1836
-(масштаб 3/4). При кегле 24 шаг исходной сетки 204 units равен 2 px, а высота
-основных заглавных 14 px — как у прежнего Monogram. Метрики строки исходные;
-строчные а/о высотой 10 px, нижние элементы р/у уходят на 4 px под baseline.
-Буквы шире прежнего Monogram; длинные последствия проверяются в рендере.
-Внутреннее имя `Combat Pixeloid Letters`, стиль Bold.
-`jersey_numbers.ttf` — числовое подмножество Jersey 10 с прежними рисунками,
-em=1400 и горизонтальными метриками. Нижнее поле строки сокращено с 375 до 280
-font units; эта прежняя настройка удерживает верхнее лечение в кадре.
-Контуры числовых знаков занимают y=-150..750; изменение поля их не обрезает.
-Внутреннее имя `Combat Jersey Numbers`. Без ограничения набора Jersey
-перехватывал бы латинские буквы. Исходный U+2212 сохранён.
-Исходные полные TTF, URL и SHA остаются в
-[provenance.json](../../../docs/art/jersey-cyrillic-preview-20261027/provenance.json).
-Jersey — [SIL OFL 1.1](jersey-OFL.txt), Pixeloid — [SIL OFL 1.1](pixeloid-OFL.txt).
-Тексты лицензий сохранены побайтно. Старый Monogram удалён только из runtime;
-все прежние preview-пакеты сохранены.
+`pixeloid.ttf` — статический Bold (usWeightClass=700), без синтетической жирности.
+Контуры, cmap, интервалы и метрики строки исходные; em=2448 вместо 1836 (масштаб 3/4).
+При кегле 24 исходная сетка 204 units равна 2 px; заглавные и цифры высотой 14 px.
+Настройка букв сохранена с прошлого этапа. Строчные а/о высотой 10 px,
+нижние элементы р/у уходят на 4 px под baseline. Метрики строки их покрывают.
+Внутреннее имя `Combat Pixeloid`, стиль Bold. U+2212 взят из самого Pixeloid;
+пунктуация не подменяется чужим шрифтом. Jersey удалён только из runtime.
+
+Исходный TTF, URL и SHA — в [provenance.json](../../../docs/art/jersey-cyrillic-preview-20261027/provenance.json)
+предыдущего сравнения. Это тот же Pixeloid Sans Bold; прежние preview-пакеты сохранены.
+[Лицензия SIL OFL 1.1](pixeloid-OFL.txt) скопирована побайтно.
 
 Воспроизведение из корня проекта с `fonttools==4.60.1`:
 
@@ -34,11 +24,10 @@ Jersey — [SIL OFL 1.1](jersey-OFL.txt), Pixeloid — [SIL OFL 1.1](pixeloid-OF
 python tools/art/build_combat_fonts.py
 ```
 
-Скрипт сверяет исходные SHA, сохраняет timestamp шрифта и выдаёт SHA результатов.
-Зависимость нужна только для пересборки; игра использует готовые файлы из assets.
-Pixeloid runtime SHA256: `e114ace31270494a016392dc1afcc9516a43586bba81dfa16854edbc49c47b5c`.
-Jersey subset SHA256: `688f135fd30f8b3eb274d610c1b86f6150dc57a2debb5d280ebc19ed2522577c`.
+Скрипт сверяет исходные SHA и числовые glyph, сохраняет timestamp шрифта.
+Зависимость нужна только для пересборки; игра использует готовый файл из assets.
+Runtime SHA256: `b480114afeb881a93eacaa6f2887cd4592df418a1f5adff844531c2f5bbb7328`.
 
-Контракт поведения — [BATTLE_PRESENTATION_REWORK](../../../docs/BATTLE_PRESENTATION_REWORK.md).
-Шейпинг смешанных строк и PNG — `test_presentation_contact.gd`; проверяются
-действительные шрифты glyph, включая HP, знаки, крит, щит и кириллические статусы.
+Контракт — [BATTLE_PRESENTATION_REWORK](../../../docs/BATTLE_PRESENTATION_REWORK.md).
+`test_presentation_contact.gd` проверяет фактический Pixeloid для каждого glyph
+в строках урона/крита/лечения/щита, HP, статусах и многострочных последствиях.

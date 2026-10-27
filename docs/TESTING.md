@@ -14,7 +14,7 @@
 
 ## Изменение игрового кода
 
-Шрифты боевых подписей Pixeloid Sans Bold + Jersey 10 (2026-10-27): `--render-check --only
+Единый Pixeloid Sans Bold для боевых подписей (2026-10-27): `--render-check --only
 presentation_contact presentation_consequences battle_presentation battle_camera_ui
 --screen 0` (одна команда). При изменении генерации событий/подписей дополнительно
 выбирать presentation_ranged, presentation_mage и presentation_reactions.
@@ -23,7 +23,8 @@ presentation_contact presentation_consequences battle_presentation battle_camera
 последствиях; сохраняет `combat-font-pair.png`. Прежние проверки покрывают
 размещение, задержку контакта, lifetime/fade, ×3, zoom/resize, skip/cancel и RNG;
 `presentation_consequences` также проверяет пиксели верхнего видимого лечения
-в плотной цепочке chain-wall: подпись присутствует и сохраняет отступ от края.
+в плотной цепочке chain-wall: подпись присутствует в верхней полосе 64 px,
+а первые 3 строки пикселей свободны от её glyph — отступ от края сохранён.
 Ручная F5/DPI-приёмка читаемости в движении остаётся отдельной.
 
 Разворот всех живых атакующих к цели (2026-10-26): `--render-check --only
