@@ -1,20 +1,21 @@
-# Передача — 2026-10-27: поиск цифр к буквам Pixeloid
+# Передача — 2026-10-27: Jersey 20 + Pixeloid Sans Bold
 
-D:\Games\into-de-dung; main; base faa13e70e7d4073f6aa315ee3ef448b534bf881e.
-По U подготовлено только превью: буквы Pixeloid Sans Bold, цифры Jersey 10,
-новые Jersey 15/20/25 и Oxanium Bold, плюс Pixeloid для сравнения.
-[Лист/6 кадров/TTF/OFL/источники/метод](art/pixeloid-numerals-preview-20261027/README.md),
-[владелец](ART_DIRECTION.md). Выбор и внедрение открыты; игру не меняли.
-Browser-check PASS: 6 шрифтов/cmap, 42 подписи, 24 строки, 90 узлов без fallback;
-фон 6 PNG сохранён вне надписей. Отчёт: test_reports/pixeloid-numerals-preview-20261027/.
-Независимое ревью APPROVE; 145 защищённых SHA совпали.
-Godot/full/core/F5 в этом этапе не запускались; это оптический макет.
+D:\Games\into-de-dung; main; base 792414defad185725faaa85850237bec55705f5a.
+По U внедрён вариант03: цифры/числовые знаки Jersey 20, буквы Pixeloid Sans Bold.
+Общий Label выбирает числовое подмножество + fallback прежнего Pixeloid;
+Pixeloid TTF/OFL побайтно сохранены. Кегли24/20, тексты, цвета, outline/lifecycle,
+сцены и боевые механики прежние. [Контракт](BATTLE_PRESENTATION_REWORK.md),
+[ресурсы/OFL/сборка](../assets/ui/combat_fonts/README.md), [проверки](TESTING.md).
+[Исходное превью](art/pixeloid-numerals-preview-20261027/README.md) и четыре более
+ранних пакета сохранены; runtime больше не использует цифры Pixeloid.
 
-Runtime остаётся единым Pixeloid Sans Bold из faa13e7:
-[контракт](BATTLE_PRESENTATION_REWORK.md), [ресурсы/сборка](../assets/ui/combat_fonts/README.md).
-Прежние 6 PASS/APPROVE: test_reports/demo-85fb3c562a59425aac2c04933d95ecc6/
-и test_reports/combat-fonts-pixeloid-20261027/. F5-приёмка движения/zoom/DPI
-открыта. Пользователь предпочёл прежние цифры; новый вариант пока не выбран.
+Финальный render-check: 6 PASS, 0 FAIL, 0 TIMEOUT — import/startup,
+battle_presentation, presentation_contact, presentation_consequences, battle_camera_ui.
+Артефакты: test_reports/demo-9345680846994219b6dc1ad76dc43740/.
+17 проверок шрифта/контуров/лицензии/пересборки PASS; 174 защищённых SHA совпали.
+Отчёт/PNG/SHA: test_reports/combat-fonts-jersey20-20261027/.
+Независимое ревью APPROVE; смешанные строки и верхнее лечение проверены на PNG.
+Full/core/F5 не запускались. Остаток — ручная F5-приёмка движения/zoom/DPI.
 
 Разворот атакующих 46201bd: [контракт](BATTLE_VISUAL_SCENE_CONTRACT.md),
 test_reports/attack-facing-20261026/ и test_reports/demo-f452badf203a427999337faf2ba45996/
@@ -24,7 +25,7 @@ test_reports/attack-facing-20261026/ и test_reports/demo-f452badf203a427999337f
 Чужие scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
 сохранены dirty; не трогать/reset/stage/commit. Core/preview/queue/RNG/save/frozen
 сохранять; без push/sidebar tasks/расписаний. Новый этап автоматически не начинать.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261027-10.md), [HISTORY](HISTORY.md).
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261027-11.md), [HISTORY](HISTORY.md).
 Завершение: проверки, локальный Conventional Commit, короткая передача;
 прежнюю побайтно отдельным архивом+HISTORY. В финале/при блокере предложить новый
 чат и полный самодостаточный промпт: HEAD, результат, docs/artifacts, остаток,

@@ -227,7 +227,7 @@ reset/exit убивают Tween и отбрасывают старые данн�
 перед родительским HUD. Это заглушки, не финальный формат image set.
 
 Общая сцена `result_number.tscn` использует ресурс `combat_feedback.tres`:
-цифры Jersey 10 и буквы Monogram выбираются шрифтовым fallback внутри прежнего Label.
+числа и буквы выбранной пары выбираются шрифтовым fallback внутри прежнего Label.
 Ресурсы находятся в assets, не зависят от docs при запуске. Правила подписей —
 [BATTLE_PRESENTATION_REWORK](BATTLE_PRESENTATION_REWORK.md), источники и пересборка —
 [combat_fonts](../assets/ui/combat_fonts/README.md).

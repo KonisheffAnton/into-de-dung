@@ -1,5 +1,23 @@
 # История и свидетельства проверок
 
+## Jersey 20 для цифр, Pixeloid Sans Bold для букв — 2026-10-27
+
+По U внедрён вариант 03 [последнего сравнения](art/pixeloid-numerals-preview-20261027/README.md).
+Общий Label использует числовое подмножество Jersey 20 и прежний полный Pixeloid
+как fallback для букв, включая HP. Pixeloid TTF/OFL побайтно прежние;
+Jersey сохраняет исходные контуры, em=1292 и метрики. Размеры 24/20, тексты,
+цвета, outline/lifecycle, сцены и боевые механики не менялись.
+[Контракт](BATTLE_PRESENTATION_REWORK.md), [ресурсы/OFL/сборка](../assets/ui/combat_fonts/README.md).
+Финальный render-check: 6 PASS, 0 FAIL, 0 TIMEOUT;
+test_reports/demo-9345680846994219b6dc1ad76dc43740/.
+17 проверок font assets PASS; 174 защищённых SHA совпали. Отчёт, PNG и фиксация:
+test_reports/combat-fonts-jersey20-20261027/. Верхнее лечение не обрезано;
+тесты размещения/последствий не ослаблялись. Full/core/F5 не запускались.
+Независимое ревью APPROVE: 13 SHA патча и 9 файлов тестового manifest совпали;
+верхнее лечение занимает y=22–35, первые три строки экрана свободны от glyph.
+Ручная читаемость в движении/zoom/DPI открыта; base 792414d, main, без push.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261027-11.md).
+
 ## Поиск цифр к буквам Pixeloid — 2026-10-27
 
 По U подготовлен [лист шести сочетаний и полные кадры](art/pixeloid-numerals-preview-20261027/README.md):
