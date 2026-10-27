@@ -1,0 +1,7 @@
+Quest Square by SpicyGame, from SG Font Collection version6.
+Author source: https://spicygame.itch.io/fonts
+Retrieved 2026-10-27 through the author's free download flow.
+Author declaration: "All fonts available as TTF files. Licensed under CC0."
+Quest Square is marked as supporting Greek, Cyrillic and Hebrew.
+Official CC0 legal text is preserved in quest-CC0.txt.
+Archive upload ID, archive hash and exact TTF member are in provenance.json.

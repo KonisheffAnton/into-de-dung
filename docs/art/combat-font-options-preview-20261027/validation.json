@@ -1,0 +1,1137 @@
+{
+  "status": "PASS",
+  "renderer": "Edge Chromium/CSS; not Godot",
+  "sourceDimensions": {
+    "width": 1280,
+    "height": 850
+  },
+  "fonts": [
+    {
+      "family": "Pixelify",
+      "status": "loaded"
+    },
+    {
+      "family": "Tiny5",
+      "status": "loaded"
+    },
+    {
+      "family": "Pixeloid",
+      "status": "loaded"
+    },
+    {
+      "family": "Kaph",
+      "status": "loaded"
+    },
+    {
+      "family": "Chetyre",
+      "status": "loaded"
+    },
+    {
+      "family": "Quest",
+      "status": "loaded"
+    },
+    {
+      "family": "Ultima",
+      "status": "loaded"
+    }
+  ],
+  "metrics": [
+    {
+      "id": "baseline",
+      "letters": "Tiny5",
+      "numbers": "Pixelify",
+      "name": "Tiny5 + Pixelify",
+      "numberWeight": 700,
+      "detail": "Исходная пара · для сравнения",
+      "digitHeightAt100": 65,
+      "letterHeightAt100": 63,
+      "numberSize": 61.53846153846154,
+      "statusSize": 50.79365079365079
+    },
+    {
+      "id": "pixeloid",
+      "letters": "Pixeloid",
+      "numbers": "Pixeloid",
+      "name": "Pixeloid Sans Bold",
+      "numberWeight": 400,
+      "detail": "Плотный пиксельный рисунок",
+      "digitHeightAt100": 78,
+      "letterHeightAt100": 78,
+      "numberSize": 51.28205128205128,
+      "statusSize": 41.02564102564102
+    },
+    {
+      "id": "kaph",
+      "letters": "Kaph",
+      "numbers": "Kaph",
+      "name": "Kaph",
+      "numberWeight": 400,
+      "detail": "Округлый, мультяшный характер",
+      "digitHeightAt100": 95,
+      "letterHeightAt100": 90,
+      "numberSize": 42.10526315789473,
+      "statusSize": 35.55555555555556
+    },
+    {
+      "id": "chetyre",
+      "letters": "Chetyre",
+      "numbers": "Chetyre",
+      "name": "Chetyre",
+      "numberWeight": 400,
+      "detail": "Жирные формы на мелкой сетке",
+      "digitHeightAt100": 80,
+      "letterHeightAt100": 80,
+      "numberSize": 50,
+      "statusSize": 40
+    },
+    {
+      "id": "ultima",
+      "letters": "Ultima",
+      "numbers": "Ultima",
+      "name": "Pixel Ultima Bold",
+      "numberWeight": 400,
+      "detail": "Угловатый игровой шрифт",
+      "digitHeightAt100": 82,
+      "letterHeightAt100": 82,
+      "numberSize": 48.78048780487805,
+      "statusSize": 39.02439024390244
+    },
+    {
+      "id": "quest",
+      "letters": "Quest",
+      "numbers": "Quest",
+      "name": "Quest Square",
+      "numberWeight": 400,
+      "detail": "Геометрические пиксельные контуры",
+      "digitHeightAt100": 47,
+      "letterHeightAt100": 47,
+      "numberSize": 85.1063829787234,
+      "statusSize": 68.08510638297872
+    }
+  ],
+  "glyphs": {
+    "pixelify": {
+      "0": 419,
+      "1": 420,
+      "2": 421,
+      "3": 422,
+      "4": 423,
+      "5": 424,
+      "6": 425,
+      "7": 426,
+      "8": 427,
+      "9": 428,
+      "-": 478,
+      "+": 523,
+      ".": 460,
+      " ": 458
+    },
+    "tiny5": {
+      "К": 809,
+      "Р": 815,
+      "И": 807,
+      "Т": 817,
+      "Щ": 824,
+      "Б": 800,
+      "Л": 810,
+      "О": 813,
+      "П": 814,
+      "М": 811,
+      "А": 799,
+      "Х": 820,
+      "В": 801,
+      "Е": 804,
+      "Ч": 822,
+      "Н": 812,
+      " ": 446
+    },
+    "pixeloid": {
+      "0": 17,
+      "1": 18,
+      "2": 19,
+      "3": 20,
+      "4": 21,
+      "5": 22,
+      "6": 23,
+      "7": 24,
+      "8": 25,
+      "9": 26,
+      "-": 14,
+      "+": 12,
+      ".": 15,
+      " ": 1,
+      "К": 225,
+      "Р": 231,
+      "И": 223,
+      "Т": 233,
+      "Щ": 240,
+      "Б": 216,
+      "Л": 226,
+      "О": 229,
+      "П": 230,
+      "М": 227,
+      "А": 215,
+      "Х": 236,
+      "В": 217,
+      "Е": 220,
+      "Ч": 238,
+      "Н": 228
+    },
+    "kaph": {
+      "0": 63,
+      "1": 54,
+      "2": 55,
+      "3": 56,
+      "4": 57,
+      "5": 58,
+      "6": 59,
+      "7": 60,
+      "8": 61,
+      "9": 62,
+      "-": 75,
+      "+": 74,
+      ".": 64,
+      " ": 1,
+      "К": 478,
+      "Р": 490,
+      "И": 474,
+      "Т": 494,
+      "Щ": 508,
+      "Б": 458,
+      "Л": 480,
+      "О": 486,
+      "П": 488,
+      "М": 482,
+      "А": 456,
+      "Х": 500,
+      "В": 460,
+      "Е": 466,
+      "Ч": 504,
+      "Н": 484
+    },
+    "chetyre": {
+      "0": 17,
+      "1": 18,
+      "2": 19,
+      "3": 20,
+      "4": 21,
+      "5": 22,
+      "6": 23,
+      "7": 24,
+      "8": 25,
+      "9": 26,
+      "-": 14,
+      "+": 12,
+      ".": 15,
+      " ": 1,
+      "К": 416,
+      "Р": 422,
+      "И": 414,
+      "Т": 424,
+      "Щ": 431,
+      "Б": 407,
+      "Л": 417,
+      "О": 420,
+      "П": 421,
+      "М": 418,
+      "А": 406,
+      "Х": 427,
+      "В": 408,
+      "Е": 411,
+      "Ч": 429,
+      "Н": 419
+    },
+    "ultima": {
+      "0": 19,
+      "1": 20,
+      "2": 21,
+      "3": 22,
+      "4": 23,
+      "5": 24,
+      "6": 25,
+      "7": 26,
+      "8": 27,
+      "9": 28,
+      "-": 16,
+      "+": 14,
+      ".": 17,
+      " ": 3,
+      "К": 233,
+      "Р": 239,
+      "И": 231,
+      "Т": 241,
+      "Щ": 248,
+      "Б": 224,
+      "Л": 234,
+      "О": 237,
+      "П": 238,
+      "М": 235,
+      "А": 223,
+      "Х": 244,
+      "В": 225,
+      "Е": 228,
+      "Ч": 246,
+      "Н": 236
+    },
+    "quest": {
+      "0": 18,
+      "1": 19,
+      "2": 20,
+      "3": 21,
+      "4": 22,
+      "5": 23,
+      "6": 24,
+      "7": 25,
+      "8": 26,
+      "9": 27,
+      "-": 15,
+      "+": 13,
+      ".": 16,
+      " ": 2,
+      "К": 560,
+      "Р": 566,
+      "И": 558,
+      "Т": 568,
+      "Щ": 575,
+      "Б": 551,
+      "Л": 561,
+      "О": 564,
+      "П": 565,
+      "М": 562,
+      "А": 550,
+      "Х": 571,
+      "В": 552,
+      "Е": 555,
+      "Ч": 573,
+      "Н": 563
+    }
+  },
+  "layout": [
+    {
+      "labels": [
+        {
+          "text": "-12.5",
+          "inside": true,
+          "bounds": {
+            "x": 130.41796875,
+            "y": 114.5,
+            "width": 69.1640625,
+            "height": 30.765625
+          },
+          "faces": [
+            {
+              "text": "-12.5",
+              "family": "Pixelify",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ-28.0",
+          "inside": true,
+          "bounds": {
+            "x": 303.3671875,
+            "y": 160,
+            "width": 93.265625,
+            "height": 56.4609375
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "Tiny5",
+              "weight": "400"
+            },
+            {
+              "text": "-28.0",
+              "family": "Pixelify",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 78.38671875,
+            "y": 65,
+            "width": 63.2265625,
+            "height": 30.765625
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Pixelify",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ-6.0",
+          "inside": true,
+          "bounds": {
+            "x": 282.97265625,
+            "y": 91,
+            "width": 56.0546875,
+            "height": 48.765625
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "Tiny5",
+              "weight": "400"
+            },
+            {
+              "text": "-6.0",
+              "family": "Pixelify",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 38.25390625,
+            "y": 210,
+            "width": 63.4921875,
+            "height": 25.3984375
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "Tiny5",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 139.20703125,
+            "y": 230,
+            "width": 101.5859375,
+            "height": 25.3984375
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "Tiny5",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 56.35546875,
+            "y": 295,
+            "width": 187.2890625,
+            "height": 25.3984375
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "Tiny5",
+              "weight": "400"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    },
+    {
+      "labels": [
+        {
+          "text": "-12.5",
+          "inside": true,
+          "bounds": {
+            "x": 123.6875,
+            "y": 114.5,
+            "width": 82.625,
+            "height": 25.640625
+          },
+          "faces": [
+            {
+              "text": "-12.5",
+              "family": "Pixeloid",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ-28.0",
+          "inside": true,
+          "bounds": {
+            "x": 298.36328125,
+            "y": 160,
+            "width": 103.2734375,
+            "height": 50.0546875
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "Pixeloid",
+              "weight": "400"
+            },
+            {
+              "text": "-28.0",
+              "family": "Pixeloid",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 78.66015625,
+            "y": 65,
+            "width": 62.6796875,
+            "height": 25.640625
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Pixeloid",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ-6.0",
+          "inside": true,
+          "bounds": {
+            "x": 279.66015625,
+            "y": 91,
+            "width": 62.6796875,
+            "height": 43.640625
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "Pixeloid",
+              "weight": "400"
+            },
+            {
+              "text": "-6.0",
+              "family": "Pixeloid",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 38.09375,
+            "y": 210,
+            "width": 63.8125,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "Pixeloid",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 139.86328125,
+            "y": 230,
+            "width": 100.2734375,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "Pixeloid",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 53.14453125,
+            "y": 295,
+            "width": 193.7109375,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "Pixeloid",
+              "weight": "400"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    },
+    {
+      "labels": [
+        {
+          "text": "-12.5",
+          "inside": true,
+          "bounds": {
+            "x": 130.51953125,
+            "y": 114.5,
+            "width": 68.9609375,
+            "height": 21.0546875
+          },
+          "faces": [
+            {
+              "text": "-12.5",
+              "family": "Kaph",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ-28.0",
+          "inside": true,
+          "bounds": {
+            "x": 305.1171875,
+            "y": 160,
+            "width": 89.765625,
+            "height": 44.3125
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "Kaph",
+              "weight": "400"
+            },
+            {
+              "text": "-28.0",
+              "family": "Kaph",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 83.3046875,
+            "y": 65,
+            "width": 53.390625,
+            "height": 21.0546875
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Kaph",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ-6.0",
+          "inside": true,
+          "bounds": {
+            "x": 283.78515625,
+            "y": 91,
+            "width": 54.4296875,
+            "height": 39.0546875
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "Kaph",
+              "weight": "400"
+            },
+            {
+              "text": "-6.0",
+              "family": "Kaph",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 39.75,
+            "y": 210,
+            "width": 60.5,
+            "height": 17.78125
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "Kaph",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 144.8984375,
+            "y": 230,
+            "width": 90.203125,
+            "height": 17.78125
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "Kaph",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 61.125,
+            "y": 295,
+            "width": 177.75,
+            "height": 17.78125
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "Kaph",
+              "weight": "400"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    },
+    {
+      "labels": [
+        {
+          "text": "-12.5",
+          "inside": true,
+          "bounds": {
+            "x": 121.25,
+            "y": 114.5,
+            "width": 87.5,
+            "height": 25
+          },
+          "faces": [
+            {
+              "text": "-12.5",
+              "family": "Chetyre",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ-28.0",
+          "inside": true,
+          "bounds": {
+            "x": 295.3125,
+            "y": 160,
+            "width": 109.375,
+            "height": 49.25
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "Chetyre",
+              "weight": "400"
+            },
+            {
+              "text": "-28.0",
+              "family": "Chetyre",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 76.25,
+            "y": 65,
+            "width": 67.5,
+            "height": 25
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Chetyre",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ-6.0",
+          "inside": true,
+          "bounds": {
+            "x": 277.25,
+            "y": 91,
+            "width": 67.5,
+            "height": 43
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "Chetyre",
+              "weight": "400"
+            },
+            {
+              "text": "-6.0",
+              "family": "Chetyre",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 38,
+            "y": 210,
+            "width": 64,
+            "height": 20
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "Chetyre",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 142,
+            "y": 230,
+            "width": 96,
+            "height": 20
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "Chetyre",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 54,
+            "y": 295,
+            "width": 192,
+            "height": 20
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "Chetyre",
+              "weight": "400"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    },
+    {
+      "labels": [
+        {
+          "text": "-12.5",
+          "inside": true,
+          "bounds": {
+            "x": 136.03515625,
+            "y": 114.5,
+            "width": 57.9296875,
+            "height": 24.390625
+          },
+          "faces": [
+            {
+              "text": "-12.5",
+              "family": "Ultima",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ-28.0",
+          "inside": true,
+          "bounds": {
+            "x": 313.796875,
+            "y": 160,
+            "width": 72.40625,
+            "height": 48.484375
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "Ultima",
+              "weight": "400"
+            },
+            {
+              "text": "-28.0",
+              "family": "Ultima",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 87.1328125,
+            "y": 65,
+            "width": 45.734375,
+            "height": 24.390625
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Ultima",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ-6.0",
+          "inside": true,
+          "bounds": {
+            "x": 288.89453125,
+            "y": 91,
+            "width": 44.2109375,
+            "height": 42.390625
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "Ultima",
+              "weight": "400"
+            },
+            {
+              "text": "-6.0",
+              "family": "Ultima",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 48.05078125,
+            "y": 210,
+            "width": 43.8984375,
+            "height": 19.515625
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "Ultima",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 154.63671875,
+            "y": 230,
+            "width": 70.7265625,
+            "height": 19.515625
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "Ultima",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 84.15234375,
+            "y": 295,
+            "width": 131.6953125,
+            "height": 19.515625
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "Ultima",
+              "weight": "400"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    },
+    {
+      "labels": [
+        {
+          "text": "-12.5",
+          "inside": true,
+          "bounds": {
+            "x": 130.96484375,
+            "y": 114.5,
+            "width": 68.0703125,
+            "height": 42.5546875
+          },
+          "faces": [
+            {
+              "text": "-12.5",
+              "family": "Quest",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ-28.0",
+          "inside": true,
+          "bounds": {
+            "x": 307.45703125,
+            "y": 160,
+            "width": 85.0859375,
+            "height": 71.1953125
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "Quest",
+              "weight": "400"
+            },
+            {
+              "text": "-28.0",
+              "family": "Quest",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 81.63671875,
+            "y": 65,
+            "width": 56.7265625,
+            "height": 42.5546875
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Quest",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ-6.0",
+          "inside": true,
+          "bounds": {
+            "x": 285.47265625,
+            "y": 91,
+            "width": 51.0546875,
+            "height": 60.5546875
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "Quest",
+              "weight": "400"
+            },
+            {
+              "text": "-6.0",
+              "family": "Quest",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 42.7734375,
+            "y": 210,
+            "width": 54.453125,
+            "height": 34.0390625
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "Quest",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 149.16015625,
+            "y": 230,
+            "width": 81.6796875,
+            "height": 34.0390625
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "Quest",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 68.3203125,
+            "y": 295,
+            "width": 163.359375,
+            "height": 34.0390625
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "Quest",
+              "weight": "400"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    }
+  ],
+  "specimenRowsWithinBounds": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "browserErrors": [],
+  "previewOnly": true
+}

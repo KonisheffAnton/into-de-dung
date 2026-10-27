@@ -1,0 +1,200 @@
+{
+  "date": "2026-10-27",
+  "base": "10b6a95f3e9f5ae253c43e92f2cf832f099bbda9",
+  "integration": false,
+  "source": {
+    "path": "docs/art/combat-font-pairs-preview-20261027/source-battle.png",
+    "copy": "source-battle.png",
+    "sha256": "3fb37657b82442d772c6344dce9180e59b2aa06e4c1e7d4b0b0acf7a53ea6fd7",
+    "byte_exact": true
+  },
+  "fonts": [
+    {
+      "id": "pixelify",
+      "name": "Pixelify Sans",
+      "directory": "pixelifysans",
+      "filename": "PixelifySans[wght].ttf",
+      "weight": 700,
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/pixelifysans/PixelifySans%5Bwght%5D.ttf",
+          "file": "fonts/pixelify.ttf",
+          "bytes": 79160,
+          "sha256": "9ba86cd010a4de309d263ceff8e8044092c9db7efda869620cb9ff1c4389e8a5"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/pixelifysans/OFL.txt",
+          "file": "fonts/pixelify-OFL.txt",
+          "bytes": 4488,
+          "sha256": "b66ba46f511a851ab09998b5a5a9fdbb102545a3864cb993095e1745996873a7"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/pixelifysans/METADATA.pb",
+          "file": "fonts/pixelify-METADATA.pb",
+          "bytes": 939,
+          "sha256": "adac079f2f599996ffa5952f8fdc66e643db2cdcd9a0bc84ad8ad4b8387567d4"
+        }
+      ]
+    },
+    {
+      "id": "tiny5",
+      "name": "Tiny5",
+      "directory": "tiny5",
+      "filename": "Tiny5[BLED,JITT,ROND,wdth,wght].ttf",
+      "weight": 400,
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/tiny5/Tiny5%5BBLED%2CJITT%2CROND%2Cwdth%2Cwght%5D.ttf",
+          "file": "fonts/tiny5.ttf",
+          "bytes": 433432,
+          "sha256": "588626f2c1b164f55927c0d8123f4bc134651aad7d257da68fc19b0824b0d8fa"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/tiny5/OFL.txt",
+          "file": "fonts/tiny5-OFL.txt",
+          "bytes": 4389,
+          "sha256": "690fda321d0ebce403249c8d61dadddcee09dc8813424cc5a8f982efcff9a9a3"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/tiny5/METADATA.pb",
+          "file": "fonts/tiny5-METADATA.pb",
+          "bytes": 1797,
+          "sha256": "b58a562bf64de0dab8cc9d55ecd48cc8b6471eea1f996cf0d8f894e3eb1d4ae6"
+        }
+      ]
+    },
+    {
+      "id": "pixeloid",
+      "name": "Pixeloid Sans Bold",
+      "weight": 400,
+      "author_page": "https://ggbot.itch.io/pixeloid-font",
+      "download": {
+        "upload_id": "15999942",
+        "archive_sha256": "07fec6e78e3d51b5912c5d01beb455b334395cbde5fdade21e545f059e2e5beb",
+        "archive_bytes": 381335,
+        "retrieved": "2026-10-27"
+      },
+      "sources": [
+        {
+          "url": "https://ggbot.itch.io/pixeloid-font",
+          "archive_member": "TrueType (.ttf)/PixeloidSans-Bold.ttf",
+          "file": "fonts/pixeloid.ttf",
+          "bytes": 109964,
+          "sha256": "d8bc38413101440e2d68b8d886f82dae298e3d4550728b5c99f717377ed8a195"
+        },
+        {
+          "url": "https://ggbot.itch.io/pixeloid-font",
+          "archive_member": "License.txt",
+          "file": "fonts/pixeloid-LICENSE.txt",
+          "bytes": 4493,
+          "sha256": "de7a71bd2d330c09aaadb38cd09eda3c62693a55350e288b43dac73f4a5e67a8"
+        }
+      ]
+    },
+    {
+      "id": "kaph",
+      "name": "Kaph",
+      "weight": 400,
+      "author_page": "https://ggbot.itch.io/kaph-font",
+      "download": {
+        "upload_id": "10434836",
+        "archive_sha256": "a9e61fa9ffec847df631b359271010bf7ecf1621571799e7f01834c5e238b70b",
+        "archive_bytes": 1102662,
+        "retrieved": "2026-10-27"
+      },
+      "sources": [
+        {
+          "url": "https://ggbot.itch.io/kaph-font",
+          "archive_member": "TrueType (.ttf)/Kaph-Regular.ttf",
+          "file": "fonts/kaph.ttf",
+          "bytes": 569816,
+          "sha256": "8e868500fac8cdf3f4a33a27d506dfdb0a50f38e01e6d3e2f2c38a860b4fea22"
+        },
+        {
+          "url": "https://ggbot.itch.io/kaph-font",
+          "archive_member": "License.txt",
+          "file": "fonts/kaph-LICENSE.txt",
+          "bytes": 4482,
+          "sha256": "f7b7569c3462f741628508725614bae5b431ab962849ae7d963125df0a828655"
+        }
+      ]
+    },
+    {
+      "id": "chetyre",
+      "name": "Chetyre",
+      "weight": 400,
+      "author_page": "https://hanshuyuri.itch.io/chetyre",
+      "download": {
+        "upload_id": "12575179",
+        "archive_sha256": "2b393c428b12335abdeae06bd9275b2643d00a96cc86d29b2864976c1f2a056d",
+        "archive_bytes": 55108,
+        "retrieved": "2026-10-27"
+      },
+      "sources": [
+        {
+          "url": "https://hanshuyuri.itch.io/chetyre",
+          "archive_member": "Chetyre-Regular.ttf",
+          "file": "fonts/chetyre.ttf",
+          "bytes": 53624,
+          "sha256": "eed9a8109fa9b3318e099b5dc4108c3b3b1c477b0f01fdc744099770a15e7166"
+        },
+        {
+          "url": "https://hanshuyuri.itch.io/chetyre",
+          "archive_member": "LICENSE.txt",
+          "file": "fonts/chetyre-LICENSE.txt",
+          "bytes": 4463,
+          "sha256": "e9ffdb697f573d528c36b0775b6ab43fcc829940a465ad284e0226ba006d7ad4"
+        }
+      ]
+    },
+    {
+      "id": "quest",
+      "name": "Quest Square",
+      "weight": 400,
+      "author_page": "https://spicygame.itch.io/fonts",
+      "download": {
+        "upload_id": "12364254",
+        "archive_sha256": "a5ee1ce44de8eb15a0652b1cb3cc2af4b387aac276480b0366d6bb6f301bfee7",
+        "archive_bytes": 231903,
+        "retrieved": "2026-10-27"
+      },
+      "sources": [
+        {
+          "url": "https://spicygame.itch.io/fonts",
+          "archive_member": "QuestSquare.ttf",
+          "file": "fonts/quest.ttf",
+          "bytes": 78988,
+          "sha256": "ddbb64096b4e76b688e60485c542b28d2e98a1b7b09a643da40e9a9e4d26fcc7"
+        },
+        {
+          "url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt",
+          "file": "fonts/quest-CC0.txt",
+          "bytes": 7048,
+          "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+        }
+      ],
+      "license": "CC0 1.0, as declared on author page; official legal text copied byte-exact from previous package"
+    },
+    {
+      "id": "ultima",
+      "name": "Pixel Ultima Bold",
+      "weight": 400,
+      "author_page": "https://github.com/DeeJayLSP/pixel-ultima-font",
+      "commit": "55de0f169cb3dd4f0c378b0408182a4d2b8b0eff",
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/DeeJayLSP/pixel-ultima-font/55de0f169cb3dd4f0c378b0408182a4d2b8b0eff/ttf/pixel-ultima-bold.ttf",
+          "file": "fonts/ultima.ttf",
+          "bytes": 35100,
+          "sha256": "94f1f10673d37ded44967f245905c542bb66e8bb2341c5d81ed15729edac3a68"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/DeeJayLSP/pixel-ultima-font/55de0f169cb3dd4f0c378b0408182a4d2b8b0eff/LICENSE.md",
+          "file": "fonts/ultima-LICENSE.txt",
+          "bytes": 4453,
+          "sha256": "395cbb580067211348017782fb4b4f0f4e943ce791910a36729cbcb9fee6779c"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Пять новых шрифтов для боя</title>
+  <style>
+    @font-face { font-family: Pixelify; src: url('fonts/pixelify.ttf'); font-weight: 400 700; }
+    @font-face { font-family: Tiny5; src: url('fonts/tiny5.ttf'); font-weight: 100 900; }
+    @font-face { font-family: Pixeloid; src: url('fonts/pixeloid.ttf'); font-weight: 400; }
+    @font-face { font-family: Kaph; src: url('fonts/kaph.ttf'); font-weight: 400; }
+    @font-face { font-family: Chetyre; src: url('fonts/chetyre.ttf'); font-weight: 400; }
+    @font-face { font-family: Quest; src: url('fonts/quest.ttf'); font-weight: 400; }
+    @font-face { font-family: Ultima; src: url('fonts/ultima.ttf'); font-weight: 400; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #14191d; color: #eeeae0; font-family: 'Segoe UI', sans-serif; }
+    main { width: 1432px; margin: auto; padding: 32px; }
+    .eyebrow { color: #b4baad; letter-spacing: .16em; font-size: 12px; font-weight: 600; }
+    h1 { margin: 8px 0; font-size: 32px; font-weight: 650; }
+    .intro { margin: 0; color: #bbc1bd; font-size: 15px; }
+    .columns { display: grid; grid-template-columns: repeat(3, 440px); gap: 24px; margin-top: 24px; }
+    .column { background: #20272a; border-radius: 8px; overflow: hidden; }
+    .heading { height: 76px; padding: 15px 20px; }
+    h2 { font-size: 21px; font-weight: 600; margin: 0 0 5px; }
+    .index { color: #a9b7ae; margin-right: 12px; }
+    .sub { color: #adb7b2; font-size: 12px; }
+    .viewport { width: 440px; height: 350px; overflow: hidden; position: relative; }
+    .world { width: 1280px; height: 850px; position: absolute; left: -200px; top: 0; transform: scale(.5); transform-origin: top left; }
+    .battle { width: 1280px; height: 850px; position: absolute; inset: 0; }
+    .number-font { font-family: var(--number-family); font-weight: var(--number-weight); font-synthesis: none; }
+    .tag-font { font-family: var(--tag-family); font-weight: 400; font-synthesis: none; }
+    .feedback { position: absolute; transform: translateX(-50%); text-align: center; white-space: nowrap; line-height: 1; }
+    .feedback > span { display: block; paint-order: stroke fill; -webkit-text-stroke: 8px #19121f; text-shadow: 0 3px 0 #19121f; }
+    .value { font-size: var(--number-size); }
+    .tag { font-size: var(--tag-size); height: 36px; line-height: 36px; }
+    .damage { color: #ffe6ce; }
+    .critical { color: #ffd06d; }
+    .critical .value { font-size: var(--crit-size); }
+    .heal { color: #79edba; }
+    .shield { color: #85d9ff; }
+    .block { color: #b7dcec; }
+    .miss { color: #ebe5d7; }
+    .bleed { color: #ffa6a1; }
+    .damage.feedback { left: 730px; top: 229px; }
+    .critical.feedback { left: 1100px; top: 320px; }
+    .heal.feedback { left: 620px; top: 130px; }
+    .shield.feedback { left: 1022px; top: 182px; }
+    .block.feedback { left: 540px; top: 420px; }
+    .miss.feedback { left: 780px; top: 460px; }
+    .bleed.feedback { left: 700px; top: 590px; }
+    .status > span { font-size: var(--status-size); }
+    .specimen { padding: 14px 20px 16px; height: 147px; }
+    .specimen-row { display: flex; gap: 16px; align-items: center; height: 39px; }
+    .specimen-label { font-size: 12px; color: #b7c0ba; width: 55px; flex-shrink: 0; }
+    .specimen .number-font { font-size: var(--digit-strip-size); white-space: nowrap; line-height: 1; }
+    .words { display: flex; gap: 16px; font-size: var(--word-strip-size); white-space: nowrap; line-height: 1; }
+    footer { margin-top: 22px; font-size: 13px; color: #adb7b2; line-height: 1.6; }
+    footer strong { color: #e2e4d8; font-weight: 500; }
+    .exports { margin-top: 10px; display: flex; gap: 24px; }
+    a { color: #b9d9cf; }
+    body[data-capture] main { padding: 0; }
+    body[data-capture] .eyebrow, body[data-capture] h1, body[data-capture] .intro,
+    body[data-capture] .heading, body[data-capture] .specimen, body[data-capture] footer { display: none; }
+    body[data-capture] .columns { display: block; margin: 0; }
+    body[data-capture] .column { display: none; border-radius: 0; }
+    body[data-capture="baseline"] .baseline,
+    body[data-capture="pixeloid"] .pixeloid,
+    body[data-capture="kaph"] .kaph,
+    body[data-capture="chetyre"] .chetyre,
+    body[data-capture="ultima"] .ultima,
+    body[data-capture="quest"] .quest { display: block; }
+    body[data-capture] .viewport { width: 1280px; height: 850px; }
+    body[data-capture] .world { left: 0; transform: none; }
+  </style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">INTODEDUNG · ПРЕВЬЮ / 27.10.2026</div>
+  <h1>Ещё пять шрифтов</h1>
+  <p class="intro">Одна исходная пара и пять новых вариантов. Те же числа, подписи и кадр боя.</p>
+  <div class="columns" id="columns"></div>
+  <footer>
+    <strong>Одинаковые значения, цвета и высота знаков.</strong> Цифры: 20 px, крит: 25 px; новые подписи: 16 px.<br>
+    Один фрагмент исходного кадра в масштабе 50%. Числа и статусы — примеры оформления, не события записанного боя.<br>
+    Только статическое превью. Внедрение в игру не выполнено.
+    <div class="exports"><a href="baseline-battle.png">01 · исходная пара</a><a href="pixeloid-battle.png">02 · Pixeloid</a><a href="kaph-battle.png">03 · Kaph</a><a href="chetyre-battle.png">04 · Chetyre</a><a href="ultima-battle.png">05 · Ultima</a><a href="quest-battle.png">06 · Quest</a></div>
+  </footer>
+</main>
+<script>
+  const pairs = [
+    {id:'baseline', letters:'Tiny5', numbers:'Pixelify', name:'Tiny5 + Pixelify', numberWeight:700, detail:'Исходная пара · для сравнения'},
+    {id:'pixeloid', letters:'Pixeloid', numbers:'Pixeloid', name:'Pixeloid Sans Bold', numberWeight:400, detail:'Плотный пиксельный рисунок'},
+    {id:'kaph', letters:'Kaph', numbers:'Kaph', name:'Kaph', numberWeight:400, detail:'Округлый, мультяшный характер'},
+    {id:'chetyre', letters:'Chetyre', numbers:'Chetyre', name:'Chetyre', numberWeight:400, detail:'Жирные формы на мелкой сетке'},
+    {id:'ultima', letters:'Ultima', numbers:'Ultima', name:'Pixel Ultima Bold', numberWeight:400, detail:'Угловатый игровой шрифт'},
+    {id:'quest', letters:'Quest', numbers:'Quest', name:'Quest Square', numberWeight:400, detail:'Геометрические пиксельные контуры'}
+  ];
+  window.previewPairs = pairs;
+  for (const [i,pair] of pairs.entries()) {
+    const section = document.createElement('section');
+    section.className = 'column ' + pair.id;
+    section.style.setProperty('--tag-family',pair.letters);
+    section.style.setProperty('--number-family',pair.numbers);
+    section.style.setProperty('--number-weight',pair.numberWeight);
+    section.innerHTML = `<div class="heading"><h2><span class="index">0${i+1}</span>${pair.name}</h2><div class="sub">${pair.detail}</div></div>
+      <div class="viewport"><div class="world"><img class="battle" src="source-battle.png" alt="Один и тот же исходный кадр боя">
+        <div class="feedback damage"><span class="value number-font">-12.5</span></div>
+        <div class="feedback critical"><span class="tag tag-font">КРИТ</span><span class="value number-font">-28.0</span></div>
+        <div class="feedback heal"><span class="value number-font">+8.0</span></div>
+        <div class="feedback shield"><span class="tag tag-font">ЩИТ</span><span class="value number-font">-6.0</span></div>
+        <div class="feedback status block"><span class="tag-font">БЛОК</span></div>
+        <div class="feedback status miss"><span class="tag-font">ПРОМАХ</span></div>
+        <div class="feedback status bleed"><span class="tag-font">КРОВОТЕЧЕНИЕ</span></div>
+      </div></div>
+      <div class="specimen">
+        <div class="specimen-row"><span class="specimen-label">Цифры</span><span class="number-font">0123456789 - + .</span></div>
+        <div class="specimen-row"><span class="specimen-label">Буквы</span><div class="words tag-font"><span>БЛОК</span><span>ПРОМАХ</span></div></div>
+        <div class="specimen-row"><span class="specimen-label">Статус</span><div class="words tag-font"><span>КРОВОТЕЧЕНИЕ</span></div></div>
+      </div>`;
+    document.getElementById('columns').appendChild(section);
+  }
+  window.previewReady = (async () => {
+    await Promise.all(pairs.flatMap(p=>[document.fonts.load(`${p.numberWeight} 100px ${p.numbers}`),document.fonts.load(`400 100px ${p.letters}`)]));
+    await document.fonts.ready;
+    const context = document.createElement('canvas').getContext('2d');
+    const metrics = [];
+    for (const pair of pairs) {
+      context.font = `${pair.numberWeight} 100px ${pair.numbers}`;
+      const numbers = context.measureText('0123456789');
+      const digitHeight = numbers.actualBoundingBoxAscent + numbers.actualBoundingBoxDescent;
+      const section = document.querySelector('.' + pair.id);
+      for(const [property,height] of [['--number-size',40],['--crit-size',50],['--digit-strip-size',18]]) {
+        section.style.setProperty(property, `${height / digitHeight * 100}px`);
+      }
+      context.font = `400 100px ${pair.letters}`;
+      const letters = context.measureText('БЛОКПРОМАХКРОВОТЕЧЕНИЕ');
+      const letterHeight = letters.actualBoundingBoxAscent + letters.actualBoundingBoxDescent;
+      for(const [property,height] of [['--status-size',32],['--word-strip-size',16]]) {
+        section.style.setProperty(property, `${height / letterHeight * 100}px`);
+      }
+      const tags = context.measureText('КРИТЩ');
+      section.style.setProperty('--tag-size', `${24/(tags.actualBoundingBoxAscent+tags.actualBoundingBoxDescent)*100}px`);
+      metrics.push({...pair,digitHeightAt100:digitHeight,letterHeightAt100:letterHeight,numberSize:40/digitHeight*100,statusSize:32/letterHeight*100});
+    }
+    await Promise.all([...document.images].map(img=>img.decode()));
+    window.fontMetrics = metrics;
+    return metrics;
+  })();
+</script>
+</body>
+</html>

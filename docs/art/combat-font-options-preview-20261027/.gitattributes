@@ -1,0 +1,4 @@
+# Сохраняем исходные лицензионные файлы без нормализации.
+fonts/*-OFL.txt binary
+fonts/*-LICENSE.txt binary
+fonts/*-CC0.txt binary
