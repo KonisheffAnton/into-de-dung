@@ -253,7 +253,7 @@ func run() -> void:
 func combat_font_pair() -> void:
 	var scene := preload("res://scenes/demo/visuals/result_number.tscn")
 	var samples: Array[String] = ["−12.5 HP", "КРИТ · −28.0 HP", "+8.0 HP", "Щит −6.0",
-		"БЛОК", "ПРОМАХ", "КРОВОТЕЧЕНИЕ", "0 · без урона", "0123456789.,+-%−",
+		"БЛОК", "ПРОМАХ", "КРОВОТЕЧЕНИЕ", "0 · без урона", "0123456789.,+-%− ·×—:/",
 		"−3.5 броня\nРавновесие −2.0"]
 	var server := TextServerManager.get_primary_interface()
 	var colors: Array[Color] = [Color("f29b9b"), Color("f29b9b"), Color("65dfcc"), Color("71cefa")]
@@ -276,7 +276,7 @@ func combat_font_pair() -> void:
 			for glyph: Dictionary in server.shaped_text_get_glyphs(line.get_rid()):
 				var character := text_line.substr(int(glyph.start), 1)
 				if character == " ": continue
-				var expected := "Combat Jersey 20 Numbers" if "0123456789.,+-%−".contains(character) else "Combat Pixeloid"
+				var expected := "Combat Jersey 20 Numbers" if "0123456789.,+-%−".contains(character) else "Combat Lettering"
 				check(int(glyph.index) != 0 and server.font_get_name(glyph.font_rid) == expected,
 					"combat glyph %s uses %s" % [character, expected])
 		check(number._label.size.x > 0 and number._label.size.y > 0 and not number._label.clip_text, "feedback has measured unclipped bounds")

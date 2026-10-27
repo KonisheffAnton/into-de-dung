@@ -29,7 +29,9 @@ U предпочёл прежние цифры и запросил дальне�
 поведение — в [контракте показа](BATTLE_PRESENTATION_REWORK.md).
 U не устроили буквы; [новое превью с неизменными цифрами Jersey 20](art/jersey20-letters-preview-20261027/README.md)
 сравнивает Tektur Bold, Play Bold, Exo 2 ExtraBold, Rubik Mono One, Rubik Bold
-и нынешний Pixeloid. Это поиск без внедрения; новый вариант букв пока не выбран.
+и нынешний Pixeloid. Сам поиск игру не менял; следующим U выбран и внедрён
+вариант 02 — Play Bold для букв с прежними цифрами Jersey 20.
+Текущее поведение — в [контракте показа](BATTLE_PRESENTATION_REWORK.md).
 
 ## Четыре героя в стилистике Kingdom Rush — 2026-10-26
 

@@ -14,14 +14,15 @@
 
 ## Изменение игрового кода
 
-Jersey 20 для чисел и Pixeloid Sans Bold для букв (2026-10-27): `--render-check --only
+Jersey 20 для чисел и Play Bold для букв (2026-10-27): `--render-check --only
 presentation_contact presentation_consequences battle_presentation battle_camera_ui
 --screen 0` (одна команда). При изменении генерации событий/подписей дополнительно
 выбирать presentation_ranged, presentation_mage и presentation_reactions.
 `presentation_contact` проверяет действительные шрифты glyph в смешанных строках
 урона/крита/лечения/щита, латинском HP, кириллических статусах и многострочных
 последствиях, а также все знаки числового подмножества; сохраняет `combat-font-pair.png`.
-Цифры/числовые знаки требуют Jersey 20, остальные glyph — прежний Pixeloid.
+Цифры/числовые знаки требуют Jersey 20, остальные glyph — производный Play Bold
+(`Combat Lettering`), включая среднюю точку, ×, длинное тире, двоеточие и слеш.
 Прежние проверки покрывают
 размещение, задержку контакта, lifetime/fade, ×3, zoom/resize, skip/cancel и RNG;
 `presentation_consequences` также проверяет пиксели верхнего видимого лечения

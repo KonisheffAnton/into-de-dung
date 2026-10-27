@@ -1,5 +1,25 @@
 # История и свидетельства проверок
 
+## Play Bold для букв с цифрами Jersey 20 — 2026-10-27
+
+По U внедрён вариант 02 [последнего сравнения](art/jersey20-letters-preview-20261027/README.md).
+Общий Label использует прежний числовой Jersey 20 и новый полный Play Bold
+как fallback для букв/HP. Числовой TTF/OFL побайтно сохранён; Play сохраняет
+контуры/cmap/интервалы/метрики, em=1113 даёт H/К около14px при кегле24.
+Производное имя `Combat Lettering` соблюдает RFN исходной OFL; лицензия точная.
+Старый Pixeloid удалён только из runtime, шесть preview-пакетов сохранены.
+Размеры24/20, тексты, цвета, outline/lifecycle, сцены и игровые механики прежние.
+[Контракт](BATTLE_PRESENTATION_REWORK.md), [ресурсы/OFL/сборка](../assets/ui/combat_fonts/README.md).
+Финальный render-check: 6 PASS, 0 FAIL, 0 TIMEOUT;
+test_reports/demo-38a678928f1940ce916d1d8649788adb/.
+19 проверок font assets PASS, 209 защищённых SHA совпали; отчёт/PNG/фиксация:
+test_reports/combat-fonts-play-jersey20-20261027/.
+Независимое ревью APPROVE: 12 SHA патча и 10 файлов manifest совпали;
+верхнее лечение на y=17–30, первые три строки экрана свободны от glyph.
+Full/core/F5 не запускались; ручная читаемость в движении/zoom/DPI открыта.
+Base453a5fc, main, без push.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261027-13.md).
+
 ## Другие буквы к цифрам Jersey 20 — 2026-10-27
 
 По U подготовлены только [превью и шесть полных кадров](art/jersey20-letters-preview-20261027/README.md):
