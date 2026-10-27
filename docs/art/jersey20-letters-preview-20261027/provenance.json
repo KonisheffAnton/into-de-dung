@@ -1,0 +1,191 @@
+{
+  "date": "2026-10-27",
+  "base": "bb2fd001dde6dee8382b479eea8398c4616b876b",
+  "integration": false,
+  "source": {
+    "path": "docs/art/pixeloid-numerals-preview-20261027/source-battle.png",
+    "copy": "source-battle.png",
+    "sha256": "3fb37657b82442d772c6344dce9180e59b2aa06e4c1e7d4b0b0acf7a53ea6fd7",
+    "byte_exact": true
+  },
+  "fonts": [
+    {
+      "id": "jersey20",
+      "name": "Jersey 20",
+      "weight": 400,
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/jersey20/Jersey20-Regular.ttf",
+          "file": "fonts/jersey20.ttf",
+          "sha256": "76670d7e8826860e3d2f2846b88bc1652135b8d54b6adfa5a87649b9fa4bd3b4",
+          "bytes": 128576
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/jersey20/OFL.txt",
+          "file": "fonts/jersey20-OFL.txt",
+          "sha256": "436d5836064cec796c7ddde6fb4faeabdb6f2f17443a24a30d0c38b75d13f922",
+          "bytes": 4395
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/jersey20/METADATA.pb",
+          "file": "fonts/jersey20-METADATA.pb",
+          "sha256": "9652d141ed3e8ff98388c80096193c2776260327d78b5ad1b9559f8d9775f07c",
+          "bytes": 846
+        }
+      ]
+    },
+    {
+      "id": "pixeloid",
+      "name": "Pixeloid Sans Bold",
+      "weight": 700,
+      "author_page": "https://ggbot.itch.io/pixeloid-font",
+      "download": {
+        "upload_id": "15999942",
+        "archive_sha256": "07fec6e78e3d51b5912c5d01beb455b334395cbde5fdade21e545f059e2e5beb",
+        "archive_bytes": 381335,
+        "retrieved": "2026-10-27"
+      },
+      "sources": [
+        {
+          "url": "https://ggbot.itch.io/pixeloid-font",
+          "archive_member": "TrueType (.ttf)/PixeloidSans-Bold.ttf",
+          "file": "fonts/pixeloid.ttf",
+          "bytes": 109964,
+          "sha256": "d8bc38413101440e2d68b8d886f82dae298e3d4550728b5c99f717377ed8a195"
+        },
+        {
+          "url": "https://ggbot.itch.io/pixeloid-font",
+          "archive_member": "License.txt",
+          "file": "fonts/pixeloid-LICENSE.txt",
+          "bytes": 4493,
+          "sha256": "de7a71bd2d330c09aaadb38cd09eda3c62693a55350e288b43dac73f4a5e67a8"
+        }
+      ]
+    },
+    {
+      "id": "tektur",
+      "name": "Tektur Bold",
+      "weight": 700,
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/tektur/Tektur%5Bwdth%2Cwght%5D.ttf",
+          "file": "fonts/tektur.ttf",
+          "sha256": "a4c451e5336874811267c2a514efa09bca7bc8cabf32a310f0b44e111eacb933",
+          "bytes": 163160
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/tektur/OFL.txt",
+          "file": "fonts/tektur-OFL.txt",
+          "sha256": "ff4bb37f716836feb5038e1bf5c47e5a1946717fcfabb175086ed49f85ea47fd",
+          "bytes": 4385
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/tektur/METADATA.pb",
+          "file": "fonts/tektur-METADATA.pb",
+          "sha256": "998defc9431fd6685bbeb454f4d6c6e8265d253e7bbf72162d19cc903450b4b6",
+          "bytes": 1032
+        }
+      ]
+    },
+    {
+      "id": "play",
+      "name": "Play Bold",
+      "weight": 700,
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/play/Play-Bold.ttf",
+          "file": "fonts/play.ttf",
+          "sha256": "45c572eccda4cf335165b750345258e753035bf48ee2fdf37faa07c7db88bce0",
+          "bytes": 210704
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/play/OFL.txt",
+          "file": "fonts/play-OFL.txt",
+          "sha256": "6d216cec166b6e139adaa599053dd49720c053e1f2adb4845de3cc9c3704344d",
+          "bytes": 4443
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/play/METADATA.pb",
+          "file": "fonts/play-METADATA.pb",
+          "sha256": "a6ea77e6dd6cec34efbe2509fd8f4726cb5c89746486ed637591bfd16ad7f105",
+          "bytes": 1041
+        }
+      ]
+    },
+    {
+      "id": "exo2",
+      "name": "Exo 2 ExtraBold",
+      "weight": 800,
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/exo2/Exo2%5Bwght%5D.ttf",
+          "file": "fonts/exo2.ttf",
+          "sha256": "205a448676a2586f9c57c25f3d5c58ca8db7e6cf5edf7506783a010c6fe2bfb5",
+          "bytes": 303940
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/exo2/OFL.txt",
+          "file": "fonts/exo2-OFL.txt",
+          "sha256": "7f95a8eeecc6904ffc81cd10cc8ebc7fcee72a67922924bf45f02dff03b88127",
+          "bytes": 4386
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/exo2/METADATA.pb",
+          "file": "fonts/exo2-METADATA.pb",
+          "sha256": "465b6e658106342dab756a190234bb03d1d7d3bdcb21e68b6d74f9807a781b43",
+          "bytes": 1234
+        }
+      ]
+    },
+    {
+      "id": "rubikmonoone",
+      "name": "Rubik Mono One",
+      "weight": 400,
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/rubikmonoone/RubikMonoOne-Regular.ttf",
+          "file": "fonts/rubikmonoone.ttf",
+          "sha256": "b22624b6a36e543e942106edfccd198c50b57b65b924bfe02a6f0a5699429e6b",
+          "bytes": 141088
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/rubikmonoone/OFL.txt",
+          "file": "fonts/rubikmonoone-OFL.txt",
+          "sha256": "43d530580461a574f6dfed9e15af6a74e95f7c04d9bfa1174a63ff036e8eee07",
+          "bytes": 4462
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/rubikmonoone/METADATA.pb",
+          "file": "fonts/rubikmonoone-METADATA.pb",
+          "sha256": "98cc92553cd68a5beda29f10e8fe26436dce18e8ca6ad0549d1168049db55a5f",
+          "bytes": 676
+        }
+      ]
+    },
+    {
+      "id": "rubik",
+      "name": "Rubik Bold",
+      "weight": 700,
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/rubik/Rubik%5Bwght%5D.ttf",
+          "file": "fonts/rubik.ttf",
+          "bytes": 359804,
+          "sha256": "1b3a7437ba2af80e465e773ed60c5036d1ba6ace492d89046dbcf18fb31e4e88"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/rubik/OFL.txt",
+          "file": "fonts/rubik-OFL.txt",
+          "bytes": 4384,
+          "sha256": "472cbe7c25441df63e9c7864b43eb3c0f4b3df950c66a76224e6cfe1eae843fb"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/google/fonts/e7db6ca603fd4862010383ff17ffd6cc4ffac1c0/ofl/rubik/METADATA.pb",
+          "file": "fonts/rubik-METADATA.pb",
+          "bytes": 1310,
+          "sha256": "2e81cc9a038e89bcf9a14cd4e2d4513c1b5959e8b9189b835d4ecf4af11968a6"
+        }
+      ]
+    }
+  ]
+}

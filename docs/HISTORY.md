@@ -1,5 +1,21 @@
 # История и свидетельства проверок
 
+## Другие буквы к цифрам Jersey 20 — 2026-10-27
+
+По U подготовлены только [превью и шесть полных кадров](art/jersey20-letters-preview-20261027/README.md):
+Tektur Bold, Play Bold, Exo 2 ExtraBold, Rubik Mono One, Rubik Bold и текущий
+Pixeloid Sans Bold. Цифры Jersey 20 одинаковы во всех вариантах; кроме боевых
+подписей есть строчные «Щит броня HP» и смешанная строка «КРИТ · −28.0 HP».
+Runtime bb2fd00 не менялся. Browser-check: 7 шрифтов/cmap, 42 подписи,
+30 строк образцов, 96 узлов без системного fallback; ошибок/переполнения нет.
+Фон 6 PNG сохранён вне текста; четыре области чисел совпадают побиксельно.
+Отчёт: test_reports/jersey20-letters-preview-20261027/.
+Независимое ревью APPROVE: 35 SHA пакета, 179 защищённых SHA совпали;
+15 новых upstream-файлов независимо перепроверены по закреплённому commit.
+Godot/full/core/F5 не запускались; выбор и внедрение открыты.
+Base bb2fd00, main, без push. Исходники/лицензии и метод — в пакете.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261027-12.md).
+
 ## Jersey 20 для цифр, Pixeloid Sans Bold для букв — 2026-10-27
 
 По U внедрён вариант 03 [последнего сравнения](art/pixeloid-numerals-preview-20261027/README.md).

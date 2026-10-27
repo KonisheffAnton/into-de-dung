@@ -1,0 +1,2181 @@
+{
+  "status": "PASS",
+  "renderer": "Edge Chromium/CSS; not Godot",
+  "sourceDimensions": {
+    "width": 1280,
+    "height": 850
+  },
+  "fonts": [
+    {
+      "family": "Jersey20",
+      "status": "loaded"
+    },
+    {
+      "family": "Tektur",
+      "status": "loaded"
+    },
+    {
+      "family": "Play",
+      "status": "loaded"
+    },
+    {
+      "family": "Exo2",
+      "status": "loaded"
+    },
+    {
+      "family": "RubikMonoOne",
+      "status": "loaded"
+    },
+    {
+      "family": "Rubik",
+      "status": "loaded"
+    },
+    {
+      "family": "Pixeloid",
+      "status": "loaded"
+    }
+  ],
+  "metrics": [
+    {
+      "id": "tektur",
+      "letters": "Tektur",
+      "name": "Tektur Bold",
+      "letterWeight": 700,
+      "detail": "Новый · квадратные формы",
+      "numbers": "Jersey20",
+      "numberWeight": 400,
+      "digitHeightAt100": 59,
+      "letterHeightAt100": 70,
+      "numberSize": 67.79661016949152,
+      "statusSize": 45.714285714285715
+    },
+    {
+      "id": "play",
+      "letters": "Play",
+      "name": "Play Bold",
+      "letterWeight": 700,
+      "detail": "Новый · спокойный и компактный",
+      "numbers": "Jersey20",
+      "numberWeight": 400,
+      "digitHeightAt100": 59,
+      "letterHeightAt100": 68,
+      "numberSize": 67.79661016949152,
+      "statusSize": 47.05882352941176
+    },
+    {
+      "id": "exo2",
+      "letters": "Exo2",
+      "name": "Exo 2 ExtraBold",
+      "letterWeight": 800,
+      "detail": "Новый · мягкие углы",
+      "numbers": "Jersey20",
+      "numberWeight": 400,
+      "digitHeightAt100": 59,
+      "letterHeightAt100": 73,
+      "numberSize": 67.79661016949152,
+      "statusSize": 43.83561643835616
+    },
+    {
+      "id": "rubikmonoone",
+      "letters": "RubikMonoOne",
+      "name": "Rubik Mono One",
+      "letterWeight": 400,
+      "detail": "Новый · тяжёлые широкие буквы",
+      "numbers": "Jersey20",
+      "numberWeight": 400,
+      "digitHeightAt100": 59,
+      "letterHeightAt100": 72,
+      "numberSize": 67.79661016949152,
+      "statusSize": 44.44444444444444
+    },
+    {
+      "id": "rubik",
+      "letters": "Rubik",
+      "name": "Rubik Bold",
+      "letterWeight": 700,
+      "detail": "Новый · округлый и ровный",
+      "numbers": "Jersey20",
+      "numberWeight": 400,
+      "digitHeightAt100": 59,
+      "letterHeightAt100": 72,
+      "numberSize": 67.79661016949152,
+      "statusSize": 44.44444444444444
+    },
+    {
+      "id": "pixeloid",
+      "letters": "Pixeloid",
+      "name": "Pixeloid Sans Bold",
+      "letterWeight": 700,
+      "detail": "Нынешние буквы · для сравнения",
+      "numbers": "Jersey20",
+      "numberWeight": 400,
+      "digitHeightAt100": 59,
+      "letterHeightAt100": 78,
+      "numberSize": 67.79661016949152,
+      "statusSize": 41.02564102564102
+    }
+  ],
+  "glyphs": {
+    "jersey20": {
+      "0": 234,
+      "1": 235,
+      "2": 236,
+      "3": 237,
+      "4": 238,
+      "5": 239,
+      "6": 240,
+      "7": 241,
+      "8": 242,
+      "9": 243,
+      ".": 257,
+      ",": 258,
+      "+": 311,
+      "-": 274,
+      "%": 320,
+      "−": 312,
+      " ": 255
+    },
+    "tektur": {
+      "А": 829,
+      "Б": 830,
+      "В": 831,
+      "Г": 832,
+      "Д": 833,
+      "Е": 834,
+      "Ж": 835,
+      "З": 836,
+      "И": 837,
+      "Й": 838,
+      "К": 839,
+      "Л": 840,
+      "М": 841,
+      "Н": 842,
+      "О": 843,
+      "П": 844,
+      "Р": 845,
+      "С": 846,
+      "Т": 847,
+      "У": 848,
+      "Ф": 849,
+      "Х": 850,
+      "Ц": 851,
+      "Ч": 852,
+      "Ш": 853,
+      "Щ": 854,
+      "Ъ": 855,
+      "Ы": 856,
+      "Ь": 857,
+      "Э": 858,
+      "Ю": 859,
+      "Я": 860,
+      "а": 861,
+      "б": 862,
+      "в": 863,
+      "г": 864,
+      "д": 865,
+      "е": 866,
+      "ж": 867,
+      "з": 868,
+      "и": 869,
+      "й": 870,
+      "к": 871,
+      "л": 872,
+      "м": 873,
+      "н": 874,
+      "о": 875,
+      "п": 876,
+      "р": 877,
+      "с": 878,
+      "т": 879,
+      "у": 880,
+      "ф": 881,
+      "х": 882,
+      "ц": 883,
+      "ч": 884,
+      "ш": 885,
+      "щ": 886,
+      "ъ": 887,
+      "ы": 888,
+      "ь": 889,
+      "э": 890,
+      "ю": 891,
+      "я": 892,
+      "Ё": 919,
+      "ё": 920,
+      " ": 1,
+      "H": 14,
+      "P": 24,
+      "·": 567
+    },
+    "play": {
+      "А": 513,
+      "Б": 514,
+      "В": 515,
+      "Г": 516,
+      "Д": 519,
+      "Е": 520,
+      "Ж": 523,
+      "З": 524,
+      "И": 525,
+      "Й": 526,
+      "К": 529,
+      "Л": 531,
+      "М": 532,
+      "Н": 533,
+      "О": 534,
+      "П": 535,
+      "Р": 536,
+      "С": 537,
+      "Т": 538,
+      "У": 539,
+      "Ф": 541,
+      "Х": 542,
+      "Ц": 544,
+      "Ч": 543,
+      "Ш": 545,
+      "Щ": 546,
+      "Ъ": 549,
+      "Ы": 550,
+      "Ь": 548,
+      "Э": 555,
+      "Ю": 560,
+      "Я": 561,
+      "а": 624,
+      "б": 625,
+      "в": 626,
+      "г": 627,
+      "д": 630,
+      "е": 631,
+      "ж": 634,
+      "з": 635,
+      "и": 636,
+      "й": 637,
+      "к": 640,
+      "л": 642,
+      "м": 643,
+      "н": 644,
+      "о": 645,
+      "п": 646,
+      "р": 647,
+      "с": 648,
+      "т": 649,
+      "у": 650,
+      "ф": 652,
+      "х": 653,
+      "ц": 655,
+      "ч": 654,
+      "ш": 656,
+      "щ": 657,
+      "ъ": 660,
+      "ы": 661,
+      "ь": 659,
+      "э": 666,
+      "ю": 671,
+      "я": 672,
+      "Ё": 522,
+      "ё": 633,
+      " ": 3,
+      "H": 62,
+      "P": 119,
+      "·": 946
+    },
+    "exo2": {
+      "А": 487,
+      "Б": 488,
+      "В": 489,
+      "Г": 490,
+      "Д": 496,
+      "Е": 497,
+      "Ж": 500,
+      "З": 501,
+      "И": 502,
+      "Й": 503,
+      "К": 506,
+      "Л": 508,
+      "М": 509,
+      "Н": 510,
+      "О": 511,
+      "П": 512,
+      "Р": 513,
+      "С": 514,
+      "Т": 515,
+      "У": 516,
+      "Ф": 518,
+      "Х": 519,
+      "Ц": 520,
+      "Ч": 521,
+      "Ш": 522,
+      "Щ": 523,
+      "Ъ": 527,
+      "Ы": 526,
+      "Ь": 525,
+      "Э": 532,
+      "Ю": 537,
+      "Я": 538,
+      "а": 606,
+      "б": 607,
+      "в": 608,
+      "г": 609,
+      "д": 615,
+      "е": 616,
+      "ж": 619,
+      "з": 620,
+      "и": 621,
+      "й": 622,
+      "к": 625,
+      "л": 627,
+      "м": 628,
+      "н": 629,
+      "о": 630,
+      "п": 631,
+      "р": 632,
+      "с": 633,
+      "т": 634,
+      "у": 635,
+      "ф": 637,
+      "х": 638,
+      "ц": 639,
+      "ч": 640,
+      "ш": 641,
+      "щ": 642,
+      "ъ": 646,
+      "ы": 645,
+      "ь": 644,
+      "э": 651,
+      "ю": 656,
+      "я": 657,
+      "Ё": 499,
+      "ё": 618,
+      " ": 834,
+      "H": 76,
+      "P": 159,
+      "·": 851
+    },
+    "rubikmonoone": {
+      "А": 256,
+      "Б": 257,
+      "В": 258,
+      "Г": 259,
+      "Д": 262,
+      "Е": 263,
+      "Ж": 266,
+      "З": 267,
+      "И": 268,
+      "Й": 269,
+      "К": 271,
+      "Л": 273,
+      "М": 274,
+      "Н": 275,
+      "О": 276,
+      "П": 277,
+      "Р": 278,
+      "С": 279,
+      "Т": 280,
+      "У": 281,
+      "Ф": 283,
+      "Х": 284,
+      "Ц": 286,
+      "Ч": 285,
+      "Ш": 287,
+      "Щ": 288,
+      "Ъ": 291,
+      "Ы": 292,
+      "Ь": 290,
+      "Э": 297,
+      "Ю": 302,
+      "Я": 303,
+      "а": 345,
+      "б": 346,
+      "в": 347,
+      "г": 348,
+      "д": 351,
+      "е": 352,
+      "ж": 355,
+      "з": 356,
+      "и": 357,
+      "й": 358,
+      "к": 360,
+      "л": 362,
+      "м": 363,
+      "н": 364,
+      "о": 365,
+      "п": 366,
+      "р": 367,
+      "с": 368,
+      "т": 369,
+      "у": 370,
+      "ф": 372,
+      "х": 373,
+      "ц": 375,
+      "ч": 374,
+      "ш": 376,
+      "щ": 377,
+      "ъ": 380,
+      "ы": 381,
+      "ь": 379,
+      "э": 386,
+      "ю": 391,
+      "я": 392,
+      "Ё": 265,
+      "ё": 354,
+      " ": 3,
+      "H": 43,
+      "P": 84,
+      "·": 550
+    },
+    "rubik": {
+      "А": 268,
+      "Б": 269,
+      "В": 270,
+      "Г": 271,
+      "Д": 277,
+      "Е": 278,
+      "Ж": 281,
+      "З": 282,
+      "И": 283,
+      "Й": 284,
+      "К": 286,
+      "Л": 288,
+      "М": 289,
+      "Н": 290,
+      "О": 291,
+      "П": 292,
+      "Р": 293,
+      "С": 294,
+      "Т": 295,
+      "У": 296,
+      "Ф": 298,
+      "Х": 299,
+      "Ц": 301,
+      "Ч": 300,
+      "Ш": 302,
+      "Щ": 303,
+      "Ъ": 307,
+      "Ы": 306,
+      "Ь": 305,
+      "Э": 312,
+      "Ю": 317,
+      "Я": 318,
+      "а": 359,
+      "б": 360,
+      "в": 361,
+      "г": 362,
+      "д": 368,
+      "е": 369,
+      "ж": 372,
+      "з": 373,
+      "и": 374,
+      "й": 375,
+      "к": 377,
+      "л": 379,
+      "м": 380,
+      "н": 381,
+      "о": 382,
+      "п": 383,
+      "р": 384,
+      "с": 385,
+      "т": 386,
+      "у": 387,
+      "ф": 389,
+      "х": 390,
+      "ц": 392,
+      "ч": 391,
+      "ш": 393,
+      "щ": 394,
+      "ъ": 398,
+      "ы": 397,
+      "ь": 396,
+      "э": 403,
+      "ю": 408,
+      "я": 409,
+      "Ё": 280,
+      "ё": 371,
+      " ": 928,
+      "H": 40,
+      "P": 84,
+      "·": 952
+    },
+    "pixeloid": {
+      "А": 215,
+      "Б": 216,
+      "В": 217,
+      "Г": 218,
+      "Д": 219,
+      "Е": 220,
+      "Ж": 221,
+      "З": 222,
+      "И": 223,
+      "Й": 224,
+      "К": 225,
+      "Л": 226,
+      "М": 227,
+      "Н": 228,
+      "О": 229,
+      "П": 230,
+      "Р": 231,
+      "С": 232,
+      "Т": 233,
+      "У": 234,
+      "Ф": 235,
+      "Х": 236,
+      "Ц": 237,
+      "Ч": 238,
+      "Ш": 239,
+      "Щ": 240,
+      "Ъ": 241,
+      "Ы": 242,
+      "Ь": 243,
+      "Э": 244,
+      "Ю": 245,
+      "Я": 246,
+      "а": 247,
+      "б": 248,
+      "в": 249,
+      "г": 250,
+      "д": 251,
+      "е": 252,
+      "ж": 253,
+      "з": 254,
+      "и": 255,
+      "й": 256,
+      "к": 257,
+      "л": 258,
+      "м": 259,
+      "н": 260,
+      "о": 261,
+      "п": 262,
+      "р": 263,
+      "с": 264,
+      "т": 265,
+      "у": 266,
+      "ф": 267,
+      "х": 268,
+      "ц": 269,
+      "ч": 270,
+      "ш": 271,
+      "щ": 272,
+      "ъ": 273,
+      "ы": 274,
+      "ь": 275,
+      "э": 276,
+      "ю": 277,
+      "я": 278,
+      "Ё": 279,
+      "ё": 280,
+      " ": 1,
+      "H": 41,
+      "P": 49,
+      "·": 117
+    }
+  },
+  "layout": [
+    {
+      "labels": [
+        {
+          "text": "−12.5",
+          "inside": true,
+          "bounds": {
+            "x": 132.59765625,
+            "y": 114.5,
+            "width": 64.8046875,
+            "height": 33.8984375
+          },
+          "faces": [
+            {
+              "text": "−12.5",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ−28.0",
+          "inside": true,
+          "bounds": {
+            "x": 306.3828125,
+            "y": 160,
+            "width": 87.234375,
+            "height": 60.375
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "Tektur",
+              "weight": "700"
+            },
+            {
+              "text": "−28.0",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 83.08203125,
+            "y": 65,
+            "width": 53.8359375,
+            "height": 33.8984375
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ−6.0",
+          "inside": true,
+          "bounds": {
+            "x": 284.08203125,
+            "y": 91,
+            "width": 53.8359375,
+            "height": 51.8984375
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "Tektur",
+              "weight": "700"
+            },
+            {
+              "text": "−6.0",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 39.6796875,
+            "y": 210,
+            "width": 60.640625,
+            "height": 22.859375
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "Tektur",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 143.6953125,
+            "y": 230,
+            "width": 92.609375,
+            "height": 22.859375
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "Tektur",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 63.35546875,
+            "y": 295,
+            "width": 173.2890625,
+            "height": 22.859375
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "Tektur",
+              "weight": "700"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    },
+    {
+      "labels": [
+        {
+          "text": "−12.5",
+          "inside": true,
+          "bounds": {
+            "x": 132.59765625,
+            "y": 114.5,
+            "width": 64.8046875,
+            "height": 33.8984375
+          },
+          "faces": [
+            {
+              "text": "−12.5",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ−28.0",
+          "inside": true,
+          "bounds": {
+            "x": 306.3828125,
+            "y": 160,
+            "width": 87.234375,
+            "height": 60.375
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "Play",
+              "weight": "700"
+            },
+            {
+              "text": "−28.0",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 83.08203125,
+            "y": 65,
+            "width": 53.8359375,
+            "height": 33.8984375
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ−6.0",
+          "inside": true,
+          "bounds": {
+            "x": 284.08203125,
+            "y": 91,
+            "width": 53.8359375,
+            "height": 51.8984375
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "Play",
+              "weight": "700"
+            },
+            {
+              "text": "−6.0",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 37.6171875,
+            "y": 210,
+            "width": 64.765625,
+            "height": 23.53125
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "Play",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 139.40625,
+            "y": 230,
+            "width": 101.1875,
+            "height": 23.53125
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "Play",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 56.7578125,
+            "y": 295,
+            "width": 186.484375,
+            "height": 23.53125
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "Play",
+              "weight": "700"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    },
+    {
+      "labels": [
+        {
+          "text": "−12.5",
+          "inside": true,
+          "bounds": {
+            "x": 132.59765625,
+            "y": 114.5,
+            "width": 64.8046875,
+            "height": 33.8984375
+          },
+          "faces": [
+            {
+              "text": "−12.5",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ−28.0",
+          "inside": true,
+          "bounds": {
+            "x": 306.3828125,
+            "y": 160,
+            "width": 87.234375,
+            "height": 60.375
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "Exo2",
+              "weight": "800"
+            },
+            {
+              "text": "−28.0",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 83.08203125,
+            "y": 65,
+            "width": 53.8359375,
+            "height": 33.8984375
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ−6.0",
+          "inside": true,
+          "bounds": {
+            "x": 284.08203125,
+            "y": 91,
+            "width": 53.8359375,
+            "height": 51.8984375
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "Exo2",
+              "weight": "800"
+            },
+            {
+              "text": "−6.0",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 40.46875,
+            "y": 210,
+            "width": 59.0625,
+            "height": 21.9140625
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "Exo2",
+              "weight": "800"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 142.7265625,
+            "y": 230,
+            "width": 94.546875,
+            "height": 21.9140625
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "Exo2",
+              "weight": "800"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 64.15625,
+            "y": 295,
+            "width": 171.6875,
+            "height": 21.9140625
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "Exo2",
+              "weight": "800"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    },
+    {
+      "labels": [
+        {
+          "text": "−12.5",
+          "inside": true,
+          "bounds": {
+            "x": 132.59765625,
+            "y": 114.5,
+            "width": 64.8046875,
+            "height": 33.8984375
+          },
+          "faces": [
+            {
+              "text": "−12.5",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ−28.0",
+          "inside": true,
+          "bounds": {
+            "x": 306.3828125,
+            "y": 160,
+            "width": 87.234375,
+            "height": 60.375
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "RubikMonoOne",
+              "weight": "400"
+            },
+            {
+              "text": "−28.0",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 83.08203125,
+            "y": 65,
+            "width": 53.8359375,
+            "height": 33.8984375
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ−6.0",
+          "inside": true,
+          "bounds": {
+            "x": 284.08203125,
+            "y": 91,
+            "width": 53.8359375,
+            "height": 51.8984375
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "RubikMonoOne",
+              "weight": "400"
+            },
+            {
+              "text": "−6.0",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 32.22265625,
+            "y": 210,
+            "width": 75.5546875,
+            "height": 22.21875
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "RubikMonoOne",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 133.3359375,
+            "y": 230,
+            "width": 113.328125,
+            "height": 22.21875
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "RubikMonoOne",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 36.67578125,
+            "y": 295,
+            "width": 226.6484375,
+            "height": 22.21875
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "RubikMonoOne",
+              "weight": "400"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    },
+    {
+      "labels": [
+        {
+          "text": "−12.5",
+          "inside": true,
+          "bounds": {
+            "x": 132.59765625,
+            "y": 114.5,
+            "width": 64.8046875,
+            "height": 33.8984375
+          },
+          "faces": [
+            {
+              "text": "−12.5",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ−28.0",
+          "inside": true,
+          "bounds": {
+            "x": 306.3828125,
+            "y": 160,
+            "width": 87.234375,
+            "height": 60.375
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "Rubik",
+              "weight": "700"
+            },
+            {
+              "text": "−28.0",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 83.08203125,
+            "y": 65,
+            "width": 53.8359375,
+            "height": 33.8984375
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ−6.0",
+          "inside": true,
+          "bounds": {
+            "x": 284.08203125,
+            "y": 91,
+            "width": 53.8359375,
+            "height": 51.8984375
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "Rubik",
+              "weight": "700"
+            },
+            {
+              "text": "−6.0",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 38.5234375,
+            "y": 210,
+            "width": 62.953125,
+            "height": 22.21875
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "Rubik",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 141.4921875,
+            "y": 230,
+            "width": 97.015625,
+            "height": 22.21875
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "Rubik",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 58.07421875,
+            "y": 295,
+            "width": 183.8515625,
+            "height": 22.21875
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "Rubik",
+              "weight": "700"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    },
+    {
+      "labels": [
+        {
+          "text": "−12.5",
+          "inside": true,
+          "bounds": {
+            "x": 132.59765625,
+            "y": 114.5,
+            "width": 64.8046875,
+            "height": 33.8984375
+          },
+          "faces": [
+            {
+              "text": "−12.5",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "КРИТ−28.0",
+          "inside": true,
+          "bounds": {
+            "x": 306.3828125,
+            "y": 160,
+            "width": 87.234375,
+            "height": 60.375
+          },
+          "faces": [
+            {
+              "text": "КРИТ",
+              "family": "Pixeloid",
+              "weight": "700"
+            },
+            {
+              "text": "−28.0",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "+8.0",
+          "inside": true,
+          "bounds": {
+            "x": 83.08203125,
+            "y": 65,
+            "width": 53.8359375,
+            "height": 33.8984375
+          },
+          "faces": [
+            {
+              "text": "+8.0",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "ЩИТ−6.0",
+          "inside": true,
+          "bounds": {
+            "x": 284.08203125,
+            "y": 91,
+            "width": 53.8359375,
+            "height": 51.8984375
+          },
+          "faces": [
+            {
+              "text": "ЩИТ",
+              "family": "Pixeloid",
+              "weight": "700"
+            },
+            {
+              "text": "−6.0",
+              "family": "Jersey20",
+              "weight": "400"
+            }
+          ]
+        },
+        {
+          "text": "БЛОК",
+          "inside": true,
+          "bounds": {
+            "x": 38.09375,
+            "y": 210,
+            "width": 63.8125,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "БЛОК",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "ПРОМАХ",
+          "inside": true,
+          "bounds": {
+            "x": 139.86328125,
+            "y": 230,
+            "width": 100.2734375,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "ПРОМАХ",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        },
+        {
+          "text": "КРОВОТЕЧЕНИЕ",
+          "inside": true,
+          "bounds": {
+            "x": 53.14453125,
+            "y": 295,
+            "width": 193.7109375,
+            "height": 20.515625
+          },
+          "faces": [
+            {
+              "text": "КРОВОТЕЧЕНИЕ",
+              "family": "Pixeloid",
+              "weight": "700"
+            }
+          ]
+        }
+      ],
+      "overlaps": []
+    }
+  ],
+  "specimenRowsWithinBounds": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "platformFonts": [
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Tektur",
+        "postScriptName": "Tektur-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Tektur",
+        "postScriptName": "Tektur-Bold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Tektur",
+        "postScriptName": "Tektur-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Tektur",
+        "postScriptName": "Tektur-Bold",
+        "isCustomFont": true,
+        "glyphCount": 6
+      }
+    ],
+    [
+      {
+        "familyName": "Tektur",
+        "postScriptName": "Tektur-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 16
+      }
+    ],
+    [
+      {
+        "familyName": "Tektur",
+        "postScriptName": "Tektur-Bold",
+        "isCustomFont": true,
+        "glyphCount": 10
+      }
+    ],
+    [
+      {
+        "familyName": "Tektur",
+        "postScriptName": "Tektur-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Tektur",
+        "postScriptName": "Tektur-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Tektur",
+        "postScriptName": "Tektur-Bold",
+        "isCustomFont": true,
+        "glyphCount": 7
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Tektur",
+        "postScriptName": "Tektur-Bold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Play",
+        "postScriptName": "Play-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Play",
+        "postScriptName": "Play-Bold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Play",
+        "postScriptName": "Play-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Play",
+        "postScriptName": "Play-Bold",
+        "isCustomFont": true,
+        "glyphCount": 6
+      }
+    ],
+    [
+      {
+        "familyName": "Play",
+        "postScriptName": "Play-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 16
+      }
+    ],
+    [
+      {
+        "familyName": "Play",
+        "postScriptName": "Play-Bold",
+        "isCustomFont": true,
+        "glyphCount": 10
+      }
+    ],
+    [
+      {
+        "familyName": "Play",
+        "postScriptName": "Play-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Play",
+        "postScriptName": "Play-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Play",
+        "postScriptName": "Play-Bold",
+        "isCustomFont": true,
+        "glyphCount": 7
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Play",
+        "postScriptName": "Play-Bold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Exo 2",
+        "postScriptName": "Exo2-ExtraBold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Exo 2",
+        "postScriptName": "Exo2-ExtraBold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Exo 2",
+        "postScriptName": "Exo2-ExtraBold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Exo 2",
+        "postScriptName": "Exo2-ExtraBold",
+        "isCustomFont": true,
+        "glyphCount": 6
+      }
+    ],
+    [
+      {
+        "familyName": "Exo 2",
+        "postScriptName": "Exo2-ExtraBold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 16
+      }
+    ],
+    [
+      {
+        "familyName": "Exo 2",
+        "postScriptName": "Exo2-ExtraBold",
+        "isCustomFont": true,
+        "glyphCount": 10
+      }
+    ],
+    [
+      {
+        "familyName": "Exo 2",
+        "postScriptName": "Exo2-ExtraBold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Exo 2",
+        "postScriptName": "Exo2-ExtraBold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Exo 2",
+        "postScriptName": "Exo2-ExtraBold",
+        "isCustomFont": true,
+        "glyphCount": 7
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Exo 2",
+        "postScriptName": "Exo2-ExtraBold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Rubik Mono One",
+        "postScriptName": "RubikMonoOne-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Rubik Mono One",
+        "postScriptName": "RubikMonoOne-Regular",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Rubik Mono One",
+        "postScriptName": "RubikMonoOne-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Rubik Mono One",
+        "postScriptName": "RubikMonoOne-Regular",
+        "isCustomFont": true,
+        "glyphCount": 6
+      }
+    ],
+    [
+      {
+        "familyName": "Rubik Mono One",
+        "postScriptName": "RubikMonoOne-Regular",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 16
+      }
+    ],
+    [
+      {
+        "familyName": "Rubik Mono One",
+        "postScriptName": "RubikMonoOne-Regular",
+        "isCustomFont": true,
+        "glyphCount": 10
+      }
+    ],
+    [
+      {
+        "familyName": "Rubik Mono One",
+        "postScriptName": "RubikMonoOne-Regular",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Rubik Mono One",
+        "postScriptName": "RubikMonoOne-Regular",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Rubik Mono One",
+        "postScriptName": "RubikMonoOne-Regular",
+        "isCustomFont": true,
+        "glyphCount": 7
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Rubik Mono One",
+        "postScriptName": "RubikMonoOne-Regular",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Rubik Light",
+        "postScriptName": "Rubik-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Rubik Light",
+        "postScriptName": "Rubik-Bold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Rubik Light",
+        "postScriptName": "Rubik-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Rubik Light",
+        "postScriptName": "Rubik-Bold",
+        "isCustomFont": true,
+        "glyphCount": 6
+      }
+    ],
+    [
+      {
+        "familyName": "Rubik Light",
+        "postScriptName": "Rubik-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 16
+      }
+    ],
+    [
+      {
+        "familyName": "Rubik Light",
+        "postScriptName": "Rubik-Bold",
+        "isCustomFont": true,
+        "glyphCount": 10
+      }
+    ],
+    [
+      {
+        "familyName": "Rubik Light",
+        "postScriptName": "Rubik-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Rubik Light",
+        "postScriptName": "Rubik-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Rubik Light",
+        "postScriptName": "Rubik-Bold",
+        "isCustomFont": true,
+        "glyphCount": 7
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Rubik Light",
+        "postScriptName": "Rubik-Bold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 4
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 6
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 16
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 10
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 12
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 7
+      }
+    ],
+    [
+      {
+        "familyName": "Jersey 20",
+        "postScriptName": "Jersey20-Regular",
+        "isCustomFont": true,
+        "glyphCount": 5
+      }
+    ],
+    [
+      {
+        "familyName": "Pixeloid Sans",
+        "postScriptName": "PixeloidSans-Bold",
+        "isCustomFont": true,
+        "glyphCount": 3
+      }
+    ]
+  ],
+  "browserErrors": [],
+  "previewOnly": true
+}
