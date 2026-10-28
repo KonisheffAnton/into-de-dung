@@ -1,0 +1,107 @@
+[
+  {
+    "id": "forest",
+    "type": "floor",
+    "prompt": "Use case: stylized-concept. Game surface material for biome forest. Match ONLY panel 02 top middle of the six-biome concept discussed in this conversation. Quiet gray green ancient flagstones with broad olive moss patches hugging joints, a few softened broken paving slabs; dry walkable forest ruins, NO grass blades/trees as objects. Create a perfectly FLAT TOP-DOWN ORTHOGRAPHIC square texture edge to edge: approximately EIGHT large paving modules across and EIGHT down. This is an unprojected continuous material to map onto a 4:3 diamond grid later. Snug consistent joints shared by neighbors, mostly quiet large surfaces, restrained chips. High quality clean painted PIXEL ART clusters, no grain or isolated sparkling pixels, like the reference stone dungeon assets. Uniform soft light throughout, no vignette or spotlight. Seamless repeat at edges. NO perspective, isometry, raised slabs, sides, props, text, borders, margins, symbols, holes, background or transparency. Opaque square texture1024x1024.",
+    "transparent": false,
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-39b62cd7-7cc1-4bf7-88ca-36846f0e3a4f.png"
+  },
+  {
+    "id": "forest",
+    "type": "side",
+    "prompt": "Use case: stylized-concept. Separate game VERTICAL SIDE material for biome forest, matching ONLY panel 02 top middle of the original six-biome concept. moss-covered gray green stacked stone courses, subtle dark damp soil in crevices, olive moss patches; no roots sticking outside. Perfectly flat FRONT ELEVATION, square opaque texture filled edge to edge, EIGHT chunky rectangular blocks across and SIXTEEN staggered horizontal courses high; each block about twice as wide as high. Quiet broad faces, sparse cracks, readable clean PIXEL ART clusters, no grain. Uniform lighting, game applies left/right shade. Seamlessly repeat ALL FOUR borders. NO isometry, perspective, visible top, corners, floor pattern, frame, captions, objects, transparency. This is a material repeated at constant scale on variable-height terrain faces, not a fixed height wall or terrain sprite. Square1024x1024.",
+    "transparent": false,
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-d017007e-ab90-4036-ae16-6ef549240011.png"
+  },
+  {
+    "id": "forest",
+    "type": "prop",
+    "prompt": "Use case: stylized-concept. ONE isolated game obstacle sprite for biome forest, based on ONLY panel 02 top middle of original six-biome catalogue. one sturdy gnarled old broken tree stump with spreading roots hugging the base, a little moss and 2 broad leaves; solid impassable obstacle. No floor tile. Elevated orthographic3/4 camera for top diamond128wide96high (4:3): near corner points straight down, horizontal top circular shapes have vertical depth .75 of width. See generous top and two front faces. Match clean hand-drawn painted PIXEL ART clusters, compact readable silhouette, no noisy grain or blurry painting. Soft upper-left light. Object entire visible centered, roughly .8 width to1 height, generous empty margins. ACTUAL transparent alpha background. No shadows outside object, NO floor/diamond base/ground, no lettering, numbers, frame, other assets. Readable at about70x95 game pixels.",
+    "transparent": true,
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-2131f793-6cf0-4122-b80f-6d5434a80686.png"
+  },
+  {
+    "id": "ice",
+    "type": "floor",
+    "prompt": "Use case: stylized-concept. Game surface material for biome ice. Match ONLY panel 03 top right of the six-biome concept discussed in this conversation. Cold pale blue frozen stone flagstones with broad snow dust on some edges and sparse subtle ice cracks; walkable frosted slabs, NO open water. Create a perfectly FLAT TOP-DOWN ORTHOGRAPHIC square texture edge to edge: approximately EIGHT large paving modules across and EIGHT down. This is an unprojected continuous material to map onto a 4:3 diamond grid later. Snug consistent joints shared by neighbors, mostly quiet large surfaces, restrained chips. High quality clean painted PIXEL ART clusters, no grain or isolated sparkling pixels, like the reference stone dungeon assets. Uniform soft light throughout, no vignette or spotlight. Seamless repeat at edges. NO perspective, isometry, raised slabs, sides, props, text, borders, margins, symbols, holes, background or transparency. Opaque square texture1024x1024.",
+    "transparent": false,
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-c82f812e-02c9-4472-96f9-3530aa5bab07.png"
+  },
+  {
+    "id": "ice",
+    "type": "side",
+    "prompt": "Use case: stylized-concept. Separate game VERTICAL SIDE material for biome ice, matching ONLY panel 03 top right of the original six-biome concept. deep blue vertical ice-covered stone blocks in horizontal courses, pale frost, restrained frozen rivulets; no top caps and no protruding icicles outside. Perfectly flat FRONT ELEVATION, square opaque texture filled edge to edge, EIGHT chunky rectangular blocks across and SIXTEEN staggered horizontal courses high; each block about twice as wide as high. Quiet broad faces, sparse cracks, readable clean PIXEL ART clusters, no grain. Uniform lighting, game applies left/right shade. Seamlessly repeat ALL FOUR borders. NO isometry, perspective, visible top, corners, floor pattern, frame, captions, objects, transparency. This is a material repeated at constant scale on variable-height terrain faces, not a fixed height wall or terrain sprite. Square1024x1024.",
+    "transparent": false,
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-a3ae4c7e-1b98-4cd8-b0c6-c136e1266f38.png"
+  },
+  {
+    "id": "ice",
+    "type": "prop",
+    "prompt": "Use case: stylized-concept. ONE isolated game obstacle sprite for biome ice, based on ONLY panel 03 top right of original six-biome catalogue. one compact cluster of three blue translucent ice crystals growing from one rocky frozen base, central thick crystal tall, small side crystals, snowy foot. Solid impassable obstacle. No floor tile. Elevated orthographic3/4 camera for top diamond128wide96high (4:3): near corner points straight down, horizontal top circular shapes have vertical depth .75 of width. See generous top and two front faces. Match clean hand-drawn painted PIXEL ART clusters, compact readable silhouette, no noisy grain or blurry painting. Soft upper-left light. Object entire visible centered, roughly .8 width to1 height, generous empty margins. ACTUAL transparent alpha background. No shadows outside object, NO floor/diamond base/ground, no lettering, numbers, frame, other assets. Readable at about70x95 game pixels.",
+    "transparent": true,
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-d027dbd6-b8b4-47eb-8c7a-4c6858d378a5.png"
+  },
+  {
+    "id": "volcanic",
+    "type": "floor",
+    "prompt": "Use case: stylized-concept. Game surface material for biome volcanic. Match ONLY panel 04 bottom left of the six-biome concept discussed in this conversation. Dark charcoal violet basalt flagstones, quiet broad plates, occasional restrained deep rusty warm cracks, subtle reddish seams, NO glowing lava rivers/pools and no fire objects. Create a perfectly FLAT TOP-DOWN ORTHOGRAPHIC square texture edge to edge: approximately EIGHT large paving modules across and EIGHT down. This is an unprojected continuous material to map onto a 4:3 diamond grid later. Snug consistent joints shared by neighbors, mostly quiet large surfaces, restrained chips. High quality clean painted PIXEL ART clusters, no grain or isolated sparkling pixels, like the reference stone dungeon assets. Uniform soft light throughout, no vignette or spotlight. Seamless repeat at edges. NO perspective, isometry, raised slabs, sides, props, text, borders, margins, symbols, holes, background or transparency. Opaque square texture1024x1024.",
+    "transparent": false,
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-42751fb2-ca42-4de2-8c33-01a6a98d5aa6.png"
+  },
+  {
+    "id": "volcanic",
+    "type": "side",
+    "prompt": "Use case: stylized-concept. Separate game VERTICAL SIDE material for biome volcanic, matching ONLY panel 04 bottom left of the original six-biome concept. dark charcoal purple rough basalt courses with deep burgundy joints, restrained rusty cracks, no bright lava and no top caps. Perfectly flat FRONT ELEVATION, square opaque texture filled edge to edge, EIGHT chunky rectangular blocks across and SIXTEEN staggered horizontal courses high; each block about twice as wide as high. Quiet broad faces, sparse cracks, readable clean PIXEL ART clusters, no grain. Uniform lighting, game applies left/right shade. Seamlessly repeat ALL FOUR borders. NO isometry, perspective, visible top, corners, floor pattern, frame, captions, objects, transparency. This is a material repeated at constant scale on variable-height terrain faces, not a fixed height wall or terrain sprite. Square1024x1024.",
+    "transparent": false,
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-e70ee56f-dd7c-469b-a73a-306bb961b7f3.png"
+  },
+  {
+    "id": "volcanic",
+    "type": "prop",
+    "prompt": "Use case: stylized-concept. ONE isolated game obstacle sprite for biome volcanic, based on ONLY panel 04 bottom left of original six-biome catalogue. one compact tall jagged cluster of black basalt rocks with a few deep orange glowing thin cracks, strong broad silhouette, solid impassable obstacle. No floor tile. Elevated orthographic3/4 camera for top diamond128wide96high (4:3): near corner points straight down, horizontal top circular shapes have vertical depth .75 of width. See generous top and two front faces. Match clean hand-drawn painted PIXEL ART clusters, compact readable silhouette, no noisy grain or blurry painting. Soft upper-left light. Object entire visible centered, roughly .8 width to1 height, generous empty margins. ACTUAL transparent alpha background. No shadows outside object, NO floor/diamond base/ground, no lettering, numbers, frame, other assets. Readable at about70x95 game pixels.",
+    "transparent": true,
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-65ab8c8e-7147-4540-8202-8ebd76b11c34.png"
+  },
+  {
+    "id": "desert",
+    "type": "floor",
+    "prompt": "Use case: stylized-concept. Game surface material for biome desert. Match ONLY panel 05 bottom middle of the six-biome concept discussed in this conversation. Warm pale ochre sandstone flagstones, broad smooth quiet faces and soft sand in joints, slight worn corners, rare thin cracks. NO motifs, objects or turquoise lines on floor. Create a perfectly FLAT TOP-DOWN ORTHOGRAPHIC square texture edge to edge: approximately EIGHT large paving modules across and EIGHT down. This is an unprojected continuous material to map onto a 4:3 diamond grid later. Snug consistent joints shared by neighbors, mostly quiet large surfaces, restrained chips. High quality clean painted PIXEL ART clusters, no grain or isolated sparkling pixels, like the reference stone dungeon assets. Uniform soft light throughout, no vignette or spotlight. Seamless repeat at edges. NO perspective, isometry, raised slabs, sides, props, text, borders, margins, symbols, holes, background or transparency. Opaque square texture1024x1024.",
+    "transparent": false,
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-d3be6514-f09c-46df-8c39-233ce52feae6.png"
+  },
+  {
+    "id": "desert",
+    "type": "side",
+    "prompt": "Use case: stylized-concept. Separate game VERTICAL SIDE material for biome desert, matching ONLY panel 05 bottom middle of the original six-biome concept. golden ochre sandstone block courses, weathered broad faces with muted darker mortar, small rare turquoise ancient inlay patches confined inside single stones. No top caps. Perfectly flat FRONT ELEVATION, square opaque texture filled edge to edge, EIGHT chunky rectangular blocks across and SIXTEEN staggered horizontal courses high; each block about twice as wide as high. Quiet broad faces, sparse cracks, readable clean PIXEL ART clusters, no grain. Uniform lighting, game applies left/right shade. Seamlessly repeat ALL FOUR borders. NO isometry, perspective, visible top, corners, floor pattern, frame, captions, objects, transparency. This is a material repeated at constant scale on variable-height terrain faces, not a fixed height wall or terrain sprite. Square1024x1024.",
+    "transparent": false,
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-c734b571-58d4-48bd-af9c-29f4e6c979d9.png"
+  },
+  {
+    "id": "desert",
+    "type": "prop",
+    "prompt": "Use case: stylized-concept. ONE isolated game obstacle sprite for biome desert, based on ONLY panel 05 bottom middle of original six-biome catalogue. one stout ancient sandstone obelisk with chipped point on a low compact plinth, single tasteful turquoise geometric inset, no lettering, front two visible faces. Solid impassable obstacle. No floor tile. Elevated orthographic3/4 camera for top diamond128wide96high (4:3): near corner points straight down, horizontal top circular shapes have vertical depth .75 of width. See generous top and two front faces. Match clean hand-drawn painted PIXEL ART clusters, compact readable silhouette, no noisy grain or blurry painting. Soft upper-left light. Object entire visible centered, roughly .8 width to1 height, generous empty margins. ACTUAL transparent alpha background. No shadows outside object, NO floor/diamond base/ground, no lettering, numbers, frame, other assets. Readable at about70x95 game pixels.",
+    "transparent": true,
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-568227e1-5c8d-47d2-adca-62cec35f75d6.png"
+  },
+  {
+    "id": "swamp",
+    "type": "floor",
+    "prompt": "Use case: stylized-concept. Game surface material for biome swamp. Match ONLY panel 06 bottom right of the six-biome concept discussed in this conversation. Damp dark olive gray flagstones in old swamp ruins, broad quiet moss patches, muted teal wet stains in the joints, walkable intact stone paving. NO open water holes, reeds or mushroom objects. Create a perfectly FLAT TOP-DOWN ORTHOGRAPHIC square texture edge to edge: approximately EIGHT large paving modules across and EIGHT down. This is an unprojected continuous material to map onto a 4:3 diamond grid later. Snug consistent joints shared by neighbors, mostly quiet large surfaces, restrained chips. High quality clean painted PIXEL ART clusters, no grain or isolated sparkling pixels, like the reference stone dungeon assets. Uniform soft light throughout, no vignette or spotlight. Seamless repeat at edges. NO perspective, isometry, raised slabs, sides, props, text, borders, margins, symbols, holes, background or transparency. Opaque square texture1024x1024.",
+    "transparent": false,
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-3f3d893c-53db-4c2c-9f97-40dcb63a8464.png"
+  },
+  {
+    "id": "swamp",
+    "type": "side",
+    "prompt": "Use case: stylized-concept. Separate game VERTICAL SIDE material for biome swamp, matching ONLY panel 06 bottom right of the original six-biome concept. dark damp olive gray stone block courses with subtle teal moisture and restrained dark moss patches; no ground caps. Perfectly flat FRONT ELEVATION, square opaque texture filled edge to edge, EIGHT chunky rectangular blocks across and SIXTEEN staggered horizontal courses high; each block about twice as wide as high. Quiet broad faces, sparse cracks, readable clean PIXEL ART clusters, no grain. Uniform lighting, game applies left/right shade. Seamlessly repeat ALL FOUR borders. NO isometry, perspective, visible top, corners, floor pattern, frame, captions, objects, transparency. This is a material repeated at constant scale on variable-height terrain faces, not a fixed height wall or terrain sprite. Square1024x1024.",
+    "transparent": false,
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-0e4df5f1-0c31-4346-ab7e-780b0c2ed4ea.png"
+  },
+  {
+    "id": "swamp",
+    "type": "prop",
+    "prompt": "Use case: stylized-concept. ONE isolated game obstacle sprite for biome swamp, based on ONLY panel 06 bottom right of original six-biome catalogue. one compact twisted dead tree stump with two short forked branches and two small violet mushrooms at foot, dark brown wood and subdued moss; sturdy solid impassable obstacle. No floor tile. Elevated orthographic3/4 camera for top diamond128wide96high (4:3): near corner points straight down, horizontal top circular shapes have vertical depth .75 of width. See generous top and two front faces. Match clean hand-drawn painted PIXEL ART clusters, compact readable silhouette, no noisy grain or blurry painting. Soft upper-left light. Object entire visible centered, roughly .8 width to1 height, generous empty margins. ACTUAL transparent alpha background. No shadows outside object, NO floor/diamond base/ground, no lettering, numbers, frame, other assets. Readable at about70x95 game pixels.",
+    "transparent": true,
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-2e0356d5-619d-42fc-8c16-aa5c87dd3a28.png"
+  }
+]

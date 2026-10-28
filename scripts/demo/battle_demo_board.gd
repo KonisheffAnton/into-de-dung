@@ -24,6 +24,8 @@ var _camera_last_position: Vector2 = Vector2.ZERO
 var _camera_max_displacement: float = 0.0
 var _camera_reset: Button
 var _camera_layout_size := Vector2.ZERO
+var _layout_dimensions := Vector2i.ZERO
+var _overview_zoom: float = 1.0
 var attack_mode: bool = false
 var retreat_mode: bool = false
 var summoning_mode: bool = false
@@ -1236,6 +1238,7 @@ func pan_camera(delta: Vector2) -> void:
 func reset_camera() -> void:
 	_cancel_camera_gesture()
 	camera_view.reset()
+	if _overview_zoom < 1.0: camera_view.zoom_at(_overview_zoom, size * 0.5)
 	_apply_camera()
 
 func _cancel_camera_gesture() -> void:
@@ -1499,15 +1502,7 @@ func _refresh_path() -> void:
 func _rescale_layout() -> void:
 	if _camera_layout_size != Vector2.ZERO: camera_view.recenter_after_resize(_camera_layout_size * 0.5, size * 0.5)
 	_camera_layout_size = size
-	var base_size := IsoGridConfig.DEFAULT_TILE_SIZE
-	var factor := 1.0 if camera_controls_enabled else maxf(0.1, minf((size.x - 64) / (base_size.x * 8.0), (size.y - 108) / (base_size.y * 8.0 + 32.0)))
-	# Базовая геометрия в камере остаётся читаемой независимо от размера поля.
-	grid_config.tile_size = base_size * factor
-	grid_config.height_step = 32 * factor
-	grid_config.origin_offset = Vector2(size.x * 0.5, size.y * 0.5 - grid_config.tile_size.y * 3.5)
-	# Более высокий ромб требует запаса сверху для стартовых фигур при 100%.
-	# Это постоянное кадрирование: resize и ручная камера сохраняют прежние преобразования.
-	if camera_controls_enabled: grid_config.origin_offset.y += grid_config.tile_size.x * 0.5
+	_sync_layout_geometry()
 	if is_inside_tree():
 		if not execution_pending: _clear_falls()
 		_rebuild_visuals()
@@ -1519,6 +1514,32 @@ func _rescale_layout() -> void:
 		queue_redraw()
 		if _overlay != null: _overlay.queue_redraw()
 
+func _sync_layout_geometry() -> void:
+	var dimensions := Vector2i(maxi(_view_width, 8), maxi(_view_height, 8))
+	var changed := dimensions != _layout_dimensions
+	var was_overview := is_equal_approx(camera_view.zoom, _overview_zoom) and camera_view.world_to_view(size * 0.5).is_equal_approx(size * 0.5)
+	_layout_dimensions = dimensions
+	var base_size := IsoGridConfig.DEFAULT_TILE_SIZE
+	var span := float(dimensions.x + dimensions.y) * 0.5
+	var extent := Vector2(base_size.x * span, base_size.y * span + (128.0 if dimensions.x > 8 or dimensions.y > 8 else 32.0))
+	var factor := 1.0 if camera_controls_enabled else maxf(0.1, minf((size.x - 64.0) / extent.x, (size.y - 108.0) / extent.y))
+	grid_config.tile_size = base_size * factor
+	grid_config.height_step = 32.0 * factor
+	var center_cell := Vector2(dimensions - Vector2i.ONE) * 0.5
+	var center := Vector2((center_cell.x - center_cell.y) * grid_config.tile_size.x * 0.5,
+		(center_cell.x + center_cell.y) * grid_config.tile_size.y * 0.5)
+	grid_config.origin_offset = size * 0.5 - center
+	var large := dimensions.x > 8 or dimensions.y > 8
+	# Большое поле при приближении не перекрывает соседние панели HUD.
+	clip_contents = large
+	if camera_controls_enabled and not large: grid_config.origin_offset.y += grid_config.tile_size.x * 0.5
+	_overview_zoom = clampf(minf((size.x - 64.0) / extent.x, (size.y - 32.0) / extent.y), 0.1, 1.0) if large else 1.0
+	camera_view.minimum_zoom = minf(BattleBoardCamera.MIN_ZOOM, _overview_zoom) if large else BattleBoardCamera.MIN_ZOOM
+	if camera_controls_enabled and (changed or was_overview and large):
+		camera_view.reset()
+		if large: camera_view.zoom_at(_overview_zoom, size * 0.5)
+		_apply_camera()
+
 func _clear_layer(layer: Node2D) -> void:
 	if layer == null: return
 	for child in layer.get_children():
@@ -1527,6 +1548,7 @@ func _clear_layer(layer: Node2D) -> void:
 
 func _rebuild_visuals() -> void:
 	if _entities == null: return
+	if Vector2i(maxi(_view_width, 8), maxi(_view_height, 8)) != _layout_dimensions: _sync_layout_geometry()
 	_tile_visuals.clear()
 	_entity_visuals.clear()
 	_clear_layer(_tiles)

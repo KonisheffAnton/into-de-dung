@@ -4,6 +4,7 @@ extends RefCounted
 const MIN_ZOOM: float = 0.75
 const MAX_ZOOM: float = 2.5
 
+var minimum_zoom: float = MIN_ZOOM
 var zoom: float = 1.0
 var offset: Vector2 = Vector2.ZERO
 
@@ -21,7 +22,7 @@ func zoom_at(value: float, anchor: Vector2) -> void:
 	if not is_finite(value) or not _is_finite_vector(anchor):
 		return
 	var world_anchor: Vector2 = view_to_world(anchor)
-	zoom = clampf(value, MIN_ZOOM, MAX_ZOOM)
+	zoom = clampf(value, minimum_zoom, MAX_ZOOM)
 	# Смещение пересчитывается так, чтобы выбранная точка мира оставалась под курсором.
 	offset = anchor - world_anchor * zoom
 

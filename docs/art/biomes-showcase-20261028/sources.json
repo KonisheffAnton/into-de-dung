@@ -1,0 +1,197 @@
+[
+  {
+    "id": "forest",
+    "type": "floor",
+    "path": "assets/art_presets/trials/biomes_v1/forest/floor.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-39b62cd7-7cc1-4bf7-88ca-36846f0e3a4f.png",
+    "sha256": "8f138dc56dda8d5bebd05a6894382b7ce48a3917f100d080c183e048c87b017f",
+    "size": [
+      1254,
+      1254
+    ]
+  },
+  {
+    "id": "forest",
+    "type": "side",
+    "path": "assets/art_presets/trials/biomes_v1/forest/side.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-d017007e-ab90-4036-ae16-6ef549240011.png",
+    "sha256": "3d13c39a1769cec54906be7f44be6b2ae8e5fed2e03b87a9279550d936a20f5a",
+    "size": [
+      1254,
+      1254
+    ]
+  },
+  {
+    "id": "forest",
+    "type": "prop",
+    "path": "assets/art_presets/trials/biomes_v1/forest/prop.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-2131f793-6cf0-4122-b80f-6d5434a80686.png",
+    "sha256": "dc017023945fe65a4f93e3268fcc92b920cdcaec9c375e88d6774e3ddde2f635",
+    "size": [
+      1122,
+      1402
+    ],
+    "region": [
+      42,
+      139,
+      1041,
+      1147
+    ]
+  },
+  {
+    "id": "ice",
+    "type": "floor",
+    "path": "assets/art_presets/trials/biomes_v1/ice/floor.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-c82f812e-02c9-4472-96f9-3530aa5bab07.png",
+    "sha256": "8cc89754e25a39899bdd43c1a2b3fd95472c7ee43acf3812e1b15a2c392fb63f",
+    "size": [
+      1254,
+      1254
+    ]
+  },
+  {
+    "id": "ice",
+    "type": "side",
+    "path": "assets/art_presets/trials/biomes_v1/ice/side.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-a3ae4c7e-1b98-4cd8-b0c6-c136e1266f38.png",
+    "sha256": "8b19b0214d40343da774eb527b5221d08c190cbfb3be82a70c240d99e7c2dc9a",
+    "size": [
+      1254,
+      1254
+    ]
+  },
+  {
+    "id": "ice",
+    "type": "prop",
+    "path": "assets/art_presets/trials/biomes_v1/ice/prop.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-d027dbd6-b8b4-47eb-8c7a-4c6858d378a5.png",
+    "sha256": "f9d2fa2f7a2848b7654079216c1b9541b8d97210f18099db91f758dad83679e4",
+    "size": [
+      1156,
+      1360
+    ],
+    "region": [
+      187,
+      86,
+      831,
+      1197
+    ]
+  },
+  {
+    "id": "volcanic",
+    "type": "floor",
+    "path": "assets/art_presets/trials/biomes_v1/volcanic/floor.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-42751fb2-ca42-4de2-8c33-01a6a98d5aa6.png",
+    "sha256": "72f2815558df108cea007fab97844ffdf5c6ab3b44f0273ceb06d34e150f6371",
+    "size": [
+      1254,
+      1254
+    ]
+  },
+  {
+    "id": "volcanic",
+    "type": "side",
+    "path": "assets/art_presets/trials/biomes_v1/volcanic/side.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-e70ee56f-dd7c-469b-a73a-306bb961b7f3.png",
+    "sha256": "e00ba4df2b17651675f1a3ca64ec68b3c11787c6ccbb991a7f773ee5498f1b30",
+    "size": [
+      1254,
+      1254
+    ]
+  },
+  {
+    "id": "volcanic",
+    "type": "prop",
+    "path": "assets/art_presets/trials/biomes_v1/volcanic/prop.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-65ab8c8e-7147-4540-8202-8ebd76b11c34.png",
+    "sha256": "0206669bd570cfcc98ab31e45d1b0c6c6db4a327b0ca9be8fe678c48caad75b7",
+    "size": [
+      1182,
+      1330
+    ],
+    "region": [
+      205,
+      95,
+      787,
+      1160
+    ]
+  },
+  {
+    "id": "desert",
+    "type": "floor",
+    "path": "assets/art_presets/trials/biomes_v1/desert/floor.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-d3be6514-f09c-46df-8c39-233ce52feae6.png",
+    "sha256": "fd348255c4abd466ee0f544f4d8129e1818c00b67008e4373bc97b38012912b5",
+    "size": [
+      1254,
+      1254
+    ]
+  },
+  {
+    "id": "desert",
+    "type": "side",
+    "path": "assets/art_presets/trials/biomes_v1/desert/side.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-c734b571-58d4-48bd-af9c-29f4e6c979d9.png",
+    "sha256": "a38b03fdb3fdf2404d211381a6eec88e867c46ca0bfa038cb0b2f92b6c43ead7",
+    "size": [
+      1254,
+      1254
+    ]
+  },
+  {
+    "id": "desert",
+    "type": "prop",
+    "path": "assets/art_presets/trials/biomes_v1/desert/prop.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-568227e1-5c8d-47d2-adca-62cec35f75d6.png",
+    "sha256": "533994ff24a5f11c3787a659660ec406a2274fb1b9e77043e650651001361819",
+    "size": [
+      1144,
+      1375
+    ],
+    "region": [
+      257,
+      118,
+      646,
+      1142
+    ]
+  },
+  {
+    "id": "swamp",
+    "type": "floor",
+    "path": "assets/art_presets/trials/biomes_v1/swamp/floor.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-3f3d893c-53db-4c2c-9f97-40dcb63a8464.png",
+    "sha256": "6abeadc2cb8b161cab99c23401391859c5d2bf74cd6d5af0710e8c582cbe05bc",
+    "size": [
+      1254,
+      1254
+    ]
+  },
+  {
+    "id": "swamp",
+    "type": "side",
+    "path": "assets/art_presets/trials/biomes_v1/swamp/side.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-0e4df5f1-0c31-4346-ab7e-780b0c2ed4ea.png",
+    "sha256": "77e675eb0cab86fa88c7b75e4d64d90584508ee17ea2788487f294704fbb5c20",
+    "size": [
+      1254,
+      1254
+    ]
+  },
+  {
+    "id": "swamp",
+    "type": "prop",
+    "path": "assets/art_presets/trials/biomes_v1/swamp/prop.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a17e2c-456b-7ca0-ac3a-275fc9737270\\exec-2e0356d5-619d-42fc-8c16-aa5c87dd3a28.png",
+    "sha256": "6bdebd59b3a83b07fd18b80070bc84ac064854ee5e18c877c83e60651ba4cb03",
+    "size": [
+      1149,
+      1368
+    ],
+    "region": [
+      197,
+      106,
+      884,
+      1165
+    ]
+  }
+]

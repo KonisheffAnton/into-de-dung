@@ -14,19 +14,25 @@
 
 ## Изменение игрового кода
 
-Каменное подземелье и крепление ловушки к уступу (2026-10-27):
+Шесть биомов, поле24×16 и настоящие отверстия (2026-10-28):
 ~~~powershell
-python tools/demo/isolate.py --render-check --only dungeon_room_comparison
-hazards hazards_ui mage_deck_expedition visual_scene_contract
-environment_visual_contract presentation_environment battle_camera_ui --screen 0
+python tools/demo/isolate.py --render-check --only biome_showcase_layout
+dungeon_room_comparison hazards hazards_ui mage_deck_expedition
+visual_scene_contract environment_visual_contract presentation_environment
+collapse_phase battle_board_camera battle_camera_ui art_trial_battle --screen 0
 ~~~
-(одна команда; переносы в блоке соединить пробелами). Историческое имя dungeon_room_comparison сохранено:
-runner проверяет непрерывность пола, постоянный размер кладки по высоте/zoom,
-колонну и ловушку на разных клетках, огонь, managed lifecycle, geometry/picking,
-маршрут первой/следующей комнаты/legacy, restart и snapshot/RNG/counters.
-hazards проверяет новый и прежний режимы крепления, запрет крепления к препятствию, столкновение с
-уступом, потерю опоры и preview/live parity. Кадры75/100/125%, побайтные источники
-и ручная F5/zoom/DPI-приёмка — [пакет](art/dungeon-room-refinement-20261027/README.md).
+(одна команда; переносы соединить пробелами). biome_showcase_layout проверяет
+размер384, геометрию шести участков, snapshot copy/restore, движения через обе
+границы8×8 с preview/live parity, обрушение дальней клетки, restart/profile/RNG
+и прежний размер следующих/legacy боёв. Исторический dungeon_room_comparison
+теперь проверяет шесть материалов/спрайтов, постоянную плотность вертикальных UV,
+пустой VOID на alpha-кадре с соседними торцами, обзор/pan/picking всех участков,
+reuse384 клеток и неизменность runtime. Он сохраняет overview, шесть деталей,
+hole-transparent и время десяти refresh; это адресная метрика, не FPS/GPU-бенчмарк.
+Прочие gates проверяют прежние ловушки, collapse playback, камеру и обычный арт.
+Проверка launcher: python tools/demo/test_isolate.py.
+[Исходники и кадры](art/biomes-showcase-20261028/README.md). Full/core и ручная
+F5/движение/zoom/DPI-приёмка имеют отдельный статус.
 
 Jersey 20 для чисел и Play Bold для букв (2026-10-27): `--render-check --only
 presentation_contact presentation_consequences battle_presentation battle_camera_ui

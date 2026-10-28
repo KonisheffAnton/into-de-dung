@@ -326,7 +326,7 @@ func _sync_scene_art_layers() -> void:
 		preset.visible = preset == selected_enemy_preset and unit != null and unit.alive
 		preset.modulate = Color.WHITE
 	if surface != null:
-		surface.visible = role != Role.UNIT and not ground_art_active
+		surface.visible = role != Role.UNIT and not ground_art_active and not is_void
 		surface.position = surface_position
 		surface.modulate = _surface_tint()
 	if ground_base != null:
@@ -349,7 +349,7 @@ func _sync_scene_art_layers() -> void:
 	var ice := get_node_or_null("ArtRoot/EffectRoot/IceSprite") as Sprite2D
 	var stun_mark := get_node_or_null("ArtRoot/EffectRoot/StunSprite") as Sprite2D
 	var entangle_mark := get_node_or_null("ArtRoot/EffectRoot/EntangleSprite") as Sprite2D
-	if fire != null: fire.visible = role != Role.UNIT and burning
+	if fire != null: fire.visible = role != Role.UNIT and burning and not is_void
 	# Смерть завершает демонстрацию состояния: ледяная оболочка не скрывает крест.
 	if ice != null: ice.visible = role == Role.UNIT and frozen and (unit == null or unit.alive)
 	if stun_mark != null: stun_mark.visible = role == Role.UNIT and stunned and (unit == null or unit.alive)
@@ -594,6 +594,10 @@ func contains_point(point: Vector2) -> bool:
 
 func _draw() -> void:
 	if grid_config == null: return
+	if is_void and role != Role.UNIT:
+		# После обрушения нет поверхности: соседние торцы обрамляют настоящий просвет.
+		if _ground_overlay != null: _ground_overlay.queue_redraw()
+		return
 	if role == Role.UNIT:
 		# Родительский draw обновляет маркеры перед отрисовкой child-слоя за спрайтом.
 		if _unit_highlights != null: _unit_highlights.queue_redraw()
@@ -614,19 +618,17 @@ func _draw() -> void:
 	var ground_art_active := ground_surface != null and _uses_ground_art()
 	if not ground_art_active: draw_polyline(top + PackedVector2Array([top[0]]), Color("14232e"), 1.2, true)
 	var center := _top_offset()
-	var hw := grid_config.tile_size.x * 0.5
 	var hh := grid_config.tile_size.y * 0.5
 	if role == Role.WALL:
 		draw_line(top[3].lerp(top[0], 0.5), top[2].lerp(top[1], 0.5), color.darkened(0.25), 1)
-	elif is_void:
-		draw_string(ThemeDB.fallback_font, center + Vector2(-hw * 0.6, 3), "ПРОПАСТЬ", HORIZONTAL_ALIGNMENT_CENTER, hw * 1.2, 8, Color("53647a"))
+
 	else:
 		if half_steps != 0 or show_flat_height_labels:
 			draw_string(ThemeDB.fallback_font, center + Vector2(-22, -hh * 0.37), "%+.1f" % (float(half_steps) / 2.0), HORIZONTAL_ALIGNMENT_CENTER, 44, 10, Color("b7c9ce"))
 	if _ground_overlay != null: _ground_overlay.queue_redraw()
 
 func _draw_ground_overlay(canvas: Node2D) -> void:
-	if grid_config == null or not ground_overlay_enabled: return
+	if grid_config == null or not ground_overlay_enabled or is_void: return
 	var center := get_visual_offset() + Vector2(0, 0.5)
 	if role == Role.WALL: center.y -= grid_config.height_step
 	var half := grid_config.tile_size * 0.48

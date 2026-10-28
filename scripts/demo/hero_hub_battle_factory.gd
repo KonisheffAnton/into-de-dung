@@ -7,6 +7,7 @@ static func create(run: HeroHubState) -> Dictionary:
 	var deck: bool = expedition and run.expedition.is_deck()
 	if run.phase != "battle" and not expedition: return {}
 	var node: Dictionary = run.expedition.current_node() if expedition else {}
+	var showcase_layout: bool = expedition and int(node.get("layer", -1)) == 0
 	var opening: Dictionary = run.expedition.plan.content.opening if deck and run.expedition.plan.opening and node.layer == 0 else {}
 	var encounter := ExpeditionCatalog.encounter(node.kind if expedition else "battle",node.variant if expedition else 0)
 	if encounter == null: return {}
@@ -14,7 +15,8 @@ static func create(run: HeroHubState) -> Dictionary:
 	var enemy_hp := encounter.enemy_hp
 	var enemy_strength := encounter.enemy_strength
 	var session := BattleCoreReactionsSession.new(false)
-	session.board = BattleBoard.new(8, 8)
+	var board_size: Vector2i = BiomeShowcaseLayout.SIZE if showcase_layout else Vector2i(8, 8)
+	session.board = BattleBoard.new(board_size.x, board_size.y)
 	var hero_units: Dictionary = {}
 	var gear_items: Dictionary = {}
 	var owners: Array[ItemOwnerState] = []
@@ -142,6 +144,8 @@ static func create(run: HeroHubState) -> Dictionary:
 		for hazard: Dictionary in opening.hazards:
 			session.state.environment.ignite(ExpeditionOpening.cell(hazard.cell), hazard.effect)
 		session.state.environment.collapse = opening.collapse.duplicate(true)
+	if showcase_layout:
+		BiomeShowcaseLayout.apply(session.board, not opening.is_empty())
 	if expedition and not deck:
 		var artifacts := BattleArtifactState.new()
 		for id: int in run.party:

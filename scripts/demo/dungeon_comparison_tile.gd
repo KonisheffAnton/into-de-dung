@@ -25,26 +25,35 @@ func sync_scene_art() -> void:
 	if not _dungeon_nodes_ready or grid_config == null: return
 	var factor: float = grid_config.tile_size.x / 128.0
 	if factor <= 0.0: return
+	var biome: int = BiomeArtCatalog.index_at(grid_anchor)
+	var floor_texture: Texture2D = BiomeArtCatalog.FLOORS[biome]
 	var floor_cell_x: int = posmod(grid_anchor.x, 8)
 	var floor_cell_y: int = posmod(grid_anchor.y, 8)
-	var floor_step: Vector2 = FLOOR_TEXTURE.get_size() / 8.0
+	var floor_step: Vector2 = floor_texture.get_size() / 8.0
 	var floor_origin := Vector2(float(floor_cell_x), float(floor_cell_y)) * floor_step
 	var floor_end := floor_origin + floor_step
 	var floor_uv := PackedVector2Array([
 		floor_origin, Vector2(floor_end.x, floor_origin.y), floor_end, Vector2(floor_origin.x, floor_end.y),
 	])
-	_floor_polygon.texture = FLOOR_TEXTURE
+	_floor_polygon.texture = floor_texture
 	_floor_polygon.uv = floor_uv
 	_floor_polygon.visible = _uses_ground_art()
 	_floor_polygon.color = Color.WHITE
 	var wall_active := role == Role.WALL and not is_void
-	var column_active := wall_active and grid_anchor == COLUMN_CELL
+	var column_active := wall_active and BiomeArtCatalog.is_obstacle(grid_anchor)
 	_wall_top.visible = wall_active and not column_active
-	_wall_top.texture = FLOOR_TEXTURE
+	_wall_top.texture = floor_texture
 	_wall_top.uv = floor_uv
 	_wall_top.position = _surface_sprite.position
 	_wall_top.color = Color.WHITE
 	_column.visible = column_active
+	_column.texture = BiomeArtCatalog.OBSTACLES[biome]
+	_column.region_enabled = true
+	_column.region_rect = BiomeArtCatalog.REGIONS[biome]
+	var region_height := _column.region_rect.size.y
+	if region_height > 0.0:
+		_column.scale = Vector2.ONE * BiomeArtCatalog.HEIGHTS[biome] / region_height
+		_column.position = Vector2(0, 12.0 - BiomeArtCatalog.HEIGHTS[biome] * 0.5)
 	if _surface_sprite != null and wall_active: _surface_sprite.visible = false
 	if column_active:
 		# Колонна заменяет только декоративный рисунок стены; floor и окружение остаются отдельными узлами доски.
@@ -55,7 +64,7 @@ func sync_scene_art() -> void:
 	_sync_masonry_side(_right_side, false, factor)
 
 func _draw() -> void:
-	if role == Role.WALL and grid_anchor == COLUMN_CELL and not is_void:
+	if role == Role.WALL and BiomeArtCatalog.is_obstacle(grid_anchor) and not is_void:
 		# У отдельной колонны нет квадратной крышки: её контур выглядел бы висящей рамкой.
 		# Игровые маркеры и logical picking остаются у штатного terrain lifecycle.
 		if _ground_overlay != null: _ground_overlay.queue_redraw()
@@ -68,8 +77,9 @@ func _sync_masonry_side(side: Polygon2D, is_left: bool, factor: float) -> void:
 	if points.size() < 4: return
 	var top_left: Vector2 = points[0]
 	var top_right: Vector2 = points[1]
-	var span: float = MASONRY_TEXTURE.get_size().x / 4.0
-	var vertical_density: float = MASONRY_TEXTURE.get_size().y / 256.0
+	var masonry: Texture2D = BiomeArtCatalog.SIDES[BiomeArtCatalog.index_at(grid_anchor)]
+	var span: float = masonry.get_size().x / 4.0
+	var vertical_density: float = masonry.get_size().y / 256.0
 	var u_origin: float = float(grid_anchor.x) * span if is_left else -float(grid_anchor.y) * span
 	var height_steps := float(half_steps) * grid_config.height_step * 0.5
 	if role == Role.WALL: height_steps += grid_config.height_step
@@ -82,7 +92,7 @@ func _sync_masonry_side(side: Polygon2D, is_left: bool, factor: float) -> void:
 		var base_y: float = top_left.y + across * (top_right.y - top_left.y)
 		uv.append(Vector2(u_origin + across * span,
 			v_origin + (point.y - base_y) * vertical_density))
-	side.texture = MASONRY_TEXTURE
+	side.texture = masonry
 	side.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 	side.uv = uv
 	side.color = MASONRY_LEFT_TINT if is_left else MASONRY_RIGHT_TINT

@@ -114,15 +114,15 @@ func _check_first_room_layers(board: BattleDemoBoard) -> void:
 		var floor_piece := _visible_floor_piece(visual as BattleTerrainVisual)
 		if floor_piece != null:
 			floor_count += 1
-			check(floor_piece.texture == FLOOR_TEXTURE, "all live floors use the coherent material")
+			check(floor_piece.texture == BiomeArtCatalog.FLOORS[BiomeArtCatalog.index_at(visual.grid_anchor)], "live floor uses the chunk material")
 		var column := visual.get_node_or_null("ArtRoot/BrokenColumn") as Sprite2D
 		if column != null and column.visible:
 			column_count += 1
-			check(visual.role == BattleDemoIsoVisual.Role.WALL and visual.grid_anchor == Vector2i(3, 0),
+			check(visual.role == BattleDemoIsoVisual.Role.WALL and BiomeArtCatalog.is_obstacle(visual.grid_anchor),
 				"decoration belongs to the existing blocking wall")
-			check(column.texture == COLUMN_TEXTURE, "column uses its separate transparent drawing")
-	check(floor_count >= 63, "live room has coherent floor below all non-VOID cells")
-	check(column_count == 1, "live room contains one broken column obstacle")
+			check(column.texture == BiomeArtCatalog.OBSTACLES[BiomeArtCatalog.index_at(visual.grid_anchor)], "obstacle uses its biome drawing")
+	check(floor_count == 383, "live room has coherent floor below all non-VOID cells")
+	check(column_count == 6, "live room contains six ordinary themed obstacles")
 
 func _visible_floor_piece(tile: BattleTerrainVisual) -> Polygon2D:
 	var ground := tile.get_node_or_null("ArtRoot/GroundSurface") as Sprite2D
@@ -199,7 +199,9 @@ func _check_tile_contract() -> void:
 				for name: String in ["SideLeft", "SideRight"]:
 					var side := tile.get_node("ArtRoot/" + name) as Polygon2D
 					var original := reference.get_node("ArtRoot/" + name) as Polygon2D
-					check(side.polygon == original.polygon and side.visible == original.visible, "side geometry/depth unchanged")
+					check(side.visible == original.visible and side.polygon[0] == original.polygon[0] and side.polygon[1] == original.polygon[1], "higher faces preserve upper edge geometry")
+					if tile_role != BattleDemoIsoVisual.Role.WALL:
+						check(side.polygon[2].y - side.polygon[1].y >= 63.999, "floor faces have at least64 native pixels of depth")
 					check(side.texture == MASONRY_TEXTURE and side.texture_repeat == CanvasItem.TEXTURE_REPEAT_ENABLED,
 						"side uses repeatable independent masonry")
 					for edge: Vector2i in [Vector2i(0, 3), Vector2i(1, 2)]:
@@ -317,6 +319,8 @@ func run() -> void:
 		"comparison preset passes managed terrain lifecycle validation")
 	_check_tile_contract()
 	_check_environment_contract()
+	await _check_hole_pixels()
+	_check_all_biome_materials()
 	viewport = SubViewport.new()
 	viewport.size = Vector2i(1280, 850)
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
@@ -356,6 +360,7 @@ func run() -> void:
 	battle.board_view.refresh()
 	check(_terrain_ids(battle.board_view) == terrain_ids, "live refresh preserves terrain identities")
 	check(snapshot(live_session) == baseline, "terrain refresh preserves live snapshot and RNG")
+	await _capture_showcase(baseline)
 	for zoom: float in [0.75, 1.0, 1.25]: await _capture_zoom(zoom, baseline)
 	check(_terrain_ids(battle.board_view) == terrain_ids, "zoom preserves terrain identities")
 	check(battle.can_restart_checkpoint(), "first-room battle exposes restart from its checkpoint")
@@ -389,3 +394,103 @@ func run() -> void:
 		if FileAccess.file_exists(save_path + ".bak"): DirAccess.remove_absolute(absolute + ".bak")
 	print("DUNGEON ROOM COMPARISON RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(1 if failed else 0)
+
+func _check_all_biome_materials() -> void:
+	var tile := COMPARISON_TILE.instantiate() as BattleTerrainVisual
+	root.add_child(tile)
+	var config := IsoGridConfig.new()
+	config.tile_size = Vector2(128, 96)
+	config.height_step = 32.0
+	for index: int in range(6):
+		var origin := BiomeShowcaseLayout.CHUNK_ORIGINS[index]
+		check(BiomeArtCatalog.index_at(origin) == index, "chunk order follows original six panels")
+		for local: Vector2i in [Vector2i(0, 0), Vector2i(7, 0), Vector2i(7, 7), Vector2i(0, 7)]:
+			tile.apply_view(_tile_values(origin + local, BattleDemoIsoVisual.Role.FLOOR, 2), config)
+			var piece := _visible_floor_piece(tile)
+			check(piece.texture == BiomeArtCatalog.FLOORS[index] and _uv_is_covered(piece, piece.texture.get_image()), "each chunk corner has opaque matching material")
+			for side_name: String in ["SideLeft", "SideRight"]:
+				var side := tile.get_node("ArtRoot/" + side_name) as Polygon2D
+				check(side.texture == BiomeArtCatalog.SIDES[index], "each biome owns separate vertical material")
+				check(is_equal_approx(side.uv[2].y - side.uv[1].y, (side.polygon[2].y - side.polygon[1].y) * side.texture.get_height() / 256.0), "all biome side materials preserve physical texel density")
+		tile.apply_view(_tile_values(origin + Vector2i(3, 0), BattleDemoIsoVisual.Role.WALL), config)
+		var prop := tile.get_node("ArtRoot/BrokenColumn") as Sprite2D
+		check(prop.visible and prop.texture == BiomeArtCatalog.OBSTACLES[index] and prop.region_rect.has_area(), "all six obstacles have authored sprite regions")
+		check(prop.scale.x == prop.scale.y, "obstacle never stretched")
+	tile.free()
+
+func _check_hole_pixels() -> void:
+	var hole_view := SubViewport.new()
+	hole_view.size = Vector2i(640, 480)
+	hole_view.transparent_bg = true
+	hole_view.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	root.add_child(hole_view)
+	var config := IsoGridConfig.new()
+	config.tile_size = Vector2(128, 96)
+	config.height_step = 32.0
+	config.origin_offset = Vector2(320, 140)
+	var hole: BattleTerrainVisual
+	var sides: Array[Polygon2D] = []
+	for diagonal: int in range(5):
+		for y: int in range(3):
+			var x := diagonal - y
+			if x < 0 or x > 2: continue
+			var tile := COMPARISON_TILE.instantiate() as BattleTerrainVisual
+			hole_view.add_child(tile)
+			var values := _tile_values(Vector2i(x, y), BattleDemoIsoVisual.Role.FLOOR, 0, x == 1 and y == 1)
+			values.reachable = true if values.is_void else false
+			values.enemy_range = true if values.is_void else false
+			values.burning = true if values.is_void else false
+			tile.apply_view(values, config)
+			if values.is_void: hole = tile
+			elif Vector2i(x, y) in [Vector2i(0, 1), Vector2i(1, 0)]:
+				sides.append(tile.get_node("ArtRoot/SideLeft") as Polygon2D)
+				sides.append(tile.get_node("ArtRoot/SideRight") as Polygon2D)
+	await process_frame
+	await process_frame
+	if DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		var before := hole_view.get_texture().get_image()
+		check(before.get_pixel(320, 270).a < 0.05, "interior hole is transparent down to backdrop")
+		check(before.get_pixel(300, 220).a > 0.95 and before.get_pixel(340, 220).a > 0.95, "hole exposes neighboring tall masonry faces")
+		hole.visible = false
+		await process_frame
+		await RenderingServer.frame_post_draw
+		var after := hole_view.get_texture().get_image()
+		check(before.get_data() == after.get_data(), "VOID draws no sprite, outline, label, fire or ground marks")
+		if not captures.is_empty(): check(before.save_png(captures.path_join("hole-transparent.png")) == OK, "hole render saved")
+	for side: Polygon2D in sides: check(side.visible and side.polygon[2].y - side.polygon[1].y >= 63.999, "neighboring faces survive absent support")
+	hole_view.queue_free()
+	await process_frame
+
+func _capture_showcase(baseline: Dictionary) -> void:
+	var board := screen.battle_view.board_view
+	check(board._view_width == 24 and board._view_height == 16, "live board displays all384 logical cells")
+	check(is_equal_approx(board.camera_view.zoom, board._overview_zoom), "initial large map fits without manual reset")
+	board.reset_camera()
+	check(board.camera_view.zoom < 0.75, "large map has usable overview below old zoom limit")
+	await process_frame
+	if not captures.is_empty():
+		await RenderingServer.frame_post_draw
+		check(viewport.get_texture().get_image().save_png(captures.path_join("showcase-overview.png")) == OK, "overview saved")
+	for index: int in range(6):
+		board.reset_camera()
+		board.zoom_camera(0.75, board.size * 0.5)
+		var center := BiomeShowcaseLayout.CHUNK_ORIGINS[index] + Vector2i(3, 3)
+		board.pan_camera(board.size * 0.5 - board.cell_center(center))
+		check(board.cell_center(center).is_equal_approx(board.size * 0.5), "camera reaches each biome center")
+		check(board.cell_at(board.cell_center(center)) == center, "picking follows far biome camera")
+		await process_frame
+		if not captures.is_empty():
+			await RenderingServer.frame_post_draw
+			check(viewport.get_texture().get_image().save_png(captures.path_join("biome-%02d.png" % (index + 1))) == OK, "biome detail saved")
+	var preserved_ids := _terrain_ids(board)
+	var started := Time.get_ticks_usec()
+	for _iteration: int in range(10): board.refresh()
+	var elapsed := Time.get_ticks_usec() - started
+	check(_terrain_ids(board) == preserved_ids, "large-board repeated refresh reuses terrain nodes")
+	print("BIOME SHOWCASE METRICS:384 cells; refresh mean %.3f ms; terrain nodes %d" % [float(elapsed) / 10000.0, preserved_ids.size()])
+	if not captures.is_empty():
+		var metrics := FileAccess.open(captures.path_join("metrics.json"), FileAccess.WRITE)
+		metrics.store_string(JSON.stringify({"cells": 384, "terrain_nodes": preserved_ids.size(), "refresh_mean_ms": float(elapsed) / 10000.0}, "  "))
+	check(snapshot(screen.battle_view.session as BattleCoreReactionsSession) == baseline, "overview, panning and picking preserve live snapshot and RNG")
+	board.reset_camera()
