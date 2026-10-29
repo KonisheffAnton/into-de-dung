@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Варианты воина — обзор</title>
+<style>
+:root{color-scheme:dark;--bg:#17191c;--panel:#22262b;--line:#383e45;--text:#e8e7e2;--muted:#a9adb2;--accent:#d4b879}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,sans-serif}
+main{max-width:1440px;margin:auto;padding:28px clamp(16px,3vw,40px) 44px}h1{font-size:clamp(24px,3vw,36px);margin:0 0 8px}h2{font-size:22px;margin:0 0 8px}.intro,.note{color:var(--muted)}
+.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:20px 0 14px}.toolbar button,.controls select{background:#2d3238;border:1px solid #515860;color:var(--text);border-radius:6px;padding:8px 12px;font:inherit}.toolbar button[aria-pressed=true]{border-color:var(--accent);color:#f0d69d}
+.grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}.card{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:9px;min-width:0;cursor:pointer}.card:focus-visible,.card.selected{outline:2px solid var(--accent);outline-offset:1px}.card img{display:block;width:100%;height:160px;object-fit:contain;background:#111315;border-radius:4px;image-rendering:auto}.large .card img{height:240px}.card p{margin:8px 2px 1px;color:var(--text);font-weight:600}.card p span{color:var(--accent);margin-right:7px}.selected-view{display:none;margin-top:16px;padding:12px;background:var(--panel);border:1px solid var(--line);border-radius:8px}.selected-view.open{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:14px;align-items:center}.selected-view img{width:100%;max-height:70vh;object-fit:contain;background:#111315;border-radius:5px}.selected-caption{color:var(--muted)}
+.demo{margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}.controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:14px 0}.controls label{color:var(--muted)}.previews{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.preview{margin:0;background:var(--panel);border:1px solid var(--line);padding:10px;border-radius:8px;overflow:auto}.preview figcaption{color:var(--muted);margin:0 0 8px}.preview canvas{display:block;width:192px;height:192px;margin:auto;background:#111315;image-rendering:pixelated}.footnote{font-size:13px;color:var(--muted);max-width:900px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:560px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.selected-view.open,.previews{grid-template-columns:1fr}.selected-view img{max-height:55vh}}
+</style>
+</head>
+<body>
+<main>
+<h1>Варианты воина</h1>
+<p class="intro">20 концептов на тайлах. Нумерация помогает сравнивать варианты с исходными файлами.</p>
+<div class="toolbar" aria-label="Размер карточек"><strong>Масштаб карточек:</strong><button id="gameSize" aria-pressed="true">Примерный игровой размер</button><button id="largeSize" aria-pressed="false">Крупнее</button></div>
+<p class="note">Размер концепт-изображений приблизительный: это не нативный масштаб игрового спрайта.</p>
+<section id="grid" class="grid" aria-label="Галерея вариантов"></section>
+<section id="selected" class="selected-view" aria-live="polite"><div><h2 id="selectedTitle"></h2><p class="selected-caption">Выбранный концепт увеличен для осмотра.</p></div><img id="selectedImage" alt="Увеличенный выбранный вариант"></section>
+<section class="demo">
+<h2>Проба адаптивного контура</h2>
+<p class="footnote">Проба на прежнем спрайте, в игру не подключена.</p>
+<div class="controls"><label>Биом <select id="biome"><option value="stone">Камень</option><option value="forest">Лес</option><option value="ice">Лёд</option><option value="volcanic">Вулкан</option><option value="desert">Пустыня</option><option value="swamp">Болото</option></select></label><label>Масштаб <select id="zoom"><option value="1">1×</option><option value="2">2×</option><option value="3">3×</option></select></label><label>Контур <select id="outline"><option value="adaptive">Адаптивный</option><option value="off">Выключен</option><option value="dark">Тёмный</option><option value="light">Светлый</option></select></label></div>
+<div class="previews"><figure class="preview"><figcaption>До — без контура</figcaption><canvas id="before" width="192" height="192"></canvas></figure><figure class="preview"><figcaption>После — выбранный режим контура</figcaption><canvas id="after" width="192" height="192"></canvas></figure></div>
+</section>
+</main>
+<script>
+const variants = __VARIANTS_JSON__;
+const demoAssets = __DEMO_ASSETS_JSON__;
+const grid = document.getElementById('grid');
+let selectedIndex = -1;
+variants.forEach((variant,index)=>{
+  const card=document.createElement('article');card.className='card';card.tabIndex=0;card.setAttribute('role','button');
+  const image=document.createElement('img');image.src=variant.image;image.alt=`${variant.number}. ${variant.label}`;
+  const title=document.createElement('p');const number=document.createElement('span');number.textContent=variant.number;title.append(number,document.createTextNode(variant.label));
+  card.append(image,title);card.addEventListener('click',()=>selectVariant(index));card.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();selectVariant(index)}});grid.append(card);
+});
+function selectVariant(index){selectedIndex=index;document.querySelectorAll('.card').forEach((card,i)=>card.classList.toggle('selected',i===index));const item=variants[index];document.getElementById('selectedTitle').textContent=`${item.number}. ${item.label}`;document.getElementById('selectedImage').src=item.image;document.getElementById('selected').classList.add('open')}
+document.getElementById('gameSize').addEventListener('click',()=>setSize(false));document.getElementById('largeSize').addEventListener('click',()=>setSize(true));
+function setSize(large){grid.classList.toggle('large',large);document.getElementById('gameSize').setAttribute('aria-pressed',String(!large));document.getElementById('largeSize').setAttribute('aria-pressed',String(large))}
+
+const images={};const imageEntries=Object.entries({character:demoAssets.character,...demoAssets.biomes});
+const imageLoads=imageEntries.map(([name,src])=>new Promise((resolve,reject)=>{const image=new Image();images[name]=image;image.onload=()=>resolve();image.onerror=()=>reject(new Error(`Не удалось загрузить ${name}`));image.src=src}));
+for(const id of ['biome','zoom','outline'])document.getElementById(id).addEventListener('change',drawDemo);
+Promise.all(imageLoads).then(drawDemo).catch(error=>console.error(error));
+function drawDemo(){if(!images.character?.naturalWidth)return;const biome=document.getElementById('biome').value,zoom=Number(document.getElementById('zoom').value),mode=document.getElementById('outline').value;const floor=images[biome];if(!floor?.naturalWidth)return;
+  for(const id of ['before','after']){const canvas=document.getElementById(id),ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.clearRect(0,0,192,192);
+    ctx.imageSmoothingEnabled=false;ctx.fillStyle='#15232f';ctx.fillRect(0,0,192,192);
+    // Вырезается та же ячейка (0,0) из восьми на восемь, что использует runtime.
+    const cellW=floor.naturalWidth/8,cellH=floor.naturalHeight/8;const tile=document.createElement('canvas');tile.width=128;tile.height=96;const tileContext=tile.getContext('2d');tileContext.imageSmoothingEnabled=false;tileContext.drawImage(floor,0,0,cellW,cellH,0,0,128,96);
+    // Пиксели ячейки проецируются на ромб 128×96 с вершинами проекта.
+    ctx.save();ctx.beginPath();ctx.moveTo(96,48);ctx.lineTo(160,96);ctx.lineTo(96,144);ctx.lineTo(32,96);ctx.closePath();ctx.clip();ctx.translate(96,96);ctx.transform(.5,.375,-.6666667,.5,0,0);ctx.translate(-64,-48);ctx.drawImage(tile,0,0);ctx.restore();
+    // Спрайт остаётся в масштабе .8; zoom увеличивает всю готовую сцену через CSS.
+    const character=images.character,scale=.8,w=character.naturalWidth*scale,h=character.naturalHeight*scale,x=96-71*scale,y=96-83*scale;
+    if(id==='after'&&mode!=='off')drawNativeOutline(ctx,character,mode,x,y,w,h);
+    ctx.imageSmoothingEnabled=false;ctx.drawImage(character,x,y,w,h);
+  }
+  for(const canvas of [document.getElementById('before'),document.getElementById('after')]){canvas.style.width=`${192*zoom}px`;canvas.style.height=`${192*zoom}px`}
+}
+function drawNativeOutline(ctx,image,mode,x,y,w,h){
+  const mask=document.createElement('canvas');mask.width=192;mask.height=192;const m=mask.getContext('2d',{willReadFrequently:true});m.imageSmoothingEnabled=false;m.drawImage(image,x,y,w,h);const src=m.getImageData(0,0,192,192),dst=m.createImageData(192,192);
+  // Почти прозрачный мусор исходника не должен превращаться в непрозрачные точки контура.
+  for(let py=0;py<192;py++)for(let px=0;px<192;px++){const i=(py*192+px)*4;if(src.data[i+3]!==0)continue;let edge=false;for(let dy=-1;dy<=1&&!edge;dy++)for(let dx=-1;dx<=1;dx++){if(!dx&&!dy)continue;const nx=px+dx,ny=py+dy;if(nx>=0&&ny>=0&&nx<192&&ny<192&&src.data[(ny*192+nx)*4+3]>=128){edge=true;break}}if(!edge)continue;
+    // Подложка уже нарисована, а спрайт ещё нет: яркость берётся с реального фона.
+    const left=Math.max(0,px-2),top=Math.max(0,py-2),patch=ctx.getImageData(left,top,Math.min(5,192-left),Math.min(5,192-top)).data;let luminance=0,count=0;for(let j=0;j<patch.length;j+=4){luminance+=(.2126*patch[j]+.7152*patch[j+1]+.0722*patch[j+2])/255;count++}luminance/=count;
+    let light=mode==='light';if(mode==='adaptive'){const t=Math.max(0,Math.min(1,(luminance-.32)/(.68-.32)));const smooth=t*t*(3-2*t);light=smooth<.5}dst.data[i]=light?245:18;dst.data[i+1]=light?238:20;dst.data[i+2]=light?218:24;dst.data[i+3]=255;
+  }
+  m.putImageData(dst,0,0);ctx.imageSmoothingEnabled=false;ctx.drawImage(mask,0,0);
+}
+</script>
+</body>
+</html>

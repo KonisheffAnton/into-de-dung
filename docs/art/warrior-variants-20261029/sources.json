@@ -1,0 +1,182 @@
+[
+  {
+    "id": "01",
+    "file": "warrior-01.png",
+    "sha256": "3d0f301aa5f23abbcadc72a98ebcfbbe094917b39a85fd379a681eb1f6cd4f8a",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGB",
+    "source_equal": true
+  },
+  {
+    "id": "02",
+    "file": "warrior-02.png",
+    "sha256": "94cac642a3ac4a5fe21eb65564118406979cc81bb49c2b1ca1ab044c8d444b9f",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGB",
+    "source_equal": true
+  },
+  {
+    "id": "03",
+    "file": "warrior-03.png",
+    "sha256": "a75d408895a135760abb2c71e4728b1f5c0ee5a513954472164ad90a7885c471",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGB",
+    "source_equal": true
+  },
+  {
+    "id": "04",
+    "file": "warrior-04.png",
+    "sha256": "77769aaf561fe1a22ef626385091820822455f031cd03b218cd467c47ebf9a02",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGB",
+    "source_equal": true
+  },
+  {
+    "id": "05",
+    "file": "warrior-05.png",
+    "sha256": "e3d083a5a1a80dcea390690efc2867adafeff9b9a0be51dab601d3d4871cd8b1",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGB",
+    "source_equal": true
+  },
+  {
+    "id": "06",
+    "file": "warrior-06.png",
+    "sha256": "fdd604d9e9987cb821b27287ea5a19f4306defaeecebe60ce11306c048b802b3",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGB",
+    "source_equal": true
+  },
+  {
+    "id": "07",
+    "file": "warrior-07.png",
+    "sha256": "7976415ee19c0c2bad2ccd26d7b33695d3dbbbee1725e48f9e0a268e14d6ad4b",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGB",
+    "source_equal": true
+  },
+  {
+    "id": "08",
+    "file": "warrior-08.png",
+    "sha256": "cbc3dd7dea9299404c3ca260cdf9521216b2ab12aa305d663cc1b3050781f5c8",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGB",
+    "source_equal": true
+  },
+  {
+    "id": "09",
+    "file": "warrior-09.png",
+    "sha256": "99dcdd9abb6ac8ce00a6466751d7c23566fcbaba0a8c7c59c8a12fa7fac10bc4",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGB",
+    "source_equal": true
+  },
+  {
+    "id": "10",
+    "file": "warrior-10.png",
+    "sha256": "b12d161655a73f3f7f511eeb92f1d006d46ef7aa445cf27d0ce0207c5c6689bb",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGB",
+    "source_equal": true
+  },
+  {
+    "id": "11",
+    "file": "warrior-11.png",
+    "sha256": "41ca22aa3d6e6c8312d4a9fa9de053dd89ad0608e255be03af9983fb4f757828",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGB",
+    "source_equal": true
+  },
+  {
+    "id": "12",
+    "file": "warrior-12.png",
+    "sha256": "0ea8f15d68cceaefeffc7884d13093888bfd932b1ee8f8751bf0d63619ea8070",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGB",
+    "source_equal": true
+  },
+  {
+    "id": "13",
+    "file": "warrior-13.png",
+    "sha256": "5a602e221e9ff55c235b15735606c9ab8fab50712a12263fdce8d6e5143eee62",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGB",
+    "source_equal": true
+  },
+  {
+    "id": "14",
+    "file": "warrior-14.png",
+    "sha256": "890717c7e686fceebc61242c60f4ec4122525b2912a1f3656ac775fa9eaa5b92",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGB",
+    "source_equal": true
+  },
+  {
+    "id": "15",
+    "file": "warrior-15.png",
+    "sha256": "903a91038288b98d559bac7543f701851503eb9e43cd4753ac589e0097f8f2d6",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGB",
+    "source_equal": true
+  },
+  {
+    "id": "16",
+    "file": "warrior-16.png",
+    "sha256": "5fa0b140add9f45402b998aadb09415139fd9bd184bc3b66f4a51b89cd574d03",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGB",
+    "source_equal": true
+  },
+  {
+    "id": "17",
+    "file": "warrior-17.png",
+    "sha256": "456f47104e9c55c4be4bfa254a07158787ad6f3528d8365165d05e5c6ecd0293",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGB",
+    "source_equal": true
+  },
+  {
+    "id": "18",
+    "file": "warrior-18.png",
+    "sha256": "3afda79f55e6d8a1b665389a676f9af6039b72a913a9142badb59ac6c034b3c4",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGB",
+    "source_equal": true
+  },
+  {
+    "id": "19",
+    "file": "warrior-19.png",
+    "sha256": "15460b69dda4b61ddb8534e9917954ebf31a1a03acc7fbcf2c2ae74d9ca1926f",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGB",
+    "source_equal": true
+  },
+  {
+    "id": "20",
+    "file": "warrior-20.png",
+    "sha256": "e5d81d7cae4d437bd8d6db5a77f45e8c659d78ef7290298753f3661ae0fe4f3a",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGB",
+    "source_equal": true
+  }
+]
