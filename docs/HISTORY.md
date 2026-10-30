@@ -1,5 +1,18 @@
 # История и свидетельства проверок
 
+## Прозрачный боевой HUD — 2026-10-31
+
+По U убраны фоновые экраны HUD, диагностики и прогноза; текст/отступы пропускают
+клики к полю. Полнооконный BattleHudInput сохраняет прежние Board/camera/NodePath,
+кнопки, карты и scrollbar. Нижняя страница хаба скрывается только на время боя.
+[Контракт](BATTLE_HUD_SCENES_V1.md). Core/preview/queue/RNG/save/frozen прежние.
+Import/startup, HUD authoring306/0, camera110/0, turn_forecast32/0 PASS;
+новый ввод GPU113/0 и headless107/0, deck133/0, hero_hub40/0, Python launcher30/0.
+Независимое APPROVE. Отчёт/снимки: test_reports/battle-hud-input-20261030/.
+Full/core и ручные F5/движение/zoom/DPI/drag scrollbar не заявлены.
+Base a1fe6e99, main; чужие файлы33/33 сохранены, без push.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261031.md).
+
 ## Возврат модели17 и цветовой профиль — 2026-10-30
 
 U уточнил: исходная форма была подходящей; исправлять нужно цвета. Восстановлены

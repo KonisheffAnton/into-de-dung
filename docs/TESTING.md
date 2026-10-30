@@ -14,6 +14,15 @@
 
 ## Изменение игрового кода
 
+Прозрачный HUD и ввод за прежними границами Board (2026-10-31):
+`python tools/demo/isolate.py --render-check --only battle_hud_input
+battle_hud_authoring battle_camera_ui turn_forecast_ui mage_deck_ui hero_hub_ui --screen 0`
+(одна команда). Новый runner использует реальные viewport-события для кликов,
+наведения и камеры в освобождённых областях, проверяет границы кнопок и resize.
+Остальные runners защищают authored overrides, прогноз, карты и камеру.
+Снимки — `battle-hud-input-screenshots/` внутри отчёта launcher.
+Full/core и ручная F5/DPI-приёмка этим набором не заменяются.
+
 Шесть биомов, поле24×16 и настоящие отверстия (2026-10-28):
 ~~~powershell
 python tools/demo/isolate.py --render-check --only biome_showcase_layout

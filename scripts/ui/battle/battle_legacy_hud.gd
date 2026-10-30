@@ -32,7 +32,7 @@ var instructions: Label
 static func build(host: Control, board: BattleDemoBoard, handlers: Dictionary[StringName, Callable], tactical_mode: bool) -> BattleLegacyHud:
 	var hud := BattleLegacyHud.new()
 	var background := ColorRect.new()
-	background.color = Color("111a27")
+	background.color = Color("111a27", 0.0)
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	host.add_child(background)
@@ -183,6 +183,7 @@ static func build(host: Control, board: BattleDemoBoard, handlers: Dictionary[St
 	root.add_child(hud.status)
 	hud.instructions = make_label("", 14, Color("a5b3c5"))
 	root.add_child(hud.instructions)
+	BattleHudInput.install(host, board)
 	return hud
 
 static func make_label(value: String, font_size: int, color: Color) -> Label:

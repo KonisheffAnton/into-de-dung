@@ -1,8 +1,8 @@
 [gd_scene format=3]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_forecast"]
-bg_color = Color(0.0901961, 0.133333, 0.188235, 0.97)
-border_color = Color(0.647059, 0.701961, 0.772549, 0.75)
+bg_color = Color(0.0901961, 0.133333, 0.188235, 0)
+border_color = Color(0.647059, 0.701961, 0.772549, 0)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1

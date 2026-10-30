@@ -303,6 +303,8 @@ def main():
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "battle_hud_authoring":
             invalid = invalid or "BATTLE HUD AUTHORING RESULTS:" not in output or ", 0 failed" not in output
+        if label == "battle_hud_input":
+            invalid = invalid or "BATTLE HUD INPUT RESULTS:" not in output or ", 0 failed" not in output
         if label in ("passive_opportunist", "raised_shield", "raise_shields", "shieldbearer_profile", "shieldbearer_ui", "warrior_class", "warrior_recovery", "warrior_visuals", "shieldbearer_palette"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -704,6 +706,10 @@ def main():
         if args.render_check:
             hud_args += ["--", "--captures=" + str(out / "battle-hud-screenshots")]
         run("battle_hud_authoring", hud_args, headless=not args.render_check)
+        hud_input_args = ["--script", "tests/test_battle_hud_input.gd"]
+        if args.render_check:
+            hud_input_args += ["--", "--captures=" + str(out / "battle-hud-input-screenshots")]
+        run("battle_hud_input", hud_input_args, headless=not args.render_check)
         run("battle_event_text", ["--script", "tests/test_battle_event_text.gd"])
         run("battle_inspection_text", ["--script", "tests/test_battle_inspection_text.gd"])
         run("battle_forecast_text", ["--script", "tests/test_battle_forecast_text.gd"])

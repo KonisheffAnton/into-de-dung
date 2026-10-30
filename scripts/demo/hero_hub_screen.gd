@@ -189,6 +189,9 @@ func _begin_battle() -> void:
 	battle_view.return_requested.connect(_on_battle_return)
 	battle_view.restart_requested.connect(_restart_checkpoint)
 	battle_view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	# Прозрачный боевой HUD не должен открывать заголовок и кнопки нижней страницы.
+	# Следующий _render сам восстановит нужную страницу, включая ошибку записи.
+	_root_panel.hide()
 	add_child(battle_view)
 
 func _on_battle_return() -> void:

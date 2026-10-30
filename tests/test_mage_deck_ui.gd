@@ -55,6 +55,7 @@ func _run() -> void:
 	check(host.run.to_dict() == pending_checkpoint and HeroHubStore.read_run(path).run.to_dict() == pending_checkpoint, "retry publishes exact checkpoint")
 	await process_frame; await process_frame
 	check(host.battle_view != null and host.run.expedition.phase == "battle", "saved checkpoint opens battle")
+	check(not host._root_panel.is_visible_in_tree() and not host._dashboard.is_visible_in_tree(), "transparent battle HUD does not reveal underlying hub pages")
 	if host.battle_view == null: _finish(); return
 	await _level_restart(path)
 	var demo := host.battle_view
@@ -270,6 +271,7 @@ func _fixture_battle_outcome() -> void:
 func _rewards_camp_and_return(path: String) -> void:
 	await _fixture_battle_outcome()
 	check(host.run.expedition.phase == "reward" and host.run.battle_report.open, "reward waits for decision")
+	check(host._root_panel.is_visible_in_tree(), "hub report is restored after transparent battle closes")
 	await _capture("deck-reward")
 	var cards_before: int = host.run.expedition.cards.size()
 	await _press("reward_0")

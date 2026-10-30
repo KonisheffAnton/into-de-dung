@@ -120,4 +120,5 @@ static func bind(hud: Control, handlers: Dictionary[StringName, Callable], deck_
 	binding.forecast_panel.mouse_exited.connect(handlers[&"leave_forecast_panel"])
 	binding.status = column.get_node("Status") as Label
 	binding.instructions = column.get_node("Instructions") as Label
+	BattleHudInput.install(hud, binding.board_view)
 	return binding

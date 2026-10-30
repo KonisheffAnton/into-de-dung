@@ -92,6 +92,7 @@ class IsolateSelectionTests(unittest.TestCase):
                     "battle_action_descriptors": "BATTLE ACTION DESCRIPTORS RESULTS:",
                     "battle_mage_presenter": "BATTLE MAGE PRESENTER RESULTS:",
                     "battle_hud_authoring": "BATTLE HUD AUTHORING RESULTS:",
+                    "battle_hud_input": "BATTLE HUD INPUT RESULTS:",
                     "environment_visual_contract": "ENVIRONMENT VISUAL CONTRACT RESULTS:",
                     "unit_visual_contract": "UNIT VISUAL CONTRACT RESULTS:",
                     "defender_idle": "DEFENDER IDLE RESULTS:",

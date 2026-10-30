@@ -1,33 +1,31 @@
-# Передача — 2026-10-30: исходная модель17 и палитра
+# Передача — 2026-10-31: прозрачный боевой HUD
 
-D:\Games\into-de-dung; main; baseca2c62f7346acdebcdf703205ef1aed601877d7f.
-Уточнение U: форма17 устраивала, менять нужно цвет/характер цветов.
-Редизайн лица/корпуса/плаща отклонён. Из52bc624 возвращены исходный PNG,
-crop/anchor/scale и портрет. Размер снова около58px на тайле128×96.
-[Палитра и сравнение](art/shieldbearer-palette-20261030/README.md),
-[владелец направления](ART_DIRECTION.md), [класс](WARRIOR_V1.md).
-Только RGB боевого материала17: теплее сталь, глубже тени, насыщеннее материалы.
-Opt-in strength1 у17, default0 у остальных; исходные PNG/alpha/геометрия прежние.
-Обводка выключена. Портрет исходный без боевой коррекции; Воин11/механики прежние.
+D:\Games\into-de-dung; main; base a1fe6e99c1a4d8ddb6dd593c3ddc43e93c1706cd.
+По U убраны подложки HUD/диагностики/прогноза. Текст пропускает мышь к полю,
+кнопки/карты/полосы прокрутки сохраняют ввод. BattleHudInput передаёт события
+в прежний Board по всей области окна; камера, размеры и NodePath сохранены.
+Страница хаба скрыта во время боя и восстанавливается при результате/ошибке.
+Владелец: [боевой HUD](BATTLE_HUD_SCENES_V1.md); [архитектура](ARCHITECTURE.md).
+Core/preview/queue/RNG/save/frozen не менялись.
 
-Import/startup и unit_visual_contract45/0, GPUwarrior_visuals39/0,
-shieldbearer_ui26/0 PASS. Новая проверка GPU15/0, headless9/0 (GPU явно skipped).
-Сравнение alpha при4zoom×2mirror×2fade: совпадает с допуском1/255, RGB меняется.
-Исходное падение нового теста — чтение shader default, исправлено в тесте;
-повтор выполнен в той же импортированной копии, production не менялся.
-Сравнительный render exit0: palette-native.png и palette-2x.png в арт-пакете.
-Gate test_reports/demo-a483d0322dd84a8d84cffac44c695b35/;
-итог test_reports/shieldbearer-palette-20261030/validation.json.
-Независимое ревью фиксированного результата: APPROVE, замечаний нет.
-Full/core этого среза не запускались; F5/движение/zoom/DPI/цветовая приёмка открыты.
+Import/startup PASS; battle_hud_authoring306/0, battle_camera_ui110/0,
+turn_forecast_ui32/0. Новый ввод GPU113/0, headless107/0;
+mage_deck_ui133/0 после исправления нижней страницы, hero_hub_ui40/0.
+Launcher Python30/0. Независимое ревью фиксированного результата APPROVE.
+Отчёт и снимки: test_reports/battle-hud-input-20261030/validation.json;
+первичный gate: test_reports/demo-5393d8aa3efa4cf2a1a4886fb76d1095/.
+Прямые финальные прогоны выполнены в той же изолированной импортированной копии.
+Начальные сбои нового теста были ошибками fixture/координат, исправлены.
+Full/core не запускались. Ручные F5/движение/zoom/DPI и drag scrollbar открыты.
 
-Чужие dirty scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
-сохранены; не reset/stage/commit. Без push/sidebar tasks/расписаний.
-Авторских анимаций17/11 нет. Прежние вопросы Колоды/упора/плавности открыты.
-Следующий шаг — пользовательская оценка цветов; новый срез не начинать.
-[Прежняя передача побайтно](CODEX_HANDOFF.history-20261030-3.md), [HISTORY](HISTORY.md).
+Щитоносец17/Воин11 прежние: [пакет палитры](art/shieldbearer-palette-20261030/README.md).
+Оценка цветов и авторские анимации17/11 открыты; прежние вопросы Колоды/упора/
+плавности не закрывались этим этапом. Далее — отзыв по HUD; новый срез не начинать.
+Чужие scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
+сохранены (33/33 SHA); не reset/stage/commit. Без push/sidebar tasks/расписаний.
+[Прежняя передача побайтно](CODEX_HANDOFF.history-20261031.md), [HISTORY](HISTORY.md).
 
 Завершение: проверки, локальный Conventional Commit, короткий HANDOFF;
 прежний побайтно отдельным архивом+HISTORY. В финале/при блокере предложить
-новый чат и полный промпт: HEAD, результат, docs/artifacts, остаток,
-ограничения, проверки и это же правило. Чат автоматически не создавать.
+новый чат и полный самодостаточный промпт: HEAD, результат, docs/artifacts,
+остаток, ограничения, проверки и это же правило. Чат автоматически не создавать.
