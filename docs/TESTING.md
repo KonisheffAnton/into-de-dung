@@ -23,6 +23,13 @@ battle_hud_authoring battle_camera_ui turn_forecast_ui mage_deck_ui hero_hub_ui 
 Снимки — `battle-hud-input-screenshots/` внутри отчёта launcher.
 Full/core и ручная F5/DPI-приёмка этим набором не заменяются.
 
+Исправление обрезки большой карты после обратной связи U (2026-10-31):
+`--render-check --only battle_hud_input battle_camera_ui battle_hud_authoring
+dungeon_room_comparison --screen 0`. В `battle_hud_input` отдельно проверяются
+пиксели тайлов за прежними границами Board на реальной карте24×16 при104%,
+повторный refresh/resize и ввод в тех же местах. Headless явно пропускает GPU;
+один успешный click-test не доказывает, что клетка видна.
+
 Шесть биомов, поле24×16 и настоящие отверстия (2026-10-28):
 ~~~powershell
 python tools/demo/isolate.py --render-check --only biome_showcase_layout

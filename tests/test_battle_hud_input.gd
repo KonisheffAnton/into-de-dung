@@ -25,6 +25,7 @@ func _run() -> void:
 	viewport.notify_mouse_entered()
 	await _exercise_main()
 	await _exercise_hub()
+	await _exercise_large_hub()
 	await _exercise_legacy()
 	viewport.queue_free()
 	await process_frame
@@ -53,6 +54,145 @@ func _exercise_hub() -> void:
 	await process_frame
 	await process_frame
 	await _exercise_battle(hub, hub.get_node("BattleHUD") as Control, "hub")
+
+func _exercise_large_hub() -> void:
+	var profile := HeroHubState.create(9404)
+	profile.enable_mage_deck()
+	profile = ExpeditionTransitions.apply(profile, "start").profile
+	var battle := (load("res://scenes/demo/battle/hero_hub_battle.tscn") as PackedScene).instantiate() as HeroHubBattleView
+	var route_helper := HeroHubScreen.new()
+	check(route_helper._configure_first_room_art(battle, profile), "large hub uses the production first-room art route")
+	battle.expedition_battle = true
+	battle.supplied_session = HeroHubBattleFactory.create(profile).session
+	battle.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	viewport.add_child(battle)
+	battle.set_process(false)
+	battle.end_turn()
+	battle._confirm_selected_mulligan()
+	var session := battle.session as BattleCoreReactionsSession
+	if session.phase == BattleTacticalSession.Phase.ENEMY_TURN:
+		session._enemy_index = session._enemy_ids.size()
+		session.step_enemy()
+	battle._refresh()
+	await process_frame
+	await process_frame
+	var board := battle.board_view
+	check(board._view_width == 24 and board._view_height == 16, "large hub fixture is the authored 24x16 battlefield")
+	check(board.tile_visual_scene.resource_path == "res://scenes/demo/visuals/dungeon_comparison_tile.tscn"
+		and board.environment_visual_scene.resource_path == "res://scenes/demo/visuals/dungeon_room_environment.tscn",
+		"large hub fixture retains the production room art")
+	check(not board.clip_contents, "large authored battlefield is not clipped to the old Board rectangle")
+	var baseline := ItemSimulationSnapshot.capture(battle.session.state, []).snapshot.to_dict()
+	var rng_before := battle.session.context.get_rng().to_dict()
+	var counters_before := battle.session.context.simulation_counters()
+	var clicked: Array[Vector2i] = []
+	var hovered: Array[Vector2i] = []
+	board.cell_clicked.connect(func(cell: Vector2i) -> void: clicked.append(cell))
+	board.cell_hovered.connect(func(cell: Vector2i) -> void: hovered.append(cell))
+	board.zoom_camera(1.04, board.size * 0.5)
+	await _check_large_regions(battle, board, clicked, hovered, "initial")
+	# Обновление сцены и изменение размера раньше повторно рассчитывали clip_contents.
+	board.refresh()
+	battle._refresh()
+	await process_frame
+	await process_frame
+	check(not board.clip_contents, "large battlefield remains unclipped after refresh")
+	viewport.size = Vector2i(1320, 900)
+	await process_frame
+	await process_frame
+	board.zoom_camera(1.04, board.size * 0.5)
+	check(not board.clip_contents, "large battlefield remains unclipped after viewport resize")
+	await _check_large_regions(battle, board, clicked, hovered, "resized")
+	# execution_pending — тот же режим Board, который удерживается при расчёте и показе кадра.
+	board.execution_pending = true
+	board._sync_layout_geometry()
+	board.refresh()
+	check(not board.clip_contents, "large battlefield remains unclipped while presentation is pending")
+	if DisplayServer.get_name() != "headless":
+		check(await _compare_clipped_roi(board, _cell_screen(board, session.selected_unit().cell)) > 8,
+			"published pending geometry still renders outside old Board rect")
+	else:
+		print("BATTLE HUD INPUT: large-field GPU pixel checks skipped (headless)")
+	board.execution_pending = false
+	check(ItemSimulationSnapshot.capture(battle.session.state, []).snapshot.to_dict() == baseline
+		and battle.session.context.get_rng().to_dict() == rng_before
+		and battle.session.context.simulation_counters() == counters_before,
+		"large-board hover, clicks, refresh, resize, and camera preserve snapshot, RNG and counters")
+	viewport.size = Vector2i(1280, 850)
+	route_helper.free()
+	battle.queue_free()
+	await process_frame
+
+func _check_large_regions(battle: HeroHubBattleView, board: BattleDemoBoard, clicked: Array[Vector2i], hovered: Array[Vector2i], stage: String) -> void:
+	var cell := battle.session.selected_unit().cell
+	var board_rect := board.get_global_rect()
+	var edge_names: Array[String] = ["top", "bottom", "left", "right"]
+	for index: int in edge_names.size():
+		var target := _clear_edge_target(battle, board_rect, index)
+		board.pan_camera(target - _cell_screen(board, cell))
+		var cell_screen := _cell_screen(board, cell)
+		check(viewport.get_visible_rect().has_point(cell_screen), stage + ": " + edge_names[index] + " test cell stays in viewport")
+		check(not board_rect.has_point(cell_screen), stage + ": " + edge_names[index] + " test cell is outside old Board rect")
+		if DisplayServer.get_name() != "headless":
+			var changed_pixels := await _compare_clipped_roi(board, cell_screen)
+			check(changed_pixels > 8, stage + ": " + edge_names[index] + " battlefield pixels render outside old Board rect")
+		else:
+			check(not board.clip_contents, stage + ": " + edge_names[index] + " clip remains disabled in headless mode")
+		_push_motion(cell_screen)
+		check(not hovered.is_empty() and hovered.back() == cell, stage + ": " + edge_names[index] + " hover reaches the visible large-board tile")
+		var click_count := clicked.size()
+		_push_button(cell_screen, MOUSE_BUTTON_LEFT, true)
+		_push_button(cell_screen, MOUSE_BUTTON_LEFT, false)
+		check(clicked.size() == click_count + 1 and clicked.back() == cell, stage + ": " + edge_names[index] + " click reaches the visible large-board tile once")
+		if stage == "initial" and index == 0: await _capture("battle-hud-large-104-under-hud")
+
+func _clear_edge_target(battle: HeroHubBattleView, board_rect: Rect2, edge: int) -> Vector2:
+	for step: int in range(2, 9):
+		var fraction := float(step) / 10.0
+		var candidate := Vector2.ZERO
+		match edge:
+			0: candidate = Vector2(lerpf(board_rect.position.x, board_rect.end.x, fraction), board_rect.position.y - 16.0)
+			1: candidate = Vector2(lerpf(board_rect.position.x, board_rect.end.x, fraction), board_rect.end.y + 16.0)
+			2: candidate = Vector2(board_rect.position.x - 6.0, lerpf(board_rect.position.y, board_rect.end.y, fraction))
+			_: candidate = Vector2(board_rect.end.x + 16.0, lerpf(board_rect.position.y, board_rect.end.y, fraction))
+		if viewport.get_visible_rect().has_point(candidate) and not board_rect.has_point(candidate) and not _interactive_hud_at(battle, candidate):
+			return candidate
+	match edge:
+		0: return Vector2(board_rect.get_center().x, board_rect.position.y - 16.0)
+		1: return Vector2(board_rect.get_center().x, board_rect.end.y + 16.0)
+		2: return Vector2(board_rect.position.x - 16.0, board_rect.get_center().y)
+		_: return Vector2(board_rect.end.x + 16.0, board_rect.get_center().y)
+
+func _interactive_hud_at(node: Node, point: Vector2) -> bool:
+	if node is Control:
+		var control := node as Control
+		if control.is_visible_in_tree() and (control is Button or control is HScrollBar or control is VScrollBar) and control.get_global_rect().has_point(point):
+			return true
+	for child: Node in node.get_children():
+		if _interactive_hud_at(child, point): return true
+	return false
+
+func _compare_clipped_roi(board: BattleDemoBoard, center: Vector2) -> int:
+	var original_clip := board.clip_contents
+	await process_frame
+	await RenderingServer.frame_post_draw
+	var visible := viewport.get_texture().get_image()
+	board.clip_contents = true
+	await process_frame
+	await RenderingServer.frame_post_draw
+	var clipped := viewport.get_texture().get_image()
+	board.clip_contents = original_clip
+	var differences: int = 0
+	var center_x := roundi(center.x)
+	var center_y := roundi(center.y)
+	for y: int in range(maxi(center_y - 24, 0), mini(center_y + 25, visible.get_height())):
+		for x: int in range(maxi(center_x - 24, 0), mini(center_x + 25, visible.get_width())):
+			if board.get_global_rect().has_point(Vector2(x, y)): continue
+			var visible_pixel := visible.get_pixel(x, y)
+			var clipped_pixel := clipped.get_pixel(x, y)
+			if absf(visible_pixel.r - clipped_pixel.r) > 0.03 or absf(visible_pixel.g - clipped_pixel.g) > 0.03 or absf(visible_pixel.b - clipped_pixel.b) > 0.03:
+				differences += 1
+	return differences
 
 func _exercise_legacy() -> void:
 	var demo := (load("res://scenes/demo/tactical_battle.tscn") as PackedScene).instantiate() as BattleDemo

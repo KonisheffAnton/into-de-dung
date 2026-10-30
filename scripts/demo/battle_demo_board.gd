@@ -1530,8 +1530,8 @@ func _sync_layout_geometry() -> void:
 		(center_cell.x + center_cell.y) * grid_config.tile_size.y * 0.5)
 	grid_config.origin_offset = size * 0.5 - center
 	var large := dimensions.x > 8 or dimensions.y > 8
-	# Большое поле при приближении не перекрывает соседние панели HUD.
-	clip_contents = large
+	# Прозрачный HUD освобождает всё окно: размер карты не должен возвращать обрезку.
+	clip_contents = false
 	if camera_controls_enabled and not large: grid_config.origin_offset.y += grid_config.tile_size.x * 0.5
 	_overview_zoom = clampf(minf((size.x - 64.0) / extent.x, (size.y - 32.0) / extent.y), 0.1, 1.0) if large else 1.0
 	camera_view.minimum_zoom = minf(BattleBoardCamera.MIN_ZOOM, _overview_zoom) if large else BattleBoardCamera.MIN_ZOOM
