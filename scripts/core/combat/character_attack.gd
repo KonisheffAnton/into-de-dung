@@ -15,7 +15,7 @@ static func values(stats: StatsBag) -> Dictionary:
 	return result
 
 ## Коэффициенты подготовки остаются рациональными: дробь не теряется до защиты.
-static func components(strength: float, weapon: float, steps: int, guarded: bool, extras: Array[Dictionary], sneak_percent: int, critical: bool, piercing: int, cover: int, allies: int, attributes: Dictionary) -> Array[Dictionary]:
+static func components(strength: float, weapon: float, steps: int, guarded: bool, extras: Array[Dictionary], sneak_percent: int, critical: bool, piercing: int, cover: int, allies: int, attributes: Dictionary, scale_power: bool = true) -> Array[Dictionary]:
 	if not attributes.has("power") or not attributes.has("mastery") or not ArmorAttack.valid_extras(extras): return []
 	if piercing < 0 or piercing > 100 or cover not in [0, 30] or allies < 0 or allies > 3 or sneak_percent < 0 or sneak_percent > 1000: return []
 	if piercing > 0 and piercing < 100 and extras.size() > 126: return []
@@ -23,6 +23,8 @@ static func components(strength: float, weapon: float, steps: int, guarded: bool
 	var mastery := ArmorFraction.from_decimal(attributes.mastery)
 	if not power.valid or not mastery.valid or power.numerator < 0 or mastery.numerator < 0: return []
 	var f_power := power.add(ArmorFraction.make(40)).multiply(ArmorFraction.make(1, 50))
+	# Пинок уже получает базу 2 × Мощь; повторный коэффициент усилил бы её дважды.
+	if not scale_power: f_power = ArmorFraction.make(1)
 	var f_mastery := mastery.multiply(ArmorFraction.make(6)).add(ArmorFraction.make(40)).multiply(ArmorFraction.make(1, 100))
 	var height := ArmorFraction.make(maxi(0, steps), 10)
 	if steps > 0: height = height.multiply(f_mastery)

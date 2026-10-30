@@ -8,8 +8,9 @@ static func execute(session: BattleTacticalSession, target_id: int) -> ActionRec
 	var target := session.board.get_unit_by_id(target_id)
 	if actor == null or target == null or not target.is_alive() or not actor.is_hostile_to(target):
 		return session._reject(&"attack/invalid_target")
-	if actor.action_resources == null or actor.action_resources.get_main_left() < 1:
-		return session._reject(&"attack/insufficient_main")
+	var kick := session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).warrior_selected == WarriorKit.KICK
+	if actor.action_resources == null or (actor.action_resources.get_bonus_left() < 1 if kick else actor.action_resources.get_main_left() < 1):
+		return session._reject(&"attack/insufficient_bonus" if kick else &"attack/insufficient_main")
 	var prepared := session.prepare_attack_forecast(target_id)
 	if prepared.reason != &"": return session._reject(prepared.reason)
 	var attack := prepared.command as AttackCommand
@@ -45,7 +46,8 @@ static func path_for(session: BattleTacticalSession, attack: AttackCommand) -> A
 	var cells: Array[Vector2i] = []
 	for cell: Vector2i in reachable:
 		if cell == actor.cell or session.board.is_lethal(cell) or session.board.occupant_at(cell) != null: continue
-		if AttackReachCheck.inspect_spatial_cells(session.board, cell, actor.faction, target.cell, actor.get_stat(StatTypes.StatType.ATTACK_RANGE)) == &"": cells.append(cell)
+		var reach := 1.0 if WarriorKit.is_skill(attack.get_attack_definition_id()) else actor.get_stat(StatTypes.StatType.ATTACK_RANGE)
+		if AttackReachCheck.inspect_spatial_cells(session.board, cell, actor.faction, target.cell, reach) == &"": cells.append(cell)
 	cells.sort_custom(func(a: Vector2i, b: Vector2i) -> bool:
 		if reachable[a] != reachable[b]: return reachable[a] < reachable[b]
 		return a.y < b.y if a.y != b.y else a.x < b.x)

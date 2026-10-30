@@ -1,0 +1,18 @@
+[
+  {
+    "asset": "shieldbearer-17.png",
+    "reference": "docs/art/warrior-variants-20261029/warrior-17.png",
+    "prompt": "Use case: background-extraction. Edit target is the supplied warrior-on-tile concept. Extract ONLY the selected warrior including every pixel of his hair, face, armor, clothes, cape, weapon, boots and held shield if present. The exact gray-haired bearded veteran with crimson scarf, pale steel armor, ivory tabard, downward silver sword, and upright compact wooden shield. Remove the entire stone tile, the contact shadow and the dark navy background. Actual transparent background. Preserve the character identity, exact short compact proportions, existing eye-level frontal three-quarter pose, palette, weapon shape, shield design, direction, hard pixel edges and pixel clusters. Do not redesign, repaint, stretch, change stance, invent detail, add isometric foreshortening, or enlarge the head/limbs. Frame the full extracted warrior with modest transparent margins. No ground, tile, base, cast shadow, glow, outline effect, text or UI. One isolated faithful 2D pixel-art game character, ready for runtime sprite integration.",
+    "method": "image_gen transparent background extraction",
+    "sha256": "90ff93b9add13e9d25b4a5290f7529240d47533940731169bb270ca746c329c8",
+    "reference_sha256": "456f47104e9c55c4be4bfa254a07158787ad6f3528d8365165d05e5c6ecd0293"
+  },
+  {
+    "asset": "fighter-11.png",
+    "reference": "docs/art/warrior-variants-20261029/warrior-11.png",
+    "prompt": "Use case: background-extraction. Edit target is the supplied warrior-on-tile concept. Extract ONLY the selected warrior including every pixel of his hair, face, armor, clothes, cape, weapon, boots and held shield if present. The exact compact brown-haired bearded warrior with crimson scarf, pale steel armor, ivory waistcloth, downward silver sword on viewer left, and empty fist on viewer right. No shield. Remove the entire stone tile, the contact shadow and the dark navy background. Actual transparent background. Preserve the character identity, exact short compact proportions, existing eye-level frontal three-quarter pose, palette, weapon shape, shield design, direction, hard pixel edges and pixel clusters. Do not redesign, repaint, stretch, change stance, invent detail, add isometric foreshortening, or enlarge the head/limbs. Frame the full extracted warrior with modest transparent margins. No ground, tile, base, cast shadow, glow, outline effect, text or UI. One isolated faithful 2D pixel-art game character, ready for runtime sprite integration.",
+    "method": "image_gen transparent background extraction",
+    "sha256": "98fb8ba152ca68a44ef4532e05929e53316afb050589a7cd5cb99f422d8aec0d",
+    "reference_sha256": "41ca22aa3d6e6c8312d4a9fa9de053dd89ad0608e255be03af9983fb4f757828"
+  }
+]

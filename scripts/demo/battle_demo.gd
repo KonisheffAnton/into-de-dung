@@ -620,6 +620,7 @@ func _clear_action_mode() -> void:
 	if session is BattleBleedingSession: (session as BattleBleedingSession).rune_selected = false
 	if session is BattleCoreCombinationSession: (session as BattleCoreCombinationSession).entangle_selected = false
 	if session is BattleCoreReactionsSession: (session as BattleCoreReactionsSession).stun_selected = false
+	if session is BattleCoreReactionsSession: (session as BattleCoreReactionsSession).warrior_selected = &""
 	if session is BattleCoreReactionsSession: (session as BattleCoreReactionsSession).elemental_selected = &""
 	summoning_mode = false
 	raising_mode = false
@@ -649,6 +650,11 @@ func _action_bar_requested(action_id: StringName) -> void:
 			set_attack_mode(true)
 			if session is BattleCoreCombinationSession:
 				(session as BattleCoreCombinationSession).entangle_selected = true
+				_refresh()
+		WarriorKit.CLEAVE, WarriorKit.KICK:
+			set_attack_mode(true)
+			if session is BattleCoreReactionsSession:
+				(session as BattleCoreReactionsSession).warrior_selected = action_id
 				_refresh()
 		&"stunning_strike":
 			set_attack_mode(true)
@@ -733,6 +739,7 @@ func inspect_enemy(id: int) -> void:
 	retreat_mode = false
 	attack_mode = false
 	if session is BattleCoreReactionsSession: (session as BattleCoreReactionsSession).stun_selected = false
+	if session is BattleCoreReactionsSession: (session as BattleCoreReactionsSession).warrior_selected = &""
 	_clear_forecast()
 	inspected_id = UnitId.NONE if inspected_id == id else id
 	_cover_guard_mode = false
@@ -1032,6 +1039,8 @@ func _refresh() -> void:
 		_instructions.text += " · 7: опутывающий удар"
 		if (session as BattleCoreCombinationSession).entangle_selected:
 			_instructions.text = "Опутывающий удар: выберите цель · 1 основное · Путы после физического HP-урона · A: обычная атака"
+	if session is BattleCoreReactionsSession and WarriorKit.is_skill((session as BattleCoreReactionsSession).warrior_selected):
+		_instructions.text = ("Пинок ногой: соседняя цель · 1 дополнительное · без отката" if (session as BattleCoreReactionsSession).warrior_selected == WarriorKit.KICK else "Рассекающий удар: соседняя цель · 1 основное · откат 1") + " · A: обычная атака"
 	if session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).stun_selected:
 		_instructions.text = "Оглушающий удар: выберите цель · 1 основное · Оглушение после физического HP-урона · A: обычная атака"
 	if session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).elemental_selected != &"":
@@ -1147,6 +1156,8 @@ func _refresh() -> void:
 		if enemy != null:
 			_stats.text = _inspection_text(enemy)
 	_status.text = "Атака: щёлкните по цели. Расход — 1 основное действие." if attack_mode else ("ЛКМ: пустая клетка — движение; враг — подход и обычная атака; свой герой — выбор." if _battle != null else "Движение: щёлкните по свободной клетке. Персонаж на поле или в списке — выбор.")
+	if attack_mode and session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).warrior_selected == WarriorKit.KICK:
+		_status.text = "Пинок ногой: щёлкните по соседнему врагу. Расход — 1 дополнительное действие."
 	if session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).elemental_selected != &"":
 		_status.text = "%s: наведите курсор на цель для прогноза, щёлкните для применения." % _elemental_effect_label((session as BattleCoreReactionsSession).elemental_selected)
 	if inspected_id != UnitId.NONE:
@@ -1180,6 +1191,7 @@ func _perk_status_text(unit: UnitState) -> String:
 	if not session is BattleCoreReactionsSession or unit.combat_perks == null: return ""
 	var parts: PackedStringArray = []
 	if unit.combat_perks.definition.sneak_attack: parts.append("Скрытая атака")
+	if WarriorKit.enabled(unit): parts.append("Выносливость: +20% к получаемому исцелению и броне")
 	if unit.combat_perks.definition.stunning_strike: parts.append("Оглушающий удар")
 	if unit.combat_perks.definition.counterattack: parts.append("перк Контратака")
 	if unit.combat_perks.definition.stun_immune: parts.append("иммунитет к оглушению")
@@ -1398,6 +1410,7 @@ func _append_cell_hazards(base: String, hazards: Dictionary, cell: Vector2i) -> 
 	return base + ("\n" + details if not details.is_empty() else "")
 
 func _attack_variant() -> StringName:
+	if session is BattleCoreReactionsSession and WarriorKit.is_skill((session as BattleCoreReactionsSession).warrior_selected): return (session as BattleCoreReactionsSession).warrior_selected
 	if session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).stun_selected: return &"stun"
 	if session is BattleCoreCombinationSession and (session as BattleCoreCombinationSession).entangle_selected: return &"entangle"
 	if session is BattleBleedingSession and (session as BattleBleedingSession).rune_selected: return &"rune"
@@ -1888,7 +1901,7 @@ func _update_area_preview() -> void:
 	if not session is BattleCoreReactionsSession: return
 	var show_area := attack_mode
 	for button: Button in _action_bar._buttons:
-		if button.get_meta("action_id", &"") == _hovered_bar_action and not button.disabled and _hovered_bar_action in [&"attack", &"opportunity_guard", &"counterattack_guard", &"stunning_strike", &"entangling_strike", &"blood_rune"]: show_area = true
+		if button.get_meta("action_id", &"") == _hovered_bar_action and not button.disabled and _hovered_bar_action in [&"attack", &"opportunity_guard", &"counterattack_guard", &"stunning_strike", &"entangling_strike", &"blood_rune", WarriorKit.CLEAVE, WarriorKit.KICK]: show_area = true
 	if show_area: board_view.area_preview_owner = session.selected_id
 	if board_view._overlay != null: board_view._overlay.queue_redraw()
 

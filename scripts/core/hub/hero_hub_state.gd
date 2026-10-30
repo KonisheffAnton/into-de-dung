@@ -47,7 +47,7 @@ func repair_after_battle(hero_id: int) -> bool:
 	return PostBattleRules.repair(self,hero_id)
 
 static func create(seed_value: int = 73191, catalog_version: int = 1) -> HeroHubState:
-	if catalog_version not in [1, 2]: return null
+	if catalog_version not in [1, 2, 3]: return null
 	var result := HeroHubState.new()
 	result.hero_catalog_version = catalog_version
 	var rng := RandomNumberGenerator.new()
@@ -220,11 +220,11 @@ static func from_dict(data: Variant) -> HeroHubState:
 	if typeof(data) != TYPE_DICTIONARY or typeof(data.get("schema")) != TYPE_INT or data.schema != SCHEMA_VERSION: return null
 	var shape := {"schema":TYPE_INT,"heroes":TYPE_ARRAY,"party":TYPE_ARRAY,"candidates":TYPE_ARRAY,"items":TYPE_ARRAY,"phase":TYPE_STRING,"gold":TYPE_INT,"next_id":TYPE_INT,"next_item_id":TYPE_INT,"run_serial":TYPE_INT,"rng_state":TYPE_INT,"last_result":TYPE_STRING,"essence":TYPE_INT,"expedition_rng_state":TYPE_INT,"expedition":TYPE_DICTIONARY,"achievements":TYPE_DICTIONARY,"battle_report":TYPE_DICTIONARY,"mage_deck":TYPE_DICTIONARY,"h1_ruleset":TYPE_STRING,"hero_catalog_version":TYPE_INT}
 	if not ItemSimulationSnapshot._shape(data, shape): return null
-	if data.hero_catalog_version not in [1, 2]: return null
+	if data.hero_catalog_version not in [1, 2, 3]: return null
 	var catalog_version: int = data.hero_catalog_version
 	if data.phase not in ["hub","battle","expedition"] or data.gold < 0 or data.gold > 1000000000 or data.run_serial < 0 or data.run_serial > 1000000000: return null
 	if data.next_id < 1 or data.next_id > 1000000000 or data.next_item_id < 1 or data.next_item_id > 1000000000 or data.last_result.length() > 1024: return null
-	if data.heroes.size() > MAX_ROSTER or data.party.size() > MAX_PARTY or data.candidates.size() != 4 or data.items.size() > MAX_ITEMS: return null
+	if data.heroes.size() > MAX_ROSTER or data.party.size() > MAX_PARTY or data.candidates.size() != HeroCatalog.class_ids(catalog_version).size() or data.items.size() > MAX_ITEMS: return null
 	var result := HeroHubState.new()
 	if data.mage_deck.is_empty():
 		if data.h1_ruleset != "": return null

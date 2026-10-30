@@ -49,6 +49,9 @@ func _availability(context: ActionContext, full_snapshot: bool) -> StringName:
 	var maximum := ActionHpExecutor._stat_value(actor, StatTypes.StatType.HP_MAX)
 	if not is_finite(maximum) or maximum <= 0.0: return &"item/invalid_runtime"
 	if actor.vitals.get_hp() >= maximum: return &"item/full_hp"
+	var source := DamageSource.new(&"item", _item_id, actor.cell, actor.id, actor.id)
+	var heal_reason := ActionHpExecutor.validate_heal(actor.id, action.get_heal_amount(), source, context)
+	if heal_reason != &"": return heal_reason
 	return &""
 
 func execute(context: ActionContext) -> CommandStepResult:
@@ -61,7 +64,8 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var action := item.get_use_action()
 	var main_cost := action.get_main_cost()
 	var charge_cost := action.get_charge_cost()
-	var amount := minf(action.get_heal_amount(), maximum - actor.vitals.get_hp())
+	var boosted_amount := ActionHpExecutor.recovery_amount(actor, action.get_heal_amount())
+	var amount := minf(boosted_amount, maximum - actor.vitals.get_hp())
 	var main_before := actor.action_resources.get_main_left()
 	var charges_before := item.get_charges_left()
 	var source := DamageSource.new(&"item", _item_id, actor.cell, actor.id, actor.id)

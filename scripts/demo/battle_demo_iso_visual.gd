@@ -318,7 +318,7 @@ func _sync_scene_art_layers() -> void:
 	if enemy_warrior != null:
 		enemy_warrior.visible = selected_enemy_preset == null and enemy_warrior == warrior_sprite and role == Role.UNIT and unit != null and unit.alive
 		enemy_warrior.modulate = Color.WHITE
-	for class_sprite: Sprite2D in [player_rogue, enemy_rogue, player_archer, enemy_archer]:
+	for class_sprite: Sprite2D in [player_rogue, enemy_rogue, player_archer, enemy_archer, get_node_or_null("ArtRoot/PlayerShieldbearerSprite"), get_node_or_null("ArtRoot/EnemyShieldbearerSprite"), get_node_or_null("ArtRoot/PlayerFighterSprite"), get_node_or_null("ArtRoot/EnemyFighterSprite")]:
 		if class_sprite != null:
 			class_sprite.visible = class_sprite == warrior_sprite and role == Role.UNIT and unit != null and unit.alive
 			class_sprite.modulate = Color.WHITE
@@ -543,6 +543,8 @@ func class_still_sprite() -> Sprite2D:
 	var suffix: String
 	match visual_class_id:
 		&"warrior": suffix = "WarriorSprite"
+		&"shieldbearer": suffix = "ShieldbearerSprite"
+		&"fighter": suffix = "FighterSprite"
 		&"rogue": suffix = "RogueSprite"
 		&"archer": suffix = "ArcherSprite"
 		_: return null

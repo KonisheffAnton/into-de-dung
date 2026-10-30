@@ -6,6 +6,10 @@ static func _stat_value(unit: UnitState, type: StatTypes.StatType) -> float:
 	var copy := StatsBag.from_snapshot_dict(unit.stats.to_snapshot_dict())
 	return NAN if copy == null else copy.get_value(type)
 
+static func recovery_amount(unit: UnitState, amount: float) -> float:
+	# Множитель применяется к объёму до того, как источник ограничит лечение недостающими HP.
+	return amount * WarriorKit.recovery_factor(unit)
+
 static func _payload(target_id: int, source: DamageSource, context: ActionContext) -> StringName:
 	if target_id <= 0 or target_id >= ItemSimulationSnapshot.MAX_ID: return &"invalid_target_id"
 	if source == null: return &"invalid_source"
@@ -49,9 +53,12 @@ static func validate_heal(target_id: int, amount: float, source: DamageSource, c
 	if not is_finite(amount) or amount < 0.0: return &"invalid_amount"
 	reason = _target(target_id, context)
 	if reason != &"": return reason
-	var maximum := _stat_value(context.get_state().get_board().get_unit_by_id(target_id), StatTypes.StatType.HP_MAX)
-	var armor := context.get_state().get_board().get_unit_by_id(target_id).armor
-	if armor != null and ((not armor.fractional and amount != floorf(amount)) or amount > ArmorRuntime.MAX_EXACT_HP): return &"armor/fractional_heal"
+	var target := context.get_state().get_board().get_unit_by_id(target_id)
+	var maximum := _stat_value(target, StatTypes.StatType.HP_MAX)
+	var boosted := recovery_amount(target, amount)
+	var armor := target.armor
+	if not is_finite(boosted) or boosted > ArmorRuntime.MAX_EXACT_HP: return &"armor/fractional_heal"
+	if armor != null and not armor.fractional and boosted != floorf(boosted): return &"armor/fractional_heal"
 	return &"invalid_hp_max" if not is_finite(maximum) else &""
 
 static func validate_death(target_id: int, source: DamageSource, context: ActionContext) -> StringName:
@@ -80,7 +87,7 @@ static func heal(target_id: int, amount: float, source: DamageSource, context: A
 	var before := unit.vitals.get_hp()
 	# P02 допускает over-max HP: вызов Vitals.heal в этом случае уменьшил бы HP.
 	if amount > 0.0 and before < _stat_value(unit, StatTypes.StatType.HP_MAX):
-		unit.vitals.heal(amount)
+		unit.vitals.heal(recovery_amount(unit, amount))
 	return _finalize(unit, before, true, source, context, &"healed")
 
 static func death(target_id: int, source: DamageSource, context: ActionContext) -> CommandStepResult:

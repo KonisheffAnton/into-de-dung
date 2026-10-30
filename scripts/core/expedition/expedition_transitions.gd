@@ -64,12 +64,14 @@ static func _apply(hub: HeroHubState, action: String, args: Dictionary) -> Strin
 		var percent := ExpeditionCatalog.BOOSTED_SERVICE_PERCENT if (args.kind == "heal" and modifier == "healing") or (args.kind == "repair" and modifier == "repair") else ExpeditionCatalog.SERVICE_PERCENT
 		for id: int in hub.party:
 			var hero: HeroProgression = hub.heroes[id]
-			if args.kind == "heal": hero.hp_current = minf(hero.max_hp(),hero.hp_current + floorf(hero.max_hp() * percent / 100.0))
+			var recovery_factor: float = WarriorKit.class_recovery_factor(hero.class_id)
+			# Один множитель одинаково применяется к объёму лагерного лечения и ремонта до предела.
+			if args.kind == "heal": hero.hp_current = minf(hero.max_hp(),hero.hp_current + floorf(hero.max_hp() * percent / 100.0) * recovery_factor)
 			else:
 				var armor := hub.equipped(id,"armor")
 				if not armor.is_empty():
 					var maximum: int = HeroGearCatalog.definition(armor.definition).armor_max
-					armor.remaining = minf(float(maximum), float(armor.remaining) + floorf(maximum * percent / 100.0))
+					armor.remaining = minf(float(maximum), float(armor.remaining) + floorf(maximum * percent / 100.0) * recovery_factor)
 		if run.current_node().kind == "camp": run.phase = "camp_departure"
 		else: _resolve(run)
 		return ""

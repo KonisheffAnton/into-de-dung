@@ -38,6 +38,8 @@ static func create(run: HeroHubState) -> Dictionary:
 		reaction.chain_push = false
 		reaction.critical_on_control = false
 		definitions.append(reaction)
+	definitions.append(WarriorKit.definition(WarriorKit.CLEAVE))
+	definitions.append(WarriorKit.definition(WarriorKit.KICK))
 	for index: int in range(run.party.size() + enemy_count):
 		var hero: HeroProgression = run.heroes[run.party[index]] if index < run.party.size() else null
 		var enemy_data: Dictionary = opening.enemies[index - run.party.size()] if hero == null and not opening.is_empty() else {}
@@ -85,6 +87,7 @@ static func create(run: HeroHubState) -> Dictionary:
 			unit.combat_perks.definition.counterattack = hero.class_id == &"warrior"
 			unit.combat_perks.definition.stunning_strike = hero.class_id == &"warrior"
 			unit.combat_perks.definition.sneak_attack = hero.class_id == &"rogue"
+			if hero.class_id == &"fighter": unit.combat_perks.warrior = WarriorKit.make()
 			if hero.class_id == &"shieldbearer":
 				unit.combat_perks.definition.passive_opportunist = true
 				unit.armor.raised_shield = RaisedShield.make()
@@ -95,7 +98,7 @@ static func create(run: HeroHubState) -> Dictionary:
 				attack.damage_components.append(_fire(3 + (hero_class.weapon_damage if not weapon.is_empty() else 0)))
 			definitions.append(attack)
 			session.actor_loadouts[unit.id] = {"class_id":hero.class_id,"attack_id":attack.id}
-			if hero.class_id == &"shieldbearer": session.unit_visual_classes[unit.id] = &"warrior"
+			if hero.class_id in [&"shieldbearer", &"fighter"]: session.unit_visual_classes[unit.id] = hero.class_id
 		elif enemy_data.is_empty() or enemy_data.role in ["guard", "shield"]:
 			# Обычные бойцы, Страж и Щит получают только рисунок; Дозорный сохраняет свой вид.
 			session.unit_visual_classes[unit.id] = &"warrior"

@@ -12,7 +12,7 @@ static func definition(key: String) -> ItemDef:
 		result.display_name = "Доспех · " + hero_class.display_name
 		result.armor_max = hero_class.armor_max
 	else:
-		result.display_name = {"warrior":"Меч", "shieldbearer":"Меч", "archer":"Лук", "rogue":"Парные кухонные ножи", "mage":"Посох"}[parts[1]]
+		result.display_name = {"warrior":"Меч", "shieldbearer":"Меч", "archer":"Лук", "rogue":"Парные кухонные ножи", "mage":"Посох", "fighter":"Меч"}[parts[1]]
 		if parts[1] == "rogue":
 			result.description = "За 1 основное действие: +1 последовательная атака по той же цели. Бонус складывается с такими же перками других надетых вещей. Вторая атака проводится как обычная атака и только если цель жива и остаётся в пределах досягаемости. Не действует на реакции и особые атаки."
 			result.equipment_perks = [&"extra_attack"]

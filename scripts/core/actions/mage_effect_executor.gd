@@ -27,7 +27,10 @@ static func prepare(context: ActionContext, target_id: int, target_cell: Vector2
 	var request: DamageRequest = null
 	var status_plan: Dictionary = {}
 	var maximum := ActionHpExecutor._stat_value(target, StatTypes.StatType.HP_MAX)
-	var hp_after := minf(maximum, target.vitals.get_hp() + float(amount))
+	var recovery_volume := float(amount)
+	if effect in [&"mage.heal", &"mage.test_heal"]:
+		recovery_volume = ActionHpExecutor.recovery_amount(target, recovery_volume)
+	var hp_after := minf(maximum, target.vitals.get_hp() + recovery_volume)
 	if effect in [&"mage.heal", &"mage.test_heal"]:
 		if target.vitals.get_hp() >= maximum or ActionHpExecutor.validate_heal(target_id, float(amount), source, context) != &"": return {"reason": &"mage/full_hp"}
 	elif effect == &"mage.shield":

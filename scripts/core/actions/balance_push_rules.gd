@@ -57,11 +57,12 @@ class Binding extends RefCounted:
 static func _empty() -> Dictionary:
 	return {"reason": &"", "binding": null}
 
-static func prepare_attack(context: ActionContext, actor: UnitState, target: UnitState, raw_attack: float, hit_amount: float, main_after: int, spatial: bool = false, armor_request: DamageRequest = null, impact_multiplier: int = 1, reaction: bool = false, cover: UnitState = null, chain_push: bool = false, equipment_followup: bool = false) -> Dictionary:
+static func prepare_attack(context: ActionContext, actor: UnitState, target: UnitState, raw_attack: float, hit_amount: float, main_after: int, spatial: bool = false, armor_request: DamageRequest = null, impact_multiplier: int = 1, reaction: bool = false, cover: UnitState = null, chain_push: bool = false, equipment_followup: bool = false, kick: bool = false) -> Dictionary:
 	if impact_multiplier not in [1, 2]: return {"reason": &"balance/invalid_multiplier", "binding": null}
 	if reaction and (not spatial or armor_request == null): return {"reason": &"reaction/armor_required", "binding": null}
 	if equipment_followup and (reaction or not spatial or armor_request == null): return {"reason": &"attack/invalid_followup", "binding": null}
-	if spatial: return _prepare_spatial_attack(context, actor, target, raw_attack, hit_amount, main_after, armor_request, impact_multiplier, reaction, cover, chain_push, equipment_followup)
+	if kick and (reaction or equipment_followup or not spatial or armor_request == null or not WarriorKit.enabled(actor)): return {"reason": &"warrior/invalid_kick", "binding": null}
+	if spatial: return _prepare_spatial_attack(context, actor, target, raw_attack, hit_amount, main_after, armor_request, impact_multiplier, reaction, cover, chain_push, equipment_followup, kick)
 	var out := _empty()
 	if context == null or context.get_state() == null or context.get_state().get_board() == null or actor == null or target == null or actor.get_script() != UnitState or target.get_script() != UnitState:
 		out["reason"] = &"balance/invalid_binding"; return out
@@ -297,7 +298,7 @@ static func spatial_valid(binding: Binding, context: ActionContext, phase: Strin
 		if not guard.refs["participants"].has(id): return false
 		var pinned: Dictionary = guard.refs["participants"][id]
 		if pinned["unit"] != unit or pinned["stats"] != binding.get(role + "_stats") or pinned["vitals"] != binding.get(role + "_vitals") or pinned["owner"] != binding.get(role + "_owner"): return false
-	return guard.debit(binding.actor.id, 0 if binding.values.get("reaction", false) or binding.values.get("equipment_followup", false) else -1, 0.0).stance(binding.actor.id, binding.values["actor_guard_before"]).check(context) if admission else guard.check(context)
+	return guard.debit(binding.actor.id, 0 if binding.values.get("reaction", false) or binding.values.get("equipment_followup", false) or binding.values.get("kick", false) else -1, 0.0, -1 if binding.values.get("kick", false) else 0).stance(binding.actor.id, binding.values["actor_guard_before"]).check(context) if admission else guard.check(context)
 
 static func spatial_phase(binding: Binding, guard: SpatialRules.Guard, phase: StringName) -> Binding:
 	var next := binding.copy()
@@ -348,7 +349,7 @@ static func spatial_hp(binding: Binding, request: DamageRequest, context: Action
 		return {"result": result, "binding": binding}
 	return {"result": result, "binding": spatial_phase(binding, done, binding.values["phase"])}
 
-static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, target: UnitState, raw_attack: float, hit_amount: float, main_after: int, armor_request: DamageRequest = null, impact_multiplier: int = 1, reaction: bool = false, cover: UnitState = null, chain_push: bool = false, equipment_followup: bool = false) -> Dictionary:
+static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, target: UnitState, raw_attack: float, hit_amount: float, main_after: int, armor_request: DamageRequest = null, impact_multiplier: int = 1, reaction: bool = false, cover: UnitState = null, chain_push: bool = false, equipment_followup: bool = false, kick: bool = false) -> Dictionary:
 	var out := _empty()
 	if context == null or context.get_state() == null or context.get_state().get_board() == null or actor == null or target == null or actor.vitals == null or target.vitals == null or actor.stats == null or target.stats == null:
 		out["reason"] = &"balance/invalid_binding"; return out
@@ -370,6 +371,10 @@ static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, ta
 		impact = maxf(1.0, impact)
 		if impact_multiplier == 2: impact *= 2.0
 	if target.guard_stance: impact *= 0.5
+	if kick:
+		# У пинка собственная сила воздействия без множителя высоты/крита и округления до единицы.
+		impact = maxf(0.0, _stat(actor, StatTypes.StatType.POWER)) / 4.0
+		if not is_finite(impact): out["reason"] = &"balance/invalid_stat"; return out
 	if reaction: impact = 0.0
 	var total := before + impact if impact > 0.0 and maximum > 0.0 else before
 	if not is_finite(total): out["reason"] = &"balance/nonfinite_sum"; return out
@@ -424,12 +429,13 @@ static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, ta
 		binding.blocker_stats = blocker.stats; binding.blocker_vitals = blocker.vitals; binding.blocker_owner = state.get_owner(blocker.id)
 	binding.attack_source = DamageSource.new(&"attack", 0, actor.cell, actor.id, actor.id)
 	# Продолжение серии сохраняет обычный impact, но main уже оплачен корнем.
-	binding.spatial_guard = guard.debit(actor.id, 0 if reaction or equipment_followup else 1, 0.0).stance(actor.id, actor.guard_stance if reaction else false)
+	binding.spatial_guard = guard.debit(actor.id, 0 if reaction or equipment_followup or kick else 1, 0.0, 1 if kick else 0).stance(actor.id, actor.guard_stance if reaction else false)
 	binding.values = {"spatial": true, "phase": &"balance", "actor_id": actor.id, "target_id": target.id, "blocker_id": blocker.id if blocker != null else 0, "raw_attack": raw_attack, "hit_amount": hit_amount, "impact": impact, "multiplier": multiplier, "balance_before": before, "balance_after": 0.0 if broke else total, "balance_max": maximum, "broke": broke, "main_after": main_after, "direction": direction, "attack_source": binding.attack_source.to_dict(), "expected_hp_before": target.vitals.get_hp()}
 	if not chain.is_empty(): binding.values["chain"] = chain
 	binding.values["actor_guard_before"] = actor.guard_stance
 	if reaction: binding.values["reaction"] = true
 	if equipment_followup: binding.values["equipment_followup"] = true
+	if kick: binding.values["kick"] = true
 	if armor_request != null:
 		# Одиночный упор не переносит урон оружия; столкновение тел сохраняет
 		# прежнюю базу, а K16 позднее подставляет дошедшую силу через retarget.

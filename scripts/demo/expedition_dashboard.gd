@@ -15,6 +15,7 @@ const TAB_IDS: Array[StringName] = [&"expedition", &"mercenaries", &"smith", &"s
 const CLASS_TEXTURES: Dictionary = {
 	&"warrior": "res://assets/ui/hub/warrior_portrait.tres",
 	&"shieldbearer": "res://assets/ui/hub/shieldbearer_portrait.tres",
+	&"fighter": "res://assets/ui/hub/fighter_portrait.tres",
 	&"archer": "res://assets/ui/hub/archer_portrait.tres",
 	&"rogue": "res://assets/ui/hub/rogue_portrait.tres",
 	&"mage": "res://assets/placeholder_battle/mage_card.svg",

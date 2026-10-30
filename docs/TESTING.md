@@ -648,3 +648,12 @@ Godot runner. Это время синхронных операций, не FPS 
 Godot ради таких изменений не нужен. Исторические логи и counts вынесены в
 [TESTING history](TESTING.history-20260920.md) и [историю передач](CODEX_HANDOFF.history-20260920.md).
 Последняя игровая приёмка и её ограничения собраны в [HISTORY](HISTORY.md).
+
+## Воин и выбранные модели — 2026-10-30
+
+`python tools/demo/isolate.py --check --only warrior_class warrior_recovery warrior_visuals shieldbearer_profile`
+проверяет права на активки, основной/дополнительный ресурс, CD1, дробные формулы,
+preview/live/worker, recovery/caps/repair/save и отсутствие старых клипов.
+`--render-check --only warrior_visuals` проверяет загрузку shader с renderer.
+Целевой срез также требует проверки общих recovery, snapshot, hub/expedition и core.
+Технический render не заменяет ручной F5, движение/зум/DPI и оценку баланса.

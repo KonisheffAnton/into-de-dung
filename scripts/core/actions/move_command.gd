@@ -249,7 +249,11 @@ func _armor_path_reason(context: ActionContext, actor: UnitState) -> StringName:
 		if plan["hp_after"] == 0: break
 		if plan["hp_loss"] > 0:
 			for reaction: Dictionary in reactions.descriptions:
-				simulation["hp"][actor.id] = minf(maximum, simulation["hp"][actor.id] + float(reaction["heal_amount"]))
+				var source := DamageSource.new(&"item", reaction["item_instance_id"], actor.cell, actor.id, actor.id)
+				var raw_heal: float = float(reaction["heal_amount"])
+				if ActionHpExecutor.validate_heal(actor.id, raw_heal, source, context) == &"":
+					var healed: float = ActionHpExecutor.recovery_amount(actor, raw_heal)
+					simulation["hp"][actor.id] = minf(maximum, simulation["hp"][actor.id] + healed)
 	return &""
 
 func _execute_spatial_edge(context: ActionContext, board: BattleBoard, actor: UnitState, rules: MoveRules) -> CommandStepResult:

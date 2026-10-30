@@ -5,6 +5,7 @@ static func class_ids(catalog_version: int = 1) -> Array[StringName]:
 	match catalog_version:
 		1: return [&"warrior", &"archer", &"rogue", &"mage"]
 		2: return [&"shieldbearer", &"archer", &"rogue", &"mage"]
+		3: return [&"shieldbearer", &"archer", &"rogue", &"mage", &"fighter"]
 		_: return []
 
 static func class_definition(id: StringName) -> HeroClassDefinition:
@@ -27,6 +28,14 @@ static func class_definition(id: StringName) -> HeroClassDefinition:
 			definition.armor_max = 40
 			definition.abilities_text = "Оппортунист (пассивный); Поднять щиты: 90% первой атаки, 1 основное действие, перезарядка 1."
 			definition.equipment_text = "Броня Щитоносца и оружие ближнего боя."
+		&"fighter":
+			definition.display_name = "Воин"
+			definition.base_attributes = [10, 10, 10, 10, 10]
+			definition.attack_range = 1
+			definition.weapon_damage = 4
+			definition.armor_max = 40
+			definition.abilities_text = "Пассивно: +20% к получаемому лечению и броне. Рассекающий удар, Пинок ногой."
+			definition.equipment_text = "Доспех воина и оружие ближнего боя."
 		&"archer":
 			definition.display_name = "Стрелок"
 			definition.base_attributes = [10, 10, 10, 10, 10]

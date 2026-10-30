@@ -2,11 +2,11 @@ extends Command
 class_name RestoreArmorCommand
 
 var _target_id: int
-var _volume: int
+var _volume: Variant
 var _expected_revision: int
 var _source: DamageSource
 
-func _init(target_id: int = 0, volume: int = 20, expected_revision: int = 0, source: DamageSource = null) -> void:
+func _init(target_id: int = 0, volume: Variant = 20, expected_revision: int = 0, source: DamageSource = null) -> void:
 	_target_id = target_id; _volume = volume; _expected_revision = expected_revision
 	_source = source.copy() if source != null else DamageSource.new(&"item", 0, Vector2i.ZERO, target_id, target_id)
 
@@ -31,7 +31,11 @@ func _prepare(context: ActionContext) -> Dictionary:
 	var persistent := false
 	for perk: Dictionary in unit.armor.perks:
 		if perk.get("kind") == "persistent_armor" and perk.get("source") in ["*", String(_source.kind)]: persistent = true
-	var plan := ArmorRecovery.restore(guard.values["participants"][unit.id]["armor"], _volume, String(_source.kind), persistent)
+	var recovery_volume: Variant = _volume
+	if CombatAmount.valid(_volume) and WarriorKit.recovery_factor(unit) != 1.0:
+		# Сначала увеличиваем объём, чтобы ArmorRecovery применил общий предел нехватки.
+		recovery_volume = float(_volume) * WarriorKit.recovery_factor(unit)
+	var plan := ArmorRecovery.restore(guard.values["participants"][unit.id]["armor"], recovery_volume, String(_source.kind), persistent)
 	if plan.get("reason", &"") != &"": return plan
 	return {"reason": &"", "guard": guard, "plan": plan, "unit": unit, "cost": cost}
 

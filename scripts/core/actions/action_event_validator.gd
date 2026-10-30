@@ -5,6 +5,20 @@ const MAX_ID: int = 9223372036854775807
 
 # Статический валидатор не удерживает состояние очереди и проверяет только DTO события.
 static func valid_draft(draft: Dictionary, context: ActionContext = null) -> bool:
+	if draft.has("warrior_ready_turn"):
+		if draft.get("kind") != &"attacked" or draft.get("attack_definition_id") != WarriorKit.CLEAVE or typeof(draft.warrior_ready_turn) != TYPE_INT or draft.warrior_ready_turn < 3 or draft.warrior_ready_turn >= MAX_ID: return false
+		var clean := draft.duplicate(true)
+		clean.erase("warrior_ready_turn")
+		return valid_draft(clean, context)
+	if draft.get("kind") == &"attacked" and draft.has("bonus_cost"):
+		if draft.get("attack_definition_id") != WarriorKit.KICK or draft.has("extra_attack"): return false
+		for key: String in ["main_cost", "main_before", "main_after", "bonus_cost", "bonus_before", "bonus_after"]:
+			if typeof(draft.get(key)) != TYPE_INT: return false
+		if draft.main_cost != 0 or draft.main_before < 0 or draft.main_before > 4096 or draft.main_after != draft.main_before or draft.bonus_cost != 1 or draft.bonus_before < 1 or draft.bonus_before > 4096 or draft.bonus_after != draft.bonus_before - 1: return false
+		var clean := draft.duplicate(true)
+		for key: String in ["bonus_cost", "bonus_before", "bonus_after"]: clean.erase(key)
+		clean.main_cost = 1; clean.main_before = 1; clean.main_after = 0
+		return valid_draft(clean, context)
 	if draft.has("extra_attack"):
 		if typeof(draft.extra_attack) != TYPE_BOOL or not draft.extra_attack or draft.get("kind") != &"attacked" or typeof(draft.get("main_cost")) != TYPE_INT or draft.get("main_cost") != 0: return false
 		if typeof(draft.get("actor_unit_id")) != TYPE_INT or typeof(draft.get("attack_definition_id")) != TYPE_STRING_NAME or typeof(draft.get("main_before")) != TYPE_INT or typeof(draft.get("main_after")) != TYPE_INT: return false

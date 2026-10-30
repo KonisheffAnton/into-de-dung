@@ -68,13 +68,13 @@ func run() -> void:
 	await process_frame; await process_frame
 	check(button(&"raise_shields")!=null,"class active is visible")
 	var actor_id := battle.selected_id
-	check(demo.board_view._view_actor_classes.get(actor_id)==&"shieldbearer" and demo.board_view._view_visual_classes.get(actor_id)==&"warrior","class identity retains explicit warrior visual")
+	check(demo.board_view._view_actor_classes.get(actor_id)==&"shieldbearer" and demo.board_view._view_visual_classes.get(actor_id)==&"shieldbearer","class identity uses selected shieldbearer visual")
 	var visual := demo.board_view._presentation_visual(actor_id) as BattleDefenderIdleVisual
-	check(visual != null, "production Defender uses the animated art scene")
+	check(visual != null, "production shieldbearer uses the shared art scene")
 	if visual == null:
 		demo.queue_free(); await process_frame; viewport.queue_free(); await process_frame; quit(1); return
-	var sprite := visual.get_node("ArtRoot/DefenderIdleSprite") as Sprite2D
-	check(sprite.visible and visual._buff_elapsed < 0.0, "accepted Defender idle is visible before activation")
+	var sprite := visual.class_still_sprite()
+	check(sprite.visible and visual._buff_elapsed < 0.0, "selected model 17 is visible before activation")
 	check(button(&"opportunity_guard")==null and button(&"cover_guard")==null and button(&"stunning_strike")==null,"old manual perks absent")
 	var active_button := button(&"raise_shields")
 	if active_button==null: demo.queue_free(); await process_frame; quit(1); return
@@ -98,21 +98,13 @@ func run() -> void:
 	var deadline := Time.get_ticks_msec() + 10000
 	while demo.is_execution_pending() and demo.board_view._defender_buff_visual == null and Time.get_ticks_msec() < deadline:
 		await process_frame
-	check(demo.is_presentation_pending() and demo.board_view._defender_buff_visual == visual,
-		"real button and execution worker start one Defender buff clip")
-	if demo.is_presentation_pending() and demo.board_view._defender_buff_visual == visual:
-		demo._presentation_player._tween.pause()
-		var committed := snapshot()
-		demo._presentation_player._tween.custom_step(0.82)
-		check(sprite.visible and not visual.is_processing() and visual._buff_elapsed > 0.8,
-			"worker playback displays shield-strike frames and suspends only actor idle")
-		await capture("shieldbearer-buff-contact")
-		check(snapshot() == committed, "paused visual playback preserves committed state")
+	check(demo.board_view._defender_buff_visual == null and sprite.visible and visual._buff_elapsed < 0.0,
+		"real shield button keeps model 17 instead of borrowing old Defender frames")
 	for i: int in 500:
 		if not demo.is_execution_pending(): break
 		demo.skip_presentation(); await process_frame
 	check(not demo.is_execution_pending(),"live worker/playback completes")
-	check(visual._buff_elapsed < 0.0 and sprite.visible and visual.is_processing(), "skip returns production Defender to idle")
+	check(visual._buff_elapsed < 0.0 and sprite.visible and not visual.is_processing(), "skip retains static model 17")
 	var actor := demo.session.selected_unit()
 	check(actor.armor.raised_shield.active and actor.action_resources.get_main_left()==0,"frame-separated click activates class shield")
 	check(actor.action_resources.get_bonus_left()==1 and not actor.guard_stance,"reaction resource preserved; no ordinary guard")

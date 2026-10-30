@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3]
+[gd_scene load_steps=28 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/placeholder_unit.tscn" id="1_base"]
 [ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_field_v1/defender_new.png" id="2_player"]
@@ -15,6 +15,10 @@
 [ext_resource type="Texture2D" path="res://assets/art_presets/trials/enemy_warrior_idle_v1/frames/frame-01.png" id="15_enemy_warrior"]
 [ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/enemy_warrior_idle_v1/idle_frames.tres" id="16_enemy_warrior_idle"]
 [ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/enemy_warrior_death_v1/death_frames.tres" id="17_enemy_warrior_death"]
+
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/warrior_classes_v1/shieldbearer-17.png" id="18_shieldbearer"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/warrior_classes_v1/fighter-11.png" id="19_fighter"]
+[ext_resource type="Shader" path="res://assets/art_presets/trials/pixel_zoom_v1/native_sprite.gdshader" id="20_outline"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_player"]
 atlas = ExtResource("2_player")
@@ -55,6 +59,18 @@ shader = ExtResource("4_native")
 shader_parameter/source_region = Vector4(0, 0, 128, 128)
 shader_parameter/native_size = Vector2(128, 128)
 shader_parameter/cloth_enabled = false
+shader_parameter/brighter_palette_strength = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_shieldbearer"]
+shader = ExtResource("20_outline")
+shader_parameter/source_region = Vector4(96, 89, 1051, 1102)
+shader_parameter/native_size = Vector2(72.483, 76)
+shader_parameter/brighter_palette_strength = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fighter"]
+shader = ExtResource("20_outline")
+shader_parameter/source_region = Vector4(193, 132, 870, 1046)
+shader_parameter/native_size = Vector2(63.212, 76)
 shader_parameter/brighter_palette_strength = 0.0
 
 [node name="PlaceholderUnit" instance=ExtResource("1_base")]
@@ -180,3 +196,51 @@ position = Vector2(71, -83)
 scale = Vector2(-1, 1)
 texture = ExtResource("15_enemy_warrior")
 centered = false
+
+[node name="PlayerShieldbearerSprite" type="Sprite2D" parent="ArtRoot"]
+visible = false
+metadata/source_facing_x = -1
+texture_filter = 1
+material = SubResource("ShaderMaterial_shieldbearer")
+position = Vector2(-42.1, -73.8)
+scale = Vector2(0.0689655172, 0.0689655172)
+texture = ExtResource("18_shieldbearer")
+centered = false
+region_enabled = true
+region_rect = Rect2(96, 89, 1051, 1102)
+
+[node name="EnemyShieldbearerSprite" type="Sprite2D" parent="ArtRoot"]
+visible = false
+metadata/source_facing_x = 1
+texture_filter = 1
+material = SubResource("ShaderMaterial_shieldbearer")
+position = Vector2(42.1, -73.8)
+scale = Vector2(-0.0689655172, 0.0689655172)
+texture = ExtResource("18_shieldbearer")
+centered = false
+region_enabled = true
+region_rect = Rect2(96, 89, 1051, 1102)
+
+[node name="PlayerFighterSprite" type="Sprite2D" parent="ArtRoot"]
+visible = false
+metadata/source_facing_x = -1
+texture_filter = 1
+material = SubResource("ShaderMaterial_fighter")
+position = Vector2(-35.6, -73.8)
+scale = Vector2(0.0726577438, 0.0726577438)
+texture = ExtResource("19_fighter")
+centered = false
+region_enabled = true
+region_rect = Rect2(193, 132, 870, 1046)
+
+[node name="EnemyFighterSprite" type="Sprite2D" parent="ArtRoot"]
+visible = false
+metadata/source_facing_x = 1
+texture_filter = 1
+material = SubResource("ShaderMaterial_fighter")
+position = Vector2(35.6, -73.8)
+scale = Vector2(-0.0726577438, 0.0726577438)
+texture = ExtResource("19_fighter")
+centered = false
+region_enabled = true
+region_rect = Rect2(193, 132, 870, 1046)

@@ -23,7 +23,9 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var view: Dictionary = guard.values.participants[unit.id].armor.duplicate(true)
 	# Печать ремонтирует только постоянный доспех: излишек не создаёт временную броню.
 	view.state.in_battle = false
-	var plan := ArmorRecovery.restore(view, ExpeditionCatalog.FORMATION_REPAIR, "artifact")
+	# Умноженный объём доходит до общего распределителя, где ограничится недостачей.
+	var volume: float = float(ExpeditionCatalog.FORMATION_REPAIR) * WarriorKit.recovery_factor(unit)
+	var plan := ArmorRecovery.restore(view, volume, "artifact")
 	if plan.get("reason") == &"armor/full": return CommandStepResult.skipped(&"artifact/full_armor")
 	if plan.get("reason", &"") != &"": return CommandStepResult.faulted(plan.reason)
 	var changes: Array[Dictionary] = []

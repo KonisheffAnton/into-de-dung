@@ -10,6 +10,14 @@ static func build(
 ) -> Array[Dictionary]:
 	# Runtime читается синхронно только под guard вызывающего _refresh; ссылки не удерживаются, кэша нет.
 	var descriptors: Array[Dictionary] = []
+	if session is BattleCoreReactionsSession and WarriorKit.enabled(session.selected_unit()):
+		for id: StringName in [WarriorKit.CLEAVE, WarriorKit.KICK]:
+			var reason := (session as BattleCoreReactionsSession).warrior_reason(id)
+			var kick := id == WarriorKit.KICK
+			descriptors.append({"action_id": id, "label": "Пинок ногой" if kick else "Рассекающий удар",
+				"cost": "1 дополнительное · без отката" if kick else "1 основное · откат 1",
+				"disabled": locked or reason != &"",
+				"tooltip": ("Соседняя цель: базовый физический урон 2 × Мощь; урон балансу Мощь / 4. Оружие не прибавляется." if kick else "Обычный удар по соседней цели и 1 стак кровотечения, даже через броню. Иммунитет сохраняется. Откат: пропуск следующего своего хода.") + ("\n" + String(reason_text.call(reason)) if reason != &"" else "")})
 	var healing_item := battle.healing_item() if battle != null else null
 	var healing_reason := battle.healing_hint_reason() if battle != null else &"battle/input_locked"
 	descriptors.append(item(healing_item, &"healing_item", healing_reason, reason_text))

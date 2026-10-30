@@ -303,7 +303,7 @@ def main():
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "battle_hud_authoring":
             invalid = invalid or "BATTLE HUD AUTHORING RESULTS:" not in output or ", 0 failed" not in output
-        if label in ("passive_opportunist", "raised_shield", "raise_shields", "shieldbearer_profile", "shieldbearer_ui"):
+        if label in ("passive_opportunist", "raised_shield", "raise_shields", "shieldbearer_profile", "shieldbearer_ui", "warrior_class", "warrior_recovery", "warrior_visuals"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("hero_progression", "hero_hub", "hero_hub_ui", "hero_hub_playthrough"):
@@ -594,6 +594,9 @@ def main():
         run("raised_shield", ["--script", "tests/test_raised_shield_state.gd"])
         run("raise_shields", ["--script", "tests/test_raise_shields.gd"])
         run("shieldbearer_profile", ["--script", "tests/test_shieldbearer_profile.gd"])
+        run("warrior_class", ["--script", "tests/test_warrior_class.gd"])
+        run("warrior_recovery", ["--script", "tests/test_warrior_recovery.gd"])
+        run("warrior_visuals", ["--script", "tests/test_warrior_visuals.gd"], headless=not args.render_check)
         shieldbearer_args = ["--script", "tests/test_shieldbearer_ui.gd"]
         if args.render_check:
             shieldbearer_captures = out / "shieldbearer-screenshots"

@@ -13,6 +13,18 @@ static func prepare(request: DamageRequest, view: Dictionary, hp: float, maximum
 		raw = raised.raw
 	var plan := ArmorRuntime.plan(view, raw, hp, maximum, rng)
 	if plan.get("reason", &"") != &"": return plan
+	# Поглощение сопротивлением тоже является полученным исцелением, внутри того же попадания.
+	if context != null and view.get("state", {}).get("fractional", false):
+		var recipient := context.get_state().get_board().get_unit_by_id(request.target_unit_id)
+		var factor := WarriorKit.recovery_factor(recipient)
+		if factor != 1.0 and plan.total_healing > 0.0:
+			plan.total_healing *= factor
+			var recovered_hp: float = hp - float(plan.total_damage) + float(plan.total_healing)
+			if not is_finite(recovered_hp) or absf(recovered_hp) > ArmorRuntime.MAX_EXACT_HP: return {"reason": &"armor/overflow"}
+			for row: Dictionary in plan.rows: row["healing"] *= factor
+			plan.hp_after = clampf(recovered_hp, 0.0, maximum)
+			plan.hp_loss = maxf(0.0, hp - plan.hp_after)
+			plan.hp_gain = maxf(0.0, plan.hp_after - hp)
 	if not raised.is_empty():
 		plan["raised_shield"] = raised
 		RaisedShield.write_state(plan.after.state, raised.after)

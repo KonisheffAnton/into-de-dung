@@ -22,16 +22,24 @@ func _run() -> void:
 
 func _test_catalog_and_gear() -> void:
 	check(HeroCatalog.class_ids(1) == [&"warrior", &"archer", &"rogue", &"mage"], "catalog version one remains unchanged")
-	check(HeroCatalog.class_ids(2) == [&"shieldbearer", &"archer", &"rogue", &"mage"] and HeroCatalog.class_ids(3).is_empty(), "catalog version two replaces only the warrior slot")
+	check(HeroCatalog.class_ids(2) == [&"shieldbearer", &"archer", &"rogue", &"mage"], "catalog version two replaces only the warrior slot")
+	check(HeroCatalog.class_ids(3) == [&"shieldbearer", &"archer", &"rogue", &"mage", &"fighter"], "catalog version three appends fighter after existing version two classes")
 	var warrior := HeroCatalog.class_definition(&"warrior")
 	var shieldbearer := HeroCatalog.class_definition(&"shieldbearer")
+	var fighter := HeroCatalog.class_definition(&"fighter")
 	check(warrior.display_name == "Воин" and warrior.base_attributes == [10, 10, 10, 10, 10] and warrior.attack_range == 1 and warrior.weapon_damage == 4 and warrior.armor_max == 40, "class templates use neutral five-attribute defaults")
 	check(shieldbearer.display_name == "Щитоносец" and shieldbearer.base_attributes == warrior.base_attributes and shieldbearer.attack_range == warrior.attack_range and shieldbearer.weapon_damage == warrior.weapon_damage and shieldbearer.armor_max == warrior.armor_max, "shieldbearer keeps warrior combat values")
+	check(fighter.display_name == "Воин" and fighter.base_attributes == warrior.base_attributes and fighter.attack_range == warrior.attack_range and fighter.weapon_damage == warrior.weapon_damage and fighter.armor_max == warrior.armor_max, "fighter uses legacy warrior template values")
+	check(fighter.abilities_text.contains("+20%") and fighter.abilities_text.contains("лечению") and fighter.abilities_text.contains("броне") and fighter.abilities_text.contains("Рассекающий удар") and fighter.abilities_text.contains("Пинок ногой"), "fighter description lists passive and both active abilities")
 	check(shieldbearer.abilities_text.contains("Оппортунист (пассивный)") and shieldbearer.abilities_text.contains("90% первой атаки") and shieldbearer.abilities_text.contains("1 основное действие") and shieldbearer.abilities_text.contains("перезарядка 1"), "shieldbearer profile describes its bounded abilities")
 	var weapon := HeroGearCatalog.definition("weapon:shieldbearer")
 	var armor := HeroGearCatalog.definition("armor:shieldbearer")
 	check(weapon != null and armor != null and weapon.effects.size() == HeroGearCatalog.definition("weapon:warrior").effects.size() and armor.armor_max == HeroGearCatalog.definition("armor:warrior").armor_max, "class gear reuses warrior equipment values")
 	check(HeroGearCatalog.allowed("weapon:shieldbearer", &"shieldbearer") and not HeroGearCatalog.allowed("weapon:shieldbearer", &"warrior") and HeroGearCatalog.allowed("armor:shieldbearer", &"shieldbearer"), "new gear accepts shieldbearer class")
+	var fighter_weapon := HeroGearCatalog.definition("weapon:fighter")
+	var fighter_armor := HeroGearCatalog.definition("armor:fighter")
+	check(fighter_weapon != null and fighter_armor != null and fighter_weapon.effects.size() == HeroGearCatalog.definition("weapon:warrior").effects.size() and fighter_armor.armor_max == 40, "fighter gear uses legacy warrior numeric values")
+	check(HeroGearCatalog.allowed("weapon:fighter", &"fighter") and not HeroGearCatalog.allowed("weapon:fighter", &"mage") and HeroGearCatalog.allowed("armor:fighter", &"fighter"), "fighter equipment accepts its owner class")
 
 func _test_profile_codec() -> void:
 	var legacy := HeroHubState.create(7101)
@@ -73,17 +81,25 @@ func _test_profile_codec() -> void:
 	bad = v7.duplicate(true)
 	bad.candidates[0].class_id = "warrior"
 	check(HeroHubState.from_dict(bad) == null, "schema seven rejects legacy candidate class")
-	check(HeroHubState.create(7101, 3) == null, "new profile rejects unsupported catalog version")
+	var fighter_profile := HeroHubState.create(7105, 3)
+	var fighter_v7 := fighter_profile.to_dict()
+	check(fighter_profile.hero_catalog_version == 3 and fighter_profile.heroes[5].class_id == &"fighter" and fighter_profile.candidates[4].class_id == &"fighter", "catalog version three adds fighter to roster and candidate pool")
+	check(fighter_profile.equipped(5, "weapon").definition == "weapon:fighter" and fighter_profile.equipped(5, "armor").definition == "armor:fighter", "new fighter receives class gear")
+	var restored_fighter := HeroHubState.from_dict(fighter_v7)
+	check(restored_fighter != null and restored_fighter.to_dict() == fighter_v7 and restored_fighter.hero_catalog_version == 3, "catalog three profile roundtrip preserves schema seven data")
+	bad = fighter_v7.duplicate(true)
+	bad.hero_catalog_version = 4
+	check(HeroHubState.from_dict(bad) == null and HeroHubState.create(7101, 4) == null, "profile and create reject unsupported catalog version four")
 
 func _test_store_dispatch() -> void:
 	var path := "user://shieldbearer-profile-%d.save" % Time.get_ticks_usec()
 	var fresh := HeroHubStore.read_run(path, true)
 	var run: HeroHubState = fresh.run
-	check(run != null and run.hero_catalog_version == 2 and run.heroes[1].class_id == &"shieldbearer" and not run.mage_deck.is_empty(), "missing deck profile starts with shieldbearer and deck")
+	check(run != null and run.hero_catalog_version == 3 and run.heroes[1].class_id == &"shieldbearer" and run.heroes[5].class_id == &"fighter" and not run.mage_deck.is_empty(), "missing deck profile starts with version three classes and deck")
 	if run != null:
 		check(HeroHubStore.write_run(path, run).is_empty(), "schema seven profile saves")
 		var loaded := HeroHubStore.read_run(path)
-		check(loaded.run != null and loaded.run.hero_catalog_version == 2 and loaded.run.to_dict() == run.to_dict(), "schema seven store envelope reads back without migration")
+		check(loaded.run != null and loaded.run.hero_catalog_version == 3 and loaded.run.to_dict() == run.to_dict(), "schema seven version three store envelope reads back without migration")
 		var file := FileAccess.open(path, FileAccess.READ)
 		if file != null:
 			var envelope: Variant = bytes_to_var(file.get_buffer(file.get_length()))
@@ -113,7 +129,7 @@ func _test_factory_dispatch() -> void:
 	check(RaisedShield.valid(unit.armor.raised_shield) and unit.armor.to_dict().schema_version == 4 and unit.action_resources != null and unit.combat_perks.uses_bonus_actions, "factory attaches raised-shield armor state and modern resources")
 	var raise_ability := session.state.abilities.definition(&"unit.raise_shields")
 	check(raise_ability != null and raise_ability.cooldown_turns == 1, "factory registers raised shields ability when owned")
-	check(session.actor_loadouts[unit.id].class_id == &"shieldbearer" and session.unit_visual_classes[unit.id] == &"warrior", "factory keeps stable melee loadout and warrior visual")
+	check(session.actor_loadouts[unit.id].class_id == &"shieldbearer" and session.unit_visual_classes[unit.id] == &"shieldbearer", "factory keeps stable melee loadout and selected shieldbearer visual")
 	session.close()
 	var legacy := HeroHubState.create(7202)
 	legacy.start_battle()

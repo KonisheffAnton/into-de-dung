@@ -54,6 +54,15 @@ func _ready() -> void:
 
 func _sync_scene_art_layers() -> void:
 	super._sync_scene_art_layers()
+	if visual_class_id in [&"fighter", &"shieldbearer"]:
+		# Новые статичные рисунки не подменяются клипами прежнего Защитника.
+		_restore_rogue_death_alpha(_idle_sprite)
+		if _idle_sprite != null: _idle_sprite.visible = false
+		_still_sprite = class_still_sprite()
+		_buff_elapsed = -1.0
+		_death_active = false
+		set_process(false)
+		return
 	var idle_path := "ArtRoot/DefenderIdleSprite"
 	if _uses_enemy_warrior_art(): idle_path = "ArtRoot/EnemyWarriorIdleSprite"
 	elif visual_class_id == &"rogue": idle_path = "ArtRoot/RogueIdleSprite"

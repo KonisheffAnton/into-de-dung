@@ -41,7 +41,7 @@
 | ArmorState | armor4; `shield` / `raised_shield` опциональны; опциональный `fractional:true` включает дробный расчёт V1 |
 | BleedingState | bleeding4; обязательны `stacked:bool` и `stacks:int`; опциональный `contributions:Array` включает авторский режим только при stacked |
 | ElementalState | elemental4; обязательны `acid_ticks:int`, `poison_stacks:int`, `poison_ticks:int`, `poison_source:Dictionary`; авторский режим содержит оба массива `burning_contributions` и `poison_contributions` |
-| CombatPerksState | perks7; все восемь флагов, `uses_bonus_actions:bool` и `reaction_left:int`; при оплате из bonus старый запас строго 0 |
+| CombatPerksState | perks7; все восемь флагов, `uses_bonus_actions:bool` и `reaction_left:int`; при оплате из bonus старый запас строго 0; опциональный `warrior:{ready_turn:int}` — capability и личный откат [Воина](WARRIOR_V1.md) |
 | CombatEnvironmentState | environment5; `status_effects:bool`, опциональные collapse/hazards (hazards1; опциональный wall_mount=ledge); status требует collapse, hazards требует status |
 | BattleAbilityState | abilities3; `ruleset_id` пустой для прежней маны либо `u14-deck-v1`, обязательный `first_team`; прежний режим требует first_team=1 |
 

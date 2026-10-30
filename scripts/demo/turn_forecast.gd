@@ -29,6 +29,7 @@ class Prepared extends RefCounted:
 	var rune_selected: bool = false
 	var entangle_selected: bool = false
 	var stun_selected: bool = false
+	var warrior_selected: StringName = &""
 	var elemental_selected: StringName = &""
 	var actor_loadouts: Dictionary = {}
 	var deployment_enabled: bool = false
@@ -80,6 +81,7 @@ static func prepare(session: BattleCoreReactionsSession) -> Prepared:
 	prepared.rune_selected = session.rune_selected
 	prepared.entangle_selected = session.entangle_selected
 	prepared.stun_selected = session.stun_selected
+	prepared.warrior_selected = session.warrior_selected
 	prepared.elemental_selected = session.elemental_selected
 	prepared.actor_loadouts = session.actor_loadouts.duplicate(true)
 	prepared.deployment_enabled = session.deployment_enabled
@@ -115,6 +117,7 @@ static func run_prepared(prepared: Prepared) -> TurnForecast:
 	simulation.rune_selected = prepared.rune_selected
 	simulation.entangle_selected = prepared.entangle_selected
 	simulation.stun_selected = prepared.stun_selected
+	simulation.warrior_selected = prepared.warrior_selected
 	simulation.elemental_selected = prepared.elemental_selected
 	simulation.actor_loadouts = prepared.actor_loadouts.duplicate(true)
 	simulation.deployment_enabled = prepared.deployment_enabled

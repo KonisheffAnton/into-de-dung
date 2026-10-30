@@ -2,6 +2,7 @@ extends BattleCoreCombinationSession
 class_name BattleCoreReactionsSession
 
 var stun_selected: bool = false
+var warrior_selected: StringName = &""
 var elemental_selected: StringName = &""
 ## Сессионная проекция классов не хранит ссылки на постоянных героев хаба.
 var actor_loadouts: Dictionary = {}
@@ -18,6 +19,7 @@ func visible_action_descriptors(available: Array[Dictionary]) -> Array[Dictionar
 	elif actor != null and actor.armor != null and not actor.armor.raised_shield.is_empty(): desired = [&"raise_shields"]
 	elif MeleeThreat.has_counterattack(actor): desired = [&"counterattack_guard", &"safe_retreat"]
 	elif actor_loadouts.get(selected_id, {}).get("class_id", &"") == &"mage": desired = [&"restore_armor", &"healing_item"]
+	if WarriorKit.enabled(actor): desired = [WarriorKit.CLEAVE, WarriorKit.KICK]
 	if action_slot_overrides.has(selected_id): desired = action_slot_overrides[selected_id]
 	var result: Array[Dictionary] = []
 	var seen: Array[StringName] = []
@@ -38,6 +40,18 @@ func allows_loadout_action(action: StringName) -> bool:
 		&"entangling_strike": return class_id == &"archer"
 		&"elemental", &"restore_armor": return class_id == &"mage"
 	return true
+
+func warrior_reason(id: StringName) -> StringName:
+	if not can_player_act(): return &"battle/input_locked"
+	var actor := selected_unit()
+	if actor == null or not WarriorKit.is_skill(id): return &"warrior/capability_required"
+	var reason := WarriorKit.admission(context, actor, id)
+	if reason != &"": return reason
+	reason = ControlRules.action_reason(actor)
+	if reason != &"": return reason
+	if actor.action_resources == null: return &"attack/resources_missing"
+	if id == WarriorKit.KICK: return &"" if actor.action_resources.get_bonus_left() > 0 else &"attack/insufficient_bonus"
+	return &"" if actor.action_resources.get_main_left() > 0 else &"attack/insufficient_main"
 
 func cast_reason(effect: StringName) -> StringName:
 	if AbilityDefinition.mage_source_id(effect) > 0: return mage_reason(effect)
@@ -99,7 +113,8 @@ func _command_for(id: int) -> AttackCommand:
 		var ordinary := super._command_for(id)
 		if ordinary == null or rune_selected or (entangle_selected and not allows_loadout_action(&"entangling_strike")): return null
 		var attack_id: StringName = actor_loadouts[selected_id].attack_id
-		if stun_selected: attack_id = &"stunning_strike"
+		if WarriorKit.is_skill(warrior_selected): attack_id = warrior_selected
+		elif stun_selected: attack_id = &"stunning_strike"
 		elif entangle_selected: attack_id = &"entangling_strike"
 		return AttackCommand.new(ordinary.get_actor_unit_id(), id, ordinary.get_expected_actor_cell(), ordinary.get_expected_target_cell(), attack_id, context.get_revision())
 	if not stun_selected: return super._command_for(id)
@@ -123,6 +138,7 @@ func reset() -> void:
 		if unit.control == null: unit.control = ControlState.new()
 		unit.bleeding.stacked = true
 	stun_selected = false
+	warrior_selected = &""
 	elemental_selected = &""
 	for index: int in [0, 1, 2, 3, 4, 5]:
 		var perks := CombatPerksState.new()

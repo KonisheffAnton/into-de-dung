@@ -12,6 +12,8 @@ var reaction_left: int = 0
 var movement_stopped: bool = false
 ## Новые сессии хранят запас бонусных действий в ActionResources.
 var uses_bonus_actions: bool = false
+## Пустое значение сохраняет прежние наборы классов; cooldown принадлежит конкретному бойцу.
+var warrior: Dictionary = {}
 
 func to_dict() -> Dictionary:
 	if get_script() != CombatPerksState or definition == null or definition.get_script() != CombatPerksDefinition: return {}
@@ -21,12 +23,18 @@ func to_dict() -> Dictionary:
 			"entangle_immune": definition.entangle_immune, "counterattack": definition.counterattack,
 			"burning_bypass_hp_gate": definition.burning_bypass_hp_gate, "passive_opportunist": definition.passive_opportunist},
 		"mode": mode, "cover_target_id": cover_target_id, "reaction_left": reaction_left, "movement_stopped": movement_stopped}
+	if not warrior.is_empty(): value["warrior"] = warrior.duplicate(true)
 	return value if valid(value) else {}
 
 static func valid(value: Variant) -> bool:
-	if not ItemSimulationSnapshot._shape(value, {"schema_version": TYPE_INT, "uses_bonus_actions": TYPE_BOOL,
+	if typeof(value) != TYPE_DICTIONARY: return false
+	var shape := {"schema_version": TYPE_INT, "uses_bonus_actions": TYPE_BOOL,
 		"definition": TYPE_DICTIONARY, "mode": TYPE_INT, "cover_target_id": TYPE_INT,
-		"reaction_left": TYPE_INT, "movement_stopped": TYPE_BOOL}): return false
+		"reaction_left": TYPE_INT, "movement_stopped": TYPE_BOOL}
+	if value.has("warrior"):
+		shape["warrior"] = TYPE_DICTIONARY
+		if not WarriorKit.valid(value.warrior) or not value.get("uses_bonus_actions", false): return false
+	if not ItemSimulationSnapshot._shape(value, shape): return false
 	if value.schema_version != 7: return false
 	if not ItemSimulationSnapshot._shape(value.definition, {"sneak_attack": TYPE_BOOL, "tank_reactions": TYPE_BOOL,
 		"stunning_strike": TYPE_BOOL, "stun_immune": TYPE_BOOL, "entangle_immune": TYPE_BOOL,
@@ -57,6 +65,7 @@ static func from_dict(value: Dictionary) -> CombatPerksState:
 	result.definition.burning_bypass_hp_gate = perks.burning_bypass_hp_gate
 	result.definition.passive_opportunist = perks.passive_opportunist
 	result.uses_bonus_actions = value.uses_bonus_actions
+	result.warrior = value.get("warrior", {}).duplicate(true)
 	result.mode = value.mode
 	result.cover_target_id = value.cover_target_id
 	result.reaction_left = value.reaction_left

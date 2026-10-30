@@ -2,9 +2,16 @@ extends RefCounted
 class_name ArmorRecovery
 
 ## Восстановление распределяется по недостаче, а не случайным весам расхода.
-static func restore(view: Dictionary, volume: int, source: String, persistent: bool = false) -> Dictionary:
-	if volume <= 0 or source.is_empty() or view.is_empty(): return {"reason": &"armor/zero_restore"}
-	if view.get("state", {}).get("fractional", false): return _restore_fractional(view, volume, source, persistent)
+static func restore(view: Dictionary, volume: Variant, source: String, persistent: bool = false) -> Dictionary:
+	if source.is_empty() or view.is_empty(): return {"reason": &"armor/zero_restore"}
+	if typeof(volume) not in [TYPE_INT, TYPE_FLOAT] or not is_finite(float(volume)): return {"reason": &"armor/overflow"}
+	var numeric_volume: float = float(volume)
+	if numeric_volume <= 0.0: return {"reason": &"armor/zero_restore"}
+	if not CombatAmount.valid(volume): return {"reason": &"armor/overflow"}
+	if view.get("state", {}).get("fractional", false): return _restore_fractional(view, numeric_volume, source, persistent)
+	if numeric_volume != floorf(numeric_volume): return {"reason": &"armor/overflow"}
+	# Целевой путь переводит множитель 1.0 обратно в int, сохраняя legacy DTO-типы.
+	var integer_volume: int = int(volume)
 	var after := view.duplicate(true)
 	var indices: Array[int] = []
 	var weights: Array[int] = []
@@ -16,7 +23,7 @@ static func restore(view: Dictionary, volume: int, source: String, persistent: b
 		if gap < 0 or missing > ActionContext.MAX_ID - gap: return {"reason": &"armor/overflow"}
 		missing += gap
 		indices.append(index); weights.append(gap)
-	var restored := mini(volume, missing)
+	var restored := mini(integer_volume, missing)
 	var in_battle: bool = after["state"]["in_battle"]
 	if not in_battle and restored == 0: return {"reason": &"armor/full"}
 	var allocations: Array[int] = []
@@ -28,7 +35,7 @@ static func restore(view: Dictionary, volume: int, source: String, persistent: b
 		var item: Dictionary = after["items"][indices[offset]]
 		changes.append({"id": item["item_id"], "before": item["remaining"], "after": int(item["remaining"]) + allocations[offset]})
 		item["remaining"] += allocations[offset]
-	var extra := volume - restored if in_battle else 0
+	var extra := integer_volume - restored if in_battle else 0
 	var grant: Dictionary = {}
 	if extra > 0:
 		var state: Dictionary = after["state"]
@@ -39,7 +46,7 @@ static func restore(view: Dictionary, volume: int, source: String, persistent: b
 	if ArmorRuntime.totals(after).is_empty(): return {"reason": &"armor/overflow"}
 	return {"reason": &"", "after": after, "items": changes, "grant": grant, "restored": restored, "extra": extra}
 
-static func _restore_fractional(view: Dictionary, volume: int, source: String, persistent: bool) -> Dictionary:
+static func _restore_fractional(view: Dictionary, volume: float, source: String, persistent: bool) -> Dictionary:
 	if not CombatAmount.valid(volume): return {"reason": &"armor/overflow"}
 	# Отдельный путь сохраняет дробные остатки и не меняет integer-распределение legacy.
 	var after := view.duplicate(true)

@@ -42,6 +42,10 @@ static func control_skip_text(reason: StringName) -> String:
 
 static func reason_text(reason: StringName, tactical_mode: bool) -> String:
 	match reason:
+		&"warrior/cooldown": return "Рассекающий удар восстанавливается: следующий свой ход нужно пропустить."
+		&"attack/insufficient_bonus": return "Нет дополнительного действия."
+		&"warrior/capability_required": return "Способность доступна только Воину."
+		&"warrior/not_active_turn": return "Дождитесь хода своей команды."
 		&"raise_shields/cooldown": return "Поднять щиты восстанавливается: следующий свой ход нужно пропустить."
 		&"raise_shields/already_active": return "Щиты уже подняты до первой атаки или следующего своего хода."
 		&"raise_shields/insufficient_main": return "Нужно 1 основное действие."

@@ -29,7 +29,8 @@ static func finish(hub: HeroHubState, report: Dictionary, hp: Dictionary) -> voi
 		row.xp_after = hero.xp_tenths; row.level_after = hero.level()
 		if report.victory and row.participated and row.alive:
 			# Восстановление принадлежит исходу боя; открытие окна не лечит повторно.
-			var restored := minf(float(row.hp_max) - hero.hp_current, floorf(float(row.hp_max) * RECOVERY_PERCENT / 100.0))
+			var recovery_factor: float = WarriorKit.class_recovery_factor(hero.class_id)
+			var restored := minf(float(row.hp_max) - hero.hp_current, floorf(float(row.hp_max) * RECOVERY_PERCENT / 100.0) * recovery_factor)
 			hero.hp_current += restored
 			row.hp_restored = restored; row.hp_after_recovery = float(hero.hp_current)
 	var previous_points := hub.achievements.total_points
@@ -50,9 +51,11 @@ static func repair_quote(hub: HeroHubState, hero_id: int) -> Dictionary:
 	if armor.is_empty(): return {}
 	var definition := HeroGearCatalog.definition(armor.definition)
 	if not CombatAmount.valid(armor.remaining): return {}
-	var amount := minf(float(REPAIR_AMOUNT), float(definition.armor_max) - float(armor.remaining))
+	var recovery_factor: float = WarriorKit.class_recovery_factor((hub.heroes[hero_id] as HeroProgression).class_id)
+	# Базовый лимит в 10 брони и его цена остаются прежними; Воин получает больше фактического ремонта.
+	var amount := minf(float(REPAIR_AMOUNT) * recovery_factor, float(definition.armor_max) - float(armor.remaining))
 	if amount <= 0: return {}
-	var cost := ceili(amount * GOLD_PER_ARMOR)
+	var cost := ceili(amount / recovery_factor * GOLD_PER_ARMOR)
 	var gold := hub.expedition.gold if hub.phase == "expedition" else hub.gold
 	return {"hero_id":hero_id,"item_id":int(armor.id),"name":definition.display_name,"before":float(armor.remaining),"after":float(armor.remaining) + amount,
 		"amount":amount,"cost":cost,"affordable":gold >= cost}
@@ -96,6 +99,18 @@ static func _valid_legacy_report(data: Dictionary, hub: HeroHubState, early: boo
 		for key: String in ["hp_after_battle","hp_restored","hp_after_recovery"]:
 			if not is_finite(row[key]) or row[key] < 0.0 or row[key] > row.hp_max: return false
 		if not is_equal_approx(row.hp_after_battle + row.hp_restored,row.hp_after_recovery): return false
+		if row.participated and row.alive and data.victory and not early:
+			var base_recovery := floorf(float(row.hp_max) * RECOVERY_PERCENT / 100.0)
+			var recovery_factor: float = WarriorKit.class_recovery_factor((hub.heroes[row.id] as HeroProgression).class_id) if hub.heroes.has(row.id) else 1.0
+			var missing := float(row.hp_max) - float(row.hp_after_battle)
+			var expected_restore := minf(missing, base_recovery * recovery_factor)
+			if hub.heroes.has(row.id):
+				if not is_equal_approx(row.hp_restored, expected_restore): return false
+			else:
+				# Старый/снятый с профиля герой уже не хранит class_id; принимаются оба допустимых расчёта.
+				var legacy_restore := minf(missing, base_recovery)
+				var fighter_restore := minf(missing, base_recovery * WarriorKit.class_recovery_factor(&"fighter"))
+				if not is_equal_approx(row.hp_restored, legacy_restore) and not is_equal_approx(row.hp_restored, fighter_restore) and row.hp_restored != 0.0: return false
 		if row.participated:
 			participants += 1
 			if row.alive: living += 1
@@ -111,7 +126,15 @@ static func _valid_legacy_report(data: Dictionary, hub: HeroHubState, early: boo
 	if gained != data.points_awarded: return false
 	for row: Variant in data.repairs:
 		if not CombatAmount.shape(row,{"hero_id":TYPE_INT,"item_id":TYPE_INT,"name":TYPE_STRING,"cost":TYPE_INT},["amount"]): return false
-		if not ids.has(row.hero_id) or row.item_id < 1 or row.item_id >= hub.next_item_id or row.name.length() > 128 or row.amount <= 0.0 or row.amount > REPAIR_AMOUNT or row.cost != ceili(row.amount * GOLD_PER_ARMOR): return false
+		if not ids.has(row.hero_id) or row.item_id < 1 or row.item_id >= hub.next_item_id or row.name.length() > 128 or row.amount <= 0.0: return false
+		var known_factor: float = WarriorKit.class_recovery_factor((hub.heroes[row.hero_id] as HeroProgression).class_id) if hub.heroes.has(row.hero_id) else 0.0
+		if known_factor > 0.0:
+			if row.amount > REPAIR_AMOUNT * known_factor or row.cost != ceili(row.amount / known_factor * GOLD_PER_ARMOR): return false
+		else:
+			var legacy_cost: int = ceili(row.amount * GOLD_PER_ARMOR)
+			var fighter_factor: float = WarriorKit.class_recovery_factor(&"fighter")
+			var fighter_cost: int = ceili(row.amount / fighter_factor * GOLD_PER_ARMOR)
+			if row.amount > REPAIR_AMOUNT * fighter_factor or row.cost not in [legacy_cost, fighter_cost]: return false
 	if data.open:
 		if data.run_id != hub.run_serial or hub.phase == "battle": return false
 		if hub.phase == "expedition":

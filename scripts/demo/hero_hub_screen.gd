@@ -469,7 +469,7 @@ func _hero_detail(hero: HeroProgression) -> String:
 	var base_stats := "Мощь %d · Ловкость %d · Выносливость %d · Интеллект %d · Мастерство %d" % [stats[0], stats[1], stats[2], stats[3], stats[4]]
 	var xp_text := "%d.%d опыта всего" % [hero.xp_tenths / 10, hero.xp_tenths % 10]
 	var perk := HeroCatalog.perk_text(hero.perk)
-	var weapon_name: String = {"warrior":"меч", "shieldbearer":"меч", "archer":"лук", "rogue":"кинжал", "mage":"посох"}.get(String(hero.class_id), "оружие класса")
+	var weapon_name: String = {"warrior":"меч", "shieldbearer":"меч", "fighter":"меч", "archer":"лук", "rogue":"кинжал", "mage":"посох"}.get(String(hero.class_id), "оружие класса")
 	var abilities := definition.abilities_text
 	if hero.class_id == &"mage": abilities += " Броня +20."
 	abilities += " Общие действия: походный флакон (4 + Мощь), стойка." if hero.class_id == &"shieldbearer" else " Общие действия: походный флакон (4 + Мощь), общий отход и стойка."

@@ -79,7 +79,9 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var actor: UnitState = prepared["actor"]
 	var resources: ActionResources = prepared["resources"]
 	var main_before := resources.get_main_left()
-	var main_cost := 0 if _reaction or _extra_attack else 1
+	var kick := _attack_definition_id == WarriorKit.KICK
+	var main_cost := 0 if _reaction or _extra_attack or kick else 1
+	var bonus_before := resources.get_bonus_left()
 	var main_after := main_before - main_cost
 	var target: UnitState = prepared["target"]
 	var cover: UnitState = prepared.get("cover")
@@ -87,6 +89,11 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var changes: Dictionary = {}
 	var stopped: CombatPerksState = target.combat_perks
 	var reaction_events: Array[Dictionary] = []
+	var warrior_after: Dictionary = {}
+	if _attack_definition_id == WarriorKit.CLEAVE:
+		warrior_after = actor.combat_perks.to_dict()
+		warrior_after.warrior.ready_turn = context.get_state().abilities.serials[actor.faction] + 2
+		binding.spatial_guard = binding.spatial_guard.perks_phase(actor.id, actor.combat_perks, warrior_after)
 	if _reaction:
 		binding.spatial_guard = _reaction_payment_phase(binding.spatial_guard, actor)
 		if not _counter:
@@ -102,6 +109,8 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var attack_kind: StringName = &"counterattacked" if _counter else (&"opportunity_attacked" if _reaction else &"attacked")
 	var event := {"kind": attack_kind, "actor_unit_id": actor.id, "target_unit_id": target.id, "attack_definition_id": _attack_definition_id, "actor_cell": actor.cell, "target_cell": target.cell, "main_cost": main_cost, "main_before": main_before, "main_after": main_after}
 	if _extra_attack: event["extra_attack"] = true
+	if kick: event.merge({"bonus_cost": 1, "bonus_before": bonus_before, "bonus_after": bonus_before - 1})
+	if not warrior_after.is_empty(): event["warrior_ready_turn"] = warrior_after.warrior.ready_turn
 	if prepared.has("modifiers"): event["modifiers"] = prepared["modifiers"]
 	var hit := AttackHitCommand.new(prepared["request"] as DamageRequest, actor, target, resources, actor.cell, target.cell, main_after, binding)
 	hit.bind_bleeding(prepared.get("bleeding_policy", &""), _attack_definition_id)
@@ -110,6 +119,11 @@ func execute(context: ActionContext) -> CommandStepResult:
 	hit.bind_artifacts(prepared.get("artifact_values", {}), prepared.get("artifact_freeze_gate", false))
 	if main_cost > 0 and not resources.try_spend_main(main_cost):
 		return CommandStepResult.faulted(&"attack/invalid_runtime")
+	if kick and not resources.try_spend_bonus(1): return CommandStepResult.faulted(&"attack/invalid_runtime")
+	if kick: changes[actor.id] = CombatPerkGuard.record(actor, actor.combat_perks)
+	if not warrior_after.is_empty():
+		actor.combat_perks.warrior = warrior_after.warrior.duplicate(true)
+		changes[actor.id] = CombatPerkGuard.record(actor, actor.combat_perks)
 	if _reaction:
 		_spend_reaction(actor)
 		changes[actor.id] = CombatPerkGuard.record(actor, actor.combat_perks)
@@ -190,6 +204,9 @@ func _prepare(context: ActionContext) -> Dictionary:
 		result["reason"] = &"attack/invalid_runtime"; return result
 	if not actor.is_alive():
 		result["reason"] = &"attack/dead_actor"; return result
+	var warrior_reason := WarriorKit.admission(context, actor, _attack_definition_id)
+	if warrior_reason != &"": return {"reason": warrior_reason}
+	var kick := _attack_definition_id == WarriorKit.KICK
 	var control_reason := ControlRules.action_reason(actor)
 	if control_reason != &"": result["reason"] = control_reason; return result
 	var target := board.get_unit_by_id(_target_unit_id)
@@ -256,10 +273,12 @@ func _prepare(context: ActionContext) -> Dictionary:
 	if not _valid_maximum(main_max) or not _valid_maximum(bonus_max) or not is_finite(weapon):
 		result["reason"] = &"attack/invalid_stat"; return result
 	var reach := actor_copy.get_value(StatTypes.StatType.ATTACK_RANGE)
+	if WarriorKit.is_skill(_attack_definition_id): reach = 1.0
 	var reach_reason := AttackReachCheck.inspect_spatial(board, actor, target, reach) if spatial else AttackReachCheck.inspect(board, actor, target, reach)
 	if reach_reason != &"":
 		result["reason"] = reach_reason; return result
-	if not _reaction and not _extra_attack and resources.get_main_left() < 1:
+	if kick and resources.get_bonus_left() < 1: return {"reason": &"attack/insufficient_bonus"}
+	if not _reaction and not _extra_attack and not kick and resources.get_main_left() < 1:
 		result["reason"] = &"attack/insufficient_main"; return result
 	var strength := actor_copy.get_value(StatTypes.StatType.STRENGTH)
 	var armor := target_copy.get_value(StatTypes.StatType.ARMOR)
@@ -302,13 +321,13 @@ func _prepare(context: ActionContext) -> Dictionary:
 			if attribute_values.is_empty(): result["reason"] = &"attack/invalid_stat"; return result
 			if not result.has("modifiers"): result["modifiers"] = {}
 			result.modifiers["character_attributes"] = attribute_values.duplicate()
-			raw = CharacterAttack.components(strength, weapon, signed_height_steps, target.guard_stance, extras, backstab_percent + sneak_percent, critical, int(piercing), 30 if cover != null else 0, surrounding_allies.size(), attribute_values)
+			raw = CharacterAttack.components(2.0 * attribute_values.power if kick else strength, 0.0 if kick else weapon, signed_height_steps, target.guard_stance, extras, backstab_percent + sneak_percent, critical, int(piercing), 30 if cover != null else 0, surrounding_allies.size(), attribute_values, not kick)
 		var request := ArmorAttack.request(target.id, raw, DamageSource.new(&"attack", 0, actor.cell, actor.id, actor.id))
 		request.attack_group_id = context.damage_attack_group()
 		var plan := ArmorHitExecutor.prepare(request, ArmorRuntime.capture(state.get_owner(target.id)), target.vitals.get_hp(), target_copy.get_value(StatTypes.StatType.HP_MAX), context.get_rng(), ElementalRules.is_frozen(target), context)
 		if plan.get("reason", &"") != &"": result["reason"] = plan["reason"]; return result
 		request.amount = float(plan["hp_before"] - plan["hp_after"])
-		var binding_result := BalancePushRules.prepare_attack(context, actor, target, strength + weapon, request.amount, resources.get_main_left() - (0 if _reaction or _extra_attack else 1), true, request, critical_multiplier, _reaction, cover, definition.chain_push, _extra_attack)
+		var binding_result := BalancePushRules.prepare_attack(context, actor, target, strength + weapon, request.amount, resources.get_main_left() - (0 if _reaction or _extra_attack or kick else 1), true, request, critical_multiplier, _reaction, cover, definition.chain_push, _extra_attack, kick)
 		if binding_result.get("reason", &"") != &"": return binding_result
 		var binding: BalancePushRules.Binding = binding_result["binding"]
 		var touches: int = int(binding.values.get("admission_board_touches", 0)) + (1 if plan["hp_after"] == 0 else 0)

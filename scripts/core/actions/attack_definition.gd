@@ -15,7 +15,7 @@ class_name AttackDefinition
 @export var cooldown_turns: int = 0
 
 func get_ability_definition() -> AbilityDefinition:
-	if cooldown_turns != 0: return null
+	if not WarriorKit.valid_definition(self): return null
 	var result := AbilityDefinition.new()
 	result.ability_id = StringName("attack:%s" % String(id))
 	result.cooldown_turns = cooldown_turns

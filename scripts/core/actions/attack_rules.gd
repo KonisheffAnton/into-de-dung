@@ -43,7 +43,7 @@ func _init(admitted_actor_ids: Array[int] = [], allowed_pairs: Array[Dictionary]
 		_pairs.append({"actor_unit_id": actor_id, "target_unit_id": target_id})
 	var definition_ids: Dictionary = {}
 	for definition in definitions:
-		if definition == null or definition.get_script() != AttackDefinition or definition.cooldown_turns != 0 or definition.id == &"" or String(definition.id).to_utf8_buffer().size() > MAX_DEFINITION_ID_BYTES or (definition.profile != PROFILE and definition.profile != BALANCE_PROFILE and definition.profile != SPATIAL_PROFILE and definition.profile != ARMOR_PROFILE) or definition_ids.has(definition.id):
+		if definition == null or definition.get_script() != AttackDefinition or not WarriorKit.valid_definition(definition) or definition.id == &"" or String(definition.id).to_utf8_buffer().size() > MAX_DEFINITION_ID_BYTES or (definition.profile != PROFILE and definition.profile != BALANCE_PROFILE and definition.profile != SPATIAL_PROFILE and definition.profile != ARMOR_PROFILE) or definition_ids.has(definition.id):
 			_mark_invalid()
 			return
 		definition_ids[definition.id] = true

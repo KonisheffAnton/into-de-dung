@@ -62,6 +62,8 @@ func validate() -> StringName:
 		return &"ability/unsupported_effect"
 	if ability_id == &"unit.raise_shields":
 		return &"" if cooldown_turns == 1 and mana_cost == 0 and amount == 0 else &"ability/invalid_raise_shields"
+	if ability_id == &"attack:warrior_cleave":
+		return &"" if cooldown_turns == 1 and mana_cost == 0 and amount == 0 else &"ability/invalid_warrior_cleave"
 	if cooldown_turns != 0:
 		return &"ability/unsupported_cooldown"
 	if mana_cost != 0 or amount != 0:
