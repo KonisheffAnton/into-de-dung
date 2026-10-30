@@ -1,0 +1,39 @@
+{
+  "id": "18",
+  "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a18ed7-afd8-70f0-8c54-3750bf04d380\\exec-461315dc-292e-4fd0-b024-8028f12149f1.png",
+  "source_sha256": "2e4d226709dd025eb75ac2cf4dbbca97b1cefdbcea89d91efeb1e5ffdf4eca7c",
+  "source_size": [
+    1254,
+    1254
+  ],
+  "source_bbox": [
+    83,
+    60,
+    1235,
+    1199
+  ],
+  "input_sha256": "d51259d19945a1f8197793c1341440ad57cd2125313775447fc3c85610032535",
+  "canvas": [
+    256,
+    256
+  ],
+  "anchor": [
+    128,
+    200
+  ],
+  "bbox": [
+    74,
+    50,
+    228,
+    202
+  ],
+  "scale_from_source": 0.1334503950834065,
+  "resampling": "nearest",
+  "offset": [
+    74,
+    50
+  ],
+  "integration": false,
+  "prompt": "Use case: background-extraction. Extract ONLY the complete warrior from the reference concept into a large full-resolution transparent PNG. Remove the entire stone tile, floor, cast shadow and dark blue background. Preserve precisely the character identity, compact proportions, original pose and camera angle, face/hair or helmet, armor, scarf/cape, sword and shield if present, original pixel-art rendering and colors. Do not redesign or simplify. Single full-body character enlarged to fill the canvas with modest transparent margins, entire blade, hands and boots visible. Actual alpha transparency, no halo, outline, extra objects or labels. This is the source model for game sprite animation. Character variant 18.",
+  "provider": "built-in-imagegen"
+}

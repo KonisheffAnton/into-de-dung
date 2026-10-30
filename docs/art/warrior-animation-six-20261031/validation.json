@@ -1,0 +1,273 @@
+{
+  "pass": true,
+  "model_count": 6,
+  "pixellab_clips": 54,
+  "local_clips": 18,
+  "checked_png_frames": 2346,
+  "checked_sheet_cells": 2346,
+  "checked_gifs": 72,
+  "pixellab_generations": 270,
+  "edge_clips": [],
+  "margin_clips": [],
+  "errors": [],
+  "integration": false,
+  "art_acceptance": false,
+  "runtime_validation": false,
+  "pass_meaning": "structural/source/export checks only; not loop, artistic or runtime acceptance",
+  "pixellab_return_diagnostics": [
+    {
+      "key": "02-idle-1",
+      "visible_exact": false,
+      "changed_pixels": 13713,
+      "alpha_changed_pixels": 13685
+    },
+    {
+      "key": "02-idle-2",
+      "visible_exact": false,
+      "changed_pixels": 13727,
+      "alpha_changed_pixels": 13699
+    },
+    {
+      "key": "02-idle-3",
+      "visible_exact": false,
+      "changed_pixels": 13713,
+      "alpha_changed_pixels": 13685
+    },
+    {
+      "key": "02-ability-1",
+      "visible_exact": false,
+      "changed_pixels": 13713,
+      "alpha_changed_pixels": 13685
+    },
+    {
+      "key": "02-ability-2",
+      "visible_exact": false,
+      "changed_pixels": 13713,
+      "alpha_changed_pixels": 13685
+    },
+    {
+      "key": "02-ability-3",
+      "visible_exact": false,
+      "changed_pixels": 13714,
+      "alpha_changed_pixels": 13686
+    },
+    {
+      "key": "05-idle-1",
+      "visible_exact": false,
+      "changed_pixels": 9171,
+      "alpha_changed_pixels": 9131
+    },
+    {
+      "key": "05-idle-2",
+      "visible_exact": false,
+      "changed_pixels": 9170,
+      "alpha_changed_pixels": 9130
+    },
+    {
+      "key": "05-idle-3",
+      "visible_exact": false,
+      "changed_pixels": 9170,
+      "alpha_changed_pixels": 9130
+    },
+    {
+      "key": "05-ability-1",
+      "visible_exact": false,
+      "changed_pixels": 9170,
+      "alpha_changed_pixels": 9130
+    },
+    {
+      "key": "05-ability-2",
+      "visible_exact": false,
+      "changed_pixels": 9170,
+      "alpha_changed_pixels": 9130
+    },
+    {
+      "key": "05-ability-3",
+      "visible_exact": false,
+      "changed_pixels": 9170,
+      "alpha_changed_pixels": 9130
+    },
+    {
+      "key": "11-idle-1",
+      "visible_exact": false,
+      "changed_pixels": 11686,
+      "alpha_changed_pixels": 11622
+    },
+    {
+      "key": "11-idle-2",
+      "visible_exact": false,
+      "changed_pixels": 11686,
+      "alpha_changed_pixels": 11624
+    },
+    {
+      "key": "11-idle-3",
+      "visible_exact": false,
+      "changed_pixels": 11686,
+      "alpha_changed_pixels": 11622
+    },
+    {
+      "key": "11-ability-1",
+      "visible_exact": false,
+      "changed_pixels": 11695,
+      "alpha_changed_pixels": 11631
+    },
+    {
+      "key": "11-ability-2",
+      "visible_exact": false,
+      "changed_pixels": 11692,
+      "alpha_changed_pixels": 11628
+    },
+    {
+      "key": "11-ability-3",
+      "visible_exact": false,
+      "changed_pixels": 11686,
+      "alpha_changed_pixels": 11622
+    },
+    {
+      "key": "12-idle-1",
+      "visible_exact": false,
+      "changed_pixels": 13786,
+      "alpha_changed_pixels": 13739
+    },
+    {
+      "key": "12-idle-2",
+      "visible_exact": false,
+      "changed_pixels": 13785,
+      "alpha_changed_pixels": 13737
+    },
+    {
+      "key": "12-idle-3",
+      "visible_exact": false,
+      "changed_pixels": 13786,
+      "alpha_changed_pixels": 13739
+    },
+    {
+      "key": "12-ability-1",
+      "visible_exact": false,
+      "changed_pixels": 13785,
+      "alpha_changed_pixels": 13737
+    },
+    {
+      "key": "12-ability-2",
+      "visible_exact": false,
+      "changed_pixels": 13785,
+      "alpha_changed_pixels": 13737
+    },
+    {
+      "key": "12-ability-3",
+      "visible_exact": false,
+      "changed_pixels": 13785,
+      "alpha_changed_pixels": 13737
+    },
+    {
+      "key": "17-idle-1",
+      "visible_exact": false,
+      "changed_pixels": 14355,
+      "alpha_changed_pixels": 14304
+    },
+    {
+      "key": "17-idle-2",
+      "visible_exact": false,
+      "changed_pixels": 14356,
+      "alpha_changed_pixels": 14306
+    },
+    {
+      "key": "17-idle-3",
+      "visible_exact": false,
+      "changed_pixels": 14355,
+      "alpha_changed_pixels": 14304
+    },
+    {
+      "key": "17-ability-1",
+      "visible_exact": false,
+      "changed_pixels": 14355,
+      "alpha_changed_pixels": 14304
+    },
+    {
+      "key": "17-ability-2",
+      "visible_exact": false,
+      "changed_pixels": 14355,
+      "alpha_changed_pixels": 14304
+    },
+    {
+      "key": "17-ability-3",
+      "visible_exact": false,
+      "changed_pixels": 14355,
+      "alpha_changed_pixels": 14304
+    },
+    {
+      "key": "18-idle-1",
+      "visible_exact": false,
+      "changed_pixels": 11923,
+      "alpha_changed_pixels": 11852
+    },
+    {
+      "key": "18-idle-2",
+      "visible_exact": false,
+      "changed_pixels": 11923,
+      "alpha_changed_pixels": 11851
+    },
+    {
+      "key": "18-idle-3",
+      "visible_exact": false,
+      "changed_pixels": 11924,
+      "alpha_changed_pixels": 11857
+    },
+    {
+      "key": "18-ability-1",
+      "visible_exact": false,
+      "changed_pixels": 11923,
+      "alpha_changed_pixels": 11853
+    },
+    {
+      "key": "18-ability-2",
+      "visible_exact": false,
+      "changed_pixels": 11923,
+      "alpha_changed_pixels": 11851
+    },
+    {
+      "key": "18-ability-3",
+      "visible_exact": false,
+      "changed_pixels": 11923,
+      "alpha_changed_pixels": 11851
+    }
+  ],
+  "pixellab_return_mismatches": [
+    "02-idle-1",
+    "02-idle-2",
+    "02-idle-3",
+    "02-ability-1",
+    "02-ability-2",
+    "02-ability-3",
+    "05-idle-1",
+    "05-idle-2",
+    "05-idle-3",
+    "05-ability-1",
+    "05-ability-2",
+    "05-ability-3",
+    "11-idle-1",
+    "11-idle-2",
+    "11-idle-3",
+    "11-ability-1",
+    "11-ability-2",
+    "11-ability-3",
+    "12-idle-1",
+    "12-idle-2",
+    "12-idle-3",
+    "12-ability-1",
+    "12-ability-2",
+    "12-ability-3",
+    "17-idle-1",
+    "17-idle-2",
+    "17-idle-3",
+    "17-ability-1",
+    "17-ability-2",
+    "17-ability-3",
+    "18-idle-1",
+    "18-idle-2",
+    "18-idle-3",
+    "18-ability-1",
+    "18-ability-2",
+    "18-ability-3"
+  ]
+}

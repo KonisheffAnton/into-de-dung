@@ -1,0 +1,253 @@
+{
+  "label": "local cutout prototype validation",
+  "base": "db3d831028efdb804ea235ffc621d59c812314c7",
+  "warriors": {
+    "02": {
+      "source": "models\\warrior-02\\input-256.png",
+      "source_bbox": [
+        50,
+        52,
+        197,
+        204
+      ],
+      "clips": {
+        "idle": {
+          "passed": true,
+          "errors": [],
+          "frames": 32,
+          "changed_frames": 31,
+          "first_frame_exact": true,
+          "last_frame_exact": false,
+          "idle_sole_checks": 32,
+          "idle_sole_changed_pixels": 0
+        },
+        "death": {
+          "passed": true,
+          "errors": [],
+          "frames": 30,
+          "changed_frames": 29,
+          "first_frame_exact": true,
+          "last_frame_exact": false,
+          "idle_sole_checks": 0,
+          "idle_sole_changed_pixels": 0
+        },
+        "ability": {
+          "passed": true,
+          "errors": [],
+          "frames": 32,
+          "changed_frames": 30,
+          "first_frame_exact": true,
+          "last_frame_exact": true,
+          "idle_sole_checks": 0,
+          "idle_sole_changed_pixels": 0
+        }
+      }
+    },
+    "05": {
+      "source": "models\\warrior-05\\input-256.png",
+      "source_bbox": [
+        80,
+        50,
+        210,
+        202
+      ],
+      "clips": {
+        "idle": {
+          "passed": true,
+          "errors": [],
+          "frames": 32,
+          "changed_frames": 31,
+          "first_frame_exact": true,
+          "last_frame_exact": false,
+          "idle_sole_checks": 32,
+          "idle_sole_changed_pixels": 0
+        },
+        "death": {
+          "passed": true,
+          "errors": [],
+          "frames": 30,
+          "changed_frames": 29,
+          "first_frame_exact": true,
+          "last_frame_exact": false,
+          "idle_sole_checks": 0,
+          "idle_sole_changed_pixels": 0
+        },
+        "ability": {
+          "passed": true,
+          "errors": [],
+          "frames": 32,
+          "changed_frames": 30,
+          "first_frame_exact": true,
+          "last_frame_exact": true,
+          "idle_sole_checks": 0,
+          "idle_sole_changed_pixels": 0
+        }
+      }
+    },
+    "11": {
+      "source": "models\\warrior-11\\input-256.png",
+      "source_bbox": [
+        60,
+        53,
+        185,
+        205
+      ],
+      "clips": {
+        "idle": {
+          "passed": true,
+          "errors": [],
+          "frames": 32,
+          "changed_frames": 31,
+          "first_frame_exact": true,
+          "last_frame_exact": false,
+          "idle_sole_checks": 32,
+          "idle_sole_changed_pixels": 0
+        },
+        "death": {
+          "passed": true,
+          "errors": [],
+          "frames": 30,
+          "changed_frames": 29,
+          "first_frame_exact": true,
+          "last_frame_exact": false,
+          "idle_sole_checks": 0,
+          "idle_sole_changed_pixels": 0
+        },
+        "ability": {
+          "passed": true,
+          "errors": [],
+          "frames": 32,
+          "changed_frames": 30,
+          "first_frame_exact": true,
+          "last_frame_exact": true,
+          "idle_sole_checks": 0,
+          "idle_sole_changed_pixels": 0
+        }
+      }
+    },
+    "12": {
+      "source": "models\\warrior-12\\input-256.png",
+      "source_bbox": [
+        44,
+        50,
+        200,
+        202
+      ],
+      "clips": {
+        "idle": {
+          "passed": true,
+          "errors": [],
+          "frames": 32,
+          "changed_frames": 31,
+          "first_frame_exact": true,
+          "last_frame_exact": false,
+          "idle_sole_checks": 32,
+          "idle_sole_changed_pixels": 0
+        },
+        "death": {
+          "passed": true,
+          "errors": [],
+          "frames": 30,
+          "changed_frames": 29,
+          "first_frame_exact": true,
+          "last_frame_exact": false,
+          "idle_sole_checks": 0,
+          "idle_sole_changed_pixels": 0
+        },
+        "ability": {
+          "passed": true,
+          "errors": [],
+          "frames": 32,
+          "changed_frames": 30,
+          "first_frame_exact": true,
+          "last_frame_exact": true,
+          "idle_sole_checks": 0,
+          "idle_sole_changed_pixels": 0
+        }
+      }
+    },
+    "17": {
+      "source": "models\\warrior-17\\input-256.png",
+      "source_bbox": [
+        52,
+        50,
+        197,
+        202
+      ],
+      "clips": {
+        "idle": {
+          "passed": true,
+          "errors": [],
+          "frames": 32,
+          "changed_frames": 31,
+          "first_frame_exact": true,
+          "last_frame_exact": false,
+          "idle_sole_checks": 32,
+          "idle_sole_changed_pixels": 0
+        },
+        "death": {
+          "passed": true,
+          "errors": [],
+          "frames": 30,
+          "changed_frames": 29,
+          "first_frame_exact": true,
+          "last_frame_exact": false,
+          "idle_sole_checks": 0,
+          "idle_sole_changed_pixels": 0
+        },
+        "ability": {
+          "passed": true,
+          "errors": [],
+          "frames": 32,
+          "changed_frames": 30,
+          "first_frame_exact": true,
+          "last_frame_exact": true,
+          "idle_sole_checks": 0,
+          "idle_sole_changed_pixels": 0
+        }
+      }
+    },
+    "18": {
+      "source": "models\\warrior-18\\input-256.png",
+      "source_bbox": [
+        74,
+        50,
+        228,
+        202
+      ],
+      "clips": {
+        "idle": {
+          "passed": true,
+          "errors": [],
+          "frames": 32,
+          "changed_frames": 31,
+          "first_frame_exact": true,
+          "last_frame_exact": false,
+          "idle_sole_checks": 32,
+          "idle_sole_changed_pixels": 0
+        },
+        "death": {
+          "passed": true,
+          "errors": [],
+          "frames": 30,
+          "changed_frames": 29,
+          "first_frame_exact": true,
+          "last_frame_exact": false,
+          "idle_sole_checks": 0,
+          "idle_sole_changed_pixels": 0
+        },
+        "ability": {
+          "passed": true,
+          "errors": [],
+          "frames": 32,
+          "changed_frames": 30,
+          "first_frame_exact": true,
+          "last_frame_exact": true,
+          "idle_sole_checks": 0,
+          "idle_sole_changed_pixels": 0
+        }
+      }
+    }
+  },
+  "passed": true
+}

@@ -1,0 +1,39 @@
+{
+  "id": "17",
+  "source": "D:\\Games\\into-de-dung\\assets\\art_presets\\trials\\warrior_classes_v1\\shieldbearer-17.png",
+  "source_sha256": "90ff93b9add13e9d25b4a5290f7529240d47533940731169bb270ca746c329c8",
+  "source_size": [
+    1254,
+    1254
+  ],
+  "source_bbox": [
+    124,
+    117,
+    1119,
+    1163
+  ],
+  "input_sha256": "70f27bbb92a0fe819c411c241a0e56b93608cc6738d72e966aa43167664c048a",
+  "canvas": [
+    256,
+    256
+  ],
+  "anchor": [
+    128,
+    200
+  ],
+  "bbox": [
+    52,
+    50,
+    197,
+    202
+  ],
+  "scale_from_source": 0.14531548757170173,
+  "resampling": "nearest",
+  "offset": [
+    52,
+    50
+  ],
+  "integration": false,
+  "prompt": null,
+  "provider": "existing-project-imagegen"
+}

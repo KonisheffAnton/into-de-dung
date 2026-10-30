@@ -1,0 +1,15 @@
+{
+  "provider": "PixelLab",
+  "accepted_jobs": 54,
+  "completed_jobs": 54,
+  "generations_per_clip": 5,
+  "generations_total": 270,
+  "balance_before": 2047.3000000000002,
+  "balance_after": 1777.3000000000002,
+  "balance_delta": 270.0,
+  "extra_paid_regenerations": 0,
+  "rejected_requests": {
+    "v3_http422": 2,
+    "queue_http429": 1
+  }
+}

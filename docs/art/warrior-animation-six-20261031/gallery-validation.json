@@ -1,0 +1,63 @@
+{
+  "rows": [
+    {
+      "id": "02",
+      "count": 12,
+      "images": true,
+      "hasLocal": 3,
+      "hasPixel": 9,
+      "startZero": true,
+      "advanced": true
+    },
+    {
+      "id": "05",
+      "count": 12,
+      "images": true,
+      "hasLocal": 3,
+      "hasPixel": 9,
+      "startZero": true,
+      "advanced": true
+    },
+    {
+      "id": "11",
+      "count": 12,
+      "images": true,
+      "hasLocal": 3,
+      "hasPixel": 9,
+      "startZero": true,
+      "advanced": true
+    },
+    {
+      "id": "12",
+      "count": 12,
+      "images": true,
+      "hasLocal": 3,
+      "hasPixel": 9,
+      "startZero": true,
+      "advanced": true
+    },
+    {
+      "id": "17",
+      "count": 12,
+      "images": true,
+      "hasLocal": 3,
+      "hasPixel": 9,
+      "startZero": true,
+      "advanced": true
+    },
+    {
+      "id": "18",
+      "count": 12,
+      "images": true,
+      "hasLocal": 3,
+      "hasPixel": 9,
+      "startZero": true,
+      "advanced": true
+    }
+  ],
+  "gameWidth": 102.390625,
+  "mobileOverflow": false,
+  "errors": [],
+  "complete": true,
+  "pass": true
+}
