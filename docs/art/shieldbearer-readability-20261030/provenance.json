@@ -1,0 +1,50 @@
+{
+  "tool": "image_gen.imagegen",
+  "date": "2026-10-30",
+  "intent": "Shieldbearer 17 readability correction; no adaptive outline; source bytes unchanged",
+  "candidates": [
+    {
+      "file": "candidate-a.png",
+      "prompt": "Use case: style-transfer / readability correction.\nAsset: one transparent pixel-art game sprite of the selected shieldbearer. Image1 is the EDIT TARGET (current gray-haired shieldbearer17). Image2 is the approved NATIVE128x128 pixel-art style reference (brown-haired warrior); image3 is that readable style shown in the real game. Image2/3 are style/legibility references only: DO NOT copy their brown-haired identity or remove the shield.\n\nRedraw the target deliberately for readability at about 60 screen pixels tall on a 128x96 stone floor tile. KEEP his identity: short compact sturdy silver-haired veteran with a short gray beard, warm visible face, crimson scarf/cape, silver shoulder plates, ivory tabard, brown leather boots, sword held diagonally down on viewer LEFT, wooden shield on viewer RIGHT. Keep full body, same frontal three-quarter eye-level direction as target, no top-down/isometric foreshortening. This is not a realistic illustration to be shrunk.\nMATCH the clear coarse pixel groups of image2: fewer larger solid shapes, no texture/noise/grain/dithering/soft antialiasing. Make the face and head about ONE QUARTER of full figure height, with unmistakable warm peach face area and readable dark eyes; broad short torso, short sturdy legs. Reduce the huge gray hair mass, no fine strands. Separate head/scarf/chest/belt/legs clearly. Armor is matte pale silver: broad light planes + clear dark charcoal underplanes, ONLY 3 flat tones, NO tiny white specular glints, curved gradients or scattered detail pixels. Simplify straps/buckles to strong readable shapes. Warm saturated face/leather and deep red scarf against cool gray stone; shield is a solid warm wooden shape, minimal divisions; blade is a clean broad ivory-white diagonal with a dark inner edge and simple warm gold guard. Visible dark gaps between arms/torso and between boots. Avoid widening the shield or sprawling cape so much that body looks tiny. Preserve compact proportions, no tall skinny anatomy.\nThink of hand-authored artwork on a 128x128 transparent game canvas with a body around 56-64 pixels wide and72-76 pixels tall; every detail must survive that native grid. Use a small coherent palette of about24 colors and clean deliberate stair steps. Render these few large pixel clusters crisply even if the output canvas is large.\nNo added outer outline, no white rim, no glow, no halo, no drop shadow. Dark internal separation/shadow shapes are allowed, but do not draw a uniform stroke around the character. Actual transparent background, full sword/boots/shield included, modest transparent margin. NO floor/tile/base/background/UI/text/labels/extra characters.",
+      "status": "rejected: silhouette remained too broad and noisy",
+      "sha256": "beb82e76800b6a6b915017ab82868137d40813639814b99ef9c0d14cab791705",
+      "references": [
+        "assets/art_presets/trials/warrior_classes_v1/shieldbearer-17.png",
+        "assets/art_presets/approved/warrior_format_v1/character.png",
+        "docs/art/shieldbearer-readability-20261030/user-readable-reference.png"
+      ]
+    },
+    {
+      "file": "candidate-b.png",
+      "prompt": "Use case: precise-object-edit.\nThe FIRST image (the small transparent128x128 brown-haired pixel warrior) is the STYLE AND GEOMETRY MASTER to edit. Keep its genuine low-resolution game sprite treatment, big readable face, body mass, sparseness, contrast, thick simple pixel clusters, short-legged stance, scale, proportions, and camera angle. SECOND image is ONLY the shieldbearer identity/costume reference; do NOT copy its high-resolution tiny shading, broad spreading cape or ornamental complexity.\n\nTransform the first little warrior into the selected gray-haired shieldbearer17: silver-gray short swept-back hair and a short gray beard surrounding a LARGE clearly visible warm peach face; deep red scarf, simple silver pauldrons and gauntlets, ivory small tabard and brown boots. Add a clearly held warm wooden kite shield on viewer RIGHT, sword angled down on viewer LEFT (same handedness as identity reference). Body overall remains compact and upright with large head and clearly separated short legs. Slight three-quarter FRONT at eye-level, not looking down from above. Make the shield modest, so it does not make the torso/head look tiny.\nThe PRIMARY goal is that the result reads at only60 screen-pixels high. Construct as a REAL native pixel sprite about60px wide and76px tall on a128px transparent canvas. The face is broad and large, about25% of the character's full height. All armor consists of very few flat bands: near-black underplanes, medium gray body, flat pale silver planes. No painted sheen or sparkling white dots. Large uninterrupted skin/red/ivory/leather shapes, sparse details, bold dark internal separations, particularly between arms/body, beard/scarf, and boots. No finer-detail texture than the FIRST reference, no fancy rendering, no smooth gradients or blurred pixel edges, no dithering. A deliberate limited palette and staircase pixel edges. CRUCIAL: it must look like the FIRST small pixel sprite redressed as a shieldbearer, not a miniaturized version of the SECOND illustration.\nKeep entire figure and all equipment visible. Actual transparent background, no tile, no shadow, no base, no UI, no labels. NO external halo, glow, light rim, or added uniform contour. Output a single sprite only.",
+      "status": "integrated; GPU render and independent review passed; final art acceptance open",
+      "sha256": "5a71266fc843a62249b657162e0e67e75c1043f899a6a1603518dab70366ca63",
+      "references": [
+        "assets/art_presets/approved/warrior_format_v1/character.png",
+        "assets/art_presets/trials/warrior_classes_v1/shieldbearer-17.png"
+      ]
+    }
+  ],
+  "integrated_asset": "assets/art_presets/trials/warrior_classes_v1/shieldbearer-17-readable.png",
+  "pixel_processing": "none; crop, uniform scale, native grid sampling in Godot only",
+  "references": [
+    {
+      "path": "assets/art_presets/approved/warrior_format_v1/character.png",
+      "sha256": "e93daeee4edec7fee5031e8aa91b5a729a2ecd7e269b17abf94558b6e4604057"
+    },
+    {
+      "path": "assets/art_presets/trials/warrior_classes_v1/shieldbearer-17.png",
+      "sha256": "90ff93b9add13e9d25b4a5290f7529240d47533940731169bb270ca746c329c8"
+    },
+    {
+      "path": "docs/art/shieldbearer-readability-20261030/user-before.png",
+      "sha256": "52909b21947559c8f1858f19fd221a72abc04bc15c6979fa8d98ffd524356081"
+    },
+    {
+      "path": "docs/art/shieldbearer-readability-20261030/user-readable-reference.png",
+      "sha256": "10b4f11ec4836b0813ce285b39e70ee2a3742295bc413ce67f7169a1396190fc"
+    }
+  ],
+  "integrated_asset_sha256": "5a71266fc843a62249b657162e0e67e75c1043f899a6a1603518dab70366ca63",
+  "transparent_background": true
+}

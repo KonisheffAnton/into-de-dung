@@ -50,7 +50,7 @@ func _run() -> void:
 			visual.sync_scene_art()
 			visual.position = origin
 			var sprite := visual.class_still_sprite()
-			check(sprite != null and sprite.visible and sprite.texture.resource_path.ends_with("shieldbearer-17.png" if row == 0 else "fighter-11.png"), "selected model visible")
+			check(sprite != null and sprite.visible and sprite.texture.resource_path.ends_with("shieldbearer-17-readable.png" if row == 0 else "fighter-11.png"), "selected model visible")
 			check(not visual.can_play_buff() and not visual.can_play_death() and not visual._can_play_idle(), "old clips cannot replace selected model")
 			var authored := sprite.transform
 			visual.presentation_facing_x = -1
