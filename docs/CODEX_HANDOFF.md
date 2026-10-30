@@ -1,30 +1,31 @@
-# Передача — 2026-10-30: читаемость Щитоносца
+# Передача — 2026-10-30: исходная модель17 и палитра
 
-D:\Games\into-de-dung; main; base52bc624e739e102c5f88b77310fe6da5ac5c9945.
-По U исправлен рисунок Щитоносца17 после сравнения двух игровых кадров.
-Крупнее лицо, компактнее корпус, меньше бликов/массы плаща, отдельный щит.
-Седина/красный шарф/меч сохранены; обводка выключена. Воин11 прежний.
-[Пакет и сравнение](art/shieldbearer-readability-20261030/README.md),
-[направление](ART_DIRECTION.md), [ассеты](../assets/art_presets/trials/warrior_classes_v1/README.md).
-ImageGen B сохранён побайтно; production PNG shieldbearer-17-readable.png.
-Область/anchor/равномерный scale сцены дают64 px высоты на тайле128×96.
-Портрет и зеркальный слой обновлены. Shader/бой/анимации не менялись.
+D:\Games\into-de-dung; main; baseca2c62f7346acdebcdf703205ef1aed601877d7f.
+Уточнение U: форма17 устраивала, менять нужно цвет/характер цветов.
+Редизайн лица/корпуса/плаща отклонён. Из52bc624 возвращены исходный PNG,
+crop/anchor/scale и портрет. Размер снова около58px на тайле128×96.
+[Палитра и сравнение](art/shieldbearer-palette-20261030/README.md),
+[владелец направления](ART_DIRECTION.md), [класс](WARRIOR_V1.md).
+Только RGB боевого материала17: теплее сталь, глубже тени, насыщеннее материалы.
+Opt-in strength1 у17, default0 у остальных; исходные PNG/alpha/геометрия прежние.
+Обводка выключена. Портрет исходный без боевой коррекции; Воин11/механики прежние.
 
-Изолированный import/startup и unit_visual_contract45/0, GPUwarrior_visuals39/0,
-shieldbearer_ui26/0: PASS5/0. Отдельный сравнительный GPUrender: exit0, без ошибок.
-Снимки comparison-native.png и comparison-2x.png: одно каменное поле/zoom,
-прежний17, текущая production-сцена, native-эталон с собственным anchor.
-Свидетельства test_reports/shieldbearer-readability-20261030/validation.json;
-gate test_reports/demo-12abb9fe190947d7ab708ab42b52ea5b/.
-Full/core этого арт-среза не запускались; ручные F5/движение/zoom/DPI/арт открыты.
+Import/startup и unit_visual_contract45/0, GPUwarrior_visuals39/0,
+shieldbearer_ui26/0 PASS. Новая проверка GPU15/0, headless9/0 (GPU явно skipped).
+Сравнение alpha при4zoom×2mirror×2fade: совпадает с допуском1/255, RGB меняется.
+Исходное падение нового теста — чтение shader default, исправлено в тесте;
+повтор выполнен в той же импортированной копии, production не менялся.
+Сравнительный render exit0: palette-native.png и palette-2x.png в арт-пакете.
+Gate test_reports/demo-a483d0322dd84a8d84cffac44c695b35/;
+итог test_reports/shieldbearer-palette-20261030/validation.json.
 Независимое ревью фиксированного результата: APPROVE, замечаний нет.
+Full/core этого среза не запускались; F5/движение/zoom/DPI/цветовая приёмка открыты.
 
-Прежний [Воин](WARRIOR_V1.md) завершён в base; баланс и ручная приёмка остаются.
-Авторских анимаций17/11 нет. Отзывы о Колоде, одиночном упоре и плавности открыты.
 Чужие dirty scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
 сохранены; не reset/stage/commit. Без push/sidebar tasks/расписаний.
-Следующий шаг — ручная оценка исправленной фигуры; новый срез не начинать.
-[Прежняя передача побайтно](CODEX_HANDOFF.history-20261030-2.md), [HISTORY](HISTORY.md).
+Авторских анимаций17/11 нет. Прежние вопросы Колоды/упора/плавности открыты.
+Следующий шаг — пользовательская оценка цветов; новый срез не начинать.
+[Прежняя передача побайтно](CODEX_HANDOFF.history-20261030-3.md), [HISTORY](HISTORY.md).
 
 Завершение: проверки, локальный Conventional Commit, короткий HANDOFF;
 прежний побайтно отдельным архивом+HISTORY. В финале/при блокере предложить

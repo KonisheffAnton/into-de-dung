@@ -1,8 +1,8 @@
 [gd_resource type="AtlasTexture" load_steps=2 format=3]
 
-[ext_resource type="Texture2D" path="res://assets/art_presets/trials/warrior_classes_v1/shieldbearer-17-readable.png" id="1"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/trials/warrior_classes_v1/shieldbearer-17.png" id="1"]
 
 [resource]
 atlas = ExtResource("1")
-region = Rect2(343, 282, 680, 851)
+region = Rect2(126, 119, 991, 1042)
 filter_clip = true
