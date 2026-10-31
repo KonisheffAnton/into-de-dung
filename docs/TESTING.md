@@ -27,6 +27,18 @@ battle_execution_ui battle_execution_worker battle_camera_ui current_art_zoom`.
 Headless время обработчиков не означает 60 FPS на экране; автономный soak не
 покрывает интерактивное наведение. [Результаты](performance/battle-interactive-forecast-20261101.md).
 
+Свежесть магии/карт: `--check --only battle_forecast_freshness
+battle_magic_freshness_ui battle_magic_mode_refresh mage_ui mage_deck_ui battle_forecast_preparation_worker
+battle_forecast_preparation_ui action_forecast_async_ui`. Свидетель проверяется
+на прямых изменениях без revision, identity/типах/RNG, неизвестных значениях и
+границах отложенной публикации; click остаётся новой командой.
+Длительный интерактивный контроль включается явно: `--render-check --only
+battle_interactive_soak --screen 0`. Пять раундов, 32 бойца, DOT/огонь,
+синтетическая мышь через Demo и HUD, готовые прогнозы магии/карт и быстрая смена
+целей. Отчёт `user://battle-interactive-soak.json` сохраняет полную trace,
+фокус и стоимость input; настройка/планировщик помечены отдельно, не удалены.
+Это не аппаратная мышь и не свидетельство стабильного display FPS.
+
 Длительный бой и стоимость показа (2026-10-31): `--render-check --only
 battle_soak_performance battle_polygon_batch battle_presentation_owned battle_motion_pose --screen 0`.
 Soak запускается только явно: 32 бойца, 24 опасные клетки (fire records с шипами), начальные DOT,

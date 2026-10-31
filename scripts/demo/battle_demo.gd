@@ -57,6 +57,9 @@ var _move_forecast_generation: int = 0
 var _move_forecast_job_generation: int = -1
 var _move_forecast_worker := MoveForecastWorker.new()
 var _action_forecast_pending: bool = false
+var _action_forecast_freshness: BattleForecastFreshness
+var _mage_display_freshness: BattleForecastFreshness
+var _action_freshness_expected: bool = false
 var _action_forecast_kind: StringName = &""
 var _action_forecast_actor: int = UnitId.NONE
 var _action_forecast_revision: int = -1
@@ -151,6 +154,7 @@ var _environment_forecast: ForecastSimulation
 var _stage_next_refresh: bool = false
 var _refresh_followup: Dictionary = {}
 var _refresh_stage: int = 0
+var _interactive_refresh_pending: bool = false
 var _skip_refresh: bool = false
 var _environment_forecast_pending: bool = false
 var _environment_forecast_generation: int = 0
@@ -165,7 +169,7 @@ func is_execution_pending() -> bool:
 		or (_forecast_preparation_recovering and not _forecast_replaying_intent) or is_presentation_pending()
 
 func _defer_forecast_intent(method: StringName, args: Array = []) -> bool:
-	if _forecast_replaying_intent or not (_forecast_preparation_worker.is_started() or _forecast_preparation_recovering): return false
+	if _forecast_replaying_intent or not (_forecast_preparation_worker.is_started() or _forecast_preparation_recovering or _interactive_refresh_pending): return false
 	# Храним смысл действия (ID/клетку), а не экранные координаты: камера может двигаться.
 	var intent := {"method": method, "args": args.duplicate(true)}
 	if _forecast_input_intents.size() < MAX_FORECAST_INPUT_INTENTS:
@@ -179,7 +183,7 @@ func _defer_forecast_intent(method: StringName, args: Array = []) -> bool:
 func _start_forecast_preparation(kind: StringName, method: StringName, args: Array, generation: int) -> bool:
 	if not _allows_execution_worker() or session == null or session.get_script() != BattleCoreReactionsSession: return false
 	var owned := session as BattleCoreReactionsSession
-	if not _forecast_preparation_worker.start(owned, method, args): return false
+	if not _forecast_preparation_worker.start(owned, method, args, kind == &"action" and _action_freshness_expected): return false
 	_forecast_preparation_kind = kind
 	_forecast_preparation_generation = generation
 	_forecast_preparation_discard = false
@@ -218,6 +222,13 @@ func _poll_forecast_preparation() -> void:
 	_restore_forecast_owner(completed)
 	var kind := _forecast_preparation_kind
 	_forecast_preparation_kind = &""
+	if kind == &"action" and _action_freshness_expected and _forecast_preparation_generation == _action_forecast_generation \
+			and not _forecast_preparation_discard and _forecast_input_intents.is_empty():
+		_action_forecast_freshness = completed.get("freshness") as BattleForecastFreshness
+		if _action_forecast_freshness == null:
+			# Неполный свидетель не означает совпадение: сохраняем прежний полный путь.
+			_action_freshness_expected = false
+			_action_forecast_cache = _current_magic_snapshot_cache()
 	# mouse_exited не отменяет цель сам по себе: курсор может читать её на панели.
 	var current := not _forecast_preparation_discard \
 		and _forecast_input_intents.is_empty() and _forecast_preparation_is_current(kind, _forecast_preparation_generation)
@@ -253,7 +264,10 @@ func _recover_forecast_input() -> void:
 	if not _forecast_input_intents.is_empty():
 		var intent: Dictionary = _forecast_input_intents.pop_front()
 		callv(intent.method, intent.args)
-		if _execution_worker.is_started() or is_presentation_pending():
+		if _interactive_refresh_pending:
+			# Выбор следующего режима ещё не команда: сохраняем последующий клик.
+			_forecast_preparation_recovering = false
+		elif _execution_worker.is_started() or is_presentation_pending():
 			_forecast_input_intents.clear()
 			_forecast_hover_pending = false
 			_forecast_pointer_pending = false
@@ -323,20 +337,38 @@ func _execute_live(method: StringName, args: Array = [], target_attempt: bool = 
 
 func _poll_execution() -> void:
 	if not _refresh_followup.is_empty():
-		if _refresh_stage == -1:
+		if _refresh_stage == -3:
+			# Кадр выбора уже содержит обработку мыши/карты; обновление начнётся в следующем.
+			_refresh_stage = -2
+			return
+		elif _refresh_stage == -2:
+			var followup := _refresh_followup
+			_refresh_followup = {}
+			_refresh_mage()
+			_refresh_followup = followup
+			_refresh_stage = -1
+			return
+		elif _refresh_stage == -1:
 			var receipt_message: String = _refresh_followup.get("receipt_message", "")
 			_refresh_followup = {}
 			_begin_refresh(true)
 			if not receipt_message.is_empty(): _refresh_followup.receipt_message = receipt_message
 			return
 		elif _refresh_stage == 0:
+			if _interactive_refresh_pending: board_view.execution_pending = false
 			board_view.prepare_refresh()
+			if _interactive_refresh_pending: board_view.execution_pending = true
 		elif _refresh_stage == 1:
+			if _interactive_refresh_pending: board_view.execution_pending = false
 			board_view.publish_refresh()
+			if _interactive_refresh_pending: board_view.execution_pending = true
 		else:
 			var followup := _refresh_followup
 			_refresh_followup = {}
 			_finish_refresh(followup)
+			if _interactive_refresh_pending:
+				_interactive_refresh_pending = false
+				_forecast_preparation_recovering = true
 		_refresh_stage += 1
 		return
 	var completed := _execution_worker.take_finished()
@@ -356,6 +388,8 @@ func _restore_execution_owner(completed: Dictionary) -> void:
 
 func _join_execution() -> void:
 	_join_forecast_preparation()
+	if _interactive_refresh_pending and board_view != null: board_view.execution_pending = false
+	_interactive_refresh_pending = false
 	_refresh_followup.clear()
 	_stage_next_refresh = false
 	if _presentation_player != null: _presentation_player.cancel()
@@ -589,10 +623,19 @@ func _process(delta: float) -> void:
 		_poll_execution()
 		return
 	if is_presentation_pending(): return
+	# Готовый прогноз и панель уже показаны для этого точного мира. Один сырой
+	# обход проверяет оба; повторный admission всех карт здесь ничего не обновит.
+	if _elemental_forecast != null and _action_forecast_freshness != null \
+			and _mage_display_freshness == _action_forecast_freshness \
+			and _action_forecast_request_current():
+		return
 	_refresh_mage()
 	_process_move_forecast()
 	_process_attack_forecast()
 	_process_action_forecast()
+	# Панель обновлена выше, а action только что проверил свежесть готовых чисел.
+	if _elemental_forecast != null and not _action_forecast_pending:
+		_mage_display_freshness = _action_forecast_freshness
 	_process_turn_forecast()
 	_process_environment_forecast()
 	if _battle == null or _battle.phase != BattleTacticalSession.Phase.ENEMY_TURN: return
@@ -603,11 +646,11 @@ func _process(delta: float) -> void:
 	_execute_live(&"step_enemy")
 
 func _input(event: InputEvent) -> void:
-	if (_forecast_preparation_worker.is_started() or _forecast_preparation_recovering) and event is InputEventMouseMotion:
+	if (_forecast_preparation_worker.is_started() or _forecast_preparation_recovering or _interactive_refresh_pending) and event is InputEventMouseMotion:
 		_pointer_position = (event as InputEventMouseMotion).position
 		_forecast_pointer_pending = true
 	# Горячая клавиша показа должна опережать Space у кнопки, сохранившей фокус.
-	if is_presentation_pending() and event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_SPACE:
+	if is_presentation_pending() and not _interactive_refresh_pending and event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_SPACE:
 		skip_presentation()
 		get_viewport().set_input_as_handled()
 		return
@@ -624,6 +667,7 @@ func _input(event: InputEvent) -> void:
 
 func _exit_tree() -> void:
 	_join_execution()
+	_action_forecast_freshness = null
 	_move_forecast_worker.close()
 	_attack_forecast_worker.close()
 	_action_forecast_worker.close()
@@ -807,9 +851,11 @@ func set_attack_mode(enabled: bool) -> void:
 	if _defer_forecast_intent(&"set_attack_mode", [enabled]): return
 	if is_execution_pending(): return
 	if _battle != null and not _battle.can_player_act(): return
+	var leaving_magic: bool = _card_selected_id > 0 or (session is BattleCoreReactionsSession and session.elemental_selected != &"")
 	_clear_action_mode()
 	attack_mode = enabled
-	_refresh()
+	if leaving_magic: _refresh_magic_mode()
+	else: _refresh()
 
 func _clear_action_mode() -> void:
 	if is_execution_pending(): return
@@ -839,7 +885,7 @@ func _choose_elemental(effect: StringName) -> void:
 		return
 	_clear_action_mode()
 	reaction_session.elemental_selected = effect
-	_refresh()
+	_refresh_magic_mode()
 
 func _action_bar_requested(action_id: StringName) -> void:
 	if _defer_forecast_intent(&"_action_bar_requested", [action_id]): return
@@ -1123,6 +1169,8 @@ func end_turn() -> void:
 	_execute_live(&"end_player_turn")
 
 func _refresh_mage() -> void:
+	# Явный refresh может увидеть временную raw-мутацию с последующим откатом.
+	_mage_display_freshness = null
 	if not is_execution_pending() and _mage_row != null:
 		var mage_session := session as BattleCoreReactionsSession
 		_mage_row.visible = mage_session != null and mage_session.state.abilities != null
@@ -1162,7 +1210,7 @@ func _choose_card_slot(slot: int) -> void:
 	if reason != &"" and reason != &"mage_card/insufficient_mana": _status.text = _reason_text(reason); return
 	_clear_action_mode()
 	_card_selected_id = id
-	_refresh()
+	_refresh_magic_mode()
 
 func _replace_selected_card() -> void:
 	if _defer_forecast_intent(&"_replace_selected_card", []): return
@@ -1183,9 +1231,23 @@ func _confirm_selected_mulligan() -> void:
 	_refresh()
 
 func _mage_page_changed(_page: int) -> void:
+	if _defer_forecast_intent(&"_mage_page_changed", [_page]): return
 	if is_execution_pending(): return
 	_clear_action_mode()
-	_refresh()
+	_refresh_magic_mode()
+
+func _refresh_magic_mode() -> void:
+	if not is_node_ready() or not is_processing() or not can_process() or not _allows_execution_worker() or session == null \
+			or session.get_script() != BattleCoreReactionsSession:
+		_refresh()
+		return
+	# Полный свежий refresh сохраняется, но его части больше не задерживают кадр выбора.
+	_interactive_refresh_pending = true
+	_forecast_preparation_recovering = false
+	board_view.execution_pending = true
+	board_view.forecast_preparation_pending = true
+	_refresh_followup = {"begin": true}
+	_refresh_stage = -3
 
 func _mage_spell_help(id: StringName) -> String:
 	match id:
@@ -1214,7 +1276,8 @@ func _refresh() -> void:
 	_begin_refresh()
 
 func _begin_refresh(staged: bool = false) -> void:
-	_refresh_mage()
+	# Интерактивная смена режима уже обновила панель мага отдельной стадией.
+	if not _interactive_refresh_pending: _refresh_mage()
 	if is_execution_pending(): return
 	_roster_presenter.ensure_scope(session.get_instance_id(), core_reactions_mode)
 	# Любой refresh перечитывает состояние, включая изменения вне command revision.
@@ -1479,7 +1542,7 @@ func _refresh_inspection() -> void:
 		_stats.text = _inspection_text(unit) + _card_imbue_text(unit.id)
 
 func _hover(cell: Vector2i) -> void:
-	if not _forecast_replaying_intent and (_forecast_preparation_worker.is_started() or _forecast_preparation_recovering):
+	if not _forecast_replaying_intent and (_forecast_preparation_worker.is_started() or _forecast_preparation_recovering or _interactive_refresh_pending):
 		_forecast_latest_hover = cell
 		_forecast_hover_pending = true
 		return
@@ -1542,8 +1605,7 @@ func _hover(cell: Vector2i) -> void:
 		if _battle == null or not _battle.can_player_act() or (target == null and not cell_card):
 			_clear_forecast()
 		else:
-			var cache := _mage_card_cache(target, cell)
-			if _action_forecast_kind != &"mage_card" or _action_forecast_cell != cell or _action_forecast_card_id != _card_selected_id or _action_forecast_cache != cache:
+			if _action_forecast_kind != &"mage_card" or _action_forecast_cell != cell or _action_forecast_card_id != _card_selected_id or _action_forecast_target_id != (target.id if target != null else UnitId.NONE) or _action_forecast_effect != StringName(String(card.get("type_id", ""))) or not _magic_forecast_state_current():
 				_clear_forecast()
 				_forecast_panel.get_v_scroll_bar().value = 0.0
 				_request_action_forecast(&"mage_card", cell)
@@ -1554,8 +1616,7 @@ func _hover(cell: Vector2i) -> void:
 		if _battle == null or not _battle.can_player_act() or (target == null and not cell_spell):
 			_clear_forecast()
 		else:
-			var cache := _elemental_cast_cache(reaction_session.selected_unit(), target, reaction_session.elemental_selected, cell if cell_spell else Vector2i(-1, -1))
-			if _action_forecast_kind != &"elemental" or _action_forecast_cell != cell or _action_forecast_target_id != (target.id if target != null else UnitId.NONE) or _action_forecast_revision != session.context.get_revision() or _action_forecast_cache != cache:
+			if _action_forecast_kind != &"elemental" or _action_forecast_effect != reaction_session.elemental_selected or _action_forecast_cell != cell or _action_forecast_target_id != (target.id if target != null else UnitId.NONE) or _action_forecast_revision != session.context.get_revision() or not _magic_forecast_state_current():
 				_clear_forecast()
 				_forecast_panel.get_v_scroll_bar().value = 0.0
 				_request_action_forecast(&"elemental", cell)
@@ -1686,19 +1747,34 @@ func _request_action_forecast(kind: StringName, cell: Vector2i = Vector2i(-1, -1
 	_action_forecast_effect = &""
 	_action_forecast_card_id = 0
 	_action_forecast_cache = {}
+	_action_forecast_freshness = null
+	_mage_display_freshness = null
+	_action_freshness_expected = kind in [&"elemental", &"mage_card"] and _allows_execution_worker() and session.get_script() == BattleCoreReactionsSession
 	if kind == &"elemental" and session is BattleCoreReactionsSession:
 		var reaction_session := session as BattleCoreReactionsSession
 		var target := session.board.occupant_at(cell) if session.board.is_in_bounds(cell) else null
 		_action_forecast_target_id = target.id if target != null else UnitId.NONE
 		_action_forecast_effect = reaction_session.elemental_selected
-		_action_forecast_cache = _elemental_cast_cache(reaction_session.selected_unit(), target, _action_forecast_effect, cell if AbilityDefinition.is_cell_spell(_action_forecast_effect) else Vector2i(-1, -1))
+		if not _action_freshness_expected: _action_forecast_cache = _elemental_cast_cache(reaction_session.selected_unit(), target, _action_forecast_effect, cell if AbilityDefinition.is_cell_spell(_action_forecast_effect) else Vector2i(-1, -1))
 	elif kind == &"mage_card" and session is BattleCoreReactionsSession:
 		var target := session.board.occupant_at(cell) if session.board.is_in_bounds(cell) else null
 		_action_forecast_card_id = _card_selected_id
 		_action_forecast_target_id = target.id if target != null else UnitId.NONE
 		_action_forecast_effect = StringName(String(session.state.deck.card(_card_selected_id).get("type_id", "")))
-		_action_forecast_cache = _mage_card_cache(target, cell)
+		if not _action_freshness_expected: _action_forecast_cache = _mage_card_cache(target, cell)
 	_render_forecast_panel()
+
+func _current_magic_snapshot_cache() -> Dictionary:
+	var target := session.board.get_unit_by_id(_action_forecast_target_id)
+	if _action_forecast_kind == &"mage_card": return _mage_card_cache(target, _action_forecast_cell)
+	return _elemental_cast_cache(session.selected_unit(), target, _action_forecast_effect,
+		_action_forecast_cell if AbilityDefinition.is_cell_spell(_action_forecast_effect) else Vector2i(-1, -1))
+
+func _magic_forecast_state_current() -> bool:
+	if _action_forecast_freshness != null: return _action_forecast_freshness.matches(session as BattleCoreReactionsSession)
+	# До prepare чисел ещё нет; текущий мир будет строго снят владельцем в worker.
+	if _action_freshness_expected: return _action_forecast_pending
+	return _current_magic_snapshot_cache() == _action_forecast_cache
 
 func _mage_card_cache(target: UnitState, cell: Vector2i) -> Dictionary:
 	if not session is BattleCoreReactionsSession or session.state.deck == null or _card_selected_id <= 0: return {}
@@ -1743,14 +1819,18 @@ func _action_forecast_request_current() -> bool:
 			var reaction_session := session as BattleCoreReactionsSession
 			var target := session.board.get_unit_by_id(_action_forecast_target_id)
 			var cell_spell := AbilityDefinition.is_cell_spell(_action_forecast_effect)
-			if (not cell_spell and (target == null or target.cell != _action_forecast_cell)) or reaction_session.elemental_selected != _action_forecast_effect or reaction_session.cast_reason(_action_forecast_effect) != &"": return false
-			if _elemental_cast_cache(reaction_session.selected_unit(), target, _action_forecast_effect, _action_forecast_cell if cell_spell else Vector2i(-1, -1)) != _action_forecast_cache: return false
+			if (not cell_spell and (target == null or target.cell != _action_forecast_cell)) or reaction_session.elemental_selected != _action_forecast_effect: return false
+			if not _magic_forecast_state_current(): return false
+			if _action_forecast_freshness == null and reaction_session.cast_reason(_action_forecast_effect) != &"": return false
 			return board_view.hover_cell == _action_forecast_cell or over_panel
 		&"mage_card":
 			if not session is BattleCoreReactionsSession or _card_selected_id != _action_forecast_card_id: return false
+			if session.state.deck == null or StringName(String(session.state.deck.card(_card_selected_id).get("type_id", ""))) != _action_forecast_effect: return false
 			var target := session.board.get_unit_by_id(_action_forecast_target_id)
-			if (target == null and _action_forecast_target_id > 0) or (session as BattleCoreReactionsSession).mage_card_reason(_card_selected_id) != &"": return false
-			if _mage_card_cache(target, _action_forecast_cell) != _action_forecast_cache: return false
+			if _action_forecast_target_id > 0 and (target == null or target.cell != _action_forecast_cell): return false
+			if session.board.occupant_at(_action_forecast_cell) != target: return false
+			if not _magic_forecast_state_current(): return false
+			if _action_forecast_freshness == null and (session as BattleCoreReactionsSession).mage_card_reason(_card_selected_id) != &"": return false
 			return board_view.hover_cell == _action_forecast_cell or over_panel
 	return false
 
@@ -1939,6 +2019,9 @@ func _clear_forecast() -> void:
 	_action_forecast_effect = &""
 	_action_forecast_card_id = 0
 	_action_forecast_cache.clear()
+	_action_forecast_freshness = null
+	_mage_display_freshness = null
+	_action_freshness_expected = false
 	var had_forecast := _forecast != null or _attack_forecast_pending or _move_forecast != null or _move_forecast_pending
 	_attack_forecast_generation += 1
 	_attack_forecast_pending = false
@@ -2354,7 +2437,7 @@ func _reason_text(reason: StringName) -> String:
 	return BattleForecastText.reason_text(reason, tactical_mode)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if is_execution_pending() and not (_forecast_preparation_worker.is_started() or _forecast_preparation_recovering):
+	if is_execution_pending() and not (_forecast_preparation_worker.is_started() or _forecast_preparation_recovering or _interactive_refresh_pending):
 		if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_R: reset_demo()
 		if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_SPACE: skip_presentation()
 		return

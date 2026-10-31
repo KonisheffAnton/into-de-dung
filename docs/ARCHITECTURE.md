@@ -74,6 +74,10 @@ ActionForecastWorker имеет выключенный по умолчанию c
 Штатные Attack/Move/Action/Turn prepare отделяют каталог внешних Resource через
 `ForecastDefinitionCopy`; объектная metadata отклоняется до копирования/Thread.
 Граница `instantiate` и допустимые metadata — в текущем контракте снимков.
+Штатная подготовка прогноза магии/карты строит под исключительным владением
+`BattleForecastFreshness`: сравнение неизменности сырого графа после join
+заменяет повторный полный capture в UI. Это не admission и не кэш revision;
+границы, fallback и инвалидация — [ATTACK_FORECAST](ATTACK_FORECAST.md).
 SpatialRules охраняет новые ссылки и значения;
 ArmorHitExecutor и admission используют одинаковое добивание замороженного
 по gross HP damage. ElementalCastCommand/внутренние тики исполняются очередью,

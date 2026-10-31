@@ -368,7 +368,7 @@ def main():
         if label in ("battle_execution_worker", "battle_execution_ui"):
             marker = "BATTLE EXECUTION WORKER RESULTS:" if label == "battle_execution_worker" else "BATTLE EXECUTION UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
-        if label in ("battle_forecast_preparation_worker", "battle_forecast_preparation_ui", "battle_pointer_pick"):
+        if label in ("battle_forecast_preparation_worker", "battle_forecast_preparation_ui", "battle_forecast_freshness", "battle_magic_freshness_ui", "battle_magic_mode_refresh", "battle_pointer_pick"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "board_audit_probe":
@@ -387,6 +387,8 @@ def main():
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "battle_soak_planner":
             invalid = invalid or "BATTLE SOAK PLANNER RESULTS:" not in output or ", 0 failed" not in output
+        if label == "battle_interactive_soak":
+            invalid = invalid or "BATTLE SOAK PERFORMANCE RESULTS:" not in output or ", 0 failed" not in output
         if label in ("snapshot_value_copy", "live_snapshot_capture", "summon_checkpoint"):
             marker = {"snapshot_value_copy": "SNAPSHOT VALUE COPY RESULTS:", "live_snapshot_capture": "LIVE SNAPSHOT CAPTURE RESULTS:", "summon_checkpoint": "SUMMON CHECKPOINT RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -553,6 +555,8 @@ def main():
         # Длительный GPU soak включается явно: обычный набор не удлиняем на минуты.
         if args.only and "battle_soak_performance" in args.only:
             run("battle_soak_performance", ["--script", "tests/test_battle_soak_performance.gd", "--", "--units=32"], headless=not args.render_check)
+        if args.only and "battle_interactive_soak" in args.only:
+            run("battle_interactive_soak", ["--script", "tests/test_battle_interactive_soak.gd", "--", "--units=32", "--rounds=5", "--idle-frames=120"], headless=not args.render_check)
         presentation_args = ["--script", "tests/test_battle_presentation.gd"]
         if args.render_check:
             presentation_captures = out / "presentation-screenshots"
@@ -791,6 +795,7 @@ def main():
         run("unit_snapshot_performance", ["--script", "tests/test_unit_snapshot_performance.gd"])
         run("battle_execution_worker", ["--script", "tests/test_battle_execution_worker.gd"])
         run("battle_forecast_preparation_worker", ["--script", "tests/test_battle_forecast_preparation_worker.gd"])
+        run("battle_forecast_freshness", ["--script", "tests/test_battle_forecast_freshness.gd"])
         run("click_attack", ["--script", "tests/test_click_attack.gd"], headless=not args.render_check)
         run("snapshot_value_copy", ["--script", "tests/test_snapshot_value_copy.gd"])
         run("live_snapshot_capture", ["--script", "tests/test_live_snapshot_capture.gd"])
@@ -915,6 +920,8 @@ def main():
             execution_args += ["--", "--captures=" + str(captures)]
         run("battle_execution_ui", execution_args, headless=not args.render_check)
         run("battle_forecast_preparation_ui", ["--script", "tests/test_battle_forecast_preparation_ui.gd"], headless=not args.render_check)
+        run("battle_magic_freshness_ui", ["--script", "tests/test_battle_magic_freshness_ui.gd"], headless=not args.render_check)
+        run("battle_magic_mode_refresh", ["--script", "tests/test_battle_magic_mode_refresh.gd"], headless=not args.render_check)
         run("battle_pointer_pick", ["--script", "tests/test_battle_pointer_pick.gd"], headless=not args.render_check)
         reactions_args = ["--script", "tests/test_core_reactions_ui.gd"]
         if args.render_check:

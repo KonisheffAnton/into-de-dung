@@ -9,11 +9,13 @@ var _method: StringName = &""
 var _args: Array = []
 var _prepared: Variant
 var _sync_fallback: bool = false
+var _track_freshness: bool = false
+var _freshness: BattleForecastFreshness
 
 func is_started() -> bool:
 	return _thread != null or _audit != null
 
-func start(session: BattleCoreReactionsSession, method: StringName, args: Array) -> bool:
+func start(session: BattleCoreReactionsSession, method: StringName, args: Array, track_freshness: bool = false) -> bool:
 	if is_started() or session == null or session.get_script() != BattleCoreReactionsSession:
 		return false
 	if not _valid_request(method, args):
@@ -25,6 +27,8 @@ func start(session: BattleCoreReactionsSession, method: StringName, args: Array)
 	_audit = BattleExecutionWorker.TransferAudit.new(session)
 	_prepared = null
 	_sync_fallback = false
+	_track_freshness = track_freshness
+	_freshness = null
 	return true
 
 static func _valid_request(method: StringName, args: Array) -> bool:
@@ -51,10 +55,10 @@ func _start_thread() -> Error:
 
 func _run() -> Variant:
 	# Worker делает только whitelist-вызов на переданной session; UI и scene graph сюда не попадают.
-	if _method == &"turn":
-		return TurnForecast.prepare(_session)
-	var api_method: StringName = _prepare_method(_method)
-	return _session.callv(api_method, _args)
+	var prepared: Variant = TurnForecast.prepare(_session) if _method == &"turn" \
+		else _session.callv(_prepare_method(_method), _args)
+	if _track_freshness: _freshness = BattleForecastFreshness.capture(_session)
+	return prepared
 
 static func _prepare_method(method: StringName) -> StringName:
 	match method:
@@ -96,11 +100,13 @@ func take_finished(wait: bool = false) -> Dictionary:
 
 func _take_package(prepared: Variant, fallback: bool) -> Dictionary:
 	var result := {"session": _session, "method": _method, "args": _args,
-		"prepared": prepared, "sync_fallback": fallback}
+		"prepared": prepared, "sync_fallback": fallback, "freshness": _freshness}
 	# До этого момента поток или аудит владели ссылкой на session.
 	_session = null
 	_method = &""
 	_args = []
 	_prepared = null
 	_sync_fallback = false
+	_track_freshness = false
+	_freshness = null
 	return result

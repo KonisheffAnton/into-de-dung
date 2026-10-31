@@ -1,38 +1,40 @@
-# Передача — 2026-11-01: интерактивный прогноз
+# Передача — 2026-11-01: магия/карты и бой32
 
-D:/Games/into-de-dung; main; base f80bde6c5224e53d89470b665b3c9684dc49b83f.
-Цель — убрать фризы с24+ бойцами. Стабильные60 FPS НЕ подтверждены.
-[Измерения/остаток](performance/battle-interactive-forecast-20261101.md).
+D:/Games/into-de-dung; main; base 3e959837189e15157a7b379fcae9ad371edb4159.
+Цель — убрать фризы; стабильные60 FPS НЕ достигнуты.
+[Результат/измерения/остаток](performance/battle-magic-pacing-20261101.md).
 
-Пользователь: тот же размер окна, isolate хуже при движении мыши.
-Найден prepare прогноза32 на main ~91мс. BattleForecastPreparationWorker
-переносит полный prepare в фон с исключительным владением session;
-после join — прежний detached-worker. UI хранит смысл кликов/ID/клетки
-и последнее наведение. Board получает unit/cell одним обходом.
-Контракты: ATTACK_FORECAST/BATTLE_EXECUTION_UI. Core/preview/queue/RNG/save/frozen сохранены.
+Убран повторный полный snapshot на hover/готовом прогнозе магии и карт:
+BattleForecastFreshness проверяет точный raw graph, неизвестное — прежний fallback.
+Режим обновляется по стадиям; готовая панель мага разделяет проверку свежести
+с прогнозом. Live admission/preview/core/queue/RNG/save/frozen сохранены.
+Контракты: ATTACK_FORECAST, BATTLE_EXECUTION_UI, MAGE_DECK_V1.
+Hover32: около87мс → медианы3,76/4,62мс; это обработчики, не FPS.
 
-Headless32: move start медиана0,030мс; hover6,242мс вместо14,127.
-GUI D3D12/RTX3050/screen1: start0,044мс; hover7,796/max15,766мс;
-main preparation poll max9,537мс. Это обработчики, НЕ full-frame FPS.
-After-probe по19PASS/0, live state/RNG/counters/revision неизменны.
-Изолированный import/parse, focused worker/UI/picking/камера/масштаб PASS;
-Python isolate30/0. Turn UI26/3 — прежние ошибки. Критическое независимое
-APPROVE_WITH_LIMITATIONS. Переход pending в панель исправлен; новый UI61/0.
-Точный состав проверок — отчёт. Артефакты: test_reports/battle-frame-pacing-20261031/
-interactive-forecast-* (source, JSON/log, validation.json/review.md).
+Изолированный import/parse PASS; witness69/0, freshness UI53/0, mode25/0,
+prep33/0+61/0, mage37/0, deck121/0, presenter164/0, async13/0,
+execution59/0, planner61/0, Python30/0. Независимое APPROVE.
+Состав — отчёт и test_reports/battle-magic-pacing-20261101/
+validation.json, review.md; runtime/mirror1040 файлов совпали.
 
-Следующее: измерить синхронные _mage_card_cache/_elemental_cast_cache
-(полные снимки для строгой свежести), затем длительный интерактивный бой32
-с мышью/эффектами и обычный isolate. Display-пики20–24мс не закрыты;
-ETL/границы — performance/battle-graphics-trace-20261101.md.
-Новых full/core/F5/ручных движение/zoom/DPI/другой GPU проверок нет.
-Прежние HUD/lifecycle/цвета/Колода/арт-приёмка открыты.
+Окончательный interactive-soak32-final-ca9e5675*:352,47с,5 раундов,86/0,
+минимум29 живых,91 команда, DOT/огонь,16565 синтетических mouse-motion.
+Input медиана1,842/max6,230мс. Interactive p99/max20,742/29,502мс;
+combat20,358/50,222мс. Фокус потерян с раунда4;50мс кадр был ещё focused:
+main11,287 + draw/wait38,860мс. Причина ожидания не установлена.
+PresentMon — диагностика, без точного process↔present mapping.
+Предыдущий f00d5cdd весь focused, но до последних правок; не final acceptance.
+
+Далее: current interactive CPU/GPU ETL с метками, пики публикации UI,
+обычный isolate/настоящая мышь. Пользователь просит продолжать без него;
+не повторять запрос фокуса. Full/core/F5/ручные движение/zoom/DPI/другой GPU
+не заявлены. Прежние HUD/lifecycle/цвета/Колода/арт-приёмка открыты.
 
 Чужие scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
-не reset/stage/commit;33 файла сверены. Один GPU runner, isolated project,
-без root import/автоповышения/изменения служб и драйверов.
+не reset/stage/commit;33 файла сохранены. Один Godot runner, isolated project;
+без root import/автоповышения/изменения служб/драйверов/принудительного фокуса.
 Без push/sidebar tasks/расписаний/нового арта/генерации/интеграции.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261101-2.md), [HISTORY](HISTORY.md).
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261101-3.md), [HISTORY](HISTORY.md).
 
 Завершение: проверки, локальный Conventional Commit, короткий HANDOFF;
 прежний побайтно отдельным архивом+HISTORY. В финале/при блокере предложить

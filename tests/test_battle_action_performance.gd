@@ -90,9 +90,12 @@ func _measure_idle_frames(metric_name: String) -> void:
 	metrics[metric_name]["trace"] = trace
 	check(samples.size() >= 120, "idle frame window measures at least 120 frames with 24 live units")
 
+func _stress_profile() -> HeroHubState:
+	return HeroHubState.create(9404)
+
 func _make_stress_session() -> BattleCoreReactionsSession:
 	# Фабрика задаёт настоящие способности, колоду, экипировку и классификацию рисунков экспедиции.
-	var hub := HeroHubState.create(9404)
+	var hub := _stress_profile()
 	hub.enable_mage_deck()
 	var started := ExpeditionTransitions.apply(hub, "start", {})
 	if not started.is_ok(): return null
