@@ -121,10 +121,40 @@ func presentation_parity(kind: String) -> void:
 	check(worker.take_presentation_before().is_empty(), kind + " before snapshot transfers once")
 	s.close()
 
+func deferred_presentation_parity(kind: String) -> void:
+	# Пакет deferred принадлежит потоку до join, поэтому сверяем его с синхронным эталоном после возврата владельца.
+	var initial_id := UnitId.get_counter()
+	var synchronous := PlayerTurnFixture.create()
+	var request := prepare(synchronous, kind)
+	var expected_before := ActionPresentationState.capture(synchronous.state).duplicate(true)
+	synchronous.begin_presentation_capture()
+	var expected_result: Variant = receipt(synchronous.callv(request[0], request[1]))
+	var expected_packets := synchronous.take_presentation_capture()
+	var expected_after := ActionPresentationState.capture(synchronous.state).duplicate(true)
+	var expected_state := state(synchronous)
+	synchronous.close()
+	UnitId.set_counter(initial_id)
+	var session := PlayerTurnFixture.create()
+	request = prepare(session, kind)
+	var worker := BattleExecutionWorker.new()
+	check(worker.start(session, request[0], request[1], false, true, true), kind + " deferred capture worker started")
+	check(worker.take_presentation_before().is_empty(), kind + " deferred path exposes no before value on start")
+	await create_timer(0.002).timeout
+	check(worker.take_presentation_before().is_empty(), kind + " deferred path keeps before hidden until join")
+	var completed := worker.take_finished(true)
+	check(completed.has("presentation_before") and completed.has("presentation_after"), kind + " join returns deferred before/after values")
+	check(completed.get("presentation_before", {}) == expected_before, kind + " deferred before matches synchronous capture")
+	check(completed.get("presentation_after", {}) == expected_after, kind + " deferred after matches synchronous capture")
+	check(receipt(completed.result) == expected_result, kind + " deferred receipt matches synchronous execution")
+	check(session.take_presentation_capture() == expected_packets, kind + " deferred ordered packets match synchronous capture")
+	check(state(session) == expected_state, kind + " deferred full state/RNG/counters match synchronous execution")
+	check(worker.take_presentation_before().is_empty() and worker.take_finished().is_empty(), kind + " joined deferred values transfer once")
+	session.close()
+
 func presentation_refusals_and_fallback() -> void:
 	var s := PlayerTurnFixture.create()
 	var worker := BattleExecutionWorker.new()
-	check(not worker.start(s, &"reset", [], false, true), "invalid request refused")
+	check(not worker.start(s, &"reset", [], false, true, true), "invalid deferred request refused")
 	check(worker.take_presentation_before().is_empty() and not s._queue.capture_presentation, "invalid request has no capture mutation")
 	var rng := s.context._rng
 	s.context._rng = CallbackRng.new()
@@ -156,6 +186,22 @@ func presentation_refusals_and_fallback() -> void:
 	check(failed.take_presentation_before().is_empty() and state(s) != initial_state, "fallback consumes retained packet exactly once")
 	s.close()
 
+	s = PlayerTurnFixture.create()
+	request = prepare(s, "fault")
+	initial_state = state(s)
+	expected_before = ActionPresentationState.capture(s.state).duplicate(true)
+	failed = FailedLaunchWorker.new()
+	check(not failed.start(s, request[0], request[1], false, true, true), "deferred thread launch failure returns to sync fallback")
+	check(failed.take_presentation_before() == expected_before and s._queue.capture_presentation,
+		"deferred launch failure captures before only on synchronous fallback")
+	var deferred_fallback: ActionReceipt = s.callv(request[0], request[1])
+	var deferred_packets := s.take_presentation_capture()
+	check(deferred_fallback.status == ActionReceipt.FAULTED and not deferred_packets.is_empty(),
+		"deferred fault fallback preserves executed prefix packets")
+	check(failed.take_presentation_before().is_empty() and state(s) != initial_state,
+		"deferred fallback packet is consumed once after the fault")
+	s.close()
+
 func presentation_before_replaced() -> void:
 	var s := PlayerTurnFixture.create()
 	var worker := BattleExecutionWorker.new()
@@ -169,6 +215,27 @@ func presentation_before_replaced() -> void:
 	check(second != first, "fresh start replaces prior before metadata")
 	worker.take_finished(true)
 	s.close()
+
+func deferred_presentation_before_replaced() -> void:
+	var session := PlayerTurnFixture.create()
+	var worker := BattleExecutionWorker.new()
+	check(worker.start(session, &"guard_selected", [], false, true, true), "first deferred capture job starts")
+	check(worker.take_presentation_before().is_empty(), "first deferred capture has no early before value")
+	var first := worker.take_finished(true)
+	var first_before: Dictionary = first.get("presentation_before", {})
+	check(not first_before.is_empty() and not first.get("presentation_after", {}).is_empty(), "first deferred job returns its joined snapshots")
+	session.take_presentation_capture()
+	session.units[0].vitals.set_hp(1)
+	var expected_second := ActionPresentationState.capture(session.state).duplicate(true)
+	check(worker.start(session, &"guard_selected", [], false, true, true), "second deferred capture job starts")
+	check(worker.take_presentation_before().is_empty(), "second deferred capture does not expose stale first before")
+	var second := worker.take_finished(true)
+	check(second.get("presentation_before", {}) == expected_second and second.get("presentation_before", {}) != first_before,
+		"second deferred job replaces before with its own state")
+	check(second.get("presentation_after", {}) == ActionPresentationState.capture(session.state),
+		"second deferred job returns its own final snapshot, not the previous job's after")
+	check(worker.take_presentation_before().is_empty() and worker.take_finished().is_empty(), "second deferred result also transfers once")
+	session.close()
 
 func callback() -> void: pass
 
@@ -220,8 +287,11 @@ func run() -> void:
 		await parity(kind)
 	for kind: String in ["guard", "refused", "fault", "end", "enemy"]:
 		presentation_parity(kind)
+	for kind: String in ["guard", "refused", "fault", "end", "enemy"]:
+		await deferred_presentation_parity(kind)
 	presentation_refusals_and_fallback()
 	presentation_before_replaced()
+	deferred_presentation_before_replaced()
 	fresh_same_script_objects()
 	round_parity()
 	var s := BattleCoreReactionsSession.new()

@@ -7,6 +7,9 @@ const METHODS: Array[StringName] = [&"click_attack", &"move_to", &"retreat_to", 
 var _thread: Thread
 var _session: BattleCoreReactionsSession
 var _presentation_before: Dictionary = {}
+var _capture_on_worker: bool = false
+var _worker_before: Dictionary = {}
+var _worker_after: Dictionary = {}
 var method: StringName
 var target_attempt: bool = false
 
@@ -75,11 +78,14 @@ static func _owned_death_callback(session: BattleDemoSession, object: Object, si
 func is_started() -> bool:
 	return _thread != null
 
-func start(session: BattleCoreReactionsSession, action: StringName, args: Array, attempt: bool = false, capture_presentation: bool = false) -> bool:
+func start(session: BattleCoreReactionsSession, action: StringName, args: Array, attempt: bool = false, capture_presentation: bool = false, defer_presentation: bool = false) -> bool:
 	if is_started(): return false
 	_presentation_before.clear()
+	_worker_before.clear()
+	_worker_after.clear()
+	_capture_on_worker = capture_presentation and defer_presentation
 	if not _valid_request(action, args) or not can_transfer(session): return false
-	if capture_presentation:
+	if capture_presentation and not _capture_on_worker:
 		# Снимок делается только после успешного аудита, пока worker ещё не владеет session.
 		_presentation_before = ActionPresentationState.capture(session.state)
 		session.begin_presentation_capture()
@@ -90,6 +96,10 @@ func start(session: BattleCoreReactionsSession, action: StringName, args: Array,
 	if _start_thread(args) == OK: return true
 	_thread = null
 	_session = null
+	if _capture_on_worker:
+		# Поток не стартовал: единственный sync fallback получает такой же пакет.
+		_presentation_before = ActionPresentationState.capture(session.state)
+		session.begin_presentation_capture()
 	return false
 
 func _start_thread(args: Array) -> Error:
@@ -116,12 +126,24 @@ static func _valid_request(action: StringName, args: Array) -> bool:
 	return args.is_empty()
 
 func _run(args: Array) -> Variant:
-	return _session.callv(method, args)
+	# После аудита весь граф уже принадлежит потоку. Кадры остаются закрыты
+	# для main до join, поэтому их сборка не задерживает анимацию ожидания.
+	if _capture_on_worker:
+		_worker_before = ActionPresentationState.capture(_session.state)
+		_session.begin_presentation_capture()
+	var result: Variant = _session.callv(method, args)
+	if _capture_on_worker: _worker_after = ActionPresentationState.capture(_session.state)
+	return result
 
 func take_finished(wait: bool = false) -> Dictionary:
 	if _thread == null or (not wait and _thread.is_alive()): return {}
 	var result: Variant = _thread.wait_to_finish()
 	_thread = null
 	var completed := {"session": _session, "method": method, "result": result, "target_attempt": target_attempt}
+	if _capture_on_worker:
+		completed["presentation_before"] = _worker_before
+		completed["presentation_after"] = _worker_after
+	_worker_before = {}
+	_worker_after = {}
 	_session = null
 	return completed

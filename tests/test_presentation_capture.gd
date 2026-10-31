@@ -70,6 +70,72 @@ func _check_action_area_oracle(session: BattleCoreReactionsSession, label: Strin
 	check(before_capture.action_areas == after_capture.action_areas and after_capture.action_areas == expected,
 		"%s full capture keeps the same action-area DTO" % label)
 
+func _clone_stats_dto(unit: UnitState) -> Dictionary:
+	# Эталон воспроизводит прежний путь: сериализация StatsBag, её копия и чтение через get_value().
+	var copy: StatsBag = StatsBag.from_snapshot_dict(unit.stats.to_snapshot_dict()) if unit.stats != null else null
+	var hp_max: float = copy.get_value(StatTypes.StatType.HP_MAX) if copy != null else 0.0
+	var balance_max: float = copy.get_value(StatTypes.StatType.BALANCE_MAX) if copy != null else 0.0
+	return {"hp_max": hp_max, "balance_max": ControlRules.balance_maximum(unit, balance_max),
+		"attack_range": copy.get_value(StatTypes.StatType.ATTACK_RANGE) if copy != null else 1.0}
+
+func _check_stats_capture_matches_clone(session: BattleCoreReactionsSession, label: String) -> void:
+	var before := _stats_cache_signature(session)
+	var actual := PresentationState.capture(session.state)
+	var after := _stats_cache_signature(session)
+	check(after == before, "%s full capture leaves every live Stat cache unchanged" % label)
+	for unit: UnitState in session.units:
+		var expected := _clone_stats_dto(unit)
+		var actual_unit: Dictionary = actual.units[unit.id]
+		check(actual_unit.hp_max == expected.hp_max and actual_unit.balance_max == expected.balance_max
+			and actual_unit.attack_range == expected.attack_range,
+			"%s stat fields match the cloned StatsBag oracle for unit %d" % [label, unit.id])
+	var areas_before := _stats_cache_signature(session)
+	var actual_areas := PresentationState.capture_action_areas(session.state)
+	var expected_areas := _brute_force_action_areas(session.state)
+	check(actual_areas == expected_areas, "%s action-area DTO matches cloned-stat oracle" % label)
+	check(_stats_cache_signature(session) == areas_before, "%s action-area capture leaves live Stat caches unchanged" % label)
+
+func _stats_snapshot_read_oracle() -> void:
+	var session := PlayerTurnFixture.create()
+	var actor: UnitState = session.units[0]
+	var type := StatTypes.StatType.ATTACK_RANGE
+	var stat: Stat = actor.stats._stats[type]
+	stat.base_value = 0.0
+	actor.stats.add_modifier(type, StatModifier.new(&"order_a", StatModifier.Operation.ADD_FLAT, 1e16))
+	actor.stats.add_modifier(type, StatModifier.new(&"order_b", StatModifier.Operation.ADD_FLAT, -1e16))
+	actor.stats.add_modifier(type, StatModifier.new(&"order_c", StatModifier.Operation.ADD_FLAT, 1.0))
+	actor.stats.add_modifier(type, StatModifier.new(&"percent", StatModifier.Operation.ADD_PERCENT, 0.5))
+	actor.stats.add_modifier(type, StatModifier.new(&"multiply", StatModifier.Operation.MULTIPLY, 2.0))
+	stat._cache_dirty = true
+	var dirty_signature := _stats_cache_signature(session)
+	_check_stats_capture_matches_clone(session, "dirty ordered modifiers")
+	check(stat._cache_dirty and stat.snapshot_value_unchecked() == 3.0,
+		"flat evaluation order survives snapshot cloning before percent and multiply stages")
+	check(_stats_cache_signature(session) == dirty_signature, "capture preserves dirty cached value and flag exactly")
+	check(is_equal_approx(stat.get_value(), 3.0), "live get_value warms only the runtime cache")
+	var clean_signature := _stats_cache_signature(session)
+	_check_stats_capture_matches_clone(session, "clean ordered modifiers")
+	check(_stats_cache_signature(session) == clean_signature, "clean cache stays warm and unchanged after capture")
+
+	var saved_stats := actor.stats
+	actor.stats = null
+	_check_stats_capture_matches_clone(session, "missing stats")
+	var missing_capture := PresentationState.capture(session.state)
+	var missing_dto: Dictionary = missing_capture.units[actor.id]
+	check(missing_dto.hp_max == 0.0 and missing_dto.balance_max == 0.0 and missing_dto.attack_range == 1.0,
+		"missing StatsBag retains the legacy fallback DTO values")
+	actor.stats = saved_stats
+	var invalid_modifier: StatModifier = actor.stats._stats[type]._modifiers[0]
+	var saved_value: float = invalid_modifier.value
+	invalid_modifier.value = NAN
+	_check_stats_capture_matches_clone(session, "invalid stats graph")
+	var invalid_capture := PresentationState.capture(session.state)
+	var invalid_dto: Dictionary = invalid_capture.units[actor.id]
+	check(invalid_dto.hp_max == 0.0 and invalid_dto.attack_range == 1.0,
+		"invalid StatsBag uses the same fallback stat fields as the old clone path")
+	invalid_modifier.value = saved_value
+	session.close()
+
 func _action_area_candidate_parity() -> void:
 	var session := PlayerTurnFixture.create()
 	var actor: UnitState = session.units[0]
@@ -212,5 +278,6 @@ func _run() -> void:
 	_faulted_prefix()
 	_eventless_ability_boundary()
 	_action_area_candidate_parity()
+	_stats_snapshot_read_oracle()
 	print("PRESENTATION CAPTURE RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)

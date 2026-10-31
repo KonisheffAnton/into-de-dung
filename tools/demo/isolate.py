@@ -379,7 +379,7 @@ def main():
         if label in ("current_schema_boundary", "action_event_validator", "forecast_definition_copy", "forecast_restore_isolation", "restore_vitals"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output or "WARNING:" in output
-        if label in ("archer_idle", "archer_cloth_palette", "rogue_animations", "rogue_buff", "rogue_death_routes", "defender_buff", "defender_death", "defender_death_routes", "defender_idle", "defender_idle_clock", "defender_cloth_palette", "rogue_cloth_palette", "current_art_zoom", "art_trial_battle", "dungeon_room_comparison", "biome_showcase_layout", "presentation_capture", "battle_presentation", "presentation_foundation", "presentation_contact", "presentation_attack_styles", "presentation_consequences", "presentation_push_slide", "presentation_environment", "presentation_ranged", "presentation_mage", "presentation_reactions", "presentation_status", "battle_board_camera", "battle_camera_ui", "battle_view_reuse", "four_slot_bar", "battle_panels", "environment_visual_contract", "unit_visual_contract", "visual_scene_contract"):
+        if label in ("archer_idle", "archer_cloth_palette", "rogue_animations", "rogue_buff", "rogue_death_routes", "defender_buff", "defender_death", "defender_death_routes", "defender_idle", "defender_idle_clock", "defender_cloth_palette", "rogue_cloth_palette", "current_art_zoom", "art_trial_battle", "dungeon_room_comparison", "biome_showcase_layout", "presentation_capture", "battle_presentation", "presentation_foundation", "presentation_contact", "presentation_attack_styles", "presentation_consequences", "presentation_push_slide", "presentation_environment", "presentation_ranged", "presentation_mage", "presentation_reactions", "presentation_status", "battle_board_camera", "battle_camera_ui", "battle_view_reuse", "four_slot_bar", "battle_panels", "environment_visual_contract", "unit_visual_contract", "visual_scene_contract", "battle_action_performance"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("snapshot_value_copy", "live_snapshot_capture", "summon_checkpoint"):
@@ -540,6 +540,7 @@ def main():
             archer_cloth_args += ["--", "--captures=" + str(archer_cloth_captures)]
         run("archer_cloth_palette", archer_cloth_args, headless=not args.render_check)
         run("visual_scene_contract", ["--script", "tests/test_visual_scene_contract.gd"], headless=not args.render_check)
+        run("battle_action_performance", ["--script", "tests/test_battle_action_performance.gd"], headless=not args.render_check)
         presentation_args = ["--script", "tests/test_battle_presentation.gd"]
         if args.render_check:
             presentation_captures = out / "presentation-screenshots"

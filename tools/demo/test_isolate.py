@@ -108,6 +108,7 @@ class IsolateSelectionTests(unittest.TestCase):
                     "archer_idle": "ARCHER IDLE RESULTS:",
                     "archer_cloth_palette": "ARCHER CLOTH PALETTE RESULTS:",
                     "visual_scene_contract": "VISUAL SCENE CONTRACT RESULTS:",
+                    "battle_action_performance": "BATTLE ACTION PERFORMANCE RESULTS:",
                     "current_art_zoom": "CURRENT ART ZOOM RESULTS:",
                     "art_trial_battle": "ART TRIAL BATTLE RESULTS:",
                     "dungeon_room_comparison": "DUNGEON ROOM COMPARISON RESULTS:",

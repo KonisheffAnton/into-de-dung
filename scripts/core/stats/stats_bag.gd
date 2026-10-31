@@ -51,6 +51,12 @@ func get_value(type: StatTypes.StatType) -> float:
 	return stat.get_value()
 
 
+## Чистое чтение после snapshot_runtime_valid(): не прогревает кэш живого Stat.
+func snapshot_value_unchecked(type: StatTypes.StatType) -> float:
+	var stat: Stat = _stats.get(type)
+	return stat.snapshot_value_unchecked() if stat != null else 0.0
+
+
 ## Целочисленное чтение для статов, которые по смыслу дискретны
 ## (MOVE_RANGE в очках, ARMOR). Округление — единое в одном месте,
 ## чтобы разные системы не округляли по-разному.

@@ -18,10 +18,10 @@ static func capture(state: ItemSimulationState) -> Dictionary:
 	for unit: UnitState in board.get_all_units():
 		if unit == null:
 			continue
-		# Производные значения читаем из копии, чтобы кадр не прогревал live cache.
-		var stats_copy := StatsBag.from_snapshot_dict(unit.stats.to_snapshot_dict()) if unit.stats != null else null
-		var hp_max := stats_copy.get_value(StatTypes.StatType.HP_MAX) if stats_copy != null else 0.0
-		var balance_max := stats_copy.get_value(StatTypes.StatType.BALANCE_MAX) if stats_copy != null else 0.0
+		# Та же проверка графа, но без сериализации и создания Stat/модификаторов для каждого кадра.
+		var stats_valid := unit.stats != null and unit.stats.snapshot_runtime_valid()
+		var hp_max := unit.stats.snapshot_value_unchecked(StatTypes.StatType.HP_MAX) if stats_valid else 0.0
+		var balance_max := unit.stats.snapshot_value_unchecked(StatTypes.StatType.BALANCE_MAX) if stats_valid else 0.0
 		balance_max = ControlRules.balance_maximum(unit, balance_max)
 		var armor: Dictionary = {}
 		if unit.armor != null:
@@ -35,7 +35,7 @@ static func capture(state: ItemSimulationState) -> Dictionary:
 			"cell": unit.cell, "alive": unit.is_alive(),
 			"hp": unit.vitals.get_hp() if unit.vitals != null else 0.0,
 			"hp_max": hp_max,
-			"attack_range": stats_copy.get_value(StatTypes.StatType.ATTACK_RANGE) if stats_copy != null else 1.0,
+			"attack_range": unit.stats.snapshot_value_unchecked(StatTypes.StatType.ATTACK_RANGE) if stats_valid else 1.0,
 			"balance": unit.vitals.get_balance() if unit.vitals != null else 0.0,
 			"balance_max": balance_max, "armor": armor.duplicate(true),
 			"shield": unit.armor.shield.duplicate(true) if unit.armor != null else {}, "pending": state.is_summon_pending(unit.id),
@@ -90,9 +90,8 @@ static func capture_action_areas(state: ItemSimulationState) -> Array[Dictionary
 	var board := state.get_board()
 	for unit: UnitState in board.get_all_units():
 		if not unit.is_alive() or state.is_summon_pending(unit.id) or ControlRules.action_reason(unit) != &"": continue
-		var stats := StatsBag.from_snapshot_dict(unit.stats.to_snapshot_dict()) if unit.stats != null else null
-		if stats == null: continue
-		var reach := stats.get_value(StatTypes.StatType.ATTACK_RANGE)
+		if unit.stats == null or not unit.stats.snapshot_runtime_valid(): continue
+		var reach := unit.stats.snapshot_value_unchecked(StatTypes.StatType.ATTACK_RANGE)
 		var cells: Array[Vector2i] = []
 		for cell: Vector2i in _action_area_candidates(board, unit.cell):
 			if board.is_terrain_walkable(cell) and AttackReachCheck.inspect_spatial_cells(board, unit.cell, unit.faction, cell, reach) == &"": cells.append(cell)

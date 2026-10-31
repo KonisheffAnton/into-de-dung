@@ -189,7 +189,8 @@ K10–K12 (BattleCoreReactionsSession, наследник K9/K2) — основ�
 ## Представление боя — V1
 
 `ActionPresentationState.capture` копирует значения доски, бойцов, среды и мага;
-максимумы и attack_range читает из копии StatsBag. DTO не содержит runtime/Resource/Node ссылок
+максимумы и attack_range читает чистой формулой после `StatsBag.snapshot_runtime_valid`,
+без копирования объектов и изменения кэша Stat. DTO не содержит runtime/Resource/Node ссылок
 и не является save-схемой. `action_areas` копирует геометрию AttackReachCheck,
 владельца/фракцию и готовность реакции через общий MeleeThreat.reaction_ready_state;
 кандидаты идут в прежнем порядке строк только по строке/столбцу бойца:
@@ -201,12 +202,11 @@ after. Существующие events/steps, RNG, counters и порядок к
 Кадр есть и для пустого события, и для выполненного FAULTED prefix. Копия очереди
 для forecast всегда начинает без capture; показ включает его только после аудита runtime.
 
-На worker-пути аудит и включение capture объединены внутри `BattleExecutionWorker.start`:
-один свежий обход графа, отделённый before, затем запуск потока. UI получает before
-отдельно от session; при отказе запуска тот же пакет обслуживает sync fallback.
-Sync-only оболочки проверяют граф перед capture сами; допуска между вызовами нет.
-Локальное повторное использование имён полей одинаковых scripts не сохраняет
-результаты проверок; подробная граница — [BATTLE_EXECUTION_UI](BATTLE_EXECUTION_UI.md).
+На основном worker-пути main выполняет свежий аудит владения, затем поток
+собирает before/after вокруг session-метода. DTO возвращаются после join;
+отказ запуска обслуживает единственный sync fallback. Прежний синхронный
+API подготовки before сохранён. Граница и режимы —
+[BATTLE_EXECUTION_UI](BATTLE_EXECUTION_UI.md). Аудит между вызовами не кэшируется.
 
 `BattleDemoSession._record_receipt` собирает roots одного session-вызова; после
 возврата владения UI забирает пакет и выключает capture. Начальный и конечный

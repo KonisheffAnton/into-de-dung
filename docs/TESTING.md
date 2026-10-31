@@ -14,6 +14,20 @@
 
 ## Изменение игрового кода
 
+Плавность действий с24 бойцами (2026-10-31): `--render-check --only
+battle_action_performance visual_scene_contract battle_execution_ui battle_presentation
+presentation_contact presentation_consequences presentation_environment --screen 0`.
+Отдельно `--check --only battle_execution_worker presentation_capture core`.
+Нагрузочный runner использует настоящий HeroHubBattleView, комнату24×16,
+колоду/экипировку и24 живых бойца; проверяет движение/атаку через worker,
+preview/live snapshots/events/steps и сохранение visual ID. JSON лежит в
+изолированном `profile/Godot/app_userdata/intoDeDung/battle-action-performance.json`.
+Время операций, кадров и dispatch диагностическое, без универсального FPS gate.
+Deferred before/after, отказ запуска и FAULTED покрыты worker-runner; snapshot
+статов сравнивается с прежним clone-oracle без изменения live-кэша.
+Render-регрессии смерти/реакций/камеры выбирать дополнительно при изменениях поз.
+Технический A/B не заменяет ручную приёмку и проверку будущих артов/массовых AoE.
+
 Прозрачный HUD и ввод за прежними границами Board (2026-10-31):
 `python tools/demo/isolate.py --render-check --only battle_hud_input
 battle_hud_authoring battle_camera_ui turn_forecast_ui mage_deck_ui hero_hub_ui --screen 0`

@@ -100,7 +100,8 @@ func _publish_chain_frame(index: int) -> void:
 
 func _complete_chain() -> void:
 	_chain = null
-	_next()
+	if _index >= _frames.size(): _schedule_next()
+	else: _next()
 
 func _complete_frame() -> void:
 	if not active: return
@@ -118,7 +119,11 @@ func _complete_frame() -> void:
 		_tween.finished.connect(_next)
 	frame_finished.emit(state.duplicate(true))
 	_index += 1
-	if trap.is_empty(): _next()
+	# Финальный refresh получает следующий кадр. Между фазами одного удара
+	# оставляем прежний непрерывный переход, иначе сдвигается момент контакта.
+	if trap.is_empty():
+		if _index >= _frames.size(): _schedule_next()
+		else: _next()
 
 func skip() -> void:
 	_finish(true)
@@ -130,7 +135,10 @@ func _finish(discard_feedback: bool) -> void:
 	_chain = null
 	if discard_feedback: _board.clear_presentation_feedback()
 	else: _board.clear_strike_poses()
-	_board.show_presentation_state(_final)
+	# Последний after обычно уже опубликован. Повторная сборка того же поля
+	# перед финальным refresh удваивала работу в одном кадре. Skip обязан
+	# восстановить финал даже при равном DTO: он обрывает промежуточную позу.
+	if discard_feedback or _published != _final: _board.show_presentation_state(_final)
 	frame_finished.emit(_final.duplicate(true))
 	active = false
 	_frames.clear()

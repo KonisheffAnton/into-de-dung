@@ -3,6 +3,17 @@ extends SceneTree
 const PlayerTurnFixture = preload("res://tests/fixtures/player_turn_fixture.gd")
 const TRIAL_TILE = preload("res://scenes/demo/visuals/art_trial_tile.tscn")
 
+class CountingBoard extends BattleDemoBoard:
+	var terrain_passes: int = 0
+	func _rebuild_terrain() -> void:
+		terrain_passes += 1
+		super._rebuild_terrain()
+
+class CountingVisual extends BattleDemoIsoVisual:
+	var syncs: int = 0
+	func sync_scene_art() -> void:
+		syncs += 1
+
 var passed: int = 0
 var failed: int = 0
 var viewport: SubViewport
@@ -124,7 +135,7 @@ func _apply_count_snapshot(board: BattleDemoBoard) -> Dictionary:
 
 
 func _exercise_dynamic_scenes(terrain_scene: PackedScene, environment_scene: PackedScene) -> void:
-	var custom_board := BattleDemoBoard.new()
+	var custom_board := CountingBoard.new()
 	custom_board.size = Vector2(500.0, 360.0)
 	custom_board.tile_visual_scene = terrain_scene
 	custom_board.environment_visual_scene = environment_scene
@@ -158,12 +169,44 @@ func _exercise_dynamic_scenes(terrain_scene: PackedScene, environment_scene: Pac
 		var ids := _terrain_ids(custom_board)
 		var counts := custom_board.visual_lifecycle_counts()
 		var applies := _apply_count_snapshot(custom_board)
+		var terrain_passes := custom_board.terrain_passes
 		custom_board.show_presentation_state(state)
+		check(custom_board.terrain_passes == terrain_passes, "unchanged publication does not revisit static terrain")
 		check(_terrain_ids(custom_board) == ids and custom_board._environment_visuals.get(cell) == environment_visual
 			and custom_board.visual_lifecycle_counts() == counts,
 			"second publication preserves dynamic scene identities and lifecycle counts")
 		check(_apply_count_snapshot(custom_board) == applies,
 			"second dynamic publication skips unchanged terrain and environment applies")
+		terrain_visual.presentation_lift = 0.5
+		custom_board.show_presentation_state(state)
+		check(terrain_visual.presentation_lift == 0.0, "terrain reuse still resets old presentation pose")
+		state.heights[0] = 2
+		custom_board.show_presentation_state(state)
+		check(custom_board.terrain_passes > terrain_passes and terrain_visual.half_steps == 2,
+			"in-place height edit invalidates publication terrain reuse")
+		state.fires[0].effect = "burning"
+		custom_board.show_presentation_state(state)
+		check(terrain_visual.burning and not environment_visual.has_spikes, "in-place hazard edit republishes current values")
+		state.terrain[0] = TerrainType.Type.VOID
+		custom_board.show_presentation_state(state)
+		check(terrain_visual.is_void and not custom_board._environment_visuals.has(cell), "collapse removes overlay under reuse path")
+		state.terrain[0] = TerrainType.Type.FLOOR
+		custom_board.environment_visual_scene = _pack(BattleEnvironmentVisual.new())
+		custom_board.show_presentation_state(state)
+		custom_board.show_presentation_state(state)
+		check(custom_board._environment_visuals.has(cell), "legacy environment rebuild remains available after repeated publication")
+	var unchanged := CountingVisual.new()
+	custom_board._entity_visuals.append(unchanged)
+	custom_board.clear_strike_poses()
+	check(unchanged.syncs == 0, "reset of already-zero poses does not resynchronize static art")
+	unchanged.action_offset = Vector2.ONE
+	unchanged.presentation_facing_x = -1
+	var prior := unchanged.syncs
+	custom_board.clear_strike_poses()
+	check(unchanged.syncs == prior + 2 and unchanged.action_offset == Vector2.ZERO and unchanged.presentation_facing_x == 0,
+		"reset still clears actual action and facing poses")
+	custom_board._entity_visuals.erase(unchanged)
+	unchanged.free()
 	custom_board.queue_free()
 	await process_frame
 

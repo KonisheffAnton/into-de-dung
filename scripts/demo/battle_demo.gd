@@ -112,6 +112,7 @@ var _execution_worker := BattleExecutionWorker.new()
 @export var presentation_enabled: bool = true
 var _presentation_player: BattlePresentationPlayer
 var _presentation_before: Dictionary = {}
+var _presentation_after: Dictionary = {}
 var _presentation_roots: Array[Dictionary] = []
 var _presentation_events: Array[Dictionary] = []
 var _presentation_seen: Dictionary = {}
@@ -164,9 +165,9 @@ func _execute_live(method: StringName, args: Array = [], target_attempt: bool = 
 		board_view.session = null
 		session = null
 		_battle = null
-		# Worker проверяет граф и собирает before до запуска потока одним проходом.
-		# Здесь забираются только отделённые значения, runtime уже недоступен UI.
-		var started := _execution_worker.start(owned, method, args, target_attempt, presentation_enabled)
+		# Main проверяет владение; before/after собираются внутри потока и придут после join.
+		# take_presentation_before нужен только при отказе запуска для sync fallback.
+		var started := _execution_worker.start(owned, method, args, target_attempt, presentation_enabled, true)
 		_presentation_before = _execution_worker.take_presentation_before()
 		if started:
 			_status.text = "Выполняется действие…"
@@ -185,6 +186,8 @@ func _poll_execution() -> void:
 	var completed := _execution_worker.take_finished()
 	if completed.is_empty(): return
 	_restore_execution_owner(completed)
+	_presentation_before = completed.get("presentation_before", {})
+	_presentation_after = completed.get("presentation_after", {})
 	_complete_live(completed.method, completed.result, completed.target_attempt)
 
 func _restore_execution_owner(completed: Dictionary) -> void:
@@ -200,6 +203,7 @@ func _join_execution() -> void:
 	if not completed.is_empty(): _restore_execution_owner(completed)
 	if not _presentation_before.is_empty() and session != null: session.take_presentation_capture()
 	_presentation_before.clear()
+	_presentation_after.clear()
 	_presentation_roots.clear()
 	_presentation_events.clear()
 	_presentation_result = null
@@ -233,9 +237,11 @@ func _complete_live(method: StringName, result: Variant, target_attempt: bool) -
 			_environment_button.disabled = true
 			_phase_label.text = "Показ действия"
 			_render_presentation_hud(_presentation_before)
-			_presentation_player.play(board_view, _presentation_before, frames, ActionPresentationState.capture(session.state))
+			var final_state := _presentation_after if not _presentation_after.is_empty() else ActionPresentationState.capture(session.state)
+			_presentation_player.play(board_view, _presentation_before, frames, final_state)
 			return
 		_presentation_before.clear()
+		_presentation_after.clear()
 	if method == &"end_player_turn":
 		if result:
 			_clear_action_mode()
@@ -354,6 +360,7 @@ func _finish_presentation() -> void:
 	# turn_events дублирует уже собранные roots; журнал границы не должен повторяться.
 	if session is BattleBleedingSession: (session as BattleBleedingSession).turn_events.clear()
 	_presentation_before.clear()
+	_presentation_after.clear()
 	_presentation_roots.clear()
 	_presentation_events.clear()
 	board_view.execution_pending = false

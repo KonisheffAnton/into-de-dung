@@ -67,6 +67,12 @@ var _fallen_ids: Dictionary = {}
 var _shown_board: BattleBoard
 var _tile_visuals: Array[BattleDemoIsoVisual] = []
 var _entity_visuals: Array[BattleDemoIsoVisual] = []
+var _ordered_cells: Array[Vector2i] = []
+var _ordered_cell_size := Vector2i.ZERO
+var _terrain_publication_key: Array = []
+var _terrain_draw_order: Array[BattleDemoIsoVisual] = []
+var _terrain_draw_values: Dictionary[BattleDemoIsoVisual, Dictionary] = {}
+var _environment_draw_values: Dictionary[Vector2i, Dictionary] = {}
 const DEFAULT_TILE_SCENE: PackedScene = preload("res://scenes/demo/visuals/placeholder_tile.tscn")
 var _terrain_visuals: Dictionary[Vector3i, BattleDemoIsoVisual] = {}
 var _terrain_board_id: int = 0
@@ -187,7 +193,7 @@ func show_presentation_state(value: Dictionary) -> void:
 	cover_target_ids.clear()
 	sneak_threat_ids.clear()
 	_path.clear()
-	_rebuild_visuals()
+	_rebuild_visuals(true)
 	queue_redraw()
 	if _overlay != null: _overlay.queue_redraw()
 
@@ -244,8 +250,10 @@ func clear_strike_poses() -> void:
 	_action_offsets.clear()
 	_clear_slide_poses()
 	for visual: BattleDemoIsoVisual in _entity_visuals:
-		visual.presentation_facing_x = 0
-		visual.action_offset = Vector2.ZERO
+		# Setter синхронизирует весь арт/HUD. Нулевой сброс сотен неподвижных
+		# тайлов на каждой границе действия создавал заметный стоп-кадр.
+		if visual.presentation_facing_x != 0: visual.presentation_facing_x = 0
+		if visual.action_offset != Vector2.ZERO: visual.action_offset = Vector2.ZERO
 
 func _clear_slide_poses() -> void:
 	_slide_poses.clear()
@@ -1546,19 +1554,70 @@ func _clear_layer(layer: Node2D) -> void:
 		layer.remove_child(child)
 		child.queue_free()
 
-func _rebuild_visuals() -> void:
+func _terrain_view_key() -> Array:
+	return [_terrain_board_id, _view_width, _view_height, tile_visual_scene, environment_visual_scene,
+		grid_config.tile_size, grid_config.height_step, grid_config.origin_offset,
+		_view_heights, _view_terrain, _view_fires, _view_corpses, _view_collapse, _view_hazards,
+		_reachable, inspection_cells, attack_mode, elemental_mode, inspected_id, _field_presentation.cells.keys()]
+
+func _rebuild_visuals(allow_terrain_reuse: bool = false) -> void:
 	if _entities == null: return
 	if Vector2i(maxi(_view_width, 8), maxi(_view_height, 8)) != _layout_dimensions: _sync_layout_geometry()
 	_tile_visuals.clear()
 	_entity_visuals.clear()
 	_clear_layer(_tiles)
+	var environment_count := _environment_visuals.size()
 	_prepare_terrain_rebuild()
 	if _view_width <= 0 or _view_height <= 0: return
-	var cells: Array[Vector2i] = []
-	for y in _view_height:
-		for x in _view_width: cells.append(Vector2i(x, y))
-	cells.sort_custom(func(a: Vector2i, b: Vector2i) -> bool: return a.x + a.y < b.x + b.y or (a.x + a.y == b.x + b.y and a.y < b.y))
-	for cell in cells:
+	var terrain_key := _terrain_view_key()
+	var reuse_terrain := allow_terrain_reuse and terrain_key == _terrain_publication_key and not _terrain_draw_order.is_empty() and environment_count == _environment_visuals.size()
+	for visual: BattleDemoIsoVisual in _terrain_draw_order:
+		if not is_instance_valid(visual) or visual.is_queued_for_deletion() or visual.get_parent() != _entities or not visual is BattleTerrainVisual:
+			reuse_terrain = false
+			break
+	if reuse_terrain:
+		# Публикация нового положения бойца не меняет землю. Снимаем лишь позы;
+		# активные collapse/trap-семплы ниже восстанавливаются из отделённого показа.
+		for visual: BattleDemoIsoVisual in _terrain_draw_order:
+			(visual as BattleTerrainVisual).reset_view_pose()
+			# apply сравнивает также фактические свойства: редактор/поза не должны
+			# спрятать изменение за равенством входного DTO.
+			(visual as BattleTerrainVisual).apply_view(_terrain_draw_values[visual], grid_config)
+			_attach_visual(visual)
+		for cell: Vector2i in _environment_visuals:
+			var overlay := _environment_visuals[cell] as BattleEnvironmentVisual
+			if overlay is BattleManagedEnvironmentVisual:
+				(overlay as BattleManagedEnvironmentVisual).reset_view_pose()
+				(overlay as BattleManagedEnvironmentVisual).apply_view(_environment_draw_values[cell])
+				overlay.position = (overlay.get_parent() as BattleDemoIsoVisual).get_visual_offset() + Vector2(0, 0.5)
+				overlay.scale = Vector2.ONE * grid_config.tile_size.x / 128.0
+	else:
+		_rebuild_terrain()
+		_terrain_draw_order.assign(_entity_visuals)
+		# Ключ — копия значений, не revision: изменения коллекций на месте тоже видны.
+		_terrain_publication_key = terrain_key.duplicate(true)
+	_rebuild_units()
+	_sort_visuals()
+	_field_presentation.restore(self)
+	for id: int in _slide_poses.keys():
+		var pose: Dictionary = _slide_poses[id]
+		_presentation_slide(pose.progress, id, pose.from, pose.to)
+	_sample_defender_buff(_defender_buff_elapsed)
+	_restore_attack_facings()
+
+func _rebuild_terrain() -> void:
+	_terrain_draw_values.clear()
+	_environment_draw_values.clear()
+	# Порядок геометрии зависит только от размеров, а не от боевого revision.
+	# Диагональный обход сохраняет прежний tie-break по y без сортировки всех клеток.
+	var dimensions := Vector2i(_view_width, _view_height)
+	if _ordered_cell_size != dimensions:
+		_ordered_cell_size = dimensions
+		_ordered_cells.clear()
+		for diagonal: int in range(_view_width + _view_height - 1):
+			for y: int in range(maxi(0, diagonal - _view_width + 1), mini(_view_height - 1, diagonal) + 1):
+				_ordered_cells.append(Vector2i(diagonal - y, y))
+	for cell in _ordered_cells:
 		var steps := _view_height_steps(cell)
 		var terrain := _view_terrain_at(cell)
 		var floor_visual := _terrain_visual(cell, steps, false)
@@ -1576,6 +1635,8 @@ func _rebuild_visuals() -> void:
 			var wall := _terrain_visual(cell, steps, true)
 			_attach_visual(wall)
 			_apply_terrain_view(wall, cell, steps, true)
+
+func _rebuild_units() -> void:
 	for row: Dictionary in _view_units:
 		var unit: BattleUnitView = row["unit"]
 		var unit_cell: Vector2i = row["cell"]
@@ -1620,13 +1681,6 @@ func _rebuild_visuals() -> void:
 		_attach_visual(visual)
 		visual.sync_scene_art()
 		visual.action_offset = (_action_offsets.get(unit.id, Vector2.ZERO) as Vector2) * grid_config.tile_size.x / 128.0
-	_sort_visuals()
-	_field_presentation.restore(self)
-	for id: int in _slide_poses.keys():
-		var pose: Dictionary = _slide_poses[id]
-		_presentation_slide(pose.progress, id, pose.from, pose.to)
-	_sample_defender_buff(_defender_buff_elapsed)
-	_restore_attack_facings()
 
 func _unit_row_visible(row: Dictionary) -> bool:
 	var unit: BattleUnitView = row["unit"]
@@ -1736,9 +1790,11 @@ func _apply_terrain_view(visual: BattleDemoIsoVisual, cell: Vector2i, steps: int
 	if visual is BattleTerrainVisual:
 		var managed := visual as BattleTerrainVisual
 		managed.reset_view_pose()
-		managed.apply_view({"cell": cell, "role": role, "half_steps": steps,
+		var values := {"cell": cell, "role": role, "half_steps": steps,
 			"is_void": void_surface, "reachable": can_reach, "enemy_range": in_enemy_range,
-			"burning": burning}, grid_config)
+			"burning": burning}
+		_terrain_draw_values[visual] = values
+		managed.apply_view(values, grid_config)
 	else:
 		# Legacy-сцены остаются свежими; контракт допуска нового арта их отклоняет.
 		visual.grid_config = grid_config
@@ -1799,9 +1855,11 @@ func _add_environment_visual(floor_visual: BattleDemoIsoVisual, cell: Vector2i, 
 	var direction: Vector2i = trap.get("direction", Vector2i.ZERO)
 	var armed := bool(trap.get("armed", false))
 	if overlay is BattleManagedEnvironmentVisual:
-		(overlay as BattleManagedEnvironmentVisual).apply_view({"spikes": spikes, "burning": burning_fallback,
+		var values := {"spikes": spikes, "burning": burning_fallback,
 			"warning": warning, "corpses": corpses, "acid": acid, "floor_trap": floor_trap,
-			"wall_direction": direction, "armed": armed})
+			"wall_direction": direction, "armed": armed}
+		_environment_draw_values[cell] = values.duplicate(true)
+		(overlay as BattleManagedEnvironmentVisual).apply_view(values)
 	else:
 		overlay.configure(spikes, burning_fallback, warning, corpses, acid, floor_trap, direction, armed)
 	if overlay.warning_phase != _warning_phase: overlay.warning_phase = _warning_phase
