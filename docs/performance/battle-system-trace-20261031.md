@@ -202,6 +202,10 @@ launcher завершил собственный PresentMon штатно (`prese
 пока не запускать: повтор требует готовности пользователя держать игру активной
 примерно 4–5 минут. Новых изменений runtime нет.
 
+Позднее пользователь подтвердил готовность; завершённый новый бой с непрерывным
+фокусом разобран [отдельно](battle-foreground-soak-20261031.md). Ограничение
+готовности выше относится к прерванному `dad9d7ea`, а не к новому результату.
+
 Семантика разбора: [TraceEvent](https://github.com/microsoft/perfview/blob/main/documentation/TraceEvent/TraceEventProgrammersGuide.md),
 [DPC timestamp/duration](https://learn.microsoft.com/en-us/windows/win32/etw/dpc),
 [PresentMon event paths](https://github.com/GameTechDev/PresentMon/blob/v2.6.0/PresentData/PresentMonTraceConsumer.hpp).

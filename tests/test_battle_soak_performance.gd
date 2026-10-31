@@ -30,6 +30,7 @@ var last_round: int = 1
 var last_alive: Dictionary = {}
 var trace_phase: String = "startup"
 var trace_bucket: String = "startup_frames"
+var planning_abort_requested: bool = false
 var previous_frame_usec: int = 0
 var fire_entry_cell := Vector2i(-1, -1)
 var warning_cell := Vector2i(-1, -1)
@@ -41,6 +42,8 @@ var minimum_alive_count: int = 2147483647
 var test_planning_frame_ms: Array[float] = []
 var input_guard: BenchmarkInputGuard
 var initial_view_state: Dictionary = {}
+var last_execution_receipt: ActionReceipt
+var submission_trace_buckets: Array[String] = []
 
 func _run() -> void:
 	var args := OS.get_cmdline_user_args()
@@ -124,26 +127,32 @@ func _run() -> void:
 	await _sample_idle("startup_frames", IDLE_FRAME_COUNT, "startup_frames")
 	await _sample_idle("steady_idle_frames", idle_frames, "steady_idle_frames")
 	var started_round := session.round_number
+	planning_abort_requested = false
 	if fire_entry_cell.x >= 0:
 		# Первый настоящий переход на fire-клетку проверяет entry damage через MoveCommand children.
 		if stress_actor_id != UnitId.NONE:
 			var actor := session.board.get_unit_by_id(stress_actor_id)
 			if actor != null and actor.is_alive() and ControlRules.action_reason(actor, true) == &"":
-				trace_phase = "test_planning"
+				_set_test_planning_trace()
 				var path := session.path_to(fire_entry_cell)
 				if path.size() > 1 and actor.action_resources.get_main_left() > 0:
-					var fire_move := MoveCommand.new(actor.id, path, session.context.get_revision())
-					if fire_move.validate(session.context) == &"" and session.select_unit(actor.id):
+					if session.select_unit(actor.id):
 						await process_frame
 						var fire_applied := await _execute_live(&"move_to", [fire_entry_cell], "fire_entry")
 						check(fire_applied, "natural worker movement into an armed fire cell applies: " + last_action_reason)
+						if not fire_applied:
+							if _resume_planning_after_rejection():
+								_set_test_planning_trace()
+							else:
+								planning_abort_requested = true
 	# Каждый цикл содержит живое действие игрока и настоящий end_player_turn;
 	# встроенный _process исполняет AI, worker и playback без custom_step/skip.
 	for round_index: int in rounds:
-		if session == null or demo.session == null: break
+		if session == null or demo.session == null or planning_abort_requested: break
 		trace_phase = "player_round_%d" % (round_index + 1)
 		var action_ok := await _perform_player_action()
 		check(action_ok, "round %d contains an applied live movement or attack: %s" % [round_index + 1, last_action_reason])
+		if planning_abort_requested: break
 		var end_turn_ok := await _execute_live(&"end_player_turn", [], "end_player_turn")
 		check(end_turn_ok, "round %d dispatches a natural end-player-turn worker: %s" % [round_index + 1, last_action_reason])
 		if not end_turn_ok: break
@@ -156,6 +165,9 @@ func _run() -> void:
 		_record_round_lifecycle(session.round_number)
 		check(session.last_receipt != null and session.phase == BattleTacticalSession.Phase.PLAYER_TURN,
 			"round %d returns to player input with a final command receipt" % (round_index + 1))
+	# Любая ветка выхода из ожидания могла оставить worker владельцем runtime.
+	var owner_restored := _restore_owner_before_summary()
+	if not owner_restored: check(false, "live runtime owner is available before final summary")
 	# Сохраняем измеренный префикс до освобождения сцены, чтобы отчёт описывал тот же rendered бой.
 	check(session != null and session.round_number >= started_round + 2,
 		"at least two complete player/enemy turn cycles finished")
@@ -192,7 +204,7 @@ func _run() -> void:
 		"fire_entry_damage_events": environment_damage_count, "environment_cleanup_events": environment_cleanup_count}
 	metrics["final_projection"] = final_state
 	metrics["diagnostic_only"] = true
-	metrics["limits"] = "Rendered local run; timing is diagnostic and machine/renderer dependent. Statuses and fire are seeded once before display; combat thereafter changes only through session commands and demo worker/AI. Test planning runs synchronous path and command admission oracles, is included in the global trace and reported in its own bucket; hardware UI input is counted and consumed by a root guard."
+	metrics["limits"] = "Rendered local run; timing is diagnostic and machine/renderer dependent. Statuses and fire are seeded once before display; combat thereafter changes only through session commands and demo worker/AI. Test planning probes spatial/path candidates only; strict command admission remains in the ordinary execution worker, and planning intervals are included in the global trace and reported separately. Hardware UI input is counted and consumed by a root guard."
 	_write_soak_report()
 	if process_frame.is_connected(_on_process_frame): process_frame.disconnect(_on_process_frame)
 	if demo != null:
@@ -352,14 +364,23 @@ func _find_fire_entry_candidate() -> Vector2i:
 	return Vector2i(-1, -1)
 
 func _perform_player_action() -> bool:
-	if session == null: return false
-	trace_bucket = "test_planning"
-	trace_phase = "test_planning"
+	if demo == null or demo.is_execution_pending() or demo.session == null:
+		planning_abort_requested = true
+		last_action_reason = "player planning has no available demo session owner"
+		return false
+	var active: BattleCoreReactionsSession = demo.session as BattleCoreReactionsSession
+	if active == null:
+		planning_abort_requested = true
+		last_action_reason = "player planning demo owner is not a reactions session"
+		return false
+	# После передачи worker UI-ссылка может устареть; планируем только по владельцу demo.
+	session = active
+	_set_test_planning_trace()
 	last_action_reason = "no player actor has an admitted main action"
 	for actor: UnitState in session.units:
 		if actor.faction != Faction.Type.PLAYER or not actor.is_alive() or actor.action_resources == null \
 			or actor.action_resources.get_main_left() <= 0 or ControlRules.action_reason(actor) != &"": continue
-		trace_phase = "test_planning"
+		_set_test_planning_trace()
 		if not session.select_unit(actor.id):
 			last_action_reason = "select_unit rejected %d" % actor.id
 			continue
@@ -373,17 +394,21 @@ func _perform_player_action() -> bool:
 			if attack == null:
 				await process_frame
 				continue
-			var attack_reason := attack.validate(session.context)
-			if attack_reason != &"":
-				last_action_reason = "attack %d: %s" % [enemy.id, String(attack_reason)]
-				await process_frame
-				continue
 			await process_frame
 			var hp_before := enemy.vitals.get_hp()
 			var attacked := await _execute_live(&"attack_unit", [enemy.id], "attack")
-			if not attacked: return false
+			if not attacked:
+				if _resume_planning_after_rejection():
+					_set_test_planning_trace()
+					continue
+				planning_abort_requested = true
+				return false
 			var target := session.board.get_unit_by_id(enemy.id)
-			return target != null and target.vitals.get_hp() < hp_before
+			var damaged := target != null and target.vitals.get_hp() < hp_before
+			if not damaged:
+				last_action_reason = "attack %d applied without reducing target HP" % enemy.id
+				planning_abort_requested = true
+			return damaged
 		for offset: Vector2i in [Vector2i.RIGHT, Vector2i.LEFT, Vector2i.DOWN, Vector2i.UP]:
 			var cell := actor.cell + offset
 			if not session.board.is_in_bounds(cell) or session.board.is_occupied(cell) \
@@ -391,19 +416,52 @@ func _perform_player_action() -> bool:
 			var path := session.path_to(cell)
 			await process_frame
 			if path.size() < 2: continue
-			var movement := MoveCommand.new(actor.id, path, session.context.get_revision())
-			var move_reason := movement.validate(session.context)
-			await process_frame
-			if move_reason != &"":
-				last_action_reason = "move %s: %s" % [cell, String(move_reason)]
+			var moved := await _execute_live(&"move_to", [cell], "move")
+			if moved: return true
+			if _resume_planning_after_rejection():
+				_set_test_planning_trace()
 				continue
-			return await _execute_live(&"move_to", [cell], "move")
-	trace_phase = "test_planning"
+			planning_abort_requested = true
+			return false
+	_set_test_planning_trace()
 	await process_frame
 	return false
 
+func _resume_planning_after_rejection() -> bool:
+	if demo == null or demo.is_execution_pending() or demo.session == null: return false
+	var active: BattleCoreReactionsSession = demo.session as BattleCoreReactionsSession
+	if active == null or active.last_receipt == null: return false
+	if last_execution_receipt == null or active.last_receipt.get_instance_id() != last_execution_receipt.get_instance_id(): return false
+	# can_player_act() также запрещает busy/faulted context и переходы между ходами.
+	if active.last_receipt.status != ActionReceipt.REJECTED or not active.can_player_act(): return false
+	session = active
+	last_action_reason = String(active.last_receipt.reason)
+	return true
+
+func _restore_owner_before_summary() -> bool:
+	if demo == null:
+		session = null
+		return false
+	if demo.is_execution_pending(): demo._join_execution()
+	if demo.session is BattleCoreReactionsSession:
+		session = demo.session as BattleCoreReactionsSession
+		return true
+	session = null
+	return false
+
+func _set_test_planning_trace() -> void:
+	trace_bucket = "test_planning"
+	trace_phase = "test_planning"
+
 func _execute_live(method: StringName, args: Array, phase_label: String) -> bool:
-	if session == null or demo.session == null or demo.is_execution_pending(): return false
+	last_execution_receipt = null
+	if session == null or demo == null or demo.session == null or demo.is_execution_pending(): return false
+	var active_before: BattleCoreReactionsSession = demo.session as BattleCoreReactionsSession
+	if active_before == null or session.get_instance_id() != active_before.get_instance_id(): return false
+	# До guard выше demo мог передать runtime worker; читать receipt в таком состоянии небезопасно.
+	var previous_receipt: ActionReceipt = active_before.last_receipt
+	var previous_receipt_id: int = previous_receipt.get_instance_id() if previous_receipt != null else 0
+	submission_trace_buckets.append(trace_bucket)
 	trace_bucket = "combat"
 	trace_phase = "dispatch_" + phase_label
 	var start_frame := Engine.get_process_frames()
@@ -421,13 +479,16 @@ func _execute_live(method: StringName, args: Array, phase_label: String) -> bool
 	for index: int in range(trace_start, soak_trace.size()): elapsed.append(float(soak_trace[index]["ms"]))
 	if not elapsed.is_empty(): action_metrics.append({"phase": phase_label, "timing": _timing_summary(elapsed),
 		"dispatch_ms": dispatch_ms, "frame_count": elapsed.size(), "trace_start": trace_start})
-	if not demo.is_execution_pending() and demo.session != null:
+	if not demo.is_execution_pending() and demo.session is BattleCoreReactionsSession:
 		session = demo.session as BattleCoreReactionsSession
-		_collect_receipt_metrics(session)
-	var applied := not demo.is_execution_pending() and session != null and session.last_receipt != null \
-		and session.last_receipt.status == ActionReceipt.APPLIED
-	if not applied and session != null and session.last_receipt != null:
-		last_action_reason = String(session.last_receipt.reason)
+		var receipt: ActionReceipt = session.last_receipt
+		if receipt != null and receipt.get_instance_id() != previous_receipt_id:
+			last_execution_receipt = receipt
+			_collect_receipt_metrics(session)
+	var applied := not demo.is_execution_pending() and last_execution_receipt != null \
+		and last_execution_receipt.status == ActionReceipt.APPLIED
+	if not applied:
+		last_action_reason = String(last_execution_receipt.reason) if last_execution_receipt != null else "live command returned no fresh receipt"
 	return applied
 
 func _wait_for_player_turn(timeout_ms: int) -> bool:
