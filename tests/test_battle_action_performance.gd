@@ -247,13 +247,41 @@ func _measure_refresh_costs() -> void:
 
 func _runtime_metadata() -> Dictionary:
 	var uncapped := OS.get_cmdline_user_args().has("--uncapped")
-	return {
+	var metadata := {
 		"uncapped_requested": uncapped,
 		"vsync_mode": DisplayServer.window_get_vsync_mode(),
 		"display_server": DisplayServer.get_name(),
 		"renderer": RenderingServer.get_current_rendering_method(),
 		"engine_version": Engine.get_version_info(),
+		"display": _display_metadata(),
 	}
+	if DisplayServer.get_name() != "headless":
+		metadata["adapter"] = RenderingServer.get_video_adapter_name()
+	return metadata
+
+func _display_metadata() -> Dictionary:
+	var screen_count: int = DisplayServer.get_screen_count()
+	var result := {"screen_count": screen_count, "current_screen": -1,
+		"max_fps": Engine.max_fps, "screens": []}
+	# Headless-драйвер может сообщать о нулевых экранах; не вызываем тогда API окна.
+	if DisplayServer.get_name() == "headless" or screen_count <= 0:
+		return result
+	var current_screen: int = DisplayServer.window_get_current_screen()
+	result["current_screen"] = current_screen
+	var window_position: Vector2i = DisplayServer.window_get_position()
+	var window_size: Vector2i = DisplayServer.window_get_size()
+	result["window_position"] = [window_position.x, window_position.y]
+	result["window_size"] = [window_size.x, window_size.y]
+	result["window_mode"] = DisplayServer.window_get_mode()
+	var screens: Array[Dictionary] = []
+	for index: int in screen_count:
+		var position: Vector2i = DisplayServer.screen_get_position(index)
+		var size: Vector2i = DisplayServer.screen_get_size(index)
+		screens.append({"index": index, "position": [position.x, position.y],
+			"size": [size.x, size.y], "refresh_hz": DisplayServer.screen_get_refresh_rate(index),
+			"dpi": DisplayServer.screen_get_dpi(index), "scale": DisplayServer.screen_get_scale(index)})
+	result["screens"] = screens
+	return result
 
 func _time_call(callback: Callable) -> float:
 	var started: int = Time.get_ticks_usec()

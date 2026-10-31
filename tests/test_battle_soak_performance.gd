@@ -548,7 +548,8 @@ func _view_state_snapshot() -> Dictionary:
 	var view_rect := board.get_viewport_rect()
 	return {"viewport_size": [view_rect.size.x, view_rect.size.y],
 		"board_size": [board.size.x, board.size.y], "camera_zoom": board.camera_view.zoom,
-		"camera_offset": [board.camera_view.offset.x, board.camera_view.offset.y]}
+		"camera_offset": [board.camera_view.offset.x, board.camera_view.offset.y],
+		"display": _display_metadata()}
 
 func _argument_int(args: PackedStringArray, name: String, fallback: int, minimum: int, maximum: int) -> int:
 	for index: int in args.size():
