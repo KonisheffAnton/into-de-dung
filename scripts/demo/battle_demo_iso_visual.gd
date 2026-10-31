@@ -42,6 +42,8 @@ var action_resources_view: Dictionary = {}
 ## Клеточные отметки рисуются после поверхности, но в её Y-sort.
 var ground_marks: Array[Dictionary] = []
 var ground_overlay_enabled: bool = true
+## Авторская сцена включает общий sync только если offset и lift меняются одной позой.
+@export var batch_motion_pose: bool = false
 @export var show_resource_badges: bool = false
 @export var show_ground_shadow: bool = true
 @export var ground_shadow_color: Color = Color(0.045, 0.055, 0.065, 0.28)
@@ -89,9 +91,13 @@ var action_offset: Vector2 = Vector2.ZERO:
 		action_offset = value
 		sync_scene_art()
 		queue_redraw()
-var presentation_lift: float = 0.0:
+
+var _presentation_lift: float = 0.0
+var presentation_lift: float:
+	get:
+		return _presentation_lift
 	set(value):
-		presentation_lift = value
+		_presentation_lift = value
 		sync_scene_art()
 		queue_redraw()
 var fall_drop: float = 0.0:
@@ -99,11 +105,25 @@ var fall_drop: float = 0.0:
 		fall_drop = value
 		sync_scene_art()
 		queue_redraw()
-var presentation_offset: Vector2 = Vector2.ZERO:
+var _presentation_offset: Vector2 = Vector2.ZERO
+var presentation_offset: Vector2:
+	get:
+		return _presentation_offset
 	set(value):
-		presentation_offset = value
+		_presentation_offset = value
 		sync_scene_art()
 		queue_redraw()
+
+func set_motion_pose(offset: Vector2, lift: float) -> void:
+	if not batch_motion_pose:
+		presentation_offset = offset
+		presentation_lift = lift
+		return
+	# Сначала фиксируем всю позу, чтобы один sync увидел согласованные координаты.
+	_presentation_offset = offset
+	_presentation_lift = lift
+	sync_scene_art()
+	queue_redraw()
 ## Экранное направление толчка с интенсивностью, которую задаёт доска.
 var push_lean: Vector2 = Vector2.ZERO:
 	set(value):

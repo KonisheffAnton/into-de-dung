@@ -39,10 +39,9 @@ func sample_fall(progress: float, board: BattleDemoBoard, id: int, from: Vector2
 	var foot := origin.lerp(destination, minf(1.0, p / 0.65))
 	visual.half_steps = 0
 	visual.position = Vector2(foot.x, maxf(origin.y, destination.y) - 0.25)
-	visual.presentation_offset = foot - visual.position
 	var from_height := -0.5 * board._view_height_steps(from) * board.grid_config.height_step
 	var to_height := from_height + board.grid_config.tile_size.y * 1.6 if vanish else -0.5 * board._view_height_steps(to) * board.grid_config.height_step
-	visual.presentation_lift = lerpf(from_height, to_height, p * p)
+	visual.set_motion_pose(foot - visual.position, lerpf(from_height, to_height, p * p))
 	visual.modulate.a = 1.0 - clampf((p - 0.45) / 0.55, 0.0, 1.0) if vanish else 1.0
 	board._sort_visuals()
 	if p >= 1.0 and not vanish:

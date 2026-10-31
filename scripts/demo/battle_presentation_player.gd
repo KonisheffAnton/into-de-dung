@@ -16,14 +16,28 @@ var _index: int = 0
 var _tween: Tween
 var _chain: BattleChainTimeline
 var _scheduled_frame: int = -1
+var _released_index: int = 0
+var _repeated_chain_publication: bool = false
+
+func is_repeated_chain_publication() -> bool:
+	return _repeated_chain_publication
 
 func play(board: BattleDemoBoard, before: Dictionary, frames: Array[Dictionary], final_state: Dictionary, defer_first_frame: bool = false) -> void:
+	_play_frames(board, before, frames.duplicate(true), final_state, defer_first_frame)
+
+## Вызывающий передаёт единоличное владение отделённым пакетом и больше не
+## читает его массив. Публичный play сохраняет прежнюю глубокую копию.
+func play_owned_frames(board: BattleDemoBoard, before: Dictionary, frames: Array[Dictionary], final_state: Dictionary) -> void:
+	_play_frames(board, before, frames, final_state, true)
+
+func _play_frames(board: BattleDemoBoard, before: Dictionary, frames: Array[Dictionary], final_state: Dictionary, defer_first_frame: bool) -> void:
 	cancel(false)
 	_board = board
-	_frames = frames.duplicate(true)
+	_frames = frames
 	_final = final_state.duplicate(true)
 	_published = before.duplicate(true)
 	_index = 0
+	_released_index = 0
 	active = true
 	_board.set_presentation_animation_events([])
 	_board.show_presentation_state(before)
@@ -75,6 +89,7 @@ func _next() -> void:
 		_published = frame.after
 		frame_finished.emit(frame.after.duplicate(true))
 		_index += 1
+		_release_consumed_frames()
 		if active:
 			_schedule_next()
 		return
@@ -105,15 +120,32 @@ func _start_chain_frame(index: int) -> void:
 
 func _publish_chain_frame(index: int) -> void:
 	var frame: Dictionary = _frames[index]
-	_board.show_presentation_state(frame.after)
+	# Между звеньями есть технические push_chain markers с тем же after.
+	# Сигнал и граница остаются; повторная сборка той же доски не нужна.
+	var repeated: bool = frame.events.is_empty() and _published == frame.after
+	if not repeated:
+		_board.show_presentation_state(frame.after)
 	_board.finish_presentation_frame(frame.events, frame.step, _published, frame.after)
 	_published = frame.after
 	_index = index + 1
+	_repeated_chain_publication = repeated
 	frame_finished.emit(frame.after.duplicate(true))
+	_repeated_chain_publication = false
+	# После animate timeline хранит события/позы и будущие индексы, не старые after.
+	# Освобождаем снимок на границе звена, не весь пакет на последнем контакте.
+	_release_consumed_frames()
 
 func _complete_chain() -> void:
 	_chain = null
+	_release_consumed_frames()
 	_continue_after_animation()
+
+func _release_consumed_frames() -> void:
+	# Большой ход может содержать сотни снимков. Их уничтожение одним clear
+	# в конце пакета само задерживало кадр; уже опубликованный префикс не нужен.
+	while _released_index < mini(_index, _frames.size()):
+		_frames[_released_index] = {}
+		_released_index += 1
 
 func _continue_after_animation() -> void:
 	# after законченного движения/удара уже опубликован в этом проходе.
@@ -140,6 +172,7 @@ func _complete_frame() -> void:
 		_tween.finished.connect(_next)
 	frame_finished.emit(state.duplicate(true))
 	_index += 1
+	_release_consumed_frames()
 	# Финальный refresh получает следующий кадр. Между фазами одного удара
 	# оставляем прежний непрерывный переход, иначе сдвигается момент контакта.
 	if trap.is_empty():
@@ -150,6 +183,7 @@ func skip() -> void:
 
 func _finish(discard_feedback: bool) -> void:
 	if not active: return
+	_repeated_chain_publication = false
 	if _tween != null and _tween.is_valid(): _tween.kill()
 	if _chain != null: _chain.cancel()
 	_chain = null
@@ -169,6 +203,7 @@ func _finish(discard_feedback: bool) -> void:
 
 func cancel(discard_feedback: bool = true) -> void:
 	active = false
+	_repeated_chain_publication = false
 	if _tween != null and _tween.is_valid(): _tween.kill()
 	_tween = null
 	if _chain != null: _chain.cancel()

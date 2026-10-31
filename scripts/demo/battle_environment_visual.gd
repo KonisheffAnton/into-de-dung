@@ -1,6 +1,8 @@
 class_name BattleEnvironmentVisual
 extends Node2D
 
+@export var phase_updates_only_standard_effects: bool = false
+
 var has_spikes: bool = false
 var has_burning_fallback: bool = false
 var is_warning: bool = false
@@ -42,8 +44,13 @@ var hazard_progress: float = -1.0:
 var warning_phase: float = 0.0:
 	set(value):
 		warning_phase = value
-		_sync_presets()
-		queue_redraw()
+		if phase_updates_only_standard_effects:
+			# В стандартной сцене пульс меняет только обводку ловушки и рисуемые огонь/предупреждение.
+			_sync_standard_phase_presets()
+			if is_warning or has_burning_fallback: queue_redraw()
+		else:
+			_sync_presets()
+			queue_redraw()
 
 
 func configure(spikes: bool, burning_fallback: bool, collapse_warning: bool, corpses: Array[Dictionary], acid: bool = false, floor_plate: bool = false, wall_direction: Vector2i = Vector2i.ZERO, armed: bool = false) -> void:
@@ -104,6 +111,13 @@ func _sync_presets() -> void:
 	if acid != null:
 		acid.visible = acid_pool
 		acid.modulate.a = _remains_alpha()
+
+func _sync_standard_phase_presets() -> void:
+	if not floor_trap: return
+	var floor_node := _preset(^"FloorTrap")
+	if floor_node == null: return
+	var rim := floor_node.get_node_or_null(^"ArmedRim") as Line2D
+	if rim != null: rim.modulate.a = 0.66 + 0.30 * sin(warning_phase)
 
 func _remains_alpha() -> float:
 	return 1.0 - clampf(collapse_progress, 0.0, 1.0) if collapse_progress >= 0.0 else 1.0

@@ -4,12 +4,24 @@ extends BattleDemoIsoVisual
 ## Явное согласие сцены на сохранение опоры между публикациями представления.
 ## Сцены, чей рисунок зависит от подсветки, оставляют полный путь обновления.
 @export var highlights_use_ground_overlay: bool = false
+@export var batch_simple_polygons: bool = false:
+	set(value):
+		batch_simple_polygons = value
+		if is_node_ready(): _configure_polygon_batch()
 var view_apply_count: int = 0
 var _view_initialized: bool = false
 var _view_tile_size: Vector2
 var _view_height_step: float
 var _view_origin: Vector2
 @onready var _rest_modulate: Color = modulate
+
+func _ready() -> void:
+	super._ready()
+	if batch_simple_polygons: _configure_polygon_batch()
+
+func _configure_polygon_batch() -> void:
+	for child: Node in find_children("*", "Polygon2D", true, false):
+		BattlePolygonBatch.configure(child as Polygon2D, batch_simple_polygons)
 
 func apply_view(values: Dictionary, config: IsoGridConfig) -> bool:
 	var cell: Vector2i = values["cell"]

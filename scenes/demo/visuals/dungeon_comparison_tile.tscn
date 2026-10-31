@@ -10,6 +10,8 @@
 
 [node name="PlaceholderTile" instance=ExtResource("1_base")]
 script = ExtResource("2_script")
+highlights_use_ground_overlay = true
+batch_simple_polygons = true
 ground_base_tint = Color(0.35, 0.38, 0.42, 1)
 side_depth_pixels = 64.0
 minimum_seam_pixels = 0.35

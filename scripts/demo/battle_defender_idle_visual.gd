@@ -47,6 +47,8 @@ func _ready() -> void:
 		if sprite != null and sprite.material is ShaderMaterial:
 			sprite.material = sprite.material.duplicate() as ShaderMaterial
 			_cloth_sprites.append(sprite)
+			# Замена авторской текстуры должна сразу пересчитать соответствующую маску.
+			sprite.texture_changed.connect(_sync_cloth_frame.bind(sprite))
 	super._ready()
 	visibility_changed.connect(sync_scene_art)
 	sync_scene_art()

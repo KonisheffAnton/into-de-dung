@@ -400,6 +400,10 @@ func chain_overlap() -> void:
 			var hold := BattleDemoBoard.OBSTACLE_HOLD_SECONDS
 			advance(approach + hold)
 			check(player._chain == chain and player._index == first + 1, label + " first after publishes at release while next collision starts")
+			check(player._frames[first].is_empty() and player._released_index == first + 1,
+				label + " consumed chain snapshot releases while the shared clock is active")
+			check(player._frames[first + 1].has("after") and player._published == data.frames[first].after,
+				label + " future chain snapshot and last published after survive prefix release")
 			check(board._action_offsets[a].is_equal_approx(axis * 28.0), label + " first body starts return from contact")
 			if mode != "middle-dead": check(board._action_offsets[b].is_equal_approx(axis * 10.0), label + " second receives continuous pose without zero reset")
 			check(board._presentation_visual(b).unit.hp == float(data.frames[first].after.units[b].hp), label + " only first collision HP is published")

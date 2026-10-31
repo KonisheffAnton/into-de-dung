@@ -57,6 +57,8 @@ var _entities: Node2D
 var _overlay: Node2D
 var _ghosts: Node2D
 var _numbers: Node2D
+var _result_number_batch_depth: int = 0
+var _result_number_batch_dirty: bool = false
 var _impacts: Node2D
 var _pending_strikes: Dictionary = {}
 var _early_result_frames: Dictionary[String, bool] = {}
@@ -292,7 +294,10 @@ func _restore_attack_facings() -> void:
 func _set_action_offset(id: int, offset: Vector2) -> void:
 	_action_offsets[id] = offset
 	var visual := _presentation_visual(id)
-	if visual != null: visual.action_offset = offset * grid_config.tile_size.x / 128.0
+	if visual != null:
+		var scaled := offset * grid_config.tile_size.x / 128.0
+		# Соседние cues цепочки могут семплировать одну позу несколько раз.
+		if visual.action_offset != scaled: visual.action_offset = scaled
 
 func _obstacle_direction(event: Dictionary) -> Vector2:
 	var from_cell: Vector2i = event.get("from_cell", Vector2i.ZERO)
@@ -472,6 +477,7 @@ func _matching_strike(events: Array, step: Dictionary) -> Dictionary:
 
 ## Полный after и статусы ждут конца клипа; число попадания уже может быть показано.
 func finish_presentation_frame(events: Array, step: Dictionary = {}, before: Dictionary = {}, after: Dictionary = {}) -> void:
+	_begin_result_number_batch()
 	var strike := _matching_strike(events, step)
 	for feedback: Dictionary in BattleReactionPresentation.feedback(events, step, before, after):
 		_add_result_number(int(feedback.id), String(feedback.text), Color("93dce9"), &"reaction")
@@ -483,6 +489,17 @@ func finish_presentation_frame(events: Array, step: Dictionary = {}, before: Dic
 		_show_consequence_feedback(BattleConsequenceFeedback.recovery_entries(before, after), 0)
 	# FAULTED attack_hit без результата снимает замах без выдуманного попадания.
 	if step.get("kind") == &"attack_hit": clear_strike_poses()
+	_end_result_number_batch()
+
+func _begin_result_number_batch() -> void:
+	_result_number_batch_depth += 1
+
+func _end_result_number_batch() -> void:
+	if _result_number_batch_depth <= 0: return
+	_result_number_batch_depth -= 1
+	if _result_number_batch_depth == 0 and _result_number_batch_dirty:
+		_result_number_batch_dirty = false
+		_place_result_numbers()
 
 static func _result_frame_key(events: Array) -> String:
 	if events.is_empty(): return ""
@@ -595,7 +612,10 @@ func _add_result_number(id: int, text: String, tint: Color, feedback_kind: Strin
 		leader.z_index = -1
 		number.add_child(leader)
 	number.start(text, tint)
-	_place_result_numbers()
+	if _result_number_batch_depth > 0:
+		_result_number_batch_dirty = true
+	else:
+		_place_result_numbers()
 	return number
 
 func _place_result_numbers() -> void:
@@ -646,8 +666,8 @@ func _presentation_motion(progress: float, id: int, from: Vector2i, to: Vector2i
 	# Обе поверхности сегмента должны оставаться под стопами и между центрами.
 	# Смещаем только ключ сортировки; стены следующего ряда остаются впереди.
 	visual.position = Vector2(foot.x, maxf(origin.y, destination.y) - 0.25)
-	visual.presentation_offset = foot - visual.position
-	visual.presentation_lift = -0.5 * lerpf(_view_height_steps(from), _view_height_steps(to), progress) * grid_config.height_step
+	visual.set_motion_pose(foot - visual.position,
+		-0.5 * lerpf(_view_height_steps(from), _view_height_steps(to), progress) * grid_config.height_step)
 	_sort_visuals()
 	if progress >= 1.0:
 		# После сегмента возвращаем обычную глубину клетки до дальнейших эффектов шага.
@@ -1626,6 +1646,7 @@ func _rebuild_visuals(allow_terrain_reuse: bool = false) -> void:
 func _rebuild_terrain() -> void:
 	_terrain_draw_values.clear()
 	_environment_draw_values.clear()
+	var environment_by_cell := _index_environment_view()
 	# Порядок геометрии зависит только от размеров, а не от боевого revision.
 	# Диагональный обход сохраняет прежний tie-break по y без сортировки всех клеток.
 	var dimensions := Vector2i(_view_width, _view_height)
@@ -1639,16 +1660,17 @@ func _rebuild_terrain() -> void:
 		var steps := _view_height_steps(cell)
 		var terrain := _view_terrain_at(cell)
 		var floor_visual := _terrain_visual(cell, steps, false)
-		var burning := false
-		for fire: Dictionary in _view_fires:
-			if fire.get("cell", Vector2i(-1, -1)) == cell and String(fire.get("effect", "bleeding")) == "burning": burning = true
+		var environment: Dictionary = environment_by_cell.get(cell, {})
+		var burning: bool = environment.get("burning", false)
 		# Видимые поверхности всех высот сортируются вместе: ближний пол закрывает
 		# дальнюю грань уступа. Разделение по высоте на два слоя ломает это перекрытие.
 		_attach_visual(floor_visual)
 		_apply_terrain_view(floor_visual, cell, steps, false, terrain == TerrainType.Type.VOID,
 			not attack_mode and not elemental_mode and _reachable.has(cell),
 			inspected_id != UnitId.NONE and inspection_cells.has(cell), burning)
-		_add_environment_visual(floor_visual, cell)
+		# Пустая клетка без прежнего overlay/позы не требует проверки его узлов.
+		if not environment.is_empty() or floor_visual.burning or _environment_visuals.has(cell) or _field_presentation.cells.has(cell):
+			_add_environment_visual(floor_visual, cell, false, environment)
 		if terrain == TerrainType.Type.WALL:
 			var wall := _terrain_visual(cell, steps, true)
 			_attach_visual(wall)
@@ -1672,7 +1694,10 @@ func _rebuild_units() -> void:
 			managed.reset_view_pose()
 			managed.apply_view(_unit_view_values(row), grid_config)
 			if visual is BattleDefenderIdleVisual:
-				(visual as BattleDefenderIdleVisual).set_cloth_palette(defender_cloth_palette)
+				var defender := visual as BattleDefenderIdleVisual
+				# Класс/сторону синхронизирует apply, замену текстуры — её сигнал.
+				if defender.cloth_palette != DefenderClothPalette.valid_index(defender_cloth_palette):
+					defender.set_cloth_palette(defender_cloth_palette)
 			var offset := (_action_offsets.get(unit.id, Vector2.ZERO) as Vector2) * grid_config.tile_size.x / 128.0
 			if visual.action_offset != offset: visual.action_offset = offset
 			continue
@@ -1833,19 +1858,40 @@ func _attach_visual(visual: BattleDemoIsoVisual) -> void:
 	if visual.get_index() != index: _entities.move_child(visual, index)
 	_entity_visuals.append(visual)
 
-func _add_environment_visual(floor_visual: BattleDemoIsoVisual, cell: Vector2i, force: bool = false) -> void:
+## Индекс живёт одну публикацию: стоимость зависит от числа эффектов + клеток,
+## а прямые изменения отделённого DTO видны без revision/долгоживущего кэша.
+func _index_environment_view() -> Dictionary:
+	var result: Dictionary = {}
+	for fire: Dictionary in _view_fires:
+		var values := _environment_index_entry(result, fire.cell)
+		values["burning" if String(fire.get("effect", "bleeding")) == "burning" else "spikes"] = true
+	for corpse: Dictionary in _view_corpses:
+		var values := _environment_index_entry(result, corpse.cell)
+		if not values.has("corpses"): values["corpses"] = []
+		values.corpses.append(corpse)
+	for cell: Vector2i in _view_collapse: _environment_index_entry(result, cell)["warning"] = true
+	for cell: Vector2i in _view_hazards.get("acid", []): _environment_index_entry(result, cell)["acid"] = true
+	for trap: Dictionary in _view_hazards.get("traps", []):
+		var values := _environment_index_entry(result, trap.get("cell", Vector2i(-1, -1)))
+		# Старый поиск выбирал первую запись; порядок сохраняется и для custom DTO.
+		if values.has("trap"): continue
+		values["trap"] = {"kind": String(trap.get("kind", "")), "direction": trap.get("direction", Vector2i.ZERO), "armed": int(trap.get("armed_team", -1)) >= 0}
+	return result
+
+static func _environment_index_entry(index: Dictionary, cell: Vector2i) -> Dictionary:
+	if not index.has(cell): index[cell] = {}
+	return index[cell]
+
+func _add_environment_visual(floor_visual: BattleDemoIsoVisual, cell: Vector2i, force: bool = false, values_at_cell: Dictionary = {}) -> void:
 	if _view_terrain_at(cell) != TerrainType.Type.FLOOR:
 		_retire_environment_visual(cell)
 		return
 	var corpses: Array[Dictionary] = []
-	for corpse: Dictionary in _view_corpses:
-		if corpse.cell == cell: corpses.append(corpse)
-	var spikes := false
-	for fire: Dictionary in _view_fires:
-		if fire.cell == cell and fire.get("effect", "bleeding") != "burning": spikes = true
-	var warning := cell in _view_collapse
-	var acid: bool = cell in _view_hazards.get("acid", [])
-	var trap := _trap_at_cell(cell)
+	corpses.assign(values_at_cell.get("corpses", []))
+	var spikes: bool = values_at_cell.get("spikes", false)
+	var warning: bool = values_at_cell.get("warning", false)
+	var acid: bool = values_at_cell.get("acid", false)
+	var trap: Dictionary = values_at_cell.get("trap", {})
 	# Активная поза просит overlay повторно после rebuild, поэтому держим его до restore.
 	var has_presentation_pose := _field_presentation.cells.has(cell)
 	if not force and not has_presentation_pose and not spikes and not floor_visual.burning and not warning and corpses.is_empty() and not acid and trap.is_empty():
@@ -1901,7 +1947,7 @@ func _ensure_environment_visual(cell: Vector2i) -> BattleEnvironmentVisual:
 	if not _environment_visuals.has(cell):
 		for visual: BattleDemoIsoVisual in _entity_visuals:
 			if visual.grid_anchor == cell and visual.role in [BattleDemoIsoVisual.Role.FLOOR, BattleDemoIsoVisual.Role.PLATFORM]:
-				_add_environment_visual(visual, cell, true)
+				_add_environment_visual(visual, cell, true, _index_environment_view().get(cell, {}))
 				break
 	return _environment_visuals.get(cell) as BattleEnvironmentVisual
 
@@ -1926,9 +1972,17 @@ func _sort_visuals() -> void:
 	# Сравнение Vector3 выполняет движок: тот же ключ (y, child index),
 	# без тысяч переходов из C++ в GDScript-компаратор на каждую публикацию.
 	var keys: Array[Vector3] = []
+	var ordered_already := true
+	var previous := Vector2(-INF, -INF)
 	for index: int in _entity_visuals.size():
 		var visual := _entity_visuals[index]
-		keys.append(Vector3(visual.position.y, visual.get_index(), index))
+		var key := Vector2(visual.position.y, visual.get_index())
+		if key < previous: ordered_already = false
+		previous = key
+		keys.append(Vector3(key.x, key.y, index))
+	# Семплы одной цепи часто не меняют глубину. Проверка использует реальные
+	# позиции и child index, поэтому не скрывает движение или правку custom-сцены.
+	if ordered_already: return
 	keys.sort()
 	var ordered: Array[BattleDemoIsoVisual] = []
 	for key: Vector3 in keys: ordered.append(_entity_visuals[int(key.z)])

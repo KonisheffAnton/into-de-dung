@@ -2,6 +2,13 @@
 
 ## Обычный запуск
 
+Текущий desktop renderer — **Mobile**, на Windows — **Direct3D 12**.
+Мобильный platform override сохраняет `gl_compatibility`. Резервный запуск
+с прежним renderer: `godot --path . --rendering-method gl_compatibility`;
+Vulkan для диагностики: `godot --path . --rendering-method mobile --rendering-driver vulkan`.
+Смена renderer требует перезапуска редактора/игры; import и профиль проверок
+по-прежнему изолируются launcher. [Причины и измерения](performance/battle-soak-20261031.md).
+
 Локальный checkout с 2026-10-08: `D:\Games\into-de-dung`.
 Открывайте `project.godot` из этого каталога. Проект использует относительные
 `res://`-пути; старый каталог в Documents для запуска не требуется.

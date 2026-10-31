@@ -14,6 +14,24 @@
 
 ## Изменение игрового кода
 
+Длительный бой и стоимость показа (2026-10-31): `--render-check --only
+battle_soak_performance battle_polygon_batch battle_presentation_owned battle_motion_pose --screen 0`.
+Soak запускается только явно: 32 бойца, 24 опасные клетки (fire records с шипами), начальные DOT,
+три полных цикла ходов с настоящими worker/ИИ/playback без skip и 60 с покоя.
+JSON `battle-soak-performance.json` содержит startup/steady/combat, покадровый
+trace, события/цели DOT, команды и минимум живых. Аппаратный ввод блокируется
+и считается; начальные/финальные viewport и camera сохранены. Синхронный выбор
+действий test-planner имеет отдельный bucket и остаётся в общей трассе. Прямой script поддерживает
+`-- --units=32 --rounds=5 --idle-frames=3600` и `--uncapped`. Фикстура усиливает
+HP/баланс до старта; боевые последствия меняют настоящие команды, актёра выбирает тест. Это нагрузочный
+сценарий существующих эффектов, а не баланс или реализация нового AoE.
+Polygon runner проверяет GPU pixels/draw calls, fallback и teardown; owned
+runner — receipt/live изоляцию, порядок 120 кадров, skip/cancel и final,
+числа и вложенный skip на пустом marker. Motion runner сравнивает авторские
+трансформации после объединённого/прежнего sync и default/direct-setter fallback.
+Дополнительно выбирать worker/capture/core и presentation/contact/push-slide/
+environment/consequences/UI/visual gates по риску. [Метрики](performance/battle-soak-20261031.md).
+
 Плавность действий с24 бойцами (2026-10-31): `--render-check --only
 battle_action_performance visual_scene_contract battle_execution_ui battle_presentation
 presentation_contact presentation_consequences presentation_environment --screen 0`.

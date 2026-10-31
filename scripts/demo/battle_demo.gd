@@ -243,7 +243,13 @@ func _complete_live(method: StringName, result: Variant, target_attempt: bool) -
 	if not _presentation_before.is_empty():
 		_presentation_roots = session.take_presentation_capture()
 		var frames: Array[Dictionary] = []
-		for root: Dictionary in _presentation_roots: frames.append_array(root.frames)
+		for root: Dictionary in _presentation_roots:
+			frames.append_array(root.frames)
+			# Сессия уже отделила эти кадры от receipt на worker. Для финального
+			# журнала нужны только события: не удерживаем второй набор всех after.
+			var event_frames: Array[Dictionary] = []
+			for frame: Dictionary in root.frames: event_frames.append({"events": frame.events, "step": frame.step})
+			root.frames = event_frames
 		if not frames.is_empty():
 			_presentation_method = method
 			_presentation_result = result
@@ -263,8 +269,11 @@ func _complete_live(method: StringName, result: Variant, target_attempt: bool) -
 			_phase_label.text = "Показ действия"
 			_render_presentation_hud(_presentation_before)
 			var final_state := _presentation_after if not _presentation_after.is_empty() else ActionPresentationState.capture(session.state)
-			_presentation_player.play(board_view, _presentation_before, frames, final_state, true)
+			_presentation_player.play_owned_frames(board_view, _presentation_before, frames, final_state)
 			return
+		# Отвергнутый/пустой capture всё равно завершает worker-переход; его HUD
+		# и поле нужно опубликовать теми же порциями, пока ввод остаётся закрыт.
+		_stage_next_refresh = not _skip_refresh
 		_presentation_before.clear()
 		_presentation_after.clear()
 	if method == &"end_player_turn":
@@ -290,7 +299,10 @@ func _presentation_frame_started(frame: Dictionary) -> void:
 
 func _presentation_frame_finished(state: Dictionary) -> void:
 	for event: Dictionary in _presentation_events: _note_presentation_event(event)
-	_render_presentation_hud(state)
+	# Пустой marker цепи публикует тот же снимок: HUD уже содержит эти значения.
+	# Сигнал, журнал и осмотр сохраняются, без второго форматирования всего roster.
+	if _presentation_player == null or not _presentation_player.is_repeated_chain_publication():
+		_render_presentation_hud(state)
 	_log.text = "\n".join(_journal)
 	_displayed_unit_hovered(_display_inspection_id)
 

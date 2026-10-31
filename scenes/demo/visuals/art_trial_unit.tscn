@@ -76,6 +76,7 @@ shader_parameter/brighter_palette_strength = 0.0
 
 [node name="PlaceholderUnit" instance=ExtResource("1_base")]
 script = ExtResource("5_idle_script")
+batch_motion_pose = true
 warrior_pick_rect = Rect2(-45, -66, 90, 83)
 warrior_art_scale = 0.8
 rogue_art_scale = 0.8

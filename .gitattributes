@@ -24,6 +24,7 @@ docs/CODEX_HANDOFF.history-20261024-7.md -text whitespace=cr-at-eol
 docs/CODEX_HANDOFF.history-20261030-2.md -text whitespace=cr-at-eol
 docs/CODEX_HANDOFF.history-20261030-3.md -text whitespace=cr-at-eol
 docs/CODEX_HANDOFF.history-20261031-4.md -text whitespace=cr-at-eol
+docs/CODEX_HANDOFF.history-20261031-7.md -text whitespace=cr-at-eol
 # SHA запроса PixelLab фиксирует отправленные байты, включая исходные CRLF.
 docs/art/rogue-game-feedback-20261012/**/request.json -text whitespace=cr-at-eol
 
