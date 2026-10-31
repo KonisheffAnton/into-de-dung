@@ -238,6 +238,8 @@ func ui_case(hub: bool) -> void:
 	configure(s, Vector2i(5, 3))
 	s.select_unit(s.units[0].id)
 	demo._refresh()
+	var cue := {"started": false}
+	demo._presentation_player.frame_started.connect(func(_frame: Dictionary) -> void: cue.started = true, CONNECT_ONE_SHOT)
 	demo._execute_live(&"attack_unit", [s.units[1].id], true)
 	var deadline := Time.get_ticks_msec() + 10000
 	while demo._execution_worker.is_started() and Time.get_ticks_msec() < deadline:
@@ -245,6 +247,9 @@ func ui_case(hub: bool) -> void:
 		if demo.is_presentation_pending(): break
 		await process_frame
 	check(demo.is_presentation_pending(), "real UI worker starts ranged presentation")
+	while demo.is_presentation_pending() and not cue.started and Time.get_ticks_msec() < deadline:
+		await process_frame
+	check(cue.started, "real UI ranged wait reaches its first projectile cue")
 	board = demo.board_view
 	player = demo._presentation_player
 	advance(0.18)

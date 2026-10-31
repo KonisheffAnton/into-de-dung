@@ -5,6 +5,7 @@ const UNIT_COUNT: int = 24
 const WIDTH: int = BiomeShowcaseLayout.SIZE.x
 const HEIGHT: int = BiomeShowcaseLayout.SIZE.y
 const SAMPLE_COUNT: int = 40
+const IDLE_FRAME_COUNT: int = 120
 
 var passed: int = 0
 var failed: int = 0
@@ -28,6 +29,9 @@ func check(condition: bool, label: String) -> void:
 		printerr("FAIL BATTLE ACTION PERFORMANCE: " + label)
 
 func _run() -> void:
+	var uncapped := OS.get_cmdline_user_args().has("--uncapped")
+	if uncapped:
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	demo = HERO_BATTLE_SCENE.instantiate() as HeroHubBattleView
 	session = _make_stress_session()
 	check(session != null, "seeded expedition fixture builds through production factory")
@@ -46,16 +50,21 @@ func _run() -> void:
 	check(session.state.deck != null and session.state.abilities != null and not session.actor_loadouts.is_empty()
 		and not session.unit_visual_classes.is_empty(), "production expedition retains deck, hero loadouts, and visual classes")
 	_check_lifecycle()
+	await _measure_idle_frames("startup_frames")
 	_measure_refresh_costs()
+	for _warmup: int in 10: await process_frame
+	await _measure_idle_frames("steady_idle_frames")
 	for _warmup: int in 10: await process_frame
 	move_preview = session.preview_move(stress_move_cell)
 	check(move_preview.status == ActionReceipt.APPLIED, "move preview accepts the live action request")
+	for _warmup: int in 10: await process_frame
 	await _exercise_action(&"move_to", [stress_move_cell], "movement", stress_move_cell)
 	check(session.last_receipt.get_events() == move_preview.events and session.last_receipt.get_steps() == move_preview.steps
 		and ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() == move_preview.snapshot_after,
 		"worker movement receipt and final snapshot match isolated preview")
 	attack_preview = session.preview_attack(stress_target_id)
 	check(attack_preview.status == ActionReceipt.APPLIED, "attack preview accepts the live action request")
+	for _warmup: int in 10: await process_frame
 	await _exercise_action(&"attack_unit", [stress_target_id], "attack", stress_move_cell)
 	check(session.last_receipt.get_events() == attack_preview.events and session.last_receipt.get_steps() == attack_preview.steps
 		and ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() == attack_preview.snapshot_after,
@@ -67,6 +76,19 @@ func _run() -> void:
 	await process_frame
 	print("BATTLE ACTION PERFORMANCE RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
+
+func _measure_idle_frames(metric_name: String) -> void:
+	var samples: Array[float] = []
+	var trace: Array[Dictionary] = []
+	for _frame: int in IDLE_FRAME_COUNT:
+		var frame_started: int = Time.get_ticks_usec()
+		await process_frame
+		var elapsed := float(Time.get_ticks_usec() - frame_started) / 1000.0
+		samples.append(elapsed)
+		trace.append({"process_frame": Engine.get_process_frames(), "phase": "idle", "ms": elapsed})
+	metrics[metric_name] = _summarize(samples)
+	metrics[metric_name]["trace"] = trace
+	check(samples.size() >= 120, "idle frame window measures at least 120 frames with 24 live units")
 
 func _make_stress_session() -> BattleCoreReactionsSession:
 	# Фабрика задаёт настоящие способности, колоду, экипировку и классификацию рисунков экспедиции.
@@ -212,16 +234,25 @@ func _measure_refresh_costs() -> void:
 		capture.append(_time_call(func() -> void: ActionPresentationState.capture(session.state)))
 		full_refresh.append(_time_call(func() -> void: demo._refresh()))
 	# Метрики операций хранятся отдельно: вложенные refresh/capture времена нельзя складывать.
-	metrics = {
-		"scenario": "HeroHubBattleView expedition showcase stress",
-		"board": {"width": WIDTH, "height": HEIGHT, "live_units": UNIT_COUNT},
-		"sample_count": SAMPLE_COUNT,
-		"operations_ms": {
-			"refresh_mage": _summarize(refresh_mage), "board_refresh": _summarize(board_refresh),
-			"board_rebuild_visuals": _summarize(rebuild), "worker_can_transfer": _summarize(can_transfer),
-			"presentation_capture": _summarize(capture), "demo_full_refresh": _summarize(full_refresh),
-		},
-		"actions": {},
+	metrics["scenario"] = "HeroHubBattleView expedition showcase stress"
+	metrics["board"] = {"width": WIDTH, "height": HEIGHT, "live_units": UNIT_COUNT}
+	metrics["sample_count"] = SAMPLE_COUNT
+	metrics["operations_ms"] = {
+		"refresh_mage": _summarize(refresh_mage), "board_refresh": _summarize(board_refresh),
+		"board_rebuild_visuals": _summarize(rebuild), "worker_can_transfer": _summarize(can_transfer),
+		"presentation_capture": _summarize(capture), "demo_full_refresh": _summarize(full_refresh),
+	}
+	metrics["actions"] = {}
+	metrics["runtime"] = _runtime_metadata()
+
+func _runtime_metadata() -> Dictionary:
+	var uncapped := OS.get_cmdline_user_args().has("--uncapped")
+	return {
+		"uncapped_requested": uncapped,
+		"vsync_mode": DisplayServer.window_get_vsync_mode(),
+		"display_server": DisplayServer.get_name(),
+		"renderer": RenderingServer.get_current_rendering_method(),
+		"engine_version": Engine.get_version_info(),
 	}
 
 func _time_call(callback: Callable) -> float:
@@ -232,14 +263,20 @@ func _time_call(callback: Callable) -> float:
 func _summarize(samples: Array[float]) -> Dictionary:
 	var ordered := samples.duplicate()
 	ordered.sort()
+	var over_17_5: int = 0
+	var over_20: int = 0
 	var over_25: int = 0
 	var over_50: int = 0
 	for sample: float in ordered:
+		if sample > 17.5: over_17_5 += 1
+		if sample > 20.0: over_20 += 1
 		if sample > 25.0: over_25 += 1
 		if sample > 50.0: over_50 += 1
 	var middle := ordered.size() / 2
 	return {"median_ms": _median(ordered), "p95_ms": ordered[ceili(float(ordered.size()) * 0.95) - 1],
-		"max_ms": ordered.back(), "over_25ms": over_25, "over_50ms": over_50, "samples": ordered.size()}
+		"p99_ms": ordered[ceili(float(ordered.size()) * 0.99) - 1], "max_ms": ordered.back(),
+		"over_17_5ms": over_17_5, "over_20ms": over_20, "over_25ms": over_25,
+		"over_50ms": over_50, "samples": ordered.size()}
 
 func _median(sorted: Array[float]) -> float:
 	var middle := sorted.size() / 2
@@ -266,8 +303,10 @@ func _exercise_action(method: StringName, args: Array, label: String, expected_c
 			dispatch_ms = float(Time.get_ticks_usec() - frame_started) / 1000.0
 			accepted = demo.is_execution_pending()
 		await process_frame
-		samples.append(float(Time.get_ticks_usec() - frame_started) / 1000.0)
-		trace.append({"phase": phase, "ms": samples.back(), "presentation_index": demo._presentation_player._index})
+		var frame_ms := float(Time.get_ticks_usec() - frame_started) / 1000.0
+		samples.append(frame_ms)
+		trace.append({"process_frame": Engine.get_process_frames(), "phase": phase, "ms": frame_ms,
+			"presentation_index": demo._presentation_player._index})
 		if accepted and not demo.is_execution_pending(): break
 	check(accepted, label + " entered worker/presentation execution")
 	check(not demo._execution_worker.is_started() and not demo.is_presentation_pending(), label + " worker and presentation completed")

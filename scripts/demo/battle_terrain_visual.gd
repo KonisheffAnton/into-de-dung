@@ -2,6 +2,8 @@ class_name BattleTerrainVisual
 extends BattleDemoIsoVisual
 
 ## Явное согласие сцены на сохранение опоры между публикациями представления.
+## Сцены, чей рисунок зависит от подсветки, оставляют полный путь обновления.
+@export var highlights_use_ground_overlay: bool = false
 var view_apply_count: int = 0
 var _view_initialized: bool = false
 var _view_tile_size: Vector2
@@ -21,9 +23,10 @@ func apply_view(values: Dictionary, config: IsoGridConfig) -> bool:
 	# а не identity ресурса или revision игрового состояния.
 	var geometry_changed := not _view_initialized or _view_tile_size != config.tile_size \
 		or _view_height_step != config.height_step or _view_origin != config.origin_offset
-	var changed := geometry_changed or grid_anchor != cell or height_level != 0 \
+	var surface_changed := geometry_changed or grid_anchor != cell or height_level != 0 \
 		or role != next_role or half_steps != steps or is_void != void_surface \
-		or reachable != can_reach or enemy_range != in_enemy_range or burning != on_fire
+		or burning != on_fire
+	var changed := surface_changed or reachable != can_reach or enemy_range != in_enemy_range
 	grid_config = config
 	if not changed: return false
 	role = next_role
@@ -32,12 +35,15 @@ func apply_view(values: Dictionary, config: IsoGridConfig) -> bool:
 	reachable = can_reach
 	enemy_range = in_enemy_range
 	burning = on_fire
+	view_apply_count += 1
+	if not surface_changed and highlights_use_ground_overlay and _ground_overlay != null:
+		_ground_overlay.queue_redraw()
+		return true
 	set_grid_anchor(cell)
 	_view_tile_size = config.tile_size
 	_view_height_step = config.height_step
 	_view_origin = config.origin_offset
 	_view_initialized = true
-	view_apply_count += 1
 	sync_scene_art()
 	queue_redraw()
 	return true

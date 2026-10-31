@@ -36,8 +36,13 @@ func wait_presentation() -> void:
 		if demo.is_presentation_pending(): break
 		await process_frame
 	check(demo.is_presentation_pending(), "joined result starts presentation")
-	# Короткий клип не должен закончиться за первый дорогой кадр render-backend.
-	# Осматриваем точную фазу, затем явно возобновляем естественное воспроизведение.
+	# play может сначала уступить отдельный кадр; пауза нужна после начала первого кадра действия.
+	var cue_count := frame_sequences.size()
+	while demo.is_presentation_pending() and frame_sequences.size() == cue_count \
+		and demo._presentation_player._index == 0 and Time.get_ticks_msec() < deadline:
+		await process_frame
+	check(frame_sequences.size() > cue_count or demo._presentation_player._index > 0,
+		"paused presentation reaches its first actual frame cue")
 	if demo.is_presentation_pending(): demo._presentation_player._tween.pause()
 
 func shown(id: int) -> BattleUnitView:
@@ -123,9 +128,75 @@ func hub_terminal() -> void:
 	# run намеренно отсутствует: родитель обязан выйти до чтения/сохранения исхода.
 	screen._process(0.0)
 	view._refresh()
-	check(view._return_button.disabled and not view._stats.text.contains("Победа"), "hub does not publish terminal outcome during playback")
+	check(view._return_button.disabled and not view._stats.text.contains("ПОБЕДА"), "hub does not publish terminal outcome during playback")
 	view.skip_presentation()
 	check(not view._return_button.disabled and not shown(target.id).alive, "terminal view is released after final shown state")
+	screen.battle_view = null
+	screen.free()
+
+func hub_terminal_staged_refresh() -> void:
+	if demo != null:
+		demo.queue_free()
+		await process_frame
+	var view := HeroHubBattleView.new()
+	view.supplied_session = PlayerTurnFixture.create()
+	demo = view
+	viewport.add_child(view)
+	view.set_process(false)
+	var session := view.session as BattleCoreReactionsSession
+	var enemies := session.living_ids(Faction.Type.ENEMY)
+	var target := session.board.get_unit_by_id(enemies[0])
+	for id: int in enemies:
+		if id != target.id:
+			session._submit(DeathCommand.new(id, DamageSource.new(&"cell", 0, session.board.get_unit_by_id(id).cell)))
+	var actor := session.board.get_unit_by_id(session.living_ids(Faction.Type.PLAYER)[0])
+	session.select_unit(actor.id)
+	session.board.move_unit(actor, Vector2i(2, 2))
+	session.board.move_unit(target, Vector2i(3, 2))
+	target.vitals.set_hp(1.0)
+	for item: ItemInstance in session.state.get_owner(target.id)._items.values(): item.armor_remaining = 0
+	view._refresh()
+	view._execute_live(&"attack_unit", [target.id], true)
+	await wait_presentation()
+	check(session.phase == BattleTacticalSession.Phase.VICTORY and view._return_button.disabled,
+		"terminal result remains unavailable while the final attack cue is active")
+	var screen := HeroHubScreen.new()
+	screen.battle_view = view
+	view._presentation_player.set_speed(3.0)
+	view._presentation_player._tween.play()
+	var deadline := Time.get_ticks_msec() + 15000
+	while view._refresh_followup.is_empty() and view.is_presentation_pending() and Time.get_ticks_msec() < deadline:
+		await process_frame
+	check(not view._refresh_followup.is_empty() and view._refresh_stage == -1,
+		"terminal presentation enters its staged refresh-begin phase")
+	if view._refresh_followup.is_empty():
+		screen.free()
+		return
+	check(view.is_execution_pending() and view._return_button.disabled
+		and not view._stats.text.contains("ПОБЕДА"), "return stays disabled and terminal receipt stays hidden before staged refresh")
+	screen._process(0.0)
+	view._poll_execution()
+	check(view._refresh_stage == 0 and view.is_execution_pending() and view._return_button.disabled
+		and not view._stats.text.contains("ПОБЕДА"),
+		"begin refresh prepares HUD while keeping terminal return disabled")
+	screen._process(0.0)
+	view._poll_execution()
+	check(view._refresh_stage == 1 and view.is_execution_pending() and view._return_button.disabled
+		and not view._stats.text.contains("ПОБЕДА"),
+		"prepared HUD is not published as terminal before field publication")
+	screen._process(0.0)
+	view._poll_execution()
+	check(view._refresh_stage == 2 and view.is_execution_pending() and view._return_button.disabled
+		and not view._stats.text.contains("ПОБЕДА"),
+		"published field still blocks terminal return until final HUD cleanup")
+	screen._process(0.0)
+	view._poll_execution()
+	check(not view.is_execution_pending() and view._refresh_followup.is_empty()
+		and not view._return_button.disabled and view._stats.text.contains("ПОБЕДА"),
+		"terminal return unlocks only after staged refresh completes")
+	check(session.last_receipt != null and session.last_receipt.status == ActionReceipt.APPLIED
+		and not shown(target.id).alive and view._subtitle.text.contains("Победа"),
+		"final terminal refresh publishes the committed receipt and victory state")
 	screen.battle_view = null
 	screen.free()
 
@@ -176,6 +247,61 @@ func technical_frame_budget() -> void:
 	check(not player.active and published == [7, 7], "cancel and immediate replay cannot resume old packet")
 	player.queue_free()
 	await process_frame
+
+func animated_after_to_next_technical_after() -> void:
+	await fresh()
+	var session := demo.session as BattleCoreReactionsSession
+	var before := ActionPresentationState.capture(session.state).duplicate(true)
+	var actor := session.selected_unit()
+	session.begin_presentation_capture()
+	var receipt := session.move_to(Vector2i(1, 2))
+	var roots := session.take_presentation_capture()
+	var source_frames := receipt.get_presentation_frames()
+	var source_oracle := source_frames.duplicate(true)
+	check(receipt.status == ActionReceipt.APPLIED and roots.size() == 1
+		and roots[0].frames == source_frames and not source_frames.is_empty(),
+		"real move receipt retains its captured presentation frames")
+	var animated_index := -1
+	for index: int in source_frames.size():
+		if BattleDemoBoard.has_presentation_animation(source_frames[index].events): animated_index = index
+	check(animated_index >= 0, "real move receipt contains an animated after frame")
+	if animated_index < 0:
+		session.close()
+		return
+	var animated_frame: Dictionary = source_frames[animated_index].duplicate(true)
+	animated_frame.after["regression_marker"] = "animated_after"
+	var technical_after := ActionPresentationState.capture(session.state).duplicate(true)
+	technical_after["regression_marker"] = "technical_after"
+	var next_sequence := int(animated_frame.step.get("command_seq", 0)) + 1
+	var frames: Array[Dictionary] = [animated_frame, {
+		"events": [], "step": {"kind": &"technical", "command_seq": next_sequence}, "after": technical_after,
+	}]
+	var committed := snapshot(session)
+	var committed_events := receipt.get_events()
+	var committed_steps := receipt.get_steps()
+	var published_markers: Array[String] = []
+	var render_frames: Array[int] = []
+	var player := BattlePresentationPlayer.new()
+	viewport.add_child(player)
+	player.frame_finished.connect(func(state: Dictionary) -> void:
+		published_markers.append(String(state.get("regression_marker", "")))
+		render_frames.append(Engine.get_process_frames()))
+	player.set_speed(3.0)
+	player.play(demo.board_view, before, frames, technical_after)
+	var deadline := Time.get_ticks_msec() + 10000
+	while player.active and Time.get_ticks_msec() < deadline: await process_frame
+	check(not player.active and published_markers.size() >= 2
+		and published_markers[0] == "animated_after" and published_markers[1] == "technical_after",
+		"real animated after is followed by the annotated technical after")
+	check(render_frames.size() >= 2 and render_frames[1] != render_frames[0],
+		"technical after following a real animated frame publishes on a later engine frame")
+	check(snapshot(session) == committed and receipt.get_events() == committed_events
+		and receipt.get_steps() == committed_steps and receipt.get_presentation_frames() == source_oracle
+		and source_frames == source_oracle,
+		"animated-to-technical presentation preserves snapshot, receipt events/steps and the original frame packet")
+	player.queue_free()
+	await process_frame
+	session.close()
 
 func run() -> void:
 	viewport = SubViewport.new()
@@ -268,7 +394,9 @@ func run() -> void:
 	check(snapshot(s) == committed and demo._status.text.contains("остановлено"), "fault skip keeps prefix and reports failure")
 	await chain_fall()
 	await hub_terminal()
+	await hub_terminal_staged_refresh()
 	await technical_frame_budget()
+	await animated_after_to_next_technical_after()
 	await fresh()
 	demo._execute_live(&"move_to", [Vector2i(1, 2)])
 	await wait_presentation()

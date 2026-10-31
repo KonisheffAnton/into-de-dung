@@ -137,6 +137,10 @@ var _turn_forecast_worker := TurnForecastWorker.new()
 var _environment_button: Button
 var _cloth_palette: OptionButton
 var _environment_forecast: ForecastSimulation
+var _stage_next_refresh: bool = false
+var _refresh_followup: Dictionary = {}
+var _refresh_stage: int = 0
+var _skip_refresh: bool = false
 var _environment_forecast_pending: bool = false
 var _environment_forecast_generation: int = 0
 var _environment_forecast_job: int = -1
@@ -149,7 +153,7 @@ func is_execution_pending() -> bool:
 	return _execution_worker.is_started() or is_presentation_pending()
 
 func is_presentation_pending() -> bool:
-	return _presentation_player != null and _presentation_player.active
+	return not _refresh_followup.is_empty() or (_presentation_player != null and _presentation_player.active)
 
 func _allows_execution_worker() -> bool:
 	return get_script() == BattleDemo
@@ -165,9 +169,9 @@ func _execute_live(method: StringName, args: Array = [], target_attempt: bool = 
 		board_view.session = null
 		session = null
 		_battle = null
-		# Main проверяет владение; before/after собираются внутри потока и придут после join.
+		# Main проверяет владение порциями; before/after собираются в потоке после допуска.
 		# take_presentation_before нужен только при отказе запуска для sync fallback.
-		var started := _execution_worker.start(owned, method, args, target_attempt, presentation_enabled, true)
+		var started := _execution_worker.start(owned, method, args, target_attempt, presentation_enabled, true, true)
 		_presentation_before = _execution_worker.take_presentation_before()
 		if started:
 			_status.text = "Выполняется действие…"
@@ -183,6 +187,23 @@ func _execute_live(method: StringName, args: Array = [], target_attempt: bool = 
 	_complete_live(method, session.callv(method, args), target_attempt)
 
 func _poll_execution() -> void:
+	if not _refresh_followup.is_empty():
+		if _refresh_stage == -1:
+			var receipt_message: String = _refresh_followup.get("receipt_message", "")
+			_refresh_followup = {}
+			_begin_refresh(true)
+			if not receipt_message.is_empty(): _refresh_followup.receipt_message = receipt_message
+			return
+		elif _refresh_stage == 0:
+			board_view.prepare_refresh()
+		elif _refresh_stage == 1:
+			board_view.publish_refresh()
+		else:
+			var followup := _refresh_followup
+			_refresh_followup = {}
+			_finish_refresh(followup)
+		_refresh_stage += 1
+		return
 	var completed := _execution_worker.take_finished()
 	if completed.is_empty(): return
 	_restore_execution_owner(completed)
@@ -195,8 +216,12 @@ func _restore_execution_owner(completed: Dictionary) -> void:
 	_battle = session as BattleTacticalSession
 	board_view.session = session
 	board_view.execution_pending = false
+	if completed.get("sync_fallback", false):
+		completed.result = session.callv(completed.method, completed.args)
 
 func _join_execution() -> void:
+	_refresh_followup.clear()
+	_stage_next_refresh = false
 	if _presentation_player != null: _presentation_player.cancel()
 	# Reset/выход ждут завершения prefix, но не публикуют устаревший receipt в новый бой.
 	var completed := _execution_worker.take_finished(true)
@@ -238,7 +263,7 @@ func _complete_live(method: StringName, result: Variant, target_attempt: bool) -
 			_phase_label.text = "Показ действия"
 			_render_presentation_hud(_presentation_before)
 			var final_state := _presentation_after if not _presentation_after.is_empty() else ActionPresentationState.capture(session.state)
-			_presentation_player.play(board_view, _presentation_before, frames, final_state)
+			_presentation_player.play(board_view, _presentation_before, frames, final_state, true)
 			return
 		_presentation_before.clear()
 		_presentation_after.clear()
@@ -347,7 +372,11 @@ func _render_presentation_hud(state: Dictionary) -> void:
 			_mage_label.text += BattleFrameText.mage_ledger_suffix(entry)
 
 func skip_presentation() -> void:
+	_skip_refresh = true
 	if _presentation_player != null: _presentation_player.skip()
+	# Явный skip по прежнему контракту сразу возвращает готовое управление.
+	while not _refresh_followup.is_empty(): _poll_execution()
+	_skip_refresh = false
 
 func _toggle_presentation_speed() -> void:
 	_presentation_player.set_speed(3.0 if _presentation_player.speed < 2.0 else 1.0)
@@ -369,6 +398,9 @@ func _finish_presentation() -> void:
 	_skip_presentation_button.disabled = true
 	_speed_presentation_button.visible = core_reactions_mode
 	_receipt_already_presented = true
+	# Завершение не должно складывать HUD, чтение runtime и публикацию поля
+	# в один кадр. Ввод остаётся закрыт до последней части refresh.
+	_stage_next_refresh = not _skip_refresh
 	_complete_live(_presentation_method, _presentation_result, _presentation_target)
 	_receipt_already_presented = false
 	_presentation_result = null
@@ -399,7 +431,7 @@ func _create_session() -> void:
 	_flow_cursor = 0
 
 func _process(delta: float) -> void:
-	if _execution_worker.is_started():
+	if _execution_worker.is_started() or not _refresh_followup.is_empty():
 		_poll_execution()
 		return
 	if is_presentation_pending(): return
@@ -1002,6 +1034,14 @@ func _mage_spell_help(id: StringName) -> String:
 	return ""
 
 func _refresh() -> void:
+	if _stage_next_refresh:
+		_stage_next_refresh = false
+		_refresh_followup = {"begin": true}
+		_refresh_stage = -1
+		return
+	_begin_refresh()
+
+func _begin_refresh(staged: bool = false) -> void:
 	_refresh_mage()
 	if is_execution_pending(): return
 	_roster_presenter.ensure_scope(session.get_instance_id(), core_reactions_mode)
@@ -1118,7 +1158,25 @@ func _refresh() -> void:
 			var modifiers: Dictionary = event.get("modifiers", {})
 			for threat_id: Variant in modifiers.get("threat_ids", []):
 				if typeof(threat_id) == TYPE_INT and not board_view.sneak_threat_ids.has(threat_id): board_view.sneak_threat_ids.append(threat_id)
+	var followup := {"refresh_turn": refresh_turn, "refresh_environment": refresh_environment, "refresh_armor": refresh_armor, "refresh_guard_action": refresh_guard_action, "refresh_healing": refresh_healing, "refresh_guard": refresh_guard, "locked": locked}
+	if staged:
+		# Заголовки оболочки должны попасть в тот же layout-проход: временный
+		# текст base-сцены иначе дважды меняет размер поля между стадиями.
+		_before_staged_refresh()
+		_refresh_followup = followup
+		_refresh_stage = 0
+		return
 	board_view.refresh()
+	_finish_refresh(followup)
+
+func _finish_refresh(followup: Dictionary) -> void:
+	var locked: bool = followup.locked
+	var refresh_turn: bool = followup.refresh_turn
+	var refresh_environment: bool = followup.refresh_environment
+	var refresh_armor: bool = followup.refresh_armor
+	var refresh_guard_action: StringName = followup.refresh_guard_action
+	var refresh_healing: bool = followup.refresh_healing
+	var refresh_guard: bool = followup.refresh_guard
 	var roster_ids: Array[int] = []
 	for unit in session.units:
 		roster_ids.append(unit.id)
@@ -1193,6 +1251,14 @@ func _refresh() -> void:
 	if refresh_environment and _can_forecast_environment(): _request_environment_forecast()
 	_render_forecast_panel()
 	_displayed_unit_hovered(_display_inspection_id)
+	_after_refresh()
+	if followup.has("receipt_message"): _status.text = followup.receipt_message
+
+func _after_refresh() -> void:
+	pass
+
+func _before_staged_refresh() -> void:
+	pass
 
 func _perk_status_text(unit: UnitState) -> String:
 	if not session is BattleCoreReactionsSession or unit.combat_perks == null: return ""
@@ -2033,6 +2099,7 @@ func _show_receipt(receipt: ActionReceipt, target_attempt: bool = false) -> void
 		_note(message)
 		_log.text = "\n".join(_journal)
 		_status.text = message
+		if not _refresh_followup.is_empty(): _refresh_followup.receipt_message = message
 
 func _note(message: String) -> void:
 	_journal.append(message)

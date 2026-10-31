@@ -8,6 +8,8 @@ var supplied_session: BattleCoreReactionsSession
 var expedition_battle: bool = false
 var _return_button: Button
 var _restart_button: Button
+var _published_subtitle: String = ""
+var _published_instructions: String = ""
 
 func _allows_execution_worker() -> bool:
 	# Экран хаба также прекращает чтение сессии до возвращения владения из worker.
@@ -51,10 +53,16 @@ func _build_ui() -> void:
 	_return_button.show()
 	if not _return_button.pressed.is_connected(_request_return): _return_button.pressed.connect(_request_return)
 
-func _refresh() -> void:
+func _before_staged_refresh() -> void:
+	# Сохраняем геометрию оболочки, но исход и доступ к выходу ждут финала.
+	_heading.text = "intoDeDung · Отряд в бою"
+	_subtitle.visible = true
+	_subtitle.text = _published_subtitle
+	_instructions.text = _published_instructions
+	_return_button.disabled = true
+
+func _after_refresh() -> void:
 	_sync_restart_button()
-	if is_execution_pending(): return
-	super._refresh()
 	if _heading == null or session == null:
 		return
 	_heading.text = "intoDeDung · Отряд в бою"
@@ -82,6 +90,8 @@ func _refresh() -> void:
 	else:
 		_subtitle.text = "Настоящий тактический бой · ход: %s" % ("отряда" if _battle.can_player_act() else "противника")
 		_instructions.text = "Используйте действия и прогнозы боевого интерфейса. После терминального исхода результат сохранится в профиле."
+	_published_subtitle = _subtitle.text
+	_published_instructions = _instructions.text
 
 func reset_demo() -> void:
 	if can_restart_checkpoint(): restart_requested.emit()

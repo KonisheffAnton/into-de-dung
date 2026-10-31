@@ -51,12 +51,17 @@ func fresh(hub: bool = false) -> void:
 	await process_frame
 
 func wait_presentation() -> void:
+	var cue := {"started": false}
+	demo._presentation_player.frame_started.connect(func(_frame: Dictionary) -> void: cue.started = true, CONNECT_ONE_SHOT)
 	var deadline := Time.get_ticks_msec() + 10000
 	while demo._execution_worker.is_started() and Time.get_ticks_msec() < deadline:
 		demo._poll_execution()
 		if demo.is_presentation_pending(): break
 		await process_frame
 	check(demo.is_presentation_pending(), "real execution joins into presentation")
+	while demo.is_presentation_pending() and not cue.started and Time.get_ticks_msec() < deadline:
+		await process_frame
+	check(cue.started, "mage presentation wait reaches its first actual frame cue")
 	if demo.is_presentation_pending(): demo._presentation_player._tween.pause()
 
 func advance(seconds: float) -> void:
@@ -69,7 +74,10 @@ func advance(seconds: float) -> void:
 func finish() -> void:
 	for index: int in 30:
 		if not demo.is_presentation_pending(): break
-		advance(1.0)
+		if not demo._refresh_followup.is_empty() or not demo._presentation_player.active:
+			demo._poll_execution()
+		else:
+			advance(1.0)
 	check(not demo.is_presentation_pending(), "finite clip completes")
 
 func capture(label: String) -> void:

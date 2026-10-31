@@ -1320,6 +1320,13 @@ func _notification(what: int) -> void:
 
 func refresh() -> void:
 	if execution_pending: return
+	prepare_refresh()
+	publish_refresh()
+
+## Части одного refresh; между ними оболочка продолжает блокировать боевой ввод.
+## Чтение всегда свежее, сборка визуалов использует только захваченные значения.
+func prepare_refresh() -> void:
+	if execution_pending: return
 	var live_board: BattleBoard = session.board if session != null else null
 	if live_board != _shown_board:
 		reset_camera()
@@ -1353,7 +1360,10 @@ func refresh() -> void:
 	if session is BattleCoreCombinationSession and (session as BattleCoreCombinationSession).is_deploying():
 		_reachable = (session as BattleCoreCombinationSession).deployment_cells()
 	_refresh_path()
-	_rebuild_visuals()
+
+func publish_refresh() -> void:
+	if execution_pending: return
+	_rebuild_visuals(true)
 	queue_redraw()
 	if _overlay != null: _overlay.queue_redraw()
 
@@ -1433,8 +1443,10 @@ func displayed_unit_at(point: Vector2) -> int:
 func set_acting_unit(id: int) -> void:
 	acting_id = id
 	for visual: BattleDemoIsoVisual in _entity_visuals:
-		visual.acting = visual.unit != null and visual.unit.alive and visual.unit.id == id
-		visual.queue_redraw()
+		var next := visual.unit != null and visual.unit.alive and visual.unit.id == id
+		if visual.acting != next:
+			visual.acting = next
+			visual.queue_redraw()
 
 func set_defender_cloth_palette(index: int) -> void:
 	defender_cloth_palette = DefenderClothPalette.valid_index(index)
@@ -1446,8 +1458,10 @@ func set_defender_cloth_palette(index: int) -> void:
 func set_hovered_unit(id: int) -> void:
 	hovered_unit_id = id
 	for visual: BattleDemoIsoVisual in _entity_visuals:
-		visual.hovered = visual.unit != null and visual.unit.alive and visual.unit.id == id
-		visual.queue_redraw()
+		var next := visual.unit != null and visual.unit.alive and visual.unit.id == id
+		if visual.hovered != next:
+			visual.hovered = next
+			visual.queue_redraw()
 
 func displayed_names() -> Dictionary:
 	var result: Dictionary = {}
@@ -1558,7 +1572,7 @@ func _terrain_view_key() -> Array:
 	return [_terrain_board_id, _view_width, _view_height, tile_visual_scene, environment_visual_scene,
 		grid_config.tile_size, grid_config.height_step, grid_config.origin_offset,
 		_view_heights, _view_terrain, _view_fires, _view_corpses, _view_collapse, _view_hazards,
-		_reachable, inspection_cells, attack_mode, elemental_mode, inspected_id, _field_presentation.cells.keys()]
+		_field_presentation.cells.keys()]
 
 func _rebuild_visuals(allow_terrain_reuse: bool = false) -> void:
 	if _entities == null: return
@@ -1580,9 +1594,13 @@ func _rebuild_visuals(allow_terrain_reuse: bool = false) -> void:
 		# активные collapse/trap-семплы ниже восстанавливаются из отделённого показа.
 		for visual: BattleDemoIsoVisual in _terrain_draw_order:
 			(visual as BattleTerrainVisual).reset_view_pose()
+			var values: Dictionary = _terrain_draw_values[visual]
+			var floor_tile := int(values.role) != BattleDemoIsoVisual.Role.WALL
+			values.reachable = floor_tile and not attack_mode and not elemental_mode and _reachable.has(values.cell)
+			values.enemy_range = floor_tile and inspected_id != UnitId.NONE and inspection_cells.has(values.cell)
 			# apply сравнивает также фактические свойства: редактор/поза не должны
 			# спрятать изменение за равенством входного DTO.
-			(visual as BattleTerrainVisual).apply_view(_terrain_draw_values[visual], grid_config)
+			(visual as BattleTerrainVisual).apply_view(values, grid_config)
 			_attach_visual(visual)
 		for cell: Vector2i in _environment_visuals:
 			var overlay := _environment_visuals[cell] as BattleEnvironmentVisual
@@ -1905,7 +1923,16 @@ func _process(delta: float) -> void:
 		if overlay != null: overlay.warning_phase = _warning_phase
 
 func _sort_visuals() -> void:
-	_entity_visuals.sort_custom(func(a: BattleDemoIsoVisual, b: BattleDemoIsoVisual) -> bool: return a.position.y < b.position.y or (a.position.y == b.position.y and a.get_index() < b.get_index()))
+	# Сравнение Vector3 выполняет движок: тот же ключ (y, child index),
+	# без тысяч переходов из C++ в GDScript-компаратор на каждую публикацию.
+	var keys: Array[Vector3] = []
+	for index: int in _entity_visuals.size():
+		var visual := _entity_visuals[index]
+		keys.append(Vector3(visual.position.y, visual.get_index(), index))
+	keys.sort()
+	var ordered: Array[BattleDemoIsoVisual] = []
+	for key: Vector3 in keys: ordered.append(_entity_visuals[int(key.z)])
+	_entity_visuals = ordered
 
 func _make_visual(cell: Vector2i, steps: int, role: BattleDemoIsoVisual.Role) -> BattleDemoIsoVisual:
 	var visual: BattleDemoIsoVisual
@@ -2099,17 +2126,57 @@ func _draw_overlay() -> void:
 				_overlay.draw_line(finish - Vector2(4, -4), finish + Vector2(4, -4), Color(0.82, 0.86, 0.88, 0.38), 1.5, true)
 
 func _sync_ground_overlays() -> void:
+	var marks_by_cell := _ground_mark_map()
 	for visual: BattleDemoIsoVisual in _entity_visuals:
 		if visual.role == BattleDemoIsoVisual.Role.UNIT: continue
 		var cell := visual.grid_anchor
 		# У стены контур принадлежит верхней стеновой поверхности, а не полу под ней.
 		var is_top := (_view_terrain_at(cell) == TerrainType.Type.WALL) == (visual.role == BattleDemoIsoVisual.Role.WALL)
+		var marks: Array[Dictionary] = []
+		if is_top: marks.assign(marks_by_cell.get(cell, []))
+		var can_reach := is_top and (not attack_mode and not elemental_mode and _reachable.has(cell))
+		var enemy_range := is_top and inspected_id != UnitId.NONE and inspection_cells.has(cell)
+		if visual.ground_overlay_enabled == is_top and visual.ground_marks == marks \
+			and visual.reachable == can_reach and visual.enemy_range == enemy_range: continue
 		visual.ground_overlay_enabled = is_top
-		visual.ground_marks.clear()
-		if is_top: visual.ground_marks = _ground_marks_for(cell)
-		visual.reachable = is_top and (not attack_mode and not elemental_mode and _reachable.has(cell))
-		visual.enemy_range = is_top and inspected_id != UnitId.NONE and inspection_cells.has(cell)
+		visual.ground_marks = marks
+		visual.reachable = can_reach
+		visual.enemy_range = enemy_range
 		visual.queue_ground_overlay_redraw()
+
+func _ground_mark_map() -> Dictionary:
+	# Собираем метки по затронутым клеткам один раз: поле не должно заново
+	# обходить всех бойцов/области на каждом из сотен тайлов при hover и контакте.
+	var result: Dictionary = {}
+	for cell: Vector2i in reaction_zone_cells:
+		if result.has(cell): continue
+		_append_ground_mark(result, cell, {"kind": "reaction_zone"})
+	for id: int in cover_target_ids:
+		_append_ground_mark(result, _view_unit_cell(id), {"kind": "cover_target"})
+	for id: int in sneak_threat_ids:
+		_append_ground_mark(result, _view_unit_cell(id), {"kind": "sneak"})
+	for area: Dictionary in action_areas:
+		var preview: bool = area.owner_id == area_preview_owner
+		if not area.ready and not preview: continue
+		var color := Color("64cb8c") if area.faction == Faction.Type.PLAYER else Color("e97979")
+		var inset := 0.42 if area.faction == Faction.Type.PLAYER else 0.48
+		var seen: Dictionary = {}
+		for cell: Vector2i in area.cells:
+			if seen.has(cell): continue
+			seen[cell] = true
+			_append_ground_mark(result, cell, {"kind": "action_area", "fill": bool(area.ready), "preview": preview, "inset": inset, "color": color})
+		_append_ground_mark(result, area.origin, {"kind": "action_origin", "color": color})
+	var hover_color := Color("a99b79") if attack_mode or elemental_mode or inspected_id != UnitId.NONE else (Color("b58a8a") if raising_mode else Color("829fa5"))
+	_append_ground_mark(result, hover_cell, {"kind": "hover", "color": hover_color})
+	if move_forecast != null and move_forecast.status in [ActionReceipt.APPLIED, ActionReceipt.INTERRUPTED]:
+		var after: Dictionary = move_forecast.units.get(move_forecast.actor_id, {}).get("after", {})
+		if not after.is_empty():
+			_append_ground_mark(result, after.get("cell", Vector2i(-1, -1)), {"kind": "move_endpoint", "alive": bool(after.get("alive", true))})
+	return result
+
+static func _append_ground_mark(result: Dictionary, cell: Vector2i, mark: Dictionary) -> void:
+	if not result.has(cell): result[cell] = []
+	(result[cell] as Array).append(mark)
 
 func _ground_marks_for(cell: Vector2i) -> Array[Dictionary]:
 	var marks: Array[Dictionary] = []

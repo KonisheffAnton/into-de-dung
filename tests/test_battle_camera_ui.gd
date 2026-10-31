@@ -369,6 +369,8 @@ func _key(keycode: Key) -> void:
 	await process_frame
 
 func _wait_for_presentation() -> void:
+	var cue := {"started": false}
+	demo._presentation_player.frame_started.connect(func(_frame: Dictionary) -> void: cue.started = true, CONNECT_ONE_SHOT)
 	var deadline := Time.get_ticks_msec() + 10000
 	while demo._execution_worker.is_started() and Time.get_ticks_msec() < deadline:
 		demo._poll_execution()
@@ -376,6 +378,9 @@ func _wait_for_presentation() -> void:
 			break
 		await process_frame
 	check(demo.is_presentation_pending(), "movement worker joins and starts clip")
+	while demo.is_presentation_pending() and not cue.started and Time.get_ticks_msec() < deadline:
+		await process_frame
+	check(cue.started, "camera fixture waits for the first clip after the before-publication frame")
 	if demo.is_presentation_pending():
 		demo._presentation_player._tween.pause()
 

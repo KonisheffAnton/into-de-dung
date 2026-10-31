@@ -23,6 +23,11 @@ presentation_contact presentation_consequences presentation_environment --screen
 preview/live snapshots/events/steps и сохранение visual ID. JSON лежит в
 изолированном `profile/Godot/app_userdata/intoDeDung/battle-action-performance.json`.
 Время операций, кадров и dispatch диагностическое, без универсального FPS gate.
+Runner отдельно сохраняет холодные `startup_frames` и 120 `steady_idle_frames`,
+номера кадров и пороги 17.5/20/25/50 мс. Первый live action не отбрасывается.
+Для запаса CPU/GPU тот же script в изолированном проекте принимает Godot user-arg
+`-- --uncapped` (VSync off); обычный прогон сохраняет настройки VSync проекта.
+Сравнивать baseline/current с одинаковым runner; исключать одновременные GPU-тесты.
 Deferred before/after, отказ запуска и FAULTED покрыты worker-runner; snapshot
 статов сравнивается с прежним clone-oracle без изменения live-кэша.
 Render-регрессии смерти/реакций/камеры выбирать дополнительно при изменениях поз.

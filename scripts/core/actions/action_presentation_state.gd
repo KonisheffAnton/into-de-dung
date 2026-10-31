@@ -93,7 +93,7 @@ static func capture_action_areas(state: ItemSimulationState) -> Array[Dictionary
 		if unit.stats == null or not unit.stats.snapshot_runtime_valid(): continue
 		var reach := unit.stats.snapshot_value_unchecked(StatTypes.StatType.ATTACK_RANGE)
 		var cells: Array[Vector2i] = []
-		for cell: Vector2i in _action_area_candidates(board, unit.cell):
+		for cell: Vector2i in _action_area_candidates(board, unit.cell, reach):
 			if board.is_terrain_walkable(cell) and AttackReachCheck.inspect_spatial_cells(board, unit.cell, unit.faction, cell, reach) == &"": cells.append(cell)
 		var mode := unit.combat_perks.mode if unit.combat_perks != null else CombatPerksState.Mode.NONE
 		if MeleeThreat.has_passive_opportunist(unit): mode = CombatPerksState.Mode.OPPORTUNIST
@@ -101,15 +101,22 @@ static func capture_action_areas(state: ItemSimulationState) -> Array[Dictionary
 		result.append({"owner_id": unit.id, "name": unit.debug_name, "faction": int(unit.faction), "origin": unit.cell, "cells": cells, "mode": mode, "ready": ready})
 	return result
 
-static func _action_area_candidates(board: BattleBoard, origin: Vector2i) -> Array[Vector2i]:
+static func _action_area_candidates(board: BattleBoard, origin: Vector2i, reach: float) -> Array[Vector2i]:
 	var candidates: Array[Vector2i] = []
-	# Идём строками сверху вниз; в строке начала берём её целиком, в остальных — только столбец.
-	# Так пересечение попадает один раз, а порядок совпадает с прежним обходом всей доски.
-	for y: int in board.height:
+	# Недопустимая дальность или начало вне доски оставляют пустую область, но вызывающий код всё равно создаёт DTO-владельца.
+	if board == null or not board.is_in_bounds(origin) or not is_finite(reach) \
+		or reach != floorf(reach) or reach < 1.0 or reach > 4096.0:
+		return candidates
+	var radius := int(reach)
+	var min_y := maxi(0, origin.y - radius)
+	var max_y := mini(board.height - 1, origin.y + radius)
+	for y: int in range(min_y, max_y + 1):
 		if y == origin.y:
-			for x: int in board.width:
+			var min_x := maxi(0, origin.x - radius)
+			var max_x := mini(board.width - 1, origin.x + radius)
+			for x: int in range(min_x, max_x + 1):
 				var cell := Vector2i(x, y)
 				if cell != origin: candidates.append(cell)
-		elif origin.x >= 0 and origin.x < board.width:
+		elif absi(y - origin.y) <= radius:
 			candidates.append(Vector2i(origin.x, y))
 	return candidates

@@ -15,8 +15,9 @@ var _published: Dictionary = {}
 var _index: int = 0
 var _tween: Tween
 var _chain: BattleChainTimeline
+var _scheduled_frame: int = -1
 
-func play(board: BattleDemoBoard, before: Dictionary, frames: Array[Dictionary], final_state: Dictionary) -> void:
+func play(board: BattleDemoBoard, before: Dictionary, frames: Array[Dictionary], final_state: Dictionary, defer_first_frame: bool = false) -> void:
 	cancel(false)
 	_board = board
 	_frames = frames.duplicate(true)
@@ -26,7 +27,8 @@ func play(board: BattleDemoBoard, before: Dictionary, frames: Array[Dictionary],
 	active = true
 	_board.set_presentation_animation_events([])
 	_board.show_presentation_state(before)
-	_next()
+	if defer_first_frame: _schedule_next(true)
+	else: _next()
 
 func set_speed(value: float) -> void:
 	speed = clampf(value, 0.25, 8.0)
@@ -78,13 +80,24 @@ func _next() -> void:
 		return
 	if active: _finish(false)
 
-func _schedule_next() -> void:
+func _schedule_next(wait_for_frame: bool = false) -> void:
 	# Нулевой интервал отдаёт управление рендеру без фиксированной игровой
 	# паузы; обычный Tween сохраняет поддержку pause/skip/cancel. Скорость
 	# меняет анимацию, но не объединяет технические публикации в один проход.
 	_tween = create_tween()
+	_scheduled_frame = Engine.get_process_frames()
 	_tween.tween_interval(0.0)
-	_tween.finished.connect(_next)
+	_tween.finished.connect(_resume_next if wait_for_frame else _next)
+
+func _resume_next() -> void:
+	if not active: return
+	# Tween, созданный во время _process, может попасть в тот же render-кадр.
+	# Начальная публикация и первый клип получают отдельные проходы; контакт
+	# внутри текущего клипа по-прежнему переходит непосредственно через _next.
+	if Engine.get_process_frames() <= _scheduled_frame:
+		_schedule_next(true)
+		return
+	_next()
 
 func _start_chain_frame(index: int) -> void:
 	_board.begin_presentation_frame(_frames[index].events)
@@ -100,8 +113,16 @@ func _publish_chain_frame(index: int) -> void:
 
 func _complete_chain() -> void:
 	_chain = null
-	if _index >= _frames.size(): _schedule_next()
-	else: _next()
+	_continue_after_animation()
+
+func _continue_after_animation() -> void:
+	# after законченного движения/удара уже опубликован в этом проходе.
+	# Следующий технический after получает отдельный кадр. Между фазами
+	# анимированного удара переход остаётся непрерывным, включая контакт.
+	if _index >= _frames.size() or not _board.has_presentation_animation(_frames[_index].events):
+		_schedule_next()
+	else:
+		_next()
 
 func _complete_frame() -> void:
 	if not active: return
@@ -122,8 +143,7 @@ func _complete_frame() -> void:
 	# Финальный refresh получает следующий кадр. Между фазами одного удара
 	# оставляем прежний непрерывный переход, иначе сдвигается момент контакта.
 	if trap.is_empty():
-		if _index >= _frames.size(): _schedule_next()
-		else: _next()
+		_continue_after_animation()
 
 func skip() -> void:
 	_finish(true)

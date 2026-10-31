@@ -136,12 +136,14 @@ func deferred_presentation_parity(kind: String) -> void:
 	UnitId.set_counter(initial_id)
 	var session := PlayerTurnFixture.create()
 	request = prepare(session, kind)
+	var preparation_state := state(session)
 	var worker := BattleExecutionWorker.new()
-	check(worker.start(session, request[0], request[1], false, true, true), kind + " deferred capture worker started")
-	check(worker.take_presentation_before().is_empty(), kind + " deferred path exposes no before value on start")
-	await create_timer(0.002).timeout
-	check(worker.take_presentation_before().is_empty(), kind + " deferred path keeps before hidden until join")
-	var completed := worker.take_finished(true)
+	check(worker.start(session, request[0], request[1], false, true, true, true), kind + " across-frame audited capture worker started")
+	check(worker.is_started() and worker._audit != null, kind + " preparation owns the session before thread launch")
+	check(not session._queue.capture_presentation and worker.take_presentation_before().is_empty()
+		and state(session) == preparation_state, kind + " preparation does not execute or capture before audit")
+	check(worker.take_presentation_before().is_empty(), kind + " across-frame path exposes no before value on start")
+	var completed := await _poll_across_frames(worker)
 	check(completed.has("presentation_before") and completed.has("presentation_after"), kind + " join returns deferred before/after values")
 	check(completed.get("presentation_before", {}) == expected_before, kind + " deferred before matches synchronous capture")
 	check(completed.get("presentation_after", {}) == expected_after, kind + " deferred after matches synchronous capture")
@@ -149,6 +151,74 @@ func deferred_presentation_parity(kind: String) -> void:
 	check(session.take_presentation_capture() == expected_packets, kind + " deferred ordered packets match synchronous capture")
 	check(state(session) == expected_state, kind + " deferred full state/RNG/counters match synchronous execution")
 	check(worker.take_presentation_before().is_empty() and worker.take_finished().is_empty(), kind + " joined deferred values transfer once")
+	session.close()
+
+func _poll_across_frames(worker: BattleExecutionWorker) -> Dictionary:
+	var completed: Dictionary = {}
+	var deadline := Time.get_ticks_msec() + 10000
+	while completed.is_empty() and Time.get_ticks_msec() < deadline:
+		completed = worker.take_finished()
+		if completed.is_empty(): await process_frame
+	return completed if not completed.is_empty() else worker.take_finished(true)
+
+func across_frame_refusals() -> void:
+	for kind: String in ["callback", "foreign", "budget"]:
+		var session := PlayerTurnFixture.create()
+		var worker := BattleExecutionWorker.new()
+		if kind == "callback": session.board.board_changed.connect(callback)
+		elif kind == "foreign": session._queue._pending.append({"foreign": self})
+		check(worker.start(session, &"guard_selected", [], false, true, true, true), kind + " across-frame audit starts")
+		check(worker.is_started() and worker._audit != null and not session._queue.capture_presentation
+			and worker.take_presentation_before().is_empty(), kind + " starts pending with capture unarmed")
+		if kind == "budget":
+			check(worker._audit.budget == 50000 and worker._audit.runtime_scripts.size() == 39
+				and worker._audit.runtime_scripts.has(BattleCoreReactionsSession)
+				and not worker._audit.runtime_scripts.has(CallbackRng), "audit keeps exact node budget and runtime allowlist")
+			worker._audit.budget = 0
+		var completed := await _poll_across_frames(worker)
+		check(completed.get("sync_fallback", false) and completed.get("session") == session
+			and completed.get("method") == &"guard_selected" and completed.get("args", []) == []
+			and completed.get("result") == null and completed.get("presentation_before", {}) == {},
+			kind + " audit refusal returns one main-thread fallback package")
+		check(not worker.is_started() and not session._queue.capture_presentation
+			and worker.take_presentation_before().is_empty(), kind + " refusal never starts capture or leaks a job")
+		if kind == "callback": session.board.board_changed.disconnect(callback)
+		if kind == "foreign": session._queue._pending.clear()
+		session.close()
+
+func across_frame_launch_failure() -> void:
+	var session := PlayerTurnFixture.create()
+	var request := prepare(session, "guard")
+	var expected_before := ActionPresentationState.capture(session.state).duplicate(true)
+	var worker := FailedLaunchWorker.new()
+	check(worker.start(session, request[0], request[1], false, true, true, true), "across-frame launch-failure job starts audit")
+	check(worker.take_presentation_before().is_empty() and not session._queue.capture_presentation,
+		"OS failure is not handled before ownership audit completes")
+	var completed := await _poll_across_frames(worker)
+	check(completed.get("sync_fallback", false) and completed.get("session") == session
+		and completed.get("presentation_before", {}) == expected_before and session._queue.capture_presentation,
+		"OS launch failure returns owner with one captured before snapshot")
+	var before := state(session)
+	var result: ActionReceipt = session.callv(completed.method, completed.args)
+	var packets := session.take_presentation_capture()
+	check(result.status == ActionReceipt.APPLIED and packets.size() == 1 and state(session) != before,
+		"OS fallback executes the action once and captures its packet")
+	check(worker.take_finished().is_empty() and worker.take_presentation_before().is_empty(),
+		"OS fallback result and snapshot transfer exactly once")
+	session.close()
+
+func blocking_across_frame_join() -> void:
+	var session := PlayerTurnFixture.create()
+	var worker := BattleExecutionWorker.new()
+	var before := state(session)
+	check(worker.start(session, &"guard_selected", [], false, false, false, true),
+		"blocking join job begins sliced audit")
+	check(worker.is_started() and worker._audit != null, "blocking join starts before worker dispatch")
+	var completed := worker.take_finished(true)
+	check(not completed.is_empty() and completed.get("session") == session
+		and completed.get("result") is ActionReceipt and completed.result.status == ActionReceipt.APPLIED,
+		"blocking take_finished completes audit and joins the accepted action")
+	check(not worker.is_started() and state(session) != before, "blocking join returns the executed prefix and releases ownership")
 	session.close()
 
 func presentation_refusals_and_fallback() -> void:
@@ -289,6 +359,9 @@ func run() -> void:
 		presentation_parity(kind)
 	for kind: String in ["guard", "refused", "fault", "end", "enemy"]:
 		await deferred_presentation_parity(kind)
+	await across_frame_refusals()
+	await across_frame_launch_failure()
+	await blocking_across_frame_join()
 	presentation_refusals_and_fallback()
 	presentation_before_replaced()
 	deferred_presentation_before_replaced()

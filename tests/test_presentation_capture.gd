@@ -58,13 +58,36 @@ func _area_observation(session: BattleCoreReactionsSession) -> Dictionary:
 		"board_version": session.board.board_version, "unit_cells": cells,
 		"rng": session.context.get_rng().to_dict(), "counters": session.context.simulation_counters()}
 
+func _cache_signatures_equal(left: Dictionary, right: Dictionary) -> bool:
+	if left.keys().size() != right.keys().size(): return false
+	for unit_id: Variant in left:
+		if not right.has(unit_id): return false
+		var left_stats: Dictionary = left[unit_id]
+		var right_stats: Dictionary = right[unit_id]
+		if left_stats.keys().size() != right_stats.keys().size(): return false
+		for stat_type: Variant in left_stats:
+			if not right_stats.has(stat_type): return false
+			var left_entry: Array = left_stats[stat_type]
+			var right_entry: Array = right_stats[stat_type]
+			if left_entry[0] != right_entry[0]: return false
+			var left_value := float(left_entry[1])
+			var right_value := float(right_entry[1])
+			if is_nan(left_value) != is_nan(right_value): return false
+			if not is_nan(left_value) and left_value != right_value: return false
+	return true
+
+func _area_observations_equal(left: Dictionary, right: Dictionary) -> bool:
+	return left.snapshot == right.snapshot and _cache_signatures_equal(left.cache, right.cache) \
+		and left.board_version == right.board_version and left.unit_cells == right.unit_cells \
+		and left.rng == right.rng and left.counters == right.counters
+
 func _check_action_area_oracle(session: BattleCoreReactionsSession, label: String) -> void:
 	var before := _area_observation(session)
 	var expected := _brute_force_action_areas(session.state)
 	var actual := PresentationState.capture_action_areas(session.state)
 	var after := _area_observation(session)
 	check(actual == expected, "%s preserves brute-force action-area DTO" % label)
-	check(after == before, "%s leaves live state, stat cache, board, RNG, and counters unchanged" % label)
+	check(_area_observations_equal(after, before), "%s leaves live state, stat cache, board, RNG, and counters unchanged" % label)
 	var before_capture := PresentationState.capture(session.state)
 	var after_capture := PresentationState.capture(session.state)
 	check(before_capture.action_areas == after_capture.action_areas and after_capture.action_areas == expected,
@@ -155,9 +178,21 @@ func _action_area_candidate_parity() -> void:
 	session.board.set_height_steps(Vector2i(3, 2), 3)
 	session.board.set_height_steps(Vector2i(3, 4), 2)
 	actor.control = ControlState.new()
-	for reach: float in [1.0, 2.0, 7.0, 1.5, 4097.0]:
+	for reach: float in [1.0, 2.0, 7.0, 4096.0, 1.5, 0.0, -1.0, INF, NAN, 4097.0]:
 		actor.stats.set_base_value(StatTypes.StatType.ATTACK_RANGE, reach)
 		_check_action_area_oracle(session, "reach %s" % reach)
+		if not is_finite(reach) or reach != floorf(reach) or reach < 1.0 or reach > 4096.0:
+			var invalid_candidates := PresentationState._action_area_candidates(session.board, actor.cell, reach)
+			check(invalid_candidates.is_empty(), "invalid reach %s enumerates no area candidates" % reach)
+			var invalid_area_found := false
+			for area: Dictionary in PresentationState.capture_action_areas(session.state):
+				if int(area.owner_id) == actor.id:
+					invalid_area_found = true
+					check((area.cells as Array).is_empty(), "invalid reach %s retains owner row with empty cells" % reach)
+			if is_finite(reach):
+				check(invalid_area_found, "invalid finite reach %s retains an empty action-area owner row" % reach)
+			else:
+				check(not invalid_area_found, "nonfinite stats graph keeps the legacy invalid-owner omission")
 	actor.stats.set_base_value(StatTypes.StatType.ATTACK_RANGE, 7.0)
 	actor.control.stunned_turns = 1
 	_check_action_area_oracle(session, "stunned actor")
@@ -167,6 +202,14 @@ func _action_area_candidate_parity() -> void:
 	var valid_origin := actor.cell
 	actor.cell = Vector2i(-1, 0)
 	_check_action_area_oracle(session, "out-of-bounds origin")
+	check(PresentationState._action_area_candidates(session.board, actor.cell, 1.0).is_empty(),
+		"out-of-bounds origin enumerates no area candidates")
+	var out_of_bounds_area_found := false
+	for area: Dictionary in PresentationState.capture_action_areas(session.state):
+		if int(area.owner_id) == actor.id:
+			out_of_bounds_area_found = true
+			check((area.cells as Array).is_empty(), "out-of-bounds origin retains owner row with empty cells")
+	check(out_of_bounds_area_found, "out-of-bounds origin retains an action-area owner row")
 	actor.cell = valid_origin
 	session.close()
 

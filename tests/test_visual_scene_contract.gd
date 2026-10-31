@@ -11,8 +11,21 @@ class CountingBoard extends BattleDemoBoard:
 
 class CountingVisual extends BattleDemoIsoVisual:
 	var syncs: int = 0
+	var redraws: int = 0
 	func sync_scene_art() -> void:
 		syncs += 1
+	func _draw() -> void:
+		redraws += 1
+		super._draw()
+
+class CountingTerrain extends BattleTerrainVisual:
+	var syncs: int = 0
+	var ground_overlay_redraws: int = 0
+	func sync_scene_art() -> void:
+		syncs += 1
+	func queue_ground_overlay_redraw() -> void:
+		ground_overlay_redraws += 1
+		super.queue_ground_overlay_redraw()
 
 var passed: int = 0
 var failed: int = 0
@@ -211,6 +224,278 @@ func _exercise_dynamic_scenes(terrain_scene: PackedScene, environment_scene: Pac
 	await process_frame
 
 
+func _exercise_vector_sort_order() -> void:
+	var board := CountingBoard.new()
+	viewport.add_child(board)
+	await process_frame
+	var first := CountingVisual.new()
+	var second := CountingVisual.new()
+	var fractional := CountingVisual.new()
+	for visual: CountingVisual in [first, second, fractional]:
+		board._entities.add_child(visual)
+	first.position.y = 12.75
+	second.position.y = 12.75
+	fractional.position.y = 12.5
+	board._entity_visuals.assign([first, second, fractional])
+	board._sort_visuals()
+	check(board._entity_visuals == [fractional, first, second],
+		"native Vector3 sort preserves fractional Y and child-index tie ordering")
+	board._entities.move_child(second, first.get_index())
+	board._sort_visuals()
+	check(board._entity_visuals == [fractional, second, first],
+		"native sort updates tied visual order after child reordering")
+	board.queue_free()
+	await process_frame
+
+
+func _exercise_hover_acting_redraw() -> void:
+	var board := CountingBoard.new()
+	viewport.add_child(board)
+	await process_frame
+	var first := CountingVisual.new()
+	var second := CountingVisual.new()
+	first.role = BattleDemoIsoVisual.Role.UNIT
+	second.role = BattleDemoIsoVisual.Role.UNIT
+	first.grid_config = board.grid_config
+	second.grid_config = board.grid_config
+	first.unit = BattleUnitView.new()
+	second.unit = BattleUnitView.new()
+	first.unit.id = 801
+	second.unit.id = 802
+	first.unit.alive = true
+	second.unit.alive = true
+	board._entities.add_child(first)
+	board._entities.add_child(second)
+	board._entity_visuals.assign([first, second])
+	first.queue_redraw()
+	second.queue_redraw()
+	await process_frame
+	board.set_hovered_unit(801)
+	board.set_acting_unit(801)
+	await process_frame
+	check(first.hovered and first.acting and not second.hovered and not second.acting,
+		"hover and acting flags are applied to the selected visual")
+	var first_draws := first.redraws
+	var second_draws := second.redraws
+	board.set_hovered_unit(801)
+	board.set_acting_unit(801)
+	await process_frame
+	check(first.redraws == first_draws and second.redraws == second_draws,
+		"unchanged hover and acting flags do not queue redraws")
+	board.set_hovered_unit(802)
+	board.set_acting_unit(802)
+	await process_frame
+	check(not first.hovered and not first.acting and second.hovered and second.acting,
+		"changing target clears old flags and applies new hover and acting flags")
+	var first_before_tamper := first.redraws
+	var second_before_tamper := second.redraws
+	first.hovered = true
+	first.acting = true
+	second.hovered = false
+	second.acting = false
+	board.set_hovered_unit(802)
+	board.set_acting_unit(802)
+	await process_frame
+	check(not first.hovered and not first.acting and second.hovered and second.acting
+		and first.redraws > first_before_tamper and second.redraws > second_before_tamper,
+		"directly tampered flags are repaired and redraw both changed visuals")
+	board.queue_free()
+	await process_frame
+
+
+func _exercise_highlight_terrain_reuse(highlights_on_overlay: bool) -> void:
+	var tile := CountingTerrain.new()
+	tile.highlights_use_ground_overlay = highlights_on_overlay
+	var scene := _pack(tile)
+	var board := CountingBoard.new()
+	board.size = Vector2(500.0, 360.0)
+	board.tile_visual_scene = scene
+	viewport.add_child(board)
+	await process_frame
+	var heights := PackedInt32Array()
+	heights.resize(4)
+	var terrain := PackedByteArray()
+	terrain.resize(4)
+	terrain.fill(TerrainType.Type.FLOOR)
+	terrain[1] = TerrainType.Type.WALL
+	var state := {"width": 2, "height": 2, "heights": heights, "terrain": terrain,
+		"units": {}, "fires": [], "corpses": [], "collapse": {}}
+	board.show_presentation_state(state)
+	var floor_cell := Vector2i.ZERO
+	var wall_cell := Vector2i(1, 0)
+	var floor_visual := _terrain_at_any(board, floor_cell)
+	var wall_visual := _terrain_at_any(board, wall_cell, true)
+	check(floor_visual is CountingTerrain and wall_visual is CountingTerrain,
+		"highlight reuse fixture creates managed floor and wall visuals")
+	if floor_visual is CountingTerrain and wall_visual is CountingTerrain:
+		var floor_id := floor_visual.get_instance_id()
+		var wall_id := wall_visual.get_instance_id()
+		var terrain_passes := board.terrain_passes
+		var floor_syncs := floor_visual.syncs
+		var wall_syncs := wall_visual.syncs
+		board._reachable[floor_cell] = 1.0
+		board._reachable[wall_cell] = 1.0
+		board._rebuild_visuals(true)
+		check(board.terrain_passes == terrain_passes and floor_visual.get_instance_id() == floor_id
+			and wall_visual.get_instance_id() == wall_id and floor_visual.reachable and not wall_visual.reachable,
+			"hint-only publication reuses terrain and updates floor reachable while walls stay false")
+		var expected_sync_delta := 0 if highlights_on_overlay else 1
+		check(floor_visual.syncs == floor_syncs + expected_sync_delta
+			and wall_visual.syncs == wall_syncs,
+			"hint-only floor and wall refresh uses the configured highlight fallback")
+		floor_syncs = floor_visual.syncs
+		wall_syncs = wall_visual.syncs
+		board._reachable.clear()
+		board._rebuild_visuals(true)
+		check(board.terrain_passes == terrain_passes and not floor_visual.reachable and not wall_visual.reachable
+			and floor_visual.syncs == floor_syncs + expected_sync_delta
+			and wall_visual.syncs == wall_syncs,
+			"clearing hints updates current floor and wall values without rebuilding terrain")
+		var visual_key: BattleDemoIsoVisual = floor_visual
+		var values: Dictionary = board._terrain_draw_values[visual_key]
+		floor_syncs = floor_visual.syncs
+		board.grid_config.tile_size += Vector2.ONE
+		floor_visual.apply_view(values, board.grid_config)
+		check(floor_visual.syncs == floor_syncs + 1,
+			"in-place geometry change forces a full scene-art synchronization")
+	else:
+		check(false, "highlight reuse fixture visual types are available")
+	board.queue_free()
+	await process_frame
+
+
+func _terrain_at_any(board: BattleDemoBoard, cell: Vector2i, wall_surface: bool = false) -> CountingTerrain:
+	for visual: BattleTerrainVisual in board._terrain_visuals.values():
+		if visual.grid_anchor != cell: continue
+		if wall_surface and visual.role != BattleDemoIsoVisual.Role.WALL: continue
+		if not wall_surface and visual.role == BattleDemoIsoVisual.Role.WALL: continue
+		return visual as CountingTerrain
+	return null
+
+
+func _ground_marks_snapshot(board: BattleDemoBoard) -> Dictionary:
+	var result: Dictionary = {}
+	for visual: BattleDemoIsoVisual in board._entity_visuals:
+		if visual.role == BattleDemoIsoVisual.Role.UNIT or not visual is CountingTerrain: continue
+		result[visual.get_instance_id()] = (visual as CountingTerrain).ground_overlay_redraws
+	return result
+
+
+func _changed_ground_visuals(before: Dictionary, after: Dictionary) -> Array[int]:
+	var result: Array[int] = []
+	for instance_id: int in before:
+		if before[instance_id] != after.get(instance_id, before[instance_id]): result.append(instance_id)
+	result.sort()
+	return result
+
+
+func _expected_top_visuals(board: BattleDemoBoard, cells: Array[Vector2i]) -> Array[int]:
+	var result: Array[int] = []
+	for visual: BattleDemoIsoVisual in board._entity_visuals:
+		if visual.role == BattleDemoIsoVisual.Role.UNIT or visual.grid_anchor not in cells: continue
+		var top := (board._view_terrain_at(visual.grid_anchor) == TerrainType.Type.WALL) == (visual.role == BattleDemoIsoVisual.Role.WALL)
+		if top: result.append(visual.get_instance_id())
+	result.sort()
+	return result
+
+
+func _check_ground_mark_oracle(board: BattleDemoBoard, label: String) -> void:
+	var map := board._ground_mark_map()
+	var cells: Array[Vector2i] = [Vector2i(-1, -1)]
+	for y: int in board._view_height:
+		for x: int in board._view_width: cells.append(Vector2i(x, y))
+	for cell_variant: Variant in map.keys():
+		if cell_variant is Vector2i and not cells.has(cell_variant): cells.append(cell_variant)
+	for cell: Vector2i in cells:
+		check(map.get(cell, []) == board._ground_marks_for(cell),
+			"%s batch map matches per-cell oracle at %s" % [label, cell])
+
+
+func _exercise_ground_mark_batch() -> void:
+	var scene := _pack(CountingTerrain.new())
+	var board := CountingBoard.new()
+	board.size = Vector2(500.0, 360.0)
+	board.tile_visual_scene = scene
+	viewport.add_child(board)
+	await process_frame
+	var heights := PackedInt32Array()
+	heights.resize(4)
+	var terrain := PackedByteArray()
+	terrain.resize(4)
+	terrain.fill(TerrainType.Type.FLOOR)
+	terrain[1] = TerrainType.Type.WALL
+	board.show_presentation_state({"width": 2, "height": 2, "heights": heights, "terrain": terrain,
+		"units": {}, "fires": [], "corpses": [], "collapse": {}})
+	var floor_cell := Vector2i.ZERO
+	var wall_cell := Vector2i(1, 0)
+	var mark_cell := Vector2i(0, 1)
+	var endpoint := Vector2i(1, 1)
+	var first_view := BattleUnitView.new()
+	first_view.id = 501
+	var second_view := BattleUnitView.new()
+	second_view.id = 502
+	board._view_units.assign([{"unit": first_view, "cell": floor_cell}, {"unit": second_view, "cell": wall_cell}])
+	board.reaction_zone_cells = [floor_cell, Vector2i(-1, -1), wall_cell]
+	board.cover_target_ids = [first_view.id]
+	board.sneak_threat_ids = [second_view.id]
+	board.action_areas = [
+		{"owner_id": 501, "ready": true, "faction": Faction.Type.PLAYER, "origin": floor_cell,
+			"cells": [floor_cell, floor_cell, wall_cell]},
+		{"owner_id": 502, "ready": false, "faction": Faction.Type.ENEMY, "origin": wall_cell,
+			"cells": [floor_cell, endpoint]},
+		{"owner_id": 503, "ready": false, "faction": Faction.Type.PLAYER, "origin": endpoint,
+			"cells": [endpoint]},
+	]
+	board.area_preview_owner = 502
+	board.hover_cell = floor_cell
+	board.attack_mode = true
+	var move := MoveForecast.new()
+	move.status = ActionReceipt.APPLIED
+	move.actor_id = first_view.id
+	move.units[first_view.id] = {"after": {"cell": endpoint, "alive": true}}
+	board.move_forecast = move
+	_check_ground_mark_oracle(board, "ready, preview, reaction, cover, sneak, hover, endpoint, wall and invalid")
+	var overlap_kinds: Array[String] = []
+	for mark: Dictionary in board._ground_mark_map().get(floor_cell, []): overlap_kinds.append(String(mark.kind))
+	check(overlap_kinds == ["reaction_zone", "cover_target", "action_area", "action_origin", "action_area", "hover"],
+		"batch map preserves per-cell mark order and deduplicates repeated action-area cells")
+
+	board._sync_ground_overlays()
+	await process_frame
+	var unchanged := _ground_marks_snapshot(board)
+	board._sync_ground_overlays()
+	check(_ground_marks_snapshot(board) == unchanged,
+		"unchanged batch input does not queue ground-overlay redraws")
+	var old_hover := board.hover_cell
+	board.hover_cell = mark_cell
+	var before_hover := _ground_marks_snapshot(board)
+	board._sync_ground_overlays()
+	var after_hover := _ground_marks_snapshot(board)
+	var hover_cells: Array[Vector2i] = [old_hover, mark_cell]
+	check(_changed_ground_visuals(before_hover, after_hover) == _expected_top_visuals(board, hover_cells),
+		"hover change redraws only the old and new top-cell ground overlays")
+	_check_ground_mark_oracle(board, "direct hover field update")
+
+	var direct_cell := endpoint
+	var before_direct := _ground_marks_snapshot(board)
+	board.reaction_zone_cells.append(direct_cell)
+	board.action_areas[0].cells.append(direct_cell)
+	board._sync_ground_overlays()
+	var after_direct := _ground_marks_snapshot(board)
+	var direct_cells: Array[Vector2i] = [direct_cell]
+	check(_changed_ground_visuals(before_direct, after_direct) == _expected_top_visuals(board, direct_cells),
+		"in-place reaction and action-area changes redraw only their affected ground overlay")
+	_check_ground_mark_oracle(board, "direct in-place array update")
+	var before_duplicate := _ground_marks_snapshot(board)
+	board.action_areas[0].cells.append(direct_cell)
+	board._sync_ground_overlays()
+	check(_ground_marks_snapshot(board) == before_duplicate,
+		"duplicate cell within an action area preserves old single-mark semantics")
+	_check_ground_mark_oracle(board, "duplicate action-area cell")
+	board.queue_free()
+	await process_frame
+
+
 func _run() -> void:
 	var environment: PackedScene = BattleDemoBoard.DEFAULT_ENVIRONMENT_SCENE
 	check(BattleVisualSceneContract.validate(BattleDemoBoard.DEFAULT_TILE_SCENE, environment).is_empty(),
@@ -218,6 +503,8 @@ func _run() -> void:
 	check(BattleVisualSceneContract.validate(TRIAL_TILE, environment).is_empty(),
 		"current art trial scenes satisfy the admission gate")
 	var trial_probe := TRIAL_TILE.instantiate()
+	check(trial_probe is BattleTerrainVisual and (trial_probe as BattleTerrainVisual).highlights_use_ground_overlay,
+		"art trial tile explicitly opts in to ground-overlay highlight updates")
 	var hero_scene: PackedScene = load("res://scenes/demo/battle/hero_hub_battle.tscn") as PackedScene
 	var hero_probe := hero_scene.instantiate() if hero_scene != null else null
 	var hero_board := hero_probe.get_node_or_null("BattleHUD/Margin/Column/Content/Left/Field/Board") as BattleDemoBoard if hero_probe != null else null
@@ -252,6 +539,11 @@ func _run() -> void:
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport)
 	await _exercise_dynamic_scenes(custom_terrain, custom_environment)
+	await _exercise_vector_sort_order()
+	await _exercise_hover_acting_redraw()
+	await _exercise_highlight_terrain_reuse(true)
+	await _exercise_highlight_terrain_reuse(false)
+	await _exercise_ground_mark_batch()
 	var trial := preload("res://scenes/demo/art_trial_battle.tscn").instantiate() as BattleDemo
 	viewport.add_child(trial)
 	await process_frame
