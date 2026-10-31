@@ -184,6 +184,7 @@ func _run() -> void:
 	metrics["round_lifecycle"] = round_lifecycle
 	metrics["actions"] = action_metrics
 	metrics["frame_trace"] = soak_trace
+	metrics["window_focus_coverage"] = _window_focus_coverage()
 	metrics["hardware_input_counts"] = input_guard.event_counts.duplicate(true) if input_guard != null else {}
 	metrics["view_state"] = {"initial": initial_view_state, "final": _view_state_snapshot()}
 	metrics["receipts"] = {"applied_commands": applied_command_count, "receipt_steps": receipt_step_count,
@@ -466,6 +467,10 @@ func _on_process_frame() -> void:
 		_: combat_frame_ms.append(elapsed_ms)
 	var round_number := last_round
 	var alive := last_alive.duplicate(true)
+	var window_focused: bool = false
+	var window_focus_available: bool = DisplayServer.get_name() != "headless"
+	if window_focus_available:
+		window_focused = root.has_focus()
 	if demo != null and demo.session != null:
 		var active := demo.session as BattleCoreReactionsSession
 		if active != null:
@@ -478,7 +483,30 @@ func _on_process_frame() -> void:
 			last_round = round_number
 			last_alive = alive.duplicate(true)
 	soak_trace.append({"process_frame": Engine.get_process_frames(), "ms": elapsed_ms, "phase": trace_phase,
+		"bucket": trace_bucket, "window_focused": window_focused,
+		"window_focus_available": window_focus_available,
 		"round": round_number, "alive": alive, "receipt_steps": receipt_step_count})
+
+func _window_focus_coverage() -> Dictionary:
+	var coverage := {
+		"startup_frames": {"samples": 0, "focused": 0, "unfocused": 0, "unavailable": 0},
+		"steady_idle_frames": {"samples": 0, "focused": 0, "unfocused": 0, "unavailable": 0},
+		"test_planning": {"samples": 0, "focused": 0, "unfocused": 0, "unavailable": 0},
+		"combat": {"samples": 0, "focused": 0, "unfocused": 0, "unavailable": 0},
+	}
+	for sample: Dictionary in soak_trace:
+		var bucket: String = str(sample.get("bucket", ""))
+		if not coverage.has(bucket):
+			continue
+		var entry: Dictionary = coverage[bucket]
+		entry["samples"] = int(entry["samples"]) + 1
+		if not bool(sample.get("window_focus_available", false)):
+			entry["unavailable"] = int(entry["unavailable"]) + 1
+		elif bool(sample.get("window_focused", false)):
+			entry["focused"] = int(entry["focused"]) + 1
+		else:
+			entry["unfocused"] = int(entry["unfocused"]) + 1
+	return coverage
 
 func _collect_receipt_metrics(active: BattleCoreReactionsSession) -> void:
 	if active == null or active.last_receipt == null: return

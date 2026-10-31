@@ -260,12 +260,16 @@ func _runtime_metadata() -> Dictionary:
 	return metadata
 
 func _display_metadata() -> Dictionary:
-	var screen_count: int = DisplayServer.get_screen_count()
+	var is_headless: bool = DisplayServer.get_name() == "headless"
+	var screen_count: int = 0
+	if not is_headless:
+		screen_count = DisplayServer.get_screen_count()
 	var result := {"screen_count": screen_count, "current_screen": -1,
 		"max_fps": Engine.max_fps, "screens": []}
 	# Headless-драйвер может сообщать о нулевых экранах; не вызываем тогда API окна.
-	if DisplayServer.get_name() == "headless" or screen_count <= 0:
+	if is_headless or screen_count <= 0:
 		return result
+	result["window_focused"] = root.has_focus()
 	var current_screen: int = DisplayServer.window_get_current_screen()
 	result["current_screen"] = current_screen
 	var window_position: Vector2i = DisplayServer.window_get_position()

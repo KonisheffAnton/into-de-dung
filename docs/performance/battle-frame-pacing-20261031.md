@@ -58,7 +58,12 @@ APPROVE_WITH_LIMITATIONS. Предыдущие core/launcher/presentation про
 не повторялись: боевой код не менялся. Full/F5/DPI/другой GPU и прежняя
 HUD/lifecycle/цветовая/Колода/арт-приёмка остаются открытыми.
 
-## Необходимый следующий шаг
+## Контроль буферизации и первоначальный блокер
+
+Системный ETL уже получен от пользователя и разобран. Текущие выводы,
+контроль активного окна и следующий шаг — в
+[продолжении диагностики](battle-system-trace-20261031.md).
+Ниже сохранены условия первоначального запроса сбора.
 
 Дополнительный контроль на базе 68cb844: изолированный override с
 `frame_queue_size=2`, `swapchain_image_count=2`, screen 1/60 Гц, 32 фигуры,
@@ -75,7 +80,7 @@ HUD/lifecycle/цветовая/Колода/арт-приёмка остаютс
 `frame-delay-readback.json`, `frame-delay-q*.log`, `import-queue-probe.log`.
 Повторный runner пишет результаты с уникальным суффиксом и не заменяет эти данные.
 
-WPR `CPU + GPU` отказал с `0xc5585011`: нет права Profile system performance
+До ручного elevated-запуска WPR `CPU + GPU` отказал с `0xc5585011`: нет права Profile system performance
 (`SeSystemProfilePrivilege`). Оно отсутствует в текущем токене. Пользовательские
 ETW-события доступны, но не дают нужного контекста CPU scheduling/ISR/DPC/стеков.
 Политики, права и драйверы не менялись; автоматическое повышение не выполнялось.
@@ -85,7 +90,7 @@ ETW-события доступны, но не дают нужного конт�
 Он запускает 60 с покоя с 32 фигурами в подготовленном изолированном проекте
 на screen 1 и останавливает только свой именованный WPR instance в finally.
 Отдельный APPDATA передаётся только дочернему Godot. Это диагностический сбор,
-не изменение игры. Реальный elevated-путь ещё не выполнен.
+не изменение игры. Пользователь выполнил elevated-путь; полученный ETL сохранён.
 
 Из терминала администратора на этом компьютере:
 
@@ -108,7 +113,8 @@ python D:\Games\into-de-dung\test_reports\battle-frame-pacing-20261031\capture_s
 `idle32-screen1-selected.xml`, `event-correlation.json`, `analyze_events.py`,
 `run_event_probe.py`, `capture-helper-validation.json`, `validation.json`, `review.md`.
 ETL и полный CSV сохранены; строки startup/planner/EOF не удаляются из raw data.
-Системный CPU/GPU ETL пока отсутствует. Чужие 33 файла сохранены по SHA-256.
+Системный CPU/GPU ETL разобран в [следующем этапе](battle-system-trace-20261031.md).
+Чужие 33 файла сохранены по SHA-256.
 
 Семантика: [PresentMon v1 CSV](https://github.com/GameTechDev/PresentMon/blob/v1.9.2/README.md#csv-columns),
 [обработка sync DPC в PresentMon](https://github.com/GameTechDev/PresentMon/blob/main/PresentData/PresentMonTraceConsumer.cpp),
