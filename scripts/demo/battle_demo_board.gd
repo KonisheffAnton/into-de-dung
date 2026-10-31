@@ -1,6 +1,10 @@
 extends Control
 class_name BattleDemoBoard
 
+class DisplayedPick extends RefCounted:
+	var cell: Vector2i = Vector2i(-1, -1)
+	var unit_id: int = UnitId.NONE
+
 @export var authored_layout: bool = false
 
 signal cell_clicked(cell: Vector2i)
@@ -50,6 +54,7 @@ var sneak_threat_ids: Array[int] = []
 var forecast: AttackForecast
 var move_forecast: MoveForecast
 var move_forecast_pending: bool = false
+var forecast_preparation_pending: bool = false
 var pending_move_path: Array[Vector2i] = []
 var _path: Array[Vector2i] = []
 var _tiles: Node2D
@@ -1407,6 +1412,11 @@ func _world_cell_center(cell: Vector2i) -> Vector2:
 
 func cell_at(point: Vector2) -> Vector2i:
 	if execution_pending or _view_width <= 0 or _view_height <= 0: return Vector2i(-1, -1)
+	return displayed_cell_at(point)
+
+## Только опубликованная геометрия, даже когда runtime принадлежит подготовке прогноза.
+func displayed_cell_at(point: Vector2) -> Vector2i:
+	if _view_width <= 0 or _view_height <= 0: return Vector2i(-1, -1)
 	point = view_to_world(point)
 	# Те же поверхности, но в обратном порядке их фактической отрисовки.
 	for i in range(_entity_visuals.size() - 1, -1, -1):
@@ -1415,6 +1425,26 @@ func cell_at(point: Vector2) -> Vector2i:
 		if _tile_visuals[i].contains_point(point): return _tile_visuals[i].grid_anchor
 	return Vector2i(-1, -1)
 
+func _pick_displayed(point: Vector2, include_cell: bool = true) -> DisplayedPick:
+	var result := DisplayedPick.new()
+	var board_has_cells := _view_width > 0 and _view_height > 0
+	var world_point := view_to_world(point)
+	_sort_visuals()
+	# Один проход повторяет глубину отрисовки; пустая верхняя фигура тоже закрывает нижний юнит.
+	for index: int in range(_entity_visuals.size() - 1, -1, -1):
+		var visual := _entity_visuals[index]
+		if not visual.contains_point(world_point): continue
+		if board_has_cells: result.cell = visual.grid_anchor
+		result.unit_id = visual.unit.id if visual.unit != null else UnitId.NONE
+		return result
+	if not include_cell or not board_has_cells: return result
+	for index: int in range(_tile_visuals.size() - 1, -1, -1):
+		var visual := _tile_visuals[index]
+		if visual.contains_point(world_point):
+			result.cell = visual.grid_anchor
+			return result
+	return result
+
 func _gui_input(event: InputEvent) -> void:
 	if _camera_input(event):
 		accept_event()
@@ -1422,14 +1452,24 @@ func _gui_input(event: InputEvent) -> void:
 	if execution_pending:
 		# Осмотр использует только опубликованные значения и экранные фигуры.
 		if event is InputEventMouseMotion:
-			displayed_unit_hovered.emit(displayed_unit_at(event.position))
+			var pick := _pick_displayed(event.position, forecast_preparation_pending)
+			displayed_unit_hovered.emit(pick.unit_id)
+			if forecast_preparation_pending:
+				if pick.cell != hover_cell:
+					hover_cell = pick.cell
+					cell_hovered.emit(pick.cell)
 		elif event is InputEventMouseButton and event.pressed:
-			if event.button_index == MOUSE_BUTTON_LEFT: displayed_unit_hovered.emit(displayed_unit_at(event.position))
+			if event.button_index == MOUSE_BUTTON_LEFT:
+				var pick := _pick_displayed(event.position, forecast_preparation_pending)
+				displayed_unit_hovered.emit(pick.unit_id)
+				if forecast_preparation_pending:
+					if pick.cell.x >= 0: cell_clicked.emit(pick.cell)
 			accept_event()
 		return
 	if event is InputEventMouseMotion:
-		displayed_unit_hovered.emit(displayed_unit_at(event.position))
-		var cell := cell_at((event as InputEventMouseMotion).position)
+		var pick := _pick_displayed(event.position)
+		displayed_unit_hovered.emit(pick.unit_id)
+		var cell := pick.cell
 		if cell != hover_cell:
 			hover_cell = cell
 			cell_hovered.emit(cell)

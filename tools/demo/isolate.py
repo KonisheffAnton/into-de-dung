@@ -368,6 +368,9 @@ def main():
         if label in ("battle_execution_worker", "battle_execution_ui"):
             marker = "BATTLE EXECUTION WORKER RESULTS:" if label == "battle_execution_worker" else "BATTLE EXECUTION UI RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
+        if label in ("battle_forecast_preparation_worker", "battle_forecast_preparation_ui", "battle_pointer_pick"):
+            marker = label.replace("_", " ").upper() + " RESULTS:"
+            invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "board_audit_probe":
             invalid = invalid or "BOARD AUDIT PROBE RESULTS:" not in output or ", 0 failed" not in output or "BOARD AUDIT PROBE DONE" not in output
         if label == "board_clone_probe":
@@ -787,6 +790,7 @@ def main():
         run("snapshot_walk", ["--script", "tests/test_snapshot_walk_performance.gd"])
         run("unit_snapshot_performance", ["--script", "tests/test_unit_snapshot_performance.gd"])
         run("battle_execution_worker", ["--script", "tests/test_battle_execution_worker.gd"])
+        run("battle_forecast_preparation_worker", ["--script", "tests/test_battle_forecast_preparation_worker.gd"])
         run("click_attack", ["--script", "tests/test_click_attack.gd"], headless=not args.render_check)
         run("snapshot_value_copy", ["--script", "tests/test_snapshot_value_copy.gd"])
         run("live_snapshot_capture", ["--script", "tests/test_live_snapshot_capture.gd"])
@@ -910,6 +914,8 @@ def main():
         if args.render_check:
             execution_args += ["--", "--captures=" + str(captures)]
         run("battle_execution_ui", execution_args, headless=not args.render_check)
+        run("battle_forecast_preparation_ui", ["--script", "tests/test_battle_forecast_preparation_ui.gd"], headless=not args.render_check)
+        run("battle_pointer_pick", ["--script", "tests/test_battle_pointer_pick.gd"], headless=not args.render_check)
         reactions_args = ["--script", "tests/test_core_reactions_ui.gd"]
         if args.render_check:
             reactions_args += ["--", "--captures=" + str(captures)]

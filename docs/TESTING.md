@@ -14,6 +14,19 @@
 
 ## Изменение игрового кода
 
+Подготовка интерактивного прогноза (2026-11-01): `--check --only
+battle_forecast_preparation_worker battle_forecast_preparation_ui battle_pointer_pick`.
+Проверяются lease/join, полная move/attack parity и неизменность live/RNG,
+callback/thread-start fallback, latest hover/панель/уход, клетка клика после движения
+камеры, ограниченный буфер, reset/exit. Pointer runner сравнивает объединённый
+поиск с прежними API и считает обходы, включая перекрытие рельефом.
+Смежные: `attack_async_ui move_forecast_ui action_async_ui turn_forecast_ui
+battle_execution_ui battle_execution_worker battle_camera_ui current_art_zoom`.
+`tests/fixtures/forecast_preparation_wait.gd` возвращает владельца перед прямыми
+мутациями legacy-тестов detached-симуляции; ввод во время lease покрыт отдельным UI runner.
+Headless время обработчиков не означает 60 FPS на экране; автономный soak не
+покрывает интерактивное наведение. [Результаты](performance/battle-interactive-forecast-20261101.md).
+
 Длительный бой и стоимость показа (2026-10-31): `--render-check --only
 battle_soak_performance battle_polygon_batch battle_presentation_owned battle_motion_pose --screen 0`.
 Soak запускается только явно: 32 бойца, 24 опасные клетки (fire records с шипами), начальные DOT,

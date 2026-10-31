@@ -23,7 +23,7 @@ func settle() -> void:
 	await preload("res://tests/fixtures/battle_execution_wait.gd").settle(self, demo)
 	var deadline := Time.get_ticks_msec() + 5000
 	while Time.get_ticks_msec() < deadline:
-		demo._process_action_forecast()
+		await _tick_forecast()
 		if not demo._action_forecast_pending and not demo._action_forecast_worker.is_started(): return
 		await create_timer(0.002).timeout
 	check(false, "worker deadline")
@@ -60,7 +60,7 @@ func run() -> void:
 	check(demo._action_forecast_pending and not demo._action_forecast_worker.is_started() and demo._guard_forecast == null, "hover records request without capture or simulation")
 	check(demo._forecast_panel.text.contains("Рассчитываем") and demo._forecast_panel.visible, "pending feedback immediately visible")
 	await capture("action-pending")
-	demo._process_action_forecast()
+	await _tick_forecast()
 	var generation := demo._action_forecast_job_generation
 	demo._action_bar_hovered(&"healing_item")
 	check(demo._action_forecast_generation != generation and demo._action_forecast_kind == &"healing", "latest action replaces running request")
@@ -72,7 +72,7 @@ func run() -> void:
 	await capture("action-ready")
 	demo._clear_forecast()
 	demo._action_bar_hovered(&"healing_item")
-	demo._process_action_forecast()
+	await _tick_forecast()
 	s.selected_unit().vitals.set_hp(5)
 	demo._refresh()
 	demo._action_bar_hovered(&"healing_item")
@@ -80,7 +80,7 @@ func run() -> void:
 	check(demo._item_forecast != null and demo._item_forecast.snapshot_after == s.preview_healing_item().snapshot_after, "refresh discards old capture even without revision change")
 	demo._clear_forecast()
 	demo._action_bar_hovered(&"guard")
-	demo._process_action_forecast()
+	await _tick_forecast()
 	demo._hovered_bar_action = &""
 	demo._pointer_position = demo._forecast_panel.global_position + Vector2(25, 25)
 	demo._resolve_hover_exit()
@@ -90,13 +90,13 @@ func run() -> void:
 	demo._pointer_position = Vector2(-1, -1)
 	demo._clear_forecast()
 	demo._action_bar_hovered(&"guard")
-	demo._process_action_forecast()
+	await _tick_forecast()
 	demo._action_bar_hover_left(&"guard")
 	await process_frame
 	await settle()
 	check(demo._guard_forecast == null and not demo._action_forecast_pending, "leaving discards pending result")
 	demo._action_bar_hovered(&"guard")
-	demo._process_action_forecast()
+	await _tick_forecast()
 	s.selected_unit().action_resources.try_spend_main(1)
 	demo._use_guard()
 	await settle()
@@ -104,19 +104,19 @@ func run() -> void:
 	demo.reset_demo()
 	PlayerTurnFixture.enter_player_turn(demo)
 	demo._action_bar_hovered(&"guard")
-	demo._process_action_forecast()
+	await _tick_forecast()
 	demo.select_character(demo.session.units[2].id)
 	await settle()
 	check(demo._guard_forecast == null or demo._guard_forecast.actor_id == demo.session.selected_id, "selection cannot publish old actor")
 	demo._action_bar_hovered(&"guard")
-	demo._process_action_forecast()
+	await _tick_forecast()
 	demo.end_turn()
 	await settle()
 	check(demo._guard_forecast == null and not demo._action_forecast_pending, "enemy phase discards player request")
 	demo.reset_demo()
 	PlayerTurnFixture.enter_player_turn(demo)
 	demo._action_bar_hovered(&"guard")
-	demo._process_action_forecast()
+	await _tick_forecast()
 	var worker: RefCounted = demo._action_forecast_worker
 	demo.queue_free()
 	await process_frame
@@ -125,3 +125,7 @@ func run() -> void:
 	await process_frame
 	print("ACTION ASYNC UI RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
+
+func _tick_forecast() -> void:
+	demo._process_action_forecast()
+	await preload("res://tests/fixtures/forecast_preparation_wait.gd").settle(self, demo)

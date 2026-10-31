@@ -51,7 +51,7 @@ func key(code: Key) -> void:
 func settle() -> void:
 	var deadline := Time.get_ticks_msec() + 10000
 	while Time.get_ticks_msec() < deadline:
-		demo._process_turn_forecast()
+		await _tick_forecast()
 		if not demo._turn_forecast_pending and not demo._turn_forecast_worker.is_started(): return
 		await create_timer(0.002).timeout
 	check(false, "worker deadline")
@@ -126,7 +126,7 @@ func run() -> void:
 	await motion(Vector2(5, 5))
 	check(demo._turn_forecast == null and not demo._turn_forecast_pending, "leave clears result")
 	await motion(button_center())
-	demo._process_turn_forecast()
+	await _tick_forecast()
 	var generation := demo._turn_forecast_job_generation
 	var enemy := s.units[1]
 	enemy.action_resources.try_spend_main(1)
@@ -140,7 +140,7 @@ func run() -> void:
 	check(demo._turn_forecast == null and not demo._turn_forecast_pending, "escape discards end-turn result")
 	await motion(Vector2(5, 5))
 	await motion(button_center())
-	demo._process_turn_forecast()
+	await _tick_forecast()
 	await click(demo._roster.get_child(1).global_position + Vector2(10, 10))
 	await settle()
 	check(demo._turn_forecast == null and not demo._turn_forecast_pending, "selection invalidates pending turn result")
@@ -191,14 +191,14 @@ func run() -> void:
 	check(demo._turn_forecast != null and demo._turn_forecast.status == ActionReceipt.REJECTED and demo._forecast_panel.text.contains("Прогноз недоступен"), "unsupported runtime is explicit refusal")
 	s.context._unsupported_runtime_ids.clear()
 	demo._refresh()
-	demo._process_turn_forecast()
+	await _tick_forecast()
 	await key(KEY_R)
 	await settle()
 	check(demo._turn_forecast == null and not demo._turn_forecast_pending, "reset discards running generation")
 	enter_player_turn(demo)
 	await motion(Vector2(5, 5))
 	await motion(button_center())
-	demo._process_turn_forecast()
+	await _tick_forecast()
 	var worker := demo._turn_forecast_worker
 	demo.queue_free()
 	await process_frame
@@ -207,3 +207,7 @@ func run() -> void:
 	await process_frame
 	print("TURN FORECAST UI RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
+
+func _tick_forecast() -> void:
+	demo._process_turn_forecast()
+	await preload("res://tests/fixtures/forecast_preparation_wait.gd").settle(self, demo)

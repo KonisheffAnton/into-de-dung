@@ -54,7 +54,7 @@ func run() -> void:
 	push_motion(at(other.cell))
 	push_motion(at(target.cell))
 	check(demo._forecast_target_id == target.id and not demo._attack_forecast_worker.is_started(), "several input events coalesce before capture")
-	demo._process_attack_forecast()
+	await _tick_forecast()
 	check(demo._attack_forecast_worker.is_started() and demo._forecast == null, "frame starts detached work without publishing prematurely")
 	var obsolete_generation := demo._attack_forecast_job_generation
 	push_motion(at(other.cell))
@@ -73,7 +73,7 @@ func run() -> void:
 	check(demo.board_view.forecast == forecast and not demo.board_view._forecast_entry(target.id).is_empty(), "ready result updates existing health overlay")
 	await compact_layout_and_focus(s, target)
 	push_motion(at(target.cell))
-	demo._process_attack_forecast()
+	await _tick_forecast()
 	check(demo._forecast == forecast and not demo._attack_forecast_worker.is_started(), "unchanged hover reuses completed result")
 	await capture("attack-ready")
 	push_motion(Vector2(2, 2))
@@ -83,7 +83,7 @@ func run() -> void:
 
 	# Результат разрешено дочитать на панели даже при переходе туда до завершения.
 	push_motion(at(target.cell))
-	demo._process_attack_forecast()
+	await _tick_forecast()
 	push_motion(demo._forecast_panel.global_position + Vector2(20, 20))
 	await process_frame
 	check(demo._attack_forecast_pending, "pending target survives move into reading panel")
@@ -91,12 +91,12 @@ func run() -> void:
 	check(same_forecast(demo._forecast, s.preview_attack(target.id)), "worker publishes while pointer reads panel")
 	check_header(s.units[2], target, "reading panel keeps current names")
 	push_motion(Vector2(2, 2)); await process_frame
-	push_motion(at(target.cell)); demo._process_attack_forecast()
+	push_motion(at(target.cell)); await _tick_forecast()
 	push_motion(Vector2(2, 2)); await process_frame
 	await drain()
 	check(demo._forecast == null and not demo._attack_forecast_pending, "leaving pending request discards its eventual result")
 	check_no_header("leaving pending clears names after obsolete completion")
-	push_motion(at(target.cell)); demo._process_attack_forecast()
+	push_motion(at(target.cell)); await _tick_forecast()
 	push_key(KEY_ESCAPE)
 	check_no_header("escape clears names immediately")
 	await drain()
@@ -107,7 +107,7 @@ func run() -> void:
 	# Смена определения не обязана менять revision, но меняет смысл прогноза.
 	s.action_slot_overrides[s.selected_id] = [&"entangling_strike", &"blood_rune"]
 	demo._refresh()
-	push_motion(at(target.cell)); demo._process_attack_forecast()
+	push_motion(at(target.cell)); await _tick_forecast()
 	var revision := s.context.get_revision()
 	push_key(KEY_3)
 	check(demo._attack_forecast_variant == &"entangle" and s.context.get_revision() == revision, "K8 key replaces pending ordinary request at same revision")
@@ -121,13 +121,13 @@ func run() -> void:
 	check(demo._attack_forecast_variant == &"ordinary", "ordinary mode restores distinct request")
 
 	# Refresh должен инвалидировать копию и при прямом изменении без revision.
-	demo._refresh(); demo._process_attack_forecast()
+	demo._refresh(); await _tick_forecast()
 	target.vitals.set_hp(1)
 	demo._refresh()
 	await settle()
 	check(s.context.get_revision() == revision and same_forecast(demo._forecast, s.preview_attack(target.id)), "refresh replaces in-flight state despite unchanged revision")
 	check(demo._forecast.units[target.id]["before"]["hp"] == 1, "published result uses refreshed target health")
-	demo._refresh(); demo._process_attack_forecast()
+	demo._refresh(); await _tick_forecast()
 	demo.select_character(s.units[0].id)
 	await drain()
 	check(demo._forecast == null and not demo._attack_forecast_pending, "actor selection discards outstanding attack")
@@ -136,7 +136,7 @@ func run() -> void:
 	setup_attack()
 	s = demo.session as BattleCoreReactionsSession
 	target = s.units[3]
-	push_motion(at(target.cell)); demo._process_attack_forecast()
+	push_motion(at(target.cell)); await _tick_forecast()
 	s.phase = BattleTacticalSession.Phase.ENEMY_TURN
 	await settle()
 	check(demo._forecast == null and not demo._attack_forecast_pending, "phase gate rejects stale completion before next UI refresh")
@@ -144,7 +144,7 @@ func run() -> void:
 	setup_attack()
 	s = demo.session as BattleCoreReactionsSession
 	target = s.units[3]
-	push_motion(at(target.cell)); demo._process_attack_forecast()
+	push_motion(at(target.cell)); await _tick_forecast()
 	s.board.remove_unit(target)
 	await settle()
 	check(demo._forecast == null, "removed target cannot receive stale forecast")
@@ -153,19 +153,19 @@ func run() -> void:
 	s = demo.session as BattleCoreReactionsSession
 	target = s.units[3]
 	var expected := s.preview_attack(target.id)
-	push_motion(at(target.cell)); demo._process_attack_forecast()
+	push_motion(at(target.cell)); await _tick_forecast()
 	push_click(at(target.cell))
 	await preload("res://tests/fixtures/battle_execution_wait.gd").settle(self, demo)
 	check(s.last_receipt.get_events() == expected.events and snapshot() == expected.snapshot_after, "click while pending executes fresh matching live command")
 	await settle()
 	check(demo._forecast == null or demo._forecast.status == ActionReceipt.REJECTED, "old successful result cannot reappear after spent action")
 	setup_attack()
-	push_motion(at(demo.session.units[3].cell)); demo._process_attack_forecast()
+	push_motion(at(demo.session.units[3].cell)); await _tick_forecast()
 	demo.reset_demo()
 	await drain()
 	check(demo._forecast == null, "reset invalidates job belonging to old session")
 	setup_attack()
-	push_motion(at(demo.session.units[3].cell)); demo._process_attack_forecast()
+	push_motion(at(demo.session.units[3].cell)); await _tick_forecast()
 	demo.toggle_scenario()
 	await drain()
 	check(demo._forecast == null, "scenario transition cannot inherit pending result")
@@ -207,7 +207,7 @@ func test_ally_selection_during_attack() -> void:
 	push_motion(at(target.cell))
 	check(demo._attack_forecast_pending, "Ray hover queues attack forecast")
 	check_header(ray, target, "Ray pending header")
-	demo._process_attack_forecast()
+	await _tick_forecast()
 	check(demo._attack_forecast_worker.is_started(), "Ray forecast is running before ally click")
 	var before_snapshot := snapshot()
 	var before_rng := s.context.get_rng().to_dict().duplicate(true)
@@ -357,7 +357,7 @@ func settle() -> void:
 func drain() -> void:
 	var deadline := Time.get_ticks_msec() + 5000
 	while demo._attack_forecast_worker.is_started() and Time.get_ticks_msec() < deadline:
-		demo._process_attack_forecast()
+		await _tick_forecast()
 		await create_timer(0.001).timeout
 	check(not demo._attack_forecast_worker.is_started(), "discarded worker finishes and joins")
 
@@ -386,3 +386,7 @@ func capture(label: String) -> void:
 	await process_frame; await process_frame
 	var picture := viewport.get_texture().get_image()
 	check(picture != null and picture.save_png(captures.path_join(label + ".png")) == OK, "PNG " + label)
+
+func _tick_forecast() -> void:
+	demo._process_attack_forecast()
+	await preload("res://tests/fixtures/forecast_preparation_wait.gd").settle(self, demo)

@@ -164,7 +164,7 @@ func _async_cases() -> void:
 	_check(_demo._move_forecast_cell == b and _demo._move_forecast.requested_path[-1] == b, "only latest target gets a completed result")
 	_push_hover(a)
 	_demo._move_forecast_due = 0
-	_demo._process_move_forecast()
+	await _tick_forecast()
 	_check(_demo._move_forecast_worker.is_started(), "real worker starts for settled target")
 	_push_hover(b)
 	_check(_demo.board_view._path == s.path_to(b) and _demo._move_forecast == null, "new requested path replaces in-flight target immediately")
@@ -172,7 +172,7 @@ func _async_cases() -> void:
 	_check(_demo._move_forecast_cell == b and _demo._move_forecast.requested_path[-1] == b, "in-flight target change discards stale result")
 	_push_hover(a)
 	_demo._move_forecast_due = 0
-	_demo._process_move_forecast()
+	await _tick_forecast()
 	s.selected_unit().move_points_left = 0
 	_demo._refresh()
 	_check(_demo.board_view.pending_move_path.is_empty() and _demo.board_view._path.is_empty(), "refresh clears provisional route when movement budget is exhausted")
@@ -182,27 +182,27 @@ func _async_cases() -> void:
 	s = _demo.session
 	_push_hover(a)
 	_demo._move_forecast_due = 0
-	_demo._process_move_forecast()
+	await _tick_forecast()
 	await _click(a)
 	await _settle_forecast()
 	_check(s.selected_unit().cell == a and s.last_receipt.status == ActionReceipt.APPLIED and _demo._move_forecast == null, "click during worker executes fresh move and discards old preview")
 	_push_hover(b)
 	_demo._move_forecast_due = 0
-	_demo._process_move_forecast()
+	await _tick_forecast()
 	await _key(KEY_A)
 	await _drain_worker()
 	_check(_demo._move_forecast == null and not _demo._move_forecast_pending and _demo.board_view.move_forecast == null and _demo.board_view.pending_move_path.is_empty() and _demo.board_view._path.is_empty(), "attack mode discards worker result and provisional route")
 	await _key(KEY_M)
 	_push_hover(b)
 	_demo._move_forecast_due = 0
-	_demo._process_move_forecast()
+	await _tick_forecast()
 	var old_context := s.context
 	await _key(KEY_R)
 	await _settle_forecast()
 	_check(_demo.session.context != old_context and (_demo._move_forecast == null or _demo._move_forecast.snapshot_before == ItemSimulationSnapshot.capture(_demo.session.state, []).snapshot.to_dict()), "reset cannot publish old session result")
 	_push_hover(a)
 	_demo._move_forecast_due = 0
-	_demo._process_move_forecast()
+	await _tick_forecast()
 	await _motion(Vector2(4, 4))
 	await _drain_worker()
 	_check(_demo._move_forecast == null and not _demo._move_forecast_pending, "leaving board discards worker result")
@@ -210,7 +210,7 @@ func _async_cases() -> void:
 	await _click_control(_demo._mode_button)
 	_push_hover(a)
 	_demo._move_forecast_due = 0
-	_demo._process_move_forecast()
+	await _tick_forecast()
 	# После клика переключатель владеет focus: Enter активировал бы его повторно.
 	await _click_control(_demo._end_turn_button)
 	await _drain_worker()
@@ -218,13 +218,13 @@ func _async_cases() -> void:
 	await _key(KEY_R)
 	_push_hover(a)
 	_demo._move_forecast_due = 0
-	_demo._process_move_forecast()
+	await _tick_forecast()
 	await _click_control(_demo._mode_button)
 	await _drain_worker()
 	_check(not _demo.tactical_mode and _demo._move_forecast == null and not _demo._move_forecast_pending, "scenario switch discards in-flight movement tactical=%s pending=%s" % [_demo.tactical_mode, _demo._move_forecast_pending])
 	_push_hover(b)
 	_demo._move_forecast_due = 0
-	_demo._process_move_forecast()
+	await _tick_forecast()
 	# Основной teardown ниже обязан присоединить работающий поток без утечки.
 	_check(_demo._move_forecast_worker.is_started(), "teardown has in-flight worker")
 
@@ -299,3 +299,7 @@ func _visual_ids(visuals: Array[BattleDemoIsoVisual]) -> Array[int]:
 	var ids: Array[int] = []
 	for visual: BattleDemoIsoVisual in visuals: ids.append(visual.get_instance_id())
 	return ids
+
+func _tick_forecast() -> void:
+	_demo._process_move_forecast()
+	await preload("res://tests/fixtures/forecast_preparation_wait.gd").settle(self, _demo)

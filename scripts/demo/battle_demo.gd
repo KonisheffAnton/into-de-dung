@@ -109,6 +109,17 @@ var _pointer_position := Vector2(-1, -1)
 var _shown_inspection_id: int = UnitId.NONE
 var _hovered_bar_action: StringName = &""
 var _execution_worker := BattleExecutionWorker.new()
+var _forecast_preparation_worker := BattleForecastPreparationWorker.new()
+var _forecast_preparation_kind: StringName = &""
+var _forecast_preparation_generation: int = -1
+var _forecast_preparation_discard: bool = false
+var _forecast_preparation_recovering: bool = false
+var _forecast_replaying_intent: bool = false
+var _forecast_hover_pending: bool = false
+var _forecast_pointer_pending: bool = false
+var _forecast_latest_hover := Vector2i(-1, -1)
+var _forecast_input_intents: Array[Dictionary] = []
+const MAX_FORECAST_INPUT_INTENTS: int = 32
 @export var presentation_enabled: bool = true
 var _presentation_player: BattlePresentationPlayer
 var _presentation_before: Dictionary = {}
@@ -150,7 +161,130 @@ var _environment_forecast_actor: int = 0
 var _environment_forecast_worker := preload("res://scripts/demo/action_forecast_worker.gd").new()
 
 func is_execution_pending() -> bool:
-	return _execution_worker.is_started() or is_presentation_pending()
+	return _execution_worker.is_started() or _forecast_preparation_worker.is_started() \
+		or (_forecast_preparation_recovering and not _forecast_replaying_intent) or is_presentation_pending()
+
+func _defer_forecast_intent(method: StringName, args: Array = []) -> bool:
+	if _forecast_replaying_intent or not (_forecast_preparation_worker.is_started() or _forecast_preparation_recovering): return false
+	# Храним смысл действия (ID/клетку), а не экранные координаты: камера может двигаться.
+	var intent := {"method": method, "args": args.duplicate(true)}
+	if _forecast_input_intents.size() < MAX_FORECAST_INPUT_INTENTS:
+		_forecast_input_intents.append(intent)
+	else:
+		# Ограниченный UI-буфер не становится очередью боевых команд.
+		_forecast_input_intents[-1] = intent
+	_forecast_preparation_discard = true
+	return true
+
+func _start_forecast_preparation(kind: StringName, method: StringName, args: Array, generation: int) -> bool:
+	if not _allows_execution_worker() or session == null or session.get_script() != BattleCoreReactionsSession: return false
+	var owned := session as BattleCoreReactionsSession
+	if not _forecast_preparation_worker.start(owned, method, args): return false
+	_forecast_preparation_kind = kind
+	_forecast_preparation_generation = generation
+	_forecast_preparation_discard = false
+	_forecast_hover_pending = false
+	_forecast_pointer_pending = false
+	board_view.execution_pending = true
+	board_view.forecast_preparation_pending = true
+	board_view.session = null
+	session = null
+	_battle = null
+	return true
+
+func _forecast_preparation_is_current(kind: StringName, generation: int) -> bool:
+	match kind:
+		&"move": return generation == _move_forecast_generation and _move_forecast_pending and _move_forecast_request_current()
+		&"attack": return generation == _attack_forecast_generation and _attack_forecast_pending and _attack_forecast_request_current()
+		&"action": return generation == _action_forecast_generation and _action_forecast_pending and _action_forecast_request_current()
+		&"environment": return generation == _environment_forecast_generation and _environment_forecast_pending and _environment_request_current()
+		&"turn": return generation == _turn_forecast_generation and _turn_forecast_pending and _turn_forecast_request_current()
+	return false
+
+func _discard_forecast_preparation(prepared: Variant) -> void:
+	if prepared is ForecastSimulation.Prepared: ForecastSimulation.discard_prepared(prepared)
+	# TurnForecast.Prepared содержит только отделённые значения/оболочки, без live state.
+
+func _restore_forecast_owner(completed: Dictionary) -> void:
+	session = completed.session
+	_battle = session as BattleTacticalSession
+	board_view.session = session
+	board_view.execution_pending = false
+	board_view.forecast_preparation_pending = false
+
+func _poll_forecast_preparation() -> void:
+	var completed := _forecast_preparation_worker.take_finished()
+	if completed.is_empty(): return
+	_restore_forecast_owner(completed)
+	var kind := _forecast_preparation_kind
+	_forecast_preparation_kind = &""
+	# mouse_exited не отменяет цель сам по себе: курсор может читать её на панели.
+	var current := not _forecast_preparation_discard \
+		and _forecast_input_intents.is_empty() and _forecast_preparation_is_current(kind, _forecast_preparation_generation)
+	var prepared: Variant = completed.prepared
+	if current and bool(completed.sync_fallback):
+		# Непереносимый пользовательский граф сохраняет прежний синхронный путь.
+		prepared = TurnForecast.prepare(session as BattleCoreReactionsSession) if completed.method == &"turn" \
+			else session.callv(BattleForecastPreparationWorker._prepare_method(completed.method), completed.args)
+	if current and prepared != null:
+		match kind:
+			&"move": _move_forecast_worker.start(prepared as ForecastSimulation.Prepared)
+			&"attack": _attack_forecast_worker.start(prepared as ForecastSimulation.Prepared)
+			&"action":
+				var action_prepared := prepared as ForecastSimulation.Prepared
+				_action_forecast_corpse_id = (action_prepared.command as RaiseCorpseCommand)._corpse_id if action_prepared.command is RaiseCorpseCommand else 0
+				_action_forecast_worker.start(action_prepared)
+			&"environment": _environment_forecast_worker.start(prepared as ForecastSimulation.Prepared)
+			&"turn": _turn_forecast_worker.start(prepared as TurnForecast.Prepared)
+	else:
+		_discard_forecast_preparation(prepared)
+		_clear_forecast()
+	_forecast_preparation_discard = false
+	if _forecast_hover_pending or _forecast_pointer_pending or not _forecast_input_intents.is_empty():
+		_forecast_preparation_recovering = true
+		board_view.execution_pending = true
+		board_view.forecast_preparation_pending = true
+
+func _recover_forecast_input() -> void:
+	# Одна UI-операция за кадр; после первой live-команды действует обычная блокировка.
+	_forecast_replaying_intent = true
+	board_view.execution_pending = false
+	board_view.forecast_preparation_pending = false
+	if not _forecast_input_intents.is_empty():
+		var intent: Dictionary = _forecast_input_intents.pop_front()
+		callv(intent.method, intent.args)
+		if _execution_worker.is_started() or is_presentation_pending():
+			_forecast_input_intents.clear()
+			_forecast_hover_pending = false
+			_forecast_pointer_pending = false
+			_forecast_preparation_recovering = false
+	else:
+		if _forecast_hover_pending:
+			_forecast_hover_pending = false
+			_hover(_forecast_latest_hover)
+		_forecast_pointer_pending = false
+		_update_action_bar_hover()
+		_update_turn_forecast_hover()
+		_update_environment_forecast_hover()
+	if _forecast_input_intents.is_empty() and not _forecast_hover_pending and not _forecast_pointer_pending: _forecast_preparation_recovering = false
+	_forecast_replaying_intent = false
+	if _forecast_preparation_recovering:
+		board_view.execution_pending = true
+		board_view.forecast_preparation_pending = true
+
+func _join_forecast_preparation() -> void:
+	var completed := _forecast_preparation_worker.take_finished(true)
+	if not completed.is_empty():
+		_restore_forecast_owner(completed)
+		_discard_forecast_preparation(completed.prepared)
+	_forecast_preparation_kind = &""
+	_forecast_preparation_recovering = false
+	_forecast_replaying_intent = false
+	_forecast_preparation_discard = false
+	_forecast_hover_pending = false
+	_forecast_pointer_pending = false
+	_forecast_input_intents.clear()
+	if board_view != null: board_view.forecast_preparation_pending = false
 
 func is_presentation_pending() -> bool:
 	return not _refresh_followup.is_empty() or (_presentation_player != null and _presentation_player.active)
@@ -159,6 +293,7 @@ func _allows_execution_worker() -> bool:
 	return get_script() == BattleDemo
 
 func _execute_live(method: StringName, args: Array = [], target_attempt: bool = false) -> void:
+	if _defer_forecast_intent(&"_execute_live", [method, args, target_attempt]): return
 	if is_execution_pending(): return
 	if _mage_row is BattleMageBar: (_mage_row as BattleMageBar).set_paging_enabled(false)
 	_clear_forecast()
@@ -220,6 +355,7 @@ func _restore_execution_owner(completed: Dictionary) -> void:
 		completed.result = session.callv(completed.method, completed.args)
 
 func _join_execution() -> void:
+	_join_forecast_preparation()
 	_refresh_followup.clear()
 	_stage_next_refresh = false
 	if _presentation_player != null: _presentation_player.cancel()
@@ -443,6 +579,12 @@ func _create_session() -> void:
 	_flow_cursor = 0
 
 func _process(delta: float) -> void:
+	if _forecast_preparation_worker.is_started():
+		_poll_forecast_preparation()
+		return
+	if _forecast_preparation_recovering:
+		_recover_forecast_input()
+		return
 	if _execution_worker.is_started() or not _refresh_followup.is_empty():
 		_poll_execution()
 		return
@@ -461,6 +603,9 @@ func _process(delta: float) -> void:
 	_execute_live(&"step_enemy")
 
 func _input(event: InputEvent) -> void:
+	if (_forecast_preparation_worker.is_started() or _forecast_preparation_recovering) and event is InputEventMouseMotion:
+		_pointer_position = (event as InputEventMouseMotion).position
+		_forecast_pointer_pending = true
 	# Горячая клавиша показа должна опережать Space у кнопки, сохранившей фокус.
 	if is_presentation_pending() and event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_SPACE:
 		skip_presentation()
@@ -647,6 +792,7 @@ func _label(value: String, font_size: int, color: Color) -> Label:
 	return BattleLegacyHud.make_label(value, font_size, color)
 
 func _on_roster_entry_pressed(unit_id: int) -> void:
+	if _defer_forecast_intent(&"_on_roster_entry_pressed", [unit_id]): return
 	# Сигнал хранит ID, а выбранное действие определяется только по текущей сессии.
 	if is_execution_pending() or session == null or session.board == null: return
 	var unit := session.board.get_unit_by_id(unit_id)
@@ -658,6 +804,7 @@ func _button(value: String) -> Button:
 	return BattleLegacyHud.make_button(value)
 
 func set_attack_mode(enabled: bool) -> void:
+	if _defer_forecast_intent(&"set_attack_mode", [enabled]): return
 	if is_execution_pending(): return
 	if _battle != null and not _battle.can_player_act(): return
 	_clear_action_mode()
@@ -683,6 +830,7 @@ func _clear_action_mode() -> void:
 	inspected_id = UnitId.NONE
 
 func _choose_elemental(effect: StringName) -> void:
+	if _defer_forecast_intent(&"_choose_elemental", [effect]): return
 	if is_execution_pending() or not session is BattleCoreReactionsSession: return
 	var reaction_session := session as BattleCoreReactionsSession
 	var reason := reaction_session.cast_reason(effect)
@@ -694,6 +842,7 @@ func _choose_elemental(effect: StringName) -> void:
 	_refresh()
 
 func _action_bar_requested(action_id: StringName) -> void:
+	if _defer_forecast_intent(&"_action_bar_requested", [action_id]): return
 	if is_execution_pending(): return
 	if not tactical_mode or (_battle != null and not _battle.can_player_act()): return
 	match action_id:
@@ -738,18 +887,21 @@ func _action_bar_requested(action_id: StringName) -> void:
 				_execute_live(&"restore_selected_armor")
 
 func _use_healing_item() -> void:
+	if _defer_forecast_intent(&"_use_healing_item", []): return
 	if is_execution_pending(): return
 	if _battle == null: return
 	_clear_action_mode()
 	_execute_live(&"use_healing_item")
 
 func _use_guard() -> void:
+	if _defer_forecast_intent(&"_use_guard", []): return
 	if is_execution_pending(): return
 	if _battle == null: return
 	_clear_action_mode()
 	_execute_live(&"guard_selected")
 
 func _choose_reaction_guard(mode: int) -> void:
+	if _defer_forecast_intent(&"_choose_reaction_guard", [mode]): return
 	if is_execution_pending(): return
 	if not session is BattleCoreReactionsSession or _battle == null: return
 	var reaction_session := session as BattleCoreReactionsSession
@@ -771,6 +923,7 @@ func _cover_choice_reason(reaction_session: BattleCoreReactionsSession, targets:
 	return BattleActionDescriptors.cover_choice_reason(reaction_session, targets)
 
 func select_character(id: int) -> void:
+	if _defer_forecast_intent(&"select_character", [id]): return
 	if is_execution_pending(): return
 	if session.select_unit(id):
 		inspected_id = UnitId.NONE
@@ -781,6 +934,7 @@ func _is_deploying() -> bool:
 	return session is BattleCoreCombinationSession and (session as BattleCoreCombinationSession).is_deploying()
 
 func inspect_enemy(id: int) -> void:
+	if _defer_forecast_intent(&"inspect_enemy", [id]): return
 	if is_execution_pending(): return
 	if _battle == null or (not _is_deploying() and not _battle.can_player_act()): return
 	var unit := session.board.get_unit_by_id(id)
@@ -797,6 +951,7 @@ func inspect_enemy(id: int) -> void:
 	_refresh()
 
 func handle_cell(cell: Vector2i) -> void:
+	if _defer_forecast_intent(&"handle_cell", [cell]): return
 	if is_execution_pending(): return
 	if _is_deploying():
 		if session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).mage_deployment_confirmed:
@@ -946,6 +1101,7 @@ func _open_core_combination_scenario() -> void:
 	_refresh()
 
 func end_turn() -> void:
+	if _defer_forecast_intent(&"end_turn", []): return
 	if is_execution_pending(): return
 	if _battle == null: return
 	if _is_deploying():
@@ -990,6 +1146,7 @@ func _refresh_deck_bar(mage_session: BattleCoreReactionsSession) -> void:
 	)
 
 func _choose_card_slot(slot: int) -> void:
+	if _defer_forecast_intent(&"_choose_card_slot", [slot]): return
 	if is_execution_pending() or not session is BattleCoreReactionsSession or session.state.deck == null: return
 	var mage_session := session as BattleCoreReactionsSession
 	if slot < 0 or slot >= mage_session.state.deck.hand_ids.size(): return
@@ -1008,10 +1165,12 @@ func _choose_card_slot(slot: int) -> void:
 	_refresh()
 
 func _replace_selected_card() -> void:
+	if _defer_forecast_intent(&"_replace_selected_card", []): return
 	if is_execution_pending() or _card_selected_id == 0 or not session is BattleCoreReactionsSession: return
 	_execute_live(&"replace_mage_card", [_card_selected_id], true)
 
 func _confirm_selected_mulligan() -> void:
+	if _defer_forecast_intent(&"_confirm_selected_mulligan", []): return
 	if is_execution_pending() or not session is BattleCoreReactionsSession: return
 	var mage_session := session as BattleCoreReactionsSession
 	if not mage_session.is_deploying() or not mage_session.mage_deployment_confirmed or mage_session.state.deck == null or mage_session.state.deck.mulligan_done: return
@@ -1046,6 +1205,7 @@ func _mage_spell_help(id: StringName) -> String:
 	return ""
 
 func _refresh() -> void:
+	if _defer_forecast_intent(&"_refresh", []): return
 	if _stage_next_refresh:
 		_stage_next_refresh = false
 		_refresh_followup = {"begin": true}
@@ -1319,6 +1479,10 @@ func _refresh_inspection() -> void:
 		_stats.text = _inspection_text(unit) + _card_imbue_text(unit.id)
 
 func _hover(cell: Vector2i) -> void:
+	if not _forecast_replaying_intent and (_forecast_preparation_worker.is_started() or _forecast_preparation_recovering):
+		_forecast_latest_hover = cell
+		_forecast_hover_pending = true
+		return
 	if is_execution_pending(): return
 	if session == null or session.board == null: return
 	if _is_deploying(): return
@@ -1334,7 +1498,7 @@ func _hover(cell: Vector2i) -> void:
 		_clear_forecast()
 	if (_guard_forecast != null and _guard_forecast_mode != CombatPerksState.Mode.COVER or _armor_forecast != null) and cell.x >= 0: _clear_forecast()
 	# Позволяем перейти к прокрутке длинной цепи, сохранив текущий прогноз.
-	if (_forecast != null or _attack_forecast_pending or _action_forecast_pending or _item_forecast != null or _move_forecast != null or _raise_forecast != null or _guard_forecast != null or _armor_forecast != null or _elemental_forecast != null) and cell.x < 0:
+	if (_forecast != null or _attack_forecast_pending or _action_forecast_pending or _item_forecast != null or _move_forecast != null or _move_forecast_pending or _raise_forecast != null or _guard_forecast != null or _armor_forecast != null or _elemental_forecast != null) and cell.x < 0:
 		# mouse_exited может прийти раньше _input того же движения мыши.
 		_resolve_hover_exit.call_deferred()
 		return
@@ -1614,6 +1778,28 @@ func _process_action_forecast() -> void:
 	if not _action_forecast_request_current():
 		_clear_forecast()
 		return
+	var preparation_method: StringName = &""
+	var preparation_args: Array = []
+	match _action_forecast_kind:
+		&"healing":
+			preparation_method = &"item"; preparation_args = [ItemUseAction.Kind.HEAL_SELF]
+		&"summon":
+			preparation_method = &"item"; preparation_args = [ItemUseAction.Kind.SUMMON_ADJACENT, _action_forecast_cell]
+		&"guard", &"opportunity", &"cover", &"counterattack":
+			preparation_method = &"guard"; preparation_args = [_guard_forecast_mode, _guard_forecast_target]
+		&"raise":
+			preparation_method = &"raise_corpse"; preparation_args = [_action_forecast_cell]
+		&"raise_shields": preparation_method = &"raise_shields"
+		&"armor": preparation_method = &"restore_armor"
+		&"elemental":
+			if AbilityDefinition.is_cell_spell(_action_forecast_effect):
+				preparation_method = &"mage_cell"; preparation_args = [_action_forecast_effect, _action_forecast_cell]
+			else:
+				preparation_method = &"cast"; preparation_args = [_action_forecast_target_id]
+		&"mage_card":
+			preparation_method = &"mage_card"; preparation_args = [_action_forecast_card_id, maxi(0, _action_forecast_target_id), _action_forecast_cell]
+	_action_forecast_job_generation = _action_forecast_generation
+	if _start_forecast_preparation(&"action", preparation_method, preparation_args, _action_forecast_generation): return
 	var prepared: ForecastSimulation.Prepared
 	match _action_forecast_kind:
 		&"healing": prepared = _battle.prepare_item_forecast(ItemUseAction.Kind.HEAL_SELF)
@@ -1649,7 +1835,8 @@ func _process_attack_forecast() -> void:
 		_clear_forecast()
 		return
 	_attack_forecast_job_generation = _attack_forecast_generation
-	# Ввод только запоминает последнюю цель; capture выполняется один раз на кадре.
+	if _start_forecast_preparation(&"attack", &"attack", [_forecast_target_id], _attack_forecast_generation): return
+	# Синхронная совместимость оболочек, не передающих session рабочему потоку.
 	_attack_forecast_worker.start(session.prepare_attack_forecast(_forecast_target_id))
 
 func _process_move_forecast() -> void:
@@ -1671,12 +1858,15 @@ func _process_move_forecast() -> void:
 		_clear_forecast()
 		return
 	_move_forecast_job_generation = _move_forecast_generation
-	# Только этот короткий capture читает live; исполнение и восстановление идут на копии.
+	if _start_forecast_preparation(&"move", &"retreat" if _move_forecast_retreat else &"move", [_move_forecast_cell], _move_forecast_generation): return
+	# Синхронный fallback сохраняет подготовку на владельце для прочих session.
 	var prepared := (session as BattleCoreReactionsSession).prepare_retreat_forecast(_move_forecast_cell) if _move_forecast_retreat and session is BattleCoreReactionsSession else session.prepare_move_forecast(_move_forecast_cell)
 	_move_forecast_worker.start(prepared)
 
 func _move_forecast_request_current() -> bool:
-	return session != null and session.context != null and board_view != null and board_view.hover_cell == _move_forecast_cell and session.selected_id == _move_forecast_actor and session.context.get_revision() == _move_forecast_revision and retreat_mode == _move_forecast_retreat and not attack_mode and not summoning_mode and not raising_mode and inspected_id == UnitId.NONE and (_battle == null or _battle.can_player_act())
+	if board_view == null: return false
+	var over_panel := board_view.hover_cell.x < 0 and _forecast_reading_region().has_point(_pointer_position)
+	return session != null and session.context != null and (board_view.hover_cell == _move_forecast_cell or over_panel) and session.selected_id == _move_forecast_actor and session.context.get_revision() == _move_forecast_revision and retreat_mode == _move_forecast_retreat and not attack_mode and not summoning_mode and not raising_mode and inspected_id == UnitId.NONE and (_battle == null or _battle.can_player_act())
 
 func _board_forecast_wheel_input(event: InputEvent) -> bool:
 	if is_execution_pending(): return false
@@ -1728,6 +1918,9 @@ func _forecast_reading_region() -> Rect2:
 	return Rect2(Vector2(left, panel.position.y), Vector2(panel.end.x - left, panel.size.y))
 
 func _clear_forecast() -> void:
+	if _forecast_preparation_worker.is_started():
+		_forecast_preparation_discard = true
+		return
 	if is_execution_pending(): return
 	_environment_forecast_generation += 1
 	_environment_forecast_pending = false
@@ -2161,7 +2354,7 @@ func _reason_text(reason: StringName) -> String:
 	return BattleForecastText.reason_text(reason, tactical_mode)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if is_execution_pending():
+	if is_execution_pending() and not (_forecast_preparation_worker.is_started() or _forecast_preparation_recovering):
 		if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_R: reset_demo()
 		if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_SPACE: skip_presentation()
 		return
@@ -2194,6 +2387,7 @@ func _summon_hp_text(item: ItemInstance) -> String:
 	return BattleInspectionText.summon_hp_text(item)
 
 func _choose_summoning() -> void:
+	if _defer_forecast_intent(&"_choose_summoning", []): return
 	if is_execution_pending(): return
 	if _battle == null: return
 	var reason := _battle.summoning_hint_reason()
@@ -2205,6 +2399,7 @@ func _choose_summoning() -> void:
 	_refresh()
 
 func _choose_raise() -> void:
+	if _defer_forecast_intent(&"_choose_raise", []): return
 	if is_execution_pending(): return
 	if not environment_mode or not session is BattleEnvironmentSession: return
 	var environment := session as BattleEnvironmentSession
@@ -2217,6 +2412,7 @@ func _choose_raise() -> void:
 	_refresh()
 
 func _choose_retreat() -> void:
+	if _defer_forecast_intent(&"_choose_retreat", []): return
 	if is_execution_pending() or not session is BattleCoreReactionsSession: return
 	var reason := (session as BattleCoreReactionsSession).retreat_reason()
 	if reason != &"":
@@ -2344,6 +2540,7 @@ func _process_environment_forecast() -> void:
 		_render_forecast_panel()
 	if not _environment_forecast_pending or _environment_forecast_worker.is_started(): return
 	_environment_forecast_job = _environment_forecast_generation
+	if _start_forecast_preparation(&"environment", &"environment", [], _environment_forecast_generation): return
 	_environment_forecast_worker.start((session as BattleCoreReactionsSession).prepare_environment_forecast())
 
 func _render_environment_forecast() -> void:
@@ -2398,6 +2595,7 @@ func _process_turn_forecast() -> void:
 	if not _turn_forecast_pending or _turn_forecast_worker.is_started(): return
 	# Подготовка отделяет runtime на кадре; обработчик мыши только записывает запрос.
 	_turn_forecast_job_generation = _turn_forecast_generation
+	if _start_forecast_preparation(&"turn", &"turn", [], _turn_forecast_generation): return
 	_turn_forecast_worker.start(TurnForecast.prepare(session as BattleCoreReactionsSession))
 
 func _render_turn_forecast() -> void:
