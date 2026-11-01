@@ -1,0 +1,257 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-11-01",
+  "base": "4b6394de580f0fafb887349e6880a3abe0965632",
+  "integration": false,
+  "scope": "20 additional concepts, ten per class; original single mage/archer trials excluded",
+  "variants": [
+    {
+      "group": "mage",
+      "id": "01",
+      "name": "Синий мудрец",
+      "prompt": "MANDATORY DISTINCT MAGE DESIGN: An elderly blue-robed wizard with a much broader SQUARE silver beard reaching mid-chest, short swept white hair, deep cobalt shoulder mantle, cream belt sash, brown boots. Staff in left image hand is topped by a simple open wooden fork holding a sapphire crystal; other hand at belt. Compact wide face and broad short robe.\nUse case: stylized-concept. Make ONE DISTINCT character variation for the same pixel-art tactical game, implementing the design at the start of this prompt visibly. Reference1 fixes the exact TILE, COMPOSITION, CAMERA, PIXEL STYLE, FOOT POSITION and SMALL CHARACTER SIZE; preserve the same large stone tile and navy backdrop. Replace only the character design. Character head-to-boot height about430 pixels on 1254-square canvas, tile width1000 pixels. Do not make body taller or tile smaller. Compact squat game miniature, large head, very short broad torso, short legs and big boots, about2.7 heads tall. Front three-quarter facing screen RIGHT, flat2D eye-level character, no overhead view of head/shoulders. Floor alone is isometric. Keep bright readable face with simple black eye/no sclera. Crisp pixel clusters, broad connected shapes, limited3-4 shade steps per material, same source pixel density. No smooth3D, blur, grain, ornate tiny noise or excessive folds. Reference2 gives the overall art family and class color. Exactly one figure on one complete stone tile, no text/HUD/borders/collage. Entire silhouette in frame. Distinguish from the baseline reference while keeping the compact size and scale. Wizard identity: exactly one staff; no sword, shield or bow; blue palette and warm brown leather. Staff may extend a little above head; keep body compact.",
+      "file": "mage-01.png",
+      "references": [
+        "D:\\Games\\into-de-dung\\docs\\art\\mage-archer-concepts-20261101\\mage-01.png",
+        "D:\\Games\\into-de-dung\\docs\\art\\rogue-variants-20261101\\user-reference.png"
+      ],
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-1797b25c-dcb2-48a4-8c06-f06076a24894.png"
+    },
+    {
+      "group": "mage",
+      "id": "02",
+      "name": "Капюшон звёзд",
+      "prompt": "MANDATORY DISTINCT MAGE DESIGN: A blue wizard with a BROAD LOW NAVY HOOD around a visible elderly peach face and very short silver beard. Simple bright blue shoulder scarf, dark blue short robe with ivory hem, brown boots. Upright wooden staff topped by a ROUND small blue orb in a plain circular wood frame. Free hand open near chest.\nUse case: stylized-concept. Make ONE DISTINCT character variation for the same pixel-art tactical game, implementing the design at the start of this prompt visibly. Reference1 fixes the exact TILE, COMPOSITION, CAMERA, PIXEL STYLE, FOOT POSITION and SMALL CHARACTER SIZE; preserve the same large stone tile and navy backdrop. Replace only the character design. Character head-to-boot height about430 pixels on 1254-square canvas, tile width1000 pixels. Do not make body taller or tile smaller. Compact squat game miniature, large head, very short broad torso, short legs and big boots, about2.7 heads tall. Front three-quarter facing screen RIGHT, flat2D eye-level character, no overhead view of head/shoulders. Floor alone is isometric. Keep bright readable face with simple black eye/no sclera. Crisp pixel clusters, broad connected shapes, limited3-4 shade steps per material, same source pixel density. No smooth3D, blur, grain, ornate tiny noise or excessive folds. Reference2 gives the overall art family and class color. Exactly one figure on one complete stone tile, no text/HUD/borders/collage. Entire silhouette in frame. Distinguish from the baseline reference while keeping the compact size and scale. Wizard identity: exactly one staff; no sword, shield or bow; blue palette and warm brown leather. Staff may extend a little above head; keep body compact.",
+      "file": "mage-02.png",
+      "references": [
+        "D:\\Games\\into-de-dung\\docs\\art\\mage-archer-concepts-20261101\\mage-01.png",
+        "D:\\Games\\into-de-dung\\docs\\art\\rogue-variants-20261101\\user-reference.png"
+      ],
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-924cb193-414c-4144-bf2b-983498b03370.png"
+    },
+    {
+      "group": "mage",
+      "id": "03",
+      "name": "Дорожный чародей",
+      "prompt": "MANDATORY DISTINCT MAGE DESIGN: A young clean-shaven male mage with BLACK tousled hair, no hood, royal blue short travelling coat with a broad cream collar, brown cross-body satchel strap and chunky boots. Short silver-blue gemstone atop a crooked plain wooden staff, free hand relaxed. Youthful clearly visible face and short coat must make this visibly different.\nUse case: stylized-concept. Make ONE DISTINCT character variation for the same pixel-art tactical game, implementing the design at the start of this prompt visibly. Reference1 fixes the exact TILE, COMPOSITION, CAMERA, PIXEL STYLE, FOOT POSITION and SMALL CHARACTER SIZE; preserve the same large stone tile and navy backdrop. Replace only the character design. Character head-to-boot height about430 pixels on 1254-square canvas, tile width1000 pixels. Do not make body taller or tile smaller. Compact squat game miniature, large head, very short broad torso, short legs and big boots, about2.7 heads tall. Front three-quarter facing screen RIGHT, flat2D eye-level character, no overhead view of head/shoulders. Floor alone is isometric. Keep bright readable face with simple black eye/no sclera. Crisp pixel clusters, broad connected shapes, limited3-4 shade steps per material, same source pixel density. No smooth3D, blur, grain, ornate tiny noise or excessive folds. Reference2 gives the overall art family and class color. Exactly one figure on one complete stone tile, no text/HUD/borders/collage. Entire silhouette in frame. Distinguish from the baseline reference while keeping the compact size and scale. Wizard identity: exactly one staff; no sword, shield or bow; blue palette and warm brown leather. Staff may extend a little above head; keep body compact.",
+      "file": "mage-03.png",
+      "references": [
+        "D:\\Games\\into-de-dung\\docs\\art\\mage-archer-concepts-20261101\\mage-01.png",
+        "D:\\Games\\into-de-dung\\docs\\art\\rogue-variants-20261101\\user-reference.png"
+      ],
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-4f5a1c3a-8875-4ad8-8dfb-333a67966a4d.png"
+    },
+    {
+      "group": "mage",
+      "id": "04",
+      "name": "Широкополая шляпа",
+      "prompt": "MANDATORY DISTINCT MAGE DESIGN: A compact older wizard wearing a LOW SOFT BLUE BROAD-BRIM HAT with modest bent point, small grey moustache and short beard, visible warm face. Deep blue mantle, plain cream central tunic panel, leather belt, short boots. Simple wooden staff topped with a small blue faceted stone. Hat is broad and LOW, not tall; reduce body to preserve total silhouette scale.\nUse case: stylized-concept. Make ONE DISTINCT character variation for the same pixel-art tactical game, implementing the design at the start of this prompt visibly. Reference1 fixes the exact TILE, COMPOSITION, CAMERA, PIXEL STYLE, FOOT POSITION and SMALL CHARACTER SIZE; preserve the same large stone tile and navy backdrop. Replace only the character design. Character head-to-boot height about430 pixels on 1254-square canvas, tile width1000 pixels. Do not make body taller or tile smaller. Compact squat game miniature, large head, very short broad torso, short legs and big boots, about2.7 heads tall. Front three-quarter facing screen RIGHT, flat2D eye-level character, no overhead view of head/shoulders. Floor alone is isometric. Keep bright readable face with simple black eye/no sclera. Crisp pixel clusters, broad connected shapes, limited3-4 shade steps per material, same source pixel density. No smooth3D, blur, grain, ornate tiny noise or excessive folds. Reference2 gives the overall art family and class color. Exactly one figure on one complete stone tile, no text/HUD/borders/collage. Entire silhouette in frame. Distinguish from the baseline reference while keeping the compact size and scale. Wizard identity: exactly one staff; no sword, shield or bow; blue palette and warm brown leather. Staff may extend a little above head; keep body compact.",
+      "file": "mage-04.png",
+      "references": [
+        "D:\\Games\\into-de-dung\\docs\\art\\mage-archer-concepts-20261101\\mage-01.png",
+        "D:\\Games\\into-de-dung\\docs\\art\\rogue-variants-20261101\\user-reference.png"
+      ],
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-d0eed323-44e6-456b-9aac-68978a1ccb24.png"
+    },
+    {
+      "group": "mage",
+      "id": "05",
+      "name": "Морозный наставник",
+      "prompt": "MANDATORY DISTINCT MAGE DESIGN: A silver-haired mage with a short thick WHITE BEARD, fur-free pale blue shoulder wrap over dark indigo compact robe, ivory cuffs and hem. Small dark wooden staff with a geometric icy-blue DIAMOND head, no glow or particle effects. One open bare hand near belt, sturdy short legs, clear noble calm expression.\nUse case: stylized-concept. Make ONE DISTINCT character variation for the same pixel-art tactical game, implementing the design at the start of this prompt visibly. Reference1 fixes the exact TILE, COMPOSITION, CAMERA, PIXEL STYLE, FOOT POSITION and SMALL CHARACTER SIZE; preserve the same large stone tile and navy backdrop. Replace only the character design. Character head-to-boot height about430 pixels on 1254-square canvas, tile width1000 pixels. Do not make body taller or tile smaller. Compact squat game miniature, large head, very short broad torso, short legs and big boots, about2.7 heads tall. Front three-quarter facing screen RIGHT, flat2D eye-level character, no overhead view of head/shoulders. Floor alone is isometric. Keep bright readable face with simple black eye/no sclera. Crisp pixel clusters, broad connected shapes, limited3-4 shade steps per material, same source pixel density. No smooth3D, blur, grain, ornate tiny noise or excessive folds. Reference2 gives the overall art family and class color. Exactly one figure on one complete stone tile, no text/HUD/borders/collage. Entire silhouette in frame. Distinguish from the baseline reference while keeping the compact size and scale. Wizard identity: exactly one staff; no sword, shield or bow; blue palette and warm brown leather. Staff may extend a little above head; keep body compact.",
+      "file": "mage-05.png",
+      "references": [
+        "D:\\Games\\into-de-dung\\docs\\art\\mage-archer-concepts-20261101\\mage-01.png",
+        "D:\\Games\\into-de-dung\\docs\\art\\rogue-variants-20261101\\user-reference.png"
+      ],
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-c4e13d8f-d028-489f-a2ae-1a26e9242c5f.png"
+    },
+    {
+      "group": "mage",
+      "id": "06",
+      "name": "Синий архивариус",
+      "prompt": "MANDATORY DISTINCT MAGE DESIGN: An elderly BALDING mage with silver side hair, small neat silver beard, broad bright blue collar, short navy coat and cream waistcloth. One closed small brown book clipped clearly to belt, no extra hand. Simple wooden staff with a round cobalt gem in near hand, free hand touches belt. Low round head silhouette essential.\nUse case: stylized-concept. Make ONE DISTINCT character variation for the same pixel-art tactical game, implementing the design at the start of this prompt visibly. Reference1 fixes the exact TILE, COMPOSITION, CAMERA, PIXEL STYLE, FOOT POSITION and SMALL CHARACTER SIZE; preserve the same large stone tile and navy backdrop. Replace only the character design. Character head-to-boot height about430 pixels on 1254-square canvas, tile width1000 pixels. Do not make body taller or tile smaller. Compact squat game miniature, large head, very short broad torso, short legs and big boots, about2.7 heads tall. Front three-quarter facing screen RIGHT, flat2D eye-level character, no overhead view of head/shoulders. Floor alone is isometric. Keep bright readable face with simple black eye/no sclera. Crisp pixel clusters, broad connected shapes, limited3-4 shade steps per material, same source pixel density. No smooth3D, blur, grain, ornate tiny noise or excessive folds. Reference2 gives the overall art family and class color. Exactly one figure on one complete stone tile, no text/HUD/borders/collage. Entire silhouette in frame. Distinguish from the baseline reference while keeping the compact size and scale. Wizard identity: exactly one staff; no sword, shield or bow; blue palette and warm brown leather. Staff may extend a little above head; keep body compact.",
+      "file": "mage-06.png",
+      "references": [
+        "D:\\Games\\into-de-dung\\docs\\art\\mage-archer-concepts-20261101\\mage-01.png",
+        "D:\\Games\\into-de-dung\\docs\\art\\rogue-variants-20261101\\user-reference.png"
+      ],
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-19067946-000a-4185-8fb2-ea6b8dce1f0a.png"
+    },
+    {
+      "group": "mage",
+      "id": "07",
+      "name": "Молодая волшебница",
+      "prompt": "MANDATORY DISTINCT MAGE DESIGN: A compact young female mage with short SILVER BOB haircut and a visible friendly focused face, no hood/hat. Cobalt blue short cape with small gold clasp, dark blue short robe, cream central panel and brown boots. One upright wooden staff with small angular sapphire head, free hand open at side. Same chunky game family, no realistic long legs.\nUse case: stylized-concept. Make ONE DISTINCT character variation for the same pixel-art tactical game, implementing the design at the start of this prompt visibly. Reference1 fixes the exact TILE, COMPOSITION, CAMERA, PIXEL STYLE, FOOT POSITION and SMALL CHARACTER SIZE; preserve the same large stone tile and navy backdrop. Replace only the character design. Character head-to-boot height about430 pixels on 1254-square canvas, tile width1000 pixels. Do not make body taller or tile smaller. Compact squat game miniature, large head, very short broad torso, short legs and big boots, about2.7 heads tall. Front three-quarter facing screen RIGHT, flat2D eye-level character, no overhead view of head/shoulders. Floor alone is isometric. Keep bright readable face with simple black eye/no sclera. Crisp pixel clusters, broad connected shapes, limited3-4 shade steps per material, same source pixel density. No smooth3D, blur, grain, ornate tiny noise or excessive folds. Reference2 gives the overall art family and class color. Exactly one figure on one complete stone tile, no text/HUD/borders/collage. Entire silhouette in frame. Distinguish from the baseline reference while keeping the compact size and scale. Wizard identity: exactly one staff; no sword, shield or bow; blue palette and warm brown leather. Staff may extend a little above head; keep body compact.",
+      "file": "mage-07.png",
+      "references": [
+        "D:\\Games\\into-de-dung\\docs\\art\\mage-archer-concepts-20261101\\mage-01.png",
+        "D:\\Games\\into-de-dung\\docs\\art\\rogue-variants-20261101\\user-reference.png"
+      ],
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-36dfa02d-f4c4-4452-a4b9-ffa85f1cc021.png"
+    },
+    {
+      "group": "mage",
+      "id": "08",
+      "name": "Плащ скитальца",
+      "prompt": "MANDATORY DISTINCT MAGE DESIGN: A rugged middle-aged blue mage, short BROWN beard and hair, one broad dark-blue half-cape draped across far shoulder, blue tunic with ivory waist sash, brown boots. Short leaning gnarled staff with small blue stone secured by one plain gold band. Compact forward ready stance, clean asymmetrical cloak silhouette.\nUse case: stylized-concept. Make ONE DISTINCT character variation for the same pixel-art tactical game, implementing the design at the start of this prompt visibly. Reference1 fixes the exact TILE, COMPOSITION, CAMERA, PIXEL STYLE, FOOT POSITION and SMALL CHARACTER SIZE; preserve the same large stone tile and navy backdrop. Replace only the character design. Character head-to-boot height about430 pixels on 1254-square canvas, tile width1000 pixels. Do not make body taller or tile smaller. Compact squat game miniature, large head, very short broad torso, short legs and big boots, about2.7 heads tall. Front three-quarter facing screen RIGHT, flat2D eye-level character, no overhead view of head/shoulders. Floor alone is isometric. Keep bright readable face with simple black eye/no sclera. Crisp pixel clusters, broad connected shapes, limited3-4 shade steps per material, same source pixel density. No smooth3D, blur, grain, ornate tiny noise or excessive folds. Reference2 gives the overall art family and class color. Exactly one figure on one complete stone tile, no text/HUD/borders/collage. Entire silhouette in frame. Distinguish from the baseline reference while keeping the compact size and scale. Wizard identity: exactly one staff; no sword, shield or bow; blue palette and warm brown leather. Staff may extend a little above head; keep body compact.",
+      "file": "mage-08.png",
+      "references": [
+        "D:\\Games\\into-de-dung\\docs\\art\\mage-archer-concepts-20261101\\mage-01.png",
+        "D:\\Games\\into-de-dung\\docs\\art\\rogue-variants-20261101\\user-reference.png"
+      ],
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-ca65966b-b713-4f1e-a851-c7ff6f372034.png"
+    },
+    {
+      "group": "mage",
+      "id": "09",
+      "name": "Седой колдун",
+      "prompt": "MANDATORY DISTINCT MAGE DESIGN: An elderly wizard with a very LARGE rounded SILVER HAIR mass and compact full beard, navy scarf, vivid blue tunic, cream cuffs, broad dark belt and brown boots. Wooden staff has a simple crescent-shaped wood cradle with blue gem. Free hand raised near waist as if preparing magic, without effects. Large head/short body essential.\nUse case: stylized-concept. Make ONE DISTINCT character variation for the same pixel-art tactical game, implementing the design at the start of this prompt visibly. Reference1 fixes the exact TILE, COMPOSITION, CAMERA, PIXEL STYLE, FOOT POSITION and SMALL CHARACTER SIZE; preserve the same large stone tile and navy backdrop. Replace only the character design. Character head-to-boot height about430 pixels on 1254-square canvas, tile width1000 pixels. Do not make body taller or tile smaller. Compact squat game miniature, large head, very short broad torso, short legs and big boots, about2.7 heads tall. Front three-quarter facing screen RIGHT, flat2D eye-level character, no overhead view of head/shoulders. Floor alone is isometric. Keep bright readable face with simple black eye/no sclera. Crisp pixel clusters, broad connected shapes, limited3-4 shade steps per material, same source pixel density. No smooth3D, blur, grain, ornate tiny noise or excessive folds. Reference2 gives the overall art family and class color. Exactly one figure on one complete stone tile, no text/HUD/borders/collage. Entire silhouette in frame. Distinguish from the baseline reference while keeping the compact size and scale. Wizard identity: exactly one staff; no sword, shield or bow; blue palette and warm brown leather. Staff may extend a little above head; keep body compact.",
+      "file": "mage-09.png",
+      "references": [
+        "D:\\Games\\into-de-dung\\docs\\art\\mage-archer-concepts-20261101\\mage-01.png",
+        "D:\\Games\\into-de-dung\\docs\\art\\rogue-variants-20261101\\user-reference.png"
+      ],
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-99e5eacd-b2ba-471b-b05d-3bb2ceccf327.png"
+    },
+    {
+      "group": "mage",
+      "id": "10",
+      "name": "Чародей в капюшоне",
+      "prompt": "MANDATORY DISTINCT MAGE DESIGN: A hooded mage with face partly framed by a LOW pointed cobalt hood, SHORT dark beard, dark blue shoulder cape lined in pale blue, simple ivory center stripe and brown boots. Upright wooden staff on far side topped by a small blue crystal; near hand extended palm-up at waist height. Clearly different silhouette with short hood and small beard.\nUse case: stylized-concept. Make ONE DISTINCT character variation for the same pixel-art tactical game, implementing the design at the start of this prompt visibly. Reference1 fixes the exact TILE, COMPOSITION, CAMERA, PIXEL STYLE, FOOT POSITION and SMALL CHARACTER SIZE; preserve the same large stone tile and navy backdrop. Replace only the character design. Character head-to-boot height about430 pixels on 1254-square canvas, tile width1000 pixels. Do not make body taller or tile smaller. Compact squat game miniature, large head, very short broad torso, short legs and big boots, about2.7 heads tall. Front three-quarter facing screen RIGHT, flat2D eye-level character, no overhead view of head/shoulders. Floor alone is isometric. Keep bright readable face with simple black eye/no sclera. Crisp pixel clusters, broad connected shapes, limited3-4 shade steps per material, same source pixel density. No smooth3D, blur, grain, ornate tiny noise or excessive folds. Reference2 gives the overall art family and class color. Exactly one figure on one complete stone tile, no text/HUD/borders/collage. Entire silhouette in frame. Distinguish from the baseline reference while keeping the compact size and scale. Wizard identity: exactly one staff; no sword, shield or bow; blue palette and warm brown leather. Staff may extend a little above head; keep body compact.",
+      "file": "mage-10.png",
+      "references": [
+        "D:\\Games\\into-de-dung\\docs\\art\\mage-archer-concepts-20261101\\mage-01.png",
+        "D:\\Games\\into-de-dung\\docs\\art\\rogue-variants-20261101\\user-reference.png"
+      ],
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-15a85ddd-1500-4a51-af2b-c1199d263015.png"
+    },
+    {
+      "group": "archer",
+      "id": "01",
+      "name": "Лесной дозор",
+      "prompt": "MANDATORY DISTINCT ARCHER DESIGN: A young human archer with broad rounded OLIVE HOOD, a visible warm face, short dark green shoulder cape, simple brown vest and belt, dark trousers and chunky boots. Plain medium recurve wooden bow held in near hand at its CENTER GRIP, BOTH upper and lower limbs fully visible, one complete taut string between tips. Quiver with3 white fletchings behind shoulder. Short compact torso.\nUse case: stylized-concept. Make ONE DISTINCT character variation for the same pixel-art tactical game, implementing the design at the start of this prompt visibly. Reference1 fixes the exact TILE, COMPOSITION, CAMERA, PIXEL STYLE, FOOT POSITION and SMALL CHARACTER SIZE; preserve the same large stone tile and navy backdrop. Replace only the character design. Character head-to-boot height about430 pixels on 1254-square canvas, tile width1000 pixels. Do not make body taller or tile smaller. Compact squat game miniature, large head, very short broad torso, short legs and big boots, about2.7 heads tall. Front three-quarter facing screen RIGHT, flat2D eye-level character, no overhead view of head/shoulders. Floor alone is isometric. Keep bright readable face with simple black eye/no sclera. Crisp pixel clusters, broad connected shapes, limited3-4 shade steps per material, same source pixel density. No smooth3D, blur, grain, ornate tiny noise or excessive folds. Reference2 gives the overall art family and class color. Exactly one figure on one complete stone tile, no text/HUD/borders/collage. Entire silhouette in frame. Distinguish from the baseline reference while keeping the compact size and scale. Archer identity: exactly ONE FUNCTIONAL WHOLE bow, not half a bow. Hand grips middle of riser, never end of limb. Both limbs and string end-to-end clearly visible. Only3-4 arrows in small quiver. No daggers/sword/shield/staff. Olive green, brown leather, dark green shadows.",
+      "file": "archer-01.png",
+      "references": [
+        "D:\\Games\\into-de-dung\\docs\\art\\mage-archer-concepts-20261101\\archer-01.png",
+        "D:\\Games\\into-de-dung\\docs\\art\\rogue-variants-20261101\\user-reference.png"
+      ],
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-14dc3b2a-3372-4e56-a752-cbc5eb220676.png",
+      "correction": {
+        "prompt": "Use case: precise-object-edit. Fix ONLY the malformed bow in Image1. The archer must hold ONE COMPLETE wooden recurve bow by its CENTER grip: upper and lower curved limbs of comparable length continue above AND below the fist, both pointed bow tips clearly visible, one continuous taut thin string connecting BOTH tips, passing behind the center grip. Use Image2 ONLY to understand correct complete bow anatomy and how the fist grips the center. In Image1 the lower limb is a short straight stick and the lower half of the string is missing; replace that defective weapon with a full proper curved lower limb and connected bowstring. Preserve Image1 archer identity, rounded olive hood, face, clothes, pose, hands, compact body size, boots, quiver, pixel style, tile geometry, camera, placement and background. Allow only the minimum hand placement adjustment necessary to grip the center. Keep entire bow visible, lower tip above tile surface. Do not enlarge character. Single figure, no text.",
+        "references": [
+          "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-63e9f2e1-77d1-4a86-98fb-17012fe41bd3.png",
+          "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-f941fd92-ed6b-41aa-a2d3-21b9a949a4bd.png"
+        ],
+        "rejected_source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-63e9f2e1-77d1-4a86-98fb-17012fe41bd3.png"
+      }
+    },
+    {
+      "group": "archer",
+      "id": "02",
+      "name": "Короткий плащ",
+      "prompt": "MANDATORY DISTINCT ARCHER DESIGN: An olive-green archer with a SMALL pointed hood folded back at tip and an ASYMMETRIC short green half-cape. Visible youthful face, brown diagonal chest strap and compact bracers. Hold a COMPLETE compact wooden bow almost upright outside body, central grip, both limbs and connected string visible; free hand rests at waist. Three arrows in quiver.\nUse case: stylized-concept. Make ONE DISTINCT character variation for the same pixel-art tactical game, implementing the design at the start of this prompt visibly. Reference1 fixes the exact TILE, COMPOSITION, CAMERA, PIXEL STYLE, FOOT POSITION and SMALL CHARACTER SIZE; preserve the same large stone tile and navy backdrop. Replace only the character design. Character head-to-boot height about430 pixels on 1254-square canvas, tile width1000 pixels. Do not make body taller or tile smaller. Compact squat game miniature, large head, very short broad torso, short legs and big boots, about2.7 heads tall. Front three-quarter facing screen RIGHT, flat2D eye-level character, no overhead view of head/shoulders. Floor alone is isometric. Keep bright readable face with simple black eye/no sclera. Crisp pixel clusters, broad connected shapes, limited3-4 shade steps per material, same source pixel density. No smooth3D, blur, grain, ornate tiny noise or excessive folds. Reference2 gives the overall art family and class color. Exactly one figure on one complete stone tile, no text/HUD/borders/collage. Entire silhouette in frame. Distinguish from the baseline reference while keeping the compact size and scale. Archer identity: exactly ONE FUNCTIONAL WHOLE bow, not half a bow. Hand grips middle of riser, never end of limb. Both limbs and string end-to-end clearly visible. Only3-4 arrows in small quiver. No daggers/sword/shield/staff. Olive green, brown leather, dark green shadows.",
+      "file": "archer-02.png",
+      "references": [
+        "D:\\Games\\into-de-dung\\docs\\art\\mage-archer-concepts-20261101\\archer-01.png",
+        "D:\\Games\\into-de-dung\\docs\\art\\rogue-variants-20261101\\user-reference.png"
+      ],
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-f941fd92-ed6b-41aa-a2d3-21b9a949a4bd.png"
+    },
+    {
+      "group": "archer",
+      "id": "03",
+      "name": "Рыжая следопытка",
+      "prompt": "MANDATORY DISTINCT ARCHER DESIGN: A young female archer with visible RED HAIR in one short braid and hood DOWN behind neck, warm face, olive green scarf and cropped green tunic, brown leather bracers/belt/boots. Hold complete small wooden recurve bow diagonally away from torso at center grip, both limbs and string obvious. Small quiver3 fletchings. Chunky short legs and large head.\nUse case: stylized-concept. Make ONE DISTINCT character variation for the same pixel-art tactical game, implementing the design at the start of this prompt visibly. Reference1 fixes the exact TILE, COMPOSITION, CAMERA, PIXEL STYLE, FOOT POSITION and SMALL CHARACTER SIZE; preserve the same large stone tile and navy backdrop. Replace only the character design. Character head-to-boot height about430 pixels on 1254-square canvas, tile width1000 pixels. Do not make body taller or tile smaller. Compact squat game miniature, large head, very short broad torso, short legs and big boots, about2.7 heads tall. Front three-quarter facing screen RIGHT, flat2D eye-level character, no overhead view of head/shoulders. Floor alone is isometric. Keep bright readable face with simple black eye/no sclera. Crisp pixel clusters, broad connected shapes, limited3-4 shade steps per material, same source pixel density. No smooth3D, blur, grain, ornate tiny noise or excessive folds. Reference2 gives the overall art family and class color. Exactly one figure on one complete stone tile, no text/HUD/borders/collage. Entire silhouette in frame. Distinguish from the baseline reference while keeping the compact size and scale. Archer identity: exactly ONE FUNCTIONAL WHOLE bow, not half a bow. Hand grips middle of riser, never end of limb. Both limbs and string end-to-end clearly visible. Only3-4 arrows in small quiver. No daggers/sword/shield/staff. Olive green, brown leather, dark green shadows.",
+      "file": "archer-03.png",
+      "references": [
+        "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-f941fd92-ed6b-41aa-a2d3-21b9a949a4bd.png",
+        "D:\\Games\\into-de-dung\\docs\\art\\rogue-variants-20261101\\user-reference.png"
+      ],
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-9c748fe9-e023-4ea8-99b6-0be8c5940340.png"
+    },
+    {
+      "group": "archer",
+      "id": "04",
+      "name": "Зелёный капюшон",
+      "prompt": "MANDATORY DISTINCT ARCHER DESIGN: A compact archer with broad DARK GREEN HOOD, no visible hair, warm face in light rather than heavy shadow, moss-green short split tunic, wide brown belt. Wooden BOW HORIZONTAL at low waist held at center grip with both curved limbs and full string clearly visible, free hand near belt; quiver behind far shoulder. Low springy ready stance.\nUse case: stylized-concept. Make ONE DISTINCT character variation for the same pixel-art tactical game, implementing the design at the start of this prompt visibly. Reference1 fixes the exact TILE, COMPOSITION, CAMERA, PIXEL STYLE, FOOT POSITION and SMALL CHARACTER SIZE; preserve the same large stone tile and navy backdrop. Replace only the character design. Character head-to-boot height about430 pixels on 1254-square canvas, tile width1000 pixels. Do not make body taller or tile smaller. Compact squat game miniature, large head, very short broad torso, short legs and big boots, about2.7 heads tall. Front three-quarter facing screen RIGHT, flat2D eye-level character, no overhead view of head/shoulders. Floor alone is isometric. Keep bright readable face with simple black eye/no sclera. Crisp pixel clusters, broad connected shapes, limited3-4 shade steps per material, same source pixel density. No smooth3D, blur, grain, ornate tiny noise or excessive folds. Reference2 gives the overall art family and class color. Exactly one figure on one complete stone tile, no text/HUD/borders/collage. Entire silhouette in frame. Distinguish from the baseline reference while keeping the compact size and scale. Archer identity: exactly ONE FUNCTIONAL WHOLE bow, not half a bow. Hand grips middle of riser, never end of limb. Both limbs and string end-to-end clearly visible. Only3-4 arrows in small quiver. No daggers/sword/shield/staff. Olive green, brown leather, dark green shadows.",
+      "file": "archer-04.png",
+      "references": [
+        "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-f941fd92-ed6b-41aa-a2d3-21b9a949a4bd.png",
+        "D:\\Games\\into-de-dung\\docs\\art\\rogue-variants-20261101\\user-reference.png"
+      ],
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-720d89ea-9013-4296-a4d0-e250088fda36.png"
+    },
+    {
+      "group": "archer",
+      "id": "05",
+      "name": "Опытный егерь",
+      "prompt": "MANDATORY DISTINCT ARCHER DESIGN: A seasoned male ranger with hood DOWN, short SILVER HAIR and a small silver beard, olive short cape and dark green tunic, warm brown vest and boots. Complete plain wooden bow upright to side at middle grip, both limbs visible and string tip-to-tip, quiver3 arrows. Same compact heroic family as wizard and rogue, no tall realism.\nUse case: stylized-concept. Make ONE DISTINCT character variation for the same pixel-art tactical game, implementing the design at the start of this prompt visibly. Reference1 fixes the exact TILE, COMPOSITION, CAMERA, PIXEL STYLE, FOOT POSITION and SMALL CHARACTER SIZE; preserve the same large stone tile and navy backdrop. Replace only the character design. Character head-to-boot height about430 pixels on 1254-square canvas, tile width1000 pixels. Do not make body taller or tile smaller. Compact squat game miniature, large head, very short broad torso, short legs and big boots, about2.7 heads tall. Front three-quarter facing screen RIGHT, flat2D eye-level character, no overhead view of head/shoulders. Floor alone is isometric. Keep bright readable face with simple black eye/no sclera. Crisp pixel clusters, broad connected shapes, limited3-4 shade steps per material, same source pixel density. No smooth3D, blur, grain, ornate tiny noise or excessive folds. Reference2 gives the overall art family and class color. Exactly one figure on one complete stone tile, no text/HUD/borders/collage. Entire silhouette in frame. Distinguish from the baseline reference while keeping the compact size and scale. Archer identity: exactly ONE FUNCTIONAL WHOLE bow, not half a bow. Hand grips middle of riser, never end of limb. Both limbs and string end-to-end clearly visible. Only3-4 arrows in small quiver. No daggers/sword/shield/staff. Olive green, brown leather, dark green shadows.",
+      "file": "archer-05.png",
+      "references": [
+        "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-f941fd92-ed6b-41aa-a2d3-21b9a949a4bd.png",
+        "D:\\Games\\into-de-dung\\docs\\art\\rogue-variants-20261101\\user-reference.png"
+      ],
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-23436870-d26b-45cf-a03b-da09bcac03cf.png"
+    },
+    {
+      "group": "archer",
+      "id": "06",
+      "name": "Тёмная роща",
+      "prompt": "MANDATORY DISTINCT ARCHER DESIGN: A female archer with short BLACK BOB HAIR, open head with hood down, dark olive scarf and shoulder cape, green tunic and simple leather chest strap. Sturdy short legs. Complete light wooden recurve bow diagonally outside torso at center grip, both ends and string readable. Free hand slightly raised ready to reach the small quiver.\nUse case: stylized-concept. Make ONE DISTINCT character variation for the same pixel-art tactical game, implementing the design at the start of this prompt visibly. Reference1 fixes the exact TILE, COMPOSITION, CAMERA, PIXEL STYLE, FOOT POSITION and SMALL CHARACTER SIZE; preserve the same large stone tile and navy backdrop. Replace only the character design. Character head-to-boot height about430 pixels on 1254-square canvas, tile width1000 pixels. Do not make body taller or tile smaller. Compact squat game miniature, large head, very short broad torso, short legs and big boots, about2.7 heads tall. Front three-quarter facing screen RIGHT, flat2D eye-level character, no overhead view of head/shoulders. Floor alone is isometric. Keep bright readable face with simple black eye/no sclera. Crisp pixel clusters, broad connected shapes, limited3-4 shade steps per material, same source pixel density. No smooth3D, blur, grain, ornate tiny noise or excessive folds. Reference2 gives the overall art family and class color. Exactly one figure on one complete stone tile, no text/HUD/borders/collage. Entire silhouette in frame. Distinguish from the baseline reference while keeping the compact size and scale. Archer identity: exactly ONE FUNCTIONAL WHOLE bow, not half a bow. Hand grips middle of riser, never end of limb. Both limbs and string end-to-end clearly visible. Only3-4 arrows in small quiver. No daggers/sword/shield/staff. Olive green, brown leather, dark green shadows.",
+      "file": "archer-06.png",
+      "references": [
+        "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-f941fd92-ed6b-41aa-a2d3-21b9a949a4bd.png",
+        "D:\\Games\\into-de-dung\\docs\\art\\rogue-variants-20261101\\user-reference.png"
+      ],
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-d0f333c0-6294-4e8b-b101-e9e8f8d0d126.png"
+    },
+    {
+      "group": "archer",
+      "id": "07",
+      "name": "Листовой плащ",
+      "prompt": "MANDATORY DISTINCT ARCHER DESIGN: A young archer wearing a rounded olive hood with a broad lighter green edge plane and a VERY SHORT CAPE with simple leaf-shaped pointed hem, warm open face, plain green tunic and leather belt. Compact complete bow held low outward at central grip, lower limb clear of boots, full taut string; quiver3 arrows. Minimal detail, clear cape silhouette.\nUse case: stylized-concept. Make ONE DISTINCT character variation for the same pixel-art tactical game, implementing the design at the start of this prompt visibly. Reference1 fixes the exact TILE, COMPOSITION, CAMERA, PIXEL STYLE, FOOT POSITION and SMALL CHARACTER SIZE; preserve the same large stone tile and navy backdrop. Replace only the character design. Character head-to-boot height about430 pixels on 1254-square canvas, tile width1000 pixels. Do not make body taller or tile smaller. Compact squat game miniature, large head, very short broad torso, short legs and big boots, about2.7 heads tall. Front three-quarter facing screen RIGHT, flat2D eye-level character, no overhead view of head/shoulders. Floor alone is isometric. Keep bright readable face with simple black eye/no sclera. Crisp pixel clusters, broad connected shapes, limited3-4 shade steps per material, same source pixel density. No smooth3D, blur, grain, ornate tiny noise or excessive folds. Reference2 gives the overall art family and class color. Exactly one figure on one complete stone tile, no text/HUD/borders/collage. Entire silhouette in frame. Distinguish from the baseline reference while keeping the compact size and scale. Archer identity: exactly ONE FUNCTIONAL WHOLE bow, not half a bow. Hand grips middle of riser, never end of limb. Both limbs and string end-to-end clearly visible. Only3-4 arrows in small quiver. No daggers/sword/shield/staff. Olive green, brown leather, dark green shadows.",
+      "file": "archer-07.png",
+      "references": [
+        "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-f941fd92-ed6b-41aa-a2d3-21b9a949a4bd.png",
+        "D:\\Games\\into-de-dung\\docs\\art\\rogue-variants-20261101\\user-reference.png"
+      ],
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-4c3ca65e-526a-44ec-b71b-aa321ba95e68.png"
+    },
+    {
+      "group": "archer",
+      "id": "08",
+      "name": "Дорожная лучница",
+      "prompt": "MANDATORY DISTINCT ARCHER DESIGN: A young female archer with short CHESTNUT hair peeking out of a half-lowered soft green hood, warm alert face, pale olive scarf, dark green short tunic and brown leather sleeves. Complete small wooden recurve bow held upright beside far shoulder at center grip, both limbs visible, fine straight string. Three feathered arrows in a small quiver.\nUse case: stylized-concept. Make ONE DISTINCT character variation for the same pixel-art tactical game, implementing the design at the start of this prompt visibly. Reference1 fixes the exact TILE, COMPOSITION, CAMERA, PIXEL STYLE, FOOT POSITION and SMALL CHARACTER SIZE; preserve the same large stone tile and navy backdrop. Replace only the character design. Character head-to-boot height about430 pixels on 1254-square canvas, tile width1000 pixels. Do not make body taller or tile smaller. Compact squat game miniature, large head, very short broad torso, short legs and big boots, about2.7 heads tall. Front three-quarter facing screen RIGHT, flat2D eye-level character, no overhead view of head/shoulders. Floor alone is isometric. Keep bright readable face with simple black eye/no sclera. Crisp pixel clusters, broad connected shapes, limited3-4 shade steps per material, same source pixel density. No smooth3D, blur, grain, ornate tiny noise or excessive folds. Reference2 gives the overall art family and class color. Exactly one figure on one complete stone tile, no text/HUD/borders/collage. Entire silhouette in frame. Distinguish from the baseline reference while keeping the compact size and scale. Archer identity: exactly ONE FUNCTIONAL WHOLE bow, not half a bow. Hand grips middle of riser, never end of limb. Both limbs and string end-to-end clearly visible. Only3-4 arrows in small quiver. No daggers/sword/shield/staff. Olive green, brown leather, dark green shadows.",
+      "file": "archer-08.png",
+      "references": [
+        "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-f941fd92-ed6b-41aa-a2d3-21b9a949a4bd.png",
+        "D:\\Games\\into-de-dung\\docs\\art\\rogue-variants-20261101\\user-reference.png"
+      ],
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-5c8423c5-d2a0-428c-9c81-9151e6ba4eab.png"
+    },
+    {
+      "group": "archer",
+      "id": "09",
+      "name": "Лесной ловкач",
+      "prompt": "MANDATORY DISTINCT ARCHER DESIGN: A clean-shaven young male archer with messy BROWN hair, NO HOOD over head, short olive neck wrap and cropped green jacket, brown belt with one small pouch, large boots. Complete broad-curved wooden bow angled outside the near side, grip at center with both limbs visibly continuing beyond fist and full string between tips. Quiver3 arrows, confident asymmetric ready stance.\nUse case: stylized-concept. Make ONE DISTINCT character variation for the same pixel-art tactical game, implementing the design at the start of this prompt visibly. Reference1 fixes the exact TILE, COMPOSITION, CAMERA, PIXEL STYLE, FOOT POSITION and SMALL CHARACTER SIZE; preserve the same large stone tile and navy backdrop. Replace only the character design. Character head-to-boot height about430 pixels on 1254-square canvas, tile width1000 pixels. Do not make body taller or tile smaller. Compact squat game miniature, large head, very short broad torso, short legs and big boots, about2.7 heads tall. Front three-quarter facing screen RIGHT, flat2D eye-level character, no overhead view of head/shoulders. Floor alone is isometric. Keep bright readable face with simple black eye/no sclera. Crisp pixel clusters, broad connected shapes, limited3-4 shade steps per material, same source pixel density. No smooth3D, blur, grain, ornate tiny noise or excessive folds. Reference2 gives the overall art family and class color. Exactly one figure on one complete stone tile, no text/HUD/borders/collage. Entire silhouette in frame. Distinguish from the baseline reference while keeping the compact size and scale. Archer identity: exactly ONE FUNCTIONAL WHOLE bow, not half a bow. Hand grips middle of riser, never end of limb. Both limbs and string end-to-end clearly visible. Only3-4 arrows in small quiver. No daggers/sword/shield/staff. Olive green, brown leather, dark green shadows.",
+      "file": "archer-09.png",
+      "references": [
+        "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-f941fd92-ed6b-41aa-a2d3-21b9a949a4bd.png",
+        "D:\\Games\\into-de-dung\\docs\\art\\rogue-variants-20261101\\user-reference.png"
+      ],
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-b257fd77-5bd9-42ce-b0d8-975b16ae1fa3.png"
+    },
+    {
+      "group": "archer",
+      "id": "10",
+      "name": "Страж чащи",
+      "prompt": "MANDATORY DISTINCT ARCHER DESIGN: An archer in a LOW DEEP OLIVE HOOD, green neck wrap covering lower face but clear warm eye region, dark green broad short torso with lighter olive half-cape, brown leather bracers. One full compact wooden bow upright outside near side, central hand grip, both top and bottom limbs and complete string visible; other hand low. Three ivory fletchings, no daggers/swords.\nUse case: stylized-concept. Make ONE DISTINCT character variation for the same pixel-art tactical game, implementing the design at the start of this prompt visibly. Reference1 fixes the exact TILE, COMPOSITION, CAMERA, PIXEL STYLE, FOOT POSITION and SMALL CHARACTER SIZE; preserve the same large stone tile and navy backdrop. Replace only the character design. Character head-to-boot height about430 pixels on 1254-square canvas, tile width1000 pixels. Do not make body taller or tile smaller. Compact squat game miniature, large head, very short broad torso, short legs and big boots, about2.7 heads tall. Front three-quarter facing screen RIGHT, flat2D eye-level character, no overhead view of head/shoulders. Floor alone is isometric. Keep bright readable face with simple black eye/no sclera. Crisp pixel clusters, broad connected shapes, limited3-4 shade steps per material, same source pixel density. No smooth3D, blur, grain, ornate tiny noise or excessive folds. Reference2 gives the overall art family and class color. Exactly one figure on one complete stone tile, no text/HUD/borders/collage. Entire silhouette in frame. Distinguish from the baseline reference while keeping the compact size and scale. Archer identity: exactly ONE FUNCTIONAL WHOLE bow, not half a bow. Hand grips middle of riser, never end of limb. Both limbs and string end-to-end clearly visible. Only3-4 arrows in small quiver. No daggers/sword/shield/staff. Olive green, brown leather, dark green shadows.",
+      "file": "archer-10.png",
+      "references": [
+        "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-f941fd92-ed6b-41aa-a2d3-21b9a949a4bd.png",
+        "D:\\Games\\into-de-dung\\docs\\art\\rogue-variants-20261101\\user-reference.png"
+      ],
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-e29b9d4b-64e3-4dd0-bae7-bf0643dbc761.png"
+    }
+  ]
+}

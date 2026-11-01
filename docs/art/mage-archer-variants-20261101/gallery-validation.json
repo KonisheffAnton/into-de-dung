@@ -1,0 +1,17 @@
+{
+  "cards": 23,
+  "mage": 10,
+  "archer": 10,
+  "embedded": true,
+  "selected": "03 · Рыжая следопытка",
+  "dialogOpen": true,
+  "largeSize": [
+    1254,
+    1254
+  ],
+  "escapeClosed": true,
+  "buttonClosed": true,
+  "mobileOverflow": false,
+  "errors": [],
+  "pass": true
+}

@@ -1,0 +1,9 @@
+{
+  "isolated_copy": "D:\\Games\\into-de-dung\\test_reports\\mage-archer-variants-20261101\\portable-1793558459954",
+  "missing_originals": true,
+  "normal_build": true,
+  "embedded_images": 23,
+  "explicit_original_check_rejects": true,
+  "tampered_packaged_png_rejects": true,
+  "pass": true
+}
