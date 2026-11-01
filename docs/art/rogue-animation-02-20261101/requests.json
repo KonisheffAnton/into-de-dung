@@ -1,0 +1,110 @@
+[
+  {
+    "key": "idle-1",
+    "kind": "idle",
+    "variant": 1,
+    "prompt": "Animate the EXACT reference rogue, preserving the charcoal hood, red scarf, brown leather, two knives, proportions, pixel clusters and palette. Fixed camera and facing right; no zoom, turn, redesign, extra limbs or weapons, VFX, ground or shadow. Transparent 256x256 canvas, starting soles near (128,200). Keep the entire body and both blades inside x8..248,y8..248. Very quiet breathing loop. Feet and pelvis locked; chest rises slightly, shoulders and hood follow with tiny delayed movement. Both knives stay controlled. No hopping, body scaling, stepping or foot slide. Return smoothly to starting pose.",
+    "seed": 2026110101,
+    "frame_count": 32,
+    "endpoint": "animate-pixminimax",
+    "loop": true,
+    "return_to_first": true,
+    "input": "model/input-256.png"
+  },
+  {
+    "key": "idle-2",
+    "kind": "idle",
+    "variant": 2,
+    "prompt": "Animate the EXACT reference rogue, preserving the charcoal hood, red scarf, brown leather, two knives, proportions, pixel clusters and palette. Fixed camera and facing right; no zoom, turn, redesign, extra limbs or weapons, VFX, ground or shadow. Transparent 256x256 canvas, starting soles near (128,200). Keep the entire body and both blades inside x8..248,y8..248. Alert idle loop: tiny weight shift through torso and one small knife grip adjustment. Both soles remain planted. No attack, step, turn or travel. Ease back to starting pose.",
+    "seed": 2026110102,
+    "frame_count": 32,
+    "endpoint": "animate-pixminimax",
+    "loop": true,
+    "return_to_first": true,
+    "input": "model/input-256.png"
+  },
+  {
+    "key": "idle-3",
+    "kind": "idle",
+    "variant": 3,
+    "prompt": "Animate the EXACT reference rogue, preserving the charcoal hood, red scarf, brown leather, two knives, proportions, pixel clusters and palette. Fixed camera and facing right; no zoom, turn, redesign, extra limbs or weapons, VFX, ground or shadow. Transparent 256x256 canvas, starting soles near (128,200). Keep the entire body and both blades inside x8..248,y8..248. Subtle breathing with a small delayed sway of the red scarf. Boots and blades stay stable; no flourish, bounce, step or travel. Return smoothly to starting pose.",
+    "seed": 2026110103,
+    "frame_count": 32,
+    "endpoint": "animate-pixminimax",
+    "loop": true,
+    "return_to_first": true,
+    "input": "model/input-256.png"
+  },
+  {
+    "key": "death-1",
+    "kind": "death",
+    "variant": 1,
+    "prompt": "Animate the EXACT reference rogue, preserving the charcoal hood, red scarf, brown leather, two knives, proportions, pixel clusters and palette. Fixed camera and facing right; no zoom, turn, redesign, extra limbs or weapons, VFX, ground or shadow. Transparent 256x256 canvas, starting soles near (128,200). Keep the entire body and both blades inside x8..248,y8..248. One death: knees buckle and body collapses sideways beside original feet. Keep both knives attached. End fully lying on side, still. No get-up or loop.",
+    "seed": 2026110104,
+    "frame_count": 32,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": false,
+    "input": "model/input-256.png"
+  },
+  {
+    "key": "death-2",
+    "kind": "death",
+    "variant": 2,
+    "prompt": "Animate the EXACT reference rogue, preserving the charcoal hood, red scarf, brown leather, two knives, proportions, pixel clusters and palette. Fixed camera and facing right; no zoom, turn, redesign, extra limbs or weapons, VFX, ground or shadow. Transparent 256x256 canvas, starting soles near (128,200). Keep the entire body and both blades inside x8..248,y8..248. One death: knees give way, torso tips backward and lands on back beside original feet. Both knives stay with the rogue. Hold the fallen pose motionless; no recovery or loop.",
+    "seed": 2026110105,
+    "frame_count": 32,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": false,
+    "input": "model/input-256.png"
+  },
+  {
+    "key": "death-3",
+    "kind": "death",
+    "variant": 3,
+    "prompt": "Animate the EXACT reference rogue, preserving the charcoal hood, red scarf, brown leather, two knives, proportions, pixel clusters and palette. Fixed camera and facing right; no zoom, turn, redesign, extra limbs or weapons, VFX, ground or shadow. Transparent 256x256 canvas, starting soles near (128,200). Keep the entire body and both blades inside x8..248,y8..248. One death: shoulders sag, body folds forward through knees and collapses near original feet. End fully fallen, not merely kneeling, and hold still. No get-up or loop.",
+    "seed": 2026110106,
+    "frame_count": 32,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": false,
+    "input": "model/input-256.png"
+  },
+  {
+    "key": "ability-1",
+    "kind": "ability",
+    "variant": 1,
+    "prompt": "Animate the EXACT reference rogue, preserving the charcoal hood, red scarf, brown leather, two knives, proportions, pixel clusters and palette. Fixed camera and facing right; no zoom, turn, redesign, extra limbs or weapons, VFX, ground or shadow. Transparent 256x256 canvas, starting soles near (128,200). Keep the entire body and both blades inside x8..248,y8..248. Cross both daggers briefly at the chest, then make one forceful outward blade flourish. Clear anticipation, short accent, soft recovery to the starting guard. Stay in place with feet planted.",
+    "seed": 2026110107,
+    "frame_count": 32,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png"
+  },
+  {
+    "key": "ability-2",
+    "kind": "ability",
+    "variant": 2,
+    "prompt": "Animate the EXACT reference rogue, preserving the charcoal hood, red scarf, brown leather, two knives, proportions, pixel clusters and palette. Fixed camera and facing right; no zoom, turn, redesign, extra limbs or weapons, VFX, ground or shadow. Transparent 256x256 canvas, starting soles near (128,200). Keep the entire body and both blades inside x8..248,y8..248. One short paired-blade flourish: lift both knives into a tight crossing arc, make a quick decisive motion, then settle into ready focus and starting guard. Feet planted, no travel.",
+    "seed": 2026110108,
+    "frame_count": 32,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png"
+  },
+  {
+    "key": "ability-3",
+    "kind": "ability",
+    "variant": 3,
+    "prompt": "Animate the EXACT reference rogue, preserving the charcoal hood, red scarf, brown leather, two knives, proportions, pixel clusters and palette. Fixed camera and facing right; no zoom, turn, redesign, extra limbs or weapons, VFX, ground or shadow. Transparent 256x256 canvas, starting soles near (128,200). Keep the entire body and both blades inside x8..248,y8..248. Lower into a compact crouched preparation, cross both blades in front of the chest, then rise and settle back into starting guard. Keep feet in place, no travel.",
+    "seed": 2026110109,
+    "frame_count": 32,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png"
+  }
+]

@@ -1,0 +1,95 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "/v2/animate-pixminimax",
+  "completed_jobs": 9,
+  "usage_by_job": [
+    {
+      "key": "idle-1",
+      "job_id": "55430f8c-dea3-4184-b16d-677811bfdd09",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "idle-2",
+      "job_id": "9af2369e-a751-44ad-8c23-9f14db341a9f",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "idle-3",
+      "job_id": "b9453230-4ffa-4ff4-888f-074e53b6a95c",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "death-1",
+      "job_id": "d87fae24-a8b4-4038-8d99-f6c3346b1084",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "death-2",
+      "job_id": "e5a36e97-467c-4c13-90b4-e310a9b8454f",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "death-3",
+      "job_id": "69cbff6d-1d6d-448e-a041-58dc8a23b0b7",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "ability-1",
+      "job_id": "d09b9dec-2821-44ac-af91-83b5d60ad2b8",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "ability-2",
+      "job_id": "bf448330-103d-4365-92af-9f5858fee339",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "ability-3",
+      "job_id": "9c7a238d-4c21-412d-b36f-dc72cbf1d496",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    }
+  ],
+  "total_billed_generations": 45,
+  "subscription_generations_before": 1777.3000000000002,
+  "subscription_generations_after": 1732.3000000000002,
+  "balance_delta_generations": 45.0,
+  "credits_usd_before": 0.0,
+  "credits_usd_after": 0.0,
+  "usage_note": "Measured for this nine-job batch; subscription balance may also reflect unrelated account activity."
+}

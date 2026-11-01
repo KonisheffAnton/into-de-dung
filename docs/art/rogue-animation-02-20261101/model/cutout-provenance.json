@@ -1,0 +1,9 @@
+{
+  "tool": "built-in image_gen",
+  "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-44eb64a9-7c10-4b52-bacc-6bfa6c29843a.png",
+  "reference": "../../rogue-variants-20261101/rogue-02.png",
+  "output": "source-full.png",
+  "transparent_background": true,
+  "prompt": "Use case: background-extraction. Extract ONLY the exact rogue character from this user-approved image onto true RGBA TRANSPARENCY. Remove the entire stone tile, ground contact shadow, navy background and all environmental pixels. Preserve the character's exact design, visible pose, dimensions/proportions, charcoal hood, peach face with small black eye, burgundy scarf flowing to left, brown belt and leather boots/wrist guards. Preserve both hands and BOTH daggers: the screen-right hand holds its dagger upright; the screen-left hand holds its dagger angled downward across near leg. Do not redesign, redraw in a new style, change silhouette, move body parts, swap grip or weapon direction, add equipment, add an outline, or recolor. Crisp pixel edges. Fully isolated single whole character, centered on a square transparent canvas with generous empty transparent margin around every part including scarf and blade tips. No tile, no shadow, no floor, no checkerboard drawn into the image, no text. This cutout is the first-frame identity reference for PixelLab animation.",
+  "note": "Generated transparent derivative, not mathematically exact segmentation. Pose/design visually checked by lead before submitting to PixelLab; user art acceptance open."
+}

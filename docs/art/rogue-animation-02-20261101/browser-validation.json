@@ -1,0 +1,40 @@
+{
+  "clips": 9,
+  "embeddedAssets": 20,
+  "allEmbedded": true,
+  "kinds": [
+    "idle",
+    "idle",
+    "idle",
+    "death",
+    "death",
+    "death",
+    "ability",
+    "ability",
+    "ability"
+  ],
+  "scrubPixels": true,
+  "playback": {
+    "idleLoops": true,
+    "oneShotsHold": true
+  },
+  "stepRestart": true,
+  "gameWidth": 102,
+  "background": "rgb(222, 212, 185)",
+  "speed": 0.5,
+  "mobileOverflow": false,
+  "errors": [],
+  "visibleErrors": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "pass": true
+}

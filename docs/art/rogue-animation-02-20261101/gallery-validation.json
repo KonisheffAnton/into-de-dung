@@ -1,0 +1,9 @@
+{
+  "pass": true,
+  "clips": 9,
+  "embedded_assets": 20,
+  "payloads_byte_equal": 20,
+  "html_bytes": 8651145,
+  "errors": [],
+  "meaning": "embedded payload/link checks; browser visual acceptance separate"
+}
