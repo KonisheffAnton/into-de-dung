@@ -1,0 +1,27 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-11-01",
+  "base": "2fb90186efa534ce5f1c3828ca3a06e5d309cba7",
+  "integration": false,
+  "rogue_selection": "../rogue-variants-20261101/rogue-02.png",
+  "references": [
+    "../rogue-variants-20261101/rogue-02.png",
+    "../rogue-variants-20261101/user-reference.png"
+  ],
+  "variants": [
+    {
+      "id": "mage",
+      "name": "Маг",
+      "prompt": "Use case: stylized-concept. Generate ONE character concept for the same tactical pixel-art game. Image1 is the USER-APPROVED rogue02 model and is a STRICT SCALE, STYLE, COMPOSITION and TILE TEMPLATE: replace ONLY the character; retain the same tile footprint, stone pattern, camera, background, framing, foot position and small character size. Character head-to-boot height ~430 pixels on 1254x1254 canvas, tile width ~1000 pixels. Do not enlarge the character or shrink the tile. Compact squat miniature, oversized readable head, short broad torso, very short legs, big boots, 2.6-2.8 heads tall. EYE-LEVEL flat 2D three-quarter character facing screen RIGHT; the floor alone is isometric. Clean crisp pixel clusters and limited color steps, same density and simplicity as approved rogue02. No smooth 3D or painterly texture, no grain, no lighting glow, no excessive tiny ornament. Image2 is the user reference for character identity and colors. Full figure and entire tile visible, deep navy background, no text/UI/borders/collage, exactly one character. CHARACTER DESIGN: Use the THIRD character in Image2: an elderly friendly but formidable male wizard, short thick silver hair, visible peach face, short grey beard, large simple black eye without white/glint. Deep royal blue mantle and scarf fastened by a single small gold clasp, dark blue short robe over a light ivory center panel, simple brown belt, chunky brown boots with very short visible legs. Hold ONE simple brown wooden staff upright beside the body, capped with a small rich sapphire blue gemstone in a wooden/gold cradle. Staff may extend a little above head but keep actual body at template size; clear separation between staff, head and hand. Other hand relaxed near waist, lively asymmetric confident stance, robe not hiding both feet. Blue garment rendered in broad clean readable planes, same compact approachable character family as rogue. No tall thin wizard, no long trailing robe, no enormous hat, no weapons beyond staff.",
+      "file": "mage-01.png",
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-0e97b22c-154f-4920-9ab9-d652cb55044b.png"
+    },
+    {
+      "id": "archer",
+      "name": "Лучник",
+      "prompt": "Use case: stylized-concept. Generate ONE character concept for the same tactical pixel-art game. Image1 is the USER-APPROVED rogue02 model and is a STRICT SCALE, STYLE, COMPOSITION and TILE TEMPLATE: replace ONLY the character; retain the same tile footprint, stone pattern, camera, background, framing, foot position and small character size. Character head-to-boot height ~430 pixels on 1254x1254 canvas, tile width ~1000 pixels. Do not enlarge the character or shrink the tile. Compact squat miniature, oversized readable head, short broad torso, very short legs, big boots, 2.6-2.8 heads tall. EYE-LEVEL flat 2D three-quarter character facing screen RIGHT; the floor alone is isometric. Clean crisp pixel clusters and limited color steps, same density and simplicity as approved rogue02. No smooth 3D or painterly texture, no grain, no lighting glow, no excessive tiny ornament. Image2 is the user reference for character identity and colors. Full figure and entire tile visible, deep navy background, no text/UI/borders/collage, exactly one character. CHARACTER DESIGN: Use the SECOND character in Image2: a compact agile human archer in an OLIVE GREEN hood and short green split tunic/cape, clearly readable warm peach youthful face in hood, simple black eye without white/glint, warm brown leather chest strap, wrist guards, belt and chunky boots. A small quiver on the back with only 3-4 ivory arrow fletchings visible above far shoulder. One compact curved wooden bow held low in the near hand diagonally outside the torso, free hand near belt ready to draw an arrow. Keep bow recognizable curved and functional, with a thin clearly visible single string. Very short legs, broad compact torso and oversized hooded head match rogue02. Readable relaxed alert asymmetric stance with bent knees. Match muted olive hood, brown leather and dark undercloth of reference, simple clean planes. No daggers, no swords, no shields, no armor plates, no ornate elven ornaments, no elongated adult anatomy. Clearly a bow-using class distinct from rogue.",
+      "file": "archer-01.png",
+      "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-f711a11a-a014-4d79-b5b8-3e9bbefb2016.png"
+    }
+  ]
+}

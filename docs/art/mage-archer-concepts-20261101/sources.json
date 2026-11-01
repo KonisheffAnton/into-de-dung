@@ -1,0 +1,18 @@
+[
+  {
+    "file": "mage-01.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-0e97b22c-154f-4920-9ab9-d652cb55044b.png",
+    "sha256": "9066d6748996ad1e726ff621c0996407afbfea156227f160c3bf9188a4ef3eb2",
+    "width": 1254,
+    "height": 1254,
+    "source_equal": true
+  },
+  {
+    "file": "archer-01.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-f711a11a-a014-4d79-b5b8-3e9bbefb2016.png",
+    "sha256": "2d379e2ece14916b0163639e3b09d3c5e7251d9846901a73b72a4a3069b3894d",
+    "width": 1254,
+    "height": 1254,
+    "source_equal": true
+  }
+]
