@@ -14,13 +14,16 @@
 
 ## Изменение игрового кода
 
-Облики и состав классов (2026-11-01): `--check --only class_showcase
+Облики и состав классов (2026-11-01): `--check --only class_showcase class_showcase_ui
 character_skins_hub character_skins`; затем `--render-check --only
-character_skins character_skins_hub`. Проверяются оба скина Щитоносца/Воин,
+character_skins character_skins_hub class_showcase_ui`. Проверяются оба скина Щитоносца/Воин,
 вторичный idle без игрового RNG, выбранные кадры/тайминги, lifecycle,
 реальные события способности, хаб/сохранение косметики/отказ записи/backup.
 Состав проверяет каталоги1–4, одинаковые герои/RNG, все классы на поле,
-настоящие возможности врагов, размещение и повтор checkpoint.
+настоящие возможности врагов, размещение и повтор checkpoint. UI проходит меню/
+хаб/поход до поля ровно с5 классами без лишних NPC; Маг у врага не заимствует
+EnemyPreset. Направление PLAYER-вправо/ENEMY-влево проверяется через исходник,
+смену фракции, временную атаку и GPU-пиксели зеркальной пары (RGB1/255, alpha точно).
 Смежные: hero_hub, hub_mercenaries, mage_deck_expedition, expedition_generator,
 turn_forecast_ui, shieldbearer_ui, defender_death_routes, presentation_contact,
 unit_visual_contract, visual_scene_contract, warrior_class, core.

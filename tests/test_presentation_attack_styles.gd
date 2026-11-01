@@ -16,7 +16,12 @@ func facing_layers(visual: BattleDemoIsoVisual) -> Dictionary:
 
 func no_attack_facing() -> bool:
 	for visual: BattleDemoIsoVisual in board._entity_visuals:
-		if visual.presentation_facing_x != 0 or visual.get_attack_mirror_x() != 1.0: return false
+		if visual.presentation_facing_x != 0: return false
+		# Маг использует общий рисунок: после атаки сохраняется отражение команды.
+		var resting_mirror := 1.0
+		if visual.visual_class_id == &"mage" and visual.unit != null:
+			resting_mirror = float((1 if visual.unit.faction == Faction.Type.PLAYER else -1) * visual.get_authored_facing_x())
+		if visual.get_attack_mirror_x() != resting_mirror: return false
 	return true
 
 
@@ -73,9 +78,10 @@ func facing_case(class_id: StringName, enemy: bool, direction: Vector2i, fallbac
 	if not fallback:
 		var sprite := visual.class_still_sprite()
 		if sprite == null:
-			sprite = visual._enemy_preset_sprites()[posmod(actor.id, 3)] if enemy else visual.get_node("ArtRoot/BodySprite") as Sprite2D
+			sprite = visual._enemy_preset_sprites()[posmod(actor.id, 3)] if enemy and class_id == &"" else visual.get_node("ArtRoot/BodySprite") as Sprite2D
+		check(sprite.is_visible_in_tree(), "facing assertion samples the visible body: " + String(class_id))
 		# Это проверка фактической матрицы рисования, не только управляющего флага.
-		var native_direction := -1 if (class_id == &"warrior" and not enemy) or (class_id not in [&"warrior", &"rogue", &"archer"] and enemy) else 1
+		var native_direction := -1 if (class_id == &"warrior" and not enemy) or (class_id == &"" and enemy) else 1
 		var actual_direction := native_direction * (1 if sprite.global_transform.x.x > 0.0 else -1) * (-1 if sprite.flip_h else 1)
 		check(actual_direction == (authored_direction if expected_direction == 0 else expected_direction), "visible sprite actually faces target: " + String(class_id))
 	advance(0.04)

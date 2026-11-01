@@ -66,7 +66,10 @@ func _sync_scene_art_layers() -> void:
 	_skin_sprite.visible = _skin_can_show()
 	set_process(false)
 	if not _skin_sprite.visible: return
-	var mirrored := unit.faction == Faction.Type.ENEMY
+	# У моделей исходная ориентация различается, поэтому базовое отражение задаёт сторону относительно направления автора.
+	var desired_facing := 1 if unit.faction == Faction.Type.PLAYER else -1
+	var source_facing := -1 if skin_definition.source_facing_x < 0 else 1
+	var mirrored := desired_facing != source_facing
 	var scale_value := skin_definition.texture_scale
 	_skin_sprite.scale = Vector2(-scale_value if mirrored else scale_value, scale_value)
 	_skin_sprite.position = Vector2(skin_definition.anchor.x if mirrored else -skin_definition.anchor.x, -skin_definition.anchor.y) * scale_value

@@ -1,23 +1,20 @@
 class_name ClassShowcaseRoster
 extends RefCounted
 
-static func enemies(run: HeroHubState, minimum_count: int) -> Array[StringName]:
+static func enemies(run: HeroHubState) -> Array[StringName]:
 	var result: Array[StringName] = []
 	if run.hero_catalog_version < 4: return result
 	var classes := HeroCatalog.class_ids(run.hero_catalog_version)
 	var allied: Array[StringName] = []
 	for id: int in run.party: allied.append((run.heroes[id] as HeroProgression).class_id)
-	# Сначала представлены все отсутствующие виды, затем самые старые повторяются.
+	# Для обзора классов нужны только отсутствующие виды, без добивки старой встречи.
 	for class_id: StringName in classes:
 		if not allied.has(class_id): result.append(class_id)
-	var index := 0
-	while result.size() < minimum_count and not classes.is_empty():
-		result.append(classes[index % classes.size()])
-		index += 1
 	return result
 
 static func cells(authored: Array[Vector2i], total: int, opening: Dictionary, size: Vector2i) -> Array[Vector2i]:
-	var result: Array[Vector2i] = authored.duplicate()
+	var result: Array[Vector2i] = []
+	result.assign(authored.slice(0, total))
 	# Дополнительные враги используют свободную правую половину; план/геометрия не переписываются.
 	var terrain := BattleBoard.new(size.x, size.y)
 	for tile: Dictionary in opening.get("terrain", []):

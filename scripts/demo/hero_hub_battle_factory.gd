@@ -17,7 +17,7 @@ static func create(run: HeroHubState) -> Dictionary:
 	var session := BattleCoreReactionsSession.new(false)
 	var board_size: Vector2i = BiomeShowcaseLayout.SIZE if showcase_layout else Vector2i(8, 8)
 	session.board = BattleBoard.new(board_size.x, board_size.y)
-	var showcase_classes := ClassShowcaseRoster.enemies(run, enemy_count)
+	var showcase_classes := ClassShowcaseRoster.enemies(run)
 	var enemy_cells: Array[Vector2i] = []
 	for index: int in enemy_count:
 		enemy_cells.append(ExpeditionOpening.cell(opening.enemies[index].cell) if not opening.is_empty() else encounter.enemy_cells[index])
@@ -221,7 +221,12 @@ static func create(run: HeroHubState) -> Dictionary:
 		var reward := ExpeditionCatalog.room(node.kind)
 		session.flow_log[1] = "%s · встреча %d. Победа: выжившим +%d XP, резерву 10%%; добыча +%d золота." % [reward.title,int(node.variant) + 1,reward.xp,reward.gold]
 		if not opening.is_empty():
-			session.flow_log.append("Стартовая комната: Страж, Щит, Дозорный; шипы, огонь, уступ, стена, пропасти и обрушение. После победы откроется выбор пути.")
+			var opponents := "Страж, Щит, Дозорный"
+			if not showcase_classes.is_empty():
+				var names: PackedStringArray = []
+				for class_id: StringName in showcase_classes: names.append(HeroCatalog.class_definition(class_id).display_name)
+				opponents = ", ".join(names)
+			session.flow_log.append("Стартовая комната: %s; шипы, огонь, уступ, стена, пропасти и обрушение. После победы откроется выбор пути." % opponents)
 	if rules.validate() != &"" or session.state.abilities == null or not session.begin_deployment() or ItemSimulationSnapshot.capture(session.state, []).code != ItemSnapshotResult.Code.OK:
 		session.close(); return {}
 	var bundle := {"session":session,"hero_units":hero_units,"gear_items":gear_items,"serial":run.expedition.battle_serial if expedition else run.run_serial}

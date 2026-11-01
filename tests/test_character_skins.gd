@@ -54,6 +54,8 @@ func _test_rendered_skins() -> void:
 			var visual := _make_visual(700 + row * 4 + column, entry.class, faction, entry.id)
 			var anchor := Vector2(120 + column * 240, 150 + row * 200)
 			visual.position = anchor
+			# Проверяем зеркальные пиксели тела отдельно от незеркальных букв/HP.
+			visual.self_modulate.a = 0.0
 			if column == 2: visual.sample_buff(1.12)
 			if column == 3: visual.sample_death(1.0)
 			visual.set_process(false)
@@ -74,6 +76,18 @@ func _test_rendered_skins() -> void:
 				for x: int in range(center.x - 90, center.x + 90):
 					if pixels.get_pixel(x, y).a > 0.2: count += 1
 			check(count > 100, "GPU renders visible selected frame: " + String(cell.label))
+		for row: int in SKINS.size():
+			var compared := 0
+			var differences := 0
+			for y: int in range(150 + row * 200 - 100, 150 + row * 200):
+				for x: int in range(-90, 90):
+					var left := pixels.get_pixel(120 + x, y)
+					var right := pixels.get_pixel(360 - x - 1, y)
+					if left.a < 0.2 and right.a < 0.2: continue
+					compared += 1
+					# Преобразование shader RGB в8bit допускает один уровень округления; alpha совпадает строго.
+					if absf(left.r - right.r) > 1.01 / 255.0 or absf(left.g - right.g) > 1.01 / 255.0 or absf(left.b - right.b) > 1.01 / 255.0 or left.a != right.a: differences += 1
+			check(compared > 100 and differences == 0, "GPU opposite teams mirror all body pixels (RGB1/255, exact alpha): %s (%d/%d)" % [SKINS[row].id, differences, compared])
 		check(pixels.save_png(_capture_path().path_join("selected-skins-gpu.png")) == OK, "save rendered skin contact")
 
 func _visual_values(unit_id: int, class_id: StringName, faction: Faction.Type, skin_id: StringName) -> Dictionary:
@@ -147,12 +161,15 @@ func _test_skins_and_clock() -> void:
 			visuals.append(visual)
 			by_skin_and_side["%s:%d" % [skin_id, int(faction)]] = visual
 			var sprite := visual.class_still_sprite()
-			var mirrored := faction == Faction.Type.ENEMY
+			var team_facing := 1 if faction == Faction.Type.PLAYER else -1
+			var mirrored := team_facing != definition.source_facing_x
+			var expected_scale_x := -0.5 if mirrored else 0.5
+			var expected_anchor_x := 64.0 if mirrored else -64.0
 			check(sprite != null and sprite.texture == definition.animations.get_frame_texture(&"idle", 0) and sprite.visible,
 				"%s %s side draws selected primary idle" % [skin_id, faction])
-			check(sprite != null and is_equal_approx(sprite.scale.x, -0.5 if mirrored else 0.5)
+			check(sprite != null and is_equal_approx(sprite.scale.x, expected_scale_x)
 				and is_equal_approx(sprite.scale.y, 0.5)
-				and sprite.position.is_equal_approx(Vector2(64.0 if mirrored else -64.0, -100.0)),
+				and sprite.position.is_equal_approx(Vector2(expected_anchor_x, -100.0)),
 				"%s %s keeps uniform scale and mirrored anchor" % [skin_id, faction])
 			if sprite != null:
 				var material := sprite.material as ShaderMaterial
@@ -160,19 +177,74 @@ func _test_skins_and_clock() -> void:
 					"%s %s uses only its approved shieldbearer RGB palette strength" % [skin_id, faction])
 				check(sprite.get_meta(&"source_facing_x", 0) == definition.source_facing_x,
 					"%s %s keeps authored direction metadata" % [skin_id, faction])
-				if faction == Faction.Type.PLAYER:
-					visual._draw_skin_idle()
-					check(not visual.skin_clock.secondary and sprite.texture == definition.animations.get_frame_texture(&"idle", 0),
-						"%s starts with its primary idle clip" % skin_id)
-					var buff_mid := definition.animations.get_frame_duration(&"buff", 16) * 0.5 / definition.animations.get_animation_speed(&"buff")
-					visual.sample_buff(buff_mid)
-					check(sprite.texture == _frame_at(definition.animations, &"buff", buff_mid),
-						"%s ability2 selects its source atlas frame" % skin_id)
-				visual.sample_death(1.0)
-				check(sprite.texture == definition.animations.get_frame_texture(&"death", 32),
-					"%s death3 selects its held final atlas pose" % skin_id)
-				visual.reset_view_pose()
+			if faction == Faction.Type.PLAYER:
+				visual._draw_skin_idle()
+				check(not visual.skin_clock.secondary and sprite.texture == definition.animations.get_frame_texture(&"idle", 0),
+					"%s starts with its primary idle clip" % skin_id)
+			var buff_mid := definition.animations.get_frame_duration(&"buff", 16) * 0.5 / definition.animations.get_animation_speed(&"buff")
+			visual.sample_buff(buff_mid)
+			check(sprite.texture == _frame_at(definition.animations, &"buff", buff_mid),
+				"%s %s ability2 selects its source atlas frame" % [skin_id, faction])
+			var buff_texture := sprite.texture
+			var buff_transform := sprite.transform
+			visual.sync_scene_art()
+			visual.sync_scene_art()
+			check(sprite.texture == buff_texture and sprite.transform.is_equal_approx(buff_transform),
+				"%s %s keeps buff frame and facing on repeated sync" % [skin_id, faction])
+			visual.sample_death(1.0)
+			check(sprite.texture == definition.animations.get_frame_texture(&"death", 32),
+				"%s %s death3 selects its held final atlas pose" % [skin_id, faction])
+			var death_texture := sprite.texture
+			var death_transform := sprite.transform
+			visual.sync_scene_art()
+			visual.sync_scene_art()
+			check(sprite.texture == death_texture and sprite.transform.is_equal_approx(death_transform),
+				"%s %s keeps death frame and facing on repeated sync" % [skin_id, faction])
+			visual.reset_view_pose()
+			visual.sync_scene_art()
+			var base_transform := sprite.transform
+			for attack_facing: int in [-1, 1]:
+				visual.presentation_facing_x = attack_facing
+				var should_attack_flip := attack_facing != team_facing
+				var expected_attack_sign := signf(base_transform.x.x) * (-1.0 if should_attack_flip else 1.0)
+				var attack_transform := sprite.transform
+				check(is_equal_approx(signf(attack_transform.x.x), expected_attack_sign)
+					and is_equal_approx(visual.get_attack_mirror_x(), -1.0 if should_attack_flip else 1.0),
+					"%s %s temporary facing %d is relative to team orientation" % [skin_id, faction, attack_facing])
 				visual.sync_scene_art()
+				visual.sync_scene_art()
+				check(sprite.transform.is_equal_approx(attack_transform),
+					"%s %s repeated sync preserves temporary attack facing" % [skin_id, faction])
+			visual.presentation_facing_x = 0
+			check(sprite.transform.is_equal_approx(base_transform)
+				and is_equal_approx(signf(sprite.transform.x.x), signf(base_transform.x.x)),
+				"%s %s reset restores its team facing and anchor" % [skin_id, faction])
+	for skin_entry: Dictionary in SKINS:
+		var skin_id: StringName = skin_entry.id
+		var class_id: StringName = skin_entry.class
+		var visual := by_skin_and_side["%s:%d" % [skin_id, int(Faction.Type.PLAYER)]] as BattleCharacterSkinVisual
+		var sprite := visual.class_still_sprite()
+		visual.skin_clock.advance(0.41)
+		var saved_phase := visual.skin_clock.elapsed
+		var owner_before := visual._skin_owner
+		var definition_before := visual.skin_definition
+		var enemy_values := _visual_values(owner_before, class_id, Faction.Type.ENEMY, skin_id)
+		var config := IsoGridConfig.new(); config.tile_size = Vector2(128.0, 96.0)
+		visual.apply_view(enemy_values, config)
+		var enemy_mirrored := -1 != definition_before.source_facing_x
+		check(visual._skin_owner == owner_before and visual.skin_definition == definition_before
+			and is_equal_approx(visual.skin_clock.elapsed, saved_phase),
+			"%s same-ID side swap preserves owner, resource and idle phase" % skin_id)
+		check(is_equal_approx(sprite.scale.x, -0.5 if enemy_mirrored else 0.5)
+			and sprite.position.is_equal_approx(Vector2(64.0 if enemy_mirrored else -64.0, -100.0)),
+			"%s PLAYER-to-ENEMY swap updates team facing" % skin_id)
+		var player_values := _visual_values(owner_before, class_id, Faction.Type.PLAYER, skin_id)
+		visual.apply_view(player_values, config)
+		var player_mirrored := 1 != definition_before.source_facing_x
+		check(is_equal_approx(visual.skin_clock.elapsed, saved_phase)
+			and is_equal_approx(sprite.scale.x, -0.5 if player_mirrored else 0.5)
+			and sprite.position.is_equal_approx(Vector2(64.0 if player_mirrored else -64.0, -100.0)),
+			"%s ENEMY-to-PLAYER swap restores team facing without resetting idle" % skin_id)
 	var player_17 := by_skin_and_side["grey_bastion:%d" % int(Faction.Type.PLAYER)] as BattleCharacterSkinVisual
 	var enemy_17 := by_skin_and_side["grey_bastion:%d" % int(Faction.Type.ENEMY)] as BattleCharacterSkinVisual
 	if player_17 != null and enemy_17 != null and player_17.class_still_sprite() != null and enemy_17.class_still_sprite() != null:
@@ -193,6 +265,8 @@ func _test_skins_and_clock() -> void:
 		return
 	var skin := idle_visual.skin_definition
 	var idle_seconds := skin.clip_duration(&"idle")
+	# Смена стороны выше намеренно продвинула часы; этот сценарий начинает новый полный цикл.
+	idle_visual.skin_clock.configure(10, idle_seconds, skin.clip_duration(&"idle_secondary"))
 	check(idle_visual.skin_clock._normal_cycles in range(3, 7), "secondary idle gap starts between three and six full cycles")
 	idle_visual.skin_clock.advance(idle_seconds * idle_visual.skin_clock._normal_cycles + 0.002)
 	check(idle_visual.skin_clock.secondary and idle_visual.skin_clock.elapsed < 0.01,

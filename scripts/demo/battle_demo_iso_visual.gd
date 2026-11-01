@@ -329,7 +329,8 @@ func _sync_scene_art_layers() -> void:
 	var presets_ready: bool = enemy_presets.size() == 3
 	for preset: Sprite2D in enemy_presets:
 		presets_ready = presets_ready and preset.texture != null
-	if role == Role.UNIT and unit != null and unit.faction == Faction.Type.ENEMY and presets_ready and warrior_sprite == null:
+	# Именованный класс без готового рисунка (Маг) не превращается в случайного старого NPC.
+	if role == Role.UNIT and unit != null and unit.faction == Faction.Type.ENEMY and visual_class_id == &"" and presets_ready and warrior_sprite == null:
 		selected_enemy_preset = enemy_presets[posmod(unit.id, enemy_presets.size())]
 	# Кастомный силуэт остаётся нейтральным: исходная палитра уже задаёт его сторону.
 	if player_warrior != null:
@@ -400,7 +401,7 @@ func _restore_body_branch_transforms() -> void:
 	_body_authored_components.clear()
 
 func _apply_attack_facing() -> void:
-	if role != Role.UNIT or unit == null or not unit.alive or presentation_facing_x == 0: return
+	if role != Role.UNIT or unit == null or not unit.alive or _body_facing_target_x() == 0: return
 	var mirror := get_attack_mirror_x()
 	if mirror > 0.0: return
 	for branch: Node2D in _body_branches():
@@ -421,7 +422,7 @@ func _selected_body_node() -> Node2D:
 	var ready := presets.size() == 3
 	for preset: Sprite2D in presets:
 		ready = ready and preset.texture != null
-	if role == Role.UNIT and unit != null and unit.faction == Faction.Type.ENEMY and ready:
+	if role == Role.UNIT and unit != null and unit.faction == Faction.Type.ENEMY and visual_class_id == &"" and ready:
 		return presets[posmod(unit.id, presets.size())]
 	var fallback := get_node_or_null("ArtRoot/BodySprite") as Node2D
 	if fallback is Sprite2D and (fallback as Sprite2D).texture != null: return fallback
@@ -454,12 +455,19 @@ func get_authored_facing_x() -> int:
 	return -1 if float(sprite_direction) * relative_sign < 0.0 else 1
 
 func get_attack_mirror_x() -> float:
-	if role != Role.UNIT or unit == null or not unit.alive or presentation_facing_x == 0: return 1.0
-	return float(presentation_facing_x * get_authored_facing_x())
+	if role != Role.UNIT or unit == null or not unit.alive or _body_facing_target_x() == 0: return 1.0
+	return float(_body_facing_target_x() * get_authored_facing_x())
+
+func _body_facing_target_x() -> int:
+	if presentation_facing_x != 0: return presentation_facing_x
+	# У Мага пока общий условный рисунок, но его сторона тоже определяется командой.
+	if visual_class_id == &"mage" and unit != null and unit.faction in [Faction.Type.PLAYER, Faction.Type.ENEMY]:
+		return 1 if unit.faction == Faction.Type.PLAYER else -1
+	return 0
 
 func body_drawing_transform(factor: float) -> Transform2D:
 	var pose := body_pose_transform(factor)
-	if role == Role.UNIT and unit != null and unit.alive and presentation_facing_x != 0:
+	if role == Role.UNIT and unit != null and unit.alive and _body_facing_target_x() != 0:
 		var mirror := get_attack_mirror_x()
 		# Локальное отражение не сдвигает origin выпадов и экранную опору тела.
 		pose = pose * Transform2D(Vector2(mirror, 0.0), Vector2(0.0, 1.0), Vector2.ZERO)
