@@ -1,10 +1,10 @@
-[gd_scene load_steps=28 format=3]
+[gd_scene load_steps=29 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/placeholder_unit.tscn" id="1_base"]
 [ext_resource type="Texture2D" path="res://assets/art_presets/trials/defender_field_v1/defender_new.png" id="2_player"]
 [ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/defender_death_v1/death_frames.tres" id="3_death"]
 [ext_resource type="Shader" path="res://assets/art_presets/trials/pixel_zoom_v1/native_sprite.gdshader" id="4_native"]
-[ext_resource type="Script" path="res://scripts/demo/battle_defender_idle_visual.gd" id="5_idle_script"]
+[ext_resource type="Script" path="res://scripts/demo/battle_character_skin_visual.gd" id="5_idle_script"]
 [ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/defender_idle_v1/idle_frames.tres" id="6_idle_frames"]
 [ext_resource type="SpriteFrames" path="res://assets/art_presets/trials/defender_buff_v1/buff_frames.tres" id="7_buff_frames"]
 [ext_resource type="Texture2D" path="res://assets/art_presets/trials/rogue_selected_v1/still.png" id="8_rogue_still"]
@@ -74,6 +74,12 @@ shader_parameter/source_region = Vector4(193, 132, 870, 1046)
 shader_parameter/native_size = Vector2(63.212, 76)
 shader_parameter/brighter_palette_strength = 0.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_skin"]
+shader = ExtResource("4_native")
+shader_parameter/source_region = Vector4(0, 0, 256, 256)
+shader_parameter/native_size = Vector2(128, 128)
+shader_parameter/brighter_palette_strength = 0.0
+
 [node name="PlaceholderUnit" instance=ExtResource("1_base")]
 script = ExtResource("5_idle_script")
 batch_motion_pose = true
@@ -98,6 +104,12 @@ enemy_warrior_pick_rect = Rect2(-29, -67, 64, 80)
 
 [node name="BodySprite" parent="ArtRoot" index="0"]
 material = SubResource("ShaderMaterial_fallback_palette")
+
+[node name="CharacterSkinSprite" type="Sprite2D" parent="ArtRoot"]
+visible = false
+texture_filter = 1
+material = SubResource("ShaderMaterial_skin")
+centered = false
 
 [node name="PlayerWarriorSprite" parent="ArtRoot" index="1"]
 metadata/source_facing_x = -1

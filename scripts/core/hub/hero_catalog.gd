@@ -5,7 +5,7 @@ static func class_ids(catalog_version: int = 1) -> Array[StringName]:
 	match catalog_version:
 		1: return [&"warrior", &"archer", &"rogue", &"mage"]
 		2: return [&"shieldbearer", &"archer", &"rogue", &"mage"]
-		3: return [&"shieldbearer", &"archer", &"rogue", &"mage", &"fighter"]
+		3, 4: return [&"shieldbearer", &"archer", &"rogue", &"mage", &"fighter"]
 		_: return []
 
 static func class_definition(id: StringName) -> HeroClassDefinition:

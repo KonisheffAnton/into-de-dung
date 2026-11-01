@@ -36,6 +36,8 @@ var summoning_mode: bool = false
 var raising_mode: bool = false
 var environment_mode: bool = false
 var defender_cloth_palette: int = 0
+## Значения выбора из хаба; playback не читает файл или живой профиль.
+var character_skins: Dictionary = {}
 var elemental_mode: bool = false
 var inspected_id: int = UnitId.NONE
 var displayed_selected_id: int = UnitId.NONE
@@ -385,7 +387,7 @@ static func _impact_recoil(progress: float) -> float:
 func _hit_recovery(progress: float, strike: Dictionary, dying: bool, seconds: float = STRIKE_RECOVERY_SECONDS) -> void:
 	# Длинный клип жертвы не растягивает возврат атакующего и отдачу попадания.
 	var amount := clampf(progress * seconds / STRIKE_RECOVERY_SECONDS, 0.0, 1.0)
-	_strike_pose((0.0 if strike.get("presentation_ranged", false) else STRIKE_LUNGE_DISTANCE) * pow(1.0 - amount, 3.0), strike)
+	_strike_pose((0.0 if strike.get("presentation_ranged", false) or strike.get("presentation_skin_ability", false) else STRIKE_LUNGE_DISTANCE) * pow(1.0 - amount, 3.0), strike)
 	var recoil := _strike_direction(strike) * _impact_recoil(amount) * NORMAL_RECOIL_DISTANCE
 	if bool(strike.get("modifiers", {}).get("critical", false)):
 		if amount <= 0.0 or amount >= 1.0:
@@ -894,11 +896,20 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			start["presentation_cues"] = reaction_cues.duplicate(true)
 			_pending_strikes[_strike_key(event)] = start
 			_face_strike_target(start)
+			var skin_actor := _presentation_visual(int(event.actor_unit_id)) as BattleCharacterSkinVisual
+			var skin_ability: bool = kind == &"attacked" and StringName(event.get("attack_definition_id", &"")) == WarriorKit.CLEAVE \
+				and _view_actor_classes.get(int(event.actor_unit_id), &"") == &"fighter" \
+				and skin_actor != null and skin_actor.can_play_buff()
+			start["presentation_skin_ability"] = skin_ability
 			for cue: Dictionary in reaction_cues:
 				if cue.kind in [&"opportunist", &"counterattack"]: _append_reaction_cue(tween, cue)
 			for cue: Dictionary in reaction_cues:
 				if cue.kind == &"cover": _append_reaction_cue(tween, cue)
-			if start.presentation_ranged:
+			if skin_ability:
+				_defender_buff_visual = skin_actor
+				_sample_defender_buff(0.0)
+				tween.tween_method(_sample_defender_buff, 0.0, skin_actor.buff_duration(), skin_actor.buff_duration())
+			elif start.presentation_ranged:
 				var projectile := _prepare_projectile(start)
 				tween.tween_method(_strike_pose.bind(start), 0.0, -8.0, SHOT_WINDUP_SECONDS)
 				tween.tween_method(_shot_flight.bind(start, projectile), 0.0, 1.0, _shot_flight_seconds(start))
@@ -1777,6 +1788,7 @@ func _unit_view_values(row: Dictionary) -> Dictionary:
 			"alive": unit.alive, "hp": unit.hp, "hp_max": unit.hp_max,
 			"balance": unit.balance, "balance_max": unit.balance_max},
 		"visual_class_id": _view_visual_classes.get(unit.id, &""),
+		"visual_skin_id": character_skins.get(_view_visual_classes.get(unit.id, &""), &""),
 		"selected": bool(row["selected"]) and unit.alive,
 		"inspected": bool(row["inspected"]) and unit.alive,
 		"hovered": unit.id == hovered_unit_id and unit.alive,

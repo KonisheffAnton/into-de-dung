@@ -10,7 +10,37 @@ var _actor: UnitState
 
 
 func _init() -> void:
-	_nodes = [_escape_collapse, _reaction_guard, _attack, _summon, _advance, _wait]
+	_nodes = [_escape_collapse, _class_guard, _reaction_guard, _attack, _summon, _advance, _wait]
+
+func _class_loadout() -> Dictionary:
+	if _actor == null or not _session is BattleCoreReactionsSession: return {}
+	return (_session as BattleCoreReactionsSession).actor_loadouts.get(_actor.id, {})
+
+func _class_guard() -> BattleAIIntent:
+	if _class_loadout().get("class_id", &"") != &"shieldbearer": return null
+	# Защита чередуется с наступлением, поэтому последний защитник не стоит бесконечно.
+	if (_session as BattleTacticalSession).round_number % 2 == 0: return null
+	var nearby := false
+	for target: UnitState in _session.board.get_alive_units():
+		if _actor.is_hostile_to(target) and MeleeThreat.threatens(_session.context, _actor, target): nearby = true
+	if not nearby or RaiseShieldsCommand.new(_actor.id, _session.context.get_revision()).validate(_session.context) != &"": return null
+	var result := BattleAIIntent.new()
+	result.kind = BattleAIIntent.Kind.RAISE_SHIELDS
+	result.actor_id = _actor.id
+	return result
+
+func _attack_ids(target: UnitState) -> Array[StringName]:
+	var loadout := _class_loadout()
+	var ordinary: StringName = loadout.get("attack_id", &"demo_strike")
+	var result: Array[StringName] = []
+	if loadout.get("class_id", &"") == &"fighter": result.append(WarriorKit.CLEAVE)
+	if loadout.get("class_id", &"") == &"archer" and target.control != null and target.control.entangled_turns == 0 and not ControlRules.immune_to(target, &"entangle"):
+		result.append(&"entangling_strike")
+	if ControlRules.has_stunning_strike(_actor) and target.control != null and target.control.stunned_turns == 0 and not ControlRules.immune_to(target, &"stun"):
+		result.append(&"stunning_strike")
+		if loadout.is_empty() and _session.context.get_attack_rules().get_definition(&"stunning_strike") != null: return result
+	result.append(ordinary)
+	return result
 
 func _collapse_danger(cell: Vector2i) -> bool:
 	return _session != null and _session.state != null and _session.state.environment != null and _session.state.environment.collapse.get("marked", []).has(cell)
@@ -90,14 +120,13 @@ func _attack() -> BattleAIIntent:
 	for target in board.get_alive_units():
 		if target == null or not _actor.is_hostile_to(target):
 			continue
-		var definition_id: StringName = &"demo_strike"
-		# BT выбирает способность владельца; gate и последствия остаются у команды.
-		if ControlRules.has_stunning_strike(_actor) and target.control != null and target.control.stunned_turns == 0 and not ControlRules.immune_to(target, &"stun") and context.get_attack_rules().get_definition(&"stunning_strike") != null:
-			definition_id = &"stunning_strike"
-		var command := AttackCommand.new(_actor.id, target.id, _actor.cell, target.cell, definition_id, context.get_revision())
-		if command.validate(context) != &"":
-			continue
-		valid.append({"target": target, "push": _push_toward_void(target), "hp": target.vitals.get_hp(), "definition_id": definition_id})
+		# Только команда решает доступность умения; cooldown оставляет обычную атаку запасным выбором.
+		for definition_id: StringName in _attack_ids(target):
+			if context.get_attack_rules().get_definition(definition_id) == null: continue
+			var command := AttackCommand.new(_actor.id, target.id, _actor.cell, target.cell, definition_id, context.get_revision())
+			if command.validate(context) != &"": continue
+			valid.append({"target": target, "push": _push_toward_void(target), "hp": target.vitals.get_hp(), "definition_id": definition_id})
+			break
 	if valid.is_empty():
 		return null
 	valid.sort_custom(_attack_less)

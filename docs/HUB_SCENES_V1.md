@@ -6,6 +6,12 @@
 
 ## Что редактировать в Godot
 
+Выбор облика класса размещён в authored `hero_detail_panel.tscn` через metadata
+`skin_choice`/`skin_label`. HubSectionPage передаёт ID через ExpeditionDashboard
+в HeroHubScreen; только владелец проверяет phase=hub и сохраняет отдельные
+настройки. Портреты и боевой экран получают одну копию выбора —
+[CHARACTER_SKINS_V1](CHARACTER_SKINS_V1.md). Профиль и его RNG не меняются.
+
 | Файл в scenes/demo/ | Назначение |
 |---|---|
 | main_menu.tscn | Фон, заголовок, описание, кнопка запуска и подсказка временного профиля |

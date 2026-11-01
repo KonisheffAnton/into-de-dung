@@ -62,6 +62,7 @@ func run() -> void:
 	battle.select_unit(bundle.hero_units[1])
 	demo=(load("res://scenes/demo/battle/hero_hub_battle.tscn") as PackedScene).instantiate() as HeroHubBattleView
 	demo.supplied_session=battle
+	demo.character_skins = {&"shieldbearer": &"grey_bastion"}
 	viewport=SubViewport.new(); viewport.size=Vector2i(1280,850)
 	viewport.render_target_update_mode=SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport); viewport.add_child(demo); viewport.notify_mouse_entered()
@@ -69,12 +70,12 @@ func run() -> void:
 	check(button(&"raise_shields")!=null,"class active is visible")
 	var actor_id := battle.selected_id
 	check(demo.board_view._view_actor_classes.get(actor_id)==&"shieldbearer" and demo.board_view._view_visual_classes.get(actor_id)==&"shieldbearer","class identity uses selected shieldbearer visual")
-	var visual := demo.board_view._presentation_visual(actor_id) as BattleDefenderIdleVisual
+	var visual := demo.board_view._presentation_visual(actor_id) as BattleCharacterSkinVisual
 	check(visual != null, "production shieldbearer uses the shared art scene")
 	if visual == null:
 		demo.queue_free(); await process_frame; viewport.queue_free(); await process_frame; quit(1); return
 	var sprite := visual.class_still_sprite()
-	check(sprite.visible and visual._buff_elapsed < 0.0, "selected model 17 is visible before activation")
+	check(sprite.visible and visual.skin_definition.id == &"grey_bastion" and visual._skin_buff_elapsed < 0.0, "selected model 17 is visible before activation")
 	check(button(&"opportunity_guard")==null and button(&"cover_guard")==null and button(&"stunning_strike")==null,"old manual perks absent")
 	var active_button := button(&"raise_shields")
 	if active_button==null: demo.queue_free(); await process_frame; quit(1); return
@@ -84,7 +85,7 @@ func run() -> void:
 	await mouse(center)
 	check(demo._guard_forecast!=null and demo._guard_forecast.status==ActionReceipt.APPLIED,"hover actual isolated ability preview")
 	check(snapshot()==before,"hover does not spend action/shield/RNG")
-	check(visual._buff_elapsed < 0.0 and demo.board_view._defender_buff_visual == null, "actual hover forecast never starts buff gesture")
+	check(visual._skin_buff_elapsed < 0.0 and demo.board_view._defender_buff_visual == null, "actual hover forecast never starts buff gesture")
 	check(demo._forecast_panel.text.contains("90%") and demo._forecast_panel.text.contains("Откат: 1"),"forecast describes class effect and cooldown")
 	check(demo.board_view.compact_forecast.label.text.contains("90%") and demo.board_view.compact_forecast.label.text.contains("откат 1"),"compact forecast explains class effect")
 	await capture("shieldbearer-ready")
@@ -98,13 +99,13 @@ func run() -> void:
 	var deadline := Time.get_ticks_msec() + 10000
 	while demo.is_execution_pending() and demo.board_view._defender_buff_visual == null and Time.get_ticks_msec() < deadline:
 		await process_frame
-	check(demo.board_view._defender_buff_visual == null and sprite.visible and visual._buff_elapsed < 0.0,
-		"real shield button keeps model 17 instead of borrowing old Defender frames")
+	check(demo.board_view._defender_buff_visual == visual and sprite.visible and visual._skin_buff_elapsed >= 0.0,
+		"real shield button plays selected model 17 ability 2")
 	for i: int in 500:
 		if not demo.is_execution_pending(): break
 		demo.skip_presentation(); await process_frame
 	check(not demo.is_execution_pending(),"live worker/playback completes")
-	check(visual._buff_elapsed < 0.0 and sprite.visible and not visual.is_processing(), "skip retains static model 17")
+	check(visual._skin_buff_elapsed < 0.0 and sprite.visible and visual.is_processing(), "skip restores selected model 17 idle")
 	var actor := demo.session.selected_unit()
 	check(actor.armor.raised_shield.active and actor.action_resources.get_main_left()==0,"frame-separated click activates class shield")
 	check(actor.action_resources.get_bonus_left()==1 and not actor.guard_stance,"reaction resource preserved; no ordinary guard")

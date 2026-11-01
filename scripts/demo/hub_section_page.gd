@@ -6,12 +6,15 @@ signal hire_requested(candidate_id: int)
 signal party_requested(hero_id: int, join_party: bool)
 signal equipment_requested(item_id: int, hero_id: int, equip_item: bool)
 signal allocation_requested(hero_id: int, expected: Dictionary, delta: Array[int])
+signal skin_selection_requested(class_id: StringName, skin_id: StringName)
 
 @export var section_id: StringName = &"mercenaries"
 
 const RESERVE_PAGE_SIZE: int = 3
 const ITEMS_PAGE_SIZE: int = 6
 var _profile: HeroHubState
+var character_skins: Dictionary = {}
+var skin_notice: String = ""
 var _selected_hero_id: int = 0
 var _selected_candidate: bool = true
 var _selected_item_id: int = 0
@@ -44,6 +47,9 @@ func _connect_controls() -> void:
 			var button := child as Button
 			var callback := _on_action.bind(String(child.get_meta(&"hub_action")))
 			if not button.pressed.is_connected(callback): button.pressed.connect(callback)
+		elif child is OptionButton and String(child.get_meta(&"hub_slot", "")) == "skin_choice":
+			var choice := child as OptionButton
+			if not choice.item_selected.is_connected(_on_skin_choice_selected): choice.item_selected.connect(_on_skin_choice_selected)
 
 func _slot(key: String) -> Node:
 	# Метаданные переживают переименование/перемещение; отсутствие элемента допустимо.
@@ -76,7 +82,8 @@ func _render_hero_slot(slot: String, hero: HeroProgression, candidate: bool = fa
 		return
 	var definition := HeroCatalog.class_definition(hero.class_id)
 	var key := ("candidate:" if candidate else "hero:") + str(hero.id)
-	card.render_card(key, definition.display_name, "Ур. %d" % hero.level(), "", HubSkeletonCard.hero_texture(hero.class_id))
+	var selected_skin := StringName(character_skins.get(hero.class_id, &""))
+	card.render_card(key, definition.display_name, "Ур. %d" % hero.level(), "", HubSkeletonCard.hero_texture(hero.class_id, selected_skin))
 	card.tooltip_text = hero.name
 
 func _reserve_ids() -> Array[int]:
@@ -125,14 +132,59 @@ func _render_mercenaries() -> void:
 		_text("hero_title", "Выберите героя")
 		_text("hero_detail", "Нет доступных героев")
 		_portrait("hero_portrait", null)
+		_render_skin_choice(null)
+		_render_skin_notice()
 		_update_mercenary_action(null)
 		return
 	_text("hero_title", hero.name)
-	_portrait("hero_portrait", HubSkeletonCard.hero_texture(hero.class_id))
+	var selected_skin := StringName(character_skins.get(hero.class_id, &""))
+	_portrait("hero_portrait", HubSkeletonCard.hero_texture(hero.class_id, selected_skin))
+	_render_skin_choice(hero)
+	_render_skin_notice()
 	var attrs := hero.attributes()
 	var location := "Кандидат" if _selected_candidate else ("В отряде" if _profile.party.has(hero.id) else "В резерве")
 	_text("hero_detail", "%s · ур. %d\nHP %.0f/%.0f\nМощь %d · Ловкость %d\nВыносливость %d\nИнтеллект %d · Мастерство %d" % [location, hero.level(), hero.hp_current, hero.max_hp(), attrs[0], attrs[1], attrs[2], attrs[3], attrs[4]])
 	_update_mercenary_action(hero)
+
+func _render_skin_choice(hero: HeroProgression) -> void:
+	var choice := _slot("skin_choice") as OptionButton
+	var label := _slot("skin_label") as Label
+	if choice == null: return
+	choice.clear()
+	var skin_ids: Array[StringName] = []
+	if hero != null: skin_ids = CharacterSkinCatalog.ids(hero.class_id)
+	var supported := not skin_ids.is_empty()
+	choice.visible = supported
+	if label != null: label.visible = supported
+	if not supported:
+		choice.disabled = true
+		return
+	for skin_id: StringName in skin_ids:
+		var skin := CharacterSkinCatalog.definition(hero.class_id, skin_id)
+		choice.add_item(skin.display_name if skin != null else String(skin_id))
+		# ID в metadata не зависит от локализованной подписи пункта.
+		choice.set_item_metadata(choice.item_count - 1, skin_id)
+	var selected_skin := CharacterSkinCatalog.resolve_id(hero.class_id, StringName(character_skins.get(hero.class_id, &"")))
+	for index: int in choice.item_count:
+		if StringName(choice.get_item_metadata(index)) == selected_skin:
+			choice.select(index)
+			break
+	choice.disabled = _profile == null or _profile.phase != "hub" or skin_ids.size() <= 1
+
+func _on_skin_choice_selected(index: int) -> void:
+	var choice := _slot("skin_choice") as OptionButton
+	var hero := _selected_hero()
+	if choice == null or hero == null or _profile == null or _profile.phase != "hub" or not is_visible_in_tree(): return
+	if index < 0 or index >= choice.item_count or choice.disabled: return
+	var skin_id := StringName(choice.get_item_metadata(index))
+	if not CharacterSkinCatalog.ids(hero.class_id).has(skin_id): return
+	skin_selection_requested.emit(hero.class_id, skin_id)
+
+func _render_skin_notice() -> void:
+	var notice := _slot("skin_notice") as Label
+	if notice == null: return
+	notice.text = skin_notice
+	notice.visible = not skin_notice.is_empty()
 
 func _update_mercenary_action(hero: HeroProgression) -> void:
 	var action_button := _action_button("mercenary_action")

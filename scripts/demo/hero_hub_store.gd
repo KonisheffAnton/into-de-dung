@@ -10,7 +10,7 @@ static func read_run(path: String, deck_mode: bool = false) -> Dictionary:
 		var rng := RandomNumberGenerator.new()
 		rng.randomize()
 		# Режим колоды выбирает только каталог и правила нового профиля.
-		var fresh := HeroHubState.create(rng.seed, 3 if deck_mode else 1)
+		var fresh := HeroHubState.create(rng.seed, 4 if deck_mode else 1)
 		if deck_mode: fresh.enable_mage_deck()
 		return {"run":fresh, "error":""}
 	var file := FileAccess.open(path, FileAccess.READ)

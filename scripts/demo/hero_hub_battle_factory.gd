@@ -17,6 +17,15 @@ static func create(run: HeroHubState) -> Dictionary:
 	var session := BattleCoreReactionsSession.new(false)
 	var board_size: Vector2i = BiomeShowcaseLayout.SIZE if showcase_layout else Vector2i(8, 8)
 	session.board = BattleBoard.new(board_size.x, board_size.y)
+	var showcase_classes := ClassShowcaseRoster.enemies(run, enemy_count)
+	var enemy_cells: Array[Vector2i] = []
+	for index: int in enemy_count:
+		enemy_cells.append(ExpeditionOpening.cell(opening.enemies[index].cell) if not opening.is_empty() else encounter.enemy_cells[index])
+	if not showcase_classes.is_empty():
+		enemy_count = showcase_classes.size()
+		enemy_cells = ClassShowcaseRoster.cells(enemy_cells, enemy_count, opening, board_size)
+		if enemy_cells.size() < enemy_count:
+			session.close(); return {}
 	var hero_units: Dictionary = {}
 	var gear_items: Dictionary = {}
 	var owners: Array[ItemOwnerState] = []
@@ -42,7 +51,10 @@ static func create(run: HeroHubState) -> Dictionary:
 	definitions.append(WarriorKit.definition(WarriorKit.KICK))
 	for index: int in range(run.party.size() + enemy_count):
 		var hero: HeroProgression = run.heroes[run.party[index]] if index < run.party.size() else null
-		var enemy_data: Dictionary = opening.enemies[index - run.party.size()] if hero == null and not opening.is_empty() else {}
+		var enemy_index := index - run.party.size()
+		var enemy_data: Dictionary = opening.enemies[enemy_index] if hero == null and not opening.is_empty() and enemy_index < opening.enemies.size() else {}
+		var enemy_class: StringName = showcase_classes[enemy_index] if hero == null and not showcase_classes.is_empty() else &""
+		var enemy_definition := HeroCatalog.class_definition(enemy_class)
 		var hero_class := HeroCatalog.class_definition(hero.class_id) if hero != null else null
 		var stats := StatsBag.from_base_values({
 			StatTypes.StatType.HP_MAX: float(hero.max_hp() if hero != null else enemy_hp),
@@ -54,15 +66,18 @@ static func create(run: HeroHubState) -> Dictionary:
 			StatTypes.StatType.MOVE_RANGE: hero.move_max() if hero != null else float(encounter.enemy_move),
 			StatTypes.StatType.MAIN_ACTIONS_MAX: 1.0,
 			StatTypes.StatType.BONUS_ACTIONS_MAX: 1.0,
-			StatTypes.StatType.ATTACK_RANGE: float(hero_class.attack_range if hero != null else encounter.enemy_range),
+			StatTypes.StatType.ATTACK_RANGE: float(hero_class.attack_range if hero != null else enemy_definition.attack_range if enemy_definition != null else encounter.enemy_range),
 			StatTypes.StatType.PHYSICAL_PIERCING_PERCENT: 0.0,
 		})
 		if hero != null:
 			var attributes := hero.attributes()
 			var attribute_types := [StatTypes.StatType.POWER, StatTypes.StatType.DEXTERITY, StatTypes.StatType.ENDURANCE, StatTypes.StatType.INTELLECT, StatTypes.StatType.MASTERY]
 			for attribute_index: int in attribute_types.size(): stats.set_base_value(attribute_types[attribute_index], float(attributes[attribute_index]))
-		var cell := Vector2i(1, 2 + index) if hero != null else encounter.enemy_cells[index - run.party.size()]
-		if not enemy_data.is_empty(): cell = ExpeditionOpening.cell(enemy_data.cell)
+		elif enemy_definition != null:
+			# Возможности класса используют те же пять характеристик, без генерации нового героя/RNG.
+			var attribute_types := [StatTypes.StatType.POWER, StatTypes.StatType.DEXTERITY, StatTypes.StatType.ENDURANCE, StatTypes.StatType.INTELLECT, StatTypes.StatType.MASTERY]
+			for attribute_index: int in attribute_types.size(): stats.set_base_value(attribute_types[attribute_index], float(enemy_definition.base_attributes[attribute_index]))
+		var cell := Vector2i(1, 2 + index) if hero != null else enemy_cells[enemy_index]
 		var unit := UnitState.create(Faction.Type.PLAYER if hero != null else Faction.Type.ENEMY, cell, stats, hero.name if hero != null else "Дозорный %d" % (index - run.party.size() + 1))
 		unit.armor = ArmorState.new(); unit.armor.in_battle = false
 		unit.armor.fractional = true
@@ -102,6 +117,14 @@ static func create(run: HeroHubState) -> Dictionary:
 		elif enemy_data.is_empty() or enemy_data.role in ["guard", "shield"]:
 			# Обычные бойцы, Страж и Щит получают только рисунок; Дозорный сохраняет свой вид.
 			session.unit_visual_classes[unit.id] = &"warrior"
+		if enemy_definition != null:
+			ClassShowcaseRoster.apply_class(unit, enemy_class)
+			unit.debug_name = "%s · противник %d" % [enemy_definition.display_name, enemy_index + 1]
+			var attack := _attack(MageDeckRules.hero_attack_id(unit.id))
+			if enemy_class == &"mage": attack.damage_components.append(_fire(enemy_definition.weapon_damage))
+			definitions.append(attack)
+			session.actor_loadouts[unit.id] = {"class_id":enemy_class, "attack_id":attack.id}
+			session.unit_visual_classes[unit.id] = enemy_class
 		unit.combat_perks.uses_bonus_actions = true
 		unit.enable_action_resources(); unit.try_refill_turn_resources()
 		session.board.add_unit(unit)

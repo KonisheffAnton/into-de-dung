@@ -1,0 +1,52 @@
+{
+  "format": 1,
+  "base_commit": "f768d779af6991fb3b76bbcb2a85a78837b5e69a",
+  "skins": [
+    {
+      "class": "shieldbearer",
+      "class_id": "shieldbearer",
+      "id": "02",
+      "name": "Щит дозора",
+      "slug": "watch_shield",
+      "model": "model02",
+      "still_path": "assets/art_presets/approved/character_skins_v1/watch_shield/still.png",
+      "frame_path": "assets/art_presets/approved/character_skins_v1/watch_shield/frames.tres",
+      "clip_paths": {
+        "idle": "assets/art_presets/approved/character_skins_v1/watch_shield/idle.png",
+        "idle_secondary": "assets/art_presets/approved/character_skins_v1/watch_shield/idle_secondary.png",
+        "death": "assets/art_presets/approved/character_skins_v1/watch_shield/death.png",
+        "buff": "assets/art_presets/approved/character_skins_v1/watch_shield/buff.png"
+      }
+    },
+    {
+      "class": "shieldbearer",
+      "class_id": "shieldbearer",
+      "id": "17",
+      "name": "Седой бастион",
+      "slug": "grey_bastion",
+      "model": "model17",
+      "still_path": "assets/art_presets/approved/character_skins_v1/grey_bastion/still.png",
+      "frame_path": "assets/art_presets/approved/character_skins_v1/grey_bastion/frames.tres",
+      "clip_paths": {
+        "idle": "assets/art_presets/approved/character_skins_v1/grey_bastion/idle.png",
+        "death": "assets/art_presets/approved/character_skins_v1/grey_bastion/death.png",
+        "buff": "assets/art_presets/approved/character_skins_v1/grey_bastion/buff.png"
+      }
+    },
+    {
+      "class": "fighter",
+      "class_id": "fighter",
+      "id": "11",
+      "name": "Красный бастион",
+      "slug": "red_bastion",
+      "model": "model11",
+      "still_path": "assets/art_presets/approved/character_skins_v1/red_bastion/still.png",
+      "frame_path": "assets/art_presets/approved/character_skins_v1/red_bastion/frames.tres",
+      "clip_paths": {
+        "idle": "assets/art_presets/approved/character_skins_v1/red_bastion/idle.png",
+        "death": "assets/art_presets/approved/character_skins_v1/red_bastion/death.png",
+        "buff": "assets/art_presets/approved/character_skins_v1/red_bastion/buff.png"
+      }
+    }
+  ]
+}

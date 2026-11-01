@@ -23,7 +23,12 @@ func render_card(key: String, title: String, subtitle: String = "", detail: Stri
 			"portrait":
 				if child is TextureRect: (child as TextureRect).texture = portrait
 
-static func hero_texture(class_id: StringName) -> Texture2D:
+static func hero_texture(class_id: StringName, skin_id: StringName = &"") -> Texture2D:
+	if CharacterSkinCatalog.ids(class_id).size() > 0:
+		# Некорректный ID разрешается каталогом в штатный облик того же класса.
+		var selected := CharacterSkinCatalog.resolve_id(class_id, skin_id)
+		var skin := CharacterSkinCatalog.definition(class_id, selected)
+		if skin != null and skin.still != null: return skin.still
 	if class_id == &"mage": return load("res://assets/placeholder_battle/mage_card.svg") as Texture2D
 	var path := "res://assets/ui/hub/%s_portrait.tres" % String(class_id)
 	return load(path) as Texture2D if ResourceLoader.exists(path) else null

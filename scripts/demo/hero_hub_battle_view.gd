@@ -6,6 +6,7 @@ signal restart_requested
 
 var supplied_session: BattleCoreReactionsSession
 var expedition_battle: bool = false
+var character_skins: Dictionary = {}
 var _return_button: Button
 var _restart_button: Button
 var _published_subtitle: String = ""
@@ -40,6 +41,7 @@ func _process(delta: float) -> void:
 
 func _build_ui() -> void:
 	super._build_ui()
+	board_view.character_skins = CharacterSkinCatalog.normalized(character_skins)
 	board_view.environment_mode = true
 	# Сценарный переход обходит сохранённую контрольную точку отряда.
 	_mode_button.hide()

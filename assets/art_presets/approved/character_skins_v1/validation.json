@@ -1,0 +1,38 @@
+{
+  "atlas_all_visible": true,
+  "atlas_cell_count": 330,
+  "atlas_visible_count": 330,
+  "base_commit": "f768d779af6991fb3b76bbcb2a85a78837b5e69a",
+  "duration_entries_match_frames": true,
+  "duration_entry_count": 330,
+  "format": 1,
+  "optional_raw_frame_match_count": 330,
+  "optional_raw_frame_matches_complete": true,
+  "runtime_or_image_processing": false,
+  "skin_resource_created": true,
+  "skins": [
+    {
+      "class": "shieldbearer",
+      "clip_count": 4,
+      "frame_count": 132,
+      "id": "02",
+      "slug": "watch_shield"
+    },
+    {
+      "class": "shieldbearer",
+      "clip_count": 3,
+      "frame_count": 99,
+      "id": "17",
+      "slug": "grey_bastion"
+    },
+    {
+      "class": "fighter",
+      "clip_count": 3,
+      "frame_count": 99,
+      "id": "11",
+      "slug": "red_bastion"
+    }
+  ],
+  "source_sha_exact_count": 13,
+  "source_sha_exact_pass": true
+}

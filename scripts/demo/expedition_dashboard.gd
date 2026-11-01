@@ -8,6 +8,7 @@ signal hire_requested(candidate_id: int)
 signal party_requested(hero_id: int, join_party: bool)
 signal equipment_requested(item_id: int, hero_id: int, equip_item: bool)
 signal allocation_requested(hero_id: int, expected: Dictionary, delta: Array[int])
+signal skin_selection_requested(class_id: StringName, skin_id: StringName)
 signal deck_action_requested(action: String, type_id: String)
 
 const HERO_CARD: PackedScene = preload("res://scenes/demo/hub/dashboard_hero_card.tscn")
@@ -37,6 +38,8 @@ var _tabs: Array[Button] = []
 @onready var _manage_button: Button = $Layout/Content/LeftColumn/PartyPanel/PartyContent/ManageParty
 
 var _active_tab: StringName = &"expedition"
+var character_skins: Dictionary[StringName, StringName] = {}
+var skin_notice: String = ""
 var _section_pages: Dictionary[StringName, HubSectionPage] = {}
 var _deck_page: HubDeckPage
 
@@ -65,6 +68,7 @@ func _ready() -> void:
 				page.hire_requested.connect(_on_hire_requested)
 				page.party_requested.connect(_on_party_requested)
 				page.allocation_requested.connect(_on_allocation_requested)
+				page.skin_selection_requested.connect(_on_skin_selection_requested)
 			elif page.section_id == &"smith":
 				page.equipment_requested.connect(_on_equipment_requested)
 
@@ -82,9 +86,13 @@ func render_profile(profile: HeroHubState, expedition: bool, tab: StringName, la
 		var page := _section_pages[key]
 		if not is_ancestor_of(page): continue
 		page.visible = key == _active_tab
-		if page.visible: page.render_profile(profile)
-	if _active_tab != &"expedition": return
+		if page.visible:
+			# Одинаковый выбор нужен карточкам отряда и карточкам списка наёмников.
+			page.character_skins = character_skins.duplicate()
+			page.skin_notice = skin_notice if key == &"mercenaries" else ""
+			page.render_profile(profile)
 	_render_party(profile)
+	if _active_tab != &"expedition": return
 	_gold.text = "Золото   %d" % profile.gold
 	_essence.text = "Эссенция   %d" % profile.essence
 	_items.text = "Экипировка   %d" % profile.items.size()
@@ -141,7 +149,7 @@ func _render_party(profile: HeroHubState) -> void:
 		class_label.text = ""
 		level_label.text = "Ур. %d" % hero.level()
 		if CLASS_TEXTURES.has(hero.class_id):
-			portrait.texture = load(String(CLASS_TEXTURES[hero.class_id])) as Texture2D
+			portrait.texture = HubSkeletonCard.hero_texture(hero.class_id, StringName(character_skins.get(hero.class_id, &"")))
 
 func _living_reserve_count(profile: HeroHubState) -> int:
 	var count: int = 0
@@ -189,6 +197,9 @@ func _on_equipment_requested(item_id: int, hero_id: int, equip_item: bool) -> vo
 
 func _on_allocation_requested(hero_id: int, expected: Dictionary, delta: Array[int]) -> void:
 	if _active_tab == &"mercenaries" and is_visible_in_tree(): allocation_requested.emit(hero_id, expected, delta)
+
+func _on_skin_selection_requested(class_id: StringName, skin_id: StringName) -> void:
+	if _active_tab == &"mercenaries" and is_visible_in_tree(): skin_selection_requested.emit(class_id, skin_id)
 
 func deck_page_visible() -> bool:
 	return is_instance_valid(_deck_page) and is_ancestor_of(_deck_page) and _deck_page.is_visible_in_tree()

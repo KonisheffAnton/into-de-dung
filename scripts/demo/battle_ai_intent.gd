@@ -10,6 +10,7 @@ enum Kind {
 	ATTACK,
 	SUMMON,
 	GUARD,
+	RAISE_SHIELDS,
 }
 
 var kind: Kind = Kind.WAIT
@@ -51,5 +52,6 @@ func get_ability_definition(context: ActionContext) -> AbilityDefinition:
 		return definition.get_ability_definition() if definition != null else null
 	if kind == Kind.MOVE: return MoveCommand.new().get_ability_definition(context)
 	if kind == Kind.GUARD: return GuardCommand.new(actor_id, context.get_revision(), reaction_mode, target_id).get_ability_definition(context)
+	if kind == Kind.RAISE_SHIELDS: return RaiseShieldsCommand.definition()
 	if kind == Kind.SUMMON: return UseSummoningItemCommand.new(actor_id, item_id, cell, context.get_revision()).get_ability_definition(context)
 	return null

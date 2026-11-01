@@ -211,7 +211,7 @@ func _check_outcome() -> void:
 	if phase not in [Phase.PLAYER_TURN, Phase.ENEMY_TURN, Phase.VICTORY]: return
 	for id: int in actor_loadouts:
 		var unit := board.get_unit_by_id(id)
-		if unit != null and unit.is_alive(): return
+		if unit != null and unit.faction == Faction.Type.PLAYER and unit.is_alive(): return
 	# Временный помощник не заменяет погибших постоянных участников похода.
 	_set_terminal(Phase.DEFEAT, "Все наёмники погибли. Резерв остался в хабе.")
 

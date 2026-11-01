@@ -2,6 +2,7 @@ extends Control
 class_name HeroHubScreen
 
 @export var save_path: String = "user://hero-hub-v1.save"
+@export var skin_settings_path: String = ""
 @export var expedition_mode: bool = false
 @export var mage_deck_mode: bool = false
 var deck_editing: bool = false
@@ -25,6 +26,9 @@ var _start_button: Button
 var _dashboard: ExpeditionDashboard
 var _hub_management: bool = false
 var _hub_tab: StringName = &"expedition"
+# Выбор скина хранится отдельно, чтобы он не попадал в профиль и его RNG.
+var skin_settings: CharacterSkinSettings = CharacterSkinSettings.new()
+var _skin_notice: String = ""
 
 func _ready() -> void:
 	_root_panel = $Panel
@@ -36,6 +40,7 @@ func _ready() -> void:
 	_dashboard.party_requested.connect(_on_mercenary_party_requested)
 	_dashboard.equipment_requested.connect(_on_smith_equipment_requested)
 	_dashboard.allocation_requested.connect(_on_mercenary_allocation_requested)
+	_dashboard.skin_selection_requested.connect(_on_skin_selection_requested)
 	_dashboard.deck_action_requested.connect(_base_deck_action.bind(&"deck"))
 	($Panel/Column/Header/DashboardBack as Button).pressed.connect(_return_hub_dashboard)
 	_page_host = $Panel/Column/HeroHubScroll/Content/Pages
@@ -43,6 +48,7 @@ func _ready() -> void:
 		_pages[String(child.name)] = child as VBoxContainer
 		_page_host.remove_child(child)
 	_start_button = _page("BasePage").get_node("Footer/Start") as Button
+	skin_settings.read_file(_skin_settings_path())
 	var save_existed := FileAccess.file_exists(save_path) or FileAccess.file_exists(save_path + ".bak")
 	var loaded := HeroHubStore.read_run(save_path,mage_deck_mode)
 	run = loaded.get("run") as HeroHubState
@@ -184,6 +190,7 @@ func _begin_battle() -> void:
 		return
 	battle_view = (load("res://scenes/demo/battle/hero_hub_battle.tscn") as PackedScene).instantiate() as HeroHubBattleView
 	battle_view.expedition_battle = run.phase == "expedition"
+	battle_view.character_skins = skin_settings.selections.duplicate()
 	_configure_first_room_art(battle_view, run)
 	battle_view.supplied_session = _battle_bundle["session"]
 	battle_view.return_requested.connect(_on_battle_return)
@@ -291,6 +298,8 @@ func _render() -> void:
 		var launch_hint := "Состав готов. Можно отправляться."
 		if run.party.is_empty(): launch_hint = "Добавьте хотя бы одного героя в отряд."
 		elif deck_editing: launch_hint = "Сохраните или отмените изменения в разделе «Колода»."
+		_dashboard.character_skins = skin_settings.selections.duplicate()
+		_dashboard.skin_notice = _skin_notice if _hub_tab == &"mercenaries" else ""
 		_dashboard.render_profile(run, expedition_mode, _hub_tab, not run.party.is_empty() and not deck_editing, launch_hint, deck_editing, deck_draft)
 		_root_panel.hide()
 		_dashboard.show()
@@ -409,6 +418,24 @@ func _on_mercenary_allocation_requested(hero_id: int, expected: Dictionary, delt
 	# Предпросмотр относится к точному герою; повторный или устаревший запрос не тратит очки снова.
 	if hero.hp_current <= 0.0 or hero.to_dict() != expected: return
 	_mutate(&"allocate", [hero_id, delta.duplicate()])
+
+func _skin_settings_path() -> String:
+	return skin_settings_path if not skin_settings_path.is_empty() else CharacterSkinSettings.DEFAULT_PATH
+
+func _on_skin_selection_requested(class_id: StringName, skin_id: StringName) -> void:
+	if not _can_navigate_hub() or run == null or run.hero_catalog_version <= 0 or battle_view != null:
+		return
+	if _hub_management or _hub_tab != &"mercenaries" or not _dashboard.is_visible_in_tree(): return
+	if not HeroCatalog.class_ids(run.hero_catalog_version).has(class_id): return
+	if not CharacterSkinCatalog.ids(class_id).has(skin_id): return
+	# Настройки публикуют новое значение только после успешной атомарной записи.
+	var error := skin_settings.choose(class_id, skin_id, _skin_settings_path())
+	if not error.is_empty():
+		_skin_notice = "Облик не изменён: " + error
+		_render()
+		return
+	_skin_notice = ""
+	_render()
 
 func _hub_content() -> void:
 	var page := _page("BasePage")
