@@ -1,36 +1,32 @@
-# Передача — 2026-11-01: только классы и направление команд
+# Передача — 2026-11-01: десять концептов разбойника
 
-D:/Games/into-de-dung; main; base e69239208f6fcb494ca5d48567d8b980791c14cf.
-Исправлено уточнение пользователя: новый F5 — ровно5 бойцов, Разбойник/Маг/Воин
-у игрока, Щитоносец/Лучница у противника. Нет добивки NPC/повторов врагов.
-Именованный класс без арта не заимствует EnemyPreset; Маг пока условная «М».
-PLAYER смотрит вправо, ENEMY влево относительно исходника02/17/11; атака
-временно поворачивает к цели и возвращает сторону. Idle-часы/опора сохранены.
-Выбранные ранее skins/клипы не менялись, нового арта нет.
-Core-команды/preview/queue/игровой RNG/save/frozen не менялись; каталоги1–3 сохранены.
+D:/Games/into-de-dung; main; base81c5dc36a2b1260852ce2d3a8fcd6bd1687b08d0.
+По U созданы10 вариантов разбойника, не Воина. Первая проба была слишком
+крупной относительно тайла; серия ориентируется на компактность/масштаб Воина11
+и Защитника02. Референс U, первая проба,10 исходников, промпты, SHA, общий лист
+и локальная галерея: [пакет](art/rogue-variants-20261101/README.md).
+Владелец направления — ART_DIRECTION; маршрут — PROJECT_CONTEXT.
 
-Владельцы: CLASS_SHOWCASE_V1, CHARACTER_SKINS_V1, BATTLE_VISUAL_SCENE_CONTRACT;
-маршрут — PROJECT_CONTEXT. [Отчёт/снимки](art/class-roster-facing-20261101/README.md).
-Логи/manifests/negative control/review: test_reports/class-roster-facing-20261101/.
-Прежний пакет: assets/art_presets/approved/character_skins_v1/.
+10 уникальных PNG сохранены побайтно. Edge headless:13/13 картинок,10 вариантов,
+ссылка на08, мобильная ширина390px без overflow; page errors0.
+Независимое ревью пакета: APPROVE. Исходники и общий лист просмотрены.
+Выбор и художественная приёмка U открыты. Галерея зависит от соседних PNG
+и прежнего warrior-пакета. Скрипты проверки привязаны к локальным путям.
+Runtime/сцены/скины/клипы не менялись; Godot/import/full/core/F5 не запускались.
+Не готовы прозрачный спрайт, точная опора, анимации; интеграция не поручена.
 
-Изолированные import/startup PASS; class229/0; UI37/0 headless,39/0 GPU;
-skins262/0 headless,291/0 GPU; attack styles604/0 в обоих режимах; Python30/0.
-Смежные PASS и независимое APPROVE — отчёт. Старое поведение в той же копии
-дало ожидаемые18 FAIL без script errors; затем копия побайтно восстановлена.
-Full/core здесь не повторялись; прежний core9424/0 — этап e692392.
-Прежний turn_forecast_ui26/3 остаётся. Ручной F5/движение/zoom/DPI не закрыты.
-
-Далее — отзыв пользователя о составе/направлении/скинах и ручной плейтест.
-Новый срез без поручения не начинать. Стабильные60 FPS не заявлены;
-[performance-остаток](performance/battle-magic-pacing-20261101.md) открыт.
-Сохраняются вопросы HUD/Колоды, художественной приёмки стыков и посадки.
+Далее — отзыв/выбор номера. Новую серию или интеграцию без поручения не начинать.
+Прежний игровой результат и проверки: [состав/направления](art/class-roster-facing-20261101/README.md).
+Владельцы: CLASS_SHOWCASE_V1, CHARACTER_SKINS_V1, BATTLE_VISUAL_SCENE_CONTRACT.
+Прежний turn_forecast_ui26/3 открыт; full/core здесь не повторялись.
+Ручные F5/движение/zoom/DPI, HUD/Колода, приёмка стыков/посадки остаются.
+Стабильные60 FPS не заявлены: [остаток](performance/battle-magic-pacing-20261101.md).
 
 Чужие scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
-не reset/stage/commit;33 SHA сверены. Один Godot runner, isolated project;
-без root import/служб/драйверов/принудительного фокуса. Без push/sidebar tasks/
-расписаний. После коммита остаются только эти чужие пути.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261101-5.md), [HISTORY](HISTORY.md).
+не reset/stage/commit. Сохранять core/preview/queue/RNG/save/frozen.
+Один Godot runner, isolated project; без root import/служб/драйверов/
+принудительного фокуса. Без push/sidebar tasks/расписаний.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261101-6.md), [HISTORY](HISTORY.md).
 
 Завершение: проверки, локальный Conventional Commit, короткий HANDOFF;
 прежний побайтно отдельным архивом+HISTORY. В финале/при блокере предложить

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "01",
+    "file": "rogue-01.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-b60f0722-7ab7-459f-a6e7-d2d9e98e2247.png",
+    "sha256": "44494ba38e9f1411f0731567dce7e2117470db34f87e75ded9c17bb087c1372b",
+    "width": 1254,
+    "height": 1254,
+    "source_equal": true
+  },
+  {
+    "id": "02",
+    "file": "rogue-02.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-71a29386-b580-401d-9e6c-3cc493017bed.png",
+    "sha256": "ef07d3046e2ebf2431ac928dbebd1df6dde4ea7477ebda45e9fff249b8ce10d4",
+    "width": 1254,
+    "height": 1254,
+    "source_equal": true
+  },
+  {
+    "id": "03",
+    "file": "rogue-03.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-d8ee4736-ffd3-47fa-adf6-32a5ce7af1a9.png",
+    "sha256": "aa3a339823c2d042a3f9f5590acc1a8261e546f21ca3313c6770e486d8724797",
+    "width": 1254,
+    "height": 1254,
+    "source_equal": true
+  },
+  {
+    "id": "04",
+    "file": "rogue-04.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-25e247d8-897b-47c0-968d-07682820dc45.png",
+    "sha256": "c556ecdc3fa6d52ce8f4d7e73e0ceaef4d51b19c59e79ebb9455ce76f2f2c803",
+    "width": 1254,
+    "height": 1254,
+    "source_equal": true
+  },
+  {
+    "id": "05",
+    "file": "rogue-05.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-2d51b34f-5bdb-4077-a565-5df1151cc25e.png",
+    "sha256": "2fc05be0850f4b8cd55006664ea581f517c55497132be0824ff34f47dddf900a",
+    "width": 1254,
+    "height": 1254,
+    "source_equal": true
+  },
+  {
+    "id": "06",
+    "file": "rogue-06.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-9cc4443b-8c7f-4749-9438-9bfac654c06a.png",
+    "sha256": "c4c2182f565c26baf48cac6f6b8121c02f982ec064fa0d8166673b597b17f113",
+    "width": 1254,
+    "height": 1254,
+    "source_equal": true
+  },
+  {
+    "id": "07",
+    "file": "rogue-07.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-0793ee79-9926-4875-bccb-4d048ca8acd9.png",
+    "sha256": "0a32ea9fed56d1cb2621304133618253b7e3ad45498c9b3adbc93b4606490b02",
+    "width": 1254,
+    "height": 1254,
+    "source_equal": true
+  },
+  {
+    "id": "08",
+    "file": "rogue-08.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-bbd11c17-a5fe-4696-9685-25f710490151.png",
+    "sha256": "a5a770a7de405a38d375ba2578012ac4f944cb63d3c29c8b6ee482014d340b84",
+    "width": 1254,
+    "height": 1254,
+    "source_equal": true
+  },
+  {
+    "id": "09",
+    "file": "rogue-09.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-9a709b7b-a033-4cfd-bc11-503a89a7d2be.png",
+    "sha256": "a441ada91918dbc20e27efdffc211ee09b270fec6bf4170c159fb40673845ee0",
+    "width": 1254,
+    "height": 1254,
+    "source_equal": true
+  },
+  {
+    "id": "10",
+    "file": "rogue-10.png",
+    "source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-8ac847f1-bf84-4f7e-94d3-59200877f659.png",
+    "sha256": "46de40cd64a3569fa7bc956b0151e3a5a337899d816b0886246f2f682d3f239f",
+    "width": 1254,
+    "height": 1254,
+    "source_equal": true
+  }
+]
