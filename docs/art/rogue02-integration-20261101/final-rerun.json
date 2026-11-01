@@ -1,0 +1,100 @@
+{
+  "snapshot": "D:\\Games\\into-de-dung\\test_reports\\demo-e818b1f6c1374944b682fba8602ad8e4",
+  "unchanged_source_files": 1540,
+  "patched_sha256": {
+    "scripts/demo/character_skin_catalog.gd": "8a6b4225e873979d0aecc5cbd6a9f3dcef9e23d57f7e62b6ba0ecbddfbff18a8",
+    "tests/test_character_skins.gd": "e62c8d07e4211b7d80a698e512c2fa6eef860252554ca21ff041fb834f1be3e9",
+    "tests/test_rogue_animations.gd": "1e372d583b29d278070bc8a8e203f085018906c83e06e297253a1d2ef413af6f"
+  },
+  "checks": {
+    "import": {
+      "status": "PASS",
+      "counts": [],
+      "seconds": 7.491,
+      "exit_code": 0
+    },
+    "startup": {
+      "status": "PASS",
+      "counts": [],
+      "seconds": 4.58,
+      "exit_code": 0
+    },
+    "character_skins_headless": {
+      "status": "PASS",
+      "counts": [
+        [
+          "386",
+          "0"
+        ]
+      ],
+      "seconds": 16.67,
+      "exit_code": 0
+    },
+    "character_skins_hub_headless": {
+      "status": "PASS",
+      "counts": [
+        [
+          "26",
+          "0"
+        ]
+      ],
+      "seconds": 4.95,
+      "exit_code": 0
+    },
+    "rogue_animations_headless": {
+      "status": "PASS",
+      "counts": [
+        [
+          "98",
+          "0"
+        ]
+      ],
+      "seconds": 2.824,
+      "exit_code": 0
+    },
+    "defender_buff_headless": {
+      "status": "PASS",
+      "counts": [
+        [
+          "294",
+          "0"
+        ]
+      ],
+      "seconds": 6.341,
+      "exit_code": 0
+    },
+    "rogue_buff_headless": {
+      "status": "PASS",
+      "counts": [
+        [
+          "30",
+          "0"
+        ]
+      ],
+      "seconds": 4.008,
+      "exit_code": 0
+    },
+    "character_skins_gpu": {
+      "status": "PASS",
+      "counts": [
+        [
+          "424",
+          "0"
+        ]
+      ],
+      "seconds": 18.647,
+      "exit_code": 0
+    },
+    "rogue_animations_gpu": {
+      "status": "PASS",
+      "counts": [
+        [
+          "98",
+          "0"
+        ]
+      ],
+      "seconds": 2.706,
+      "exit_code": 0
+    }
+  }
+}

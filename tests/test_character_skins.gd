@@ -6,6 +6,7 @@ const SKINS: Array[Dictionary] = [
 	{"id": &"watch_shield", "class": &"shieldbearer"},
 	{"id": &"grey_bastion", "class": &"shieldbearer"},
 	{"id": &"red_bastion", "class": &"fighter"},
+	{"id": &"short_cape", "class": &"rogue"},
 ]
 
 var passed: int = 0
@@ -27,7 +28,9 @@ func _run() -> void:
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport)
 	await _test_skins_and_clock()
+	await _test_rogue_resource_fallback()
 	await _test_shield_command()
+	await _test_rogue_guard()
 	await _test_fighter_attack_routes()
 	await _test_lethal_skin_deaths()
 	if DisplayServer.get_name() != "headless": await _test_rendered_skins()
@@ -44,7 +47,7 @@ func _capture_path() -> String:
 	return directory
 
 func _test_rendered_skins() -> void:
-	viewport.size = Vector2i(960, 650)
+	viewport.size = Vector2i(960, 50 + SKINS.size() * 200)
 	viewport.transparent_bg = true
 	var visual_cells: Array[Dictionary] = []
 	for row: int in SKINS.size():
@@ -61,7 +64,7 @@ func _test_rendered_skins() -> void:
 			visual.set_process(false)
 			visual_cells.append({"visual": visual, "anchor": anchor, "label": "%s %d" % [entry.id, column]})
 			var label := Label.new()
-			label.text = "%s · %s" % [entry.id, ["idle PLAYER", "idle ENEMY", "ability 2", "death 3"][column]]
+			label.text = "%s · %s" % [entry.id, ["idle PLAYER", "idle ENEMY", "ability 3" if entry.class == &"rogue" else "ability 2", "death 2" if entry.class == &"rogue" else "death 3"][column]]
 			label.position = anchor + Vector2(-110, 35)
 			viewport.add_child(label)
 	await process_frame
@@ -149,7 +152,7 @@ func _test_skins_and_clock() -> void:
 				"%s %s resolves the selected PixelLab sheet" % [skin_id, animation])
 		check(is_equal_approx(definition.clip_duration(&"idle"), 2.97), "%s idle duration is retained" % skin_id)
 		check(is_equal_approx(definition.clip_duration(&"buff"), 2.31), "%s selected ability duration is retained" % skin_id)
-		check(is_equal_approx(definition.clip_duration(&"death"), 3.74), "%s death3 keeps its 1500ms final hold" % skin_id)
+		check(is_equal_approx(definition.clip_duration(&"death"), 3.74), "%s retains the selected death timing and final hold" % skin_id)
 		if skin_id == &"watch_shield":
 			check(definition.clip_valid(&"idle_secondary") and definition.animations.get_animation_loop(&"idle_secondary"),
 				"model 02 alone exposes its repeating secondary idle")
@@ -161,6 +164,14 @@ func _test_skins_and_clock() -> void:
 			visuals.append(visual)
 			by_skin_and_side["%s:%d" % [skin_id, int(faction)]] = visual
 			var sprite := visual.class_still_sprite()
+			if class_id == &"rogue":
+				check(visual.get_unit_pick_rect().has_point(Vector2(0.0, -75.0))
+					and visual.get_unit_pick_rect().has_point(Vector2(-37.0, 1.0)),
+					"Rogue picking covers the new hood and boots on both sides")
+				check(not (visual.get_node("ArtRoot/RogueIdleSprite") as Sprite2D).visible
+					and not (visual.get_node("ArtRoot/PlayerRogueSprite") as Sprite2D).visible
+					and not (visual.get_node("ArtRoot/EnemyRogueSprite") as Sprite2D).visible,
+					"Rogue skin hides every legacy body layer")
 			var team_facing := 1 if faction == Faction.Type.PLAYER else -1
 			var mirrored := team_facing != definition.source_facing_x
 			var expected_scale_x := -0.5 if mirrored else 0.5
@@ -374,6 +385,32 @@ func _test_skins_and_clock() -> void:
 		if is_instance_valid(visual): visual.queue_free()
 	await process_frame
 
+func _test_rogue_resource_fallback() -> void:
+	# Ни одного живого visual этого ресурса здесь нет; после каждой пробы восстановлен исходный Resource.
+	var source := CharacterSkinCatalog.definition(&"rogue")
+	if source == null: check(false, "Rogue resource exists for corruption probes"); return
+	var original_frames := source.animations
+	var original_still := source.still
+	for missing: StringName in [&"still", &"idle", &"buff", &"death"]:
+		var incomplete := original_frames.duplicate(true) as SpriteFrames
+		if missing == &"still": source.still = null
+		else: incomplete.remove_animation(missing)
+		source.animations = incomplete
+		CharacterSkinCatalog._loaded.erase(&"short_cape")
+		check(CharacterSkinCatalog.definition(&"rogue") == null
+			and not CharacterSkinCatalog._loaded.has(&"short_cape"), "partial Rogue package is not cached: " + String(missing))
+		var visual := _make_visual(980, &"rogue", Faction.Type.PLAYER, &"short_cape")
+		var sprite := visual.class_still_sprite()
+		check(not visual._has_skin() and sprite != null and sprite.visible
+			and sprite.texture.resource_path.contains("rogue_selected_v1")
+			and visual.can_play_death() and is_equal_approx(visual.death_duration(), 3.60),
+			"partial Rogue package retains visible legacy model and death: " + String(missing))
+		visual.free()
+		source.animations = original_frames
+		source.still = original_still
+		check(CharacterSkinCatalog.definition(&"rogue") == source, "restored complete Rogue package recovers: " + String(missing))
+	await process_frame
+
 func _snapshot(session: BattleCoreReactionsSession) -> Dictionary:
 	var capture := ItemSimulationSnapshot.capture(session.state, [])
 	return {"state": capture.snapshot.to_dict() if capture.snapshot != null else {},
@@ -383,7 +420,7 @@ func _snapshot(session: BattleCoreReactionsSession) -> Dictionary:
 func _make_battle(seed: int) -> Dictionary:
 	var profile := HeroHubState.create(seed, 3)
 	if profile == null: return {}
-	profile.party.assign([5, 1, 2])
+	profile.party.assign([5, 1, 3])
 	if not profile.start_battle(): return {}
 	var bundle := HeroHubBattleFactory.create(profile)
 	if bundle.is_empty(): return {}
@@ -444,6 +481,7 @@ func _captured_action(session: BattleCoreReactionsSession, action: StringName, t
 	var receipt: ActionReceipt
 	match action:
 		&"raise_shields": receipt = session.raise_shields()
+		&"guard": receipt = session.guard_selected()
 		&"attack": receipt = session.attack_unit(target_id)
 		&"kick": receipt = session.click_attack(target_id)
 	session.take_presentation_capture()
@@ -511,6 +549,72 @@ func _test_shield_command() -> void:
 	check(_snapshot(session) == committed, "skip/cancel do not mutate committed battle state or RNG")
 	await _close_battle(fixture)
 
+func _test_rogue_guard() -> void:
+	var fixture := await _make_battle(83303)
+	check(not fixture.is_empty(), "rogue guard battle fixture starts")
+	if fixture.is_empty(): return
+	var session := fixture.session as BattleCoreReactionsSession
+	var board := fixture.board as BattleDemoBoard
+	var actor_id := int(fixture.bundle.hero_units[3])
+	check(session.actor_loadouts[actor_id].class_id == &"rogue" and session.select_unit(actor_id),
+		"real Rogue loadout is selected for Guard")
+	board.refresh()
+	var visual := board._presentation_visual(actor_id) as BattleCharacterSkinVisual
+	check(visual != null and visual.skin_definition != null and visual.skin_definition.id == &"short_cape",
+		"default Rogue selects model02 without saved cosmetics")
+	if visual == null or visual.skin_definition == null:
+		await _close_battle(fixture)
+		return
+	var before := ActionPresentationState.capture(session.state)
+	var receipt := _captured_action(session, &"guard")
+	var frames := receipt.get_presentation_frames()
+	check(receipt.status == ActionReceipt.APPLIED and frames.size() == 1, "Rogue Guard produces a real applied receipt")
+	if frames.is_empty(): await _close_battle(fixture); return
+	var frame: Dictionary = frames[0]
+	check(board._matching_defender_buff(frame.events, frame.step) == visual, "confirmed Guard selects ability3")
+	for mismatch: StringName in [&"status", &"command_seq", &"kind"]:
+		var rejected: Dictionary = frame.step.duplicate(true)
+		rejected[mismatch] = {&"status": &"SKIPPED", &"command_seq": int(frame.step.command_seq) + 1, &"kind": &"raise_shields"}[mismatch]
+		check(board._matching_defender_buff(frame.events, rejected) == null, "Rogue refuses mismatched " + String(mismatch))
+	check(board._matching_defender_buff([{ "kind": &"raised_shields", "command_seq": frame.step.command_seq,
+		"actor_unit_id": actor_id, "target_unit_id": actor_id }],
+		{"kind": &"raise_shields", "status": &"APPLIED", "command_seq": frame.step.command_seq}) == null,
+		"Rogue cannot borrow Shieldbearer ability route")
+	var committed := _snapshot(session)
+	var after := ActionPresentationState.capture(session.state)
+	var sprite := visual.class_still_sprite()
+	var player := BattlePresentationPlayer.new(); fixture.demo.add_child(player)
+	# Как production UI, удерживаем блокировку исполнения при ресайзе во время внешнего player.
+	var previous_player: BattlePresentationPlayer = fixture.demo._presentation_player
+	fixture.demo._presentation_player = player
+	board.execution_pending = true
+	for mode: String in ["complete", "skip", "cancel", "speed3"]:
+		player.set_speed(3.0 if mode == "speed3" else 1.0)
+		player.play(board, before, frames, after); player._tween.pause()
+		check(board._defender_buff_visual == visual and visual._skin_buff_elapsed == 0.0
+			and sprite.texture == visual.skin_definition.animations.get_frame_texture(&"buff", 0),
+			"Rogue ability3 starts on selected frame: " + mode)
+		for index: int in [0, 16, 32]:
+			board._sample_defender_buff((float(index) + 0.5) * 0.07)
+			check(sprite.texture == visual.skin_definition.animations.get_frame_texture(&"buff", index),
+				"Rogue ability3 retains source frame %d: %s" % [index, mode])
+		var texture := sprite.texture
+		var phase := visual._skin_buff_elapsed
+		board.size += Vector2(7.0, 5.0); board._rescale_layout()
+		check(board._presentation_visual(actor_id) == visual and sprite.texture == texture
+			and is_equal_approx(visual._skin_buff_elapsed, phase), "Rogue ability survives resize: " + mode)
+		if mode == "skip": player.skip()
+		elif mode == "cancel": player.cancel()
+		else: await _drain_paused_player(player)
+		check(not player.active and board._defender_buff_visual == null and visual._skin_buff_elapsed < 0.0
+			and sprite.visible and sprite.scale.x > 0.0 and not visual._skin_dying,
+			"Rogue returns to its team stance: " + mode)
+		check(_snapshot(session) == committed, "Rogue presentation preserves state/RNG/counters: " + mode)
+	board.execution_pending = false
+	fixture.demo._presentation_player = previous_player
+	player.queue_free()
+	await _close_battle(fixture)
+
 func _test_fighter_attack_routes() -> void:
 	for attack_kind: StringName in [&"cleave", &"ordinary", &"kick"]:
 		var fixture := await _make_battle(83100 + attack_kind.hash())
@@ -573,6 +677,7 @@ func _test_lethal_skin_deaths() -> void:
 		{"skin": &"watch_shield", "class": &"shieldbearer"},
 		{"skin": &"grey_bastion", "class": &"shieldbearer"},
 		{"skin": &"red_bastion", "class": &"fighter"},
+		{"skin": &"short_cape", "class": &"rogue"},
 	]
 	for route: Dictionary in routes:
 		var skin_id: StringName = route.skin
@@ -620,8 +725,9 @@ func _test_lethal_skin_deaths() -> void:
 		if frames.is_empty():
 			await _close_battle(fixture)
 			continue
-		check(is_equal_approx(board._death_seconds(target_id), 3.74) and visual.can_play_death(),
-			"%s routes death3 with its selected 3.74-second duration" % skin_id)
+		var death_seconds := 3.74
+		check(is_equal_approx(board._death_seconds(target_id), death_seconds) and visual.can_play_death(),
+			"%s routes its selected death duration" % skin_id)
 		var committed := _snapshot(session)
 		var playback := BattlePresentationPlayer.new()
 		fixture.demo.add_child(playback)
@@ -656,7 +762,7 @@ func _test_lethal_skin_deaths() -> void:
 				and not board._view_corpses.any(func(corpse: Dictionary) -> bool: return int(corpse.get("source_unit_id", 0)) == target_id),
 				"%s does not publish death before the death3 hold completes" % skin_id)
 		var final_hold_steps := 0
-		while playback.active and visual._skin_dying and visual.death_progress * visual.death_duration() < 3.65 and final_hold_steps < 100:
+		while playback.active and visual._skin_dying and visual.death_progress * visual.death_duration() < death_seconds - 0.055 and final_hold_steps < 100:
 			if playback._tween != null and playback._tween.is_valid():
 				playback._tween.pause()
 				playback._tween.custom_step(0.05)

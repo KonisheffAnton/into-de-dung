@@ -1,6 +1,6 @@
 {
   "format": 1,
-  "base_commit": "f768d779af6991fb3b76bbcb2a85a78837b5e69a",
+  "base_commit": "541c6e508cde3c35db2cab28cdc9aeb8e738373a",
   "skins": [
     {
       "class": "shieldbearer",
@@ -46,6 +46,21 @@
         "idle": "assets/art_presets/approved/character_skins_v1/red_bastion/idle.png",
         "death": "assets/art_presets/approved/character_skins_v1/red_bastion/death.png",
         "buff": "assets/art_presets/approved/character_skins_v1/red_bastion/buff.png"
+      }
+    },
+    {
+      "class": "rogue",
+      "class_id": "rogue",
+      "id": "02",
+      "name": "Короткая накидка",
+      "slug": "short_cape",
+      "model": "model02",
+      "still_path": "assets/art_presets/approved/character_skins_v1/short_cape/still.png",
+      "frame_path": "assets/art_presets/approved/character_skins_v1/short_cape/frames.tres",
+      "clip_paths": {
+        "idle": "assets/art_presets/approved/character_skins_v1/short_cape/idle.png",
+        "death": "assets/art_presets/approved/character_skins_v1/short_cape/death.png",
+        "buff": "assets/art_presets/approved/character_skins_v1/short_cape/buff.png"
       }
     }
   ]

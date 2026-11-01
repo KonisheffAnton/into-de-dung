@@ -9,6 +9,9 @@ var failed: int = 0
 
 
 func _initialize() -> void:
+	# Этот runner сохраняет проверки legacy fallback при недоступном новом облике.
+	# Выбранные клипы02 покрыты character_skins, включая настоящие Guard/death receipts.
+	CharacterSkinCatalog._loaded[&"short_cape"] = null
 	call_deferred("_run")
 
 
@@ -109,8 +112,8 @@ func _test_static_art(visual: BattleDefenderIdleVisual, config: IsoGridConfig) -
 	var material := player.material as ShaderMaterial
 	check(player.visible and not idle.visible and not body.visible and not visual.is_processing(),
 		"player rogue presents the static still without starting the old idle")
-	check(visual.rogue_art_scale == 0.8 and visual.rogue_pick_rect == Rect2(-38, -67, 76, 80)
-		and art.scale.is_equal_approx(Vector2(0.8, 0.8)), "production scale and pick rectangle match the selected model")
+	check(visual.rogue_art_scale == 0.8 and visual.rogue_pick_rect == Rect2(-40, -78, 80, 88)
+		and art.scale.is_equal_approx(Vector2(0.8, 0.8)), "fallback keeps its scale inside the current Rogue pick rectangle")
 	check(player.texture == ROGUE_STILL and player.position == Vector2(-64, -83)
 		and player.scale == Vector2.ONE and idle.position == player.position and idle.scale == player.scale,
 		"player still and death sprite share the selected anchor without extra scaling")

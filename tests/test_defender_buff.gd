@@ -18,6 +18,8 @@ func _initialize() -> void:
 	for argument: String in OS.get_cmdline_user_args():
 		if argument.begins_with("--captures="): captures = argument.trim_prefix("--captures=")
 		if argument == "--rogue":
+			# Legacy guard без клипа остаётся fallback; новый ability3 проверяет character_skins.
+			CharacterSkinCatalog._loaded[&"short_cape"] = null
 			rogue = true
 			suite = "ROGUE BUFF"
 	call_deferred("run")
@@ -115,6 +117,10 @@ func run_real_action(catalog_version: int, action: StringName, mode: int, label:
 			check(session.board.move_unit(actor, open_actor) and session.board.move_unit(ally, open_ally), label + " places adjacent eligible cover pair")
 			check(MeleeThreat.cover_eligible(session.context, actor, ally), label + " cover recipient passes real capability gate")
 			cover_id = ally.id
+	if expected_class == &"shieldbearer":
+		# Этот runner проверяет прежний клип Защитника; новые облики покрывает character_skins.
+		# Боевой класс и команда Raise Shields остаются настоящими.
+		session.unit_visual_classes[actor_id] = &"warrior"
 	fixture.demo.board_view.refresh()
 	var board := fixture.demo.board_view as BattleDemoBoard
 	var visual := find_ally_visual(board, actor_id)
@@ -177,6 +183,7 @@ func run_real_action(catalog_version: int, action: StringName, mode: int, label:
 	await capture(label + "-mid")
 	player.set_speed(3.0)
 	player._tween.custom_step(0.9)
+	await drain_player(player)
 	check(not player.active and board._defender_buff_visual == null and visual._buff_elapsed < 0.0,
 		label + " x3 completes one clip and restores idle")
 	check(not publications.is_empty() and publications.back() == frame.after,
@@ -229,6 +236,7 @@ func check_rogue_generic_guard(fixture: Dictionary, visual: BattleDefenderIdleVi
 		label + " resize and rendered pause retain the generic cue")
 	player.set_speed(3.0)
 	player._tween.custom_step(1.0)
+	await drain_player(player)
 	check(not player.active and publications.size() == 2 and publications[0] == frames[0].after
 		and publications[1] == after,
 		label + " generic guard publishes frame after and final snapshot")
@@ -247,6 +255,15 @@ func check_rogue_generic_guard(fixture: Dictionary, visual: BattleDefenderIdleVi
 	fixture.demo._presentation_player = idle_player
 	player.queue_free()
 
+
+func drain_player(player: BattlePresentationPlayer) -> void:
+	# Финальная публикация отложена до следующего кадра: одного custom_step недостаточно.
+	for unused: int in 80:
+		if not player.active: break
+		if player._tween != null and player._tween.is_valid():
+			player._tween.pause()
+			player._tween.custom_step(0.05)
+		await process_frame
 
 func test_receipt_families() -> void:
 	if rogue:

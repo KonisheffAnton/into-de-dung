@@ -14,6 +14,8 @@ var production_enemy_art_for_packet: bool = false
 
 func _initialize() -> void:
 	if "--rogue" in OS.get_cmdline_user_args():
+		# Сохраняем отдельные маршруты и fade старого рисунка при отсутствии skin-ресурса.
+		CharacterSkinCatalog._loaded[&"short_cape"] = null
 		visual_class = &"rogue"
 		death_seconds = 3.60
 		clip_property = &"rogue_death_frames"

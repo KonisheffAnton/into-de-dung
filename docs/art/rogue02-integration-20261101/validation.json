@@ -1,0 +1,158 @@
+{
+  "base_commit": "541c6e508cde3c35db2cab28cdc9aeb8e738373a",
+  "selection": {
+    "skin": "short_cape",
+    "model": "rogue-02",
+    "idle": 3,
+    "death": 2,
+    "ability": 3
+  },
+  "runtime_png_byte_exact": 4,
+  "selected_frames": 99,
+  "whole_skin_package": {
+    "deterministic_outputs": 29,
+    "exact_png": 17,
+    "atlas_cells": 429
+  },
+  "final_rerun": {
+    "snapshot": "D:\\Games\\into-de-dung\\test_reports\\demo-e818b1f6c1374944b682fba8602ad8e4",
+    "unchanged_source_files": 1540,
+    "patched_sha256": {
+      "scripts/demo/character_skin_catalog.gd": "8a6b4225e873979d0aecc5cbd6a9f3dcef9e23d57f7e62b6ba0ecbddfbff18a8",
+      "tests/test_character_skins.gd": "e62c8d07e4211b7d80a698e512c2fa6eef860252554ca21ff041fb834f1be3e9",
+      "tests/test_rogue_animations.gd": "1e372d583b29d278070bc8a8e203f085018906c83e06e297253a1d2ef413af6f"
+    },
+    "checks": {
+      "import": {
+        "status": "PASS",
+        "counts": [],
+        "seconds": 7.491,
+        "exit_code": 0
+      },
+      "startup": {
+        "status": "PASS",
+        "counts": [],
+        "seconds": 4.58,
+        "exit_code": 0
+      },
+      "character_skins_headless": {
+        "status": "PASS",
+        "counts": [
+          [
+            "386",
+            "0"
+          ]
+        ],
+        "seconds": 16.67,
+        "exit_code": 0
+      },
+      "character_skins_hub_headless": {
+        "status": "PASS",
+        "counts": [
+          [
+            "26",
+            "0"
+          ]
+        ],
+        "seconds": 4.95,
+        "exit_code": 0
+      },
+      "rogue_animations_headless": {
+        "status": "PASS",
+        "counts": [
+          [
+            "98",
+            "0"
+          ]
+        ],
+        "seconds": 2.824,
+        "exit_code": 0
+      },
+      "defender_buff_headless": {
+        "status": "PASS",
+        "counts": [
+          [
+            "294",
+            "0"
+          ]
+        ],
+        "seconds": 6.341,
+        "exit_code": 0
+      },
+      "rogue_buff_headless": {
+        "status": "PASS",
+        "counts": [
+          [
+            "30",
+            "0"
+          ]
+        ],
+        "seconds": 4.008,
+        "exit_code": 0
+      },
+      "character_skins_gpu": {
+        "status": "PASS",
+        "counts": [
+          [
+            "424",
+            "0"
+          ]
+        ],
+        "seconds": 18.647,
+        "exit_code": 0
+      },
+      "rogue_animations_gpu": {
+        "status": "PASS",
+        "counts": [
+          [
+            "98",
+            "0"
+          ]
+        ],
+        "seconds": 2.706,
+        "exit_code": 0
+      }
+    }
+  },
+  "gpu_adjacent_pass": [
+    "import",
+    "startup",
+    "environment_visual_contract",
+    "unit_visual_contract",
+    "defender_idle_clock",
+    "defender_idle",
+    "defender_buff",
+    "defender_death",
+    "defender_death_routes",
+    "defender_cloth_palette",
+    "rogue_cloth_palette",
+    "rogue_buff",
+    "rogue_death_routes",
+    "archer_idle",
+    "archer_cloth_palette",
+    "visual_scene_contract",
+    "current_art_zoom",
+    "class_showcase_ui",
+    "character_skins_hub",
+    "character_skins",
+    "presentation_contact",
+    "presentation_attack_styles",
+    "presentation_consequences",
+    "presentation_environment",
+    "presentation_ranged",
+    "presentation_mage",
+    "battle_camera_ui",
+    "battle_execution_ui"
+  ],
+  "headless_class_showcase": "229/0",
+  "foreign_file_hashes_unchanged": 33,
+  "handoff_archive": {
+    "path": "docs/CODEX_HANDOFF.history-20261101-9.md",
+    "sha256": "eab55c885053ec420871d59677929af3fdf00abd0c8521da328bac2c59753546",
+    "byte_exact": true
+  },
+  "independent_review": "APPROVE",
+  "full_core_rerun": false,
+  "manual_acceptance": false,
+  "new_generation_requests": 0
+}

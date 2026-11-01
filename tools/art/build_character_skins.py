@@ -14,9 +14,10 @@ from typing import Any
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT / "docs/art/warrior-animation-six-20261031"
+WARRIOR_SOURCE = ROOT / "docs/art/warrior-animation-six-20261031"
+ROGUE_SOURCE = ROOT / "docs/art/rogue-animation-02-20261101"
 PACKAGE = ROOT / "assets/art_presets/approved/character_skins_v1"
-BASE_COMMIT = "f768d779af6991fb3b76bbcb2a85a78837b5e69a"
+BASE_COMMIT = "541c6e508cde3c35db2cab28cdc9aeb8e738373a"
 FRAME_SIZE = 256
 SHEET_COLUMNS = 8
 FRAME_COUNT = 33
@@ -26,6 +27,7 @@ SKINS: tuple[dict[str, Any], ...] = (
         "slug": "watch_shield", "class": "shieldbearer", "id": "02",
         "model": "model02", "display_name": "Щит дозора",
         "source_facing_x": 1, "shieldbearer_palette_strength": 0.0,
+        "source_root": "warrior",
         "clips": {"idle": "02-idle-1", "idle_secondary": "02-idle-2",
                   "death": "02-death-3", "buff": "02-ability-2"},
     },
@@ -33,13 +35,22 @@ SKINS: tuple[dict[str, Any], ...] = (
         "slug": "grey_bastion", "class": "shieldbearer", "id": "17",
         "model": "model17", "display_name": "Седой бастион",
         "source_facing_x": 1, "shieldbearer_palette_strength": 1.0,
+        "source_root": "warrior",
         "clips": {"idle": "17-idle-1", "death": "17-death-3", "buff": "17-ability-2"},
     },
     {
         "slug": "red_bastion", "class": "fighter", "id": "11",
         "model": "model11", "display_name": "Красный бастион",
         "source_facing_x": -1, "shieldbearer_palette_strength": 0.0,
+        "source_root": "warrior",
         "clips": {"idle": "11-idle-1", "death": "11-death-3", "buff": "11-ability-2"},
+    },
+    {
+        "slug": "short_cape", "class": "rogue", "id": "02",
+        "model": "model02", "display_name": "Короткая накидка",
+        "source_facing_x": 1, "shieldbearer_palette_strength": 0.0,
+        "source_root": "rogue",
+        "clips": {"idle": "idle-3", "death": "death-2", "buff": "ability-3"},
     },
 )
 CLIP_NAMES = ("idle", "idle_secondary", "buff", "death")
@@ -61,15 +72,15 @@ def image_info(payload: bytes, label: str) -> tuple[tuple[int, int], str, tuple[
         return image.size, image.mode, image.getchannel("A").getbbox() if "A" in image.getbands() else None
 
 
-def read_clip(warrior_id: str, key: str) -> tuple[dict[str, Any], bytes, dict[str, Any]]:
-    folder = SOURCE / "pixellab" / key
+def read_clip(source_root: Path, expected_id: str, key: str) -> tuple[dict[str, Any], bytes, dict[str, Any]]:
+    folder = source_root / "pixellab" / key
     meta_path = folder / "clip.json"
     sheet_path = folder / "spritesheet.png"
     if not meta_path.is_file() or not sheet_path.is_file():
         raise ValueError(f"Missing selected clip files: {relative(folder)}")
     metadata = json.loads(meta_path.read_text(encoding="utf-8"))
     sheet = sheet_path.read_bytes()
-    if metadata.get("id") != warrior_id or metadata.get("key") != key:
+    if metadata.get("key") != key or (source_root == WARRIOR_SOURCE and metadata.get("id") != expected_id) or (metadata.get("id") is not None and metadata["id"] != expected_id):
         raise ValueError(f"Clip identity mismatch: {relative(meta_path)}")
     if metadata.get("actual_frames") != FRAME_COUNT:
         raise ValueError(f"Expected {FRAME_COUNT} source frames: {relative(meta_path)}")
@@ -80,7 +91,7 @@ def read_clip(warrior_id: str, key: str) -> tuple[dict[str, Any], bytes, dict[st
         raise ValueError(f"Invalid durations_ms: {relative(meta_path)}")
     if metadata.get("canvas") != [FRAME_SIZE, FRAME_SIZE] or metadata.get("anchor") != [128, 200]:
         raise ValueError(f"Canvas/anchor mismatch: {relative(meta_path)}")
-    expected_loop = key.split("-")[1] == "idle"
+    expected_loop = key.startswith("idle-") or key.split("-")[1] == "idle"
     if not isinstance(metadata.get("loop"), bool) or metadata["loop"] is not expected_loop:
         raise ValueError(f"Unexpected loop flag for selected clip: {relative(meta_path)}")
     size, mode, _bbox = image_info(sheet, relative(sheet_path))
@@ -89,8 +100,10 @@ def read_clip(warrior_id: str, key: str) -> tuple[dict[str, Any], bytes, dict[st
         raise ValueError(f"Expected RGBA sheet {expected_size}: {relative(sheet_path)} got {size} {mode}")
     source_frames = folder / "frames"
     frame_paths = [source_frames / f"frame-{index:02d}.png" for index in range(FRAME_COUNT)]
-    can_compare_optional_frames = all(path.is_file() for path in frame_paths)
-    compared = 0
+    present_frames = [path.is_file() for path in frame_paths]
+    if any(present_frames) and not all(present_frames):
+        raise ValueError(f"Partial optional source frame set: {relative(source_frames)}")
+    can_compare_optional_frames = all(present_frames)
     visible = 0
     with Image.open(sheet_path) as atlas:
         atlas.load()
@@ -108,9 +121,18 @@ def read_clip(warrior_id: str, key: str) -> tuple[dict[str, Any], bytes, dict[st
                     source_frame.load()
                     if source_frame.mode != "RGBA" or source_frame.size != (FRAME_SIZE, FRAME_SIZE):
                         raise ValueError(f"Unexpected source frame geometry: {relative(frame_path)}")
-                    if cell.tobytes() != source_frame.tobytes():
-                        raise ValueError(f"Atlas/source frame mismatch: {relative(frame_path)}")
-                    compared += 1
+                    source_rgba = source_frame.convert("RGBA")
+                    # Скрытый RGB прозрачных пикселей у листа может отличаться, поэтому
+                    # сопоставляем альфу и видимые пиксели, сохраняя источник без правок.
+                    if cell.getchannel("A").tobytes() != source_rgba.getchannel("A").tobytes():
+                        raise ValueError(f"Atlas/source frame alpha mismatch: {relative(frame_path)}")
+                    cell_rgb = cell.convert("RGB")
+                    source_rgb = source_rgba.convert("RGB")
+                    alpha = cell.getchannel("A")
+                    visible_mask = alpha.point(lambda value: 255 if value > 0 else 0)
+                    black = Image.new("RGB", cell.size)
+                    if Image.composite(cell_rgb, black, visible_mask).tobytes() != Image.composite(source_rgb, black, visible_mask).tobytes():
+                        raise ValueError(f"Atlas/source visible pixel mismatch: {relative(frame_path)}")
     record = {
         "source_clip": key,
         "source_clip_json": relative(meta_path),
@@ -121,7 +143,6 @@ def read_clip(warrior_id: str, key: str) -> tuple[dict[str, Any], bytes, dict[st
         "loop": metadata["loop"],
         "first_frame_rgba_equal_to_input": metadata.get("first_frame_rgba_equal"),
         "last_frame_rgba_equal_to_input": metadata.get("last_frame_rgba_equal"),
-        "source_frame_count_optional_match": compared,
         "visible_atlas_regions": visible,
     }
     return metadata, sheet, record
@@ -210,7 +231,7 @@ def skin_resource(skin: dict[str, Any]) -> bytes:
 def readme_bytes() -> bytes:
     text = """# Character skins v1
 
-Три облика с выбранными анимационными листами. Пакет содержит PNG, `SpriteFrames` и `skin.tres` типа `CharacterSkinDefinition`; runtime-сцены и shader/материалы находятся у владельцев показа.
+Четыре облика с выбранными анимационными листами. Пакет содержит PNG, `SpriteFrames` и `skin.tres` типа `CharacterSkinDefinition`; runtime-сцены и shader/материалы находятся у владельцев показа.
 
 ## Выбор U
 
@@ -219,26 +240,27 @@ def readme_bytes() -> bytes:
 | `watch_shield` — Щит дозора | `shieldbearer` / `02` / `model02` | idle-1, idle-secondary-2, death-3, ability-2 |
 | `grey_bastion` — Седой бастион | `shieldbearer` / `17` / `model17` | idle-1, death-3, ability-2 |
 | `red_bastion` — Красный бастион | `fighter` / `11` / `model11` | idle-1, death-3, ability-2 |
+| `short_cape` — Короткая накидка | `rogue` / `02` / `model02` | idle-3, death-2, ability-3 |
 
 `buff` в `SpriteFrames` — имя runtime-анимации для выбранного источника `ability`; новую механику оно не вводит. Idle-secondary существует только у `watch_shield`.
 
 ## Происхождение и геометрия
 
-`still.png` является побайтной копией `docs/art/warrior-animation-six-20261031/models/warrior-NN/input-256.png`. Каждый clip PNG — побайтная копия выбранного PixelLab `spritesheet.png`. Все листы RGBA, 2048×1280, восемь колонок по 256 px и 33 позы. Кадры не извлекаются/пересохраняются: `SpriteFrames` использует `AtlasTexture`-регионы исходного листа.
+`still.png` является побайтной копией выбранного `input-256.png` из warrior или Rogue02 package. Каждый clip PNG — побайтная копия выбранного PixelLab `spritesheet.png`. Все листы RGBA, 2048×1280, восемь колонок по 256 px и 33 позы. Кадры не извлекаются/пересохраняются: `SpriteFrames` использует `AtlasTexture`-регионы исходного листа.
 
 В каталоге: `still.png`, выбранные `idle.png`, `idle_secondary.png` (только 02), `death.png`, `buff.png`, `frames.tres` и `skin.tres` типа `CharacterSkinDefinition`. Координаты опоры исходника — (128,200). Для ожидаемого силуэта около61 px применяется scale0.5 внутри существующего `ArtRoot` scale0.8; посадка сцены этим пакетом не меняется. В skin resource сохранены `source_facing_x`: 02=1, 17=1, 11=-1; palette strength: 02=0, 17=1, 11=0.
 
 ## Тайминг и ограничения источников
 
-Тайминги и loop берутся из выбранных `clip.json`. Частота `SpriteFrames.speed` равна `1000 / base_duration_ms`, где базовая длительность — наиболее частая для клипа; frame `duration` хранит отношение его `duration_ms` к этой базе. Поэтому последние death-кадры с1500ms сохраняют удержание.
+Тайминги и loop берутся из выбранных `clip.json`. Частота `SpriteFrames.speed` равна `1000 / base_duration_ms`, где базовая длительность — наиболее частая для клипа; frame `duration` хранит отношение его `duration_ms` к этой базе. Rogue02 по исходным метаданным: idle-3 — 33×90ms (2.97s), death-2 — 32×70ms и последний кадр1500ms (3.74s), ability-3 — 33×70ms (2.31s). Warrior clips также сохраняют собственные тайминги метаданных.
 
-Во всех десяти источниках `first_frame_rgba_equal` и `last_frame_rgba_equal` относительно `input-256.png` равны false: первый/последний кадр анимации не является точной копией still. Три idle помечены loop, но непрерывность стыка отдельно не подтверждена. Death содержит32 обычных кадра по70ms и последний кадр1500ms. Способность —33 кадра по70ms. Это выбранные PixelLab результаты, не утверждение о ручной художественной приёмке.
+Во всех13 источниках `first_frame_rgba_equal` и `last_frame_rgba_equal` относительно `input-256.png` равны false: первый/последний кадр анимации не является точной копией still. Пять idle-клипов (включая вторичный у Щитоносца02) помечены loop, но непрерывность стыка отдельно не подтверждена. Death содержит32 обычных кадра по70ms и последний кадр1500ms. Способность —33 кадра по70ms. Это выбранные PixelLab результаты, не утверждение о ручной художественной приёмке.
 
-Исходные картинки не изменяются, кадры не генерируются. Покадровые PNG используются только необязательной проверкой совпадения с областью листа, если они доступны; сборка требует лишь tracked sheets, input images и clip metadata.
+Исходные картинки не изменяются, кадры не генерируются. Покадровые PNG используются только необязательной проверкой видимых пикселей и alpha с областью листа, если полный набор доступен; скрытый RGB прозрачных пикселей может отличаться. Частично присутствующий набор считается ошибкой. Сборка требует лишь sheets, input images и clip metadata.
 
 ## Сборка и проверка
 
-`python tools/art/build_character_skins.py` собирает пакет. `python tools/art/build_character_skins.py --check` выполняет ту же проверку и сравнивает все выходы байт-в-байт без записи. `manifest.json` содержит выбранные источники и SHA-256 13 PNG; `validation.json` фиксирует 330 регионов и тайминги.
+`python tools/art/build_character_skins.py` собирает пакет. `python tools/art/build_character_skins.py --check` выполняет ту же проверку и сравнивает все выходы байт-в-байт без записи. `manifest.json` содержит выбранные источники и SHA-256 17 PNG; `validation.json` фиксирует 429 регионов и тайминги.
 """
     return text.encode("utf-8")
 
@@ -251,12 +273,13 @@ def outputs() -> tuple[dict[str, bytes], dict[str, Any], dict[str, Any]]:
     source_png_count = 0
     frame_count = 0
     visible_regions = 0
-    optional_frame_matches = 0
     timing_frames = 0
 
     for skin in SKINS:
         slug = skin["slug"]
-        model_dir = SOURCE / "models" / f"warrior-{skin['id']}"
+        source_root = ROGUE_SOURCE if skin["source_root"] == "rogue" else WARRIOR_SOURCE
+        model_dir = (source_root / "model" if skin["source_root"] == "rogue"
+                     else source_root / "models" / f"warrior-{skin['id']}")
         still_path = model_dir / "input-256.png"
         if not still_path.is_file():
             raise ValueError(f"Missing still source: {relative(still_path)}")
@@ -274,7 +297,7 @@ def outputs() -> tuple[dict[str, bytes], dict[str, Any], dict[str, Any]]:
         clip_records: dict[str, dict[str, Any]] = {}
         output_paths: dict[str, str] = {"still": runtime_dir}
         for animation, clip_key in skin["clips"].items():
-            metadata, sheet, clip_record = read_clip(skin["id"], clip_key)
+            metadata, sheet, clip_record = read_clip(source_root, skin["id"], clip_key)
             output_name = "buff.png" if animation == "buff" else f"{animation}.png"
             output_path = f"{slug}/{output_name}"
             generated[output_path] = sheet
@@ -288,7 +311,6 @@ def outputs() -> tuple[dict[str, bytes], dict[str, Any], dict[str, Any]]:
             })
             frame_count += clip_record["actual_frames"]
             visible_regions += clip_record["visible_atlas_regions"]
-            optional_frame_matches += clip_record["source_frame_count_optional_match"]
             timing_frames += len(clip_record["durations_ms"])
         frame_resource = sprite_frames(skin, clip_records)
         generated[f"{slug}/frames.tres"] = frame_resource
@@ -318,7 +340,7 @@ def outputs() -> tuple[dict[str, bytes], dict[str, Any], dict[str, Any]]:
     manifest = {
         "format": 1,
         "base_commit": BASE_COMMIT,
-        "selection": "U selected PixelLab clips for watch_shield 02, grey_bastion 17, and red_bastion 11.",
+        "selection": "U selected PixelLab clips for watch_shield 02, grey_bastion 17, red_bastion 11, and short_cape Rogue02.",
         "canvas": [FRAME_SIZE, FRAME_SIZE],
         "anchor": [128, 200],
         "sheet_layout": {"columns": SHEET_COLUMNS, "cell": [FRAME_SIZE, FRAME_SIZE], "frames_per_clip": FRAME_COUNT},
@@ -331,14 +353,18 @@ def outputs() -> tuple[dict[str, bytes], dict[str, Any], dict[str, Any]]:
     validation = {
         "format": 1, "base_commit": BASE_COMMIT,
         "source_sha_exact_count": source_png_count,
-        "source_sha_exact_pass": source_png_count == 13,
+        "source_sha_exact_pass": source_png_count == 17,
         "atlas_cell_count": frame_count,
         "atlas_visible_count": visible_regions,
-        "atlas_all_visible": frame_count == visible_regions == 330,
-        "optional_raw_frame_match_count": optional_frame_matches,
-        "optional_raw_frame_matches_complete": optional_frame_matches in (0, 330),
+        "atlas_all_visible": frame_count == visible_regions == 429,
+        "optional_raw_frame_sets_validated": True,
+        "optional_raw_frame_slots": {
+            "warrior": sum(len(skin["clips"]) * FRAME_COUNT for skin in SKINS if skin["source_root"] == "warrior"),
+            "rogue": sum(len(skin["clips"]) * FRAME_COUNT for skin in SKINS if skin["source_root"] == "rogue"),
+        },
+        "optional_raw_frame_policy": "compare complete available sets; reject partial sets",
         "duration_entry_count": timing_frames,
-        "duration_entries_match_frames": timing_frames == frame_count == 330,
+        "duration_entries_match_frames": timing_frames == frame_count == 429,
         "skins": [
             {"slug": skin["slug"], "id": skin["id"], "class": skin["class"],
              "clip_count": len(skin["clips"]), "frame_count": len(skin["clips"]) * FRAME_COUNT}
@@ -357,7 +383,7 @@ def main() -> int:
     args = parser.parse_args()
     expected, _manifest, validation = outputs()
     if not all((validation[key] for key in ("source_sha_exact_pass", "atlas_all_visible",
-                                             "optional_raw_frame_matches_complete", "duration_entries_match_frames"))):
+                                             "optional_raw_frame_sets_validated", "duration_entries_match_frames"))):
         print(f"FAIL: validation did not pass: {validation}", file=sys.stderr)
         return 1
     if args.check:
@@ -368,14 +394,14 @@ def main() -> int:
         if failures:
             print("FAIL: " + ", ".join(failures), file=sys.stderr)
             return 1
-        print("PASS: 23 deterministic outputs; 13 source PNGs byte-exact; 330 visible atlas cells and durations validated")
+        print("PASS: 29 deterministic outputs; 17 source PNGs byte-exact; 429 visible atlas cells and durations validated")
         return 0
     for name, payload in expected.items():
         path = PACKAGE / name
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(payload)
     print(f"Built {len(expected)} deterministic outputs in {PACKAGE}")
-    print("PASS: 13 source PNGs byte-exact; 330 visible atlas cells and durations validated")
+    print("PASS: 17 source PNGs byte-exact; 429 visible atlas cells and durations validated")
     return 0
 
 

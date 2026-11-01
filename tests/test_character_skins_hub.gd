@@ -101,6 +101,14 @@ func _run() -> void:
 	page.character_skins = hub.skin_settings.selections.duplicate()
 	page._render_skin_choice(fighter)
 	_check(choice.visible and choice.disabled and choice.item_count == 1, "single-skin class shows a disabled choice")
+	fighter.class_id = &"rogue"
+	page._render_skin_choice(fighter)
+	_check(choice.visible and choice.disabled and choice.item_count == 1
+		and StringName(choice.get_item_metadata(0)) == &"short_cape", "Rogue exposes its selected model02")
+	_check(CharacterSkinCatalog.normalized({&"rogue": &"missing"})[&"rogue"] == &"short_cape"
+		and recovered.selections[&"rogue"] == &"short_cape", "missing or unknown Rogue cosmetic resolves without profile migration")
+	_check(HubSkeletonCard.hero_texture(&"rogue") == CharacterSkinCatalog.definition(&"rogue").still,
+		"Rogue hub portrait uses the same selected model as the battle")
 	fighter.class_id = &"mage"
 	page._render_skin_choice(fighter)
 	_check(not choice.visible and choice.item_count == 0, "unsupported class hides choice without error")

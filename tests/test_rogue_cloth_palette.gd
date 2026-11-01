@@ -13,6 +13,8 @@ var captures: String = ""
 
 
 func _initialize() -> void:
+	# Старые маски проверяются на fallback-модели; новый облик сохраняет исходный RGB.
+	CharacterSkinCatalog._loaded[&"short_cape"] = null
 	for argument: String in OS.get_cmdline_user_args():
 		if argument.begins_with("--captures="): captures = argument.trim_prefix("--captures=")
 	call_deferred("_run")

@@ -226,8 +226,11 @@ func _check_warrior_art() -> void:
 				"rogue art follows its authored scale through camera and refresh")
 			var rogue_idle := visual.get_node("ArtRoot/RogueIdleSprite") as Sprite2D
 			var rogue_still := visual.class_still_sprite()
-			check(not rogue_idle.visible and rogue_still.visible and rogue_still.texture.get_size() == Vector2(128, 128),
-				"current expedition rogue uses the selected static model until idle is chosen")
+			var rogue_skin := visual as BattleCharacterSkinVisual
+			check(not rogue_idle.visible and rogue_still.visible and rogue_still.texture.get_size() == Vector2(256, 256)
+				and rogue_skin.skin_definition != null and rogue_skin.skin_definition.id == &"short_cape"
+				and rogue_still.texture is AtlasTexture,
+				"current expedition rogue uses model02 with selected idle3")
 			var rogue_pick := visual.surface_polygons()[0]
 			check(is_equal_approx(rogue_pick[1].x - rogue_pick[0].x, visual.rogue_pick_rect.size.x * tile_factor * 0.8),
 				"rogue picking width tracks art scale")

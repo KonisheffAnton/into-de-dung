@@ -14,6 +14,19 @@
 
 ## Изменение игрового кода
 
+Разбойник02 idle3/death2/ability3 (2026-11-01): `--check --only character_skins
+character_skins_hub current_art_zoom class_showcase class_showcase_ui
+rogue_animations rogue_buff rogue_death_routes rogue_cloth_palette presentation_attack_styles`;
+затем `--render-check --only character_skins character_skins_hub current_art_zoom
+class_showcase_ui presentation_attack_styles presentation_contact presentation_ranged
+presentation_mage presentation_environment unit_visual_contract visual_scene_contract`.
+character_skins проверяет новый skin, обе стороны/поворот, Guard receipts,
+тайминг/resize/skip/cancel/×3, обычную смерть и сохранность состояния/RNG.
+rogue_animations/buff/death_routes/cloth сохраняют проверки старого fallback:
+в этих отдельных runners явно моделируется отсутствие short_cape в каталоге.
+Сборка: `python tools/art/build_character_skins.py --check`, PNG побайтно;
+проверка atlas alpha/видимого RGB, полных доступных наборов и таймингов.
+
 Облики и состав классов (2026-11-01): `--check --only class_showcase class_showcase_ui
 character_skins_hub character_skins`; затем `--render-check --only
 character_skins character_skins_hub class_showcase_ui`. Проверяются оба скина Щитоносца/Воин,

@@ -404,24 +404,35 @@ after и тело окружения. Это касается ближнего/�
 
 ### Анимации разбойника
 
-U2026-10-23 выбрал новую зелёную модель и «Смерть3» из последней серии PixelLab.
-[Текущий пакет](../assets/art_presets/trials/rogue_selected_v1/README.md)
-подключён к PLAYER/ENEMY rogue в `art_trial_unit` (поход и пробная сцена).
+U2026-11-01 заменил текущий облик на Разбойника02 с idle3/смертью2/способностью3.
+Владелец выбора, источников, таймингов и направления — [CHARACTER_SKINS_V1](CHARACTER_SKINS_V1.md).
+PLAYER/ENEMY rogue используют `CharacterSkinSprite` общего механизма обликов;
+старые слои скрыты. Новый рисунок256² имеет опору(128,200), scale0.5 внутри
+ArtRoot0.8: исходная высота152px даёт60.8px. Цвета исходные, старые маски одежды
+не применяются. Picking Rect2(-40,-78,80,88) покрывает новый капюшон и стопы
+и масштабируется вместе с ArtRoot. HUD/тень/root не отражаются.
+Подтверждённая «Защита» запускает способность3; затем штатный clear/reset
+возвращает idle и направление команды. Смерть2 удерживает последнюю позу по
+SpriteFrames до after; дополнительного legacy fade и отдельного таймера нет.
+Падения/VOID/обвал сохраняют отдельные маршруты, core/preview/queue/RNG/save прежние.
+[Проверки и снимки](art/rogue02-integration-20261101/README.md).
+
+При недоступном skin-ресурсе сохранена зелёная модель со Смертью3, выбранная
+U2026-10-23: [fallback-пакет](../assets/art_presets/trials/rogue_selected_v1/README.md).
 Player/EnemyRogueSprite показывают128² still, RogueIdleSprite служит слоем смерти.
 PNG скопированы побайтно, первый кадр RGBA-равен still. Source/native128²,
 nearest, brighter_palette_strength0; прежняя светлая гамма не применяется.
 ArtRoot0.8 даёт высоту57.6px при исходных72px, как warrior_format_v1.
 Опора(64,83), player(-64,-83), enemy(64,-83) со scale(-1,1);
-отражается только рисунок, HUD/тень/root прежние. Picking Rect2(-38,-67,76,80)
-масштабируется вместе с ArtRoot. Экспорты rogue_animation_anchor,
+отражается только рисунок, HUD/тень/root прежние. Экспорты rogue_animation_anchor,
 rogue_texture_scale и rogue_death_frame_count задают профиль клипа.
 
-Новый idle не выбран: ресурсы rogue_idle_frames/rogue_buff_frames в текущей
+Для fallback ресурсы rogue_idle_frames/rogue_buff_frames в текущей
 сцене null. Стоящая поза статична, guard использует общее представление;
 старые idle/B1 не показываются. API прежних ресурсов сохранён, как и
 [исторический пакет](../assets/art_presets/trials/rogue_animations_v1/README.md).
-При выборе будущего idle нужен отдельный допуск формата/тайминга; нынешняя
-legacy-ветка рассчитана на12 кадров. Новая геометрия не использует старые
+Legacy-ветка рассчитана на12 кадров idle; выбранные33 кадра обслуживает skin-слой.
+Геометрия fallback не использует старые
 RogueClothPalette маски: индекс выбора одежды хранится, рисунок остаётся исходным.
 
 Death3:17 PNG×150мс=2.55с, non-loop, затем удержание0.25с и затухание0.80с;
