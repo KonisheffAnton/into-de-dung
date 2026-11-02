@@ -1,37 +1,36 @@
-# Передача — 2026-11-02: размер Разбойника и диагностика зерна
+# Передача — 2026-11-02: полный кадр фигур с покрытием
 
-D:/Games/into-de-dung; main; basef9eea8b7da12dfa5aefa4c8e51d972c642de6765.
-Параллельно завершён launcher-этап92bf0a1; его изменения сохранены.
-По U Разбойник уменьшен на10%: rogue_art_scale0.8→0.72, высота60.8→54.72px
-на тайле128. Picking уменьшается вместе с рисунком; опора и клипы idle3/death2/
-ability3 прежние. Владельцы: CHARACTER_SKINS_V1, BATTLE_VISUAL_SCENE_CONTRACT.
-[Результат/снимки/диагностика](art/rogue-size-sampling-20261102/README.md).
-Логи: test_reports/rogue-size-sampling-20261102/ и
- test_reports/demo-c47902f9a1d04e8c900334a12ad7a716/.
+D:/Games/into-de-dung; main; base8f405fe3ac389b9a5832f89710826587db9dace2.
+По U убрана дополнительная выборка моделей по уменьшенной сетке. Все текстурные
+слои production-фигур читают полный исходный кадр с покрытием: skin-клипы,
+legacy-классы, Body и NPC. Палитры/маски/alpha, PNG, опоры, стороны команд,
+пикинг и тайминги сохранены. Разбойник0.72, idle3/death2/ability3 прежние.
+Владельцы: BATTLE_VISUAL_SCENE_CONTRACT, CHARACTER_SKINS_V1.
+[Отчёт/снимки/validation](art/character-coverage-20261102/README.md).
+Логи: test_reports/character-coverage-20261102/ и
+ test_reports/demo-2f6818ee1cf447c0b22d0517a2480701/ (первичный импорт/набор).
 
-Причина потери деталей относительно превью: исходник256² сначала выбирается
-на сетке128², затем ещё уменьшается до игрового размера. Сравнение одинакового
-кадра/геометрии: текущий128, прямой nearest256, полный256 с покрытием.
-Последний спокойнее сохраняет детали, но мягче. Это проба: production shader
-не менялся. Новая генерация/ретушь не выполнялась. Дальше — отзыв U и отдельный
-выбор правки рендера; автоматически новый этап не начинать.
+PASS isolated import/startup; GPU coverage53/0, skins424/0, zoom496/0,
+cloth321/0+148/0+206/0, palette15/0, warrior39/0, class UI40/0,
+attack styles611/0, unit45/0, visual106/0; headless coverage26/0, skins386/0.
+Python35/0; builder29 выходов/17PNG побайтно/429 ячеек и таймингов.
+Старые shaders дали18 ожидаемых FAIL без script errors; копия восстановлена.
+Независимое APPROVE. Full/core не повторялись.
 
-PASS isolated import/startup; GPU skins424/0, class UI40/0, attack styles611/0,
-unit45/0, visual106/0; legacy Rogue98/0 GPU/headless; zoom496/0 GPU;
-диагностический рендер22/0. Независимое APPROVE.
-Использован снимок launcher из базы; параллельный этап сообщил о пересечении
-native импортов. Performance не измерялся. Full/core не повторялись.
-Ручные F5/движение/zoom/DPI, художественная приёмка/швы, performance открыты;
-turn_forecast_ui26/3 прежний; HUD/Колода без новой приёмки. Маг пока «М».
+Смежный presentation_foundation141/2 одинаков на текущем коде и базе8f405fe:
+ожидания fallback warrior и picking движущегося warrior; не исправлялись.
+Прежний turn_forecast_ui26/3 открыт. Ручные F5/движение/zoom/DPI,
+художественная приёмка/швы, performance и HUD/Колода остаются открыты.
+Короткие интервалы render probe не доказывают FPS игры. Маг пока «М»;
+каталоги1–3 не мигрированы. Дальше — отзыв U; новый срез без поручения не начинать.
 
-Текущий launcher хранит3 последние завершённые копии, --keep-project закрепляет:
-[правила](REPOSITORY_STATE.md#автоочистка-тестовых-копий). Логи/снимки сохраняются.
-Чужие main_menu.tscn и docs/art/battlefield-reference-03-20261017/ не reset/stage/commit.
-Core/preview/queue/RNG/save/frozen сохранять. Один Godot runner, isolated project;
-без root import/служб/драйверов/принудительного фокуса/push/sidebar/расписаний.
-[Прежняя передача побайтно](CODEX_HANDOFF.history-20261102-3.md), [HISTORY](HISTORY.md).
+Чужие scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
+не reset/stage/commit;33 файла SHA неизменны. Core/preview/queue/RNG/save/frozen
+сохранять. Один Godot runner, isolated project; без root import/служб/драйверов/
+принудительного фокуса/push/sidebar/расписаний. Launcher retention — REPOSITORY_STATE.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261102-4.md), [HISTORY](HISTORY.md).
 
 Завершение: проверки, локальный Conventional Commit, короткий HANDOFF;
-прежний побайтно отдельным архивом+HISTORY. В финале/при блокере предложить
-новый чат и полный самодостаточный промпт: HEAD, результат, docs/artifacts,
-остаток, ограничения, проверки и это же правило. Чат автоматически не создавать.
+прежний побайтно отдельным архивом+HISTORY. В финале/при блокере предложить новый
+чат и полный самодостаточный промпт: HEAD, результат, docs/artifacts, остаток,
+ограничения, проверки и это же правило. Чат автоматически не создавать.

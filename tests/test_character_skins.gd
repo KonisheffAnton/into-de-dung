@@ -88,9 +88,9 @@ func _test_rendered_skins() -> void:
 					var right := pixels.get_pixel(360 - x - 1, y)
 					if left.a < 0.2 and right.a < 0.2: continue
 					compared += 1
-					# Преобразование shader RGB в8bit допускает один уровень округления; alpha совпадает строго.
-					if absf(left.r - right.r) > 1.01 / 255.0 or absf(left.g - right.g) > 1.01 / 255.0 or absf(left.b - right.b) > 1.01 / 255.0 or left.a != right.a: differences += 1
-			check(compared > 100 and differences == 0, "GPU opposite teams mirror all body pixels (RGB1/255, exact alpha): %s (%d/%d)" % [SKINS[row].id, differences, compared])
+					# Полное покрытие зависит от производных UV: зеркальная интерполяция допускает один уровень RGBA8.
+					if absf(left.r - right.r) > 1.01 / 255.0 or absf(left.g - right.g) > 1.01 / 255.0 or absf(left.b - right.b) > 1.01 / 255.0 or absf(left.a - right.a) > 1.01 / 255.0: differences += 1
+			check(compared > 100 and differences == 0, "GPU opposite teams mirror all body pixels (RGBA1/255): %s (%d/%d)" % [SKINS[row].id, differences, compared])
 		check(pixels.save_png(_capture_path().path_join("selected-skins-gpu.png")) == OK, "save rendered skin contact")
 
 func _visual_values(unit_id: int, class_id: StringName, faction: Faction.Type, skin_id: StringName) -> Dictionary:

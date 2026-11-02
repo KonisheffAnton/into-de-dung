@@ -39,7 +39,7 @@ static func capture_comparison(tree: SceneTree, captures: String) -> bool:
 				panel.add_child(enlarged)
 				var label := Label.new()
 				label.position = Vector2(column * 384 + 12, row * 372 + 4)
-				label.text = "%s %d%% / art %d%% / %s / pixels x3" % [kind, roundi(zoom * 100), roundi(prototype_art_scale * 100), "source" if row == 0 else "native grid"]
+				label.text = "%s %d%% / art %d%% / %s / pixels x3" % [kind, roundi(zoom * 100), roundi(prototype_art_scale * 100), "source nearest" if row == 0 else "full frame coverage"]
 				panel.add_child(label)
 		await tree.process_frame
 		await tree.process_frame

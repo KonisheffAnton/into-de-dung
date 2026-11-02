@@ -17,6 +17,17 @@
 
 ## Изменение игрового кода
 
+Покрытие полного кадра персонажей (2026-11-02): `--render-check --only
+character_coverage character_skins warrior_visuals shieldbearer_palette
+defender_cloth_palette rogue_cloth_palette archer_cloth_palette
+class_showcase_ui presentation_attack_styles unit_visual_contract visual_scene_contract`.
+character_coverage проверяет все19 текстурных слоёв и независимый CPU-эталон
+площади исходных текселей: 1:1, уменьшение/увеличение, дробные координаты,
+footprint16, отражение, AtlasTexture/region_rect, границы кадра, alpha и fade.
+Headless проверяет только маршруты материалов; GPU-часть обязательна.
+Смежные проверки: current_art_zoom и presentation_foundation; full/core и
+ручные F5/движение/DPI/художественная приёмка отдельно, не следуют из этих gates.
+
 Разбойник02 idle3/death2/ability3 (2026-11-01): `--check --only character_skins
 character_skins_hub current_art_zoom class_showcase class_showcase_ui
 rogue_animations rogue_buff rogue_death_routes rogue_cloth_palette presentation_attack_styles`;
@@ -39,7 +50,8 @@ character_skins character_skins_hub class_showcase_ui`. Проверяются �
 настоящие возможности врагов, размещение и повтор checkpoint. UI проходит меню/
 хаб/поход до поля ровно с5 классами без лишних NPC; Маг у врага не заимствует
 EnemyPreset. Направление PLAYER-вправо/ENEMY-влево проверяется через исходник,
-смену фракции, временную атаку и GPU-пиксели зеркальной пары (RGB1/255, alpha точно).
+смену фракции, временную атаку и GPU-пиксели зеркальной пары (RGBA1/255:
+покрытие по производным UV допускает один уровень округления при отражении).
 Смежные: hero_hub, hub_mercenaries, mage_deck_expedition, expedition_generator,
 turn_forecast_ui, shieldbearer_ui, defender_death_routes, presentation_contact,
 unit_visual_contract, visual_scene_contract, warrior_class, core.

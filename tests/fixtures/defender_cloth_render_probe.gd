@@ -45,6 +45,10 @@ static func run(tree: SceneTree, captures: String) -> Dictionary:
 		DefenderClothPalette.apply(material, 1, slot)
 		var colored := await _capture(tree, view)
 		var origin := Vector2i(DefenderClothPalette.mask_origin(slot))
+		var still_support := PackedByteArray()
+		if clip == "still":
+			still_support = _still_allowed_pixels(source, mask, origin, size,
+				Rect2i(89, 206, 1034, 966), sprite.get_global_transform_with_canvas(), view.size)
 		var changed: int = 0
 		var outside: int = 0
 		var alpha: int = 0
@@ -55,7 +59,12 @@ static func run(tree: SceneTree, captures: String) -> Dictionary:
 				if before.a != after.a: alpha += 1
 				if before == after: continue
 				changed += 1
-				if x >= size.x or y >= size.y or mask.get_pixel(origin.x + x, origin.y + y).r < 0.5:
+				var supported: bool
+				if clip == "still":
+					supported = still_support[y * view.size.x + x] != 0
+				else:
+					supported = x < size.x and y < size.y and mask.get_pixel(origin.x + x, origin.y + y).r >= 0.5
+				if not supported:
 					outside += 1
 		if changed > 0 and outside == 0 and alpha == 0:
 			passed += 1
@@ -92,6 +101,38 @@ static func run(tree: SceneTree, captures: String) -> Dictionary:
 	view.queue_free()
 	await tree.process_frame
 	return {"passed": passed, "failed": failed}
+
+
+static func _still_allowed_pixels(texture: Texture2D, mask: Image, origin: Vector2i,
+		native_size: Vector2i, region: Rect2i, transform: Transform2D, view_size: Vector2i) -> PackedByteArray:
+	# При уменьшении кадра исходный тексель покрывает часть экранного пикселя, поэтому oracle проецирует его площадь.
+	var support := PackedByteArray()
+	support.resize(view_size.x * view_size.y)
+	var source := texture.get_image()
+	for y: int in region.size.y:
+		for x: int in region.size.x:
+			var mask_x := int(floor((float(x) + 0.5) * float(native_size.x) / float(region.size.x)))
+			var mask_y := int(floor((float(y) + 0.5) * float(native_size.y) / float(region.size.y)))
+			if mask.get_pixel(origin.x + mask_x, origin.y + mask_y).r < 0.5:
+				continue
+			if source.get_pixel(region.position.x + x, region.position.y + y).a < 0.5:
+				continue
+			var a := transform * Vector2(float(x), float(y))
+			var b := transform * Vector2(float(x + 1), float(y + 1))
+			var low := Vector2(minf(a.x, b.x), minf(a.y, b.y))
+			var high := Vector2(maxf(a.x, b.x), maxf(a.y, b.y))
+			var first_x := maxi(0, int(floor(low.x)))
+			var first_y := maxi(0, int(floor(low.y)))
+			var end_x := mini(view_size.x, int(ceil(high.x)))
+			var end_y := mini(view_size.y, int(ceil(high.y)))
+			for screen_y: int in range(first_y, end_y):
+				if minf(high.y, float(screen_y + 1)) <= maxf(low.y, float(screen_y)):
+					continue
+				for screen_x: int in range(first_x, end_x):
+					if minf(high.x, float(screen_x + 1)) <= maxf(low.x, float(screen_x)):
+						continue
+					support[screen_y * view_size.x + screen_x] = 1
+	return support
 
 
 static func _capture(tree: SceneTree, view: SubViewport) -> Image:

@@ -97,7 +97,8 @@ func _set_skin_texture(texture: Texture2D) -> void:
 	if material == null: return
 	var source := Vector4(region.position.x, region.position.y, region.size.x, region.size.y)
 	if material.get_shader_parameter(&"source_region") != source: material.set_shader_parameter(&"source_region", source)
-	var native_size := Vector2(256.0, 256.0) * skin_definition.texture_scale
+	# Шейдер покрывает исходные тексели кадра; размер игровой сетки ему больше не нужен.
+	var native_size := region.size
 	if material.get_shader_parameter(&"native_size") != native_size: material.set_shader_parameter(&"native_size", native_size)
 	if material.get_shader_parameter(&"shieldbearer_palette_strength") != skin_definition.shieldbearer_palette_strength:
 		material.set_shader_parameter(&"shieldbearer_palette_strength", skin_definition.shieldbearer_palette_strength)
