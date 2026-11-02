@@ -13,6 +13,17 @@ import time
 import uuid
 
 from interactive_cache import CacheBusyError, InteractiveCache
+from project_retention import mark_completed, prune_projects
+
+
+def cleanup_test_projects(repo):
+    """Report cleanup failures without changing the result of the requested check."""
+    result = prune_projects(repo)
+    if result["removed"]:
+        print("Removed old test project copies:", len(result["removed"]), flush=True)
+    for error in result["errors"]:
+        print("Test project cleanup warning:", error, flush=True)
+    return result
 
 
 def run_cached_interactive(repo, godot, screen=None):
@@ -167,6 +178,7 @@ def main():
     parser.add_argument("--only", nargs="+", action="append", metavar="LABEL", help="run only these scheduled checks (requires --check or --render-check; import/startup still run)")
     parser.add_argument("--list-checks", action="store_true", help="print scheduled check labels and exit")
     parser.add_argument("--fresh", action="store_true", help="interactive only: launch a fresh isolated copy without using the play cache")
+    parser.add_argument("--keep-project", action="store_true", help="preserve this check's project copy from automatic cleanup (checks only)")
     parser.add_argument("--godot", default=os.environ.get("GODOT_BIN"))
     parser.add_argument("--screen", type=int, default=os.environ.get("GODOT_TEST_SCREEN"), help="Godot screen index for windowed runs (or GODOT_TEST_SCREEN)")
     args = parser.parse_args()
@@ -175,6 +187,8 @@ def main():
         return
     if args.only and not (args.check or args.render_check):
         parser.error("--only requires --check or --render-check")
+    if args.keep_project and not (args.check or args.render_check):
+        parser.error("--keep-project requires --check or --render-check")
     if args.fresh and (args.check or args.render_check):
         parser.error("--fresh is interactive only; checks already use fresh copies")
     if args.only and args.full:
@@ -194,6 +208,17 @@ def main():
         godot = str(local)
     if not godot:
         parser.error("Set GODOT_BIN or pass --godot with the Godot 4.7 executable path.")
+    retention_safe_process = True
+    if (args.check or args.render_check) and os.name == "nt":
+        # Метка завершения зависит от остановки движка, а не его console-оболочки.
+        executable = Path(shutil.which(godot) or godot).resolve()
+        if executable.name.lower().endswith("_console.exe"):
+            runtime = executable.with_name(executable.name[:-len("_console.exe")] + ".exe")
+            if runtime.is_file():
+                godot = str(runtime)
+            else:
+                retention_safe_process = False
+    cleanup_before = cleanup_test_projects(repo)
     if not (args.check or args.render_check or args.fresh):
         try:
             code = run_cached_interactive(repo, godot, args.screen)
@@ -222,7 +247,8 @@ def main():
         shutil.copyfile(source, target)
         manifest.append({"path": name, "sha256": hashlib.sha256(source.read_bytes()).hexdigest()})
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
-    timing = {"snapshot_seconds": time.perf_counter() - snapshot_started, "checks": {}, "total_seconds": None}
+    timing = {"snapshot_seconds": time.perf_counter() - snapshot_started, "checks": {}, "total_seconds": None,
+              "project_cleanup_before": cleanup_before}
     timing_path = out / "timing.json"
     def save_timing():
         timing["total_seconds"] = time.perf_counter() - total_started
@@ -243,6 +269,17 @@ def main():
         }
         save_timing()
         summary = timing["summary"]
+        # Метку публикуем только после известных завершений дочерних процессов.
+        # Timeout/неизвестный spawn могли оставить живой движок; такие копии не удаляем.
+        if (args.check or args.render_check) and retention_safe_process and all(
+            check["status"] != "TIMEOUT" and "launch_error" not in check for check in checks.values()
+        ):
+            try:
+                mark_completed(repo, out, keep=args.keep_project)
+            except (OSError, ValueError) as exc:
+                print("Test project retention warning:", exc, flush=True)
+            timing["project_cleanup_after"] = cleanup_test_projects(repo)
+            save_timing()
         print("SUMMARY: {passed} passed, {failed} failed, {timed_out} timed out".format(**summary), flush=True)
         if failed:
             print("Failed checks: " + ", ".join(failed), flush=True)

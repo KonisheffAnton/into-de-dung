@@ -11,6 +11,9 @@
 `test_reports/` и `.godot/`; пишет manifest, логи и при render — PNG в новый
 `test_reports/demo-<id>/`. Старые отчёты не импортируются и не перезаписываются.
 Интерактивный кэш из [REPOSITORY_STATE](REPOSITORY_STATE.md) в проверках не используется.
+По умолчанию сохраняются три последние завершённые тестовые копии; логи/PNG
+не удаляются. `--keep-project` закрепляет копию для отладки. Границы и исключения
+автоочистки — [REPOSITORY_STATE](REPOSITORY_STATE.md#автоочистка-тестовых-копий).
 
 ## Изменение игрового кода
 
@@ -404,6 +407,9 @@ formatter. При изменении границы сопоставить base/
 команд, guards и мест вызовов full/core не назначаются только из-за UI-выноса.
 Fixtures не подтверждают F5/Editor/DPI/GPU/FPS. Изменение launcher дополнительно
 проверяется `python tools/demo/test_isolate.py` и `python tools/demo/test_interactive_cache.py`.
+Автоочистка: `python tools/demo/test_project_retention.py` — лимит/закрепление,
+сохранность артефактов, неизвестные/активные копии, ошибки удаления, блокировка
+и защита от ссылок/junction; интеграция с исходами проверок — в `test_isolate.py`.
 Для изменения интерактивного кэша дополнительно проверить реальный cold/warm запуск,
 обновление импортированного ресурса при прежнем размере/mtime и чистый targeted check.
 Cached import `SKIPPED` не является PASS проверки проекта.

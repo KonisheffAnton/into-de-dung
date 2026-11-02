@@ -1,5 +1,18 @@
 # История и свидетельства проверок
 
+## Автоочистка тестовых копий — 2026-11-02
+
+Базаf9eea8b7. Launcher сохраняет3 последние завершённые тестовые копии,
+`--keep-project` закрепляет нужную. Удаляется только `demo-<id>/project`,
+результаты проверок остаются. [Контракт](REPOSITORY_STATE.md#автоочистка-тестовых-копий).
+Неизвестные/активные копии защищены; native Windows process, reparse guards и lock.
+[Аудит](../test_reports/auto-project-cleanup-20261102/): launcher35/cache15 PASS,
+retention11 PASS+2 symlink skip, реальные Windows junction PASS;
+py_compile/diff-check PASS. Native import/startup/HUD300/0 PASS. Независимое APPROVE.
+Реальный render/full/core/ручная приёмка не заявлены; чужой runner, появившийся
+во время импорта, не остановлен.36 пользовательских файлов SHA256 PASS.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261102-2.md).
+
 ## Очистка тестовых копий — 2026-11-02
 
 База80201dd7; по запросу U удалены807 стандартных `demo-*/project` и одно

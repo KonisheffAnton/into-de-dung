@@ -41,7 +41,7 @@ class IsolateSelectionTests(unittest.TestCase):
         self.assertTrue(isolate.has_engine_errors("core", expected + "\nERROR: unrelated"))
         self.assertTrue(isolate.has_engine_errors("core", "WARNING: 47 ObjectDB instances were leaked"))
 
-    def exercise(self, options, failure=None):
+    def exercise(self, options, failure=None, prepare=None, inspect=None):
         calls = []
         commands = []
         self.last_commands = commands
@@ -54,6 +54,8 @@ class IsolateSelectionTests(unittest.TestCase):
             source.parent.mkdir(parents=True)
             source.write_text(Path(isolate.__file__).read_text(encoding="utf-8"), encoding="utf-8")
             (repo / "project.godot").write_text("config_version=5\n", encoding="utf-8")
+            if prepare:
+                prepare(repo)
 
             def fake_run(command, **kwargs):
                 commands.append((list(command), kwargs.get("timeout"), "--headless" in command))
@@ -84,6 +86,8 @@ class IsolateSelectionTests(unittest.TestCase):
                     raise subprocess.TimeoutExpired(command, kwargs["timeout"])
                 if failure_kind == "launch" and label == failure_label:
                     raise OSError("cannot start test process")
+                if failure_kind == "interrupt" and label == failure_label:
+                    raise KeyboardInterrupt
                 markers = {
                     "hub_mercenaries": "HUB MERCENARIES RESULTS:",
                     "hub_smith": "HUB SMITH RESULTS:",
@@ -162,7 +166,78 @@ class IsolateSelectionTests(unittest.TestCase):
                     code = exc.code
             timings = list(repo.glob("test_reports/*/timing.json"))
             timing = json.loads(timings[0].read_text()) if timings else None
+            if inspect:
+                inspect(repo, timings[0].parent if timings else None)
             return code, calls, timing, output.getvalue()
+
+    def test_retention_bounds_completed_copies_and_keeps_report_artifacts(self):
+        def prepare(repo):
+            for index in range(4):
+                out = repo / "test_reports" / ("demo-" + f"{index:032x}")
+                (out / "project").mkdir(parents=True)
+                (out / "project/project.godot").write_bytes(b"old project")
+                (out / "check.log").write_bytes(b"old log")
+                (out / "screenshots").mkdir()
+                (out / "screenshots/capture.png").write_bytes(b"old screenshot")
+                isolate.mark_completed(repo, out)
+
+        def inspect(repo, out):
+            runs = list((repo / "test_reports").glob("demo-*"))
+            self.assertEqual(len(runs), 5)
+            self.assertEqual(sum((run / "project").is_dir() for run in runs), 3)
+            self.assertTrue((out / "project").is_dir())
+            for run in runs:
+                if run != out:
+                    self.assertEqual((run / "check.log").read_bytes(), b"old log")
+                    self.assertEqual((run / "screenshots/capture.png").read_bytes(), b"old screenshot")
+
+        code, _, timing, _ = self.exercise(["--check", "--only", "battle_hud_authoring"], prepare=prepare, inspect=inspect)
+        self.assertEqual(code, 0)
+        self.assertEqual(len(timing["project_cleanup_before"]["removed"]), 1)
+        self.assertEqual(len(timing["project_cleanup_after"]["removed"]), 1)
+
+    def test_only_known_finished_checks_get_completion_marker(self):
+        for failure in (None, "exit", "engine:import", "timeout", "launch"):
+            with self.subTest(failure=failure), patch.object(isolate, "mark_completed", wraps=isolate.mark_completed) as mark:
+                self.exercise(["--check", "--only", "battle_hud_authoring"], failure)
+                self.assertEqual(mark.call_count, 0 if failure in ("timeout", "launch") else 1)
+        with patch.object(isolate, "mark_completed") as mark, self.assertRaises(KeyboardInterrupt):
+            self.exercise(["--check", "--only", "battle_hud_authoring"], "interrupt")
+        mark.assert_not_called()
+
+    def test_keep_project_pins_both_validation_modes_and_rejects_interactive(self):
+        for mode in ("--check", "--render-check"):
+            with self.subTest(mode=mode), patch.object(isolate, "mark_completed", wraps=isolate.mark_completed) as mark:
+                code, _, _, _ = self.exercise([mode, "--only", "battle_hud_authoring", "--keep-project"])
+                self.assertEqual(code, 0)
+                self.assertTrue(mark.call_args.kwargs["keep"])
+        for options in (["--keep-project"], ["--fresh", "--keep-project"]):
+            code, calls, _, _ = self.exercise(options)
+            self.assertEqual((code, calls), (2, []))
+
+    def test_cleanup_failure_does_not_change_check_result(self):
+        with patch.object(isolate, "prune_projects", return_value={"removed": [], "skipped": [], "errors": ["locked"]}):
+            code, calls, _, output = self.exercise(["--check", "--only", "battle_hud_authoring"])
+            self.assertEqual((code, calls), (0, ["import", "startup", "battle_hud_authoring"]))
+            self.assertIn("cleanup warning:", output)
+
+    @unittest.skipUnless(isolate.os.name == "nt", "Windows console wrapper")
+    def test_checks_wait_on_native_runtime_instead_of_console_wrapper(self):
+        with tempfile.TemporaryDirectory(prefix="into-dedung-engine-") as directory:
+            wrapper = Path(directory) / "Godot_console.exe"
+            runtime = Path(directory) / "Godot.exe"
+            wrapper.write_bytes(b"wrapper")
+            runtime.write_bytes(b"runtime")
+            for mode in ("--check", "--render-check"):
+                code, _, _, _ = self.exercise([mode, "--godot", str(wrapper), "--only", "battle_hud_authoring"])
+                self.assertEqual(code, 0)
+                self.assertTrue(all(command[0] == str(runtime) for command, _, _ in self.last_commands))
+            runtime.unlink()
+            with patch.object(isolate, "mark_completed") as mark:
+                code, _, _, _ = self.exercise(["--check", "--godot", str(wrapper), "--only", "battle_hud_authoring"])
+            mark.assert_not_called()
+            self.assertEqual(code, 0)
+            self.assertTrue(all(command[0] == str(wrapper) for command, _, _ in self.last_commands))
 
     def test_targeted_only_runs_selected_and_infrastructure(self):
         code, calls, timing, output = self.exercise(["--check", "--only", "battle_hud_authoring", "--only", "battle_hud_authoring"])
