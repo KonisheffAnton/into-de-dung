@@ -1,0 +1,135 @@
+{
+  "base_commit": "f9eea8b7da12dfa5aefa4c8e51d972c642de6765",
+  "concurrent_launcher_commit": "92bf0a1bfdf4c7058275dc5f87d3100a2d455580",
+  "scale": {
+    "old": 0.8,
+    "new": 0.72,
+    "relative": 0.9,
+    "body_height_at_tile128_before": 60.8,
+    "body_height_after": 54.72
+  },
+  "source_png_changes": 0,
+  "production_shader_changes": 0,
+  "counts": {
+    "character_skins": [
+      [
+        "424",
+        "0"
+      ]
+    ],
+    "class_showcase_ui": [
+      [
+        "40",
+        "0"
+      ]
+    ],
+    "presentation_attack_styles": [
+      [
+        "611",
+        "0"
+      ]
+    ],
+    "rogue_animations": [
+      [
+        "98",
+        "0"
+      ]
+    ],
+    "unit_visual_contract": [
+      [
+        "45",
+        "0"
+      ]
+    ],
+    "visual_scene_contract": [
+      [
+        "106",
+        "0"
+      ]
+    ]
+  },
+  "gpu_summary": {
+    "passed": 8,
+    "failed": 0,
+    "timed_out": 0,
+    "failed_labels": [],
+    "unexecuted_requested": [],
+    "blocked": null
+  },
+  "additional_checks": {
+    "current_art_zoom": {
+      "status": "PASS",
+      "counts": [
+        [
+          "496",
+          "0"
+        ]
+      ],
+      "seconds": 10.543,
+      "exit_code": 0
+    },
+    "rogue_animations_headless": {
+      "status": "PASS",
+      "counts": [
+        [
+          "98",
+          "0"
+        ]
+      ],
+      "seconds": 2.143,
+      "exit_code": 0
+    },
+    "sampling_probe": {
+      "status": "PASS",
+      "counts": [
+        [
+          "22",
+          "0"
+        ]
+      ],
+      "seconds": 4.233,
+      "exit_code": 0
+    }
+  },
+  "sampling_different_pixels_current_vs_full": [
+    2199,
+    1936,
+    1534
+  ],
+  "foreign_sha_unchanged": 33,
+  "review": "APPROVE",
+  "manual_acceptance": false,
+  "full_core_rerun": false,
+  "launcher_used": {
+    "source_commit": "f9eea8b7da12dfa5aefa4c8e51d972c642de6765",
+    "sha256": "ec730671e02f964ece49108052b383fc345ddfb3784c4d0d6c916effac0f7fe3",
+    "reason": "concurrent launcher retention implementation isolated from this task"
+  },
+  "handoff_archive": {
+    "path": "docs/CODEX_HANDOFF.history-20261102-3.md",
+    "sha256": "ff6ab6a8b83df586a9712d7403aa15cbf7e0ac3262d212bcafa35a6375158550",
+    "byte_exact": true
+  },
+  "entrypoints": {
+    "AGENTS.md": {
+      "before_chars": 4565,
+      "after_chars": 4565,
+      "changed": false
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before_chars": 2314,
+      "after_chars": 2376,
+      "changed": true
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before_chars": 3652,
+      "after_chars": 3652,
+      "changed": false
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before_chars": 4482,
+      "after_chars": 4482,
+      "changed": false
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "current_art_zoom": {
+    "status": "PASS",
+    "counts": [
+      [
+        "496",
+        "0"
+      ]
+    ],
+    "seconds": 10.543,
+    "exit_code": 0
+  },
+  "rogue_animations_headless": {
+    "status": "PASS",
+    "counts": [
+      [
+        "98",
+        "0"
+      ]
+    ],
+    "seconds": 2.143,
+    "exit_code": 0
+  },
+  "sampling_probe": {
+    "status": "PASS",
+    "counts": [
+      [
+        "22",
+        "0"
+      ]
+    ],
+    "seconds": 4.233,
+    "exit_code": 0
+  }
+}

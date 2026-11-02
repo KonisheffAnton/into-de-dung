@@ -1,32 +1,35 @@
-# Передача — 2026-11-02: автоочистка тестовых копий
+# Передача — 2026-11-02: размер Разбойника и диагностика зерна
 
 D:/Games/into-de-dung; main; basef9eea8b7da12dfa5aefa4c8e51d972c642de6765.
-В isolate.py включена автоочистка:3 последние завершённые check/render копии,
-закрепление через --keep-project. Удаляется только demo-<id>/project;
-логи/PNG/профили/manifest/timing остаются. Правила и исключения —
-[REPOSITORY_STATE](REPOSITORY_STATE.md#автоочистка-тестовых-копий), [тесты](TESTING.md).
-Legacy/неизвестные/timeout/spawn-error/fresh/cache/экспериментальные копии защищены.
-Блокировка очистки, защита junction/reparse; Windows checks ждут native Godot.
-Общий размер сохраняемых отчётов не ограничен; расписание не создавалось.
+Параллельно завершён launcher-этап92bf0a1; его изменения сохранены.
+По U Разбойник уменьшен на10%: rogue_art_scale0.8→0.72, высота60.8→54.72px
+на тайле128. Picking уменьшается вместе с рисунком; опора и клипы idle3/death2/
+ability3 прежние. Владельцы: CHARACTER_SKINS_V1, BATTLE_VISUAL_SCENE_CONTRACT.
+[Результат/снимки/диагностика](art/rogue-size-sampling-20261102/README.md).
+Логи: test_reports/rogue-size-sampling-20261102/ и
+ test_reports/demo-c47902f9a1d04e8c900334a12ad7a716/.
 
-[Аудит](../test_reports/auto-project-cleanup-20261102/): Python35 launcher+15 cache
-PASS; retention13:11 PASS,2 skip (symlink недоступны),3 Windows junction PASS.
-py_compile/diff-check PASS. Реальный native import/startup/HUD PASS, HUD300/0;
-run demo-4f70297bfb8b4008bf16d53e8f4dc467. Независимое APPROVE.
-Реальный render/full/core/F5/DPI не запускались. Во время native import другой
-чат запустил runner; его не трогали, performance не заявлен.36 чужих файлов SHA PASS.
+Причина потери деталей относительно превью: исходник256² сначала выбирается
+на сетке128², затем ещё уменьшается до игрового размера. Сравнение одинакового
+кадра/геометрии: текущий128, прямой nearest256, полный256 с покрытием.
+Последний спокойнее сохраняет детали, но мягче. Это проба: production shader
+не менялся. Новая генерация/ретушь не выполнялась. Дальше — отзыв U и отдельный
+выбор правки рендера; автоматически новый этап не начинать.
 
-Прочие изменения игровых контрактов также чужие. Dirty:
-scenes/demo/main_menu.tscn, scenes/demo/visuals/art_trial_unit.tscn,
-tests/test_current_art_zoom.gd, tests/test_rogue_animations.gd;
-untracked docs/art/battlefield-reference-03-20261017/, docs/art/rogue-size-sampling-20261102/,
-tools/demo/_rogue_size_isolate_snapshot.py. Не reset/stage/commit; перепроверить Git.
-Предыдущий игровой этап: [Разбойник02](art/rogue02-integration-20261101/README.md);
-приёмка движения/zoom/DPI/арта и performance открыта. turn_forecast_ui26/3
-не исправлялся; HUD/Колода без новой приёмки. Следующий шаг — запрос U.
-Без новых генераций/интеграции, push/sidebar/расписаний. Core/preview/queue/RNG/save/frozen
-не менять; один свой Godot runner, isolated project, без root import/служб/драйверов.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261102-2.md), [HISTORY](HISTORY.md).
+PASS isolated import/startup; GPU skins424/0, class UI40/0, attack styles611/0,
+unit45/0, visual106/0; legacy Rogue98/0 GPU/headless; zoom496/0 GPU;
+диагностический рендер22/0. Независимое APPROVE.
+Использован снимок launcher из базы; параллельный этап сообщил о пересечении
+native импортов. Performance не измерялся. Full/core не повторялись.
+Ручные F5/движение/zoom/DPI, художественная приёмка/швы, performance открыты;
+turn_forecast_ui26/3 прежний; HUD/Колода без новой приёмки. Маг пока «М».
+
+Текущий launcher хранит3 последние завершённые копии, --keep-project закрепляет:
+[правила](REPOSITORY_STATE.md#автоочистка-тестовых-копий). Логи/снимки сохраняются.
+Чужие main_menu.tscn и docs/art/battlefield-reference-03-20261017/ не reset/stage/commit.
+Core/preview/queue/RNG/save/frozen сохранять. Один Godot runner, isolated project;
+без root import/служб/драйверов/принудительного фокуса/push/sidebar/расписаний.
+[Прежняя передача побайтно](CODEX_HANDOFF.history-20261102-3.md), [HISTORY](HISTORY.md).
 
 Завершение: проверки, локальный Conventional Commit, короткий HANDOFF;
 прежний побайтно отдельным архивом+HISTORY. В финале/при блокере предложить

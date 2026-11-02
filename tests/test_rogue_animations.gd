@@ -112,8 +112,8 @@ func _test_static_art(visual: BattleDefenderIdleVisual, config: IsoGridConfig) -
 	var material := player.material as ShaderMaterial
 	check(player.visible and not idle.visible and not body.visible and not visual.is_processing(),
 		"player rogue presents the static still without starting the old idle")
-	check(visual.rogue_art_scale == 0.8 and visual.rogue_pick_rect == Rect2(-40, -78, 80, 88)
-		and art.scale.is_equal_approx(Vector2(0.8, 0.8)), "fallback keeps its scale inside the current Rogue pick rectangle")
+	check(visual.rogue_art_scale == 0.72 and visual.rogue_pick_rect == Rect2(-40, -78, 80, 88)
+		and art.scale.is_equal_approx(Vector2(0.72, 0.72)), "fallback keeps its scale inside the current Rogue pick rectangle")
 	check(player.texture == ROGUE_STILL and player.position == Vector2(-64, -83)
 		and player.scale == Vector2.ONE and idle.position == player.position and idle.scale == player.scale,
 		"player still and death sprite share the selected anchor without extra scaling")

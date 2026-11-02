@@ -408,7 +408,8 @@ U2026-11-01 заменил текущий облик на Разбойника02
 Владелец выбора, источников, таймингов и направления — [CHARACTER_SKINS_V1](CHARACTER_SKINS_V1.md).
 PLAYER/ENEMY rogue используют `CharacterSkinSprite` общего механизма обликов;
 старые слои скрыты. Новый рисунок256² имеет опору(128,200), scale0.5 внутри
-ArtRoot0.8: исходная высота152px даёт60.8px. Цвета исходные, старые маски одежды
+ArtRoot0.72 по U2026-11-02: исходная высота152px даёт54.72px (уменьшение на10%).
+Цвета исходные, старые маски одежды
 не применяются. Picking Rect2(-40,-78,80,88) покрывает новый капюшон и стопы
 и масштабируется вместе с ArtRoot. HUD/тень/root не отражаются.
 Подтверждённая «Защита» запускает способность3; затем штатный clear/reset
@@ -422,7 +423,7 @@ U2026-10-23: [fallback-пакет](../assets/art_presets/trials/rogue_selected_v
 Player/EnemyRogueSprite показывают128² still, RogueIdleSprite служит слоем смерти.
 PNG скопированы побайтно, первый кадр RGBA-равен still. Source/native128²,
 nearest, brighter_palette_strength0; прежняя светлая гамма не применяется.
-ArtRoot0.8 даёт высоту57.6px при исходных72px, как warrior_format_v1.
+Общий профиль Разбойника ArtRoot0.72 даёт fallback высоту51.84px при исходных72px.
 Опора(64,83), player(-64,-83), enemy(64,-83) со scale(-1,1);
 отражается только рисунок, HUD/тень/root прежние. Экспорты rogue_animation_anchor,
 rogue_texture_scale и rogue_death_frame_count задают профиль клипа.
