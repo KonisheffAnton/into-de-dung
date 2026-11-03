@@ -174,7 +174,8 @@ func _test_skins_and_clock() -> void:
 			by_skin_and_side["%s:%d" % [skin_id, int(faction)]] = visual
 			var sprite := visual.class_still_sprite()
 			if class_id in [&"mage", &"archer"]:
-				check(is_equal_approx(visual.get_unit_art_scale(), 0.8)
+				var expected_scale := 0.8 if class_id == &"mage" else 0.72
+				check(is_equal_approx(visual.get_unit_art_scale(), expected_scale)
 					and visual.get_unit_pick_rect() == Rect2(-40, -78, 80, 82),
 					"%s uses the approved scene scale and picking bounds" % skin_id)
 			if class_id == &"rogue":

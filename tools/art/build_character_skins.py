@@ -68,7 +68,7 @@ SKINS: tuple[dict[str, Any], ...] = (
         "model": "model14-04", "display_name": "Серебряная лучница",
         "source_facing_x": 1, "shieldbearer_palette_strength": 0.0,
         "source_root": "archer",
-        "clips": {"idle": "idle-1", "idle_secondary": "idle-5", "death": "death-3", "buff": "ability-4"},
+        "clips": {"idle": "idle-2", "idle_secondary": "idle-4", "death": "death-3", "buff": "ability-4"},
     },
 )
 CLIP_NAMES = ("idle", "idle_secondary", "buff", "death")
@@ -260,7 +260,7 @@ def readme_bytes() -> bytes:
 | `red_bastion` — Красный бастион | `fighter` / `11` / `model11` | idle-1, death-3, ability-2 |
 | `short_cape` — Короткая накидка | `rogue` / `02` / `model02` | idle-3, death-2, ability-3 |
 | `star_hood` — Капюшон звёзд | `mage` / `02` / `model02` | idle-1, idle-5, death-3, ability-5 |
-| `silver_ranger` — Серебряная лучница | `archer` / `14-04` / `model14-04` | idle-1, idle-5, death-3, ability-4 |
+| `silver_ranger` — Серебряная лучница | `archer` / `14-04` / `model14-04` | idle-2, idle-4, death-3, ability-4 |
 
 `buff` в `SpriteFrames` — имя runtime-анимации для выбранного источника `ability`; новую механику оно не вводит. Idle-secondary есть у `watch_shield`, `star_hood` и `silver_ranger`.
 

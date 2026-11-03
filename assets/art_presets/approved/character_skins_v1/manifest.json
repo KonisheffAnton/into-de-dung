@@ -4,7 +4,7 @@
     200
   ],
   "artifact_sha256": {
-    "README.md": "d6089aab8d1804f836da06f05b525dfed701cabf1ac676ec31cabb15a83a0928",
+    "README.md": "455b5d399f072d84a29b480298c7c5c0f1bc41930ec3fd530fdee0c999688fcf",
     "grey_bastion/buff.png": "29831cbcad04d3ea23e4f1884411250a838e7688cb9d1b2f191e6b12aa127f97",
     "grey_bastion/death.png": "5657587c09c66810f73358b6300b5e50e901f929804c5a216fe3c19842364543",
     "grey_bastion/frames.tres": "e5d4a97ac178047e3cf50d822326470179bb07d208e95b7298802a93c9a4c909",
@@ -27,8 +27,8 @@
     "silver_ranger/buff.png": "8e91ccc3a2f20637811815475839c454ce65598841185d0a6187788b03b697bd",
     "silver_ranger/death.png": "eb9a19ae7c069b56034e8651296beaeeb1e5f7f6fb57f9519491827ba6912935",
     "silver_ranger/frames.tres": "a40092155c2b9f4322bfe6a3c0d4023b810f013baa7821856b5fa904d2f093ea",
-    "silver_ranger/idle.png": "c58340eed05f348d960604da43e5e5c1997f28d9d0dd92f1c430188c6020a114",
-    "silver_ranger/idle_secondary.png": "67b1fbacd8b2119d96dad6fba007c34abed4399d7a5adff05649b18492b60fec",
+    "silver_ranger/idle.png": "12be3dcbf5e103940c2a8e80361db31f5111e485c9e59d653b449dd1cda76b57",
+    "silver_ranger/idle_secondary.png": "44fad016c9e7c97445f54a1a28dc5e89942bd7d742efe7144642e60e44f0c1a6",
     "silver_ranger/skin.tres": "4891fe404ea076b901826559a5ccb7a35d1e873c13700a0c311b4b6c6a4ee766",
     "silver_ranger/still.png": "bb6e48ce147391d03545fbabf3dafff03993e9c9bb4cea5ce2686a03a2d4fe15",
     "star_hood/buff.png": "9fd954cacece6dfa564d3ab0f4729eb6715ae27b5c50f7412b4e24801aa96540",
@@ -1120,10 +1120,10 @@
           "first_frame_rgba_equal_to_input": false,
           "last_frame_rgba_equal_to_input": false,
           "loop": true,
-          "source_clip": "idle-1",
-          "source_clip_json": "docs/art/archer14-04-animation-20261103/pixellab/idle-1/clip.json",
-          "source_sha256": "c58340eed05f348d960604da43e5e5c1997f28d9d0dd92f1c430188c6020a114",
-          "source_sheet": "docs/art/archer14-04-animation-20261103/pixellab/idle-1/spritesheet.png",
+          "source_clip": "idle-2",
+          "source_clip_json": "docs/art/archer14-04-animation-20261103/pixellab/idle-2/clip.json",
+          "source_sha256": "12be3dcbf5e103940c2a8e80361db31f5111e485c9e59d653b449dd1cda76b57",
+          "source_sheet": "docs/art/archer14-04-animation-20261103/pixellab/idle-2/spritesheet.png",
           "visible_atlas_regions": 33
         },
         "idle_secondary": {
@@ -1166,10 +1166,10 @@
           "first_frame_rgba_equal_to_input": false,
           "last_frame_rgba_equal_to_input": false,
           "loop": true,
-          "source_clip": "idle-5",
-          "source_clip_json": "docs/art/archer14-04-animation-20261103/pixellab/idle-5/clip.json",
-          "source_sha256": "67b1fbacd8b2119d96dad6fba007c34abed4399d7a5adff05649b18492b60fec",
-          "source_sheet": "docs/art/archer14-04-animation-20261103/pixellab/idle-5/spritesheet.png",
+          "source_clip": "idle-4",
+          "source_clip_json": "docs/art/archer14-04-animation-20261103/pixellab/idle-4/clip.json",
+          "source_sha256": "44fad016c9e7c97445f54a1a28dc5e89942bd7d742efe7144642e60e44f0c1a6",
+          "source_sheet": "docs/art/archer14-04-animation-20261103/pixellab/idle-4/spritesheet.png",
           "visible_atlas_regions": 33
         }
       },
@@ -1347,18 +1347,18 @@
       "source": "docs/art/archer14-04-animation-20261103/model/input-256.png"
     },
     {
-      "clip_key": "idle-1",
+      "clip_key": "idle-2",
       "kind": "idle",
       "runtime": "assets/art_presets/approved/character_skins_v1/silver_ranger/idle.png",
-      "sha256": "c58340eed05f348d960604da43e5e5c1997f28d9d0dd92f1c430188c6020a114",
-      "source": "docs/art/archer14-04-animation-20261103/pixellab/idle-1/spritesheet.png"
+      "sha256": "12be3dcbf5e103940c2a8e80361db31f5111e485c9e59d653b449dd1cda76b57",
+      "source": "docs/art/archer14-04-animation-20261103/pixellab/idle-2/spritesheet.png"
     },
     {
-      "clip_key": "idle-5",
+      "clip_key": "idle-4",
       "kind": "idle_secondary",
       "runtime": "assets/art_presets/approved/character_skins_v1/silver_ranger/idle_secondary.png",
-      "sha256": "67b1fbacd8b2119d96dad6fba007c34abed4399d7a5adff05649b18492b60fec",
-      "source": "docs/art/archer14-04-animation-20261103/pixellab/idle-5/spritesheet.png"
+      "sha256": "44fad016c9e7c97445f54a1a28dc5e89942bd7d742efe7144642e60e44f0c1a6",
+      "source": "docs/art/archer14-04-animation-20261103/pixellab/idle-4/spritesheet.png"
     },
     {
       "clip_key": "death-3",

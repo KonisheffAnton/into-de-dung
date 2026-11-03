@@ -44,8 +44,10 @@ func class_still_sprite() -> Sprite2D:
 	return super.class_still_sprite()
 
 func get_unit_art_scale() -> float:
-	# Новые листы уже приведены к высоте152px; прежний масштаб лучницы относился к другому холсту.
-	if _has_skin() and visual_class_id in [&"mage", &"archer"]: return warrior_art_scale
+	if _has_skin() and visual_class_id == &"archer":
+		# Уменьшение удерживает силуэт Лучницы в масштабе выбранной группы персонажей.
+		return warrior_art_scale * 0.9
+	if _has_skin() and visual_class_id == &"mage": return warrior_art_scale
 	return super.get_unit_art_scale()
 
 func get_unit_pick_rect() -> Rect2:

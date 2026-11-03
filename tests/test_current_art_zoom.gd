@@ -249,7 +249,7 @@ func _check_warrior_art() -> void:
 			var legacy_player_archer := archer.get_node("ArtRoot/PlayerArcherSprite") as Sprite2D
 			var legacy_enemy_archer := archer.get_node("ArtRoot/EnemyArcherSprite") as Sprite2D
 			var archer_still := archer.class_still_sprite()
-			var archer_scale := 0.8
+			var archer_scale := 0.72
 			check(is_equal_approx(archer.get_unit_art_scale(), archer_scale)
 				and (archer.get_node("ArtRoot") as Node2D).scale.is_equal_approx(Vector2.ONE * tile_factor * archer_scale),
 				"current archer skin retains the selected tile placement scale")

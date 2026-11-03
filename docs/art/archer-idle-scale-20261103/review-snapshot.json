@@ -1,0 +1,23 @@
+{
+  "base": "b6c596789288567f989b8e339dd14846c46a4c9f",
+  "files": {
+    "assets/art_presets/approved/character_skins_v1/README.md": "455b5d399f072d84a29b480298c7c5c0f1bc41930ec3fd530fdee0c999688fcf",
+    "assets/art_presets/approved/character_skins_v1/manifest.json": "ff534fd6a7c18a11beae3ce34d1d4d384b917214a9e06fae3a4db66f6be57653",
+    "assets/art_presets/approved/character_skins_v1/silver_ranger/idle.png": "12be3dcbf5e103940c2a8e80361db31f5111e485c9e59d653b449dd1cda76b57",
+    "assets/art_presets/approved/character_skins_v1/silver_ranger/idle_secondary.png": "44fad016c9e7c97445f54a1a28dc5e89942bd7d742efe7144642e60e44f0c1a6",
+    "docs/ARCHITECTURE.md": "1e9df9d0306c9413e880f34426a299685333034b046013ad5c54352a2efe4b86",
+    "docs/ART_DIRECTION.md": "2bdf63b35e029caea07ae352894b8b4bbed346f82aaf8daa30a314091b10b326",
+    "docs/CHARACTER_SKINS_V1.md": "1e4b325a6c6a85b9697dbb0b99cd25a4ee633c97dca7625d9581cc1052a8401f",
+    "docs/art/archer14-04-animation-20261103/README.md": "f72d340fa41ef151f2062ac24bac46868ef41b84f27eed3026f565adb77c6533",
+    "docs/art/mage-archer-integration-20261103/README.md": "cdafdad31eaa14a1aa9e8d6b78917a625f5aa17d025c5dfb6ae78653f7749ce8",
+    "scripts/demo/battle_character_skin_visual.gd": "767eca2b9653b720620aa64f7d31dfd1abc21955d7957b46321767aba59bfaf8",
+    "tests/test_character_skins.gd": "00c45be935fcc644e49df5e4666dedcc08842fac0466ed8169259fb7fd876b39",
+    "tests/test_current_art_zoom.gd": "94c93cdf575a72ac0d1ae3f6cc1730b5fcd9116de74d2e3a69cd8f0d90b0f004",
+    "tools/art/build_character_skins.py": "4bcf4b8cc6d848e3fcfcff5b4fbe3a53bc1d0e8d25bc19d3e2a61e729c0b06ed",
+    "docs/art/archer-idle-scale-20261103/README.md": "d625bf0ed4703207063ad7a8b1c918c164f022cd76cb032c427a492023f51a2a",
+    "docs/art/archer-idle-scale-20261103/battle-roster.png": "0372cd8130eda1bbf2d8c69ef194111fa814dfe3cb6f2ea4d9c3c3c401b7e2cb",
+    "docs/art/archer-idle-scale-20261103/selected-skins.png": "fee01837881eab853d1479589ad7ecde7cda5e13c920fa837a3fa6c812264e38",
+    "docs/art/archer-idle-scale-20261103/validation.json": "d7a9548f552ced8e10dee9440ba04f1fb0a446fe7e70fca90feffa73a4ea5e04"
+  },
+  "note": "Fixed review scope; HANDOFF/HISTORY/archive/review closeout documents added afterwards."
+}

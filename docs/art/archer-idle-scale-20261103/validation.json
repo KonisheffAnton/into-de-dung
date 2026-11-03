@@ -1,0 +1,172 @@
+{
+  "result": "PASS",
+  "base": "b6c596789288567f989b8e339dd14846c46a4c9f",
+  "headless_report": "test_reports/demo-9aafd6ba1ed04ffb9cd25b6ff860fc9f",
+  "headless": {
+    "import": {
+      "elapsed_seconds": 91.818956800038,
+      "status": "PASS"
+    },
+    "startup": {
+      "elapsed_seconds": 3.7973318001022562,
+      "status": "PASS"
+    },
+    "character_skins": {
+      "elapsed_seconds": 14.750404400052503,
+      "status": "PASS"
+    },
+    "mage_archer_skins": {
+      "elapsed_seconds": 17.507959700073116,
+      "status": "PASS"
+    }
+  },
+  "gpu": {
+    "character_skins": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 21.04803319997154,
+      "results": [
+        "CHARACTER SKINS RESULTS: 1130 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-9aafd6ba1ed04ffb9cd25b6ff860fc9f\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_character_skins.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\archer-idle-scale-20261103\\gpu\\character_skins-captures"
+      ]
+    },
+    "mage_archer_skins": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 29.6565341000678,
+      "results": [
+        "MAGE ARCHER SKINS RESULTS: 415 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-9aafd6ba1ed04ffb9cd25b6ff860fc9f\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_mage_archer_skins.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\archer-idle-scale-20261103\\gpu\\mage_archer_skins-captures"
+      ]
+    },
+    "current_art_zoom": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 8.991046999930404,
+      "results": [
+        "CURRENT ART ZOOM RESULTS: 496 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-9aafd6ba1ed04ffb9cd25b6ff860fc9f\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_current_art_zoom.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\archer-idle-scale-20261103\\gpu\\current_art_zoom-captures"
+      ]
+    },
+    "class_showcase_ui": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 5.642723400029354,
+      "results": [
+        "CLASS SHOWCASE UI RESULTS: 47 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-9aafd6ba1ed04ffb9cd25b6ff860fc9f\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_class_showcase_ui.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\archer-idle-scale-20261103\\gpu\\class_showcase_ui-captures"
+      ]
+    },
+    "character_coverage": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 2.8334239000687376,
+      "results": [
+        "CHARACTER COVERAGE RESULTS: 53 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-9aafd6ba1ed04ffb9cd25b6ff860fc9f\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_character_coverage.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\archer-idle-scale-20261103\\gpu\\character_coverage-captures"
+      ]
+    }
+  },
+  "assets": {
+    "selected_idle": "2/4",
+    "changed_pngs": [
+      "assets/art_presets/approved/character_skins_v1/silver_ranger/idle.png",
+      "assets/art_presets/approved/character_skins_v1/silver_ranger/idle_secondary.png"
+    ],
+    "new_source_bytes": "PASS",
+    "other_png_tres_unchanged": 37,
+    "foreign_files_unchanged": 33
+  },
+  "builder": "43 deterministic outputs;27 byte-exact source PNG;693 visible atlas regions and durations PASS",
+  "isolated_source_sha256": {
+    "assets/art_presets/approved/character_skins_v1/README.md": "455b5d399f072d84a29b480298c7c5c0f1bc41930ec3fd530fdee0c999688fcf",
+    "assets/art_presets/approved/character_skins_v1/manifest.json": "ff534fd6a7c18a11beae3ce34d1d4d384b917214a9e06fae3a4db66f6be57653",
+    "assets/art_presets/approved/character_skins_v1/silver_ranger/idle.png": "12be3dcbf5e103940c2a8e80361db31f5111e485c9e59d653b449dd1cda76b57",
+    "assets/art_presets/approved/character_skins_v1/silver_ranger/idle_secondary.png": "44fad016c9e7c97445f54a1a28dc5e89942bd7d742efe7144642e60e44f0c1a6",
+    "scripts/demo/battle_character_skin_visual.gd": "767eca2b9653b720620aa64f7d31dfd1abc21955d7957b46321767aba59bfaf8",
+    "tests/test_character_skins.gd": "00c45be935fcc644e49df5e4666dedcc08842fac0466ed8169259fb7fd876b39",
+    "tests/test_current_art_zoom.gd": "94c93cdf575a72ac0d1ae3f6cc1730b5fcd9116de74d2e3a69cd8f0d90b0f004",
+    "tools/art/build_character_skins.py": "4bcf4b8cc6d848e3fcfcff5b4fbe3a53bc1d0e8d25bc19d3e2a61e729c0b06ed"
+  },
+  "art_scale": {
+    "before": 0.8,
+    "after": 0.72,
+    "linear_change_percent": -10,
+    "source_idle_height_range_px": [
+      150,
+      152
+    ],
+    "effective_max_height_at_tile128": 54.72,
+    "anchor_unchanged": [
+      128,
+      200
+    ]
+  },
+  "captures": {
+    "battle-roster.png": "0372cd8130eda1bbf2d8c69ef194111fa814dfe3cb6f2ea4d9c3c3c401b7e2cb",
+    "selected-skins.png": "fee01837881eab853d1479589ad7ecde7cda5e13c920fa837a3fa6c812264e38"
+  },
+  "not_claimed": [
+    "manual F5/movement/zoom/DPI",
+    "artistic approval of new size and seams",
+    "full/core",
+    "performance"
+  ],
+  "prior_open": [
+    "presentation_foundation141/2",
+    "turn_forecast_ui26/3",
+    "HUD/Deck",
+    "Archer ability4 arrow at source edge"
+  ],
+  "independent_review": "see review.md"
+}
