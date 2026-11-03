@@ -1,0 +1,144 @@
+{
+  "provider": "PixelLab",
+  "package": "mage02-animation-20261103",
+  "completed_clips": 15,
+  "total_generations": 75,
+  "basis": "Sum of each completed job billing_usage; parallel package excluded",
+  "clips": [
+    {
+      "key": "idle-1",
+      "job_id": "a5f50c3f-2bf5-4feb-9c82-009a78c08630",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "idle-2",
+      "job_id": "8539af1b-bc5c-470f-89f6-91ebbcd02be5",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "idle-3",
+      "job_id": "ce71ef7d-9445-4519-9c3e-ac459c406a44",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "idle-4",
+      "job_id": "665a4f24-b1b2-4050-ad06-769a6d8072ee",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "idle-5",
+      "job_id": "bdb6fbf1-e2cd-4484-9abb-3f8923008a9b",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "death-1",
+      "job_id": "ab3287d4-1981-444c-a277-3a4ea063e831",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "death-2",
+      "job_id": "2997061f-fbe9-4564-a7ae-a039a5977f33",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "death-3",
+      "job_id": "f59e7d16-a3c8-479e-982e-084db370a133",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "death-4",
+      "job_id": "4de7bf7d-07f4-4f98-9f90-9e65347f2939",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "death-5",
+      "job_id": "684e890c-d20b-44dc-b209-5fa05abde01b",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "ability-1",
+      "job_id": "e680aaa2-6c5e-4e68-b638-21251268965c",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "ability-2",
+      "job_id": "18454dd6-8469-4b5d-a61d-3e418c51129c",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "ability-3",
+      "job_id": "75b98b22-3fc1-4674-a6fd-fccf21b2e364",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "ability-4",
+      "job_id": "df6d0dd9-ba51-4820-aeec-697123fa5dc2",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "ability-5",
+      "job_id": "97a77c66-b0ad-4984-830b-a77dca785ed5",
+      "billing_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    }
+  ]
+}

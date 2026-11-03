@@ -1,0 +1,50 @@
+{
+  "source": "model/source-full.png",
+  "source_sha256": "0f26acf363f9a4fe601989f69a6fc79109189a2a57de5128040493da069823dc",
+  "source_size": [
+    1254,
+    1254
+  ],
+  "alpha_solid_bbox": [
+    311,
+    209,
+    962,
+    1046
+  ],
+  "crop_bbox": [
+    309,
+    207,
+    964,
+    1048
+  ],
+  "resampling": "nearest",
+  "scale_from_crop": 0.1807372175980975,
+  "resized_size": [
+    118,
+    152
+  ],
+  "foot_estimate_in_resized_crop": [
+    56.0,
+    150
+  ],
+  "offset": [
+    72,
+    50
+  ],
+  "canvas": [
+    256,
+    256
+  ],
+  "anchor": [
+    128,
+    200
+  ],
+  "input_bbox": [
+    72,
+    50,
+    190,
+    202
+  ],
+  "input_sha256": "289b1465aac378c4d5a7093b5a11d842e04d1be66ad2b6562e4b65df5f076b50",
+  "integration": false
+}

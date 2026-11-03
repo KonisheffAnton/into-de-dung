@@ -1,0 +1,27 @@
+{
+  "method": "Screenshot of headless Edge HTML; four unmodified embedded concept PNGs at equal 431px canvas width; no image regeneration or raster retouch",
+  "sources": [
+    {
+      "label": "Маг02 · Капюшон звёзд",
+      "source": "D:\\Games\\into-de-dung\\docs\\art\\mage-archer-variants-20261101\\mage-02.png",
+      "sha256": "acd1f152667bc60a35853a5afa3bf05237a8c1952fbf5bc33e7ed77857c55a89"
+    },
+    {
+      "label": "Воин11 · Красный бастион",
+      "source": "D:\\Games\\into-de-dung\\docs\\art\\warrior-variants-20261029\\warrior-11.png",
+      "sha256": "41ca22aa3d6e6c8312d4a9fa9de053dd89ad0608e255be03af9983fb4f757828"
+    },
+    {
+      "label": "Разбойник02 · Короткая накидка",
+      "source": "D:\\Games\\into-de-dung\\docs\\art\\rogue-variants-20261101\\rogue-02.png",
+      "sha256": "ef07d3046e2ebf2431ac928dbebd1df6dde4ea7477ebda45e9fff249b8ce10d4"
+    },
+    {
+      "label": "Защитник02 · Щит дозора",
+      "source": "D:\\Games\\into-de-dung\\docs\\art\\warrior-variants-20261029\\warrior-02.png",
+      "sha256": "94cac642a3ac4a5fe21eb65564118406979cc81bb49c2b1ca1ab044c8d444b9f"
+    }
+  ],
+  "output_sha256": "79051d65cbb8e60ae030cee3fb0ec8fd54564910546f6d6c4242356e115d1e76",
+  "integration": false
+}

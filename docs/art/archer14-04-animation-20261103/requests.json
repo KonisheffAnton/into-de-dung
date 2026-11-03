@@ -1,0 +1,302 @@
+[
+  {
+    "key": "idle-1",
+    "kind": "idle",
+    "variant": 1,
+    "name": "Тихое дыхание",
+    "prompt": "Fixed camera and original right-facing view. Keep the exact character and one complete bow, quiver and cape. Stay near the original feet position; no travel, turning, zoom, body scaling, new equipment or extra limbs. Keep all visible parts inside the transparent 256x256 frame with an 8px margin. A very quiet breathing loop: chest rises slightly, shoulders follow with a tiny delay. Both boots and pelvis stay planted. Bow stays vertical and controlled. Ease back into the original resting pose; no stepping or bouncing.",
+    "seed": 2026110301,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": true,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A compact silver-haired adult female archer in olive cape and brown leather armor with one wooden bow and a quiver",
+      "initial_pose": "Standing with both boots planted, bow held vertically at rest beside the body, free hand relaxed near waist"
+    }
+  },
+  {
+    "key": "idle-2",
+    "kind": "idle",
+    "variant": 2,
+    "name": "Перенос веса",
+    "prompt": "Fixed camera and original right-facing view. Keep the exact character and one complete bow, quiver and cape. Stay near the original feet position; no travel, turning, zoom, body scaling, new equipment or extra limbs. Keep all visible parts inside the transparent 256x256 frame with an 8px margin. An alert idle loop with a tiny torso weight shift and a small bow-grip adjustment. Both boots remain planted; no attack or step. The cape follows softly. Settle smoothly back into the exact initial resting stance.",
+    "seed": 2026110302,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": true,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A compact silver-haired adult female archer in olive cape and brown leather armor with one wooden bow and a quiver",
+      "initial_pose": "Standing with both boots planted, bow held vertically at rest beside the body, free hand relaxed near waist"
+    }
+  },
+  {
+    "key": "idle-3",
+    "kind": "idle",
+    "variant": 3,
+    "name": "Дыхание и плащ",
+    "prompt": "Fixed camera and original right-facing view. Keep the exact character and one complete bow, quiver and cape. Stay near the original feet position; no travel, turning, zoom, body scaling, new equipment or extra limbs. Keep all visible parts inside the transparent 256x256 frame with an 8px margin. Subtle steady breathing with one small delayed sway of the olive cape hem. Head and vertical bow remain stable, both soles planted. No flourish or attack. Finish smoothly in the original pose for looping.",
+    "seed": 2026110303,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": true,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A compact silver-haired adult female archer in olive cape and brown leather armor with one wooden bow and a quiver",
+      "initial_pose": "Standing with both boots planted, bow held vertically at rest beside the body, free hand relaxed near waist"
+    }
+  },
+  {
+    "key": "idle-4",
+    "kind": "idle",
+    "variant": 4,
+    "name": "Внимательный взгляд",
+    "prompt": "Fixed camera and original right-facing view. Keep the exact character and one complete bow, quiver and cape. Stay near the original feet position; no travel, turning, zoom, body scaling, new equipment or extra limbs. Keep all visible parts inside the transparent 256x256 frame with an 8px margin. A watchful idle loop: make one small head tilt and glance along the current facing direction, then return to neutral. Gentle breathing, planted feet, stable vertical bow. No body turn or attack. Return to the original pose.",
+    "seed": 2026110304,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": true,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A compact silver-haired adult female archer in olive cape and brown leather armor with one wooden bow and a quiver",
+      "initial_pose": "Standing with both boots planted, bow held vertically at rest beside the body, free hand relaxed near waist"
+    }
+  },
+  {
+    "key": "idle-5",
+    "kind": "idle",
+    "variant": 5,
+    "name": "Расслабление свободной руки",
+    "prompt": "Fixed camera and original right-facing view. Keep the exact character and one complete bow, quiver and cape. Stay near the original feet position; no travel, turning, zoom, body scaling, new equipment or extra limbs. Keep all visible parts inside the transparent 256x256 frame with an 8px margin. Relax the free drawing hand briefly, then bring it back near the waist during quiet breathing. Bow hand stays steady, both feet planted; no step or attack. Return smoothly to the original guard for a seamless idle loop.",
+    "seed": 2026110305,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": true,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A compact silver-haired adult female archer in olive cape and brown leather armor with one wooden bow and a quiver",
+      "initial_pose": "Standing with both boots planted, bow held vertically at rest beside the body, free hand relaxed near waist"
+    }
+  },
+  {
+    "key": "death-1",
+    "kind": "death",
+    "variant": 1,
+    "name": "Падение набок",
+    "prompt": "Fixed camera and original right-facing view. Keep the exact character and one complete bow, quiver and cape. Stay near the original feet position; no travel, turning, zoom, body scaling, new equipment or extra limbs. Keep all visible parts inside the transparent 256x256 frame with an 8px margin. One non-gory death: knees buckle, the body tips to the side and fully collapses beside the starting feet. Bow stays with the hand and settles beside the fallen body. End lying still on one side, not kneeling. No bounce, get-up or loop.",
+    "seed": 2026110306,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": false,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A compact silver-haired adult female archer in olive cape and brown leather armor with one wooden bow and a quiver",
+      "initial_pose": "Standing with both boots planted, bow held vertically at rest beside the body, free hand relaxed near waist"
+    }
+  },
+  {
+    "key": "death-2",
+    "kind": "death",
+    "variant": 2,
+    "name": "Падение на спину",
+    "prompt": "Fixed camera and original right-facing view. Keep the exact character and one complete bow, quiver and cape. Stay near the original feet position; no travel, turning, zoom, body scaling, new equipment or extra limbs. Keep all visible parts inside the transparent 256x256 frame with an 8px margin. One non-gory death: knees give way, torso leans back and the body falls fully onto its back near the original feet. Bow and quiver stay attached and settle. Hold the final fallen pose motionless. No recovery, standing or loop.",
+    "seed": 2026110307,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": false,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A compact silver-haired adult female archer in olive cape and brown leather armor with one wooden bow and a quiver",
+      "initial_pose": "Standing with both boots planted, bow held vertically at rest beside the body, free hand relaxed near waist"
+    }
+  },
+  {
+    "key": "death-3",
+    "kind": "death",
+    "variant": 3,
+    "name": "Вперёд через колени",
+    "prompt": "Fixed camera and original right-facing view. Keep the exact character and one complete bow, quiver and cape. Stay near the original feet position; no travel, turning, zoom, body scaling, new equipment or extra limbs. Keep all visible parts inside the transparent 256x256 frame with an 8px margin. One non-gory death: shoulders sag, knees reach the ground and the body folds forward into a full prone collapse. The bow settles alongside the body. End fully fallen and still, not only kneeling; no get-up or loop.",
+    "seed": 2026110308,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": false,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A compact silver-haired adult female archer in olive cape and brown leather armor with one wooden bow and a quiver",
+      "initial_pose": "Standing with both boots planted, bow held vertically at rest beside the body, free hand relaxed near waist"
+    }
+  },
+  {
+    "key": "death-4",
+    "kind": "death",
+    "variant": 4,
+    "name": "Колено и бок",
+    "prompt": "Fixed camera and original right-facing view. Keep the exact character and one complete bow, quiver and cape. Stay near the original feet position; no travel, turning, zoom, body scaling, new equipment or extra limbs. Keep all visible parts inside the transparent 256x256 frame with an 8px margin. One non-gory death: slowly sink onto one knee, lose balance sideways, then settle fully onto the side with bent legs. Keep the bow present and intact. Finish fully lying down, motionless near the starting feet. No recovery or loop.",
+    "seed": 2026110309,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": false,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A compact silver-haired adult female archer in olive cape and brown leather armor with one wooden bow and a quiver",
+      "initial_pose": "Standing with both boots planted, bow held vertically at rest beside the body, free hand relaxed near waist"
+    }
+  },
+  {
+    "key": "death-5",
+    "kind": "death",
+    "variant": 5,
+    "name": "Оседание назад",
+    "prompt": "Fixed camera and original right-facing view. Keep the exact character and one complete bow, quiver and cape. Stay near the original feet position; no travel, turning, zoom, body scaling, new equipment or extra limbs. Keep all visible parts inside the transparent 256x256 frame with an 8px margin. One non-gory death: stagger only through the torso without stepping, sink into a seated collapse, then roll back into a fully fallen pose. Bow settles close to the body. Hold the final pose still; no disappearance, get-up or loop.",
+    "seed": 2026110310,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": false,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A compact silver-haired adult female archer in olive cape and brown leather armor with one wooden bow and a quiver",
+      "initial_pose": "Standing with both boots planted, bow held vertically at rest beside the body, free hand relaxed near waist"
+    }
+  },
+  {
+    "key": "ability-1",
+    "kind": "ability",
+    "variant": 1,
+    "name": "Прицельный выстрел",
+    "prompt": "Fixed camera and original right-facing view. Keep the exact character and one complete bow, quiver and cape. Stay near the original feet position; no travel, turning, zoom, body scaling, new equipment or extra limbs. Keep all visible parts inside the transparent 256x256 frame with an 8px margin. One deliberate bow ability: lift the bow toward an off-screen target to the right, bring the drawing hand to the string, draw fully, pause briefly in aim, release once with a crisp recoil, then lower the bow and return to the original resting pose. Feet planted. No flying projectile, trail or VFX.",
+    "seed": 2026110311,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A compact silver-haired adult female archer in olive cape and brown leather armor with one wooden bow and a quiver",
+      "initial_pose": "Standing with both boots planted, bow held vertically at rest beside the body, free hand relaxed near waist"
+    }
+  },
+  {
+    "key": "ability-2",
+    "kind": "ability",
+    "variant": 2,
+    "name": "Быстрый выстрел",
+    "prompt": "Fixed camera and original right-facing view. Keep the exact character and one complete bow, quiver and cape. Stay near the original feet position; no travel, turning, zoom, body scaling, new equipment or extra limbs. Keep all visible parts inside the transparent 256x256 frame with an 8px margin. One compact quick bow shot: a small anticipation, raise the bow and draw the string in a tight motion, release once sharply, then soften the shoulders and return to the original guard. Feet planted, no lunge. Keep the bow shape and string coherent. No flying projectile or VFX.",
+    "seed": 2026110312,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A compact silver-haired adult female archer in olive cape and brown leather armor with one wooden bow and a quiver",
+      "initial_pose": "Standing with both boots planted, bow held vertically at rest beside the body, free hand relaxed near waist"
+    }
+  },
+  {
+    "key": "ability-3",
+    "kind": "ability",
+    "variant": 3,
+    "name": "Низкая подготовка",
+    "prompt": "Fixed camera and original right-facing view. Keep the exact character and one complete bow, quiver and cape. Stay near the original feet position; no travel, turning, zoom, body scaling, new equipment or extra limbs. Keep all visible parts inside the transparent 256x256 frame with an 8px margin. One strong bow ability: make a shallow knee bend without moving feet, lift the bow, draw fully as the torso straightens slightly, release one decisive shot toward the right, then recover into the initial upright resting pose. No jump or travel. No flying projectile or VFX.",
+    "seed": 2026110313,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A compact silver-haired adult female archer in olive cape and brown leather armor with one wooden bow and a quiver",
+      "initial_pose": "Standing with both boots planted, bow held vertically at rest beside the body, free hand relaxed near waist"
+    }
+  },
+  {
+    "key": "ability-4",
+    "kind": "ability",
+    "variant": 4,
+    "name": "Наведение сверху",
+    "prompt": "Fixed camera and original right-facing view. Keep the exact character and one complete bow, quiver and cape. Stay near the original feet position; no travel, turning, zoom, body scaling, new equipment or extra limbs. Keep all visible parts inside the transparent 256x256 frame with an 8px margin. One bow shot: raise the bow slightly above the aim line, smoothly settle aim toward the right while drawing the string, release once, and follow through briefly before lowering the bow to the original stance. Feet planted, no body turn. No projectile trail or other VFX.",
+    "seed": 2026110314,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A compact silver-haired adult female archer in olive cape and brown leather armor with one wooden bow and a quiver",
+      "initial_pose": "Standing with both boots planted, bow held vertically at rest beside the body, free hand relaxed near waist"
+    }
+  },
+  {
+    "key": "ability-5",
+    "kind": "ability",
+    "variant": 5,
+    "name": "Выдержанное натяжение",
+    "prompt": "Fixed camera and original right-facing view. Keep the exact character and one complete bow, quiver and cape. Stay near the original feet position; no travel, turning, zoom, body scaling, new equipment or extra limbs. Keep all visible parts inside the transparent 256x256 frame with an 8px margin. One focused bow ability: raise the bow slowly, draw the string with a clear held anticipation, release one controlled shot toward the right, let the bow arm recoil slightly and settle back into the exact resting stance. Both feet stay planted. No multiple shots, flying projectile or VFX.",
+    "seed": 2026110315,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A compact silver-haired adult female archer in olive cape and brown leather armor with one wooden bow and a quiver",
+      "initial_pose": "Standing with both boots planted, bow held vertically at rest beside the body, free hand relaxed near waist"
+    }
+  }
+]

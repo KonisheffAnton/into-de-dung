@@ -1,0 +1,23 @@
+{
+  "pass": true,
+  "base": "787dfd37db48b83ea724563fad72d115e09da9b4",
+  "integration": false,
+  "clips": 15,
+  "raw_pngs": 495,
+  "sheet_cells": 495,
+  "gifs": 15,
+  "api_byte_matches": 495,
+  "browser": {
+    "pass": true,
+    "embedded_assets": 32,
+    "mobile_width": 390,
+    "errors": 0
+  },
+  "standalone_html_without_images": true,
+  "negative_manifest_and_input_cases": 3,
+  "test_copies_restored": true,
+  "independent_review": "APPROVE",
+  "art_acceptance": false,
+  "godot_import_full_core_f5_run": false,
+  "logs": "test_reports/mage02-animation-20261103"
+}

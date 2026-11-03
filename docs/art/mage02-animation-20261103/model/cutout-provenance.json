@@ -1,0 +1,20 @@
+{
+  "provider": "built-in image_gen",
+  "date": "2026-11-03",
+  "selected_concept": "../mage-archer-variants-20261101/mage-02.png",
+  "generated_source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-44edbb95-b53d-428e-831a-c5dc08155b05.png",
+  "prompt": "Use case: background-extraction. Edit target: selected mage concept 02, Star Hood. Produce a true transparent cutout of ONLY this exact compact elderly male mage and his equipment. Remove all navy background, stone floor, pedestal, ground and cast shadow. Preserve the identical dark-blue hood and layered blue cloak, grey beard and side hair, round gold clasp, pale cream robe trim, leather belt and pouches, brown boots, complete wooden staff with round blue gem and his open free hand. Keep the complete staff top and bottom, both feet, hand fingers and cloak hem uncut. Preserve the exact short-legged large-headed proportions, right-facing three-quarter isometric view, relaxed starting pose, pixel clusters, palette and design. Do not redesign or add extra stars, jewelry, books, hands, weapons, glow, new outlines, smoothing or grain. One standing character only, centered with comfortable transparent margins. True alpha transparency, not a checkerboard drawing. No labels or text. This is an animation source extraction, not a new character concept.",
+  "output": "model/source-full.png",
+  "note": "Artistic extraction; not mathematically exact segmentation. Source copied byte-for-byte; technical PixelLab canvas preparation recorded separately.",
+  "sha256": "0f26acf363f9a4fe601989f69a6fc79109189a2a57de5128040493da069823dc",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "concept_sha256": "acd1f152667bc60a35853a5afa3bf05237a8c1952fbf5bc33e7ed77857c55a89"
+}

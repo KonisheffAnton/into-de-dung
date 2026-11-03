@@ -1,0 +1,20 @@
+{
+  "provider": "built-in image_gen",
+  "date": "2026-11-03",
+  "selected_concept": "../archer14-rework-20261103/archer-14-04.png",
+  "generated_source": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-5933b258-e698-4b7f-943c-f4f6aae57841.png",
+  "prompt": "Use case: background-extraction. Edit target: the attached selected Archer 14-04 concept. Produce a clean transparent cutout of ONLY this exact silver-haired adult female archer and all her equipment. Remove the entire navy background, every stone tile and pedestal, ground and cast shadow. Preserve the original compact short-legged proportions, large head, swept silver-grey hair, olive cape with long pointed hem, round bronze clasp, brown segmented leather chest armor, belt buckle, gloves, boots, quiver with arrows, complete wooden bow including its string and both bow tips. Preserve the original right-facing three-quarter isometric view, relaxed stance, hand positions, colors, hard-edged pixel clusters, face and recognizable design. Do not redesign or add grain, smoothing, new details, extra outline, glow or VFX. Keep the complete silhouette uncut with comfortable transparent margins, same pose and figure composition as the source. One static standing character only. True transparent alpha background, not a checkerboard drawing. No text or labels. This is an animation source extraction, not a new concept.",
+  "output": "model/source-full.png",
+  "note": "Artistic extraction; not mathematically exact segmentation. Source copied byte-for-byte; technical PixelLab canvas preparation recorded separately.",
+  "sha256": "3fc8714d77ab4828f56cb78584856bb997310882c2f42e9006afa8e92c930b38",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "concept_sha256": "a48b5eda772fd95dc35d673c4ad683fcbefe6ff66e2a9276475537a1655ac07d"
+}

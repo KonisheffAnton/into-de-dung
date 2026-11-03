@@ -1,0 +1,8 @@
+{
+  "pass": true,
+  "completed_jobs": 15,
+  "verified_original_png_bytes": 495,
+  "request_hashes_match_admission_audit": true,
+  "unique_ids_match_original_admissions": true,
+  "cancelled_or_repeated_posts": 0
+}
