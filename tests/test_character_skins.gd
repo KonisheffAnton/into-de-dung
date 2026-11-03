@@ -7,6 +7,8 @@ const SKINS: Array[Dictionary] = [
 	{"id": &"grey_bastion", "class": &"shieldbearer"},
 	{"id": &"red_bastion", "class": &"fighter"},
 	{"id": &"short_cape", "class": &"rogue"},
+	{"id": &"star_hood", "class": &"mage"},
+	{"id": &"silver_ranger", "class": &"archer"},
 ]
 
 var passed: int = 0
@@ -28,7 +30,7 @@ func _run() -> void:
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport)
 	await _test_skins_and_clock()
-	await _test_rogue_resource_fallback()
+	await _test_resource_fallbacks()
 	await _test_shield_command()
 	await _test_rogue_guard()
 	await _test_fighter_attack_routes()
@@ -64,7 +66,9 @@ func _test_rendered_skins() -> void:
 			visual.set_process(false)
 			visual_cells.append({"visual": visual, "anchor": anchor, "label": "%s %d" % [entry.id, column]})
 			var label := Label.new()
-			label.text = "%s · %s" % [entry.id, ["idle PLAYER", "idle ENEMY", "ability 3" if entry.class == &"rogue" else "ability 2", "death 2" if entry.class == &"rogue" else "death 3"][column]]
+			var action_label: String = {&"short_cape": "ability 3", &"star_hood": "ability 5", &"silver_ranger": "ability 4"}.get(entry.id, "ability 2")
+			var death_label := "death 2" if entry.id == &"short_cape" else "death 3"
+			label.text = "%s · %s" % [entry.id, ["idle PLAYER", "idle ENEMY", action_label, death_label][column]]
 			label.position = anchor + Vector2(-110, 35)
 			viewport.add_child(label)
 	await process_frame
@@ -141,21 +145,26 @@ func _test_skins_and_clock() -> void:
 		if definition == null: continue
 		check(definition.still != null and definition.animations != null and definition.anchor == Vector2(128, 200)
 			and is_equal_approx(definition.texture_scale, 0.5), "%s has approved still, SpriteFrames, anchor and scale" % skin_id)
-		for animation: StringName in [&"idle", &"buff", &"death"]:
+		var required_clips: Array[StringName] = [&"idle", &"buff", &"death"]
+		if skin_id in [&"watch_shield", &"star_hood", &"silver_ranger"]: required_clips.append(&"idle_secondary")
+		for animation: StringName in required_clips:
 			check(definition.clip_valid(animation) and definition.animations.get_frame_count(animation) == 33,
 				"%s %s clip has 33 valid atlas frames" % [skin_id, animation])
-			check(definition.animations.get_animation_loop(animation) == (animation == &"idle"),
+			check(definition.animations.get_animation_loop(animation) == (animation in [&"idle", &"idle_secondary"]),
 				"%s %s loop flag matches its role" % [skin_id, animation])
-		for animation: StringName in [&"buff", &"death"]:
+		var inspected_clips: Array[StringName] = [&"buff", &"death"]
+		if definition.animations.has_animation(&"idle_secondary"): inspected_clips.append(&"idle_secondary")
+		for animation: StringName in inspected_clips:
 			var atlas_frame := definition.animations.get_frame_texture(animation, 0) as AtlasTexture
 			check(atlas_frame != null and atlas_frame.atlas.resource_path.ends_with("/%s/%s.png" % [skin_id, animation]),
 				"%s %s resolves the selected PixelLab sheet" % [skin_id, animation])
 		check(is_equal_approx(definition.clip_duration(&"idle"), 2.97), "%s idle duration is retained" % skin_id)
-		check(is_equal_approx(definition.clip_duration(&"buff"), 2.31), "%s selected ability duration is retained" % skin_id)
+		var expected_buff_seconds := 2.94 if skin_id in [&"star_hood", &"silver_ranger"] else 2.31
+		check(is_equal_approx(definition.clip_duration(&"buff"), expected_buff_seconds), "%s selected ability duration is retained" % skin_id)
 		check(is_equal_approx(definition.clip_duration(&"death"), 3.74), "%s retains the selected death timing and final hold" % skin_id)
-		if skin_id == &"watch_shield":
+		if skin_id in [&"watch_shield", &"star_hood", &"silver_ranger"]:
 			check(definition.clip_valid(&"idle_secondary") and definition.animations.get_animation_loop(&"idle_secondary"),
-				"model 02 alone exposes its repeating secondary idle")
+				"%s exposes its repeating secondary idle" % skin_id)
 		else:
 			check(not definition.animations.has_animation(&"idle_secondary"), "%s has no unselected secondary idle" % skin_id)
 		for faction: Faction.Type in [Faction.Type.PLAYER, Faction.Type.ENEMY]:
@@ -164,6 +173,10 @@ func _test_skins_and_clock() -> void:
 			visuals.append(visual)
 			by_skin_and_side["%s:%d" % [skin_id, int(faction)]] = visual
 			var sprite := visual.class_still_sprite()
+			if class_id in [&"mage", &"archer"]:
+				check(is_equal_approx(visual.get_unit_art_scale(), 0.8)
+					and visual.get_unit_pick_rect() == Rect2(-40, -78, 80, 82),
+					"%s uses the approved scene scale and picking bounds" % skin_id)
 			if class_id == &"rogue":
 				check(visual.get_unit_pick_rect().has_point(Vector2(0.0, -75.0))
 					and visual.get_unit_pick_rect().has_point(Vector2(-37.0, 1.0)),
@@ -205,6 +218,33 @@ func _test_skins_and_clock() -> void:
 			visual.sample_death(1.0)
 			check(sprite.texture == definition.animations.get_frame_texture(&"death", 32),
 				"%s %s death3 selects its held final atlas pose" % [skin_id, faction])
+			if skin_id in [&"star_hood", &"silver_ranger"]:
+				visual.reset_view_pose()
+				for animation: StringName in [&"idle", &"idle_secondary"]:
+					var idle_elapsed := 0.0
+					for frame_index: int in definition.animations.get_frame_count(animation):
+						var frame_seconds := definition.animations.get_frame_duration(animation, frame_index) / definition.animations.get_animation_speed(animation)
+						visual.skin_clock.secondary = animation == &"idle_secondary"
+						visual.skin_clock.elapsed = idle_elapsed + frame_seconds * 0.5
+						visual._draw_skin_idle()
+						check(sprite.texture == definition.animations.get_frame_texture(animation, frame_index),
+							"%s %s %s samples source frame %02d" % [skin_id, faction, animation, frame_index + 1])
+						idle_elapsed += frame_seconds
+				for animation: StringName in [&"buff", &"death"]:
+					var elapsed := 0.0
+					var clip_frames := definition.animations
+					for frame_index: int in clip_frames.get_frame_count(animation):
+						var frame_seconds := clip_frames.get_frame_duration(animation, frame_index) / clip_frames.get_animation_speed(animation)
+						var sample_seconds := elapsed + frame_seconds * 0.5
+						if animation == &"buff": visual.sample_buff(sample_seconds)
+						else: visual.sample_death(sample_seconds / definition.clip_duration(&"death"))
+						check(sprite.texture == _frame_at(clip_frames, animation, sample_seconds),
+							"%s %s %s samples source frame %02d" % [skin_id, faction, animation, frame_index + 1])
+						elapsed += frame_seconds
+				visual.reset_view_pose()
+				visual.sample_death(1.0)
+				check(sprite.texture == definition.animations.get_frame_texture(&"death", 32),
+					"%s %s restores final death pose after complete clip sampling" % [skin_id, faction])
 			var death_texture := sprite.texture
 			var death_transform := sprite.transform
 			visual.sync_scene_art()
@@ -289,6 +329,26 @@ func _test_skins_and_clock() -> void:
 	idle_visual.skin_clock.advance(secondary_seconds + 0.002)
 	check(not idle_visual.skin_clock.secondary and idle_visual.skin_clock.elapsed < 0.01
 		and idle_visual.skin_clock._normal_cycles in range(3, 7), "secondary returns to primary and schedules another gap")
+	for secondary_skin_id: StringName in [&"star_hood", &"silver_ranger"]:
+		var secondary_visual := by_skin_and_side["%s:%d" % [secondary_skin_id, int(Faction.Type.PLAYER)]] as BattleCharacterSkinVisual
+		var secondary_definition := secondary_visual.skin_definition
+		var secondary_idle_seconds := secondary_definition.clip_duration(&"idle_secondary")
+		check(is_equal_approx(secondary_idle_seconds, 2.97), "%s secondary idle duration is retained" % secondary_skin_id)
+		secondary_visual.skin_clock.configure(130 + String(secondary_skin_id).hash(), 2.97, secondary_idle_seconds)
+		var normal_cycles := secondary_visual.skin_clock._normal_cycles
+		secondary_visual.skin_clock.advance(2.97 * float(normal_cycles) + 0.001)
+		check(secondary_visual.skin_clock.secondary and secondary_visual.skin_clock.elapsed < 0.01,
+			"%s enters its own secondary idle cycle" % secondary_skin_id)
+		secondary_visual.skin_clock.advance(0.37)
+		secondary_visual._draw_skin_idle()
+		check(secondary_visual.class_still_sprite().texture
+			== _frame_at(secondary_definition.animations, &"idle_secondary", 0.37),
+			"%s secondary clock advances to its fifth source frame" % secondary_skin_id)
+		secondary_visual.skin_clock.advance(2.60)
+		secondary_visual._draw_skin_idle()
+		check(not secondary_visual.skin_clock.secondary and secondary_visual.skin_clock.elapsed < 0.01
+			and secondary_visual.class_still_sprite().texture == secondary_definition.animations.get_frame_texture(&"idle", 0),
+			"%s completes its secondary cycle and resumes primary frame one" % secondary_skin_id)
 	var different_gaps: Dictionary = {}
 	seed(71391)
 	var expected_global_random := randi()
@@ -385,7 +445,7 @@ func _test_skins_and_clock() -> void:
 		if is_instance_valid(visual): visual.queue_free()
 	await process_frame
 
-func _test_rogue_resource_fallback() -> void:
+func _test_resource_fallbacks() -> void:
 	# Ни одного живого visual этого ресурса здесь нет; после каждой пробы восстановлен исходный Resource.
 	var source := CharacterSkinCatalog.definition(&"rogue")
 	if source == null: check(false, "Rogue resource exists for corruption probes"); return
@@ -409,6 +469,57 @@ func _test_rogue_resource_fallback() -> void:
 		source.animations = original_frames
 		source.still = original_still
 		check(CharacterSkinCatalog.definition(&"rogue") == source, "restored complete Rogue package recovers: " + String(missing))
+	await process_frame
+	var mage_had_cache := CharacterSkinCatalog._loaded.has(&"star_hood")
+	var archer_had_cache := CharacterSkinCatalog._loaded.has(&"silver_ranger")
+	var mage_cached := CharacterSkinCatalog._loaded.get(&"star_hood") as CharacterSkinDefinition
+	var archer_cached := CharacterSkinCatalog._loaded.get(&"silver_ranger") as CharacterSkinDefinition
+	CharacterSkinCatalog._loaded[&"star_hood"] = null
+	CharacterSkinCatalog._loaded[&"silver_ranger"] = null
+	var mage_visual := _make_visual(981, &"mage", Faction.Type.PLAYER, &"star_hood")
+	var mage_body := mage_visual.get_node_or_null("ArtRoot/BodySprite") as Sprite2D
+	check(mage_visual.skin_definition == null and mage_body != null and mage_body.visible
+		and mage_visual._selected_body_node() == mage_body,
+		"cached missing Mage skin keeps the visible legacy BodySprite fallback")
+	var archer_visual := _make_visual(982, &"archer", Faction.Type.PLAYER, &"silver_ranger")
+	var archer_still := archer_visual.get_node_or_null("ArtRoot/PlayerArcherSprite") as Sprite2D
+	var archer_idle := archer_visual.get_node_or_null("ArtRoot/ArcherIdleSprite") as Sprite2D
+	check(archer_visual.skin_definition == null and archer_still != null and not archer_still.visible
+		and archer_still.texture != null and archer_idle != null and archer_idle.visible
+		and archer_idle.texture == archer_visual.archer_idle_frames.get_frame_texture(&"idle", archer_visual.idle_clock.get_frame_index()),
+		"cached missing Archer skin keeps its legacy idle visible and still resource retained")
+	mage_visual.free()
+	archer_visual.free()
+	if mage_had_cache: CharacterSkinCatalog._loaded[&"star_hood"] = mage_cached
+	else: CharacterSkinCatalog._loaded.erase(&"star_hood")
+	if archer_had_cache: CharacterSkinCatalog._loaded[&"silver_ranger"] = archer_cached
+	else: CharacterSkinCatalog._loaded.erase(&"silver_ranger")
+	check(CharacterSkinCatalog.definition(&"mage", &"star_hood") != null
+		and CharacterSkinCatalog.definition(&"archer", &"silver_ranger") != null,
+		"restoring the complete Mage and Archer cache restores their approved resources")
+	for entry: Dictionary in [
+		{"id": &"star_hood", "class": &"mage"},
+		{"id": &"silver_ranger", "class": &"archer"},
+	]:
+		var skin_id: StringName = entry.id
+		var class_id: StringName = entry.class
+		var secondary_source := CharacterSkinCatalog.definition(class_id, skin_id)
+		if secondary_source == null:
+			check(false, "%s resource exists for secondary idle corruption probe" % skin_id)
+			continue
+		var secondary_original_frames := secondary_source.animations
+		var incomplete_frames := secondary_original_frames.duplicate(true) as SpriteFrames
+		incomplete_frames.remove_animation(&"idle_secondary")
+		secondary_source.animations = incomplete_frames
+		CharacterSkinCatalog._loaded.erase(skin_id)
+		check(CharacterSkinCatalog.definition(class_id, skin_id) == null
+			and not CharacterSkinCatalog._loaded.has(skin_id),
+			"missing required %s secondary idle is rejected without caching" % skin_id)
+		secondary_source.animations = secondary_original_frames
+		CharacterSkinCatalog._loaded.erase(skin_id)
+		check(CharacterSkinCatalog.definition(class_id, skin_id) == secondary_source
+			and secondary_source.clip_valid(&"idle_secondary"),
+			"restored %s resource is accepted after its secondary idle returns" % skin_id)
 	await process_frame
 
 func _snapshot(session: BattleCoreReactionsSession) -> Dictionary:
@@ -678,6 +789,8 @@ func _test_lethal_skin_deaths() -> void:
 		{"skin": &"grey_bastion", "class": &"shieldbearer"},
 		{"skin": &"red_bastion", "class": &"fighter"},
 		{"skin": &"short_cape", "class": &"rogue"},
+		{"skin": &"star_hood", "class": &"mage"},
+		{"skin": &"silver_ranger", "class": &"archer"},
 	]
 	for route: Dictionary in routes:
 		var skin_id: StringName = route.skin

@@ -163,6 +163,7 @@ var _support_target_id: int = UnitId.NONE
 var _support_started: bool = false
 var _defender_buff_visual: BattleDefenderIdleVisual
 var _defender_buff_elapsed: float = 0.0
+var _skin_cast_facing: Dictionary = {}
 
 func show_presentation_state(value: Dictionary) -> void:
 	clear_presentation_effects()
@@ -297,6 +298,7 @@ func _restore_attack_facings() -> void:
 	# Кадры замаха/контакта и resize пересобирают вид, но ещё не заканчивают атаку.
 	for strike: Dictionary in _pending_strikes.values():
 		_face_strike_target(strike)
+	if not _skin_cast_facing.is_empty(): _face_strike_target(_skin_cast_facing)
 
 func _set_action_offset(id: int, offset: Vector2) -> void:
 	_action_offsets[id] = offset
@@ -401,7 +403,9 @@ func _hit_recovery(progress: float, strike: Dictionary, dying: bool, seconds: fl
 			recoil += perpendicular * shake * CRITICAL_SHAKE_DISTANCE
 	_set_action_offset(int(strike.target_unit_id), recoil)
 	if dying:
-		_field_presentation.sample_death(progress, self, int(strike.target_unit_id))
+		# Возврат стрелка может быть длиннее падения: темп клипа жертвы остаётся собственным.
+		var death_seconds := _death_seconds(int(strike.target_unit_id))
+		_field_presentation.sample_death(clampf(progress * seconds / maxf(0.001, death_seconds), 0.0, 1.0), self, int(strike.target_unit_id))
 
 func _is_ranged_strike(event: Dictionary) -> bool:
 	# Дальность приходит из отделённого кадра; соседство не превращает стрелка в бойца ближнего боя.
@@ -429,7 +433,7 @@ func _prepare_projectile(event: Dictionary) -> BattlePresentationProjectile:
 	_ghosts.add_child(projectile)
 	projectile.set_meta("from_cell", event.actor_cell)
 	projectile.set_meta("to_cell", event.target_cell)
-	projectile.set_meta("from_anchor", _effect_anchor(int(event.actor_unit_id)) - _strike_direction(event) * 8.0)
+	projectile.set_meta("from_anchor", _effect_anchor(int(event.actor_unit_id)) - _strike_direction(event) * (0.0 if event.get("presentation_skin_ability", false) else 8.0))
 	projectile.set_meta("to_anchor", _effect_anchor(int(event.target_unit_id)))
 	projectile.set_meta("progress", 0.0)
 	return projectile
@@ -450,7 +454,7 @@ func _shot_flight(progress: float, event: Dictionary, projectile: BattlePresenta
 	projectile.visible = true
 	projectile.set_meta("progress", progress)
 	_place_projectiles()
-	_strike_pose(-8.0 * (1.0 - progress), event)
+	_strike_pose(0.0 if event.get("presentation_skin_ability", false) else -8.0 * (1.0 - progress), event)
 
 func _hit_impact(event: Dictionary, tint: Color) -> void:
 	var visual := _presentation_visual(int(event.target_unit_id))
@@ -784,6 +788,14 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 	if not support_frame.is_empty(): return _animate_support_action(support_frame)
 	var tween := create_tween()
 	var visible_event := false
+	var skin_cast := _matching_skin_cast(events, step)
+	if not skin_cast.is_empty():
+		_defender_buff_visual = _presentation_visual(int(skin_cast.actor_unit_id)) as BattleDefenderIdleVisual
+		_skin_cast_facing = skin_cast
+		_face_strike_target(skin_cast)
+		_sample_defender_buff(0.0)
+		tween.tween_method(_sample_defender_buff, 0.0, _defender_buff_visual.buff_duration(), _defender_buff_visual.buff_duration())
+		visible_event = true
 	var strike := _matching_strike(events, step)
 	var obstacle_deaths := _matching_obstacle_deaths(events) if strike.is_empty() else {}
 	var consequence_pulses: Dictionary = {}
@@ -815,7 +827,11 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 		tween.tween_interval(HIT_STOP_SECONDS)
 		var dying := events.any(func(e: Dictionary) -> bool: return e.get("kind") == &"died" and e.get("target_unit_id") == strike.target_unit_id)
 		var recovery_seconds := _death_seconds(int(strike.target_unit_id)) if dying else STRIKE_RECOVERY_SECONDS
+		var skin_remaining := _resume_skin_shot(strike)
+		recovery_seconds = maxf(recovery_seconds, skin_remaining)
 		tween.tween_method(_hit_recovery.bind(strike, dying, recovery_seconds), 0.0, 1.0, recovery_seconds)
+		if skin_remaining > 0.0:
+			tween.parallel().tween_method(_sample_defender_buff, _defender_buff_elapsed, _defender_buff_visual.buff_duration(), skin_remaining)
 		# Callback идёт параллельно отдаче в том же Tween: не добавляет паузу и отменяется с клипом.
 		tween.parallel().tween_callback(_show_contact_result.bind(events, strike)).set_delay(HIT_NUMBER_DELAY_SECONDS - HIT_STOP_SECONDS)
 		visible_event = true
@@ -897,9 +913,10 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			_pending_strikes[_strike_key(event)] = start
 			_face_strike_target(start)
 			var skin_actor := _presentation_visual(int(event.actor_unit_id)) as BattleCharacterSkinVisual
-			var skin_ability: bool = kind == &"attacked" and StringName(event.get("attack_definition_id", &"")) == WarriorKit.CLEAVE \
-				and _view_actor_classes.get(int(event.actor_unit_id), &"") == &"fighter" \
-				and skin_actor != null and skin_actor.can_play_buff()
+			var actor_class: StringName = _view_actor_classes.get(int(event.actor_unit_id), &"")
+			var skin_shot: bool = actor_class in [&"mage", &"archer"] and bool(start.presentation_ranged)
+			var skin_ability: bool = skin_actor != null and skin_actor.can_play_buff() and (skin_shot \
+				or (kind == &"attacked" and StringName(event.get("attack_definition_id", &"")) == WarriorKit.CLEAVE and actor_class == &"fighter"))
 			start["presentation_skin_ability"] = skin_ability
 			for cue: Dictionary in reaction_cues:
 				if cue.kind in [&"opportunist", &"counterattack"]: _append_reaction_cue(tween, cue)
@@ -908,7 +925,18 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			if skin_ability:
 				_defender_buff_visual = skin_actor
 				_sample_defender_buff(0.0)
-				tween.tween_method(_sample_defender_buff, 0.0, skin_actor.buff_duration(), skin_actor.buff_duration())
+				if skin_shot:
+					# Выпуск на21-м интервале выбранных листов; восстановление продолжается в кадре попадания.
+					var release_seconds := 21.0 * 0.07
+					var contact_seconds := release_seconds + _shot_flight_seconds(start)
+					start["presentation_skin_contact"] = contact_seconds
+					start["presentation_skin_id"] = skin_actor.skin_definition.id
+					var projectile := _prepare_projectile(start)
+					projectile.visible = false
+					tween.tween_method(_sample_defender_buff, 0.0, contact_seconds, contact_seconds)
+					tween.parallel().tween_method(_shot_flight.bind(start, projectile), 0.0, 1.0, _shot_flight_seconds(start)).set_delay(release_seconds)
+				else:
+					tween.tween_method(_sample_defender_buff, 0.0, skin_actor.buff_duration(), skin_actor.buff_duration())
 			elif start.presentation_ranged:
 				var projectile := _prepare_projectile(start)
 				tween.tween_method(_strike_pose.bind(start), 0.0, -8.0, SHOT_WINDUP_SECONDS)
@@ -956,6 +984,27 @@ func _death_seconds(id: int, fallback: float = BattleFieldPresentation.DEATH_SEC
 	var visual := _presentation_visual(id) as BattleDefenderIdleVisual
 	return visual.death_duration() if visual != null and visual.can_play_death() else fallback
 
+func _resume_skin_shot(strike: Dictionary) -> float:
+	if not strike.has("presentation_skin_contact"): return 0.0
+	var visual := _presentation_visual(int(strike.actor_unit_id)) as BattleCharacterSkinVisual
+	if visual == null or not visual.can_play_buff() or visual.skin_definition == null \
+		or visual.skin_definition.id != strike.get("presentation_skin_id", &""): return 0.0
+	_defender_buff_visual = visual
+	_sample_defender_buff(float(strike.presentation_skin_contact))
+	return maxf(0.0, visual.buff_duration() - _defender_buff_elapsed)
+
+func _matching_skin_cast(events: Array, step: Dictionary) -> Dictionary:
+	if step.get("status") != &"APPLIED" or step.get("kind") != &"elemental_cast": return {}
+	for event: Dictionary in events:
+		if event.get("kind") != &"elemental_cast" or int(event.get("command_seq", -1)) != int(step.get("command_seq", -2)): continue
+		var actor_id := int(event.get("actor_unit_id", UnitId.NONE))
+		if actor_id <= 0 or _view_actor_classes.get(actor_id, &"") != &"mage": continue
+		var visual := _presentation_visual(actor_id) as BattleCharacterSkinVisual
+		if visual == null or visual.skin_definition == null or not visual.can_play_buff(): continue
+		return {"actor_unit_id": actor_id, "actor_cell": _view_unit_cell(actor_id),
+			"target_cell": _view_unit_cell(int(event.get("target_unit_id", UnitId.NONE)))}
+	return {}
+
 func _matching_obstacle_deaths(events: Array) -> Dictionary:
 	var deaths: Dictionary = {}
 	for event: Dictionary in events:
@@ -995,6 +1044,10 @@ func _sample_defender_buff(elapsed: float) -> void:
 
 func _clear_defender_buff() -> void:
 	if is_instance_valid(_defender_buff_visual): _defender_buff_visual.clear_buff()
+	if not _skin_cast_facing.is_empty():
+		var actor := _presentation_visual(int(_skin_cast_facing.actor_unit_id))
+		if actor != null: actor.presentation_facing_x = 0
+	_skin_cast_facing.clear()
 	_defender_buff_visual = null
 	_defender_buff_elapsed = 0.0
 

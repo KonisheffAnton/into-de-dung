@@ -43,6 +43,15 @@ func class_still_sprite() -> Sprite2D:
 	if _has_skin() and unit != null and unit.faction in [Faction.Type.PLAYER, Faction.Type.ENEMY]: return _skin_sprite
 	return super.class_still_sprite()
 
+func get_unit_art_scale() -> float:
+	# Новые листы уже приведены к высоте152px; прежний масштаб лучницы относился к другому холсту.
+	if _has_skin() and visual_class_id in [&"mage", &"archer"]: return warrior_art_scale
+	return super.get_unit_art_scale()
+
+func get_unit_pick_rect() -> Rect2:
+	if _has_skin() and visual_class_id in [&"mage", &"archer"]: return Rect2(-40, -78, 80, 82)
+	return super.get_unit_pick_rect()
+
 func _skin_clip_available(animation: StringName) -> bool:
 	if not _has_skin() or float(_skin_durations.get(animation, 0.0)) <= 0.0: return false
 	var frames := skin_definition.animations
@@ -63,6 +72,8 @@ func _sync_scene_art_layers() -> void:
 	if not _has_skin():
 		_skin_sprite.visible = false
 		return
+	# Выбранный скин заменяет также старый анимированный слой, а не только still.
+	if _idle_sprite != null: _idle_sprite.visible = false
 	_skin_sprite.visible = _skin_can_show()
 	set_process(false)
 	if not _skin_sprite.visible: return

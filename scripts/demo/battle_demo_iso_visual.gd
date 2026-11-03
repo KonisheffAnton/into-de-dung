@@ -329,7 +329,7 @@ func _sync_scene_art_layers() -> void:
 	var presets_ready: bool = enemy_presets.size() == 3
 	for preset: Sprite2D in enemy_presets:
 		presets_ready = presets_ready and preset.texture != null
-	# Именованный класс без готового рисунка (Маг) не превращается в случайного старого NPC.
+	# Именованный класс при отказе своего рисунка не превращается в случайного старого NPC.
 	if role == Role.UNIT and unit != null and unit.faction == Faction.Type.ENEMY and visual_class_id == &"" and presets_ready and warrior_sprite == null:
 		selected_enemy_preset = enemy_presets[posmod(unit.id, enemy_presets.size())]
 	# Кастомный силуэт остаётся нейтральным: исходная палитра уже задаёт его сторону.
@@ -460,7 +460,7 @@ func get_attack_mirror_x() -> float:
 
 func _body_facing_target_x() -> int:
 	if presentation_facing_x != 0: return presentation_facing_x
-	# У Мага пока общий условный рисунок, но его сторона тоже определяется командой.
+	# Сторона Мага сохраняется также при отказе скина и возврате к условному BodySprite.
 	if visual_class_id == &"mage" and unit != null and unit.faction in [Faction.Type.PLAYER, Faction.Type.ENEMY]:
 		return 1 if unit.faction == Faction.Type.PLAYER else -1
 	return 0

@@ -1,6 +1,7 @@
 {
   "format": 1,
   "base_commit": "541c6e508cde3c35db2cab28cdc9aeb8e738373a",
+  "extension_base_commit": "f74a863f086861e00a89d8136235246d94620ced",
   "skins": [
     {
       "class": "shieldbearer",
@@ -61,6 +62,38 @@
         "idle": "assets/art_presets/approved/character_skins_v1/short_cape/idle.png",
         "death": "assets/art_presets/approved/character_skins_v1/short_cape/death.png",
         "buff": "assets/art_presets/approved/character_skins_v1/short_cape/buff.png"
+      }
+    },
+    {
+      "class": "mage",
+      "class_id": "mage",
+      "id": "02",
+      "name": "Капюшон звёзд",
+      "slug": "star_hood",
+      "model": "model02",
+      "still_path": "assets/art_presets/approved/character_skins_v1/star_hood/still.png",
+      "frame_path": "assets/art_presets/approved/character_skins_v1/star_hood/frames.tres",
+      "clip_paths": {
+        "idle": "assets/art_presets/approved/character_skins_v1/star_hood/idle.png",
+        "idle_secondary": "assets/art_presets/approved/character_skins_v1/star_hood/idle_secondary.png",
+        "death": "assets/art_presets/approved/character_skins_v1/star_hood/death.png",
+        "buff": "assets/art_presets/approved/character_skins_v1/star_hood/buff.png"
+      }
+    },
+    {
+      "class": "archer",
+      "class_id": "archer",
+      "id": "14-04",
+      "name": "Серебряная лучница",
+      "slug": "silver_ranger",
+      "model": "model14-04",
+      "still_path": "assets/art_presets/approved/character_skins_v1/silver_ranger/still.png",
+      "frame_path": "assets/art_presets/approved/character_skins_v1/silver_ranger/frames.tres",
+      "clip_paths": {
+        "idle": "assets/art_presets/approved/character_skins_v1/silver_ranger/idle.png",
+        "idle_secondary": "assets/art_presets/approved/character_skins_v1/silver_ranger/idle_secondary.png",
+        "death": "assets/art_presets/approved/character_skins_v1/silver_ranger/death.png",
+        "buff": "assets/art_presets/approved/character_skins_v1/silver_ranger/buff.png"
       }
     }
   ]

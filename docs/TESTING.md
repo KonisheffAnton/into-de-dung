@@ -17,6 +17,20 @@
 
 ## Изменение игрового кода
 
+Маг02/Лучница14-04 (2026-11-03): `--check --only mage_archer_skins
+character_skins character_skins_hub class_showcase class_showcase_ui`;
+затем `--render-check --only mage_archer_skins character_skins character_skins_hub
+class_showcase_ui character_coverage current_art_zoom presentation_attack_styles
+presentation_contact presentation_ranged presentation_mage presentation_status`.
+Новый runner проверяет настоящие заводские loadouts, preview/live parity,
+обычный/опутывающий выстрел, огненную атаку и три elemental_cast,
+выбранный atlas, release/flight/contact/after, resize, speed3, skip/cancel,
+сохранность state/RNG/counters. character_skins проверяет оба idle/смерти,
+обе стороны, fallback и GPU-зеркальность; hub — портреты и настройки.
+Legacy archer_idle/cloth явно отключают новый ресурс только в тестовой фикстуре.
+Проверка сборки: `python tools/art/build_character_skins.py --check`.
+Пробы/приёмка швов, исходная стрела у края и ручной F5 остаются отдельными.
+
 Покрытие полного кадра персонажей (2026-11-02): `--render-check --only
 character_coverage character_skins warrior_visuals shieldbearer_palette
 defender_cloth_palette rogue_cloth_palette archer_cloth_palette

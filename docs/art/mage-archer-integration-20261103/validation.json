@@ -1,0 +1,864 @@
+{
+  "base_commit": "f74a863f086861e00a89d8136235246d94620ced",
+  "date": "2026-11-03",
+  "integration": true,
+  "selection": {
+    "mage/star_hood": {
+      "idle": [
+        1,
+        5
+      ],
+      "death": 3,
+      "ability": 5
+    },
+    "archer/silver_ranger": {
+      "idle": [
+        1,
+        5
+      ],
+      "death": 3,
+      "ability": 4
+    }
+  },
+  "headless": {
+    "import": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 6.989278400084004,
+      "results": [],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--headless",
+        "--import"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\headless-2"
+    },
+    "startup": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 3.048324199975468,
+      "results": [],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--headless",
+        "--quit-after",
+        "3"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\headless-2"
+    },
+    "mage_archer_skins": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 18.156962899956852,
+      "results": [
+        "MAGE ARCHER SKINS RESULTS: 415 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--headless",
+        "--script",
+        "tests/test_mage_archer_skins.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\headless-final\\mage_archer_skins-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\headless-final"
+    },
+    "character_skins_hub": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 3.6921075999271125,
+      "results": [
+        "CHARACTER SKINS HUB RESULTS: 33 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--headless",
+        "--script",
+        "tests/test_character_skins_hub.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\headless-2\\character_skins_hub-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\headless-2"
+    },
+    "class_showcase_ui": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 4.613185600028373,
+      "results": [
+        "CLASS SHOWCASE UI RESULTS: 45 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--headless",
+        "--script",
+        "tests/test_class_showcase_ui.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\headless-2\\class_showcase_ui-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\headless-2"
+    },
+    "class_showcase": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 2.948046399978921,
+      "results": [
+        "CLASS SHOWCASE RESULTS: 229 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--headless",
+        "--script",
+        "tests/test_class_showcase.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\headless-2\\class_showcase-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\headless-2"
+    },
+    "character_skins": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 16.991409600013867,
+      "results": [
+        "CHARACTER SKINS RESULTS: 1074 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--headless",
+        "--script",
+        "tests/test_character_skins.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\headless-final\\character_skins-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\headless-final"
+    }
+  },
+  "gpu": {
+    "mage_archer_skins": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 36.913604700006545,
+      "results": [
+        "MAGE ARCHER SKINS RESULTS: 415 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_mage_archer_skins.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-final\\mage_archer_skins-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-final"
+    },
+    "character_skins": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 23.356888200039975,
+      "results": [
+        "CHARACTER SKINS RESULTS: 1130 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_character_skins.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-final\\character_skins-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-final"
+    },
+    "character_skins_hub": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 4.7822804999304935,
+      "results": [
+        "CHARACTER SKINS HUB RESULTS: 34 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_character_skins_hub.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\character_skins_hub-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "class_showcase_ui": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 5.809836499975063,
+      "results": [
+        "CLASS SHOWCASE UI RESULTS: 47 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_class_showcase_ui.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\class_showcase_ui-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "character_coverage": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 2.808432499994524,
+      "results": [
+        "CHARACTER COVERAGE RESULTS: 53 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_character_coverage.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\character_coverage-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "current_art_zoom": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 9.192738199955784,
+      "results": [
+        "CURRENT ART ZOOM RESULTS: 496 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_current_art_zoom.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\current_art_zoom-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "presentation_attack_styles": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 11.705545299919322,
+      "results": [
+        "PRESENTATION ATTACK STYLES RESULTS: 611 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_presentation_attack_styles.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\presentation_attack_styles-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "presentation_contact": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 4.648972499999218,
+      "results": [
+        "PRESENTATION CONTACT RESULTS: 300 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_presentation_contact.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\presentation_contact-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "presentation_ranged": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 5.701297600055113,
+      "results": [
+        "PRESENTATION RANGED RESULTS: 252 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_presentation_ranged.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\presentation_ranged-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "presentation_mage": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 12.475656199967489,
+      "results": [
+        "PRESENTATION MAGE RESULTS: 344 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_presentation_mage.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\presentation_mage-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "presentation_status": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 4.516422600019723,
+      "results": [
+        "PRESENTATION STATUS RESULTS: 68 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_presentation_status.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\presentation_status-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "archer_idle": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 2.496715899906121,
+      "results": [
+        "ARCHER IDLE RESULTS: 68 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_archer_idle.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\archer_idle-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "archer_cloth_palette": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 7.329475299920887,
+      "results": [
+        "ARCHER CLOTH PALETTE RESULTS: 206 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_archer_cloth_palette.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\archer_cloth_palette-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "unit_visual_contract": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 2.5453779000090435,
+      "results": [
+        "UNIT VISUAL CONTRACT RESULTS: 45 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_unit_visual_contract.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\unit_visual_contract-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "visual_scene_contract": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 5.686745199956931,
+      "results": [
+        "VISUAL SCENE CONTRACT RESULTS: 106 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_visual_scene_contract.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\visual_scene_contract-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "environment_visual_contract": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 2.994407400023192,
+      "results": [
+        "ENVIRONMENT VISUAL CONTRACT RESULTS: 32 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_environment_visual_contract.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\environment_visual_contract-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "defender_idle_clock": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 2.0504043999826536,
+      "results": [
+        "DEFENDER IDLE CLOCK RESULTS: 24 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_defender_idle_clock.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\defender_idle_clock-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "defender_idle": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 5.696669699973427,
+      "results": [
+        "DEFENDER IDLE RESULTS: 140 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_defender_idle.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\defender_idle-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "defender_buff": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 5.87450799997896,
+      "results": [
+        "DEFENDER BUFF RESULTS: 299 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_defender_buff.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\defender_buff-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "presentation_consequences": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 19.12935300008394,
+      "results": [
+        "PRESENTATION CONSEQUENCES RESULTS: 2041 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_presentation_consequences.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\presentation_consequences-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "presentation_environment": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 6.445183300063945,
+      "results": [
+        "PRESENTATION ENVIRONMENT RESULTS: 323 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_presentation_environment.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\presentation_environment-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "battle_camera_ui": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 4.3819964999565855,
+      "results": [
+        "BATTLE CAMERA UI RESULTS: 111 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_battle_camera_ui.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\battle_camera_ui-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "battle_execution_ui": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 11.109947600052692,
+      "results": [
+        "BATTLE EXECUTION UI RESULTS: 61 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_battle_execution_ui.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\battle_execution_ui-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "defender_death": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 3.5350325000472367,
+      "results": [
+        "DEFENDER DEATH RESULTS: 115 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_defender_death.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\defender_death-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "defender_death_routes": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 10.23265280004125,
+      "results": [
+        "DEFENDER DEATH ROUTES RESULTS: 889 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_defender_death_routes.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\defender_death_routes-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "defender_cloth_palette": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 9.789803299936466,
+      "results": [
+        "DEFENDER CLOTH PALETTE RESULTS: 321 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_defender_cloth_palette.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\defender_cloth_palette-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "rogue_cloth_palette": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 6.510832899948582,
+      "results": [
+        "ROGUE CLOTH PALETTE RESULTS: 148 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_rogue_cloth_palette.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\rogue_cloth_palette-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "rogue_animations": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 2.500348999979906,
+      "results": [
+        "ROGUE ANIMATIONS RESULTS: 98 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_rogue_animations.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-1\\rogue_animations-captures"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-1"
+    },
+    "rogue_buff": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 5.1657183999195695,
+      "results": [
+        "ROGUE BUFF RESULTS: 31 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_defender_buff.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-final\\rogue_buff-captures",
+        "--rogue"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-final"
+    },
+    "rogue_death_routes": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 12.827975300024264,
+      "results": [
+        "ROGUE DEATH ROUTES RESULTS: 832 passed, 0 failed"
+      ],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--screen",
+        "0",
+        "--script",
+        "tests/test_defender_death_routes.gd",
+        "--",
+        "--captures=D:\\Games\\into-de-dung\\test_reports\\mage-archer-integration-20261103\\gpu-final\\rogue_death_routes-captures",
+        "--rogue"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-final"
+    },
+    "import": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 8.227758900029585,
+      "results": [],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--headless",
+        "--import"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-final"
+    },
+    "startup": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 3.3314954000525177,
+      "results": [],
+      "command": [
+        "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+        "--path",
+        "D:\\Games\\into-de-dung\\test_reports\\demo-1e0c7ee263c74553b7070157f20656e7\\project",
+        "--headless",
+        "--quit-after",
+        "3"
+      ],
+      "report": "test_reports\\mage-archer-integration-20261103\\gpu-final"
+    }
+  },
+  "python_launcher_tests": {
+    "passed": 35,
+    "failed": 0
+  },
+  "builder": {
+    "outputs": 43,
+    "pngs_byte_exact": 27,
+    "atlas_regions": 693
+  },
+  "old_assets_preserved": [
+    "assets/art_presets/approved/character_skins_v1/grey_bastion/buff.png",
+    "assets/art_presets/approved/character_skins_v1/grey_bastion/death.png",
+    "assets/art_presets/approved/character_skins_v1/grey_bastion/frames.tres",
+    "assets/art_presets/approved/character_skins_v1/grey_bastion/idle.png",
+    "assets/art_presets/approved/character_skins_v1/grey_bastion/skin.tres",
+    "assets/art_presets/approved/character_skins_v1/grey_bastion/still.png",
+    "assets/art_presets/approved/character_skins_v1/red_bastion/buff.png",
+    "assets/art_presets/approved/character_skins_v1/red_bastion/death.png",
+    "assets/art_presets/approved/character_skins_v1/red_bastion/frames.tres",
+    "assets/art_presets/approved/character_skins_v1/red_bastion/idle.png",
+    "assets/art_presets/approved/character_skins_v1/red_bastion/skin.tres",
+    "assets/art_presets/approved/character_skins_v1/red_bastion/still.png",
+    "assets/art_presets/approved/character_skins_v1/short_cape/buff.png",
+    "assets/art_presets/approved/character_skins_v1/short_cape/death.png",
+    "assets/art_presets/approved/character_skins_v1/short_cape/frames.tres",
+    "assets/art_presets/approved/character_skins_v1/short_cape/idle.png",
+    "assets/art_presets/approved/character_skins_v1/short_cape/skin.tres",
+    "assets/art_presets/approved/character_skins_v1/short_cape/still.png",
+    "assets/art_presets/approved/character_skins_v1/watch_shield/buff.png",
+    "assets/art_presets/approved/character_skins_v1/watch_shield/death.png",
+    "assets/art_presets/approved/character_skins_v1/watch_shield/frames.tres",
+    "assets/art_presets/approved/character_skins_v1/watch_shield/idle.png",
+    "assets/art_presets/approved/character_skins_v1/watch_shield/idle_secondary.png",
+    "assets/art_presets/approved/character_skins_v1/watch_shield/skin.tres",
+    "assets/art_presets/approved/character_skins_v1/watch_shield/still.png"
+  ],
+  "foreign_files_preserved": 33,
+  "archive": {
+    "path": "docs\\CODEX_HANDOFF.history-20261103-3.md",
+    "sha256": "27063268edf3af29e7e0281cb0f5825f5b5fc49e225cbdb9c093d3125eed9b7a",
+    "bytes": 3533
+  },
+  "entry_documents": {
+    "AGENTS.md": {
+      "before_lf_chars": 4565,
+      "after_lf_chars": 4565
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before_lf_chars": 2358,
+      "after_lf_chars": 2292
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before_lf_chars": 3652,
+      "after_lf_chars": 3652
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before_lf_chars": 4482,
+      "after_lf_chars": 4482
+    }
+  },
+  "entry_note": "PROJECT_CONTEXT remains at its pre-existing size; unchanged. HANDOFF retains restrictions and incomplete acceptance.",
+  "captures": {
+    "battle-roster.png": {
+      "source": "test_reports\\mage-archer-integration-20261103\\gpu-1\\class_showcase_ui-captures\\class-roster-facing.png",
+      "sha256": "d01656e62293a696f52a9c8d34fcf803fb91bb65a81bcd2d1fad8d0ac0bdcda5"
+    },
+    "selected-skins.png": {
+      "source": "test_reports\\mage-archer-integration-20261103\\gpu-final\\character_skins-captures\\selected-skins-gpu.png",
+      "sha256": "598a9587e99d83fb8b57deadc3bee9b9e5e3aec12770ceb51eef415a3af9427c"
+    }
+  },
+  "core_changes": false,
+  "full_core_run": false,
+  "manual_acceptance": false,
+  "known_open": [
+    "idle seams and recovery transitions",
+    "archer ability4 source arrow at right edge",
+    "manual F5 movement zoom DPI art",
+    "prior presentation_foundation141/2 and turn_forecast_ui26/3",
+    "prior performance HUD Deck"
+  ],
+  "initial_failures": "First fresh isolated import ended without diagnostics; retry/import/startup passed. New test fixtures corrected (occupied cell, death pose before buff, legacy idle phase, real detail rendering, local variable name). Two custom runner aliases corrected to official --rogue scripts. Original logs retained."
+}

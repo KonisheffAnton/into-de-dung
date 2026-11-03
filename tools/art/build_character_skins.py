@@ -16,6 +16,9 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[2]
 WARRIOR_SOURCE = ROOT / "docs/art/warrior-animation-six-20261031"
 ROGUE_SOURCE = ROOT / "docs/art/rogue-animation-02-20261101"
+MAGE_SOURCE = ROOT / "docs/art/mage02-animation-20261103"
+ARCHER_SOURCE = ROOT / "docs/art/archer14-04-animation-20261103"
+EXTENSION_BASE_COMMIT = "f74a863f086861e00a89d8136235246d94620ced"
 PACKAGE = ROOT / "assets/art_presets/approved/character_skins_v1"
 BASE_COMMIT = "541c6e508cde3c35db2cab28cdc9aeb8e738373a"
 FRAME_SIZE = 256
@@ -51,6 +54,21 @@ SKINS: tuple[dict[str, Any], ...] = (
         "source_facing_x": 1, "shieldbearer_palette_strength": 0.0,
         "source_root": "rogue",
         "clips": {"idle": "idle-3", "death": "death-2", "buff": "ability-3"},
+    },
+    {
+        "slug": "star_hood", "class": "mage", "id": "02",
+        "model": "model02", "display_name": "Капюшон звёзд",
+        "source_facing_x": 1, "shieldbearer_palette_strength": 0.0,
+        "source_root": "mage",
+        "clips": {"idle": "idle-1", "idle_secondary": "idle-5",
+                  "death": "death-3", "buff": "ability-5"},
+    },
+    {
+        "slug": "silver_ranger", "class": "archer", "id": "14-04",
+        "model": "model14-04", "display_name": "Серебряная лучница",
+        "source_facing_x": 1, "shieldbearer_palette_strength": 0.0,
+        "source_root": "archer",
+        "clips": {"idle": "idle-1", "idle_secondary": "idle-5", "death": "death-3", "buff": "ability-4"},
     },
 )
 CLIP_NAMES = ("idle", "idle_secondary", "buff", "death")
@@ -231,36 +249,36 @@ def skin_resource(skin: dict[str, Any]) -> bytes:
 def readme_bytes() -> bytes:
     text = """# Character skins v1
 
-Четыре облика с выбранными анимационными листами. Пакет содержит PNG, `SpriteFrames` и `skin.tres` типа `CharacterSkinDefinition`; runtime-сцены и shader/материалы находятся у владельцев показа.
+Шесть обликов с выбранными анимационными листами. Пакет содержит PNG, `SpriteFrames` и `skin.tres` типа `CharacterSkinDefinition`; runtime-сцены и shader/материалы находятся у владельцев показа.
 
-## Выбор U
+## Выбор
 
 | Skin | Class/id/model | PixelLab clips |
 |---|---|---|
-| `watch_shield` — Щит дозора | `shieldbearer` / `02` / `model02` | idle-1, idle-secondary-2, death-3, ability-2 |
+| `watch_shield` — Щит дозора | `shieldbearer` / `02` / `model02` | idle-1, idle-2, death-3, ability-2 |
 | `grey_bastion` — Седой бастион | `shieldbearer` / `17` / `model17` | idle-1, death-3, ability-2 |
 | `red_bastion` — Красный бастион | `fighter` / `11` / `model11` | idle-1, death-3, ability-2 |
 | `short_cape` — Короткая накидка | `rogue` / `02` / `model02` | idle-3, death-2, ability-3 |
+| `star_hood` — Капюшон звёзд | `mage` / `02` / `model02` | idle-1, idle-5, death-3, ability-5 |
+| `silver_ranger` — Серебряная лучница | `archer` / `14-04` / `model14-04` | idle-1, idle-5, death-3, ability-4 |
 
-`buff` в `SpriteFrames` — имя runtime-анимации для выбранного источника `ability`; новую механику оно не вводит. Idle-secondary существует только у `watch_shield`.
+`buff` в `SpriteFrames` — имя runtime-анимации для выбранного источника `ability`; новую механику оно не вводит. Idle-secondary есть у `watch_shield`, `star_hood` и `silver_ranger`.
 
 ## Происхождение и геометрия
 
-`still.png` является побайтной копией выбранного `input-256.png` из warrior или Rogue02 package. Каждый clip PNG — побайтная копия выбранного PixelLab `spritesheet.png`. Все листы RGBA, 2048×1280, восемь колонок по 256 px и 33 позы. Кадры не извлекаются/пересохраняются: `SpriteFrames` использует `AtlasTexture`-регионы исходного листа.
+`still.png` — побайтная копия выбранного `input-256.png`; каждый clip PNG — побайтная копия выбранного PixelLab `spritesheet.png`. Листы RGBA, 2048×1280, восемь колонок по 256 px и 33 позы. Кадры не извлекаются и не пересохраняются: `SpriteFrames` использует `AtlasTexture`-регионы исходного листа. Ресурсы четырёх прежних обликов сохраняют прежнее происхождение `base_commit`; поле `extension_base_commit` указывает базу расширения двумя новыми обликами.
 
-В каталоге: `still.png`, выбранные `idle.png`, `idle_secondary.png` (только 02), `death.png`, `buff.png`, `frames.tres` и `skin.tres` типа `CharacterSkinDefinition`. Координаты опоры исходника — (128,200). Для ожидаемого силуэта около61 px применяется scale0.5 внутри существующего `ArtRoot` scale0.8; посадка сцены этим пакетом не меняется. В skin resource сохранены `source_facing_x`: 02=1, 17=1, 11=-1; palette strength: 02=0, 17=1, 11=0.
+В каталоге каждого облика лежат `still.png`, выбранные clip PNG, `frames.tres` и `skin.tres`. Координаты опоры исходника — (128,200), texture scale — 0.5. Палитра Щита дозора и Серого бастиона соответствует заданным значениям; у остальных сила палитры 0. Направление берётся из утверждённого источника.
 
 ## Тайминг и ограничения источников
 
-Тайминги и loop берутся из выбранных `clip.json`. Частота `SpriteFrames.speed` равна `1000 / base_duration_ms`, где базовая длительность — наиболее частая для клипа; frame `duration` хранит отношение его `duration_ms` к этой базе. Rogue02 по исходным метаданным: idle-3 — 33×90ms (2.97s), death-2 — 32×70ms и последний кадр1500ms (3.74s), ability-3 — 33×70ms (2.31s). Warrior clips также сохраняют собственные тайминги метаданных.
+Тайминги и loop берутся из выбранных `clip.json`. Частота `SpriteFrames.speed` равна `1000 / base_duration_ms`, где база — наиболее частая длительность клипа; frame `duration` хранит отношение его `duration_ms` к этой базе. Длинные последние кадры сохраняются: например, ability у новых mage/archer — 32×70ms и последний кадр700ms (2.94s). Источники содержат false для `first_frame_rgba_equal` и `last_frame_rgba_equal`: крайние позы не являются точной RGBA-копией still. Это выбранные PixelLab результаты, не утверждение о ручной художественной приёмке.
 
-Во всех13 источниках `first_frame_rgba_equal` и `last_frame_rgba_equal` относительно `input-256.png` равны false: первый/последний кадр анимации не является точной копией still. Пять idle-клипов (включая вторичный у Щитоносца02) помечены loop, но непрерывность стыка отдельно не подтверждена. Death содержит32 обычных кадра по70ms и последний кадр1500ms. Способность —33 кадра по70ms. Это выбранные PixelLab результаты, не утверждение о ручной художественной приёмке.
-
-Исходные картинки не изменяются, кадры не генерируются. Покадровые PNG используются только необязательной проверкой видимых пикселей и alpha с областью листа, если полный набор доступен; скрытый RGB прозрачных пикселей может отличаться. Частично присутствующий набор считается ошибкой. Сборка требует лишь sheets, input images и clip metadata.
+Исходные картинки не изменяются, кадры не генерируются. Покадровые PNG служат независимой необязательной проверкой видимых пикселей и alpha, если полный набор доступен; скрытый RGB прозрачных пикселей может отличаться. Частичный набор считается ошибкой. Сборка требует sheets, input images и clip metadata.
 
 ## Сборка и проверка
 
-`python tools/art/build_character_skins.py` собирает пакет. `python tools/art/build_character_skins.py --check` выполняет ту же проверку и сравнивает все выходы байт-в-байт без записи. `manifest.json` содержит выбранные источники и SHA-256 17 PNG; `validation.json` фиксирует 429 регионов и тайминги.
+`python tools/art/build_character_skins.py` собирает пакет. `python tools/art/build_character_skins.py --check` сравнивает ожидаемые байты без записи. `manifest.json` содержит источники и SHA-256 27 PNG; `validation.json` фиксирует 693 видимых региона и записи длительностей.
 """
     return text.encode("utf-8")
 
@@ -277,9 +295,15 @@ def outputs() -> tuple[dict[str, bytes], dict[str, Any], dict[str, Any]]:
 
     for skin in SKINS:
         slug = skin["slug"]
-        source_root = ROGUE_SOURCE if skin["source_root"] == "rogue" else WARRIOR_SOURCE
+        source_root = {
+            "warrior": WARRIOR_SOURCE,
+            "rogue": ROGUE_SOURCE,
+            "mage": MAGE_SOURCE,
+            "archer": ARCHER_SOURCE,
+        }[skin["source_root"]]
         model_dir = (source_root / "model" if skin["source_root"] == "rogue"
-                     else source_root / "models" / f"warrior-{skin['id']}")
+                     else source_root / "models" / f"warrior-{skin['id']}"
+                     if skin["source_root"] == "warrior" else source_root / "model")
         still_path = model_dir / "input-256.png"
         if not still_path.is_file():
             raise ValueError(f"Missing still source: {relative(still_path)}")
@@ -333,14 +357,16 @@ def outputs() -> tuple[dict[str, bytes], dict[str, Any], dict[str, Any]]:
             "runtime_paths": output_paths,
         })
 
-    index = {"format": 1, "base_commit": BASE_COMMIT, "skins": index_skins}
+    index = {"format": 1, "base_commit": BASE_COMMIT,
+             "extension_base_commit": EXTENSION_BASE_COMMIT, "skins": index_skins}
     generated["index.json"] = (json.dumps(index, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
     generated["README.md"] = readme_bytes()
     artifact_hashes = {name: sha256(data) for name, data in sorted(generated.items())}
     manifest = {
         "format": 1,
         "base_commit": BASE_COMMIT,
-        "selection": "U selected PixelLab clips for watch_shield 02, grey_bastion 17, red_bastion 11, and short_cape Rogue02.",
+        "extension_base_commit": EXTENSION_BASE_COMMIT,
+        "selection": "U selected PixelLab clips for four existing warrior/Rogue skins and two approved mage/archer skins.",
         "canvas": [FRAME_SIZE, FRAME_SIZE],
         "anchor": [128, 200],
         "sheet_layout": {"columns": SHEET_COLUMNS, "cell": [FRAME_SIZE, FRAME_SIZE], "frames_per_clip": FRAME_COUNT},
@@ -352,19 +378,20 @@ def outputs() -> tuple[dict[str, bytes], dict[str, Any], dict[str, Any]]:
     generated["manifest.json"] = (json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
     validation = {
         "format": 1, "base_commit": BASE_COMMIT,
+        "extension_base_commit": EXTENSION_BASE_COMMIT,
         "source_sha_exact_count": source_png_count,
-        "source_sha_exact_pass": source_png_count == 17,
+        "source_sha_exact_pass": source_png_count == 27,
         "atlas_cell_count": frame_count,
         "atlas_visible_count": visible_regions,
-        "atlas_all_visible": frame_count == visible_regions == 429,
+        "atlas_all_visible": frame_count == visible_regions == 693,
         "optional_raw_frame_sets_validated": True,
         "optional_raw_frame_slots": {
-            "warrior": sum(len(skin["clips"]) * FRAME_COUNT for skin in SKINS if skin["source_root"] == "warrior"),
-            "rogue": sum(len(skin["clips"]) * FRAME_COUNT for skin in SKINS if skin["source_root"] == "rogue"),
+            source_type: sum(len(skin["clips"]) * FRAME_COUNT for skin in SKINS if skin["source_root"] == source_type)
+            for source_type in ("warrior", "rogue", "mage", "archer")
         },
         "optional_raw_frame_policy": "compare complete available sets; reject partial sets",
         "duration_entry_count": timing_frames,
-        "duration_entries_match_frames": timing_frames == frame_count == 429,
+        "duration_entries_match_frames": timing_frames == frame_count == 693,
         "skins": [
             {"slug": skin["slug"], "id": skin["id"], "class": skin["class"],
              "clip_count": len(skin["clips"]), "frame_count": len(skin["clips"]) * FRAME_COUNT}
@@ -394,14 +421,14 @@ def main() -> int:
         if failures:
             print("FAIL: " + ", ".join(failures), file=sys.stderr)
             return 1
-        print("PASS: 29 deterministic outputs; 17 source PNGs byte-exact; 429 visible atlas cells and durations validated")
+        print("PASS: 43 deterministic outputs; 27 source PNGs byte-exact; 693 visible atlas cells and durations validated")
         return 0
     for name, payload in expected.items():
         path = PACKAGE / name
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(payload)
     print(f"Built {len(expected)} deterministic outputs in {PACKAGE}")
-    print("PASS: 17 source PNGs byte-exact; 429 visible atlas cells and durations validated")
+    print("PASS: 27 source PNGs byte-exact; 693 visible atlas cells and durations validated")
     return 0
 
 

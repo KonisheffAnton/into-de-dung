@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CharacterSkinDefinition" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/demo/character_skin_definition.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/character_skins_v1/silver_ranger/still.png" id="2_still"]
+[ext_resource type="SpriteFrames" path="res://assets/art_presets/approved/character_skins_v1/silver_ranger/frames.tres" id="3_animations"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"silver_ranger"
+class_id = &"archer"
+display_name = "Серебряная лучница"
+still = ExtResource("2_still")
+animations = ExtResource("3_animations")
+anchor = Vector2(128, 200)
+texture_scale = 0.5
+source_facing_x = 1
+shieldbearer_palette_strength = 0.0

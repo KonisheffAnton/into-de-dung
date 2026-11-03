@@ -219,6 +219,7 @@ func _check_warrior_art() -> void:
 	for visual: BattleDemoIsoVisual in demo.board_view._entity_visuals:
 		if visual.unit == null:
 			continue
+		var skin_visual := visual as BattleCharacterSkinVisual
 		if visual.visual_class_id == &"rogue":
 			rogue_count += 1
 			check(is_equal_approx(visual.get_unit_art_scale(), 0.72)
@@ -240,20 +241,30 @@ func _check_warrior_art() -> void:
 			continue
 		if visual.visual_class_id == &"archer":
 			archer_count += 1
-			var archer := visual as BattleDefenderIdleVisual
+			if skin_visual == null:
+				check(false, "current expedition Archer uses the skin-aware visual")
+				continue
+			var archer := skin_visual
 			var archer_idle := archer.get_node("ArtRoot/ArcherIdleSprite") as Sprite2D
+			var legacy_player_archer := archer.get_node("ArtRoot/PlayerArcherSprite") as Sprite2D
+			var legacy_enemy_archer := archer.get_node("ArtRoot/EnemyArcherSprite") as Sprite2D
 			var archer_still := archer.class_still_sprite()
-			var archer_scale := 0.6400003306666667
+			var archer_scale := 0.8
 			check(is_equal_approx(archer.get_unit_art_scale(), archer_scale)
 				and (archer.get_node("ArtRoot") as Node2D).scale.is_equal_approx(Vector2.ONE * tile_factor * archer_scale),
-				"current archer retains the selected tile placement scale")
-			check(archer_idle.visible and not archer_still.visible and archer_idle.texture.get_size() == Vector2(128, 128)
-				and archer_still.texture == archer.archer_idle_frames.get_frame_texture(&"idle", 0),
-				"current expedition archer uses the selected idle and first opaque frame fallback")
-			check(not archer.can_play_buff() and not archer.can_play_death(), "archer keeps generic action and death presentation")
-			var center := visual.position + visual.get_visual_offset() + visual.archer_pick_rect.get_center() * tile_factor * archer_scale
-			var outside := center + Vector2(visual.archer_pick_rect.size.x * 0.51 * tile_factor * archer_scale, 0)
-			check(visual.contains_point(center) and not visual.contains_point(outside), "archer picking follows the reduced silhouette")
+				"current archer skin retains the selected tile placement scale")
+			var archer_atlas := archer_still.texture as AtlasTexture if archer_still != null else null
+			check(archer.skin_definition != null and archer.skin_definition.id == &"silver_ranger"
+				and archer_atlas != null and archer_atlas.atlas.resource_path.ends_with("silver_ranger/idle.png")
+				and archer_atlas.region.size == Vector2(256, 256),
+				"current expedition archer uses the selected full-size skin atlas")
+			check(not archer_idle.visible and not legacy_player_archer.visible and not legacy_enemy_archer.visible
+				and archer_still.visible and archer.can_play_buff() and archer.can_play_death(),
+				"selected Archer skin replaces legacy idle and supplies ability and death clips")
+			var archer_pick_rect := visual.get_unit_pick_rect()
+			var archer_center := visual.position + visual.get_visual_offset() + archer_pick_rect.get_center() * tile_factor * archer_scale
+			var archer_outside := archer_center + Vector2(archer_pick_rect.size.x * 0.51 * tile_factor * archer_scale, 0)
+			check(visual.contains_point(archer_center) and not visual.contains_point(archer_outside), "archer picking follows its skin silhouette")
 			var archer_effect := archer.get_node("ArtRoot/EffectAnchor") as Node2D
 			var archer_label := archer.get_node("ArtRoot/LabelAnchor") as Node2D
 			check(demo.board_view._effect_anchor(visual.unit.id).is_equal_approx(archer_effect.position * archer_scale),
@@ -262,18 +273,27 @@ func _check_warrior_art() -> void:
 			check(result_number != null and (result_number.get_meta("anchor") as Vector2).is_equal_approx(archer_label.position * archer_scale),
 				"archer result number follows the body anchor")
 			if result_number != null: result_number.queue_free()
-			var phase := archer.idle_clock.get_elapsed()
+			var phase := archer.skin_clock.elapsed
 			archer.ambient_animation_paused = true
 			archer._process(1.0)
-			check(not archer_idle.visible and archer_still.visible and archer.idle_clock.get_elapsed() == phase,
-				"current archer action pause keeps the authored still and suspended phase")
+			check(not archer_idle.visible and archer_still.visible and archer.skin_clock.elapsed == phase,
+				"current archer action pause keeps the selected still and suspended skin phase")
 			archer.ambient_animation_paused = false
 			archer.reset_view_pose()
-			check(archer_idle.visible and archer.idle_clock.get_elapsed() == phase, "current archer resumes the same idle phase")
+			check(archer_still.visible and archer.skin_clock.elapsed == phase, "current archer resumes the same selected idle phase")
 			continue
 		if visual.visual_class_id != &"warrior":
 			nonwarrior_count += 1
-			check(visual.get_unit_art_scale() == 1.0 and (visual.get_node("ArtRoot") as Node2D).scale.is_equal_approx(Vector2.ONE * tile_factor), "nonwarrior art keeps tile scale and existing pick size")
+			if visual.visual_class_id == &"mage" and skin_visual != null and skin_visual.skin_definition != null:
+				var mage := skin_visual
+				var mage_sprite := mage.class_still_sprite()
+				check(mage.skin_definition.id == &"star_hood" and mage.get_unit_art_scale() == 0.8
+					and (mage.get_node("ArtRoot") as Node2D).scale.is_equal_approx(Vector2.ONE * tile_factor * 0.8)
+					and mage_sprite != null and mage_sprite.visible and mage_sprite.texture is AtlasTexture
+					and mage.get_unit_pick_rect() == Rect2(-40, -78, 80, 82),
+					"current Mage skin uses its full selected art scale and matching picking bounds")
+			else:
+				check(visual.get_unit_art_scale() == 1.0 and (visual.get_node("ArtRoot") as Node2D).scale.is_equal_approx(Vector2.ONE * tile_factor), "fallback nonwarrior art keeps tile scale and existing pick size")
 			continue
 		var art_root := visual.get_node("ArtRoot") as Node2D
 		var expected_scale := Vector2.ONE * tile_factor * 0.8

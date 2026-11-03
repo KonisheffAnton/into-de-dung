@@ -1,37 +1,36 @@
-# Передача — 2026-11-03: анимации лучницы и мага
+# Передача — 2026-11-03: Маг и Лучница в игре
 
-D:/Games/into-de-dung; main; base787dfd37db48b83ea724563fad72d115e09da9b4.
-U выбрал Лучницу14-04 и Мага02 «Капюшон звёзд» для PixelLab: каждому
-по5 idle/смертей/способностей. Получены все30 клипов,33 кадра256² каждый;
-990 PNG сохранены побайтно. Расход150 генераций, отмен/повторных POST нет.
-Владелец выбора: ART_DIRECTION; API: GRAPHICS_WORKFLOW. Runtime не менялся.
+D:/Games/into-de-dung; main; base f74a863f086861e00a89d8136235246d94620ced.
+Внедрены Маг02 «Капюшон звёзд» и Лучница14-04: обоим idle1/5,
+смерть3; способность5 Магу,4 Лучнице. Владелец: CHARACTER_SKINS_V1.
+Основной idle1, дополнительный5 после3–6 циклов; отдельные визуальные часы.
+Кадры/листы побайтные, полный кадр, ArtRoot0.8. Выстрел/каст использует
+выбранный клип; after ждёт восстановления/смерти. Портреты едины с боем.
 
-[Лучница: галерея, PNG/GIF, промпты, проверки](art/archer14-04-animation-20261103/README.md).
-[Маг: то же и сравнение с командой](art/mage02-animation-20261103/README.md).
-Логи: test_reports/archer14-04-animation-20261103/ и
-test_reports/mage02-animation-20261103/. Независимое APPROVE — в пакетах.
-PASS30 клипов/990 PNG/30 GIF; alpha и видимый первый кадр совпадают.
-Обе галереи:15 canvas/32 встроенных ассета, управление/390px/0 ошибок,
-отдельный HTML без PNG/GIF PASS. Отрицательные SHA/metadata/input-копии
-отклонены; копии восстановлены.
-Godot/import/full/core/F5 не запускались.
+[Отчёт, снимки, validation/review](art/mage-archer-integration-20261103/README.md).
+Логи: test_reports/mage-archer-integration-20261103/.
+Исходные пробы: docs/art/mage02-animation-20261103/ и
+archer14-04-animation-20261103/. Остальные варианты не внедрены.
 
-Выбор клипов открыт. Стыки idle/возврат способности не точные RGBA-копии;
-у выстрелов2–5 лучницы стрела достигает правой границы, тело/лук внутри.
-В смерти5 лучницы есть ранний артефакт деталей; часть падений и эффекты
-мага отличаются от запроса. Художественная приёмка/посадка открыты.
-Дальше — отзыв U; без поручения новые серии/анимации/интеграцию не начинать.
+PASS isolated import/startup; новые маршруты415/0 headless и GPU;
+skins1074/0 headless,1130/0 GPU; hub33/0 и34/0; showcase229/0,
+UI45/0 и47/0. GPU coverage53/0, zoom496/0, attack styles611/0;
+смежные — validation.json. Python35/0;27 PNG/693 ячейки побайтно.
+Независимое APPROVE; исходные неудачные прогоны сохранены в логах.
+Full/core не повторялись. Ручные F5/движение/zoom/DPI, стыки и
+художественная приёмка открыты; у способности4 Лучницы исходная стрела
+доходит до края. Автоматической ретуши нет. Дальше — отзыв пользователя.
+Без поручения новый срез/генерацию не начинать.
 
-Прежний runtime: покрытие полного кадра; Разбойник0.72, idle3/death2/ability3;
-Маг пока «М», каталоги1–3 не мигрированы. Свидетельства:
-docs/art/character-coverage-20261102/. PASS не повторялись.
-Остаток: presentation_foundation141/2, прежний turn_forecast_ui26/3;
-ручные F5/движение/zoom/DPI, швы/арт, performance, HUD/Колода.
+F5 остаётся ровно5 классов, PLAYER вправо/ENEMY влево; атака поворачивает
+к цели и возвращает сторону команды. Разбойник0.72, выбранные клипы прежние.
+Каталоги1–3 не мигрируют; core/preview/queue/RNG/save/frozen сохранены.
+Прежний остаток: presentation_foundation141/2, turn_forecast_ui26/3,
+performance, HUD/Колода. Не считать прежние проверки повторёнными.
 Чужие scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
-не reset/stage/commit. Core/preview/queue/RNG/save/frozen сохранять.
-Один Godot runner, isolated project; без root import/служб/драйверов/
-принудительного фокуса/push/sidebar/расписаний.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261103-2.md), [HISTORY](HISTORY.md).
+не reset/stage/commit. Один Godot runner, isolated project; без root import,
+служб/драйверов/принудительного фокуса/push/sidebar tasks/расписаний.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261103-3.md), [HISTORY](HISTORY.md).
 
 Завершение: проверки, локальный Conventional Commit, короткий HANDOFF;
 прежний побайтно отдельным архивом+HISTORY. В финале/при блокере предложить

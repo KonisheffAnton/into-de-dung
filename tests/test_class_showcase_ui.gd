@@ -102,6 +102,10 @@ func _check_live_roster(view: HeroHubBattleView, profile: HeroHubState) -> Dicti
 	var counts: Dictionary = {}
 	var enemy_count := 0
 	var enemy_without_loadout := 0
+	var expected_skins: Dictionary[StringName, StringName] = {
+		&"shieldbearer": &"watch_shield", &"fighter": &"red_bastion",
+		&"rogue": &"short_cape", &"mage": &"star_hood", &"archer": &"silver_ranger",
+	}
 	for unit: UnitState in session.units:
 		var loadout: Dictionary = session.actor_loadouts.get(unit.id, {})
 		var class_id: StringName = StringName(loadout.get("class_id", &""))
@@ -110,6 +114,11 @@ func _check_live_roster(view: HeroHubBattleView, profile: HeroHubState) -> Dicti
 		var visual := board._presentation_visual(unit.id)
 		check(visual != null and visual.visual_class_id == class_id,
 			"actor class identity reaches its board visual: " + String(class_id))
+		var expected_skin := StringName(expected_skins.get(class_id, &""))
+		var skin_visual := visual as BattleCharacterSkinVisual
+		check(skin_visual != null and skin_visual.skin_definition != null
+			and skin_visual.skin_definition.id == expected_skin,
+			"five-class production roster uses its registered skin: " + String(class_id))
 		if unit.faction != Faction.Type.ENEMY: continue
 		enemy_count += 1
 		if loadout.is_empty(): enemy_without_loadout += 1
@@ -160,40 +169,46 @@ func _test_single_party_mage_enemy() -> void:
 	if mage != null and board != null:
 		var visual := board._presentation_visual(mage.id)
 		var body := visual.get_node_or_null("ArtRoot/BodySprite") as Sprite2D if visual != null else null
+		var skin_visual := visual as BattleCharacterSkinVisual
+		var selected: Sprite2D = skin_visual.class_still_sprite() if skin_visual != null else null
 		var presets := visual.get_node_or_null("ArtRoot/EnemyPresets") if visual != null else null
-		check(visual != null and visual.visual_class_id == &"mage" and body != null and body.visible
-			and visual._selected_body_node() == body,
-			"Mage retains named class view and neutral BodySprite fallback")
+		check(skin_visual != null and visual.visual_class_id == &"mage"
+			and skin_visual.skin_definition != null and skin_visual.skin_definition.id == &"star_hood"
+			and selected != null and selected.visible and body != null and not body.visible
+			and visual._selected_body_node() == selected,
+			"Mage uses star_hood while hiding legacy BodySprite")
 		var all_presets_hidden := presets != null
 		if presets != null:
 			for node: Node in presets.get_children():
 				if node is CanvasItem and (node as CanvasItem).visible: all_presets_hidden = false
 		check(all_presets_hidden, "Mage fallback never selects a random EnemyPreset")
 		if visual != null:
-			var enemy_body_facing := signf(body.transform.x.x) if body != null else 0.0
-			check(enemy_body_facing < 0.0, "Mage BodySprite faces left on the enemy team")
+			var enemy_body_facing := signf(selected.transform.x.x) if selected != null else 0.0
+			check(enemy_body_facing < 0.0, "Mage skin faces left on the enemy team")
 			visual.presentation_facing_x = 1
-			var attack_body_facing := signf(body.transform.x.x) if body != null else 0.0
+			var attack_body_facing := signf(selected.transform.x.x) if selected != null else 0.0
 			var attack_pose := Transform2D.IDENTITY
-			if body != null: attack_pose = body.transform
-			check(attack_body_facing > 0.0, "Mage BodySprite temporarily faces right toward its target")
+			if selected != null: attack_pose = selected.transform
+			check(attack_body_facing > 0.0, "Mage skin temporarily faces right toward its target")
 			visual.sync_scene_art()
 			visual.sync_scene_art()
-			check(body != null and body.transform.is_equal_approx(attack_pose)
+			check(selected != null and selected.transform.is_equal_approx(attack_pose)
 				and visual.visual_class_id == &"mage",
-				"Mage temporary attack facing survives repeated art sync")
+				"Mage temporary facing survives repeated art sync")
 			visual.presentation_facing_x = 0
-			check(body != null and signf(body.transform.x.x) < 0.0,
+			check(selected != null and signf(selected.transform.x.x) < 0.0,
 				"Mage facing reset restores enemy-left orientation")
 			# Проверяем повторное использование узла после анонимного NPC: класс Mage
 			# должен выключить случайный preset и сохранить нейтральный силуэт.
 			visual.visual_class_id = &""
 			visual.sync_scene_art()
+			var no_class_has_no_skin_sprite := selected == null or not selected.visible
 			visual.visual_class_id = &"mage"
 			visual.sync_scene_art()
-			check(body != null and body.visible and visual.visual_class_id == &"mage"
-				and visual._selected_body_node() == body,
-				"reused generic NPC visual returns to Mage BodySprite, not a random preset")
+			check(no_class_has_no_skin_sprite and selected != null and selected.visible
+				and body != null and not body.visible and visual.visual_class_id == &"mage"
+				and visual._selected_body_node() == selected,
+				"reused NPC visual restores star_hood without exposing Mage fallback or random preset")
 	view._join_execution()
 	viewport.remove_child(view)
 	view.queue_free()

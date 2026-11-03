@@ -40,6 +40,8 @@ func _values(faction: Faction.Type, unit_id: int = 73) -> Dictionary:
 
 
 func _run() -> void:
+	# Этот файл проверяет только устаревшую idle fallback-модель Лучника; новый облик покрыт отдельным тестом каталога.
+	CharacterSkinCatalog._loaded[&"silver_ranger"] = null
 	var viewport := SubViewport.new()
 	viewport.size = Vector2i(512, 512)
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS

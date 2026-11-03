@@ -9,6 +9,8 @@ static func ids(class_id: StringName) -> Array[StringName]:
 		&"shieldbearer": return [&"watch_shield", &"grey_bastion"]
 		&"fighter": return [&"red_bastion"]
 		&"rogue": return [&"short_cape"]
+		&"mage": return [&"star_hood"]
+		&"archer": return [&"silver_ranger"]
 	return []
 
 static func resolve_id(class_id: StringName, requested: StringName = &"") -> StringName:
@@ -28,12 +30,14 @@ static func definition(class_id: StringName, requested: StringName = &"") -> Cha
 		if resource.still == null: return null
 		for animation: StringName in [&"idle", &"buff", &"death"]:
 			if not resource.clip_valid(animation): return null
+		if skin_id in [&"watch_shield", &"star_hood", &"silver_ranger"] and not resource.clip_valid(&"idle_secondary"):
+			return null
 		_loaded[skin_id] = resource
 	return _loaded[skin_id]
 
 static func normalized(values: Dictionary) -> Dictionary[StringName, StringName]:
 	var result: Dictionary[StringName, StringName] = {}
-	for class_id: StringName in [&"shieldbearer", &"fighter", &"rogue"]:
+	for class_id: StringName in [&"shieldbearer", &"fighter", &"rogue", &"mage", &"archer"]:
 		var value: Variant = values.get(class_id, &"")
 		result[class_id] = resolve_id(class_id, StringName(value) if value is String or value is StringName else &"")
 	return result

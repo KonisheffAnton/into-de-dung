@@ -24,6 +24,8 @@ func check(value: bool, label: String) -> void:
 
 
 func _run() -> void:
+	# Здесь проверяется только legacy-палитра Арчера; новая skin-модель тестируется отдельно.
+	CharacterSkinCatalog._loaded[&"silver_ranger"] = null
 	var visual := UNIT_SCENE.instantiate() as BattleDefenderIdleVisual
 	root.add_child(visual)
 	await process_frame

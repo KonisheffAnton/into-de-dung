@@ -96,10 +96,11 @@ func _run() -> void:
 	hub.skin_settings_path = settings_path
 
 	var fighter := profile.candidates[0]
+	var original_candidate_class := fighter.class_id
 	fighter.class_id = &"fighter"
 	page._profile = profile
 	page.character_skins = hub.skin_settings.selections.duplicate()
-	page._render_skin_choice(fighter)
+	page._on_selected("candidate:%d" % fighter.id)
 	_check(choice.visible and choice.disabled and choice.item_count == 1, "single-skin class shows a disabled choice")
 	fighter.class_id = &"rogue"
 	page._render_skin_choice(fighter)
@@ -110,8 +111,42 @@ func _run() -> void:
 	_check(HubSkeletonCard.hero_texture(&"rogue") == CharacterSkinCatalog.definition(&"rogue").still,
 		"Rogue hub portrait uses the same selected model as the battle")
 	fighter.class_id = &"mage"
-	page._render_skin_choice(fighter)
-	_check(not choice.visible and choice.item_count == 0, "unsupported class hides choice without error")
+	page._on_selected("candidate:%d" % fighter.id)
+	var mage_definition := CharacterSkinCatalog.definition(&"mage", &"star_hood")
+	var skin_rng_state := hub.run.rng_state
+	var expedition_rng_state := hub.run.expedition_rng_state
+	_check(choice.visible and choice.disabled and choice.item_count == 1
+		and StringName(choice.get_item_metadata(0)) == &"star_hood",
+		"Mage exposes its sole registered skin as a disabled choice")
+	_check(mage_definition != null
+		and (page._slot("hero_portrait") as TextureRect).texture == mage_definition.still
+		and HubSkeletonCard.hero_texture(&"mage") == mage_definition.still,
+		"Mage detail and hub portraits use the same selected still")
+	var mage_default := CharacterSkinCatalog.normalized({})[&"mage"]
+	var mage_unknown := CharacterSkinCatalog.normalized({&"mage": &"missing"})[&"mage"]
+	_check(mage_default == &"star_hood" and mage_unknown == &"star_hood",
+		"missing and unknown Mage cosmetics normalize to its default skin")
+	fighter.class_id = &"archer"
+	page._on_selected("candidate:%d" % fighter.id)
+	var archer_definition := CharacterSkinCatalog.definition(&"archer", &"silver_ranger")
+	_check(choice.visible and choice.disabled and choice.item_count == 1
+		and StringName(choice.get_item_metadata(0)) == &"silver_ranger",
+		"Archer exposes its sole registered skin as a disabled choice")
+	_check(archer_definition != null
+		and (page._slot("hero_portrait") as TextureRect).texture == archer_definition.still
+		and HubSkeletonCard.hero_texture(&"archer") == archer_definition.still,
+		"Archer detail and hub portraits use the same selected still")
+	var archer_default := CharacterSkinCatalog.normalized({})[&"archer"]
+	var archer_unknown := CharacterSkinCatalog.normalized({&"archer": &"missing"})[&"archer"]
+	_check(archer_default == &"silver_ranger" and archer_unknown == &"silver_ranger",
+		"missing and unknown Archer cosmetics normalize to its default skin")
+	_check(hub.run.to_dict() == baseline and hub.run.rng_state == skin_rng_state
+		and hub.run.expedition_rng_state == expedition_rng_state
+		and FileAccess.get_file_as_bytes(save_path) == profile_bytes,
+		"Mage and Archer skin normalization leaves profile, RNG and saved bytes unchanged")
+	fighter.class_id = original_candidate_class
+	page._on_selected("candidate:%d" % fighter.id)
+	_check(profile.to_dict() == baseline, "temporary cosmetic portrait fixture restores the candidate profile")
 
 	hub._start_battle()
 	await _settle()

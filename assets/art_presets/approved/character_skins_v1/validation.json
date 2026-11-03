@@ -1,14 +1,17 @@
 {
   "atlas_all_visible": true,
-  "atlas_cell_count": 429,
-  "atlas_visible_count": 429,
+  "atlas_cell_count": 693,
+  "atlas_visible_count": 693,
   "base_commit": "541c6e508cde3c35db2cab28cdc9aeb8e738373a",
   "duration_entries_match_frames": true,
-  "duration_entry_count": 429,
+  "duration_entry_count": 693,
+  "extension_base_commit": "f74a863f086861e00a89d8136235246d94620ced",
   "format": 1,
   "optional_raw_frame_policy": "compare complete available sets; reject partial sets",
   "optional_raw_frame_sets_validated": true,
   "optional_raw_frame_slots": {
+    "archer": 132,
+    "mage": 132,
     "rogue": 99,
     "warrior": 330
   },
@@ -42,8 +45,22 @@
       "frame_count": 99,
       "id": "02",
       "slug": "short_cape"
+    },
+    {
+      "class": "mage",
+      "clip_count": 4,
+      "frame_count": 132,
+      "id": "02",
+      "slug": "star_hood"
+    },
+    {
+      "class": "archer",
+      "clip_count": 4,
+      "frame_count": 132,
+      "id": "14-04",
+      "slug": "silver_ranger"
     }
   ],
-  "source_sha_exact_count": 17,
+  "source_sha_exact_count": 27,
   "source_sha_exact_pass": true
 }
