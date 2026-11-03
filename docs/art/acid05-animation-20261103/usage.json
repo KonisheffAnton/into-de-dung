@@ -1,0 +1,114 @@
+{
+  "provider": "PixelLab PixMiniMax",
+  "completed": 10,
+  "failed": 0,
+  "cancelled": 0,
+  "submission_markers": 10,
+  "unique_job_ids": 10,
+  "generations_used": 50,
+  "subscription_balance_before": 1582.3000000000002,
+  "subscription_balance_after": 1532.3000000000002,
+  "balance_delta": 50.0,
+  "clips": [
+    {
+      "key": "acid-01",
+      "job_id": "46ecb1b8-4dea-4e2a-b2e4-18a4f9dc9f13",
+      "status": "completed",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "acid-02",
+      "job_id": "4b89721f-5fa6-4cef-9488-18148031fd6a",
+      "status": "completed",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "acid-03",
+      "job_id": "baa8ef1e-65d9-4a7c-9bee-d5bab5e3b9d2",
+      "status": "completed",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "acid-04",
+      "job_id": "5e66b8f5-9232-4f5e-b11f-824f907942b2",
+      "status": "completed",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "acid-05",
+      "job_id": "003a0b2b-a302-4682-ad3e-977f3cdae30e",
+      "status": "completed",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "acid-06",
+      "job_id": "929c5083-0b1b-4b39-80be-1a29ddf2ddd3",
+      "status": "completed",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "acid-07",
+      "job_id": "88d1d42b-cc4d-4bad-8d49-403dcb400f25",
+      "status": "completed",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "acid-08",
+      "job_id": "1c6e892e-d0bc-4db4-9b89-860e21e97b33",
+      "status": "completed",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "acid-09",
+      "job_id": "480b609d-205c-43d1-b089-67a32368a5ec",
+      "status": "completed",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "acid-10",
+      "job_id": "7732c778-42eb-4817-97c1-e62c3c21c0f2",
+      "status": "completed",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    }
+  ]
+}

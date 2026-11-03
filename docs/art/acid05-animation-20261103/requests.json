@@ -1,0 +1,222 @@
+[
+  {
+    "key": "acid-01",
+    "kind": "acid",
+    "variant": 1,
+    "name": "Тихое кипение",
+    "prompt": "Small bubbles swell and pop gently at different places all across the acid surface. Tiny soft rings spread after each pop. Slow continuous simmer with staggered timing. Animate only the acid on the entire diamond top. The stone block, brick side faces, cracks below the liquid, silhouette, position, scale and camera stay completely still. Acid always covers the whole top edge-to-edge; no dry gaps, no spilling over the sides, no eruption or new props. Seamless calm repeating loop returning to the first frame.",
+    "seed": 20261103101,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": true,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A stationary blue-grey cracked stone tile block with masonry side faces and bright bubbling yellow-green acid covering its entire diamond-shaped top",
+      "initial_pose": "Fixed isometric stone block, diamond top completely coated in flat acid with round bubbles; all brick side faces are exposed and motionless"
+    },
+    "input_sha256": "63ad9da5e50528b0f779e3108c365b09305c0bfc5befd28dd089f3723626b397",
+    "request_sha256": "8f7e2d95f88d7acc9c16db0c76498ccb55a0d406c76bb18ac348d1a69d792ab0"
+  },
+  {
+    "key": "acid-02",
+    "kind": "acid",
+    "variant": 2,
+    "name": "Крупные пузыри",
+    "prompt": "A few larger translucent acid domes slowly inflate across the top, then collapse one after another into shallow circular ripples. Small background bubbles keep simmering between them. Controlled low motion. Animate only the acid on the entire diamond top. The stone block, brick side faces, cracks below the liquid, silhouette, position, scale and camera stay completely still. Acid always covers the whole top edge-to-edge; no dry gaps, no spilling over the sides, no eruption or new props. Seamless calm repeating loop returning to the first frame.",
+    "seed": 20261103102,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": true,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A stationary blue-grey cracked stone tile block with masonry side faces and bright bubbling yellow-green acid covering its entire diamond-shaped top",
+      "initial_pose": "Fixed isometric stone block, diamond top completely coated in flat acid with round bubbles; all brick side faces are exposed and motionless"
+    },
+    "input_sha256": "63ad9da5e50528b0f779e3108c365b09305c0bfc5befd28dd089f3723626b397",
+    "request_sha256": "d7559eee12b3f65cb68fa507f3916f1e10d9420fa25b2e63aa986bda5be0d78c"
+  },
+  {
+    "key": "acid-03",
+    "kind": "acid",
+    "variant": 3,
+    "name": "Мелкая пена",
+    "prompt": "Numerous tiny bubbles flicker in loose patches across the acid; fine bright foam gathers, breaks and reforms around the perimeter. Subtle continuous movement with no large splashes. Animate only the acid on the entire diamond top. The stone block, brick side faces, cracks below the liquid, silhouette, position, scale and camera stay completely still. Acid always covers the whole top edge-to-edge; no dry gaps, no spilling over the sides, no eruption or new props. Seamless calm repeating loop returning to the first frame.",
+    "seed": 20261103103,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": true,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A stationary blue-grey cracked stone tile block with masonry side faces and bright bubbling yellow-green acid covering its entire diamond-shaped top",
+      "initial_pose": "Fixed isometric stone block, diamond top completely coated in flat acid with round bubbles; all brick side faces are exposed and motionless"
+    },
+    "input_sha256": "63ad9da5e50528b0f779e3108c365b09305c0bfc5befd28dd089f3723626b397",
+    "request_sha256": "b0ba3183913d479de5d037b06d3cf68435b724872c5c59928185cdaf1f535b23"
+  },
+  {
+    "key": "acid-04",
+    "kind": "acid",
+    "variant": 4,
+    "name": "Круговые волны",
+    "prompt": "Small bubbles pop in alternating regions and create broad shallow concentric waves across the whole acid film. Rings overlap softly and fade before the next set. Low smooth motion. Animate only the acid on the entire diamond top. The stone block, brick side faces, cracks below the liquid, silhouette, position, scale and camera stay completely still. Acid always covers the whole top edge-to-edge; no dry gaps, no spilling over the sides, no eruption or new props. Seamless calm repeating loop returning to the first frame.",
+    "seed": 20261103104,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": true,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A stationary blue-grey cracked stone tile block with masonry side faces and bright bubbling yellow-green acid covering its entire diamond-shaped top",
+      "initial_pose": "Fixed isometric stone block, diamond top completely coated in flat acid with round bubbles; all brick side faces are exposed and motionless"
+    },
+    "input_sha256": "63ad9da5e50528b0f779e3108c365b09305c0bfc5befd28dd089f3723626b397",
+    "request_sha256": "9565a5f8b4f280463cdf3a79a3bffec6c1b167fada326adec886444e119d7b2a"
+  },
+  {
+    "key": "acid-05",
+    "kind": "acid",
+    "variant": 5,
+    "name": "Медленный водоворот",
+    "prompt": "The thin acid and its highlights drift in a slow shallow clockwise circulation across the diamond, while scattered bubbles rise and pop. No funnel or central hole; liquid stays flat and fully covers the top. Animate only the acid on the entire diamond top. The stone block, brick side faces, cracks below the liquid, silhouette, position, scale and camera stay completely still. Acid always covers the whole top edge-to-edge; no dry gaps, no spilling over the sides, no eruption or new props. Seamless calm repeating loop returning to the first frame.",
+    "seed": 20261103105,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": true,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A stationary blue-grey cracked stone tile block with masonry side faces and bright bubbling yellow-green acid covering its entire diamond-shaped top",
+      "initial_pose": "Fixed isometric stone block, diamond top completely coated in flat acid with round bubbles; all brick side faces are exposed and motionless"
+    },
+    "input_sha256": "63ad9da5e50528b0f779e3108c365b09305c0bfc5befd28dd089f3723626b397",
+    "request_sha256": "c712dc2788c28b029b8c4ffc524796687028d578f901113b0a32df4a743a1635"
+  },
+  {
+    "key": "acid-06",
+    "kind": "acid",
+    "variant": 6,
+    "name": "Волна по диагонали",
+    "prompt": "A low rolling wave travels from the back corner to the front corner across the entire acid coating, gently lifting existing bubbles then settling. The next shallow wave follows smoothly, no spill. Animate only the acid on the entire diamond top. The stone block, brick side faces, cracks below the liquid, silhouette, position, scale and camera stay completely still. Acid always covers the whole top edge-to-edge; no dry gaps, no spilling over the sides, no eruption or new props. Seamless calm repeating loop returning to the first frame.",
+    "seed": 20261103106,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": true,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A stationary blue-grey cracked stone tile block with masonry side faces and bright bubbling yellow-green acid covering its entire diamond-shaped top",
+      "initial_pose": "Fixed isometric stone block, diamond top completely coated in flat acid with round bubbles; all brick side faces are exposed and motionless"
+    },
+    "input_sha256": "63ad9da5e50528b0f779e3108c365b09305c0bfc5befd28dd089f3723626b397",
+    "request_sha256": "fe75693905488739a6cb65e26daab20e81f9e6914198b2b1e5c67bba7cc9980d"
+  },
+  {
+    "key": "acid-07",
+    "kind": "acid",
+    "variant": 7,
+    "name": "Всплески пузырьков",
+    "prompt": "Small acid bubbles pop successively across all regions, producing very short tiny droplets that rise just above the surface and fall back into the same tile. Moderate lively bubbling, nothing crosses the diamond boundary. Animate only the acid on the entire diamond top. The stone block, brick side faces, cracks below the liquid, silhouette, position, scale and camera stay completely still. Acid always covers the whole top edge-to-edge; no dry gaps, no spilling over the sides, no eruption or new props. Seamless calm repeating loop returning to the first frame.",
+    "seed": 20261103107,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": true,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A stationary blue-grey cracked stone tile block with masonry side faces and bright bubbling yellow-green acid covering its entire diamond-shaped top",
+      "initial_pose": "Fixed isometric stone block, diamond top completely coated in flat acid with round bubbles; all brick side faces are exposed and motionless"
+    },
+    "input_sha256": "63ad9da5e50528b0f779e3108c365b09305c0bfc5befd28dd089f3723626b397",
+    "request_sha256": "2dced7b75dd7170eb1daebdeb017aa0b21c1b6c751f0feea5804f722fb8f9b37"
+  },
+  {
+    "key": "acid-08",
+    "kind": "acid",
+    "variant": 8,
+    "name": "Пульсация свечения",
+    "prompt": "The existing green-yellow acid highlights gently brighten and dim in soft travelling patches while small bubbles steadily inflate and collapse. A quiet toxic glow pulse; no global flash or lighting change on masonry. Animate only the acid on the entire diamond top. The stone block, brick side faces, cracks below the liquid, silhouette, position, scale and camera stay completely still. Acid always covers the whole top edge-to-edge; no dry gaps, no spilling over the sides, no eruption or new props. Seamless calm repeating loop returning to the first frame.",
+    "seed": 20261103108,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": true,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A stationary blue-grey cracked stone tile block with masonry side faces and bright bubbling yellow-green acid covering its entire diamond-shaped top",
+      "initial_pose": "Fixed isometric stone block, diamond top completely coated in flat acid with round bubbles; all brick side faces are exposed and motionless"
+    },
+    "input_sha256": "63ad9da5e50528b0f779e3108c365b09305c0bfc5befd28dd089f3723626b397",
+    "request_sha256": "390ad4f36bc387f3ef9bfdea3a29e9fe6df217e63dbf0da9d26fbd5e7c1413d4"
+  },
+  {
+    "key": "acid-09",
+    "kind": "acid",
+    "variant": 9,
+    "name": "Перекаты густой кислоты",
+    "prompt": "Slow viscous currents fold gently through the shallow acid surface. Rounded bubbles stretch slightly with the currents and then pop. Thick syrupy rolling motion with fine ripples, the acid level stays constant. Animate only the acid on the entire diamond top. The stone block, brick side faces, cracks below the liquid, silhouette, position, scale and camera stay completely still. Acid always covers the whole top edge-to-edge; no dry gaps, no spilling over the sides, no eruption or new props. Seamless calm repeating loop returning to the first frame.",
+    "seed": 20261103109,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": true,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A stationary blue-grey cracked stone tile block with masonry side faces and bright bubbling yellow-green acid covering its entire diamond-shaped top",
+      "initial_pose": "Fixed isometric stone block, diamond top completely coated in flat acid with round bubbles; all brick side faces are exposed and motionless"
+    },
+    "input_sha256": "63ad9da5e50528b0f779e3108c365b09305c0bfc5befd28dd089f3723626b397",
+    "request_sha256": "f3d687679a5c9ce041774f3f300fe1a96f5c37af3bd4e6eadc2927cfe3141a5f"
+  },
+  {
+    "key": "acid-10",
+    "kind": "acid",
+    "variant": 10,
+    "name": "Непрерывное бурление",
+    "prompt": "A balanced active loop: small and medium bubbles rise at staggered intervals across the whole surface, pop into low ripples, and reform elsewhere. Keep a stable rhythm and clear individual bubbles, no big eruption. Animate only the acid on the entire diamond top. The stone block, brick side faces, cracks below the liquid, silhouette, position, scale and camera stay completely still. Acid always covers the whole top edge-to-edge; no dry gaps, no spilling over the sides, no eruption or new props. Seamless calm repeating loop returning to the first frame.",
+    "seed": 20261103110,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": true,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A stationary blue-grey cracked stone tile block with masonry side faces and bright bubbling yellow-green acid covering its entire diamond-shaped top",
+      "initial_pose": "Fixed isometric stone block, diamond top completely coated in flat acid with round bubbles; all brick side faces are exposed and motionless"
+    },
+    "input_sha256": "63ad9da5e50528b0f779e3108c365b09305c0bfc5befd28dd089f3723626b397",
+    "request_sha256": "5801a341ad4444560a76a03388b7bf74506c380eb5c6b936d59db23ee10cf13d"
+  }
+]

@@ -1,0 +1,705 @@
+{
+  "title": "Кислота 05 · 10 PixelLab-вариантов",
+  "documentTitle": "Кислота 05 · 10 вариантов анимации",
+  "state": {
+    "assetCount": 22,
+    "clipCount": 10,
+    "loaded": true,
+    "frames": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      1
+    ]
+  },
+  "cards": 10,
+  "cardNames": [
+    "Вариант 1 · Тихое кипение",
+    "Вариант 2 · Крупные пузыри",
+    "Вариант 3 · Мелкая пена",
+    "Вариант 4 · Круговые волны",
+    "Вариант 5 · Медленный водоворот",
+    "Вариант 6 · Волна по диагонали",
+    "Вариант 7 · Всплески пузырьков",
+    "Вариант 8 · Пульсация свечения",
+    "Вариант 9 · Перекаты густой кислоты",
+    "Вариант 10 · Непрерывное бурление"
+  ],
+  "canvases": 10,
+  "sliders": 10,
+  "columns": 3,
+  "inputLoaded": true,
+  "assetKeys": [
+    "model/source-original.png",
+    "model/input-256.png",
+    "pixellab/acid-01/sheet.png",
+    "pixellab/acid-01/preview.gif",
+    "pixellab/acid-02/sheet.png",
+    "pixellab/acid-02/preview.gif",
+    "pixellab/acid-03/sheet.png",
+    "pixellab/acid-03/preview.gif",
+    "pixellab/acid-04/sheet.png",
+    "pixellab/acid-04/preview.gif",
+    "pixellab/acid-05/sheet.png",
+    "pixellab/acid-05/preview.gif",
+    "pixellab/acid-06/sheet.png",
+    "pixellab/acid-06/preview.gif",
+    "pixellab/acid-07/sheet.png",
+    "pixellab/acid-07/preview.gif",
+    "pixellab/acid-08/sheet.png",
+    "pixellab/acid-08/preview.gif",
+    "pixellab/acid-09/sheet.png",
+    "pixellab/acid-09/preview.gif",
+    "pixellab/acid-10/sheet.png",
+    "pixellab/acid-10/preview.gif"
+  ],
+  "technicalCaptionLeak": false,
+  "assetCount": 22,
+  "decodedAssets": [
+    {
+      "key": "model/source-original.png",
+      "ok": true,
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "key": "model/input-256.png",
+      "ok": true,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "key": "pixellab/acid-01/sheet.png",
+      "ok": true,
+      "size": [
+        2048,
+        1280
+      ]
+    },
+    {
+      "key": "pixellab/acid-01/preview.gif",
+      "ok": true,
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "key": "pixellab/acid-02/sheet.png",
+      "ok": true,
+      "size": [
+        2048,
+        1280
+      ]
+    },
+    {
+      "key": "pixellab/acid-02/preview.gif",
+      "ok": true,
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "key": "pixellab/acid-03/sheet.png",
+      "ok": true,
+      "size": [
+        2048,
+        1280
+      ]
+    },
+    {
+      "key": "pixellab/acid-03/preview.gif",
+      "ok": true,
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "key": "pixellab/acid-04/sheet.png",
+      "ok": true,
+      "size": [
+        2048,
+        1280
+      ]
+    },
+    {
+      "key": "pixellab/acid-04/preview.gif",
+      "ok": true,
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "key": "pixellab/acid-05/sheet.png",
+      "ok": true,
+      "size": [
+        2048,
+        1280
+      ]
+    },
+    {
+      "key": "pixellab/acid-05/preview.gif",
+      "ok": true,
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "key": "pixellab/acid-06/sheet.png",
+      "ok": true,
+      "size": [
+        2048,
+        1280
+      ]
+    },
+    {
+      "key": "pixellab/acid-06/preview.gif",
+      "ok": true,
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "key": "pixellab/acid-07/sheet.png",
+      "ok": true,
+      "size": [
+        2048,
+        1280
+      ]
+    },
+    {
+      "key": "pixellab/acid-07/preview.gif",
+      "ok": true,
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "key": "pixellab/acid-08/sheet.png",
+      "ok": true,
+      "size": [
+        2048,
+        1280
+      ]
+    },
+    {
+      "key": "pixellab/acid-08/preview.gif",
+      "ok": true,
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "key": "pixellab/acid-09/sheet.png",
+      "ok": true,
+      "size": [
+        2048,
+        1280
+      ]
+    },
+    {
+      "key": "pixellab/acid-09/preview.gif",
+      "ok": true,
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "key": "pixellab/acid-10/sheet.png",
+      "ok": true,
+      "size": [
+        2048,
+        1280
+      ]
+    },
+    {
+      "key": "pixellab/acid-10/preview.gif",
+      "ok": true,
+      "size": [
+        512,
+        512
+      ]
+    }
+  ],
+  "assetsAllDecode": true,
+  "requestKeysMatch": true,
+  "checker": {
+    "image": "linear-gradient(45deg, rgb(102, 113, 127) 25%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 75%, rgb(102, 113, 127) 75%), linear-gradient(45deg, rgb(102, 113, 127) 25%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 75%, rgb(102, 113, 127) 75%)",
+    "size": "20px 20px, 20px 20px",
+    "position": "0px 0px, 10px 10px"
+  },
+  "checkerVisible": true,
+  "sliderFrame": 7,
+  "sliderCounter": "Кадр 8 / 33",
+  "sliderRanges": [
+    {
+      "min": "0",
+      "max": "32"
+    },
+    {
+      "min": "0",
+      "max": "32"
+    },
+    {
+      "min": "0",
+      "max": "32"
+    },
+    {
+      "min": "0",
+      "max": "32"
+    },
+    {
+      "min": "0",
+      "max": "32"
+    },
+    {
+      "min": "0",
+      "max": "32"
+    },
+    {
+      "min": "0",
+      "max": "32"
+    },
+    {
+      "min": "0",
+      "max": "32"
+    },
+    {
+      "min": "0",
+      "max": "32"
+    },
+    {
+      "min": "0",
+      "max": "32"
+    }
+  ],
+  "pauseFrames": {
+    "before": 8,
+    "after": 8
+  },
+  "pausedButtonText": "Играть",
+  "stepFrame": 8,
+  "stepCounter": "Кадр 9 / 33",
+  "overviewFrame": 7,
+  "slowSpeedFrame": 3,
+  "fastSpeedFrame": 14,
+  "restartFrames": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "desktopScaleModes": {
+    "default": {
+      "width": 1800,
+      "documentWidth": 1800,
+      "square": true,
+      "boxes": [
+        {
+          "width": 256,
+          "height": 256
+        },
+        {
+          "width": 256,
+          "height": 256
+        },
+        {
+          "width": 256,
+          "height": 256
+        },
+        {
+          "width": 256,
+          "height": 256
+        },
+        {
+          "width": 256,
+          "height": 256
+        },
+        {
+          "width": 256,
+          "height": 256
+        },
+        {
+          "width": 256,
+          "height": 256
+        },
+        {
+          "width": 256,
+          "height": 256
+        },
+        {
+          "width": 256,
+          "height": 256
+        },
+        {
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    "small": {
+      "width": 1800,
+      "documentWidth": 1800,
+      "square": true,
+      "boxes": [
+        {
+          "width": 96,
+          "height": 96
+        },
+        {
+          "width": 96,
+          "height": 96
+        },
+        {
+          "width": 96,
+          "height": 96
+        },
+        {
+          "width": 96,
+          "height": 96
+        },
+        {
+          "width": 96,
+          "height": 96
+        },
+        {
+          "width": 96,
+          "height": 96
+        },
+        {
+          "width": 96,
+          "height": 96
+        },
+        {
+          "width": 96,
+          "height": 96
+        },
+        {
+          "width": 96,
+          "height": 96
+        },
+        {
+          "width": 96,
+          "height": 96
+        }
+      ]
+    },
+    "large": {
+      "width": 1800,
+      "documentWidth": 1800,
+      "square": true,
+      "boxes": [
+        {
+          "width": 384,
+          "height": 384
+        },
+        {
+          "width": 384,
+          "height": 384
+        },
+        {
+          "width": 384,
+          "height": 384
+        },
+        {
+          "width": 384,
+          "height": 384
+        },
+        {
+          "width": 384,
+          "height": 384
+        },
+        {
+          "width": 384,
+          "height": 384
+        },
+        {
+          "width": 384,
+          "height": 384
+        },
+        {
+          "width": 384,
+          "height": 384
+        },
+        {
+          "width": 384,
+          "height": 384
+        },
+        {
+          "width": 384,
+          "height": 384
+        }
+      ]
+    }
+  },
+  "desktopScaleModesPass": true,
+  "mobileScaleModes": {
+    "default": {
+      "width": 390,
+      "documentWidth": 390,
+      "square": true,
+      "boxes": [
+        {
+          "width": 256,
+          "height": 256
+        },
+        {
+          "width": 256,
+          "height": 256
+        },
+        {
+          "width": 256,
+          "height": 256
+        },
+        {
+          "width": 256,
+          "height": 256
+        },
+        {
+          "width": 256,
+          "height": 256
+        },
+        {
+          "width": 256,
+          "height": 256
+        },
+        {
+          "width": 256,
+          "height": 256
+        },
+        {
+          "width": 256,
+          "height": 256
+        },
+        {
+          "width": 256,
+          "height": 256
+        },
+        {
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    "small": {
+      "width": 390,
+      "documentWidth": 390,
+      "square": true,
+      "boxes": [
+        {
+          "width": 96,
+          "height": 96
+        },
+        {
+          "width": 96,
+          "height": 96
+        },
+        {
+          "width": 96,
+          "height": 96
+        },
+        {
+          "width": 96,
+          "height": 96
+        },
+        {
+          "width": 96,
+          "height": 96
+        },
+        {
+          "width": 96,
+          "height": 96
+        },
+        {
+          "width": 96,
+          "height": 96
+        },
+        {
+          "width": 96,
+          "height": 96
+        },
+        {
+          "width": 96,
+          "height": 96
+        },
+        {
+          "width": 96,
+          "height": 96
+        }
+      ]
+    },
+    "large": {
+      "width": 390,
+      "documentWidth": 390,
+      "square": true,
+      "boxes": [
+        {
+          "width": 342,
+          "height": 342
+        },
+        {
+          "width": 342,
+          "height": 342
+        },
+        {
+          "width": 342,
+          "height": 342
+        },
+        {
+          "width": 342,
+          "height": 342
+        },
+        {
+          "width": 342,
+          "height": 342
+        },
+        {
+          "width": 342,
+          "height": 342
+        },
+        {
+          "width": 342,
+          "height": 342
+        },
+        {
+          "width": 342,
+          "height": 342
+        },
+        {
+          "width": 342,
+          "height": 342
+        },
+        {
+          "width": 342,
+          "height": 342
+        }
+      ]
+    }
+  },
+  "mobileScaleModesPass": true,
+  "mobile": {
+    "width": 390,
+    "documentWidth": 390,
+    "square": true,
+    "boxes": [
+      {
+        "width": 256,
+        "height": 256
+      },
+      {
+        "width": 256,
+        "height": 256
+      },
+      {
+        "width": 256,
+        "height": 256
+      },
+      {
+        "width": 256,
+        "height": 256
+      },
+      {
+        "width": 256,
+        "height": 256
+      },
+      {
+        "width": 256,
+        "height": 256
+      },
+      {
+        "width": 256,
+        "height": 256
+      },
+      {
+        "width": 256,
+        "height": 256
+      },
+      {
+        "width": 256,
+        "height": 256
+      },
+      {
+        "width": 256,
+        "height": 256
+      }
+    ]
+  },
+  "mobileOverflow": false,
+  "largeMobile": {
+    "width": 390,
+    "documentWidth": 390,
+    "square": true,
+    "boxes": [
+      {
+        "width": 342,
+        "height": 342
+      },
+      {
+        "width": 342,
+        "height": 342
+      },
+      {
+        "width": 342,
+        "height": 342
+      },
+      {
+        "width": 342,
+        "height": 342
+      },
+      {
+        "width": 342,
+        "height": 342
+      },
+      {
+        "width": 342,
+        "height": 342
+      },
+      {
+        "width": 342,
+        "height": 342
+      },
+      {
+        "width": 342,
+        "height": 342
+      },
+      {
+        "width": 342,
+        "height": 342
+      },
+      {
+        "width": 342,
+        "height": 342
+      }
+    ]
+  },
+  "largeMobileOverflow": false,
+  "portableFiles": [
+    "gallery.html"
+  ],
+  "errors": [],
+  "pass": true
+}

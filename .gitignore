@@ -81,3 +81,6 @@ __pycache__/
 /reports/
 /test_reports/*
 !/test_reports/.gdignore
+
+# Standalone gallery is rebuilt from the saved frames and previews in the art package.
+/docs/art/acid05-animation-20261103/gallery.html

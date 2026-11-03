@@ -1,0 +1,78 @@
+{
+  "date": "2026-11-03",
+  "source": "../hazard-variants-20261103/acid-05.png",
+  "source_sha256": "687c1a2837844f144f2c10f547f65a3b5b20c639804e26b89a488bcb947be09c",
+  "integration": false,
+  "variants": [
+    {
+      "key": "acid-01",
+      "kind": "acid",
+      "variant": 1,
+      "name": "Тихое кипение",
+      "prompt": "Small bubbles swell and pop gently at different places all across the acid surface. Tiny soft rings spread after each pop. Slow continuous simmer with staggered timing. Animate only the acid on the entire diamond top. The stone block, brick side faces, cracks below the liquid, silhouette, position, scale and camera stay completely still. Acid always covers the whole top edge-to-edge; no dry gaps, no spilling over the sides, no eruption or new props. Seamless calm repeating loop returning to the first frame."
+    },
+    {
+      "key": "acid-02",
+      "kind": "acid",
+      "variant": 2,
+      "name": "Крупные пузыри",
+      "prompt": "A few larger translucent acid domes slowly inflate across the top, then collapse one after another into shallow circular ripples. Small background bubbles keep simmering between them. Controlled low motion. Animate only the acid on the entire diamond top. The stone block, brick side faces, cracks below the liquid, silhouette, position, scale and camera stay completely still. Acid always covers the whole top edge-to-edge; no dry gaps, no spilling over the sides, no eruption or new props. Seamless calm repeating loop returning to the first frame."
+    },
+    {
+      "key": "acid-03",
+      "kind": "acid",
+      "variant": 3,
+      "name": "Мелкая пена",
+      "prompt": "Numerous tiny bubbles flicker in loose patches across the acid; fine bright foam gathers, breaks and reforms around the perimeter. Subtle continuous movement with no large splashes. Animate only the acid on the entire diamond top. The stone block, brick side faces, cracks below the liquid, silhouette, position, scale and camera stay completely still. Acid always covers the whole top edge-to-edge; no dry gaps, no spilling over the sides, no eruption or new props. Seamless calm repeating loop returning to the first frame."
+    },
+    {
+      "key": "acid-04",
+      "kind": "acid",
+      "variant": 4,
+      "name": "Круговые волны",
+      "prompt": "Small bubbles pop in alternating regions and create broad shallow concentric waves across the whole acid film. Rings overlap softly and fade before the next set. Low smooth motion. Animate only the acid on the entire diamond top. The stone block, brick side faces, cracks below the liquid, silhouette, position, scale and camera stay completely still. Acid always covers the whole top edge-to-edge; no dry gaps, no spilling over the sides, no eruption or new props. Seamless calm repeating loop returning to the first frame."
+    },
+    {
+      "key": "acid-05",
+      "kind": "acid",
+      "variant": 5,
+      "name": "Медленный водоворот",
+      "prompt": "The thin acid and its highlights drift in a slow shallow clockwise circulation across the diamond, while scattered bubbles rise and pop. No funnel or central hole; liquid stays flat and fully covers the top. Animate only the acid on the entire diamond top. The stone block, brick side faces, cracks below the liquid, silhouette, position, scale and camera stay completely still. Acid always covers the whole top edge-to-edge; no dry gaps, no spilling over the sides, no eruption or new props. Seamless calm repeating loop returning to the first frame."
+    },
+    {
+      "key": "acid-06",
+      "kind": "acid",
+      "variant": 6,
+      "name": "Волна по диагонали",
+      "prompt": "A low rolling wave travels from the back corner to the front corner across the entire acid coating, gently lifting existing bubbles then settling. The next shallow wave follows smoothly, no spill. Animate only the acid on the entire diamond top. The stone block, brick side faces, cracks below the liquid, silhouette, position, scale and camera stay completely still. Acid always covers the whole top edge-to-edge; no dry gaps, no spilling over the sides, no eruption or new props. Seamless calm repeating loop returning to the first frame."
+    },
+    {
+      "key": "acid-07",
+      "kind": "acid",
+      "variant": 7,
+      "name": "Всплески пузырьков",
+      "prompt": "Small acid bubbles pop successively across all regions, producing very short tiny droplets that rise just above the surface and fall back into the same tile. Moderate lively bubbling, nothing crosses the diamond boundary. Animate only the acid on the entire diamond top. The stone block, brick side faces, cracks below the liquid, silhouette, position, scale and camera stay completely still. Acid always covers the whole top edge-to-edge; no dry gaps, no spilling over the sides, no eruption or new props. Seamless calm repeating loop returning to the first frame."
+    },
+    {
+      "key": "acid-08",
+      "kind": "acid",
+      "variant": 8,
+      "name": "Пульсация свечения",
+      "prompt": "The existing green-yellow acid highlights gently brighten and dim in soft travelling patches while small bubbles steadily inflate and collapse. A quiet toxic glow pulse; no global flash or lighting change on masonry. Animate only the acid on the entire diamond top. The stone block, brick side faces, cracks below the liquid, silhouette, position, scale and camera stay completely still. Acid always covers the whole top edge-to-edge; no dry gaps, no spilling over the sides, no eruption or new props. Seamless calm repeating loop returning to the first frame."
+    },
+    {
+      "key": "acid-09",
+      "kind": "acid",
+      "variant": 9,
+      "name": "Перекаты густой кислоты",
+      "prompt": "Slow viscous currents fold gently through the shallow acid surface. Rounded bubbles stretch slightly with the currents and then pop. Thick syrupy rolling motion with fine ripples, the acid level stays constant. Animate only the acid on the entire diamond top. The stone block, brick side faces, cracks below the liquid, silhouette, position, scale and camera stay completely still. Acid always covers the whole top edge-to-edge; no dry gaps, no spilling over the sides, no eruption or new props. Seamless calm repeating loop returning to the first frame."
+    },
+    {
+      "key": "acid-10",
+      "kind": "acid",
+      "variant": 10,
+      "name": "Непрерывное бурление",
+      "prompt": "A balanced active loop: small and medium bubbles rise at staggered intervals across the whole surface, pop into low ripples, and reform elsewhere. Keep a stable rhythm and clear individual bubbles, no big eruption. Animate only the acid on the entire diamond top. The stone block, brick side faces, cracks below the liquid, silhouette, position, scale and camera stay completely still. Acid always covers the whole top edge-to-edge; no dry gaps, no spilling over the sides, no eruption or new props. Seamless calm repeating loop returning to the first frame."
+    }
+  ]
+}
