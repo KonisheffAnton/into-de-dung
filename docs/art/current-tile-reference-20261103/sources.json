@@ -1,0 +1,106 @@
+{
+  "base_commit": "4a5ec73361cbd6d6de055d0806708c593c5d4503",
+  "date": "2026-11-03",
+  "scope": "User-approved current first-room stone tile reference; not hazard approval",
+  "renders": [
+    {
+      "file": "tile.png",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "0a2f27b13bd54aec9c6badcd0440082eb29bc3d4a9e1b601dc726a87ea1c08d5",
+      "mode": "RGBA",
+      "alpha_bbox": [
+        254,
+        207,
+        770,
+        848
+      ],
+      "visible_bbox_alpha_gt8": [
+        254,
+        207,
+        770,
+        848
+      ],
+      "border_alpha_max": 0
+    },
+    {
+      "file": "tile-native.png",
+      "width": 256,
+      "height": 256,
+      "sha256": "e681c2c7721054af439cc3ce2ee4f150170af32c63757b51b8200b4dfc4d9d5f",
+      "mode": "RGBA",
+      "alpha_bbox": [
+        64,
+        40,
+        192,
+        200
+      ],
+      "visible_bbox_alpha_gt8": [
+        64,
+        40,
+        192,
+        200
+      ],
+      "border_alpha_max": 0
+    }
+  ],
+  "copies": [
+    {
+      "file": "floor-source.png",
+      "source_path": "assets/art_presets/trials/dungeon_room_v2/floor.png",
+      "sha256": "2767414bd92f53d87839b2bdeb7d1e6d73d16d4c363876b50b3f658f8f5b6a7b"
+    },
+    {
+      "file": "masonry-source.png",
+      "source_path": "assets/art_presets/trials/dungeon_room_v2/masonry.png",
+      "sha256": "eeaebc5dce213cb55156a81ac50f2f697db5b00e55f5d2ad3e28b6bf47aea0c0"
+    }
+  ],
+  "runtime_sources": [
+    {
+      "path": "scenes/demo/visuals/dungeon_comparison_tile.tscn",
+      "sha256": "948d026d204624a1ad27b7a93448762e48eaa14812f8097e021581c33be1c140"
+    },
+    {
+      "path": "scenes/demo/visuals/placeholder_tile.tscn",
+      "sha256": "725eb671336d0df0d8639097ee4bdf3eeca2e7b55038b8da7219cae18315a829"
+    },
+    {
+      "path": "scripts/demo/dungeon_comparison_tile.gd",
+      "sha256": "ddeffe2f8576b2db6f3605cf460959aa00daac087cb3e80e3bbfd7aaef3bb218"
+    },
+    {
+      "path": "scripts/demo/art_trial_tile.gd",
+      "sha256": "0f5ff45d9c1a1e09bd87078a65906fab08102e7c59f3f5d207e0da9b1e4a8070"
+    },
+    {
+      "path": "scripts/demo/battle_terrain_visual.gd",
+      "sha256": "e8b43c84082e29fbe4e510be49fcf8e9343e04a34b28fc71edb2a5995c025955"
+    },
+    {
+      "path": "scripts/demo/battle_demo_iso_visual.gd",
+      "sha256": "227c2f585bb514eb1f2412daa5224177b136a0fb4bfbe87a2f3bc9bb657e49a5"
+    },
+    {
+      "path": "scripts/demo/biome_art_catalog.gd",
+      "sha256": "83f3203178b1d5c8dabdfa510229d1fa2fe1f75b838dd7156a8498dd96b5a797"
+    },
+    {
+      "path": "scripts/core/rendering/y_sortable.gd",
+      "sha256": "ba8198ab0942847a04a014f26e9454c5a9a935927d418398677b9e46b89d2de9"
+    },
+    {
+      "path": "scripts/core/grid/iso_grid_config.gd",
+      "sha256": "d1c6fc1bef3d25f0de207f52548bbae11a53580de23bc0ff18d71474ff3d9355"
+    },
+    {
+      "path": "assets/art_presets/trials/dungeon_room_v2/floor.png",
+      "sha256": "2767414bd92f53d87839b2bdeb7d1e6d73d16d4c363876b50b3f658f8f5b6a7b"
+    },
+    {
+      "path": "assets/art_presets/trials/dungeon_room_v2/masonry.png",
+      "sha256": "eeaebc5dce213cb55156a81ac50f2f697db5b00e55f5d2ad3e28b6bf47aea0c0"
+    }
+  ],
+  "exporter_sha256": "50b95b9108fa12083a55d498a63d9bb8e543a6503126a5c6e263c193cba4fac0"
+}

@@ -1,35 +1,39 @@
-# Передача — 2026-11-03: idle и размер Лучницы
+# Передача — 2026-11-03: эталон тайла и15 эффектов
 
-D:/Games/into-de-dung; main; base b6c596789288567f989b8e339dd14846c46a4c9f.
-По U Лучнице14-04 заменены основной idle1→2, дополнительный5→4.
-После отзыва о крупной фигуре размер уменьшен на10%: ArtRoot0.8→0.72.
-Смерть3/способность4 сохранены; Маг и прочие модели не менялись.
-Владелец: [CHARACTER_SKINS_V1](CHARACTER_SKINS_V1.md).
-[Отчёт, снимки, validation/review](art/archer-idle-scale-20261103/README.md).
-Логи: test_reports/archer-idle-scale-20261103/; headless:
-test_reports/demo-9aafd6ba1ed04ffb9cd25b6ff860fc9f/.
+D:/Games/into-de-dung; main; base4a5ec73361cbd6d6de055d0806708c593c5d4503.
+По U сохранён новым эталоном [текущий каменный тайл](art/current-tile-reference-20261103/README.md):
+настоящий рендер dungeon_comparison_tile, клетка(0,0), верх128×96,
+кирпичные боковины64px, прозрачные PNG1024²/256² и копии атласов.
+Установки — [ART_DIRECTION](ART_DIRECTION.md); старый травяной эталон
+не подменяет эту основу следующих арт-проб.
 
-PASS isolated import/startup; skins1074/0 headless,1130/0 GPU;
-mage_archer_skins415/0 в обоих режимах. GPU zoom496/0, UI47/0,
-coverage53/0. Сборщик43 результата/27 PNG/693 ячейки; новые листы побайтно,
-37 остальных PNG/TRES и33 чужих файла сохранены. Независимое APPROVE — review.md.
-Кадры/опора/направления/полное покрытие сохранены; пикинг и эффекты следуют размеру.
-Root import/full/core не запускались. Ручная оценка размера и стыков открыта.
+Созданы [по5 кальтропов/огней/кислот](art/hazard-variants-20261103/README.md):
+россыпь отдельных металлических предметов, огонь с ориентиром Into the Breach,
+кислота; вся верхняя грань.15 PNG1254² от image_gen, точные промпты/SHA,
+общий лист и автономная галерея. Это цельные концепты тайл+эффект,
+не накладки; эффекты не внедрены/не анимированы. AI-оригиналы сохранены,
+включая почти невидимый фон alpha1/255. Выбор вариантов остаётся за U.
 
-Стиль зафиксирован в [ART_DIRECTION](ART_DIRECTION.md); это не закрывает
-ручные F5/движение/zoom/DPI, точную посадку и качество показа на поле.
-Край стрелы способности4 Лучницы сохранён без автоматической ретуши.
-Прежний остаток: presentation_foundation141/2, turn_forecast_ui26/3,
-performance, HUD/Колода. Прежние проверки не считать повторёнными.
-Дальше — отзыв/поручение пользователя; новый срез/генерацию не начинать.
+PASS:15 уникальных PNG/исходных байтов, видимый силуэт без обрезки,
+два рендера/два исходных атласа эталона, галерея/390px/переносимость.
+Проверки и ревью: test_reports/hazard-variants-20261103/ и validation.json пакета.
+Godot: только GPU-экспорт тайла в isolated project, один runner.
+Root import/full/core/ручные F5/zoom/DPI не запускались.
 
-F5 ровно5 классов; PLAYER вправо/ENEMY влево, атака поворачивает к цели
-и возвращает сторону команды. Каталоги1–3 и legacy-fallback не мигрировали.
-Сохранять core/preview/queue/RNG/save/frozen.
-Чужие scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
-не reset/stage/commit. Один Godot runner, isolated project; без root import,
-служб/драйверов/принудительного фокуса/push/sidebar tasks/расписаний.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261103-5.md), [HISTORY](HISTORY.md).
+Текущая Лучница14-04: idle2/4, ArtRoot0.72; смерть3/способность4 сохранены.
+Владелец — [CHARACTER_SKINS_V1](CHARACTER_SKINS_V1.md). Прежние проверки
+внедрения/масштаба/APPROVE здесь не повторены. Остаток: ручные F5/движение/
+zoom/DPI, стыки/посадка/качество, край стрелы способности4, performance,
+presentation_foundation141/2, turn_forecast_ui26/3, HUD/Колода.
+Дальше — отзыв/выбор U; новый срез/генерацию/интеграцию не начинать.
+
+33 чужих файла сохранены: scenes/demo/main_menu.tscn и
+docs/art/battlefield-reference-03-20261017/ не reset/stage/commit.
+Сохранять core/preview/queue/RNG/save/frozen, пять классов F5,
+PLAYER вправо/ENEMY влево и возврат после атаки; каталоги1–3 не мигрировать.
+Один Godot runner, isolated project; без root import, служб/драйверов,
+принудительного фокуса/push/sidebar tasks/расписаний.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261103-6.md), [HISTORY](HISTORY.md).
 
 Завершение: проверки, локальный Conventional Commit, короткий HANDOFF;
 прежний побайтно отдельным архивом+HISTORY. В финале/при блокере предложить

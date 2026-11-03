@@ -1,0 +1,357 @@
+{
+  "provider": "built-in image_gen",
+  "date": "2026-11-03",
+  "integration": false,
+  "images": [
+    {
+      "id": "caltrops-01",
+      "file": "caltrops-01.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-c7b62f0d-b0da-4cc8-af07-b1c8d43f3699.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "b485537304a49c44be6b30fdbb9967df55783097c1f329a2b520c30a8e270c77",
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        55,
+        1214,
+        1254
+      ],
+      "visible_bbox_alpha_gt8": [
+        310,
+        252,
+        943,
+        1041
+      ],
+      "border_alpha_max": 1
+    },
+    {
+      "id": "caltrops-02",
+      "file": "caltrops-02.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-bad25de7-2ded-4abf-b341-7bb8029e0b0d.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "5912457d06feded3ae39e185dc8986f44a49ce8dd783c03b447961187451a424",
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        15,
+        1246,
+        1254
+      ],
+      "visible_bbox_alpha_gt8": [
+        311,
+        255,
+        944,
+        1039
+      ],
+      "border_alpha_max": 1
+    },
+    {
+      "id": "caltrops-03",
+      "file": "caltrops-03.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-53fdc9f7-2930-41d0-90e4-d9f5dc89b7cc.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "30a28973ec827f54756806dc00c9a3d447b154388f89de6a652e4262fe09ac8c",
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        0,
+        1208,
+        1230
+      ],
+      "visible_bbox_alpha_gt8": [
+        311,
+        252,
+        944,
+        1039
+      ],
+      "border_alpha_max": 1
+    },
+    {
+      "id": "caltrops-04",
+      "file": "caltrops-04.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-05eee9a2-6059-4b07-b8a9-fc8d959a99e4.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "286248e0b028c971e73beca10840032a7d4c2c20b7e3bb70f18d098d3bfc82fe",
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        20,
+        1224,
+        1254
+      ],
+      "visible_bbox_alpha_gt8": [
+        311,
+        254,
+        943,
+        1039
+      ],
+      "border_alpha_max": 1
+    },
+    {
+      "id": "caltrops-05",
+      "file": "caltrops-05.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-f91b70bb-9a75-4827-8a59-ecf1d3c34837.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "3f8634167db0789109ce195cc44b81b2881dd50941f402de197545178604bd93",
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        37,
+        1226,
+        1254
+      ],
+      "visible_bbox_alpha_gt8": [
+        310,
+        254,
+        944,
+        1038
+      ],
+      "border_alpha_max": 1
+    },
+    {
+      "id": "fire-01",
+      "file": "fire-01.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-9248a400-9472-4cff-bec7-3420c8a30067.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "be449cb061d78baa1bb900a928d1bc0a5a560561b92958888a142bdfffb3859f",
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        28,
+        1202,
+        1182
+      ],
+      "visible_bbox_alpha_gt8": [
+        310,
+        253,
+        944,
+        1041
+      ],
+      "border_alpha_max": 1
+    },
+    {
+      "id": "fire-02",
+      "file": "fire-02.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-b541f359-a5b3-42c0-ac79-ff425a59ad46.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "f125a1ded71abd08ff770b4b27f892524faa92044d14cc0b6c482c4b07ae5731",
+      "mode": "RGBA",
+      "alpha_bbox": [
+        75,
+        15,
+        1220,
+        1254
+      ],
+      "visible_bbox_alpha_gt8": [
+        308,
+        252,
+        944,
+        1042
+      ],
+      "border_alpha_max": 1
+    },
+    {
+      "id": "fire-03",
+      "file": "fire-03.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-630c86c2-a1b8-4c38-bf44-304c95a412a4.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "d685288883eecfc15ccfa9234a0589fb75d82d2175dfaa9425762eed69e781c9",
+      "mode": "RGBA",
+      "alpha_bbox": [
+        27,
+        19,
+        1196,
+        1214
+      ],
+      "visible_bbox_alpha_gt8": [
+        309,
+        254,
+        945,
+        1045
+      ],
+      "border_alpha_max": 0
+    },
+    {
+      "id": "fire-04",
+      "file": "fire-04.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-95739ec0-f731-44ab-9da0-a3c804140532.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "4deb1d6187c939a895247e02409508d85f20e604a1b0cde39c06ed8b2eb75c5d",
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        35,
+        1224,
+        1226
+      ],
+      "visible_bbox_alpha_gt8": [
+        309,
+        250,
+        944,
+        1044
+      ],
+      "border_alpha_max": 1
+    },
+    {
+      "id": "fire-05",
+      "file": "fire-05.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-6df002e8-dc84-40ec-81ca-f825ec5dc34d.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "1209408060d7acfecbb83200a9f75e54a517c39cd09e436174a18b8c741498ae",
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        37,
+        1242,
+        1230
+      ],
+      "visible_bbox_alpha_gt8": [
+        311,
+        253,
+        944,
+        1042
+      ],
+      "border_alpha_max": 1
+    },
+    {
+      "id": "acid-01",
+      "file": "acid-01.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-c92c9292-491d-4aee-9a94-1818c2bbd8fd.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "e7c299d8ac8142a4c3fcdbe742a4a2eb2363e1f35da42bc5fc1e5f093ace52b3",
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        23,
+        1184,
+        1190
+      ],
+      "visible_bbox_alpha_gt8": [
+        310,
+        255,
+        946,
+        1043
+      ],
+      "border_alpha_max": 1
+    },
+    {
+      "id": "acid-02",
+      "file": "acid-02.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-fac50f67-afda-4f13-a726-c8ae684a2aeb.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "f429a5eb6f2cde44731330dfd7261b33eacb16d07095d217d6e17b1ebc31de71",
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        19,
+        1188,
+        1220
+      ],
+      "visible_bbox_alpha_gt8": [
+        311,
+        253,
+        944,
+        1043
+      ],
+      "border_alpha_max": 1
+    },
+    {
+      "id": "acid-03",
+      "file": "acid-03.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-55569506-4e2f-4518-8f27-2ef80dec6209.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "a2589296576bd4579c8aee26e6b877f44f64b9f6d38f8b8b24eee14f098f5efe",
+      "mode": "RGBA",
+      "alpha_bbox": [
+        65,
+        21,
+        1194,
+        1214
+      ],
+      "visible_bbox_alpha_gt8": [
+        310,
+        255,
+        946,
+        1047
+      ],
+      "border_alpha_max": 0
+    },
+    {
+      "id": "acid-04",
+      "file": "acid-04.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-5808b272-b16a-406b-a48b-a4117618917e.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "24c912e96064ebb083a8db6c385877dcb107c3a251e5d405936ce51f80f0be00",
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        37,
+        1220,
+        1212
+      ],
+      "visible_bbox_alpha_gt8": [
+        311,
+        254,
+        944,
+        1047
+      ],
+      "border_alpha_max": 1
+    },
+    {
+      "id": "acid-05",
+      "file": "acid-05.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-16847e54-7c93-48ea-a4a0-53bc840aae5d.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "687c1a2837844f144f2c10f547f65a3b5b20c639804e26b89a488bcb947be09c",
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        27,
+        1200,
+        1214
+      ],
+      "visible_bbox_alpha_gt8": [
+        308,
+        255,
+        947,
+        1042
+      ],
+      "border_alpha_max": 1
+    }
+  ],
+  "reference": {
+    "file": "../current-tile-reference-20261103/tile.png",
+    "width": 1024,
+    "height": 1024,
+    "sha256": "0a2f27b13bd54aec9c6badcd0440082eb29bc3d4a9e1b601dc726a87ea1c08d5",
+    "mode": "RGBA",
+    "alpha_bbox": [
+      254,
+      207,
+      770,
+      848
+    ],
+    "visible_bbox_alpha_gt8": [
+      254,
+      207,
+      770,
+      848
+    ],
+    "border_alpha_max": 0
+  }
+}

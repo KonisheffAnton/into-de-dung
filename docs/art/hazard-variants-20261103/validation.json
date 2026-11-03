@@ -1,0 +1,115 @@
+{
+  "status": "PASS",
+  "generated_images": 15,
+  "unique_sha256": 15,
+  "byte_identical_to_generator": 15,
+  "rgba_visible_silhouette_with_margins_alpha_gt8": 15,
+  "max_raw_border_alpha": 1,
+  "raw_alpha1_noise_preserved": true,
+  "reference_renders": 2,
+  "reference_atlas_copies": 2,
+  "protected_files_unchanged": 33,
+  "gameplay_changes": false,
+  "full_core_or_manual_tests": false,
+  "gallery": {
+    "status": "PASS",
+    "count": 16,
+    "embedded": true,
+    "ids": [
+      "reference-image",
+      "caltrops-01",
+      "caltrops-02",
+      "caltrops-03",
+      "caltrops-04",
+      "caltrops-05",
+      "fire-01",
+      "fire-02",
+      "fire-03",
+      "fire-04",
+      "fire-05",
+      "acid-01",
+      "acid-02",
+      "acid-03",
+      "acid-04",
+      "acid-05"
+    ],
+    "widths": [
+      255.59375,
+      255.59375,
+      255.609375,
+      255.59375,
+      255.609375,
+      255.59375,
+      255.59375,
+      255.609375,
+      255.59375,
+      255.609375,
+      255.59375,
+      255.59375,
+      255.609375,
+      255.59375,
+      255.609375
+    ],
+    "desktop": "1600px",
+    "mobile": "390px without overflow",
+    "dialog": "open/Escape/button",
+    "portable": "single HTML, no neighboring images",
+    "errors": []
+  },
+  "reference_export": {
+    "command": [
+      "D:\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
+      "--path",
+      "D:\\Games\\into-de-dung\\test_reports\\demo-9aafd6ba1ed04ffb9cd25b6ff860fc9f\\project",
+      "--screen",
+      "0",
+      "--script",
+      "tests/export_current_tile.gd",
+      "--",
+      "--output=D:\\Games\\into-de-dung\\docs\\art\\current-tile-reference-20261103"
+    ],
+    "exit_code": 0,
+    "synced_files": []
+  },
+  "closeout": {
+    "status": "PASS",
+    "protected_files": 33,
+    "archive_byte_identical": true,
+    "input_sizes": {
+      "AGENTS.md": {
+        "before_chars_lf": 4565,
+        "after_chars_lf": 4565,
+        "unchanged": true
+      },
+      "docs/CODEX_HANDOFF.md": {
+        "before_chars_lf": 2252,
+        "after_chars_lf": 2475,
+        "unchanged": false
+      },
+      "docs/PROJECT_CONTEXT.md": {
+        "before_chars_lf": 3652,
+        "after_chars_lf": 3652,
+        "unchanged": true
+      },
+      "docs/CODEX_WORKFLOW.md": {
+        "before_chars_lf": 4482,
+        "after_chars_lf": 4482,
+        "unchanged": true
+      }
+    },
+    "checked_links": 48,
+    "diff_check": true,
+    "build_without_originals": true,
+    "corrupt_png_rejected": true
+  },
+  "independent_review": {
+    "status": "APPROVE",
+    "reviewed_snapshot": "test_reports/hazard-variants-20261103/review-snapshot-v2.json",
+    "snapshot_sha256": "fa400667b9aa16be301a89839631a1d16c6c99402dd25fa1cd5f5fa21d3cee89",
+    "reviewed_files": 40,
+    "initial_regular_grid_finding": "resolved by regenerating all five caltrops",
+    "post_review_changes": "result documentation only"
+  },
+  "scope": "static art concepts; no runtime integration",
+  "generation_calls": 20
+}
