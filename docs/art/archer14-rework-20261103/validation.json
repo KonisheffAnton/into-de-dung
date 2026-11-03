@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-03",
+  "base": "8f57f49b2cc301103ac2cbafcf3982d28cd1fc78",
+  "integration": false,
+  "provider": "built-in image_gen",
+  "variants": 5,
+  "unique_variant_hashes": 5,
+  "source_byte_matches": 5,
+  "reference_hashes": 3,
+  "portable_build_without_generated_paths": true,
+  "corrupt_png_rejected": true,
+  "corrupt_test_copy_restored": true,
+  "standalone_html_without_pngs": true,
+  "standalone_images_decoded": 8,
+  "equal_desktop_preview_widths": true,
+  "gallery": "gallery-validation.json",
+  "foreign_hashes_unchanged": 33,
+  "review": {
+    "status": "APPROVE",
+    "agent": "/root/rogue_gallery_review",
+    "scope": "Static art, provenance, numbering, gallery source and existing reports; no write-producing test rerun",
+    "snapshot": "test_reports/archer14-rework-20261103/review-snapshot.json",
+    "report": "test_reports/archer14-rework-20261103/review.md"
+  },
+  "godot_run": false,
+  "logs": "test_reports/archer14-rework-20261103/"
+}

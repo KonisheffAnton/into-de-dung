@@ -1,0 +1,69 @@
+{
+  "provider": "built-in image_gen",
+  "date": "2026-11-03",
+  "images": [
+    {
+      "id": "14-01",
+      "file": "archer-14-01.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-09add567-b67c-4cec-94b7-cf5663bad3cd.png",
+      "sha256": "0b1aad71585b7adf7c2c60fa4149fc5576c5c858ab1a26452641869efa990332",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "id": "14-02",
+      "file": "archer-14-02.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-511da5eb-6e0a-4a69-a17c-7961376557a5.png",
+      "sha256": "e7b0971c6768193f3650423d346679da6a40a0ad61081f41e785224815dfe00a",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "id": "14-03",
+      "file": "archer-14-03.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-938ea42d-195c-450a-890b-2a273b5a8d88.png",
+      "sha256": "73999a401588b65b7fedf4d6df759c287f58218c5c0722cd77b78411b8c220b3",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "id": "14-04",
+      "file": "archer-14-04.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-dedd6a80-c5a4-4dbf-bbd7-18ea000026da.png",
+      "sha256": "a48b5eda772fd95dc35d673c4ad683fcbefe6ff66e2a9276475537a1655ac07d",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "id": "14-05",
+      "file": "archer-14-05.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-73ea6f34-dbdf-47b8-9256-beb1234a2e60.png",
+      "sha256": "e351423e8af520e0576399efd82b35f7abaa24c31be49f4bad4b92fc0889500b",
+      "width": 1254,
+      "height": 1254
+    }
+  ],
+  "references": [
+    {
+      "id": "original-14",
+      "file": "../archer-variants-20261103/archer-14.png",
+      "sha256": "fbec7d989928eaac529ad9988c1f3fd43a205949a3f6c9d98bd8fe94c000988b",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "id": "warrior-11",
+      "file": "../warrior-variants-20261029/warrior-11.png",
+      "sha256": "41ca22aa3d6e6c8312d4a9fa9de053dd89ad0608e255be03af9983fb4f757828",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "id": "defender-02",
+      "file": "../warrior-variants-20261029/warrior-02.png",
+      "sha256": "94cac642a3ac4a5fe21eb65564118406979cc81bb49c2b1ca1ab044c8d444b9f",
+      "width": 1254,
+      "height": 1254
+    }
+  ]
+}

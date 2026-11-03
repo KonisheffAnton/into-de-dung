@@ -1,0 +1,69 @@
+{
+  "title": "Лучница 14 · пять переработок",
+  "documentTitle": "Лучница 14 · пять переработок",
+  "variantIds": [
+    "14-01",
+    "14-02",
+    "14-03",
+    "14-04",
+    "14-05"
+  ],
+  "variantFiles": [
+    "archer-14-01.png",
+    "archer-14-02.png",
+    "archer-14-03.png",
+    "archer-14-04.png",
+    "archer-14-05.png"
+  ],
+  "variantNames": [
+    "14-01 · Близко к исходнику",
+    "14-02 · Короткая накидка",
+    "14-03 · Плащ через плечо",
+    "14-04 · Походный жилет",
+    "14-05 · Стражница рощи"
+  ],
+  "referenceFiles": [
+    "../archer-variants-20261103/archer-14.png",
+    "../warrior-variants-20261029/warrior-11.png",
+    "../warrior-variants-20261029/warrior-02.png"
+  ],
+  "referenceLabels": [
+    "Лучница 14 · оригинал",
+    "Воин 11",
+    "Защитник 02"
+  ],
+  "imageCount": 8,
+  "embedded": true,
+  "decoded": true,
+  "variantColumns": 5,
+  "referenceColumns": 3,
+  "previewWidths": [
+    338.796875,
+    338.796875,
+    338.796875,
+    338.796875,
+    338.796875,
+    338.796875,
+    338.796875,
+    338.796875
+  ],
+  "referenceZoomOpen": true,
+  "referenceSelected": "Лучница 14 · оригинал",
+  "zoomDecoded": [
+    1254,
+    1254
+  ],
+  "escapeClosed": true,
+  "variantZoomOpen": true,
+  "buttonClosed": true,
+  "mobile": {
+    "width": 390,
+    "documentWidth": 390,
+    "variantColumns": 2,
+    "referenceColumns": 2
+  },
+  "mobileZoom": true,
+  "mobileOverflow": false,
+  "errors": [],
+  "pass": true
+}
