@@ -1,0 +1,51 @@
+{
+  "title": "Лучница · варианты 11–20",
+  "documentTitle": "Лучница · варианты 11–20",
+  "cards": 10,
+  "ids": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "19",
+    "20"
+  ],
+  "names": [
+    "11 · Высокий хвост",
+    "12 · Берет дозорной",
+    "13 · Лесная мантия",
+    "14 · Седая наставница",
+    "15 · Кудрявая охотница",
+    "16 · Походный капюшон",
+    "17 · Лёгкая разведчица",
+    "18 · Плетёные косы",
+    "19 · Плащ следопытки",
+    "20 · Кожаный дозор"
+  ],
+  "embedded": true,
+  "decoded": true,
+  "columns": "340.797px 340.797px 340.797px 340.797px 340.797px",
+  "columnCount": 5,
+  "zoomOpen": true,
+  "selected": "13 · Лесная мантия",
+  "zoomDecoded": [
+    1254,
+    1254
+  ],
+  "escapeClosed": true,
+  "buttonClosed": true,
+  "mobile": {
+    "width": 390,
+    "documentWidth": 390,
+    "columns": "179px 179px",
+    "columnCount": 2
+  },
+  "mobileZoom": true,
+  "mobileOverflow": false,
+  "errors": [],
+  "pass": true
+}

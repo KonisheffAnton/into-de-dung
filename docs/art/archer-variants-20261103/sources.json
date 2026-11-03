@@ -1,0 +1,96 @@
+{
+  "provider": "built-in image_gen",
+  "date": "2026-11-03",
+  "images": [
+    {
+      "id": "11",
+      "file": "archer-11.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-76cced7e-d62a-4ffc-94e2-bab1ab8c6e48.png",
+      "sha256": "dd4886933e4ba6c9200c875a23777637e647787c1ebe3090b7e479a751d98404",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1656780
+    },
+    {
+      "id": "12",
+      "file": "archer-12.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-88e59704-5f1d-4bf1-883c-bc4275dde341.png",
+      "sha256": "26877002e139bab14b2e0ae390ca11bd8f0afe6f817bb8897e023db87fd41ff8",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1691754
+    },
+    {
+      "id": "13",
+      "file": "archer-13.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-42357378-3104-4104-a4b5-9a1b5cd59eed.png",
+      "sha256": "c43032bd7c307e16398bc5785a5806b851b7dade846324de7bd84e10b6bc2733",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1739203
+    },
+    {
+      "id": "14",
+      "file": "archer-14.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-9b58edbe-f56e-42b3-b964-a4b5cb0faed4.png",
+      "sha256": "fbec7d989928eaac529ad9988c1f3fd43a205949a3f6c9d98bd8fe94c000988b",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1646764
+    },
+    {
+      "id": "15",
+      "file": "archer-15.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-b6121cf3-76dc-4fbc-875b-07893aa2cd8b.png",
+      "sha256": "303c931e21c7756f5b7af88094b264281e213c15e0518d4a81a2c76acf4b3e78",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1691721
+    },
+    {
+      "id": "16",
+      "file": "archer-16.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-d6896226-595f-460d-b4a2-04950725f0c3.png",
+      "sha256": "84f265cdf25d9149c3dd180fc501569c1a24a3a92e0601f0f6b47f4448bd1837",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1683516
+    },
+    {
+      "id": "17",
+      "file": "archer-17.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-758326b0-5da3-4a6c-ba6f-18942030948b.png",
+      "sha256": "28329ae231e105bc8374df847af0990e1174e81bb5d6ece7bc50a2b8e56f5f66",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1644062
+    },
+    {
+      "id": "18",
+      "file": "archer-18.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-24a6b3c2-0583-40c5-8ddd-2e49e681b3ff.png",
+      "sha256": "0e3d0579c26494ae5dcaa18b6b923334bc38e0347a2ca1a7f12beaa68b20bf67",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1657450
+    },
+    {
+      "id": "19",
+      "file": "archer-19.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-67a99d76-ae3a-47a4-bf29-157cd77b3889.png",
+      "sha256": "5b41a4038671c73bc4ff691e1fbf4cfab3fa7ca42340f23f1288d4d98fa01666",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1694577
+    },
+    {
+      "id": "20",
+      "file": "archer-20.png",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a19835-0335-7b22-9455-fe9839fea95e\\exec-8fbb239d-5e08-44b7-84fc-42fd142cd183.png",
+      "sha256": "6badceab434a7f2b20b56752d3951fa33e7ae4349f07ced8f0770c787c19dd7d",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1712049
+    }
+  ]
+}

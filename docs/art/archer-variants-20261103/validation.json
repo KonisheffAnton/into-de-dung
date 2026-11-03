@@ -1,0 +1,175 @@
+{
+  "base": "f10c7efd1e3232fc432100643919db7119be7133",
+  "branch": "main",
+  "date": "2026-11-03",
+  "provider": "built-in image_gen",
+  "generated_images": 10,
+  "ids": [
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+  ],
+  "source_byte_matches": 10,
+  "unique_images": 10,
+  "dimensions": "1254x1254 each",
+  "integration": false,
+  "godot_runs": 0,
+  "browser": {
+    "title": "Лучница · варианты 11–20",
+    "documentTitle": "Лучница · варианты 11–20",
+    "cards": 10,
+    "ids": [
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20"
+    ],
+    "names": [
+      "11 · Высокий хвост",
+      "12 · Берет дозорной",
+      "13 · Лесная мантия",
+      "14 · Седая наставница",
+      "15 · Кудрявая охотница",
+      "16 · Походный капюшон",
+      "17 · Лёгкая разведчица",
+      "18 · Плетёные косы",
+      "19 · Плащ следопытки",
+      "20 · Кожаный дозор"
+    ],
+    "embedded": true,
+    "decoded": true,
+    "columns": "340.797px 340.797px 340.797px 340.797px 340.797px",
+    "columnCount": 5,
+    "zoomOpen": true,
+    "selected": "13 · Лесная мантия",
+    "zoomDecoded": [
+      1254,
+      1254
+    ],
+    "escapeClosed": true,
+    "buttonClosed": true,
+    "mobile": {
+      "width": 390,
+      "documentWidth": 390,
+      "columns": "179px 179px",
+      "columnCount": 2
+    },
+    "mobileZoom": true,
+    "mobileOverflow": false,
+    "errors": [],
+    "pass": true
+  },
+  "portable": {
+    "build_without_originals": true,
+    "corrupt_png_rejected": true,
+    "standalone_html_without_source_pngs": true,
+    "standalone_browser_checks": {
+      "title": "Лучница · варианты 11–20",
+      "documentTitle": "Лучница · варианты 11–20",
+      "cards": 10,
+      "ids": [
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20"
+      ],
+      "names": [
+        "11 · Высокий хвост",
+        "12 · Берет дозорной",
+        "13 · Лесная мантия",
+        "14 · Седая наставница",
+        "15 · Кудрявая охотница",
+        "16 · Походный капюшон",
+        "17 · Лёгкая разведчица",
+        "18 · Плетёные косы",
+        "19 · Плащ следопытки",
+        "20 · Кожаный дозор"
+      ],
+      "embedded": true,
+      "decoded": true,
+      "columns": "340.797px 340.797px 340.797px 340.797px 340.797px",
+      "columnCount": 5,
+      "zoomOpen": true,
+      "selected": "13 · Лесная мантия",
+      "zoomDecoded": [
+        1254,
+        1254
+      ],
+      "escapeClosed": true,
+      "buttonClosed": true,
+      "mobile": {
+        "width": 390,
+        "documentWidth": 390,
+        "columns": "179px 179px",
+        "columnCount": 2
+      },
+      "mobileZoom": true,
+      "mobileOverflow": false,
+      "errors": [],
+      "pass": true
+    },
+    "pass": true
+  },
+  "review": {
+    "status": "APPROVE",
+    "agent": "/root/rogue_gallery_review",
+    "scope": "fixed art/gallery package; contact and full PNG11/17/20,10 hash and source-byte matches",
+    "blocking_findings": [],
+    "not_run_by_reviewer": [
+      "browser/build checks that write reports"
+    ],
+    "open": [
+      "subjective art acceptance",
+      "exact sprite grid and alignment"
+    ],
+    "report_correction": "Nested standalone browser report was decoded through host locale by Python. Replaced from original UTF-8 browser JSON. Standalone HTML bytes equal main HTML."
+  },
+  "entry_documents": {
+    "AGENTS.md": {
+      "before_lf_chars": 4565,
+      "after_lf_chars": 4565,
+      "changed": false
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before_lf_chars": 2268,
+      "after_lf_chars": 2251,
+      "changed": true
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before_lf_chars": 3652,
+      "after_lf_chars": 3652,
+      "changed": false
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before_lf_chars": 4482,
+      "after_lf_chars": 4482,
+      "changed": false
+    }
+  },
+  "entry_document_note": "HANDOFF below2500; pre-existing PROJECT_CONTEXT3652 unchanged.",
+  "handoff_archive": {
+    "path": "docs\\CODEX_HANDOFF.history-20261103.md",
+    "sha256": "13617d9fba914e78aefcf8bba38cec9a434a82267f6d43c61587df462b314e85",
+    "byte_exact": true
+  },
+  "foreign_unchanged_files": 33
+}
