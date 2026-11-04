@@ -1,0 +1,108 @@
+{
+  "status": "PASS",
+  "clips": 12,
+  "total_generations": 60,
+  "balance_before": 4847.0,
+  "balance_after": 4787.0,
+  "balance_type": "generations",
+  "plan": "Tier 2: Pixel Artisan",
+  "credits_usd": 0.0,
+  "clips_detail": [
+    {
+      "key": "fire22-01",
+      "endpoint": "animate-pixminimax",
+      "job_id": "41d04319-412c-4a9a-b666-f720726fc765",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire22-02",
+      "endpoint": "animate-pixminimax",
+      "job_id": "9baf390c-e7cd-4dcc-aad1-942466a61512",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire22-03",
+      "endpoint": "animate-pixminimax",
+      "job_id": "413454b0-4e84-4c88-b3e3-41f043322378",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire23-01",
+      "endpoint": "animate-pixminimax",
+      "job_id": "c6f80512-57a0-437f-ad12-7096f1433225",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire23-02",
+      "endpoint": "animate-pixminimax",
+      "job_id": "0e6736e7-b233-41eb-ba89-42859fa8c879",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire23-03",
+      "endpoint": "animate-pixminimax",
+      "job_id": "20999ce3-3cf9-45a1-ab0a-2b3b4aa60f63",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire24-01",
+      "endpoint": "animate-pixminimax",
+      "job_id": "f7639744-a314-4651-b0ac-d5bf89fea09e",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire24-02",
+      "endpoint": "animate-pixminimax",
+      "job_id": "72383bc8-122a-4e5c-92b1-de66bff93e7d",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire24-03",
+      "endpoint": "animate-pixminimax",
+      "job_id": "5e02d337-5163-417d-9316-30da6e458c7f",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire29-01",
+      "endpoint": "animate-pixminimax",
+      "job_id": "d82a483e-ddf1-4e37-92e8-bef28bd3fd4b",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire29-02",
+      "endpoint": "animate-pixminimax",
+      "job_id": "3f8057b9-c7e8-4f17-8782-20a542f8cf81",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire29-03",
+      "endpoint": "animate-pixminimax",
+      "job_id": "3b4fbae3-910c-4ccf-898a-330f27a0ed29",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    }
+  ]
+}

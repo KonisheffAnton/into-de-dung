@@ -1,0 +1,258 @@
+{
+  "clips": 12,
+  "note": "Stone proxy is bottom y>=150 with input alpha>8. Colour differences do not alone prove geometry changes; inspect the frames.",
+  "details": [
+    {
+      "key": "fire22-01",
+      "kind": "fire",
+      "stone_side_pixels": 5043,
+      "stone_side_rgba_mae_max": 8.666,
+      "stone_side_changed_pixels_gt8_max": 2534,
+      "alpha_changed_pixels_max": 15184,
+      "visible_rgba_changed_pixels_max": 10392,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 8.616,
+        "stone_side_changed_pixels_gt8": 2531,
+        "alpha_changed_pixels": 14808,
+        "visible_rgba_changed_pixels": 9044
+      }
+    },
+    {
+      "key": "fire22-02",
+      "kind": "fire",
+      "stone_side_pixels": 5043,
+      "stone_side_rgba_mae_max": 8.197,
+      "stone_side_changed_pixels_gt8_max": 2201,
+      "alpha_changed_pixels_max": 15029,
+      "visible_rgba_changed_pixels_max": 9414,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 8.185,
+        "stone_side_changed_pixels_gt8": 2200,
+        "alpha_changed_pixels": 14814,
+        "visible_rgba_changed_pixels": 8440
+      }
+    },
+    {
+      "key": "fire22-03",
+      "kind": "fire",
+      "stone_side_pixels": 5043,
+      "stone_side_rgba_mae_max": 8.567,
+      "stone_side_changed_pixels_gt8_max": 2769,
+      "alpha_changed_pixels_max": 15144,
+      "visible_rgba_changed_pixels_max": 10658,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 8.567,
+        "stone_side_changed_pixels_gt8": 2769,
+        "alpha_changed_pixels": 14836,
+        "visible_rgba_changed_pixels": 9740
+      }
+    },
+    {
+      "key": "fire23-01",
+      "kind": "fire",
+      "stone_side_pixels": 5097,
+      "stone_side_rgba_mae_max": 9.016,
+      "stone_side_changed_pixels_gt8_max": 2957,
+      "alpha_changed_pixels_max": 15127,
+      "visible_rgba_changed_pixels_max": 11469,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 8.85,
+        "stone_side_changed_pixels_gt8": 2924,
+        "alpha_changed_pixels": 14834,
+        "visible_rgba_changed_pixels": 9768
+      }
+    },
+    {
+      "key": "fire23-02",
+      "kind": "fire",
+      "stone_side_pixels": 5097,
+      "stone_side_rgba_mae_max": 8.575,
+      "stone_side_changed_pixels_gt8_max": 2766,
+      "alpha_changed_pixels_max": 15190,
+      "visible_rgba_changed_pixels_max": 11293,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 8.38,
+        "stone_side_changed_pixels_gt8": 2749,
+        "alpha_changed_pixels": 14830,
+        "visible_rgba_changed_pixels": 9489
+      }
+    },
+    {
+      "key": "fire23-03",
+      "kind": "fire",
+      "stone_side_pixels": 5097,
+      "stone_side_rgba_mae_max": 10.041,
+      "stone_side_changed_pixels_gt8_max": 2995,
+      "alpha_changed_pixels_max": 15159,
+      "visible_rgba_changed_pixels_max": 11783,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 8.784,
+        "stone_side_changed_pixels_gt8": 2949,
+        "alpha_changed_pixels": 14829,
+        "visible_rgba_changed_pixels": 9858
+      }
+    },
+    {
+      "key": "fire24-01",
+      "kind": "fire",
+      "stone_side_pixels": 5085,
+      "stone_side_rgba_mae_max": 7.492,
+      "stone_side_changed_pixels_gt8_max": 2338,
+      "alpha_changed_pixels_max": 15077,
+      "visible_rgba_changed_pixels_max": 10158,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 7.237,
+        "stone_side_changed_pixels_gt8": 2303,
+        "alpha_changed_pixels": 14836,
+        "visible_rgba_changed_pixels": 8164
+      }
+    },
+    {
+      "key": "fire24-02",
+      "kind": "fire",
+      "stone_side_pixels": 5085,
+      "stone_side_rgba_mae_max": 7.302,
+      "stone_side_changed_pixels_gt8_max": 2226,
+      "alpha_changed_pixels_max": 15199,
+      "visible_rgba_changed_pixels_max": 10160,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 7.183,
+        "stone_side_changed_pixels_gt8": 2226,
+        "alpha_changed_pixels": 14990,
+        "visible_rgba_changed_pixels": 9380
+      }
+    },
+    {
+      "key": "fire24-03",
+      "kind": "fire",
+      "stone_side_pixels": 5085,
+      "stone_side_rgba_mae_max": 8.518,
+      "stone_side_changed_pixels_gt8_max": 2749,
+      "alpha_changed_pixels_max": 15277,
+      "visible_rgba_changed_pixels_max": 11208,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 8.392,
+        "stone_side_changed_pixels_gt8": 2713,
+        "alpha_changed_pixels": 14840,
+        "visible_rgba_changed_pixels": 9349
+      }
+    },
+    {
+      "key": "fire29-01",
+      "kind": "fire",
+      "stone_side_pixels": 5037,
+      "stone_side_rgba_mae_max": 8.034,
+      "stone_side_changed_pixels_gt8_max": 2113,
+      "alpha_changed_pixels_max": 14965,
+      "visible_rgba_changed_pixels_max": 9784,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 7.71,
+        "stone_side_changed_pixels_gt8": 2097,
+        "alpha_changed_pixels": 14711,
+        "visible_rgba_changed_pixels": 8857
+      }
+    },
+    {
+      "key": "fire29-02",
+      "kind": "fire",
+      "stone_side_pixels": 5037,
+      "stone_side_rgba_mae_max": 8.317,
+      "stone_side_changed_pixels_gt8_max": 2376,
+      "alpha_changed_pixels_max": 15360,
+      "visible_rgba_changed_pixels_max": 10841,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 8.244,
+        "stone_side_changed_pixels_gt8": 2371,
+        "alpha_changed_pixels": 14763,
+        "visible_rgba_changed_pixels": 9484
+      }
+    },
+    {
+      "key": "fire29-03",
+      "kind": "fire",
+      "stone_side_pixels": 5037,
+      "stone_side_rgba_mae_max": 8.702,
+      "stone_side_changed_pixels_gt8_max": 2494,
+      "alpha_changed_pixels_max": 15113,
+      "visible_rgba_changed_pixels_max": 10590,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 8.638,
+        "stone_side_changed_pixels_gt8": 2484,
+        "alpha_changed_pixels": 14755,
+        "visible_rgba_changed_pixels": 9665
+      }
+    }
+  ]
+}

@@ -25,6 +25,7 @@
     "changed": []
   },
   "archive_equal": true,
+  "archive_git_equal": true,
   "character_style_lock_unchanged": true,
   "input_sizes": {
     "AGENTS.md": {

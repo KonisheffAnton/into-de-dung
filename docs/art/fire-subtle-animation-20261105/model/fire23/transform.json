@@ -1,0 +1,19 @@
+{
+  "source": "../fire-low-styles-20261104/fire-low-23.png",
+  "source_sha256": "f8becff0734f5d623d628fb1b3da73ad28270b83f02abd884e6a2c1110c22ca0",
+  "original_copy": "model/fire23/source-original.png",
+  "input": "model/fire23/input-256.png",
+  "input_sha256": "d3a2fc0a85926e6e6696bf76fd533649fe39e10182a0ba4572228517326acf78",
+  "source_size": [
+    1254,
+    1254
+  ],
+  "input_size": [
+    256,
+    256
+  ],
+  "crop": null,
+  "resize": "Pillow LANCZOS, whole frame",
+  "pixel_retouch": false,
+  "integration": false
+}
