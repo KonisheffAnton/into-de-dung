@@ -266,9 +266,12 @@ Animation(-128,-100). У плёнки `acid_film_surface.gdshader` дополн�
 
 Прежний `acid_pool_01.tscn`/acid05-01 остаётся непрозрачной жидкостью внутри
 `deep_acid_pool.tscn`. Terrain DEEP_ACID скрывает GroundBase/GroundSurface/SurfaceSprite,
-сохраняет боковины, подсветку и picking. Авторская сцена содержит край и внутренние
-стенки; поверхность жидкости опущена на8 native px, scale0.83. Это только визуальная
-глубина, логические halfsteps не меняются. BattleTerrainVisual владеет узлом,
+сохраняет боковины, подсветку и picking. По позднему уточнению U2026-11-05 рамка и внутренние стенки удалены:
+жидкость занимает полный ромб128×96, scale1, на8 native px ниже пола.
+Верхние вершины рисуемых боковин опущены к жидкости, нижние остаются на месте.
+Каждый sync берёт свежую геометрию из базового renderer: сдвиг не накапливается,
+возврат к FLOOR восстанавливает боковины. Логические halfsteps, top_polygon,
+picking и Y-sort не меняются. BattleTerrainVisual владеет узлом,
 включает его по detached terrain и сохраняет при refresh/resize; VOID скрывает его.
 Смерть использует fall/vanish без тела по [правилу](ENVIRONMENT_HAZARDS_V1.md#глубокая-кислота--2026-11-05).
 
@@ -277,7 +280,8 @@ BattleAnimatedAcidPool владеет локальным AnimatedSprite2D с э�
 повторный показ продолжает; retire/выход останавливает часы. SpriteFrames/материалы
 общие и не мутируются. Нет TIME, игровых RNG/команд/ресурсов действий.
 Покрытия наследуют прежний Y-sort и collapse fade; тела и отметки остаются сверху.
-[Текущие свидетельства](art/liquid-hazards-integration-20261105/README.md).
+[Текущие свидетельства полного тайла](art/deep-acid-full-tile-20261105/README.md).
+[Первоначальная интеграция](art/liquid-hazards-integration-20261105/README.md) содержит прежний бортик.
 [Прежняя интеграция](art/acid01-integration-20261104/README.md) не считается перепроверенной.
 Художественная приёмка в F5/движении/zoom/DPI остаётся отдельной.
 

@@ -326,6 +326,14 @@ func check_selected_hazards() -> void:
 		if tile.deep_acid:
 			var liquid := tile._deep_acid_view.get_node(^"Liquid") as BattleAnimatedAcidPool
 			check(liquid.position.y == 8.0 and pool_sprite(liquid).sprite_frames.resource_path.ends_with("acid01_frames.tres"), "deep liquid reuses old animation eight native pixels below floor")
+			check(liquid.scale == Vector2.ONE and tile._deep_acid_view.get_child_count() == 1, "full-size deep liquid has no authored rim or pit frame")
+			var left := tile.get_node(^"ArtRoot/SideLeft") as Polygon2D
+			var logical_top := tile.top_polygon()
+			var side_before := left.polygon.duplicate()
+			tile.sync_scene_art()
+			tile.sync_scene_art()
+			check(left.polygon == side_before and tile.top_polygon() == logical_top, "repeated deep sync preserves side geometry and logical picking surface")
+			check(is_equal_approx(left.polygon[0].y, 8.5) and is_equal_approx(left.polygon[1].y, 56.5), "masonry upper edges meet recessed full-width liquid")
 			check(not (tile.get_node(^"ArtRoot/GroundSurface") as CanvasItem).is_visible_in_tree(), "deep liquid hides solid top across biomes")
 			tile.retire_view()
 			check(not pool_sprite(liquid).is_playing() and not tile._deep_acid_view.visible, "deep liquid retirement stops clock")
@@ -338,6 +346,7 @@ func check_selected_hazards() -> void:
 			values.deep_acid = false
 			tile.apply_view(values, config)
 			check((tile.get_node(^"ArtRoot/GroundSurface") as CanvasItem).is_visible_in_tree() and not tile._deep_acid_view.visible, "replacement by floor restores biome top")
+			check(is_equal_approx(left.polygon[0].y, 0.5) and is_equal_approx(left.polygon[1].y, 48.5), "ordinary floor restores original masonry upper edges")
 			values.deep_acid = true
 			tile.apply_view(values, config)
 		else:
@@ -364,6 +373,16 @@ func check_selected_hazards() -> void:
 		for center: Vector2i in [Vector2i(750, 110), Vector2i(750, 350)]:
 			var color := rendered.get_pixelv(center)
 			check(color.a > 0.9 and color.g > color.r, "deep liquid produces visible green pixels in comparison")
+			var edge_samples := 0
+			var green_samples := 0
+			for y: int in range(-48, 49):
+				for x: int in range(-64, 65):
+					var distance := absf(float(x)) / 64.0 + absf(float(y)) / 48.0
+					if distance < 0.87 or distance > 0.94: continue
+					edge_samples += 1
+					var pixel := rendered.get_pixelv(center + Vector2i(x, y + 8))
+					if pixel.a > 0.9 and pixel.g > 0.4 and pixel.g > pixel.b * 1.5: green_samples += 1
+			check(edge_samples > 0 and float(green_samples) / edge_samples > 0.9, "deep acid covers outer band of full tile instead of inset pool")
 		check(rendered.save_png(captures.path_join("selected-liquid-caltrops.png")) == OK, "selected hazards comparison captured")
 	viewport.queue_free()
 	await process_frame

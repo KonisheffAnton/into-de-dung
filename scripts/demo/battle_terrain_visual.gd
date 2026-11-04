@@ -93,7 +93,18 @@ func sync_scene_art() -> void:
 		_deep_acid_view.visible = active
 		_deep_acid_view.position = _top_offset()
 		_deep_acid_view.scale = Vector2.ONE * (grid_config.tile_size.x / 128.0)
-		(_deep_acid_view.get_node(^"Liquid") as BattleAnimatedAcidPool).set_active(active)
+		var liquid := _deep_acid_view.get_node(^"Liquid") as BattleAnimatedAcidPool
+		liquid.set_active(active)
+		if active:
+			# Полный ромб жидкости ниже пола; верх кладки следует за ним без отдельного бортика.
+			# super каждый раз восстанавливает исходные вершины: смещение не накапливается.
+			for path: NodePath in [^"ArtRoot/SideLeft", ^"ArtRoot/SideRight"]:
+				var side := get_node_or_null(path) as Polygon2D
+				if side == null or not side.visible or side.polygon.size() != 4: continue
+				var points := side.polygon
+				points[0].y += liquid.position.y
+				points[1].y += liquid.position.y
+				side.polygon = points
 
 func sync_view_transform() -> void:
 	pass

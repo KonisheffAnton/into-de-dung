@@ -28,7 +28,8 @@ visual_scene_contract presentation_environment hazards_ui dungeon_room_compariso
 Проверяются вход/толчок/отсутствие нового тела, snapshot/worker/live и безопасные
 маршруты BT; ресурсы33 кадров/10FPS, pause/resume/retire, повторная публикация,
 шесть материалов/высота, прозрачность каждого кадра и отрицательный контроль,
-утопленная жидкость/пиксельная видимость, текущий хаб и неизменность snapshot/RNG. PNG — в
+утопленная жидкость на всём ромбе без рамки, пиксельная видимость по краям,
+повторный sync/восстановление боковин и неизменность picking, текущий хаб и неизменность snapshot/RNG. PNG — в
 `acid-tile-animation-screenshots/`. Это не ручная приёмка стыка/zoom/DPI/performance.
 
 Маг02/Лучница14-04 (2026-11-03): `--check --only mage_archer_skins

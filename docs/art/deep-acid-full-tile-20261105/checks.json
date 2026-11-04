@@ -1,0 +1,31 @@
+{
+  "base": "9c0064669c43732eaeef45b2f8078bd1f68196d9",
+  "isolated_report": "test_reports/demo-afe6e9d35e8c4e539b668be43d780bf2",
+  "command": "python tools/demo/isolate.py --render-check --only acid_tile_animation environment_visual_contract visual_scene_contract dungeon_room_comparison presentation_environment --screen 0",
+  "import": "PASS",
+  "startup": "PASS",
+  "acid_tile_animation": [
+    227,
+    0
+  ],
+  "environment_visual_contract": [
+    32,
+    0
+  ],
+  "visual_scene_contract": [
+    106,
+    0
+  ],
+  "dungeon_room_comparison": [
+    1983,
+    0
+  ],
+  "presentation_environment": [
+    364,
+    0
+  ],
+  "core_or_full_rerun": false,
+  "manual_F5_acceptance": false,
+  "runtime_frames_edited": false,
+  "independent_review": "APPROVE"
+}
