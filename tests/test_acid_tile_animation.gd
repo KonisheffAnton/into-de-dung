@@ -3,8 +3,8 @@ extends SceneTree
 const HUB_SCENE: PackedScene = preload("res://scenes/demo/hero_hub.tscn")
 const DUNGEON_TILE: PackedScene = preload("res://scenes/demo/visuals/dungeon_comparison_tile.tscn")
 const DUNGEON_ENVIRONMENT: PackedScene = preload("res://scenes/demo/visuals/dungeon_room_environment.tscn")
-const ACID_SCENE: PackedScene = preload("res://scenes/demo/visuals/hazards/acid_pool_01.tscn")
-const ACID_FRAMES: SpriteFrames = preload("res://assets/art_presets/approved/acid05_selected_v1/acid01_frames.tres")
+const ACID_SCENE: PackedScene = preload("res://scenes/demo/visuals/hazards/acid_film_05.tscn")
+const ACID_FRAMES: SpriteFrames = preload("res://assets/art_presets/approved/environment_hazards_selected_v1/acid_film05_frames.tres")
 const ACID_CELL := Vector2i(2, 6)
 const BIOME_CELLS: Array[Vector2i] = [Vector2i(0, 0), Vector2i(8, 0), Vector2i(16, 0),
 	Vector2i(0, 8), Vector2i(8, 8), Vector2i(16, 8)]
@@ -182,10 +182,10 @@ func check_mask_render() -> void:
 					if alpha > 0.02: outside_alpha += 1
 				elif diamond_distance <= 0.94:
 					interior_samples += 1
-					if alpha >= 0.95: solid_interior += 1
+					if alpha > 0.02 and alpha < 0.65: solid_interior += 1
 		check(outside_alpha == 0, "frame %02d has no stone or acid outside the logical diamond" % index)
-		check(interior_samples > 0 and float(solid_interior) / float(interior_samples) >= 0.99,
-			"frame %02d preserves opaque acid across the interior diamond" % index)
+		check(interior_samples > 0 and float(solid_interior) / float(interior_samples) >= 0.55,
+			"frame %02d shows translucent green film across the interior diamond" % index)
 		if index == 0:
 			sprite.material = null
 			await RenderingServer.frame_post_draw
@@ -244,6 +244,9 @@ func check_live_route() -> void:
 		check(tile != null and overlay != null and pool != null and overlay.acid_pool and pool.visible and sprite.is_playing(),
 			"live C7 hazard displays typed acid animation overlay")
 		check(top != null and top.is_visible_in_tree(), "live acid overlay preserves native dungeon diamond surface")
+		var deep := battle.board_view._terrain_visuals.get(Vector3i(3, 6, 0)) as BattleTerrainVisual
+		check(deep != null and deep.deep_acid and deep._deep_acid_view != null and deep._deep_acid_view.visible, "live D7 displays recessed deep acid")
+		check(deep != null and not (deep.get_node(^"ArtRoot/GroundSurface") as CanvasItem).visible, "deep acid replaces solid floor top")
 		var baseline := snapshot(battle.session as BattleCoreReactionsSession)
 		if tile != null and overlay != null and sprite != null:
 			sprite.speed_scale = 0.0
@@ -304,12 +307,74 @@ func check_live_route() -> void:
 	viewport.queue_free()
 	await process_frame
 
+func check_selected_hazards() -> void:
+	var config := IsoGridConfig.new()
+	config.tile_size = Vector2(128, 96)
+	config.height_step = 32.0
+	var viewport := SubViewport.new()
+	viewport.size = Vector2i(900, 470)
+	viewport.transparent_bg = true
+	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	root.add_child(viewport)
+	for index: int in 6:
+		var tile := DUNGEON_TILE.instantiate() as BattleTerrainVisual
+		viewport.add_child(tile)
+		var values := terrain_values(BIOME_CELLS[index])
+		values.deep_acid = index % 3 == 2
+		tile.apply_view(values, config)
+		tile.position = Vector2(150 + (index % 3) * 300, 110 + (index / 3) * 240)
+		if tile.deep_acid:
+			var liquid := tile._deep_acid_view.get_node(^"Liquid") as BattleAnimatedAcidPool
+			check(liquid.position.y == 8.0 and pool_sprite(liquid).sprite_frames.resource_path.ends_with("acid01_frames.tres"), "deep liquid reuses old animation eight native pixels below floor")
+			check(not (tile.get_node(^"ArtRoot/GroundSurface") as CanvasItem).is_visible_in_tree(), "deep liquid hides solid top across biomes")
+			tile.retire_view()
+			check(not pool_sprite(liquid).is_playing() and not tile._deep_acid_view.visible, "deep liquid retirement stops clock")
+			tile.apply_view(values, config)
+			check(pool_sprite(liquid).is_playing(), "deep liquid resumes on reuse")
+			values.is_void = true
+			tile.apply_view(values, config)
+			check(not tile._deep_acid_view.visible and not pool_sprite(liquid).is_playing(), "collapse VOID hides liquid and pauses clock")
+			values.is_void = false
+			values.deep_acid = false
+			tile.apply_view(values, config)
+			check((tile.get_node(^"ArtRoot/GroundSurface") as CanvasItem).is_visible_in_tree() and not tile._deep_acid_view.visible, "replacement by floor restores biome top")
+			values.deep_acid = true
+			tile.apply_view(values, config)
+		else:
+			var overlay := make_environment(tile, index % 3 == 0)
+			overlay.position = tile.get_visual_offset() + Vector2(0, 0.5)
+			if index % 3 == 1:
+				overlay.configure(true, false, false, [])
+				var caltrops := overlay.get_node(^"Caltrops") as BattleAnimatedAcidPool
+				var sprite := pool_sprite(caltrops)
+				check(sprite.animation == &"caltrops" and sprite.sprite_frames.get_frame_count(&"caltrops") == 33 and sprite.is_playing(), "selected glints animate static caltrops")
+				sprite.speed_scale = 0.0
+				sprite.set_frame_and_progress(14, 0.25)
+				overlay.configure(true, false, false, [])
+				check(sprite.frame == 14 and sprite.frame_progress == 0.25, "caltrops refresh preserves frame")
+				overlay.retire_view()
+				check(not sprite.is_playing() and not caltrops.visible, "caltrops retirement stops clock")
+				overlay.configure(true, false, false, [])
+		# apply_view повторно ставит grid anchor: фиксированная раскладка стенда задаётся после lifecycle-проб.
+		tile.position = Vector2(150 + (index % 3) * 300, 110 + (index / 3) * 240)
+	await process_frame
+	if gpu_available and not captures.is_empty():
+		await RenderingServer.frame_post_draw
+		var rendered := viewport.get_texture().get_image()
+		for center: Vector2i in [Vector2i(750, 110), Vector2i(750, 350)]:
+			var color := rendered.get_pixelv(center)
+			check(color.a > 0.9 and color.g > color.r, "deep liquid produces visible green pixels in comparison")
+		check(rendered.save_png(captures.path_join("selected-liquid-caltrops.png")) == OK, "selected hazards comparison captured")
+	viewport.queue_free()
+	await process_frame
+
 func run() -> void:
 	if not captures.is_empty(): DirAccess.make_dir_recursive_absolute(captures)
 	check_resource_contract()
 	await check_pool_lifecycle()
 	await check_biome_surfaces()
 	await check_mask_render()
+	await check_selected_hazards()
 	await check_live_route()
 	if not gpu_available: print("SKIP ACID GPU MASK: headless renderer")
 	print("ACID TILE ANIMATION RESULTS: %d passed, %d failed" % [passed, failed])

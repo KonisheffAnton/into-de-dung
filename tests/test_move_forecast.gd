@@ -113,6 +113,12 @@ func _prepared_workers() -> void:
 	await _worker_parity(combat, command(combat), "combat rng spikes", ActionReceipt.APPLIED)
 	combat.close()
 
+	var deep := fixture()
+	deep.context._rng = CombatRng.new(719)
+	deep.board.set_terrain(Vector2i(1, 0), TerrainType.Type.DEEP_ACID)
+	await _worker_parity(deep, command(deep), "deep acid worker", ActionReceipt.INTERRUPTED)
+	deep.close()
+
 	var falling := fixture()
 	falling.context._rng = CombatRng.new(271)
 	falling.board.set_height_steps(Vector2i(0, 0), 6)
@@ -244,13 +250,14 @@ func _paths() -> void:
 	s.close()
 
 func _hazards() -> void:
-	for kind: int in 5:
+	for kind: int in 6:
 		var s := fixture()
 		var actor := s.units[0]
 		for item: ItemInstance in s.state.get_owner(actor.id)._items.values(): item.armor_remaining = 0
 		if kind in [0, 1, 4]: s.state.environment.ignite(Vector2i(1, 0))
 		if kind == 1 or kind == 4: actor.vitals.set_hp(1)
 		if kind == 2: s.board.set_terrain(Vector2i(1, 0), TerrainType.Type.HAZARD)
+		if kind == 5: s.board.set_terrain(Vector2i(1, 0), TerrainType.Type.DEEP_ACID)
 		if kind == 3:
 			s.board.set_height_steps(Vector2i(0, 0), 6)
 			actor.height = 3
@@ -258,12 +265,14 @@ func _hazards() -> void:
 		if kind == 4:
 			for other: UnitState in [s.units[2], s.units[4]]:
 				s._queue.submit(DeathCommand.new(other.id, DamageSource.new(&"test", 0, other.cell)), s.context)
+		var corpses_before := s.state.environment.corpses.duplicate(true)
 		var f := parity(s, command(s), "hazard " + str(kind), ActionReceipt.APPLIED if kind == 0 else ActionReceipt.INTERRUPTED)
 		if kind == 0: check(actor.vitals.get_hp() == 24 and actor.cell == Vector2i(3, 0), "nonlethal spike continues")
 		else:
-			check(not actor.is_alive() and actor.cell == Vector2i(1, 0) and actor.move_points_left == (2.0 if kind == 2 else 4.0) and f.traversed_path.size() == 2 and f.requested_path.size() == 4, "lethal pays executed prefix only " + str(kind))
+			check(not actor.is_alive() and actor.cell == Vector2i(1, 0) and actor.move_points_left == (2.0 if kind in [2, 5] else 4.0) and f.traversed_path.size() == 2 and f.requested_path.size() == 4, "lethal pays executed prefix only " + str(kind))
 			check(s.board.occupant_at(actor.cell) == null and _count_event(f, &"died") == 1, "single death frees occupancy")
 		if kind == 1 or kind == 4: check(_count_event(f, &"corpse_created") == 1, "single corpse")
+		if kind in [2, 5]: check(_count_event(f, &"corpse_created") == 0 and s.state.environment.corpses == corpses_before and s.state.environment.processed_deaths.has(actor.id), "lethal liquid preserves existing corpses and records bodyless death")
 		if kind == 4:
 			check(not actor.armor.in_battle, "terminal interrupted submit expires armor")
 			(s as BattleTacticalSession)._check_outcome()

@@ -20,6 +20,8 @@ func check(ok: bool, label: String) -> void:
 
 func _run() -> void:
 	_codec()
+	_deep_acid_codec()
+	_deep_acid_ai()
 	_delayed()
 	_leave_reenter()
 	_falls()
@@ -114,6 +116,53 @@ func _codec() -> void:
 	check(ItemSimulationSnapshot.from_dict(broken).code != ItemSnapshotResult.Code.OK, "reject unknown latch occupant")
 	broken = raw.duplicate(true); broken.environment.hazards.acid = [Vector2i(4, 4), Vector2i(4, 4)]
 	check(ItemSimulationSnapshot.from_dict(broken).code != ItemSnapshotResult.Code.OK, "reject duplicate acid")
+	s.close()
+
+func _deep_acid_codec() -> void:
+	check(TerrainType.Type.DEEP_ACID == 4 and TerrainType.Type.VOID == 3, "terrain IDs append without renumbering")
+	var board := BattleBoard.new(6, 1)
+	for kind: int in 5: board.set_terrain(Vector2i(kind, 0), kind as TerrainType.Type)
+	var raw := board.to_snapshot_dict()
+	check(BattleBoard.validate_snapshot_dict(raw), "board2 accepts all five terrain IDs")
+	var restored := BattleBoard.from_snapshot_dict(raw)
+	check(restored != null and restored.to_snapshot_dict() == raw, "board2 deep acid roundtrip")
+	var captured := SimulationSnapshot.capture_board(board, [])
+	check(captured.code == BoardSnapshotResult.Code.OK and captured.snapshot.instantiate_board().to_snapshot_dict() == raw, "board-only snapshot roundtrips deep acid")
+	var broken := raw.duplicate(true)
+	broken.terrain[0] = 5
+	check(not BattleBoard.validate_snapshot_dict(broken) and BattleBoard.from_snapshot_dict(broken) == null, "unknown future terrain ID rejected by board")
+	check(SimulationSnapshot.from_dict({"schema_version": 1, "scope": SimulationSnapshot.SCOPE, "board": broken}).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "unknown terrain rejected by board-only snapshot")
+	var s := fixture()
+	s.board.set_terrain(Vector2i(4, 4), TerrainType.Type.DEEP_ACID)
+	var item_raw := snap(s)
+	check(ItemSimulationSnapshot.from_dict(item_raw).code == ItemSnapshotResult.Code.OK, "item snapshot accepts deep acid")
+	check(s.state.environment.hazards.acid.is_empty(), "deep liquid is independent from shallow corrosion cells")
+	s.close()
+
+func _deep_acid_ai() -> void:
+	var s := fixture()
+	var actor := s.units[0]
+	s.board.move_unit(s.units[1], Vector2i(4, 3))
+	for cell: Vector2i in [Vector2i(1, 3), Vector2i(2, 2), Vector2i(2, 4)]:
+		s.board.set_terrain(cell, TerrainType.Type.WALL)
+	var bt := BattleDemoBT.new()
+	bt._session = s
+	bt._actor = actor
+	check(bt._advance() != null, "AI can advance through ordinary corridor")
+	s.board.set_terrain(Vector2i(3, 3), TerrainType.Type.DEEP_ACID)
+	var before := snap(s)
+	var rng := s.context.get_rng().to_dict()
+	check(bt._advance() == null, "AI refuses only available route into deep acid")
+	check(snap(s) == before and s.context.get_rng().to_dict() == rng, "AI refusal leaves snapshot and RNG unchanged")
+	s.state.environment.collapse = {"turn": 1, "marked": [actor.cell]}
+	before = snap(s)
+	check(bt._escape_collapse() == null, "AI cannot escape collapse into deep acid")
+	check(snap(s) == before and s.context.get_rng().to_dict() == rng, "collapse escape refusal preserves state")
+	s.board.set_terrain(Vector2i(2, 2), TerrainType.Type.FLOOR)
+	var advance := bt._advance()
+	var escape := bt._escape_collapse()
+	check(advance != null and not advance.path.has(Vector2i(3, 3)), "AI finds alternate path around deep acid")
+	check(escape != null and not escape.path.has(Vector2i(3, 3)), "collapse escape uses alternate safe route")
 	s.close()
 
 func _delayed() -> void:
@@ -300,6 +349,7 @@ func _opening() -> void:
 	if bundle.is_empty(): return
 	var s: BattleCoreReactionsSession = bundle.session
 	check(s.state.environment.hazards.traps.size() == 3 and s.state.environment.hazards.acid == [Vector2i(2, 6)], "first room contains two floor plates, wall spikes and acid")
+	check(s.board.get_terrain(Vector2i(3, 6)) == TerrainType.Type.DEEP_ACID and s.board.occupant_at(Vector2i(3, 6)) == null, "opening deep acid occupies a free D7 without changing shallow acid")
 	var ledge_face_count: int = 0
 	for trap: Dictionary in s.state.environment.hazards.traps:
 		if trap.kind == "wall" and trap.cell == Vector2i(5, 3) and trap.direction == Vector2i.LEFT: ledge_face_count += 1

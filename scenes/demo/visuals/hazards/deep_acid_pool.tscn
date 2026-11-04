@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/acid_pool_01.tscn" id="1_liquid"]
+
+[node name="DeepAcid" type="Node2D"]
+show_behind_parent = true
+
+[node name="Pit" type="Polygon2D" parent="."]
+color = Color(0.09, 0.14, 0.06, 1)
+polygon = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
+
+[node name="BackLeft" type="Polygon2D" parent="."]
+color = Color(0.22, 0.26, 0.18, 1)
+polygon = PackedVector2Array(-54, 0, 0, -40, 0, -32, -54, 8)
+
+[node name="BackRight" type="Polygon2D" parent="."]
+color = Color(0.15, 0.19, 0.12, 1)
+polygon = PackedVector2Array(0, -40, 54, 0, 54, 8, 0, -32)
+
+[node name="Liquid" parent="." instance=ExtResource("1_liquid")]
+show_behind_parent = false
+position = Vector2(0, 8)
+scale = Vector2(0.83, 0.83)
+
+[node name="RimBackLeft" type="Polygon2D" parent="."]
+color = Color(0.36, 0.39, 0.31, 1)
+polygon = PackedVector2Array(-64, 0, 0, -48, 0, -40, -54, 0)
+
+[node name="RimBackRight" type="Polygon2D" parent="."]
+color = Color(0.30, 0.33, 0.26, 1)
+polygon = PackedVector2Array(0, -48, 64, 0, 54, 0, 0, -40)
+
+[node name="RimFrontLeft" type="Polygon2D" parent="."]
+color = Color(0.39, 0.41, 0.34, 1)
+polygon = PackedVector2Array(-64, 0, -54, 0, 0, 40, 0, 48)
+
+[node name="RimFrontRight" type="Polygon2D" parent="."]
+color = Color(0.32, 0.35, 0.28, 1)
+polygon = PackedVector2Array(54, 0, 64, 0, 0, 48, 0, 40)

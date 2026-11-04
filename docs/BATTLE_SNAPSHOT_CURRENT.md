@@ -45,6 +45,11 @@
 | CombatEnvironmentState | environment5; `status_effects:bool`, опциональные collapse/hazards (hazards1; опциональный wall_mount=ledge); status требует collapse, hazards требует status |
 | BattleAbilityState | abilities3; `ruleset_id` пустой для прежней маны либо `u14-deck-v1`, обязательный `first_team`; прежний режим требует first_team=1 |
 
+С2026-11-05 terrain в board2 допускает ID0–4: прежние FLOOR/WALL/HAZARD/VOID
+сохраняют0–3, DEEP_ACID добавлен как4. Неизвестные значения отклоняются всеми
+board/item/board-only validators. Форма board2 и остальные номера схем прежние;
+каталоги1–3 не мигрируют. [Поведение глубокой кислоты](ENVIRONMENT_HAZARDS_V1.md#глубокая-кислота--2026-11-05).
+
 Вложенные старые номера armor1–3/bleeding1–3/elemental1–2/perks1–6/
 environment1–4/abilities1–2 отклоняются. Game modes и их числовые правила
 сохранены. Валидаторы событий, guards, UI и колода читают явные признаки режима.

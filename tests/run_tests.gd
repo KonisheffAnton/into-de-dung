@@ -2692,7 +2692,8 @@ func _test_p02_a10_rejections() -> void:
 		[["board", "width"], 1025], [["board", "height"], -1], [["board", "board_version"], -1],
 		[["board", "heights"], PackedInt32Array()], [["board", "terrain"], "bad"],
 		[["board", "units"], {}], [["board", "occupancy"], null], [["board", "terrain"], [0]],
-		[["board", "terrain", 0], 4], [["board", "heights", 0], 2147483648],
+		# ID4 теперь DEEP_ACID; проверка отказа остаётся на первом неизвестном ID.
+		[["board", "terrain", 0], 5], [["board", "heights", 0], 2147483648],
 		[["board", "units", 0, "id"], 0], [["board", "units", 0, "faction"], 3],
 		[["board", "units", 0, "cell_x"], 4294967296], [["board", "units", 0, "debug_name"], 1],
 		[["board", "units", 0, "move_points_left"], 1], [["board", "units", 0, "has_attacked"], 1],

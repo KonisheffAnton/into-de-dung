@@ -18,6 +18,7 @@ var _body_authored_transforms: Dictionary = {}
 var _body_authored_components: Dictionary = {}
 var _scene_sync_depth: int = 0
 var is_void: bool = false
+var deep_acid: bool = false
 var selected: bool = false
 var reachable: bool = false
 var enemy_range: bool = false
@@ -347,15 +348,15 @@ func _sync_scene_art_layers() -> void:
 		preset.visible = preset == selected_enemy_preset and unit != null and unit.alive
 		preset.modulate = Color.WHITE
 	if surface != null:
-		surface.visible = role != Role.UNIT and not ground_art_active and not is_void
+		surface.visible = role != Role.UNIT and not ground_art_active and not is_void and not deep_acid
 		surface.position = surface_position
 		surface.modulate = _surface_tint()
 	if ground_base != null:
-		ground_base.visible = ground_art_active
+		ground_base.visible = ground_art_active and not deep_acid
 		ground_base.position = surface_position
 		ground_base.color = ground_base_tint
 	if ground_surface != null:
-		ground_surface.visible = ground_art_active
+		ground_surface.visible = ground_art_active and not deep_acid
 		ground_surface.position = surface_position
 		ground_surface.modulate = Color.WHITE
 	if body != null:

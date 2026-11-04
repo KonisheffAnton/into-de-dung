@@ -240,7 +240,7 @@ static func _board_arrays_shape(board: Dictionary) -> bool:
 	for value: Variant in board["heights"]:
 		if typeof(value) != TYPE_INT or value < -2147483648 or value > 2147483647: return false
 	for value: Variant in board["terrain"]:
-		if typeof(value) != TYPE_INT or value < 0 or value > 3: return false
+		if typeof(value) != TYPE_INT or value < 0 or value > TerrainType.Type.DEEP_ACID: return false
 	for unit: Variant in board["units"]:
 		if typeof(unit) != TYPE_DICTIONARY: return false
 	for occupant: Variant in board["occupancy"]:

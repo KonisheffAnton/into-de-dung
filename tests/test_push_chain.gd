@@ -286,7 +286,7 @@ func _shielded_collision_capacity() -> void:
 	s.close()
 
 func _geometry() -> void:
-	for shape: String in ["wall", "ledge", "void", "hazard", "fall", "fire"]:
+	for shape: String in ["wall", "ledge", "void", "hazard", "deep_acid", "fall", "fire"]:
 		var s := fixture()
 		var destination := Vector2i(5, 3)
 		if shape in ["wall", "ledge"]:
@@ -297,15 +297,18 @@ func _geometry() -> void:
 			"ledge": s.board.set_height_steps(destination, 2)
 			"void": s.board.set_terrain(destination, TerrainType.Type.VOID)
 			"hazard": s.board.set_terrain(destination, TerrainType.Type.HAZARD)
+			"deep_acid": s.board.set_terrain(destination, TerrainType.Type.DEEP_ACID)
 			"fall": s.board.set_height_steps(destination, -2)
 			"fire": s.state.environment.ignite(destination)
+		var corpses_before := s.state.environment.corpses.duplicate(true)
 		var receipt := parity(s, "terminal " + shape)
 		check(receipt.status == ActionReceipt.APPLIED and events(receipt, &"chain_link").size() == 2, "terminal geometry keeps chain " + shape)
 		if shape in ["wall", "ledge"]:
 			check(s.units[5].cell == Vector2i(4, 3) and events(receipt, &"push_blocked").size() == 1, "wall or ledge blocks terminal " + shape)
 			var terminal_collision_raw := _hit_raw_totals(receipt, s.units[5].id, &"collision")
 			check(terminal_collision_raw.size() == 2 and is_equal_approx(terminal_collision_raw[0], 9.0) and is_equal_approx(terminal_collision_raw[1], 9.0), "terminal receives transmitted impulse and wall hit " + shape)
-		elif shape in ["void", "hazard"]:
+		elif shape in ["void", "hazard", "deep_acid"]:
+			check(events(receipt, &"corpse_created").is_empty() and s.state.environment.corpses == corpses_before and s.state.environment.processed_deaths.has(s.units[5].id), "terminal liquid preserves existing corpses and records bodyless death " + shape)
 			check(not s.units[5].is_alive() and s.units[1].cell == Vector2i(2, 3) and s.units[2].cell == Vector2i(3, 3), "lethal terrain kills only terminal movement " + shape)
 		else:
 			check(s.units[5].cell == destination and events(receipt, &"moved").size() == 1, "fall or fire moves only terminal " + shape)

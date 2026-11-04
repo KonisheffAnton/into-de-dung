@@ -7,7 +7,7 @@ class_name TerrainType
 ## компромисс на время вертикального среза (R-7). Data-driven тайлы нужны,
 ## когда у клеток появятся уникальные свойства (урон за вход, статусы,
 ## разрушаемость, спрайты) — то есть на шаге Tile Effects. Сейчас требуется
-## ровно четыре различимых состояния, и enum в `PackedByteArray` даёт
+## небольшой набор различимых состояний, и enum в `PackedByteArray` даёт
 ## компактное хранение поля 32x32 в 1 КБ вместо массива объектов.
 ## В `AUDIT.md` заведён P2-пункт на замену.
 ##
@@ -19,6 +19,7 @@ enum Type {
 	HAZARD,  ## Проходимо, но смертельно/опасно (пропасть, лава, вода).
 	VOID,    ## Вне карты / дыра. Непроходимо, но НЕ блокирует толчок:
 	         ## толкнуть В пустоту можно (юнит падает) — в отличие от стены.
+	DEEP_ACID, ## Глубокая кислота: вход/толчок смертелен, тело не остаётся.
 }
 
 
@@ -27,7 +28,7 @@ enum Type {
 ## отговаривает `SelfSafetyConsideration` через VETO. Если запретить его
 ## здесь, исчезнет тактика "толкнуть врага в пропасть через клетку".
 static func is_walkable(type: Type) -> bool:
-	return type == Type.FLOOR or type == Type.HAZARD
+	return type == Type.FLOOR or type == Type.HAZARD or type == Type.DEEP_ACID
 
 
 ## Блокирует ли клетка ТОЛКАНИЕ (в отличие от прохода).
@@ -39,7 +40,7 @@ static func blocks_push(type: Type) -> bool:
 
 ## Убивает/калечит ли попадание в эту клетку.
 static func is_lethal(type: Type) -> bool:
-	return type == Type.HAZARD or type == Type.VOID
+	return type == Type.HAZARD or type == Type.VOID or type == Type.DEEP_ACID
 
 
 static func to_string_name(type: Type) -> StringName:
@@ -48,4 +49,5 @@ static func to_string_name(type: Type) -> StringName:
 		Type.WALL: return &"wall"
 		Type.HAZARD: return &"hazard"
 		Type.VOID: return &"void"
+		Type.DEEP_ACID: return &"deep_acid"
 	return &"unknown"

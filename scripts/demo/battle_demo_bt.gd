@@ -45,11 +45,19 @@ func _attack_ids(target: UnitState) -> Array[StringName]:
 func _collapse_danger(cell: Vector2i) -> bool:
 	return _session != null and _session.state != null and _session.state.environment != null and _session.state.environment.collapse.get("marked", []).has(cell)
 
+func _movement_provider(board: BattleBoard) -> GridDataProvider:
+	var provider := board.make_spatial_data_provider(_actor)
+	var traversable := provider.is_walkable
+	# Игроку разрешён намеренный вход, но BT не выбирает самоубийство или транзит через жидкость.
+	provider.is_walkable = func(cell: Vector2i) -> bool:
+		return board.get_terrain(cell) != TerrainType.Type.DEEP_ACID and bool(traversable.call(cell))
+	return provider
+
 func _escape_collapse() -> BattleAIIntent:
 	if _actor == null or not _collapse_danger(_actor.cell) or ControlRules.action_reason(_actor, true) != &"": return null
 	var finder := GridPathfinder.new()
 	var board := _session.board
-	finder.configure(board.get_bounds(), board.make_spatial_data_provider(_actor), 1, &"spatial_move_v1")
+	finder.configure(board.get_bounds(), _movement_provider(board), 1, &"spatial_move_v1")
 	var best: Array[Vector2i] = []
 	var best_cost := INF
 	# Равная цена разрешается порядком y/x; BT не расходует RNG окружения.
@@ -164,7 +172,7 @@ func _push_toward_void(target: UnitState) -> bool:
 	else:
 		direction = Vector2i(0, signi(direction.y))
 	var landing := target.cell + direction
-	return not _session.board.is_in_bounds(landing) or _session.board.get_terrain(landing) == TerrainType.Type.VOID or _collapse_danger(landing)
+	return not _session.board.is_in_bounds(landing) or _session.board.get_terrain(landing) in [TerrainType.Type.VOID, TerrainType.Type.DEEP_ACID] or _collapse_danger(landing)
 
 
 func _advance() -> BattleAIIntent:
@@ -175,7 +183,7 @@ func _advance() -> BattleAIIntent:
 	if context == null or board == null or context.is_busy() or context.is_faulted() or _actor.move_points_left <= 0.0:
 		return null
 	var finder := GridPathfinder.new()
-	finder.configure(board.get_bounds(), board.make_spatial_data_provider(_actor), 1, &"spatial_move_v1")
+	finder.configure(board.get_bounds(), _movement_provider(board), 1, &"spatial_move_v1")
 	var candidates: Array[Dictionary] = []
 	for target in board.get_alive_units():
 		if target == null or not _actor.is_hostile_to(target):

@@ -1,6 +1,8 @@
 class_name BattleAnimatedAcidPool
 extends Node2D
 
+@export var animation_name: StringName = &"acid"
+
 @onready var _sprite: AnimatedSprite2D = $Animation
 
 func _ready() -> void:
@@ -15,7 +17,7 @@ func _sync_playback() -> void:
 	if _sprite == null: return
 	if is_visible_in_tree():
 		# play прежнего имени продолжает паузу; публикация/resize не сбрасывают кадр.
-		if not _sprite.is_playing(): _sprite.play(&"acid")
+		if not _sprite.is_playing(): _sprite.play(animation_name)
 	else:
 		_sprite.pause()
 

@@ -9,6 +9,8 @@ static func opening(session: BattleCoreReactionsSession) -> void:
 		if _free_floor(session, cell): BattleHazards.add_trap(environment.hazards, cell)
 	var acid := Vector2i(2, 6)
 	if _free_floor(session, acid): environment.hazards.acid.append(acid)
+	var deep_acid := Vector2i(3, 6)
+	if _free_floor(session, deep_acid): session.board.set_terrain(deep_acid, TerrainType.Type.DEEP_ACID)
 	# Ловушка смотрит с боковой грани E4 в F4; отдельная колонна D1 не служит креплением.
 	var face := Vector2i(5, 3)
 	var support := face + Vector2i.LEFT

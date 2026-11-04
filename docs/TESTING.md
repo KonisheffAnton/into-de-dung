@@ -10,6 +10,8 @@
 В режимах `--check`/`--render-check` launcher создаёт отдельную чистую копию текущих исходников и профиль, исключая
 `test_reports/` и `.godot/`; пишет manifest, логи и при render — PNG в новый
 `test_reports/demo-<id>/`. Старые отчёты не импортируются и не перезаписываются.
+`docs/.gdignore` исключает документы и исходные арт-пробы из импорта ресурсов;
+рабочие PNG/атласы находятся в `assets/`. Архивные animated WebP не импортируются Godot.
 Интерактивный кэш из [REPOSITORY_STATE](REPOSITORY_STATE.md) в проверках не используется.
 По умолчанию сохраняются три последние завершённые тестовые копии; логи/PNG
 не удаляются. `--keep-project` закрепляет копию для отладки. Границы и исключения
@@ -17,14 +19,16 @@
 
 ## Изменение игрового кода
 
-Кислота05/01 независимо от материала тайла (2026-11-04):
+Кислотная плёнка, глубокая кислота и кальтропы (2026-11-05):
+`python tools/art/build_hazard_surface_animations.py --check` и
 `python tools/art/build_acid_pool_animation.py --check`, затем
-`--check --only acid_tile_animation visual_scene_contract acid`;
+`--check --only hazards move_forecast push_chain core_reactions core`;
 GPU: `--render-check --only acid_tile_animation environment_visual_contract
-visual_scene_contract hazards_ui dungeon_room_comparison --screen 0`.
-Новый тест проверяет ресурс33 кадров/10FPS, pause/resume/retire, повторную публикацию,
-шесть материалов/высоту, маску каждого кадра и отрицательный контроль без неё,
-текущий маршрут хаба и неизменность snapshot/RNG. PNG — в
+visual_scene_contract presentation_environment hazards_ui dungeon_room_comparison --screen 0`.
+Проверяются вход/толчок/отсутствие нового тела, snapshot/worker/live и безопасные
+маршруты BT; ресурсы33 кадров/10FPS, pause/resume/retire, повторная публикация,
+шесть материалов/высота, прозрачность каждого кадра и отрицательный контроль,
+утопленная жидкость/пиксельная видимость, текущий хаб и неизменность snapshot/RNG. PNG — в
 `acid-tile-animation-screenshots/`. Это не ручная приёмка стыка/zoom/DPI/performance.
 
 Маг02/Лучница14-04 (2026-11-03): `--check --only mage_archer_skins

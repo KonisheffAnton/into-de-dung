@@ -850,7 +850,7 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			if id in falling_ids or not strike.is_empty() or obstacle_deaths.has(id): continue
 			var cell := _view_unit_cell(id)
 			var origin: Vector2i = event.get("source", {}).get("origin_cell", cell)
-			if event.get("source", {}).get("kind") in [&"fall", &"cell"] and _view_terrain_at(origin) in [TerrainType.Type.VOID, TerrainType.Type.HAZARD]:
+			if event.get("source", {}).get("kind") in [&"fall", &"cell"] and _view_terrain_at(origin) in [TerrainType.Type.VOID, TerrainType.Type.HAZARD, TerrainType.Type.DEEP_ACID]:
 				# moved и died могут находиться в одном кадре: падение начинается
 				# после уже показанного сдвига, а не повторяет его из старой клетки.
 				for prior: Dictionary in events:
@@ -1771,7 +1771,7 @@ func _rebuild_terrain() -> void:
 		_attach_visual(floor_visual)
 		_apply_terrain_view(floor_visual, cell, steps, false, terrain == TerrainType.Type.VOID,
 			not attack_mode and not elemental_mode and _reachable.has(cell),
-			inspected_id != UnitId.NONE and inspection_cells.has(cell), burning)
+			inspected_id != UnitId.NONE and inspection_cells.has(cell), burning, terrain == TerrainType.Type.DEEP_ACID)
 		# Пустая клетка без прежнего overlay/позы не требует проверки его узлов.
 		if not environment.is_empty() or floor_visual.burning or _environment_visuals.has(cell) or _field_presentation.cells.has(cell):
 			_add_environment_visual(floor_visual, cell, false, environment)
@@ -1832,7 +1832,7 @@ func _rebuild_units() -> void:
 func _unit_row_visible(row: Dictionary) -> bool:
 	var unit: BattleUnitView = row["unit"]
 	if environment_mode and not unit.alive: return false
-	return unit.alive or (not _fallen_ids.has(unit.id) and _view_terrain_at(row["cell"]) not in [TerrainType.Type.VOID, TerrainType.Type.HAZARD])
+	return unit.alive or (not _fallen_ids.has(unit.id) and _view_terrain_at(row["cell"]) not in [TerrainType.Type.VOID, TerrainType.Type.HAZARD, TerrainType.Type.DEEP_ACID])
 
 func _unit_view_values(row: Dictionary) -> Dictionary:
 	var unit: BattleUnitView = row["unit"]
@@ -1933,14 +1933,14 @@ func _terrain_visual(cell: Vector2i, steps: int, wall: bool) -> BattleDemoIsoVis
 	return visual
 
 func _apply_terrain_view(visual: BattleDemoIsoVisual, cell: Vector2i, steps: int, wall: bool,
-		void_surface: bool = false, can_reach: bool = false, in_enemy_range: bool = false, burning: bool = false) -> void:
+		void_surface: bool = false, can_reach: bool = false, in_enemy_range: bool = false, burning: bool = false, deep_liquid: bool = false) -> void:
 	var role := BattleDemoIsoVisual.Role.WALL if wall else (BattleDemoIsoVisual.Role.PLATFORM if steps > 0 else BattleDemoIsoVisual.Role.FLOOR)
 	if visual is BattleTerrainVisual:
 		var managed := visual as BattleTerrainVisual
 		managed.reset_view_pose()
 		var values := {"cell": cell, "role": role, "half_steps": steps,
 			"is_void": void_surface, "reachable": can_reach, "enemy_range": in_enemy_range,
-			"burning": burning}
+			"burning": burning, "deep_acid": deep_liquid}
 		_terrain_draw_values[visual] = values
 		managed.apply_view(values, grid_config)
 	else:
@@ -1951,6 +1951,7 @@ func _apply_terrain_view(visual: BattleDemoIsoVisual, cell: Vector2i, steps: int
 		visual.set_grid_anchor(cell)
 		visual.burning = burning
 		visual.is_void = void_surface
+		visual.deep_acid = deep_liquid
 		visual.reachable = can_reach
 		visual.enemy_range = in_enemy_range
 		visual.sync_scene_art()

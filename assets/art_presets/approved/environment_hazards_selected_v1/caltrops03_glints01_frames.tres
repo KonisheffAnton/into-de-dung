@@ -1,0 +1,178 @@
+[gd_resource type="SpriteFrames" load_steps=35 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/environment_hazards_selected_v1/caltrops03_glints01.png" id="atlas_caltrops"]
+
+[sub_resource type="AtlasTexture" id="caltrops_00"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_01"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_02"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_03"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(768, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_04"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(1024, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_05"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(1280, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_06"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(1536, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_07"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(1792, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_08"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(0, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_09"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(256, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_10"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(512, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_11"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(768, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_12"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(1024, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_13"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(1280, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_14"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(1536, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_15"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(1792, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_16"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(0, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_17"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(256, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_18"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(512, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_19"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(768, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_20"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(1024, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_21"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(1280, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_22"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(1536, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_23"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(1792, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_24"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(0, 768, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_25"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(256, 768, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_26"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(512, 768, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_27"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(768, 768, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_28"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(1024, 768, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_29"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(1280, 768, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_30"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(1536, 768, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_31"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(1792, 768, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_32"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(0, 1024, 256, 256)
+
+[resource]
+animations = [
+{
+"frames": [
+{"duration": 1.000000000, "texture": SubResource("caltrops_00")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_01")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_02")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_03")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_04")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_05")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_06")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_07")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_08")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_09")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_10")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_11")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_12")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_13")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_14")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_15")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_16")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_17")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_18")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_19")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_20")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_21")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_22")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_23")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_24")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_25")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_26")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_27")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_28")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_29")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_30")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_31")},
+{"duration": 1.000000000, "texture": SubResource("caltrops_32")}
+],
+"loop": true,
+"name": &"caltrops",
+"speed": 10.0
+}]

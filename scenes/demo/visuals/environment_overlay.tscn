@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/demo/battle_managed_environment_visual.gd" id="1_visual"]
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/floor_trap.tscn" id="2_floor"]
@@ -6,7 +6,9 @@
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/wall_trap_right.tscn" id="4_wall_right"]
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/wall_trap_down.tscn" id="5_wall_down"]
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/wall_trap_left.tscn" id="6_wall_left"]
-[ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/acid_pool_01.tscn" id="7_acid"]
+[ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/acid_film_05.tscn" id="7_acid"]
+
+[ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/caltrops_03.tscn" id="8_caltrops"]
 
 [node name="EnvironmentOverlay" type="Node2D"]
 script = ExtResource("1_visual")
@@ -28,4 +30,7 @@ visible = false
 visible = false
 
 [node name="AcidPool" parent="." instance=ExtResource("7_acid")]
+visible = false
+
+[node name="Caltrops" parent="." instance=ExtResource("8_caltrops")]
 visible = false

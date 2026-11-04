@@ -182,9 +182,9 @@ func out_of_bounds_chain() -> void:
 	await process_frame
 
 
-func void_chain_same_frame() -> void:
+func void_chain_same_frame(terrain: TerrainType.Type = TerrainType.Type.VOID) -> void:
 	var s: BattleCoreReactionsSession = field_fixture()
-	s.board.set_terrain(Vector2i(5, 3), TerrainType.Type.VOID)
+	s.board.set_terrain(Vector2i(5, 3), terrain)
 	var data: Dictionary = packet_attack(s, "environment in-bounds void")
 	var terminal_id: int = s.units[5].id
 	var same_frame: bool = false
@@ -208,7 +208,7 @@ func void_chain_same_frame() -> void:
 		"in-bounds void fall starts while previous collision body is still returning")
 	check(pose.get("from") == Vector2i(4, 3) and pose.get("to") == Vector2i(5, 3) and pose.get("vanish", false), "grouped void fall is one continuous terminal displacement")
 	advance(0.1)
-	await capture("fall-void-same-frame")
+	await capture("fall-%s-same-frame" % TerrainType.to_string_name(terrain))
 	finish()
 	check((board._presentation_visual(terminal_id) == null or not board._presentation_visual(terminal_id).unit.alive) and board._view_corpses.all(
 		func(corpse: Dictionary) -> bool: return corpse.source_unit_id != terminal_id),
@@ -427,6 +427,7 @@ func run() -> void:
 	await lower_floor_chain()
 	await out_of_bounds_chain()
 	await void_chain_same_frame()
+	await void_chain_same_frame(TerrainType.Type.DEEP_ACID)
 	await lethal_attack_corpse()
 	await field_entry_cases()
 	await collapse_and_corpse_cleanup()

@@ -107,6 +107,10 @@ func _sync_presets() -> void:
 			for spike: Node in spikes.get_children():
 				var tip := spike.get_node_or_null(^"Tip") as Node2D
 				if tip != null: tip.scale = Vector2(1.0, progress)
+	var caltrops := _preset(^"Caltrops") as BattleAnimatedAcidPool
+	if caltrops != null:
+		caltrops.set_active(has_spikes)
+		caltrops.modulate.a = _remains_alpha()
 	var acid := _preset(^"AcidPool")
 	if acid != null:
 		if acid is BattleAnimatedAcidPool:
@@ -134,7 +138,7 @@ func _draw() -> void:
 
 	if is_warning and collapse < 1.0:
 		_draw_warning(remains_alpha)
-	if has_spikes:
+	if has_spikes and _preset(^"Caltrops") == null:
 		_draw_spikes(remains_alpha)
 	if has_burning_fallback:
 		_draw_fire(remains_alpha)

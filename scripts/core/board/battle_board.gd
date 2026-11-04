@@ -351,7 +351,7 @@ func can_traverse(cell: Vector2i, moving_unit: UnitState = null) -> bool:
 func get_move_cost(cell: Vector2i) -> float:
 	if not is_in_bounds(cell):
 		return INF
-	if get_terrain(cell) == TerrainType.Type.HAZARD:
+	if get_terrain(cell) in [TerrainType.Type.HAZARD, TerrainType.Type.DEEP_ACID]:
 		return 3.0
 	return 1.0
 
@@ -508,7 +508,7 @@ func _snapshot_shape_valid() -> bool:
 	for value in _heights:
 		if value < -2147483648 or value > 2147483647: return false
 	for value in _terrain:
-		if value < 0 or value > 3: return false
+		if value < 0 or value > TerrainType.Type.DEEP_ACID: return false
 	var live_units: Dictionary = {}
 	for key in _units.keys():
 		if typeof(key) != TYPE_INT or not (_units[key] is UnitState): return false
@@ -594,7 +594,7 @@ static func validate_snapshot_dict(data: Variant) -> bool:
 	for value in heights:
 		if typeof(value) != TYPE_INT or value < -2147483648 or value > 2147483647: return false
 	for value in terrain:
-		if typeof(value) != TYPE_INT or value < 0 or value > 3: return false
+		if typeof(value) != TYPE_INT or value < 0 or value > TerrainType.Type.DEEP_ACID: return false
 	var units: Array = b["units"]
 	var ids: Dictionary = {}
 	for raw_unit in units:

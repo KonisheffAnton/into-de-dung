@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/demo/battle_animated_acid_pool.gd" id="1_script"]
+[ext_resource type="SpriteFrames" path="res://assets/art_presets/approved/environment_hazards_selected_v1/acid_film05_frames.tres" id="2_frames"]
+[ext_resource type="Shader" path="res://assets/shaders/acid_film_surface.gdshader" id="3_shader"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_surface"]
+shader = ExtResource("3_shader")
+shader_parameter/source_top_center = Vector2(128, 100)
+shader_parameter/top_half_size = Vector2(64, 48)
+
+[node name="AcidPool" type="Node2D"]
+show_behind_parent = true
+script = ExtResource("1_script")
+
+[node name="Animation" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+material = SubResource("ShaderMaterial_surface")
+position = Vector2(-128, -100)
+sprite_frames = ExtResource("2_frames")
+animation = &"acid"
+centered = false

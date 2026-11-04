@@ -8,6 +8,8 @@ extends BattleDemoIsoVisual
 	set(value):
 		batch_simple_polygons = value
 		if is_node_ready(): _configure_polygon_batch()
+const DEEP_ACID_SCENE: PackedScene = preload("res://scenes/demo/visuals/hazards/deep_acid_pool.tscn")
+var _deep_acid_view: Node2D
 var view_apply_count: int = 0
 var _view_initialized: bool = false
 var _view_tile_size: Vector2
@@ -28,6 +30,7 @@ func apply_view(values: Dictionary, config: IsoGridConfig) -> bool:
 	var next_role: Role = values["role"] as Role
 	var steps: int = values["half_steps"]
 	var void_surface: bool = values["is_void"]
+	var liquid_surface: bool = values.get("deep_acid", false)
 	var can_reach: bool = values["reachable"]
 	var in_enemy_range: bool = values["enemy_range"]
 	var on_fire: bool = values["burning"]
@@ -37,13 +40,14 @@ func apply_view(values: Dictionary, config: IsoGridConfig) -> bool:
 		or _view_height_step != config.height_step or _view_origin != config.origin_offset
 	var surface_changed := geometry_changed or grid_anchor != cell or height_level != 0 \
 		or role != next_role or half_steps != steps or is_void != void_surface \
-		or burning != on_fire
+		or burning != on_fire or deep_acid != liquid_surface
 	var changed := surface_changed or reachable != can_reach or enemy_range != in_enemy_range
 	grid_config = config
 	if not changed: return false
 	role = next_role
 	half_steps = steps
 	is_void = void_surface
+	deep_acid = liquid_surface
 	reachable = can_reach
 	enemy_range = in_enemy_range
 	burning = on_fire
@@ -74,6 +78,22 @@ func reset_view_pose() -> void:
 func retire_view() -> void:
 	reset_view_pose()
 	_view_initialized = false
+	if _deep_acid_view != null:
+		(_deep_acid_view.get_node(^"Liquid") as BattleAnimatedAcidPool).retire_view()
+		_deep_acid_view.hide()
+
+func sync_scene_art() -> void:
+	super.sync_scene_art()
+	if not is_inside_tree() or grid_config == null: return
+	if deep_acid and _deep_acid_view == null:
+		_deep_acid_view = DEEP_ACID_SCENE.instantiate() as Node2D
+		add_child(_deep_acid_view)
+	if _deep_acid_view != null:
+		var active := deep_acid and not is_void and role in [Role.FLOOR, Role.PLATFORM]
+		_deep_acid_view.visible = active
+		_deep_acid_view.position = _top_offset()
+		_deep_acid_view.scale = Vector2.ONE * (grid_config.tile_size.x / 128.0)
+		(_deep_acid_view.get_node(^"Liquid") as BattleAnimatedAcidPool).set_active(active)
 
 func sync_view_transform() -> void:
 	pass
