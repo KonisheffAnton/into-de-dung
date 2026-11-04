@@ -37,6 +37,8 @@ func reset_view_pose() -> void:
 
 func retire_view() -> void:
 	reset_view_pose()
+	var acid := get_node_or_null(^"AcidPool") as BattleAnimatedAcidPool
+	if acid != null: acid.retire_view()
 	# configure владеет глубокой копией, поэтому очистка не затрагивает переданные вызывающим данные.
 	corpse_records.clear()
 	_view_initialized = false

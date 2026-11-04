@@ -121,6 +121,7 @@ class IsolateSelectionTests(unittest.TestCase):
                     "current_art_zoom": "CURRENT ART ZOOM RESULTS:",
                     "art_trial_battle": "ART TRIAL BATTLE RESULTS:",
                     "dungeon_room_comparison": "DUNGEON ROOM COMPARISON RESULTS:",
+                    "acid_tile_animation": "ACID TILE ANIMATION RESULTS:",
                     "battle_view_reuse": "BATTLE VIEW REUSE RESULTS:",
                     "presentation_consequences": "PRESENTATION CONSEQUENCES RESULTS:",
                     "presentation_environment": "PRESENTATION ENVIRONMENT RESULTS:",
@@ -447,6 +448,31 @@ class IsolateSelectionTests(unittest.TestCase):
         self.assertIn("archer_cloth_palette", calls)
         self.assertEqual(timing["checks"]["archer_cloth_palette"]["status"], "FAIL")
         self.assertNotIn("archer_cloth_palette PASS", output)
+
+    def test_acid_tile_animation_is_opt_in_and_has_strict_marker(self):
+        code, calls, timing, _ = self.exercise(["--check", "--only", "acid_tile_animation"])
+        self.assertEqual((code, calls), (0, ["import", "startup", "acid_tile_animation"]))
+        self.assertEqual(timing["checks"]["acid_tile_animation"]["status"], "PASS")
+        command, _, headless = self.last_commands[-1]
+        self.assertTrue(headless)
+        self.assertEqual(command[command.index("--script") + 1], "tests/test_acid_tile_animation.gd")
+        _, other_calls, _, _ = self.exercise(["--check", "--only", "battle_hud_authoring"])
+        self.assertNotIn("acid_tile_animation", other_calls)
+        _, render_calls, _, _ = self.exercise(["--render-check", "--only", "acid_tile_animation"])
+        self.assertEqual(render_calls, ["import", "startup", "acid_tile_animation"])
+        command, _, headless = self.last_commands[-1]
+        self.assertFalse(headless)
+        self.assertEqual(command[command.index("--script") + 1], "tests/test_acid_tile_animation.gd")
+        self.assertEqual(command[-2], "--")
+        self.assertTrue(command[-1].startswith("--captures="))
+
+    def test_acid_tile_animation_requires_its_result_marker(self):
+        code, calls, timing, output = self.exercise(
+            ["--check", "--only", "acid_tile_animation"], "marker:acid_tile_animation")
+        self.assertEqual(code, 1)
+        self.assertIn("acid_tile_animation", calls)
+        self.assertEqual(timing["checks"]["acid_tile_animation"]["status"], "FAIL")
+        self.assertNotIn("acid_tile_animation PASS", output)
 
     def test_all_visual_gates_propagate_process_failures(self):
         for label in ("environment_visual_contract", "unit_visual_contract", "visual_scene_contract", "defender_idle_clock", "defender_idle", "defender_buff", "defender_death", "defender_death_routes", "defender_cloth_palette", "rogue_cloth_palette", "rogue_animations", "rogue_buff", "rogue_death_routes", "archer_idle", "archer_cloth_palette",

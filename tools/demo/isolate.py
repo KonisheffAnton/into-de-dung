@@ -419,7 +419,7 @@ def main():
         if label in ("current_schema_boundary", "action_event_validator", "forecast_definition_copy", "forecast_restore_isolation", "restore_vitals"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output or "WARNING:" in output
-        if label in ("archer_idle", "archer_cloth_palette", "rogue_animations", "rogue_buff", "rogue_death_routes", "defender_buff", "defender_death", "defender_death_routes", "defender_idle", "defender_idle_clock", "defender_cloth_palette", "rogue_cloth_palette", "current_art_zoom", "art_trial_battle", "dungeon_room_comparison", "biome_showcase_layout", "presentation_capture", "battle_presentation", "presentation_foundation", "presentation_contact", "presentation_attack_styles", "presentation_consequences", "presentation_push_slide", "presentation_environment", "presentation_ranged", "presentation_mage", "presentation_reactions", "presentation_status", "battle_board_camera", "battle_camera_ui", "battle_view_reuse", "four_slot_bar", "battle_panels", "environment_visual_contract", "unit_visual_contract", "visual_scene_contract", "battle_action_performance", "battle_soak_performance", "battle_polygon_batch", "battle_presentation_owned", "battle_motion_pose"):
+        if label in ("archer_idle", "archer_cloth_palette", "rogue_animations", "rogue_buff", "rogue_death_routes", "defender_buff", "defender_death", "defender_death_routes", "defender_idle", "defender_idle_clock", "defender_cloth_palette", "rogue_cloth_palette", "current_art_zoom", "art_trial_battle", "dungeon_room_comparison", "acid_tile_animation", "biome_showcase_layout", "presentation_capture", "battle_presentation", "presentation_foundation", "presentation_contact", "presentation_attack_styles", "presentation_consequences", "presentation_push_slide", "presentation_environment", "presentation_ranged", "presentation_mage", "presentation_reactions", "presentation_status", "battle_board_camera", "battle_camera_ui", "battle_view_reuse", "four_slot_bar", "battle_panels", "environment_visual_contract", "unit_visual_contract", "visual_scene_contract", "battle_action_performance", "battle_soak_performance", "battle_polygon_batch", "battle_presentation_owned", "battle_motion_pose"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "battle_soak_planner":
@@ -619,6 +619,12 @@ def main():
             dungeon_captures.mkdir()
             dungeon_args += ["--", "--captures=" + str(dungeon_captures)]
         run("dungeon_room_comparison", dungeon_args, headless=not args.render_check)
+        acid_animation_args = ["--script", "tests/test_acid_tile_animation.gd"]
+        if args.render_check:
+            acid_captures = out / "acid-tile-animation-screenshots"
+            acid_captures.mkdir()
+            acid_animation_args += ["--", "--captures=" + str(acid_captures)]
+        run("acid_tile_animation", acid_animation_args, headless=not args.render_check)
         current_art_args = ["--script", "tests/test_current_art_zoom.gd"]
         if args.render_check:
             current_art_captures = out / "current-art-screenshots"

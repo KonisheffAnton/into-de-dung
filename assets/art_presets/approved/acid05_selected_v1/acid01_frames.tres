@@ -1,0 +1,178 @@
+[gd_resource type="SpriteFrames" load_steps=35 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/acid05_selected_v1/acid01.png" id="atlas_acid"]
+
+[sub_resource type="AtlasTexture" id="acid_00"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_01"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_02"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_03"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(768, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_04"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(1024, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_05"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(1280, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_06"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(1536, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_07"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(1792, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_08"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(0, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_09"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(256, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_10"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(512, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_11"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(768, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_12"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(1024, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_13"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(1280, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_14"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(1536, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_15"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(1792, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_16"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(0, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_17"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(256, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_18"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(512, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_19"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(768, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_20"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(1024, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_21"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(1280, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_22"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(1536, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_23"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(1792, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_24"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(0, 768, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_25"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(256, 768, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_26"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(512, 768, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_27"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(768, 768, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_28"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(1024, 768, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_29"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(1280, 768, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_30"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(1536, 768, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_31"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(1792, 768, 256, 256)
+
+[sub_resource type="AtlasTexture" id="acid_32"]
+atlas = ExtResource("atlas_acid")
+region = Rect2(0, 1024, 256, 256)
+
+[resource]
+animations = [
+{
+"frames": [
+{"duration": 1.000000000, "texture": SubResource("acid_00")},
+{"duration": 1.000000000, "texture": SubResource("acid_01")},
+{"duration": 1.000000000, "texture": SubResource("acid_02")},
+{"duration": 1.000000000, "texture": SubResource("acid_03")},
+{"duration": 1.000000000, "texture": SubResource("acid_04")},
+{"duration": 1.000000000, "texture": SubResource("acid_05")},
+{"duration": 1.000000000, "texture": SubResource("acid_06")},
+{"duration": 1.000000000, "texture": SubResource("acid_07")},
+{"duration": 1.000000000, "texture": SubResource("acid_08")},
+{"duration": 1.000000000, "texture": SubResource("acid_09")},
+{"duration": 1.000000000, "texture": SubResource("acid_10")},
+{"duration": 1.000000000, "texture": SubResource("acid_11")},
+{"duration": 1.000000000, "texture": SubResource("acid_12")},
+{"duration": 1.000000000, "texture": SubResource("acid_13")},
+{"duration": 1.000000000, "texture": SubResource("acid_14")},
+{"duration": 1.000000000, "texture": SubResource("acid_15")},
+{"duration": 1.000000000, "texture": SubResource("acid_16")},
+{"duration": 1.000000000, "texture": SubResource("acid_17")},
+{"duration": 1.000000000, "texture": SubResource("acid_18")},
+{"duration": 1.000000000, "texture": SubResource("acid_19")},
+{"duration": 1.000000000, "texture": SubResource("acid_20")},
+{"duration": 1.000000000, "texture": SubResource("acid_21")},
+{"duration": 1.000000000, "texture": SubResource("acid_22")},
+{"duration": 1.000000000, "texture": SubResource("acid_23")},
+{"duration": 1.000000000, "texture": SubResource("acid_24")},
+{"duration": 1.000000000, "texture": SubResource("acid_25")},
+{"duration": 1.000000000, "texture": SubResource("acid_26")},
+{"duration": 1.000000000, "texture": SubResource("acid_27")},
+{"duration": 1.000000000, "texture": SubResource("acid_28")},
+{"duration": 1.000000000, "texture": SubResource("acid_29")},
+{"duration": 1.000000000, "texture": SubResource("acid_30")},
+{"duration": 1.000000000, "texture": SubResource("acid_31")},
+{"duration": 1.000000000, "texture": SubResource("acid_32")}
+],
+"loop": true,
+"name": &"acid",
+"speed": 10.0
+}]

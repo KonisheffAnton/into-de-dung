@@ -17,6 +17,16 @@
 
 ## Изменение игрового кода
 
+Кислота05/01 независимо от материала тайла (2026-11-04):
+`python tools/art/build_acid_pool_animation.py --check`, затем
+`--check --only acid_tile_animation visual_scene_contract acid`;
+GPU: `--render-check --only acid_tile_animation environment_visual_contract
+visual_scene_contract hazards_ui dungeon_room_comparison --screen 0`.
+Новый тест проверяет ресурс33 кадров/10FPS, pause/resume/retire, повторную публикацию,
+шесть материалов/высоту, маску каждого кадра и отрицательный контроль без неё,
+текущий маршрут хаба и неизменность snapshot/RNG. PNG — в
+`acid-tile-animation-screenshots/`. Это не ручная приёмка стыка/zoom/DPI/performance.
+
 Маг02/Лучница14-04 (2026-11-03): `--check --only mage_archer_skins
 character_skins character_skins_hub class_showcase class_showcase_ui`;
 затем `--render-check --only mage_archer_skins character_skins character_skins_hub

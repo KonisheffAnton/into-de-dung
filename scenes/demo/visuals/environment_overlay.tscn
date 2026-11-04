@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/wall_trap_right.tscn" id="4_wall_right"]
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/wall_trap_down.tscn" id="5_wall_down"]
 [ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/wall_trap_left.tscn" id="6_wall_left"]
-[ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/acid_pool.tscn" id="7_acid"]
+[ext_resource type="PackedScene" path="res://scenes/demo/visuals/hazards/acid_pool_01.tscn" id="7_acid"]
 
 [node name="EnvironmentOverlay" type="Node2D"]
 script = ExtResource("1_visual")

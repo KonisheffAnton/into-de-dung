@@ -109,7 +109,10 @@ func _sync_presets() -> void:
 				if tip != null: tip.scale = Vector2(1.0, progress)
 	var acid := _preset(^"AcidPool")
 	if acid != null:
-		acid.visible = acid_pool
+		if acid is BattleAnimatedAcidPool:
+			(acid as BattleAnimatedAcidPool).set_active(acid_pool)
+		else:
+			acid.visible = acid_pool
 		acid.modulate.a = _remains_alpha()
 
 func _sync_standard_phase_presets() -> void:
