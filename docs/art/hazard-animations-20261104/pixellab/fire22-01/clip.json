@@ -1,0 +1,138 @@
+{
+  "key": "fire22-01",
+  "source_key": "fire22",
+  "group": "Низкий огонь 22",
+  "kind": "fire",
+  "variant": 1,
+  "name": "Плоское мерцание v3",
+  "prompt": "Exactly the same 256x256 pixel positions in every frame. Keep the original diamond top and all masonry side faces perfectly fixed. Only cycle the brightness and nearby warm palette values of already existing orange surface pixels in place, in tiny staggered patches, then return to the original colours. This is a flat two-dimensional glowing ember texture on the top plane with no shape motion. Preserve the exact original tile silhouette and alpha envelope in every frame. No vertical expansion, rising tongues, flames, smoke, sparks, new orange shapes, liquid flow, redrawing, translation, camera movement or colour changes on stone sides. Start and end on the exact supplied image.",
+  "seed": 20261104016,
+  "frame_count": 8,
+  "expected_frames": 9,
+  "endpoint": "animate-with-text-v3",
+  "loop": true,
+  "return_to_first": true,
+  "input": "model/fire22/input-256.png",
+  "source": "../fire-low-styles-20261104/fire-low-22.png",
+  "source_sha256": "bf1ffc6fd24a621936ad70efdb8195b068a9cb949d3c477ffe1d27f221b123f9",
+  "captions": null,
+  "input_sha256": "054ad25dc7275f192d4a7e443a5405b2858a3623088afb8e7c8a1fb644a34b76",
+  "request_sha256": "896d014f6d64d45e4860aae18a945a86592b5a9ee3e6dbe6cb4e1f84900ee374",
+  "integration": false,
+  "expected_frames_policy": "Observed completed v3 response: 9 PNG frames for requested frame_count=8",
+  "provider": "PixelLab v3",
+  "job_id": "fb4825ef-4fce-4fba-8352-b4615bc8fc2d",
+  "actual_frames": 9,
+  "usage": {
+    "type": "generations",
+    "generations": 8.0
+  },
+  "canvas": [
+    256,
+    256
+  ],
+  "durations_ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "timing_origin": "Только для просмотра: 100 мс на кадр, около 10 кадров/с",
+  "first_frame_rgba_equal": true,
+  "first_frame_render_equal": true,
+  "first_frame_rgba_differing_pixels": 0,
+  "first_frame_alpha_differing_pixels": 0,
+  "first_frame_visible_differing_pixels": 0,
+  "first_frame_png_byte_equal": true,
+  "endpoint_frame_rgba_equal": false,
+  "frame_sha256": [
+    "054ad25dc7275f192d4a7e443a5405b2858a3623088afb8e7c8a1fb644a34b76",
+    "3cd53adecd14bcf15cec7b3f277004bd56a57b7d10b54d2d99821dea399cc1bc",
+    "02a9d6dee5e70dfa0e56efafb7a8d6e4375fab4a53e355ac68ec7443ec822c55",
+    "e136e6ccab598bcd9682814e9e28a27bb3099703136a8c856a4734a12959942a",
+    "e95d8da5f42c3bb9d0e1cc4446a21376da2851f4000fb9e52536b77953bd61d9",
+    "762c1cffec399e56544553362c8b353b74b16cec0c2d3aac8e63cd6f49b3f2a0",
+    "a70f5d4e6673696125ee5e00a8822fc33d52f096a3974dea2c0b27f7138e247d",
+    "4ecbc0a56d74e43a6b7a7e5c95c12af7aadae31c6237f823d98c9fb3f9ce1b3a",
+    "96a32c78ad74d1afc57e028fa443a3c0b7ed9128802d0d7178810e392d46e130"
+  ],
+  "artifact_sha256": {
+    "sheet.png": "63066b1afc2561ed43595f30d81ec1da35acb689470f6b3821f60d796937d349",
+    "preview.gif": "3c708f54fafaaadd28fd44f430e9e877e7b383d4f6fe8d36ed527a9ba8c76c23",
+    "filmstrip.png": "3640bdd5f08f69e3c181e90300d4627d8ea8a5540e9e66ea3956b422b3b38c75"
+  },
+  "alpha_bboxes": [
+    [
+      19,
+      49,
+      195,
+      215
+    ],
+    [
+      64,
+      48,
+      192,
+      212
+    ],
+    [
+      64,
+      40,
+      192,
+      212
+    ],
+    [
+      64,
+      35,
+      192,
+      212
+    ],
+    [
+      64,
+      52,
+      192,
+      212
+    ],
+    [
+      64,
+      52,
+      192,
+      212
+    ],
+    [
+      64,
+      53,
+      192,
+      212
+    ],
+    [
+      64,
+      53,
+      192,
+      212
+    ],
+    [
+      64,
+      52,
+      192,
+      212
+    ]
+  ],
+  "edge_frames": [],
+  "margin_violation_frames": [],
+  "gif_actual_durations_ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "source": "../hazard-variants-20261103/acid-01.png",
+  "source_sha256": "e7c299d8ac8142a4c3fcdbe742a4a2eb2363e1f35da42bc5fc1e5f093ace52b3",
+  "original_copy": "model/acidfilm/source-original.png",
+  "input": "model/acidfilm/input-256.png",
+  "input_sha256": "0ad17dec93c1dbdb6560ff5580de2dda533b7a6810b142b2c90b4c64e59c818e",
+  "source_size": [
+    1254,
+    1254
+  ],
+  "input_size": [
+    256,
+    256
+  ],
+  "crop": null,
+  "resize": "Pillow LANCZOS, whole frame",
+  "pixel_retouch": false,
+  "integration": false
+}

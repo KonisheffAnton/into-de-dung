@@ -1,0 +1,359 @@
+{
+  "key": "fire29-05",
+  "source_key": "fire29",
+  "group": "Низкий огонь 29",
+  "kind": "fire",
+  "variant": 5,
+  "name": "Переменный ритм",
+  "prompt": "Small fire tongues dance with irregular but gentle timing across the full top, some briefly dimming as neighbours brighten. Maintain a flat low profile. Animate only the existing low fire. Stone, side faces, silhouette, position, scale and camera stay still. No high flames, smoke, sparks, dry gaps or spill beyond the tile. Preserve outside transparency. Seamless loop returning to the first frame.",
+  "seed": 20261104005,
+  "frame_count": 32,
+  "expected_frames": 33,
+  "endpoint": "animate-pixminimax",
+  "loop": true,
+  "return_to_first": true,
+  "input": "model/fire29/input-256.png",
+  "source": "../fire-low-styles-20261104/fire-low-29.png",
+  "source_sha256": "3f89930f385e43a1efe4d4895c25ff74a7cfc4215d740c2d697263261122756e",
+  "captions": {
+    "direction": "south-east",
+    "view": "low top-down",
+    "subject_description": "A fixed isometric stone tile with low orange fire covering the whole diamond top",
+    "initial_pose": "Low fire lies across the full diamond top; exposed stone sides remain fixed"
+  },
+  "input_sha256": "e69eb475eb32701bc57b1d24e27091fdd7f29afd92c9f04f224df60bf37e4ad7",
+  "request_sha256": "bbfbece1ae88d2d90b31384e38f5086e8f81cd818e1c1e6ad4d8f506738d1def",
+  "integration": false,
+  "provider": "PixelLab PixMiniMax",
+  "job_id": "23b0249d-89c5-49ea-a4e3-6f6ba4ccbf87",
+  "actual_frames": 33,
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 5
+  },
+  "canvas": [
+    256,
+    256
+  ],
+  "durations_ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "timing_origin": "Только для просмотра: 100 мс на кадр, около 10 кадров/с",
+  "first_frame_rgba_equal": false,
+  "first_frame_render_equal": true,
+  "first_frame_rgba_differing_pixels": 31,
+  "first_frame_alpha_differing_pixels": 0,
+  "first_frame_visible_differing_pixels": 0,
+  "first_frame_png_byte_equal": false,
+  "endpoint_frame_rgba_equal": false,
+  "frame_sha256": [
+    "7b106716e1a1f0728ed1779ba95590d62fcd02771c65658df5740140f87b21a0",
+    "47802ecbc717914ce57ff615199dfb8cdb48c7ef852caa3532954989311c1224",
+    "0e65f7ec71b2c833e9376a5cefa6e4ea45519dddd5a34dbb1f74b9b66a88072b",
+    "522e6bbc067a4a6474555acdec7b3bcff25e66df0a50291a74da1e743dde595d",
+    "0df1d940386cebf4e81e1365e6ca1cbb9cb5e091d5d1ffb203c3a98826996c8b",
+    "1c3e107596bd0076b0f4762332ce9bbbcc998b63d550fa01c30c70cc0d3e842f",
+    "e326f655a45c654e07ec7b68f0b5b0f88e894e30171c9b5f7c5fcc8e994a27e4",
+    "024f5891c6afd60b4cd18773a454137303d808b28238c5c124309631f51a2d88",
+    "597cb1ce1d2e00d98501b87606941a833b8cce629467dc4e97f0406951ca60f6",
+    "807985abcee284b1c0b6f1e981fe9fcde946838128f91e9b21892d16e6fdffa0",
+    "02dc1c082abce321264badb1a50578dcf572aa3a992c8e4ad2926899f56ab8e3",
+    "bb4d01858b3f12534c7cdaa1b899dfa5f2239c59894a983994bdc71a68683a61",
+    "a51bbed6c69773dc18ec62739fab1756fea77cbef718a6eb16cac46b43ebdb6b",
+    "0c4f55d857aa577a60876ceee2b159a5e1a72317fb8b348c04d1389aaf9b230a",
+    "b40c797ee19a703c0c1146bef9924ea4226b349b74941c47f3af086f1650773f",
+    "4a8960ef793c31b0a45d188c5c5470ec617c83222d907af59660a0bffffdf9fc",
+    "4975f6a461c819496d78e1dc6d676f0dc50326bdc4e8bfdd625af1b0d2f142cb",
+    "91486ddd8602fbb21c98fc5bfa37b84c5ce58efbe097445816a89d8442ce0d69",
+    "e47a620fc1f14802106874533a45f2ab7ef0b656c96803118b7ff9091d0481f8",
+    "4fd284e2b2738d9229923b1c1edb6a015297a7fe1adf9ff4c1761ef8f78b4cb1",
+    "cef94f1e6afdc8e8531e93eaf04beeeda4c8867334cf02a8f8312f86c520a449",
+    "f451dc7701c1cdccf0d68c3121b88f72e532678976bde90aa62881d48ab48c7b",
+    "ad0d6f558e68c36debe8c1b489adb716cfcc335d065010922027ee784b9524e7",
+    "d6953283bff32eff0e852bf041769acdc46a9d14e082a64bf1289edf04ca6cb4",
+    "940ee8cef8c0f5d6ca51f56948076d63fbccb8af6b5a1ef8b57a76da9884a351",
+    "db8eb5a7f50243afce5bc439a1cd81529e18fce47f6e3a0c5777f90cf75eb296",
+    "823351e428ae8f644bc75df1c972482cb7106844d8dee671e08418d4a5e33da2",
+    "5121168b0b53f638c8fdd33866c06afc4e468f3ad42ea081377da157a148397f",
+    "3a92aa0410ecf2095b1d5cb579ce8044f8ef9497e3f4d951aff171e1dfb40e42",
+    "cede4e22ba3b0a1196e3997f0e468e05422afc9d20518b27b86182d521ce0660",
+    "6ccc53816408ba98afe1b6317636af35232f130456d3b0f969f49799a343e05d",
+    "f95fe0e97b011091bafee523c179a554d613767c031d898e750a82677ac2aa6e",
+    "a798305a28e30743c9c1fa83f0e31ccb01c15ad03f4eecdc38bd825acf72b2d3"
+  ],
+  "artifact_sha256": {
+    "sheet.png": "4a13713838c510bb7390378f73735a0ab5fffca3670f492e12a35ffb4c287ba2",
+    "preview.gif": "7ef5be103846cf808d6c41a54196bef3a3f88beba0405650722a44ba70cf9946",
+    "filmstrip.png": "0a48e81c53ffa141ca959ff3bfa8f2a9aa16b6d2176ac8d0339b5de18fe0fe3a"
+  },
+  "alpha_bboxes": [
+    [
+      61,
+      47,
+      195,
+      215
+    ],
+    [
+      64,
+      53,
+      192,
+      213
+    ],
+    [
+      64,
+      51,
+      192,
+      213
+    ],
+    [
+      64,
+      47,
+      192,
+      213
+    ],
+    [
+      64,
+      45,
+      192,
+      213
+    ],
+    [
+      64,
+      43,
+      192,
+      213
+    ],
+    [
+      64,
+      41,
+      192,
+      212
+    ],
+    [
+      64,
+      41,
+      192,
+      212
+    ],
+    [
+      64,
+      41,
+      192,
+      213
+    ],
+    [
+      64,
+      41,
+      192,
+      212
+    ],
+    [
+      64,
+      41,
+      192,
+      212
+    ],
+    [
+      64,
+      41,
+      192,
+      213
+    ],
+    [
+      64,
+      41,
+      192,
+      215
+    ],
+    [
+      64,
+      45,
+      192,
+      215
+    ],
+    [
+      64,
+      48,
+      192,
+      218
+    ],
+    [
+      64,
+      52,
+      192,
+      220
+    ],
+    [
+      64,
+      53,
+      192,
+      212
+    ],
+    [
+      64,
+      53,
+      192,
+      212
+    ],
+    [
+      64,
+      53,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      47,
+      192,
+      212
+    ],
+    [
+      64,
+      45,
+      192,
+      212
+    ],
+    [
+      64,
+      43,
+      192,
+      212
+    ],
+    [
+      64,
+      41,
+      192,
+      212
+    ],
+    [
+      64,
+      41,
+      192,
+      213
+    ],
+    [
+      64,
+      41,
+      192,
+      213
+    ],
+    [
+      64,
+      41,
+      192,
+      212
+    ],
+    [
+      64,
+      41,
+      192,
+      213
+    ],
+    [
+      64,
+      41,
+      192,
+      215
+    ],
+    [
+      64,
+      42,
+      192,
+      219
+    ],
+    [
+      64,
+      46,
+      192,
+      218
+    ],
+    [
+      64,
+      48,
+      192,
+      221
+    ],
+    [
+      64,
+      52,
+      192,
+      213
+    ]
+  ],
+  "edge_frames": [],
+  "margin_violation_frames": [],
+  "gif_actual_durations_ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+  ]
+}

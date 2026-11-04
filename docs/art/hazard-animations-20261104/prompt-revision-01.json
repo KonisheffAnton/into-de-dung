@@ -1,0 +1,378 @@
+{
+  "revision": 1,
+  "reason": "Completed fire probes produced rising flames and changes on masonry sides",
+  "original_requests_sha256": "d9f6da6cdec84ea8b36e3dc2b00259327e8e126e1ecabf407bc706d52fb49fff",
+  "revised_requests_sha256": "0800d563be3684642705689b6d1f0d569222769d51eb3de5f3ddc54e1d61b19e",
+  "unchanged_submitted": [
+    "fire29-01",
+    "fire29-02",
+    "fire29-03",
+    "fire29-04",
+    "fire29-05",
+    "fire23-01"
+  ],
+  "unchanged_pending": [
+    "acidfilm-01",
+    "acidfilm-02",
+    "acidfilm-03",
+    "acidfilm-04",
+    "acidfilm-05",
+    "caltrops03-01",
+    "caltrops03-02",
+    "caltrops03-03",
+    "caltrops03-04",
+    "caltrops03-05"
+  ],
+  "changed": [
+    {
+      "before": {
+        "key": "fire23-02",
+        "name": "Медленное течение",
+        "prompt": "The shallow fire flows slowly across the diamond in small overlapping currents, then eases back. Keep the flame height low and the full top covered. Animate only the existing low fire. Stone, side faces, silhouette, position, scale and camera stay still. No high flames, smoke, sparks, dry gaps or spill beyond the tile. Preserve outside transparency. Seamless loop returning to the first frame.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with low orange fire covering the whole diamond top",
+          "initial_pose": "Low fire lies across the full diamond top; exposed stone sides remain fixed"
+        },
+        "request_sha256": "d951f3ce2b55cb5ccf30d0d8ba88d67aaf220125c36bd9331e352d5a4c932589"
+      },
+      "after": {
+        "name": "Медленные световые полосы",
+        "prompt": "A faint brightness pulse passes across existing orange surface pixels in broad low bands, then returns to the starting palette. No shapes move. The animation is strictly 2D in-place palette and brightness cycling on the original diamond top only. Preserve the exact original silhouette and alpha envelope in every frame. Stone top edges, cracks and all masonry side-face pixels remain still. No vertical expansion, rising tongues, flames, sparks, smoke, new shapes, redrawing, translation, camera motion or motion across stone sides. Flat glowing orange surface texture throughout. Seamless return to the exact starting appearance.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with a flat glowing orange surface texture confined to its diamond top",
+          "initial_pose": "Exact original tile silhouette; orange embers lie flat on the top, with exposed masonry side faces fixed"
+        },
+        "request_sha256": "07b89c99b88676bbf4c17483e87ed90eb1dcd7e03fba4b7f8bd325f460bb9784"
+      }
+    },
+    {
+      "before": {
+        "key": "fire23-03",
+        "name": "Пульс тепла",
+        "prompt": "Short low tongues brighten and settle in alternating zones, a soft heat pulse moving across the full surface without lifting into tall flames. Animate only the existing low fire. Stone, side faces, silhouette, position, scale and camera stay still. No high flames, smoke, sparks, dry gaps or spill beyond the tile. Preserve outside transparency. Seamless loop returning to the first frame.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with low orange fire covering the whole diamond top",
+          "initial_pose": "Low fire lies across the full diamond top; exposed stone sides remain fixed"
+        },
+        "request_sha256": "eecfa30a0c9099a497d65006c711e54094461b401897eb60080301041784c49d"
+      },
+      "after": {
+        "name": "Редкие тёплые точки",
+        "prompt": "Sparse existing orange flecks brighten briefly in alternating places with long soft intervals; each returns to its original colour. The animation is strictly 2D in-place palette and brightness cycling on the original diamond top only. Preserve the exact original silhouette and alpha envelope in every frame. Stone top edges, cracks and all masonry side-face pixels remain still. No vertical expansion, rising tongues, flames, sparks, smoke, new shapes, redrawing, translation, camera motion or motion across stone sides. Flat glowing orange surface texture throughout. Seamless return to the exact starting appearance.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with a flat glowing orange surface texture confined to its diamond top",
+          "initial_pose": "Exact original tile silhouette; orange embers lie flat on the top, with exposed masonry side faces fixed"
+        },
+        "request_sha256": "2ff68e12466a15d4f9df6707d2634d7ba8390c82918209469fb60fd046745a37"
+      }
+    },
+    {
+      "before": {
+        "key": "fire23-04",
+        "name": "Неглубокие волны",
+        "prompt": "A subtle ripple of low flames travels diagonally across the covered top and fades, followed by a gentler return wave. No tall jets or gaps. Animate only the existing low fire. Stone, side faces, silhouette, position, scale and camera stay still. No high flames, smoke, sparks, dry gaps or spill beyond the tile. Preserve outside transparency. Seamless loop returning to the first frame.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with low orange fire covering the whole diamond top",
+          "initial_pose": "Low fire lies across the full diamond top; exposed stone sides remain fixed"
+        },
+        "request_sha256": "26bbddf6939f18c191fc9d6fbfcec73efc45bbbba4c5c30a8865e04f339fa176"
+      },
+      "after": {
+        "name": "Плавная диагональ",
+        "prompt": "A very subtle diagonal wave of warm colour shifts through the existing flat surface texture and fades, without moving any outline. The animation is strictly 2D in-place palette and brightness cycling on the original diamond top only. Preserve the exact original silhouette and alpha envelope in every frame. Stone top edges, cracks and all masonry side-face pixels remain still. No vertical expansion, rising tongues, flames, sparks, smoke, new shapes, redrawing, translation, camera motion or motion across stone sides. Flat glowing orange surface texture throughout. Seamless return to the exact starting appearance.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with a flat glowing orange surface texture confined to its diamond top",
+          "initial_pose": "Exact original tile silhouette; orange embers lie flat on the top, with exposed masonry side faces fixed"
+        },
+        "request_sha256": "990ce340b26271611c59f592aa1f3722be737f5456a0eadba927d4cbba925053"
+      }
+    },
+    {
+      "before": {
+        "key": "fire23-05",
+        "name": "Переменный ритм",
+        "prompt": "Small fire tongues dance with irregular but gentle timing across the full top, some briefly dimming as neighbours brighten. Maintain a flat low profile. Animate only the existing low fire. Stone, side faces, silhouette, position, scale and camera stay still. No high flames, smoke, sparks, dry gaps or spill beyond the tile. Preserve outside transparency. Seamless loop returning to the first frame.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with low orange fire covering the whole diamond top",
+          "initial_pose": "Low fire lies across the full diamond top; exposed stone sides remain fixed"
+        },
+        "request_sha256": "be013a4a5d86f360149abf6ffa0d7b72da5d8afd42c0dd5bd68837dbdc4f9624"
+      },
+      "after": {
+        "name": "Неровная пульсация",
+        "prompt": "Several small groups of existing orange pixels cycle gently through nearby warm shades at irregular offsets, then settle together. The animation is strictly 2D in-place palette and brightness cycling on the original diamond top only. Preserve the exact original silhouette and alpha envelope in every frame. Stone top edges, cracks and all masonry side-face pixels remain still. No vertical expansion, rising tongues, flames, sparks, smoke, new shapes, redrawing, translation, camera motion or motion across stone sides. Flat glowing orange surface texture throughout. Seamless return to the exact starting appearance.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with a flat glowing orange surface texture confined to its diamond top",
+          "initial_pose": "Exact original tile silhouette; orange embers lie flat on the top, with exposed masonry side faces fixed"
+        },
+        "request_sha256": "944235b0ac83c0c8b07810f2cb7c52d0f010435f9a966c176862e3183d5659f7"
+      }
+    },
+    {
+      "before": {
+        "key": "fire24-01",
+        "name": "Тихое мерцание",
+        "prompt": "Low flame tips flicker gently at staggered places across the entire top, with tiny rises and falls. Keep broad, low, continuous fire coverage. Animate only the existing low fire. Stone, side faces, silhouette, position, scale and camera stay still. No high flames, smoke, sparks, dry gaps or spill beyond the tile. Preserve outside transparency. Seamless loop returning to the first frame.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with low orange fire covering the whole diamond top",
+          "initial_pose": "Low fire lies across the full diamond top; exposed stone sides remain fixed"
+        },
+        "request_sha256": "5675b63b37ec134630bf56d822fc9ac859bf9d4ebefa06dc3c64fac889b88996"
+      },
+      "after": {
+        "name": "Тихое мерцание плёнки",
+        "prompt": "Very small existing orange patches brighten and dim at staggered positions, like a quiet ember shimmer. No patch moves or changes shape. The animation is strictly 2D in-place palette and brightness cycling on the original diamond top only. Preserve the exact original silhouette and alpha envelope in every frame. Stone top edges, cracks and all masonry side-face pixels remain still. No vertical expansion, rising tongues, flames, sparks, smoke, new shapes, redrawing, translation, camera motion or motion across stone sides. Flat glowing orange surface texture throughout. Seamless return to the exact starting appearance.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with a flat glowing orange surface texture confined to its diamond top",
+          "initial_pose": "Exact original tile silhouette; orange embers lie flat on the top, with exposed masonry side faces fixed"
+        },
+        "request_sha256": "b87e67acf03e2e4310a43c492ee24801179ce67c20aba7a022db41d5d2499430"
+      }
+    },
+    {
+      "before": {
+        "key": "fire24-02",
+        "name": "Медленное течение",
+        "prompt": "The shallow fire flows slowly across the diamond in small overlapping currents, then eases back. Keep the flame height low and the full top covered. Animate only the existing low fire. Stone, side faces, silhouette, position, scale and camera stay still. No high flames, smoke, sparks, dry gaps or spill beyond the tile. Preserve outside transparency. Seamless loop returning to the first frame.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with low orange fire covering the whole diamond top",
+          "initial_pose": "Low fire lies across the full diamond top; exposed stone sides remain fixed"
+        },
+        "request_sha256": "47a150a5d8d6d478b148693c36649503dcb602739f1cb2088534404fa46a82cc"
+      },
+      "after": {
+        "name": "Медленные световые полосы",
+        "prompt": "A faint brightness pulse passes across existing orange surface pixels in broad low bands, then returns to the starting palette. No shapes move. The animation is strictly 2D in-place palette and brightness cycling on the original diamond top only. Preserve the exact original silhouette and alpha envelope in every frame. Stone top edges, cracks and all masonry side-face pixels remain still. No vertical expansion, rising tongues, flames, sparks, smoke, new shapes, redrawing, translation, camera motion or motion across stone sides. Flat glowing orange surface texture throughout. Seamless return to the exact starting appearance.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with a flat glowing orange surface texture confined to its diamond top",
+          "initial_pose": "Exact original tile silhouette; orange embers lie flat on the top, with exposed masonry side faces fixed"
+        },
+        "request_sha256": "71f8ed5ff433c5417dec3c3019a49429d776b46190a35a6fbddf205097f1d139"
+      }
+    },
+    {
+      "before": {
+        "key": "fire24-03",
+        "name": "Пульс тепла",
+        "prompt": "Short low tongues brighten and settle in alternating zones, a soft heat pulse moving across the full surface without lifting into tall flames. Animate only the existing low fire. Stone, side faces, silhouette, position, scale and camera stay still. No high flames, smoke, sparks, dry gaps or spill beyond the tile. Preserve outside transparency. Seamless loop returning to the first frame.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with low orange fire covering the whole diamond top",
+          "initial_pose": "Low fire lies across the full diamond top; exposed stone sides remain fixed"
+        },
+        "request_sha256": "6e8aae06b3cb769b9f7149ff36d7844d6d69943d0cedd808fd38cccf244e22c6"
+      },
+      "after": {
+        "name": "Редкие тёплые точки",
+        "prompt": "Sparse existing orange flecks brighten briefly in alternating places with long soft intervals; each returns to its original colour. The animation is strictly 2D in-place palette and brightness cycling on the original diamond top only. Preserve the exact original silhouette and alpha envelope in every frame. Stone top edges, cracks and all masonry side-face pixels remain still. No vertical expansion, rising tongues, flames, sparks, smoke, new shapes, redrawing, translation, camera motion or motion across stone sides. Flat glowing orange surface texture throughout. Seamless return to the exact starting appearance.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with a flat glowing orange surface texture confined to its diamond top",
+          "initial_pose": "Exact original tile silhouette; orange embers lie flat on the top, with exposed masonry side faces fixed"
+        },
+        "request_sha256": "009b6244d825155c58ca4505816d85a093557e6863c053cf6784957760fdb80d"
+      }
+    },
+    {
+      "before": {
+        "key": "fire24-04",
+        "name": "Неглубокие волны",
+        "prompt": "A subtle ripple of low flames travels diagonally across the covered top and fades, followed by a gentler return wave. No tall jets or gaps. Animate only the existing low fire. Stone, side faces, silhouette, position, scale and camera stay still. No high flames, smoke, sparks, dry gaps or spill beyond the tile. Preserve outside transparency. Seamless loop returning to the first frame.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with low orange fire covering the whole diamond top",
+          "initial_pose": "Low fire lies across the full diamond top; exposed stone sides remain fixed"
+        },
+        "request_sha256": "df05be315bb48f1507a8f8b04462fc2d0217edde1484d2e3f82b46dd13924a48"
+      },
+      "after": {
+        "name": "Плавная диагональ",
+        "prompt": "A very subtle diagonal wave of warm colour shifts through the existing flat surface texture and fades, without moving any outline. The animation is strictly 2D in-place palette and brightness cycling on the original diamond top only. Preserve the exact original silhouette and alpha envelope in every frame. Stone top edges, cracks and all masonry side-face pixels remain still. No vertical expansion, rising tongues, flames, sparks, smoke, new shapes, redrawing, translation, camera motion or motion across stone sides. Flat glowing orange surface texture throughout. Seamless return to the exact starting appearance.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with a flat glowing orange surface texture confined to its diamond top",
+          "initial_pose": "Exact original tile silhouette; orange embers lie flat on the top, with exposed masonry side faces fixed"
+        },
+        "request_sha256": "e6a77776ed5a85aec34ad5ecd79610dad701b767fb6ecb419a4ff933dbe4d426"
+      }
+    },
+    {
+      "before": {
+        "key": "fire24-05",
+        "name": "Переменный ритм",
+        "prompt": "Small fire tongues dance with irregular but gentle timing across the full top, some briefly dimming as neighbours brighten. Maintain a flat low profile. Animate only the existing low fire. Stone, side faces, silhouette, position, scale and camera stay still. No high flames, smoke, sparks, dry gaps or spill beyond the tile. Preserve outside transparency. Seamless loop returning to the first frame.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with low orange fire covering the whole diamond top",
+          "initial_pose": "Low fire lies across the full diamond top; exposed stone sides remain fixed"
+        },
+        "request_sha256": "a67e52a173d1f83627404280e92b3be10faa6f217e6b9dd052fdd31893f63b4b"
+      },
+      "after": {
+        "name": "Неровная пульсация",
+        "prompt": "Several small groups of existing orange pixels cycle gently through nearby warm shades at irregular offsets, then settle together. The animation is strictly 2D in-place palette and brightness cycling on the original diamond top only. Preserve the exact original silhouette and alpha envelope in every frame. Stone top edges, cracks and all masonry side-face pixels remain still. No vertical expansion, rising tongues, flames, sparks, smoke, new shapes, redrawing, translation, camera motion or motion across stone sides. Flat glowing orange surface texture throughout. Seamless return to the exact starting appearance.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with a flat glowing orange surface texture confined to its diamond top",
+          "initial_pose": "Exact original tile silhouette; orange embers lie flat on the top, with exposed masonry side faces fixed"
+        },
+        "request_sha256": "683003cf115968b85c1fd2de60a0ad64698cda8152ea87707cc1ef1d356e1c4e"
+      }
+    },
+    {
+      "before": {
+        "key": "fire22-01",
+        "name": "Тихое мерцание",
+        "prompt": "Low flame tips flicker gently at staggered places across the entire top, with tiny rises and falls. Keep broad, low, continuous fire coverage. Animate only the existing low fire. Stone, side faces, silhouette, position, scale and camera stay still. No high flames, smoke, sparks, dry gaps or spill beyond the tile. Preserve outside transparency. Seamless loop returning to the first frame.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with low orange fire covering the whole diamond top",
+          "initial_pose": "Low fire lies across the full diamond top; exposed stone sides remain fixed"
+        },
+        "request_sha256": "09bb81f7e2ea001199109908c42be545a604f3409d7b895cb8f1564db611ff3d"
+      },
+      "after": {
+        "name": "Тихое мерцание плёнки",
+        "prompt": "Very small existing orange patches brighten and dim at staggered positions, like a quiet ember shimmer. No patch moves or changes shape. The animation is strictly 2D in-place palette and brightness cycling on the original diamond top only. Preserve the exact original silhouette and alpha envelope in every frame. Stone top edges, cracks and all masonry side-face pixels remain still. No vertical expansion, rising tongues, flames, sparks, smoke, new shapes, redrawing, translation, camera motion or motion across stone sides. Flat glowing orange surface texture throughout. Seamless return to the exact starting appearance.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with a flat glowing orange surface texture confined to its diamond top",
+          "initial_pose": "Exact original tile silhouette; orange embers lie flat on the top, with exposed masonry side faces fixed"
+        },
+        "request_sha256": "e0b6ff55cc6776bd4cb70010c3e9d55b2fc24f8bbc680bbef3a98b4a97ae8a67"
+      }
+    },
+    {
+      "before": {
+        "key": "fire22-02",
+        "name": "Медленное течение",
+        "prompt": "The shallow fire flows slowly across the diamond in small overlapping currents, then eases back. Keep the flame height low and the full top covered. Animate only the existing low fire. Stone, side faces, silhouette, position, scale and camera stay still. No high flames, smoke, sparks, dry gaps or spill beyond the tile. Preserve outside transparency. Seamless loop returning to the first frame.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with low orange fire covering the whole diamond top",
+          "initial_pose": "Low fire lies across the full diamond top; exposed stone sides remain fixed"
+        },
+        "request_sha256": "c089be73c8635ceea182217d04fc77fdf84eb0db0093ce3f490d7fa5b94f884b"
+      },
+      "after": {
+        "name": "Медленные световые полосы",
+        "prompt": "A faint brightness pulse passes across existing orange surface pixels in broad low bands, then returns to the starting palette. No shapes move. The animation is strictly 2D in-place palette and brightness cycling on the original diamond top only. Preserve the exact original silhouette and alpha envelope in every frame. Stone top edges, cracks and all masonry side-face pixels remain still. No vertical expansion, rising tongues, flames, sparks, smoke, new shapes, redrawing, translation, camera motion or motion across stone sides. Flat glowing orange surface texture throughout. Seamless return to the exact starting appearance.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with a flat glowing orange surface texture confined to its diamond top",
+          "initial_pose": "Exact original tile silhouette; orange embers lie flat on the top, with exposed masonry side faces fixed"
+        },
+        "request_sha256": "3f6365ba7cd116bd52aeca281dd98bc223ac93bdd1309023cfdbd62545c689b4"
+      }
+    },
+    {
+      "before": {
+        "key": "fire22-03",
+        "name": "Пульс тепла",
+        "prompt": "Short low tongues brighten and settle in alternating zones, a soft heat pulse moving across the full surface without lifting into tall flames. Animate only the existing low fire. Stone, side faces, silhouette, position, scale and camera stay still. No high flames, smoke, sparks, dry gaps or spill beyond the tile. Preserve outside transparency. Seamless loop returning to the first frame.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with low orange fire covering the whole diamond top",
+          "initial_pose": "Low fire lies across the full diamond top; exposed stone sides remain fixed"
+        },
+        "request_sha256": "0d2b0abf40939c34c98d7cf9a2513828b4182a03cd69fe2e0cf4e78bdbf8ff66"
+      },
+      "after": {
+        "name": "Редкие тёплые точки",
+        "prompt": "Sparse existing orange flecks brighten briefly in alternating places with long soft intervals; each returns to its original colour. The animation is strictly 2D in-place palette and brightness cycling on the original diamond top only. Preserve the exact original silhouette and alpha envelope in every frame. Stone top edges, cracks and all masonry side-face pixels remain still. No vertical expansion, rising tongues, flames, sparks, smoke, new shapes, redrawing, translation, camera motion or motion across stone sides. Flat glowing orange surface texture throughout. Seamless return to the exact starting appearance.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with a flat glowing orange surface texture confined to its diamond top",
+          "initial_pose": "Exact original tile silhouette; orange embers lie flat on the top, with exposed masonry side faces fixed"
+        },
+        "request_sha256": "69653b42d199b16c9cbdafa9c7773c65c390cebc4c5620cc4217a9c3d2f026bd"
+      }
+    },
+    {
+      "before": {
+        "key": "fire22-04",
+        "name": "Неглубокие волны",
+        "prompt": "A subtle ripple of low flames travels diagonally across the covered top and fades, followed by a gentler return wave. No tall jets or gaps. Animate only the existing low fire. Stone, side faces, silhouette, position, scale and camera stay still. No high flames, smoke, sparks, dry gaps or spill beyond the tile. Preserve outside transparency. Seamless loop returning to the first frame.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with low orange fire covering the whole diamond top",
+          "initial_pose": "Low fire lies across the full diamond top; exposed stone sides remain fixed"
+        },
+        "request_sha256": "ecfda57f096f9f152ce5f499b9217c02aeedce815e60e8d8f49555ea7c1ff196"
+      },
+      "after": {
+        "name": "Плавная диагональ",
+        "prompt": "A very subtle diagonal wave of warm colour shifts through the existing flat surface texture and fades, without moving any outline. The animation is strictly 2D in-place palette and brightness cycling on the original diamond top only. Preserve the exact original silhouette and alpha envelope in every frame. Stone top edges, cracks and all masonry side-face pixels remain still. No vertical expansion, rising tongues, flames, sparks, smoke, new shapes, redrawing, translation, camera motion or motion across stone sides. Flat glowing orange surface texture throughout. Seamless return to the exact starting appearance.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with a flat glowing orange surface texture confined to its diamond top",
+          "initial_pose": "Exact original tile silhouette; orange embers lie flat on the top, with exposed masonry side faces fixed"
+        },
+        "request_sha256": "a2cdb956f8df0da1dee9ab6004af6051dcaeaf165dbfbf2f25c60d9d8e46d385"
+      }
+    },
+    {
+      "before": {
+        "key": "fire22-05",
+        "name": "Переменный ритм",
+        "prompt": "Small fire tongues dance with irregular but gentle timing across the full top, some briefly dimming as neighbours brighten. Maintain a flat low profile. Animate only the existing low fire. Stone, side faces, silhouette, position, scale and camera stay still. No high flames, smoke, sparks, dry gaps or spill beyond the tile. Preserve outside transparency. Seamless loop returning to the first frame.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with low orange fire covering the whole diamond top",
+          "initial_pose": "Low fire lies across the full diamond top; exposed stone sides remain fixed"
+        },
+        "request_sha256": "beee493e74a99a77d418f7ae72e2c16b2756b11428cd300633e674ff3a9d3f2f"
+      },
+      "after": {
+        "name": "Неровная пульсация",
+        "prompt": "Several small groups of existing orange pixels cycle gently through nearby warm shades at irregular offsets, then settle together. The animation is strictly 2D in-place palette and brightness cycling on the original diamond top only. Preserve the exact original silhouette and alpha envelope in every frame. Stone top edges, cracks and all masonry side-face pixels remain still. No vertical expansion, rising tongues, flames, sparks, smoke, new shapes, redrawing, translation, camera motion or motion across stone sides. Flat glowing orange surface texture throughout. Seamless return to the exact starting appearance.",
+        "captions": {
+          "direction": "south-east",
+          "view": "low top-down",
+          "subject_description": "A fixed isometric stone tile with a flat glowing orange surface texture confined to its diamond top",
+          "initial_pose": "Exact original tile silhouette; orange embers lie flat on the top, with exposed masonry side faces fixed"
+        },
+        "request_sha256": "4ed95b199ebb56debc2e509ce45fa547ae1c14c3901aacc41f8d59e3bdde7619"
+      }
+    }
+  ]
+}

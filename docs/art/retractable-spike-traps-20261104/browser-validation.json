@@ -1,0 +1,198 @@
+{
+  "checks": {
+    "names": true,
+    "assets": true,
+    "desktop": true,
+    "modalFit": true,
+    "navigation": true,
+    "mobile": true,
+    "portable": true
+  },
+  "cards": [
+    {
+      "number": "1",
+      "name": "Классические конусы"
+    },
+    {
+      "number": "2",
+      "name": "Трёхгранные жала"
+    },
+    {
+      "number": "3",
+      "name": "Квадратные пирамиды"
+    },
+    {
+      "number": "4",
+      "name": "Рифлёные конусы"
+    },
+    {
+      "number": "5",
+      "name": "Кованые ромбы"
+    },
+    {
+      "number": "6",
+      "name": "Щелевые зубья"
+    },
+    {
+      "number": "7",
+      "name": "Шестигранные кассеты"
+    },
+    {
+      "number": "8",
+      "name": "Каменные заглушки"
+    },
+    {
+      "number": "9",
+      "name": "Двойные лезвия"
+    },
+    {
+      "number": "10",
+      "name": "Массивные копья"
+    }
+  ],
+  "assets": [
+    {
+      "id": "spike-trap-01",
+      "width": 1536,
+      "height": 1024,
+      "embedded": true
+    },
+    {
+      "id": "spike-trap-02",
+      "width": 1536,
+      "height": 1024,
+      "embedded": true
+    },
+    {
+      "id": "spike-trap-03",
+      "width": 1536,
+      "height": 1024,
+      "embedded": true
+    },
+    {
+      "id": "spike-trap-04",
+      "width": 1536,
+      "height": 1024,
+      "embedded": true
+    },
+    {
+      "id": "spike-trap-05",
+      "width": 1536,
+      "height": 1024,
+      "embedded": true
+    },
+    {
+      "id": "spike-trap-06",
+      "width": 1448,
+      "height": 1086,
+      "embedded": true
+    },
+    {
+      "id": "spike-trap-07",
+      "width": 1448,
+      "height": 1086,
+      "embedded": true
+    },
+    {
+      "id": "spike-trap-08",
+      "width": 1536,
+      "height": 1024,
+      "embedded": true
+    },
+    {
+      "id": "spike-trap-09",
+      "width": 1448,
+      "height": 1086,
+      "embedded": true
+    },
+    {
+      "id": "spike-trap-10",
+      "width": 1536,
+      "height": 1024,
+      "embedded": true
+    }
+  ],
+  "decoded": [
+    {
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "width": 1448,
+      "height": 1086
+    },
+    {
+      "width": 1448,
+      "height": 1086
+    },
+    {
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "width": 1448,
+      "height": 1086
+    },
+    {
+      "width": 1536,
+      "height": 1024
+    }
+  ],
+  "desktop": {
+    "1": {
+      "count": 10,
+      "overflow": false,
+      "bad": []
+    },
+    "0.7": {
+      "count": 10,
+      "overflow": false,
+      "bad": []
+    },
+    "1.6": {
+      "count": 10,
+      "overflow": false,
+      "bad": []
+    }
+  },
+  "modal": {
+    "count": 1,
+    "overflow": false,
+    "bad": []
+  },
+  "mobile": {
+    "1": {
+      "count": 10,
+      "overflow": false,
+      "bad": []
+    },
+    "0.7": {
+      "count": 10,
+      "overflow": false,
+      "bad": []
+    },
+    "1.6": {
+      "count": 10,
+      "overflow": false,
+      "bad": []
+    }
+  },
+  "errors": [],
+  "pass": true
+}

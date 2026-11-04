@@ -1,0 +1,86 @@
+{
+  "source": "prompts.json",
+  "count": 10,
+  "variants": [
+    {
+      "id": "spike-trap-01",
+      "number": 1,
+      "file": "spike-trap-01-pair.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "f9a93db24ae7a40e7e606719e744c85c535c058ba0db7d0d7ba7b1e0ea2fdc50"
+    },
+    {
+      "id": "spike-trap-02",
+      "number": 2,
+      "file": "spike-trap-02-pair.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "b396659161e94031afa645eed7a240fc1850f3629a76165126d83553df63b945"
+    },
+    {
+      "id": "spike-trap-03",
+      "number": 3,
+      "file": "spike-trap-03-pair.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "1b37684a8c830049842becd58a434088d5f2ac59f08ed993c7cc5957db8e0c3b"
+    },
+    {
+      "id": "spike-trap-04",
+      "number": 4,
+      "file": "spike-trap-04-pair.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "ed3cb0f80ae5979e76603342ffe71c33f4e0cc6c6629010704ecf3b3f95c18ae"
+    },
+    {
+      "id": "spike-trap-05",
+      "number": 5,
+      "file": "spike-trap-05-pair.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "5c02371e9ad410ec22305e509b4b4af48f61304dff9c748c55f9a3715a272f2a"
+    },
+    {
+      "id": "spike-trap-06",
+      "number": 6,
+      "file": "spike-trap-06-pair.png",
+      "width": 1448,
+      "height": 1086,
+      "sha256": "3d0845ed99296ad0ffe363881e8e5e64844e1f4bce57f92702fc69e0dd32297f"
+    },
+    {
+      "id": "spike-trap-07",
+      "number": 7,
+      "file": "spike-trap-07-pair.png",
+      "width": 1448,
+      "height": 1086,
+      "sha256": "4dfdb446422d6d0e1ca404514d323d22bef52f7f0b6db649af023cf223ffd496"
+    },
+    {
+      "id": "spike-trap-08",
+      "number": 8,
+      "file": "spike-trap-08-pair.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "dbb89e89b60df50c580637b4a1fcdf58db335a7258302da854ae55ec1e7c7bdf"
+    },
+    {
+      "id": "spike-trap-09",
+      "number": 9,
+      "file": "spike-trap-09-pair.png",
+      "width": 1448,
+      "height": 1086,
+      "sha256": "8d9855abfd22bdf96754de81fa7d753fcf0a3292bc293cc7ab6295809f0b5e5d"
+    },
+    {
+      "id": "spike-trap-10",
+      "number": 10,
+      "file": "spike-trap-10-pair.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "53e063e14f749579b7ff63470008f429a55fbef5d682c29b342044ce57981a16"
+    }
+  ]
+}

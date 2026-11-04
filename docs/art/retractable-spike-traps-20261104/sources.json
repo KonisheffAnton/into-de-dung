@@ -1,0 +1,222 @@
+[
+  {
+    "id": "spike-trap-01",
+    "file": "spike-trap-01-pair.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-86318027-464e-46d7-9c65-ab6d9586e4e6.png",
+    "sha256": "f9a93db24ae7a40e7e606719e744c85c535c058ba0db7d0d7ba7b1e0ea2fdc50",
+    "size": [
+      1536,
+      1024
+    ],
+    "bytes": 1987976,
+    "alpha_range": [
+      0,
+      254
+    ],
+    "bbox_alpha_gt_8": [
+      105,
+      112,
+      1432,
+      901
+    ],
+    "raw_provider_bytes_preserved": true
+  },
+  {
+    "id": "spike-trap-02",
+    "file": "spike-trap-02-pair.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-4e0e7e3a-9973-41de-ac53-aece82f7c723.png",
+    "sha256": "b396659161e94031afa645eed7a240fc1850f3629a76165126d83553df63b945",
+    "size": [
+      1536,
+      1024
+    ],
+    "bytes": 2121967,
+    "alpha_range": [
+      0,
+      254
+    ],
+    "bbox_alpha_gt_8": [
+      53,
+      112,
+      1485,
+      944
+    ],
+    "raw_provider_bytes_preserved": true
+  },
+  {
+    "id": "spike-trap-03",
+    "file": "spike-trap-03-pair.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-a49979c6-9e7d-4b1b-89a6-ef2f13bfe743.png",
+    "sha256": "1b37684a8c830049842becd58a434088d5f2ac59f08ed993c7cc5957db8e0c3b",
+    "size": [
+      1536,
+      1024
+    ],
+    "bytes": 2120056,
+    "alpha_range": [
+      0,
+      254
+    ],
+    "bbox_alpha_gt_8": [
+      67,
+      150,
+      1468,
+      937
+    ],
+    "raw_provider_bytes_preserved": true
+  },
+  {
+    "id": "spike-trap-04",
+    "file": "spike-trap-04-pair.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-32614d55-810d-469c-b53c-6e96a38b9290.png",
+    "sha256": "ed3cb0f80ae5979e76603342ffe71c33f4e0cc6c6629010704ecf3b3f95c18ae",
+    "size": [
+      1536,
+      1024
+    ],
+    "bytes": 2119403,
+    "alpha_range": [
+      0,
+      254
+    ],
+    "bbox_alpha_gt_8": [
+      105,
+      108,
+      1432,
+      904
+    ],
+    "raw_provider_bytes_preserved": true
+  },
+  {
+    "id": "spike-trap-05",
+    "file": "spike-trap-05-pair.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-373e8358-2ddb-4469-946e-9b99846bc98a.png",
+    "sha256": "5c02371e9ad410ec22305e509b4b4af48f61304dff9c748c55f9a3715a272f2a",
+    "size": [
+      1536,
+      1024
+    ],
+    "bytes": 2095824,
+    "alpha_range": [
+      0,
+      254
+    ],
+    "bbox_alpha_gt_8": [
+      83,
+      124,
+      1454,
+      923
+    ],
+    "raw_provider_bytes_preserved": true
+  },
+  {
+    "id": "spike-trap-06",
+    "file": "spike-trap-06-pair.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-f4e054d0-f80e-41b9-8a85-907b1886ec0e.png",
+    "sha256": "3d0845ed99296ad0ffe363881e8e5e64844e1f4bce57f92702fc69e0dd32297f",
+    "size": [
+      1448,
+      1086
+    ],
+    "bytes": 1700699,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "bbox_alpha_gt_8": [
+      30,
+      122,
+      1417,
+      968
+    ],
+    "raw_provider_bytes_preserved": true
+  },
+  {
+    "id": "spike-trap-07",
+    "file": "spike-trap-07-pair.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-cac0ebfb-5dfa-4a9e-bd79-62b60bfb64c4.png",
+    "sha256": "4dfdb446422d6d0e1ca404514d323d22bef52f7f0b6db649af023cf223ffd496",
+    "size": [
+      1448,
+      1086
+    ],
+    "bytes": 1546512,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "bbox_alpha_gt_8": [
+      50,
+      155,
+      1398,
+      932
+    ],
+    "raw_provider_bytes_preserved": true
+  },
+  {
+    "id": "spike-trap-08",
+    "file": "spike-trap-08-pair.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-6c40ae4b-43e6-46d0-abd6-8723e662c59c.png",
+    "sha256": "dbb89e89b60df50c580637b4a1fcdf58db335a7258302da854ae55ec1e7c7bdf",
+    "size": [
+      1536,
+      1024
+    ],
+    "bytes": 2172942,
+    "alpha_range": [
+      0,
+      254
+    ],
+    "bbox_alpha_gt_8": [
+      43,
+      111,
+      1493,
+      971
+    ],
+    "raw_provider_bytes_preserved": true
+  },
+  {
+    "id": "spike-trap-09",
+    "file": "spike-trap-09-pair.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-b37e75c0-d646-4ebd-ba1d-af15f942d499.png",
+    "sha256": "8d9855abfd22bdf96754de81fa7d753fcf0a3292bc293cc7ab6295809f0b5e5d",
+    "size": [
+      1448,
+      1086
+    ],
+    "bytes": 1505783,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "bbox_alpha_gt_8": [
+      51,
+      161,
+      1398,
+      957
+    ],
+    "raw_provider_bytes_preserved": true
+  },
+  {
+    "id": "spike-trap-10",
+    "file": "spike-trap-10-pair.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-81a7e0e1-acbe-477e-a189-b12d4b46ec1b.png",
+    "sha256": "53e063e14f749579b7ff63470008f429a55fbef5d682c29b342044ce57981a16",
+    "size": [
+      1536,
+      1024
+    ],
+    "bytes": 2174271,
+    "alpha_range": [
+      0,
+      254
+    ],
+    "bbox_alpha_gt_8": [
+      49,
+      119,
+      1487,
+      967
+    ],
+    "raw_provider_bytes_preserved": true
+  }
+]

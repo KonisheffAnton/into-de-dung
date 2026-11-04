@@ -1,0 +1,252 @@
+{
+  "status": "PASS",
+  "clips": 30,
+  "total_generations": 153.0,
+  "balance_before": 5000.0,
+  "balance_after": 4847.0,
+  "balance_type": "generations",
+  "plan": "Tier 2: Pixel Artisan",
+  "credits_usd": 0.0,
+  "clips_detail": [
+    {
+      "key": "fire29-01",
+      "endpoint": "animate-pixminimax",
+      "job_id": "aef8810e-da8c-4817-b3dc-bb6c2654890a",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire29-02",
+      "endpoint": "animate-pixminimax",
+      "job_id": "ca6ea561-9d01-41e6-a30d-af722aec0732",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire29-03",
+      "endpoint": "animate-pixminimax",
+      "job_id": "f01a4b00-6405-4905-ae28-f0bcfe43463f",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire29-04",
+      "endpoint": "animate-pixminimax",
+      "job_id": "52b9a644-a786-48c8-a0d5-b56a72d8dcf0",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire29-05",
+      "endpoint": "animate-pixminimax",
+      "job_id": "23b0249d-89c5-49ea-a4e3-6f6ba4ccbf87",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire23-01",
+      "endpoint": "animate-pixminimax",
+      "job_id": "52abcb53-c5d2-4e82-802e-b8e3fff3f611",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire23-02",
+      "endpoint": "animate-pixminimax",
+      "job_id": "76c6f13e-7b58-4548-b2e4-3e648e91472c",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire23-03",
+      "endpoint": "animate-pixminimax",
+      "job_id": "fda9558a-b331-499f-ab89-d98bd460c328",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire23-04",
+      "endpoint": "animate-pixminimax",
+      "job_id": "e06dd2af-52b4-4e28-b130-379865ad058a",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire23-05",
+      "endpoint": "animate-pixminimax",
+      "job_id": "d1460526-6c34-47b3-b119-7cb06b2ca59d",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire24-01",
+      "endpoint": "animate-pixminimax",
+      "job_id": "646d7d9e-b175-49c3-a8bc-e8a8e8946ce7",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire24-02",
+      "endpoint": "animate-pixminimax",
+      "job_id": "b36087da-46cd-4377-8fd8-d074f3f8ec6e",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire24-03",
+      "endpoint": "animate-pixminimax",
+      "job_id": "de4f47ab-5022-4512-a91d-77df68d4b05a",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire24-04",
+      "endpoint": "animate-pixminimax",
+      "job_id": "966cbb4e-13c0-4024-ac48-cae92715d834",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire24-05",
+      "endpoint": "animate-pixminimax",
+      "job_id": "bd4b5f06-8f2b-4db8-94c9-86374824c751",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire22-01",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "fb4825ef-4fce-4fba-8352-b4615bc8fc2d",
+      "requested_frame_count": 8,
+      "returned_frames": 9,
+      "generations": 8.0
+    },
+    {
+      "key": "fire22-02",
+      "endpoint": "animate-pixminimax",
+      "job_id": "dc707de5-d805-4084-93f4-509a2ce146f0",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire22-03",
+      "endpoint": "animate-pixminimax",
+      "job_id": "f93f4f3c-4c13-424b-b650-fe914b412b4f",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire22-04",
+      "endpoint": "animate-pixminimax",
+      "job_id": "72b30a8c-31dd-4acc-92a8-6ab2dcc734be",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "fire22-05",
+      "endpoint": "animate-pixminimax",
+      "job_id": "5d9e107a-5e8f-4320-baff-5eb9080feded",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "acidfilm-01",
+      "endpoint": "animate-pixminimax",
+      "job_id": "5f76b534-f250-456e-a7d6-e67d185c11f8",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "acidfilm-02",
+      "endpoint": "animate-pixminimax",
+      "job_id": "8e1e93e3-96a9-415e-ac06-5c69270f4009",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "acidfilm-03",
+      "endpoint": "animate-pixminimax",
+      "job_id": "6e964716-bf75-41de-bb3f-bcda564e6910",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "acidfilm-04",
+      "endpoint": "animate-pixminimax",
+      "job_id": "b057290e-f5d1-49a1-bd12-444f3c951b85",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "acidfilm-05",
+      "endpoint": "animate-pixminimax",
+      "job_id": "6dac0f26-cceb-42a8-9a68-b158591b2f89",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "caltrops03-01",
+      "endpoint": "animate-pixminimax",
+      "job_id": "30dc60fe-ad61-4608-8109-a6bf6bec5b9d",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "caltrops03-02",
+      "endpoint": "animate-pixminimax",
+      "job_id": "fcb38842-1af9-4968-983d-f53c95e9e194",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "caltrops03-03",
+      "endpoint": "animate-pixminimax",
+      "job_id": "06c2618e-d438-43ca-b77c-ea1b68d094ec",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "caltrops03-04",
+      "endpoint": "animate-pixminimax",
+      "job_id": "13623170-3a84-40b2-86f1-a73d2b7e3895",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "caltrops03-05",
+      "endpoint": "animate-pixminimax",
+      "job_id": "b2abd7d6-40a2-4f5f-adad-92cf09ccadcb",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    }
+  ]
+}
