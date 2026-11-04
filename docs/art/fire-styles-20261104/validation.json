@@ -1,0 +1,291 @@
+{
+  "status": "PASS",
+  "images": 20,
+  "byte_exact_provider_outputs": true,
+  "distinct_hashes": 20,
+  "rgba": true,
+  "visible_margin_at_least_5_percent": true,
+  "manual_pixel_edits_after_generation": false,
+  "rows": [
+    {
+      "id": "fire-01",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox": [
+        316,
+        239,
+        940,
+        717
+      ],
+      "border_alpha_max": 0
+    },
+    {
+      "id": "fire-02",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox": [
+        273,
+        198,
+        981,
+        765
+      ],
+      "border_alpha_max": 0
+    },
+    {
+      "id": "fire-03",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox": [
+        312,
+        167,
+        943,
+        720
+      ],
+      "border_alpha_max": 1
+    },
+    {
+      "id": "fire-04",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox": [
+        298,
+        195,
+        954,
+        770
+      ],
+      "border_alpha_max": 1
+    },
+    {
+      "id": "fire-05",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox": [
+        303,
+        194,
+        952,
+        742
+      ],
+      "border_alpha_max": 1
+    },
+    {
+      "id": "fire-06",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox": [
+        305,
+        202,
+        948,
+        718
+      ],
+      "border_alpha_max": 0
+    },
+    {
+      "id": "fire-07",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox": [
+        307,
+        234,
+        945,
+        714
+      ],
+      "border_alpha_max": 5
+    },
+    {
+      "id": "fire-08",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox": [
+        290,
+        216,
+        961,
+        756
+      ],
+      "border_alpha_max": 1
+    },
+    {
+      "id": "fire-09",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox": [
+        293,
+        189,
+        956,
+        736
+      ],
+      "border_alpha_max": 0
+    },
+    {
+      "id": "fire-10",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox": [
+        290,
+        188,
+        960,
+        757
+      ],
+      "border_alpha_max": 1
+    },
+    {
+      "id": "fire-11",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox": [
+        310,
+        250,
+        945,
+        718
+      ],
+      "border_alpha_max": 0
+    },
+    {
+      "id": "fire-12",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox": [
+        299,
+        151,
+        957,
+        740
+      ],
+      "border_alpha_max": 0
+    },
+    {
+      "id": "fire-13",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox": [
+        315,
+        168,
+        939,
+        710
+      ],
+      "border_alpha_max": 0
+    },
+    {
+      "id": "fire-14",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox": [
+        300,
+        214,
+        958,
+        741
+      ],
+      "border_alpha_max": 1
+    },
+    {
+      "id": "fire-15",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox": [
+        303,
+        218,
+        953,
+        722
+      ],
+      "border_alpha_max": 1
+    },
+    {
+      "id": "fire-16",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox": [
+        315,
+        224,
+        939,
+        739
+      ],
+      "border_alpha_max": 0
+    },
+    {
+      "id": "fire-17",
+      "alpha_range": [
+        0,
+        254
+      ],
+      "visible_bbox": [
+        304,
+        227,
+        949,
+        771
+      ],
+      "border_alpha_max": 1
+    },
+    {
+      "id": "fire-18",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox": [
+        299,
+        189,
+        954,
+        753
+      ],
+      "border_alpha_max": 1
+    },
+    {
+      "id": "fire-19",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox": [
+        286,
+        218,
+        966,
+        792
+      ],
+      "border_alpha_max": 0
+    },
+    {
+      "id": "fire-20",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "visible_bbox": [
+        286,
+        111,
+        968,
+        751
+      ],
+      "border_alpha_max": 1
+    }
+  ]
+}

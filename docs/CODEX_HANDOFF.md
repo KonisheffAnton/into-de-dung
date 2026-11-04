@@ -1,36 +1,37 @@
-# Передача — 2026-11-04: кислота05/01 без камня
+# Передача — 2026-11-04: кислота01 и20 стилей огня
 
-D:/Games/into-de-dung; main; base55d9605ec0473a99ffa243a521b1239ba1962d29.
-По U анимация01 внедрена в текущую сцену: отдельное покрытие верхнего ромба,
-33 кадра/10FPS, без привязки к материалу пола. Собственные боковины сохранены.
-[Результат/снимки/review](art/acid01-integration-20261104/README.md),
-[визуальный контракт](BATTLE_VISUAL_SCENE_CONTRACT.md),
-[поведение](ENVIRONMENT_HAZARDS_V1.md). Исходные360 арт-файлов не изменены.
-Эталон — art/current-tile-reference-20261103/; исходная серия —
-art/acid05-animation-20261103/. Выбор01 принят U; новая художественная приёмка открыта.
+D:/Games/into-de-dung; main; base7742fba5752c7b5fcca651475b9019ffabcdac77.
+Этот base внедрил выбранную U кислоту05/01 без камня:33 кадра/10FPS,
+самостоятельная маска верхнего ромба, свои материалы пола/боковин.
+[Кислота/снимки/review](art/acid01-integration-20261104/README.md);
+геометрия/часы — BATTLE_VISUAL_SCENE_CONTRACT, правила — ENVIRONMENT_HAZARDS_V1.
 
-PASS: builder/compile, launcher37; isolated import/startup;
+По следующему поручению U созданы [20 статичных стилей огня](art/fire-styles-20261104/README.md):
+PNG1254²RGBA, промпты/SHA, автономная gallery.html, сравнение на эталоне.
+Огонь — отдельный прозрачный слой.20 PNG побайтно от image_gen; повторы в пакете.
+Огонь не внедрён; выбор стиля открыт.
+[Направление](ART_DIRECTION.md), эталон — art/current-tile-reference-20261103/.
+
+Арт-этап PASS:20 разных SHA/alpha/полный кадр,21 embedded asset,
+20 карточек, tile/fire,70/100/160%,modal,390px/переносимость; diff/ссылки/архив.
+Отчёты: test_reports/fire-styles-20261104/. Godot для огня не запускался.
+Предшествующая интеграция кислоты: isolated import/startup, launcher37;
 headless acid_animation92/0, visual_scene106/0, acid56/0;
-GPU acid_animation194/0, environment32/0, visual_scene106/0, dungeon1983/0.
-Все33 маски/отрицательный контроль, шесть биомов, snapshot/RNG; review APPROVE.
-GPU hazards_ui105/2: те же два сбоя завершения шипов на base и current-repeat.
-Headless environment31/1 — GPU pixel test; GPU32/0. Это не полностью зелёный suite.
-Отчёты: test_reports/acid01-integration-20261104/;
-demo-ce9c4ce9228e414693577ee02b06d800 и demo-92fd62445c924aeebe5cf35497debee8.
-Full/core/root import и ручной F5 не выполнялись; прежние APPROVE не повторены.
+GPU acid_animation194/0, environment32/0, visual_scene106/0, dungeon1983/0;
+33маски/negative control/snapshot/RNG, review APPROVE. Не считать повторёнными.
+GPU hazards_ui105/2 воспроизведён на base55d9605 и текущем runtime;
+headless environment31/1 — pixel test, GPU32/0. Full/core/root import не выполнялись.
 
-Следующий шаг уже поручен U: нарисовать20 новых версий огня, экспериментируя
-со стилем; отдельный прозрачный эффект и показ на эталоне, без внедрения до выбора.
-Остаток: ручные F5/движение/zoom/DPI, стыки/посадка/качество, performance,
+Дальше — выбор огня/отзыв U; новые генерации, анимацию, внедрение не начинать.
+Остаток: ручные F5/движение/zoom/DPI, стыки/посадка/качество/performance,
 край стрелы способности4 Лучницы; presentation_foundation141/2,
-turn_forecast_ui26/3, HUD/Колода и hazards_ui105/2.
-33 чужих файла сохранены: scenes/demo/main_menu.tscn и
-docs/art/battlefield-reference-03-20261017/ не reset/stage/commit.
-Сохранять core/preview/queue/RNG/save/frozen, пять классов F5,
-PLAYER вправо/ENEMY влево и возврат после атаки; каталоги1–3 не мигрировать.
+turn_forecast_ui26/3, HUD/Колода, hazards_ui105/2.
+33 чужих файла: scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
+сохранены; не reset/stage/commit. Сохранять core/preview/queue/RNG/save/frozen,
+пять классов F5, PLAYER вправо/ENEMY влево и возврат после атаки; каталоги1–3 не мигрировать.
 Один Godot runner, isolated project; без root import, служб/драйверов,
 принудительного фокуса/push/sidebar tasks/расписаний.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261104-2.md), [HISTORY](HISTORY.md).
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261104-3.md), [HISTORY](HISTORY.md).
 
 Завершение: проверки, локальный Conventional Commit, короткий HANDOFF;
 прежний побайтно отдельным архивом+HISTORY. В финале/при блокере предложить

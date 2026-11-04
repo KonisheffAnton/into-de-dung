@@ -1,0 +1,16 @@
+{
+  "attempts": [
+    {
+      "id": "fire-07",
+      "reason": "image generation failed: connection failed: error sending request",
+      "result": "same built-in request retried once successfully"
+    },
+    {
+      "id": "fire-19",
+      "reason": "remove unintended opaque white/grey background",
+      "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-65347cfb-8345-4497-aa98-f28d6ae7108f.png",
+      "prompt": "Use case: background-extraction. Edit only the background/alpha of this existing fire sprite. Preserve the exact faceted flame artwork, palette, shape, position, overall scale, orientation and square framing. Remove ALL of the white and grey background and the broad pale smoky halo above/around the fire, including the entire top edge and top corners. Keep just the orange/yellow/red polygonal flame carpet and its few orange sparks, on real fully transparent alpha everywhere else. No replacement backdrop, no checkerboard pixels, no stone, no crop, no new painted flames, no large glow. The isolated fire is intended to be layered over many different game tiles.",
+      "result_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-9a21744a-da26-44db-8329-bdd4bd4a05b4.png"
+    }
+  ]
+}

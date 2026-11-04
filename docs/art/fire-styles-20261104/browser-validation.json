@@ -1,0 +1,429 @@
+{
+  "portableFiles": [
+    "gallery.html"
+  ],
+  "expectedVariants": [
+    {
+      "id": "fire-01",
+      "name": "Тактический"
+    },
+    {
+      "id": "fire-02",
+      "name": "Мягкий мультфильм"
+    },
+    {
+      "id": "fire-03",
+      "name": "Острые языки"
+    },
+    {
+      "id": "fire-04",
+      "name": "Гуашь"
+    },
+    {
+      "id": "fire-05",
+      "name": "Объёмный мультфильм"
+    },
+    {
+      "id": "fire-06",
+      "name": "Бумажные слои"
+    },
+    {
+      "id": "fire-07",
+      "name": "Ретро-кластеры"
+    },
+    {
+      "id": "fire-08",
+      "name": "Тёмное пламя"
+    },
+    {
+      "id": "fire-09",
+      "name": "Белое жаркое ядро"
+    },
+    {
+      "id": "fire-10",
+      "name": "Волны огня"
+    },
+    {
+      "id": "fire-11",
+      "name": "Низкий огненный ковёр"
+    },
+    {
+      "id": "fire-12",
+      "name": "Высокие тонкие языки"
+    },
+    {
+      "id": "fire-13",
+      "name": "Ленты и завитки"
+    },
+    {
+      "id": "fire-14",
+      "name": "Гравюра"
+    },
+    {
+      "id": "fire-15",
+      "name": "Акварель"
+    },
+    {
+      "id": "fire-16",
+      "name": "Масляные мазки"
+    },
+    {
+      "id": "fire-17",
+      "name": "Мягкое свечение"
+    },
+    {
+      "id": "fire-18",
+      "name": "Рисованная анимация"
+    },
+    {
+      "id": "fire-19",
+      "name": "Гранёный огонь"
+    },
+    {
+      "id": "fire-20",
+      "name": "Декоративная графика"
+    }
+  ],
+  "failures": [],
+  "embeddedAssets": [
+    {
+      "id": "tile-reference",
+      "ok": true,
+      "width": 1024,
+      "height": 1024,
+      "source": "data:image/png;base64,"
+    },
+    {
+      "id": "fire-01",
+      "ok": true,
+      "width": 1254,
+      "height": 1254,
+      "source": "data:image/png;base64,"
+    },
+    {
+      "id": "fire-02",
+      "ok": true,
+      "width": 1254,
+      "height": 1254,
+      "source": "data:image/png;base64,"
+    },
+    {
+      "id": "fire-03",
+      "ok": true,
+      "width": 1254,
+      "height": 1254,
+      "source": "data:image/png;base64,"
+    },
+    {
+      "id": "fire-04",
+      "ok": true,
+      "width": 1254,
+      "height": 1254,
+      "source": "data:image/png;base64,"
+    },
+    {
+      "id": "fire-05",
+      "ok": true,
+      "width": 1254,
+      "height": 1254,
+      "source": "data:image/png;base64,"
+    },
+    {
+      "id": "fire-06",
+      "ok": true,
+      "width": 1254,
+      "height": 1254,
+      "source": "data:image/png;base64,"
+    },
+    {
+      "id": "fire-07",
+      "ok": true,
+      "width": 1254,
+      "height": 1254,
+      "source": "data:image/png;base64,"
+    },
+    {
+      "id": "fire-08",
+      "ok": true,
+      "width": 1254,
+      "height": 1254,
+      "source": "data:image/png;base64,"
+    },
+    {
+      "id": "fire-09",
+      "ok": true,
+      "width": 1254,
+      "height": 1254,
+      "source": "data:image/png;base64,"
+    },
+    {
+      "id": "fire-10",
+      "ok": true,
+      "width": 1254,
+      "height": 1254,
+      "source": "data:image/png;base64,"
+    },
+    {
+      "id": "fire-11",
+      "ok": true,
+      "width": 1254,
+      "height": 1254,
+      "source": "data:image/png;base64,"
+    },
+    {
+      "id": "fire-12",
+      "ok": true,
+      "width": 1254,
+      "height": 1254,
+      "source": "data:image/png;base64,"
+    },
+    {
+      "id": "fire-13",
+      "ok": true,
+      "width": 1254,
+      "height": 1254,
+      "source": "data:image/png;base64,"
+    },
+    {
+      "id": "fire-14",
+      "ok": true,
+      "width": 1254,
+      "height": 1254,
+      "source": "data:image/png;base64,"
+    },
+    {
+      "id": "fire-15",
+      "ok": true,
+      "width": 1254,
+      "height": 1254,
+      "source": "data:image/png;base64,"
+    },
+    {
+      "id": "fire-16",
+      "ok": true,
+      "width": 1254,
+      "height": 1254,
+      "source": "data:image/png;base64,"
+    },
+    {
+      "id": "fire-17",
+      "ok": true,
+      "width": 1254,
+      "height": 1254,
+      "source": "data:image/png;base64,"
+    },
+    {
+      "id": "fire-18",
+      "ok": true,
+      "width": 1254,
+      "height": 1254,
+      "source": "data:image/png;base64,"
+    },
+    {
+      "id": "fire-19",
+      "ok": true,
+      "width": 1254,
+      "height": 1254,
+      "source": "data:image/png;base64,"
+    },
+    {
+      "id": "fire-20",
+      "ok": true,
+      "width": 1254,
+      "height": 1254,
+      "source": "data:image/png;base64,"
+    }
+  ],
+  "initial": {
+    "cards": [
+      {
+        "id": "fire-01",
+        "name": "Тактический"
+      },
+      {
+        "id": "fire-02",
+        "name": "Мягкий мультфильм"
+      },
+      {
+        "id": "fire-03",
+        "name": "Острые языки"
+      },
+      {
+        "id": "fire-04",
+        "name": "Гуашь"
+      },
+      {
+        "id": "fire-05",
+        "name": "Объёмный мультфильм"
+      },
+      {
+        "id": "fire-06",
+        "name": "Бумажные слои"
+      },
+      {
+        "id": "fire-07",
+        "name": "Ретро-кластеры"
+      },
+      {
+        "id": "fire-08",
+        "name": "Тёмное пламя"
+      },
+      {
+        "id": "fire-09",
+        "name": "Белое жаркое ядро"
+      },
+      {
+        "id": "fire-10",
+        "name": "Волны огня"
+      },
+      {
+        "id": "fire-11",
+        "name": "Низкий огненный ковёр"
+      },
+      {
+        "id": "fire-12",
+        "name": "Высокие тонкие языки"
+      },
+      {
+        "id": "fire-13",
+        "name": "Ленты и завитки"
+      },
+      {
+        "id": "fire-14",
+        "name": "Гравюра"
+      },
+      {
+        "id": "fire-15",
+        "name": "Акварель"
+      },
+      {
+        "id": "fire-16",
+        "name": "Масляные мазки"
+      },
+      {
+        "id": "fire-17",
+        "name": "Мягкое свечение"
+      },
+      {
+        "id": "fire-18",
+        "name": "Рисованная анимация"
+      },
+      {
+        "id": "fire-19",
+        "name": "Гранёный огонь"
+      },
+      {
+        "id": "fire-20",
+        "name": "Декоративная графика"
+      }
+    ],
+    "imageCount": 40,
+    "title": "Визуальные пробы огня",
+    "note": "20 проб · выберите номер · статичные изображения"
+  },
+  "namesAndIdsMatch": true,
+  "assetDimensionsMatch": true,
+  "embeddedImageCount": 40,
+  "modeChecks": {
+    "tile": {
+      "mode": "tile",
+      "tileDisplay": "block",
+      "pressedTile": "true",
+      "pressedFire": "false"
+    },
+    "fire": {
+      "mode": "fire",
+      "tileDisplay": "none",
+      "pressedTile": "false",
+      "pressedFire": "true"
+    }
+  },
+  "modeChecksPass": true,
+  "scaleChecks": {
+    "1": {
+      "count": 20,
+      "documentWidth": 1600,
+      "viewportWidth": 1600,
+      "imageTransform": "none",
+      "bad": [],
+      "label": "100%"
+    },
+    "0.7": {
+      "count": 20,
+      "documentWidth": 1600,
+      "viewportWidth": 1600,
+      "imageTransform": "none",
+      "bad": [],
+      "label": "70%"
+    },
+    "1.6": {
+      "count": 20,
+      "documentWidth": 1600,
+      "viewportWidth": 1600,
+      "imageTransform": "none",
+      "bad": [],
+      "label": "160%"
+    }
+  },
+  "scalesFitWholeCards": true,
+  "modal": {
+    "open": true,
+    "title": "fire-01 · Тактический",
+    "position": "1 / 20",
+    "imageCount": 2,
+    "fit": "contain",
+    "stage": [
+      780,
+      780
+    ],
+    "image": [
+      780,
+      780
+    ]
+  },
+  "modalAfterZoom": {
+    "stage": [
+      780,
+      780
+    ],
+    "image": [
+      780,
+      780
+    ],
+    "fit": "contain"
+  },
+  "modalNext": "fire-02 · Мягкий мультфильм",
+  "modalNextPosition": "2 / 20",
+  "modalPrevious": "fire-01 · Тактический",
+  "dialogImageCount": 2,
+  "totalImageElements": 42,
+  "escapeCloses": true,
+  "modalWorks": true,
+  "embeddedAssetCount": 21,
+  "mobile": {
+    "1": {
+      "count": 20,
+      "documentWidth": 390,
+      "viewportWidth": 390,
+      "imageTransform": "none",
+      "bad": []
+    },
+    "0.7": {
+      "count": 20,
+      "documentWidth": 390,
+      "viewportWidth": 390,
+      "imageTransform": "none",
+      "bad": []
+    },
+    "1.6": {
+      "count": 20,
+      "documentWidth": 390,
+      "viewportWidth": 390,
+      "imageTransform": "none",
+      "bad": []
+    }
+  },
+  "mobileFits": true,
+  "errors": [],
+  "pass": true
+}
