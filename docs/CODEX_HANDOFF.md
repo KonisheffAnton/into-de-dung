@@ -1,28 +1,25 @@
-# Передача — 2026-11-04: кислота01 и20 стилей огня
+# Передача — 2026-11-04: низкий огонь21–40
 
-D:/Games/into-de-dung; main; base7742fba5752c7b5fcca651475b9019ffabcdac77.
-Этот base внедрил выбранную U кислоту05/01 без камня:33 кадра/10FPS,
-самостоятельная маска верхнего ромба, свои материалы пола/боковин.
-[Кислота/снимки/review](art/acid01-integration-20261104/README.md);
-геометрия/часы — BATTLE_VISUAL_SCENE_CONTRACT, правила — ENVIRONMENT_HAZARDS_V1.
+D:/Games/into-de-dung; main; base0e94959f92651e8e44a326400a806bc85677c064.
+По U сделаны ещё20 статичных проб: цельный каменный тайл+огонь,
+низкое покрытие всего верхнего ромба, разные стили, без высоких языков.
+[PNG/промпты/SHA/галерея/review](art/fire-low-styles-20261104/README.md).
+Выбор открыт; огонь не анимирован и не внедрён. Направление — ART_DIRECTION.
+Эталон: art/current-tile-reference-20261103/. Предыдущая серия01–20 сохранена.
 
-По следующему поручению U созданы [20 статичных стилей огня](art/fire-styles-20261104/README.md):
-PNG1254²RGBA, промпты/SHA, автономная gallery.html, сравнение на эталоне.
-Огонь — отдельный прозрачный слой.20 PNG побайтно от image_gen; повторы в пакете.
-Огонь не внедрён; выбор стиля открыт.
-[Направление](ART_DIRECTION.md), эталон — art/current-tile-reference-20261103/.
+PASS:20 разных PNG1254²RGBA/исходных байтов/SHA/alpha/полных кадров,
+20 embedded assets, карточки70/100/160%,modal/листание/Escape,390px,
+переносимыйHTML; независимое ревью APPROVE; diff/ссылки/архив/сохранность.
+Отчёты: test_reports/fire-low-styles-20261104/. Godot/full/core/F5 не запускались.
 
-Арт-этап PASS:20 разных SHA/alpha/полный кадр,21 embedded asset,
-20 карточек, tile/fire,70/100/160%,modal,390px/переносимость; diff/ссылки/архив.
-Отчёты: test_reports/fire-styles-20261104/. Godot для огня не запускался.
-Предшествующая интеграция кислоты: isolated import/startup, launcher37;
-headless acid_animation92/0, visual_scene106/0, acid56/0;
-GPU acid_animation194/0, environment32/0, visual_scene106/0, dungeon1983/0;
-33маски/negative control/snapshot/RNG, review APPROVE. Не считать повторёнными.
+Ранее внедрена кислота05/01 без камня:33 кадра/10FPS, маска верхнего ромба,
+собственные материалы пола/боковин. [Результат и проверки](art/acid01-integration-20261104/README.md).
+Геометрия/часы — BATTLE_VISUAL_SCENE_CONTRACT, поведение — ENVIRONMENT_HAZARDS_V1.
+Прежние isolated/GPU/headless PASS и APPROVE не считать повторёнными.
 GPU hazards_ui105/2 воспроизведён на base55d9605 и текущем runtime;
-headless environment31/1 — pixel test, GPU32/0. Full/core/root import не выполнялись.
+headless environment31/1 — pixel test, GPU32/0. Full/core не выполнены.
 
-Дальше — выбор огня/отзыв U; новые генерации, анимацию, внедрение не начинать.
+Дальше — выбор21–40/отзыв U; новые генерации, анимацию и внедрение не начинать.
 Остаток: ручные F5/движение/zoom/DPI, стыки/посадка/качество/performance,
 край стрелы способности4 Лучницы; presentation_foundation141/2,
 turn_forecast_ui26/3, HUD/Колода, hazards_ui105/2.
@@ -31,7 +28,7 @@ turn_forecast_ui26/3, HUD/Колода, hazards_ui105/2.
 пять классов F5, PLAYER вправо/ENEMY влево и возврат после атаки; каталоги1–3 не мигрировать.
 Один Godot runner, isolated project; без root import, служб/драйверов,
 принудительного фокуса/push/sidebar tasks/расписаний.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261104-3.md), [HISTORY](HISTORY.md).
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261104-4.md), [HISTORY](HISTORY.md).
 
 Завершение: проверки, локальный Conventional Commit, короткий HANDOFF;
 прежний побайтно отдельным архивом+HISTORY. В финале/при блокере предложить

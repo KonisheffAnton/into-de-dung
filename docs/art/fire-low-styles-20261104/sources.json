@@ -1,0 +1,402 @@
+[
+  {
+    "id": "fire-low-21",
+    "file": "fire-low-21.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-de7aba7c-7fb6-4509-be61-71afa3360572.png",
+    "sha256": "3294cb13e10538d850152c40defa90d16c1efbf39ad60a4b5aa68b259819f1e6",
+    "bytes": 761441,
+    "width": 1254,
+    "height": 1254,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_gt_8": [
+      308,
+      254,
+      944,
+      1042
+    ],
+    "byte_exact_provider_output": true
+  },
+  {
+    "id": "fire-low-22",
+    "file": "fire-low-22.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-1cf15e89-91dd-4f5e-a06e-0f972031a2ae.png",
+    "sha256": "bf1ffc6fd24a621936ad70efdb8195b068a9cb949d3c477ffe1d27f221b123f9",
+    "bytes": 757151,
+    "width": 1254,
+    "height": 1254,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_gt_8": [
+      310,
+      253,
+      944,
+      1042
+    ],
+    "byte_exact_provider_output": true
+  },
+  {
+    "id": "fire-low-23",
+    "file": "fire-low-23.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-59dda69e-dc53-4b51-b46d-842d639cb47e.png",
+    "sha256": "f8becff0734f5d623d628fb1b3da73ad28270b83f02abd884e6a2c1110c22ca0",
+    "bytes": 798591,
+    "width": 1254,
+    "height": 1254,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_gt_8": [
+      308,
+      253,
+      946,
+      1044
+    ],
+    "byte_exact_provider_output": true
+  },
+  {
+    "id": "fire-low-24",
+    "file": "fire-low-24.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-13804e2e-c475-4176-94e4-b0dbb6ce1b7a.png",
+    "sha256": "011d71e26a400c2a7002995583f141491ffef148131f1e5abf565ad7587b749b",
+    "bytes": 724966,
+    "width": 1254,
+    "height": 1254,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_gt_8": [
+      308,
+      253,
+      946,
+      1044
+    ],
+    "byte_exact_provider_output": true
+  },
+  {
+    "id": "fire-low-25",
+    "file": "fire-low-25.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-c478882d-b2f3-4f68-9f08-43af5030f231.png",
+    "sha256": "2c4eb025dea1f44c31db9b90f9e92705618ec90bc114c5c5db63f2a9e59f5239",
+    "bytes": 768242,
+    "width": 1254,
+    "height": 1254,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_gt_8": [
+      310,
+      254,
+      944,
+      1041
+    ],
+    "byte_exact_provider_output": true
+  },
+  {
+    "id": "fire-low-26",
+    "file": "fire-low-26.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-f097b347-02a2-4f03-b8c3-d956eaf258b0.png",
+    "sha256": "6968b6928fd865b3a2161fc9cf559f41022ca95318a9ddc9dcb28a4c43afdbc9",
+    "bytes": 769376,
+    "width": 1254,
+    "height": 1254,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_gt_8": [
+      309,
+      255,
+      945,
+      1042
+    ],
+    "byte_exact_provider_output": true
+  },
+  {
+    "id": "fire-low-27",
+    "file": "fire-low-27.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-9e13dfd5-c08a-485c-913f-ba8a2843e3f8.png",
+    "sha256": "2796bc9ba9494ddb6343bf5225de71e0068931c44384d6adfe72f673a2ea1db4",
+    "bytes": 749693,
+    "width": 1254,
+    "height": 1254,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_gt_8": [
+      310,
+      254,
+      944,
+      1042
+    ],
+    "byte_exact_provider_output": true
+  },
+  {
+    "id": "fire-low-28",
+    "file": "fire-low-28.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-b2e25d3e-886f-4628-9cf6-1435411087b6.png",
+    "sha256": "067adb917aa8bf56cd8d3bcf14effc44efe366d551e372fb16e6dd97f24e0420",
+    "bytes": 831627,
+    "width": 1254,
+    "height": 1254,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_gt_8": [
+      310,
+      253,
+      945,
+      1043
+    ],
+    "byte_exact_provider_output": true
+  },
+  {
+    "id": "fire-low-29",
+    "file": "fire-low-29.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-9baafabd-3067-49a7-bf43-4c987d0f3496.png",
+    "sha256": "3f89930f385e43a1efe4d4895c25ff74a7cfc4215d740c2d697263261122756e",
+    "bytes": 781975,
+    "width": 1254,
+    "height": 1254,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_gt_8": [
+      313,
+      256,
+      943,
+      1041
+    ],
+    "byte_exact_provider_output": true
+  },
+  {
+    "id": "fire-low-30",
+    "file": "fire-low-30.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-bacdb935-4453-442f-8cf8-4f8e95c07651.png",
+    "sha256": "374fbc23aa908981675e5cdde4c1ff26a5b164e32104235a8178725a3c3426b3",
+    "bytes": 748813,
+    "width": 1254,
+    "height": 1254,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_gt_8": [
+      310,
+      254,
+      945,
+      1042
+    ],
+    "byte_exact_provider_output": true
+  },
+  {
+    "id": "fire-low-31",
+    "file": "fire-low-31.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-b6cf5f64-e4d6-4264-bd8f-c097c263a3c4.png",
+    "sha256": "37e645001e9bbc216d099fb9b52a8505869f1ff0bd54333306b0d0950f13deb8",
+    "bytes": 703536,
+    "width": 1254,
+    "height": 1254,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_gt_8": [
+      309,
+      254,
+      945,
+      1041
+    ],
+    "byte_exact_provider_output": true
+  },
+  {
+    "id": "fire-low-32",
+    "file": "fire-low-32.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-030a8bbd-2165-454e-8347-8e72cbfec226.png",
+    "sha256": "074d1d8d85685c7c053a9304177734adf0f863c1cff3a82cb7aafed4ec7aa4bc",
+    "bytes": 794849,
+    "width": 1254,
+    "height": 1254,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_gt_8": [
+      309,
+      255,
+      946,
+      1041
+    ],
+    "byte_exact_provider_output": true
+  },
+  {
+    "id": "fire-low-33",
+    "file": "fire-low-33.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-919d939e-d286-4365-b665-add7fed0d93a.png",
+    "sha256": "955b5b683322ffdc369ff6098d82176420c133ea33eefb131c882ecb0a1e05ff",
+    "bytes": 776987,
+    "width": 1254,
+    "height": 1254,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_gt_8": [
+      309,
+      255,
+      945,
+      1043
+    ],
+    "byte_exact_provider_output": true
+  },
+  {
+    "id": "fire-low-34",
+    "file": "fire-low-34.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-6a8a8db9-ec32-4a5b-8080-bd868e316410.png",
+    "sha256": "68b2d4cb4f3db3d16e6291e176c385d8166ca2dc43d5c4f8852f707ca78b2d8d",
+    "bytes": 770293,
+    "width": 1254,
+    "height": 1254,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_gt_8": [
+      308,
+      244,
+      945,
+      1044
+    ],
+    "byte_exact_provider_output": true
+  },
+  {
+    "id": "fire-low-35",
+    "file": "fire-low-35.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-bf89d8cd-7997-4cdf-8cc0-e1e1390f48b1.png",
+    "sha256": "a3f3304d1f39f5098b0d62bec62048c5caf34878f26fd1805491bb4418f85d94",
+    "bytes": 755420,
+    "width": 1254,
+    "height": 1254,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_gt_8": [
+      308,
+      257,
+      946,
+      1043
+    ],
+    "byte_exact_provider_output": true
+  },
+  {
+    "id": "fire-low-36",
+    "file": "fire-low-36.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-9c32c7c5-a976-491b-b6fb-a5be39221c43.png",
+    "sha256": "44ba72321b1afe02fd4a59b0b0e18c1af254a581daea6ca4dae8a800e8a6175b",
+    "bytes": 730143,
+    "width": 1254,
+    "height": 1254,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_gt_8": [
+      310,
+      254,
+      945,
+      1040
+    ],
+    "byte_exact_provider_output": true
+  },
+  {
+    "id": "fire-low-37",
+    "file": "fire-low-37.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-2e34059a-92a8-48a1-9b6b-4c02b6ac4288.png",
+    "sha256": "8b82a11d8718aed52dfdf49ea7ee16c884b50f46c9ef82e409fca24dc71ca880",
+    "bytes": 784310,
+    "width": 1254,
+    "height": 1254,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_gt_8": [
+      308,
+      254,
+      944,
+      1042
+    ],
+    "byte_exact_provider_output": true
+  },
+  {
+    "id": "fire-low-38",
+    "file": "fire-low-38.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-0fb32266-b9d0-42b0-8505-b9f35902c2d5.png",
+    "sha256": "98acb6c5f39664cae1d2353fac80d1a3935d7d777bea48f467110be4a00da624",
+    "bytes": 762392,
+    "width": 1254,
+    "height": 1254,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_gt_8": [
+      310,
+      251,
+      946,
+      1040
+    ],
+    "byte_exact_provider_output": true
+  },
+  {
+    "id": "fire-low-39",
+    "file": "fire-low-39.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-398930b1-f243-4bec-8ba5-5e522a610c9f.png",
+    "sha256": "97186025fb91c9e9708b4aa51eb82a7834ae332ad0b4521cdc68de6d6569e601",
+    "bytes": 758643,
+    "width": 1254,
+    "height": 1254,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_gt_8": [
+      309,
+      254,
+      945,
+      1042
+    ],
+    "byte_exact_provider_output": true
+  },
+  {
+    "id": "fire-low-40",
+    "file": "fire-low-40.png",
+    "source_path": "C:\\Users\\Aston\\.codex\\generated_images\\01a1a25b-1033-7093-a0af-238cb2a5b78a\\exec-53141960-b27d-4716-b0dc-299c618d0e61.png",
+    "sha256": "b5727df2a42844a608d49f9bd4c81733db7490f868065672777105d787886833",
+    "bytes": 748549,
+    "width": 1254,
+    "height": 1254,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "visible_bbox_alpha_gt_8": [
+      308,
+      257,
+      947,
+      1044
+    ],
+    "byte_exact_provider_output": true
+  }
+]

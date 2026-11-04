@@ -1,0 +1,166 @@
+{
+  "source": "prompts.json",
+  "count": 20,
+  "variants": [
+    {
+      "id": "fire-low-21",
+      "number": 21,
+      "file": "fire-low-21.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "3294cb13e10538d850152c40defa90d16c1efbf39ad60a4b5aa68b259819f1e6"
+    },
+    {
+      "id": "fire-low-22",
+      "number": 22,
+      "file": "fire-low-22.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "bf1ffc6fd24a621936ad70efdb8195b068a9cb949d3c477ffe1d27f221b123f9"
+    },
+    {
+      "id": "fire-low-23",
+      "number": 23,
+      "file": "fire-low-23.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "f8becff0734f5d623d628fb1b3da73ad28270b83f02abd884e6a2c1110c22ca0"
+    },
+    {
+      "id": "fire-low-24",
+      "number": 24,
+      "file": "fire-low-24.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "011d71e26a400c2a7002995583f141491ffef148131f1e5abf565ad7587b749b"
+    },
+    {
+      "id": "fire-low-25",
+      "number": 25,
+      "file": "fire-low-25.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "2c4eb025dea1f44c31db9b90f9e92705618ec90bc114c5c5db63f2a9e59f5239"
+    },
+    {
+      "id": "fire-low-26",
+      "number": 26,
+      "file": "fire-low-26.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "6968b6928fd865b3a2161fc9cf559f41022ca95318a9ddc9dcb28a4c43afdbc9"
+    },
+    {
+      "id": "fire-low-27",
+      "number": 27,
+      "file": "fire-low-27.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "2796bc9ba9494ddb6343bf5225de71e0068931c44384d6adfe72f673a2ea1db4"
+    },
+    {
+      "id": "fire-low-28",
+      "number": 28,
+      "file": "fire-low-28.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "067adb917aa8bf56cd8d3bcf14effc44efe366d551e372fb16e6dd97f24e0420"
+    },
+    {
+      "id": "fire-low-29",
+      "number": 29,
+      "file": "fire-low-29.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "3f89930f385e43a1efe4d4895c25ff74a7cfc4215d740c2d697263261122756e"
+    },
+    {
+      "id": "fire-low-30",
+      "number": 30,
+      "file": "fire-low-30.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "374fbc23aa908981675e5cdde4c1ff26a5b164e32104235a8178725a3c3426b3"
+    },
+    {
+      "id": "fire-low-31",
+      "number": 31,
+      "file": "fire-low-31.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "37e645001e9bbc216d099fb9b52a8505869f1ff0bd54333306b0d0950f13deb8"
+    },
+    {
+      "id": "fire-low-32",
+      "number": 32,
+      "file": "fire-low-32.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "074d1d8d85685c7c053a9304177734adf0f863c1cff3a82cb7aafed4ec7aa4bc"
+    },
+    {
+      "id": "fire-low-33",
+      "number": 33,
+      "file": "fire-low-33.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "955b5b683322ffdc369ff6098d82176420c133ea33eefb131c882ecb0a1e05ff"
+    },
+    {
+      "id": "fire-low-34",
+      "number": 34,
+      "file": "fire-low-34.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "68b2d4cb4f3db3d16e6291e176c385d8166ca2dc43d5c4f8852f707ca78b2d8d"
+    },
+    {
+      "id": "fire-low-35",
+      "number": 35,
+      "file": "fire-low-35.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "a3f3304d1f39f5098b0d62bec62048c5caf34878f26fd1805491bb4418f85d94"
+    },
+    {
+      "id": "fire-low-36",
+      "number": 36,
+      "file": "fire-low-36.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "44ba72321b1afe02fd4a59b0b0e18c1af254a581daea6ca4dae8a800e8a6175b"
+    },
+    {
+      "id": "fire-low-37",
+      "number": 37,
+      "file": "fire-low-37.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "8b82a11d8718aed52dfdf49ea7ee16c884b50f46c9ef82e409fca24dc71ca880"
+    },
+    {
+      "id": "fire-low-38",
+      "number": 38,
+      "file": "fire-low-38.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "98acb6c5f39664cae1d2353fac80d1a3935d7d777bea48f467110be4a00da624"
+    },
+    {
+      "id": "fire-low-39",
+      "number": 39,
+      "file": "fire-low-39.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "97186025fb91c9e9708b4aa51eb82a7834ae332ad0b4521cdc68de6d6569e601"
+    },
+    {
+      "id": "fire-low-40",
+      "number": 40,
+      "file": "fire-low-40.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "b5727df2a42844a608d49f9bd4c81733db7490f868065672777105d787886833"
+    }
+  ]
+}

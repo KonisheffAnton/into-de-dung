@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "count": 20,
+  "distinct_sha256": 20,
+  "raw_provider_bytes_preserved": true,
+  "rgba": true,
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "visible_margin_gt_40": true,
+  "visual_acceptance": "pending user selection"
+}

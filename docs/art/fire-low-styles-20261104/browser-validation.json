@@ -1,0 +1,338 @@
+{
+  "checks": {
+    "names": true,
+    "assets": true,
+    "desktop": true,
+    "modalFit": true,
+    "navigation": true,
+    "mobile": true,
+    "portable": true
+  },
+  "cards": [
+    {
+      "number": "21",
+      "name": "Тактические вспышки"
+    },
+    {
+      "number": "22",
+      "name": "Плоская гуашь"
+    },
+    {
+      "number": "23",
+      "name": "Короткие клинья"
+    },
+    {
+      "number": "24",
+      "name": "Мягкие язычки"
+    },
+    {
+      "number": "25",
+      "name": "Тлеющие кромки"
+    },
+    {
+      "number": "26",
+      "name": "Горячая плёнка"
+    },
+    {
+      "number": "27",
+      "name": "Киноварь"
+    },
+    {
+      "number": "28",
+      "name": "Сухая гравюра"
+    },
+    {
+      "number": "29",
+      "name": "Акварельный жар"
+    },
+    {
+      "number": "30",
+      "name": "Бумажный орнамент"
+    },
+    {
+      "number": "31",
+      "name": "Две краски"
+    },
+    {
+      "number": "32",
+      "name": "Короткие анимационные мазки"
+    },
+    {
+      "number": "33",
+      "name": "Кисть и тушь"
+    },
+    {
+      "number": "34",
+      "name": "Плоские грани"
+    },
+    {
+      "number": "35",
+      "name": "Тихое свечение"
+    },
+    {
+      "number": "36",
+      "name": "Пепельный жар"
+    },
+    {
+      "number": "37",
+      "name": "Угольный контраст"
+    },
+    {
+      "number": "38",
+      "name": "Мягкие объёмы"
+    },
+    {
+      "number": "39",
+      "name": "Плоские завихрения"
+    },
+    {
+      "number": "40",
+      "name": "Широкие ленты"
+    }
+  ],
+  "assets": [
+    {
+      "id": "fire-low-21",
+      "width": 1254,
+      "height": 1254,
+      "embedded": true
+    },
+    {
+      "id": "fire-low-22",
+      "width": 1254,
+      "height": 1254,
+      "embedded": true
+    },
+    {
+      "id": "fire-low-23",
+      "width": 1254,
+      "height": 1254,
+      "embedded": true
+    },
+    {
+      "id": "fire-low-24",
+      "width": 1254,
+      "height": 1254,
+      "embedded": true
+    },
+    {
+      "id": "fire-low-25",
+      "width": 1254,
+      "height": 1254,
+      "embedded": true
+    },
+    {
+      "id": "fire-low-26",
+      "width": 1254,
+      "height": 1254,
+      "embedded": true
+    },
+    {
+      "id": "fire-low-27",
+      "width": 1254,
+      "height": 1254,
+      "embedded": true
+    },
+    {
+      "id": "fire-low-28",
+      "width": 1254,
+      "height": 1254,
+      "embedded": true
+    },
+    {
+      "id": "fire-low-29",
+      "width": 1254,
+      "height": 1254,
+      "embedded": true
+    },
+    {
+      "id": "fire-low-30",
+      "width": 1254,
+      "height": 1254,
+      "embedded": true
+    },
+    {
+      "id": "fire-low-31",
+      "width": 1254,
+      "height": 1254,
+      "embedded": true
+    },
+    {
+      "id": "fire-low-32",
+      "width": 1254,
+      "height": 1254,
+      "embedded": true
+    },
+    {
+      "id": "fire-low-33",
+      "width": 1254,
+      "height": 1254,
+      "embedded": true
+    },
+    {
+      "id": "fire-low-34",
+      "width": 1254,
+      "height": 1254,
+      "embedded": true
+    },
+    {
+      "id": "fire-low-35",
+      "width": 1254,
+      "height": 1254,
+      "embedded": true
+    },
+    {
+      "id": "fire-low-36",
+      "width": 1254,
+      "height": 1254,
+      "embedded": true
+    },
+    {
+      "id": "fire-low-37",
+      "width": 1254,
+      "height": 1254,
+      "embedded": true
+    },
+    {
+      "id": "fire-low-38",
+      "width": 1254,
+      "height": 1254,
+      "embedded": true
+    },
+    {
+      "id": "fire-low-39",
+      "width": 1254,
+      "height": 1254,
+      "embedded": true
+    },
+    {
+      "id": "fire-low-40",
+      "width": 1254,
+      "height": 1254,
+      "embedded": true
+    }
+  ],
+  "decoded": [
+    {
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "width": 1254,
+      "height": 1254
+    }
+  ],
+  "desktop": {
+    "1": {
+      "count": 20,
+      "overflow": false,
+      "bad": []
+    },
+    "0.7": {
+      "count": 20,
+      "overflow": false,
+      "bad": []
+    },
+    "1.6": {
+      "count": 20,
+      "overflow": false,
+      "bad": []
+    }
+  },
+  "modal": {
+    "count": 1,
+    "overflow": false,
+    "bad": []
+  },
+  "mobile": {
+    "1": {
+      "count": 20,
+      "overflow": false,
+      "bad": []
+    },
+    "0.7": {
+      "count": 20,
+      "overflow": false,
+      "bad": []
+    },
+    "1.6": {
+      "count": 20,
+      "overflow": false,
+      "bad": []
+    }
+  },
+  "errors": [],
+  "pass": true
+}

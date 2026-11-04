@@ -1,0 +1,17 @@
+{
+  "provider": "image_gen",
+  "date": "2026-11-04",
+  "calls": 21,
+  "successful_images": 20,
+  "reference": "../current-tile-reference-20261103/tile.png",
+  "transparent_background": true,
+  "retry": [
+    {
+      "id": "fire-low-37",
+      "attempt": 1,
+      "error": "HTTP 403 Forbidden: Unable to load site; no image returned",
+      "resolution": "second call with the identical prompt succeeded"
+    }
+  ],
+  "postprocessing": "none; raw provider PNG bytes copied"
+}
