@@ -1,0 +1,258 @@
+{
+  "clips": 12,
+  "note": "Stone proxy is bottom y>=150 with input alpha>8. Colour differences do not alone prove geometry changes; inspect the frames.",
+  "details": [
+    {
+      "key": "fire22-01",
+      "kind": "fire",
+      "stone_side_pixels": 5043,
+      "stone_side_rgba_mae_max": 6.41,
+      "stone_side_changed_pixels_gt8_max": 1596,
+      "alpha_changed_pixels_max": 15742,
+      "visible_rgba_changed_pixels_max": 9645,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 5.381,
+        "stone_side_changed_pixels_gt8": 1436,
+        "alpha_changed_pixels": 14798,
+        "visible_rgba_changed_pixels": 7237
+      }
+    },
+    {
+      "key": "fire22-02",
+      "kind": "fire",
+      "stone_side_pixels": 5043,
+      "stone_side_rgba_mae_max": 4.976,
+      "stone_side_changed_pixels_gt8_max": 1283,
+      "alpha_changed_pixels_max": 15627,
+      "visible_rgba_changed_pixels_max": 9096,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 4.866,
+        "stone_side_changed_pixels_gt8": 1260,
+        "alpha_changed_pixels": 14798,
+        "visible_rgba_changed_pixels": 7050
+      }
+    },
+    {
+      "key": "fire22-03",
+      "kind": "fire",
+      "stone_side_pixels": 5043,
+      "stone_side_rgba_mae_max": 6.335,
+      "stone_side_changed_pixels_gt8_max": 2096,
+      "alpha_changed_pixels_max": 15745,
+      "visible_rgba_changed_pixels_max": 10811,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 6.074,
+        "stone_side_changed_pixels_gt8": 2054,
+        "alpha_changed_pixels": 14798,
+        "visible_rgba_changed_pixels": 8252
+      }
+    },
+    {
+      "key": "fire23-01",
+      "kind": "fire",
+      "stone_side_pixels": 5097,
+      "stone_side_rgba_mae_max": 6.147,
+      "stone_side_changed_pixels_gt8_max": 1757,
+      "alpha_changed_pixels_max": 15793,
+      "visible_rgba_changed_pixels_max": 9989,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 5.955,
+        "stone_side_changed_pixels_gt8": 1671,
+        "alpha_changed_pixels": 14828,
+        "visible_rgba_changed_pixels": 6859
+      }
+    },
+    {
+      "key": "fire23-02",
+      "kind": "fire",
+      "stone_side_pixels": 5097,
+      "stone_side_rgba_mae_max": 6.192,
+      "stone_side_changed_pixels_gt8_max": 1848,
+      "alpha_changed_pixels_max": 15300,
+      "visible_rgba_changed_pixels_max": 10117,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 6.05,
+        "stone_side_changed_pixels_gt8": 1814,
+        "alpha_changed_pixels": 14828,
+        "visible_rgba_changed_pixels": 6501
+      }
+    },
+    {
+      "key": "fire23-03",
+      "kind": "fire",
+      "stone_side_pixels": 5097,
+      "stone_side_rgba_mae_max": 5.687,
+      "stone_side_changed_pixels_gt8_max": 1550,
+      "alpha_changed_pixels_max": 15528,
+      "visible_rgba_changed_pixels_max": 9658,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 5.662,
+        "stone_side_changed_pixels_gt8": 1509,
+        "alpha_changed_pixels": 14828,
+        "visible_rgba_changed_pixels": 6604
+      }
+    },
+    {
+      "key": "fire24-01",
+      "kind": "fire",
+      "stone_side_pixels": 5085,
+      "stone_side_rgba_mae_max": 4.052,
+      "stone_side_changed_pixels_gt8_max": 723,
+      "alpha_changed_pixels_max": 15421,
+      "visible_rgba_changed_pixels_max": 8230,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 4.043,
+        "stone_side_changed_pixels_gt8": 702,
+        "alpha_changed_pixels": 14832,
+        "visible_rgba_changed_pixels": 4509
+      }
+    },
+    {
+      "key": "fire24-02",
+      "kind": "fire",
+      "stone_side_pixels": 5085,
+      "stone_side_rgba_mae_max": 4.72,
+      "stone_side_changed_pixels_gt8_max": 1125,
+      "alpha_changed_pixels_max": 15822,
+      "visible_rgba_changed_pixels_max": 9016,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 4.569,
+        "stone_side_changed_pixels_gt8": 1060,
+        "alpha_changed_pixels": 14832,
+        "visible_rgba_changed_pixels": 4969
+      }
+    },
+    {
+      "key": "fire24-03",
+      "kind": "fire",
+      "stone_side_pixels": 5085,
+      "stone_side_rgba_mae_max": 4.539,
+      "stone_side_changed_pixels_gt8_max": 961,
+      "alpha_changed_pixels_max": 16274,
+      "visible_rgba_changed_pixels_max": 9486,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 4.508,
+        "stone_side_changed_pixels_gt8": 925,
+        "alpha_changed_pixels": 14832,
+        "visible_rgba_changed_pixels": 4778
+      }
+    },
+    {
+      "key": "fire29-01",
+      "kind": "fire",
+      "stone_side_pixels": 5037,
+      "stone_side_rgba_mae_max": 4.953,
+      "stone_side_changed_pixels_gt8_max": 1116,
+      "alpha_changed_pixels_max": 15950,
+      "visible_rgba_changed_pixels_max": 9268,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 4.772,
+        "stone_side_changed_pixels_gt8": 1092,
+        "alpha_changed_pixels": 14697,
+        "visible_rgba_changed_pixels": 6788
+      }
+    },
+    {
+      "key": "fire29-02",
+      "kind": "fire",
+      "stone_side_pixels": 5037,
+      "stone_side_rgba_mae_max": 4.632,
+      "stone_side_changed_pixels_gt8_max": 982,
+      "alpha_changed_pixels_max": 16012,
+      "visible_rgba_changed_pixels_max": 9100,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 4.586,
+        "stone_side_changed_pixels_gt8": 967,
+        "alpha_changed_pixels": 14697,
+        "visible_rgba_changed_pixels": 6220
+      }
+    },
+    {
+      "key": "fire29-03",
+      "kind": "fire",
+      "stone_side_pixels": 5037,
+      "stone_side_rgba_mae_max": 4.855,
+      "stone_side_changed_pixels_gt8_max": 1104,
+      "alpha_changed_pixels_max": 15616,
+      "visible_rgba_changed_pixels_max": 8401,
+      "first": {
+        "stone_side_rgba_mae": 0.0,
+        "stone_side_changed_pixels_gt8": 0,
+        "alpha_changed_pixels": 0,
+        "visible_rgba_changed_pixels": 0
+      },
+      "last": {
+        "stone_side_rgba_mae": 4.855,
+        "stone_side_changed_pixels_gt8": 1104,
+        "alpha_changed_pixels": 14697,
+        "visible_rgba_changed_pixels": 6389
+      }
+    }
+  ]
+}

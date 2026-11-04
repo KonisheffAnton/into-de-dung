@@ -1,0 +1,108 @@
+{
+  "status": "PASS",
+  "clips": 12,
+  "total_generations": 88.0,
+  "balance_before": 4787.0,
+  "balance_after": 4699.0,
+  "balance_type": "generations",
+  "plan": "Tier 2: Pixel Artisan",
+  "credits_usd": 0.0,
+  "clips_detail": [
+    {
+      "key": "fire22-01",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "2cab100f-bfce-484e-8a99-6a20d74cc432",
+      "requested_frame_count": 8,
+      "returned_frames": 9,
+      "generations": 8.0
+    },
+    {
+      "key": "fire22-02",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "98ea4648-20e1-4309-a065-e7ffdcfaeb3e",
+      "requested_frame_count": 8,
+      "returned_frames": 9,
+      "generations": 8.0
+    },
+    {
+      "key": "fire22-03",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "ab779725-bf4f-4235-9e54-1ee03a89a29d",
+      "requested_frame_count": 8,
+      "returned_frames": 9,
+      "generations": 8.0
+    },
+    {
+      "key": "fire23-01",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "75d6c4e1-7afd-46c1-b203-5ddad55657bd",
+      "requested_frame_count": 8,
+      "returned_frames": 9,
+      "generations": 8.0
+    },
+    {
+      "key": "fire23-02",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "26f08dc2-d648-4693-b724-f275fb3bd6fa",
+      "requested_frame_count": 8,
+      "returned_frames": 9,
+      "generations": 8.0
+    },
+    {
+      "key": "fire23-03",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "95b25df3-a145-4ede-a04a-ee67b117f940",
+      "requested_frame_count": 8,
+      "returned_frames": 9,
+      "generations": 8.0
+    },
+    {
+      "key": "fire24-01",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "b97c8bcd-c106-43ec-960c-df422109b6dc",
+      "requested_frame_count": 8,
+      "returned_frames": 9,
+      "generations": 8.0
+    },
+    {
+      "key": "fire24-02",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "42479bf6-53b0-4ae7-8708-3a1fa6cead05",
+      "requested_frame_count": 8,
+      "returned_frames": 9,
+      "generations": 8.0
+    },
+    {
+      "key": "fire24-03",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "a9770aa5-8783-4555-9b9c-506d740af432",
+      "requested_frame_count": 4,
+      "returned_frames": 5,
+      "generations": 4.0
+    },
+    {
+      "key": "fire29-01",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "a0f78e09-b188-4f2e-93a2-bd929a5263ea",
+      "requested_frame_count": 8,
+      "returned_frames": 9,
+      "generations": 8.0
+    },
+    {
+      "key": "fire29-02",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "7bd5c9a1-5013-46fe-a950-6ff618d3136f",
+      "requested_frame_count": 8,
+      "returned_frames": 9,
+      "generations": 8.0
+    },
+    {
+      "key": "fire29-03",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "df4c006f-3571-4e10-910a-e53c2ba90318",
+      "requested_frame_count": 4,
+      "returned_frames": 5,
+      "generations": 4.0
+    }
+  ]
+}

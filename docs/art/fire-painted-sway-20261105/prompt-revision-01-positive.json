@@ -1,0 +1,44 @@
+{
+  "reason": "U requires barely moving already-painted contours; first V3 outputs redrew the top",
+  "source": "root technical steering after first V3 full-cycle review",
+  "only_unsubmitted_keys": [
+    "fire24-03",
+    "fire29-01",
+    "fire29-02",
+    "fire29-03"
+  ],
+  "old_manifest_sha256": "1c85a69f9b58ac79efdc8229b18b2e212ba6c19e106e5c70a9e5d5fbaac0aea2",
+  "new_manifest_sha256": "4193fbd387e4751bfd249ee8222214200817528a65816ac1395c6a42d68e2553",
+  "action": "Nearly still finished 2D painting. Gently bend ONLY the already-painted orange-red brush-stroke tips horizontally by one pixel and back. Every existing stroke stays attached at its base, keeps its original height, silhouette, position, color and brightness. Keep the stone and transparent background perfectly still. Match the supplied first and last picture.",
+  "action_length": 359,
+  "changes": {
+    "fire24-03": {
+      "old_request_sha256": "c705fc5315849a11502ac55aa73feb4b80fbe867276f0ebe0e469a16ee3c8667",
+      "new_request_sha256": "d36a4f02040aa0c163e10f2431c860d98750711f2093ccb977a6bbaddda3fdf5",
+      "old_frame_count": 8,
+      "new_frame_count": 4,
+      "original_draft_backup": "C:/Users/Aston/.codex/generated_images/fire-painted-sway-20261105/pixellab/fire24-03/request-original-draft.json"
+    },
+    "fire29-01": {
+      "old_request_sha256": "6db4f0f1de0ad8902418d23426c1710671f9165a0da207acf686a81826291e8e",
+      "new_request_sha256": "b7be5d5a388417fc489c17aa659fd109ba4ade96285458ad051a5e064db10b87",
+      "old_frame_count": 8,
+      "new_frame_count": 8,
+      "original_draft_backup": "C:/Users/Aston/.codex/generated_images/fire-painted-sway-20261105/pixellab/fire29-01/request-original-draft.json"
+    },
+    "fire29-02": {
+      "old_request_sha256": "ff8453bb6c96fdca4b023a4617cf98ab70bb8053cabd535c824564b669f6517d",
+      "new_request_sha256": "b5f7056ac748cbcf7303f16b89bc1987f038a33db0036184a952adeae791bf41",
+      "old_frame_count": 8,
+      "new_frame_count": 8,
+      "original_draft_backup": "C:/Users/Aston/.codex/generated_images/fire-painted-sway-20261105/pixellab/fire29-02/request-original-draft.json"
+    },
+    "fire29-03": {
+      "old_request_sha256": "a2ff8d0b9f1462f5590d76fe675643e695573cde37ecce931222fdd226a4e07b",
+      "new_request_sha256": "c118a227579822c0181ce2a2078f5656ae297bec45a022235d8ccc1be9f2bd5b",
+      "old_frame_count": 8,
+      "new_frame_count": 4,
+      "original_draft_backup": "C:/Users/Aston/.codex/generated_images/fire-painted-sway-20261105/pixellab/fire29-03/request-original-draft.json"
+    }
+  }
+}

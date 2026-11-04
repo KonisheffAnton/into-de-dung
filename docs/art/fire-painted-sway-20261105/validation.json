@@ -1,0 +1,814 @@
+{
+  "status": "PASS",
+  "clips": 12,
+  "expected_clips": 12,
+  "complete": true,
+  "original_png_frames": 100,
+  "sheet_cells_verified": 100,
+  "gif_frames_verified": 100,
+  "raw_api_byte_matches": 100,
+  "source_and_input_unchanged": true,
+  "first_render_frames_equal": 12,
+  "first_rgba_frames_equal": 12,
+  "last_rgba_frames_equal": 0,
+  "edge_clips": [],
+  "transparent_margin_status": "PASS",
+  "margin_violation_clips": {},
+  "max_last_alpha_changed_pixels_gt8": 597,
+  "integration": false,
+  "artistic_acceptance": "open",
+  "clips_detail": [
+    {
+      "key": "fire22-01",
+      "frames": 9,
+      "first_render_equal": true,
+      "first_rgba_equal": true,
+      "first_transparent_rgb_differing_pixels": 0,
+      "last_rgba_equal": false,
+      "last_visible_rgba_changed_pixels_gt8": 7336,
+      "last_alpha_changed_pixels_gt8": 597,
+      "visible_edge_frames": [],
+      "margin_violation_frames": [],
+      "visible_bboxes_alpha_gt8": [
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          64,
+          54,
+          192,
+          212
+        ],
+        [
+          64,
+          52,
+          192,
+          212
+        ],
+        [
+          64,
+          46,
+          192,
+          212
+        ],
+        [
+          62,
+          36,
+          192,
+          212
+        ],
+        [
+          63,
+          36,
+          192,
+          212
+        ],
+        [
+          64,
+          52,
+          192,
+          212
+        ],
+        [
+          64,
+          52,
+          192,
+          212
+        ],
+        [
+          64,
+          52,
+          192,
+          212
+        ]
+      ],
+      "stone_side_rgba_mean_absolute_difference_max": 5.557180482395342,
+      "measurement_note": "Side difference includes colour flicker and movement; this is observation, not proof of fixed geometry or artistic approval."
+    },
+    {
+      "key": "fire22-02",
+      "frames": 9,
+      "first_render_equal": true,
+      "first_rgba_equal": true,
+      "first_transparent_rgb_differing_pixels": 0,
+      "last_rgba_equal": false,
+      "last_visible_rgba_changed_pixels_gt8": 7149,
+      "last_alpha_changed_pixels_gt8": 597,
+      "visible_edge_frames": [],
+      "margin_violation_frames": [],
+      "visible_bboxes_alpha_gt8": [
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          64,
+          52,
+          192,
+          212
+        ],
+        [
+          64,
+          52,
+          192,
+          212
+        ],
+        [
+          64,
+          52,
+          192,
+          212
+        ],
+        [
+          64,
+          41,
+          192,
+          212
+        ],
+        [
+          64,
+          24,
+          192,
+          212
+        ],
+        [
+          64,
+          20,
+          192,
+          212
+        ],
+        [
+          64,
+          52,
+          192,
+          212
+        ],
+        [
+          64,
+          52,
+          192,
+          212
+        ]
+      ],
+      "stone_side_rgba_mean_absolute_difference_max": 4.042070973107846,
+      "measurement_note": "Side difference includes colour flicker and movement; this is observation, not proof of fixed geometry or artistic approval."
+    },
+    {
+      "key": "fire22-03",
+      "frames": 9,
+      "first_render_equal": true,
+      "first_rgba_equal": true,
+      "first_transparent_rgb_differing_pixels": 0,
+      "last_rgba_equal": false,
+      "last_visible_rgba_changed_pixels_gt8": 8351,
+      "last_alpha_changed_pixels_gt8": 597,
+      "visible_edge_frames": [],
+      "margin_violation_frames": [],
+      "visible_bboxes_alpha_gt8": [
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          64,
+          48,
+          192,
+          212
+        ],
+        [
+          64,
+          44,
+          192,
+          212
+        ],
+        [
+          64,
+          42,
+          192,
+          212
+        ],
+        [
+          64,
+          34,
+          192,
+          212
+        ],
+        [
+          64,
+          40,
+          192,
+          212
+        ],
+        [
+          64,
+          48,
+          192,
+          212
+        ],
+        [
+          64,
+          52,
+          192,
+          212
+        ],
+        [
+          64,
+          52,
+          192,
+          212
+        ]
+      ],
+      "stone_side_rgba_mean_absolute_difference_max": 5.375935680621015,
+      "measurement_note": "Side difference includes colour flicker and movement; this is observation, not proof of fixed geometry or artistic approval."
+    },
+    {
+      "key": "fire23-01",
+      "frames": 9,
+      "first_render_equal": true,
+      "first_rgba_equal": true,
+      "first_transparent_rgb_differing_pixels": 0,
+      "last_rgba_equal": false,
+      "last_visible_rgba_changed_pixels_gt8": 6984,
+      "last_alpha_changed_pixels_gt8": 471,
+      "visible_edge_frames": [],
+      "margin_violation_frames": [],
+      "visible_bboxes_alpha_gt8": [
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          63,
+          45,
+          193,
+          213
+        ],
+        [
+          63,
+          48,
+          193,
+          213
+        ],
+        [
+          63,
+          44,
+          193,
+          213
+        ],
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          63,
+          52,
+          193,
+          213
+        ]
+      ],
+      "stone_side_rgba_mean_absolute_difference_max": 4.898428961748634,
+      "measurement_note": "Side difference includes colour flicker and movement; this is observation, not proof of fixed geometry or artistic approval."
+    },
+    {
+      "key": "fire23-02",
+      "frames": 9,
+      "first_render_equal": true,
+      "first_rgba_equal": true,
+      "first_transparent_rgb_differing_pixels": 0,
+      "last_rgba_equal": false,
+      "last_visible_rgba_changed_pixels_gt8": 6626,
+      "last_alpha_changed_pixels_gt8": 471,
+      "visible_edge_frames": [],
+      "margin_violation_frames": [],
+      "visible_bboxes_alpha_gt8": [
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          63,
+          44,
+          193,
+          213
+        ],
+        [
+          63,
+          42,
+          193,
+          213
+        ],
+        [
+          63,
+          40,
+          193,
+          213
+        ],
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          63,
+          52,
+          193,
+          213
+        ]
+      ],
+      "stone_side_rgba_mean_absolute_difference_max": 5.185655737704918,
+      "measurement_note": "Side difference includes colour flicker and movement; this is observation, not proof of fixed geometry or artistic approval."
+    },
+    {
+      "key": "fire23-03",
+      "frames": 9,
+      "first_render_equal": true,
+      "first_rgba_equal": true,
+      "first_transparent_rgb_differing_pixels": 0,
+      "last_rgba_equal": false,
+      "last_visible_rgba_changed_pixels_gt8": 6729,
+      "last_alpha_changed_pixels_gt8": 471,
+      "visible_edge_frames": [],
+      "margin_violation_frames": [],
+      "visible_bboxes_alpha_gt8": [
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          63,
+          50,
+          193,
+          213
+        ],
+        [
+          63,
+          43,
+          193,
+          212
+        ],
+        [
+          63,
+          35,
+          193,
+          213
+        ],
+        [
+          63,
+          49,
+          193,
+          213
+        ],
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          63,
+          52,
+          193,
+          213
+        ]
+      ],
+      "stone_side_rgba_mean_absolute_difference_max": 4.633128415300546,
+      "measurement_note": "Side difference includes colour flicker and movement; this is observation, not proof of fixed geometry or artistic approval."
+    },
+    {
+      "key": "fire24-01",
+      "frames": 9,
+      "first_render_equal": true,
+      "first_rgba_equal": true,
+      "first_transparent_rgb_differing_pixels": 0,
+      "last_rgba_equal": false,
+      "last_visible_rgba_changed_pixels_gt8": 4664,
+      "last_alpha_changed_pixels_gt8": 462,
+      "visible_edge_frames": [],
+      "margin_violation_frames": [],
+      "visible_bboxes_alpha_gt8": [
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          63,
+          52,
+          193,
+          212
+        ],
+        [
+          63,
+          52,
+          193,
+          212
+        ],
+        [
+          63,
+          44,
+          193,
+          213
+        ],
+        [
+          63,
+          33,
+          193,
+          212
+        ],
+        [
+          63,
+          44,
+          193,
+          212
+        ],
+        [
+          63,
+          53,
+          193,
+          213
+        ],
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          63,
+          52,
+          193,
+          213
+        ]
+      ],
+      "stone_side_rgba_mean_absolute_difference_max": 3.1631925397696103,
+      "measurement_note": "Side difference includes colour flicker and movement; this is observation, not proof of fixed geometry or artistic approval."
+    },
+    {
+      "key": "fire24-02",
+      "frames": 9,
+      "first_render_equal": true,
+      "first_rgba_equal": true,
+      "first_transparent_rgb_differing_pixels": 0,
+      "last_rgba_equal": false,
+      "last_visible_rgba_changed_pixels_gt8": 5124,
+      "last_alpha_changed_pixels_gt8": 462,
+      "visible_edge_frames": [],
+      "margin_violation_frames": [],
+      "visible_bboxes_alpha_gt8": [
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          63,
+          52,
+          193,
+          212
+        ],
+        [
+          63,
+          52,
+          193,
+          212
+        ],
+        [
+          63,
+          52,
+          193,
+          212
+        ],
+        [
+          63,
+          50,
+          193,
+          212
+        ],
+        [
+          63,
+          41,
+          193,
+          212
+        ],
+        [
+          63,
+          38,
+          193,
+          213
+        ],
+        [
+          63,
+          40,
+          193,
+          213
+        ],
+        [
+          63,
+          52,
+          193,
+          213
+        ]
+      ],
+      "stone_side_rgba_mean_absolute_difference_max": 3.9590647284695555,
+      "measurement_note": "Side difference includes colour flicker and movement; this is observation, not proof of fixed geometry or artistic approval."
+    },
+    {
+      "key": "fire24-03",
+      "frames": 5,
+      "first_render_equal": true,
+      "first_rgba_equal": true,
+      "first_transparent_rgb_differing_pixels": 0,
+      "last_rgba_equal": false,
+      "last_visible_rgba_changed_pixels_gt8": 4933,
+      "last_alpha_changed_pixels_gt8": 462,
+      "visible_edge_frames": [],
+      "margin_violation_frames": [],
+      "visible_bboxes_alpha_gt8": [
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          60,
+          47,
+          197,
+          213
+        ],
+        [
+          57,
+          41,
+          200,
+          213
+        ],
+        [
+          58,
+          44,
+          198,
+          212
+        ],
+        [
+          63,
+          52,
+          193,
+          213
+        ]
+      ],
+      "stone_side_rgba_mean_absolute_difference_max": 3.650644541963796,
+      "measurement_note": "Side difference includes colour flicker and movement; this is observation, not proof of fixed geometry or artistic approval."
+    },
+    {
+      "key": "fire29-01",
+      "frames": 9,
+      "first_render_equal": true,
+      "first_rgba_equal": true,
+      "first_transparent_rgb_differing_pixels": 0,
+      "last_rgba_equal": false,
+      "last_visible_rgba_changed_pixels_gt8": 6946,
+      "last_alpha_changed_pixels_gt8": 552,
+      "visible_edge_frames": [],
+      "margin_violation_frames": [],
+      "visible_bboxes_alpha_gt8": [
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          64,
+          50,
+          192,
+          212
+        ],
+        [
+          64,
+          46,
+          192,
+          212
+        ],
+        [
+          64,
+          43,
+          192,
+          212
+        ],
+        [
+          64,
+          43,
+          192,
+          212
+        ],
+        [
+          64,
+          41,
+          192,
+          212
+        ],
+        [
+          64,
+          44,
+          192,
+          212
+        ],
+        [
+          64,
+          51,
+          192,
+          211
+        ],
+        [
+          64,
+          53,
+          192,
+          212
+        ]
+      ],
+      "stone_side_rgba_mean_absolute_difference_max": 3.9814634823660096,
+      "measurement_note": "Side difference includes colour flicker and movement; this is observation, not proof of fixed geometry or artistic approval."
+    },
+    {
+      "key": "fire29-02",
+      "frames": 9,
+      "first_render_equal": true,
+      "first_rgba_equal": true,
+      "first_transparent_rgb_differing_pixels": 0,
+      "last_rgba_equal": false,
+      "last_visible_rgba_changed_pixels_gt8": 6378,
+      "last_alpha_changed_pixels_gt8": 552,
+      "visible_edge_frames": [],
+      "margin_violation_frames": [],
+      "visible_bboxes_alpha_gt8": [
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          64,
+          53,
+          192,
+          212
+        ],
+        [
+          64,
+          50,
+          192,
+          212
+        ],
+        [
+          64,
+          43,
+          192,
+          212
+        ],
+        [
+          64,
+          39,
+          192,
+          212
+        ],
+        [
+          64,
+          40,
+          192,
+          212
+        ],
+        [
+          64,
+          47,
+          192,
+          212
+        ],
+        [
+          64,
+          53,
+          192,
+          212
+        ],
+        [
+          64,
+          53,
+          192,
+          212
+        ]
+      ],
+      "stone_side_rgba_mean_absolute_difference_max": 3.646556512079978,
+      "measurement_note": "Side difference includes colour flicker and movement; this is observation, not proof of fixed geometry or artistic approval."
+    },
+    {
+      "key": "fire29-03",
+      "frames": 5,
+      "first_render_equal": true,
+      "first_rgba_equal": true,
+      "first_transparent_rgb_differing_pixels": 0,
+      "last_rgba_equal": false,
+      "last_visible_rgba_changed_pixels_gt8": 6547,
+      "last_alpha_changed_pixels_gt8": 552,
+      "visible_edge_frames": [],
+      "margin_violation_frames": [],
+      "visible_bboxes_alpha_gt8": [
+        [
+          63,
+          52,
+          193,
+          213
+        ],
+        [
+          64,
+          47,
+          192,
+          212
+        ],
+        [
+          64,
+          41,
+          192,
+          212
+        ],
+        [
+          64,
+          46,
+          192,
+          212
+        ],
+        [
+          64,
+          53,
+          192,
+          212
+        ]
+      ],
+      "stone_side_rgba_mean_absolute_difference_max": 3.9636212163287974,
+      "measurement_note": "Side difference includes colour flicker and movement; this is observation, not proof of fixed geometry or artistic approval."
+    }
+  ]
+}

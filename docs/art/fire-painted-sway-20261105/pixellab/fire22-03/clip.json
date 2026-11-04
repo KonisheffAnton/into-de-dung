@@ -1,0 +1,144 @@
+{
+  "key": "fire22-03",
+  "source_key": "fire22",
+  "group": "Нарисованный низкий огонь 22",
+  "kind": "fire",
+  "variant": 3,
+  "name": "Раздельное колыхание",
+  "prompt": "Separate already-painted orange contour tips sway one pixel left or right at slightly offset times, easing back smoothly without changing their original locations. Animate the attached FINISHED PAINTED illustration, not a new fire scene. Move only contours already present in the input; keep their number, topology, position, maximum height, area coverage, shapes, palette and brightness essentially identical in every frame. Keep the original low flat top profile. The stone, side faces, outer alpha silhouette, tile edges, scale and camera stay fixed. No added flames, redrawing, upward flow, rising tongues, jets, particles, birth, growth, extinguishing, flare, flash, colour cycle or global light pulse. First and last frames match the supplied still image.",
+  "captions_metadata_only": {
+    "direction": "south-east",
+    "view": "low top-down",
+    "subject_description": "A fixed isometric stone tile with low painted orange contours on the whole diamond top",
+    "initial_pose": "The finished painted marks and stone remain at the exact original positions and low height"
+  },
+  "caption_api_note": "V3 additionalProperties=false; four caption fields are not accepted by this endpoint",
+  "seed": 20261106003,
+  "frame_count": 8,
+  "expected_frames": null,
+  "expected_frames_policy": "Read count from admitted completed response; prior V3 returned 9 for frame_count 8",
+  "endpoint": "animate-with-text-v3",
+  "loop": true,
+  "return_to_first": true,
+  "input": "model/fire22/input-256.png",
+  "input_sha256": "054ad25dc7275f192d4a7e443a5405b2858a3623088afb8e7c8a1fb644a34b76",
+  "source": "../fire-low-styles-20261104/fire-low-22.png",
+  "source_sha256": "bf1ffc6fd24a621936ad70efdb8195b068a9cb949d3c477ffe1d27f221b123f9",
+  "request_sha256": "38e28186ada269b1ae12d81e24f91310bf0f9828eb1c9df1bb7ff0209aec11dd",
+  "integration": false,
+  "provider": "PixelLab v3",
+  "job_id": "ab779725-bf4f-4235-9e54-1ee03a89a29d",
+  "actual_frames": 9,
+  "usage": {
+    "type": "generations",
+    "generations": 8.0
+  },
+  "canvas": [
+    256,
+    256
+  ],
+  "durations_ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "timing_origin": "Только для просмотра: 100 мс на кадр, около 10 кадров/с",
+  "first_frame_rgba_equal": true,
+  "first_frame_render_equal": true,
+  "first_frame_rgba_differing_pixels": 0,
+  "first_frame_alpha_differing_pixels": 0,
+  "first_frame_visible_differing_pixels": 0,
+  "first_frame_png_byte_equal": true,
+  "endpoint_frame_rgba_equal": false,
+  "frame_sha256": [
+    "054ad25dc7275f192d4a7e443a5405b2858a3623088afb8e7c8a1fb644a34b76",
+    "bf35d49f5dfad9c7f58cad87d5faed69e19e644de4ef81ed8b1129beaedb66ad",
+    "c0abca3ac163171daae77df717e26fdbdacc9f5b0b9fde62f1dc1ed51168527c",
+    "f6aba6f03ad6973aac723f723ffdc385961becbceb84f987c4d480875df94bca",
+    "fe73cd1d138f062f292e66e6980e9af500b3a27e13a0ba279be342bdb3c63f9b",
+    "41cb92a4f99d220361119951dc0787042ea09040284d30afca4efa5db02d7f85",
+    "8587365892baf621480eba1c8b31de712ed498c53d6c41aaa2f366c6a49b201e",
+    "dcdb617666325e49eb2735e2295946bd1676db5d673db66cae5f1f3277d3b1db",
+    "24a70ca64e7c12a0e43b9564a756c184c3e168143ba6ba3555e8b6b29c62d5de"
+  ],
+  "artifact_sha256": {
+    "sheet.png": "fee9ab6808a304c78caf832e0425d21b0dba70828479c4ec28a91a4fd2af7963",
+    "preview.gif": "2682ab558f9dd2f9cb26913edf2b6c9d1ab3bfc5e89b0e2ab6cbee7ddf5710cc",
+    "filmstrip.png": "7ae9c584ae906a83332535576080d021eda28af0408ec56dc125098275977c2a"
+  },
+  "alpha_bboxes": [
+    [
+      19,
+      49,
+      195,
+      215
+    ],
+    [
+      64,
+      48,
+      192,
+      212
+    ],
+    [
+      64,
+      44,
+      192,
+      212
+    ],
+    [
+      64,
+      42,
+      192,
+      212
+    ],
+    [
+      64,
+      34,
+      192,
+      212
+    ],
+    [
+      64,
+      40,
+      192,
+      212
+    ],
+    [
+      64,
+      48,
+      192,
+      212
+    ],
+    [
+      64,
+      52,
+      192,
+      212
+    ],
+    [
+      64,
+      52,
+      192,
+      212
+    ]
+  ],
+  "edge_frames": [],
+  "margin_violation_frames": [],
+  "gif_actual_durations_ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+  ]
+}

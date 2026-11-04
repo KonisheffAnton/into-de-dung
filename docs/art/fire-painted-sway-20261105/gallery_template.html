@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Нарисованный огонь · 12 проб PixelLab V3</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101723;color:#e8eef5;font:16px/1.4 system-ui,sans-serif}
+header{padding:14px 20px;background:#1a2434;position:sticky;top:0;z-index:3}
+h1{margin:0 0 8px;font-size:23px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button,select{background:#2b3c54;border:1px solid #60718b;border-radius:6px;color:#fff;padding:7px 12px;cursor:pointer}
+main{max-width:1500px;margin:auto;padding:16px}
+section{margin-bottom:26px}
+section h2{border-bottom:1px solid #52647c;padding-bottom:8px}
+.source{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.source img{width:120px;height:120px;object-fit:contain;background:#182131}
+p{color:#bdc9d6}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:12px}
+article{background:#1b2739;border:1px solid #34465e;border-radius:9px;padding:11px;min-width:0}
+article h3{font-size:17px;margin:2px 0 9px}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.panel{min-width:0}
+.panel strong{display:block;font-size:13px;font-weight:600;margin-bottom:3px}
+.stage{display:grid;place-items:center;aspect-ratio:1;background:var(--stage,#182131);background-image:var(--check,none);overflow:hidden}
+.stage img,.stage canvas{display:block;width:100%;max-width:256px;height:auto;aspect-ratio:1;object-fit:contain;image-rendering:pixelated}
+body.small .stage img,body.small .stage canvas{max-width:96px}
+body.large .cards{grid-template-columns:repeat(auto-fit,minmax(560px,1fr))}
+body.large .stage img,body.large .stage canvas{max-width:384px}
+input[type=range]{width:100%}
+.note{font-size:13px;color:#bac9dd;margin:7px 0}
+.warning{color:#ffbb88}
+a{color:#edbe75}
+footer{padding:18px;color:#bbc7d5}
+@media(max-width:540px){header{position:static}main{padding:10px}.cards,body.large .cards{grid-template-columns:1fr}.source img{width:96px;height:96px}.pair{gap:6px}}
+</style>
+</head>
+<body>
+<header><h1>Нарисованный огонь · 12 проб PixelLab V3</h1><div class="controls">
+<button id="play">Пауза</button><button id="restart">Сначала</button><button id="step">+ кадр</button>
+<select id="speed"><option value="1">Скорость 1×</option><option value="0.5">0,5×</option><option value="1.5">1,5×</option><option value="2">2×</option></select>
+<select id="size"><option value="">Размер</option><option value="small">Малый</option><option value="large">Увеличенный</option></select>
+<select id="background"><option value="dark">Тёмный фон</option><option value="checker">Шахматный фон</option></select>
+</div></header>
+<main id="gallery"></main>
+<footer>Исходный нарисованный кадр показан рядом с анимацией в том же масштабе. Тайминг 100 мс/кадр только для просмотра. Художественная приёмка открыта; в игру огонь не подключён.</footer>
+<script>
+"use strict";
+const ASSETS=__ASSETS__,GROUPS=__GROUPS__,CLIPS=__CLIPS__;
+const find=s=>document.querySelector(s);
+let players=[],playing=true,speed=1,last=0;
+function assetLink(key,label){const a=document.createElement('a');a.href='#';a.textContent=label;a.onclick=e=>{e.preventDefault();const data=ASSETS[key],binary=atob(data.split(',')[1]),bytes=new Uint8Array(binary.length);for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);const url=URL.createObjectURL(new Blob([bytes],{type:data.substring(5,data.indexOf(';'))})),temp=document.createElement('a');temp.href=url;temp.target='_blank';temp.rel='noopener';document.body.appendChild(temp);temp.click();temp.remove();setTimeout(()=>URL.revokeObjectURL(url),120000)};return a}
+function draw(p){if(!p.loaded)return;const c=p.canvas.getContext('2d');c.clearRect(0,0,256,256);c.drawImage(p.img,p.frame%8*256,Math.floor(p.frame/8)*256,256,256,0,0,256,256);p.slider.value=p.frame;p.counter.textContent='Кадр '+(p.frame+1)+' / '+p.clip.count}
+for(const group of GROUPS){
+  const section=document.createElement('section');section.id=group.key;
+  const heading=document.createElement('h2');heading.textContent=group.name;section.appendChild(heading);
+  const source=document.createElement('div');source.className='source';
+  const input=document.createElement('img');input.src=ASSETS[group.initial];input.alt='Вход '+group.name;source.appendChild(input);
+  const info=document.createElement('div');const desc=document.createElement('p');desc.textContent='Три коротких цикла V3 из исходного нарисованного кадра 256×256.';info.appendChild(desc);
+  info.appendChild(assetLink(group.source,'Исходный PNG'));info.appendChild(document.createTextNode(' · '));info.appendChild(assetLink(group.initial,'Вход 256×256'));source.appendChild(info);section.appendChild(source);
+  const grid=document.createElement('div');grid.className='cards';
+  for(const clip of CLIPS){if(clip.source_key!==group.key)continue;
+    const card=document.createElement('article'),title=document.createElement('h3');title.textContent=clip.key+' · '+clip.name;card.appendChild(title);
+    const pair=document.createElement('div');pair.className='pair';
+    const left=document.createElement('div');left.className='panel';const leftLabel=document.createElement('strong');leftLabel.textContent='Исходный рисунок';left.appendChild(leftLabel);
+    const leftStage=document.createElement('div');leftStage.className='stage';const still=document.createElement('img');still.src=ASSETS[clip.still];still.alt='Исходный нарисованный кадр '+clip.key;leftStage.appendChild(still);left.appendChild(leftStage);pair.appendChild(left);
+    const right=document.createElement('div');right.className='panel';const rightLabel=document.createElement('strong');rightLabel.textContent='Анимация V3';right.appendChild(rightLabel);
+    const rightStage=document.createElement('div');rightStage.className='stage';const canvas=document.createElement('canvas');canvas.width=256;canvas.height=256;rightStage.appendChild(canvas);right.appendChild(rightStage);pair.appendChild(right);card.appendChild(pair);
+    const slider=document.createElement('input');slider.type='range';slider.min=0;slider.max=clip.count-1;slider.value=0;slider.setAttribute('aria-label','Кадр '+clip.key);card.appendChild(slider);
+    const counter=document.createElement('p');counter.className='note';counter.textContent='Кадр 1 / '+clip.count;card.appendChild(counter);
+    const note=document.createElement('p');note.className='note';note.textContent='Цикл · '+clip.count+' кадров'+(clip.endpoint_equal?' · конец совпадает с входом':'')+(clip.edge?' · касание края холста':'');if(clip.edge)note.classList.add('warning');card.appendChild(note);
+    const observation=document.createElement('p');observation.className='note warning';observation.textContent='Наблюдение: '+clip.observation;card.appendChild(observation);
+    card.appendChild(assetLink(clip.gif,'GIF'));card.appendChild(document.createTextNode(' · '));card.appendChild(assetLink(clip.sheet,'PNG-лист'));grid.appendChild(card);
+    const p={clip,frame:0,elapsed:0,img:new Image(),canvas,slider,counter,loaded:false};
+    slider.oninput=()=>{playing=false;find('#play').textContent='Играть';p.frame=+slider.value;p.elapsed=0;draw(p)};
+    p.img.onload=()=>{p.loaded=true;draw(p)};p.img.src=ASSETS[clip.sheet];players.push(p);
+  }
+  section.appendChild(grid);find('#gallery').appendChild(section);
+}
+function tick(time){if(!last)last=time;const delta=Math.min(100,time-last);last=time;if(playing)for(const p of players){if(!p.loaded)continue;p.elapsed+=delta*speed;while(p.elapsed>=p.clip.timing[p.frame]){p.elapsed-=p.clip.timing[p.frame];p.frame=(p.frame+1)%p.clip.count}draw(p)}requestAnimationFrame(tick)}
+find('#play').onclick=()=>{playing=!playing;find('#play').textContent=playing?'Пауза':'Играть'};
+find('#restart').onclick=()=>{players.forEach(p=>{p.frame=0;p.elapsed=0;draw(p)});playing=true;find('#play').textContent='Пауза'};
+find('#step').onclick=()=>{playing=false;find('#play').textContent='Играть';players.forEach(p=>{p.frame=(p.frame+1)%p.clip.count;draw(p)})};
+find('#speed').onchange=e=>speed=+e.target.value;
+find('#size').onchange=e=>document.body.className=e.target.value;
+find('#background').onchange=e=>{const checker=e.target.value==='checker';document.documentElement.style.setProperty('--stage',checker?'#c8c8c8':'#182131');document.documentElement.style.setProperty('--check',checker?'linear-gradient(45deg,#66717f 25%,transparent 25%,transparent 75%,#66717f 75%),linear-gradient(45deg,#66717f 25%,transparent 25%,transparent 75%,#66717f 75%)':'none');document.querySelectorAll('.stage').forEach(stage=>{stage.style.backgroundSize=checker?'20px 20px':'auto';stage.style.backgroundPosition=checker?'0 0,10px 10px':'0 0'})};
+window.__galleryState=()=>({assetCount:Object.keys(ASSETS).length,clipCount:players.length,loaded:players.every(p=>p.loaded),frames:players.map(p=>p.frame)});
+requestAnimationFrame(tick);
+</script>
+</body>
+</html>

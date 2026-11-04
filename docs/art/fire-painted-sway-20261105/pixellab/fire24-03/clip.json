@@ -1,0 +1,108 @@
+{
+  "key": "fire24-03",
+  "source_key": "fire24",
+  "group": "Нарисованный низкий огонь 24",
+  "kind": "fire",
+  "variant": 3,
+  "name": "Раздельное колыхание",
+  "prompt": "Nearly still finished 2D painting. Gently bend ONLY the already-painted orange-red brush-stroke tips horizontally by one pixel and back. Every existing stroke stays attached at its base, keeps its original height, silhouette, position, color and brightness. Keep the stone and transparent background perfectly still. Match the supplied first and last picture.",
+  "captions_metadata_only": {
+    "direction": "south-east",
+    "view": "low top-down",
+    "subject_description": "A fixed isometric stone tile with low painted orange contours on the whole diamond top",
+    "initial_pose": "The finished painted marks and stone remain at the exact original positions and low height"
+  },
+  "caption_api_note": "V3 additionalProperties=false; four caption fields are not accepted by this endpoint",
+  "seed": 20261106009,
+  "frame_count": 4,
+  "expected_frames": null,
+  "expected_frames_policy": "Read count from admitted completed response; do not assume requested count plus one",
+  "endpoint": "animate-with-text-v3",
+  "loop": true,
+  "return_to_first": true,
+  "input": "model/fire24/input-256.png",
+  "input_sha256": "178b840385f1730ea2213823224b356d3cd0e131a2e04cf0a66e202caed93da1",
+  "source": "../fire-low-styles-20261104/fire-low-24.png",
+  "source_sha256": "011d71e26a400c2a7002995583f141491ffef148131f1e5abf565ad7587b749b",
+  "request_sha256": "d36a4f02040aa0c163e10f2431c860d98750711f2093ccb977a6bbaddda3fdf5",
+  "integration": false,
+  "provider": "PixelLab v3",
+  "job_id": "a9770aa5-8783-4555-9b9c-506d740af432",
+  "actual_frames": 5,
+  "usage": {
+    "type": "generations",
+    "generations": 4.0
+  },
+  "canvas": [
+    256,
+    256
+  ],
+  "durations_ms": [
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "timing_origin": "Только для просмотра: 100 мс на кадр, около 10 кадров/с",
+  "first_frame_rgba_equal": true,
+  "first_frame_render_equal": true,
+  "first_frame_rgba_differing_pixels": 0,
+  "first_frame_alpha_differing_pixels": 0,
+  "first_frame_visible_differing_pixels": 0,
+  "first_frame_png_byte_equal": true,
+  "endpoint_frame_rgba_equal": false,
+  "frame_sha256": [
+    "178b840385f1730ea2213823224b356d3cd0e131a2e04cf0a66e202caed93da1",
+    "384b9c7dfe01ce6a66adf8fb82a0c55c3239c39f688164e55702bf0164738972",
+    "0e53b1de904dff52176bf0e0c0fbbf1d1eb8f2c9dd5fbc7ec9478c2e1bf81ce2",
+    "92e830da4fff064239fbe7ea7f17fa2a5187c1406b25d3636100de234b72874b",
+    "d83d68ac82171b1b0b75c84c1eb90f2d52ba360bf56c97bd528200428b1d5f9e"
+  ],
+  "artifact_sha256": {
+    "sheet.png": "025189a81d429da6f0df3ef4a42e3e2947fd3ef6ca5335bf380d9ef706de25fb",
+    "preview.gif": "0bbadd13474720965c896e0867bfe8e78afd709b9f2d5e4d092b9a5034adfbbc",
+    "filmstrip.png": "cbb11a28652517f366b34fd8d070995901cf62cbf3b0352fe9c495278fa0d206"
+  },
+  "alpha_bboxes": [
+    [
+      61,
+      49,
+      195,
+      218
+    ],
+    [
+      60,
+      47,
+      197,
+      213
+    ],
+    [
+      57,
+      41,
+      200,
+      213
+    ],
+    [
+      58,
+      44,
+      198,
+      212
+    ],
+    [
+      63,
+      52,
+      193,
+      213
+    ]
+  ],
+  "edge_frames": [],
+  "margin_violation_frames": [],
+  "gif_actual_durations_ms": [
+    100,
+    100,
+    100,
+    100,
+    100
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "state": {
+    "assetCount": 32,
+    "clipCount": 12,
+    "loaded": true,
+    "frames": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "groups": 4,
+  "cards": 12,
+  "observationCards": 12,
+  "sliders": [
+    [
+      "0",
+      "8"
+    ],
+    [
+      "0",
+      "8"
+    ],
+    [
+      "0",
+      "8"
+    ],
+    [
+      "0",
+      "8"
+    ],
+    [
+      "0",
+      "8"
+    ],
+    [
+      "0",
+      "8"
+    ],
+    [
+      "0",
+      "8"
+    ],
+    [
+      "0",
+      "8"
+    ],
+    [
+      "0",
+      "4"
+    ],
+    [
+      "0",
+      "8"
+    ],
+    [
+      "0",
+      "8"
+    ],
+    [
+      "0",
+      "4"
+    ]
+  ],
+  "inputsLoaded": true,
+  "cardStillsLoaded": true,
+  "sameSizePairs": true,
+  "groupSizes": [
+    3,
+    3,
+    3,
+    3
+  ],
+  "sliderFrame": 7,
+  "stepFrame": 8,
+  "restartFrames": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "pausedBefore": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "pausedAfter": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "slowSpeedFrame": 3,
+  "fastSpeedFrame": 4,
+  "checkerVisible": true,
+  "desktop": {
+    "default": {
+      "viewport": 1800,
+      "document": 1800,
+      "square": true,
+      "pairSame": true
+    },
+    "small": {
+      "viewport": 1800,
+      "document": 1800,
+      "square": true,
+      "pairSame": true
+    },
+    "large": {
+      "viewport": 1800,
+      "document": 1800,
+      "square": true,
+      "pairSame": true
+    }
+  },
+  "mobile": {
+    "default": {
+      "viewport": 390,
+      "document": 390,
+      "square": true,
+      "pairSame": true
+    },
+    "small": {
+      "viewport": 390,
+      "document": 390,
+      "square": true,
+      "pairSame": true
+    },
+    "large": {
+      "viewport": 390,
+      "document": 390,
+      "square": true,
+      "pairSame": true
+    }
+  },
+  "errors": [],
+  "pass": true
+}

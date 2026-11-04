@@ -1,0 +1,144 @@
+{
+  "key": "fire29-01",
+  "source_key": "fire29",
+  "group": "Нарисованный низкий огонь 29",
+  "kind": "fire",
+  "variant": 1,
+  "name": "Левый плавный сдвиг",
+  "prompt": "Nearly still finished 2D painting. Gently bend ONLY the already-painted orange-red brush-stroke tips horizontally by one pixel and back. Every existing stroke stays attached at its base, keeps its original height, silhouette, position, color and brightness. Keep the stone and transparent background perfectly still. Match the supplied first and last picture.",
+  "captions_metadata_only": {
+    "direction": "south-east",
+    "view": "low top-down",
+    "subject_description": "A fixed isometric stone tile with low painted orange contours on the whole diamond top",
+    "initial_pose": "The finished painted marks and stone remain at the exact original positions and low height"
+  },
+  "caption_api_note": "V3 additionalProperties=false; four caption fields are not accepted by this endpoint",
+  "seed": 20261106010,
+  "frame_count": 8,
+  "expected_frames": null,
+  "expected_frames_policy": "Read count from admitted completed response; do not assume requested count plus one",
+  "endpoint": "animate-with-text-v3",
+  "loop": true,
+  "return_to_first": true,
+  "input": "model/fire29/input-256.png",
+  "input_sha256": "e69eb475eb32701bc57b1d24e27091fdd7f29afd92c9f04f224df60bf37e4ad7",
+  "source": "../fire-low-styles-20261104/fire-low-29.png",
+  "source_sha256": "3f89930f385e43a1efe4d4895c25ff74a7cfc4215d740c2d697263261122756e",
+  "request_sha256": "b7be5d5a388417fc489c17aa659fd109ba4ade96285458ad051a5e064db10b87",
+  "integration": false,
+  "provider": "PixelLab v3",
+  "job_id": "a0f78e09-b188-4f2e-93a2-bd929a5263ea",
+  "actual_frames": 9,
+  "usage": {
+    "type": "generations",
+    "generations": 8.0
+  },
+  "canvas": [
+    256,
+    256
+  ],
+  "durations_ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "timing_origin": "Только для просмотра: 100 мс на кадр, около 10 кадров/с",
+  "first_frame_rgba_equal": true,
+  "first_frame_render_equal": true,
+  "first_frame_rgba_differing_pixels": 0,
+  "first_frame_alpha_differing_pixels": 0,
+  "first_frame_visible_differing_pixels": 0,
+  "first_frame_png_byte_equal": true,
+  "endpoint_frame_rgba_equal": false,
+  "frame_sha256": [
+    "e69eb475eb32701bc57b1d24e27091fdd7f29afd92c9f04f224df60bf37e4ad7",
+    "d73abdda672d3bbce4a96dc38885005290ac782bcb179fa86cfab31d7afc40b4",
+    "fa25df6d0153fd7d3a820f43e1a8c2cbce4255d233e6de5a8c6163bd287095b4",
+    "a0ec689bbfdcb8f8967c8d617d5025e498fed534ac275bcd7fdbb59ba4981029",
+    "7c879a6429f430e049b7caee34599e09380f6adf4e8f7f0556414bb8b68bd5f2",
+    "59a27fef857ba3878fd4359de0ee686c8d700db3cbcca852bf300495a7d6cb4f",
+    "b2ce498ea9788ed07d23a2dba283e80ef1718618f3ed0128fb00373a6daee133",
+    "f0e3248ee46cd59fcb037ad53e909f1ed8270cebdf5dbfec75f6e084cf6e7bf3",
+    "333f7131d9190df4a55248fd9f91cde76c86cabb4b4f04a8faf64affd63c37a1"
+  ],
+  "artifact_sha256": {
+    "sheet.png": "1281c44877bba76dd575b5062134c1bde327b46ae4b33051df9cde0f409996ac",
+    "preview.gif": "388b992b3a97483305994558dd939e05dfaa7b18101b8a594b46af8ed9fbcf05",
+    "filmstrip.png": "88bc8f648bdb22a8a0d3416ba2a3a45379589fa34fa016c10330d538bb569a80"
+  },
+  "alpha_bboxes": [
+    [
+      61,
+      47,
+      195,
+      215
+    ],
+    [
+      64,
+      50,
+      192,
+      212
+    ],
+    [
+      64,
+      46,
+      192,
+      212
+    ],
+    [
+      64,
+      43,
+      192,
+      212
+    ],
+    [
+      64,
+      43,
+      192,
+      212
+    ],
+    [
+      64,
+      41,
+      192,
+      212
+    ],
+    [
+      64,
+      44,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      211
+    ],
+    [
+      64,
+      53,
+      192,
+      212
+    ]
+  ],
+  "edge_frames": [],
+  "margin_violation_frames": [],
+  "gif_actual_durations_ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+  ]
+}
