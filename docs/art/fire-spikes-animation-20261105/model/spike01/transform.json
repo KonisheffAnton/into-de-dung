@@ -1,0 +1,42 @@
+{
+  "source_sha256": "f9a93db24ae7a40e7e606719e744c85c535c058ba0db7d0d7ba7b1e0ea2fdc50",
+  "pair_size": [
+    1536,
+    1024
+  ],
+  "left_retracted_crop": [
+    0,
+    0,
+    768,
+    1024
+  ],
+  "right_extended_crop": [
+    768,
+    0,
+    1536,
+    1024
+  ],
+  "common_scale": 0.25,
+  "resampler": "Pillow LANCZOS",
+  "alpha_bbox_crop": false,
+  "pixel_retouch": false,
+  "retracted_sha256": "63cad73a660ddfd07ed43adc9efc4b29932224b0c1fb23541989b60e2f0675c8",
+  "extended_sha256": "666bed98f524f7968e4c1478165a66e392439310fa3addbceeaf0003e954fe0f",
+  "full_canvas": [
+    1024,
+    1024
+  ],
+  "retracted_paste_xy": [
+    102,
+    0
+  ],
+  "extended_paste_xy": [
+    151,
+    0
+  ],
+  "landmark_alignment": "retracted global x410 +102 = extended local x361 +151 =512; same y",
+  "prior_unsubmitted_input_sha256": {
+    "retracted": "d36fe46a9b70e15b32408eb68d6a8a8ad97159da08a3fbcb14299d6630540f63",
+    "extended": "09646a79a378a8104c6d537775f113100507ebb16422d78709e977523463cb3f"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "scope": "Independent read-only review of fixed12 fire clips, no runtime review",
+  "reviewer": "game_reviewer gpt-6-sol/high",
+  "technical_package": "APPROVE:60 frame hashes and12 sheet hashes match clip.json; frame00 byte-exact input; this is local package provenance, not independent API fetch",
+  "strict_art_pass": 0,
+  "reviewed_clips": 12,
+  "closest": [
+    "fire23-01",
+    "fire24-01"
+  ],
+  "limitations": "Closest clips retain flat fire but change stone/brightness and have abrupt frame03->04 reset; no user art acceptance",
+  "seam_metrics_rgba_changed_pixels_gt16": {
+    "fire23-01": {
+      "03_to_04": 10495,
+      "04_to_00": 2756
+    },
+    "fire24-01": {
+      "03_to_04": 9599,
+      "04_to_00": 2557
+    }
+  }
+}

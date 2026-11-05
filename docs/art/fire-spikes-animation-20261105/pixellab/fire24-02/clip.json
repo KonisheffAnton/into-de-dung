@@ -1,0 +1,115 @@
+{
+  "key": "fire24-02",
+  "source_key": "fire24",
+  "variant": 2,
+  "kind": "fire",
+  "group": "Огонь 24",
+  "name": "Плоский сдвиг 2",
+  "endpoint": "animate-with-text-v3",
+  "frame_count": 4,
+  "expected_frames": null,
+  "loop": true,
+  "one_way": false,
+  "first_input": "model/fire24/input-256.png",
+  "last_input": "model/fire24/input-256.png",
+  "first_sha256": "178b840385f1730ea2213823224b356d3cd0e131a2e04cf0a66e202caed93da1",
+  "last_sha256": "178b840385f1730ea2213823224b356d3cd0e131a2e04cf0a66e202caed93da1",
+  "source": "fire-low-styles-20261104/fire-low-24.png",
+  "source_sha256": "011d71e26a400c2a7002995583f141491ffef148131f1e5abf565ad7587b749b",
+  "prompt": "In this finished flat tile painting, move only existing orange brush marks one pixel sideways and back, slowly and smoothly inside the top diamond. Keep every mark at its original height. The stone block and top plane remain perfectly fixed, with the same outline, colors and light throughout. Match both supplied endpoint pictures.",
+  "seed": 20261105008,
+  "request_sha256": "6c56a8e5a330d8dce69c752835dab8574e91063ee1bba9badb2eae90945bd2f1",
+  "integration": false,
+  "job_id": "4f72d1c7-284d-4f65-9e3e-d8fac5358cf5",
+  "actual_frames": 5,
+  "usage": {
+    "type": "generations",
+    "generations": 4.0
+  },
+  "frame_sha256": [
+    "178b840385f1730ea2213823224b356d3cd0e131a2e04cf0a66e202caed93da1",
+    "e79e15f5eec59465f3d2a472f2e066b7eda8af57f4f8acd4fc040c8e04412e50",
+    "1b14fa37f415a4b3573db19ccae85ed995cfce1bc9204cacc136d6a18e789e02",
+    "24cb4c801ba380708c877e2ae70464e9b4942968980b621535799147508130af",
+    "5f53d8ad557ce0f18d3f28702201000c36f595847b144222e42a5171db70ae07"
+  ],
+  "alpha_bboxes": [
+    [
+      61,
+      49,
+      195,
+      218
+    ],
+    [
+      62,
+      45,
+      196,
+      213
+    ],
+    [
+      50,
+      30,
+      206,
+      229
+    ],
+    [
+      63,
+      31,
+      193,
+      214
+    ],
+    [
+      63,
+      52,
+      193,
+      213
+    ]
+  ],
+  "edge_frames": [],
+  "margin_violation_frames": [],
+  "fps_preview": 2,
+  "durations_ms": [
+    500,
+    500,
+    500,
+    500,
+    500
+  ],
+  "first_vs_input": {
+    "rgba_changed_pixels_gt8": 0,
+    "alpha_changed_pixels_gt8": 0,
+    "visible_rgba_mae": 0.0,
+    "exact_rgba_equal": true
+  },
+  "last_vs_target": {
+    "rgba_changed_pixels_gt8": 5998,
+    "alpha_changed_pixels_gt8": 462,
+    "visible_rgba_mae": 6.809191419141914,
+    "exact_rgba_equal": false
+  },
+  "loop_seam_last_to_first": {
+    "rgba_changed_pixels_gt8": 5998,
+    "alpha_changed_pixels_gt8": 462,
+    "visible_rgba_mae": 6.809191419141914,
+    "exact_rgba_equal": false
+  },
+  "neighbor_first_to_second": {
+    "rgba_changed_pixels_gt8": 7830,
+    "alpha_changed_pixels_gt8": 610,
+    "visible_rgba_mae": 14.380922734124123,
+    "exact_rgba_equal": false
+  },
+  "neighbor_penultimate_to_last": {
+    "rgba_changed_pixels_gt8": 5259,
+    "alpha_changed_pixels_gt8": 821,
+    "visible_rgba_mae": 15.745348988486308,
+    "exact_rgba_equal": false
+  },
+  "endpoint_policy": "loop candidate; actual seam metrics recorded",
+  "artifact_sha256": {
+    "sheet.png": "c4b857218afcdb80ee59d28813861ffe9dbb7d25fc4e4524d12e4b2cff7d9658",
+    "preview.gif": "d18149da8dec0de139f0f711db3ea4c5b819ba150df3a86068684336bd4b45e8",
+    "filmstrip.png": "80336e423fec54baedb60402c960121a8643c586f453bf61d9bab0591fe67ec2"
+  },
+  "artistic_acceptance": "open"
+}

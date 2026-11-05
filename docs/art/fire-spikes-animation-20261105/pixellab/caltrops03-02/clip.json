@@ -1,0 +1,346 @@
+{
+  "key": "caltrops03-02",
+  "source_key": "caltrops03",
+  "variant": 2,
+  "kind": "caltrops",
+  "group": "Редкие блики на иглах 03",
+  "name": "Редкие блики 2",
+  "endpoint": "animate-pixminimax",
+  "frame_count": 32,
+  "expected_frames": null,
+  "loop": true,
+  "one_way": false,
+  "first_input": "model/caltrops03/input-256.png",
+  "last_input": "model/caltrops03/input-256.png",
+  "first_sha256": "384e4636fe0ba5123142f9ad58406c738067a1b4add61fa7216dd094018c97cf",
+  "last_sha256": "384e4636fe0ba5123142f9ad58406c738067a1b4add61fa7216dd094018c97cf",
+  "source": "hazard-variants-20261103/caltrops-03.png",
+  "source_sha256": "30a28973ec827f54756806dc00c9a3d447b154388f89de6a652e4262fe09ac8c",
+  "prompt": "Hold the finished painted caltrops and stone completely still. Across the long loop, show exactly two rare, small, separate metal glints, each for only one or two frames, with long unchanged pauses between them. The start and end match the supplied quiet picture. Keep all geometry, palette and background fixed.",
+  "captions": {
+    "direction": "south-east",
+    "view": "low top-down",
+    "subject_description": "A finished isometric stone tile with stationary steel caltrops",
+    "initial_pose": "Every metal caltrop and stone surface is still; quiet steel with no active glint"
+  },
+  "seed": 20261105017,
+  "request_sha256": "1f2a640c719963944f697178d78c1548bd9aa3f83b29a116e6c089fbe087b940",
+  "integration": false,
+  "job_id": "a5c27e2e-a94e-4631-9f15-930a5df480bd",
+  "actual_frames": 33,
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 5
+  },
+  "frame_sha256": [
+    "3b04ad49c6e360df285d802d62060e76a5e6e7756432cbf76642364d38c3a8c5",
+    "4739ef024708daea3d3fa0438fd3845b6615ab0c0ca26192573917de9facc4b2",
+    "b7a4eabfbb7a0b99e75916921211a3b4b634b589713ad7337a299a932a756e18",
+    "59441c088b76cc09cbb4102ea3cb36562970a0281877afd6f61ef70b04ac2e56",
+    "baacfb401d3ab474de1369a439719b9471c335c014a4617b69d0a269c1fc0aee",
+    "57ae5ba551471049604c628aae70d387e0b31644c08f6f270104821a2ce44079",
+    "b80bcc0d569513810aa02a924ebdbbe70fe4c54936fb83ec7a0a6f5e98498eef",
+    "799116847b556016746cfa3b5258cc53035fc469e9fc6093270e835d8adfe279",
+    "e9d08c5f87264df9647483bf5d9fec45690958e5eeb488dcf92d7a36a76da7c2",
+    "e3f82053c6a281e228b0a6d04daf4f655e33d706f8069068b52431519db80721",
+    "a5ac6b79759334dde3e77da3ae023189aea06953740e62ee3aeec595ab8ae9ef",
+    "346e6bb0f19919a24bfd1793eed6be87f3465be071e2f33c990ad2fda352ff7a",
+    "34b2978db846be84be8533b39cc847515f4351402d70c2a4d101b64f26f00da5",
+    "32a6b7d92d71bca8cae9f5d83b6c5af4fec36255cf8dce07fdf6481207d54df1",
+    "34a2c2664d39a035aac712782941f3a8251f165bb58c77d05573e0dae32ce3b5",
+    "368155dc2a26b776606dedbbfd13a8a0cf5ab311d428c9a8e95de5ef984076a8",
+    "56cc47136ed9ac767a81eff6343f5291761f8ef84a7bed141f84fd3d816298f2",
+    "c7a95aff51c62d7ecffe53ac244cc38159dce23aee66c7546b7e101c47903ca9",
+    "df186b0e5bc6cb2713d7e4b6344fbdbd7224037c3ce72a4ca4c97497c8227193",
+    "4595dc77d8599d36a90cd7e704a5cc54011be2aef08c3a78e5f3e8e42b3679dd",
+    "064d9e0009cd3e69aa3e43394c1dd93e1bc3bfc1c998d70968acf31fc48b64aa",
+    "67c09e1dbf524393dac9f53d6645a16e147c9c853756bc5b2d136ac1d105353d",
+    "70131350aae879abf861de1ae1fb72b2826f9cfd456175ac73433cbc867f3347",
+    "62c955fb0600e95d52c69afcf6b7bebfb80fa1c534cb38648f01d0333c37c038",
+    "a816adcd3453c6d5e5b4fa5de5fc753938a873b40e382cfe13b2365b58e275fb",
+    "1b96891e240b1cda67042b2544ef6754d24f8ca336713f4a105d92f2b78b835b",
+    "3fb556e66294f53faaf5bee0e6ffe44f8d32c511462bf847a7292d15ec299a23",
+    "a701d843543b43d408befccb59d6db07f20b25106b8da4aa94716b645f35e32e",
+    "96f5228e221f9a883b3a4d1b85f90d31239da6d58ab107a8b6f5e19546096c90",
+    "4c0da51ce709c3130a5f767c08e7ecf09e2ada24fc60aa0aa7c39aede5230208",
+    "ae86817527d776a48a98c39a86e1b0e20e8cba22fa78ebc237e5d1c1f60a31f2",
+    "4c6e6bf577df86f84e742b4ad8d684723716c4675b465149187965c7ebbfac1d",
+    "bc95d19e16f757175214f2523f9445d9ef458b1db9488179e41a4a3e3fe620c1"
+  ],
+  "alpha_bboxes": [
+    [
+      61,
+      49,
+      210,
+      248
+    ],
+    [
+      64,
+      48,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      52,
+      192,
+      212
+    ],
+    [
+      64,
+      50,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ],
+    [
+      64,
+      48,
+      192,
+      212
+    ],
+    [
+      64,
+      51,
+      192,
+      212
+    ]
+  ],
+  "edge_frames": [],
+  "margin_violation_frames": [],
+  "fps_preview": 3,
+  "durations_ms": [
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333,
+    333
+  ],
+  "first_vs_input": {
+    "rgba_changed_pixels_gt8": 0,
+    "alpha_changed_pixels_gt8": 0,
+    "visible_rgba_mae": 0.0,
+    "exact_rgba_equal": false
+  },
+  "last_vs_target": {
+    "rgba_changed_pixels_gt8": 8099,
+    "alpha_changed_pixels_gt8": 640,
+    "visible_rgba_mae": 9.15356127240262,
+    "exact_rgba_equal": false
+  },
+  "loop_seam_last_to_first": {
+    "rgba_changed_pixels_gt8": 8099,
+    "alpha_changed_pixels_gt8": 640,
+    "visible_rgba_mae": 9.153693538787117,
+    "exact_rgba_equal": false
+  },
+  "neighbor_first_to_second": {
+    "rgba_changed_pixels_gt8": 8091,
+    "alpha_changed_pixels_gt8": 665,
+    "visible_rgba_mae": 9.458985535961958,
+    "exact_rgba_equal": false
+  },
+  "neighbor_penultimate_to_last": {
+    "rgba_changed_pixels_gt8": 273,
+    "alpha_changed_pixels_gt8": 24,
+    "visible_rgba_mae": 0.8898567690400772,
+    "exact_rgba_equal": false
+  },
+  "endpoint_policy": "loop candidate; actual seam metrics recorded",
+  "artifact_sha256": {
+    "sheet.png": "346f18df66ee1cd27d51ad4df7efcc3b513f0d75af48fadc2895a60be654fb08",
+    "preview.gif": "b1494677db175183892c8b3121f5484ee0bcdebeca09ba1ca026d8420890b211",
+    "filmstrip.png": "6f3d0d872d685117c90dcc5097ff6567fe76ccf83b26c1f2654b8bfb1686a959"
+  },
+  "artistic_acceptance": "open"
+}

@@ -1,0 +1,115 @@
+{
+  "key": "fire22-01",
+  "source_key": "fire22",
+  "variant": 1,
+  "kind": "fire",
+  "group": "Огонь 22",
+  "name": "Плоский сдвиг 1",
+  "endpoint": "animate-with-text-v3",
+  "frame_count": 4,
+  "expected_frames": null,
+  "loop": true,
+  "one_way": false,
+  "first_input": "model/fire22/input-256.png",
+  "last_input": "model/fire22/input-256.png",
+  "first_sha256": "054ad25dc7275f192d4a7e443a5405b2858a3623088afb8e7c8a1fb644a34b76",
+  "last_sha256": "054ad25dc7275f192d4a7e443a5405b2858a3623088afb8e7c8a1fb644a34b76",
+  "source": "fire-low-styles-20261104/fire-low-22.png",
+  "source_sha256": "bf1ffc6fd24a621936ad70efdb8195b068a9cb949d3c477ffe1d27f221b123f9",
+  "prompt": "The finished 2D painting stays nearly still. Orange painted surface texture on the top diamond gently shifts sideways within its plane by one pixel and returns. The entire stone block, top plane, flat profile, original shapes, colors and brightness stay immobile and unchanged. Match the supplied first and last picture.",
+  "seed": 20261105001,
+  "request_sha256": "fde965e28fed56e58759b94ac06c0e2117cea4a7428fa1ea3803338d2ffe7906",
+  "integration": false,
+  "job_id": "9ee68405-3a6a-488e-8695-ee2f6a18240c",
+  "actual_frames": 5,
+  "usage": {
+    "type": "generations",
+    "generations": 4.0
+  },
+  "frame_sha256": [
+    "054ad25dc7275f192d4a7e443a5405b2858a3623088afb8e7c8a1fb644a34b76",
+    "c576df97dc6c402067441c6058148b3076002e7f060f965153d62fe3e26634d3",
+    "8eb7689b7c6bfea0e055708dcfc5756fc78e94eadfa2b033d3cbc4d99a65b77b",
+    "352ff300aa408607648bab27058bcea499b9e64a2fb341d5f07dd6dd5fa8f9a3",
+    "b1bb0dda299ddad588022789270ebfb28b773d68aa0eb665d156a696e8397c30"
+  ],
+  "alpha_bboxes": [
+    [
+      19,
+      49,
+      195,
+      215
+    ],
+    [
+      63,
+      48,
+      194,
+      212
+    ],
+    [
+      62,
+      40,
+      195,
+      212
+    ],
+    [
+      62,
+      39,
+      194,
+      212
+    ],
+    [
+      64,
+      52,
+      192,
+      212
+    ]
+  ],
+  "edge_frames": [],
+  "margin_violation_frames": [],
+  "fps_preview": 2,
+  "durations_ms": [
+    500,
+    500,
+    500,
+    500,
+    500
+  ],
+  "first_vs_input": {
+    "rgba_changed_pixels_gt8": 0,
+    "alpha_changed_pixels_gt8": 0,
+    "visible_rgba_mae": 0.0,
+    "exact_rgba_equal": true
+  },
+  "last_vs_target": {
+    "rgba_changed_pixels_gt8": 7253,
+    "alpha_changed_pixels_gt8": 597,
+    "visible_rgba_mae": 6.996957873156537,
+    "exact_rgba_equal": false
+  },
+  "loop_seam_last_to_first": {
+    "rgba_changed_pixels_gt8": 7253,
+    "alpha_changed_pixels_gt8": 597,
+    "visible_rgba_mae": 6.996957873156537,
+    "exact_rgba_equal": false
+  },
+  "neighbor_first_to_second": {
+    "rgba_changed_pixels_gt8": 11380,
+    "alpha_changed_pixels_gt8": 1011,
+    "visible_rgba_mae": 21.547270955165693,
+    "exact_rgba_equal": false
+  },
+  "neighbor_penultimate_to_last": {
+    "rgba_changed_pixels_gt8": 9965,
+    "alpha_changed_pixels_gt8": 1068,
+    "visible_rgba_mae": 21.851190476190474,
+    "exact_rgba_equal": false
+  },
+  "endpoint_policy": "loop candidate; actual seam metrics recorded",
+  "artifact_sha256": {
+    "sheet.png": "e2e4023ea536449b71de29b4a3c89a3c88d27ef8b18d943d86d4b63dff025972",
+    "preview.gif": "e2735618bcb29d1d9af59f2efc133273d416fe05c8775bc286ab32a64a5f5802",
+    "filmstrip.png": "2a093a4c606e5dcd04f9781918ff9c3bef9c6446d5570fe457d402910d0afd10"
+  },
+  "artistic_acceptance": "open"
+}

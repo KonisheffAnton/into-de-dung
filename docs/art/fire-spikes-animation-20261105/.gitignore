@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+*.import
+gallery-partial.html
+pixellab-validation-partial.json
+validation-partial.json

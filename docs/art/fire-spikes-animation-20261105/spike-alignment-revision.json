@@ -1,0 +1,23 @@
+{
+  "reason": "Align existing block centers in separate half paintings before PixelLab POST",
+  "previous_unsubmitted_input_sha256": {
+    "retracted": "d36fe46a9b70e15b32408eb68d6a8a8ad97159da08a3fbcb14299d6630540f63",
+    "extended": "09646a79a378a8104c6d537775f113100507ebb16422d78709e977523463cb3f"
+  },
+  "previous_unsubmitted_request_sha256": {
+    "spike01-02": "5704c30cf0c7854f4a45d23c164b5f655860c95f37cf584083357843a548ecfc",
+    "spike01-03": "91a41bb62823240e8f09ecf080afcca8d891fa22e3a4d5ab244f02fffd9733de",
+    "spike01-01": "dad738fc6091ec3177230ad384a01abb4d55e6a8060f01450021306ed7d69d78"
+  },
+  "revised_input_sha256": {
+    "retracted": "63cad73a660ddfd07ed43adc9efc4b29932224b0c1fb23541989b60e2f0675c8",
+    "extended": "666bed98f524f7968e4c1478165a66e392439310fa3addbceeaf0003e954fe0f"
+  },
+  "revised_request_sha256": {
+    "spike01-01": "7ebb47dc0254d5cdce54fd4dd768a3c5fb2911f772fbe90ff572154a09fccd76",
+    "spike01-02": "5f14792522995d9bb6193e1f4e18ab8724ed08e409672cdff97b33fc739d9f82",
+    "spike01-03": "0cc73b13deb2fdd277f08736ea2df3b7be042f0824031353650f31641e54eac3"
+  },
+  "submitted_before_revision": false,
+  "pixel_retouch": false
+}

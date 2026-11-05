@@ -1,0 +1,144 @@
+{
+  "key": "spike01-02",
+  "source_key": "spike01",
+  "variant": 2,
+  "kind": "spike_transition",
+  "group": "Выдвижные шипы 01",
+  "name": "Выдвижение 2",
+  "endpoint": "animate-with-text-v3",
+  "frame_count": 8,
+  "expected_frames": null,
+  "loop": false,
+  "one_way": true,
+  "first_input": "model/spike01/retracted-input-256.png",
+  "last_input": "model/spike01/extended-input-256.png",
+  "first_sha256": "63cad73a660ddfd07ed43adc9efc4b29932224b0c1fb23541989b60e2f0675c8",
+  "last_sha256": "666bed98f524f7968e4c1478165a66e392439310fa3addbceeaf0003e954fe0f",
+  "source": "retractable-spike-traps-20261104/spike-trap-01-pair.png",
+  "source_sha256": "f9a93db24ae7a40e7e606719e744c85c535c058ba0db7d0d7ba7b1e0ea2fdc50",
+  "prompt": "A quiet one-way extension of the already painted metal spikes: start at the supplied retracted stone trap and end at the supplied extended stone trap. Each spike stays centered in its own socket as it rises smoothly. The stone, sockets, camera, silhouette, colors and brightness remain fixed. Match both supplied endpoints.",
+  "seed": 20261105014,
+  "request_sha256": "5f14792522995d9bb6193e1f4e18ab8724ed08e409672cdff97b33fc739d9f82",
+  "integration": false,
+  "job_id": "31e8b6fe-9db4-47cf-b144-9e737699c9d8",
+  "actual_frames": 9,
+  "usage": {
+    "type": "generations",
+    "generations": 8.0
+  },
+  "frame_sha256": [
+    "63cad73a660ddfd07ed43adc9efc4b29932224b0c1fb23541989b60e2f0675c8",
+    "531ca0f16dcc1a1d5084025e69ac8d498e0a1d905c3254804fa91d379610672a",
+    "fa5d67e2433c3a682d3208de958e4d328e00044de5266bb988391c8465adceb0",
+    "d4b65330d19e50a6b9eb6744695c2ac0a49f4cc97d6956202ebab158fb847c1b",
+    "64e36ed0f903291b42c15576914b58d718d68dcfe25919bb28db1af30d5103c9",
+    "b9f0864e160eba2d7a00cbc70f8aa21005791937058a7d0d6da0d08f7af77967",
+    "db851438c700c8ce4bcb4ac5ea41c094104d2986fc8ea13df7dc37d15a11cdc2",
+    "37c6bf0034245510cf3fc59e5abff285858f879bf3113294c523da4fd1a75c6d",
+    "f20744730a57da350669f701f8dfc7372d7166101abfbfd4c1bac8c7d69c73f5"
+  ],
+  "alpha_bboxes": [
+    [
+      49,
+      12,
+      207,
+      252
+    ],
+    [
+      52,
+      28,
+      203,
+      225
+    ],
+    [
+      52,
+      28,
+      203,
+      225
+    ],
+    [
+      52,
+      28,
+      203,
+      225
+    ],
+    [
+      52,
+      28,
+      203,
+      225
+    ],
+    [
+      52,
+      28,
+      203,
+      225
+    ],
+    [
+      52,
+      28,
+      203,
+      225
+    ],
+    [
+      52,
+      28,
+      203,
+      225
+    ],
+    [
+      52,
+      28,
+      203,
+      225
+    ]
+  ],
+  "edge_frames": [],
+  "margin_violation_frames": [
+    0
+  ],
+  "fps_preview": 4,
+  "durations_ms": [
+    250,
+    250,
+    250,
+    250,
+    250,
+    250,
+    250,
+    250,
+    250
+  ],
+  "first_vs_input": {
+    "rgba_changed_pixels_gt8": 0,
+    "alpha_changed_pixels_gt8": 0,
+    "visible_rgba_mae": 0.0,
+    "exact_rgba_equal": true
+  },
+  "last_vs_target": {
+    "rgba_changed_pixels_gt8": 8805,
+    "alpha_changed_pixels_gt8": 593,
+    "visible_rgba_mae": 6.474985999626656,
+    "exact_rgba_equal": false
+  },
+  "loop_seam_last_to_first": null,
+  "neighbor_first_to_second": {
+    "rgba_changed_pixels_gt8": 8532,
+    "alpha_changed_pixels_gt8": 594,
+    "visible_rgba_mae": 8.303291682208132,
+    "exact_rgba_equal": false
+  },
+  "neighbor_penultimate_to_last": {
+    "rgba_changed_pixels_gt8": 1601,
+    "alpha_changed_pixels_gt8": 5,
+    "visible_rgba_mae": 1.8593217450579413,
+    "exact_rgba_equal": false
+  },
+  "endpoint_policy": "one-way transition",
+  "artifact_sha256": {
+    "sheet.png": "95d09e3887e87f80e93fa075611bee81581d3f8a44b41832a206a96b6a8f9bec",
+    "preview.gif": "bff4106bed6ca03160ca68b8100f78f41b06589505d6fd4311de8bf024e38b48",
+    "filmstrip.png": "d2d612f75260f0dab6f3eb6d6643101e424ff20b44fa9eccdef3659f374e41ab"
+  },
+  "artistic_acceptance": "open"
+}

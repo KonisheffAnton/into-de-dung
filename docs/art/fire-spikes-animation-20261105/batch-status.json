@@ -1,0 +1,29 @@
+{
+  "expected_rows": 18,
+  "completed": [
+    "fire22-01",
+    "fire22-02",
+    "fire22-03",
+    "fire23-01",
+    "fire23-02",
+    "fire23-03",
+    "fire24-01",
+    "fire24-02",
+    "fire24-03",
+    "fire29-01",
+    "fire29-02",
+    "fire29-03",
+    "spike01-01",
+    "spike01-02",
+    "spike01-03",
+    "caltrops03-01",
+    "caltrops03-02",
+    "caltrops03-03"
+  ],
+  "failed": [],
+  "cancelled": [],
+  "active": [],
+  "pending": [],
+  "blocked": [],
+  "status": "DONE"
+}

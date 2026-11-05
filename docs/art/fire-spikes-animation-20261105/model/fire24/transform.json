@@ -1,0 +1,9 @@
+{
+  "source": "D:\\Games\\into-de-dung\\docs\\art\\fire-low-styles-20261104\\fire-low-24.png",
+  "source_sha256": "011d71e26a400c2a7002995583f141491ffef148131f1e5abf565ad7587b749b",
+  "crop": null,
+  "resize": "whole RGBA frame Pillow LANCZOS 1254x1254 to 256x256",
+  "input_sha256": "178b840385f1730ea2213823224b356d3cd0e131a2e04cf0a66e202caed93da1",
+  "prior_input_sha256": "178b840385f1730ea2213823224b356d3cd0e131a2e04cf0a66e202caed93da1",
+  "pixel_retouch": false
+}

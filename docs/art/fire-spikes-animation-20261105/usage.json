@@ -1,0 +1,156 @@
+{
+  "status": "PASS",
+  "clips": 18,
+  "total_generations": 87.0,
+  "balance_before": 4699.0,
+  "balance_after": 4612.0,
+  "balance_type": "generations",
+  "plan": "Tier 2: Pixel Artisan",
+  "credits_usd": 0.0,
+  "clips_detail": [
+    {
+      "key": "fire22-01",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "9ee68405-3a6a-488e-8695-ee2f6a18240c",
+      "requested_frame_count": 4,
+      "returned_frames": 5,
+      "generations": 4.0
+    },
+    {
+      "key": "fire22-02",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "312589d1-c44b-4dd0-a603-5d62b2546647",
+      "requested_frame_count": 4,
+      "returned_frames": 5,
+      "generations": 4.0
+    },
+    {
+      "key": "fire22-03",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "d0e8b2b3-8458-401e-b2eb-f9d26ab2d303",
+      "requested_frame_count": 4,
+      "returned_frames": 5,
+      "generations": 4.0
+    },
+    {
+      "key": "fire23-01",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "e36dbead-4c95-4a20-a1d3-660c41abd059",
+      "requested_frame_count": 4,
+      "returned_frames": 5,
+      "generations": 4.0
+    },
+    {
+      "key": "fire23-02",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "73f902b0-9979-4cc3-a7af-d20ad0262dbe",
+      "requested_frame_count": 4,
+      "returned_frames": 5,
+      "generations": 4.0
+    },
+    {
+      "key": "fire23-03",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "b237d366-92ad-48ec-899c-6bad3b4b6d52",
+      "requested_frame_count": 4,
+      "returned_frames": 5,
+      "generations": 4.0
+    },
+    {
+      "key": "fire24-01",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "0b980e69-cb00-46bf-9865-3069879bd03e",
+      "requested_frame_count": 4,
+      "returned_frames": 5,
+      "generations": 4.0
+    },
+    {
+      "key": "fire24-02",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "4f72d1c7-284d-4f65-9e3e-d8fac5358cf5",
+      "requested_frame_count": 4,
+      "returned_frames": 5,
+      "generations": 4.0
+    },
+    {
+      "key": "fire24-03",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "ecf0b3cf-f346-4bad-817c-45a1374ac64c",
+      "requested_frame_count": 4,
+      "returned_frames": 5,
+      "generations": 4.0
+    },
+    {
+      "key": "fire29-01",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "22d5504a-99c3-4f99-a1fc-343fe79436ad",
+      "requested_frame_count": 4,
+      "returned_frames": 5,
+      "generations": 4.0
+    },
+    {
+      "key": "fire29-02",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "6cff6613-623a-4d16-8a3e-04865d81c963",
+      "requested_frame_count": 4,
+      "returned_frames": 5,
+      "generations": 4.0
+    },
+    {
+      "key": "fire29-03",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "a80e2d0c-563a-4e87-8bac-46d525273917",
+      "requested_frame_count": 4,
+      "returned_frames": 5,
+      "generations": 4.0
+    },
+    {
+      "key": "spike01-01",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "6a9af417-555e-430c-801e-a0c9a28837b4",
+      "requested_frame_count": 8,
+      "returned_frames": 9,
+      "generations": 8.0
+    },
+    {
+      "key": "spike01-02",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "31e8b6fe-9db4-47cf-b144-9e737699c9d8",
+      "requested_frame_count": 8,
+      "returned_frames": 9,
+      "generations": 8.0
+    },
+    {
+      "key": "spike01-03",
+      "endpoint": "animate-with-text-v3",
+      "job_id": "272a39fe-eaed-4ca9-b29a-8926f077fb99",
+      "requested_frame_count": 8,
+      "returned_frames": 9,
+      "generations": 8.0
+    },
+    {
+      "key": "caltrops03-01",
+      "endpoint": "animate-pixminimax",
+      "job_id": "3001e01a-12f0-44df-bad6-42f60690d64a",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "caltrops03-02",
+      "endpoint": "animate-pixminimax",
+      "job_id": "a5c27e2e-a94e-4631-9f15-930a5df480bd",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    },
+    {
+      "key": "caltrops03-03",
+      "endpoint": "animate-pixminimax",
+      "job_id": "5b6e51a4-c6d0-4c14-a835-2fbfb8e678eb",
+      "requested_frame_count": 32,
+      "returned_frames": 33,
+      "generations": 5
+    }
+  ]
+}

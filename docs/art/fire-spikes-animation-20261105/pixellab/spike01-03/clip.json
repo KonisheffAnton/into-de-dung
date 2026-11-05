@@ -1,0 +1,144 @@
+{
+  "key": "spike01-03",
+  "source_key": "spike01",
+  "variant": 3,
+  "kind": "spike_transition",
+  "group": "Выдвижные шипы 01",
+  "name": "Выдвижение 3",
+  "endpoint": "animate-with-text-v3",
+  "frame_count": 8,
+  "expected_frames": null,
+  "loop": false,
+  "one_way": true,
+  "first_input": "model/spike01/retracted-input-256.png",
+  "last_input": "model/spike01/extended-input-256.png",
+  "first_sha256": "63cad73a660ddfd07ed43adc9efc4b29932224b0c1fb23541989b60e2f0675c8",
+  "last_sha256": "666bed98f524f7968e4c1478165a66e392439310fa3addbceeaf0003e954fe0f",
+  "source": "retractable-spike-traps-20261104/spike-trap-01-pair.png",
+  "source_sha256": "f9a93db24ae7a40e7e606719e744c85c535c058ba0db7d0d7ba7b1e0ea2fdc50",
+  "prompt": "From the supplied retracted picture, slowly extend the existing spikes vertically within their fixed sockets until they exactly match the supplied extended picture. Preserve the finished painted stone block, socket positions, shape, palette, light and framing throughout. This is one transition, ending in the extended state.",
+  "seed": 20261105015,
+  "request_sha256": "0cc73b13deb2fdd277f08736ea2df3b7be042f0824031353650f31641e54eac3",
+  "integration": false,
+  "job_id": "272a39fe-eaed-4ca9-b29a-8926f077fb99",
+  "actual_frames": 9,
+  "usage": {
+    "type": "generations",
+    "generations": 8.0
+  },
+  "frame_sha256": [
+    "63cad73a660ddfd07ed43adc9efc4b29932224b0c1fb23541989b60e2f0675c8",
+    "585a2561efcb09c1e620cf9edb59cba66a8239c1c049b378660d02e589f364b9",
+    "f97f8f9c6bdba6990c43a8c40b2004e9e001fadba63f50f9a8f5c14a65da836b",
+    "e78b8a3aef54a6afdb7768427c31bf820efe9c146f98aa65a343fe498cd39aa1",
+    "9018a2faa36ae7d8f5b28de6c6697c9ae4554660072e8d485a0026e9d0ea1d49",
+    "126644c8a63e861b25780af52a4f3a602df9bb14b0bdf57fd342c1c624d768a8",
+    "acbd8a051aaf8712cff70fafede14df9d1d100dedebba886697b9c07700dd37c",
+    "1323b02b1594692054fa2afc75b32065b0d97476f0deebc04c89d3ff24685e1c",
+    "3181f96acbe1c41efdbcbb6531bcf990f04725c74692c677e76b5cc56b586402"
+  ],
+  "alpha_bboxes": [
+    [
+      49,
+      12,
+      207,
+      252
+    ],
+    [
+      52,
+      28,
+      204,
+      225
+    ],
+    [
+      52,
+      28,
+      204,
+      225
+    ],
+    [
+      52,
+      28,
+      204,
+      225
+    ],
+    [
+      52,
+      28,
+      204,
+      225
+    ],
+    [
+      52,
+      28,
+      204,
+      225
+    ],
+    [
+      52,
+      28,
+      204,
+      225
+    ],
+    [
+      52,
+      28,
+      204,
+      225
+    ],
+    [
+      52,
+      28,
+      204,
+      225
+    ]
+  ],
+  "edge_frames": [],
+  "margin_violation_frames": [
+    0
+  ],
+  "fps_preview": 4,
+  "durations_ms": [
+    250,
+    250,
+    250,
+    250,
+    250,
+    250,
+    250,
+    250,
+    250
+  ],
+  "first_vs_input": {
+    "rgba_changed_pixels_gt8": 0,
+    "alpha_changed_pixels_gt8": 0,
+    "visible_rgba_mae": 0.0,
+    "exact_rgba_equal": true
+  },
+  "last_vs_target": {
+    "rgba_changed_pixels_gt8": 7403,
+    "alpha_changed_pixels_gt8": 593,
+    "visible_rgba_mae": 6.138615363076349,
+    "exact_rgba_equal": false
+  },
+  "loop_seam_last_to_first": null,
+  "neighbor_first_to_second": {
+    "rgba_changed_pixels_gt8": 7350,
+    "alpha_changed_pixels_gt8": 594,
+    "visible_rgba_mae": 8.075543174188736,
+    "exact_rgba_equal": false
+  },
+  "neighbor_penultimate_to_last": {
+    "rgba_changed_pixels_gt8": 1204,
+    "alpha_changed_pixels_gt8": 2,
+    "visible_rgba_mae": 1.3895515847899118,
+    "exact_rgba_equal": false
+  },
+  "endpoint_policy": "one-way transition",
+  "artifact_sha256": {
+    "sheet.png": "bd3d88a83158f92a5eb7a671ec9a7a7fbcfb304d5d12becea8812bb3d48bf153",
+    "preview.gif": "800a08cb70460210d665ade2f283d09881aef61567764993055addeb966e47ab",
+    "filmstrip.png": "8dfc6787f146830dafd231d94daf35fd1bde9386317c3f8e0c104d783f11df92"
+  },
+  "artistic_acceptance": "open"
+}
