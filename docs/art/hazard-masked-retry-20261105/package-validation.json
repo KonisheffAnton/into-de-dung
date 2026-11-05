@@ -1,0 +1,477 @@
+{
+  "status": "PASS",
+  "meaning": "Provenance, raw API bytes, integer assembly and temporal mask checks",
+  "clips": 15,
+  "raw64_api_byte_matches": 60,
+  "derived256_exact_integer_assemblies": 60,
+  "temporal_outside_mask_and_seam_passes": 15,
+  "strict_source_rgba_equal": false,
+  "source_normalization_note": "Provider changes only constant almost-transparent source pixels outside masks; no visible alpha>8 change or temporal change outside masks.",
+  "balance_before": 4612.0,
+  "balance_after": 4597.0,
+  "total_generations": 15.0,
+  "artistic_acceptance": "open",
+  "integration": false,
+  "details": [
+    {
+      "key": "fire22-01",
+      "raw_frames": 4,
+      "masked_white_pixels": [
+        0,
+        88,
+        88,
+        0
+      ],
+      "outside_mask_source_normalized_pixels": 5,
+      "outside_mask_visible_changes_alpha_gt8": 0,
+      "outside_mask_temporal_changed_pixels": 0,
+      "first_last_raw_rgba_equal": true,
+      "playback_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "durations_ms": [
+        350,
+        350,
+        350,
+        350
+      ],
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "key": "fire22-02",
+      "raw_frames": 4,
+      "masked_white_pixels": [
+        0,
+        106,
+        106,
+        0
+      ],
+      "outside_mask_source_normalized_pixels": 5,
+      "outside_mask_visible_changes_alpha_gt8": 0,
+      "outside_mask_temporal_changed_pixels": 0,
+      "first_last_raw_rgba_equal": true,
+      "playback_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "durations_ms": [
+        350,
+        350,
+        350,
+        350
+      ],
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "key": "fire22-03",
+      "raw_frames": 4,
+      "masked_white_pixels": [
+        0,
+        456,
+        456,
+        0
+      ],
+      "outside_mask_source_normalized_pixels": 5,
+      "outside_mask_visible_changes_alpha_gt8": 0,
+      "outside_mask_temporal_changed_pixels": 0,
+      "first_last_raw_rgba_equal": true,
+      "playback_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "durations_ms": [
+        350,
+        350,
+        350,
+        350
+      ],
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "key": "fire23-01",
+      "raw_frames": 4,
+      "masked_white_pixels": [
+        0,
+        146,
+        146,
+        0
+      ],
+      "outside_mask_source_normalized_pixels": 9,
+      "outside_mask_visible_changes_alpha_gt8": 0,
+      "outside_mask_temporal_changed_pixels": 0,
+      "first_last_raw_rgba_equal": true,
+      "playback_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "durations_ms": [
+        350,
+        350,
+        350,
+        350
+      ],
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "key": "fire23-02",
+      "raw_frames": 4,
+      "masked_white_pixels": [
+        0,
+        175,
+        175,
+        0
+      ],
+      "outside_mask_source_normalized_pixels": 9,
+      "outside_mask_visible_changes_alpha_gt8": 0,
+      "outside_mask_temporal_changed_pixels": 0,
+      "first_last_raw_rgba_equal": true,
+      "playback_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "durations_ms": [
+        350,
+        350,
+        350,
+        350
+      ],
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "key": "fire23-03",
+      "raw_frames": 4,
+      "masked_white_pixels": [
+        0,
+        612,
+        612,
+        0
+      ],
+      "outside_mask_source_normalized_pixels": 9,
+      "outside_mask_visible_changes_alpha_gt8": 0,
+      "outside_mask_temporal_changed_pixels": 0,
+      "first_last_raw_rgba_equal": true,
+      "playback_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "durations_ms": [
+        350,
+        350,
+        350,
+        350
+      ],
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "key": "fire24-01",
+      "raw_frames": 4,
+      "masked_white_pixels": [
+        0,
+        124,
+        124,
+        0
+      ],
+      "outside_mask_source_normalized_pixels": 7,
+      "outside_mask_visible_changes_alpha_gt8": 0,
+      "outside_mask_temporal_changed_pixels": 0,
+      "first_last_raw_rgba_equal": true,
+      "playback_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "durations_ms": [
+        350,
+        350,
+        350,
+        350
+      ],
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "key": "fire24-02",
+      "raw_frames": 4,
+      "masked_white_pixels": [
+        0,
+        132,
+        132,
+        0
+      ],
+      "outside_mask_source_normalized_pixels": 7,
+      "outside_mask_visible_changes_alpha_gt8": 0,
+      "outside_mask_temporal_changed_pixels": 0,
+      "first_last_raw_rgba_equal": true,
+      "playback_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "durations_ms": [
+        350,
+        350,
+        350,
+        350
+      ],
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "key": "fire24-03",
+      "raw_frames": 4,
+      "masked_white_pixels": [
+        0,
+        577,
+        577,
+        0
+      ],
+      "outside_mask_source_normalized_pixels": 7,
+      "outside_mask_visible_changes_alpha_gt8": 0,
+      "outside_mask_temporal_changed_pixels": 0,
+      "first_last_raw_rgba_equal": true,
+      "playback_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "durations_ms": [
+        350,
+        350,
+        350,
+        350
+      ],
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "key": "fire29-01",
+      "raw_frames": 4,
+      "masked_white_pixels": [
+        0,
+        40,
+        40,
+        0
+      ],
+      "outside_mask_source_normalized_pixels": 8,
+      "outside_mask_visible_changes_alpha_gt8": 0,
+      "outside_mask_temporal_changed_pixels": 0,
+      "first_last_raw_rgba_equal": true,
+      "playback_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "durations_ms": [
+        350,
+        350,
+        350,
+        350
+      ],
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "key": "fire29-02",
+      "raw_frames": 4,
+      "masked_white_pixels": [
+        0,
+        82,
+        82,
+        0
+      ],
+      "outside_mask_source_normalized_pixels": 8,
+      "outside_mask_visible_changes_alpha_gt8": 0,
+      "outside_mask_temporal_changed_pixels": 0,
+      "first_last_raw_rgba_equal": true,
+      "playback_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "durations_ms": [
+        350,
+        350,
+        350,
+        350
+      ],
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "key": "fire29-03",
+      "raw_frames": 4,
+      "masked_white_pixels": [
+        0,
+        289,
+        289,
+        0
+      ],
+      "outside_mask_source_normalized_pixels": 8,
+      "outside_mask_visible_changes_alpha_gt8": 0,
+      "outside_mask_temporal_changed_pixels": 0,
+      "first_last_raw_rgba_equal": true,
+      "playback_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "durations_ms": [
+        350,
+        350,
+        350,
+        350
+      ],
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "key": "caltrops03-01",
+      "raw_frames": 4,
+      "masked_white_pixels": [
+        0,
+        9,
+        9,
+        0
+      ],
+      "outside_mask_source_normalized_pixels": 8,
+      "outside_mask_visible_changes_alpha_gt8": 0,
+      "outside_mask_temporal_changed_pixels": 0,
+      "first_last_raw_rgba_equal": true,
+      "playback_order": [
+        0,
+        1,
+        0,
+        2,
+        3
+      ],
+      "durations_ms": [
+        4000,
+        160,
+        4000,
+        160,
+        4000
+      ],
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "key": "caltrops03-02",
+      "raw_frames": 4,
+      "masked_white_pixels": [
+        0,
+        9,
+        9,
+        0
+      ],
+      "outside_mask_source_normalized_pixels": 8,
+      "outside_mask_visible_changes_alpha_gt8": 0,
+      "outside_mask_temporal_changed_pixels": 0,
+      "first_last_raw_rgba_equal": true,
+      "playback_order": [
+        0,
+        1,
+        0,
+        2,
+        3
+      ],
+      "durations_ms": [
+        5000,
+        160,
+        5000,
+        160,
+        5000
+      ],
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "key": "caltrops03-03",
+      "raw_frames": 4,
+      "masked_white_pixels": [
+        0,
+        13,
+        13,
+        0
+      ],
+      "outside_mask_source_normalized_pixels": 8,
+      "outside_mask_visible_changes_alpha_gt8": 0,
+      "outside_mask_temporal_changed_pixels": 0,
+      "first_last_raw_rgba_equal": true,
+      "playback_order": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        1,
+        3
+      ],
+      "durations_ms": [
+        4000,
+        160,
+        4000,
+        160,
+        4000,
+        160,
+        4000
+      ],
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    }
+  ]
+}

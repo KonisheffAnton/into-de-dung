@@ -1,0 +1,283 @@
+{
+  "state": {
+    "clipCount": 15,
+    "groupCount": 5,
+    "assetCount": 105,
+    "loaded": true,
+    "frames": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "positions": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "events": [
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ]
+  },
+  "groups": 5,
+  "cards": 15,
+  "staticImagesLoaded": true,
+  "maskImagesLoaded": true,
+  "renderedCanvases": 30,
+  "observationCards": 15,
+  "sliderMax": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    4,
+    4,
+    6
+  ],
+  "stepFrames": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "resetFrames": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "pausedBefore": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "pausedAfter": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "speedAdvanced": true,
+  "glint03RepeatedPose": true,
+  "maskContextsVisible": true,
+  "desktop": {
+    "default": {
+      "viewport": 1600,
+      "document": 1600,
+      "squares": true
+    },
+    "small": {
+      "viewport": 1600,
+      "document": 1600,
+      "squares": true
+    },
+    "large": {
+      "viewport": 1600,
+      "document": 1600,
+      "squares": true
+    }
+  },
+  "mobile": {
+    "default": {
+      "viewport": 390,
+      "document": 390,
+      "squares": true
+    },
+    "small": {
+      "viewport": 390,
+      "document": 390,
+      "squares": true
+    },
+    "large": {
+      "viewport": 390,
+      "document": 390,
+      "squares": true
+    }
+  },
+  "timeline": [
+    {
+      "key": "caltrops03-01",
+      "events": [
+        {
+          "frame": 1,
+          "at_ms": 4010
+        },
+        {
+          "frame": 0,
+          "at_ms": 4170
+        },
+        {
+          "frame": 2,
+          "at_ms": 8170
+        },
+        {
+          "frame": 3,
+          "at_ms": 8330
+        },
+        {
+          "frame": 0,
+          "at_ms": 12330
+        },
+        {
+          "frame": 1,
+          "at_ms": 16330
+        },
+        {
+          "frame": 0,
+          "at_ms": 16490
+        }
+      ]
+    },
+    {
+      "key": "caltrops03-02",
+      "events": [
+        {
+          "frame": 1,
+          "at_ms": 5002
+        },
+        {
+          "frame": 0,
+          "at_ms": 5162
+        },
+        {
+          "frame": 2,
+          "at_ms": 10170
+        },
+        {
+          "frame": 3,
+          "at_ms": 10330
+        },
+        {
+          "frame": 0,
+          "at_ms": 15322
+        }
+      ]
+    },
+    {
+      "key": "caltrops03-03",
+      "events": [
+        {
+          "frame": 1,
+          "at_ms": 4010
+        },
+        {
+          "frame": 0,
+          "at_ms": 4170
+        },
+        {
+          "frame": 2,
+          "at_ms": 8170
+        },
+        {
+          "frame": 0,
+          "at_ms": 8330
+        },
+        {
+          "frame": 1,
+          "at_ms": 12330
+        },
+        {
+          "frame": 3,
+          "at_ms": 12490
+        },
+        {
+          "frame": 0,
+          "at_ms": 16490
+        }
+      ]
+    }
+  ],
+  "timelinePass": true,
+  "errors": [],
+  "pass": true
+}

@@ -1,0 +1,94 @@
+[
+  {
+    "key": "fire23-01",
+    "rows": [
+      {
+        "frame": 0,
+        "outside_mask_changed_rgba": 9,
+        "inside_mask_changed_rgba": 0,
+        "source_exact": false,
+        "size": [
+          64,
+          64
+        ]
+      },
+      {
+        "frame": 1,
+        "outside_mask_changed_rgba": 9,
+        "inside_mask_changed_rgba": 146,
+        "source_exact": false,
+        "size": [
+          64,
+          64
+        ]
+      },
+      {
+        "frame": 2,
+        "outside_mask_changed_rgba": 9,
+        "inside_mask_changed_rgba": 146,
+        "source_exact": false,
+        "size": [
+          64,
+          64
+        ]
+      },
+      {
+        "frame": 3,
+        "outside_mask_changed_rgba": 9,
+        "inside_mask_changed_rgba": 0,
+        "source_exact": false,
+        "size": [
+          64,
+          64
+        ]
+      }
+    ],
+    "seam_exact": true
+  },
+  {
+    "key": "caltrops03-01",
+    "rows": [
+      {
+        "frame": 0,
+        "outside_mask_changed_rgba": 8,
+        "inside_mask_changed_rgba": 0,
+        "source_exact": false,
+        "size": [
+          64,
+          64
+        ]
+      },
+      {
+        "frame": 1,
+        "outside_mask_changed_rgba": 8,
+        "inside_mask_changed_rgba": 9,
+        "source_exact": false,
+        "size": [
+          64,
+          64
+        ]
+      },
+      {
+        "frame": 2,
+        "outside_mask_changed_rgba": 8,
+        "inside_mask_changed_rgba": 9,
+        "source_exact": false,
+        "size": [
+          64,
+          64
+        ]
+      },
+      {
+        "frame": 3,
+        "outside_mask_changed_rgba": 8,
+        "inside_mask_changed_rgba": 0,
+        "source_exact": false,
+        "size": [
+          64,
+          64
+        ]
+      }
+    ],
+    "seam_exact": true
+  }
+]

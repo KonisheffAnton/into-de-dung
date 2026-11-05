@@ -1,0 +1,92 @@
+[
+  {
+    "key": "fire23-01",
+    "endpoint": "animate-with-text",
+    "source": "fire-low-styles-20261104/fire-low-23.png",
+    "source_sha256": "f8becff0734f5d623d628fb1b3da73ad28270b83f02abd884e6a2c1110c22ca0",
+    "input_sha256": "d3a2fc0a85926e6e6696bf76fd533649fe39e10182a0ba4572228517326acf78",
+    "roi_xyxy": [
+      96,
+      67,
+      160,
+      131
+    ],
+    "roi_sha256": "8f50f382db420ef4cfa8ea4fca7f96944ff2eada4b640bb99faf5423ca6cfc9a",
+    "reference_sha256": "8f50f382db420ef4cfa8ea4fca7f96944ff2eada4b640bb99faf5423ca6cfc9a",
+    "mask_sha256": [
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d",
+      "379c478587f3405fbf13fa2dd814054c26b3df011a271b949c18039b4665e08e",
+      "379c478587f3405fbf13fa2dd814054c26b3df011a271b949c18039b4665e08e",
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d"
+    ],
+    "mask_white_pixels": [
+      0,
+      146,
+      146,
+      0
+    ],
+    "mask_note": "Horizontal boundaries in two existing warm stroke patches, selected by original RGB and expanded one horizontal pixel; no side face.",
+    "description": "Finished close-up of the existing flat orange painted surface texture on an isometric stone tile.",
+    "action": "Only the two masked existing orange brush-stroke areas sway horizontally by one pixel and return. Keep their original height, flat shape, color and brightness. The unmasked painted surface stays still.",
+    "negative_description": "new flames, rising shapes, sparks, stone movement, color pulse, camera movement",
+    "image_guidance_scale": 8,
+    "text_guidance_scale": 2,
+    "seed": 20261105051,
+    "request_sha256": "00871bbd682a3a7d28d4cc1b0ce34658ec51a7fe6f37d8536c4d91496559a49a",
+    "raw_api_canvas": [
+      64,
+      64
+    ],
+    "derived_canvas": [
+      256,
+      256
+    ],
+    "assembly": "Integer ROI placement only; no scale/pixel retouch",
+    "prepared_before_post": true
+  },
+  {
+    "key": "caltrops03-01",
+    "endpoint": "animate-with-text",
+    "source": "hazard-variants-20261103/caltrops-03.png",
+    "source_sha256": "30a28973ec827f54756806dc00c9a3d447b154388f89de6a652e4262fe09ac8c",
+    "input_sha256": "384e4636fe0ba5123142f9ad58406c738067a1b4add61fa7216dd094018c97cf",
+    "roi_xyxy": [
+      94,
+      70,
+      158,
+      134
+    ],
+    "roi_sha256": "046bf14f9c827536e98db8931d33674f2ab976c3c1fbba10ee99f6e986b9325b",
+    "reference_sha256": "955dc7d114e939e267d271696040dc86000d7842d39e5824e94fde0b8a2ed4c8",
+    "mask_sha256": [
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d",
+      "807209b9b1cf043a235cb1d3c20a950053cb39f22ac6f02908120ae0b1372ea3",
+      "f0a5a111f781cdfa309724441e26180633563753b2dad6aefaadfe9c4638d1dd",
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d"
+    ],
+    "mask_white_pixels": [
+      0,
+      9,
+      9,
+      0
+    ],
+    "mask_note": "Two separate 3x3 boxes on existing metal tips; first/last masks fully black.",
+    "description": "Finished close-up of dark stationary steel caltrops on a stone top, matching the accepted rare-glint reference.",
+    "action": "Keep every existing steel point and all stone completely still. Only one tiny glint appears briefly at the first masked metal tip, then one at the second masked metal tip. The first and last pictures stay calm and identical.",
+    "negative_description": "moving caltrops, growing spikes, broad stars, stone shimmer, camera movement",
+    "image_guidance_scale": 8,
+    "text_guidance_scale": 2,
+    "seed": 20261105052,
+    "request_sha256": "7260f08da0b6b4efb031072e31b7ae472fc7a03a974f6b672140c5f6a73301b9",
+    "raw_api_canvas": [
+      64,
+      64
+    ],
+    "derived_canvas": [
+      256,
+      256
+    ],
+    "assembly": "Integer ROI placement only; no scale/pixel retouch",
+    "prepared_before_post": true
+  }
+]

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PixelLab mask · исходные языки и редкие блики</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101722;color:#ecf0f7;font:15px/1.4 system-ui,sans-serif}
+header{padding:12px 18px;background:#1c293a;position:sticky;top:0;z-index:2}h1{font-size:21px;margin:0 0 7px}
+.toolbar{display:flex;gap:7px;flex-wrap:wrap;align-items:center}button,select{background:#30435e;color:white;border:1px solid #73849a;border-radius:5px;padding:6px 10px;cursor:pointer}
+main{max-width:1600px;margin:auto;padding:12px}section{margin:0 0 24px}h2{border-bottom:1px solid #617087;padding-bottom:5px}
+.source{display:flex;align-items:center;gap:12px;margin:8px 0}.source img{width:96px;height:96px;background:#192332;image-rendering:pixelated}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(560px,1fr));gap:12px}article{border:1px solid #394b63;border-radius:8px;background:#1b293b;padding:9px;min-width:0}h3{font-size:16px;margin:0 0 7px}
+.panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.panel{min-width:0}.panel strong{display:block;font-size:12px;margin-bottom:3px}.stage{display:grid;place-items:center;aspect-ratio:1;background:#17202e;overflow:hidden}.stage img,.stage canvas{width:100%;max-width:256px;height:auto;aspect-ratio:1;image-rendering:pixelated}
+.roi .stage img,.roi .stage canvas{max-width:256px}.masks{display:flex;gap:10px;align-items:center;margin:7px 0}.masks img{width:64px;height:64px;background:#131923;image-rendering:pixelated;border:1px solid #657083}.masks label{font-size:12px;color:#b7c6d9}
+.note{color:#bac8dc;font-size:12px;margin:5px 0}.warning{color:#ffbe98}input[type=range]{width:100%}footer{padding:16px;color:#bcc7d5}
+.maskcontext{display:none;margin:8px 0;padding:6px;border:1px dashed #697b96}.maskcontext img{display:block;width:256px;max-width:100%;height:auto;background:#17202e;image-rendering:pixelated}.maskcontext strong{font-size:12px}body.showmask .maskcontext{display:block}
+body.large .cards{grid-template-columns:1fr}body.large .stage img,body.large .stage canvas{max-width:384px}body.small .stage img,body.small .stage canvas{max-width:128px}
+@media(max-width:560px){header{position:static}main{padding:9px}.cards{grid-template-columns:1fr}.panels{grid-template-columns:1fr}.stage{max-width:360px;margin:auto}.source img{width:80px;height:80px}}
+</style>
+</head>
+<body>
+<header><h1>Маска PixelLab · огонь и редкие блики</h1><div class="toolbar">
+<button id="play">Пауза</button><button id="reset">Сначала</button><button id="step">+ кадр</button>
+<select id="speed"><option value="1">Скорость 1×</option><option value="0.5">0,5×</option><option value="2">2×</option></select>
+<select id="size"><option value="">Обычный размер</option><option value="small">Малый</option><option value="large">Увеличенный</option></select>
+<button id="maskToggle">Показать маски на тайле</button>
+</div></header>
+<main id="gallery"></main>
+<footer>Слева — исходный 256²; рядом — производная 256² сборка из неизменённого raw64 без масштабирования. Ниже показаны сам raw64 и белые разрешённые пиксели масок. Для игл длительные паузы повторяют исходные кадры PixelLab; точный порядок и длительности записаны в манифесте, новых пикселей нет. Художественная приёмка открыта.</footer>
+<script>
+'use strict';
+const ASSETS=__ASSETS__,GROUPS=__GROUPS__,CLIPS=__CLIPS__;
+const $=s=>document.querySelector(s);let players=[],playing=true,speed=1,last=0;
+const timing=clip=>({frames:clip.playback_order,durations:clip.durations_ms});
+function panel(label,imageKey,canvasWidth){const wrap=document.createElement('div');wrap.className='panel';const title=document.createElement('strong');title.textContent=label;wrap.appendChild(title);const stage=document.createElement('div');stage.className='stage';let drawable;if(imageKey){drawable=document.createElement('img');drawable.src=ASSETS[imageKey];drawable.alt=label}else{drawable=document.createElement('canvas');drawable.width=canvasWidth;drawable.height=canvasWidth}stage.appendChild(drawable);wrap.appendChild(stage);return {wrap,drawable}}
+function draw(p){if(!p.loaded)return;const index=p.schedule.frames[p.position];p.raw.getContext('2d').clearRect(0,0,64,64);p.raw.getContext('2d').drawImage(p.rawImage,index*64,0,64,64,0,0,64,64);p.full.getContext('2d').clearRect(0,0,256,256);p.full.getContext('2d').drawImage(p.fullImage,index*256,0,256,256,0,0,256,256);p.slider.value=p.position;p.counter.textContent='Кадр PixelLab '+index+' · шаг '+(p.position+1)+'/'+p.schedule.frames.length}
+for(const group of GROUPS){const section=document.createElement('section');section.id=group.source;const h=document.createElement('h2');h.textContent=group.name;section.appendChild(h);const source=document.createElement('div');source.className='source';const image=document.createElement('img');image.src=ASSETS[group.static];image.alt='Исходный тайл '+group.name;source.appendChild(image);const desc=document.createElement('p');desc.textContent='Оригинальный 256² тайл; три независимые 64² masked пробы.';source.appendChild(desc);section.appendChild(source);const grid=document.createElement('div');grid.className='cards';
+  for(const clip of CLIPS){if(clip.source!==group.source)continue;const card=document.createElement('article');const title=document.createElement('h3');title.textContent=clip.key;card.appendChild(title);const panels=document.createElement('div');panels.className='panels';
+    const still=panel('Оригинал 256²',clip.source_static);const assembled=panel('Сборка 256² из raw64',null,256);const roi=panel('Исходный участок 64²',clip.roi_static);const raw=panel('Raw PixelLab 64²',null,64);roi.wrap.classList.add('roi');raw.wrap.classList.add('roi');for(const p of [still,assembled,roi,raw])panels.appendChild(p.wrap);card.appendChild(panels);
+    const masks=document.createElement('div');masks.className='masks';for(const [key,label] of [[clip.mask1,'Маска кадра 1'],[clip.mask2,'Маска кадра 2']]){const box=document.createElement('div'),im=document.createElement('img');im.src=ASSETS[key];im.alt=label;const caption=document.createElement('label');caption.textContent=label;box.appendChild(im);box.appendChild(caption);masks.appendChild(box)}card.appendChild(masks);
+    const context=document.createElement('div');context.className='maskcontext';const contextTitle=document.createElement('strong');contextTitle.textContent='Отладочная маска в контексте 256² · не арт';const contextImage=document.createElement('img');contextImage.src=ASSETS[clip.mask_context];contextImage.alt='Область действия маски '+clip.key;context.appendChild(contextTitle);context.appendChild(contextImage);card.appendChild(context);
+    const slider=document.createElement('input');slider.type='range';slider.min=0;slider.max=clip.playback_order.length-1;slider.value=0;slider.setAttribute('aria-label','Кадр '+clip.key);card.appendChild(slider);const counter=document.createElement('p');counter.className='note';card.appendChild(counter);const metrics=document.createElement('p');metrics.className='note';metrics.textContent='Маски 0/'+clip.mask_pixels[1]+'/'+clip.mask_pixels[2]+'/0 px · вне маски во времени '+(clip.temporal_pass?'стабильно':'изменения')+' · нормализация входа '+clip.source_normalized_pixels+' почти прозрачных px';card.appendChild(metrics);const observation=document.createElement('p');observation.className='note warning';observation.textContent='Наблюдение: '+clip.observation;card.appendChild(observation);const reset=document.createElement('button');reset.textContent='Сначала';card.appendChild(reset);grid.appendChild(card);
+    const p={clip,schedule:timing(clip),position:0,elapsed:0,total:0,events:[],raw:raw.drawable,full:assembled.drawable,rawImage:new Image(),fullImage:new Image(),slider,counter,loaded:false};let loads=0;const ready=()=>{loads++;if(loads===2){p.loaded=true;draw(p)}};p.rawImage.onload=ready;p.fullImage.onload=ready;p.rawImage.src=ASSETS[clip.raw_sheet];p.fullImage.src=ASSETS[clip.assembled_sheet];slider.oninput=()=>{playing=false;$('#play').textContent='Играть';p.position=+slider.value;p.elapsed=0;draw(p)};reset.onclick=()=>{p.position=0;p.elapsed=0;p.total=0;p.events=[];playing=true;$('#play').textContent='Пауза';draw(p)};players.push(p)
+  }section.appendChild(grid);$('#gallery').appendChild(section)}
+function tick(time){if(!last)last=time;const delta=Math.min(100,time-last);last=time;if(playing)for(const p of players){if(!p.loaded)continue;p.elapsed+=delta*speed;p.total+=delta*speed;while(p.elapsed>=p.schedule.durations[p.position]){p.elapsed-=p.schedule.durations[p.position];p.position=(p.position+1)%p.schedule.frames.length;if(p.events.length<32)p.events.push({frame:p.schedule.frames[p.position],at_ms:Math.round(p.total)})}draw(p)}requestAnimationFrame(tick)}
+$('#play').onclick=()=>{playing=!playing;$('#play').textContent=playing?'Пауза':'Играть'};$('#reset').onclick=()=>{for(const p of players){p.position=0;p.elapsed=0;p.total=0;p.events=[];draw(p)}playing=true;$('#play').textContent='Пауза'};$('#step').onclick=()=>{playing=false;$('#play').textContent='Играть';for(const p of players){p.position=(p.position+1)%p.schedule.frames.length;draw(p)}};$('#speed').onchange=e=>speed=+e.target.value;$('#size').onchange=e=>{document.body.classList.remove('small','large');if(e.target.value)document.body.classList.add(e.target.value)};$('#maskToggle').onclick=()=>{document.body.classList.toggle('showmask');$('#maskToggle').textContent=document.body.classList.contains('showmask')?'Скрыть маски на тайле':'Показать маски на тайле'};
+window.__galleryState=()=>({clipCount:players.length,groupCount:GROUPS.length,assetCount:Object.keys(ASSETS).length,loaded:players.every(p=>p.loaded),frames:players.map(p=>p.schedule.frames[p.position]),positions:players.map(p=>p.position),events:players.map(p=>p.events)});requestAnimationFrame(tick);
+</script>
+</body>
+</html>

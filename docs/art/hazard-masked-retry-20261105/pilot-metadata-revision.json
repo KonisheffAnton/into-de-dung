@@ -1,0 +1,9 @@
+{
+  "reason": "Clarify preparation snapshot field after completed POST; not a final submission status",
+  "old_sha256": "258d76e22721b9742e33c6b494e030ed22fefcc9938132d30ce40c4096c03f7a",
+  "new_sha256": "789ca81be037a1e8982e998b866a8fdba5304dcd965b42637e28497142051c33",
+  "original_archive": "C:\\Users\\Aston\\.codex\\generated_images\\hazard-masked-retry-20261105\\pilots-pre-submit-original.json",
+  "renamed_field": "post_attempted:false -> prepared_before_post:true",
+  "api_payloads_changed": false,
+  "raw_frames_changed": false
+}

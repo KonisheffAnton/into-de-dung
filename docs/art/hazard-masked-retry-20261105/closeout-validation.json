@@ -1,0 +1,89 @@
+{
+  "protected": {
+    "count": 33,
+    "ok": true,
+    "changed": []
+  },
+  "source_art": {
+    "count": 360,
+    "ok": true,
+    "changed": []
+  },
+  "previous_fire_package": {
+    "count": 33,
+    "ok": true,
+    "changed": []
+  },
+  "previous_low_fire_package": {
+    "count": 33,
+    "ok": true,
+    "changed": []
+  },
+  "previous_hazard_art": {
+    "count": 1156,
+    "ok": true,
+    "changed": []
+  },
+  "previous_subtle_fire": {
+    "count": 493,
+    "ok": true,
+    "changed": []
+  },
+  "previous_liquid_evidence": {
+    "count": 5,
+    "ok": true,
+    "changed": []
+  },
+  "previous_painted_fire": {
+    "count": 198,
+    "ok": true,
+    "changed": []
+  },
+  "current_deep_acid_evidence": {
+    "count": 4,
+    "ok": true,
+    "changed": []
+  },
+  "runtime_and_tooling": {
+    "count": 1613,
+    "ok": true,
+    "changed": []
+  },
+  "previous_fire_spikes_trials": {
+    "count": 310,
+    "ok": true,
+    "changed": []
+  },
+  "archive_equal": true,
+  "archive_git_equal": true,
+  "character_style_lock_unchanged": true,
+  "input_sizes": {
+    "AGENTS.md": {
+      "before": 4565,
+      "after": 4565,
+      "changed": false
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before": 2457,
+      "after": 2479,
+      "changed": true
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before": 3652,
+      "after": 3652,
+      "changed": false
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before": 4482,
+      "after": 4482,
+      "changed": false
+    }
+  },
+  "handoff_limit": true,
+  "handoff_rules": true,
+  "links": {
+    "checked": 30,
+    "missing": [],
+    "ok": true
+  }
+}

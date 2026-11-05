@@ -1,0 +1,29 @@
+{
+  "scope": "Independent read-only review of all15 fixed raw clips and requests; browser playback excluded",
+  "technical_verdict": "APPROVE",
+  "raw_api_png_byte_matches": 60,
+  "integer_roi_assembly_matches": 60,
+  "mask_hashes_counts_match": 60,
+  "source_hashes_match": true,
+  "all_first_last_rgba_equal": true,
+  "temporal_outside_masks_changed_pixels": 0,
+  "changes_confined_to_top_diamond": true,
+  "strict_source_preservation": false,
+  "strict_source_difference": "5-9 original alpha0/1 pixels normalized to0 perclip, constant everyframe",
+  "caltrops_metadata_schedule": {
+    "events": [
+      2,
+      2,
+      3
+    ],
+    "glint_ms": 160,
+    "quiet_holds_ms": [
+      4000,
+      5000
+    ],
+    "third_event_reuses_provider_pose": true
+  },
+  "artistic_acceptance": "open; localfire changes can read asflicker, glints veryweak atfulltile scale",
+  "runtime_review_required": false,
+  "metadata_p3_resolved": true
+}

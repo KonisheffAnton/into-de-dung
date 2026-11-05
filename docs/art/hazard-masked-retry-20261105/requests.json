@@ -1,0 +1,912 @@
+[
+  {
+    "key": "fire22-01",
+    "endpoint": "animate-with-text",
+    "source": "fire-low-styles-20261104/fire-low-22.png",
+    "source_sha256": "bf1ffc6fd24a621936ad70efdb8195b068a9cb949d3c477ffe1d27f221b123f9",
+    "input_sha256": "054ad25dc7275f192d4a7e443a5405b2858a3623088afb8e7c8a1fb644a34b76",
+    "roi_xyxy": [
+      96,
+      67,
+      160,
+      131
+    ],
+    "roi_sha256": "0375ead235b1b7bb961ae736b0c8df3ee0dc9b2711666eca9e9febb1d094c8ae",
+    "reference_sha256": "0375ead235b1b7bb961ae736b0c8df3ee0dc9b2711666eca9e9febb1d094c8ae",
+    "mask_sha256": [
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d",
+      "5cc232ac6761ef8063fb5f75ffb6474cde6818f3064a512b08fb2e9d66897c10",
+      "5cc232ac6761ef8063fb5f75ffb6474cde6818f3064a512b08fb2e9d66897c10",
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d"
+    ],
+    "mask_white_pixels": [
+      0,
+      88,
+      88,
+      0
+    ],
+    "mask_note": "Original warm horizontal contours in 2 area(s), plus one horizontal pixel; no new vertical growth zone.",
+    "description": "Finished close-up of the existing flat orange painted surface texture on an isometric stone tile.",
+    "action": "Only the masked edges of the existing orange painted strokes gently sway one pixel horizontally, then return. Preserve the original low flat shape, height, palette and brightness. Everything outside these small contours stays still.",
+    "negative_description": "new flames, rising shapes, sparks, stone movement, color pulse, camera movement",
+    "image_guidance_scale": 8,
+    "text_guidance_scale": 2,
+    "seed": 20261105100,
+    "request_sha256": "9530383cd40b2f1d56093f14f7ad8a88708bf0bf5d6ec6555fdfe0cecb5c347f",
+    "raw_api_canvas": [
+      64,
+      64
+    ],
+    "derived_canvas": [
+      256,
+      256
+    ],
+    "assembly": "Integer ROI placement only; no scale/pixel retouch",
+    "prepared_before_post": true,
+    "variant": 1,
+    "source_key": "fire22",
+    "kind": "fire",
+    "playback_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "durations_ms": [
+      350,
+      350,
+      350,
+      350
+    ]
+  },
+  {
+    "key": "fire22-02",
+    "endpoint": "animate-with-text",
+    "source": "fire-low-styles-20261104/fire-low-22.png",
+    "source_sha256": "bf1ffc6fd24a621936ad70efdb8195b068a9cb949d3c477ffe1d27f221b123f9",
+    "input_sha256": "054ad25dc7275f192d4a7e443a5405b2858a3623088afb8e7c8a1fb644a34b76",
+    "roi_xyxy": [
+      96,
+      67,
+      160,
+      131
+    ],
+    "roi_sha256": "0375ead235b1b7bb961ae736b0c8df3ee0dc9b2711666eca9e9febb1d094c8ae",
+    "reference_sha256": "0375ead235b1b7bb961ae736b0c8df3ee0dc9b2711666eca9e9febb1d094c8ae",
+    "mask_sha256": [
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d",
+      "625d0713013df6aa40537a2b96380ab5804d423b5ffcc65acabd14cdba0ae101",
+      "625d0713013df6aa40537a2b96380ab5804d423b5ffcc65acabd14cdba0ae101",
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d"
+    ],
+    "mask_white_pixels": [
+      0,
+      106,
+      106,
+      0
+    ],
+    "mask_note": "Original warm horizontal contours in 2 area(s), plus one horizontal pixel; no new vertical growth zone.",
+    "description": "Finished close-up of the existing flat orange painted surface texture on an isometric stone tile.",
+    "action": "Only the masked edges of the existing orange painted strokes gently sway one pixel horizontally, then return. Preserve the original low flat shape, height, palette and brightness. Everything outside these small contours stays still.",
+    "negative_description": "new flames, rising shapes, sparks, stone movement, color pulse, camera movement",
+    "image_guidance_scale": 8,
+    "text_guidance_scale": 2,
+    "seed": 20261105101,
+    "request_sha256": "0a2485593dcf6d7b526be70df25716c85cba2eb3d1c705dfa56db3e6783e737f",
+    "raw_api_canvas": [
+      64,
+      64
+    ],
+    "derived_canvas": [
+      256,
+      256
+    ],
+    "assembly": "Integer ROI placement only; no scale/pixel retouch",
+    "prepared_before_post": true,
+    "variant": 2,
+    "source_key": "fire22",
+    "kind": "fire",
+    "playback_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "durations_ms": [
+      350,
+      350,
+      350,
+      350
+    ]
+  },
+  {
+    "key": "fire22-03",
+    "endpoint": "animate-with-text",
+    "source": "fire-low-styles-20261104/fire-low-22.png",
+    "source_sha256": "bf1ffc6fd24a621936ad70efdb8195b068a9cb949d3c477ffe1d27f221b123f9",
+    "input_sha256": "054ad25dc7275f192d4a7e443a5405b2858a3623088afb8e7c8a1fb644a34b76",
+    "roi_xyxy": [
+      96,
+      67,
+      160,
+      131
+    ],
+    "roi_sha256": "0375ead235b1b7bb961ae736b0c8df3ee0dc9b2711666eca9e9febb1d094c8ae",
+    "reference_sha256": "0375ead235b1b7bb961ae736b0c8df3ee0dc9b2711666eca9e9febb1d094c8ae",
+    "mask_sha256": [
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d",
+      "ad5ec4737ce863c549e4a07903cf760048c2fa63e5cd9b510e6c2987ab4d6062",
+      "ad5ec4737ce863c549e4a07903cf760048c2fa63e5cd9b510e6c2987ab4d6062",
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d"
+    ],
+    "mask_white_pixels": [
+      0,
+      456,
+      456,
+      0
+    ],
+    "mask_note": "Original warm horizontal contours in 1 area(s), plus one horizontal pixel; no new vertical growth zone.",
+    "description": "Finished close-up of the existing flat orange painted surface texture on an isometric stone tile.",
+    "action": "Only the masked edges of the existing orange painted strokes gently sway one pixel horizontally, then return. Preserve the original low flat shape, height, palette and brightness. Everything outside these small contours stays still.",
+    "negative_description": "new flames, rising shapes, sparks, stone movement, color pulse, camera movement",
+    "image_guidance_scale": 8,
+    "text_guidance_scale": 2,
+    "seed": 20261105102,
+    "request_sha256": "f62e78d3b42e82a78d2f8185b90b0d0dcc48eed764b7ec0926391d999ea3fe10",
+    "raw_api_canvas": [
+      64,
+      64
+    ],
+    "derived_canvas": [
+      256,
+      256
+    ],
+    "assembly": "Integer ROI placement only; no scale/pixel retouch",
+    "prepared_before_post": true,
+    "variant": 3,
+    "source_key": "fire22",
+    "kind": "fire",
+    "playback_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "durations_ms": [
+      350,
+      350,
+      350,
+      350
+    ]
+  },
+  {
+    "key": "fire23-01",
+    "endpoint": "animate-with-text",
+    "source": "fire-low-styles-20261104/fire-low-23.png",
+    "source_sha256": "f8becff0734f5d623d628fb1b3da73ad28270b83f02abd884e6a2c1110c22ca0",
+    "input_sha256": "d3a2fc0a85926e6e6696bf76fd533649fe39e10182a0ba4572228517326acf78",
+    "roi_xyxy": [
+      96,
+      67,
+      160,
+      131
+    ],
+    "roi_sha256": "8f50f382db420ef4cfa8ea4fca7f96944ff2eada4b640bb99faf5423ca6cfc9a",
+    "reference_sha256": "8f50f382db420ef4cfa8ea4fca7f96944ff2eada4b640bb99faf5423ca6cfc9a",
+    "mask_sha256": [
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d",
+      "379c478587f3405fbf13fa2dd814054c26b3df011a271b949c18039b4665e08e",
+      "379c478587f3405fbf13fa2dd814054c26b3df011a271b949c18039b4665e08e",
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d"
+    ],
+    "mask_white_pixels": [
+      0,
+      146,
+      146,
+      0
+    ],
+    "mask_note": "Horizontal boundaries in two existing warm stroke patches, selected by original RGB and expanded one horizontal pixel; no side face.",
+    "description": "Finished close-up of the existing flat orange painted surface texture on an isometric stone tile.",
+    "action": "Only the two masked existing orange brush-stroke areas sway horizontally by one pixel and return. Keep their original height, flat shape, color and brightness. The unmasked painted surface stays still.",
+    "negative_description": "new flames, rising shapes, sparks, stone movement, color pulse, camera movement",
+    "image_guidance_scale": 8,
+    "text_guidance_scale": 2,
+    "seed": 20261105051,
+    "request_sha256": "00871bbd682a3a7d28d4cc1b0ce34658ec51a7fe6f37d8536c4d91496559a49a",
+    "raw_api_canvas": [
+      64,
+      64
+    ],
+    "derived_canvas": [
+      256,
+      256
+    ],
+    "assembly": "Integer ROI placement only; no scale/pixel retouch",
+    "prepared_before_post": true,
+    "variant": 1,
+    "source_key": "fire23",
+    "kind": "fire",
+    "playback_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "durations_ms": [
+      350,
+      350,
+      350,
+      350
+    ]
+  },
+  {
+    "key": "fire23-02",
+    "endpoint": "animate-with-text",
+    "source": "fire-low-styles-20261104/fire-low-23.png",
+    "source_sha256": "f8becff0734f5d623d628fb1b3da73ad28270b83f02abd884e6a2c1110c22ca0",
+    "input_sha256": "d3a2fc0a85926e6e6696bf76fd533649fe39e10182a0ba4572228517326acf78",
+    "roi_xyxy": [
+      96,
+      67,
+      160,
+      131
+    ],
+    "roi_sha256": "8f50f382db420ef4cfa8ea4fca7f96944ff2eada4b640bb99faf5423ca6cfc9a",
+    "reference_sha256": "8f50f382db420ef4cfa8ea4fca7f96944ff2eada4b640bb99faf5423ca6cfc9a",
+    "mask_sha256": [
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d",
+      "74c57cd5d9daa0090af9c295dca5e8b148392d418e2d4be643c6f96c63e43d2d",
+      "74c57cd5d9daa0090af9c295dca5e8b148392d418e2d4be643c6f96c63e43d2d",
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d"
+    ],
+    "mask_white_pixels": [
+      0,
+      175,
+      175,
+      0
+    ],
+    "mask_note": "Original warm horizontal contours in 2 area(s), plus one horizontal pixel; no new vertical growth zone.",
+    "description": "Finished close-up of the existing flat orange painted surface texture on an isometric stone tile.",
+    "action": "Only the masked edges of the existing orange painted strokes gently sway one pixel horizontally, then return. Preserve the original low flat shape, height, palette and brightness. Everything outside these small contours stays still.",
+    "negative_description": "new flames, rising shapes, sparks, stone movement, color pulse, camera movement",
+    "image_guidance_scale": 8,
+    "text_guidance_scale": 2,
+    "seed": 20261105104,
+    "request_sha256": "63aab2db455e60b21849d8f963f82e27d5f585c7c7ac35d6869ecf6aa6ffcf6c",
+    "raw_api_canvas": [
+      64,
+      64
+    ],
+    "derived_canvas": [
+      256,
+      256
+    ],
+    "assembly": "Integer ROI placement only; no scale/pixel retouch",
+    "prepared_before_post": true,
+    "variant": 2,
+    "source_key": "fire23",
+    "kind": "fire",
+    "playback_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "durations_ms": [
+      350,
+      350,
+      350,
+      350
+    ]
+  },
+  {
+    "key": "fire23-03",
+    "endpoint": "animate-with-text",
+    "source": "fire-low-styles-20261104/fire-low-23.png",
+    "source_sha256": "f8becff0734f5d623d628fb1b3da73ad28270b83f02abd884e6a2c1110c22ca0",
+    "input_sha256": "d3a2fc0a85926e6e6696bf76fd533649fe39e10182a0ba4572228517326acf78",
+    "roi_xyxy": [
+      96,
+      67,
+      160,
+      131
+    ],
+    "roi_sha256": "8f50f382db420ef4cfa8ea4fca7f96944ff2eada4b640bb99faf5423ca6cfc9a",
+    "reference_sha256": "8f50f382db420ef4cfa8ea4fca7f96944ff2eada4b640bb99faf5423ca6cfc9a",
+    "mask_sha256": [
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d",
+      "0924df953829dd772a52ec0dc48675bb8f1597438af73427195fe4213ba300e5",
+      "0924df953829dd772a52ec0dc48675bb8f1597438af73427195fe4213ba300e5",
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d"
+    ],
+    "mask_white_pixels": [
+      0,
+      612,
+      612,
+      0
+    ],
+    "mask_note": "Original warm horizontal contours in 1 area(s), plus one horizontal pixel; no new vertical growth zone.",
+    "description": "Finished close-up of the existing flat orange painted surface texture on an isometric stone tile.",
+    "action": "Only the masked edges of the existing orange painted strokes gently sway one pixel horizontally, then return. Preserve the original low flat shape, height, palette and brightness. Everything outside these small contours stays still.",
+    "negative_description": "new flames, rising shapes, sparks, stone movement, color pulse, camera movement",
+    "image_guidance_scale": 8,
+    "text_guidance_scale": 2,
+    "seed": 20261105105,
+    "request_sha256": "4f2be4568a8a13e5a4a4113c0521a8475a8cbf2ffa35f68b09461a36921a91aa",
+    "raw_api_canvas": [
+      64,
+      64
+    ],
+    "derived_canvas": [
+      256,
+      256
+    ],
+    "assembly": "Integer ROI placement only; no scale/pixel retouch",
+    "prepared_before_post": true,
+    "variant": 3,
+    "source_key": "fire23",
+    "kind": "fire",
+    "playback_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "durations_ms": [
+      350,
+      350,
+      350,
+      350
+    ]
+  },
+  {
+    "key": "fire24-01",
+    "endpoint": "animate-with-text",
+    "source": "fire-low-styles-20261104/fire-low-24.png",
+    "source_sha256": "011d71e26a400c2a7002995583f141491ffef148131f1e5abf565ad7587b749b",
+    "input_sha256": "178b840385f1730ea2213823224b356d3cd0e131a2e04cf0a66e202caed93da1",
+    "roi_xyxy": [
+      96,
+      67,
+      160,
+      131
+    ],
+    "roi_sha256": "8729aa8a3faee674bdd9faea078f25d16e901c85291cf42dc0562e3f0328769b",
+    "reference_sha256": "8729aa8a3faee674bdd9faea078f25d16e901c85291cf42dc0562e3f0328769b",
+    "mask_sha256": [
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d",
+      "ca96f0d26ea334dc5f3306ba23df6872911bdff7d4de53eeaf21b97999f44583",
+      "ca96f0d26ea334dc5f3306ba23df6872911bdff7d4de53eeaf21b97999f44583",
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d"
+    ],
+    "mask_white_pixels": [
+      0,
+      124,
+      124,
+      0
+    ],
+    "mask_note": "Original warm horizontal contours in 2 area(s), plus one horizontal pixel; no new vertical growth zone.",
+    "description": "Finished close-up of the existing flat orange painted surface texture on an isometric stone tile.",
+    "action": "Only the masked edges of the existing orange painted strokes gently sway one pixel horizontally, then return. Preserve the original low flat shape, height, palette and brightness. Everything outside these small contours stays still.",
+    "negative_description": "new flames, rising shapes, sparks, stone movement, color pulse, camera movement",
+    "image_guidance_scale": 8,
+    "text_guidance_scale": 2,
+    "seed": 20261105106,
+    "request_sha256": "7ec835c4c7e2515ef1101d96e5725ca04cb54316b2dd3a21ff0a05f84e241cd9",
+    "raw_api_canvas": [
+      64,
+      64
+    ],
+    "derived_canvas": [
+      256,
+      256
+    ],
+    "assembly": "Integer ROI placement only; no scale/pixel retouch",
+    "prepared_before_post": true,
+    "variant": 1,
+    "source_key": "fire24",
+    "kind": "fire",
+    "playback_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "durations_ms": [
+      350,
+      350,
+      350,
+      350
+    ]
+  },
+  {
+    "key": "fire24-02",
+    "endpoint": "animate-with-text",
+    "source": "fire-low-styles-20261104/fire-low-24.png",
+    "source_sha256": "011d71e26a400c2a7002995583f141491ffef148131f1e5abf565ad7587b749b",
+    "input_sha256": "178b840385f1730ea2213823224b356d3cd0e131a2e04cf0a66e202caed93da1",
+    "roi_xyxy": [
+      96,
+      67,
+      160,
+      131
+    ],
+    "roi_sha256": "8729aa8a3faee674bdd9faea078f25d16e901c85291cf42dc0562e3f0328769b",
+    "reference_sha256": "8729aa8a3faee674bdd9faea078f25d16e901c85291cf42dc0562e3f0328769b",
+    "mask_sha256": [
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d",
+      "0e0192d3aa3426a02ffffaeb35b05f237ec11b4c46ec389ac9131db4f35c5ca6",
+      "0e0192d3aa3426a02ffffaeb35b05f237ec11b4c46ec389ac9131db4f35c5ca6",
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d"
+    ],
+    "mask_white_pixels": [
+      0,
+      132,
+      132,
+      0
+    ],
+    "mask_note": "Original warm horizontal contours in 2 area(s), plus one horizontal pixel; no new vertical growth zone.",
+    "description": "Finished close-up of the existing flat orange painted surface texture on an isometric stone tile.",
+    "action": "Only the masked edges of the existing orange painted strokes gently sway one pixel horizontally, then return. Preserve the original low flat shape, height, palette and brightness. Everything outside these small contours stays still.",
+    "negative_description": "new flames, rising shapes, sparks, stone movement, color pulse, camera movement",
+    "image_guidance_scale": 8,
+    "text_guidance_scale": 2,
+    "seed": 20261105107,
+    "request_sha256": "8e78dc5280d46a3b02eda3f19837dc0d1152977ab9fdd4dcec7a3a3ced589bfb",
+    "raw_api_canvas": [
+      64,
+      64
+    ],
+    "derived_canvas": [
+      256,
+      256
+    ],
+    "assembly": "Integer ROI placement only; no scale/pixel retouch",
+    "prepared_before_post": true,
+    "variant": 2,
+    "source_key": "fire24",
+    "kind": "fire",
+    "playback_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "durations_ms": [
+      350,
+      350,
+      350,
+      350
+    ]
+  },
+  {
+    "key": "fire24-03",
+    "endpoint": "animate-with-text",
+    "source": "fire-low-styles-20261104/fire-low-24.png",
+    "source_sha256": "011d71e26a400c2a7002995583f141491ffef148131f1e5abf565ad7587b749b",
+    "input_sha256": "178b840385f1730ea2213823224b356d3cd0e131a2e04cf0a66e202caed93da1",
+    "roi_xyxy": [
+      96,
+      67,
+      160,
+      131
+    ],
+    "roi_sha256": "8729aa8a3faee674bdd9faea078f25d16e901c85291cf42dc0562e3f0328769b",
+    "reference_sha256": "8729aa8a3faee674bdd9faea078f25d16e901c85291cf42dc0562e3f0328769b",
+    "mask_sha256": [
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d",
+      "76c58636418182cd5af6e73408fa9af4cd7a84523f2c04689bcd69c175bca957",
+      "76c58636418182cd5af6e73408fa9af4cd7a84523f2c04689bcd69c175bca957",
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d"
+    ],
+    "mask_white_pixels": [
+      0,
+      577,
+      577,
+      0
+    ],
+    "mask_note": "Original warm horizontal contours in 1 area(s), plus one horizontal pixel; no new vertical growth zone.",
+    "description": "Finished close-up of the existing flat orange painted surface texture on an isometric stone tile.",
+    "action": "Only the masked edges of the existing orange painted strokes gently sway one pixel horizontally, then return. Preserve the original low flat shape, height, palette and brightness. Everything outside these small contours stays still.",
+    "negative_description": "new flames, rising shapes, sparks, stone movement, color pulse, camera movement",
+    "image_guidance_scale": 8,
+    "text_guidance_scale": 2,
+    "seed": 20261105108,
+    "request_sha256": "805f33865d451a6001c0df6c25b075a0809ead294f76de117adef54982c448e0",
+    "raw_api_canvas": [
+      64,
+      64
+    ],
+    "derived_canvas": [
+      256,
+      256
+    ],
+    "assembly": "Integer ROI placement only; no scale/pixel retouch",
+    "prepared_before_post": true,
+    "variant": 3,
+    "source_key": "fire24",
+    "kind": "fire",
+    "playback_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "durations_ms": [
+      350,
+      350,
+      350,
+      350
+    ]
+  },
+  {
+    "key": "fire29-01",
+    "endpoint": "animate-with-text",
+    "source": "fire-low-styles-20261104/fire-low-29.png",
+    "source_sha256": "3f89930f385e43a1efe4d4895c25ff74a7cfc4215d740c2d697263261122756e",
+    "input_sha256": "e69eb475eb32701bc57b1d24e27091fdd7f29afd92c9f04f224df60bf37e4ad7",
+    "roi_xyxy": [
+      96,
+      67,
+      160,
+      131
+    ],
+    "roi_sha256": "5e1a46b2fd53498c1029266f4b541b38d0c49f64c4f76d71f7020ab5485eda7b",
+    "reference_sha256": "5e1a46b2fd53498c1029266f4b541b38d0c49f64c4f76d71f7020ab5485eda7b",
+    "mask_sha256": [
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d",
+      "097f57c8aac94ec8cd910853615a09d0cb2908e516e1681d40806b3b415a3a88",
+      "097f57c8aac94ec8cd910853615a09d0cb2908e516e1681d40806b3b415a3a88",
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d"
+    ],
+    "mask_white_pixels": [
+      0,
+      40,
+      40,
+      0
+    ],
+    "mask_note": "Original warm horizontal contours in 2 area(s), plus one horizontal pixel; no new vertical growth zone.",
+    "description": "Finished close-up of the existing flat orange painted surface texture on an isometric stone tile.",
+    "action": "Only the masked edges of the existing orange painted strokes gently sway one pixel horizontally, then return. Preserve the original low flat shape, height, palette and brightness. Everything outside these small contours stays still.",
+    "negative_description": "new flames, rising shapes, sparks, stone movement, color pulse, camera movement",
+    "image_guidance_scale": 8,
+    "text_guidance_scale": 2,
+    "seed": 20261105109,
+    "request_sha256": "e5838436322365a9ecc34fbcaf16e184df3f5a5052bc1055108ed008ec21d5b6",
+    "raw_api_canvas": [
+      64,
+      64
+    ],
+    "derived_canvas": [
+      256,
+      256
+    ],
+    "assembly": "Integer ROI placement only; no scale/pixel retouch",
+    "prepared_before_post": true,
+    "variant": 1,
+    "source_key": "fire29",
+    "kind": "fire",
+    "playback_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "durations_ms": [
+      350,
+      350,
+      350,
+      350
+    ]
+  },
+  {
+    "key": "fire29-02",
+    "endpoint": "animate-with-text",
+    "source": "fire-low-styles-20261104/fire-low-29.png",
+    "source_sha256": "3f89930f385e43a1efe4d4895c25ff74a7cfc4215d740c2d697263261122756e",
+    "input_sha256": "e69eb475eb32701bc57b1d24e27091fdd7f29afd92c9f04f224df60bf37e4ad7",
+    "roi_xyxy": [
+      96,
+      67,
+      160,
+      131
+    ],
+    "roi_sha256": "5e1a46b2fd53498c1029266f4b541b38d0c49f64c4f76d71f7020ab5485eda7b",
+    "reference_sha256": "5e1a46b2fd53498c1029266f4b541b38d0c49f64c4f76d71f7020ab5485eda7b",
+    "mask_sha256": [
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d",
+      "bb3769f36c68b210ddf3dac7dbae124b7409d3c19ad42bd69e8923f795a807ab",
+      "bb3769f36c68b210ddf3dac7dbae124b7409d3c19ad42bd69e8923f795a807ab",
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d"
+    ],
+    "mask_white_pixels": [
+      0,
+      82,
+      82,
+      0
+    ],
+    "mask_note": "Original warm horizontal contours in 2 area(s), plus one horizontal pixel; no new vertical growth zone.",
+    "description": "Finished close-up of the existing flat orange painted surface texture on an isometric stone tile.",
+    "action": "Only the masked edges of the existing orange painted strokes gently sway one pixel horizontally, then return. Preserve the original low flat shape, height, palette and brightness. Everything outside these small contours stays still.",
+    "negative_description": "new flames, rising shapes, sparks, stone movement, color pulse, camera movement",
+    "image_guidance_scale": 8,
+    "text_guidance_scale": 2,
+    "seed": 20261105110,
+    "request_sha256": "72dc4ed3d2fcf41364ae45cb9610d1328e2b6e6208bf9bae9b597d3108511824",
+    "raw_api_canvas": [
+      64,
+      64
+    ],
+    "derived_canvas": [
+      256,
+      256
+    ],
+    "assembly": "Integer ROI placement only; no scale/pixel retouch",
+    "prepared_before_post": true,
+    "variant": 2,
+    "source_key": "fire29",
+    "kind": "fire",
+    "playback_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "durations_ms": [
+      350,
+      350,
+      350,
+      350
+    ]
+  },
+  {
+    "key": "fire29-03",
+    "endpoint": "animate-with-text",
+    "source": "fire-low-styles-20261104/fire-low-29.png",
+    "source_sha256": "3f89930f385e43a1efe4d4895c25ff74a7cfc4215d740c2d697263261122756e",
+    "input_sha256": "e69eb475eb32701bc57b1d24e27091fdd7f29afd92c9f04f224df60bf37e4ad7",
+    "roi_xyxy": [
+      96,
+      67,
+      160,
+      131
+    ],
+    "roi_sha256": "5e1a46b2fd53498c1029266f4b541b38d0c49f64c4f76d71f7020ab5485eda7b",
+    "reference_sha256": "5e1a46b2fd53498c1029266f4b541b38d0c49f64c4f76d71f7020ab5485eda7b",
+    "mask_sha256": [
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d",
+      "05ac2c225011f5ba068738e82d419d6dd9e12afd5a4153d8d1c1535a2710418d",
+      "05ac2c225011f5ba068738e82d419d6dd9e12afd5a4153d8d1c1535a2710418d",
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d"
+    ],
+    "mask_white_pixels": [
+      0,
+      289,
+      289,
+      0
+    ],
+    "mask_note": "Original warm horizontal contours in 1 area(s), plus one horizontal pixel; no new vertical growth zone.",
+    "description": "Finished close-up of the existing flat orange painted surface texture on an isometric stone tile.",
+    "action": "Only the masked edges of the existing orange painted strokes gently sway one pixel horizontally, then return. Preserve the original low flat shape, height, palette and brightness. Everything outside these small contours stays still.",
+    "negative_description": "new flames, rising shapes, sparks, stone movement, color pulse, camera movement",
+    "image_guidance_scale": 8,
+    "text_guidance_scale": 2,
+    "seed": 20261105111,
+    "request_sha256": "509fca20421cd3594072aa836026bd859a8bef42f8aec8e1e1661ef4d5af350f",
+    "raw_api_canvas": [
+      64,
+      64
+    ],
+    "derived_canvas": [
+      256,
+      256
+    ],
+    "assembly": "Integer ROI placement only; no scale/pixel retouch",
+    "prepared_before_post": true,
+    "variant": 3,
+    "source_key": "fire29",
+    "kind": "fire",
+    "playback_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "durations_ms": [
+      350,
+      350,
+      350,
+      350
+    ]
+  },
+  {
+    "key": "caltrops03-01",
+    "endpoint": "animate-with-text",
+    "source": "hazard-variants-20261103/caltrops-03.png",
+    "source_sha256": "30a28973ec827f54756806dc00c9a3d447b154388f89de6a652e4262fe09ac8c",
+    "input_sha256": "384e4636fe0ba5123142f9ad58406c738067a1b4add61fa7216dd094018c97cf",
+    "roi_xyxy": [
+      94,
+      70,
+      158,
+      134
+    ],
+    "roi_sha256": "046bf14f9c827536e98db8931d33674f2ab976c3c1fbba10ee99f6e986b9325b",
+    "reference_sha256": "955dc7d114e939e267d271696040dc86000d7842d39e5824e94fde0b8a2ed4c8",
+    "mask_sha256": [
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d",
+      "807209b9b1cf043a235cb1d3c20a950053cb39f22ac6f02908120ae0b1372ea3",
+      "f0a5a111f781cdfa309724441e26180633563753b2dad6aefaadfe9c4638d1dd",
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d"
+    ],
+    "mask_white_pixels": [
+      0,
+      9,
+      9,
+      0
+    ],
+    "mask_note": "Two separate 3x3 boxes on existing metal tips; first/last masks fully black.",
+    "description": "Finished close-up of dark stationary steel caltrops on a stone top, matching the accepted rare-glint reference.",
+    "action": "Keep every existing steel point and all stone completely still. Only one tiny glint appears briefly at the first masked metal tip, then one at the second masked metal tip. The first and last pictures stay calm and identical.",
+    "negative_description": "moving caltrops, growing spikes, broad stars, stone shimmer, camera movement",
+    "image_guidance_scale": 8,
+    "text_guidance_scale": 2,
+    "seed": 20261105052,
+    "request_sha256": "7260f08da0b6b4efb031072e31b7ae472fc7a03a974f6b672140c5f6a73301b9",
+    "raw_api_canvas": [
+      64,
+      64
+    ],
+    "derived_canvas": [
+      256,
+      256
+    ],
+    "assembly": "Integer ROI placement only; no scale/pixel retouch",
+    "prepared_before_post": true,
+    "variant": 1,
+    "source_key": "caltrops03",
+    "kind": "caltrops",
+    "playback_order": [
+      0,
+      1,
+      0,
+      2,
+      3
+    ],
+    "durations_ms": [
+      4000,
+      160,
+      4000,
+      160,
+      4000
+    ]
+  },
+  {
+    "key": "caltrops03-02",
+    "endpoint": "animate-with-text",
+    "source": "hazard-variants-20261103/caltrops-03.png",
+    "source_sha256": "30a28973ec827f54756806dc00c9a3d447b154388f89de6a652e4262fe09ac8c",
+    "input_sha256": "384e4636fe0ba5123142f9ad58406c738067a1b4add61fa7216dd094018c97cf",
+    "roi_xyxy": [
+      94,
+      70,
+      158,
+      134
+    ],
+    "roi_sha256": "046bf14f9c827536e98db8931d33674f2ab976c3c1fbba10ee99f6e986b9325b",
+    "reference_sha256": "e2518f811b05d7956505ec7c54fd3601448cfb47a12196efbd44cdbbad6ff337",
+    "mask_sha256": [
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d",
+      "2dc4a30e678bbbc39b769468e27f3fe2be80a8157b6663be5d01c3a977f3daf1",
+      "bd57ece51a40acb2c9eeab5b2f5cf6347178db464c5aca94e99cd69c1ee58695",
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d"
+    ],
+    "mask_white_pixels": [
+      0,
+      9,
+      9,
+      0
+    ],
+    "mask_note": "Two cross masks of width 5px centered at prior accepted glint locations; all-black endpoints.",
+    "description": "Finished close-up of dark stationary steel caltrops on a stone top, matching the accepted rare-glint reference.",
+    "action": "In each middle frame show one small pale silver specular twinkle only on the masked existing metal point, matching the accepted glint reference. Preserve the original metal shape. Calm first and last frames; all stone and unmasked pixels remain still.",
+    "negative_description": "moving caltrops, growing spikes, broad stars, stone shimmer, camera movement",
+    "image_guidance_scale": 8,
+    "text_guidance_scale": 4,
+    "seed": 20261105113,
+    "request_sha256": "6e5dd2fd19a49667f956f02d950c0776b6af0f7bcbc75f838a91ea07166e29b2",
+    "raw_api_canvas": [
+      64,
+      64
+    ],
+    "derived_canvas": [
+      256,
+      256
+    ],
+    "assembly": "Integer ROI placement only; no scale/pixel retouch",
+    "prepared_before_post": true,
+    "variant": 2,
+    "source_key": "caltrops03",
+    "kind": "caltrops",
+    "playback_order": [
+      0,
+      1,
+      0,
+      2,
+      3
+    ],
+    "durations_ms": [
+      5000,
+      160,
+      5000,
+      160,
+      5000
+    ]
+  },
+  {
+    "key": "caltrops03-03",
+    "endpoint": "animate-with-text",
+    "source": "hazard-variants-20261103/caltrops-03.png",
+    "source_sha256": "30a28973ec827f54756806dc00c9a3d447b154388f89de6a652e4262fe09ac8c",
+    "input_sha256": "384e4636fe0ba5123142f9ad58406c738067a1b4add61fa7216dd094018c97cf",
+    "roi_xyxy": [
+      94,
+      70,
+      158,
+      134
+    ],
+    "roi_sha256": "046bf14f9c827536e98db8931d33674f2ab976c3c1fbba10ee99f6e986b9325b",
+    "reference_sha256": "955dc7d114e939e267d271696040dc86000d7842d39e5824e94fde0b8a2ed4c8",
+    "mask_sha256": [
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d",
+      "5f6c317349c3f985e94c00f0d03ecb751815505e974ef52e76e028f45a8bac5d",
+      "93ff14cd4b51fec938b564aef1c736402a62a568a409c8ade78e4e370c1cc07f",
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d"
+    ],
+    "mask_white_pixels": [
+      0,
+      13,
+      13,
+      0
+    ],
+    "mask_note": "Two cross masks of width 7px centered at prior accepted glint locations; all-black endpoints.",
+    "description": "Finished close-up of dark stationary steel caltrops on a stone top, matching the accepted rare-glint reference.",
+    "action": "In each middle frame show one small pale silver specular twinkle only on the masked existing metal point, matching the accepted glint reference. Preserve the original metal shape. Calm first and last frames; all stone and unmasked pixels remain still.",
+    "negative_description": "moving caltrops, growing spikes, broad stars, stone shimmer, camera movement",
+    "image_guidance_scale": 8,
+    "text_guidance_scale": 4,
+    "seed": 20261105114,
+    "request_sha256": "cb51566f875c9e1ed77671fc285758c781e99ae6ca4f62d2a9f75d92bc751bd5",
+    "raw_api_canvas": [
+      64,
+      64
+    ],
+    "derived_canvas": [
+      256,
+      256
+    ],
+    "assembly": "Integer ROI placement only; no scale/pixel retouch",
+    "prepared_before_post": true,
+    "variant": 3,
+    "source_key": "caltrops03",
+    "kind": "caltrops",
+    "playback_order": [
+      0,
+      1,
+      0,
+      2,
+      0,
+      1,
+      3
+    ],
+    "durations_ms": [
+      4000,
+      160,
+      4000,
+      160,
+      4000,
+      160,
+      4000
+    ]
+  }
+]

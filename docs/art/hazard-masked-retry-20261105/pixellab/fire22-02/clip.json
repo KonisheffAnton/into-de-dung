@@ -1,0 +1,79 @@
+{
+  "key": "fire22-02",
+  "status": "completed",
+  "transport": "synchronous",
+  "raw_api_canvas": [
+    64,
+    64
+  ],
+  "derived_canvas": [
+    256,
+    256
+  ],
+  "requested_frames": 4,
+  "returned_frames": 4,
+  "request_sha256": "0a2485593dcf6d7b526be70df25716c85cba2eb3d1c705dfa56db3e6783e737f",
+  "response_sha256": "7186cdcba788e059644acffb94a136971c2a8a0b3c7f12cf53aff11278f09fb1",
+  "usage": {
+    "type": "generations",
+    "generations": 1.0
+  },
+  "strict_mask_preservation_pass": false,
+  "temporal_outside_mask_and_loop_pass": true,
+  "first_last_raw_rgba_equal": true,
+  "mask_white_pixels": [
+    0,
+    106,
+    106,
+    0
+  ],
+  "assembly": "Paste entire unmodified raw 64px frame into integer ROI of original 256px image; no scale or mask repair",
+  "frames": [
+    {
+      "index": 0,
+      "raw_png_sha256": "eccb53dd722db186b62849062027d209bf8bf96273f6767aaff0ae14ceacab81",
+      "masked_white_pixels": 0,
+      "outside_mask_rgba_changed_pixels": 5,
+      "endpoint_rgba_equal_to_source": false,
+      "assembled_outside_roi_rgba_equal": true,
+      "outside_mask_vs_frame0_changed_pixels": 0,
+      "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+      "inside_mask_vs_frame0_changed_pixels": 0
+    },
+    {
+      "index": 1,
+      "raw_png_sha256": "47465fb3def00bbf811336b148a155d2a66371c8dbf563589c0ab41dceeb0179",
+      "masked_white_pixels": 106,
+      "outside_mask_rgba_changed_pixels": 5,
+      "endpoint_rgba_equal_to_source": null,
+      "assembled_outside_roi_rgba_equal": true,
+      "outside_mask_vs_frame0_changed_pixels": 0,
+      "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+      "inside_mask_vs_frame0_changed_pixels": 106
+    },
+    {
+      "index": 2,
+      "raw_png_sha256": "efe9019b593a09afef3211581116da1fc3ab1be33b4b2ad1e46d0d6e81bead61",
+      "masked_white_pixels": 106,
+      "outside_mask_rgba_changed_pixels": 5,
+      "endpoint_rgba_equal_to_source": null,
+      "assembled_outside_roi_rgba_equal": true,
+      "outside_mask_vs_frame0_changed_pixels": 0,
+      "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+      "inside_mask_vs_frame0_changed_pixels": 106
+    },
+    {
+      "index": 3,
+      "raw_png_sha256": "eccb53dd722db186b62849062027d209bf8bf96273f6767aaff0ae14ceacab81",
+      "masked_white_pixels": 0,
+      "outside_mask_rgba_changed_pixels": 5,
+      "endpoint_rgba_equal_to_source": false,
+      "assembled_outside_roi_rgba_equal": true,
+      "outside_mask_vs_frame0_changed_pixels": 0,
+      "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+      "inside_mask_vs_frame0_changed_pixels": 0
+    }
+  ],
+  "integration": false,
+  "artistic_acceptance": "open"
+}

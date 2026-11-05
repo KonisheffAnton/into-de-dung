@@ -1,0 +1,1230 @@
+{
+  "expected_clips": 15,
+  "exported_clips": 15,
+  "raw_api_frames": 60,
+  "strict_mask_passes": [],
+  "strict_mask_failures": [
+    "fire22-01",
+    "fire22-02",
+    "fire22-03",
+    "fire23-01",
+    "fire23-02",
+    "fire23-03",
+    "fire24-01",
+    "fire24-02",
+    "fire24-03",
+    "fire29-01",
+    "fire29-02",
+    "fire29-03",
+    "caltrops03-01",
+    "caltrops03-02",
+    "caltrops03-03"
+  ],
+  "temporal_mask_and_loop_passes": [
+    "fire22-01",
+    "fire22-02",
+    "fire22-03",
+    "fire23-01",
+    "fire23-02",
+    "fire23-03",
+    "fire24-01",
+    "fire24-02",
+    "fire24-03",
+    "fire29-01",
+    "fire29-02",
+    "fire29-03",
+    "caltrops03-01",
+    "caltrops03-02",
+    "caltrops03-03"
+  ],
+  "complete": true,
+  "clips": [
+    {
+      "key": "fire22-01",
+      "status": "completed",
+      "transport": "synchronous",
+      "raw_api_canvas": [
+        64,
+        64
+      ],
+      "derived_canvas": [
+        256,
+        256
+      ],
+      "requested_frames": 4,
+      "returned_frames": 4,
+      "request_sha256": "9530383cd40b2f1d56093f14f7ad8a88708bf0bf5d6ec6555fdfe0cecb5c347f",
+      "response_sha256": "ed78bb0513ece5b08d328fd31bde88214835ee7ee158d72e908ada727490c58c",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "strict_mask_preservation_pass": false,
+      "temporal_outside_mask_and_loop_pass": true,
+      "first_last_raw_rgba_equal": true,
+      "mask_white_pixels": [
+        0,
+        88,
+        88,
+        0
+      ],
+      "assembly": "Paste entire unmodified raw 64px frame into integer ROI of original 256px image; no scale or mask repair",
+      "frames": [
+        {
+          "index": 0,
+          "raw_png_sha256": "eccb53dd722db186b62849062027d209bf8bf96273f6767aaff0ae14ceacab81",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 5,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        },
+        {
+          "index": 1,
+          "raw_png_sha256": "206541a9d165422cce1b6cd537097b466220c2ed5ceb120a745123f767db37a0",
+          "masked_white_pixels": 88,
+          "outside_mask_rgba_changed_pixels": 5,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 88
+        },
+        {
+          "index": 2,
+          "raw_png_sha256": "36a015b0ff3874427119faf0a80dfa36a1f32419dc15c5eaae91459929136131",
+          "masked_white_pixels": 88,
+          "outside_mask_rgba_changed_pixels": 5,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 88
+        },
+        {
+          "index": 3,
+          "raw_png_sha256": "eccb53dd722db186b62849062027d209bf8bf96273f6767aaff0ae14ceacab81",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 5,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        }
+      ],
+      "integration": false,
+      "artistic_acceptance": "open"
+    },
+    {
+      "key": "fire22-02",
+      "status": "completed",
+      "transport": "synchronous",
+      "raw_api_canvas": [
+        64,
+        64
+      ],
+      "derived_canvas": [
+        256,
+        256
+      ],
+      "requested_frames": 4,
+      "returned_frames": 4,
+      "request_sha256": "0a2485593dcf6d7b526be70df25716c85cba2eb3d1c705dfa56db3e6783e737f",
+      "response_sha256": "7186cdcba788e059644acffb94a136971c2a8a0b3c7f12cf53aff11278f09fb1",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "strict_mask_preservation_pass": false,
+      "temporal_outside_mask_and_loop_pass": true,
+      "first_last_raw_rgba_equal": true,
+      "mask_white_pixels": [
+        0,
+        106,
+        106,
+        0
+      ],
+      "assembly": "Paste entire unmodified raw 64px frame into integer ROI of original 256px image; no scale or mask repair",
+      "frames": [
+        {
+          "index": 0,
+          "raw_png_sha256": "eccb53dd722db186b62849062027d209bf8bf96273f6767aaff0ae14ceacab81",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 5,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        },
+        {
+          "index": 1,
+          "raw_png_sha256": "47465fb3def00bbf811336b148a155d2a66371c8dbf563589c0ab41dceeb0179",
+          "masked_white_pixels": 106,
+          "outside_mask_rgba_changed_pixels": 5,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 106
+        },
+        {
+          "index": 2,
+          "raw_png_sha256": "efe9019b593a09afef3211581116da1fc3ab1be33b4b2ad1e46d0d6e81bead61",
+          "masked_white_pixels": 106,
+          "outside_mask_rgba_changed_pixels": 5,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 106
+        },
+        {
+          "index": 3,
+          "raw_png_sha256": "eccb53dd722db186b62849062027d209bf8bf96273f6767aaff0ae14ceacab81",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 5,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        }
+      ],
+      "integration": false,
+      "artistic_acceptance": "open"
+    },
+    {
+      "key": "fire22-03",
+      "status": "completed",
+      "transport": "synchronous",
+      "raw_api_canvas": [
+        64,
+        64
+      ],
+      "derived_canvas": [
+        256,
+        256
+      ],
+      "requested_frames": 4,
+      "returned_frames": 4,
+      "request_sha256": "f62e78d3b42e82a78d2f8185b90b0d0dcc48eed764b7ec0926391d999ea3fe10",
+      "response_sha256": "f30c8da71f40d51bb19826e0959e2fc3e86b35c5c32afa885affc57db2b61d99",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "strict_mask_preservation_pass": false,
+      "temporal_outside_mask_and_loop_pass": true,
+      "first_last_raw_rgba_equal": true,
+      "mask_white_pixels": [
+        0,
+        456,
+        456,
+        0
+      ],
+      "assembly": "Paste entire unmodified raw 64px frame into integer ROI of original 256px image; no scale or mask repair",
+      "frames": [
+        {
+          "index": 0,
+          "raw_png_sha256": "eccb53dd722db186b62849062027d209bf8bf96273f6767aaff0ae14ceacab81",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 5,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        },
+        {
+          "index": 1,
+          "raw_png_sha256": "08f04a5e7861aa2f317ac1b0173c9f03455ee7ddf5591bb69e9d0d45503cc108",
+          "masked_white_pixels": 456,
+          "outside_mask_rgba_changed_pixels": 5,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 456
+        },
+        {
+          "index": 2,
+          "raw_png_sha256": "6c14a8eed8ba67907b12f0a64ac3daa16653f2160c884cfa34641b9763f95ec5",
+          "masked_white_pixels": 456,
+          "outside_mask_rgba_changed_pixels": 5,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 456
+        },
+        {
+          "index": 3,
+          "raw_png_sha256": "eccb53dd722db186b62849062027d209bf8bf96273f6767aaff0ae14ceacab81",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 5,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        }
+      ],
+      "integration": false,
+      "artistic_acceptance": "open"
+    },
+    {
+      "key": "fire23-01",
+      "status": "completed",
+      "transport": "synchronous",
+      "raw_api_canvas": [
+        64,
+        64
+      ],
+      "derived_canvas": [
+        256,
+        256
+      ],
+      "requested_frames": 4,
+      "returned_frames": 4,
+      "request_sha256": "00871bbd682a3a7d28d4cc1b0ce34658ec51a7fe6f37d8536c4d91496559a49a",
+      "response_sha256": "3c01fe136065de0ac1f793d88502b91d658652b304a46f413f3cca7ceb85c3f7",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "strict_mask_preservation_pass": false,
+      "temporal_outside_mask_and_loop_pass": true,
+      "first_last_raw_rgba_equal": true,
+      "mask_white_pixels": [
+        0,
+        146,
+        146,
+        0
+      ],
+      "assembly": "Paste entire unmodified raw 64px frame into integer ROI of original 256px image; no scale or mask repair",
+      "frames": [
+        {
+          "index": 0,
+          "raw_png_sha256": "c5dc6d986ee6281c2259415c9be12157898a01d8dde4829f6767863667c90667",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 9,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        },
+        {
+          "index": 1,
+          "raw_png_sha256": "193b7903a1a5f03c6b1e34ea25115380db02fadaa9f1b5657bf54bdd5463037c",
+          "masked_white_pixels": 146,
+          "outside_mask_rgba_changed_pixels": 9,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 146
+        },
+        {
+          "index": 2,
+          "raw_png_sha256": "f73f2100644761c698e965b8ae8f4efff8ae5515a8c3968dda0a3cfa34e57fda",
+          "masked_white_pixels": 146,
+          "outside_mask_rgba_changed_pixels": 9,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 146
+        },
+        {
+          "index": 3,
+          "raw_png_sha256": "c5dc6d986ee6281c2259415c9be12157898a01d8dde4829f6767863667c90667",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 9,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        }
+      ],
+      "integration": false,
+      "artistic_acceptance": "open"
+    },
+    {
+      "key": "fire23-02",
+      "status": "completed",
+      "transport": "synchronous",
+      "raw_api_canvas": [
+        64,
+        64
+      ],
+      "derived_canvas": [
+        256,
+        256
+      ],
+      "requested_frames": 4,
+      "returned_frames": 4,
+      "request_sha256": "63aab2db455e60b21849d8f963f82e27d5f585c7c7ac35d6869ecf6aa6ffcf6c",
+      "response_sha256": "b8e64edc678fd9ef7f014c7fe2e8ff023ddba20c5dff293ce4417e098bfe8b75",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "strict_mask_preservation_pass": false,
+      "temporal_outside_mask_and_loop_pass": true,
+      "first_last_raw_rgba_equal": true,
+      "mask_white_pixels": [
+        0,
+        175,
+        175,
+        0
+      ],
+      "assembly": "Paste entire unmodified raw 64px frame into integer ROI of original 256px image; no scale or mask repair",
+      "frames": [
+        {
+          "index": 0,
+          "raw_png_sha256": "c5dc6d986ee6281c2259415c9be12157898a01d8dde4829f6767863667c90667",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 9,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        },
+        {
+          "index": 1,
+          "raw_png_sha256": "39e74cee24d136984e397cf096ac665842a60d0641c19ccb896eee5ed62c2c52",
+          "masked_white_pixels": 175,
+          "outside_mask_rgba_changed_pixels": 9,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 175
+        },
+        {
+          "index": 2,
+          "raw_png_sha256": "04884545b7c0ebc05fe63fa169ace20eed2a58f3ef4cbcce2b8e753a534a1e15",
+          "masked_white_pixels": 175,
+          "outside_mask_rgba_changed_pixels": 9,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 175
+        },
+        {
+          "index": 3,
+          "raw_png_sha256": "c5dc6d986ee6281c2259415c9be12157898a01d8dde4829f6767863667c90667",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 9,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        }
+      ],
+      "integration": false,
+      "artistic_acceptance": "open"
+    },
+    {
+      "key": "fire23-03",
+      "status": "completed",
+      "transport": "synchronous",
+      "raw_api_canvas": [
+        64,
+        64
+      ],
+      "derived_canvas": [
+        256,
+        256
+      ],
+      "requested_frames": 4,
+      "returned_frames": 4,
+      "request_sha256": "4f2be4568a8a13e5a4a4113c0521a8475a8cbf2ffa35f68b09461a36921a91aa",
+      "response_sha256": "5ada8c3cd117d58271ab795cd3eb4de9a748271f54c76cfd1f3ec5da7ca2acb6",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "strict_mask_preservation_pass": false,
+      "temporal_outside_mask_and_loop_pass": true,
+      "first_last_raw_rgba_equal": true,
+      "mask_white_pixels": [
+        0,
+        612,
+        612,
+        0
+      ],
+      "assembly": "Paste entire unmodified raw 64px frame into integer ROI of original 256px image; no scale or mask repair",
+      "frames": [
+        {
+          "index": 0,
+          "raw_png_sha256": "c5dc6d986ee6281c2259415c9be12157898a01d8dde4829f6767863667c90667",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 9,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        },
+        {
+          "index": 1,
+          "raw_png_sha256": "b1a8ceba5ffef31cf617f0a5360c0581bebbc24e4ab01cc597809938db6d54e0",
+          "masked_white_pixels": 612,
+          "outside_mask_rgba_changed_pixels": 9,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 612
+        },
+        {
+          "index": 2,
+          "raw_png_sha256": "340618463252d83e30866f6b5743082841317e4ae48c941d60aaf78591b0d3fc",
+          "masked_white_pixels": 612,
+          "outside_mask_rgba_changed_pixels": 9,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 612
+        },
+        {
+          "index": 3,
+          "raw_png_sha256": "c5dc6d986ee6281c2259415c9be12157898a01d8dde4829f6767863667c90667",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 9,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        }
+      ],
+      "integration": false,
+      "artistic_acceptance": "open"
+    },
+    {
+      "key": "fire24-01",
+      "status": "completed",
+      "transport": "synchronous",
+      "raw_api_canvas": [
+        64,
+        64
+      ],
+      "derived_canvas": [
+        256,
+        256
+      ],
+      "requested_frames": 4,
+      "returned_frames": 4,
+      "request_sha256": "7ec835c4c7e2515ef1101d96e5725ca04cb54316b2dd3a21ff0a05f84e241cd9",
+      "response_sha256": "5967a3a894cbcf012418b286cba9ea9524032fc270ed0050938d2946cb300705",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "strict_mask_preservation_pass": false,
+      "temporal_outside_mask_and_loop_pass": true,
+      "first_last_raw_rgba_equal": true,
+      "mask_white_pixels": [
+        0,
+        124,
+        124,
+        0
+      ],
+      "assembly": "Paste entire unmodified raw 64px frame into integer ROI of original 256px image; no scale or mask repair",
+      "frames": [
+        {
+          "index": 0,
+          "raw_png_sha256": "568165878142cb7081a939486e518a926a059e3963177ce8e952e857b83b1723",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 7,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        },
+        {
+          "index": 1,
+          "raw_png_sha256": "b6c32993fdfa417afbe91bd800a7a6f089f5b6197cb3a6eab84c3fd4f4e3ed6c",
+          "masked_white_pixels": 124,
+          "outside_mask_rgba_changed_pixels": 7,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 124
+        },
+        {
+          "index": 2,
+          "raw_png_sha256": "1641bf52967cabc883190454ddabd91d880e7ec51116e9c386ac73c642e26662",
+          "masked_white_pixels": 124,
+          "outside_mask_rgba_changed_pixels": 7,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 124
+        },
+        {
+          "index": 3,
+          "raw_png_sha256": "568165878142cb7081a939486e518a926a059e3963177ce8e952e857b83b1723",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 7,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        }
+      ],
+      "integration": false,
+      "artistic_acceptance": "open"
+    },
+    {
+      "key": "fire24-02",
+      "status": "completed",
+      "transport": "synchronous",
+      "raw_api_canvas": [
+        64,
+        64
+      ],
+      "derived_canvas": [
+        256,
+        256
+      ],
+      "requested_frames": 4,
+      "returned_frames": 4,
+      "request_sha256": "8e78dc5280d46a3b02eda3f19837dc0d1152977ab9fdd4dcec7a3a3ced589bfb",
+      "response_sha256": "ca1638cd21d87c258b19959df24ba0cc00b92ae3a2bb47c2cb5e2f1b3282bef2",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "strict_mask_preservation_pass": false,
+      "temporal_outside_mask_and_loop_pass": true,
+      "first_last_raw_rgba_equal": true,
+      "mask_white_pixels": [
+        0,
+        132,
+        132,
+        0
+      ],
+      "assembly": "Paste entire unmodified raw 64px frame into integer ROI of original 256px image; no scale or mask repair",
+      "frames": [
+        {
+          "index": 0,
+          "raw_png_sha256": "568165878142cb7081a939486e518a926a059e3963177ce8e952e857b83b1723",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 7,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        },
+        {
+          "index": 1,
+          "raw_png_sha256": "9f42f03a4043eb6ba744910a3eb384fdc9368240360954eba3b57e27b81b1178",
+          "masked_white_pixels": 132,
+          "outside_mask_rgba_changed_pixels": 7,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 132
+        },
+        {
+          "index": 2,
+          "raw_png_sha256": "e1278c0e61343fad264e207891e62376a57aaf1bab7b586bddd8d4eac33da9a8",
+          "masked_white_pixels": 132,
+          "outside_mask_rgba_changed_pixels": 7,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 132
+        },
+        {
+          "index": 3,
+          "raw_png_sha256": "568165878142cb7081a939486e518a926a059e3963177ce8e952e857b83b1723",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 7,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        }
+      ],
+      "integration": false,
+      "artistic_acceptance": "open"
+    },
+    {
+      "key": "fire24-03",
+      "status": "completed",
+      "transport": "synchronous",
+      "raw_api_canvas": [
+        64,
+        64
+      ],
+      "derived_canvas": [
+        256,
+        256
+      ],
+      "requested_frames": 4,
+      "returned_frames": 4,
+      "request_sha256": "805f33865d451a6001c0df6c25b075a0809ead294f76de117adef54982c448e0",
+      "response_sha256": "2678ade09576ea173225b54336aaea54ff930ac35880bb10c45e0cb26f8712fa",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "strict_mask_preservation_pass": false,
+      "temporal_outside_mask_and_loop_pass": true,
+      "first_last_raw_rgba_equal": true,
+      "mask_white_pixels": [
+        0,
+        577,
+        577,
+        0
+      ],
+      "assembly": "Paste entire unmodified raw 64px frame into integer ROI of original 256px image; no scale or mask repair",
+      "frames": [
+        {
+          "index": 0,
+          "raw_png_sha256": "568165878142cb7081a939486e518a926a059e3963177ce8e952e857b83b1723",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 7,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        },
+        {
+          "index": 1,
+          "raw_png_sha256": "76c48be5414846013d58c82c2fd3ad827537069f6d2dd3a68e780bc1f41a8bf5",
+          "masked_white_pixels": 577,
+          "outside_mask_rgba_changed_pixels": 7,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 577
+        },
+        {
+          "index": 2,
+          "raw_png_sha256": "9fd849b85234a6569962eb09a02d96f7daa48a7e43a89dabfa690dbfaeb56852",
+          "masked_white_pixels": 577,
+          "outside_mask_rgba_changed_pixels": 7,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 577
+        },
+        {
+          "index": 3,
+          "raw_png_sha256": "568165878142cb7081a939486e518a926a059e3963177ce8e952e857b83b1723",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 7,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        }
+      ],
+      "integration": false,
+      "artistic_acceptance": "open"
+    },
+    {
+      "key": "fire29-01",
+      "status": "completed",
+      "transport": "synchronous",
+      "raw_api_canvas": [
+        64,
+        64
+      ],
+      "derived_canvas": [
+        256,
+        256
+      ],
+      "requested_frames": 4,
+      "returned_frames": 4,
+      "request_sha256": "e5838436322365a9ecc34fbcaf16e184df3f5a5052bc1055108ed008ec21d5b6",
+      "response_sha256": "2b3534d2fd9030c943990b3266c555192a644a691f7af6c948be2b62ef286198",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "strict_mask_preservation_pass": false,
+      "temporal_outside_mask_and_loop_pass": true,
+      "first_last_raw_rgba_equal": true,
+      "mask_white_pixels": [
+        0,
+        40,
+        40,
+        0
+      ],
+      "assembly": "Paste entire unmodified raw 64px frame into integer ROI of original 256px image; no scale or mask repair",
+      "frames": [
+        {
+          "index": 0,
+          "raw_png_sha256": "7aa3fac4f4b0ee7a4fc8652f812c981b28621d98685c414ca1f33b43c168d526",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        },
+        {
+          "index": 1,
+          "raw_png_sha256": "d01f54445b4e869d97c18af6e237d8f19c3f0c0b034c71dd673b2bc8acaf403b",
+          "masked_white_pixels": 40,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 40
+        },
+        {
+          "index": 2,
+          "raw_png_sha256": "3c7ac5ab81f489426727a1117845d8403723d96a8b2a11949f55263fa0772bca",
+          "masked_white_pixels": 40,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 40
+        },
+        {
+          "index": 3,
+          "raw_png_sha256": "7aa3fac4f4b0ee7a4fc8652f812c981b28621d98685c414ca1f33b43c168d526",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        }
+      ],
+      "integration": false,
+      "artistic_acceptance": "open"
+    },
+    {
+      "key": "fire29-02",
+      "status": "completed",
+      "transport": "synchronous",
+      "raw_api_canvas": [
+        64,
+        64
+      ],
+      "derived_canvas": [
+        256,
+        256
+      ],
+      "requested_frames": 4,
+      "returned_frames": 4,
+      "request_sha256": "72dc4ed3d2fcf41364ae45cb9610d1328e2b6e6208bf9bae9b597d3108511824",
+      "response_sha256": "20d5d498f14d8fc1bb668bc8a7112d8be60d34c94979b08522f6690e171c32e8",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "strict_mask_preservation_pass": false,
+      "temporal_outside_mask_and_loop_pass": true,
+      "first_last_raw_rgba_equal": true,
+      "mask_white_pixels": [
+        0,
+        82,
+        82,
+        0
+      ],
+      "assembly": "Paste entire unmodified raw 64px frame into integer ROI of original 256px image; no scale or mask repair",
+      "frames": [
+        {
+          "index": 0,
+          "raw_png_sha256": "7aa3fac4f4b0ee7a4fc8652f812c981b28621d98685c414ca1f33b43c168d526",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        },
+        {
+          "index": 1,
+          "raw_png_sha256": "f02c43b98c89029b725d52cf9a4623e8389cd64892708ede9a8d892c2c799c1c",
+          "masked_white_pixels": 82,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 82
+        },
+        {
+          "index": 2,
+          "raw_png_sha256": "4846dfd8f72ec37afce64181c7350f5fb99dac16bfe747c27a2c8a469d7ee1de",
+          "masked_white_pixels": 82,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 82
+        },
+        {
+          "index": 3,
+          "raw_png_sha256": "7aa3fac4f4b0ee7a4fc8652f812c981b28621d98685c414ca1f33b43c168d526",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        }
+      ],
+      "integration": false,
+      "artistic_acceptance": "open"
+    },
+    {
+      "key": "fire29-03",
+      "status": "completed",
+      "transport": "synchronous",
+      "raw_api_canvas": [
+        64,
+        64
+      ],
+      "derived_canvas": [
+        256,
+        256
+      ],
+      "requested_frames": 4,
+      "returned_frames": 4,
+      "request_sha256": "509fca20421cd3594072aa836026bd859a8bef42f8aec8e1e1661ef4d5af350f",
+      "response_sha256": "4e40071218f3c1ef5fb100703f0e64a4b77501ed14c2a7b98acfba41e45b1679",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "strict_mask_preservation_pass": false,
+      "temporal_outside_mask_and_loop_pass": true,
+      "first_last_raw_rgba_equal": true,
+      "mask_white_pixels": [
+        0,
+        289,
+        289,
+        0
+      ],
+      "assembly": "Paste entire unmodified raw 64px frame into integer ROI of original 256px image; no scale or mask repair",
+      "frames": [
+        {
+          "index": 0,
+          "raw_png_sha256": "7aa3fac4f4b0ee7a4fc8652f812c981b28621d98685c414ca1f33b43c168d526",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        },
+        {
+          "index": 1,
+          "raw_png_sha256": "79f3a91c6f6f211b6d461013a5bbbb48adb78a016a09bdd30f62b9e8d58c8841",
+          "masked_white_pixels": 289,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 289
+        },
+        {
+          "index": 2,
+          "raw_png_sha256": "19a65fcff8bccc9bd670202f1df62fd5d87b088ca88340f11735acc82becd8b1",
+          "masked_white_pixels": 289,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 289
+        },
+        {
+          "index": 3,
+          "raw_png_sha256": "7aa3fac4f4b0ee7a4fc8652f812c981b28621d98685c414ca1f33b43c168d526",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        }
+      ],
+      "integration": false,
+      "artistic_acceptance": "open"
+    },
+    {
+      "key": "caltrops03-01",
+      "status": "completed",
+      "transport": "synchronous",
+      "raw_api_canvas": [
+        64,
+        64
+      ],
+      "derived_canvas": [
+        256,
+        256
+      ],
+      "requested_frames": 4,
+      "returned_frames": 4,
+      "request_sha256": "7260f08da0b6b4efb031072e31b7ae472fc7a03a974f6b672140c5f6a73301b9",
+      "response_sha256": "000837180a7613c5b260ea0d9168db7a2b096f2605f56a4a30c3bcca594adabb",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "strict_mask_preservation_pass": false,
+      "temporal_outside_mask_and_loop_pass": true,
+      "first_last_raw_rgba_equal": true,
+      "mask_white_pixels": [
+        0,
+        9,
+        9,
+        0
+      ],
+      "assembly": "Paste entire unmodified raw 64px frame into integer ROI of original 256px image; no scale or mask repair",
+      "frames": [
+        {
+          "index": 0,
+          "raw_png_sha256": "bf96a8e08a3a3885a0dc9340a85e90d52756b39f6f105678d704fd8243a92d1f",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        },
+        {
+          "index": 1,
+          "raw_png_sha256": "e429a4ea205e5c200f1df9fa79d56cb01c2e365730b76ccfc08672717fc37885",
+          "masked_white_pixels": 9,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 9
+        },
+        {
+          "index": 2,
+          "raw_png_sha256": "99b1466569c03487d551dd60961c7d3a66d4a22d938716728303200310e474ed",
+          "masked_white_pixels": 9,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 9
+        },
+        {
+          "index": 3,
+          "raw_png_sha256": "bf96a8e08a3a3885a0dc9340a85e90d52756b39f6f105678d704fd8243a92d1f",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        }
+      ],
+      "integration": false,
+      "artistic_acceptance": "open"
+    },
+    {
+      "key": "caltrops03-02",
+      "status": "completed",
+      "transport": "synchronous",
+      "raw_api_canvas": [
+        64,
+        64
+      ],
+      "derived_canvas": [
+        256,
+        256
+      ],
+      "requested_frames": 4,
+      "returned_frames": 4,
+      "request_sha256": "6e5dd2fd19a49667f956f02d950c0776b6af0f7bcbc75f838a91ea07166e29b2",
+      "response_sha256": "273beb7350e846f64874c4c87aa495878567030812b7540b6da58ed9ebcbbe65",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "strict_mask_preservation_pass": false,
+      "temporal_outside_mask_and_loop_pass": true,
+      "first_last_raw_rgba_equal": true,
+      "mask_white_pixels": [
+        0,
+        9,
+        9,
+        0
+      ],
+      "assembly": "Paste entire unmodified raw 64px frame into integer ROI of original 256px image; no scale or mask repair",
+      "frames": [
+        {
+          "index": 0,
+          "raw_png_sha256": "bf96a8e08a3a3885a0dc9340a85e90d52756b39f6f105678d704fd8243a92d1f",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        },
+        {
+          "index": 1,
+          "raw_png_sha256": "4d909e7e9bcc50027986160c4631d2f6a6a797a36ed516de0e9654498d641b99",
+          "masked_white_pixels": 9,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 9
+        },
+        {
+          "index": 2,
+          "raw_png_sha256": "aaec1cabd52a905c4887efe784e4678ad19ce6d716a99126d290dc3e76a5728c",
+          "masked_white_pixels": 9,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 9
+        },
+        {
+          "index": 3,
+          "raw_png_sha256": "bf96a8e08a3a3885a0dc9340a85e90d52756b39f6f105678d704fd8243a92d1f",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        }
+      ],
+      "integration": false,
+      "artistic_acceptance": "open"
+    },
+    {
+      "key": "caltrops03-03",
+      "status": "completed",
+      "transport": "synchronous",
+      "raw_api_canvas": [
+        64,
+        64
+      ],
+      "derived_canvas": [
+        256,
+        256
+      ],
+      "requested_frames": 4,
+      "returned_frames": 4,
+      "request_sha256": "cb51566f875c9e1ed77671fc285758c781e99ae6ca4f62d2a9f75d92bc751bd5",
+      "response_sha256": "92f18ab7938648dd4312556aeb794b100e6bef590498300eabb240c5e63af993",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "strict_mask_preservation_pass": false,
+      "temporal_outside_mask_and_loop_pass": true,
+      "first_last_raw_rgba_equal": true,
+      "mask_white_pixels": [
+        0,
+        13,
+        13,
+        0
+      ],
+      "assembly": "Paste entire unmodified raw 64px frame into integer ROI of original 256px image; no scale or mask repair",
+      "frames": [
+        {
+          "index": 0,
+          "raw_png_sha256": "bf96a8e08a3a3885a0dc9340a85e90d52756b39f6f105678d704fd8243a92d1f",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        },
+        {
+          "index": 1,
+          "raw_png_sha256": "5c8d294dcaaa019d95c5398bc0f6a84c30bdb972d174f2a2cbc1dca7082bf458",
+          "masked_white_pixels": 13,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 13
+        },
+        {
+          "index": 2,
+          "raw_png_sha256": "93f39ae9ca4072bc84be72a542ad9f1f0c8e845388094ea804f4c11cffe7acda",
+          "masked_white_pixels": 13,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": null,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 13
+        },
+        {
+          "index": 3,
+          "raw_png_sha256": "bf96a8e08a3a3885a0dc9340a85e90d52756b39f6f105678d704fd8243a92d1f",
+          "masked_white_pixels": 0,
+          "outside_mask_rgba_changed_pixels": 8,
+          "endpoint_rgba_equal_to_source": false,
+          "assembled_outside_roi_rgba_equal": true,
+          "outside_mask_vs_frame0_changed_pixels": 0,
+          "outside_mask_vs_source_visible_changed_pixels_alpha_gt8": 0,
+          "inside_mask_vs_frame0_changed_pixels": 0
+        }
+      ],
+      "integration": false,
+      "artistic_acceptance": "open"
+    }
+  ],
+  "integration": false,
+  "artistic_acceptance": "open"
+}

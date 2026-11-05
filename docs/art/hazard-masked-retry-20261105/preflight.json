@@ -1,0 +1,197 @@
+[
+  {
+    "key": "fire22-01",
+    "source_sha_match": true,
+    "payload_sha_match": true,
+    "black_endpoint_masks": true,
+    "mask_pixels": [
+      0,
+      88,
+      88,
+      0
+    ],
+    "attempted_before_expansion": false
+  },
+  {
+    "key": "fire22-02",
+    "source_sha_match": true,
+    "payload_sha_match": true,
+    "black_endpoint_masks": true,
+    "mask_pixels": [
+      0,
+      106,
+      106,
+      0
+    ],
+    "attempted_before_expansion": false
+  },
+  {
+    "key": "fire22-03",
+    "source_sha_match": true,
+    "payload_sha_match": true,
+    "black_endpoint_masks": true,
+    "mask_pixels": [
+      0,
+      456,
+      456,
+      0
+    ],
+    "attempted_before_expansion": false
+  },
+  {
+    "key": "fire23-01",
+    "source_sha_match": true,
+    "payload_sha_match": true,
+    "black_endpoint_masks": true,
+    "mask_pixels": [
+      0,
+      146,
+      146,
+      0
+    ],
+    "attempted_before_expansion": true
+  },
+  {
+    "key": "fire23-02",
+    "source_sha_match": true,
+    "payload_sha_match": true,
+    "black_endpoint_masks": true,
+    "mask_pixels": [
+      0,
+      175,
+      175,
+      0
+    ],
+    "attempted_before_expansion": false
+  },
+  {
+    "key": "fire23-03",
+    "source_sha_match": true,
+    "payload_sha_match": true,
+    "black_endpoint_masks": true,
+    "mask_pixels": [
+      0,
+      612,
+      612,
+      0
+    ],
+    "attempted_before_expansion": false
+  },
+  {
+    "key": "fire24-01",
+    "source_sha_match": true,
+    "payload_sha_match": true,
+    "black_endpoint_masks": true,
+    "mask_pixels": [
+      0,
+      124,
+      124,
+      0
+    ],
+    "attempted_before_expansion": false
+  },
+  {
+    "key": "fire24-02",
+    "source_sha_match": true,
+    "payload_sha_match": true,
+    "black_endpoint_masks": true,
+    "mask_pixels": [
+      0,
+      132,
+      132,
+      0
+    ],
+    "attempted_before_expansion": false
+  },
+  {
+    "key": "fire24-03",
+    "source_sha_match": true,
+    "payload_sha_match": true,
+    "black_endpoint_masks": true,
+    "mask_pixels": [
+      0,
+      577,
+      577,
+      0
+    ],
+    "attempted_before_expansion": false
+  },
+  {
+    "key": "fire29-01",
+    "source_sha_match": true,
+    "payload_sha_match": true,
+    "black_endpoint_masks": true,
+    "mask_pixels": [
+      0,
+      40,
+      40,
+      0
+    ],
+    "attempted_before_expansion": false
+  },
+  {
+    "key": "fire29-02",
+    "source_sha_match": true,
+    "payload_sha_match": true,
+    "black_endpoint_masks": true,
+    "mask_pixels": [
+      0,
+      82,
+      82,
+      0
+    ],
+    "attempted_before_expansion": false
+  },
+  {
+    "key": "fire29-03",
+    "source_sha_match": true,
+    "payload_sha_match": true,
+    "black_endpoint_masks": true,
+    "mask_pixels": [
+      0,
+      289,
+      289,
+      0
+    ],
+    "attempted_before_expansion": false
+  },
+  {
+    "key": "caltrops03-01",
+    "source_sha_match": true,
+    "payload_sha_match": true,
+    "black_endpoint_masks": true,
+    "mask_pixels": [
+      0,
+      9,
+      9,
+      0
+    ],
+    "attempted_before_expansion": true
+  },
+  {
+    "key": "caltrops03-02",
+    "source_sha_match": true,
+    "payload_sha_match": true,
+    "black_endpoint_masks": true,
+    "mask_pixels": [
+      0,
+      9,
+      9,
+      0
+    ],
+    "attempted_before_expansion": false
+  },
+  {
+    "key": "caltrops03-03",
+    "source_sha_match": true,
+    "payload_sha_match": true,
+    "black_endpoint_masks": true,
+    "mask_pixels": [
+      0,
+      13,
+      13,
+      0
+    ],
+    "attempted_before_expansion": false
+  }
+]
