@@ -1,0 +1,8 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+D3D12 12_0 - Forward Mobile - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3050 Laptop GPU
+
+SPIKE MASK GPU frame=0 coverage=1.0000 source=1.0000 mismatches=0/65024 outside_unallowed=0
+SPIKE MASK GPU frame=1 coverage=1.0000 source=1.0000 mismatches=0/65024 outside_unallowed=0
+SPIKE MASK GPU frame=2 coverage=1.0000 source=1.0000 mismatches=0/65024 outside_unallowed=0
+SPIKE MASK GPU negative_outer_cap coverage=1.0000 outside_unallowed=1912
+ENVIRONMENT VISUAL CONTRACT RESULTS: 56 passed, 0 failed

@@ -6,14 +6,6 @@
 [node name="DungeonRoomEnvironment" instance=ExtResource("1_base")]
 
 
-[node name="FloorTrap" parent="." index="0"]
-
-[node name="Panel" parent="FloorTrap" index="0"]
-color = Color(0.16, 0.18, 0.22, 1)
-
-[node name="Rim" parent="FloorTrap" index="1"]
-default_color = Color(0.4, 0.44, 0.5, 0.9)
-
 ; Кладка панели совпадает с плотностью кирпичей на боковой грани уступа.
 [node name="WallTrapUp" parent="." index="1"]
 position = Vector2(0, 0)

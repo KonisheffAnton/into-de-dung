@@ -126,7 +126,7 @@ func _test_spike_mask_gpu() -> void:
 	check(source_image.get_width() == 768 and source_image.get_height() == 256
 		and mask_image.get_width() == 768 and mask_image.get_height() == 256,
 		"spike source and mask atlases contain three full-size cells")
-	var source_corners: Array[Vector2] = [Vector2(127.5, 28), Vector2(203, 94), Vector2(127.5, 160), Vector2(52, 94)]
+	var source_corners: Array[Vector2] = [Vector2(128, 35), Vector2(195, 90), Vector2(128, 145), Vector2(61, 90)]
 	var target_corners: Array[Vector2] = [Vector2(128, 52), Vector2(192, 100), Vector2(128, 148), Vector2(64, 100)]
 	for index: int in source_corners.size():
 		var projected := floor_trap.position + pose.transform * source_corners[index]
@@ -136,7 +136,7 @@ func _test_spike_mask_gpu() -> void:
 		Vector2(83, 91), Vector2(128, 91), Vector2(174, 91), Vector2(105, 110),
 		Vector2(151, 110), Vector2(128, 129)]
 	for index: int in source_sockets.size():
-		var expected_socket := Vector2(64, 52) + (source_sockets[index] - Vector2(52, 28)) * Vector2(128.0 / 151.0, 96.0 / 132.0)
+		var expected_socket := Vector2(64, 52) + (source_sockets[index] - Vector2(61, 35)) * Vector2(128.0 / 134.0, 96.0 / 110.0)
 		var projected_socket := floor_trap.position + pose.transform * source_sockets[index]
 		check(projected_socket.distance_to(expected_socket) <= 0.1,
 			"source socket %d keeps its inset placement in the fitted tile" % index)
@@ -164,8 +164,8 @@ func _test_spike_mask_gpu() -> void:
 	var negative_material := ShaderMaterial.new()
 	negative_material.shader = load("res://assets/shaders/spike_trap_surface.gdshader") as Shader
 	negative_material.set_shader_parameter("metal_mask", mask_texture)
-	negative_material.set_shader_parameter("source_top_center", Vector2(128, 100))
-	negative_material.set_shader_parameter("top_half_size", Vector2(64, 48))
+	negative_material.set_shader_parameter("source_top_center", Vector2(127.5, 94))
+	negative_material.set_shader_parameter("top_half_size", Vector2(75.5, 66))
 	pose.material = negative_material
 	pose.frame = 2
 	await process_frame
@@ -174,9 +174,9 @@ func _test_spike_mask_gpu() -> void:
 	var negative_image := spike_viewport.get_texture().get_image()
 	var negative_counts := _spike_alpha_counts(source_image, mask_image, negative_image, 2)
 	var negative_coverage := float(negative_counts.interior_observed) / maxf(1.0, float(negative_counts.interior_total))
-	print("SPIKE MASK GPU negative_old_crop coverage=%.4f" % negative_coverage)
-	check(negative_coverage < 0.99,
-		"old source-centered crop fails the full target-interior coverage gate")
+	print("SPIKE MASK GPU negative_outer_cap coverage=%.4f outside_unallowed=%d" % [negative_coverage, int(negative_counts.unallowed)])
+	check(int(negative_counts.unallowed) > 0,
+		"outer-cap negative control exposes the baked stone bevel beyond the flat plane")
 	pose.material = production_material
 	floor_trap.queue_free()
 	spike_viewport.queue_free()
@@ -193,8 +193,8 @@ func _spike_alpha_counts(source: Image, mask: Image, rendered: Image, frame_inde
 	for y: int in 256:
 		for x: int in 256:
 			var target_diamond := absf((float(x) + 0.5 - 128.0) / 64.0) + absf((float(y) + 0.5 - 100.0) / 48.0)
-			var source_x := 52.0 + (float(x) + 0.5 - 64.0) * (151.0 / 128.0)
-			var source_y := 28.0 + (float(y) + 0.5 - 52.0) * (132.0 / 96.0)
+			var source_x := 61.0 + (float(x) + 0.5 - 64.0) * (134.0 / 128.0)
+			var source_y := 35.0 + (float(y) + 0.5 - 52.0) * (110.0 / 96.0)
 			var source_valid := source_x >= 0.0 and source_x < 256.0 and source_y >= 0.0 and source_y < 256.0
 			var source_alpha := source_valid and source.get_pixel(frame_index * 256 + floori(source_x), floori(source_y)).a > 0.5
 			var metal_allowed := source_valid and mask.get_pixel(frame_index * 256 + floori(source_x), floori(source_y)).r > 0.5 and source_alpha
