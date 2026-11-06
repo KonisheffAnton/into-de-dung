@@ -625,6 +625,12 @@ def main():
             acid_captures.mkdir()
             acid_animation_args += ["--", "--captures=" + str(acid_captures)]
         run("acid_tile_animation", acid_animation_args, headless=not args.render_check)
+        fire_animation_args = ["--script", "tests/test_fire29_animation.gd"]
+        if args.render_check:
+            fire_captures = out / "fire29-animation-screenshots"
+            fire_captures.mkdir()
+            fire_animation_args += ["--", "--captures=" + str(fire_captures)]
+        run("fire29_animation", fire_animation_args, headless=not args.render_check)
         current_art_args = ["--script", "tests/test_current_art_zoom.gd"]
         if args.render_check:
             current_art_captures = out / "current-art-screenshots"

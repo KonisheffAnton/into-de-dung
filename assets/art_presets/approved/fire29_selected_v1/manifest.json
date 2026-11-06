@@ -1,0 +1,4722 @@
+{
+  "schema": "fire29-selected-animation-v1",
+  "source_manifest": "docs/art/fire29-readable-20261106/preview/manifest.json",
+  "source_manifest_sha256": "7d2799c6db6526f20a51b41f5f28701126d4464b9fc65ee35f7d21a50e736fb3",
+  "selection": "docs/art/fire29-readable-20261106/selection.json",
+  "selection_sha256": "da9da3a33680aaeb82df5253aae7062dfa04f5cb907fcf777689c3c3618353f1",
+  "style": "29",
+  "source": "docs/art/fire-low-styles-20261104/fire-low-29.png",
+  "source_sha256": "3f89930f385e43a1efe4d4895c25ff74a7cfc4215d740c2d697263261122756e",
+  "source_view_256": "docs/art/fire29-readable-20261106/preview/fire29/source-256.png",
+  "source_view_256_sha256": "e69eb475eb32701bc57b1d24e27091fdd7f29afd92c9f04f224df60bf37e4ad7",
+  "groups": [
+    {
+      "key": "fire29-field01",
+      "group_key": "fire29-01",
+      "crop_xyxy": [
+        559,
+        225,
+        687,
+        353
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-01/input-transparent.png",
+      "input_sha256": "a1707ee6a11776941b462d0e803e23e82c58b6cb347063595a976502021dcbfe",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-01/core-mask.png",
+      "core_mask_sha256": "5ea0bc29f1fbfc81360deb43bd9c5f4a84037a9925faf59de1553987c8e90ef8",
+      "raw_frames": [
+        {
+          "frame": 3,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field01/raw/frame-03.png",
+          "sha256": "97fc565466ee6a2d5add7f6877177ad946f5ace63d80ef9b0ba682627f71653e"
+        },
+        {
+          "frame": 4,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field01/raw/frame-04.png",
+          "sha256": "b1c69aa16f681fee0c0628b67fff511d6c441d4fe202083ab448d8f00c1bb336"
+        },
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field01/raw/frame-05.png",
+          "sha256": "c85cfec3245a69ab91aa533209a13b66dc8227f7b15584b60298749d4b9f454f"
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field01/raw/frame-06.png",
+          "sha256": "2d6c32c0bbf8dc730e079e694ef19cecf4c7423e1cb37aadb2fb374b2bd7dec7"
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field01/raw/frame-07.png",
+          "sha256": "7833b063b0b8e5bac61f0a6e68a1223dee8c39fa603e167d0e2048318daea398"
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field01/raw/frame-08.png",
+          "sha256": "2437f795cb3c9d37aa4b135be6b7636f2cfece13732a27e1eb293bc3d3e6f7af"
+        }
+      ],
+      "order": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3
+      ],
+      "passes_in_common_cycle": 4,
+      "phase_offset_slots": 28
+    },
+    {
+      "key": "fire29-strong01",
+      "group_key": "fire29-02",
+      "crop_xyxy": [
+        562,
+        225,
+        818,
+        481
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-02/input-transparent.png",
+      "input_sha256": "4ca837805e14181ae9c7299c0aa2e33a185f1ec68255a8067c4fb13d6d42b8c3",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-02/core-mask.png",
+      "core_mask_sha256": "d2b526777f72849af7ee18e27eed806fe4363592d8fc48d3af28f8b9a380727f",
+      "raw_frames": [
+        {
+          "frame": 1,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-01.png",
+          "sha256": "5a12fad40c28e450f15caca451b302cd34cf51819458115cc2593f9c5773300c"
+        },
+        {
+          "frame": 3,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-03.png",
+          "sha256": "5fa8280f74d95673d082e231719b7cd6508aa95bfa5f5b932e3c089efdc20513"
+        },
+        {
+          "frame": 4,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-04.png",
+          "sha256": "1f689ef5c0897970c1d8cfa0d5801a2b4ac8ce05cc3955ede6d1bfde84811006"
+        },
+        {
+          "frame": 5,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-05.png",
+          "sha256": "1ef54c5c1cbea4f1be876b59e465984839d9f337bb68b9cd04aad0d1ba3303aa"
+        }
+      ],
+      "order": [
+        1,
+        3,
+        4,
+        5,
+        4,
+        3,
+        1
+      ],
+      "passes_in_common_cycle": 8,
+      "phase_offset_slots": 45
+    },
+    {
+      "key": "fire29-field03",
+      "group_key": "fire29-03",
+      "crop_xyxy": [
+        383,
+        251,
+        639,
+        507
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-03/input-transparent.png",
+      "input_sha256": "d7f347c0bc45d58dbc006eaa7334b5c60fb25538049cbe7f546d69b2d6fcdd0f",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-03/core-mask.png",
+      "core_mask_sha256": "1644f1ea453c2d0852c61231f188347907a903f19729eb842ca6ec81ad5d68ca",
+      "raw_frames": [
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field03/raw/frame-05.png",
+          "sha256": "067895f18f858d89f3960025ffd48886e53724b50d342a2902e01f870f8b7dba"
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field03/raw/frame-06.png",
+          "sha256": "882603378fe9c24c4065e0aa7f4968af66c8ed7c93abd4cde4de78690d645396"
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field03/raw/frame-07.png",
+          "sha256": "928fdf5d49c1f33b85f3f98da877ee4e0f3dbcfe3df0c253b79e967f9d5a51ab"
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field03/raw/frame-08.png",
+          "sha256": "c84e809cf042442d5e0cc047b549c18faa0d1b224854b78c888a5afac29af59b"
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field03/raw/frame-09.png",
+          "sha256": "69ffeaa3a6bf149807cab97a10aea39178ed6422ff99c985f7fa11e738eef6e0"
+        },
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field03/raw/frame-10.png",
+          "sha256": "101fce9132ad336f7ade8723901d150353aa8b70ef5a77213084ba98ba0c0ad5"
+        },
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field03/raw/frame-11.png",
+          "sha256": "bf26e4b7dc6ccf79fdc1b33e569f95ef538235f8b51cff66cb46c115da8db9c7"
+        }
+      ],
+      "order": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        10,
+        9,
+        8,
+        7,
+        6,
+        5
+      ],
+      "passes_in_common_cycle": 4,
+      "phase_offset_slots": 62
+    },
+    {
+      "key": "fire29-field04",
+      "group_key": "fire29-04",
+      "crop_xyxy": [
+        610,
+        331,
+        738,
+        459
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-04/input-transparent.png",
+      "input_sha256": "5daa74ee95d1cfa6c4c0ebcc8bed353ca08ff4bd7ce625aee7a26f525adb1dc4",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-04/core-mask.png",
+      "core_mask_sha256": "5560656a0f2a6d687dfa8e03c72e4c8de24dc2dc3bc8dfc319dee7a2b79759ab",
+      "raw_frames": [
+        {
+          "frame": 2,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field04/raw/frame-02.png",
+          "sha256": "49266af1b6fe5915ad4c05ba39afb353a75e58907c66f53cbae368af72380395"
+        },
+        {
+          "frame": 3,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field04/raw/frame-03.png",
+          "sha256": "92833a17de7bb866cf5f2340e340137958cbe3843314f4a5834cac2ec57b0dc5"
+        },
+        {
+          "frame": 4,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field04/raw/frame-04.png",
+          "sha256": "0633b20e6c4e053c292965201dfbc6f98c0765f80d81bb4e37ca246991b4bcc7"
+        },
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field04/raw/frame-05.png",
+          "sha256": "e36610932ce995199d1486594df2e9103b1d08a478402417aceec1f8f56e860c"
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field04/raw/frame-06.png",
+          "sha256": "16c3b6836a8a7b0660501c1d2b800123cd825ce2b3c6acd31ac98db78aa81aa6"
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field04/raw/frame-07.png",
+          "sha256": "4ef48fc8d3e5478c2f239548bdd404afe2ce330577caffe995867b671e00f920"
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field04/raw/frame-08.png",
+          "sha256": "00185e1256ce245b651a90063ec3286706728e804aadd50235ec21a2e8221cee"
+        }
+      ],
+      "order": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2
+      ],
+      "passes_in_common_cycle": 4,
+      "phase_offset_slots": 79
+    },
+    {
+      "key": "fire29-field05",
+      "group_key": "fire29-05",
+      "crop_xyxy": [
+        524,
+        345,
+        652,
+        473
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-05/input-transparent.png",
+      "input_sha256": "af4a623495b8993f8e90b000cffa71574c27bb8668b4f77b67c473db4be31dfe",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-05/core-mask.png",
+      "core_mask_sha256": "a57520526612c5f90357e8a52d9367e4075b9bbc5cac128735abcc4577d2df2a",
+      "raw_frames": [
+        {
+          "frame": 4,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field05/raw/frame-04.png",
+          "sha256": "94dd7ce81e2689029137bfb73f988af463f5516faccba57bbc0bb577d0766cb0"
+        },
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field05/raw/frame-05.png",
+          "sha256": "1f7d6c155fcc06934874a33f3f3a478c136e691aa9e83e4a7bbb58ec3d6c84b3"
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field05/raw/frame-06.png",
+          "sha256": "d96d5468537531692868eb35568b5361bf0a0ed451926dfbfb82e276d99cfccb"
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field05/raw/frame-07.png",
+          "sha256": "812e948094268619d4a5555a3c199f61485f40dbd9a734de7e000575e6d41d94"
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field05/raw/frame-08.png",
+          "sha256": "d0540b06489ac787e2406c5735b2936baa4c4def40c717fd647d7959c52a1e11"
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field05/raw/frame-09.png",
+          "sha256": "0f20426055a810e1f2d129663100f79f754591c86caabfd249f04d89e9397b28"
+        },
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field05/raw/frame-10.png",
+          "sha256": "287603e12fcb9b16732a6e5a274213006497b785542a2249fe11b2492d31eb1c"
+        },
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field05/raw/frame-11.png",
+          "sha256": "e44a80af41142ebb54ddbb14153760c10eab2df9a16ed24a37509e8aff0aa000"
+        }
+      ],
+      "order": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4
+      ],
+      "passes_in_common_cycle": 3,
+      "phase_offset_slots": 0
+    },
+    {
+      "key": "fire29-field06",
+      "group_key": "fire29-06",
+      "crop_xyxy": [
+        750,
+        361,
+        878,
+        489
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-06/input-transparent.png",
+      "input_sha256": "c5c90726dbd1c25d4c46ab2fd2a71abdb884225a6b68068e667776238db88378",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-06/core-mask.png",
+      "core_mask_sha256": "397726a90d4e6713aa9f778ef2b9cb3eea328c457c0fcba53ae85cc0b1cbece0",
+      "raw_frames": [
+        {
+          "frame": 2,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field06/raw/frame-02.png",
+          "sha256": "c60eb220b270bd22fe73d41b8a82cf35ffc321768e20773c1f47c18b31648475"
+        },
+        {
+          "frame": 4,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field06/raw/frame-04.png",
+          "sha256": "f263f9e6eb52e9ebd12a9bb365e1e703db09b5895daa5f3f6cb6f040c5eabd29"
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field06/raw/frame-06.png",
+          "sha256": "17519198ff6ae8ef83ec726dae51066f2e359886c23e0247d44762538f2a455e"
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field06/raw/frame-08.png",
+          "sha256": "8e3f6f8ea5003c678ca84088d7532c06e4b96b6677a67a1698841acbdd9ca592"
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field06/raw/frame-09.png",
+          "sha256": "51295d7c69e4ab1d38332d7bc0063a926ec873cdcbec998feedbdbfd4c15b4a4"
+        },
+        {
+          "frame": 12,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field06/raw/frame-12.png",
+          "sha256": "f4df64c835b109e8bb47cb1f53916013a09da48835eac391959d86d029628441"
+        }
+      ],
+      "order": [
+        12,
+        9,
+        8,
+        6,
+        2,
+        4,
+        2,
+        6,
+        8,
+        9,
+        12
+      ],
+      "passes_in_common_cycle": 5,
+      "phase_offset_slots": 17
+    },
+    {
+      "key": "fire29-field07",
+      "group_key": "fire29-07",
+      "crop_xyxy": [
+        360,
+        365,
+        488,
+        493
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-07/input-transparent.png",
+      "input_sha256": "01fabaa4bf2148567ab5759ab2dc7172f9acd678e0db4beb774774b01cbfc677",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-07/core-mask.png",
+      "core_mask_sha256": "a4c32a72911f403d44dfcf494597fa2dfe559ceabe0ec4f32e46147c8cdd3cbf",
+      "raw_frames": [
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field07/raw/frame-09.png",
+          "sha256": "3d68dc55cf8d8d80a402d811f031283e9a7dee0dbe8aa56d12ab1dda03ca04cf"
+        },
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field07/raw/frame-10.png",
+          "sha256": "d8acc5c7f0cd6f382a2fb48862d3390f08c6e04d3def238e7887d79085fe6d1a"
+        },
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field07/raw/frame-11.png",
+          "sha256": "e76dc775c6425ba13ae2f7c3da765f53b908586457a00df1a73a3465f687e7d2"
+        },
+        {
+          "frame": 12,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field07/raw/frame-12.png",
+          "sha256": "5a35c80a3ae2720256b7f11a245c6adbbf2eb2580012b0f143767a669c64a96d"
+        },
+        {
+          "frame": 13,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field07/raw/frame-13.png",
+          "sha256": "1504cb349eccc93bd6c9027459f2e9098171fadcf8d2562c95555bf4b4277847"
+        }
+      ],
+      "order": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        12,
+        11,
+        10,
+        9
+      ],
+      "passes_in_common_cycle": 5,
+      "phase_offset_slots": 34
+    },
+    {
+      "key": "fire29-field08",
+      "group_key": "fire29-08",
+      "crop_xyxy": [
+        628,
+        366,
+        756,
+        494
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-08/input-transparent.png",
+      "input_sha256": "6d66d6fad0149fed66c59748f384a015c72bc78932d059af8ba6896de77047f2",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-08/core-mask.png",
+      "core_mask_sha256": "8b9cd28aec77493bcb8edeb076bcca52e5caf7e5dffa857cc170609959363029",
+      "raw_frames": [
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field08/raw/frame-07.png",
+          "sha256": "f3bb37f9a0b323007f438b582934e0f612ada35b93057904bf2708f696d413ef"
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field08/raw/frame-08.png",
+          "sha256": "0437c1763d077eeb2bdb67bf7e154a25367e69b09ffcf222c7043433bdff3ab6"
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field08/raw/frame-09.png",
+          "sha256": "f515fd6997880dcd1ebe939bc641e3a13d888dee554624ca1047068841c51556"
+        },
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field08/raw/frame-10.png",
+          "sha256": "3e6577208f5351c35dc39b6645072e8e1498d1efb47e7a86a8cabe50c776833f"
+        },
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field08/raw/frame-11.png",
+          "sha256": "31c9f1f0c734a6dd789fc62fb8afbbca6d6a7177d4a7975f71b40e0d43302d76"
+        },
+        {
+          "frame": 12,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field08/raw/frame-12.png",
+          "sha256": "e64cbbae4a28b643b3ddb2dcd1f6fdc2a637851ca1ea0ae4925ab2e9fa6ef5b2"
+        }
+      ],
+      "order": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        11,
+        10,
+        9,
+        8,
+        7
+      ],
+      "passes_in_common_cycle": 4,
+      "phase_offset_slots": 51
+    },
+    {
+      "key": "fire29-field09",
+      "group_key": "fire29-09",
+      "crop_xyxy": [
+        450,
+        370,
+        578,
+        498
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-09/input-transparent.png",
+      "input_sha256": "ec79baa18d107fb894c19f5012e58068c3dbe024471587d9f375e78be1313b14",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-09/core-mask.png",
+      "core_mask_sha256": "58af0050b4309b08a558353a8422430e2a1540a2b84aefd5dea1eccdabee8b5c",
+      "raw_frames": [
+        {
+          "frame": 2,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field09/raw/frame-02.png",
+          "sha256": "8d73bdf319b46e2c2743fcb975738cd47b81719161f5010dcdc8c0f29f13aa7b"
+        },
+        {
+          "frame": 3,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field09/raw/frame-03.png",
+          "sha256": "8f8e82fcc8f78668525ddc025950012e395d679053114933426525c20333cfa1"
+        },
+        {
+          "frame": 4,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field09/raw/frame-04.png",
+          "sha256": "e624d4c5fc568a42be7a3b76f13cdc823fbdeee0495740e1e9a0fb2bfd6b60b6"
+        },
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field09/raw/frame-05.png",
+          "sha256": "1d150447b48649c9c00772ef8142ef8be0a6b4cf7ce6ddc4f628abe2c2cb3ecf"
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field09/raw/frame-06.png",
+          "sha256": "13a9dd566031cc53caf3c276a6edda48d0331fc3bc402f2dc4b8b12352455bab"
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field09/raw/frame-07.png",
+          "sha256": "1bc3be3ab9ec2d7627d0fd53def81c0cbc6582ae174e93c7eccd1f5e132643df"
+        }
+      ],
+      "order": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2
+      ],
+      "passes_in_common_cycle": 4,
+      "phase_offset_slots": 68
+    },
+    {
+      "key": "fire29-field10",
+      "group_key": "fire29-10",
+      "crop_xyxy": [
+        347,
+        385,
+        475,
+        513
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-10/input-transparent.png",
+      "input_sha256": "860378e10daee68c5834cde566a708d3393ecb9910e73744c5a88acd350176b2",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-10/core-mask.png",
+      "core_mask_sha256": "2dce62a603cfc64fb78d7f3086ca13250c8883b71f8e86485307ec46ab05d80c",
+      "raw_frames": [
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field10/raw/frame-06.png",
+          "sha256": "6c4f78f2c7f7bf7c997a5ee365f60e91a3828e9e6e92ca68142cf783f5ae68be"
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field10/raw/frame-07.png",
+          "sha256": "c9cde762ac929f41d2f8477bd92250fc5fd2e754e02dbc0339d339611e67e25a"
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field10/raw/frame-08.png",
+          "sha256": "3da878d223880ea60a96e5288322ebb3b5f160d211dc15188ee2bee57075a722"
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field10/raw/frame-09.png",
+          "sha256": "a3064d5045857d17b8baefffe1e9bf390b1d24846ddad6861b74a1aeb313d885"
+        },
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field10/raw/frame-10.png",
+          "sha256": "1bf548607e9216be5e207271af6b196863ce0be2cca368cf5e47c87c4cb91fed"
+        }
+      ],
+      "order": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        9,
+        8,
+        7,
+        6
+      ],
+      "passes_in_common_cycle": 5,
+      "phase_offset_slots": 85
+    },
+    {
+      "key": "fire29-field11",
+      "group_key": "fire29-11",
+      "crop_xyxy": [
+        471,
+        392,
+        599,
+        520
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-11/input-transparent.png",
+      "input_sha256": "6be2a5927aa0e1585517b34b9ab1b335a39b2d6980bd7ff5fb49aec51cbd96ce",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-11/core-mask.png",
+      "core_mask_sha256": "cb5ad8bda0e00ee3a177f43cbb8e88f42b6aae19245b527f133b9f5b8ee152ca",
+      "raw_frames": [
+        {
+          "frame": 13,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field11/raw/frame-13.png",
+          "sha256": "202181a31704d45542542e7237ae263970bc6948b590ba21d4da6e98e58f739c"
+        },
+        {
+          "frame": 14,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field11/raw/frame-14.png",
+          "sha256": "8283106c6b4e45fe1818533442885e55ca1297d41f88f7d1d1be8fb4d3de8b0f"
+        },
+        {
+          "frame": 15,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field11/raw/frame-15.png",
+          "sha256": "7601c6c4232075c07cabdb7c2e846f9fd1ad6676596df6ca4c2c3dcd50521646"
+        }
+      ],
+      "order": [
+        13,
+        14,
+        15,
+        14,
+        13
+      ],
+      "passes_in_common_cycle": 8,
+      "phase_offset_slots": 6
+    },
+    {
+      "key": "fire29-field13",
+      "group_key": "fire29-13",
+      "crop_xyxy": [
+        530,
+        364,
+        786,
+        620
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-13/input-transparent.png",
+      "input_sha256": "7be0232a09fca94e19b88c01047e61d13fe1672f0ae910508ec49b8ff8ab842f",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-13/core-mask.png",
+      "core_mask_sha256": "81f218e8f2ec17b21a9e8e4add1fd271dbfbdd8699ce6fee4f38c0a18bbae714",
+      "raw_frames": [
+        {
+          "frame": 1,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field13/raw/frame-01.png",
+          "sha256": "dc2e049a48960b1afe5eb32f6611e692dfffc106561c8348cdeba8677d3b33de"
+        },
+        {
+          "frame": 4,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field13/raw/frame-04.png",
+          "sha256": "2603542abfdb0b22f8dc6aa863aa895982e2281c07e8aeb1a550a96c017bee96"
+        },
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field13/raw/frame-05.png",
+          "sha256": "9c96f17885bc5c21b2144606e2087d737ca5ca7b038f380acc38d03f3b5fe12f"
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field13/raw/frame-06.png",
+          "sha256": "afcdea7d8b6605853ed6f10e5e8dc3a295e95e5e40acc179b4d86578ea75a6de"
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field13/raw/frame-07.png",
+          "sha256": "4f2c630d53d884ce24dc2b8a44385d7f96248e94531a123331359ed860c26e3c"
+        }
+      ],
+      "order": [
+        1,
+        4,
+        5,
+        6,
+        7,
+        6,
+        5,
+        4,
+        1
+      ],
+      "passes_in_common_cycle": 8,
+      "phase_offset_slots": 40
+    },
+    {
+      "key": "fire29-visible02",
+      "group_key": "fire29-14",
+      "crop_xyxy": [
+        303,
+        367,
+        559,
+        623
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-14/input-transparent.png",
+      "input_sha256": "5e719c9a05b83be7a7207ecd099789dc89a6c3c1b2cd79f474eaf6e6d2689c14",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-14/core-mask.png",
+      "core_mask_sha256": "ff2fe10e2a60f4dc6c2138de40239a694fbd00a82ec71f050dfabc899ed97ad3",
+      "raw_frames": [
+        {
+          "frame": 1,
+          "path": "docs/art/fire29-readable-20261106/results/fire29-visible02/raw/frame-01.png",
+          "sha256": "6a25c9487a50dc0984795906bb63f5d580ccb770b6ef957ee17ffad3061723af"
+        },
+        {
+          "frame": 2,
+          "path": "docs/art/fire29-readable-20261106/results/fire29-visible02/raw/frame-02.png",
+          "sha256": "1c0306ce529d21437ef98c3846bb95b790ef2e0f5eac32f8fa4b6ff89ce26e2e"
+        },
+        {
+          "frame": 3,
+          "path": "docs/art/fire29-readable-20261106/results/fire29-visible02/raw/frame-03.png",
+          "sha256": "13635e9290e7e809eb3db50bac2c4322b96b4101021b955ebb3c92ef28637d5f"
+        },
+        {
+          "frame": 14,
+          "path": "docs/art/fire29-readable-20261106/results/fire29-visible02/raw/frame-14.png",
+          "sha256": "c9724e8b76882401a27398ffff713d9b4bd89b4c533a529f2e0eea7fc4365df1"
+        }
+      ],
+      "order": [
+        1,
+        2,
+        3,
+        14,
+        3,
+        2,
+        1
+      ],
+      "passes_in_common_cycle": 8,
+      "phase_offset_slots": 57
+    },
+    {
+      "key": "fire29-field15",
+      "group_key": "fire29-15",
+      "crop_xyxy": [
+        514,
+        469,
+        642,
+        597
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-15/input-transparent.png",
+      "input_sha256": "fb776fd589bd4ea9f8c1c4cc356e6c1476e3d7c3cd7a8849b419fe3b5036d954",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-15/core-mask.png",
+      "core_mask_sha256": "539457147c159dd22bb8157bc58b6f1437e91f9941318e4ec32534693837b1dc",
+      "raw_frames": [
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field15/raw/frame-10.png",
+          "sha256": "a9143a4987daddf055edc820127170e198c0f21fa1633dc2c65b794a8bb2a444"
+        },
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field15/raw/frame-11.png",
+          "sha256": "359da64748084b39d359822e95cd96a55729feabfb4b131576b5204f7a69e193"
+        },
+        {
+          "frame": 12,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field15/raw/frame-12.png",
+          "sha256": "58206bdcd79845f9bd03f1354990c87529db8d8133c382a535431886c4354778"
+        },
+        {
+          "frame": 13,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field15/raw/frame-13.png",
+          "sha256": "2ef5af5544379864cc33c4b024aa025e4d519a866083e1f67dc05e5fe00bdd0a"
+        },
+        {
+          "frame": 14,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field15/raw/frame-14.png",
+          "sha256": "e673346f8a0229a879359c41aafb24eafc9757b0ffc6a3494ed6a52740eb3068"
+        }
+      ],
+      "order": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        13,
+        12,
+        11,
+        10
+      ],
+      "passes_in_common_cycle": 5,
+      "phase_offset_slots": 74
+    },
+    {
+      "key": "fire29-field16",
+      "group_key": "fire29-16",
+      "crop_xyxy": [
+        617,
+        474,
+        745,
+        602
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-16/input-transparent.png",
+      "input_sha256": "c58b5173b26669a084d870f024cd1bc43f4d08c75efd09cc4ce6551804e41a0d",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-16/core-mask.png",
+      "core_mask_sha256": "5441537c71dd6252e63711bd6e8ceee1b8dfd5870af8036bdb60d6df6c532930",
+      "raw_frames": [
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field16/raw/frame-09.png",
+          "sha256": "91599afab5fd53599379fff1af18f55196a485af0498bad7edb91d39f7fae1c6"
+        },
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field16/raw/frame-10.png",
+          "sha256": "bb852c6eacb6cbc9ca7b808a7c35245c4b4b6cb3e72f370842df88011157178a"
+        },
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field16/raw/frame-11.png",
+          "sha256": "e4cdf929e6471cdc377b4035a8c487cb61fd293ce5dad8e612bd982988444bc4"
+        },
+        {
+          "frame": 12,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field16/raw/frame-12.png",
+          "sha256": "b7450766afe3823cab2cc40d5e07453bf05ac1a04f827744ff84297df1661485"
+        },
+        {
+          "frame": 13,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field16/raw/frame-13.png",
+          "sha256": "595fdb8ebd1a7442d5df6f8c721f1f79412d0ca7626f8a59a1c3cdd0484601a4"
+        },
+        {
+          "frame": 14,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field16/raw/frame-14.png",
+          "sha256": "487310a997af16a1159b6bca5b5a1b28c470923d4ec275d4a31ad2f544228159"
+        }
+      ],
+      "order": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        13,
+        12,
+        11,
+        10,
+        9
+      ],
+      "passes_in_common_cycle": 4,
+      "phase_offset_slots": 91
+    },
+    {
+      "key": "fire29-field17",
+      "group_key": "fire29-17",
+      "crop_xyxy": [
+        713,
+        478,
+        841,
+        606
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-17/input-transparent.png",
+      "input_sha256": "26b487645645022fd7f647c4a122dcdc3614ce1e3397a7b36c92aaba0c77434c",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-17/core-mask.png",
+      "core_mask_sha256": "f89aae2c048e063c7427cff82926817e5508b3e852bb6eebb063b1059fe09450",
+      "raw_frames": [
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field17/raw/frame-06.png",
+          "sha256": "4f4cd76b2f7ea14820c736790c7b3b1d77cc8e6415dba128fb4fbf99c530e80a"
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field17/raw/frame-07.png",
+          "sha256": "cdced362768bbd89f255da0c61460591e10f5e00d0ce513e45ad14d98e42a2b9"
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field17/raw/frame-08.png",
+          "sha256": "3ce85f43fb5f1bbbb8273d576882f12d5454d58c714c9ff8b437b9ddac06d73f"
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field17/raw/frame-09.png",
+          "sha256": "ab97c6ce1904b30cf30ccca5f43cade13d04b41437b41acebd5019fc931e0bba"
+        }
+      ],
+      "order": [
+        6,
+        7,
+        8,
+        9,
+        8,
+        7,
+        6
+      ],
+      "passes_in_common_cycle": 7,
+      "phase_offset_slots": 12
+    },
+    {
+      "key": "fire29-field18",
+      "group_key": "fire29-18",
+      "crop_xyxy": [
+        447,
+        489,
+        575,
+        617
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-18/input-transparent.png",
+      "input_sha256": "017bafe92e6dcd899c3b00b6ee2761ce2b78c910ab46205fb9edb7ed48c2eb30",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-18/core-mask.png",
+      "core_mask_sha256": "b6f9a533e84eb6d403955aa706c20e93742b1b79886c5b16a19dfd16b3791af1",
+      "raw_frames": [
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field18/raw/frame-07.png",
+          "sha256": "570e21763c363147a56b15f26888c8745054977fe38afec0fc04077e39dfef9a"
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field18/raw/frame-08.png",
+          "sha256": "25f623f6d35cb02eee7fa86620265aad027b3dadc48c023d7507861c91637603"
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field18/raw/frame-09.png",
+          "sha256": "1daedcf3f6e50a3fa4725c7377b5646d248b9c636adbc1902e6f3f2e10296402"
+        },
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field18/raw/frame-10.png",
+          "sha256": "4f256d160810ad4ea5a6b422634c9295032dbbbcc308bf921cb0b95965d962bd"
+        },
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field18/raw/frame-11.png",
+          "sha256": "3e12a2d1f43c8b2c2e19e2cd78bb3b34674ce8f55c5fdd5887979ca3d9cb90c7"
+        }
+      ],
+      "order": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        10,
+        9,
+        8,
+        7
+      ],
+      "passes_in_common_cycle": 5,
+      "phase_offset_slots": 29
+    },
+    {
+      "key": "fire29-field19",
+      "group_key": "fire29-19",
+      "crop_xyxy": [
+        371,
+        492,
+        499,
+        620
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-19/input-transparent.png",
+      "input_sha256": "03bb824aa942209d5e84c17223a1c6d18b310143168c03190019ba25330dcb2d",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-19/core-mask.png",
+      "core_mask_sha256": "03d45b576c1863242e485613e1b4367754e85231d3978e5ec57825e3f4204b9a",
+      "raw_frames": [
+        {
+          "frame": 3,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field19/raw/frame-03.png",
+          "sha256": "0434e9ce9d239cae4c16cbbc08d71a8e8bfceb7362d0764268de091a75e0b0c2"
+        },
+        {
+          "frame": 4,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field19/raw/frame-04.png",
+          "sha256": "c2ec08df1f18db052a39e423d6127044e7b5d2f7ae748521d98c70c6159af854"
+        },
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field19/raw/frame-05.png",
+          "sha256": "a548fa4f31a773ed8b6c716b2870ee6391bd7e8da868377d9bf1e45e8681b68a"
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field19/raw/frame-06.png",
+          "sha256": "20b5b5c87c21fa34b8e67aea3f80679840bb528258fb8695c4f99bda1d969fb0"
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field19/raw/frame-07.png",
+          "sha256": "7ca5c3890359be5513a79c582930e016488d045332aa833ced00568b9ac5f949"
+        }
+      ],
+      "order": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        6,
+        5,
+        4,
+        3
+      ],
+      "passes_in_common_cycle": 5,
+      "phase_offset_slots": 46
+    },
+    {
+      "key": "fire29-field20",
+      "group_key": "fire29-20",
+      "crop_xyxy": [
+        586,
+        498,
+        714,
+        626
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-20/input-transparent.png",
+      "input_sha256": "7ec9ad764b79b3d6b4c66231d066ab2b370855017a04106504a1e4694b1f4a0b",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-20/core-mask.png",
+      "core_mask_sha256": "bd677005d12aa443a1c4366c30a76609dddd6f6e017e632725dbd85fa2532170",
+      "raw_frames": [
+        {
+          "frame": 4,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field20/raw/frame-04.png",
+          "sha256": "cb0d701bf6dd19ddf1083420352b7ba9ac6d340ff0207e4455ca58588331265b"
+        },
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field20/raw/frame-05.png",
+          "sha256": "c1439a89ef157d43ae69868a826ffd1ad1b46bf3ac2f6f3cce870d7ca248449d"
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field20/raw/frame-06.png",
+          "sha256": "7f259ff04d1282192535a179973c0915e92defc16229d598b3fe4a6ec3a305c0"
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field20/raw/frame-07.png",
+          "sha256": "c03231dbcb5ab6560dd5cb6c88fc8691fbefdeec13f474c42e16ec4486a73efc"
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field20/raw/frame-08.png",
+          "sha256": "6da849404d80f3c0bc8eeddfc3eaefe844446824e0ad607db21171a2c4dc5dda"
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field20/raw/frame-09.png",
+          "sha256": "aa6bb71f9b71570e65d01d5afea55519f2cd8c820f14c66700491d3b3bd4f1c6"
+        },
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field20/raw/frame-10.png",
+          "sha256": "2e3066abd088038961708787a208cc53b6aa6437705c5c40557d6e07d60b9b6f"
+        },
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field20/raw/frame-11.png",
+          "sha256": "a8811bde4e382b98f01374d449cd74f0b1b77397bbe4008f573acf2b9e58ae94"
+        }
+      ],
+      "order": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4
+      ],
+      "passes_in_common_cycle": 3,
+      "phase_offset_slots": 63
+    },
+    {
+      "key": "fire29-field21",
+      "group_key": "fire29-21",
+      "crop_xyxy": [
+        604,
+        458,
+        860,
+        714
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-21/input-transparent.png",
+      "input_sha256": "69d9699138ee8de5ee071b05b8c17d5989b8bc88cf58456913c01a0658f72f88",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-21/core-mask.png",
+      "core_mask_sha256": "5dfc4d21a0823240cca92a435d2e5bf7c530e432f3f86a7deb454c5d19b17634",
+      "raw_frames": [
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field21/raw/frame-11.png",
+          "sha256": "1a8b0328a9a8cc209be3d9a4f374ed4b842e51973a7d4e208d616a666c54681c"
+        },
+        {
+          "frame": 14,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field21/raw/frame-14.png",
+          "sha256": "7271e8ca62db6d3f0345fbe57d8b5865d2e00195e3d844bf1dbd5c845e048f18"
+        },
+        {
+          "frame": 15,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field21/raw/frame-15.png",
+          "sha256": "f2ca348d9786ab091d8a1341860c0693705cc13a33901ef57fb13f76001cfba2"
+        },
+        {
+          "frame": 16,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field21/raw/frame-16.png",
+          "sha256": "c2893779604391e296f66240c31602952a18f3f5bc01963a8e7c33959888fa5e"
+        },
+        {
+          "frame": 19,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field21/raw/frame-19.png",
+          "sha256": "a0f39c570808fdb81f781d68c89f3556e357fb4b67216e04c96bd9ef461cb348"
+        },
+        {
+          "frame": 21,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field21/raw/frame-21.png",
+          "sha256": "04597673a8bfc073253e1788a007d387dbd6bf680006ad773d4c7069a9bdc940"
+        },
+        {
+          "frame": 22,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field21/raw/frame-22.png",
+          "sha256": "48eed5ba763f1661e22d2bbfa8b44449acd7578b6bae851e9aaf1600b3117a6a"
+        },
+        {
+          "frame": 23,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field21/raw/frame-23.png",
+          "sha256": "0b24f8682961b872a268ab05b564410ed32976383c5e67bc278c2e123f38b170"
+        }
+      ],
+      "order": [
+        19,
+        21,
+        22,
+        23,
+        16,
+        15,
+        14,
+        11,
+        14,
+        15,
+        16,
+        23,
+        22,
+        21,
+        19
+      ],
+      "passes_in_common_cycle": 4,
+      "phase_offset_slots": 80
+    },
+    {
+      "key": "fire29-field22",
+      "group_key": "fire29-22",
+      "crop_xyxy": [
+        432,
+        477,
+        688,
+        733
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-22/input-transparent.png",
+      "input_sha256": "d4a055c0756d683a7dd56ae3847eba2a499fc3780a4ca625e4f86661cddc4872",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-22/core-mask.png",
+      "core_mask_sha256": "d9c4cef3b7e2b49f231425a1201e1a6c118a559c41478d7ef2de7f12c36efeda",
+      "raw_frames": [
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field22/raw/frame-07.png",
+          "sha256": "f6f8779673ba2dcfd8b109fa5873858e7988ae696008dc9c55e596a3c15b49cb"
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field22/raw/frame-09.png",
+          "sha256": "cdac3be0ddd309efe4d22ba9711b4eb49550f54d382a41008f9a77da133e3be2"
+        },
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field22/raw/frame-11.png",
+          "sha256": "57eadf213f0e1125ae16460a564887bb13630c92a75c81c16272ee1abc6deeeb"
+        },
+        {
+          "frame": 17,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field22/raw/frame-17.png",
+          "sha256": "1b27d4c486cf4016cc004f5645c9b02e9facd3c7934509e4901d92ddddecd13f"
+        },
+        {
+          "frame": 18,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field22/raw/frame-18.png",
+          "sha256": "5dd35350faf4087306d96e3da641615f2b8a5c78e1614c4ae19ab6a15bf11f8c"
+        }
+      ],
+      "order": [
+        7,
+        9,
+        11,
+        17,
+        18,
+        17,
+        11,
+        9,
+        7
+      ],
+      "passes_in_common_cycle": 4,
+      "phase_offset_slots": 1
+    },
+    {
+      "key": "fire29-field23",
+      "group_key": "fire29-23",
+      "crop_xyxy": [
+        621,
+        554,
+        749,
+        682
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-23/input-transparent.png",
+      "input_sha256": "24e7c280b92a929c676c01a2b1be2362f4efca68ee1ae5059538caeb6630d3f0",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-23/core-mask.png",
+      "core_mask_sha256": "3e98c981a24850103d1cf162d4167b5ff61c2438f80828bf76d9e2272b89e44c",
+      "raw_frames": [
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field23/raw/frame-05.png",
+          "sha256": "f87792df8b56afffc0b784fb57c1431d97acb552c4e7cfb3d59439a8b4da0811"
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field23/raw/frame-06.png",
+          "sha256": "e55bb5a8287a30fcb8317311af6045746e64322b59fc374fbb5baa17b80dbf58"
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field23/raw/frame-07.png",
+          "sha256": "029e5c0a6047d108f9a7fe394fdb1d34b857c94bfd0314f9adcf34e74098c65b"
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field23/raw/frame-08.png",
+          "sha256": "9fb89482a47bbf2d8c409e6c6b60eb472ddda2c6f3567aa5f2569b2a067f12bc"
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field23/raw/frame-09.png",
+          "sha256": "08b11d3f71b6defdf27f0af2cd4580256225a39ff7b0a3040cef838462d011c9"
+        },
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field23/raw/frame-10.png",
+          "sha256": "60cad6c8ba59db7b2f5a547d0337ff88637431feded65c821685601a01600492"
+        }
+      ],
+      "order": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        9,
+        8,
+        7,
+        6,
+        5
+      ],
+      "passes_in_common_cycle": 4,
+      "phase_offset_slots": 18
+    },
+    {
+      "key": "fire29-field24",
+      "group_key": "fire29-24",
+      "crop_xyxy": [
+        476,
+        579,
+        604,
+        707
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-24/input-transparent.png",
+      "input_sha256": "38946b46c698efb938c48cfc1ea0838ded248960ec1dff04b50be061477d4706",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-24/core-mask.png",
+      "core_mask_sha256": "9eca4f16b0b7221bd2e395b28673a752a88f8e6a87442895e098cb877d795654",
+      "raw_frames": [
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field24/raw/frame-05.png",
+          "sha256": "a62fd8eb7fc0573e42bf62652f5b512c1bce8e429834a0398157275ea25ebb95"
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field24/raw/frame-06.png",
+          "sha256": "b568ffad807de5fd0686b3b0b9beba5375ebfb16495b8fe336d2725cbdd02b70"
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field24/raw/frame-07.png",
+          "sha256": "5cd483845e09cfd5077dd60f352c346932d508750ac1c5ea9e020f988c3cb024"
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field24/raw/frame-08.png",
+          "sha256": "1b84a707a25abab61936c412dfc27d7d867b07d24cdd96c94e3f0b2ce415ed3f"
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field24/raw/frame-09.png",
+          "sha256": "add01e4bd0bf74927a6dff46443ff012c4a8e638832174c73ffded7c38156397"
+        }
+      ],
+      "order": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        8,
+        7,
+        6,
+        5
+      ],
+      "passes_in_common_cycle": 5,
+      "phase_offset_slots": 35
+    },
+    {
+      "key": "fire29-field25",
+      "group_key": "fire29-25",
+      "crop_xyxy": [
+        517,
+        529,
+        773,
+        785
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-25/input-transparent.png",
+      "input_sha256": "bf79f4c94f9ab09235271dcf0b9f8b405e888931d90184c48bd93ae8d7664071",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-25/core-mask.png",
+      "core_mask_sha256": "a8e8a4ae40204c7f9ab3154c5b75ddbbf6c830a9b8432f69b5ef7ded51e5eded",
+      "raw_frames": [
+        {
+          "frame": 1,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field25/raw/frame-01.png",
+          "sha256": "f733598ca77aaacbad31b1fe4ba90f0f0818da3d1e458d8b1fb73f05d1b4ac3b"
+        },
+        {
+          "frame": 4,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field25/raw/frame-04.png",
+          "sha256": "d77d65c6fa3eb0a754613fb6bbb1e580577ec0add16aaac0e858a3d00186193d"
+        },
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field25/raw/frame-05.png",
+          "sha256": "e521fa52f8318d8a904a22f436a22c50b0cd8490062c13f246e3232f4b2f783f"
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field25/raw/frame-06.png",
+          "sha256": "ddc8fb996e853ee028d3cdd90f57fb80e0feed64f1122e18bf3ab99b29de53cd"
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field25/raw/frame-07.png",
+          "sha256": "7218f1526b96b93a88d18089bd470dbb717a965e166598e2f97f80573f46ba44"
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field25/raw/frame-08.png",
+          "sha256": "a823923c3fba7134fa3b6461d81cdc2ceafaa0efdc6f1fa1a47494b4b71878cd"
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field25/raw/frame-09.png",
+          "sha256": "3c5c62f3e9b4c853c9f5b4a77baff133f02d7ffa45048029eeca56f18c298622"
+        }
+      ],
+      "order": [
+        1,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        1
+      ],
+      "passes_in_common_cycle": 7,
+      "phase_offset_slots": 52
+    },
+    {
+      "key": "fire29-field26",
+      "group_key": "fire29-26",
+      "crop_xyxy": [
+        566,
+        632,
+        694,
+        760
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-26/input-transparent.png",
+      "input_sha256": "6b408d4a7e5da0855513558c6bbf3bb189941bb2522242cdde3674a45b36db6e",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-26/core-mask.png",
+      "core_mask_sha256": "82cae270f0a11de041e0db0a4f5eeed85300b2601306a6d96e5caadae5354f9f",
+      "raw_frames": [
+        {
+          "frame": 3,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field26/raw/frame-03.png",
+          "sha256": "90200a636bb60b4484e56781ef9e0ab31177db36a3f2d4ceb23d836c201ebeba"
+        },
+        {
+          "frame": 4,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field26/raw/frame-04.png",
+          "sha256": "4f77953f863b0c794cc76d7197b5b0d1c52bf4b9e15f702fd9755d0d445806a5"
+        },
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field26/raw/frame-05.png",
+          "sha256": "26a6aca2cbc1cbde298a650ecee6c79ec4998ea1b64925d8f452b607b123604f"
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field26/raw/frame-06.png",
+          "sha256": "212ad0a44e2d61c0e147b7d5151fb783601874a9a76ed224f4de73e6fb226d7e"
+        }
+      ],
+      "order": [
+        3,
+        4,
+        5,
+        6,
+        5,
+        4,
+        3
+      ],
+      "passes_in_common_cycle": 7,
+      "phase_offset_slots": 69
+    },
+    {
+      "key": "fire29-short01",
+      "group_key": "fire29-12",
+      "crop_xyxy": [
+        680,
+        359,
+        936,
+        615
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-12/input-transparent.png",
+      "input_sha256": "4f473f1807b383989b68d66dde3b630f814cf598e76e22d4cd5a033464caf2ef",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-12/core-mask.png",
+      "core_mask_sha256": "aad995d8e3d7ce3dfe982afc9713903d06000a6b4a608116fe5dfb75fa800547",
+      "raw_frames": [
+        {
+          "frame": 1,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-short01/raw/frame-01.png",
+          "sha256": "303847cf88298920a3f7ed6b3cce65ac6ccb50391ae920ccf74647e290b0818e"
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-short01/raw/frame-09.png",
+          "sha256": "6c8e1ba0e0a255a88bf7cca996c89235c2a908d48532d96db002f3ab28cd9549"
+        },
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-short01/raw/frame-10.png",
+          "sha256": "36085354a36883956a8023e426124ef71ac7f92f9fae0b575dfee20794d356d0"
+        },
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-short01/raw/frame-11.png",
+          "sha256": "26f2b3004bd3ee8553e4f1a25bf04e367a7f3ca14c5ea5861ea2f98aebf8c522"
+        },
+        {
+          "frame": 12,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-short01/raw/frame-12.png",
+          "sha256": "bfb77f2af277bd5e060f2381f060c8994357e62d21d05e2c16b389b805aac1a3"
+        }
+      ],
+      "order": [
+        1,
+        12,
+        11,
+        10,
+        9,
+        10,
+        11,
+        12,
+        1
+      ],
+      "passes_in_common_cycle": 7,
+      "phase_offset_slots": 23
+    }
+  ],
+  "native_canvas_px": [
+    1254,
+    1254
+  ],
+  "native_crop_xyxy": [
+    288,
+    233,
+    966,
+    746
+  ],
+  "native_crop_px": [
+    678,
+    513
+  ],
+  "display_cell_px": [
+    256,
+    194
+  ],
+  "atlas_grid": [
+    4,
+    4
+  ],
+  "atlas_count": 6,
+  "atlas_size_px": [
+    1024,
+    776
+  ],
+  "atlases": [
+    {
+      "path": "assets/art_presets/approved/fire29_selected_v1/fire29_atlas_00.png",
+      "sha256": "1c7677bbdc68b58887f4bca571b57903a3343407ea95c7ea8f395ff7dd6490d3",
+      "size_px": [
+        1024,
+        776
+      ],
+      "slots": [
+        0,
+        15
+      ]
+    },
+    {
+      "path": "assets/art_presets/approved/fire29_selected_v1/fire29_atlas_01.png",
+      "sha256": "474b3c015ba1667d54ad4a74a07aa53b28ebbee66ab8170e82da3cf4d8b0556a",
+      "size_px": [
+        1024,
+        776
+      ],
+      "slots": [
+        16,
+        31
+      ]
+    },
+    {
+      "path": "assets/art_presets/approved/fire29_selected_v1/fire29_atlas_02.png",
+      "sha256": "6e24b5d0aa8cf621737c988d4777bf327a6b4f7087c21fed12aefc34a44b8d29",
+      "size_px": [
+        1024,
+        776
+      ],
+      "slots": [
+        32,
+        47
+      ]
+    },
+    {
+      "path": "assets/art_presets/approved/fire29_selected_v1/fire29_atlas_03.png",
+      "sha256": "5bac14bf94d2dab5c0a6fb0fb8d51cd7cdf56325992d35a0d5c357c3fa8a3848",
+      "size_px": [
+        1024,
+        776
+      ],
+      "slots": [
+        48,
+        63
+      ]
+    },
+    {
+      "path": "assets/art_presets/approved/fire29_selected_v1/fire29_atlas_04.png",
+      "sha256": "3a75fe2ed771eab0cfdae96f8c51bdda700be1440f843ad27514ffc7d71feb94",
+      "size_px": [
+        1024,
+        776
+      ],
+      "slots": [
+        64,
+        79
+      ]
+    },
+    {
+      "path": "assets/art_presets/approved/fire29_selected_v1/fire29_atlas_05.png",
+      "sha256": "27bc3df33e146c7620e917e143697fbe26e26d062c9f97eba7f1149bab035f60",
+      "size_px": [
+        1024,
+        776
+      ],
+      "slots": [
+        80,
+        95
+      ]
+    }
+  ],
+  "slots": 96,
+  "slot_ms": 80,
+  "duration_ms": 7680,
+  "speed_fps": 12.5,
+  "loop": true,
+  "endpoint_slot": 96,
+  "endpoint_pose_equals_slot0": true,
+  "slot95_rgba_equals_slot0": false,
+  "native_snapshots_checked": [
+    0,
+    24,
+    48,
+    72
+  ],
+  "rgba_memory_bytes": 19070976,
+  "animation_resource": {
+    "path": "assets/art_presets/approved/fire29_selected_v1/fire29_frames.tres",
+    "sha256": "2379bd3c1cb0ab1056ebffc0fa305a85f7c279b4e5aadbbefda3428574aef586",
+    "animation": "fire",
+    "frames": 96,
+    "loop": true,
+    "speed_fps": 12.5,
+    "frame_duration": 1.0
+  },
+  "frames": [
+    {
+      "slot": 0,
+      "rgba_sha256": "c9bed277ad0c302666d447cf33b438fdeed5fde77bdd584bcf3853179b913310",
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 3,
+        "fire29-field03": 10,
+        "fire29-field04": 5,
+        "fire29-field05": 4,
+        "fire29-field06": 9,
+        "fire29-field07": 11,
+        "fire29-field08": 8,
+        "fire29-field09": 3,
+        "fire29-field10": 9,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 11,
+        "fire29-field16": 11,
+        "fire29-field17": 6,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 4,
+        "fire29-field21": 15,
+        "fire29-field22": 7,
+        "fire29-field23": 7,
+        "fire29-field24": 6,
+        "fire29-field25": 5,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      }
+    },
+    {
+      "slot": 1,
+      "rgba_sha256": "c81556e8ddc3c560a08205f45603afd76f74a830b1f4d91c253dab876cbafaa3",
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 3,
+        "fire29-field03": 9,
+        "fire29-field04": 6,
+        "fire29-field05": 4,
+        "fire29-field06": 12,
+        "fire29-field07": 10,
+        "fire29-field08": 8,
+        "fire29-field09": 3,
+        "fire29-field10": 10,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 10,
+        "fire29-field16": 10,
+        "fire29-field17": 6,
+        "fire29-field18": 10,
+        "fire29-field19": 7,
+        "fire29-field20": 4,
+        "fire29-field21": 15,
+        "fire29-field22": 7,
+        "fire29-field23": 7,
+        "fire29-field24": 6,
+        "fire29-field25": 4,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      }
+    },
+    {
+      "slot": 2,
+      "rgba_sha256": "d6fffcbc647b17360be1e5ef70a21a8a2c15d546fae921331ce2841f634a88e4",
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 9,
+        "fire29-field04": 6,
+        "fire29-field05": 4,
+        "fire29-field06": 12,
+        "fire29-field07": 10,
+        "fire29-field08": 9,
+        "fire29-field09": 2,
+        "fire29-field10": 10,
+        "fire29-field11": 14,
+        "fire29-field13": 7,
+        "fire29-visible02": 1,
+        "fire29-field15": 10,
+        "fire29-field16": 10,
+        "fire29-field17": 6,
+        "fire29-field18": 10,
+        "fire29-field19": 7,
+        "fire29-field20": 4,
+        "fire29-field21": 14,
+        "fire29-field22": 9,
+        "fire29-field23": 6,
+        "fire29-field24": 5,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 3,
+      "rgba_sha256": "8a6747d38b9e595fd1b551ffc288b3746ce777218c450f362efbb32efca453c6",
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 7,
+        "fire29-field05": 5,
+        "fire29-field06": 12,
+        "fire29-field07": 9,
+        "fire29-field08": 9,
+        "fire29-field09": 2,
+        "fire29-field10": 9,
+        "fire29-field11": 14,
+        "fire29-field13": 6,
+        "fire29-visible02": 1,
+        "fire29-field15": 10,
+        "fire29-field16": 9,
+        "fire29-field17": 6,
+        "fire29-field18": 9,
+        "fire29-field19": 7,
+        "fire29-field20": 4,
+        "fire29-field21": 14,
+        "fire29-field22": 9,
+        "fire29-field23": 6,
+        "fire29-field24": 5,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 1
+      }
+    },
+    {
+      "slot": 4,
+      "rgba_sha256": "cc10fad5e2edace7e9e965d96809dd517256a6b0a35cbeec6216fa9eb3098d3a",
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 7,
+        "fire29-field05": 5,
+        "fire29-field06": 9,
+        "fire29-field07": 9,
+        "fire29-field08": 10,
+        "fire29-field09": 2,
+        "fire29-field10": 9,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 1,
+        "fire29-field15": 10,
+        "fire29-field16": 9,
+        "fire29-field17": 7,
+        "fire29-field18": 9,
+        "fire29-field19": 6,
+        "fire29-field20": 5,
+        "fire29-field21": 11,
+        "fire29-field22": 9,
+        "fire29-field23": 5,
+        "fire29-field24": 5,
+        "fire29-field25": 4,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      }
+    },
+    {
+      "slot": 5,
+      "rgba_sha256": "9e60036b98abd0d654b67647d5b18d35fc6f2d8ec50d0d9dea51587b610f2f03",
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 3,
+        "fire29-field03": 7,
+        "fire29-field04": 8,
+        "fire29-field05": 6,
+        "fire29-field06": 9,
+        "fire29-field07": 9,
+        "fire29-field08": 10,
+        "fire29-field09": 2,
+        "fire29-field10": 8,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 2,
+        "fire29-field15": 11,
+        "fire29-field16": 9,
+        "fire29-field17": 7,
+        "fire29-field18": 9,
+        "fire29-field19": 6,
+        "fire29-field20": 5,
+        "fire29-field21": 14,
+        "fire29-field22": 11,
+        "fire29-field23": 5,
+        "fire29-field24": 5,
+        "fire29-field25": 5,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      }
+    },
+    {
+      "slot": 6,
+      "rgba_sha256": "d7c6cb70c23c504c194881baeb854283f8d7e0b538d1575a09084e2514032248",
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 3,
+        "fire29-field03": 7,
+        "fire29-field04": 7,
+        "fire29-field05": 6,
+        "fire29-field06": 8,
+        "fire29-field07": 9,
+        "fire29-field08": 11,
+        "fire29-field09": 2,
+        "fire29-field10": 8,
+        "fire29-field11": 13,
+        "fire29-field13": 4,
+        "fire29-visible02": 2,
+        "fire29-field15": 11,
+        "fire29-field16": 9,
+        "fire29-field17": 8,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 6,
+        "fire29-field21": 14,
+        "fire29-field22": 11,
+        "fire29-field23": 5,
+        "fire29-field24": 6,
+        "fire29-field25": 5,
+        "fire29-field26": 6,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 7,
+      "rgba_sha256": "1fa73989d18363e19002d54bb36e7f190c9c01d5f36ef8a0dcb393703a8fad63",
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 4,
+        "fire29-field03": 6,
+        "fire29-field04": 7,
+        "fire29-field05": 7,
+        "fire29-field06": 8,
+        "fire29-field07": 10,
+        "fire29-field08": 11,
+        "fire29-field09": 3,
+        "fire29-field10": 7,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 11,
+        "fire29-field16": 9,
+        "fire29-field17": 8,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 6,
+        "fire29-field21": 15,
+        "fire29-field22": 17,
+        "fire29-field23": 5,
+        "fire29-field24": 6,
+        "fire29-field25": 6,
+        "fire29-field26": 6,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 8,
+      "rgba_sha256": "bf21a925ff821b6a0418b8abed78ab01045c6f2276e0ba8964c1e402d8c8be0d",
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 4,
+        "fire29-field03": 6,
+        "fire29-field04": 6,
+        "fire29-field05": 7,
+        "fire29-field06": 6,
+        "fire29-field07": 10,
+        "fire29-field08": 12,
+        "fire29-field09": 3,
+        "fire29-field10": 7,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 12,
+        "fire29-field16": 10,
+        "fire29-field17": 9,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 7,
+        "fire29-field21": 16,
+        "fire29-field22": 17,
+        "fire29-field23": 5,
+        "fire29-field24": 7,
+        "fire29-field25": 7,
+        "fire29-field26": 5,
+        "fire29-short01": 11
+      }
+    },
+    {
+      "slot": 9,
+      "rgba_sha256": "7b82bdf183be6ae15545d722e4d7380b3e1231daeb365e6d2a4ca3f58abda5c8",
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 5,
+        "fire29-field03": 5,
+        "fire29-field04": 6,
+        "fire29-field05": 8,
+        "fire29-field06": 6,
+        "fire29-field07": 11,
+        "fire29-field08": 12,
+        "fire29-field09": 4,
+        "fire29-field10": 6,
+        "fire29-field11": 14,
+        "fire29-field13": 1,
+        "fire29-visible02": 14,
+        "fire29-field15": 12,
+        "fire29-field16": 10,
+        "fire29-field17": 9,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 7,
+        "fire29-field21": 16,
+        "fire29-field22": 17,
+        "fire29-field23": 6,
+        "fire29-field24": 7,
+        "fire29-field25": 8,
+        "fire29-field26": 5,
+        "fire29-short01": 10
+      }
+    },
+    {
+      "slot": 10,
+      "rgba_sha256": "b2923038afcf201c5588d26f590a8aba223b780822f424bb7ee39dacbf9e106f",
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 4,
+        "fire29-field03": 5,
+        "fire29-field04": 5,
+        "fire29-field05": 8,
+        "fire29-field06": 2,
+        "fire29-field07": 11,
+        "fire29-field08": 12,
+        "fire29-field09": 4,
+        "fire29-field10": 6,
+        "fire29-field11": 14,
+        "fire29-field13": 4,
+        "fire29-visible02": 3,
+        "fire29-field15": 13,
+        "fire29-field16": 11,
+        "fire29-field17": 8,
+        "fire29-field18": 7,
+        "fire29-field19": 3,
+        "fire29-field20": 8,
+        "fire29-field21": 23,
+        "fire29-field22": 18,
+        "fire29-field23": 6,
+        "fire29-field24": 8,
+        "fire29-field25": 9,
+        "fire29-field26": 4,
+        "fire29-short01": 10
+      }
+    },
+    {
+      "slot": 11,
+      "rgba_sha256": "fc1692f13c5833e5ec460056a7c83bff4331dc91726740cc065ba627cf96bb40",
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 4,
+        "fire29-field03": 5,
+        "fire29-field04": 5,
+        "fire29-field05": 9,
+        "fire29-field06": 4,
+        "fire29-field07": 12,
+        "fire29-field08": 11,
+        "fire29-field09": 5,
+        "fire29-field10": 6,
+        "fire29-field11": 15,
+        "fire29-field13": 5,
+        "fire29-visible02": 3,
+        "fire29-field15": 13,
+        "fire29-field16": 11,
+        "fire29-field17": 8,
+        "fire29-field18": 7,
+        "fire29-field19": 3,
+        "fire29-field20": 8,
+        "fire29-field21": 23,
+        "fire29-field22": 18,
+        "fire29-field23": 7,
+        "fire29-field24": 8,
+        "fire29-field25": 8,
+        "fire29-field26": 4,
+        "fire29-short01": 9
+      }
+    },
+    {
+      "slot": 12,
+      "rgba_sha256": "fb7e6dee1f6f1d6ca9a089fcdf91f67a0419489eb49aa0e705a8dfb4d06e5a97",
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 3,
+        "fire29-field03": 6,
+        "fire29-field04": 4,
+        "fire29-field05": 9,
+        "fire29-field06": 4,
+        "fire29-field07": 12,
+        "fire29-field08": 11,
+        "fire29-field09": 5,
+        "fire29-field10": 6,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 14,
+        "fire29-field16": 12,
+        "fire29-field17": 7,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 9,
+        "fire29-field21": 22,
+        "fire29-field22": 18,
+        "fire29-field23": 7,
+        "fire29-field24": 9,
+        "fire29-field25": 7,
+        "fire29-field26": 3,
+        "fire29-short01": 9
+      }
+    },
+    {
+      "slot": 13,
+      "rgba_sha256": "f5b5365c0c1454cf7e6be259c145758a94978ccef554363582ef816c97f38ac7",
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 3,
+        "fire29-field03": 6,
+        "fire29-field04": 4,
+        "fire29-field05": 10,
+        "fire29-field06": 2,
+        "fire29-field07": 13,
+        "fire29-field08": 10,
+        "fire29-field09": 6,
+        "fire29-field10": 6,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 14,
+        "fire29-field16": 12,
+        "fire29-field17": 7,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 9,
+        "fire29-field21": 21,
+        "fire29-field22": 17,
+        "fire29-field23": 8,
+        "fire29-field24": 9,
+        "fire29-field25": 6,
+        "fire29-field26": 3,
+        "fire29-short01": 10
+      }
+    },
+    {
+      "slot": 14,
+      "rgba_sha256": "ad43720ac7156c5c0d36ea31f22f2284f68ec9b41c693a00d49d7213f8ef2180",
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 7,
+        "fire29-field04": 3,
+        "fire29-field05": 10,
+        "fire29-field06": 2,
+        "fire29-field07": 13,
+        "fire29-field08": 10,
+        "fire29-field09": 6,
+        "fire29-field10": 7,
+        "fire29-field11": 14,
+        "fire29-field13": 7,
+        "fire29-visible02": 1,
+        "fire29-field15": 13,
+        "fire29-field16": 13,
+        "fire29-field17": 6,
+        "fire29-field18": 9,
+        "fire29-field19": 4,
+        "fire29-field20": 10,
+        "fire29-field21": 21,
+        "fire29-field22": 17,
+        "fire29-field23": 8,
+        "fire29-field24": 9,
+        "fire29-field25": 5,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      }
+    },
+    {
+      "slot": 15,
+      "rgba_sha256": "128efebf3c36b9f56f35ddf9cf64a7ee1af65e0afd4cc32868f66e61bf9b5b01",
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 7,
+        "fire29-field04": 3,
+        "fire29-field05": 11,
+        "fire29-field06": 6,
+        "fire29-field07": 13,
+        "fire29-field08": 9,
+        "fire29-field09": 7,
+        "fire29-field10": 7,
+        "fire29-field11": 14,
+        "fire29-field13": 6,
+        "fire29-visible02": 1,
+        "fire29-field15": 13,
+        "fire29-field16": 13,
+        "fire29-field17": 6,
+        "fire29-field18": 9,
+        "fire29-field19": 4,
+        "fire29-field20": 10,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 9,
+        "fire29-field24": 8,
+        "fire29-field25": 4,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      }
+    },
+    {
+      "slot": 16,
+      "rgba_sha256": "04aa9c0facc6750918b74bd31434f2d317fc6724708adb32bbe74b7b783a6b4a",
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 2,
+        "fire29-field05": 11,
+        "fire29-field06": 6,
+        "fire29-field07": 12,
+        "fire29-field08": 9,
+        "fire29-field09": 7,
+        "fire29-field10": 8,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 1,
+        "fire29-field15": 12,
+        "fire29-field16": 14,
+        "fire29-field17": 6,
+        "fire29-field18": 10,
+        "fire29-field19": 5,
+        "fire29-field20": 11,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 9,
+        "fire29-field24": 8,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 17,
+      "rgba_sha256": "2cbefee41e83397d7b0725ad815f9bc44dacf17f8f4a915010e7041d8b1b1c88",
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 3,
+        "fire29-field03": 8,
+        "fire29-field04": 2,
+        "fire29-field05": 11,
+        "fire29-field06": 8,
+        "fire29-field07": 12,
+        "fire29-field08": 8,
+        "fire29-field09": 7,
+        "fire29-field10": 8,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 2,
+        "fire29-field15": 12,
+        "fire29-field16": 14,
+        "fire29-field17": 6,
+        "fire29-field18": 10,
+        "fire29-field19": 5,
+        "fire29-field20": 11,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 10,
+        "fire29-field24": 7,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 1
+      }
+    },
+    {
+      "slot": 18,
+      "rgba_sha256": "fbba6ca9422ce6973e72f68a83c4d6832f85b211229e8241ad5016415ed0a6b2",
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 3,
+        "fire29-field03": 9,
+        "fire29-field04": 2,
+        "fire29-field05": 10,
+        "fire29-field06": 9,
+        "fire29-field07": 11,
+        "fire29-field08": 8,
+        "fire29-field09": 6,
+        "fire29-field10": 9,
+        "fire29-field11": 13,
+        "fire29-field13": 4,
+        "fire29-visible02": 2,
+        "fire29-field15": 11,
+        "fire29-field16": 14,
+        "fire29-field17": 7,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 11,
+        "fire29-field21": 21,
+        "fire29-field22": 9,
+        "fire29-field23": 10,
+        "fire29-field24": 7,
+        "fire29-field25": 4,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      }
+    },
+    {
+      "slot": 19,
+      "rgba_sha256": "532e3237833afb000fc7bf3cdb362e7250edcdee75d4f0c5bef6868b9acfc059",
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 9,
+        "fire29-field04": 3,
+        "fire29-field05": 10,
+        "fire29-field06": 9,
+        "fire29-field07": 11,
+        "fire29-field08": 7,
+        "fire29-field09": 6,
+        "fire29-field10": 9,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 11,
+        "fire29-field16": 13,
+        "fire29-field17": 7,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 10,
+        "fire29-field21": 21,
+        "fire29-field22": 9,
+        "fire29-field23": 10,
+        "fire29-field24": 6,
+        "fire29-field25": 5,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      }
+    },
+    {
+      "slot": 20,
+      "rgba_sha256": "bc95107cf2b5b921dcb85ef68e7253ae547c91bcf576dad471c18a847e904d46",
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 10,
+        "fire29-field04": 3,
+        "fire29-field05": 9,
+        "fire29-field06": 12,
+        "fire29-field07": 10,
+        "fire29-field08": 7,
+        "fire29-field09": 5,
+        "fire29-field10": 10,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 10,
+        "fire29-field16": 13,
+        "fire29-field17": 8,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 10,
+        "fire29-field21": 22,
+        "fire29-field22": 9,
+        "fire29-field23": 9,
+        "fire29-field24": 6,
+        "fire29-field25": 6,
+        "fire29-field26": 6,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 21,
+      "rgba_sha256": "b22ae60d62c39a54c77ec12c1184ca3683af097a9d2ef26c326eb9d2c6159568",
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 5,
+        "fire29-field03": 10,
+        "fire29-field04": 4,
+        "fire29-field05": 9,
+        "fire29-field06": 12,
+        "fire29-field07": 10,
+        "fire29-field08": 7,
+        "fire29-field09": 5,
+        "fire29-field10": 10,
+        "fire29-field11": 14,
+        "fire29-field13": 1,
+        "fire29-visible02": 14,
+        "fire29-field15": 10,
+        "fire29-field16": 12,
+        "fire29-field17": 8,
+        "fire29-field18": 10,
+        "fire29-field19": 7,
+        "fire29-field20": 9,
+        "fire29-field21": 23,
+        "fire29-field22": 7,
+        "fire29-field23": 9,
+        "fire29-field24": 5,
+        "fire29-field25": 7,
+        "fire29-field26": 6,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 22,
+      "rgba_sha256": "c48162fff07a5d74150342b921a4564595b41899a2897c25bfb87f26f0fa7b0d",
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 11,
+        "fire29-field04": 4,
+        "fire29-field05": 8,
+        "fire29-field06": 12,
+        "fire29-field07": 9,
+        "fire29-field08": 7,
+        "fire29-field09": 4,
+        "fire29-field10": 9,
+        "fire29-field11": 14,
+        "fire29-field13": 4,
+        "fire29-visible02": 3,
+        "fire29-field15": 10,
+        "fire29-field16": 12,
+        "fire29-field17": 9,
+        "fire29-field18": 10,
+        "fire29-field19": 7,
+        "fire29-field20": 9,
+        "fire29-field21": 23,
+        "fire29-field22": 7,
+        "fire29-field23": 8,
+        "fire29-field24": 5,
+        "fire29-field25": 8,
+        "fire29-field26": 5,
+        "fire29-short01": 11
+      }
+    },
+    {
+      "slot": 23,
+      "rgba_sha256": "c5908bcd8d3a4a253d074473839c058de6a1955dddc05ec9d40fc33f4408138f",
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 4,
+        "fire29-field03": 10,
+        "fire29-field04": 5,
+        "fire29-field05": 8,
+        "fire29-field06": 12,
+        "fire29-field07": 9,
+        "fire29-field08": 7,
+        "fire29-field09": 4,
+        "fire29-field10": 9,
+        "fire29-field11": 15,
+        "fire29-field13": 5,
+        "fire29-visible02": 3,
+        "fire29-field15": 10,
+        "fire29-field16": 11,
+        "fire29-field17": 9,
+        "fire29-field18": 9,
+        "fire29-field19": 6,
+        "fire29-field20": 8,
+        "fire29-field21": 16,
+        "fire29-field22": 7,
+        "fire29-field23": 8,
+        "fire29-field24": 5,
+        "fire29-field25": 9,
+        "fire29-field26": 5,
+        "fire29-short01": 10
+      }
+    },
+    {
+      "slot": 24,
+      "rgba_sha256": "a9363fad10ea4bc83d85fc89ecde7c67b489790c51214c53d75bdc50f950c891",
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 3,
+        "fire29-field03": 10,
+        "fire29-field04": 5,
+        "fire29-field05": 7,
+        "fire29-field06": 9,
+        "fire29-field07": 9,
+        "fire29-field08": 8,
+        "fire29-field09": 3,
+        "fire29-field10": 8,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 10,
+        "fire29-field16": 11,
+        "fire29-field17": 8,
+        "fire29-field18": 9,
+        "fire29-field19": 6,
+        "fire29-field20": 8,
+        "fire29-field21": 15,
+        "fire29-field22": 7,
+        "fire29-field23": 7,
+        "fire29-field24": 5,
+        "fire29-field25": 8,
+        "fire29-field26": 4,
+        "fire29-short01": 10
+      }
+    },
+    {
+      "slot": 25,
+      "rgba_sha256": "489cf27cddbd9076eea10fa1c4fcc3b3d9b0707dd502e54ac50b863cee43af22",
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 3,
+        "fire29-field03": 9,
+        "fire29-field04": 6,
+        "fire29-field05": 7,
+        "fire29-field06": 8,
+        "fire29-field07": 9,
+        "fire29-field08": 8,
+        "fire29-field09": 3,
+        "fire29-field10": 8,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 11,
+        "fire29-field16": 10,
+        "fire29-field17": 8,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 7,
+        "fire29-field21": 15,
+        "fire29-field22": 7,
+        "fire29-field23": 7,
+        "fire29-field24": 6,
+        "fire29-field25": 8,
+        "fire29-field26": 4,
+        "fire29-short01": 9
+      }
+    },
+    {
+      "slot": 26,
+      "rgba_sha256": "aa343e3a7e8ea1afd5ade3c632daa2d78fe2aec7d4c4fc8c03c82b42921d903d",
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 9,
+        "fire29-field04": 6,
+        "fire29-field05": 6,
+        "fire29-field06": 8,
+        "fire29-field07": 10,
+        "fire29-field08": 9,
+        "fire29-field09": 2,
+        "fire29-field10": 7,
+        "fire29-field11": 14,
+        "fire29-field13": 7,
+        "fire29-visible02": 1,
+        "fire29-field15": 11,
+        "fire29-field16": 10,
+        "fire29-field17": 7,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 7,
+        "fire29-field21": 14,
+        "fire29-field22": 9,
+        "fire29-field23": 6,
+        "fire29-field24": 6,
+        "fire29-field25": 7,
+        "fire29-field26": 3,
+        "fire29-short01": 10
+      }
+    },
+    {
+      "slot": 27,
+      "rgba_sha256": "f75d13cbad1d3bf415222599869277aab96d1f8a3aa37ef83382318f6f2e562b",
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 7,
+        "fire29-field05": 6,
+        "fire29-field06": 6,
+        "fire29-field07": 10,
+        "fire29-field08": 9,
+        "fire29-field09": 2,
+        "fire29-field10": 7,
+        "fire29-field11": 14,
+        "fire29-field13": 6,
+        "fire29-visible02": 1,
+        "fire29-field15": 12,
+        "fire29-field16": 9,
+        "fire29-field17": 7,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 6,
+        "fire29-field21": 14,
+        "fire29-field22": 9,
+        "fire29-field23": 6,
+        "fire29-field24": 7,
+        "fire29-field25": 6,
+        "fire29-field26": 3,
+        "fire29-short01": 10
+      }
+    },
+    {
+      "slot": 28,
+      "rgba_sha256": "afa0ebbe4fd8f13890152543a8cb04f5cb1ef145e8b50a56defddfe3c096e683",
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 7,
+        "fire29-field05": 5,
+        "fire29-field06": 6,
+        "fire29-field07": 11,
+        "fire29-field08": 10,
+        "fire29-field09": 2,
+        "fire29-field10": 7,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 1,
+        "fire29-field15": 12,
+        "fire29-field16": 9,
+        "fire29-field17": 6,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 6,
+        "fire29-field21": 11,
+        "fire29-field22": 9,
+        "fire29-field23": 5,
+        "fire29-field24": 7,
+        "fire29-field25": 5,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      }
+    },
+    {
+      "slot": 29,
+      "rgba_sha256": "4eb6a92ec4476a0209f982c0fa4a1f6db6c3395ddda53841da9e8b5224ec3022",
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 3,
+        "fire29-field03": 7,
+        "fire29-field04": 8,
+        "fire29-field05": 5,
+        "fire29-field06": 2,
+        "fire29-field07": 11,
+        "fire29-field08": 10,
+        "fire29-field09": 2,
+        "fire29-field10": 6,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 2,
+        "fire29-field15": 13,
+        "fire29-field16": 9,
+        "fire29-field17": 6,
+        "fire29-field18": 7,
+        "fire29-field19": 3,
+        "fire29-field20": 5,
+        "fire29-field21": 14,
+        "fire29-field22": 11,
+        "fire29-field23": 5,
+        "fire29-field24": 8,
+        "fire29-field25": 4,
+        "fire29-field26": 4,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 30,
+      "rgba_sha256": "88ea54c666d4001469a53f053994e4215a31c5069aaf78e868a3293d2cf9f88d",
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 3,
+        "fire29-field03": 7,
+        "fire29-field04": 7,
+        "fire29-field05": 4,
+        "fire29-field06": 2,
+        "fire29-field07": 12,
+        "fire29-field08": 11,
+        "fire29-field09": 2,
+        "fire29-field10": 6,
+        "fire29-field11": 13,
+        "fire29-field13": 4,
+        "fire29-visible02": 2,
+        "fire29-field15": 13,
+        "fire29-field16": 9,
+        "fire29-field17": 6,
+        "fire29-field18": 7,
+        "fire29-field19": 3,
+        "fire29-field20": 5,
+        "fire29-field21": 14,
+        "fire29-field22": 11,
+        "fire29-field23": 5,
+        "fire29-field24": 8,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 31,
+      "rgba_sha256": "7cd6ac1e5ce0ff337d932b7d56e10a34543d6f96601388a2242cdcd175792f8d",
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 4,
+        "fire29-field03": 6,
+        "fire29-field04": 7,
+        "fire29-field05": 4,
+        "fire29-field06": 4,
+        "fire29-field07": 12,
+        "fire29-field08": 11,
+        "fire29-field09": 3,
+        "fire29-field10": 6,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 14,
+        "fire29-field16": 9,
+        "fire29-field17": 6,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 4,
+        "fire29-field21": 15,
+        "fire29-field22": 17,
+        "fire29-field23": 5,
+        "fire29-field24": 8,
+        "fire29-field25": 1,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      }
+    },
+    {
+      "slot": 32,
+      "rgba_sha256": "573d92f05e14f22bd20fb155b7103f7bea179a87c0251ca44472dc77e5a84522",
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 4,
+        "fire29-field03": 6,
+        "fire29-field04": 6,
+        "fire29-field05": 4,
+        "fire29-field06": 2,
+        "fire29-field07": 12,
+        "fire29-field08": 12,
+        "fire29-field09": 3,
+        "fire29-field10": 6,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 14,
+        "fire29-field16": 10,
+        "fire29-field17": 7,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 4,
+        "fire29-field21": 16,
+        "fire29-field22": 17,
+        "fire29-field23": 5,
+        "fire29-field24": 9,
+        "fire29-field25": 4,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      }
+    },
+    {
+      "slot": 33,
+      "rgba_sha256": "4f66a930bf4ca9f4465d81138f9030e04c174bdf34053e63a7ff0ef97b6794e8",
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 5,
+        "fire29-field03": 5,
+        "fire29-field04": 6,
+        "fire29-field05": 4,
+        "fire29-field06": 2,
+        "fire29-field07": 13,
+        "fire29-field08": 12,
+        "fire29-field09": 4,
+        "fire29-field10": 7,
+        "fire29-field11": 14,
+        "fire29-field13": 1,
+        "fire29-visible02": 14,
+        "fire29-field15": 13,
+        "fire29-field16": 10,
+        "fire29-field17": 7,
+        "fire29-field18": 9,
+        "fire29-field19": 4,
+        "fire29-field20": 4,
+        "fire29-field21": 16,
+        "fire29-field22": 17,
+        "fire29-field23": 6,
+        "fire29-field24": 9,
+        "fire29-field25": 5,
+        "fire29-field26": 6,
+        "fire29-short01": 1
+      }
+    },
+    {
+      "slot": 34,
+      "rgba_sha256": "b0b3c6887cfeed7bba9052e719d504b391893a60c0e8f190d0845aa82d281c7c",
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 4,
+        "fire29-field03": 5,
+        "fire29-field04": 5,
+        "fire29-field05": 4,
+        "fire29-field06": 6,
+        "fire29-field07": 13,
+        "fire29-field08": 12,
+        "fire29-field09": 4,
+        "fire29-field10": 7,
+        "fire29-field11": 14,
+        "fire29-field13": 4,
+        "fire29-visible02": 3,
+        "fire29-field15": 13,
+        "fire29-field16": 11,
+        "fire29-field17": 8,
+        "fire29-field18": 9,
+        "fire29-field19": 4,
+        "fire29-field20": 4,
+        "fire29-field21": 23,
+        "fire29-field22": 18,
+        "fire29-field23": 6,
+        "fire29-field24": 8,
+        "fire29-field25": 6,
+        "fire29-field26": 6,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 35,
+      "rgba_sha256": "6f96af2cd072ac974ebf067c132865ea3ff50ff4c0a11f9ede05a2f24b6d3c03",
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 4,
+        "fire29-field03": 5,
+        "fire29-field04": 5,
+        "fire29-field05": 5,
+        "fire29-field06": 6,
+        "fire29-field07": 12,
+        "fire29-field08": 11,
+        "fire29-field09": 5,
+        "fire29-field10": 8,
+        "fire29-field11": 15,
+        "fire29-field13": 5,
+        "fire29-visible02": 3,
+        "fire29-field15": 12,
+        "fire29-field16": 11,
+        "fire29-field17": 8,
+        "fire29-field18": 10,
+        "fire29-field19": 4,
+        "fire29-field20": 4,
+        "fire29-field21": 23,
+        "fire29-field22": 18,
+        "fire29-field23": 7,
+        "fire29-field24": 8,
+        "fire29-field25": 7,
+        "fire29-field26": 5,
+        "fire29-short01": 11
+      }
+    },
+    {
+      "slot": 36,
+      "rgba_sha256": "fdd846bf84b0ca904962c0eba9a9481e86875a92bf0584493b1a61c2ef34faa1",
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 3,
+        "fire29-field03": 6,
+        "fire29-field04": 4,
+        "fire29-field05": 5,
+        "fire29-field06": 8,
+        "fire29-field07": 12,
+        "fire29-field08": 11,
+        "fire29-field09": 5,
+        "fire29-field10": 8,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 12,
+        "fire29-field16": 12,
+        "fire29-field17": 9,
+        "fire29-field18": 10,
+        "fire29-field19": 5,
+        "fire29-field20": 5,
+        "fire29-field21": 22,
+        "fire29-field22": 18,
+        "fire29-field23": 7,
+        "fire29-field24": 7,
+        "fire29-field25": 8,
+        "fire29-field26": 5,
+        "fire29-short01": 11
+      }
+    },
+    {
+      "slot": 37,
+      "rgba_sha256": "28589a05cbd517baeb4247884842f320dbeda6e521c369cdefa1f01a3d404de8",
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 3,
+        "fire29-field03": 6,
+        "fire29-field04": 4,
+        "fire29-field05": 6,
+        "fire29-field06": 8,
+        "fire29-field07": 11,
+        "fire29-field08": 10,
+        "fire29-field09": 6,
+        "fire29-field10": 9,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 11,
+        "fire29-field16": 12,
+        "fire29-field17": 8,
+        "fire29-field18": 10,
+        "fire29-field19": 5,
+        "fire29-field20": 5,
+        "fire29-field21": 21,
+        "fire29-field22": 17,
+        "fire29-field23": 8,
+        "fire29-field24": 7,
+        "fire29-field25": 9,
+        "fire29-field26": 4,
+        "fire29-short01": 10
+      }
+    },
+    {
+      "slot": 38,
+      "rgba_sha256": "9d71f8776fefa0b2908c66041085f2a6a98175c8e272a610f229f7837bb65856",
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 7,
+        "fire29-field04": 3,
+        "fire29-field05": 6,
+        "fire29-field06": 9,
+        "fire29-field07": 11,
+        "fire29-field08": 10,
+        "fire29-field09": 6,
+        "fire29-field10": 9,
+        "fire29-field11": 14,
+        "fire29-field13": 7,
+        "fire29-visible02": 1,
+        "fire29-field15": 11,
+        "fire29-field16": 13,
+        "fire29-field17": 8,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 6,
+        "fire29-field21": 21,
+        "fire29-field22": 17,
+        "fire29-field23": 8,
+        "fire29-field24": 6,
+        "fire29-field25": 8,
+        "fire29-field26": 4,
+        "fire29-short01": 9
+      }
+    },
+    {
+      "slot": 39,
+      "rgba_sha256": "8b7c1c0e89d5259ad02e6be145ee4c7aefbfb37e3ee539c788218e8cc02c55d1",
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 7,
+        "fire29-field04": 3,
+        "fire29-field05": 7,
+        "fire29-field06": 12,
+        "fire29-field07": 10,
+        "fire29-field08": 9,
+        "fire29-field09": 7,
+        "fire29-field10": 10,
+        "fire29-field11": 14,
+        "fire29-field13": 6,
+        "fire29-visible02": 1,
+        "fire29-field15": 11,
+        "fire29-field16": 13,
+        "fire29-field17": 7,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 6,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 9,
+        "fire29-field24": 6,
+        "fire29-field25": 7,
+        "fire29-field26": 3,
+        "fire29-short01": 9
+      }
+    },
+    {
+      "slot": 40,
+      "rgba_sha256": "227d14602c8634ac1b17fb0a710cc833ff8a913a6774729ef1693fddb59684ce",
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 2,
+        "fire29-field05": 7,
+        "fire29-field06": 12,
+        "fire29-field07": 10,
+        "fire29-field08": 9,
+        "fire29-field09": 7,
+        "fire29-field10": 10,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 1,
+        "fire29-field15": 10,
+        "fire29-field16": 14,
+        "fire29-field17": 7,
+        "fire29-field18": 10,
+        "fire29-field19": 7,
+        "fire29-field20": 7,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 9,
+        "fire29-field24": 5,
+        "fire29-field25": 6,
+        "fire29-field26": 3,
+        "fire29-short01": 10
+      }
+    },
+    {
+      "slot": 41,
+      "rgba_sha256": "97593423807561136c774c3d1dfb75cfd3e17e2df2e6a4ef730082933f807e07",
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 3,
+        "fire29-field03": 8,
+        "fire29-field04": 2,
+        "fire29-field05": 8,
+        "fire29-field06": 12,
+        "fire29-field07": 9,
+        "fire29-field08": 8,
+        "fire29-field09": 7,
+        "fire29-field10": 9,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 2,
+        "fire29-field15": 10,
+        "fire29-field16": 14,
+        "fire29-field17": 6,
+        "fire29-field18": 10,
+        "fire29-field19": 7,
+        "fire29-field20": 7,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 10,
+        "fire29-field24": 5,
+        "fire29-field25": 5,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      }
+    },
+    {
+      "slot": 42,
+      "rgba_sha256": "42932b0c2b5e1475ac9bed924221388cac8b902502c790102758c595772ffbda",
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 3,
+        "fire29-field03": 9,
+        "fire29-field04": 2,
+        "fire29-field05": 8,
+        "fire29-field06": 12,
+        "fire29-field07": 9,
+        "fire29-field08": 8,
+        "fire29-field09": 6,
+        "fire29-field10": 9,
+        "fire29-field11": 13,
+        "fire29-field13": 4,
+        "fire29-visible02": 2,
+        "fire29-field15": 10,
+        "fire29-field16": 14,
+        "fire29-field17": 6,
+        "fire29-field18": 9,
+        "fire29-field19": 6,
+        "fire29-field20": 8,
+        "fire29-field21": 21,
+        "fire29-field22": 9,
+        "fire29-field23": 10,
+        "fire29-field24": 5,
+        "fire29-field25": 4,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      }
+    },
+    {
+      "slot": 43,
+      "rgba_sha256": "e3fe46d834a029f38a87a1524c89dbb91ee8b39d93ff9e1f6d41aa6617a660f0",
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 9,
+        "fire29-field04": 3,
+        "fire29-field05": 9,
+        "fire29-field06": 9,
+        "fire29-field07": 9,
+        "fire29-field08": 7,
+        "fire29-field09": 6,
+        "fire29-field10": 8,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 10,
+        "fire29-field16": 13,
+        "fire29-field17": 6,
+        "fire29-field18": 9,
+        "fire29-field19": 6,
+        "fire29-field20": 8,
+        "fire29-field21": 21,
+        "fire29-field22": 9,
+        "fire29-field23": 10,
+        "fire29-field24": 5,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 44,
+      "rgba_sha256": "8139c6937c4d8c4f793d0d50fd00996b9dc9d9c0a15dcd5dc6e62e771cb3aecc",
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 10,
+        "fire29-field04": 3,
+        "fire29-field05": 9,
+        "fire29-field06": 9,
+        "fire29-field07": 9,
+        "fire29-field08": 7,
+        "fire29-field09": 5,
+        "fire29-field10": 8,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 11,
+        "fire29-field16": 13,
+        "fire29-field17": 6,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 9,
+        "fire29-field21": 22,
+        "fire29-field22": 9,
+        "fire29-field23": 9,
+        "fire29-field24": 6,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 45,
+      "rgba_sha256": "50d96e4e857cc559efdd12912e2b2a5bf6fb88b6d3c54501d601165fdb48ffa3",
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 5,
+        "fire29-field03": 10,
+        "fire29-field04": 4,
+        "fire29-field05": 10,
+        "fire29-field06": 8,
+        "fire29-field07": 10,
+        "fire29-field08": 7,
+        "fire29-field09": 5,
+        "fire29-field10": 8,
+        "fire29-field11": 14,
+        "fire29-field13": 1,
+        "fire29-visible02": 14,
+        "fire29-field15": 11,
+        "fire29-field16": 12,
+        "fire29-field17": 7,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 9,
+        "fire29-field21": 23,
+        "fire29-field22": 7,
+        "fire29-field23": 9,
+        "fire29-field24": 6,
+        "fire29-field25": 1,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      }
+    },
+    {
+      "slot": 46,
+      "rgba_sha256": "d5b07a9b326ebffc702efcf187c9aefdbd70f132d38af9595f3342eeb2e7e19a",
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 11,
+        "fire29-field04": 4,
+        "fire29-field05": 10,
+        "fire29-field06": 6,
+        "fire29-field07": 10,
+        "fire29-field08": 7,
+        "fire29-field09": 4,
+        "fire29-field10": 7,
+        "fire29-field11": 14,
+        "fire29-field13": 4,
+        "fire29-visible02": 3,
+        "fire29-field15": 12,
+        "fire29-field16": 12,
+        "fire29-field17": 7,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 10,
+        "fire29-field21": 23,
+        "fire29-field22": 7,
+        "fire29-field23": 8,
+        "fire29-field24": 6,
+        "fire29-field25": 4,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      }
+    },
+    {
+      "slot": 47,
+      "rgba_sha256": "a4fb49fe307623f32c66931dad7f79a1b6d31252d4a4556a0a8c6cc3da08a123",
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 4,
+        "fire29-field03": 10,
+        "fire29-field04": 5,
+        "fire29-field05": 11,
+        "fire29-field06": 6,
+        "fire29-field07": 10,
+        "fire29-field08": 7,
+        "fire29-field09": 4,
+        "fire29-field10": 7,
+        "fire29-field11": 15,
+        "fire29-field13": 5,
+        "fire29-visible02": 3,
+        "fire29-field15": 12,
+        "fire29-field16": 11,
+        "fire29-field17": 8,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 10,
+        "fire29-field21": 16,
+        "fire29-field22": 7,
+        "fire29-field23": 8,
+        "fire29-field24": 7,
+        "fire29-field25": 5,
+        "fire29-field26": 6,
+        "fire29-short01": 1
+      }
+    },
+    {
+      "slot": 48,
+      "rgba_sha256": "c9eaa92d85075adac7d7616460eb53a9a1dc9759ce2354b74d088e4fec7b4968",
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 3,
+        "fire29-field03": 10,
+        "fire29-field04": 5,
+        "fire29-field05": 11,
+        "fire29-field06": 2,
+        "fire29-field07": 11,
+        "fire29-field08": 8,
+        "fire29-field09": 3,
+        "fire29-field10": 6,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 13,
+        "fire29-field16": 11,
+        "fire29-field17": 8,
+        "fire29-field18": 7,
+        "fire29-field19": 3,
+        "fire29-field20": 11,
+        "fire29-field21": 15,
+        "fire29-field22": 7,
+        "fire29-field23": 7,
+        "fire29-field24": 7,
+        "fire29-field25": 6,
+        "fire29-field26": 6,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 49,
+      "rgba_sha256": "b227ed51551a49e958706469d802caad6a1f113e357146e56c5da424a184e6e3",
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 3,
+        "fire29-field03": 9,
+        "fire29-field04": 6,
+        "fire29-field05": 11,
+        "fire29-field06": 2,
+        "fire29-field07": 11,
+        "fire29-field08": 8,
+        "fire29-field09": 3,
+        "fire29-field10": 6,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 13,
+        "fire29-field16": 10,
+        "fire29-field17": 9,
+        "fire29-field18": 7,
+        "fire29-field19": 3,
+        "fire29-field20": 11,
+        "fire29-field21": 15,
+        "fire29-field22": 7,
+        "fire29-field23": 7,
+        "fire29-field24": 8,
+        "fire29-field25": 7,
+        "fire29-field26": 5,
+        "fire29-short01": 11
+      }
+    },
+    {
+      "slot": 50,
+      "rgba_sha256": "fbd5173060b708119a51dcb4e8f2f04b213159643066cefb6b98d50f12d83b56",
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 9,
+        "fire29-field04": 6,
+        "fire29-field05": 10,
+        "fire29-field06": 4,
+        "fire29-field07": 12,
+        "fire29-field08": 9,
+        "fire29-field09": 2,
+        "fire29-field10": 6,
+        "fire29-field11": 14,
+        "fire29-field13": 7,
+        "fire29-visible02": 1,
+        "fire29-field15": 14,
+        "fire29-field16": 10,
+        "fire29-field17": 9,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 11,
+        "fire29-field21": 14,
+        "fire29-field22": 9,
+        "fire29-field23": 6,
+        "fire29-field24": 8,
+        "fire29-field25": 8,
+        "fire29-field26": 5,
+        "fire29-short01": 11
+      }
+    },
+    {
+      "slot": 51,
+      "rgba_sha256": "b8aea3ac542ea85eb85e6db30c31c00d83cbd91acc5b298dc9b39ac972ad1422",
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 7,
+        "fire29-field05": 10,
+        "fire29-field06": 4,
+        "fire29-field07": 12,
+        "fire29-field08": 9,
+        "fire29-field09": 2,
+        "fire29-field10": 6,
+        "fire29-field11": 14,
+        "fire29-field13": 6,
+        "fire29-visible02": 1,
+        "fire29-field15": 14,
+        "fire29-field16": 9,
+        "fire29-field17": 8,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 10,
+        "fire29-field21": 14,
+        "fire29-field22": 9,
+        "fire29-field23": 6,
+        "fire29-field24": 9,
+        "fire29-field25": 9,
+        "fire29-field26": 4,
+        "fire29-short01": 10
+      }
+    },
+    {
+      "slot": 52,
+      "rgba_sha256": "77076ce9b066702f8cd67e7dca78d5303cc74f55df2a6f67c76a0dde36c76cf0",
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 7,
+        "fire29-field05": 9,
+        "fire29-field06": 2,
+        "fire29-field07": 13,
+        "fire29-field08": 10,
+        "fire29-field09": 2,
+        "fire29-field10": 7,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 1,
+        "fire29-field15": 13,
+        "fire29-field16": 9,
+        "fire29-field17": 8,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 10,
+        "fire29-field21": 11,
+        "fire29-field22": 9,
+        "fire29-field23": 5,
+        "fire29-field24": 9,
+        "fire29-field25": 8,
+        "fire29-field26": 4,
+        "fire29-short01": 9
+      }
+    },
+    {
+      "slot": 53,
+      "rgba_sha256": "2f179b6faff2333ba2b1603fbefc6e987c29ed4fbc60fd5e15b0af3e156bd351",
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 3,
+        "fire29-field03": 7,
+        "fire29-field04": 8,
+        "fire29-field05": 9,
+        "fire29-field06": 6,
+        "fire29-field07": 13,
+        "fire29-field08": 10,
+        "fire29-field09": 2,
+        "fire29-field10": 7,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 2,
+        "fire29-field15": 13,
+        "fire29-field16": 9,
+        "fire29-field17": 7,
+        "fire29-field18": 9,
+        "fire29-field19": 4,
+        "fire29-field20": 9,
+        "fire29-field21": 14,
+        "fire29-field22": 11,
+        "fire29-field23": 5,
+        "fire29-field24": 8,
+        "fire29-field25": 7,
+        "fire29-field26": 3,
+        "fire29-short01": 9
+      }
+    },
+    {
+      "slot": 54,
+      "rgba_sha256": "3241dc07a9c1a23460e358bf59ee927b2ed8f795f5071da06bb3290ad291b731",
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 3,
+        "fire29-field03": 7,
+        "fire29-field04": 7,
+        "fire29-field05": 8,
+        "fire29-field06": 6,
+        "fire29-field07": 12,
+        "fire29-field08": 11,
+        "fire29-field09": 2,
+        "fire29-field10": 8,
+        "fire29-field11": 13,
+        "fire29-field13": 4,
+        "fire29-visible02": 2,
+        "fire29-field15": 12,
+        "fire29-field16": 9,
+        "fire29-field17": 7,
+        "fire29-field18": 9,
+        "fire29-field19": 4,
+        "fire29-field20": 9,
+        "fire29-field21": 14,
+        "fire29-field22": 11,
+        "fire29-field23": 5,
+        "fire29-field24": 8,
+        "fire29-field25": 6,
+        "fire29-field26": 3,
+        "fire29-short01": 10
+      }
+    },
+    {
+      "slot": 55,
+      "rgba_sha256": "ad8d374e3caab74feeb6534d0fe9a737708eed0a0fce68cf236a3b10f753f1d4",
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 4,
+        "fire29-field03": 6,
+        "fire29-field04": 7,
+        "fire29-field05": 8,
+        "fire29-field06": 8,
+        "fire29-field07": 12,
+        "fire29-field08": 11,
+        "fire29-field09": 3,
+        "fire29-field10": 8,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 12,
+        "fire29-field16": 9,
+        "fire29-field17": 6,
+        "fire29-field18": 10,
+        "fire29-field19": 5,
+        "fire29-field20": 8,
+        "fire29-field21": 15,
+        "fire29-field22": 17,
+        "fire29-field23": 5,
+        "fire29-field24": 7,
+        "fire29-field25": 5,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      }
+    },
+    {
+      "slot": 56,
+      "rgba_sha256": "67dee077bb916db455fc20b6041ae6d614ef2620bd4f771920fefd596afda3fd",
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 4,
+        "fire29-field03": 6,
+        "fire29-field04": 6,
+        "fire29-field05": 7,
+        "fire29-field06": 8,
+        "fire29-field07": 11,
+        "fire29-field08": 12,
+        "fire29-field09": 3,
+        "fire29-field10": 9,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 12,
+        "fire29-field16": 10,
+        "fire29-field17": 6,
+        "fire29-field18": 10,
+        "fire29-field19": 5,
+        "fire29-field20": 8,
+        "fire29-field21": 16,
+        "fire29-field22": 17,
+        "fire29-field23": 5,
+        "fire29-field24": 7,
+        "fire29-field25": 4,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      }
+    },
+    {
+      "slot": 57,
+      "rgba_sha256": "68d854b56c80a0f7df2476c3d10b39f5c9b5c1d8078e7dc04cae3b0e1fd0918c",
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 5,
+        "fire29-field03": 5,
+        "fire29-field04": 6,
+        "fire29-field05": 7,
+        "fire29-field06": 9,
+        "fire29-field07": 11,
+        "fire29-field08": 12,
+        "fire29-field09": 4,
+        "fire29-field10": 9,
+        "fire29-field11": 14,
+        "fire29-field13": 1,
+        "fire29-visible02": 14,
+        "fire29-field15": 11,
+        "fire29-field16": 10,
+        "fire29-field17": 6,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 7,
+        "fire29-field21": 16,
+        "fire29-field22": 17,
+        "fire29-field23": 6,
+        "fire29-field24": 6,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 58,
+      "rgba_sha256": "b29558979b5950a78b18d9397020b2a7a78b3ec1ef13fa875450707e746362da",
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 4,
+        "fire29-field03": 5,
+        "fire29-field04": 5,
+        "fire29-field05": 6,
+        "fire29-field06": 9,
+        "fire29-field07": 10,
+        "fire29-field08": 12,
+        "fire29-field09": 4,
+        "fire29-field10": 10,
+        "fire29-field11": 14,
+        "fire29-field13": 4,
+        "fire29-visible02": 3,
+        "fire29-field15": 11,
+        "fire29-field16": 11,
+        "fire29-field17": 6,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 7,
+        "fire29-field21": 23,
+        "fire29-field22": 18,
+        "fire29-field23": 6,
+        "fire29-field24": 6,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 1
+      }
+    },
+    {
+      "slot": 59,
+      "rgba_sha256": "c3ce5b7dbc077cd37292e3b0336c5cf4d08ec0cb370e4a31e1df27969a9f68be",
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 4,
+        "fire29-field03": 5,
+        "fire29-field04": 5,
+        "fire29-field05": 6,
+        "fire29-field06": 12,
+        "fire29-field07": 10,
+        "fire29-field08": 11,
+        "fire29-field09": 5,
+        "fire29-field10": 10,
+        "fire29-field11": 15,
+        "fire29-field13": 5,
+        "fire29-visible02": 3,
+        "fire29-field15": 10,
+        "fire29-field16": 11,
+        "fire29-field17": 7,
+        "fire29-field18": 10,
+        "fire29-field19": 7,
+        "fire29-field20": 6,
+        "fire29-field21": 23,
+        "fire29-field22": 18,
+        "fire29-field23": 7,
+        "fire29-field24": 5,
+        "fire29-field25": 4,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      }
+    },
+    {
+      "slot": 60,
+      "rgba_sha256": "a41c1540eb353b9e2f023cc67ea0e54f60ee59cd31a6b7c490d2b88b66620d7b",
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 3,
+        "fire29-field03": 6,
+        "fire29-field04": 4,
+        "fire29-field05": 5,
+        "fire29-field06": 12,
+        "fire29-field07": 9,
+        "fire29-field08": 11,
+        "fire29-field09": 5,
+        "fire29-field10": 10,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 10,
+        "fire29-field16": 12,
+        "fire29-field17": 7,
+        "fire29-field18": 10,
+        "fire29-field19": 7,
+        "fire29-field20": 6,
+        "fire29-field21": 22,
+        "fire29-field22": 18,
+        "fire29-field23": 7,
+        "fire29-field24": 5,
+        "fire29-field25": 5,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      }
+    },
+    {
+      "slot": 61,
+      "rgba_sha256": "6a2a4f7be1db1c73522c9223f26b2ee12b6e719587f23f8cd4ffc16d81cb6fea",
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 3,
+        "fire29-field03": 6,
+        "fire29-field04": 4,
+        "fire29-field05": 5,
+        "fire29-field06": 12,
+        "fire29-field07": 9,
+        "fire29-field08": 10,
+        "fire29-field09": 6,
+        "fire29-field10": 9,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 10,
+        "fire29-field16": 12,
+        "fire29-field17": 8,
+        "fire29-field18": 9,
+        "fire29-field19": 6,
+        "fire29-field20": 5,
+        "fire29-field21": 21,
+        "fire29-field22": 17,
+        "fire29-field23": 8,
+        "fire29-field24": 5,
+        "fire29-field25": 6,
+        "fire29-field26": 6,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 62,
+      "rgba_sha256": "293e486a35e46dca545b1e58d7ab8da60ba6d868cc48788a90bfea034826b388",
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 7,
+        "fire29-field04": 3,
+        "fire29-field05": 4,
+        "fire29-field06": 9,
+        "fire29-field07": 9,
+        "fire29-field08": 10,
+        "fire29-field09": 6,
+        "fire29-field10": 9,
+        "fire29-field11": 14,
+        "fire29-field13": 7,
+        "fire29-visible02": 1,
+        "fire29-field15": 10,
+        "fire29-field16": 13,
+        "fire29-field17": 8,
+        "fire29-field18": 9,
+        "fire29-field19": 6,
+        "fire29-field20": 5,
+        "fire29-field21": 21,
+        "fire29-field22": 17,
+        "fire29-field23": 8,
+        "fire29-field24": 5,
+        "fire29-field25": 7,
+        "fire29-field26": 6,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 63,
+      "rgba_sha256": "ddcfa01789ec0451b16b5d27e6745778c041dea5b037c89f04d75dcca8bcd199",
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 7,
+        "fire29-field04": 3,
+        "fire29-field05": 4,
+        "fire29-field06": 9,
+        "fire29-field07": 9,
+        "fire29-field08": 9,
+        "fire29-field09": 7,
+        "fire29-field10": 8,
+        "fire29-field11": 14,
+        "fire29-field13": 6,
+        "fire29-visible02": 1,
+        "fire29-field15": 11,
+        "fire29-field16": 13,
+        "fire29-field17": 9,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 4,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 9,
+        "fire29-field24": 5,
+        "fire29-field25": 8,
+        "fire29-field26": 5,
+        "fire29-short01": 11
+      }
+    },
+    {
+      "slot": 64,
+      "rgba_sha256": "0224aa2cef8d9b36a554dbec613dc92a8e8b4d5207ced6eb064926df39cb83aa",
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 2,
+        "fire29-field05": 4,
+        "fire29-field06": 8,
+        "fire29-field07": 9,
+        "fire29-field08": 9,
+        "fire29-field09": 7,
+        "fire29-field10": 8,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 1,
+        "fire29-field15": 11,
+        "fire29-field16": 14,
+        "fire29-field17": 9,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 4,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 9,
+        "fire29-field24": 6,
+        "fire29-field25": 8,
+        "fire29-field26": 5,
+        "fire29-short01": 10
+      }
+    },
+    {
+      "slot": 65,
+      "rgba_sha256": "41575eea1b3eda4ef139466391fdfc5d8d255ae1c5584b113bd5d0ff53d1a42c",
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 3,
+        "fire29-field03": 8,
+        "fire29-field04": 2,
+        "fire29-field05": 4,
+        "fire29-field06": 8,
+        "fire29-field07": 10,
+        "fire29-field08": 8,
+        "fire29-field09": 7,
+        "fire29-field10": 7,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 2,
+        "fire29-field15": 12,
+        "fire29-field16": 14,
+        "fire29-field17": 8,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 4,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 10,
+        "fire29-field24": 6,
+        "fire29-field25": 9,
+        "fire29-field26": 4,
+        "fire29-short01": 10
+      }
+    },
+    {
+      "slot": 66,
+      "rgba_sha256": "6467debb5823cbf5b9cc424a83aa5d78350b9134226bf8c270e58099ca22e12c",
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 3,
+        "fire29-field03": 9,
+        "fire29-field04": 2,
+        "fire29-field05": 4,
+        "fire29-field06": 6,
+        "fire29-field07": 10,
+        "fire29-field08": 8,
+        "fire29-field09": 6,
+        "fire29-field10": 7,
+        "fire29-field11": 13,
+        "fire29-field13": 4,
+        "fire29-visible02": 2,
+        "fire29-field15": 12,
+        "fire29-field16": 14,
+        "fire29-field17": 8,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 4,
+        "fire29-field21": 21,
+        "fire29-field22": 9,
+        "fire29-field23": 10,
+        "fire29-field24": 7,
+        "fire29-field25": 8,
+        "fire29-field26": 4,
+        "fire29-short01": 9
+      }
+    },
+    {
+      "slot": 67,
+      "rgba_sha256": "a95039b4115f0ad95542a0b0a3eb6f2bfd58f069a601e2450d0f40d123b02c4f",
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 9,
+        "fire29-field04": 3,
+        "fire29-field05": 5,
+        "fire29-field06": 2,
+        "fire29-field07": 11,
+        "fire29-field08": 7,
+        "fire29-field09": 6,
+        "fire29-field10": 6,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 13,
+        "fire29-field16": 13,
+        "fire29-field17": 7,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 4,
+        "fire29-field21": 21,
+        "fire29-field22": 9,
+        "fire29-field23": 10,
+        "fire29-field24": 7,
+        "fire29-field25": 7,
+        "fire29-field26": 3,
+        "fire29-short01": 10
+      }
+    },
+    {
+      "slot": 68,
+      "rgba_sha256": "2a6830e6d09d45fd0ae460604b1b5d3e6c40558c2bdb49ced62515e33c9247a1",
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 10,
+        "fire29-field04": 3,
+        "fire29-field05": 5,
+        "fire29-field06": 2,
+        "fire29-field07": 11,
+        "fire29-field08": 7,
+        "fire29-field09": 5,
+        "fire29-field10": 6,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 13,
+        "fire29-field16": 13,
+        "fire29-field17": 7,
+        "fire29-field18": 7,
+        "fire29-field19": 3,
+        "fire29-field20": 5,
+        "fire29-field21": 22,
+        "fire29-field22": 9,
+        "fire29-field23": 9,
+        "fire29-field24": 8,
+        "fire29-field25": 6,
+        "fire29-field26": 3,
+        "fire29-short01": 10
+      }
+    },
+    {
+      "slot": 69,
+      "rgba_sha256": "32fbbcb1f10ea9cde002ac11ca2c07ca04f8039cf93d56e87f2351da329840b7",
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 5,
+        "fire29-field03": 10,
+        "fire29-field04": 4,
+        "fire29-field05": 6,
+        "fire29-field06": 4,
+        "fire29-field07": 12,
+        "fire29-field08": 7,
+        "fire29-field09": 5,
+        "fire29-field10": 6,
+        "fire29-field11": 14,
+        "fire29-field13": 1,
+        "fire29-visible02": 14,
+        "fire29-field15": 14,
+        "fire29-field16": 12,
+        "fire29-field17": 6,
+        "fire29-field18": 7,
+        "fire29-field19": 3,
+        "fire29-field20": 5,
+        "fire29-field21": 23,
+        "fire29-field22": 7,
+        "fire29-field23": 9,
+        "fire29-field24": 8,
+        "fire29-field25": 5,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      }
+    },
+    {
+      "slot": 70,
+      "rgba_sha256": "8e8c2df7a00d31dae3e2c06a640da242fe817f68cbf69a9bed2887d9e6bd2717",
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 11,
+        "fire29-field04": 4,
+        "fire29-field05": 6,
+        "fire29-field06": 4,
+        "fire29-field07": 12,
+        "fire29-field08": 7,
+        "fire29-field09": 4,
+        "fire29-field10": 6,
+        "fire29-field11": 14,
+        "fire29-field13": 4,
+        "fire29-visible02": 3,
+        "fire29-field15": 14,
+        "fire29-field16": 12,
+        "fire29-field17": 6,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 6,
+        "fire29-field21": 23,
+        "fire29-field22": 7,
+        "fire29-field23": 8,
+        "fire29-field24": 9,
+        "fire29-field25": 4,
+        "fire29-field26": 3,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 71,
+      "rgba_sha256": "9bbaf63df2abc3e08ab32fd5a7a829cf62188c04600ed8df45300dfdaaf3536f",
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 4,
+        "fire29-field03": 10,
+        "fire29-field04": 5,
+        "fire29-field05": 7,
+        "fire29-field06": 2,
+        "fire29-field07": 13,
+        "fire29-field08": 7,
+        "fire29-field09": 4,
+        "fire29-field10": 7,
+        "fire29-field11": 15,
+        "fire29-field13": 5,
+        "fire29-visible02": 3,
+        "fire29-field15": 14,
+        "fire29-field16": 11,
+        "fire29-field17": 6,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 6,
+        "fire29-field21": 16,
+        "fire29-field22": 7,
+        "fire29-field23": 8,
+        "fire29-field24": 9,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 72,
+      "rgba_sha256": "1bca2bd53a5bfc44cd36d3d3afb3603ced04bafcbeb07f0911b6f6a502c354fb",
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 3,
+        "fire29-field03": 10,
+        "fire29-field04": 5,
+        "fire29-field05": 7,
+        "fire29-field06": 2,
+        "fire29-field07": 13,
+        "fire29-field08": 8,
+        "fire29-field09": 3,
+        "fire29-field10": 7,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 13,
+        "fire29-field16": 11,
+        "fire29-field17": 6,
+        "fire29-field18": 9,
+        "fire29-field19": 4,
+        "fire29-field20": 7,
+        "fire29-field21": 15,
+        "fire29-field22": 7,
+        "fire29-field23": 7,
+        "fire29-field24": 8,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 1
+      }
+    },
+    {
+      "slot": 73,
+      "rgba_sha256": "9ca0fc558684474f7c503760d8d71656b510ab351bf741ae85042640e93c2ef1",
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 3,
+        "fire29-field03": 9,
+        "fire29-field04": 6,
+        "fire29-field05": 8,
+        "fire29-field06": 6,
+        "fire29-field07": 12,
+        "fire29-field08": 8,
+        "fire29-field09": 3,
+        "fire29-field10": 8,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 13,
+        "fire29-field16": 10,
+        "fire29-field17": 7,
+        "fire29-field18": 9,
+        "fire29-field19": 4,
+        "fire29-field20": 7,
+        "fire29-field21": 15,
+        "fire29-field22": 7,
+        "fire29-field23": 7,
+        "fire29-field24": 8,
+        "fire29-field25": 4,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      }
+    },
+    {
+      "slot": 74,
+      "rgba_sha256": "00e25924fe2c59ec9ac26ccb168faa3ab6fc3541fe4a410ef33ac99ac2e85f41",
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 9,
+        "fire29-field04": 6,
+        "fire29-field05": 8,
+        "fire29-field06": 8,
+        "fire29-field07": 12,
+        "fire29-field08": 9,
+        "fire29-field09": 2,
+        "fire29-field10": 8,
+        "fire29-field11": 14,
+        "fire29-field13": 7,
+        "fire29-visible02": 1,
+        "fire29-field15": 12,
+        "fire29-field16": 10,
+        "fire29-field17": 7,
+        "fire29-field18": 10,
+        "fire29-field19": 5,
+        "fire29-field20": 8,
+        "fire29-field21": 14,
+        "fire29-field22": 9,
+        "fire29-field23": 6,
+        "fire29-field24": 7,
+        "fire29-field25": 5,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      }
+    },
+    {
+      "slot": 75,
+      "rgba_sha256": "2207cecfbaccd8704fc3680dbeac1eb24638ef5d4ef5c142660b7a016ee2f847",
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 7,
+        "fire29-field05": 9,
+        "fire29-field06": 8,
+        "fire29-field07": 11,
+        "fire29-field08": 9,
+        "fire29-field09": 2,
+        "fire29-field10": 9,
+        "fire29-field11": 14,
+        "fire29-field13": 6,
+        "fire29-visible02": 1,
+        "fire29-field15": 12,
+        "fire29-field16": 9,
+        "fire29-field17": 8,
+        "fire29-field18": 10,
+        "fire29-field19": 5,
+        "fire29-field20": 8,
+        "fire29-field21": 14,
+        "fire29-field22": 9,
+        "fire29-field23": 6,
+        "fire29-field24": 7,
+        "fire29-field25": 6,
+        "fire29-field26": 6,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 76,
+      "rgba_sha256": "02ba1b4babf57a87ead51080400447acae62163d8579eb949d03caa22b7c454f",
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 7,
+        "fire29-field05": 9,
+        "fire29-field06": 9,
+        "fire29-field07": 11,
+        "fire29-field08": 10,
+        "fire29-field09": 2,
+        "fire29-field10": 9,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 1,
+        "fire29-field15": 11,
+        "fire29-field16": 9,
+        "fire29-field17": 8,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 9,
+        "fire29-field21": 11,
+        "fire29-field22": 9,
+        "fire29-field23": 5,
+        "fire29-field24": 6,
+        "fire29-field25": 7,
+        "fire29-field26": 5,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 77,
+      "rgba_sha256": "88363cc626ce33a15226c95a3bcd9a3034dd271737d3f2201ad27840b794a126",
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 3,
+        "fire29-field03": 7,
+        "fire29-field04": 8,
+        "fire29-field05": 10,
+        "fire29-field06": 9,
+        "fire29-field07": 10,
+        "fire29-field08": 10,
+        "fire29-field09": 2,
+        "fire29-field10": 9,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 2,
+        "fire29-field15": 11,
+        "fire29-field16": 9,
+        "fire29-field17": 9,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 9,
+        "fire29-field21": 14,
+        "fire29-field22": 11,
+        "fire29-field23": 5,
+        "fire29-field24": 6,
+        "fire29-field25": 8,
+        "fire29-field26": 5,
+        "fire29-short01": 11
+      }
+    },
+    {
+      "slot": 78,
+      "rgba_sha256": "b23daaa648b8ff771fd80be6103ec410b358ac0cb712e33aa3bce6fe3f593043",
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 3,
+        "fire29-field03": 7,
+        "fire29-field04": 7,
+        "fire29-field05": 10,
+        "fire29-field06": 12,
+        "fire29-field07": 10,
+        "fire29-field08": 11,
+        "fire29-field09": 2,
+        "fire29-field10": 10,
+        "fire29-field11": 13,
+        "fire29-field13": 4,
+        "fire29-visible02": 2,
+        "fire29-field15": 10,
+        "fire29-field16": 9,
+        "fire29-field17": 9,
+        "fire29-field18": 10,
+        "fire29-field19": 7,
+        "fire29-field20": 10,
+        "fire29-field21": 14,
+        "fire29-field22": 11,
+        "fire29-field23": 5,
+        "fire29-field24": 6,
+        "fire29-field25": 9,
+        "fire29-field26": 4,
+        "fire29-short01": 10
+      }
+    },
+    {
+      "slot": 79,
+      "rgba_sha256": "89319d6f5347fdfff47d198c64209986380b08e8eae662639336900dba85795a",
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 4,
+        "fire29-field03": 6,
+        "fire29-field04": 7,
+        "fire29-field05": 11,
+        "fire29-field06": 12,
+        "fire29-field07": 10,
+        "fire29-field08": 11,
+        "fire29-field09": 3,
+        "fire29-field10": 10,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 10,
+        "fire29-field16": 9,
+        "fire29-field17": 8,
+        "fire29-field18": 10,
+        "fire29-field19": 7,
+        "fire29-field20": 10,
+        "fire29-field21": 15,
+        "fire29-field22": 17,
+        "fire29-field23": 5,
+        "fire29-field24": 5,
+        "fire29-field25": 8,
+        "fire29-field26": 4,
+        "fire29-short01": 10
+      }
+    },
+    {
+      "slot": 80,
+      "rgba_sha256": "c1fa4c6f7aed6def24b191301d41ca2b9c0661b13d6c5f5c5c82c73cede59577",
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 4,
+        "fire29-field03": 6,
+        "fire29-field04": 6,
+        "fire29-field05": 11,
+        "fire29-field06": 12,
+        "fire29-field07": 9,
+        "fire29-field08": 12,
+        "fire29-field09": 3,
+        "fire29-field10": 9,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 10,
+        "fire29-field16": 10,
+        "fire29-field17": 8,
+        "fire29-field18": 9,
+        "fire29-field19": 6,
+        "fire29-field20": 11,
+        "fire29-field21": 16,
+        "fire29-field22": 17,
+        "fire29-field23": 5,
+        "fire29-field24": 5,
+        "fire29-field25": 7,
+        "fire29-field26": 3,
+        "fire29-short01": 9
+      }
+    },
+    {
+      "slot": 81,
+      "rgba_sha256": "e8aeb7ff09675ede525a3f030b27eabae5d9790211a1dcf8e19790391a5b317c",
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 5,
+        "fire29-field03": 5,
+        "fire29-field04": 6,
+        "fire29-field05": 11,
+        "fire29-field06": 9,
+        "fire29-field07": 9,
+        "fire29-field08": 12,
+        "fire29-field09": 4,
+        "fire29-field10": 9,
+        "fire29-field11": 14,
+        "fire29-field13": 1,
+        "fire29-visible02": 14,
+        "fire29-field15": 10,
+        "fire29-field16": 10,
+        "fire29-field17": 7,
+        "fire29-field18": 9,
+        "fire29-field19": 6,
+        "fire29-field20": 11,
+        "fire29-field21": 16,
+        "fire29-field22": 17,
+        "fire29-field23": 6,
+        "fire29-field24": 5,
+        "fire29-field25": 6,
+        "fire29-field26": 3,
+        "fire29-short01": 10
+      }
+    },
+    {
+      "slot": 82,
+      "rgba_sha256": "23336307ed6882990bb7695004addf38b41f9956c4d4c6cebd5eaa771a9b76e0",
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 4,
+        "fire29-field03": 5,
+        "fire29-field04": 5,
+        "fire29-field05": 10,
+        "fire29-field06": 9,
+        "fire29-field07": 9,
+        "fire29-field08": 12,
+        "fire29-field09": 4,
+        "fire29-field10": 8,
+        "fire29-field11": 14,
+        "fire29-field13": 4,
+        "fire29-visible02": 3,
+        "fire29-field15": 11,
+        "fire29-field16": 11,
+        "fire29-field17": 7,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 11,
+        "fire29-field21": 23,
+        "fire29-field22": 18,
+        "fire29-field23": 6,
+        "fire29-field24": 5,
+        "fire29-field25": 5,
+        "fire29-field26": 3,
+        "fire29-short01": 10
+      }
+    },
+    {
+      "slot": 83,
+      "rgba_sha256": "c4a021330479318eef56cf03156e45cbe4e8fa3ff35c1999c295b72929f1350b",
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 4,
+        "fire29-field03": 5,
+        "fire29-field04": 5,
+        "fire29-field05": 10,
+        "fire29-field06": 8,
+        "fire29-field07": 9,
+        "fire29-field08": 11,
+        "fire29-field09": 5,
+        "fire29-field10": 8,
+        "fire29-field11": 15,
+        "fire29-field13": 5,
+        "fire29-visible02": 3,
+        "fire29-field15": 11,
+        "fire29-field16": 11,
+        "fire29-field17": 6,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 10,
+        "fire29-field21": 23,
+        "fire29-field22": 18,
+        "fire29-field23": 7,
+        "fire29-field24": 6,
+        "fire29-field25": 5,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      }
+    },
+    {
+      "slot": 84,
+      "rgba_sha256": "1d0a74512d6ef8a2e38860a3c1bcfe51f88cfdb5a9c795136a0f977dab0ae2c1",
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 3,
+        "fire29-field03": 6,
+        "fire29-field04": 4,
+        "fire29-field05": 9,
+        "fire29-field06": 8,
+        "fire29-field07": 10,
+        "fire29-field08": 11,
+        "fire29-field09": 5,
+        "fire29-field10": 7,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 12,
+        "fire29-field16": 12,
+        "fire29-field17": 6,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 10,
+        "fire29-field21": 22,
+        "fire29-field22": 18,
+        "fire29-field23": 7,
+        "fire29-field24": 6,
+        "fire29-field25": 4,
+        "fire29-field26": 4,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 85,
+      "rgba_sha256": "3ee0a6f68b65cff8608b5bd479d4571abfbc2ffc2e8d4ddc68131bf8dceb35e7",
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 3,
+        "fire29-field03": 6,
+        "fire29-field04": 4,
+        "fire29-field05": 9,
+        "fire29-field06": 6,
+        "fire29-field07": 10,
+        "fire29-field08": 10,
+        "fire29-field09": 6,
+        "fire29-field10": 7,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 12,
+        "fire29-field16": 12,
+        "fire29-field17": 6,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 9,
+        "fire29-field21": 21,
+        "fire29-field22": 17,
+        "fire29-field23": 8,
+        "fire29-field24": 7,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 86,
+      "rgba_sha256": "7c9360a4479664336c1d19b669fb368d899478b1d08f5606ab60f040571806b7",
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 7,
+        "fire29-field04": 3,
+        "fire29-field05": 8,
+        "fire29-field06": 2,
+        "fire29-field07": 11,
+        "fire29-field08": 10,
+        "fire29-field09": 6,
+        "fire29-field10": 6,
+        "fire29-field11": 14,
+        "fire29-field13": 7,
+        "fire29-visible02": 1,
+        "fire29-field15": 13,
+        "fire29-field16": 13,
+        "fire29-field17": 7,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 9,
+        "fire29-field21": 21,
+        "fire29-field22": 17,
+        "fire29-field23": 8,
+        "fire29-field24": 7,
+        "fire29-field25": 1,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      }
+    },
+    {
+      "slot": 87,
+      "rgba_sha256": "8d0934349d429d79cfd73ad78fa740fef043a27ed2fa70c785d68d46059b523c",
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 7,
+        "fire29-field04": 3,
+        "fire29-field05": 8,
+        "fire29-field06": 2,
+        "fire29-field07": 11,
+        "fire29-field08": 9,
+        "fire29-field09": 7,
+        "fire29-field10": 6,
+        "fire29-field11": 14,
+        "fire29-field13": 6,
+        "fire29-visible02": 1,
+        "fire29-field15": 13,
+        "fire29-field16": 13,
+        "fire29-field17": 7,
+        "fire29-field18": 7,
+        "fire29-field19": 3,
+        "fire29-field20": 8,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 9,
+        "fire29-field24": 8,
+        "fire29-field25": 4,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      }
+    },
+    {
+      "slot": 88,
+      "rgba_sha256": "5c249296146dd4ef8d168a198b041c28aa5be7ff0ee599f2c3d6a60509963033",
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 2,
+        "fire29-field05": 7,
+        "fire29-field06": 4,
+        "fire29-field07": 12,
+        "fire29-field08": 9,
+        "fire29-field09": 7,
+        "fire29-field10": 6,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 1,
+        "fire29-field15": 13,
+        "fire29-field16": 14,
+        "fire29-field17": 8,
+        "fire29-field18": 7,
+        "fire29-field19": 3,
+        "fire29-field20": 8,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 9,
+        "fire29-field24": 8,
+        "fire29-field25": 5,
+        "fire29-field26": 6,
+        "fire29-short01": 1
+      }
+    },
+    {
+      "slot": 89,
+      "rgba_sha256": "13cfa612b8124ccb9e2175116e185bd963f6ba048037bbd17da316c5a470a31d",
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 3,
+        "fire29-field03": 8,
+        "fire29-field04": 2,
+        "fire29-field05": 7,
+        "fire29-field06": 4,
+        "fire29-field07": 12,
+        "fire29-field08": 8,
+        "fire29-field09": 7,
+        "fire29-field10": 6,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 2,
+        "fire29-field15": 14,
+        "fire29-field16": 14,
+        "fire29-field17": 8,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 7,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 10,
+        "fire29-field24": 9,
+        "fire29-field25": 6,
+        "fire29-field26": 6,
+        "fire29-short01": 12
+      }
+    },
+    {
+      "slot": 90,
+      "rgba_sha256": "ffa06ef1fa4c8904b15503efe913a56199ce20d34e0260e506d57a62118227d6",
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 3,
+        "fire29-field03": 9,
+        "fire29-field04": 2,
+        "fire29-field05": 6,
+        "fire29-field06": 2,
+        "fire29-field07": 13,
+        "fire29-field08": 8,
+        "fire29-field09": 6,
+        "fire29-field10": 7,
+        "fire29-field11": 13,
+        "fire29-field13": 4,
+        "fire29-visible02": 2,
+        "fire29-field15": 14,
+        "fire29-field16": 14,
+        "fire29-field17": 9,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 7,
+        "fire29-field21": 21,
+        "fire29-field22": 9,
+        "fire29-field23": 10,
+        "fire29-field24": 9,
+        "fire29-field25": 7,
+        "fire29-field26": 5,
+        "fire29-short01": 11
+      }
+    },
+    {
+      "slot": 91,
+      "rgba_sha256": "0890e1e01da5f1e38b9b99d2c13a5f9254a9fd9c8f3419bee963d2998a4424a1",
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 9,
+        "fire29-field04": 3,
+        "fire29-field05": 6,
+        "fire29-field06": 2,
+        "fire29-field07": 13,
+        "fire29-field08": 7,
+        "fire29-field09": 6,
+        "fire29-field10": 7,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 13,
+        "fire29-field16": 13,
+        "fire29-field17": 9,
+        "fire29-field18": 9,
+        "fire29-field19": 4,
+        "fire29-field20": 6,
+        "fire29-field21": 21,
+        "fire29-field22": 9,
+        "fire29-field23": 10,
+        "fire29-field24": 8,
+        "fire29-field25": 8,
+        "fire29-field26": 5,
+        "fire29-short01": 11
+      }
+    },
+    {
+      "slot": 92,
+      "rgba_sha256": "9d47f0985e8bdb382ca12429a4668173db65e4105168c7fb6545bb4fd4f11323",
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 10,
+        "fire29-field04": 3,
+        "fire29-field05": 5,
+        "fire29-field06": 6,
+        "fire29-field07": 12,
+        "fire29-field08": 7,
+        "fire29-field09": 5,
+        "fire29-field10": 7,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 13,
+        "fire29-field16": 13,
+        "fire29-field17": 8,
+        "fire29-field18": 9,
+        "fire29-field19": 4,
+        "fire29-field20": 6,
+        "fire29-field21": 22,
+        "fire29-field22": 9,
+        "fire29-field23": 9,
+        "fire29-field24": 8,
+        "fire29-field25": 9,
+        "fire29-field26": 4,
+        "fire29-short01": 10
+      }
+    },
+    {
+      "slot": 93,
+      "rgba_sha256": "5dccedb270ab12402392fae97b33f796ecb895c0e234c0993c876cab9f07be22",
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 5,
+        "fire29-field03": 10,
+        "fire29-field04": 4,
+        "fire29-field05": 5,
+        "fire29-field06": 8,
+        "fire29-field07": 12,
+        "fire29-field08": 7,
+        "fire29-field09": 5,
+        "fire29-field10": 8,
+        "fire29-field11": 14,
+        "fire29-field13": 1,
+        "fire29-visible02": 14,
+        "fire29-field15": 12,
+        "fire29-field16": 12,
+        "fire29-field17": 8,
+        "fire29-field18": 10,
+        "fire29-field19": 5,
+        "fire29-field20": 5,
+        "fire29-field21": 23,
+        "fire29-field22": 7,
+        "fire29-field23": 9,
+        "fire29-field24": 7,
+        "fire29-field25": 8,
+        "fire29-field26": 4,
+        "fire29-short01": 9
+      }
+    },
+    {
+      "slot": 94,
+      "rgba_sha256": "9da8ae2743ae3565bd58795fd616fa785ea2a7dbf636536a850244047b8f5fc6",
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 11,
+        "fire29-field04": 4,
+        "fire29-field05": 4,
+        "fire29-field06": 8,
+        "fire29-field07": 11,
+        "fire29-field08": 7,
+        "fire29-field09": 4,
+        "fire29-field10": 8,
+        "fire29-field11": 14,
+        "fire29-field13": 4,
+        "fire29-visible02": 3,
+        "fire29-field15": 12,
+        "fire29-field16": 12,
+        "fire29-field17": 7,
+        "fire29-field18": 10,
+        "fire29-field19": 5,
+        "fire29-field20": 5,
+        "fire29-field21": 23,
+        "fire29-field22": 7,
+        "fire29-field23": 8,
+        "fire29-field24": 7,
+        "fire29-field25": 7,
+        "fire29-field26": 3,
+        "fire29-short01": 9
+      }
+    },
+    {
+      "slot": 95,
+      "rgba_sha256": "fc07682a87d08b6a3ae001c43258c74cdb2b995907098e9eddb32538b7c5d4ce",
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 4,
+        "fire29-field03": 10,
+        "fire29-field04": 5,
+        "fire29-field05": 4,
+        "fire29-field06": 9,
+        "fire29-field07": 11,
+        "fire29-field08": 7,
+        "fire29-field09": 4,
+        "fire29-field10": 9,
+        "fire29-field11": 15,
+        "fire29-field13": 5,
+        "fire29-visible02": 3,
+        "fire29-field15": 11,
+        "fire29-field16": 11,
+        "fire29-field17": 7,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 4,
+        "fire29-field21": 16,
+        "fire29-field22": 7,
+        "fire29-field23": 8,
+        "fire29-field24": 7,
+        "fire29-field25": 6,
+        "fire29-field26": 3,
+        "fire29-short01": 10
+      }
+    }
+  ]
+}

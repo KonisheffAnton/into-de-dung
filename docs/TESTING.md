@@ -26,11 +26,20 @@ presentation_environment presentation_contact battle_view_reuse --screen 0`.
 цикл кальтропов15,6с и точный стык. Для локальной подгонки плиты достаточно
 `--render-check --only hazards_ui environment_visual_contract --screen 0`:
 GPU проверяет три позы, проекцию четырёх вершин и девяти гнёзд, заполнение
-внутренности тайла и alpha по обратной проекции исходника/маски. Старый crop
-служит отрицательным контролем покрытия. Положительное число кончиков вне
+внутренности тайла и alpha по обратной проекции исходника/маски. Прежний внешний
+ромб служит отрицательным контролем лишних пикселей торца. Положительное число кончиков вне
 ромба не требуется: после подгонки они могут целиком помещаться внутри.
 battle_view_reuse расширяет набор согласно launcher.
 Это не full/core или ручной F5/zoom/DPI/performance.
+
+Внедрение огня29 (2026-11-07): `python tools/art/build_fire29_animation.py --check`;
+`--render-check --only fire29_animation dungeon_room_comparison
+environment_visual_contract hazards_ui acid_tile_animation visual_scene_contract --screen 0`.
+Новый runner проверяет96 кадров/80мс, реальный loop95→0, pause/retire/reuse,
+подгонку к тайлу на разных высотах/масштабах, VOID/deep acid и прежний picking.
+PNG включают огонь на текущем камне и три позы плиты рядом с соседними клетками,
+сравниваемые с прежним торцом. Сборщик проверяет SHA raw/native и точные ячейки;
+проверки не подменяют ручную оценку и стабильные60FPS не заявляют.
 
 Кислотная плёнка, глубокая кислота и кальтропы (2026-11-05):
 `python tools/art/build_hazard_surface_animations.py --check` и

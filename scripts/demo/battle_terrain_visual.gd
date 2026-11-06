@@ -4,12 +4,15 @@ extends BattleDemoIsoVisual
 ## Явное согласие сцены на сохранение опоры между публикациями представления.
 ## Сцены, чей рисунок зависит от подсветки, оставляют полный путь обновления.
 @export var highlights_use_ground_overlay: bool = false
+@export var selected_fire: bool = false
 @export var batch_simple_polygons: bool = false:
 	set(value):
 		batch_simple_polygons = value
 		if is_node_ready(): _configure_polygon_batch()
 const DEEP_ACID_SCENE: PackedScene = preload("res://scenes/demo/visuals/hazards/deep_acid_pool.tscn")
+const SELECTED_FIRE_SCENE: PackedScene = preload("res://scenes/demo/visuals/hazards/fire29.tscn")
 var _deep_acid_view: Node2D
+var _fire_view: BattleAnimatedAcidPool
 var view_apply_count: int = 0
 var _view_initialized: bool = false
 var _view_tile_size: Vector2
@@ -78,6 +81,7 @@ func reset_view_pose() -> void:
 func retire_view() -> void:
 	reset_view_pose()
 	_view_initialized = false
+	if _fire_view != null: _fire_view.retire_view()
 	if _deep_acid_view != null:
 		(_deep_acid_view.get_node(^"Liquid") as BattleAnimatedAcidPool).retire_view()
 		_deep_acid_view.hide()
@@ -85,6 +89,7 @@ func retire_view() -> void:
 func sync_scene_art() -> void:
 	super.sync_scene_art()
 	if not is_inside_tree() or grid_config == null: return
+	_sync_selected_fire()
 	if deep_acid and _deep_acid_view == null:
 		_deep_acid_view = DEEP_ACID_SCENE.instantiate() as Node2D
 		add_child(_deep_acid_view)
@@ -108,3 +113,18 @@ func sync_scene_art() -> void:
 
 func sync_view_transform() -> void:
 	pass
+
+
+func _sync_selected_fire() -> void:
+	var active := selected_fire and burning and not is_void and not deep_acid and role != Role.UNIT
+	if active and _fire_view == null:
+		_fire_view = SELECTED_FIRE_SCENE.instantiate() as BattleAnimatedAcidPool
+		add_child(_fire_view)
+	if _fire_view != null:
+		# Накладка следует поверхности вместе с высотой/падением; ArtRoot второй раз её не масштабирует.
+		_fire_view.position = _top_offset()
+		_fire_view.scale = Vector2.ONE * (grid_config.tile_size.x / 128.0)
+		_fire_view.set_active(active)
+	if selected_fire:
+		var legacy := get_node_or_null(^"ArtRoot/EffectRoot/BurningSprite") as CanvasItem
+		if legacy != null: legacy.hide()

@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/demo/battle_animated_acid_pool.gd" id="1_clock"]
+[ext_resource type="SpriteFrames" path="res://assets/art_presets/approved/fire29_selected_v1/fire29_frames.tres" id="2_frames"]
+[ext_resource type="Shader" path="res://assets/shaders/fire29_surface.gdshader" id="3_surface"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_surface"]
+shader = ExtResource("3_surface")
+
+[node name="Fire29" type="Node2D"]
+script = ExtResource("1_clock")
+animation_name = &"fire"
+
+[node name="Animation" type="AnimatedSprite2D" parent="."]
+texture_filter = 2
+material = SubResource("ShaderMaterial_surface")
+position = Vector2(-71.1344262, -54.6493506)
+scale = Vector2(0.555737705, 0.549471147)
+sprite_frames = ExtResource("2_frames")
+animation = &"fire"
+centered = false

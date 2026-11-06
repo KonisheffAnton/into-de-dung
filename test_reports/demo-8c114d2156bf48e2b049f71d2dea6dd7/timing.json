@@ -1,0 +1,126 @@
+{
+  "snapshot_seconds": 15.68562430003658,
+  "checks": {
+    "import": {
+      "elapsed_seconds": 20.01900149998255,
+      "status": "PASS"
+    },
+    "startup": {
+      "elapsed_seconds": 3.7998722000047565,
+      "status": "PASS"
+    },
+    "environment_visual_contract": {
+      "elapsed_seconds": 4.236450100084767,
+      "status": "PASS"
+    },
+    "visual_scene_contract": {
+      "elapsed_seconds": 6.2914383000461385,
+      "status": "PASS"
+    },
+    "dungeon_room_comparison": {
+      "elapsed_seconds": 9.455363099928945,
+      "status": "FAIL"
+    },
+    "acid_tile_animation": {
+      "elapsed_seconds": 6.943443300086074,
+      "status": "PASS"
+    },
+    "fire29_animation": {
+      "elapsed_seconds": 3.3714125000406057,
+      "status": "PASS"
+    },
+    "hazards_ui": {
+      "elapsed_seconds": 6.814011799986474,
+      "status": "PASS"
+    }
+  },
+  "total_seconds": 82.29514340008609,
+  "project_cleanup_before": {
+    "removed": [],
+    "skipped": [
+      {
+        "path": "test_reports/demo-1e0c7ee263c74553b7070157f20656e7/project",
+        "reason": "pinned keep=true"
+      },
+      {
+        "path": "test_reports/demo-2f6818ee1cf447c0b22d0517a2480701/project",
+        "reason": "pinned keep=true"
+      },
+      {
+        "path": "test_reports/demo-61a4221c21ca478faa96b89691ed7e6e/project",
+        "reason": "missing completion marker"
+      },
+      {
+        "path": "test_reports/demo-92fd62445c924aeebe5cf35497debee8/project",
+        "reason": "pinned keep=true"
+      },
+      {
+        "path": "test_reports/demo-9aafd6ba1ed04ffb9cd25b6ff860fc9f/project",
+        "reason": "pinned keep=true"
+      },
+      {
+        "path": "test_reports/demo-c47902f9a1d04e8c900334a12ad7a716/project",
+        "reason": "missing completion marker"
+      },
+      {
+        "path": "test_reports/demo-ce9c4ce9228e414693577ee02b06d800/project",
+        "reason": "pinned keep=true"
+      },
+      {
+        "path": "test_reports/demo-d9e93edfbfa0417bbbc9869b8b0b4a24/project",
+        "reason": "pinned keep=true"
+      }
+    ],
+    "errors": []
+  },
+  "summary": {
+    "passed": 7,
+    "failed": 1,
+    "timed_out": 0,
+    "failed_labels": [
+      "dungeon_room_comparison"
+    ],
+    "unexecuted_requested": [],
+    "blocked": null
+  },
+  "project_cleanup_after": {
+    "removed": [
+      "test_reports/demo-081fb5ee98554ee0a5271bcbc1ec1de5/project"
+    ],
+    "skipped": [
+      {
+        "path": "test_reports/demo-1e0c7ee263c74553b7070157f20656e7/project",
+        "reason": "pinned keep=true"
+      },
+      {
+        "path": "test_reports/demo-2f6818ee1cf447c0b22d0517a2480701/project",
+        "reason": "pinned keep=true"
+      },
+      {
+        "path": "test_reports/demo-61a4221c21ca478faa96b89691ed7e6e/project",
+        "reason": "missing completion marker"
+      },
+      {
+        "path": "test_reports/demo-92fd62445c924aeebe5cf35497debee8/project",
+        "reason": "pinned keep=true"
+      },
+      {
+        "path": "test_reports/demo-9aafd6ba1ed04ffb9cd25b6ff860fc9f/project",
+        "reason": "pinned keep=true"
+      },
+      {
+        "path": "test_reports/demo-c47902f9a1d04e8c900334a12ad7a716/project",
+        "reason": "missing completion marker"
+      },
+      {
+        "path": "test_reports/demo-ce9c4ce9228e414693577ee02b06d800/project",
+        "reason": "pinned keep=true"
+      },
+      {
+        "path": "test_reports/demo-d9e93edfbfa0417bbbc9869b8b0b4a24/project",
+        "reason": "pinned keep=true"
+      }
+    ],
+    "errors": []
+  }
+}

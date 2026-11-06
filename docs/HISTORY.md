@@ -1,5 +1,21 @@
 # История и свидетельства проверок
 
+## Выбранный огонь29 подключён к текущему бою — 2026-11-07
+
+Base f948431d9d2fe61ba6a1c053a93ce828937d3f6a, main; исправление плиты e793b571.
+U разрешил внедрить показанную усиленную анимацию29. [Пакет](art/fire29-integration-20261107/README.md):
+96 слотов/80мс,6 общих атласов, локальные pause/retire/reuse. Путь текущего Hub
+использует выбранную поверхность на полном тайле без боковины исходного блока.
+Новых генераций/поз нет; source/raw/отбор сохранены.
+Builder --check PASS. Isolated import/startup и fire29_animation165/0,
+environment_visual_contract56/0, hazards_ui118/0, acid247/0, visual_scene106/0 PASS.
+Первый dungeon_room1982/1 — устаревшее ожидание статичного огня; после обновления
+assert повторные import/startup PASS, dungeon_room1983/0. Независимое ревью APPROVE.
+Выбор арта подтверждён U; новая посадка и движение в игре требуют отдельной оценки.
+Full/core и ручные F5/движение/zoom/DPI/performance не запускались.
+Сохранность/снимки: test_reports/fire29-flush-spikes-20261107/ и два GPU отчёта в README.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261107-2.md).
+
 ## Плоская поверхность плиты01 — 2026-11-07
 
 Base f948431d9d2fe61ba6a1c053a93ce828937d3f6a, main. U показал выступающий

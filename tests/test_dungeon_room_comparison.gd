@@ -9,7 +9,7 @@ const MASONRY_TEXTURE: Texture2D = preload("res://assets/art_presets/trials/dung
 const COLUMN_TEXTURE: Texture2D = preload("res://assets/art_presets/trials/dungeon_room_v2/column.png")
 
 const DUNGEON_ENVIRONMENT: PackedScene = preload("res://scenes/demo/visuals/dungeon_room_environment.tscn")
-const FIRE_TEXTURE: Texture2D = preload("res://assets/art_presets/trials/dungeon_room_v2/fire.png")
+const FIRE_FRAMES: SpriteFrames = preload("res://assets/art_presets/approved/fire29_selected_v1/fire29_frames.tres")
 
 var passed: int = 0
 var failed: int = 0
@@ -276,12 +276,15 @@ func _check_environment_contract() -> void:
 	var tile_values := _tile_values(Vector2i(4, 4), BattleDemoIsoVisual.Role.FLOOR)
 	tile_values.burning = true
 	tile.apply_view(tile_values, config)
-	var fire := tile.get_node("ArtRoot/EffectRoot/BurningSprite") as Sprite2D
-	check(fire.visible and fire.texture == FIRE_TEXTURE and is_equal_approx(fire.scale.x, fire.scale.y),
-		"burning tile shows separate drawn fire without distortion")
+	var legacy_fire := tile.get_node("ArtRoot/EffectRoot/BurningSprite") as Sprite2D
+	var fire := tile._fire_view
+	var animation := fire.get_node(^"Animation") as AnimatedSprite2D if fire != null else null
+	check(fire != null and fire.visible and animation != null and animation.sprite_frames == FIRE_FRAMES
+		and animation.is_playing() and not legacy_fire.visible,
+		"burning tile shows selected full-tile fire29 with no old fire underneath")
 	tile_values.burning = false
 	tile.apply_view(tile_values, config)
-	check(not fire.visible, "fire visibility still follows published burning state")
+	check(fire != null and not fire.visible and not animation.is_playing(), "fire visibility and clock follow published burning state")
 	tile.free()
 
 func run() -> void:

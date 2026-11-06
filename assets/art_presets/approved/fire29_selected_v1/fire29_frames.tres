@@ -1,0 +1,498 @@
+[gd_resource type="SpriteFrames" load_steps=103 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/fire29_selected_v1/fire29_atlas_00.png" id="atlas_00"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/fire29_selected_v1/fire29_atlas_01.png" id="atlas_01"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/fire29_selected_v1/fire29_atlas_02.png" id="atlas_02"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/fire29_selected_v1/fire29_atlas_03.png" id="atlas_03"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/fire29_selected_v1/fire29_atlas_04.png" id="atlas_04"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/fire29_selected_v1/fire29_atlas_05.png" id="atlas_05"]
+
+[sub_resource type="AtlasTexture" id="fire_00"]
+atlas = ExtResource("atlas_00")
+region = Rect2(0, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_01"]
+atlas = ExtResource("atlas_00")
+region = Rect2(256, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_02"]
+atlas = ExtResource("atlas_00")
+region = Rect2(512, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_03"]
+atlas = ExtResource("atlas_00")
+region = Rect2(768, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_04"]
+atlas = ExtResource("atlas_00")
+region = Rect2(0, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_05"]
+atlas = ExtResource("atlas_00")
+region = Rect2(256, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_06"]
+atlas = ExtResource("atlas_00")
+region = Rect2(512, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_07"]
+atlas = ExtResource("atlas_00")
+region = Rect2(768, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_08"]
+atlas = ExtResource("atlas_00")
+region = Rect2(0, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_09"]
+atlas = ExtResource("atlas_00")
+region = Rect2(256, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_10"]
+atlas = ExtResource("atlas_00")
+region = Rect2(512, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_11"]
+atlas = ExtResource("atlas_00")
+region = Rect2(768, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_12"]
+atlas = ExtResource("atlas_00")
+region = Rect2(0, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_13"]
+atlas = ExtResource("atlas_00")
+region = Rect2(256, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_14"]
+atlas = ExtResource("atlas_00")
+region = Rect2(512, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_15"]
+atlas = ExtResource("atlas_00")
+region = Rect2(768, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_16"]
+atlas = ExtResource("atlas_01")
+region = Rect2(0, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_17"]
+atlas = ExtResource("atlas_01")
+region = Rect2(256, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_18"]
+atlas = ExtResource("atlas_01")
+region = Rect2(512, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_19"]
+atlas = ExtResource("atlas_01")
+region = Rect2(768, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_20"]
+atlas = ExtResource("atlas_01")
+region = Rect2(0, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_21"]
+atlas = ExtResource("atlas_01")
+region = Rect2(256, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_22"]
+atlas = ExtResource("atlas_01")
+region = Rect2(512, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_23"]
+atlas = ExtResource("atlas_01")
+region = Rect2(768, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_24"]
+atlas = ExtResource("atlas_01")
+region = Rect2(0, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_25"]
+atlas = ExtResource("atlas_01")
+region = Rect2(256, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_26"]
+atlas = ExtResource("atlas_01")
+region = Rect2(512, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_27"]
+atlas = ExtResource("atlas_01")
+region = Rect2(768, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_28"]
+atlas = ExtResource("atlas_01")
+region = Rect2(0, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_29"]
+atlas = ExtResource("atlas_01")
+region = Rect2(256, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_30"]
+atlas = ExtResource("atlas_01")
+region = Rect2(512, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_31"]
+atlas = ExtResource("atlas_01")
+region = Rect2(768, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_32"]
+atlas = ExtResource("atlas_02")
+region = Rect2(0, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_33"]
+atlas = ExtResource("atlas_02")
+region = Rect2(256, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_34"]
+atlas = ExtResource("atlas_02")
+region = Rect2(512, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_35"]
+atlas = ExtResource("atlas_02")
+region = Rect2(768, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_36"]
+atlas = ExtResource("atlas_02")
+region = Rect2(0, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_37"]
+atlas = ExtResource("atlas_02")
+region = Rect2(256, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_38"]
+atlas = ExtResource("atlas_02")
+region = Rect2(512, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_39"]
+atlas = ExtResource("atlas_02")
+region = Rect2(768, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_40"]
+atlas = ExtResource("atlas_02")
+region = Rect2(0, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_41"]
+atlas = ExtResource("atlas_02")
+region = Rect2(256, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_42"]
+atlas = ExtResource("atlas_02")
+region = Rect2(512, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_43"]
+atlas = ExtResource("atlas_02")
+region = Rect2(768, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_44"]
+atlas = ExtResource("atlas_02")
+region = Rect2(0, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_45"]
+atlas = ExtResource("atlas_02")
+region = Rect2(256, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_46"]
+atlas = ExtResource("atlas_02")
+region = Rect2(512, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_47"]
+atlas = ExtResource("atlas_02")
+region = Rect2(768, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_48"]
+atlas = ExtResource("atlas_03")
+region = Rect2(0, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_49"]
+atlas = ExtResource("atlas_03")
+region = Rect2(256, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_50"]
+atlas = ExtResource("atlas_03")
+region = Rect2(512, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_51"]
+atlas = ExtResource("atlas_03")
+region = Rect2(768, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_52"]
+atlas = ExtResource("atlas_03")
+region = Rect2(0, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_53"]
+atlas = ExtResource("atlas_03")
+region = Rect2(256, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_54"]
+atlas = ExtResource("atlas_03")
+region = Rect2(512, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_55"]
+atlas = ExtResource("atlas_03")
+region = Rect2(768, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_56"]
+atlas = ExtResource("atlas_03")
+region = Rect2(0, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_57"]
+atlas = ExtResource("atlas_03")
+region = Rect2(256, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_58"]
+atlas = ExtResource("atlas_03")
+region = Rect2(512, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_59"]
+atlas = ExtResource("atlas_03")
+region = Rect2(768, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_60"]
+atlas = ExtResource("atlas_03")
+region = Rect2(0, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_61"]
+atlas = ExtResource("atlas_03")
+region = Rect2(256, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_62"]
+atlas = ExtResource("atlas_03")
+region = Rect2(512, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_63"]
+atlas = ExtResource("atlas_03")
+region = Rect2(768, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_64"]
+atlas = ExtResource("atlas_04")
+region = Rect2(0, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_65"]
+atlas = ExtResource("atlas_04")
+region = Rect2(256, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_66"]
+atlas = ExtResource("atlas_04")
+region = Rect2(512, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_67"]
+atlas = ExtResource("atlas_04")
+region = Rect2(768, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_68"]
+atlas = ExtResource("atlas_04")
+region = Rect2(0, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_69"]
+atlas = ExtResource("atlas_04")
+region = Rect2(256, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_70"]
+atlas = ExtResource("atlas_04")
+region = Rect2(512, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_71"]
+atlas = ExtResource("atlas_04")
+region = Rect2(768, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_72"]
+atlas = ExtResource("atlas_04")
+region = Rect2(0, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_73"]
+atlas = ExtResource("atlas_04")
+region = Rect2(256, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_74"]
+atlas = ExtResource("atlas_04")
+region = Rect2(512, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_75"]
+atlas = ExtResource("atlas_04")
+region = Rect2(768, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_76"]
+atlas = ExtResource("atlas_04")
+region = Rect2(0, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_77"]
+atlas = ExtResource("atlas_04")
+region = Rect2(256, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_78"]
+atlas = ExtResource("atlas_04")
+region = Rect2(512, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_79"]
+atlas = ExtResource("atlas_04")
+region = Rect2(768, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_80"]
+atlas = ExtResource("atlas_05")
+region = Rect2(0, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_81"]
+atlas = ExtResource("atlas_05")
+region = Rect2(256, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_82"]
+atlas = ExtResource("atlas_05")
+region = Rect2(512, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_83"]
+atlas = ExtResource("atlas_05")
+region = Rect2(768, 0, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_84"]
+atlas = ExtResource("atlas_05")
+region = Rect2(0, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_85"]
+atlas = ExtResource("atlas_05")
+region = Rect2(256, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_86"]
+atlas = ExtResource("atlas_05")
+region = Rect2(512, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_87"]
+atlas = ExtResource("atlas_05")
+region = Rect2(768, 194, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_88"]
+atlas = ExtResource("atlas_05")
+region = Rect2(0, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_89"]
+atlas = ExtResource("atlas_05")
+region = Rect2(256, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_90"]
+atlas = ExtResource("atlas_05")
+region = Rect2(512, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_91"]
+atlas = ExtResource("atlas_05")
+region = Rect2(768, 388, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_92"]
+atlas = ExtResource("atlas_05")
+region = Rect2(0, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_93"]
+atlas = ExtResource("atlas_05")
+region = Rect2(256, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_94"]
+atlas = ExtResource("atlas_05")
+region = Rect2(512, 582, 256, 194)
+
+[sub_resource type="AtlasTexture" id="fire_95"]
+atlas = ExtResource("atlas_05")
+region = Rect2(768, 582, 256, 194)
+
+[resource]
+animations = [
+{
+"frames": [
+{"duration": 1.000000000, "texture": SubResource("fire_00")},
+{"duration": 1.000000000, "texture": SubResource("fire_01")},
+{"duration": 1.000000000, "texture": SubResource("fire_02")},
+{"duration": 1.000000000, "texture": SubResource("fire_03")},
+{"duration": 1.000000000, "texture": SubResource("fire_04")},
+{"duration": 1.000000000, "texture": SubResource("fire_05")},
+{"duration": 1.000000000, "texture": SubResource("fire_06")},
+{"duration": 1.000000000, "texture": SubResource("fire_07")},
+{"duration": 1.000000000, "texture": SubResource("fire_08")},
+{"duration": 1.000000000, "texture": SubResource("fire_09")},
+{"duration": 1.000000000, "texture": SubResource("fire_10")},
+{"duration": 1.000000000, "texture": SubResource("fire_11")},
+{"duration": 1.000000000, "texture": SubResource("fire_12")},
+{"duration": 1.000000000, "texture": SubResource("fire_13")},
+{"duration": 1.000000000, "texture": SubResource("fire_14")},
+{"duration": 1.000000000, "texture": SubResource("fire_15")},
+{"duration": 1.000000000, "texture": SubResource("fire_16")},
+{"duration": 1.000000000, "texture": SubResource("fire_17")},
+{"duration": 1.000000000, "texture": SubResource("fire_18")},
+{"duration": 1.000000000, "texture": SubResource("fire_19")},
+{"duration": 1.000000000, "texture": SubResource("fire_20")},
+{"duration": 1.000000000, "texture": SubResource("fire_21")},
+{"duration": 1.000000000, "texture": SubResource("fire_22")},
+{"duration": 1.000000000, "texture": SubResource("fire_23")},
+{"duration": 1.000000000, "texture": SubResource("fire_24")},
+{"duration": 1.000000000, "texture": SubResource("fire_25")},
+{"duration": 1.000000000, "texture": SubResource("fire_26")},
+{"duration": 1.000000000, "texture": SubResource("fire_27")},
+{"duration": 1.000000000, "texture": SubResource("fire_28")},
+{"duration": 1.000000000, "texture": SubResource("fire_29")},
+{"duration": 1.000000000, "texture": SubResource("fire_30")},
+{"duration": 1.000000000, "texture": SubResource("fire_31")},
+{"duration": 1.000000000, "texture": SubResource("fire_32")},
+{"duration": 1.000000000, "texture": SubResource("fire_33")},
+{"duration": 1.000000000, "texture": SubResource("fire_34")},
+{"duration": 1.000000000, "texture": SubResource("fire_35")},
+{"duration": 1.000000000, "texture": SubResource("fire_36")},
+{"duration": 1.000000000, "texture": SubResource("fire_37")},
+{"duration": 1.000000000, "texture": SubResource("fire_38")},
+{"duration": 1.000000000, "texture": SubResource("fire_39")},
+{"duration": 1.000000000, "texture": SubResource("fire_40")},
+{"duration": 1.000000000, "texture": SubResource("fire_41")},
+{"duration": 1.000000000, "texture": SubResource("fire_42")},
+{"duration": 1.000000000, "texture": SubResource("fire_43")},
+{"duration": 1.000000000, "texture": SubResource("fire_44")},
+{"duration": 1.000000000, "texture": SubResource("fire_45")},
+{"duration": 1.000000000, "texture": SubResource("fire_46")},
+{"duration": 1.000000000, "texture": SubResource("fire_47")},
+{"duration": 1.000000000, "texture": SubResource("fire_48")},
+{"duration": 1.000000000, "texture": SubResource("fire_49")},
+{"duration": 1.000000000, "texture": SubResource("fire_50")},
+{"duration": 1.000000000, "texture": SubResource("fire_51")},
+{"duration": 1.000000000, "texture": SubResource("fire_52")},
+{"duration": 1.000000000, "texture": SubResource("fire_53")},
+{"duration": 1.000000000, "texture": SubResource("fire_54")},
+{"duration": 1.000000000, "texture": SubResource("fire_55")},
+{"duration": 1.000000000, "texture": SubResource("fire_56")},
+{"duration": 1.000000000, "texture": SubResource("fire_57")},
+{"duration": 1.000000000, "texture": SubResource("fire_58")},
+{"duration": 1.000000000, "texture": SubResource("fire_59")},
+{"duration": 1.000000000, "texture": SubResource("fire_60")},
+{"duration": 1.000000000, "texture": SubResource("fire_61")},
+{"duration": 1.000000000, "texture": SubResource("fire_62")},
+{"duration": 1.000000000, "texture": SubResource("fire_63")},
+{"duration": 1.000000000, "texture": SubResource("fire_64")},
+{"duration": 1.000000000, "texture": SubResource("fire_65")},
+{"duration": 1.000000000, "texture": SubResource("fire_66")},
+{"duration": 1.000000000, "texture": SubResource("fire_67")},
+{"duration": 1.000000000, "texture": SubResource("fire_68")},
+{"duration": 1.000000000, "texture": SubResource("fire_69")},
+{"duration": 1.000000000, "texture": SubResource("fire_70")},
+{"duration": 1.000000000, "texture": SubResource("fire_71")},
+{"duration": 1.000000000, "texture": SubResource("fire_72")},
+{"duration": 1.000000000, "texture": SubResource("fire_73")},
+{"duration": 1.000000000, "texture": SubResource("fire_74")},
+{"duration": 1.000000000, "texture": SubResource("fire_75")},
+{"duration": 1.000000000, "texture": SubResource("fire_76")},
+{"duration": 1.000000000, "texture": SubResource("fire_77")},
+{"duration": 1.000000000, "texture": SubResource("fire_78")},
+{"duration": 1.000000000, "texture": SubResource("fire_79")},
+{"duration": 1.000000000, "texture": SubResource("fire_80")},
+{"duration": 1.000000000, "texture": SubResource("fire_81")},
+{"duration": 1.000000000, "texture": SubResource("fire_82")},
+{"duration": 1.000000000, "texture": SubResource("fire_83")},
+{"duration": 1.000000000, "texture": SubResource("fire_84")},
+{"duration": 1.000000000, "texture": SubResource("fire_85")},
+{"duration": 1.000000000, "texture": SubResource("fire_86")},
+{"duration": 1.000000000, "texture": SubResource("fire_87")},
+{"duration": 1.000000000, "texture": SubResource("fire_88")},
+{"duration": 1.000000000, "texture": SubResource("fire_89")},
+{"duration": 1.000000000, "texture": SubResource("fire_90")},
+{"duration": 1.000000000, "texture": SubResource("fire_91")},
+{"duration": 1.000000000, "texture": SubResource("fire_92")},
+{"duration": 1.000000000, "texture": SubResource("fire_93")},
+{"duration": 1.000000000, "texture": SubResource("fire_94")},
+{"duration": 1.000000000, "texture": SubResource("fire_95")}
+],
+"loop": true,
+"name": &"fire",
+"speed": 12.5
+}]

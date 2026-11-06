@@ -1,0 +1,22 @@
+{
+  "verdict": "APPROVE",
+  "reviewer": "/root/spike_runtime_review (game_reviewer, gpt-6-sol/high)",
+  "base": "f948431d9d2fe61ba6a1c053a93ce828937d3f6a",
+  "files": {
+    "assets/shaders/spike_trap_surface.gdshader": "7ebafebc4e33ee10a9702181f14b33731a2499c8a3c0decd1bc09a1d91f6db13",
+    "scenes/demo/visuals/hazards/floor_trap.tscn": "3604d8837cf7089361598e22d78174ed00a8ede6a0ccb658c985086d1a7a2a45",
+    "scenes/demo/visuals/dungeon_room_environment.tscn": "c91200aeea0abdd4741a063fb4dc504a8e937ef33b49bc24c7e0977b0c33f1b7",
+    "tests/test_environment_visual_contract.gd": "0feef3d0cbf665e6cd38319445d92c513b9ffdf9219378ef1fc7beafd11fa8b8",
+    "tools/art/build_fire29_animation.py": "29bf1dd0cf618e81a008cbed65abbb2673ee7b50926cc6b277c89644684d4164",
+    "assets/shaders/fire29_surface.gdshader": "5a36eb79a62ca1784e7e3e184df1b81c9c2d286032377bbb0c7d1fa5679405cc",
+    "scenes/demo/visuals/hazards/fire29.tscn": "eb7242fd32b9f30f7d40f734e1b76f3db61a1869e027bf2f329fc258ed742c70",
+    "tests/test_fire29_animation.gd": "92f96559e9e9e8f8d34c9df3d418901d4828f06875a5ea5796b094dcadd0e295",
+    "scripts/demo/battle_terrain_visual.gd": "9f76e79a9780956857e66418b2e4b932ae079c4a948a8c20a09aa687004d9deb",
+    "scenes/demo/visuals/dungeon_comparison_tile.tscn": "77c364e07effacf25460ab3ffcf9ebc3a876226be0f71745dc6797f93ba5ff49",
+    "tools/demo/isolate.py": "71fbb3f7d1d0aae22d742590701e06a4ded6940638e5c79e181b2ec69c5c666a",
+    "tests/test_dungeon_room_comparison.gd": "9106c99f4f3d3d2a541bf07f08c0eba9b444d311c2dcaadcfdb3b68611f6ab41"
+  },
+  "findings": [],
+  "scope": "Fixed source diff, selected fire package and both isolated reports; user screenshot and three diagnostic images inspected. Flush plane removes baked lip; selected fire fills tile with a shared immutable resource and a local lazy clock.",
+  "limitations": "No manual F5/movement/zoom/DPI/performance; selected fire art is accepted by user, runtime presentation still awaits user feedback."
+}

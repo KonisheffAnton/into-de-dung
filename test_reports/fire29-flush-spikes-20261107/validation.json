@@ -1,0 +1,138 @@
+{
+  "status": "PASS",
+  "base": "f948431d9d2fe61ba6a1c053a93ce828937d3f6a",
+  "preserved_files": 2065,
+  "intentional_baseline_changes": [
+    "assets/shaders/spike_trap_surface.gdshader",
+    "scenes/demo/visuals/dungeon_comparison_tile.tscn",
+    "scenes/demo/visuals/dungeon_room_environment.tscn",
+    "scenes/demo/visuals/hazards/floor_trap.tscn",
+    "scripts/demo/battle_terrain_visual.gd",
+    "tests/test_dungeon_room_comparison.gd",
+    "tests/test_environment_visual_contract.gd",
+    "tools/demo/isolate.py"
+  ],
+  "protected_files": 33,
+  "reviewed_files": {
+    "assets/shaders/spike_trap_surface.gdshader": "7ebafebc4e33ee10a9702181f14b33731a2499c8a3c0decd1bc09a1d91f6db13",
+    "scenes/demo/visuals/hazards/floor_trap.tscn": "3604d8837cf7089361598e22d78174ed00a8ede6a0ccb658c985086d1a7a2a45",
+    "scenes/demo/visuals/dungeon_room_environment.tscn": "c91200aeea0abdd4741a063fb4dc504a8e937ef33b49bc24c7e0977b0c33f1b7",
+    "tests/test_environment_visual_contract.gd": "0feef3d0cbf665e6cd38319445d92c513b9ffdf9219378ef1fc7beafd11fa8b8",
+    "tools/art/build_fire29_animation.py": "29bf1dd0cf618e81a008cbed65abbb2673ee7b50926cc6b277c89644684d4164",
+    "assets/shaders/fire29_surface.gdshader": "5a36eb79a62ca1784e7e3e184df1b81c9c2d286032377bbb0c7d1fa5679405cc",
+    "scenes/demo/visuals/hazards/fire29.tscn": "eb7242fd32b9f30f7d40f734e1b76f3db61a1869e027bf2f329fc258ed742c70",
+    "tests/test_fire29_animation.gd": "92f96559e9e9e8f8d34c9df3d418901d4828f06875a5ea5796b094dcadd0e295",
+    "scripts/demo/battle_terrain_visual.gd": "9f76e79a9780956857e66418b2e4b932ae079c4a948a8c20a09aa687004d9deb",
+    "scenes/demo/visuals/dungeon_comparison_tile.tscn": "77c364e07effacf25460ab3ffcf9ebc3a876226be0f71745dc6797f93ba5ff49",
+    "tools/demo/isolate.py": "71fbb3f7d1d0aae22d742590701e06a4ded6940638e5c79e181b2ec69c5c666a",
+    "tests/test_dungeon_room_comparison.gd": "9106c99f4f3d3d2a541bf07f08c0eba9b444d311c2dcaadcfdb3b68611f6ab41"
+  },
+  "archive_sha256": "394a96929d3b5d286ba13b7a3fd526730df28d589d91233898941c9d3ffff6b5",
+  "entry_docs": {
+    "AGENTS.md": {
+      "before_lf_chars": 4565,
+      "after_lf_chars": 4565,
+      "limit": 5000
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before_lf_chars": 2373,
+      "after_lf_chars": 2414,
+      "limit": 2500
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before_lf_chars": 3652,
+      "after_lf_chars": 3652,
+      "limit": 3500,
+      "reason": "Existing unchanged routing document exceeds guideline."
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before_lf_chars": 4482,
+      "after_lf_chars": 4482,
+      "limit": 4500
+    }
+  },
+  "links": [
+    {
+      "from": "docs/CODEX_HANDOFF.md",
+      "target": "art/fire29-integration-20261107/README.md"
+    },
+    {
+      "from": "docs/CODEX_HANDOFF.md",
+      "target": "art/spike-flush-20261107/README.md"
+    },
+    {
+      "from": "docs/CODEX_HANDOFF.md",
+      "target": "CODEX_HANDOFF.history-20261107-2.md"
+    },
+    {
+      "from": "docs/CODEX_HANDOFF.md",
+      "target": "HISTORY.md"
+    },
+    {
+      "from": "docs/art/spike-flush-20261107/README.md",
+      "target": "../../../test_reports/fire29-flush-spikes-20261107/user-trap-lip.png"
+    },
+    {
+      "from": "docs/art/spike-flush-20261107/README.md",
+      "target": "../../BATTLE_VISUAL_SCENE_CONTRACT.md#выбранные-шипы-и-редкие-блики--2026-11-07"
+    },
+    {
+      "from": "docs/art/spike-flush-20261107/README.md",
+      "target": "../../../test_reports/demo-8c114d2156bf48e2b049f71d2dea6dd7/environment_visual_contract.log"
+    },
+    {
+      "from": "docs/art/spike-flush-20261107/README.md",
+      "target": "../../../test_reports/demo-8c114d2156bf48e2b049f71d2dea6dd7/fire29-animation-screenshots/flush-spikes-0.png"
+    },
+    {
+      "from": "docs/art/spike-flush-20261107/README.md",
+      "target": "../../../test_reports/demo-8c114d2156bf48e2b049f71d2dea6dd7/fire29-animation-screenshots/negative-old-trap-lip.png"
+    },
+    {
+      "from": "docs/art/fire29-integration-20261107/README.md",
+      "target": "../fire29-readable-20261106/README.md"
+    },
+    {
+      "from": "docs/art/fire29-integration-20261107/README.md",
+      "target": "../../BATTLE_VISUAL_SCENE_CONTRACT.md#выбранный-огонь29--2026-11-07"
+    },
+    {
+      "from": "docs/art/fire29-integration-20261107/README.md",
+      "target": "../../../test_reports/demo-8c114d2156bf48e2b049f71d2dea6dd7/timing.json"
+    },
+    {
+      "from": "docs/art/fire29-integration-20261107/README.md",
+      "target": "../../../test_reports/demo-30d91f2cd58e4e44b203f82c436f24b8/timing.json"
+    },
+    {
+      "from": "docs/art/fire29-integration-20261107/README.md",
+      "target": "../../../test_reports/demo-30d91f2cd58e4e44b203f82c436f24b8/dungeon-room-comparison-screenshots/biome-01.png"
+    },
+    {
+      "from": "docs/art/fire29-integration-20261107/README.md",
+      "target": "../../../test_reports/demo-8c114d2156bf48e2b049f71d2dea6dd7/fire29-animation-screenshots/fire29-24.png"
+    },
+    {
+      "from": "docs/art/fire29-integration-20261107/README.md",
+      "target": "../../../test_reports/fire29-flush-spikes-20261107/validation.json"
+    },
+    {
+      "from": "docs/art/fire29-integration-20261107/README.md",
+      "target": "../../../test_reports/fire29-flush-spikes-20261107/review.json"
+    }
+  ],
+  "character_style_preserved": true,
+  "handoff_rules_preserved": true,
+  "latest_scoped_gpu_checks": {
+    "import": "PASS",
+    "startup": "PASS",
+    "environment_visual_contract": "PASS",
+    "visual_scene_contract": "PASS",
+    "dungeon_room_comparison": "PASS",
+    "acid_tile_animation": "PASS",
+    "fire29_animation": "PASS",
+    "hazards_ui": "PASS"
+  },
+  "six_atlas_mipmaps_disabled": true,
+  "no_full_core_manual_or_stable_fps_claim": true
+}
