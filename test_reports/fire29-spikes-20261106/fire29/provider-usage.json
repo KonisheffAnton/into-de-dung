@@ -1,0 +1,63 @@
+{
+  "jobs": [
+    {
+      "key": "fire29-visible01",
+      "job_id": "1f55668e-2da6-447f-94a8-8f2a41f35a09",
+      "frames": 17,
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      }
+    },
+    {
+      "key": "fire29-visible02",
+      "job_id": "2de01777-8ec9-478d-919c-a9fa3c676504",
+      "frames": 17,
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      }
+    },
+    {
+      "key": "fire29-visible03",
+      "job_id": "af832799-c523-4f0d-b1c8-a6d8c23a6874",
+      "frames": 17,
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      }
+    }
+  ],
+  "new_raw": 51,
+  "confirmed_generations": 6,
+  "balance_before": {
+    "credits": {
+      "type": "usd",
+      "usd": 0.0
+    },
+    "subscription": {
+      "type": "generations",
+      "status": "active",
+      "plan": "Tier 2: Pixel Artisan",
+      "generations": 4365.0,
+      "total": 5000.0
+    }
+  },
+  "balance_after": {
+    "credits": {
+      "type": "usd",
+      "usd": 0.0
+    },
+    "subscription": {
+      "type": "generations",
+      "status": "active",
+      "plan": "Tier 2: Pixel Artisan",
+      "generations": 4359.0,
+      "total": 5000.0
+    }
+  },
+  "pending": []
+}

@@ -1,2 +1,3 @@
 # Preserve the exact CRLF bytes of the preceding handoff snapshot.
 CODEX_HANDOFF.history-20261106-3.md -text whitespace=cr-at-eol
+CODEX_HANDOFF.history-20261106-4.md -text whitespace=cr-at-eol

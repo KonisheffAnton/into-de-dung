@@ -1,0 +1,56 @@
+{
+  "selected": {
+    "fire29-visible02": {
+      "forward": [
+        1,
+        2,
+        3,
+        14
+      ],
+      "contour_bound": 6,
+      "core_bound": 26
+    },
+    "fire29-field13": {
+      "forward": [
+        1,
+        4,
+        5,
+        6,
+        7
+      ],
+      "contour_bound": 6,
+      "core_bound": 17
+    },
+    "fire29-field25": {
+      "forward": [
+        1,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "contour_bound": 4,
+      "core_bound": 1
+    },
+    "fire29-field22": {
+      "forward": [
+        7,
+        9,
+        11,
+        17,
+        18
+      ],
+      "contour_bound": 4,
+      "core_bound": 0
+    }
+  },
+  "rejected": {
+    "fire29-visible01": "Broad red-orange patch and palette drift; not clean sway",
+    "fire29-visible03": "Two-shape texture flicker or new raised hooks in wider poses",
+    "fire29-strong01_raw6": "15px contour,51/1944exposedcore; little useful increase"
+  },
+  "raw_not_modified": true,
+  "old_gate_pass_not_claimed": true
+}

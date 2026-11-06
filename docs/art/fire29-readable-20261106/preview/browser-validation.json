@@ -1,0 +1,86 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "width": 1280,
+      "passed": true,
+      "moving": [
+        true,
+        true
+      ],
+      "comparisonDifferent": [
+        true
+      ],
+      "wrapExact": true,
+      "state": {
+        "slot": "0",
+        "overflow": false,
+        "dims": [
+          [
+            678,
+            513
+          ],
+          [
+            678,
+            513
+          ]
+        ]
+      },
+      "full": {
+        "overflow": false,
+        "dims": [
+          [
+            1254,
+            1254
+          ],
+          [
+            1254,
+            1254
+          ]
+        ]
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "passed": true,
+      "moving": [
+        true,
+        true
+      ],
+      "comparisonDifferent": [
+        true
+      ],
+      "wrapExact": true,
+      "state": {
+        "slot": "0",
+        "overflow": false,
+        "dims": [
+          [
+            678,
+            513
+          ],
+          [
+            678,
+            513
+          ]
+        ]
+      },
+      "full": {
+        "overflow": false,
+        "dims": [
+          [
+            1254,
+            1254
+          ],
+          [
+            1254,
+            1254
+          ]
+        ]
+      },
+      "errors": []
+    }
+  ],
+  "manifest_sha256": "7d2799c6db6526f20a51b41f5f28701126d4464b9fc65ee35f7d21a50e736fb3"
+}

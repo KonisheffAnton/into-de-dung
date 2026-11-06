@@ -1,0 +1,108 @@
+{
+  "base": "1e750d3e1a99e62e28215d8882c9f9abf40ece59",
+  "entry_sizes": {
+    "AGENTS.md": {
+      "base_lf_chars": 4565,
+      "current_lf_chars": 4565,
+      "guide_lf_chars": 5000,
+      "over_guide": false,
+      "growth_percent_from_base": 0.0,
+      "growth_over_10_percent": false,
+      "base_sha256": "13c4077ca6820046fda34165902bc03464a7b7502874c4759499f7a86eaff51e",
+      "current_sha256": "13c4077ca6820046fda34165902bc03464a7b7502874c4759499f7a86eaff51e",
+      "byte_exact_vs_base": true,
+      "lf_text_unchanged_vs_base": true
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "base_lf_chars": 2329,
+      "current_lf_chars": 2445,
+      "guide_lf_chars": 2500,
+      "over_guide": false,
+      "growth_percent_from_base": 4.981,
+      "growth_over_10_percent": false,
+      "base_sha256": "1641e3e74d0d67ecb98114449c3a9c855835738dbd635ef93b38efeb8fa29b60",
+      "current_sha256": "0f8500eb727ad131ebf06827ac640794bf33700d63ad31ddf8fa41a3cd263c4c",
+      "byte_exact_vs_base": false,
+      "lf_text_unchanged_vs_base": false
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "base_lf_chars": 3652,
+      "current_lf_chars": 3652,
+      "guide_lf_chars": 3500,
+      "over_guide": true,
+      "growth_percent_from_base": 0.0,
+      "growth_over_10_percent": false,
+      "base_sha256": "38e93da29c4e1307c439fc562ae77481ba8c18229a2930f43a8d67da30eed59c",
+      "current_sha256": "6623cff67f0a11d04783d61fc3d114b660a8cbd6f2fc3ade19cbf9b54b3d9e89",
+      "byte_exact_vs_base": false,
+      "lf_text_unchanged_vs_base": true
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "base_lf_chars": 4482,
+      "current_lf_chars": 4482,
+      "guide_lf_chars": 4500,
+      "over_guide": false,
+      "growth_percent_from_base": 0.0,
+      "growth_over_10_percent": false,
+      "base_sha256": "1a765ba0f263866f5285563e4c13538621a6fabbbeeb9c1ec839782b0ccf306c",
+      "current_sha256": "1a765ba0f263866f5285563e4c13538621a6fabbbeeb9c1ec839782b0ccf306c",
+      "byte_exact_vs_base": true,
+      "lf_text_unchanged_vs_base": true
+    }
+  },
+  "preserved_exact": {
+    "AGENTS.md": true,
+    "docs/PROJECT_CONTEXT.md": true,
+    "docs/CODEX_WORKFLOW.md": true
+  },
+  "art_graphics_insertions_only": {
+    "docs/ART_DIRECTION.md": {
+      "insertions_only": true,
+      "inserted_lines": 6,
+      "first_unmatched_base_line": null,
+      "base_lf_chars": 81063,
+      "current_lf_chars": 81468,
+      "growth_percent_from_base": 0.5
+    },
+    "docs/GRAPHICS_WORKFLOW.md": {
+      "insertions_only": true,
+      "inserted_lines": 0,
+      "first_unmatched_base_line": null,
+      "base_lf_chars": 12701,
+      "current_lf_chars": 12701,
+      "growth_percent_from_base": 0.0
+    }
+  },
+  "character_style_section": {
+    "heading": "## Зафиксированная стилистика персонажей — 2026-11-03",
+    "unchanged_exact_lf_text": true,
+    "base_sha256": "a15d7923bfbe3e0010d51788411e55c55975f320809ae80eb96b9ebf07c958b0",
+    "current_sha256": "a15d7923bfbe3e0010d51788411e55c55975f320809ae80eb96b9ebf07c958b0",
+    "base_lf_chars": 3288,
+    "current_lf_chars": 3288
+  },
+  "closeout": {
+    "handoff_updated_from_base": true,
+    "history_updated_from_base": true,
+    "previous_handoff_snapshot_exists": true,
+    "history_archive_exists": true,
+    "snapshot_equals_archive_exact_bytes": true,
+    "snapshot_equals_base_handoff_lf_text": true,
+    "history_links_archive": true
+  },
+  "links_report": "test_reports/fire29-spikes-20261106/links.json",
+  "link_counts": {
+    "own_or_introduced": 23,
+    "own_broken": 0,
+    "preexisting_broken": 0
+  },
+  "errors": [],
+  "warnings": [],
+  "preexisting_over_guide_unchanged": [
+    "docs/PROJECT_CONTEXT.md"
+  ],
+  "closeout_pending": false,
+  "status": "document_checks_pass",
+  "artifact_completion": "not_assessed_by_this_validator",
+  "scope_note": "Entry documents compared with fixed base; only this package and introduced links in touched top documents are checked."
+}

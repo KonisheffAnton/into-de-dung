@@ -1,0 +1,29 @@
+{
+  "manifest_sha256": "7d2799c6db6526f20a51b41f5f28701126d4464b9fc65ee35f7d21a50e736fb3",
+  "display_only": true,
+  "results": [
+    {
+      "style": "29",
+      "path": "test_reports/fire29-spikes-20261106/fire29/inline-preview/fire29-inline.png",
+      "sha256": "28e56da3a73354837bab9608595c8a2b5b3f0b01380e8bfaabeff9562dcfe70d",
+      "bytes": 17034614,
+      "frames": 96,
+      "duration_ms": 7680,
+      "decoded_rgb_exact": true,
+      "native_crop_xyxy": [
+        288,
+        233,
+        966,
+        746
+      ],
+      "display_size": [
+        512,
+        387
+      ],
+      "old_native_transition_rgb_sum": 7835318,
+      "new_native_transition_rgb_sum": 11205369,
+      "native_transition_rgb_sum_ratio": 1.4301103031172442,
+      "metric_is_not_a_perceptual_visibility_score": true
+    }
+  ]
+}

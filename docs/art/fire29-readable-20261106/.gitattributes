@@ -1,0 +1,3 @@
+# Payload and provenance digests require exact bytes.
+*.json -text -diff
+*.js -text -diff

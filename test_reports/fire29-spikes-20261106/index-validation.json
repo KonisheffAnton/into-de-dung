@@ -1,0 +1,10 @@
+{
+  "pass": true,
+  "all_staged_paths_owned": true,
+  "staged_files_before_receipt": 204,
+  "immutable_staged_files_byte_exact": 188,
+  "archive_sha256": "1641e3e74d0d67ecb98114449c3a9c855835738dbd635ef93b38efeb8fa29b60",
+  "archive_and_snapshot_exact": true,
+  "foreign_paths_staged": false,
+  "spike_commit": "df33a39868b35e6aa83205dc088f67931d669556"
+}

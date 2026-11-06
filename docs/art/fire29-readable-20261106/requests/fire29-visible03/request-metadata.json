@@ -1,0 +1,57 @@
+{
+  "key": "fire29-visible03",
+  "group": {
+    "key": "fire29-22",
+    "source_component_id": 208,
+    "crop_xyxy": [
+      432,
+      477,
+      688,
+      733
+    ],
+    "crop_size": 256,
+    "stroke_bbox_xyxy": [
+      459,
+      579,
+      662,
+      632
+    ],
+    "core_pixels": 2956,
+    "medium_stroke_pixels": 3553,
+    "alpha_mask_pixels": 6217,
+    "core_clipped_by_alpha_mask_pixels": 0,
+    "core_on_crop_border_pixels": 0,
+    "alpha_mask_on_crop_border_pixels": 0,
+    "foreign_core_pixels_inside_alpha_mask": 0,
+    "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-22/context.png",
+    "context_sha256": "23ae3ef482996394bee5967653497307401e522bc401266540c6624a21e4adb5",
+    "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-22/input-transparent.png",
+    "input_sha256": "d4a055c0756d683a7dd56ae3847eba2a499fc3780a4ca625e4f86661cddc4872",
+    "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-22/alpha-mask.png",
+    "alpha_mask_sha256": "16288c77dc985ee22abf4d97048944ce422aba86d25355c9b5e26b12019f7df5",
+    "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-22/core-mask.png",
+    "core_mask_sha256": "d9c4cef3b7e2b49f231425a1201e1a6c118a559c41478d7ef2de7f12c36efeda"
+  },
+  "endpoint": "animate-pixminimax",
+  "input": "../fire-single-tongue-20261106/field-inputs/fire29/fire29-22/input-transparent.png",
+  "input_sha256": "d4a055c0756d683a7dd56ae3847eba2a499fc3780a4ca625e4f86661cddc4872",
+  "input_size": [
+    256,
+    256
+  ],
+  "source_sha256": "3f89930f385e43a1efe4d4895c25ff74a7cfc4215d740c2d697263261122756e",
+  "request_sha256": "785a5e690b99fd7a594d98530213a99f63a969b769f056f4e31af9010b4e41ae",
+  "requested_frames": 16,
+  "controlled_comparison_to": "fire29-field22",
+  "old_request_sha256": "793eca7a2b3e9a7040f81f40bea1bacc43b3250df84cb1990423e52a9568ca78",
+  "changed_payload_fields": [
+    "description",
+    "frame_count"
+  ],
+  "requested_tip_sideways_native_px": [
+    10,
+    12
+  ],
+  "native_crop_no_resize": true,
+  "local_motion_generation": false
+}

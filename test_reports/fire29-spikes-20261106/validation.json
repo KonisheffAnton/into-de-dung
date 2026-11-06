@@ -1,0 +1,73 @@
+{
+  "pass": true,
+  "preserved": {
+    "protected": 33,
+    "source_art": 360,
+    "previous_fire_package": 33,
+    "previous_low_fire_package": 33,
+    "previous_hazard_art": 1156,
+    "previous_subtle_fire": 493,
+    "previous_liquid_evidence": 5,
+    "previous_painted_fire": 198,
+    "current_deep_acid_evidence": 4,
+    "runtime_and_tooling": 1606,
+    "previous_fire_spikes_trials": 310,
+    "previous_masked_trials": 372,
+    "previous_motion_checkpoint": 246,
+    "previous_single_tongue_package": 2286,
+    "previous_single_tongue_reports": 36,
+    "previous_readable_fire": 327,
+    "previous_readable_reports": 21
+  },
+  "preserved_total": 7519,
+  "authorized_changed_baseline_files": [
+    "scenes/demo/visuals/hazards/caltrops_03.tscn",
+    "scenes/demo/visuals/hazards/floor_trap.tscn",
+    "scripts/demo/battle_demo_board.gd",
+    "scripts/demo/battle_environment_visual.gd",
+    "tests/test_acid_tile_animation.gd",
+    "tests/test_environment_visual_contract.gd",
+    "tests/test_hazards_ui.gd"
+  ],
+  "archive_byte_exact": true,
+  "new_jobs": [
+    {
+      "key": "fire29-visible01",
+      "job_id": "1f55668e-2da6-447f-94a8-8f2a41f35a09",
+      "frames": 17,
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      }
+    },
+    {
+      "key": "fire29-visible02",
+      "job_id": "2de01777-8ec9-478d-919c-a9fa3c676504",
+      "frames": 17,
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      }
+    },
+    {
+      "key": "fire29-visible03",
+      "job_id": "af832799-c523-4f0d-b1c8-a6d8c23a6874",
+      "frames": 17,
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      }
+    }
+  ],
+  "new_raw": 51,
+  "pending_jobs": [],
+  "selected_raw": 145,
+  "selected_groups": 26,
+  "fire24_unchanged": true,
+  "new_fire29_runtime_integrated": false,
+  "spikes_runtime_integrated": true,
+  "strict_old_fire_gates_claimed": false
+}
