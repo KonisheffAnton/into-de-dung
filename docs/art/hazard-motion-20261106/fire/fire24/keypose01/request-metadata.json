@@ -1,0 +1,62 @@
+{
+  "key": "fire24-keypose01",
+  "endpoint": "inpaint-v3",
+  "request_sha256": "4aaab977886b86c3a76ed9007fd3bde31e334630fb920e71e8fc2d349ffe2aee",
+  "rectangles_xyxy": [
+    [
+      119,
+      79,
+      127,
+      85
+    ],
+    [
+      139,
+      69,
+      148,
+      75
+    ],
+    [
+      116,
+      87,
+      127,
+      94
+    ],
+    [
+      141,
+      85,
+      151,
+      93
+    ],
+    [
+      131,
+      97,
+      142,
+      105
+    ],
+    [
+      103,
+      104,
+      114,
+      111
+    ],
+    [
+      139,
+      111,
+      150,
+      118
+    ],
+    [
+      118,
+      116,
+      129,
+      124
+    ],
+    [
+      142,
+      124,
+      152,
+      131
+    ]
+  ],
+  "purpose": "PixelLab-generated extreme pose; no locally drawn motion"
+}

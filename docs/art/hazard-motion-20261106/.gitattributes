@@ -1,0 +1,2 @@
+# Immutable provider payloads contain encoded PNGs and provider CRLF; preserve bytes.
+fire/pixellab/*/*.json -text -diff

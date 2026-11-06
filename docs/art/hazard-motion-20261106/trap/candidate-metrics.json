@@ -1,0 +1,32 @@
+{
+  "base_sha256": "63cad73a660ddfd07ed43adc9efc4b29932224b0c1fb23541989b60e2f0675c8",
+  "poses": [
+    {
+      "pose": "closed",
+      "raw_frame": 0,
+      "raw_sha256": "63cad73a660ddfd07ed43adc9efc4b29932224b0c1fb23541989b60e2f0675c8",
+      "assembled_sha256": "63cad73a660ddfd07ed43adc9efc4b29932224b0c1fb23541989b60e2f0675c8",
+      "mask_pixels": 0,
+      "changed_outside_mask": 0,
+      "changed_pixels": 0
+    },
+    {
+      "pose": "half",
+      "raw_frame": 3,
+      "raw_sha256": "6f7f2302578dc1bb2ddf06b8b17aa4669de22df69a78bdad7beae0931858b57b",
+      "assembled_sha256": "13e8478bc868ef56181469233b696b452e2831ea3a5b95dbdcebc085b62db1f3",
+      "mask_pixels": 504,
+      "changed_outside_mask": 0,
+      "changed_pixels": 504
+    },
+    {
+      "pose": "extended",
+      "raw_frame": 8,
+      "raw_sha256": "e178b137e50d413d61144286fabf43eb423e017f703374ec3cb61674709bbb5f",
+      "assembled_sha256": "11d1fd5e49fa4f8da658a45940bff997be6918e55bd0f50c22629f0b65772d9c",
+      "mask_pixels": 864,
+      "changed_outside_mask": 0,
+      "changed_pixels": 864
+    }
+  ]
+}

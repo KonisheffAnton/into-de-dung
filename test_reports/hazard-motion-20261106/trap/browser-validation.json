@@ -1,0 +1,10 @@
+{
+  "initial": "closed.png",
+  "imagesLoaded": true,
+  "mobileNoOverflow": true,
+  "middle": "half.png",
+  "final": "extended.png",
+  "stillFinal": "extended.png",
+  "reset": "closed.png",
+  "pass": true
+}

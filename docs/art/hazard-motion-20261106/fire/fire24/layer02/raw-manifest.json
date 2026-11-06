@@ -1,0 +1,99 @@
+{
+  "frames": 9,
+  "billing": {
+    "type": "generations",
+    "generations": 8.0
+  },
+  "raw": [
+    {
+      "frame": 0,
+      "sha256": "6f263723c3842845d310ef26fdc7aff33901497fab077d8f9fb4f9d6755d5700",
+      "alpha_bbox": [
+        64,
+        51,
+        192,
+        146
+      ]
+    },
+    {
+      "frame": 1,
+      "sha256": "e94565e4e32304c4488f7bc32a9ad9136e3b0234ae25ca51d6716ba6ad03795c",
+      "alpha_bbox": [
+        50,
+        55,
+        206,
+        145
+      ]
+    },
+    {
+      "frame": 2,
+      "sha256": "98ab73d4c0ed1de20885812ddec42725ee78a3afccb5020e244bdd0443efc774",
+      "alpha_bbox": [
+        48,
+        55,
+        208,
+        145
+      ]
+    },
+    {
+      "frame": 3,
+      "sha256": "cd8974146430db990abe1a1472b3148b8d30b33c104dfed1b6c1a91d0be0080c",
+      "alpha_bbox": [
+        45,
+        55,
+        210,
+        145
+      ]
+    },
+    {
+      "frame": 4,
+      "sha256": "f23b3c46432b50b8d2822cf2ca265fa6e0cc0beb910209abadce0aa682a092e5",
+      "alpha_bbox": [
+        44,
+        54,
+        212,
+        147
+      ]
+    },
+    {
+      "frame": 5,
+      "sha256": "1ad86f2505679782485077ce33fc636f63924e878b27991df8209a823a1e5fe6",
+      "alpha_bbox": [
+        44,
+        54,
+        212,
+        147
+      ]
+    },
+    {
+      "frame": 6,
+      "sha256": "d8d95a61cd30077c0137655670c0148be16ea134c09f76706406f4e513480278",
+      "alpha_bbox": [
+        47,
+        54,
+        209,
+        147
+      ]
+    },
+    {
+      "frame": 7,
+      "sha256": "08df19af05e23038186c97197d1b08428f36d2569662629291d33848815b94b3",
+      "alpha_bbox": [
+        65,
+        54,
+        191,
+        146
+      ]
+    },
+    {
+      "frame": 8,
+      "sha256": "192c527149ff839cffb9c884034448d0da69c5b3b726f8dc7b195db4a8cc084a",
+      "alpha_bbox": [
+        65,
+        54,
+        191,
+        146
+      ]
+    }
+  ]
+}

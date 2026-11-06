@@ -1,0 +1,4 @@
+Independent reviewer: /root/acid_overlay_review
+Result reported by /root: scoped technical APPROVE for the existing PixelLab-pixel assembly candidate.
+Scope: caltrops/ source-pixel provenance, fixed plate outside masks, two rare glints, and exact still-to-still seam.
+Caveat: upper frame 06 is effectively a hold of peak frame 05 (one assembled pixel differs), not a fade. This is not user art acceptance or runtime approval.

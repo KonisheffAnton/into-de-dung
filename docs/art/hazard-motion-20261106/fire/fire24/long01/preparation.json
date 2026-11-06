@@ -1,0 +1,15 @@
+{
+  "source_sha256": "011d71e26a400c2a7002995583f141491ffef148131f1e5abf565ad7587b749b",
+  "working_sha256": "178b840385f1730ea2213823224b356d3cd0e131a2e04cf0a66e202caed93da1",
+  "roi_xyxy": [
+    96,
+    67,
+    160,
+    131
+  ],
+  "scale": 1,
+  "reference": "OriginalRGB with chroma-derived alpha to identify warm flames; not a motion pose",
+  "mask_pixels": 3095,
+  "mask": "Whole warm tongues plus2horizontal/1verticalpixels, boundedinsideROI and opaque top",
+  "motion_frames_generated_locally": false
+}

@@ -1,0 +1,4 @@
+Independent reviewer: /root/acid_overlay_review
+Result reported by /root: scoped technical APPROVE for the existing PixelLab-pixel assembly candidate.
+Scope: trap/ source-pixel provenance, fixed plate outside masks, and one-way three-state playback.
+Caveat: the closed -> half -> extended transition is visibly stepped. This is not user art acceptance or runtime approval.

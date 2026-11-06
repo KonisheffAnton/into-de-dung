@@ -1,0 +1,10 @@
+{
+  "variant": "fire24-long01-c12",
+  "usage": {
+    "type": "generations",
+    "generations": 1.0
+  },
+  "transport": "synchronous",
+  "status": "completed",
+  "image_count": 4
+}

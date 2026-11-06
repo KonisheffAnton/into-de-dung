@@ -1,0 +1,304 @@
+{
+  "pass": true,
+  "links_checked": 59,
+  "links": [
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\README.md",
+      "target": "gallery.html",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\README.md",
+      "target": "trap/README.md",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\README.md",
+      "target": "caltrops/README.md",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\README.md",
+      "target": "fire/validation.json",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\README.md",
+      "target": "fire/fire24/keypose02/comparison.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\README.md",
+      "target": "fire/fire24/interpolate01/contact.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\caltrops\\README.md",
+      "target": "rest.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\caltrops\\README.md",
+      "target": "candidate-contact.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\caltrops\\README.md",
+      "target": "glints-assembled-8x.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\caltrops\\README.md",
+      "target": "candidate-metrics.json",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\caltrops\\README.md",
+      "target": "preview.html",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\trap\\README.md",
+      "target": "closed.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\trap\\README.md",
+      "target": "closed-mask.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\trap\\README.md",
+      "target": "half.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\trap\\README.md",
+      "target": "half-mask.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\trap\\README.md",
+      "target": "extended.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\trap\\README.md",
+      "target": "extended-mask.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\trap\\README.md",
+      "target": "candidate-metrics.json",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\trap\\README.md",
+      "target": "candidate-contact.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\trap\\README.md",
+      "target": "socket-assembled-10x.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\trap\\README.md",
+      "target": "trap-pose-contact.jpg",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\trap\\README.md",
+      "target": "preview.html",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "gallery.css",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "gallery.js",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "trap/closed.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "trap/closed.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "../fire-spikes-animation-20261105/pixellab/spike01-01/frames/frame-03.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "trap/README.md",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "trap/candidate-metrics.json",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "caltrops/rest.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "caltrops/rest.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "../hazard-animations-20261104/pixellab/caltrops03-01/frames/frame-02.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "caltrops/README.md",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "caltrops/candidate-metrics.json",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "fire/fire24/long01/input-256.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "fire/fire24/layer02/flames-input.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "fire/fire24/long01/contact-2x.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "fire/fire24/long01/raw/frame-00.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "fire/fire24/long01/preparation.json",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "fire/fire29/long01/input-256.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "fire/fire29/long01/input-256.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "fire/fire29/long01/contact-2x.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "fire/fire29/long01/raw/frame-00.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\gallery.html",
+      "target": "fire/fire29/long01/preparation.json",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\caltrops\\preview.html",
+      "target": "rest.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\caltrops\\preview.html",
+      "target": "candidate-contact.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\caltrops\\preview.html",
+      "target": "candidate-contact.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\caltrops\\preview.html",
+      "target": "glints-assembled-8x.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\caltrops\\preview.html",
+      "target": "candidate-metrics.json",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\trap\\preview.html",
+      "target": "closed.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\trap\\preview.html",
+      "target": "candidate-contact.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\trap\\preview.html",
+      "target": "candidate-contact.png",
+      "exists": true
+    },
+    {
+      "from": "docs\\art\\hazard-motion-20261106\\trap\\preview.html",
+      "target": "candidate-metrics.json",
+      "exists": true
+    },
+    {
+      "from": "docs\\CODEX_HANDOFF.md",
+      "target": "art/hazard-motion-20261106/README.md",
+      "exists": true
+    },
+    {
+      "from": "docs\\CODEX_HANDOFF.md",
+      "target": "CODEX_HANDOFF.history-20261106.md",
+      "exists": true
+    },
+    {
+      "from": "docs\\CODEX_HANDOFF.md",
+      "target": "HISTORY.md",
+      "exists": true
+    },
+    {
+      "from": "docs\\CODEX_HANDOFF.history-20261106.md",
+      "target": "art/hazard-masked-retry-20261105/README.md",
+      "exists": true
+    },
+    {
+      "from": "docs\\CODEX_HANDOFF.history-20261106.md",
+      "target": "CODEX_HANDOFF.history-20261105-3.md",
+      "exists": true
+    },
+    {
+      "from": "docs\\CODEX_HANDOFF.history-20261106.md",
+      "target": "HISTORY.md",
+      "exists": true
+    }
+  ],
+  "character_style_and_following_art_rules_exact": true,
+  "agents_project_context_workflow_unchanged": true,
+  "note": "PROJECT_CONTEXT remains3652chars, an unchanged pre-existing excess over3500; no routing change in this task."
+}

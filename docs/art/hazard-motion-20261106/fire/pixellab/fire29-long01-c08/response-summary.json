@@ -1,0 +1,10 @@
+{
+  "transport": "synchronous",
+  "image_count": 4,
+  "status": "completed",
+  "usage": {
+    "type": "generations",
+    "generations": 1.0
+  },
+  "variant": "fire29-long01-c08"
+}

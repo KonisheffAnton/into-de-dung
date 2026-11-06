@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Caltrops 03 — rare PixelLab glints</title>
+<style>
+body{font:16px system-ui;background:#20242b;color:#edf1f5;margin:20px;max-width:860px}p{line-height:1.45}
+.row{display:flex;flex-wrap:wrap;gap:20px;align-items:start}.card{background:#2b3039;padding:12px;border-radius:8px}
+img.tile{width:256px;height:256px;image-rendering:pixelated;background:repeating-conic-gradient(#444 0 25%,#555 0 50%) 50%/16px 16px}img.contact{width:min(100%,768px);height:auto;image-rendering:pixelated}.card{max-width:100%;box-sizing:border-box}
+button{padding:8px 14px;margin-right:8px;cursor:pointer}small{display:block;color:#bac4cd}
+</style>
+<h1>Кальтропы 03: редкие блики</h1>
+<p>Два коротких блика за цикл 15,6 с, между ними 5 с покоя. Пиксели бликов выбраны из старых кадров PixelLab 02/03 и 05/06, фон — исходная статичная плита. Это <b>сборка</b>, а не сырые полные кадры API; новых поз и промежуточных рисунков нет.</p>
+<div class="row"><div class="card"><img class="tile" id="view" src="rest.png" alt="Кальтропы"><small id="state">Покой</small></div>
+<div class="card"><a href="candidate-contact.png"><img class="contact" src="candidate-contact.png" alt="Сверху сборка, снизу исходные кадры"></a><small>Сверху сборка; снизу исходные кадры API. Нажмите, чтобы открыть в полном размере.</small></div></div>
+<p><button id="play">Воспроизвести</button><button id="pause">Пауза</button><button id="restart">Сначала</button></p>
+<p>На 8× оба блика видны в <a href="glints-assembled-8x.png">увеличенном сравнении</a>. Маски, SHA-256 и расписание: <a href="candidate-metrics.json">candidate-metrics.json</a>.</p>
+<script>
+const frames=[['rest',5000],['glint-low-peak',150],['glint-low-tail',150],['rest',5000],['glint-high-peak',150],['glint-high-hold',150],['rest',5000]];
+const source='rest.png';
+const view=document.getElementById('view'),state=document.getElementById('state');
+let index=0,timer=null,running=false;
+function show(){const name=frames[index][0];view.src=name==='rest'?source:name+'.png';state.textContent=({
+  'glint-low-peak':'Нижний блик · пик','glint-low-tail':'Нижний блик · затухание',
+  'glint-high-peak':'Верхний блик · пик','glint-high-hold':'Верхний блик · удержание'
+})[name]||'Покой'}
+function next(){if(!running)return;index=(index+1)%frames.length;show();timer=setTimeout(next,frames[index][1])}
+function play(){if(running)return;running=true;timer=setTimeout(next,frames[index][1])}
+function pause(){running=false;clearTimeout(timer)}
+document.getElementById('play').onclick=play;document.getElementById('pause').onclick=pause;
+document.getElementById('restart').onclick=()=>{pause();index=0;show();play()};show();
+</script>
+</html>

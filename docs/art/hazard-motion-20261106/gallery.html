@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Движение опасных плит — кандидаты</title>
+  <link rel="stylesheet" href="gallery.css">
+  <script src="gallery.js" defer></script>
+</head>
+<body>
+  <header>
+    <p class="eyebrow">intoDeDung · выбор анимации</p>
+    <h1>Движение опасных плит</h1>
+    <p class="notice">Кандидаты для выбора; в сцену не подключены.</p>
+    <p class="intro">У ловушки и кальтропов справа показана сборка из неизменённых пикселей выбранных кадров PixelLab. Огонь пока показан статично: движение ещё не подобрано. Выделенные языки огня 24 — вход для новой пробы, а не готовая анимация.</p>
+  </header>
+  <main class="gallery">
+    <article class="card" id="trap01">
+      <div class="title"><h2>Ловушка 01</h2><span class="tag">3 позы · одно раскрытие</span></div>
+      <div class="pair"><figure><img class="tile" src="trap/closed.png" alt="Ловушка 01 с убранными шипами"><figcaption>Исходник</figcaption></figure>
+      <figure><img class="tile moving" src="trap/closed.png" alt="Раскрытие ловушки 01"><figcaption>Анимация</figcaption></figure></div>
+      <div class="controls"><button class="play" type="button">Раскрыть</button><button class="restart" type="button">Раскрыть снова</button><span class="status" role="status">Готово к раскрытию</span></div>
+      <details><summary>Происхождение кадров</summary><p>Исходная плита и шипы из кадров PixelLab 00 → 03 → 08; камень вне масок неподвижен. <a href="../fire-spikes-animation-20261105/pixellab/spike01-01/frames/frame-03.png">Сырой кадр PixelLab</a> · <a href="trap/README.md">Сборка и ограничения</a> · <a href="trap/candidate-metrics.json">Маски и SHA-256</a>.</p></details>
+    </article>
+    <article class="card" id="caltrops03">
+      <div class="title"><h2>Кальтропы 03</h2><span class="tag">2 блика · цикл 15,6 с</span></div>
+      <div class="pair"><figure><img class="tile" src="caltrops/rest.png" alt="Исходная плита с кальтропами 03"><figcaption>Исходник</figcaption></figure>
+      <figure><img class="tile moving" src="caltrops/rest.png" alt="Редкие блики на кальтропах 03"><figcaption>Анимация</figcaption></figure></div>
+      <div class="controls"><button class="play" type="button">Пауза</button><button class="restart" type="button">Сначала</button><button class="show-glints" type="button">Показать блики</button><span class="status" role="status">Загрузка кадров…</span></div>
+      <details><summary>Происхождение кадров</summary><p>Два блика по 0,3 с из старых кадров PixelLab; между ними и на стыке — исходная неподвижная плита. Верхний второй кадр удерживает блик. <a href="../hazard-animations-20261104/pixellab/caltrops03-01/frames/frame-02.png">Сырой кадр PixelLab</a> · <a href="caltrops/README.md">Сборка и ограничения</a> · <a href="caltrops/candidate-metrics.json">Маски и SHA-256</a>.</p></details>
+    </article>
+    <article class="card pending" id="fire24">
+      <div class="title"><h2>Огонь 24</h2><span class="tag">В работе: движение ещё не подобрано</span></div>
+      <div class="pair"><figure><img class="tile" src="fire/fire24/long01/input-256.png" alt="Исходная плита с огнём 24"><figcaption>Исходник</figcaption></figure>
+      <figure><img class="tile moving" src="fire/fire24/layer02/flames-input.png" alt="Статично выделенные языки огня 24 для новой пробы"><figcaption>Выделенные языки · статичный вход</figcaption></figure></div>
+      <div class="controls"><button class="play" type="button" disabled>Воспроизвести</button><button class="restart" type="button" disabled>Сначала</button><span class="status" role="status">В работе: движение ещё не подобрано</span></div>
+      <details><summary>Подготовка и неудачная проба</summary><p>Выделенные языки — вход для следующей генерации PixelLab, а не результат движения. Архивная long01 проба не годится: фактура скачет между сегментами. <a href="fire/fire24/long01/contact-2x.png">Неудачная проба</a> · <a href="fire/fire24/long01/raw/frame-00.png">Сырой кадр PixelLab</a> · <a href="fire/fire24/long01/preparation.json">Подготовка</a>.</p></details>
+    </article>
+    <article class="card pending" id="fire29">
+      <div class="title"><h2>Огонь 29</h2><span class="tag">В работе: движение ещё не подобрано</span></div>
+      <div class="pair"><figure><img class="tile" src="fire/fire29/long01/input-256.png" alt="Исходная плита с огнём 29"><figcaption>Исходник</figcaption></figure>
+      <figure><img class="tile moving" src="fire/fire29/long01/input-256.png" alt="Повтор исходной плиты огня 29 без анимации"><figcaption>Движение не подобрано · статично</figcaption></figure></div>
+      <div class="controls"><button class="play" type="button" disabled>Воспроизвести</button><button class="restart" type="button" disabled>Сначала</button><span class="status" role="status">В работе: движение ещё не подобрано</span></div>
+      <details><summary>Подготовка и неудачная проба</summary><p>Архивная long01 проба остановлена; она не предлагается как готовая анимация. <a href="fire/fire29/long01/contact-2x.png">Неудачная проба</a> · <a href="fire/fire29/long01/raw/frame-00.png">Сырой кадр PixelLab</a> · <a href="fire/fire29/long01/preparation.json">Подготовка</a>.</p></details>
+    </article>
+  </main>
+  <footer>Выбор визуального результата остаётся за владельцем проекта. Эта страница открывается локально без сервера.</footer>
+</body>
+</html>

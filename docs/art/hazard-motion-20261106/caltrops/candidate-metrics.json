@@ -1,0 +1,98 @@
+{
+  "base_sha256": "384e4636fe0ba5123142f9ad58406c738067a1b4add61fa7216dd094018c97cf",
+  "raw_frame00_vs_base_changed_pixels": 34,
+  "raw_frame00_vs_base_max_channel_delta": 2,
+  "light_delta_threshold": 15.0,
+  "poses": [
+    {
+      "pose": "glint-low-peak",
+      "raw_frame": 2,
+      "raw_sha256": "f6362eebc590d9b203770ad3326dcc33fe98ee8815a0edbaf0b1430a0eb0d803",
+      "assembled_sha256": "555a21de4a5a896c5cbd907a655f0a7461242bf1840903f5c3fc816cf8cf641f",
+      "mask_pixels": 57,
+      "mask_bbox": [
+        135,
+        123,
+        149,
+        137
+      ],
+      "changed_outside_mask": 0,
+      "changed_pixels": 57
+    },
+    {
+      "pose": "glint-low-tail",
+      "raw_frame": 3,
+      "raw_sha256": "49424788aa5c321f96f26b98564629e1daaacab9000d5bb56c0439b0fb89e5d8",
+      "assembled_sha256": "28392da02df626b278a3370f5fd03b3be949fec4a6579b865822b2526d7c20bb",
+      "mask_pixels": 7,
+      "mask_bbox": [
+        135,
+        123,
+        149,
+        137
+      ],
+      "changed_outside_mask": 0,
+      "changed_pixels": 7
+    },
+    {
+      "pose": "glint-high-peak",
+      "raw_frame": 5,
+      "raw_sha256": "9eea114ca58175ec9b3e560f62b71421934129ff8f54f24a8520ba8b48a51b3b",
+      "assembled_sha256": "1e60f58101a3db7f557ba67a834e402040ca805f04288e74c319575cea540d37",
+      "mask_pixels": 47,
+      "mask_bbox": [
+        135,
+        95,
+        151,
+        109
+      ],
+      "changed_outside_mask": 0,
+      "changed_pixels": 47
+    },
+    {
+      "pose": "glint-high-hold",
+      "raw_frame": 6,
+      "raw_sha256": "8c66c0af81ff392d3c4a3fdfd8cfdcafcfb9bec89c829cab702c61d4fd8b58dd",
+      "assembled_sha256": "74403d9a6027d61d1e08ed56e3a6f364ca83d89ce09463e6c14dc3110124d810",
+      "mask_pixels": 47,
+      "mask_bbox": [
+        135,
+        95,
+        151,
+        109
+      ],
+      "changed_outside_mask": 0,
+      "changed_pixels": 47
+    }
+  ],
+  "schedule_ms": [
+    [
+      "rest",
+      5000
+    ],
+    [
+      "glint-low-peak",
+      150
+    ],
+    [
+      "glint-low-tail",
+      150
+    ],
+    [
+      "rest",
+      5000
+    ],
+    [
+      "glint-high-peak",
+      150
+    ],
+    [
+      "glint-high-hold",
+      150
+    ],
+    [
+      "rest",
+      5000
+    ]
+  ]
+}

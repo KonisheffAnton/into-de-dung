@@ -1,0 +1,30 @@
+{
+  "key": "fire24-interpolate01",
+  "endpoint": "interpolation-v2",
+  "request_sha256": "a7acd0023f851752be39b0305770ffce2a0e51899306547209b36644276e31a2",
+  "inputs": [
+    {
+      "name": "start",
+      "source": "fire24\\layer02\\raw\\frame-00.png",
+      "source_sha256": "6f263723c3842845d310ef26fdc7aff33901497fab077d8f9fb4f9d6755d5700",
+      "crop_xyxy": [
+        64,
+        40,
+        192,
+        168
+      ]
+    },
+    {
+      "name": "end",
+      "source": "fire24\\layer02\\raw\\frame-07.png",
+      "source_sha256": "08df19af05e23038186c97197d1b08428f36d2569662629291d33848815b94b3",
+      "crop_xyxy": [
+        64,
+        40,
+        192,
+        168
+      ]
+    }
+  ],
+  "motion_source": "Both endpoints are exact native-scale crops of PixelLab output; no locally drawn intermediate frames"
+}

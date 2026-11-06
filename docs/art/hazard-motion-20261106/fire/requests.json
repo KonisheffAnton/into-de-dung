@@ -1,0 +1,191 @@
+[
+  {
+    "key": "fire24-long01-c00",
+    "endpoint": "animate-with-text",
+    "source": 24,
+    "start_frame_index": 0,
+    "n_frames": 16,
+    "expected_chunk_frames": 4,
+    "roi_xyxy": [
+      96,
+      67,
+      160,
+      131
+    ],
+    "reference_sha256": "98cdd928b052c169248665afb341be3ae6acfebe7fa17a59d67461da8aad97c4",
+    "mask_sha256": [
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d",
+      "bc49fc365600b38a74008761e3b4d2130456df897a8cc56441d874a4e8834aa0",
+      "bc49fc365600b38a74008761e3b4d2130456df897a8cc56441d874a4e8834aa0",
+      "bc49fc365600b38a74008761e3b4d2130456df897a8cc56441d874a4e8834aa0"
+    ],
+    "init_sha256": "8729aa8a3faee674bdd9faea078f25d16e901c85291cf42dc0562e3f0328769b",
+    "request_sha256": "320dd9ee1e6c5e9423563f1ec006fb1e4d18ae49d34c7922d381ba2918618e4e",
+    "image_guidance_scale": 2.5,
+    "text_guidance_scale": 7,
+    "action": "One calm16-frame left-right sway of the ALREADY PAINTED low flame tongues. This window is frames0 through3. Begin still, then lean the existing tips slightly left. Bend only the upper parts sideways about2pixels, with fixed roots. Keep original height, shape count, orange palette and steady brightness. Smooth continuous motion, no flares or new tongues.",
+    "provenance": "Only input segmentation/masks prepared locally; output poses remain PixelLab raw frames"
+  },
+  {
+    "key": "fire24-long01-c04",
+    "endpoint": "animate-with-text",
+    "source": 24,
+    "start_frame_index": 4,
+    "n_frames": 16,
+    "expected_chunk_frames": 4,
+    "roi_xyxy": [
+      96,
+      67,
+      160,
+      131
+    ],
+    "reference_sha256": "98cdd928b052c169248665afb341be3ae6acfebe7fa17a59d67461da8aad97c4",
+    "mask_sha256": [
+      "bc49fc365600b38a74008761e3b4d2130456df897a8cc56441d874a4e8834aa0",
+      "bc49fc365600b38a74008761e3b4d2130456df897a8cc56441d874a4e8834aa0",
+      "bc49fc365600b38a74008761e3b4d2130456df897a8cc56441d874a4e8834aa0",
+      "bc49fc365600b38a74008761e3b4d2130456df897a8cc56441d874a4e8834aa0"
+    ],
+    "init_sha256": "2a8d6a53569b4fd31ee620883b9c660d2bf11bdee0234f09a4d59dcab0f56584",
+    "request_sha256": "7be34adce878913ea5f966bc4146ff2fe2fd586786a8f9c89125a4d105d1875f",
+    "image_guidance_scale": 2.5,
+    "text_guidance_scale": 7,
+    "action": "One calm16-frame left-right sway of the ALREADY PAINTED low flame tongues. This window is frames4 through7. Ease the gently left-leaning tips back toward their original positions. Bend only the upper parts sideways about2pixels, with fixed roots. Keep original height, shape count, orange palette and steady brightness. Smooth continuous motion, no flares or new tongues.",
+    "provenance": "Only input segmentation/masks prepared locally; output poses remain PixelLab raw frames"
+  },
+  {
+    "key": "fire24-long01-c08",
+    "endpoint": "animate-with-text",
+    "source": 24,
+    "start_frame_index": 8,
+    "n_frames": 16,
+    "expected_chunk_frames": 4,
+    "roi_xyxy": [
+      96,
+      67,
+      160,
+      131
+    ],
+    "reference_sha256": "98cdd928b052c169248665afb341be3ae6acfebe7fa17a59d67461da8aad97c4",
+    "mask_sha256": [
+      "bc49fc365600b38a74008761e3b4d2130456df897a8cc56441d874a4e8834aa0",
+      "bc49fc365600b38a74008761e3b4d2130456df897a8cc56441d874a4e8834aa0",
+      "bc49fc365600b38a74008761e3b4d2130456df897a8cc56441d874a4e8834aa0",
+      "bc49fc365600b38a74008761e3b4d2130456df897a8cc56441d874a4e8834aa0"
+    ],
+    "init_sha256": "7492e53856c37e8a15cde7b79723104be190e53c5dd2b570649185469a6da067",
+    "request_sha256": "e2dc62c928b175beb27fa5e738a2bde3dd156fd1a9fff1ac980321ca4c417f47",
+    "image_guidance_scale": 2.5,
+    "text_guidance_scale": 7,
+    "action": "One calm16-frame left-right sway of the ALREADY PAINTED low flame tongues. This window is frames8 through11. Lean the same existing tips slightly right. Bend only the upper parts sideways about2pixels, with fixed roots. Keep original height, shape count, orange palette and steady brightness. Smooth continuous motion, no flares or new tongues.",
+    "provenance": "Only input segmentation/masks prepared locally; output poses remain PixelLab raw frames"
+  },
+  {
+    "key": "fire29-long01-c00",
+    "endpoint": "animate-with-text",
+    "source": 29,
+    "start_frame_index": 0,
+    "n_frames": 16,
+    "expected_chunk_frames": 4,
+    "roi_xyxy": [
+      96,
+      67,
+      160,
+      131
+    ],
+    "reference_sha256": "3b06fb81251e0e2f983a7408f33393aa9513f2493d513018d6f9b9f0fd1fddad",
+    "mask_sha256": [
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d",
+      "84cc3191fd07f5c2fc9e0789853d51e1e7f566905eb87f6c81188711e4d93c0a",
+      "84cc3191fd07f5c2fc9e0789853d51e1e7f566905eb87f6c81188711e4d93c0a",
+      "84cc3191fd07f5c2fc9e0789853d51e1e7f566905eb87f6c81188711e4d93c0a"
+    ],
+    "init_sha256": "5e1a46b2fd53498c1029266f4b541b38d0c49f64c4f76d71f7020ab5485eda7b",
+    "request_sha256": "ba2bdf83ebe0c561fae3fa9f0435a89c60d05db416e8a7e9a0dce8280c2dde36",
+    "image_guidance_scale": 2.5,
+    "text_guidance_scale": 7,
+    "action": "One calm16-frame left-right sway of the ALREADY PAINTED low flame tongues. This window is frames0 through3. Begin still, then lean the existing tips slightly left. Bend only the upper parts sideways about2pixels, with fixed roots. Keep original height, shape count, orange palette and steady brightness. Smooth continuous motion, no flares or new tongues.",
+    "provenance": "Only input segmentation/masks prepared locally; output poses remain PixelLab raw frames"
+  },
+  {
+    "key": "fire24-long01-c12",
+    "endpoint": "animate-with-text",
+    "source": 24,
+    "start_frame_index": 12,
+    "n_frames": 16,
+    "expected_chunk_frames": 4,
+    "roi_xyxy": [
+      96,
+      67,
+      160,
+      131
+    ],
+    "reference_sha256": "98cdd928b052c169248665afb341be3ae6acfebe7fa17a59d67461da8aad97c4",
+    "mask_sha256": [
+      "bc49fc365600b38a74008761e3b4d2130456df897a8cc56441d874a4e8834aa0",
+      "bc49fc365600b38a74008761e3b4d2130456df897a8cc56441d874a4e8834aa0",
+      "bc49fc365600b38a74008761e3b4d2130456df897a8cc56441d874a4e8834aa0",
+      "9c3fa26ef2eec6bae60e386221fd6121632cc8e224a339365bb7da9030a6945d"
+    ],
+    "init_sha256": "ff6b94e7ed7d493804f35d9be0f6074304435cfa126866b0f4c4db9784de9181",
+    "request_sha256": "20e294a8c7d09de644fedf771a1e945217cdd02793614fc2e54262e53d4539f9",
+    "image_guidance_scale": 2.5,
+    "text_guidance_scale": 7,
+    "action": "One calm16-frame left-right sway of the ALREADY PAINTED low flame tongues. This window is frames12 through15. Ease the right-leaning tips back to the exact original still pose. Bend only the upper parts sideways about2pixels, with fixed roots. Keep original height, shape count, orange palette and steady brightness. Smooth continuous motion, no flares or new tongues.",
+    "provenance": "Only input segmentation/masks prepared locally; output poses remain PixelLab raw frames"
+  },
+  {
+    "key": "fire29-long01-c04",
+    "endpoint": "animate-with-text",
+    "source": 29,
+    "start_frame_index": 4,
+    "n_frames": 16,
+    "expected_chunk_frames": 4,
+    "roi_xyxy": [
+      96,
+      67,
+      160,
+      131
+    ],
+    "reference_sha256": "3b06fb81251e0e2f983a7408f33393aa9513f2493d513018d6f9b9f0fd1fddad",
+    "mask_sha256": [
+      "84cc3191fd07f5c2fc9e0789853d51e1e7f566905eb87f6c81188711e4d93c0a",
+      "84cc3191fd07f5c2fc9e0789853d51e1e7f566905eb87f6c81188711e4d93c0a",
+      "84cc3191fd07f5c2fc9e0789853d51e1e7f566905eb87f6c81188711e4d93c0a",
+      "84cc3191fd07f5c2fc9e0789853d51e1e7f566905eb87f6c81188711e4d93c0a"
+    ],
+    "init_sha256": "6c1edcdcbf457eec6253d0d86b74fd1359b4e51e056f9417e3763f56516432b6",
+    "request_sha256": "503ec1db54e5bd69f655d23de7668b4bb8658c2c820cf53533fc803fcd8939b1",
+    "image_guidance_scale": 2.5,
+    "text_guidance_scale": 7,
+    "action": "One calm16-frame left-right sway of the ALREADY PAINTED low flame tongues. This window is frames4 through7. Ease the gently left-leaning tips back toward their original positions. Bend only the upper parts sideways about2pixels, with fixed roots. Keep original height, shape count, orange palette and steady brightness. Smooth continuous motion, no flares or new tongues.",
+    "provenance": "Only input segmentation/masks prepared locally; output poses remain PixelLab raw frames"
+  },
+  {
+    "key": "fire29-long01-c08",
+    "endpoint": "animate-with-text",
+    "source": 29,
+    "start_frame_index": 8,
+    "n_frames": 16,
+    "expected_chunk_frames": 4,
+    "roi_xyxy": [
+      96,
+      67,
+      160,
+      131
+    ],
+    "reference_sha256": "3b06fb81251e0e2f983a7408f33393aa9513f2493d513018d6f9b9f0fd1fddad",
+    "mask_sha256": [
+      "84cc3191fd07f5c2fc9e0789853d51e1e7f566905eb87f6c81188711e4d93c0a",
+      "84cc3191fd07f5c2fc9e0789853d51e1e7f566905eb87f6c81188711e4d93c0a",
+      "84cc3191fd07f5c2fc9e0789853d51e1e7f566905eb87f6c81188711e4d93c0a",
+      "84cc3191fd07f5c2fc9e0789853d51e1e7f566905eb87f6c81188711e4d93c0a"
+    ],
+    "init_sha256": "fa00889c4ddd3d6b5591c088f769345a95c4866820b5f7bc799d7198faeecf6f",
+    "request_sha256": "3fdc5a6b2f33e57a89ae1716a5a64f8cb092176e790e558e0c82fc38c841ef6b",
+    "image_guidance_scale": 2.5,
+    "text_guidance_scale": 7,
+    "action": "One calm16-frame left-right sway of the ALREADY PAINTED low flame tongues. This window is frames8 through11. Lean the same existing tips slightly right. Bend only the upper parts sideways about2pixels, with fixed roots. Keep original height, shape count, orange palette and steady brightness. Smooth continuous motion, no flares or new tongues.",
+    "provenance": "Only input segmentation/masks prepared locally; output poses remain PixelLab raw frames"
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "key": "fire24-mask02",
+  "request_sha256": "d7b30231e12db76ad05112947f6d8fa1e3f1e536ab6545529e6a582f30f5cad4",
+  "mask_pixels": 2940,
+  "init_images_used": false,
+  "reason": "Earlier init-image and chunk trial copied texture; this pilot allows full generation inside existing stroke masks",
+  "image_guidance_scale": 1.3,
+  "text_guidance_scale": 8
+}

@@ -1,0 +1,10 @@
+{
+  "key": "fire24-layer02",
+  "endpoint": "animate-with-text-v3",
+  "request_sha256": "08af480a3238638c02ce3269ea13d7dcde3d7f0d5f4e9650dd5264ea99a70ec1",
+  "input_sha256": "6f263723c3842845d310ef26fdc7aff33901497fab077d8f9fb4f9d6755d5700",
+  "source_sha256": "178b840385f1730ea2213823224b356d3cd0e131a2e04cf0a66e202caed93da1",
+  "frame_count": 8,
+  "static_input_preparation": "Source RGB unchanged; alpha selects warm painted strokes only; no generated motion poses locally",
+  "action": "The existing small orange and yellow painted strokes gently bend sideways like soft ribbons pinned at their bases. Move their already curled tips left by two pixels, then right by two pixels, then return to this exact arrangement. One calm continuous loop. Keep the same short horizontal strokes, same count, same roots, same total area and constant color and brightness. Absolutely no upward growth, new shapes, jets, sparks, flashes, or camera movement. Preserve the empty transparent spaces between the strokes. Only the tips softly sway; the overall diamond arrangement stays fixed."
+}

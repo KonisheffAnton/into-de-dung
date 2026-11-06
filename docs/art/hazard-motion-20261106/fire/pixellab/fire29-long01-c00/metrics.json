@@ -1,0 +1,30 @@
+[
+  {
+    "index": 0,
+    "raw_sha256": "7aa3fac4f4b0ee7a4fc8652f812c981b28621d98685c414ca1f33b43c168d526",
+    "changed_pixels": 8,
+    "outside_mask_changed": 8,
+    "max_delta": 255
+  },
+  {
+    "index": 1,
+    "raw_sha256": "3032131b272be2759f2943d6002e8f8b91cf4d4e5e653607034527a710c687d0",
+    "changed_pixels": 3127,
+    "outside_mask_changed": 8,
+    "max_delta": 255
+  },
+  {
+    "index": 2,
+    "raw_sha256": "9669f19bc15540e9fcc2804cfa78ff334fa504b9bf623ac294fc8a68d5e5b92b",
+    "changed_pixels": 3127,
+    "outside_mask_changed": 8,
+    "max_delta": 255
+  },
+  {
+    "index": 3,
+    "raw_sha256": "6c1edcdcbf457eec6253d0d86b74fd1359b4e51e056f9417e3763f56516432b6",
+    "changed_pixels": 3127,
+    "outside_mask_changed": 8,
+    "max_delta": 255
+  }
+]

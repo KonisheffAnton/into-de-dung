@@ -1,0 +1,33 @@
+const fs=require('node:fs');
+const path=require('node:path');
+const {pathToFileURL}=require('node:url');
+const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'C:/Users/Aston/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const dir=__dirname;
+const report=path.resolve(dir,'../../../../test_reports/hazard-motion-20261106/trap');
+async function run(){
+  fs.mkdirSync(report,{recursive:true});
+  const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_EXE||'C:/Program Files/Google/Chrome/Application/chrome.exe'});
+  const page=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1});
+  await page.clock.install();
+  await page.goto(pathToFileURL(path.join(dir,'preview.html')).href);
+  const values={};
+  values.initial=await page.locator('#view').getAttribute('src');
+  values.imagesLoaded=await page.locator('img').evaluateAll(els=>els.every(x=>x.complete&&x.naturalWidth>0));
+  values.mobileNoOverflow=await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth);
+  await page.locator('#play').click();
+  await page.clock.runFor(600);
+  values.middle=await page.locator('#view').getAttribute('src');
+  await page.clock.runFor(450);
+  values.final=await page.locator('#view').getAttribute('src');
+  await page.clock.runFor(2000);
+  values.stillFinal=await page.locator('#view').getAttribute('src');
+  await page.locator('#reset').click();
+  values.reset=await page.locator('#view').getAttribute('src');
+  await page.screenshot({path:path.join(report,'preview-390.png'),fullPage:true});
+  await browser.close();
+  values.pass=values.initial==='closed.png'&&values.imagesLoaded&&values.mobileNoOverflow&&values.middle==='half.png'&&values.final==='extended.png'&&values.stillFinal==='extended.png'&&values.reset==='closed.png';
+  fs.writeFileSync(path.join(report,'browser-validation.json'),JSON.stringify(values,null,2)+'\n');
+  if(!values.pass)process.exitCode=1;
+  process.stdout.write(JSON.stringify(values)+'\n');
+}
+run().catch(e=>{console.error(e);process.exitCode=1});

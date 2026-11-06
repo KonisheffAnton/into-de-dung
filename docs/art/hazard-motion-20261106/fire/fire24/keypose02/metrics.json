@@ -1,0 +1,14 @@
+{
+  "size": [
+    256,
+    256
+  ],
+  "changed": 65203,
+  "outside": 64435,
+  "mask_pixels": 768,
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 10
+  }
+}

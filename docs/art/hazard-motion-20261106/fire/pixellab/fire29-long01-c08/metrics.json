@@ -1,0 +1,30 @@
+[
+  {
+    "index": 8,
+    "raw_sha256": "b7fbdf2fdafb704f19bfb3e93d50a854cbd2095f738c1876b327cc280d380d81",
+    "changed_pixels": 3127,
+    "outside_mask_changed": 8,
+    "max_delta": 255
+  },
+  {
+    "index": 9,
+    "raw_sha256": "84991f26e7b22d0f920373b2ee7958821133c1b2bc6a985cb9663d89da044c2f",
+    "changed_pixels": 3127,
+    "outside_mask_changed": 8,
+    "max_delta": 255
+  },
+  {
+    "index": 10,
+    "raw_sha256": "7229dd7ca8f32f0c991f27844720942b419cb612b21792f82d329ac88ea6b4d2",
+    "changed_pixels": 3127,
+    "outside_mask_changed": 8,
+    "max_delta": 255
+  },
+  {
+    "index": 11,
+    "raw_sha256": "c17644661ab7915b3bf3c7bedb3be741cb25765a380ebd095c6d1ebd400d9cba",
+    "changed_pixels": 3127,
+    "outside_mask_changed": 8,
+    "max_delta": 255
+  }
+]

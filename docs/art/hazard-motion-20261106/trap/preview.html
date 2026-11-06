@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trap 01 — selected PixelLab poses</title>
+<style>
+body{font:16px system-ui;background:#20242b;color:#edf1f5;margin:20px;max-width:850px}p{line-height:1.45}
+.row{display:flex;flex-wrap:wrap;gap:20px;align-items:start}.card{background:#2b3039;padding:12px;border-radius:8px}
+img{image-rendering:pixelated;background:repeating-conic-gradient(#444 0 25%,#555 0 50%) 50%/16px 16px}img#view{width:256px;height:256px}img.contact{width:min(100%,768px);height:auto}.card{max-width:100%;box-sizing:border-box}
+button{padding:8px 14px;margin-right:8px;cursor:pointer}small{display:block;color:#bac4cd}
+</style>
+<h1>Ловушка 01: одно раскрытие</h1>
+<p>Сборка из исходной неподвижной плиты и неизменённых пикселей шипов PixelLab: кадры 00 → 03 → 08. Это <b>не</b> сырые полные кадры API. После раскрытия воспроизведение останавливается.</p>
+<div class="row"><div class="card"><img id="view" src="closed.png" alt="Ловушка, шипы убраны"><small id="state">Убраны · кадр PixelLab 00</small></div>
+<div class="card"><a href="candidate-contact.png"><img class="contact" src="candidate-contact.png" alt="Сверху собранные позы, снизу полные кадры PixelLab"></a><small>Сверху сборка; снизу исходные кадры API. Нажмите, чтобы открыть в полном размере.</small></div></div>
+<p><button id="play">Раскрыть</button><button id="reset">Сбросить</button></p>
+<p>Маски, SHA-256 и точное соответствие пикселей: <a href="candidate-metrics.json">candidate-metrics.json</a>. Полный камень и прозрачность вне узких масок неподвижны.</p>
+<script>
+const poses=[['closed.png','Убраны · кадр PixelLab 00'],['half.png','Наполовину · кадр PixelLab 03'],['extended.png','Выдвинуты · кадр PixelLab 08']];
+const image=document.getElementById('view'),label=document.getElementById('state');let timers=[];
+function show(i){image.src=poses[i][0];label.textContent=poses[i][1]}
+function stop(){timers.forEach(clearTimeout);timers=[]}
+document.getElementById('reset').onclick=()=>{stop();show(0)};
+document.getElementById('play').onclick=()=>{stop();show(0);timers.push(setTimeout(()=>show(1),600));timers.push(setTimeout(()=>show(2),1050))};
+</script>
+</html>

@@ -1,0 +1,108 @@
+{
+  "pass": true,
+  "raw_png_matches": 44,
+  "usage_generations": 36.0,
+  "jobs": [
+    {
+      "key": "fire24-interpolate01",
+      "admitted": true,
+      "raw_png_byte_matches": 2,
+      "usage_generations": 10,
+      "request_sha256": "a7acd0023f851752be39b0305770ffce2a0e51899306547209b36644276e31a2"
+    },
+    {
+      "key": "fire24-keypose02",
+      "admitted": true,
+      "raw_png_byte_matches": 1,
+      "usage_generations": 10,
+      "request_sha256": "96048fc90b0eeb8cecdc33be0a9c437ac94535b5f26289159faadbe9138cb913"
+    },
+    {
+      "key": "fire24-layer01",
+      "admitted": false,
+      "reason": "frame_count 16 too high for 256x256 image. Max frame_count: 8"
+    },
+    {
+      "key": "fire24-layer02",
+      "admitted": true,
+      "raw_png_byte_matches": 9,
+      "usage_generations": 8.0,
+      "request_sha256": "08af480a3238638c02ce3269ea13d7dcde3d7f0d5f4e9650dd5264ea99a70ec1"
+    },
+    {
+      "key": "fire24-long01-c00",
+      "admitted": true,
+      "raw_png_byte_matches": 4,
+      "usage_generations": 1.0,
+      "request_sha256": "320dd9ee1e6c5e9423563f1ec006fb1e4d18ae49d34c7922d381ba2918618e4e"
+    },
+    {
+      "key": "fire24-long01-c04",
+      "admitted": true,
+      "raw_png_byte_matches": 4,
+      "usage_generations": 1.0,
+      "request_sha256": "7be34adce878913ea5f966bc4146ff2fe2fd586786a8f9c89125a4d105d1875f"
+    },
+    {
+      "key": "fire24-long01-c08",
+      "admitted": true,
+      "raw_png_byte_matches": 4,
+      "usage_generations": 1.0,
+      "request_sha256": "e2dc62c928b175beb27fa5e738a2bde3dd156fd1a9fff1ac980321ca4c417f47"
+    },
+    {
+      "key": "fire24-long01-c12",
+      "admitted": true,
+      "raw_png_byte_matches": 4,
+      "usage_generations": 1.0,
+      "request_sha256": "20e294a8c7d09de644fedf771a1e945217cdd02793614fc2e54262e53d4539f9"
+    },
+    {
+      "key": "fire24-mask02",
+      "admitted": true,
+      "raw_png_byte_matches": 4,
+      "usage_generations": 1.0,
+      "request_sha256": "d7b30231e12db76ad05112947f6d8fa1e3f1e536ab6545529e6a582f30f5cad4"
+    },
+    {
+      "key": "fire29-long01-c00",
+      "admitted": true,
+      "raw_png_byte_matches": 4,
+      "usage_generations": 1.0,
+      "request_sha256": "ba2bdf83ebe0c561fae3fa9f0435a89c60d05db416e8a7e9a0dce8280c2dde36"
+    },
+    {
+      "key": "fire29-long01-c04",
+      "admitted": true,
+      "raw_png_byte_matches": 4,
+      "usage_generations": 1.0,
+      "request_sha256": "503ec1db54e5bd69f655d23de7668b4bb8658c2c820cf53533fc803fcd8939b1"
+    },
+    {
+      "key": "fire29-long01-c08",
+      "admitted": true,
+      "raw_png_byte_matches": 4,
+      "usage_generations": 1.0,
+      "request_sha256": "3fdc5a6b2f33e57a89ae1716a5a64f8cb092176e790e558e0c82fc38c841ef6b"
+    }
+  ],
+  "preserved_groups": {
+    "protected": 33,
+    "source_art": 360,
+    "previous_fire_package": 33,
+    "previous_low_fire_package": 33,
+    "previous_hazard_art": 1156,
+    "previous_subtle_fire": 493,
+    "previous_liquid_evidence": 5,
+    "previous_painted_fire": 198,
+    "current_deep_acid_evidence": 4,
+    "runtime_and_tooling": 1613,
+    "previous_fire_spikes_trials": 310,
+    "previous_masked_trials": 372
+  },
+  "archive_byte_exact": true,
+  "fire_art_result": "Not achieved; all new fire trials rejected internally",
+  "spikes_result": "Technical APPROVE; user selection open",
+  "runtime_integrated": false,
+  "godot_run": false
+}

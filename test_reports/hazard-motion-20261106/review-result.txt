@@ -1,0 +1,13 @@
+Independent reviewer: /root/acid_overlay_review
+Result: APPROVE as an honest technical checkpoint. The fire animation goal is NOT achieved.
+
+Independently decoded and matched 44/44 provider PNGs; 11 admitted completed calls,
+one explicit 422 before admission; 36 generations agrees with 4597 -> 4561 balance.
+Rehashed all 4610 baseline paths: zero mismatches. Previous HANDOFF archive byte-exact.
+Gallery code, reports and screenshots show selectable trap/caltrops and static,
+disabled fire24/fire29 at 1280/390 px. No false ready or runtime-integration claim.
+The documents preserve PixelLab-only motion generation and separate static input
+segmentation, raw provider frames, unchanged-pixel assembly and retiming.
+Fire contacts support rejection: chunk texture jumps, new icons/white outside in
+keypose, and interpolation redraw. No secret markers found in package text.
+No blocking finding. Manual F5 and user art acceptance remain unperformed.

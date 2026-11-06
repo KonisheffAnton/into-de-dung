@@ -1,0 +1,10 @@
+{
+  "status": "completed",
+  "transport": "synchronous",
+  "variant": "fire24-mask02",
+  "image_count": 4,
+  "usage": {
+    "type": "generations",
+    "generations": 1.0
+  }
+}

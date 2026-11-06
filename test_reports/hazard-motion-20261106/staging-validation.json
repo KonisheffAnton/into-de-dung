@@ -1,0 +1,8 @@
+{
+  "staged_scope_pass": true,
+  "staged_files": 266,
+  "immutable_index_byte_matches": 57,
+  "foreign_staged": false,
+  "diff_check_pass": true,
+  "raw_json_git_policy": "-text -diff keeps original payload bytes, including CRLF and base64; JSON parse and provenance were checked independently"
+}

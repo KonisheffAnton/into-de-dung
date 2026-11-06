@@ -1,0 +1,97 @@
+{
+  "baseline_commit": "04473b6d4d567bb9e0805794a30722d9c092ab42",
+  "current_head": "04473b6d4d567bb9e0805794a30722d9c092ab42",
+  "baseline_sha256": "8307085f715db20d2b488b04ad1f0d8def265aab73d9a8fa33017f62e3a4444b",
+  "groups": {
+    "protected": {
+      "listed": 33,
+      "matched": 33,
+      "missing": [],
+      "mismatched": []
+    },
+    "source_art": {
+      "listed": 360,
+      "matched": 360,
+      "missing": [],
+      "mismatched": []
+    },
+    "previous_fire_package": {
+      "listed": 33,
+      "matched": 33,
+      "missing": [],
+      "mismatched": []
+    },
+    "previous_low_fire_package": {
+      "listed": 33,
+      "matched": 33,
+      "missing": [],
+      "mismatched": []
+    },
+    "previous_hazard_art": {
+      "listed": 1156,
+      "matched": 1156,
+      "missing": [],
+      "mismatched": []
+    },
+    "previous_subtle_fire": {
+      "listed": 493,
+      "matched": 493,
+      "missing": [],
+      "mismatched": []
+    },
+    "previous_liquid_evidence": {
+      "listed": 5,
+      "matched": 5,
+      "missing": [],
+      "mismatched": []
+    },
+    "previous_painted_fire": {
+      "listed": 198,
+      "matched": 198,
+      "missing": [],
+      "mismatched": []
+    },
+    "current_deep_acid_evidence": {
+      "listed": 4,
+      "matched": 4,
+      "missing": [],
+      "mismatched": []
+    },
+    "runtime_and_tooling": {
+      "listed": 1613,
+      "matched": 1613,
+      "missing": [],
+      "mismatched": []
+    },
+    "previous_fire_spikes_trials": {
+      "listed": 310,
+      "matched": 310,
+      "missing": [],
+      "mismatched": []
+    },
+    "previous_masked_trials": {
+      "listed": 372,
+      "matched": 372,
+      "missing": [],
+      "mismatched": []
+    }
+  },
+  "listed_total": 4610,
+  "matched_total": 4610,
+  "failed_groups": [],
+  "previous_handoff_archive": {
+    "previous_handoff_exists": true,
+    "history_archive_exists": true,
+    "previous_handoff_sha256": "bb04d3dd2880e0065bef5e80f8c4df37857376905a57df476962a8c937ebfe34",
+    "history_archive_sha256": "bb04d3dd2880e0065bef5e80f8c4df37857376905a57df476962a8c937ebfe34",
+    "byte_exact": true
+  },
+  "git_status": [
+    " M scenes/demo/main_menu.tscn",
+    "?? docs/CODEX_HANDOFF.history-20261106.md",
+    "?? docs/art/battlefield-reference-03-20261017/",
+    "?? docs/art/hazard-motion-20261106/"
+  ],
+  "unexpected_git_status": [],
+  "pass": true
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "width": 1280,
+    "images": true,
+    "noOverflow": true,
+    "trapMiddle": true,
+    "trapExtended": true,
+    "trapStaysExtended": true,
+    "caltrops": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "seek": true,
+    "pause": true,
+    "fire": {
+      "fire24": {
+        "pending": true,
+        "ready": false,
+        "disabled": true,
+        "status": "В работе: движение ещё не подобрано"
+      },
+      "fire29": {
+        "pending": true,
+        "ready": false,
+        "disabled": true,
+        "status": "В работе: движение ещё не подобрано"
+      }
+    },
+    "errors": [],
+    "pass": true
+  },
+  {
+    "width": 390,
+    "images": true,
+    "noOverflow": true,
+    "trapMiddle": true,
+    "trapExtended": true,
+    "trapStaysExtended": true,
+    "caltrops": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "seek": true,
+    "pause": true,
+    "fire": {
+      "fire24": {
+        "pending": true,
+        "ready": false,
+        "disabled": true,
+        "status": "В работе: движение ещё не подобрано"
+      },
+      "fire29": {
+        "pending": true,
+        "ready": false,
+        "disabled": true,
+        "status": "В работе: движение ещё не подобрано"
+      }
+    },
+    "errors": [],
+    "pass": true
+  }
+]
