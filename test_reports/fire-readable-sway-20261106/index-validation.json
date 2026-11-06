@@ -1,0 +1,11 @@
+{
+  "pass": true,
+  "base": "ecb49cd37da381ed7d9e8ca006861a771b0bfc56",
+  "all_stage_paths_owned": true,
+  "stage_files_before_this_receipt": 350,
+  "index_immutable_files_exact": 329,
+  "archive_and_original_snapshot_index_byte_exact": true,
+  "archive_sha256": "48878bf788be5fd230c255188679c805861271e9a0939175b617fe560c874c34",
+  "foreign_paths_in_stage": false,
+  "note": "Five report files were explicitly renormalized under -text to preserve working bytes; followup commit, no history rewrite."
+}
