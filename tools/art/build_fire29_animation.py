@@ -7,6 +7,7 @@ import argparse
 from io import BytesIO
 import hashlib
 import json
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -294,8 +295,23 @@ def build(check: bool) -> None:
 
     expected_names = {path.name for path in output_files}
     if check:
-        actual_names = {path.name for path in OUTPUT.iterdir() if path.is_file()} if OUTPUT.is_dir() else set()
-        require(actual_names == expected_names, f"Состав output отличается: expected={sorted(expected_names)}, actual={sorted(actual_names)}")
+        actual_names = {path.name for path in OUTPUT.iterdir()} if OUTPUT.is_dir() else set()
+        if ".gitattributes" in actual_names:
+            attributes = OUTPUT / ".gitattributes"
+            relative_attributes = attributes.relative_to(ROOT).as_posix()
+            tracked = subprocess.run(
+                ["git", "ls-files", "--error-unmatch", relative_attributes],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            require(attributes.is_file() and tracked.returncode == 0
+                    and tracked.stdout.strip() == relative_attributes,
+                    "Разрешён только отслеживаемый .gitattributes в output")
+            actual_names.remove(".gitattributes")
+        require(actual_names == expected_names,
+                f"Состав output отличается: expected={sorted(expected_names)}, actual={sorted(actual_names)}")
         for path, expected_bytes in output_files.items():
             require(path.is_file() and path.read_bytes() == expected_bytes,
                     f"Выход отсутствует или отличается от deterministic build: {path.relative_to(ROOT)}")

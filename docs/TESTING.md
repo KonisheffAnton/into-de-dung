@@ -41,6 +41,14 @@ PNG включают огонь на текущем камне и три поз�
 сравниваемые с прежним торцом. Сборщик проверяет SHA raw/native и точные ячейки;
 проверки не подменяют ручную оценку и стабильные60FPS не заявляют.
 
+Перекрытие огня29: дополнительно `python tools/art/build_fire29_flame_overlay.py --check`;
+`--render-check --only fire29_overlap fire29_animation visual_scene_contract
+dungeon_room_comparison --screen 0`. GPU сравнивает реальный огонь на соседних
+тайлах с отрицательным контролем прежней ромбовой маски и gain1.0; проверяет
+видимые кончики, усиление, глубину фигуры, точный возврат к frame0,96 синхронных
+слотов, pause/resize/reuse/retire на текущем Hub и сохранность live state/RNG.
+PNG — `fire29-overlap-screenshots/`; это не ручной плейтест или performance gate.
+
 Кислотная плёнка, глубокая кислота и кальтропы (2026-11-05):
 `python tools/art/build_hazard_surface_animations.py --check` и
 `python tools/art/build_acid_pool_animation.py --check`, затем

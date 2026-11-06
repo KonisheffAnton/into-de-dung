@@ -1,5 +1,18 @@
 # История и свидетельства проверок
 
+## Кончики огня29 за границей тайла — 2026-11-07
+
+Main, base6d4017bc0e16b10fb18a3e0f59724bdd2f40d75f. По уточнению U слегка
+усилен огонь29 и снято ромбовое обрезание исходных языков. Основание остаётся
+в ромбе, движение/часы/Y-sort прежние; новых поз или генераций нет.
+[Пакет и снимки](art/fire29-overlap-20261107/README.md).
+Свежие isolated import/startup PASS; fire29_overlap114/0, fire29_animation165/0,
+visual_scene_contract106/0, dungeon_room_comparison1983/0. Два builder --check PASS,
+независимое ревью APPROVE. Промежуточные неуспешные проверки описаны в пакете;
+full/core, ручные F5/движение/zoom/DPI/performance и художественная приёмка открыты.
+Сохранность: test_reports/fire29-overlap-20261107/.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261107-3.md).
+
 ## Выбранный огонь29 подключён к текущему бою — 2026-11-07
 
 Base f948431d9d2fe61ba6a1c053a93ce828937d3f6a, main; исправление плиты e793b571.

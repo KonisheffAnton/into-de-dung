@@ -1,0 +1,3 @@
+# Python caches are local and are not generated atlas assets.
+__pycache__/
+*.py[cod]

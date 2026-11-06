@@ -1,0 +1,5577 @@
+{
+  "schema": "fire29-flame-coverage-overlay-v1",
+  "source_manifest": "docs/art/fire29-readable-20261106/preview/manifest.json",
+  "source_manifest_sha256": "7d2799c6db6526f20a51b41f5f28701126d4464b9fc65ee35f7d21a50e736fb3",
+  "selection": "docs/art/fire29-readable-20261106/selection.json",
+  "selection_sha256": "da9da3a33680aaeb82df5253aae7062dfa04f5cb907fcf777689c3c3618353f1",
+  "source": "docs/art/fire-low-styles-20261104/fire-low-29.png",
+  "source_sha256": "3f89930f385e43a1efe4d4895c25ff74a7cfc4215d740c2d697263261122756e",
+  "source_view_256": "docs/art/fire29-readable-20261106/preview/fire29/source-256.png",
+  "source_view_256_sha256": "e69eb475eb32701bc57b1d24e27091fdd7f29afd92c9f04f224df60bf37e4ad7",
+  "source_rgb_sha256": "4bdd4142e7ceeff832f85e78284ed02a8f20f977c0f03173b128bf83f0061e82",
+  "source_alpha_sha256": "5a95f75e367fef437970cf37b81866fe471e6acca0e6e35f25b758632bdd640b",
+  "source_size_px": [
+    1254,
+    1254
+  ],
+  "groups": [
+    {
+      "key": "fire29-field01",
+      "group_key": "fire29-01",
+      "crop_xyxy": [
+        559,
+        225,
+        687,
+        353
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-01/input-transparent.png",
+      "input_sha256": "a1707ee6a11776941b462d0e803e23e82c58b6cb347063595a976502021dcbfe",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-01/core-mask.png",
+      "core_mask_sha256": "5ea0bc29f1fbfc81360deb43bd9c5f4a84037a9925faf59de1553987c8e90ef8",
+      "raw_frames": [
+        {
+          "frame": 3,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field01/raw/frame-03.png",
+          "sha256": "97fc565466ee6a2d5add7f6877177ad946f5ace63d80ef9b0ba682627f71653e",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 4,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field01/raw/frame-04.png",
+          "sha256": "b1c69aa16f681fee0c0628b67fff511d6c441d4fe202083ab448d8f00c1bb336",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field01/raw/frame-05.png",
+          "sha256": "c85cfec3245a69ab91aa533209a13b66dc8227f7b15584b60298749d4b9f454f",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field01/raw/frame-06.png",
+          "sha256": "2d6c32c0bbf8dc730e079e694ef19cecf4c7423e1cb37aadb2fb374b2bd7dec7",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field01/raw/frame-07.png",
+          "sha256": "7833b063b0b8e5bac61f0a6e68a1223dee8c39fa603e167d0e2048318daea398",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field01/raw/frame-08.png",
+          "sha256": "2437f795cb3c9d37aa4b135be6b7636f2cfece13732a27e1eb293bc3d3e6f7af",
+          "size_px": [
+            128,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-strong01",
+      "group_key": "fire29-02",
+      "crop_xyxy": [
+        562,
+        225,
+        818,
+        481
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-02/input-transparent.png",
+      "input_sha256": "4ca837805e14181ae9c7299c0aa2e33a185f1ec68255a8067c4fb13d6d42b8c3",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-02/core-mask.png",
+      "core_mask_sha256": "d2b526777f72849af7ee18e27eed806fe4363592d8fc48d3af28f8b9a380727f",
+      "raw_frames": [
+        {
+          "frame": 1,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-01.png",
+          "sha256": "5a12fad40c28e450f15caca451b302cd34cf51819458115cc2593f9c5773300c",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 3,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-03.png",
+          "sha256": "5fa8280f74d95673d082e231719b7cd6508aa95bfa5f5b932e3c089efdc20513",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 4,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-04.png",
+          "sha256": "1f689ef5c0897970c1d8cfa0d5801a2b4ac8ce05cc3955ede6d1bfde84811006",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 5,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-05.png",
+          "sha256": "1ef54c5c1cbea4f1be876b59e465984839d9f337bb68b9cd04aad0d1ba3303aa",
+          "size_px": [
+            256,
+            256
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field03",
+      "group_key": "fire29-03",
+      "crop_xyxy": [
+        383,
+        251,
+        639,
+        507
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-03/input-transparent.png",
+      "input_sha256": "d7f347c0bc45d58dbc006eaa7334b5c60fb25538049cbe7f546d69b2d6fcdd0f",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-03/core-mask.png",
+      "core_mask_sha256": "1644f1ea453c2d0852c61231f188347907a903f19729eb842ca6ec81ad5d68ca",
+      "raw_frames": [
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field03/raw/frame-05.png",
+          "sha256": "067895f18f858d89f3960025ffd48886e53724b50d342a2902e01f870f8b7dba",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field03/raw/frame-06.png",
+          "sha256": "882603378fe9c24c4065e0aa7f4968af66c8ed7c93abd4cde4de78690d645396",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field03/raw/frame-07.png",
+          "sha256": "928fdf5d49c1f33b85f3f98da877ee4e0f3dbcfe3df0c253b79e967f9d5a51ab",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field03/raw/frame-08.png",
+          "sha256": "c84e809cf042442d5e0cc047b549c18faa0d1b224854b78c888a5afac29af59b",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field03/raw/frame-09.png",
+          "sha256": "69ffeaa3a6bf149807cab97a10aea39178ed6422ff99c985f7fa11e738eef6e0",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field03/raw/frame-10.png",
+          "sha256": "101fce9132ad336f7ade8723901d150353aa8b70ef5a77213084ba98ba0c0ad5",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field03/raw/frame-11.png",
+          "sha256": "bf26e4b7dc6ccf79fdc1b33e569f95ef538235f8b51cff66cb46c115da8db9c7",
+          "size_px": [
+            256,
+            256
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field04",
+      "group_key": "fire29-04",
+      "crop_xyxy": [
+        610,
+        331,
+        738,
+        459
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-04/input-transparent.png",
+      "input_sha256": "5daa74ee95d1cfa6c4c0ebcc8bed353ca08ff4bd7ce625aee7a26f525adb1dc4",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-04/core-mask.png",
+      "core_mask_sha256": "5560656a0f2a6d687dfa8e03c72e4c8de24dc2dc3bc8dfc319dee7a2b79759ab",
+      "raw_frames": [
+        {
+          "frame": 2,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field04/raw/frame-02.png",
+          "sha256": "49266af1b6fe5915ad4c05ba39afb353a75e58907c66f53cbae368af72380395",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 3,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field04/raw/frame-03.png",
+          "sha256": "92833a17de7bb866cf5f2340e340137958cbe3843314f4a5834cac2ec57b0dc5",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 4,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field04/raw/frame-04.png",
+          "sha256": "0633b20e6c4e053c292965201dfbc6f98c0765f80d81bb4e37ca246991b4bcc7",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field04/raw/frame-05.png",
+          "sha256": "e36610932ce995199d1486594df2e9103b1d08a478402417aceec1f8f56e860c",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field04/raw/frame-06.png",
+          "sha256": "16c3b6836a8a7b0660501c1d2b800123cd825ce2b3c6acd31ac98db78aa81aa6",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field04/raw/frame-07.png",
+          "sha256": "4ef48fc8d3e5478c2f239548bdd404afe2ce330577caffe995867b671e00f920",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field04/raw/frame-08.png",
+          "sha256": "00185e1256ce245b651a90063ec3286706728e804aadd50235ec21a2e8221cee",
+          "size_px": [
+            128,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field05",
+      "group_key": "fire29-05",
+      "crop_xyxy": [
+        524,
+        345,
+        652,
+        473
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-05/input-transparent.png",
+      "input_sha256": "af4a623495b8993f8e90b000cffa71574c27bb8668b4f77b67c473db4be31dfe",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-05/core-mask.png",
+      "core_mask_sha256": "a57520526612c5f90357e8a52d9367e4075b9bbc5cac128735abcc4577d2df2a",
+      "raw_frames": [
+        {
+          "frame": 4,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field05/raw/frame-04.png",
+          "sha256": "94dd7ce81e2689029137bfb73f988af463f5516faccba57bbc0bb577d0766cb0",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field05/raw/frame-05.png",
+          "sha256": "1f7d6c155fcc06934874a33f3f3a478c136e691aa9e83e4a7bbb58ec3d6c84b3",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field05/raw/frame-06.png",
+          "sha256": "d96d5468537531692868eb35568b5361bf0a0ed451926dfbfb82e276d99cfccb",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field05/raw/frame-07.png",
+          "sha256": "812e948094268619d4a5555a3c199f61485f40dbd9a734de7e000575e6d41d94",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field05/raw/frame-08.png",
+          "sha256": "d0540b06489ac787e2406c5735b2936baa4c4def40c717fd647d7959c52a1e11",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field05/raw/frame-09.png",
+          "sha256": "0f20426055a810e1f2d129663100f79f754591c86caabfd249f04d89e9397b28",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field05/raw/frame-10.png",
+          "sha256": "287603e12fcb9b16732a6e5a274213006497b785542a2249fe11b2492d31eb1c",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field05/raw/frame-11.png",
+          "sha256": "e44a80af41142ebb54ddbb14153760c10eab2df9a16ed24a37509e8aff0aa000",
+          "size_px": [
+            128,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field06",
+      "group_key": "fire29-06",
+      "crop_xyxy": [
+        750,
+        361,
+        878,
+        489
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-06/input-transparent.png",
+      "input_sha256": "c5c90726dbd1c25d4c46ab2fd2a71abdb884225a6b68068e667776238db88378",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-06/core-mask.png",
+      "core_mask_sha256": "397726a90d4e6713aa9f778ef2b9cb3eea328c457c0fcba53ae85cc0b1cbece0",
+      "raw_frames": [
+        {
+          "frame": 2,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field06/raw/frame-02.png",
+          "sha256": "c60eb220b270bd22fe73d41b8a82cf35ffc321768e20773c1f47c18b31648475",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 4,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field06/raw/frame-04.png",
+          "sha256": "f263f9e6eb52e9ebd12a9bb365e1e703db09b5895daa5f3f6cb6f040c5eabd29",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field06/raw/frame-06.png",
+          "sha256": "17519198ff6ae8ef83ec726dae51066f2e359886c23e0247d44762538f2a455e",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field06/raw/frame-08.png",
+          "sha256": "8e3f6f8ea5003c678ca84088d7532c06e4b96b6677a67a1698841acbdd9ca592",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field06/raw/frame-09.png",
+          "sha256": "51295d7c69e4ab1d38332d7bc0063a926ec873cdcbec998feedbdbfd4c15b4a4",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 12,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field06/raw/frame-12.png",
+          "sha256": "f4df64c835b109e8bb47cb1f53916013a09da48835eac391959d86d029628441",
+          "size_px": [
+            128,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field07",
+      "group_key": "fire29-07",
+      "crop_xyxy": [
+        360,
+        365,
+        488,
+        493
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-07/input-transparent.png",
+      "input_sha256": "01fabaa4bf2148567ab5759ab2dc7172f9acd678e0db4beb774774b01cbfc677",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-07/core-mask.png",
+      "core_mask_sha256": "a4c32a72911f403d44dfcf494597fa2dfe559ceabe0ec4f32e46147c8cdd3cbf",
+      "raw_frames": [
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field07/raw/frame-09.png",
+          "sha256": "3d68dc55cf8d8d80a402d811f031283e9a7dee0dbe8aa56d12ab1dda03ca04cf",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field07/raw/frame-10.png",
+          "sha256": "d8acc5c7f0cd6f382a2fb48862d3390f08c6e04d3def238e7887d79085fe6d1a",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field07/raw/frame-11.png",
+          "sha256": "e76dc775c6425ba13ae2f7c3da765f53b908586457a00df1a73a3465f687e7d2",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 12,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field07/raw/frame-12.png",
+          "sha256": "5a35c80a3ae2720256b7f11a245c6adbbf2eb2580012b0f143767a669c64a96d",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 13,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field07/raw/frame-13.png",
+          "sha256": "1504cb349eccc93bd6c9027459f2e9098171fadcf8d2562c95555bf4b4277847",
+          "size_px": [
+            128,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field08",
+      "group_key": "fire29-08",
+      "crop_xyxy": [
+        628,
+        366,
+        756,
+        494
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-08/input-transparent.png",
+      "input_sha256": "6d66d6fad0149fed66c59748f384a015c72bc78932d059af8ba6896de77047f2",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-08/core-mask.png",
+      "core_mask_sha256": "8b9cd28aec77493bcb8edeb076bcca52e5caf7e5dffa857cc170609959363029",
+      "raw_frames": [
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field08/raw/frame-07.png",
+          "sha256": "f3bb37f9a0b323007f438b582934e0f612ada35b93057904bf2708f696d413ef",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field08/raw/frame-08.png",
+          "sha256": "0437c1763d077eeb2bdb67bf7e154a25367e69b09ffcf222c7043433bdff3ab6",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field08/raw/frame-09.png",
+          "sha256": "f515fd6997880dcd1ebe939bc641e3a13d888dee554624ca1047068841c51556",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field08/raw/frame-10.png",
+          "sha256": "3e6577208f5351c35dc39b6645072e8e1498d1efb47e7a86a8cabe50c776833f",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field08/raw/frame-11.png",
+          "sha256": "31c9f1f0c734a6dd789fc62fb8afbbca6d6a7177d4a7975f71b40e0d43302d76",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 12,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field08/raw/frame-12.png",
+          "sha256": "e64cbbae4a28b643b3ddb2dcd1f6fdc2a637851ca1ea0ae4925ab2e9fa6ef5b2",
+          "size_px": [
+            128,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field09",
+      "group_key": "fire29-09",
+      "crop_xyxy": [
+        450,
+        370,
+        578,
+        498
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-09/input-transparent.png",
+      "input_sha256": "ec79baa18d107fb894c19f5012e58068c3dbe024471587d9f375e78be1313b14",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-09/core-mask.png",
+      "core_mask_sha256": "58af0050b4309b08a558353a8422430e2a1540a2b84aefd5dea1eccdabee8b5c",
+      "raw_frames": [
+        {
+          "frame": 2,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field09/raw/frame-02.png",
+          "sha256": "8d73bdf319b46e2c2743fcb975738cd47b81719161f5010dcdc8c0f29f13aa7b",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 3,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field09/raw/frame-03.png",
+          "sha256": "8f8e82fcc8f78668525ddc025950012e395d679053114933426525c20333cfa1",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 4,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field09/raw/frame-04.png",
+          "sha256": "e624d4c5fc568a42be7a3b76f13cdc823fbdeee0495740e1e9a0fb2bfd6b60b6",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field09/raw/frame-05.png",
+          "sha256": "1d150447b48649c9c00772ef8142ef8be0a6b4cf7ce6ddc4f628abe2c2cb3ecf",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field09/raw/frame-06.png",
+          "sha256": "13a9dd566031cc53caf3c276a6edda48d0331fc3bc402f2dc4b8b12352455bab",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field09/raw/frame-07.png",
+          "sha256": "1bc3be3ab9ec2d7627d0fd53def81c0cbc6582ae174e93c7eccd1f5e132643df",
+          "size_px": [
+            128,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field10",
+      "group_key": "fire29-10",
+      "crop_xyxy": [
+        347,
+        385,
+        475,
+        513
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-10/input-transparent.png",
+      "input_sha256": "860378e10daee68c5834cde566a708d3393ecb9910e73744c5a88acd350176b2",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-10/core-mask.png",
+      "core_mask_sha256": "2dce62a603cfc64fb78d7f3086ca13250c8883b71f8e86485307ec46ab05d80c",
+      "raw_frames": [
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field10/raw/frame-06.png",
+          "sha256": "6c4f78f2c7f7bf7c997a5ee365f60e91a3828e9e6e92ca68142cf783f5ae68be",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field10/raw/frame-07.png",
+          "sha256": "c9cde762ac929f41d2f8477bd92250fc5fd2e754e02dbc0339d339611e67e25a",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field10/raw/frame-08.png",
+          "sha256": "3da878d223880ea60a96e5288322ebb3b5f160d211dc15188ee2bee57075a722",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field10/raw/frame-09.png",
+          "sha256": "a3064d5045857d17b8baefffe1e9bf390b1d24846ddad6861b74a1aeb313d885",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field10/raw/frame-10.png",
+          "sha256": "1bf548607e9216be5e207271af6b196863ce0be2cca368cf5e47c87c4cb91fed",
+          "size_px": [
+            128,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field11",
+      "group_key": "fire29-11",
+      "crop_xyxy": [
+        471,
+        392,
+        599,
+        520
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-11/input-transparent.png",
+      "input_sha256": "6be2a5927aa0e1585517b34b9ab1b335a39b2d6980bd7ff5fb49aec51cbd96ce",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-11/core-mask.png",
+      "core_mask_sha256": "cb5ad8bda0e00ee3a177f43cbb8e88f42b6aae19245b527f133b9f5b8ee152ca",
+      "raw_frames": [
+        {
+          "frame": 13,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field11/raw/frame-13.png",
+          "sha256": "202181a31704d45542542e7237ae263970bc6948b590ba21d4da6e98e58f739c",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 14,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field11/raw/frame-14.png",
+          "sha256": "8283106c6b4e45fe1818533442885e55ca1297d41f88f7d1d1be8fb4d3de8b0f",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 15,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field11/raw/frame-15.png",
+          "sha256": "7601c6c4232075c07cabdb7c2e846f9fd1ad6676596df6ca4c2c3dcd50521646",
+          "size_px": [
+            128,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field13",
+      "group_key": "fire29-13",
+      "crop_xyxy": [
+        530,
+        364,
+        786,
+        620
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-13/input-transparent.png",
+      "input_sha256": "7be0232a09fca94e19b88c01047e61d13fe1672f0ae910508ec49b8ff8ab842f",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-13/core-mask.png",
+      "core_mask_sha256": "81f218e8f2ec17b21a9e8e4add1fd271dbfbdd8699ce6fee4f38c0a18bbae714",
+      "raw_frames": [
+        {
+          "frame": 1,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field13/raw/frame-01.png",
+          "sha256": "dc2e049a48960b1afe5eb32f6611e692dfffc106561c8348cdeba8677d3b33de",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 4,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field13/raw/frame-04.png",
+          "sha256": "2603542abfdb0b22f8dc6aa863aa895982e2281c07e8aeb1a550a96c017bee96",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field13/raw/frame-05.png",
+          "sha256": "9c96f17885bc5c21b2144606e2087d737ca5ca7b038f380acc38d03f3b5fe12f",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field13/raw/frame-06.png",
+          "sha256": "afcdea7d8b6605853ed6f10e5e8dc3a295e95e5e40acc179b4d86578ea75a6de",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field13/raw/frame-07.png",
+          "sha256": "4f2c630d53d884ce24dc2b8a44385d7f96248e94531a123331359ed860c26e3c",
+          "size_px": [
+            256,
+            256
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-visible02",
+      "group_key": "fire29-14",
+      "crop_xyxy": [
+        303,
+        367,
+        559,
+        623
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-14/input-transparent.png",
+      "input_sha256": "5e719c9a05b83be7a7207ecd099789dc89a6c3c1b2cd79f474eaf6e6d2689c14",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-14/core-mask.png",
+      "core_mask_sha256": "ff2fe10e2a60f4dc6c2138de40239a694fbd00a82ec71f050dfabc899ed97ad3",
+      "raw_frames": [
+        {
+          "frame": 1,
+          "path": "docs/art/fire29-readable-20261106/results/fire29-visible02/raw/frame-01.png",
+          "sha256": "6a25c9487a50dc0984795906bb63f5d580ccb770b6ef957ee17ffad3061723af",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 2,
+          "path": "docs/art/fire29-readable-20261106/results/fire29-visible02/raw/frame-02.png",
+          "sha256": "1c0306ce529d21437ef98c3846bb95b790ef2e0f5eac32f8fa4b6ff89ce26e2e",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 3,
+          "path": "docs/art/fire29-readable-20261106/results/fire29-visible02/raw/frame-03.png",
+          "sha256": "13635e9290e7e809eb3db50bac2c4322b96b4101021b955ebb3c92ef28637d5f",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 14,
+          "path": "docs/art/fire29-readable-20261106/results/fire29-visible02/raw/frame-14.png",
+          "sha256": "c9724e8b76882401a27398ffff713d9b4bd89b4c533a529f2e0eea7fc4365df1",
+          "size_px": [
+            256,
+            256
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field15",
+      "group_key": "fire29-15",
+      "crop_xyxy": [
+        514,
+        469,
+        642,
+        597
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-15/input-transparent.png",
+      "input_sha256": "fb776fd589bd4ea9f8c1c4cc356e6c1476e3d7c3cd7a8849b419fe3b5036d954",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-15/core-mask.png",
+      "core_mask_sha256": "539457147c159dd22bb8157bc58b6f1437e91f9941318e4ec32534693837b1dc",
+      "raw_frames": [
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field15/raw/frame-10.png",
+          "sha256": "a9143a4987daddf055edc820127170e198c0f21fa1633dc2c65b794a8bb2a444",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field15/raw/frame-11.png",
+          "sha256": "359da64748084b39d359822e95cd96a55729feabfb4b131576b5204f7a69e193",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 12,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field15/raw/frame-12.png",
+          "sha256": "58206bdcd79845f9bd03f1354990c87529db8d8133c382a535431886c4354778",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 13,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field15/raw/frame-13.png",
+          "sha256": "2ef5af5544379864cc33c4b024aa025e4d519a866083e1f67dc05e5fe00bdd0a",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 14,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field15/raw/frame-14.png",
+          "sha256": "e673346f8a0229a879359c41aafb24eafc9757b0ffc6a3494ed6a52740eb3068",
+          "size_px": [
+            128,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field16",
+      "group_key": "fire29-16",
+      "crop_xyxy": [
+        617,
+        474,
+        745,
+        602
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-16/input-transparent.png",
+      "input_sha256": "c58b5173b26669a084d870f024cd1bc43f4d08c75efd09cc4ce6551804e41a0d",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-16/core-mask.png",
+      "core_mask_sha256": "5441537c71dd6252e63711bd6e8ceee1b8dfd5870af8036bdb60d6df6c532930",
+      "raw_frames": [
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field16/raw/frame-09.png",
+          "sha256": "91599afab5fd53599379fff1af18f55196a485af0498bad7edb91d39f7fae1c6",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field16/raw/frame-10.png",
+          "sha256": "bb852c6eacb6cbc9ca7b808a7c35245c4b4b6cb3e72f370842df88011157178a",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field16/raw/frame-11.png",
+          "sha256": "e4cdf929e6471cdc377b4035a8c487cb61fd293ce5dad8e612bd982988444bc4",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 12,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field16/raw/frame-12.png",
+          "sha256": "b7450766afe3823cab2cc40d5e07453bf05ac1a04f827744ff84297df1661485",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 13,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field16/raw/frame-13.png",
+          "sha256": "595fdb8ebd1a7442d5df6f8c721f1f79412d0ca7626f8a59a1c3cdd0484601a4",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 14,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field16/raw/frame-14.png",
+          "sha256": "487310a997af16a1159b6bca5b5a1b28c470923d4ec275d4a31ad2f544228159",
+          "size_px": [
+            128,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field17",
+      "group_key": "fire29-17",
+      "crop_xyxy": [
+        713,
+        478,
+        841,
+        606
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-17/input-transparent.png",
+      "input_sha256": "26b487645645022fd7f647c4a122dcdc3614ce1e3397a7b36c92aaba0c77434c",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-17/core-mask.png",
+      "core_mask_sha256": "f89aae2c048e063c7427cff82926817e5508b3e852bb6eebb063b1059fe09450",
+      "raw_frames": [
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field17/raw/frame-06.png",
+          "sha256": "4f4cd76b2f7ea14820c736790c7b3b1d77cc8e6415dba128fb4fbf99c530e80a",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field17/raw/frame-07.png",
+          "sha256": "cdced362768bbd89f255da0c61460591e10f5e00d0ce513e45ad14d98e42a2b9",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field17/raw/frame-08.png",
+          "sha256": "3ce85f43fb5f1bbbb8273d576882f12d5454d58c714c9ff8b437b9ddac06d73f",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field17/raw/frame-09.png",
+          "sha256": "ab97c6ce1904b30cf30ccca5f43cade13d04b41437b41acebd5019fc931e0bba",
+          "size_px": [
+            128,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field18",
+      "group_key": "fire29-18",
+      "crop_xyxy": [
+        447,
+        489,
+        575,
+        617
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-18/input-transparent.png",
+      "input_sha256": "017bafe92e6dcd899c3b00b6ee2761ce2b78c910ab46205fb9edb7ed48c2eb30",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-18/core-mask.png",
+      "core_mask_sha256": "b6f9a533e84eb6d403955aa706c20e93742b1b79886c5b16a19dfd16b3791af1",
+      "raw_frames": [
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field18/raw/frame-07.png",
+          "sha256": "570e21763c363147a56b15f26888c8745054977fe38afec0fc04077e39dfef9a",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field18/raw/frame-08.png",
+          "sha256": "25f623f6d35cb02eee7fa86620265aad027b3dadc48c023d7507861c91637603",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field18/raw/frame-09.png",
+          "sha256": "1daedcf3f6e50a3fa4725c7377b5646d248b9c636adbc1902e6f3f2e10296402",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field18/raw/frame-10.png",
+          "sha256": "4f256d160810ad4ea5a6b422634c9295032dbbbcc308bf921cb0b95965d962bd",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field18/raw/frame-11.png",
+          "sha256": "3e12a2d1f43c8b2c2e19e2cd78bb3b34674ce8f55c5fdd5887979ca3d9cb90c7",
+          "size_px": [
+            128,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field19",
+      "group_key": "fire29-19",
+      "crop_xyxy": [
+        371,
+        492,
+        499,
+        620
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-19/input-transparent.png",
+      "input_sha256": "03bb824aa942209d5e84c17223a1c6d18b310143168c03190019ba25330dcb2d",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-19/core-mask.png",
+      "core_mask_sha256": "03d45b576c1863242e485613e1b4367754e85231d3978e5ec57825e3f4204b9a",
+      "raw_frames": [
+        {
+          "frame": 3,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field19/raw/frame-03.png",
+          "sha256": "0434e9ce9d239cae4c16cbbc08d71a8e8bfceb7362d0764268de091a75e0b0c2",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 4,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field19/raw/frame-04.png",
+          "sha256": "c2ec08df1f18db052a39e423d6127044e7b5d2f7ae748521d98c70c6159af854",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field19/raw/frame-05.png",
+          "sha256": "a548fa4f31a773ed8b6c716b2870ee6391bd7e8da868377d9bf1e45e8681b68a",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field19/raw/frame-06.png",
+          "sha256": "20b5b5c87c21fa34b8e67aea3f80679840bb528258fb8695c4f99bda1d969fb0",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field19/raw/frame-07.png",
+          "sha256": "7ca5c3890359be5513a79c582930e016488d045332aa833ced00568b9ac5f949",
+          "size_px": [
+            128,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field20",
+      "group_key": "fire29-20",
+      "crop_xyxy": [
+        586,
+        498,
+        714,
+        626
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-20/input-transparent.png",
+      "input_sha256": "7ec9ad764b79b3d6b4c66231d066ab2b370855017a04106504a1e4694b1f4a0b",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-20/core-mask.png",
+      "core_mask_sha256": "bd677005d12aa443a1c4366c30a76609dddd6f6e017e632725dbd85fa2532170",
+      "raw_frames": [
+        {
+          "frame": 4,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field20/raw/frame-04.png",
+          "sha256": "cb0d701bf6dd19ddf1083420352b7ba9ac6d340ff0207e4455ca58588331265b",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field20/raw/frame-05.png",
+          "sha256": "c1439a89ef157d43ae69868a826ffd1ad1b46bf3ac2f6f3cce870d7ca248449d",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field20/raw/frame-06.png",
+          "sha256": "7f259ff04d1282192535a179973c0915e92defc16229d598b3fe4a6ec3a305c0",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field20/raw/frame-07.png",
+          "sha256": "c03231dbcb5ab6560dd5cb6c88fc8691fbefdeec13f474c42e16ec4486a73efc",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field20/raw/frame-08.png",
+          "sha256": "6da849404d80f3c0bc8eeddfc3eaefe844446824e0ad607db21171a2c4dc5dda",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field20/raw/frame-09.png",
+          "sha256": "aa6bb71f9b71570e65d01d5afea55519f2cd8c820f14c66700491d3b3bd4f1c6",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field20/raw/frame-10.png",
+          "sha256": "2e3066abd088038961708787a208cc53b6aa6437705c5c40557d6e07d60b9b6f",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field20/raw/frame-11.png",
+          "sha256": "a8811bde4e382b98f01374d449cd74f0b1b77397bbe4008f573acf2b9e58ae94",
+          "size_px": [
+            128,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field21",
+      "group_key": "fire29-21",
+      "crop_xyxy": [
+        604,
+        458,
+        860,
+        714
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-21/input-transparent.png",
+      "input_sha256": "69d9699138ee8de5ee071b05b8c17d5989b8bc88cf58456913c01a0658f72f88",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-21/core-mask.png",
+      "core_mask_sha256": "5dfc4d21a0823240cca92a435d2e5bf7c530e432f3f86a7deb454c5d19b17634",
+      "raw_frames": [
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field21/raw/frame-11.png",
+          "sha256": "1a8b0328a9a8cc209be3d9a4f374ed4b842e51973a7d4e208d616a666c54681c",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 14,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field21/raw/frame-14.png",
+          "sha256": "7271e8ca62db6d3f0345fbe57d8b5865d2e00195e3d844bf1dbd5c845e048f18",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 15,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field21/raw/frame-15.png",
+          "sha256": "f2ca348d9786ab091d8a1341860c0693705cc13a33901ef57fb13f76001cfba2",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 16,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field21/raw/frame-16.png",
+          "sha256": "c2893779604391e296f66240c31602952a18f3f5bc01963a8e7c33959888fa5e",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 19,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field21/raw/frame-19.png",
+          "sha256": "a0f39c570808fdb81f781d68c89f3556e357fb4b67216e04c96bd9ef461cb348",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 21,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field21/raw/frame-21.png",
+          "sha256": "04597673a8bfc073253e1788a007d387dbd6bf680006ad773d4c7069a9bdc940",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 22,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field21/raw/frame-22.png",
+          "sha256": "48eed5ba763f1661e22d2bbfa8b44449acd7578b6bae851e9aaf1600b3117a6a",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 23,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field21/raw/frame-23.png",
+          "sha256": "0b24f8682961b872a268ab05b564410ed32976383c5e67bc278c2e123f38b170",
+          "size_px": [
+            256,
+            256
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field22",
+      "group_key": "fire29-22",
+      "crop_xyxy": [
+        432,
+        477,
+        688,
+        733
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-22/input-transparent.png",
+      "input_sha256": "d4a055c0756d683a7dd56ae3847eba2a499fc3780a4ca625e4f86661cddc4872",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-22/core-mask.png",
+      "core_mask_sha256": "d9c4cef3b7e2b49f231425a1201e1a6c118a559c41478d7ef2de7f12c36efeda",
+      "raw_frames": [
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field22/raw/frame-07.png",
+          "sha256": "f6f8779673ba2dcfd8b109fa5873858e7988ae696008dc9c55e596a3c15b49cb",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field22/raw/frame-09.png",
+          "sha256": "cdac3be0ddd309efe4d22ba9711b4eb49550f54d382a41008f9a77da133e3be2",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field22/raw/frame-11.png",
+          "sha256": "57eadf213f0e1125ae16460a564887bb13630c92a75c81c16272ee1abc6deeeb",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 17,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field22/raw/frame-17.png",
+          "sha256": "1b27d4c486cf4016cc004f5645c9b02e9facd3c7934509e4901d92ddddecd13f",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 18,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field22/raw/frame-18.png",
+          "sha256": "5dd35350faf4087306d96e3da641615f2b8a5c78e1614c4ae19ab6a15bf11f8c",
+          "size_px": [
+            256,
+            256
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field23",
+      "group_key": "fire29-23",
+      "crop_xyxy": [
+        621,
+        554,
+        749,
+        682
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-23/input-transparent.png",
+      "input_sha256": "24e7c280b92a929c676c01a2b1be2362f4efca68ee1ae5059538caeb6630d3f0",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-23/core-mask.png",
+      "core_mask_sha256": "3e98c981a24850103d1cf162d4167b5ff61c2438f80828bf76d9e2272b89e44c",
+      "raw_frames": [
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field23/raw/frame-05.png",
+          "sha256": "f87792df8b56afffc0b784fb57c1431d97acb552c4e7cfb3d59439a8b4da0811",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field23/raw/frame-06.png",
+          "sha256": "e55bb5a8287a30fcb8317311af6045746e64322b59fc374fbb5baa17b80dbf58",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field23/raw/frame-07.png",
+          "sha256": "029e5c0a6047d108f9a7fe394fdb1d34b857c94bfd0314f9adcf34e74098c65b",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field23/raw/frame-08.png",
+          "sha256": "9fb89482a47bbf2d8c409e6c6b60eb472ddda2c6f3567aa5f2569b2a067f12bc",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field23/raw/frame-09.png",
+          "sha256": "08b11d3f71b6defdf27f0af2cd4580256225a39ff7b0a3040cef838462d011c9",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field23/raw/frame-10.png",
+          "sha256": "60cad6c8ba59db7b2f5a547d0337ff88637431feded65c821685601a01600492",
+          "size_px": [
+            128,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field24",
+      "group_key": "fire29-24",
+      "crop_xyxy": [
+        476,
+        579,
+        604,
+        707
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-24/input-transparent.png",
+      "input_sha256": "38946b46c698efb938c48cfc1ea0838ded248960ec1dff04b50be061477d4706",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-24/core-mask.png",
+      "core_mask_sha256": "9eca4f16b0b7221bd2e395b28673a752a88f8e6a87442895e098cb877d795654",
+      "raw_frames": [
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field24/raw/frame-05.png",
+          "sha256": "a62fd8eb7fc0573e42bf62652f5b512c1bce8e429834a0398157275ea25ebb95",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field24/raw/frame-06.png",
+          "sha256": "b568ffad807de5fd0686b3b0b9beba5375ebfb16495b8fe336d2725cbdd02b70",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field24/raw/frame-07.png",
+          "sha256": "5cd483845e09cfd5077dd60f352c346932d508750ac1c5ea9e020f988c3cb024",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field24/raw/frame-08.png",
+          "sha256": "1b84a707a25abab61936c412dfc27d7d867b07d24cdd96c94e3f0b2ce415ed3f",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field24/raw/frame-09.png",
+          "sha256": "add01e4bd0bf74927a6dff46443ff012c4a8e638832174c73ffded7c38156397",
+          "size_px": [
+            128,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field25",
+      "group_key": "fire29-25",
+      "crop_xyxy": [
+        517,
+        529,
+        773,
+        785
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-25/input-transparent.png",
+      "input_sha256": "bf79f4c94f9ab09235271dcf0b9f8b405e888931d90184c48bd93ae8d7664071",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-25/core-mask.png",
+      "core_mask_sha256": "a8e8a4ae40204c7f9ab3154c5b75ddbbf6c830a9b8432f69b5ef7ded51e5eded",
+      "raw_frames": [
+        {
+          "frame": 1,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field25/raw/frame-01.png",
+          "sha256": "f733598ca77aaacbad31b1fe4ba90f0f0818da3d1e458d8b1fb73f05d1b4ac3b",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 4,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field25/raw/frame-04.png",
+          "sha256": "d77d65c6fa3eb0a754613fb6bbb1e580577ec0add16aaac0e858a3d00186193d",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field25/raw/frame-05.png",
+          "sha256": "e521fa52f8318d8a904a22f436a22c50b0cd8490062c13f246e3232f4b2f783f",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field25/raw/frame-06.png",
+          "sha256": "ddc8fb996e853ee028d3cdd90f57fb80e0feed64f1122e18bf3ab99b29de53cd",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 7,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field25/raw/frame-07.png",
+          "sha256": "7218f1526b96b93a88d18089bd470dbb717a965e166598e2f97f80573f46ba44",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 8,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field25/raw/frame-08.png",
+          "sha256": "a823923c3fba7134fa3b6461d81cdc2ceafaa0efdc6f1fa1a47494b4b71878cd",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field25/raw/frame-09.png",
+          "sha256": "3c5c62f3e9b4c853c9f5b4a77baff133f02d7ffa45048029eeca56f18c298622",
+          "size_px": [
+            256,
+            256
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-field26",
+      "group_key": "fire29-26",
+      "crop_xyxy": [
+        566,
+        632,
+        694,
+        760
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-26/input-transparent.png",
+      "input_sha256": "6b408d4a7e5da0855513558c6bbf3bb189941bb2522242cdde3674a45b36db6e",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-26/core-mask.png",
+      "core_mask_sha256": "82cae270f0a11de041e0db0a4f5eeed85300b2601306a6d96e5caadae5354f9f",
+      "raw_frames": [
+        {
+          "frame": 3,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field26/raw/frame-03.png",
+          "sha256": "90200a636bb60b4484e56781ef9e0ab31177db36a3f2d4ceb23d836c201ebeba",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 4,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field26/raw/frame-04.png",
+          "sha256": "4f77953f863b0c794cc76d7197b5b0d1c52bf4b9e15f702fd9755d0d445806a5",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 5,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field26/raw/frame-05.png",
+          "sha256": "26a6aca2cbc1cbde298a650ecee6c79ec4998ea1b64925d8f452b607b123604f",
+          "size_px": [
+            128,
+            128
+          ]
+        },
+        {
+          "frame": 6,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-field26/raw/frame-06.png",
+          "sha256": "212ad0a44e2d61c0e147b7d5151fb783601874a9a76ed224f4de73e6fb226d7e",
+          "size_px": [
+            128,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fire29-short01",
+      "group_key": "fire29-12",
+      "crop_xyxy": [
+        680,
+        359,
+        936,
+        615
+      ],
+      "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-12/input-transparent.png",
+      "input_sha256": "4f473f1807b383989b68d66dde3b630f814cf598e76e22d4cd5a033464caf2ef",
+      "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-12/core-mask.png",
+      "core_mask_sha256": "aad995d8e3d7ce3dfe982afc9713903d06000a6b4a608116fe5dfb75fa800547",
+      "raw_frames": [
+        {
+          "frame": 1,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-short01/raw/frame-01.png",
+          "sha256": "303847cf88298920a3f7ed6b3cce65ac6ccb50391ae920ccf74647e290b0818e",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 9,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-short01/raw/frame-09.png",
+          "sha256": "6c8e1ba0e0a255a88bf7cca996c89235c2a908d48532d96db002f3ab28cd9549",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 10,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-short01/raw/frame-10.png",
+          "sha256": "36085354a36883956a8023e426124ef71ac7f92f9fae0b575dfee20794d356d0",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 11,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-short01/raw/frame-11.png",
+          "sha256": "26f2b3004bd3ee8553e4f1a25bf04e367a7f3ca14c5ea5861ea2f98aebf8c522",
+          "size_px": [
+            256,
+            256
+          ]
+        },
+        {
+          "frame": 12,
+          "path": "docs/art/fire-single-tongue-20261106/results/fire29-short01/raw/frame-12.png",
+          "sha256": "bfb77f2af277bd5e060f2381f060c8994357e62d21d05e2c16b389b805aac1a3",
+          "size_px": [
+            256,
+            256
+          ]
+        }
+      ]
+    }
+  ],
+  "raw_frame_count": 145,
+  "selected_animation": {
+    "manifest_path": "assets/art_presets/approved/fire29_selected_v1/manifest.json",
+    "manifest_sha256": "d7bcaac1e4254e688e9f4478b38190c375a959ad368b9b542a8e715ba384430b",
+    "resource_path": "assets/art_presets/approved/fire29_selected_v1/fire29_frames.tres",
+    "resource_sha256": "2379bd3c1cb0ab1056ebffc0fa305a85f7c279b4e5aadbbefda3428574aef586",
+    "atlases": [
+      {
+        "path": "assets/art_presets/approved/fire29_selected_v1/fire29_atlas_00.png",
+        "sha256": "1c7677bbdc68b58887f4bca571b57903a3343407ea95c7ea8f395ff7dd6490d3",
+        "bytes": 490816
+      },
+      {
+        "path": "assets/art_presets/approved/fire29_selected_v1/fire29_atlas_01.png",
+        "sha256": "474b3c015ba1667d54ad4a74a07aa53b28ebbee66ab8170e82da3cf4d8b0556a",
+        "bytes": 495691
+      },
+      {
+        "path": "assets/art_presets/approved/fire29_selected_v1/fire29_atlas_02.png",
+        "sha256": "6e24b5d0aa8cf621737c988d4777bf327a6b4f7087c21fed12aefc34a44b8d29",
+        "bytes": 497452
+      },
+      {
+        "path": "assets/art_presets/approved/fire29_selected_v1/fire29_atlas_03.png",
+        "sha256": "5bac14bf94d2dab5c0a6fb0fb8d51cd7cdf56325992d35a0d5c357c3fa8a3848",
+        "bytes": 495174
+      },
+      {
+        "path": "assets/art_presets/approved/fire29_selected_v1/fire29_atlas_04.png",
+        "sha256": "3a75fe2ed771eab0cfdae96f8c51bdda700be1440f843ad27514ffc7d71feb94",
+        "bytes": 498871
+      },
+      {
+        "path": "assets/art_presets/approved/fire29_selected_v1/fire29_atlas_05.png",
+        "sha256": "27bc3df33e146c7620e917e143697fbe26e26d062c9f97eba7f1149bab035f60",
+        "bytes": 492683
+      }
+    ]
+  },
+  "native_crop_xyxy": [
+    288,
+    233,
+    966,
+    746
+  ],
+  "display_cell_px": [
+    256,
+    194
+  ],
+  "resampling": "PIL LANCZOS on alpha only for overlay; selected base RGB is copied exact",
+  "combine_rule": "out.rgb = selected_frame.rgb; out.a = round(coverage_alpha * selected_frame.a / 255)",
+  "slots": 96,
+  "slot_ms": 80,
+  "duration_ms": 7680,
+  "speed_fps": 12.5,
+  "loop": true,
+  "atlas_grid": [
+    4,
+    4
+  ],
+  "atlas_size_px": [
+    1024,
+    776
+  ],
+  "atlas_count": 6,
+  "atlases": [
+    {
+      "path": "assets/art_presets/approved/fire29_flame_overlay_v1/fire29_flames_00.png",
+      "sha256": "301eddb11895d6f217e20cb78c02b764fba8df1d2b5740d2d63fa6c20d3ecd64",
+      "bytes": 520053,
+      "size_px": [
+        1024,
+        776
+      ],
+      "slots": [
+        0,
+        15
+      ]
+    },
+    {
+      "path": "assets/art_presets/approved/fire29_flame_overlay_v1/fire29_flames_01.png",
+      "sha256": "2b56abff3cdf3ecc2c817096d259241911a875388987c7d0f13a18bf3496f782",
+      "bytes": 525440,
+      "size_px": [
+        1024,
+        776
+      ],
+      "slots": [
+        16,
+        31
+      ]
+    },
+    {
+      "path": "assets/art_presets/approved/fire29_flame_overlay_v1/fire29_flames_02.png",
+      "sha256": "07b8a43e9a8745f5635ee2c704036cbe75077ec4364003694e544278e3973cd4",
+      "bytes": 528182,
+      "size_px": [
+        1024,
+        776
+      ],
+      "slots": [
+        32,
+        47
+      ]
+    },
+    {
+      "path": "assets/art_presets/approved/fire29_flame_overlay_v1/fire29_flames_03.png",
+      "sha256": "04dd03c5965a18ce0857ca01f6aa793e19008837e7d3344e2b39444577673ad9",
+      "bytes": 525156,
+      "size_px": [
+        1024,
+        776
+      ],
+      "slots": [
+        48,
+        63
+      ]
+    },
+    {
+      "path": "assets/art_presets/approved/fire29_flame_overlay_v1/fire29_flames_04.png",
+      "sha256": "b91a546ebad305277b1a54029871a234459c740e16a1011f2fb61e927f56f20d",
+      "bytes": 529175,
+      "size_px": [
+        1024,
+        776
+      ],
+      "slots": [
+        64,
+        79
+      ]
+    },
+    {
+      "path": "assets/art_presets/approved/fire29_flame_overlay_v1/fire29_flames_05.png",
+      "sha256": "3c6fcfd31e26cc1874ef25e7f58bc7e739774b7bf2d1d11e7b9622b23dbe087d",
+      "bytes": 522735,
+      "size_px": [
+        1024,
+        776
+      ],
+      "slots": [
+        80,
+        95
+      ]
+    }
+  ],
+  "runtime_flat_plane": {
+    "center": [
+      128.0,
+      99.45809
+    ],
+    "half_size": [
+      115.16224,
+      87.35673
+    ],
+    "alpha_threshold": 8,
+    "outside_alpha_pixels": [
+      229,
+      243,
+      252,
+      257,
+      255,
+      264,
+      263,
+      274,
+      264,
+      246,
+      258,
+      259,
+      243,
+      242,
+      240,
+      241,
+      240,
+      240,
+      244,
+      252,
+      252,
+      238,
+      238,
+      235,
+      225,
+      236,
+      235,
+      240,
+      244,
+      261,
+      261,
+      271,
+      271,
+      257,
+      272,
+      263,
+      248,
+      244,
+      241,
+      243,
+      232,
+      236,
+      238,
+      253,
+      250,
+      233,
+      241,
+      242,
+      234,
+      237,
+      237,
+      239,
+      240,
+      250,
+      249,
+      265,
+      265,
+      262,
+      274,
+      276,
+      260,
+      261,
+      253,
+      244,
+      228,
+      228,
+      230,
+      236,
+      233,
+      223,
+      241,
+      242,
+      233,
+      246,
+      247,
+      254,
+      256,
+      256,
+      254,
+      265,
+      266,
+      249,
+      262,
+      264,
+      257,
+      256,
+      248,
+      248,
+      238,
+      239,
+      232,
+      240,
+      234,
+      222,
+      231,
+      233
+    ]
+  },
+  "source_flat_plane_native": {
+    "center": [
+      627.0,
+      496.0
+    ],
+    "half_size": [
+      305.0,
+      231.0
+    ]
+  },
+  "endpoint_slot": 96,
+  "endpoint_coverage_equals_slot0": true,
+  "slot95_rgba_differs_from_slot0": true,
+  "slot95_different_rgba_pixels_vs_slot0": 4680,
+  "rgba_memory_bytes": 19070976,
+  "source_input_rgb_and_alpha_sha256": {
+    "rgb": "4bdd4142e7ceeff832f85e78284ed02a8f20f977c0f03173b128bf83f0061e82",
+    "alpha": "5a95f75e367fef437970cf37b81866fe471e6acca0e6e35f25b758632bdd640b"
+  },
+  "frames_resource": {
+    "path": "assets/art_presets/approved/fire29_flame_overlay_v1/fire29_flames_frames.tres",
+    "sha256": "5bf4e98b6d314e422a5a874cae12bfcb000f0183554fccdc3b5f2df9a223d793",
+    "animation": "fire",
+    "frames": 96,
+    "loop": true,
+    "speed_fps": 12.5,
+    "duration_per_frame": 1.0,
+    "shared_definition": true
+  },
+  "frames": [
+    {
+      "slot": 0,
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 3,
+        "fire29-field03": 10,
+        "fire29-field04": 5,
+        "fire29-field05": 4,
+        "fire29-field06": 9,
+        "fire29-field07": 11,
+        "fire29-field08": 8,
+        "fire29-field09": 3,
+        "fire29-field10": 9,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 11,
+        "fire29-field16": 11,
+        "fire29-field17": 6,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 4,
+        "fire29-field21": 15,
+        "fire29-field22": 7,
+        "fire29-field23": 7,
+        "fire29-field24": 6,
+        "fire29-field25": 5,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      },
+      "base_rgb_sha256": "97a24f5c83daf3b0b3ef68ffa480c096a4c93c9ae6900857a041f1c52bbe3220",
+      "coverage_alpha_sha256": "c95af649dc823533f19ffbae76955df6e58e86ca2fa03fa3286c58e0ab716e5f",
+      "overlay_rgba_sha256": "d008ab9b37f5773115f68c01eb7c892ad470c9ca51ec6f538d437c06fdf01c02",
+      "coverage_pixels_alpha_gt8": 9747,
+      "overlay_pixels_alpha_gt8": 9738,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 229
+    },
+    {
+      "slot": 1,
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 3,
+        "fire29-field03": 9,
+        "fire29-field04": 6,
+        "fire29-field05": 4,
+        "fire29-field06": 12,
+        "fire29-field07": 10,
+        "fire29-field08": 8,
+        "fire29-field09": 3,
+        "fire29-field10": 10,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 10,
+        "fire29-field16": 10,
+        "fire29-field17": 6,
+        "fire29-field18": 10,
+        "fire29-field19": 7,
+        "fire29-field20": 4,
+        "fire29-field21": 15,
+        "fire29-field22": 7,
+        "fire29-field23": 7,
+        "fire29-field24": 6,
+        "fire29-field25": 4,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      },
+      "base_rgb_sha256": "e3f28b32a6857bfde8601b6e4b168527e7290ed8cbd065d99f6f731f726a54a6",
+      "coverage_alpha_sha256": "fef8a813268f5f255c19dd826c9099b8b1164c912af19f455b6bcb99bfca376a",
+      "overlay_rgba_sha256": "dc34906c79c711351ddd8e2623514fb52109db27718b1df8e8cabde96a8fc43e",
+      "coverage_pixels_alpha_gt8": 9760,
+      "overlay_pixels_alpha_gt8": 9752,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 243
+    },
+    {
+      "slot": 2,
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 9,
+        "fire29-field04": 6,
+        "fire29-field05": 4,
+        "fire29-field06": 12,
+        "fire29-field07": 10,
+        "fire29-field08": 9,
+        "fire29-field09": 2,
+        "fire29-field10": 10,
+        "fire29-field11": 14,
+        "fire29-field13": 7,
+        "fire29-visible02": 1,
+        "fire29-field15": 10,
+        "fire29-field16": 10,
+        "fire29-field17": 6,
+        "fire29-field18": 10,
+        "fire29-field19": 7,
+        "fire29-field20": 4,
+        "fire29-field21": 14,
+        "fire29-field22": 9,
+        "fire29-field23": 6,
+        "fire29-field24": 5,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "024739d5cc12dc9351484139d8781914098efd3dcb03f5864585e6e0e7fe2c1a",
+      "coverage_alpha_sha256": "50faf2026917f33de9b7d48e7cbf9c9361b6b5de72f2730b91a2339b21ca5d1a",
+      "overlay_rgba_sha256": "701c2ec5b0878c925913ac3f5e6f2facd8cc4d672179b4622a2b6ab4d20f1913",
+      "coverage_pixels_alpha_gt8": 9765,
+      "overlay_pixels_alpha_gt8": 9758,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 252
+    },
+    {
+      "slot": 3,
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 7,
+        "fire29-field05": 5,
+        "fire29-field06": 12,
+        "fire29-field07": 9,
+        "fire29-field08": 9,
+        "fire29-field09": 2,
+        "fire29-field10": 9,
+        "fire29-field11": 14,
+        "fire29-field13": 6,
+        "fire29-visible02": 1,
+        "fire29-field15": 10,
+        "fire29-field16": 9,
+        "fire29-field17": 6,
+        "fire29-field18": 9,
+        "fire29-field19": 7,
+        "fire29-field20": 4,
+        "fire29-field21": 14,
+        "fire29-field22": 9,
+        "fire29-field23": 6,
+        "fire29-field24": 5,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 1
+      },
+      "base_rgb_sha256": "e05b5f7fe2ea149d8b6dcf142e2cc3d377df5aa08ee5515c720e6892fd7dc982",
+      "coverage_alpha_sha256": "e69b2c93cc478df1e1bf7a4b6a9f3576b3b8d2664f6f5cba6fb677a235f20439",
+      "overlay_rgba_sha256": "6e22112f04c7e7d948a9ac2238fb475178e83e34a4be68072375f35e26e3cd6c",
+      "coverage_pixels_alpha_gt8": 9771,
+      "overlay_pixels_alpha_gt8": 9763,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 257
+    },
+    {
+      "slot": 4,
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 7,
+        "fire29-field05": 5,
+        "fire29-field06": 9,
+        "fire29-field07": 9,
+        "fire29-field08": 10,
+        "fire29-field09": 2,
+        "fire29-field10": 9,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 1,
+        "fire29-field15": 10,
+        "fire29-field16": 9,
+        "fire29-field17": 7,
+        "fire29-field18": 9,
+        "fire29-field19": 6,
+        "fire29-field20": 5,
+        "fire29-field21": 11,
+        "fire29-field22": 9,
+        "fire29-field23": 5,
+        "fire29-field24": 5,
+        "fire29-field25": 4,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      },
+      "base_rgb_sha256": "f61f0a8e8b9602a053f91f48e545b5d0392b1e8263bbd7dbb319c0e63f5e27f4",
+      "coverage_alpha_sha256": "6833f8afda205856b79fa631225271dba2c5ae181ac4b3a80d7698757ed47db1",
+      "overlay_rgba_sha256": "d532ecd6c9218ca90a9a7c866533a179f25e298441245fba24d469c75a69f15f",
+      "coverage_pixels_alpha_gt8": 9785,
+      "overlay_pixels_alpha_gt8": 9776,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 255
+    },
+    {
+      "slot": 5,
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 3,
+        "fire29-field03": 7,
+        "fire29-field04": 8,
+        "fire29-field05": 6,
+        "fire29-field06": 9,
+        "fire29-field07": 9,
+        "fire29-field08": 10,
+        "fire29-field09": 2,
+        "fire29-field10": 8,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 2,
+        "fire29-field15": 11,
+        "fire29-field16": 9,
+        "fire29-field17": 7,
+        "fire29-field18": 9,
+        "fire29-field19": 6,
+        "fire29-field20": 5,
+        "fire29-field21": 14,
+        "fire29-field22": 11,
+        "fire29-field23": 5,
+        "fire29-field24": 5,
+        "fire29-field25": 5,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      },
+      "base_rgb_sha256": "d6d708bc135c6e4e6f0a52bedd8732517df862ab98c73081ada5bfe55f0294b5",
+      "coverage_alpha_sha256": "8770ed88b4825cdcb5aa27868fa12d121b54dddac061341500dd8eddb39a016a",
+      "overlay_rgba_sha256": "dc83d8b1d3bf875aa89ad15aedfe82c39594679640616513bffb26532e9e4c28",
+      "coverage_pixels_alpha_gt8": 9788,
+      "overlay_pixels_alpha_gt8": 9776,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 264
+    },
+    {
+      "slot": 6,
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 3,
+        "fire29-field03": 7,
+        "fire29-field04": 7,
+        "fire29-field05": 6,
+        "fire29-field06": 8,
+        "fire29-field07": 9,
+        "fire29-field08": 11,
+        "fire29-field09": 2,
+        "fire29-field10": 8,
+        "fire29-field11": 13,
+        "fire29-field13": 4,
+        "fire29-visible02": 2,
+        "fire29-field15": 11,
+        "fire29-field16": 9,
+        "fire29-field17": 8,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 6,
+        "fire29-field21": 14,
+        "fire29-field22": 11,
+        "fire29-field23": 5,
+        "fire29-field24": 6,
+        "fire29-field25": 5,
+        "fire29-field26": 6,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "93a65a6bce83b5af5811c95fa7de7e469650992edfe6df01a3c3db64ef2a3300",
+      "coverage_alpha_sha256": "8e256de40f26739933149966a3bfcc29a90d60d2827207f304c6333130f92ea4",
+      "overlay_rgba_sha256": "1b799c85afb743cedf290b3dd8a27aa8195454248c2d6980e95a3face21004f4",
+      "coverage_pixels_alpha_gt8": 9798,
+      "overlay_pixels_alpha_gt8": 9788,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 263
+    },
+    {
+      "slot": 7,
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 4,
+        "fire29-field03": 6,
+        "fire29-field04": 7,
+        "fire29-field05": 7,
+        "fire29-field06": 8,
+        "fire29-field07": 10,
+        "fire29-field08": 11,
+        "fire29-field09": 3,
+        "fire29-field10": 7,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 11,
+        "fire29-field16": 9,
+        "fire29-field17": 8,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 6,
+        "fire29-field21": 15,
+        "fire29-field22": 17,
+        "fire29-field23": 5,
+        "fire29-field24": 6,
+        "fire29-field25": 6,
+        "fire29-field26": 6,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "673541f441e4f8d29fc6a17051676c1baa3763eda44dce2d58481db6cfb7067d",
+      "coverage_alpha_sha256": "f0703d8f7560366d67a10fdcfa433a5d89d5a11f12ade363b51b9f2b169ab63a",
+      "overlay_rgba_sha256": "6de9fdb34453e427be360b38a814d7fc5e81d81fe5a5b5ff538a1d738b43e218",
+      "coverage_pixels_alpha_gt8": 9812,
+      "overlay_pixels_alpha_gt8": 9803,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 274
+    },
+    {
+      "slot": 8,
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 4,
+        "fire29-field03": 6,
+        "fire29-field04": 6,
+        "fire29-field05": 7,
+        "fire29-field06": 6,
+        "fire29-field07": 10,
+        "fire29-field08": 12,
+        "fire29-field09": 3,
+        "fire29-field10": 7,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 12,
+        "fire29-field16": 10,
+        "fire29-field17": 9,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 7,
+        "fire29-field21": 16,
+        "fire29-field22": 17,
+        "fire29-field23": 5,
+        "fire29-field24": 7,
+        "fire29-field25": 7,
+        "fire29-field26": 5,
+        "fire29-short01": 11
+      },
+      "base_rgb_sha256": "402fbae29dd7df1c2e44067393af34aa689dcf047b4becc22de420866977ff62",
+      "coverage_alpha_sha256": "c3d5a84b8a199fd60ae7b4fbb0cbe66c78b76602af47b3dd8492d7c8322c284e",
+      "overlay_rgba_sha256": "cd6c1494b3ee5bf9d82211bd76abd004b7787145eb7c551b936543ecfb4dc020",
+      "coverage_pixels_alpha_gt8": 9821,
+      "overlay_pixels_alpha_gt8": 9812,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 264
+    },
+    {
+      "slot": 9,
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 5,
+        "fire29-field03": 5,
+        "fire29-field04": 6,
+        "fire29-field05": 8,
+        "fire29-field06": 6,
+        "fire29-field07": 11,
+        "fire29-field08": 12,
+        "fire29-field09": 4,
+        "fire29-field10": 6,
+        "fire29-field11": 14,
+        "fire29-field13": 1,
+        "fire29-visible02": 14,
+        "fire29-field15": 12,
+        "fire29-field16": 10,
+        "fire29-field17": 9,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 7,
+        "fire29-field21": 16,
+        "fire29-field22": 17,
+        "fire29-field23": 6,
+        "fire29-field24": 7,
+        "fire29-field25": 8,
+        "fire29-field26": 5,
+        "fire29-short01": 10
+      },
+      "base_rgb_sha256": "36bfbb6961001b900278c6c24425f474b5871aaa758e25a619a24626761238b1",
+      "coverage_alpha_sha256": "5750331e97a1cbd63f892686d6f0717cabd3a96a23ebc1b115e5cc87ad219be6",
+      "overlay_rgba_sha256": "2ad7a35cdefb412948ffa844361bc4c36449510492fa5000211be165f7e47568",
+      "coverage_pixels_alpha_gt8": 9838,
+      "overlay_pixels_alpha_gt8": 9828,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 246
+    },
+    {
+      "slot": 10,
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 4,
+        "fire29-field03": 5,
+        "fire29-field04": 5,
+        "fire29-field05": 8,
+        "fire29-field06": 2,
+        "fire29-field07": 11,
+        "fire29-field08": 12,
+        "fire29-field09": 4,
+        "fire29-field10": 6,
+        "fire29-field11": 14,
+        "fire29-field13": 4,
+        "fire29-visible02": 3,
+        "fire29-field15": 13,
+        "fire29-field16": 11,
+        "fire29-field17": 8,
+        "fire29-field18": 7,
+        "fire29-field19": 3,
+        "fire29-field20": 8,
+        "fire29-field21": 23,
+        "fire29-field22": 18,
+        "fire29-field23": 6,
+        "fire29-field24": 8,
+        "fire29-field25": 9,
+        "fire29-field26": 4,
+        "fire29-short01": 10
+      },
+      "base_rgb_sha256": "a3bf5e8a116fd8b268950b4eef9c1915f5e305023a25ed0710dcbbabb0da7d66",
+      "coverage_alpha_sha256": "a79a71128c397e35a3b60ecb33878f83fd604aa117ed9cde59d6add2fe5304c3",
+      "overlay_rgba_sha256": "e0eff0ec301cb664efb8da63cc2e02507028edcefcee77fc7dad1296850242df",
+      "coverage_pixels_alpha_gt8": 9839,
+      "overlay_pixels_alpha_gt8": 9829,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 258
+    },
+    {
+      "slot": 11,
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 4,
+        "fire29-field03": 5,
+        "fire29-field04": 5,
+        "fire29-field05": 9,
+        "fire29-field06": 4,
+        "fire29-field07": 12,
+        "fire29-field08": 11,
+        "fire29-field09": 5,
+        "fire29-field10": 6,
+        "fire29-field11": 15,
+        "fire29-field13": 5,
+        "fire29-visible02": 3,
+        "fire29-field15": 13,
+        "fire29-field16": 11,
+        "fire29-field17": 8,
+        "fire29-field18": 7,
+        "fire29-field19": 3,
+        "fire29-field20": 8,
+        "fire29-field21": 23,
+        "fire29-field22": 18,
+        "fire29-field23": 7,
+        "fire29-field24": 8,
+        "fire29-field25": 8,
+        "fire29-field26": 4,
+        "fire29-short01": 9
+      },
+      "base_rgb_sha256": "434f9915f43a1846bb2dadd0e28d55f267a1cb1ff33487d6da9972de5fead293",
+      "coverage_alpha_sha256": "020e9ed5bc9a52beaf504907861a9e63aa5fe6d6e53a64f5965bd0e69bb2552d",
+      "overlay_rgba_sha256": "e30e952c56ef50a15e659ddf152d8e9f163c1208af6b3fda9ef116d7d5157a49",
+      "coverage_pixels_alpha_gt8": 9838,
+      "overlay_pixels_alpha_gt8": 9828,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 259
+    },
+    {
+      "slot": 12,
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 3,
+        "fire29-field03": 6,
+        "fire29-field04": 4,
+        "fire29-field05": 9,
+        "fire29-field06": 4,
+        "fire29-field07": 12,
+        "fire29-field08": 11,
+        "fire29-field09": 5,
+        "fire29-field10": 6,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 14,
+        "fire29-field16": 12,
+        "fire29-field17": 7,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 9,
+        "fire29-field21": 22,
+        "fire29-field22": 18,
+        "fire29-field23": 7,
+        "fire29-field24": 9,
+        "fire29-field25": 7,
+        "fire29-field26": 3,
+        "fire29-short01": 9
+      },
+      "base_rgb_sha256": "ea7b52bff2defab3ed87d677974b2e53987fbc72057400062f7f330f887bd735",
+      "coverage_alpha_sha256": "e0cd0a21590f54fff5957b7fd004553c7968f3379e1498d3936e5300cf915177",
+      "overlay_rgba_sha256": "ec6a8e91adf221f3d4b0e15ced621bb78158c8d52bd2080e52245b031e89604a",
+      "coverage_pixels_alpha_gt8": 9777,
+      "overlay_pixels_alpha_gt8": 9770,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 243
+    },
+    {
+      "slot": 13,
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 3,
+        "fire29-field03": 6,
+        "fire29-field04": 4,
+        "fire29-field05": 10,
+        "fire29-field06": 2,
+        "fire29-field07": 13,
+        "fire29-field08": 10,
+        "fire29-field09": 6,
+        "fire29-field10": 6,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 14,
+        "fire29-field16": 12,
+        "fire29-field17": 7,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 9,
+        "fire29-field21": 21,
+        "fire29-field22": 17,
+        "fire29-field23": 8,
+        "fire29-field24": 9,
+        "fire29-field25": 6,
+        "fire29-field26": 3,
+        "fire29-short01": 10
+      },
+      "base_rgb_sha256": "9227e3f75ad7517170d6130ec1eca18da12d589599ffe1ee5e1e75121efdd08c",
+      "coverage_alpha_sha256": "ef43168701170bfb93201fc1d71f62fe8e11d3d01f7084fb12a787c32064227e",
+      "overlay_rgba_sha256": "bf432c0c935d03bd5a1f70f866fed60768335dcef5e2cee6390409567c73cb22",
+      "coverage_pixels_alpha_gt8": 9793,
+      "overlay_pixels_alpha_gt8": 9786,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 242
+    },
+    {
+      "slot": 14,
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 7,
+        "fire29-field04": 3,
+        "fire29-field05": 10,
+        "fire29-field06": 2,
+        "fire29-field07": 13,
+        "fire29-field08": 10,
+        "fire29-field09": 6,
+        "fire29-field10": 7,
+        "fire29-field11": 14,
+        "fire29-field13": 7,
+        "fire29-visible02": 1,
+        "fire29-field15": 13,
+        "fire29-field16": 13,
+        "fire29-field17": 6,
+        "fire29-field18": 9,
+        "fire29-field19": 4,
+        "fire29-field20": 10,
+        "fire29-field21": 21,
+        "fire29-field22": 17,
+        "fire29-field23": 8,
+        "fire29-field24": 9,
+        "fire29-field25": 5,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      },
+      "base_rgb_sha256": "2db3100a689e6304bc71ecc4c0d4cb149ac13f07261d28381e83556259de3f54",
+      "coverage_alpha_sha256": "8f58c7068d6f8ef2caeed066524d7a64c6cfaf3ad685bdaba90c1db92677b98c",
+      "overlay_rgba_sha256": "9fa69969ee4a99fdf6f780c8e3d62a361450e186ae0c59ca5f3e5c8f6410be55",
+      "coverage_pixels_alpha_gt8": 9782,
+      "overlay_pixels_alpha_gt8": 9775,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 240
+    },
+    {
+      "slot": 15,
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 7,
+        "fire29-field04": 3,
+        "fire29-field05": 11,
+        "fire29-field06": 6,
+        "fire29-field07": 13,
+        "fire29-field08": 9,
+        "fire29-field09": 7,
+        "fire29-field10": 7,
+        "fire29-field11": 14,
+        "fire29-field13": 6,
+        "fire29-visible02": 1,
+        "fire29-field15": 13,
+        "fire29-field16": 13,
+        "fire29-field17": 6,
+        "fire29-field18": 9,
+        "fire29-field19": 4,
+        "fire29-field20": 10,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 9,
+        "fire29-field24": 8,
+        "fire29-field25": 4,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      },
+      "base_rgb_sha256": "8a0ee1704705dfbeb6efbe0cb59703d2bb23bd6f6665aa3e9ad5f1a2c67e9054",
+      "coverage_alpha_sha256": "ca14d635643e3446f4e20771dda7def01f4713fe728e44d1bf97ab43387d5422",
+      "overlay_rgba_sha256": "9af7871185a2e23457402f7cd995adfe5bd226a0c8804f96498a03b2bd821700",
+      "coverage_pixels_alpha_gt8": 9784,
+      "overlay_pixels_alpha_gt8": 9777,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 241
+    },
+    {
+      "slot": 16,
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 2,
+        "fire29-field05": 11,
+        "fire29-field06": 6,
+        "fire29-field07": 12,
+        "fire29-field08": 9,
+        "fire29-field09": 7,
+        "fire29-field10": 8,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 1,
+        "fire29-field15": 12,
+        "fire29-field16": 14,
+        "fire29-field17": 6,
+        "fire29-field18": 10,
+        "fire29-field19": 5,
+        "fire29-field20": 11,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 9,
+        "fire29-field24": 8,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "d3822cb4cb05c1717bec89feb9d5c264dd67152c8017078c3511d62e5b08e687",
+      "coverage_alpha_sha256": "752cf4a5e3107213f5b0c94ebc1fc5651d633a83c57fe92975029afe3f2c5412",
+      "overlay_rgba_sha256": "92a038d26075fdb1c666fe0442262155d93f4f15450d7528d5ede5d6005966dc",
+      "coverage_pixels_alpha_gt8": 9796,
+      "overlay_pixels_alpha_gt8": 9789,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 240
+    },
+    {
+      "slot": 17,
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 3,
+        "fire29-field03": 8,
+        "fire29-field04": 2,
+        "fire29-field05": 11,
+        "fire29-field06": 8,
+        "fire29-field07": 12,
+        "fire29-field08": 8,
+        "fire29-field09": 7,
+        "fire29-field10": 8,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 2,
+        "fire29-field15": 12,
+        "fire29-field16": 14,
+        "fire29-field17": 6,
+        "fire29-field18": 10,
+        "fire29-field19": 5,
+        "fire29-field20": 11,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 10,
+        "fire29-field24": 7,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 1
+      },
+      "base_rgb_sha256": "65177f3b341d10f0fe3cba5a448e8ddcb0f9d9096fc76dacaf62b6501e271486",
+      "coverage_alpha_sha256": "8dc6061a24820ab2516f53f26ff507092ef3fdea10df84a68ba9d5e59c8789ad",
+      "overlay_rgba_sha256": "55e7140ce371dc16f8873f0f9007a633c76a50de87beaf1f991640f065e7b2a7",
+      "coverage_pixels_alpha_gt8": 9796,
+      "overlay_pixels_alpha_gt8": 9787,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 240
+    },
+    {
+      "slot": 18,
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 3,
+        "fire29-field03": 9,
+        "fire29-field04": 2,
+        "fire29-field05": 10,
+        "fire29-field06": 9,
+        "fire29-field07": 11,
+        "fire29-field08": 8,
+        "fire29-field09": 6,
+        "fire29-field10": 9,
+        "fire29-field11": 13,
+        "fire29-field13": 4,
+        "fire29-visible02": 2,
+        "fire29-field15": 11,
+        "fire29-field16": 14,
+        "fire29-field17": 7,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 11,
+        "fire29-field21": 21,
+        "fire29-field22": 9,
+        "fire29-field23": 10,
+        "fire29-field24": 7,
+        "fire29-field25": 4,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      },
+      "base_rgb_sha256": "2aa4eec4373a2e8b7585e91fb17d51c2e8a37f256a6a807f533916a1db7a318c",
+      "coverage_alpha_sha256": "1934a1fbf63aa7372cf58a3cbc68db86f54e13122f4d9db0f80fc13da244781e",
+      "overlay_rgba_sha256": "6562775ba830d1e01fae47412ed53dbbae4f69fd0d6742dbdec3f722ea1a8841",
+      "coverage_pixels_alpha_gt8": 9794,
+      "overlay_pixels_alpha_gt8": 9784,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 244
+    },
+    {
+      "slot": 19,
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 9,
+        "fire29-field04": 3,
+        "fire29-field05": 10,
+        "fire29-field06": 9,
+        "fire29-field07": 11,
+        "fire29-field08": 7,
+        "fire29-field09": 6,
+        "fire29-field10": 9,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 11,
+        "fire29-field16": 13,
+        "fire29-field17": 7,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 10,
+        "fire29-field21": 21,
+        "fire29-field22": 9,
+        "fire29-field23": 10,
+        "fire29-field24": 6,
+        "fire29-field25": 5,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      },
+      "base_rgb_sha256": "35d248227a733a349e9558e4a8ed0e05fc51da3c1c433a91f0869ff239fdda7f",
+      "coverage_alpha_sha256": "8efe99106fe7e590ec03e6b7586857379e750a9816bdc9b3a15af9273f57d55e",
+      "overlay_rgba_sha256": "4f65d6bb3ee5f2dc696feeb9ef1faa6339bb22cca15dc3ae16efccd341101b64",
+      "coverage_pixels_alpha_gt8": 9810,
+      "overlay_pixels_alpha_gt8": 9799,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 252
+    },
+    {
+      "slot": 20,
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 10,
+        "fire29-field04": 3,
+        "fire29-field05": 9,
+        "fire29-field06": 12,
+        "fire29-field07": 10,
+        "fire29-field08": 7,
+        "fire29-field09": 5,
+        "fire29-field10": 10,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 10,
+        "fire29-field16": 13,
+        "fire29-field17": 8,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 10,
+        "fire29-field21": 22,
+        "fire29-field22": 9,
+        "fire29-field23": 9,
+        "fire29-field24": 6,
+        "fire29-field25": 6,
+        "fire29-field26": 6,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "d2df23abe0d8a974ffa6ff4a8f1aea479a0b8be3d00e6c3a0a71b0eef3ed9dd3",
+      "coverage_alpha_sha256": "9b1c87a4fd63cf1a8a351960b714c61a208c1f821a7ba71bdbb91167a6e60cb7",
+      "overlay_rgba_sha256": "bd0624a7570c1979e03c4385de31d7a9892987724476dcc13175e0f9a6f70713",
+      "coverage_pixels_alpha_gt8": 9814,
+      "overlay_pixels_alpha_gt8": 9805,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 252
+    },
+    {
+      "slot": 21,
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 5,
+        "fire29-field03": 10,
+        "fire29-field04": 4,
+        "fire29-field05": 9,
+        "fire29-field06": 12,
+        "fire29-field07": 10,
+        "fire29-field08": 7,
+        "fire29-field09": 5,
+        "fire29-field10": 10,
+        "fire29-field11": 14,
+        "fire29-field13": 1,
+        "fire29-visible02": 14,
+        "fire29-field15": 10,
+        "fire29-field16": 12,
+        "fire29-field17": 8,
+        "fire29-field18": 10,
+        "fire29-field19": 7,
+        "fire29-field20": 9,
+        "fire29-field21": 23,
+        "fire29-field22": 7,
+        "fire29-field23": 9,
+        "fire29-field24": 5,
+        "fire29-field25": 7,
+        "fire29-field26": 6,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "2639fb26b8c6715bb36b1a33e0be685a6430beb7e16eacd192c81534cc1584e3",
+      "coverage_alpha_sha256": "2d9638c55fb59206f8dc40be3c5c7ccc828bec3b8d75543b69dcddbb1c64cc26",
+      "overlay_rgba_sha256": "6b7af6b27ffaff10aa88a294f13f061f7f7f0363aa9371f385cf4d231865c782",
+      "coverage_pixels_alpha_gt8": 9814,
+      "overlay_pixels_alpha_gt8": 9803,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 238
+    },
+    {
+      "slot": 22,
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 11,
+        "fire29-field04": 4,
+        "fire29-field05": 8,
+        "fire29-field06": 12,
+        "fire29-field07": 9,
+        "fire29-field08": 7,
+        "fire29-field09": 4,
+        "fire29-field10": 9,
+        "fire29-field11": 14,
+        "fire29-field13": 4,
+        "fire29-visible02": 3,
+        "fire29-field15": 10,
+        "fire29-field16": 12,
+        "fire29-field17": 9,
+        "fire29-field18": 10,
+        "fire29-field19": 7,
+        "fire29-field20": 9,
+        "fire29-field21": 23,
+        "fire29-field22": 7,
+        "fire29-field23": 8,
+        "fire29-field24": 5,
+        "fire29-field25": 8,
+        "fire29-field26": 5,
+        "fire29-short01": 11
+      },
+      "base_rgb_sha256": "c6982dd8a98941edd19800247b4b3be90989e4018babcb2641fabf6dd78822a6",
+      "coverage_alpha_sha256": "1bba9e270dec020be88f7934efaa2779f46c19f78a8848066b85b43478abff36",
+      "overlay_rgba_sha256": "872dd2bf167cad5856bff54d06a08467d690aa50ee11d858c8d9fd547dd96b29",
+      "coverage_pixels_alpha_gt8": 9818,
+      "overlay_pixels_alpha_gt8": 9809,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 238
+    },
+    {
+      "slot": 23,
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 4,
+        "fire29-field03": 10,
+        "fire29-field04": 5,
+        "fire29-field05": 8,
+        "fire29-field06": 12,
+        "fire29-field07": 9,
+        "fire29-field08": 7,
+        "fire29-field09": 4,
+        "fire29-field10": 9,
+        "fire29-field11": 15,
+        "fire29-field13": 5,
+        "fire29-visible02": 3,
+        "fire29-field15": 10,
+        "fire29-field16": 11,
+        "fire29-field17": 9,
+        "fire29-field18": 9,
+        "fire29-field19": 6,
+        "fire29-field20": 8,
+        "fire29-field21": 16,
+        "fire29-field22": 7,
+        "fire29-field23": 8,
+        "fire29-field24": 5,
+        "fire29-field25": 9,
+        "fire29-field26": 5,
+        "fire29-short01": 10
+      },
+      "base_rgb_sha256": "6b9df7629e23f207027cd2f673b738f5da3217663d1ee43727dc3b70a39d9b82",
+      "coverage_alpha_sha256": "d3a94afba770ae61ce9f260b3427e09435a0ff509a065da93ab4204436c1273e",
+      "overlay_rgba_sha256": "c02915f82036e2eeb34dfbfcf36de6668b5190b1aaed262d1d3f8d0257fab8f1",
+      "coverage_pixels_alpha_gt8": 9812,
+      "overlay_pixels_alpha_gt8": 9804,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 235
+    },
+    {
+      "slot": 24,
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 3,
+        "fire29-field03": 10,
+        "fire29-field04": 5,
+        "fire29-field05": 7,
+        "fire29-field06": 9,
+        "fire29-field07": 9,
+        "fire29-field08": 8,
+        "fire29-field09": 3,
+        "fire29-field10": 8,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 10,
+        "fire29-field16": 11,
+        "fire29-field17": 8,
+        "fire29-field18": 9,
+        "fire29-field19": 6,
+        "fire29-field20": 8,
+        "fire29-field21": 15,
+        "fire29-field22": 7,
+        "fire29-field23": 7,
+        "fire29-field24": 5,
+        "fire29-field25": 8,
+        "fire29-field26": 4,
+        "fire29-short01": 10
+      },
+      "base_rgb_sha256": "2cf6339c92e47b890de9aba468b714260e0452e8f42b1975bcb0c6a688b44399",
+      "coverage_alpha_sha256": "c0648e0b5a47f0fe643ba8d403f4976031e77e8d118737dfd9df20c2f7de38e0",
+      "overlay_rgba_sha256": "849ac5c10975251e7494cb96878bcdabb6bcbc6e533f6f6ba4b631a7379fa7b6",
+      "coverage_pixels_alpha_gt8": 9786,
+      "overlay_pixels_alpha_gt8": 9778,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 225
+    },
+    {
+      "slot": 25,
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 3,
+        "fire29-field03": 9,
+        "fire29-field04": 6,
+        "fire29-field05": 7,
+        "fire29-field06": 8,
+        "fire29-field07": 9,
+        "fire29-field08": 8,
+        "fire29-field09": 3,
+        "fire29-field10": 8,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 11,
+        "fire29-field16": 10,
+        "fire29-field17": 8,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 7,
+        "fire29-field21": 15,
+        "fire29-field22": 7,
+        "fire29-field23": 7,
+        "fire29-field24": 6,
+        "fire29-field25": 8,
+        "fire29-field26": 4,
+        "fire29-short01": 9
+      },
+      "base_rgb_sha256": "8861fdf60dc681f655ee5d6adf0a68baf21faf94bd8abf8249779a3aa6bea346",
+      "coverage_alpha_sha256": "8cb8926bb86d869b93281fda8187d2202d187594a78feb301cc443cdfe343fd1",
+      "overlay_rgba_sha256": "76d2767af6374998816fd7dffd4628a996fd9841d4be979a51e2f73b5e5b1649",
+      "coverage_pixels_alpha_gt8": 9784,
+      "overlay_pixels_alpha_gt8": 9777,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 236
+    },
+    {
+      "slot": 26,
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 9,
+        "fire29-field04": 6,
+        "fire29-field05": 6,
+        "fire29-field06": 8,
+        "fire29-field07": 10,
+        "fire29-field08": 9,
+        "fire29-field09": 2,
+        "fire29-field10": 7,
+        "fire29-field11": 14,
+        "fire29-field13": 7,
+        "fire29-visible02": 1,
+        "fire29-field15": 11,
+        "fire29-field16": 10,
+        "fire29-field17": 7,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 7,
+        "fire29-field21": 14,
+        "fire29-field22": 9,
+        "fire29-field23": 6,
+        "fire29-field24": 6,
+        "fire29-field25": 7,
+        "fire29-field26": 3,
+        "fire29-short01": 10
+      },
+      "base_rgb_sha256": "48280f73f8c17e9dee539afce2c431a13bd9f23abdb6eb430d42f49b2468ada2",
+      "coverage_alpha_sha256": "1dbb55cfd35de21566d629fd5662fa19d12811698e39b2d2a9dc68e41de0cdf3",
+      "overlay_rgba_sha256": "6425ed4a3ee2b57aff562e1e9b113d16447452dee3082b29a29c0d6d26eac512",
+      "coverage_pixels_alpha_gt8": 9782,
+      "overlay_pixels_alpha_gt8": 9776,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 235
+    },
+    {
+      "slot": 27,
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 7,
+        "fire29-field05": 6,
+        "fire29-field06": 6,
+        "fire29-field07": 10,
+        "fire29-field08": 9,
+        "fire29-field09": 2,
+        "fire29-field10": 7,
+        "fire29-field11": 14,
+        "fire29-field13": 6,
+        "fire29-visible02": 1,
+        "fire29-field15": 12,
+        "fire29-field16": 9,
+        "fire29-field17": 7,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 6,
+        "fire29-field21": 14,
+        "fire29-field22": 9,
+        "fire29-field23": 6,
+        "fire29-field24": 7,
+        "fire29-field25": 6,
+        "fire29-field26": 3,
+        "fire29-short01": 10
+      },
+      "base_rgb_sha256": "ec2aec430866c75d69e9b0c8e5bdaeacd6e32c7e6faac5eee1fe8039b71d39c5",
+      "coverage_alpha_sha256": "1f0b54b0f9bbe4ab57d322f684efdeaec27c16e257393e81a967c64c0870b8ed",
+      "overlay_rgba_sha256": "49e66cf7d2e99fc6a0231eda59eba20eae0510ede42a7f837079d712c66de612",
+      "coverage_pixels_alpha_gt8": 9787,
+      "overlay_pixels_alpha_gt8": 9781,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 240
+    },
+    {
+      "slot": 28,
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 7,
+        "fire29-field05": 5,
+        "fire29-field06": 6,
+        "fire29-field07": 11,
+        "fire29-field08": 10,
+        "fire29-field09": 2,
+        "fire29-field10": 7,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 1,
+        "fire29-field15": 12,
+        "fire29-field16": 9,
+        "fire29-field17": 6,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 6,
+        "fire29-field21": 11,
+        "fire29-field22": 9,
+        "fire29-field23": 5,
+        "fire29-field24": 7,
+        "fire29-field25": 5,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      },
+      "base_rgb_sha256": "13af49391abbbfd5f916757c475a8193577839350b73da06bb3d147d86476d04",
+      "coverage_alpha_sha256": "ef241b7909cf5f09591da6515708305315e89fdfd44cc7ec23ba55af3b9438df",
+      "overlay_rgba_sha256": "12ac729d14b6e2f99a10ab27a46f6973f9a063c6ef139fd7607aa99d92c36047",
+      "coverage_pixels_alpha_gt8": 9790,
+      "overlay_pixels_alpha_gt8": 9783,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 244
+    },
+    {
+      "slot": 29,
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 3,
+        "fire29-field03": 7,
+        "fire29-field04": 8,
+        "fire29-field05": 5,
+        "fire29-field06": 2,
+        "fire29-field07": 11,
+        "fire29-field08": 10,
+        "fire29-field09": 2,
+        "fire29-field10": 6,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 2,
+        "fire29-field15": 13,
+        "fire29-field16": 9,
+        "fire29-field17": 6,
+        "fire29-field18": 7,
+        "fire29-field19": 3,
+        "fire29-field20": 5,
+        "fire29-field21": 14,
+        "fire29-field22": 11,
+        "fire29-field23": 5,
+        "fire29-field24": 8,
+        "fire29-field25": 4,
+        "fire29-field26": 4,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "d8606b5f1916a0507ff983e5cd478a19f4aa7b748658d86daccdef0c66fb4856",
+      "coverage_alpha_sha256": "21ea2ff88020a2dc31f43cf14b9a363f830bf1feb13c1dedeed2bff28a4d5068",
+      "overlay_rgba_sha256": "a81b9f676712c782773d52e57904297edeee11a9c0fdd406c557cbbde320bdc0",
+      "coverage_pixels_alpha_gt8": 9782,
+      "overlay_pixels_alpha_gt8": 9772,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 261
+    },
+    {
+      "slot": 30,
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 3,
+        "fire29-field03": 7,
+        "fire29-field04": 7,
+        "fire29-field05": 4,
+        "fire29-field06": 2,
+        "fire29-field07": 12,
+        "fire29-field08": 11,
+        "fire29-field09": 2,
+        "fire29-field10": 6,
+        "fire29-field11": 13,
+        "fire29-field13": 4,
+        "fire29-visible02": 2,
+        "fire29-field15": 13,
+        "fire29-field16": 9,
+        "fire29-field17": 6,
+        "fire29-field18": 7,
+        "fire29-field19": 3,
+        "fire29-field20": 5,
+        "fire29-field21": 14,
+        "fire29-field22": 11,
+        "fire29-field23": 5,
+        "fire29-field24": 8,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "6969fad10b7819308450fb45b28717b9ee89d5c06b336bf024171c2109e3f3df",
+      "coverage_alpha_sha256": "0ab3a07a4b83f3183ca71c8aaeb077221f656eb0b374cf044adbab69ce11decf",
+      "overlay_rgba_sha256": "0834e4c766b050f92abc32b236a62020b7e47f3dca705d4379a24f72c5ac899a",
+      "coverage_pixels_alpha_gt8": 9786,
+      "overlay_pixels_alpha_gt8": 9776,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 261
+    },
+    {
+      "slot": 31,
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 4,
+        "fire29-field03": 6,
+        "fire29-field04": 7,
+        "fire29-field05": 4,
+        "fire29-field06": 4,
+        "fire29-field07": 12,
+        "fire29-field08": 11,
+        "fire29-field09": 3,
+        "fire29-field10": 6,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 14,
+        "fire29-field16": 9,
+        "fire29-field17": 6,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 4,
+        "fire29-field21": 15,
+        "fire29-field22": 17,
+        "fire29-field23": 5,
+        "fire29-field24": 8,
+        "fire29-field25": 1,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      },
+      "base_rgb_sha256": "0ea5e59b7cec6c9370311ccddd8be74c5838db5f7db7c717d11b1995c70980c2",
+      "coverage_alpha_sha256": "29fb6ab70594cc7b6ec8d092c2b7d490c4e7f8534ece76e80975f52521d93b5a",
+      "overlay_rgba_sha256": "97ee7310cd3cde982a35ec4472d0defe86cb9545b777c5c0e3dae700bb640702",
+      "coverage_pixels_alpha_gt8": 9793,
+      "overlay_pixels_alpha_gt8": 9783,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 271
+    },
+    {
+      "slot": 32,
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 4,
+        "fire29-field03": 6,
+        "fire29-field04": 6,
+        "fire29-field05": 4,
+        "fire29-field06": 2,
+        "fire29-field07": 12,
+        "fire29-field08": 12,
+        "fire29-field09": 3,
+        "fire29-field10": 6,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 14,
+        "fire29-field16": 10,
+        "fire29-field17": 7,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 4,
+        "fire29-field21": 16,
+        "fire29-field22": 17,
+        "fire29-field23": 5,
+        "fire29-field24": 9,
+        "fire29-field25": 4,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      },
+      "base_rgb_sha256": "2dcf177ef199f4f0504f8dea530f949327e3091bfdf28b49b8e7b45685fc7147",
+      "coverage_alpha_sha256": "8de1700975b85a98a69eea26cb2b2902bb920b89ff9c73a15e082d67dd93ed76",
+      "overlay_rgba_sha256": "896d64e1eacfc34be357cd4af50bdc099d7a048115abceae68785e7a09468cfb",
+      "coverage_pixels_alpha_gt8": 9793,
+      "overlay_pixels_alpha_gt8": 9783,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 271
+    },
+    {
+      "slot": 33,
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 5,
+        "fire29-field03": 5,
+        "fire29-field04": 6,
+        "fire29-field05": 4,
+        "fire29-field06": 2,
+        "fire29-field07": 13,
+        "fire29-field08": 12,
+        "fire29-field09": 4,
+        "fire29-field10": 7,
+        "fire29-field11": 14,
+        "fire29-field13": 1,
+        "fire29-visible02": 14,
+        "fire29-field15": 13,
+        "fire29-field16": 10,
+        "fire29-field17": 7,
+        "fire29-field18": 9,
+        "fire29-field19": 4,
+        "fire29-field20": 4,
+        "fire29-field21": 16,
+        "fire29-field22": 17,
+        "fire29-field23": 6,
+        "fire29-field24": 9,
+        "fire29-field25": 5,
+        "fire29-field26": 6,
+        "fire29-short01": 1
+      },
+      "base_rgb_sha256": "85798ce37119a0b062a51ed7af69f27db95ad30fa39323a445207326425293f4",
+      "coverage_alpha_sha256": "2bd9949d33d018274ba0a08c449c613dfc27014b41b56abf336a5aa4e2ed774c",
+      "overlay_rgba_sha256": "b89880e59cbc78b1e8608e8bd01383ab532fa8b13c4e979bd7b53a1c9fb17dba",
+      "coverage_pixels_alpha_gt8": 9800,
+      "overlay_pixels_alpha_gt8": 9788,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 257
+    },
+    {
+      "slot": 34,
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 4,
+        "fire29-field03": 5,
+        "fire29-field04": 5,
+        "fire29-field05": 4,
+        "fire29-field06": 6,
+        "fire29-field07": 13,
+        "fire29-field08": 12,
+        "fire29-field09": 4,
+        "fire29-field10": 7,
+        "fire29-field11": 14,
+        "fire29-field13": 4,
+        "fire29-visible02": 3,
+        "fire29-field15": 13,
+        "fire29-field16": 11,
+        "fire29-field17": 8,
+        "fire29-field18": 9,
+        "fire29-field19": 4,
+        "fire29-field20": 4,
+        "fire29-field21": 23,
+        "fire29-field22": 18,
+        "fire29-field23": 6,
+        "fire29-field24": 8,
+        "fire29-field25": 6,
+        "fire29-field26": 6,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "ed348ac3aaab3cd654bbfd089eb4655c217531e6b79a7b8e8cce3ca155172839",
+      "coverage_alpha_sha256": "5aa8110de96895dfa39a36434452dd2ae471f637ed91c7defadccc18aa566f4a",
+      "overlay_rgba_sha256": "863cb3f544f6d69bb3bdb1c976912cecabdb2664f44354aa3ef9244065eed0b1",
+      "coverage_pixels_alpha_gt8": 9808,
+      "overlay_pixels_alpha_gt8": 9797,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 272
+    },
+    {
+      "slot": 35,
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 4,
+        "fire29-field03": 5,
+        "fire29-field04": 5,
+        "fire29-field05": 5,
+        "fire29-field06": 6,
+        "fire29-field07": 12,
+        "fire29-field08": 11,
+        "fire29-field09": 5,
+        "fire29-field10": 8,
+        "fire29-field11": 15,
+        "fire29-field13": 5,
+        "fire29-visible02": 3,
+        "fire29-field15": 12,
+        "fire29-field16": 11,
+        "fire29-field17": 8,
+        "fire29-field18": 10,
+        "fire29-field19": 4,
+        "fire29-field20": 4,
+        "fire29-field21": 23,
+        "fire29-field22": 18,
+        "fire29-field23": 7,
+        "fire29-field24": 8,
+        "fire29-field25": 7,
+        "fire29-field26": 5,
+        "fire29-short01": 11
+      },
+      "base_rgb_sha256": "b926195c4aa51e31473c07318e0684eb3cecba0cf6e86d1bf87a0f3a3601fc32",
+      "coverage_alpha_sha256": "6718751f2dd14c2db452e13128641eb5037dd853fef4e4aacd3349668718b841",
+      "overlay_rgba_sha256": "9495dcb0da8dbd13eaf869866980ebca4e1678fe2889c3e8adb7647c32287c2e",
+      "coverage_pixels_alpha_gt8": 9810,
+      "overlay_pixels_alpha_gt8": 9799,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 263
+    },
+    {
+      "slot": 36,
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 3,
+        "fire29-field03": 6,
+        "fire29-field04": 4,
+        "fire29-field05": 5,
+        "fire29-field06": 8,
+        "fire29-field07": 12,
+        "fire29-field08": 11,
+        "fire29-field09": 5,
+        "fire29-field10": 8,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 12,
+        "fire29-field16": 12,
+        "fire29-field17": 9,
+        "fire29-field18": 10,
+        "fire29-field19": 5,
+        "fire29-field20": 5,
+        "fire29-field21": 22,
+        "fire29-field22": 18,
+        "fire29-field23": 7,
+        "fire29-field24": 7,
+        "fire29-field25": 8,
+        "fire29-field26": 5,
+        "fire29-short01": 11
+      },
+      "base_rgb_sha256": "3b15b1a8afcb87dbd35bb88e6321e8e73f06182fae23903c0f0bb37e6f1574a7",
+      "coverage_alpha_sha256": "9955398a08f535f6ecac861a2c4d0c0eac6bcda928723a8f448014e396476cbc",
+      "overlay_rgba_sha256": "20e430a90be704e0413b4927f7619460d377331957d94bcd6b61a706c120eb4d",
+      "coverage_pixels_alpha_gt8": 9789,
+      "overlay_pixels_alpha_gt8": 9781,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 248
+    },
+    {
+      "slot": 37,
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 3,
+        "fire29-field03": 6,
+        "fire29-field04": 4,
+        "fire29-field05": 6,
+        "fire29-field06": 8,
+        "fire29-field07": 11,
+        "fire29-field08": 10,
+        "fire29-field09": 6,
+        "fire29-field10": 9,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 11,
+        "fire29-field16": 12,
+        "fire29-field17": 8,
+        "fire29-field18": 10,
+        "fire29-field19": 5,
+        "fire29-field20": 5,
+        "fire29-field21": 21,
+        "fire29-field22": 17,
+        "fire29-field23": 8,
+        "fire29-field24": 7,
+        "fire29-field25": 9,
+        "fire29-field26": 4,
+        "fire29-short01": 10
+      },
+      "base_rgb_sha256": "6bdaab25a8489d7090d8ab7bd62fb54c94994593ab1b991cbc4f1cf0bfc8b4d3",
+      "coverage_alpha_sha256": "662738459833e05f458307665542b504e7a0398c2c2f879dd18f987eb86ab178",
+      "overlay_rgba_sha256": "1dab83c9cbd69630a70746e740ecf49176d19c7bb121e88d6916404f412ebe56",
+      "coverage_pixels_alpha_gt8": 9791,
+      "overlay_pixels_alpha_gt8": 9784,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 244
+    },
+    {
+      "slot": 38,
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 7,
+        "fire29-field04": 3,
+        "fire29-field05": 6,
+        "fire29-field06": 9,
+        "fire29-field07": 11,
+        "fire29-field08": 10,
+        "fire29-field09": 6,
+        "fire29-field10": 9,
+        "fire29-field11": 14,
+        "fire29-field13": 7,
+        "fire29-visible02": 1,
+        "fire29-field15": 11,
+        "fire29-field16": 13,
+        "fire29-field17": 8,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 6,
+        "fire29-field21": 21,
+        "fire29-field22": 17,
+        "fire29-field23": 8,
+        "fire29-field24": 6,
+        "fire29-field25": 8,
+        "fire29-field26": 4,
+        "fire29-short01": 9
+      },
+      "base_rgb_sha256": "0cb7b8f77879a5887259e9932f91d6975bcb2a707b5c89dc8f9be9070467831f",
+      "coverage_alpha_sha256": "5856ff3c7b92312a1fd6d75152b4407a419731f9c6c5168ace272e0086fc7c0f",
+      "overlay_rgba_sha256": "f42597c655239ed0953c5a439c067b9004682143163f7b7f73fc700c1440cb7a",
+      "coverage_pixels_alpha_gt8": 9776,
+      "overlay_pixels_alpha_gt8": 9769,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 241
+    },
+    {
+      "slot": 39,
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 7,
+        "fire29-field04": 3,
+        "fire29-field05": 7,
+        "fire29-field06": 12,
+        "fire29-field07": 10,
+        "fire29-field08": 9,
+        "fire29-field09": 7,
+        "fire29-field10": 10,
+        "fire29-field11": 14,
+        "fire29-field13": 6,
+        "fire29-visible02": 1,
+        "fire29-field15": 11,
+        "fire29-field16": 13,
+        "fire29-field17": 7,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 6,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 9,
+        "fire29-field24": 6,
+        "fire29-field25": 7,
+        "fire29-field26": 3,
+        "fire29-short01": 9
+      },
+      "base_rgb_sha256": "12b856ef354d305531b0c65b440b15d35cdd62d062d386d683d860864369f235",
+      "coverage_alpha_sha256": "b8108f2f09421f2a54a9bb153d968ec28de3444e6fb42daddeec044d595823ac",
+      "overlay_rgba_sha256": "beb6248184b040f56d9815a09f6168ed30042fc5b9101378dd84b74b55b2e4d8",
+      "coverage_pixels_alpha_gt8": 9774,
+      "overlay_pixels_alpha_gt8": 9768,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 243
+    },
+    {
+      "slot": 40,
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 2,
+        "fire29-field05": 7,
+        "fire29-field06": 12,
+        "fire29-field07": 10,
+        "fire29-field08": 9,
+        "fire29-field09": 7,
+        "fire29-field10": 10,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 1,
+        "fire29-field15": 10,
+        "fire29-field16": 14,
+        "fire29-field17": 7,
+        "fire29-field18": 10,
+        "fire29-field19": 7,
+        "fire29-field20": 7,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 9,
+        "fire29-field24": 5,
+        "fire29-field25": 6,
+        "fire29-field26": 3,
+        "fire29-short01": 10
+      },
+      "base_rgb_sha256": "fca8fa6fd454c6bf48cb30eba15235c4ed2a1fe323d358bcb11f396e644ecf86",
+      "coverage_alpha_sha256": "c6780e0bde1db8431f04e47625a3ad37fd9da71394c920dcd63704d80b3a636c",
+      "overlay_rgba_sha256": "36c7b9fb5c9144e2ffd5482bffec4143d19c88b649c34f30944ad604f086bed2",
+      "coverage_pixels_alpha_gt8": 9787,
+      "overlay_pixels_alpha_gt8": 9781,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 232
+    },
+    {
+      "slot": 41,
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 3,
+        "fire29-field03": 8,
+        "fire29-field04": 2,
+        "fire29-field05": 8,
+        "fire29-field06": 12,
+        "fire29-field07": 9,
+        "fire29-field08": 8,
+        "fire29-field09": 7,
+        "fire29-field10": 9,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 2,
+        "fire29-field15": 10,
+        "fire29-field16": 14,
+        "fire29-field17": 6,
+        "fire29-field18": 10,
+        "fire29-field19": 7,
+        "fire29-field20": 7,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 10,
+        "fire29-field24": 5,
+        "fire29-field25": 5,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      },
+      "base_rgb_sha256": "05212d410e94bb848409d1ad379b31a120239ccd896e246fb32179e68bccfbae",
+      "coverage_alpha_sha256": "3473f50088a19aefb02161b5baaa55b49b6de222b6fc1663996256ea76ce207e",
+      "overlay_rgba_sha256": "157c88db34494c93608d15f16fca8fd9ed542916daf75582c6337875003b4648",
+      "coverage_pixels_alpha_gt8": 9771,
+      "overlay_pixels_alpha_gt8": 9763,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 236
+    },
+    {
+      "slot": 42,
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 3,
+        "fire29-field03": 9,
+        "fire29-field04": 2,
+        "fire29-field05": 8,
+        "fire29-field06": 12,
+        "fire29-field07": 9,
+        "fire29-field08": 8,
+        "fire29-field09": 6,
+        "fire29-field10": 9,
+        "fire29-field11": 13,
+        "fire29-field13": 4,
+        "fire29-visible02": 2,
+        "fire29-field15": 10,
+        "fire29-field16": 14,
+        "fire29-field17": 6,
+        "fire29-field18": 9,
+        "fire29-field19": 6,
+        "fire29-field20": 8,
+        "fire29-field21": 21,
+        "fire29-field22": 9,
+        "fire29-field23": 10,
+        "fire29-field24": 5,
+        "fire29-field25": 4,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      },
+      "base_rgb_sha256": "54dfc3000a4ef0066682fc448792339c5dfe7e63472170dd56c042b9831ca658",
+      "coverage_alpha_sha256": "4a67e515a70e9c86d13bbfda199f182988b1ce3dfda881927b86d1863360c100",
+      "overlay_rgba_sha256": "0e47ca89970ca44b56c81fe64ade77572f929275b5239ea6f28bb69455c9e234",
+      "coverage_pixels_alpha_gt8": 9773,
+      "overlay_pixels_alpha_gt8": 9765,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 238
+    },
+    {
+      "slot": 43,
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 9,
+        "fire29-field04": 3,
+        "fire29-field05": 9,
+        "fire29-field06": 9,
+        "fire29-field07": 9,
+        "fire29-field08": 7,
+        "fire29-field09": 6,
+        "fire29-field10": 8,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 10,
+        "fire29-field16": 13,
+        "fire29-field17": 6,
+        "fire29-field18": 9,
+        "fire29-field19": 6,
+        "fire29-field20": 8,
+        "fire29-field21": 21,
+        "fire29-field22": 9,
+        "fire29-field23": 10,
+        "fire29-field24": 5,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "bb7eaee238742948d85719ea6f2cec7918cc8587d4105c1a211b0fbac80e5722",
+      "coverage_alpha_sha256": "2ec3d810ea343ad021bc1ab426f0b78134c8be1c7d7bde72183db11838b08358",
+      "overlay_rgba_sha256": "26295fe1b601c1967658da2603053cbc8a6245046093649b9e5445f6f43dacf9",
+      "coverage_pixels_alpha_gt8": 9804,
+      "overlay_pixels_alpha_gt8": 9794,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 253
+    },
+    {
+      "slot": 44,
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 10,
+        "fire29-field04": 3,
+        "fire29-field05": 9,
+        "fire29-field06": 9,
+        "fire29-field07": 9,
+        "fire29-field08": 7,
+        "fire29-field09": 5,
+        "fire29-field10": 8,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 11,
+        "fire29-field16": 13,
+        "fire29-field17": 6,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 9,
+        "fire29-field21": 22,
+        "fire29-field22": 9,
+        "fire29-field23": 9,
+        "fire29-field24": 6,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "0022791df727a490601ff0e23177b49cbb55261624266b401a27be053b9d29e4",
+      "coverage_alpha_sha256": "a6c1e5a43b9d1a54f8953177db341656d7070eec418854c0efac32ca5a17ed52",
+      "overlay_rgba_sha256": "a19fcbab6573f914019b58485942fb8f81bb5cdd70febc58b3cf0356fe31fe21",
+      "coverage_pixels_alpha_gt8": 9795,
+      "overlay_pixels_alpha_gt8": 9785,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 250
+    },
+    {
+      "slot": 45,
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 5,
+        "fire29-field03": 10,
+        "fire29-field04": 4,
+        "fire29-field05": 10,
+        "fire29-field06": 8,
+        "fire29-field07": 10,
+        "fire29-field08": 7,
+        "fire29-field09": 5,
+        "fire29-field10": 8,
+        "fire29-field11": 14,
+        "fire29-field13": 1,
+        "fire29-visible02": 14,
+        "fire29-field15": 11,
+        "fire29-field16": 12,
+        "fire29-field17": 7,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 9,
+        "fire29-field21": 23,
+        "fire29-field22": 7,
+        "fire29-field23": 9,
+        "fire29-field24": 6,
+        "fire29-field25": 1,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      },
+      "base_rgb_sha256": "d159a6835ce26b9e7c1d5b11e8dbfbfe0488dca0678d8a6e72f2695893f9545d",
+      "coverage_alpha_sha256": "5196f153bcf82ed07bae931b3ce0a7abac8bdcb8433a3ea2c393acdfda42d166",
+      "overlay_rgba_sha256": "616598ef6df63cb6663bc06617e4607b99b44baa8953c2d9a1f8cc782622b674",
+      "coverage_pixels_alpha_gt8": 9797,
+      "overlay_pixels_alpha_gt8": 9785,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 233
+    },
+    {
+      "slot": 46,
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 11,
+        "fire29-field04": 4,
+        "fire29-field05": 10,
+        "fire29-field06": 6,
+        "fire29-field07": 10,
+        "fire29-field08": 7,
+        "fire29-field09": 4,
+        "fire29-field10": 7,
+        "fire29-field11": 14,
+        "fire29-field13": 4,
+        "fire29-visible02": 3,
+        "fire29-field15": 12,
+        "fire29-field16": 12,
+        "fire29-field17": 7,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 10,
+        "fire29-field21": 23,
+        "fire29-field22": 7,
+        "fire29-field23": 8,
+        "fire29-field24": 6,
+        "fire29-field25": 4,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      },
+      "base_rgb_sha256": "f124581915c3faf1b8224697098de9be39c8ccaa39142a24fb363a2c97b988bf",
+      "coverage_alpha_sha256": "556812e1012ea8ca34f21395c2f19932c1fb582ff61e24976cfee3d40d3aece2",
+      "overlay_rgba_sha256": "b2be0cbe7da8d817cbf0a4f04542257fb2c767352f867aedbfee3701da4dc00d",
+      "coverage_pixels_alpha_gt8": 9806,
+      "overlay_pixels_alpha_gt8": 9796,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 241
+    },
+    {
+      "slot": 47,
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 4,
+        "fire29-field03": 10,
+        "fire29-field04": 5,
+        "fire29-field05": 11,
+        "fire29-field06": 6,
+        "fire29-field07": 10,
+        "fire29-field08": 7,
+        "fire29-field09": 4,
+        "fire29-field10": 7,
+        "fire29-field11": 15,
+        "fire29-field13": 5,
+        "fire29-visible02": 3,
+        "fire29-field15": 12,
+        "fire29-field16": 11,
+        "fire29-field17": 8,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 10,
+        "fire29-field21": 16,
+        "fire29-field22": 7,
+        "fire29-field23": 8,
+        "fire29-field24": 7,
+        "fire29-field25": 5,
+        "fire29-field26": 6,
+        "fire29-short01": 1
+      },
+      "base_rgb_sha256": "a11084e4a6afd48899a5ac2d3e24375db5ddc023a5012402d30a729372dfd1cc",
+      "coverage_alpha_sha256": "a3d1ed95afd131daf9897261a971cfd978dc326083ff0a959bb6b4d30fa78350",
+      "overlay_rgba_sha256": "f4a1332d6008fa53846485985687e539683209fab9b5f51b181aed74e038ff86",
+      "coverage_pixels_alpha_gt8": 9806,
+      "overlay_pixels_alpha_gt8": 9796,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 242
+    },
+    {
+      "slot": 48,
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 3,
+        "fire29-field03": 10,
+        "fire29-field04": 5,
+        "fire29-field05": 11,
+        "fire29-field06": 2,
+        "fire29-field07": 11,
+        "fire29-field08": 8,
+        "fire29-field09": 3,
+        "fire29-field10": 6,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 13,
+        "fire29-field16": 11,
+        "fire29-field17": 8,
+        "fire29-field18": 7,
+        "fire29-field19": 3,
+        "fire29-field20": 11,
+        "fire29-field21": 15,
+        "fire29-field22": 7,
+        "fire29-field23": 7,
+        "fire29-field24": 7,
+        "fire29-field25": 6,
+        "fire29-field26": 6,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "70cc09199e944412311d6da45cdaad33ec4164c3859022866e2b21e0d83f06b8",
+      "coverage_alpha_sha256": "6a1bc86e73c5c1ddc77e09e53a1b5829d847757f085a4b92463cc85e4849fa26",
+      "overlay_rgba_sha256": "3dd953efc3d60b1a614a69646f6e6c22cca327b127401a4458cbacd3f4cb310e",
+      "coverage_pixels_alpha_gt8": 9791,
+      "overlay_pixels_alpha_gt8": 9783,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 234
+    },
+    {
+      "slot": 49,
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 3,
+        "fire29-field03": 9,
+        "fire29-field04": 6,
+        "fire29-field05": 11,
+        "fire29-field06": 2,
+        "fire29-field07": 11,
+        "fire29-field08": 8,
+        "fire29-field09": 3,
+        "fire29-field10": 6,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 13,
+        "fire29-field16": 10,
+        "fire29-field17": 9,
+        "fire29-field18": 7,
+        "fire29-field19": 3,
+        "fire29-field20": 11,
+        "fire29-field21": 15,
+        "fire29-field22": 7,
+        "fire29-field23": 7,
+        "fire29-field24": 8,
+        "fire29-field25": 7,
+        "fire29-field26": 5,
+        "fire29-short01": 11
+      },
+      "base_rgb_sha256": "b702373b6736bb829df23e8f2e71da270d565d737e8b9efd959709f2a4e3fb76",
+      "coverage_alpha_sha256": "a4c708b3f5a87537bf5e234631ffe0aa202bfbf3fed8e9116681668e8df47472",
+      "overlay_rgba_sha256": "b8dc317977511df411f28140071d6736134a11ba216713dc22520df2c69ed4f0",
+      "coverage_pixels_alpha_gt8": 9803,
+      "overlay_pixels_alpha_gt8": 9795,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 237
+    },
+    {
+      "slot": 50,
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 9,
+        "fire29-field04": 6,
+        "fire29-field05": 10,
+        "fire29-field06": 4,
+        "fire29-field07": 12,
+        "fire29-field08": 9,
+        "fire29-field09": 2,
+        "fire29-field10": 6,
+        "fire29-field11": 14,
+        "fire29-field13": 7,
+        "fire29-visible02": 1,
+        "fire29-field15": 14,
+        "fire29-field16": 10,
+        "fire29-field17": 9,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 11,
+        "fire29-field21": 14,
+        "fire29-field22": 9,
+        "fire29-field23": 6,
+        "fire29-field24": 8,
+        "fire29-field25": 8,
+        "fire29-field26": 5,
+        "fire29-short01": 11
+      },
+      "base_rgb_sha256": "06e5cd1e6252a1fc7ccd294daa529b7ade011fb6d784c1b1fab37c089c6c15e2",
+      "coverage_alpha_sha256": "dcd0fe7e2e77774007120a2c412c190a81663b12bdba4518aedf3334a70f0792",
+      "overlay_rgba_sha256": "7e2b07a38ea89dd1397a52f574b19781006f1195c5efe53e3560c20f2a6e28a5",
+      "coverage_pixels_alpha_gt8": 9808,
+      "overlay_pixels_alpha_gt8": 9801,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 237
+    },
+    {
+      "slot": 51,
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 7,
+        "fire29-field05": 10,
+        "fire29-field06": 4,
+        "fire29-field07": 12,
+        "fire29-field08": 9,
+        "fire29-field09": 2,
+        "fire29-field10": 6,
+        "fire29-field11": 14,
+        "fire29-field13": 6,
+        "fire29-visible02": 1,
+        "fire29-field15": 14,
+        "fire29-field16": 9,
+        "fire29-field17": 8,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 10,
+        "fire29-field21": 14,
+        "fire29-field22": 9,
+        "fire29-field23": 6,
+        "fire29-field24": 9,
+        "fire29-field25": 9,
+        "fire29-field26": 4,
+        "fire29-short01": 10
+      },
+      "base_rgb_sha256": "2a5309aa2d04130eec78abc313ed328bad34992e1a467ceb478ac3c493f533e8",
+      "coverage_alpha_sha256": "cad082c5a083217ddd07a605c2949a5e767776f2e3acad53193007724e2d79a1",
+      "overlay_rgba_sha256": "c39c0223d20fdec7e39b5b51610bd1df34e9f25c23d66502c35821b14c5a4da1",
+      "coverage_pixels_alpha_gt8": 9816,
+      "overlay_pixels_alpha_gt8": 9810,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 239
+    },
+    {
+      "slot": 52,
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 7,
+        "fire29-field05": 9,
+        "fire29-field06": 2,
+        "fire29-field07": 13,
+        "fire29-field08": 10,
+        "fire29-field09": 2,
+        "fire29-field10": 7,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 1,
+        "fire29-field15": 13,
+        "fire29-field16": 9,
+        "fire29-field17": 8,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 10,
+        "fire29-field21": 11,
+        "fire29-field22": 9,
+        "fire29-field23": 5,
+        "fire29-field24": 9,
+        "fire29-field25": 8,
+        "fire29-field26": 4,
+        "fire29-short01": 9
+      },
+      "base_rgb_sha256": "b1d016e754c8d3729f9962eaee818fc6377bdeb74228d5516263e697b88a9338",
+      "coverage_alpha_sha256": "0506a225e78c86d3d52e6e1c4f3231d8fb91e8f1bf961f45be65709e296f14ee",
+      "overlay_rgba_sha256": "2ac634b1654be3f03eeab5f6cba57b8fb429cbe5d938be02265c4bf4a7041251",
+      "coverage_pixels_alpha_gt8": 9823,
+      "overlay_pixels_alpha_gt8": 9817,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 240
+    },
+    {
+      "slot": 53,
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 3,
+        "fire29-field03": 7,
+        "fire29-field04": 8,
+        "fire29-field05": 9,
+        "fire29-field06": 6,
+        "fire29-field07": 13,
+        "fire29-field08": 10,
+        "fire29-field09": 2,
+        "fire29-field10": 7,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 2,
+        "fire29-field15": 13,
+        "fire29-field16": 9,
+        "fire29-field17": 7,
+        "fire29-field18": 9,
+        "fire29-field19": 4,
+        "fire29-field20": 9,
+        "fire29-field21": 14,
+        "fire29-field22": 11,
+        "fire29-field23": 5,
+        "fire29-field24": 8,
+        "fire29-field25": 7,
+        "fire29-field26": 3,
+        "fire29-short01": 9
+      },
+      "base_rgb_sha256": "733f27aae40f2a100ef7e1decc5c0eb79e0ffcf313c452f293d50be1370b21ed",
+      "coverage_alpha_sha256": "38fd323b7e7240c598866093a7496438944d5ab130358e01b622c46115aeb5da",
+      "overlay_rgba_sha256": "8f6e9dab085bf41750667977e6fcaf0759aa8de473172714bbfa511762d81b54",
+      "coverage_pixels_alpha_gt8": 9802,
+      "overlay_pixels_alpha_gt8": 9793,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 250
+    },
+    {
+      "slot": 54,
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 3,
+        "fire29-field03": 7,
+        "fire29-field04": 7,
+        "fire29-field05": 8,
+        "fire29-field06": 6,
+        "fire29-field07": 12,
+        "fire29-field08": 11,
+        "fire29-field09": 2,
+        "fire29-field10": 8,
+        "fire29-field11": 13,
+        "fire29-field13": 4,
+        "fire29-visible02": 2,
+        "fire29-field15": 12,
+        "fire29-field16": 9,
+        "fire29-field17": 7,
+        "fire29-field18": 9,
+        "fire29-field19": 4,
+        "fire29-field20": 9,
+        "fire29-field21": 14,
+        "fire29-field22": 11,
+        "fire29-field23": 5,
+        "fire29-field24": 8,
+        "fire29-field25": 6,
+        "fire29-field26": 3,
+        "fire29-short01": 10
+      },
+      "base_rgb_sha256": "51cac058255d6da376ca602e5baeb0cd709693f8e140c384112d0aaeb9cd8fbf",
+      "coverage_alpha_sha256": "1db88ed18ea4592d3fec12a1b68a3fe75350b36517c75dd235f619951a1ef826",
+      "overlay_rgba_sha256": "2315dba84fb64cc3155d06793517fe59113f522be3a85e5a6c384a15c6ac785f",
+      "coverage_pixels_alpha_gt8": 9810,
+      "overlay_pixels_alpha_gt8": 9801,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 249
+    },
+    {
+      "slot": 55,
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 4,
+        "fire29-field03": 6,
+        "fire29-field04": 7,
+        "fire29-field05": 8,
+        "fire29-field06": 8,
+        "fire29-field07": 12,
+        "fire29-field08": 11,
+        "fire29-field09": 3,
+        "fire29-field10": 8,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 12,
+        "fire29-field16": 9,
+        "fire29-field17": 6,
+        "fire29-field18": 10,
+        "fire29-field19": 5,
+        "fire29-field20": 8,
+        "fire29-field21": 15,
+        "fire29-field22": 17,
+        "fire29-field23": 5,
+        "fire29-field24": 7,
+        "fire29-field25": 5,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      },
+      "base_rgb_sha256": "f07d8517fd010112f33e524dc24a1d7887275f3d43a8e748636c5152652fa6ed",
+      "coverage_alpha_sha256": "101d8eae2bc9abd6680d583ec6ee86a449abcd4034acfbeab2d9c64d09a62043",
+      "overlay_rgba_sha256": "87f664cb00bf00b9dc6031a043ed1db4066fd366597b95ce1f8b0c13e0d55403",
+      "coverage_pixels_alpha_gt8": 9825,
+      "overlay_pixels_alpha_gt8": 9816,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 265
+    },
+    {
+      "slot": 56,
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 4,
+        "fire29-field03": 6,
+        "fire29-field04": 6,
+        "fire29-field05": 7,
+        "fire29-field06": 8,
+        "fire29-field07": 11,
+        "fire29-field08": 12,
+        "fire29-field09": 3,
+        "fire29-field10": 9,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 12,
+        "fire29-field16": 10,
+        "fire29-field17": 6,
+        "fire29-field18": 10,
+        "fire29-field19": 5,
+        "fire29-field20": 8,
+        "fire29-field21": 16,
+        "fire29-field22": 17,
+        "fire29-field23": 5,
+        "fire29-field24": 7,
+        "fire29-field25": 4,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      },
+      "base_rgb_sha256": "537f357b541f60ee5070819b0be60300620f5a1ae49480926d6301a538a0feb8",
+      "coverage_alpha_sha256": "a217b5adfa1fdf181eb56d0f02f764df2a7ba00078112e7fd96ba29840940d5d",
+      "overlay_rgba_sha256": "5d05404dc4e88d4d50991b80faff9b1b554e28024e909433d483295f1bd3b210",
+      "coverage_pixels_alpha_gt8": 9807,
+      "overlay_pixels_alpha_gt8": 9798,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 265
+    },
+    {
+      "slot": 57,
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 5,
+        "fire29-field03": 5,
+        "fire29-field04": 6,
+        "fire29-field05": 7,
+        "fire29-field06": 9,
+        "fire29-field07": 11,
+        "fire29-field08": 12,
+        "fire29-field09": 4,
+        "fire29-field10": 9,
+        "fire29-field11": 14,
+        "fire29-field13": 1,
+        "fire29-visible02": 14,
+        "fire29-field15": 11,
+        "fire29-field16": 10,
+        "fire29-field17": 6,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 7,
+        "fire29-field21": 16,
+        "fire29-field22": 17,
+        "fire29-field23": 6,
+        "fire29-field24": 6,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "70842cfb38836336a3b209823b40e787463ebe38f1fed2a50fe3db8f7b5b54c1",
+      "coverage_alpha_sha256": "c69f243a7ecc8940b449519971a9bed79123836f0829dabced2d7b4bca2bfd11",
+      "overlay_rgba_sha256": "3bfc498e092d8a315abf436cbf8be5b2a90f5b524a14ff7828725c385159a491",
+      "coverage_pixels_alpha_gt8": 9805,
+      "overlay_pixels_alpha_gt8": 9793,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 262
+    },
+    {
+      "slot": 58,
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 4,
+        "fire29-field03": 5,
+        "fire29-field04": 5,
+        "fire29-field05": 6,
+        "fire29-field06": 9,
+        "fire29-field07": 10,
+        "fire29-field08": 12,
+        "fire29-field09": 4,
+        "fire29-field10": 10,
+        "fire29-field11": 14,
+        "fire29-field13": 4,
+        "fire29-visible02": 3,
+        "fire29-field15": 11,
+        "fire29-field16": 11,
+        "fire29-field17": 6,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 7,
+        "fire29-field21": 23,
+        "fire29-field22": 18,
+        "fire29-field23": 6,
+        "fire29-field24": 6,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 1
+      },
+      "base_rgb_sha256": "cd2c455ec06eb5aa8cb4e59ae417cf1a911e15192ce92db78ed9afff3e4a8151",
+      "coverage_alpha_sha256": "cb08e4d55a7afc6ede0e924973498b6ebd966a2f05e1cbe6ec364ab2fdba5be0",
+      "overlay_rgba_sha256": "b8c406648c740fc9eb9a21d72b2c7eef6339e2f7e4f2e952a49f718b2ea44d55",
+      "coverage_pixels_alpha_gt8": 9813,
+      "overlay_pixels_alpha_gt8": 9800,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 274
+    },
+    {
+      "slot": 59,
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 4,
+        "fire29-field03": 5,
+        "fire29-field04": 5,
+        "fire29-field05": 6,
+        "fire29-field06": 12,
+        "fire29-field07": 10,
+        "fire29-field08": 11,
+        "fire29-field09": 5,
+        "fire29-field10": 10,
+        "fire29-field11": 15,
+        "fire29-field13": 5,
+        "fire29-visible02": 3,
+        "fire29-field15": 10,
+        "fire29-field16": 11,
+        "fire29-field17": 7,
+        "fire29-field18": 10,
+        "fire29-field19": 7,
+        "fire29-field20": 6,
+        "fire29-field21": 23,
+        "fire29-field22": 18,
+        "fire29-field23": 7,
+        "fire29-field24": 5,
+        "fire29-field25": 4,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      },
+      "base_rgb_sha256": "9cd19b11b4010f7457d7c8105238b979c7d90ca29a1f307391daa6cb96871f7c",
+      "coverage_alpha_sha256": "5f34c8bf504ecdffd14ba6eee7acd128f20a5dfd3c19a76593228d51cd7a42f3",
+      "overlay_rgba_sha256": "0713371965bf5c7991ecde5b82699e20aee1ee87bf51802a46c019de74915128",
+      "coverage_pixels_alpha_gt8": 9813,
+      "overlay_pixels_alpha_gt8": 9801,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 276
+    },
+    {
+      "slot": 60,
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 3,
+        "fire29-field03": 6,
+        "fire29-field04": 4,
+        "fire29-field05": 5,
+        "fire29-field06": 12,
+        "fire29-field07": 9,
+        "fire29-field08": 11,
+        "fire29-field09": 5,
+        "fire29-field10": 10,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 10,
+        "fire29-field16": 12,
+        "fire29-field17": 7,
+        "fire29-field18": 10,
+        "fire29-field19": 7,
+        "fire29-field20": 6,
+        "fire29-field21": 22,
+        "fire29-field22": 18,
+        "fire29-field23": 7,
+        "fire29-field24": 5,
+        "fire29-field25": 5,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      },
+      "base_rgb_sha256": "de156579d1d16aa1a48effb221a1c14151132857d270e4bca4f695977c5816dd",
+      "coverage_alpha_sha256": "5b163b576fc7620a475901c80926fa03e9d952dcea5068dccffe2aaa31b17c47",
+      "overlay_rgba_sha256": "c9f0a46c5dd82e67f90ec4d80a0be47d59575d2166cb5ad88d58bb0e60c50c09",
+      "coverage_pixels_alpha_gt8": 9772,
+      "overlay_pixels_alpha_gt8": 9763,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 260
+    },
+    {
+      "slot": 61,
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 3,
+        "fire29-field03": 6,
+        "fire29-field04": 4,
+        "fire29-field05": 5,
+        "fire29-field06": 12,
+        "fire29-field07": 9,
+        "fire29-field08": 10,
+        "fire29-field09": 6,
+        "fire29-field10": 9,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 10,
+        "fire29-field16": 12,
+        "fire29-field17": 8,
+        "fire29-field18": 9,
+        "fire29-field19": 6,
+        "fire29-field20": 5,
+        "fire29-field21": 21,
+        "fire29-field22": 17,
+        "fire29-field23": 8,
+        "fire29-field24": 5,
+        "fire29-field25": 6,
+        "fire29-field26": 6,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "121015351590499bdd7c5fa3782e166b2d410ce78caa75e96692709d441b6a59",
+      "coverage_alpha_sha256": "2f815603092ba03155538d6529487da22995bc0b376ad0f776145240d6da68c1",
+      "overlay_rgba_sha256": "5241f468be3e929253fee4ff0301fbe9464f89fae1ae33c11e430cf4fdc0e99b",
+      "coverage_pixels_alpha_gt8": 9776,
+      "overlay_pixels_alpha_gt8": 9768,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 261
+    },
+    {
+      "slot": 62,
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 7,
+        "fire29-field04": 3,
+        "fire29-field05": 4,
+        "fire29-field06": 9,
+        "fire29-field07": 9,
+        "fire29-field08": 10,
+        "fire29-field09": 6,
+        "fire29-field10": 9,
+        "fire29-field11": 14,
+        "fire29-field13": 7,
+        "fire29-visible02": 1,
+        "fire29-field15": 10,
+        "fire29-field16": 13,
+        "fire29-field17": 8,
+        "fire29-field18": 9,
+        "fire29-field19": 6,
+        "fire29-field20": 5,
+        "fire29-field21": 21,
+        "fire29-field22": 17,
+        "fire29-field23": 8,
+        "fire29-field24": 5,
+        "fire29-field25": 7,
+        "fire29-field26": 6,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "4aa2145a52570fd1a68042c011475f40ecc85fa834e53131408cdaba86961a81",
+      "coverage_alpha_sha256": "d13713b37d9cefd22de1fb41e11770e296029a76d02798cdf517f2f764e73200",
+      "overlay_rgba_sha256": "042a9c7581e3e0e25c82fd62e1363ac689e7c8c4fc4b0a8ca9b0c7a7af673e70",
+      "coverage_pixels_alpha_gt8": 9766,
+      "overlay_pixels_alpha_gt8": 9758,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 253
+    },
+    {
+      "slot": 63,
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 7,
+        "fire29-field04": 3,
+        "fire29-field05": 4,
+        "fire29-field06": 9,
+        "fire29-field07": 9,
+        "fire29-field08": 9,
+        "fire29-field09": 7,
+        "fire29-field10": 8,
+        "fire29-field11": 14,
+        "fire29-field13": 6,
+        "fire29-visible02": 1,
+        "fire29-field15": 11,
+        "fire29-field16": 13,
+        "fire29-field17": 9,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 4,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 9,
+        "fire29-field24": 5,
+        "fire29-field25": 8,
+        "fire29-field26": 5,
+        "fire29-short01": 11
+      },
+      "base_rgb_sha256": "8f5886aa3522bfdd707df5bba9eeba5d8a1a5045fd59652483f68307ec8a0f76",
+      "coverage_alpha_sha256": "911583391aee890b1e8019d9b23299966b0b0cb65a01c227bce14757afc7f988",
+      "overlay_rgba_sha256": "f1668836635874b6866e02f2662cf453c134dca1461b9c4fad19aa811847b4d0",
+      "coverage_pixels_alpha_gt8": 9786,
+      "overlay_pixels_alpha_gt8": 9778,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 244
+    },
+    {
+      "slot": 64,
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 2,
+        "fire29-field05": 4,
+        "fire29-field06": 8,
+        "fire29-field07": 9,
+        "fire29-field08": 9,
+        "fire29-field09": 7,
+        "fire29-field10": 8,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 1,
+        "fire29-field15": 11,
+        "fire29-field16": 14,
+        "fire29-field17": 9,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 4,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 9,
+        "fire29-field24": 6,
+        "fire29-field25": 8,
+        "fire29-field26": 5,
+        "fire29-short01": 10
+      },
+      "base_rgb_sha256": "a735d8157daaea3be083f19b7d33347f10dff258e0c8531fdf6cb852a8ce75ee",
+      "coverage_alpha_sha256": "4f38f93a4ec584d441272c9b606564f7fddc94490b77e9f2583af450b354b0ea",
+      "overlay_rgba_sha256": "549a583d900b267c37232a8027a48e60428d63f0c4abd6cd99f6e81cda463931",
+      "coverage_pixels_alpha_gt8": 9786,
+      "overlay_pixels_alpha_gt8": 9780,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 228
+    },
+    {
+      "slot": 65,
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 3,
+        "fire29-field03": 8,
+        "fire29-field04": 2,
+        "fire29-field05": 4,
+        "fire29-field06": 8,
+        "fire29-field07": 10,
+        "fire29-field08": 8,
+        "fire29-field09": 7,
+        "fire29-field10": 7,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 2,
+        "fire29-field15": 12,
+        "fire29-field16": 14,
+        "fire29-field17": 8,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 4,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 10,
+        "fire29-field24": 6,
+        "fire29-field25": 9,
+        "fire29-field26": 4,
+        "fire29-short01": 10
+      },
+      "base_rgb_sha256": "4ff4cb8c2a4b01d156d5dad6aee74b28feee28ed23456401579a90455a56b8ed",
+      "coverage_alpha_sha256": "0415052a5c0ed150078e55f7fcf35583349bf55d3f38a2cd512b05b088f7ea27",
+      "overlay_rgba_sha256": "28fd00a8143d695e119b96f64dcfc2363682073be1da41dbbc3aa3f8c7c3d63e",
+      "coverage_pixels_alpha_gt8": 9776,
+      "overlay_pixels_alpha_gt8": 9769,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 228
+    },
+    {
+      "slot": 66,
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 3,
+        "fire29-field03": 9,
+        "fire29-field04": 2,
+        "fire29-field05": 4,
+        "fire29-field06": 6,
+        "fire29-field07": 10,
+        "fire29-field08": 8,
+        "fire29-field09": 6,
+        "fire29-field10": 7,
+        "fire29-field11": 13,
+        "fire29-field13": 4,
+        "fire29-visible02": 2,
+        "fire29-field15": 12,
+        "fire29-field16": 14,
+        "fire29-field17": 8,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 4,
+        "fire29-field21": 21,
+        "fire29-field22": 9,
+        "fire29-field23": 10,
+        "fire29-field24": 7,
+        "fire29-field25": 8,
+        "fire29-field26": 4,
+        "fire29-short01": 9
+      },
+      "base_rgb_sha256": "d4dbc8a7f3bd785ce1cf7e3e5980f5debddcb29d7300aaff7fb53cf29f9118e1",
+      "coverage_alpha_sha256": "567dbc560b82351c5a4f8c91213e926d79e4c41670700b92aeea45744689a8ad",
+      "overlay_rgba_sha256": "8ccfb216b8a4dd00228171c6d7367f54f380b204ce19985277970db815750901",
+      "coverage_pixels_alpha_gt8": 9775,
+      "overlay_pixels_alpha_gt8": 9768,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 230
+    },
+    {
+      "slot": 67,
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 9,
+        "fire29-field04": 3,
+        "fire29-field05": 5,
+        "fire29-field06": 2,
+        "fire29-field07": 11,
+        "fire29-field08": 7,
+        "fire29-field09": 6,
+        "fire29-field10": 6,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 13,
+        "fire29-field16": 13,
+        "fire29-field17": 7,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 4,
+        "fire29-field21": 21,
+        "fire29-field22": 9,
+        "fire29-field23": 10,
+        "fire29-field24": 7,
+        "fire29-field25": 7,
+        "fire29-field26": 3,
+        "fire29-short01": 10
+      },
+      "base_rgb_sha256": "2a2f784ee7f9874b8c919addb550d829e1de0a77ef646b1b830d6fd841cfe613",
+      "coverage_alpha_sha256": "203a5341e412dbf11c397fbee8e344a3c762533e276f8654c034124828e09c22",
+      "overlay_rgba_sha256": "6465d08131c101d75756fb898de4b5b3f99a3cd81d258bb600f11f8530ef50c8",
+      "coverage_pixels_alpha_gt8": 9790,
+      "overlay_pixels_alpha_gt8": 9782,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 236
+    },
+    {
+      "slot": 68,
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 10,
+        "fire29-field04": 3,
+        "fire29-field05": 5,
+        "fire29-field06": 2,
+        "fire29-field07": 11,
+        "fire29-field08": 7,
+        "fire29-field09": 5,
+        "fire29-field10": 6,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 13,
+        "fire29-field16": 13,
+        "fire29-field17": 7,
+        "fire29-field18": 7,
+        "fire29-field19": 3,
+        "fire29-field20": 5,
+        "fire29-field21": 22,
+        "fire29-field22": 9,
+        "fire29-field23": 9,
+        "fire29-field24": 8,
+        "fire29-field25": 6,
+        "fire29-field26": 3,
+        "fire29-short01": 10
+      },
+      "base_rgb_sha256": "1592f285f3c1b55d6e80d9cc44e6c661b08e4e4dd8f864da17b0be740db4d12e",
+      "coverage_alpha_sha256": "483bad833974570a13071a013ac60750c532e7929c9c98395f835ed922534815",
+      "overlay_rgba_sha256": "d94adab8cffc24e964cad8f4c8914408bf0bcb25faf15ee19522444be93d0135",
+      "coverage_pixels_alpha_gt8": 9780,
+      "overlay_pixels_alpha_gt8": 9772,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 233
+    },
+    {
+      "slot": 69,
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 5,
+        "fire29-field03": 10,
+        "fire29-field04": 4,
+        "fire29-field05": 6,
+        "fire29-field06": 4,
+        "fire29-field07": 12,
+        "fire29-field08": 7,
+        "fire29-field09": 5,
+        "fire29-field10": 6,
+        "fire29-field11": 14,
+        "fire29-field13": 1,
+        "fire29-visible02": 14,
+        "fire29-field15": 14,
+        "fire29-field16": 12,
+        "fire29-field17": 6,
+        "fire29-field18": 7,
+        "fire29-field19": 3,
+        "fire29-field20": 5,
+        "fire29-field21": 23,
+        "fire29-field22": 7,
+        "fire29-field23": 9,
+        "fire29-field24": 8,
+        "fire29-field25": 5,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      },
+      "base_rgb_sha256": "d0ac439e03071f9ab98cf25a02c2a0d70219b0d638dd655fbe548d2e37e8166d",
+      "coverage_alpha_sha256": "f89835d6a51937a9364f2a85cabd2b0f25ae300b427dd6679b7f9b613d11a85d",
+      "overlay_rgba_sha256": "08564fa513634af073a10808a523ec9718b7da0b69d58327c0fac872968e9877",
+      "coverage_pixels_alpha_gt8": 9773,
+      "overlay_pixels_alpha_gt8": 9762,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 223
+    },
+    {
+      "slot": 70,
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 11,
+        "fire29-field04": 4,
+        "fire29-field05": 6,
+        "fire29-field06": 4,
+        "fire29-field07": 12,
+        "fire29-field08": 7,
+        "fire29-field09": 4,
+        "fire29-field10": 6,
+        "fire29-field11": 14,
+        "fire29-field13": 4,
+        "fire29-visible02": 3,
+        "fire29-field15": 14,
+        "fire29-field16": 12,
+        "fire29-field17": 6,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 6,
+        "fire29-field21": 23,
+        "fire29-field22": 7,
+        "fire29-field23": 8,
+        "fire29-field24": 9,
+        "fire29-field25": 4,
+        "fire29-field26": 3,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "5a1c1d34bd4ff2a0514d14c2f268607faf509e0b0a57432326f99d39dd73e14a",
+      "coverage_alpha_sha256": "39d9c633595128e1a5ffc0c165d8ff9b7cbddb8cfc72b91f6384e1066762bdb7",
+      "overlay_rgba_sha256": "711cd8b19c2a03f1cf907f055492352df82da98ca7d1e1f782ef16bf39fa5c84",
+      "coverage_pixels_alpha_gt8": 9777,
+      "overlay_pixels_alpha_gt8": 9768,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 241
+    },
+    {
+      "slot": 71,
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 4,
+        "fire29-field03": 10,
+        "fire29-field04": 5,
+        "fire29-field05": 7,
+        "fire29-field06": 2,
+        "fire29-field07": 13,
+        "fire29-field08": 7,
+        "fire29-field09": 4,
+        "fire29-field10": 7,
+        "fire29-field11": 15,
+        "fire29-field13": 5,
+        "fire29-visible02": 3,
+        "fire29-field15": 14,
+        "fire29-field16": 11,
+        "fire29-field17": 6,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 6,
+        "fire29-field21": 16,
+        "fire29-field22": 7,
+        "fire29-field23": 8,
+        "fire29-field24": 9,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "851ff38dde389db1fd6c4f4097171231c8c0d35b332ffa41fc75f5daf312ad48",
+      "coverage_alpha_sha256": "64bedcd942f5f30518d291d202e532807e1a6a99b6f94e7830fffc9da7d9e87f",
+      "overlay_rgba_sha256": "f5e3b4bbb0f4785988bd0c83328aab10e6b5df1a56c70a2501acce67777558b4",
+      "coverage_pixels_alpha_gt8": 9773,
+      "overlay_pixels_alpha_gt8": 9764,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 242
+    },
+    {
+      "slot": 72,
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 3,
+        "fire29-field03": 10,
+        "fire29-field04": 5,
+        "fire29-field05": 7,
+        "fire29-field06": 2,
+        "fire29-field07": 13,
+        "fire29-field08": 8,
+        "fire29-field09": 3,
+        "fire29-field10": 7,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 13,
+        "fire29-field16": 11,
+        "fire29-field17": 6,
+        "fire29-field18": 9,
+        "fire29-field19": 4,
+        "fire29-field20": 7,
+        "fire29-field21": 15,
+        "fire29-field22": 7,
+        "fire29-field23": 7,
+        "fire29-field24": 8,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 1
+      },
+      "base_rgb_sha256": "cf77ce0961a2ce79899942bc183089f2d106d2edd0ca87397a753ae949766abd",
+      "coverage_alpha_sha256": "e4e0faff65550ceb8c036bb9c4c53ecdc07d823310544bea656b63b30e4e9f9b",
+      "overlay_rgba_sha256": "4633d1ed992fbe508a814bfb4cd5688460bf50d2eb1ab9699be886009bd7012a",
+      "coverage_pixels_alpha_gt8": 9764,
+      "overlay_pixels_alpha_gt8": 9755,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 233
+    },
+    {
+      "slot": 73,
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 3,
+        "fire29-field03": 9,
+        "fire29-field04": 6,
+        "fire29-field05": 8,
+        "fire29-field06": 6,
+        "fire29-field07": 12,
+        "fire29-field08": 8,
+        "fire29-field09": 3,
+        "fire29-field10": 8,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 13,
+        "fire29-field16": 10,
+        "fire29-field17": 7,
+        "fire29-field18": 9,
+        "fire29-field19": 4,
+        "fire29-field20": 7,
+        "fire29-field21": 15,
+        "fire29-field22": 7,
+        "fire29-field23": 7,
+        "fire29-field24": 8,
+        "fire29-field25": 4,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      },
+      "base_rgb_sha256": "be12c82c3ada64cc6dcdccca749a28da91a175e9b620abf0facf0a391b97d66d",
+      "coverage_alpha_sha256": "c0455c5f1fa6126931f48c9c83e7de0264b2dcc6dab0e91212510904445cdc39",
+      "overlay_rgba_sha256": "330d79bcf53669916b01056eb0d05277634738adc71a9f37a92dd5c0b614bfde",
+      "coverage_pixels_alpha_gt8": 9781,
+      "overlay_pixels_alpha_gt8": 9772,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 246
+    },
+    {
+      "slot": 74,
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 9,
+        "fire29-field04": 6,
+        "fire29-field05": 8,
+        "fire29-field06": 8,
+        "fire29-field07": 12,
+        "fire29-field08": 9,
+        "fire29-field09": 2,
+        "fire29-field10": 8,
+        "fire29-field11": 14,
+        "fire29-field13": 7,
+        "fire29-visible02": 1,
+        "fire29-field15": 12,
+        "fire29-field16": 10,
+        "fire29-field17": 7,
+        "fire29-field18": 10,
+        "fire29-field19": 5,
+        "fire29-field20": 8,
+        "fire29-field21": 14,
+        "fire29-field22": 9,
+        "fire29-field23": 6,
+        "fire29-field24": 7,
+        "fire29-field25": 5,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      },
+      "base_rgb_sha256": "f794dd82fe7ba749995246bb5f0819138b69491123cc44a96346893f97a910a2",
+      "coverage_alpha_sha256": "ecc9d0fbb30b58ac2d5b6cb16da1642c49f867d47ac14a939e47afaf902d475b",
+      "overlay_rgba_sha256": "a697a1c6797d1394aa4fa588df3df300ec8cbcab9f582d53757b03fe8526e949",
+      "coverage_pixels_alpha_gt8": 9800,
+      "overlay_pixels_alpha_gt8": 9792,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 247
+    },
+    {
+      "slot": 75,
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 7,
+        "fire29-field05": 9,
+        "fire29-field06": 8,
+        "fire29-field07": 11,
+        "fire29-field08": 9,
+        "fire29-field09": 2,
+        "fire29-field10": 9,
+        "fire29-field11": 14,
+        "fire29-field13": 6,
+        "fire29-visible02": 1,
+        "fire29-field15": 12,
+        "fire29-field16": 9,
+        "fire29-field17": 8,
+        "fire29-field18": 10,
+        "fire29-field19": 5,
+        "fire29-field20": 8,
+        "fire29-field21": 14,
+        "fire29-field22": 9,
+        "fire29-field23": 6,
+        "fire29-field24": 7,
+        "fire29-field25": 6,
+        "fire29-field26": 6,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "4d05119872fe07a6db90cf5bf856edb1cf4a9e147b4155a1211df0c33239adc8",
+      "coverage_alpha_sha256": "f1a86d4fe8557b823b9364cb9d12d9d8017eeb5c7506bbbd307faa72ee77d499",
+      "overlay_rgba_sha256": "0d9560904743b425df29d1057f1941f9860f40bbe08a6ad3f03957ca902e1876",
+      "coverage_pixels_alpha_gt8": 9813,
+      "overlay_pixels_alpha_gt8": 9806,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 254
+    },
+    {
+      "slot": 76,
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 7,
+        "fire29-field05": 9,
+        "fire29-field06": 9,
+        "fire29-field07": 11,
+        "fire29-field08": 10,
+        "fire29-field09": 2,
+        "fire29-field10": 9,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 1,
+        "fire29-field15": 11,
+        "fire29-field16": 9,
+        "fire29-field17": 8,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 9,
+        "fire29-field21": 11,
+        "fire29-field22": 9,
+        "fire29-field23": 5,
+        "fire29-field24": 6,
+        "fire29-field25": 7,
+        "fire29-field26": 5,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "d1c67af237b60a906d84e8f45f733af494e18068564b7b847a7e917c852af98f",
+      "coverage_alpha_sha256": "6633dc787ac9e675e0c9d71ac39816c5a04334bf33e41e60b86e5b81db43ff3b",
+      "overlay_rgba_sha256": "8522e1f50659f84ecea0ffb018e8dc8034e3a7e3522e5c6b54fca4d645abcf83",
+      "coverage_pixels_alpha_gt8": 9823,
+      "overlay_pixels_alpha_gt8": 9815,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 256
+    },
+    {
+      "slot": 77,
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 3,
+        "fire29-field03": 7,
+        "fire29-field04": 8,
+        "fire29-field05": 10,
+        "fire29-field06": 9,
+        "fire29-field07": 10,
+        "fire29-field08": 10,
+        "fire29-field09": 2,
+        "fire29-field10": 9,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 2,
+        "fire29-field15": 11,
+        "fire29-field16": 9,
+        "fire29-field17": 9,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 9,
+        "fire29-field21": 14,
+        "fire29-field22": 11,
+        "fire29-field23": 5,
+        "fire29-field24": 6,
+        "fire29-field25": 8,
+        "fire29-field26": 5,
+        "fire29-short01": 11
+      },
+      "base_rgb_sha256": "daa58378e9a1b87d44c1bbd87c7854dc5f41ed1a6158f38fb4c69d0de3a912ce",
+      "coverage_alpha_sha256": "593771a40baeb3ed68d3d05989b6e9879dfd5b7c85c880c49f2671c749ab12db",
+      "overlay_rgba_sha256": "10fc7d870d58c8a97572f3e7a96f9ed168cba7c973c54cefcf6c2bbaf8032d09",
+      "coverage_pixels_alpha_gt8": 9817,
+      "overlay_pixels_alpha_gt8": 9806,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 256
+    },
+    {
+      "slot": 78,
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 3,
+        "fire29-field03": 7,
+        "fire29-field04": 7,
+        "fire29-field05": 10,
+        "fire29-field06": 12,
+        "fire29-field07": 10,
+        "fire29-field08": 11,
+        "fire29-field09": 2,
+        "fire29-field10": 10,
+        "fire29-field11": 13,
+        "fire29-field13": 4,
+        "fire29-visible02": 2,
+        "fire29-field15": 10,
+        "fire29-field16": 9,
+        "fire29-field17": 9,
+        "fire29-field18": 10,
+        "fire29-field19": 7,
+        "fire29-field20": 10,
+        "fire29-field21": 14,
+        "fire29-field22": 11,
+        "fire29-field23": 5,
+        "fire29-field24": 6,
+        "fire29-field25": 9,
+        "fire29-field26": 4,
+        "fire29-short01": 10
+      },
+      "base_rgb_sha256": "24d2fbfe10e1bc30105e2775612e7f97f7982f15a979131c57fb3e953d8994a5",
+      "coverage_alpha_sha256": "0716c98baf161d1273e8b81b434003ee8c73ae53d8edd96df8790229fe53ebe7",
+      "overlay_rgba_sha256": "ebdd8001f4edeb844e2adc504ed3e2862e195461f08353ebc02f1979f59f5af1",
+      "coverage_pixels_alpha_gt8": 9836,
+      "overlay_pixels_alpha_gt8": 9827,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 254
+    },
+    {
+      "slot": 79,
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 4,
+        "fire29-field03": 6,
+        "fire29-field04": 7,
+        "fire29-field05": 11,
+        "fire29-field06": 12,
+        "fire29-field07": 10,
+        "fire29-field08": 11,
+        "fire29-field09": 3,
+        "fire29-field10": 10,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 10,
+        "fire29-field16": 9,
+        "fire29-field17": 8,
+        "fire29-field18": 10,
+        "fire29-field19": 7,
+        "fire29-field20": 10,
+        "fire29-field21": 15,
+        "fire29-field22": 17,
+        "fire29-field23": 5,
+        "fire29-field24": 5,
+        "fire29-field25": 8,
+        "fire29-field26": 4,
+        "fire29-short01": 10
+      },
+      "base_rgb_sha256": "16340fada8676ab57da46c29dd95676ca06110b81741afa6427b3f5c45f1a577",
+      "coverage_alpha_sha256": "3435bc8394289ea8333a190df41f05b94e42cab184ccaae47b483f772abbdb5d",
+      "overlay_rgba_sha256": "44f51b777d71204c0acc69a52af11b69a271ef1bf9ec2b848c8be5c8b593ad36",
+      "coverage_pixels_alpha_gt8": 9845,
+      "overlay_pixels_alpha_gt8": 9837,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 265
+    },
+    {
+      "slot": 80,
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 4,
+        "fire29-field03": 6,
+        "fire29-field04": 6,
+        "fire29-field05": 11,
+        "fire29-field06": 12,
+        "fire29-field07": 9,
+        "fire29-field08": 12,
+        "fire29-field09": 3,
+        "fire29-field10": 9,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 10,
+        "fire29-field16": 10,
+        "fire29-field17": 8,
+        "fire29-field18": 9,
+        "fire29-field19": 6,
+        "fire29-field20": 11,
+        "fire29-field21": 16,
+        "fire29-field22": 17,
+        "fire29-field23": 5,
+        "fire29-field24": 5,
+        "fire29-field25": 7,
+        "fire29-field26": 3,
+        "fire29-short01": 9
+      },
+      "base_rgb_sha256": "95826afcbf39a9a3335f32ad2d42a2c32939ae97ed3b7a89242afc967c43b4a3",
+      "coverage_alpha_sha256": "b115b666adbb5daec71ab545c12fc59ad43f4819b310672f3bdf4b9aca49221f",
+      "overlay_rgba_sha256": "364a45ac989fa66f69954ae538f0761aa67938e6a22bd6ae11495f831131bf11",
+      "coverage_pixels_alpha_gt8": 9822,
+      "overlay_pixels_alpha_gt8": 9814,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 266
+    },
+    {
+      "slot": 81,
+      "pose_map": {
+        "fire29-field01": 8,
+        "fire29-strong01": 5,
+        "fire29-field03": 5,
+        "fire29-field04": 6,
+        "fire29-field05": 11,
+        "fire29-field06": 9,
+        "fire29-field07": 9,
+        "fire29-field08": 12,
+        "fire29-field09": 4,
+        "fire29-field10": 9,
+        "fire29-field11": 14,
+        "fire29-field13": 1,
+        "fire29-visible02": 14,
+        "fire29-field15": 10,
+        "fire29-field16": 10,
+        "fire29-field17": 7,
+        "fire29-field18": 9,
+        "fire29-field19": 6,
+        "fire29-field20": 11,
+        "fire29-field21": 16,
+        "fire29-field22": 17,
+        "fire29-field23": 6,
+        "fire29-field24": 5,
+        "fire29-field25": 6,
+        "fire29-field26": 3,
+        "fire29-short01": 10
+      },
+      "base_rgb_sha256": "4809a1b24d7afe6bd39bf5165592e2166a409c643723bf9583c7ea0d4c0d5e4a",
+      "coverage_alpha_sha256": "73cf314397cd71015933937d6a1f15547e0206f94db92f5a682d5494baf8132b",
+      "overlay_rgba_sha256": "ef570b9e14433e3fffd0e6119ee435f0ffda93fe07536271df70563b5d77bf13",
+      "coverage_pixels_alpha_gt8": 9824,
+      "overlay_pixels_alpha_gt8": 9813,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 249
+    },
+    {
+      "slot": 82,
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 4,
+        "fire29-field03": 5,
+        "fire29-field04": 5,
+        "fire29-field05": 10,
+        "fire29-field06": 9,
+        "fire29-field07": 9,
+        "fire29-field08": 12,
+        "fire29-field09": 4,
+        "fire29-field10": 8,
+        "fire29-field11": 14,
+        "fire29-field13": 4,
+        "fire29-visible02": 3,
+        "fire29-field15": 11,
+        "fire29-field16": 11,
+        "fire29-field17": 7,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 11,
+        "fire29-field21": 23,
+        "fire29-field22": 18,
+        "fire29-field23": 6,
+        "fire29-field24": 5,
+        "fire29-field25": 5,
+        "fire29-field26": 3,
+        "fire29-short01": 10
+      },
+      "base_rgb_sha256": "63b8afb8a5a7703a7e925e2f85bc4f41763fcc4ec27f980d32c2236a50f8c728",
+      "coverage_alpha_sha256": "8e6a42ffc914c9227862e1466d19610bde572254de5da77067e8fcb2587906ec",
+      "overlay_rgba_sha256": "0d8b93cfe19dd16f9c86535af4b19faa0a3cbba60b6a37937e7f6d5c92536797",
+      "coverage_pixels_alpha_gt8": 9831,
+      "overlay_pixels_alpha_gt8": 9820,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 262
+    },
+    {
+      "slot": 83,
+      "pose_map": {
+        "fire29-field01": 7,
+        "fire29-strong01": 4,
+        "fire29-field03": 5,
+        "fire29-field04": 5,
+        "fire29-field05": 10,
+        "fire29-field06": 8,
+        "fire29-field07": 9,
+        "fire29-field08": 11,
+        "fire29-field09": 5,
+        "fire29-field10": 8,
+        "fire29-field11": 15,
+        "fire29-field13": 5,
+        "fire29-visible02": 3,
+        "fire29-field15": 11,
+        "fire29-field16": 11,
+        "fire29-field17": 6,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 10,
+        "fire29-field21": 23,
+        "fire29-field22": 18,
+        "fire29-field23": 7,
+        "fire29-field24": 6,
+        "fire29-field25": 5,
+        "fire29-field26": 3,
+        "fire29-short01": 11
+      },
+      "base_rgb_sha256": "2bd8992df3aec8469f7522fd8495df52cb0db241c08fe92b2f550e9638082498",
+      "coverage_alpha_sha256": "9ab0cbdd4218ebae82b81dca1440578849bcacfcd8d55b3588a3cc5b9b16ceef",
+      "overlay_rgba_sha256": "4f241adb4f13880515f762ff58cd1ace35d8f0cb7319153b88d4268416df0a53",
+      "coverage_pixels_alpha_gt8": 9821,
+      "overlay_pixels_alpha_gt8": 9810,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 264
+    },
+    {
+      "slot": 84,
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 3,
+        "fire29-field03": 6,
+        "fire29-field04": 4,
+        "fire29-field05": 9,
+        "fire29-field06": 8,
+        "fire29-field07": 10,
+        "fire29-field08": 11,
+        "fire29-field09": 5,
+        "fire29-field10": 7,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 12,
+        "fire29-field16": 12,
+        "fire29-field17": 6,
+        "fire29-field18": 8,
+        "fire29-field19": 5,
+        "fire29-field20": 10,
+        "fire29-field21": 22,
+        "fire29-field22": 18,
+        "fire29-field23": 7,
+        "fire29-field24": 6,
+        "fire29-field25": 4,
+        "fire29-field26": 4,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "f2bffdea30b6cebb47ac796e53efb615f869a54e7e0c1a3f5199f2603c3a1dd5",
+      "coverage_alpha_sha256": "28fb6a6fcf20c5d0fb5136f2894b3391da028e1a3b281f5a0b43f0308b9e61d5",
+      "overlay_rgba_sha256": "bd0a2b2885eca0918eecdfe8942b066ddb9094b135dade4cf995c65429a33a05",
+      "coverage_pixels_alpha_gt8": 9790,
+      "overlay_pixels_alpha_gt8": 9782,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 257
+    },
+    {
+      "slot": 85,
+      "pose_map": {
+        "fire29-field01": 6,
+        "fire29-strong01": 3,
+        "fire29-field03": 6,
+        "fire29-field04": 4,
+        "fire29-field05": 9,
+        "fire29-field06": 6,
+        "fire29-field07": 10,
+        "fire29-field08": 10,
+        "fire29-field09": 6,
+        "fire29-field10": 7,
+        "fire29-field11": 15,
+        "fire29-field13": 6,
+        "fire29-visible02": 2,
+        "fire29-field15": 12,
+        "fire29-field16": 12,
+        "fire29-field17": 6,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 9,
+        "fire29-field21": 21,
+        "fire29-field22": 17,
+        "fire29-field23": 8,
+        "fire29-field24": 7,
+        "fire29-field25": 1,
+        "fire29-field26": 4,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "ce51391a3172a132915c9d1f9ba67a415b1e427c5a83c3876c637d38ff5faac8",
+      "coverage_alpha_sha256": "061323912c77dd5cb1ea676f8c3d83b6d23a4ce5a9328e52f928040861f84bc7",
+      "overlay_rgba_sha256": "d29038b18c7f2e58bf548ea25aa97390bed572493c6d315f9b26d3250550e470",
+      "coverage_pixels_alpha_gt8": 9793,
+      "overlay_pixels_alpha_gt8": 9785,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 256
+    },
+    {
+      "slot": 86,
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 7,
+        "fire29-field04": 3,
+        "fire29-field05": 8,
+        "fire29-field06": 2,
+        "fire29-field07": 11,
+        "fire29-field08": 10,
+        "fire29-field09": 6,
+        "fire29-field10": 6,
+        "fire29-field11": 14,
+        "fire29-field13": 7,
+        "fire29-visible02": 1,
+        "fire29-field15": 13,
+        "fire29-field16": 13,
+        "fire29-field17": 7,
+        "fire29-field18": 7,
+        "fire29-field19": 4,
+        "fire29-field20": 9,
+        "fire29-field21": 21,
+        "fire29-field22": 17,
+        "fire29-field23": 8,
+        "fire29-field24": 7,
+        "fire29-field25": 1,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      },
+      "base_rgb_sha256": "af8f93a9b55e9d1f058e8878dd326d8a40bf098db62d6b45843240247fad3275",
+      "coverage_alpha_sha256": "99a6877cfc7442ab4b0de66be8713243c625a2b6b44cf0feaf1d6bc7903346e0",
+      "overlay_rgba_sha256": "f5e4ffb0de6417e77438aacae4304d3d006c5a8fba6d527c990a5d36e3c5f695",
+      "coverage_pixels_alpha_gt8": 9785,
+      "overlay_pixels_alpha_gt8": 9777,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 248
+    },
+    {
+      "slot": 87,
+      "pose_map": {
+        "fire29-field01": 5,
+        "fire29-strong01": 1,
+        "fire29-field03": 7,
+        "fire29-field04": 3,
+        "fire29-field05": 8,
+        "fire29-field06": 2,
+        "fire29-field07": 11,
+        "fire29-field08": 9,
+        "fire29-field09": 7,
+        "fire29-field10": 6,
+        "fire29-field11": 14,
+        "fire29-field13": 6,
+        "fire29-visible02": 1,
+        "fire29-field15": 13,
+        "fire29-field16": 13,
+        "fire29-field17": 7,
+        "fire29-field18": 7,
+        "fire29-field19": 3,
+        "fire29-field20": 8,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 9,
+        "fire29-field24": 8,
+        "fire29-field25": 4,
+        "fire29-field26": 5,
+        "fire29-short01": 1
+      },
+      "base_rgb_sha256": "f460304d2861b55625a9df2896b7bcbc545e51ecdb796e5b33a7d41d313b0eca",
+      "coverage_alpha_sha256": "da7c59ffdb91dbad99163d5b8e3d8cc7a425d4496accaa12a55bf6b45b048519",
+      "overlay_rgba_sha256": "280f633dd5af755356616ccb5ac499d15a4f61bf2d47e535fcbc3c53da7b3626",
+      "coverage_pixels_alpha_gt8": 9790,
+      "overlay_pixels_alpha_gt8": 9782,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 248
+    },
+    {
+      "slot": 88,
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 1,
+        "fire29-field03": 8,
+        "fire29-field04": 2,
+        "fire29-field05": 7,
+        "fire29-field06": 4,
+        "fire29-field07": 12,
+        "fire29-field08": 9,
+        "fire29-field09": 7,
+        "fire29-field10": 6,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 1,
+        "fire29-field15": 13,
+        "fire29-field16": 14,
+        "fire29-field17": 8,
+        "fire29-field18": 7,
+        "fire29-field19": 3,
+        "fire29-field20": 8,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 9,
+        "fire29-field24": 8,
+        "fire29-field25": 5,
+        "fire29-field26": 6,
+        "fire29-short01": 1
+      },
+      "base_rgb_sha256": "afb8259095218807edad517cb7f27b219e887eeb821016c8f244c3c28675d21f",
+      "coverage_alpha_sha256": "594d5246fa586bff6c9041c387b1115418209c51e9d5223014936e36cd6deb20",
+      "overlay_rgba_sha256": "6f4db7b68def75edfa06030b8393d429802903965ab2b0ff927cd42b173b8e5b",
+      "coverage_pixels_alpha_gt8": 9788,
+      "overlay_pixels_alpha_gt8": 9780,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 238
+    },
+    {
+      "slot": 89,
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 3,
+        "fire29-field03": 8,
+        "fire29-field04": 2,
+        "fire29-field05": 7,
+        "fire29-field06": 4,
+        "fire29-field07": 12,
+        "fire29-field08": 8,
+        "fire29-field09": 7,
+        "fire29-field10": 6,
+        "fire29-field11": 13,
+        "fire29-field13": 5,
+        "fire29-visible02": 2,
+        "fire29-field15": 14,
+        "fire29-field16": 14,
+        "fire29-field17": 8,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 7,
+        "fire29-field21": 19,
+        "fire29-field22": 11,
+        "fire29-field23": 10,
+        "fire29-field24": 9,
+        "fire29-field25": 6,
+        "fire29-field26": 6,
+        "fire29-short01": 12
+      },
+      "base_rgb_sha256": "1e37d026b43d3cd03bd36a6b50ccc97cafea772c1a73efd60e6901b1574e0851",
+      "coverage_alpha_sha256": "172f3561340c3bf9a173b7b14ba2e4d0351d0932ef90c0006525be9cf246831e",
+      "overlay_rgba_sha256": "c6561bf136bb8033e9606cf35ce10fb575557209d6995d2b6e7b89c9aca79ef0",
+      "coverage_pixels_alpha_gt8": 9777,
+      "overlay_pixels_alpha_gt8": 9769,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 239
+    },
+    {
+      "slot": 90,
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 3,
+        "fire29-field03": 9,
+        "fire29-field04": 2,
+        "fire29-field05": 6,
+        "fire29-field06": 2,
+        "fire29-field07": 13,
+        "fire29-field08": 8,
+        "fire29-field09": 6,
+        "fire29-field10": 7,
+        "fire29-field11": 13,
+        "fire29-field13": 4,
+        "fire29-visible02": 2,
+        "fire29-field15": 14,
+        "fire29-field16": 14,
+        "fire29-field17": 9,
+        "fire29-field18": 8,
+        "fire29-field19": 3,
+        "fire29-field20": 7,
+        "fire29-field21": 21,
+        "fire29-field22": 9,
+        "fire29-field23": 10,
+        "fire29-field24": 9,
+        "fire29-field25": 7,
+        "fire29-field26": 5,
+        "fire29-short01": 11
+      },
+      "base_rgb_sha256": "eeed9155e28b25f115371acad53e75db064133451b21617a8ad461bf2e94b4f0",
+      "coverage_alpha_sha256": "ec12dd8626cd7099e494c8f9695c1ac277a02e6df6c4a229ec5b78ff943c7194",
+      "overlay_rgba_sha256": "835b78f71d03f100f713f82331ef94e2a04ebc273a34d1c3aa3ac129ac55bb0d",
+      "coverage_pixels_alpha_gt8": 9787,
+      "overlay_pixels_alpha_gt8": 9779,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 232
+    },
+    {
+      "slot": 91,
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 9,
+        "fire29-field04": 3,
+        "fire29-field05": 6,
+        "fire29-field06": 2,
+        "fire29-field07": 13,
+        "fire29-field08": 7,
+        "fire29-field09": 6,
+        "fire29-field10": 7,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 13,
+        "fire29-field16": 13,
+        "fire29-field17": 9,
+        "fire29-field18": 9,
+        "fire29-field19": 4,
+        "fire29-field20": 6,
+        "fire29-field21": 21,
+        "fire29-field22": 9,
+        "fire29-field23": 10,
+        "fire29-field24": 8,
+        "fire29-field25": 8,
+        "fire29-field26": 5,
+        "fire29-short01": 11
+      },
+      "base_rgb_sha256": "2ef196f4caae7c7da1caf8f93c2fe72c289b168baa359f19b4df47c8955d09ac",
+      "coverage_alpha_sha256": "a7db76f6b81b8bc5089173d4c4ee4ad2cb383e0f52523027c41ec687e2bbff7d",
+      "overlay_rgba_sha256": "a35bce6661463e7a300ee98c0f46e7c6f70ad01ba8e2269b5c3dc69070b6552d",
+      "coverage_pixels_alpha_gt8": 9808,
+      "overlay_pixels_alpha_gt8": 9799,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 240
+    },
+    {
+      "slot": 92,
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 10,
+        "fire29-field04": 3,
+        "fire29-field05": 5,
+        "fire29-field06": 6,
+        "fire29-field07": 12,
+        "fire29-field08": 7,
+        "fire29-field09": 5,
+        "fire29-field10": 7,
+        "fire29-field11": 13,
+        "fire29-field13": 1,
+        "fire29-visible02": 3,
+        "fire29-field15": 13,
+        "fire29-field16": 13,
+        "fire29-field17": 8,
+        "fire29-field18": 9,
+        "fire29-field19": 4,
+        "fire29-field20": 6,
+        "fire29-field21": 22,
+        "fire29-field22": 9,
+        "fire29-field23": 9,
+        "fire29-field24": 8,
+        "fire29-field25": 9,
+        "fire29-field26": 4,
+        "fire29-short01": 10
+      },
+      "base_rgb_sha256": "ef568ebf7314c45c25ddacb70f1fbdafb57c617f82757c309273908d32be1bd2",
+      "coverage_alpha_sha256": "a072f6343669f83b734a80b84e500348edd2e041b00a4886c8715ca00a9085c1",
+      "overlay_rgba_sha256": "57c2458160e0822b88be88d86e811099d47f08685118b794a4c80a59c0a8a51c",
+      "coverage_pixels_alpha_gt8": 9793,
+      "overlay_pixels_alpha_gt8": 9785,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 234
+    },
+    {
+      "slot": 93,
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 5,
+        "fire29-field03": 10,
+        "fire29-field04": 4,
+        "fire29-field05": 5,
+        "fire29-field06": 8,
+        "fire29-field07": 12,
+        "fire29-field08": 7,
+        "fire29-field09": 5,
+        "fire29-field10": 8,
+        "fire29-field11": 14,
+        "fire29-field13": 1,
+        "fire29-visible02": 14,
+        "fire29-field15": 12,
+        "fire29-field16": 12,
+        "fire29-field17": 8,
+        "fire29-field18": 10,
+        "fire29-field19": 5,
+        "fire29-field20": 5,
+        "fire29-field21": 23,
+        "fire29-field22": 7,
+        "fire29-field23": 9,
+        "fire29-field24": 7,
+        "fire29-field25": 8,
+        "fire29-field26": 4,
+        "fire29-short01": 9
+      },
+      "base_rgb_sha256": "50a493777f73df143445983e06fae3637f6111dac3a7ab657eeab863ff64c962",
+      "coverage_alpha_sha256": "4b89f897cc270d9cb8b0f0b8138ed9b3314e392063334f323781bd776a1530e0",
+      "overlay_rgba_sha256": "43f567a87b57d87cbd8c48bff1c7187b79ca00d502e91bd49990948cf82680e1",
+      "coverage_pixels_alpha_gt8": 9796,
+      "overlay_pixels_alpha_gt8": 9786,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 222
+    },
+    {
+      "slot": 94,
+      "pose_map": {
+        "fire29-field01": 3,
+        "fire29-strong01": 4,
+        "fire29-field03": 11,
+        "fire29-field04": 4,
+        "fire29-field05": 4,
+        "fire29-field06": 8,
+        "fire29-field07": 11,
+        "fire29-field08": 7,
+        "fire29-field09": 4,
+        "fire29-field10": 8,
+        "fire29-field11": 14,
+        "fire29-field13": 4,
+        "fire29-visible02": 3,
+        "fire29-field15": 12,
+        "fire29-field16": 12,
+        "fire29-field17": 7,
+        "fire29-field18": 10,
+        "fire29-field19": 5,
+        "fire29-field20": 5,
+        "fire29-field21": 23,
+        "fire29-field22": 7,
+        "fire29-field23": 8,
+        "fire29-field24": 7,
+        "fire29-field25": 7,
+        "fire29-field26": 3,
+        "fire29-short01": 9
+      },
+      "base_rgb_sha256": "73deab15a1b4179109f4cb1ee157890d6760f748713c843efcad4dcc359cb7a7",
+      "coverage_alpha_sha256": "828cb42ccbb531301c6e370425ce410b459a3aa3841a76d50b1d46171acda1b7",
+      "overlay_rgba_sha256": "e25d28fa7c8b6fddca7dda1ac4cf6cbcc7cbfd845fc64472d5f5dc41d61e8cc1",
+      "coverage_pixels_alpha_gt8": 9790,
+      "overlay_pixels_alpha_gt8": 9782,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 231
+    },
+    {
+      "slot": 95,
+      "pose_map": {
+        "fire29-field01": 4,
+        "fire29-strong01": 4,
+        "fire29-field03": 10,
+        "fire29-field04": 5,
+        "fire29-field05": 4,
+        "fire29-field06": 9,
+        "fire29-field07": 11,
+        "fire29-field08": 7,
+        "fire29-field09": 4,
+        "fire29-field10": 9,
+        "fire29-field11": 15,
+        "fire29-field13": 5,
+        "fire29-visible02": 3,
+        "fire29-field15": 11,
+        "fire29-field16": 11,
+        "fire29-field17": 7,
+        "fire29-field18": 11,
+        "fire29-field19": 6,
+        "fire29-field20": 4,
+        "fire29-field21": 16,
+        "fire29-field22": 7,
+        "fire29-field23": 8,
+        "fire29-field24": 7,
+        "fire29-field25": 6,
+        "fire29-field26": 3,
+        "fire29-short01": 10
+      },
+      "base_rgb_sha256": "4943c2531b24612615401926ecb83c716e2ea790a17d591d3b0fd72588dc8f89",
+      "coverage_alpha_sha256": "44aa7b7ab2a4f53d428224f27dd89237f09dffc9c79414c2e8cfea12aa3bb7b2",
+      "overlay_rgba_sha256": "205336ce8bb27b0b621a933962fbcc6bd2f2e660b2a19b3bbd08969ed967038f",
+      "coverage_pixels_alpha_gt8": 9777,
+      "overlay_pixels_alpha_gt8": 9768,
+      "overlay_pixels_alpha_gt8_outside_runtime_flat_plane": 233
+    }
+  ]
+}
