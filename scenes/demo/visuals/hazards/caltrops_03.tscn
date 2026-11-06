@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scripts/demo/battle_animated_acid_pool.gd" id="1_script"]
-[ext_resource type="SpriteFrames" path="res://assets/art_presets/approved/environment_hazards_selected_v1/caltrops03_glints01_frames.tres" id="2_frames"]
+[ext_resource type="SpriteFrames" path="res://assets/art_presets/approved/spikes_selected_v2/caltrops03_rare_frames.tres" id="2_frames"]
 [ext_resource type="Shader" path="res://assets/shaders/acid_pool_surface.gdshader" id="3_shader"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_surface"]

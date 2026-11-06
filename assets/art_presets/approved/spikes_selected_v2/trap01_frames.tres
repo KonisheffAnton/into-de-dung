@@ -1,0 +1,28 @@
+[gd_resource type="SpriteFrames" load_steps=5 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/spikes_selected_v2/trap01.png" id="atlas_poses"]
+
+[sub_resource type="AtlasTexture" id="poses_00"]
+atlas = ExtResource("atlas_poses")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="poses_01"]
+atlas = ExtResource("atlas_poses")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="poses_02"]
+atlas = ExtResource("atlas_poses")
+region = Rect2(512, 0, 256, 256)
+
+[resource]
+animations = [
+{
+"frames": [
+{"duration": 1.000000000, "texture": SubResource("poses_00")},
+{"duration": 1.000000000, "texture": SubResource("poses_01")},
+{"duration": 1.000000000, "texture": SubResource("poses_02")}
+],
+"loop": false,
+"name": &"poses",
+"speed": 1.0
+}]

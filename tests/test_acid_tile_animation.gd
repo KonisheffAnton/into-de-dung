@@ -5,6 +5,7 @@ const DUNGEON_TILE: PackedScene = preload("res://scenes/demo/visuals/dungeon_com
 const DUNGEON_ENVIRONMENT: PackedScene = preload("res://scenes/demo/visuals/dungeon_room_environment.tscn")
 const ACID_SCENE: PackedScene = preload("res://scenes/demo/visuals/hazards/acid_film_05.tscn")
 const ACID_FRAMES: SpriteFrames = preload("res://assets/art_presets/approved/environment_hazards_selected_v1/acid_film05_frames.tres")
+const CALTROPS_FRAMES: SpriteFrames = preload("res://assets/art_presets/approved/spikes_selected_v2/caltrops03_rare_frames.tres")
 const ACID_CELL := Vector2i(2, 6)
 const BIOME_CELLS: Array[Vector2i] = [Vector2i(0, 0), Vector2i(8, 0), Vector2i(16, 0),
 	Vector2i(0, 8), Vector2i(8, 8), Vector2i(16, 8)]
@@ -52,6 +53,32 @@ func check_resource_contract() -> void:
 		check(texture != null and texture.region == Rect2(cell * 256, Vector2(256, 256)),
 			"frame %02d maps its full 256px atlas cell" % index)
 	check(not ACID_FRAMES.resource_local_to_scene, "shared SpriteFrames remain a definition resource")
+	check(CALTROPS_FRAMES.has_animation(&"caltrops"), "rare caltrops resource defines its selected glint cycle")
+	if CALTROPS_FRAMES.has_animation(&"caltrops"):
+		var schedule: Array[int] = [0, 1, 2, 0, 3, 4, 0]
+		var durations: Array[float] = [5.0, 0.15, 0.15, 5.0, 0.15, 0.15, 5.0]
+		var sampled_cycle := 0.0
+		check(CALTROPS_FRAMES.get_frame_count(&"caltrops") == schedule.size(), "caltrops exposes seven scheduled events")
+		check(is_equal_approx(CALTROPS_FRAMES.get_animation_speed(&"caltrops"), 1.0)
+			and CALTROPS_FRAMES.get_animation_loop(&"caltrops"), "caltrops loops at normal speed")
+		for index: int in schedule.size():
+			var texture := CALTROPS_FRAMES.get_frame_texture(&"caltrops", index) as AtlasTexture
+			var atlas_index := schedule[index]
+			check(texture != null and texture.atlas.resource_path.ends_with("spikes_selected_v2/caltrops03_rare.png")
+				and texture.region == Rect2(atlas_index * 256, 0, 256, 256),
+				"caltrops event %d uses selected atlas cell %d" % [index, atlas_index])
+			check(is_equal_approx(CALTROPS_FRAMES.get_frame_duration(&"caltrops", index), durations[index]),
+				"caltrops event %d has its selected duration" % index)
+			sampled_cycle += CALTROPS_FRAMES.get_frame_duration(&"caltrops", index)
+		check(is_equal_approx(sampled_cycle, 15.6), "caltrops cycle is 15.6 seconds with two contiguous 300ms glints")
+		var first_rest := CALTROPS_FRAMES.get_frame_texture(&"caltrops", 0) as AtlasTexture
+		var last_rest := CALTROPS_FRAMES.get_frame_texture(&"caltrops", 6) as AtlasTexture
+		if first_rest != null and last_rest != null:
+			var first_pixels := first_rest.atlas.get_image().get_region(Rect2i(first_rest.region))
+			var last_pixels := last_rest.atlas.get_image().get_region(Rect2i(last_rest.region))
+			check(first_rest.region == last_rest.region and first_pixels.get_data() == last_pixels.get_data(),
+				"caltrops cycle begins and ends on the exact same rest pixels")
+	check(not CALTROPS_FRAMES.resource_local_to_scene, "shared caltrops SpriteFrames remain a definition resource")
 	var scene_instance := ACID_SCENE.instantiate()
 	check(scene_instance is BattleAnimatedAcidPool, "acid scene instantiates typed runtime overlay")
 	scene_instance.free()
@@ -356,11 +383,11 @@ func check_selected_hazards() -> void:
 				overlay.configure(true, false, false, [])
 				var caltrops := overlay.get_node(^"Caltrops") as BattleAnimatedAcidPool
 				var sprite := pool_sprite(caltrops)
-				check(sprite.animation == &"caltrops" and sprite.sprite_frames.get_frame_count(&"caltrops") == 33 and sprite.is_playing(), "selected glints animate static caltrops")
+				check(sprite.animation == &"caltrops" and sprite.sprite_frames.get_frame_count(&"caltrops") == 7 and sprite.is_playing(), "selected glints animate static caltrops")
 				sprite.speed_scale = 0.0
-				sprite.set_frame_and_progress(14, 0.25)
+				sprite.set_frame_and_progress(4, 0.25)
 				overlay.configure(true, false, false, [])
-				check(sprite.frame == 14 and sprite.frame_progress == 0.25, "caltrops refresh preserves frame")
+				check(sprite.frame == 4 and is_equal_approx(sprite.frame_progress, 0.25), "caltrops refresh preserves frame")
 				overlay.retire_view()
 				check(not sprite.is_playing() and not caltrops.visible, "caltrops retirement stops clock")
 				overlay.configure(true, false, false, [])

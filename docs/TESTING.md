@@ -19,6 +19,14 @@
 
 ## Изменение игрового кода
 
+Выбранные шипы (2026-11-07): `python tools/art/build_selected_spike_animations.py --check`;
+`--render-check --only hazards_ui acid_tile_animation environment_visual_contract
+presentation_environment presentation_contact battle_view_reuse --screen 0`.
+Проверяются резкие40мс, три готовые позы, after/hold/resize/skip/cancel/speed,
+цикл кальтропов15,6с и точный стык; GPU-маска сохраняет кончики за краем ромба,
+отрицательный контроль без маски их обрезает. battle_view_reuse расширяет
+набор согласно launcher. Это не full/core или ручной F5/zoom/DPI/performance.
+
 Кислотная плёнка, глубокая кислота и кальтропы (2026-11-05):
 `python tools/art/build_hazard_surface_animations.py --check` и
 `python tools/art/build_acid_pool_animation.py --check`, затем

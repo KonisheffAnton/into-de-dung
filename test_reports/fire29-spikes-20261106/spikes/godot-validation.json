@@ -1,0 +1,328 @@
+{
+  "pass": true,
+  "initial_gpu_report": "test_reports/demo-081fb5ee98554ee0a5271bcbc1ec1de5",
+  "initial_hazards_ui": "116 passed, 2 failed: stale finished trap cell; fixed with cell-specific tail cleanup",
+  "final_hazards_gpu_report": "test_reports/demo-2f316c6216b4420f8d5c82e865314f0b",
+  "checks": {
+    "environment_visual_contract": [
+      "ENVIRONMENT VISUAL CONTRACT RESULTS: 39 passed, 0 failed"
+    ],
+    "acid_tile_animation": [
+      "ACID TILE ANIMATION RESULTS: 247 passed, 0 failed"
+    ],
+    "presentation_contact": [
+      "PRESENTATION CONTACT RESULTS: 300 passed, 0 failed"
+    ],
+    "presentation_environment": [
+      "PRESENTATION ENVIRONMENT RESULTS: 364 passed, 0 failed"
+    ],
+    "battle_view_reuse": [
+      "BATTLE VIEW REUSE RESULTS: 100 passed, 0 failed"
+    ],
+    "hazards_ui": [
+      "HAZARDS UI RESULTS: 118 passed, 0 failed"
+    ]
+  },
+  "initial_timing": {
+    "snapshot_seconds": 44.67825940006878,
+    "checks": {
+      "import": {
+        "elapsed_seconds": 30.8673359999666,
+        "status": "PASS"
+      },
+      "startup": {
+        "elapsed_seconds": 5.2971771999727935,
+        "status": "PASS"
+      },
+      "battle_view_reuse": {
+        "elapsed_seconds": 6.94876459997613,
+        "status": "PASS"
+      },
+      "environment_visual_contract": {
+        "elapsed_seconds": 5.1463344999356195,
+        "status": "PASS"
+      },
+      "unit_visual_contract": {
+        "elapsed_seconds": 4.122119799954817,
+        "status": "PASS"
+      },
+      "defender_idle_clock": {
+        "elapsed_seconds": 3.01727850001771,
+        "status": "PASS"
+      },
+      "defender_idle": {
+        "elapsed_seconds": 7.727319200057536,
+        "status": "PASS"
+      },
+      "defender_buff": {
+        "elapsed_seconds": 8.760958599974401,
+        "status": "PASS"
+      },
+      "defender_death": {
+        "elapsed_seconds": 5.339918599929661,
+        "status": "PASS"
+      },
+      "defender_death_routes": {
+        "elapsed_seconds": 15.025222800089978,
+        "status": "PASS"
+      },
+      "defender_cloth_palette": {
+        "elapsed_seconds": 11.784433600027114,
+        "status": "PASS"
+      },
+      "rogue_cloth_palette": {
+        "elapsed_seconds": 8.023671100032516,
+        "status": "PASS"
+      },
+      "rogue_animations": {
+        "elapsed_seconds": 3.0985992000205442,
+        "status": "PASS"
+      },
+      "rogue_buff": {
+        "elapsed_seconds": 5.8751769999507815,
+        "status": "PASS"
+      },
+      "rogue_death_routes": {
+        "elapsed_seconds": 13.085310900001787,
+        "status": "PASS"
+      },
+      "archer_idle": {
+        "elapsed_seconds": 2.9227093999506906,
+        "status": "PASS"
+      },
+      "archer_cloth_palette": {
+        "elapsed_seconds": 8.323027900070883,
+        "status": "PASS"
+      },
+      "visual_scene_contract": {
+        "elapsed_seconds": 6.231841999921016,
+        "status": "PASS"
+      },
+      "acid_tile_animation": {
+        "elapsed_seconds": 8.20192679995671,
+        "status": "PASS"
+      },
+      "presentation_contact": {
+        "elapsed_seconds": 7.1034889000002295,
+        "status": "PASS"
+      },
+      "presentation_consequences": {
+        "elapsed_seconds": 23.567040399997495,
+        "status": "PASS"
+      },
+      "presentation_environment": {
+        "elapsed_seconds": 8.316032500006258,
+        "status": "PASS"
+      },
+      "battle_camera_ui": {
+        "elapsed_seconds": 5.228126900037751,
+        "status": "PASS"
+      },
+      "hazards_ui": {
+        "elapsed_seconds": 7.529218800016679,
+        "status": "FAIL"
+      },
+      "battle_execution_ui": {
+        "elapsed_seconds": 11.699000400025398,
+        "status": "PASS"
+      }
+    },
+    "total_seconds": 274.2635006000055,
+    "project_cleanup_before": {
+      "removed": [],
+      "skipped": [
+        {
+          "path": "test_reports/demo-1e0c7ee263c74553b7070157f20656e7/project",
+          "reason": "pinned keep=true"
+        },
+        {
+          "path": "test_reports/demo-2f6818ee1cf447c0b22d0517a2480701/project",
+          "reason": "pinned keep=true"
+        },
+        {
+          "path": "test_reports/demo-61a4221c21ca478faa96b89691ed7e6e/project",
+          "reason": "missing completion marker"
+        },
+        {
+          "path": "test_reports/demo-92fd62445c924aeebe5cf35497debee8/project",
+          "reason": "pinned keep=true"
+        },
+        {
+          "path": "test_reports/demo-9aafd6ba1ed04ffb9cd25b6ff860fc9f/project",
+          "reason": "pinned keep=true"
+        },
+        {
+          "path": "test_reports/demo-c47902f9a1d04e8c900334a12ad7a716/project",
+          "reason": "missing completion marker"
+        },
+        {
+          "path": "test_reports/demo-ce9c4ce9228e414693577ee02b06d800/project",
+          "reason": "pinned keep=true"
+        },
+        {
+          "path": "test_reports/demo-d9e93edfbfa0417bbbc9869b8b0b4a24/project",
+          "reason": "pinned keep=true"
+        }
+      ],
+      "errors": []
+    },
+    "summary": {
+      "passed": 24,
+      "failed": 1,
+      "timed_out": 0,
+      "failed_labels": [
+        "hazards_ui"
+      ],
+      "unexecuted_requested": [],
+      "blocked": null
+    },
+    "project_cleanup_after": {
+      "removed": [
+        "test_reports/demo-c0c4e64a1fcb44819410d996fb2bd23c/project"
+      ],
+      "skipped": [
+        {
+          "path": "test_reports/demo-1e0c7ee263c74553b7070157f20656e7/project",
+          "reason": "pinned keep=true"
+        },
+        {
+          "path": "test_reports/demo-2f6818ee1cf447c0b22d0517a2480701/project",
+          "reason": "pinned keep=true"
+        },
+        {
+          "path": "test_reports/demo-61a4221c21ca478faa96b89691ed7e6e/project",
+          "reason": "missing completion marker"
+        },
+        {
+          "path": "test_reports/demo-92fd62445c924aeebe5cf35497debee8/project",
+          "reason": "pinned keep=true"
+        },
+        {
+          "path": "test_reports/demo-9aafd6ba1ed04ffb9cd25b6ff860fc9f/project",
+          "reason": "pinned keep=true"
+        },
+        {
+          "path": "test_reports/demo-c47902f9a1d04e8c900334a12ad7a716/project",
+          "reason": "missing completion marker"
+        },
+        {
+          "path": "test_reports/demo-ce9c4ce9228e414693577ee02b06d800/project",
+          "reason": "pinned keep=true"
+        },
+        {
+          "path": "test_reports/demo-d9e93edfbfa0417bbbc9869b8b0b4a24/project",
+          "reason": "pinned keep=true"
+        }
+      ],
+      "errors": []
+    }
+  },
+  "final_timing": {
+    "snapshot_seconds": 24.466813400038518,
+    "checks": {
+      "import": {
+        "elapsed_seconds": 26.53477110003587,
+        "status": "PASS"
+      },
+      "startup": {
+        "elapsed_seconds": 3.4120676999446005,
+        "status": "PASS"
+      },
+      "hazards_ui": {
+        "elapsed_seconds": 6.8609700000379235,
+        "status": "PASS"
+      }
+    },
+    "total_seconds": 68.5227642999962,
+    "project_cleanup_before": {
+      "removed": [],
+      "skipped": [
+        {
+          "path": "test_reports/demo-1e0c7ee263c74553b7070157f20656e7/project",
+          "reason": "pinned keep=true"
+        },
+        {
+          "path": "test_reports/demo-2f6818ee1cf447c0b22d0517a2480701/project",
+          "reason": "pinned keep=true"
+        },
+        {
+          "path": "test_reports/demo-61a4221c21ca478faa96b89691ed7e6e/project",
+          "reason": "missing completion marker"
+        },
+        {
+          "path": "test_reports/demo-92fd62445c924aeebe5cf35497debee8/project",
+          "reason": "pinned keep=true"
+        },
+        {
+          "path": "test_reports/demo-9aafd6ba1ed04ffb9cd25b6ff860fc9f/project",
+          "reason": "pinned keep=true"
+        },
+        {
+          "path": "test_reports/demo-c47902f9a1d04e8c900334a12ad7a716/project",
+          "reason": "missing completion marker"
+        },
+        {
+          "path": "test_reports/demo-ce9c4ce9228e414693577ee02b06d800/project",
+          "reason": "pinned keep=true"
+        },
+        {
+          "path": "test_reports/demo-d9e93edfbfa0417bbbc9869b8b0b4a24/project",
+          "reason": "pinned keep=true"
+        }
+      ],
+      "errors": []
+    },
+    "summary": {
+      "passed": 3,
+      "failed": 0,
+      "timed_out": 0,
+      "failed_labels": [],
+      "unexecuted_requested": [],
+      "blocked": null
+    },
+    "project_cleanup_after": {
+      "removed": [
+        "test_reports/demo-4f70297bfb8b4008bf16d53e8f4dc467/project"
+      ],
+      "skipped": [
+        {
+          "path": "test_reports/demo-1e0c7ee263c74553b7070157f20656e7/project",
+          "reason": "pinned keep=true"
+        },
+        {
+          "path": "test_reports/demo-2f6818ee1cf447c0b22d0517a2480701/project",
+          "reason": "pinned keep=true"
+        },
+        {
+          "path": "test_reports/demo-61a4221c21ca478faa96b89691ed7e6e/project",
+          "reason": "missing completion marker"
+        },
+        {
+          "path": "test_reports/demo-92fd62445c924aeebe5cf35497debee8/project",
+          "reason": "pinned keep=true"
+        },
+        {
+          "path": "test_reports/demo-9aafd6ba1ed04ffb9cd25b6ff860fc9f/project",
+          "reason": "pinned keep=true"
+        },
+        {
+          "path": "test_reports/demo-c47902f9a1d04e8c900334a12ad7a716/project",
+          "reason": "missing completion marker"
+        },
+        {
+          "path": "test_reports/demo-ce9c4ce9228e414693577ee02b06d800/project",
+          "reason": "pinned keep=true"
+        },
+        {
+          "path": "test_reports/demo-d9e93edfbfa0417bbbc9869b8b0b4a24/project",
+          "reason": "pinned keep=true"
+        }
+      ],
+      "errors": []
+    }
+  },
+  "full_core_run": false,
+  "manual_F5_zoom_DPI_performance": false,
+  "runner_count": 1,
+  "root_import": false
+}

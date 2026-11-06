@@ -244,24 +244,42 @@ func authored_presets() -> void:
 		overlay.configure(false, false, false, [], false, index == 0, directions[index], true)
 		overlay.trap_progress = 1.0
 		var preset := overlay.get_node(names[index]) as Node2D
-		var spikes := preset.get_node("Spikes")
-		check(preset.visible and spikes.get_child_count() == 16, names[index] + " shows 16 authored spikes")
-		var tip := spikes.get_child(0).get_node("Tip") as Polygon2D
-		var original := tip.polygon.duplicate()
-		# Изменённый в редакторе силуэт должен пережить семплирование анимации.
-		var edited := original.duplicate()
-		edited[0] += Vector2(0.25, 0.5)
-		tip.polygon = edited
-		overlay.trap_progress = 0.4
-		check(tip.polygon == edited, names[index] + " playback preserves authored polygon overrides")
-		tip.polygon = original
-		overlay.trap_progress = 1.0
-		var panel := preset.get_node("Panel") as Polygon2D
 		if index == 0:
-			check(panel.polygon.has(Vector2(62, 0)) and panel.polygon.has(Vector2(-62, 0))
-				and panel.polygon.has(Vector2(0, 45)) and panel.polygon.has(Vector2(0, -45)), "floor preset fills the tile rhombus")
-			check(tip.polygon[0].is_equal_approx(Vector2(0, -36)), "floor spikes retain their accepted 36px extension")
+			var pose := preset.get_node("Pose") as AnimatedSprite2D
+			var original_transform := preset.transform
+			check(preset.visible and pose != null and pose.sprite_frames != null
+				and pose.sprite_frames.resource_path.ends_with("spikes_selected_v2/trap01_frames.tres")
+				and pose.animation == &"poses" and pose.sprite_frames.get_frame_count(&"poses") == 3,
+				"floor preset uses the selected three-pose atlas clip")
+			check(not pose.is_playing(), "floor poses are selected manually and remain paused")
+			var pose_transform := pose.transform
+			for frame_index: int in 3:
+				var atlas_cell := pose.sprite_frames.get_frame_texture(&"poses", frame_index) as AtlasTexture
+				check(atlas_cell != null and atlas_cell.atlas.resource_path.ends_with("spikes_selected_v2/trap01.png")
+					and atlas_cell.region == Rect2(frame_index * 256, 0, 256, 256),
+					"floor pose %d maps its exact selected atlas cell" % frame_index)
+			var armed_rim := preset.get_node("ArmedRim") as CanvasItem
+			check(armed_rim != null and armed_rim.visible, "armed floor trap shows its rim")
+			for sample: Dictionary in [{"progress": -0.1, "frame": 0}, {"progress": 0.0, "frame": 0},
+				{"progress": 0.5, "frame": 1}, {"progress": 1.0, "frame": 2}, {"progress": 1.1, "frame": 2}]:
+				overlay.trap_progress = float(sample.progress)
+				check(pose.frame == int(sample.frame), "floor progress %s selects pose %d" % [sample.progress, sample.frame])
+			check(preset.transform == original_transform and pose.transform == pose_transform,
+				"floor pose selection leaves authored transforms unchanged")
 		else:
+			var spikes := preset.get_node("Spikes")
+			check(preset.visible and spikes.get_child_count() == 16, names[index] + " shows 16 authored spikes")
+			var tip := spikes.get_child(0).get_node("Tip") as Polygon2D
+			var original := tip.polygon.duplicate()
+			# Редакторские поправки wall-trap должны переживать выбор процедурной позы.
+			var edited := original.duplicate()
+			edited[0] += Vector2(0.25, 0.5)
+			tip.polygon = edited
+			overlay.trap_progress = 0.4
+			check(tip.polygon == edited, names[index] + " playback preserves authored polygon overrides")
+			tip.polygon = original
+			overlay.trap_progress = 1.0
+			var panel := preset.get_node("Panel") as Polygon2D
 			var start := edges[index]
 			var end := edges[index % 4 + 1]
 			for corner: Vector2 in [start, end, start + Vector2(0, -32), end + Vector2(0, -32)]:
@@ -329,22 +347,34 @@ func trap_playback(session: BattleCoreReactionsSession) -> void:
 	var publications: Array[Dictionary] = []
 	player.frame_finished.connect(func(value: Dictionary) -> void: publications.append(value))
 	player.play(board, before, packet, frame.after)
+	var floor_pose := board._environment_visuals[cell].get_node(^"FloorTrap/Pose") as AnimatedSprite2D
+	check(floor_pose != null and floor_pose.frame == 1, "floor trap selects the sharp half pose as its event starts")
+	advance(player, 0.020)
+	check(floor_pose.frame == 1, "floor trap remains on the half pose at 20ms")
+	advance(player, 0.021)
+	check(floor_pose.frame == 2, "floor trap selects the full pose after the independent 40ms extension")
 	advance(player, 1.0)
 	check(player.active and publications == [frame.after] and player._published.units[unit.id].hp == 0.0
-		and board._numbers.get_child_count() > 0 and is_equal_approx(board._environment_visuals[cell].trap_progress, 1.0),
+		and board._numbers.get_child_count() > 0 and is_equal_approx(board._environment_visuals[cell].trap_progress, 1.0)
+		and floor_pose.frame == 2,
 		"damage HP and result number publish while spikes remain fully raised")
 	advance(player, 0.35)
-	check(is_equal_approx(board._environment_visuals[cell].trap_progress, 1.0), "spikes remain visible 350ms after damage publication")
+	check(is_equal_approx(board._environment_visuals[cell].trap_progress, 1.0) and floor_pose.frame == 2,
+		"spikes remain on the full pose 350ms after damage publication")
 	board.size += Vector2(8, 6)
 	board._rebuild_visuals()
-	check(is_equal_approx(board._environment_visuals[cell].trap_progress, 1.0), "resize preserves the raised spikes during the result hold")
+	floor_pose = board._environment_visuals[cell].get_node(^"FloorTrap/Pose") as AnimatedSprite2D
+	check(is_equal_approx(board._environment_visuals[cell].trap_progress, 1.0) and floor_pose.frame == 2,
+		"resize preserves the full floor pose during the result hold")
 	await capture("damage-spikes-held")
 	advance(player, 0.34)
-	check(player.active and is_equal_approx(board._environment_visuals[cell].trap_progress, 1.0), "spikes still hold at 690ms after damage")
+	check(player.active and is_equal_approx(board._environment_visuals[cell].trap_progress, 1.0) and floor_pose.frame == 2,
+		"spikes still hold the full pose at 690ms after damage")
 	advance(player, 0.06)
 	check(player.active and board._environment_visuals[cell].trap_progress > 0.0 and board._environment_visuals[cell].trap_progress < 1.0, "spikes retract only after the 700ms result hold")
 	advance(player, 0.06)
-	check(not player.active and publications == [frame.after, frame.after] and board._field_presentation.cells.is_empty(), "retraction finishes without duplicate frame publication or lingering poses")
+	check(not player.active and publications == [frame.after, frame.after] and board._field_presentation.cells.is_empty()
+		and floor_pose.frame == 0, "retraction finishes on the closed pose without duplicate publication")
 	for abort: String in ["skip", "cancel", "speed"]:
 		player.play(board, before, packet, frame.after)
 		advance(player, 1.0)
@@ -355,7 +385,8 @@ func trap_playback(session: BattleCoreReactionsSession) -> void:
 			advance(player, 0.34)
 			check(player.active and is_equal_approx(board._environment_visuals[cell].trap_progress, 1.0), "playback speed applies to the post-damage hold")
 			advance(player, 0.07)
-		check(not player.active and board._field_presentation.cells.is_empty(), "result hold cleans up on " + abort)
+		check(not player.active and board._field_presentation.cells.is_empty() and floor_pose.frame == 0,
+			"result hold resets the floor pose on " + abort)
 	player.set_speed(1.0)
 	var empty := BattleFieldPresentation.trap_event(frame.events)
 	empty.target_unit_id = 0

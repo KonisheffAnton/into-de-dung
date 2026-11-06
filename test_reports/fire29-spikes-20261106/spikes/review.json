@@ -1,0 +1,24 @@
+{
+  "verdict": "APPROVE",
+  "reviewer": "/root/spike_runtime_review",
+  "base": "1e750d3e1a99e62e28215d8882c9f9abf40ece59",
+  "scope": "Fixed spike runtime/assets/tests; manual gameplay acceptance separate",
+  "file_sha256": {
+    "scripts/demo/battle_demo_board.gd": "99591b13200bb32eaf3792ae94302c9ba9e192ae30c5d98455d0720f2741d8fd",
+    "scripts/demo/battle_environment_visual.gd": "611025405f2373af6892adc9d4b2b1bc8b683ef008bdcfde2ec2192e49981452",
+    "scenes/demo/visuals/hazards/floor_trap.tscn": "92f716c89a5bef1cf8aeaa6b9262892c4d798de2ac57177f9d32da83a9a7420a",
+    "assets/shaders/spike_trap_surface.gdshader": "62de17b9bbed324d90f21d648c2e4d39d6d23239cb06bd14ab1dea507e0bdbf4"
+  },
+  "findings": [],
+  "checks": [
+    "40ms sharp floor transition",
+    "atomic after before700ms hold and100ms retraction",
+    "cell-specific finished-pose cleanup",
+    "speed/resize/skip/cancel",
+    "no shared resource writes",
+    "caltrops15.6s schedule and rest seam",
+    "mask source/atlas verification"
+  ],
+  "godot_run_by_reviewer": false,
+  "root_final_hazards_ui": "118/0"
+}

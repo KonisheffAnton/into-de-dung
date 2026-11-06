@@ -808,7 +808,14 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 	if trap_cell.x >= 0:
 		var trap_kind: String = String(trap_event.get("trap_kind", "floor"))
 		var trap_direction: Vector2i = trap_event.get("direction", Vector2i.ZERO)
-		tween.tween_method(_field_presentation.sample_trap.bind(self, trap_cell, trap_kind, trap_direction), 0.0, 1.0, BattleFieldPresentation.SPIKE_EXTEND_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		if trap_kind == "floor":
+			# Единственная промежуточная поза видна сразу; за 40 мс происходит резкий полный вылет.
+			# Она принадлежит тем же сохраняемым позам, поэтому resize/skip/cancel не оставляют шипы поднятыми.
+			_field_presentation.sample_trap(0.5, self, trap_cell, trap_kind, trap_direction)
+			tween.tween_interval(BattleFieldPresentation.SPIKE_EXTEND_SECONDS)
+			tween.tween_callback(_field_presentation.sample_trap.bind(1.0, self, trap_cell, trap_kind, trap_direction))
+		else:
+			tween.tween_method(_field_presentation.sample_trap.bind(self, trap_cell, trap_kind, trap_direction), 0.0, 1.0, BattleFieldPresentation.SPIKE_EXTEND_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		# Шипы остаются поднятыми во время урона/смерти и публикации чисел.
 		# Втягивание принадлежит отдельному хвосту уже опубликованного кадра.
 		visible_event = true
@@ -1061,7 +1068,16 @@ func animate_trap_retraction(event: Dictionary) -> Tween:
 	var tween := create_tween()
 	tween.tween_interval(BattleFieldPresentation.SPIKE_HOLD_SECONDS)
 	tween.tween_method(_field_presentation.sample_trap.bind(self, cell, kind, direction), 1.0, 0.0, BattleFieldPresentation.SPIKE_RETRACT_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	tween.tween_callback(_finish_trap_retraction.bind(cell))
 	return tween
+
+func _finish_trap_retraction(cell: Vector2i) -> void:
+	# Финальный after уже опубликован и может не пересобирать поле повторно.
+	# Убираем завершённую позу именно этой ловушки, чтобы resize не восстанавливал её хвост.
+	var pose: Dictionary = _field_presentation.cells.get(cell, {})
+	if pose.get("kind") == &"trap": _field_presentation.cells.erase(cell)
+	var overlay := _environment_visuals.get(cell) as BattleEnvironmentVisual
+	if overlay != null: overlay.trap_progress = -1.0
 
 func _is_presentation_drop(from: Vector2i, to: Vector2i) -> bool:
 	return _view_terrain_at(to) == TerrainType.Type.FLOOR and _view_height_steps(from) > _view_height_steps(to)

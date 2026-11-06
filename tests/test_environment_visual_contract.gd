@@ -93,12 +93,81 @@ func _run() -> void:
 	check(counting is BattleManagedEnvironmentVisual,
 		"managed lifecycle can be extended by a custom fixture")
 	counting.free()
+	if DisplayServer.get_name() == "headless":
+		print("SKIP SPIKE MASK GPU: headless renderer")
+	else:
+		await _test_spike_mask_gpu()
 	await _test_warning_phase_optimization(overlay, viewport, corpses)
 	_test_environment_index()
 	viewport.queue_free()
 	await process_frame
 	print("ENVIRONMENT VISUAL CONTRACT RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
+
+
+func _test_spike_mask_gpu() -> void:
+	var spike_viewport := SubViewport.new()
+	spike_viewport.size = Vector2i(256, 256)
+	spike_viewport.transparent_bg = true
+	spike_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	root.add_child(spike_viewport)
+	var floor_scene := load("res://scenes/demo/visuals/hazards/floor_trap.tscn") as PackedScene
+	var floor_trap := floor_scene.instantiate() as Node2D
+	spike_viewport.add_child(floor_trap)
+	floor_trap.position = Vector2(128, 100)
+	var pose := floor_trap.get_node(^"Pose") as AnimatedSprite2D
+	var armed_rim := floor_trap.get_node(^"ArmedRim") as CanvasItem
+	armed_rim.visible = false
+	pose.stop()
+	var source_texture := load("res://assets/art_presets/approved/spikes_selected_v2/trap01.png") as Texture2D
+	var mask_texture := load("res://assets/art_presets/approved/spikes_selected_v2/trap01_masks.png") as Texture2D
+	var source_image := source_texture.get_image()
+	var mask_image := mask_texture.get_image()
+	for frame_index: int in [1, 2]:
+		pose.frame = frame_index
+		await process_frame
+		await process_frame
+		await RenderingServer.frame_post_draw
+		var rendered := spike_viewport.get_texture().get_image()
+		var counts := _spike_alpha_counts(source_image, mask_image, rendered, frame_index)
+		var tolerance := maxi(4, ceili(float(counts.expected) * 0.02))
+		check(int(counts.expected) > 0, "half/extended source mask has visible metal outside the top diamond")
+		check(int(counts.unallowed) <= tolerance
+			and absi(int(counts.observed) - int(counts.expected)) <= tolerance,
+			"selected mask UV exposes only expected metal outside the stone top for pose %d" % frame_index)
+		check(int(counts.observed) > 0, "pose %d keeps its raised metal tips beyond the top edge" % frame_index)
+	# Отрицательный контроль меняет только материал временного экземпляра, сохраняя production scene и resources.
+	var negative_material := ShaderMaterial.new()
+	negative_material.shader = load("res://assets/shaders/acid_pool_surface.gdshader") as Shader
+	pose.material = negative_material
+	pose.frame = 2
+	await process_frame
+	await process_frame
+	await RenderingServer.frame_post_draw
+	var negative_image := spike_viewport.get_texture().get_image()
+	var negative_counts := _spike_alpha_counts(source_image, mask_image, negative_image, 2)
+	check(int(negative_counts.observed) == 0,
+		"surface-only negative control clips every spike tip above the diamond")
+	floor_trap.queue_free()
+	spike_viewport.queue_free()
+	await process_frame
+
+
+func _spike_alpha_counts(source: Image, mask: Image, rendered: Image, frame_index: int) -> Dictionary:
+	var expected: int = 0
+	var observed: int = 0
+	var unallowed: int = 0
+	for y: int in 256:
+		for x: int in 256:
+			var diamond := absf((float(x) + 0.5 - 128.0) / 64.0) + absf((float(y) + 0.5 - 100.0) / 48.0)
+			if diamond <= 1.02: continue
+			var source_alpha := source.get_pixel(frame_index * 256 + x, y).a > 0.5
+			var metal_allowed := mask.get_pixel(frame_index * 256 + x, y).r > 0.5 and source_alpha
+			var actual_alpha := rendered.get_pixel(x, y).a > 0.5
+			if metal_allowed: expected += 1
+			if actual_alpha: observed += 1
+			if actual_alpha and not metal_allowed: unallowed += 1
+	return {"expected": expected, "observed": observed, "unallowed": unallowed}
 
 
 func _test_warning_phase_optimization(overlay: BattleManagedEnvironmentVisual, viewport: SubViewport,

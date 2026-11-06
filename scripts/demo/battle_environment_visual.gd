@@ -71,7 +71,7 @@ func _preset(path: NodePath) -> Node2D:
 	return get_node_or_null(path) as Node2D
 
 func _sync_presets() -> void:
-	# Геометрия хранится в сценах, поэтому воспроизведение меняет только видимость, цвет и вылет шипов.
+	# Геометрия хранится в сценах: выбранная плита меняет готовую позу, стены сохраняют прежний вылет.
 	var floor_node := _preset(^"FloorTrap")
 	if floor_node != null:
 		floor_node.visible = floor_trap
@@ -80,6 +80,10 @@ func _sync_presets() -> void:
 		if rim != null:
 			rim.visible = trap_armed
 			rim.modulate.a = 0.66 + 0.30 * sin(warning_phase)
+		var pose := floor_node.get_node_or_null(^"Pose") as AnimatedSprite2D
+		if pose != null:
+			# Промежуточная поза ступенчатая: масштабирование готового металла исказило бы исходный арт.
+			pose.frame = 0 if trap_progress <= 0.0 else (2 if trap_progress >= 1.0 else 1)
 		var spikes := floor_node.get_node_or_null(^"Spikes")
 		if spikes != null:
 			var progress := clampf(trap_progress, 0.0, 1.0) if trap_progress >= 0.0 else 0.0

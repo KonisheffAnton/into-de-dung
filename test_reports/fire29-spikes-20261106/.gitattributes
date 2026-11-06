@@ -1,0 +1,3 @@
+# Exact snapshots and evidence remain stable when staged or checked out.
+*.json -text -diff
+*.bytes -text -diff

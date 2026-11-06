@@ -1,0 +1,40 @@
+[gd_resource type="SpriteFrames" load_steps=7 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/spikes_selected_v2/caltrops03_rare.png" id="atlas_caltrops"]
+
+[sub_resource type="AtlasTexture" id="caltrops_00"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_01"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_02"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_03"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(768, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="caltrops_04"]
+atlas = ExtResource("atlas_caltrops")
+region = Rect2(1024, 0, 256, 256)
+
+[resource]
+animations = [
+{
+"frames": [
+{"duration": 5.000000000, "texture": SubResource("caltrops_00")},
+{"duration": 0.150000000, "texture": SubResource("caltrops_01")},
+{"duration": 0.150000000, "texture": SubResource("caltrops_02")},
+{"duration": 5.000000000, "texture": SubResource("caltrops_00")},
+{"duration": 0.150000000, "texture": SubResource("caltrops_03")},
+{"duration": 0.150000000, "texture": SubResource("caltrops_04")},
+{"duration": 5.000000000, "texture": SubResource("caltrops_00")}
+],
+"loop": true,
+"name": &"caltrops",
+"speed": 1.0
+}]

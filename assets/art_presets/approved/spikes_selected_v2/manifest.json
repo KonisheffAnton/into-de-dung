@@ -1,0 +1,158 @@
+{
+  "selections": [
+    {
+      "asset": "trap01",
+      "animation": "poses",
+      "cells": [
+        {
+          "name": "closed",
+          "png": "docs/art/hazard-motion-20261106/trap/closed.png",
+          "png_sha256": "63cad73a660ddfd07ed43adc9efc4b29932224b0c1fb23541989b60e2f0675c8",
+          "mask_png": "docs/art/hazard-motion-20261106/trap/closed-mask.png",
+          "mask_png_sha256": "5933d4c44ed2bc2f431e2698b41923a18d056b24b450540bb109e7592a547060",
+          "assembled_sha256": "63cad73a660ddfd07ed43adc9efc4b29932224b0c1fb23541989b60e2f0675c8",
+          "raw_provenance": {
+            "path": "docs/art/fire-spikes-animation-20261105/pixellab/spike01-01/frames/frame-00.png",
+            "candidate_metrics": "docs/art/hazard-motion-20261106/trap/candidate-metrics.json",
+            "raw_frame": 0,
+            "raw_sha256": "63cad73a660ddfd07ed43adc9efc4b29932224b0c1fb23541989b60e2f0675c8"
+          },
+          "mask_l_sha256": "de2f256064a0af797747c2b97505dc0b9f3df0de4f489eac731c23ae9ca9cc31"
+        },
+        {
+          "name": "half",
+          "png": "docs/art/hazard-motion-20261106/trap/half.png",
+          "png_sha256": "13e8478bc868ef56181469233b696b452e2831ea3a5b95dbdcebc085b62db1f3",
+          "mask_png": "docs/art/hazard-motion-20261106/trap/half-mask.png",
+          "mask_png_sha256": "a761f33b81c76a89c3b50ae7fab73af60f7bdf16c720dee2e3fd782fff8ebab8",
+          "assembled_sha256": "13e8478bc868ef56181469233b696b452e2831ea3a5b95dbdcebc085b62db1f3",
+          "raw_provenance": {
+            "path": "docs/art/fire-spikes-animation-20261105/pixellab/spike01-01/frames/frame-03.png",
+            "candidate_metrics": "docs/art/hazard-motion-20261106/trap/candidate-metrics.json",
+            "raw_frame": 3,
+            "raw_sha256": "6f7f2302578dc1bb2ddf06b8b17aa4669de22df69a78bdad7beae0931858b57b"
+          },
+          "mask_l_sha256": "d22da189150415ea08d8b541590d0f9a7904f71925f71bf4586f82fc2fe92622"
+        },
+        {
+          "name": "extended",
+          "png": "docs/art/hazard-motion-20261106/trap/extended.png",
+          "png_sha256": "11d1fd5e49fa4f8da658a45940bff997be6918e55bd0f50c22629f0b65772d9c",
+          "mask_png": "docs/art/hazard-motion-20261106/trap/extended-mask.png",
+          "mask_png_sha256": "548edfb9ea13a69b4734ce7886b019c662b769195f7b77b2aca3597596c0c04e",
+          "assembled_sha256": "11d1fd5e49fa4f8da658a45940bff997be6918e55bd0f50c22629f0b65772d9c",
+          "raw_provenance": {
+            "path": "docs/art/fire-spikes-animation-20261105/pixellab/spike01-01/frames/frame-08.png",
+            "candidate_metrics": "docs/art/hazard-motion-20261106/trap/candidate-metrics.json",
+            "raw_frame": 8,
+            "raw_sha256": "e178b137e50d413d61144286fabf43eb423e017f703374ec3cb61674709bbb5f"
+          },
+          "mask_l_sha256": "2d574388ebc27e87047d71e799aa2d8a6f8d670841d46506b59a1636d167e05f"
+        }
+      ],
+      "grid": [
+        3,
+        1
+      ],
+      "frame_size": [
+        256,
+        256
+      ],
+      "loop": false,
+      "speed": 1.0
+    },
+    {
+      "asset": "caltrops03_rare",
+      "animation": "caltrops",
+      "cells": [
+        {
+          "name": "rest",
+          "png": "docs/art/hazard-motion-20261106/caltrops/rest.png",
+          "png_sha256": "384e4636fe0ba5123142f9ad58406c738067a1b4add61fa7216dd094018c97cf",
+          "assembled_sha256": "384e4636fe0ba5123142f9ad58406c738067a1b4add61fa7216dd094018c97cf",
+          "raw_provenance": {
+            "candidate_metrics": "docs/art/hazard-motion-20261106/caltrops/candidate-metrics.json",
+            "base_sha256": "384e4636fe0ba5123142f9ad58406c738067a1b4add61fa7216dd094018c97cf"
+          }
+        },
+        {
+          "name": "glint-low-peak",
+          "png": "docs/art/hazard-motion-20261106/caltrops/glint-low-peak.png",
+          "png_sha256": "555a21de4a5a896c5cbd907a655f0a7461242bf1840903f5c3fc816cf8cf641f",
+          "assembled_sha256": "555a21de4a5a896c5cbd907a655f0a7461242bf1840903f5c3fc816cf8cf641f",
+          "raw_provenance": {
+            "path": "docs/art/hazard-animations-20261104/pixellab/caltrops03-01/frames/frame-02.png",
+            "candidate_metrics": "docs/art/hazard-motion-20261106/caltrops/candidate-metrics.json",
+            "raw_frame": 2,
+            "raw_sha256": "f6362eebc590d9b203770ad3326dcc33fe98ee8815a0edbaf0b1430a0eb0d803"
+          }
+        },
+        {
+          "name": "glint-low-tail",
+          "png": "docs/art/hazard-motion-20261106/caltrops/glint-low-tail.png",
+          "png_sha256": "28392da02df626b278a3370f5fd03b3be949fec4a6579b865822b2526d7c20bb",
+          "assembled_sha256": "28392da02df626b278a3370f5fd03b3be949fec4a6579b865822b2526d7c20bb",
+          "raw_provenance": {
+            "path": "docs/art/hazard-animations-20261104/pixellab/caltrops03-01/frames/frame-03.png",
+            "candidate_metrics": "docs/art/hazard-motion-20261106/caltrops/candidate-metrics.json",
+            "raw_frame": 3,
+            "raw_sha256": "49424788aa5c321f96f26b98564629e1daaacab9000d5bb56c0439b0fb89e5d8"
+          }
+        },
+        {
+          "name": "glint-high-peak",
+          "png": "docs/art/hazard-motion-20261106/caltrops/glint-high-peak.png",
+          "png_sha256": "1e60f58101a3db7f557ba67a834e402040ca805f04288e74c319575cea540d37",
+          "assembled_sha256": "1e60f58101a3db7f557ba67a834e402040ca805f04288e74c319575cea540d37",
+          "raw_provenance": {
+            "path": "docs/art/hazard-animations-20261104/pixellab/caltrops03-01/frames/frame-05.png",
+            "candidate_metrics": "docs/art/hazard-motion-20261106/caltrops/candidate-metrics.json",
+            "raw_frame": 5,
+            "raw_sha256": "9eea114ca58175ec9b3e560f62b71421934129ff8f54f24a8520ba8b48a51b3b"
+          }
+        },
+        {
+          "name": "glint-high-hold",
+          "png": "docs/art/hazard-motion-20261106/caltrops/glint-high-hold.png",
+          "png_sha256": "74403d9a6027d61d1e08ed56e3a6f364ca83d89ce09463e6c14dc3110124d810",
+          "assembled_sha256": "74403d9a6027d61d1e08ed56e3a6f364ca83d89ce09463e6c14dc3110124d810",
+          "raw_provenance": {
+            "path": "docs/art/hazard-animations-20261104/pixellab/caltrops03-01/frames/frame-06.png",
+            "candidate_metrics": "docs/art/hazard-motion-20261106/caltrops/candidate-metrics.json",
+            "raw_frame": 6,
+            "raw_sha256": "8c66c0af81ff392d3c4a3fdfd8cfdcafcfb9bec89c829cab702c61d4fd8b58dd"
+          }
+        }
+      ],
+      "grid": [
+        5,
+        1
+      ],
+      "frame_size": [
+        256,
+        256
+      ],
+      "schedule_indices": [
+        0,
+        1,
+        2,
+        0,
+        3,
+        4,
+        0
+      ],
+      "duration_seconds": [
+        5.0,
+        0.15,
+        0.15,
+        5.0,
+        0.15,
+        0.15,
+        5.0
+      ],
+      "loop": true,
+      "speed": 1.0,
+      "cycle_seconds": 15.6
+    }
+  ]
+}
