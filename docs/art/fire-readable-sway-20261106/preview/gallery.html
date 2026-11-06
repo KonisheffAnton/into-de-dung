@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Огонь 24 и 29 — заметнее движение</title>
+<style>
+:root{color-scheme:dark;--size:512px}*{box-sizing:border-box}body{margin:0;padding:24px;background:#141a24;color:#e6edf6;font:16px/1.5 system-ui,sans-serif}main{max-width:1160px;margin:auto}h1{font-size:26px}h2{font-size:21px;margin:0 0 12px}.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px;background:#222c3c;border-radius:10px;padding:12px;margin:20px 0}button,select{font:inherit;background:#35465c;color:inherit;padding:7px 10px;border:1px solid #74859d;border-radius:6px}button{cursor:pointer}input{min-width:120px;flex:1}section{border:1px solid #3b4a60;background:#202938;border-radius:10px;padding:16px;margin:18px 0}.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}figure{background:#171e29;margin:0;padding:8px;border-radius:8px;text-align:center;min-width:0}canvas{display:block;width:min(100%,var(--size));height:auto;margin:auto}figcaption{color:#bbc8da;margin-top:8px}a{color:#b3d8ff}.note{color:#b7c5d8}.clock{font-variant-numeric:tabular-nums}details{font-size:14px;margin:16px 0}@media(max-width:650px){body{padding:12px}.pair{grid-template-columns:1fr}section{padding:10px}}
+</style></head><body><main>
+<h1>Огонь 24 и 29</h1>
+<p>Слева — предыдущая анимация. Справа — проба с более заметным движением.</p>
+<div class="controls"><button id="play" disabled>Пауза</button><button id="restart" disabled>С начала</button><button id="step" disabled>Следующий кадр</button>
+<label>Вид <select id="view"><option value="surface">Поверхность крупно</option><option value="full">Весь тайл</option></select></label>
+<label>Размер <select id="size"><option value="512">512 px</option><option value="256">256 px</option></select></label>
+<input id="seek" type="range" min="0" max="95" value="0" aria-label="Кадр"><span class="clock" id="clock">Загрузка…</span></div>
+<div id="styles"></div>
+<p class="note">Кандидаты для выбора. В сцену не подключены.</p>
+<p><a href="../../hazard-motion-20261106/gallery.html#trap01">Выдвижные шипы и редкие блики кальтропов</a></p>
+<details><summary>Источники и проверки</summary><p>Только сохранённые позы PixelLab. Скорость повторения и фазы мазков сохранены. <a href="manifest.json">Состав сборки</a> · <a href="../README.md">Описание</a></p></details>
+</main><script src="before-data.js"></script><script src="gallery-data.js"></script>
+<script>
+(()=>{'use strict';const before=window.BEFORE_PREVIEW,after=window.FIELD_PREVIEW,root='../../../../',roi=[288,233,678,513],el=id=>document.getElementById(id),cache=new Map(),views=[];
+let slot=0,playing=false,ready=false,start=0,raf=0;
+function image(path){if(!cache.has(path)){const im=new Image();cache.set(path,new Promise((resolve,reject)=>{im.onload=()=>resolve(im);im.onerror=()=>reject(Error(path));im.src=root+path}))}return cache.get(path)}
+function draw(index){slot=(index+96)%96;el('seek').value=slot;el('clock').textContent=`${String(slot).padStart(2,'0')}/95`;
+for(const v of views){const ctx=v.full.getContext('2d');ctx.clearRect(0,0,1254,1254);ctx.drawImage(v.source,0,0);for(const g of v.spec.groups){ctx.drawImage(v.raw.get(g.key+':'+v.spec.mapping[slot].poses[g.key]),g.crop_xyxy[0],g.crop_xyxy[1])}
+const surface=el('view').value==='surface',w=surface?roi[2]:1254,h=surface?roi[3]:1254;if(v.canvas.width!==w||v.canvas.height!==h){v.canvas.width=w;v.canvas.height=h}const out=v.canvas.getContext('2d');out.clearRect(0,0,w,h);if(surface)out.drawImage(v.full,...roi,0,0,w,h);else out.drawImage(v.full,0,0)}}
+function pause(){playing=false;cancelAnimationFrame(raf);el('play').textContent='Воспроизвести'}
+function tick(now){if(!playing)return;const next=Math.floor((now-start)/80)%96;if(next!==slot)draw(next);raf=requestAnimationFrame(tick)}
+function play(){if(!ready)return;playing=true;start=performance.now()-slot*80;el('play').textContent='Пауза';raf=requestAnimationFrame(tick)}
+async function setup(){for(const style of ['24','29']){const card=document.createElement('section');card.innerHTML=`<h2>Огонь ${style}</h2><div class="pair"><figure><canvas aria-label="Огонь ${style}: было"></canvas><figcaption>Было</figcaption></figure><figure><canvas aria-label="Огонь ${style}: заметнее"></canvas><figcaption>Заметнее</figcaption></figure></div>`;el('styles').append(card);
+const canvases=card.querySelectorAll('canvas');for(const [i,data] of [before,after].entries()){const spec=data.styles.find(s=>s.style===style),source=await image(spec.source),raw=new Map(),full=document.createElement('canvas');full.width=full.height=1254;
+for(const g of spec.groups)for(const [n,r] of Object.entries(g.raw_frames))raw.set(g.key+':'+n,await image(r.path));views.push({spec,source,raw,full,canvas:canvases[i]})}}
+ready=true;el('play').disabled=el('restart').disabled=el('step').disabled=false;draw(0);play();window.FIRE_COMPARE_READY=true;}
+el('play').onclick=()=>playing?pause():play();el('restart').onclick=()=>{pause();draw(0);play()};el('step').onclick=()=>{pause();draw(slot+1)};el('seek').oninput=e=>{pause();draw(Number(e.target.value))};el('view').onchange=()=>draw(slot);el('size').onchange=e=>document.documentElement.style.setProperty('--size',e.target.value+'px');
+setup().catch(e=>{el('clock').textContent='Ошибка загрузки';console.error(e)});
+})();
+</script></body></html>

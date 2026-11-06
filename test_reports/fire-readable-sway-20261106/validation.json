@@ -1,0 +1,416 @@
+{
+  "pass": true,
+  "partial": false,
+  "preserved": {
+    "protected": 33,
+    "source_art": 360,
+    "previous_fire_package": 33,
+    "previous_low_fire_package": 33,
+    "previous_hazard_art": 1156,
+    "previous_subtle_fire": 493,
+    "previous_liquid_evidence": 5,
+    "previous_painted_fire": 198,
+    "current_deep_acid_evidence": 4,
+    "runtime_and_tooling": 1613,
+    "previous_fire_spikes_trials": 310,
+    "previous_masked_trials": 372,
+    "previous_motion_checkpoint": 246,
+    "previous_single_tongue_package": 2286,
+    "previous_single_tongue_reports": 36
+  },
+  "preserved_total": 7178,
+  "archive_byte_exact": true,
+  "new_jobs": [
+    {
+      "key": "fire24-strong01",
+      "raw_count": 17,
+      "provider_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      }
+    },
+    {
+      "key": "fire24-strong02",
+      "raw_count": 17,
+      "provider_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      }
+    },
+    {
+      "key": "fire24-strong03",
+      "raw_count": 17,
+      "provider_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      }
+    },
+    {
+      "key": "fire29-strong01",
+      "raw_count": 17,
+      "provider_usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      }
+    }
+  ],
+  "new_raw_count": 68,
+  "pending_jobs": [],
+  "selected": [
+    {
+      "key": "fire24-field01",
+      "poses": 6,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field02r1",
+      "poses": 6,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field03",
+      "poses": 4,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field04r1",
+      "poses": 4,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 6
+    },
+    {
+      "key": "fire24-field05",
+      "poses": 8,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field06",
+      "poses": 5,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field07",
+      "poses": 3,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field08",
+      "poses": 5,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field09",
+      "poses": 6,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field11",
+      "poses": 7,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field12",
+      "poses": 5,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field13",
+      "poses": 5,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field14",
+      "poses": 5,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field15",
+      "poses": 6,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field16",
+      "poses": 4,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field17",
+      "poses": 5,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field18",
+      "poses": 3,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field19",
+      "poses": 5,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field20",
+      "poses": 5,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field21",
+      "poses": 7,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field22",
+      "poses": 5,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field23",
+      "poses": 3,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field24",
+      "poses": 3,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field25",
+      "poses": 3,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field26",
+      "poses": 4,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field27",
+      "poses": 4,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field28",
+      "poses": 7,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-field30",
+      "poses": 6,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire24-strong01",
+      "poses": 3,
+      "max_exposed_source_core_px": 13,
+      "native_envelope_bound": 6
+    },
+    {
+      "key": "fire24-strong02",
+      "poses": 3,
+      "max_exposed_source_core_px": 1,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-field01",
+      "poses": 6,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-strong01",
+      "poses": 4,
+      "max_exposed_source_core_px": 27,
+      "native_envelope_bound": 12
+    },
+    {
+      "key": "fire29-field03",
+      "poses": 7,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-field04",
+      "poses": 7,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-field05",
+      "poses": 8,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-field06",
+      "poses": 6,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 6
+    },
+    {
+      "key": "fire29-field07",
+      "poses": 5,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-field08",
+      "poses": 6,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-field09",
+      "poses": 6,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-field10",
+      "poses": 5,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-field11",
+      "poses": 3,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-field13",
+      "poses": 3,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-field14",
+      "poses": 3,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-field15",
+      "poses": 5,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-field16",
+      "poses": 6,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-field17",
+      "poses": 4,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-field18",
+      "poses": 5,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-field19",
+      "poses": 5,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-field20",
+      "poses": 8,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-field21",
+      "poses": 8,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 6
+    },
+    {
+      "key": "fire29-field22",
+      "poses": 7,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-field23",
+      "poses": 6,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-field24",
+      "poses": 5,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-field25",
+      "poses": 4,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 6
+    },
+    {
+      "key": "fire29-field26",
+      "poses": 4,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 4
+    },
+    {
+      "key": "fire29-short01",
+      "poses": 5,
+      "max_exposed_source_core_px": 0,
+      "native_envelope_bound": 6
+    }
+  ],
+  "python_parsed": [
+    "build_selection.py",
+    "export_inline.py",
+    "prepare_controls.py",
+    "provider.py",
+    "validate.py",
+    "validate_docs.py",
+    "controls-review/analyze.py",
+    "controls-review/extra24.py",
+    "preview/build.py",
+    "selection/analyze.py"
+  ],
+  "runtime_integrated": false,
+  "godot_run": false,
+  "old_core_zero_gate_claimed_for_new_pilots": false
+}

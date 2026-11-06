@@ -1,0 +1,3 @@
+# Generated provenance and payload hashes refer to exact bytes.
+*.json -text -diff
+*.js -text -diff

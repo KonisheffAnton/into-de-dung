@@ -1,0 +1,2468 @@
+{
+  "scope": "Read-only evaluation of all 34 existing PixelLab raw frames; no generated/retouched pixels or API calls.",
+  "baseline_selection_sha256": "5768462c10d556371c518df04d3128836b4dba58a71e2cfaac15fc6fc216a164",
+  "baseline_preview_manifest_sha256": "b111411f1c33015bf6203cf888843c40cbf0f42f904eed32c5bd34e34a7764fe",
+  "screen_separation": "Old gate requires core0 and input envelope4; 6px/8px are diagnostics and never waive core0, border0, color or luma bounds.",
+  "controls": [
+    {
+      "key": "fire24-strong01",
+      "controlled_comparison_to": "fire24-short01",
+      "request_sha256": "d73a6d21724162c3944ee667002f2246db2a3d5e65a5c9c771d3aa5b7dc54206",
+      "source_sha256": "011d71e26a400c2a7002995583f141491ffef148131f1e5abf565ad7587b749b",
+      "input_sha256": "9e142245d923d8b98a9f46b796eab4cccfaafc5dcea8c5118a7152739bfa30bc",
+      "core_mask_sha256": "aab2d0246f64dcb49ce4221f50d66ecc43c05583a9fd92347affc1367ee6d7c9",
+      "crop_xyxy": [
+        482,
+        534,
+        738,
+        790
+      ],
+      "returned_raw_frames": 17,
+      "old_loop": {
+        "order": [
+          13,
+          14,
+          15,
+          14,
+          13
+        ],
+        "forward": [
+          13,
+          14,
+          15
+        ],
+        "alpha_xor_span_px": 315,
+        "visible_source_over_rgb_gt8_span_px": 963,
+        "worst_adjacent_alpha_xor_px": 178,
+        "worst_adjacent_visible_rgb_gt8_px": 783,
+        "passes_in_96_slots": 8,
+        "phase_offset_slots": 85,
+        "maximum_loop_frames_without_skips": 12
+      },
+      "frame_gates": {
+        "old_core_uncovered_max_px": 0,
+        "old_input_envelope_native_px": 4,
+        "diagnostic_envelopes_native_px": [
+          6,
+          8
+        ],
+        "old_crop_border_alpha_max_px": 0,
+        "old_luma_ratio_range": [
+          0.9,
+          1.08
+        ],
+        "old_max_visible_luma_flash": 160,
+        "old_core_chroma_delta_max": [
+          0.06,
+          0.05
+        ],
+        "raw00_excluded": true
+      },
+      "raw_frames": [
+        {
+          "index": 0,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire24-strong01/raw/frame-00.png",
+          "raw_sha256": "44c92266e24ba018b805381afac5fd2ee3261f7b2ab96bd84cf3681d31077bf1",
+          "alpha_gt8_xor_input_px": 0,
+          "alpha_gt8_shape_sha256": "9fed0538455228f8778673b6f9aa9e0023a86397697cdff5f6338506c4ce2161",
+          "uncovered_original_core_px": 0,
+          "original_core_px": 2587,
+          "outside_input_dilation_px": {
+            "4": 0,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 0,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 1.0,
+          "input_core_premultiplied_luma_mean": 185.463,
+          "raw_core_premultiplied_luma_vs_input_ratio": 1.0,
+          "source_over_core_luma_vs_original_plate_ratio": 1.00789,
+          "max_positive_premultiplied_luma_vs_input": 0.0,
+          "max_positive_visible_luma_vs_source_plate": 2.47,
+          "source_core_gr_br": [
+            0.71235,
+            0.24055
+          ],
+          "raw_core_gr_br": [
+            0.71235,
+            0.24055
+          ],
+          "absolute_core_gr_br_delta": [
+            0.0,
+            0.0
+          ],
+          "source_over_rgb_gt8_changed_px": 0,
+          "source_over_rgb_abs_sum": 0,
+          "source_over_rgb_max": 0,
+          "old_4px_gate_pass": false,
+          "diagnostic_6px_gate_with_core0_pass": false,
+          "diagnostic_8px_gate_with_core0_pass": false
+        },
+        {
+          "index": 1,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire24-strong01/raw/frame-01.png",
+          "raw_sha256": "0031685685c213eb769563b774091b721ffc7761474539c47f2dfacaf86e1ec9",
+          "alpha_gt8_xor_input_px": 272,
+          "alpha_gt8_shape_sha256": "a246e6d93fe8d8f35fbdcf0512453f84a8cbfea2a3cb75a59e372fd8c3be3192",
+          "uncovered_original_core_px": 0,
+          "original_core_px": 2587,
+          "outside_input_dilation_px": {
+            "4": 0,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 3,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 0.9943,
+          "input_core_premultiplied_luma_mean": 185.463,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.99014,
+          "source_over_core_luma_vs_original_plate_ratio": 0.99014,
+          "max_positive_premultiplied_luma_vs_input": 137.21,
+          "max_positive_visible_luma_vs_source_plate": 67.67,
+          "source_core_gr_br": [
+            0.71235,
+            0.24055
+          ],
+          "raw_core_gr_br": [
+            0.69654,
+            0.23603
+          ],
+          "absolute_core_gr_br_delta": [
+            0.01581,
+            0.00452
+          ],
+          "source_over_rgb_gt8_changed_px": 2057,
+          "source_over_rgb_abs_sum": 64548,
+          "source_over_rgb_max": 139,
+          "old_4px_gate_pass": true,
+          "diagnostic_6px_gate_with_core0_pass": true,
+          "diagnostic_8px_gate_with_core0_pass": true
+        },
+        {
+          "index": 2,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire24-strong01/raw/frame-02.png",
+          "raw_sha256": "f6cd58d0abbf98be7416d4334c44c44ec23fad7c9299b5823af802b435a3b1c7",
+          "alpha_gt8_xor_input_px": 507,
+          "alpha_gt8_shape_sha256": "5b90f1845a8fa2c3f67e7b4d7b3ae27633973fc1bc4d2ee07a2d2a4f4e8f1aaf",
+          "uncovered_original_core_px": 13,
+          "original_core_px": 2587,
+          "outside_input_dilation_px": {
+            "4": 31,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 6,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 0.98855,
+          "input_core_premultiplied_luma_mean": 185.463,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.97512,
+          "source_over_core_luma_vs_original_plate_ratio": 0.98005,
+          "max_positive_premultiplied_luma_vs_input": 143.59,
+          "max_positive_visible_luma_vs_source_plate": 86.11,
+          "source_core_gr_br": [
+            0.71235,
+            0.24055
+          ],
+          "raw_core_gr_br": [
+            0.69298,
+            0.2371
+          ],
+          "absolute_core_gr_br_delta": [
+            0.01937,
+            0.00346
+          ],
+          "source_over_rgb_gt8_changed_px": 2103,
+          "source_over_rgb_abs_sum": 79015,
+          "source_over_rgb_max": 172,
+          "old_4px_gate_pass": false,
+          "diagnostic_6px_gate_with_core0_pass": false,
+          "diagnostic_8px_gate_with_core0_pass": false
+        },
+        {
+          "index": 3,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire24-strong01/raw/frame-03.png",
+          "raw_sha256": "9d1243d01790e1254bf462b23e480af21c42a556c824ee3fa03e770eaa24b650",
+          "alpha_gt8_xor_input_px": 636,
+          "alpha_gt8_shape_sha256": "2ceb08aa25597d7e4d728ea8456217cc00684c9e5ec08f56c900628df7adcc35",
+          "uncovered_original_core_px": 63,
+          "original_core_px": 2587,
+          "outside_input_dilation_px": {
+            "4": 94,
+            "6": 43,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 8,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 0.98472,
+          "input_core_premultiplied_luma_mean": 185.463,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.95387,
+          "source_over_core_luma_vs_original_plate_ratio": 0.97745,
+          "max_positive_premultiplied_luma_vs_input": 188.43,
+          "max_positive_visible_luma_vs_source_plate": 99.22,
+          "source_core_gr_br": [
+            0.71235,
+            0.24055
+          ],
+          "raw_core_gr_br": [
+            0.69276,
+            0.23776
+          ],
+          "absolute_core_gr_br_delta": [
+            0.01959,
+            0.0028
+          ],
+          "source_over_rgb_gt8_changed_px": 2084,
+          "source_over_rgb_abs_sum": 80714,
+          "source_over_rgb_max": 151,
+          "old_4px_gate_pass": false,
+          "diagnostic_6px_gate_with_core0_pass": false,
+          "diagnostic_8px_gate_with_core0_pass": false
+        },
+        {
+          "index": 4,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire24-strong01/raw/frame-04.png",
+          "raw_sha256": "34209c720363c2d14beb8d428c329f0105235d044c66b3d31f7ccfcfaebde5e3",
+          "alpha_gt8_xor_input_px": 553,
+          "alpha_gt8_shape_sha256": "a006a166ec237b848fd0b729d4fb1eff002a6f7970c977c7092dc79f49efa887",
+          "uncovered_original_core_px": 36,
+          "original_core_px": 2587,
+          "outside_input_dilation_px": {
+            "4": 74,
+            "6": 19,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 7,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 0.99335,
+          "input_core_premultiplied_luma_mean": 185.463,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.9642,
+          "source_over_core_luma_vs_original_plate_ratio": 0.97862,
+          "max_positive_premultiplied_luma_vs_input": 156.59,
+          "max_positive_visible_luma_vs_source_plate": 83.06,
+          "source_core_gr_br": [
+            0.71235,
+            0.24055
+          ],
+          "raw_core_gr_br": [
+            0.69363,
+            0.23799
+          ],
+          "absolute_core_gr_br_delta": [
+            0.01872,
+            0.00256
+          ],
+          "source_over_rgb_gt8_changed_px": 2124,
+          "source_over_rgb_abs_sum": 77756,
+          "source_over_rgb_max": 151,
+          "old_4px_gate_pass": false,
+          "diagnostic_6px_gate_with_core0_pass": false,
+          "diagnostic_8px_gate_with_core0_pass": false
+        },
+        {
+          "index": 5,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire24-strong01/raw/frame-05.png",
+          "raw_sha256": "7210224f6792a529c870cbca8c75725460bc825d6da98bc41d0c675b9bf119f7",
+          "alpha_gt8_xor_input_px": 349,
+          "alpha_gt8_shape_sha256": "cb8c209bf81f99fe04b169ad98fc45e9aab38bea0e8d4f1532745875f94637d7",
+          "uncovered_original_core_px": 19,
+          "original_core_px": 2587,
+          "outside_input_dilation_px": {
+            "4": 3,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 5,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [
+            {
+              "pixels": 2,
+              "bbox_xyxy": [
+                46,
+                104,
+                48,
+                105
+              ]
+            }
+          ],
+          "premultiplied_luma_vs_input_ratio": 0.99453,
+          "input_core_premultiplied_luma_mean": 185.463,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.98188,
+          "source_over_core_luma_vs_original_plate_ratio": 0.98903,
+          "max_positive_premultiplied_luma_vs_input": 156.59,
+          "max_positive_visible_luma_vs_source_plate": 70.08,
+          "source_core_gr_br": [
+            0.71235,
+            0.24055
+          ],
+          "raw_core_gr_br": [
+            0.6982,
+            0.23721
+          ],
+          "absolute_core_gr_br_delta": [
+            0.01416,
+            0.00334
+          ],
+          "source_over_rgb_gt8_changed_px": 2027,
+          "source_over_rgb_abs_sum": 63070,
+          "source_over_rgb_max": 151,
+          "old_4px_gate_pass": false,
+          "diagnostic_6px_gate_with_core0_pass": false,
+          "diagnostic_8px_gate_with_core0_pass": false
+        },
+        {
+          "index": 6,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire24-strong01/raw/frame-06.png",
+          "raw_sha256": "87cca53e4f03ee6eef561cd4cb3ba3b30b4921062bf9bd36055b70e8be26f533",
+          "alpha_gt8_xor_input_px": 238,
+          "alpha_gt8_shape_sha256": "89145039bae1c250553e51e1f731ecd51ebe79d40e3f13dd778b42fae243efe1",
+          "uncovered_original_core_px": 4,
+          "original_core_px": 2587,
+          "outside_input_dilation_px": {
+            "4": 1,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 5,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 1.00011,
+          "input_core_premultiplied_luma_mean": 185.463,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.99018,
+          "source_over_core_luma_vs_original_plate_ratio": 0.99152,
+          "max_positive_premultiplied_luma_vs_input": 156.59,
+          "max_positive_visible_luma_vs_source_plate": 65.9,
+          "source_core_gr_br": [
+            0.71235,
+            0.24055
+          ],
+          "raw_core_gr_br": [
+            0.69965,
+            0.23719
+          ],
+          "absolute_core_gr_br_delta": [
+            0.0127,
+            0.00336
+          ],
+          "source_over_rgb_gt8_changed_px": 2013,
+          "source_over_rgb_abs_sum": 58630,
+          "source_over_rgb_max": 131,
+          "old_4px_gate_pass": false,
+          "diagnostic_6px_gate_with_core0_pass": false,
+          "diagnostic_8px_gate_with_core0_pass": false
+        },
+        {
+          "index": 7,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire24-strong01/raw/frame-07.png",
+          "raw_sha256": "4c95b9f1a2bca59ddfcd08534a8a068da8e5657075a45769c70cbd0898ee30c1",
+          "alpha_gt8_xor_input_px": 145,
+          "alpha_gt8_shape_sha256": "1a5be8ad0c95c3f99fa9e413bd43f410800b537b5ca55c847c82ec6e7637de94",
+          "uncovered_original_core_px": 0,
+          "original_core_px": 2587,
+          "outside_input_dilation_px": {
+            "4": 0,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 4,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 1.00051,
+          "input_core_premultiplied_luma_mean": 185.463,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.99609,
+          "source_over_core_luma_vs_original_plate_ratio": 0.99609,
+          "max_positive_premultiplied_luma_vs_input": 137.21,
+          "max_positive_visible_luma_vs_source_plate": 46.95,
+          "source_core_gr_br": [
+            0.71235,
+            0.24055
+          ],
+          "raw_core_gr_br": [
+            0.70095,
+            0.23659
+          ],
+          "absolute_core_gr_br_delta": [
+            0.01141,
+            0.00396
+          ],
+          "source_over_rgb_gt8_changed_px": 1901,
+          "source_over_rgb_abs_sum": 47397,
+          "source_over_rgb_max": 90,
+          "old_4px_gate_pass": true,
+          "diagnostic_6px_gate_with_core0_pass": true,
+          "diagnostic_8px_gate_with_core0_pass": true
+        },
+        {
+          "index": 8,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire24-strong01/raw/frame-08.png",
+          "raw_sha256": "ea4acb9cda80c554907bf561a77dce86f2d6fbbb330c2c0aa546d906c74559a3",
+          "alpha_gt8_xor_input_px": 10,
+          "alpha_gt8_shape_sha256": "4f61907c19013de69386ef95da6777c5948c68bddb9d6919144a1039ccd686a8",
+          "uncovered_original_core_px": 0,
+          "original_core_px": 2587,
+          "outside_input_dilation_px": {
+            "4": 0,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 0,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 1.00141,
+          "input_core_premultiplied_luma_mean": 185.463,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.99709,
+          "source_over_core_luma_vs_original_plate_ratio": 0.99709,
+          "max_positive_premultiplied_luma_vs_input": 34.77,
+          "max_positive_visible_luma_vs_source_plate": 34.77,
+          "source_core_gr_br": [
+            0.71235,
+            0.24055
+          ],
+          "raw_core_gr_br": [
+            0.70195,
+            0.23686
+          ],
+          "absolute_core_gr_br_delta": [
+            0.0104,
+            0.00369
+          ],
+          "source_over_rgb_gt8_changed_px": 1829,
+          "source_over_rgb_abs_sum": 41383,
+          "source_over_rgb_max": 54,
+          "old_4px_gate_pass": true,
+          "diagnostic_6px_gate_with_core0_pass": true,
+          "diagnostic_8px_gate_with_core0_pass": true
+        },
+        {
+          "index": 9,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire24-strong01/raw/frame-09.png",
+          "raw_sha256": "f42cc8241cdf1f83e40044ffe37fd89f4fd0b5c87cf49a3dde21a5b3f5db940a",
+          "alpha_gt8_xor_input_px": 266,
+          "alpha_gt8_shape_sha256": "baaacf912fc15d99dd909e8e2af1f6302364616b14681bcda6266a7e734a4ba8",
+          "uncovered_original_core_px": 0,
+          "original_core_px": 2587,
+          "outside_input_dilation_px": {
+            "4": 0,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 3,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 0.99594,
+          "input_core_premultiplied_luma_mean": 185.463,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.99087,
+          "source_over_core_luma_vs_original_plate_ratio": 0.99087,
+          "max_positive_premultiplied_luma_vs_input": 137.21,
+          "max_positive_visible_luma_vs_source_plate": 67.75,
+          "source_core_gr_br": [
+            0.71235,
+            0.24055
+          ],
+          "raw_core_gr_br": [
+            0.69709,
+            0.23574
+          ],
+          "absolute_core_gr_br_delta": [
+            0.01526,
+            0.00482
+          ],
+          "source_over_rgb_gt8_changed_px": 2055,
+          "source_over_rgb_abs_sum": 63784,
+          "source_over_rgb_max": 139,
+          "old_4px_gate_pass": true,
+          "diagnostic_6px_gate_with_core0_pass": true,
+          "diagnostic_8px_gate_with_core0_pass": true
+        },
+        {
+          "index": 10,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire24-strong01/raw/frame-10.png",
+          "raw_sha256": "1b1bd2173fd1cd8a709e5e62f2d72740b00cc8ae777789bd28299688d53742fe",
+          "alpha_gt8_xor_input_px": 502,
+          "alpha_gt8_shape_sha256": "cc969bc7047ac567fc7701a14c769e562d0d88f738d2ad93795b8edb5ca74568",
+          "uncovered_original_core_px": 12,
+          "original_core_px": 2587,
+          "outside_input_dilation_px": {
+            "4": 31,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 6,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 0.99051,
+          "input_core_premultiplied_luma_mean": 185.463,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.9766,
+          "source_over_core_luma_vs_original_plate_ratio": 0.98112,
+          "max_positive_premultiplied_luma_vs_input": 143.59,
+          "max_positive_visible_luma_vs_source_plate": 82.29,
+          "source_core_gr_br": [
+            0.71235,
+            0.24055
+          ],
+          "raw_core_gr_br": [
+            0.69356,
+            0.2367
+          ],
+          "absolute_core_gr_br_delta": [
+            0.01879,
+            0.00385
+          ],
+          "source_over_rgb_gt8_changed_px": 2126,
+          "source_over_rgb_abs_sum": 79054,
+          "source_over_rgb_max": 172,
+          "old_4px_gate_pass": false,
+          "diagnostic_6px_gate_with_core0_pass": false,
+          "diagnostic_8px_gate_with_core0_pass": false
+        },
+        {
+          "index": 11,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire24-strong01/raw/frame-11.png",
+          "raw_sha256": "658114179592d01bb92637877ff37cd8da180f53c93bedeca78d7963cf82bbfc",
+          "alpha_gt8_xor_input_px": 640,
+          "alpha_gt8_shape_sha256": "8454b4cd0783ae4666d6b3ce77011211d6fa899ef3779e6811b94455ac231dba",
+          "uncovered_original_core_px": 63,
+          "original_core_px": 2587,
+          "outside_input_dilation_px": {
+            "4": 97,
+            "6": 47,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 8,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 0.98698,
+          "input_core_premultiplied_luma_mean": 185.463,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.95495,
+          "source_over_core_luma_vs_original_plate_ratio": 0.97856,
+          "max_positive_premultiplied_luma_vs_input": 188.43,
+          "max_positive_visible_luma_vs_source_plate": 101.62,
+          "source_core_gr_br": [
+            0.71235,
+            0.24055
+          ],
+          "raw_core_gr_br": [
+            0.69401,
+            0.23781
+          ],
+          "absolute_core_gr_br_delta": [
+            0.01834,
+            0.00275
+          ],
+          "source_over_rgb_gt8_changed_px": 2131,
+          "source_over_rgb_abs_sum": 81747,
+          "source_over_rgb_max": 151,
+          "old_4px_gate_pass": false,
+          "diagnostic_6px_gate_with_core0_pass": false,
+          "diagnostic_8px_gate_with_core0_pass": false
+        },
+        {
+          "index": 12,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire24-strong01/raw/frame-12.png",
+          "raw_sha256": "288e34cf6868d29400973a083b387a80eb003d4f5dc9cf543c56c1eb1e14ae2c",
+          "alpha_gt8_xor_input_px": 555,
+          "alpha_gt8_shape_sha256": "b453e58624b06c8ae23701da2fa3945fa6ebb793dd17c02dc61043ebb3563ae1",
+          "uncovered_original_core_px": 38,
+          "original_core_px": 2587,
+          "outside_input_dilation_px": {
+            "4": 75,
+            "6": 20,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 7,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 0.99255,
+          "input_core_premultiplied_luma_mean": 185.463,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.96375,
+          "source_over_core_luma_vs_original_plate_ratio": 0.97899,
+          "max_positive_premultiplied_luma_vs_input": 156.59,
+          "max_positive_visible_luma_vs_source_plate": 93.33,
+          "source_core_gr_br": [
+            0.71235,
+            0.24055
+          ],
+          "raw_core_gr_br": [
+            0.69371,
+            0.23783
+          ],
+          "absolute_core_gr_br_delta": [
+            0.01864,
+            0.00272
+          ],
+          "source_over_rgb_gt8_changed_px": 2188,
+          "source_over_rgb_abs_sum": 78141,
+          "source_over_rgb_max": 151,
+          "old_4px_gate_pass": false,
+          "diagnostic_6px_gate_with_core0_pass": false,
+          "diagnostic_8px_gate_with_core0_pass": false
+        },
+        {
+          "index": 13,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire24-strong01/raw/frame-13.png",
+          "raw_sha256": "fcfaad251bda2a1bbb2740d5a99f0ea748798cd2633eeae6a0e7afb61cedb950",
+          "alpha_gt8_xor_input_px": 400,
+          "alpha_gt8_shape_sha256": "03b03abb9a31d2575fc63b99fbc20eafe6136b0ec67aa36ea673a7bb4469bcfe",
+          "uncovered_original_core_px": 24,
+          "original_core_px": 2587,
+          "outside_input_dilation_px": {
+            "4": 8,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 5,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 0.99361,
+          "input_core_premultiplied_luma_mean": 185.463,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.97629,
+          "source_over_core_luma_vs_original_plate_ratio": 0.98534,
+          "max_positive_premultiplied_luma_vs_input": 151.45,
+          "max_positive_visible_luma_vs_source_plate": 78.03,
+          "source_core_gr_br": [
+            0.71235,
+            0.24055
+          ],
+          "raw_core_gr_br": [
+            0.69591,
+            0.23693
+          ],
+          "absolute_core_gr_br_delta": [
+            0.01644,
+            0.00362
+          ],
+          "source_over_rgb_gt8_changed_px": 2153,
+          "source_over_rgb_abs_sum": 70351,
+          "source_over_rgb_max": 151,
+          "old_4px_gate_pass": false,
+          "diagnostic_6px_gate_with_core0_pass": false,
+          "diagnostic_8px_gate_with_core0_pass": false
+        },
+        {
+          "index": 14,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire24-strong01/raw/frame-14.png",
+          "raw_sha256": "777688438000981e8686d206b726804d6de10b313dc9b918df1247128d9f8884",
+          "alpha_gt8_xor_input_px": 237,
+          "alpha_gt8_shape_sha256": "01f4aa20d1103df648e445479e9a4d163382d24002d90cd7d5a9924e8fe1d5f2",
+          "uncovered_original_core_px": 5,
+          "original_core_px": 2587,
+          "outside_input_dilation_px": {
+            "4": 1,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 5,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 0.9983,
+          "input_core_premultiplied_luma_mean": 185.463,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.98961,
+          "source_over_core_luma_vs_original_plate_ratio": 0.99134,
+          "max_positive_premultiplied_luma_vs_input": 151.45,
+          "max_positive_visible_luma_vs_source_plate": 67.11,
+          "source_core_gr_br": [
+            0.71235,
+            0.24055
+          ],
+          "raw_core_gr_br": [
+            0.69939,
+            0.23722
+          ],
+          "absolute_core_gr_br_delta": [
+            0.01296,
+            0.00334
+          ],
+          "source_over_rgb_gt8_changed_px": 2072,
+          "source_over_rgb_abs_sum": 59205,
+          "source_over_rgb_max": 133,
+          "old_4px_gate_pass": false,
+          "diagnostic_6px_gate_with_core0_pass": false,
+          "diagnostic_8px_gate_with_core0_pass": false
+        },
+        {
+          "index": 15,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire24-strong01/raw/frame-15.png",
+          "raw_sha256": "34a77429e0f5a2e17b46c47d63087dd4090223f198369dd15042f46e6db0fcb6",
+          "alpha_gt8_xor_input_px": 149,
+          "alpha_gt8_shape_sha256": "8a68bf23746dc080417acf88c6b951d3393c7ea35b2e75a8b7447a13d6da91eb",
+          "uncovered_original_core_px": 0,
+          "original_core_px": 2587,
+          "outside_input_dilation_px": {
+            "4": 0,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 4,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 1.0024,
+          "input_core_premultiplied_luma_mean": 185.463,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.99582,
+          "source_over_core_luma_vs_original_plate_ratio": 0.99582,
+          "max_positive_premultiplied_luma_vs_input": 137.21,
+          "max_positive_visible_luma_vs_source_plate": 48.38,
+          "source_core_gr_br": [
+            0.71235,
+            0.24055
+          ],
+          "raw_core_gr_br": [
+            0.70078,
+            0.23662
+          ],
+          "absolute_core_gr_br_delta": [
+            0.01158,
+            0.00393
+          ],
+          "source_over_rgb_gt8_changed_px": 2065,
+          "source_over_rgb_abs_sum": 49932,
+          "source_over_rgb_max": 96,
+          "old_4px_gate_pass": true,
+          "diagnostic_6px_gate_with_core0_pass": true,
+          "diagnostic_8px_gate_with_core0_pass": true
+        },
+        {
+          "index": 16,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire24-strong01/raw/frame-16.png",
+          "raw_sha256": "61494ae21933931bc30d0c8f280353169dc0570bced3e9fac1abd002882bfd72",
+          "alpha_gt8_xor_input_px": 11,
+          "alpha_gt8_shape_sha256": "64d0cb7f8bf8f84f89803bbd04b4a27543ca1e44ae2c910976f4c0b7141bffd5",
+          "uncovered_original_core_px": 0,
+          "original_core_px": 2587,
+          "outside_input_dilation_px": {
+            "4": 0,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 0,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 1.00124,
+          "input_core_premultiplied_luma_mean": 185.463,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.99703,
+          "source_over_core_luma_vs_original_plate_ratio": 0.99703,
+          "max_positive_premultiplied_luma_vs_input": 32.4,
+          "max_positive_visible_luma_vs_source_plate": 32.4,
+          "source_core_gr_br": [
+            0.71235,
+            0.24055
+          ],
+          "raw_core_gr_br": [
+            0.7019,
+            0.23685
+          ],
+          "absolute_core_gr_br_delta": [
+            0.01045,
+            0.0037
+          ],
+          "source_over_rgb_gt8_changed_px": 1923,
+          "source_over_rgb_abs_sum": 42002,
+          "source_over_rgb_max": 44,
+          "old_4px_gate_pass": true,
+          "diagnostic_6px_gate_with_core0_pass": true,
+          "diagnostic_8px_gate_with_core0_pass": true
+        }
+      ],
+      "raw_natural_adjacent_steps": [
+        {
+          "from_raw": 0,
+          "to_raw": 1,
+          "alpha_gt8_xor_pixels": 272,
+          "alpha_abs_sum": 79434,
+          "premul_max_rgb_gt8_pixels": 2300,
+          "premul_max_rgb_sum": 108399.22,
+          "visible_crop_rgb_gt8_pixels": 2057,
+          "visible_crop_rgb_sum": 64548,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 1,
+          "to_raw": 2,
+          "alpha_gt8_xor_pixels": 287,
+          "alpha_abs_sum": 73185,
+          "premul_max_rgb_gt8_pixels": 893,
+          "premul_max_rgb_sum": 81353.0,
+          "visible_crop_rgb_gt8_pixels": 885,
+          "visible_crop_rgb_sum": 42803,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 2,
+          "to_raw": 3,
+          "alpha_gt8_xor_pixels": 245,
+          "alpha_abs_sum": 62475,
+          "premul_max_rgb_gt8_pixels": 834,
+          "premul_max_rgb_sum": 69793.0,
+          "visible_crop_rgb_gt8_pixels": 832,
+          "visible_crop_rgb_sum": 39749,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 3,
+          "to_raw": 4,
+          "alpha_gt8_xor_pixels": 319,
+          "alpha_abs_sum": 81345,
+          "premul_max_rgb_gt8_pixels": 985,
+          "premul_max_rgb_sum": 91224.0,
+          "visible_crop_rgb_gt8_pixels": 973,
+          "visible_crop_rgb_sum": 45160,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 4,
+          "to_raw": 5,
+          "alpha_gt8_xor_pixels": 346,
+          "alpha_abs_sum": 88230,
+          "premul_max_rgb_gt8_pixels": 1049,
+          "premul_max_rgb_sum": 100333.0,
+          "visible_crop_rgb_gt8_pixels": 1031,
+          "visible_crop_rgb_sum": 47258,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 5,
+          "to_raw": 6,
+          "alpha_gt8_xor_pixels": 153,
+          "alpha_abs_sum": 39015,
+          "premul_max_rgb_gt8_pixels": 670,
+          "premul_max_rgb_sum": 44881.0,
+          "visible_crop_rgb_gt8_pixels": 664,
+          "visible_crop_rgb_sum": 22925,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 6,
+          "to_raw": 7,
+          "alpha_gt8_xor_pixels": 253,
+          "alpha_abs_sum": 64515,
+          "premul_max_rgb_gt8_pixels": 828,
+          "premul_max_rgb_sum": 73269.0,
+          "visible_crop_rgb_gt8_pixels": 798,
+          "visible_crop_rgb_sum": 32607,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 7,
+          "to_raw": 8,
+          "alpha_gt8_xor_pixels": 137,
+          "alpha_abs_sum": 34935,
+          "premul_max_rgb_gt8_pixels": 642,
+          "premul_max_rgb_sum": 39632.0,
+          "visible_crop_rgb_gt8_pixels": 623,
+          "visible_crop_rgb_sum": 17486,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 8,
+          "to_raw": 9,
+          "alpha_gt8_xor_pixels": 258,
+          "alpha_abs_sum": 65790,
+          "premul_max_rgb_gt8_pixels": 938,
+          "premul_max_rgb_sum": 76138.0,
+          "visible_crop_rgb_gt8_pixels": 892,
+          "visible_crop_rgb_sum": 35555,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 9,
+          "to_raw": 10,
+          "alpha_gt8_xor_pixels": 282,
+          "alpha_abs_sum": 71910,
+          "premul_max_rgb_gt8_pixels": 957,
+          "premul_max_rgb_sum": 81416.0,
+          "visible_crop_rgb_gt8_pixels": 948,
+          "visible_crop_rgb_sum": 43400,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 10,
+          "to_raw": 11,
+          "alpha_gt8_xor_pixels": 256,
+          "alpha_abs_sum": 65280,
+          "premul_max_rgb_gt8_pixels": 933,
+          "premul_max_rgb_sum": 73990.0,
+          "visible_crop_rgb_gt8_pixels": 930,
+          "visible_crop_rgb_sum": 42717,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 11,
+          "to_raw": 12,
+          "alpha_gt8_xor_pixels": 327,
+          "alpha_abs_sum": 83385,
+          "premul_max_rgb_gt8_pixels": 1088,
+          "premul_max_rgb_sum": 94488.0,
+          "visible_crop_rgb_gt8_pixels": 1074,
+          "visible_crop_rgb_sum": 47535,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 12,
+          "to_raw": 13,
+          "alpha_gt8_xor_pixels": 289,
+          "alpha_abs_sum": 73695,
+          "premul_max_rgb_gt8_pixels": 923,
+          "premul_max_rgb_sum": 81533.0,
+          "visible_crop_rgb_gt8_pixels": 907,
+          "visible_crop_rgb_sum": 41084,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 13,
+          "to_raw": 14,
+          "alpha_gt8_xor_pixels": 235,
+          "alpha_abs_sum": 59925,
+          "premul_max_rgb_gt8_pixels": 940,
+          "premul_max_rgb_sum": 70356.0,
+          "visible_crop_rgb_gt8_pixels": 925,
+          "visible_crop_rgb_sum": 36744,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 14,
+          "to_raw": 15,
+          "alpha_gt8_xor_pixels": 258,
+          "alpha_abs_sum": 65790,
+          "premul_max_rgb_gt8_pixels": 925,
+          "premul_max_rgb_sum": 76745.0,
+          "visible_crop_rgb_gt8_pixels": 899,
+          "visible_crop_rgb_sum": 35345,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 15,
+          "to_raw": 16,
+          "alpha_gt8_xor_pixels": 138,
+          "alpha_abs_sum": 35190,
+          "premul_max_rgb_gt8_pixels": 600,
+          "premul_max_rgb_sum": 39128.0,
+          "visible_crop_rgb_gt8_pixels": 584,
+          "visible_crop_rgb_sum": 16870,
+          "exact_rgba": false
+        }
+      ],
+      "all_raw_pairwise_extrema": {
+        "max_alpha_xor": {
+          "from_raw": 11,
+          "to_raw": 15,
+          "alpha_gt8_xor_px": 713,
+          "visible_source_over_rgb_gt8_px": 1456
+        },
+        "max_visible_source_over_rgb_gt8": {
+          "from_raw": 0,
+          "to_raw": 12,
+          "alpha_gt8_xor_px": 555,
+          "visible_source_over_rgb_gt8_px": 2188
+        }
+      },
+      "eligible_raw_4px_core0": [
+        1,
+        7,
+        8,
+        9,
+        15,
+        16
+      ],
+      "eligible_raw_6px_core0": [
+        1,
+        7,
+        8,
+        9,
+        15,
+        16
+      ],
+      "eligible_raw_8px_core0": [
+        1,
+        7,
+        8,
+        9,
+        15,
+        16
+      ],
+      "path_search": {
+        "strict_6px_alpha180": {
+          "forward_raw": [
+            8,
+            16,
+            15
+          ],
+          "order": [
+            8,
+            16,
+            15,
+            16,
+            8
+          ],
+          "alpha_xor_span_px": 143,
+          "alpha_span_vs_old_ratio": 0.454,
+          "visible_source_over_rgb_gt8_span_px": 1049,
+          "worst_adjacent_alpha_xor_px": 138,
+          "worst_adjacent_visible_rgb_gt8_px": 736,
+          "exact_seam": true,
+          "passes_existing_color_step_bound": true,
+          "visible_span_vs_old_ratio": 1.089,
+          "raw_sha256": {
+            "8": "ea4acb9cda80c554907bf561a77dce86f2d6fbbb330c2c0aa546d906c74559a3",
+            "16": "61494ae21933931bc30d0c8f280353169dc0570bced3e9fac1abd002882bfd72",
+            "15": "34a77429e0f5a2e17b46c47d63087dd4090223f198369dd15042f46e6db0fcb6"
+          },
+          "fits_old_96slot_cadence": true
+        },
+        "strict_8px_alpha220": {
+          "forward_raw": [
+            8,
+            16,
+            15
+          ],
+          "order": [
+            8,
+            16,
+            15,
+            16,
+            8
+          ],
+          "alpha_xor_span_px": 143,
+          "alpha_span_vs_old_ratio": 0.454,
+          "visible_source_over_rgb_gt8_span_px": 1049,
+          "worst_adjacent_alpha_xor_px": 138,
+          "worst_adjacent_visible_rgb_gt8_px": 736,
+          "exact_seam": true,
+          "passes_existing_color_step_bound": true,
+          "visible_span_vs_old_ratio": 1.089,
+          "raw_sha256": {
+            "8": "ea4acb9cda80c554907bf561a77dce86f2d6fbbb330c2c0aa546d906c74559a3",
+            "16": "61494ae21933931bc30d0c8f280353169dc0570bced3e9fac1abd002882bfd72",
+            "15": "34a77429e0f5a2e17b46c47d63087dd4090223f198369dd15042f46e6db0fcb6"
+          },
+          "fits_old_96slot_cadence": true
+        }
+      },
+      "bounded_pilot": {
+        "status": "bounded_visual_pilot_with_explicit_old_gate_failures",
+        "forward_raw": [
+          8,
+          1,
+          2
+        ],
+        "order": [
+          8,
+          1,
+          2,
+          1,
+          8
+        ],
+        "raw_sha256": {
+          "8": "ea4acb9cda80c554907bf561a77dce86f2d6fbbb330c2c0aa546d906c74559a3",
+          "1": "0031685685c213eb769563b774091b721ffc7761474539c47f2dfacaf86e1ec9",
+          "2": "f6cd58d0abbf98be7416d4334c44c44ec23fad7c9299b5823af802b435a3b1c7"
+        },
+        "raw_paths": {
+          "8": "docs/art/fire-readable-sway-20261106/results/fire24-strong01/raw/frame-08.png",
+          "1": "docs/art/fire-readable-sway-20261106/results/fire24-strong01/raw/frame-01.png",
+          "2": "docs/art/fire-readable-sway-20261106/results/fire24-strong01/raw/frame-02.png"
+        },
+        "raw_alpha_xor_span_px": 501,
+        "alpha_span_vs_old_ratio": 1.59,
+        "visible_source_over_rgb_gt8_span_px": 1313,
+        "visible_span_vs_old_ratio": 1.363,
+        "steps": [
+          {
+            "from_raw": 8,
+            "to_raw": 1,
+            "boundary_chebyshev_displacement_native_px": 4,
+            "alpha_gt8_xor_pixels": 266,
+            "alpha_abs_sum": 67830,
+            "premul_max_rgb_gt8_pixels": 1202,
+            "premul_max_rgb_sum": 81804.0,
+            "visible_crop_rgb_gt8_pixels": 1154,
+            "visible_crop_rgb_sum": 39884,
+            "exact_rgba": false
+          },
+          {
+            "from_raw": 1,
+            "to_raw": 2,
+            "boundary_chebyshev_displacement_native_px": 5,
+            "alpha_gt8_xor_pixels": 287,
+            "alpha_abs_sum": 73185,
+            "premul_max_rgb_gt8_pixels": 893,
+            "premul_max_rgb_sum": 81353.0,
+            "visible_crop_rgb_gt8_pixels": 885,
+            "visible_crop_rgb_sum": 42803,
+            "exact_rgba": false
+          }
+        ],
+        "worst_adjacent_alpha_xor_px": 287,
+        "worst_adjacent_visible_rgb_gt8_px": 1154,
+        "worst_adjacent_boundary_chebyshev_native_px": 5,
+        "max_uncovered_original_core_px": 13,
+        "original_core_px": 2587,
+        "max_input_envelope_chebyshev_native_px": 6,
+        "max_positive_visible_luma_vs_source_plate": 86.11,
+        "luma_ratio_range": [
+          0.98855,
+          1.00141
+        ],
+        "max_core_gr_br_delta": [
+          0.01937,
+          0.00452
+        ],
+        "detached_components": {},
+        "old_core0_gate_pass": false,
+        "old_4px_envelope_gate_pass": false,
+        "diagnostic_8px_envelope_gate_pass": true,
+        "old_adjacent_alpha180_gate_pass": false,
+        "exploratory_adjacent_alpha220_gate_pass": false,
+        "loop_length": 5,
+        "fits_old_96slot_cadence": true,
+        "all_order_positions_displayed_in_96slots": true,
+        "slot96_equals_slot0_pose": true,
+        "exact_raw_first_last_seam": true,
+        "art_accepted": false
+      },
+      "conditional_bridge_exploration": {
+        "purpose": "Diagnostic only; does not change core0 or envelope gates.",
+        "raw8_to_raw2_with_core_uncovered_at_most13_and_envelope6": {
+          "forward_raw": [
+            8,
+            9,
+            10,
+            2
+          ],
+          "minimum_possible_worst_adjacent_alpha_xor_px": 282,
+          "fits_old_max_forward_length": true
+        }
+      },
+      "root_preliminary_order": {
+        "forward_raw": [
+          8,
+          7,
+          1,
+          2
+        ],
+        "order": [
+          8,
+          7,
+          1,
+          2,
+          1,
+          7,
+          8
+        ],
+        "frame_gate_failures": [
+          {
+            "raw": 2,
+            "core_uncovered_px": 13,
+            "outside_input_6px": 0,
+            "outside_input_8px": 0,
+            "detached_components": []
+          }
+        ],
+        "adjacent_steps": [
+          {
+            "from_raw": 8,
+            "to_raw": 7,
+            "alpha_gt8_xor_pixels": 137,
+            "alpha_abs_sum": 34935,
+            "premul_max_rgb_gt8_pixels": 642,
+            "premul_max_rgb_sum": 39632.0,
+            "visible_crop_rgb_gt8_pixels": 623,
+            "visible_crop_rgb_sum": 17486,
+            "exact_rgba": false
+          },
+          {
+            "from_raw": 7,
+            "to_raw": 1,
+            "alpha_gt8_xor_pixels": 385,
+            "alpha_abs_sum": 98175,
+            "premul_max_rgb_gt8_pixels": 1299,
+            "premul_max_rgb_sum": 109617.0,
+            "visible_crop_rgb_gt8_pixels": 1274,
+            "visible_crop_rgb_sum": 50185,
+            "exact_rgba": false
+          },
+          {
+            "from_raw": 1,
+            "to_raw": 2,
+            "alpha_gt8_xor_pixels": 287,
+            "alpha_abs_sum": 73185,
+            "premul_max_rgb_gt8_pixels": 893,
+            "premul_max_rgb_sum": 81353.0,
+            "visible_crop_rgb_gt8_pixels": 885,
+            "visible_crop_rgb_sum": 42803,
+            "exact_rgba": false
+          }
+        ],
+        "max_adjacent_alpha_xor_px": 385,
+        "alpha_xor_span_first_to_last_px": 501,
+        "visible_source_over_rgb_gt8_span_first_to_last_px": 1313,
+        "fits_old_96slot_cadence": true
+      },
+      "existing_composite_contact": "docs/art/fire-readable-sway-20261106/controls-review/fire24-composite.png",
+      "art_accepted": false
+    },
+    {
+      "key": "fire29-strong01",
+      "controlled_comparison_to": "fire29-field02r1",
+      "request_sha256": "365f937706294073dd69d0e7886802092011e7438f86a3167956bde6b438a1e8",
+      "source_sha256": "3f89930f385e43a1efe4d4895c25ff74a7cfc4215d740c2d697263261122756e",
+      "input_sha256": "4ca837805e14181ae9c7299c0aa2e33a185f1ec68255a8067c4fb13d6d42b8c3",
+      "core_mask_sha256": "d2b526777f72849af7ee18e27eed806fe4363592d8fc48d3af28f8b9a380727f",
+      "crop_xyxy": [
+        562,
+        225,
+        818,
+        481
+      ],
+      "returned_raw_frames": 17,
+      "old_loop": {
+        "order": [
+          10,
+          11,
+          12,
+          11,
+          10
+        ],
+        "forward": [
+          10,
+          11,
+          12
+        ],
+        "alpha_xor_span_px": 258,
+        "visible_source_over_rgb_gt8_span_px": 1574,
+        "worst_adjacent_alpha_xor_px": 162,
+        "worst_adjacent_visible_rgb_gt8_px": 1178,
+        "passes_in_96_slots": 8,
+        "phase_offset_slots": 45,
+        "maximum_loop_frames_without_skips": 12
+      },
+      "frame_gates": {
+        "old_core_uncovered_max_px": 0,
+        "old_input_envelope_native_px": 4,
+        "diagnostic_envelopes_native_px": [
+          6,
+          8
+        ],
+        "old_crop_border_alpha_max_px": 0,
+        "old_luma_ratio_range": [
+          0.9,
+          1.08
+        ],
+        "old_max_visible_luma_flash": 160,
+        "old_core_chroma_delta_max": [
+          0.06,
+          0.05
+        ],
+        "raw00_excluded": true
+      },
+      "raw_frames": [
+        {
+          "index": 0,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-00.png",
+          "raw_sha256": "df64886f773ed1e3fce821cd67835edfd18be668aa731b06ad41e8915774b5f4",
+          "alpha_gt8_xor_input_px": 0,
+          "alpha_gt8_shape_sha256": "fbef55b5d51e9b320f0ed1591f778c0f43070fb30bfd753a52f53932c9f3746d",
+          "uncovered_original_core_px": 0,
+          "original_core_px": 1944,
+          "outside_input_dilation_px": {
+            "4": 0,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 0,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 1.0,
+          "input_core_premultiplied_luma_mean": 140.456,
+          "raw_core_premultiplied_luma_vs_input_ratio": 1.0,
+          "source_over_core_luma_vs_original_plate_ratio": 1.00902,
+          "max_positive_premultiplied_luma_vs_input": 0.0,
+          "max_positive_visible_luma_vs_source_plate": 22.89,
+          "source_core_gr_br": [
+            0.53175,
+            0.17158
+          ],
+          "raw_core_gr_br": [
+            0.53175,
+            0.17158
+          ],
+          "absolute_core_gr_br_delta": [
+            0.0,
+            0.0
+          ],
+          "source_over_rgb_gt8_changed_px": 0,
+          "source_over_rgb_abs_sum": 0,
+          "source_over_rgb_max": 0,
+          "old_4px_gate_pass": false,
+          "diagnostic_6px_gate_with_core0_pass": false,
+          "diagnostic_8px_gate_with_core0_pass": false
+        },
+        {
+          "index": 1,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-01.png",
+          "raw_sha256": "5a12fad40c28e450f15caca451b302cd34cf51819458115cc2593f9c5773300c",
+          "alpha_gt8_xor_input_px": 18,
+          "alpha_gt8_shape_sha256": "b9eac402879a111294ef32d9476380338e0725bc0fa0a68041e4ed64de2170fa",
+          "uncovered_original_core_px": 0,
+          "original_core_px": 1944,
+          "outside_input_dilation_px": {
+            "4": 0,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 1,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 1.00979,
+          "input_core_premultiplied_luma_mean": 140.456,
+          "raw_core_premultiplied_luma_vs_input_ratio": 1.00978,
+          "source_over_core_luma_vs_original_plate_ratio": 1.00978,
+          "max_positive_premultiplied_luma_vs_input": 111.86,
+          "max_positive_visible_luma_vs_source_plate": 69.91,
+          "source_core_gr_br": [
+            0.53175,
+            0.17158
+          ],
+          "raw_core_gr_br": [
+            0.52279,
+            0.15885
+          ],
+          "absolute_core_gr_br_delta": [
+            0.00895,
+            0.01273
+          ],
+          "source_over_rgb_gt8_changed_px": 2332,
+          "source_over_rgb_abs_sum": 42361,
+          "source_over_rgb_max": 41,
+          "old_4px_gate_pass": true,
+          "diagnostic_6px_gate_with_core0_pass": true,
+          "diagnostic_8px_gate_with_core0_pass": true
+        },
+        {
+          "index": 2,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-02.png",
+          "raw_sha256": "86e1e943de9c50ea75e024e2ecd9e1da1bd57a041862b92aa586ce340682beb8",
+          "alpha_gt8_xor_input_px": 18,
+          "alpha_gt8_shape_sha256": "b9eac402879a111294ef32d9476380338e0725bc0fa0a68041e4ed64de2170fa",
+          "uncovered_original_core_px": 0,
+          "original_core_px": 1944,
+          "outside_input_dilation_px": {
+            "4": 0,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 1,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 1.00982,
+          "input_core_premultiplied_luma_mean": 140.456,
+          "raw_core_premultiplied_luma_vs_input_ratio": 1.00984,
+          "source_over_core_luma_vs_original_plate_ratio": 1.00984,
+          "max_positive_premultiplied_luma_vs_input": 111.86,
+          "max_positive_visible_luma_vs_source_plate": 69.91,
+          "source_core_gr_br": [
+            0.53175,
+            0.17158
+          ],
+          "raw_core_gr_br": [
+            0.52277,
+            0.15878
+          ],
+          "absolute_core_gr_br_delta": [
+            0.00898,
+            0.0128
+          ],
+          "source_over_rgb_gt8_changed_px": 2331,
+          "source_over_rgb_abs_sum": 42331,
+          "source_over_rgb_max": 41,
+          "old_4px_gate_pass": true,
+          "diagnostic_6px_gate_with_core0_pass": true,
+          "diagnostic_8px_gate_with_core0_pass": true
+        },
+        {
+          "index": 3,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-03.png",
+          "raw_sha256": "5fa8280f74d95673d082e231719b7cd6508aa95bfa5f5b932e3c089efdc20513",
+          "alpha_gt8_xor_input_px": 72,
+          "alpha_gt8_shape_sha256": "e7e0a60c3bfad2ed638a7fc28f499442cc87e96e84edaae8cba94aa9c56aa330",
+          "uncovered_original_core_px": 0,
+          "original_core_px": 1944,
+          "outside_input_dilation_px": {
+            "4": 0,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 2,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 1.01446,
+          "input_core_premultiplied_luma_mean": 140.456,
+          "raw_core_premultiplied_luma_vs_input_ratio": 1.01034,
+          "source_over_core_luma_vs_original_plate_ratio": 1.01034,
+          "max_positive_premultiplied_luma_vs_input": 111.86,
+          "max_positive_visible_luma_vs_source_plate": 69.91,
+          "source_core_gr_br": [
+            0.53175,
+            0.17158
+          ],
+          "raw_core_gr_br": [
+            0.52367,
+            0.15873
+          ],
+          "absolute_core_gr_br_delta": [
+            0.00808,
+            0.01285
+          ],
+          "source_over_rgb_gt8_changed_px": 2457,
+          "source_over_rgb_abs_sum": 45547,
+          "source_over_rgb_max": 70,
+          "old_4px_gate_pass": true,
+          "diagnostic_6px_gate_with_core0_pass": true,
+          "diagnostic_8px_gate_with_core0_pass": true
+        },
+        {
+          "index": 4,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-04.png",
+          "raw_sha256": "1f689ef5c0897970c1d8cfa0d5801a2b4ac8ce05cc3955ede6d1bfde84811006",
+          "alpha_gt8_xor_input_px": 274,
+          "alpha_gt8_shape_sha256": "4017326d626f60656d0c8ca46e0a634456d696c68e590e0443897a7b0a2746a7",
+          "uncovered_original_core_px": 0,
+          "original_core_px": 1944,
+          "outside_input_dilation_px": {
+            "4": 25,
+            "6": 1,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 7,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 1.02098,
+          "input_core_premultiplied_luma_mean": 140.456,
+          "raw_core_premultiplied_luma_vs_input_ratio": 1.00417,
+          "source_over_core_luma_vs_original_plate_ratio": 1.00417,
+          "max_positive_premultiplied_luma_vs_input": 128.64,
+          "max_positive_visible_luma_vs_source_plate": 69.91,
+          "source_core_gr_br": [
+            0.53175,
+            0.17158
+          ],
+          "raw_core_gr_br": [
+            0.52396,
+            0.1602
+          ],
+          "absolute_core_gr_br_delta": [
+            0.00779,
+            0.01138
+          ],
+          "source_over_rgb_gt8_changed_px": 2712,
+          "source_over_rgb_abs_sum": 55185,
+          "source_over_rgb_max": 93,
+          "old_4px_gate_pass": false,
+          "diagnostic_6px_gate_with_core0_pass": false,
+          "diagnostic_8px_gate_with_core0_pass": true
+        },
+        {
+          "index": 5,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-05.png",
+          "raw_sha256": "1ef54c5c1cbea4f1be876b59e465984839d9f337bb68b9cd04aad0d1ba3303aa",
+          "alpha_gt8_xor_input_px": 545,
+          "alpha_gt8_shape_sha256": "8e7b9ae862e34db7969b9f86bc029f53b4222d0af65da0733de43814ae5ace2a",
+          "uncovered_original_core_px": 27,
+          "original_core_px": 1944,
+          "outside_input_dilation_px": {
+            "4": 126,
+            "6": 67,
+            "8": 26
+          },
+          "maximum_input_envelope_chebyshev_native_px": 12,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 1.03079,
+          "input_core_premultiplied_luma_mean": 140.456,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.98868,
+          "source_over_core_luma_vs_original_plate_ratio": 1.00123,
+          "max_positive_premultiplied_luma_vs_input": 128.64,
+          "max_positive_visible_luma_vs_source_plate": 49.6,
+          "source_core_gr_br": [
+            0.53175,
+            0.17158
+          ],
+          "raw_core_gr_br": [
+            0.52507,
+            0.15975
+          ],
+          "absolute_core_gr_br_delta": [
+            0.00668,
+            0.01184
+          ],
+          "source_over_rgb_gt8_changed_px": 2961,
+          "source_over_rgb_abs_sum": 67728,
+          "source_over_rgb_max": 114,
+          "old_4px_gate_pass": false,
+          "diagnostic_6px_gate_with_core0_pass": false,
+          "diagnostic_8px_gate_with_core0_pass": false
+        },
+        {
+          "index": 6,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-06.png",
+          "raw_sha256": "58eaf96b1bac8586f43af5a24578236e3bcb2042898ddfcefe41d21e9148f375",
+          "alpha_gt8_xor_input_px": 757,
+          "alpha_gt8_shape_sha256": "8ebb70903e33e1d9fe98b222d77876f31764e42ce14f1205a50ef679723c3334",
+          "uncovered_original_core_px": 51,
+          "original_core_px": 1944,
+          "outside_input_dilation_px": {
+            "4": 246,
+            "6": 163,
+            "8": 87
+          },
+          "maximum_input_envelope_chebyshev_native_px": 15,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 1.04261,
+          "input_core_premultiplied_luma_mean": 140.456,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.97536,
+          "source_over_core_luma_vs_original_plate_ratio": 0.99919,
+          "max_positive_premultiplied_luma_vs_input": 128.64,
+          "max_positive_visible_luma_vs_source_plate": 59.77,
+          "source_core_gr_br": [
+            0.53175,
+            0.17158
+          ],
+          "raw_core_gr_br": [
+            0.52568,
+            0.15899
+          ],
+          "absolute_core_gr_br_delta": [
+            0.00607,
+            0.01259
+          ],
+          "source_over_rgb_gt8_changed_px": 3114,
+          "source_over_rgb_abs_sum": 78855,
+          "source_over_rgb_max": 122,
+          "old_4px_gate_pass": false,
+          "diagnostic_6px_gate_with_core0_pass": false,
+          "diagnostic_8px_gate_with_core0_pass": false
+        },
+        {
+          "index": 7,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-07.png",
+          "raw_sha256": "0bdbb7e66f98c2cdf6f83aeca1b0f952c1e124a148d5265deae03bb276b9f9a3",
+          "alpha_gt8_xor_input_px": 882,
+          "alpha_gt8_shape_sha256": "968b214fcf9c7822671d97488f1e4b7045eca6421a7a1028b2bdb774cb8ef6cd",
+          "uncovered_original_core_px": 71,
+          "original_core_px": 1944,
+          "outside_input_dilation_px": {
+            "4": 321,
+            "6": 235,
+            "8": 147
+          },
+          "maximum_input_envelope_chebyshev_native_px": 15,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 1.04861,
+          "input_core_premultiplied_luma_mean": 140.456,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.96552,
+          "source_over_core_luma_vs_original_plate_ratio": 0.99854,
+          "max_positive_premultiplied_luma_vs_input": 128.64,
+          "max_positive_visible_luma_vs_source_plate": 65.42,
+          "source_core_gr_br": [
+            0.53175,
+            0.17158
+          ],
+          "raw_core_gr_br": [
+            0.52648,
+            0.15779
+          ],
+          "absolute_core_gr_br_delta": [
+            0.00527,
+            0.0138
+          ],
+          "source_over_rgb_gt8_changed_px": 3148,
+          "source_over_rgb_abs_sum": 83585,
+          "source_over_rgb_max": 138,
+          "old_4px_gate_pass": false,
+          "diagnostic_6px_gate_with_core0_pass": false,
+          "diagnostic_8px_gate_with_core0_pass": false
+        },
+        {
+          "index": 8,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-08.png",
+          "raw_sha256": "91923db9980199e9ff48a88f30f56aac0e7a80c37e9e6e2b44b7d52189a94fdb",
+          "alpha_gt8_xor_input_px": 881,
+          "alpha_gt8_shape_sha256": "08045d8e409e056132558cb63b2b5cd436109ccad9ba9d3ba548f14d2be8e9ea",
+          "uncovered_original_core_px": 70,
+          "original_core_px": 1944,
+          "outside_input_dilation_px": {
+            "4": 320,
+            "6": 234,
+            "8": 146
+          },
+          "maximum_input_envelope_chebyshev_native_px": 15,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 1.04886,
+          "input_core_premultiplied_luma_mean": 140.456,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.96624,
+          "source_over_core_luma_vs_original_plate_ratio": 0.99883,
+          "max_positive_premultiplied_luma_vs_input": 128.64,
+          "max_positive_visible_luma_vs_source_plate": 65.42,
+          "source_core_gr_br": [
+            0.53175,
+            0.17158
+          ],
+          "raw_core_gr_br": [
+            0.5268,
+            0.15799
+          ],
+          "absolute_core_gr_br_delta": [
+            0.00495,
+            0.01359
+          ],
+          "source_over_rgb_gt8_changed_px": 3143,
+          "source_over_rgb_abs_sum": 83822,
+          "source_over_rgb_max": 138,
+          "old_4px_gate_pass": false,
+          "diagnostic_6px_gate_with_core0_pass": false,
+          "diagnostic_8px_gate_with_core0_pass": false
+        },
+        {
+          "index": 9,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-09.png",
+          "raw_sha256": "ae66e0f86fcd13e191e54f2d8a13198f16f9f29af2e858991d57e12f282e754e",
+          "alpha_gt8_xor_input_px": 763,
+          "alpha_gt8_shape_sha256": "15f5d04c26d273c2e88753ed135f35a2db82ff17636ee359a5f38e511780bfed",
+          "uncovered_original_core_px": 51,
+          "original_core_px": 1944,
+          "outside_input_dilation_px": {
+            "4": 252,
+            "6": 169,
+            "8": 92
+          },
+          "maximum_input_envelope_chebyshev_native_px": ">16",
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [
+            {
+              "pixels": 3,
+              "bbox_xyxy": [
+                84,
+                228,
+                86,
+                230
+              ]
+            }
+          ],
+          "premultiplied_luma_vs_input_ratio": 1.04232,
+          "input_core_premultiplied_luma_mean": 140.456,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.97646,
+          "source_over_core_luma_vs_original_plate_ratio": 1.00029,
+          "max_positive_premultiplied_luma_vs_input": 128.64,
+          "max_positive_visible_luma_vs_source_plate": 60.88,
+          "source_core_gr_br": [
+            0.53175,
+            0.17158
+          ],
+          "raw_core_gr_br": [
+            0.52613,
+            0.15874
+          ],
+          "absolute_core_gr_br_delta": [
+            0.00562,
+            0.01284
+          ],
+          "source_over_rgb_gt8_changed_px": 3102,
+          "source_over_rgb_abs_sum": 78589,
+          "source_over_rgb_max": 122,
+          "old_4px_gate_pass": false,
+          "diagnostic_6px_gate_with_core0_pass": false,
+          "diagnostic_8px_gate_with_core0_pass": false
+        },
+        {
+          "index": 10,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-10.png",
+          "raw_sha256": "c8f8bf4ede5100e68267a86f6d2a69c8df2f9836536a1d2ae708f0c0f3b4f465",
+          "alpha_gt8_xor_input_px": 556,
+          "alpha_gt8_shape_sha256": "fe86d5602366d1b55002bbf239e816f0df3798568b76509f33ae5330715bfd72",
+          "uncovered_original_core_px": 26,
+          "original_core_px": 1944,
+          "outside_input_dilation_px": {
+            "4": 128,
+            "6": 69,
+            "8": 27
+          },
+          "maximum_input_envelope_chebyshev_native_px": 12,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 1.03084,
+          "input_core_premultiplied_luma_mean": 140.456,
+          "raw_core_premultiplied_luma_vs_input_ratio": 0.99079,
+          "source_over_core_luma_vs_original_plate_ratio": 1.00288,
+          "max_positive_premultiplied_luma_vs_input": 128.64,
+          "max_positive_visible_luma_vs_source_plate": 53.53,
+          "source_core_gr_br": [
+            0.53175,
+            0.17158
+          ],
+          "raw_core_gr_br": [
+            0.5252,
+            0.15788
+          ],
+          "absolute_core_gr_br_delta": [
+            0.00655,
+            0.0137
+          ],
+          "source_over_rgb_gt8_changed_px": 2990,
+          "source_over_rgb_abs_sum": 69180,
+          "source_over_rgb_max": 114,
+          "old_4px_gate_pass": false,
+          "diagnostic_6px_gate_with_core0_pass": false,
+          "diagnostic_8px_gate_with_core0_pass": false
+        },
+        {
+          "index": 11,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-11.png",
+          "raw_sha256": "741656b4f57eb589c05b570d63c8609db179e09e27986a7450d805ff5155a271",
+          "alpha_gt8_xor_input_px": 272,
+          "alpha_gt8_shape_sha256": "87c728c006a33a8130eadd39ed4913dd9fb57ccbef999947abc3729e112019fa",
+          "uncovered_original_core_px": 0,
+          "original_core_px": 1944,
+          "outside_input_dilation_px": {
+            "4": 26,
+            "6": 5,
+            "8": 5
+          },
+          "maximum_input_envelope_chebyshev_native_px": ">16",
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [
+            {
+              "pixels": 3,
+              "bbox_xyxy": [
+                84,
+                228,
+                86,
+                230
+              ]
+            },
+            {
+              "pixels": 2,
+              "bbox_xyxy": [
+                92,
+                228,
+                94,
+                229
+              ]
+            }
+          ],
+          "premultiplied_luma_vs_input_ratio": 1.0207,
+          "input_core_premultiplied_luma_mean": 140.456,
+          "raw_core_premultiplied_luma_vs_input_ratio": 1.00808,
+          "source_over_core_luma_vs_original_plate_ratio": 1.00808,
+          "max_positive_premultiplied_luma_vs_input": 128.64,
+          "max_positive_visible_luma_vs_source_plate": 66.02,
+          "source_core_gr_br": [
+            0.53175,
+            0.17158
+          ],
+          "raw_core_gr_br": [
+            0.52485,
+            0.15727
+          ],
+          "absolute_core_gr_br_delta": [
+            0.0069,
+            0.01431
+          ],
+          "source_over_rgb_gt8_changed_px": 2770,
+          "source_over_rgb_abs_sum": 55906,
+          "source_over_rgb_max": 106,
+          "old_4px_gate_pass": false,
+          "diagnostic_6px_gate_with_core0_pass": false,
+          "diagnostic_8px_gate_with_core0_pass": false
+        },
+        {
+          "index": 12,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-12.png",
+          "raw_sha256": "ab151dae44ed6d7dace239a07e7cda3a45ba9b9c292366ffab95240411971e38",
+          "alpha_gt8_xor_input_px": 68,
+          "alpha_gt8_shape_sha256": "ad6ac7384a2b9c723747fc383a7f08522654be497245255fe082e89375613289",
+          "uncovered_original_core_px": 0,
+          "original_core_px": 1944,
+          "outside_input_dilation_px": {
+            "4": 0,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 2,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 1.01446,
+          "input_core_premultiplied_luma_mean": 140.456,
+          "raw_core_premultiplied_luma_vs_input_ratio": 1.01233,
+          "source_over_core_luma_vs_original_plate_ratio": 1.01233,
+          "max_positive_premultiplied_luma_vs_input": 111.86,
+          "max_positive_visible_luma_vs_source_plate": 66.02,
+          "source_core_gr_br": [
+            0.53175,
+            0.17158
+          ],
+          "raw_core_gr_br": [
+            0.52433,
+            0.15611
+          ],
+          "absolute_core_gr_br_delta": [
+            0.00742,
+            0.01547
+          ],
+          "source_over_rgb_gt8_changed_px": 2577,
+          "source_over_rgb_abs_sum": 47990,
+          "source_over_rgb_max": 73,
+          "old_4px_gate_pass": true,
+          "diagnostic_6px_gate_with_core0_pass": true,
+          "diagnostic_8px_gate_with_core0_pass": true
+        },
+        {
+          "index": 13,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-13.png",
+          "raw_sha256": "7a5e720b2b289077eb7d13b275b9a3f2fee7f45e9307d2d1a64b7bbe338b0ddf",
+          "alpha_gt8_xor_input_px": 15,
+          "alpha_gt8_shape_sha256": "0a2c874c2aa42ef4b672bf16caab5e11a7fbb602c1fb9b9f80f194d8c1e8b30e",
+          "uncovered_original_core_px": 0,
+          "original_core_px": 1944,
+          "outside_input_dilation_px": {
+            "4": 0,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 1,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 1.01128,
+          "input_core_premultiplied_luma_mean": 140.456,
+          "raw_core_premultiplied_luma_vs_input_ratio": 1.01237,
+          "source_over_core_luma_vs_original_plate_ratio": 1.01237,
+          "max_positive_premultiplied_luma_vs_input": 111.86,
+          "max_positive_visible_luma_vs_source_plate": 66.02,
+          "source_core_gr_br": [
+            0.53175,
+            0.17158
+          ],
+          "raw_core_gr_br": [
+            0.5238,
+            0.15651
+          ],
+          "absolute_core_gr_br_delta": [
+            0.00795,
+            0.01507
+          ],
+          "source_over_rgb_gt8_changed_px": 2506,
+          "source_over_rgb_abs_sum": 45429,
+          "source_over_rgb_max": 41,
+          "old_4px_gate_pass": true,
+          "diagnostic_6px_gate_with_core0_pass": true,
+          "diagnostic_8px_gate_with_core0_pass": true
+        },
+        {
+          "index": 14,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-14.png",
+          "raw_sha256": "e711c8f5c0c31dc85462f89686e5757392c2dd896e9301ee36d5a388f2b744f3",
+          "alpha_gt8_xor_input_px": 15,
+          "alpha_gt8_shape_sha256": "0a2c874c2aa42ef4b672bf16caab5e11a7fbb602c1fb9b9f80f194d8c1e8b30e",
+          "uncovered_original_core_px": 0,
+          "original_core_px": 1944,
+          "outside_input_dilation_px": {
+            "4": 0,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 1,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 1.01146,
+          "input_core_premultiplied_luma_mean": 140.456,
+          "raw_core_premultiplied_luma_vs_input_ratio": 1.01253,
+          "source_over_core_luma_vs_original_plate_ratio": 1.01253,
+          "max_positive_premultiplied_luma_vs_input": 111.86,
+          "max_positive_visible_luma_vs_source_plate": 66.02,
+          "source_core_gr_br": [
+            0.53175,
+            0.17158
+          ],
+          "raw_core_gr_br": [
+            0.52385,
+            0.15683
+          ],
+          "absolute_core_gr_br_delta": [
+            0.0079,
+            0.01475
+          ],
+          "source_over_rgb_gt8_changed_px": 2505,
+          "source_over_rgb_abs_sum": 45348,
+          "source_over_rgb_max": 41,
+          "old_4px_gate_pass": true,
+          "diagnostic_6px_gate_with_core0_pass": true,
+          "diagnostic_8px_gate_with_core0_pass": true
+        },
+        {
+          "index": 15,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-15.png",
+          "raw_sha256": "4323da1d8548c3aec6fe838201bb5878891d166f1e45883af6ddc2c362a2fc74",
+          "alpha_gt8_xor_input_px": 15,
+          "alpha_gt8_shape_sha256": "0a2c874c2aa42ef4b672bf16caab5e11a7fbb602c1fb9b9f80f194d8c1e8b30e",
+          "uncovered_original_core_px": 0,
+          "original_core_px": 1944,
+          "outside_input_dilation_px": {
+            "4": 0,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 1,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 1.01141,
+          "input_core_premultiplied_luma_mean": 140.456,
+          "raw_core_premultiplied_luma_vs_input_ratio": 1.01301,
+          "source_over_core_luma_vs_original_plate_ratio": 1.01301,
+          "max_positive_premultiplied_luma_vs_input": 111.86,
+          "max_positive_visible_luma_vs_source_plate": 66.02,
+          "source_core_gr_br": [
+            0.53175,
+            0.17158
+          ],
+          "raw_core_gr_br": [
+            0.52422,
+            0.15706
+          ],
+          "absolute_core_gr_br_delta": [
+            0.00753,
+            0.01452
+          ],
+          "source_over_rgb_gt8_changed_px": 2491,
+          "source_over_rgb_abs_sum": 45186,
+          "source_over_rgb_max": 41,
+          "old_4px_gate_pass": true,
+          "diagnostic_6px_gate_with_core0_pass": true,
+          "diagnostic_8px_gate_with_core0_pass": true
+        },
+        {
+          "index": 16,
+          "raw_path": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-16.png",
+          "raw_sha256": "018af3d7550302be9a5f84d150d916e8fcbdfb9415fef4baa995cb3de561da1d",
+          "alpha_gt8_xor_input_px": 15,
+          "alpha_gt8_shape_sha256": "0a2c874c2aa42ef4b672bf16caab5e11a7fbb602c1fb9b9f80f194d8c1e8b30e",
+          "uncovered_original_core_px": 0,
+          "original_core_px": 1944,
+          "outside_input_dilation_px": {
+            "4": 0,
+            "6": 0,
+            "8": 0
+          },
+          "maximum_input_envelope_chebyshev_native_px": 1,
+          "nonzero_alpha_on_crop_border_px": 0,
+          "detached_raw_alpha_components": [],
+          "premultiplied_luma_vs_input_ratio": 1.01152,
+          "input_core_premultiplied_luma_mean": 140.456,
+          "raw_core_premultiplied_luma_vs_input_ratio": 1.01307,
+          "source_over_core_luma_vs_original_plate_ratio": 1.01307,
+          "max_positive_premultiplied_luma_vs_input": 111.86,
+          "max_positive_visible_luma_vs_source_plate": 66.02,
+          "source_core_gr_br": [
+            0.53175,
+            0.17158
+          ],
+          "raw_core_gr_br": [
+            0.52421,
+            0.15706
+          ],
+          "absolute_core_gr_br_delta": [
+            0.00754,
+            0.01452
+          ],
+          "source_over_rgb_gt8_changed_px": 2489,
+          "source_over_rgb_abs_sum": 45229,
+          "source_over_rgb_max": 41,
+          "old_4px_gate_pass": true,
+          "diagnostic_6px_gate_with_core0_pass": true,
+          "diagnostic_8px_gate_with_core0_pass": true
+        }
+      ],
+      "raw_natural_adjacent_steps": [
+        {
+          "from_raw": 0,
+          "to_raw": 1,
+          "alpha_gt8_xor_pixels": 18,
+          "alpha_abs_sum": 13403,
+          "premul_max_rgb_gt8_pixels": 2666,
+          "premul_max_rgb_sum": 46315.37,
+          "visible_crop_rgb_gt8_pixels": 2332,
+          "visible_crop_rgb_sum": 42361,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 1,
+          "to_raw": 2,
+          "alpha_gt8_xor_pixels": 0,
+          "alpha_abs_sum": 0,
+          "premul_max_rgb_gt8_pixels": 5,
+          "premul_max_rgb_sum": 152.0,
+          "visible_crop_rgb_gt8_pixels": 5,
+          "visible_crop_rgb_sum": 152,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 2,
+          "to_raw": 3,
+          "alpha_gt8_xor_pixels": 56,
+          "alpha_abs_sum": 14280,
+          "premul_max_rgb_gt8_pixels": 496,
+          "premul_max_rgb_sum": 18678.0,
+          "visible_crop_rgb_gt8_pixels": 486,
+          "visible_crop_rgb_sum": 10035,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 3,
+          "to_raw": 4,
+          "alpha_gt8_xor_pixels": 208,
+          "alpha_abs_sum": 53040,
+          "premul_max_rgb_gt8_pixels": 1193,
+          "premul_max_rgb_sum": 58040.0,
+          "visible_crop_rgb_gt8_pixels": 1159,
+          "visible_crop_rgb_sum": 26169,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 4,
+          "to_raw": 5,
+          "alpha_gt8_xor_pixels": 277,
+          "alpha_abs_sum": 70635,
+          "premul_max_rgb_gt8_pixels": 1247,
+          "premul_max_rgb_sum": 71068.0,
+          "visible_crop_rgb_gt8_pixels": 1220,
+          "visible_crop_rgb_sum": 31026,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 5,
+          "to_raw": 6,
+          "alpha_gt8_xor_pixels": 232,
+          "alpha_abs_sum": 59160,
+          "premul_max_rgb_gt8_pixels": 1202,
+          "premul_max_rgb_sum": 62283.0,
+          "visible_crop_rgb_gt8_pixels": 1183,
+          "visible_crop_rgb_sum": 30383,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 6,
+          "to_raw": 7,
+          "alpha_gt8_xor_pixels": 145,
+          "alpha_abs_sum": 36975,
+          "premul_max_rgb_gt8_pixels": 938,
+          "premul_max_rgb_sum": 42021.0,
+          "visible_crop_rgb_gt8_pixels": 927,
+          "visible_crop_rgb_sum": 22987,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 7,
+          "to_raw": 8,
+          "alpha_gt8_xor_pixels": 11,
+          "alpha_abs_sum": 2805,
+          "premul_max_rgb_gt8_pixels": 261,
+          "premul_max_rgb_sum": 6650.0,
+          "visible_crop_rgb_gt8_pixels": 258,
+          "visible_crop_rgb_sum": 4926,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 8,
+          "to_raw": 9,
+          "alpha_gt8_xor_pixels": 146,
+          "alpha_abs_sum": 37230,
+          "premul_max_rgb_gt8_pixels": 957,
+          "premul_max_rgb_sum": 42734.0,
+          "visible_crop_rgb_gt8_pixels": 944,
+          "visible_crop_rgb_sum": 23145,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 9,
+          "to_raw": 10,
+          "alpha_gt8_xor_pixels": 229,
+          "alpha_abs_sum": 58395,
+          "premul_max_rgb_gt8_pixels": 1127,
+          "premul_max_rgb_sum": 60564.0,
+          "visible_crop_rgb_gt8_pixels": 1110,
+          "visible_crop_rgb_sum": 28740,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 10,
+          "to_raw": 11,
+          "alpha_gt8_xor_pixels": 302,
+          "alpha_abs_sum": 77010,
+          "premul_max_rgb_gt8_pixels": 1343,
+          "premul_max_rgb_sum": 78307.0,
+          "visible_crop_rgb_gt8_pixels": 1311,
+          "visible_crop_rgb_sum": 33975,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 11,
+          "to_raw": 12,
+          "alpha_gt8_xor_pixels": 208,
+          "alpha_abs_sum": 53040,
+          "premul_max_rgb_gt8_pixels": 1148,
+          "premul_max_rgb_sum": 57723.0,
+          "visible_crop_rgb_gt8_pixels": 1120,
+          "visible_crop_rgb_sum": 26085,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 12,
+          "to_raw": 13,
+          "alpha_gt8_xor_pixels": 55,
+          "alpha_abs_sum": 14025,
+          "premul_max_rgb_gt8_pixels": 485,
+          "premul_max_rgb_sum": 18783.0,
+          "visible_crop_rgb_gt8_pixels": 473,
+          "visible_crop_rgb_sum": 10441,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 13,
+          "to_raw": 14,
+          "alpha_gt8_xor_pixels": 0,
+          "alpha_abs_sum": 0,
+          "premul_max_rgb_gt8_pixels": 76,
+          "premul_max_rgb_sum": 1413.0,
+          "visible_crop_rgb_gt8_pixels": 76,
+          "visible_crop_rgb_sum": 1413,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 14,
+          "to_raw": 15,
+          "alpha_gt8_xor_pixels": 0,
+          "alpha_abs_sum": 0,
+          "premul_max_rgb_gt8_pixels": 78,
+          "premul_max_rgb_sum": 1476.0,
+          "visible_crop_rgb_gt8_pixels": 78,
+          "visible_crop_rgb_sum": 1476,
+          "exact_rgba": false
+        },
+        {
+          "from_raw": 15,
+          "to_raw": 16,
+          "alpha_gt8_xor_pixels": 0,
+          "alpha_abs_sum": 0,
+          "premul_max_rgb_gt8_pixels": 44,
+          "premul_max_rgb_sum": 907.0,
+          "visible_crop_rgb_gt8_pixels": 44,
+          "visible_crop_rgb_sum": 907,
+          "exact_rgba": false
+        }
+      ],
+      "all_raw_pairwise_extrema": {
+        "max_alpha_xor": {
+          "from_raw": 0,
+          "to_raw": 7,
+          "alpha_gt8_xor_px": 882,
+          "visible_source_over_rgb_gt8_px": 3148
+        },
+        "max_visible_source_over_rgb_gt8": {
+          "from_raw": 0,
+          "to_raw": 7,
+          "alpha_gt8_xor_px": 882,
+          "visible_source_over_rgb_gt8_px": 3148
+        }
+      },
+      "eligible_raw_4px_core0": [
+        1,
+        2,
+        3,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "eligible_raw_6px_core0": [
+        1,
+        2,
+        3,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "eligible_raw_8px_core0": [
+        1,
+        2,
+        3,
+        4,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "path_search": {
+        "strict_6px_alpha180": {
+          "forward_raw": [
+            3,
+            1,
+            13
+          ],
+          "order": [
+            3,
+            1,
+            13,
+            1,
+            3
+          ],
+          "alpha_xor_span_px": 59,
+          "alpha_span_vs_old_ratio": 0.229,
+          "visible_source_over_rgb_gt8_span_px": 971,
+          "worst_adjacent_alpha_xor_px": 56,
+          "worst_adjacent_visible_rgb_gt8_px": 837,
+          "exact_seam": true,
+          "passes_existing_color_step_bound": true,
+          "visible_span_vs_old_ratio": 0.617,
+          "raw_sha256": {
+            "3": "5fa8280f74d95673d082e231719b7cd6508aa95bfa5f5b932e3c089efdc20513",
+            "1": "5a12fad40c28e450f15caca451b302cd34cf51819458115cc2593f9c5773300c",
+            "13": "7a5e720b2b289077eb7d13b275b9a3f2fee7f45e9307d2d1a64b7bbe338b0ddf"
+          },
+          "fits_old_96slot_cadence": true
+        },
+        "strict_8px_alpha220": {
+          "forward_raw": [
+            4,
+            3,
+            16
+          ],
+          "order": [
+            4,
+            3,
+            16,
+            3,
+            4
+          ],
+          "alpha_xor_span_px": 265,
+          "alpha_span_vs_old_ratio": 1.027,
+          "visible_source_over_rgb_gt8_span_px": 1406,
+          "worst_adjacent_alpha_xor_px": 208,
+          "worst_adjacent_visible_rgb_gt8_px": 1159,
+          "exact_seam": true,
+          "passes_existing_color_step_bound": true,
+          "visible_span_vs_old_ratio": 0.893,
+          "raw_sha256": {
+            "4": "1f689ef5c0897970c1d8cfa0d5801a2b4ac8ce05cc3955ede6d1bfde84811006",
+            "3": "5fa8280f74d95673d082e231719b7cd6508aa95bfa5f5b932e3c089efdc20513",
+            "16": "018af3d7550302be9a5f84d150d916e8fcbdfb9415fef4baa995cb3de561da1d"
+          },
+          "fits_old_96slot_cadence": true
+        }
+      },
+      "bounded_pilot": {
+        "status": "bounded_visual_pilot_with_explicit_old_gate_failures",
+        "forward_raw": [
+          1,
+          3,
+          4,
+          5
+        ],
+        "order": [
+          1,
+          3,
+          4,
+          5,
+          4,
+          3,
+          1
+        ],
+        "raw_sha256": {
+          "1": "5a12fad40c28e450f15caca451b302cd34cf51819458115cc2593f9c5773300c",
+          "3": "5fa8280f74d95673d082e231719b7cd6508aa95bfa5f5b932e3c089efdc20513",
+          "4": "1f689ef5c0897970c1d8cfa0d5801a2b4ac8ce05cc3955ede6d1bfde84811006",
+          "5": "1ef54c5c1cbea4f1be876b59e465984839d9f337bb68b9cd04aad0d1ba3303aa"
+        },
+        "raw_paths": {
+          "1": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-01.png",
+          "3": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-03.png",
+          "4": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-04.png",
+          "5": "docs/art/fire-readable-sway-20261106/results/fire29-strong01/raw/frame-05.png"
+        },
+        "raw_alpha_xor_span_px": 531,
+        "alpha_span_vs_old_ratio": 2.058,
+        "visible_source_over_rgb_gt8_span_px": 1725,
+        "visible_span_vs_old_ratio": 1.096,
+        "steps": [
+          {
+            "from_raw": 1,
+            "to_raw": 3,
+            "boundary_chebyshev_displacement_native_px": 2,
+            "alpha_gt8_xor_pixels": 56,
+            "alpha_abs_sum": 14280,
+            "premul_max_rgb_gt8_pixels": 496,
+            "premul_max_rgb_sum": 18702.0,
+            "visible_crop_rgb_gt8_pixels": 486,
+            "visible_crop_rgb_sum": 10059,
+            "exact_rgba": false
+          },
+          {
+            "from_raw": 3,
+            "to_raw": 4,
+            "boundary_chebyshev_displacement_native_px": 5,
+            "alpha_gt8_xor_pixels": 208,
+            "alpha_abs_sum": 53040,
+            "premul_max_rgb_gt8_pixels": 1193,
+            "premul_max_rgb_sum": 58040.0,
+            "visible_crop_rgb_gt8_pixels": 1159,
+            "visible_crop_rgb_sum": 26169,
+            "exact_rgba": false
+          },
+          {
+            "from_raw": 4,
+            "to_raw": 5,
+            "boundary_chebyshev_displacement_native_px": 7,
+            "alpha_gt8_xor_pixels": 277,
+            "alpha_abs_sum": 70635,
+            "premul_max_rgb_gt8_pixels": 1247,
+            "premul_max_rgb_sum": 71068.0,
+            "visible_crop_rgb_gt8_pixels": 1220,
+            "visible_crop_rgb_sum": 31026,
+            "exact_rgba": false
+          }
+        ],
+        "worst_adjacent_alpha_xor_px": 277,
+        "worst_adjacent_visible_rgb_gt8_px": 1220,
+        "worst_adjacent_boundary_chebyshev_native_px": 7,
+        "max_uncovered_original_core_px": 27,
+        "original_core_px": 1944,
+        "max_input_envelope_chebyshev_native_px": 12,
+        "max_positive_visible_luma_vs_source_plate": 69.91,
+        "luma_ratio_range": [
+          1.00979,
+          1.03079
+        ],
+        "max_core_gr_br_delta": [
+          0.00895,
+          0.01285
+        ],
+        "detached_components": {},
+        "old_core0_gate_pass": false,
+        "old_4px_envelope_gate_pass": false,
+        "diagnostic_8px_envelope_gate_pass": false,
+        "old_adjacent_alpha180_gate_pass": false,
+        "exploratory_adjacent_alpha220_gate_pass": false,
+        "loop_length": 7,
+        "fits_old_96slot_cadence": true,
+        "all_order_positions_displayed_in_96slots": true,
+        "slot96_equals_slot0_pose": true,
+        "exact_raw_first_last_seam": true,
+        "art_accepted": false
+      },
+      "conditional_bridge_exploration": null,
+      "root_preliminary_order": {
+        "forward_raw": [
+          1,
+          3,
+          4,
+          5,
+          6
+        ],
+        "order": [
+          1,
+          3,
+          4,
+          5,
+          6,
+          5,
+          4,
+          3,
+          1
+        ],
+        "frame_gate_failures": [
+          {
+            "raw": 4,
+            "core_uncovered_px": 0,
+            "outside_input_6px": 1,
+            "outside_input_8px": 0,
+            "detached_components": []
+          },
+          {
+            "raw": 5,
+            "core_uncovered_px": 27,
+            "outside_input_6px": 67,
+            "outside_input_8px": 26,
+            "detached_components": []
+          },
+          {
+            "raw": 6,
+            "core_uncovered_px": 51,
+            "outside_input_6px": 163,
+            "outside_input_8px": 87,
+            "detached_components": []
+          }
+        ],
+        "adjacent_steps": [
+          {
+            "from_raw": 1,
+            "to_raw": 3,
+            "alpha_gt8_xor_pixels": 56,
+            "alpha_abs_sum": 14280,
+            "premul_max_rgb_gt8_pixels": 496,
+            "premul_max_rgb_sum": 18702.0,
+            "visible_crop_rgb_gt8_pixels": 486,
+            "visible_crop_rgb_sum": 10059,
+            "exact_rgba": false
+          },
+          {
+            "from_raw": 3,
+            "to_raw": 4,
+            "alpha_gt8_xor_pixels": 208,
+            "alpha_abs_sum": 53040,
+            "premul_max_rgb_gt8_pixels": 1193,
+            "premul_max_rgb_sum": 58040.0,
+            "visible_crop_rgb_gt8_pixels": 1159,
+            "visible_crop_rgb_sum": 26169,
+            "exact_rgba": false
+          },
+          {
+            "from_raw": 4,
+            "to_raw": 5,
+            "alpha_gt8_xor_pixels": 277,
+            "alpha_abs_sum": 70635,
+            "premul_max_rgb_gt8_pixels": 1247,
+            "premul_max_rgb_sum": 71068.0,
+            "visible_crop_rgb_gt8_pixels": 1220,
+            "visible_crop_rgb_sum": 31026,
+            "exact_rgba": false
+          },
+          {
+            "from_raw": 5,
+            "to_raw": 6,
+            "alpha_gt8_xor_pixels": 232,
+            "alpha_abs_sum": 59160,
+            "premul_max_rgb_gt8_pixels": 1202,
+            "premul_max_rgb_sum": 62283.0,
+            "visible_crop_rgb_gt8_pixels": 1183,
+            "visible_crop_rgb_sum": 30383,
+            "exact_rgba": false
+          }
+        ],
+        "max_adjacent_alpha_xor_px": 277,
+        "alpha_xor_span_first_to_last_px": 743,
+        "visible_source_over_rgb_gt8_span_first_to_last_px": 2054,
+        "fits_old_96slot_cadence": true
+      },
+      "existing_composite_contact": "docs/art/fire-readable-sway-20261106/controls-review/fire29-composite.png",
+      "art_accepted": false
+    }
+  ],
+  "art_acceptance": "Not automatic; root/reviewer examine visible source-over playback separately."
+}

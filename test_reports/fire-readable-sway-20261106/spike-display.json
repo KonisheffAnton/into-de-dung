@@ -1,0 +1,40 @@
+[
+  {
+    "path": "D:\\Games\\into-de-dung\\test_reports\\fire-readable-sway-20261106\\spikes-inline\\trap01.png",
+    "source_sha256": [
+      "63cad73a660ddfd07ed43adc9efc4b29932224b0c1fb23541989b60e2f0675c8",
+      "13e8478bc868ef56181469233b696b452e2831ea3a5b95dbdcebc085b62db1f3",
+      "11d1fd5e49fa4f8da658a45940bff997be6918e55bd0f50c22629f0b65772d9c"
+    ],
+    "duration_ms": [
+      600,
+      450,
+      1600
+    ],
+    "decoded_pixels_exact": true,
+    "display_repeat_only": true
+  },
+  {
+    "path": "D:\\Games\\into-de-dung\\test_reports\\fire-readable-sway-20261106\\spikes-inline\\caltrops03.png",
+    "source_sha256": [
+      "384e4636fe0ba5123142f9ad58406c738067a1b4add61fa7216dd094018c97cf",
+      "555a21de4a5a896c5cbd907a655f0a7461242bf1840903f5c3fc816cf8cf641f",
+      "28392da02df626b278a3370f5fd03b3be949fec4a6579b865822b2526d7c20bb",
+      "384e4636fe0ba5123142f9ad58406c738067a1b4add61fa7216dd094018c97cf",
+      "1e60f58101a3db7f557ba67a834e402040ca805f04288e74c319575cea540d37",
+      "74403d9a6027d61d1e08ed56e3a6f364ca83d89ce09463e6c14dc3110124d810",
+      "384e4636fe0ba5123142f9ad58406c738067a1b4add61fa7216dd094018c97cf"
+    ],
+    "duration_ms": [
+      5000,
+      150,
+      150,
+      5000,
+      150,
+      150,
+      5000
+    ],
+    "decoded_pixels_exact": true,
+    "display_repeat_only": false
+  }
+]

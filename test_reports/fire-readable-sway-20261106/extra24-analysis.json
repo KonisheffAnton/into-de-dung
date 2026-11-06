@@ -1,0 +1,1009 @@
+{
+  "scope": "Read-only evaluation of two completed 17-frame fire24 controls; raw PNGs remain PixelLab bytes.",
+  "baseline_selection_sha256": "5768462c10d556371c518df04d3128836b4dba58a71e2cfaac15fc6fc216a164",
+  "baseline_preview_manifest_sha256": "b111411f1c33015bf6203cf888843c40cbf0f42f904eed32c5bd34e34a7764fe",
+  "old_gate_caveat": "Core0 and input envelope4 remain old technical gates. Envelope6 is preferred only for diagnosis; <1% core gaps do not become automatic PASS.",
+  "controls": [
+    {
+      "key": "fire24-strong02",
+      "old_key": "fire24-short02",
+      "request_sha256": "f7a075034f5908593b753e7d73a70d16392cac1211f253cbb4dd18b632317571",
+      "source_sha256": "011d71e26a400c2a7002995583f141491ffef148131f1e5abf565ad7587b749b",
+      "input_sha256": "07f0f4934351eea46cb292836ee860072e1d0d131de7f2f61a2c10d53dc30640",
+      "core_mask_sha256": "f9cc297dce9f2e2be18773c872f49b605655b3e16e33a31e2f6f6f8490edfbb7",
+      "crop_xyxy": [
+        616,
+        314,
+        872,
+        570
+      ],
+      "returned_raw_frames": 17,
+      "raw_frames": [
+        {
+          "raw": 0,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong02/raw/frame-00.png",
+          "sha256": "33d65e755e44349aa89d4cba21a40c5e16514210fc67cfbc85c12458f4ed2662",
+          "alpha_gt8_xor_input_px": 0,
+          "core_uncovered_px": 0,
+          "core_total_px": 3039,
+          "input_alpha_gt8_uncovered_px": 0,
+          "envelope_chebyshev_native_px": 0,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 1.0,
+          "max_positive_visible_luma_vs_source_plate": 2.63,
+          "absolute_core_gr_br_delta": [
+            0.0,
+            0.0
+          ],
+          "source_over_rgb_gt8_changed_px": 0,
+          "old_gate4_core0_pass": false,
+          "preferred_gate6_core0_pass": false
+        },
+        {
+          "raw": 1,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong02/raw/frame-01.png",
+          "sha256": "9fff45003d40cd3b2f670f1f1307aeaeae632dc20816308cff51c8fa1a3d2eff",
+          "alpha_gt8_xor_input_px": 24,
+          "core_uncovered_px": 0,
+          "core_total_px": 3039,
+          "input_alpha_gt8_uncovered_px": 22,
+          "envelope_chebyshev_native_px": 1,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 1.00278,
+          "max_positive_visible_luma_vs_source_plate": 29.77,
+          "absolute_core_gr_br_delta": [
+            0.00683,
+            0.00018
+          ],
+          "source_over_rgb_gt8_changed_px": 2153,
+          "old_gate4_core0_pass": true,
+          "preferred_gate6_core0_pass": true
+        },
+        {
+          "raw": 2,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong02/raw/frame-02.png",
+          "sha256": "a3305b93cf667e3a95ffd0088d292277d32ac8367393f2405b88d6ea71714ffc",
+          "alpha_gt8_xor_input_px": 253,
+          "core_uncovered_px": 0,
+          "core_total_px": 3039,
+          "input_alpha_gt8_uncovered_px": 194,
+          "envelope_chebyshev_native_px": 2,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.98851,
+          "max_positive_visible_luma_vs_source_plate": 62.14,
+          "absolute_core_gr_br_delta": [
+            0.00623,
+            0.00077
+          ],
+          "source_over_rgb_gt8_changed_px": 2504,
+          "old_gate4_core0_pass": true,
+          "preferred_gate6_core0_pass": true
+        },
+        {
+          "raw": 3,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong02/raw/frame-03.png",
+          "sha256": "e82bbb1d20027807d25d5db4041991a868ae0257230a44232b7cd96b330b3f4a",
+          "alpha_gt8_xor_input_px": 581,
+          "core_uncovered_px": 1,
+          "core_total_px": 3039,
+          "input_alpha_gt8_uncovered_px": 390,
+          "envelope_chebyshev_native_px": 3,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.98083,
+          "max_positive_visible_luma_vs_source_plate": 70.3,
+          "absolute_core_gr_br_delta": [
+            0.00858,
+            0.00144
+          ],
+          "source_over_rgb_gt8_changed_px": 2965,
+          "old_gate4_core0_pass": false,
+          "preferred_gate6_core0_pass": false
+        },
+        {
+          "raw": 4,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong02/raw/frame-04.png",
+          "sha256": "ef9f924a413ff241551cbc8cd0ce0d30d750afdb07e8802da0272758b0e61e2d",
+          "alpha_gt8_xor_input_px": 1081,
+          "core_uncovered_px": 21,
+          "core_total_px": 3039,
+          "input_alpha_gt8_uncovered_px": 664,
+          "envelope_chebyshev_native_px": 5,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.97671,
+          "max_positive_visible_luma_vs_source_plate": 89.08,
+          "absolute_core_gr_br_delta": [
+            0.01282,
+            0.00093
+          ],
+          "source_over_rgb_gt8_changed_px": 3126,
+          "old_gate4_core0_pass": false,
+          "preferred_gate6_core0_pass": false
+        },
+        {
+          "raw": 5,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong02/raw/frame-05.png",
+          "sha256": "b1b645dd19d4f7688feea35802d1730b91c504defaee90a96e556193d659cfa1",
+          "alpha_gt8_xor_input_px": 1416,
+          "core_uncovered_px": 44,
+          "core_total_px": 3039,
+          "input_alpha_gt8_uncovered_px": 853,
+          "envelope_chebyshev_native_px": 7,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.97137,
+          "max_positive_visible_luma_vs_source_plate": 111.38,
+          "absolute_core_gr_br_delta": [
+            0.02162,
+            0.00081
+          ],
+          "source_over_rgb_gt8_changed_px": 3203,
+          "old_gate4_core0_pass": false,
+          "preferred_gate6_core0_pass": false
+        },
+        {
+          "raw": 6,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong02/raw/frame-06.png",
+          "sha256": "365a5a092db225aac68b9edae7de3f0a637837560480c6386f2c1823a076e82d",
+          "alpha_gt8_xor_input_px": 1626,
+          "core_uncovered_px": 80,
+          "core_total_px": 3039,
+          "input_alpha_gt8_uncovered_px": 961,
+          "envelope_chebyshev_native_px": 12,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.97051,
+          "max_positive_visible_luma_vs_source_plate": 109.41,
+          "absolute_core_gr_br_delta": [
+            0.02415,
+            0.00116
+          ],
+          "source_over_rgb_gt8_changed_px": 3257,
+          "old_gate4_core0_pass": false,
+          "preferred_gate6_core0_pass": false
+        },
+        {
+          "raw": 7,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong02/raw/frame-07.png",
+          "sha256": "4d02f6b5aca47dad6996b871a3236ab5ca65fb1523e88ec0a3e2f45776458056",
+          "alpha_gt8_xor_input_px": 1663,
+          "core_uncovered_px": 107,
+          "core_total_px": 3039,
+          "input_alpha_gt8_uncovered_px": 976,
+          "envelope_chebyshev_native_px": 11,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.97273,
+          "max_positive_visible_luma_vs_source_plate": 113.07,
+          "absolute_core_gr_br_delta": [
+            0.02354,
+            0.00083
+          ],
+          "source_over_rgb_gt8_changed_px": 3318,
+          "old_gate4_core0_pass": false,
+          "preferred_gate6_core0_pass": false
+        },
+        {
+          "raw": 8,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong02/raw/frame-08.png",
+          "sha256": "b677618cdb8760b55b6bf11c294e62cf7b4f838dc71f34be7d81dabbbf347614",
+          "alpha_gt8_xor_input_px": 1390,
+          "core_uncovered_px": 44,
+          "core_total_px": 3039,
+          "input_alpha_gt8_uncovered_px": 815,
+          "envelope_chebyshev_native_px": 9,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.97826,
+          "max_positive_visible_luma_vs_source_plate": 109.62,
+          "absolute_core_gr_br_delta": [
+            0.02011,
+            0.00052
+          ],
+          "source_over_rgb_gt8_changed_px": 3279,
+          "old_gate4_core0_pass": false,
+          "preferred_gate6_core0_pass": false
+        },
+        {
+          "raw": 9,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong02/raw/frame-09.png",
+          "sha256": "a6d97b15d95fba618695072911ae2a99f2effd5bba24e697a85974ae68ff1da0",
+          "alpha_gt8_xor_input_px": 1124,
+          "core_uncovered_px": 10,
+          "core_total_px": 3039,
+          "input_alpha_gt8_uncovered_px": 721,
+          "envelope_chebyshev_native_px": 10,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.9665,
+          "max_positive_visible_luma_vs_source_plate": 104.85,
+          "absolute_core_gr_br_delta": [
+            0.01715,
+            0.00053
+          ],
+          "source_over_rgb_gt8_changed_px": 3055,
+          "old_gate4_core0_pass": false,
+          "preferred_gate6_core0_pass": false
+        },
+        {
+          "raw": 10,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong02/raw/frame-10.png",
+          "sha256": "34efb4b0972a2343349c4f9371182493eca004d673e1738188d2c6f3c51601f9",
+          "alpha_gt8_xor_input_px": 725,
+          "core_uncovered_px": 0,
+          "core_total_px": 3039,
+          "input_alpha_gt8_uncovered_px": 522,
+          "envelope_chebyshev_native_px": 7,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.96472,
+          "max_positive_visible_luma_vs_source_plate": 73.71,
+          "absolute_core_gr_br_delta": [
+            0.01115,
+            2e-05
+          ],
+          "source_over_rgb_gt8_changed_px": 2824,
+          "old_gate4_core0_pass": false,
+          "preferred_gate6_core0_pass": false
+        },
+        {
+          "raw": 11,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong02/raw/frame-11.png",
+          "sha256": "7918af73f3505044f7db26b9fa8c0324d3746ce1bd97cf5703bf45829318f9ec",
+          "alpha_gt8_xor_input_px": 329,
+          "core_uncovered_px": 0,
+          "core_total_px": 3039,
+          "input_alpha_gt8_uncovered_px": 249,
+          "envelope_chebyshev_native_px": 6,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.98493,
+          "max_positive_visible_luma_vs_source_plate": 47.16,
+          "absolute_core_gr_br_delta": [
+            0.00709,
+            7e-05
+          ],
+          "source_over_rgb_gt8_changed_px": 2434,
+          "old_gate4_core0_pass": false,
+          "preferred_gate6_core0_pass": true
+        },
+        {
+          "raw": 12,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong02/raw/frame-12.png",
+          "sha256": "16e4a3c89a66e8662d330b4fe9a14b327fb8eb71470b3dae9ae698ce60b06bab",
+          "alpha_gt8_xor_input_px": 26,
+          "core_uncovered_px": 0,
+          "core_total_px": 3039,
+          "input_alpha_gt8_uncovered_px": 26,
+          "envelope_chebyshev_native_px": 0,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 1.005,
+          "max_positive_visible_luma_vs_source_plate": 31.16,
+          "absolute_core_gr_br_delta": [
+            0.00501,
+            0.00035
+          ],
+          "source_over_rgb_gt8_changed_px": 2137,
+          "old_gate4_core0_pass": true,
+          "preferred_gate6_core0_pass": true
+        },
+        {
+          "raw": 13,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong02/raw/frame-13.png",
+          "sha256": "325cf0ea3e9a3a0c41f3c7da4e33b33d3b5362587d0979767bf746dd0d8674fb",
+          "alpha_gt8_xor_input_px": 25,
+          "core_uncovered_px": 0,
+          "core_total_px": 3039,
+          "input_alpha_gt8_uncovered_px": 25,
+          "envelope_chebyshev_native_px": 0,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 1.00512,
+          "max_positive_visible_luma_vs_source_plate": 31.16,
+          "absolute_core_gr_br_delta": [
+            0.00501,
+            0.00035
+          ],
+          "source_over_rgb_gt8_changed_px": 2138,
+          "old_gate4_core0_pass": true,
+          "preferred_gate6_core0_pass": true
+        },
+        {
+          "raw": 14,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong02/raw/frame-14.png",
+          "sha256": "16e4a3c89a66e8662d330b4fe9a14b327fb8eb71470b3dae9ae698ce60b06bab",
+          "alpha_gt8_xor_input_px": 26,
+          "core_uncovered_px": 0,
+          "core_total_px": 3039,
+          "input_alpha_gt8_uncovered_px": 26,
+          "envelope_chebyshev_native_px": 0,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 1.005,
+          "max_positive_visible_luma_vs_source_plate": 31.16,
+          "absolute_core_gr_br_delta": [
+            0.00501,
+            0.00035
+          ],
+          "source_over_rgb_gt8_changed_px": 2137,
+          "old_gate4_core0_pass": true,
+          "preferred_gate6_core0_pass": true
+        },
+        {
+          "raw": 15,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong02/raw/frame-15.png",
+          "sha256": "16e4a3c89a66e8662d330b4fe9a14b327fb8eb71470b3dae9ae698ce60b06bab",
+          "alpha_gt8_xor_input_px": 26,
+          "core_uncovered_px": 0,
+          "core_total_px": 3039,
+          "input_alpha_gt8_uncovered_px": 26,
+          "envelope_chebyshev_native_px": 0,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 1.005,
+          "max_positive_visible_luma_vs_source_plate": 31.16,
+          "absolute_core_gr_br_delta": [
+            0.00501,
+            0.00035
+          ],
+          "source_over_rgb_gt8_changed_px": 2137,
+          "old_gate4_core0_pass": true,
+          "preferred_gate6_core0_pass": true
+        },
+        {
+          "raw": 16,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong02/raw/frame-16.png",
+          "sha256": "16e4a3c89a66e8662d330b4fe9a14b327fb8eb71470b3dae9ae698ce60b06bab",
+          "alpha_gt8_xor_input_px": 26,
+          "core_uncovered_px": 0,
+          "core_total_px": 3039,
+          "input_alpha_gt8_uncovered_px": 26,
+          "envelope_chebyshev_native_px": 0,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 1.005,
+          "max_positive_visible_luma_vs_source_plate": 31.16,
+          "absolute_core_gr_br_delta": [
+            0.00501,
+            0.00035
+          ],
+          "source_over_rgb_gt8_changed_px": 2137,
+          "old_gate4_core0_pass": true,
+          "preferred_gate6_core0_pass": true
+        }
+      ],
+      "old_loop": {
+        "order": [
+          10,
+          11,
+          12,
+          13,
+          12,
+          11,
+          10
+        ],
+        "forward_raw": [
+          10,
+          11,
+          12,
+          13
+        ],
+        "alpha_xor_span_px": 205,
+        "visible_source_over_rgb_gt8_span_px": 977,
+        "boundary_chebyshev_native_px": 4,
+        "max_adjacent_alpha_xor_px": 133,
+        "max_adjacent_visible_rgb_gt8_px": 668,
+        "passes_in_96_slots": 7,
+        "phase_offset_slots": 50
+      },
+      "diagnostic_candidate": {
+        "forward_raw": [
+          1,
+          2,
+          3
+        ],
+        "order": [
+          1,
+          2,
+          3,
+          2,
+          1
+        ],
+        "raw_sha256": {
+          "1": "9fff45003d40cd3b2f670f1f1307aeaeae632dc20816308cff51c8fa1a3d2eff",
+          "2": "a3305b93cf667e3a95ffd0088d292277d32ac8367393f2405b88d6ea71714ffc",
+          "3": "e82bbb1d20027807d25d5db4041991a868ae0257230a44232b7cd96b330b3f4a"
+        },
+        "raw_paths": {
+          "1": "docs/art/fire-readable-sway-20261106/results/fire24-strong02/raw/frame-01.png",
+          "2": "docs/art/fire-readable-sway-20261106/results/fire24-strong02/raw/frame-02.png",
+          "3": "docs/art/fire-readable-sway-20261106/results/fire24-strong02/raw/frame-03.png"
+        },
+        "alpha_xor_span_px": 573,
+        "alpha_span_vs_old_ratio": 2.795,
+        "visible_source_over_rgb_gt8_span_px": 2041,
+        "visible_span_vs_old_ratio": 2.089,
+        "boundary_chebyshev_native_px": 4,
+        "boundary_vs_old_ratio": 1.0,
+        "steps": [
+          {
+            "from_raw": 1,
+            "to_raw": 2,
+            "boundary_chebyshev_native_px": 4,
+            "alpha_gt8_xor_pixels": 253,
+            "alpha_abs_sum": 64515,
+            "premul_max_rgb_gt8_pixels": 1251,
+            "premul_max_rgb_sum": 76921.0,
+            "visible_crop_rgb_gt8_pixels": 1200,
+            "visible_crop_rgb_sum": 28699,
+            "exact_rgba": false
+          },
+          {
+            "from_raw": 2,
+            "to_raw": 3,
+            "boundary_chebyshev_native_px": 3,
+            "alpha_gt8_xor_pixels": 386,
+            "alpha_abs_sum": 98430,
+            "premul_max_rgb_gt8_pixels": 1751,
+            "premul_max_rgb_sum": 117261.0,
+            "visible_crop_rgb_gt8_pixels": 1674,
+            "visible_crop_rgb_sum": 45432,
+            "exact_rgba": false
+          }
+        ],
+        "max_adjacent_alpha_xor_px": 386,
+        "max_adjacent_boundary_chebyshev_native_px": 4,
+        "max_adjacent_visible_rgb_gt8_px": 1674,
+        "max_core_uncovered_px": 1,
+        "max_core_uncovered_percent": 0.033,
+        "max_input_alpha_uncovered_px": 390,
+        "max_input_envelope_native_px": 3,
+        "max_visible_luma_flash": 70.3,
+        "luma_ratio_range": [
+          0.98083,
+          1.00278
+        ],
+        "max_core_gr_br_delta": [
+          0.00858,
+          0.00144
+        ],
+        "all_raw00_excluded": true,
+        "all_core0": false,
+        "all_envelope6": true,
+        "all_adjacent_alpha_le180": false,
+        "all_adjacent_alpha_le220": false,
+        "all_adjacent_boundary_le6": true,
+        "no_detached_components": true,
+        "old_passes_in_96_slots": 7,
+        "old_phase_offset_slots": 50,
+        "loop_frames": 5,
+        "max_loop_frames_without_skips": 13,
+        "all_order_positions_displayed": true,
+        "slot96_equals_slot0": true,
+        "exact_raw_seam": true,
+        "contact": {
+          "path": "docs/art/fire-readable-sway-20261106/controls-review/contacts-extra24/fire24-strong02.png",
+          "sha256": "84cc8698d1262cf9742838b0f5cf57d0694df3d6d42ea9a96c8d4e3338a23e24"
+        },
+        "diagnostic_status": "visible_amplitude_improvement_requires_full_cycle_art_review: raw02→03 alpha step386 exceeds exploratory220; raw03 opens1/3039 core pixel. No automatic technical PASS. Raw01→02 alone improves +23% alpha/visible but offers only two distinct positions and an alpha253 step."
+      },
+      "art_accepted": false
+    },
+    {
+      "key": "fire24-strong03",
+      "old_key": "fire24-field20",
+      "request_sha256": "9ff97582f0f6309de267eeb2f40d23d32aba40e4aa856ee487a86972a4394b08",
+      "source_sha256": "011d71e26a400c2a7002995583f141491ffef148131f1e5abf565ad7587b749b",
+      "input_sha256": "9c1787cb0e37210f52cd9591886e48c631c918a5c1ca6695a23170bad103c15f",
+      "core_mask_sha256": "6054b2475f21460ab0e16ce4ad67e4533d790f34873e774d8c55938c05bb5182",
+      "crop_xyxy": [
+        553,
+        407,
+        809,
+        663
+      ],
+      "returned_raw_frames": 17,
+      "raw_frames": [
+        {
+          "raw": 0,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong03/raw/frame-00.png",
+          "sha256": "fff816d25341590eb8c5b6cb86419c305abc681a518c2afe557298b2c9504c71",
+          "alpha_gt8_xor_input_px": 0,
+          "core_uncovered_px": 0,
+          "core_total_px": 1781,
+          "input_alpha_gt8_uncovered_px": 0,
+          "envelope_chebyshev_native_px": 0,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 1.0,
+          "max_positive_visible_luma_vs_source_plate": 1.82,
+          "absolute_core_gr_br_delta": [
+            0.0,
+            0.0
+          ],
+          "source_over_rgb_gt8_changed_px": 0,
+          "old_gate4_core0_pass": false,
+          "preferred_gate6_core0_pass": false
+        },
+        {
+          "raw": 1,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong03/raw/frame-01.png",
+          "sha256": "11379ed824c5532e380440282d3502b3bb8a13c59a4a35ec8ad99c8219b2a2c1",
+          "alpha_gt8_xor_input_px": 19,
+          "core_uncovered_px": 0,
+          "core_total_px": 1781,
+          "input_alpha_gt8_uncovered_px": 17,
+          "envelope_chebyshev_native_px": 1,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 1.0029,
+          "max_positive_visible_luma_vs_source_plate": 30.74,
+          "absolute_core_gr_br_delta": [
+            0.00148,
+            0.00016
+          ],
+          "source_over_rgb_gt8_changed_px": 1388,
+          "old_gate4_core0_pass": true,
+          "preferred_gate6_core0_pass": true
+        },
+        {
+          "raw": 2,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong03/raw/frame-02.png",
+          "sha256": "4c30b968c824f2e6d8580f32bde36af17f7aad740e334650e5c9b7ed2e281a2d",
+          "alpha_gt8_xor_input_px": 95,
+          "core_uncovered_px": 0,
+          "core_total_px": 1781,
+          "input_alpha_gt8_uncovered_px": 80,
+          "envelope_chebyshev_native_px": 1,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.99341,
+          "max_positive_visible_luma_vs_source_plate": 42.77,
+          "absolute_core_gr_br_delta": [
+            0.00197,
+            6e-05
+          ],
+          "source_over_rgb_gt8_changed_px": 1409,
+          "old_gate4_core0_pass": true,
+          "preferred_gate6_core0_pass": true
+        },
+        {
+          "raw": 3,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong03/raw/frame-03.png",
+          "sha256": "80731dcb4c29f00644cd651c475fc4ddfdb664a117ac5a14d82632b8e038aa94",
+          "alpha_gt8_xor_input_px": 238,
+          "core_uncovered_px": 0,
+          "core_total_px": 1781,
+          "input_alpha_gt8_uncovered_px": 177,
+          "envelope_chebyshev_native_px": 4,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.98151,
+          "max_positive_visible_luma_vs_source_plate": 49.15,
+          "absolute_core_gr_br_delta": [
+            0.00118,
+            0.00086
+          ],
+          "source_over_rgb_gt8_changed_px": 1601,
+          "old_gate4_core0_pass": true,
+          "preferred_gate6_core0_pass": true
+        },
+        {
+          "raw": 4,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong03/raw/frame-04.png",
+          "sha256": "cadaf0babb146ceaacead69d0cf81f92f2fd87f851330ca2830056823baaadae",
+          "alpha_gt8_xor_input_px": 422,
+          "core_uncovered_px": 0,
+          "core_total_px": 1781,
+          "input_alpha_gt8_uncovered_px": 287,
+          "envelope_chebyshev_native_px": 7,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.97341,
+          "max_positive_visible_luma_vs_source_plate": 63.28,
+          "absolute_core_gr_br_delta": [
+            0.00371,
+            0.00128
+          ],
+          "source_over_rgb_gt8_changed_px": 1760,
+          "old_gate4_core0_pass": false,
+          "preferred_gate6_core0_pass": false
+        },
+        {
+          "raw": 5,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong03/raw/frame-05.png",
+          "sha256": "2b8379ecf8f076b507103202e1ffbaa35993ba3e726659fe848e42a845d4e8c0",
+          "alpha_gt8_xor_input_px": 650,
+          "core_uncovered_px": 6,
+          "core_total_px": 1781,
+          "input_alpha_gt8_uncovered_px": 399,
+          "envelope_chebyshev_native_px": 11,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.97292,
+          "max_positive_visible_luma_vs_source_plate": 63.28,
+          "absolute_core_gr_br_delta": [
+            0.00599,
+            0.0013
+          ],
+          "source_over_rgb_gt8_changed_px": 1866,
+          "old_gate4_core0_pass": false,
+          "preferred_gate6_core0_pass": false
+        },
+        {
+          "raw": 6,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong03/raw/frame-06.png",
+          "sha256": "f37b9ab422bbe3f60adddb37425a294a35d6675245bba2ca06958d1047e1cf9b",
+          "alpha_gt8_xor_input_px": 809,
+          "core_uncovered_px": 22,
+          "core_total_px": 1781,
+          "input_alpha_gt8_uncovered_px": 472,
+          "envelope_chebyshev_native_px": 13,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.9753,
+          "max_positive_visible_luma_vs_source_plate": 80.02,
+          "absolute_core_gr_br_delta": [
+            0.00641,
+            0.00149
+          ],
+          "source_over_rgb_gt8_changed_px": 1918,
+          "old_gate4_core0_pass": false,
+          "preferred_gate6_core0_pass": false
+        },
+        {
+          "raw": 7,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong03/raw/frame-07.png",
+          "sha256": "fea418eae20a448b41f846f69ffc8efe9bf8c5b035a26b1816b5300e25c87a63",
+          "alpha_gt8_xor_input_px": 959,
+          "core_uncovered_px": 42,
+          "core_total_px": 1781,
+          "input_alpha_gt8_uncovered_px": 523,
+          "envelope_chebyshev_native_px": 14,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.98453,
+          "max_positive_visible_luma_vs_source_plate": 83.92,
+          "absolute_core_gr_br_delta": [
+            0.00754,
+            0.00152
+          ],
+          "source_over_rgb_gt8_changed_px": 2016,
+          "old_gate4_core0_pass": false,
+          "preferred_gate6_core0_pass": false
+        },
+        {
+          "raw": 8,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong03/raw/frame-08.png",
+          "sha256": "f8ed3997ecb02a5f08103656cb1ad7be03d709879ff8371337e513805b4d510b",
+          "alpha_gt8_xor_input_px": 957,
+          "core_uncovered_px": 42,
+          "core_total_px": 1781,
+          "input_alpha_gt8_uncovered_px": 526,
+          "envelope_chebyshev_native_px": 14,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.98262,
+          "max_positive_visible_luma_vs_source_plate": 83.92,
+          "absolute_core_gr_br_delta": [
+            0.00809,
+            0.00156
+          ],
+          "source_over_rgb_gt8_changed_px": 2014,
+          "old_gate4_core0_pass": false,
+          "preferred_gate6_core0_pass": false
+        },
+        {
+          "raw": 9,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong03/raw/frame-09.png",
+          "sha256": "5d28633a81225476ad899e76f35bb9b813650bc2099c6167026762755fd67720",
+          "alpha_gt8_xor_input_px": 954,
+          "core_uncovered_px": 41,
+          "core_total_px": 1781,
+          "input_alpha_gt8_uncovered_px": 525,
+          "envelope_chebyshev_native_px": 14,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.98251,
+          "max_positive_visible_luma_vs_source_plate": 83.92,
+          "absolute_core_gr_br_delta": [
+            0.00833,
+            0.0016
+          ],
+          "source_over_rgb_gt8_changed_px": 2014,
+          "old_gate4_core0_pass": false,
+          "preferred_gate6_core0_pass": false
+        },
+        {
+          "raw": 10,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong03/raw/frame-10.png",
+          "sha256": "73975cf9658d91dd2ece95a2c5d30b7dcce7327e2a9a84adf331f722b7f3f065",
+          "alpha_gt8_xor_input_px": 862,
+          "core_uncovered_px": 31,
+          "core_total_px": 1781,
+          "input_alpha_gt8_uncovered_px": 488,
+          "envelope_chebyshev_native_px": 13,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.97935,
+          "max_positive_visible_luma_vs_source_plate": 80.02,
+          "absolute_core_gr_br_delta": [
+            0.00651,
+            0.00129
+          ],
+          "source_over_rgb_gt8_changed_px": 1948,
+          "old_gate4_core0_pass": false,
+          "preferred_gate6_core0_pass": false
+        },
+        {
+          "raw": 11,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong03/raw/frame-11.png",
+          "sha256": "f8a6dba59eb1b8ec2c7993b97baf08368589fd1946e5becdab6a6ae4785a055c",
+          "alpha_gt8_xor_input_px": 729,
+          "core_uncovered_px": 17,
+          "core_total_px": 1781,
+          "input_alpha_gt8_uncovered_px": 446,
+          "envelope_chebyshev_native_px": 12,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.96867,
+          "max_positive_visible_luma_vs_source_plate": 80.02,
+          "absolute_core_gr_br_delta": [
+            0.0071,
+            0.00171
+          ],
+          "source_over_rgb_gt8_changed_px": 1903,
+          "old_gate4_core0_pass": false,
+          "preferred_gate6_core0_pass": false
+        },
+        {
+          "raw": 12,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong03/raw/frame-12.png",
+          "sha256": "b97acbb433d098f63377b00d1c1700446903162668bc51c6a1b39c4a1b49d634",
+          "alpha_gt8_xor_input_px": 541,
+          "core_uncovered_px": 1,
+          "core_total_px": 1781,
+          "input_alpha_gt8_uncovered_px": 356,
+          "envelope_chebyshev_native_px": 9,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.96831,
+          "max_positive_visible_luma_vs_source_plate": 67.25,
+          "absolute_core_gr_br_delta": [
+            0.00569,
+            0.0015
+          ],
+          "source_over_rgb_gt8_changed_px": 1832,
+          "old_gate4_core0_pass": false,
+          "preferred_gate6_core0_pass": false
+        },
+        {
+          "raw": 13,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong03/raw/frame-13.png",
+          "sha256": "18b35958d013810d61d054c2b6b73392072b1376785aaffcce41c9c6908ad0ae",
+          "alpha_gt8_xor_input_px": 314,
+          "core_uncovered_px": 0,
+          "core_total_px": 1781,
+          "input_alpha_gt8_uncovered_px": 199,
+          "envelope_chebyshev_native_px": 5,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.98827,
+          "max_positive_visible_luma_vs_source_plate": 54.76,
+          "absolute_core_gr_br_delta": [
+            0.00218,
+            0.00108
+          ],
+          "source_over_rgb_gt8_changed_px": 1745,
+          "old_gate4_core0_pass": false,
+          "preferred_gate6_core0_pass": true
+        },
+        {
+          "raw": 14,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong03/raw/frame-14.png",
+          "sha256": "1939ae24fe1d46a8565050a7db12723f5dd0688aca27884c78e8f94c00450a76",
+          "alpha_gt8_xor_input_px": 139,
+          "core_uncovered_px": 0,
+          "core_total_px": 1781,
+          "input_alpha_gt8_uncovered_px": 99,
+          "envelope_chebyshev_native_px": 3,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 0.99401,
+          "max_positive_visible_luma_vs_source_plate": 42.77,
+          "absolute_core_gr_br_delta": [
+            0.00081,
+            0.00029
+          ],
+          "source_over_rgb_gt8_changed_px": 1537,
+          "old_gate4_core0_pass": true,
+          "preferred_gate6_core0_pass": true
+        },
+        {
+          "raw": 15,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong03/raw/frame-15.png",
+          "sha256": "a4fc95e3b0d1de8e91aca5fe9ad04bcd71e9d65891b482702830e9fe6a084b0c",
+          "alpha_gt8_xor_input_px": 9,
+          "core_uncovered_px": 0,
+          "core_total_px": 1781,
+          "input_alpha_gt8_uncovered_px": 7,
+          "envelope_chebyshev_native_px": 1,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 1.00459,
+          "max_positive_visible_luma_vs_source_plate": 25.38,
+          "absolute_core_gr_br_delta": [
+            0.00087,
+            0.00035
+          ],
+          "source_over_rgb_gt8_changed_px": 1465,
+          "old_gate4_core0_pass": true,
+          "preferred_gate6_core0_pass": true
+        },
+        {
+          "raw": 16,
+          "path": "docs/art/fire-readable-sway-20261106/results/fire24-strong03/raw/frame-16.png",
+          "sha256": "7e1ce4166eaa7ae73d4f194179e9e3899e6000a791f6642831f5fe154cedaf6c",
+          "alpha_gt8_xor_input_px": 10,
+          "core_uncovered_px": 0,
+          "core_total_px": 1781,
+          "input_alpha_gt8_uncovered_px": 8,
+          "envelope_chebyshev_native_px": 1,
+          "crop_border_nonzero_alpha_px": 0,
+          "new_detached_components": [],
+          "premultiplied_luma_ratio_vs_input": 1.00422,
+          "max_positive_visible_luma_vs_source_plate": 25.38,
+          "absolute_core_gr_br_delta": [
+            0.001,
+            0.00036
+          ],
+          "source_over_rgb_gt8_changed_px": 1444,
+          "old_gate4_core0_pass": true,
+          "preferred_gate6_core0_pass": true
+        }
+      ],
+      "old_loop": {
+        "order": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          6,
+          5,
+          4,
+          3
+        ],
+        "forward_raw": [
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "alpha_xor_span_px": 330,
+        "visible_source_over_rgb_gt8_span_px": 2067,
+        "boundary_chebyshev_native_px": 3,
+        "max_adjacent_alpha_xor_px": 177,
+        "max_adjacent_visible_rgb_gt8_px": 1343,
+        "passes_in_96_slots": 5,
+        "phase_offset_slots": 28
+      },
+      "diagnostic_candidate": {
+        "forward_raw": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "order": [
+          1,
+          2,
+          3,
+          4,
+          3,
+          2,
+          1
+        ],
+        "raw_sha256": {
+          "1": "11379ed824c5532e380440282d3502b3bb8a13c59a4a35ec8ad99c8219b2a2c1",
+          "2": "4c30b968c824f2e6d8580f32bde36af17f7aad740e334650e5c9b7ed2e281a2d",
+          "3": "80731dcb4c29f00644cd651c475fc4ddfdb664a117ac5a14d82632b8e038aa94",
+          "4": "cadaf0babb146ceaacead69d0cf81f92f2fd87f851330ca2830056823baaadae"
+        },
+        "raw_paths": {
+          "1": "docs/art/fire-readable-sway-20261106/results/fire24-strong03/raw/frame-01.png",
+          "2": "docs/art/fire-readable-sway-20261106/results/fire24-strong03/raw/frame-02.png",
+          "3": "docs/art/fire-readable-sway-20261106/results/fire24-strong03/raw/frame-03.png",
+          "4": "docs/art/fire-readable-sway-20261106/results/fire24-strong03/raw/frame-04.png"
+        },
+        "alpha_xor_span_px": 411,
+        "alpha_span_vs_old_ratio": 1.245,
+        "visible_source_over_rgb_gt8_span_px": 1028,
+        "visible_span_vs_old_ratio": 0.497,
+        "boundary_chebyshev_native_px": 12,
+        "boundary_vs_old_ratio": 4.0,
+        "steps": [
+          {
+            "from_raw": 1,
+            "to_raw": 2,
+            "boundary_chebyshev_native_px": 2,
+            "alpha_gt8_xor_pixels": 84,
+            "alpha_abs_sum": 21420,
+            "premul_max_rgb_gt8_pixels": 348,
+            "premul_max_rgb_sum": 22903.0,
+            "visible_crop_rgb_gt8_pixels": 332,
+            "visible_crop_rgb_sum": 6269,
+            "exact_rgba": false
+          },
+          {
+            "from_raw": 2,
+            "to_raw": 3,
+            "boundary_chebyshev_native_px": 4,
+            "alpha_gt8_xor_pixels": 145,
+            "alpha_abs_sum": 36975,
+            "premul_max_rgb_gt8_pixels": 587,
+            "premul_max_rgb_sum": 39717.0,
+            "visible_crop_rgb_gt8_pixels": 533,
+            "visible_crop_rgb_sum": 10917,
+            "exact_rgba": false
+          },
+          {
+            "from_raw": 3,
+            "to_raw": 4,
+            "boundary_chebyshev_native_px": 6,
+            "alpha_gt8_xor_pixels": 194,
+            "alpha_abs_sum": 49470,
+            "premul_max_rgb_gt8_pixels": 700,
+            "premul_max_rgb_sum": 52837.0,
+            "visible_crop_rgb_gt8_pixels": 679,
+            "visible_crop_rgb_sum": 16213,
+            "exact_rgba": false
+          }
+        ],
+        "max_adjacent_alpha_xor_px": 194,
+        "max_adjacent_boundary_chebyshev_native_px": 6,
+        "max_adjacent_visible_rgb_gt8_px": 679,
+        "max_core_uncovered_px": 0,
+        "max_core_uncovered_percent": 0.0,
+        "max_input_alpha_uncovered_px": 287,
+        "max_input_envelope_native_px": 7,
+        "max_visible_luma_flash": 63.28,
+        "luma_ratio_range": [
+          0.97341,
+          1.0029
+        ],
+        "max_core_gr_br_delta": [
+          0.00371,
+          0.00128
+        ],
+        "all_raw00_excluded": true,
+        "all_core0": true,
+        "all_envelope6": false,
+        "all_adjacent_alpha_le180": false,
+        "all_adjacent_alpha_le220": true,
+        "all_adjacent_boundary_le6": true,
+        "no_detached_components": true,
+        "old_passes_in_96_slots": 5,
+        "old_phase_offset_slots": 28,
+        "loop_frames": 7,
+        "max_loop_frames_without_skips": 19,
+        "all_order_positions_displayed": true,
+        "slot96_equals_slot0": true,
+        "exact_raw_seam": true,
+        "contact": {
+          "path": "docs/art/fire-readable-sway-20261106/controls-review/contacts-extra24/fire24-strong03.png",
+          "sha256": "b47867e56e6eaab866a1f141363e2fcde910f9dc8cac85177921e40533177c71"
+        },
+        "diagnostic_status": "not_recommended_as_visibility_upgrade: core0, adjacent alpha≤220 and boundary≤6, but raw04 envelope7 exceeds preferred6; visible source-over span is smaller than the old loop despite larger boundary travel."
+      },
+      "art_accepted": false
+    }
+  ],
+  "art_acceptance": "Separate reviewer/root visual decision; neither diagnostic candidate is integrated or automatically approved."
+}

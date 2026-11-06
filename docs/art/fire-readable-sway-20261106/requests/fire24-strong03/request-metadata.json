@@ -1,0 +1,56 @@
+{
+  "key": "fire24-strong03",
+  "group": {
+    "key": "fire24-20",
+    "source_component_id": 30,
+    "crop_xyxy": [
+      553,
+      407,
+      809,
+      663
+    ],
+    "crop_size": 256,
+    "stroke_bbox_xyxy": [
+      594,
+      515,
+      769,
+      556
+    ],
+    "core_pixels": 1781,
+    "medium_stroke_pixels": 2736,
+    "alpha_mask_pixels": 4263,
+    "core_clipped_by_alpha_mask_pixels": 0,
+    "core_on_crop_border_pixels": 0,
+    "alpha_mask_on_crop_border_pixels": 0,
+    "foreign_core_pixels_inside_alpha_mask": 0,
+    "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-20/context.png",
+    "context_sha256": "6c1a68f7629fd85620ed6b08c537b7d004e52db0853b97850fde5b4bf2c4d915",
+    "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-20/input-transparent.png",
+    "input_sha256": "9c1787cb0e37210f52cd9591886e48c631c918a5c1ca6695a23170bad103c15f",
+    "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-20/alpha-mask.png",
+    "alpha_mask_sha256": "81f5239fd8cab1c93df130e3070c44fd079e3e7bd133c203039478c1e4bc65a3",
+    "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-20/core-mask.png",
+    "core_mask_sha256": "6054b2475f21460ab0e16ce4ad67e4533d790f34873e774d8c55938c05bb5182"
+  },
+  "endpoint": "animate-pixminimax",
+  "input": "../fire-single-tongue-20261106/field-inputs/fire24/fire24-20/input-transparent.png",
+  "input_sha256": "9c1787cb0e37210f52cd9591886e48c631c918a5c1ca6695a23170bad103c15f",
+  "input_size": [
+    256,
+    256
+  ],
+  "source_sha256": "011d71e26a400c2a7002995583f141491ffef148131f1e5abf565ad7587b749b",
+  "request_sha256": "9ff97582f0f6309de267eeb2f40d23d32aba40e4aa856ee487a86972a4394b08",
+  "requested_frames": 16,
+  "native_crop_no_resize": true,
+  "local_motion_generation": false,
+  "controlled_comparison_to": "fire24-field20",
+  "old_request_sha256": "d40b6400c876104d3081d6359acda40b8c968ff40f3e00277a83e0e5097448c8",
+  "changed_payload_fields": [
+    "description"
+  ],
+  "requested_tip_sideways_native_px": [
+    6,
+    8
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "manifest_sha256": "658f326d658320db60eac0c94112f6e1d2bb091911477a8c545c545d1d42432b",
+  "display_only": true,
+  "results": [
+    {
+      "style": "24",
+      "path": "test_reports/fire-readable-sway-20261106/inline-preview/fire24-inline.png",
+      "sha256": "566b22965149e11361ff1bfd8b9f53f219b839da6e573311954568f9acad3102",
+      "bytes": 15831203,
+      "frames": 96,
+      "duration_ms": 7680,
+      "decoded_rgb_exact": true,
+      "native_crop_xyxy": [
+        288,
+        233,
+        966,
+        746
+      ],
+      "display_size": [
+        512,
+        387
+      ],
+      "old_native_transition_rgb_sum": 8830864,
+      "new_native_transition_rgb_sum": 10318434,
+      "native_transition_rgb_sum_ratio": 1.1684512410110721,
+      "metric_is_not_a_perceptual_visibility_score": true
+    },
+    {
+      "style": "29",
+      "path": "test_reports/fire-readable-sway-20261106/inline-preview/fire29-inline.png",
+      "sha256": "ff410d3d4205578e6466a4d19a4d8768e2a58a33ed54027bff567d065a0535ab",
+      "bytes": 16129055,
+      "frames": 96,
+      "duration_ms": 7680,
+      "decoded_rgb_exact": true,
+      "native_crop_xyxy": [
+        288,
+        233,
+        966,
+        746
+      ],
+      "display_size": [
+        512,
+        387
+      ],
+      "old_native_transition_rgb_sum": 5831108,
+      "new_native_transition_rgb_sum": 7835318,
+      "native_transition_rgb_sum_ratio": 1.3437099775891648,
+      "metric_is_not_a_perceptual_visibility_score": true
+    }
+  ]
+}

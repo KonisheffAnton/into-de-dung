@@ -1,0 +1,124 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "width": 1280,
+      "passed": true,
+      "moving": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "comparisonDifferent": [
+        true,
+        true
+      ],
+      "wrapExact": true,
+      "state": {
+        "slot": "0",
+        "overflow": false,
+        "dims": [
+          [
+            678,
+            513
+          ],
+          [
+            678,
+            513
+          ],
+          [
+            678,
+            513
+          ],
+          [
+            678,
+            513
+          ]
+        ]
+      },
+      "full": {
+        "overflow": false,
+        "dims": [
+          [
+            1254,
+            1254
+          ],
+          [
+            1254,
+            1254
+          ],
+          [
+            1254,
+            1254
+          ],
+          [
+            1254,
+            1254
+          ]
+        ]
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "passed": true,
+      "moving": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "comparisonDifferent": [
+        true,
+        true
+      ],
+      "wrapExact": true,
+      "state": {
+        "slot": "0",
+        "overflow": false,
+        "dims": [
+          [
+            678,
+            513
+          ],
+          [
+            678,
+            513
+          ],
+          [
+            678,
+            513
+          ],
+          [
+            678,
+            513
+          ]
+        ]
+      },
+      "full": {
+        "overflow": false,
+        "dims": [
+          [
+            1254,
+            1254
+          ],
+          [
+            1254,
+            1254
+          ],
+          [
+            1254,
+            1254
+          ],
+          [
+            1254,
+            1254
+          ]
+        ]
+      },
+      "errors": []
+    }
+  ],
+  "manifest_sha256": "658f326d658320db60eac0c94112f6e1d2bb091911477a8c545c545d1d42432b"
+}
