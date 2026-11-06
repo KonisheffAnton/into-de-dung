@@ -1,0 +1,8 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+D3D12 12_0 - Forward Mobile - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3050 Laptop GPU
+
+WALL TRAP PANEL PIXELS WallTrapUp sprite=1308 changed=24 visible_outside=1630 strongly_changed_body=0
+WALL TRAP PANEL PIXELS WallTrapRight sprite=1303 changed=3 visible_outside=108 strongly_changed_body=0
+WALL TRAP PANEL PIXELS WallTrapDown sprite=1296 changed=2 visible_outside=108 strongly_changed_body=0
+WALL TRAP PANEL PIXELS WallTrapLeft sprite=1309 changed=24 visible_outside=1615 strongly_changed_body=0
+HAZARDS UI RESULTS: 118 passed, 0 failed

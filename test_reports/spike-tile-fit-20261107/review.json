@@ -1,0 +1,14 @@
+{
+  "verdict": "APPROVE",
+  "reviewer": "/root/spike_runtime_review (game_reviewer, gpt-6-sol/high)",
+  "base": "328fb508e7a9924772f64c71ad4d4303307fdffd",
+  "files": {
+    "assets/shaders/spike_trap_surface.gdshader": "9f6dd55b902f25fb29df3911fcd7dc024af0410f44ba49eb36b6e291bf193dc9",
+    "scenes/demo/visuals/hazards/floor_trap.tscn": "37d816e47961a24e7a64446767a3b648bfd6eaee165b1108b9d45bf31a23c10c",
+    "tests/test_environment_visual_contract.gd": "6c2f783793889031019401f2515f486dff0a498c86f79f0f7a1217a8e4b21ea4"
+  },
+  "findings": [],
+  "observed": "Source corners map to tile +/-64,+/-48; nine sockets retain inset ordering; all poses share transform. GPU coverage1.0, mismatch0/65024, unallowed0 for three poses; old crop negative control0.7367. Both runtime screenshots inspected; no apparent double scaling. No new core/preview/queue/RNG/save path.",
+  "evidence": "test_reports/demo-2dcbef2290f9480fa180f6ab8af2e070/",
+  "limitations": "Manual F5/movement/zoom/DPI/performance and user art acceptance remain open. Reviewer did not launch another runner."
+}

@@ -123,22 +123,49 @@ func _test_spike_mask_gpu() -> void:
 	var mask_texture := load("res://assets/art_presets/approved/spikes_selected_v2/trap01_masks.png") as Texture2D
 	var source_image := source_texture.get_image()
 	var mask_image := mask_texture.get_image()
-	for frame_index: int in [1, 2]:
+	check(source_image.get_width() == 768 and source_image.get_height() == 256
+		and mask_image.get_width() == 768 and mask_image.get_height() == 256,
+		"spike source and mask atlases contain three full-size cells")
+	var source_corners: Array[Vector2] = [Vector2(127.5, 28), Vector2(203, 94), Vector2(127.5, 160), Vector2(52, 94)]
+	var target_corners: Array[Vector2] = [Vector2(128, 52), Vector2(192, 100), Vector2(128, 148), Vector2(64, 100)]
+	for index: int in source_corners.size():
+		var projected := floor_trap.position + pose.transform * source_corners[index]
+		check(projected.distance_to(target_corners[index]) <= 0.1,
+			"source plate corner %d fits the 128x96 tile top" % index)
+	var source_sockets: Array[Vector2] = [Vector2(128, 54), Vector2(105, 72), Vector2(151, 72),
+		Vector2(83, 91), Vector2(128, 91), Vector2(174, 91), Vector2(105, 110),
+		Vector2(151, 110), Vector2(128, 129)]
+	for index: int in source_sockets.size():
+		var expected_socket := Vector2(64, 52) + (source_sockets[index] - Vector2(52, 28)) * Vector2(128.0 / 151.0, 96.0 / 132.0)
+		var projected_socket := floor_trap.position + pose.transform * source_sockets[index]
+		check(projected_socket.distance_to(expected_socket) <= 0.1,
+			"source socket %d keeps its inset placement in the fitted tile" % index)
+	for frame_index: int in 3:
 		pose.frame = frame_index
 		await process_frame
 		await process_frame
 		await RenderingServer.frame_post_draw
 		var rendered := spike_viewport.get_texture().get_image()
 		var counts := _spike_alpha_counts(source_image, mask_image, rendered, frame_index)
-		var tolerance := maxi(4, ceili(float(counts.expected) * 0.02))
-		check(int(counts.expected) > 0, "half/extended source mask has visible metal outside the top diamond")
-		check(int(counts.unallowed) <= tolerance
-			and absi(int(counts.observed) - int(counts.expected)) <= tolerance,
-			"selected mask UV exposes only expected metal outside the stone top for pose %d" % frame_index)
-		check(int(counts.observed) > 0, "pose %d keeps its raised metal tips beyond the top edge" % frame_index)
-	# Отрицательный контроль меняет только материал временного экземпляра, сохраняя production scene и resources.
+		var coverage := float(counts.interior_observed) / maxf(1.0, float(counts.interior_total))
+		var mismatch_tolerance := maxi(4, ceili(float(counts.compared) * 0.0005))
+		check(float(counts.interior_expected) / maxf(1.0, float(counts.interior_total)) >= 0.99
+			and coverage >= 0.99,
+			"pose %d covers the target diamond interior without cropping source fields" % frame_index)
+		print("SPIKE MASK GPU frame=%d coverage=%.4f source=%.4f mismatches=%d/%d outside_unallowed=%d" % [
+			frame_index, coverage, float(counts.interior_expected) / maxf(1.0, float(counts.interior_total)),
+			int(counts.mismatches), int(counts.compared), int(counts.unallowed)])
+		check(int(counts.unallowed) == 0,
+			"fitted pose %d draws no stone or unsupported pixels outside the tile diamond" % frame_index)
+		check(int(counts.mismatches) <= mismatch_tolerance,
+			"pose %d GPU alpha follows inverse-projected source and mask pixels" % frame_index)
+	# Отрицательный контроль задаёт прежнюю обрезающую маску только дубликату материала fixture.
+	var production_material := pose.material
 	var negative_material := ShaderMaterial.new()
-	negative_material.shader = load("res://assets/shaders/acid_pool_surface.gdshader") as Shader
+	negative_material.shader = load("res://assets/shaders/spike_trap_surface.gdshader") as Shader
+	negative_material.set_shader_parameter("metal_mask", mask_texture)
+	negative_material.set_shader_parameter("source_top_center", Vector2(128, 100))
+	negative_material.set_shader_parameter("top_half_size", Vector2(64, 48))
 	pose.material = negative_material
 	pose.frame = 2
 	await process_frame
@@ -146,28 +173,44 @@ func _test_spike_mask_gpu() -> void:
 	await RenderingServer.frame_post_draw
 	var negative_image := spike_viewport.get_texture().get_image()
 	var negative_counts := _spike_alpha_counts(source_image, mask_image, negative_image, 2)
-	check(int(negative_counts.observed) == 0,
-		"surface-only negative control clips every spike tip above the diamond")
+	var negative_coverage := float(negative_counts.interior_observed) / maxf(1.0, float(negative_counts.interior_total))
+	print("SPIKE MASK GPU negative_old_crop coverage=%.4f" % negative_coverage)
+	check(negative_coverage < 0.99,
+		"old source-centered crop fails the full target-interior coverage gate")
+	pose.material = production_material
 	floor_trap.queue_free()
 	spike_viewport.queue_free()
 	await process_frame
 
 
 func _spike_alpha_counts(source: Image, mask: Image, rendered: Image, frame_index: int) -> Dictionary:
-	var expected: int = 0
-	var observed: int = 0
+	var interior_total: int = 0
+	var interior_expected: int = 0
+	var interior_observed: int = 0
+	var compared: int = 0
+	var mismatches: int = 0
 	var unallowed: int = 0
 	for y: int in 256:
 		for x: int in 256:
-			var diamond := absf((float(x) + 0.5 - 128.0) / 64.0) + absf((float(y) + 0.5 - 100.0) / 48.0)
-			if diamond <= 1.02: continue
-			var source_alpha := source.get_pixel(frame_index * 256 + x, y).a > 0.5
-			var metal_allowed := mask.get_pixel(frame_index * 256 + x, y).r > 0.5 and source_alpha
+			var target_diamond := absf((float(x) + 0.5 - 128.0) / 64.0) + absf((float(y) + 0.5 - 100.0) / 48.0)
+			var source_x := 52.0 + (float(x) + 0.5 - 64.0) * (151.0 / 128.0)
+			var source_y := 28.0 + (float(y) + 0.5 - 52.0) * (132.0 / 96.0)
+			var source_valid := source_x >= 0.0 and source_x < 256.0 and source_y >= 0.0 and source_y < 256.0
+			var source_alpha := source_valid and source.get_pixel(frame_index * 256 + floori(source_x), floori(source_y)).a > 0.5
+			var metal_allowed := source_valid and mask.get_pixel(frame_index * 256 + floori(source_x), floori(source_y)).r > 0.5 and source_alpha
 			var actual_alpha := rendered.get_pixel(x, y).a > 0.5
-			if metal_allowed: expected += 1
-			if actual_alpha: observed += 1
-			if actual_alpha and not metal_allowed: unallowed += 1
-	return {"expected": expected, "observed": observed, "unallowed": unallowed}
+			if target_diamond < 0.94:
+				interior_total += 1
+				if source_alpha: interior_expected += 1
+				if actual_alpha: interior_observed += 1
+			if target_diamond < 0.98 or target_diamond > 1.02:
+				var expected_alpha := source_alpha and (target_diamond <= 1.0 or metal_allowed)
+				compared += 1
+				if actual_alpha != expected_alpha: mismatches += 1
+				if target_diamond > 1.02 and actual_alpha and not metal_allowed: unallowed += 1
+	return {"interior_total": interior_total, "interior_expected": interior_expected,
+		"interior_observed": interior_observed, "compared": compared,
+		"mismatches": mismatches, "unallowed": unallowed}
 
 
 func _test_warning_phase_optimization(overlay: BattleManagedEnvironmentVisual, viewport: SubViewport,

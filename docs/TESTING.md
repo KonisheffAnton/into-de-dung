@@ -23,9 +23,14 @@
 `--render-check --only hazards_ui acid_tile_animation environment_visual_contract
 presentation_environment presentation_contact battle_view_reuse --screen 0`.
 Проверяются резкие40мс, три готовые позы, after/hold/resize/skip/cancel/speed,
-цикл кальтропов15,6с и точный стык; GPU-маска сохраняет кончики за краем ромба,
-отрицательный контроль без маски их обрезает. battle_view_reuse расширяет
-набор согласно launcher. Это не full/core или ручной F5/zoom/DPI/performance.
+цикл кальтропов15,6с и точный стык. Для локальной подгонки плиты достаточно
+`--render-check --only hazards_ui environment_visual_contract --screen 0`:
+GPU проверяет три позы, проекцию четырёх вершин и девяти гнёзд, заполнение
+внутренности тайла и alpha по обратной проекции исходника/маски. Старый crop
+служит отрицательным контролем покрытия. Положительное число кончиков вне
+ромба не требуется: после подгонки они могут целиком помещаться внутри.
+battle_view_reuse расширяет набор согласно launcher.
+Это не full/core или ручной F5/zoom/DPI/performance.
 
 Кислотная плёнка, глубокая кислота и кальтропы (2026-11-05):
 `python tools/art/build_hazard_surface_animations.py --check` и

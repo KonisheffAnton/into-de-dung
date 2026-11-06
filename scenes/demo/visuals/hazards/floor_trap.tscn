@@ -7,6 +7,8 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_surface"]
 shader = ExtResource("2_shader")
 shader_parameter/metal_mask = ExtResource("3_masks")
+shader_parameter/source_top_center = Vector2(127.5, 94)
+shader_parameter/top_half_size = Vector2(75.5, 66)
 
 [node name="FloorTrap" type="Node2D"]
 show_behind_parent = true
@@ -14,7 +16,8 @@ show_behind_parent = true
 [node name="Pose" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 material = SubResource("ShaderMaterial_surface")
-position = Vector2(-128, -100)
+position = Vector2(-108.07947, -68.36364)
+scale = Vector2(0.8476821, 0.7272727)
 sprite_frames = ExtResource("1_frames")
 animation = &"poses"
 centered = false

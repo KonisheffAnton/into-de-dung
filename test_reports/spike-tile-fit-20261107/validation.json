@@ -1,0 +1,96 @@
+{
+  "status": "PASS",
+  "base": "328fb508e7a9924772f64c71ad4d4303307fdffd",
+  "baseline_files": 1791,
+  "preserved_files": 1788,
+  "intentional_changes": [
+    "assets/shaders/spike_trap_surface.gdshader",
+    "scenes/demo/visuals/hazards/floor_trap.tscn",
+    "tests/test_environment_visual_contract.gd"
+  ],
+  "protected_files": 33,
+  "archive_sha256": "0f8500eb727ad131ebf06827ac640794bf33700d63ad31ddf8fa41a3cd263c4c",
+  "entry_docs": {
+    "AGENTS.md": {
+      "before_lf_chars": 4565,
+      "after_lf_chars": 4565,
+      "limit": 5000
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before_lf_chars": 2445,
+      "after_lf_chars": 2373,
+      "limit": 2500
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before_lf_chars": 3652,
+      "after_lf_chars": 3652,
+      "limit": 3500,
+      "reason": "Pre-existing excess; unchanged routing document, no scope expansion."
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before_lf_chars": 4482,
+      "after_lf_chars": 4482,
+      "limit": 4500
+    }
+  },
+  "links": [
+    {
+      "from": "docs/CODEX_HANDOFF.md",
+      "target": "art/spike-tile-fit-20261107/README.md"
+    },
+    {
+      "from": "docs/CODEX_HANDOFF.md",
+      "target": "art/fire29-readable-20261106/README.md"
+    },
+    {
+      "from": "docs/CODEX_HANDOFF.md",
+      "target": "CODEX_HANDOFF.history-20261107.md"
+    },
+    {
+      "from": "docs/CODEX_HANDOFF.md",
+      "target": "HISTORY.md"
+    },
+    {
+      "from": "docs/HISTORY.md",
+      "target": "art/spike-tile-fit-20261107/README.md"
+    },
+    {
+      "from": "docs/HISTORY.md",
+      "target": "CODEX_HANDOFF.history-20261107.md"
+    },
+    {
+      "from": "docs/art/spike-tile-fit-20261107/README.md",
+      "target": "../../BATTLE_VISUAL_SCENE_CONTRACT.md#выбранные-шипы-и-редкие-блики--2026-11-07"
+    },
+    {
+      "from": "docs/art/spike-tile-fit-20261107/README.md",
+      "target": "../../../test_reports/demo-2dcbef2290f9480fa180f6ab8af2e070/timing.json"
+    },
+    {
+      "from": "docs/art/spike-tile-fit-20261107/README.md",
+      "target": "../../../test_reports/demo-2dcbef2290f9480fa180f6ab8af2e070/hazards-screenshots/authored-hazard-presets.png"
+    },
+    {
+      "from": "docs/art/spike-tile-fit-20261107/README.md",
+      "target": "../../../test_reports/demo-2dcbef2290f9480fa180f6ab8af2e070/hazards-screenshots/production-opening-hazards.png"
+    },
+    {
+      "from": "docs/art/spike-tile-fit-20261107/README.md",
+      "target": "../../../test_reports/spike-tile-fit-20261107/validation.json"
+    },
+    {
+      "from": "docs/art/spike-tile-fit-20261107/README.md",
+      "target": "../../../test_reports/spike-tile-fit-20261107/review.json"
+    }
+  ],
+  "character_style_preserved": true,
+  "handoff_rules_preserved": true,
+  "isolated_source_hashes_match": true,
+  "gpu_report": "test_reports/demo-2dcbef2290f9480fa180f6ab8af2e070",
+  "tests": {
+    "environment_visual_contract": "56/0",
+    "hazards_ui": "118/0"
+  },
+  "review": "APPROVE",
+  "full_core_manual_repeated": false
+}
