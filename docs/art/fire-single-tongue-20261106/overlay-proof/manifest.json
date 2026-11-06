@@ -1,0 +1,194 @@
+{
+  "mode": "Unchanged full source tile as static base/glow; unchanged provider RGBA source-over at constant native placement (664,436). No clean-plate pixels, no manual motion or color edit.",
+  "source_hot_core_pixels": 161,
+  "frames": [
+    {
+      "frame": 0,
+      "raw_png_sha256": "2ef7a997b6e3c8241e63c4bc1f48a23856ba284f336eb4a7ce40de0ac08ba6fb",
+      "uncovered_original_hot_core_pixels": 0,
+      "changed_outside_guide": 0,
+      "rendered_hot_core_pixels": 161,
+      "rendered_hot_core_centroid": [
+        64.27950310559007,
+        65.32298136645963
+      ]
+    },
+    {
+      "frame": 1,
+      "raw_png_sha256": "6aef545f1fe2eebfdf28325252bf7b31e426c7ca7322d18b481f6a3e6601aecc",
+      "uncovered_original_hot_core_pixels": 0,
+      "changed_outside_guide": 0,
+      "rendered_hot_core_pixels": 157,
+      "rendered_hot_core_centroid": [
+        64.28025477707007,
+        65.29299363057325
+      ]
+    },
+    {
+      "frame": 2,
+      "raw_png_sha256": "850c92ba574c9f14bcf459d13a2c3abbcd48888d9af99d2fcacf758d8ed93a59",
+      "uncovered_original_hot_core_pixels": 0,
+      "changed_outside_guide": 0,
+      "rendered_hot_core_pixels": 163,
+      "rendered_hot_core_centroid": [
+        65.11042944785277,
+        65.2638036809816
+      ]
+    },
+    {
+      "frame": 3,
+      "raw_png_sha256": "bc627d3c1c1fdb87999fd4af699c8cc7383912095f8b836bc6f6598034bf3e86",
+      "uncovered_original_hot_core_pixels": 0,
+      "changed_outside_guide": 0,
+      "rendered_hot_core_pixels": 169,
+      "rendered_hot_core_centroid": [
+        65.82840236686391,
+        65.34319526627219
+      ]
+    },
+    {
+      "frame": 4,
+      "raw_png_sha256": "464a5c47ff2f4ec94933db6ca0ccd4caeffe29a39aed8a21380676c1775a0b2e",
+      "uncovered_original_hot_core_pixels": 0,
+      "changed_outside_guide": 0,
+      "rendered_hot_core_pixels": 171,
+      "rendered_hot_core_centroid": [
+        65.67836257309942,
+        65.39766081871345
+      ]
+    },
+    {
+      "frame": 5,
+      "raw_png_sha256": "96e86648e859b321d8c2c3590834c80c3dc08c84eb164473c6599733c134967c",
+      "uncovered_original_hot_core_pixels": 0,
+      "changed_outside_guide": 0,
+      "rendered_hot_core_pixels": 173,
+      "rendered_hot_core_centroid": [
+        65.52023121387283,
+        65.45086705202313
+      ]
+    },
+    {
+      "frame": 6,
+      "raw_png_sha256": "090371a826999235670cd2faf9a9a95b2f780a6be56bc75b35ecc3cac87200bf",
+      "uncovered_original_hot_core_pixels": 0,
+      "changed_outside_guide": 0,
+      "rendered_hot_core_pixels": 168,
+      "rendered_hot_core_centroid": [
+        64.95833333333333,
+        65.46428571428571
+      ]
+    },
+    {
+      "frame": 7,
+      "raw_png_sha256": "59c0be7f654471e019691894495e112d1621af14225f0f8143eddd4f61d3cb7c",
+      "uncovered_original_hot_core_pixels": 0,
+      "changed_outside_guide": 0,
+      "rendered_hot_core_pixels": 160,
+      "rendered_hot_core_centroid": [
+        64.2125,
+        65.3375
+      ]
+    },
+    {
+      "frame": 8,
+      "raw_png_sha256": "e974b55bd21651d946774387dbfa94b20e4fb5c5bfa4807c40eba7b44e3e7c02",
+      "uncovered_original_hot_core_pixels": 0,
+      "changed_outside_guide": 0,
+      "rendered_hot_core_pixels": 159,
+      "rendered_hot_core_centroid": [
+        64.16352201257861,
+        65.31446540880503
+      ]
+    },
+    {
+      "frame": 9,
+      "raw_png_sha256": "38e6b7a301bc0a227d08004c981b657e988dbf85a8bc3bf7107471e08fba9b89",
+      "uncovered_original_hot_core_pixels": 0,
+      "changed_outside_guide": 0,
+      "rendered_hot_core_pixels": 158,
+      "rendered_hot_core_centroid": [
+        64.36708860759494,
+        65.27848101265823
+      ]
+    },
+    {
+      "frame": 10,
+      "raw_png_sha256": "0fe76b230a546370f5d5bf20b1ed6bc23905378d133ce83a4ced7eef9ec53229",
+      "uncovered_original_hot_core_pixels": 0,
+      "changed_outside_guide": 0,
+      "rendered_hot_core_pixels": 167,
+      "rendered_hot_core_centroid": [
+        65.11976047904191,
+        65.23952095808383
+      ]
+    },
+    {
+      "frame": 11,
+      "raw_png_sha256": "8fce2530183462632732b771479a0c53c99ed32dba5b891b574db7a13c2bf664",
+      "uncovered_original_hot_core_pixels": 0,
+      "changed_outside_guide": 0,
+      "rendered_hot_core_pixels": 172,
+      "rendered_hot_core_centroid": [
+        65.8546511627907,
+        65.32558139534883
+      ]
+    },
+    {
+      "frame": 12,
+      "raw_png_sha256": "a780d131d62057caf6b68b1b369f9c8f2abb871b3311867ec2e6489f82373236",
+      "uncovered_original_hot_core_pixels": 0,
+      "changed_outside_guide": 0,
+      "rendered_hot_core_pixels": 174,
+      "rendered_hot_core_centroid": [
+        65.816091954023,
+        65.38505747126437
+      ]
+    },
+    {
+      "frame": 13,
+      "raw_png_sha256": "b1e0d677bdcbf9751917d214ad3f3ea230d48d954588c897f41566ad61eb77c9",
+      "uncovered_original_hot_core_pixels": 0,
+      "changed_outside_guide": 0,
+      "rendered_hot_core_pixels": 177,
+      "rendered_hot_core_centroid": [
+        65.7231638418079,
+        65.42937853107344
+      ]
+    },
+    {
+      "frame": 14,
+      "raw_png_sha256": "5f36b77e0eb87fa7b639a7d7d7fc0fd620b0146b8470489a286f8280b76e72d1",
+      "uncovered_original_hot_core_pixels": 0,
+      "changed_outside_guide": 0,
+      "rendered_hot_core_pixels": 174,
+      "rendered_hot_core_centroid": [
+        65.183908045977,
+        65.4080459770115
+      ]
+    },
+    {
+      "frame": 15,
+      "raw_png_sha256": "d21419efe42fec4a8040109e8e63df6d746ce599dc5ba22d6e0957660d05210b",
+      "uncovered_original_hot_core_pixels": 0,
+      "changed_outside_guide": 0,
+      "rendered_hot_core_pixels": 162,
+      "rendered_hot_core_centroid": [
+        64.3395061728395,
+        65.35185185185185
+      ]
+    },
+    {
+      "frame": 16,
+      "raw_png_sha256": "335e9b0532091575dd7c3525247514630310fb690bcd97b236a023ace063b1dd",
+      "uncovered_original_hot_core_pixels": 0,
+      "changed_outside_guide": 0,
+      "rendered_hot_core_pixels": 162,
+      "rendered_hot_core_centroid": [
+        64.3395061728395,
+        65.35185185185185
+      ]
+    }
+  ],
+  "art_acceptance": false
+}

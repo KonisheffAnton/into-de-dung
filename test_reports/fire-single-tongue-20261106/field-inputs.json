@@ -1,0 +1,2692 @@
+{
+  "purpose": "Static PixelLab input candidates for later whole-fire composition; no animation generated here.",
+  "native_crops_only": true,
+  "rgb_recolor_or_warp": false,
+  "moving_frames_created": 0,
+  "provider_posts": 0,
+  "styles": {
+    "24": {
+      "source_path": "docs/art/fire-low-styles-20261104/fire-low-24.png",
+      "source_sha256": "011d71e26a400c2a7002995583f141491ffef148131f1e5abf565ad7587b749b",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "core_threshold": "R>230 and G>135 and B<125",
+      "medium_stroke_threshold": "R>220 and G>110 and B<150",
+      "top_polygon_xy": [
+        [
+          627,
+          245
+        ],
+        [
+          954,
+          493
+        ],
+        [
+          627,
+          734
+        ],
+        [
+          300,
+          493
+        ]
+      ],
+      "min_significant_core_pixels": 100,
+      "alpha_mask": "8-connected medium stroke dilated by 3 native pixels, intersected with original nonzero alpha; foreign cores excluded and shared halo assigned to nearest own core",
+      "group_count": 30,
+      "core_pixels_total": 29464,
+      "selected_core_pixels": 29350,
+      "uncovered_core_pixels": 114,
+      "uncovered_core_percent": 0.387,
+      "alpha_mask_overlap_pixels": 0,
+      "alpha_mask_overlap_max_multiplicity": 1,
+      "alpha_mask_overlap_pairs": [],
+      "candidate_overlap_pixels_before_nearest_core_assignment": 1,
+      "candidate_foreign_core_pixels_before_assignment": 0,
+      "overlap_resolution": "Foreign cores removed from halos; shared non-core halo pixels assigned by minimum Euclidean distance to each candidate group own core (key tie-break). Residual cores remain on static original plate.",
+      "foreign_core_pixels_inside_masks_total": 0,
+      "groups_with_foreign_core": [],
+      "full_source_alpha_or_rgb_modified": false,
+      "all_inputs_rgb_exact_source_crop": true,
+      "core_clip_pixels_total": 0,
+      "core_crop_border_pixels_total": 0,
+      "alpha_crop_border_pixels_total": 0,
+      "overview_path": "docs/art/fire-single-tongue-20261106/field-inputs/coverage-fire24.png",
+      "overview_legend": "green=covered by one static alpha group; pink=overlapping static groups; yellow=uncovered threshold core; numbered groups are individual inputs",
+      "groups": [
+        {
+          "key": "fire24-01",
+          "source_component_id": 1,
+          "crop_xyxy": [
+            567,
+            228,
+            695,
+            356
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            581,
+            275,
+            682,
+            309
+          ],
+          "core_pixels": 811,
+          "medium_stroke_pixels": 1256,
+          "alpha_mask_pixels": 2267,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-01/context.png",
+          "context_sha256": "7dbbf60a005b0716c9c9ea5ac1234dd6c49d14ec3171ec029bc7809daab4c666",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-01/input-transparent.png",
+          "input_sha256": "211ed126579ae897fc2ab81b31679bd7be9e74c2781a40917d48dc74b10efe8f",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-01/alpha-mask.png",
+          "alpha_mask_sha256": "bfeb20e0a832c379f8e6d978a7564c331c2e2b38504caffbea226d4154a9a8a9",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-01/core-mask.png",
+          "core_mask_sha256": "0b9fec1b3b54e6a9953edf498860514d23d9a7e5d05c983e848f43228f2101a9"
+        },
+        {
+          "key": "fire24-02",
+          "source_component_id": 3,
+          "crop_xyxy": [
+            507,
+            258,
+            635,
+            386
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            538,
+            309,
+            604,
+            335
+          ],
+          "core_pixels": 446,
+          "medium_stroke_pixels": 673,
+          "alpha_mask_pixels": 1283,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-02/context.png",
+          "context_sha256": "503fe66902f305aacd460a655cb051d0277d4ba96d2a8cf829e85ac9ca3f6419",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-02/input-transparent.png",
+          "input_sha256": "c49167be375dda4da7c50fdd63994fe51a0ae7575130a32f16da71e90d6311fe",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-02/alpha-mask.png",
+          "alpha_mask_sha256": "cab22f2018c5c26669814dfefd8b30985702ea0cc0716e46337c682be8e41491",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-02/core-mask.png",
+          "core_mask_sha256": "e2f3ad64410655ba6d0506ba3940adcc5cfec83f10eb62e5f24be95591c71982"
+        },
+        {
+          "key": "fire24-03",
+          "source_component_id": 5,
+          "crop_xyxy": [
+            635,
+            269,
+            763,
+            397
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            674,
+            321,
+            724,
+            346
+          ],
+          "core_pixels": 332,
+          "medium_stroke_pixels": 530,
+          "alpha_mask_pixels": 1020,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-03/context.png",
+          "context_sha256": "3e201f8214c185408d67a9ab826a3fcc3258bf0ff11de1dfbe8711e43b558e22",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-03/input-transparent.png",
+          "input_sha256": "c009ed18aed49a05b58b580aaab051a40bcafb3f7a3ab949d2a2e549a00fd6cd",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-03/alpha-mask.png",
+          "alpha_mask_sha256": "f6f6cc0ce0049fe5049e64df8fe8dd1236832e93647e0297b0ab3f20e33ed404",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-03/core-mask.png",
+          "core_mask_sha256": "0d7b921ee4aef103e578a730e2167a4bfa97d13a4dc778d44990341d11e7f0ca"
+        },
+        {
+          "key": "fire24-04",
+          "source_component_id": 7,
+          "crop_xyxy": [
+            551,
+            236,
+            807,
+            492
+          ],
+          "crop_size": 256,
+          "stroke_bbox_xyxy": [
+            598,
+            344,
+            761,
+            384
+          ],
+          "core_pixels": 1668,
+          "medium_stroke_pixels": 2518,
+          "alpha_mask_pixels": 3950,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-04/context.png",
+          "context_sha256": "0786013a03364b762d5adc16f1c8b18b90fba0055868d7c8d9e45e640607e979",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-04/input-transparent.png",
+          "input_sha256": "9a1200f93f3346b0a78db8f942feb578598bf046dbf8863f940869744ad68341",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-04/alpha-mask.png",
+          "alpha_mask_sha256": "def5ef1f2641f272a9cbcc326ef6ff215e6c00c8c5b1501a4ef0db5f86b6dd70",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-04/core-mask.png",
+          "core_mask_sha256": "1e0a0c76fddcd86fd70c8ac0efd04179f234c0bbb8eeaa66fa75c197fd611c3e"
+        },
+        {
+          "key": "fire24-05",
+          "source_component_id": 8,
+          "crop_xyxy": [
+            381,
+            252,
+            637,
+            508
+          ],
+          "crop_size": 256,
+          "stroke_bbox_xyxy": [
+            442,
+            353,
+            576,
+            408
+          ],
+          "core_pixels": 1697,
+          "medium_stroke_pixels": 2438,
+          "alpha_mask_pixels": 3905,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-05/context.png",
+          "context_sha256": "5bd935ad6db8c805523765bc7548716e227d8a2f0d5c8e67ea56f163820fc5df",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-05/input-transparent.png",
+          "input_sha256": "65bc500bea7339bd3df8a271683356b7744f187ae4ef65fe7d14a51b756c1321",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-05/alpha-mask.png",
+          "alpha_mask_sha256": "9b6846203950e9753cdc098aedb248451aee67fa670657eb0643ac67e2b622fd",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-05/core-mask.png",
+          "core_mask_sha256": "2bcdf16dc2a045b08818e200da85510b4aeaa20d48ef45c033ef7d69a9e176d5"
+        },
+        {
+          "key": "fire24-06",
+          "source_component_id": 9,
+          "crop_xyxy": [
+            685,
+            328,
+            813,
+            456
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            707,
+            381,
+            792,
+            404
+          ],
+          "core_pixels": 408,
+          "medium_stroke_pixels": 745,
+          "alpha_mask_pixels": 1463,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-06/context.png",
+          "context_sha256": "cae49683d7aaa9e0b37e985b54474a3727b1e547c39afd3e69ae7becb88315b3",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-06/input-transparent.png",
+          "input_sha256": "08e44285aec501a2244fab594e89246f46a56da5f45068aaf6580f30c0f3b97a",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-06/alpha-mask.png",
+          "alpha_mask_sha256": "5473299074f8580fa78e5d1fca157fb44bfd5c9c7da2dd65002ae8e2e255b070",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-06/core-mask.png",
+          "core_mask_sha256": "002a90129f2ec58bcb1fd48eedd49541175893d605dd388cf3f8a2520819798c"
+        },
+        {
+          "key": "fire24-07",
+          "source_component_id": 10,
+          "crop_xyxy": [
+            465,
+            285,
+            721,
+            541
+          ],
+          "crop_size": 256,
+          "stroke_bbox_xyxy": [
+            507,
+            393,
+            680,
+            434
+          ],
+          "core_pixels": 1545,
+          "medium_stroke_pixels": 2325,
+          "alpha_mask_pixels": 3877,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-07/context.png",
+          "context_sha256": "da90b68d6c8201ac15448e29cd0f6a5a4a4a8ed5fb9cb45d38c210a435d4dab8",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-07/input-transparent.png",
+          "input_sha256": "dce5eb9c107e6d41daf64c9e4dbe265e0eeb8b9b14cebdb63dc7a316c6fb26e1",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-07/alpha-mask.png",
+          "alpha_mask_sha256": "3dc6d3da094926ed47085c14e1edd3224da6d8e2c8166accafab11fa697d6d32",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-07/core-mask.png",
+          "core_mask_sha256": "35b9a9e8d89a8fc850714af6b91bc3839420a4fe41f96e2f71d581c57927c3dc"
+        },
+        {
+          "key": "fire24-08",
+          "source_component_id": 15,
+          "crop_xyxy": [
+            425,
+            378,
+            553,
+            506
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            464,
+            436,
+            514,
+            449
+          ],
+          "core_pixels": 148,
+          "medium_stroke_pixels": 259,
+          "alpha_mask_pixels": 687,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-08/context.png",
+          "context_sha256": "dcc3ce2ffc559ac552430a0cfffa3c7460620662a8190ab0538075a2e315bc3f",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-08/input-transparent.png",
+          "input_sha256": "75beccc9524d6603551ece9dcdd2cef04c75eab43aa1eb11cc2ec71b4eaac6d6",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-08/alpha-mask.png",
+          "alpha_mask_sha256": "970aa401c21235527c7a6125bd46c9f33f5ad56f77863c13c91f419945271ac3",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-08/core-mask.png",
+          "core_mask_sha256": "46c2f8200c46daf4f6ec0767546409637137f6b218b1a49706177d7e7c935419"
+        },
+        {
+          "key": "fire24-09",
+          "source_component_id": 14,
+          "crop_xyxy": [
+            349,
+            379,
+            477,
+            507
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            374,
+            426,
+            453,
+            460
+          ],
+          "core_pixels": 414,
+          "medium_stroke_pixels": 748,
+          "alpha_mask_pixels": 1534,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-09/context.png",
+          "context_sha256": "3dc7aa8216be8077a6b0fde8ba7546ccc3e9c73ac41d7ebf6ac490a0cdebd92c",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-09/input-transparent.png",
+          "input_sha256": "f7ce43fc2d6b1886e9f055a34df9b0451b5d79d9b577ed34b09f41fe5efe7550",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-09/alpha-mask.png",
+          "alpha_mask_sha256": "192aebde68a460dc9ede3a90c14b9ebde819bc06aa06392d4272c2c72841562e",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-09/core-mask.png",
+          "core_mask_sha256": "79fa11bd447c016a5f9acec25c8522ffc8eac4f9294d052600251e0bdd85d58f"
+        },
+        {
+          "key": "fire24-10",
+          "source_component_id": 13,
+          "crop_xyxy": [
+            616,
+            314,
+            872,
+            570
+          ],
+          "crop_size": 256,
+          "stroke_bbox_xyxy": [
+            638,
+            412,
+            850,
+            472
+          ],
+          "core_pixels": 3039,
+          "medium_stroke_pixels": 4320,
+          "alpha_mask_pixels": 6721,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-10/context.png",
+          "context_sha256": "53951780daec299b32e2b27aecdd0bba5531764977f453b472a56f4755de6608",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-10/input-transparent.png",
+          "input_sha256": "07f0f4934351eea46cb292836ee860072e1d0d131de7f2f61a2c10d53dc30640",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-10/alpha-mask.png",
+          "alpha_mask_sha256": "8c8c482db8cbb2dcb44ebdd47cecccbd90d97d26d5bc395225f3d4d161475b5b",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-10/core-mask.png",
+          "core_mask_sha256": "f9cc297dce9f2e2be18773c872f49b605655b3e16e33a31e2f6f6f8490edfbb7"
+        },
+        {
+          "key": "fire24-11",
+          "source_component_id": 17,
+          "crop_xyxy": [
+            803,
+            401,
+            931,
+            529
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            833,
+            456,
+            901,
+            475
+          ],
+          "core_pixels": 353,
+          "medium_stroke_pixels": 605,
+          "alpha_mask_pixels": 1200,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-11/context.png",
+          "context_sha256": "0c76dc1d492832fc6e3147bc5aba357052bc945641c60444679d6ef69918c53c",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-11/input-transparent.png",
+          "input_sha256": "a0c927dfd4a54f5ff6438e60b415dd73217224b77365565060078393d75d5925",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-11/alpha-mask.png",
+          "alpha_mask_sha256": "40d7a9005a3c608278a69a718b3f4632ae969c7c08a74c8fe529e47473884f56",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-11/core-mask.png",
+          "core_mask_sha256": "fd3c06ecbf0fdac479aa5b63067f2715919b0a1d387f5b816f59ff9f86abc59c"
+        },
+        {
+          "key": "fire24-12",
+          "source_component_id": 18,
+          "crop_xyxy": [
+            360,
+            404,
+            488,
+            532
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            386,
+            458,
+            463,
+            478
+          ],
+          "core_pixels": 459,
+          "medium_stroke_pixels": 701,
+          "alpha_mask_pixels": 1348,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-12/context.png",
+          "context_sha256": "aacdb7138663a7b06860111f72bcd5ef9f32be14951db6d5f2efb2d7a26943fe",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-12/input-transparent.png",
+          "input_sha256": "306ec3657d5159d1a53940749d817d4887898b9c185a82e41d55c84dbfa6f0f5",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-12/alpha-mask.png",
+          "alpha_mask_sha256": "3e6cc5ce22eb442b7efc0cb9b8ca272e01e63d855b42f1f38561005123c98bb8",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-12/core-mask.png",
+          "core_mask_sha256": "8b27e259197f55189149d5bea49579d28ad4ad1fecf0acb8b5205affed41bd66"
+        },
+        {
+          "key": "fire24-13",
+          "source_component_id": 16,
+          "crop_xyxy": [
+            419,
+            343,
+            675,
+            599
+          ],
+          "crop_size": 256,
+          "stroke_bbox_xyxy": [
+            479,
+            453,
+            615,
+            489
+          ],
+          "core_pixels": 1377,
+          "medium_stroke_pixels": 2091,
+          "alpha_mask_pixels": 3281,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-13/context.png",
+          "context_sha256": "df223890598a6da6f70a4c70eae5ee9e930879ef39c528d8ab7a55c7d501bbe8",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-13/input-transparent.png",
+          "input_sha256": "a1cfc4e8106859aa6b981902a3b66885112349ec85ed69ea2389b047ec5966e7",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-13/alpha-mask.png",
+          "alpha_mask_sha256": "587070c11bacd90fe7b93b391431bd2b19321dd7900ae27e1364038f1e6616eb",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-13/core-mask.png",
+          "core_mask_sha256": "b8edd11363d1fe04e229bbecab821c88a066898c4e06ca0d9f3e82c875d6ec19"
+        },
+        {
+          "key": "fire24-14",
+          "source_component_id": 20,
+          "crop_xyxy": [
+            285,
+            431,
+            413,
+            559
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            319,
+            480,
+            380,
+            511
+          ],
+          "core_pixels": 508,
+          "medium_stroke_pixels": 802,
+          "alpha_mask_pixels": 1499,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-14/context.png",
+          "context_sha256": "15b5c75260d9a7e0b11191c6b30e374f1b76c8c42b5c9237ffbcd8b913f765ef",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-14/input-transparent.png",
+          "input_sha256": "b6f567e4d78c50c1579d0e772dc1bc1fdad216947108eef15760dc74e80ed154",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-14/alpha-mask.png",
+          "alpha_mask_sha256": "c8073583c42585df1bf1b662e914ade7553b85738ef5a8a5ab734dd1a7785c2c",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-14/core-mask.png",
+          "core_mask_sha256": "622f287a94bb17b17581f59eb2159694e683d84fef1bb8311ca9d149e7eed71b"
+        },
+        {
+          "key": "fire24-15",
+          "source_component_id": 23,
+          "crop_xyxy": [
+            663,
+            435,
+            791,
+            563
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            697,
+            491,
+            758,
+            508
+          ],
+          "core_pixels": 299,
+          "medium_stroke_pixels": 485,
+          "alpha_mask_pixels": 1024,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-15/context.png",
+          "context_sha256": "9964c82d88befd7d1d2be069a7a20f17800decc789b1d53cb2dbbf007ca9eee5",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-15/input-transparent.png",
+          "input_sha256": "15809815154d5858ef588e87c4cc9868f6fd068bd9649bbcd36996369d2c5caa",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-15/alpha-mask.png",
+          "alpha_mask_sha256": "de8a6eb1481a059246c5f6019500a40e8e667b52de9e997dc148853141e80f2b",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-15/core-mask.png",
+          "core_mask_sha256": "e133859cdb5e2be36ec2f6105fa5bd0b0f25588f1ce66b0d00d001d2b2c43589"
+        },
+        {
+          "key": "fire24-16",
+          "source_component_id": 25,
+          "crop_xyxy": [
+            545,
+            440,
+            673,
+            568
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            581,
+            496,
+            638,
+            513
+          ],
+          "core_pixels": 294,
+          "medium_stroke_pixels": 481,
+          "alpha_mask_pixels": 975,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-16/context.png",
+          "context_sha256": "826bbd8c2edbb8d0701c82b49d8405de41469b82f56acbf5c27034a95fca00c2",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-16/input-transparent.png",
+          "input_sha256": "b5ee56d2ce59dd386e0ba909ad03fa6f65626a16c4fe79dc2f47ee7503438a03",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-16/alpha-mask.png",
+          "alpha_mask_sha256": "672962c37676813d983de31cb6abc0ad0db02338ca783482f35bb62d13bb88ac",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-16/core-mask.png",
+          "core_mask_sha256": "c98440c071d2d6458ca0af4e3f241faed87b807662bb8aa4bdb067e534b9fba5"
+        },
+        {
+          "key": "fire24-17",
+          "source_component_id": 22,
+          "crop_xyxy": [
+            719,
+            382,
+            975,
+            638
+          ],
+          "crop_size": 256,
+          "stroke_bbox_xyxy": [
+            763,
+            483,
+            932,
+            538
+          ],
+          "core_pixels": 2900,
+          "medium_stroke_pixels": 4086,
+          "alpha_mask_pixels": 5937,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-17/context.png",
+          "context_sha256": "c6b78a10608cb668a66bd4dac7d166b88dfd772825f057adc724a6eac3287868",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-17/input-transparent.png",
+          "input_sha256": "5da5de7a66de5d81e35594db39d5441daf8ab0858c61f576f704a6a11a8d1bcd",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-17/alpha-mask.png",
+          "alpha_mask_sha256": "910f1e457190b96db3286e1f53b56ed920b0a43bec8fe7b72f4f60ad91b39569",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-17/core-mask.png",
+          "core_mask_sha256": "5d9af836482d4da1a9b03ea4f1df9efe076eaaaac8194f546e174e58672757e7"
+        },
+        {
+          "key": "fire24-18",
+          "source_component_id": 24,
+          "crop_xyxy": [
+            361,
+            383,
+            617,
+            639
+          ],
+          "crop_size": 256,
+          "stroke_bbox_xyxy": [
+            432,
+            493,
+            546,
+            530
+          ],
+          "core_pixels": 1471,
+          "medium_stroke_pixels": 2041,
+          "alpha_mask_pixels": 3181,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-18/context.png",
+          "context_sha256": "f197b37383fc0a84fa23f13fc9739114a089a2da5ee5228805f133f0e4acdf9a",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-18/input-transparent.png",
+          "input_sha256": "c8848dc29ed7e53e816bcca6d2a9fcecfff28fb820d15ec2abbe137160336328",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-18/alpha-mask.png",
+          "alpha_mask_sha256": "1bfd9c917a66f78975f2765147bbd13a397eb0bb5b6ba0d189cb31f16ea94dfd",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-18/core-mask.png",
+          "core_mask_sha256": "f68e55790864b82b3c0e672798230f28d47e49fcc8ace9b01b8476ba773a34c2"
+        },
+        {
+          "key": "fire24-19",
+          "source_component_id": 29,
+          "crop_xyxy": [
+            337,
+            468,
+            465,
+            596
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            363,
+            509,
+            439,
+            555
+          ],
+          "core_pixels": 884,
+          "medium_stroke_pixels": 1338,
+          "alpha_mask_pixels": 2317,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-19/context.png",
+          "context_sha256": "7b76f36a4a25dc388e6b0cdcfa5516d18438002eb01a246e73d6123b8354e75e",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-19/input-transparent.png",
+          "input_sha256": "2249eabced8a99d1b254f2c6bb038060cf14bb32f7bebb6f2bd7d748b9ef33f5",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-19/alpha-mask.png",
+          "alpha_mask_sha256": "3d1991eb33c71d35c9d050ccb8a48b87c507465f1fb19eefff1313b70b0160fa",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-19/core-mask.png",
+          "core_mask_sha256": "16c22a6f7b8dc9d78732ba6e0d478c0479c8a584f8274203b26381e0f7d8c07d"
+        },
+        {
+          "key": "fire24-20",
+          "source_component_id": 30,
+          "crop_xyxy": [
+            553,
+            407,
+            809,
+            663
+          ],
+          "crop_size": 256,
+          "stroke_bbox_xyxy": [
+            594,
+            515,
+            769,
+            556
+          ],
+          "core_pixels": 1781,
+          "medium_stroke_pixels": 2736,
+          "alpha_mask_pixels": 4263,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-20/context.png",
+          "context_sha256": "6c1a68f7629fd85620ed6b08c537b7d004e52db0853b97850fde5b4bf2c4d915",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-20/input-transparent.png",
+          "input_sha256": "9c1787cb0e37210f52cd9591886e48c631c918a5c1ca6695a23170bad103c15f",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-20/alpha-mask.png",
+          "alpha_mask_sha256": "81f5239fd8cab1c93df130e3070c44fd079e3e7bd133c203039478c1e4bc65a3",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-20/core-mask.png",
+          "core_mask_sha256": "6054b2475f21460ab0e16ce4ad67e4533d790f34873e774d8c55938c05bb5182"
+        },
+        {
+          "key": "fire24-21",
+          "source_component_id": 32,
+          "crop_xyxy": [
+            462,
+            489,
+            590,
+            617
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            487,
+            542,
+            566,
+            564
+          ],
+          "core_pixels": 523,
+          "medium_stroke_pixels": 799,
+          "alpha_mask_pixels": 1480,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-21/context.png",
+          "context_sha256": "a3fb6498ab9258a04610edd3be23a9c84669cbccba711bc0c29520df1b1be53c",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-21/input-transparent.png",
+          "input_sha256": "38d0010b01f55788493b0de019c891c08a24c2302f0dcc6cb5b7925b55edda5b",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-21/alpha-mask.png",
+          "alpha_mask_sha256": "10c10cc0ad368f771d5f987b6a080191523dcd3b8a9d04fa2be7236fe2c9e317",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-21/core-mask.png",
+          "core_mask_sha256": "be845839263b70de085ee8b74f9ae7b8376ece30b532f72dd676e1dfa1dd9e7f"
+        },
+        {
+          "key": "fire24-22",
+          "source_component_id": 34,
+          "crop_xyxy": [
+            381,
+            504,
+            509,
+            632
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            415,
+            558,
+            476,
+            578
+          ],
+          "core_pixels": 331,
+          "medium_stroke_pixels": 549,
+          "alpha_mask_pixels": 1109,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-22/context.png",
+          "context_sha256": "b2d00731ef1f2583ae6733c607bbfed344c542b5f3e273a0c141a0c9338bfa41",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-22/input-transparent.png",
+          "input_sha256": "1b4fb7cf771d664f147886be8f616f7289f313f28c1ef35ebd8a1bd9106a8d28",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-22/alpha-mask.png",
+          "alpha_mask_sha256": "37749847a19f4c28a43d457fadc4393239a2650ba50e2aaf223fa58c2f2cfd77",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-22/core-mask.png",
+          "core_mask_sha256": "64dd6209f54b4ac64a7cda4612aaaa603b9d335c96f81ccf36b7929847daa837"
+        },
+        {
+          "key": "fire24-23",
+          "source_component_id": 33,
+          "crop_xyxy": [
+            730,
+            505,
+            858,
+            633
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            743,
+            550,
+            846,
+            589
+          ],
+          "core_pixels": 1013,
+          "medium_stroke_pixels": 1568,
+          "alpha_mask_pixels": 2567,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-23/context.png",
+          "context_sha256": "f257940c8c3f18151bc6b7a4d54c397e655bed93b4c4822e5cc0b25a1dcb9b59",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-23/input-transparent.png",
+          "input_sha256": "eef67958a5fad6c904c96cef57b114a166ce9ef6b4980e0a82d53b62cc014b33",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-23/alpha-mask.png",
+          "alpha_mask_sha256": "9e2e5172eba8711cf1a60c63be39b54648ec59458b0a6c06b0e397bd533f4846",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-23/core-mask.png",
+          "core_mask_sha256": "30754037e6cb7a50ccdb6dfc245159aeac75c99e9c445f44b08ee825cb1c107f"
+        },
+        {
+          "key": "fire24-24",
+          "source_component_id": 35,
+          "crop_xyxy": [
+            534,
+            507,
+            662,
+            635
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            574,
+            564,
+            622,
+            579
+          ],
+          "core_pixels": 199,
+          "medium_stroke_pixels": 330,
+          "alpha_mask_pixels": 769,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-24/context.png",
+          "context_sha256": "981d2420ad81f77c005e8e7a21a57dedbe11243e92e2dd81dd333981e7e438f6",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-24/input-transparent.png",
+          "input_sha256": "d1eed83d887ba4c4e5f13e600f3f0ee3b3c37741782ac0601eecc891916e3f8d",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-24/alpha-mask.png",
+          "alpha_mask_sha256": "a4e3b90418f1f2c66dde021a93da2e6e2f26b77ae5a89738711213291a67c05f",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-24/core-mask.png",
+          "core_mask_sha256": "95bae7b689f0d753e89c337d4afb657769fac6740a0749bbd793db9820c25374"
+        },
+        {
+          "key": "fire24-25",
+          "source_component_id": 36,
+          "crop_xyxy": [
+            554,
+            466,
+            810,
+            722
+          ],
+          "crop_size": 256,
+          "stroke_bbox_xyxy": [
+            605,
+            570,
+            760,
+            619
+          ],
+          "core_pixels": 1845,
+          "medium_stroke_pixels": 3179,
+          "alpha_mask_pixels": 4567,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-25/context.png",
+          "context_sha256": "e853217e0b53aeda118f6c85aa6f444b1747e01c302752e07742a92673a32708",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-25/input-transparent.png",
+          "input_sha256": "95d2dd1a42af0c04b3b236e3beeda4d764c3923781e35a84629eba362ba126ff",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-25/alpha-mask.png",
+          "alpha_mask_sha256": "09bdabc1ee99abb7faa57a8b5e86fc6a3174b6d4a72fe4d9eca74ff1b926f538",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-25/core-mask.png",
+          "core_mask_sha256": "845bd23e27810cac131d18e754b4e1ce84c84f4fe7d447d691ba53c4498a055c"
+        },
+        {
+          "key": "fire24-26",
+          "source_component_id": 38,
+          "crop_xyxy": [
+            404,
+            476,
+            660,
+            732
+          ],
+          "crop_size": 256,
+          "stroke_bbox_xyxy": [
+            473,
+            582,
+            592,
+            627
+          ],
+          "core_pixels": 1331,
+          "medium_stroke_pixels": 2010,
+          "alpha_mask_pixels": 3185,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-26/context.png",
+          "context_sha256": "55aca78e3996694941de1f7c1868ca5bd92c4a48b90ae24ad25c6b3df8e0bc06",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-26/input-transparent.png",
+          "input_sha256": "308a356d806ca0c7f26d5d71d5f677a9518b940d41d3e97e1c85ec968b89b84f",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-26/alpha-mask.png",
+          "alpha_mask_sha256": "7cc2722beaef85d6cd78f0c54314f0d42fcfbf8b78090b9472fc833c7dcdcfd8",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-26/core-mask.png",
+          "core_mask_sha256": "f9460509dd4c315d7e42fb6227d5d6d5d20a1161154e81087ff4c81790d64fe5"
+        },
+        {
+          "key": "fire24-27",
+          "source_component_id": 41,
+          "crop_xyxy": [
+            674,
+            554,
+            802,
+            682
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            712,
+            607,
+            765,
+            630
+          ],
+          "core_pixels": 317,
+          "medium_stroke_pixels": 497,
+          "alpha_mask_pixels": 1001,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-27/context.png",
+          "context_sha256": "7b088d993a0d228b25df7413a07327d199f752251580baff5f7f53f4b94992a6",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-27/input-transparent.png",
+          "input_sha256": "bb0da60051ac648272f1818036e58443bf53b3e2236c3ad5c05b3696b7ce8339",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-27/alpha-mask.png",
+          "alpha_mask_sha256": "f4dd8aeac125b116b83d077d4b3bcf9f8e44fabfe84f22a8c03fbb765b1e202e",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-27/core-mask.png",
+          "core_mask_sha256": "2404306c34f63559619c94d50d6d76fdc7f42290c451d29e868d6a20ed004359"
+        },
+        {
+          "key": "fire24-28",
+          "source_component_id": 43,
+          "crop_xyxy": [
+            634,
+            580,
+            762,
+            708
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            674,
+            638,
+            723,
+            651
+          ],
+          "core_pixels": 176,
+          "medium_stroke_pixels": 317,
+          "alpha_mask_pixels": 731,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-28/context.png",
+          "context_sha256": "031dde438b05f50aad4f110329e5f8cc7b7fed6c4a8bee602cade2bddc7322ea",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-28/input-transparent.png",
+          "input_sha256": "b7eb603956ca0c7aae604dfac8bbd77fa2802be762d5d896d03806e1173ab5d6",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-28/alpha-mask.png",
+          "alpha_mask_sha256": "fb22b787647ce985c1d880a65c592cc79bc74e61a3c2d290b2410a5cc8fe99c4",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-28/core-mask.png",
+          "core_mask_sha256": "adb8437a9421ae561e90fe37c2e618019dc15febaa6cec4f295cde47df825c89"
+        },
+        {
+          "key": "fire24-29",
+          "source_component_id": 42,
+          "crop_xyxy": [
+            482,
+            534,
+            738,
+            790
+          ],
+          "crop_size": 256,
+          "stroke_bbox_xyxy": [
+            526,
+            638,
+            694,
+            686
+          ],
+          "core_pixels": 2587,
+          "medium_stroke_pixels": 3548,
+          "alpha_mask_pixels": 5312,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-29/context.png",
+          "context_sha256": "28e9c653fb249baa2352ad73a58165bb13282e91c7548c2fffcd7fafc4de6936",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-29/input-transparent.png",
+          "input_sha256": "9e142245d923d8b98a9f46b796eab4cccfaafc5dcea8c5118a7152739bfa30bc",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-29/alpha-mask.png",
+          "alpha_mask_sha256": "11a8ac46cedafe9136b547d404527c2c40314fa66f2731262e8fbd2efce79e92",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-29/core-mask.png",
+          "core_mask_sha256": "aab2d0246f64dcb49ce4221f50d66ecc43c05583a9fd92347affc1367ee6d7c9"
+        },
+        {
+          "key": "fire24-30",
+          "source_component_id": 44,
+          "crop_xyxy": [
+            564,
+            637,
+            692,
+            765
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            611,
+            692,
+            646,
+            710
+          ],
+          "core_pixels": 194,
+          "medium_stroke_pixels": 337,
+          "alpha_mask_pixels": 703,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-30/context.png",
+          "context_sha256": "5fd5b719a190c93b00e67c87386d81c53da7b809c90a5717430d4002d6876b43",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-30/input-transparent.png",
+          "input_sha256": "aea2a383880a207df5fb8e02e30b96f8a8a8e94aad238daf4bc1a9b98840ca12",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-30/alpha-mask.png",
+          "alpha_mask_sha256": "b3bd0cbcf3e2961ffa777440a6887420b1c7c4e7fc28f7a9aa539c82a9dd584c",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-30/core-mask.png",
+          "core_mask_sha256": "a7ca942014d34e9ce30dd1617b71b856a066a310f9e44fd19cda119bc90d5a84"
+        }
+      ],
+      "static_residual_core_components": [
+        {
+          "core_pixels": 52,
+          "bbox_xyxy": [
+            653,
+            482,
+            687,
+            491
+          ]
+        },
+        {
+          "core_pixels": 37,
+          "bbox_xyxy": [
+            698,
+            408,
+            724,
+            415
+          ]
+        },
+        {
+          "core_pixels": 25,
+          "bbox_xyxy": [
+            550,
+            581,
+            570,
+            587
+          ]
+        }
+      ],
+      "caveat": "Threshold core coverage measures selected source light strokes, not animated coverage or artistic acceptance. Diffuse red heat outside the core stays on the original static tile."
+    },
+    "29": {
+      "source_path": "docs/art/fire-low-styles-20261104/fire-low-29.png",
+      "source_sha256": "3f89930f385e43a1efe4d4895c25ff74a7cfc4215d740c2d697263261122756e",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "core_threshold": "R>205 and G>95 and B<110 and R-G>75",
+      "medium_stroke_threshold": "R>200 and G>92 and B<115 and R-G>70",
+      "top_polygon_xy": [
+        [
+          627,
+          245
+        ],
+        [
+          954,
+          493
+        ],
+        [
+          627,
+          734
+        ],
+        [
+          300,
+          493
+        ]
+      ],
+      "min_significant_core_pixels": 100,
+      "alpha_mask": "8-connected medium stroke dilated by 3 native pixels, intersected with original nonzero alpha; foreign cores excluded and shared halo assigned to nearest own core",
+      "group_count": 26,
+      "core_pixels_total": 26502,
+      "selected_core_pixels": 25429,
+      "uncovered_core_pixels": 1073,
+      "uncovered_core_percent": 4.049,
+      "alpha_mask_overlap_pixels": 0,
+      "alpha_mask_overlap_max_multiplicity": 1,
+      "alpha_mask_overlap_pairs": [],
+      "candidate_overlap_pixels_before_nearest_core_assignment": 141,
+      "candidate_foreign_core_pixels_before_assignment": 41,
+      "overlap_resolution": "Foreign cores removed from halos; shared non-core halo pixels assigned by minimum Euclidean distance to each candidate group own core (key tie-break). Residual cores remain on static original plate.",
+      "foreign_core_pixels_inside_masks_total": 0,
+      "groups_with_foreign_core": [],
+      "full_source_alpha_or_rgb_modified": false,
+      "all_inputs_rgb_exact_source_crop": true,
+      "core_clip_pixels_total": 0,
+      "core_crop_border_pixels_total": 0,
+      "alpha_crop_border_pixels_total": 0,
+      "overview_path": "docs/art/fire-single-tongue-20261106/field-inputs/coverage-fire29.png",
+      "overview_legend": "green=covered by one static alpha group; pink=overlapping static groups; yellow=uncovered threshold core; numbered groups are individual inputs",
+      "groups": [
+        {
+          "key": "fire29-01",
+          "source_component_id": 1,
+          "crop_xyxy": [
+            559,
+            225,
+            687,
+            353
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            583,
+            278,
+            664,
+            301
+          ],
+          "core_pixels": 662,
+          "medium_stroke_pixels": 770,
+          "alpha_mask_pixels": 1572,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-01/context.png",
+          "context_sha256": "2d9bf79fa0bc2fde8b840e30716128c1512ca34d7c635591a49feae91168e856",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-01/input-transparent.png",
+          "input_sha256": "a1707ee6a11776941b462d0e803e23e82c58b6cb347063595a976502021dcbfe",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-01/alpha-mask.png",
+          "alpha_mask_sha256": "f4d1e221fcaacab5ce095593e39af8381104e48473db29f173139c1895c6c536",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-01/core-mask.png",
+          "core_mask_sha256": "5ea0bc29f1fbfc81360deb43bd9c5f4a84037a9925faf59de1553987c8e90ef8"
+        },
+        {
+          "key": "fire29-02",
+          "source_component_id": 13,
+          "crop_xyxy": [
+            562,
+            225,
+            818,
+            481
+          ],
+          "crop_size": 256,
+          "stroke_bbox_xyxy": [
+            618,
+            328,
+            762,
+            378
+          ],
+          "core_pixels": 1944,
+          "medium_stroke_pixels": 2264,
+          "alpha_mask_pixels": 4351,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-02/context.png",
+          "context_sha256": "a7acd83c79c18604e6cde719c7848b35d2320fc965b420085789aa60d137581a",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-02/input-transparent.png",
+          "input_sha256": "4ca837805e14181ae9c7299c0aa2e33a185f1ec68255a8067c4fb13d6d42b8c3",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-02/alpha-mask.png",
+          "alpha_mask_sha256": "d240c96aaae2ae0c9a71c88b18fcc1af529222905b830cb3e81430650ca762b4",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-02/core-mask.png",
+          "core_mask_sha256": "d2b526777f72849af7ee18e27eed806fe4363592d8fc48d3af28f8b9a380727f"
+        },
+        {
+          "key": "fire29-03",
+          "source_component_id": 19,
+          "crop_xyxy": [
+            383,
+            251,
+            639,
+            507
+          ],
+          "crop_size": 256,
+          "stroke_bbox_xyxy": [
+            449,
+            354,
+            573,
+            404
+          ],
+          "core_pixels": 1851,
+          "medium_stroke_pixels": 2142,
+          "alpha_mask_pixels": 3912,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-03/context.png",
+          "context_sha256": "f05a59dffa709f642148d79ec66fd3fba965d6998a41bac6522f83e0db8a5b60",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-03/input-transparent.png",
+          "input_sha256": "d7f347c0bc45d58dbc006eaa7334b5c60fb25538049cbe7f546d69b2d6fcdd0f",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-03/alpha-mask.png",
+          "alpha_mask_sha256": "280434be9e7b7d9a2cca76369850ad8f6d25b1ba1218f1aad808d33ac498c466",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-03/core-mask.png",
+          "core_mask_sha256": "1644f1ea453c2d0852c61231f188347907a903f19729eb842ca6ec81ad5d68ca"
+        },
+        {
+          "key": "fire29-04",
+          "source_component_id": 29,
+          "crop_xyxy": [
+            610,
+            331,
+            738,
+            459
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            649,
+            392,
+            700,
+            399
+          ],
+          "core_pixels": 174,
+          "medium_stroke_pixels": 229,
+          "alpha_mask_pixels": 632,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-04/context.png",
+          "context_sha256": "c21b126a3e85ce15d02fcac16cf7e525fba6c7ae764aba39b5aaa0229e77a4d1",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-04/input-transparent.png",
+          "input_sha256": "5daa74ee95d1cfa6c4c0ebcc8bed353ca08ff4bd7ce625aee7a26f525adb1dc4",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-04/alpha-mask.png",
+          "alpha_mask_sha256": "df9c9073cf8aea0a2e0a9262667e70617570407cec91c7d76c264041f3a0c2f3",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-04/core-mask.png",
+          "core_mask_sha256": "5560656a0f2a6d687dfa8e03c72e4c8de24dc2dc3bc8dfc319dee7a2b79759ab"
+        },
+        {
+          "key": "fire29-05",
+          "source_component_id": 33,
+          "crop_xyxy": [
+            524,
+            345,
+            652,
+            473
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            544,
+            399,
+            632,
+            420
+          ],
+          "core_pixels": 598,
+          "medium_stroke_pixels": 730,
+          "alpha_mask_pixels": 1597,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-05/context.png",
+          "context_sha256": "3d857deaf15bccdd0914c1ce1249896a8915c4c24c9b7073a1fc25d4d84d9f61",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-05/input-transparent.png",
+          "input_sha256": "af4a623495b8993f8e90b000cffa71574c27bb8668b4f77b67c473db4be31dfe",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-05/alpha-mask.png",
+          "alpha_mask_sha256": "95a66f3a88ed344c716909b37e0d5b8d4497e115f898d9badc38305452e4c96c",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-05/core-mask.png",
+          "core_mask_sha256": "a57520526612c5f90357e8a52d9367e4075b9bbc5cac128735abcc4577d2df2a"
+        },
+        {
+          "key": "fire29-06",
+          "source_component_id": 36,
+          "crop_xyxy": [
+            750,
+            361,
+            878,
+            489
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            778,
+            407,
+            851,
+            443
+          ],
+          "core_pixels": 524,
+          "medium_stroke_pixels": 631,
+          "alpha_mask_pixels": 1467,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-06/context.png",
+          "context_sha256": "7d0ecc8d187b55861cc1f2e3d3e987e2af951d44067512dfa22fa38e19563651",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-06/input-transparent.png",
+          "input_sha256": "c5c90726dbd1c25d4c46ab2fd2a71abdb884225a6b68068e667776238db88378",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-06/alpha-mask.png",
+          "alpha_mask_sha256": "0f1dc5e936676453353de8eee96eba91df84f5bed9e1dc2fa719e62c900992cf",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-06/core-mask.png",
+          "core_mask_sha256": "397726a90d4e6713aa9f778ef2b9cb3eea328c457c0fcba53ae85cc0b1cbece0"
+        },
+        {
+          "key": "fire29-07",
+          "source_component_id": 42,
+          "crop_xyxy": [
+            360,
+            365,
+            488,
+            493
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            411,
+            419,
+            438,
+            439
+          ],
+          "core_pixels": 141,
+          "medium_stroke_pixels": 206,
+          "alpha_mask_pixels": 514,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-07/context.png",
+          "context_sha256": "0cb4f9e5fcffd6a11e8b322d56629478b29b1de2246f09cb7b80ae67c5300359",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-07/input-transparent.png",
+          "input_sha256": "01fabaa4bf2148567ab5759ab2dc7172f9acd678e0db4beb774774b01cbfc677",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-07/alpha-mask.png",
+          "alpha_mask_sha256": "9571595cb045aabc9551def56a60e59c238b3c7afb02672e4a45d283a9198570",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-07/core-mask.png",
+          "core_mask_sha256": "a4c32a72911f403d44dfcf494597fa2dfe559ceabe0ec4f32e46147c8cdd3cbf"
+        },
+        {
+          "key": "fire29-08",
+          "source_component_id": 46,
+          "crop_xyxy": [
+            628,
+            366,
+            756,
+            494
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            661,
+            423,
+            724,
+            437
+          ],
+          "core_pixels": 282,
+          "medium_stroke_pixels": 352,
+          "alpha_mask_pixels": 906,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-08/context.png",
+          "context_sha256": "7b22b1cfbe2091da52daa89d02b4de5cb6fb4cea1e1249f022007f5d82b7c7d8",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-08/input-transparent.png",
+          "input_sha256": "6d66d6fad0149fed66c59748f384a015c72bc78932d059af8ba6896de77047f2",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-08/alpha-mask.png",
+          "alpha_mask_sha256": "655d96d6a65e754bee66928802e5582cfdf85fa3f5cafdda90ee683fd749e713",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-08/core-mask.png",
+          "core_mask_sha256": "8b9cd28aec77493bcb8edeb076bcca52e5caf7e5dffa857cc170609959363029"
+        },
+        {
+          "key": "fire29-09",
+          "source_component_id": 49,
+          "crop_xyxy": [
+            450,
+            370,
+            578,
+            498
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            500,
+            428,
+            528,
+            441
+          ],
+          "core_pixels": 137,
+          "medium_stroke_pixels": 202,
+          "alpha_mask_pixels": 508,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-09/context.png",
+          "context_sha256": "4599f30d14e74047ab16c81e8e4e74910cac6a451bda55d6b922dc7b27aed321",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-09/input-transparent.png",
+          "input_sha256": "ec79baa18d107fb894c19f5012e58068c3dbe024471587d9f375e78be1313b14",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-09/alpha-mask.png",
+          "alpha_mask_sha256": "8be9abb71efc4f6d0553e44d7a9a33df83e07d51d15a1f5369a3312623740fe2",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-09/core-mask.png",
+          "core_mask_sha256": "58af0050b4309b08a558353a8422430e2a1540a2b84aefd5dea1eccdabee8b5c"
+        },
+        {
+          "key": "fire29-10",
+          "source_component_id": 57,
+          "crop_xyxy": [
+            347,
+            385,
+            475,
+            513
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            375,
+            438,
+            447,
+            461
+          ],
+          "core_pixels": 490,
+          "medium_stroke_pixels": 600,
+          "alpha_mask_pixels": 1304,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-10/context.png",
+          "context_sha256": "90cc18bae9a95fecc7f1b28cff8872ca23845f3a90c07bed12630779c0af7cb0",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-10/input-transparent.png",
+          "input_sha256": "860378e10daee68c5834cde566a708d3393ecb9910e73744c5a88acd350176b2",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-10/alpha-mask.png",
+          "alpha_mask_sha256": "16659f93f66d73be8839d81b7d41dec02ecca13e4035f8c343240461fec3adb7",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-10/core-mask.png",
+          "core_mask_sha256": "2dce62a603cfc64fb78d7f3086ca13250c8883b71f8e86485307ec46ab05d80c"
+        },
+        {
+          "key": "fire29-11",
+          "source_component_id": 80,
+          "crop_xyxy": [
+            471,
+            392,
+            599,
+            520
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            512,
+            450,
+            559,
+            462
+          ],
+          "core_pixels": 158,
+          "medium_stroke_pixels": 191,
+          "alpha_mask_pixels": 602,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-11/context.png",
+          "context_sha256": "6529e046032415a8b6b6d14f3faec02694c68a263d091b361ebb5b408ac8c3ce",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-11/input-transparent.png",
+          "input_sha256": "6be2a5927aa0e1585517b34b9ab1b335a39b2d6980bd7ff5fb49aec51cbd96ce",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-11/alpha-mask.png",
+          "alpha_mask_sha256": "d1c27c2006c85b88eb7c2c18212735ea647cf4748ae8ae7fd8fb94e41ef7038f",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-11/core-mask.png",
+          "core_mask_sha256": "cb5ad8bda0e00ee3a177f43cbb8e88f42b6aae19245b527f133b9f5b8ee152ca"
+        },
+        {
+          "key": "fire29-12",
+          "source_component_id": 73,
+          "crop_xyxy": [
+            680,
+            359,
+            936,
+            615
+          ],
+          "crop_size": 256,
+          "stroke_bbox_xyxy": [
+            697,
+            447,
+            920,
+            527
+          ],
+          "core_pixels": 4327,
+          "medium_stroke_pixels": 5248,
+          "alpha_mask_pixels": 9192,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-12/context.png",
+          "context_sha256": "fd82bbbea35792718402d8ad2df2b8cbe9892ddffe6e6bace45972697facc663",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-12/input-transparent.png",
+          "input_sha256": "4f473f1807b383989b68d66dde3b630f814cf598e76e22d4cd5a033464caf2ef",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-12/alpha-mask.png",
+          "alpha_mask_sha256": "1ce2390903d9cdb71dcf3a0590869463904fbd6f98b5f0647f4f49c62d7d65f1",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-12/core-mask.png",
+          "core_mask_sha256": "aad995d8e3d7ce3dfe982afc9713903d06000a6b4a608116fe5dfb75fa800547"
+        },
+        {
+          "key": "fire29-13",
+          "source_component_id": 107,
+          "crop_xyxy": [
+            530,
+            364,
+            786,
+            620
+          ],
+          "crop_size": 256,
+          "stroke_bbox_xyxy": [
+            601,
+            475,
+            716,
+            509
+          ],
+          "core_pixels": 1314,
+          "medium_stroke_pixels": 1558,
+          "alpha_mask_pixels": 2991,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-13/context.png",
+          "context_sha256": "d55235935c0513c7bfd18824a2eef4eec3de94e762562e31186018ecdec40177",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-13/input-transparent.png",
+          "input_sha256": "7be0232a09fca94e19b88c01047e61d13fe1672f0ae910508ec49b8ff8ab842f",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-13/alpha-mask.png",
+          "alpha_mask_sha256": "96c006c299f1f9d8a9d4d6b5c72c96bb688e5e827a17b364fc1778cc7f082d3b",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-13/core-mask.png",
+          "core_mask_sha256": "81f218e8f2ec17b21a9e8e4add1fd271dbfbdd8699ce6fee4f38c0a18bbae714"
+        },
+        {
+          "key": "fire29-14",
+          "source_component_id": 96,
+          "crop_xyxy": [
+            303,
+            367,
+            559,
+            623
+          ],
+          "crop_size": 256,
+          "stroke_bbox_xyxy": [
+            326,
+            466,
+            536,
+            524
+          ],
+          "core_pixels": 3306,
+          "medium_stroke_pixels": 3945,
+          "alpha_mask_pixels": 7487,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-14/context.png",
+          "context_sha256": "006acd146af7e65b3e26501b08d24654ec66e9d6a8a97a9e3fa93fb3cd57dd1a",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-14/input-transparent.png",
+          "input_sha256": "5e719c9a05b83be7a7207ecd099789dc89a6c3c1b2cd79f474eaf6e6d2689c14",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-14/alpha-mask.png",
+          "alpha_mask_sha256": "3ede0a21ee8c7f8401072df2eab97d440d395d84f45164a751038da7afef8c54",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-14/core-mask.png",
+          "core_mask_sha256": "ff2fe10e2a60f4dc6c2138de40239a694fbd00a82ec71f050dfabc899ed97ad3"
+        },
+        {
+          "key": "fire29-15",
+          "source_component_id": 167,
+          "crop_xyxy": [
+            514,
+            469,
+            642,
+            597
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            556,
+            524,
+            600,
+            542
+          ],
+          "core_pixels": 307,
+          "medium_stroke_pixels": 397,
+          "alpha_mask_pixels": 865,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-15/context.png",
+          "context_sha256": "27b9a70e674ce099acfe49ea2129bb542c4a383d5b82ac11e7e22e839aa651e4",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-15/input-transparent.png",
+          "input_sha256": "fb776fd589bd4ea9f8c1c4cc356e6c1476e3d7c3cd7a8849b419fe3b5036d954",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-15/alpha-mask.png",
+          "alpha_mask_sha256": "7c83606377b7229603cf512c6368fd9c8dc6eeaec2b7106d238f0cb3afb298f9",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-15/core-mask.png",
+          "core_mask_sha256": "539457147c159dd22bb8157bc58b6f1437e91f9941318e4ec32534693837b1dc"
+        },
+        {
+          "key": "fire29-16",
+          "source_component_id": 177,
+          "crop_xyxy": [
+            617,
+            474,
+            745,
+            602
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            657,
+            533,
+            705,
+            544
+          ],
+          "core_pixels": 181,
+          "medium_stroke_pixels": 226,
+          "alpha_mask_pixels": 678,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-16/context.png",
+          "context_sha256": "15a77766397c4c3ef926032074e43fcf1246d0edbf88582a90f8431fc27a0a27",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-16/input-transparent.png",
+          "input_sha256": "c58b5173b26669a084d870f024cd1bc43f4d08c75efd09cc4ce6551804e41a0d",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-16/alpha-mask.png",
+          "alpha_mask_sha256": "ae36ca04ff0ac99d01346526ad9d712af3d2ed6aba444744cb3a9d94b3d4071f",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-16/core-mask.png",
+          "core_mask_sha256": "5441537c71dd6252e63711bd6e8ceee1b8dfd5870af8036bdb60d6df6c532930"
+        },
+        {
+          "key": "fire29-17",
+          "source_component_id": 179,
+          "crop_xyxy": [
+            713,
+            478,
+            841,
+            606
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            748,
+            534,
+            806,
+            550
+          ],
+          "core_pixels": 262,
+          "medium_stroke_pixels": 333,
+          "alpha_mask_pixels": 921,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-17/context.png",
+          "context_sha256": "77cde99b6cd0d0054b9217446d97c2ae2098d7ba1deb31c2eb93ecc6cd6f0a01",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-17/input-transparent.png",
+          "input_sha256": "26b487645645022fd7f647c4a122dcdc3614ce1e3397a7b36c92aaba0c77434c",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-17/alpha-mask.png",
+          "alpha_mask_sha256": "ce5afa94a8a42929425f6d86843c4254f97c29d7c01d4dc93c64a36fa7d19238",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-17/core-mask.png",
+          "core_mask_sha256": "f89aae2c048e063c7427cff82926817e5508b3e852bb6eebb063b1059fe09450"
+        },
+        {
+          "key": "fire29-18",
+          "source_component_id": 180,
+          "crop_xyxy": [
+            447,
+            489,
+            575,
+            617
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            501,
+            536,
+            522,
+            570
+          ],
+          "core_pixels": 279,
+          "medium_stroke_pixels": 321,
+          "alpha_mask_pixels": 802,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-18/context.png",
+          "context_sha256": "bf5c7d8e6a57d76bf638649288c1050782fc4351b9761c32061ebe56396118ac",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-18/input-transparent.png",
+          "input_sha256": "017bafe92e6dcd899c3b00b6ee2761ce2b78c910ab46205fb9edb7ed48c2eb30",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-18/alpha-mask.png",
+          "alpha_mask_sha256": "1cf746652df283c5dbb8c29966a77cc2802b075c17eeaff549a9e26c62a4a146",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-18/core-mask.png",
+          "core_mask_sha256": "b6f9a533e84eb6d403955aa706c20e93742b1b79886c5b16a19dfd16b3791af1"
+        },
+        {
+          "key": "fire29-19",
+          "source_component_id": 189,
+          "crop_xyxy": [
+            371,
+            492,
+            499,
+            620
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            411,
+            546,
+            459,
+            566
+          ],
+          "core_pixels": 215,
+          "medium_stroke_pixels": 303,
+          "alpha_mask_pixels": 864,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-19/context.png",
+          "context_sha256": "e2ab59538f14df5e4b5c9849fbb8fc9899f7002efbdff04ce5bf53bf24b1052c",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-19/input-transparent.png",
+          "input_sha256": "03bb824aa942209d5e84c17223a1c6d18b310143168c03190019ba25330dcb2d",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-19/alpha-mask.png",
+          "alpha_mask_sha256": "713c7f1a9eb49408c5f52d2a474690d4d016688991aef0b625be782bb0b15b06",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-19/core-mask.png",
+          "core_mask_sha256": "03d45b576c1863242e485613e1b4367754e85231d3978e5ec57825e3f4204b9a"
+        },
+        {
+          "key": "fire29-20",
+          "source_component_id": 192,
+          "crop_xyxy": [
+            586,
+            498,
+            714,
+            626
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            620,
+            554,
+            681,
+            570
+          ],
+          "core_pixels": 361,
+          "medium_stroke_pixels": 481,
+          "alpha_mask_pixels": 1020,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-20/context.png",
+          "context_sha256": "b461274ed49bf07e79bb61600c5f637c85c795b9f9d9d4c4dee711a597360af9",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-20/input-transparent.png",
+          "input_sha256": "7ec9ad764b79b3d6b4c66231d066ab2b370855017a04106504a1e4694b1f4a0b",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-20/alpha-mask.png",
+          "alpha_mask_sha256": "da0f96cd5e57a8dc0795fb4d5242b50a3a348ff6e4e6ac4cc1dc92206826feb8",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-20/core-mask.png",
+          "core_mask_sha256": "bd677005d12aa443a1c4366c30a76609dddd6f6e017e632725dbd85fa2532170"
+        },
+        {
+          "key": "fire29-21",
+          "source_component_id": 196,
+          "crop_xyxy": [
+            604,
+            458,
+            860,
+            714
+          ],
+          "crop_size": 256,
+          "stroke_bbox_xyxy": [
+            660,
+            562,
+            805,
+            610
+          ],
+          "core_pixels": 2247,
+          "medium_stroke_pixels": 2639,
+          "alpha_mask_pixels": 4975,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-21/context.png",
+          "context_sha256": "949a7641a0505a691108bffb3cd96f28f414d9b6cb89dc4ee8fce63a6da12c02",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-21/input-transparent.png",
+          "input_sha256": "69d9699138ee8de5ee071b05b8c17d5989b8bc88cf58456913c01a0658f72f88",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-21/alpha-mask.png",
+          "alpha_mask_sha256": "460b95fe4fbc96b8fb291aef5dc2fff549d2a8a3f1a3bfc956a13cdfe6dbc427",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-21/core-mask.png",
+          "core_mask_sha256": "5dfc4d21a0823240cca92a435d2e5bf7c530e432f3f86a7deb454c5d19b17634"
+        },
+        {
+          "key": "fire29-22",
+          "source_component_id": 208,
+          "crop_xyxy": [
+            432,
+            477,
+            688,
+            733
+          ],
+          "crop_size": 256,
+          "stroke_bbox_xyxy": [
+            459,
+            579,
+            662,
+            632
+          ],
+          "core_pixels": 2956,
+          "medium_stroke_pixels": 3553,
+          "alpha_mask_pixels": 6217,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-22/context.png",
+          "context_sha256": "23ae3ef482996394bee5967653497307401e522bc401266540c6624a21e4adb5",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-22/input-transparent.png",
+          "input_sha256": "d4a055c0756d683a7dd56ae3847eba2a499fc3780a4ca625e4f86661cddc4872",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-22/alpha-mask.png",
+          "alpha_mask_sha256": "16288c77dc985ee22abf4d97048944ce422aba86d25355c9b5e26b12019f7df5",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-22/core-mask.png",
+          "core_mask_sha256": "d9c4cef3b7e2b49f231425a1201e1a6c118a559c41478d7ef2de7f12c36efeda"
+        },
+        {
+          "key": "fire29-23",
+          "source_component_id": 219,
+          "crop_xyxy": [
+            621,
+            554,
+            749,
+            682
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            671,
+            613,
+            700,
+            624
+          ],
+          "core_pixels": 126,
+          "medium_stroke_pixels": 177,
+          "alpha_mask_pixels": 470,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-23/context.png",
+          "context_sha256": "71f56f02ba062fff69b856b7e6467bf1f86d4b416290df7190e4d63938eaa49a",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-23/input-transparent.png",
+          "input_sha256": "24e7c280b92a929c676c01a2b1be2362f4efca68ee1ae5059538caeb6630d3f0",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-23/alpha-mask.png",
+          "alpha_mask_sha256": "f916b2cd08d4f189c39770d6d3388460938c793ab5e3ffbbbf112815f544366d",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-23/core-mask.png",
+          "core_mask_sha256": "3e98c981a24850103d1cf162d4167b5ff61c2438f80828bf76d9e2272b89e44c"
+        },
+        {
+          "key": "fire29-24",
+          "source_component_id": 227,
+          "crop_xyxy": [
+            476,
+            579,
+            604,
+            707
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            524,
+            635,
+            557,
+            652
+          ],
+          "core_pixels": 165,
+          "medium_stroke_pixels": 200,
+          "alpha_mask_pixels": 565,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-24/context.png",
+          "context_sha256": "bdf0abbf196feb9b60a654ce72a795e5f9fc1b4f7be91113e13ffd5a5fa0ac44",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-24/input-transparent.png",
+          "input_sha256": "38946b46c698efb938c48cfc1ea0838ded248960ec1dff04b50be061477d4706",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-24/alpha-mask.png",
+          "alpha_mask_sha256": "bf0d4951f22b64c5d04fa8161d2d9f1bc7edaa80e94a35ad8faccb5df0d4bd6a",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-24/core-mask.png",
+          "core_mask_sha256": "9eca4f16b0b7221bd2e395b28673a752a88f8e6a87442895e098cb877d795654"
+        },
+        {
+          "key": "fire29-25",
+          "source_component_id": 226,
+          "crop_xyxy": [
+            517,
+            529,
+            773,
+            785
+          ],
+          "crop_size": 256,
+          "stroke_bbox_xyxy": [
+            572,
+            634,
+            719,
+            681
+          ],
+          "core_pixels": 2195,
+          "medium_stroke_pixels": 2550,
+          "alpha_mask_pixels": 4400,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-25/context.png",
+          "context_sha256": "f43afa9e97c3870415edc95f83ddf042a12354a538bfa78e88b769be15503813",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-25/input-transparent.png",
+          "input_sha256": "bf79f4c94f9ab09235271dcf0b9f8b405e888931d90184c48bd93ae8d7664071",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-25/alpha-mask.png",
+          "alpha_mask_sha256": "1302fa05f5b188c027427ceec4fb4ddc6c20dc80e311f8db04ac0f4e485b589a",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-25/core-mask.png",
+          "core_mask_sha256": "a8e8a4ae40204c7f9ab3154c5b75ddbbf6c830a9b8432f69b5ef7ded51e5eded"
+        },
+        {
+          "key": "fire29-26",
+          "source_component_id": 249,
+          "crop_xyxy": [
+            566,
+            632,
+            694,
+            760
+          ],
+          "crop_size": 128,
+          "stroke_bbox_xyxy": [
+            610,
+            689,
+            651,
+            703
+          ],
+          "core_pixels": 227,
+          "medium_stroke_pixels": 266,
+          "alpha_mask_pixels": 672,
+          "core_clipped_by_alpha_mask_pixels": 0,
+          "core_on_crop_border_pixels": 0,
+          "alpha_mask_on_crop_border_pixels": 0,
+          "foreign_core_pixels_inside_alpha_mask": 0,
+          "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-26/context.png",
+          "context_sha256": "1d237c8a48c836d5ee10b337c1f4f938e890be8c4e0e925b134cd0b107be0f7b",
+          "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-26/input-transparent.png",
+          "input_sha256": "6b408d4a7e5da0855513558c6bbf3bb189941bb2522242cdde3674a45b36db6e",
+          "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-26/alpha-mask.png",
+          "alpha_mask_sha256": "35a6f24f4f1238c07ecc9a5b6c4b3a37c85d0998619ed435553604ae4c06da95",
+          "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-26/core-mask.png",
+          "core_mask_sha256": "82cae270f0a11de041e0db0a4f5eeed85300b2601306a6d96e5caadae5354f9f"
+        }
+      ],
+      "static_residual_core_components": [
+        {
+          "core_pixels": 78,
+          "bbox_xyxy": [
+            462,
+            426,
+            486,
+            437
+          ]
+        },
+        {
+          "core_pixels": 69,
+          "bbox_xyxy": [
+            663,
+            300,
+            678,
+            316
+          ]
+        },
+        {
+          "core_pixels": 49,
+          "bbox_xyxy": [
+            528,
+            336,
+            549,
+            348
+          ]
+        },
+        {
+          "core_pixels": 49,
+          "bbox_xyxy": [
+            517,
+            486,
+            530,
+            493
+          ]
+        },
+        {
+          "core_pixels": 45,
+          "bbox_xyxy": [
+            623,
+            390,
+            643,
+            397
+          ]
+        },
+        {
+          "core_pixels": 45,
+          "bbox_xyxy": [
+            610,
+            526,
+            624,
+            535
+          ]
+        },
+        {
+          "core_pixels": 43,
+          "bbox_xyxy": [
+            673,
+            448,
+            685,
+            456
+          ]
+        },
+        {
+          "core_pixels": 43,
+          "bbox_xyxy": [
+            346,
+            504,
+            359,
+            511
+          ]
+        },
+        {
+          "core_pixels": 38,
+          "bbox_xyxy": [
+            861,
+            462,
+            873,
+            469
+          ]
+        },
+        {
+          "core_pixels": 37,
+          "bbox_xyxy": [
+            453,
+            441,
+            463,
+            457
+          ]
+        },
+        {
+          "core_pixels": 35,
+          "bbox_xyxy": [
+            570,
+            310,
+            579,
+            319
+          ]
+        },
+        {
+          "core_pixels": 35,
+          "bbox_xyxy": [
+            567,
+            477,
+            579,
+            485
+          ]
+        },
+        {
+          "core_pixels": 32,
+          "bbox_xyxy": [
+            844,
+            536,
+            854,
+            543
+          ]
+        },
+        {
+          "core_pixels": 30,
+          "bbox_xyxy": [
+            854,
+            470,
+            864,
+            478
+          ]
+        },
+        {
+          "core_pixels": 28,
+          "bbox_xyxy": [
+            711,
+            539,
+            723,
+            544
+          ]
+        },
+        {
+          "core_pixels": 28,
+          "bbox_xyxy": [
+            840,
+            544,
+            848,
+            552
+          ]
+        },
+        {
+          "core_pixels": 27,
+          "bbox_xyxy": [
+            600,
+            591,
+            610,
+            597
+          ]
+        },
+        {
+          "core_pixels": 24,
+          "bbox_xyxy": [
+            721,
+            622,
+            736,
+            627
+          ]
+        },
+        {
+          "core_pixels": 21,
+          "bbox_xyxy": [
+            595,
+            634,
+            607,
+            640
+          ]
+        },
+        {
+          "core_pixels": 18,
+          "bbox_xyxy": [
+            447,
+            469,
+            457,
+            481
+          ]
+        },
+        {
+          "core_pixels": 18,
+          "bbox_xyxy": [
+            610,
+            644,
+            618,
+            654
+          ]
+        },
+        {
+          "core_pixels": 17,
+          "bbox_xyxy": [
+            489,
+            429,
+            497,
+            433
+          ]
+        },
+        {
+          "core_pixels": 17,
+          "bbox_xyxy": [
+            768,
+            444,
+            782,
+            452
+          ]
+        },
+        {
+          "core_pixels": 17,
+          "bbox_xyxy": [
+            588,
+            477,
+            604,
+            482
+          ]
+        },
+        {
+          "core_pixels": 16,
+          "bbox_xyxy": [
+            571,
+            323,
+            577,
+            329
+          ]
+        },
+        {
+          "core_pixels": 15,
+          "bbox_xyxy": [
+            669,
+            464,
+            677,
+            470
+          ]
+        },
+        {
+          "core_pixels": 12,
+          "bbox_xyxy": [
+            722,
+            504,
+            730,
+            507
+          ]
+        },
+        {
+          "core_pixels": 12,
+          "bbox_xyxy": [
+            465,
+            532,
+            477,
+            539
+          ]
+        },
+        {
+          "core_pixels": 12,
+          "bbox_xyxy": [
+            742,
+            621,
+            748,
+            625
+          ]
+        },
+        {
+          "core_pixels": 11,
+          "bbox_xyxy": [
+            847,
+            445,
+            854,
+            450
+          ]
+        },
+        {
+          "core_pixels": 11,
+          "bbox_xyxy": [
+            476,
+            551,
+            482,
+            554
+          ]
+        },
+        {
+          "core_pixels": 10,
+          "bbox_xyxy": [
+            450,
+            577,
+            458,
+            582
+          ]
+        },
+        {
+          "core_pixels": 9,
+          "bbox_xyxy": [
+            602,
+            695,
+            607,
+            698
+          ]
+        },
+        {
+          "core_pixels": 8,
+          "bbox_xyxy": [
+            526,
+            418,
+            535,
+            421
+          ]
+        },
+        {
+          "core_pixels": 8,
+          "bbox_xyxy": [
+            602,
+            584,
+            607,
+            588
+          ]
+        },
+        {
+          "core_pixels": 7,
+          "bbox_xyxy": [
+            538,
+            475,
+            550,
+            480
+          ]
+        },
+        {
+          "core_pixels": 7,
+          "bbox_xyxy": [
+            825,
+            478,
+            833,
+            483
+          ]
+        },
+        {
+          "core_pixels": 7,
+          "bbox_xyxy": [
+            544,
+            578,
+            550,
+            582
+          ]
+        },
+        {
+          "core_pixels": 5,
+          "bbox_xyxy": [
+            651,
+            458,
+            662,
+            462
+          ]
+        },
+        {
+          "core_pixels": 5,
+          "bbox_xyxy": [
+            401,
+            527,
+            405,
+            531
+          ]
+        },
+        {
+          "core_pixels": 4,
+          "bbox_xyxy": [
+            649,
+            301,
+            656,
+            306
+          ]
+        },
+        {
+          "core_pixels": 4,
+          "bbox_xyxy": [
+            583,
+            318,
+            590,
+            322
+          ]
+        },
+        {
+          "core_pixels": 4,
+          "bbox_xyxy": [
+            645,
+            446,
+            655,
+            451
+          ]
+        },
+        {
+          "core_pixels": 4,
+          "bbox_xyxy": [
+            808,
+            542,
+            815,
+            543
+          ]
+        },
+        {
+          "core_pixels": 4,
+          "bbox_xyxy": [
+            557,
+            663,
+            562,
+            666
+          ]
+        },
+        {
+          "core_pixels": 3,
+          "bbox_xyxy": [
+            408,
+            460,
+            415,
+            463
+          ]
+        },
+        {
+          "core_pixels": 3,
+          "bbox_xyxy": [
+            916,
+            499,
+            919,
+            501
+          ]
+        },
+        {
+          "core_pixels": 3,
+          "bbox_xyxy": [
+            423,
+            533,
+            427,
+            536
+          ]
+        },
+        {
+          "core_pixels": 3,
+          "bbox_xyxy": [
+            580,
+            651,
+            586,
+            654
+          ]
+        },
+        {
+          "core_pixels": 2,
+          "bbox_xyxy": [
+            766,
+            372,
+            770,
+            375
+          ]
+        },
+        {
+          "core_pixels": 2,
+          "bbox_xyxy": [
+            743,
+            443,
+            749,
+            446
+          ]
+        },
+        {
+          "core_pixels": 2,
+          "bbox_xyxy": [
+            757,
+            445,
+            768,
+            450
+          ]
+        },
+        {
+          "core_pixels": 2,
+          "bbox_xyxy": [
+            375,
+            464,
+            383,
+            467
+          ]
+        },
+        {
+          "core_pixels": 2,
+          "bbox_xyxy": [
+            763,
+            497,
+            767,
+            500
+          ]
+        },
+        {
+          "core_pixels": 2,
+          "bbox_xyxy": [
+            731,
+            504,
+            734,
+            506
+          ]
+        },
+        {
+          "core_pixels": 2,
+          "bbox_xyxy": [
+            539,
+            512,
+            544,
+            515
+          ]
+        },
+        {
+          "core_pixels": 2,
+          "bbox_xyxy": [
+            598,
+            527,
+            608,
+            532
+          ]
+        },
+        {
+          "core_pixels": 2,
+          "bbox_xyxy": [
+            662,
+            534,
+            667,
+            536
+          ]
+        },
+        {
+          "core_pixels": 2,
+          "bbox_xyxy": [
+            587,
+            581,
+            591,
+            584
+          ]
+        },
+        {
+          "core_pixels": 2,
+          "bbox_xyxy": [
+            638,
+            641,
+            642,
+            645
+          ]
+        },
+        {
+          "core_pixels": 2,
+          "bbox_xyxy": [
+            627,
+            647,
+            634,
+            652
+          ]
+        },
+        {
+          "core_pixels": 1,
+          "bbox_xyxy": [
+            618,
+            295,
+            622,
+            297
+          ]
+        },
+        {
+          "core_pixels": 1,
+          "bbox_xyxy": [
+            554,
+            340,
+            556,
+            342
+          ]
+        },
+        {
+          "core_pixels": 1,
+          "bbox_xyxy": [
+            575,
+            404,
+            578,
+            406
+          ]
+        },
+        {
+          "core_pixels": 1,
+          "bbox_xyxy": [
+            592,
+            421,
+            593,
+            422
+          ]
+        },
+        {
+          "core_pixels": 1,
+          "bbox_xyxy": [
+            783,
+            442,
+            789,
+            445
+          ]
+        },
+        {
+          "core_pixels": 1,
+          "bbox_xyxy": [
+            669,
+            448,
+            674,
+            452
+          ]
+        },
+        {
+          "core_pixels": 1,
+          "bbox_xyxy": [
+            660,
+            450,
+            666,
+            454
+          ]
+        },
+        {
+          "core_pixels": 1,
+          "bbox_xyxy": [
+            386,
+            463,
+            388,
+            464
+          ]
+        },
+        {
+          "core_pixels": 1,
+          "bbox_xyxy": [
+            613,
+            472,
+            622,
+            478
+          ]
+        },
+        {
+          "core_pixels": 1,
+          "bbox_xyxy": [
+            361,
+            474,
+            364,
+            476
+          ]
+        },
+        {
+          "core_pixels": 1,
+          "bbox_xyxy": [
+            502,
+            474,
+            505,
+            477
+          ]
+        },
+        {
+          "core_pixels": 1,
+          "bbox_xyxy": [
+            495,
+            476,
+            500,
+            481
+          ]
+        },
+        {
+          "core_pixels": 1,
+          "bbox_xyxy": [
+            858,
+            480,
+            861,
+            482
+          ]
+        },
+        {
+          "core_pixels": 1,
+          "bbox_xyxy": [
+            438,
+            490,
+            441,
+            492
+          ]
+        },
+        {
+          "core_pixels": 1,
+          "bbox_xyxy": [
+            756,
+            498,
+            760,
+            501
+          ]
+        },
+        {
+          "core_pixels": 1,
+          "bbox_xyxy": [
+            798,
+            537,
+            801,
+            540
+          ]
+        },
+        {
+          "core_pixels": 1,
+          "bbox_xyxy": [
+            776,
+            562,
+            778,
+            566
+          ]
+        },
+        {
+          "core_pixels": 1,
+          "bbox_xyxy": [
+            812,
+            571,
+            815,
+            573
+          ]
+        },
+        {
+          "core_pixels": 1,
+          "bbox_xyxy": [
+            565,
+            664,
+            568,
+            667
+          ]
+        }
+      ],
+      "caveat": "Threshold core coverage measures selected source light strokes, not animated coverage or artistic acceptance. Diffuse red heat outside the core stays on the original static tile."
+    }
+  },
+  "qa_sample_path": "docs/art/fire-single-tongue-20261106/field-inputs/qa-transparent-samples.png",
+  "qa_sample_note": "Preview-only: 128px samples enlarged with nearest-neighbor. PixelLab inputs are native and never resized.",
+  "independent_output_verification": {
+    "pass": true,
+    "checked_groups": 56,
+    "styles": {
+      "24": {
+        "groups": 30,
+        "source_sha256_verified": true,
+        "input_rgb_and_alpha_exact": true,
+        "own_core_clipped": 0,
+        "core_max_owners": 1,
+        "alpha_max_owners": 1,
+        "foreign_core_pixels": 0,
+        "crop_border_alpha_pixels": 0,
+        "uncovered_core_pixels": 114
+      },
+      "29": {
+        "groups": 26,
+        "source_sha256_verified": true,
+        "input_rgb_and_alpha_exact": true,
+        "own_core_clipped": 0,
+        "core_max_owners": 1,
+        "alpha_max_owners": 1,
+        "foreign_core_pixels": 0,
+        "crop_border_alpha_pixels": 0,
+        "uncovered_core_pixels": 1073
+      }
+    },
+    "reviewed_input_sha256_unchanged": {
+      "fire24-07": "dce5eb9c107e6d41daf64c9e4dbe265e0eeb8b9b14cebdb63dc7a316c6fb26e1",
+      "fire29-01": "a1707ee6a11776941b462d0e803e23e82c58b6cb347063595a976502021dcbfe"
+    }
+  }
+}

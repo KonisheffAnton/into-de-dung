@@ -1,0 +1,96 @@
+{
+  "pass": true,
+  "flagged_raw_count": 17,
+  "flagged_raw": {
+    "fire24-field18": [
+      2,
+      7,
+      9,
+      11
+    ],
+    "fire29-field06": [
+      1,
+      5,
+      11
+    ],
+    "fire24-field14": [
+      1,
+      5,
+      11
+    ],
+    "fire24-field16": [
+      4,
+      14,
+      16
+    ],
+    "fire24-field24": [
+      9
+    ],
+    "fire24-field08": [
+      5,
+      6,
+      7
+    ]
+  },
+  "selected_orders": {
+    "fire24-field18": [
+      13,
+      14,
+      15,
+      14,
+      13
+    ],
+    "fire29-field06": [
+      12,
+      13,
+      14,
+      15,
+      16,
+      15,
+      14,
+      13,
+      12
+    ],
+    "fire24-field14": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      9,
+      8,
+      7,
+      6
+    ],
+    "fire24-field16": [
+      10,
+      11,
+      12,
+      13,
+      12,
+      11,
+      10
+    ],
+    "fire24-field24": [
+      4,
+      5,
+      7,
+      5,
+      4
+    ],
+    "fire24-field08": [
+      12,
+      13,
+      14,
+      15,
+      16,
+      15,
+      14,
+      13,
+      12
+    ]
+  },
+  "selection_sha256": "5768462c10d556371c518df04d3128836b4dba58a71e2cfaac15fc6fc216a164",
+  "raw_png_edits": false,
+  "review_kind": "Independent raw contact review plus explicit exclusion/disjoint check; final review separate"
+}

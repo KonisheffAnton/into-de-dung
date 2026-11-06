@@ -1,0 +1,146 @@
+{
+  "source_sha256": "011d71e26a400c2a7002995583f141491ffef148131f1e5abf565ad7587b749b",
+  "crop_sha256": "1833983e3b73945703ed925e8cfb82e47f2886c049155a5ee6c7885f706ae778",
+  "mask_sha256": "6b380ff76e2c34e46043a11ddf696c82c9950bf6d7506c148f766aab2d3034a3",
+  "roi_xyxy": [
+    664,
+    436,
+    792,
+    564
+  ],
+  "raw_frames": [
+    7,
+    8,
+    9
+  ],
+  "proposed_playback": [
+    7,
+    8,
+    9,
+    8
+  ],
+  "proposed_pose_duration_ms": 120,
+  "assembled_type": "fixed original 1254x1254 plate plus exact unmodified raw PixelLab pixels inside one fixed 128x128 mask",
+  "view256_type": "full-frame proportional LANCZOS downscale for inspection only",
+  "source_hot_core_bbox_xyxy": [
+    41,
+    58,
+    88,
+    70
+  ],
+  "frames": [
+    {
+      "raw_frame": 7,
+      "raw_sha256": "99b8ef9af59b060f5ef0263476f97c567040e1e0df0cfef456e914b0d97896b1",
+      "assembled_full_sha256": "bb8570b9d61cab5af46610a02d08d7d6891d53e798066add6aef6b0631efacd6",
+      "view256_sha256": "40718c253cd44a6ce761d05be6df49e447f6d01dfb003234e62a2d82b175f91a",
+      "mask_pixels": 873,
+      "outside_mask_changed_pixels": 0,
+      "hot_core_pixels": 290,
+      "hot_core_bbox_xyxy": [
+        41,
+        57,
+        89,
+        70
+      ],
+      "hot_core_centroid_xy": [
+        65.7,
+        63.993
+      ],
+      "hot_core_tip_y_roi": 57,
+      "tip_upward_change_vs_source_px": 1,
+      "hot_core_outside_mask_in_local_roi": 0,
+      "tongue_base_band_pixels": 175,
+      "tongue_base_band_rgb_maxdiff_gt8_vs_source": 28,
+      "inside_mask_rgb_maxdiff_gt8_vs_source": 187,
+      "inside_mask_rgb_maxdiff_gt20_vs_source": 35,
+      "inside_mask_alpha_changed_pixels": 873,
+      "inside_mask_alpha_maxdiff_vs_source": 3,
+      "boundary_rgb_maxdiff_gt8_vs_source": 17,
+      "boundary_rgb_maxdiff_gt20_vs_source": 0,
+      "boundary_rgb_maxdiff_max_vs_source": 20
+    },
+    {
+      "raw_frame": 8,
+      "raw_sha256": "4e2243fecc1319ea89db78d4c51988ba14eaada6e04f3decc9a97d269cf125ad",
+      "assembled_full_sha256": "75faa44a9efb80fd34e886b25362d4e3f618ad3150876675344179f5824fe901",
+      "view256_sha256": "732191b4d200dfd25e163563d50a2aa14fef2857e3ac3408e5d6e9abb21111f7",
+      "mask_pixels": 873,
+      "outside_mask_changed_pixels": 0,
+      "hot_core_pixels": 290,
+      "hot_core_bbox_xyxy": [
+        41,
+        57,
+        89,
+        70
+      ],
+      "hot_core_centroid_xy": [
+        65.586,
+        64.024
+      ],
+      "hot_core_tip_y_roi": 57,
+      "tip_upward_change_vs_source_px": 1,
+      "hot_core_outside_mask_in_local_roi": 0,
+      "tongue_base_band_pixels": 175,
+      "tongue_base_band_rgb_maxdiff_gt8_vs_source": 28,
+      "inside_mask_rgb_maxdiff_gt8_vs_source": 183,
+      "inside_mask_rgb_maxdiff_gt20_vs_source": 35,
+      "inside_mask_alpha_changed_pixels": 873,
+      "inside_mask_alpha_maxdiff_vs_source": 3,
+      "boundary_rgb_maxdiff_gt8_vs_source": 17,
+      "boundary_rgb_maxdiff_gt20_vs_source": 0,
+      "boundary_rgb_maxdiff_max_vs_source": 20
+    },
+    {
+      "raw_frame": 9,
+      "raw_sha256": "7a7528f8c39c7ca5bdbc1414b1c65fde2cd4389f15e42c8ef75b7983b899b6d1",
+      "assembled_full_sha256": "326d13c95bd71e27bf17b3e8ad05be92a0451ecb3bcda8ea45dcca677f6d5fe9",
+      "view256_sha256": "db30314f91a2f2e0aafd40154b15fbb723c7bb4c079d0b9e6246f0dc6f8d9a92",
+      "mask_pixels": 873,
+      "outside_mask_changed_pixels": 0,
+      "hot_core_pixels": 288,
+      "hot_core_bbox_xyxy": [
+        41,
+        57,
+        89,
+        70
+      ],
+      "hot_core_centroid_xy": [
+        65.472,
+        64.038
+      ],
+      "hot_core_tip_y_roi": 57,
+      "tip_upward_change_vs_source_px": 1,
+      "hot_core_outside_mask_in_local_roi": 0,
+      "tongue_base_band_pixels": 175,
+      "tongue_base_band_rgb_maxdiff_gt8_vs_source": 27,
+      "inside_mask_rgb_maxdiff_gt8_vs_source": 184,
+      "inside_mask_rgb_maxdiff_gt20_vs_source": 50,
+      "inside_mask_alpha_changed_pixels": 873,
+      "inside_mask_alpha_maxdiff_vs_source": 3,
+      "boundary_rgb_maxdiff_gt8_vs_source": 16,
+      "boundary_rgb_maxdiff_gt20_vs_source": 3,
+      "boundary_rgb_maxdiff_max_vs_source": 31
+    }
+  ],
+  "adjacent_pairs": [
+    {
+      "from": 7,
+      "to": 8,
+      "hot_core_xor_pixels": 6,
+      "inside_mask_rgb_maxdiff_gt8": 25,
+      "inside_mask_rgb_maxdiff_gt20": 6
+    },
+    {
+      "from": 8,
+      "to": 9,
+      "hot_core_xor_pixels": 2,
+      "inside_mask_rgb_maxdiff_gt8": 49,
+      "inside_mask_rgb_maxdiff_gt20": 25
+    }
+  ],
+  "assessment": "FAIL: the selected central highlight changes only a few hot-core pixels between 07,08,09; centroid and tip contour remain effectively still. This reads as brightness/texture flicker, not a useful sway. Raw alpha is 255 throughout the mask while the source is 252–254, creating a faint alpha boundary. No playable candidate polished.",
+  "art_pass": false,
+  "new_provider_posts": 0,
+  "new_motion_pixels": 0
+}

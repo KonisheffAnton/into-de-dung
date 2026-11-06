@@ -1,0 +1,31 @@
+{
+  "pass": true,
+  "python_files_parsed": 25,
+  "files": [
+    "docs/art/fire-single-tongue-20261106/build_layer_proof.py",
+    "docs/art/fire-single-tongue-20261106/build_overlay_proof.py",
+    "docs/art/fire-single-tongue-20261106/candidate/build.py",
+    "docs/art/fire-single-tongue-20261106/compare_color_controls.py",
+    "docs/art/fire-single-tongue-20261106/cutout-playback/build.py",
+    "docs/art/fire-single-tongue-20261106/extract_response.py",
+    "docs/art/fire-single-tongue-20261106/field-inputs/build.py",
+    "docs/art/fire-single-tongue-20261106/field-loops/build.py",
+    "docs/art/fire-single-tongue-20261106/field-loops/measure.py",
+    "docs/art/fire-single-tongue-20261106/field-preview/build.py",
+    "docs/art/fire-single-tongue-20261106/field-review/build.py",
+    "docs/art/fire-single-tongue-20261106/field-selection/build.py",
+    "docs/art/fire-single-tongue-20261106/field-selection/explore.py",
+    "docs/art/fire-single-tongue-20261106/field_pipeline.py",
+    "docs/art/fire-single-tongue-20261106/inspect_field.py",
+    "docs/art/fire-single-tongue-20261106/palette-input/build.py",
+    "docs/art/fire-single-tongue-20261106/prepare_clean_plate.py",
+    "docs/art/fire-single-tongue-20261106/prepare_color_controls.py",
+    "docs/art/fire-single-tongue-20261106/prepare_field_batch.py",
+    "docs/art/fire-single-tongue-20261106/prepare_request.py",
+    "docs/art/fire-single-tongue-20261106/prepare_short_control.py",
+    "docs/art/fire-single-tongue-20261106/record_unavailable.py",
+    "docs/art/fire-single-tongue-20261106/revise_remaining_to16.py",
+    "docs/art/fire-single-tongue-20261106/validate_docs.py",
+    "docs/art/fire-single-tongue-20261106/validate_package.py"
+  ]
+}

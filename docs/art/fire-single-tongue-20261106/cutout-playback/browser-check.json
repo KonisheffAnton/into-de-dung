@@ -1,0 +1,13 @@
+{
+  "imagesLoaded": true,
+  "initial": "../results/fire24-cutout02/raw/frame-08.png",
+  "nativeWidth": 128,
+  "zoomWidth": 512,
+  "mobileNoGlobalOverflow": true,
+  "at720": "../results/fire24-cutout02/raw/frame-03.png",
+  "paused": "Играть",
+  "afterPause": "../results/fire24-cutout02/raw/frame-03.png",
+  "stillPaused": "../results/fire24-cutout02/raw/frame-03.png",
+  "restart": "../results/fire24-cutout02/raw/frame-08.png",
+  "pass": true
+}

@@ -1,0 +1,65 @@
+{
+  "status": "unsubmitted_draft",
+  "endpoint": "/v2/edit-animation-v2",
+  "schema_snapshot": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\openapi-before-post-fire24-field10.json",
+  "schema_snapshot_sha256": "3f30f84487cd1ed8e6b548ac152b11a2aff535a6a6467b91e464dc74328a382b",
+  "schema_slice": "docs/art/fire-single-tongue-20261106/palette-input/schema-slice.json",
+  "schema_slice_sha256": "59c911bc054b9da97ef1e33b9a9badd73b2b40fe1be45ea970c1b4400a767a96",
+  "schema_note": "Operation description limits native 81-256px output to 4 frames; 8 would exceed 2x2 grid despite schema maxItems 16.",
+  "fresh_official_schema_required_before_post": true,
+  "draft": "docs/art/fire-single-tongue-20261106/palette-input/draft.json",
+  "draft_sha256": "2633068d7e4f6991d1eceecca9cefb59b89c0bb1941c675f0a571a94aff9f019",
+  "palette": "docs/art/fire-single-tongue-20261106/palette-input/palette.json",
+  "palette_sha256": "2c29dd3f917dec19f0ea7dedeb0b4ddc0762ae355546d681dfc374ab3c06fb89",
+  "palette_all_32_rgb_exactly_present_in_visible_source": true,
+  "palette_bright_pure_red_colors": 0,
+  "source_input_sha256": "9e142245d923d8b98a9f46b796eab4cccfaafc5dcea8c5118a7152739bfa30bc",
+  "source_request_sha256": "23d8ce76d76b69aeb849469d50f5e70f1f40cf42506927454cd4a940ef782a00",
+  "source_result_response_sha256": "56d50ba18e9241f257ac1e9fdb36546bf8e029259105782a54b0932ab8d03067",
+  "selected_raw_frames": [
+    {
+      "raw_index": 0,
+      "path": "docs/art/fire-single-tongue-20261106/results/fire24-field29/raw/frame-00.png",
+      "sha256": "44c92266e24ba018b805381afac5fd2ee3261f7b2ab96bd84cf3681d31077bf1",
+      "native_size": [
+        256,
+        256
+      ]
+    },
+    {
+      "raw_index": 12,
+      "path": "docs/art/fire-single-tongue-20261106/results/fire24-field29/raw/frame-12.png",
+      "sha256": "a9b88b53f504edcf1494df58f552ff9ccbb6f4d473329921daab74b0056037f9",
+      "native_size": [
+        256,
+        256
+      ]
+    },
+    {
+      "raw_index": 16,
+      "path": "docs/art/fire-single-tongue-20261106/results/fire24-field29/raw/frame-16.png",
+      "sha256": "68bf95faa824a5a9feb3893cc4e740cb8554346845393a563afac58dc7a3774c",
+      "native_size": [
+        256,
+        256
+      ]
+    },
+    {
+      "raw_index": 20,
+      "path": "docs/art/fire-single-tongue-20261106/results/fire24-field29/raw/frame-20.png",
+      "sha256": "9ef49547980f39a6066b5bdb4d7f55d6550564130e23d9cd88eebcbfd251aec5",
+      "native_size": [
+        256,
+        256
+      ]
+    }
+  ],
+  "raw_contact": "docs/art/fire-single-tongue-20261106/palette-input/selected-raw-contact.png",
+  "raw_contact_sha256": "ba9bcb585af43cc547395ac2f2b57cf367d147bccf7950b309377ff80430f028",
+  "constraints": [
+    "Provider must create all edited motion frames; this package only selects existing raw input frames and palette values.",
+    "Color-only instruction is a request, not a guarantee of exact geometry/alpha preservation.",
+    "Four edited frames would not replace the 33-frame original clip or establish a full field animation."
+  ],
+  "provider_posts": 0
+}

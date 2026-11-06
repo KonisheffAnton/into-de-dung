@@ -1,0 +1,21 @@
+{
+  "key": "fire24-field18",
+  "job_id": "8dd02c4d-8f76-46bb-8d4b-860fa1c4a3b3",
+  "same_job_completed_after_soft_failure": true,
+  "resubmitted": false,
+  "failed_gets": [
+    {
+      "file": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field18\\poll-20261106T185641555.json",
+      "sha256": "15ce099284dc14c6f9381490e94274ab61cd80728bbce93edafbb32f956946b7",
+      "error": "GPU worker dropped this. Nothing was charged yet; many of these still finish, so check before retrying."
+    }
+  ],
+  "completed_response_sha256": "1514c015483d83926c770533953277c30916773b1fa57e3e2f8914c0f9210eb8",
+  "raw_frames": 17,
+  "billing_usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 2
+  },
+  "queue_rule": "Keep this specific GPU-worker-dropped state in its existing active slot and continue GET of the same ID. No repeated POST."
+}

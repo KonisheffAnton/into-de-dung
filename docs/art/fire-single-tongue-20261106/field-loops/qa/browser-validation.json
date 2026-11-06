@@ -1,0 +1,134 @@
+{
+  "url": "file:///D:/Games/into-de-dung/docs/art/fire-single-tongue-20261106/field-loops/gallery.html",
+  "checks": [
+    {
+      "width": 1100,
+      "key": "fire24-field07",
+      "max_slot": 4,
+      "passed": true,
+      "overflow": false,
+      "images": [
+        {
+          "loaded": true,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "loaded": true,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "loaded": true,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "loaded": true,
+          "width": 256,
+          "height": 256
+        }
+      ],
+      "counter": "5/5 · raw 01 · 180 мс",
+      "metrics": "Переход к следующему: alpha XOR 0 px; premultiplied RGB >8 0 px; вид 256 px >8 0 px. Стык: точно совпадает.",
+      "page_errors": []
+    },
+    {
+      "width": 1100,
+      "key": "fire29-field01",
+      "max_slot": 6,
+      "passed": true,
+      "overflow": false,
+      "images": [
+        {
+          "loaded": true,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "loaded": true,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "loaded": true,
+          "width": 128,
+          "height": 128
+        },
+        {
+          "loaded": true,
+          "width": 128,
+          "height": 128
+        }
+      ],
+      "counter": "7/7 · raw 01 · 180 мс",
+      "metrics": "Переход к следующему: alpha XOR 0 px; premultiplied RGB >8 0 px; вид 256 px >8 0 px. Стык: точно совпадает.",
+      "page_errors": []
+    },
+    {
+      "width": 390,
+      "key": "fire24-field07",
+      "max_slot": 4,
+      "passed": true,
+      "overflow": false,
+      "images": [
+        {
+          "loaded": true,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "loaded": true,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "loaded": true,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "loaded": true,
+          "width": 256,
+          "height": 256
+        }
+      ],
+      "counter": "5/5 · raw 01 · 180 мс",
+      "metrics": "Переход к следующему: alpha XOR 0 px; premultiplied RGB >8 0 px; вид 256 px >8 0 px. Стык: точно совпадает.",
+      "page_errors": []
+    },
+    {
+      "width": 390,
+      "key": "fire29-field01",
+      "max_slot": 6,
+      "passed": true,
+      "overflow": false,
+      "images": [
+        {
+          "loaded": true,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "loaded": true,
+          "width": 256,
+          "height": 256
+        },
+        {
+          "loaded": true,
+          "width": 128,
+          "height": 128
+        },
+        {
+          "loaded": true,
+          "width": 128,
+          "height": 128
+        }
+      ],
+      "counter": "7/7 · raw 01 · 180 мс",
+      "metrics": "Переход к следующему: alpha XOR 0 px; premultiplied RGB >8 0 px; вид 256 px >8 0 px. Стык: точно совпадает.",
+      "page_errors": []
+    }
+  ],
+  "passed": true
+}

@@ -1,0 +1,40 @@
+{
+  "options": [
+    "fire24-field07 · 17 кадров",
+    "fire29-field01 · 17 кадров"
+  ],
+  "mobileNoOverflow": true,
+  "canvasSizes": [
+    [
+      "fragment",
+      256,
+      256
+    ],
+    [
+      "original",
+      1254,
+      1254
+    ],
+    [
+      "overlay",
+      1254,
+      1254
+    ]
+  ],
+  "imagesLoaded": true,
+  "initialCounter": "1 / 17",
+  "initialSeam": "Стык последнего → первого: RGBA-различия 3880 px; alpha-силуэт XOR 27 px; на сером фоне RGB >8: 1808 px. Точные RGBA различаются.",
+  "scrubCounter": "6 / 17",
+  "seamLast": "17 / 17",
+  "seamFirst": "1 / 17",
+  "selected": "fire29-01 · ROI (559, 225, 687, 353) · 128×128 px · 17 сырых кадров.",
+  "selectedCounter": "1 / 17",
+  "pass": true,
+  "desktop": {
+    "desktopNoOverflow": true,
+    "start": "1 / 17",
+    "playAdvanced": "4 / 17",
+    "pausedAt": "4 / 17",
+    "stillPaused": "4 / 17"
+  }
+}

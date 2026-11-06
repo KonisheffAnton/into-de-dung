@@ -1,0 +1,212 @@
+{
+  "url": "file:///D:/Games/into-de-dung/docs/art/fire-single-tongue-20261106/field-preview/gallery.html",
+  "checks": [
+    {
+      "width": 1280,
+      "passed": true,
+      "roi_xywh": [
+        288,
+        233,
+        678,
+        513
+      ],
+      "crop_draw_calls": [
+        {
+          "target": "source-surface",
+          "source": "source-full",
+          "count": 2,
+          "exact": true
+        },
+        {
+          "target": "animated-surface",
+          "source": "animated-full",
+          "count": 16,
+          "exact": true
+        }
+      ],
+      "temporal_motion_between_slot0_and47": [
+        true,
+        true
+      ],
+      "first_full_sha256": [
+        "1566fafa6a73b355c224373ee1cdc798b84431ff4fddb7715a437787dea7d826",
+        "81e394a976aa0f92810b10ed1961b92df4e0b8fcdb21e6380cd23cb547932627"
+      ],
+      "after_wrap_full_sha256": [
+        "1566fafa6a73b355c224373ee1cdc798b84431ff4fddb7715a437787dea7d826",
+        "81e394a976aa0f92810b10ed1961b92df4e0b8fcdb21e6380cd23cb547932627"
+      ],
+      "first_surface_sha256": [
+        "003c7ac3cd3a9b8822d3a4e2d2081453368cbcd99b5e95f087520ef96fe90692",
+        "90ba96bf007b19e2e4ff316239ebeb9fb42e906aa6b953c996943df5b7a6def3"
+      ],
+      "after_wrap_surface_sha256": [
+        "003c7ac3cd3a9b8822d3a4e2d2081453368cbcd99b5e95f087520ef96fe90692",
+        "90ba96bf007b19e2e4ff316239ebeb9fb42e906aa6b953c996943df5b7a6def3"
+      ],
+      "surfaceVisible": true,
+      "fullHidden": true,
+      "fullVisible": true,
+      "surfaceOverflow": false,
+      "fullOverflow": false,
+      "defaultSize": "256px",
+      "scaled": "512px",
+      "restart": {
+        "slot": "0",
+        "playing": true,
+        "paused": true
+      },
+      "priorGalleryLinked": true,
+      "partialExpected": false,
+      "introCorrect": true,
+      "slot": "0",
+      "clock": "00/95 · 0 мс",
+      "overflow": false,
+      "canvases": [
+        [
+          1254,
+          1254
+        ],
+        [
+          1254,
+          1254
+        ],
+        [
+          678,
+          513
+        ],
+        [
+          678,
+          513
+        ],
+        [
+          1254,
+          1254
+        ],
+        [
+          1254,
+          1254
+        ],
+        [
+          678,
+          513
+        ],
+        [
+          678,
+          513
+        ]
+      ],
+      "groups": [
+        "Движение: 30 из 30 групп",
+        "Движение: 26 из 26 групп"
+      ],
+      "seam": "Огонь 24: стык 95→0 различается (5374 нативных px с RGB>8). Огонь 29: стык 95→0 различается (848 нативных px с RGB>8).",
+      "intro": "Два полных покрытия как кандидаты для выбора; в сцену не подключены.",
+      "page_errors": []
+    },
+    {
+      "width": 390,
+      "passed": true,
+      "roi_xywh": [
+        288,
+        233,
+        678,
+        513
+      ],
+      "crop_draw_calls": [
+        {
+          "target": "source-surface",
+          "source": "source-full",
+          "count": 2,
+          "exact": true
+        },
+        {
+          "target": "animated-surface",
+          "source": "animated-full",
+          "count": 16,
+          "exact": true
+        }
+      ],
+      "temporal_motion_between_slot0_and47": [
+        true,
+        true
+      ],
+      "first_full_sha256": [
+        "e199a5ff87e50e0bbaf2fce5f9198c576dc990cc8437c18f03e110921c8e26c3",
+        "6fb7207b3632b252ad58875388bdd3d6b9223fa25445aa36f2559f39ef3cc0df"
+      ],
+      "after_wrap_full_sha256": [
+        "e199a5ff87e50e0bbaf2fce5f9198c576dc990cc8437c18f03e110921c8e26c3",
+        "6fb7207b3632b252ad58875388bdd3d6b9223fa25445aa36f2559f39ef3cc0df"
+      ],
+      "first_surface_sha256": [
+        "e077d2df20a852bddedd239a77df2c8ba73dd36b4d1a59a029803ef4964ce4be",
+        "d6f57d335cd23fdea27f11d21f6bfc917807635f38713aff4179eff850d3745a"
+      ],
+      "after_wrap_surface_sha256": [
+        "e077d2df20a852bddedd239a77df2c8ba73dd36b4d1a59a029803ef4964ce4be",
+        "d6f57d335cd23fdea27f11d21f6bfc917807635f38713aff4179eff850d3745a"
+      ],
+      "surfaceVisible": true,
+      "fullHidden": true,
+      "fullVisible": true,
+      "surfaceOverflow": false,
+      "fullOverflow": false,
+      "defaultSize": "256px",
+      "scaled": "512px",
+      "restart": {
+        "slot": "0",
+        "playing": true,
+        "paused": true
+      },
+      "priorGalleryLinked": true,
+      "partialExpected": false,
+      "introCorrect": true,
+      "slot": "0",
+      "clock": "00/95 · 0 мс",
+      "overflow": false,
+      "canvases": [
+        [
+          1254,
+          1254
+        ],
+        [
+          1254,
+          1254
+        ],
+        [
+          678,
+          513
+        ],
+        [
+          678,
+          513
+        ],
+        [
+          1254,
+          1254
+        ],
+        [
+          1254,
+          1254
+        ],
+        [
+          678,
+          513
+        ],
+        [
+          678,
+          513
+        ]
+      ],
+      "groups": [
+        "Движение: 30 из 30 групп",
+        "Движение: 26 из 26 групп"
+      ],
+      "seam": "Огонь 24: стык 95→0 различается (5374 нативных px с RGB>8). Огонь 29: стык 95→0 различается (848 нативных px с RGB>8).",
+      "intro": "Два полных покрытия как кандидаты для выбора; в сцену не подключены.",
+      "page_errors": []
+    }
+  ],
+  "passed": true
+}

@@ -1,0 +1,62 @@
+{
+  "verdict": "APPROVE",
+  "scope": "Independent technical review of offline fire24/fire29 candidates; not user art acceptance or runtime integration",
+  "reviewer": "/root/acid_overlay_review",
+  "model_role": "game_reviewer gpt-6-sol/high",
+  "base_commit": "3ca6efe5f931525265480b14c3acc4a6d0be92f7",
+  "artifact_sha256": {
+    "field-selection/build.py": "6c9cc4f4b9ad4b54e335261f12a1f92e3e34c08691919b42c681c0549bc9acaf",
+    "field-selection/selection.json": "5768462c10d556371c518df04d3128836b4dba58a71e2cfaac15fc6fc216a164",
+    "field-preview/build.py": "8c84e8c88c90c2f220c7230e0193af8922dbe0abbb95c8744381223b9895ead5",
+    "field-preview/gallery.html": "9ddb4c0ebf688f9722e1c1ea9c5310593af6b0ecf3f2059f72cc1bf1d53780cf",
+    "field-preview/gallery-data.js": "b4656b2f1b27ae5a6b006b7d2446123983c471131177120a59da684437fa2b98",
+    "field-preview/manifest.json": "b111411f1c33015bf6203cf888843c40cbf0f42f904eed32c5bd34e34a7764fe",
+    "field-preview/qa/check_gallery.cjs": "d4d0a3d8d621dfba8edf8df27cf5ff76103527b83bd50f4e46f447726b9a9201",
+    "field-preview/qa/browser-validation.json": "a5bdcb326035f559e81edd67136d7111a4d72b6b390cc2dc91793d0ee8acb848"
+  },
+  "checks": {
+    "selected_groups": 56,
+    "selected_groups_24_29": [
+      30,
+      26
+    ],
+    "selected_raw_frames_independently_checked": 282,
+    "selected_raw_sha_and_paths": true,
+    "original_core_exposed_pixels": 0,
+    "selected_alpha_outside_native_dilation4_pixels": 0,
+    "selected_crop_border_alpha_pixels": 0,
+    "min_alpha_on_core": 255,
+    "flagged_raw_excluded": 17,
+    "fixed_native_roi_source_over_only": true,
+    "locally_generated_or_deformed_motion": false,
+    "outside_allowed_union_unchanged": true,
+    "slot96_exact_slot0": true,
+    "transitions_checked_per_style": 96,
+    "visible_95_to0_claimed_exact": false,
+    "browser_viewports_pass": [
+      1280,
+      390
+    ],
+    "surface_roi_xywh": [
+      288,
+      233,
+      678,
+      513
+    ],
+    "native_overlap_pixels_max_24_29": [
+      5,
+      55
+    ]
+  },
+  "observations": [
+    "No obvious new jets, global flash or stone translation in worst-transition contacts and final gallery screenshots.",
+    "Style24 visible seam RGB>8 pixels5374, median4183, maximum8048; style29 seam848, median2772.",
+    "Worst adjacent effect luminance ratios are approximately1.00038 and1.00046."
+  ],
+  "limitations": [
+    "fire29-field16 is slightly flatter/redder, within chroma bounds.",
+    "Motion can be very quiet at256px.",
+    "User art acceptance and future runtime/Godot integration remain separate.",
+    "Previous spike-package APPROVE was not repeated."
+  ]
+}

@@ -1,0 +1,569 @@
+{
+  "pass": true,
+  "partial": false,
+  "raw_png_byte_matches": 1217,
+  "confirmed_provider_usage_generations": 173,
+  "unavailable_jobs": [
+    "fire24-field02",
+    "fire24-field04",
+    "fire29-field02"
+  ],
+  "unavailable_balance_delta": 15,
+  "unavailable_usage_from_provider": null,
+  "pending_jobs": [],
+  "jobs": [
+    {
+      "key": "fire24-alpha01",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "3d4a58ef-9873-4300-9270-e0e622bbafc6",
+      "raw_count": 33,
+      "usage_generations": 5,
+      "response_sha256": "57b577d4c709402d635a0eb55a4c83ee3e4b7ae6b17934b8d2a1a590d725a3c4"
+    },
+    {
+      "key": "fire24-cleanplate03",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "aec31187-81a4-455f-a4ac-5b466d00cb5b",
+      "raw_count": 1,
+      "usage_generations": 10,
+      "response_sha256": "0d909687b2d6b1e5918b37ca797137422308b00ffe4392879921f956bb492921"
+    },
+    {
+      "key": "fire24-cleanplate04",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "b0d45bf8-9896-4079-be9f-9b689080c82f",
+      "raw_count": 1,
+      "usage_generations": 10,
+      "response_sha256": "8a09ea1daf7a46dd743e5ad0e5cecd745dd810f8b57cb886dbba32af5cffaeeb"
+    },
+    {
+      "key": "fire24-cutout02",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "5ca319bf-2c96-4568-bf23-c75a6b333519",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "67a7db6d9e1ec89f46cff9ce947f24fc3e17b495e3e0458d68e268d5cd1817ed"
+    },
+    {
+      "key": "fire24-drift01",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "33dd3714-4da6-42ba-b863-fd6cbe085a19",
+      "raw_count": 33,
+      "usage_generations": 5,
+      "response_sha256": "d941babdbea82046162953c0dd4dae74cf48987a36f2b303306306e15ea42759"
+    },
+    {
+      "key": "fire24-field01",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "8bdfbec6-3bda-4663-8eb9-75af55b247f0",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "ee08926911b1d24537ec92de396eef600dfb40887931a44d1ab3bcfaae91ffdd"
+    },
+    {
+      "key": "fire24-field02",
+      "result": "unavailable_after_404",
+      "raw_count": 0
+    },
+    {
+      "key": "fire24-field02r1",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "0dd116bf-34b0-40ea-b43b-580eb16b584e",
+      "raw_count": 33,
+      "usage_generations": 5,
+      "response_sha256": "571af8dbc1df15689f2c58923e47ec549d61dc854f119ce344d62ec012a43411"
+    },
+    {
+      "key": "fire24-field03",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "2d6b5182-6af3-43da-b586-17a5db5b2495",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "2b3b378ad7cb324fc8677da9ab525394eebf0c14d56a4038d27c90adf2b3e1d3"
+    },
+    {
+      "key": "fire24-field04",
+      "result": "unavailable_after_404",
+      "raw_count": 0
+    },
+    {
+      "key": "fire24-field04r1",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "f2031d9c-c6ad-4115-8c1b-9a32cec45a8f",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "dab8807fbee0049df6862b5907ee9296ad3cb0c5cb3aff6b54dbbc7726e8b342"
+    },
+    {
+      "key": "fire24-field05",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "3035e451-65c0-44be-a482-e15f98e09554",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "7190ffca81b8d1d05e126edbbeb2d884b830b5648dc0b1953f4083f8f4f89414"
+    },
+    {
+      "key": "fire24-field06",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "1e525e95-bc1b-436e-9e85-416cb2babb32",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "a5496061896edfa9cd5a4f0d5034c96db5c63c0915296fe0edd4240142ce74da"
+    },
+    {
+      "key": "fire24-field07",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "2b281153-7d4e-4fac-8161-20aaf8531b6a",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "b5c3b43521802a57c8b28b53d6d9a7d3fa6dedcb696ccae7c120900991e912a0"
+    },
+    {
+      "key": "fire24-field08",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "297ecf8c-56ef-4115-b4ae-5189eda54443",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "029fce49becccafb6236aa868642c625f70ac93a2337f1dc36e4fcbb05101798"
+    },
+    {
+      "key": "fire24-field09",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "23aef6c7-9f72-4383-a2b1-a5cf1b6a9fba",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "bcfef97eb2cc64dc8e5b87011df5c80adb7c56cda807ffcd4d5a06a0c97fda06"
+    },
+    {
+      "key": "fire24-field10",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "cff38344-9c0a-4846-9408-61335724468c",
+      "raw_count": 33,
+      "usage_generations": 5,
+      "response_sha256": "f66401f23f38964c8891bd9aaffcd10a74923caf53dee274d87d5190e8fcba65"
+    },
+    {
+      "key": "fire24-field11",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "d3d349f9-a26c-40b0-b0f9-c8e9f6252d45",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "b4d95ffc7d7cf2082fab701d12213d3d260d2c93925dc51427fecc673c01ca86"
+    },
+    {
+      "key": "fire24-field12",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "353490a0-7839-4086-9da6-c4c3027f62c0",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "daf7c6fbe1abe76e3af44b1dfda94d1aff0cf67e6c6f55365d08f3f58429e68c"
+    },
+    {
+      "key": "fire24-field13",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "899e9719-c219-46ad-9c1c-be5a07186196",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "b0b4e5c70a055022a3bbbc0874f516dddd18cec3226c2d3d8df796e3f32c0e99"
+    },
+    {
+      "key": "fire24-field14",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "663fa97a-d31e-464f-b82a-05c8e31233e3",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "8341b9d3c563ad2e6b401a613a43cf20fbaf96effe37f2e5a0c7d46fd00986f2"
+    },
+    {
+      "key": "fire24-field15",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "a68e0fd6-2327-4bbc-9d88-b3c1672d87ba",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "57734f1b4717b2fa0fdc0d8e4a5ce113635a0e575b40d3ca207ae965ca0eba04"
+    },
+    {
+      "key": "fire24-field16",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "ba5bb3bc-f3e7-49b4-9276-4db3e9c9cb1d",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "762c4e1e4cc44b7cb53239a50a0eab38ff8f89014b02c06097b26625448a6038"
+    },
+    {
+      "key": "fire24-field17",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "d03cd6a3-0628-4010-9bb5-72c1a4c751aa",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "8af98e3cccebc882e83c91d407428f608a7daf360f55a1139f33758806bcb8f7"
+    },
+    {
+      "key": "fire24-field18",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "8dd02c4d-8f76-46bb-8d4b-860fa1c4a3b3",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "1514c015483d83926c770533953277c30916773b1fa57e3e2f8914c0f9210eb8"
+    },
+    {
+      "key": "fire24-field19",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "dbd3f87f-01d9-43ae-93d6-93b0c216dacf",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "a7d2d0071f7f20e1c9a72a0f044d7ac9c25494be5ca11f414097707560ec2c06"
+    },
+    {
+      "key": "fire24-field20",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "0f72d900-1eec-4cab-91a1-1ec3745f3216",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "d206014c19526b85a2c279c50771070a8617314a2fc89ecd75834f29eebf83d4"
+    },
+    {
+      "key": "fire24-field21",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "0e993b66-f962-4f3f-89f4-d40b014c3c38",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "3be5f9d01e2f3d9102a4a4c376126a92d5bdc5b389155b4c1b1fe7b967c8d740"
+    },
+    {
+      "key": "fire24-field22",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "bf4642b1-3840-433c-9935-a11c71b50fc4",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "341ed296a180f2370b6e3987b557eed12856b503461878f8d41df5b29fd9dda5"
+    },
+    {
+      "key": "fire24-field23",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "83880059-7ecd-4bf3-816f-f9ce0e3c1dce",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "68c0524b9782999481fd2cda9d4b8f97b04ec07febc9ae3ca141c3bdbd61acf7"
+    },
+    {
+      "key": "fire24-field24",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "10171df8-d100-4774-b1f7-6b531e9b036c",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "a206e8d71fc68a445f7d2ab83e394a414ebfb16b3cc3ddcdb09d666d96a7d32a"
+    },
+    {
+      "key": "fire24-field25",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "5e6492a0-4564-4aac-aa79-cacd5e81f9be",
+      "raw_count": 33,
+      "usage_generations": 5,
+      "response_sha256": "ea0742f2d9b1eb9afd64b367aa20938a486cee77891b48db47fd4ccaf4c7807f"
+    },
+    {
+      "key": "fire24-field26",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "6744f2db-fbba-4fe9-b19f-b42e8eea730d",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "067e377e1413bf718616701d9a107630c3fbdaa2c654ee87a0dd24ead39629ca"
+    },
+    {
+      "key": "fire24-field27",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "a72ae305-1789-4b58-9ae7-467dc2b67fa4",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "1d3ec8b318ac05bc8fd2eac5f3d27ca96c0c249d9a669a847ebe79db0c3ba278"
+    },
+    {
+      "key": "fire24-field28",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "81c9bc96-6c39-403f-8648-218b96ba0c56",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "38b89e80723f1d38e404435564a4bae053b3f6d84a20f23b8746bc0e0528aa39"
+    },
+    {
+      "key": "fire24-field29",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "b16fb436-0f08-4c5d-a45c-3d3d4ba81cc7",
+      "raw_count": 33,
+      "usage_generations": 5,
+      "response_sha256": "56d50ba18e9241f257ac1e9fdb36546bf8e029259105782a54b0932ab8d03067"
+    },
+    {
+      "key": "fire24-field30",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "3a3e3638-b6f3-4335-a009-6de0ef1f836d",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "a76cd30e187c2836fcc35d0b9777beb636a0f163eaf8e823cc7b3887d1a84adb"
+    },
+    {
+      "key": "fire24-short01",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "456a3609-0dc0-4869-94fc-d1b563f84088",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "72f6dc79cfcc9a4338c2d6c71efd21537e34f8d85501fa749193a2210cc7b640"
+    },
+    {
+      "key": "fire24-short02",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "e9f7956e-4174-4921-aad9-fa06be928df1",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "2d5ddd188af22fdb994ec064fcf8033545291726774a9add833a7e468d71b1b9"
+    },
+    {
+      "key": "fire24-single01",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "9a81abcd-ba41-43bb-9f85-ef7b25d06778",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "e3f17f55900b536325a87b9c288ea970fe4edae886f4fe1e632bdbc58abe5703"
+    },
+    {
+      "key": "fire29-field01",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "b821fbdd-fb30-4fd0-a41c-6febacb4f09f",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "0b050f8a2549e58fa899187505f6a9abd60e23f822a4d935ba894f518efab278"
+    },
+    {
+      "key": "fire29-field02",
+      "result": "unavailable_after_404",
+      "raw_count": 0
+    },
+    {
+      "key": "fire29-field02r1",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "b234960b-ddc9-4798-a52a-937452619d3b",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "b8096b0278820ad4664b0f4a10610a8a772d1b7a4e9295e43a3f9d9bde8b1a74"
+    },
+    {
+      "key": "fire29-field03",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "ef2593b6-7542-4d34-92c1-571e5172d95b",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "628a3b14c093349a1e9852b15f5d2b65ea2174377d4640b0c0be4ae5bb803a40"
+    },
+    {
+      "key": "fire29-field04",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "34677f67-4860-40a0-8ecd-3254351cd5d1",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "0b96b6e58d9f7ef94979f504310f838adf8dc03dd3012fc584847a173acea534"
+    },
+    {
+      "key": "fire29-field05",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "f0badcaa-0178-415c-805e-09aadd76713a",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "2fa36ee536bf80fa0b2bcc5dbc211ba9fb248e32efc9edb6b4cab7706d85623d"
+    },
+    {
+      "key": "fire29-field06",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "baaab7e3-12c5-4940-950a-e4045153d0f6",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "5404a3f1ab6e34a4444c798ae2bf31a66f3022c660e6fb6c51af2f6abce92909"
+    },
+    {
+      "key": "fire29-field07",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "a0c68c90-68a7-4609-b1a8-49da99cf5955",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "aab1de489c2529272f64d8f841ed3312e3e01edc842d96560304a22d75a1d33f"
+    },
+    {
+      "key": "fire29-field08",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "93e8b7f1-76aa-40bb-8a40-98c6691e3bfe",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "9ef7aae629f469c523906d4cd3cf22163db1d68b6ba0c01d859f8ed8447e3e13"
+    },
+    {
+      "key": "fire29-field09",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "927ea1f7-e6d7-4c75-8249-238ce3406167",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "044e92538ffa16c82a869427f6671046de5b33804384efd3a554daa0d7df6cd5"
+    },
+    {
+      "key": "fire29-field10",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "06908dc9-2ded-4df4-9668-7460e95ab6b2",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "06a118798f216fef19428f340d769ca885ef1ff36ebdd9a55afdaa898a008115"
+    },
+    {
+      "key": "fire29-field11",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "9124faed-1158-4227-9341-3011cf0001f8",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "867fea0d358d769080e0806a81ca0a1e22b8b65a801327c43134574d88f93788"
+    },
+    {
+      "key": "fire29-field12",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "e741b966-8154-4d66-9be0-617aa0420ba6",
+      "raw_count": 33,
+      "usage_generations": 5,
+      "response_sha256": "6bbd8135a77695380332dbb28164c15a8d2f2ecc06ab65fc4d5ead6a8318dc5e"
+    },
+    {
+      "key": "fire29-field13",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "4b36afbe-2e8d-4bde-8772-9c4827eb7423",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "5dcaf6c0ac0b9de75a9ed0b0cab0176c5b5598ddeac2dba14347edbc94e03eaf"
+    },
+    {
+      "key": "fire29-field14",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "711566ce-227b-4882-ab4f-51f6443390f5",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "639630775a63eba4b594262cd4a55825aa4c8de333f7b4f6228d4ab3859372e1"
+    },
+    {
+      "key": "fire29-field15",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "569245d5-1f09-4665-9fed-cf7d331ba270",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "f0180e56ed1884328ae69a2e01f46f56aea88aad182a81539993840f3c7a01e2"
+    },
+    {
+      "key": "fire29-field16",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "5724e0da-7ad3-4e53-b214-10fe6ad2e6ca",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "191c8dec5827f5cd969ea72f221deb1c2870aa809ff6b1c8036faf2a89df28c7"
+    },
+    {
+      "key": "fire29-field17",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "5d308a1c-8c3f-475e-aed1-dc36c521f103",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "a1cbdb32323a5ff38e5fb42cd8801c95317c0fcdbd9b3f5c7bde19a5bf2dc8b7"
+    },
+    {
+      "key": "fire29-field18",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "b022b720-ff50-48dd-90cb-8a06582c89f0",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "2bb2e19f93fc6229538b303ba1fd5b59d1c48a5b518db5569afd235fc2f11f74"
+    },
+    {
+      "key": "fire29-field19",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "c24a4805-3c41-46dc-9c05-c4c4c73ed247",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "1b4a18a395dc74f9e4e7e13c8c1fad5eabbf57db85132028fbd8deedd5a6f40f"
+    },
+    {
+      "key": "fire29-field20",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "4da3ef63-7809-402b-9795-617639d940cb",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "947a78574690a507efe51740c911f49649c5a2200a82c095dd41c13fcbfe14a0"
+    },
+    {
+      "key": "fire29-field21",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "d09f85d2-7976-4032-9b95-32c3d1ed4598",
+      "raw_count": 33,
+      "usage_generations": 5,
+      "response_sha256": "1e5beaec91204a295b4dfc814d3c4bad8ceb77d76ad8a18b468154d33b9eae9d"
+    },
+    {
+      "key": "fire29-field22",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "bcbe0ecb-1f4a-4ebf-aa47-054ab6289061",
+      "raw_count": 33,
+      "usage_generations": 5,
+      "response_sha256": "77369bdd9a97886c4b7b122e6514c8dabcfd98cf8487d9e082d0cd39f4d2261b"
+    },
+    {
+      "key": "fire29-field23",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "8ec8a32d-24aa-413d-b343-0996b5152afe",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "bdb200543ff33b6993657a8aa8916e0900b56b1bc476f208947b72a4a935f679"
+    },
+    {
+      "key": "fire29-field24",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "ce05e52d-671f-4071-af78-fe7b1837beed",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "bf8d6662430dbcaec73d5ccdd5a3cb67c3607696a5b0157efffe5b61ac09c228"
+    },
+    {
+      "key": "fire29-field25",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "a396cc35-2f9a-46e2-90e5-50dce326f841",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "cec78c2297d35e09e01a603b4822444ad9b9f28ef1f3d9df101bcf8ebf0b9cc8"
+    },
+    {
+      "key": "fire29-field26",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "1389170e-1ad1-4f7d-b634-e9eb076d90ce",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "2da51a4aa7748d9b54b563cb899c78ce5773566f1b0439c045f2c3c0826d6643"
+    },
+    {
+      "key": "fire29-short01",
+      "result": "completed_and_png_bytes_verified",
+      "job_id": "7cef5e62-bb18-4159-bcbf-960b8a4f4bc3",
+      "raw_count": 17,
+      "usage_generations": 2,
+      "response_sha256": "2b5cd7d4ce2815c4d40da8d58b5991001debbcce3f852eaed1689c5a71a1e3e6"
+    }
+  ],
+  "preserved_groups": {
+    "protected": 33,
+    "source_art": 360,
+    "previous_fire_package": 33,
+    "previous_low_fire_package": 33,
+    "previous_hazard_art": 1156,
+    "previous_subtle_fire": 493,
+    "previous_liquid_evidence": 5,
+    "previous_painted_fire": 198,
+    "current_deep_acid_evidence": 4,
+    "runtime_and_tooling": 1613,
+    "previous_fire_spikes_trials": 310,
+    "previous_masked_trials": 372,
+    "previous_motion_checkpoint": 246
+  },
+  "archive_byte_exact": true,
+  "runtime_integrated": false,
+  "godot_run": false
+}

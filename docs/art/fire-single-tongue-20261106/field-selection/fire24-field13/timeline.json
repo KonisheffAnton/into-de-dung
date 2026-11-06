@@ -1,0 +1,222 @@
+{
+  "key": "fire24-field13",
+  "group_key": "fire24-13",
+  "status": "selected",
+  "source": "docs/art/fire-low-styles-20261104/fire-low-24.png",
+  "source_sha256": "011d71e26a400c2a7002995583f141491ffef148131f1e5abf565ad7587b749b",
+  "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-13/input-transparent.png",
+  "input_sha256": "a1cfc4e8106859aa6b981902a3b66885112349ec85ed69ea2389b047ec5966e7",
+  "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-13/core-mask.png",
+  "core_mask_sha256": "b8edd11363d1fe04e229bbecab821c88a066898c4e06ca0d9f3e82c875d6ec19",
+  "crop_xyxy": [
+    419,
+    343,
+    675,
+    599
+  ],
+  "crop_size": 256,
+  "returned_frames": 17,
+  "raw00_excluded": true,
+  "selection_reason": "Longest bounded monotonic contour excursion (ties prefer smaller adjacent alpha change), native generated frames [5, 6, 7, 8, 9]. All selected poses cover core, stay inside4px dilation and crop, and satisfy brightness/chroma bounds.",
+  "distinct_generated_poses": [
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "order": [
+    5,
+    6,
+    7,
+    8,
+    9,
+    8,
+    7,
+    6,
+    5
+  ],
+  "pose_duration_ms": 160,
+  "cycle_duration_ms": 1440,
+  "timeline": [
+    {
+      "slot": 0,
+      "raw_frame": 5,
+      "duration_ms": 160,
+      "raw_sha256": "b218dc2de4dd58fabd24f729a7c6c075e0177c32fec8f3b5c732aa708ddfe3a7"
+    },
+    {
+      "slot": 1,
+      "raw_frame": 6,
+      "duration_ms": 160,
+      "raw_sha256": "494bb47121a28c582f435c519057533e8e4c6d6cd290c3d23f1987b68c63bbdc"
+    },
+    {
+      "slot": 2,
+      "raw_frame": 7,
+      "duration_ms": 160,
+      "raw_sha256": "51c412772a9ec541771e5474e60037a49f0ddeaf941402906b63309822ab9d47"
+    },
+    {
+      "slot": 3,
+      "raw_frame": 8,
+      "duration_ms": 160,
+      "raw_sha256": "074014cc036dc27c71314c402f139424bef32a379d41b3955ba4b518f68e6a51"
+    },
+    {
+      "slot": 4,
+      "raw_frame": 9,
+      "duration_ms": 160,
+      "raw_sha256": "f3dff6d3fde508cd36e3dfdcfc64a91bbc231437c3d3f84880cf2df3a706910f"
+    },
+    {
+      "slot": 5,
+      "raw_frame": 8,
+      "duration_ms": 160,
+      "raw_sha256": "074014cc036dc27c71314c402f139424bef32a379d41b3955ba4b518f68e6a51"
+    },
+    {
+      "slot": 6,
+      "raw_frame": 7,
+      "duration_ms": 160,
+      "raw_sha256": "51c412772a9ec541771e5474e60037a49f0ddeaf941402906b63309822ab9d47"
+    },
+    {
+      "slot": 7,
+      "raw_frame": 6,
+      "duration_ms": 160,
+      "raw_sha256": "494bb47121a28c582f435c519057533e8e4c6d6cd290c3d23f1987b68c63bbdc"
+    },
+    {
+      "slot": 8,
+      "raw_frame": 5,
+      "duration_ms": 160,
+      "raw_sha256": "b218dc2de4dd58fabd24f729a7c6c075e0177c32fec8f3b5c732aa708ddfe3a7"
+    }
+  ],
+  "transitions": [
+    {
+      "from_slot": 0,
+      "to_slot": 1,
+      "from_raw": 5,
+      "to_raw": 6,
+      "alpha_gt8_xor_pixels": 101,
+      "alpha_abs_sum": 25755,
+      "premul_max_rgb_gt8_pixels": 872,
+      "premul_max_rgb_sum": 36566.0,
+      "visible_crop_rgb_gt8_pixels": 858,
+      "visible_crop_rgb_sum": 17126,
+      "exact_rgba": false
+    },
+    {
+      "from_slot": 1,
+      "to_slot": 2,
+      "from_raw": 6,
+      "to_raw": 7,
+      "alpha_gt8_xor_pixels": 107,
+      "alpha_abs_sum": 27285,
+      "premul_max_rgb_gt8_pixels": 898,
+      "premul_max_rgb_sum": 38044.0,
+      "visible_crop_rgb_gt8_pixels": 882,
+      "visible_crop_rgb_sum": 17165,
+      "exact_rgba": false
+    },
+    {
+      "from_slot": 2,
+      "to_slot": 3,
+      "from_raw": 7,
+      "to_raw": 8,
+      "alpha_gt8_xor_pixels": 99,
+      "alpha_abs_sum": 25245,
+      "premul_max_rgb_gt8_pixels": 935,
+      "premul_max_rgb_sum": 37144.0,
+      "visible_crop_rgb_gt8_pixels": 918,
+      "visible_crop_rgb_sum": 17611,
+      "exact_rgba": false
+    },
+    {
+      "from_slot": 3,
+      "to_slot": 4,
+      "from_raw": 8,
+      "to_raw": 9,
+      "alpha_gt8_xor_pixels": 56,
+      "alpha_abs_sum": 14280,
+      "premul_max_rgb_gt8_pixels": 567,
+      "premul_max_rgb_sum": 20854.0,
+      "visible_crop_rgb_gt8_pixels": 551,
+      "visible_crop_rgb_sum": 9750,
+      "exact_rgba": false
+    },
+    {
+      "from_slot": 4,
+      "to_slot": 5,
+      "from_raw": 9,
+      "to_raw": 8,
+      "alpha_gt8_xor_pixels": 56,
+      "alpha_abs_sum": 14280,
+      "premul_max_rgb_gt8_pixels": 567,
+      "premul_max_rgb_sum": 20854.0,
+      "visible_crop_rgb_gt8_pixels": 551,
+      "visible_crop_rgb_sum": 9750,
+      "exact_rgba": false
+    },
+    {
+      "from_slot": 5,
+      "to_slot": 6,
+      "from_raw": 8,
+      "to_raw": 7,
+      "alpha_gt8_xor_pixels": 99,
+      "alpha_abs_sum": 25245,
+      "premul_max_rgb_gt8_pixels": 935,
+      "premul_max_rgb_sum": 37144.0,
+      "visible_crop_rgb_gt8_pixels": 918,
+      "visible_crop_rgb_sum": 17611,
+      "exact_rgba": false
+    },
+    {
+      "from_slot": 6,
+      "to_slot": 7,
+      "from_raw": 7,
+      "to_raw": 6,
+      "alpha_gt8_xor_pixels": 107,
+      "alpha_abs_sum": 27285,
+      "premul_max_rgb_gt8_pixels": 898,
+      "premul_max_rgb_sum": 38044.0,
+      "visible_crop_rgb_gt8_pixels": 882,
+      "visible_crop_rgb_sum": 17165,
+      "exact_rgba": false
+    },
+    {
+      "from_slot": 7,
+      "to_slot": 8,
+      "from_raw": 6,
+      "to_raw": 5,
+      "alpha_gt8_xor_pixels": 101,
+      "alpha_abs_sum": 25755,
+      "premul_max_rgb_gt8_pixels": 872,
+      "premul_max_rgb_sum": 36566.0,
+      "visible_crop_rgb_gt8_pixels": 858,
+      "visible_crop_rgb_sum": 17126,
+      "exact_rgba": false
+    },
+    {
+      "from_slot": 8,
+      "to_slot": 0,
+      "from_raw": 5,
+      "to_raw": 5,
+      "alpha_gt8_xor_pixels": 0,
+      "alpha_abs_sum": 0,
+      "premul_max_rgb_gt8_pixels": 0,
+      "premul_max_rgb_sum": 0.0,
+      "visible_crop_rgb_gt8_pixels": 0,
+      "visible_crop_rgb_sum": 0,
+      "exact_rgba": true
+    }
+  ],
+  "exact_seam": true,
+  "contact": "docs/art/fire-single-tongue-20261106/field-selection/fire24-field13/contact-source-min-max.png",
+  "contact_sha256": "6ff2fbd20148949ee93a8d0320023c77b13133d2fbca0380dbd257a945ebfd9e",
+  "max_adjacent_alpha_xor": 107,
+  "max_adjacent_premul_rgb_gt8": 935,
+  "art_accepted": false
+}

@@ -1,0 +1,5 @@
+# Immutable encoded provider requests preserve byte-level provenance.
+requests/*/request.json -text -diff
+# Generated manifests/data include SHA links; preserve their exact line endings too.
+*.json -text -diff
+*.js -text -diff

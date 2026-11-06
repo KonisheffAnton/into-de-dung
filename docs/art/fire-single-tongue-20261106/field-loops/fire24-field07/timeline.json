@@ -1,0 +1,224 @@
+{
+  "key": "fire24-field07",
+  "source": "docs/art/fire-low-styles-20261104/fire-low-24.png",
+  "source_sha256": "011d71e26a400c2a7002995583f141491ffef148131f1e5abf565ad7587b749b",
+  "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-07/input-transparent.png",
+  "input_sha256": "dce5eb9c107e6d41daf64c9e4dbe265e0eeb8b9b14cebdb63dc7a316c6fb26e1",
+  "source_view_256": "docs/art/fire-single-tongue-20261106/field-loops/fire24-field07/view-256/source.png",
+  "source_view_256_sha256": "178b840385f1730ea2213823224b356d3cd0e131a2e04cf0a66e202caed93da1",
+  "source_crop_native": "docs/art/fire-single-tongue-20261106/field-loops/fire24-field07/crop-native/source.png",
+  "source_crop_native_sha256": "da90b68d6c8201ac15448e29cd0f6a5a4a4a8ed5fb9cb45d38c210a435d4dab8",
+  "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-07/core-mask.png",
+  "core_mask_sha256": "35b9a9e8d89a8fc850714af6b91bc3839420a4fe41f96e2f71d581c57927c3dc",
+  "crop_xyxy": [
+    465,
+    285,
+    721,
+    541
+  ],
+  "native_crop_size": 256,
+  "raw0_excluded": true,
+  "order": [
+    1,
+    2,
+    3,
+    2,
+    1
+  ],
+  "frame_ms": 180,
+  "duration_ms": 900,
+  "frames": {
+    "1": {
+      "raw_path": "docs/art/fire-single-tongue-20261106/results/fire24-field07/raw/frame-01.png",
+      "raw_sha256": "811056c00ef0bc25aa2964a0008f2d5d634f7d1f6fbe5531ee8a10a0ebccb9c8",
+      "assembled_native_path": "docs/art/fire-single-tongue-20261106/field-loops/fire24-field07/assembled-native/raw-01.png",
+      "assembled_native_sha256": "3ffadf529bfb55e43eff9377584ee18f419e415d4299dbd513f7ed73f6cb0e56",
+      "view_256_path": "docs/art/fire-single-tongue-20261106/field-loops/fire24-field07/view-256/raw-01.png",
+      "view_256_sha256": "6078c00724cd6046013eaaecaaf86994e593d932a5610a6f3d8dbd92d68c4277",
+      "crop_native_path": "docs/art/fire-single-tongue-20261106/field-loops/fire24-field07/crop-native/raw-01.png",
+      "crop_native_sha256": "fe11fe55e3e5dcc311cc83788b836b1f6a9043b1bd4da108b8f24d241d7c0b67",
+      "raw_alpha_bbox_xyxy": [
+        39,
+        105,
+        218,
+        152
+      ],
+      "uncovered_original_core_pixels": 0,
+      "raw_alpha_on_roi_border": false
+    },
+    "2": {
+      "raw_path": "docs/art/fire-single-tongue-20261106/results/fire24-field07/raw/frame-02.png",
+      "raw_sha256": "be10f9a27d99bf038e4b5d1062657f7a147a5750c26381acce96293be878704f",
+      "assembled_native_path": "docs/art/fire-single-tongue-20261106/field-loops/fire24-field07/assembled-native/raw-02.png",
+      "assembled_native_sha256": "4bb6032d377a963c4de6eab4c92cce658bf8df1d324681b5bb1b067fd72a1fad",
+      "view_256_path": "docs/art/fire-single-tongue-20261106/field-loops/fire24-field07/view-256/raw-02.png",
+      "view_256_sha256": "191efad28e261ae8cb5f2eee8b9d5fb027e4860278d01f26db33c687fe5f820d",
+      "crop_native_path": "docs/art/fire-single-tongue-20261106/field-loops/fire24-field07/crop-native/raw-02.png",
+      "crop_native_sha256": "573b56a3e18b970e13a1a167a9d3dfdaeee880548b180f7cdda74e0b13f4ad4e",
+      "raw_alpha_bbox_xyxy": [
+        39,
+        105,
+        218,
+        152
+      ],
+      "uncovered_original_core_pixels": 0,
+      "raw_alpha_on_roi_border": false
+    },
+    "3": {
+      "raw_path": "docs/art/fire-single-tongue-20261106/results/fire24-field07/raw/frame-03.png",
+      "raw_sha256": "d448718e0b1b6a91e9f139165a89d56ce5033d9e4e038c0e6546de4a958aecde",
+      "assembled_native_path": "docs/art/fire-single-tongue-20261106/field-loops/fire24-field07/assembled-native/raw-03.png",
+      "assembled_native_sha256": "aad89a74ca9d96e5b9299bbd7b9fc21d2f5bace2498dffd33d95b904f06b489c",
+      "view_256_path": "docs/art/fire-single-tongue-20261106/field-loops/fire24-field07/view-256/raw-03.png",
+      "view_256_sha256": "9ee87ce3ecc3d04c14fb1167ce2469c55235bc72f6f2d06d18bba54ad37920e5",
+      "crop_native_path": "docs/art/fire-single-tongue-20261106/field-loops/fire24-field07/crop-native/raw-03.png",
+      "crop_native_sha256": "a5f628563ab0a3002595a6e80b973c82d10892ce19d9e936f1e367b7a743195d",
+      "raw_alpha_bbox_xyxy": [
+        39,
+        105,
+        218,
+        152
+      ],
+      "uncovered_original_core_pixels": 0,
+      "raw_alpha_on_roi_border": false
+    }
+  },
+  "timeline": [
+    {
+      "slot": 0,
+      "raw_frame": 1,
+      "duration_ms": 180,
+      "raw_sha256": "811056c00ef0bc25aa2964a0008f2d5d634f7d1f6fbe5531ee8a10a0ebccb9c8",
+      "assembled_native_sha256": "3ffadf529bfb55e43eff9377584ee18f419e415d4299dbd513f7ed73f6cb0e56"
+    },
+    {
+      "slot": 1,
+      "raw_frame": 2,
+      "duration_ms": 180,
+      "raw_sha256": "be10f9a27d99bf038e4b5d1062657f7a147a5750c26381acce96293be878704f",
+      "assembled_native_sha256": "4bb6032d377a963c4de6eab4c92cce658bf8df1d324681b5bb1b067fd72a1fad"
+    },
+    {
+      "slot": 2,
+      "raw_frame": 3,
+      "duration_ms": 180,
+      "raw_sha256": "d448718e0b1b6a91e9f139165a89d56ce5033d9e4e038c0e6546de4a958aecde",
+      "assembled_native_sha256": "aad89a74ca9d96e5b9299bbd7b9fc21d2f5bace2498dffd33d95b904f06b489c"
+    },
+    {
+      "slot": 3,
+      "raw_frame": 2,
+      "duration_ms": 180,
+      "raw_sha256": "be10f9a27d99bf038e4b5d1062657f7a147a5750c26381acce96293be878704f",
+      "assembled_native_sha256": "4bb6032d377a963c4de6eab4c92cce658bf8df1d324681b5bb1b067fd72a1fad"
+    },
+    {
+      "slot": 4,
+      "raw_frame": 1,
+      "duration_ms": 180,
+      "raw_sha256": "811056c00ef0bc25aa2964a0008f2d5d634f7d1f6fbe5531ee8a10a0ebccb9c8",
+      "assembled_native_sha256": "3ffadf529bfb55e43eff9377584ee18f419e415d4299dbd513f7ed73f6cb0e56"
+    },
+    {
+      "slot": 5,
+      "raw_frame": 1,
+      "duration_ms": 0,
+      "raw_sha256": "811056c00ef0bc25aa2964a0008f2d5d634f7d1f6fbe5531ee8a10a0ebccb9c8",
+      "assembled_native_sha256": "3ffadf529bfb55e43eff9377584ee18f419e415d4299dbd513f7ed73f6cb0e56"
+    }
+  ],
+  "transitions": [
+    {
+      "from_slot": 0,
+      "to_slot": 1,
+      "from_raw": 1,
+      "to_raw": 2,
+      "raw_alpha_gt8_xor_pixels": 97,
+      "raw_alpha_abs_sum": 24735,
+      "raw_premultiplied_max_rgb_gt8_pixels": 474,
+      "raw_premultiplied_max_rgb_sum": 28602.0,
+      "fulltile_native_visible_max_rgb_gt8_pixels": 448,
+      "fulltile_native_visible_max_rgb_sum": 10091,
+      "fulltile_256_visible_max_rgb_gt8_pixels": 16,
+      "fulltile_256_visible_max_rgb_sum": 416,
+      "fulltile_exact_rgba": false
+    },
+    {
+      "from_slot": 1,
+      "to_slot": 2,
+      "from_raw": 2,
+      "to_raw": 3,
+      "raw_alpha_gt8_xor_pixels": 113,
+      "raw_alpha_abs_sum": 28815,
+      "raw_premultiplied_max_rgb_gt8_pixels": 560,
+      "raw_premultiplied_max_rgb_sum": 33429.0,
+      "fulltile_native_visible_max_rgb_gt8_pixels": 548,
+      "fulltile_native_visible_max_rgb_sum": 12579,
+      "fulltile_256_visible_max_rgb_gt8_pixels": 24,
+      "fulltile_256_visible_max_rgb_sum": 489,
+      "fulltile_exact_rgba": false
+    },
+    {
+      "from_slot": 2,
+      "to_slot": 3,
+      "from_raw": 3,
+      "to_raw": 2,
+      "raw_alpha_gt8_xor_pixels": 113,
+      "raw_alpha_abs_sum": 28815,
+      "raw_premultiplied_max_rgb_gt8_pixels": 560,
+      "raw_premultiplied_max_rgb_sum": 33429.0,
+      "fulltile_native_visible_max_rgb_gt8_pixels": 548,
+      "fulltile_native_visible_max_rgb_sum": 12579,
+      "fulltile_256_visible_max_rgb_gt8_pixels": 24,
+      "fulltile_256_visible_max_rgb_sum": 489,
+      "fulltile_exact_rgba": false
+    },
+    {
+      "from_slot": 3,
+      "to_slot": 4,
+      "from_raw": 2,
+      "to_raw": 1,
+      "raw_alpha_gt8_xor_pixels": 97,
+      "raw_alpha_abs_sum": 24735,
+      "raw_premultiplied_max_rgb_gt8_pixels": 474,
+      "raw_premultiplied_max_rgb_sum": 28602.0,
+      "fulltile_native_visible_max_rgb_gt8_pixels": 448,
+      "fulltile_native_visible_max_rgb_sum": 10091,
+      "fulltile_256_visible_max_rgb_gt8_pixels": 16,
+      "fulltile_256_visible_max_rgb_sum": 416,
+      "fulltile_exact_rgba": false
+    },
+    {
+      "from_slot": 4,
+      "to_slot": 0,
+      "from_raw": 1,
+      "to_raw": 1,
+      "raw_alpha_gt8_xor_pixels": 0,
+      "raw_alpha_abs_sum": 0,
+      "raw_premultiplied_max_rgb_gt8_pixels": 0,
+      "raw_premultiplied_max_rgb_sum": 0.0,
+      "fulltile_native_visible_max_rgb_gt8_pixels": 0,
+      "fulltile_native_visible_max_rgb_sum": 0,
+      "fulltile_256_visible_max_rgb_gt8_pixels": 0,
+      "fulltile_256_visible_max_rgb_sum": 0,
+      "fulltile_exact_rgba": true
+    }
+  ],
+  "max_adjacent_alpha_xor": 113,
+  "max_adjacent_raw_premul_gt8": 560,
+  "max_adjacent_256_visible_gt8": 24,
+  "raw00_source_to_first_pose": {
+    "raw_alpha_gt8_xor_pixels": 129,
+    "raw_alpha_abs_sum": 40594,
+    "raw_premultiplied_max_rgb_gt8_pixels": 1949,
+    "raw_premultiplied_max_rgb_sum": 63209.02,
+    "fulltile_native_visible_max_rgb_gt8_pixels": 1681,
+    "fulltile_native_visible_max_rgb_sum": 36976,
+    "fulltile_256_visible_max_rgb_gt8_pixels": 39,
+    "fulltile_256_visible_max_rgb_sum": 1327,
+    "fulltile_exact_rgba": false
+  },
+  "exact_cycle_seam": true,
+  "unchanged_source_outside_roi": true,
+  "core_covered": true
+}

@@ -1,0 +1,87 @@
+[
+  {
+    "frame": 0,
+    "max_alpha_chebyshev_distance_outside_input": 0,
+    "alpha_pixels_over_3px_outside_input": 0
+  },
+  {
+    "frame": 1,
+    "max_alpha_chebyshev_distance_outside_input": 0,
+    "alpha_pixels_over_3px_outside_input": 0
+  },
+  {
+    "frame": 2,
+    "max_alpha_chebyshev_distance_outside_input": 1,
+    "alpha_pixels_over_3px_outside_input": 0
+  },
+  {
+    "frame": 3,
+    "max_alpha_chebyshev_distance_outside_input": 1,
+    "alpha_pixels_over_3px_outside_input": 0
+  },
+  {
+    "frame": 4,
+    "max_alpha_chebyshev_distance_outside_input": 1,
+    "alpha_pixels_over_3px_outside_input": 0
+  },
+  {
+    "frame": 5,
+    "max_alpha_chebyshev_distance_outside_input": 1,
+    "alpha_pixels_over_3px_outside_input": 0
+  },
+  {
+    "frame": 6,
+    "max_alpha_chebyshev_distance_outside_input": 1,
+    "alpha_pixels_over_3px_outside_input": 0
+  },
+  {
+    "frame": 7,
+    "max_alpha_chebyshev_distance_outside_input": 1,
+    "alpha_pixels_over_3px_outside_input": 0
+  },
+  {
+    "frame": 8,
+    "max_alpha_chebyshev_distance_outside_input": 2,
+    "alpha_pixels_over_3px_outside_input": 0
+  },
+  {
+    "frame": 9,
+    "max_alpha_chebyshev_distance_outside_input": 2,
+    "alpha_pixels_over_3px_outside_input": 0
+  },
+  {
+    "frame": 10,
+    "max_alpha_chebyshev_distance_outside_input": 1,
+    "alpha_pixels_over_3px_outside_input": 0
+  },
+  {
+    "frame": 11,
+    "max_alpha_chebyshev_distance_outside_input": 0,
+    "alpha_pixels_over_3px_outside_input": 0
+  },
+  {
+    "frame": 12,
+    "max_alpha_chebyshev_distance_outside_input": 0,
+    "alpha_pixels_over_3px_outside_input": 0
+  },
+  {
+    "frame": 13,
+    "max_alpha_chebyshev_distance_outside_input": 0,
+    "alpha_pixels_over_3px_outside_input": 0
+  },
+  {
+    "frame": 14,
+    "max_alpha_chebyshev_distance_outside_input": 0,
+    "alpha_pixels_over_3px_outside_input": 0
+  },
+  {
+    "frame": 15,
+    "max_alpha_chebyshev_distance_outside_input": 0,
+    "alpha_pixels_over_3px_outside_input": 0
+  },
+  {
+    "frame": 16,
+    "max_alpha_chebyshev_distance_outside_input": 0,
+    "alpha_pixels_over_3px_outside_input": 0
+  }
+]

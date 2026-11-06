@@ -1,0 +1,21 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Огонь 24 — проба мягкого колыхания</title>
+<style>body{font:16px/1.5 system-ui;background:#20252e;color:#e9edf4;max-width:960px;margin:auto;padding:24px}h1{font-size:28px;line-height:1.2}p{max-width:76ch}.row{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin:20px 0}figure{margin:0;text-align:center}figcaption{color:#bcc7d6;margin:6px}canvas,img{display:block;background:#303845;max-width:100%;height:auto}canvas.full,img.full{width:256px}canvas.detail{width:384px}button{font:inherit;background:#475f7d;color:white;border:1px solid #92abc9;border-radius:6px;padding:7px 14px;margin:4px;cursor:pointer}a{color:#a9d2ff}.notice{color:#f2dca0}.status{font-size:13px;color:#b9c9da}details{border-top:1px solid #485364;padding-top:10px}@media(max-width:440px){body{padding:14px}.detail{width:100%}}</style>
+<h1>Огонь 24: один существующий язык</h1>
+<p>Небольшой изгиб кончика и возврат, без новых струй и искр. Камень и остальные мазки неподвижны. Сравните форму с исходником в масштабе тайла и на крупном фрагменте.</p>
+<p class="notice">Это проверка одного языка, ещё не анимация всего тайла. В игру не подключено.</p>
+<div><button id="play">Пауза</button><button id="restart">Сначала</button><button id="step">Один кадр</button><span id="status" class="status">Загрузка…</span></div>
+<div class="row"><figure><img class="full" id="source" src="../../fire-low-styles-20261104/fire-low-24.png" alt="Исходный полный тайл"><figcaption>Исходник</figcaption></figure><figure><canvas id="full" class="full" width="1254" height="1254"></canvas><figcaption>Один язык движется</figcaption></figure></div>
+<div class="row"><figure><canvas id="original-detail" class="detail" width="128" height="128"></canvas><figcaption>Исходный фрагмент</figcaption></figure><figure><canvas id="moving-detail" class="detail" width="128" height="128"></canvas><figcaption>Тот же фрагмент в движении</figcaption></figure></div>
+<details><summary>Происхождение движения</summary><p>Использованы только готовые прозрачные кадры PixelLab, выбранные и повторённые в плавном порядке. Они показываются поверх неизменённого исходника в постоянной позиции. Новые промежуточные позы не рисовались. <a href="../cutout-playback/timeline.json">Порядок и SHA кадров</a> · <a href="../README.md">Проверки и ограничения</a> · <a href="../../hazard-motion-20261106/gallery.html">Кандидаты шипов</a>.</p></details>
+<script>
+const order=[8,9,10,2,12,11,3,11,12,2,10,9,8],ms=120,poses={};let index=0,running=false,timer=null,ready=false;
+const source=document.querySelector('#source'),full=document.querySelector('#full'),ctx=full.getContext('2d'),detail=document.querySelector('#moving-detail').getContext('2d'),original=document.querySelector('#original-detail').getContext('2d'),play=document.querySelector('#play'),status=document.querySelector('#status');
+function draw(){ctx.clearRect(0,0,1254,1254);ctx.drawImage(source,0,0);ctx.drawImage(poses[order[index]],664,436);detail.clearRect(0,0,128,128);detail.drawImage(full,664,436,128,128,0,0,128,128);status.textContent=`Поза ${index+1} / ${order.length}`;}
+function schedule(){if(!running)return;timer=setTimeout(()=>{index=(index+1)%order.length;draw();schedule()},ms)}
+function pause(){clearTimeout(timer);running=false;play.textContent='Играть'}
+function start(){if(!ready||running)return;running=true;play.textContent='Пауза';schedule()}
+play.onclick=()=>running?pause():start();document.querySelector('#restart').onclick=()=>{pause();index=0;draw();start()};document.querySelector('#step').onclick=()=>{pause();index=(index+1)%order.length;draw()};
+async function load(){await source.decode();await Promise.all([...new Set(order)].map(async i=>{const im=new Image();im.src=`../results/fire24-cutout02/raw/frame-${String(i).padStart(2,'0')}.png`;await im.decode();poses[i]=im}));original.drawImage(source,664,436,128,128,0,0,128,128);ready=true;draw();start()}
+window.__proof={get ready(){return ready},get index(){return index},get running(){return running},order,ms,pause,start};window.__ready=load().catch(e=>{pause();status.textContent='Ошибка загрузки: '+e.message});
+</script></html>

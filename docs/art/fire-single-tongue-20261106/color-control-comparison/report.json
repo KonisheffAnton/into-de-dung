@@ -1,0 +1,210 @@
+{
+  "reference": {
+    "core_mean_rgb": [
+      252.7944,
+      180.0785,
+      60.8098
+    ],
+    "core_gr_br": [
+      0.71235,
+      0.24055
+    ],
+    "premul_luma": 819640.112,
+    "visible_unique_rgb_colors": 3986
+  },
+  "controlled_source": "fire24-field29",
+  "frame_comparisons": [
+    {
+      "key": "fire24-field29",
+      "frame": 3,
+      "raw_sha256": "366878be97f18b2d056eb7825a6b5ebd33ec6ffb556fcc64cf66394c2a95c7a1",
+      "core_mean_rgb": [
+        253.0472,
+        91.494,
+        31.5334
+      ],
+      "core_gr_br": [
+        0.36157,
+        0.12461
+      ],
+      "premul_luma": 555238.917,
+      "visible_unique_rgb_colors": 13,
+      "luma_ratio_to_input": 0.67742,
+      "absolute_core_gr_br_delta": [
+        0.35078,
+        0.11594
+      ]
+    },
+    {
+      "key": "fire24-drift01",
+      "frame": 3,
+      "raw_sha256": "aa8a7d6c82d8648398bf080cabd333491b2620e5ce0d6cae21a3733e7bfea1ae",
+      "core_mean_rgb": [
+        251.6022,
+        90.3348,
+        32.6513
+      ],
+      "core_gr_br": [
+        0.35904,
+        0.12977
+      ],
+      "premul_luma": 552178.888,
+      "visible_unique_rgb_colors": 14,
+      "luma_ratio_to_input": 0.67368,
+      "absolute_core_gr_br_delta": [
+        0.35331,
+        0.11078
+      ]
+    },
+    {
+      "key": "fire24-alpha01",
+      "frame": 3,
+      "raw_sha256": "823e562a7bed8afb65cb01c7348e24e8678d3c26e14575438a4b87bca88aa13c",
+      "core_mean_rgb": [
+        252.2451,
+        90.1658,
+        31.1457
+      ],
+      "core_gr_br": [
+        0.35745,
+        0.12347
+      ],
+      "premul_luma": 558300.061,
+      "visible_unique_rgb_colors": 14,
+      "luma_ratio_to_input": 0.68115,
+      "absolute_core_gr_br_delta": [
+        0.3549,
+        0.11708
+      ]
+    },
+    {
+      "key": "fire24-field29",
+      "frame": 16,
+      "raw_sha256": "68bf95faa824a5a9feb3893cc4e740cb8554346845393a563afac58dc7a3774c",
+      "core_mean_rgb": [
+        253.012,
+        92.2586,
+        31.9826
+      ],
+      "core_gr_br": [
+        0.36464,
+        0.12641
+      ],
+      "premul_luma": 550989.654,
+      "visible_unique_rgb_colors": 11,
+      "luma_ratio_to_input": 0.67223,
+      "absolute_core_gr_br_delta": [
+        0.34771,
+        0.11414
+      ]
+    },
+    {
+      "key": "fire24-drift01",
+      "frame": 16,
+      "raw_sha256": "27bc2ae218d3f51493e26551688d83c9bbe92c04b2ffa1d9275b6868cee8e72a",
+      "core_mean_rgb": [
+        251.8473,
+        91.346,
+        32.9324
+      ],
+      "core_gr_br": [
+        0.3627,
+        0.13076
+      ],
+      "premul_luma": 546746.52,
+      "visible_unique_rgb_colors": 13,
+      "luma_ratio_to_input": 0.66706,
+      "absolute_core_gr_br_delta": [
+        0.34965,
+        0.10979
+      ]
+    },
+    {
+      "key": "fire24-alpha01",
+      "frame": 16,
+      "raw_sha256": "461614c24d3b26bbfecd7d950c62fb14080712cc0dd2a0f4362ed5451b7d2734",
+      "core_mean_rgb": [
+        252.2632,
+        90.7209,
+        31.206
+      ],
+      "core_gr_br": [
+        0.35963,
+        0.1237
+      ],
+      "premul_luma": 553812.169,
+      "visible_unique_rgb_colors": 12,
+      "luma_ratio_to_input": 0.67568,
+      "absolute_core_gr_br_delta": [
+        0.35272,
+        0.11685
+      ]
+    },
+    {
+      "key": "fire24-field29",
+      "frame": 32,
+      "raw_sha256": "c33c385494c2ad86f398309e0b246bc03507f603ae83faa8b9ff8c0f5bd856dc",
+      "core_mean_rgb": [
+        252.7364,
+        175.5644,
+        59.3019
+      ],
+      "core_gr_br": [
+        0.69465,
+        0.23464
+      ],
+      "premul_luma": 755663.297,
+      "visible_unique_rgb_colors": 36,
+      "luma_ratio_to_input": 0.92195,
+      "absolute_core_gr_br_delta": [
+        0.0177,
+        0.00591
+      ]
+    },
+    {
+      "key": "fire24-drift01",
+      "frame": 32,
+      "raw_sha256": "2e5f12133a12d616227d3358437050dfc76119bc1f096f17e097af6e0f551c3e",
+      "core_mean_rgb": [
+        252.7603,
+        177.092,
+        59.9416
+      ],
+      "core_gr_br": [
+        0.70063,
+        0.23715
+      ],
+      "premul_luma": 764983.557,
+      "visible_unique_rgb_colors": 36,
+      "luma_ratio_to_input": 0.93332,
+      "absolute_core_gr_br_delta": [
+        0.01172,
+        0.0034
+      ]
+    },
+    {
+      "key": "fire24-alpha01",
+      "frame": 32,
+      "raw_sha256": "25501b47be0ff32b768d225bbd1d3c9b1be36a055417fd7f6d3a23e241682652",
+      "core_mean_rgb": [
+        252.7812,
+        178.2022,
+        60.4395
+      ],
+      "core_gr_br": [
+        0.70497,
+        0.2391
+      ],
+      "premul_luma": 770499.488,
+      "visible_unique_rgb_colors": 37,
+      "luma_ratio_to_input": 0.94005,
+      "absolute_core_gr_br_delta": [
+        0.00738,
+        0.00145
+      ]
+    }
+  ],
+  "contact": "docs/art/fire-single-tongue-20261106/color-control-comparison/comparison.png",
+  "no_local_color_or_motion_edit": true,
+  "art_acceptance": false
+}

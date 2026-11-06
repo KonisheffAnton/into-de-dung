@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Огонь 24/29 — диагностика PixelLab по группам</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#191f29;color:#ebf0f6}*{box-sizing:border-box}
+body{max-width:1200px;margin:0 auto;padding:22px;line-height:1.45}h1{font-size:clamp(1.7rem,4vw,2.7rem);margin:0 0 10px}h2{font-size:1.06rem;margin:0 0 9px}p{max-width:90ch}
+.notice{border:1px solid #c69a62;background:#403324;color:#fff1d9;border-radius:8px;padding:9px 12px;font-weight:600}
+select,button,input{font:inherit}select{padding:7px;background:#323e4d;color:#fff;border:1px solid #8ba0ba;border-radius:6px;max-width:100%}
+button{background:#465f7b;color:#fff;border:1px solid #8aa5c5;border-radius:6px;padding:7px 12px;cursor:pointer}button:disabled{opacity:.5;cursor:default}button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid #c5dfff;outline-offset:2px}
+.toolbar{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin:17px 0}.status{font-size:.88rem;color:#c1ccd9}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.card{min-width:0;border:1px solid #465262;background:#252f3c;border-radius:9px;padding:12px}.card p{margin:5px 0;color:#c9d4e1;font-size:.86rem}
+.comparison{display:flex;flex-wrap:wrap;gap:12px;align-items:start}.comparison figure{margin:0;min-width:0}figcaption{font-size:.84rem;color:#cbd5df;padding-top:5px}
+.tile{display:block;width:min(100%,280px);height:auto;aspect-ratio:1;object-fit:contain;background:repeating-conic-gradient(#3c4755 0 25%,#4b5868 0 50%) 50%/18px 18px}
+.crop{display:block;width:min(100%,256px);height:auto;aspect-ratio:1;object-fit:contain;background:repeating-conic-gradient(#3c4755 0 25%,#4b5868 0 50%) 50%/18px 18px}
+.fragment{display:block;width:min(100%,512px);height:auto;aspect-ratio:1;background:repeating-conic-gradient(#3c4755 0 25%,#4b5868 0 50%) 50%/18px 18px}
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:15px 0}.controls input[type=range]{width:min(100%,430px);accent-color:#f4a463;flex-basis:430px;max-width:100%}
+.counter{min-width:140px;color:#dde6ef}.seam{margin:8px 0 18px;color:#f0d6b5}details{margin-top:15px;border-top:1px solid #485666;padding-top:10px;font-size:.88rem}summary{cursor:pointer;font-weight:600}a{color:#a9d5ff}footer{margin-top:20px;color:#aab9ca;font-size:.84rem}
+@media(max-width:850px){.grid{grid-template-columns:1fr}}
+@media(max-width:390px){body{padding:14px}.card{padding:10px}.tile{width:min(100%,256px)}}
+</style>
+<h1>Движение огня 24/29 по отдельным мазкам</h1>
+<p class="notice">Диагностический просмотр. Отдельный clip ещё не является готовой анимацией всей плиты и не означает художественную приёмку.</p>
+<p>Слева исходные PNG, справа полная исходная плита с сырым RGBA кадром PixelLab, нарисованным поверх в точных координатах ROI. Пиксели движения не деформируются, не перекрашиваются и не создаются локально.</p>
+<div class="toolbar"><label for="clip">Группа:</label><select id="clip" aria-label="Выбрать группу огня"></select><span id="load" class="status" role="status">Загрузка каталога…</span></div>
+<section class="grid">
+  <div class="card"><h2>Вход PixelLab</h2><div class="comparison">
+    <figure><img id="context" class="crop" alt="Исходный участок без изменений"><figcaption>Исходный участок · native crop</figcaption></figure>
+    <figure><img id="input" class="crop" alt="Прозрачный вход выбранного мазка"><figcaption>Прозрачный вход · исходные RGB</figcaption></figure>
+  </div><p id="roi"></p></div>
+  <div class="card"><h2>Крупный фрагмент с raw PixelLab</h2><canvas id="fragment" class="fragment" aria-label="Исходный участок с кадром PixelLab без изменения размера"></canvas><p>Canvas имеет размер ROI 128 или 256 px; увеличение на экране меняет только вид. По краю crop не рисуется рамка поверх огня.</p></div>
+  <div class="card"><h2>Полная исходная плита</h2><canvas id="original" class="tile" width="1254" height="1254" aria-label="Оригинальная плита без анимации"></canvas></div>
+  <div class="card"><h2>Та же плита + сырой кадр в ROI</h2><canvas id="overlay" class="tile" width="1254" height="1254" aria-label="Исходная плита с неизменённым кадром PixelLab поверх"></canvas></div>
+</section>
+<div class="controls"><button id="play" disabled>Играть</button><button id="restart" disabled>Сначала</button><button id="seamButton" disabled>Стык: последний ↔ первый</button><input id="scrub" type="range" min="0" max="0" value="0" disabled aria-label="Выбрать кадр"><span id="counter" class="counter">0 / 0</span></div>
+<p id="seam" class="seam">Данные стыка появятся после выбора clip.</p>
+<details><summary>Происхождение и исходные файлы</summary><p><a id="manifest" href="#">Manifest PixelLab</a> · <a id="metadata" href="#">Параметры ROI и входа</a> · <a id="raw" href="#">Текущий raw PNG</a> · <a id="source" href="#">Исходник 1254 px</a></p></details>
+<footer id="pending">Каталог содержит только извлечённые и проверенные по SHA результаты. После появления новых заданий перезапустите build.py.</footer>
+<script src="data.js"></script>
+<script>
+(() => {
+  const data=window.FIELD_REVIEW_DATA||{clips:[],pending:[]};
+  const $=id=>document.getElementById(id);
+  const selector=$('clip'),load=$('load'),play=$('play'),restart=$('restart'),seamButton=$('seamButton'),scrub=$('scrub'),counter=$('counter');
+  const original=$('original'),overlay=$('overlay'),fragment=$('fragment');
+  let clip=null,images=[],sourceImage=null,index=0,running=false,timer=null,token=0,seamLast=false;
+  const cache=new Map();
+  function image(url){return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=()=>reject(url);img.src=url})}
+  function stop(){running=false;clearTimeout(timer);timer=null;play.textContent='Играть'}
+  function draw(){
+    if(!clip||!sourceImage||!images[index])return;
+    const [x0,y0,x1,y1]=clip.box_xyxy,raw=images[index];
+    const base=original.getContext('2d'),motion=overlay.getContext('2d'),detail=fragment.getContext('2d');
+    base.clearRect(0,0,1254,1254);base.drawImage(sourceImage,0,0);
+    motion.clearRect(0,0,1254,1254);motion.drawImage(sourceImage,0,0);motion.drawImage(raw,x0,y0);
+    fragment.width=clip.native_size;fragment.height=clip.native_size;
+    detail.drawImage(sourceImage,-x0,-y0);detail.drawImage(raw,0,0);
+    scrub.value=String(index);counter.textContent=`${index+1} / ${clip.count}`;
+    $('raw').href=clip.frames[index];
+  }
+  function tick(){if(!running)return;index=(index+1)%clip.count;draw();timer=setTimeout(tick,data.frame_duration_ms||120)}
+  function start(){if(!clip||running)return;running=true;play.textContent='Пауза';timer=setTimeout(tick,data.frame_duration_ms||120)}
+  function seamText(){const s=clip.seam;$('seam').textContent=`Стык последнего → первого: RGBA-различия ${s.rgba_different_pixels} px; alpha-силуэт XOR ${s.alpha_gt8_silhouette_xor_pixels} px; на сером фоне RGB >8: ${s.gray_composite_rgb_maxdiff_gt8_pixels} px.${s.exact_rgba?' Точные RGBA совпадают.':' Точные RGBA различаются.'}`}
+  async function select(key){
+    stop();const current=++token;clip=data.clips.find(x=>x.key===key)||null;images=[];sourceImage=null;index=0;seamLast=false;
+    for(const control of [play,restart,seamButton,scrub])control.disabled=true;
+    if(!clip){load.textContent='Готовых clip пока нет';return}
+    load.textContent=`Загрузка ${key}…`;
+    try{
+      if(!cache.has(key))cache.set(key,Promise.all([image(clip.source),...clip.frames.map(image)]));
+      const loaded=await cache.get(key);if(current!==token)return;
+      sourceImage=loaded[0];images=loaded.slice(1);
+      $('context').src=clip.context;$('input').src=clip.input;
+      $('roi').textContent=`${clip.group_key} · ROI (${clip.box_xyxy.join(', ')}) · ${clip.native_size}×${clip.native_size} px · ${clip.count} сырых кадров.`;
+      $('manifest').href=clip.manifest;$('metadata').href=clip.request_metadata;$('source').href=clip.source;
+      scrub.max=String(clip.count-1);for(const control of [play,restart,seamButton,scrub])control.disabled=false;
+      seamText();draw();load.textContent=`${key} · готов к просмотру`;
+    }catch(error){if(current===token)load.textContent=`Не удалось загрузить ${String(error)}`}
+  }
+  for(const style of ['24','29']){
+    const matches=data.clips.filter(c=>c.style===style);if(!matches.length)continue;
+    const group=document.createElement('optgroup');group.label=`Огонь ${style}`;
+    for(const c of matches){const option=document.createElement('option');option.value=c.key;option.textContent=`${c.key} · ${c.count} кадров`;group.append(option)}
+    selector.append(group);
+  }
+  $('pending').textContent=`Готово для просмотра: ${data.clips.length}. В обработке или без полного результата: ${data.pending.map(x=>x.key).join(', ')||'нет'}. Новые результаты появятся после повторного запуска build.py.`;
+  selector.onchange=()=>select(selector.value);
+  play.onclick=()=>running?stop():start();restart.onclick=()=>{stop();index=0;draw();start()};
+  scrub.oninput=()=>{stop();index=Number(scrub.value);draw()};
+  seamButton.onclick=()=>{stop();seamLast=!seamLast;index=seamLast?clip.count-1:0;draw()};
+  if(data.clips.length)select(data.clips[0].key);else load.textContent='Завершённых и проверенных кадров пока нет';
+})();
+</script></html>

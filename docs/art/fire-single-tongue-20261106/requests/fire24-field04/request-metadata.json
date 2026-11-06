@@ -1,0 +1,47 @@
+{
+  "key": "fire24-field04",
+  "group": {
+    "key": "fire24-04",
+    "source_component_id": 7,
+    "crop_xyxy": [
+      551,
+      236,
+      807,
+      492
+    ],
+    "crop_size": 256,
+    "stroke_bbox_xyxy": [
+      598,
+      344,
+      761,
+      384
+    ],
+    "core_pixels": 1668,
+    "medium_stroke_pixels": 2518,
+    "alpha_mask_pixels": 3950,
+    "core_clipped_by_alpha_mask_pixels": 0,
+    "core_on_crop_border_pixels": 0,
+    "alpha_mask_on_crop_border_pixels": 0,
+    "foreign_core_pixels_inside_alpha_mask": 0,
+    "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-04/context.png",
+    "context_sha256": "0786013a03364b762d5adc16f1c8b18b90fba0055868d7c8d9e45e640607e979",
+    "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-04/input-transparent.png",
+    "input_sha256": "9a1200f93f3346b0a78db8f942feb578598bf046dbf8863f940869744ad68341",
+    "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-04/alpha-mask.png",
+    "alpha_mask_sha256": "def5ef1f2641f272a9cbcc326ef6ff215e6c00c8c5b1501a4ef0db5f86b6dd70",
+    "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-04/core-mask.png",
+    "core_mask_sha256": "1e0a0c76fddcd86fd70c8ac0efd04179f234c0bbb8eeaa66fa75c197fd611c3e"
+  },
+  "endpoint": "animate-pixminimax",
+  "input": "field-inputs/fire24/fire24-04/input-transparent.png",
+  "input_sha256": "9a1200f93f3346b0a78db8f942feb578598bf046dbf8863f940869744ad68341",
+  "input_size": [
+    256,
+    256
+  ],
+  "request_sha256": "27bca8a6e4dccd1be5392d58a78b33244b7f87564bbc1c190bd5ed3230c20c9d",
+  "requested_frames": 32,
+  "native_crop_no_resize": true,
+  "local_motion_generation": false,
+  "source_sha256": "011d71e26a400c2a7002995583f141491ffef148131f1e5abf565ad7587b749b"
+}

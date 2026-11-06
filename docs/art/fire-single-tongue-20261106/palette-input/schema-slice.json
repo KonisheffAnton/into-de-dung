@@ -1,0 +1,276 @@
+{
+  "snapshot_sha256": "3f30f84487cd1ed8e6b548ac152b11a2aff535a6a6467b91e464dc74328a382b",
+  "operation_description": "Edit multiple animation frames with a text description.\n\nThis endpoint applies a consistent edit across all animation frames,\nmaintaining temporal coherence while transforming the animation.\nReturns immediately with a background job ID. Poll `GET /v2/background-jobs/{job_id}`\nto check status and retrieve results.\n\n**Key Features:**\n- Apply text-based edits to animation sequences\n- Maintains frame-to-frame consistency\n- Supports 2-16 frames per request (max depends on frame size, see below)\n- Optional background removal\n- Non-blocking: returns job ID immediately\n\n**Example Edits:**\n- \"add a red cape\"\n- \"make it glow blue\"\n- \"add armor plating\"\n- \"change to ice theme\"\n\n**Supported Sizes:**\n- Frame sizes from 16x16 to 256x256 pixels (model supports up to 256x256)\n\n**Frame limits by output size (image_size):**\n- 16-64px: Up to 16 frames (4x4 grid)\n- 65-80px: Up to 9 frames (3x3 grid)\n- 81-256px: Up to 4 frames (2x2 grid)\n\nAll frames are packed into a single grid image for editing, so larger frames\nfill the fixed generation canvas faster and fewer fit per request.\n\n**Usage Pattern:**\n1. POST to this endpoint (returns `background_job_id`)\n2. Poll `GET /v2/background-jobs/{background_job_id}` every 5-10 seconds\n3. When `status` is `completed`, edited frames are in `last_response`\n\nUsing the Python client:\n```python\nimport pixellab\n\nclient = pixellab.Client(secret=\"YOUR_API_TOKEN\")\n\n# Load your animation frames\nframes = [...]  # List of FrameImage objects\n\nresponse = client.edit_animation_v2(\n    description=\"add a glowing sword\",\n    frames=frames,\n    image_size=dict(width=64, height=64)\n)\n\n# Save edited frames\nfor i, image in enumerate(response.images):\n    image.pil_image().save(f\"frame_{i}.png\")\n```",
+  "request_schema": {
+    "properties": {
+      "description": {
+        "type": "string",
+        "maxLength": 2000,
+        "minLength": 1,
+        "title": "Description",
+        "description": "Description of the edit to apply (e.g., 'add a red cape', 'make it glow blue')"
+      },
+      "frames": {
+        "items": {
+          "$ref": "#/components/schemas/app__endpoints__external__v2__edit_animation_v2__FrameImage"
+        },
+        "type": "array",
+        "maxItems": 16,
+        "minItems": 2,
+        "title": "Frames",
+        "description": "Animation frames to edit (2-16 frames)"
+      },
+      "image_size": {
+        "$ref": "#/components/schemas/app__endpoints__external__v2__edit_animation_v2__ImageSize",
+        "description": "Size of the output frames"
+      },
+      "seed": {
+        "anyOf": [
+          {
+            "type": "integer",
+            "minimum": 0.0
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Seed",
+        "description": "Seed for reproducible generation"
+      },
+      "no_background": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "No Background",
+        "description": "Remove background from edited frames",
+        "default": false
+      },
+      "target_palette": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/TargetPalette"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "description": "Colours the result must use and/or a colour cap: {\"colors\": [\"#081820\", \"#346856\", \"#88c070\", \"#e0f8d0\"], \"name\": \"Game Boy\", \"max_colors\": 4}. With colors every pixel of every frame (one choice for all frames) is one of them; max_colors (2-64) caps the colours of every frame (one choice for all frames)."
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "description",
+      "frames",
+      "image_size"
+    ],
+    "title": "EditAnimationV2Request",
+    "description": "Request model for edit-animation-v2 endpoint",
+    "example": {
+      "description": "add a glowing red aura",
+      "frames": [
+        {
+          "image": {
+            "base64": "..."
+          },
+          "size": {
+            "height": 64,
+            "width": 64
+          }
+        },
+        {
+          "image": {
+            "base64": "..."
+          },
+          "size": {
+            "height": 64,
+            "width": 64
+          }
+        }
+      ],
+      "image_size": {
+        "height": 64,
+        "width": 64
+      },
+      "no_background": false,
+      "seed": 42
+    }
+  },
+  "frame_schema": {
+    "properties": {
+      "image": {
+        "$ref": "#/components/schemas/Base64Image",
+        "description": "Frame image as base64 PNG/JPEG"
+      },
+      "size": {
+        "$ref": "#/components/schemas/app__endpoints__external__v2__edit_animation_v2__FrameImageSize",
+        "description": "Size of the frame image"
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "image",
+      "size"
+    ],
+    "title": "FrameImage",
+    "description": "Animation frame image with size.\n\nNested `size` object matches the animation-frame v2 subfamily\n(transfer-outfit-v2, interpolation-v2), which share this backend family.",
+    "example": {
+      "image": {
+        "base64": "data:image/png;base64,..."
+      },
+      "size": {
+        "height": 64,
+        "width": 64
+      }
+    }
+  },
+  "frame_size_schema": {
+    "properties": {
+      "width": {
+        "type": "integer",
+        "maximum": 256.0,
+        "minimum": 1.0,
+        "title": "Width",
+        "description": "Frame image width"
+      },
+      "height": {
+        "type": "integer",
+        "maximum": 256.0,
+        "minimum": 1.0,
+        "title": "Height",
+        "description": "Frame image height"
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "width",
+      "height"
+    ],
+    "title": "FrameImageSize",
+    "example": {
+      "height": 64,
+      "width": 64
+    }
+  },
+  "output_size_schema": {
+    "properties": {
+      "width": {
+        "type": "integer",
+        "maximum": 256.0,
+        "minimum": 16.0,
+        "title": "Width",
+        "description": "Image width in pixels"
+      },
+      "height": {
+        "type": "integer",
+        "maximum": 256.0,
+        "minimum": 16.0,
+        "title": "Height",
+        "description": "Image height in pixels"
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "width",
+      "height"
+    ],
+    "title": "ImageSize",
+    "example": {
+      "height": 64,
+      "width": 64
+    }
+  },
+  "base64_image_schema": {
+    "properties": {
+      "type": {
+        "type": "string",
+        "const": "base64",
+        "title": "Type",
+        "description": "Image data type",
+        "default": "base64"
+      },
+      "base64": {
+        "type": "string",
+        "title": "Base64",
+        "description": "Base64 encoded image data"
+      },
+      "format": {
+        "type": "string",
+        "title": "Format",
+        "description": "Image format",
+        "default": "png"
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "base64"
+    ],
+    "title": "Base64Image",
+    "description": "A base64 encoded image.\n\nAttributes:\n    type (Literal[\"base64\"]): Always \"base64\" to indicate the image encoding type\n    base64 (str): The base64 encoded image data\n    format (str): The image format (e.g., \"png\", \"jpeg\")"
+  },
+  "target_palette_schema": {
+    "properties": {
+      "colors": {
+        "anyOf": [
+          {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Colors",
+        "description": "2 to 256 hex colours like '#1a2b3c'."
+      },
+      "name": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 100
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Name",
+        "description": "The palette's name ('Game Boy', 'PICO-8'); helps the look."
+      },
+      "max_colors": {
+        "anyOf": [
+          {
+            "type": "integer",
+            "maximum": 64.0,
+            "minimum": 2.0
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Max Colors",
+        "description": "At most this many colours in each image (from colors if given)."
+      },
+      "smart": {
+        "type": "boolean",
+        "title": "Smart",
+        "description": "Beta, single images only: put each object on the palette as a whole (a face stays skin-coloured, wood stays brown) instead of giving every pixel its nearest colour. Needs colors; adds about 15-60 s.",
+        "default": false
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "title": "TargetPalette",
+    "description": "Colours the result must use (colors) and/or at most max_colors per image."
+  }
+}

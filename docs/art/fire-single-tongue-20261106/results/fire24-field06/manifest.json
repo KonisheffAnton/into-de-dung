@@ -1,0 +1,340 @@
+{
+  "key": "fire24-field06",
+  "requested_frames": 16,
+  "returned_frames": 17,
+  "response_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field06\\job-latest.json",
+  "response_sha256": "a5496061896edfa9cd5a4f0d5034c96db5c63c0915296fe0edd4240142ce74da",
+  "billing_usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 2
+  },
+  "frames": [
+    {
+      "frame": 0,
+      "sha256": "0b12c6d72d504c0245400a50d9671b54f4842ca0bcc65fc88ba9f6aac52c9828",
+      "alpha_bbox": [
+        19,
+        50,
+        110,
+        79
+      ],
+      "alpha_pixels": 1463,
+      "alpha_xor_source": 0,
+      "uncovered_original_core": 0,
+      "visible_rgb_change_gt8": 0,
+      "premultiplied_rgb_sum": [
+        333487.812,
+        181393.369,
+        79227.941
+      ]
+    },
+    {
+      "frame": 1,
+      "sha256": "4bbad493a24808f8fe5c2dac70fc8e863f1a8c4b5b20782f54549a3b2654296b",
+      "alpha_bbox": [
+        19,
+        50,
+        110,
+        79
+      ],
+      "alpha_pixels": 1463,
+      "alpha_xor_source": 0,
+      "uncovered_original_core": 0,
+      "visible_rgb_change_gt8": 643,
+      "premultiplied_rgb_sum": [
+        342107.0,
+        182038.0,
+        76079.0
+      ]
+    },
+    {
+      "frame": 2,
+      "sha256": "6161ea8bcb96c7782eb81848b60b24feb9721903fecafa34acb6b569f1db75c2",
+      "alpha_bbox": [
+        19,
+        50,
+        110,
+        79
+      ],
+      "alpha_pixels": 1463,
+      "alpha_xor_source": 0,
+      "uncovered_original_core": 0,
+      "visible_rgb_change_gt8": 645,
+      "premultiplied_rgb_sum": [
+        342092.0,
+        182029.0,
+        76095.0
+      ]
+    },
+    {
+      "frame": 3,
+      "sha256": "e30cfb2351e9cdc35297ec67d6efd8f089bf9d52ce9d30f8b96042b820966f30",
+      "alpha_bbox": [
+        19,
+        50,
+        110,
+        79
+      ],
+      "alpha_pixels": 1463,
+      "alpha_xor_source": 0,
+      "uncovered_original_core": 0,
+      "visible_rgb_change_gt8": 651,
+      "premultiplied_rgb_sum": [
+        342124.0,
+        181977.0,
+        75965.0
+      ]
+    },
+    {
+      "frame": 4,
+      "sha256": "bef1ab0cf19ce70ddebbf30311a0e02c07a1b355dfa88d8ff0478d45c364d22a",
+      "alpha_bbox": [
+        18,
+        50,
+        109,
+        79
+      ],
+      "alpha_pixels": 1464,
+      "alpha_xor_source": 61,
+      "uncovered_original_core": 0,
+      "visible_rgb_change_gt8": 779,
+      "premultiplied_rgb_sum": [
+        342569.0,
+        182163.0,
+        75995.0
+      ]
+    },
+    {
+      "frame": 5,
+      "sha256": "f2a9986a4c76b35706dcfb1cdade30b73225c2204d6d8babaa7132aa4eea13c2",
+      "alpha_bbox": [
+        18,
+        50,
+        109,
+        79
+      ],
+      "alpha_pixels": 1463,
+      "alpha_xor_source": 68,
+      "uncovered_original_core": 0,
+      "visible_rgb_change_gt8": 833,
+      "premultiplied_rgb_sum": [
+        342150.0,
+        182014.0,
+        75962.0
+      ]
+    },
+    {
+      "frame": 6,
+      "sha256": "55e6497028d93250c1dc3b32e575f79ced60aab2bef7bc1c7da1961f856e789d",
+      "alpha_bbox": [
+        18,
+        50,
+        109,
+        79
+      ],
+      "alpha_pixels": 1463,
+      "alpha_xor_source": 68,
+      "uncovered_original_core": 0,
+      "visible_rgb_change_gt8": 854,
+      "premultiplied_rgb_sum": [
+        342375.0,
+        182026.0,
+        75848.0
+      ]
+    },
+    {
+      "frame": 7,
+      "sha256": "0c927268a44d688083b456c9631f58ede4bf6f23c9172d25ead843b3d12f7a49",
+      "alpha_bbox": [
+        17,
+        49,
+        108,
+        79
+      ],
+      "alpha_pixels": 1464,
+      "alpha_xor_source": 149,
+      "uncovered_original_core": 0,
+      "visible_rgb_change_gt8": 1055,
+      "premultiplied_rgb_sum": [
+        342691.0,
+        182085.0,
+        75810.0
+      ]
+    },
+    {
+      "frame": 8,
+      "sha256": "93516d5375aa80db5933d81dbc1f8df427cf5bb7dabf6ec95047ede6cec48046",
+      "alpha_bbox": [
+        18,
+        49,
+        108,
+        79
+      ],
+      "alpha_pixels": 1461,
+      "alpha_xor_source": 148,
+      "uncovered_original_core": 0,
+      "visible_rgb_change_gt8": 1059,
+      "premultiplied_rgb_sum": [
+        342211.0,
+        181958.0,
+        75604.0
+      ]
+    },
+    {
+      "frame": 9,
+      "sha256": "e86c363a9d7734742f6b7dff5ce15abd660713c11454dc79ba008cd62ee98ee5",
+      "alpha_bbox": [
+        18,
+        48,
+        108,
+        79
+      ],
+      "alpha_pixels": 1466,
+      "alpha_xor_source": 177,
+      "uncovered_original_core": 0,
+      "visible_rgb_change_gt8": 1123,
+      "premultiplied_rgb_sum": [
+        343392.0,
+        182524.0,
+        75842.0
+      ]
+    },
+    {
+      "frame": 10,
+      "sha256": "8ad063f97c852a2bc09a87144398cefb4cfd124eab51b185f6ad92a786c193cb",
+      "alpha_bbox": [
+        18,
+        48,
+        108,
+        79
+      ],
+      "alpha_pixels": 1466,
+      "alpha_xor_source": 177,
+      "uncovered_original_core": 0,
+      "visible_rgb_change_gt8": 1112,
+      "premultiplied_rgb_sum": [
+        343399.0,
+        182421.0,
+        75816.0
+      ]
+    },
+    {
+      "frame": 11,
+      "sha256": "060a1bed0cdefec9a688aad5fb5e1fe278b70012055abbf4e55e4c524c3fa882",
+      "alpha_bbox": [
+        18,
+        48,
+        109,
+        79
+      ],
+      "alpha_pixels": 1473,
+      "alpha_xor_source": 134,
+      "uncovered_original_core": 0,
+      "visible_rgb_change_gt8": 1013,
+      "premultiplied_rgb_sum": [
+        344742.0,
+        183164.0,
+        76340.0
+      ]
+    },
+    {
+      "frame": 12,
+      "sha256": "bdcc7e80710cf98346160dce2b2107200c1c6d7461304cc8f67e7ab0ae166e7e",
+      "alpha_bbox": [
+        18,
+        49,
+        109,
+        79
+      ],
+      "alpha_pixels": 1468,
+      "alpha_xor_source": 91,
+      "uncovered_original_core": 0,
+      "visible_rgb_change_gt8": 916,
+      "premultiplied_rgb_sum": [
+        343587.0,
+        182609.0,
+        76166.0
+      ]
+    },
+    {
+      "frame": 13,
+      "sha256": "42138b2eeef63aa63a6f3e14b22c9e5a520d94ffe0be125f705cb45a16165821",
+      "alpha_bbox": [
+        19,
+        49,
+        110,
+        79
+      ],
+      "alpha_pixels": 1457,
+      "alpha_xor_source": 42,
+      "uncovered_original_core": 0,
+      "visible_rgb_change_gt8": 750,
+      "premultiplied_rgb_sum": [
+        340575.0,
+        181233.0,
+        75699.0
+      ]
+    },
+    {
+      "frame": 14,
+      "sha256": "be5363bbd06c910e864ebe83e2560b1bf02eeabbacc86e22add2d9e6d92e3d79",
+      "alpha_bbox": [
+        19,
+        50,
+        110,
+        79
+      ],
+      "alpha_pixels": 1463,
+      "alpha_xor_source": 0,
+      "uncovered_original_core": 0,
+      "visible_rgb_change_gt8": 706,
+      "premultiplied_rgb_sum": [
+        341986.0,
+        181924.0,
+        76028.0
+      ]
+    },
+    {
+      "frame": 15,
+      "sha256": "b4213024711cc292b55258ac8f338c3f093d0fdb8aeaf89724f14587d9412be6",
+      "alpha_bbox": [
+        19,
+        50,
+        110,
+        79
+      ],
+      "alpha_pixels": 1463,
+      "alpha_xor_source": 0,
+      "uncovered_original_core": 0,
+      "visible_rgb_change_gt8": 700,
+      "premultiplied_rgb_sum": [
+        341892.0,
+        181987.0,
+        76175.0
+      ]
+    },
+    {
+      "frame": 16,
+      "sha256": "dd4561a08e5900b426a70dba0f6e5944098c96dd0d57c9b52e1c83551696ba1b",
+      "alpha_bbox": [
+        19,
+        50,
+        110,
+        79
+      ],
+      "alpha_pixels": 1463,
+      "alpha_xor_source": 0,
+      "uncovered_original_core": 0,
+      "visible_rgb_change_gt8": 702,
+      "premultiplied_rgb_sum": [
+        341875.0,
+        181796.0,
+        76075.0
+      ]
+    }
+  ],
+  "first_last_rgba_equal": false,
+  "raw_pixels_modified": false,
+  "art_acceptance": false
+}

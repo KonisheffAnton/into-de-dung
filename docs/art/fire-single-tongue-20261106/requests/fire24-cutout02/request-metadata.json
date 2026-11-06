@@ -1,0 +1,19 @@
+{
+  "key": "fire24-cutout02",
+  "endpoint": "animate-pixminimax",
+  "input": "inputs/fire24-tongue-reference-128.png",
+  "input_sha256": "d3e2ef80d407471860a2c261ead00df2ef87ce5b1a20cc470d561ffcc81be573",
+  "input_size": [
+    128,
+    128
+  ],
+  "source_alpha_range": [
+    0,
+    253
+  ],
+  "request_sha256": "8ecc3af077cbe4121eb71e288b82182e0c28aaebf97cbf74daec28d87acbe02e",
+  "requested_frames": 16,
+  "native_crop_no_resize": true,
+  "local_motion_generation": false,
+  "hypothesis": "Isolated existing shape with contour-only action, without combustion semantics"
+}

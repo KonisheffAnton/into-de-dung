@@ -1,0 +1,45 @@
+{
+  "jobs": [
+    {
+      "key": "fire24-field02",
+      "kind": "unavailable_after_404",
+      "job_id": "02359f0e-2a13-4098-89c9-5ff8bff2842a",
+      "http_status": 404,
+      "observed_utc": "2026-11-06T18:06:38.230749+00:00",
+      "last_saved_status": "processing",
+      "raw_frames_received": 0,
+      "request_sha256": "43dcf71c8175974f42948327744e1ab1d66f5f3c5698979cee8ce45b6a467cff",
+      "error_sha256": "7340427872f2be0bc6a73aa3bcb60d2eb82b72693f3a84885ff28610f29d8edb",
+      "explanation": "Confirmed admission, then GET 404 Job not found. No terminal success payload was saved. Official Jobs schema says completed jobs are automatically cleaned up; no recovery/list endpoint for standalone PixMiniMax images is documented. Exact cause and completion status are unverified. Original POST barrier remains; any new generation needs a new recorded attempt."
+    },
+    {
+      "key": "fire24-field04",
+      "kind": "unavailable_after_404",
+      "job_id": "1e953d02-8179-4b94-9475-dea66c5ef4d5",
+      "http_status": 404,
+      "observed_utc": "2026-11-06T18:06:38.231558+00:00",
+      "last_saved_status": "processing",
+      "raw_frames_received": 0,
+      "request_sha256": "27bca8a6e4dccd1be5392d58a78b33244b7f87564bbc1c190bd5ed3230c20c9d",
+      "error_sha256": "7340427872f2be0bc6a73aa3bcb60d2eb82b72693f3a84885ff28610f29d8edb",
+      "explanation": "Confirmed admission, then GET 404 Job not found. No terminal success payload was saved. Official Jobs schema says completed jobs are automatically cleaned up; no recovery/list endpoint for standalone PixMiniMax images is documented. Exact cause and completion status are unverified. Original POST barrier remains; any new generation needs a new recorded attempt."
+    },
+    {
+      "key": "fire29-field02",
+      "kind": "unavailable_after_404",
+      "job_id": "ca8aff89-bc33-4773-a3c7-5b31a4215620",
+      "http_status": 404,
+      "observed_utc": "2026-11-06T18:06:38.232342+00:00",
+      "last_saved_status": "processing",
+      "raw_frames_received": 0,
+      "request_sha256": "315b551826dd0455e94ce6a81e77a2432cc8410e61eeeb0a5dca3a8a76799910",
+      "error_sha256": "7340427872f2be0bc6a73aa3bcb60d2eb82b72693f3a84885ff28610f29d8edb",
+      "explanation": "Confirmed admission, then GET 404 Job not found. No terminal success payload was saved. Official Jobs schema says completed jobs are automatically cleaned up; no recovery/list endpoint for standalone PixMiniMax images is documented. Exact cause and completion status are unverified. Original POST barrier remains; any new generation needs a new recorded attempt."
+    }
+  ],
+  "balance_after_five_saved_field_jobs": 4527,
+  "balance_after_unavailable_jobs": 4512,
+  "balance_delta_for_three_unavailable_jobs": 15,
+  "provider_usage_response_for_unavailable_jobs": null,
+  "recovery_change": "Poll every 5 seconds (official recommendation 5-10), archive every successful GET before parsing; never repeat original POST keys."
+}

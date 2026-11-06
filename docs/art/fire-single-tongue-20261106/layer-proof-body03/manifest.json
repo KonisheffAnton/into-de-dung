@@ -1,0 +1,128 @@
+{
+  "clean_plate_key": "fire24-cleanplate03",
+  "clean_raw_sha256": "224c109c1b8d7981381f1f3afa5bbef2915ecd594943d3f1c4f76609110de139",
+  "clean_response_sha256": "0d909687b2d6b1e5918b37ca797137422308b00ffe4392879921f956bb492921",
+  "billing_usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 10
+  },
+  "static_mask_pixels": 572,
+  "static_plate_sha256": "4987d86d8ee78a603d7f8900de2481fc056ff7878d3d004604de81e916529fab",
+  "plate_variant": "original support",
+  "crop_placement_xy": [
+    664,
+    436
+  ],
+  "source_size": [
+    1254,
+    1254
+  ],
+  "render_operation": "Standard RGBA source-over of unchanged PixelLab pose at a constant position; no warping, tweening or frame recolor",
+  "local_motion_generation": false,
+  "frames": [
+    {
+      "frame": 0,
+      "provider_png_sha256": "2ef7a997b6e3c8241e63c4bc1f48a23856ba284f336eb4a7ce40de0ac08ba6fb",
+      "alpha_support_outside_guide": 0,
+      "render_changes_outside_guide": 0
+    },
+    {
+      "frame": 1,
+      "provider_png_sha256": "6aef545f1fe2eebfdf28325252bf7b31e426c7ca7322d18b481f6a3e6601aecc",
+      "alpha_support_outside_guide": 0,
+      "render_changes_outside_guide": 0
+    },
+    {
+      "frame": 2,
+      "provider_png_sha256": "850c92ba574c9f14bcf459d13a2c3abbcd48888d9af99d2fcacf758d8ed93a59",
+      "alpha_support_outside_guide": 0,
+      "render_changes_outside_guide": 0
+    },
+    {
+      "frame": 3,
+      "provider_png_sha256": "bc627d3c1c1fdb87999fd4af699c8cc7383912095f8b836bc6f6598034bf3e86",
+      "alpha_support_outside_guide": 0,
+      "render_changes_outside_guide": 0
+    },
+    {
+      "frame": 4,
+      "provider_png_sha256": "464a5c47ff2f4ec94933db6ca0ccd4caeffe29a39aed8a21380676c1775a0b2e",
+      "alpha_support_outside_guide": 0,
+      "render_changes_outside_guide": 0
+    },
+    {
+      "frame": 5,
+      "provider_png_sha256": "96e86648e859b321d8c2c3590834c80c3dc08c84eb164473c6599733c134967c",
+      "alpha_support_outside_guide": 0,
+      "render_changes_outside_guide": 0
+    },
+    {
+      "frame": 6,
+      "provider_png_sha256": "090371a826999235670cd2faf9a9a95b2f780a6be56bc75b35ecc3cac87200bf",
+      "alpha_support_outside_guide": 0,
+      "render_changes_outside_guide": 0
+    },
+    {
+      "frame": 7,
+      "provider_png_sha256": "59c0be7f654471e019691894495e112d1621af14225f0f8143eddd4f61d3cb7c",
+      "alpha_support_outside_guide": 0,
+      "render_changes_outside_guide": 0
+    },
+    {
+      "frame": 8,
+      "provider_png_sha256": "e974b55bd21651d946774387dbfa94b20e4fb5c5bfa4807c40eba7b44e3e7c02",
+      "alpha_support_outside_guide": 0,
+      "render_changes_outside_guide": 0
+    },
+    {
+      "frame": 9,
+      "provider_png_sha256": "38e6b7a301bc0a227d08004c981b657e988dbf85a8bc3bf7107471e08fba9b89",
+      "alpha_support_outside_guide": 0,
+      "render_changes_outside_guide": 0
+    },
+    {
+      "frame": 10,
+      "provider_png_sha256": "0fe76b230a546370f5d5bf20b1ed6bc23905378d133ce83a4ced7eef9ec53229",
+      "alpha_support_outside_guide": 0,
+      "render_changes_outside_guide": 0
+    },
+    {
+      "frame": 11,
+      "provider_png_sha256": "8fce2530183462632732b771479a0c53c99ed32dba5b891b574db7a13c2bf664",
+      "alpha_support_outside_guide": 0,
+      "render_changes_outside_guide": 0
+    },
+    {
+      "frame": 12,
+      "provider_png_sha256": "a780d131d62057caf6b68b1b369f9c8f2abb871b3311867ec2e6489f82373236",
+      "alpha_support_outside_guide": 0,
+      "render_changes_outside_guide": 0
+    },
+    {
+      "frame": 13,
+      "provider_png_sha256": "b1e0d677bdcbf9751917d214ad3f3ea230d48d954588c897f41566ad61eb77c9",
+      "alpha_support_outside_guide": 0,
+      "render_changes_outside_guide": 0
+    },
+    {
+      "frame": 14,
+      "provider_png_sha256": "5f36b77e0eb87fa7b639a7d7d7fc0fd620b0146b8470489a286f8280b76e72d1",
+      "alpha_support_outside_guide": 0,
+      "render_changes_outside_guide": 0
+    },
+    {
+      "frame": 15,
+      "provider_png_sha256": "d21419efe42fec4a8040109e8e63df6d746ce599dc5ba22d6e0957660d05210b",
+      "alpha_support_outside_guide": 0,
+      "render_changes_outside_guide": 0
+    },
+    {
+      "frame": 16,
+      "provider_png_sha256": "335e9b0532091575dd7c3525247514630310fb690bcd97b236a023ace063b1dd",
+      "alpha_support_outside_guide": 0,
+      "render_changes_outside_guide": 0
+    }
+  ],
+  "art_acceptance": false
+}

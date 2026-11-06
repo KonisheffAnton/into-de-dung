@@ -1,0 +1,813 @@
+{
+  "status": "completed_unsubmitted_draft_revision",
+  "reason": "Successful short16 color control preserved the original yellow/orange palette on fire24-field29; lower all remaining unsubmitted field drafts to 16 requested frames.",
+  "source_plan": "docs/art/fire-single-tongue-20261106/field-batch-plan.json",
+  "source_plan_sha256": "dde5184b362deb97176da56fef2b9adc5342365ac254eb9c3d4bebae9ac51608",
+  "plan16": "docs/art/fire-single-tongue-20261106/field-batch-plan16.json",
+  "plan16_sha256": "ffdf841cec8b90c97b23a98b1ccd0218d7f17ba78002c1de62882ec9216f9e61",
+  "revised_count": 44,
+  "admitted_untouched_count": 6,
+  "admitted_untouched_keys": [
+    "fire24-field10",
+    "fire29-field12",
+    "fire24-field29",
+    "fire29-field22",
+    "fire24-field25",
+    "fire29-field21"
+  ],
+  "revisions": [
+    {
+      "key": "fire24-field20",
+      "old_request_sha256": "ac2e5fe600f09b88d6eaea027a4fc39abadf71f892df2a7615b314ee0e9e18c1",
+      "new_request_sha256": "d40b6400c876104d3081d6359acda40b8c968ff40f3e00277a83e0e5097448c8",
+      "old_metadata_sha256": "0fc05c2bd0f57e9ef512ee7bed273469f80a294441a59a01ae2e5454403f2532",
+      "new_metadata_sha256": "ece2b7c56ecd95fb7df826a1ba317af17c56ca4db3d4729ce846085c8594d242",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field20\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field20/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field20\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire29-field25",
+      "old_request_sha256": "b8e1de6ea7dce5ef638f1cc3b93e00cdcd2b322ccc84e1907d797797a0f6a37c",
+      "new_request_sha256": "acf9ace63d91fae6f2407b62e162b41141af5f97a90496993278fe57c9b9df92",
+      "old_metadata_sha256": "e57508d257234ee953b21b72574422eb622fc4726928f67ada62464fa4740b40",
+      "new_metadata_sha256": "03820532392209f55c7f492e1434a2c74fab24acbf179dc842a2dfe1854a9bef",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field25\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire29-field25/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire29-field25\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field05",
+      "old_request_sha256": "82d808efb6f4fb9ca64102c2691ce8b65d09ba95528d65a4086b33f737bd2f00",
+      "new_request_sha256": "b30b7787b8841079e38d4e99184c2789cdf85e4ebd033f4041aa45b9896afab6",
+      "old_metadata_sha256": "5a0787b91c8aba27afad0d4656ce4ff4d41e2206119ef4d32d735d27cd3e49e8",
+      "new_metadata_sha256": "a2bdfd75f870669ceaa0552fd3ac6425d1b7ebea3fad7b78fffd54eba341053a",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field05\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field05/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field05\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire29-field02r1",
+      "old_request_sha256": "315b551826dd0455e94ce6a81e77a2432cc8410e61eeeb0a5dca3a8a76799910",
+      "new_request_sha256": "1360fe2aa8373450a1c4b70521a3e1b52ca21f2ac3e7a1f5aca24782d6576075",
+      "old_metadata_sha256": "91989db5e5de7343e1e8f18da66b4b2c4d3eccff152245ccddc5b7b818f96fe3",
+      "new_metadata_sha256": "90b0ba49a67ff6b2b6638beeee88b3c2c041e656e7947237c504febcb3c765a6",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field02r1\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire29-field02r1/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire29-field02r1\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field04r1",
+      "old_request_sha256": "27bca8a6e4dccd1be5392d58a78b33244b7f87564bbc1c190bd5ed3230c20c9d",
+      "new_request_sha256": "6de3f347dc0788111f05a668c50efab3577ff3b6727d4734de47fe7a642b868d",
+      "old_metadata_sha256": "06b479e2dcef19719f7ea05b34813558ff2df8d7016b3dc8e4c8ba5e5f95ac1b",
+      "new_metadata_sha256": "34b29d76ad2e703b32803fbfda0af75a0e088591d6bb56d15bfbf79474f6a2b2",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field04r1\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field04r1/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field04r1\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire29-field03",
+      "old_request_sha256": "acdea5920b7628588d259828e1bd25bb1f647e12edfe0a2481fe2b120ca1d8e2",
+      "new_request_sha256": "883809fd4265168e4eb6b61d2100302c72f240b2db0ca1d8e5794f9e4bb2b186",
+      "old_metadata_sha256": "c900c1252d45e0a2bb2b448b2fd1c38775aff725e25c91fe96cafab52b8e509a",
+      "new_metadata_sha256": "f3f1ef969ee11f3dbb074082e02b15ea6deb13c005139c43db7a6e3773424dc6",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field03\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire29-field03/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire29-field03\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field18",
+      "old_request_sha256": "3bce09763731d84bf8b3aa66f9f3a17abf0a79b23a3bfdc8dc31087a7080775d",
+      "new_request_sha256": "a8ccccef6f3ed19a4fda5ab93742fb8de11ec78180d64ac48a03807cb3085c50",
+      "old_metadata_sha256": "7427150d29502897693a228426c09156735c5711ccf3a783cdc81077badacf98",
+      "new_metadata_sha256": "aff01a5a33c2f45a8a7bfaa841ecb3c097ec03b0e22088f52a3efb4011c65dda",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field18\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field18/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field18\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire29-field13",
+      "old_request_sha256": "11af7247a11c75b4178159a80915373e50a7f677e6fede2c76e01cd9b98153e2",
+      "new_request_sha256": "337098527f9fa1a8c98524b9f418481b238b6183970b8c16b40c7e7ff4ec8b5e",
+      "old_metadata_sha256": "46810747231c8adfd0f52efb5b4ad93144d58f79086112a1a1c6ef80662ac2f1",
+      "new_metadata_sha256": "2196c2ccc538380c3ac638faadc9ee91c6c23726c291434f9eadfbdcd5ed1b68",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field13\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire29-field13/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire29-field13\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field13",
+      "old_request_sha256": "598fba32142466c7365553a7f93002dd9a13a12c5b52ebcd8fc80ef4ffbcb78f",
+      "new_request_sha256": "727153efefd91cf5881fcd37ea6d0dedade857660f0cf4bed6afd6eae69a9a17",
+      "old_metadata_sha256": "a8f6522e867582cd2bb3b8ced0e935f48db5bda67ef2f1d253c2f1cbee068a55",
+      "new_metadata_sha256": "0bc74a922be039cf89fce00254f0f90fb56721a8d1066b5f616efc2a214b3f7e",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field13\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field13/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field13\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire29-field05",
+      "old_request_sha256": "f95656157d0277cd67b22f7ba385e9a75d601e86be4e7db28645d1f9759f6638",
+      "new_request_sha256": "421ce09d50e312aaabf72a793abcabaecc7ce5d9c35778bd64a7b4729c8bf46d",
+      "old_metadata_sha256": "4252dd8762116571fb5cfe52ea783d0cc5fa3ba4d92f44470bf6287690de355a",
+      "new_metadata_sha256": "f0b6cc88c09923b24a908c59f48d4e1630d4fb9922136bff00bbf23373d8f884",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field05\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire29-field05/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire29-field05\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field26",
+      "old_request_sha256": "a7acf0d234f98789fcc7b48d620f23355e1f82121fac54948b35310f7b067ad6",
+      "new_request_sha256": "5ac8df5255f3518a32da43a7a3deb70853c2dbe21b74805ea076ed0b04da65ad",
+      "old_metadata_sha256": "81bb470b4b78f5e64f3803636aa776f2ad9b400c76be0039ff4a12124f833d73",
+      "new_metadata_sha256": "be1f5a9249d4c36e581ea592b02f9813fa125eb176ccb62c69dc28a4026bee23",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field26\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field26/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field26\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire29-field06",
+      "old_request_sha256": "95536924239f115aea96ddf050da023887cc50bd5f3df2c92b4c26d882d91605",
+      "new_request_sha256": "44a1b1e059f4c33845d3508b9d25bec39f04323aa81eae3ae1eaa5405b89d31b",
+      "old_metadata_sha256": "2ce85a0c4e1dad657ea0a44c0328301c760420ceae8f450746d2ce7788c25c64",
+      "new_metadata_sha256": "62230bba64a99f07cc8bd5b08cd2afb1d68ef9dbc1a284cb32b37ed3a4641ed8",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field06\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire29-field06/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire29-field06\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field23",
+      "old_request_sha256": "b4137ea613d5ef7385b79b1950e59e928de490f7dfe53cadee4aa608e7daa090",
+      "new_request_sha256": "dc16fc2b417c23ed5db61af69e61f0f810adb98b72e8356f65902e74597d123d",
+      "old_metadata_sha256": "228e0df1535c3665d8d85836ff6dab146295422d45bd469b4520430a90888204",
+      "new_metadata_sha256": "bf27b171932c7fa328e19147f8ed5405966850d8a394f80635d22b0e79e0fd9f",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field23\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field23/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field23\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire29-field10",
+      "old_request_sha256": "ebb70cbd7ea12daf141004ca29e57c81ca4af2e71d394d9a0c648d1247e6c01a",
+      "new_request_sha256": "85f8df14b3ae3fd3324b17356ff5af2d9176468b605bfe814ce4d87833f96acb",
+      "old_metadata_sha256": "9fa74b5c7105a8a0eddb9b6637d35c572f44ff60377f0a84901134eee098d4ad",
+      "new_metadata_sha256": "c62b990f4fc9ca0e4256ca2a1121f0e5188f8f089ef10451d49f0e26f869b0d9",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field10\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire29-field10/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire29-field10\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field19",
+      "old_request_sha256": "00afbb70bb8a76725dfe5abc2e729dd20a12e5cc95659a7f71a713ecdb3c2798",
+      "new_request_sha256": "b0d4d7e719d0599e2499b11b31854f6ab7dfac966739ca084555e316f29634ac",
+      "old_metadata_sha256": "57f7e04b613381085cc6fc97dd0778b107aeb8cceaf454efd1e9b58ad05e4878",
+      "new_metadata_sha256": "2d521f76c90e2293463a74f8158738a246781fb4852f9c5eadf70edfe3e21749",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field19\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field19/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field19\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire29-field20",
+      "old_request_sha256": "0d39ee44729d35b0defce25792c402955a82b4709c224ade556975240722ceb3",
+      "new_request_sha256": "a36473104463235770a5bd7a0f1e2f2c0d7655a2b5451478aa95ff803ad19a4a",
+      "old_metadata_sha256": "15edaa12fa96c4689b4d831e672595bebe2c030cf5b7d4b3ccfbd4c3bec82c1f",
+      "new_metadata_sha256": "6f3aa99f93afc8f83e25c02d724aa643deff2648849211cfd0d8906687bcbcc7",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field20\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire29-field20/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire29-field20\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field21",
+      "old_request_sha256": "8473088fd5030bbbf0b0b3b26a60103b08e67e3807594ba3ed643220453cb2b9",
+      "new_request_sha256": "974a673c10aff21fee4e71a314c570bcfc3658bd4752fe967bbfd8933b9cb23b",
+      "old_metadata_sha256": "50ca232411add7cfbf6f0a34399b1c3dcd2037631af04facbe6565b8ed2d039f",
+      "new_metadata_sha256": "438c6dc9a372d048bf19c9c6eb2e815aead61759b155476b4a54bbb58cff457d",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field21\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field21/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field21\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire29-field15",
+      "old_request_sha256": "6c23f633cf187e89a3b27e58ffbe7793f610bde94a190c46f978d51bdcf5914f",
+      "new_request_sha256": "7c90a4b8b8ca13ec71b101fb2dd57b02fecab31081b0406e75ca993cffb6fb3b",
+      "old_metadata_sha256": "ffb77443f551fd3bcd5c9134b705cdf9eaef066e5987dd41bbe1d7b4d7c3e3dc",
+      "new_metadata_sha256": "2173c8892ab59f01aba53f0f4db3518fd736915c9361add062bd47dedb06d132",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field15\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire29-field15/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire29-field15\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field14",
+      "old_request_sha256": "adc77719273fe08a84650461e825ad3d20d9feaea55f0d89e69f6dd15dd3fa3b",
+      "new_request_sha256": "5bd12d4256dcf19c18a1d62443cc00392c2f937a7d070a22f0565995d42be394",
+      "old_metadata_sha256": "84076d7a0b3a5546c14ffc5f01f25645b230f632c4de35826448178fa380b0cb",
+      "new_metadata_sha256": "a61d8fe5440aa920b11bc1e2acaa24847a7c31d678330f69044dd346a9312b52",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field14\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field14/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field14\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire29-field08",
+      "old_request_sha256": "45455921a9e6a1d280200f1a02a696437cd7872bd787bf354fcf0c592c0cc1d1",
+      "new_request_sha256": "ad169779a2f8cd97d9257339b19b92daa6b3311433277de34fc745eefa04606b",
+      "old_metadata_sha256": "adc69202543749901bfc2d085e0a91d074805a565fb0f46650dadc496d87fc08",
+      "new_metadata_sha256": "604fa817a21cfeee8c5fa219a84699c8e8b487d905260877f2fe1dc018fa0124",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field08\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire29-field08/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire29-field08\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field12",
+      "old_request_sha256": "fd1d0308b2025ffccc0981025ad6b6ca91806096e6ead73cbc719d8cb02ad808",
+      "new_request_sha256": "1558adf1883bcc00dba6986b60a2a89d6d8e8a59e8a9a613c6eb5f6c0f4bda57",
+      "old_metadata_sha256": "43cc82c05f9f057ce3b2e71f75ca7a06e908ac7d7c96aeb37ed065383f527a90",
+      "new_metadata_sha256": "fba0127cf9fae1e09b6cfbb30845c7a2f06214a8756d1f8354573f5163cb3950",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field12\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field12/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field12\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire29-field18",
+      "old_request_sha256": "a710f5864dc70accf24947436782c0941d5dc61b0c167027f116c53da646fbb5",
+      "new_request_sha256": "28fb40e1ab22a58eeea8d4f2b4156d9f0c0c3b3dd7356417d7dc938f6ea06e18",
+      "old_metadata_sha256": "2413d53b6ead0a00bdc12522cef0c272dfa47b93d1f3c41c56b8f3d6ad01183b",
+      "new_metadata_sha256": "5ac318b821925690bebc772614633637734eb5349b8d6f7f2a2b746be61b5058",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field18\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire29-field18/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire29-field18\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field09",
+      "old_request_sha256": "8928d95a1de95ad06bfa917491fe055814cde55858cffae19338567c2e85bfc2",
+      "new_request_sha256": "87c0ed5062fc03e50eaa71226d2a889c556942627536b23e9b1785eca92c9e36",
+      "old_metadata_sha256": "5d877db8bea494a708e729436f9e7ef1a22a4c9c972f6930e633384860681cc5",
+      "new_metadata_sha256": "6a8ebe5f6d066466a6dff4338ce9c7f11b1ed018bc2bfc51fd19256dd6cf24e3",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field09\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field09/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field09\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire29-field17",
+      "old_request_sha256": "b5ece6b0c82f6bb7bf1d07ca099aa6f0bf2e532b3bc6effbf3ca73a36eb02ddb",
+      "new_request_sha256": "54959f526c8f41e2a5250b27600d586b6e4f94f977077d9f8fe465be83af4470",
+      "old_metadata_sha256": "1a9a3fb341b0b6d61f26c2c339e8f8d3c4ce9c569877c46a8f657fa4074d4de3",
+      "new_metadata_sha256": "4dbcff54051e1cf0bf0b6f4ffc0e44f41263e1e91bd656623af707c44009b03f",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field17\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire29-field17/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire29-field17\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field06",
+      "old_request_sha256": "9458cd77dd8ba1daf24790ee0eef8dd340ba1406a10098a9bbee7bfa0543ad87",
+      "new_request_sha256": "3b0c48d4432adb5cf6dbed3dbd7e3f23b3132b84c73f427e764148ed5c236b84",
+      "old_metadata_sha256": "be7d4342bc1666b2b456f0333aee25170c6d8cb2381cd2be2205f39628e8ec5e",
+      "new_metadata_sha256": "ad177eb4ee1b04274e20349a596af8fbe20eaf1d47ff5895d6d5bf1fec52b025",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field06\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field06/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field06\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire29-field26",
+      "old_request_sha256": "b34f65ef7fb8c1bbb12c1716100cb2b4a2758a17d7c62e0331e6dbed10a55b2e",
+      "new_request_sha256": "53ca1e938f5bfb4aea65523803cbf238cddb8e8e8a22039bcd01df2c6363b846",
+      "old_metadata_sha256": "12aacb9456fb74ca0d6424323f5a669ccade1f325f871576a7cbb7a86f1ca41d",
+      "new_metadata_sha256": "bba71a0281aebcd2be4fa50fd3bfca6f2b44eec0d5cdf08505b4cd0c39e1cdd5",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field26\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire29-field26/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire29-field26\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field11",
+      "old_request_sha256": "63e4d563f78ad91f4ff949810f857ca588433bb3b08ab07350c4b6b5be761d53",
+      "new_request_sha256": "cf1f35a1de0fddf99340cfb84affb30da413da6b4c7b7e94d507d7c45fd51689",
+      "old_metadata_sha256": "903574153c1d45b2a0de6b5c748d14cef1a9727bef08aaf5d9f1029030bc746d",
+      "new_metadata_sha256": "11d51d1cbd28b70167726a744b4ee036b7cbdc48038aba532eff471e6edd3a93",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field11\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field11/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field11\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire29-field19",
+      "old_request_sha256": "ce14f237023369e27f0fad415538b81e195b4f7cae77c0de6044d23f153ec1c7",
+      "new_request_sha256": "6be798293420a9b1738df93af1ca4cb8ab3f3f8a583d3c49ea0bea09448e640a",
+      "old_metadata_sha256": "b84b53d95119e1166c24196d890472f0f04b95147cc650450ef28d289bb7907a",
+      "new_metadata_sha256": "2773ac0fbb72ba75f4fd6a6af7a335b112875549db05a0cc04d0fd86916ab87d",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field19\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire29-field19/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire29-field19\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field03",
+      "old_request_sha256": "bb681915f7f4265fe92a9e9c69b5ac7b77cb6d22287d92c18ddede23a1769603",
+      "new_request_sha256": "fe32b8c226caf991c3ef55645615cd614c9402e8e035c5a8ee1499da013880a1",
+      "old_metadata_sha256": "c810c71b4e2c255263f663aab9afef4c7926ea3ad5cedf3f92e00128e5c25605",
+      "new_metadata_sha256": "709d0eba872c7715718ed6e8e9581a676e6f84f4558ecf36debf2fda3305f9fe",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field03\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field03/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field03\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire29-field16",
+      "old_request_sha256": "69a01a2ab293aca62ee109456a4f423cba095ba7399e4386aff8e630921e9006",
+      "new_request_sha256": "790c51593556ef08f3f726b1733d22f5cf0adefeb6e846e31e913c7754cd12ae",
+      "old_metadata_sha256": "b46a831cfe3cfab6bcc0b66e471390a7fe35f0a4186c7bda354683b5ea3586d7",
+      "new_metadata_sha256": "b50ed45a132ada6bb233720cdcb798fa84e7dab69104cef8074f89981786771b",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field16\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire29-field16/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire29-field16\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field22",
+      "old_request_sha256": "ab4e4cb5b6440ffd7b7e537af2d22601abec3112a08078c7beaef27ba7206dd0",
+      "new_request_sha256": "257469fb43cce97add3c1554a13b3d09cf61dada1f9bdece3eaf3869efb811ce",
+      "old_metadata_sha256": "93c0d32627741dfb56175f3ab328e88c264c093ba727e082a6ddbbbae8fe072a",
+      "new_metadata_sha256": "2673093d97b9f5eb140a1d537a1217d137c39a47decbc3905b43a059ec294bed",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field22\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field22/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field22\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire29-field04",
+      "old_request_sha256": "de2f13d496192c84253ef2a4777b31f9544f191175631134bf4cb49ab2a844e9",
+      "new_request_sha256": "cbb35126bdf6bf9f87f6dd8973f5ec80f81cf7764c093b22e42721c5183b4167",
+      "old_metadata_sha256": "47b6a1e957df8e220eedbca77cd340be4073dc9690b7319626cdd06dfe2d727f",
+      "new_metadata_sha256": "cda48dac75e521f885cedc761480506defef99a3fffb34a7efc84f8f44872c52",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field04\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire29-field04/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire29-field04\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field27",
+      "old_request_sha256": "0fe1bf6518b4b01fc8ed310ee495f4ff41cff53d7d2ba661068915d76b7c9feb",
+      "new_request_sha256": "0e744ae118b5833a1d42bc007c1400a4d855a7ef3558713968c909804d57fc11",
+      "old_metadata_sha256": "89b8ec65d0123280f3e140ee101587c9497d0ebcac4937c03cd3850bbb276c95",
+      "new_metadata_sha256": "977a693d5384bf67923ff66004018eaca02a3b3bbb181ff6ce141c24cf74c219",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field27\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field27/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field27\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire29-field24",
+      "old_request_sha256": "fe7aba25023903ad48b66c65637b1ce9a73b64536acb210da25ef1542fdf71bd",
+      "new_request_sha256": "a997215c46b0a53efe88dd5d7668674a206039076941ad885680a619d9f6fa4c",
+      "old_metadata_sha256": "93b120aa1d44629dccc2a922b48f5ae3d6c7ee6346c13fb5d50048811fedb370",
+      "new_metadata_sha256": "5965bd7e22515b95e26769eb1ebc7c97c9b584e3f176ea3429fcb05fb8ea83cb",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field24\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire29-field24/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire29-field24\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field15",
+      "old_request_sha256": "4547e399a44c0423cbfb9fa33f722051b8639791bebff6691809548d608c6cbd",
+      "new_request_sha256": "f2d7c7b6909c75f3d6eda86948fc4baccead1b0f3b07d04fcbaf49705080d75a",
+      "old_metadata_sha256": "25f43d9537f7a28837fee57b5a2abf5e20fbcec1fcdf618a730e59fddd44023c",
+      "new_metadata_sha256": "5d938317ab9d83e48d4592af4a7b61103f67c92acacd1c5ac56b9294d5632874",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field15\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field15/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field15\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire29-field11",
+      "old_request_sha256": "d857d0b4abc327be29a1ce2a5fc0f1aaf957e782254d53b48fd257ea9a8e4fd9",
+      "new_request_sha256": "e8612054a9567348e8af5637a046181761eaf3281f12a99a9631b066ff37165e",
+      "old_metadata_sha256": "7bdf1d5cdf8406436bf990447965e2ae7fd0e0a3432de15c2b75cb37763ff9b8",
+      "new_metadata_sha256": "06c6da9fd3ccda52674b2494e991b0d02ba81f502a5ba04919ff10996f3ec96a",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field11\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire29-field11/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire29-field11\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field16",
+      "old_request_sha256": "a26bdd018326faefda98e6e93b3afa311f81e2b26af9af088a1a7f4e5e77eaf1",
+      "new_request_sha256": "051ee3e4754a76ae31bd90408ea4518bcd021329f422144c6e6dd18a491edf23",
+      "old_metadata_sha256": "a12dd3781e6fc408dddc446ada0a7e74f639d9e199637f26e066cc0100c78315",
+      "new_metadata_sha256": "b150624191ccf9255756d32bb76030aace5ae33e726bc2ccedec5ec5f1a1af70",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field16\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field16/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field16\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire29-field07",
+      "old_request_sha256": "e4fbf9d361ef06981c3d862d89a59b31376508c49de35ec4cd067021e7160378",
+      "new_request_sha256": "9d0635b105bf4c8592de1cc33eeed389fda031c780ccac7648e80ae198b49bad",
+      "old_metadata_sha256": "5b491ebd1588c1cddfea8a608e5dad3677b8dfb14a7880f4ff0a90873cf35310",
+      "new_metadata_sha256": "d71f6494e3d8524f76598a916dbad794355ff364abace52c03e7347ab7bb5f24",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field07\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire29-field07/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire29-field07\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field24",
+      "old_request_sha256": "1b1232df0a979e059ef2ff997231d1e9ad0050a58f1fad0897f04b3b6610c5fa",
+      "new_request_sha256": "4cb3e082288d2aa06eeb72afba553c3fc29ca73e703d1dc2d5dd9a64331d5359",
+      "old_metadata_sha256": "bcadc9bd826fb54b7a719f74ef3eb87caa90c2f25b1c12bd38a6b8ebc1fc2e26",
+      "new_metadata_sha256": "a36c65b2cb19f86306314daf76110d429d848f6d93ceb3e33aa89173abc73978",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field24\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field24/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field24\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire29-field09",
+      "old_request_sha256": "1df98c5478136ccccb698815d4e2eee448768fbb75f5aa250c720c4a0dd56073",
+      "new_request_sha256": "0e74aacee2f511d0d051fec800515428fcd3de3f68a485185d2f02309d693962",
+      "old_metadata_sha256": "a1f8bc9de914f2c33643dfebdcb7f2843304ba9ab5ae1e448e3cfeadae5da103",
+      "new_metadata_sha256": "76c83406e08aab68e2ee66fa88afaac5ff6010c74e48b14362f7fc5927a46a85",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field09\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire29-field09/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire29-field09\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field30",
+      "old_request_sha256": "0f2fb040cad2ab4ab4539e7c310bf0a561e06e9b14770ca2de75daeb4a48ed30",
+      "new_request_sha256": "9301bba7752dbd98ae3a3d0bc30ed9a2fff35e7460ce36bb858372e36fff8a2b",
+      "old_metadata_sha256": "3e8b46359be71575b0ef32c8e78977dfd247d0a2bfdd560ffd966965321d205d",
+      "new_metadata_sha256": "de1dc3332a7c2d6f29489aeacc9f75a8c73f2232157d1356b9e8f1e5beaa72ec",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field30\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field30/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field30\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire29-field23",
+      "old_request_sha256": "ce8510f4fabfad2a3d5a31b3ecc5f889b32ac0c3b88b54c22503efa8f11fb435",
+      "new_request_sha256": "02e14b78721d781ac17f3c29d3bb3daf0c28e51c9771cc207c4a739bc1f41ac6",
+      "old_metadata_sha256": "6f01498e3fdd2cfa043d8ffba9a68cc47d1ef4c9eb33a269c8442a5f29672013",
+      "new_metadata_sha256": "d53a579c0f8905974fbce58302ab8bb4ab4513ee33e7f61e37e97f8c2487bee2",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field23\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire29-field23/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire29-field23\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field28",
+      "old_request_sha256": "d8a2c0b094576748188b805719a2223fe56fc84a23ec5781ba53e28edaedcdc2",
+      "new_request_sha256": "3d75812902d01855926d118eab1fd60029509c0cb77a69f937dac7cfe6e51194",
+      "old_metadata_sha256": "5f53fc20bc32de940a23e717941459f0d2180b9c82183e7d79efb3153e911cf1",
+      "new_metadata_sha256": "81e42273a4c473ffe050b971ddfdfd92373c3b3d82abb7decbfa53f331cb9070",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field28\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field28/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field28\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    },
+    {
+      "key": "fire24-field08",
+      "old_request_sha256": "b8226cec187dfab1332a000fcaa98f06861db8df514ddcfe2c34f4b248d9d8e3",
+      "new_request_sha256": "7358bf6088f4ab69a469eed293f2321ff361fce6c618b0a456c9ed0357d8d31a",
+      "old_metadata_sha256": "0e4d8565bf27a3198508c0c52b0c367c8808d129d3958950dbd5240b68fafabc",
+      "new_metadata_sha256": "f5486f104254ff9c6564f35d85fbf2f833c6febb61d886777ace9cd8fcc34066",
+      "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire24-field08\\request32.json",
+      "local_request": "docs/art/fire-single-tongue-20261106/requests/fire24-field08/request.json",
+      "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\pixellab\\fire24-field08\\request.json",
+      "only_json_difference": {
+        "frame_count": [
+          32,
+          16
+        ]
+      },
+      "both_revised_copies_byte_equal": true,
+      "admission_barrier_absent_at_revision": true
+    }
+  ],
+  "provider_posts": 0
+}

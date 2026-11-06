@@ -1,0 +1,34 @@
+{
+  "source_reference": "../inputs/fire24-tongue-reference-128.png",
+  "source_reference_sha256": "d3e2ef80d407471860a2c261ead00df2ef87ce5b1a20cc470d561ffcc81be573",
+  "raw_directory": "../results/fire24-cutout02/raw/",
+  "raw_frames_preserved": true,
+  "raw_sha256_by_index": {
+    "2": "850c92ba574c9f14bcf459d13a2c3abbcd48888d9af99d2fcacf758d8ed93a59",
+    "3": "bc627d3c1c1fdb87999fd4af699c8cc7383912095f8b836bc6f6598034bf3e86",
+    "8": "e974b55bd21651d946774387dbfa94b20e4fb5c5bfa4807c40eba7b44e3e7c02",
+    "9": "38e6b7a301bc0a227d08004c981b657e988dbf85a8bc3bf7107471e08fba9b89",
+    "10": "0fe76b230a546370f5d5bf20b1ed6bc23905378d133ce83a4ced7eef9ec53229",
+    "11": "8fce2530183462632732b771479a0c53c99ed32dba5b891b574db7a13c2bf664",
+    "12": "a780d131d62057caf6b68b1b369f9c8f2abb871b3311867ec2e6489f82373236"
+  },
+  "order": [
+    8,
+    9,
+    10,
+    2,
+    12,
+    11,
+    3,
+    11,
+    12,
+    2,
+    10,
+    9,
+    8
+  ],
+  "duration_ms_each": 120,
+  "loop": true,
+  "cycle_duration_ms": 1560,
+  "description": "Existing PixelLab cutout poses selected and replayed forward, then backward; no generated in-between or altered PNG pixels."
+}

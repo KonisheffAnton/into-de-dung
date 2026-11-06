@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Огонь 24 — отдельный язык PixelLab</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif;background:#1b2029;color:#edf1f5}*{box-sizing:border-box}
+body{max-width:1050px;margin:0 auto;padding:20px;line-height:1.45}h1{margin:0 0 8px;font-size:clamp(1.5rem,4vw,2.2rem)}p{max-width:75ch}
+.notice{background:#3c3424;border:1px solid #a38b50;border-radius:8px;padding:9px 12px}.row{display:flex;flex-wrap:wrap;gap:20px;align-items:start}
+figure{margin:0;min-width:0;max-width:100%;background:#29313e;border:1px solid #4b5667;border-radius:8px;padding:10px}figcaption{font-size:.86rem;color:#cfdae6;padding-top:5px}
+img{display:block;image-rendering:pixelated;background:repeating-conic-gradient(#3d4552 0 25%,#505967 0 50%) 50%/16px 16px}
+.native{width:128px;height:128px}.zoomBox{width:min(512px,calc(100vw - 64px));max-width:100%;overflow:auto}.zoom{width:512px;height:512px;max-width:none}
+button{font:inherit;cursor:pointer;background:#475f7a;color:white;border:1px solid #8aa3c1;border-radius:6px;padding:7px 13px;margin-right:7px}button:disabled{opacity:.5;cursor:default}
+button:focus-visible,a:focus-visible{outline:2px solid #c5e0ff;outline-offset:2px}a{color:#a9d4ff}#status{color:#cbd5e1}
+</style>
+<h1>Огонь 24: один нарисованный язык</h1>
+<p class="notice">Экспериментальный cutout для оценки малого изгиба. Это не анимация всей плиты и не художественная приёмка.</p>
+<p>Воспроизведение использует только существующие сырые PNG PixelLab в порядке 08 → 09 → 10 → 02 → 12 → 11 → 03 и обратно. Каждый показан 120 мс. Никаких новых промежуточных поз, перекраски или деформации нет.</p>
+<div class="row">
+  <figure><img class="native" src="../inputs/fire24-tongue-reference-128.png" alt="Исходный неподвижный язык"><figcaption>Исходный контур · 128 px</figcaption></figure>
+  <figure><img class="native motion" src="../results/fire24-cutout02/raw/frame-08.png" alt="Выбранные позы PixelLab"><figcaption>Движение · 128 px</figcaption></figure>
+  <figure><div class="zoomBox"><img class="zoom motion" src="../results/fire24-cutout02/raw/frame-08.png" alt="Увеличение выбранных поз PixelLab в четыре раза"></div><figcaption>Проверка 4× · на узком экране прокрутите</figcaption></figure>
+</div>
+<p><button id="toggle" disabled>Загрузка…</button><button id="restart" disabled>Сначала</button><span id="status" role="status">Загрузка PNG…</span></p>
+<p>Порядок и SHA: <a href="timeline.json">timeline.json</a>. Сравнение поз: <a href="forward-contact-2x.png">контакт</a>. <a href="worst-transition-4x.png">Самый заметный шаг 02 → 12</a>. Метрики соседних переходов: <a href="../../../../test_reports/fire-single-tongue-20261106/cutout-playback-evaluation.json">отчёт</a>.</p>
+<script>
+const order=[8,9,10,2,12,11,3,11,12,2,10,9,8], duration=120;
+const images=[...document.querySelectorAll('img.motion')],toggle=document.querySelector('#toggle'),restart=document.querySelector('#restart'),status=document.querySelector('#status');
+let index=0,running=false,timer=null,started=0,remaining=duration;
+function path(i){return '../results/fire24-cutout02/raw/frame-'+String(i).padStart(2,'0')+'.png'}
+function show(){images.forEach(img=>img.src=path(order[index]));status.textContent='Поза '+(index+1)+' из '+order.length+' · сырой кадр '+String(order[index]).padStart(2,'0');toggle.textContent=running?'Пауза':'Играть'}
+function schedule(){if(!running)return;started=performance.now();timer=setTimeout(()=>{index=(index+1)%order.length;remaining=duration;show();schedule()},remaining)}
+function pause(){if(!running)return;clearTimeout(timer);remaining=Math.max(0,remaining-(performance.now()-started));running=false;show()}
+function play(){if(running)return;running=true;show();schedule()}
+toggle.onclick=()=>running?pause():play();restart.onclick=()=>{pause();index=0;remaining=duration;show();play()};
+Promise.all([...new Set(order)].map(i=>new Promise((resolve,reject)=>{const img=new Image();img.onload=resolve;img.onerror=()=>reject(i);img.src=path(i)})))
+  .then(()=>{toggle.disabled=false;restart.disabled=false;show();play()})
+  .catch(i=>{status.textContent='Не загрузился сырой кадр '+i});
+</script></html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Огонь 24 и 29 — проба движения поля</title>
+<style>
+:root{color-scheme:dark;font:16px/1.45 system-ui,sans-serif;background:#141923;color:#f0f2f5;--tile-size:256px}*{box-sizing:border-box}body{margin:0 auto;max-width:1200px;padding:18px}h1{font-size:1.5rem;margin:0 0 8px}h2{font-size:1.16rem;margin:0 0 4px}p{color:#c0c8d3;margin:4px 0 14px}.intro{max-width:72ch}.controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:#222b3a;padding:12px;border-radius:8px;margin:16px 0}button,select{font:inherit;color:#f5f5f5;background:#36465c;border:1px solid #647792;border-radius:6px;padding:7px 10px;cursor:pointer}button:disabled{opacity:.55;cursor:wait}button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid #ffc078;outline-offset:2px}input[type=range]{flex:1;min-width:110px}.clock{font-variant-numeric:tabular-nums;min-width:115px}.styles{display:grid;gap:16px}.style{background:#202837;border:1px solid #3c4a5d;border-radius:9px;padding:14px;min-width:0}.coverage{color:#b9c8d9;font-size:.92rem}.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}.pair-surface{display:none}body[data-view="surface"] .pair-full{display:none}body[data-view="surface"] .pair-surface{display:grid}.view{min-width:0;text-align:center;background:#171e29;border-radius:6px;padding:8px}.view canvas{display:block;width:min(var(--tile-size),100%);height:auto;margin:auto}.caption{display:block;font-size:.88rem;color:#c9d2de;margin-top:6px}.foot{margin-top:18px;font-size:.91rem;color:#bfc9d8}.foot a{color:#a8d6ff}.foot details{margin-top:10px}.foot summary{cursor:pointer}.error{color:#ffb6ae}
+@media(max-width:650px){body{padding:12px}.style{padding:10px}.pair{grid-template-columns:1fr}.controls .wide{width:100%}.view canvas{width:min(var(--tile-size),100%)}}
+</style>
+</head>
+<body>
+<h1>Огонь 24 и 29</h1>
+<p class="intro" id="intro">Загрузка покрытия…</p>
+<div class="controls">
+<button id="play" type="button" disabled>Воспроизвести</button>
+<button id="step" type="button" disabled>Следующий кадр</button>
+<button id="restart" type="button" disabled>С начала</button>
+<label>Вид <select id="viewMode"><option value="full">Вся плитка</option><option value="surface">Поверхность крупно</option></select></label>
+<label>Размер <select id="size"><option value="256">256 px</option><option value="512">512 px</option></select></label>
+<input id="scrub" class="wide" type="range" min="0" max="95" value="0" aria-label="Позиция цикла">
+<span class="clock" id="clock" aria-live="polite">Загрузка…</span>
+</div>
+<main class="styles" id="styles"></main>
+<div class="foot">
+<p id="scopeNote">Движущиеся фрагменты взяты из сохранённых кадров PixelLab. Художественная приёмка и подключение в сцену открыты.</p>
+<p><a href="../../hazard-motion-20261106/gallery.html">Прежняя галерея ловушки и кальтропов</a></p>
+<details><summary>Данные и проверка</summary><p id="seams"></p><p><a href="manifest.json">Карта кадров и источники</a> · <a href="../../../../test_reports/fire-single-tongue-20261106/field-preview.json">Отчёт проверок</a></p></details>
+</div>
+<script src="gallery-data.js"></script>
+<script>
+(()=>{'use strict';
+const data=window.FIELD_PREVIEW, root='../../../../';
+const el=id=>document.getElementById(id), buttons=['play','step','restart'];
+const surface={x:288,y:233,width:678,height:513}; // Both original tiles: whole top diamond plus a 12 px margin.
+let slot=0,playing=false,ready=false,startTime=0,raf=0;
+const imageCache=new Map(), styleViews=[];
+function image(path){if(!imageCache.has(path)){const pic=new Image();const promise=new Promise((resolve,reject)=>{pic.onload=()=>resolve(pic);pic.onerror=()=>reject(Error(path));});pic.src=root+path;imageCache.set(path,promise)}return imageCache.get(path)}
+function draw(slotNumber){slot=((slotNumber%data.slots)+data.slots)%data.slots;el('scrub').value=slot;el('clock').textContent=`${String(slot).padStart(2,'0')}/95 · ${slot*data.slot_ms} мс`;
+  for(const v of styleViews){const canvas=v.animatedFull,ctx=canvas.getContext('2d');ctx.clearRect(0,0,1254,1254);ctx.drawImage(v.source,0,0);const poses=v.spec.mapping[slot].poses;for(const group of v.spec.groups){const raw=v.raw.get(group.key+':'+poses[group.key]);ctx.drawImage(raw,group.crop_xyxy[0],group.crop_xyxy[1])}
+    const crop=v.animatedSurface.getContext('2d');crop.clearRect(0,0,surface.width,surface.height);crop.drawImage(canvas,surface.x,surface.y,surface.width,surface.height,0,0,surface.width,surface.height)}}
+function tick(now){if(!playing)return;const next=Math.floor((now-startTime)/data.slot_ms)%data.slots;if(next!==slot)draw(next);raf=requestAnimationFrame(tick)}
+function pause(){playing=false;cancelAnimationFrame(raf);el('play').textContent='Воспроизвести'}
+function play(){if(!ready)return;playing=true;startTime=performance.now()-slot*data.slot_ms;el('play').textContent='Пауза';raf=requestAnimationFrame(tick)}
+async function setup(){if(!data||data.slots!==96)throw Error('Нет корректной карты кадров');
+  const complete=data.styles.length>0&&data.styles.every(spec=>spec.selected_group_count===spec.total_group_count);
+  el('intro').textContent=complete?'Два полных покрытия как кандидаты для выбора; в сцену не подключены.':'Проба движения существующих мазков на исходных плитках. Часть покрытия пока остаётся неподвижной; в сцену результат не подключён.';
+  el('scopeNote').textContent=complete?'Кандидаты для выбора: движущиеся фрагменты взяты из сохранённых кадров PixelLab. Художественная приёмка и подключение в сцену ещё открыты.':'Прототип для просмотра: движущиеся фрагменты взяты из сохранённых кадров PixelLab, остальные группы остаются неподвижными. Художественная приёмка и подключение в сцену ещё открыты.';
+  for(const spec of data.styles){const section=document.createElement('section');section.className='style';section.innerHTML=`<h2>Огонь ${spec.style}</h2><p class="coverage">Движение: ${spec.selected_group_count} из ${spec.total_group_count} групп</p><div class="pair pair-full"><div class="view"><canvas class="source-full" width="1254" height="1254" aria-label="Исходная плитка огня ${spec.style}"></canvas><span class="caption">Оригинал</span></div><div class="view"><canvas class="animated-full" width="1254" height="1254" aria-label="Проба движения огня ${spec.style}"></canvas><span class="caption">Проба движения</span></div></div><div class="pair pair-surface"><div class="view"><canvas class="source-surface" width="678" height="513" aria-label="Исходная поверхность огня ${spec.style} крупно"></canvas><span class="caption">Оригинал · поверхность</span></div><div class="view"><canvas class="animated-surface" width="678" height="513" aria-label="Движение поверхности огня ${spec.style} крупно"></canvas><span class="caption">Проба движения · поверхность</span></div></div>`;
+    el('styles').append(section);const source=await image(spec.source),raw=new Map();
+    for(const group of spec.groups)for(const [index,row] of Object.entries(group.raw_frames))raw.set(group.key+':'+index,await image(row.path));
+    const sourceFull=section.querySelector('.source-full'),sourceSurface=section.querySelector('.source-surface');
+    sourceFull.getContext('2d').drawImage(source,0,0);
+    sourceSurface.getContext('2d').drawImage(sourceFull,surface.x,surface.y,surface.width,surface.height,0,0,surface.width,surface.height);
+    styleViews.push({spec,source,raw,animatedFull:section.querySelector('.animated-full'),animatedSurface:section.querySelector('.animated-surface')});
+  }
+  const seamText=data.styles.map(s=>`Огонь ${s.style}: стык 95→0 ${s.display_seam_slot95_to0_native.exact_rgba?'совпадает':'различается'} (${s.display_seam_slot95_to0_native.max_rgb_diff_gt8_pixels} нативных px с RGB>8).`).join(' ');el('seams').textContent=seamText;
+  ready=true;buttons.forEach(id=>el(id).disabled=false);draw(0);play();window.FIELD_PREVIEW_READY=true;
+}
+el('play').onclick=()=>playing?pause():play();el('step').onclick=()=>{pause();draw(slot+1)};el('restart').onclick=()=>{pause();draw(0);play()};el('scrub').oninput=e=>{pause();draw(Number(e.target.value))};el('size').onchange=e=>document.documentElement.style.setProperty('--tile-size',e.target.value+'px');
+el('viewMode').onchange=e=>document.body.dataset.view=e.target.value;
+setup().catch(error=>{el('clock').textContent='Не удалось открыть кадры';el('clock').classList.add('error');console.error(error)});
+})();
+</script>
+</body>
+</html>

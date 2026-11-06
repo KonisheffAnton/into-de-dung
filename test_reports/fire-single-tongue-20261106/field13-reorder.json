@@ -1,0 +1,168 @@
+{
+  "key": "fire29-field13",
+  "status": "technical_candidate_requires_art_review",
+  "source_selection_report_sha256": "c4c3e3889114270a9117a5b6009521bf4c4601b3952db3de430ec0bef7dc8ded",
+  "source_sha256": "3f89930f385e43a1efe4d4895c25ff74a7cfc4215d740c2d697263261122756e",
+  "input_sha256": "7be0232a09fca94e19b88c01047e61d13fe1672f0ae910508ec49b8ff8ab842f",
+  "core_mask_sha256": "81f218e8f2ec17b21a9e8e4add1fd271dbfbdd8699ce6fee4f38c0a18bbae714",
+  "crop_xyxy": [
+    530,
+    364,
+    786,
+    620
+  ],
+  "forward_raw_order": [
+    1,
+    15,
+    14
+  ],
+  "full_cycle_raw_order": [
+    1,
+    15,
+    14,
+    15,
+    1
+  ],
+  "suggested_frame_ms": 160,
+  "raw_frames_unchanged": true,
+  "locally_generated_motion_pixels": 0,
+  "selection_gates": {
+    "core_uncovered_max": 0,
+    "outside_input_chebyshev4_max": 0,
+    "crop_border_alpha_max": 0,
+    "luma_ratio_range": [
+      0.9,
+      1.08
+    ],
+    "max_visible_flash": 160,
+    "core_chroma_delta_gr_br_max": [
+      0.06,
+      0.05
+    ],
+    "adjacent_alpha_xor_range": [
+      1,
+      180
+    ],
+    "min_distinct_silhouettes": 3,
+    "monotonic_from_first": true
+  },
+  "poses": [
+    {
+      "raw_index": 1,
+      "path": "docs/art/fire-single-tongue-20261106/results/fire29-field13/raw/frame-01.png",
+      "sha256": "dc2e049a48960b1afe5eb32f6611e692dfffc106561c8348cdeba8677d3b33de",
+      "uncovered_core_pixels": 0,
+      "new_alpha_outside_4px_pixels": 0,
+      "nonzero_alpha_on_crop_border_pixels": 0,
+      "luma_ratio": 0.99634,
+      "max_visible_luma_increase_vs_original_plate": 17.29,
+      "core_gr_br_abs_delta": [
+        0.02096,
+        0.02731
+      ],
+      "alpha_xor_from_input": 5,
+      "alpha_shape_sha256": "675af51a7aa41977d618984e9080dce4a48a76cfe495e26aebf7bc1ef453b1e4"
+    },
+    {
+      "raw_index": 15,
+      "path": "docs/art/fire-single-tongue-20261106/results/fire29-field13/raw/frame-15.png",
+      "sha256": "d09c45f0ac01d17cb0abb3002be22b383962f5bb03df57125f967415962d63bd",
+      "uncovered_core_pixels": 0,
+      "new_alpha_outside_4px_pixels": 0,
+      "nonzero_alpha_on_crop_border_pixels": 0,
+      "luma_ratio": 0.99746,
+      "max_visible_luma_increase_vs_original_plate": 26.89,
+      "core_gr_br_abs_delta": [
+        0.02227,
+        0.02542
+      ],
+      "alpha_xor_from_input": 4,
+      "alpha_shape_sha256": "9a6cf12924a797c3627e9d788d0c854fac8067be2da053a2ca96e9c22a05b3fc"
+    },
+    {
+      "raw_index": 14,
+      "path": "docs/art/fire-single-tongue-20261106/results/fire29-field13/raw/frame-14.png",
+      "sha256": "6c5e136ab672405b17e3f4cccd5a167de90c374fb90a4183f4868f5e26d6d462",
+      "uncovered_core_pixels": 0,
+      "new_alpha_outside_4px_pixels": 0,
+      "nonzero_alpha_on_crop_border_pixels": 0,
+      "luma_ratio": 1.00166,
+      "max_visible_luma_increase_vs_original_plate": 28.93,
+      "core_gr_br_abs_delta": [
+        0.0235,
+        0.02351
+      ],
+      "alpha_xor_from_input": 124,
+      "alpha_shape_sha256": "de5b3762a94e05fe7cb29f3d5a6fbb3e57c703dfa8ac56e9a2eb70fa06db3040"
+    }
+  ],
+  "distances_from_first_alpha_xor": [
+    0,
+    5,
+    123
+  ],
+  "full_cycle_transitions": [
+    {
+      "from_raw": 1,
+      "to_raw": 15,
+      "alpha_gt8_xor_pixels": 5,
+      "alpha_abs_sum": 1275,
+      "premul_max_rgb_gt8_pixels": 932,
+      "premul_max_rgb_sum": 17477.0,
+      "visible_crop_rgb_gt8_pixels": 931,
+      "visible_crop_rgb_sum": 16588,
+      "exact_rgba": false
+    },
+    {
+      "from_raw": 15,
+      "to_raw": 14,
+      "alpha_gt8_xor_pixels": 124,
+      "alpha_abs_sum": 31620,
+      "premul_max_rgb_gt8_pixels": 802,
+      "premul_max_rgb_sum": 36036.0,
+      "visible_crop_rgb_gt8_pixels": 773,
+      "visible_crop_rgb_sum": 14774,
+      "exact_rgba": false
+    },
+    {
+      "from_raw": 14,
+      "to_raw": 15,
+      "alpha_gt8_xor_pixels": 124,
+      "alpha_abs_sum": 31620,
+      "premul_max_rgb_gt8_pixels": 802,
+      "premul_max_rgb_sum": 36036.0,
+      "visible_crop_rgb_gt8_pixels": 773,
+      "visible_crop_rgb_sum": 14774,
+      "exact_rgba": false
+    },
+    {
+      "from_raw": 15,
+      "to_raw": 1,
+      "alpha_gt8_xor_pixels": 5,
+      "alpha_abs_sum": 1275,
+      "premul_max_rgb_gt8_pixels": 932,
+      "premul_max_rgb_sum": 17477.0,
+      "visible_crop_rgb_gt8_pixels": 931,
+      "visible_crop_rgb_sum": 16588,
+      "exact_rgba": false
+    },
+    {
+      "from_raw": 1,
+      "to_raw": 1,
+      "alpha_gt8_xor_pixels": 0,
+      "alpha_abs_sum": 0,
+      "premul_max_rgb_gt8_pixels": 0,
+      "premul_max_rgb_sum": 0.0,
+      "visible_crop_rgb_gt8_pixels": 0,
+      "visible_crop_rgb_sum": 0,
+      "exact_rgba": true
+    }
+  ],
+  "max_adjacent_alpha_xor": 124,
+  "max_adjacent_premul_rgb_gt8": 932,
+  "exact_raw_seam": true,
+  "contact": "test_reports/fire-single-tongue-20261106/field13-reorder-contact.png",
+  "contact_sha256": "b3bdc3c94da7351c9aa461920d810688eb6003675e658dff241c47dec036ef89",
+  "why_automatic_rejected": "The automatic scan requires consecutive raw indices; 01/02/03 share one alpha silhouette and the later contiguous runs cross an alpha step over 180 or core failure. Reordering 01,15,14 uses three eligible existing poses.",
+  "limitation": "The 01->15 silhouette change is only 5 pixels, followed by 124; the native motion is small but uneven. Contact is diagnostic, not full-tile art acceptance."
+}

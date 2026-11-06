@@ -1,0 +1,339 @@
+{
+  "source": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-29/input-transparent.png",
+  "source_sha256": "9e142245d923d8b98a9f46b796eab4cccfaafc5dcea8c5118a7152739bfa30bc",
+  "visible_alpha_threshold_gt": 8,
+  "visible_pixel_count": 5312,
+  "visible_unique_rgb_count": 3986,
+  "excluded_bright_red_source_pixels": 402,
+  "selection": "32 exact source RGB medoids, stratified by warm luminance/color roles; no RGB is synthesized.",
+  "groups": {
+    "pale_yellow_core": 8,
+    "orange_body": 9,
+    "ochre_edge": 8,
+    "dark_border": 7
+  },
+  "colors": [
+    {
+      "group": "pale_yellow_core",
+      "rgb": [
+        255,
+        237,
+        100
+      ],
+      "hex": "#FFED64",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "pale_yellow_core",
+      "rgb": [
+        255,
+        235,
+        83
+      ],
+      "hex": "#FFEB53",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "pale_yellow_core",
+      "rgb": [
+        253,
+        218,
+        93
+      ],
+      "hex": "#FDDA5D",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "pale_yellow_core",
+      "rgb": [
+        253,
+        220,
+        74
+      ],
+      "hex": "#FDDC4A",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "pale_yellow_core",
+      "rgb": [
+        253,
+        198,
+        78
+      ],
+      "hex": "#FDC64E",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "pale_yellow_core",
+      "rgb": [
+        252,
+        209,
+        59
+      ],
+      "hex": "#FCD13B",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "pale_yellow_core",
+      "rgb": [
+        250,
+        190,
+        68
+      ],
+      "hex": "#FABE44",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "pale_yellow_core",
+      "rgb": [
+        253,
+        190,
+        54
+      ],
+      "hex": "#FDBE36",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "orange_body",
+      "rgb": [
+        252,
+        189,
+        68
+      ],
+      "hex": "#FCBD44",
+      "visible_source_pixels_exact_rgb": 3
+    },
+    {
+      "group": "orange_body",
+      "rgb": [
+        252,
+        189,
+        52
+      ],
+      "hex": "#FCBD34",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "orange_body",
+      "rgb": [
+        251,
+        167,
+        63
+      ],
+      "hex": "#FBA73F",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "orange_body",
+      "rgb": [
+        252,
+        175,
+        45
+      ],
+      "hex": "#FCAF2D",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "orange_body",
+      "rgb": [
+        252,
+        150,
+        51
+      ],
+      "hex": "#FC9633",
+      "visible_source_pixels_exact_rgb": 7
+    },
+    {
+      "group": "orange_body",
+      "rgb": [
+        251,
+        130,
+        53
+      ],
+      "hex": "#FB8235",
+      "visible_source_pixels_exact_rgb": 4
+    },
+    {
+      "group": "orange_body",
+      "rgb": [
+        249,
+        145,
+        34
+      ],
+      "hex": "#F99122",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "orange_body",
+      "rgb": [
+        252,
+        131,
+        38
+      ],
+      "hex": "#FC8326",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "orange_body",
+      "rgb": [
+        241,
+        130,
+        28
+      ],
+      "hex": "#F1821C",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "ochre_edge",
+      "rgb": [
+        252,
+        129,
+        52
+      ],
+      "hex": "#FC8134",
+      "visible_source_pixels_exact_rgb": 4
+    },
+    {
+      "group": "ochre_edge",
+      "rgb": [
+        244,
+        116,
+        46
+      ],
+      "hex": "#F4742E",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "ochre_edge",
+      "rgb": [
+        229,
+        116,
+        57
+      ],
+      "hex": "#E57439",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "ochre_edge",
+      "rgb": [
+        240,
+        123,
+        27
+      ],
+      "hex": "#F07B1B",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "ochre_edge",
+      "rgb": [
+        215,
+        107,
+        59
+      ],
+      "hex": "#D76B3B",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "ochre_edge",
+      "rgb": [
+        229,
+        105,
+        44
+      ],
+      "hex": "#E5692C",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "ochre_edge",
+      "rgb": [
+        191,
+        106,
+        77
+      ],
+      "hex": "#BF6A4D",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "ochre_edge",
+      "rgb": [
+        228,
+        105,
+        23
+      ],
+      "hex": "#E46917",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "dark_border",
+      "rgb": [
+        219,
+        102,
+        38
+      ],
+      "hex": "#DB6626",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "dark_border",
+      "rgb": [
+        164,
+        96,
+        82
+      ],
+      "hex": "#A46052",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "dark_border",
+      "rgb": [
+        187,
+        91,
+        60
+      ],
+      "hex": "#BB5B3C",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "dark_border",
+      "rgb": [
+        136,
+        84,
+        76
+      ],
+      "hex": "#88544C",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "dark_border",
+      "rgb": [
+        165,
+        66,
+        43
+      ],
+      "hex": "#A5422B",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "dark_border",
+      "rgb": [
+        132,
+        64,
+        51
+      ],
+      "hex": "#844033",
+      "visible_source_pixels_exact_rgb": 1
+    },
+    {
+      "group": "dark_border",
+      "rgb": [
+        89,
+        61,
+        59
+      ],
+      "hex": "#593D3B",
+      "visible_source_pixels_exact_rgb": 1
+    }
+  ],
+  "swatch_image": "docs/art/fire-single-tongue-20261106/palette-input/palette-32.png",
+  "swatch_sha256": "0d88b6a049dba104ce2ac8f0f3b27bddc637318befd0ef40bc4b6ee676948e79"
+}

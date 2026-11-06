@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Огонь — два локальных цикла PixelLab</title>
+<style>
+:root{color-scheme:dark;font:16px/1.45 system-ui,sans-serif;background:#151922;color:#eee}
+*{box-sizing:border-box}body{margin:0 auto;max-width:1140px;padding:18px}h1{font-size:1.45rem;margin:0 0 8px}h2{font-size:1.1rem;margin:0 0 10px}p{margin:6px 0 14px;color:#bfc8d7}.note{background:#293241;border-left:4px solid #eaa453;padding:10px 12px;border-radius:5px}.controls{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:18px 0}.controls button,.controls select{font:inherit;color:inherit;background:#303b4d;border:1px solid #66748a;border-radius:6px;padding:7px 11px;cursor:pointer}.controls button:focus-visible,.controls select:focus-visible,input:focus-visible{outline:2px solid #ffa743;outline-offset:2px}.controls input{flex:1;min-width:130px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{background:#202735;padding:12px;border:1px solid #3a4557;border-radius:8px;min-width:0}.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.shot{min-width:0}.shot img{display:block;width:100%;height:auto;max-width:256px;margin:auto;image-rendering:auto}.shot.crop img{width:100%;max-width:256px;background:repeating-conic-gradient(#29313e 0 25%,#343e4d 0 50%) 50%/18px 18px}.caption{display:block;text-align:center;color:#bfc8d7;font-size:.86rem;margin-top:5px}.metrics{margin:14px 0;padding:10px;background:#1d2330;border-radius:6px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.links{font-size:.9rem;overflow-wrap:anywhere}a{color:#a7d8ff}.small{font-size:.85rem}
+@media(max-width:720px){body{padding:12px}.grid{grid-template-columns:1fr}.card{padding:9px}.controls label{width:100%}}
+</style>
+</head>
+<body>
+<h1>Локальные циклы существующих мазков огня</h1>
+<p class="note">Диагностика двух фрагментов PixelLab, а не готовая анимация всей плитки. Движущиеся пиксели взяты без изменений из исходных PNG PixelLab; плита собрана наложением на оригинал. Вид 256 px уменьшен только для просмотра.</p>
+<div class="controls">
+<label>Фрагмент <select id="clip"></select></label>
+<button id="play" type="button">Пауза</button>
+<button id="restart" type="button">С начала</button>
+<input id="scrub" type="range" min="0" max="4" value="0" aria-label="Кадр цикла">
+<span id="counter" aria-live="polite"></span>
+</div>
+<div class="grid">
+<section class="card"><h2>Вся плитка · 256 px</h2><div class="pair"><div class="shot"><img id="sourceTile" alt="Исходная неподвижная плитка"><span class="caption">Оригинал</span></div><div class="shot"><img id="animatedTile" alt="Собранная плитка в выбранном кадре"><span class="caption">Оригинал + raw PixelLab</span></div></div></section>
+<section class="card"><h2>Выбранный фрагмент · нативный размер</h2><div class="pair"><div class="shot crop"><img id="sourceCrop" alt="Исходный фрагмент"><span class="caption">Оригинал</span></div><div class="shot crop"><img id="animatedCrop" alt="Собранный фрагмент в выбранном кадре"><span class="caption">Поза PixelLab на исходнике</span></div></div></section>
+</div>
+<div class="metrics" id="metrics"></div>
+<p class="small" id="assessment"></p>
+<p class="links" id="links"></p>
+<script src="gallery-data.js"></script>
+<script>
+(()=>{'use strict';
+const clips=window.FIELD_LOOPS||[]; const $=id=>document.getElementById(id);const root='../../../../';
+const clipEl=$('clip'),scrub=$('scrub');let clip=null,slot=0,playing=true,timer=null;
+for(const c of clips){let o=document.createElement('option');o.value=c.key;o.textContent=(c.key.startsWith('fire24')?'24 · яркий мазок':'29 · акварельный жар');clipEl.append(o)}
+function link(path){return root+path}
+function setFrame(n){if(!clip)return;slot=((n%clip.order.length)+clip.order.length)%clip.order.length;const raw=clip.order[slot],f=clip.frames[String(raw)];$('animatedTile').src=link(f.view_256_path);$('animatedCrop').src=link(f.crop_native_path);scrub.value=slot;$('counter').textContent=`${slot+1}/${clip.order.length} · raw ${String(raw).padStart(2,'0')} · ${clip.frame_ms} мс`;
+const t=clip.transitions[slot];$('metrics').textContent=`Переход к следующему: alpha XOR ${t.raw_alpha_gt8_xor_pixels} px; premultiplied RGB >8 ${t.raw_premultiplied_max_rgb_gt8_pixels} px; вид 256 px >8 ${t.fulltile_256_visible_max_rgb_gt8_pixels} px. Стык: ${clip.exact_cycle_seam?'точно совпадает':'различается'}.`;}
+function stopTimer(){if(timer){clearInterval(timer);timer=null}}function startTimer(){stopTimer();if(playing&&clip)timer=setInterval(()=>setFrame(slot+1),clip.frame_ms)}
+function select(i){clip=clips[i];if(!clip)return;$('sourceTile').src=link(clip.source_view_256);$('sourceCrop').src=link(clip.source_crop_native);scrub.max=clip.order.length-1;setFrame(0);$('assessment').textContent=clip.key.startsWith('fire24')?'24: контур немного изгибается; на целой плитке движение слабое. Остальные мазки статичны.':'29: мягкое изменение края есть в нативном фрагменте; на плитке 256 px оно почти незаметно. Остальные мазки статичны.';$('links').innerHTML=`<a href="${link(clip.input)}">Прозрачный вход</a> · <a href="${link(clip.frames[String(clip.order[0])].raw_path)}">Исходный raw PNG</a> · <a href="${clip.key}/timeline.json">Таймлайн и SHA</a> · <a href="${link('test_reports/fire-single-tongue-20261106/field-loops.json')}">Полные метрики</a>`;startTimer()}
+clipEl.addEventListener('change',()=>select(clipEl.selectedIndex));scrub.addEventListener('input',()=>{setFrame(Number(scrub.value));playing=false;stopTimer();$('play').textContent='Воспроизвести'});
+$('play').addEventListener('click',()=>{playing=!playing;$('play').textContent=playing?'Пауза':'Воспроизвести';startTimer()});$('restart').addEventListener('click',()=>{setFrame(0);playing=true;$('play').textContent='Пауза';startTimer()});
+if(clips.length)select(0);else $('assessment').textContent='Завершённых циклов пока нет.';
+})();
+</script>
+</body>
+</html>

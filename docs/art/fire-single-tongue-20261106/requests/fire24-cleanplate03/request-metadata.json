@@ -1,0 +1,8 @@
+{
+  "key": "fire24-cleanplate03",
+  "endpoint": "inpaint-v3",
+  "source_input_sha256": "1833983e3b73945703ed925e8cfb82e47f2886c049155a5ee6c7885f706ae778",
+  "mask_sha256": "6b380ff76e2c34e46043a11ddf696c82c9950bf6d7506c148f766aab2d3034a3",
+  "request_sha256": "311a493e3372e1cbe21770f5bca2b4ecdcf4e296fb49332cc78ebe808bf39706",
+  "purpose": "Static provider-generated clean floor under the existing animated tongue; no locally painted or moving pose"
+}

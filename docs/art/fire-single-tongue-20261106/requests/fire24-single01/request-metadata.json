@@ -1,0 +1,19 @@
+{
+  "key": "fire24-single01",
+  "endpoint": "animate-pixminimax",
+  "input": "inputs/fire24-input-128.png",
+  "input_sha256": "1833983e3b73945703ed925e8cfb82e47f2886c049155a5ee6c7885f706ae778",
+  "input_size": [
+    128,
+    128
+  ],
+  "source_alpha_range": [
+    252,
+    254
+  ],
+  "request_sha256": "4b57cc7e1302e8ad2bf883762f92428beb56f1411174b77075cb0b2857988ce7",
+  "requested_frames": 16,
+  "native_crop_no_resize": true,
+  "local_motion_generation": false,
+  "hypothesis": "A whole single tongue at native source scale is a recognizable object instead of tiny tiled texture"
+}

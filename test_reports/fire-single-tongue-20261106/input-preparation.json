@@ -1,0 +1,80 @@
+{
+  "source_size": [
+    1254,
+    1254
+  ],
+  "fire24": {
+    "source": "docs/art/fire-low-styles-20261104/fire-low-24.png",
+    "source_sha256": "011d71e26a400c2a7002995583f141491ffef148131f1e5abf565ad7587b749b",
+    "roi_xyxy": [
+      664,
+      436,
+      792,
+      564
+    ],
+    "crop": "docs/art/fire-single-tongue-20261106/inputs/fire24-input-128.png",
+    "crop_sha256": "1833983e3b73945703ed925e8cfb82e47f2886c049155a5ee6c7885f706ae778",
+    "crop_size": [
+      128,
+      128
+    ],
+    "crop_pixels_equal_source_roi": true,
+    "chosen_feature_source_bbox_approx": [
+      705,
+      494,
+      752,
+      506
+    ],
+    "chosen_feature": "one short, low, already-painted bright curved stroke centered in the crop; other painted strokes remain static context",
+    "bright_core_pixels": 299,
+    "mask": "docs/art/fire-single-tongue-20261106/inputs/fire24-motion-guide-mask-128.png",
+    "mask_sha256": "6b380ff76e2c34e46043a11ddf696c82c9950bf6d7506c148f766aab2d3034a3",
+    "mask_white_pixels": 873,
+    "mask_outside_source_alpha_pixels": 0,
+    "transparent_reference": "docs/art/fire-single-tongue-20261106/inputs/fire24-tongue-reference-128.png",
+    "transparent_reference_sha256": "d3e2ef80d407471860a2c261ead00df2ef87ce5b1a20cc470d561ffcc81be573",
+    "transparent_reference_nonzero_alpha_pixels": 572,
+    "transparent_reference_rgb_equal_source_crop": true,
+    "transparent_reference_alpha_zero_outside_mask": true,
+    "preview": "docs/art/fire-single-tongue-20261106/inputs/fire24-guide-4x.png",
+    "transparent_reference_preview": "docs/art/fire-single-tongue-20261106/inputs/fire24-tongue-reference-4x.png",
+    "caveat": "The full-coverage source has neighboring orange strokes. Only the central short curved stroke is selected by the masks; it is painted flat on the stone, not an elevated vertical flame."
+  },
+  "fire29": {
+    "source": "docs/art/fire-low-styles-20261104/fire-low-29.png",
+    "source_sha256": "3f89930f385e43a1efe4d4895c25ff74a7cfc4215d740c2d697263261122756e",
+    "roi_xyxy": [
+      595,
+      355,
+      723,
+      483
+    ],
+    "reference": "docs/art/fire-single-tongue-20261106/inputs/fire29-reference-128.png",
+    "reference_sha256": "675f06b72fa4cb49a36252b58e9e298a5a8d1d2a6a19553f7fed28f46b16fded",
+    "crop_size": [
+      128,
+      128
+    ],
+    "crop_pixels_equal_source_roi": true,
+    "suitable_single_tongue": false,
+    "reason": "Only diffuse smoky-red surface texture and narrow glowing streaks; no isolated, already-painted tongue to animate without inventing one.",
+    "preview": "docs/art/fire-single-tongue-20261106/inputs/fire29-reference-4x.png"
+  },
+  "motion_frames_created": 0,
+  "resized_inputs": 0,
+  "provider_posts": 0,
+  "study_previews_static_only": [
+    "fire24-study-E.png",
+    "fire24-study-F.png",
+    "fire24-study-G.png",
+    "fire24-study-H.png",
+    "fire24-study-I.png",
+    "fire24-study-J.png",
+    "fire24-study-a.png",
+    "fire24-study-b.png",
+    "fire24-study-c.png",
+    "fire29-study-b.png",
+    "fire29-study.png",
+    "fire24-candidate-contact.png"
+  ]
+}

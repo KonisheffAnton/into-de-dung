@@ -1,0 +1,174 @@
+{
+  "key": "fire24-field24",
+  "status": "explicit_candidate_requires_art_review",
+  "current_automatic_selection_status": "rejected_or_needs_review",
+  "source_selection_report_sha256": "09129df3a2846c39a8cea6a4aadcc398b6a1fde7613d2408177b1e4f28d8d1e6",
+  "source": "docs/art/fire-low-styles-20261104/fire-low-24.png",
+  "source_sha256": "011d71e26a400c2a7002995583f141491ffef148131f1e5abf565ad7587b749b",
+  "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-24/input-transparent.png",
+  "input_sha256": "d1eed83d887ba4c4e5f13e600f3f0ee3b3c37741782ac0601eecc891916e3f8d",
+  "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire24/fire24-24/core-mask.png",
+  "core_mask_sha256": "95bae7b689f0d753e89c337d4afb657769fac6740a0749bbd793db9820c25374",
+  "crop_xyxy": [
+    534,
+    507,
+    662,
+    635
+  ],
+  "excluded_raw": [
+    0,
+    9
+  ],
+  "reason": "The automatic scanner stops when adjacent raw poses repeat the same alpha silhouette (raw05→06, raw07→08); raw09 is independently excluded for a detached pixel. Three distinct eligible silhouettes are present in raw04, raw05, raw07, and the explicit order skips repeated poses and raw09.",
+  "automatic_start_gate_caveat": "raw04 has alpha XOR 0 versus input. It satisfies the explicit-run assertions in current build.py, but the automatic scanner requires its first pose to differ by at least 5 pixels. No 3-distinct-silhouette monotonic run can start at a nonzero-input-distance pose because eligible raw frames contain only the input, 46-pixel, and 92-pixel silhouettes.",
+  "forward_raw_indices": [
+    4,
+    5,
+    7
+  ],
+  "order": [
+    4,
+    5,
+    7,
+    5,
+    4
+  ],
+  "pose_duration_ms": 160,
+  "cycle_duration_ms": 800,
+  "forward_alpha_distance_from_raw04": [
+    0,
+    46,
+    92
+  ],
+  "raw_frames": [
+    {
+      "index": 4,
+      "path": "docs/art/fire-single-tongue-20261106/results/fire24-field24/raw/frame-04.png",
+      "sha256": "0991d48a791e28a52bdeba868b3379429c91f8e9cf91b76224b6e96f953cd9f3",
+      "uncovered_original_core_pixels": 0,
+      "new_alpha_gt8_outside_input_dilation4_pixels": 0,
+      "nonzero_alpha_on_crop_border_pixels": 0,
+      "alpha_gt8_xor_input_pixels": 0,
+      "premultiplied_luma_vs_input_ratio": 1.00707,
+      "max_positive_visible_luma_vs_original_plate": 13.09,
+      "absolute_core_gr_br_delta": [
+        0.00029,
+        0.00781
+      ]
+    },
+    {
+      "index": 5,
+      "path": "docs/art/fire-single-tongue-20261106/results/fire24-field24/raw/frame-05.png",
+      "sha256": "48d1bafba164127758ddcf1acf629f20eee3570600d56b6e6d52f847e2a35727",
+      "uncovered_original_core_pixels": 0,
+      "new_alpha_gt8_outside_input_dilation4_pixels": 0,
+      "nonzero_alpha_on_crop_border_pixels": 0,
+      "alpha_gt8_xor_input_pixels": 46,
+      "premultiplied_luma_vs_input_ratio": 1.00755,
+      "max_positive_visible_luma_vs_original_plate": 27.24,
+      "absolute_core_gr_br_delta": [
+        0.00405,
+        0.00631
+      ]
+    },
+    {
+      "index": 7,
+      "path": "docs/art/fire-single-tongue-20261106/results/fire24-field24/raw/frame-07.png",
+      "sha256": "9b04fa4cede4c5d19323ee594260032607b308f6dca486607489148a6266d222",
+      "uncovered_original_core_pixels": 0,
+      "new_alpha_gt8_outside_input_dilation4_pixels": 0,
+      "nonzero_alpha_on_crop_border_pixels": 0,
+      "alpha_gt8_xor_input_pixels": 92,
+      "premultiplied_luma_vs_input_ratio": 1.00803,
+      "max_positive_visible_luma_vs_original_plate": 44.19,
+      "absolute_core_gr_br_delta": [
+        0.01194,
+        0.0047
+      ]
+    }
+  ],
+  "gate_results": {
+    "raw00_excluded": true,
+    "review_excluded_raw09_excluded": true,
+    "all_chosen_frame_gates_pass": true,
+    "distinct_silhouettes": 3,
+    "forward_adjacent_alpha_in_1_to_180": true,
+    "monotonic_alpha_distance_from_first": true,
+    "exact_loop_seam": true,
+    "automatic_start_min5": false
+  },
+  "transitions": [
+    {
+      "slot_from": 0,
+      "slot_to": 1,
+      "raw_from": 4,
+      "raw_to": 5,
+      "alpha_gt8_xor_pixels": 46,
+      "alpha_abs_sum": 11730,
+      "premul_max_rgb_gt8_pixels": 344,
+      "premul_max_rgb_sum": 13648.0,
+      "visible_crop_rgb_gt8_pixels": 339,
+      "visible_crop_rgb_sum": 5331,
+      "exact_rgba": false
+    },
+    {
+      "slot_from": 1,
+      "slot_to": 2,
+      "raw_from": 5,
+      "raw_to": 7,
+      "alpha_gt8_xor_pixels": 46,
+      "alpha_abs_sum": 11730,
+      "premul_max_rgb_gt8_pixels": 356,
+      "premul_max_rgb_sum": 13730.0,
+      "visible_crop_rgb_gt8_pixels": 337,
+      "visible_crop_rgb_sum": 5412,
+      "exact_rgba": false
+    },
+    {
+      "slot_from": 2,
+      "slot_to": 3,
+      "raw_from": 7,
+      "raw_to": 5,
+      "alpha_gt8_xor_pixels": 46,
+      "alpha_abs_sum": 11730,
+      "premul_max_rgb_gt8_pixels": 356,
+      "premul_max_rgb_sum": 13730.0,
+      "visible_crop_rgb_gt8_pixels": 337,
+      "visible_crop_rgb_sum": 5412,
+      "exact_rgba": false
+    },
+    {
+      "slot_from": 3,
+      "slot_to": 4,
+      "raw_from": 5,
+      "raw_to": 4,
+      "alpha_gt8_xor_pixels": 46,
+      "alpha_abs_sum": 11730,
+      "premul_max_rgb_gt8_pixels": 344,
+      "premul_max_rgb_sum": 13648.0,
+      "visible_crop_rgb_gt8_pixels": 339,
+      "visible_crop_rgb_sum": 5331,
+      "exact_rgba": false
+    },
+    {
+      "slot_from": 4,
+      "slot_to": 0,
+      "raw_from": 4,
+      "raw_to": 4,
+      "alpha_gt8_xor_pixels": 0,
+      "alpha_abs_sum": 0,
+      "premul_max_rgb_gt8_pixels": 0,
+      "premul_max_rgb_sum": 0.0,
+      "visible_crop_rgb_gt8_pixels": 0,
+      "visible_crop_rgb_sum": 0,
+      "exact_rgba": true
+    }
+  ],
+  "max_forward_adjacent_alpha_xor_pixels": 46,
+  "max_forward_adjacent_visible_crop_rgb_gt8_pixels": 339,
+  "contact": "test_reports/fire-single-tongue-20261106/field24-reorder-contact.png",
+  "contact_sha256": "89121ea69672193a9a4a702d38f9a14a60f74934eb957c9808584294edb32bbf",
+  "visual_observation": "Native contact shows a low attached warm stroke and subtle contour changes; no detached speck appears in the chosen poses. Overlaid source/pose differences are modest at the full-tile scale. This is a local diagnostic, not complete field motion or art acceptance.",
+  "pixel_policy": "No source or raw pixel edits; contact composites unchanged raw RGBA on original crop and enlarges only for diagnostic viewing.",
+  "comparison_to_raw01_start": "raw01→05→07 also has alpha steps 46/46, but raw04→05 has a slightly smaller visible RGB step on the original crop: 339 pixels >8 and RGB sum 5331, versus 354 pixels and sum 5469 for raw01→05."
+}

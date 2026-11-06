@@ -1,0 +1,16 @@
+{
+  "balance_before": 4561.0,
+  "balance_after": 4373.0,
+  "observed_delta": 188.0,
+  "confirmed_completed_jobs": 65,
+  "confirmed_usage_generations": 173,
+  "unavailable_job_count": 3,
+  "unavailable_observed_balance_delta": 15,
+  "unavailable_terminal_usage": null,
+  "raw_png_count": 1217,
+  "pending_jobs": 0,
+  "queue_lock_released": true,
+  "max_active": 3,
+  "balance_before_sha256": "b8f7de139f44fae1b4012e9e746897279e7c673f7217e4f380507611cec50dc0",
+  "balance_after_sha256": "75f66b44220a1b3093fb45b2ec40c13b8baf730cc1f5015fdc7fda3ecd68d8ce"
+}

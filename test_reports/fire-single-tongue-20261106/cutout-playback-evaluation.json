@@ -1,0 +1,285 @@
+{
+  "technical_frame_source": "PixelLab raw RGBA PNG, exact bytes referenced by SHA-256",
+  "new_provider_posts": 0,
+  "new_motion_poses": 0,
+  "local_warp_recolor_tween": false,
+  "order": [
+    8,
+    9,
+    10,
+    2,
+    12,
+    11,
+    3,
+    11,
+    12,
+    2,
+    10,
+    9,
+    8
+  ],
+  "duration_ms_each": 120,
+  "poses": [
+    {
+      "raw_index": 2,
+      "sha256": "850c92ba574c9f14bcf459d13a2c3abbcd48888d9af99d2fcacf758d8ed93a59",
+      "visible_alpha_gt8_pixels": 573,
+      "left_base_alpha_centroid_xy": [
+        45.46,
+        65.47
+      ],
+      "right_tip_alpha_centroid_xy": [
+        81.925,
+        63.281
+      ],
+      "alpha_xor_vs_source_contour": 45
+    },
+    {
+      "raw_index": 3,
+      "sha256": "bc627d3c1c1fdb87999fd4af699c8cc7383912095f8b836bc6f6598034bf3e86",
+      "visible_alpha_gt8_pixels": 574,
+      "left_base_alpha_centroid_xy": [
+        45.485,
+        65.426
+      ],
+      "right_tip_alpha_centroid_xy": [
+        82.201,
+        64.17
+      ],
+      "alpha_xor_vs_source_contour": 82
+    },
+    {
+      "raw_index": 8,
+      "sha256": "e974b55bd21651d946774387dbfa94b20e4fb5c5bfa4807c40eba7b44e3e7c02",
+      "visible_alpha_gt8_pixels": 572,
+      "left_base_alpha_centroid_xy": [
+        45.485,
+        65.426
+      ],
+      "right_tip_alpha_centroid_xy": [
+        81.942,
+        62.671
+      ],
+      "alpha_xor_vs_source_contour": 0
+    },
+    {
+      "raw_index": 9,
+      "sha256": "38e6b7a301bc0a227d08004c981b657e988dbf85a8bc3bf7107471e08fba9b89",
+      "visible_alpha_gt8_pixels": 567,
+      "left_base_alpha_centroid_xy": [
+        45.46,
+        65.47
+      ],
+      "right_tip_alpha_centroid_xy": [
+        81.981,
+        62.695
+      ],
+      "alpha_xor_vs_source_contour": 15
+    },
+    {
+      "raw_index": 10,
+      "sha256": "0fe76b230a546370f5d5bf20b1ed6bc23905378d133ce83a4ced7eef9ec53229",
+      "visible_alpha_gt8_pixels": 566,
+      "left_base_alpha_centroid_xy": [
+        45.46,
+        65.47
+      ],
+      "right_tip_alpha_centroid_xy": [
+        81.955,
+        63.058
+      ],
+      "alpha_xor_vs_source_contour": 34
+    },
+    {
+      "raw_index": 11,
+      "sha256": "8fce2530183462632732b771479a0c53c99ed32dba5b891b574db7a13c2bf664",
+      "visible_alpha_gt8_pixels": 574,
+      "left_base_alpha_centroid_xy": [
+        45.485,
+        65.426
+      ],
+      "right_tip_alpha_centroid_xy": [
+        82.184,
+        64.139
+      ],
+      "alpha_xor_vs_source_contour": 80
+    },
+    {
+      "raw_index": 12,
+      "sha256": "a780d131d62057caf6b68b1b369f9c8f2abb871b3311867ec2e6489f82373236",
+      "visible_alpha_gt8_pixels": 578,
+      "left_base_alpha_centroid_xy": [
+        45.485,
+        65.426
+      ],
+      "right_tip_alpha_centroid_xy": [
+        82.201,
+        64.17
+      ],
+      "alpha_xor_vs_source_contour": 72
+    }
+  ],
+  "adjacent_edges": [
+    {
+      "from": 8,
+      "to": 9,
+      "alpha_silhouette_xor_pixels": 15,
+      "alpha_abs_delta_equivalent_pixels": 15.0,
+      "neutral_gray_rgb_maxdiff_gt8_pixels": 145,
+      "neutral_gray_mean_abs_rgb": 0.1511,
+      "left_base_alpha_xor_pixels": 1,
+      "left_base_neutral_gray_rgb_maxdiff_gt8_pixels": 5
+    },
+    {
+      "from": 9,
+      "to": 10,
+      "alpha_silhouette_xor_pixels": 19,
+      "alpha_abs_delta_equivalent_pixels": 19.0,
+      "neutral_gray_rgb_maxdiff_gt8_pixels": 201,
+      "neutral_gray_mean_abs_rgb": 0.2196,
+      "left_base_alpha_xor_pixels": 0,
+      "left_base_neutral_gray_rgb_maxdiff_gt8_pixels": 0
+    },
+    {
+      "from": 10,
+      "to": 2,
+      "alpha_silhouette_xor_pixels": 11,
+      "alpha_abs_delta_equivalent_pixels": 11.0,
+      "neutral_gray_rgb_maxdiff_gt8_pixels": 88,
+      "neutral_gray_mean_abs_rgb": 0.0995,
+      "left_base_alpha_xor_pixels": 0,
+      "left_base_neutral_gray_rgb_maxdiff_gt8_pixels": 3
+    },
+    {
+      "from": 2,
+      "to": 12,
+      "alpha_silhouette_xor_pixels": 37,
+      "alpha_abs_delta_equivalent_pixels": 37.0,
+      "neutral_gray_rgb_maxdiff_gt8_pixels": 200,
+      "neutral_gray_mean_abs_rgb": 0.3225,
+      "left_base_alpha_xor_pixels": 1,
+      "left_base_neutral_gray_rgb_maxdiff_gt8_pixels": 8
+    },
+    {
+      "from": 12,
+      "to": 11,
+      "alpha_silhouette_xor_pixels": 10,
+      "alpha_abs_delta_equivalent_pixels": 10.0,
+      "neutral_gray_rgb_maxdiff_gt8_pixels": 112,
+      "neutral_gray_mean_abs_rgb": 0.1099,
+      "left_base_alpha_xor_pixels": 0,
+      "left_base_neutral_gray_rgb_maxdiff_gt8_pixels": 1
+    },
+    {
+      "from": 11,
+      "to": 3,
+      "alpha_silhouette_xor_pixels": 2,
+      "alpha_abs_delta_equivalent_pixels": 2.0,
+      "neutral_gray_rgb_maxdiff_gt8_pixels": 61,
+      "neutral_gray_mean_abs_rgb": 0.0415,
+      "left_base_alpha_xor_pixels": 0,
+      "left_base_neutral_gray_rgb_maxdiff_gt8_pixels": 4
+    },
+    {
+      "from": 3,
+      "to": 11,
+      "alpha_silhouette_xor_pixels": 2,
+      "alpha_abs_delta_equivalent_pixels": 2.0,
+      "neutral_gray_rgb_maxdiff_gt8_pixels": 61,
+      "neutral_gray_mean_abs_rgb": 0.0415,
+      "left_base_alpha_xor_pixels": 0,
+      "left_base_neutral_gray_rgb_maxdiff_gt8_pixels": 4
+    },
+    {
+      "from": 11,
+      "to": 12,
+      "alpha_silhouette_xor_pixels": 10,
+      "alpha_abs_delta_equivalent_pixels": 10.0,
+      "neutral_gray_rgb_maxdiff_gt8_pixels": 112,
+      "neutral_gray_mean_abs_rgb": 0.1099,
+      "left_base_alpha_xor_pixels": 0,
+      "left_base_neutral_gray_rgb_maxdiff_gt8_pixels": 1
+    },
+    {
+      "from": 12,
+      "to": 2,
+      "alpha_silhouette_xor_pixels": 37,
+      "alpha_abs_delta_equivalent_pixels": 37.0,
+      "neutral_gray_rgb_maxdiff_gt8_pixels": 200,
+      "neutral_gray_mean_abs_rgb": 0.3225,
+      "left_base_alpha_xor_pixels": 1,
+      "left_base_neutral_gray_rgb_maxdiff_gt8_pixels": 8
+    },
+    {
+      "from": 2,
+      "to": 10,
+      "alpha_silhouette_xor_pixels": 11,
+      "alpha_abs_delta_equivalent_pixels": 11.0,
+      "neutral_gray_rgb_maxdiff_gt8_pixels": 88,
+      "neutral_gray_mean_abs_rgb": 0.0995,
+      "left_base_alpha_xor_pixels": 0,
+      "left_base_neutral_gray_rgb_maxdiff_gt8_pixels": 3
+    },
+    {
+      "from": 10,
+      "to": 9,
+      "alpha_silhouette_xor_pixels": 19,
+      "alpha_abs_delta_equivalent_pixels": 19.0,
+      "neutral_gray_rgb_maxdiff_gt8_pixels": 201,
+      "neutral_gray_mean_abs_rgb": 0.2196,
+      "left_base_alpha_xor_pixels": 0,
+      "left_base_neutral_gray_rgb_maxdiff_gt8_pixels": 0
+    },
+    {
+      "from": 9,
+      "to": 8,
+      "alpha_silhouette_xor_pixels": 15,
+      "alpha_abs_delta_equivalent_pixels": 15.0,
+      "neutral_gray_rgb_maxdiff_gt8_pixels": 145,
+      "neutral_gray_mean_abs_rgb": 0.1511,
+      "left_base_alpha_xor_pixels": 1,
+      "left_base_neutral_gray_rgb_maxdiff_gt8_pixels": 5
+    }
+  ],
+  "seam": {
+    "from": 8,
+    "to": 8,
+    "alpha_silhouette_xor_pixels": 0,
+    "alpha_abs_delta_equivalent_pixels": 0.0,
+    "neutral_gray_rgb_maxdiff_gt8_pixels": 0,
+    "neutral_gray_mean_abs_rgb": 0.0,
+    "left_base_alpha_xor_pixels": 0,
+    "left_base_neutral_gray_rgb_maxdiff_gt8_pixels": 0
+  },
+  "reference_to_start": {
+    "from": "painted_reference",
+    "to": 8,
+    "alpha_silhouette_xor_pixels": 0,
+    "alpha_abs_delta_equivalent_pixels": 4.506,
+    "neutral_gray_rgb_maxdiff_gt8_pixels": 275,
+    "neutral_gray_mean_abs_rgb": 0.1708,
+    "left_base_alpha_xor_pixels": 0,
+    "left_base_neutral_gray_rgb_maxdiff_gt8_pixels": 45
+  },
+  "optimized_max": {
+    "max_alpha_silhouette_xor_pixels": 37,
+    "max_neutral_gray_rgb_maxdiff_gt8_pixels": 201
+  },
+  "prior_raw_08_to_15_max": {
+    "max_alpha_silhouette_xor_pixels": 53,
+    "max_neutral_gray_rgb_maxdiff_gt8_pixels": 266
+  },
+  "parent_suggested_order_max": {
+    "max_alpha_silhouette_xor_pixels": 48,
+    "max_neutral_gray_rgb_maxdiff_gt8_pixels": 300
+  },
+  "notes": [
+    "The cutout bend is mostly downward and returns along the same selected poses; it is not a lateral sway.",
+    "The largest remaining silhouette step is 02→12 (37 pixels); inspect worst-transition-4x.png and native playback before artistic acceptance.",
+    "The source reference and first raw 08 have identical alpha silhouette but differ in visible color.",
+    "Left base centroid moves <=0.04 px in X/Y across selected poses; right-tip alpha-weighted Y moves approximately 1.5 px downward and returns."
+  ],
+  "technical_candidate_pass": true,
+  "art_acceptance": false,
+  "browser_check_path": "docs/art/fire-single-tongue-20261106/cutout-playback/browser-check.json"
+}

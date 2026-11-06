@@ -1,0 +1,57 @@
+{
+  "key": "fire29-field10",
+  "group": {
+    "key": "fire29-10",
+    "source_component_id": 57,
+    "crop_xyxy": [
+      347,
+      385,
+      475,
+      513
+    ],
+    "crop_size": 128,
+    "stroke_bbox_xyxy": [
+      375,
+      438,
+      447,
+      461
+    ],
+    "core_pixels": 490,
+    "medium_stroke_pixels": 600,
+    "alpha_mask_pixels": 1304,
+    "core_clipped_by_alpha_mask_pixels": 0,
+    "core_on_crop_border_pixels": 0,
+    "alpha_mask_on_crop_border_pixels": 0,
+    "foreign_core_pixels_inside_alpha_mask": 0,
+    "context_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-10/context.png",
+    "context_sha256": "90cc18bae9a95fecc7f1b28cff8872ca23845f3a90c07bed12630779c0af7cb0",
+    "input_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-10/input-transparent.png",
+    "input_sha256": "860378e10daee68c5834cde566a708d3393ecb9910e73744c5a88acd350176b2",
+    "alpha_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-10/alpha-mask.png",
+    "alpha_mask_sha256": "16659f93f66d73be8839d81b7d41dec02ecca13e4035f8c343240461fec3adb7",
+    "core_mask_path": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-10/core-mask.png",
+    "core_mask_sha256": "2dce62a603cfc64fb78d7f3086ca13250c8883b71f8e86485307ec46ab05d80c"
+  },
+  "endpoint": "animate-pixminimax",
+  "input": "field-inputs/fire29/fire29-10/input-transparent.png",
+  "input_sha256": "860378e10daee68c5834cde566a708d3393ecb9910e73744c5a88acd350176b2",
+  "input_size": [
+    128,
+    128
+  ],
+  "request_sha256": "85f8df14b3ae3fd3324b17356ff5af2d9176468b605bfe814ce4d87833f96acb",
+  "requested_frames": 16,
+  "native_crop_no_resize": true,
+  "local_motion_generation": false,
+  "source_sha256": "3f89930f385e43a1efe4d4895c25ff74a7cfc4215d740c2d697263261122756e",
+  "draft_revision16": {
+    "status": "unsubmitted_revised_draft",
+    "reason": "Successful short16 color control preserved the original yellow/orange palette on fire24-field29; lower all remaining unsubmitted field drafts to 16 requested frames.",
+    "old_request_sha256": "ebb70cbd7ea12daf141004ca29e57c81ca4af2e71d394d9a0c648d1247e6c01a",
+    "new_request_sha256": "85f8df14b3ae3fd3324b17356ff5af2d9176468b605bfe814ce4d87833f96acb",
+    "old_request_archive_external": "C:\\Users\\Aston\\.codex\\generated_images\\fire-single-tongue-20261106\\draft-revisions\\fire29-field10\\request32.json",
+    "only_payload_field_changed": "frame_count",
+    "old_value": 32,
+    "new_value": 16
+  }
+}

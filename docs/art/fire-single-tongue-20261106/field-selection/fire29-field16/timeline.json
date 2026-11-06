@@ -1,0 +1,263 @@
+{
+  "key": "fire29-field16",
+  "group_key": "fire29-16",
+  "status": "selected",
+  "source": "docs/art/fire-low-styles-20261104/fire-low-29.png",
+  "source_sha256": "3f89930f385e43a1efe4d4895c25ff74a7cfc4215d740c2d697263261122756e",
+  "input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-16/input-transparent.png",
+  "input_sha256": "c58b5173b26669a084d870f024cd1bc43f4d08c75efd09cc4ce6551804e41a0d",
+  "core_mask": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-16/core-mask.png",
+  "core_mask_sha256": "5441537c71dd6252e63711bd6e8ceee1b8dfd5870af8036bdb60d6df6c532930",
+  "crop_xyxy": [
+    617,
+    474,
+    745,
+    602
+  ],
+  "crop_size": 128,
+  "returned_frames": 17,
+  "raw00_excluded": true,
+  "selection_reason": "Longest bounded monotonic contour excursion (ties prefer smaller adjacent alpha change), native generated frames [9, 10, 11, 12, 13, 14]. All selected poses cover core, stay inside4px dilation and crop, and satisfy brightness/chroma bounds.",
+  "distinct_generated_poses": [
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "order": [
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    13,
+    12,
+    11,
+    10,
+    9
+  ],
+  "pose_duration_ms": 160,
+  "cycle_duration_ms": 1760,
+  "timeline": [
+    {
+      "slot": 0,
+      "raw_frame": 9,
+      "duration_ms": 160,
+      "raw_sha256": "91599afab5fd53599379fff1af18f55196a485af0498bad7edb91d39f7fae1c6"
+    },
+    {
+      "slot": 1,
+      "raw_frame": 10,
+      "duration_ms": 160,
+      "raw_sha256": "bb852c6eacb6cbc9ca7b808a7c35245c4b4b6cb3e72f370842df88011157178a"
+    },
+    {
+      "slot": 2,
+      "raw_frame": 11,
+      "duration_ms": 160,
+      "raw_sha256": "e4cdf929e6471cdc377b4035a8c487cb61fd293ce5dad8e612bd982988444bc4"
+    },
+    {
+      "slot": 3,
+      "raw_frame": 12,
+      "duration_ms": 160,
+      "raw_sha256": "b7450766afe3823cab2cc40d5e07453bf05ac1a04f827744ff84297df1661485"
+    },
+    {
+      "slot": 4,
+      "raw_frame": 13,
+      "duration_ms": 160,
+      "raw_sha256": "595fdb8ebd1a7442d5df6f8c721f1f79412d0ca7626f8a59a1c3cdd0484601a4"
+    },
+    {
+      "slot": 5,
+      "raw_frame": 14,
+      "duration_ms": 160,
+      "raw_sha256": "487310a997af16a1159b6bca5b5a1b28c470923d4ec275d4a31ad2f544228159"
+    },
+    {
+      "slot": 6,
+      "raw_frame": 13,
+      "duration_ms": 160,
+      "raw_sha256": "595fdb8ebd1a7442d5df6f8c721f1f79412d0ca7626f8a59a1c3cdd0484601a4"
+    },
+    {
+      "slot": 7,
+      "raw_frame": 12,
+      "duration_ms": 160,
+      "raw_sha256": "b7450766afe3823cab2cc40d5e07453bf05ac1a04f827744ff84297df1661485"
+    },
+    {
+      "slot": 8,
+      "raw_frame": 11,
+      "duration_ms": 160,
+      "raw_sha256": "e4cdf929e6471cdc377b4035a8c487cb61fd293ce5dad8e612bd982988444bc4"
+    },
+    {
+      "slot": 9,
+      "raw_frame": 10,
+      "duration_ms": 160,
+      "raw_sha256": "bb852c6eacb6cbc9ca7b808a7c35245c4b4b6cb3e72f370842df88011157178a"
+    },
+    {
+      "slot": 10,
+      "raw_frame": 9,
+      "duration_ms": 160,
+      "raw_sha256": "91599afab5fd53599379fff1af18f55196a485af0498bad7edb91d39f7fae1c6"
+    }
+  ],
+  "transitions": [
+    {
+      "from_slot": 0,
+      "to_slot": 1,
+      "from_raw": 9,
+      "to_raw": 10,
+      "alpha_gt8_xor_pixels": 24,
+      "alpha_abs_sum": 6120,
+      "premul_max_rgb_gt8_pixels": 76,
+      "premul_max_rgb_sum": 5712.0,
+      "visible_crop_rgb_gt8_pixels": 73,
+      "visible_crop_rgb_sum": 1317,
+      "exact_rgba": false
+    },
+    {
+      "from_slot": 1,
+      "to_slot": 2,
+      "from_raw": 10,
+      "to_raw": 11,
+      "alpha_gt8_xor_pixels": 37,
+      "alpha_abs_sum": 9435,
+      "premul_max_rgb_gt8_pixels": 134,
+      "premul_max_rgb_sum": 9162.0,
+      "visible_crop_rgb_gt8_pixels": 131,
+      "visible_crop_rgb_sum": 2544,
+      "exact_rgba": false
+    },
+    {
+      "from_slot": 2,
+      "to_slot": 3,
+      "from_raw": 11,
+      "to_raw": 12,
+      "alpha_gt8_xor_pixels": 24,
+      "alpha_abs_sum": 6120,
+      "premul_max_rgb_gt8_pixels": 74,
+      "premul_max_rgb_sum": 5646.0,
+      "visible_crop_rgb_gt8_pixels": 72,
+      "visible_crop_rgb_sum": 1261,
+      "exact_rgba": false
+    },
+    {
+      "from_slot": 3,
+      "to_slot": 4,
+      "from_raw": 12,
+      "to_raw": 13,
+      "alpha_gt8_xor_pixels": 12,
+      "alpha_abs_sum": 3060,
+      "premul_max_rgb_gt8_pixels": 55,
+      "premul_max_rgb_sum": 3109.0,
+      "visible_crop_rgb_gt8_pixels": 55,
+      "visible_crop_rgb_sum": 969,
+      "exact_rgba": false
+    },
+    {
+      "from_slot": 4,
+      "to_slot": 5,
+      "from_raw": 13,
+      "to_raw": 14,
+      "alpha_gt8_xor_pixels": 20,
+      "alpha_abs_sum": 5100,
+      "premul_max_rgb_gt8_pixels": 68,
+      "premul_max_rgb_sum": 4864.0,
+      "visible_crop_rgb_gt8_pixels": 66,
+      "visible_crop_rgb_sum": 1168,
+      "exact_rgba": false
+    },
+    {
+      "from_slot": 5,
+      "to_slot": 6,
+      "from_raw": 14,
+      "to_raw": 13,
+      "alpha_gt8_xor_pixels": 20,
+      "alpha_abs_sum": 5100,
+      "premul_max_rgb_gt8_pixels": 68,
+      "premul_max_rgb_sum": 4864.0,
+      "visible_crop_rgb_gt8_pixels": 66,
+      "visible_crop_rgb_sum": 1168,
+      "exact_rgba": false
+    },
+    {
+      "from_slot": 6,
+      "to_slot": 7,
+      "from_raw": 13,
+      "to_raw": 12,
+      "alpha_gt8_xor_pixels": 12,
+      "alpha_abs_sum": 3060,
+      "premul_max_rgb_gt8_pixels": 55,
+      "premul_max_rgb_sum": 3109.0,
+      "visible_crop_rgb_gt8_pixels": 55,
+      "visible_crop_rgb_sum": 969,
+      "exact_rgba": false
+    },
+    {
+      "from_slot": 7,
+      "to_slot": 8,
+      "from_raw": 12,
+      "to_raw": 11,
+      "alpha_gt8_xor_pixels": 24,
+      "alpha_abs_sum": 6120,
+      "premul_max_rgb_gt8_pixels": 74,
+      "premul_max_rgb_sum": 5646.0,
+      "visible_crop_rgb_gt8_pixels": 72,
+      "visible_crop_rgb_sum": 1261,
+      "exact_rgba": false
+    },
+    {
+      "from_slot": 8,
+      "to_slot": 9,
+      "from_raw": 11,
+      "to_raw": 10,
+      "alpha_gt8_xor_pixels": 37,
+      "alpha_abs_sum": 9435,
+      "premul_max_rgb_gt8_pixels": 134,
+      "premul_max_rgb_sum": 9162.0,
+      "visible_crop_rgb_gt8_pixels": 131,
+      "visible_crop_rgb_sum": 2544,
+      "exact_rgba": false
+    },
+    {
+      "from_slot": 9,
+      "to_slot": 10,
+      "from_raw": 10,
+      "to_raw": 9,
+      "alpha_gt8_xor_pixels": 24,
+      "alpha_abs_sum": 6120,
+      "premul_max_rgb_gt8_pixels": 76,
+      "premul_max_rgb_sum": 5712.0,
+      "visible_crop_rgb_gt8_pixels": 73,
+      "visible_crop_rgb_sum": 1317,
+      "exact_rgba": false
+    },
+    {
+      "from_slot": 10,
+      "to_slot": 0,
+      "from_raw": 9,
+      "to_raw": 9,
+      "alpha_gt8_xor_pixels": 0,
+      "alpha_abs_sum": 0,
+      "premul_max_rgb_gt8_pixels": 0,
+      "premul_max_rgb_sum": 0.0,
+      "visible_crop_rgb_gt8_pixels": 0,
+      "visible_crop_rgb_sum": 0,
+      "exact_rgba": true
+    }
+  ],
+  "exact_seam": true,
+  "contact": "docs/art/fire-single-tongue-20261106/field-selection/fire29-field16/contact-source-min-max.png",
+  "contact_sha256": "a1c4992d1f1d5e951d5d1bda3748c3025ad36b0ac8a5dc316ecf18231f4edd1d",
+  "max_adjacent_alpha_xor": 37,
+  "max_adjacent_premul_rgb_gt8": 134,
+  "art_accepted": false
+}

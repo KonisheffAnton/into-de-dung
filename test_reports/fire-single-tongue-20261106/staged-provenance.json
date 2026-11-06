@@ -1,0 +1,8 @@
+{
+  "pass": true,
+  "immutable_art_and_archive_index_bytes_verified": 2243,
+  "only_task_paths_staged": true,
+  "protected_paths_staged": false,
+  "generated_json_and_js_attributes": "-text -diff; preserve exact bytes of SHA-linked artifacts",
+  "reviewed_artifact_bytes_already_verified": 8
+}
