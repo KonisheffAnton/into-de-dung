@@ -536,22 +536,11 @@ func _show_event_feedback(events: Array, strike: Dictionary, show_results: bool,
 			&"damage":
 				var text := "−%.1f" % amount if amount > 0.0 else "0"
 				if amount > 0.0 and not strike.is_empty() and bool(strike.get("modifiers", {}).get("critical", false)): text = "КРИТ · " + text
-				var source: Dictionary = entry.source
-				var cell: Vector2i = source.get("origin_cell", Vector2i(-1, -1))
-				if source.get("kind", &"") == &"cell" and cell.x >= 0 and cell.y >= 0 and cell.x < _view_width and cell.y < _view_height:
-					# У ловушки нет фигуры: число относится к клетке источника, а не к полосам жертвы.
-					_add_result_number(0, text, Color("f29b9b"), &"result", cell)
-				elif _damage_number_source_visible(int(entry.actor), target):
-					_add_result_number(int(entry.actor), text, Color("f29b9b"))
+				# Получатель есть и у ловушки/внешнего мага: источник не определяет место числа.
+				_add_result_number(target, text, Color("f29b9b"))
 			&"healed": _add_result_number(target, "+%.1f HP" % amount, Color("65dfcc"))
 			&"armor_gain": _add_result_number(target, "+%.1f броня" % amount, Color("8dcaff"))
 			&"shield_gain": _add_result_number(target, "Щит %s" % String.num(amount, 1), Color("71cefa"))
-
-func _damage_number_source_visible(actor: int, target: int) -> bool:
-	if actor <= 0 or actor == target: return false
-	var visual := _presentation_visual(actor)
-	# Посмертный DOT сохраняет автора в событии, но не создаёт подпись у пустой клетки.
-	return visual != null and visual.unit != null and visual.unit.alive
 
 func _show_consequence_feedback(entries: Array[Dictionary], root_id: int) -> void:
 	var grouped: Dictionary = {}
@@ -598,8 +587,8 @@ func begin_presentation_frame(events: Array) -> void:
 				_numbers.remove_child(number)
 				number.queue_free()
 
-func _add_result_number(id: int, text: String, tint: Color, feedback_kind: StringName = &"result", source_cell: Vector2i = Vector2i(-1, -1)) -> BattlePresentationNumber:
-	var cell := source_cell if source_cell.x >= 0 else _view_unit_cell(id)
+func _add_result_number(id: int, text: String, tint: Color, feedback_kind: StringName = &"result") -> BattlePresentationNumber:
+	var cell := _view_unit_cell(id)
 	if cell.x < 0: return null
 	var number := number_scene.instantiate() as BattlePresentationNumber
 	number.feedback_kind = feedback_kind

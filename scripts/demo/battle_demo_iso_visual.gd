@@ -66,6 +66,7 @@ var entangled: bool = false
 const STATUS_ICON_SIZE: float = 16.0
 const STATUS_ICON_GAP: float = 1.0
 const STATUS_ICON_LIMIT: int = 5
+static var _combat_number_font: Font
 @export var ground_base_tint: Color = Color("697553")
 const BLEEDING_ICON: Texture2D = preload("res://assets/placeholder_battle/bleeding_icon.svg")
 const BURNING_ICON: Texture2D = preload("res://assets/placeholder_battle/burning_icon.svg")
@@ -719,7 +720,7 @@ func _draw_unit() -> void:
 		draw_polyline(outline, Color("71cefa"), 1.7 * factor, true)
 		draw_string(ThemeDB.fallback_font, center + Vector2(-25, -43) * factor, "Щ %s · %d" % [BattleEventText.amount_text(shield_view.hp), int(shield_view.hits_left)], HORIZONTAL_ALIGNMENT_CENTER, 50 * factor, int(11 * factor), Color("aee7ff"))
 	if summon_pending:
-		draw_string(ThemeDB.fallback_font, foot + Vector2(-29, 30) * factor, "ЖДЁТ ХОДА", HORIZONTAL_ALIGNMENT_CENTER, 58 * factor, int(9 * factor), Color("b6d5ec"))
+		draw_string(ThemeDB.fallback_font, foot + Vector2(-29, 102) * factor, "ЖДЁТ ХОДА", HORIZONTAL_ALIGNMENT_CENTER, 58 * factor, int(9 * factor), Color("b6d5ec"))
 	if not _scene_art_enabled:
 		# Fallback-накладки используют ту же позу, что EffectRoot у сценического тела.
 		draw_set_transform_matrix(body_pose_transform(factor))
@@ -772,6 +773,8 @@ func _draw_unit() -> void:
 	if unit != null:
 		# Посадка нового рисунка ниже требует места полосам, не сдвигая опору клетки.
 		draw_set_transform(foot + get_unit_bars_offset() * factor, 0, Vector2.ONE * factor)
+		# Первый импорт TTF ещё не готов при разборе global class; общий шрифт загружаем в runtime.
+		if _combat_number_font == null: _combat_number_font = load("res://assets/ui/combat_fonts/combat_feedback.tres") as Font
 		var hp_max := unit.hp_max
 		var balance_max := unit.balance_max
 		var hp := clampf(unit.hp / hp_max if hp_max > 0 else 0, 0, 1)
@@ -779,29 +782,45 @@ func _draw_unit() -> void:
 		var expected_hp := float(forecast_after.get("hp", unit.hp))
 		var expected_alive := bool(forecast_after.get("alive", unit.alive))
 		var balance := BattleBalanceDisplay.ratio(unit.balance, balance_max)
-		draw_rect(Rect2(-19, 7, 38, 4), Color("0f1d28"))
-		draw_rect(Rect2(-19, 7, 38 * hp, 4), Color("65dfcc"))
+		const BAR_WIDTH: float = 48.0
+		const BAR_HEIGHT: float = 12.0
+		const BAR_LEFT: float = -24.0
+		const HP_Y: float = 15.0
+		const ARMOR_Y: float = 1.0
+		var hp_text := BattleEventText.amount_text(unit.hp)
+		draw_rect(Rect2(BAR_LEFT, HP_Y, BAR_WIDTH, BAR_HEIGHT), Color("101820"))
+		draw_rect(Rect2(BAR_LEFT, HP_Y, BAR_WIDTH * hp, BAR_HEIGHT), Color("48b85d"))
 		if not is_equal_approx(expected_hp, unit.hp):
 			var expected_ratio := clampf(expected_hp / hp_max if hp_max > 0 else 0.0, 0.0, 1.0)
 			var current_ratio := hp
 			var segment_start := minf(current_ratio, expected_ratio)
 			var segment_width := absf(expected_ratio - current_ratio)
-			draw_rect(Rect2(-19 + 38 * segment_start, 7, 38 * segment_width, 4), Color("f29b9b") if expected_hp < unit.hp else Color("65dfcc"))
-			draw_string(ThemeDB.fallback_font, Vector2(-28, 28), "%.1f→%.1f" % [unit.hp, expected_hp], HORIZONTAL_ALIGNMENT_CENTER, 56, 9, Color("f29b9b") if expected_hp < unit.hp else Color("65dfcc"))
-			draw_line(Vector2(-19 + 38 * expected_ratio, 6), Vector2(-19 + 38 * expected_ratio, 12), Color.WHITE, 1)
-		if not expected_alive: draw_string(ThemeDB.fallback_font, Vector2(-18, 38), "ПОГИБ", HORIZONTAL_ALIGNMENT_CENTER, 36, 8, Color("f29b9b"))
+			draw_rect(Rect2(BAR_LEFT + BAR_WIDTH * segment_start, HP_Y, BAR_WIDTH * segment_width, BAR_HEIGHT), Color("f29b9b") if expected_hp < unit.hp else Color("48b85d"))
+			draw_string(ThemeDB.fallback_font, Vector2(-32, 56), "%s→%s" % [hp_text, BattleEventText.amount_text(expected_hp)], HORIZONTAL_ALIGNMENT_CENTER, 64, 9, Color("f29b9b") if expected_hp < unit.hp else Color("48b85d"))
+			draw_line(Vector2(BAR_LEFT + BAR_WIDTH * expected_ratio, HP_Y - 1), Vector2(BAR_LEFT + BAR_WIDTH * expected_ratio, HP_Y + BAR_HEIGHT + 1), Color.WHITE, 1)
+		# Контрастная обводка держит цифры читаемыми при любом заполнении, включая пустую полосу.
+		draw_string_outline(_combat_number_font, Vector2(BAR_LEFT, HP_Y + 11), hp_text, HORIZONTAL_ALIGNMENT_CENTER, BAR_WIDTH, 16, 1, Color("17251b"))
+		draw_string(_combat_number_font, Vector2(BAR_LEFT, HP_Y + 11), hp_text, HORIZONTAL_ALIGNMENT_CENTER, BAR_WIDTH, 16, Color("f5f7f2"))
+		if not expected_alive: draw_string(ThemeDB.fallback_font, Vector2(-18, 67), "ПОГИБ", HORIZONTAL_ALIGNMENT_CENTER, 36, 8, Color("f29b9b"))
 		# Runtime хранит нарушение; полоса показывает оставшуюся устойчивость даже без осмотра.
-		draw_rect(Rect2(-19, 13, 38, 1), Color("0f1d28"))
-		draw_rect(Rect2(-19, 13, 38 * balance, 1), Color("f7c97d"))
+		draw_rect(Rect2(BAR_LEFT, 29, BAR_WIDTH, 1), Color("0f1d28"))
+		draw_rect(Rect2(BAR_LEFT, 29, BAR_WIDTH * balance, 1), Color("f7c97d"))
 		if not armor_values.is_empty():
 			var maximum := maxf(1.0, float(armor_values["maximum"]))
 			var current: float = armor_values["current"]
 			var expected := float(forecast_after.get("armor_current", current))
-			draw_rect(Rect2(-19, 1, 38, 4), Color("0f1d28"))
-			draw_rect(Rect2(-19, 1, 38 * clampf(current / maximum, 0.0, 1.0), 4), Color("91b9f4"))
+			var armor_ratio := clampf(current / maximum, 0.0, 1.0)
+			var armor_text := BattleEventText.amount_text(current)
+			draw_rect(Rect2(BAR_LEFT, ARMOR_Y, BAR_WIDTH, BAR_HEIGHT), Color("111820"))
+			var armor_fill_width := BAR_WIDTH * armor_ratio
+			draw_rect(Rect2(BAR_LEFT, ARMOR_Y, armor_fill_width, BAR_HEIGHT), Color("aab4be"))
+			draw_rect(Rect2(BAR_LEFT, ARMOR_Y, armor_fill_width, BAR_HEIGHT * 0.25), Color("d5dce2"))
+			draw_rect(Rect2(BAR_LEFT, ARMOR_Y + BAR_HEIGHT * 0.25, armor_fill_width, BAR_HEIGHT * 0.75), Color("8b96a1"))
 			if expected != current:
-				var mark := -19 + 38 * clampf(expected / maximum, 0.0, 1.0)
-				draw_line(Vector2(mark, 0), Vector2(mark, 6), Color.WHITE, 1)
+				var mark := BAR_LEFT + BAR_WIDTH * clampf(expected / maximum, 0.0, 1.0)
+				draw_line(Vector2(mark, ARMOR_Y - 1), Vector2(mark, ARMOR_Y + BAR_HEIGHT + 1), Color.WHITE, 1)
+			draw_string_outline(_combat_number_font, Vector2(BAR_LEFT, ARMOR_Y + 11), armor_text, HORIZONTAL_ALIGNMENT_CENTER, BAR_WIDTH, 16, 1, Color("202830"))
+			draw_string(_combat_number_font, Vector2(BAR_LEFT, ARMOR_Y + 11), armor_text, HORIZONTAL_ALIGNMENT_CENTER, BAR_WIDTH, 16, Color("f5f7fa"))
 	draw_set_transform(Vector2.ZERO)
 
 func _draw_unit_highlights(canvas: Node2D) -> void:
@@ -825,7 +844,8 @@ func _draw_unit_highlights(canvas: Node2D) -> void:
 			var corner := foot + Vector2(side * 31, -18) * factor
 			canvas.draw_polyline(PackedVector2Array([corner + Vector2(-side * 8, -12) * factor, corner + Vector2(0, -12) * factor, corner + Vector2(0, 10) * factor]), Color("b8c1c8", 0.32), 1.3, true)
 	if acting:
-		var tip := foot + Vector2(0, 20) * factor
+		# Маркер действия держится ниже полос, включая их авторский сдвиг у бойца.
+		var tip := foot + (get_unit_bars_offset() + Vector2(0, 70)) * factor
 		canvas.draw_colored_polygon(PackedVector2Array([tip, tip + Vector2(-8, 10) * factor, tip + Vector2(8, 10) * factor]), Color("b5a37e", 0.38))
 
 func _draw_status_icons(canvas: Node2D) -> void:

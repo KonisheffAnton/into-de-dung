@@ -142,10 +142,10 @@ func scenario(spell: StringName, mode: String = "normal", hub: bool = false) -> 
 	check(effect.phase == &"contact", "confirmed result reaches contact exactly once")
 	if spell == &"mage.heal": check(board._presentation_visual(target.id).action_offset == Vector2.ZERO, "healing has no hit recoil")
 	if spell == &"mage.fire":
-		var expected_early: int = 1 if mode == "fire_heals" else 0
+		var expected_early: int = 1
 		check(board._numbers.get_child_count() == expected_early and publications.is_empty()
 			and board._presentation_visual(target.id).unit.hp == before_view.units[target.id].hp,
-			"external fire keeps immediate recovery without inventing an attacker figure")
+			"external fire shows immediate damage or recovery at its recipient before after")
 	var early_results: Array[BattlePresentationNumber] = []
 	for number: BattlePresentationNumber in board._numbers.get_children(): early_results.append(number)
 	var result_counts_at_publication: Array[int] = []
@@ -160,10 +160,19 @@ func scenario(spell: StringName, mode: String = "normal", hub: bool = false) -> 
 	for number: BattlePresentationNumber in board._numbers.get_children():
 		if number.feedback_kind != &"result": continue
 		numbers.append(number._label.text)
-		check(int(number.get_meta("unit_id")) == target.id and number._label.text.begins_with("+"),
-			"external mage retains only recovery numbers at recipient")
+		check(int(number.get_meta("unit_id")) == target.id and number.get_meta("cell") == before_view.units[target.id].cell,
+			"external mage results stay at recipient including lethal hits")
 	var expected_heals: int = s.last_receipt.get_events().filter(func(event: Dictionary) -> bool: return event.kind == &"healed" and float(event.amount) > 0.0).size()
-	check(numbers.size() == expected_heals, "external mage keeps every actual healing event and no received damage number")
+	var expected_damage: int = 1 if spell == &"mage.fire" and mode != "fire_heals" else 0
+	check(numbers.size() == expected_heals + expected_damage, "external mage keeps actual healing plus one total damage result")
+	if expected_damage > 0:
+		var total := 0.0
+		for event: Dictionary in s.last_receipt.get_events():
+			if event.kind == &"damaged": total += float(event.amount)
+			elif event.kind == &"armor_changed":
+				for change: Dictionary in event.grants + event.items: total += maxf(0.0, float(change.before) - float(change.after))
+			elif event.kind == &"shield_changed": total += float(event.absorbed)
+		check(numbers.has("−%.1f" % total if total > 0.0 else "0"), "external mage total equals actual capped losses")
 	if spell == &"mage.fire":
 		check(result_counts_at_publication == [early_results.size()], "fire after boundary does not add duplicate result numbers")
 		check(early_results.all(func(number: BattlePresentationNumber) -> bool:
@@ -171,7 +180,7 @@ func scenario(spell: StringName, mode: String = "normal", hub: bool = false) -> 
 			"clip completion retains each early fire result node exactly once")
 	if mode == "capped": check(numbers.has("+1.0 HP"), "heal number uses actual capped delta")
 	if mode == "fire_heals": check(numbers.has("+4.0 HP"), "fire transformed by resistance shows actual healing")
-	if mode == "zero": check(numbers.is_empty(), "external zero hit does not fall back to victim")
+	if mode == "zero": check(numbers == ["0"], "external zero hit shows zero at recipient")
 	check(snapshot(s) == committed, "playback leaves snapshot RNG resources counters intact")
 	var rejected := s.cast_mage_spell(spell, target.id)
 	check(rejected.status == ActionReceipt.REJECTED and rejected.get_presentation_frames().is_empty() and snapshot(s) == committed, "cooldown rejects without delivery or mutation")
@@ -197,7 +206,7 @@ func controls() -> void:
 			elif mode in ["skip", "skip_result"]:
 				if mode == "skip_result":
 					advance(0.18)
-					check(demo.board_view._numbers.get_child_count() == 0, "external fire has no damage number; heal still waits for after before skip")
+					check(demo.board_view._numbers.get_child_count() == (1 if spell == &"mage.fire" else 0), "fire number appears at contact; heal still waits for after before skip")
 				demo.skip_presentation()
 				check(snapshot(s) == committed and demo.board_view._mage_effect == null and demo.board_view._numbers.get_child_count() == 0 and demo.board_view._impacts.get_child_count() == 0, "skip clears effects and keeps exact committed result")
 			elif mode == "reset":

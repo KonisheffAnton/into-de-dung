@@ -63,6 +63,25 @@ func has_balance_pixel(image: Image, point: Vector2) -> bool:
 				return true
 	return false
 
+func has_color_pixel(image: Image, point: Vector2, expected: Color, tolerance: float = 0.13) -> bool:
+	var center := Vector2i(roundi(point.x), roundi(point.y))
+	for y: int in range(center.y - 3, center.y + 4):
+		for x: int in range(center.x - 3, center.x + 4):
+			if x < 0 or y < 0 or x >= image.get_width() or y >= image.get_height(): continue
+			var pixel := image.get_pixel(x, y)
+			if absf(pixel.r - expected.r) < tolerance and absf(pixel.g - expected.g) < tolerance and absf(pixel.b - expected.b) < tolerance:
+				return true
+	return false
+
+func has_bright_text_pixel(image: Image, point: Vector2) -> bool:
+	var center := Vector2i(roundi(point.x), roundi(point.y))
+	for y: int in range(center.y - 5, center.y + 6):
+		for x: int in range(center.x - 10, center.x + 11):
+			if x < 0 or y < 0 or x >= image.get_width() or y >= image.get_height(): continue
+			var pixel := image.get_pixel(x, y)
+			if pixel.r > 0.90 and pixel.g > 0.90 and pixel.b > 0.90: return true
+	return false
+
 func run() -> void:
 	var poison_entries := BattleStatusPresentation.entries({"elemental": {"poison_stacks": 2, "poison_ticks": 3}})
 	check(poison_entries.size() == 1 and poison_entries[0].id == "poison" and poison_entries[0].stacks == 2 and poison_entries[0].remaining == 3, "poison HUD entry carries actual stacks and ticks")
@@ -112,16 +131,57 @@ func run() -> void:
 	# Headless использует dummy-renderer без изображения; пиксель проверяется в render-прогоне.
 	if not captures.is_empty():
 		var bar_factor := visual.grid_config.tile_size.x / 128.0
-		var bar_pixel := visual.get_global_transform_with_canvas() * (visual.get_visual_offset() + Vector2(-12, 13) * bar_factor)
+		var bar_origin := visual.get_visual_offset() + visual.get_unit_bars_offset() * bar_factor
+		var bar_pixel := visual.get_global_transform_with_canvas() * (bar_origin + Vector2(-12, 29) * bar_factor)
 		check(has_balance_pixel(viewport.get_texture().get_image(), bar_pixel), "balance bar renders on isolated living unit without selection or inspection")
-		# Корни у ног имеют близкий цвет; границы самой полосы проверяем без перекрывающего рисунка.
+		# Пробы внутри заливки проверяют реальное размещение полос независимо от текстуры персонажа.
 		(visual.get_node("ArtRoot") as Node2D).hide()
+		visual.unit.hp = 1.5
+		visual.armor_values["current"] = 0.0
+		visual.queue_redraw()
+		await process_frame
+		await RenderingServer.frame_post_draw
+		var unit_image := viewport.get_texture().get_image()
+		bar_origin = visual.get_visual_offset() + visual.get_unit_bars_offset() * bar_factor
+		var hp_fill := visual.get_global_transform_with_canvas() * (bar_origin + Vector2(-23, 19) * bar_factor)
+		var armor_empty := visual.get_global_transform_with_canvas() * (bar_origin + Vector2(0, 6) * bar_factor)
+		check(has_color_pixel(unit_image, hp_fill, Color("48b85d")), "low fractional HP keeps a visible green fill")
+		check(has_color_pixel(unit_image, armor_empty, Color("111820")), "zero armor leaves the metallic track empty")
+		var hp_text_center := visual.get_global_transform_with_canvas() * (bar_origin + Vector2(0, 21) * bar_factor)
+		var armor_text_center := visual.get_global_transform_with_canvas() * (bar_origin + Vector2(0, 7) * bar_factor)
+		check(has_bright_text_pixel(unit_image, hp_text_center), "fractional HP amount is visibly rendered centered inside its bar")
+		check(has_bright_text_pixel(unit_image, armor_text_center), "zero armor amount remains visible centered inside the empty track")
+		await capture("fractional-low-hp-zero-armor")
+		visual.armor_values["current"] = 0.5
+		visual.unit.faction = Faction.Type.ENEMY
+		visual.queue_redraw()
+		await process_frame
+		await RenderingServer.frame_post_draw
+		unit_image = viewport.get_texture().get_image()
+		bar_origin = visual.get_visual_offset() + visual.get_unit_bars_offset() * bar_factor
+		var armor_fill := visual.get_global_transform_with_canvas() * (bar_origin + Vector2(-23, 6) * bar_factor)
+		armor_text_center = visual.get_global_transform_with_canvas() * (bar_origin + Vector2(0, 7) * bar_factor)
+		check(has_color_pixel(unit_image, armor_fill, Color("aab4be")), "enemy armor bar renders metallic gray at fractional low value")
+		check(has_bright_text_pixel(unit_image, armor_text_center), "fractional enemy armor amount remains visible inside its bar")
+		await capture("enemy-fractional-vitals")
+		visual.unit.hp = 20.0
+		visual.armor_values["current"] = 8.0
+		visual.forecast_entry = {"after": {"hp": 8.0, "armor_current": 2.0, "alive": true}}
+		visual.queue_redraw()
+		await process_frame
+		await RenderingServer.frame_post_draw
+		unit_image = viewport.get_texture().get_image()
+		bar_origin = visual.get_visual_offset() + visual.get_unit_bars_offset() * bar_factor
+		var forecast_segment := visual.get_global_transform_with_canvas() * (bar_origin + Vector2(-7, 17) * bar_factor)
+		check(has_color_pixel(unit_image, forecast_segment, Color("f29b9b")), "forecast damage segment remains distinct below the centered current amount")
+		await capture("fractional-vitals-with-forecast")
 		visual.unit.balance = 0.0
 		visual.unit.balance_max = 12.0
 		visual.queue_redraw()
 		await process_frame
 		await RenderingServer.frame_post_draw
-		var full_edge := visual.get_global_transform_with_canvas() * (visual.get_visual_offset() + Vector2(17, 13) * bar_factor)
+		bar_origin = visual.get_visual_offset() + visual.get_unit_bars_offset() * bar_factor
+		var full_edge := visual.get_global_transform_with_canvas() * (bar_origin + Vector2(22, 29) * bar_factor)
 		check(has_balance_pixel(viewport.get_texture().get_image(), full_edge), "full reserve reaches the bar endpoint")
 		await capture("balance-reserve-full")
 		visual.unit.balance = 12.0
@@ -129,7 +189,8 @@ func run() -> void:
 		visual.queue_redraw()
 		await process_frame
 		await RenderingServer.frame_post_draw
-		var empty_inside := visual.get_global_transform_with_canvas() * (visual.get_visual_offset() + Vector2(0, 13) * bar_factor)
+		bar_origin = visual.get_visual_offset() + visual.get_unit_bars_offset() * bar_factor
+		var empty_inside := visual.get_global_transform_with_canvas() * (bar_origin + Vector2(0, 29) * bar_factor)
 		check(not has_balance_pixel(viewport.get_texture().get_image(), empty_inside), "depleted reserve leaves the bar interior empty")
 		await capture("balance-reserve-empty")
 	board.show_presentation_state(value)

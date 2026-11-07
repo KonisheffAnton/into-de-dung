@@ -178,23 +178,23 @@ func scenario(mode: String) -> void:
 	var totals: Dictionary = {}
 	var heals: int = 0
 	for event: Dictionary in data.events:
-		var actor: int = int(event.get("actor_unit_id", 0))
+		var recipient: int = int(event.get("target_unit_id", 0))
 		if event.kind == &"healed":
 			heals += 1
 			check(texts.has("+%.1f HP" % float(event.amount)), mode + " actual item healing stays separate")
-		elif event.kind == &"damaged": totals[actor] = float(totals.get(actor, 0.0)) + float(event.amount)
+		elif event.kind == &"damaged": totals[recipient] = float(totals.get(recipient, 0.0)) + float(event.amount)
 		elif event.kind == &"armor_changed":
 			for change: Dictionary in event.grants + event.items:
-				totals[actor] = float(totals.get(actor, 0.0)) + maxf(0.0, float(change.before) - float(change.after))
-		elif event.kind == &"hit_resolved" and not totals.has(actor): totals[actor] = 0.0
+				totals[recipient] = float(totals.get(recipient, 0.0)) + maxf(0.0, float(change.before) - float(change.after))
+		elif event.kind == &"hit_resolved" and not totals.has(recipient): totals[recipient] = 0.0
 	check(texts.size() == totals.size() + heals, mode + " one combined damage number per hit plus actual healing")
-	for actor: int in totals:
-		var expected_text: String = "−%.1f" % float(totals[actor]) if float(totals[actor]) > 0.0 else "0"
+	for recipient: int in totals:
+		var expected_text: String = "−%.1f" % float(totals[recipient]) if float(totals[recipient]) > 0.0 else "0"
 		var matches: int = 0
 		for number: BattlePresentationNumber in result_numbers():
-			if int(number.get_meta("unit_id", 0)) == actor and number._label.text.ends_with(expected_text):
+			if int(number.get_meta("unit_id", 0)) == recipient and number._label.text.ends_with(expected_text):
 				matches += 1
-				check(number.get_meta("cell") == data.before.units[actor].cell, mode + " total is anchored to its own attacker")
+				check(number.get_meta("cell") == data.before.units[recipient].cell, mode + " total is anchored to its own recipient")
 		check(matches == 1, mode + " exact HP plus armor total without separate loss labels")
 	if mode == "critical": check(texts[0].begins_with("КРИТ"), "critical tags the single total")
 	if mode == "lethal": check(not board._presentation_visual(b).unit.alive and texts[0] == "−1.0", "lethal retains actual capped loss")
@@ -203,9 +203,9 @@ func scenario(mode: String) -> void:
 	if mode in ["mixed", "armor", "zero", "critical", "counter"]: await capture("result-" + mode)
 	if mode == "mixed":
 		var first := board._numbers.get_child(0) as BattlePresentationNumber
-		var second := board._add_result_number(a, "+1.0 HP", Color("65dfcc"))
+		var second := board._add_result_number(b, "+1.0 HP", Color("65dfcc"))
 		feedback_count = board._numbers.get_child_count()
-		check(absf(first.position.y - second.position.y) >= 28.0, "independent healing does not cover total damage")
+		check(not first._label.get_global_rect().intersects(second._label.get_global_rect()), "independent healing does not cover total damage")
 		first.sample(0.75)
 		second.sample(0.0)
 		check(not first._label.get_global_rect().intersects(second._label.get_global_rect()), "older rising number cannot cover fresh number")
@@ -250,27 +250,27 @@ func event_anchor_fixtures() -> void:
 	var target: int = s.units[1].id
 	board.show_presentation_state(ActionPresentationState.capture(s.state))
 	var strike: Dictionary = {}
-	var initial_cell: Vector2i = board._view_unit_cell(actor_a)
+	var initial_cell: Vector2i = board._view_unit_cell(target)
 	board._show_event_feedback([
 		{"kind": &"damaged", "actor_unit_id": actor_a, "target_unit_id": target, "amount": 3.0},
 		{"kind": &"damaged", "actor_unit_id": actor_b, "target_unit_id": target, "amount": 4.0},
 		{"kind": &"hit_resolved", "actor_unit_id": actor_a, "target_unit_id": target}
 	], strike, true, false)
 	var numbers := result_numbers()
-	check(numbers.size() == 2, "different actors damage one target without victim or duplicate zero numbers")
-	check(numbers.size() == 2 and int(numbers[0].get_meta("unit_id", 0)) == actor_a and int(numbers[1].get_meta("unit_id", 0)) == actor_b,
-		"same-target result ownership follows each event actor")
-	check(numbers.size() == 2 and numbers[0].get_meta("cell") == initial_cell, "number stores source cell at creation")
+	check(numbers.size() == 2, "different actors damage one target with separate hits and no duplicate zero")
+	check(numbers.size() == 2 and int(numbers[0].get_meta("unit_id", 0)) == target and int(numbers[1].get_meta("unit_id", 0)) == target,
+		"same-target results both belong to the recipient")
+	check(numbers.size() == 2 and numbers[0].get_meta("cell") == initial_cell, "number stores recipient cell at creation")
 	var moved_projection := ActionPresentationState.capture(s.state)
 	var projected_units: Dictionary = moved_projection.units
-	var projected_actor: Dictionary = projected_units[actor_a]
-	projected_actor["cell"] = Vector2i(2, 4)
-	projected_units[actor_a] = projected_actor
+	var projected_target: Dictionary = projected_units[target]
+	projected_target["cell"] = Vector2i(2, 4)
+	projected_units[target] = projected_target
 	moved_projection["units"] = projected_units
 	board.show_presentation_state(moved_projection)
 	board.size += Vector2(24, 16)
-	check(numbers.size() == 2 and numbers[0].get_meta("cell") == initial_cell and board._view_unit_cell(actor_a) != initial_cell,
-		"movement, resize and next snapshot retain pinned source cell")
+	check(numbers.size() == 2 and numbers[0].get_meta("cell") == initial_cell and board._view_unit_cell(target) != initial_cell,
+		"movement, resize and next snapshot retain pinned recipient cell")
 	board.clear_presentation_feedback()
 	board._show_event_feedback([
 		{"kind": &"damaged", "actor_unit_id": actor_a, "target_unit_id": target, "amount": 1.0},
@@ -279,23 +279,29 @@ func event_anchor_fixtures() -> void:
 		{"kind": &"hit_resolved", "actor_unit_id": actor_a, "target_unit_id": s.units[3].id}
 	], strike, true, false)
 	numbers = result_numbers()
-	check(numbers.size() == 2 and int(numbers[0].get_meta("unit_id", 0)) == actor_a
-		and int(numbers[1].get_meta("unit_id", 0)) == actor_a,
-		"one actor can own results against multiple targets without zero duplicates")
+	check(numbers.size() == 2 and int(numbers[0].get_meta("unit_id", 0)) == target
+		and int(numbers[1].get_meta("unit_id", 0)) == s.units[3].id,
+		"one actor hitting multiple targets places each result at its recipient")
 	board.clear_presentation_feedback()
-	for suppressed_actor: int in [0, target, 999999]:
+	for source_actor: int in [0, target, 999999]:
 		board._show_event_feedback([
-			{"kind": &"hit_resolved", "actor_unit_id": suppressed_actor, "target_unit_id": target}
+			{"kind": &"hit_resolved", "actor_unit_id": source_actor, "target_unit_id": target}
 		], strike, true, false)
-		check(result_numbers().is_empty(), "zero without distinct visible source never falls back to victim")
+		numbers = result_numbers()
+		check(numbers.size() == 1 and numbers[0]._label.text == "0" and int(numbers[0].get_meta("unit_id")) == target,
+			"zero result belongs to recipient even for absent or self source")
+		board.clear_presentation_feedback()
 		board._show_event_feedback([
-			{"kind": &"damaged", "actor_unit_id": suppressed_actor, "target_unit_id": target, "amount": 2.0},
-			{"kind": &"armor_changed", "actor_unit_id": suppressed_actor, "target_unit_id": target,
+			{"kind": &"damaged", "actor_unit_id": source_actor, "target_unit_id": target, "amount": 2.0},
+			{"kind": &"armor_changed", "actor_unit_id": source_actor, "target_unit_id": target,
 				"grants": [{"before": 4.0, "after": 2.0}], "items": []},
-			{"kind": &"shield_changed", "actor_unit_id": suppressed_actor, "target_unit_id": target, "absorbed": 1.0, "after": {}},
-			{"kind": &"hit_resolved", "actor_unit_id": suppressed_actor, "target_unit_id": target}
+			{"kind": &"shield_changed", "actor_unit_id": source_actor, "target_unit_id": target, "absorbed": 1.0, "after": {}},
+			{"kind": &"hit_resolved", "actor_unit_id": source_actor, "target_unit_id": target}
 		], strike, true, false)
-		check(result_numbers().is_empty(), "environment, self and missing actors suppress all received damage numbers")
+		numbers = result_numbers()
+		check(numbers.size() == 1 and numbers[0]._label.text == "−5.0" and int(numbers[0].get_meta("unit_id")) == target,
+			"environment, self and missing actors retain one combined result at recipient")
+		board.clear_presentation_feedback()
 	board._show_event_feedback([
 		{"kind": &"shield_changed", "actor_unit_id": actor_a, "target_unit_id": target, "absorbed": 2.5, "after": {"hp": 4.0}},
 		{"kind": &"shield_changed", "actor_unit_id": actor_a, "target_unit_id": target, "absorbed": 0.0, "after": {"hp": 6.0}},
@@ -305,10 +311,10 @@ func event_anchor_fixtures() -> void:
 	], strike, true, false)
 	numbers = result_numbers()
 	check(numbers.size() == 4, "shield absorption, application, heal and armor application each show")
-	check(numbers.size() == 4 and int(numbers[0].get_meta("unit_id", 0)) == actor_a
+	check(numbers.size() == 4 and int(numbers[0].get_meta("unit_id", 0)) == target
 		and int(numbers[1].get_meta("unit_id", 0)) == target and int(numbers[2].get_meta("unit_id", 0)) == target
 		and int(numbers[3].get_meta("unit_id", 0)) == target,
-		"shield absorption belongs to source while positive changes belong to recipient")
+		"shield absorption and positive changes all belong to recipient")
 	board.clear_presentation_feedback()
 	var dead_projection := ActionPresentationState.capture(s.state)
 	dead_projection.units[actor_a]["alive"] = false
@@ -319,11 +325,29 @@ func event_anchor_fixtures() -> void:
 		{"kind": &"damaged", "actor_unit_id": actor_a, "target_unit_id": target, "amount": 2.0},
 		{"kind": &"hit_resolved", "actor_unit_id": actor_a, "target_unit_id": target}
 	], strike, true, false)
-	check(result_numbers().is_empty(), "dead DOT author never creates damage at an empty cell")
+	numbers = result_numbers()
+	check(numbers.size() == 1 and numbers[0]._label.text == "−2.0" and int(numbers[0].get_meta("unit_id")) == target,
+		"dead DOT author retains damage at living recipient")
+	board.clear_presentation_feedback()
 	board._show_event_feedback([
 		{"kind": &"hit_resolved", "actor_unit_id": actor_a, "target_unit_id": target}
 	], strike, true, false)
-	check(result_numbers().is_empty(), "dead author never creates a zero result at an empty cell")
+	numbers = result_numbers()
+	check(numbers.size() == 1 and numbers[0]._label.text == "0" and int(numbers[0].get_meta("unit_id")) == target,
+		"dead author retains zero result at recipient")
+	board.clear_presentation_feedback()
+	for absent_target: int in [0, 999999]:
+		board._show_event_feedback([
+			{"kind": &"damaged", "actor_unit_id": actor_b, "target_unit_id": absent_target, "amount": 3.0}
+		], strike, true, false)
+		check(result_numbers().is_empty(), "missing recipient never redirects damage to attacker")
+	board._show_event_feedback([
+		{"kind": &"damaged", "actor_unit_id": 0, "target_unit_id": target, "amount": 3.0,
+			"source": {"kind": &"cell", "origin_cell": Vector2i(0, 0)}}
+	], strike, true, false)
+	numbers = result_numbers()
+	check(numbers.size() == 1 and int(numbers[0].get_meta("unit_id")) == target
+		and numbers[0].get_meta("cell") == board._view_unit_cell(target), "remote hazard anchors to recipient, not origin cell")
 	board.environment_mode = false
 	board.clear_presentation_feedback()
 	board.show_presentation_state(ActionPresentationState.capture(s.state))
@@ -344,7 +368,7 @@ func event_anchor_fixtures() -> void:
 		status_tween.pause()
 		status_tween.custom_step(0.001)
 		numbers = result_numbers()
-		check(numbers.size() == 1 and numbers[0]._label.text == "−4.0" and int(numbers[0].get_meta("unit_id")) == actor_a,
+		check(numbers.size() == 1 and numbers[0]._label.text == "−4.0" and int(numbers[0].get_meta("unit_id")) == target,
 			absorbed_by + " only status tick shows immediate combined damage before status pulse completes")
 		status_tween.kill()
 		board.clear_presentation_feedback()

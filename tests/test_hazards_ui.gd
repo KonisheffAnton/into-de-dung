@@ -361,8 +361,8 @@ func trap_playback(session: BattleCoreReactionsSession) -> void:
 		elif event.kind == &"shield_changed": total += float(event.absorbed)
 	var damage_numbers: Array = board._numbers.get_children().filter(func(number: BattlePresentationNumber) -> bool: return number.feedback_kind == &"result")
 	check(damage_numbers.size() == 1 and damage_numbers[0]._label.text == "−%.1f" % total
-		and damage_numbers[0].get_meta("cell") == cell and int(damage_numbers[0].get_meta("unit_id")) == 0,
-		"real trap shows one exact total at its source cell immediately after extension")
+		and damage_numbers[0].get_meta("cell") == cell and int(damage_numbers[0].get_meta("unit_id")) == unit.id,
+		"real trap shows one exact total at its recipient immediately after extension")
 	check(publications.is_empty(), "lethal trap total does not wait for death or advance after publication")
 	advance(player, 1.0)
 	check(player.active and publications == [frame.after] and player._published.units[unit.id].hp == 0.0
