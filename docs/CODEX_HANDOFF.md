@@ -1,7 +1,7 @@
 # Передача — 2026-11-07: объём и движение огня29
 
-D:/Games/into-de-dung; main; base2e3328acb3b09bc278f9458c4c0d80401184cf96.
-Активная цель U — приемлемый огонь29; новые позы только PixelLab.
+D:/Games/into-de-dung; main; base6f01a1b633e80d7937ad93a00192d56407dbee28.
+Цель BLOCKED до приёмки U; новые позы только PixelLab.
 [Пакет](art/fire29-natural-20261107/README.md), направление — ART_DIRECTION.
 U: движение07 заметно, но языки плоские/по краям; остальное приемлемо.
 Последний показ natural02-middle: объёмные языки по поверхности,7 средних
@@ -31,7 +31,7 @@ presentation_foundation141/2, turn_forecast_ui26/3, HUD/Колода — пре�
 PLAYER вправо/ENEMY влево и возврат после атаки; каталоги1–3 не мигрировать.
 Один Godot runner, isolated project; без root import, служб/драйверов,
 принудительного фокуса, push/sidebar tasks/расписаний. Другой срез не начинать.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261107-6.md), [HISTORY](HISTORY.md).
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261107-7.md), [HISTORY](HISTORY.md).
 Завершение: проверки, локальный Conventional Commit, короткий HANDOFF;
 прежний побайтно отдельно+HISTORY. В финале/при блокере предложить новый чат
 и полный промпт: HEAD, результат, docs/artifacts, остаток, ограничения,
