@@ -1,0 +1,65 @@
+{
+  "fps": 20,
+  "kind": "change",
+  "loop": true,
+  "name": "Fire29 irregular low flame fronts",
+  "files": {
+    "fire29-irregular-low-flame-fronts.gif": "https://api.pixellab.ai/mcp/pixel-tools/dbf2d057-e55d-42b9-8274-a40f8eadc96b/fire29-irregular-low-flame-fronts.gif",
+    "fire29-irregular-low-flame-fronts.png": "https://api.pixellab.ai/mcp/pixel-tools/dbf2d057-e55d-42b9-8274-a40f8eadc96b/fire29-irregular-low-flame-fronts.png",
+    "fire29-irregular-low-flame-fronts.json": "https://api.pixellab.ai/mcp/pixel-tools/dbf2d057-e55d-42b9-8274-a40f8eadc96b/fire29-irregular-low-flame-fronts.json"
+  },
+  "parts": [
+    "surface_flames"
+  ],
+  "anchor": {
+    "x": 128,
+    "y": 217,
+    "kind": "feet"
+  },
+  "artist": "pro",
+  "canvas": {
+    "h": 256,
+    "w": 256
+  },
+  "frames": 32,
+  "message": "Reworked the six fronts into broad, low, connected lobes with shallow glowing bases and independently shifting contours, keeping the warm palette and moving floor. The four interior fronts and two rim spills retain the calm 32-frame, 20-fps loop with steady light and no added sparks or smoke.",
+  "edit_url": "https://pixellab.ai/create-vfx?effect=9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "effect_id": "9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "gif_exact": false,
+  "result_id": "dbf2d057-e55d-42b9-8274-a40f8eadc96b",
+  "billing_usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 11.0
+  },
+  "generation_id": "7c71ce50-c608-44e7-9bf5-0522f8fd7d95",
+  "billing_charged": true,
+  "generation_mode": "vfx",
+  "quoted_generations": 11,
+  "job_id": "21b9b330-5d4b-4e20-9589-b3bd56f14025",
+  "response_sha256": "cbf316f1e33955999831392136432abaef83656007a41cff4f29af2dc7007d66",
+  "downloads": [
+    {
+      "name": "fire29-irregular-low-flame-fronts.gif",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/dbf2d057-e55d-42b9-8274-a40f8eadc96b/fire29-irregular-low-flame-fronts.gif",
+      "sha256": "31c57eb4882359f210e193f5dc61d0081b45fb85c3d2be6a5c3059e848feed95",
+      "bytes": 665064
+    },
+    {
+      "name": "fire29-irregular-low-flame-fronts.png",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/dbf2d057-e55d-42b9-8274-a40f8eadc96b/fire29-irregular-low-flame-fronts.png",
+      "sha256": "df8378188aa05c719851c0176dbeb5f27224762725fa5151d82031915f14361d",
+      "bytes": 487018
+    },
+    {
+      "name": "fire29-irregular-low-flame-fronts.json",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/dbf2d057-e55d-42b9-8274-a40f8eadc96b/fire29-irregular-low-flame-fronts.json",
+      "sha256": "db2953e28f7bec957afc88cb2a20811f7c5600b395b51cb04bf900961f7ff2d8",
+      "bytes": 12897
+    }
+  ],
+  "usage": {
+    "type": "generations",
+    "generations": 11.0
+  }
+}

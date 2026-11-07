@@ -1,0 +1,91 @@
+{
+  "seed": 7112912,
+  "type": "done",
+  "action": "smoothing frames",
+  "status": "initializing",
+  "progress": 1.0,
+  "flow_kind": "animation",
+  "billing_usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 2
+  },
+  "generation_id": "e9ccbdae-1f72-4735-9a83-cdbcf18356c3",
+  "queue_position": 0,
+  "billing_charged": true,
+  "generation_started_at": "2026-11-07T10:22:57.592302+00:00",
+  "estimated_wait_seconds": 0,
+  "job_id": "6aae4866-fc0c-493d-a9dd-0ea35e89d362",
+  "response_sha256": "6fa0f21e65aadd0bb5dbe01f83e2c381f6db970ce1541b596d83ed386f4d421b",
+  "images": [
+    {
+      "file": "00.png",
+      "sha256": "6b5098eb0b0b94c1b14036a27aa70160e5ad20e3a8db5bf7e1dee5aff3374178"
+    },
+    {
+      "file": "01.png",
+      "sha256": "a49f4c43aa4ffd8b336b1654d3f8d79da1eec78831b642a9a96f5dde438645fb"
+    },
+    {
+      "file": "02.png",
+      "sha256": "f32e9d9c84006dd9f1ee99608916173cf4e6c888d886ebb0172daf406ef477f8"
+    },
+    {
+      "file": "03.png",
+      "sha256": "92e19cc84c196c76d3272f0d5e5c76b14043974e08089ffc93ac33cc4e0bb20f"
+    },
+    {
+      "file": "04.png",
+      "sha256": "b6c578f9cea32897047b5a42a078767e0e9ce74c5faaa2b47dcdc2f3b041eada"
+    },
+    {
+      "file": "05.png",
+      "sha256": "99a9036a749ad55dbaeb3b43c9f4be86b3a873f39dafb102c497c2e79015946e"
+    },
+    {
+      "file": "06.png",
+      "sha256": "73903ce88369f495c3a683ab256af0b5af9e8aa6625a8fda8c2d26bd464d9ba5"
+    },
+    {
+      "file": "07.png",
+      "sha256": "46ad1b99e5005180dca836f7b08b0cf9378a8cc5fae27a5a82c9c38d8ef09c87"
+    },
+    {
+      "file": "08.png",
+      "sha256": "05c8249f04ffec96a4a9424441c1c65f5be31b8e89f78c9966613d26c2dd487d"
+    },
+    {
+      "file": "09.png",
+      "sha256": "99bc15f1b435c28ca5682cd12092dbceba3c474090a4dcc08fe0109f889759d0"
+    },
+    {
+      "file": "10.png",
+      "sha256": "ba3e47f71576a41015aa99c0f4ad0f5b3d44da00b63cfbd593d34fb1fd022333"
+    },
+    {
+      "file": "11.png",
+      "sha256": "c1a2ab8b10a39b303744c37add1733ebf471ec621e4884a1b0fd59ca057ba2d7"
+    },
+    {
+      "file": "12.png",
+      "sha256": "5443f41e5cf922139e3a639899a4a7489bf28d32184dc566f4fdab9cfd2371e8"
+    },
+    {
+      "file": "13.png",
+      "sha256": "bca47e97e168d6e532cca1ff24211ad98ef2e2045ee80db207d670784895d855"
+    },
+    {
+      "file": "14.png",
+      "sha256": "a316e603e8e66c73c91d8a4c6ea182ef90d3ab00031b1ac1d08e576cf1fed31f"
+    },
+    {
+      "file": "15.png",
+      "sha256": "d0be61c92477cd7495edd2e034f457d256f23e3b17a044826358a998794241dd"
+    },
+    {
+      "file": "16.png",
+      "sha256": "5faa9934ac2d87b84614df6f9b763692662ec8534d329f687cff596b2fd4963b"
+    }
+  ],
+  "delivery": "background_job"
+}

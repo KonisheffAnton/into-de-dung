@@ -1,0 +1,7 @@
+{
+  "endpoint": "animate-pixminimax",
+  "input": "docs/art/fire29-natural-20261107/raw/vfx29-12/frame-00.png",
+  "input_sha256": "6b5098eb0b0b94c1b14036a27aa70160e5ad20e3a8db5bf7e1dee5aff3374178",
+  "request_sha256": "4b5811a3769b748dacdef4214f03a5612455f0d9d1a8a3c1d6dfaf3fbb9da004",
+  "intent": "Neural PixelLab movement refinement using generated12 low broad geometry as identical first/last; whole tile input preserves context; no local generated poses"
+}

@@ -1,0 +1,28 @@
+{
+  "capture": "test_reports\\fire29-natural-20261107\\natural29-02-middle-field",
+  "selection_sha256": "7eaea6ce2c311ee3124771290f321557511eb4385948e9387f983dd73c3ea58c",
+  "exports": [
+    {
+      "file": "fire29-natural02-middle-native.webp",
+      "tile_size": [
+        128,
+        96
+      ],
+      "frames": 12,
+      "duration_ms": 1440,
+      "sha256": "d7f623d75a5cbffe64a2d0354bc98861f4acf93dc1bad47175c17a750320fae9",
+      "decoded_rgba_and_timing_equal_gpu": true
+    },
+    {
+      "file": "fire29-natural02-middle-neighbours.webp",
+      "tile_size": [
+        384,
+        288
+      ],
+      "frames": 12,
+      "duration_ms": 1440,
+      "sha256": "cd8557939b86ab73be53c5a51d6e9f3bce98cff11ac5a0aa97ae2017b81c47e2",
+      "decoded_rgba_and_timing_equal_gpu": true
+    }
+  ]
+}

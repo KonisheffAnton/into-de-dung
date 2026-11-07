@@ -1,0 +1,9 @@
+{
+  "endpoint": "animate-with-text-v3",
+  "input": "docs/art/fire29-natural-20261107/raw/keypose29-02/00.png",
+  "last_input": "docs/art/fire29-natural-20261107/raw/keypose29-03/00.png",
+  "input_sha256": "83c3e0c12fe785ab2b1e3a240d2e758a015d8687021a833eabb85656f8bd4b72",
+  "last_input_sha256": "77fd5d550938eb05df9a908234d580d6834457b4409b7cc3aa5587029f1b6f4a",
+  "request_sha256": "1cc1765e4916622c31e4bfb246d9064674e1b0e5d07da81832ce38020405437c",
+  "intent": "Neural in-betweens between two actually distinct natural painterly key poses with opposite phase changes; full tile context and no local generated poses"
+}

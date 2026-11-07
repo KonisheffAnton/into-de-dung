@@ -1,0 +1,28 @@
+{
+  "capture": "test_reports\\fire29-natural-20261107\\redistribution07-field",
+  "selection_sha256": "d5d7065b0519cb31cd9d4bf101d5141618ab2cb89f2edd50b5ccd0ff18b5dfad",
+  "exports": [
+    {
+      "file": "fire29-redistribution07-native.webp",
+      "tile_size": [
+        128,
+        96
+      ],
+      "frames": 32,
+      "duration_ms": 1600,
+      "sha256": "a48fcfc43b8e08942e904c137e9838bf11d54f2afc3005ad5cac5c72184c7c73",
+      "decoded_rgba_and_timing_equal_gpu": true
+    },
+    {
+      "file": "fire29-redistribution07-neighbours.webp",
+      "tile_size": [
+        384,
+        288
+      ],
+      "frames": 32,
+      "duration_ms": 1600,
+      "sha256": "a07ece4769bc02c5b92ca597e9cb7ee6b2e07b25e2456478ca5204db96bd28e9",
+      "decoded_rgba_and_timing_equal_gpu": true
+    }
+  ]
+}

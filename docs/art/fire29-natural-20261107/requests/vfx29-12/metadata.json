@@ -1,0 +1,10 @@
+{
+  "endpoint": "vfx",
+  "request_sha256": "5abd146467af2d063c6daea932e3533d6010524ffe562db21f57707eb29bd6b8",
+  "public_request_sha256": "c15056f54c1401621bdf80961ba04ad50ba687c0ac30b0e63ab1c194cd219b5b",
+  "continuation_sha256": "f67b67576539cca25dd796ebf9509c1b9921a265af4eecf552711755e44c0aa7",
+  "continuation_external": true,
+  "source_job": "vfx29-11",
+  "effect_id": "9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "intent": "Address fixed VFX11 art review: broad irregular contours growing from source streaks instead of vertically stretching candle cones; preserve distribution and luminosity"
+}

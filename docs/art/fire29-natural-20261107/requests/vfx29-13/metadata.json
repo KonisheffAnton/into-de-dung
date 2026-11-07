@@ -1,0 +1,10 @@
+{
+  "endpoint": "vfx",
+  "request_sha256": "5aafa862ff419f7a0a3da5c22384c4cde4fcb0aa589590bed5a4fd8145df542c",
+  "public_request_sha256": "f347b0054934c8a924b93dd0f626850ca0955b9baf48e87ce89efc138feebf39",
+  "continuation_sha256": "f67b67576539cca25dd796ebf9509c1b9921a265af4eecf552711755e44c0aa7",
+  "continuation_external": true,
+  "source_job": "vfx29-07",
+  "effect_id": "9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "intent": "Branch from user-partially-accepted07 continuation; ask ONLY distribution change preserving prior broad-sheet shape/motion, avoiding accumulated redesign drift. Recovery from older continuation not assumed until output inspected."
+}

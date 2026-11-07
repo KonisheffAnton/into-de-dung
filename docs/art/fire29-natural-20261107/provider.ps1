@@ -22,7 +22,7 @@ try {
   if((Get-FileHash -LiteralPath $pxRequestPath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $pxMeta.request_sha256){throw 'Request hash mismatch'}
   $pxBytes=[IO.File]::ReadAllBytes($pxRequestPath)
   $pxRequest=[Text.Encoding]::UTF8.GetString($pxBytes) | ConvertFrom-Json
-  if($pxMeta.endpoint -notin @('inpaint-v3','animate-pixminimax','animate-with-text-v3','interpolation-v2','animate-with-text','vfx')){throw 'Endpoint not allowed'}
+  if($pxMeta.endpoint -notin @('inpaint-v3','animate-pixminimax','animate-with-text-v3','interpolation-v2','animate-with-text','vfx','remove-background')){throw 'Endpoint not allowed'}
   $pxSchemaPath=Join-Path $pxExternal ('openapi-before-'+$Variant+'.json')
   Invoke-WebRequest -Uri 'https://api.pixellab.ai/v2/openapi.json' -Method Get -TimeoutSec 35 -MaximumRedirection 0 -OutFile $pxSchemaPath | Out-Null
   $pxSchema=Get-Content -LiteralPath $pxSchemaPath -Raw | ConvertFrom-Json

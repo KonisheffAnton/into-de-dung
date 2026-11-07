@@ -16,6 +16,8 @@ GODOT = Path('D:/Downloads/Godot_v4.7.2-stable_win64.exe/Godot_v4.7.2-stable_win
 def main():
     label = sys.argv[1]
     assert label.replace('-', '').isalnum(), label
+    script_name = sys.argv[2] if len(sys.argv) > 2 else 'capture_preview.gd'
+    assert script_name in ('capture_preview.gd', 'redistribute_preview.gd')
     assert PROJECT.is_dir() and GODOT.is_file()
     active = subprocess.check_output(['powershell', '-NoProfile', '-Command',
         "@(Get-CimInstance Win32_Process | Where-Object { $_.Name -like '*Godot*' }).Count"],
@@ -26,7 +28,7 @@ def main():
     capture.mkdir(exist_ok=False)
     for name in ['128', '384', 'profile']: (capture / name).mkdir()
     shutil.copyfile(PACKAGE / 'selection.json', capture / 'selection.json')
-    shutil.copyfile(PACKAGE / 'capture_preview.gd', capture / 'capture_preview.gd')
+    shutil.copyfile(PACKAGE / script_name, capture / 'capture_preview.gd')
     env = os.environ.copy()
     env['APPDATA'] = str(capture / 'profile')
     startup = subprocess.STARTUPINFO()

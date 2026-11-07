@@ -1,0 +1,46 @@
+{
+  "source": "docs/art/fire-low-styles-20261104/fire-low-29.png",
+  "art_status": "candidate_unaccepted",
+  "whole_tile": false,
+  "slots": 12,
+  "slot_ms": 120,
+  "method": "Only unchanged middle PixelLab poses1..7..2, endpoint input-style jumps excluded. One fixed display mask, static original floor. No local pose edits/deformation.",
+  "groups": [
+    {
+      "key": "natural29-02",
+      "runtime_projection": true,
+      "native_crop_xyxy": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "mask_image": "inputs/natural29-02-fixed-display-mask.png",
+      "frames": [
+        "raw/natural29-02/00.png",
+        "raw/natural29-02/01.png",
+        "raw/natural29-02/02.png",
+        "raw/natural29-02/03.png",
+        "raw/natural29-02/04.png",
+        "raw/natural29-02/05.png",
+        "raw/natural29-02/06.png",
+        "raw/natural29-02/07.png",
+        "raw/natural29-02/08.png"
+      ],
+      "timeline": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2
+      ]
+    }
+  ]
+}

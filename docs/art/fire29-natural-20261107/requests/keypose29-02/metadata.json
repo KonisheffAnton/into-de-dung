@@ -1,0 +1,7 @@
+{
+  "endpoint": "remove-background",
+  "input": "docs/art/fire29-natural-20261107/raw/keypose29-01/00.png",
+  "input_sha256": "f7db1595c812d2d54d5b27cda03f4f8a3bdbe50940b5ad7604a9a7994da9a233",
+  "request_sha256": "29cf4d6d3df96794adb880363decce85f17919fbee4f5e852964f4377537245e",
+  "intent": "PixelLab itself restores transparency of generated neural key pose01; no local pixel edits to pose. Original opaque stone RGB outside inpaint mask was exactly preserved."
+}

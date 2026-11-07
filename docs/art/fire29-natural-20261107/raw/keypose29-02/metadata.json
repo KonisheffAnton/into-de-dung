@@ -1,0 +1,15 @@
+{
+  "usage": {
+    "type": "generations",
+    "generations": 1.0
+  },
+  "job_id": null,
+  "response_sha256": "e6b76320f38bb1264c12b5a13f7b8a7f0417dcdf846b847cd42ab7141fc5e4c0",
+  "images": [
+    {
+      "file": "00.png",
+      "sha256": "83c3e0c12fe785ab2b1e3a240d2e758a015d8687021a833eabb85656f8bd4b72"
+    }
+  ],
+  "delivery": "synchronous"
+}

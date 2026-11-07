@@ -1,0 +1,9 @@
+{
+  "endpoint": "inpaint-v3",
+  "input": "docs/art/fire29-natural-20261107/raw/keypose29-02/00.png",
+  "input_sha256": "83c3e0c12fe785ab2b1e3a240d2e758a015d8687021a833eabb85656f8bd4b72",
+  "mask": "docs/art/fire29-natural-20261107/inputs/whole29-neural-shape-mask.png",
+  "mask_sha256": "41969c42bf1b6660765c2da472211a52bfc58fa81ab06b47a5533cc8a30c9498",
+  "request_sha256": "fd9ce0f50d0e073952f95ca818cbcaf90dccb6aa24ba92564c1c980209fbc227",
+  "intent": "Second nearby natural painterly key pose with asynchronous contour growth/recession; first establishes actual shape, rather than using nearly identical procedural ridge endpoints"
+}

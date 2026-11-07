@@ -101,6 +101,39 @@
       "usage_generations": 10.0
     },
     {
+      "key": "keypose29-01",
+      "endpoint": "inpaint-v3",
+      "request_sha256": "0f6db15b1abdab03e83bd5672b32784c815691e1bdeb34350d24485bf6864b4d",
+      "status": "completed",
+      "job_id": "1c361897-5daa-44d8-a1be-3cc0a046d677",
+      "response_sha256": "6cbe6c4375ef77ec3309976365ba458e9adc2ebd668c0e70515c89ee55094be7",
+      "delivery": "background_job",
+      "raw_png": 1,
+      "usage_generations": 10.0
+    },
+    {
+      "key": "keypose29-02",
+      "endpoint": "remove-background",
+      "request_sha256": "29cf4d6d3df96794adb880363decce85f17919fbee4f5e852964f4377537245e",
+      "status": "completed",
+      "job_id": null,
+      "response_sha256": "e6b76320f38bb1264c12b5a13f7b8a7f0417dcdf846b847cd42ab7141fc5e4c0",
+      "delivery": "synchronous",
+      "raw_png": 1,
+      "usage_generations": 1.0
+    },
+    {
+      "key": "keypose29-03",
+      "endpoint": "inpaint-v3",
+      "request_sha256": "fd9ce0f50d0e073952f95ca818cbcaf90dccb6aa24ba92564c1c980209fbc227",
+      "status": "completed",
+      "job_id": "94819fc4-227d-4dd8-ac51-a55c3efa8080",
+      "response_sha256": "0d0957da4fe407ec414002418419e300ab5cfe9bb4ad511c2fc865315ad776fa",
+      "delivery": "background_job",
+      "raw_png": 1,
+      "usage_generations": 10.0
+    },
+    {
       "key": "natural01-01",
       "endpoint": "interpolation-v2",
       "request_sha256": "dbb0e39f239bf50b114eafe93d6fdebe5366728a65f8e9fdf3e8882b8dc139d2",
@@ -268,6 +301,28 @@
       "usage_generations": 10.0
     },
     {
+      "key": "natural29-01",
+      "endpoint": "animate-pixminimax",
+      "request_sha256": "4b5811a3769b748dacdef4214f03a5612455f0d9d1a8a3c1d6dfaf3fbb9da004",
+      "status": "completed",
+      "job_id": "6aae4866-fc0c-493d-a9dd-0ea35e89d362",
+      "response_sha256": "6fa0f21e65aadd0bb5dbe01f83e2c381f6db970ce1541b596d83ed386f4d421b",
+      "delivery": "background_job",
+      "raw_png": 17,
+      "usage_generations": 2.0
+    },
+    {
+      "key": "natural29-02",
+      "endpoint": "animate-with-text-v3",
+      "request_sha256": "1cc1765e4916622c31e4bfb246d9064674e1b0e5d07da81832ce38020405437c",
+      "status": "completed",
+      "job_id": "cfe634ec-3ed7-4b00-a54f-2b3982fe6a90",
+      "response_sha256": "391c0cfd3ea8a3022e7bd0e53f32b5673fb03264df4a741a024e40aa88677c30",
+      "delivery": "background_job",
+      "raw_png": 9,
+      "usage_generations": 8.0
+    },
+    {
       "key": "vfx29-01",
       "endpoint": "vfx",
       "request_sha256": "eb70040059d8b32a49b3f95d67630e937e48249977ac32f9ea23015aacd1335c",
@@ -384,11 +439,33 @@
       "delivery": "background_job",
       "atlas_frames": 32,
       "usage_generations": 9.0
+    },
+    {
+      "key": "vfx29-12",
+      "endpoint": "vfx",
+      "request_sha256": "c15056f54c1401621bdf80961ba04ad50ba687c0ac30b0e63ab1c194cd219b5b",
+      "status": "completed",
+      "job_id": "21b9b330-5d4b-4e20-9589-b3bd56f14025",
+      "response_sha256": "cbf316f1e33955999831392136432abaef83656007a41cff4f29af2dc7007d66",
+      "delivery": "background_job",
+      "atlas_frames": 32,
+      "usage_generations": 11.0
+    },
+    {
+      "key": "vfx29-13",
+      "endpoint": "vfx",
+      "request_sha256": "f347b0054934c8a924b93dd0f626850ca0955b9baf48e87ce89efc138feebf39",
+      "status": "completed",
+      "job_id": "9d85c0d3-b591-4c1e-8c33-9e8c79b0ca2e",
+      "response_sha256": "d3eb91b2b7c336de458d33933718a65a8a6db775973639f700ced69c600a93a9",
+      "delivery": "background_job",
+      "atlas_frames": 32,
+      "usage_generations": 11.0
     }
   ],
   "pending": [],
-  "raw_png": 82,
-  "usage_generations": 266.28936458333334,
+  "raw_png": 111,
+  "usage_generations": 319.28936458333334,
   "completed_non_vfx_png_bytes_equal_response": true,
   "completed_vfx_download_hashes_and_slice_rgba_verified": true,
   "vfx_slice_png_encoding_is_not_provider_original": true,

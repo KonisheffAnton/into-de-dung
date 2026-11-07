@@ -54,6 +54,14 @@ func make_view(tile_px: int) -> Dictionary:
 		art.add_child(sprite)
 		sprite.centered = false
 		sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+		if group.has("mask_image"):
+			# Одна неподвижная маска отделяет огонь от пола; кадры PixelLab не меняются.
+			var mask_shader := Shader.new()
+			mask_shader.code = "shader_type canvas_item; uniform sampler2D fixed_mask : filter_linear; void fragment() { COLOR = texture(TEXTURE, UV); COLOR.a *= texture(fixed_mask, UV).r; }"
+			var mask_material := ShaderMaterial.new()
+			mask_material.shader = mask_shader
+			mask_material.set_shader_parameter("fixed_mask", ImageTexture.create_from_image(Image.load_from_file(package.path_join(group.mask_image))))
+			sprite.material = mask_material
 		# Координаты и проекция постоянны: новые позы даёт только PNG провайдера.
 		sprite.scale = Vector2(128.0 / 610.0, 96.0 / 462.0)
 		sprite.position = (Vector2(group.native_crop_xyxy[0], group.native_crop_xyxy[1]) - Vector2(627,496)) * sprite.scale
