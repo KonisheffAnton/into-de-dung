@@ -1,32 +1,30 @@
 [gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/demo/battle_fire29_visual.gd" id="1_clock"]
-[ext_resource type="SpriteFrames" path="res://assets/art_presets/approved/fire29_selected_v1/fire29_frames.tres" id="2_frames"]
-[ext_resource type="Shader" path="res://assets/shaders/fire29_surface.gdshader" id="3_surface"]
-[ext_resource type="Shader" path="res://assets/shaders/fire29_flames.gdshader" id="4_flames"]
+[ext_resource type="SpriteFrames" path="res://assets/art_presets/approved/fire29_natural_v1/fire29_frames.tres" id="2_frames"]
+[ext_resource type="Shader" path="res://assets/shaders/fire29_natural.gdshader" id="3_natural"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/fire29_natural_v1/mask.png" id="4_mask"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/fire29_natural_v1/floor.png" id="5_floor"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_surface"]
-shader = ExtResource("3_surface")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_flames"]
-shader = ExtResource("4_flames")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_natural"]
+shader = ExtResource("3_natural")
+shader_parameter/fixed_mask = ExtResource("4_mask")
 
 [node name="Fire29" type="Node2D"]
 script = ExtResource("1_clock")
 animation_name = &"fire"
 
+[node name="Base" type="Polygon2D" parent="."]
+texture_filter = 2
+polygon = PackedVector2Array(0, -48, 64, 0, 0, 48, -64, 0)
+uv = PackedVector2Array(627, 265, 932, 496, 627, 727, 322, 496)
+texture = ExtResource("5_floor")
+
 [node name="Animation" type="AnimatedSprite2D" parent="."]
 texture_filter = 2
-material = SubResource("ShaderMaterial_surface")
-position = Vector2(-71.1344262, -54.6493506)
+material = SubResource("ShaderMaterial_natural")
+position = Vector2(-71.1344262, -70.5840139)
 scale = Vector2(0.555737705, 0.549471147)
 sprite_frames = ExtResource("2_frames")
 animation = &"fire"
-centered = false
-
-[node name="Flames" type="Sprite2D" parent="."]
-texture_filter = 2
-material = SubResource("ShaderMaterial_flames")
-position = Vector2(-71.1344262, -54.6493506)
-scale = Vector2(0.555737705, 0.549471147)
 centered = false

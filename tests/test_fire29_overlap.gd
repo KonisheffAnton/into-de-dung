@@ -1,14 +1,14 @@
 extends SceneTree
 
 const TILE: PackedScene = preload("res://scenes/demo/visuals/dungeon_comparison_tile.tscn")
-# Отрицательный контроль: прежний ромб отрезает языки, но сохраняет тот же gain внутри.
+# Отрицательный контроль сохраняет маску и цвет, но срезает выход за ромб.
 const CLIPPED_SHADER: String = """shader_type canvas_item;
-varying vec2 source_pixel;
-void vertex() { source_pixel = VERTEX; }
+uniform sampler2D fixed_mask : filter_linear;
 void fragment() {
- vec2 p = abs((source_pixel - vec2(128.0, 99.4580897)) / vec2(115.162242, 87.3567251));
+ COLOR = texture(TEXTURE, UV);
+ COLOR.a *= texture(fixed_mask, UV).r;
+ vec2 p = abs((UV * 256.0 - vec2(128.0, 128.4580897)) / vec2(115.162242, 87.3567251));
  COLOR.a *= step(p.x + p.y, 1.0);
- COLOR.rgb = min(COLOR.rgb * 1.12, vec3(1.0));
 }"""
 var passed: int = 0
 var failed: int = 0
@@ -70,19 +70,30 @@ func gpu_neighbours() -> void:
 	var source := tiles[Vector2i(2, 2)]
 	var fire := source._fire_view as BattleFire29Visual
 	var animation := fire.get_node(^"Animation") as AnimatedSprite2D
-	var flames := fire.get_node(^"Flames") as Sprite2D
+	var base := fire.get_node(^"Base") as Polygon2D
 	animation.pause()
 	animation.frame = 0
 	var correct := await frame("fire29-neighbours")
-	var original_material := flames.material as ShaderMaterial
+	# Обрушение гасит родительский terrain через modulate, а не visibility.
+	source.modulate.a = 0.0
+	var faded := await frame("fire29-collapse-faded")
+	source.hide()
+	var hidden := await frame("fire29-collapse-hidden")
+	check(faded.get_data() == hidden.get_data(), "collapse opacity removes both floor and flames")
+	source.show()
+	source.modulate = Color.WHITE
+	animation.pause()
+	animation.frame = 0
+	var original_material := animation.material as ShaderMaterial
 	var negative_shader := Shader.new()
 	negative_shader.code = CLIPPED_SHADER
 	var negative_material := ShaderMaterial.new()
 	negative_material.shader = negative_shader
-	flames.material = negative_material
+	negative_material.set_shader_parameter("fixed_mask", original_material.get_shader_parameter("fixed_mask"))
+	animation.material = negative_material
 	var clipped := await frame("negative-diamond-clip")
-	flames.material = original_material
-	var inverse := flames.global_transform.affine_inverse()
+	animation.material = original_material
+	var inverse := animation.global_transform.affine_inverse()
 	var restored: Array[Vector2i] = []
 	var invalid_changes := 0
 	for y: int in correct.get_height():
@@ -90,29 +101,12 @@ func gpu_neighbours() -> void:
 			var pixel := Vector2i(x, y)
 			if not different(correct.get_pixelv(pixel), clipped.get_pixelv(pixel)): continue
 			var source_pixel := inverse * (Vector2(pixel) + Vector2(0.5, 0.5))
-			var relative := (source_pixel - Vector2(128, 99.4580897)) / Vector2(115.162242, 87.3567251)
+			var relative := (source_pixel - Vector2(128, 128.4580897)) / Vector2(115.162242, 87.3567251)
 			if absf(relative.x) + absf(relative.y) < 0.98: invalid_changes += 1
 			if absf(relative.x) + absf(relative.y) > 1.01: restored.append(pixel)
 	check(restored.size() > 3 and invalid_changes == 0, "native tongues cross neighbouring stone while tile interior stays identical to clipped control")
 	print("FIRE OVERLAP GPU restored=%d interior_changes=%d" % [restored.size(), invalid_changes])
-	# Gain действует на языки, а не на камень. Дублируем material, не общий ресурс сцены.
-	var normal_material := original_material.duplicate() as ShaderMaterial
-	normal_material.set_shader_parameter("flame_gain", 1.0)
-	flames.material = normal_material
-	var normal := await frame("fire29-gain-1")
-	flames.material = original_material
-	var brighter := 0
-	var dimmer := 0
-	for y: int in correct.get_height():
-		for x: int in correct.get_width():
-			var a := correct.get_pixel(x, y)
-			var b := normal.get_pixel(x, y)
-			if not different(a, b): continue
-			if a.r + a.g + a.b > b.r + b.g + b.b: brighter += 1
-			else: dimmer += 1
-	check(brighter > 20 and dimmer == 0, "gain makes visible flames slightly brighter")
-	print("FIRE GAIN GPU brighter=%d dimmer=%d" % [brighter, dimmer])
-	# Фигура на горящей клетке закрывает языки обычным Y-sort, без глобального Z огня.
+	# Фигура закрывает языки обычным Y-sort, без глобального Z огня.
 	var figure := Node2D.new()
 	world.add_child(figure)
 	figure.position = source.position + Vector2(0, 0.5)
@@ -129,10 +123,11 @@ func gpu_neighbours() -> void:
 			if color.g > 0.8 and color.b > 0.85 and color.r < 0.15: covered_count += 1
 	check(covered_count > 0, "figure remains in front of restored flames")
 	figure.queue_free()
-	for slot: int in 96:
+	var base_texture := base.texture
+	for slot: int in 12:
 		animation.frame = slot
-		check(flames.texture == BattleFire29Visual.FLAME_FRAMES.get_frame_texture(&"fire", slot), "flames follow base slot %d without another clock" % slot)
-	await frame("fire29-neighbours-95")
+		check(base.texture == base_texture and base.transform == Transform2D.IDENTITY, "static floor does not animate with pose %d" % slot)
+	await frame("fire29-neighbours-11")
 	animation.frame = 0
 	var looped := await frame("fire29-neighbours-00-loop")
 	check(looped.get_data() == correct.get_data(), "return to frame0 has exact same rendered pixels")
@@ -166,25 +161,26 @@ func production_lifecycle() -> void:
 	check(chosen != null, "production burning cell creates selected fire")
 	if chosen != null:
 		var fire := chosen._fire_view as BattleFire29Visual
-		var flames := fire.get_node(^"Flames") as Sprite2D
+		var base := fire.get_node(^"Base") as Polygon2D
 		var animation := fire.get_node(^"Animation") as AnimatedSprite2D
-		var original_id := flames.get_instance_id()
+		var original_id := base.get_instance_id()
 		for _refresh: int in 3: board.refresh()
-		check(chosen._fire_view == fire and fire.get_node(^"Flames").get_instance_id() == original_id, "repeat publication reuses fire and flame layer")
+		check(chosen._fire_view == fire and fire.get_node(^"Base").get_instance_id() == original_id, "repeat publication reuses fire and static base")
 		board.size += Vector2(75, 43)
 		board._rescale_layout()
 		await process_frame
-		check(flames.global_transform.is_equal_approx(animation.global_transform), "resize keeps tongues aligned with base")
+		check(base.transform == Transform2D.IDENTITY and fire.position.is_equal_approx(chosen._top_offset())
+			and animation.position.is_equal_approx(Vector2(-71.1344262, -(99.4580897 + 29.0) * 0.549471147)), "resize preserves accepted base and flame alignment")
 		var detached := original.duplicate(true)
 		detached.fires = []
 		board.show_presentation_state(detached)
-		check(not flames.is_visible_in_tree() and not animation.is_playing(), "extinguish hides flame layer and pauses clock")
+		check(not base.is_visible_in_tree() and not animation.is_playing(), "extinguish hides static base and pauses clock")
 		board.show_presentation_state(original)
-		check(flames.is_visible_in_tree() and animation.is_playing(), "re-ignition restores flame layer and clock")
+		check(base.is_visible_in_tree() and animation.is_playing(), "re-ignition restores static base and clock")
 		board.tile_visual_scene = load("res://scenes/demo/visuals/art_trial_tile.tscn") as PackedScene
 		board.refresh()
 		await process_frame
-		check(not is_instance_valid(fire) and not is_instance_valid(flames), "scene replacement retires base and flame layer")
+		check(not is_instance_valid(fire) and not is_instance_valid(base), "scene replacement retires base and animation")
 	check(ActionPresentationState.capture(session.state) == original and session.context.get_rng().to_dict() == rng_before, "render changes preserve live state and RNG")
 	board.session = null
 	board.queue_free()

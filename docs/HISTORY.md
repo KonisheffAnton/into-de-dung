@@ -1,5 +1,25 @@
 # История и свидетельства проверок
 
+## Внедрение принятого natural02-middle огня29 — 2026-11-07
+
+Main, base39518d9fc36254b8be0910489675683bf501df89. U принял последний огонь29
+и поручил внедрение. [Пакет](art/fire29-natural-integration-20261107/README.md):
+неподвижный исходный пол, постоянная маска, семь неизменённых PNG PixelLab,
+12×120мс. Текущий terrain сохраняет прежние часы/геометрию/Y-sort/lifecycle;
+shader учитывает родительский fade. Новых генераций и механик нет.
+Стандартный fix_alpha_border менял прозрачную кайму; отключён в девяти
+закреплённых import sidecar, проверяемых сборщиком.
+
+Свежий isolated import/startup и четыре адресных GPU-теста PASS:
+fire29_animation117/0, fire29_overlap31/0, visual_scene_contract106/0,
+dungeon_room_comparison1983/0; launcher6/0/0. Все24 кадра при128/384 точно
+совпали по RGBA с принятой пробой, WebP12×120мс PASS. Независимое APPROVE
+для фиксированного runtime-патча;33 чужих файла сохранены. Отчёт:
+test_reports/fire29-natural-integration-20261107/; runner demo-4e1bf2a8418e47b9856e1396013d8072.
+Full/core, ручные F5/движение/zoom/DPI/performance не запускались.
+Артовая цель принята U; текущая игровая приёмка остаётся отдельной.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261107-8.md).
+
 ## Ожидание художественной приёмки огня29 — 2026-11-07
 
 Main, base6f01a1b633e80d7937ad93a00192d56407dbee28. Цель переведена в BLOCKED:

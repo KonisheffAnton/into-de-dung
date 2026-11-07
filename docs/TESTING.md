@@ -32,22 +32,20 @@ GPU проверяет три позы, проекцию четырёх верш
 battle_view_reuse расширяет набор согласно launcher.
 Это не full/core или ручной F5/zoom/DPI/performance.
 
-Внедрение огня29 (2026-11-07): `python tools/art/build_fire29_animation.py --check`;
-`--render-check --only fire29_animation dungeon_room_comparison
-environment_visual_contract hazards_ui acid_tile_animation visual_scene_contract --screen 0`.
-Новый runner проверяет96 кадров/80мс, реальный loop95→0, pause/retire/reuse,
+Внедрение принятого огня29 (2026-11-07): `python tools/art/build_fire29_natural.py --check`;
+`--render-check --only fire29_animation fire29_overlap visual_scene_contract
+dungeon_room_comparison --screen 0`. Runner проверяет12 кадров/120мс,
+реальный loop11→0, pause/retire/reuse,
 подгонку к тайлу на разных высотах/масштабах, VOID/deep acid и прежний picking.
-PNG включают огонь на текущем камне и три позы плиты рядом с соседними клетками,
-сравниваемые с прежним торцом. Сборщик проверяет SHA raw/native и точные ячейки;
-проверки не подменяют ручную оценку и стабильные60FPS не заявляют.
-
-Перекрытие огня29: дополнительно `python tools/art/build_fire29_flame_overlay.py --check`;
-`--render-check --only fire29_overlap fire29_animation visual_scene_contract
-dungeon_room_comparison --screen 0`. GPU сравнивает реальный огонь на соседних
-тайлах с отрицательным контролем прежней ромбовой маски и gain1.0; проверяет
-видимые кончики, усиление, глубину фигуры, точный возврат к frame0,96 синхронных
-слотов, pause/resize/reuse/retire на текущем Hub и сохранность live state/RNG.
-PNG — `fire29-overlap-screenshots/`; это не ручной плейтест или performance gate.
+GPU сравнивает выход пламени за ромб с отрицательным контролем обрезания;
+проверяет глубину фигуры, неподвижность основания, точный возврат к frame0,
+pause/resize/reuse/retire на текущем Hub и сохранность live state/RNG.
+PNG — `fire29-overlap-screenshots/`. Сборщик сверяет неизменённые PNG и порядок поз.
+Дополнительно [capture_runtime.py](art/fire29-natural-integration-20261107/capture_runtime.py)
+запускается с `--project <свежий isolated project> --godot <exe>`:
+24 GPU кадра реального terrain при128/384 сравниваются по RGBA с принятой пробой,
+WebP — по всем кадрам и120мс. Один runner, без импорта корня и фокуса.
+Это не full/core, ручной плейтест или performance gate; стабильные60FPS не заявляются.
 
 Кислотная плёнка, глубокая кислота и кальтропы (2026-11-05):
 `python tools/art/build_hazard_surface_animations.py --check` и

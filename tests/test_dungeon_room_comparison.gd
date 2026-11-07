@@ -9,7 +9,7 @@ const MASONRY_TEXTURE: Texture2D = preload("res://assets/art_presets/trials/dung
 const COLUMN_TEXTURE: Texture2D = preload("res://assets/art_presets/trials/dungeon_room_v2/column.png")
 
 const DUNGEON_ENVIRONMENT: PackedScene = preload("res://scenes/demo/visuals/dungeon_room_environment.tscn")
-const FIRE_FRAMES: SpriteFrames = preload("res://assets/art_presets/approved/fire29_selected_v1/fire29_frames.tres")
+const FIRE_FRAMES: SpriteFrames = preload("res://assets/art_presets/approved/fire29_natural_v1/fire29_frames.tres")
 
 var passed: int = 0
 var failed: int = 0

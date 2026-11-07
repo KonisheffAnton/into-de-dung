@@ -1,0 +1,31 @@
+[gd_resource type="SpriteFrames" load_steps=8 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/fire29_natural_v1/pose-01.png" id="pose_01"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/fire29_natural_v1/pose-02.png" id="pose_02"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/fire29_natural_v1/pose-03.png" id="pose_03"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/fire29_natural_v1/pose-04.png" id="pose_04"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/fire29_natural_v1/pose-05.png" id="pose_05"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/fire29_natural_v1/pose-06.png" id="pose_06"]
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/fire29_natural_v1/pose-07.png" id="pose_07"]
+
+[resource]
+animations = [
+{
+"frames": [
+{"duration": 1.000000000, "texture": ExtResource("pose_01")},
+{"duration": 1.000000000, "texture": ExtResource("pose_02")},
+{"duration": 1.000000000, "texture": ExtResource("pose_03")},
+{"duration": 1.000000000, "texture": ExtResource("pose_04")},
+{"duration": 1.000000000, "texture": ExtResource("pose_05")},
+{"duration": 1.000000000, "texture": ExtResource("pose_06")},
+{"duration": 1.000000000, "texture": ExtResource("pose_07")},
+{"duration": 1.000000000, "texture": ExtResource("pose_06")},
+{"duration": 1.000000000, "texture": ExtResource("pose_05")},
+{"duration": 1.000000000, "texture": ExtResource("pose_04")},
+{"duration": 1.000000000, "texture": ExtResource("pose_03")},
+{"duration": 1.000000000, "texture": ExtResource("pose_02")}
+],
+"loop": true,
+"name": &"fire",
+"speed": 8.333333333333334
+}]

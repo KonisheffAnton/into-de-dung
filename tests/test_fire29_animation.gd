@@ -2,7 +2,7 @@ extends SceneTree
 
 const TILE: PackedScene = preload("res://scenes/demo/visuals/dungeon_comparison_tile.tscn")
 const ENVIRONMENT: PackedScene = preload("res://scenes/demo/visuals/dungeon_room_environment.tscn")
-const FRAMES: SpriteFrames = preload("res://assets/art_presets/approved/fire29_selected_v1/fire29_frames.tres")
+const FRAMES: SpriteFrames = preload("res://assets/art_presets/approved/fire29_natural_v1/fire29_frames.tres")
 var passed: int = 0
 var failed: int = 0
 var captures: String = ""
@@ -24,13 +24,14 @@ func values(burning: bool, steps: int = 0) -> Dictionary:
 		"reachable": false, "enemy_range": false, "burning": burning}
 
 func run() -> void:
-	check(FRAMES.get_frame_count(&"fire") == 96 and FRAMES.get_animation_loop(&"fire"), "all 96 selected slots loop")
-	check(is_equal_approx(FRAMES.get_animation_speed(&"fire"), 12.5), "selected 80ms cadence")
-	for index: int in 96:
-		var texture := FRAMES.get_frame_texture(&"fire", index) as AtlasTexture
-		var local_slot := index % 16
-		check(texture != null and texture.region == Rect2((local_slot % 4) * 256, floori(float(local_slot) / 4.0) * 194, 256, 194)
-			and is_equal_approx(FRAMES.get_frame_duration(&"fire", index), 1.0), "exact export cell/duration %d" % index)
+	const TIMELINE: Array[int] = [1, 2, 3, 4, 5, 6, 7, 6, 5, 4, 3, 2]
+	check(FRAMES.get_frame_count(&"fire") == 12 and FRAMES.get_animation_loop(&"fire"), "all 12 accepted slots loop")
+	check(is_equal_approx(FRAMES.get_animation_speed(&"fire"), 1000.0 / 120.0), "accepted 120ms cadence")
+	for index: int in TIMELINE.size():
+		var texture := FRAMES.get_frame_texture(&"fire", index)
+		check(texture != null and texture.get_size() == Vector2(256, 256)
+			and texture.resource_path == "res://assets/art_presets/approved/fire29_natural_v1/pose-%02d.png" % TIMELINE[index]
+			and is_equal_approx(FRAMES.get_frame_duration(&"fire", index), 1.0), "unchanged PixelLab pose/order/duration %d" % index)
 	var viewport := SubViewport.new()
 	viewport.size = Vector2i(768, 576)
 	viewport.transparent_bg = true
@@ -51,19 +52,19 @@ func run() -> void:
 	if fire != null:
 		var sprite := fire.get_node(^"Animation") as AnimatedSprite2D
 		check(sprite.is_playing() and sprite.sprite_frames == FRAMES, "selected clip is playing")
-		sprite.set_frame_and_progress(95, 0.9)
+		sprite.set_frame_and_progress(11, 0.9)
 		await create_timer(0.12).timeout
-		check(sprite.frame < 10 and sprite.is_playing(), "engine crosses the real 95 to 0 loop without stopping")
+		check(sprite.frame < 4 and sprite.is_playing(), "engine crosses the real 11 to 0 loop without stopping")
 		check(not (tile.get_node(^"ArtRoot/EffectRoot/BurningSprite") as CanvasItem).visible, "old fire is hidden")
 		check(tile.surface_polygons() == picking, "fire does not change picking")
-		sprite.set_frame_and_progress(37, 0.25)
-		check(not tile.apply_view(values(true), config) and sprite.frame == 37, "unchanged publication keeps phase")
+		sprite.set_frame_and_progress(5, 0.25)
+		check(not tile.apply_view(values(true), config) and sprite.frame == 5, "unchanged publication keeps phase")
 		tile.sync_scene_art()
-		check(sprite.frame == 37 and is_equal_approx(sprite.frame_progress, 0.25), "explicit sync keeps phase")
+		check(sprite.frame == 5 and is_equal_approx(sprite.frame_progress, 0.25), "explicit sync keeps phase")
 		tile.apply_view(values(false), config)
 		check(not fire.visible and not sprite.is_playing(), "extinguish pauses")
 		tile.apply_view(values(true), config)
-		check(fire == tile._fire_view and sprite.is_playing() and sprite.frame == 37, "re-ignite reuses paused view")
+		check(fire == tile._fire_view and sprite.is_playing() and sprite.frame == 5, "re-ignite reuses paused view")
 		for factor: float in [0.75, 1.0, 1.5]:
 			config.tile_size = Vector2(128, 96) * factor
 			config.height_step = 32 * factor
@@ -71,9 +72,11 @@ func run() -> void:
 				tile.apply_view(values(true, step), config)
 				check(fire.position.is_equal_approx(tile._top_offset()) and fire.scale.is_equal_approx(Vector2.ONE * factor), "fire follows elevation and scale once")
 				var expected := tile.top_polygon()
-				var source_corners: Array[Vector2] = [Vector2(128, 12.1013645), Vector2(243.162242, 99.4580897), Vector2(128, 186.814815), Vector2(12.837758, 99.4580897)]
+				var base := fire.get_node(^"Base") as Polygon2D
+				var source_corners: Array[Vector2] = [Vector2(128, 41.1013645), Vector2(243.162242, 128.4580897), Vector2(128, 215.814815), Vector2(12.837758, 128.4580897)]
 				for corner: int in 4:
-					check((fire.transform * sprite.transform * source_corners[corner]).distance_to(expected[corner]) < 0.02, "fire fits complete surface corner")
+					check((fire.transform * sprite.transform * source_corners[corner]).distance_to(expected[corner]) < 0.02, "fire projection fits complete surface corner")
+					check((fire.transform * base.transform * base.polygon[corner]).distance_to(expected[corner]) < 0.02, "static base fits complete surface corner")
 		var void_values := values(true)
 		void_values.is_void = true
 		tile.apply_view(void_values, config)
@@ -109,7 +112,7 @@ func capture_tiles(viewport: SubViewport, tile: BattleTerrainVisual, config: Iso
 	var fire := tile._fire_view
 	var sprite := fire.get_node(^"Animation") as AnimatedSprite2D
 	sprite.pause()
-	for frame_index: int in [0, 24, 48, 95]:
+	for frame_index: int in [0, 3, 6, 11]:
 		sprite.frame = frame_index
 		await save_frame(viewport, "fire29-%02d" % frame_index)
 	# Рендерим настоящий каменный тайл с соседями: прежний прозрачный fixture не выявлял торец плиты.
