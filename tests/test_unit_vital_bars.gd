@@ -79,6 +79,8 @@ func _run() -> void:
 	# Проверяются все шесть используемых id классов и отдельное субединичное значение брони.
 	for zoom_index: int in ZOOMS.size():
 		await _check_zoom(zoom_index)
+	if not captures.is_empty():
+		await _check_crisp_number_pixels()
 	_check_action_pose_invariants()
 	await _check_death_hides_bars()
 	viewport.queue_free()
@@ -247,6 +249,54 @@ func _bar_origin(visual: BattleDemoIsoVisual) -> Vector2:
 
 func _screen_point(visual: BattleDemoIsoVisual, local_point: Vector2) -> Vector2:
 	return visual.get_global_transform_with_canvas() * local_point
+
+
+func _check_crisp_number_pixels() -> void:
+	# Повторные кадры проверяют нативные zoom и масштаб 1.13 после дробного pan.
+	for zoom: float in [0.75, 1.0, 1.25, 1.13]:
+		stage.scale = Vector2.ONE * zoom
+		stage.position = Vector2(0.37, 0.61)
+		await process_frame
+		await RenderingServer.frame_post_draw
+		var image := viewport.get_texture().get_image()
+		if image.is_empty():
+			check(false, "fractional-pan crispness render returns an image at scale %.2f" % zoom)
+			continue
+		if is_equal_approx(zoom, 1.13):
+			await _capture(image, "unit-vitals-crisp-fractional-pan")
+		for faction_row: int in 2:
+			for case_index: int in [0, 3]:
+				var visual := visuals[faction_row * 7 + case_index]
+				var row := _vital_cases()[case_index]
+				var origin := _bar_origin(visual)
+				var hp_color := Color("73bd68") if case_index == 0 else Color("7c857c")
+				var armor_color := Color("bbc5ce") if case_index == 0 else Color("7e8993")
+				check(_number_region_is_crisp(image, _screen_point(visual, origin + Vector2(0, 19.5)), hp_color, zoom),
+					"fractional-pan HP pixels use only palette and black at scale %.2f for %s %s" % [zoom, visual.visual_class_id, row.case])
+				check(_number_region_is_crisp(image, _screen_point(visual, origin + Vector2(0, 6.5)), armor_color, zoom),
+					"fractional-pan armor pixels use only palette and black at scale %.2f for %s %s" % [zoom, visual.visual_class_id, row.case])
+
+
+func _number_region_is_crisp(image: Image, point: Vector2, background: Color, zoom: float) -> bool:
+	var center := Vector2i(roundi(point.x), roundi(point.y))
+	var saw_ink := false
+	var saw_background := false
+	var radius := floori(18.0 * zoom)
+	for y: int in range(center.y - 1, center.y + 2):
+		for x: int in range(center.x - radius, center.x + radius + 1):
+			if x < 0 or y < 0 or x >= image.get_width() or y >= image.get_height(): return false
+			var pixel := image.get_pixel(x, y)
+			if _colors_close(pixel, Color.BLACK):
+				saw_ink = true
+			elif _colors_close(pixel, background):
+				saw_background = true
+			else:
+				return false
+	return saw_ink and saw_background
+
+
+func _colors_close(actual: Color, expected: Color) -> bool:
+	return absf(actual.r - expected.r) <= 0.025 and absf(actual.g - expected.g) <= 0.025 and absf(actual.b - expected.b) <= 0.025
 
 
 func _has_visible_sprite(node: Node) -> bool:

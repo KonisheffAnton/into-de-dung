@@ -1,5 +1,26 @@
 # История и свидетельства проверок
 
+## Резкость цифр полос — 2026-11-07
+
+Main, baseef72c0a04d45da97f5f3690ac059ee791b805460. По замечанию U устранено
+масштабирование сглаженных цифр HP/брони: целый экранный кегль и baseline,
+приватный Jersey20 без мутации общего шрифта. Размеры/цвета полос и механики
+прежние. Владелец — [показ](BATTLE_PRESENTATION_REWORK.md),
+[кадры до/после](art/vitals-crisp-numbers-20261107/README.md).
+
+Свежие isolated import/startup PASS; current_art_zoom520/0, unit_visual45/0,
+visual_scene106/0, contact327/0, consequences2096/0, environment364/0,
+camera111/0, execution61/0, запущенные арт-gates PASS. Launcher23/2/0:
+status84/2 — две прежние layout-ошибки; unit_vitals276/2 — новый sampler
+захватывал нижнюю тень HP. После поправки только координаты центра теста
+isolated повтор278/0. Negative control со старым runtime246/32 провалил
+все32 новые проверки резкости; финальный исходник восстановлен побайтно.
+Независимое ревью APPROVE; GPU75/100/125/113% просмотрены. Отчёт
+`test_reports/vitals-crisp-numbers-20261107/`; runner demo-7137574fab1a4622bd49c2ec633a2d28.
+Full/core, ручные F5/движение/zoom/DPI/performance не запускались;
+художественная приёмка открыта, прежние проверки не объявляются повторёнными.
+33 чужих файла сохранены; [прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261107-14.md).
+
 ## Визуал полос здоровья, брони и равновесия — 2026-11-07
 
 Main, base351c91a6451c1ba91e0bdce8db88776e8b320807. По U внедрена общая

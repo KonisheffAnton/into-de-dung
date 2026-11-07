@@ -66,7 +66,7 @@ var entangled: bool = false
 const STATUS_ICON_SIZE: float = 16.0
 const STATUS_ICON_GAP: float = 1.0
 const STATUS_ICON_LIMIT: int = 5
-static var _combat_number_font: Font
+static var _combat_number_font: FontFile
 @export var ground_base_tint: Color = Color("697553")
 const BLEEDING_ICON: Texture2D = preload("res://assets/placeholder_battle/bleeding_icon.svg")
 const BURNING_ICON: Texture2D = preload("res://assets/placeholder_battle/burning_icon.svg")
@@ -135,6 +135,9 @@ var push_lean: Vector2 = Vector2.ZERO:
 
 func _ready() -> void:
 	super._ready()
+	if role == Role.UNIT:
+		set_notify_transform(true)
+		get_viewport().size_changed.connect(queue_redraw)
 	if role != Role.UNIT:
 		_ground_overlay = Node2D.new()
 		_ground_overlay.name = "GroundOverlay"
@@ -161,6 +164,11 @@ func _ready() -> void:
 	add_child(_status_hud)
 	_status_hud.draw.connect(_draw_status_hud)
 	_sync_status_hud()
+
+func _notification(what: int) -> void:
+	# Пиксельная привязка цифр пересчитывается при движении/масштабе родителя камеры.
+	if what == NOTIFICATION_TRANSFORM_CHANGED and role == Role.UNIT:
+		queue_redraw()
 
 func _sync_status_hud() -> void:
 	if _status_hud == null: return
@@ -773,8 +781,13 @@ func _draw_unit() -> void:
 	if unit != null:
 		# Посадка нового рисунка ниже требует места полосам, не сдвигая опору клетки.
 		draw_set_transform(foot + get_unit_bars_offset() * factor, 0, Vector2.ONE * factor)
-		# Шрифт нужен только рисунку: один общий ресурс загружается при первом показе полос.
-		if _combat_number_font == null: _combat_number_font = load("res://assets/ui/combat_fonts/combat_feedback.tres") as Font
+		if _combat_number_font == null:
+			# Настройки только для маленьких цифр полос, без мутации общего шрифта урона.
+			_combat_number_font = (load("res://assets/ui/combat_fonts/jersey20_numbers.ttf") as FontFile).duplicate() as FontFile
+			_combat_number_font.antialiasing = TextServer.FONT_ANTIALIASING_NONE
+			_combat_number_font.subpixel_positioning = TextServer.SUBPIXEL_POSITIONING_DISABLED
+			_combat_number_font.oversampling = 1.0
+			_combat_number_font.keep_rounding_remainders = false
 		var hp_max := unit.hp_max
 		var balance_max := unit.balance_max
 		var hp := clampf(unit.hp / hp_max if hp_max > 0 else 0, 0, 1)
@@ -838,12 +851,23 @@ func _draw_vital_track(rect: Rect2, ratio: float, fill: Color, light: Color, sha
 	draw_rect(Rect2(filled.position + Vector2(0, filled.size.y - rim), Vector2(filled.size.x, rim)), shade)
 
 func _draw_vital_amount(rect: Rect2, text: String) -> void:
-	var font_size := 14
-	# Редкие большие значения не выходят на рамку; обычные числа сохраняют один кегль.
-	while font_size > 8 and _combat_number_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > rect.size.x - 4:
+	var factor := grid_config.tile_size.x / 128.0
+	var bar_transform := Transform2D(Vector2(factor, 0), Vector2(0, factor), get_visual_offset() + get_unit_bars_offset() * factor)
+	var canvas := get_viewport_transform() * get_global_transform()
+	var screen := canvas * bar_transform
+	var scale_factor := screen.x.length()
+	var font_size := maxi(1, floori(14.0 * scale_factor))
+	var minimum_size := maxi(1, floori(8.0 * scale_factor))
+	var available_width := (rect.size.x - 4.0) * scale_factor
+	while font_size > minimum_size and _combat_number_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > available_width:
 		font_size -= 1
-	var baseline := rect.position + Vector2(0, 9.5 - (14 - font_size) * 0.3)
-	draw_string(_combat_number_font, baseline, text, HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, font_size, Color.BLACK)
+	var text_width := _combat_number_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+	var center := screen * rect.get_center()
+	var baseline := Vector2(center.x - text_width * 0.5, center.y + 4.0 * float(font_size) / 14.0).round()
+	# Растеризуем сразу в экранном размере: масштаб поля не растягивает готовые глифы.
+	draw_set_transform_matrix(canvas.affine_inverse())
+	draw_string(_combat_number_font, baseline, text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color.BLACK)
+	draw_set_transform_matrix(bar_transform)
 	var rim := _vital_rim_width()
 	draw_rect(Rect2(rect.position, Vector2(rect.size.x, rim)), Color.BLACK)
 	draw_rect(Rect2(rect.position + Vector2(0, rect.size.y - rim), Vector2(rect.size.x, rim)), Color.BLACK)
