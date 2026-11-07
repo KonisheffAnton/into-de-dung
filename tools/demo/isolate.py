@@ -340,6 +340,8 @@ def main():
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "battle_hud_authoring":
             invalid = invalid or "BATTLE HUD AUTHORING RESULTS:" not in output or ", 0 failed" not in output
+        if label == "unit_vital_bars":
+            invalid = invalid or "UNIT VITAL BARS RESULTS:" not in output or ", 0 failed" not in output
         if label == "battle_hud_input":
             invalid = invalid or "BATTLE HUD INPUT RESULTS:" not in output or ", 0 failed" not in output
         if label in ("passive_opportunist", "raised_shield", "raise_shields", "shieldbearer_profile", "shieldbearer_ui", "warrior_class", "warrior_recovery", "warrior_visuals", "shieldbearer_palette", "character_skins", "character_skins_hub", "mage_archer_skins", "character_coverage", "class_showcase", "class_showcase_ui"):
@@ -649,6 +651,12 @@ def main():
             status_captures.mkdir()
             status_args += ["--", "--captures=" + str(status_captures)]
         run("presentation_status", status_args, headless=not args.render_check)
+        vital_args = ["--script", "tests/test_unit_vital_bars.gd"]
+        if args.render_check:
+            vital_captures = out / "unit-vital-bars-screenshots"
+            vital_captures.mkdir()
+            vital_args += ["--", "--captures=" + str(vital_captures)]
+        run("unit_vital_bars", vital_args, headless=not args.render_check)
         run("four_slot_bar", ["--script", "tests/test_four_slot_bar.gd"])
         panel_args = ["--script", "tests/test_battle_panels.gd"]
         if args.render_check:

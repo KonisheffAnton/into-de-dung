@@ -91,6 +91,7 @@ func _run() -> void:
 	await _capture_fractional_canvas_set("1440x1000", baseline)
 	_check_picking_roundtrip()
 	if not captures.is_empty():
+		await _capture_vitals_focus(baseline)
 		var before_comparison: Dictionary = snapshot(session)
 		check(await preload("res://tests/helpers/art_zoom_samples.gd").capture_comparison(self, captures), "sprite sampling comparison images")
 		check(snapshot(session) == before_comparison, "separate sprite comparison render leaves current battle state unchanged")
@@ -100,6 +101,22 @@ func _run() -> void:
 	await process_frame
 	print("CURRENT ART ZOOM RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
+
+func _capture_vitals_focus(baseline: Dictionary) -> void:
+	var board := demo.board_view
+	for zoom: float in [0.75, 1.0, 1.25]:
+		board.zoom_camera(zoom, board.size * 0.5)
+		var center := Vector2.ZERO
+		var count := 0
+		for visual: BattleDemoIsoVisual in board._entity_visuals:
+			if visual.unit == null or not visual.unit.alive: continue
+			center += board.get_global_transform_with_canvas().affine_inverse() * (visual.get_global_transform_with_canvas() * visual.get_visual_offset())
+			count += 1
+		check(count > 0, "vitals focus contains current production combatants")
+		if count > 0: board.pan_camera(board.size * Vector2(0.5, 0.48) - center / float(count))
+		await capture("vitals-focus-%d" % roundi(zoom * 100))
+		check(snapshot(demo.session as BattleCoreReactionsSession) == baseline, "vitals framing preserves actual battle values and RNG")
+		_check_picking_roundtrip()
 
 func _capture_zoom_set(size_label: String, baseline: Dictionary, heading_rect: Rect2, action_rect: Rect2) -> void:
 	var board := demo.board_view

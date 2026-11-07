@@ -316,6 +316,14 @@ GPU проверяет зелёное HP/металлическую броню, 
 Для локальной толщины/цвета цифр/рамки достаточно `--render-check --only
 presentation_status presentation_contact unit_visual_contract --screen 0`.
 Пиксельные проверки различают чёрные цифры внутри и чёрную рамку с четырёх сторон.
+Для цельной проработки трёх ресурсов: `--render-check --only unit_vital_bars
+presentation_status presentation_contact unit_visual_contract visual_scene_contract
+current_art_zoom --screen 0`. Отдельный `unit_vital_bars` использует production
+сцены классов, обе команды и масштабы75/100/125%; проверяет реальные пиксели
+полного/дробного/нулевого запаса, числа и рамки, прогноз, изоляцию входа и смерть.
+PNG — `unit-vital-bars-screenshots/`; `current_art_zoom` дополнительно проверяет
+текущий бой, камеру/resize/picking и неизменность state/RNG. Это автоматические
+сценарии, не ручная F5/DPI-приёмка.
 
 Перки экипировки/ножи (2026-10-18): `--check --only equipment_attacks hero_hub
 hero_hub_playthrough counterattack action_event_validator forecast_definition_copy

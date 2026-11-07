@@ -1,5 +1,27 @@
 # История и свидетельства проверок
 
+## Визуал полос здоровья, брони и равновесия — 2026-11-07
+
+Main, base351c91a6451c1ba91e0bdce8db88776e8b320807. По U внедрена общая
+проработка ресурсов; точные размеры/палитра/семантика —
+[контракт показа](BATTLE_PRESENTATION_REWORK.md), направление — [ART_DIRECTION](ART_DIRECTION.md).
+[Кадры до/после, галерея классов и текущий бой](art/unit-vitals-polish-20261107/README.md).
+Рамка на75% не пропадает; янтарный запас остаётся второстепенным, цифры
+HP/брони чёрные. Дробный максимум брони учитывается без подъёма до1.
+Изменения только presentation; прежний общий урон над целью и тайминг сохранены.
+
+Isolated import/startup PASS; unit_vital_bars245/0, current_art_zoom520/0,
+unit_visual45/0, visual_scene106/0, contact327/0, consequences2096/0,
+environment364/0, camera111/0, execution61/0; арт-gates выбранного runner PASS.
+presentation_status84/2 — те же две layout-ошибки по прежнему baseline66/2,
+здесь baseline не повторялся. Launcher24/1/0, не полный PASS; Python launcher37 PASS.
+Первый прогон выявил реальную потерю рамки/высоты баланса на75% и неполный fixture;
+после исправлений весь выбранный набор повторён. GPU кадры просмотрены,
+независимое ревью APPROVE. Отчёт test_reports/unit-vitals-polish-20261107/;
+runner demo-48064b03e699428696bddfb05c4a6105. Full/core, ручные F5/движение/
+zoom/DPI/performance не запускались; художественный отзыв U открыт.
+33 чужих файла сохранены; [прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261107-13.md).
+
 ## Тоньше полосы, чёрные цифры и рамка — 2026-11-07
 
 Main, basef8dd00269bf2f5b1b91607b3ff09a24d6149ed7c. По U размер полос48×12→48×11,

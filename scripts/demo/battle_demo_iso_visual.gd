@@ -773,7 +773,7 @@ func _draw_unit() -> void:
 	if unit != null:
 		# Посадка нового рисунка ниже требует места полосам, не сдвигая опору клетки.
 		draw_set_transform(foot + get_unit_bars_offset() * factor, 0, Vector2.ONE * factor)
-		# Первый импорт TTF ещё не готов при разборе global class; общий шрифт загружаем в runtime.
+		# Шрифт нужен только рисунку: один общий ресурс загружается при первом показе полос.
 		if _combat_number_font == null: _combat_number_font = load("res://assets/ui/combat_fonts/combat_feedback.tres") as Font
 		var hp_max := unit.hp_max
 		var balance_max := unit.balance_max
@@ -785,47 +785,70 @@ func _draw_unit() -> void:
 		const BAR_WIDTH: float = 48.0
 		const BAR_HEIGHT: float = 11.0
 		const BAR_LEFT: float = -24.0
-		const FILL_LEFT: float = BAR_LEFT + 1.0
-		const FILL_WIDTH: float = BAR_WIDTH - 2.0
-		const FILL_HEIGHT: float = BAR_HEIGHT - 2.0
-		const HP_Y: float = 15.0
+		const HP_Y: float = 14.0
 		const ARMOR_Y: float = 1.0
 		var hp_text := BattleEventText.amount_text(unit.hp)
-		draw_rect(Rect2(BAR_LEFT, HP_Y, BAR_WIDTH, BAR_HEIGHT), Color("708a77"))
-		draw_rect(Rect2(FILL_LEFT, HP_Y + 1, FILL_WIDTH * hp, FILL_HEIGHT), Color("48b85d"))
+		var hp_rect := Rect2(BAR_LEFT, HP_Y, BAR_WIDTH, BAR_HEIGHT)
+		var hp_inner := hp_rect.grow(-_vital_rim_width())
+		_draw_vital_track(hp_rect, hp, Color("73bd68"), Color("98d28b"), Color("579a4f"), Color("7c857c"))
 		if not is_equal_approx(expected_hp, unit.hp):
 			var expected_ratio := clampf(expected_hp / hp_max if hp_max > 0 else 0.0, 0.0, 1.0)
 			var current_ratio := hp
 			var segment_start := minf(current_ratio, expected_ratio)
 			var segment_width := absf(expected_ratio - current_ratio)
-			draw_rect(Rect2(FILL_LEFT + FILL_WIDTH * segment_start, HP_Y + 1, FILL_WIDTH * segment_width, FILL_HEIGHT), Color("f29b9b") if expected_hp < unit.hp else Color("48b85d"))
-			draw_string(ThemeDB.fallback_font, Vector2(-32, 56), "%s→%s" % [hp_text, BattleEventText.amount_text(expected_hp)], HORIZONTAL_ALIGNMENT_CENTER, 64, 9, Color("f29b9b") if expected_hp < unit.hp else Color("48b85d"))
-			draw_line(Vector2(FILL_LEFT + FILL_WIDTH * expected_ratio, HP_Y - 1), Vector2(FILL_LEFT + FILL_WIDTH * expected_ratio, HP_Y + BAR_HEIGHT + 1), Color.WHITE, 1)
-		# Приглушённая подложка оставляет чёрные цифры читаемыми даже при нулевом запасе.
-		draw_string(_combat_number_font, Vector2(BAR_LEFT, HP_Y + 10), hp_text, HORIZONTAL_ALIGNMENT_CENTER, BAR_WIDTH, 16, Color.BLACK)
-		draw_rect(Rect2(BAR_LEFT + 0.5, HP_Y + 0.5, BAR_WIDTH - 1, BAR_HEIGHT - 1), Color.BLACK, false, 1.0)
+			draw_rect(Rect2(hp_inner.position + Vector2(hp_inner.size.x * segment_start, 0), Vector2(hp_inner.size.x * segment_width, hp_inner.size.y)), Color("f29b9b") if expected_hp < unit.hp else Color("73bd68"))
+			draw_string(ThemeDB.fallback_font, Vector2(-32, 56), "%s→%s" % [hp_text, BattleEventText.amount_text(expected_hp)], HORIZONTAL_ALIGNMENT_CENTER, 64, 9, Color("f29b9b") if expected_hp < unit.hp else Color("73bd68"))
+			draw_line(Vector2(hp_inner.position.x + hp_inner.size.x * expected_ratio, HP_Y - 1), Vector2(hp_inner.position.x + hp_inner.size.x * expected_ratio, HP_Y + BAR_HEIGHT + 1), Color.WHITE, 1)
+		_draw_vital_amount(hp_rect, hp_text)
 		if not expected_alive: draw_string(ThemeDB.fallback_font, Vector2(-18, 67), "ПОГИБ", HORIZONTAL_ALIGNMENT_CENTER, 36, 8, Color("f29b9b"))
-		# Runtime хранит нарушение; полоса показывает оставшуюся устойчивость даже без осмотра.
-		draw_rect(Rect2(BAR_LEFT, 29, BAR_WIDTH, 1), Color("0f1d28"))
-		draw_rect(Rect2(BAR_LEFT, 29, BAR_WIDTH * balance, 1), Color("f7c97d"))
+		# Баланс — второстепенная шкала запаса: два цветных ряда сохраняются при отдалении.
+		_draw_vital_track(Rect2(BAR_LEFT, 27, BAR_WIDTH, 4 * _vital_rim_width()), balance, Color("e9bb70"), Color("f3d39f"), Color("d1a05c"), Color("45494b"))
 		if not armor_values.is_empty():
-			var maximum := maxf(1.0, float(armor_values["maximum"]))
+			var maximum: float = armor_values["maximum"]
 			var current: float = armor_values["current"]
 			var expected := float(forecast_after.get("armor_current", current))
-			var armor_ratio := clampf(current / maximum, 0.0, 1.0)
+			var armor_ratio := clampf(current / maximum, 0.0, 1.0) if maximum > 0.0 else 0.0
 			var armor_text := BattleEventText.amount_text(current)
-			draw_rect(Rect2(BAR_LEFT, ARMOR_Y, BAR_WIDTH, BAR_HEIGHT), Color("707b86"))
-			# Рамка занимает отдельный пиксель: даже малый запас не прячется под левым краем.
-			var armor_fill_width := FILL_WIDTH * armor_ratio
-			draw_rect(Rect2(FILL_LEFT, ARMOR_Y + 1, armor_fill_width, FILL_HEIGHT), Color("aab4be"))
-			draw_rect(Rect2(FILL_LEFT, ARMOR_Y + 1, armor_fill_width, FILL_HEIGHT * 0.25), Color("d5dce2"))
-			draw_rect(Rect2(FILL_LEFT, ARMOR_Y + 1 + FILL_HEIGHT * 0.25, armor_fill_width, FILL_HEIGHT * 0.75), Color("8b96a1"))
+			var armor_rect := Rect2(BAR_LEFT, ARMOR_Y, BAR_WIDTH, BAR_HEIGHT)
+			var armor_inner := armor_rect.grow(-_vital_rim_width())
+			_draw_vital_track(armor_rect, armor_ratio, Color("bbc5ce"), Color("e0e6eb"), Color("929fab"), Color("7e8993"))
 			if expected != current:
-				var mark := FILL_LEFT + FILL_WIDTH * clampf(expected / maximum, 0.0, 1.0)
+				var mark := armor_inner.position.x + armor_inner.size.x * (clampf(expected / maximum, 0.0, 1.0) if maximum > 0.0 else 0.0)
 				draw_line(Vector2(mark, ARMOR_Y - 1), Vector2(mark, ARMOR_Y + BAR_HEIGHT + 1), Color.WHITE, 1)
-			draw_string(_combat_number_font, Vector2(BAR_LEFT, ARMOR_Y + 10), armor_text, HORIZONTAL_ALIGNMENT_CENTER, BAR_WIDTH, 16, Color.BLACK)
-			draw_rect(Rect2(BAR_LEFT + 0.5, ARMOR_Y + 0.5, BAR_WIDTH - 1, BAR_HEIGHT - 1), Color.BLACK, false, 1.0)
+			_draw_vital_amount(armor_rect, armor_text)
 	draw_set_transform(Vector2.ZERO)
+
+func _vital_rim_width() -> float:
+	# Рамка сохраняет экранный пиксель на боевом zoom 75–125%; обзор карты не раздувает HUD.
+	var screen_scale := get_global_transform_with_canvas().x.length() * grid_config.tile_size.x / 128.0
+	return maxf(1.0, 1.0 / maxf(screen_scale, 0.75))
+
+func _draw_vital_track(rect: Rect2, ratio: float, fill: Color, light: Color, shade: Color, empty: Color) -> void:
+	var rim := _vital_rim_width()
+	var inner := rect.grow(-rim)
+	draw_rect(rect, Color.BLACK)
+	draw_rect(inner, empty)
+	if ratio <= 0.0: return
+	# При отдалении столбец не исчезает между пикселями; точный остаток остаётся в числе/осмотре.
+	var screen_scale := get_global_transform_with_canvas().x.length() * grid_config.tile_size.x / 128.0
+	var minimum_width := maxf(1.0, 1.0 / maxf(screen_scale, 0.01))
+	var filled := Rect2(inner.position, Vector2(minf(inner.size.x, maxf(minimum_width, inner.size.x * clampf(ratio, 0.0, 1.0))), inner.size.y))
+	draw_rect(filled, fill)
+	draw_rect(Rect2(filled.position, Vector2(filled.size.x, rim)), light)
+	draw_rect(Rect2(filled.position + Vector2(0, filled.size.y - rim), Vector2(filled.size.x, rim)), shade)
+
+func _draw_vital_amount(rect: Rect2, text: String) -> void:
+	var font_size := 14
+	# Редкие большие значения не выходят на рамку; обычные числа сохраняют один кегль.
+	while font_size > 8 and _combat_number_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > rect.size.x - 4:
+		font_size -= 1
+	var baseline := rect.position + Vector2(0, 9.5 - (14 - font_size) * 0.3)
+	draw_string(_combat_number_font, baseline, text, HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, font_size, Color.BLACK)
+	var rim := _vital_rim_width()
+	draw_rect(Rect2(rect.position, Vector2(rect.size.x, rim)), Color.BLACK)
+	draw_rect(Rect2(rect.position + Vector2(0, rect.size.y - rim), Vector2(rect.size.x, rim)), Color.BLACK)
+	draw_rect(Rect2(rect.position, Vector2(rim, rect.size.y)), Color.BLACK)
+	draw_rect(Rect2(rect.position + Vector2(rect.size.x - rim, 0), Vector2(rim, rect.size.y)), Color.BLACK)
 
 func _draw_unit_highlights(canvas: Node2D) -> void:
 	if grid_config == null or role != Role.UNIT or (unit != null and not unit.alive): return
