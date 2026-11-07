@@ -1,0 +1,233 @@
+[
+  {
+    "frame": 0,
+    "visible_new_outside_original": 250,
+    "outside_mask_changed_gt8_vs_frame1": 17562,
+    "luma_alpha_sum": 6911074.0,
+    "lost_outside_since_previous": 0
+  },
+  {
+    "frame": 1,
+    "visible_new_outside_original": 289,
+    "outside_mask_changed_gt8_vs_frame1": 0,
+    "luma_alpha_sum": 5964843.0,
+    "lost_outside_since_previous": 78
+  },
+  {
+    "frame": 2,
+    "visible_new_outside_original": 341,
+    "outside_mask_changed_gt8_vs_frame1": 724,
+    "luma_alpha_sum": 5965042.0,
+    "lost_outside_since_previous": 85
+  },
+  {
+    "frame": 3,
+    "visible_new_outside_original": 511,
+    "outside_mask_changed_gt8_vs_frame1": 746,
+    "luma_alpha_sum": 6036534.0,
+    "lost_outside_since_previous": 105
+  },
+  {
+    "frame": 4,
+    "visible_new_outside_original": 885,
+    "outside_mask_changed_gt8_vs_frame1": 1228,
+    "luma_alpha_sum": 6188601.0,
+    "lost_outside_since_previous": 152
+  },
+  {
+    "frame": 5,
+    "visible_new_outside_original": 1032,
+    "outside_mask_changed_gt8_vs_frame1": 1228,
+    "luma_alpha_sum": 6283851.0,
+    "lost_outside_since_previous": 284
+  },
+  {
+    "frame": 6,
+    "visible_new_outside_original": 1066,
+    "outside_mask_changed_gt8_vs_frame1": 1268,
+    "luma_alpha_sum": 6318178.0,
+    "lost_outside_since_previous": 327
+  },
+  {
+    "frame": 7,
+    "visible_new_outside_original": 1119,
+    "outside_mask_changed_gt8_vs_frame1": 1329,
+    "luma_alpha_sum": 6305146.0,
+    "lost_outside_since_previous": 244
+  },
+  {
+    "frame": 8,
+    "visible_new_outside_original": 1178,
+    "outside_mask_changed_gt8_vs_frame1": 1397,
+    "luma_alpha_sum": 6368972.0,
+    "lost_outside_since_previous": 134
+  },
+  {
+    "frame": 9,
+    "visible_new_outside_original": 1069,
+    "outside_mask_changed_gt8_vs_frame1": 1493,
+    "luma_alpha_sum": 6303262.0,
+    "lost_outside_since_previous": 225
+  },
+  {
+    "frame": 10,
+    "visible_new_outside_original": 965,
+    "outside_mask_changed_gt8_vs_frame1": 1564,
+    "luma_alpha_sum": 6260005.0,
+    "lost_outside_since_previous": 242
+  },
+  {
+    "frame": 11,
+    "visible_new_outside_original": 973,
+    "outside_mask_changed_gt8_vs_frame1": 1637,
+    "luma_alpha_sum": 6243433.0,
+    "lost_outside_since_previous": 138
+  },
+  {
+    "frame": 12,
+    "visible_new_outside_original": 1121,
+    "outside_mask_changed_gt8_vs_frame1": 1676,
+    "luma_alpha_sum": 6305974.0,
+    "lost_outside_since_previous": 112
+  },
+  {
+    "frame": 13,
+    "visible_new_outside_original": 1084,
+    "outside_mask_changed_gt8_vs_frame1": 1732,
+    "luma_alpha_sum": 6320727.0,
+    "lost_outside_since_previous": 128
+  },
+  {
+    "frame": 14,
+    "visible_new_outside_original": 1180,
+    "outside_mask_changed_gt8_vs_frame1": 1782,
+    "luma_alpha_sum": 6366680.0,
+    "lost_outside_since_previous": 64
+  },
+  {
+    "frame": 15,
+    "visible_new_outside_original": 1099,
+    "outside_mask_changed_gt8_vs_frame1": 1836,
+    "luma_alpha_sum": 6313908.0,
+    "lost_outside_since_previous": 217
+  },
+  {
+    "frame": 16,
+    "visible_new_outside_original": 984,
+    "outside_mask_changed_gt8_vs_frame1": 1847,
+    "luma_alpha_sum": 6264023.0,
+    "lost_outside_since_previous": 253
+  },
+  {
+    "frame": 17,
+    "visible_new_outside_original": 1021,
+    "outside_mask_changed_gt8_vs_frame1": 1854,
+    "luma_alpha_sum": 6254622.0,
+    "lost_outside_since_previous": 146
+  },
+  {
+    "frame": 18,
+    "visible_new_outside_original": 1122,
+    "outside_mask_changed_gt8_vs_frame1": 1838,
+    "luma_alpha_sum": 6303268.0,
+    "lost_outside_since_previous": 148
+  },
+  {
+    "frame": 19,
+    "visible_new_outside_original": 1164,
+    "outside_mask_changed_gt8_vs_frame1": 1857,
+    "luma_alpha_sum": 6360484.0,
+    "lost_outside_since_previous": 135
+  },
+  {
+    "frame": 20,
+    "visible_new_outside_original": 1113,
+    "outside_mask_changed_gt8_vs_frame1": 1876,
+    "luma_alpha_sum": 6330900.0,
+    "lost_outside_since_previous": 169
+  },
+  {
+    "frame": 21,
+    "visible_new_outside_original": 962,
+    "outside_mask_changed_gt8_vs_frame1": 1871,
+    "luma_alpha_sum": 6256357.0,
+    "lost_outside_since_previous": 283
+  },
+  {
+    "frame": 22,
+    "visible_new_outside_original": 955,
+    "outside_mask_changed_gt8_vs_frame1": 1904,
+    "luma_alpha_sum": 6238256.0,
+    "lost_outside_since_previous": 123
+  },
+  {
+    "frame": 23,
+    "visible_new_outside_original": 1110,
+    "outside_mask_changed_gt8_vs_frame1": 1931,
+    "luma_alpha_sum": 6305026.0,
+    "lost_outside_since_previous": 125
+  },
+  {
+    "frame": 24,
+    "visible_new_outside_original": 1086,
+    "outside_mask_changed_gt8_vs_frame1": 1929,
+    "luma_alpha_sum": 6327544.0,
+    "lost_outside_since_previous": 96
+  },
+  {
+    "frame": 25,
+    "visible_new_outside_original": 1088,
+    "outside_mask_changed_gt8_vs_frame1": 1958,
+    "luma_alpha_sum": 6330885.0,
+    "lost_outside_since_previous": 93
+  },
+  {
+    "frame": 26,
+    "visible_new_outside_original": 1121,
+    "outside_mask_changed_gt8_vs_frame1": 1968,
+    "luma_alpha_sum": 6312183.0,
+    "lost_outside_since_previous": 123
+  },
+  {
+    "frame": 27,
+    "visible_new_outside_original": 1187,
+    "outside_mask_changed_gt8_vs_frame1": 2007,
+    "luma_alpha_sum": 6379362.0,
+    "lost_outside_since_previous": 136
+  },
+  {
+    "frame": 28,
+    "visible_new_outside_original": 1130,
+    "outside_mask_changed_gt8_vs_frame1": 2035,
+    "luma_alpha_sum": 6349815.0,
+    "lost_outside_since_previous": 187
+  },
+  {
+    "frame": 29,
+    "visible_new_outside_original": 966,
+    "outside_mask_changed_gt8_vs_frame1": 2005,
+    "luma_alpha_sum": 6279417.0,
+    "lost_outside_since_previous": 292
+  },
+  {
+    "frame": 30,
+    "visible_new_outside_original": 923,
+    "outside_mask_changed_gt8_vs_frame1": 3211,
+    "luma_alpha_sum": 6325660.0,
+    "lost_outside_since_previous": 125
+  },
+  {
+    "frame": 31,
+    "visible_new_outside_original": 958,
+    "outside_mask_changed_gt8_vs_frame1": 14774,
+    "luma_alpha_sum": 6927707.0,
+    "lost_outside_since_previous": 96
+  },
+  {
+    "frame": 32,
+    "visible_new_outside_original": 1084,
+    "outside_mask_changed_gt8_vs_frame1": 15372,
+    "luma_alpha_sum": 7023266.0,
+    "lost_outside_since_previous": 91
+  }
+]

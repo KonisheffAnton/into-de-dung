@@ -1,0 +1,23 @@
+{
+  "frames": 12,
+  "unique_provider_poses": 7,
+  "period_ms": 1440,
+  "format": "lossless animatedWebP",
+  "all_decoded_frames_equal_gpu_png": true,
+  "sha256": "ea599b0c70f2e1246d4aaf4781f26b1a8fb91767e86a763e7d9ece9491658b36",
+  "bytes": 1026866,
+  "native": {
+    "tile_size": [
+      128,
+      96
+    ],
+    "viewport": [
+      480,
+      400
+    ],
+    "frames": 12,
+    "all_decoded_frames_equal_gpu_png": true,
+    "sha256": "69f7643d84ad6e53ea35cece7f09d6774e03a82e9ca61cc17ab9cb23edaac2b4",
+    "bytes": 257222
+  }
+}

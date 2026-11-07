@@ -1,0 +1,13 @@
+{
+  "key": "growth-keypose01",
+  "endpoint": "inpaint-v3",
+  "request_sha256": "d1e6ff1c50c6abae02c98d3bde92d28b9738544315c77bd1427d58a099ffe423",
+  "source": "assets/art_presets/approved/fire29_selected_v1/fire29_atlas_00.png",
+  "source_sha256": "1c7677bbdc68b58887f4bca571b57903a3343407ea95c7ea8f395ff7dd6490d3",
+  "input": "inputs/start.png",
+  "input_sha256": "5d82a0ef4e55d7d2081e87d5bd4b2328051998ed78360b92330ff0adc4fdc40e",
+  "mask": "inputs/growth-mask.png",
+  "mask_sha256": "90476cd63343d6a61d3796ec8ee7b05933457752fe88290602c673f013846a9f",
+  "preparation": "Exact current atlas cell0, static source diamond alpha isolation, +29px transparent padding; no local painted pose or deformation.",
+  "purpose": "Provider-drawn low outward growth keypose; animation is next distinct request after visual inspection."
+}

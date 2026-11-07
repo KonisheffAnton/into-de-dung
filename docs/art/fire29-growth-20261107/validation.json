@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "provider_requests": 3,
+  "raw_png": 51,
+  "usage_generations": 17,
+  "inpaint_outside_mask_rgba_changes": 0,
+  "keypose_new_visible_pixels": 1118,
+  "selected_new_visible_area": [
+    61,
+    131,
+    250,
+    395,
+    588,
+    794,
+    1120
+  ],
+  "lost_outside_pixels_per_step": [
+    0,
+    25,
+    107,
+    149,
+    156,
+    182,
+    98
+  ],
+  "strict_pixelwise_addition": false,
+  "source_visible_rgb_changed_in_selected_first": 20291,
+  "whole_source_rgb_preserved": false,
+  "largest_adjacent_or_wrap_brightness_ratio": 1.0213546065948762,
+  "cycle_total_brightness_ratio": 1.0773590773278174,
+  "selected_raw_unchanged": true,
+  "encoded_pixels_equal_gpu": true,
+  "native_scale_export_exact": true,
+  "runtime_integration": false,
+  "manual_art_acceptance": "open"
+}

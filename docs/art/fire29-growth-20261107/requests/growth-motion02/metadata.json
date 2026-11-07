@@ -1,0 +1,11 @@
+{
+  "key": "growth-motion02",
+  "endpoint": "animate-pixminimax",
+  "request_sha256": "f3cb6df58f7fe0aec66d8757fe72e070d235898df646679ebbe5ae606b5daf59",
+  "first_frame": "raw/growth-motion01/03.png",
+  "first_frame_sha256": "80bf0232c6fbc230a94e25e45f0f1269816cb92342de36827b060fd4dbc4c94a",
+  "last_frame": "raw/growth-motion01/07.png",
+  "last_frame_sha256": "b6c0d6fe7c678f36b563db3572e87503e902cb97874585126e1c1de3911cf030",
+  "requested_frames": 32,
+  "purpose": "Smooth provider-generated growth between two already generated visible low flame poses; avoid first-pose palette jump and complete extinguishing."
+}

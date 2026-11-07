@@ -1,0 +1,11 @@
+{
+  "key": "growth-motion01",
+  "endpoint": "animate-pixminimax",
+  "request_sha256": "40bb581d5cfa5015d393e567924bb202b25541fed5bc6ad628f555e7fb9cc091",
+  "first_frame": "inputs/start.png",
+  "first_frame_sha256": "5d82a0ef4e55d7d2081e87d5bd4b2328051998ed78360b92330ff0adc4fdc40e",
+  "last_frame": "raw/growth-keypose01/00.png",
+  "last_frame_sha256": "dab083ead44fff4da229d813a511ea1504ef04c76007331f19b326bddc64f3ba",
+  "requested_frames": 16,
+  "purpose": "Provider interpolation by progressive growth between static short and provider-drawn extended keypose; no local deformation or painted intermediate poses."
+}

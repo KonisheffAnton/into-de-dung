@@ -1,0 +1,66 @@
+{
+  "schema": "fire29-growth-preview-v1",
+  "base_head": "0deb7c5ef9e2b2a083e353e5418d988c45cddef2",
+  "frames": [
+    "raw/growth-motion01/01.png",
+    "raw/growth-motion01/02.png",
+    "raw/growth-motion01/03.png",
+    "raw/growth-motion01/04.png",
+    "raw/growth-motion01/05.png",
+    "raw/growth-motion01/06.png",
+    "raw/growth-motion01/07.png"
+  ],
+  "frame_sha256": {
+    "raw/growth-motion01/01.png": "9400da67fb26e12a4321214bd67a18c09586be4b49a54b31865d7c85c0dabfa6",
+    "raw/growth-motion01/02.png": "c83e7c96b3b3cfd764468f594b7aabc5cc7b889e68090908ad472588f66be54f",
+    "raw/growth-motion01/03.png": "80bf0232c6fbc230a94e25e45f0f1269816cb92342de36827b060fd4dbc4c94a",
+    "raw/growth-motion01/04.png": "391cf3c6181b58ac056ca40c21ea85548cd45600e1bbaaecee52d775bddfdcbe",
+    "raw/growth-motion01/05.png": "139cbe74f3b98eaac1d47ba084b7febefdc401a5adcec152c4fb9534e19467a9",
+    "raw/growth-motion01/06.png": "eaf785393103dc3142411360a4078661ccb96191682007e85cb4344cee4067e1",
+    "raw/growth-motion01/07.png": "b6c0d6fe7c678f36b563db3572e87503e902cb97874585126e1c1de3911cf030"
+  },
+  "order": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    5,
+    4,
+    3,
+    2,
+    1
+  ],
+  "durations_ms": [
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120
+  ],
+  "period_ms": 1440,
+  "method": "Only unchanged PixelLab motion01 raw1..7; reverse playback reuses the same PNG, no local morph, warp, drawing, color or alpha edits.",
+  "selection_reason": "Raw1..7 grow monotonically from61 to1120 new visible pixels beyond original tile, without the palette discontinuity of raw0. Later poses reverse/overshoot instead of continuous growth.",
+  "rejected": "motion02 has a large first palette/brightness jump and continuing contour vibration; not used.",
+  "runtime_integration": false,
+  "render": {
+    "tile_size": [
+      384,
+      288
+    ],
+    "viewport": [
+      800,
+      600
+    ],
+    "projection": "same fixed source transform and ordinary neighbour Y-sort; pure raw full-frame sprite"
+  }
+}
